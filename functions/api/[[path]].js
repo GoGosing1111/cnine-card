@@ -61,48 +61,85 @@ async function ensureUpgrades(env){
   ]){try{await env.DB.prepare(q).run()}catch{}}
   if(ownsCardsLock){
     try{
-      // Repair an interrupted older rebuild before checking the current schema.
+      // v8.4.2에서 중단된 마이그레이션 복구:
+      // ALTER TABLE cards RENAME TO cards_legacy 실행 시 SQLite가 user_cards의 FK도
+      // cards_legacy로 바꿔 버릴 수 있다. 이 상태에서 cards_legacy를 삭제하면
+      // FOREIGN KEY constraint failed가 발생하므로 user_cards를 먼저 정상 FK로 재작성한다.
       const hasCards=await tableExists(env,'cards');
       const hasCardsLegacy=await tableExists(env,'cards_legacy');
-      if(hasCardsLegacy){
-        if(hasCards) await env.DB.prepare('DROP TABLE cards_legacy').run();
-        else await env.DB.prepare('ALTER TABLE cards_legacy RENAME TO cards').run();
+      if(hasCardsLegacy&&hasCards){
+        const userCardsSql=await env.DB.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='user_cards'").first();
+        if(userCardsSql?.sql?.includes('cards_legacy')){
+          await env.DB.batch([
+            env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_cards_fk_repair (
+              user_id INTEGER NOT NULL, card_id TEXT NOT NULL, quantity INTEGER NOT NULL DEFAULT 1,
+              first_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              last_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              breakthrough_level INTEGER NOT NULL DEFAULT 0,
+              PRIMARY KEY(user_id,card_id),
+              FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+              FOREIGN KEY(card_id) REFERENCES cards(id)
+            )`),
+            env.DB.prepare(`INSERT OR REPLACE INTO user_cards_fk_repair(user_id,card_id,quantity,first_obtained_at,last_obtained_at,breakthrough_level)
+              SELECT user_id,card_id,quantity,first_obtained_at,last_obtained_at,COALESCE(breakthrough_level,0) FROM user_cards`),
+            env.DB.prepare('DROP TABLE user_cards'),
+            env.DB.prepare('ALTER TABLE user_cards_fk_repair RENAME TO user_cards'),
+            env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_cards_user ON user_cards(user_id)')
+          ]);
+        }
+        // 새 cards 테이블이 이미 완성된 경우에만 찌꺼기 테이블을 제거한다.
+        await env.DB.prepare('DROP TABLE cards_legacy').run();
+      }else if(hasCardsLegacy&&!hasCards){
+        await env.DB.prepare('ALTER TABLE cards_legacy RENAME TO cards').run();
       }
 
       const cardSql=await env.DB.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='cards'").first();
       if(cardSql?.sql&&(!cardSql.sql.includes("'FUR'")||!cardSql.sql.includes("'LIMITED'"))){
-        await env.DB.prepare('PRAGMA foreign_keys=OFF').run();
-        await env.DB.prepare('PRAGMA legacy_alter_table=ON').run();
-        await env.DB.prepare('DROP TABLE IF EXISTS cards_legacy').run();
-        await env.DB.prepare('ALTER TABLE cards RENAME TO cards_legacy').run();
-        await env.DB.prepare(`CREATE TABLE cards (
-          id TEXT PRIMARY KEY, member_id INTEGER NOT NULL, title TEXT NOT NULL,
-          rarity TEXT NOT NULL CHECK (rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED')),
-          image_url TEXT NOT NULL, focus_x INTEGER NOT NULL DEFAULT 50, focus_y INTEGER NOT NULL DEFAULT 50,
-          is_active INTEGER NOT NULL DEFAULT 1, draw_weight REAL NOT NULL DEFAULT 1,
-          limited_total INTEGER, issued_count INTEGER NOT NULL DEFAULT 0,
-          card_status TEXT NOT NULL DEFAULT 'PUBLIC', batch_name TEXT, batch_date TEXT,
-          created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(member_id) REFERENCES members(id)
-        )`).run();
-        await env.DB.prepare(`INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,created_by,created_at,updated_at)
-          SELECT id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,
-                 COALESCE(draw_weight,1),limited_total,COALESCE(issued_count,0),
-                 COALESCE(card_status,CASE WHEN is_active=1 THEN 'PUBLIC' ELSE 'INACTIVE' END),batch_name,batch_date,
-                 created_by,created_at,updated_at
-          FROM cards_legacy`).run();
-        await env.DB.prepare('DROP TABLE cards_legacy').run();
-        await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id,rarity)').run();
-        await env.DB.prepare('PRAGMA legacy_alter_table=OFF').run();
-        await env.DB.prepare('PRAGMA foreign_keys=ON').run();
+        // FK 대상 테이블을 직접 rename/drop하지 않는다. cards_v84와 user_cards_v84를
+        // 함께 만든 뒤 교체하여 D1의 FOREIGN KEY 제약을 안전하게 유지한다.
+        await env.DB.batch([
+          env.DB.prepare('DROP TABLE IF EXISTS user_cards_v84'),
+          env.DB.prepare('DROP TABLE IF EXISTS cards_v84'),
+          env.DB.prepare(`CREATE TABLE cards_v84 (
+            id TEXT PRIMARY KEY, member_id INTEGER NOT NULL, title TEXT NOT NULL,
+            rarity TEXT NOT NULL CHECK (rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED')),
+            image_url TEXT NOT NULL, focus_x INTEGER NOT NULL DEFAULT 50, focus_y INTEGER NOT NULL DEFAULT 50,
+            is_active INTEGER NOT NULL DEFAULT 1, draw_weight REAL NOT NULL DEFAULT 1,
+            limited_total INTEGER, issued_count INTEGER NOT NULL DEFAULT 0,
+            card_status TEXT NOT NULL DEFAULT 'PUBLIC', batch_name TEXT, batch_date TEXT,
+            created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY(member_id) REFERENCES members(id)
+          )`),
+          env.DB.prepare(`INSERT INTO cards_v84(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,created_by,created_at,updated_at)
+            SELECT id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,
+                   COALESCE(draw_weight,1),limited_total,COALESCE(issued_count,0),
+                   COALESCE(card_status,CASE WHEN is_active=1 THEN 'PUBLIC' ELSE 'INACTIVE' END),batch_name,batch_date,
+                   created_by,created_at,updated_at FROM cards`),
+          env.DB.prepare(`CREATE TABLE user_cards_v84 (
+            user_id INTEGER NOT NULL, card_id TEXT NOT NULL, quantity INTEGER NOT NULL DEFAULT 1,
+            first_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            last_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+            breakthrough_level INTEGER NOT NULL DEFAULT 0,
+            PRIMARY KEY(user_id,card_id),
+            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY(card_id) REFERENCES cards_v84(id)
+          )`),
+          env.DB.prepare(`INSERT INTO user_cards_v84(user_id,card_id,quantity,first_obtained_at,last_obtained_at,breakthrough_level)
+            SELECT user_id,card_id,quantity,first_obtained_at,last_obtained_at,COALESCE(breakthrough_level,0) FROM user_cards`),
+          env.DB.prepare('DROP TABLE user_cards'),
+          env.DB.prepare('DROP TABLE cards'),
+          env.DB.prepare('ALTER TABLE cards_v84 RENAME TO cards'),
+          env.DB.prepare('ALTER TABLE user_cards_v84 RENAME TO user_cards'),
+          env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id,rarity)'),
+          env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_cards_user ON user_cards(user_id)')
+        ]);
       }
     } finally {
       await env.DB.prepare("DELETE FROM app_meta WHERE key='cards_schema_lock' AND value=?").bind(migrationToken).run();
     }
   }else{
-    // Another request is performing the one-time rebuild. Wait briefly so this
-    // request does not continue against the half-migrated table.
-    for(let i=0;i<20;i++){
+    for(let i=0;i<40;i++){
       const active=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cards_schema_lock'").first();
       if(!active) break;
       await new Promise(resolve=>setTimeout(resolve,50));
