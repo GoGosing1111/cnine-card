@@ -6,7 +6,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&
 const imageSrc=v=>/^https?:\/\//i.test(v)?v:'../'+String(v||'').replace(/^\//,'');
 async function api(path,opt={}){const r=await fetch('../api/'+path,{...opt,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(opt.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||'요청 실패');return d}
 async function login(){try{const d=await api('auth/login',{method:'POST',body:JSON.stringify({privateKey:$('#key').value.trim()})});token=d.token;localStorage.setItem('cnine_admin_token',token);await load()}catch(e){alert(e.message)}}
-async function load(){try{const d=await api('admin/cards');all=d.cards;members=d.members;role=d.role;$('#login').hidden=true;$('#cms').hidden=false;fillMembers();render()}catch(e){$('#login').hidden=false;$('#cms').hidden=true;if(token)alert(e.message)}}
+async function load(){try{const d=await api('admin/cards');all=d.cards;members=d.members;role=d.role;$('#login').hidden=true;$('#cms').hidden=false;$('#resetKeyBtn').hidden=role!=='OWNER';fillMembers();render()}catch(e){$('#login').hidden=false;$('#cms').hidden=true;if(token)alert(e.message)}}
 function fillMembers(){ $('#memberId').innerHTML=members.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join('') }
 function cardStatus(c){if(Number(c.is_active)===0)return'hidden';return c.imageBroken?'broken':'active'}
 function memberOptions(selected){return members.map(m=>`<option value="${m.id}" ${Number(selected)===Number(m.id)?'selected':''}>${esc(m.name)}</option>`).join('')}
@@ -94,6 +94,7 @@ async function searchUsers(){
       box.querySelectorAll('.user-result').forEach(x=>x.classList.remove('active'));
       btn.classList.add('active');
       $('#coinUserId').value=btn.dataset.id;
+      $('#coinUserId').dataset.nickname=btn.dataset.nickname;
       $('#coinTarget').textContent=`${btn.dataset.nickname} · 현재 ${Number(btn.dataset.coin).toLocaleString()} 코인`;
       $('#coinTarget').classList.add('selected');
     });
@@ -108,11 +109,31 @@ async function grantCoin(){
   try{
     const d=await api('admin/coins',{method:'POST',body:JSON.stringify({userId,amount,reason})});
     alert(`${d.user.nickname}에게 ${d.amount.toLocaleString()}코인 지급 완료\n현재 보유: ${Number(d.user.coin).toLocaleString()}코인`);
-    $('#coinUserId').value='';$('#coinTarget').textContent='선택된 유저 없음';$('#coinTarget').classList.remove('selected');
+    $('#coinUserId').value='';delete $('#coinUserId').dataset.nickname;$('#coinTarget').textContent='선택된 유저 없음';$('#coinTarget').classList.remove('selected');
     await searchUsers();
   }catch(e){alert(e.message)}finally{btn.disabled=false;btn.textContent='코인 지급'}
 }
-$('#coinBtn').onclick=()=>{$('#coinDialog').showModal();$('#userSearch').value='';$('#coinUserId').value='';$('#coinTarget').textContent='선택된 유저 없음';$('#coinTarget').classList.remove('selected');searchUsers()};
+$('#coinBtn').onclick=()=>{$('#coinDialog').showModal();$('#userSearch').value='';$('#coinUserId').value='';delete $('#coinUserId').dataset.nickname;$('#coinTarget').textContent='선택된 유저 없음';$('#coinTarget').classList.remove('selected');searchUsers()};
 $('#userSearchBtn').onclick=searchUsers;
 $('#userSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchUsers()}});
 $('#grantCoinBtn').onclick=grantCoin;
+
+
+async function resetPrivateKey(){
+  const userId=Number($('#coinUserId').value);
+  const nickname=$('#coinUserId').dataset.nickname||'선택한 유저';
+  if(!userId)return alert('개인키를 재발급할 유저를 선택하세요.');
+  if(!confirm(`${nickname} 유저의 개인키를 재발급할까요?
+기존 개인키와 로그인 세션은 즉시 무효화됩니다.`))return;
+  const btn=$('#resetKeyBtn');btn.disabled=true;btn.textContent='재발급 중...';
+  try{
+    const d=await api('admin/users/private-key-reset',{method:'POST',body:JSON.stringify({userId})});
+    const text=`${d.user.nickname} 새 개인키
+
+${d.privateKey}
+
+이 키는 지금 한 번만 표시됩니다. 유저에게 전달한 뒤 안전하게 보관하세요.`;
+    try{await navigator.clipboard.writeText(d.privateKey);alert(text+'\n\n개인키를 클립보드에 복사했습니다.')}catch{prompt(text+'\n\n아래 값을 복사하세요.',d.privateKey)}
+  }catch(e){alert(e.message)}finally{btn.disabled=false;btn.textContent='개인키 재발급'}
+}
+$('#resetKeyBtn').onclick=resetPrivateKey;

@@ -93,7 +93,7 @@ export async function onRequest(context){
   try{
     if(!env.DB) return json({error:'D1 바인딩 DB가 연결되지 않았습니다.'},503);
 
-    if(path==='health') return json({ok:true,version:'2.2.4',database:true,initialized:await initialized(env)});
+    if(path==='health') return json({ok:true,version:'2.2.7',database:true,initialized:await initialized(env)});
     if(path==='setup/status') return json({initialized:await initialized(env),tables:await tableExists(env,'users')});
     if(path==='setup/init'&&request.method==='POST'){
       if(await initialized(env)) return json({error:'이미 초기화가 완료된 데이터베이스입니다.'},409);
@@ -222,6 +222,25 @@ export async function onRequest(context){
             FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id
             GROUP BY u.id ORDER BY u.created_at DESC LIMIT 50`).all();
       return json({users:rows.results,role:admin.role});
+    }
+
+    if(path==='admin/users/private-key-reset'&&request.method==='POST'){
+      const admin=await authenticate(request,env);
+      if(!admin||admin.role!=='OWNER') return json({error:'개인키 재발급은 OWNER만 가능합니다.'},403);
+      const payload=await readBody(request);
+      const userId=Number(payload.userId);
+      if(!Number.isInteger(userId)||userId<1) return json({error:'재발급할 유저를 선택하세요.'},400);
+      const before=await env.DB.prepare('SELECT id,nickname,role,status FROM users WHERE id=?').bind(userId).first();
+      if(!before) return json({error:'유저를 찾을 수 없습니다.'},404);
+      const privateKey=createPrivateKey();
+      const privateKeyHash=await hash(privateKey);
+      await env.DB.batch([
+        env.DB.prepare('UPDATE users SET private_key_hash=? WHERE id=?').bind(privateKeyHash,userId),
+        env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(userId)
+      ]);
+      await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
+        .bind(admin.id,'PRIVATE_KEY_RESET','USER',String(userId),JSON.stringify(before),JSON.stringify({nickname:before.nickname,sessionsRevoked:true})).run();
+      return json({ok:true,user:{id:before.id,nickname:before.nickname},privateKey});
     }
     if(path==='admin/coins'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'COIN_GRANT');
