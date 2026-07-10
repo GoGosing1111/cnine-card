@@ -1,0 +1,20 @@
+CNINE CARD V2.1
+
+이번 버전 변경사항
+- 관리자 카드명 저장 → Cloudflare D1 실제 UPDATE
+- 카드 등급 저장
+- 이미지 가로/세로 초점 저장 및 즉시 미리보기
+- 카드 활성/숨김 저장
+- 숨김 처리 시 기존 보유 기록 유지
+- 이미지 로딩 실패(404) 표시
+- 사용 중/숨김/이미지 없음 필터
+- 관리자 작업 로그 기록
+- 입력값 서버 검증
+
+설치 방법
+1. 이 ZIP 내용을 기존 GitHub cnine-card 폴더에 전체 덮어쓰기
+2. GitHub Desktop에서 Commit to main
+3. Push origin
+4. Cloudflare 자동 배포 완료 후 /admin/ 접속
+
+추가 DB 초기화는 필요 없습니다.

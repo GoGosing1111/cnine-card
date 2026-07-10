@@ -93,7 +93,7 @@ export async function onRequest(context){
   try{
     if(!env.DB) return json({error:'D1 바인딩 DB가 연결되지 않았습니다.'},503);
 
-    if(path==='health') return json({ok:true,version:'2.0.0',database:true,initialized:await initialized(env)});
+    if(path==='health') return json({ok:true,version:'2.1.0',database:true,initialized:await initialized(env)});
     if(path==='setup/status') return json({initialized:await initialized(env),tables:await tableExists(env,'users')});
     if(path==='setup/init'&&request.method==='POST'){
       if(await initialized(env)) return json({error:'이미 초기화가 완료된 데이터베이스입니다.'},409);
@@ -211,11 +211,20 @@ export async function onRequest(context){
         const payload=await readBody(request);
         const before=await env.DB.prepare('SELECT * FROM cards WHERE id=?').bind(payload.id).first();
         if(!before) return json({error:'카드가 없습니다.'},404);
+        const title=String(payload.title??before.title).trim().slice(0,80);
+        const grade=String(payload.grade??before.rarity).toUpperCase();
+        const focusX=Math.max(0,Math.min(100,Number(payload.focusX??before.focus_x)));
+        const focusY=Math.max(0,Math.min(100,Number(payload.focusY??before.focus_y)));
+        const isActive=payload.isActive===false?0:1;
+        if(!title) return json({error:'카드명을 입력하세요.'},400);
+        if(!['C','U','R','SR','HR','UR','SSR'].includes(grade)) return json({error:'올바르지 않은 카드 등급입니다.'},400);
         await env.DB.prepare('UPDATE cards SET title=?,rarity=?,focus_x=?,focus_y=?,is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
-          .bind((payload.title||before.title).trim(),payload.grade||before.rarity,Number(payload.focusX??before.focus_x),Number(payload.focusY??before.focus_y),payload.isActive===false?0:1,payload.id).run();
+          .bind(title,grade,focusX,focusY,isActive,payload.id).run();
+        const after=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active
+          FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(payload.id).first();
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
-          .bind(admin.id,'CARD_EDIT','CARD',payload.id,JSON.stringify(before),JSON.stringify(payload)).run();
-        return json({ok:true});
+          .bind(admin.id,isActive?'CARD_EDIT':'CARD_HIDE','CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
+        return json({ok:true,card:after});
       }
     }
     return json({error:'API 경로를 찾을 수 없습니다.'},404);
