@@ -285,16 +285,23 @@ export async function onRequest(context){
       if(request.method==='DELETE'){
         if(admin.role!=='OWNER') return json({error:'완전 삭제는 OWNER만 가능합니다.'},403);
         const payload=await readBody(request);
-        const before=await env.DB.prepare('SELECT * FROM cards WHERE id=?').bind(payload.id).first();
-        if(!before) return json({error:'카드가 없습니다.'},404);
-        await env.DB.batch([
-          env.DB.prepare('DELETE FROM user_cards WHERE card_id=?').bind(payload.id),
-          env.DB.prepare('DELETE FROM draw_logs WHERE card_id=?').bind(payload.id),
-          env.DB.prepare('DELETE FROM cards WHERE id=?').bind(payload.id)
-        ]);
+        const ids=[...new Set((Array.isArray(payload.ids)?payload.ids:[payload.id]).map(x=>String(x||'').trim()).filter(Boolean))];
+        if(ids.length<1) return json({error:'삭제할 카드를 선택하세요.'},400);
+        if(ids.length>200) return json({error:'한 번에 최대 200장까지 삭제할 수 있습니다.'},400);
+        const placeholders=ids.map(()=>'?').join(',');
+        const found=await env.DB.prepare(`SELECT * FROM cards WHERE id IN (${placeholders})`).bind(...ids).all();
+        const existingIds=found.results.map(x=>x.id);
+        if(!existingIds.length) return json({error:'삭제할 카드가 없습니다.'},404);
+        const statements=[];
+        for(const id of existingIds){
+          statements.push(env.DB.prepare('DELETE FROM user_cards WHERE card_id=?').bind(id));
+          statements.push(env.DB.prepare('DELETE FROM draw_logs WHERE card_id=?').bind(id));
+          statements.push(env.DB.prepare('DELETE FROM cards WHERE id=?').bind(id));
+        }
+        await env.DB.batch(statements);
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data) VALUES(?,?,?,?,?)')
-          .bind(admin.id,'CARD_DELETE','CARD',payload.id,JSON.stringify(before)).run();
-        return json({ok:true,deletedId:payload.id});
+          .bind(admin.id,existingIds.length>1?'CARD_BULK_DELETE':'CARD_DELETE','CARD',existingIds.join(','),JSON.stringify(found.results)).run();
+        return json({ok:true,deletedIds:existingIds,deletedId:existingIds.length===1?existingIds[0]:null});
       }
     }
     return json({error:'API 경로를 찾을 수 없습니다.'},404);
