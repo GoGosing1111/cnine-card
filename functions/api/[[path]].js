@@ -23,6 +23,23 @@ async function initialized(env){
   return row?.value==='1';
 }
 async function runSchema(env){for(const statement of SCHEMA) await env.DB.prepare(statement).run()}
+async function ensureUpgrades(env){
+  const statements=[
+    `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+    `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
+    `CREATE INDEX IF NOT EXISTS idx_coupon_code ON coupons(code)`,
+    `CREATE INDEX IF NOT EXISTS idx_admin_logs_created ON admin_logs(created_at)`
+  ];
+  for(const q of statements) await env.DB.prepare(q).run();
+  for(const q of [
+    `ALTER TABLE users ADD COLUMN banned_until TEXT`,
+    `ALTER TABLE users ADD COLUMN ban_reason TEXT`
+  ]){try{await env.DB.prepare(q).run()}catch{}}
+}
+async function writeAdminLog(env,admin,action,targetType,targetId,before=null,after=null){
+  await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
+    .bind(admin.id,action,targetType,String(targetId??''),before?JSON.stringify(before):null,after?JSON.stringify(after):null).run();
+}
 async function seedDatabase(env){
   for(const member of MEMBERS){
     await env.DB.prepare('INSERT OR IGNORE INTO members(id,name,slug,sort_order) VALUES(?,?,?,?)')
@@ -46,7 +63,7 @@ async function authenticate(request,env){
   if(!raw) return null;
   const tokenHash=await hash(raw);
   return env.DB.prepare(`SELECT u.* FROM sessions s JOIN users u ON u.id=s.user_id
-    WHERE s.token_hash=? AND s.expires_at>datetime('now') AND u.status='ACTIVE'`).bind(tokenHash).first();
+    WHERE s.token_hash=? AND s.expires_at>datetime('now') AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).bind(tokenHash).first();
 }
 async function makeSession(env,userId){
   const raw=createToken();
@@ -81,7 +98,7 @@ async function drawOne(env,pack,minimum=null){
 async function requirePermission(request,env,permission){
   const user=await authenticate(request,env);
   if(!user||!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(user.role)) return null;
-  if(user.role==='OWNER') return user;
+  if(['OWNER','ADMIN'].includes(user.role)) return user;
   const row=await env.DB.prepare('SELECT is_allowed FROM admin_permissions WHERE admin_user_id=? AND permission_key=?').bind(user.id,permission).first();
   return row?.is_allowed?user:null;
 }
@@ -114,6 +131,7 @@ export async function onRequest(context){
     }
 
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
+    await ensureUpgrades(env);
 
     if(path==='auth/register'&&request.method==='POST'){
       const payload=await readBody(request);
@@ -122,7 +140,9 @@ export async function onRequest(context){
       const privateKey=createPrivateKey();
       const privateKeyHash=await hash(privateKey);
       try{
-        const result=await env.DB.prepare('INSERT INTO users(nickname,private_key_hash,coin) VALUES(?,?,5000)').bind(nickname,privateKeyHash).run();
+        const coinSetting=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_user_coin'").first();
+        const newUserCoin=Math.max(0,Number(coinSetting?.value||5000)||5000);
+        const result=await env.DB.prepare('INSERT INTO users(nickname,private_key_hash,coin) VALUES(?,?,?)').bind(nickname,privateKeyHash,newUserCoin).run();
         const user=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(result.meta.last_row_id).first();
         return json({token:await makeSession(env,user.id),privateKey,user:await profile(env,user)},201);
       }catch(error){return json({error:'이미 사용 중인 닉네임입니다.'},409)}
@@ -130,8 +150,9 @@ export async function onRequest(context){
     if(path==='auth/login'&&request.method==='POST'){
       const payload=await readBody(request);
       const privateKeyHash=await hash((payload.privateKey||'').trim().toUpperCase());
-      const user=await env.DB.prepare("SELECT * FROM users WHERE private_key_hash=? AND status='ACTIVE'").bind(privateKeyHash).first();
+      const user=await env.DB.prepare("SELECT * FROM users WHERE private_key_hash=?").bind(privateKeyHash).first();
       if(!user) return json({error:'개인키가 올바르지 않습니다.'},401);
+      if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
       return json({token:await makeSession(env,user.id),user:await profile(env,user)});
     }
@@ -203,30 +224,119 @@ export async function onRequest(context){
     if(path==='ranking'){
       const rows=await env.DB.prepare(`SELECT u.nickname,
         COALESCE(SUM(CASE c.rarity WHEN 'SSR' THEN 500 WHEN 'UR' THEN 200 WHEN 'HR' THEN 100 WHEN 'SR' THEN 50 WHEN 'R' THEN 20 WHEN 'U' THEN 5 ELSE 1 END),0) AS score,
-        COUNT(uc.card_id) AS card_count
+        COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
         FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
         WHERE u.status='ACTIVE' GROUP BY u.id ORDER BY score DESC,card_count DESC,u.created_at ASC LIMIT 100`).all();
       return json({ranking:rows.results});
     }
 
+
+    if(path==='coupon/redeem'&&request.method==='POST'){
+      const user=await authenticate(request,env);
+      if(!user) return json({error:'로그인이 필요합니다.'},401);
+      const payload=await readBody(request);
+      const code=String(payload.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40);
+      if(!code) return json({error:'쿠폰 코드를 입력하세요.'},400);
+      const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=? AND is_active=1
+        AND (starts_at IS NULL OR starts_at<=datetime('now')) AND (ends_at IS NULL OR ends_at>=datetime('now'))`).bind(code).first();
+      if(!coupon) return json({error:'존재하지 않거나 사용 기간이 끝난 쿠폰입니다.'},404);
+      if(coupon.used_count>=coupon.max_uses) return json({error:'쿠폰 사용 한도가 모두 소진되었습니다.'},409);
+      const used=await env.DB.prepare('SELECT 1 FROM coupon_redemptions WHERE coupon_id=? AND user_id=?').bind(coupon.id,user.id).first();
+      if(used) return json({error:'이미 사용한 쿠폰입니다.'},409);
+      const nextCoin=user.coin+coupon.reward_coin;
+      await env.DB.batch([
+        env.DB.prepare('INSERT INTO coupon_redemptions(coupon_id,user_id,reward_coin) VALUES(?,?,?)').bind(coupon.id,user.id,coupon.reward_coin),
+        env.DB.prepare('UPDATE coupons SET used_count=used_count+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND used_count<max_uses').bind(coupon.id),
+        env.DB.prepare('UPDATE users SET coin=? WHERE id=?').bind(nextCoin,user.id),
+        env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'COUPON')").bind(user.id,coupon.reward_coin,nextCoin)
+      ]);
+      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+      return json({ok:true,rewardCoin:coupon.reward_coin,user:await profile(env,updated)});
+    }
+
+    if(path==='admin/dashboard'){
+      const admin=await requirePermission(request,env,'DASHBOARD');
+      if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
+      const [users,cards,draws,coins,banned,coupons]=await Promise.all([
+        env.DB.prepare('SELECT COUNT(*) count FROM users').first(),env.DB.prepare('SELECT COUNT(*) count FROM cards WHERE is_active=1').first(),
+        env.DB.prepare("SELECT COUNT(*) count FROM draw_logs WHERE created_at>=datetime('now','-1 day')").first(),env.DB.prepare('SELECT COALESCE(SUM(coin),0) total FROM users').first(),
+        env.DB.prepare("SELECT COUNT(*) count FROM users WHERE status!='ACTIVE' OR (banned_until IS NOT NULL AND banned_until>datetime('now'))").first(),
+        env.DB.prepare('SELECT COUNT(*) count FROM coupons WHERE is_active=1').first()
+      ]);
+      return json({role:admin.role,stats:{users:users.count,cards:cards.count,draws24h:draws.count,totalCoin:coins.total,banned:banned.count,coupons:coupons.count}});
+    }
+
+    if(path==='admin/logs'){
+      const admin=await requirePermission(request,env,'ADMIN_LOG'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      const rows=await env.DB.prepare(`SELECT l.*,u.nickname AS admin_nickname FROM admin_logs l LEFT JOIN users u ON u.id=l.admin_id ORDER BY l.id DESC LIMIT 300`).all();
+      return json({logs:rows.results});
+    }
+
+    if(path==='admin/settings'){
+      const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method==='GET'){
+        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','new_user_coin')").all();
+        return json({settings:Object.fromEntries(rows.results.map(x=>[x.key,x.value])),role:admin.role});
+      }
+      if(request.method==='POST'){
+        if(admin.role!=='OWNER')return json({error:'설정 변경은 OWNER만 가능합니다.'},403);
+        const payload=await readBody(request); const allowed=['site_notice','maintenance_mode','new_user_coin'];
+        for(const key of allowed) if(key in payload) await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(key,String(payload[key])).run();
+        await writeAdminLog(env,admin,'SETTINGS_UPDATE','SETTINGS','global',null,payload); return json({ok:true});
+      }
+    }
+
+    if(path==='admin/coupons'){
+      const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons ORDER BY id DESC').all();return json({coupons:rows.results});}
+      if(request.method==='POST'){
+        const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),reward=Number(p.rewardCoin),max=Number(p.maxUses);
+        if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
+        if(!Number.isInteger(reward)||reward<1||reward>10000000)return json({error:'보상 코인을 확인하세요.'},400);
+        if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
+        try{const r=await env.DB.prepare('INSERT INTO coupons(code,reward_coin,starts_at,ends_at,max_uses,created_by) VALUES(?,?,?,?,?,?)').bind(code,reward,p.startsAt||null,p.endsAt||null,max,admin.id).run();await writeAdminLog(env,admin,'COUPON_CREATE','COUPON',r.meta.last_row_id,null,{code,reward,max});return json({ok:true},201)}catch{return json({error:'이미 존재하는 쿠폰 코드입니다.'},409)}
+      }
+      if(request.method==='PATCH'){
+        const p=await readBody(request),before=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(Number(p.id)).first();if(!before)return json({error:'쿠폰이 없습니다.'},404);
+        await env.DB.prepare('UPDATE coupons SET is_active=?,ends_at=COALESCE(?,ends_at),max_uses=COALESCE(?,max_uses),updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(p.isActive===false?0:1,p.endsAt||null,p.maxUses?Number(p.maxUses):null,before.id).run();
+        const after=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(before.id).first();await writeAdminLog(env,admin,'COUPON_UPDATE','COUPON',before.id,before,after);return json({ok:true,coupon:after});
+      }
+    }
+
+    if(path==='admin/users/action'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'USER_MANAGE'); if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
+      const p=await readBody(request),userId=Number(p.userId),action=String(p.action||'');
+      const before=await env.DB.prepare('SELECT id,nickname,coin,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();
+      if(!before)return json({error:'유저를 찾을 수 없습니다.'},404);
+      if(before.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정은 수정할 수 없습니다.'},403);
+      if(action==='COIN'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경 코인을 입력하세요.'},400);if(before.coin+amount<0)return json({error:'보유 코인보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(amount,userId).run();const afterCoin=before.coin+amount;await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)').bind(userId,amount,afterCoin,String(p.reason||'관리자 조정').slice(0,100),admin.id).run();}
+      else if(action==='CARDS_RESET')await env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId).run();
+      else if(action==='ATTENDANCE_RESET')await env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId).run();
+      else if(action==='ACCOUNT_RESET')await env.DB.batch([env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM draw_logs WHERE user_id=?').bind(userId),env.DB.prepare('UPDATE users SET coin=5000 WHERE id=?').bind(userId)]);
+      else if(action==='BAN'){const days=String(p.days||'1'),until=days==='PERMANENT'?'9999-12-31 23:59:59':new Date(Date.now()+Number(days)*86400000).toISOString().replace('T',' ').slice(0,19);await env.DB.batch([env.DB.prepare("UPDATE users SET status='BANNED',banned_until=?,ban_reason=? WHERE id=?").bind(until,String(p.reason||'').slice(0,200),userId),env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(userId)]);}
+      else if(action==='UNBAN')await env.DB.prepare("UPDATE users SET status='ACTIVE',banned_until=NULL,ban_reason=NULL WHERE id=?").bind(userId).run();
+      else return json({error:'지원하지 않는 작업입니다.'},400);
+      const after=await env.DB.prepare('SELECT id,nickname,coin,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();await writeAdminLog(env,admin,action,'USER',userId,before,after);return json({ok:true,user:after});
+    }
+
     if(path==='admin/users'){
-      const admin=await requirePermission(request,env,'COIN_GRANT');
-      if(!admin) return json({error:'코인 지급 권한이 없습니다.'},403);
+      const admin=await requirePermission(request,env,'USER_MANAGE');
+      if(!admin) return json({error:'유저 관리 권한이 없습니다.'},403);
       if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
       const q=(url.searchParams.get('q')||'').trim().slice(0,30);
       const rows=q
-        ? await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count
-            FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id
+        ? await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
+            FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
             WHERE u.nickname LIKE ? GROUP BY u.id ORDER BY u.nickname LIMIT 50`).bind(`%${q}%`).all()
-        : await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count
-            FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id
+        : await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
+            FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
             GROUP BY u.id ORDER BY u.created_at DESC LIMIT 50`).all();
       return json({users:rows.results,role:admin.role});
     }
 
     if(path==='admin/users/private-key-reset'&&request.method==='POST'){
       const admin=await authenticate(request,env);
-      if(!admin||admin.role!=='OWNER') return json({error:'개인키 재발급은 OWNER만 가능합니다.'},403);
+      if(!admin||!['OWNER','ADMIN'].includes(admin.role)) return json({error:'개인키 재발급 권한이 없습니다.'},403);
       const payload=await readBody(request);
       const userId=Number(payload.userId);
       if(!Number.isInteger(userId)||userId<1) return json({error:'재발급할 유저를 선택하세요.'},400);
