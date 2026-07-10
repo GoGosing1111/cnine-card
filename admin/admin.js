@@ -2,7 +2,7 @@ let token=localStorage.getItem('cnine_admin_token')||localStorage.getItem('cnine
 let state={cards:[],members:[],users:[],role:'',admin:null,view:'dashboard',rateData:null,breakthroughData:null,breakthroughGrade:'SR'};
 const RARITIES=['LIMITED','FUR','MA','SSR','UR','HR','SR','R','U','C'];
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-const img=v=>/^https?:\/\//i.test(v)?v:'../'+String(v||'').replace(/^\//,'');
+const img=v=>/^https?:\/\//i.test(v)?v:'/'+String(v||'').replace(/^\//,'');
 async function api(path,opt={}){const r=await fetch('../api/'+path,{...opt,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(opt.headers||{})}});const text=await r.text();let d={};try{d=text?JSON.parse(text):{}}catch{throw Error('API 경로 또는 Cloudflare Functions 연결을 확인해주세요.')}if(!r.ok)throw Error(d.error||'요청 실패');return d}
 function setBusy(btn,busy,text='처리 중...'){if(!btn)return;btn.disabled=busy;if(!btn.dataset.label)btn.dataset.label=btn.textContent;btn.textContent=busy?text:btn.dataset.label}
 async function login(){const btn=$('#loginBtn');const key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('auth/login',{method:'POST',body:JSON.stringify({privateKey:key})});token=d.token;localStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message)}finally{setBusy(btn,false)}}
