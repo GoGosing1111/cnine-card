@@ -3382,5 +3382,554 @@
     "image": "assets/cards/디임/020.webp",
     "focusX": 50,
     "focusY": 38
+  },
+  {
+    "id": "card-0377",
+    "title": "빛나는 송채연",
+    "name": "송채연",
+    "grade": "SR",
+    "image": "assets/cards/송채연/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0378",
+    "title": "미소 짓는 송채연",
+    "name": "송채연",
+    "grade": "SR",
+    "image": "assets/cards/송채연/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0379",
+    "title": "집중한 송채연",
+    "name": "송채연",
+    "grade": "C",
+    "image": "assets/cards/송채연/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0380",
+    "title": "여유로운 송채연",
+    "name": "송채연",
+    "grade": "SR",
+    "image": "assets/cards/송채연/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0381",
+    "title": "신나는 송채연",
+    "name": "송채연",
+    "grade": "SR",
+    "image": "assets/cards/송채연/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0382",
+    "title": "빛나는 연두",
+    "name": "연두",
+    "grade": "U",
+    "image": "assets/cards/연두/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0383",
+    "title": "미소 짓는 연두",
+    "name": "연두",
+    "grade": "C",
+    "image": "assets/cards/연두/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0384",
+    "title": "집중한 연두",
+    "name": "연두",
+    "grade": "HR",
+    "image": "assets/cards/연두/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0385",
+    "title": "여유로운 연두",
+    "name": "연두",
+    "grade": "HR",
+    "image": "assets/cards/연두/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0386",
+    "title": "신나는 연두",
+    "name": "연두",
+    "grade": "C",
+    "image": "assets/cards/연두/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0387",
+    "title": "진지한 연두",
+    "name": "연두",
+    "grade": "U",
+    "image": "assets/cards/연두/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0388",
+    "title": "빛나는 여을",
+    "name": "여을",
+    "grade": "C",
+    "image": "assets/cards/여을/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0389",
+    "title": "미소 짓는 여을",
+    "name": "여을",
+    "grade": "R",
+    "image": "assets/cards/여을/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0390",
+    "title": "집중한 여을",
+    "name": "여을",
+    "grade": "C",
+    "image": "assets/cards/여을/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0391",
+    "title": "여유로운 여을",
+    "name": "여을",
+    "grade": "R",
+    "image": "assets/cards/여을/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0392",
+    "title": "신나는 여을",
+    "name": "여을",
+    "grade": "C",
+    "image": "assets/cards/여을/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0393",
+    "title": "진지한 여을",
+    "name": "여을",
+    "grade": "C",
+    "image": "assets/cards/여을/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0394",
+    "title": "활짝 웃는 여을",
+    "name": "여을",
+    "grade": "HR",
+    "image": "assets/cards/여을/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0395",
+    "title": "브이하는 여을",
+    "name": "여을",
+    "grade": "C",
+    "image": "assets/cards/여을/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0396",
+    "title": "응원하는 여을",
+    "name": "여을",
+    "grade": "U",
+    "image": "assets/cards/여을/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0397",
+    "title": "멋진 여을",
+    "name": "여을",
+    "grade": "U",
+    "image": "assets/cards/여을/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0398",
+    "title": "귀여운 여을",
+    "name": "여을",
+    "grade": "C",
+    "image": "assets/cards/여을/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0399",
+    "title": "당당한 여을",
+    "name": "여을",
+    "grade": "C",
+    "image": "assets/cards/여을/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0400",
+    "title": "즐거운 여을",
+    "name": "여을",
+    "grade": "U",
+    "image": "assets/cards/여을/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0401",
+    "title": "빛나는 효짱",
+    "name": "효짱",
+    "grade": "HR",
+    "image": "assets/cards/효짱/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0402",
+    "title": "미소 짓는 효짱",
+    "name": "효짱",
+    "grade": "C",
+    "image": "assets/cards/효짱/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0403",
+    "title": "집중한 효짱",
+    "name": "효짱",
+    "grade": "SR",
+    "image": "assets/cards/효짱/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0404",
+    "title": "여유로운 효짱",
+    "name": "효짱",
+    "grade": "C",
+    "image": "assets/cards/효짱/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0405",
+    "title": "신나는 효짱",
+    "name": "효짱",
+    "grade": "C",
+    "image": "assets/cards/효짱/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0406",
+    "title": "진지한 효짱",
+    "name": "효짱",
+    "grade": "UR",
+    "image": "assets/cards/효짱/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0407",
+    "title": "활짝 웃는 효짱",
+    "name": "효짱",
+    "grade": "U",
+    "image": "assets/cards/효짱/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0408",
+    "title": "브이하는 효짱",
+    "name": "효짱",
+    "grade": "U",
+    "image": "assets/cards/효짱/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0409",
+    "title": "응원하는 효짱",
+    "name": "효짱",
+    "grade": "C",
+    "image": "assets/cards/효짱/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0410",
+    "title": "멋진 효짱",
+    "name": "효짱",
+    "grade": "R",
+    "image": "assets/cards/효짱/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0411",
+    "title": "귀여운 효짱",
+    "name": "효짱",
+    "grade": "C",
+    "image": "assets/cards/효짱/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0412",
+    "title": "당당한 효짱",
+    "name": "효짱",
+    "grade": "U",
+    "image": "assets/cards/효짱/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0413",
+    "title": "즐거운 효짱",
+    "name": "효짱",
+    "grade": "HR",
+    "image": "assets/cards/효짱/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0414",
+    "title": "깜짝 놀란 효짱",
+    "name": "효짱",
+    "grade": "UR",
+    "image": "assets/cards/효짱/014.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0415",
+    "title": "시무룩한 효짱",
+    "name": "효짱",
+    "grade": "C",
+    "image": "assets/cards/효짱/015.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0416",
+    "title": "한정판 강구열",
+    "name": "강구열",
+    "grade": "LIMITED",
+    "image": "assets/cards/강구열/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0417",
+    "title": "한정판 김윤중",
+    "name": "김윤중",
+    "grade": "LIMITED",
+    "image": "assets/cards/김윤중/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0418",
+    "title": "한정판 김택용",
+    "name": "김택용",
+    "grade": "LIMITED",
+    "image": "assets/cards/김택용/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0419",
+    "title": "한정판 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "LIMITED",
+    "image": "assets/cards/나무늘봉순/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0420",
+    "title": "한정판 남수댕",
+    "name": "남수댕",
+    "grade": "LIMITED",
+    "image": "assets/cards/남수댕/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0421",
+    "title": "한정판 디임",
+    "name": "디임",
+    "grade": "LIMITED",
+    "image": "assets/cards/디임/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0422",
+    "title": "한정판 란란",
+    "name": "란란",
+    "grade": "LIMITED",
+    "image": "assets/cards/란란/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0423",
+    "title": "한정판 모리",
+    "name": "모리",
+    "grade": "LIMITED",
+    "image": "assets/cards/모리/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0424",
+    "title": "한정판 박재혁",
+    "name": "박재혁",
+    "grade": "LIMITED",
+    "image": "assets/cards/박재혁/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0425",
+    "title": "한정판 오리꿍",
+    "name": "오리꿍",
+    "grade": "LIMITED",
+    "image": "assets/cards/오리꿍/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0426",
+    "title": "한정판 오조은",
+    "name": "오조은",
+    "grade": "LIMITED",
+    "image": "assets/cards/오조은/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0427",
+    "title": "한정판 왜냐맨",
+    "name": "왜냐맨",
+    "grade": "LIMITED",
+    "image": "assets/cards/왜냐맨/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0428",
+    "title": "한정판 윤용태",
+    "name": "윤용태",
+    "grade": "LIMITED",
+    "image": "assets/cards/윤용태/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0429",
+    "title": "한정판 윤진규",
+    "name": "윤진규",
+    "grade": "LIMITED",
+    "image": "assets/cards/윤진규/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0430",
+    "title": "한정판 은조",
+    "name": "은조",
+    "grade": "LIMITED",
+    "image": "assets/cards/은조/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0431",
+    "title": "한정판 졈니",
+    "name": "졈니",
+    "grade": "LIMITED",
+    "image": "assets/cards/졈니/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0432",
+    "title": "한정판 철구",
+    "name": "철구",
+    "grade": "LIMITED",
+    "image": "assets/cards/철구/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
+  },
+  {
+    "id": "card-0433",
+    "title": "한정판 효짱",
+    "name": "효짱",
+    "grade": "LIMITED",
+    "image": "assets/cards/효짱/limited.webp",
+    "focusX": 50,
+    "focusY": 38,
+    "drawWeight": 1,
+    "limitedTotal": 5
   }
 ]

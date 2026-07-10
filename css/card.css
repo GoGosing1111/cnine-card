@@ -38,3 +38,6 @@
 @keyframes btFlame{to{transform:translateY(-4px) scale(1.02);filter:brightness(1.25)}}
 @keyframes btAura{50%{transform:scale(1.015);opacity:1}}
 @keyframes btParticles{to{background-position:24px -32px,-31px -43px}}
+
+.grade-LIMITED{--grade:#ffd66b;background:conic-gradient(from 0deg,#fff5b8,#ffb83d,#ff6b91,#9d7cff,#73e7ff,#fff5b8);animation:ssrBorder 1.35s linear infinite;box-shadow:0 0 38px rgba(255,210,90,.62),0 18px 48px rgba(0,0,0,.5)}
+.grade-LIMITED .card-header span{font-size:10px;letter-spacing:.7px;color:#fff4bd;text-shadow:0 0 10px rgba(255,211,86,.8)}
