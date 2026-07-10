@@ -32,6 +32,17 @@ async function initialized(env){
 }
 async function runSchema(env){for(const statement of SCHEMA) await env.DB.prepare(statement).run()}
 async function ensureUpgrades(env){
+  // A previous interrupted table rebuild can leave cards_legacy behind.
+  // Recover first so repeated requests/deployments stay idempotent.
+  const hasCards=await tableExists(env,'cards');
+  const hasCardsLegacy=await tableExists(env,'cards_legacy');
+  if(hasCardsLegacy){
+    if(hasCards){
+      await env.DB.prepare('DROP TABLE cards_legacy').run();
+    }else{
+      await env.DB.prepare('ALTER TABLE cards_legacy RENAME TO cards').run();
+    }
+  }
   const statements=[
     `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
     `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
@@ -64,12 +75,15 @@ async function ensureUpgrades(env){
       image_url TEXT NOT NULL, focus_x INTEGER NOT NULL DEFAULT 50, focus_y INTEGER NOT NULL DEFAULT 50,
       is_active INTEGER NOT NULL DEFAULT 1, draw_weight REAL NOT NULL DEFAULT 1,
       limited_total INTEGER, issued_count INTEGER NOT NULL DEFAULT 0,
+      card_status TEXT NOT NULL DEFAULT 'PUBLIC', batch_name TEXT, batch_date TEXT,
       created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(member_id) REFERENCES members(id)
     )`).run();
-    await env.DB.prepare(`INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,created_by,created_at,updated_at)
+    await env.DB.prepare(`INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,created_by,created_at,updated_at)
       SELECT id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,
-             COALESCE(draw_weight,1),limited_total,COALESCE(issued_count,0),created_by,created_at,updated_at
+             COALESCE(draw_weight,1),limited_total,COALESCE(issued_count,0),
+             COALESCE(card_status,CASE WHEN is_active=1 THEN 'PUBLIC' ELSE 'INACTIVE' END),batch_name,batch_date,
+             created_by,created_at,updated_at
       FROM cards_legacy`).run();
     await env.DB.prepare('DROP TABLE cards_legacy').run();
     await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id,rarity)').run();
