@@ -195,6 +195,14 @@ export async function onRequest(context){
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
       return json({token:await makeSession(env,user.id),user:await profile(env,user)});
     }
+    if(path==='auth/logout'&&request.method==='POST'){
+      const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
+      if(raw){
+        const tokenHash=await hash(raw);
+        await env.DB.prepare('DELETE FROM sessions WHERE token_hash=?').bind(tokenHash).run();
+      }
+      return json({ok:true});
+    }
     if(path==='me'){
       const user=await authenticate(request,env);
       return user?json({user:await profile(env,user)}):json({error:'로그인이 필요합니다.'},401);

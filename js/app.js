@@ -142,7 +142,7 @@ function renderShell(tab) {
   const user = loadUser();
   if (!user) return renderLogin();
   const views = { buy: buyView, dex: dexView, attendance: attendanceView, rank: rankView };
-  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
+  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button></nav><button class="player-account-btn" id="playerAccountBtn" type="button"><span class="login-dot"></span><span><small>로그인 중</small><b>${escapeHtml(user.nickname)}</b></span><i>내 정보</i></button></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
   document.querySelectorAll('.tab').forEach(b => b.onclick = () => renderShell(b.dataset.tab));
   bindView(tab);
   loadRecentHighGradeFeed();
@@ -212,6 +212,7 @@ async function loadServerRanking(){
 }
 
 function bindView(tab) {
+  const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
   document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));
   document.querySelectorAll('.recent-item').forEach(b => b.onclick = () => showDetail(b.dataset.cardId));
@@ -285,13 +286,84 @@ function showDetail(id) {
 }
 
 
+
+function clearPlayerLogin() {
+  API_TOKEN = '';
+  localStorage.removeItem('cnine_card_api_token');
+  localStorage.removeItem(STORAGE_KEY);
+  LEGACY_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
+}
+
+function showAccountPanel() {
+  const user=loadUser();
+  if(!user) return renderLogin();
+  const modal=document.getElementById('modal');
+  if(!modal) return;
+  const keyText=user.key||'현재 브라우저에 개인키가 저장되어 있지 않습니다.';
+  modal.className='modal show account-modal';
+  modal.innerHTML=`<div class="modal-panel account-panel">
+    <button class="icon-close account-close" id="closeAccount">×</button>
+    <p class="eyebrow">PLAYER ACCOUNT</p>
+    <div class="account-login-state"><span class="login-dot"></span><div><small>현재 로그인된 계정</small><h2>${escapeHtml(user.nickname)}</h2></div></div>
+    <div class="account-info-grid">
+      <div><span>보유 코인</span><b>◈ ${Number(user.coin||0).toLocaleString()}</b></div>
+      <div><span>수집 카드</span><b>${ownedIds(user).size} / ${cards.length}</b></div>
+    </div>
+    <div class="account-key-box"><label>로그인 복구용 개인키</label><div><input id="accountKey" value="${escapeHtml(keyText)}" readonly><button type="button" id="copyAccountKey" ${user.key?'':'disabled'}>복사</button></div><p>다른 기기나 로그아웃 후 다시 접속할 때 필요합니다. 외부에 공개하지 마세요.</p></div>
+    <div class="account-actions"><button class="btn secondary" id="closeAccount2">계속 이용하기</button><button class="btn danger" id="logoutPlayer">로그아웃</button></div>
+  </div>`;
+  const close=()=>modal.className='modal';
+  document.getElementById('closeAccount').onclick=close;
+  document.getElementById('closeAccount2').onclick=close;
+  const copy=document.getElementById('copyAccountKey');
+  if(copy) copy.onclick=async()=>{try{await navigator.clipboard.writeText(user.key);alert('개인키가 복사되었습니다.')}catch{document.getElementById('accountKey').select();document.execCommand('copy');alert('개인키가 복사되었습니다.')}};
+  document.getElementById('logoutPlayer').onclick=()=>{
+    if(!confirm('로그아웃하시겠습니까?\n\n다시 접속하려면 개인키가 필요합니다. 로그아웃 전에 개인키를 복사해 두세요.')) return;
+    if(API_MODE&&API_TOKEN) apiRequest('auth/logout',{method:'POST'}).catch(()=>{});
+    clearPlayerLogin();
+    modal.className='modal';
+    renderLogin();
+  };
+}
+
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||'';
 async function apiRequest(path, options={}) { const response=await fetch(`api/${path}`,{...options,headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}}); const data=await response.json(); if(!response.ok) throw new Error(data.error||'서버 요청 실패'); return data; }
 async function detectApi(){try{const r=await fetch('api/health',{cache:'no-store'});API_MODE=r.ok}catch{API_MODE=false}}
 function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',coin:u.coin,owned:u.owned||[],history:old?.history||[],attendance:old?.attendance||{lastClaimDate:null,totalDays:0},serverUserId:u.id,testCoinGrantedV13:true}}
-async function init(){migrateLegacyUser();renderLoading();await detectApi();try{if(API_MODE){const cr=await apiRequest('cards');cards=cr.cards;if(API_TOKEN){try{const me=await apiRequest('me');saveUser(apiUserToLocal(me.user));}catch{API_TOKEN='';localStorage.removeItem('cnine_card_api_token')}}}else{const response=await fetch('data/cards.json',{cache:'no-store'});cards=await response.json()}}catch(e){console.error(e);try{cards=await (await fetch('data/cards.json')).json()}catch{cards=[]}}setTimeout(()=>loadUser()?renderShell('buy'):renderLogin(),250)}
-function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 카드뽑기</h1><p>${API_MODE?'D1 서버 연결됨':'로컬 테스트 모드'}</p><div class="field"><label for="nickname">와이고수 닉네임</label><input id="nickname" maxlength="20" placeholder="닉네임을 입력하세요"></div><button class="btn" id="start">처음 시작하기</button><div class="login-divider"></div><div class="field"><label for="key">개인키 로그인</label><input id="key" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn secondary" id="login">개인키로 로그인</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:key})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);saveUser(apiUserToLocal(d.user,key));renderShell('buy')}catch(e){alert(e.message)}}}
+async function init(){
+  migrateLegacyUser();
+  renderLoading();
+  await detectApi();
+  let authenticated=false;
+  try{
+    if(API_MODE){
+      const cr=await apiRequest('cards');
+      cards=cr.cards;
+      if(API_TOKEN){
+        try{
+          const me=await apiRequest('me');
+          saveUser(apiUserToLocal(me.user));
+          authenticated=true;
+        }catch{
+          clearPlayerLogin();
+        }
+      }else{
+        clearPlayerLogin();
+      }
+    }else{
+      const response=await fetch('data/cards.json',{cache:'no-store'});
+      cards=await response.json();
+      authenticated=Boolean(loadUser());
+    }
+  }catch(e){
+    console.error(e);
+    try{cards=await (await fetch('data/cards.json')).json()}catch{cards=[]}
+    if(API_MODE) clearPlayerLogin();
+  }
+  setTimeout(()=>authenticated?renderShell('buy'):renderLogin(),250);
+}
+function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 관리자에게 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);saveUser(apiUserToLocal(d.user,normalizedKey));renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');user.coin+=500;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert('오늘의 접속 보상 500코인을 받았습니다.');return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance={lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 async function redeemCoupon(){
