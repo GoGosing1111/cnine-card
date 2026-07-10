@@ -31,186 +31,75 @@ async function initialized(env){
   return row?.value==='1';
 }
 async function runSchema(env){for(const statement of SCHEMA) await env.DB.prepare(statement).run()}
+let upgradePromise=null;
 async function ensureUpgrades(env){
-  // Serialize the cards table rebuild. Multiple simultaneous page/API requests can
-  // otherwise race and both try to create the same cards_legacy table.
-  const migrationToken=crypto.randomUUID();
-  await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('cards_schema_lock',?,CURRENT_TIMESTAMP)").bind(migrationToken).run();
-  const lockRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cards_schema_lock'").first();
-  const ownsCardsLock=lockRow?.value===migrationToken;
-  const statements=[
-    `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
-    `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
-    `CREATE INDEX IF NOT EXISTS idx_coupon_code ON coupons(code)`,
-    `CREATE INDEX IF NOT EXISTS idx_admin_logs_created ON admin_logs(created_at)`,
-    `CREATE TABLE IF NOT EXISTS shard_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, change_amount INTEGER NOT NULL, balance_after INTEGER NOT NULL, reason TEXT NOT NULL, card_id TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
-    `CREATE INDEX IF NOT EXISTS idx_shard_logs_user ON shard_logs(user_id,created_at)`
-  ];
-  for(const q of statements) await env.DB.prepare(q).run();
-  for(const q of [
-    `ALTER TABLE users ADD COLUMN banned_until TEXT`,
-    `ALTER TABLE users ADD COLUMN ban_reason TEXT`,
-    `ALTER TABLE cards ADD COLUMN draw_weight REAL NOT NULL DEFAULT 1`,
-    `ALTER TABLE cards ADD COLUMN limited_total INTEGER`,
-    `ALTER TABLE cards ADD COLUMN issued_count INTEGER NOT NULL DEFAULT 0`,
-    `ALTER TABLE users ADD COLUMN card_shards INTEGER NOT NULL DEFAULT 0`,
-    `ALTER TABLE user_cards ADD COLUMN breakthrough_level INTEGER NOT NULL DEFAULT 0`,
-    `ALTER TABLE cards ADD COLUMN card_status TEXT NOT NULL DEFAULT 'PUBLIC'`,
-    `ALTER TABLE cards ADD COLUMN batch_name TEXT`,
-    `ALTER TABLE cards ADD COLUMN batch_date TEXT`
-  ]){try{await env.DB.prepare(q).run()}catch{}}
-  if(ownsCardsLock){
-    try{
-      // v8.4.2에서 중단된 마이그레이션 복구:
-      // ALTER TABLE cards RENAME TO cards_legacy 실행 시 SQLite가 user_cards의 FK도
-      // cards_legacy로 바꿔 버릴 수 있다. 이 상태에서 cards_legacy를 삭제하면
-      // FOREIGN KEY constraint failed가 발생하므로 user_cards를 먼저 정상 FK로 재작성한다.
-      const hasCards=await tableExists(env,'cards');
-      const hasCardsLegacy=await tableExists(env,'cards_legacy');
-      if(hasCardsLegacy&&hasCards){
-        const userCardsSql=await env.DB.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='user_cards'").first();
-        if(userCardsSql?.sql?.includes('cards_legacy')){
-          await env.DB.batch([
-            env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_cards_fk_repair (
-              user_id INTEGER NOT NULL, card_id TEXT NOT NULL, quantity INTEGER NOT NULL DEFAULT 1,
-              first_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-              last_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-              breakthrough_level INTEGER NOT NULL DEFAULT 0,
-              PRIMARY KEY(user_id,card_id),
-              FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-              FOREIGN KEY(card_id) REFERENCES cards(id)
-            )`),
-            env.DB.prepare(`INSERT OR REPLACE INTO user_cards_fk_repair(user_id,card_id,quantity,first_obtained_at,last_obtained_at,breakthrough_level)
-              SELECT user_id,card_id,quantity,first_obtained_at,last_obtained_at,COALESCE(breakthrough_level,0) FROM user_cards`),
-            env.DB.prepare('DROP TABLE user_cards'),
-            env.DB.prepare('ALTER TABLE user_cards_fk_repair RENAME TO user_cards'),
-            env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_cards_user ON user_cards(user_id)')
-          ]);
-        }
-        // 새 cards 테이블이 이미 완성된 경우에만 찌꺼기 테이블을 제거한다.
-        await env.DB.prepare('DROP TABLE cards_legacy').run();
-      }else if(hasCardsLegacy&&!hasCards){
-        await env.DB.prepare('ALTER TABLE cards_legacy RENAME TO cards').run();
-      }
+  if(upgradePromise) return upgradePromise;
+  upgradePromise=(async()=>{
+    // IMPORTANT: 운영 D1의 cards/user_cards 테이블은 절대 재생성·rename·drop 하지 않는다.
+    // 한정판은 rarity가 아니라 limited_total 속성으로 처리한다.
+    const completed=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v848'").first();
+    if(completed?.value==='1') return;
 
-      const cardSql=await env.DB.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='cards'").first();
-      if(cardSql?.sql&&(!cardSql.sql.includes("'FUR'")||!cardSql.sql.includes("'LIMITED'"))){
-        // FK 대상 테이블을 직접 rename/drop하지 않는다. cards_v84와 user_cards_v84를
-        // 함께 만든 뒤 교체하여 D1의 FOREIGN KEY 제약을 안전하게 유지한다.
-        await env.DB.batch([
-          env.DB.prepare('DROP TABLE IF EXISTS user_cards_v84'),
-          env.DB.prepare('DROP TABLE IF EXISTS cards_v84'),
-          env.DB.prepare(`CREATE TABLE cards_v84 (
-            id TEXT PRIMARY KEY, member_id INTEGER NOT NULL, title TEXT NOT NULL,
-            rarity TEXT NOT NULL CHECK (rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED')),
-            image_url TEXT NOT NULL, focus_x INTEGER NOT NULL DEFAULT 50, focus_y INTEGER NOT NULL DEFAULT 50,
-            is_active INTEGER NOT NULL DEFAULT 1, draw_weight REAL NOT NULL DEFAULT 1,
-            limited_total INTEGER, issued_count INTEGER NOT NULL DEFAULT 0,
-            card_status TEXT NOT NULL DEFAULT 'PUBLIC', batch_name TEXT, batch_date TEXT,
-            created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY(member_id) REFERENCES members(id)
-          )`),
-          env.DB.prepare(`INSERT INTO cards_v84(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,created_by,created_at,updated_at)
-            SELECT id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,
-                   COALESCE(draw_weight,1),limited_total,COALESCE(issued_count,0),
-                   COALESCE(card_status,CASE WHEN is_active=1 THEN 'PUBLIC' ELSE 'INACTIVE' END),batch_name,batch_date,
-                   created_by,created_at,updated_at FROM cards`),
-          env.DB.prepare(`CREATE TABLE user_cards_v84 (
-            user_id INTEGER NOT NULL, card_id TEXT NOT NULL, quantity INTEGER NOT NULL DEFAULT 1,
-            first_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            last_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            breakthrough_level INTEGER NOT NULL DEFAULT 0,
-            PRIMARY KEY(user_id,card_id),
-            FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-            FOREIGN KEY(card_id) REFERENCES cards_v84(id)
-          )`),
-          env.DB.prepare(`INSERT INTO user_cards_v84(user_id,card_id,quantity,first_obtained_at,last_obtained_at,breakthrough_level)
-            SELECT user_id,card_id,quantity,first_obtained_at,last_obtained_at,COALESCE(breakthrough_level,0) FROM user_cards`),
-          env.DB.prepare('DROP TABLE user_cards'),
-          env.DB.prepare('DROP TABLE cards'),
-          env.DB.prepare('ALTER TABLE cards_v84 RENAME TO cards'),
-          env.DB.prepare('ALTER TABLE user_cards_v84 RENAME TO user_cards'),
-          env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id,rarity)'),
-          env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_cards_user ON user_cards(user_id)')
-        ]);
-      }
-    } finally {
-      await env.DB.prepare("DELETE FROM app_meta WHERE key='cards_schema_lock' AND value=?").bind(migrationToken).run();
+    const statements=[
+      `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+      `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
+      `CREATE INDEX IF NOT EXISTS idx_coupon_code ON coupons(code)`,
+      `CREATE INDEX IF NOT EXISTS idx_admin_logs_created ON admin_logs(created_at)`,
+      `CREATE TABLE IF NOT EXISTS shard_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, change_amount INTEGER NOT NULL, balance_after INTEGER NOT NULL, reason TEXT NOT NULL, card_id TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+      `CREATE INDEX IF NOT EXISTS idx_shard_logs_user ON shard_logs(user_id,created_at)`
+    ];
+    for(const q of statements) await env.DB.prepare(q).run();
+
+    // 컬럼 추가만 허용. 이미 있으면 D1 오류를 무시한다.
+    for(const q of [
+      `ALTER TABLE users ADD COLUMN banned_until TEXT`,
+      `ALTER TABLE users ADD COLUMN ban_reason TEXT`,
+      `ALTER TABLE cards ADD COLUMN draw_weight REAL NOT NULL DEFAULT 1`,
+      `ALTER TABLE cards ADD COLUMN limited_total INTEGER`,
+      `ALTER TABLE cards ADD COLUMN issued_count INTEGER NOT NULL DEFAULT 0`,
+      `ALTER TABLE users ADD COLUMN card_shards INTEGER NOT NULL DEFAULT 0`,
+      `ALTER TABLE user_cards ADD COLUMN breakthrough_level INTEGER NOT NULL DEFAULT 0`,
+      `ALTER TABLE cards ADD COLUMN card_status TEXT NOT NULL DEFAULT 'PUBLIC'`,
+      `ALTER TABLE cards ADD COLUMN batch_name TEXT`,
+      `ALTER TABLE cards ADD COLUMN batch_date TEXT`
+    ]){try{await env.DB.prepare(q).run()}catch{}}
+
+    // 카드팩 설정은 최초 한 번만 보정한다.
+    const packs=await env.DB.prepare('SELECT id,allowed_rarities FROM card_packs').all();
+    for(const pack of packs.results){
+      let allowed=[]; try{allowed=JSON.parse(pack.allowed_rarities||'[]')}catch{}
+      for(const rarity of ['MA','FUR']) if(!allowed.includes(rarity)) allowed.push(rarity);
+      allowed=allowed.filter(rarity=>rarity!=='LIMITED');
+      if(pack.id==='pickup') allowed.push('LIMITED');
+      await env.DB.prepare('UPDATE card_packs SET allowed_rarities=? WHERE id=?').bind(JSON.stringify(allowed),pack.id).run();
+      await env.DB.prepare('INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,0)').bind(pack.id,'MA').run();
+      await env.DB.prepare('INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,0)').bind(pack.id,'FUR').run();
+      await env.DB.prepare('INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,0)').bind(pack.id,'LIMITED').run();
     }
-  }else{
-    for(let i=0;i<40;i++){
-      const active=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cards_schema_lock'").first();
-      if(!active) break;
-      await new Promise(resolve=>setTimeout(resolve,50));
-    }
-  }
-  const packs=await env.DB.prepare('SELECT id,allowed_rarities FROM card_packs').all();
-  for(const pack of packs.results){
-    let allowed=[]; try{allowed=JSON.parse(pack.allowed_rarities||'[]')}catch{}
-    for(const rarity of ['MA','FUR']) if(!allowed.includes(rarity)) allowed.push(rarity);
-    allowed=allowed.filter(rarity=>rarity!=='LIMITED');
-    if(pack.id==='pickup') allowed.push('LIMITED');
-    await env.DB.prepare('UPDATE card_packs SET allowed_rarities=? WHERE id=?').bind(JSON.stringify(allowed),pack.id).run();
-    await env.DB.prepare('INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,0)').bind(pack.id,'MA').run();
-    await env.DB.prepare('INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,0)').bind(pack.id,'FUR').run();
-    await env.DB.prepare('INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,0)').bind(pack.id,'LIMITED').run();
-  }
-  const limitedPackMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='limited_pack_v83'").first();
-  if(limitedPackMigration?.value!=='1'){
     const allowed=['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'];
     await env.DB.prepare(`UPDATE card_packs SET name='리미티드팩',subtitle='LIMITED PACK',description='별도 확률로 서버 한정판 카드가 등장하는 특별 카드팩',allowed_rarities=?,pickup_member_id=NULL,pickup_multiplier=1 WHERE id='pickup'`).bind(JSON.stringify(allowed)).run();
     await env.DB.prepare("UPDATE card_pack_rates SET rate=0 WHERE rarity='LIMITED' AND pack_id<>'pickup'").run();
-    await env.DB.prepare("INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','LIMITED',1)").run();
-    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('limited_pack_v83','1',CURRENT_TIMESTAMP)").run();
-  }
-  const limitedMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='limited_cards_property_v846'").first();
-  if(limitedMigration?.value!=='1'){
-    const limitedIds=['card-0416','card-0417','card-0418','card-0419','card-0420','card-0421','card-0422','card-0423','card-0424','card-0425','card-0426','card-0427','card-0428','card-0429','card-0430','card-0431','card-0432','card-0433'];
-    for(const id of limitedIds){
-      await env.DB.prepare("UPDATE cards SET limited_total=CASE WHEN issued_count>5 THEN issued_count ELSE 5 END, updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(id).run();
-    }
-    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('limited_cards_property_v846','1',CURRENT_TIMESTAMP)").run();
-  }
-  const imagePathMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_card_image_paths_v845'").first();
-  if(imagePathMigration?.value!=='1'){
-    const imageCards=CARDS.filter(card=>{const n=Number(String(card.id).replace('card-',''));return n>=377&&n<=433});
-    for(let i=0;i<imageCards.length;i+=30){
-      const chunk=imageCards.slice(i,i+30).map(card=>env.DB.prepare('UPDATE cards SET image_url=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(card.imageUrl,card.id));
-      await env.DB.batch(chunk);
-    }
-    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('new_card_image_paths_v845','1',CURRENT_TIMESTAMP)").run();
-  }
-  const pendingMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_card_pending_v84'").first();
-  if(pendingMigration?.value!=='1'){
+    await env.DB.prepare("INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','LIMITED',1)").run();
+
+    // 신규 멤버/카드는 없을 때만 등록하며 기존 공개·수정 상태는 덮어쓰지 않는다.
     for(const member of MEMBERS.filter(x=>x.sortOrder+1>=38)){
       await env.DB.prepare('INSERT OR IGNORE INTO members(id,name,slug,sort_order) VALUES(?,?,?,?)')
         .bind(member.sortOrder+1,member.name,member.slug,member.sortOrder).run();
     }
-    const pendingCards=CARDS.filter(card=>{const n=Number(String(card.id).replace('card-',''));return n>=377&&n<=433});
-    for(let i=0;i<pendingCards.length;i+=30){
-      const chunk=pendingCards.slice(i,i+30).map(card=>env.DB.prepare(`INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,card_status,batch_name,batch_date)
-        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(card.id,card.memberId,card.title,card.rarity,card.imageUrl,card.focusX,card.focusY,0,card.drawWeight??1,card.limitedTotal??null,'PENDING','채연·연두·여을·효짱 추가','2026-07-10'));
+    const newCards=CARDS.filter(card=>{const n=Number(String(card.id).replace('card-',''));return n>=377&&n<=434});
+    for(let i=0;i<newCards.length;i+=25){
+      const chunk=newCards.slice(i,i+25).map(card=>{
+        const n=Number(String(card.id).replace('card-',''));
+        const batch=n===434?'철구 최고등급 카드 추가':n>=416?'한정판 카드 추가':'채연·연두·여을·효짱 추가';
+        return env.DB.prepare(`INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,card_status,batch_name,batch_date)
+          VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(card.id,card.memberId,card.title,card.rarity,card.imageUrl,card.focusX,card.focusY,0,card.drawWeight??1,card.limitedTotal??null,'PENDING',batch,'2026-07-10');
+      });
       await env.DB.batch(chunk);
     }
-    await env.DB.prepare(`UPDATE cards SET is_active=0,card_status='PENDING',batch_name='채연·연두·여을·효짱 추가',batch_date='2026-07-10',updated_at=CURRENT_TIMESTAMP
-      WHERE CAST(SUBSTR(id,6) AS INTEGER) BETWEEN 377 AND 433`).run();
-    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('new_card_pending_v84','1',CURRENT_TIMESTAMP)").run();
-  }
-  const missingCardsMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='missing_limited_and_chulgu_v846'").first();
-  if(missingCardsMigration?.value!=='1'){
-    const missingCards=CARDS.filter(card=>{const n=Number(String(card.id).replace('card-',''));return n>=416&&n<=434});
-    for(let i=0;i<missingCards.length;i+=25){
-      const chunk=missingCards.slice(i,i+25).map(card=>env.DB.prepare(`INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,card_status,batch_name,batch_date)
-        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(card.id,card.memberId,card.title,card.rarity,card.imageUrl,card.focusX,card.focusY,0,card.drawWeight??1,card.limitedTotal??null,'PENDING',Number(String(card.id).replace('card-',''))===434?'철구 최고등급 카드 추가':'한정판 카드 추가','2026-07-10'));
-      await env.DB.batch(chunk);
-    }
-    await env.DB.prepare(`UPDATE cards SET is_active=0,card_status='PENDING',batch_name='한정판 카드 추가',batch_date='2026-07-10',updated_at=CURRENT_TIMESTAMP
-      WHERE CAST(SUBSTR(id,6) AS INTEGER) BETWEEN 416 AND 433 AND NOT EXISTS(SELECT 1 FROM user_cards uc WHERE uc.card_id=cards.id)`).run();
-    await env.DB.prepare(`UPDATE cards SET is_active=0,card_status='PENDING',batch_name='철구 최고등급 카드 추가',batch_date='2026-07-10',updated_at=CURRENT_TIMESTAMP
-      WHERE id='card-0434' AND NOT EXISTS(SELECT 1 FROM user_cards uc WHERE uc.card_id=cards.id)`).run();
-    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('missing_limited_and_chulgu_v846','1',CURRENT_TIMESTAMP)").run();
-  }
+
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v848','1',CURRENT_TIMESTAMP)").run();
+  })().catch(error=>{upgradePromise=null;throw error});
+  return upgradePromise;
 }
 async function writeAdminLog(env,admin,action,targetType,targetId,before=null,after=null){
   await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
