@@ -339,18 +339,51 @@ function showAccountPanel() {
   document.getElementById('closeAccount2').onclick=close;
   const copy=document.getElementById('copyAccountKey');
   if(copy) copy.onclick=async()=>{try{await navigator.clipboard.writeText(user.key);alert('개인키가 복사되었습니다.')}catch{document.getElementById('accountKey').select();document.execCommand('copy');alert('개인키가 복사되었습니다.')}};
-  document.getElementById('logoutPlayer').onclick=()=>{
+  document.getElementById('logoutPlayer').onclick=async()=>{
     if(!confirm('로그아웃하시겠습니까?\n\n다시 접속하려면 개인키가 필요합니다. 로그아웃 전에 개인키를 복사해 두세요.')) return;
-    if(API_MODE&&API_TOKEN) apiRequest('auth/logout',{method:'POST'}).catch(()=>{});
-    clearPlayerLogin();
-    modal.className='modal';
-    renderLogin();
+    const logoutToken=API_TOKEN;
+    try{
+      if(API_MODE&&logoutToken){
+        await apiRequest('auth/logout',{method:'POST',headers:{authorization:`Bearer ${logoutToken}`}}, {allowEmpty:true});
+      }
+    }catch(error){
+      console.warn('서버 로그아웃 요청 실패(로컬 로그아웃은 계속 진행):',error);
+    }finally{
+      clearPlayerLogin();
+      modal.className='modal';
+      renderLogin();
+    }
   };
 }
 
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||'';
-async function apiRequest(path, options={}) { const response=await fetch(`api/${path}`,{...options,headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}}); const data=await response.json(); if(!response.ok) throw new Error(data.error||'서버 요청 실패'); return data; }
+async function apiRequest(path, options={}, config={}) {
+  const response=await fetch(`/api/${String(path).replace(/^\/+/, '')}`,{
+    ...options,
+    headers:{
+      'content-type':'application/json',
+      'authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',
+      ...(options.headers||{})
+    }
+  });
+  const contentType=(response.headers.get('content-type')||'').toLowerCase();
+  const text=await response.text();
+  let data={};
+  if(text){
+    if(contentType.includes('application/json')){
+      try{data=JSON.parse(text)}catch{throw new Error('서버 JSON 응답 형식이 올바르지 않습니다.')}
+    }else{
+      // Cloudflare 404/오류 HTML을 JSON으로 파싱해 Unexpected token '<' 경고가 뜨는 문제 방지
+      if(response.ok&&config.allowEmpty) return {};
+      throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'API 경로 또는 Cloudflare Functions 연결을 확인해주세요.');
+    }
+  }else if(!response.ok&&!config.allowEmpty){
+    throw new Error('서버 요청에 실패했습니다.');
+  }
+  if(!response.ok) throw new Error(data.error||'서버 요청 실패');
+  return data;
+}
 async function detectApi(){try{const r=await fetch('api/health',{cache:'no-store'});API_MODE=r.ok}catch{API_MODE=false}}
 async function fetchServiceStatus(){
   if(!API_MODE)return {maintenance:{active:false},bypass:false};
