@@ -1,7 +1,7 @@
 const app = document.getElementById('app');
 const STORAGE_KEY = 'cnine_card_user_v10';
 const LEGACY_STORAGE_KEYS = ['cnine_card_user_v08', 'cnine_card_user'];
-const TEST_COIN = 10000;
+const TEST_COIN = 5000;
 let cards = [];
 let selectedPackId = 'basic';
 

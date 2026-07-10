@@ -122,7 +122,7 @@ export async function onRequest(context){
       const privateKey=createPrivateKey();
       const privateKeyHash=await hash(privateKey);
       try{
-        const result=await env.DB.prepare('INSERT INTO users(nickname,private_key_hash,coin) VALUES(?,?,10000)').bind(nickname,privateKeyHash).run();
+        const result=await env.DB.prepare('INSERT INTO users(nickname,private_key_hash,coin) VALUES(?,?,5000)').bind(nickname,privateKeyHash).run();
         const user=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(result.meta.last_row_id).first();
         return json({token:await makeSession(env,user.id),privateKey,user:await profile(env,user)},201);
       }catch(error){return json({error:'이미 사용 중인 닉네임입니다.'},409)}
