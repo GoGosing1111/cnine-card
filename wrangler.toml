@@ -7,4 +7,4 @@ pages_build_output_dir = "."
 [[d1_databases]]
 binding = "DB"
 database_name = "cnine-card-db"
-database_id = "여기에_D1_DATABASE_ID_입력"
+database_id = "3e390892-2fda-413a-9c14-bbf363d26892"

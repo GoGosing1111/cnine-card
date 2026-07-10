@@ -93,7 +93,7 @@ export async function onRequest(context){
   try{
     if(!env.DB) return json({error:'D1 바인딩 DB가 연결되지 않았습니다.'},503);
 
-    if(path==='health') return json({ok:true,version:'2.1.0',database:true,initialized:await initialized(env)});
+    if(path==='health') return json({ok:true,version:'2.1.1',database:true,initialized:await initialized(env)});
     if(path==='setup/status') return json({initialized:await initialized(env),tables:await tableExists(env,'users')});
     if(path==='setup/init'&&request.method==='POST'){
       if(await initialized(env)) return json({error:'이미 초기화가 완료된 데이터베이스입니다.'},409);
