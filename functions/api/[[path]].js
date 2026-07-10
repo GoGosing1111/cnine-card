@@ -273,9 +273,9 @@ async function drawLimitedCard(env){
     WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total`).all()).results;
   return weightedPick(pool,row=>Number(row.draw_weight)||0)||null;
 }
-async function drawOne(env,pack,minimum=null){
+async function drawOne(env,pack,minimum=null,allowLimited=true){
   // 리미티드팩의 한정판 확률은 일반 등급 100% 합계와 별도로 먼저 판정한다.
-  if(pack.id==='pickup'&&!minimum){
+  if(allowLimited&&pack.id==='pickup'&&!minimum){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
     const limitedRate=Math.max(0,Math.min(100,Number(limitedRateRow?.rate)||0));
     if(limitedRate>0&&Math.random()*100<limitedRate){
@@ -446,14 +446,13 @@ export async function onRequest(context){
       for(let i=0;i<cards.length;i++){
         let card=cards[i];
         if(card.limited_total!==null&&card.limited_total!==undefined){
-          let reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
-          let retry=0;
-          while(!reserved.meta.changes&&retry++<20){
-            card=await drawOne(env,pack);
-            if(card.limited_total===null||card.limited_total===undefined){reserved={meta:{changes:1}};break}
-            reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
+          const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
+          if(!reserved.meta.changes){
+            // 다른 이용자가 직전에 마지막 수량을 가져간 경우 오류로 끝내지 않고
+            // 이 슬롯만 일반 카드로 즉시 대체한다. 코인은 이미 차감된 상태이므로
+            // 반드시 정상 결과를 지급해야 한다.
+            card=await drawOne(env,pack,null,false);
           }
-          if(!reserved.meta.changes) return json({error:'한정판 카드 수량이 방금 소진되었습니다. 다시 시도하세요.'},409);
           cards[i]=card;
         }
         const previous=await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?').bind(user.id,card.id).first();
