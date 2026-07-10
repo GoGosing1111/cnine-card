@@ -93,7 +93,7 @@ export async function onRequest(context){
   try{
     if(!env.DB) return json({error:'D1 바인딩 DB가 연결되지 않았습니다.'},503);
 
-    if(path==='health') return json({ok:true,version:'2.2.0',database:true,initialized:await initialized(env)});
+    if(path==='health') return json({ok:true,version:'2.2.4',database:true,initialized:await initialized(env)});
     if(path==='setup/status') return json({initialized:await initialized(env),tables:await tableExists(env,'users')});
     if(path==='setup/init'&&request.method==='POST'){
       if(await initialized(env)) return json({error:'이미 초기화가 완료된 데이터베이스입니다.'},409);
@@ -191,6 +191,15 @@ export async function onRequest(context){
       await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,updated.coin).run();
       return json({results,user:await profile(env,updated)});
     }
+    if(path==='recent-high-grade'){
+      const rows=await env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,d.created_at
+        FROM draw_logs d
+        JOIN users u ON u.id=d.user_id
+        JOIN cards c ON c.id=d.card_id
+        WHERE d.rarity IN ('UR','SSR') AND u.status='ACTIVE'
+        ORDER BY d.id DESC LIMIT 20`).all();
+      return json({items:rows.results});
+    }
     if(path==='ranking'){
       const rows=await env.DB.prepare(`SELECT u.nickname,
         COALESCE(SUM(CASE c.rarity WHEN 'SSR' THEN 500 WHEN 'UR' THEN 200 WHEN 'HR' THEN 100 WHEN 'SR' THEN 50 WHEN 'R' THEN 20 WHEN 'U' THEN 5 ELSE 1 END),0) AS score,
@@ -198,6 +207,41 @@ export async function onRequest(context){
         FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
         WHERE u.status='ACTIVE' GROUP BY u.id ORDER BY score DESC,card_count DESC,u.created_at ASC LIMIT 100`).all();
       return json({ranking:rows.results});
+    }
+
+    if(path==='admin/users'){
+      const admin=await requirePermission(request,env,'COIN_GRANT');
+      if(!admin) return json({error:'코인 지급 권한이 없습니다.'},403);
+      if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
+      const q=(url.searchParams.get('q')||'').trim().slice(0,30);
+      const rows=q
+        ? await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count
+            FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id
+            WHERE u.nickname LIKE ? GROUP BY u.id ORDER BY u.nickname LIMIT 50`).bind(`%${q}%`).all()
+        : await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count
+            FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id
+            GROUP BY u.id ORDER BY u.created_at DESC LIMIT 50`).all();
+      return json({users:rows.results,role:admin.role});
+    }
+    if(path==='admin/coins'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'COIN_GRANT');
+      if(!admin) return json({error:'코인 지급 권한이 없습니다.'},403);
+      const payload=await readBody(request);
+      const userId=Number(payload.userId);
+      const amount=Number(payload.amount);
+      const reason=String(payload.reason||'관리자 수동 지급').trim().slice(0,100);
+      if(!Number.isInteger(userId)||userId<1) return json({error:'지급할 유저를 선택하세요.'},400);
+      if(!Number.isInteger(amount)||amount<1||amount>1000000) return json({error:'지급 코인은 1~1,000,000 사이의 정수로 입력하세요.'},400);
+      const before=await env.DB.prepare('SELECT id,nickname,coin,status FROM users WHERE id=?').bind(userId).first();
+      if(!before) return json({error:'유저를 찾을 수 없습니다.'},404);
+      const result=await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(amount,userId).run();
+      if(!result.meta.changes) return json({error:'코인 지급에 실패했습니다.'},500);
+      const after=await env.DB.prepare('SELECT id,nickname,coin,status FROM users WHERE id=?').bind(userId).first();
+      await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)')
+        .bind(userId,amount,after.coin,reason||'관리자 수동 지급',admin.id).run();
+      await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
+        .bind(admin.id,'COIN_GRANT','USER',String(userId),JSON.stringify(before),JSON.stringify({...after,amount,reason})).run();
+      return json({ok:true,user:after,amount,reason});
     }
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');

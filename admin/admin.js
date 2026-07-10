@@ -81,3 +81,38 @@ async function bulkSave(){const lines=$('#bulkText').value.split(/\r?\n/).map(x=
 $('#loginBtn').onclick=login;$('#search').oninput=render;$('#grade').onchange=render;$('#statusFilter').onchange=render;$('#logoutBtn').onclick=()=>{localStorage.removeItem('cnine_admin_token');token='';location.reload()};$('#addBtn').onclick=openAdd;$('#bulkBtn').onclick=()=>$('#bulkDialog').showModal();$('#saveCardBtn').onclick=addCard;$('#bulkSaveBtn').onclick=bulkSave;['cardImage','cardFx','cardFy'].forEach(id=>$('#'+id).addEventListener('input',updatePreview));if(token)load();
 
 $('#selectVisible').onchange=e=>{const q=$('#search').value.toLowerCase().trim(),g=$('#grade').value,st=$('#statusFilter').value;const visible=all.filter(c=>(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q)||c.id.toLowerCase().includes(q))&&(!g||c.grade===g)&&(!st||cardStatus(c)===st));visible.forEach(c=>e.target.checked?selected.add(c.id):selected.delete(c.id));render()};$('#clearSelectionBtn').onclick=()=>{selected.clear();render()};$('#bulkDeleteBtn').onclick=bulkDelete;
+
+
+async function searchUsers(){
+  const q=$('#userSearch').value.trim();
+  try{
+    const d=await api('admin/users?q='+encodeURIComponent(q));
+    const box=$('#userResults');
+    if(!d.users.length){box.innerHTML='<p>검색된 유저가 없습니다.</p>';return}
+    box.innerHTML=d.users.map(u=>`<button type="button" class="user-result" data-id="${u.id}" data-nickname="${esc(u.nickname)}" data-coin="${Number(u.coin)}"><span><strong>${esc(u.nickname)}</strong><small>${esc(u.role)} · 카드 ${Number(u.card_count||0)}장 · ${esc(u.status)}</small></span><b>${Number(u.coin).toLocaleString()} 코인</b></button>`).join('');
+    box.querySelectorAll('.user-result').forEach(btn=>btn.onclick=()=>{
+      box.querySelectorAll('.user-result').forEach(x=>x.classList.remove('active'));
+      btn.classList.add('active');
+      $('#coinUserId').value=btn.dataset.id;
+      $('#coinTarget').textContent=`${btn.dataset.nickname} · 현재 ${Number(btn.dataset.coin).toLocaleString()} 코인`;
+      $('#coinTarget').classList.add('selected');
+    });
+  }catch(e){alert(e.message)}
+}
+async function grantCoin(){
+  const userId=Number($('#coinUserId').value),amount=Number($('#coinAmount').value),reason=$('#coinReason').value.trim();
+  if(!userId)return alert('코인을 지급할 유저를 선택하세요.');
+  if(!Number.isInteger(amount)||amount<1)return alert('지급 코인을 올바르게 입력하세요.');
+  if(!confirm(`선택한 유저에게 ${amount.toLocaleString()}코인을 지급할까요?`))return;
+  const btn=$('#grantCoinBtn');btn.disabled=true;btn.textContent='지급 중...';
+  try{
+    const d=await api('admin/coins',{method:'POST',body:JSON.stringify({userId,amount,reason})});
+    alert(`${d.user.nickname}에게 ${d.amount.toLocaleString()}코인 지급 완료\n현재 보유: ${Number(d.user.coin).toLocaleString()}코인`);
+    $('#coinUserId').value='';$('#coinTarget').textContent='선택된 유저 없음';$('#coinTarget').classList.remove('selected');
+    await searchUsers();
+  }catch(e){alert(e.message)}finally{btn.disabled=false;btn.textContent='코인 지급'}
+}
+$('#coinBtn').onclick=()=>{$('#coinDialog').showModal();$('#userSearch').value='';$('#coinUserId').value='';$('#coinTarget').textContent='선택된 유저 없음';$('#coinTarget').classList.remove('selected');searchUsers()};
+$('#userSearchBtn').onclick=searchUsers;
+$('#userSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchUsers()}});
+$('#grantCoinBtn').onclick=grantCoin;
