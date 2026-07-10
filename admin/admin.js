@@ -6,7 +6,7 @@ const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&
 const imageSrc=v=>/^https?:\/\//i.test(v)?v:'../'+String(v||'').replace(/^\//,'');
 async function api(path,opt={}){const r=await fetch('../api/'+path,{...opt,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(opt.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw Error(d.error||'요청 실패');return d}
 async function login(){try{const d=await api('auth/login',{method:'POST',body:JSON.stringify({privateKey:$('#key').value.trim()})});token=d.token;localStorage.setItem('cnine_admin_token',token);await load()}catch(e){alert(e.message)}}
-async function load(){try{const d=await api('admin/cards');all=d.cards;members=d.members;role=d.role;$('#login').hidden=true;$('#cms').hidden=false;$('#resetKeyBtn').hidden=role!=='OWNER';fillMembers();render()}catch(e){$('#login').hidden=false;$('#cms').hidden=true;if(token)alert(e.message)}}
+async function load(){try{const d=await api('admin/cards');all=d.cards;members=d.members;role=d.role;$('#login').hidden=true;$('#cms').hidden=false;$('#resetKeyBtn').hidden=false;fillMembers();render()}catch(e){$('#login').hidden=false;$('#cms').hidden=true;if(token)alert(e.message)}}
 function fillMembers(){ $('#memberId').innerHTML=members.map(m=>`<option value="${m.id}">${esc(m.name)}</option>`).join('') }
 function cardStatus(c){if(Number(c.is_active)===0)return'hidden';return c.imageBroken?'broken':'active'}
 function memberOptions(selected){return members.map(m=>`<option value="${m.id}" ${Number(selected)===Number(m.id)?'selected':''}>${esc(m.name)}</option>`).join('')}
