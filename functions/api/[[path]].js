@@ -257,13 +257,18 @@ export async function onRequest(context){
     if(path==='admin/dashboard'){
       const admin=await requirePermission(request,env,'DASHBOARD');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
-      const [users,cards,draws,coins,banned,coupons]=await Promise.all([
-        env.DB.prepare('SELECT COUNT(*) count FROM users').first(),env.DB.prepare('SELECT COUNT(*) count FROM cards WHERE is_active=1').first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM draw_logs WHERE created_at>=datetime('now','-1 day')").first(),env.DB.prepare('SELECT COALESCE(SUM(coin),0) total FROM users').first(),
+      const [users,usersToday,cards,draws,coins,banned,coupons,urOwned,ssrOwned]=await Promise.all([
+        env.DB.prepare('SELECT COUNT(*) count FROM users').first(),
+        env.DB.prepare("SELECT COUNT(*) count FROM users WHERE date(created_at)=date('now','localtime')").first(),
+        env.DB.prepare('SELECT COUNT(*) count FROM cards WHERE is_active=1').first(),
+        env.DB.prepare("SELECT COUNT(*) count FROM draw_logs WHERE created_at>=datetime('now','-1 day')").first(),
+        env.DB.prepare('SELECT COALESCE(SUM(coin),0) total FROM users').first(),
         env.DB.prepare("SELECT COUNT(*) count FROM users WHERE status!='ACTIVE' OR (banned_until IS NOT NULL AND banned_until>datetime('now'))").first(),
-        env.DB.prepare('SELECT COUNT(*) count FROM coupons WHERE is_active=1').first()
+        env.DB.prepare("SELECT COUNT(*) count FROM coupons WHERE is_active=1 AND (starts_at IS NULL OR starts_at<=datetime('now')) AND (ends_at IS NULL OR ends_at>=datetime('now'))").first(),
+        env.DB.prepare("SELECT COUNT(*) count FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE c.rarity='UR'").first(),
+        env.DB.prepare("SELECT COUNT(*) count FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE c.rarity='SSR'").first()
       ]);
-      return json({role:admin.role,stats:{users:users.count,cards:cards.count,draws24h:draws.count,totalCoin:coins.total,banned:banned.count,coupons:coupons.count}});
+      return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at},stats:{users:users.count,usersToday:usersToday.count,cards:cards.count,draws24h:draws.count,totalCoin:coins.total,banned:banned.count,coupons:coupons.count,urOwned:urOwned.count,ssrOwned:ssrOwned.count}});
     }
 
     if(path==='admin/logs'){
@@ -325,10 +330,10 @@ export async function onRequest(context){
       if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
       const q=(url.searchParams.get('q')||'').trim().slice(0,30);
       const rows=q
-        ? await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
+        ? await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
             FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
             WHERE u.nickname LIKE ? GROUP BY u.id ORDER BY u.nickname LIMIT 50`).bind(`%${q}%`).all()
-        : await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
+        : await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
             FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
             GROUP BY u.id ORDER BY u.created_at DESC LIMIT 50`).all();
       return json({users:rows.results,role:admin.role});
