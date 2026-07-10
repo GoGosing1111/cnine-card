@@ -32,17 +32,12 @@ async function initialized(env){
 }
 async function runSchema(env){for(const statement of SCHEMA) await env.DB.prepare(statement).run()}
 async function ensureUpgrades(env){
-  // A previous interrupted table rebuild can leave cards_legacy behind.
-  // Recover first so repeated requests/deployments stay idempotent.
-  const hasCards=await tableExists(env,'cards');
-  const hasCardsLegacy=await tableExists(env,'cards_legacy');
-  if(hasCardsLegacy){
-    if(hasCards){
-      await env.DB.prepare('DROP TABLE cards_legacy').run();
-    }else{
-      await env.DB.prepare('ALTER TABLE cards_legacy RENAME TO cards').run();
-    }
-  }
+  // Serialize the cards table rebuild. Multiple simultaneous page/API requests can
+  // otherwise race and both try to create the same cards_legacy table.
+  const migrationToken=crypto.randomUUID();
+  await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('cards_schema_lock',?,CURRENT_TIMESTAMP)").bind(migrationToken).run();
+  const lockRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cards_schema_lock'").first();
+  const ownsCardsLock=lockRow?.value===migrationToken;
   const statements=[
     `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
     `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
@@ -64,31 +59,54 @@ async function ensureUpgrades(env){
     `ALTER TABLE cards ADD COLUMN batch_name TEXT`,
     `ALTER TABLE cards ADD COLUMN batch_date TEXT`
   ]){try{await env.DB.prepare(q).run()}catch{}}
-  const cardSql=await env.DB.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='cards'").first();
-  if(cardSql?.sql&&(!cardSql.sql.includes("'FUR'")||!cardSql.sql.includes("'LIMITED'"))){
-    await env.DB.prepare('PRAGMA foreign_keys=OFF').run();
-    await env.DB.prepare('PRAGMA legacy_alter_table=ON').run();
-    await env.DB.prepare('ALTER TABLE cards RENAME TO cards_legacy').run();
-    await env.DB.prepare(`CREATE TABLE cards (
-      id TEXT PRIMARY KEY, member_id INTEGER NOT NULL, title TEXT NOT NULL,
-      rarity TEXT NOT NULL CHECK (rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED')),
-      image_url TEXT NOT NULL, focus_x INTEGER NOT NULL DEFAULT 50, focus_y INTEGER NOT NULL DEFAULT 50,
-      is_active INTEGER NOT NULL DEFAULT 1, draw_weight REAL NOT NULL DEFAULT 1,
-      limited_total INTEGER, issued_count INTEGER NOT NULL DEFAULT 0,
-      card_status TEXT NOT NULL DEFAULT 'PUBLIC', batch_name TEXT, batch_date TEXT,
-      created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(member_id) REFERENCES members(id)
-    )`).run();
-    await env.DB.prepare(`INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,created_by,created_at,updated_at)
-      SELECT id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,
-             COALESCE(draw_weight,1),limited_total,COALESCE(issued_count,0),
-             COALESCE(card_status,CASE WHEN is_active=1 THEN 'PUBLIC' ELSE 'INACTIVE' END),batch_name,batch_date,
-             created_by,created_at,updated_at
-      FROM cards_legacy`).run();
-    await env.DB.prepare('DROP TABLE cards_legacy').run();
-    await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id,rarity)').run();
-    await env.DB.prepare('PRAGMA legacy_alter_table=OFF').run();
-    await env.DB.prepare('PRAGMA foreign_keys=ON').run();
+  if(ownsCardsLock){
+    try{
+      // Repair an interrupted older rebuild before checking the current schema.
+      const hasCards=await tableExists(env,'cards');
+      const hasCardsLegacy=await tableExists(env,'cards_legacy');
+      if(hasCardsLegacy){
+        if(hasCards) await env.DB.prepare('DROP TABLE cards_legacy').run();
+        else await env.DB.prepare('ALTER TABLE cards_legacy RENAME TO cards').run();
+      }
+
+      const cardSql=await env.DB.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='cards'").first();
+      if(cardSql?.sql&&(!cardSql.sql.includes("'FUR'")||!cardSql.sql.includes("'LIMITED'"))){
+        await env.DB.prepare('PRAGMA foreign_keys=OFF').run();
+        await env.DB.prepare('PRAGMA legacy_alter_table=ON').run();
+        await env.DB.prepare('DROP TABLE IF EXISTS cards_legacy').run();
+        await env.DB.prepare('ALTER TABLE cards RENAME TO cards_legacy').run();
+        await env.DB.prepare(`CREATE TABLE cards (
+          id TEXT PRIMARY KEY, member_id INTEGER NOT NULL, title TEXT NOT NULL,
+          rarity TEXT NOT NULL CHECK (rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED')),
+          image_url TEXT NOT NULL, focus_x INTEGER NOT NULL DEFAULT 50, focus_y INTEGER NOT NULL DEFAULT 50,
+          is_active INTEGER NOT NULL DEFAULT 1, draw_weight REAL NOT NULL DEFAULT 1,
+          limited_total INTEGER, issued_count INTEGER NOT NULL DEFAULT 0,
+          card_status TEXT NOT NULL DEFAULT 'PUBLIC', batch_name TEXT, batch_date TEXT,
+          created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(member_id) REFERENCES members(id)
+        )`).run();
+        await env.DB.prepare(`INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,created_by,created_at,updated_at)
+          SELECT id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,
+                 COALESCE(draw_weight,1),limited_total,COALESCE(issued_count,0),
+                 COALESCE(card_status,CASE WHEN is_active=1 THEN 'PUBLIC' ELSE 'INACTIVE' END),batch_name,batch_date,
+                 created_by,created_at,updated_at
+          FROM cards_legacy`).run();
+        await env.DB.prepare('DROP TABLE cards_legacy').run();
+        await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id,rarity)').run();
+        await env.DB.prepare('PRAGMA legacy_alter_table=OFF').run();
+        await env.DB.prepare('PRAGMA foreign_keys=ON').run();
+      }
+    } finally {
+      await env.DB.prepare("DELETE FROM app_meta WHERE key='cards_schema_lock' AND value=?").bind(migrationToken).run();
+    }
+  }else{
+    // Another request is performing the one-time rebuild. Wait briefly so this
+    // request does not continue against the half-migrated table.
+    for(let i=0;i<20;i++){
+      const active=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cards_schema_lock'").first();
+      if(!active) break;
+      await new Promise(resolve=>setTimeout(resolve,50));
+    }
   }
   const packs=await env.DB.prepare('SELECT id,allowed_rarities FROM card_packs').all();
   for(const pack of packs.results){
