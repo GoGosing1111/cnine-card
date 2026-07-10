@@ -93,7 +93,7 @@ export async function onRequest(context){
   try{
     if(!env.DB) return json({error:'D1 바인딩 DB가 연결되지 않았습니다.'},503);
 
-    if(path==='health') return json({ok:true,version:'2.1.1',database:true,initialized:await initialized(env)});
+    if(path==='health') return json({ok:true,version:'2.2.0',database:true,initialized:await initialized(env)});
     if(path==='setup/status') return json({initialized:await initialized(env),tables:await tableExists(env,'users')});
     if(path==='setup/init'&&request.method==='POST'){
       if(await initialized(env)) return json({error:'이미 초기화가 완료된 데이터베이스입니다.'},409);
@@ -202,29 +202,99 @@ export async function onRequest(context){
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
+      const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active
+        FROM cards c JOIN members m ON m.id=c.member_id`;
+      const normalizeCard=async payload=>{
+        const title=String(payload.title||'').trim().slice(0,80);
+        const grade=String(payload.grade||'C').toUpperCase();
+        const image=String(payload.image||'').trim().slice(0,500);
+        const memberId=Number(payload.memberId);
+        const focusX=Math.max(0,Math.min(100,Number(payload.focusX??50)));
+        const focusY=Math.max(0,Math.min(100,Number(payload.focusY??50)));
+        const isActive=payload.isActive===false?0:1;
+        if(!title) throw new Error('카드명을 입력하세요.');
+        if(!image) throw new Error('이미지 경로 또는 URL을 입력하세요.');
+        if(!Number.isInteger(memberId)||memberId<1) throw new Error('멤버를 선택하세요.');
+        if(!['C','U','R','SR','HR','UR','SSR'].includes(grade)) throw new Error('올바르지 않은 카드 등급입니다.');
+        const member=await env.DB.prepare('SELECT id FROM members WHERE id=?').bind(memberId).first();
+        if(!member) throw new Error('존재하지 않는 멤버입니다.');
+        return {title,grade,image,memberId,focusX,focusY,isActive};
+      };
+      const nextCardId=()=>`CN-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;
       if(request.method==='GET'){
-        const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active
-          FROM cards c JOIN members m ON m.id=c.member_id ORDER BY m.sort_order,c.id`).all();
-        return json({cards:rows.results});
+        const rows=await env.DB.prepare(`${cardView} ORDER BY m.sort_order,c.id`).all();
+        const members=await env.DB.prepare('SELECT id,name,slug FROM members WHERE is_active=1 ORDER BY sort_order,id').all();
+        return json({cards:rows.results,members:members.results,role:admin.role});
+      }
+      if(request.method==='POST'){
+        const payload=await readBody(request);
+        if(Array.isArray(payload.cards)){
+          if(payload.cards.length<1||payload.cards.length>100) return json({error:'일괄 등록은 한 번에 1~100장까지 가능합니다.'},400);
+          const created=[];
+          for(const raw of payload.cards){
+            const card=await normalizeCard(raw);
+            const id=nextCardId();
+            await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,created_by) VALUES(?,?,?,?,?,?,?,?,?)')
+              .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,admin.id).run();
+            const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
+            created.push(after);
+          }
+          await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,after_data) VALUES(?,?,?,?,?)')
+            .bind(admin.id,'CARD_BULK_CREATE','CARD',String(created.length),JSON.stringify(created.map(x=>x.id))).run();
+          return json({ok:true,cards:created},201);
+        }
+        if(payload.cloneFrom){
+          const source=await env.DB.prepare('SELECT * FROM cards WHERE id=?').bind(payload.cloneFrom).first();
+          if(!source) return json({error:'복제할 카드가 없습니다.'},404);
+          const card=await normalizeCard({
+            title:payload.title||`${source.title} 복사본`,grade:payload.grade||source.rarity,image:payload.image||source.image_url,
+            memberId:payload.memberId||source.member_id,focusX:payload.focusX??source.focus_x,focusY:payload.focusY??source.focus_y,isActive:payload.isActive??Boolean(source.is_active)
+          });
+          const id=nextCardId();
+          await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,created_by) VALUES(?,?,?,?,?,?,?,?,?)')
+            .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,admin.id).run();
+          const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
+          await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
+            .bind(admin.id,'CARD_CLONE','CARD',id,JSON.stringify({source:payload.cloneFrom}),JSON.stringify(after)).run();
+          return json({ok:true,card:after},201);
+        }
+        const card=await normalizeCard(payload);
+        const id=nextCardId();
+        await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,created_by) VALUES(?,?,?,?,?,?,?,?,?)')
+          .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,admin.id).run();
+        const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
+        await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,after_data) VALUES(?,?,?,?,?)')
+          .bind(admin.id,'CARD_CREATE','CARD',id,JSON.stringify(after)).run();
+        return json({ok:true,card:after},201);
       }
       if(request.method==='PATCH'){
         const payload=await readBody(request);
         const before=await env.DB.prepare('SELECT * FROM cards WHERE id=?').bind(payload.id).first();
         if(!before) return json({error:'카드가 없습니다.'},404);
-        const title=String(payload.title??before.title).trim().slice(0,80);
-        const grade=String(payload.grade??before.rarity).toUpperCase();
-        const focusX=Math.max(0,Math.min(100,Number(payload.focusX??before.focus_x)));
-        const focusY=Math.max(0,Math.min(100,Number(payload.focusY??before.focus_y)));
-        const isActive=payload.isActive===false?0:1;
-        if(!title) return json({error:'카드명을 입력하세요.'},400);
-        if(!['C','U','R','SR','HR','UR','SSR'].includes(grade)) return json({error:'올바르지 않은 카드 등급입니다.'},400);
-        await env.DB.prepare('UPDATE cards SET title=?,rarity=?,focus_x=?,focus_y=?,is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
-          .bind(title,grade,focusX,focusY,isActive,payload.id).run();
-        const after=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active
-          FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(payload.id).first();
+        const card=await normalizeCard({
+          title:payload.title??before.title,grade:payload.grade??before.rarity,image:payload.image??before.image_url,
+          memberId:payload.memberId??before.member_id,focusX:payload.focusX??before.focus_x,focusY:payload.focusY??before.focus_y,isActive:payload.isActive??Boolean(before.is_active)
+        });
+        await env.DB.prepare('UPDATE cards SET member_id=?,title=?,rarity=?,image_url=?,focus_x=?,focus_y=?,is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
+          .bind(card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,payload.id).run();
+        const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(payload.id).first();
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
-          .bind(admin.id,isActive?'CARD_EDIT':'CARD_HIDE','CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
+          .bind(admin.id,card.isActive?'CARD_EDIT':'CARD_HIDE','CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
         return json({ok:true,card:after});
+      }
+      if(request.method==='DELETE'){
+        if(admin.role!=='OWNER') return json({error:'완전 삭제는 OWNER만 가능합니다.'},403);
+        const payload=await readBody(request);
+        const before=await env.DB.prepare('SELECT * FROM cards WHERE id=?').bind(payload.id).first();
+        if(!before) return json({error:'카드가 없습니다.'},404);
+        await env.DB.batch([
+          env.DB.prepare('DELETE FROM user_cards WHERE card_id=?').bind(payload.id),
+          env.DB.prepare('DELETE FROM draw_logs WHERE card_id=?').bind(payload.id),
+          env.DB.prepare('DELETE FROM cards WHERE id=?').bind(payload.id)
+        ]);
+        await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data) VALUES(?,?,?,?,?)')
+          .bind(admin.id,'CARD_DELETE','CARD',payload.id,JSON.stringify(before)).run();
+        return json({ok:true,deletedId:payload.id});
       }
     }
     return json({error:'API 경로를 찾을 수 없습니다.'},404);
