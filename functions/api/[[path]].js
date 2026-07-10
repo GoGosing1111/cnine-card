@@ -6,7 +6,11 @@ const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9};
 const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR'];
 const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,FUR:250};
 const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
+const BREAKTHROUGH_RATE=[100,100,100,80,65,50,35,25,15,8];
+const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','FUR'];
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
+function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRADES.map(g=>[g,BREAKTHROUGH_COST.map((cost,i)=>({cost,rate:BREAKTHROUGH_RATE[i]}))]));}
+async function breakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<10;i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store'}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
@@ -123,7 +127,7 @@ async function profile(env,user){
     quantities:Object.fromEntries(owned.results.map(row=>[row.card_id,row.quantity])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[row.card_id,Number(row.breakthrough_level||0)])),
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
-    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0}};
+    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0},breakthroughConfig:await breakthroughConfig(env)};
 }
 function weightedPick(items,getWeight){
   const total=items.reduce((sum,item)=>sum+getWeight(item),0);
@@ -335,15 +339,18 @@ export async function onRequest(context){
       if((ORDER[owned.rarity]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
       const level=Number(owned.breakthrough_level||0);
       if(level>=10) return json({error:'이미 최대 돌파 단계입니다.'},409);
-      const cost=BREAKTHROUGH_COST[level];
+      const config=await breakthroughConfig(env),rule=config[owned.rarity]?.[level];
+      if(!rule) return json({error:'돌파 설정을 찾을 수 없습니다.'},500);
+      const cost=Number(rule.cost),rate=Number(rule.rate);
       const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       if(Number(fresh.card_shards||0)<cost) return json({error:`카드 조각이 부족합니다. (${cost}개 필요)`},400);
       const spent=await env.DB.prepare('UPDATE users SET card_shards=card_shards-? WHERE id=? AND card_shards>=?').bind(cost,user.id,cost).run();
       if(!spent.meta.changes) return json({error:'카드 조각이 부족합니다.'},400);
-      await env.DB.prepare('UPDATE user_cards SET breakthrough_level=breakthrough_level+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
+      const success=Math.random()*100<rate;
+      if(success) await env.DB.prepare('UPDATE user_cards SET breakthrough_level=breakthrough_level+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'BREAKTHROUGH',?)").bind(user.id,-cost,updated.card_shards,cardId).run();
-      return json({ok:true,cost,level:level+1,user:await profile(env,updated)});
+      await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-cost,updated.card_shards,success?'BREAKTHROUGH_SUCCESS':'BREAKTHROUGH_FAIL',cardId).run();
+      return json({ok:true,success,cost,rate,level:success?level+1:level,user:await profile(env,updated)});
     }
     if(path==='recent-high-grade'){
       const rows=await env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,d.created_at
@@ -408,6 +415,29 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'ADMIN_LOG'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       const rows=await env.DB.prepare(`SELECT l.*,u.nickname AS admin_nickname FROM admin_logs l LEFT JOIN users u ON u.id=l.admin_id ORDER BY l.id DESC LIMIT 300`).all();
       return json({logs:rows.results});
+    }
+
+    if(path==='admin/breakthrough-settings'){
+      const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES});
+      if(request.method==='PATCH'){
+        const payload=await readBody(request),incoming=payload.config;
+        if(!incoming||typeof incoming!=='object')return json({error:'돌파 설정값이 없습니다.'},400);
+        const clean=defaultBreakthroughConfig();
+        for(const grade of BREAKTHROUGH_GRADES){
+          if(!Array.isArray(incoming[grade])||incoming[grade].length!==10)return json({error:`${grade} 등급은 10단계 설정이 필요합니다.`},400);
+          for(let i=0;i<10;i++){
+            const cost=Number(incoming[grade][i]?.cost),rate=Number(incoming[grade][i]?.rate);
+            if(!Number.isInteger(cost)||cost<1||cost>10000000)return json({error:`${grade} ★${i}→★${i+1} 조각 비용을 확인하세요.`},400);
+            if(!Number.isFinite(rate)||rate<0||rate>100)return json({error:`${grade} ★${i}→★${i+1} 성공 확률은 0~100%입니다.`},400);
+            clean[grade][i]={cost,rate:Math.round(rate*10000)/10000};
+          }
+        }
+        const before=await breakthroughConfig(env);
+        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_config',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();
+        await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,clean);
+        return json({ok:true,config:clean});
+      }
     }
 
     if(path==='admin/settings'){
