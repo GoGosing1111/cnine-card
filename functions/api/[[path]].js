@@ -172,6 +172,15 @@ async function ensureUpgrades(env){
     }
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('limited_cards_v82','1',CURRENT_TIMESTAMP)").run();
   }
+  const imagePathMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_card_image_paths_v845'").first();
+  if(imagePathMigration?.value!=='1'){
+    const imageCards=CARDS.filter(card=>{const n=Number(String(card.id).replace('card-',''));return n>=377&&n<=433});
+    for(let i=0;i<imageCards.length;i+=30){
+      const chunk=imageCards.slice(i,i+30).map(card=>env.DB.prepare('UPDATE cards SET image_url=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(card.imageUrl,card.id));
+      await env.DB.batch(chunk);
+    }
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('new_card_image_paths_v845','1',CURRENT_TIMESTAMP)").run();
+  }
   const pendingMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_card_pending_v84'").first();
   if(pendingMigration?.value!=='1'){
     for(const member of MEMBERS.filter(x=>x.sortOrder+1>=38)){
