@@ -3931,5 +3931,14 @@
     "focusY": 38,
     "drawWeight": 1,
     "limitedTotal": 5
+  },
+  {
+    "id": "card-0434",
+    "memberId": 30,
+    "title": "최고등급 철구",
+    "rarity": "FUR",
+    "imageUrl": "/assets/cards/special/chulgu-fur.webp",
+    "focusX": 50,
+    "focusY": 38
   }
 ]

@@ -109,7 +109,7 @@ function pickGrade(allowedGrades) {
 
 function pickCard(pack, guaranteed = null) {
   if (pack.id === 'pickup' && !guaranteed && Math.random() * 100 < (pack.limitedRate || 0)) {
-    const limitedPool = cards.filter(c => c.grade === 'LIMITED');
+    const limitedPool = cards.filter(c => c.limitedTotal !== null && c.limitedTotal !== undefined);
     if (limitedPool.length) return limitedPool[Math.floor(Math.random() * limitedPool.length)];
   }
   let allowed = [...pack.allowed].filter(g => g !== 'LIMITED');

@@ -164,13 +164,13 @@ async function ensureUpgrades(env){
     await env.DB.prepare("INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','LIMITED',1)").run();
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('limited_pack_v83','1',CURRENT_TIMESTAMP)").run();
   }
-  const limitedMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='limited_cards_v82'").first();
+  const limitedMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='limited_cards_property_v846'").first();
   if(limitedMigration?.value!=='1'){
     const limitedIds=['card-0416','card-0417','card-0418','card-0419','card-0420','card-0421','card-0422','card-0423','card-0424','card-0425','card-0426','card-0427','card-0428','card-0429','card-0430','card-0431','card-0432','card-0433'];
     for(const id of limitedIds){
-      await env.DB.prepare("UPDATE cards SET rarity='LIMITED', limited_total=CASE WHEN issued_count>5 THEN issued_count ELSE 5 END, updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(id).run();
+      await env.DB.prepare("UPDATE cards SET limited_total=CASE WHEN issued_count>5 THEN issued_count ELSE 5 END, updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(id).run();
     }
-    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('limited_cards_v82','1',CURRENT_TIMESTAMP)").run();
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('limited_cards_property_v846','1',CURRENT_TIMESTAMP)").run();
   }
   const imagePathMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_card_image_paths_v845'").first();
   if(imagePathMigration?.value!=='1'){
@@ -196,6 +196,20 @@ async function ensureUpgrades(env){
     await env.DB.prepare(`UPDATE cards SET is_active=0,card_status='PENDING',batch_name='채연·연두·여을·효짱 추가',batch_date='2026-07-10',updated_at=CURRENT_TIMESTAMP
       WHERE CAST(SUBSTR(id,6) AS INTEGER) BETWEEN 377 AND 433`).run();
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('new_card_pending_v84','1',CURRENT_TIMESTAMP)").run();
+  }
+  const missingCardsMigration=await env.DB.prepare("SELECT value FROM app_meta WHERE key='missing_limited_and_chulgu_v846'").first();
+  if(missingCardsMigration?.value!=='1'){
+    const missingCards=CARDS.filter(card=>{const n=Number(String(card.id).replace('card-',''));return n>=416&&n<=434});
+    for(let i=0;i<missingCards.length;i+=25){
+      const chunk=missingCards.slice(i,i+25).map(card=>env.DB.prepare(`INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,card_status,batch_name,batch_date)
+        VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(card.id,card.memberId,card.title,card.rarity,card.imageUrl,card.focusX,card.focusY,0,card.drawWeight??1,card.limitedTotal??null,'PENDING',Number(String(card.id).replace('card-',''))===434?'철구 최고등급 카드 추가':'한정판 카드 추가','2026-07-10'));
+      await env.DB.batch(chunk);
+    }
+    await env.DB.prepare(`UPDATE cards SET is_active=0,card_status='PENDING',batch_name='한정판 카드 추가',batch_date='2026-07-10',updated_at=CURRENT_TIMESTAMP
+      WHERE CAST(SUBSTR(id,6) AS INTEGER) BETWEEN 416 AND 433 AND NOT EXISTS(SELECT 1 FROM user_cards uc WHERE uc.card_id=cards.id)`).run();
+    await env.DB.prepare(`UPDATE cards SET is_active=0,card_status='PENDING',batch_name='철구 최고등급 카드 추가',batch_date='2026-07-10',updated_at=CURRENT_TIMESTAMP
+      WHERE id='card-0434' AND NOT EXISTS(SELECT 1 FROM user_cards uc WHERE uc.card_id=cards.id)`).run();
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('missing_limited_and_chulgu_v846','1',CURRENT_TIMESTAMP)").run();
   }
 }
 async function writeAdminLog(env,admin,action,targetType,targetId,before=null,after=null){
@@ -256,7 +270,7 @@ function weightedPick(items,getWeight){
 async function drawLimitedCard(env){
   const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total`).all()).results;
+    WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total`).all()).results;
   return weightedPick(pool,row=>Number(row.draw_weight)||0)||null;
 }
 async function drawOne(env,pack,minimum=null){
@@ -279,7 +293,7 @@ async function drawOne(env,pack,minimum=null){
     const selectedRarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
     const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
       FROM cards c JOIN members m ON m.id=c.member_id
-      WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND (c.limited_total IS NULL OR c.issued_count<c.limited_total)`).bind(selectedRarity).all()).results;
+      WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL`).bind(selectedRarity).all()).results;
     if(!pool.length) continue;
     const card=weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1));
     if(card) return card;
