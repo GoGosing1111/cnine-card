@@ -4,6 +4,9 @@ import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000};
 const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9};
 const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR'];
+const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,FUR:250};
+const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
+const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store'}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
@@ -29,7 +32,9 @@ async function ensureUpgrades(env){
     `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
     `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
     `CREATE INDEX IF NOT EXISTS idx_coupon_code ON coupons(code)`,
-    `CREATE INDEX IF NOT EXISTS idx_admin_logs_created ON admin_logs(created_at)`
+    `CREATE INDEX IF NOT EXISTS idx_admin_logs_created ON admin_logs(created_at)`,
+    `CREATE TABLE IF NOT EXISTS shard_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, change_amount INTEGER NOT NULL, balance_after INTEGER NOT NULL, reason TEXT NOT NULL, card_id TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+    `CREATE INDEX IF NOT EXISTS idx_shard_logs_user ON shard_logs(user_id,created_at)`
   ];
   for(const q of statements) await env.DB.prepare(q).run();
   for(const q of [
@@ -37,7 +42,9 @@ async function ensureUpgrades(env){
     `ALTER TABLE users ADD COLUMN ban_reason TEXT`,
     `ALTER TABLE cards ADD COLUMN draw_weight REAL NOT NULL DEFAULT 1`,
     `ALTER TABLE cards ADD COLUMN limited_total INTEGER`,
-    `ALTER TABLE cards ADD COLUMN issued_count INTEGER NOT NULL DEFAULT 0`
+    `ALTER TABLE cards ADD COLUMN issued_count INTEGER NOT NULL DEFAULT 0`,
+    `ALTER TABLE users ADD COLUMN card_shards INTEGER NOT NULL DEFAULT 0`,
+    `ALTER TABLE user_cards ADD COLUMN breakthrough_level INTEGER NOT NULL DEFAULT 0`
   ]){try{await env.DB.prepare(q).run()}catch{}}
   const cardSql=await env.DB.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='cards'").first();
   if(cardSql?.sql&&!cardSql.sql.includes("'FUR'")){
@@ -106,10 +113,17 @@ async function makeSession(env,userId){
   return raw;
 }
 async function profile(env,user){
-  const owned=await env.DB.prepare('SELECT card_id,quantity,first_obtained_at FROM user_cards WHERE user_id=?').bind(user.id).all();
+  const owned=await env.DB.prepare('SELECT card_id,quantity,first_obtained_at,breakthrough_level FROM user_cards WHERE user_id=?').bind(user.id).all();
   const attendance=await env.DB.prepare('SELECT attendance_date FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first();
   const totalAttendance=await env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first();
-  return {id:user.id,nickname:user.nickname,coin:user.coin,role:user.role,owned:owned.results.map(row=>row.card_id),quantities:Object.fromEntries(owned.results.map(row=>[row.card_id,row.quantity])),attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0}};
+  const recent=await env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at
+    FROM draw_logs d JOIN cards c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all();
+  return {id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),role:user.role,
+    owned:owned.results.map(row=>row.card_id),
+    quantities:Object.fromEntries(owned.results.map(row=>[row.card_id,row.quantity])),
+    breakthroughs:Object.fromEntries(owned.results.map(row=>[row.card_id,Number(row.breakthrough_level||0)])),
+    history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
+    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0}};
 }
 function weightedPick(items,getWeight){
   const total=items.reduce((sum,item)=>sum+getWeight(item),0);
@@ -134,6 +148,21 @@ async function drawOne(env,pack,minimum=null){
   }
   throw new Error('현재 뽑을 수 있는 카드가 없습니다. 한정판 수량 또는 확률 설정을 확인하세요.');
 }
+
+async function maintenanceSettings(env){
+  const keys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at'];
+  const rows=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`).bind(...keys).all();
+  const values=Object.fromEntries(rows.results.map(row=>[row.key,row.value]));
+  return {
+    active:String(values.maintenance_mode||'0')==='1',
+    title:values.maintenance_title||'씨켓몬 서버 점검 중',
+    message:values.maintenance_message||'안정적인 서비스 제공을 위해 점검을 진행하고 있습니다.',
+    startAt:values.maintenance_start_at||'',
+    endAt:values.maintenance_end_at||''
+  };
+}
+function isAdminRole(user){return Boolean(user&&['OWNER','ADMIN'].includes(user.role))}
+
 async function requirePermission(request,env,permission){
   const user=await authenticate(request,env);
   if(!user||!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(user.role)) return null;
@@ -172,6 +201,19 @@ export async function onRequest(context){
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
     await ensureUpgrades(env);
 
+    if(path==='service/status'){
+      const maintenance=await maintenanceSettings(env);
+      const user=await authenticate(request,env);
+      return json({maintenance,bypass:isAdminRole(user),role:user?.role||null});
+    }
+
+    const maintenance=await maintenanceSettings(env);
+    const maintenanceExempt=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='health'||path.startsWith('setup/');
+    if(maintenance.active&&!maintenanceExempt){
+      const current=await authenticate(request,env);
+      if(!isAdminRole(current)) return json({error:'현재 서버 점검 중입니다.',maintenance},503);
+    }
+
     if(path==='auth/register'&&request.method==='POST'){
       const payload=await readBody(request);
       const nickname=safeName(payload.nickname);
@@ -192,6 +234,8 @@ export async function onRequest(context){
       const user=await env.DB.prepare("SELECT * FROM users WHERE private_key_hash=?").bind(privateKeyHash).first();
       if(!user) return json({error:'개인키가 올바르지 않습니다.'},401);
       if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
+      const currentMaintenance=await maintenanceSettings(env);
+      if(currentMaintenance.active&&!isAdminRole(user)) return json({error:'현재 서버 점검 중입니다.',maintenance:currentMaintenance},503);
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
       return json({token:await makeSession(env,user.id),user:await profile(env,user)});
     }
@@ -263,13 +307,43 @@ export async function onRequest(context){
         const isNew=!previous;
         await env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,1)
           ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,card.id).run();
+        let shardGained=0;
+        if(!isNew){
+          shardGained=SHARD_REWARD[card.grade]||0;
+          if(shardGained>0){
+            await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardGained,user.id).run();
+            const shardUser=await env.DB.prepare('SELECT card_shards FROM users WHERE id=?').bind(user.id).first();
+            await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,shardUser.card_shards,card.id).run();
+          }
+        }
         await env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)')
           .bind(groupId,user.id,pack.id,card.id,card.grade,cost,isNew?1:0).run();
-        results.push({card,duplicate:!isNew});
+        results.push({card,duplicate:!isNew,shardGained});
       }
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,updated.coin).run();
       return json({results,user:await profile(env,updated)});
+    }
+
+    if(path==='card/breakthrough'&&request.method==='POST'){
+      const user=await authenticate(request,env);
+      if(!user) return json({error:'로그인이 필요합니다.'},401);
+      const payload=await readBody(request);
+      const cardId=String(payload.cardId||'').trim();
+      const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,c.rarity,c.title FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=?`).bind(user.id,cardId).first();
+      if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
+      if((ORDER[owned.rarity]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
+      const level=Number(owned.breakthrough_level||0);
+      if(level>=10) return json({error:'이미 최대 돌파 단계입니다.'},409);
+      const cost=BREAKTHROUGH_COST[level];
+      const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+      if(Number(fresh.card_shards||0)<cost) return json({error:`카드 조각이 부족합니다. (${cost}개 필요)`},400);
+      const spent=await env.DB.prepare('UPDATE users SET card_shards=card_shards-? WHERE id=? AND card_shards>=?').bind(cost,user.id,cost).run();
+      if(!spent.meta.changes) return json({error:'카드 조각이 부족합니다.'},400);
+      await env.DB.prepare('UPDATE user_cards SET breakthrough_level=breakthrough_level+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
+      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+      await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'BREAKTHROUGH',?)").bind(user.id,-cost,updated.card_shards,cardId).run();
+      return json({ok:true,cost,level:level+1,user:await profile(env,updated)});
     }
     if(path==='recent-high-grade'){
       const rows=await env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,d.created_at
@@ -339,14 +413,19 @@ export async function onRequest(context){
     if(path==='admin/settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){
-        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','new_user_coin')").all();
+        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','new_user_coin')").all();
         return json({settings:Object.fromEntries(rows.results.map(x=>[x.key,x.value])),role:admin.role});
       }
       if(request.method==='POST'){
-        if(admin.role!=='OWNER')return json({error:'설정 변경은 OWNER만 가능합니다.'},403);
-        const payload=await readBody(request); const allowed=['site_notice','maintenance_mode','new_user_coin'];
-        for(const key of allowed) if(key in payload) await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(key,String(payload[key])).run();
-        await writeAdminLog(env,admin,'SETTINGS_UPDATE','SETTINGS','global',null,payload); return json({ok:true});
+        const payload=await readBody(request);
+        const maintenanceKeys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at'];
+        const ownerKeys=['site_notice','new_user_coin'];
+        if(admin.role!=='OWNER'&&ownerKeys.some(key=>key in payload)) return json({error:'신규 가입 코인과 서비스 공지는 OWNER만 변경할 수 있습니다.'},403);
+        const beforeRows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','new_user_coin')").all();
+        const before=Object.fromEntries(beforeRows.results.map(x=>[x.key,x.value]));
+        for(const key of [...maintenanceKeys,...ownerKeys]) if(key in payload) await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(key,String(payload[key]??'')).run();
+        const action=String(payload.maintenance_mode)==='1'&&before.maintenance_mode!=='1'?'MAINTENANCE_START':String(payload.maintenance_mode)==='0'&&before.maintenance_mode==='1'?'MAINTENANCE_END':'SETTINGS_UPDATE';
+        await writeAdminLog(env,admin,action,'SETTINGS','global',before,payload); return json({ok:true,maintenance:await maintenanceSettings(env)});
       }
     }
 

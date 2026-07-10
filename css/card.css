@@ -3,3 +3,32 @@
 @media(max-width:767px){.card-inner{padding:5px}.card-header{height:24px}.card-header span{font-size:12px}.card-footer{min-height:46px}.card-title{font-size:11px}.card-footer small{font-size:8px;max-width:75px}.card-mini-logo{width:24px}.result-card{width:145px}.detail-card{width:230px}.detail-layout{grid-template-columns:1fr;gap:18px}.detail-info{text-align:center}.detail-info h2{font-size:27px}}
 
 .grade-MA{--grade:#ff8fe8;background:conic-gradient(from 30deg,#ff8fe8,#8e7dff,#73f7ff,#ff8fe8);animation:ssrBorder 2.4s linear infinite}.grade-FUR{--grade:#fff2a8;background:conic-gradient(from 0deg,#fff2a8,#ff8a5b,#ff4fd8,#6ef7ff,#fff2a8);animation:ssrBorder 1.7s linear infinite;box-shadow:0 0 34px rgba(255,225,120,.5),0 18px 46px rgba(0,0,0,.48)}.limited-badge{position:absolute;z-index:8;top:8px;right:8px;padding:5px 7px;border-radius:999px;background:rgba(5,10,24,.85);border:1px solid rgba(255,255,255,.35);font-size:8px;font-weight:1000;letter-spacing:.5px;color:#fff2a8;box-shadow:0 0 16px rgba(255,226,120,.22)}
+
+/* Card breakthrough frames */
+.card-frame{--bt-color:transparent;--bt-glow:0 0 0 transparent}
+.card-frame .breakthrough-effect{position:absolute;z-index:4;inset:-3px;border-radius:inherit;pointer-events:none;opacity:0}
+.breakthrough-badge{position:absolute;z-index:12;left:8px;top:8px;padding:5px 8px;border-radius:999px;background:rgba(2,9,25,.88);border:1px solid rgba(255,255,255,.55);color:#fff;font-size:11px;font-weight:1000;box-shadow:0 0 14px var(--bt-color)}
+.card-frame[class*="breakthrough-"]{border-color:var(--bt-color)!important;box-shadow:var(--bt-glow),inset 0 0 18px rgba(255,255,255,.08)}
+.breakthrough-1{--bt-color:#d8e3ee;--bt-glow:0 0 12px rgba(216,227,238,.45)}
+.breakthrough-2{--bt-color:#ffd76a;--bt-glow:0 0 15px rgba(255,190,55,.52)}
+.breakthrough-3{--bt-color:#ffb52e;--bt-glow:0 0 22px rgba(255,181,46,.72)}
+.breakthrough-4{--bt-color:#73efff;--bt-glow:0 0 22px rgba(95,220,255,.75)}
+.breakthrough-4 .breakthrough-effect{opacity:.75;background:conic-gradient(from 0deg,transparent,#ff5e9c,#ffe466,#4dffcb,#6ea1ff,#d66cff,transparent);padding:2px;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:btRotate 5s linear infinite}
+.breakthrough-5{--bt-color:#ff54ec;--bt-glow:0 0 25px rgba(255,84,236,.85),0 0 45px rgba(61,228,255,.32)}
+.breakthrough-5 .breakthrough-effect{opacity:.7;box-shadow:inset 0 0 16px #ff54ec,0 0 18px #4deaff;animation:btPulse 1.8s ease-in-out infinite}
+.breakthrough-6{--bt-color:#63e8ff;--bt-glow:0 0 28px rgba(99,232,255,.95)}
+.breakthrough-6 .breakthrough-effect{opacity:.8;background:repeating-linear-gradient(115deg,transparent 0 18%,rgba(255,255,255,.78) 19%,transparent 20% 37%);mix-blend-mode:screen;animation:btFlash 1.5s steps(2) infinite}
+.breakthrough-7{--bt-color:#ff7137;--bt-glow:0 0 30px rgba(255,87,34,.95),0 0 55px rgba(255,193,52,.4)}
+.breakthrough-7 .breakthrough-effect{opacity:.75;background:radial-gradient(circle at 15% 100%,#ffde59 0 2%,transparent 4%),radial-gradient(circle at 50% 100%,#ff5d2e 0 3%,transparent 6%),radial-gradient(circle at 85% 100%,#ffd457 0 2%,transparent 5%);filter:blur(1px);animation:btFlame 1.2s ease-in-out infinite alternate}
+.breakthrough-8{--bt-color:#9b70ff;--bt-glow:0 0 34px rgba(155,112,255,1),0 0 70px rgba(79,226,255,.42)}
+.breakthrough-8 .breakthrough-effect{opacity:.72;inset:-12px;background:radial-gradient(ellipse,rgba(143,91,255,.38),transparent 68%);animation:btPulse 1.4s ease-in-out infinite}
+.breakthrough-9{--bt-color:#fff0a2;--bt-glow:0 0 35px rgba(255,240,162,1),0 0 80px rgba(255,255,255,.45)}
+.breakthrough-9 .breakthrough-effect{opacity:.9;background-image:radial-gradient(circle,#fff 0 1px,transparent 2px),radial-gradient(circle,#ffe97b 0 1px,transparent 2px);background-size:25px 28px,37px 39px;animation:btParticles 3s linear infinite}
+.breakthrough-10{--bt-color:#fff;--bt-glow:0 0 18px #fff,0 0 38px #53e7ff,0 0 65px #d85cff}
+.breakthrough-10 .breakthrough-effect{opacity:.95;background:conic-gradient(from 0deg,transparent,#fff,#55edff,#b960ff,#ffe867,#fff,transparent);padding:3px;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:btRotate 2.2s linear infinite}
+.breakthrough-10:after{content:"LEGEND";position:absolute;z-index:13;left:50%;bottom:7px;transform:translateX(-50%);padding:3px 9px;border-radius:999px;background:linear-gradient(90deg,#fff4a3,#6cf2ff,#e378ff);color:#071225;font-size:9px;font-weight:1000;letter-spacing:1.4px;box-shadow:0 0 16px #fff}
+@keyframes btRotate{to{transform:rotate(360deg)}}
+@keyframes btPulse{50%{opacity:.35;transform:scale(1.025)}}
+@keyframes btFlash{50%{background-position:65px 0}}
+@keyframes btFlame{to{transform:translateY(-5px) scale(1.02);filter:blur(2px)}}
+@keyframes btParticles{to{background-position:0 -56px,18px -78px}}

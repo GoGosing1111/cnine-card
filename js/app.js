@@ -8,6 +8,9 @@ let selectedPackId = 'basic';
 const gradeOrder = { FUR: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
 const gradeScore = { FUR: 5000, MA: 1500, SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
 const baseRates = { FUR: 0, MA: 0, SSR: 1, UR: 4, HR: 7, SR: 13, R: 20, U: 25, C: 30 };
+const shardReward = { FUR:250, MA:120, SSR:60, UR:30, HR:15, SR:8, R:4, U:2, C:1 };
+const breakthroughCosts = [50,100,200,350,550,800,1100,1450,1850,2300];
+const breakthroughMinGrade = 'SR';
 
 const PACKS = [
   {
@@ -72,6 +75,9 @@ function loadUser() {
     user.owned ??= [];
     user.history ??= [];
     user.attendance ??= { lastClaimDate: null, totalDays: 0 };
+    user.cardShards ??= 0;
+    user.breakthroughs ??= {};
+    user.quantities ??= {};
     if (!user.testCoinGrantedV13) {
       user.coin = Math.max(user.coin, TEST_COIN);
       user.testCoinGrantedV13 = true;
@@ -87,7 +93,7 @@ function escapeHtml(value = '') { return String(value).replaceAll('&','&amp;').r
 function getPack(id) { return PACKS.find(p => p.id === id) || PACKS[0]; }
 function kstDateKey(date = new Date()) { return new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul', year:'numeric', month:'2-digit', day:'2-digit' }).format(date); }
 function canClaimAttendance(user) { return user.attendance?.lastClaimDate !== kstDateKey(); }
-function cardScore(user) { const owned = ownedIds(user); return cards.reduce((sum, card) => sum + (owned.has(card.id) ? gradeScore[card.grade] : 0), 0); }
+function cardScore(user) { const owned = ownedIds(user); return cards.reduce((sum, card) => { if(!owned.has(card.id)) return sum; const level=Number(user.breakthroughs?.[card.id]||0); return sum + gradeScore[card.grade] + Math.round(gradeScore[card.grade] * level * 0.12); }, 0); }
 function scoreBreakdown(user) {
   const owned = ownedIds(user);
   return ['FUR','MA','SSR','UR','HR','SR','R','U','C'].map(grade => ({ grade, count: cards.filter(c => c.grade === grade && owned.has(c.id)).length, score: gradeScore[grade] }));
@@ -149,7 +155,7 @@ function renderShell(tab) {
 }
 
 function summaryBar(user) {
-  return `<section class="summary-bar"><div class="login-summary"><span>로그인 중</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div><div><span>COIN</span><b class="coin-value">◈ ${user.coin.toLocaleString()}</b></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><div><span>CARD SCORE</span><b>${cardScore(user).toLocaleString()}점</b></div></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">UR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 UR 이상 획득 기록을 불러오는 중...</span></div></div></section>`;
+  return `<section class="summary-bar"><div class="login-summary"><span>로그인 중</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div><div><span>COIN</span><b class="coin-value">◈ ${Number(user.coin||0).toLocaleString()}</b><small class="shard-value">🧩 카드 조각 ${Number(user.cardShards||0).toLocaleString()}</small></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><div><span>CARD SCORE</span><b>${cardScore(user).toLocaleString()}점</b></div></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">UR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 UR 이상 획득 기록을 불러오는 중...</span></div></div></section>`;
 }
 
 async function loadRecentHighGradeFeed(){
@@ -260,29 +266,43 @@ function openPack(packId, count, cost) {
   setTimeout(()=>document.querySelector('.pack-opening')?.classList.add('tearing'),1050);
   setTimeout(()=>{
     user.coin-=cost;
-    const owned=ownedIds(user), results=draws.map(card=>{ const duplicate=owned.has(card.id); user.history.push({cardId:card.id,packId:pack.id,at:new Date().toISOString(),duplicate}); if(!duplicate){user.owned.push(card.id);owned.add(card.id);} return {card,duplicate}; });
+    const owned=ownedIds(user), results=draws.map(card=>{ const duplicate=owned.has(card.id); const shardGained=duplicate?(shardReward[card.grade]||0):0; user.history.push({cardId:card.id,packId:pack.id,at:new Date().toISOString(),duplicate}); user.quantities[card.id]=(user.quantities[card.id]||0)+1; if(duplicate) user.cardShards=(user.cardShards||0)+shardGained; if(!duplicate){user.owned.push(card.id);owned.add(card.id);} return {card,duplicate,shardGained}; });
     saveUser(user);
     modal.className='modal show results-modal';
-    modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?'보유중':'NEW'}</span>${cardHtml(card,true,'result-card')}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
+    modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
     document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
     document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
     document.getElementById('drawAgain').onclick=()=>{ modal.className='modal'; openPack(pack.id,count,cost); };
   },1550);
 }
 
-function cardHtml(card, owned, classes='') {
+function cardHtml(card, owned, classes='', user=loadUser()) {
   if(!owned)return `<article class="card-frame locked ${classes}" data-id="${card.id}"><div class="card-inner"><div class="card-art"><span class="missing">?</span></div><div class="card-footer"><div class="card-title">미획득 카드</div></div></div></article>`;
   const limited=card.limitedTotal!==null&&card.limitedTotal!==undefined;
   const remain=limited?Math.max(0,Number(card.limitedTotal)-Number(card.issuedCount||0)):null;
-  return `<article class="card-frame grade-${card.grade} ${classes}" data-id="${card.id}">${limited?`<div class="limited-badge">LIMITED ${remain}/${card.limitedTotal}</div>`:''}<div class="card-holo"></div><div class="card-inner"><div class="card-header"><span>${card.grade}</span><b>CNINE</b></div><div class="card-art"><img loading="lazy" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title">${escapeHtml(card.title)}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="CNINE"></div></div></article>`;
+  const level=Number(user?.breakthroughs?.[card.id]||0);
+  const breakthrough=level>0?` breakthrough-${level}`:'';
+  return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${limited?`<div class="limited-badge">LIMITED ${remain}/${card.limitedTotal}</div>`:''}${level>0?`<div class="breakthrough-badge">★${level}</div>`:''}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}</span><b>CNINE</b></div><div class="card-art"><img loading="lazy" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title">${escapeHtml(card.title)}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="CNINE"></div></div></article>`;
 }
 
 function showDetail(id) {
   const user=loadUser(), card=cards.find(c=>c.id===id); if(!card)return;
   const owned=ownedIds(user).has(id), history=user.history.find(x=>x.cardId===id), modal=document.getElementById('modal');
+  const level=Number(user.breakthroughs?.[id]||0), canBreak=owned&&gradeOrder[card.grade]>=gradeOrder[breakthroughMinGrade], cost=level<10?breakthroughCosts[level]:null;
   modal.className='modal show detail-modal';
-  modal.innerHTML=`<div class="modal-panel detail-panel"><button class="icon-close detail-close" id="closeDetail">×</button><div class="detail-layout">${cardHtml(card,owned,'detail-card')}<div class="detail-info"><p class="eyebrow">CARD PROFILE</p><span class="detail-grade">${owned?card.grade:'?'}</span><h2>${owned?escapeHtml(card.title):'미획득 카드'}</h2><p>${owned?escapeHtml(card.name):'아직 획득하지 못했습니다.'}</p>${history?`<p class="obtained-date">최초 획득<br><strong>${new Date(history.at).toLocaleString('ko-KR')}</strong></p>`:''}<button class="btn dark" id="closeDetail2">닫기</button></div></div></div>`;
+  modal.innerHTML=`<div class="modal-panel detail-panel"><button class="icon-close detail-close" id="closeDetail">×</button><div class="detail-layout">${cardHtml(card,owned,'detail-card',user)}<div class="detail-info"><p class="eyebrow">CARD PROFILE</p><span class="detail-grade">${owned?card.grade:'?'}</span><h2>${owned?escapeHtml(card.title):'미획득 카드'}</h2><p>${owned?escapeHtml(card.name):'아직 획득하지 못했습니다.'}</p>${owned?`<div class="breakthrough-info"><span>돌파 단계</span><strong>${level>=10?'★10 MAX':`★${level}`}</strong><small>보유 카드 조각 ${Number(user.cardShards||0).toLocaleString()}개</small>${canBreak?(level<10?`<button class="btn breakthrough-btn" id="breakthroughBtn" ${Number(user.cardShards||0)<cost?'disabled':''}>카드 조각 ${cost.toLocaleString()}개로 ★${level+1} 돌파</button>`:'<b class="max-breakthrough">LEGEND · 최대 돌파</b>'):'<small>SR 등급 이상부터 돌파할 수 있습니다.</small>'}</div>`:''}${history?`<p class="obtained-date">최초 획득<br><strong>${new Date(history.at).toLocaleString('ko-KR')}</strong></p>`:''}<button class="btn dark" id="closeDetail2">닫기</button></div></div></div>`;
   document.getElementById('closeDetail').onclick=document.getElementById('closeDetail2').onclick=()=>modal.className='modal';
+  const button=document.getElementById('breakthroughBtn'); if(button) button.onclick=()=>breakthroughCard(id);
+}
+
+async function breakthroughCard(cardId){
+  const user=loadUser(), level=Number(user.breakthroughs?.[cardId]||0), cost=breakthroughCosts[level];
+  if(level>=10)return;
+  if(!confirm(`카드 조각 ${cost.toLocaleString()}개를 사용해 ★${level+1} 돌파하시겠습니까?`))return;
+  try{
+    if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId})});saveUser(apiUserToLocal(d.user));alert(`돌파 성공! ★${d.level}`);showDetail(cardId);}
+    else{if(Number(user.cardShards||0)<cost)return alert('카드 조각이 부족합니다.');user.cardShards-=cost;user.breakthroughs[cardId]=level+1;saveUser(user);alert(`돌파 성공! ★${level+1}`);showDetail(cardId);}
+  }catch(e){alert(e.message)}
 }
 
 
@@ -307,7 +327,7 @@ function showAccountPanel() {
     <div class="account-login-state"><span class="login-dot"></span><div><small>현재 로그인된 계정</small><h2>${escapeHtml(user.nickname)}</h2></div></div>
     <div class="account-info-grid">
       <div><span>보유 코인</span><b>◈ ${Number(user.coin||0).toLocaleString()}</b></div>
-      <div><span>수집 카드</span><b>${ownedIds(user).size} / ${cards.length}</b></div>
+      <div><span>수집 카드</span><b>${ownedIds(user).size} / ${cards.length}</b></div><div><span>카드 조각</span><b>🧩 ${Number(user.cardShards||0).toLocaleString()}</b></div>
     </div>
     <div class="account-key-box"><label>로그인 복구용 개인키</label><div><input id="accountKey" value="${escapeHtml(keyText)}" readonly><button type="button" id="copyAccountKey" ${user.key?'':'disabled'}>복사</button></div><p>다른 기기나 로그아웃 후 다시 접속할 때 필요합니다. 외부에 공개하지 마세요.</p></div>
     <div class="account-actions"><button class="btn secondary" id="closeAccount2">계속 이용하기</button><button class="btn danger" id="logoutPlayer">로그아웃</button></div>
@@ -330,7 +350,22 @@ function showAccountPanel() {
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||'';
 async function apiRequest(path, options={}) { const response=await fetch(`api/${path}`,{...options,headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}}); const data=await response.json(); if(!response.ok) throw new Error(data.error||'서버 요청 실패'); return data; }
 async function detectApi(){try{const r=await fetch('api/health',{cache:'no-store'});API_MODE=r.ok}catch{API_MODE=false}}
-function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',coin:u.coin,owned:u.owned||[],history:old?.history||[],attendance:old?.attendance||{lastClaimDate:null,totalDays:0},serverUserId:u.id,testCoinGrantedV13:true}}
+async function fetchServiceStatus(){
+  if(!API_MODE)return {maintenance:{active:false},bypass:false};
+  const adminToken=localStorage.getItem('cnine_admin_token')||'';
+  const authToken=API_TOKEN||adminToken;
+  const response=await fetch('api/service/status',{cache:'no-store',headers:{'authorization':authToken?`Bearer ${authToken}`:''}});
+  const data=await response.json().catch(()=>({maintenance:{active:false},bypass:false}));
+  if(data.bypass&&!API_TOKEN&&adminToken) API_TOKEN=adminToken;
+  return data;
+}
+function maintenanceTime(v){if(!v)return'';return String(v).replace('T',' ').slice(0,16)}
+function renderMaintenance(m={}){
+  const period=[maintenanceTime(m.startAt),maintenanceTime(m.endAt)].filter(Boolean).join(' ~ ');
+  app.innerHTML=`<div class="maintenance-screen"><div class="maintenance-card game-panel"><img src="assets/ui/cninelogo.png" class="maintenance-logo" alt="CNINE"><p class="eyebrow">SERVER MAINTENANCE</p><h1>${escapeHtml(m.title||'씨켓몬 서버 점검 중')}</h1><p class="maintenance-message">${escapeHtml(m.message||'안정적인 서비스 제공을 위해 점검을 진행하고 있습니다.')}</p>${period?`<div class="maintenance-period"><span>점검 시간</span><b>${escapeHtml(period)}</b></div>`:''}<div class="maintenance-notice">일반 유저의 접속과 게임 이용이 잠시 제한됩니다.<br>점검이 끝난 뒤 새로고침해주세요.</div><button class="btn secondary" id="maintenanceRefresh">새로고침</button><a class="maintenance-admin-link" href="admin/">관리자 접속</a></div></div>`;
+  document.getElementById('maintenanceRefresh').onclick=()=>location.reload();
+}
+function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',coin:u.coin,cardShards:Number(u.cardShards||0),owned:u.owned||[],quantities:u.quantities||{},breakthroughs:u.breakthroughs||{},history:Array.isArray(u.history)?u.history:(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},serverUserId:u.id,testCoinGrantedV13:true}}
 async function init(){
   migrateLegacyUser();
   renderLoading();
@@ -338,6 +373,8 @@ async function init(){
   let authenticated=false;
   try{
     if(API_MODE){
+      const service=await fetchServiceStatus();
+      if(service.maintenance?.active&&!service.bypass){renderMaintenance(service.maintenance);return;}
       const cr=await apiRequest('cards');
       cards=cr.cards;
       if(API_TOKEN){
@@ -374,5 +411,22 @@ async function redeemCoupon(){
 }
 
 const localOpenPack=openPack;
-openPack=async function(packId,count,cost){if(!API_MODE)return localOpenPack(packId,count,cost);const pack=getPack(packId),modal=document.getElementById('modal');modal.className='modal show opening-modal';modal.innerHTML=`<div class="modal-panel draw-stage opening-panel"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="pack-open pack-opening">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div></div><p class="message opening-message">서버에서 카드를 결정하고 있습니다...</p></div>`;try{const d=await apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count})});saveUser(apiUserToLocal(d.user));setTimeout(()=>{modal.className='modal show results-modal';modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${d.results.map(({card,duplicate})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?'보유중':'NEW'}</span>${cardHtml(card,true,'result-card')}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,pack.price*count)}},900)}catch(e){modal.className='modal';alert(e.message)}}
+openPack=async function(packId,count,cost){
+  if(!API_MODE)return localOpenPack(packId,count,cost);
+  const pack=getPack(packId),modal=document.getElementById('modal');
+  modal.className='modal show opening-modal';
+  modal.innerHTML=`<div class="modal-panel draw-stage opening-panel"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="pack-open pack-opening">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div></div><p class="message opening-message">서버에서 카드를 결정하고 있습니다...</p></div>`;
+  try{
+    const d=await apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count})});
+    const next=apiUserToLocal(d.user); saveUser(next);
+    setTimeout(()=>{
+      modal.className='modal show results-modal';
+      modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${d.results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',next)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
+      document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
+      document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
+      document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,pack.price*count)};
+    },900);
+  }catch(e){modal.className='modal';alert(e.message)}
+}
+
 init();
