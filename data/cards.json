@@ -1,0 +1,3386 @@
+[
+  {
+    "id": "card-0001",
+    "title": "빛나는 강구열",
+    "name": "강구열",
+    "grade": "SR",
+    "image": "assets/cards/강구열/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0002",
+    "title": "미소 짓는 강구열",
+    "name": "강구열",
+    "grade": "HR",
+    "image": "assets/cards/강구열/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0003",
+    "title": "집중한 강구열",
+    "name": "강구열",
+    "grade": "U",
+    "image": "assets/cards/강구열/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0004",
+    "title": "여유로운 강구열",
+    "name": "강구열",
+    "grade": "U",
+    "image": "assets/cards/강구열/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0005",
+    "title": "신나는 강구열",
+    "name": "강구열",
+    "grade": "SR",
+    "image": "assets/cards/강구열/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0006",
+    "title": "빛나는 김택용",
+    "name": "김택용",
+    "grade": "R",
+    "image": "assets/cards/김택용/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0007",
+    "title": "미소 짓는 김택용",
+    "name": "김택용",
+    "grade": "HR",
+    "image": "assets/cards/김택용/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0008",
+    "title": "집중한 김택용",
+    "name": "김택용",
+    "grade": "C",
+    "image": "assets/cards/김택용/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0009",
+    "title": "여유로운 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0010",
+    "title": "신나는 김택용",
+    "name": "김택용",
+    "grade": "HR",
+    "image": "assets/cards/김택용/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0011",
+    "title": "진지한 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0012",
+    "title": "활짝 웃는 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0013",
+    "title": "브이하는 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0014",
+    "title": "응원하는 김택용",
+    "name": "김택용",
+    "grade": "C",
+    "image": "assets/cards/김택용/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0015",
+    "title": "멋진 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0016",
+    "title": "귀여운 김택용",
+    "name": "김택용",
+    "grade": "C",
+    "image": "assets/cards/김택용/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0017",
+    "title": "당당한 김택용",
+    "name": "김택용",
+    "grade": "C",
+    "image": "assets/cards/김택용/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0018",
+    "title": "즐거운 김택용",
+    "name": "김택용",
+    "grade": "SR",
+    "image": "assets/cards/김택용/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0019",
+    "title": "깜짝 놀란 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/014.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0020",
+    "title": "시무룩한 김택용",
+    "name": "김택용",
+    "grade": "C",
+    "image": "assets/cards/김택용/015.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0021",
+    "title": "열정적인 김택용",
+    "name": "김택용",
+    "grade": "R",
+    "image": "assets/cards/김택용/016.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0022",
+    "title": "차분한 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/017.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0023",
+    "title": "설레는 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/018.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0024",
+    "title": "승리한 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/019.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0025",
+    "title": "기뻐하는 김택용",
+    "name": "김택용",
+    "grade": "R",
+    "image": "assets/cards/김택용/020.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0026",
+    "title": "빛나는 김택용",
+    "name": "김택용",
+    "grade": "U",
+    "image": "assets/cards/김택용/021.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0027",
+    "title": "빛나는 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "C",
+    "image": "assets/cards/나무늘봉순/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0028",
+    "title": "미소 짓는 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "R",
+    "image": "assets/cards/나무늘봉순/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0029",
+    "title": "집중한 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "R",
+    "image": "assets/cards/나무늘봉순/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0030",
+    "title": "여유로운 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "C",
+    "image": "assets/cards/나무늘봉순/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0031",
+    "title": "신나는 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "R",
+    "image": "assets/cards/나무늘봉순/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0032",
+    "title": "진지한 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "HR",
+    "image": "assets/cards/나무늘봉순/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0033",
+    "title": "활짝 웃는 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "HR",
+    "image": "assets/cards/나무늘봉순/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0034",
+    "title": "브이하는 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "U",
+    "image": "assets/cards/나무늘봉순/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0035",
+    "title": "응원하는 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "C",
+    "image": "assets/cards/나무늘봉순/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0036",
+    "title": "멋진 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "C",
+    "image": "assets/cards/나무늘봉순/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0037",
+    "title": "귀여운 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "C",
+    "image": "assets/cards/나무늘봉순/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0038",
+    "title": "당당한 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "U",
+    "image": "assets/cards/나무늘봉순/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0039",
+    "title": "즐거운 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "U",
+    "image": "assets/cards/나무늘봉순/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0040",
+    "title": "깜짝 놀란 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "C",
+    "image": "assets/cards/나무늘봉순/014.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0041",
+    "title": "시무룩한 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "R",
+    "image": "assets/cards/나무늘봉순/015.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0042",
+    "title": "열정적인 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "R",
+    "image": "assets/cards/나무늘봉순/016.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0043",
+    "title": "차분한 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "SSR",
+    "image": "assets/cards/나무늘봉순/017.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0044",
+    "title": "설레는 나무늘봉순",
+    "name": "나무늘봉순",
+    "grade": "R",
+    "image": "assets/cards/나무늘봉순/018.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0045",
+    "title": "빛나는 남수댕",
+    "name": "남수댕",
+    "grade": "UR",
+    "image": "assets/cards/남수댕/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0046",
+    "title": "미소 짓는 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0047",
+    "title": "집중한 남수댕",
+    "name": "남수댕",
+    "grade": "HR",
+    "image": "assets/cards/남수댕/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0048",
+    "title": "여유로운 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0049",
+    "title": "신나는 남수댕",
+    "name": "남수댕",
+    "grade": "SR",
+    "image": "assets/cards/남수댕/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0050",
+    "title": "진지한 남수댕",
+    "name": "남수댕",
+    "grade": "U",
+    "image": "assets/cards/남수댕/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0051",
+    "title": "활짝 웃는 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0052",
+    "title": "브이하는 남수댕",
+    "name": "남수댕",
+    "grade": "R",
+    "image": "assets/cards/남수댕/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0053",
+    "title": "응원하는 남수댕",
+    "name": "남수댕",
+    "grade": "SR",
+    "image": "assets/cards/남수댕/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0054",
+    "title": "멋진 남수댕",
+    "name": "남수댕",
+    "grade": "HR",
+    "image": "assets/cards/남수댕/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0055",
+    "title": "귀여운 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0056",
+    "title": "당당한 남수댕",
+    "name": "남수댕",
+    "grade": "R",
+    "image": "assets/cards/남수댕/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0057",
+    "title": "즐거운 남수댕",
+    "name": "남수댕",
+    "grade": "U",
+    "image": "assets/cards/남수댕/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0058",
+    "title": "깜짝 놀란 남수댕",
+    "name": "남수댕",
+    "grade": "SR",
+    "image": "assets/cards/남수댕/014.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0059",
+    "title": "시무룩한 남수댕",
+    "name": "남수댕",
+    "grade": "SR",
+    "image": "assets/cards/남수댕/015.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0060",
+    "title": "열정적인 남수댕",
+    "name": "남수댕",
+    "grade": "SR",
+    "image": "assets/cards/남수댕/016.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0061",
+    "title": "차분한 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/017.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0062",
+    "title": "설레는 남수댕",
+    "name": "남수댕",
+    "grade": "R",
+    "image": "assets/cards/남수댕/018.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0063",
+    "title": "승리한 남수댕",
+    "name": "남수댕",
+    "grade": "U",
+    "image": "assets/cards/남수댕/019.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0064",
+    "title": "기뻐하는 남수댕",
+    "name": "남수댕",
+    "grade": "U",
+    "image": "assets/cards/남수댕/020.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0065",
+    "title": "빛나는 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/021.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0066",
+    "title": "미소 짓는 남수댕",
+    "name": "남수댕",
+    "grade": "R",
+    "image": "assets/cards/남수댕/022.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0067",
+    "title": "집중한 남수댕",
+    "name": "남수댕",
+    "grade": "SR",
+    "image": "assets/cards/남수댕/023.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0068",
+    "title": "여유로운 남수댕",
+    "name": "남수댕",
+    "grade": "HR",
+    "image": "assets/cards/남수댕/024.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0069",
+    "title": "신나는 남수댕",
+    "name": "남수댕",
+    "grade": "R",
+    "image": "assets/cards/남수댕/025.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0070",
+    "title": "진지한 남수댕",
+    "name": "남수댕",
+    "grade": "R",
+    "image": "assets/cards/남수댕/026.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0071",
+    "title": "활짝 웃는 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/027.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0072",
+    "title": "브이하는 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/028.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0073",
+    "title": "응원하는 남수댕",
+    "name": "남수댕",
+    "grade": "SR",
+    "image": "assets/cards/남수댕/029.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0074",
+    "title": "멋진 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/030.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0075",
+    "title": "귀여운 남수댕",
+    "name": "남수댕",
+    "grade": "C",
+    "image": "assets/cards/남수댕/031.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0076",
+    "title": "빛나는 란란",
+    "name": "란란",
+    "grade": "HR",
+    "image": "assets/cards/란란/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0077",
+    "title": "미소 짓는 란란",
+    "name": "란란",
+    "grade": "R",
+    "image": "assets/cards/란란/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0078",
+    "title": "집중한 란란",
+    "name": "란란",
+    "grade": "HR",
+    "image": "assets/cards/란란/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0079",
+    "title": "여유로운 란란",
+    "name": "란란",
+    "grade": "HR",
+    "image": "assets/cards/란란/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0080",
+    "title": "신나는 란란",
+    "name": "란란",
+    "grade": "R",
+    "image": "assets/cards/란란/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0081",
+    "title": "진지한 란란",
+    "name": "란란",
+    "grade": "SR",
+    "image": "assets/cards/란란/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0082",
+    "title": "활짝 웃는 란란",
+    "name": "란란",
+    "grade": "U",
+    "image": "assets/cards/란란/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0083",
+    "title": "빛나는 모리",
+    "name": "모리",
+    "grade": "C",
+    "image": "assets/cards/모리/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0084",
+    "title": "미소 짓는 모리",
+    "name": "모리",
+    "grade": "SR",
+    "image": "assets/cards/모리/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0085",
+    "title": "집중한 모리",
+    "name": "모리",
+    "grade": "HR",
+    "image": "assets/cards/모리/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0086",
+    "title": "여유로운 모리",
+    "name": "모리",
+    "grade": "C",
+    "image": "assets/cards/모리/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0087",
+    "title": "신나는 모리",
+    "name": "모리",
+    "grade": "R",
+    "image": "assets/cards/모리/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0088",
+    "title": "진지한 모리",
+    "name": "모리",
+    "grade": "R",
+    "image": "assets/cards/모리/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0089",
+    "title": "빛나는 박재혁",
+    "name": "박재혁",
+    "grade": "SR",
+    "image": "assets/cards/박재혁/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0090",
+    "title": "미소 짓는 박재혁",
+    "name": "박재혁",
+    "grade": "R",
+    "image": "assets/cards/박재혁/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0091",
+    "title": "집중한 박재혁",
+    "name": "박재혁",
+    "grade": "HR",
+    "image": "assets/cards/박재혁/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0092",
+    "title": "여유로운 박재혁",
+    "name": "박재혁",
+    "grade": "U",
+    "image": "assets/cards/박재혁/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0093",
+    "title": "신나는 박재혁",
+    "name": "박재혁",
+    "grade": "C",
+    "image": "assets/cards/박재혁/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0094",
+    "title": "진지한 박재혁",
+    "name": "박재혁",
+    "grade": "UR",
+    "image": "assets/cards/박재혁/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0095",
+    "title": "활짝 웃는 박재혁",
+    "name": "박재혁",
+    "grade": "R",
+    "image": "assets/cards/박재혁/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0096",
+    "title": "브이하는 박재혁",
+    "name": "박재혁",
+    "grade": "C",
+    "image": "assets/cards/박재혁/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0097",
+    "title": "응원하는 박재혁",
+    "name": "박재혁",
+    "grade": "R",
+    "image": "assets/cards/박재혁/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0098",
+    "title": "빛나는 빵훈이",
+    "name": "빵훈이",
+    "grade": "C",
+    "image": "assets/cards/빵훈이/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0099",
+    "title": "미소 짓는 빵훈이",
+    "name": "빵훈이",
+    "grade": "U",
+    "image": "assets/cards/빵훈이/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0100",
+    "title": "집중한 빵훈이",
+    "name": "빵훈이",
+    "grade": "C",
+    "image": "assets/cards/빵훈이/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0101",
+    "title": "여유로운 빵훈이",
+    "name": "빵훈이",
+    "grade": "R",
+    "image": "assets/cards/빵훈이/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0102",
+    "title": "신나는 빵훈이",
+    "name": "빵훈이",
+    "grade": "UR",
+    "image": "assets/cards/빵훈이/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0103",
+    "title": "진지한 빵훈이",
+    "name": "빵훈이",
+    "grade": "R",
+    "image": "assets/cards/빵훈이/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0104",
+    "title": "활짝 웃는 빵훈이",
+    "name": "빵훈이",
+    "grade": "R",
+    "image": "assets/cards/빵훈이/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0105",
+    "title": "브이하는 빵훈이",
+    "name": "빵훈이",
+    "grade": "R",
+    "image": "assets/cards/빵훈이/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0106",
+    "title": "빛나는 쁠리",
+    "name": "쁠리",
+    "grade": "U",
+    "image": "assets/cards/쁠리/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0107",
+    "title": "미소 짓는 쁠리",
+    "name": "쁠리",
+    "grade": "R",
+    "image": "assets/cards/쁠리/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0108",
+    "title": "집중한 쁠리",
+    "name": "쁠리",
+    "grade": "SR",
+    "image": "assets/cards/쁠리/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0109",
+    "title": "여유로운 쁠리",
+    "name": "쁠리",
+    "grade": "UR",
+    "image": "assets/cards/쁠리/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0110",
+    "title": "신나는 쁠리",
+    "name": "쁠리",
+    "grade": "C",
+    "image": "assets/cards/쁠리/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0111",
+    "title": "진지한 쁠리",
+    "name": "쁠리",
+    "grade": "SR",
+    "image": "assets/cards/쁠리/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0112",
+    "title": "활짝 웃는 쁠리",
+    "name": "쁠리",
+    "grade": "U",
+    "image": "assets/cards/쁠리/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0113",
+    "title": "브이하는 쁠리",
+    "name": "쁠리",
+    "grade": "U",
+    "image": "assets/cards/쁠리/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0114",
+    "title": "응원하는 쁠리",
+    "name": "쁠리",
+    "grade": "SR",
+    "image": "assets/cards/쁠리/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0115",
+    "title": "멋진 쁠리",
+    "name": "쁠리",
+    "grade": "C",
+    "image": "assets/cards/쁠리/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0116",
+    "title": "귀여운 쁠리",
+    "name": "쁠리",
+    "grade": "C",
+    "image": "assets/cards/쁠리/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0117",
+    "title": "빛나는 아윤",
+    "name": "아윤",
+    "grade": "C",
+    "image": "assets/cards/아윤/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0118",
+    "title": "미소 짓는 아윤",
+    "name": "아윤",
+    "grade": "U",
+    "image": "assets/cards/아윤/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0119",
+    "title": "집중한 아윤",
+    "name": "아윤",
+    "grade": "C",
+    "image": "assets/cards/아윤/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0120",
+    "title": "여유로운 아윤",
+    "name": "아윤",
+    "grade": "U",
+    "image": "assets/cards/아윤/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0121",
+    "title": "신나는 아윤",
+    "name": "아윤",
+    "grade": "R",
+    "image": "assets/cards/아윤/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0122",
+    "title": "진지한 아윤",
+    "name": "아윤",
+    "grade": "SR",
+    "image": "assets/cards/아윤/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0123",
+    "title": "활짝 웃는 아윤",
+    "name": "아윤",
+    "grade": "R",
+    "image": "assets/cards/아윤/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0124",
+    "title": "브이하는 아윤",
+    "name": "아윤",
+    "grade": "U",
+    "image": "assets/cards/아윤/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0125",
+    "title": "응원하는 아윤",
+    "name": "아윤",
+    "grade": "U",
+    "image": "assets/cards/아윤/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0126",
+    "title": "멋진 아윤",
+    "name": "아윤",
+    "grade": "R",
+    "image": "assets/cards/아윤/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0127",
+    "title": "귀여운 아윤",
+    "name": "아윤",
+    "grade": "R",
+    "image": "assets/cards/아윤/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0128",
+    "title": "빛나는 애순이",
+    "name": "애순이",
+    "grade": "R",
+    "image": "assets/cards/애순이/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0129",
+    "title": "미소 짓는 애순이",
+    "name": "애순이",
+    "grade": "C",
+    "image": "assets/cards/애순이/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0130",
+    "title": "집중한 애순이",
+    "name": "애순이",
+    "grade": "R",
+    "image": "assets/cards/애순이/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0131",
+    "title": "여유로운 애순이",
+    "name": "애순이",
+    "grade": "UR",
+    "image": "assets/cards/애순이/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0132",
+    "title": "신나는 애순이",
+    "name": "애순이",
+    "grade": "C",
+    "image": "assets/cards/애순이/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0133",
+    "title": "진지한 애순이",
+    "name": "애순이",
+    "grade": "UR",
+    "image": "assets/cards/애순이/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0134",
+    "title": "활짝 웃는 애순이",
+    "name": "애순이",
+    "grade": "SR",
+    "image": "assets/cards/애순이/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0135",
+    "title": "브이하는 애순이",
+    "name": "애순이",
+    "grade": "U",
+    "image": "assets/cards/애순이/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0136",
+    "title": "응원하는 애순이",
+    "name": "애순이",
+    "grade": "U",
+    "image": "assets/cards/애순이/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0137",
+    "title": "빛나는 앵지",
+    "name": "앵지",
+    "grade": "C",
+    "image": "assets/cards/앵지/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0138",
+    "title": "미소 짓는 앵지",
+    "name": "앵지",
+    "grade": "C",
+    "image": "assets/cards/앵지/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0139",
+    "title": "집중한 앵지",
+    "name": "앵지",
+    "grade": "SR",
+    "image": "assets/cards/앵지/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0140",
+    "title": "여유로운 앵지",
+    "name": "앵지",
+    "grade": "C",
+    "image": "assets/cards/앵지/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0141",
+    "title": "신나는 앵지",
+    "name": "앵지",
+    "grade": "SR",
+    "image": "assets/cards/앵지/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0142",
+    "title": "진지한 앵지",
+    "name": "앵지",
+    "grade": "SR",
+    "image": "assets/cards/앵지/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0143",
+    "title": "활짝 웃는 앵지",
+    "name": "앵지",
+    "grade": "U",
+    "image": "assets/cards/앵지/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0144",
+    "title": "브이하는 앵지",
+    "name": "앵지",
+    "grade": "C",
+    "image": "assets/cards/앵지/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0145",
+    "title": "응원하는 앵지",
+    "name": "앵지",
+    "grade": "C",
+    "image": "assets/cards/앵지/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0146",
+    "title": "멋진 앵지",
+    "name": "앵지",
+    "grade": "U",
+    "image": "assets/cards/앵지/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0147",
+    "title": "귀여운 앵지",
+    "name": "앵지",
+    "grade": "C",
+    "image": "assets/cards/앵지/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0148",
+    "title": "당당한 앵지",
+    "name": "앵지",
+    "grade": "SR",
+    "image": "assets/cards/앵지/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0149",
+    "title": "즐거운 앵지",
+    "name": "앵지",
+    "grade": "UR",
+    "image": "assets/cards/앵지/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0150",
+    "title": "깜짝 놀란 앵지",
+    "name": "앵지",
+    "grade": "C",
+    "image": "assets/cards/앵지/014.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0151",
+    "title": "빛나는 어윤수",
+    "name": "어윤수",
+    "grade": "R",
+    "image": "assets/cards/어윤수/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0152",
+    "title": "미소 짓는 어윤수",
+    "name": "어윤수",
+    "grade": "U",
+    "image": "assets/cards/어윤수/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0153",
+    "title": "집중한 어윤수",
+    "name": "어윤수",
+    "grade": "U",
+    "image": "assets/cards/어윤수/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0154",
+    "title": "여유로운 어윤수",
+    "name": "어윤수",
+    "grade": "SR",
+    "image": "assets/cards/어윤수/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0155",
+    "title": "신나는 어윤수",
+    "name": "어윤수",
+    "grade": "U",
+    "image": "assets/cards/어윤수/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0156",
+    "title": "진지한 어윤수",
+    "name": "어윤수",
+    "grade": "C",
+    "image": "assets/cards/어윤수/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0157",
+    "title": "활짝 웃는 어윤수",
+    "name": "어윤수",
+    "grade": "U",
+    "image": "assets/cards/어윤수/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0158",
+    "title": "브이하는 어윤수",
+    "name": "어윤수",
+    "grade": "U",
+    "image": "assets/cards/어윤수/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0159",
+    "title": "응원하는 어윤수",
+    "name": "어윤수",
+    "grade": "R",
+    "image": "assets/cards/어윤수/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0160",
+    "title": "멋진 어윤수",
+    "name": "어윤수",
+    "grade": "U",
+    "image": "assets/cards/어윤수/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0161",
+    "title": "빛나는 오리꿍",
+    "name": "오리꿍",
+    "grade": "C",
+    "image": "assets/cards/오리꿍/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0162",
+    "title": "미소 짓는 오리꿍",
+    "name": "오리꿍",
+    "grade": "C",
+    "image": "assets/cards/오리꿍/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0163",
+    "title": "집중한 오리꿍",
+    "name": "오리꿍",
+    "grade": "C",
+    "image": "assets/cards/오리꿍/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0164",
+    "title": "여유로운 오리꿍",
+    "name": "오리꿍",
+    "grade": "R",
+    "image": "assets/cards/오리꿍/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0165",
+    "title": "신나는 오리꿍",
+    "name": "오리꿍",
+    "grade": "U",
+    "image": "assets/cards/오리꿍/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0166",
+    "title": "진지한 오리꿍",
+    "name": "오리꿍",
+    "grade": "C",
+    "image": "assets/cards/오리꿍/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0167",
+    "title": "활짝 웃는 오리꿍",
+    "name": "오리꿍",
+    "grade": "C",
+    "image": "assets/cards/오리꿍/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0168",
+    "title": "브이하는 오리꿍",
+    "name": "오리꿍",
+    "grade": "R",
+    "image": "assets/cards/오리꿍/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0169",
+    "title": "응원하는 오리꿍",
+    "name": "오리꿍",
+    "grade": "U",
+    "image": "assets/cards/오리꿍/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0170",
+    "title": "빛나는 오조은",
+    "name": "오조은",
+    "grade": "R",
+    "image": "assets/cards/오조은/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0171",
+    "title": "미소 짓는 오조은",
+    "name": "오조은",
+    "grade": "R",
+    "image": "assets/cards/오조은/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0172",
+    "title": "집중한 오조은",
+    "name": "오조은",
+    "grade": "SR",
+    "image": "assets/cards/오조은/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0173",
+    "title": "여유로운 오조은",
+    "name": "오조은",
+    "grade": "C",
+    "image": "assets/cards/오조은/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0174",
+    "title": "신나는 오조은",
+    "name": "오조은",
+    "grade": "C",
+    "image": "assets/cards/오조은/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0175",
+    "title": "진지한 오조은",
+    "name": "오조은",
+    "grade": "U",
+    "image": "assets/cards/오조은/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0176",
+    "title": "활짝 웃는 오조은",
+    "name": "오조은",
+    "grade": "C",
+    "image": "assets/cards/오조은/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0177",
+    "title": "브이하는 오조은",
+    "name": "오조은",
+    "grade": "C",
+    "image": "assets/cards/오조은/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0178",
+    "title": "응원하는 오조은",
+    "name": "오조은",
+    "grade": "C",
+    "image": "assets/cards/오조은/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0179",
+    "title": "멋진 오조은",
+    "name": "오조은",
+    "grade": "SR",
+    "image": "assets/cards/오조은/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0180",
+    "title": "빛나는 왜냐맨",
+    "name": "왜냐맨",
+    "grade": "HR",
+    "image": "assets/cards/왜냐맨/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0181",
+    "title": "미소 짓는 왜냐맨",
+    "name": "왜냐맨",
+    "grade": "U",
+    "image": "assets/cards/왜냐맨/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0182",
+    "title": "집중한 왜냐맨",
+    "name": "왜냐맨",
+    "grade": "U",
+    "image": "assets/cards/왜냐맨/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0183",
+    "title": "여유로운 왜냐맨",
+    "name": "왜냐맨",
+    "grade": "U",
+    "image": "assets/cards/왜냐맨/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0184",
+    "title": "신나는 왜냐맨",
+    "name": "왜냐맨",
+    "grade": "C",
+    "image": "assets/cards/왜냐맨/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0185",
+    "title": "진지한 왜냐맨",
+    "name": "왜냐맨",
+    "grade": "C",
+    "image": "assets/cards/왜냐맨/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0186",
+    "title": "빛나는 요닝",
+    "name": "요닝",
+    "grade": "C",
+    "image": "assets/cards/요닝/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0187",
+    "title": "미소 짓는 요닝",
+    "name": "요닝",
+    "grade": "R",
+    "image": "assets/cards/요닝/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0188",
+    "title": "집중한 요닝",
+    "name": "요닝",
+    "grade": "R",
+    "image": "assets/cards/요닝/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0189",
+    "title": "여유로운 요닝",
+    "name": "요닝",
+    "grade": "C",
+    "image": "assets/cards/요닝/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0190",
+    "title": "신나는 요닝",
+    "name": "요닝",
+    "grade": "R",
+    "image": "assets/cards/요닝/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0191",
+    "title": "진지한 요닝",
+    "name": "요닝",
+    "grade": "R",
+    "image": "assets/cards/요닝/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0192",
+    "title": "활짝 웃는 요닝",
+    "name": "요닝",
+    "grade": "UR",
+    "image": "assets/cards/요닝/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0193",
+    "title": "빛나는 유별",
+    "name": "유별",
+    "grade": "C",
+    "image": "assets/cards/유별/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0194",
+    "title": "미소 짓는 유별",
+    "name": "유별",
+    "grade": "HR",
+    "image": "assets/cards/유별/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0195",
+    "title": "집중한 유별",
+    "name": "유별",
+    "grade": "R",
+    "image": "assets/cards/유별/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0196",
+    "title": "여유로운 유별",
+    "name": "유별",
+    "grade": "U",
+    "image": "assets/cards/유별/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0197",
+    "title": "신나는 유별",
+    "name": "유별",
+    "grade": "R",
+    "image": "assets/cards/유별/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0198",
+    "title": "진지한 유별",
+    "name": "유별",
+    "grade": "U",
+    "image": "assets/cards/유별/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0199",
+    "title": "활짝 웃는 유별",
+    "name": "유별",
+    "grade": "SR",
+    "image": "assets/cards/유별/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0200",
+    "title": "빛나는 유승곤",
+    "name": "유승곤",
+    "grade": "U",
+    "image": "assets/cards/유승곤/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0201",
+    "title": "미소 짓는 유승곤",
+    "name": "유승곤",
+    "grade": "R",
+    "image": "assets/cards/유승곤/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0202",
+    "title": "집중한 유승곤",
+    "name": "유승곤",
+    "grade": "U",
+    "image": "assets/cards/유승곤/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0203",
+    "title": "여유로운 유승곤",
+    "name": "유승곤",
+    "grade": "U",
+    "image": "assets/cards/유승곤/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0204",
+    "title": "신나는 유승곤",
+    "name": "유승곤",
+    "grade": "U",
+    "image": "assets/cards/유승곤/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0205",
+    "title": "진지한 유승곤",
+    "name": "유승곤",
+    "grade": "SR",
+    "image": "assets/cards/유승곤/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0206",
+    "title": "활짝 웃는 유승곤",
+    "name": "유승곤",
+    "grade": "R",
+    "image": "assets/cards/유승곤/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0207",
+    "title": "빛나는 유주현",
+    "name": "유주현",
+    "grade": "C",
+    "image": "assets/cards/유주현/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0208",
+    "title": "미소 짓는 유주현",
+    "name": "유주현",
+    "grade": "C",
+    "image": "assets/cards/유주현/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0209",
+    "title": "집중한 유주현",
+    "name": "유주현",
+    "grade": "R",
+    "image": "assets/cards/유주현/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0210",
+    "title": "여유로운 유주현",
+    "name": "유주현",
+    "grade": "C",
+    "image": "assets/cards/유주현/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0211",
+    "title": "신나는 유주현",
+    "name": "유주현",
+    "grade": "R",
+    "image": "assets/cards/유주현/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0212",
+    "title": "진지한 유주현",
+    "name": "유주현",
+    "grade": "R",
+    "image": "assets/cards/유주현/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0213",
+    "title": "빛나는 윤용태",
+    "name": "윤용태",
+    "grade": "C",
+    "image": "assets/cards/윤용태/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0214",
+    "title": "미소 짓는 윤용태",
+    "name": "윤용태",
+    "grade": "R",
+    "image": "assets/cards/윤용태/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0215",
+    "title": "집중한 윤용태",
+    "name": "윤용태",
+    "grade": "U",
+    "image": "assets/cards/윤용태/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0216",
+    "title": "여유로운 윤용태",
+    "name": "윤용태",
+    "grade": "HR",
+    "image": "assets/cards/윤용태/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0217",
+    "title": "신나는 윤용태",
+    "name": "윤용태",
+    "grade": "SR",
+    "image": "assets/cards/윤용태/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0218",
+    "title": "진지한 윤용태",
+    "name": "윤용태",
+    "grade": "R",
+    "image": "assets/cards/윤용태/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0219",
+    "title": "활짝 웃는 윤용태",
+    "name": "윤용태",
+    "grade": "SR",
+    "image": "assets/cards/윤용태/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0220",
+    "title": "브이하는 윤용태",
+    "name": "윤용태",
+    "grade": "U",
+    "image": "assets/cards/윤용태/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0221",
+    "title": "응원하는 윤용태",
+    "name": "윤용태",
+    "grade": "HR",
+    "image": "assets/cards/윤용태/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0222",
+    "title": "멋진 윤용태",
+    "name": "윤용태",
+    "grade": "R",
+    "image": "assets/cards/윤용태/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0223",
+    "title": "빛나는 이다니",
+    "name": "이다니",
+    "grade": "UR",
+    "image": "assets/cards/이다니/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0224",
+    "title": "미소 짓는 이다니",
+    "name": "이다니",
+    "grade": "U",
+    "image": "assets/cards/이다니/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0225",
+    "title": "집중한 이다니",
+    "name": "이다니",
+    "grade": "C",
+    "image": "assets/cards/이다니/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0226",
+    "title": "여유로운 이다니",
+    "name": "이다니",
+    "grade": "C",
+    "image": "assets/cards/이다니/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0227",
+    "title": "신나는 이다니",
+    "name": "이다니",
+    "grade": "SR",
+    "image": "assets/cards/이다니/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0228",
+    "title": "진지한 이다니",
+    "name": "이다니",
+    "grade": "HR",
+    "image": "assets/cards/이다니/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0229",
+    "title": "활짝 웃는 이다니",
+    "name": "이다니",
+    "grade": "U",
+    "image": "assets/cards/이다니/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0230",
+    "title": "브이하는 이다니",
+    "name": "이다니",
+    "grade": "C",
+    "image": "assets/cards/이다니/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0231",
+    "title": "빛나는 이영호",
+    "name": "이영호",
+    "grade": "U",
+    "image": "assets/cards/이영호/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0232",
+    "title": "미소 짓는 이영호",
+    "name": "이영호",
+    "grade": "C",
+    "image": "assets/cards/이영호/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0233",
+    "title": "집중한 이영호",
+    "name": "이영호",
+    "grade": "HR",
+    "image": "assets/cards/이영호/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0234",
+    "title": "여유로운 이영호",
+    "name": "이영호",
+    "grade": "C",
+    "image": "assets/cards/이영호/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0235",
+    "title": "신나는 이영호",
+    "name": "이영호",
+    "grade": "C",
+    "image": "assets/cards/이영호/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0236",
+    "title": "진지한 이영호",
+    "name": "이영호",
+    "grade": "HR",
+    "image": "assets/cards/이영호/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0237",
+    "title": "활짝 웃는 이영호",
+    "name": "이영호",
+    "grade": "C",
+    "image": "assets/cards/이영호/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0238",
+    "title": "브이하는 이영호",
+    "name": "이영호",
+    "grade": "C",
+    "image": "assets/cards/이영호/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0239",
+    "title": "응원하는 이영호",
+    "name": "이영호",
+    "grade": "R",
+    "image": "assets/cards/이영호/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0240",
+    "title": "멋진 이영호",
+    "name": "이영호",
+    "grade": "U",
+    "image": "assets/cards/이영호/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0241",
+    "title": "귀여운 이영호",
+    "name": "이영호",
+    "grade": "U",
+    "image": "assets/cards/이영호/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0242",
+    "title": "당당한 이영호",
+    "name": "이영호",
+    "grade": "HR",
+    "image": "assets/cards/이영호/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0243",
+    "title": "즐거운 이영호",
+    "name": "이영호",
+    "grade": "C",
+    "image": "assets/cards/이영호/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0244",
+    "title": "빛나는 인지연",
+    "name": "인지연",
+    "grade": "R",
+    "image": "assets/cards/인지연/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0245",
+    "title": "미소 짓는 인지연",
+    "name": "인지연",
+    "grade": "U",
+    "image": "assets/cards/인지연/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0246",
+    "title": "집중한 인지연",
+    "name": "인지연",
+    "grade": "SR",
+    "image": "assets/cards/인지연/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0247",
+    "title": "여유로운 인지연",
+    "name": "인지연",
+    "grade": "U",
+    "image": "assets/cards/인지연/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0248",
+    "title": "신나는 인지연",
+    "name": "인지연",
+    "grade": "C",
+    "image": "assets/cards/인지연/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0249",
+    "title": "진지한 인지연",
+    "name": "인지연",
+    "grade": "HR",
+    "image": "assets/cards/인지연/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0250",
+    "title": "활짝 웃는 인지연",
+    "name": "인지연",
+    "grade": "U",
+    "image": "assets/cards/인지연/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0251",
+    "title": "빛나는 점중",
+    "name": "점중",
+    "grade": "C",
+    "image": "assets/cards/점중/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0252",
+    "title": "미소 짓는 점중",
+    "name": "점중",
+    "grade": "R",
+    "image": "assets/cards/점중/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0253",
+    "title": "집중한 점중",
+    "name": "점중",
+    "grade": "C",
+    "image": "assets/cards/점중/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0254",
+    "title": "여유로운 점중",
+    "name": "점중",
+    "grade": "U",
+    "image": "assets/cards/점중/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0255",
+    "title": "신나는 점중",
+    "name": "점중",
+    "grade": "U",
+    "image": "assets/cards/점중/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0256",
+    "title": "진지한 점중",
+    "name": "점중",
+    "grade": "U",
+    "image": "assets/cards/점중/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0257",
+    "title": "활짝 웃는 점중",
+    "name": "점중",
+    "grade": "R",
+    "image": "assets/cards/점중/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0258",
+    "title": "브이하는 점중",
+    "name": "점중",
+    "grade": "U",
+    "image": "assets/cards/점중/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0259",
+    "title": "응원하는 점중",
+    "name": "점중",
+    "grade": "C",
+    "image": "assets/cards/점중/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0260",
+    "title": "빛나는 졈니",
+    "name": "졈니",
+    "grade": "R",
+    "image": "assets/cards/졈니/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0261",
+    "title": "미소 짓는 졈니",
+    "name": "졈니",
+    "grade": "R",
+    "image": "assets/cards/졈니/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0262",
+    "title": "집중한 졈니",
+    "name": "졈니",
+    "grade": "HR",
+    "image": "assets/cards/졈니/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0263",
+    "title": "여유로운 졈니",
+    "name": "졈니",
+    "grade": "R",
+    "image": "assets/cards/졈니/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0264",
+    "title": "신나는 졈니",
+    "name": "졈니",
+    "grade": "HR",
+    "image": "assets/cards/졈니/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0265",
+    "title": "진지한 졈니",
+    "name": "졈니",
+    "grade": "SR",
+    "image": "assets/cards/졈니/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0266",
+    "title": "활짝 웃는 졈니",
+    "name": "졈니",
+    "grade": "U",
+    "image": "assets/cards/졈니/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0267",
+    "title": "브이하는 졈니",
+    "name": "졈니",
+    "grade": "U",
+    "image": "assets/cards/졈니/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0268",
+    "title": "응원하는 졈니",
+    "name": "졈니",
+    "grade": "SR",
+    "image": "assets/cards/졈니/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0269",
+    "title": "멋진 졈니",
+    "name": "졈니",
+    "grade": "R",
+    "image": "assets/cards/졈니/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0270",
+    "title": "귀여운 졈니",
+    "name": "졈니",
+    "grade": "R",
+    "image": "assets/cards/졈니/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0271",
+    "title": "당당한 졈니",
+    "name": "졈니",
+    "grade": "R",
+    "image": "assets/cards/졈니/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0272",
+    "title": "즐거운 졈니",
+    "name": "졈니",
+    "grade": "C",
+    "image": "assets/cards/졈니/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0273",
+    "title": "깜짝 놀란 졈니",
+    "name": "졈니",
+    "grade": "C",
+    "image": "assets/cards/졈니/014.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0274",
+    "title": "빛나는 주성",
+    "name": "주성",
+    "grade": "SSR",
+    "image": "assets/cards/주성/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0275",
+    "title": "미소 짓는 주성",
+    "name": "주성",
+    "grade": "C",
+    "image": "assets/cards/주성/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0276",
+    "title": "집중한 주성",
+    "name": "주성",
+    "grade": "R",
+    "image": "assets/cards/주성/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0277",
+    "title": "여유로운 주성",
+    "name": "주성",
+    "grade": "C",
+    "image": "assets/cards/주성/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0278",
+    "title": "신나는 주성",
+    "name": "주성",
+    "grade": "C",
+    "image": "assets/cards/주성/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0279",
+    "title": "빛나는 진땅콩",
+    "name": "진땅콩",
+    "grade": "UR",
+    "image": "assets/cards/진땅콩/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0280",
+    "title": "미소 짓는 진땅콩",
+    "name": "진땅콩",
+    "grade": "U",
+    "image": "assets/cards/진땅콩/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0281",
+    "title": "집중한 진땅콩",
+    "name": "진땅콩",
+    "grade": "U",
+    "image": "assets/cards/진땅콩/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0282",
+    "title": "여유로운 진땅콩",
+    "name": "진땅콩",
+    "grade": "C",
+    "image": "assets/cards/진땅콩/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0283",
+    "title": "신나는 진땅콩",
+    "name": "진땅콩",
+    "grade": "C",
+    "image": "assets/cards/진땅콩/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0284",
+    "title": "진지한 진땅콩",
+    "name": "진땅콩",
+    "grade": "UR",
+    "image": "assets/cards/진땅콩/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0285",
+    "title": "활짝 웃는 진땅콩",
+    "name": "진땅콩",
+    "grade": "R",
+    "image": "assets/cards/진땅콩/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0286",
+    "title": "브이하는 진땅콩",
+    "name": "진땅콩",
+    "grade": "SSR",
+    "image": "assets/cards/진땅콩/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0287",
+    "title": "응원하는 진땅콩",
+    "name": "진땅콩",
+    "grade": "C",
+    "image": "assets/cards/진땅콩/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0288",
+    "title": "멋진 진땅콩",
+    "name": "진땅콩",
+    "grade": "SR",
+    "image": "assets/cards/진땅콩/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0289",
+    "title": "빛나는 채리",
+    "name": "채리",
+    "grade": "U",
+    "image": "assets/cards/채리/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0290",
+    "title": "미소 짓는 채리",
+    "name": "채리",
+    "grade": "R",
+    "image": "assets/cards/채리/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0291",
+    "title": "집중한 채리",
+    "name": "채리",
+    "grade": "C",
+    "image": "assets/cards/채리/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0292",
+    "title": "여유로운 채리",
+    "name": "채리",
+    "grade": "U",
+    "image": "assets/cards/채리/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0293",
+    "title": "신나는 채리",
+    "name": "채리",
+    "grade": "SR",
+    "image": "assets/cards/채리/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0294",
+    "title": "빛나는 철구",
+    "name": "철구",
+    "grade": "C",
+    "image": "assets/cards/철구/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0295",
+    "title": "미소 짓는 철구",
+    "name": "철구",
+    "grade": "SR",
+    "image": "assets/cards/철구/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0296",
+    "title": "집중한 철구",
+    "name": "철구",
+    "grade": "C",
+    "image": "assets/cards/철구/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0297",
+    "title": "여유로운 철구",
+    "name": "철구",
+    "grade": "SR",
+    "image": "assets/cards/철구/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0298",
+    "title": "신나는 철구",
+    "name": "철구",
+    "grade": "U",
+    "image": "assets/cards/철구/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0299",
+    "title": "진지한 철구",
+    "name": "철구",
+    "grade": "C",
+    "image": "assets/cards/철구/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0300",
+    "title": "활짝 웃는 철구",
+    "name": "철구",
+    "grade": "U",
+    "image": "assets/cards/철구/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0301",
+    "title": "브이하는 철구",
+    "name": "철구",
+    "grade": "R",
+    "image": "assets/cards/철구/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0302",
+    "title": "응원하는 철구",
+    "name": "철구",
+    "grade": "R",
+    "image": "assets/cards/철구/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0303",
+    "title": "멋진 철구",
+    "name": "철구",
+    "grade": "C",
+    "image": "assets/cards/철구/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0304",
+    "title": "귀여운 철구",
+    "name": "철구",
+    "grade": "U",
+    "image": "assets/cards/철구/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0305",
+    "title": "당당한 철구",
+    "name": "철구",
+    "grade": "U",
+    "image": "assets/cards/철구/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0306",
+    "title": "즐거운 철구",
+    "name": "철구",
+    "grade": "R",
+    "image": "assets/cards/철구/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0307",
+    "title": "빛나는 체온",
+    "name": "체온",
+    "grade": "SR",
+    "image": "assets/cards/체온/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0308",
+    "title": "미소 짓는 체온",
+    "name": "체온",
+    "grade": "R",
+    "image": "assets/cards/체온/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0309",
+    "title": "집중한 체온",
+    "name": "체온",
+    "grade": "U",
+    "image": "assets/cards/체온/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0310",
+    "title": "여유로운 체온",
+    "name": "체온",
+    "grade": "C",
+    "image": "assets/cards/체온/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0311",
+    "title": "신나는 체온",
+    "name": "체온",
+    "grade": "U",
+    "image": "assets/cards/체온/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0312",
+    "title": "진지한 체온",
+    "name": "체온",
+    "grade": "U",
+    "image": "assets/cards/체온/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0313",
+    "title": "활짝 웃는 체온",
+    "name": "체온",
+    "grade": "C",
+    "image": "assets/cards/체온/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0314",
+    "title": "브이하는 체온",
+    "name": "체온",
+    "grade": "C",
+    "image": "assets/cards/체온/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0315",
+    "title": "응원하는 체온",
+    "name": "체온",
+    "grade": "SR",
+    "image": "assets/cards/체온/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0316",
+    "title": "빛나는 초초",
+    "name": "초초",
+    "grade": "HR",
+    "image": "assets/cards/초초/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0317",
+    "title": "미소 짓는 초초",
+    "name": "초초",
+    "grade": "SR",
+    "image": "assets/cards/초초/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0318",
+    "title": "집중한 초초",
+    "name": "초초",
+    "grade": "C",
+    "image": "assets/cards/초초/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0319",
+    "title": "여유로운 초초",
+    "name": "초초",
+    "grade": "HR",
+    "image": "assets/cards/초초/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0320",
+    "title": "신나는 초초",
+    "name": "초초",
+    "grade": "C",
+    "image": "assets/cards/초초/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0321",
+    "title": "진지한 초초",
+    "name": "초초",
+    "grade": "UR",
+    "image": "assets/cards/초초/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0322",
+    "title": "활짝 웃는 초초",
+    "name": "초초",
+    "grade": "C",
+    "image": "assets/cards/초초/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0323",
+    "title": "빛나는 하이희야",
+    "name": "하이희야",
+    "grade": "SR",
+    "image": "assets/cards/하이희야/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0324",
+    "title": "미소 짓는 하이희야",
+    "name": "하이희야",
+    "grade": "C",
+    "image": "assets/cards/하이희야/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0325",
+    "title": "집중한 하이희야",
+    "name": "하이희야",
+    "grade": "C",
+    "image": "assets/cards/하이희야/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0326",
+    "title": "여유로운 하이희야",
+    "name": "하이희야",
+    "grade": "R",
+    "image": "assets/cards/하이희야/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0327",
+    "title": "신나는 하이희야",
+    "name": "하이희야",
+    "grade": "U",
+    "image": "assets/cards/하이희야/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0328",
+    "title": "진지한 하이희야",
+    "name": "하이희야",
+    "grade": "U",
+    "image": "assets/cards/하이희야/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0329",
+    "title": "활짝 웃는 하이희야",
+    "name": "하이희야",
+    "grade": "SR",
+    "image": "assets/cards/하이희야/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0330",
+    "title": "빛나는 허로아",
+    "name": "허로아",
+    "grade": "C",
+    "image": "assets/cards/허로아/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0331",
+    "title": "미소 짓는 허로아",
+    "name": "허로아",
+    "grade": "R",
+    "image": "assets/cards/허로아/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0332",
+    "title": "집중한 허로아",
+    "name": "허로아",
+    "grade": "R",
+    "image": "assets/cards/허로아/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0333",
+    "title": "여유로운 허로아",
+    "name": "허로아",
+    "grade": "R",
+    "image": "assets/cards/허로아/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0334",
+    "title": "신나는 허로아",
+    "name": "허로아",
+    "grade": "U",
+    "image": "assets/cards/허로아/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0335",
+    "title": "진지한 허로아",
+    "name": "허로아",
+    "grade": "SR",
+    "image": "assets/cards/허로아/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0336",
+    "title": "활짝 웃는 허로아",
+    "name": "허로아",
+    "grade": "SR",
+    "image": "assets/cards/허로아/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0337",
+    "title": "빛나는 혜루찡",
+    "name": "혜루찡",
+    "grade": "SSR",
+    "image": "assets/cards/혜루찡/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0338",
+    "title": "미소 짓는 혜루찡",
+    "name": "혜루찡",
+    "grade": "UR",
+    "image": "assets/cards/혜루찡/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0339",
+    "title": "집중한 혜루찡",
+    "name": "혜루찡",
+    "grade": "R",
+    "image": "assets/cards/혜루찡/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0340",
+    "title": "여유로운 혜루찡",
+    "name": "혜루찡",
+    "grade": "R",
+    "image": "assets/cards/혜루찡/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0341",
+    "title": "신나는 혜루찡",
+    "name": "혜루찡",
+    "grade": "C",
+    "image": "assets/cards/혜루찡/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0342",
+    "title": "진지한 혜루찡",
+    "name": "혜루찡",
+    "grade": "R",
+    "image": "assets/cards/혜루찡/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0343",
+    "title": "활짝 웃는 혜루찡",
+    "name": "혜루찡",
+    "grade": "C",
+    "image": "assets/cards/혜루찡/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0344",
+    "title": "빛나는 히나",
+    "name": "히나",
+    "grade": "R",
+    "image": "assets/cards/히나/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0345",
+    "title": "미소 짓는 히나",
+    "name": "히나",
+    "grade": "U",
+    "image": "assets/cards/히나/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0346",
+    "title": "집중한 히나",
+    "name": "히나",
+    "grade": "U",
+    "image": "assets/cards/히나/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0347",
+    "title": "여유로운 히나",
+    "name": "히나",
+    "grade": "R",
+    "image": "assets/cards/히나/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0348",
+    "title": "신나는 히나",
+    "name": "히나",
+    "grade": "C",
+    "image": "assets/cards/히나/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0349",
+    "title": "진지한 히나",
+    "name": "히나",
+    "grade": "SR",
+    "image": "assets/cards/히나/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0350",
+    "title": "활짝 웃는 히나",
+    "name": "히나",
+    "grade": "SSR",
+    "image": "assets/cards/히나/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0351",
+    "title": "브이하는 히나",
+    "name": "히나",
+    "grade": "U",
+    "image": "assets/cards/히나/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0352",
+    "title": "응원하는 히나",
+    "name": "히나",
+    "grade": "C",
+    "image": "assets/cards/히나/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0353",
+    "title": "멋진 히나",
+    "name": "히나",
+    "grade": "SR",
+    "image": "assets/cards/히나/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0354",
+    "title": "귀여운 히나",
+    "name": "히나",
+    "grade": "SR",
+    "image": "assets/cards/히나/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0355",
+    "title": "당당한 히나",
+    "name": "히나",
+    "grade": "SR",
+    "image": "assets/cards/히나/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0356",
+    "title": "즐거운 히나",
+    "name": "히나",
+    "grade": "U",
+    "image": "assets/cards/히나/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0357",
+    "title": "빛나는 디임",
+    "name": "디임",
+    "grade": "U",
+    "image": "assets/cards/디임/001.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0358",
+    "title": "미소 짓는 디임",
+    "name": "디임",
+    "grade": "C",
+    "image": "assets/cards/디임/002.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0359",
+    "title": "집중한 디임",
+    "name": "디임",
+    "grade": "C",
+    "image": "assets/cards/디임/003.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0360",
+    "title": "여유로운 디임",
+    "name": "디임",
+    "grade": "SR",
+    "image": "assets/cards/디임/004.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0361",
+    "title": "신나는 디임",
+    "name": "디임",
+    "grade": "C",
+    "image": "assets/cards/디임/005.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0362",
+    "title": "진지한 디임",
+    "name": "디임",
+    "grade": "SR",
+    "image": "assets/cards/디임/006.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0363",
+    "title": "활짝 웃는 디임",
+    "name": "디임",
+    "grade": "C",
+    "image": "assets/cards/디임/007.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0364",
+    "title": "브이하는 디임",
+    "name": "디임",
+    "grade": "R",
+    "image": "assets/cards/디임/008.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0365",
+    "title": "응원하는 디임",
+    "name": "디임",
+    "grade": "SR",
+    "image": "assets/cards/디임/009.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0366",
+    "title": "멋진 디임",
+    "name": "디임",
+    "grade": "UR",
+    "image": "assets/cards/디임/010.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0367",
+    "title": "귀여운 디임",
+    "name": "디임",
+    "grade": "U",
+    "image": "assets/cards/디임/011.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0368",
+    "title": "당당한 디임",
+    "name": "디임",
+    "grade": "C",
+    "image": "assets/cards/디임/012.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0369",
+    "title": "즐거운 디임",
+    "name": "디임",
+    "grade": "C",
+    "image": "assets/cards/디임/013.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0370",
+    "title": "깜짝 놀란 디임",
+    "name": "디임",
+    "grade": "R",
+    "image": "assets/cards/디임/014.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0371",
+    "title": "시무룩한 디임",
+    "name": "디임",
+    "grade": "R",
+    "image": "assets/cards/디임/015.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0372",
+    "title": "열정적인 디임",
+    "name": "디임",
+    "grade": "HR",
+    "image": "assets/cards/디임/016.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0373",
+    "title": "차분한 디임",
+    "name": "디임",
+    "grade": "U",
+    "image": "assets/cards/디임/017.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0374",
+    "title": "설레는 디임",
+    "name": "디임",
+    "grade": "C",
+    "image": "assets/cards/디임/018.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0375",
+    "title": "승리한 디임",
+    "name": "디임",
+    "grade": "U",
+    "image": "assets/cards/디임/019.webp",
+    "focusX": 50,
+    "focusY": 38
+  },
+  {
+    "id": "card-0376",
+    "title": "기뻐하는 디임",
+    "name": "디임",
+    "grade": "U",
+    "image": "assets/cards/디임/020.webp",
+    "focusX": 50,
+    "focusY": 38
+  }
+]

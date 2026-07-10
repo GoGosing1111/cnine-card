@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CNINE Card",
+  "type": "object",
+  "required": ["id", "name", "title", "grade", "image"],
+  "properties": {
+    "id": { "type": "string" },
+    "name": { "type": "string", "description": "멤버명" },
+    "title": { "type": "string", "description": "카드명" },
+    "grade": { "enum": ["C", "U", "R", "SR", "HR", "UR", "SSR"] },
+    "image": { "type": "string" },
+    "focusX": { "type": "number", "minimum": 0, "maximum": 100, "default": 50 },
+    "focusY": { "type": "number", "minimum": 0, "maximum": 100, "default": 50 },
+    "enabled": { "type": "boolean", "default": true }
+  }
+}

@@ -1,0 +1,128 @@
+CREATE TABLE IF NOT EXISTS app_meta (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS users (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nickname TEXT NOT NULL UNIQUE,
+  private_key_hash TEXT NOT NULL UNIQUE,
+  coin INTEGER NOT NULL DEFAULT 10000 CHECK (coin >= 0),
+  role TEXT NOT NULL DEFAULT 'USER',
+  status TEXT NOT NULL DEFAULT 'ACTIVE',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_login_at TEXT
+);
+CREATE TABLE IF NOT EXISTS sessions (
+  token_hash TEXT PRIMARY KEY,
+  user_id INTEGER NOT NULL,
+  expires_at TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS members (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL UNIQUE,
+  slug TEXT NOT NULL UNIQUE,
+  profile_image TEXT,
+  is_active INTEGER NOT NULL DEFAULT 1,
+  sort_order INTEGER NOT NULL DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS cards (
+  id TEXT PRIMARY KEY,
+  member_id INTEGER NOT NULL,
+  title TEXT NOT NULL,
+  rarity TEXT NOT NULL CHECK (rarity IN ('C','U','R','SR','HR','UR','SSR')),
+  image_url TEXT NOT NULL,
+  focus_x INTEGER NOT NULL DEFAULT 50,
+  focus_y INTEGER NOT NULL DEFAULT 50,
+  is_active INTEGER NOT NULL DEFAULT 1,
+  created_by INTEGER,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(member_id) REFERENCES members(id)
+);
+CREATE TABLE IF NOT EXISTS user_cards (
+  user_id INTEGER NOT NULL,
+  card_id TEXT NOT NULL,
+  quantity INTEGER NOT NULL DEFAULT 1,
+  first_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(user_id, card_id),
+  FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY(card_id) REFERENCES cards(id)
+);
+CREATE TABLE IF NOT EXISTS card_packs (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  subtitle TEXT,
+  description TEXT,
+  theme TEXT NOT NULL DEFAULT 'basic',
+  price INTEGER NOT NULL CHECK (price >= 0),
+  allowed_rarities TEXT NOT NULL,
+  guarantee_10 TEXT,
+  guarantee_20 TEXT,
+  pickup_member_id INTEGER,
+  pickup_multiplier REAL NOT NULL DEFAULT 1,
+  is_active INTEGER NOT NULL DEFAULT 1,
+  start_at TEXT,
+  end_at TEXT,
+  sort_order INTEGER NOT NULL DEFAULT 0,
+  FOREIGN KEY(pickup_member_id) REFERENCES members(id)
+);
+CREATE TABLE IF NOT EXISTS card_pack_rates (
+  pack_id TEXT NOT NULL,
+  rarity TEXT NOT NULL,
+  rate REAL NOT NULL CHECK (rate >= 0),
+  PRIMARY KEY(pack_id, rarity),
+  FOREIGN KEY(pack_id) REFERENCES card_packs(id) ON DELETE CASCADE
+);
+CREATE TABLE IF NOT EXISTS draw_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  draw_group_id TEXT NOT NULL,
+  user_id INTEGER NOT NULL,
+  pack_id TEXT NOT NULL,
+  card_id TEXT NOT NULL,
+  rarity TEXT NOT NULL,
+  coin_used INTEGER NOT NULL DEFAULT 0,
+  is_new INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS coin_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  change_amount INTEGER NOT NULL,
+  balance_after INTEGER NOT NULL,
+  reason TEXT NOT NULL,
+  admin_id INTEGER,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS attendance_logs (
+  user_id INTEGER NOT NULL,
+  attendance_date TEXT NOT NULL,
+  reward_coin INTEGER NOT NULL DEFAULT 500,
+  claimed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(user_id, attendance_date)
+);
+CREATE TABLE IF NOT EXISTS admin_permissions (
+  admin_user_id INTEGER NOT NULL,
+  permission_key TEXT NOT NULL,
+  is_allowed INTEGER NOT NULL DEFAULT 0,
+  limit_value INTEGER,
+  PRIMARY KEY(admin_user_id, permission_key)
+);
+CREATE TABLE IF NOT EXISTS admin_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  admin_id INTEGER NOT NULL,
+  action_type TEXT NOT NULL,
+  target_type TEXT NOT NULL,
+  target_id TEXT,
+  before_data TEXT,
+  after_data TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_cards_user ON user_cards(user_id);
+CREATE INDEX IF NOT EXISTS idx_draw_logs_user ON draw_logs(user_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id, rarity);
+CREATE INDEX IF NOT EXISTS idx_users_score_status ON users(status);

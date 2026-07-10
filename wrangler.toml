@@ -1,0 +1,10 @@
+name = "cnine-card"
+compatibility_date = "2026-07-01"
+pages_build_output_dir = "."
+
+# Git 연동 Pages에서는 Cloudflare 대시보드의 Bindings에서 DB를 연결합니다.
+# 로컬 wrangler 사용 시 아래 database_id를 실제 값으로 바꾸세요.
+[[d1_databases]]
+binding = "DB"
+database_name = "cnine-card-db"
+database_id = "여기에_D1_DATABASE_ID_입력"
