@@ -5,30 +5,30 @@ const TEST_COIN = 5000;
 let cards = [];
 let selectedPackId = 'basic';
 
-const gradeOrder = { SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
-const gradeScore = { SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
-const baseRates = { SSR: 1, UR: 4, HR: 7, SR: 13, R: 20, U: 25, C: 30 };
+const gradeOrder = { FUR: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
+const gradeScore = { FUR: 5000, MA: 1500, SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
+const baseRates = { FUR: 0, MA: 0, SSR: 1, UR: 4, HR: 7, SR: 13, R: 20, U: 25, C: 30 };
 
 const PACKS = [
   {
     id: 'basic', name: '일반 카드팩', subtitle: 'STANDARD PACK', theme: 'basic',
-    description: '모든 등급이 등장하는 기본 카드팩', range: 'C ~ SSR', price: 10,
-    allowed: ['C','U','R','SR','HR','UR','SSR'], guarantee10: 'R', guarantee20: 'SR'
+    description: '모든 등급이 등장하는 기본 카드팩', range: 'C ~ FUR', price: 10,
+    allowed: ['C','U','R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'R', guarantee20: 'SR'
   },
   {
     id: 'advanced', name: '고급 카드팩', subtitle: 'ADVANCED PACK', theme: 'advanced',
-    description: '커먼을 제외한 U 이상 카드팩', range: 'U ~ SSR', price: 25,
-    allowed: ['U','R','SR','HR','UR','SSR'], guarantee10: 'SR', guarantee20: 'HR'
+    description: '커먼을 제외한 U 이상 카드팩', range: 'U ~ FUR', price: 25,
+    allowed: ['U','R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'SR', guarantee20: 'HR'
   },
   {
     id: 'premium', name: '프리미엄 카드팩', subtitle: 'PREMIUM PACK', theme: 'premium',
-    description: 'R 이상만 등장하는 고급 수집팩', range: 'R ~ SSR', price: 60,
-    allowed: ['R','SR','HR','UR','SSR'], guarantee10: 'HR', guarantee20: 'UR'
+    description: 'R 이상만 등장하는 고급 수집팩', range: 'R ~ FUR', price: 60,
+    allowed: ['R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'HR', guarantee20: 'UR'
   },
   {
     id: 'pickup', name: '남수댕 픽업팩', subtitle: 'MEMBER PICK-UP', theme: 'pickup',
-    description: '남수댕 카드 등장 확률 3배', range: 'C ~ SSR', price: 30,
-    allowed: ['C','U','R','SR','HR','UR','SSR'], guarantee10: 'R', guarantee20: 'SR', pickupMember: '남수댕', pickupMultiplier: 3
+    description: '남수댕 카드 등장 확률 3배', range: 'C ~ FUR', price: 30,
+    allowed: ['C','U','R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'R', guarantee20: 'SR', pickupMember: '남수댕', pickupMultiplier: 3
   }
 ];
 
@@ -90,7 +90,7 @@ function canClaimAttendance(user) { return user.attendance?.lastClaimDate !== ks
 function cardScore(user) { const owned = ownedIds(user); return cards.reduce((sum, card) => sum + (owned.has(card.id) ? gradeScore[card.grade] : 0), 0); }
 function scoreBreakdown(user) {
   const owned = ownedIds(user);
-  return ['SSR','UR','HR','SR','R','U','C'].map(grade => ({ grade, count: cards.filter(c => c.grade === grade && owned.has(c.id)).length, score: gradeScore[grade] }));
+  return ['FUR','MA','SSR','UR','HR','SR','R','U','C'].map(grade => ({ grade, count: cards.filter(c => c.grade === grade && owned.has(c.id)).length, score: gradeScore[grade] }));
 }
 
 function pickGrade(allowedGrades) {
@@ -188,7 +188,7 @@ function packArt(pack) {
 function dexView(user) {
   const owned = ownedIds(user);
   const names = [...new Set(cards.map(c => c.name))];
-  return `${summaryBar(user)}<section class="dex-cover"><div><p class="eyebrow">MY COLLECTION ALBUM</p><h2>씨켓몬 도감</h2><p>멤버별 앨범을 펼쳐 수집한 카드를 확인하세요.</p></div><div class="dex-total"><b>${owned.size}</b><span>/ ${cards.length} CARDS</span></div></section><div class="dex-search"><input id="dexSearch" placeholder="카드명 또는 멤버 검색"><select id="gradeFilter"><option value="">전체 등급</option>${['SSR','UR','HR','SR','R','U','C'].map(g=>`<option>${g}</option>`).join('')}</select></div><div id="dexSections">${names.map((name,index)=>dexSection(name,owned,index)).join('')}</div>`;
+  return `${summaryBar(user)}<section class="dex-cover"><div><p class="eyebrow">MY COLLECTION ALBUM</p><h2>씨켓몬 도감</h2><p>멤버별 앨범을 펼쳐 수집한 카드를 확인하세요.</p></div><div class="dex-total"><b>${owned.size}</b><span>/ ${cards.length} CARDS</span></div></section><div class="dex-search"><input id="dexSearch" placeholder="카드명 또는 멤버 검색"><select id="gradeFilter"><option value="">전체 등급</option>${['FUR','MA','SSR','UR','HR','SR','R','U','C'].map(g=>`<option>${g}</option>`).join('')}</select></div><div id="dexSections">${names.map((name,index)=>dexSection(name,owned,index)).join('')}</div>`;
 }
 function dexSection(name, owned, index=0) {
   const list = cards.filter(c=>c.name===name); const got=list.filter(c=>owned.has(c.id)).length;
@@ -271,7 +271,9 @@ function openPack(packId, count, cost) {
 
 function cardHtml(card, owned, classes='') {
   if(!owned)return `<article class="card-frame locked ${classes}" data-id="${card.id}"><div class="card-inner"><div class="card-art"><span class="missing">?</span></div><div class="card-footer"><div class="card-title">미획득 카드</div></div></div></article>`;
-  return `<article class="card-frame grade-${card.grade} ${classes}" data-id="${card.id}"><div class="card-holo"></div><div class="card-inner"><div class="card-header"><span>${card.grade}</span><b>CNINE</b></div><div class="card-art"><img loading="lazy" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title">${escapeHtml(card.title)}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="CNINE"></div></div></article>`;
+  const limited=card.limitedTotal!==null&&card.limitedTotal!==undefined;
+  const remain=limited?Math.max(0,Number(card.limitedTotal)-Number(card.issuedCount||0)):null;
+  return `<article class="card-frame grade-${card.grade} ${classes}" data-id="${card.id}">${limited?`<div class="limited-badge">LIMITED ${remain}/${card.limitedTotal}</div>`:''}<div class="card-holo"></div><div class="card-inner"><div class="card-header"><span>${card.grade}</span><b>CNINE</b></div><div class="card-art"><img loading="lazy" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title">${escapeHtml(card.title)}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="CNINE"></div></div></article>`;
 }
 
 function showDetail(id) {

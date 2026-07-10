@@ -1,8 +1,9 @@
 import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 
-const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500};
-const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7};
+const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000};
+const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9};
+const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR'];
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store'}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
@@ -33,8 +34,40 @@ async function ensureUpgrades(env){
   for(const q of statements) await env.DB.prepare(q).run();
   for(const q of [
     `ALTER TABLE users ADD COLUMN banned_until TEXT`,
-    `ALTER TABLE users ADD COLUMN ban_reason TEXT`
+    `ALTER TABLE users ADD COLUMN ban_reason TEXT`,
+    `ALTER TABLE cards ADD COLUMN draw_weight REAL NOT NULL DEFAULT 1`,
+    `ALTER TABLE cards ADD COLUMN limited_total INTEGER`,
+    `ALTER TABLE cards ADD COLUMN issued_count INTEGER NOT NULL DEFAULT 0`
   ]){try{await env.DB.prepare(q).run()}catch{}}
+  const cardSql=await env.DB.prepare("SELECT sql FROM sqlite_master WHERE type='table' AND name='cards'").first();
+  if(cardSql?.sql&&!cardSql.sql.includes("'FUR'")){
+    await env.DB.prepare('PRAGMA foreign_keys=OFF').run();
+    await env.DB.prepare('PRAGMA legacy_alter_table=ON').run();
+    await env.DB.prepare('ALTER TABLE cards RENAME TO cards_legacy').run();
+    await env.DB.prepare(`CREATE TABLE cards (
+      id TEXT PRIMARY KEY, member_id INTEGER NOT NULL, title TEXT NOT NULL,
+      rarity TEXT NOT NULL CHECK (rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR')),
+      image_url TEXT NOT NULL, focus_x INTEGER NOT NULL DEFAULT 50, focus_y INTEGER NOT NULL DEFAULT 50,
+      is_active INTEGER NOT NULL DEFAULT 1, draw_weight REAL NOT NULL DEFAULT 1,
+      limited_total INTEGER, issued_count INTEGER NOT NULL DEFAULT 0,
+      created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(member_id) REFERENCES members(id)
+    )`).run();
+    await env.DB.prepare(`INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,created_by,created_at,updated_at)
+      SELECT id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,created_by,created_at,updated_at FROM cards_legacy`).run();
+    await env.DB.prepare('DROP TABLE cards_legacy').run();
+    await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id,rarity)').run();
+    await env.DB.prepare('PRAGMA legacy_alter_table=OFF').run();
+    await env.DB.prepare('PRAGMA foreign_keys=ON').run();
+  }
+  const packs=await env.DB.prepare('SELECT id,allowed_rarities FROM card_packs').all();
+  for(const pack of packs.results){
+    let allowed=[]; try{allowed=JSON.parse(pack.allowed_rarities||'[]')}catch{}
+    for(const rarity of ['MA','FUR']) if(!allowed.includes(rarity)) allowed.push(rarity);
+    await env.DB.prepare('UPDATE card_packs SET allowed_rarities=? WHERE id=?').bind(JSON.stringify(allowed),pack.id).run();
+    await env.DB.prepare('INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,0)').bind(pack.id,'MA').run();
+    await env.DB.prepare('INSERT OR IGNORE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,0)').bind(pack.id,'FUR').run();
+  }
 }
 async function writeAdminLog(env,admin,action,targetType,targetId,before=null,after=null){
   await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
@@ -85,15 +118,21 @@ function weightedPick(items,getWeight){
   return items.at(-1);
 }
 async function drawOne(env,pack,minimum=null){
-  let allowed=JSON.parse(pack.allowed_rarities);
+  let allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>RARITIES.includes(rarity));
   if(minimum) allowed=allowed.filter(rarity=>ORDER[rarity]>=ORDER[minimum]);
   const placeholders=allowed.map(()=>'?').join(',');
-  const rates=await env.DB.prepare(`SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rarity IN (${placeholders})`).bind(pack.id,...allowed).all();
-  const selectedRarity=weightedPick(rates.results,row=>row.rate)?.rarity||allowed[0];
-  const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id
-    FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND c.rarity=?`).bind(selectedRarity).all()).results;
-  if(!pool.length) throw new Error('선택한 등급의 카드가 없습니다.');
-  return weightedPick(pool,row=>pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1);
+  const rates=(await env.DB.prepare(`SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rarity IN (${placeholders}) AND rate>0`).bind(pack.id,...allowed).all()).results;
+  if(!rates.length) throw new Error('이 카드팩에 설정된 뽑기 확률이 없습니다.');
+  for(let attempt=0;attempt<20;attempt++){
+    const selectedRarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
+    const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
+      FROM cards c JOIN members m ON m.id=c.member_id
+      WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND (c.limited_total IS NULL OR c.issued_count<c.limited_total)`).bind(selectedRarity).all()).results;
+    if(!pool.length) continue;
+    const card=weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1));
+    if(card) return card;
+  }
+  throw new Error('현재 뽑을 수 있는 카드가 없습니다. 한정판 수량 또는 확률 설정을 확인하세요.');
 }
 async function requirePermission(request,env,permission){
   const user=await authenticate(request,env);
@@ -161,7 +200,7 @@ export async function onRequest(context){
       return user?json({user:await profile(env,user)}):json({error:'로그인이 필요합니다.'},401);
     }
     if(path==='cards'){
-      const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY
+      const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount
         FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 ORDER BY m.sort_order,c.id`).all();
       return json({cards:rows.results});
     }
@@ -199,7 +238,19 @@ export async function onRequest(context){
       if(!debit.meta.changes) return json({error:'코인이 부족합니다.'},400);
       const groupId=crypto.randomUUID();
       const results=[];
-      for(const card of cards){
+      for(let i=0;i<cards.length;i++){
+        let card=cards[i];
+        if(card.limited_total!==null&&card.limited_total!==undefined){
+          let reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
+          let retry=0;
+          while(!reserved.meta.changes&&retry++<20){
+            card=await drawOne(env,pack);
+            if(card.limited_total===null||card.limited_total===undefined){reserved={meta:{changes:1}};break}
+            reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
+          }
+          if(!reserved.meta.changes) return json({error:'한정판 카드 수량이 방금 소진되었습니다. 다시 시도하세요.'},409);
+          cards[i]=card;
+        }
         const previous=await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?').bind(user.id,card.id).first();
         const isNew=!previous;
         await env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,1)
@@ -217,13 +268,13 @@ export async function onRequest(context){
         FROM draw_logs d
         JOIN users u ON u.id=d.user_id
         JOIN cards c ON c.id=d.card_id
-        WHERE d.rarity IN ('UR','SSR') AND u.status='ACTIVE'
+        WHERE d.rarity IN ('UR','SSR','MA','FUR') AND u.status='ACTIVE'
         ORDER BY d.id DESC LIMIT 20`).all();
       return json({items:rows.results});
     }
     if(path==='ranking'){
       const rows=await env.DB.prepare(`SELECT u.nickname,
-        COALESCE(SUM(CASE c.rarity WHEN 'SSR' THEN 500 WHEN 'UR' THEN 200 WHEN 'HR' THEN 100 WHEN 'SR' THEN 50 WHEN 'R' THEN 20 WHEN 'U' THEN 5 ELSE 1 END),0) AS score,
+        COALESCE(SUM(CASE c.rarity WHEN 'FUR' THEN 5000 WHEN 'MA' THEN 1500 WHEN 'SSR' THEN 500 WHEN 'UR' THEN 200 WHEN 'HR' THEN 100 WHEN 'SR' THEN 50 WHEN 'R' THEN 20 WHEN 'U' THEN 5 ELSE 1 END),0) AS score,
         COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
         FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
         WHERE u.status='ACTIVE' GROUP BY u.id ORDER BY score DESC,card_count DESC,u.created_at ASC LIMIT 100`).all();
@@ -377,10 +428,34 @@ export async function onRequest(context){
         .bind(admin.id,'COIN_GRANT','USER',String(userId),JSON.stringify(before),JSON.stringify({...after,amount,reason})).run();
       return json({ok:true,user:after,amount,reason});
     }
+    if(path==='admin/card-rates'){
+      const admin=await requirePermission(request,env,'CARD_EDIT');
+      if(!admin) return json({error:'확률 관리 권한이 없습니다.'},403);
+      if(request.method==='GET'){
+        const packs=await env.DB.prepare('SELECT id,name,allowed_rarities FROM card_packs ORDER BY sort_order,id').all();
+        const rates=await env.DB.prepare('SELECT pack_id,rarity,rate FROM card_pack_rates ORDER BY pack_id').all();
+        return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities)})),rates:rates.results,rarities:RARITIES});
+      }
+      if(request.method==='PATCH'){
+        const payload=await readBody(request); const packId=String(payload.packId||'');
+        const pack=await env.DB.prepare('SELECT * FROM card_packs WHERE id=?').bind(packId).first();
+        if(!pack) return json({error:'카드팩을 찾을 수 없습니다.'},404);
+        const rates=payload.rates||{}; const total=RARITIES.reduce((sum,r)=>sum+(Number(rates[r])||0),0);
+        if(Math.abs(total-100)>0.0001) return json({error:`등급 확률 합계는 100%여야 합니다. 현재 ${total.toFixed(4)}%입니다.`},400);
+        for(const rarity of RARITIES){
+          const rate=Number(rates[rarity])||0; if(rate<0||rate>100) return json({error:'확률은 0~100 사이여야 합니다.'},400);
+          await env.DB.prepare('INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,?)').bind(packId,rarity,rate).run();
+        }
+        await env.DB.prepare('UPDATE card_packs SET allowed_rarities=? WHERE id=?').bind(JSON.stringify(RARITIES),packId).run();
+        await writeAdminLog(env,admin,'PACK_RATE_UPDATE','CARD_PACK',packId,null,rates);
+        return json({ok:true,total});
+      }
+    }
+
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
-      const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active
+      const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active,c.draw_weight AS drawWeight,c.limited_total AS limitedTotal,c.issued_count AS issuedCount
         FROM cards c JOIN members m ON m.id=c.member_id`;
       const normalizeCard=async payload=>{
         const title=String(payload.title||'').trim().slice(0,80);
@@ -390,13 +465,18 @@ export async function onRequest(context){
         const focusX=Math.max(0,Math.min(100,Number(payload.focusX??50)));
         const focusY=Math.max(0,Math.min(100,Number(payload.focusY??50)));
         const isActive=payload.isActive===false?0:1;
+        const drawWeight=Math.max(0,Math.min(100000,Number(payload.drawWeight??1)||0));
+        const rawLimit=payload.limitedTotal;
+        const limitedTotal=rawLimit===null||rawLimit===undefined||rawLimit===''?null:Math.max(0,Math.floor(Number(rawLimit)));
+        const issuedCount=Math.max(0,Math.floor(Number(payload.issuedCount??0)||0));
         if(!title) throw new Error('카드명을 입력하세요.');
         if(!image) throw new Error('이미지 경로 또는 URL을 입력하세요.');
         if(!Number.isInteger(memberId)||memberId<1) throw new Error('멤버를 선택하세요.');
-        if(!['C','U','R','SR','HR','UR','SSR'].includes(grade)) throw new Error('올바르지 않은 카드 등급입니다.');
+        if(!RARITIES.includes(grade)) throw new Error('올바르지 않은 카드 등급입니다.');
         const member=await env.DB.prepare('SELECT id FROM members WHERE id=?').bind(memberId).first();
         if(!member) throw new Error('존재하지 않는 멤버입니다.');
-        return {title,grade,image,memberId,focusX,focusY,isActive};
+        if(limitedTotal!==null&&limitedTotal<issuedCount) throw new Error('한정 수량은 이미 발급된 수량보다 작게 설정할 수 없습니다.');
+        return {title,grade,image,memberId,focusX,focusY,isActive,drawWeight,limitedTotal,issuedCount};
       };
       const nextCardId=()=>`CN-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;
       if(request.method==='GET'){
@@ -412,8 +492,8 @@ export async function onRequest(context){
           for(const raw of payload.cards){
             const card=await normalizeCard(raw);
             const id=nextCardId();
-            await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,created_by) VALUES(?,?,?,?,?,?,?,?,?)')
-              .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,admin.id).run();
+            await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)')
+              .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,admin.id).run();
             const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
             created.push(after);
           }
@@ -426,11 +506,11 @@ export async function onRequest(context){
           if(!source) return json({error:'복제할 카드가 없습니다.'},404);
           const card=await normalizeCard({
             title:payload.title||`${source.title} 복사본`,grade:payload.grade||source.rarity,image:payload.image||source.image_url,
-            memberId:payload.memberId||source.member_id,focusX:payload.focusX??source.focus_x,focusY:payload.focusY??source.focus_y,isActive:payload.isActive??Boolean(source.is_active)
+            memberId:payload.memberId||source.member_id,focusX:payload.focusX??source.focus_x,focusY:payload.focusY??source.focus_y,isActive:payload.isActive??Boolean(source.is_active),drawWeight:payload.drawWeight??source.draw_weight,limitedTotal:payload.limitedTotal??source.limited_total,issuedCount:0
           });
           const id=nextCardId();
-          await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,created_by) VALUES(?,?,?,?,?,?,?,?,?)')
-            .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,admin.id).run();
+          await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)')
+            .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,admin.id).run();
           const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
           await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
             .bind(admin.id,'CARD_CLONE','CARD',id,JSON.stringify({source:payload.cloneFrom}),JSON.stringify(after)).run();
@@ -438,8 +518,8 @@ export async function onRequest(context){
         }
         const card=await normalizeCard(payload);
         const id=nextCardId();
-        await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,created_by) VALUES(?,?,?,?,?,?,?,?,?)')
-          .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,admin.id).run();
+        await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)')
+          .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,admin.id).run();
         const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,after_data) VALUES(?,?,?,?,?)')
           .bind(admin.id,'CARD_CREATE','CARD',id,JSON.stringify(after)).run();
@@ -451,10 +531,10 @@ export async function onRequest(context){
         if(!before) return json({error:'카드가 없습니다.'},404);
         const card=await normalizeCard({
           title:payload.title??before.title,grade:payload.grade??before.rarity,image:payload.image??before.image_url,
-          memberId:payload.memberId??before.member_id,focusX:payload.focusX??before.focus_x,focusY:payload.focusY??before.focus_y,isActive:payload.isActive??Boolean(before.is_active)
+          memberId:payload.memberId??before.member_id,focusX:payload.focusX??before.focus_x,focusY:payload.focusY??before.focus_y,isActive:payload.isActive??Boolean(before.is_active),drawWeight:payload.drawWeight??before.draw_weight,limitedTotal:payload.limitedTotal===undefined?before.limited_total:payload.limitedTotal,issuedCount:before.issued_count
         });
-        await env.DB.prepare('UPDATE cards SET member_id=?,title=?,rarity=?,image_url=?,focus_x=?,focus_y=?,is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
-          .bind(card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,payload.id).run();
+        await env.DB.prepare('UPDATE cards SET member_id=?,title=?,rarity=?,image_url=?,focus_x=?,focus_y=?,is_active=?,draw_weight=?,limited_total=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
+          .bind(card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,payload.id).run();
         const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(payload.id).first();
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
           .bind(admin.id,card.isActive?'CARD_EDIT':'CARD_HIDE','CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
