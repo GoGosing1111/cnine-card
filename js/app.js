@@ -142,14 +142,14 @@ function renderShell(tab) {
   const user = loadUser();
   if (!user) return renderLogin();
   const views = { buy: buyView, dex: dexView, attendance: attendanceView, rank: rankView };
-  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button></nav><button class="player-account-btn" id="playerAccountBtn" type="button"><span class="login-dot"></span><span><small>로그인 중</small><b>${escapeHtml(user.nickname)}</b></span><i>내 정보</i></button></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
+  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
   document.querySelectorAll('.tab').forEach(b => b.onclick = () => renderShell(b.dataset.tab));
   bindView(tab);
   loadRecentHighGradeFeed();
 }
 
 function summaryBar(user) {
-  return `<section class="summary-bar"><div><span>PLAYER</span><b>${escapeHtml(user.nickname)}</b></div><div><span>COIN</span><b class="coin-value">◈ ${user.coin.toLocaleString()}</b></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><div><span>CARD SCORE</span><b>${cardScore(user).toLocaleString()}점</b></div></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">UR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 UR 이상 획득 기록을 불러오는 중...</span></div></div></section>`;
+  return `<section class="summary-bar"><div class="login-summary"><span>로그인 중</span><div class="login-summary-row"><i class="login-dot"></i><b>USER</b><button id="playerAccountBtn" type="button">내 정보</button></div></div><div><span>COIN</span><b class="coin-value">◈ ${user.coin.toLocaleString()}</b></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><div><span>CARD SCORE</span><b>${cardScore(user).toLocaleString()}점</b></div></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">UR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 UR 이상 획득 기록을 불러오는 중...</span></div></div></section>`;
 }
 
 async function loadRecentHighGradeFeed(){

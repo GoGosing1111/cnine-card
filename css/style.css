@@ -24,14 +24,16 @@
 .grade-text-MA{color:#ff8fe8}.grade-text-FUR{color:#fff2a8;text-shadow:0 0 12px rgba(255,242,168,.45)}.high-grade-item.grade-MA strong{color:#ff8fe8;text-shadow:0 0 14px rgba(255,143,232,.4)}.high-grade-item.grade-FUR strong{color:#fff2a8;text-shadow:0 0 16px rgba(255,242,168,.5)}
 
 /* Player login/logout UX */
-.header{gap:18px}
-.player-account-btn{display:flex;align-items:center;gap:10px;margin-left:auto;padding:9px 12px;border:1px solid rgba(86,165,222,.28);border-radius:14px;background:rgba(7,18,32,.78);color:#eef8ff;cursor:pointer;min-width:154px;text-align:left}
-.player-account-btn:hover{border-color:rgba(63,190,255,.7);transform:translateY(-1px)}
-.player-account-btn span:nth-child(2){display:flex;flex-direction:column;min-width:0;flex:1}.player-account-btn small{font-size:10px;color:#7fa6c4}.player-account-btn b{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.player-account-btn i{font-size:11px;font-style:normal;color:#5ec8ff}
 .login-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#34d399;box-shadow:0 0 12px rgba(52,211,153,.9);flex:0 0 auto}
 .logged-out-notice{margin:18px 0;padding:14px 16px;border:1px solid rgba(245,158,11,.3);border-radius:13px;background:rgba(245,158,11,.08);text-align:left}.logged-out-notice span{display:block;color:#fbbf24;font-weight:800;font-size:13px;margin-bottom:5px}.logged-out-notice p{margin:0!important;font-size:13px!important;line-height:1.55;color:#cbd5e1!important}
 .player-login-box .login-divider{display:flex;align-items:center;gap:12px;margin:24px 0 18px;color:#7890a7;font-size:12px}.player-login-box .login-divider:before,.player-login-box .login-divider:after{content:"";height:1px;flex:1;background:rgba(120,160,190,.18)}
 .account-panel{position:relative;width:min(520px,calc(100vw - 28px));padding:30px}.account-close{position:absolute;right:18px;top:16px}.account-login-state{display:flex;align-items:center;gap:13px;margin:8px 0 20px;padding:16px;border:1px solid rgba(52,211,153,.25);border-radius:15px;background:rgba(52,211,153,.06)}.account-login-state .login-dot{width:12px;height:12px}.account-login-state small{color:#84a1b8}.account-login-state h2{margin:2px 0 0;font-size:23px}
 .account-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}.account-info-grid>div{padding:14px;border-radius:13px;background:rgba(10,28,47,.72);border:1px solid rgba(82,144,188,.2)}.account-info-grid span{display:block;font-size:11px;color:#7898b1;margin-bottom:5px}.account-info-grid b{font-size:16px}
 .account-key-box{padding:16px;border-radius:14px;background:rgba(2,10,20,.5);border:1px solid rgba(80,140,180,.22)}.account-key-box label{display:block;font-size:12px;font-weight:800;margin-bottom:9px}.account-key-box>div{display:flex;gap:8px}.account-key-box input{min-width:0;flex:1}.account-key-box button{border:0;border-radius:10px;padding:0 16px;background:#1e93ca;color:#fff;font-weight:800;cursor:pointer}.account-key-box p{font-size:11px;color:#7890a5;line-height:1.5;margin:9px 0 0}.account-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.btn.danger{background:#7f1d1d;border-color:#ef4444;color:#fff}.btn.danger:hover{background:#991b1b}
-@media(max-width:900px){.header{flex-wrap:wrap}.player-account-btn{order:3;width:100%;margin-left:0}.tabs{order:2}.account-info-grid,.account-actions{grid-template-columns:1fr}}
+
+.login-summary{cursor:default}
+.login-summary-row{display:flex;align-items:center;gap:9px;margin-top:5px}
+.login-summary-row b{margin-top:0!important;font-size:21px!important}
+.login-summary-row button{margin-left:auto;border:0;background:transparent;color:#5ec8ff;font-size:12px;font-weight:1000;cursor:pointer;padding:6px 0}
+.login-summary-row button:hover{color:#9ce8ff;text-decoration:underline}
+@media(max-width:900px){.account-info-grid,.account-actions{grid-template-columns:1fr}}
