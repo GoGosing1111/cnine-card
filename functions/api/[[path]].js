@@ -95,6 +95,14 @@ async function ensureUpgrades(env){
       ]) await env.DB.prepare(q).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v864','1',CURRENT_TIMESTAMP)").run();
     }
+    const packMapDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v867'").first();
+    if(packMapDone?.value!=='1'){
+      for(const q of [
+        `CREATE TABLE IF NOT EXISTS card_pack_cards (pack_id TEXT NOT NULL, card_id TEXT NOT NULL, PRIMARY KEY(pack_id,card_id))`,
+        `CREATE INDEX IF NOT EXISTS idx_card_pack_cards_card ON card_pack_cards(card_id)`
+      ]) await env.DB.prepare(q).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v867','1',CURRENT_TIMESTAMP)").run();
+    }
     const packCardsDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v865'").first();
     if(packCardsDone?.value!=='1'){
       for(const q of [
@@ -197,6 +205,8 @@ async function seedDatabase(env){
       .bind(card.id,card.memberId,card.title,card.rarity,card.imageUrl,card.focusX,card.focusY,card.status==='PENDING'?0:1,card.drawWeight??1,card.limitedTotal??null,card.status||'PUBLIC',card.batchName||null,card.batchDate||null));
     await env.DB.batch(chunk);
   }
+  await env.DB.prepare(`CREATE TABLE IF NOT EXISTS card_pack_cards (pack_id TEXT NOT NULL, card_id TEXT NOT NULL, PRIMARY KEY(pack_id,card_id))`).run();
+  await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_card_pack_cards_card ON card_pack_cards(card_id)`).run();
   for(const pack of PACKS){
     await env.DB.prepare(`INSERT OR REPLACE INTO card_packs(id,name,subtitle,description,theme,price,allowed_rarities,guarantee_10,guarantee_20,pickup_member_id,pickup_multiplier,is_active,sort_order)
       VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(pack.id,pack.name,pack.subtitle,pack.description,pack.theme,pack.price,JSON.stringify(pack.allowed),pack.guarantee10,pack.guarantee20,pack.pickupMemberId,pack.pickupMultiplier,1,pack.sortOrder).run();
