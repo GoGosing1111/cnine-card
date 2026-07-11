@@ -162,7 +162,7 @@ async function drawLimitedCard(env){
     WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total`).all()).results;
   return weightedPick(pool,row=>Number(row.draw_weight)||0)||null;
 }
-async function drawOne(env,pack,minimum=null,allowLimited=true){
+async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
   // 리미티드팩의 한정판 확률은 일반 등급 100% 합계와 별도로 먼저 판정한다.
   if(allowLimited&&pack.id==='pickup'&&!minimum){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
@@ -176,7 +176,8 @@ async function drawOne(env,pack,minimum=null,allowLimited=true){
   if(minimum) allowed=allowed.filter(rarity=>ORDER[rarity]>=ORDER[minimum]);
   if(!allowed.length) throw new Error('이 카드팩에 설정된 일반 등급이 없습니다.');
   const placeholders=allowed.map(()=>'?').join(',');
-  const rates=(await env.DB.prepare(`SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rarity IN (${placeholders}) AND rate>0`).bind(pack.id,...allowed).all()).results;
+  let rates=(await env.DB.prepare(`SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rarity IN (${placeholders}) AND rate>0`).bind(pack.id,...allowed).all()).results;
+  if(criticalBonus>0) rates=applyCriticalRateBonus(rates,criticalBonus);
   if(!rates.length) throw new Error('이 카드팩에 설정된 일반 카드 확률이 없습니다.');
   for(let attempt=0;attempt<20;attempt++){
     const selectedRarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
@@ -188,6 +189,23 @@ async function drawOne(env,pack,minimum=null,allowLimited=true){
     if(card) return card;
   }
   throw new Error('현재 뽑을 수 있는 일반 카드가 없습니다. 카드 및 확률 설정을 확인하세요.');
+}
+
+async function criticalSettings(env){
+  const keys=['critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects'];
+  const rows=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`).bind(...keys).all();
+  const v=Object.fromEntries(rows.results.map(row=>[row.key,row.value]));
+  return {
+    enabled:String(v.critical_enabled??'1')==='1',
+    minTaps:Math.max(1,Math.min(30,Number(v.critical_min_taps||5)||5)),
+    chance:Math.max(0,Math.min(100,Number(v.critical_chance||3)||3)),
+    bonus:Math.max(0,Math.min(100,Number(v.critical_bonus||10)||10)),
+    effects:String(v.critical_effects??'1')==='1'
+  };
+}
+function applyCriticalRateBonus(rates,bonus){
+  const boosted=new Set(['SR','HR','UR','SSR','MA','FUR']);
+  return rates.map(row=>({...row,rate:Number(row.rate||0)*(boosted.has(row.rarity)?1+bonus/100:1)}));
 }
 
 async function maintenanceSettings(env){
@@ -318,15 +336,20 @@ export async function onRequest(context){
       if(!user) return json({error:'로그인이 필요합니다.'},401);
       const payload=await readBody(request);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      const criticalConfig=await criticalSettings(env);
+      const tapCount=Math.max(0,Math.min(100,Number(payload.tapCount)||0));
+      const criticalEligible=criticalConfig.enabled&&tapCount>=criticalConfig.minTaps;
+      const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
+      const criticalBonus=critical?criticalConfig.bonus:0;
       const pack=await env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId).first();
       if(!pack) return json({error:'판매 중인 카드팩이 아닙니다.'},404);
       const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       const cost=pack.price*count;
       if(fresh.coin<cost) return json({error:'코인이 부족합니다.'},400);
       const cards=[];
-      for(let index=0;index<count;index++) cards.push(await drawOne(env,pack));
+      for(let index=0;index<count;index++) cards.push(await drawOne(env,pack,null,true,criticalBonus));
       const guarantee=count===10?pack.guarantee_10:count===20?pack.guarantee_20:null;
-      if(guarantee&&!cards.some(card=>ORDER[card.grade]>=ORDER[guarantee])) cards[cards.length-1]=await drawOne(env,pack,guarantee);
+      if(guarantee&&!cards.some(card=>ORDER[card.grade]>=ORDER[guarantee])) cards[cards.length-1]=await drawOne(env,pack,guarantee,true,criticalBonus);
       cards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
       const debit=await env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost).run();
       if(!debit.meta.changes) return json({error:'코인이 부족합니다.'},400);
@@ -340,7 +363,7 @@ export async function onRequest(context){
             // 다른 이용자가 직전에 마지막 수량을 가져간 경우 오류로 끝내지 않고
             // 이 슬롯만 일반 카드로 즉시 대체한다. 코인은 이미 차감된 상태이므로
             // 반드시 정상 결과를 지급해야 한다.
-            card=await drawOne(env,pack,null,false);
+            card=await drawOne(env,pack,null,false,criticalBonus);
           }
           cards[i]=card;
         }
@@ -363,7 +386,7 @@ export async function onRequest(context){
       }
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,updated.coin).run();
-      return json({results,user:await profile(env,updated)});
+      return json({results,user:await profile(env,updated),critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,tapCount,minTaps:criticalConfig.minTaps,effects:criticalConfig.effects}});
     }
 
     if(path==='card/breakthrough'&&request.method==='POST'){
@@ -480,17 +503,18 @@ export async function onRequest(context){
     if(path==='admin/settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){
-        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','new_user_coin')").all();
+        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
         return json({settings:Object.fromEntries(rows.results.map(x=>[x.key,x.value])),role:admin.role});
       }
       if(request.method==='POST'){
         const payload=await readBody(request);
         const maintenanceKeys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at'];
+        const criticalKeys=['critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects'];
         const ownerKeys=['site_notice','new_user_coin'];
         if(admin.role!=='OWNER'&&ownerKeys.some(key=>key in payload)) return json({error:'신규 가입 코인과 서비스 공지는 OWNER만 변경할 수 있습니다.'},403);
-        const beforeRows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','new_user_coin')").all();
+        const beforeRows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
         const before=Object.fromEntries(beforeRows.results.map(x=>[x.key,x.value]));
-        for(const key of [...maintenanceKeys,...ownerKeys]) if(key in payload) await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(key,String(payload[key]??'')).run();
+        for(const key of [...maintenanceKeys,...criticalKeys,...ownerKeys]) if(key in payload) await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(key,String(payload[key]??'')).run();
         const action=String(payload.maintenance_mode)==='1'&&before.maintenance_mode!=='1'?'MAINTENANCE_START':String(payload.maintenance_mode)==='0'&&before.maintenance_mode==='1'?'MAINTENANCE_END':'SETTINGS_UPDATE';
         await writeAdminLog(env,admin,action,'SETTINGS','global',before,payload); return json({ok:true,maintenance:await maintenanceSettings(env)});
       }

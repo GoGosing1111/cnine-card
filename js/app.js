@@ -450,22 +450,77 @@ async function redeemCoupon(){
 }
 
 const localOpenPack=openPack;
-openPack=async function(packId,count,cost){
-  if(!API_MODE)return localOpenPack(packId,count,cost);
-  const pack=getPack(packId),modal=document.getElementById('modal');
-  modal.className='modal show opening-modal';
-  modal.innerHTML=`<div class="modal-panel draw-stage opening-panel"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="pack-open pack-opening">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div></div><p class="message opening-message">서버에서 카드를 결정하고 있습니다...</p></div>`;
+function criticalTone(success=false){
   try{
-    const d=await apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count})});
-    const next=apiUserToLocal(d.user); saveUser(next);
-    setTimeout(()=>{
-      modal.className='modal show results-modal';
-      modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${d.results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',next)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
-      document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-      document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
-      document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,pack.price*count)};
-    },900);
-  }catch(e){modal.className='modal';alert(e.message)}
+    const C=window.AudioContext||window.webkitAudioContext,ctx=new C();
+    const now=ctx.currentTime, notes=success?[180,360,720]:[220,280];
+    notes.forEach((freq,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type=success?'sawtooth':'sine';o.frequency.setValueAtTime(freq,now+i*.08);g.gain.setValueAtTime(.0001,now+i*.08);g.gain.exponentialRampToValueAtTime(success?.11:.035,now+i*.08+.01);g.gain.exponentialRampToValueAtTime(.0001,now+i*.08+.16);o.connect(g).connect(ctx.destination);o.start(now+i*.08);o.stop(now+i*.08+.18)});
+  }catch{}
+}
+function showCriticalBurst(stage,bonus){
+  stage.classList.add('critical-hit');
+  const burst=document.createElement('div');
+  burst.className='critical-burst';
+  burst.innerHTML=`<div class="critical-bolts"></div><div class="critical-ring"></div><strong>CRITICAL OPEN!</strong><span>상위 등급 가중치 +${Number(bonus||0).toFixed(0)}%</span><div class="critical-particles">${Array.from({length:28},(_,i)=>`<i style="--i:${i}"></i>`).join('')}</div>`;
+  stage.appendChild(burst);
+  criticalTone(true);
+  if(navigator.vibrate) navigator.vibrate([70,40,140]);
+}
+function openingMarkup(pack,count){
+  return `<div class="modal-panel draw-stage opening-panel critical-opening-stage"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="tap-counter"><b id="tapCount">0</b><span>/ 5 TAP</span></div><div class="pack-open pack-opening" id="criticalTapZone">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div><div class="tap-ripple-layer"></div></div><p class="message opening-message" id="openingMessage">팩을 빠르게 5회 이상 연타하세요!</p><div class="tap-progress"><i id="tapProgress"></i></div><small class="tap-rule">5회 이상부터 동일한 크리티컬 확률이 적용됩니다.</small></div>`;
+}
+async function runCriticalOpening(pack,count,requestDraw){
+  const modal=document.getElementById('modal');
+  modal.className='modal show opening-modal';
+  modal.innerHTML=openingMarkup(pack,count);
+  const stage=modal.querySelector('.critical-opening-stage'),zone=modal.querySelector('#criticalTapZone'),counter=modal.querySelector('#tapCount'),progress=modal.querySelector('#tapProgress'),message=modal.querySelector('#openingMessage');
+  let taps=0,locked=false;
+  const tap=e=>{
+    if(locked)return;
+    taps++;
+    counter.textContent=taps;
+    progress.style.width=`${Math.min(100,taps/5*100)}%`;
+    zone.classList.remove('tap-punch'); void zone.offsetWidth; zone.classList.add('tap-punch');
+    const r=document.createElement('i');r.className='tap-ripple';const rect=zone.getBoundingClientRect();r.style.left=`${(e.clientX||rect.left+rect.width/2)-rect.left}px`;r.style.top=`${(e.clientY||rect.top+rect.height/2)-rect.top}px`;zone.querySelector('.tap-ripple-layer').appendChild(r);setTimeout(()=>r.remove(),500);
+    if(taps===5){stage.classList.add('tap-ready');message.textContent='크리티컬 판정 준비 완료!';criticalTone(false);if(navigator.vibrate)navigator.vibrate(40)}
+  };
+  zone.addEventListener('pointerdown',tap);
+  await new Promise(r=>setTimeout(r,1450));
+  locked=true;zone.removeEventListener('pointerdown',tap);stage.classList.add('judging');message.textContent=taps>=5?'크리티컬 판정 중...':'일반 개봉 진행 중...';
+  let data;
+  try{data=await requestDraw(taps)}catch(e){modal.className='modal';throw e}
+  await new Promise(r=>setTimeout(r,260));
+  if(data.critical?.success){showCriticalBurst(stage,data.critical.bonus);message.textContent='CRITICAL! 가중치 보너스 적용!';await new Promise(r=>setTimeout(r,data.critical.effects===false?500:1450));}
+  else{zone.classList.add('tearing');message.textContent=data.critical?.eligible?'크리티컬은 발생하지 않았습니다.':'일반 개봉!';await new Promise(r=>setTimeout(r,620));}
+  return data;
+}
+openPack=async function(packId,count,cost){
+  if(!API_MODE){
+    const pack=getPack(packId),user=loadUser();
+    if(!user||user.coin<cost)return alert('코인이 부족합니다.');
+    try{
+      const d=await runCriticalOpening(pack,count,async taps=>{
+        const critical=taps>=5&&Math.random()*100<3;
+        const draws=makeDraws(pack,count);return {local:true,draws,critical:{eligible:taps>=5,success:critical,bonus:critical?10:0,tapCount:taps,effects:true}};
+      });
+      user.coin-=cost;const owned=ownedIds(user),results=d.draws.map(card=>{const duplicate=owned.has(card.id),shardGained=duplicate?(shardReward[card.grade]||0):0;user.history.push({cardId:card.id,packId:pack.id,at:new Date().toISOString(),duplicate});user.quantities[card.id]=(user.quantities[card.id]||0)+1;if(duplicate)user.cardShards=(user.cardShards||0)+shardGained;if(!duplicate){user.owned.push(card.id);owned.add(card.id)}return {card,duplicate,shardGained}});saveUser(user);renderDrawResults(pack,count,cost,results,user,d.critical);
+    }catch(e){alert(e.message)}
+    return;
+  }
+  const pack=getPack(packId);
+  try{
+    const d=await runCriticalOpening(pack,count,tapCount=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,tapCount})}));
+    const next=apiUserToLocal(d.user);saveUser(next);renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);
+  }catch(e){alert(e.message)}
+}
+function renderDrawResults(pack,count,cost,results,user,critical){
+  const modal=document.getElementById('modal');
+  modal.className='modal show results-modal';
+  const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
+  modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
+  document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
+  document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
+  document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,cost)};
 }
 
 init();
