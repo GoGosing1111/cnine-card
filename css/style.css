@@ -319,3 +319,7 @@
   .pvp-final-reward-wait,.pvp-final-reward-ready{display:grid;justify-items:stretch}
   .pvp-final-reward-ready .btn{width:100%}
 }
+
+/* v8.7.8 PvP energy */
+.pvp-cover-side{display:flex;align-items:stretch;gap:12px;min-width:330px}.pvp-energy-card{min-width:180px}.pvp-energy-card>div:first-child{display:flex;justify-content:space-between;gap:12px}.pvp-energy-card small{white-space:nowrap}.pvp-fight:disabled{opacity:.48;cursor:not-allowed;filter:grayscale(.35)}
+@media(max-width:760px){.pvp-cover-side{width:100%;min-width:0;display:grid;grid-template-columns:1fr}.pvp-energy-card{min-width:0}.pvp-cover{align-items:stretch}}
