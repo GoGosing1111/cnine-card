@@ -677,15 +677,41 @@ function getTopSpecialResult(results=[]){
   return results.map(x=>x?.card).filter(c=>SPECIAL_REVEAL_ORDER[c?.grade]).sort((a,b)=>SPECIAL_REVEAL_ORDER[b.grade]-SPECIAL_REVEAL_ORDER[a.grade])[0]||null;
 }
 function specialRevealTone(grade){
-  try{const C=window.AudioContext||window.webkitAudioContext,ctx=new C(),now=ctx.currentTime;const notes=grade==='FUR'?[110,220,440,880]:grade==='MA'?[180,360,540,720]:[240,360,520];notes.forEach((freq,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type=grade==='FUR'?'sawtooth':grade==='MA'?'triangle':'sine';o.frequency.setValueAtTime(freq,now+i*.11);g.gain.setValueAtTime(.0001,now+i*.11);g.gain.exponentialRampToValueAtTime(grade==='FUR'?.12:.075,now+i*.11+.015);g.gain.exponentialRampToValueAtTime(.0001,now+i*.11+.34);o.connect(g).connect(ctx.destination);o.start(now+i*.11);o.stop(now+i*.11+.38)})}catch{}
+  try{
+    const C=window.AudioContext||window.webkitAudioContext,ctx=new C(),now=ctx.currentTime;
+    const seq=grade==='FUR'?[55,82.4,110,220,440,880]:grade==='MA'?[82.4,123.5,185,277,554]:[110,164.8,247,370];
+    const master=ctx.createGain();master.gain.setValueAtTime(.0001,now);master.gain.exponentialRampToValueAtTime(.18,now+.08);master.gain.exponentialRampToValueAtTime(.0001,now+2.6);master.connect(ctx.destination);
+    seq.forEach((freq,i)=>{const o=ctx.createOscillator(),g=ctx.createGain(),t=now+i*.16;o.type=grade==='FUR'?'sawtooth':grade==='MA'?'triangle':'sine';o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(freq*1.35,t+.5);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.1,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+.65);o.connect(g).connect(master);o.start(t);o.stop(t+.72)});
+  }catch{}
+}
+function createCinematicRenderer(canvas,grade){
+  const ctx=canvas.getContext('2d',{alpha:false}),dpr=Math.min(2,window.devicePixelRatio||1);
+  let w=0,h=0,raf=0,stopped=false,start=performance.now();
+  const palette=grade==='FUR'?['#ffffff','#7cf7ff','#d76cff','#ff5ca8','#ffe879']:grade==='MA'?['#ffffff','#8cecff','#a778ff','#ff8ad8']:['#fff7cf','#ffd45f','#ff9f24','#ffffff'];
+  const stars=Array.from({length:grade==='FUR'?190:grade==='MA'?150:115},()=>({x:(Math.random()-.5)*2,y:(Math.random()-.5)*2,z:Math.random(),s:.25+Math.random()*1.3}));
+  const shards=Array.from({length:grade==='FUR'?46:grade==='MA'?34:24},()=>({a:Math.random()*Math.PI*2,r:.15+Math.random()*.85,z:Math.random(),spin:(Math.random()-.5)*3,size:3+Math.random()*11}));
+  function resize(){w=innerWidth;h=innerHeight;canvas.width=Math.max(1,w*dpr);canvas.height=Math.max(1,h*dpr);canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
+  function frame(now){if(stopped)return;const t=(now-start)/1000,cx=w/2,cy=h/2;
+    const bg=ctx.createLinearGradient(0,0,0,h);bg.addColorStop(0,grade==='FUR'?'#02000a':grade==='MA'?'#020514':'#070604');bg.addColorStop(.55,grade==='FUR'?'#071325':grade==='MA'?'#081229':'#12100a');bg.addColorStop(1,'#010207');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+    ctx.save();ctx.translate(cx,cy);
+    const speed=grade==='FUR'?.62:grade==='MA'?.48:.38;
+    stars.forEach((p,i)=>{p.z=(p.z-speed*.012+1)%1;const depth=.08+p.z*.92,scale=1/depth,px=p.x*w*.42*scale,py=p.y*h*.38*scale,alpha=Math.min(1,(1-depth)*1.35);ctx.fillStyle=palette[i%palette.length];ctx.globalAlpha=alpha;ctx.beginPath();ctx.arc(px,py,p.s*scale,0,Math.PI*2);ctx.fill();if(scale>4){ctx.strokeStyle=palette[i%palette.length];ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px-p.x*24,py-p.y*24);ctx.stroke()}});
+    ctx.globalAlpha=1;const pulse=.5+.5*Math.sin(t*2.1),core=Math.min(w,h)*(.075+pulse*.012);
+    for(let j=0;j<5;j++){const rr=core*(1+j*.75)+(t*85%(core*1.8));ctx.strokeStyle=palette[(j+1)%palette.length];ctx.globalAlpha=Math.max(0,.24-j*.035)*(1-(rr%(core*2))/(core*2));ctx.lineWidth=Math.max(1,4-j*.55);ctx.beginPath();ctx.ellipse(0,0,rr,rr*.36,Math.sin(t*.42+j)*.28,0,Math.PI*2);ctx.stroke()}
+    ctx.globalAlpha=.9;const g=ctx.createRadialGradient(0,0,0,0,0,core*5);g.addColorStop(0,'#fff');g.addColorStop(.05,palette[1]);g.addColorStop(.22,palette[2]+'aa');g.addColorStop(.58,palette[1]+'25');g.addColorStop(1,'transparent');ctx.fillStyle=g;ctx.fillRect(-core*5,-core*5,core*10,core*10);
+    shards.forEach((q,i)=>{q.a+=.003*(i%2?1:-1)*(1+q.z);q.z=(q.z+.0015)%1;const rr=q.r*Math.min(w,h)*(.2+q.z*.45),x=Math.cos(q.a+t*q.spin*.13)*rr,y=Math.sin(q.a+t*q.spin*.13)*rr*.55;ctx.save();ctx.translate(x,y);ctx.rotate(q.a*2+t*q.spin);ctx.globalAlpha=.18+q.z*.68;ctx.fillStyle=palette[i%palette.length];ctx.beginPath();ctx.moveTo(-q.size,0);ctx.lineTo(0,-q.size*2.1);ctx.lineTo(q.size*.65,0);ctx.lineTo(0,q.size*1.3);ctx.closePath();ctx.fill();ctx.restore()});
+    ctx.restore();const vign=ctx.createRadialGradient(cx,cy,Math.min(w,h)*.2,cx,cy,Math.max(w,h)*.72);vign.addColorStop(0,'transparent');vign.addColorStop(.72,'rgba(0,0,0,.12)');vign.addColorStop(1,'rgba(0,0,0,.92)');ctx.fillStyle=vign;ctx.fillRect(0,0,w,h);raf=requestAnimationFrame(frame)}
+  resize();addEventListener('resize',resize);raf=requestAnimationFrame(frame);return()=>{stopped=true;cancelAnimationFrame(raf);removeEventListener('resize',resize)};
 }
 async function showSpecialCardReveal(card,user){
-  const modal=document.getElementById('modal'),grade=card.grade;
+  const modal=document.getElementById('modal'),grade=card.grade,duration=grade==='SSR'?4700:grade==='MA'?5900:7200;
+  const copy=grade==='FUR'?['THE FINAL RARITY','최고 등급의 존재가 강림합니다']:grade==='MA'?['MASTER AWAKENING','마스터의 궤도가 열립니다']:['SUPREME SIGNAL','희귀한 별이 선택되었습니다'];
   modal.className=`modal show special-reveal-modal reveal-${grade.toLowerCase()}`;
-  modal.innerHTML=`<div class="special-reveal-stage grade-${grade.toLowerCase()}" role="dialog" aria-label="${grade} 카드 특별 연출"><div class="special-reveal-bg"></div><div class="special-reveal-rays"></div><div class="special-reveal-ring ring-a"></div><div class="special-reveal-ring ring-b"></div><div class="special-reveal-particles">${Array.from({length:42},(_,i)=>`<i style="--i:${i}"></i>`).join('')}</div><div class="special-reveal-copy"><small>LEGENDARY SIGNAL DETECTED</small><strong>${grade}</strong><span>${grade==='FUR'?'최고 등급의 존재가 모습을 드러냅니다':grade==='MA'?'마스터의 기운이 전장을 뒤덮습니다':'희귀한 기운이 폭발합니다'}</span></div><div class="special-reveal-card">${cardHtml(card,true,'special-reveal-card-ui',user)}</div><button type="button" class="special-skip" id="specialRevealSkip">건너뛰기</button></div>`;
-  const stage=modal.querySelector('.special-reveal-stage');
-  specialRevealTone(grade);if(navigator.vibrate)navigator.vibrate(grade==='FUR'?[80,35,140,40,220]:grade==='MA'?[70,35,140]:[50,30,90]);
-  await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;resolve()};document.getElementById('specialRevealSkip').onclick=finish;stage.onclick=e=>{if(e.target.closest('.special-reveal-card-ui'))return;finish()};setTimeout(()=>stage.classList.add('reveal-card-now'),grade==='SSR'?850:grade==='MA'?1150:1450);setTimeout(finish,grade==='SSR'?2800:grade==='MA'?3600:4400)});
+  modal.innerHTML=`<div class="special-reveal-stage grade-${grade.toLowerCase()}" role="dialog" aria-label="${grade} 카드 특별 연출"><canvas class="special-cinematic-canvas" id="specialCinematicCanvas"></canvas><div class="cinematic-depth-grid"></div><div class="cinematic-horizon"></div><div class="cinematic-flash"></div><div class="cinematic-emblem"><small>${copy[0]}</small><strong>${grade}</strong><span>${copy[1]}</span></div><div class="cinematic-card-shell"><div class="cinematic-card-back"><i></i><b>CNINE</b></div><div class="special-reveal-card">${cardHtml(card,true,'special-reveal-card-ui',user)}</div><div class="cinematic-card-glint"></div></div><div class="cinematic-caption">TAP TO SKIP</div><button type="button" class="special-skip" id="specialRevealSkip">건너뛰기</button></div>`;
+  const stage=modal.querySelector('.special-reveal-stage'),stopCanvas=createCinematicRenderer(document.getElementById('specialCinematicCanvas'),grade);
+  specialRevealTone(grade);if(navigator.vibrate)navigator.vibrate(grade==='FUR'?[90,40,160,45,260]:grade==='MA'?[70,30,150]:[55,25,100]);
+  const timers=[setTimeout(()=>stage.classList.add('phase-approach'),300),setTimeout(()=>stage.classList.add('phase-awaken'),grade==='SSR'?1350:1650),setTimeout(()=>stage.classList.add('phase-reveal'),grade==='SSR'?2250:grade==='MA'?2850:3500),setTimeout(()=>stage.classList.add('phase-final'),grade==='SSR'?3300:grade==='MA'?4100:5000)];
+  await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;timers.forEach(clearTimeout);stopCanvas();resolve()};document.getElementById('specialRevealSkip').onclick=e=>{e.stopPropagation();finish()};stage.onclick=e=>{if(e.target.closest('.special-reveal-card-ui'))return;finish()};setTimeout(finish,duration)});
 }
 async function renderDrawResults(pack,count,cost,results,user,critical){
   const special=getTopSpecialResult(results);
