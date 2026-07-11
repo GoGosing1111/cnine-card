@@ -234,3 +234,88 @@
 .pvp-tier-guide{margin:0 0 16px;padding:16px;border:1px solid rgba(124,238,255,.18);border-radius:16px;background:linear-gradient(135deg,rgba(12,30,68,.88),rgba(22,18,70,.72))}.pvp-tier-guide-head{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-bottom:12px}.pvp-tier-guide-head .eyebrow{width:100%;margin:0}.pvp-tier-guide-head h3{margin:0;font-size:18px}.pvp-tier-guide-head span{margin-left:auto;color:#8fb9d1;font-size:12px}.pvp-tier-road{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}.pvp-tier-road-item{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;min-width:0;padding:8px 5px 10px;border:1px solid rgba(124,238,255,.12);border-radius:12px;background:rgba(2,13,34,.62)}.pvp-tier-road-item.current{border-color:#7ceeff;box-shadow:0 0 0 2px rgba(124,238,255,.18),0 0 22px rgba(55,176,255,.2)}.pvp-tier-road-item .tier-emblem.small{transform:scale(.72);margin:-12px -12px -9px}.pvp-tier-road-item b{font-size:11px;color:#dff8ff;white-space:nowrap}.pvp-rank-switch{margin-bottom:16px}.pvp-result-confirm{margin-top:12px;min-width:220px}.battle-message .pvp-result-confirm{pointer-events:auto}.pvp-battle-modal .battle-stage{cursor:pointer}
 @media(max-width:900px){.pvp-tier-road{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:560px){.pvp-tier-guide{padding:12px}.pvp-tier-road{grid-template-columns:repeat(2,minmax(0,1fr))}.pvp-tier-guide-head span{width:100%;margin-left:0}.pvp-result-confirm{min-width:0;width:100%}}
+
+/* v8.7.7 PvP ranking layout + final reward season lock */
+.pvp-ranking .pvp-rank-row{
+  grid-template-columns:44px 72px minmax(0,1fr) 110px;
+  min-height:88px;
+  align-items:center;
+  column-gap:14px;
+  overflow:hidden;
+}
+.pvp-ranking .pvp-rank-row>b{
+  justify-self:start;
+  font-size:18px;
+  line-height:1;
+}
+.pvp-ranking .pvp-rank-row>.tier-emblem{
+  justify-self:center;
+  flex:0 0 auto;
+}
+.pvp-ranking .pvp-rank-row>span{
+  min-width:0;
+  display:block;
+  overflow:hidden;
+  font-weight:800;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.pvp-ranking .pvp-rank-row>span small{
+  display:block;
+  max-width:100%;
+  overflow:hidden;
+  margin-top:5px;
+  color:#7faec8;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.pvp-ranking .pvp-rank-row>strong{
+  justify-self:end;
+  min-width:0;
+  text-align:right;
+  font-size:17px;
+  white-space:nowrap;
+}
+.pvp-my-rank{
+  display:grid;
+  grid-template-columns:72px minmax(0,1fr);
+  align-items:center;
+  min-height:82px;
+  overflow:hidden;
+}
+.pvp-my-rank>span{
+  min-width:0;
+  margin-left:0!important;
+  text-align:right;
+  white-space:nowrap;
+}
+.pvp-my-rank>span small{white-space:nowrap}
+.pvp-final-reward-wait,.pvp-final-reward-ready{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-top:14px;
+  padding:15px 17px;
+  border:1px solid rgba(124,238,255,.18);
+  border-radius:14px;
+  background:rgba(6,20,46,.78);
+}
+.pvp-final-reward-wait b{color:#ffd66e;white-space:nowrap}
+.pvp-final-reward-wait span,.pvp-final-reward-ready span{color:#9ecbe3;line-height:1.5}
+.pvp-final-reward-ready .btn{flex:0 0 auto;white-space:nowrap}
+@media(max-width:620px){
+  .pvp-ranking .pvp-rank-row{
+    grid-template-columns:30px 54px minmax(0,1fr) 72px;
+    min-height:76px;
+    column-gap:8px;
+    padding:10px 8px;
+  }
+  .pvp-ranking .pvp-rank-row>b{font-size:15px}
+  .pvp-ranking .pvp-rank-row>strong{font-size:13px}
+  .pvp-ranking .pvp-rank-row>span{font-size:13px}
+  .pvp-ranking .pvp-rank-row>span small{font-size:11px}
+  .pvp-my-rank{grid-template-columns:58px minmax(0,1fr);padding:12px 10px}
+  .pvp-final-reward-wait,.pvp-final-reward-ready{display:grid;justify-items:stretch}
+  .pvp-final-reward-ready .btn{width:100%}
+}
