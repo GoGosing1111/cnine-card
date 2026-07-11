@@ -11,6 +11,20 @@ const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','FUR'];
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
 const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,FUR:2600,LIMITED:2800};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450];
+
+const SCORE_TIER_DEFAULT=[
+  {id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false},
+  {id:'silver',name:'실버',min:15000,color:'#c9d4e3',aura:false},
+  {id:'gold',name:'골드',min:40000,color:'#ffd15c',aura:false},
+  {id:'platinum',name:'플래티넘',min:90000,color:'#5ff0df',aura:true},
+  {id:'diamond',name:'다이아',min:170000,color:'#69cfff',aura:true},
+  {id:'master',name:'마스터',min:300000,color:'#bd7cff',aura:true},
+  {id:'grandmaster',name:'그랜드마스터',min:500000,color:'#ff6f91',aura:true}
+];
+function defaultTierSettings(){return {cardScoreTiers:SCORE_TIER_DEFAULT,pvp:{enabled:false,status:'COMING SOON',seasonName:'시즌 준비 중',startsAt:null,endsAt:null,tiers:SCORE_TIER_DEFAULT.map((x,i)=>({...x,min:i*500}))}}}
+async function tierSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tier_settings_v1'").first();const base=defaultTierSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);const cleanTiers=(Array.isArray(x.cardScoreTiers)?x.cardScoreTiers:base.cardScoreTiers).map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);return {cardScoreTiers:cleanTiers,pvp:{enabled:false,status:String(x.pvp?.status||'COMING SOON').slice(0,30),seasonName:String(x.pvp?.seasonName||'시즌 준비 중').slice(0,40),startsAt:x.pvp?.startsAt||null,endsAt:x.pvp?.endsAt||null,tiers:Array.isArray(x.pvp?.tiers)?x.pvp.tiers:base.pvp.tiers}}}catch{return base}}
+function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false};for(const t of tiers)if(score>=t.min)current=t;return current}
+
 function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true}};}
 async function battleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false}};}catch{return base}}
 function cardBattlePower(card,level,settings){const base=Number(settings.powerByGrade[card.rarity]||0);const pct=Number(settings.breakthroughBonus[Math.max(0,Math.min(10,Number(level)||0))]||0);return Math.floor(base*(1+pct/100));}
@@ -94,6 +108,11 @@ async function ensureUpgrades(env){
         `CREATE INDEX IF NOT EXISTS idx_user_battle_energy_updated ON user_battle_energy(updated_at)`
       ]) await env.DB.prepare(q).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v864','1',CURRENT_TIMESTAMP)").run();
+    }
+    const tierDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v868'").first();
+    if(tierDone?.value!=='1'){
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('tier_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultTierSettings())).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v868','1',CURRENT_TIMESTAMP)").run();
     }
     const packMapDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v867'").first();
     if(packMapDone?.value!=='1'){
@@ -548,12 +567,13 @@ export async function onRequest(context){
       return json({items:rows.results});
     }
     if(path==='ranking'){
-      const rows=await env.DB.prepare(`SELECT u.nickname,
-        COALESCE(SUM(CASE c.rarity WHEN 'LIMITED' THEN 3000 WHEN 'FUR' THEN 5000 WHEN 'MA' THEN 1500 WHEN 'SSR' THEN 500 WHEN 'UR' THEN 200 WHEN 'HR' THEN 100 WHEN 'SR' THEN 50 WHEN 'R' THEN 20 WHEN 'U' THEN 5 ELSE 1 END),0) AS score,
-        COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
+      const settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
+      const rows=await env.DB.prepare(`SELECT u.id,u.nickname,c.rarity,uc.breakthrough_level,COUNT(uc.card_id) OVER(PARTITION BY u.id) AS card_count
         FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
-        WHERE u.status='ACTIVE' GROUP BY u.id ORDER BY score DESC,card_count DESC,u.created_at ASC LIMIT 100`).all();
-      return json({ranking:rows.results});
+        WHERE u.status='ACTIVE' ORDER BY u.id`).all();
+      const map=new Map();for(const r of rows.results){if(!map.has(r.id))map.set(r.id,{nickname:r.nickname,score:0,card_count:0,max_breakthrough:0});const x=map.get(r.id);if(r.rarity){x.score+=cardBattlePower(r,Number(r.breakthrough_level||0),settings);x.card_count++;x.max_breakthrough=Math.max(x.max_breakthrough,Number(r.breakthrough_level||0));}}
+      const ranking=[...map.values()].sort((a,b)=>b.score-a.score||b.card_count-a.card_count||a.nickname.localeCompare(b.nickname,'ko')).slice(0,100).map((x,i)=>({...x,rank:i+1,tier:resolveTier(x.score,tiers)}));
+      return json({ranking,tiers});
     }
 
 
@@ -601,6 +621,22 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'ADMIN_LOG'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       const rows=await env.DB.prepare(`SELECT l.*,u.nickname AS admin_nickname FROM admin_logs l LEFT JOIN users u ON u.id=l.admin_id ORDER BY l.id DESC LIMIT 300`).all();
       return json({logs:rows.results});
+    }
+
+    if(path==='admin/tiers'){
+      const admin=await requireAdmin(request,env);if(admin instanceof Response)return admin;
+      if(request.method==='GET'){
+        const settings=await tierSettings(env),battle=await battleSettings(env);
+        const rows=await env.DB.prepare(`SELECT u.nickname,c.rarity,uc.breakthrough_level FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id WHERE u.status='ACTIVE'`).all();
+        const map=new Map();for(const r of rows.results){if(!map.has(r.nickname))map.set(r.nickname,{nickname:r.nickname,score:0});if(r.rarity)map.get(r.nickname).score+=cardBattlePower(r,Number(r.breakthrough_level||0),battle)}
+        return json({settings,ranking:[...map.values()].sort((a,b)=>b.score-a.score).slice(0,100)});
+      }
+      if(request.method==='PATCH'){
+        const payload=await readBody(request),before=await tierSettings(env),base=defaultTierSettings();
+        const tiers=(Array.isArray(payload.cardScoreTiers)?payload.cardScoreTiers:before.cardScoreTiers).map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);
+        const clean={cardScoreTiers:tiers,pvp:{enabled:false,status:String(payload.pvp?.status||before.pvp.status||'COMING SOON').slice(0,30),seasonName:String(payload.pvp?.seasonName||before.pvp.seasonName||'시즌 준비 중').slice(0,40),startsAt:payload.pvp?.startsAt||null,endsAt:payload.pvp?.endsAt||null,tiers:Array.isArray(payload.pvp?.tiers)?payload.pvp.tiers:before.pvp.tiers}};
+        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('tier_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'TIER_SETTINGS_UPDATE','SETTINGS','tiers',before,clean);return json({ok:true,settings:clean});
+      }
     }
 
     if(path==='admin/breakthrough-settings'){
