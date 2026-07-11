@@ -37,3 +37,9 @@ CREATE TABLE IF NOT EXISTS admin_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, adm
 CREATE INDEX IF NOT EXISTS idx_user_cards_user ON user_cards(user_id);
 CREATE INDEX IF NOT EXISTS idx_draw_logs_user ON draw_logs(user_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_cards_member ON cards(member_id, rarity);
+
+CREATE TABLE IF NOT EXISTS card_pack_cards (
+  pack_id TEXT NOT NULL,
+  card_id TEXT NOT NULL,
+  PRIMARY KEY(pack_id,card_id)
+);

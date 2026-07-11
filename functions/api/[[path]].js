@@ -95,6 +95,30 @@ async function ensureUpgrades(env){
       ]) await env.DB.prepare(q).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v864','1',CURRENT_TIMESTAMP)").run();
     }
+    const packCardsDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v865'").first();
+    if(packCardsDone?.value!=='1'){
+      for(const q of [
+        `ALTER TABLE cards ADD COLUMN draw_weight REAL NOT NULL DEFAULT 1`,
+        `ALTER TABLE cards ADD COLUMN limited_total INTEGER`,
+        `ALTER TABLE cards ADD COLUMN issued_count INTEGER NOT NULL DEFAULT 0`,
+        `ALTER TABLE cards ADD COLUMN card_status TEXT NOT NULL DEFAULT 'PUBLIC'`,
+        `ALTER TABLE cards ADD COLUMN batch_name TEXT`,
+        `ALTER TABLE cards ADD COLUMN batch_date TEXT`
+      ]){try{await env.DB.prepare(q).run()}catch{}}
+      const newCards=CARDS.filter(card=>{const n=Number(String(card.id).replace('card-',''));return n>=435&&n<=445});
+      for(const card of newCards){
+        await env.DB.prepare(`INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,card_status,batch_name,batch_date)
+          VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(card.id,card.memberId,card.title,card.rarity,card.imageUrl,card.focusX,card.focusY,0,1,null,'PENDING','2026 여름 신규 카드','2026-07-11').run();
+      }
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v865','1',CURRENT_TIMESTAMP)").run();
+    }
+    const packPreviewDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v866'").first();
+    if(packPreviewDone?.value!=='1'){
+      await env.DB.prepare("UPDATE card_packs SET is_active=0 WHERE id='summer-new'").run();
+      try{await env.DB.prepare("DELETE FROM card_pack_cards WHERE pack_id='summer-new'").run()}catch{}
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('pack_preview_configs','{}',CURRENT_TIMESTAMP)").run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v866','1',CURRENT_TIMESTAMP)").run();
+    }
     const completed=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v848'").first();
     if(completed?.value==='1') return;
 
@@ -179,6 +203,10 @@ async function seedDatabase(env){
     for(const [rarity,rate] of Object.entries(RATES)){
       await env.DB.prepare('INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,?)').bind(pack.id,rarity,(pack.id==='pickup'&&rarity==='LIMITED')?1:rate).run();
     }
+    if(Array.isArray(pack.cardIds)&&pack.cardIds.length){
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS card_pack_cards (pack_id TEXT NOT NULL, card_id TEXT NOT NULL, PRIMARY KEY(pack_id,card_id))`).run();
+      for(const cardId of pack.cardIds) await env.DB.prepare('INSERT OR IGNORE INTO card_pack_cards(pack_id,card_id) VALUES(?,?)').bind(pack.id,cardId).run();
+    }
   }
 }
 async function authenticate(request,env){
@@ -241,7 +269,9 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
     const selectedRarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
     const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
       FROM cards c JOIN members m ON m.id=c.member_id
-      WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL`).bind(selectedRarity).all()).results;
+      WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL
+        AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
+          OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(selectedRarity,pack.id,pack.id).all()).results;
     if(!pool.length) continue;
     const card=weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1));
     if(card) return card;
@@ -707,6 +737,43 @@ export async function onRequest(context){
         .bind(admin.id,'COIN_GRANT','USER',String(userId),JSON.stringify(before),JSON.stringify({...after,amount,reason})).run();
       return json({ok:true,user:after,amount,reason});
     }
+    if(path==='admin/card-packs'){
+      const admin=await requirePermission(request,env,'CARD_EDIT');
+      if(!admin) return json({error:'카드팩 관리 권한이 없습니다.'},403);
+      if(request.method==='GET'){
+        const packs=await env.DB.prepare("SELECT * FROM card_packs WHERE id<>'summer-new' ORDER BY sort_order,id").all();
+        const cfgRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_preview_configs'").first();
+        let previews={}; try{previews=JSON.parse(cfgRow?.value||'{}')}catch{}
+        const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
+        return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities||'[]')})),previews,cards:cards.results});
+      }
+      if(request.method==='PATCH'){
+        const payload=await readBody(request); const id=String(payload.id||'');
+        const before=await env.DB.prepare('SELECT * FROM card_packs WHERE id=?').bind(id).first();
+        if(!before||id==='summer-new') return json({error:'카드팩을 찾을 수 없습니다.'},404);
+        const name=String(payload.name||before.name).trim().slice(0,60);
+        const subtitle=String(payload.subtitle||before.subtitle).trim().slice(0,60);
+        const description=String(payload.description||before.description).trim().slice(0,220);
+        const theme=['basic','advanced','premium','pickup'].includes(String(payload.theme))?String(payload.theme):before.theme;
+        const price=Math.max(0,Math.floor(Number(payload.price??before.price)||0));
+        const g10=String(payload.guarantee10||before.guarantee_10).toUpperCase();
+        const g20=String(payload.guarantee20||before.guarantee_20).toUpperCase();
+        const active=payload.isActive?1:0; const sort=Math.floor(Number(payload.sortOrder??before.sort_order)||0);
+        if(!name||!subtitle||!description) return json({error:'팩 이름, 영문명, 설명을 입력하세요.'},400);
+        if(!RARITIES.includes(g10)||!RARITIES.includes(g20)) return json({error:'보장 등급을 확인하세요.'},400);
+        await env.DB.prepare('UPDATE card_packs SET name=?,subtitle=?,description=?,theme=?,price=?,guarantee_10=?,guarantee_20=?,is_active=?,sort_order=? WHERE id=?')
+          .bind(name,subtitle,description,theme,price,g10,g20,active,sort,id).run();
+        const cfgRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_preview_configs'").first();
+        let configs={}; try{configs=JSON.parse(cfgRow?.value||'{}')}catch{}
+        const pc=payload.preview||{};
+        configs[id]={badge:String(pc.badge||'').slice(0,24),headline:String(pc.headline||'').slice(0,80),showNewCards:pc.showNewCards!==false,showNames:pc.showNames!==false,showGrades:pc.showGrades!==false,columns:Math.max(2,Math.min(6,Number(pc.columns)||5)),cardIds:Array.isArray(pc.cardIds)?pc.cardIds.map(String).slice(0,30):[]};
+        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('pack_preview_configs',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(configs)).run();
+        const after=await env.DB.prepare('SELECT * FROM card_packs WHERE id=?').bind(id).first();
+        await writeAdminLog(env,admin,'PACK_DETAIL_UPDATE','CARD_PACK',id,before,{...after,preview:configs[id]});
+        return json({ok:true,pack:after,preview:configs[id]});
+      }
+    }
+
     if(path==='admin/card-rates'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'확률 관리 권한이 없습니다.'},403);

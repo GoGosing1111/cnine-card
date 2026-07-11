@@ -459,3 +459,16 @@ INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('premium','LI
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','MA',0);
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','FUR',0);
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','LIMITED',1);
+
+CREATE TABLE IF NOT EXISTS card_pack_cards (pack_id TEXT NOT NULL, card_id TEXT NOT NULL, PRIMARY KEY(pack_id,card_id));
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0435',5,'새로운 란란','R','/assets/cards/new-pack-20260711/ranran-01.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0436',5,'눈부신 란란','SR','/assets/cards/new-pack-20260711/ranran-02.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0437',5,'찬란한 란란','UR','/assets/cards/new-pack-20260711/ranran-03.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0438',8,'새로운 빵훈이','R','/assets/cards/new-pack-20260711/bbanghoon-01.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0439',8,'열정적인 빵훈이','SR','/assets/cards/new-pack-20260711/bbanghoon-02.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0440',8,'강렬한 빵훈이','UR','/assets/cards/new-pack-20260711/bbanghoon-03.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0441',35,'새로운 혜루찡','U','/assets/cards/new-pack-20260711/hyerujjing-01.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0442',35,'설레는 혜루찡','R','/assets/cards/new-pack-20260711/hyerujjing-02.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0443',35,'빛나는 혜루찡','SR','/assets/cards/new-pack-20260711/hyerujjing-03.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0444',35,'매혹적인 혜루찡','HR','/assets/cards/new-pack-20260711/hyerujjing-04.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
+INSERT OR IGNORE INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,card_status,batch_name,batch_date) VALUES('card-0445',35,'눈부신 혜루찡','UR','/assets/cards/new-pack-20260711/hyerujjing-05.webp',50,38,0,'PENDING','2026 여름 신규 카드','2026-07-11');
