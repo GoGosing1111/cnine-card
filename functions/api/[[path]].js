@@ -624,7 +624,7 @@ export async function onRequest(context){
     }
 
     if(path==='admin/tiers'){
-      const admin=await requireAdmin(request,env);if(admin instanceof Response)return admin;
+      const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'티어 관리 권한이 없습니다.'},403);
       if(request.method==='GET'){
         const settings=await tierSettings(env),battle=await battleSettings(env);
         const rows=await env.DB.prepare(`SELECT u.nickname,c.rarity,uc.breakthrough_level FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id WHERE u.status='ACTIVE'`).all();
