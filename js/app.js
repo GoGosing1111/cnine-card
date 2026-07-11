@@ -672,7 +672,24 @@ openPack=async function(packId,count,cost){
     const next=apiUserToLocal(d.user);saveUser(next);renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);
   }catch(e){alert(e.message)}
 }
-function renderDrawResults(pack,count,cost,results,user,critical){
+const SPECIAL_REVEAL_ORDER={SSR:1,MA:2,FUR:3};
+function getTopSpecialResult(results=[]){
+  return results.map(x=>x?.card).filter(c=>SPECIAL_REVEAL_ORDER[c?.grade]).sort((a,b)=>SPECIAL_REVEAL_ORDER[b.grade]-SPECIAL_REVEAL_ORDER[a.grade])[0]||null;
+}
+function specialRevealTone(grade){
+  try{const C=window.AudioContext||window.webkitAudioContext,ctx=new C(),now=ctx.currentTime;const notes=grade==='FUR'?[110,220,440,880]:grade==='MA'?[180,360,540,720]:[240,360,520];notes.forEach((freq,i)=>{const o=ctx.createOscillator(),g=ctx.createGain();o.type=grade==='FUR'?'sawtooth':grade==='MA'?'triangle':'sine';o.frequency.setValueAtTime(freq,now+i*.11);g.gain.setValueAtTime(.0001,now+i*.11);g.gain.exponentialRampToValueAtTime(grade==='FUR'?.12:.075,now+i*.11+.015);g.gain.exponentialRampToValueAtTime(.0001,now+i*.11+.34);o.connect(g).connect(ctx.destination);o.start(now+i*.11);o.stop(now+i*.11+.38)})}catch{}
+}
+async function showSpecialCardReveal(card,user){
+  const modal=document.getElementById('modal'),grade=card.grade;
+  modal.className=`modal show special-reveal-modal reveal-${grade.toLowerCase()}`;
+  modal.innerHTML=`<div class="special-reveal-stage grade-${grade.toLowerCase()}" role="dialog" aria-label="${grade} 카드 특별 연출"><div class="special-reveal-bg"></div><div class="special-reveal-rays"></div><div class="special-reveal-ring ring-a"></div><div class="special-reveal-ring ring-b"></div><div class="special-reveal-particles">${Array.from({length:42},(_,i)=>`<i style="--i:${i}"></i>`).join('')}</div><div class="special-reveal-copy"><small>LEGENDARY SIGNAL DETECTED</small><strong>${grade}</strong><span>${grade==='FUR'?'최고 등급의 존재가 모습을 드러냅니다':grade==='MA'?'마스터의 기운이 전장을 뒤덮습니다':'희귀한 기운이 폭발합니다'}</span></div><div class="special-reveal-card">${cardHtml(card,true,'special-reveal-card-ui',user)}</div><button type="button" class="special-skip" id="specialRevealSkip">건너뛰기</button></div>`;
+  const stage=modal.querySelector('.special-reveal-stage');
+  specialRevealTone(grade);if(navigator.vibrate)navigator.vibrate(grade==='FUR'?[80,35,140,40,220]:grade==='MA'?[70,35,140]:[50,30,90]);
+  await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;resolve()};document.getElementById('specialRevealSkip').onclick=finish;stage.onclick=e=>{if(e.target.closest('.special-reveal-card-ui'))return;finish()};setTimeout(()=>stage.classList.add('reveal-card-now'),grade==='SSR'?850:grade==='MA'?1150:1450);setTimeout(finish,grade==='SSR'?2800:grade==='MA'?3600:4400)});
+}
+async function renderDrawResults(pack,count,cost,results,user,critical){
+  const special=getTopSpecialResult(results);
+  if(special)await showSpecialCardReveal(special,user);
   const modal=document.getElementById('modal');
   modal.className='modal show results-modal';
   const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
