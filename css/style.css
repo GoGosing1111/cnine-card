@@ -100,3 +100,20 @@
 .rank-list-row.rank-pos-1,.rank-list-row.rank-pos-2,.rank-list-row.rank-pos-3{position:relative;overflow:hidden}.rank-list-row.rank-pos-1:before,.rank-list-row.rank-pos-2:before,.rank-list-row.rank-pos-3:before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent,rgba(255,255,255,.07),transparent);transform:translateX(-110%);animation:rankSweep 3s infinite}.rank-number{position:relative}.rank-number i{position:absolute;left:50%;top:-14px;transform:translateX(-50%);font-style:normal;font-size:13px}.rank-pos-1 .rank-number{color:#ffd75e;text-shadow:0 0 9px #ffba28}.rank-pos-2 .rank-number{color:#e4f1ff;text-shadow:0 0 8px #9dcfff}.rank-pos-3 .rank-number{color:#e5a06d;text-shadow:0 0 8px #d76d32}
 @keyframes tierRingSpin{to{transform:translateX(-50%) rotate(360deg)}}@keyframes tierRingSpinReverse{to{transform:translateX(-50%) rotate(-360deg)}}@keyframes tierShine{0%,55%{transform:translateX(-130%)}78%,100%{transform:translateX(130%)}}@keyframes tierSpark{0%,100%{opacity:0;transform:translateY(5px) scale(.4)}40%{opacity:1;transform:translateY(-4px) scale(1.4)}}@keyframes tierAuraPower{0%,100%{transform:translateX(-50%) scale(.92);filter:blur(0);opacity:.62}50%{transform:translateX(-50%) scale(1.18);filter:blur(1px);opacity:1}}@keyframes grandCore{50%{box-shadow:inset 0 0 0 2px rgba(255,255,255,.18),inset 0 0 24px color-mix(in srgb,var(--tier-color) 72%,transparent),0 0 27px color-mix(in srgb,var(--tier-color) 95%,transparent)}}@keyframes rankSweep{65%,100%{transform:translateX(110%)}}
 @media(max-width:767px){.tier-emblem{min-width:84px}.tier-emblem.large{transform:scale(1.25);margin:8px 8px}.tier-emblem.tier-master,.tier-emblem.tier-grandmaster{min-width:96px}}
+/* v8.6.12 tier artwork renewal: no diagonal sweep */
+.tier-emblem{grid-template-columns:1fr;grid-template-rows:64px auto;min-width:104px;min-height:78px;place-items:center;filter:drop-shadow(0 6px 10px rgba(0,0,0,.64)) drop-shadow(0 0 13px color-mix(in srgb,var(--tier-color) 58%,transparent))}
+.tier-emblem .tier-art{position:relative;z-index:2;width:76px;height:64px;object-fit:contain;display:block;filter:drop-shadow(0 0 7px color-mix(in srgb,var(--tier-color) 50%,transparent));animation:tierArtFloat 3.2s ease-in-out infinite}
+.tier-emblem em{grid-column:1;margin-top:0;position:relative;z-index:3}
+.tier-emblem .tier-aura{width:108px;height:80px;top:-7px}
+.tier-emblem .tier-ring{top:13px;width:72px;height:72px}.tier-emblem .tier-ring-two{top:5px;width:88px;height:88px}
+.tier-emblem .tier-core,.tier-emblem .tier-wing,.tier-emblem .tier-crown{display:none!important}
+.tier-emblem .tier-core:after{content:none!important;display:none!important;animation:none!important}
+.tier-emblem.large .tier-art{width:98px;height:84px}.tier-emblem.large{grid-template-rows:84px auto;min-width:130px}
+.tier-emblem.small .tier-art{width:69px;height:59px}.tier-emblem.tiny .tier-art{width:61px;height:52px}
+.tier-emblem.tier-master .tier-art,.tier-emblem.tier-grandmaster .tier-art{width:88px;height:74px}
+.tier-emblem.tier-grandmaster .tier-art{filter:drop-shadow(0 0 10px #fff5) drop-shadow(0 0 18px color-mix(in srgb,var(--tier-color) 86%,transparent))}
+.tier-emblem.has-aura .tier-art{animation:tierArtPower 1.9s ease-in-out infinite}
+@keyframes tierArtFloat{50%{transform:translateY(-2px)}}
+@keyframes tierArtPower{50%{transform:translateY(-2px) scale(1.045);filter:drop-shadow(0 0 10px #fff6) drop-shadow(0 0 20px color-mix(in srgb,var(--tier-color) 90%,transparent))}}
+/* Explicitly remove every tier/ranking diagonal gloss strip. */
+.rank-list-row.rank-pos-1:before,.rank-list-row.rank-pos-2:before,.rank-list-row.rank-pos-3:before{content:none!important;display:none!important;animation:none!important;background:none!important}
