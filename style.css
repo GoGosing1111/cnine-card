@@ -226,3 +226,4 @@ body {
   60% { transform: translateX(80%) rotate(25deg); }
   100% { transform: translateX(80%) rotate(25deg); }
 }
+.attendance-days{display:grid;grid-template-columns:repeat(7,minmax(62px,1fr));gap:8px;margin:18px 0}.attendance-day{padding:10px 6px;border:1px solid rgba(255,255,255,.12);border-radius:12px;text-align:center;background:rgba(0,0,0,.22)}.attendance-day small{display:block;opacity:.7}.attendance-day b{display:block;margin-top:4px}.attendance-day.active{border-color:#ffd76a;box-shadow:0 0 18px rgba(255,215,106,.28)}@media(max-width:700px){.attendance-days{grid-template-columns:repeat(4,1fr)}}
