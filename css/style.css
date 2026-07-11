@@ -323,3 +323,47 @@
 /* v8.7.8 PvP energy */
 .pvp-cover-side{display:flex;align-items:stretch;gap:12px;min-width:330px}.pvp-energy-card{min-width:180px}.pvp-energy-card>div:first-child{display:flex;justify-content:space-between;gap:12px}.pvp-energy-card small{white-space:nowrap}.pvp-fight:disabled{opacity:.48;cursor:not-allowed;filter:grayscale(.35)}
 @media(max-width:760px){.pvp-cover-side{width:100%;min-width:0;display:grid;grid-template-columns:1fr}.pvp-energy-card{min-width:0}.pvp-cover{align-items:stretch}}
+
+/* v8.7.9 PvP cover energy layout hotfix */
+.pvp-cover{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  grid-template-areas:
+    "intro profile"
+    "energy energy";
+  align-items:center;
+  gap:18px 28px;
+}
+.pvp-cover-intro{grid-area:intro;min-width:0}
+.pvp-cover .pvp-me{grid-area:profile;min-width:250px}
+.pvp-cover .pvp-energy-card{
+  grid-area:energy;
+  width:100%;
+  min-width:0;
+  box-sizing:border-box;
+  padding:14px 16px;
+}
+.pvp-energy-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:8px;
+}
+.pvp-energy-head span,.pvp-energy-head b{white-space:nowrap}
+.pvp-energy-card small{display:block;margin-top:7px;white-space:nowrap;text-align:right}
+.pvp-cover-side{display:contents}
+@media(max-width:760px){
+  .pvp-cover{
+    grid-template-columns:1fr;
+    grid-template-areas:"intro" "profile" "energy";
+    align-items:stretch;
+  }
+  .pvp-cover .pvp-me{min-width:0;text-align:left}
+  .pvp-energy-card small{text-align:left}
+}
+@media(max-width:420px){
+  .pvp-energy-head{gap:8px}
+  .pvp-energy-head span{font-size:12px}
+  .pvp-energy-head b{font-size:15px}
+}
