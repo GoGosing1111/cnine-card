@@ -13,7 +13,7 @@ const breakthroughCosts = [50,100,200,350,550,800,1100,1450,1850,2300];
 const breakthroughRates = [100,100,100,80,65,50,35,25,15,8];
 const breakthroughMinGrade = 'SR';
 
-const PACKS = [
+let PACKS = [
   {
     id: 'basic', name: '일반 카드팩', subtitle: 'STANDARD PACK', theme: 'basic',
     description: '모든 등급이 등장하는 기본 카드팩', range: 'C ~ FUR', price: 10,
@@ -35,6 +35,38 @@ const PACKS = [
     allowed: ['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'], guarantee10: 'R', guarantee20: 'SR', limitedRate: 1
   }
 ];
+
+function packRangeFromAllowed(allowed = []) {
+  const ordered = ['C','U','R','SR','HR','UR','SSR','MA','FUR'];
+  const normal = ordered.filter(g => allowed.includes(g));
+  if (!normal.length) return allowed.includes('LIMITED') ? 'LIMITED' : '-';
+  const base = normal.length === 1 ? normal[0] : `${normal[0]} ~ ${normal.at(-1)}`;
+  return allowed.includes('LIMITED') ? `${base} + LIMITED` : base;
+}
+
+function applyServerPacks(rows = []) {
+  if (!Array.isArray(rows) || !rows.length) return;
+  PACKS = rows.map(row => {
+    let allowed = row.allowed;
+    if (!Array.isArray(allowed)) {
+      try { allowed = JSON.parse(row.allowed_rarities || '[]'); } catch { allowed = []; }
+    }
+    return {
+      id: String(row.id),
+      name: row.name || '카드팩',
+      subtitle: row.subtitle || 'CARD PACK',
+      theme: row.theme || 'basic',
+      description: row.description || '',
+      range: packRangeFromAllowed(allowed),
+      price: Math.max(0, Number(row.price) || 0),
+      allowed,
+      guarantee10: row.guarantee10 || row.guarantee_10 || 'R',
+      guarantee20: row.guarantee20 || row.guarantee_20 || 'SR',
+      limitedRate: Number(row.limitedRate || row.limited_rate || 0) || 0
+    };
+  });
+  if (!PACKS.some(pack => pack.id === selectedPackId)) selectedPackId = PACKS[0].id;
+}
 
 function migrateLegacyUser() {
   if (localStorage.getItem(STORAGE_KEY)) return;
@@ -507,8 +539,9 @@ async function init(){
     if(API_MODE){
       const service=await fetchServiceStatus();
       if(service.maintenance?.active&&!service.bypass){renderMaintenance(service.maintenance,service);return;}
-      const cr=await apiRequest('cards');
+      const [cr,pr]=await Promise.all([apiRequest('cards'),apiRequest('packs')]);
       cards=cr.cards;
+      applyServerPacks(pr.packs);
       if(API_TOKEN){
         try{
           const me=await apiRequest('me');
