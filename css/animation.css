@@ -148,3 +148,99 @@
 @keyframes furVortex{to{transform:rotate(360deg) scale(1.1)}}
 @keyframes furRift{0%,100%{transform:none;opacity:.16}35%{transform:translateX(8px) skewX(-3deg);opacity:.34}65%{transform:translateX(-6px) skewX(2deg);opacity:.12}}
 @media(max-width:760px){.cinematic-scene-bg{inset:-18%}.special-reveal-stage::before{background:radial-gradient(circle at 50% 55%,transparent 0 29%,rgba(0,0,0,.2) 57%,rgba(0,0,0,.74) 100%)}}
+
+/* v9.0.4 final reveal backdrop hotfix: real high-quality temple photograph */
+.cinematic-scene-bg{
+  inset:-4%!important;
+  background-color:#020205!important;
+  background-image:
+    linear-gradient(180deg,rgba(0,0,0,.12) 0%,rgba(0,0,0,.04) 35%,rgba(0,0,0,.42) 100%),
+    url('/assets/effects/reveal/cnine_temple_final.webp')!important;
+  background-position:center 46%!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  filter:brightness(.46) saturate(.9) contrast(1.12)!important;
+  transform:scale(1.1)!important;
+}
+.cinematic-scene-bg::before,.cinematic-scene-bg::after{display:none!important}
+.phase-approach .cinematic-scene-bg{opacity:.72!important;animation:templeSceneIn 3.6s cubic-bezier(.16,.78,.18,1) both!important}
+.phase-awaken .cinematic-scene-bg{opacity:.92!important;filter:brightness(.62) saturate(1.1) contrast(1.12)!important}
+.phase-impact .cinematic-scene-bg{opacity:1!important;animation:templeSceneImpact .62s cubic-bezier(.2,.9,.2,1) both!important}
+.phase-final .cinematic-scene-bg{
+  opacity:1!important;
+  transform:scale(1.025)!important;
+  filter:brightness(.82) saturate(1.22) contrast(1.08)!important;
+}
+.reveal-ssr .cinematic-scene-bg{filter:brightness(.54) saturate(1.12) contrast(1.15) sepia(.12)!important}
+.reveal-ssr.phase-final .cinematic-scene-bg{filter:brightness(.9) saturate(1.34) contrast(1.08) sepia(.08)!important}
+.reveal-ma .cinematic-scene-bg{filter:brightness(.42) saturate(1.15) contrast(1.16) hue-rotate(18deg)!important}
+.reveal-ma.phase-final .cinematic-scene-bg{filter:brightness(.76) saturate(1.35) contrast(1.1) hue-rotate(22deg)!important}
+.reveal-fur .cinematic-scene-bg{filter:brightness(.38) saturate(1.35) contrast(1.2) hue-rotate(155deg)!important}
+.reveal-fur.phase-final .cinematic-scene-bg{filter:brightness(.75) saturate(1.55) contrast(1.12) hue-rotate(165deg)!important}
+@keyframes templeSceneIn{0%{opacity:0;transform:scale(1.16) translateY(2%)}100%{opacity:.92;transform:scale(1.06) translateY(0)}}
+@keyframes templeSceneImpact{0%{transform:scale(1.06)}35%{transform:scale(1.015)}100%{transform:scale(1.035)}}
+@media(max-width:760px){.cinematic-scene-bg{inset:-2%!important;background-position:center 45%!important}.phase-final .cinematic-scene-bg{transform:scale(1.04)!important}}
+
+/* v9.0.5 grade-specific 3D fantasy reveal backgrounds */
+.reveal-ssr .cinematic-scene-bg,
+.reveal-ma .cinematic-scene-bg,
+.reveal-fur .cinematic-scene-bg{
+  inset:-3%!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  opacity:0;
+  transform:scale(1.12)!important;
+  transform-origin:50% 50%!important;
+}
+.reveal-ssr .cinematic-scene-bg{
+  background-image:linear-gradient(180deg,rgba(4,2,0,.08) 0%,rgba(7,3,0,.03) 42%,rgba(4,1,0,.5) 100%),url('/assets/effects/reveal/ssr_bg.jpg')!important;
+  background-position:center 48%!important;
+  filter:brightness(.52) saturate(1.08) contrast(1.14)!important;
+}
+.reveal-ma .cinematic-scene-bg{
+  background-image:linear-gradient(180deg,rgba(0,3,16,.08) 0%,rgba(0,4,18,.02) 42%,rgba(0,2,14,.5) 100%),url('/assets/effects/reveal/ma_bg.jpg')!important;
+  background-position:center 51%!important;
+  filter:brightness(.5) saturate(1.12) contrast(1.14)!important;
+}
+.reveal-fur .cinematic-scene-bg{
+  background-image:radial-gradient(circle at 50% 47%,rgba(255,225,145,.02) 0 20%,rgba(9,1,0,.08) 48%,rgba(5,0,0,.6) 100%),url('/assets/effects/reveal/fur_bg.jpg')!important;
+  background-position:center 49%!important;
+  filter:brightness(.48) saturate(1.18) contrast(1.16)!important;
+}
+.reveal-ssr.phase-approach .cinematic-scene-bg,
+.reveal-ma.phase-approach .cinematic-scene-bg,
+.reveal-fur.phase-approach .cinematic-scene-bg{
+  opacity:.76!important;
+  animation:gradeSceneCameraIn 3.4s cubic-bezier(.16,.78,.18,1) both!important;
+}
+.reveal-ssr.phase-awaken .cinematic-scene-bg{opacity:.94!important;filter:brightness(.66) saturate(1.2) contrast(1.1)!important}
+.reveal-ma.phase-awaken .cinematic-scene-bg{opacity:.94!important;filter:brightness(.64) saturate(1.24) contrast(1.1)!important}
+.reveal-fur.phase-awaken .cinematic-scene-bg{opacity:.96!important;filter:brightness(.62) saturate(1.3) contrast(1.12)!important}
+.reveal-ssr.phase-impact .cinematic-scene-bg,
+.reveal-ma.phase-impact .cinematic-scene-bg,
+.reveal-fur.phase-impact .cinematic-scene-bg{
+  opacity:1!important;
+  animation:gradeSceneImpact .66s cubic-bezier(.2,.9,.2,1) both!important;
+}
+.reveal-ssr.phase-final .cinematic-scene-bg{opacity:1!important;transform:scale(1.025)!important;filter:brightness(.9) saturate(1.28) contrast(1.06)!important}
+.reveal-ma.phase-final .cinematic-scene-bg{opacity:1!important;transform:scale(1.025)!important;filter:brightness(.86) saturate(1.3) contrast(1.08)!important}
+.reveal-fur.phase-final .cinematic-scene-bg{opacity:1!important;transform:scale(1.02)!important;filter:brightness(.84) saturate(1.34) contrast(1.1)!important}
+.reveal-ssr .cinematic-scene-bg::before,.reveal-ssr .cinematic-scene-bg::after,
+.reveal-ma .cinematic-scene-bg::before,.reveal-ma .cinematic-scene-bg::after,
+.reveal-fur .cinematic-scene-bg::before,.reveal-fur .cinematic-scene-bg::after{display:none!important}
+@keyframes gradeSceneCameraIn{
+  0%{opacity:0;transform:scale(1.18) translate3d(0,2.5%,0)!important;filter:brightness(.24) saturate(.72) blur(7px)}
+  45%{opacity:.78}
+  100%{opacity:.94;transform:scale(1.065) translate3d(0,0,0)!important;filter:brightness(.66) saturate(1.18) blur(0)}
+}
+@keyframes gradeSceneImpact{
+  0%{transform:scale(1.065)!important}
+  24%{transform:scale(1.105)!important;filter:brightness(1.12) saturate(1.42)}
+  56%{transform:scale(1.02) translate3d(-.35%,.2%,0)!important}
+  100%{transform:scale(1.025)!important}
+}
+@media(max-width:760px){
+  .reveal-ssr .cinematic-scene-bg{background-position:center 48%!important}
+  .reveal-ma .cinematic-scene-bg{background-position:center 52%!important}
+  .reveal-fur .cinematic-scene-bg{background-position:center 50%!important}
+}

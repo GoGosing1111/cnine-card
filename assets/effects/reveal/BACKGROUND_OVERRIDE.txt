@@ -1,0 +1,3 @@
+SSR=ssr_bg.jpg
+MA=ma_bg.jpg
+FUR=fur_bg.jpg
