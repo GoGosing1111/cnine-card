@@ -221,37 +221,70 @@ function battleSleep(ms){return new Promise(r=>setTimeout(r,ms));}
 function battleTone(freq=180,duration=.08,type='sine',volume=.04){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return;const ctx=new C(),o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(volume,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);o.connect(g);g.connect(ctx.destination);o.start();o.stop(ctx.currentTime+duration);setTimeout(()=>ctx.close(),(duration+0.1)*1000)}catch(_){}}
 function battleBurst(stage,x='50%',y='50%',count=18){const layer=stage.querySelector('.battle-fx-layer');if(!layer)return;for(let i=0;i<count;i++){const p=document.createElement('i');p.className='battle-particle';p.style.left=x;p.style.top=y;p.style.setProperty('--a',`${Math.random()*360}deg`);p.style.setProperty('--d',`${45+Math.random()*95}px`);p.style.animationDelay=`${Math.random()*80}ms`;layer.appendChild(p);setTimeout(()=>p.remove(),900)}}
 function battleDamage(stage,text,target='enemy',critical=false){const box=document.createElement('b');box.className=`battle-damage ${target} ${critical?'critical':''}`;box.textContent=text;stage.appendChild(box);setTimeout(()=>box.remove(),900)}
+function battleSetHp(stage,target,percent){
+  const value=Math.max(0,Math.min(100,Number(percent)||0));
+  const bar=stage.querySelector(`[data-hp-fill="${target}"]`), label=stage.querySelector(`[data-hp-text="${target}"]`);
+  if(bar)bar.style.width=`${value}%`;
+  if(label)label.textContent=`${Math.ceil(value)}%`;
+}
+function battleGradeTier(grade){const n=gradeOrder[String(grade||'C').toUpperCase()]||1;return n>=9?'mythic':n>=7?'legendary':n>=5?'epic':n>=4?'rare':'normal'}
+function battleActivateCard(stage,index,grade){stage.querySelectorAll('.battle-card-fighter').forEach((el,i)=>{el.classList.toggle('active-attacker',i===index);el.classList.remove('skill-normal','skill-rare','skill-epic','skill-legendary','skill-mythic')});const card=stage.querySelectorAll('.battle-card-fighter')[index];if(card)card.classList.add(`skill-${battleGradeTier(grade)}`)}
 async function startBattle(){
   const modal=document.getElementById('modal'),monster=battleState.monsters.find(m=>Number(m.id)===Number(battleState.selectedMonster));
-  const deckCards=battleState.deck.map(id=>cards.find(x=>x.id===id)).filter(Boolean);
+  const user=loadUser(),deckCards=battleState.deck.map(id=>cards.find(x=>x.id===id)).filter(Boolean);
+  const previewPower=deckCards.reduce((sum,c)=>sum+battleCardPower(c,user,battleState.config),0);
   modal.className='modal show battle-modal';
   modal.innerHTML=`<div class="modal-panel battle-stage intro">
     <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
     <div class="battle-topline"><span>CNINE PVE BATTLE</span><b id="battlePhase">ENCOUNTER</b></div>
+    <div class="battle-hud">
+      <div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>MEMBER TEAM</b><span data-hp-text="team">100%</span></div><div class="battle-hp-track"><i data-hp-fill="team"></i></div><small>전투력 ${previewPower.toLocaleString()}</small></div>
+      <div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${escapeHtml(monster.name)}</b><span data-hp-text="enemy">100%</span></div><div class="battle-hp-track"><i data-hp-fill="enemy"></i></div><small>전투력 ${Number(monster.battlePower||0).toLocaleString()}</small></div>
+    </div>
     <div class="battle-arena">
-      <div class="battle-side player-side"><div class="battle-team">${deckCards.map((c,i)=>`<div class="battle-card-fighter" style="--i:${i}"><img src="${c.image}" style="object-position:${c.focusX||50}% ${c.focusY||50}%"><span>${escapeHtml(c.title)}</span></div>`).join('')}</div><small>MEMBER TEAM</small></div>
+      <div class="battle-side player-side"><div class="battle-team">${deckCards.map((c,i)=>`<div class="battle-card-fighter grade-${String(c.grade||'C').toLowerCase()}" data-fighter="${i}" style="--i:${i}"><div class="fighter-aura"></div><img src="${c.image}" style="object-position:${c.focusX||50}% ${c.focusY||50}%"><div class="fighter-grade">${c.grade}</div><span>${escapeHtml(c.title)}</span></div>`).join('')}</div><small>MEMBER TEAM</small></div>
       <div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div>
-      <div class="battle-side enemy-side"><div class="battle-enemy ${monster.isBoss?'boss':''}">${monster.image?`<div class="battle-enemy-frame"><img src="${monster.image}"></div>`:'<div class="battle-enemy-frame monster-placeholder">👹</div>'}<div class="battle-enemy-name"><small>${monster.isBoss?'BOSS':'MONSTER'}</small><b>${escapeHtml(monster.name)}</b></div></div></div>
+      <div class="battle-side enemy-side"><div class="battle-enemy-card ${monster.isBoss?'boss':''}"><div class="enemy-card-badge">${monster.isBoss?'BOSS':'MONSTER'}</div><div class="battle-enemy-visual">${monster.image?`<img src="${monster.image}">`:'<div class="monster-placeholder">👹</div>'}</div><div class="battle-enemy-title">${escapeHtml(monster.name)}</div><div class="enemy-card-power">POWER ${Number(monster.battlePower||0).toLocaleString()}</div></div></div>
     </div>
     <div class="battle-impact"><i></i><i></i><i></i></div>
     <div id="battleMessage" class="battle-message"><span>전투 준비 중...</span></div>
   </div>`;
   const stage=modal.querySelector('.battle-stage'),phase=document.getElementById('battlePhase'),count=document.getElementById('battleCountdown'),msg=document.getElementById('battleMessage');
   try{
-    battleTone(90,.18,'sawtooth',.035); await battleSleep(420);
-    stage.classList.add('cards-enter'); phase.textContent='TEAM DEPLOY'; await battleSleep(620);
-    stage.classList.add('enemy-enter'); phase.textContent=monster.isBoss?'BOSS APPEARS':'ENEMY APPEARS'; battleTone(monster.isBoss?58:110,.28,'square',.04); if(navigator.vibrate)navigator.vibrate(monster.isBoss?[80,40,120]:50); await battleSleep(700);
-    count.textContent='READY'; stage.classList.add('ready'); await battleSleep(420); count.textContent='FIGHT'; battleTone(420,.14,'square',.06); stage.classList.add('fight'); await battleSleep(360); count.textContent='';
+    battleTone(90,.18,'sawtooth',.035); await battleSleep(500);
+    stage.classList.add('cards-enter'); phase.textContent='TEAM DEPLOY'; await battleSleep(900);
+    stage.classList.add('enemy-enter'); phase.textContent=monster.isBoss?'BOSS APPEARS':'ENEMY APPEARS'; battleTone(monster.isBoss?52:105,.34,'square',.055); if(navigator.vibrate)navigator.vibrate(monster.isBoss?[100,50,150]:70); await battleSleep(950);
+    count.textContent='READY'; stage.classList.add('ready'); await battleSleep(650); count.textContent='FIGHT'; battleTone(440,.18,'square',.075); stage.classList.add('fight'); await battleSleep(520); count.textContent='';
     const fightPromise=apiRequest('battle/fight',{method:'POST',body:JSON.stringify({monsterId:battleState.selectedMonster,cardIds:battleState.deck})});
-    phase.textContent='COMBO 1'; stage.classList.add('hit-one'); battleBurst(stage,'68%','43%',14); battleDamage(stage,'-'+Math.max(120,Math.floor(deckCards.length*170)),'enemy'); battleTone(150,.08,'sawtooth',.05); if(navigator.vibrate)navigator.vibrate(35); await battleSleep(520);
-    phase.textContent='ENEMY COUNTER'; stage.classList.remove('hit-one');stage.classList.add('counter'); battleBurst(stage,'30%','48%',10); battleDamage(stage,'-'+Math.max(80,Math.floor((monster.battlePower||500)/18)),'player'); battleTone(85,.12,'square',.045); await battleSleep(520);
-    phase.textContent='COMBO 2'; stage.classList.remove('counter');stage.classList.add('hit-two'); battleBurst(stage,'70%','42%',22); battleDamage(stage,'CRITICAL!','enemy',true); battleTone(260,.1,'sawtooth',.055); await battleSleep(520);
     const d=await fightPromise;
-    stage.classList.remove('hit-two'); phase.textContent=d.result==='WIN'?'FINAL STRIKE':'LAST STAND'; stage.classList.add(d.result==='WIN'?'final-strike':'final-fail');
-    battleBurst(stage,d.result==='WIN'?'72%':'28%','45%',34); battleTone(d.result==='WIN'?520:65,.22,d.result==='WIN'?'sawtooth':'square',.065); if(navigator.vibrate)navigator.vibrate(d.result==='WIN'?[60,35,140]:[120,40,120]); await battleSleep(760);
-    stage.classList.add(d.result==='WIN'?'battle-win':'battle-lose'); phase.textContent=d.result==='WIN'?'MISSION CLEAR':'MISSION FAILED';
-    msg.innerHTML=d.result==='WIN'?`<strong>VICTORY</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${d.reward.toLocaleString()}</b></div><em>화면을 눌러 돌아가기</em>`:`<strong>DEFEAT</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-defeat-tip">돌파 단계로 전투력을 높여보세요.</div><em>화면을 눌러 돌아가기</em>`;
-    saveUser(apiUserToLocal(d.user)); setTimeout(()=>{modal.onclick=()=>renderShell('battle')},500);
+    let enemyHp=100,teamHp=100;
+    const win=d.result==='WIN';
+    const enemySteps=win?[14,17,18,20,31]:[9,11,13,15,17];
+    const teamCounter=win?[8,10]:[18,25,31];
+    for(let i=0;i<deckCards.length;i++){
+      const c=deckCards[i],tier=battleGradeTier(c.grade),high=gradeOrder[c.grade]>=gradeOrder.UR;
+      battleActivateCard(stage,i,c.grade);phase.textContent=`${c.grade} MEMBER STRIKE`;
+      stage.classList.remove('member-strike','member-skill');void stage.offsetWidth;stage.classList.add(high?'member-skill':'member-strike');
+      const dmg=enemySteps[i]||15; enemyHp=Math.max(win&&i<4?4:0,enemyHp-dmg); battleSetHp(stage,'enemy',enemyHp);
+      battleBurst(stage,'73%','43%',high?30:16); battleDamage(stage,high?`${c.grade} BURST!`:`-${Math.max(120,Math.round(d.monsterPower*dmg/100))}`,'enemy',high);
+      battleTone(high?360+gradeOrder[c.grade]*28:170+i*24,high?.18:.09,high?'sawtooth':'square',high?.075:.045);if(navigator.vibrate)navigator.vibrate(high?[45,25,70]:28);
+      await battleSleep(high?760:580);
+      if((i===1||i===3||(!win&&i===4))&&teamHp>0){
+        stage.classList.remove('member-strike','member-skill');stage.classList.add('monster-heavy-attack');phase.textContent=monster.isBoss?'BOSS RAGE':'MONSTER COUNTER';
+        const hit=teamCounter.shift()||18;teamHp=Math.max(win?12:0,teamHp-hit);battleSetHp(stage,'team',teamHp);
+        battleBurst(stage,'28%','43%',monster.isBoss?34:24);battleDamage(stage,monster.isBoss?'HEAVY HIT!':`-${Math.max(100,Math.round(d.playerPower*hit/100))}`,'player',monster.isBoss);
+        battleTone(monster.isBoss?55:78,.24,'sawtooth',.08);if(navigator.vibrate)navigator.vibrate(monster.isBoss?[120,40,150]:[70,30,80]);await battleSleep(monster.isBoss?900:720);
+        stage.classList.remove('monster-heavy-attack');
+      }
+    }
+    stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('active-attacker'));
+    phase.textContent=win?'FINAL STRIKE':'MONSTER FINISH';stage.classList.add(win?'final-strike-v863':'final-fail-v863');
+    if(win){battleSetHp(stage,'enemy',0);battleBurst(stage,'74%','43%',55);battleDamage(stage,'FINISH!','enemy',true);battleTone(620,.32,'sawtooth',.09);if(navigator.vibrate)navigator.vibrate([70,30,180]);}
+    else{battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',48);battleDamage(stage,'K.O.','player',true);battleTone(48,.38,'square',.09);if(navigator.vibrate)navigator.vibrate([160,50,160]);}
+    await battleSleep(1050);
+    stage.classList.add(win?'battle-win-v863':'battle-lose-v863');phase.textContent=win?'MISSION CLEAR':'MISSION FAILED';
+    msg.innerHTML=win?`<strong>VICTORY</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${d.reward.toLocaleString()}</b></div><em>화면을 눌러 돌아가기</em>`:`<strong>DEFEAT</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-defeat-tip">돌파 단계로 전투력을 높여보세요.</div><em>화면을 눌러 돌아가기</em>`;
+    saveUser(apiUserToLocal(d.user));setTimeout(()=>{modal.onclick=()=>renderShell('battle')},700);
   }catch(e){msg.innerHTML=`<span>${escapeHtml(e.message)}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>renderShell('battle')}
 }
 
