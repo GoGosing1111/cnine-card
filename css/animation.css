@@ -19,3 +19,37 @@
 @media(max-height:650px){.cinematic-emblem{top:4vh}.cinematic-emblem strong{font-size:72px}.cinematic-emblem span{display:none}.cinematic-card-shell{top:59%;width:min(220px,42vh)}}
 @media(prefers-reduced-motion:reduce){.special-reveal-stage *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.cinematic-card-shell{opacity:1;transform:translate(-50%,-50%) scale(1);filter:none}.special-reveal-card{transform:rotateY(0)}.cinematic-card-back{display:none}}
 
+
+/* v9.0.1 layered cinematic VFX pack (CC0 procedural assets) */
+.cinematic-vfx{position:absolute;inset:0;pointer-events:none;z-index:3;opacity:0;mix-blend-mode:screen;background-position:center;background-repeat:no-repeat;background-size:contain;will-change:transform,opacity,filter}
+.cinematic-vfx-portal{inset:5%;background-image:url('/assets/effects/cinematic/portal.svg');filter:drop-shadow(0 0 38px var(--cinematic-glow));transform:scale(.28) rotate(-18deg)}
+.phase-approach .cinematic-vfx-portal{opacity:.35;animation:portalArrival 2.1s cubic-bezier(.16,.8,.2,1) both}
+.phase-awaken .cinematic-vfx-portal{opacity:.7;transform:scale(1) rotate(0)}
+.cinematic-vfx-ring{left:50%;top:52%;right:auto;bottom:auto;width:min(86vw,920px);aspect-ratio:1;background-image:url('/assets/effects/cinematic/energy-ring.webp');transform:translate(-50%,-50%) scale(.16);filter:drop-shadow(0 0 32px var(--cinematic-glow)) saturate(1.4)}
+.phase-awaken .ring-a{opacity:.78;animation:ringBurstA 2.2s cubic-bezier(.12,.75,.2,1) both}
+.phase-impact .ring-b{opacity:.58;animation:ringBurstB 1.1s ease-out both}
+.cinematic-vfx-flare{background-image:url('/assets/effects/cinematic/flare.webp');background-size:min(120vw,1200px);filter:sepia(.2) saturate(1.5) drop-shadow(0 0 45px var(--cinematic-glow));transform:scale(.25)}
+.phase-impact .cinematic-vfx-flare{opacity:1;animation:flareImpact .95s ease-out both}
+.cinematic-vfx-shards{background-image:url('/assets/effects/cinematic/shards.webp');background-size:cover;filter:drop-shadow(0 0 18px var(--cinematic-glow));transform:scale(.65) rotate(-4deg)}
+.phase-impact .cinematic-vfx-shards{opacity:.82;animation:shardExplosion 1.5s cubic-bezier(.16,.75,.22,1) both}
+.cinematic-vfx-crack{background-image:url('/assets/effects/cinematic/crack.svg');background-size:min(95vw,1050px);filter:drop-shadow(0 0 14px #fff) drop-shadow(0 0 30px var(--cinematic-glow));transform:scale(.08);transform-origin:center}
+.phase-impact .cinematic-vfx-crack{opacity:.9;animation:crackOpen .62s steps(7,end) both}
+.phase-reveal .cinematic-vfx-crack{animation:crackFade .8s ease-out forwards}
+.cinematic-vfx-noise{z-index:11;background-image:url('/assets/effects/cinematic/film-noise.webp');background-size:320px 320px;mix-blend-mode:soft-light;opacity:.08;animation:filmNoise .18s steps(2,end) infinite}
+.reveal-ssr .cinematic-vfx-crack{opacity:0!important}.reveal-ssr .cinematic-vfx-shards{filter:sepia(1) saturate(2.5) drop-shadow(0 0 18px #ffbf32)}
+.reveal-ma .cinematic-vfx-portal{animation-duration:3s}.reveal-ma .ring-a{animation-duration:2.7s}.reveal-ma .cinematic-vfx-flare{filter:hue-rotate(38deg) saturate(1.8) drop-shadow(0 0 55px #a66bff)}
+.reveal-fur .cinematic-vfx-portal{filter:hue-rotate(75deg) saturate(2.2) drop-shadow(0 0 58px #6ef6ff)}.reveal-fur .cinematic-vfx-shards{background-size:115% 115%;animation-duration:1.9s}.reveal-fur .cinematic-vfx-noise{opacity:.16;mix-blend-mode:overlay}
+.phase-impact .special-reveal-stage{animation:cinematicCameraKick .48s cubic-bezier(.2,.8,.2,1)}
+.phase-final .special-reveal-card .game-card:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 22%,rgba(255,255,255,.08) 39%,rgba(255,255,255,.82) 47%,rgba(255,255,255,.12) 55%,transparent 70%);mix-blend-mode:screen;animation:cardHoloSweep 2.8s ease-in-out infinite}
+@keyframes portalArrival{0%{opacity:0;transform:scale(.15) rotate(-25deg);filter:blur(22px)}55%{opacity:.55}100%{opacity:.72;transform:scale(1) rotate(0);filter:drop-shadow(0 0 38px var(--cinematic-glow))}}
+@keyframes ringBurstA{0%{opacity:0;transform:translate(-50%,-50%) scale(.12) rotate(-30deg)}28%{opacity:.9}100%{opacity:.22;transform:translate(-50%,-50%) scale(1.2) rotate(24deg)}}
+@keyframes ringBurstB{0%{opacity:.95;transform:translate(-50%,-50%) scale(.15) rotate(55deg)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.75) rotate(130deg)}}
+@keyframes flareImpact{0%{opacity:0;transform:scale(.18)}16%{opacity:1}100%{opacity:0;transform:scale(1.45)}}
+@keyframes shardExplosion{0%{opacity:0;transform:scale(.28) rotate(-12deg);filter:blur(10px)}18%{opacity:.95}100%{opacity:.18;transform:scale(1.55) rotate(9deg);filter:blur(0)}}
+@keyframes crackOpen{0%{opacity:0;transform:scale(.04)}45%{opacity:1}100%{opacity:.9;transform:scale(1)}}
+@keyframes crackFade{to{opacity:0;transform:scale(1.08)}}
+@keyframes filmNoise{0%{background-position:0 0}25%{background-position:31px -18px}50%{background-position:-14px 29px}75%{background-position:22px 11px}100%{background-position:0 0}}
+@keyframes cinematicCameraKick{0%,100%{transform:none}24%{transform:translate3d(-7px,3px,0) scale(1.008)}52%{transform:translate3d(8px,-4px,0) scale(1.014)}76%{transform:translate3d(-3px,2px,0) scale(1.004)}}
+@keyframes cardHoloSweep{0%,18%{transform:translateX(-145%)}62%,100%{transform:translateX(145%)}}
+@media(max-width:760px){.cinematic-vfx-ring{width:min(110vw,760px);top:56%}.cinematic-vfx-crack{background-size:115vw}.cinematic-vfx-flare{background-size:145vw}.cinematic-vfx-portal{inset:1%}}
+@media(prefers-reduced-motion:reduce){.cinematic-vfx{display:none!important}}
