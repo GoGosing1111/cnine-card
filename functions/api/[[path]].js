@@ -109,6 +109,11 @@ async function tableExists(env,name){
   const row=await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").bind(name).first();
   return Boolean(row);
 }
+async function columnExists(env,table,column){
+  if(!await tableExists(env,table)) return false;
+  const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();
+  return rows.results.some(row=>String(row.name)===String(column));
+}
 async function initialized(env){
   if(!await tableExists(env,'app_meta')) return false;
   const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='initialized'").first();
@@ -177,6 +182,24 @@ async function ensureUpgrades(env){
       ]){try{await env.DB.prepare(sql).run()}catch(e){if(!String(e.message||e).toLowerCase().includes('duplicate column'))throw e}}
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v874','1',CURRENT_TIMESTAMP)").run();
     }
+    // v9.0.7 repair migration: 기존 버전에서 이미 사용된 v874 마커 때문에
+    // 새 컬럼 추가가 건너뛰어진 운영 D1을 실제 스키마 기준으로 복구한다.
+    const attendanceRepairDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v907_attendance_pvp_coin'").first();
+    if(attendanceRepairDone?.value!=='1'){
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('attendance_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultAttendanceSettings())).run();
+      if(!await columnExists(env,'attendance_logs','streak_day')){
+        try{await env.DB.prepare(`ALTER TABLE attendance_logs ADD COLUMN streak_day INTEGER NOT NULL DEFAULT 1`).run()}
+        catch(e){if(!String(e.message||e).toLowerCase().includes('duplicate column'))throw e}
+      }
+      if(await tableExists(env,'pvp_reward_claims')&&!await columnExists(env,'pvp_reward_claims','reward_shards')){
+        try{await env.DB.prepare(`ALTER TABLE pvp_reward_claims ADD COLUMN reward_shards INTEGER NOT NULL DEFAULT 0`).run()}
+        catch(e){if(!String(e.message||e).toLowerCase().includes('duplicate column'))throw e}
+      }
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_rank_reward_claims (user_id INTEGER NOT NULL, season_name TEXT NOT NULL, final_rank INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, reward_shards INTEGER NOT NULL DEFAULT 0, claimed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(user_id,season_name))`).run();
+      await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_pvp_rank_claims_season ON pvp_rank_reward_claims(season_name,final_rank)`).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v907_attendance_pvp_coin','1',CURRENT_TIMESTAMP)").run();
+    }
+
     const pvpEnergyDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v878'").first();
     if(pvpEnergyDone?.value!=='1'){
       for(const sql of [

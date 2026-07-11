@@ -100,7 +100,8 @@ CREATE TABLE IF NOT EXISTS coin_logs (
 CREATE TABLE IF NOT EXISTS attendance_logs (
   user_id INTEGER NOT NULL,
   attendance_date TEXT NOT NULL,
-  reward_coin INTEGER NOT NULL DEFAULT 500,
+  reward_coin INTEGER NOT NULL DEFAULT 1000,
+  streak_day INTEGER NOT NULL DEFAULT 1,
   claimed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(user_id, attendance_date)
 );
