@@ -233,7 +233,7 @@ function applyCriticalRateBonus(rates,bonus){
 }
 
 async function maintenanceSettings(env){
-  const keys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at'];
+  const keys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users'];
   const rows=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`).bind(...keys).all();
   const values=Object.fromEntries(rows.results.map(row=>[row.key,row.value]));
   return {
@@ -241,10 +241,12 @@ async function maintenanceSettings(env){
     title:values.maintenance_title||'씨켓몬 서버 점검 중',
     message:values.maintenance_message||'안정적인 서비스 제공을 위해 점검을 진행하고 있습니다.',
     startAt:values.maintenance_start_at||'',
-    endAt:values.maintenance_end_at||''
+    endAt:values.maintenance_end_at||'',
+    testUsers:String(values.maintenance_test_users||'').split(',').map(x=>x.trim()).filter(Boolean)
   };
 }
 function isAdminRole(user){return Boolean(user&&['OWNER','ADMIN'].includes(user.role))}
+function canMaintenanceBypass(user,maintenance){return Boolean(isAdminRole(user)||(user&&maintenance?.testUsers?.includes(user.nickname)))}
 
 async function requirePermission(request,env,permission){
   const user=await authenticate(request,env);
@@ -288,14 +290,14 @@ export async function onRequest(context){
     if(path==='service/status'){
       const maintenance=await maintenanceSettings(env);
       const user=await authenticate(request,env);
-      return json({maintenance,bypass:isAdminRole(user),role:user?.role||null});
+      return json({maintenance,bypass:canMaintenanceBypass(user,maintenance),role:user?.role||null,user:user?{id:user.id,nickname:user.nickname,role:user.role}:null});
     }
 
     const maintenance=await maintenanceSettings(env);
-    const maintenanceExempt=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='health'||path.startsWith('setup/');
+    const maintenanceExempt=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='me'||path==='service/status'||path==='health'||path.startsWith('setup/');
     if(maintenance.active&&!maintenanceExempt){
       const current=await authenticate(request,env);
-      if(!isAdminRole(current)) return json({error:'현재 서버 점검 중입니다.',maintenance},503);
+      if(!canMaintenanceBypass(current,maintenance)) return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
     }
 
     if(path==='auth/register'&&request.method==='POST'){
@@ -319,9 +321,8 @@ export async function onRequest(context){
       if(!user) return json({error:'개인키가 올바르지 않습니다.'},401);
       if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
       const currentMaintenance=await maintenanceSettings(env);
-      if(currentMaintenance.active&&!isAdminRole(user)) return json({error:'현재 서버 점검 중입니다.',maintenance:currentMaintenance},503);
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
-      return json({token:await makeSession(env,user.id),user:await profile(env,user)});
+      return json({token:await makeSession(env,user.id),user:await profile(env,user),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
     }
     if(path==='auth/logout'&&request.method==='POST'){
       const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
@@ -567,16 +568,16 @@ export async function onRequest(context){
     if(path==='admin/settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){
-        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
+        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
         return json({settings:Object.fromEntries(rows.results.map(x=>[x.key,x.value])),role:admin.role});
       }
       if(request.method==='POST'){
         const payload=await readBody(request);
-        const maintenanceKeys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at'];
+        const maintenanceKeys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users'];
         const criticalKeys=['critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects'];
         const ownerKeys=['site_notice','new_user_coin'];
         if(admin.role!=='OWNER'&&ownerKeys.some(key=>key in payload)) return json({error:'신규 가입 코인과 서비스 공지는 OWNER만 변경할 수 있습니다.'},403);
-        const beforeRows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
+        const beforeRows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
         const before=Object.fromEntries(beforeRows.results.map(x=>[x.key,x.value]));
         for(const key of [...maintenanceKeys,...criticalKeys,...ownerKeys]) if(key in payload) await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(key,String(payload[key]??'')).run();
         const action=String(payload.maintenance_mode)==='1'&&before.maintenance_mode!=='1'?'MAINTENANCE_START':String(payload.maintenance_mode)==='0'&&before.maintenance_mode==='1'?'MAINTENANCE_END':'SETTINGS_UPDATE';
