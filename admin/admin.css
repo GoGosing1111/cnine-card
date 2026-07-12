@@ -46,3 +46,5 @@ textarea{width:100%;resize:vertical;background:#08111d;border:1px solid #28435f;
 .cmsPackImageEnvelope{width:210px;height:310px;border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible;display:grid;place-items:center;transform:rotate(2deg)}
 .cmsPackImageEnvelope>img{width:100%!important;height:100%;object-fit:contain;filter:drop-shadow(0 18px 18px rgba(0,0,0,.5))}
 .cmsPackImageGloss{position:absolute;inset:7% 10%;border-radius:16px;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.18) 44%,transparent 62%);mix-blend-mode:screen;opacity:.35;pointer-events:none}
+
+.raidDayGrid{display:flex;flex-wrap:wrap;gap:8px}.raidDayGrid label{display:flex;align-items:center;gap:5px;padding:8px 10px;border:1px solid rgba(255,255,255,.12);border-radius:8px}.raid-schedule-notice{margin-top:14px;padding:12px;border:1px solid rgba(255,200,80,.35);border-radius:10px;background:rgba(255,180,30,.08);font-weight:700}
