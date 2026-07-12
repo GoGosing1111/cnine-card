@@ -775,7 +775,7 @@ export async function onRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       if(user.role!=='OWNER')return json({error:'레이드 테스트는 OWNER 전용입니다.'},403);
       const cfg=await raidSettings(env),schedule=raidScheduleState(cfg,user);
-      let current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE (ri.status IN ('LOBBY','BATTLE') OR (ri.status='ENDED' AND ri.updated_at>=datetime('now','-10 minutes'))) ORDER BY ri.id DESC LIMIT 1").first();
+      let current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").first();
       current=await refreshRaidForOwner(env,current,cfg);
       if(!current)return json({settings:cfg,schedule,current:null,participants:[],me:null,serverNow:new Date().toISOString()});
       const rows=await env.DB.prepare(`SELECT rp.user_id AS userId,u.nickname,rp.deck_cards AS deckCards,rp.total_power AS totalPower,rp.total_damage AS totalDamage,rp.reward_claimed AS rewardClaimed,rp.joined_at AS joinedAt FROM raid_participants rp JOIN users u ON u.id=rp.user_id WHERE rp.instance_id=? ORDER BY rp.total_damage DESC,rp.joined_at`).bind(current.id).all();
@@ -815,7 +815,7 @@ export async function onRequest(context){
       if(user.role!=='OWNER')return json({error:'레이드 테스트는 OWNER 전용입니다.'},403);
       const body=await readBody(request),instanceId=Number(body.instanceId||0);if(!instanceId)return json({error:'레이드 정보가 올바르지 않습니다.'},400);
       const cfg=await raidSettings(env);
-      const instance=await env.DB.prepare("SELECT id,status,current_hp,max_hp FROM raid_instances WHERE id=?").bind(instanceId).first();
+      const instance=await env.DB.prepare("SELECT ri.id,ri.status,ri.current_hp,rb.max_hp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.id=?").bind(instanceId).first();
       if(!instance||instance.status!=='ENDED')return json({error:'종료된 레이드에서만 보상을 받을 수 있습니다.'},409);
       const participant=await env.DB.prepare('SELECT id,reward_claimed FROM raid_participants WHERE instance_id=? AND user_id=?').bind(instanceId,user.id).first();
       if(!participant)return json({error:'레이드 참가 기록이 없습니다.'},404);
