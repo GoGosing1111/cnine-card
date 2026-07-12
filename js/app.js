@@ -209,14 +209,22 @@ function renderShell(tab='world') {
   initWorldView();
 }
 
+
+function inventoryView(user){
+  const items=JSON.parse(localStorage.getItem('cnine_world_inventory_v1')||'{}');
+  const rows=PACKS.map(p=>`<article class="inventory-slot"><div class="inventory-pack retro-${p.theme}"><b>${escapeHtml(p.subtitle)}</b><span>${escapeHtml(p.name)}</span></div><div><strong>${escapeHtml(p.name)}</strong><small>몬스터 토벌 시 일정 확률로 획득</small></div><em>× ${Number(items[p.id]||0)}</em></article>`).join('');
+  return `${summaryBar(user)}<section class="inventory-shell"><header><p class="eyebrow">BAG / ITEM</p><h2>인벤토리</h2><span>획득한 카드팩을 보관합니다.</span></header><div id="inventoryList" class="inventory-list">${rows}</div></section>`;
+}
+function addInventoryPack(packId,count=1){const items=JSON.parse(localStorage.getItem('cnine_world_inventory_v1')||'{}');items[packId]=Number(items[packId]||0)+count;localStorage.setItem('cnine_world_inventory_v1',JSON.stringify(items));}
+
 function openWorldPanel(tab){
   const panel=document.getElementById('worldPanel');
   if(!panel){renderShell('world');setTimeout(()=>openWorldPanel(tab),50);return;}
   if(tab==='pvp'&&!pvpFeatureEnabled){worldToast('현재 PVP가 비활성화되어 있습니다.');return;}
   if(window.__stopWorldInput)window.__stopWorldInput(true);
   const user=loadUser();
-  const views={buy:buyView,dex:dexView,battle:battleView,pvp:pvpView,attendance:attendanceView,rank:rankView,mineral:mineralExchangeView};
-  const title={buy:'카드 상점',dex:'도감 연구소',battle:'전투 준비소',pvp:'PVP 경기장',attendance:'접속 보상',rank:'랭킹 게시판',mineral:'미네랄 교환소'}[tab]||'시설';
+  const views={buy:buyView,dex:dexView,battle:battleView,pvp:pvpView,attendance:attendanceView,rank:rankView,mineral:mineralExchangeView,inventory:inventoryView};
+  const title={buy:'카드 상점',dex:'내 도감',battle:'덱 편성',pvp:'PVP 경기장',attendance:'접속 보상',rank:'랭킹 게시판',mineral:'미네랄 교환소',inventory:'인벤토리'}[tab]||'시설';
   panel.className='world-panel open';
   panel.innerHTML=`<div class="world-panel-frame"><div class="world-panel-bar"><b>${title}</b><button id="worldPanelClose" type="button">월드로 돌아가기 ✕</button></div><div class="world-panel-content">${(views[tab]||buyView)(user)}</div></div>`;
   document.getElementById('worldPanelClose').onclick=closeWorldPanel;
@@ -429,6 +437,9 @@ function updateMineralPreview(){const s=mineralExchangeState.settings,amount=Num
 function renderMineralRequests(rows){const box=document.getElementById('mineralMyRequests');if(!box)return;const labels={PENDING:'승인 대기',APPROVED:'승인 완료',REJECTED:'거절'};box.innerHTML=rows.length?rows.map(r=>`<article class="mineral-history-row status-${String(r.status).toLowerCase()}"><div><b>${Number(r.coin_amount).toLocaleString()}코인</b><span>${Number(r.mineral_amount).toLocaleString()} 미네랄 · ${escapeHtml(r.wago_nickname)}</span><small>${new Date(String(r.created_at).replace(' ','T')+'Z').toLocaleString('ko-KR')}</small></div><em>${labels[r.status]||escapeHtml(r.status)}</em>${r.reject_reason?`<p>${escapeHtml(r.reject_reason)}</p>`:''}</article>`).join(''):'<div class="empty-recent">아직 교환 신청 내역이 없습니다.</div>';}
 async function submitMineralExchange(){const btn=document.getElementById('mineralSubmit'),wagoNickname=document.getElementById('wagoNickname')?.value.trim(),mineralAmount=Number(document.getElementById('mineralAmount')?.value||0),proofText=document.getElementById('mineralProof')?.value.trim();if(!wagoNickname)return alert('와이고수 닉네임을 입력하세요.');if(!proofText)return alert('기부 완료 내용을 입력하세요.');btn.disabled=true;try{const d=await apiRequest('mineral-exchange/request',{method:'POST',body:JSON.stringify({wagoNickname,mineralAmount,proofText})});alert(`${Number(d.coinAmount).toLocaleString()}코인 교환 신청이 접수되었습니다.\n관리자 확인 후 지급됩니다.`);renderShell('mineral')}catch(e){alert(e.message);updateMineralPreview()}}
 
+
+async function loadInventoryView(){if(!API_MODE)return;const box=document.getElementById('inventoryList');if(!box)return;try{const d=await apiRequest('inventory');const map=Object.fromEntries((d.items||[]).map(x=>[x.itemId,Number(x.quantity||0)]));localStorage.setItem('cnine_world_inventory_v1',JSON.stringify(map));box.innerHTML=PACKS.map(p=>`<article class="inventory-slot"><div class="inventory-pack retro-${p.theme}"><b>${escapeHtml(p.subtitle)}</b><span>${escapeHtml(p.name)}</span></div><div><strong>${escapeHtml(p.name)}</strong><small>몬스터 토벌 시 일정 확률로 획득</small></div><em>× ${Number(map[p.id]||0)}</em></article>`).join('')}catch(e){box.insertAdjacentHTML('afterbegin',`<div class="empty-recent">${escapeHtml(e.message)}</div>`)}}
+
 function bindView(tab) {
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
@@ -443,6 +454,7 @@ function bindView(tab) {
   if(tab==='battle') loadBattleView();
   if(tab==='pvp') loadPvpView();
   if(tab==='mineral') loadMineralExchange();
+  if(tab==='inventory') loadInventoryView();
   if(tab==='dex') {
     document.querySelectorAll('.dex-section-head').forEach(h=>h.onclick=()=>h.closest('.dex-section').classList.toggle('collapsed'));
     document.querySelectorAll('.card-frame').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
@@ -871,7 +883,7 @@ function changeMap(name,x,y){worldState.map=name;const m=worldMap();worldState.x
 function checkTransitions(){const m=worldMap(),r=playerRect();if(m.interior&&worldState.y>m.h-64&&worldState.x>350&&worldState.x<610){changeMap('town',worldState.returnX||900,worldState.returnY||760);return true}for(const e of m.exits||[]){if(rectHit(r,e)){changeMap(e.to,e.tx,e.ty);return true}}return false}
 async function ensureWorldBattleConfig(){if(worldState.configLoaded&&battleState.monsters?.length)return true;if(!API_MODE){worldToast('서버 연결 상태에서 조우할 수 있습니다.');return false}try{const d=await apiRequest('battle/config'),owned=ownedIds(loadUser()),saved=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5);battleState={config:d.settings,monsters:d.monsters||[],selectedMonster:null,deck:saved,energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now()};worldState.configLoaded=true;return true}catch(e){worldToast(e.message);return false}}
 async function triggerWorldEncounter(){if(worldState.busy)return;worldState.busy=true;worldState.keys={};worldToast('야생 몬스터와 조우했습니다!');const c=document.getElementById('worldMap');c?.classList.add('encounter-flash');await battleSleep(520);c?.classList.remove('encounter-flash');if(!await ensureWorldBattleConfig()){worldState.busy=false;return}if(battleState.deck.length!==5){worldState.busy=false;openWorldPanel('battle');alert('랜덤 조우 전투를 하려면 PVE 덱 5장을 먼저 저장해야 합니다.');return}const pool=(battleState.monsters||[]).filter(m=>!m.isBoss);if(!pool.length){worldState.busy=false;worldToast('등록된 몬스터가 없습니다.');return}battleState.selectedMonster=Number(pool[Math.floor(Math.random()*pool.length)].id);window.__worldBattleReturn=true;worldState.busy=false;startBattle()}
-function checkEncounter(d){if(!inGrass()||worldState.busy)return;worldState.travel+=d;if(worldState.travel>=worldState.nextEncounter){worldState.travel=0;worldState.nextEncounter=300+Math.random()*420;if(Math.random()<.5)triggerWorldEncounter()}}
+function checkEncounter(d){if(!inGrass()||worldState.busy)return;worldState.travel+=d;if(worldState.travel>=worldState.nextEncounter){worldState.travel=0;const ec=battleState.config?.encounter||{};worldState.nextEncounter=Number(ec.minDistance||300)+Math.random()*Math.max(1,Number(ec.maxDistance||720)-Number(ec.minDistance||300));if(Math.random()<(Number(ec.encounterChance??50)/100))triggerWorldEncounter()}}
 function worldAction(){if(worldState.busy||worldState.paused)return;const m=worldMap();if(m.interior){if(Math.hypot(worldState.x-480,worldState.y-360)<105){openWorldPanel(m.feature);return}worldToast('카운터 앞에서 Space 또는 모바일 확인 버튼을 눌러주세요.');return}for(const b of m.buildings||[]){const d=buildingDoor(b),cx=d.x+d.w/2,cy=d.y+d.h/2;if(Math.hypot(worldState.x-cx,worldState.y-cy)<82){worldState.returnX=cx;worldState.returnY=cy+65;changeMap('interior_'+b.id);return}}for(const n of m.npcs||[]){if(Math.hypot(worldState.x-n.x,worldState.y-n.y)<75){openWorldPanel(n.tab);return}}worldToast(inGrass()?'풀숲에서 인기척이 느껴집니다.':'주변에 상호작용할 대상이 없습니다.')}
 function worldLoop(now){const c=document.getElementById('worldMap');if(!c)return;const dt=Math.min(32,now-(worldState.lastTime||now));worldState.lastTime=now;let dx=0,dy=0;if(!worldState.busy&&!worldState.paused){if(worldState.keys.left)dx--;if(worldState.keys.right)dx++;if(worldState.keys.up)dy--;if(worldState.keys.down)dy++}if(dx||dy){if(dx&&dy){dx*=.7071;dy*=.7071}const step=210*dt/1000;let moved=0,nx=worldState.x+dx*step;if(canMove(nx,worldState.y)){worldState.x=nx;moved+=Math.abs(dx*step)}let ny=worldState.y+dy*step;if(canMove(worldState.x,ny)){worldState.y=ny;moved+=Math.abs(dy*step)}if(Math.abs(dx)>Math.abs(dy))worldState.dir=dx>0?'right':'left';else worldState.dir=dy>0?'down':'up';worldState.frame=moved?Math.floor(now/105)%4:0;if(moved){if(!checkTransitions())checkEncounter(moved);if(now-(worldState.lastSave||0)>700){worldState.lastSave=now;saveWorld()}}}else worldState.frame=0;drawWorld();worldState.raf=requestAnimationFrame(worldLoop)}
 function openWorldGameMenu(){
@@ -879,7 +891,7 @@ function openWorldGameMenu(){
  worldState.paused=true;worldState.keys={};
  menu.className='world-game-menu open';
  menu.innerHTML=`<div class="pixel-menu-window"><div class="pixel-menu-title">CNINE MENU</div>
- <button data-world-menu="profile">내 정보</button><button data-world-menu="battle">덱 편성</button><button data-world-menu="dex">내 도감</button><button data-world-menu="attendance">접속 보상</button><button data-world-menu="mineral">미네랄 교환</button><button data-world-menu="close">게임으로 돌아가기</button>
+ <button data-world-menu="profile">내 정보</button><button data-world-menu="battle">덱 편성</button><button data-world-menu="dex">내 도감</button><button data-world-menu="attendance">접속 보상</button><button data-world-menu="inventory">인벤토리</button><button data-world-menu="mineral">미네랄 교환</button><button data-world-menu="close">게임으로 돌아가기</button>
  <div class="pixel-menu-help">PC: ↑↓ 선택 · Enter/Space 확인 · X/Esc 닫기<br>모바일: 항목 터치 · MENU 버튼으로 열기/닫기</div></div>`;
  menu.querySelectorAll('[data-world-menu]').forEach(b=>b.onclick=()=>{const v=b.dataset.worldMenu;if(v==='close')closeWorldGameMenu();else if(v==='profile'){worldToast(`${user.nickname} · 코인 ${Number(user.coin||0).toLocaleString()}`)}else{closeWorldGameMenu();openWorldPanel(v)}});
  menu.querySelector('button')?.focus();
