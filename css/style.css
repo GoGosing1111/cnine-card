@@ -973,3 +973,19 @@ body.world-root-mode,
  .battle-modal .battle-enemy-title{font-size:11px!important;padding:2px!important}
  .battle-modal .enemy-card-power{font-size:7px!important}
 }
+
+/* v9.4.3 PVP battle parity: both teams use the approved PVE five-card hand */
+.pvp-battle-modal .pvp-arena{grid-template-columns:minmax(0,1fr) 72px minmax(0,1fr)!important;align-items:start!important}
+.pvp-battle-modal .battle-side{min-width:0!important;overflow:visible!important}
+.pvp-battle-modal .battle-team.enemy-team,
+.pvp-battle-modal .player-side .battle-team{position:relative!important;display:block!important;width:min(100%,900px)!important;height:500px!important;margin:0 auto!important;overflow:visible!important}
+.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame,
+.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame{position:absolute!important;left:calc(var(--i) * 142px)!important;top:20px!important;bottom:auto!important;width:210px!important;max-width:none!important;height:auto!important;aspect-ratio:2/3!important;margin:0!important;z-index:calc(10 + var(--i))!important;transform-origin:50% 100%!important}
+.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame:nth-child(1),.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(1){transform:rotate(-3deg) translateY(12px)!important}
+.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame:nth-child(2),.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(2){transform:rotate(-1.5deg) translateY(6px)!important}
+.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame:nth-child(3),.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(3){transform:translateY(0)!important}
+.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame:nth-child(4),.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(4){transform:rotate(1.5deg) translateY(6px)!important}
+.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame:nth-child(5),.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(5){transform:rotate(3deg) translateY(12px)!important}
+@media(max-width:1200px){.pvp-battle-modal .battle-team.enemy-team,.pvp-battle-modal .player-side .battle-team{width:650px!important;height:410px!important}.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame,.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * 101px)!important;width:160px!important}}
+@media(max-width:900px){.pvp-battle-modal .pvp-arena{grid-template-columns:1fr 1fr!important}.pvp-battle-modal .battle-team.enemy-team,.pvp-battle-modal .player-side .battle-team{width:100%!important;height:355px!important}.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame,.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * clamp(38px,7.8vw,58px))!important;width:clamp(82px,15vw,112px)!important}}
+@media(max-width:560px){.pvp-battle-modal .battle-team.enemy-team,.pvp-battle-modal .player-side .battle-team{height:270px!important}.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame,.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * 30px)!important;width:70px!important}}

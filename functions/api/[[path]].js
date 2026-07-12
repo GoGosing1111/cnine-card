@@ -835,6 +835,30 @@ export async function onRequest(context){
       return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at},stats:{users:users.count,usersToday:usersToday.count,cards:cards.count,draws24h:draws.count,totalCoin:coins.total,banned:banned.count,coupons:coupons.count,urOwned:urOwned.count,ssrOwned:ssrOwned.count}});
     }
 
+
+    if(path==='world/npcs'){
+      const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='world_npcs_v1'").first();
+      let npcs=null;try{npcs=row?.value?JSON.parse(row.value):null}catch{}
+      return json({npcs:Array.isArray(npcs)?npcs:null});
+    }
+
+    if(path==='admin/world-npcs'){
+      const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'NPC 관리 권한이 없습니다.'},403);
+      if(request.method==='GET'){
+        const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='world_npcs_v1'").first();
+        let npcs=[];try{npcs=row?.value?JSON.parse(row.value):[]}catch{}
+        return json({npcs:Array.isArray(npcs)?npcs:[]});
+      }
+      if(request.method==='PATCH'){
+        const payload=await readBody(request),raw=Array.isArray(payload.npcs)?payload.npcs:[];
+        const clean=raw.slice(0,100).map((n,i)=>({id:String(n.id||('npc'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,40),label:String(n.label||'NPC').slice(0,30),x:Math.max(0,Math.min(5000,Number(n.x)||0)),y:Math.max(0,Math.min(5000,Number(n.y)||0)),direction:['up','down','left','right'].includes(n.direction)?n.direction:'down',sprite:String(n.sprite||'npcChulgu').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,50),active:n.active!==false,dialog:(Array.isArray(n.dialog)?n.dialog:String(n.dialog||'').split('\n')).map(x=>String(x).trim()).filter(Boolean).slice(0,20)}));
+        const before=await env.DB.prepare("SELECT value FROM app_meta WHERE key='world_npcs_v1'").first();
+        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('world_npcs_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();
+        await writeAdminLog(env,admin,'WORLD_NPC_SETTINGS_UPDATE','SETTINGS','world_npcs',before?.value||null,clean);
+        return json({ok:true,npcs:clean});
+      }
+    }
+
     if(path==='admin/logs'){
       const admin=await requirePermission(request,env,'ADMIN_LOG'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       const rows=await env.DB.prepare(`SELECT l.*,u.nickname AS admin_nickname FROM admin_logs l LEFT JOIN users u ON u.id=l.admin_id ORDER BY l.id DESC LIMIT 300`).all();
