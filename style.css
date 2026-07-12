@@ -349,3 +349,11 @@ body {
   .raid-slash-fx i{left:5px;top:37px;width:70px;height:4px}
   .raid-stage-boss-hud{margin-top:9px!important}
 }
+
+/* v9.2.0.3 raid lobby image hard lock */
+.raid-lobby-screen .raid-lobby-boss{width:138px!important;height:118px!important;max-width:138px!important;max-height:118px!important;margin:0 auto!important;overflow:visible!important}
+.raid-lobby-screen .raid-lobby-boss>img{display:block!important;width:118px!important;height:112px!important;max-width:118px!important;max-height:112px!important;min-width:0!important;min-height:0!important;object-fit:contain!important;margin:0 auto!important}
+.raid-lobby-screen .raid-lobby-deck{display:flex!important;align-items:center!important;justify-content:center!important;gap:5px!important;overflow:hidden!important}
+.raid-lobby-screen .raid-lobby-deck>img{display:block!important;width:42px!important;height:56px!important;max-width:42px!important;max-height:56px!important;min-width:0!important;min-height:0!important;flex:0 0 42px!important;object-fit:cover!important}
+.raid-participant-list .raid-mini-cards{display:flex!important;align-items:center!important;gap:3px!important;flex:0 0 auto!important}
+.raid-participant-list .raid-mini-cards>img{display:block!important;width:34px!important;height:46px!important;max-width:34px!important;max-height:46px!important;min-width:0!important;min-height:0!important;flex:0 0 34px!important;object-fit:cover!important;border-radius:5px!important}

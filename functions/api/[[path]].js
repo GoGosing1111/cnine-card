@@ -1059,8 +1059,14 @@ export async function onRequest(context){
       if(admin.role!=='OWNER')return json({error:'레이드 관리는 OWNER 전용입니다.'},403);
       if(request.method==='GET'){
         const bosses=await env.DB.prepare('SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,is_active AS isActive,sort_order AS sortOrder,created_at AS createdAt,updated_at AS updatedAt FROM raid_bosses ORDER BY sort_order,id').all();
-        const current=await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,ri.current_hp AS currentHp,ri.participant_count AS participantCount,rb.name AS bossName,rb.max_hp AS maxHp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE (ri.status IN ('LOBBY','BATTLE') OR (ri.status='ENDED' AND ri.updated_at>=datetime('now','-10 minutes'))) ORDER BY ri.id DESC LIMIT 1").first();
-        return json({settings:await raidSettings(env),bosses:bosses.results,current:current||null});
+        const cfg=await raidSettings(env);
+        let current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.max_hp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").first();
+        if(current){
+          current=await refreshRaidForOwner(env,current,cfg);
+          if(current?.status==='ENDED')current=null;
+        }
+        const currentView=current?{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:current.current_hp,participantCount:current.participant_count,bossName:current.boss_name,maxHp:current.max_hp}:null;
+        return json({settings:cfg,bosses:bosses.results,current:currentView});
       }
       const payload=await readBody(request);
       if(request.method==='PATCH'&&payload.settings){const before=await raidSettings(env),clean=cleanRaidSettings(payload.settings);if(clean.minParticipants>clean.maxParticipants)return json({error:'최소 시작 인원은 최대 참가 인원보다 클 수 없습니다.'},400);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'RAID_SETTINGS_UPDATE','SETTINGS','raid',before,clean);return json({ok:true,settings:clean});}
