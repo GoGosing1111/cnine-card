@@ -378,7 +378,7 @@ async function startBattle(){
     <div class="battle-arena">
       <div class="battle-side player-side"><div class="battle-team">${deckCards.map((c,i)=>cardHtml(c,true,`battle-card-fighter battle-fighter-${i}`,user).replace(`data-id="${c.id}"`,`data-id="${c.id}" data-fighter="${i}" style="--i:${i}"`)).join('')}</div><small>MEMBER TEAM</small></div>
       <div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div>
-      <div class="battle-side enemy-side"><div class="monster-card-wrap">${cardHtml({id:`monster-${monster.id}`,grade:monster.isBoss?'FUR':'SSR',image:monster.image||'assets/ui/cninelogo.png',title:monster.name,name:`전투력 ${Number(monster.battlePower||0).toLocaleString()} · 승리보상 ◈ ${Number(monster.rewardCoin||0).toLocaleString()}`,focusX:50,focusY:50,limitedTotal:null,issuedCount:0},true,`battle-card-fighter battle-enemy-card monster-battle-card ${monster.isBoss?'boss':''}`,{breakthroughs:{}}).replace(`data-id="monster-${monster.id}"`,`data-id="monster-${monster.id}" style="--i:0"`)}</div></div>
+      <div class="battle-side enemy-side"><div class="monster-card-wrap">${cardHtml({id:`monster-${monster.id}`,grade:monster.isBoss?'FUR':'SSR',image:monster.image||'assets/ui/cninelogo.png',title:monster.name,name:'',focusX:50,focusY:50,limitedTotal:null,issuedCount:0},true,`battle-card-fighter battle-enemy-card monster-battle-card monster-name-only ${monster.isBoss?'boss':''}`,{breakthroughs:{}}).replace(`data-id="monster-${monster.id}"`,`data-id="monster-${monster.id}" style="--i:0"`)}</div></div>
     </div>
     <div class="battle-impact"><i></i><i></i><i></i></div>
     <div id="battleMessage" class="battle-message"><span>전투 준비 중...</span></div>
@@ -924,11 +924,20 @@ function drawGround(ctx,m){
   ctx.imageSmoothingEnabled=false;
   const ground=worldState.images.tileGround,inside=worldState.images.tileInterior;
   if(m.interior){
-    if(inside){for(let y=0;y<m.h;y+=32)for(let x=0;x<m.w;x+=32)drawSheetTile(ctx,inside,2,1,x,y)}
-    else{ctx.fillStyle='#b98757';ctx.fillRect(0,0,m.w,m.h)}
-    ctx.fillStyle='rgba(54,34,26,.75)';ctx.fillRect(0,0,m.w,48);ctx.fillRect(0,0,48,m.h);ctx.fillRect(m.w-48,0,48,m.h);
-    ctx.fillStyle='rgba(111,66,46,.94)';ctx.fillRect(205,145,550,135);ctx.fillStyle='#e4c88f';ctx.fillRect(225,165,510,90);ctx.fillStyle='#3a2922';ctx.fillRect(390,m.h-30,180,30);
-    ctx.fillStyle='#8f2f38';ctx.fillRect(355,305,250,120);ctx.fillStyle='#d6ad55';ctx.fillRect(370,320,220,90);return;
+    // 실내 전용 바닥 타일. 기존 (2,1)은 소파 그래픽이라 반복 배치 시 바닥 전체가 의자로 보였다.
+    // 시설별로 차분한 목재/석재 계열 타일을 사용하되 모든 실내에서 동일한 32px 그리드를 유지한다.
+    const interiorFloor={buy:[6,1],rank:[7,1],pvp:[9,0],attendance:[5,1]}[m.feature]||[6,1];
+    if(inside){
+      for(let y=0;y<m.h;y+=32)for(let x=0;x<m.w;x+=32)drawSheetTile(ctx,inside,interiorFloor[0],interiorFloor[1],x,y);
+      // 중앙 보행 구역은 한 톤 밝게 만들어 카운터까지의 동선을 구분한다.
+      for(let y=288;y<m.h-32;y+=32)for(let x=256;x<704;x+=32)drawSheetTile(ctx,inside,7,1,x,y);
+    }else{ctx.fillStyle='#a9784f';ctx.fillRect(0,0,m.w,m.h)}
+    // 실내 벽/기둥과 출입구
+    ctx.fillStyle='rgba(54,34,26,.88)';ctx.fillRect(0,0,m.w,48);ctx.fillRect(0,0,48,m.h);ctx.fillRect(m.w-48,0,48,m.h);
+    ctx.fillStyle='rgba(111,66,46,.96)';ctx.fillRect(205,145,550,135);ctx.fillStyle='#e4c88f';ctx.fillRect(225,165,510,90);ctx.fillStyle='#3a2922';ctx.fillRect(390,m.h-30,180,30);
+    // 시설 카운터와 앞쪽 매트
+    ctx.fillStyle='#8f2f38';ctx.fillRect(355,305,250,120);ctx.fillStyle='#d6ad55';ctx.fillRect(370,320,220,90);
+    ctx.fillStyle='rgba(92,49,34,.55)';ctx.fillRect(384,448,192,48);return;
   }
   // 새 타일셋 기본 잔디
   fillSheetTile(ctx,ground,2,3,{x:0,y:0,w:m.w,h:m.h});

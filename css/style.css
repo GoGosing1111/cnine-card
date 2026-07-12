@@ -1039,3 +1039,9 @@ body.world-root-mode,
   .battle-modal .monster-card-wrap .monster-battle-card .card-footer small{font-size:6px!important}
   .battle-modal .monster-card-wrap .monster-battle-card .card-mini-logo{display:none!important}
 }
+
+/* v9.4.7 — monster battle card shows only the monster name. */
+.battle-modal .monster-card-wrap .monster-name-only .card-footer small:empty{display:none!important}
+.battle-modal .monster-card-wrap .monster-name-only .card-footer>div{width:100%!important;text-align:center!important}
+.battle-modal .monster-card-wrap .monster-name-only .card-title{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;text-align:center!important}
+.battle-modal .monster-card-wrap .monster-name-only .card-mini-logo{display:none!important}
