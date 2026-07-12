@@ -367,3 +367,14 @@
   .pvp-energy-head span{font-size:12px}
   .pvp-energy-head b{font-size:15px}
 }
+
+
+/* v9.0.8 PvE deck save / reset */
+.pve-deck-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.pve-deck-btn{min-width:92px;height:38px;padding:0 13px;border:1px solid rgba(116,222,255,.32);border-radius:11px;background:linear-gradient(145deg,rgba(20,52,89,.96),rgba(7,19,42,.96));color:#e7faff;font-size:12px;font-weight:900;letter-spacing:-.02em;cursor:pointer;box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 7px 18px rgba(0,0,0,.24);transition:transform .16s ease,border-color .16s ease,filter .16s ease}
+.pve-deck-btn span{margin-right:4px;font-size:13px}.pve-deck-btn:hover:not(:disabled){transform:translateY(-1px);border-color:rgba(116,222,255,.72);filter:brightness(1.12)}
+.pve-deck-btn.save{background:linear-gradient(145deg,rgba(19,104,139,.98),rgba(10,43,83,.98));border-color:rgba(91,226,255,.52)}
+.pve-deck-btn.reset{background:linear-gradient(145deg,rgba(75,40,65,.96),rgba(31,22,45,.96));border-color:rgba(255,135,183,.34);color:#ffddec}
+.pve-deck-btn:disabled{opacity:.42;cursor:not-allowed;filter:saturate(.55)}
+@media(max-width:640px){.battle-panel>.panel-title{align-items:flex-start;gap:10px}.pve-deck-actions{gap:6px}.pve-deck-btn{min-width:82px;height:34px;padding:0 10px;font-size:11px}}
+@media(max-width:430px){.battle-panel>.panel-title{flex-direction:column}.pve-deck-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.pve-deck-btn{width:100%;min-width:0}}

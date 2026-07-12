@@ -33,6 +33,7 @@ function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=s
 async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare('SELECT c.rarity,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=?').bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
 async function ensurePvpProfile(env,user,settings){let row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first();if(!row){await env.DB.prepare('INSERT OR IGNORE INTO pvp_profiles(user_id,season_score,highest_score,wins,losses,updated_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,settings.initialScore,settings.initialScore,0,0).run();row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first()}return row}
 async function pvpDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
+async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 async function pvpDeckSnapshot(env,userId){const ids=await pvpDeckCards(env,userId);if(!ids.length)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map(rows.results.map(x=>[String(x.id),x]));return ids.map(id=>map.get(String(id))).filter(Boolean)}
 
 async function pvpEnergyState(env,user,settings){
@@ -198,6 +199,14 @@ async function ensureUpgrades(env){
       await env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_rank_reward_claims (user_id INTEGER NOT NULL, season_name TEXT NOT NULL, final_rank INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, reward_shards INTEGER NOT NULL DEFAULT 0, claimed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(user_id,season_name))`).run();
       await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_pvp_rank_claims_season ON pvp_rank_reward_claims(season_name,final_rank)`).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v907_attendance_pvp_coin','1',CURRENT_TIMESTAMP)").run();
+    }
+
+    // v9.0.8 PvE deck save: 기존 migration은 수정하지 않고 전용 테이블만 안전하게 추가한다.
+    const pveDeckDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v908_pve_deck'").first();
+    if(pveDeckDone?.value!=='1'){
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS pve_decks (user_id INTEGER PRIMARY KEY, card_ids TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
+      await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_pve_decks_updated ON pve_decks(updated_at)`).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v908_pve_deck','1',CURRENT_TIMESTAMP)").run();
     }
 
     const pvpEnergyDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v878'").first();
@@ -631,7 +640,21 @@ export async function onRequest(context){
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
       const settings=await battleSettings(env);
       const monsters=await env.DB.prepare('SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss FROM battle_monsters WHERE is_active=1 ORDER BY sort_order,id').all();
-      return json({settings,energy:await battleEnergyState(env,user,settings),serverNow:new Date().toISOString(),monsters:monsters.results});
+      return json({settings,deck:await pveDeckCards(env,user.id),energy:await battleEnergyState(env,user,settings),serverNow:new Date().toISOString(),monsters:monsters.results});
+    }
+    if(path==='battle/deck'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const body=await readBody(request),ids=[...new Set((body.cardIds||[]).map(String))];
+      if(ids.length!==5)return json({error:'PvE 덱은 보유 카드 5장으로 편성해야 합니다.'},400);
+      const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT card_id FROM user_cards WHERE user_id=? AND card_id IN (${marks})`).bind(user.id,...ids).all();
+      if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
+      await env.DB.prepare('INSERT INTO pve_decks(user_id,card_ids,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET card_ids=excluded.card_ids,updated_at=CURRENT_TIMESTAMP').bind(user.id,JSON.stringify(ids)).run();
+      return json({ok:true,deck:ids});
+    }
+    if(path==='battle/deck'&&request.method==='DELETE'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await env.DB.prepare('DELETE FROM pve_decks WHERE user_id=?').bind(user.id).run();
+      return json({ok:true,deck:[]});
     }
     if(path==='battle/fight'&&request.method==='POST'){
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
