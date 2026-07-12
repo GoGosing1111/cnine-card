@@ -717,3 +717,81 @@ body.world-root-mode,
 .battle-modal .battle-team .battle-card-fighter.card-frame:nth-child(4){transform:rotate(1.6deg) translateY(5px)!important}
 .battle-modal .battle-team .battle-card-fighter.card-frame:nth-child(5){transform:rotate(3.2deg) translateY(10px)!important}
 .battle-modal .battle-team .battle-card-fighter.card-frame:hover,.battle-modal .battle-team .battle-card-fighter.active-attacker{transform:translateY(-20px) scale(1.05)!important}
+
+/* v9.3.8 structural hotfix: reliable world resume, adaptive battle stage, readable rankings */
+.world-entry-card{width:min(92vw,520px)!important}
+.world-entry-card #enterWorldBtn,.world-entry-card #enterFullscreenBtn{display:block!important;width:100%!important;min-height:48px!important;margin-top:12px!important}
+.world-entry-card #enterFullscreenBtn{background:#f7efc8!important;color:#171914!important;border:4px double #272b22!important;box-shadow:3px 3px 0 rgba(0,0,0,.28)!important}
+.world-entry-card #enterFullscreenBtn:hover{background:#d9e7b3!important}
+.world-entry-card>small{color:#fff5cf!important;text-shadow:0 2px 0 #111!important;line-height:1.5!important}
+
+/* The PVE deck is a fixed five-card hand. Absolute positioning prevents any sixth-line/wrap bug. */
+.battle-modal .modal-panel.battle-stage{width:min(1760px,99vw)!important;max-width:none!important;height:min(940px,97dvh)!important;min-height:720px!important;overflow:hidden!important}
+.battle-modal .battle-arena{display:grid!important;grid-template-columns:minmax(780px,1fr) 26px minmax(280px,340px)!important;grid-template-rows:minmax(0,1fr)!important;gap:10px!important;min-height:0!important;height:calc(100% - 205px)!important;padding:10px 18px 104px!important;overflow:hidden!important}
+.battle-modal .player-side{min-width:0!important;overflow:visible!important;display:flex!important;flex-direction:column!important;justify-content:flex-end!important}
+.battle-modal .player-side .battle-team{position:relative!important;display:block!important;width:min(100%,930px)!important;height:500px!important;margin:0 auto!important;padding:0!important;overflow:visible!important;flex:none!important}
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame{position:absolute!important;left:calc(var(--i) * 145px)!important;bottom:0!important;width:205px!important;max-width:none!important;height:auto!important;aspect-ratio:2/3!important;margin:0!important;flex:none!important;z-index:calc(10 + var(--i))!important;transform-origin:50% 100%!important}
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(1){transform:rotate(-3deg) translateY(12px)!important}
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(2){transform:rotate(-1.5deg) translateY(6px)!important}
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(3){transform:translateY(0)!important}
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(4){transform:rotate(1.5deg) translateY(6px)!important}
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame:nth-child(5){transform:rotate(3deg) translateY(12px)!important}
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame:hover,
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame.active-attacker{transform:translateY(-22px) scale(1.055)!important;z-index:80!important}
+.battle-modal .enemy-side{min-width:0!important;overflow:hidden!important}
+.battle-modal .battle-message{left:18px!important;right:18px!important;bottom:12px!important;min-height:76px!important;z-index:100!important}
+
+/* Wago-sized frames: retain five cards and reduce overlap step/size, never wrap. */
+@media (max-width:1280px){
+ .battle-modal .modal-panel.battle-stage{width:99vw!important;height:96dvh!important;min-height:650px!important}
+ .battle-modal .battle-arena{grid-template-columns:minmax(560px,1fr) 14px minmax(220px,280px)!important;padding-left:10px!important;padding-right:10px!important}
+ .battle-modal .player-side .battle-team{height:400px!important;width:min(100%,680px)!important}
+ .battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * 104px)!important;width:158px!important}
+ .battle-modal .battle-enemy-card{width:min(230px,100%)!important}
+}
+@media (max-width:820px){
+ .battle-modal .modal-panel.battle-stage{height:98dvh!important;min-height:620px!important}
+ .battle-modal .battle-hud{gap:5px!important;padding:4px 6px!important}
+ .battle-modal .battle-arena{grid-template-columns:minmax(0,1fr) 150px!important;grid-template-rows:minmax(0,1fr)!important;height:calc(100% - 185px)!important;padding:4px 5px 92px!important}
+ .battle-modal .battle-center{display:none!important}
+ .battle-modal .player-side .battle-team{height:310px!important;width:100%!important;min-width:300px!important}
+ .battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * clamp(47px,9.2vw,69px))!important;width:clamp(92px,18vw,118px)!important}
+ .battle-modal .battle-enemy-card{width:min(138px,100%)!important}
+ .battle-modal .battle-message{font-size:13px!important;min-height:66px!important}
+}
+@media (max-width:480px){
+ .battle-modal .battle-arena{grid-template-columns:minmax(0,1fr) 112px!important}
+ .battle-modal .player-side .battle-team{height:255px!important;min-width:250px!important}
+ .battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * 42px)!important;width:88px!important}
+ .battle-modal .battle-team .battle-card-fighter .card-footer{min-height:27px!important}
+ .battle-modal .battle-team .battle-card-fighter .card-title{font-size:8px!important}
+ .battle-modal .battle-enemy-card{width:104px!important}
+}
+
+/* Ranking pages: remove dark legacy shell and force high contrast throughout. */
+.world-panel-content .rank-hub-content,.world-panel-content .rank-main,.world-panel-content .rank-panel-v2{background:#eee6bc!important;color:#171914!important}
+.world-panel-content .rank-panel-v2{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:12px!important}
+.world-panel-content .rank-main>h2,.world-panel-content .rank-main>p,.world-panel-content .rank-pvp-panel h2,.world-panel-content .rank-pvp-panel h3,.world-panel-content .rank-pvp-panel p{color:#171914!important}
+.world-panel-content .rank-main>.eyebrow,.world-panel-content .rank-pvp-panel .eyebrow{color:#3e4639!important}
+.world-panel-content .my-tier-card{background:#fff6cf!important;color:#171914!important}
+.world-panel-content .my-tier-card span,.world-panel-content .my-tier-card small{color:#34382f!important}
+.world-panel-content .my-tier-card strong{color:#183f63!important;text-shadow:none!important}
+.world-panel-content .tier-guide{background:#d9d2aa!important;color:#171914!important}
+.world-panel-content .tier-road{display:grid!important;grid-template-columns:repeat(7,minmax(130px,1fr))!important;gap:6px!important;overflow-x:auto!important}
+.world-panel-content .tier-road-item b,.world-panel-content .pvp-tier-road-item b{color:#171914!important;background:#fff3bf!important;border:2px solid #3b3e34!important;text-shadow:none!important}
+.world-panel-content .pvp-tier-guide-head span{color:#34382f!important}
+.world-panel-content .pvp-my-rank span,.world-panel-content .pvp-my-rank b,.world-panel-content .pvp-my-rank small{color:#171914!important}
+.world-panel-content .pvp-rank-row .rank-number,.world-panel-content .rank-list-row .rank-number{display:flex!important;align-items:center!important;justify-content:center!important;width:42px!important;height:42px!important;background:#262b24!important;color:#fff5cc!important;border:3px double #f5e8ae!important;border-radius:0!important;font-size:17px!important;line-height:1!important;box-shadow:2px 2px 0 rgba(0,0,0,.2)!important}
+.world-panel-content .pvp-rank-row.rank-pos-1 .rank-number,.world-panel-content .rank-list-row.rank-pos-1 .rank-number{background:#8b6816!important;color:#fff9d6!important}
+.world-panel-content .pvp-rank-row.rank-pos-2 .rank-number,.world-panel-content .rank-list-row.rank-pos-2 .rank-number{background:#686f73!important;color:#fff!important}
+.world-panel-content .pvp-rank-row.rank-pos-3 .rank-number,.world-panel-content .rank-list-row.rank-pos-3 .rank-number{background:#7c4829!important;color:#fff3df!important}
+.world-panel-content .rank-number i{display:none!important}
+.world-panel-content .pvp-rank-row .tier-emblem,.world-panel-content .rank-list-row .tier-emblem{position:relative!important;margin:0 auto!important;filter:none!important}
+.world-panel-content .pvp-rank-row span,.world-panel-content .rank-list-row span{color:#171914!important;font-weight:900!important}
+.world-panel-content .pvp-rank-row span small,.world-panel-content .rank-list-row span small{color:#3e4339!important;font-weight:700!important}
+.world-panel-content .pvp-rank-row>strong,.world-panel-content .rank-list-row>strong{color:#153b62!important;background:#fff4c8!important;border:2px solid #4a4d40!important;padding:7px 9px!important}
+@media(max-width:760px){
+ .world-panel-content .tier-road{grid-template-columns:repeat(7,120px)!important}
+ .world-panel-content .pvp-rank-row,.world-panel-content .rank-list-row{grid-template-columns:42px 58px minmax(0,1fr) 82px!important}
+ .world-panel-content .pvp-rank-row>strong,.world-panel-content .rank-list-row>strong{padding:4px!important;font-size:12px!important}
+}
