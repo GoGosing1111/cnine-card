@@ -959,7 +959,8 @@ export async function onRequest(context){
 
 
     if(path==='admin/raid'){
-      const admin=await requireAdmin(env,request);if(admin instanceof Response)return admin;
+      const admin=await requirePermission(request,env,'DASHBOARD');
+      if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(admin.role!=='OWNER')return json({error:'레이드 관리는 OWNER 전용입니다.'},403);
       if(request.method==='GET'){
         const bosses=await env.DB.prepare('SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,is_active AS isActive,sort_order AS sortOrder,created_at AS createdAt,updated_at AS updatedAt FROM raid_bosses ORDER BY sort_order,id').all();
