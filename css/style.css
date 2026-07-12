@@ -397,3 +397,30 @@
 /* CNINE WORLD v3 - 월드 중심 단일 화면 */
 html,body{min-height:100%}body.world-root-mode{margin:0;overflow:hidden;background:#07110d}.world-root-mode #app{height:100vh}.cnine-world-root{position:relative;width:100vw;height:100vh;min-height:520px;overflow:hidden;background:#06100c}.world-main-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#315f38;outline:none;image-rendering:pixelated;touch-action:none}.world-top-hud{position:absolute;left:18px;right:18px;top:16px;display:flex;justify-content:space-between;align-items:center;pointer-events:none;z-index:8}.world-top-hud>div{display:flex;gap:10px;align-items:center;padding:10px 14px;border:1px solid rgba(255,255,255,.15);border-radius:14px;background:rgba(4,12,9,.78);backdrop-filter:blur(8px);box-shadow:0 8px 24px rgba(0,0,0,.28)}.world-top-hud b{color:#71f0b0;letter-spacing:.14em}.world-top-hud span{color:#fff}.world-player-hud strong{color:#ffd96a}.world-root-toast{bottom:82px!important}.world-prompt{position:absolute;left:50%;bottom:28px;transform:translate(-50%,15px);opacity:0;z-index:9;padding:10px 16px;border-radius:999px;background:rgba(3,8,6,.88);border:1px solid rgba(255,255,255,.18);font-weight:900;transition:.2s;pointer-events:none}.world-prompt.show{opacity:1;transform:translate(-50%,0)}.world-root-controls{position:absolute!important;left:18px;bottom:18px;z-index:12;margin:0!important}.world-panel{position:absolute;inset:0;z-index:30;display:none;background:#071014}.world-panel.open{display:block}.world-panel-frame{height:100%;display:flex;flex-direction:column}.world-panel-bar{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:#0a1715;border-bottom:1px solid rgba(255,255,255,.12);flex:0 0 auto}.world-panel-bar b{font-size:18px;color:#8ff6c3}.world-panel-bar button{border:1px solid rgba(255,255,255,.18);background:#182723;color:#fff;border-radius:10px;padding:9px 13px;font-weight:800;cursor:pointer}.world-panel-content{overflow:auto;flex:1;background:#070d11}.world-panel-content>.summary-bar,.world-panel-content>.high-grade-feed,.world-panel-content>.game-hero,.world-panel-content>.dashboard-grid,.world-panel-content>.pack-selector,.world-panel-content>.dex-layout,.world-panel-content>.battle-shell,.world-panel-content>.pvp-shell,.world-panel-content>.attendance-shell,.world-panel-content>.rank-shell,.world-panel-content>.mineral-exchange-shell{max-width:1280px;margin-left:auto;margin-right:auto}.world-root-mode .header,.world-root-mode>.page{display:none!important}
 @media(max-width:760px){.cnine-world-root{min-height:100dvh}.world-top-hud{left:8px;right:8px;top:8px}.world-top-hud>div{padding:7px 9px;font-size:11px;gap:6px}.world-top-hud b{letter-spacing:.08em}.world-root-controls{display:block!important;left:10px;bottom:10px;transform:scale(.86);transform-origin:left bottom}.world-prompt{bottom:16px;font-size:12px}.world-root-toast{bottom:115px!important}.world-panel-bar{height:52px;padding:0 10px}.world-panel-bar b{font-size:15px}.world-panel-bar button{font-size:11px;padding:8px 9px}}
+
+
+/* v9.2.1 모바일 월드 조작 선택/스크롤 방지 */
+body.world-root-mode,
+.cnine-world-root,
+.world-main-canvas,
+.world-root-controls,
+.world-root-controls *{
+  overscroll-behavior:none;
+  -webkit-user-select:none!important;
+  user-select:none!important;
+  -webkit-touch-callout:none!important;
+  -webkit-tap-highlight-color:transparent!important;
+}
+.world-root-controls,
+.world-root-controls button{
+  touch-action:none!important;
+}
+.world-root-controls button{
+  -webkit-appearance:none;
+  appearance:none;
+  outline:none;
+  cursor:pointer;
+}
+
+/* v9.2.2 world entry */
+.world-entry-screen{position:fixed;inset:0;display:grid;place-items:center;overflow:hidden;background:radial-gradient(circle at 50% 45%,#163d2d 0,#07150f 58%,#020706 100%);color:#fff}.world-entry-screen:before{content:"";position:absolute;inset:-15%;background:repeating-linear-gradient(135deg,transparent 0 44px,rgba(82,230,155,.035) 45px 47px);animation:entryDrift 14s linear infinite}.world-entry-fog{position:absolute;inset:0;background:radial-gradient(circle at 30% 80%,rgba(46,184,110,.22),transparent 34%),radial-gradient(circle at 70% 15%,rgba(33,134,102,.2),transparent 32%)}.world-entry-card{position:relative;z-index:2;width:min(86vw,560px);padding:48px 34px;text-align:center;border:1px solid rgba(131,255,194,.28);border-radius:28px;background:rgba(5,18,13,.86);box-shadow:0 30px 90px rgba(0,0,0,.55),inset 0 0 50px rgba(57,204,128,.05);backdrop-filter:blur(10px)}.world-entry-card img{width:min(250px,65%);max-height:100px;object-fit:contain}.world-entry-card p{margin:24px 0 8px;color:#79f0b5;font-weight:900;letter-spacing:.25em}.world-entry-card h1{margin:0;font-size:clamp(30px,5vw,50px);line-height:1.22}.world-entry-card span{display:block;margin:18px 0 28px;color:#bdd7c9}.world-entry-card button{min-width:220px;padding:16px 24px;border:0;border-radius:14px;background:linear-gradient(135deg,#47d98c,#1c9d62);color:#03150d;font-weight:1000;font-size:18px;box-shadow:0 10px 30px rgba(42,213,132,.28);cursor:pointer}.world-entry-card button:active{transform:translateY(2px)}@keyframes entryDrift{to{transform:translate3d(90px,40px,0)}}

@@ -178,7 +178,16 @@ function renderLogin() {
 function renderCreated(user) {
   app.innerHTML = `<div class="login-wrap"><div class="login-box game-panel"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">PLAYER CREATED</p><h1>생성 완료</h1><p>개인키는 로그인 복구용입니다. 안전한 곳에 보관하세요.</p><div class="field"><label>닉네임</label><input value="${escapeHtml(user.nickname)}" readonly></div><div class="field"><label>개인키</label><input id="copyKey" value="${user.key}" readonly></div><button class="btn" id="copy">개인키 복사</button><button class="btn secondary" id="go">게임 시작</button></div></div>`;
   document.getElementById('copy').onclick = async () => { await navigator.clipboard.writeText(user.key); alert('개인키가 복사되었습니다.'); };
-  document.getElementById('go').onclick = () => renderShell('world');
+  document.getElementById('go').onclick = () => renderWorldGate();
+}
+
+function renderWorldGate(){
+  if(window.__stopWorld){window.__stopWorld();window.__stopWorld=null;}
+  document.body.classList.remove('world-root-mode');
+  const user=loadUser();
+  if(!user)return renderLogin();
+  app.innerHTML=`<div class="world-entry-screen"><div class="world-entry-fog"></div><div class="world-entry-card"><img src="assets/ui/cninelogo.png" alt="CNINE"><p>CNINE WORLD</p><h1>씨켓몬의 세계로<br>입장하시겠습니까?</h1><span>${escapeHtml(user.nickname)}님의 모험이 시작됩니다.</span><button id="enterWorldBtn" type="button">입장하겠습니다</button></div></div>`;
+  document.getElementById('enterWorldBtn').onclick=()=>renderShell('world');
 }
 
 function renderShell(tab='world') {
@@ -644,9 +653,9 @@ async function init(){
     try{cards=await (await fetch('data/cards.json')).json()}catch{cards=[]}
     if(API_MODE) clearPlayerLogin();
   }
-  setTimeout(()=>authenticated?renderShell('buy'):renderLogin(),250);
+  setTimeout(()=>authenticated?renderWorldGate():renderLogin(),250);
 }
-function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 관리자에게 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);saveUser(apiUserToLocal(d.user,normalizedKey));if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
+function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 관리자에게 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderWorldGate()}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);saveUser(apiUserToLocal(d.user,normalizedKey));if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderWorldGate()}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 async function redeemCoupon(){
@@ -814,7 +823,7 @@ const WORLD_MAPS={
 let worldState={map:'town',x:860,y:850,dir:'down',frame:0,busy:false,paused:false,travel:0,nextEncounter:330,lastTime:0,raf:0,keys:{},images:{},ready:false,camera:{x:0,y:0}};
 function worldToast(text){const t=document.getElementById('worldToast');if(!t)return;t.textContent=text;t.classList.add('show');clearTimeout(worldState.toastTimer);worldState.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
 function worldLoadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src})}
-async function worldLoadAssets(){const files={player:'assets/world/player.png',npc:'assets/world/npc_pvp.png',tree:'assets/world/tree.png',house:'assets/world/house.png',sign:'assets/world/arena_sign.png'};const out={};await Promise.all(Object.entries(files).map(async([k,v])=>out[k]=await worldLoadImage(v)));worldState.images=out;worldState.ready=true}
+async function worldLoadAssets(){const files={player:'assets/world/player.png',npc:'assets/world/npc_pvp.png',tree:'assets/world/tree.png',shop:'assets/world/building_shop.png',lab:'assets/world/building_lab.png',arena:'assets/world/building_arena.png',hall:'assets/world/building_hall.png',decor:'assets/world/decor.png'};const out={};await Promise.all(Object.entries(files).map(async([k,v])=>out[k]=await worldLoadImage(v)));worldState.images=out;worldState.ready=true}
 function worldMap(){return WORLD_MAPS[worldState.map]||WORLD_MAPS.town}
 function rectHit(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
 function playerRect(x=worldState.x,y=worldState.y){return{x:x-12,y:y-10,w:24,h:30}}
@@ -822,11 +831,31 @@ function buildingDoor(b){return{x:b.x+b.w/2-34,y:b.y+b.h-22,w:68,h:42}}
 function worldSolids(){const m=worldMap();if(m.interior)return[{x:0,y:0,w:m.w,h:55},{x:0,y:0,w:55,h:m.h},{x:m.w-55,y:0,w:55,h:m.h},{x:0,y:m.h-20,w:390,h:20},{x:570,y:m.h-20,w:390,h:20},{x:220,y:160,w:520,h:125}];return (m.buildings||[]).map(b=>({x:b.x,y:b.y,w:b.w,h:b.h-18}));}
 function canMove(nx,ny){const m=worldMap(),r=playerRect(nx,ny);if(r.x<20||r.y<20||r.x+r.w>m.w-20||r.y+r.h>m.h-20)return false;return !worldSolids().some(s=>rectHit(r,s))}
 function inGrass(){const g=worldMap().grass;return !!g&&worldState.x>g.x&&worldState.x<g.x+g.w&&worldState.y>g.y&&worldState.y<g.y+g.h}
-function drawGround(ctx,m){ctx.fillStyle=m.interior?'#bc9a6d':'#6eb65c';ctx.fillRect(0,0,m.w,m.h);if(m.interior){for(let y=55;y<m.h;y+=48)for(let x=55;x<m.w-55;x+=48){ctx.fillStyle=((x+y)/48)%2?'#d3b17d':'#c8a36f';ctx.fillRect(x,y,48,48)}ctx.fillStyle='#5d4031';ctx.fillRect(220,160,520,125);ctx.fillStyle='#8b5d42';ctx.fillRect(250,185,460,75);ctx.fillStyle='#33261f';ctx.fillRect(390,m.h-34,180,34);ctx.fillStyle='#e9d9b8';ctx.fillRect(380,300,200,105);ctx.fillStyle='#47342a';ctx.fillRect(405,325,150,55);return}
-  ctx.fillStyle='#d1b77d';ctx.fillRect(0,500,m.w,260);ctx.fillRect(760,0,260,m.h);ctx.fillStyle='#75c45d';const g=m.grass;if(g){ctx.fillRect(g.x,g.y,g.w,g.h);ctx.fillStyle='rgba(30,110,42,.38)';for(let y=g.y+12;y<g.y+g.h;y+=26)for(let x=g.x+12;x<g.x+g.w;x+=28){ctx.fillRect(x,y,3,13);ctx.fillRect(x-4,y+7,5,3)}}
-  ctx.fillStyle='#2e713c';ctx.fillRect(0,0,m.w,55);ctx.fillRect(0,m.h-55,m.w,55);ctx.fillRect(0,0,55,m.h);ctx.fillRect(m.w-55,0,55,m.h)
+function pixelTile(ctx,x,y,size,a,b){ctx.fillStyle=a;ctx.fillRect(x,y,size,size);ctx.fillStyle=b;ctx.fillRect(x+4,y+7,3,3);ctx.fillRect(x+size-9,y+size-11,4,3)}
+function drawGround(ctx,m){
+  ctx.imageSmoothingEnabled=false;
+  if(m.interior){
+    ctx.fillStyle='#b98757';ctx.fillRect(0,0,m.w,m.h);
+    for(let y=48;y<m.h-48;y+=32)for(let x=48;x<m.w-48;x+=32)pixelTile(ctx,x,y,32,((x+y)/32)%2?'#d7b778':'#cda96d','#b88f58');
+    ctx.fillStyle='#4c3028';ctx.fillRect(0,0,m.w,48);ctx.fillRect(0,0,48,m.h);ctx.fillRect(m.w-48,0,48,m.h);
+    ctx.fillStyle='#6f422e';ctx.fillRect(205,145,550,135);ctx.fillStyle='#e4c88f';ctx.fillRect(225,165,510,90);ctx.fillStyle='#3a2922';ctx.fillRect(390,m.h-30,180,30);
+    ctx.fillStyle='#8f2f38';ctx.fillRect(355,305,250,120);ctx.fillStyle='#d6ad55';ctx.fillRect(370,320,220,90);return;
+  }
+  for(let y=0;y<m.h;y+=32)for(let x=0;x<m.w;x+=32)pixelTile(ctx,x,y,32,'#68b85b',((x+y)/32)%3?'#4b9d49':'#7aca68');
+  // main roads
+  ctx.fillStyle='#d6bd82';ctx.fillRect(0,485,m.w,285);ctx.fillRect(745,0,290,m.h);
+  for(let x=0;x<m.w;x+=32){ctx.fillStyle=x%64?'#c8aa70':'#e1ca92';ctx.fillRect(x,500,32,12);ctx.fillRect(x,742,32,12)}
+  const g=m.grass;if(g){ctx.fillStyle='#4da94a';ctx.fillRect(g.x,g.y,g.w,g.h);for(let y=g.y;y<g.y+g.h;y+=32)for(let x=g.x;x<g.x+g.w;x+=32){ctx.fillStyle=((x+y)/32)%2?'#398f40':'#58b651';ctx.fillRect(x+3,y+5,3,20);ctx.fillRect(x+12,y+11,3,16);ctx.fillRect(x+22,y+3,3,22)}}
+  // flowers and stones
+  const decor=worldState.images.decor;if(decor){for(let i=0;i<38;i++){const x=90+(i*137)%Math.max(120,m.w-180),y=90+(i*211)%Math.max(120,m.h-180);if(x>700&&x<1080)continue;ctx.drawImage(decor,32*((i%3)+1),0,32,32,x,y,32,32)}}
+  ctx.fillStyle='#276f3a';ctx.fillRect(0,0,m.w,42);ctx.fillRect(0,m.h-42,m.w,42);ctx.fillRect(0,0,42,m.h);ctx.fillRect(m.w-42,0,42,m.h);
 }
-function drawBuilding(ctx,b,i){ctx.fillStyle=['#d57f54','#6d91bd','#9d6cc1','#b07a46'][i%4];ctx.fillRect(b.x,b.y,b.w,b.h);ctx.fillStyle='#7a3f37';ctx.beginPath();ctx.moveTo(b.x-18,b.y+45);ctx.lineTo(b.x+b.w/2,b.y-45);ctx.lineTo(b.x+b.w+18,b.y+45);ctx.closePath();ctx.fill();ctx.fillStyle='#f1d391';ctx.fillRect(b.x+35,b.y+80,b.w-70,70);ctx.fillStyle='#51362c';const d=buildingDoor(b);ctx.fillRect(d.x,d.y,d.w,d.h+22);ctx.fillStyle='rgba(0,0,0,.72)';ctx.fillRect(b.x+20,b.y+b.h+8,b.w-40,30);ctx.fillStyle='#fff';ctx.font='bold 17px sans-serif';ctx.textAlign='center';ctx.fillText(b.label,b.x+b.w/2,b.y+b.h+29)}
+function drawBuilding(ctx,b,i){
+  const keys=['shop','lab','arena','hall'],img=worldState.images[keys[i%4]];
+  if(img){ctx.drawImage(img,b.x,b.y-18,b.w,b.h+18)}else{ctx.fillStyle='#c47b55';ctx.fillRect(b.x,b.y,b.w,b.h)}
+  const d=buildingDoor(b);ctx.fillStyle='rgba(0,0,0,.28)';ctx.fillRect(d.x,d.y+d.h-4,d.w,12);
+  ctx.fillStyle='rgba(7,12,10,.88)';ctx.fillRect(b.x+28,b.y+b.h+8,b.w-56,31);ctx.strokeStyle='#e7c66a';ctx.strokeRect(b.x+28,b.y+b.h+8,b.w-56,31);ctx.fillStyle='#fff5c6';ctx.font='bold 16px sans-serif';ctx.textAlign='center';ctx.fillText(b.label,b.x+b.w/2,b.y+b.h+30)
+}
 function drawSprite(ctx,img,x,y,dir,frame,scale=1){if(!img)return;const rows={down:0,left:1,right:2,up:3};ctx.imageSmoothingEnabled=false;ctx.drawImage(img,(frame%4)*32,(rows[dir]||0)*40,32,40,Math.round(x-16*scale),Math.round(y-32*scale),32*scale,40*scale)}
 function updateCamera(){const m=worldMap();worldState.camera.x=Math.max(0,Math.min(m.w-WORLD_VIEW_W,worldState.x-WORLD_VIEW_W/2));worldState.camera.y=Math.max(0,Math.min(m.h-WORLD_VIEW_H,worldState.y-WORLD_VIEW_H/2))}
 function drawWorld(){const c=document.getElementById('worldMap');if(!c||!worldState.ready)return;const ctx=c.getContext('2d'),m=worldMap();updateCamera();ctx.clearRect(0,0,c.width,c.height);ctx.save();ctx.translate(-Math.round(worldState.camera.x),-Math.round(worldState.camera.y));drawGround(ctx,m);
@@ -848,7 +877,36 @@ function initWorldView(){const saved=JSON.parse(localStorage.getItem('cnine_worl
  const km={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};
  const down=e=>{if(!document.getElementById('worldMap')||worldState.paused)return;const k=e.key.toLowerCase();if(km[k]){e.preventDefault();worldState.keys[km[k]]=true}else if(k===' '||k==='enter'||k==='z'){e.preventDefault();worldAction()}};
  const up=e=>{const k=e.key.toLowerCase();if(km[k])worldState.keys[km[k]]=false};window.addEventListener('keydown',down);window.addEventListener('keyup',up);
- document.querySelectorAll('[data-hold]').forEach(btn=>{const d=btn.dataset.hold,press=e=>{e.preventDefault();if(!worldState.paused)worldState.keys[d]=true},release=e=>{e.preventDefault();worldState.keys[d]=false};btn.addEventListener('pointerdown',press);btn.addEventListener('pointerup',release);btn.addEventListener('pointercancel',release);btn.addEventListener('pointerleave',release)});document.getElementById('worldAction').onclick=worldAction;
+ const controls=document.querySelector('.world-root-controls');
+ if(controls){
+   const blockMobileGesture=e=>{e.preventDefault()};
+   controls.addEventListener('contextmenu',blockMobileGesture);
+   controls.addEventListener('selectstart',blockMobileGesture);
+   controls.addEventListener('dragstart',blockMobileGesture);
+   controls.addEventListener('touchmove',blockMobileGesture,{passive:false});
+ }
+ document.querySelectorAll('[data-hold]').forEach(btn=>{
+   const d=btn.dataset.hold;
+   const press=e=>{
+     e.preventDefault();e.stopPropagation();
+     try{btn.setPointerCapture?.(e.pointerId)}catch(_){ }
+     if(!worldState.paused)worldState.keys[d]=true;
+   };
+   const release=e=>{
+     e.preventDefault();e.stopPropagation();
+     worldState.keys[d]=false;
+     try{if(btn.hasPointerCapture?.(e.pointerId))btn.releasePointerCapture(e.pointerId)}catch(_){ }
+   };
+   btn.addEventListener('pointerdown',press,{passive:false});
+   btn.addEventListener('pointerup',release,{passive:false});
+   btn.addEventListener('pointercancel',release,{passive:false});
+   btn.addEventListener('lostpointercapture',()=>{worldState.keys[d]=false});
+ });
+ const actionBtn=document.getElementById('worldAction');
+ if(actionBtn){
+   actionBtn.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();worldAction()},{passive:false});
+   actionBtn.addEventListener('contextmenu',e=>e.preventDefault());
+ }
  window.__stopWorldInput=(pause)=>{worldState.paused=pause;worldState.keys={}};
  window.__stopWorld=()=>{cancelAnimationFrame(worldState.raf);saveWorld();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);worldState.keys={}}
 }
