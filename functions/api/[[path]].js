@@ -776,6 +776,7 @@ export async function onRequest(context){
       if(user.role!=='OWNER')return json({error:'레이드 테스트는 OWNER 전용입니다.'},403);
       const cfg=await raidSettings(env),schedule=raidScheduleState(cfg,user);
       let current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").first();
+      if(!current){current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id JOIN raid_participants rp ON rp.instance_id=ri.id AND rp.user_id=? WHERE ri.status='ENDED' AND rp.reward_claimed=0 ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();}
       current=await refreshRaidForOwner(env,current,cfg);
       if(!current)return json({settings:cfg,schedule,current:null,participants:[],me:null,serverNow:new Date().toISOString()});
       const rows=await env.DB.prepare(`SELECT rp.user_id AS userId,u.nickname,rp.deck_cards AS deckCards,rp.total_power AS totalPower,rp.total_damage AS totalDamage,rp.reward_claimed AS rewardClaimed,rp.joined_at AS joinedAt FROM raid_participants rp JOIN users u ON u.id=rp.user_id WHERE rp.instance_id=? ORDER BY rp.total_damage DESC,rp.joined_at`).bind(current.id).all();
@@ -810,22 +811,19 @@ export async function onRequest(context){
       return json({ok:true,totalPower:power,participantCount:Number(count.count||0)});
     }
 
-    if(path==='raid/claim-reward'&&request.method==='POST'){
+
+    if(path==='raid/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       if(user.role!=='OWNER')return json({error:'레이드 테스트는 OWNER 전용입니다.'},403);
-      const body=await readBody(request),instanceId=Number(body.instanceId||0);if(!instanceId)return json({error:'레이드 정보가 올바르지 않습니다.'},400);
       const cfg=await raidSettings(env);
-      const instance=await env.DB.prepare("SELECT ri.id,ri.status,ri.current_hp,rb.max_hp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.id=?").bind(instanceId).first();
-      if(!instance||instance.status!=='ENDED')return json({error:'종료된 레이드에서만 보상을 받을 수 있습니다.'},409);
-      const participant=await env.DB.prepare('SELECT id,reward_claimed FROM raid_participants WHERE instance_id=? AND user_id=?').bind(instanceId,user.id).first();
-      if(!participant)return json({error:'레이드 참가 기록이 없습니다.'},404);
-      if(Number(participant.reward_claimed||0)===1)return json({error:'이미 레이드 보상을 받았습니다.',code:'ALREADY_CLAIMED'},409);
-      const cleared=Number(instance.current_hp||0)<=0,coin=Math.max(0,Number(cfg.participationCoin||0)+(cleared?Number(cfg.clearCoin||0):0)),shards=cleared?Math.max(0,Number(cfg.rewardShards||0)):0;
-      const locked=await env.DB.prepare('UPDATE raid_participants SET reward_claimed=1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND reward_claimed=0').bind(participant.id).run();
-      if(!locked.meta.changes)return json({error:'이미 레이드 보상을 받았습니다.',code:'ALREADY_CLAIMED'},409);
-      await env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(coin,shards,user.id).run();
-      const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({ok:true,result:cleared?'CLEAR':'FAILED',coin,shards,user:await profile(env,fresh)});
+      const row=await env.DB.prepare("SELECT rp.id,rp.reward_claimed,ri.id AS instance_id,ri.status,ri.current_hp,rb.max_hp FROM raid_participants rp JOIN raid_instances ri ON ri.id=rp.instance_id JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE rp.user_id=? AND ri.status='ENDED' ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();
+      if(!row)return json({error:'수령 가능한 레이드 보상이 없습니다.'},404);
+      if(Number(row.reward_claimed||0))return json({error:'이미 수령한 레이드 보상입니다.'},409);
+      const cleared=Number(row.current_hp||0)<=0,rewardCoin=Math.max(0,Number(cfg.participationCoin||0)+(cleared?Number(cfg.clearCoin||0):0)),rewardShards=cleared?Math.max(0,Number(cfg.rewardShards||0)):0;
+      const claimed=await env.DB.prepare('UPDATE raid_participants SET reward_claimed=1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND reward_claimed=0').bind(row.id).run();
+      if(!claimed.meta.changes)return json({error:'이미 수령한 레이드 보상입니다.'},409);
+      await env.DB.batch([env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'RAID_REWARD' FROM users WHERE id=?").bind(rewardCoin,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,'RAID_REWARD' FROM users WHERE id=?").bind(rewardShards,user.id)]);
+      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rewardCoin,rewardShards,user:await profile(env,updated)});
     }
 
     if(path==='battle/config'){
@@ -1059,14 +1057,8 @@ export async function onRequest(context){
       if(admin.role!=='OWNER')return json({error:'레이드 관리는 OWNER 전용입니다.'},403);
       if(request.method==='GET'){
         const bosses=await env.DB.prepare('SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,is_active AS isActive,sort_order AS sortOrder,created_at AS createdAt,updated_at AS updatedAt FROM raid_bosses ORDER BY sort_order,id').all();
-        const cfg=await raidSettings(env);
-        let current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.max_hp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").first();
-        if(current){
-          current=await refreshRaidForOwner(env,current,cfg);
-          if(current?.status==='ENDED')current=null;
-        }
-        const currentView=current?{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:current.current_hp,participantCount:current.participant_count,bossName:current.boss_name,maxHp:current.max_hp}:null;
-        return json({settings:cfg,bosses:bosses.results,current:currentView});
+        const current=await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,ri.current_hp AS currentHp,ri.participant_count AS participantCount,rb.name AS bossName,rb.max_hp AS maxHp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").first();
+        return json({settings:await raidSettings(env),bosses:bosses.results,current:current||null});
       }
       const payload=await readBody(request);
       if(request.method==='PATCH'&&payload.settings){const before=await raidSettings(env),clean=cleanRaidSettings(payload.settings);if(clean.minParticipants>clean.maxParticipants)return json({error:'최소 시작 인원은 최대 참가 인원보다 클 수 없습니다.'},400);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'RAID_SETTINGS_UPDATE','SETTINGS','raid',before,clean);return json({ok:true,settings:clean});}
