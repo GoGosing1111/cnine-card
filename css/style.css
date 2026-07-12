@@ -456,3 +456,54 @@ body.world-root-mode,
 .world-panel-content img{image-rendering:auto}
 .world-panel-bar button{font-size:0!important}.world-panel-bar button:after{content:'ESC · 돌아가기';font-size:13px}
 @media(max-width:760px){.world-panel-bar button:after{content:'돌아가기';font-size:11px}}
+
+/* v9.3.2 readability + gold-style battle pass */
+.world-panel-content .summary-bar>div{background:#fbf5cf!important;color:#171914!important;border:3px double #252820!important;box-shadow:2px 2px 0 rgba(0,0,0,.28)!important}
+.world-panel-content .summary-bar span,.world-panel-content .summary-bar small,.world-panel-content .summary-bar b{color:#171914!important}
+.world-panel-content .summary-bar .coin-value{color:#0b5d78!important}
+.world-panel-content .summary-bar .shard-value{color:#48611d!important}
+.world-panel-content .high-grade-feed,.world-panel-content .high-grade-track,.world-panel-content .high-grade-viewport{background:#fff4b5!important;color:#171914!important}
+.world-panel-content .high-grade-label{background:#34372d!important;color:#fff3b0!important}
+.world-panel-content .high-grade-track span,.world-panel-content .high-grade-track b,.world-panel-content .high-grade-track strong{color:#5a2e00!important}
+.world-panel-content .high-grade-track em{color:#8b3e00!important}
+
+/* Energy/charge counters: force dark readable ink */
+.world-panel-content .battle-energy-card,.world-panel-content .pvp-energy-card,.world-panel-content .battle-total{background:#fff7d6!important;color:#171914!important;border:3px double #292d25!important}
+.world-panel-content .battle-energy-card *,.world-panel-content .pvp-energy-card *,.world-panel-content .battle-total *{color:#171914!important}
+.world-panel-content .battle-energy-track{background:#d7cfaa!important;border:2px solid #252820!important}
+.world-panel-content .battle-energy-track i{background:#d88d19!important}
+
+/* PvP ranking/readability repair */
+.world-panel-content .pvp-tier-road,.world-panel-content .pvp-my-rank,.world-panel-content .pvp-ranking,.world-panel-content .pvp-rank-row,.world-panel-content .pvp-content{background:#d9d2aa!important;color:#171914!important}
+.world-panel-content .pvp-tier-card,.world-panel-content .pvp-rank-row,.world-panel-content .pvp-my-rank{background:#fbf5cf!important;border:3px double #2a2e26!important;color:#171914!important;box-shadow:3px 3px 0 rgba(0,0,0,.25)!important}
+.world-panel-content .pvp-rank-row *,.world-panel-content .pvp-my-rank *,.world-panel-content .pvp-tier-card *{color:#171914!important}
+.world-panel-content .pvp-rank-row small{color:#49564a!important}
+.world-panel-content .pvp-tabs button{background:#efe8be!important;color:#171914!important}
+.world-panel-content .pvp-tabs button.active{background:#a8cf76!important;color:#10150d!important}
+
+/* Gold/Silver inspired battle presentation, original CNINE UI */
+.battle-modal{background:#121712!important}
+.battle-modal .battle-stage{position:relative;width:min(980px,96vw)!important;min-height:min(680px,94vh)!important;border:6px double #20251d!important;border-radius:0!important;background:#eef5d0!important;color:#171914!important;box-shadow:10px 10px 0 rgba(0,0,0,.55)!important;font-family:monospace!important;overflow:hidden}
+.battle-modal .battle-backdrop{position:absolute!important;inset:0!important;background:linear-gradient(#dff1ca 0 52%,#9fc879 52% 64%,#e9e4bc 64%)!important;opacity:1!important;filter:none!important}
+.battle-modal .battle-topline{position:relative;z-index:3;margin:8px;border:3px double #24291f!important;border-radius:0!important;background:#fbf5cf!important;color:#171914!important;padding:8px 12px!important}
+.battle-modal .battle-topline *{color:#171914!important;text-shadow:none!important}
+.battle-modal .battle-hud{position:relative;z-index:3;display:grid!important;grid-template-columns:1fr 1fr;gap:28%!important;padding:8px 18px!important}
+.battle-modal .battle-hp{border:4px double #24291f!important;border-radius:0!important;background:#fbf5cf!important;color:#171914!important;padding:9px!important;box-shadow:4px 4px 0 rgba(0,0,0,.28)!important}
+.battle-modal .battle-hp *{color:#171914!important;text-shadow:none!important}
+.battle-modal .battle-hp-track{height:11px!important;border:2px solid #20251d!important;border-radius:0!important;background:#d9d2aa!important}
+.battle-modal .battle-hp-track i{background:#58a642!important;border-radius:0!important}
+.battle-modal .battle-arena{position:relative;z-index:2;min-height:390px!important;padding:26px 22px 95px!important;display:grid!important;grid-template-columns:1fr 90px 1fr!important;align-items:center!important}
+.battle-modal .battle-side{background:transparent!important;border:0!important;box-shadow:none!important;color:#171914!important}
+.battle-modal .battle-team{display:flex!important;flex-wrap:wrap!important;gap:6px!important;align-items:flex-end!important;justify-content:center!important}
+.battle-modal .battle-card-fighter{width:86px!important;height:118px!important;border:3px double #20251d!important;border-radius:0!important;background:#fbf5cf!important;color:#171914!important;box-shadow:3px 3px 0 rgba(0,0,0,.32)!important;overflow:hidden}
+.battle-modal .battle-card-fighter img{width:100%!important;height:82px!important;object-fit:cover!important;image-rendering:auto}
+.battle-modal .battle-card-fighter span{display:block!important;color:#171914!important;background:#fbf5cf!important;font-size:10px!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;padding:2px!important;text-shadow:none!important}
+.battle-modal .battle-enemy-card{border:4px double #20251d!important;border-radius:0!important;background:#fbf5cf!important;color:#171914!important;box-shadow:5px 5px 0 rgba(0,0,0,.3)!important}
+.battle-modal .battle-enemy-card *{color:#171914!important;text-shadow:none!important}
+.battle-modal .battle-center{color:#171914!important;text-shadow:none!important}
+.battle-modal .battle-vs-mark{color:#171914!important;text-shadow:none!important;font-family:monospace!important}
+.battle-modal .battle-message{position:absolute!important;z-index:8;left:12px!important;right:12px!important;bottom:12px!important;min-height:78px!important;border:6px double #20251d!important;border-radius:0!important;background:#fbf5cf!important;color:#171914!important;padding:12px 16px!important;box-sizing:border-box!important;box-shadow:4px 4px 0 rgba(0,0,0,.4)!important;text-align:left!important}
+.battle-modal .battle-message *{color:#171914!important;text-shadow:none!important}
+.battle-modal .battle-message strong{font-size:22px!important;margin-right:14px!important}
+.battle-result-return{float:right;margin-top:4px;padding:7px 14px;border:3px double #20251d;background:#dceeb9;color:#171914;font:900 13px monospace;cursor:pointer;box-shadow:2px 2px 0 rgba(0,0,0,.35)}
+@media(max-width:760px){.battle-modal .battle-stage{min-height:94dvh!important}.battle-modal .battle-hud{gap:8px!important;padding:5px!important}.battle-modal .battle-arena{grid-template-columns:1fr 44px 1fr!important;min-height:420px!important;padding:12px 4px 102px!important}.battle-modal .battle-card-fighter{width:55px!important;height:84px!important}.battle-modal .battle-card-fighter img{height:56px!important}.battle-modal .battle-card-fighter span{font-size:8px!important}.battle-modal .battle-message{left:5px!important;right:5px!important;bottom:5px!important}}
