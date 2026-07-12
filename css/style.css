@@ -795,3 +795,42 @@ body.world-root-mode,
  .world-panel-content .pvp-rank-row,.world-panel-content .rank-list-row{grid-template-columns:42px 58px minmax(0,1fr) 82px!important}
  .world-panel-content .pvp-rank-row>strong,.world-panel-content .rank-list-row>strong{padding:4px!important;font-size:12px!important}
 }
+
+
+/* v9.3.9 priority hotfix: official-page entry, stable world resume, aligned battle, NPC dialogue */
+.world-entry-official{display:block;text-decoration:none;text-align:center;box-sizing:border-box}
+.world-npc-dialog{display:none;position:fixed;z-index:9500;left:50%;bottom:34px;transform:translateX(-50%);width:min(760px,calc(100vw - 28px));background:#fff8d8;color:#171914;border:5px double #25281f;box-shadow:8px 8px 0 rgba(0,0,0,.35);padding:18px 22px;font-family:monospace}
+.world-npc-dialog.open{display:block}.npc-dialog-name{font-weight:900;font-size:18px;margin-bottom:10px;border-bottom:2px solid #25281f;padding-bottom:7px}.npc-dialog-text{font-size:18px;line-height:1.65;min-height:54px}.npc-dialog-help{text-align:right;font-size:11px;margin-top:8px;color:#5b594d}
+
+/* PVE battle: cards move upward; enemy gets a taller portrait frame. */
+.battle-modal .modal-panel.battle-stage{width:min(1580px,98vw)!important;max-width:1580px!important;height:min(860px,96vh)!important;min-height:700px!important;overflow:hidden!important}
+.battle-modal .battle-arena{min-height:570px!important;grid-template-columns:minmax(860px,1.8fr) 105px minmax(300px,.62fr)!important;align-items:start!important;padding-top:4px!important}
+.battle-modal .player-side{align-self:start!important;min-width:0!important;padding-top:0!important}
+.battle-modal .player-side .battle-team{height:475px!important;width:900px!important;max-width:100%!important;margin:0 auto!important;transform:translateY(-28px)!important}
+.battle-modal .player-side .battle-team .battle-card-fighter.card-frame{bottom:auto!important;top:0!important;left:calc(var(--i) * 142px)!important;width:210px!important}
+.battle-modal .enemy-side{align-self:start!important;padding-top:0!important}
+.battle-modal .battle-enemy-card{width:270px!important;min-height:470px!important;height:470px!important;display:grid!important;grid-template-rows:auto 1fr auto auto!important}
+.battle-modal .battle-enemy-visual{height:285px!important;min-height:285px!important}.battle-modal .battle-enemy-visual img{height:100%!important;width:100%!important;object-fit:cover!important}
+.battle-modal .battle-center{align-self:center!important;transform:translateY(-40px)!important}
+.battle-modal .battle-message{position:absolute!important;left:16px!important;right:16px!important;bottom:14px!important;min-height:92px!important;margin:0!important}
+
+/* Wago/tablet: still one row, stronger overlap. */
+@media (max-width:1200px){
+ .battle-modal .modal-panel.battle-stage{width:99vw!important;height:min(820px,98vh)!important}
+ .battle-modal .battle-arena{grid-template-columns:minmax(590px,1.55fr) 70px minmax(220px,.55fr)!important;min-height:530px!important}
+ .battle-modal .player-side .battle-team{width:650px!important;height:410px!important;transform:translateY(-18px)!important}
+ .battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * 101px)!important;width:160px!important}
+ .battle-modal .battle-enemy-card{width:215px!important;height:405px!important;min-height:405px!important}.battle-modal .battle-enemy-visual{height:245px!important;min-height:245px!important}
+}
+/* Mobile: dedicated compact composition, five cards stay in a single overlapping hand. */
+@media (max-width:700px){
+ .battle-modal .modal-panel.battle-stage{width:100vw!important;height:100dvh!important;min-height:620px!important;border-width:2px!important}
+ .battle-modal .battle-hud{gap:5px!important;padding:4px!important}.battle-modal .battle-hp{padding:5px!important}
+ .battle-modal .battle-arena{display:grid!important;grid-template-columns:minmax(0,1fr) 112px!important;grid-template-rows:1fr!important;min-height:395px!important;padding:0 5px!important}
+ .battle-modal .player-side .battle-team{width:270px!important;height:250px!important;transform:translateY(-2px)!important;margin-left:0!important}
+ .battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * 43px)!important;width:96px!important}
+ .battle-modal .battle-center{display:none!important}.battle-modal .enemy-side{justify-self:end!important}
+ .battle-modal .battle-enemy-card{width:108px!important;height:250px!important;min-height:250px!important}.battle-modal .battle-enemy-visual{height:140px!important;min-height:140px!important}.battle-modal .battle-enemy-title{font-size:13px!important}.battle-modal .enemy-card-power{font-size:8px!important}
+ .battle-modal .battle-message{left:5px!important;right:5px!important;bottom:5px!important;min-height:78px!important;font-size:13px!important}
+ .world-npc-dialog{bottom:12px;padding:14px}.npc-dialog-text{font-size:15px}
+}

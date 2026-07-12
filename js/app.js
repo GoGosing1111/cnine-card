@@ -187,17 +187,8 @@ function renderWorldGate(){
   const user=loadUser();
   if(!user)return renderLogin();
   const embedded=window.self!==window.top;
-  app.innerHTML=`<div class="world-entry-screen"><div class="world-entry-fog"></div><div class="world-entry-card"><img src="assets/ui/cninelogo.png" alt="CNINE"><p>CNINE WORLD</p><h1>씨켓몬의 세계로<br>입장하시겠습니까?</h1><span>${escapeHtml(user.nickname)}님의 모험이 시작됩니다.</span><button id="enterWorldBtn" type="button">입장하겠습니다</button><button id="enterFullscreenBtn" class="world-entry-official" type="button">전체화면으로 즐기기</button><small>${embedded?'와고 프레임을 벗어나 공식 페이지에서 크게 실행합니다.':'브라우저 전체화면으로 실행합니다.'}</small></div></div>`;
+  app.innerHTML=`<div class="world-entry-screen"><div class="world-entry-fog"></div><div class="world-entry-card"><img src="assets/ui/cninelogo.png" alt="CNINE"><p>CNINE WORLD</p><h1>씨켓몬의 세계로<br>입장하시겠습니까?</h1><span>${escapeHtml(user.nickname)}님의 모험이 시작됩니다.</span><button id="enterWorldBtn" type="button">입장하겠습니다</button>${embedded?`<a id="enterOfficialBtn" class="world-entry-official" href="https://cnine-card.pages.dev/" target="_blank" rel="noopener noreferrer">전체화면으로 즐기기</a><small>와고 화면이 아닌 씨켓몬 공식 페이지에서 실행합니다.</small>`:''}</div></div>`;
   document.getElementById('enterWorldBtn').onclick=()=>renderShell('world');
-  document.getElementById('enterFullscreenBtn').onclick=async()=>{
-    if(embedded){
-      const opened=window.open('https://cnine-card.pages.dev/','_blank','noopener,noreferrer');
-      if(!opened)location.href='https://cnine-card.pages.dev/';
-      return;
-    }
-    try{if(!document.fullscreenElement&&document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen()}catch(_){}
-    renderShell('world');
-  };
 }
 
 function renderShell(tab='world') {
@@ -214,6 +205,7 @@ function renderShell(tab='world') {
     <button id="worldMenuBtn" class="world-menu-button" type="button">MENU</button>
     <div class="world-controls world-root-controls" aria-label="모바일 이동 조작"><button data-hold="up">▲</button><div><button data-hold="left">◀</button><button id="worldAction">확인</button><button data-hold="right">▶</button></div><button data-hold="down">▼</button></div>
     <div id="worldGameMenu" class="world-game-menu"></div>
+    <div id="worldNpcDialog" class="world-npc-dialog"></div>
     <div id="worldPanel" class="world-panel"></div>
   </main><div id="modal" class="modal"></div>`;
   initWorldView();
@@ -261,13 +253,12 @@ function resumeWorldInput(){
   setTimeout(restoreFocus,160);
 }
 function closeWorldPanel(){
-  const panel=document.getElementById('worldPanel');
   const modal=document.getElementById('modal');
   if(modal){modal.onclick=null;modal.className='modal';modal.innerHTML='';}
-  if(panel){panel.className='world-panel';panel.innerHTML='';}
-  const menu=document.getElementById('worldGameMenu');
-  if(menu){menu.className='world-game-menu';menu.innerHTML='';}
-  resumeWorldInput();
+  worldState.keys={};worldState.busy=false;worldState.paused=false;
+  saveWorld();
+  // 패널/카드뽑기에서 복귀할 때 월드 입력 컨트롤러와 RAF를 새로 구성한다.
+  renderShell('world');
 }
 
 function summaryBar(user) {
@@ -537,7 +528,7 @@ function openPack(packId, count, cost) {
     modal.className='modal show results-modal';
     modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
     document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-    const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';worldState.keys={};worldState.busy=false;worldState.paused=true;openWorldPanel('buy')};
+    const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';worldState.keys={};worldState.busy=false;openWorldPanel('buy')};
     document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=closePackResult;
     document.getElementById('drawAgain').onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openPack(pack.id,count,cost);};
   },1550);
@@ -831,7 +822,7 @@ async function renderDrawResults(pack,count,cost,results,user,critical){
   const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
   modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
   document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-  const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';worldState.keys={};worldState.busy=false;worldState.paused=true;openWorldPanel('buy')};
+  const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';worldState.keys={};worldState.busy=false;openWorldPanel('buy')};
   document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=closePackResult;
   document.getElementById('drawAgain').onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openPack(pack.id,count,cost)};
 }
@@ -867,7 +858,7 @@ const WORLD_MAPS={
   {id:'shop',x:170,y:170,w:310,h:250,label:'카드 상점',tab:'buy'},
   {id:'lab',x:690,y:135,w:330,h:270,label:'카드 연구소',tab:'rank'},
   {id:'arena',x:1260,y:170,w:350,h:270,label:'PVP 경기장',tab:'pvp'},
-  {id:'hall',x:300,y:660,w:350,h:260,label:'모험 안내소',tab:'attendance'}],npcs:[{x:760,y:560,label:'랭킹',tab:'rank'},{x:930,y:560,label:'미네랄',tab:'mineral'}]},
+  {id:'hall',x:300,y:660,w:350,h:260,label:'모험 안내소',tab:'attendance'}],npcs:[{id:'chulgu',x:720,y:560,label:'철구',sprite:'npcArena',dialog:['씨켓몬 마을에 온 걸 환영한다!','강한 덱을 만들고 초원으로 나가봐.']},{id:'jjeomni',x:850,y:545,label:'졈니',sprite:'npcShop',dialog:['카드 상점에는 다양한 카드팩이 있어.','좋은 카드가 나오길 응원할게!']},{id:'jjeomjung',x:980,y:565,label:'점중',sprite:'npcRank',dialog:['랭킹은 꾸준히 도전해야 올라갈 수 있어.'],tab:'rank'},{id:'yeonji',x:1090,y:545,label:'연지',sprite:'npcMineral',dialog:['반가워! 오늘도 즐거운 모험 되길 바라.'],tab:'mineral'}]},
  field:{name:'초원 길목',w:1800,h:1400,spawn:{x:800,y:180},grass:{x:140,y:250,w:1520,h:970},exits:[{x:710,y:0,w:220,h:80,to:'town',tx:900,ty:1120}],buildings:[],npcs:[]},
  interior_shop:{name:'카드 상점 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'buy'},
  interior_lab:{name:'카드 연구소 내부',w:960,h:720,spawn:{x:480,y:610},interior:true,feature:'rank'},
@@ -912,7 +903,7 @@ function drawBuilding(ctx,b,i){
 function drawSprite(ctx,img,x,y,dir,frame,scale=1){if(!img)return;const rows={down:0,left:1,right:2,up:3};ctx.imageSmoothingEnabled=false;ctx.drawImage(img,(frame%4)*32,(rows[dir]||0)*40,32,40,Math.round(x-16*scale),Math.round(y-32*scale),32*scale,40*scale)}
 function updateCamera(){const m=worldMap();worldState.camera.x=Math.max(0,Math.min(m.w-WORLD_VIEW_W,worldState.x-WORLD_VIEW_W/2));worldState.camera.y=Math.max(0,Math.min(m.h-WORLD_VIEW_H,worldState.y-WORLD_VIEW_H/2))}
 function drawWorld(){const c=document.getElementById('worldMap');if(!c||!worldState.ready)return;const ctx=c.getContext('2d'),m=worldMap();updateCamera();ctx.clearRect(0,0,c.width,c.height);ctx.save();ctx.translate(-Math.round(worldState.camera.x),-Math.round(worldState.camera.y));drawGround(ctx,m);
-  if(!m.interior){(m.buildings||[]).forEach((b,i)=>drawBuilding(ctx,b,i));const tree=worldState.images.tree;for(let x=60;x<m.w-60;x+=95){ctx.drawImage(tree,x,18,48,64);ctx.drawImage(tree,x,m.h-80,48,64)}for(let y=70;y<m.h-90;y+=95){ctx.drawImage(tree,10,y,48,64);ctx.drawImage(tree,m.w-58,y,48,64)}(m.npcs||[]).forEach((n,i)=>{const npcImg=[worldState.images.npcRank,worldState.images.npcMineral][i%2]||worldState.images.npcRank;drawSprite(ctx,npcImg,n.x,n.y,'down',0,1);ctx.textAlign='center';ctx.font='bold 12px monospace';ctx.lineWidth=4;ctx.strokeStyle='rgba(24,31,24,.9)';ctx.strokeText(n.label,n.x,n.y-45);ctx.fillStyle='#fff6c9';ctx.fillText(n.label,n.x,n.y-45)})}
+  if(!m.interior){(m.buildings||[]).forEach((b,i)=>drawBuilding(ctx,b,i));const tree=worldState.images.tree;for(let x=60;x<m.w-60;x+=95){ctx.drawImage(tree,x,18,48,64);ctx.drawImage(tree,x,m.h-80,48,64)}for(let y=70;y<m.h-90;y+=95){ctx.drawImage(tree,10,y,48,64);ctx.drawImage(tree,m.w-58,y,48,64)}(m.npcs||[]).forEach((n,i)=>{const npcImg=worldState.images[n.sprite]||[worldState.images.npcRank,worldState.images.npcMineral,worldState.images.npcShop,worldState.images.npcArena][i%4]||worldState.images.npcRank;drawSprite(ctx,npcImg,n.x,n.y,'down',0,1);ctx.textAlign='center';ctx.font='bold 12px monospace';ctx.lineWidth=4;ctx.strokeStyle='rgba(24,31,24,.9)';ctx.strokeText(n.label,n.x,n.y-45);ctx.fillStyle='#fff6c9';ctx.fillText(n.label,n.x,n.y-45)})}
   else {const staff=m.feature==='buy'?worldState.images.npcShop:m.feature==='pvp'?worldState.images.npcArena:m.feature==='attendance'?worldState.images.npcReward:worldState.images.npcRank;drawSprite(ctx,staff,480,360,'down',0,1.1);const staffName=m.feature==='buy'?'카드 상인':m.feature==='pvp'?'경기장 안내원':m.feature==='attendance'?'모험 안내원':'연구원';ctx.textAlign='center';ctx.font='bold 13px monospace';ctx.lineWidth=4;ctx.strokeStyle='rgba(24,31,24,.9)';ctx.strokeText(staffName,480,295);ctx.fillStyle='#fff6c9';ctx.fillText(staffName,480,295)}
   drawSprite(ctx,worldState.images.player,worldState.x,worldState.y,worldState.dir,worldState.frame,1.18);ctx.restore();
   const area=document.getElementById('worldAreaName');if(area)area.textContent=m.name;updatePrompt();
@@ -924,7 +915,9 @@ function checkTransitions(){const m=worldMap(),r=playerRect();if(m.interior&&wor
 async function ensureWorldBattleConfig(){if(worldState.configLoaded&&battleState.monsters?.length)return true;if(!API_MODE){worldToast('서버 연결 상태에서 조우할 수 있습니다.');return false}try{const d=await apiRequest('battle/config'),owned=ownedIds(loadUser()),saved=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5);battleState={config:d.settings,monsters:d.monsters||[],selectedMonster:null,deck:saved,energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now()};worldState.configLoaded=true;return true}catch(e){worldToast(e.message);return false}}
 async function triggerWorldEncounter(){if(worldState.busy)return;worldState.busy=true;worldState.keys={};worldToast('야생 몬스터와 조우했습니다!');const c=document.getElementById('worldMap');c?.classList.add('encounter-flash');await battleSleep(520);c?.classList.remove('encounter-flash');if(!await ensureWorldBattleConfig()){worldState.busy=false;return}if(battleState.deck.length!==5){worldState.busy=false;openWorldPanel('battle');alert('랜덤 조우 전투를 하려면 PVE 덱 5장을 먼저 저장해야 합니다.');return}const pool=(battleState.monsters||[]).filter(m=>!m.isBoss);if(!pool.length){worldState.busy=false;worldToast('등록된 몬스터가 없습니다.');return}battleState.selectedMonster=Number(pool[Math.floor(Math.random()*pool.length)].id);window.__worldBattleReturn=true;worldState.busy=false;startBattle()}
 function checkEncounter(d){if(!inGrass()||worldState.busy)return;worldState.travel+=d;if(worldState.travel>=worldState.nextEncounter){worldState.travel=0;const ec=battleState.config?.encounter||{};worldState.nextEncounter=Number(ec.minDistance||300)+Math.random()*Math.max(1,Number(ec.maxDistance||720)-Number(ec.minDistance||300));if(Math.random()<(Number(ec.encounterChance??50)/100))triggerWorldEncounter()}}
-function worldAction(){if(worldState.busy||worldState.paused)return;const m=worldMap();if(m.interior){if(Math.hypot(worldState.x-480,worldState.y-360)<105){openWorldPanel(m.feature);return}worldToast('카운터 앞에서 Space 또는 모바일 확인 버튼을 눌러주세요.');return}for(const b of m.buildings||[]){const d=buildingDoor(b),cx=d.x+d.w/2,cy=d.y+d.h/2;if(Math.hypot(worldState.x-cx,worldState.y-cy)<82){worldState.returnX=cx;worldState.returnY=cy+65;changeMap('interior_'+b.id);return}}for(const n of m.npcs||[]){if(Math.hypot(worldState.x-n.x,worldState.y-n.y)<75){openWorldPanel(n.tab);return}}worldToast(inGrass()?'풀숲에서 인기척이 느껴집니다.':'주변에 상호작용할 대상이 없습니다.')}
+function closeNpcDialog(){const box=document.getElementById('worldNpcDialog');if(box){box.className='world-npc-dialog';box.innerHTML=''}worldState.paused=false;worldState.keys={};document.getElementById('worldMap')?.focus()}
+function openNpcDialog(npc){const box=document.getElementById('worldNpcDialog');if(!box)return;worldState.paused=true;worldState.keys={};const lines=Array.isArray(npc.dialog)&&npc.dialog.length?npc.dialog:['안녕하세요.'];let index=0;const paint=()=>{box.className='world-npc-dialog open';box.innerHTML=`<div class="npc-dialog-name">${escapeHtml(npc.label||'주민')}</div><div class="npc-dialog-text">${escapeHtml(lines[index])}</div><div class="npc-dialog-help">SPACE / 확인 · ESC 닫기</div>`};paint();box.onclick=()=>{index++;if(index>=lines.length){closeNpcDialog();if(npc.tab)openWorldPanel(npc.tab)}else paint()}}
+function worldAction(){if(worldState.busy||worldState.paused)return;const m=worldMap();if(m.interior){if(Math.hypot(worldState.x-480,worldState.y-360)<105){openWorldPanel(m.feature);return}worldToast('카운터 앞에서 Space 또는 모바일 확인 버튼을 눌러주세요.');return}for(const b of m.buildings||[]){const d=buildingDoor(b),cx=d.x+d.w/2,cy=d.y+d.h/2;if(Math.hypot(worldState.x-cx,worldState.y-cy)<82){worldState.returnX=cx;worldState.returnY=cy+65;changeMap('interior_'+b.id);return}}for(const n of m.npcs||[]){if(Math.hypot(worldState.x-n.x,worldState.y-n.y)<75){openNpcDialog(n);return}}worldToast(inGrass()?'풀숲에서 인기척이 느껴집니다.':'주변에 상호작용할 대상이 없습니다.')}
 function worldLoop(now){const c=document.getElementById('worldMap');if(!c)return;const dt=Math.min(32,now-(worldState.lastTime||now));worldState.lastTime=now;let dx=0,dy=0;if(!worldState.busy&&!worldState.paused){if(worldState.keys.left)dx--;if(worldState.keys.right)dx++;if(worldState.keys.up)dy--;if(worldState.keys.down)dy++}if(dx||dy){if(dx&&dy){dx*=.7071;dy*=.7071}const step=210*dt/1000;let moved=0,nx=worldState.x+dx*step;if(canMove(nx,worldState.y)){worldState.x=nx;moved+=Math.abs(dx*step)}let ny=worldState.y+dy*step;if(canMove(worldState.x,ny)){worldState.y=ny;moved+=Math.abs(dy*step)}if(Math.abs(dx)>Math.abs(dy))worldState.dir=dx>0?'right':'left';else worldState.dir=dy>0?'down':'up';worldState.frame=moved?Math.floor(now/105)%4:0;if(moved){if(!checkTransitions())checkEncounter(moved);if(now-(worldState.lastSave||0)>700){worldState.lastSave=now;saveWorld()}}}else worldState.frame=0;drawWorld();worldState.raf=requestAnimationFrame(worldLoop)}
 function openWorldGameMenu(){
  const menu=document.getElementById('worldGameMenu');if(!menu||worldState.busy)return;
@@ -940,7 +933,7 @@ function closeWorldGameMenu(){const menu=document.getElementById('worldGameMenu'
 function toggleWorldGameMenu(){document.getElementById('worldGameMenu')?.classList.contains('open')?closeWorldGameMenu():openWorldGameMenu()}
 function initWorldView(){const saved=JSON.parse(localStorage.getItem('cnine_world_v3')||'null');if(saved&&WORLD_MAPS[saved.map]){worldState.map=saved.map;worldState.x=saved.x;worldState.y=saved.y;worldState.dir=saved.dir||'down'}else{const m=worldMap();worldState.x=m.spawn.x;worldState.y=m.spawn.y}worldState.keys={};worldState.lastTime=0;worldState.busy=false;worldState.paused=false;const c=document.getElementById('worldMap');if(c){c.focus();c.onclick=()=>c.focus()}worldLoadAssets().then(()=>{drawWorld();worldState.raf=requestAnimationFrame(worldLoop)}).catch(()=>worldToast('월드 이미지 로딩에 실패했습니다.'));
  const km={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};
- const down=e=>{if(!document.getElementById('worldMap'))return;const k=e.key.toLowerCase();if(k==='escape'){e.preventDefault();const modal=document.getElementById('modal');const panel=document.getElementById('worldPanel');const menu=document.getElementById('worldGameMenu');if(modal?.classList.contains('show')){const closeBtn=modal.querySelector('#confirmResult,#closeResult,#closeDetail,#closeDetail2,.battle-result-return,.pvp-result-confirm');if(closeBtn){closeBtn.click();return}modal.onclick=null;modal.className='modal';modal.innerHTML='';if(panel?.classList.contains('open')){worldState.paused=true;worldState.keys={};}else resumeWorldInput();return}if(panel?.classList.contains('open'))closeWorldPanel();else if(menu?.classList.contains('open'))closeWorldGameMenu();return}if(k==='x'){e.preventDefault();toggleWorldGameMenu();return}if(worldState.paused)return;if(km[k]){e.preventDefault();worldState.keys[km[k]]=true}else if(k===' '||k==='enter'||k==='z'){e.preventDefault();worldAction()}};
+ const down=e=>{if(!document.getElementById('worldMap'))return;const k=e.key.toLowerCase();if(k==='escape'){e.preventDefault();const modal=document.getElementById('modal');const panel=document.getElementById('worldPanel');const menu=document.getElementById('worldGameMenu');const npcDialog=document.getElementById('worldNpcDialog');if(npcDialog?.classList.contains('open')){closeNpcDialog();return}if(modal?.classList.contains('show')){const closeBtn=modal.querySelector('#confirmResult,#closeResult,#closeDetail,#closeDetail2,.battle-result-return,.pvp-result-confirm');if(closeBtn){closeBtn.click();return}modal.onclick=null;modal.className='modal';modal.innerHTML='';if(panel?.classList.contains('open')){worldState.paused=true;worldState.keys={};}else resumeWorldInput();return}if(panel?.classList.contains('open'))closeWorldPanel();else if(menu?.classList.contains('open'))closeWorldGameMenu();return}if(k==='x'){e.preventDefault();toggleWorldGameMenu();return}if(worldState.paused)return;if(km[k]){e.preventDefault();worldState.keys[km[k]]=true}else if(k===' '||k==='enter'||k==='z'){e.preventDefault();worldAction()}};
  const up=e=>{const k=e.key.toLowerCase();if(km[k])worldState.keys[km[k]]=false};window.addEventListener('keydown',down);window.addEventListener('keyup',up);
  const controls=document.querySelector('.world-root-controls');
  if(controls){
