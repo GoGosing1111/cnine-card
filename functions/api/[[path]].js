@@ -67,6 +67,33 @@ async function consumePvpEnergy(env,user,settings){
 
 function defaultRaidSettings(){return {enabled:false,ownerOnlyTest:true,title:'월드 레이드',maxParticipants:30,minParticipants:5,lobbySeconds:60,battleSeconds:120,dailyEntries:1,autoStartOnFull:true,showNicknames:true,showRepresentativeCard:true,showDamageLog:true,showPersonalDamage:true,showLiveRanking:true,rankingSize:10,attackIntervalMs:800,damageMultiplier:1,criticalEnabled:true,criticalChance:10,criticalMultiplier:1.5,participationCoin:100,clearCoin:300,rewardShards:20};}
 function cleanRaidSettings(raw={}){const b=defaultRaidSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));return {...b,enabled:raw.enabled===true,ownerOnlyTest:raw.ownerOnlyTest!==false,title:String(raw.title||b.title).trim().slice(0,40),maxParticipants:Math.floor(num(raw.maxParticipants,b.maxParticipants,1,200)),minParticipants:Math.floor(num(raw.minParticipants,b.minParticipants,1,200)),lobbySeconds:Math.floor(num(raw.lobbySeconds,b.lobbySeconds,5,3600)),battleSeconds:Math.floor(num(raw.battleSeconds,b.battleSeconds,10,3600)),dailyEntries:Math.floor(num(raw.dailyEntries,b.dailyEntries,1,99)),autoStartOnFull:raw.autoStartOnFull!==false,showNicknames:raw.showNicknames!==false,showRepresentativeCard:raw.showRepresentativeCard!==false,showDamageLog:raw.showDamageLog!==false,showPersonalDamage:raw.showPersonalDamage!==false,showLiveRanking:raw.showLiveRanking!==false,rankingSize:Math.floor(num(raw.rankingSize,b.rankingSize,1,50)),attackIntervalMs:Math.floor(num(raw.attackIntervalMs,b.attackIntervalMs,200,5000)),damageMultiplier:num(raw.damageMultiplier,b.damageMultiplier,0.01,100),criticalEnabled:raw.criticalEnabled!==false,criticalChance:num(raw.criticalChance,b.criticalChance,0,100),criticalMultiplier:num(raw.criticalMultiplier,b.criticalMultiplier,1,10),participationCoin:Math.floor(num(raw.participationCoin,b.participationCoin,0,10000000)),clearCoin:Math.floor(num(raw.clearCoin,b.clearCoin,0,10000000)),rewardShards:Math.floor(num(raw.rewardShards,b.rewardShards,0,1000000))};}
+
+async function refreshRaidForOwner(env,instance,cfg){
+  if(!instance)return null;
+  const now=Date.now(),startMs=instance.starts_at?Date.parse(instance.starts_at):0,endMs=instance.ends_at?Date.parse(instance.ends_at):0;
+  if(instance.status==='LOBBY'&&startMs&&now>=startMs){
+    const participants=(await env.DB.prepare('SELECT id,user_id,total_power,total_damage FROM raid_participants WHERE instance_id=?').bind(instance.id).all()).results;
+    if(participants.length>=Number(cfg.minParticipants||1)){
+      for(const row of participants){
+        if(Number(row.total_damage||0)>0)continue;
+        const attacks=Math.max(1,Math.floor(Number(cfg.battleSeconds||120)*1000/Math.max(200,Number(cfg.attackIntervalMs||800))));
+        const critFactor=cfg.criticalEnabled?1+(Number(cfg.criticalChance||0)/100)*(Math.max(1,Number(cfg.criticalMultiplier||1))-1):1;
+        const damage=Math.max(1,Math.floor(Number(row.total_power||0)*Number(cfg.damageMultiplier||1)*attacks*critFactor/10));
+        await env.DB.prepare('UPDATE raid_participants SET total_damage=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(damage,row.id).run();
+      }
+      const total=await env.DB.prepare('SELECT COALESCE(SUM(total_damage),0) total FROM raid_participants WHERE instance_id=?').bind(instance.id).first();
+      const remain=Math.max(0,Number(instance.max_hp||0)-Number(total?.total||0));
+      await env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(remain,participants.length,instance.id).run();
+      instance.status='BATTLE';instance.current_hp=remain;instance.participant_count=participants.length;
+    }
+  }
+  if(instance.status==='BATTLE'&&endMs&&now>=endMs){
+    await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=MAX(0,current_hp),updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(instance.id).run();
+    instance.status='ENDED';
+  }
+  return instance;
+}
+
 async function raidSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_settings_v1'").first();if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
 function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true}};}
 async function battleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false}};}catch{return base}}
@@ -731,6 +758,39 @@ export async function onRequest(context){
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-cost,updated.card_shards,success?'BREAKTHROUGH_SUCCESS':'BREAKTHROUGH_FAIL',cardId).run();
       return json({ok:true,success,cost,rate,level:success?level+1:level,user:await profile(env,updated)});
+    }
+
+
+    if(path==='raid/status'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      if(user.role!=='OWNER')return json({error:'레이드 테스트는 OWNER 전용입니다.'},403);
+      const cfg=await raidSettings(env);
+      let current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").first();
+      current=await refreshRaidForOwner(env,current,cfg);
+      if(!current)return json({settings:cfg,current:null,participants:[],me:null,serverNow:new Date().toISOString()});
+      const rows=await env.DB.prepare(`SELECT rp.user_id AS userId,u.nickname,rp.deck_cards AS deckCards,rp.total_power AS totalPower,rp.total_damage AS totalDamage,rp.joined_at AS joinedAt FROM raid_participants rp JOIN users u ON u.id=rp.user_id WHERE rp.instance_id=? ORDER BY rp.total_damage DESC,rp.joined_at`).bind(current.id).all();
+      const participants=rows.results.map((r,i)=>({...r,rank:i+1,deckCards:(()=>{try{return JSON.parse(r.deckCards||'[]')}catch{return []}})()}));
+      const cardIds=[...new Set(participants.flatMap(x=>x.deckCards))];let cardMap={};if(cardIds.length){const marks=cardIds.map(()=>'?').join(',');const cs=await env.DB.prepare(`SELECT id,title,image_url AS image,rarity AS grade FROM cards WHERE id IN (${marks})`).bind(...cardIds).all();cardMap=Object.fromEntries(cs.results.map(c=>[String(c.id),c]));}
+      const startMs=Date.parse(current.starts_at||0),endMs=Date.parse(current.ends_at||0),now=Date.now();
+      const progress=current.status==='BATTLE'?Math.max(0,Math.min(1,(now-startMs)/Math.max(1,endMs-startMs))):0;
+      const totalFinal=participants.reduce((n,x)=>n+Number(x.totalDamage||0),0),shownTotal=Math.floor(totalFinal*progress);
+      const hp=Math.max(0,Number(current.max_hp||0)-shownTotal);
+      return json({settings:cfg,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress},participants:participants.map(x=>({...x,shownDamage:Math.floor(Number(x.totalDamage||0)*progress),cards:x.deckCards.map(id=>cardMap[String(id)]).filter(Boolean)})),me:participants.find(x=>Number(x.userId)===Number(user.id))||null,serverNow:new Date().toISOString()});
+    }
+    if(path==='raid/join'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      if(user.role!=='OWNER')return json({error:'레이드 테스트는 OWNER 전용입니다.'},403);
+      const cfg=await raidSettings(env);if(!cfg.enabled)return json({error:'CMS에서 레이드를 활성화하세요.'},503);
+      let current=await env.DB.prepare("SELECT ri.*,rb.max_hp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status='LOBBY' ORDER BY ri.id DESC LIMIT 1").first();
+      if(!current)return json({error:'CMS에서 레이드 대기방을 먼저 시작하세요.'},404);
+      if(Number(current.participant_count||0)>=Number(cfg.maxParticipants||30))return json({error:'레이드 참가 인원이 가득 찼습니다.'},409);
+      const body=await readBody(request);let ids=[...new Set((body.cardIds||await pveDeckCards(env,user.id)).map(String))];if(ids.length!==5)return json({error:'저장된 PvE 덱 5장이 필요합니다.'},400);
+      const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.rarity,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
+      const battleCfg=await battleSettings(env),power=owned.results.reduce((n,c)=>n+cardBattlePower(c,c.breakthrough_level,battleCfg),0);
+      await env.DB.prepare(`INSERT INTO raid_participants(instance_id,user_id,deck_cards,total_power,total_damage,updated_at) VALUES(?,?,?,?,0,CURRENT_TIMESTAMP) ON CONFLICT(instance_id,user_id) DO UPDATE SET deck_cards=excluded.deck_cards,total_power=excluded.total_power,updated_at=CURRENT_TIMESTAMP`).bind(current.id,user.id,JSON.stringify(ids),power).run();
+      const count=await env.DB.prepare('SELECT COUNT(*) count FROM raid_participants WHERE instance_id=?').bind(current.id).first();await env.DB.prepare('UPDATE raid_instances SET participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(count.count||0),current.id).run();
+      if(cfg.autoStartOnFull&&Number(count.count||0)>=Number(cfg.maxParticipants||30)){await env.DB.prepare("UPDATE raid_instances SET starts_at=CURRENT_TIMESTAMP,ends_at=datetime('now', ?),updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(`+${Number(cfg.battleSeconds||120)} seconds`,current.id).run();}
+      return json({ok:true,totalPower:power,participantCount:Number(count.count||0)});
     }
 
     if(path==='battle/config'){
