@@ -87,7 +87,7 @@ async function init() {
     console.error(error);
     cards = [];
   }
-  setTimeout(() => loadUser() ? renderShell('world') : renderLogin(), 350);
+  setTimeout(() => loadUser() ? renderShell('buy') : renderLogin(), 350);
 }
 
 function renderLoading() {
@@ -171,107 +171,25 @@ function renderLogin() {
   document.getElementById('login').onclick = () => {
     const user = loadUser();
     if (!user || user.key !== document.getElementById('key').value.trim()) return alert('저장된 개인키와 일치하지 않습니다.');
-    renderShell('world');
+    renderShell('buy');
   };
 }
 
 function renderCreated(user) {
   app.innerHTML = `<div class="login-wrap"><div class="login-box game-panel"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">PLAYER CREATED</p><h1>생성 완료</h1><p>개인키는 로그인 복구용입니다. 안전한 곳에 보관하세요.</p><div class="field"><label>닉네임</label><input value="${escapeHtml(user.nickname)}" readonly></div><div class="field"><label>개인키</label><input id="copyKey" value="${user.key}" readonly></div><button class="btn" id="copy">개인키 복사</button><button class="btn secondary" id="go">게임 시작</button></div></div>`;
   document.getElementById('copy').onclick = async () => { await navigator.clipboard.writeText(user.key); alert('개인키가 복사되었습니다.'); };
-  document.getElementById('go').onclick = () => renderWorldGate();
+  document.getElementById('go').onclick = () => renderShell('buy');
 }
 
-function renderWorldGate(){
-  if(window.__stopWorld){window.__stopWorld();window.__stopWorld=null;}
-  document.body.classList.remove('world-root-mode');
-  const user=loadUser();
-  if(!user)return renderLogin();
-  const embedded=window.self!==window.top;
-  app.innerHTML=`<div class="world-entry-screen"><div class="world-entry-fog"></div><div class="world-entry-card"><img src="assets/ui/cninelogo.png" alt="CNINE"><p>CNINE WORLD</p><h1>씨켓몬의 세계로<br>입장하시겠습니까?</h1><span>${escapeHtml(user.nickname)}님의 모험이 시작됩니다.</span><button id="enterWorldBtn" type="button">입장하겠습니다</button><a id="enterOfficialBtn" class="world-entry-official" href="https://cnine-card.pages.dev/" target="_blank" rel="noopener noreferrer">공식 페이지 직접 접속(큰 화면)</a><small>와고 화면이 아닌 씨켓몬 공식 페이지에서 실행합니다.</small></div></div>`;
-  document.getElementById('enterWorldBtn').onclick=()=>renderShell('world');
-}
-
-function renderShell(tab='world') {
-  const user=loadUser();
-  if(!user)return renderLogin();
-  // In-world facilities must reuse the current world/input instance.
-  // Previously __stopWorld ran first, which removed key listeners after choosing a pack/tab.
-  if(tab!=='world'){
-    if(document.getElementById('worldPanel')) return openWorldPanel(tab);
-    renderShell('world');
-    return setTimeout(()=>openWorldPanel(tab),50);
-  }
-  if(window.__stopWorld){window.__stopWorld();window.__stopWorld=null;}
-  document.body.classList.add('world-root-mode');
-  app.innerHTML=`<main class="cnine-world-root">
-    <canvas id="worldMap" class="world-main-canvas" width="960" height="540" tabindex="0" aria-label="씨켓몬 월드"></canvas>
-    <div class="world-top-hud"><div><b>CNINE WORLD</b><span id="worldAreaName">씨켓몬 마을</span></div><div class="world-player-hud"><span>${escapeHtml(user.nickname)}</span><strong>◈ ${Number(user.coin||0).toLocaleString()}</strong></div></div>
-    <div id="worldToast" class="world-toast world-root-toast">PC 이동: 방향키/WASD · 상호작용: Space · 메뉴: X/Esc</div>
-    <div id="worldPrompt" class="world-prompt"></div>
-    <button id="worldMenuBtn" class="world-menu-button" type="button">MENU</button>
-    <div class="world-controls world-root-controls" aria-label="모바일 이동 조작"><button data-hold="up">▲</button><div><button data-hold="left">◀</button><button id="worldAction">확인</button><button data-hold="right">▶</button></div><button data-hold="down">▼</button></div>
-    <div id="worldGameMenu" class="world-game-menu"></div>
-    <div id="worldNpcDialog" class="world-npc-dialog"></div>
-    <div id="worldPanel" class="world-panel"></div>
-  </main><div id="modal" class="modal"></div>`;
-  initWorldView();
-  if(API_MODE)apiRequest('world/npcs').then(d=>{if(Array.isArray(d.npcs)&&d.npcs.length){WORLD_MAPS.town.npcs=d.npcs.filter(n=>n.active!==false).map(n=>({...n,dialog:Array.isArray(n.dialog)?n.dialog:[]}));drawWorld();}}).catch(()=>{});
-}
-
-
-function inventoryView(user){
-  const items=JSON.parse(localStorage.getItem('cnine_world_inventory_v1')||'{}');
-  const rows=PACKS.map(p=>`<article class="inventory-slot"><div class="inventory-pack retro-${p.theme}"><b>${escapeHtml(p.subtitle)}</b><span>${escapeHtml(p.name)}</span></div><div><strong>${escapeHtml(p.name)}</strong><small>몬스터 토벌 시 일정 확률로 획득</small></div><em>× ${Number(items[p.id]||0)}</em></article>`).join('');
-  return `${summaryBar(user)}<section class="inventory-shell"><header><p class="eyebrow">BAG / ITEM</p><h2>인벤토리</h2><span>획득한 카드팩을 보관합니다.</span></header><div id="inventoryList" class="inventory-list">${rows}</div></section>`;
-}
-function addInventoryPack(packId,count=1){const items=JSON.parse(localStorage.getItem('cnine_world_inventory_v1')||'{}');items[packId]=Number(items[packId]||0)+count;localStorage.setItem('cnine_world_inventory_v1',JSON.stringify(items));}
-
-function openWorldPanel(tab){
-  const panel=document.getElementById('worldPanel');
-  worldState.panelTab=tab;
-  if(!panel){renderShell('world');setTimeout(()=>openWorldPanel(tab),50);return;}
-  if(tab==='pvp'&&!pvpFeatureEnabled){worldToast('현재 PVP가 비활성화되어 있습니다.');return;}
-  if(window.__stopWorldInput)window.__stopWorldInput(true);
-  const user=loadUser();
-  const views={buy:buyView,dex:dexView,battle:battleView,pvp:pvpView,attendance:attendanceView,rank:rankView,mineral:mineralExchangeView,inventory:inventoryView};
-  const title={buy:'카드 상점',dex:'내 도감',battle:'덱 편성',pvp:'PVP 경기장',attendance:'접속 보상',rank:'랭킹 게시판',mineral:'미네랄 교환소',inventory:'인벤토리'}[tab]||'시설';
-  panel.className='world-panel open';
-  panel.innerHTML=`<div class="world-panel-frame"><div class="world-panel-bar"><b>${title}</b><button id="worldPanelClose" type="button">월드로 돌아가기 ✕</button></div><div class="world-panel-content">${(views[tab]||buyView)(user)}</div></div>`;
-  document.getElementById('worldPanelClose').onclick=closeWorldPanel;
+function renderShell(tab) {
+  if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
+  const user = loadUser();
+  if (!user) return renderLogin();
+  const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, attendance: attendanceView, rank: rankView, mineral: mineralExchangeView };
+  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}<button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button><button class="tab mineral-tab ${tab==='mineral'?'active':''}" data-tab="mineral"><span class="mineral-tab-label"><span>미네랄</span><span>교환</span></span></button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
+  document.querySelectorAll('.tab').forEach(b => b.onclick = () => renderShell(b.dataset.tab));
   bindView(tab);
-  const firstPanelControl=panel.querySelector('[data-rank-mode],[data-pvp],button:not(#worldPanelClose)');
-  setTimeout(()=>firstPanelControl?.focus({preventScroll:true}),80);
   loadRecentHighGradeFeed();
-  updateWorldTouchControlsVisibility();
-}
-
-function resumeWorldInput(){
-  if(window.__stopWorldInput)window.__stopWorldInput(false);
-  worldState.paused=false;
-  worldState.busy=false;
-  worldState.keys={};
-  worldState.lastTime=performance.now();
-  document.querySelectorAll('[data-hold]').forEach(btn=>btn.classList.remove('pressed','active'));
-  if(worldState.raf)cancelAnimationFrame(worldState.raf);
-  worldState.raf=requestAnimationFrame(worldLoop);
-  const restoreFocus=()=>{
-    const map=document.getElementById('worldMap');
-    if(!map)return;
-    map.setAttribute('tabindex','0');
-    try{map.focus({preventScroll:true})}catch(_){map.focus()}
-  };
-  requestAnimationFrame(restoreFocus);
-  setTimeout(restoreFocus,40);
-  setTimeout(restoreFocus,160);
-}
-function closeWorldPanel(){
-  worldState.panelTab=null;worldState.buyDetail=false;
-  const modal=document.getElementById('modal');
-  if(modal){modal.onclick=null;modal.className='modal';modal.innerHTML='';}
-  worldState.keys={};worldState.busy=false;worldState.paused=false;
-  saveWorld();
-  // 패널/카드뽑기에서 복귀할 때 월드 입력 컨트롤러와 RAF를 새로 구성한다.
-  renderShell('world');
 }
 
 function summaryBar(user) {
@@ -293,7 +211,7 @@ async function loadRecentHighGradeFeed(){
 }
 
 function packSelector() {
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}"><img src="assets/ui/cninelogo.png" class="mini-pack-logo" alt="씨나인"><b>${pack.subtitle}</b></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.price}코인</em></button>`).join('')}</div></section>`;
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}"><i></i><b>${pack.subtitle}</b></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.price}코인</em></button>`).join('')}</div></section>`;
 }
 
 function buyView(user) {
@@ -338,8 +256,7 @@ async function loadBattleView(){
   if(!API_MODE){document.getElementById('battleCards').innerHTML='<div class="empty-recent">전투 콘텐츠는 D1 서버 연결 모드에서 이용할 수 있습니다.</div>';return;}
   try{const d=await apiRequest('battle/config');const owned=ownedIds(loadUser()),savedDeck=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5);battleState={config:d.settings,monsters:d.monsters||[],selectedMonster:d.monsters?.[0]?.id||null,deck:savedDeck,energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now()};renderBattleBuilder();startBattleEnergyTimer();}catch(e){document.getElementById('battleCards').innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`;}
 }
-function renderBattleBuilder(){const user=loadUser(),owned=cards.filter(c=>ownedIds(user).has(c.id)).sort((a,b)=>battleCardPower(b,user,battleState.config)-battleCardPower(a,user,battleState.config));const deckSet=new Set(battleState.deck),power=battleState.deck.reduce((n,id)=>{const c=cards.find(x=>x.id===id);return n+(c?battleCardPower(c,user,battleState.config):0)},0);document.getElementById('battleDeckPower').textContent=power.toLocaleString();document.getElementById('battleDeck').innerHTML=battleState.deck.length?battleState.deck.map(id=>{const c=cards.find(x=>x.id===id);return `<button class="battle-deck-card" data-remove="${c.id}"><img src="${c.image}"><span>${escapeHtml(c.title)}</span><b>${battleCardPower(c,user,battleState.config).toLocaleString()}</b></button>`}).join('')+Array.from({length:5-battleState.deck.length},()=>'<div class="battle-empty-slot">+</div>').join(''):Array.from({length:5},()=>'<div class="battle-empty-slot">+</div>').join('');document.getElementById('battleCards').innerHTML=owned.map(c=>`<button class="battle-pick-card ${deckSet.has(c.id)?'selected':''}" data-pick="${c.id}" ${deckSet.has(c.id)?'disabled':''}><img src="${c.image}" style="object-position:${c.focusX}% ${c.focusY}%"><span><b>${escapeHtml(c.title)}</b><small>${c.grade} · ★${Number(user.breakthroughs?.[c.id]||0)}</small></span><strong>${battleCardPower(c,user,battleState.config).toLocaleString()}</strong></button>`).join('')||'<div class="empty-recent">보유 카드가 없습니다.</div>';document.getElementById('battleMonsters').innerHTML=battleState.monsters.map(m=>`<article class="monster-choice monster-codex-entry">${m.image?`<img src="${m.image}">`:'<div class="monster-placeholder">👹</div>'}<span><small>${m.isBoss?'BOSS':'MONSTER'}</small><b>${escapeHtml(m.name)}</b><em>전투력 ${Number(m.battlePower).toLocaleString()}</em><strong>승리 보상 ◈ ${Number(m.rewardCoin).toLocaleString()}</strong></span></article>`).join('');document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{if(battleState.deck.length<5){battleState.deck.push(b.dataset.pick);renderBattleBuilder()}});document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{battleState.deck=battleState.deck.filter(x=>x!==b.dataset.remove);renderBattleBuilder()});const saveDeck=document.getElementById('saveBattleDeck');if(saveDeck){saveDeck.disabled=battleState.deck.length!==5;saveDeck.onclick=saveBattleDeck;}const clearDeck=document.getElementById('clearBattleDeck');if(clearDeck)clearDeck.onclick=resetBattleDeck;renderBattleEnergy();}
-
+function renderBattleBuilder(){const user=loadUser(),owned=cards.filter(c=>ownedIds(user).has(c.id)).sort((a,b)=>battleCardPower(b,user,battleState.config)-battleCardPower(a,user,battleState.config));const deckSet=new Set(battleState.deck),power=battleState.deck.reduce((n,id)=>{const c=cards.find(x=>x.id===id);return n+(c?battleCardPower(c,user,battleState.config):0)},0);document.getElementById('battleDeckPower').textContent=power.toLocaleString();document.getElementById('battleDeck').innerHTML=battleState.deck.length?battleState.deck.map(id=>{const c=cards.find(x=>x.id===id);return `<button class="battle-deck-card" data-remove="${c.id}"><img src="${c.image}"><span>${escapeHtml(c.title)}</span><b>${battleCardPower(c,user,battleState.config).toLocaleString()}</b></button>`}).join('')+Array.from({length:5-battleState.deck.length},()=>'<div class="battle-empty-slot">+</div>').join(''):Array.from({length:5},()=>'<div class="battle-empty-slot">+</div>').join('');document.getElementById('battleCards').innerHTML=owned.map(c=>`<button class="battle-pick-card ${deckSet.has(c.id)?'selected':''}" data-pick="${c.id}" ${deckSet.has(c.id)?'disabled':''}><img src="${c.image}" style="object-position:${c.focusX}% ${c.focusY}%"><span><b>${escapeHtml(c.title)}</b><small>${c.grade} · ★${Number(user.breakthroughs?.[c.id]||0)}</small></span><strong>${battleCardPower(c,user,battleState.config).toLocaleString()}</strong></button>`).join('')||'<div class="empty-recent">보유 카드가 없습니다.</div>';document.getElementById('battleMonsters').innerHTML=battleState.monsters.map(m=>`<button class="monster-choice ${Number(battleState.selectedMonster)===Number(m.id)?'active':''}" data-monster="${m.id}">${m.image?`<img src="${m.image}">`:'<div class="monster-placeholder">👹</div>'}<span><small>${m.isBoss?'BOSS':'MONSTER'}</small><b>${escapeHtml(m.name)}</b><em>전투력 ${Number(m.battlePower).toLocaleString()}</em><strong>승리 보상 ◈ ${Number(m.rewardCoin).toLocaleString()}</strong></span></button>`).join('');document.querySelectorAll('[data-pick]').forEach(b=>b.onclick=()=>{if(battleState.deck.length<5){battleState.deck.push(b.dataset.pick);renderBattleBuilder()}});document.querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>{battleState.deck=battleState.deck.filter(x=>x!==b.dataset.remove);renderBattleBuilder()});document.querySelectorAll('[data-monster]').forEach(b=>b.onclick=()=>{battleState.selectedMonster=Number(b.dataset.monster);renderBattleBuilder()});const saveDeck=document.getElementById('saveBattleDeck');if(saveDeck){saveDeck.disabled=battleState.deck.length!==5;saveDeck.onclick=saveBattleDeck;}const clearDeck=document.getElementById('clearBattleDeck');if(clearDeck)clearDeck.onclick=resetBattleDeck;const start=document.getElementById('battleStart');const noEnergy=battleState.energy&&!battleState.energy.unlimited&&battleState.energy.energy<battleState.energy.costPerBattle;start.disabled=battleState.deck.length!==5||!battleState.selectedMonster||noEnergy;start.textContent=noEnergy?'전투 횟수 부족':'전투 시작';start.onclick=startBattle;renderBattleEnergy();}
 async function saveBattleDeck(){
   if(battleState.deck.length!==5)return alert('보유 카드 5장을 선택하세요.');
   const button=document.getElementById('saveBattleDeck');if(button)button.disabled=true;
@@ -378,9 +295,9 @@ async function startBattle(){
       <div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${escapeHtml(monster.name)}</b><span data-hp-text="enemy">100%</span></div><div class="battle-hp-track"><i data-hp-fill="enemy"></i></div><small>전투력 ${Number(monster.battlePower||0).toLocaleString()}</small></div>
     </div>
     <div class="battle-arena">
-      <div class="battle-side player-side"><div class="battle-team">${deckCards.map((c,i)=>cardHtml(c,true,`battle-card-fighter battle-fighter-${i}`,user).replace(`data-id="${c.id}"`,`data-id="${c.id}" data-fighter="${i}" style="--i:${i}"`)).join('')}</div><small>MEMBER TEAM</small></div>
+      <div class="battle-side player-side"><div class="battle-team">${deckCards.map((c,i)=>`<div class="battle-card-fighter grade-${String(c.grade||'C').toLowerCase()}" data-fighter="${i}" style="--i:${i}"><div class="fighter-aura"></div><img src="${c.image}" style="object-position:${c.focusX||50}% ${c.focusY||50}%"><div class="fighter-grade">${c.grade}</div><span>${escapeHtml(c.title)}</span></div>`).join('')}</div><small>MEMBER TEAM</small></div>
       <div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div>
-      <div class="battle-side enemy-side"><div class="monster-card-wrap"><article class="card-frame battle-card-fighter battle-enemy-card monster-battle-card monster-name-only ${monster.isBoss?'boss':''}" data-id="monster-${monster.id}" style="--i:0"><div class="card-inner"><div class="card-art"><img loading="lazy" src="${monster.image||'assets/ui/cninelogo.png'}" alt="${escapeHtml(monster.name)}" style="object-position:50% 50%"></div><div class="card-footer"><div><div class="card-title">${escapeHtml(monster.name)}</div></div></div></div></article></div></div>
+      <div class="battle-side enemy-side"><div class="battle-enemy-card ${monster.isBoss?'boss':''}"><div class="enemy-card-badge">${monster.isBoss?'BOSS':'MONSTER'}</div><div class="battle-enemy-visual">${monster.image?`<img src="${monster.image}">`:'<div class="monster-placeholder">👹</div>'}</div><div class="battle-enemy-title">${escapeHtml(monster.name)}</div><div class="enemy-card-power">POWER ${Number(monster.battlePower||0).toLocaleString()}</div></div></div>
     </div>
     <div class="battle-impact"><i></i><i></i><i></i></div>
     <div id="battleMessage" class="battle-message"><span>전투 준비 중...</span></div>
@@ -420,8 +337,8 @@ async function startBattle(){
     await battleSleep(1050);
     stage.classList.add(win?'battle-win-v863':'battle-lose-v863');phase.textContent=win?'MISSION CLEAR':'MISSION FAILED';
     msg.innerHTML=win?`<strong>VICTORY</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${d.reward.toLocaleString()}</b></div><em>화면을 눌러 돌아가기</em>`:`<strong>DEFEAT</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-defeat-tip">돌파 단계로 전투력을 높여보세요.</div><em>화면을 눌러 돌아가기</em>`;
-    battleState.energy=d.energy||battleState.energy;battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();saveUser(apiUserToLocal(d.user));setTimeout(()=>{let closed=false;const battleExitKey=e=>{const k=e.key?.toLowerCase();if(k===' '||k==='enter'||k==='escape'||k==='z'){e.preventDefault();returnFromBattle()}};const returnFromBattle=()=>{if(closed)return;closed=true;window.removeEventListener('keydown',battleExitKey,true);modal.onclick=null;modal.className='modal';modal.innerHTML='';if(window.__worldBattleReturn){window.__worldBattleReturn=false;resumeWorldInput();}else if(document.getElementById('worldPanel')){openWorldPanel('battle');}else{renderShell('world');setTimeout(()=>openWorldPanel('battle'),60);}};modal.onclick=returnFromBattle;window.addEventListener('keydown',battleExitKey,true);const resultButton=document.createElement('button');resultButton.type='button';resultButton.className='battle-result-return';resultButton.textContent='돌아가기 (Space / Enter / Esc)';resultButton.onclick=e=>{e.stopPropagation();returnFromBattle()};msg.appendChild(resultButton);resultButton.focus({preventScroll:true})},350);
-  }catch(e){if(e.energy)battleState.energy=e.energy;msg.innerHTML=`<span>${escapeHtml(e.message)}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';if(window.__worldBattleReturn){window.__worldBattleReturn=false;resumeWorldInput();}else if(document.getElementById('worldPanel'))openWorldPanel('battle');else{renderShell('world');setTimeout(()=>openWorldPanel('battle'),60)}}}
+    battleState.energy=d.energy||battleState.energy;battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();saveUser(apiUserToLocal(d.user));setTimeout(()=>{modal.onclick=()=>renderShell('battle')},700);
+  }catch(e){if(e.energy)battleState.energy=e.energy;msg.innerHTML=`<span>${escapeHtml(e.message)}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>renderShell('battle')}
 }
 
 function attendanceView(user) {
@@ -461,11 +378,11 @@ async function loadRankHub(mode=rankHubMode){
     await loadServerRanking();return;
   }
   if(!API_MODE){root.innerHTML='<div class="empty-recent">D1 연결 후 PvP 시즌 랭킹이 표시됩니다.</div>';return}
-  try{const d=await apiRequest('pvp/ranking');root.innerHTML=`<section class="rank-pvp-panel"><div class="pvp-section-head"><div><p class="eyebrow">PVP SEASON RANKING</p><h2>${escapeHtml(d.settings?.seasonName||'PvP 시즌')} 랭킹</h2></div></div>${pvpTierGuideHtml(d.settings?.tiers||[],d.me?.tier)}${d.me?`<div class="pvp-my-rank">${tierEmblem(d.me.tier,'tiny')}<span>내 순위 <b>${d.me.rank}위</b><small>${escapeHtml(d.me.tier.name)} · ${Number(d.me.season_score).toLocaleString()}점</small></span></div>`:''}<div class="pvp-ranking">${(d.ranking||[]).map(r=>`<div class="pvp-rank-row rank-pos-${r.rank}"><b class="rank-number">${r.rank}</b>${tierEmblem(r.tier,'tiny')}<span>${escapeHtml(r.nickname)}<small>${escapeHtml(r.tier.name)} · ${r.wins}승 ${r.losses}패</small></span><strong>${Number(r.season_score).toLocaleString()}</strong></div>`).join('')||'<div class="empty-recent">아직 시즌 랭킹 데이터가 없습니다.</div>'}</div></section>`}catch(e){root.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
+  try{const d=await apiRequest('pvp/ranking');root.innerHTML=`<section class="rank-pvp-panel"><div class="pvp-section-head"><div><p class="eyebrow">PVP SEASON RANKING</p><h2>${escapeHtml(d.settings?.seasonName||'PvP 시즌')} 랭킹</h2></div></div>${pvpTierGuideHtml(d.settings?.tiers||[],d.me?.tier)}${d.me?`<div class="pvp-my-rank">${tierEmblem(d.me.tier,'tiny')}<span>내 순위 <b>${d.me.rank}위</b><small>${escapeHtml(d.me.tier.name)} · ${Number(d.me.season_score).toLocaleString()}점</small></span></div>`:''}<div class="pvp-ranking">${(d.ranking||[]).map(r=>`<div class="pvp-rank-row"><b>${r.rank}</b>${tierEmblem(r.tier,'tiny')}<span>${escapeHtml(r.nickname)}<small>${escapeHtml(r.tier.name)} · ${r.wins}승 ${r.losses}패</small></span><strong>${Number(r.season_score).toLocaleString()}</strong></div>`).join('')||'<div class="empty-recent">아직 시즌 랭킹 데이터가 없습니다.</div>'}</div></section>`}catch(e){root.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
 async function loadServerRanking(){
   if(!API_MODE)return;const target=document.getElementById('serverRanking'),mine=document.getElementById('myTierCard'),road=document.getElementById('tierRoad');if(!target)return;
-  try{const data=await apiRequest('ranking'),user=loadUser(),me=data.ranking.find(x=>x.nickname===user.nickname)||{rank:'-',score:0,card_count:0,max_breakthrough:0,tier:data.tiers[0]};mine.innerHTML=`${tierEmblem(me.tier,'large')}<div><span>내 총 카드점수</span><strong>${Number(me.score).toLocaleString()}점</strong><small>전체 ${me.rank}위 · 보유 ${me.card_count}장 · 최고 ★${me.max_breakthrough}</small></div>`;road.innerHTML=data.tiers.map(t=>`<div class="tier-road-item">${tierEmblem(t,'small')}<b>${Number(t.min).toLocaleString()}점+</b></div>`).join('');target.innerHTML=`<div class="rank-list rank-list-v2">${data.ranking.slice(0,30).map(row=>`<div class="rank-list-row rank-pos-${row.rank}"><b class="rank-number">${row.rank}</b>${tierEmblem(row.tier,'tiny')}<span>${escapeHtml(row.nickname)}<small>${row.card_count}장 · 최고 ★${row.max_breakthrough}</small></span><strong>${Number(row.score).toLocaleString()}점</strong></div>`).join('')}</div>`}catch(error){target.textContent=error.message}
+  try{const data=await apiRequest('ranking'),user=loadUser(),me=data.ranking.find(x=>x.nickname===user.nickname)||{rank:'-',score:0,card_count:0,max_breakthrough:0,tier:data.tiers[0]};mine.innerHTML=`${tierEmblem(me.tier,'large')}<div><span>내 총 카드점수</span><strong>${Number(me.score).toLocaleString()}점</strong><small>전체 ${me.rank}위 · 보유 ${me.card_count}장 · 최고 ★${me.max_breakthrough}</small></div>`;road.innerHTML=data.tiers.map(t=>`<div class="tier-road-item">${tierEmblem(t,'small')}<b>${Number(t.min).toLocaleString()}점+</b></div>`).join('');target.innerHTML=`<div class="rank-list rank-list-v2">${data.ranking.slice(0,30).map(row=>`<div class="rank-list-row rank-pos-${row.rank}"><b class="rank-number">${row.rank<=3?'<i>♛</i>':''}${row.rank}</b>${tierEmblem(row.tier,'tiny')}<span>${escapeHtml(row.nickname)}<small>${row.card_count}장 · 최고 ★${row.max_breakthrough}</small></span><strong>${Number(row.score).toLocaleString()}점</strong></div>`).join('')}</div>`}catch(error){target.textContent=error.message}
 }
 
 function mineralExchangeView(user){
@@ -479,24 +396,19 @@ function updateMineralPreview(){const s=mineralExchangeState.settings,amount=Num
 function renderMineralRequests(rows){const box=document.getElementById('mineralMyRequests');if(!box)return;const labels={PENDING:'승인 대기',APPROVED:'승인 완료',REJECTED:'거절'};box.innerHTML=rows.length?rows.map(r=>`<article class="mineral-history-row status-${String(r.status).toLowerCase()}"><div><b>${Number(r.coin_amount).toLocaleString()}코인</b><span>${Number(r.mineral_amount).toLocaleString()} 미네랄 · ${escapeHtml(r.wago_nickname)}</span><small>${new Date(String(r.created_at).replace(' ','T')+'Z').toLocaleString('ko-KR')}</small></div><em>${labels[r.status]||escapeHtml(r.status)}</em>${r.reject_reason?`<p>${escapeHtml(r.reject_reason)}</p>`:''}</article>`).join(''):'<div class="empty-recent">아직 교환 신청 내역이 없습니다.</div>';}
 async function submitMineralExchange(){const btn=document.getElementById('mineralSubmit'),wagoNickname=document.getElementById('wagoNickname')?.value.trim(),mineralAmount=Number(document.getElementById('mineralAmount')?.value||0),proofText=document.getElementById('mineralProof')?.value.trim();if(!wagoNickname)return alert('와이고수 닉네임을 입력하세요.');if(!proofText)return alert('기부 완료 내용을 입력하세요.');btn.disabled=true;try{const d=await apiRequest('mineral-exchange/request',{method:'POST',body:JSON.stringify({wagoNickname,mineralAmount,proofText})});alert(`${Number(d.coinAmount).toLocaleString()}코인 교환 신청이 접수되었습니다.\n관리자 확인 후 지급됩니다.`);renderShell('mineral')}catch(e){alert(e.message);updateMineralPreview()}}
 
-
-async function loadInventoryView(){if(!API_MODE)return;const box=document.getElementById('inventoryList');if(!box)return;try{const d=await apiRequest('inventory');const map=Object.fromEntries((d.items||[]).map(x=>[x.itemId,Number(x.quantity||0)]));if(map.standard&&!map.basic)map.basic=map.standard;if(map.limited&&!map.pickup)map.pickup=map.limited;localStorage.setItem('cnine_world_inventory_v1',JSON.stringify(map));box.innerHTML=PACKS.map(p=>`<article class="inventory-slot"><div class="inventory-pack retro-${p.theme}"><i class="inventory-pack-seal">CN</i><b>${escapeHtml(p.subtitle)}</b><span>${escapeHtml(p.name)}</span></div><div><strong>${escapeHtml(p.name)}</strong><small>몬스터 토벌 승리 시 설정된 확률로 획득</small></div><em>× ${Number(map[p.id]||0)}</em></article>`).join('')}catch(e){box.innerHTML=`<div class="inventory-error"><b>인벤토리를 불러오지 못했습니다.</b><span>${escapeHtml(e.message)}</span><button type="button" id="inventoryRetry">다시 시도</button></div>`;document.getElementById('inventoryRetry')?.addEventListener('click',loadInventoryView)}}
-
 function bindView(tab) {
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
-  document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; worldState.buyDetail=true; openWorldPanel('buy'); });
+  document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
   document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));
   document.querySelectorAll('.recent-item').forEach(b => b.onclick = () => showDetail(b.dataset.cardId));
   const goDex=document.getElementById('goDex'); if(goDex)goDex.onclick=()=>renderShell('dex');
   const claim = document.getElementById('claimAttendance');
   if (claim) claim.onclick = claimAttendance;
   const couponBtn=document.getElementById('redeemCoupon'); if(couponBtn) couponBtn.onclick=redeemCoupon;
-  if(tab==='world') initWorldView();
   if(tab==='rank'){document.querySelectorAll('[data-rank-mode]').forEach(b=>b.onclick=()=>loadRankHub(b.dataset.rankMode));loadRankHub('pvp');}
   if(tab==='battle') loadBattleView();
   if(tab==='pvp') loadPvpView();
   if(tab==='mineral') loadMineralExchange();
-  if(tab==='inventory') loadInventoryView();
   if(tab==='dex') {
     document.querySelectorAll('.dex-section-head').forEach(h=>h.onclick=()=>h.closest('.dex-section').classList.toggle('collapsed'));
     document.querySelectorAll('.card-frame').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
@@ -541,9 +453,8 @@ function openPack(packId, count, cost) {
     modal.className='modal show results-modal';
     modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
     document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-    const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';worldState.keys={};worldState.busy=false;openWorldPanel('buy')};
-    document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=closePackResult;
-    document.getElementById('drawAgain').onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openPack(pack.id,count,cost);};
+    document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
+    document.getElementById('drawAgain').onclick=()=>{ modal.className='modal'; openPack(pack.id,count,cost); };
   },1550);
 }
 
@@ -710,9 +621,9 @@ async function init(){
     try{cards=await (await fetch('data/cards.json')).json()}catch{cards=[]}
     if(API_MODE) clearPlayerLogin();
   }
-  setTimeout(()=>authenticated?renderWorldGate():renderLogin(),250);
+  setTimeout(()=>authenticated?renderShell('buy'):renderLogin(),250);
 }
-function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 관리자에게 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderWorldGate()}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);saveUser(apiUserToLocal(d.user,normalizedKey));if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderWorldGate()}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
+function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 관리자에게 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);saveUser(apiUserToLocal(d.user,normalizedKey));if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 async function redeemCoupon(){
@@ -835,9 +746,8 @@ async function renderDrawResults(pack,count,cost,results,user,critical){
   const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
   modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
   document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-  const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';worldState.keys={};worldState.busy=false;openWorldPanel('buy')};
-  document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=closePackResult;
-  document.getElementById('drawAgain').onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openPack(pack.id,count,cost)};
+  document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
+  document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,cost)};
 }
 
 
@@ -854,209 +764,13 @@ async function loadPvpView(){if(!API_MODE){document.getElementById('pvpContent')
 async function renderPvpTab(){const box=document.getElementById('pvpContent');if(!box)return;box.innerHTML='<div class="empty-recent">불러오는 중...</div>';try{if(pvpState.tab==='match'){const d=await apiRequest('pvp/opponents');pvpState.opponents=d.opponents||[];box.innerHTML=`<div class="pvp-section-head"><div><p class="eyebrow">RECOMMENDED OPPONENTS</p><h2>추천 상대</h2></div><button class="text-btn" id="pvpRefresh">새로고침</button></div><div class="pvp-opponents">${pvpState.opponents.map(o=>`<article class="pvp-opponent"><div class="pvp-op-head"><b>${escapeHtml(o.nickname)}</b><span>${escapeHtml(o.tier?.name||'브론즈')}</span></div><div class="pvp-op-scores"><span>시즌 <b>${Number(o.season_score).toLocaleString()}</b></span><span>카드 <b>${Number(o.cardScore).toLocaleString()}</b></span></div><div class="pvp-op-meta"><span>${o.wins}승 ${o.losses}패</span><em>${Number(o.diffPercent)>=0?'+':''}${Number(o.diffPercent).toFixed(1)}%</em></div><button class="btn pvp-fight" data-oid="${o.id}">도전</button></article>`).join('')||'<div class="empty-recent">PvP 덱을 저장한 다른 유저가 아직 없습니다.</div>'}</div>`;document.getElementById('pvpRefresh').onclick=renderPvpTab;document.querySelectorAll('.pvp-fight').forEach(b=>b.onclick=()=>fightPvp(Number(b.dataset.oid)));renderPvpEnergy();}
 else if(pvpState.tab==='deck'){const owned=ownedIds(loadUser()),list=cards.filter(c=>owned.has(c.id)).sort((a,b)=>(gradeOrder[b.grade]||0)-(gradeOrder[a.grade]||0)||String(a.name||'').localeCompare(String(b.name||''),'ko')||String(a.title||'').localeCompare(String(b.title||''),'ko'));const grouped=[...new Set(list.map(c=>c.grade))].map(g=>({grade:g,cards:list.filter(c=>c.grade===g)}));box.innerHTML=`<div class="pvp-section-head pvp-deck-head"><div><p class="eyebrow">MY PVP DECK</p><h2>PvP 덱 편성</h2></div><div class="pvp-deck-actions"><span class="pvp-deck-guide">5장 선택 · 덱 카드를 누르면 제외</span><button class="pvp-reset-badge" id="resetPvpDeck"><i>↺</i> 덱 초기화</button></div></div><div id="pvpDeckSlots" class="pvp-deck-slots"></div><div id="pvpCardPicker" class="pvp-card-picker grouped">${grouped.map(group=>`<section class="pvp-grade-group grade-${String(group.grade).toLowerCase()}"><div class="pvp-grade-title"><b>${escapeHtml(group.grade)}</b><span>${group.cards.length}장</span></div><div class="pvp-grade-grid">${group.cards.map(c=>`<button class="pvp-pick ${pvpState.deck.includes(c.id)?'selected':''}" data-cid="${c.id}">${pvpCardMini(c,loadUser())}</button>`).join('')}</div></section>`).join('')}</div><button class="btn" id="savePvpDeck">PvP 덱 저장</button>`;renderPvpDeckSlots();document.querySelectorAll('.pvp-pick').forEach(b=>b.onclick=async()=>{const id=b.dataset.cid,i=pvpState.deck.indexOf(id);if(i>=0)pvpState.deck.splice(i,1);else if(pvpState.deck.length<5)pvpState.deck.push(id);else return alert('PvP 덱은 5장까지 편성할 수 있습니다.');await rerenderPvpDeckPreserveScroll()});document.getElementById('resetPvpDeck').onclick=async()=>{if(!pvpState.deck.length)return;pvpState.deck=[];await rerenderPvpDeckPreserveScroll()};document.getElementById('savePvpDeck').onclick=savePvpDeck;}
 else if(pvpState.tab==='history'){const d=await apiRequest('pvp/history');box.innerHTML=`<div class="pvp-section-head"><div><p class="eyebrow">BATTLE HISTORY</p><h2>전투 기록</h2></div></div><div class="pvp-history">${d.history.map(h=>`<div class="pvp-history-row ${h.result.toLowerCase()}"><b>${h.result==='WIN'?'승리':'패배'}</b><span>${escapeHtml(h.opponent)}<small>${h.direction==='ATTACK'?'내가 도전':'상대가 도전'} · ${String(h.created_at).slice(0,16)}</small></span><strong>${h.result==='WIN'?'+':'-'}${h.score_change}</strong></div>`).join('')||'<div class="empty-recent">아직 전투 기록이 없습니다.</div>'}</div>`;}
-else if(pvpState.tab==='ranking'){const d=await apiRequest('pvp/ranking');box.innerHTML=`<nav class="rank-switch pvp-rank-switch"><button type="button" class="active">PvP 시즌 랭킹</button><button type="button" id="cardRankLink">카드점수 랭킹</button></nav><div class="pvp-section-head"><div><p class="eyebrow">SEASON RANKING</p><h2>${escapeHtml(d.settings.seasonName)} 랭킹</h2></div></div>${pvpTierGuideHtml(d.settings?.tiers||[],d.me?.tier)}${d.me?`<div class="pvp-my-rank">${tierEmblem(d.me.tier,'tiny')}<span>내 순위 <b>${d.me.rank}위</b><small>${escapeHtml(d.me.tier.name)} · ${Number(d.me.season_score).toLocaleString()}점</small></span></div>`:''}<div class="pvp-ranking">${d.ranking.map(r=>`<div class="pvp-rank-row rank-pos-${r.rank}"><b class="rank-number">${r.rank}</b>${tierEmblem(r.tier,'tiny')}<span>${escapeHtml(r.nickname)}<small>${escapeHtml(r.tier.name)} · ${r.wins}승 ${r.losses}패</small></span><strong>${Number(r.season_score).toLocaleString()}</strong></div>`).join('')}</div>`;document.getElementById('cardRankLink').onclick=()=>{renderShell('rank');setTimeout(()=>loadRankHub('card'),0)};}
+else if(pvpState.tab==='ranking'){const d=await apiRequest('pvp/ranking');box.innerHTML=`<nav class="rank-switch pvp-rank-switch"><button type="button" class="active">PvP 시즌 랭킹</button><button type="button" id="cardRankLink">카드점수 랭킹</button></nav><div class="pvp-section-head"><div><p class="eyebrow">SEASON RANKING</p><h2>${escapeHtml(d.settings.seasonName)} 랭킹</h2></div></div>${pvpTierGuideHtml(d.settings?.tiers||[],d.me?.tier)}${d.me?`<div class="pvp-my-rank">${tierEmblem(d.me.tier,'tiny')}<span>내 순위 <b>${d.me.rank}위</b><small>${escapeHtml(d.me.tier.name)} · ${Number(d.me.season_score).toLocaleString()}점</small></span></div>`:''}<div class="pvp-ranking">${d.ranking.map(r=>`<div class="pvp-rank-row"><b>${r.rank}</b>${tierEmblem(r.tier,'tiny')}<span>${escapeHtml(r.nickname)}<small>${escapeHtml(r.tier.name)} · ${r.wins}승 ${r.losses}패</small></span><strong>${Number(r.season_score).toLocaleString()}</strong></div>`).join('')}</div>`;document.getElementById('cardRankLink').onclick=()=>{renderShell('rank');setTimeout(()=>loadRankHub('card'),0)};}
 else{const t=pvpState.profile.tier,tiers=pvpState.config.tiers||[],rankRewards=pvpState.config.rankRewards||[],endAt=pvpState.config.endsAt?new Date(String(pvpState.config.endsAt).replace(' ','T')).getTime():0,seasonEnded=Boolean(endAt&&Number.isFinite(endAt)&&Date.now()>=endAt);box.innerHTML=`<div class="pvp-section-head"><div><p class="eyebrow">SEASON REWARD</p><h2>시즌 보상</h2></div></div><div class="pvp-reward-current"><span>현재 최고 달성</span><b>${escapeHtml(t.name)}</b><strong>◈ ${Number(t.rewardCoin||0).toLocaleString()} · 조각 ${Number(t.rewardShards||0).toLocaleString()}</strong><button class="btn" id="claimPvpReward" ${pvpState.config.tierRewardsEnabled===false?'disabled':''}>티어 보상 받기</button></div><div class="pvp-tier-rewards">${tiers.map(x=>`<div><span>${escapeHtml(x.name)}</span><b>${Number(x.min).toLocaleString()}점+</b><strong>◈ ${Number(x.rewardCoin||0).toLocaleString()} · 조각 ${Number(x.rewardShards||0).toLocaleString()}</strong></div>`).join('')}</div><div class="pvp-section-head pvp-rank-reward-head"><div><p class="eyebrow">FINAL RANK REWARD</p><h2>최종 랭킹 보상</h2></div></div><div class="pvp-tier-rewards">${rankRewards.map(x=>`<div><span>${x.from===x.to?`${x.from}위`:`${x.from}~${x.to}위`}</span><b>시즌 종료 기준</b><strong>◈ ${Number(x.rewardCoin||0).toLocaleString()} · 조각 ${Number(x.rewardShards||0).toLocaleString()}</strong></div>`).join('')||'<div class="empty-recent">등록된 랭킹 보상이 없습니다.</div>'}</div>${seasonEnded?`<div class="pvp-final-reward-ready"><span>시즌이 종료되었습니다. 확정된 최종 순위 보상은 계정당 1회만 받을 수 있습니다.</span><button class="btn pvp-rank-claim" id="claimPvpRankReward" ${pvpState.config.rankRewardsEnabled===false?'disabled':''}>최종 랭킹 보상 받기</button></div>`:`<div class="pvp-final-reward-wait"><b>시즌 종료 후 지급</b><span>최종 랭킹 보상은 시즌 종료 시점의 확정 순위를 기준으로 1회 수령할 수 있습니다.</span></div>`}`;document.getElementById('claimPvpReward').onclick=claimPvpReward;const rankClaim=document.getElementById('claimPvpRankReward');if(rankClaim)rankClaim.onclick=claimPvpRankReward;}}catch(e){box.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}}
 async function rerenderPvpDeckPreserveScroll(){const picker=document.getElementById('pvpCardPicker'),pickerTop=picker?.scrollTop||0,pageTop=window.scrollY;await renderPvpTab();requestAnimationFrame(()=>{const next=document.getElementById('pvpCardPicker');if(next)next.scrollTop=pickerTop;window.scrollTo({top:pageTop,left:0,behavior:'auto'})})}
 function renderPvpDeckSlots(){const el=document.getElementById('pvpDeckSlots');if(!el)return;el.innerHTML=Array.from({length:5},(_,i)=>{const c=cards.find(x=>x.id===pvpState.deck[i]);return c?`<button type="button" class="pvp-deck-slot filled" data-pvp-remove="${c.id}" title="클릭해서 덱에서 제외">${pvpCardMini(c,loadUser())}<span class="pvp-remove-hint">덱에서 빼기</span></button>`:`<div class="pvp-deck-slot empty"><div class="pvp-empty-slot"><span>${i+1}</span></div></div>`}).join('');el.querySelectorAll('[data-pvp-remove]').forEach(b=>b.onclick=async()=>{pvpState.deck=pvpState.deck.filter(id=>id!==b.dataset.pvpRemove);await rerenderPvpDeckPreserveScroll()})}
 async function savePvpDeck(){if(pvpState.deck.length!==5)return alert('보유 카드 5장을 선택하세요.');try{await apiRequest('pvp/deck',{method:'POST',body:JSON.stringify({cardIds:pvpState.deck})});alert('PvP 덱이 저장되었습니다.')}catch(e){alert(e.message)}}
-async function fightPvp(id){if(pvpState.energy&&!pvpState.energy.unlimited&&pvpState.energy.energy<pvpState.energy.costPerBattle)return alert('PvP 전투 횟수가 부족합니다. 30분마다 1회 충전됩니다.');if(!confirm('이 상대에게 도전할까요?'))return;const target=pvpState.opponents.find(o=>Number(o.id)===Number(id));const mine=pvpState.deck.map(cid=>cards.find(c=>c.id===cid)).filter(Boolean);if(mine.length!==5)return alert('먼저 PvP 덱 5장을 저장하세요.');const modal=document.getElementById('modal');modal.className='modal show battle-modal pvp-battle-modal';modal.innerHTML=`<div class="modal-panel battle-stage pvp-battle-stage intro"><div class="battle-backdrop"></div><div class="battle-fx-layer"></div><div class="battle-topline"><span>CNINE ASYNC PVP</span><b id="battlePhase">MATCH FOUND</b></div><div class="battle-hud"><div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>MY PVP DECK</b><span data-hp-text="team">100%</span></div><div class="battle-hp-track"><i data-hp-fill="team"></i></div><small>시즌 ${Number(pvpState.profile?.season_score||0).toLocaleString()}점</small></div><div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${escapeHtml(target?.nickname||'OPPONENT')}</b><span data-hp-text="enemy">100%</span></div><div class="battle-hp-track"><i data-hp-fill="enemy"></i></div><small>시즌 ${Number(target?.season_score||0).toLocaleString()}점</small></div></div><div class="battle-arena pvp-arena"><div class="battle-side player-side"><div class="battle-team">${mine.map((c,i)=>cardHtml(c,true,`battle-card-fighter battle-fighter-${i}`,loadUser()).replace(`data-id="${c.id}"`,`data-id="${c.id}" data-fighter="${i}" style="--i:${i}"`)).join('')}</div><small>MY TEAM</small></div><div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div><div class="battle-side enemy-side"><div id="pvpEnemyTeam" class="battle-team enemy-team pvp-enemy-loading">상대 덱 불러오는 중...</div><small>${escapeHtml(target?.nickname||'OPPONENT')}</small></div></div><div class="battle-impact"><i></i><i></i><i></i></div><div id="battleMessage" class="battle-message"><span>사나이 간 치열한 대결 중</span></div></div>`;const stage=modal.querySelector('.battle-stage'),phase=document.getElementById('battlePhase'),count=document.getElementById('battleCountdown'),msg=document.getElementById('battleMessage');try{battleTone(90,.18,'sawtooth',.035);await battleSleep(450);stage.classList.add('cards-enter');phase.textContent='MY TEAM DEPLOY';await battleSleep(700);const fightPromise=apiRequest('pvp/fight',{method:'POST',body:JSON.stringify({opponentId:id})});count.textContent='READY';await battleSleep(650);count.textContent='FIGHT';stage.classList.add('fight');battleTone(440,.18,'square',.075);const d=await fightPromise;count.textContent='';const enemyCards=(d.defenderDeck||[]).map(x=>({id:String(x.id),title:x.title||x.card_title||'상대 카드',grade:x.rarity||x.grade||'C',image:x.image||x.image_url||'',focusX:50,focusY:50}));const enemyBox=document.getElementById('pvpEnemyTeam');enemyBox.classList.remove('pvp-enemy-loading');enemyBox.innerHTML=enemyCards.map((c,i)=>cardHtml(c,true,`battle-card-fighter battle-fighter-${i}`,loadUser()).replace(`data-id="${c.id}"`,`data-id="${c.id}" data-enemy-fighter="${i}" style="--i:${i}"`)).join('');stage.classList.add('enemy-enter');phase.textContent='OPPONENT DEPLOY';await battleSleep(850);let myHp=100,enemyHp=100;const myWin=d.result==='WIN';const myHit=Math.max(12,Math.min(28,Math.round((Number(d.attackerPower)||1)/(Number(d.defenderPower)||1)*18)));const enemyHit=Math.max(12,Math.min(28,Math.round((Number(d.defenderPower)||1)/(Number(d.attackerPower)||1)*18)));for(let i=0;i<5;i++){battleActivateCard(stage,i,mine[i]?.grade);phase.textContent=`${mine[i]?.grade||'CARD'} MEMBER STRIKE`;stage.classList.add('player-attack');await battleSleep(220);enemyHp=Math.max(myWin&&i<4?4:0,enemyHp-myHit);battleSetHp(stage,'enemy',enemyHp);battleBurst(stage,'74%','43%',gradeOrder[mine[i]?.grade]>=gradeOrder.UR?30:18);battleDamage(stage,`-${Math.max(100,Math.round((Number(d.defenderPower)||0)*myHit/100))}`,'enemy',gradeOrder[mine[i]?.grade]>=gradeOrder.UR);battleTone(190+i*25,.1,'square',.05);await battleSleep(520);stage.classList.remove('player-attack');if(i<enemyCards.length&&(enemyHp>0||!myWin)){phase.textContent=`${enemyCards[i]?.grade||'CARD'} COUNTER`;const ef=stage.querySelector(`[data-enemy-fighter="${i}"]`);if(ef)ef.classList.add('active-attacker');await battleSleep(180);myHp=Math.max(!myWin&&i<4?4:0,myHp-enemyHit);battleSetHp(stage,'team',myHp);battleBurst(stage,'27%','43%',gradeOrder[enemyCards[i]?.grade]>=gradeOrder.UR?30:18);battleDamage(stage,`-${Math.max(100,Math.round((Number(d.attackerPower)||0)*enemyHit/100))}`,'player',gradeOrder[enemyCards[i]?.grade]>=gradeOrder.UR);battleTone(78,.18,'sawtooth',.07);await battleSleep(560);if(ef)ef.classList.remove('active-attacker')}}stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('active-attacker'));if(myWin){battleSetHp(stage,'enemy',0);battleBurst(stage,'74%','43%',56);battleDamage(stage,'FINISH!','enemy',true);battleTone(620,.32,'sawtooth',.09)}else{battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',50);battleDamage(stage,'K.O.','player',true);battleTone(48,.38,'square',.09)}await battleSleep(950);stage.classList.add(myWin?'battle-win-v863':'battle-lose-v863');phase.textContent=myWin?'PVP VICTORY':'PVP DEFEAT';msg.innerHTML=`<strong>${myWin?'VICTORY':'DEFEAT'}</strong><span>${Number(d.attackerPower).toLocaleString()} VS ${Number(d.defenderPower).toLocaleString()}</span><div class="battle-reward-pop"><small>SEASON SCORE</small><b>${d.scoreChange>0?'+':''}${d.scoreChange}</b>${d.scoreAdjustment?`<em>${escapeHtml(d.scoreAdjustment.label)} · ${Number(d.scoreAdjustment.multiplier)}%</em>`:''}<small>PVP COIN</small><b>+${Number(d.coinReward||0).toLocaleString()}</b></div><button type="button" class="btn pvp-result-confirm" id="pvpResultConfirm">PvP 화면으로 돌아가기</button><em>화면을 눌러도 돌아갑니다</em>`;pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser&&d.coinAfter!=null){savedPvpUser.coin=Number(d.coinAfter);saveUser(savedPvpUser)}pvpState.energy=d.energy||pvpState.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();const exitPvpBattle=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';pvpState.tab='match';renderShell('pvp')};setTimeout(()=>{modal.onclick=()=>exitPvpBattle();const confirmBtn=document.getElementById('pvpResultConfirm');if(confirmBtn)confirmBtn.onclick=e=>{e.stopPropagation();exitPvpBattle()}},250)}catch(e){if(e.energy)pvpState.energy=e.energy;msg.innerHTML=`<span>${escapeHtml(e.message)}</span><button type="button" class="btn pvp-result-confirm" id="pvpErrorConfirm">PvP 화면으로 돌아가기</button>`;const close=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';pvpState.tab='match';renderShell('pvp')};modal.onclick=close;const b=document.getElementById('pvpErrorConfirm');if(b)b.onclick=e=>{e.stopPropagation();close()}}}
+async function fightPvp(id){if(pvpState.energy&&!pvpState.energy.unlimited&&pvpState.energy.energy<pvpState.energy.costPerBattle)return alert('PvP 전투 횟수가 부족합니다. 30분마다 1회 충전됩니다.');if(!confirm('이 상대에게 도전할까요?'))return;const target=pvpState.opponents.find(o=>Number(o.id)===Number(id));const mine=pvpState.deck.map(cid=>cards.find(c=>c.id===cid)).filter(Boolean);if(mine.length!==5)return alert('먼저 PvP 덱 5장을 저장하세요.');const modal=document.getElementById('modal');modal.className='modal show battle-modal pvp-battle-modal';modal.innerHTML=`<div class="modal-panel battle-stage pvp-battle-stage intro"><div class="battle-backdrop"></div><div class="battle-fx-layer"></div><div class="battle-topline"><span>CNINE ASYNC PVP</span><b id="battlePhase">MATCH FOUND</b></div><div class="battle-hud"><div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>MY PVP DECK</b><span data-hp-text="team">100%</span></div><div class="battle-hp-track"><i data-hp-fill="team"></i></div><small>시즌 ${Number(pvpState.profile?.season_score||0).toLocaleString()}점</small></div><div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${escapeHtml(target?.nickname||'OPPONENT')}</b><span data-hp-text="enemy">100%</span></div><div class="battle-hp-track"><i data-hp-fill="enemy"></i></div><small>시즌 ${Number(target?.season_score||0).toLocaleString()}점</small></div></div><div class="battle-arena pvp-arena"><div class="battle-side player-side"><div class="battle-team">${mine.map((c,i)=>`<div class="battle-card-fighter grade-${String(c.grade||'C').toLowerCase()}" data-fighter="${i}" style="--i:${i}"><div class="fighter-aura"></div><img src="${c.image}" style="object-position:${c.focusX||50}% ${c.focusY||50}%"><div class="fighter-grade">${c.grade}</div><span>${escapeHtml(c.title)}</span></div>`).join('')}</div><small>MY TEAM</small></div><div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div><div class="battle-side enemy-side"><div id="pvpEnemyTeam" class="battle-team enemy-team pvp-enemy-loading">상대 덱 불러오는 중...</div><small>${escapeHtml(target?.nickname||'OPPONENT')}</small></div></div><div class="battle-impact"><i></i><i></i><i></i></div><div id="battleMessage" class="battle-message"><span>사나이 간 치열한 대결 중</span></div></div>`;const stage=modal.querySelector('.battle-stage'),phase=document.getElementById('battlePhase'),count=document.getElementById('battleCountdown'),msg=document.getElementById('battleMessage');try{battleTone(90,.18,'sawtooth',.035);await battleSleep(450);stage.classList.add('cards-enter');phase.textContent='MY TEAM DEPLOY';await battleSleep(700);const fightPromise=apiRequest('pvp/fight',{method:'POST',body:JSON.stringify({opponentId:id})});count.textContent='READY';await battleSleep(650);count.textContent='FIGHT';stage.classList.add('fight');battleTone(440,.18,'square',.075);const d=await fightPromise;count.textContent='';const enemyCards=(d.defenderDeck||[]).map(x=>({id:String(x.id),title:x.title||x.card_title||'상대 카드',grade:x.rarity||x.grade||'C',image:x.image||x.image_url||'',focusX:50,focusY:50}));const enemyBox=document.getElementById('pvpEnemyTeam');enemyBox.classList.remove('pvp-enemy-loading');enemyBox.innerHTML=enemyCards.map((c,i)=>`<div class="battle-card-fighter grade-${String(c.grade||'C').toLowerCase()}" data-enemy-fighter="${i}" style="--i:${i}"><div class="fighter-aura"></div>${c.image?`<img src="${c.image}">`:'<div class="monster-placeholder">?</div>'}<div class="fighter-grade">${c.grade}</div><span>${escapeHtml(c.title)}</span></div>`).join('');stage.classList.add('enemy-enter');phase.textContent='OPPONENT DEPLOY';await battleSleep(850);let myHp=100,enemyHp=100;const myWin=d.result==='WIN';const myHit=Math.max(12,Math.min(28,Math.round((Number(d.attackerPower)||1)/(Number(d.defenderPower)||1)*18)));const enemyHit=Math.max(12,Math.min(28,Math.round((Number(d.defenderPower)||1)/(Number(d.attackerPower)||1)*18)));for(let i=0;i<5;i++){battleActivateCard(stage,i,mine[i]?.grade);phase.textContent=`${mine[i]?.grade||'CARD'} MEMBER STRIKE`;stage.classList.add('player-attack');await battleSleep(220);enemyHp=Math.max(myWin&&i<4?4:0,enemyHp-myHit);battleSetHp(stage,'enemy',enemyHp);battleBurst(stage,'74%','43%',gradeOrder[mine[i]?.grade]>=gradeOrder.UR?30:18);battleDamage(stage,`-${Math.max(100,Math.round((Number(d.defenderPower)||0)*myHit/100))}`,'enemy',gradeOrder[mine[i]?.grade]>=gradeOrder.UR);battleTone(190+i*25,.1,'square',.05);await battleSleep(520);stage.classList.remove('player-attack');if(i<enemyCards.length&&(enemyHp>0||!myWin)){phase.textContent=`${enemyCards[i]?.grade||'CARD'} COUNTER`;const ef=stage.querySelector(`[data-enemy-fighter="${i}"]`);if(ef)ef.classList.add('active-attacker');await battleSleep(180);myHp=Math.max(!myWin&&i<4?4:0,myHp-enemyHit);battleSetHp(stage,'team',myHp);battleBurst(stage,'27%','43%',gradeOrder[enemyCards[i]?.grade]>=gradeOrder.UR?30:18);battleDamage(stage,`-${Math.max(100,Math.round((Number(d.attackerPower)||0)*enemyHit/100))}`,'player',gradeOrder[enemyCards[i]?.grade]>=gradeOrder.UR);battleTone(78,.18,'sawtooth',.07);await battleSleep(560);if(ef)ef.classList.remove('active-attacker')}}stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('active-attacker'));if(myWin){battleSetHp(stage,'enemy',0);battleBurst(stage,'74%','43%',56);battleDamage(stage,'FINISH!','enemy',true);battleTone(620,.32,'sawtooth',.09)}else{battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',50);battleDamage(stage,'K.O.','player',true);battleTone(48,.38,'square',.09)}await battleSleep(950);stage.classList.add(myWin?'battle-win-v863':'battle-lose-v863');phase.textContent=myWin?'PVP VICTORY':'PVP DEFEAT';msg.innerHTML=`<strong>${myWin?'VICTORY':'DEFEAT'}</strong><span>${Number(d.attackerPower).toLocaleString()} VS ${Number(d.defenderPower).toLocaleString()}</span><div class="battle-reward-pop"><small>SEASON SCORE</small><b>${d.scoreChange>0?'+':''}${d.scoreChange}</b>${d.scoreAdjustment?`<em>${escapeHtml(d.scoreAdjustment.label)} · ${Number(d.scoreAdjustment.multiplier)}%</em>`:''}<small>PVP COIN</small><b>+${Number(d.coinReward||0).toLocaleString()}</b></div><button type="button" class="btn pvp-result-confirm" id="pvpResultConfirm">PvP 화면으로 돌아가기</button><em>화면을 눌러도 돌아갑니다</em>`;pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser&&d.coinAfter!=null){savedPvpUser.coin=Number(d.coinAfter);saveUser(savedPvpUser)}pvpState.energy=d.energy||pvpState.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();const exitPvpBattle=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';pvpState.tab='match';renderShell('pvp')};setTimeout(()=>{modal.onclick=()=>exitPvpBattle();const confirmBtn=document.getElementById('pvpResultConfirm');if(confirmBtn)confirmBtn.onclick=e=>{e.stopPropagation();exitPvpBattle()}},250)}catch(e){if(e.energy)pvpState.energy=e.energy;msg.innerHTML=`<span>${escapeHtml(e.message)}</span><button type="button" class="btn pvp-result-confirm" id="pvpErrorConfirm">PvP 화면으로 돌아가기</button>`;const close=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';pvpState.tab='match';renderShell('pvp')};modal.onclick=close;const b=document.getElementById('pvpErrorConfirm');if(b)b.onclick=e=>{e.stopPropagation();close()}}}
 async function claimPvpReward(){try{const d=await apiRequest('pvp/reward/claim',{method:'POST'});saveUser(apiUserToLocal(d.user));alert(`${d.tier.name} 달성 보상으로 ${Number(d.rewardCoin||0).toLocaleString()}코인과 카드조각 ${Number(d.rewardShards||0).toLocaleString()}개를 받았습니다.`);renderShell('pvp')}catch(e){alert(e.message)}}
 async function claimPvpRankReward(){try{const d=await apiRequest('pvp/rank-reward/claim',{method:'POST'});saveUser(apiUserToLocal(d.user));alert(`${d.rank}위 시즌 랭킹 보상으로 ${Number(d.rewardCoin||0).toLocaleString()}코인과 카드조각 ${Number(d.rewardShards||0).toLocaleString()}개를 받았습니다.`);renderShell('pvp')}catch(e){alert(e.message)}}
-
-
-// --- CNINE WORLD v3: 월드 중심 새 프로젝트 / 카메라 / 건물 내부 / 맵 이동 ---
-const WORLD_VIEW_W=960,WORLD_VIEW_H=540;
-const WORLD_MAPS={
- town:{name:'씨켓몬 마을',w:1800,h:1250,spawn:{x:900,y:865},
-  grassZones:[{x:1110,y:690,w:500,h:330},{x:115,y:920,w:420,h:190}],
-  roads:[{x:0,y:500,w:1800,h:250},{x:760,y:0,w:280,h:1250},{x:410,y:690,w:950,h:150}],
-  exits:[{x:820,y:1180,w:170,h:60,to:'field',tx:900,ty:120}],
-  buildings:[
-   {id:'shop',x:155,y:145,w:330,h:270,label:'카드 상점',tab:'buy'},
-   {id:'lab',x:650,y:105,w:360,h:295,label:'카드 연구소',tab:'rank'},
-   {id:'arena',x:1240,y:145,w:370,h:285,label:'PVP 경기장',tab:'pvp'},
-   {id:'hall',x:270,y:690,w:380,h:280,label:'모험 안내소',tab:'attendance'}],
-  decor:[
-   {kind:'tree',x:80,y:90},{kind:'tree',x:520,y:105},{kind:'tree',x:1080,y:90},{kind:'tree',x:1640,y:100},
-   {kind:'bush',x:1040,y:825},{kind:'bush',x:1615,y:845},{kind:'bush',x:80,y:805},
-   {kind:'flowerPink',x:1080,y:610},{kind:'flowerBlue',x:1140,y:610},{kind:'flowerRed',x:1200,y:610},
-   {kind:'rock',x:1550,y:1060},{kind:'rock',x:1600,y:1110},{kind:'stump',x:90,y:1080}],
-  npcs:[
-   {id:'chulgu',x:700,y:560,label:'철구',sprite:'npcChulgu',dialog:['씨켓몬 마을에 온 걸 환영한다!','강한 덱을 만들고 초원으로 나가봐.']},
-   {id:'jjeomni',x:830,y:545,label:'졈니',sprite:'npcJjeomni',dialog:['카드 상점에는 다양한 카드팩이 있어.','좋은 카드가 나오길 응원할게!']},
-   {id:'jjeomjung',x:960,y:565,label:'점중',sprite:'npcJjeomjung',dialog:['랭킹은 꾸준히 도전해야 올라갈 수 있어.']},
-   {id:'yeonji',x:1090,y:545,label:'연지',sprite:'npcYeonji',dialog:['반가워! 오늘도 즐거운 모험 되길 바라.']}]
- },
- field:{name:'초원 길목',w:1800,h:1400,spawn:{x:900,y:150},
-  grassZones:[
-   {x:120,y:260,w:560,h:390},{x:1120,y:260,w:560,h:390},
-   {x:160,y:790,w:520,h:420},{x:1120,y:790,w:520,h:420}
-  ],
-  roads:[{x:760,y:0,w:280,h:1400},{x:610,y:610,w:580,h:190}],
-  exits:[{x:790,y:0,w:220,h:80,to:'town',tx:900,ty:1120}],
-  buildings:[],
-  decor:[
-   {kind:'tree',x:90,y:100},{kind:'tree',x:260,y:105},{kind:'tree',x:1450,y:105},{kind:'tree',x:1620,y:100},
-   {kind:'tree',x:80,y:1240},{kind:'tree',x:1610,y:1240},
-   {kind:'bush',x:690,y:310},{kind:'bush',x:1030,y:320},{kind:'bush',x:690,y:1040},{kind:'bush',x:1030,y:1040},
-   {kind:'rock',x:520,y:720},{kind:'rock',x:1230,y:720},{kind:'stump',x:240,y:700},{kind:'stump',x:1500,y:700},
-   {kind:'flowerPink',x:705,y:560},{kind:'flowerBlue',x:1055,y:560},{kind:'flowerRed',x:705,y:860},{kind:'flowerPink',x:1055,y:860}
-  ],
-  npcs:[]},
- interior_shop:{name:'카드 상점 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'buy'},
- interior_lab:{name:'카드 연구소 내부',w:960,h:720,spawn:{x:480,y:610},interior:true,feature:'rank'},
- interior_arena:{name:'PVP 경기장 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'pvp'},
- interior_hall:{name:'모험 안내소 내부',w:960,h:720,spawn:{x:480,y:610},interior:true,feature:'attendance'}
-};
-let worldState={map:'town',x:860,y:850,dir:'down',frame:0,busy:false,paused:false,travel:0,nextEncounter:330,lastTime:0,raf:0,keys:{},images:{},ready:false,camera:{x:0,y:0}};
-function worldToast(text){const t=document.getElementById('worldToast');if(!t)return;t.textContent=text;t.classList.add('show');clearTimeout(worldState.toastTimer);worldState.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
-function worldLoadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src})}
-async function worldLoadAssets(){const files={player:'assets/world/player.png',npcShop:'assets/world/npc_shop.png',npcArena:'assets/world/npc_arena.png',npcReward:'assets/world/npc_reward.png',npcRank:'assets/world/npc_rank.png',npcMineral:'assets/world/npc_mineral.png',npcChulgu:'assets/world/npc_chulgu.png',npcJjeomni:'assets/world/npc_jjeomni.png',npcJjeomjung:'assets/world/npc_jjeomjung.png',npcYeonji:'assets/world/npc_yeonji.png',npcElder:'assets/world/npc_elder.png',npcBoy:'assets/world/npc_boy.png',npcGirl:'assets/world/npc_girl.png',npcGuard:'assets/world/npc_guard.png',npcResearcher:'assets/world/npc_researcher.png',npcMerchant:'assets/world/npc_merchant.png',tree:'assets/world/tree.png',shop:'assets/world/building_shop.png',lab:'assets/world/building_lab.png',arena:'assets/world/building_arena.png',hall:'assets/world/building_hall.png',decor:'assets/world/decor.png',tileGround:'assets/world/tilesets/A5_Tiles.png',tileNature:'assets/world/tilesets/C_OutSide_Nature.png',tileOutdoor:'assets/world/tilesets/D_OutDoor.png',tileInterior:'assets/world/tilesets/D_Inside_House.png'};const out={};await Promise.all(Object.entries(files).map(async([k,v])=>out[k]=await worldLoadImage(v)));worldState.images=out;worldState.ready=true}
-function worldMap(){return WORLD_MAPS[worldState.map]||WORLD_MAPS.town}
-function rectHit(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
-function playerRect(x=worldState.x,y=worldState.y){return{x:x-12,y:y-10,w:24,h:30}}
-function buildingDoor(b){return{x:b.x+b.w/2-34,y:b.y+b.h-22,w:68,h:42}}
-function worldSolids(){const m=worldMap();if(m.interior)return[{x:0,y:0,w:m.w,h:55},{x:0,y:0,w:55,h:m.h},{x:m.w-55,y:0,w:55,h:m.h},{x:0,y:m.h-20,w:350,h:20},{x:610,y:m.h-20,w:350,h:20},{x:220,y:160,w:520,h:125}];const solids=(m.buildings||[]).map(b=>({x:b.x,y:b.y,w:b.w,h:b.h-18}));for(const d of m.decor||[]){if(d.kind==='tree')solids.push({x:d.x+22,y:d.y+55,w:55,h:45});else if(d.kind==='rock'||d.kind==='stump')solids.push({x:d.x+5,y:d.y+10,w:28,h:25})}return solids;}
-function canMove(nx,ny){const m=worldMap(),r=playerRect(nx,ny);if(r.x<20||r.y<20||r.x+r.w>m.w-20||r.y+r.h>m.h-20)return false;return !worldSolids().some(s=>rectHit(r,s))}
-function inGrass(){const zones=worldMap().grassZones||[];return zones.some(g=>worldState.x>g.x&&worldState.x<g.x+g.w&&worldState.y>g.y&&worldState.y<g.y+g.h)}
-function drawSheetTile(ctx,img,tx,ty,dx,dy,dw=32,dh=32){if(!img)return;ctx.drawImage(img,tx*32,ty*32,32,32,Math.round(dx),Math.round(dy),dw,dh)}
-function fillSheetTile(ctx,img,tx,ty,r){for(let y=r.y;y<r.y+r.h;y+=32)for(let x=r.x;x<r.x+r.w;x+=32)drawSheetTile(ctx,img,tx,ty,x,y)}
-function drawNatureDecor(ctx,d){const img=worldState.images.tileNature;if(!img)return;const map={bush:[6,0,64,64],flowerPink:[0,3,32,32],flowerBlue:[2,3,32,32],flowerRed:[4,3,32,32],rock:[3,4,32,32],stump:[0,4,32,32]};if(d.kind==='tree'){ctx.drawImage(img,32,0,96,96,d.x,d.y,104,104);return}const q=map[d.kind];if(q)ctx.drawImage(img,q[0]*32,q[1]*32,q[2],q[3],d.x,d.y,q[2],q[3])}
-function drawGround(ctx,m){
-  ctx.imageSmoothingEnabled=false;
-  const ground=worldState.images.tileGround,inside=worldState.images.tileInterior;
-  if(m.interior){
-    // 실내 전용 바닥 타일. 기존 (2,1)은 소파 그래픽이라 반복 배치 시 바닥 전체가 의자로 보였다.
-    // 시설별로 차분한 목재/석재 계열 타일을 사용하되 모든 실내에서 동일한 32px 그리드를 유지한다.
-    const interiorFloor={buy:[6,1],rank:[7,1],pvp:[9,0],attendance:[5,1]}[m.feature]||[6,1];
-    if(inside){
-      for(let y=0;y<m.h;y+=32)for(let x=0;x<m.w;x+=32)drawSheetTile(ctx,inside,interiorFloor[0],interiorFloor[1],x,y);
-      // 중앙 보행 구역은 한 톤 밝게 만들어 카운터까지의 동선을 구분한다.
-      for(let y=288;y<m.h-32;y+=32)for(let x=256;x<704;x+=32)drawSheetTile(ctx,inside,7,1,x,y);
-    }else{ctx.fillStyle='#a9784f';ctx.fillRect(0,0,m.w,m.h)}
-    // 실내 벽/기둥과 출입구
-    ctx.fillStyle='rgba(54,34,26,.88)';ctx.fillRect(0,0,m.w,48);ctx.fillRect(0,0,48,m.h);ctx.fillRect(m.w-48,0,48,m.h);
-    ctx.fillStyle='rgba(111,66,46,.96)';ctx.fillRect(205,145,550,135);ctx.fillStyle='#e4c88f';ctx.fillRect(225,165,510,90);ctx.fillStyle='#3a2922';ctx.fillRect(390,m.h-30,180,30);
-    // 시설 카운터와 앞쪽 매트
-    ctx.fillStyle='#8f2f38';ctx.fillRect(355,305,250,120);ctx.fillStyle='#d6ad55';ctx.fillRect(370,320,220,90);
-    ctx.fillStyle='rgba(92,49,34,.55)';ctx.fillRect(384,448,192,48);return;
-  }
-  // 새 타일셋 기본 잔디
-  fillSheetTile(ctx,ground,2,3,{x:0,y:0,w:m.w,h:m.h});
-  // 흙길과 광장
-  for(const r of m.roads||[])fillSheetTile(ctx,ground,6,4,r);
-  // 랜덤 조우 풀숲
-  for(const g of m.grassZones||[]){
-    fillSheetTile(ctx,ground,1,3,g);
-    ctx.strokeStyle='rgba(28,96,32,.75)';ctx.lineWidth=4;ctx.strokeRect(g.x+2,g.y+2,g.w-4,g.h-4);
-  }
-  // 타일셋 장식
-  for(const d of m.decor||[])drawNatureDecor(ctx,d);
-  // 외곽 숲 경계
-  const tree=worldState.images.tileNature;
-  if(tree){
-    for(let x=0;x<m.w;x+=92){ctx.drawImage(tree,32,0,96,96,x,-8,100,100);ctx.drawImage(tree,32,0,96,96,x,m.h-92,100,100)}
-    for(let y=82;y<m.h-100;y+=92){ctx.drawImage(tree,32,0,96,96,-8,y,100,100);ctx.drawImage(tree,32,0,96,96,m.w-92,y,100,100)}
-  }
-}
-function drawBuilding(ctx,b,i){
-  const keys=['shop','lab','arena','hall'],img=worldState.images[keys[i%4]];
-  if(img){ctx.drawImage(img,b.x,b.y-18,b.w,b.h+18)}else{ctx.fillStyle='#c47b55';ctx.fillRect(b.x,b.y,b.w,b.h)}
-  const d=buildingDoor(b);ctx.fillStyle='rgba(0,0,0,.28)';ctx.fillRect(d.x,d.y+d.h-4,d.w,12);
-}
-function drawSprite(ctx,img,x,y,dir,frame,scale=1){if(!img)return;const rows={down:0,left:1,right:2,up:3};ctx.imageSmoothingEnabled=false;ctx.drawImage(img,(frame%4)*32,(rows[dir]||0)*40,32,40,Math.round(x-16*scale),Math.round(y-32*scale),32*scale,40*scale)}
-function updateCamera(){const m=worldMap();worldState.camera.x=Math.max(0,Math.min(m.w-WORLD_VIEW_W,worldState.x-WORLD_VIEW_W/2));worldState.camera.y=Math.max(0,Math.min(m.h-WORLD_VIEW_H,worldState.y-WORLD_VIEW_H/2))}
-function drawWorld(){const c=document.getElementById('worldMap');if(!c||!worldState.ready)return;const ctx=c.getContext('2d'),m=worldMap();updateCamera();ctx.clearRect(0,0,c.width,c.height);ctx.save();ctx.translate(-Math.round(worldState.camera.x),-Math.round(worldState.camera.y));drawGround(ctx,m);
-  if(!m.interior){(m.buildings||[]).forEach((b,i)=>drawBuilding(ctx,b,i));(m.npcs||[]).forEach((n,i)=>{const npcImg=worldState.images[n.sprite]||[worldState.images.npcRank,worldState.images.npcMineral,worldState.images.npcShop,worldState.images.npcArena][i%4]||worldState.images.npcRank;drawSprite(ctx,npcImg,n.x,n.y,'down',0,1);ctx.textAlign='center';ctx.font='bold 12px monospace';ctx.lineWidth=4;ctx.strokeStyle='rgba(24,31,24,.9)';ctx.strokeText(n.label,n.x,n.y-45);ctx.fillStyle='#fff6c9';ctx.fillText(n.label,n.x,n.y-45)})}
-  else {const staff=m.feature==='buy'?worldState.images.npcMerchant:m.feature==='pvp'?worldState.images.npcGuard:m.feature==='attendance'?worldState.images.npcElder:worldState.images.npcResearcher;drawSprite(ctx,staff,480,360,'down',0,1.1);const staffName=m.feature==='buy'?'카드 상인':m.feature==='pvp'?'경기장 안내원':m.feature==='attendance'?'모험 안내원':'연구원';ctx.textAlign='center';ctx.font='bold 13px monospace';ctx.lineWidth=4;ctx.strokeStyle='rgba(24,31,24,.9)';ctx.strokeText(staffName,480,295);ctx.fillStyle='#fff6c9';ctx.fillText(staffName,480,295)}
-  drawSprite(ctx,worldState.images.player,worldState.x,worldState.y,worldState.dir,worldState.frame,1.18);ctx.restore();
-  const area=document.getElementById('worldAreaName');if(area)area.textContent=m.name;updatePrompt();
-}
-function updatePrompt(){const p=document.getElementById('worldPrompt');if(!p)return;let text='';const m=worldMap();if(m.interior){if(Math.hypot(worldState.x-480,worldState.y-360)<100)text='SPACE · 시설 이용';else if(worldState.y>620)text='↓ 출구로 나가기'}else{for(const b of m.buildings||[]){const d=buildingDoor(b);if(Math.hypot(worldState.x-(d.x+d.w/2),worldState.y-(d.y+d.h/2))<75)text=`SPACE · ${b.label} 입장`}for(const n of m.npcs||[]){if(Math.hypot(worldState.x-n.x,worldState.y-n.y)<105)text=`SPACE · ${n.label}`}}p.textContent=text;p.classList.toggle('show',!!text)}
-function saveWorld(){localStorage.setItem('cnine_world_v3',JSON.stringify({map:worldState.map,x:Math.round(worldState.x),y:Math.round(worldState.y),dir:worldState.dir}))}
-function changeMap(name,x,y){worldState.map=name;const m=worldMap();worldState.x=x??m.spawn.x;worldState.y=y??m.spawn.y;worldState.travel=0;worldState.keys={};saveWorld();worldToast(`${m.name}으로 이동했습니다.`)}
-function checkTransitions(){const m=worldMap(),r=playerRect();if(m.interior&&worldState.y>m.h-64&&worldState.x>350&&worldState.x<610){changeMap('town',worldState.returnX||900,worldState.returnY||760);return true}for(const e of m.exits||[]){if(rectHit(r,e)){changeMap(e.to,e.tx,e.ty);return true}}return false}
-async function ensureWorldBattleConfig(){if(worldState.configLoaded&&battleState.monsters?.length)return true;if(!API_MODE){worldToast('서버 연결 상태에서 조우할 수 있습니다.');return false}try{const d=await apiRequest('battle/config'),owned=ownedIds(loadUser()),saved=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5);battleState={config:d.settings,monsters:d.monsters||[],selectedMonster:null,deck:saved,energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now()};worldState.configLoaded=true;return true}catch(e){worldToast(e.message);return false}}
-async function triggerWorldEncounter(){if(worldState.busy)return;worldState.busy=true;worldState.keys={};worldToast('야생 몬스터와 조우했습니다!');const c=document.getElementById('worldMap');c?.classList.add('encounter-flash');await battleSleep(520);c?.classList.remove('encounter-flash');if(!await ensureWorldBattleConfig()){worldState.busy=false;return}if(battleState.deck.length!==5){worldState.busy=false;openWorldPanel('battle');alert('랜덤 조우 전투를 하려면 PVE 덱 5장을 먼저 저장해야 합니다.');return}const pool=(battleState.monsters||[]).filter(m=>!m.isBoss);if(!pool.length){worldState.busy=false;worldToast('등록된 몬스터가 없습니다.');return}battleState.selectedMonster=Number(pool[Math.floor(Math.random()*pool.length)].id);window.__worldBattleReturn=true;worldState.busy=false;startBattle()}
-function checkEncounter(d){if(!inGrass()||worldState.busy)return;worldState.travel+=d;if(worldState.travel>=worldState.nextEncounter){worldState.travel=0;const ec=battleState.config?.encounter||{};worldState.nextEncounter=Number(ec.minDistance||300)+Math.random()*Math.max(1,Number(ec.maxDistance||720)-Number(ec.minDistance||300));if(Math.random()<(Number(ec.encounterChance??50)/100))triggerWorldEncounter()}}
-function closeNpcDialog(){const box=document.getElementById('worldNpcDialog');if(box){box.className='world-npc-dialog';box.innerHTML=''}worldState.npcAdvance=null;worldState.paused=false;worldState.keys={};updateWorldTouchControlsVisibility();document.getElementById('worldMap')?.focus()}
-function openNpcDialog(npc){const box=document.getElementById('worldNpcDialog');if(!box)return;worldState.paused=true;worldState.keys={};const lines=Array.isArray(npc.dialog)&&npc.dialog.length?npc.dialog:['안녕하세요.'];let index=0;const paint=()=>{box.className='world-npc-dialog open';box.innerHTML=`<div class="npc-dialog-name">${escapeHtml(npc.label||'주민')}</div><div class="npc-dialog-text">${escapeHtml(lines[index])}</div><div class="npc-dialog-help">SPACE / 확인 · ESC 닫기</div>`};const advance=()=>{index++;if(index>=lines.length){closeNpcDialog()}else paint()};worldState.npcAdvance=advance;paint();updateWorldTouchControlsVisibility();box.onclick=advance}
-function worldAction(){if(worldState.busy||worldState.paused)return;const m=worldMap();if(m.interior){if(Math.hypot(worldState.x-480,worldState.y-360)<150){openWorldPanel(m.feature);return}worldToast('카운터 앞에서 Space 또는 모바일 확인 버튼을 눌러주세요.');return}const facing={down:[0,48],up:[0,-48],left:[-48,0],right:[48,0]}[worldState.dir]||[0,0],fx=worldState.x+facing[0],fy=worldState.y+facing[1];const nearbyNpc=(m.npcs||[]).map(n=>({n,d:Math.min(Math.hypot(worldState.x-n.x,worldState.y-n.y),Math.hypot(fx-n.x,fy-n.y))})).filter(x=>x.d<150).sort((a,b)=>a.d-b.d)[0];if(nearbyNpc){openNpcDialog(nearbyNpc.n);return}for(const b of m.buildings||[]){const d=buildingDoor(b),cx=d.x+d.w/2,cy=d.y+d.h/2;if(Math.hypot(worldState.x-cx,worldState.y-cy)<92){worldState.returnX=cx;worldState.returnY=cy+65;changeMap('interior_'+b.id);return}}worldToast(inGrass()?'풀숲에서 인기척이 느껴집니다.':'주변에 상호작용할 대상이 없습니다.')}
-function worldLoop(now){const c=document.getElementById('worldMap');if(!c)return;const dt=Math.min(32,now-(worldState.lastTime||now));worldState.lastTime=now;let dx=0,dy=0;if(!worldState.busy&&!worldState.paused){if(worldState.keys.left)dx--;if(worldState.keys.right)dx++;if(worldState.keys.up)dy--;if(worldState.keys.down)dy++}if(dx||dy){if(dx&&dy){dx*=.7071;dy*=.7071}const step=210*dt/1000;let moved=0,nx=worldState.x+dx*step;if(canMove(nx,worldState.y)){worldState.x=nx;moved+=Math.abs(dx*step)}let ny=worldState.y+dy*step;if(canMove(worldState.x,ny)){worldState.y=ny;moved+=Math.abs(dy*step)}if(Math.abs(dx)>Math.abs(dy))worldState.dir=dx>0?'right':'left';else worldState.dir=dy>0?'down':'up';worldState.frame=moved?Math.floor(now/105)%4:0;if(moved){if(!checkTransitions())checkEncounter(moved);if(now-(worldState.lastSave||0)>700){worldState.lastSave=now;saveWorld()}}}else worldState.frame=0;drawWorld();worldState.raf=requestAnimationFrame(worldLoop)}
-function openWorldGameMenu(){
- const menu=document.getElementById('worldGameMenu');if(!menu||worldState.busy)return;
- worldState.paused=true;worldState.keys={};
- menu.className='world-game-menu open';
- menu.innerHTML=`<div class="pixel-menu-window"><div class="pixel-menu-title">CNINE MENU</div>
- <button data-world-menu="profile">내 정보</button><button data-world-menu="battle">덱 편성</button><button data-world-menu="dex">내 도감</button><button data-world-menu="attendance">접속 보상</button><button data-world-menu="inventory">인벤토리</button><button data-world-menu="mineral">미네랄 교환</button><button data-world-menu="close">게임으로 돌아가기</button>
- <div class="pixel-menu-help">PC: ↑↓ 선택 · Enter/Space 확인 · X/Esc 닫기<br>모바일: 항목 터치 · MENU 버튼으로 열기/닫기</div></div>`;
- menu.querySelectorAll('[data-world-menu]').forEach(b=>b.onclick=()=>{const v=b.dataset.worldMenu;if(v==='close')closeWorldGameMenu();else if(v==='profile'){closeWorldGameMenu();showAccountPanel()}else{closeWorldGameMenu();openWorldPanel(v)}});
- menu.querySelector('button')?.focus();
- updateWorldTouchControlsVisibility();
-}
-
-function closeWorldGameMenu(){const menu=document.getElementById('worldGameMenu');if(menu){menu.className='world-game-menu';menu.innerHTML=''}worldState.paused=false;updateWorldTouchControlsVisibility();document.getElementById('worldMap')?.focus()}
-function toggleWorldGameMenu(){document.getElementById('worldGameMenu')?.classList.contains('open')?closeWorldGameMenu():openWorldGameMenu()}
-function isWorldTouchDevice(){
- return !!(navigator.maxTouchPoints>0||('ontouchstart' in window)||window.matchMedia?.('(pointer: coarse)').matches||window.matchMedia?.('(hover: none)').matches||Math.min(window.innerWidth||9999,window.visualViewport?.width||9999)<=900);
-}
-function updateWorldTouchControlsVisibility(){
- const controls=document.querySelector('.world-root-controls');
- if(!controls)return;
- const touchLike=isWorldTouchDevice();
- const panelOpen=document.getElementById('worldPanel')?.classList.contains('open');
- const menuOpen=document.getElementById('worldGameMenu')?.classList.contains('open');
- const dialogOpen=document.getElementById('worldNpcDialog')?.classList.contains('open');
- const modalOpen=document.getElementById('modal')?.classList.contains('show');
- const blocked=!!(panelOpen||menuOpen||dialogOpen||modalOpen||worldState.busy);
- controls.classList.toggle('world-controls-hidden',!touchLike||blocked);
- controls.setAttribute('aria-hidden',String(!touchLike||blocked));
- if(blocked)worldState.keys={};
-}
-function syncWorldTouchControls(){
- const touchLike=isWorldTouchDevice();
- document.documentElement.classList.toggle('touch-controls-enabled',touchLike);
- document.body?.classList.toggle('touch-controls-enabled',touchLike);
- updateWorldTouchControlsVisibility();
-}
-function initWorldView(){syncWorldTouchControls();window.addEventListener('resize',syncWorldTouchControls);window.visualViewport?.addEventListener('resize',syncWorldTouchControls);const visibilityObserver=new MutationObserver(updateWorldTouchControlsVisibility);['worldPanel','worldGameMenu','worldNpcDialog','modal'].forEach(id=>{const el=document.getElementById(id);if(el)visibilityObserver.observe(el,{attributes:true,attributeFilter:['class']})});window.__worldControlsObserver=visibilityObserver;const saved=JSON.parse(localStorage.getItem('cnine_world_v3')||'null');if(saved&&WORLD_MAPS[saved.map]){worldState.map=saved.map;worldState.x=saved.x;worldState.y=saved.y;worldState.dir=saved.dir||'down'}else{const m=worldMap();worldState.x=m.spawn.x;worldState.y=m.spawn.y}worldState.keys={};worldState.lastTime=0;worldState.busy=false;worldState.paused=false;const c=document.getElementById('worldMap');if(c){c.focus();c.onclick=()=>c.focus()}worldLoadAssets().then(()=>{drawWorld();worldState.raf=requestAnimationFrame(worldLoop)}).catch(()=>worldToast('월드 이미지 로딩에 실패했습니다.'));
- const km={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};
- const panelNavigate=(key)=>{const panel=document.getElementById('worldPanel');if(!panel?.classList.contains('open'))return false;const tag=document.activeElement?.tagName?.toLowerCase();if(['input','textarea','select'].includes(tag))return false;const preferred=[...panel.querySelectorAll('[data-rank-mode],[data-pvp]')].filter(el=>el.offsetParent!==null&&!el.disabled);const generic=[...panel.querySelectorAll('button:not([disabled]),a[href],[tabindex="0"]')].filter(el=>el.offsetParent!==null&&el.id!=='worldPanelClose');const list=preferred.length?preferred:generic;if(!list.length)return false;let i=list.indexOf(document.activeElement);if(i<0)i=0;else if(key==='arrowright'||key==='arrowdown')i=(i+1)%list.length;else i=(i-1+list.length)%list.length;const target=list[i];target.focus({preventScroll:true});target.scrollIntoView?.({block:'nearest',inline:'nearest'});if(target.matches('[data-rank-mode],[data-pvp]')){target.click();setTimeout(()=>{const same=document.querySelector(`[data-rank-mode="${target.dataset.rankMode||''}"],[data-pvp="${target.dataset.pvp||''}"]`);same?.focus({preventScroll:true})},60)}return true};
- const down=e=>{if(!document.getElementById('worldMap'))return;const k=e.key.toLowerCase();const modal=document.getElementById('modal');const panel=document.getElementById('worldPanel');const menu=document.getElementById('worldGameMenu');const npcDialog=document.getElementById('worldNpcDialog');if(menu?.classList.contains('open')){const items=[...menu.querySelectorAll('[data-world-menu]')].filter(x=>!x.disabled&&x.offsetParent!==null);if(['arrowup','arrowdown'].includes(k)){e.preventDefault();let i=items.indexOf(document.activeElement);if(i<0)i=0;else i=k==='arrowdown'?(i+1)%items.length:(i-1+items.length)%items.length;items[i]?.focus({preventScroll:true});return}if((k===' '||k==='enter'||k==='z')&&menu.contains(document.activeElement)){e.preventDefault();document.activeElement.click();return}}if(npcDialog?.classList.contains('open')&&(k===' '||k==='enter'||k==='z')){e.preventDefault();worldState.npcAdvance?.();return}if(modal?.classList.contains('show')&&(k===' '||k==='enter'||k==='z')){const resultBtn=modal.querySelector('.battle-result-return,.pvp-result-confirm,#confirmResult,#closeResult');if(resultBtn){e.preventDefault();resultBtn.click();return}}if(panel?.classList.contains('open')){if(['arrowup','arrowdown','arrowleft','arrowright'].includes(k)){e.preventDefault();panelNavigate(k);return}if((k===' '||k==='enter')&&document.activeElement&&panel.contains(document.activeElement)&&document.activeElement.matches('button,a')){e.preventDefault();document.activeElement.click();return}}if(k==='escape'){e.preventDefault();if(npcDialog?.classList.contains('open')){closeNpcDialog();return}if(modal?.classList.contains('show')){const closeBtn=modal.querySelector('#confirmResult,#closeResult,#closeDetail,#closeDetail2,.battle-result-return,.pvp-result-confirm');if(closeBtn){closeBtn.click();return}modal.onclick=null;modal.className='modal';modal.innerHTML='';if(panel?.classList.contains('open')){worldState.paused=true;worldState.keys={};}else resumeWorldInput();return}if(panel?.classList.contains('open')){closeWorldPanel();}else if(menu?.classList.contains('open'))closeWorldGameMenu();return}if(k==='x'){e.preventDefault();toggleWorldGameMenu();return}if(worldState.paused)return;if(km[k]){e.preventDefault();worldState.keys[km[k]]=true}else if(k===' '||k==='enter'||k==='z'){e.preventDefault();worldAction()}};
- const up=e=>{const k=e.key.toLowerCase();if(km[k])worldState.keys[km[k]]=false};window.addEventListener('keydown',down);window.addEventListener('keyup',up);
- const controls=document.querySelector('.world-root-controls');
- if(controls){
-   const blockMobileGesture=e=>{e.preventDefault()};
-   controls.addEventListener('contextmenu',blockMobileGesture);
-   controls.addEventListener('selectstart',blockMobileGesture);
-   controls.addEventListener('dragstart',blockMobileGesture);
-   controls.addEventListener('touchmove',blockMobileGesture,{passive:false});
- }
- document.querySelectorAll('[data-hold]').forEach(btn=>{
-   const d=btn.dataset.hold;
-   const press=e=>{
-     e.preventDefault();e.stopPropagation();
-     try{btn.setPointerCapture?.(e.pointerId)}catch(_){ }
-     if(!worldState.paused)worldState.keys[d]=true;
-   };
-   const release=e=>{
-     e.preventDefault();e.stopPropagation();
-     worldState.keys[d]=false;
-     try{if(btn.hasPointerCapture?.(e.pointerId))btn.releasePointerCapture(e.pointerId)}catch(_){ }
-   };
-   btn.addEventListener('pointerdown',press,{passive:false});
-   btn.addEventListener('pointerup',release,{passive:false});
-   btn.addEventListener('pointercancel',release,{passive:false});
-   btn.addEventListener('lostpointercapture',()=>{worldState.keys[d]=false});
- });
- const menuBtn=document.getElementById('worldMenuBtn');if(menuBtn)menuBtn.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();toggleWorldGameMenu()},{passive:false});
- const actionBtn=document.getElementById('worldAction');
- if(actionBtn){
-   actionBtn.addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();worldAction()},{passive:false});
-   actionBtn.addEventListener('contextmenu',e=>e.preventDefault());
- }
- window.__stopWorldInput=(pause)=>{worldState.paused=pause;worldState.keys={}};
- window.__stopWorld=()=>{cancelAnimationFrame(worldState.raf);saveWorld();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);window.removeEventListener('resize',syncWorldTouchControls);window.visualViewport?.removeEventListener('resize',syncWorldTouchControls);window.__worldControlsObserver?.disconnect();window.__worldControlsObserver=null;worldState.keys={}}
-}
 
 init();

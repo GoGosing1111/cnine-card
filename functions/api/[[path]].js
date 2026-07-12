@@ -64,9 +64,8 @@ async function consumePvpEnergy(env,user,settings){
   return pvpEnergyState(env,user,settings);
 }
 
-function defaultWorldEncounterSettings(){return {minDistance:300,maxDistance:720,encounterChance:50,packDropChance:8,packDropId:'standard'};}
 function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true}};}
-async function battleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},encounter:{minDistance:Math.max(32,Number(x.encounter?.minDistance??base.encounter.minDistance)),maxDistance:Math.max(64,Number(x.encounter?.maxDistance??base.encounter.maxDistance)),encounterChance:Math.max(0,Math.min(100,Number(x.encounter?.encounterChance??base.encounter.encounterChance))),packDropChance:Math.max(0,Math.min(100,Number(x.encounter?.packDropChance??base.encounter.packDropChance))),packDropId:String(x.encounter?.packDropId||base.encounter.packDropId).slice(0,40)}};}catch{return base}}
+async function battleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false}};}catch{return base}}
 function cardBattlePower(card,level,settings){const base=Number(settings.powerByGrade[card.rarity]||0);const pct=Number(settings.breakthroughBonus[Math.max(0,Math.min(10,Number(level)||0))]||0);return Math.floor(base*(1+pct/100));}
 
 function sqlUtcNow(){return new Date().toISOString().replace('T',' ').slice(0,19)}
@@ -486,7 +485,6 @@ export async function onRequest(context){
       if(!nickname) return json({error:'최고 관리자 닉네임을 입력하세요.'},400);
       await runSchema(env);
       await ensureUpgrades(env);
-    await env.DB.prepare('CREATE TABLE IF NOT EXISTS user_inventory (user_id INTEGER NOT NULL,item_type TEXT NOT NULL,item_id TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_type,item_id))').run();
       await seedDatabase(env);
       const privateKey=createPrivateKey();
       const privateKeyHash=await hash(privateKey);
@@ -499,7 +497,6 @@ export async function onRequest(context){
 
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
     await ensureUpgrades(env);
-    await env.DB.prepare('CREATE TABLE IF NOT EXISTS user_inventory (user_id INTEGER NOT NULL,item_type TEXT NOT NULL,item_id TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_type,item_id))').run();
 
     if(path==='service/status'){
       const maintenance=await maintenanceSettings(env);
@@ -654,11 +651,6 @@ export async function onRequest(context){
       return json({ok:true,success,cost,rate,level:success?level+1:level,user:await profile(env,updated)});
     }
 
-    if(path==='inventory'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const rows=await env.DB.prepare("SELECT item_id AS itemId,quantity FROM user_inventory WHERE user_id=? AND item_type='PACK' ORDER BY item_id").bind(user.id).all();
-      return json({items:rows.results});
-    }
     if(path==='battle/config'){
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
       const settings=await battleSettings(env);
@@ -694,8 +686,6 @@ export async function onRequest(context){
       const playerPower=cards.reduce((a,c)=>a+c.power,0),monsterPower=Number(monster.battle_power||0);
       const result=playerPower>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Number(monster.reward_coin||0):0;
       if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id).run();}
-      let packDrop=null;
-      if(result==='WIN'&&Math.random()*100<Number(settings.encounter?.packDropChance||0)){const packId=String(settings.encounter?.packDropId||'basic');await env.DB.prepare("INSERT INTO user_inventory(user_id,item_type,item_id,quantity,updated_at) VALUES(?,'PACK',?,1,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_type,item_id) DO UPDATE SET quantity=quantity+1,updated_at=CURRENT_TIMESTAMP").bind(user.id,packId).run();packDrop={packId,count:1};}
       await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run();
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       return json({result,reward,playerPower,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
@@ -835,30 +825,6 @@ export async function onRequest(context){
       return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at},stats:{users:users.count,usersToday:usersToday.count,cards:cards.count,draws24h:draws.count,totalCoin:coins.total,banned:banned.count,coupons:coupons.count,urOwned:urOwned.count,ssrOwned:ssrOwned.count}});
     }
 
-
-    if(path==='world/npcs'){
-      const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='world_npcs_v1'").first();
-      let npcs=null;try{npcs=row?.value?JSON.parse(row.value):null}catch{}
-      return json({npcs:Array.isArray(npcs)?npcs:null});
-    }
-
-    if(path==='admin/world-npcs'){
-      const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'NPC 관리 권한이 없습니다.'},403);
-      if(request.method==='GET'){
-        const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='world_npcs_v1'").first();
-        let npcs=[];try{npcs=row?.value?JSON.parse(row.value):[]}catch{}
-        return json({npcs:Array.isArray(npcs)?npcs:[]});
-      }
-      if(request.method==='PATCH'){
-        const payload=await readBody(request),raw=Array.isArray(payload.npcs)?payload.npcs:[];
-        const clean=raw.slice(0,100).map((n,i)=>({id:String(n.id||('npc'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,40),label:String(n.label||'NPC').slice(0,30),x:Math.max(0,Math.min(5000,Number(n.x)||0)),y:Math.max(0,Math.min(5000,Number(n.y)||0)),direction:['up','down','left','right'].includes(n.direction)?n.direction:'down',sprite:String(n.sprite||'npcChulgu').replace(/[^a-zA-Z0-9_-]/g,'').slice(0,50),active:n.active!==false,dialog:(Array.isArray(n.dialog)?n.dialog:String(n.dialog||'').split('\n')).map(x=>String(x).trim()).filter(Boolean).slice(0,20)}));
-        const before=await env.DB.prepare("SELECT value FROM app_meta WHERE key='world_npcs_v1'").first();
-        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('world_npcs_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();
-        await writeAdminLog(env,admin,'WORLD_NPC_SETTINGS_UPDATE','SETTINGS','world_npcs',before?.value||null,clean);
-        return json({ok:true,npcs:clean});
-      }
-    }
-
     if(path==='admin/logs'){
       const admin=await requirePermission(request,env,'ADMIN_LOG'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       const rows=await env.DB.prepare(`SELECT l.*,u.nickname AS admin_nickname FROM admin_logs l LEFT JOIN users u ON u.id=l.admin_id ORDER BY l.id DESC LIMIT 300`).all();
@@ -915,7 +881,7 @@ export async function onRequest(context){
         return json({settings:await battleSettings(env),monsters:monsters.results});
       }
       const payload=await readBody(request);
-      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings;const clean={enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},encounter:{minDistance:Math.max(32,Number(x.encounter?.minDistance??base.encounter.minDistance)),maxDistance:Math.max(64,Number(x.encounter?.maxDistance??base.encounter.maxDistance)),encounterChance:Math.max(0,Math.min(100,Number(x.encounter?.encounterChance??base.encounter.encounterChance))),packDropChance:Math.max(0,Math.min(100,Number(x.encounter?.packDropChance??base.encounter.packDropChance))),packDropId:String(x.encounter?.packDropId||base.encounter.packDropId).slice(0,40)}};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,clean);return json({ok:true,settings:clean});}
+      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings;const clean={enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false}};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,clean);return json({ok:true,settings:clean});}
       if(request.method==='POST'){const name=String(payload.name||'').trim().slice(0,40),image=String(payload.image||'').trim().slice(0,500),power=Math.max(1,Math.floor(Number(payload.battlePower)||1)),reward=Math.max(0,Math.floor(Number(payload.rewardCoin)||0));if(!name)return json({error:'몬스터 이름을 입력하세요.'},400);const r=await env.DB.prepare('INSERT INTO battle_monsters(name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order) VALUES(?,?,?,?,?,?,?)').bind(name,image,power,reward,payload.isBoss?1:0,payload.isActive===false?0:1,Math.floor(Number(payload.sortOrder)||0)).run();return json({ok:true,id:r.meta.last_row_id},201);}
       if(request.method==='PATCH'){const id=Number(payload.id);if(!id)return json({error:'몬스터 ID가 필요합니다.'},400);await env.DB.prepare('UPDATE battle_monsters SET name=?,image_url=?,battle_power=?,reward_coin=?,is_boss=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(payload.name||'').trim().slice(0,40),String(payload.image||'').trim().slice(0,500),Math.max(1,Math.floor(Number(payload.battlePower)||1)),Math.max(0,Math.floor(Number(payload.rewardCoin)||0)),payload.isBoss?1:0,payload.isActive===false?0:1,Math.floor(Number(payload.sortOrder)||0),id).run();return json({ok:true});}
       if(request.method==='DELETE'){const id=Number(payload.id);await env.DB.prepare('UPDATE battle_monsters SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id).run();return json({ok:true});}
