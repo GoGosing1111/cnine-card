@@ -438,3 +438,21 @@ body.world-root-mode,
 .world-top-hud>div{border-radius:0!important;border:4px double rgba(247,241,207,.8)!important;background:rgba(21,28,23,.9)!important;font-family:monospace!important}
 .world-root-controls #worldAction{font-size:12px!important;line-height:1.05;background:#f0df82!important;color:#171914!important;border:3px double #24271f!important}
 @media(max-width:760px){.world-menu-button{right:10px;bottom:12px;min-width:76px;height:42px;font-size:12px}.world-game-menu{padding:58px 10px 10px}.pixel-menu-window{width:min(310px,88vw)}.pixel-menu-window button{padding:10px;font-size:14px}.world-panel-content{padding:5px}.world-panel-bar{height:52px!important}}
+
+/* v9.3.1 retro panel unification */
+.world-panel-content{--px-bg:#d9d2aa;--px-paper:#fbf5cf;--px-ink:#171914;--px-dark:#26322b;--px-accent:#96bf68;color:var(--px-ink)!important;font-family:monospace!important}
+.world-panel-content,.world-panel-content section,.world-panel-content main{background:var(--px-bg)!important}
+.world-panel-content .summary-bar,.world-panel-content .high-grade-feed,.world-panel-content .game-hero,.world-panel-content .dashboard-grid,.world-panel-content .pack-selector,.world-panel-content .dex-layout,.world-panel-content .battle-shell,.world-panel-content .pvp-shell,.world-panel-content .attendance-shell,.world-panel-content .rank-shell,.world-panel-content .mineral-exchange-shell{border-radius:0!important;background:var(--px-bg)!important;color:var(--px-ink)!important;box-shadow:none!important}
+.world-panel-content [class*="card"],.world-panel-content [class*="panel"],.world-panel-content [class*="box"],.world-panel-content [class*="item"],.world-panel-content [class*="opponent"],.world-panel-content [class*="energy"],.world-panel-content [class*="season"]{border-radius:0!important;border-color:#31372e!important;background:var(--px-paper)!important;color:var(--px-ink)!important;box-shadow:3px 3px 0 rgba(0,0,0,.28)!important}
+.world-panel-content nav,.world-panel-content [class*="tabs"],.world-panel-content [class*="tab-row"]{background:var(--px-bg)!important;gap:4px!important}
+.world-panel-content button,.world-panel-content [role="button"]{border:3px double #242820!important;border-radius:0!important;background:#eee7bd!important;color:var(--px-ink)!important;box-shadow:2px 2px 0 rgba(0,0,0,.4)!important;text-shadow:none!important}
+.world-panel-content button:hover,.world-panel-content button.active,.world-panel-content [aria-selected="true"]{background:#b9d98a!important;color:#111!important}
+.world-panel-content input,.world-panel-content select,.world-panel-content textarea{border:3px double #242820!important;border-radius:0!important;background:#fffbdc!important;color:#171914!important}
+.world-panel-content h1,.world-panel-content h2,.world-panel-content h3,.world-panel-content h4,.world-panel-content p,.world-panel-content span,.world-panel-content small,.world-panel-content label{color:inherit!important;text-shadow:none!important}
+.world-panel-content [class*="progress"],.world-panel-content [class*="meter"]{border-radius:0!important;background:#e7dfb3!important;border:2px solid #30352d!important}
+.world-panel-content [class*="progress"]>*,.world-panel-content [class*="meter"]>*{border-radius:0!important;background:#91bd62!important}
+.world-panel-content .summary-bar{padding:8px!important;border:4px double #242820!important;background:#f8f2cc!important}
+.world-panel-content .high-grade-feed{border:4px double #242820!important;background:#fff6c5!important;color:#171914!important}
+.world-panel-content img{image-rendering:auto}
+.world-panel-bar button{font-size:0!important}.world-panel-bar button:after{content:'ESC · 돌아가기';font-size:13px}
+@media(max-width:760px){.world-panel-bar button:after{content:'돌아가기';font-size:11px}}
