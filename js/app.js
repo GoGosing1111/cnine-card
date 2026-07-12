@@ -865,12 +865,42 @@ async function claimPvpRankReward(){try{const d=await apiRequest('pvp/rank-rewar
 // --- CNINE WORLD v3: 월드 중심 새 프로젝트 / 카메라 / 건물 내부 / 맵 이동 ---
 const WORLD_VIEW_W=960,WORLD_VIEW_H=540;
 const WORLD_MAPS={
- town:{name:'씨켓몬 마을',w:1800,h:1250,spawn:{x:860,y:850},grass:{x:1120,y:690,w:560,h:420},exits:[{x:820,y:1180,w:170,h:60,to:'field',tx:800,ty:100}],buildings:[
-  {id:'shop',x:170,y:170,w:310,h:250,label:'카드 상점',tab:'buy'},
-  {id:'lab',x:690,y:135,w:330,h:270,label:'카드 연구소',tab:'rank'},
-  {id:'arena',x:1260,y:170,w:350,h:270,label:'PVP 경기장',tab:'pvp'},
-  {id:'hall',x:300,y:660,w:350,h:260,label:'모험 안내소',tab:'attendance'}],npcs:[{id:'chulgu',x:700,y:560,label:'철구',sprite:'npcChulgu',dialog:['씨켓몬 마을에 온 걸 환영한다!','강한 덱을 만들고 초원으로 나가봐.']},{id:'jjeomni',x:830,y:545,label:'졈니',sprite:'npcJjeomni',dialog:['카드 상점에는 다양한 카드팩이 있어.','좋은 카드가 나오길 응원할게!']},{id:'jjeomjung',x:960,y:565,label:'점중',sprite:'npcJjeomjung',dialog:['랭킹은 꾸준히 도전해야 올라갈 수 있어.']},{id:'yeonji',x:1090,y:545,label:'연지',sprite:'npcYeonji',dialog:['반가워! 오늘도 즐거운 모험 되길 바라.']}]},
- field:{name:'초원 길목',w:1800,h:1400,spawn:{x:800,y:180},grass:{x:140,y:250,w:1520,h:970},exits:[{x:710,y:0,w:220,h:80,to:'town',tx:900,ty:1120}],buildings:[],npcs:[]},
+ town:{name:'씨켓몬 마을',w:1800,h:1250,spawn:{x:900,y:865},
+  grassZones:[{x:1110,y:690,w:500,h:330},{x:115,y:920,w:420,h:190}],
+  roads:[{x:0,y:500,w:1800,h:250},{x:760,y:0,w:280,h:1250},{x:410,y:690,w:950,h:150}],
+  exits:[{x:820,y:1180,w:170,h:60,to:'field',tx:900,ty:120}],
+  buildings:[
+   {id:'shop',x:155,y:145,w:330,h:270,label:'카드 상점',tab:'buy'},
+   {id:'lab',x:650,y:105,w:360,h:295,label:'카드 연구소',tab:'rank'},
+   {id:'arena',x:1240,y:145,w:370,h:285,label:'PVP 경기장',tab:'pvp'},
+   {id:'hall',x:270,y:690,w:380,h:280,label:'모험 안내소',tab:'attendance'}],
+  decor:[
+   {kind:'tree',x:80,y:90},{kind:'tree',x:520,y:105},{kind:'tree',x:1080,y:90},{kind:'tree',x:1640,y:100},
+   {kind:'bush',x:1040,y:825},{kind:'bush',x:1615,y:845},{kind:'bush',x:80,y:805},
+   {kind:'flowerPink',x:1080,y:610},{kind:'flowerBlue',x:1140,y:610},{kind:'flowerRed',x:1200,y:610},
+   {kind:'rock',x:1550,y:1060},{kind:'rock',x:1600,y:1110},{kind:'stump',x:90,y:1080}],
+  npcs:[
+   {id:'chulgu',x:700,y:560,label:'철구',sprite:'npcChulgu',dialog:['씨켓몬 마을에 온 걸 환영한다!','강한 덱을 만들고 초원으로 나가봐.']},
+   {id:'jjeomni',x:830,y:545,label:'졈니',sprite:'npcJjeomni',dialog:['카드 상점에는 다양한 카드팩이 있어.','좋은 카드가 나오길 응원할게!']},
+   {id:'jjeomjung',x:960,y:565,label:'점중',sprite:'npcJjeomjung',dialog:['랭킹은 꾸준히 도전해야 올라갈 수 있어.']},
+   {id:'yeonji',x:1090,y:545,label:'연지',sprite:'npcYeonji',dialog:['반가워! 오늘도 즐거운 모험 되길 바라.']}]
+ },
+ field:{name:'초원 길목',w:1800,h:1400,spawn:{x:900,y:150},
+  grassZones:[
+   {x:120,y:260,w:560,h:390},{x:1120,y:260,w:560,h:390},
+   {x:160,y:790,w:520,h:420},{x:1120,y:790,w:520,h:420}
+  ],
+  roads:[{x:760,y:0,w:280,h:1400},{x:610,y:610,w:580,h:190}],
+  exits:[{x:790,y:0,w:220,h:80,to:'town',tx:900,ty:1120}],
+  buildings:[],
+  decor:[
+   {kind:'tree',x:90,y:100},{kind:'tree',x:260,y:105},{kind:'tree',x:1450,y:105},{kind:'tree',x:1620,y:100},
+   {kind:'tree',x:80,y:1240},{kind:'tree',x:1610,y:1240},
+   {kind:'bush',x:690,y:310},{kind:'bush',x:1030,y:320},{kind:'bush',x:690,y:1040},{kind:'bush',x:1030,y:1040},
+   {kind:'rock',x:520,y:720},{kind:'rock',x:1230,y:720},{kind:'stump',x:240,y:700},{kind:'stump',x:1500,y:700},
+   {kind:'flowerPink',x:705,y:560},{kind:'flowerBlue',x:1055,y:560},{kind:'flowerRed',x:705,y:860},{kind:'flowerPink',x:1055,y:860}
+  ],
+  npcs:[]},
  interior_shop:{name:'카드 상점 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'buy'},
  interior_lab:{name:'카드 연구소 내부',w:960,h:720,spawn:{x:480,y:610},interior:true,feature:'rank'},
  interior_arena:{name:'PVP 경기장 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'pvp'},
@@ -879,32 +909,44 @@ const WORLD_MAPS={
 let worldState={map:'town',x:860,y:850,dir:'down',frame:0,busy:false,paused:false,travel:0,nextEncounter:330,lastTime:0,raf:0,keys:{},images:{},ready:false,camera:{x:0,y:0}};
 function worldToast(text){const t=document.getElementById('worldToast');if(!t)return;t.textContent=text;t.classList.add('show');clearTimeout(worldState.toastTimer);worldState.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
 function worldLoadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src})}
-async function worldLoadAssets(){const files={player:'assets/world/player.png',npcShop:'assets/world/npc_shop.png',npcArena:'assets/world/npc_arena.png',npcReward:'assets/world/npc_reward.png',npcRank:'assets/world/npc_rank.png',npcMineral:'assets/world/npc_mineral.png',npcChulgu:'assets/world/npc_chulgu.png',npcJjeomni:'assets/world/npc_jjeomni.png',npcJjeomjung:'assets/world/npc_jjeomjung.png',npcYeonji:'assets/world/npc_yeonji.png',npcElder:'assets/world/npc_elder.png',npcBoy:'assets/world/npc_boy.png',npcGirl:'assets/world/npc_girl.png',npcGuard:'assets/world/npc_guard.png',npcResearcher:'assets/world/npc_researcher.png',npcMerchant:'assets/world/npc_merchant.png',tree:'assets/world/tree.png',shop:'assets/world/building_shop.png',lab:'assets/world/building_lab.png',arena:'assets/world/building_arena.png',hall:'assets/world/building_hall.png',decor:'assets/world/decor.png'};const out={};await Promise.all(Object.entries(files).map(async([k,v])=>out[k]=await worldLoadImage(v)));worldState.images=out;worldState.ready=true}
+async function worldLoadAssets(){const files={player:'assets/world/player.png',npcShop:'assets/world/npc_shop.png',npcArena:'assets/world/npc_arena.png',npcReward:'assets/world/npc_reward.png',npcRank:'assets/world/npc_rank.png',npcMineral:'assets/world/npc_mineral.png',npcChulgu:'assets/world/npc_chulgu.png',npcJjeomni:'assets/world/npc_jjeomni.png',npcJjeomjung:'assets/world/npc_jjeomjung.png',npcYeonji:'assets/world/npc_yeonji.png',npcElder:'assets/world/npc_elder.png',npcBoy:'assets/world/npc_boy.png',npcGirl:'assets/world/npc_girl.png',npcGuard:'assets/world/npc_guard.png',npcResearcher:'assets/world/npc_researcher.png',npcMerchant:'assets/world/npc_merchant.png',tree:'assets/world/tree.png',shop:'assets/world/building_shop.png',lab:'assets/world/building_lab.png',arena:'assets/world/building_arena.png',hall:'assets/world/building_hall.png',decor:'assets/world/decor.png',tileGround:'assets/world/tilesets/A5_Tiles.png',tileNature:'assets/world/tilesets/C_OutSide_Nature.png',tileOutdoor:'assets/world/tilesets/D_OutDoor.png',tileInterior:'assets/world/tilesets/D_Inside_House.png'};const out={};await Promise.all(Object.entries(files).map(async([k,v])=>out[k]=await worldLoadImage(v)));worldState.images=out;worldState.ready=true}
 function worldMap(){return WORLD_MAPS[worldState.map]||WORLD_MAPS.town}
 function rectHit(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
 function playerRect(x=worldState.x,y=worldState.y){return{x:x-12,y:y-10,w:24,h:30}}
 function buildingDoor(b){return{x:b.x+b.w/2-34,y:b.y+b.h-22,w:68,h:42}}
-function worldSolids(){const m=worldMap();if(m.interior)return[{x:0,y:0,w:m.w,h:55},{x:0,y:0,w:55,h:m.h},{x:m.w-55,y:0,w:55,h:m.h},{x:0,y:m.h-20,w:350,h:20},{x:610,y:m.h-20,w:350,h:20},{x:220,y:160,w:520,h:125}];return (m.buildings||[]).map(b=>({x:b.x,y:b.y,w:b.w,h:b.h-18}));}
+function worldSolids(){const m=worldMap();if(m.interior)return[{x:0,y:0,w:m.w,h:55},{x:0,y:0,w:55,h:m.h},{x:m.w-55,y:0,w:55,h:m.h},{x:0,y:m.h-20,w:350,h:20},{x:610,y:m.h-20,w:350,h:20},{x:220,y:160,w:520,h:125}];const solids=(m.buildings||[]).map(b=>({x:b.x,y:b.y,w:b.w,h:b.h-18}));for(const d of m.decor||[]){if(d.kind==='tree')solids.push({x:d.x+22,y:d.y+55,w:55,h:45});else if(d.kind==='rock'||d.kind==='stump')solids.push({x:d.x+5,y:d.y+10,w:28,h:25})}return solids;}
 function canMove(nx,ny){const m=worldMap(),r=playerRect(nx,ny);if(r.x<20||r.y<20||r.x+r.w>m.w-20||r.y+r.h>m.h-20)return false;return !worldSolids().some(s=>rectHit(r,s))}
-function inGrass(){const g=worldMap().grass;return !!g&&worldState.x>g.x&&worldState.x<g.x+g.w&&worldState.y>g.y&&worldState.y<g.y+g.h}
-function pixelTile(ctx,x,y,size,a,b){ctx.fillStyle=a;ctx.fillRect(x,y,size,size);ctx.fillStyle=b;ctx.fillRect(x+4,y+7,3,3);ctx.fillRect(x+size-9,y+size-11,4,3)}
+function inGrass(){const zones=worldMap().grassZones||[];return zones.some(g=>worldState.x>g.x&&worldState.x<g.x+g.w&&worldState.y>g.y&&worldState.y<g.y+g.h)}
+function drawSheetTile(ctx,img,tx,ty,dx,dy,dw=32,dh=32){if(!img)return;ctx.drawImage(img,tx*32,ty*32,32,32,Math.round(dx),Math.round(dy),dw,dh)}
+function fillSheetTile(ctx,img,tx,ty,r){for(let y=r.y;y<r.y+r.h;y+=32)for(let x=r.x;x<r.x+r.w;x+=32)drawSheetTile(ctx,img,tx,ty,x,y)}
+function drawNatureDecor(ctx,d){const img=worldState.images.tileNature;if(!img)return;const map={bush:[6,0,64,64],flowerPink:[0,3,32,32],flowerBlue:[2,3,32,32],flowerRed:[4,3,32,32],rock:[3,4,32,32],stump:[0,4,32,32]};if(d.kind==='tree'){ctx.drawImage(img,32,0,96,96,d.x,d.y,104,104);return}const q=map[d.kind];if(q)ctx.drawImage(img,q[0]*32,q[1]*32,q[2],q[3],d.x,d.y,q[2],q[3])}
 function drawGround(ctx,m){
   ctx.imageSmoothingEnabled=false;
+  const ground=worldState.images.tileGround,inside=worldState.images.tileInterior;
   if(m.interior){
-    ctx.fillStyle='#b98757';ctx.fillRect(0,0,m.w,m.h);
-    for(let y=48;y<m.h-48;y+=32)for(let x=48;x<m.w-48;x+=32)pixelTile(ctx,x,y,32,((x+y)/32)%2?'#d7b778':'#cda96d','#b88f58');
-    ctx.fillStyle='#4c3028';ctx.fillRect(0,0,m.w,48);ctx.fillRect(0,0,48,m.h);ctx.fillRect(m.w-48,0,48,m.h);
-    ctx.fillStyle='#6f422e';ctx.fillRect(205,145,550,135);ctx.fillStyle='#e4c88f';ctx.fillRect(225,165,510,90);ctx.fillStyle='#3a2922';ctx.fillRect(390,m.h-30,180,30);
+    if(inside){for(let y=0;y<m.h;y+=32)for(let x=0;x<m.w;x+=32)drawSheetTile(ctx,inside,2,1,x,y)}
+    else{ctx.fillStyle='#b98757';ctx.fillRect(0,0,m.w,m.h)}
+    ctx.fillStyle='rgba(54,34,26,.75)';ctx.fillRect(0,0,m.w,48);ctx.fillRect(0,0,48,m.h);ctx.fillRect(m.w-48,0,48,m.h);
+    ctx.fillStyle='rgba(111,66,46,.94)';ctx.fillRect(205,145,550,135);ctx.fillStyle='#e4c88f';ctx.fillRect(225,165,510,90);ctx.fillStyle='#3a2922';ctx.fillRect(390,m.h-30,180,30);
     ctx.fillStyle='#8f2f38';ctx.fillRect(355,305,250,120);ctx.fillStyle='#d6ad55';ctx.fillRect(370,320,220,90);return;
   }
-  for(let y=0;y<m.h;y+=32)for(let x=0;x<m.w;x+=32)pixelTile(ctx,x,y,32,'#68b85b',((x+y)/32)%3?'#4b9d49':'#7aca68');
-  // main roads
-  ctx.fillStyle='#d6bd82';ctx.fillRect(0,485,m.w,285);ctx.fillRect(745,0,290,m.h);
-  for(let x=0;x<m.w;x+=32){ctx.fillStyle=x%64?'#c8aa70':'#e1ca92';ctx.fillRect(x,500,32,12);ctx.fillRect(x,742,32,12)}
-  const g=m.grass;if(g){ctx.fillStyle='#4da94a';ctx.fillRect(g.x,g.y,g.w,g.h);for(let y=g.y;y<g.y+g.h;y+=32)for(let x=g.x;x<g.x+g.w;x+=32){ctx.fillStyle=((x+y)/32)%2?'#398f40':'#58b651';ctx.fillRect(x+3,y+5,3,20);ctx.fillRect(x+12,y+11,3,16);ctx.fillRect(x+22,y+3,3,22)}}
-  // flowers and stones
-  const decor=worldState.images.decor;if(decor){for(let i=0;i<38;i++){const x=90+(i*137)%Math.max(120,m.w-180),y=90+(i*211)%Math.max(120,m.h-180);if(x>700&&x<1080)continue;ctx.drawImage(decor,32*((i%3)+1),0,32,32,x,y,32,32)}}
-  ctx.fillStyle='#276f3a';ctx.fillRect(0,0,m.w,42);ctx.fillRect(0,m.h-42,m.w,42);ctx.fillRect(0,0,42,m.h);ctx.fillRect(m.w-42,0,42,m.h);
+  // 새 타일셋 기본 잔디
+  fillSheetTile(ctx,ground,2,3,{x:0,y:0,w:m.w,h:m.h});
+  // 흙길과 광장
+  for(const r of m.roads||[])fillSheetTile(ctx,ground,6,4,r);
+  // 랜덤 조우 풀숲
+  for(const g of m.grassZones||[]){
+    fillSheetTile(ctx,ground,1,3,g);
+    ctx.strokeStyle='rgba(28,96,32,.75)';ctx.lineWidth=4;ctx.strokeRect(g.x+2,g.y+2,g.w-4,g.h-4);
+  }
+  // 타일셋 장식
+  for(const d of m.decor||[])drawNatureDecor(ctx,d);
+  // 외곽 숲 경계
+  const tree=worldState.images.tileNature;
+  if(tree){
+    for(let x=0;x<m.w;x+=92){ctx.drawImage(tree,32,0,96,96,x,-8,100,100);ctx.drawImage(tree,32,0,96,96,x,m.h-92,100,100)}
+    for(let y=82;y<m.h-100;y+=92){ctx.drawImage(tree,32,0,96,96,-8,y,100,100);ctx.drawImage(tree,32,0,96,96,m.w-92,y,100,100)}
+  }
 }
 function drawBuilding(ctx,b,i){
   const keys=['shop','lab','arena','hall'],img=worldState.images[keys[i%4]];
@@ -914,7 +956,7 @@ function drawBuilding(ctx,b,i){
 function drawSprite(ctx,img,x,y,dir,frame,scale=1){if(!img)return;const rows={down:0,left:1,right:2,up:3};ctx.imageSmoothingEnabled=false;ctx.drawImage(img,(frame%4)*32,(rows[dir]||0)*40,32,40,Math.round(x-16*scale),Math.round(y-32*scale),32*scale,40*scale)}
 function updateCamera(){const m=worldMap();worldState.camera.x=Math.max(0,Math.min(m.w-WORLD_VIEW_W,worldState.x-WORLD_VIEW_W/2));worldState.camera.y=Math.max(0,Math.min(m.h-WORLD_VIEW_H,worldState.y-WORLD_VIEW_H/2))}
 function drawWorld(){const c=document.getElementById('worldMap');if(!c||!worldState.ready)return;const ctx=c.getContext('2d'),m=worldMap();updateCamera();ctx.clearRect(0,0,c.width,c.height);ctx.save();ctx.translate(-Math.round(worldState.camera.x),-Math.round(worldState.camera.y));drawGround(ctx,m);
-  if(!m.interior){(m.buildings||[]).forEach((b,i)=>drawBuilding(ctx,b,i));const tree=worldState.images.tree;for(let x=60;x<m.w-60;x+=95){ctx.drawImage(tree,x,18,48,64);ctx.drawImage(tree,x,m.h-80,48,64)}for(let y=70;y<m.h-90;y+=95){ctx.drawImage(tree,10,y,48,64);ctx.drawImage(tree,m.w-58,y,48,64)}(m.npcs||[]).forEach((n,i)=>{const npcImg=worldState.images[n.sprite]||[worldState.images.npcRank,worldState.images.npcMineral,worldState.images.npcShop,worldState.images.npcArena][i%4]||worldState.images.npcRank;drawSprite(ctx,npcImg,n.x,n.y,'down',0,1);ctx.textAlign='center';ctx.font='bold 12px monospace';ctx.lineWidth=4;ctx.strokeStyle='rgba(24,31,24,.9)';ctx.strokeText(n.label,n.x,n.y-45);ctx.fillStyle='#fff6c9';ctx.fillText(n.label,n.x,n.y-45)})}
+  if(!m.interior){(m.buildings||[]).forEach((b,i)=>drawBuilding(ctx,b,i));(m.npcs||[]).forEach((n,i)=>{const npcImg=worldState.images[n.sprite]||[worldState.images.npcRank,worldState.images.npcMineral,worldState.images.npcShop,worldState.images.npcArena][i%4]||worldState.images.npcRank;drawSprite(ctx,npcImg,n.x,n.y,'down',0,1);ctx.textAlign='center';ctx.font='bold 12px monospace';ctx.lineWidth=4;ctx.strokeStyle='rgba(24,31,24,.9)';ctx.strokeText(n.label,n.x,n.y-45);ctx.fillStyle='#fff6c9';ctx.fillText(n.label,n.x,n.y-45)})}
   else {const staff=m.feature==='buy'?worldState.images.npcMerchant:m.feature==='pvp'?worldState.images.npcGuard:m.feature==='attendance'?worldState.images.npcElder:worldState.images.npcResearcher;drawSprite(ctx,staff,480,360,'down',0,1.1);const staffName=m.feature==='buy'?'카드 상인':m.feature==='pvp'?'경기장 안내원':m.feature==='attendance'?'모험 안내원':'연구원';ctx.textAlign='center';ctx.font='bold 13px monospace';ctx.lineWidth=4;ctx.strokeStyle='rgba(24,31,24,.9)';ctx.strokeText(staffName,480,295);ctx.fillStyle='#fff6c9';ctx.fillText(staffName,480,295)}
   drawSprite(ctx,worldState.images.player,worldState.x,worldState.y,worldState.dir,worldState.frame,1.18);ctx.restore();
   const area=document.getElementById('worldAreaName');if(area)area.textContent=m.name;updatePrompt();
