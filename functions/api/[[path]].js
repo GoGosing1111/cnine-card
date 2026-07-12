@@ -499,6 +499,7 @@ export async function onRequest(context){
 
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
     await ensureUpgrades(env);
+    await env.DB.prepare('CREATE TABLE IF NOT EXISTS user_inventory (user_id INTEGER NOT NULL,item_type TEXT NOT NULL,item_id TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_type,item_id))').run();
 
     if(path==='service/status'){
       const maintenance=await maintenanceSettings(env);
@@ -694,7 +695,7 @@ export async function onRequest(context){
       const result=playerPower>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Number(monster.reward_coin||0):0;
       if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id).run();}
       let packDrop=null;
-      if(result==='WIN'&&Math.random()*100<Number(settings.encounter?.packDropChance||0)){const packId=String(settings.encounter?.packDropId||'standard');await env.DB.prepare("INSERT INTO user_inventory(user_id,item_type,item_id,quantity,updated_at) VALUES(?,'PACK',?,1,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_type,item_id) DO UPDATE SET quantity=quantity+1,updated_at=CURRENT_TIMESTAMP").bind(user.id,packId).run();packDrop={packId,count:1};}
+      if(result==='WIN'&&Math.random()*100<Number(settings.encounter?.packDropChance||0)){const packId=String(settings.encounter?.packDropId||'basic');await env.DB.prepare("INSERT INTO user_inventory(user_id,item_type,item_id,quantity,updated_at) VALUES(?,'PACK',?,1,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_type,item_id) DO UPDATE SET quantity=quantity+1,updated_at=CURRENT_TIMESTAMP").bind(user.id,packId).run();packDrop={packId,count:1};}
       await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run();
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       return json({result,reward,playerPower,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});

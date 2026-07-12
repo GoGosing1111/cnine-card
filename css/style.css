@@ -523,3 +523,107 @@ body.world-root-mode,
 @media(max-width:760px){.battle-arena{min-height:430px!important;grid-template-columns:1fr!important}.battle-team{display:grid!important;grid-template-columns:repeat(3,1fr)!important}.battle-card-fighter{width:100%!important;height:210px!important}.inventory-slot{grid-template-columns:100px 1fr auto}.inventory-pack{height:58px}}
 
 .card-frame{background:#fffbea!important;border:4px double #272a21!important;border-radius:0!important;box-shadow:4px 4px 0 rgba(0,0,0,.28)!important;filter:none!important;opacity:1!important;overflow:hidden}.card-frame:before,.card-frame:after,.card-frame .card-holo{opacity:.08!important}.card-frame .card-art img{filter:none!important;opacity:1!important}.card-frame.locked .card-art{background:#e4e0ce!important}.card-frame.locked .card-art img{filter:grayscale(1)!important;opacity:.2!important}.card-frame .card-header{background:#fff8d2!important;color:#171914!important;border-bottom:3px double #272a21!important}.card-frame .card-header span{display:inline-block;min-width:44px;text-align:center;border:2px solid #171914;padding:3px 6px;font-weight:1000}.card-frame.grade-C .card-header span{background:#bfc4bd}.card-frame.grade-U .card-header span{background:#7fd98d}.card-frame.grade-R .card-header span{background:#68b6ee}.card-frame.grade-SR .card-header span{background:#bc8cf1}.card-frame.grade-HR .card-header span{background:#ef7085}.card-frame.grade-UR .card-header span{background:#ffd45b}.card-frame.grade-SSR .card-header span{background:#74edf0}.card-frame.grade-MA .card-header span{background:#d993ff}.card-frame.grade-FUR .card-header span{background:#ff8bbf}.card-frame.grade-LIMITED .card-header span{background:#ff875e}.card-frame .card-footer{background:#fff8d2!important;color:#171914!important;border-top:3px double #272a21!important}.card-frame[class*="breakthrough-"] .breakthrough-effect{opacity:.5!important;background:repeating-linear-gradient(135deg,transparent 0 9px,rgba(255,190,50,.24) 9px 12px)!important}.card-frame.breakthrough-7,.card-frame.breakthrough-8,.card-frame.breakthrough-9,.card-frame.breakthrough-10{outline:4px solid #f3a71a;outline-offset:-9px;animation:retroPulse 1.4s steps(2,end) infinite}.card-frame.grade-SSR,.card-frame.grade-MA,.card-frame.grade-FUR,.card-frame.grade-LIMITED{animation:retroPulse 1.8s steps(2,end) infinite}@keyframes retroPulse{50%{box-shadow:4px 4px 0 rgba(0,0,0,.28),0 0 0 5px rgba(255,211,83,.35)!important}}
+
+
+/* v9.3.4 pack/inventory/mineral hotfix */
+/* Four card packs: original retro cartridge-package treatment */
+.pack-envelope{width:250px!important;height:338px!important;position:relative!important;background:#d8d2a8!important;border:6px double #23271f!important;box-shadow:8px 8px 0 rgba(35,39,31,.34)!important;padding:0!important;overflow:hidden!important}
+.pack-envelope:before{content:"CNINE CARD PACK";position:absolute;left:14px;right:14px;top:26px;height:32px;display:grid;place-items:center;border:3px double #23271f;background:#fff7cf;color:#171914;font:900 12px/1 monospace;letter-spacing:2px;z-index:4}
+.pack-envelope:after{content:"";position:absolute;left:24px;right:24px;top:76px;bottom:62px;border:4px double #23271f;background:repeating-linear-gradient(0deg,rgba(255,255,255,.14) 0 3px,rgba(0,0,0,.04) 3px 6px);z-index:1}
+.pack-envelope.basic{background:#3d72aa!important}.pack-envelope.advanced{background:#4c9566!important}.pack-envelope.premium{background:#8658aa!important}.pack-envelope.pickup{background:#ae557d!important}
+.pack-envelope .pack-brand-logo{z-index:3!important;width:92px!important;height:92px!important;object-fit:contain!important;top:102px!important;left:50%!important;transform:translateX(-50%)!important;background:#fff7cf!important;border:3px double #23271f!important;padding:9px!important}
+.pack-envelope .pack-name{z-index:4!important;left:30px!important;right:30px!important;bottom:88px!important;background:#fff7cf!important;border:3px double #23271f!important;color:#171914!important;font:900 18px monospace!important;text-align:center!important;padding:10px 4px!important}
+.pack-envelope .pack-range{z-index:4!important;left:30px!important;right:30px!important;bottom:28px!important;background:#23271f!important;color:#fff7cf!important;border:2px solid #fff7cf!important;font:900 14px monospace!important;text-align:center!important;padding:7px!important}
+.pack-envelope .pack-shine,.pack-envelope .pack-energy,.pack-envelope .pack-top,.pack-envelope .pack-cut{display:none!important}
+.pack-envelope .pack-crimp{height:16px!important;background:repeating-linear-gradient(90deg,#23271f 0 3px,rgba(255,255,255,.28) 3px 6px)!important;z-index:5!important}
+.mini-pack{position:relative!important;min-height:66px!important;overflow:hidden!important;background:#d8d2a8!important;color:#171914!important}
+.mini-pack:before{content:"CN";position:absolute;left:8px;top:50%;transform:translateY(-50%);width:34px;height:34px;display:grid;place-items:center;border:2px double #23271f;background:#fff7cf;color:#171914;font:900 11px monospace}
+.mini-pack b{margin-left:40px!important;color:#171914!important;text-shadow:none!important}.mini-pack.basic{background:#9bb9d2!important}.mini-pack.advanced{background:#a7c9a5!important}.mini-pack.premium{background:#c1a6d6!important}.mini-pack.pickup{background:#d7a4bb!important}
+
+/* Inventory: readable pack labels and no raw D1 message styling */
+.inventory-pack{position:relative!important;min-height:82px!important;color:#171914!important;text-shadow:none!important;overflow:hidden!important;grid-template-columns:44px 1fr!important;column-gap:8px!important;padding:8px!important;box-sizing:border-box!important}
+.inventory-pack b,.inventory-pack span{color:#171914!important;text-shadow:none!important}.inventory-pack b{font-size:10px!important}.inventory-pack span{font-weight:900!important}
+.inventory-pack-seal{grid-row:1/3;width:38px;height:38px;align-self:center;display:grid;place-items:center;border:3px double #23271f;background:#fff7cf;color:#171914;font:900 11px monospace;font-style:normal}
+.retro-basic{background:#9bb9d2!important}.retro-advanced{background:#a7c9a5!important}.retro-premium{background:#c1a6d6!important}.retro-pickup{background:#d7a4bb!important}
+.inventory-error{grid-column:1/-1;display:grid;gap:10px;justify-items:center;border:4px double #23271f;background:#fff7cf;color:#171914;padding:28px;text-align:center}.inventory-error span{color:#7b2929}.inventory-error button{border:3px double #23271f;background:#cfe59a;color:#171914;padding:8px 16px;font-weight:900}
+
+/* Mineral exchange full retro/readable palette */
+.world-panel-content .mineral-exchange-page,.world-panel-content .mineral-exchange-page *{color:#171914!important;text-shadow:none!important}
+.mineral-exchange-head,.mineral-form-card,.mineral-history-card{border:4px double #23271f!important;border-radius:0!important;background:#f5efc9!important;box-shadow:4px 4px 0 rgba(35,39,31,.3)!important}
+.mineral-limit-badge,.mineral-rate-info,.mineral-guide,.mineral-preview{border:3px double #23271f!important;border-radius:0!important;background:#e1d9a9!important}
+.mineral-field input,.mineral-field textarea{border:3px double #23271f!important;border-radius:0!important;background:#fffbea!important;color:#171914!important}
+.mineral-field input::placeholder,.mineral-field textarea::placeholder{color:#6a6a59!important}
+.mineral-submit{border:4px double #23271f!important;border-radius:0!important;background:#cfe59a!important;color:#171914!important}
+.mineral-history-row{border-bottom:3px double #7a775e!important}.mineral-history-row span,.mineral-history-row small{color:#393c31!important}
+.mineral-history-row em{border:2px solid #23271f!important;border-radius:0!important;background:#e0c06b!important;color:#171914!important;font-weight:900!important}
+.mineral-history-row.status-approved em{background:#9bd18f!important;color:#123617!important}.mineral-history-row.status-rejected em{background:#e69a9a!important;color:#4d1414!important}
+
+/* Account dialog opened from X menu */
+.account-modal .modal-panel{background:#f5efc9!important;color:#171914!important;border:6px double #23271f!important;border-radius:0!important}.account-modal .modal-panel *{color:#171914!important;text-shadow:none!important}.account-modal button{border-radius:0!important}
+
+/* v9.3.5 battle field visibility hotfix */
+.battle-modal .battle-backdrop{
+  background:#f3edc7!important;
+}
+.battle-modal .battle-backdrop::after{
+  display:none!important;
+  content:none!important;
+}
+.battle-modal .battle-stage{
+  background:#f3edc7!important;
+}
+.battle-modal .battle-arena{
+  grid-template-columns:minmax(0,1.65fr) 72px minmax(250px,.72fr)!important;
+  gap:18px!important;
+}
+.battle-modal .player-side{
+  justify-items:start!important;
+  overflow:visible!important;
+}
+.battle-modal .player-side .battle-team{
+  width:100%!important;
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(145px,1fr))!important;
+  gap:12px!important;
+  justify-content:start!important;
+  align-items:end!important;
+}
+.battle-modal .player-side .battle-card-fighter{
+  width:100%!important;
+  max-width:220px!important;
+  height:clamp(250px,25vw,380px)!important;
+  margin-left:0!important;
+  opacity:1;
+}
+.battle-modal .player-side .battle-card-fighter img{
+  width:100%!important;
+  height:calc(100% - 34px)!important;
+  object-fit:cover!important;
+}
+.battle-modal .player-side .battle-card-fighter span{
+  height:34px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-size:13px!important;
+  padding:4px 6px!important;
+}
+.battle-modal .enemy-side{
+  justify-items:center!important;
+}
+@media(max-width:900px){
+  .battle-modal .battle-arena{
+    grid-template-columns:minmax(0,1fr) 50px minmax(170px,.55fr)!important;
+  }
+  .battle-modal .player-side .battle-team{
+    grid-template-columns:repeat(2,minmax(110px,1fr))!important;
+    gap:8px!important;
+  }
+  .battle-modal .player-side .battle-card-fighter{
+    max-width:none!important;
+    height:190px!important;
+  }
+  .battle-modal .player-side .battle-card-fighter img{
+    height:158px!important;
+  }
+}

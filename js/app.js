@@ -438,7 +438,7 @@ function renderMineralRequests(rows){const box=document.getElementById('mineralM
 async function submitMineralExchange(){const btn=document.getElementById('mineralSubmit'),wagoNickname=document.getElementById('wagoNickname')?.value.trim(),mineralAmount=Number(document.getElementById('mineralAmount')?.value||0),proofText=document.getElementById('mineralProof')?.value.trim();if(!wagoNickname)return alert('와이고수 닉네임을 입력하세요.');if(!proofText)return alert('기부 완료 내용을 입력하세요.');btn.disabled=true;try{const d=await apiRequest('mineral-exchange/request',{method:'POST',body:JSON.stringify({wagoNickname,mineralAmount,proofText})});alert(`${Number(d.coinAmount).toLocaleString()}코인 교환 신청이 접수되었습니다.\n관리자 확인 후 지급됩니다.`);renderShell('mineral')}catch(e){alert(e.message);updateMineralPreview()}}
 
 
-async function loadInventoryView(){if(!API_MODE)return;const box=document.getElementById('inventoryList');if(!box)return;try{const d=await apiRequest('inventory');const map=Object.fromEntries((d.items||[]).map(x=>[x.itemId,Number(x.quantity||0)]));localStorage.setItem('cnine_world_inventory_v1',JSON.stringify(map));box.innerHTML=PACKS.map(p=>`<article class="inventory-slot"><div class="inventory-pack retro-${p.theme}"><b>${escapeHtml(p.subtitle)}</b><span>${escapeHtml(p.name)}</span></div><div><strong>${escapeHtml(p.name)}</strong><small>몬스터 토벌 시 일정 확률로 획득</small></div><em>× ${Number(map[p.id]||0)}</em></article>`).join('')}catch(e){box.insertAdjacentHTML('afterbegin',`<div class="empty-recent">${escapeHtml(e.message)}</div>`)}}
+async function loadInventoryView(){if(!API_MODE)return;const box=document.getElementById('inventoryList');if(!box)return;try{const d=await apiRequest('inventory');const map=Object.fromEntries((d.items||[]).map(x=>[x.itemId,Number(x.quantity||0)]));if(map.standard&&!map.basic)map.basic=map.standard;if(map.limited&&!map.pickup)map.pickup=map.limited;localStorage.setItem('cnine_world_inventory_v1',JSON.stringify(map));box.innerHTML=PACKS.map(p=>`<article class="inventory-slot"><div class="inventory-pack retro-${p.theme}"><i class="inventory-pack-seal">CN</i><b>${escapeHtml(p.subtitle)}</b><span>${escapeHtml(p.name)}</span></div><div><strong>${escapeHtml(p.name)}</strong><small>몬스터 토벌 승리 시 설정된 확률로 획득</small></div><em>× ${Number(map[p.id]||0)}</em></article>`).join('')}catch(e){box.innerHTML=`<div class="inventory-error"><b>인벤토리를 불러오지 못했습니다.</b><span>${escapeHtml(e.message)}</span><button type="button" id="inventoryRetry">다시 시도</button></div>`;document.getElementById('inventoryRetry')?.addEventListener('click',loadInventoryView)}}
 
 function bindView(tab) {
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
@@ -499,8 +499,9 @@ function openPack(packId, count, cost) {
     modal.className='modal show results-modal';
     modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
     document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-    document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
-    document.getElementById('drawAgain').onclick=()=>{ modal.className='modal'; openPack(pack.id,count,cost); };
+    const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openWorldPanel('buy')};
+    document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=closePackResult;
+    document.getElementById('drawAgain').onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openPack(pack.id,count,cost);};
   },1550);
 }
 
@@ -792,8 +793,9 @@ async function renderDrawResults(pack,count,cost,results,user,critical){
   const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
   modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
   document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-  document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
-  document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,cost)};
+  const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openWorldPanel('buy')};
+  document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=closePackResult;
+  document.getElementById('drawAgain').onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openPack(pack.id,count,cost)};
 }
 
 
@@ -893,7 +895,7 @@ function openWorldGameMenu(){
  menu.innerHTML=`<div class="pixel-menu-window"><div class="pixel-menu-title">CNINE MENU</div>
  <button data-world-menu="profile">내 정보</button><button data-world-menu="battle">덱 편성</button><button data-world-menu="dex">내 도감</button><button data-world-menu="attendance">접속 보상</button><button data-world-menu="inventory">인벤토리</button><button data-world-menu="mineral">미네랄 교환</button><button data-world-menu="close">게임으로 돌아가기</button>
  <div class="pixel-menu-help">PC: ↑↓ 선택 · Enter/Space 확인 · X/Esc 닫기<br>모바일: 항목 터치 · MENU 버튼으로 열기/닫기</div></div>`;
- menu.querySelectorAll('[data-world-menu]').forEach(b=>b.onclick=()=>{const v=b.dataset.worldMenu;if(v==='close')closeWorldGameMenu();else if(v==='profile'){worldToast(`${user.nickname} · 코인 ${Number(user.coin||0).toLocaleString()}`)}else{closeWorldGameMenu();openWorldPanel(v)}});
+ menu.querySelectorAll('[data-world-menu]').forEach(b=>b.onclick=()=>{const v=b.dataset.worldMenu;if(v==='close')closeWorldGameMenu();else if(v==='profile'){closeWorldGameMenu();showAccountPanel()}else{closeWorldGameMenu();openWorldPanel(v)}});
  menu.querySelector('button')?.focus();
 }
 function closeWorldGameMenu(){const menu=document.getElementById('worldGameMenu');if(menu){menu.className='world-game-menu';menu.innerHTML=''}worldState.paused=false;document.getElementById('worldMap')?.focus()}
