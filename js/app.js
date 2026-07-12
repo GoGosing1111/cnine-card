@@ -210,8 +210,13 @@ async function loadRecentHighGradeFeed(){
   }catch(error){track.innerHTML='<span class="high-grade-empty">획득 소식을 불러오지 못했습니다.</span>';}
 }
 
+function packImagePath(pack) {
+  const files = { basic: 'standard-pack.png', advanced: 'advanced-pack.png', premium: 'premium-pack.png', pickup: 'limited-pack.png' };
+  return `assets/ui/packs/${files[pack.id] || files[pack.theme] || files.basic}`;
+}
+
 function packSelector() {
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}"><i></i><b>${pack.subtitle}</b></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.price}코인</em></button>`).join('')}</div></section>`;
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}"><img src="${packImagePath(pack)}" alt="${escapeHtml(pack.name)}"><i></i></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.price}코인</em></button>`).join('')}</div></section>`;
 }
 
 function buyView(user) {
@@ -226,7 +231,7 @@ function recentCards(user) {
 }
 
 function packArt(pack) {
-  return `<div class="pack-envelope ${pack.theme}"><div class="pack-crimp top"></div><div class="pack-top"></div><div class="pack-shine"></div><div class="pack-energy"></div><img src="assets/ui/cninelogo.png" class="pack-brand-logo" alt="CNINE"><div class="pack-name">${pack.subtitle}</div><div class="pack-range">${pack.range}</div><div class="pack-cut"></div><div class="pack-crimp bottom"></div></div>`;
+  return `<div class="pack-envelope pack-image-envelope ${pack.theme}"><img src="${packImagePath(pack)}" class="pack-product-image" alt="${escapeHtml(pack.name)}"><div class="pack-image-gloss"></div></div>`;
 }
 
 function dexView(user) {
