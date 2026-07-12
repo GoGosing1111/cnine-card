@@ -257,3 +257,95 @@ body {
 .raid-lobby-screen{position:relative;overflow:hidden;text-align:center;padding:34px 20px 28px;border:1px solid rgba(98,207,255,.24);border-radius:22px;background:radial-gradient(circle at 50% 22%,rgba(44,119,190,.28),transparent 34%),linear-gradient(180deg,#091425,#0b1020);box-shadow:0 22px 60px rgba(0,0,0,.42)}.raid-lobby-screen:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 69px,rgba(97,195,255,.025) 70px);pointer-events:none}.raid-lobby-boss{position:relative;width:170px;height:150px;margin:auto;display:grid;place-items:center}.raid-lobby-boss img{position:relative;z-index:2;max-width:150px;max-height:145px;object-fit:contain;filter:drop-shadow(0 15px 24px rgba(0,0,0,.6));animation:raidBossIdle 2.1s ease-in-out infinite}.raid-lobby-glow{position:absolute;width:170px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(82,203,255,.3),transparent 70%);filter:blur(9px);bottom:0}.raid-lobby-countdown{display:inline-flex;flex-direction:column;margin:14px 0 10px;padding:12px 24px;border-radius:14px;background:rgba(0,0,0,.32);border:1px solid rgba(255,255,255,.09)}.raid-lobby-countdown span{font-size:11px;opacity:.65}.raid-lobby-countdown b{font-size:34px;letter-spacing:.08em;text-shadow:0 0 18px rgba(78,208,255,.7)}.raid-lobby-members strong{font-size:24px;color:#7de7ff}.raid-lobby-members span{opacity:.65}.raid-slot-line{display:flex;justify-content:center;gap:5px;margin:12px auto;width:min(400px,90%)}.raid-slot-line i{width:22px;height:5px;border-radius:8px;background:rgba(255,255,255,.09)}.raid-slot-line i.filled{background:linear-gradient(90deg,#53c8ff,#796bff);box-shadow:0 0 9px rgba(83,200,255,.55)}.raid-lobby-join{min-width:180px;margin-top:10px}.raid-lobby-deck{display:flex;justify-content:center;gap:5px;min-height:58px;margin-top:18px}.raid-lobby-deck img{width:42px;aspect-ratio:3/4;object-fit:cover;border-radius:6px;border:1px solid rgba(255,255,255,.25);animation:raidCardEnter .4s both}.raid-lobby-deck span{opacity:.55;font-size:12px;align-self:center}.raid-live-grid.is-lobby .raid-ranking{opacity:.68}
 .raid-result-screen{position:relative;overflow:hidden;text-align:center;padding:42px 20px 30px;border-radius:24px;border:1px solid rgba(255,255,255,.15);background:radial-gradient(circle at 50% 15%,rgba(45,143,255,.28),transparent 35%),linear-gradient(180deg,#081628,#090d18);box-shadow:0 25px 70px rgba(0,0,0,.5)}.raid-result-screen.failed{background:radial-gradient(circle at 50% 15%,rgba(182,35,54,.25),transparent 35%),linear-gradient(180deg,#1c0b12,#090a10)}.raid-result-screen h1{position:relative;z-index:2;margin:4px 0;font-size:42px;letter-spacing:.12em;text-shadow:0 0 30px rgba(78,211,255,.7)}.raid-result-screen.failed h1{color:#ff7182;text-shadow:0 0 30px rgba(255,43,76,.55)}.raid-result-burst{position:absolute;left:50%;top:0;width:520px;height:240px;transform:translateX(-50%);background:conic-gradient(from 0deg,transparent,#57d7ff22,transparent,#9a75ff22,transparent);filter:blur(3px);animation:raidResultSpin 10s linear infinite}@keyframes raidResultSpin{to{transform:translateX(-50%) rotate(360deg)}}.raid-result-summary{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:min(620px,100%);margin:25px auto}.raid-result-summary article{padding:14px;border-radius:13px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08)}.raid-result-summary span,.raid-result-summary b{display:block}.raid-result-summary span{font-size:11px;opacity:.62}.raid-result-summary b{margin-top:5px;font-size:18px}.raid-reward-box{position:relative;z-index:2;width:min(560px,100%);margin:auto;padding:18px;border-radius:17px;background:rgba(2,5,12,.55);border:1px solid rgba(255,211,116,.18)}.raid-reward-box>span{font-size:12px;font-weight:900;letter-spacing:.12em;color:#ffd97e}.raid-reward-cards{display:flex;justify-content:center;gap:12px;margin:15px 0}.raid-reward-cards article{min-width:145px;padding:17px 12px;border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.035));border:1px solid rgba(255,255,255,.11);opacity:0;transform:translateY(16px) scale(.92);animation:raidRewardIn .55s forwards;animation-delay:var(--reward-delay)}@keyframes raidRewardIn{to{opacity:1;transform:none}}.raid-reward-cards em,.raid-reward-cards b,.raid-reward-cards small{display:block}.raid-reward-cards em{font-size:27px;font-style:normal}.raid-reward-cards b{margin:7px 0}.raid-reward-cards small{opacity:.55}.raid-claim-btn{min-width:190px}.raid-reward-note{display:block;margin-top:8px;opacity:.55}.raid-reward-box.is-claimed{animation:raidClaimGlow .9s ease}@keyframes raidClaimGlow{40%{box-shadow:0 0 45px rgba(255,220,111,.55);transform:scale(1.02)}}.raid-closed-screen .raid-state-icon{font-size:44px;margin-bottom:10px}
 @media(max-width:720px){.raid-result-summary{grid-template-columns:1fr}.raid-reward-cards{flex-direction:column}.raid-result-screen h1{font-size:29px}.raid-stage-boss-hud{width:92%}.raid-lobby-screen{padding-left:12px;padding-right:12px}}
+
+/* v9.1.9.1 minimal visual correction: keep v9.1.8 battle scale */
+.raid-battle-stage .raid-stage-boss{max-width:220px!important;max-height:230px!important}
+.raid-battle-stage .raid-attacker-card{width:118px!important}
+.raid-battle-stage .raid-attacker-card img{width:104px!important;max-height:142px!important;object-fit:cover}
+.raid-battle-stage .raid-stage-card{width:62px!important}
+.raid-battle-stage .raid-stage-card img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.raid-lobby-boss{width:138px!important;height:118px!important}
+.raid-lobby-boss img{max-width:118px!important;max-height:112px!important}
+.raid-lobby-glow{width:138px!important;height:68px!important}
+
+/* premium result / reward presentation */
+.raid-result-screen{max-width:980px;margin:0 auto;padding:34px 24px 28px;background:radial-gradient(circle at 50% -10%,rgba(52,174,255,.32),transparent 38%),linear-gradient(180deg,#07162c 0%,#07101e 62%,#090c16 100%)}
+.raid-result-screen:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 25%,rgba(255,255,255,.045) 48%,transparent 70%);transform:translateX(-120%);animation:raidResultSweep 3.2s ease-in-out infinite}
+@keyframes raidResultSweep{55%,100%{transform:translateX(120%)}}
+.raid-result-crown{position:relative;z-index:2;width:56px;height:56px;margin:0 auto 8px;display:grid;place-items:center;border-radius:50%;font-size:27px;color:#fff4b4;background:radial-gradient(circle,#ffdf65 0 18%,#ff9a2f 19% 36%,rgba(255,179,46,.16) 37% 100%);box-shadow:0 0 28px rgba(255,188,71,.46)}
+.raid-result-screen h1{margin:0;font-size:38px;line-height:1.08;background:linear-gradient(180deg,#fff,#91e8ff);-webkit-background-clip:text;color:transparent}
+.raid-result-screen.failed h1{background:linear-gradient(180deg,#fff,#ff778b);-webkit-background-clip:text;color:transparent}
+.raid-result-screen>h2{position:relative;z-index:2;margin:9px 0 16px;font-size:19px;color:#dcecff;opacity:.88}
+.raid-mvp-card{position:relative;z-index:2;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;width:min(560px,100%);margin:0 auto 16px;padding:12px 16px;border-radius:14px;background:linear-gradient(90deg,rgba(255,207,84,.14),rgba(255,255,255,.055));border:1px solid rgba(255,215,112,.27);box-shadow:inset 0 0 24px rgba(255,206,77,.04)}
+.raid-mvp-card span{padding:5px 9px;border-radius:999px;font-size:10px;font-weight:1000;letter-spacing:.14em;color:#161006;background:linear-gradient(180deg,#fff2a7,#dca628)}
+.raid-mvp-card strong{text-align:left;font-size:16px}.raid-mvp-card b{font-size:13px;color:#ffd974}
+.raid-result-summary{margin:14px auto 18px}.raid-result-summary article{padding:12px 10px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));border-color:rgba(126,205,255,.13)}
+.raid-result-summary span{font-weight:900;letter-spacing:.1em}.raid-result-summary b{font-size:20px}.raid-result-summary article.alive b{color:#69f0aa}.raid-result-summary article.danger b{color:#ff7285}
+.raid-reward-box{width:min(650px,100%);padding:18px 18px 16px;border-radius:20px;background:radial-gradient(circle at 50% 0,rgba(255,204,83,.12),transparent 48%),rgba(3,8,18,.78);border:1px solid rgba(255,213,105,.23);box-shadow:inset 0 1px rgba(255,255,255,.05),0 16px 38px rgba(0,0,0,.3)}
+.raid-reward-title{display:flex;align-items:end;justify-content:space-between;padding:0 2px 10px;border-bottom:1px solid rgba(255,255,255,.08)}
+.raid-reward-title span{font-size:13px;font-weight:1000;letter-spacing:.16em;color:#ffe599}.raid-reward-title small{opacity:.62}
+.raid-reward-cards{gap:14px;margin:16px 0 12px}.raid-reward-cards article{position:relative;flex:1;min-width:0;min-height:154px;padding:20px 14px 15px;overflow:hidden;border-radius:18px;text-align:center;background:linear-gradient(145deg,rgba(255,255,255,.11),rgba(255,255,255,.025));box-shadow:inset 0 1px rgba(255,255,255,.1),0 12px 26px rgba(0,0,0,.25)}
+.raid-reward-cards article.coin{border-color:rgba(255,204,86,.34);background:radial-gradient(circle at 50% 16%,rgba(255,193,64,.19),transparent 42%),linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.02))}
+.raid-reward-cards article.shard{border-color:rgba(100,220,255,.34);background:radial-gradient(circle at 50% 16%,rgba(79,206,255,.2),transparent 42%),linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.02))}
+.raid-reward-cards article.disabled{filter:grayscale(.75);opacity:.5}.raid-reward-icon{width:58px;height:58px;margin:0 auto 10px;display:grid;place-items:center;border-radius:18px;font-size:29px;font-weight:1000;background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.04));box-shadow:inset 0 1px rgba(255,255,255,.23),0 0 24px rgba(255,209,83,.15)}
+.raid-reward-cards article.shard .raid-reward-icon{box-shadow:inset 0 1px rgba(255,255,255,.23),0 0 24px rgba(77,213,255,.18)}
+.raid-reward-cards small{font-size:10px;font-weight:900;letter-spacing:.13em;opacity:.6}.raid-reward-cards b{margin:5px 0 4px;font-size:26px;line-height:1}.raid-reward-cards em{font-size:11px;font-style:normal;opacity:.6}
+.raid-reward-seal{margin:0 auto 10px;font-size:10px;font-weight:1000;letter-spacing:.18em;color:#ffdc7d;opacity:.8}.raid-claim-btn{width:100%;min-height:48px;border-radius:14px;font-size:16px;font-weight:1000;letter-spacing:.04em;background:linear-gradient(90deg,#347cff,#7759ff);box-shadow:0 10px 28px rgba(75,92,255,.28)}
+.raid-reward-box.claiming .raid-reward-cards article{animation:raidRewardClaim .75s ease both}.raid-reward-box.claiming .raid-reward-cards article:nth-child(2){animation-delay:.18s}@keyframes raidRewardClaim{45%{transform:translateY(-10px) scale(1.06);filter:brightness(1.6)}100%{transform:none;filter:none}}
+.raid-reward-box.is-claimed .raid-reward-seal{color:#70f3b2}.raid-reward-box.is-claimed .raid-claim-btn{background:linear-gradient(90deg,#177c65,#2ea878);box-shadow:none}
+@media(max-width:720px){.raid-battle-stage .raid-stage-boss{max-width:155px!important;max-height:165px!important}.raid-battle-stage .raid-attacker-card{width:90px!important}.raid-battle-stage .raid-attacker-card img{width:78px!important;max-height:108px!important}.raid-battle-stage .raid-stage-card{width:49px!important}.raid-result-screen{padding:28px 12px 22px}.raid-result-screen h1{font-size:29px}.raid-mvp-card{grid-template-columns:auto 1fr}.raid-mvp-card b{grid-column:1/-1;text-align:center}.raid-reward-cards{flex-direction:row}.raid-reward-cards article{padding:16px 8px;min-height:142px}.raid-reward-icon{width:48px;height:48px;font-size:24px}.raid-reward-cards b{font-size:21px}}
+
+
+/* v9.2.0 raid combat polish: preserve v9.1.8 scale, remove projectile, add melee slash */
+.raid-projectile{display:none!important}
+.raid-battle-stage.is-battle{animation:raidCameraBreath 3.4s ease-in-out infinite}
+.raid-battle-stage.is-battle:after{content:"";position:absolute;z-index:11;inset:0;pointer-events:none;background:radial-gradient(circle at 70% 48%,rgba(255,255,255,.32),transparent 16%);opacity:0;animation:raidStageFlash .8s ease-out infinite}
+@keyframes raidCameraBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.003)}}
+@keyframes raidStageFlash{0%,66%{opacity:0}72%{opacity:.72}82%,100%{opacity:0}}
+
+.raid-attacker-card{transform-origin:75% 50%;animation:raidMeleeAttack .8s cubic-bezier(.2,.82,.2,1) infinite!important}
+@keyframes raidMeleeAttack{
+  0%,18%,100%{transform:translateX(0) translateY(0) rotate(-2deg) scale(1)}
+  34%{transform:translateX(10px) translateY(2px) rotate(-5deg) scale(.98)}
+  56%{transform:translateX(88px) translateY(-4px) rotate(3deg) scale(1.07)}
+  68%{transform:translateX(72px) translateY(2px) rotate(1deg) scale(1.03)}
+  82%{transform:translateX(0) translateY(0) rotate(-2deg) scale(1)}
+}
+.raid-attacker-card:after{content:"";position:absolute;z-index:-1;left:16px;top:16%;width:105px;height:72%;border-radius:50%;background:linear-gradient(90deg,rgba(72,218,255,.26),transparent);filter:blur(12px);opacity:0;animation:raidAfterImage .8s ease-out infinite}
+@keyframes raidAfterImage{0%,35%,100%{opacity:0;transform:translateX(-20px) scaleX(.7)}50%{opacity:.85;transform:translateX(8px) scaleX(1.2)}72%{opacity:0;transform:translateX(42px) scaleX(1.45)}}
+.raid-melee-trail{position:absolute;z-index:4;left:58%;top:48%;width:110px;height:42px;opacity:0;pointer-events:none;transform:translate(-50%,-50%) rotate(-8deg);background:linear-gradient(100deg,transparent 0%,rgba(119,232,255,.18) 28%,rgba(255,255,255,.92) 48%,rgba(137,112,255,.35) 62%,transparent 82%);clip-path:polygon(0 44%,82% 0,100% 42%,84% 56%,0 100%);filter:drop-shadow(0 0 10px rgba(105,224,255,.85));animation:raidMeleeTrail .8s ease-out infinite}
+@keyframes raidMeleeTrail{0%,42%,100%{opacity:0;transform:translate(-70%,-50%) rotate(-10deg) scaleX(.45)}54%{opacity:1;transform:translate(-5%,-50%) rotate(-4deg) scaleX(1)}70%{opacity:0;transform:translate(45%,-50%) rotate(1deg) scaleX(1.18)}}
+
+.raid-slash-fx{position:absolute;z-index:6;left:48%;top:46%;width:112px;height:112px;transform:translate(-50%,-50%);pointer-events:none}
+.raid-slash-fx i{position:absolute;left:8px;top:52px;width:96px;height:5px;border-radius:999px;background:linear-gradient(90deg,transparent,#fff 28%,#7ae8ff 56%,transparent);box-shadow:0 0 13px rgba(100,226,255,.95);opacity:0;transform-origin:center;animation:raidSlashCut .8s ease-out infinite}
+.raid-slash-fx i:nth-child(1){transform:rotate(-38deg);animation-delay:0s}
+.raid-slash-fx i:nth-child(2){transform:rotate(8deg);animation-delay:.035s}
+.raid-slash-fx i:nth-child(3){transform:rotate(42deg);animation-delay:.07s}
+@keyframes raidSlashCut{0%,52%{opacity:0;scale:.35}59%{opacity:1;scale:1}76%,100%{opacity:0;scale:1.25}}
+
+.raid-battle-stage.is-battle .raid-boss-side{animation:raidBossImpact .8s ease-out infinite}
+@keyframes raidBossImpact{0%,53%,100%{transform:translateX(0)}59%{transform:translateX(7px)}64%{transform:translateX(-5px)}70%{transform:translateX(2px)}}
+.raid-battle-stage.is-enraged .raid-boss-aura{animation:raidEnrageAura .75s ease-in-out infinite alternate}
+@keyframes raidEnrageAura{from{transform:scale(.98);filter:hue-rotate(0deg) blur(2px);opacity:.65}to{transform:scale(1.12);filter:hue-rotate(-25deg) blur(5px);opacity:1}}
+
+/* refined raid HP gauges */
+.raid-stage-boss-hud{padding:10px 14px 11px!important;border-radius:10px!important;background:linear-gradient(180deg,rgba(4,8,18,.94),rgba(8,14,26,.84))!important;border:1px solid rgba(255,82,104,.34)!important;box-shadow:inset 0 1px rgba(255,255,255,.05),0 10px 24px rgba(0,0,0,.36)!important}
+.raid-stage-boss-hud>div:first-child{align-items:end;letter-spacing:.03em}
+.raid-stage-boss-hud>div:first-child span{font-size:13px;color:#f7fbff}
+.raid-stage-boss-hud>div:first-child b{font-size:12px;color:#ff9dad}
+.raid-modern-hp{height:9px!important;margin-top:7px;border-radius:3px!important;background:#03060c!important;border:1px solid rgba(255,255,255,.1)!important;box-shadow:inset 0 2px 6px rgba(0,0,0,.92),0 0 0 1px rgba(255,65,89,.06)!important}
+.raid-modern-hp:before{content:"";position:absolute;z-index:4;inset:1px 0 auto;height:1px;background:rgba(255,255,255,.16);pointer-events:none}
+.raid-modern-hp em{background:linear-gradient(90deg,rgba(255,207,91,.38),rgba(255,95,95,.3))!important;transition:width 1.15s cubic-bezier(.16,.78,.2,1)!important}
+.raid-modern-hp i{background:linear-gradient(90deg,#7d0e24 0%,#db2342 45%,#ff5367 72%,#ff9b5e 100%)!important;box-shadow:0 0 10px rgba(255,54,82,.42)!important}
+.raid-stage-boss-hud small{margin-top:5px!important;color:#aab8ca!important;opacity:.78!important;font-variant-numeric:tabular-nums}
+.raid-card-hp{left:4px!important;right:4px!important;bottom:4px!important;height:2px!important;border-radius:0!important;background:rgba(0,0,0,.88)!important;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.raid-card-hp i{background:linear-gradient(90deg,#22b987,#8be36a)!important;box-shadow:0 0 5px rgba(69,226,144,.5)!important}
+.raid-user-hp.modern{height:3px!important;border-radius:2px!important;background:rgba(255,255,255,.07)!important}
+.raid-user-hp.modern i{background:linear-gradient(90deg,#20b89c,#78db84)!important;box-shadow:none!important}
+
+@media(max-width:720px){
+  .raid-melee-trail{left:57%;width:72px;height:30px}
+  .raid-slash-fx{left:48%;width:80px;height:80px}
+  .raid-slash-fx i{left:5px;top:37px;width:70px;height:4px}
+  .raid-stage-boss-hud{margin-top:9px!important}
+}
