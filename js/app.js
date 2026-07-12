@@ -87,7 +87,7 @@ async function init() {
     console.error(error);
     cards = [];
   }
-  setTimeout(() => loadUser() ? renderShell('buy') : renderLogin(), 350);
+  setTimeout(() => loadUser() ? renderShell('world') : renderLogin(), 350);
 }
 
 function renderLoading() {
@@ -171,27 +171,48 @@ function renderLogin() {
   document.getElementById('login').onclick = () => {
     const user = loadUser();
     if (!user || user.key !== document.getElementById('key').value.trim()) return alert('저장된 개인키와 일치하지 않습니다.');
-    renderShell('buy');
+    renderShell('world');
   };
 }
 
 function renderCreated(user) {
   app.innerHTML = `<div class="login-wrap"><div class="login-box game-panel"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">PLAYER CREATED</p><h1>생성 완료</h1><p>개인키는 로그인 복구용입니다. 안전한 곳에 보관하세요.</p><div class="field"><label>닉네임</label><input value="${escapeHtml(user.nickname)}" readonly></div><div class="field"><label>개인키</label><input id="copyKey" value="${user.key}" readonly></div><button class="btn" id="copy">개인키 복사</button><button class="btn secondary" id="go">게임 시작</button></div></div>`;
   document.getElementById('copy').onclick = async () => { await navigator.clipboard.writeText(user.key); alert('개인키가 복사되었습니다.'); };
-  document.getElementById('go').onclick = () => renderShell('buy');
+  document.getElementById('go').onclick = () => renderShell('world');
 }
 
-function renderShell(tab) {
+function renderShell(tab='world') {
   if(window.__stopWorld){window.__stopWorld();window.__stopWorld=null;}
-  if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
-  const user = loadUser();
-  if (!user) return renderLogin();
-  const views = { world: worldView, buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, attendance: attendanceView, rank: rankView, mineral: mineralExchangeView };
-  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab world-tab ${tab==='world'?'active':''}" data-tab="world">월드</button><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}<button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button><button class="tab mineral-tab ${tab==='mineral'?'active':''}" data-tab="mineral"><span class="mineral-tab-label"><span>미네랄</span><span>교환</span></span></button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
-  document.querySelectorAll('.tab').forEach(b => b.onclick = () => renderShell(b.dataset.tab));
+  const user=loadUser();
+  if(!user)return renderLogin();
+  if(tab!=='world')return openWorldPanel(tab);
+  document.body.classList.add('world-root-mode');
+  app.innerHTML=`<main class="cnine-world-root">
+    <canvas id="worldMap" class="world-main-canvas" width="960" height="540" tabindex="0" aria-label="씨켓몬 월드"></canvas>
+    <div class="world-top-hud"><div><b>CNINE WORLD</b><span id="worldAreaName">씨켓몬 마을</span></div><div class="world-player-hud"><span>${escapeHtml(user.nickname)}</span><strong>◈ ${Number(user.coin||0).toLocaleString()}</strong></div></div>
+    <div id="worldToast" class="world-toast world-root-toast">화면을 클릭하면 이동을 시작합니다.</div>
+    <div id="worldPrompt" class="world-prompt"></div>
+    <div class="world-controls world-root-controls" aria-label="모바일 이동 조작"><button data-hold="up">▲</button><div><button data-hold="left">◀</button><button id="worldAction">A</button><button data-hold="right">▶</button></div><button data-hold="down">▼</button></div>
+    <div id="worldPanel" class="world-panel"></div>
+  </main><div id="modal" class="modal"></div>`;
+  initWorldView();
+}
+
+function openWorldPanel(tab){
+  const panel=document.getElementById('worldPanel');
+  if(!panel){renderShell('world');setTimeout(()=>openWorldPanel(tab),50);return;}
+  if(tab==='pvp'&&!pvpFeatureEnabled){worldToast('현재 PVP가 비활성화되어 있습니다.');return;}
+  if(window.__stopWorldInput)window.__stopWorldInput(true);
+  const user=loadUser();
+  const views={buy:buyView,dex:dexView,battle:battleView,pvp:pvpView,attendance:attendanceView,rank:rankView,mineral:mineralExchangeView};
+  const title={buy:'카드 상점',dex:'도감 연구소',battle:'전투 준비소',pvp:'PVP 경기장',attendance:'접속 보상',rank:'랭킹 게시판',mineral:'미네랄 교환소'}[tab]||'시설';
+  panel.className='world-panel open';
+  panel.innerHTML=`<div class="world-panel-frame"><div class="world-panel-bar"><b>${title}</b><button id="worldPanelClose" type="button">월드로 돌아가기 ✕</button></div><div class="world-panel-content">${(views[tab]||buyView)(user)}</div></div>`;
+  document.getElementById('worldPanelClose').onclick=closeWorldPanel;
   bindView(tab);
   loadRecentHighGradeFeed();
 }
+function closeWorldPanel(){const panel=document.getElementById('worldPanel');if(!panel)return;panel.className='world-panel';panel.innerHTML='';if(window.__stopWorldInput)window.__stopWorldInput(false);document.getElementById('worldMap')?.focus();}
 
 function summaryBar(user) {
   return `<section class="summary-bar"><div class="login-summary"><span>로그인 중</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div><div><span>COIN</span><b class="coin-value">◈ ${Number(user.coin||0).toLocaleString()}</b><small class="shard-value">🧩 카드 조각 ${Number(user.cardShards||0).toLocaleString()}</small></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><div><span>CARD SCORE</span><b>${cardScore(user).toLocaleString()}점</b></div></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">UR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 UR 이상 획득 기록을 불러오는 중...</span></div></div></section>`;
@@ -776,55 +797,60 @@ async function claimPvpReward(){try{const d=await apiRequest('pvp/reward/claim',
 async function claimPvpRankReward(){try{const d=await apiRequest('pvp/rank-reward/claim',{method:'POST'});saveUser(apiUserToLocal(d.user));alert(`${d.rank}위 시즌 랭킹 보상으로 ${Number(d.rewardCoin||0).toLocaleString()}코인과 카드조각 ${Number(d.rewardShards||0).toLocaleString()}개를 받았습니다.`);renderShell('pvp')}catch(e){alert(e.message)}}
 
 
-// --- CNINE WORLD v2: 부드러운 이동 / 픽셀 아트 / 랜덤 조우 / PVP NPC ---
-const WORLD_TILE=48,WORLD_W=16,WORLD_H=12,WORLD_PX_W=WORLD_TILE*WORLD_W,WORLD_PX_H=WORLD_TILE*WORLD_H;
-const WORLD_GRASS_RECT={x:9*WORLD_TILE,y:5*WORLD_TILE,w:5*WORLD_TILE,h:6*WORLD_TILE};
-const WORLD_SOLIDS=[
-  {x:0,y:0,w:WORLD_PX_W,h:WORLD_TILE},{x:0,y:11*WORLD_TILE,w:WORLD_PX_W,h:WORLD_TILE},
-  {x:0,y:0,w:WORLD_TILE,h:WORLD_PX_H},{x:15*WORLD_TILE,y:0,w:WORLD_TILE,h:WORLD_PX_H},
-  {x:2*WORLD_TILE,y:2*WORLD_TILE,w:3*WORLD_TILE,h:2*WORLD_TILE},
-  {x:10*WORLD_TILE,y:2*WORLD_TILE,w:3*WORLD_TILE,h:2*WORLD_TILE},
-  {x:7*WORLD_TILE,y:5*WORLD_TILE,w:2*WORLD_TILE,h:2*WORLD_TILE},
-  {x:6*WORLD_TILE+8,y:4*WORLD_TILE+5,w:32,h:38}
-];
-let worldState={x:5.5*WORLD_TILE,y:7.5*WORLD_TILE,dir:'down',frame:0,moving:false,busy:false,configLoaded:false,travel:0,nextEncounter:280,lastTime:0,raf:0,keys:{},images:{},ready:false};
-function worldView(user){return `${summaryBar(user)}<section class="world-shell"><div class="world-head"><div><p class="eyebrow">CNINE WORLD</p><h2>씨켓몬 마을</h2><p>마을 밖 풀숲을 탐험하면 몬스터와 랜덤 조우합니다.</p></div><div class="world-help"><b>PC</b> 방향키/WASD를 누르고 이동 · <b>모바일</b> 방향패드를 누르고 이동 · <b>대화</b> 확인</div></div><div class="world-game"><canvas id="worldMap" class="world-map" width="${WORLD_PX_W}" height="${WORLD_PX_H}" tabindex="0" aria-label="씨켓몬 월드 맵"></canvas><div id="worldLoading" class="world-loading">월드 불러오는 중...</div><div id="worldToast" class="world-toast">맵을 클릭하면 이동을 시작합니다.</div><div class="world-controls" aria-label="모바일 이동 조작"><button data-hold="up">▲</button><div><button data-hold="left">◀</button><button id="worldAction">A</button><button data-hold="right">▶</button></div><button data-hold="down">▼</button></div></div><div class="world-legend"><span>마을</span><span>투기장 관리인</span><span>야생 조우 풀숲</span><span>부드러운 연속 이동</span></div></section>`}
+// --- CNINE WORLD v3: 월드 중심 새 프로젝트 / 카메라 / 건물 내부 / 맵 이동 ---
+const WORLD_VIEW_W=960,WORLD_VIEW_H=540;
+const WORLD_MAPS={
+ town:{name:'씨켓몬 마을',w:1800,h:1250,spawn:{x:860,y:850},grass:{x:1120,y:690,w:560,h:420},exits:[{x:820,y:1180,w:170,h:60,to:'field',tx:800,ty:100}],buildings:[
+  {id:'shop',x:170,y:170,w:310,h:250,label:'카드 상점',tab:'buy'},
+  {id:'lab',x:690,y:135,w:330,h:270,label:'도감 연구소',tab:'dex'},
+  {id:'arena',x:1260,y:170,w:350,h:270,label:'PVP 경기장',tab:'pvp'},
+  {id:'hall',x:300,y:660,w:350,h:260,label:'전투 준비소',tab:'battle'}],npcs:[{x:1160,y:545,label:'접속 보상',tab:'attendance'},{x:760,y:560,label:'랭킹',tab:'rank'},{x:930,y:560,label:'미네랄',tab:'mineral'}]},
+ field:{name:'초원 길목',w:1800,h:1400,spawn:{x:800,y:180},grass:{x:140,y:250,w:1520,h:970},exits:[{x:710,y:0,w:220,h:80,to:'town',tx:900,ty:1120}],buildings:[],npcs:[]},
+ interior_shop:{name:'카드 상점 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'buy'},
+ interior_lab:{name:'도감 연구소 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'dex'},
+ interior_arena:{name:'PVP 경기장 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'pvp'},
+ interior_hall:{name:'전투 준비소 내부',w:960,h:720,spawn:{x:480,y:620},interior:true,feature:'battle'}
+};
+let worldState={map:'town',x:860,y:850,dir:'down',frame:0,busy:false,paused:false,travel:0,nextEncounter:330,lastTime:0,raf:0,keys:{},images:{},ready:false,camera:{x:0,y:0}};
 function worldToast(text){const t=document.getElementById('worldToast');if(!t)return;t.textContent=text;t.classList.add('show');clearTimeout(worldState.toastTimer);worldState.toastTimer=setTimeout(()=>t.classList.remove('show'),2200)}
 function worldLoadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src})}
-async function worldLoadAssets(){const entries={player:'assets/world/player.png',npc:'assets/world/npc_pvp.png',tree:'assets/world/tree.png',house:'assets/world/house.png',sign:'assets/world/arena_sign.png'};const out={};await Promise.all(Object.entries(entries).map(async([k,v])=>out[k]=await worldLoadImage(v)));worldState.images=out;worldState.ready=true;const loading=document.getElementById('worldLoading');if(loading)loading.remove()}
-function worldRectHit(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
-function worldPlayerRect(x=worldState.x,y=worldState.y){return{x:x-11,y:y-7,w:22,h:28}}
-function worldCanMove(nx,ny){const r=worldPlayerRect(nx,ny);return !WORLD_SOLIDS.some(s=>worldRectHit(r,s))}
-function worldInGrass(x=worldState.x,y=worldState.y){return x>WORLD_GRASS_RECT.x&&x<WORLD_GRASS_RECT.x+WORLD_GRASS_RECT.w&&y>WORLD_GRASS_RECT.y&&y<WORLD_GRASS_RECT.y+WORLD_GRASS_RECT.h}
-function worldDrawTile(ctx,x,y,type){const px=x*WORLD_TILE,py=y*WORLD_TILE;let c='#cdb77d';if(type==='grass')c='#55a94f';else if(type==='forest')c='#2f733b';else if(type==='path')c='#c6a66c';ctx.fillStyle=c;ctx.fillRect(px,py,WORLD_TILE,WORLD_TILE);ctx.fillStyle='rgba(255,255,255,.045)';ctx.fillRect(px,py,WORLD_TILE,2);ctx.fillStyle='rgba(0,0,0,.05)';ctx.fillRect(px,py+WORLD_TILE-2,WORLD_TILE,2);if(type==='grass'){ctx.fillStyle='rgba(29,111,42,.5)';for(let i=0;i<4;i++){const gx=px+7+((i*13+x*5+y*3)%35),gy=py+10+((i*9+x*2)%28);ctx.fillRect(gx,gy,2,8);ctx.fillRect(gx-3,gy+4,3,2);ctx.fillRect(gx+2,gy+2,3,2)}}}
-function worldDrawMap(ctx){for(let y=0;y<WORLD_H;y++)for(let x=0;x<WORLD_W;x++){let type=(x===0||y===0||x===WORLD_W-1||y===WORLD_H-1)?'forest':(x>=9&&x<=13&&y>=5&&y<=10)?'grass':y>=5?'path':'village';worldDrawTile(ctx,x,y,type)}
-  // 길 디테일
-  ctx.fillStyle='rgba(255,230,167,.16)';ctx.fillRect(1*WORLD_TILE,4.65*WORLD_TILE,14*WORLD_TILE,.7*WORLD_TILE);ctx.fillRect(5.6*WORLD_TILE,1*WORLD_TILE,.9*WORLD_TILE,10*WORLD_TILE);
-  // 물가/화단 느낌의 장식
-  ctx.fillStyle='#66b6bd';ctx.fillRect(1.25*WORLD_TILE,5.5*WORLD_TILE,3.4*WORLD_TILE,1.25*WORLD_TILE);ctx.fillStyle='#8dd2d3';ctx.fillRect(1.35*WORLD_TILE,5.6*WORLD_TILE,3.2*WORLD_TILE,1.05*WORLD_TILE);
-  // 집
-  const h=worldState.images.house;if(h){ctx.drawImage(h,2*WORLD_TILE,1.25*WORLD_TILE,3*WORLD_TILE,2.33*WORLD_TILE);ctx.drawImage(h,10*WORLD_TILE,1.25*WORLD_TILE,3*WORLD_TILE,2.33*WORLD_TILE)}
-  // 중앙 작은 건물
-  if(h)ctx.drawImage(h,7*WORLD_TILE,4.45*WORLD_TILE,2*WORLD_TILE,1.55*WORLD_TILE);
-  // 경계 나무
-  const tree=worldState.images.tree;if(tree){for(let x=0;x<WORLD_W;x++){ctx.drawImage(tree,x*WORLD_TILE,0,48,64);ctx.drawImage(tree,x*WORLD_TILE,10.7*WORLD_TILE,48,64)}for(let y=1;y<WORLD_H-1;y++){ctx.drawImage(tree,0,y*WORLD_TILE-8,48,64);ctx.drawImage(tree,15*WORLD_TILE,y*WORLD_TILE-8,48,64)}}
-  // 투기장 표지판
-  const sign=worldState.images.sign;if(sign)ctx.drawImage(sign,5.85*WORLD_TILE,3.18*WORLD_TILE,64,72);
+async function worldLoadAssets(){const files={player:'assets/world/player.png',npc:'assets/world/npc_pvp.png',tree:'assets/world/tree.png',house:'assets/world/house.png',sign:'assets/world/arena_sign.png'};const out={};await Promise.all(Object.entries(files).map(async([k,v])=>out[k]=await worldLoadImage(v)));worldState.images=out;worldState.ready=true}
+function worldMap(){return WORLD_MAPS[worldState.map]||WORLD_MAPS.town}
+function rectHit(a,b){return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y}
+function playerRect(x=worldState.x,y=worldState.y){return{x:x-12,y:y-10,w:24,h:30}}
+function buildingDoor(b){return{x:b.x+b.w/2-34,y:b.y+b.h-22,w:68,h:42}}
+function worldSolids(){const m=worldMap();if(m.interior)return[{x:0,y:0,w:m.w,h:55},{x:0,y:0,w:55,h:m.h},{x:m.w-55,y:0,w:55,h:m.h},{x:0,y:m.h-20,w:390,h:20},{x:570,y:m.h-20,w:390,h:20},{x:220,y:160,w:520,h:125}];return (m.buildings||[]).map(b=>({x:b.x,y:b.y,w:b.w,h:b.h-18}));}
+function canMove(nx,ny){const m=worldMap(),r=playerRect(nx,ny);if(r.x<20||r.y<20||r.x+r.w>m.w-20||r.y+r.h>m.h-20)return false;return !worldSolids().some(s=>rectHit(r,s))}
+function inGrass(){const g=worldMap().grass;return !!g&&worldState.x>g.x&&worldState.x<g.x+g.w&&worldState.y>g.y&&worldState.y<g.y+g.h}
+function drawGround(ctx,m){ctx.fillStyle=m.interior?'#bc9a6d':'#6eb65c';ctx.fillRect(0,0,m.w,m.h);if(m.interior){for(let y=55;y<m.h;y+=48)for(let x=55;x<m.w-55;x+=48){ctx.fillStyle=((x+y)/48)%2?'#d3b17d':'#c8a36f';ctx.fillRect(x,y,48,48)}ctx.fillStyle='#5d4031';ctx.fillRect(220,160,520,125);ctx.fillStyle='#8b5d42';ctx.fillRect(250,185,460,75);ctx.fillStyle='#33261f';ctx.fillRect(390,m.h-34,180,34);ctx.fillStyle='#e9d9b8';ctx.fillRect(380,300,200,105);ctx.fillStyle='#47342a';ctx.fillRect(405,325,150,55);return}
+  ctx.fillStyle='#d1b77d';ctx.fillRect(0,500,m.w,260);ctx.fillRect(760,0,260,m.h);ctx.fillStyle='#75c45d';const g=m.grass;if(g){ctx.fillRect(g.x,g.y,g.w,g.h);ctx.fillStyle='rgba(30,110,42,.38)';for(let y=g.y+12;y<g.y+g.h;y+=26)for(let x=g.x+12;x<g.x+g.w;x+=28){ctx.fillRect(x,y,3,13);ctx.fillRect(x-4,y+7,5,3)}}
+  ctx.fillStyle='#2e713c';ctx.fillRect(0,0,m.w,55);ctx.fillRect(0,m.h-55,m.w,55);ctx.fillRect(0,0,55,m.h);ctx.fillRect(m.w-55,0,55,m.h)
 }
-function worldDrawSprite(ctx,img,x,y,dir,frame,scale=1){if(!img)return;const rows={down:0,left:1,right:2,up:3};const sx=(frame%4)*32,sy=(rows[dir]||0)*40;ctx.imageSmoothingEnabled=false;ctx.drawImage(img,sx,sy,32,40,Math.round(x-16*scale),Math.round(y-32*scale),32*scale,40*scale)}
-function worldDraw(){const canvas=document.getElementById('worldMap');if(!canvas||!worldState.ready)return;const ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.clearRect(0,0,canvas.width,canvas.height);worldDrawMap(ctx);worldDrawSprite(ctx,worldState.images.npc,6.5*WORLD_TILE,4.6*WORLD_TILE,'down',Math.floor(performance.now()/420)%2?1:0,1);ctx.fillStyle='rgba(10,12,20,.82)';ctx.fillRect(5.75*WORLD_TILE,4.05*WORLD_TILE,1.5*WORLD_TILE,18);ctx.fillStyle='#f4d66f';ctx.font='bold 12px sans-serif';ctx.textAlign='center';ctx.fillText('PVP',6.5*WORLD_TILE,4.05*WORLD_TILE+13);worldDrawSprite(ctx,worldState.images.player,worldState.x,worldState.y,worldState.dir,worldState.frame,1.08)}
-function worldSavePosition(){localStorage.setItem('cnine_world_pos_v2',JSON.stringify({x:Math.round(worldState.x),y:Math.round(worldState.y),dir:worldState.dir}))}
-async function ensureWorldBattleConfig(){if(worldState.configLoaded&&battleState.monsters?.length)return true;if(!API_MODE){worldToast('서버 연결 상태에서 몬스터 조우가 가능합니다.');return false}try{const d=await apiRequest('battle/config'),owned=ownedIds(loadUser()),saved=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5);battleState={config:d.settings,monsters:d.monsters||[],selectedMonster:null,deck:saved,energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now()};worldState.configLoaded=true;return true}catch(e){worldToast(e.message);return false}}
-async function triggerWorldEncounter(){if(worldState.busy)return;worldState.busy=true;worldState.keys={};worldToast('풀숲이 크게 흔들립니다...');await battleSleep(420);const canvas=document.getElementById('worldMap');if(canvas){canvas.classList.add('encounter-flash');await battleSleep(500);canvas.classList.remove('encounter-flash')}if(!await ensureWorldBattleConfig()){worldState.busy=false;return}if(battleState.deck.length!==5){worldState.busy=false;alert('랜덤 조우 전투를 하려면 PVE 덱 5장을 먼저 저장해야 합니다.');renderShell('battle');return}const available=(battleState.monsters||[]).filter(m=>!m.isBoss);const pool=available.length?available:battleState.monsters;if(!pool.length){worldState.busy=false;worldToast('등록된 몬스터가 없습니다.');return}battleState.selectedMonster=Number(pool[Math.floor(Math.random()*pool.length)].id);window.__worldBattleReturn=true;worldState.busy=false;startBattle()}
-function worldCheckEncounter(distance){if(!worldInGrass()||worldState.busy)return;worldState.travel+=distance;if(worldState.travel>=worldState.nextEncounter){worldState.travel=0;worldState.nextEncounter=220+Math.random()*260;if(Math.random()<0.58)triggerWorldEncounter()}}
-function worldAction(){const dx=worldState.x-6.5*WORLD_TILE,dy=worldState.y-4.65*WORLD_TILE;if(Math.hypot(dx,dy)<66){worldState.busy=true;worldToast('투기장 관리인: PVP 경기장으로 안내합니다.');setTimeout(()=>{worldState.busy=false;renderShell('pvp')},450)}else worldToast(worldInGrass()?'풀숲을 조사했습니다. 몬스터의 발자국이 보입니다.':'주변에 상호작용할 대상이 없습니다.')}
-function worldLoop(now){const canvas=document.getElementById('worldMap');if(!canvas)return;const dt=Math.min(32,now-(worldState.lastTime||now));worldState.lastTime=now;let dx=0,dy=0;if(!worldState.busy){if(worldState.keys.left)dx-=1;if(worldState.keys.right)dx+=1;if(worldState.keys.up)dy-=1;if(worldState.keys.down)dy+=1}if(dx||dy){if(dx&&dy){dx*=.7071;dy*=.7071}const speed=175,step=speed*dt/1000;let moved=0;const nx=worldState.x+dx*step;if(worldCanMove(nx,worldState.y)){worldState.x=nx;moved+=Math.abs(dx*step)}const ny=worldState.y+dy*step;if(worldCanMove(worldState.x,ny)){worldState.y=ny;moved+=Math.abs(dy*step)}worldState.moving=moved>.01;if(Math.abs(dx)>Math.abs(dy))worldState.dir=dx>0?'right':'left';else worldState.dir=dy>0?'down':'up';if(worldState.moving){worldState.frame=Math.floor(now/110)%4;worldCheckEncounter(moved);if(now-(worldState.lastSave||0)>600){worldState.lastSave=now;worldSavePosition()}}}else{worldState.moving=false;worldState.frame=0}worldDraw();worldState.raf=requestAnimationFrame(worldLoop)}
-function initWorldView(){const saved=JSON.parse(localStorage.getItem('cnine_world_pos_v2')||'null');if(saved&&Number.isFinite(saved.x)&&Number.isFinite(saved.y)&&worldCanMove(saved.x,saved.y)){worldState.x=saved.x;worldState.y=saved.y;worldState.dir=saved.dir||'down'}worldState.keys={};worldState.lastTime=0;worldState.busy=false;const canvas=document.getElementById('worldMap');if(canvas){canvas.focus();canvas.onclick=()=>canvas.focus()}worldLoadAssets().then(()=>{worldDraw();worldState.raf=requestAnimationFrame(worldLoop)}).catch(()=>worldToast('월드 이미지 로딩에 실패했습니다.'));
-  const keyMap={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};
-  const down=e=>{if(!document.getElementById('worldMap'))return;const k=e.key.toLowerCase();if(keyMap[k]){e.preventDefault();worldState.keys[keyMap[k]]=true}else if(k===' '||k==='enter'){e.preventDefault();worldAction()}};
-  const up=e=>{const k=e.key.toLowerCase();if(keyMap[k])worldState.keys[keyMap[k]]=false};window.addEventListener('keydown',down);window.addEventListener('keyup',up);
-  document.querySelectorAll('[data-hold]').forEach(btn=>{const d=btn.dataset.hold;const press=e=>{e.preventDefault();worldState.keys[d]=true;btn.setPointerCapture?.(e.pointerId)};const release=e=>{e.preventDefault();worldState.keys[d]=false};btn.addEventListener('pointerdown',press);btn.addEventListener('pointerup',release);btn.addEventListener('pointercancel',release);btn.addEventListener('pointerleave',release)});const action=document.getElementById('worldAction');if(action)action.onclick=worldAction;
-  window.__stopWorld=()=>{cancelAnimationFrame(worldState.raf);worldSavePosition();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);worldState.keys={}}
+function drawBuilding(ctx,b,i){ctx.fillStyle=['#d57f54','#6d91bd','#9d6cc1','#b07a46'][i%4];ctx.fillRect(b.x,b.y,b.w,b.h);ctx.fillStyle='#7a3f37';ctx.beginPath();ctx.moveTo(b.x-18,b.y+45);ctx.lineTo(b.x+b.w/2,b.y-45);ctx.lineTo(b.x+b.w+18,b.y+45);ctx.closePath();ctx.fill();ctx.fillStyle='#f1d391';ctx.fillRect(b.x+35,b.y+80,b.w-70,70);ctx.fillStyle='#51362c';const d=buildingDoor(b);ctx.fillRect(d.x,d.y,d.w,d.h+22);ctx.fillStyle='rgba(0,0,0,.72)';ctx.fillRect(b.x+20,b.y+b.h+8,b.w-40,30);ctx.fillStyle='#fff';ctx.font='bold 17px sans-serif';ctx.textAlign='center';ctx.fillText(b.label,b.x+b.w/2,b.y+b.h+29)}
+function drawSprite(ctx,img,x,y,dir,frame,scale=1){if(!img)return;const rows={down:0,left:1,right:2,up:3};ctx.imageSmoothingEnabled=false;ctx.drawImage(img,(frame%4)*32,(rows[dir]||0)*40,32,40,Math.round(x-16*scale),Math.round(y-32*scale),32*scale,40*scale)}
+function updateCamera(){const m=worldMap();worldState.camera.x=Math.max(0,Math.min(m.w-WORLD_VIEW_W,worldState.x-WORLD_VIEW_W/2));worldState.camera.y=Math.max(0,Math.min(m.h-WORLD_VIEW_H,worldState.y-WORLD_VIEW_H/2))}
+function drawWorld(){const c=document.getElementById('worldMap');if(!c||!worldState.ready)return;const ctx=c.getContext('2d'),m=worldMap();updateCamera();ctx.clearRect(0,0,c.width,c.height);ctx.save();ctx.translate(-Math.round(worldState.camera.x),-Math.round(worldState.camera.y));drawGround(ctx,m);
+  if(!m.interior){(m.buildings||[]).forEach((b,i)=>drawBuilding(ctx,b,i));const tree=worldState.images.tree;for(let x=60;x<m.w-60;x+=95){ctx.drawImage(tree,x,18,48,64);ctx.drawImage(tree,x,m.h-80,48,64)}for(let y=70;y<m.h-90;y+=95){ctx.drawImage(tree,10,y,48,64);ctx.drawImage(tree,m.w-58,y,48,64)}(m.npcs||[]).forEach((n,i)=>{drawSprite(ctx,worldState.images.npc,n.x,n.y,'down',Math.floor(performance.now()/420)%2,1);ctx.fillStyle='rgba(0,0,0,.72)';ctx.fillRect(n.x-48,n.y-58,96,18);ctx.fillStyle='#ffe680';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.fillText(n.label,n.x,n.y-45)})}
+  else {drawSprite(ctx,worldState.images.npc,480,360,'down',Math.floor(performance.now()/420)%2,1.1);ctx.fillStyle='rgba(0,0,0,.75)';ctx.fillRect(380,276,200,26);ctx.fillStyle='#ffe680';ctx.font='bold 14px sans-serif';ctx.textAlign='center';ctx.fillText('A 버튼으로 시설 이용',480,294)}
+  drawSprite(ctx,worldState.images.player,worldState.x,worldState.y,worldState.dir,worldState.frame,1.18);ctx.restore();
+  const area=document.getElementById('worldAreaName');if(area)area.textContent=m.name;updatePrompt();
+}
+function updatePrompt(){const p=document.getElementById('worldPrompt');if(!p)return;let text='';const m=worldMap();if(m.interior){if(Math.hypot(worldState.x-480,worldState.y-360)<100)text='A · 시설 이용';else if(worldState.y>620)text='↓ 출구로 나가기'}else{for(const b of m.buildings||[]){const d=buildingDoor(b);if(Math.hypot(worldState.x-(d.x+d.w/2),worldState.y-(d.y+d.h/2))<75)text=`A · ${b.label} 입장`}for(const n of m.npcs||[]){if(Math.hypot(worldState.x-n.x,worldState.y-n.y)<70)text=`A · ${n.label}`}}p.textContent=text;p.classList.toggle('show',!!text)}
+function saveWorld(){localStorage.setItem('cnine_world_v3',JSON.stringify({map:worldState.map,x:Math.round(worldState.x),y:Math.round(worldState.y),dir:worldState.dir}))}
+function changeMap(name,x,y){worldState.map=name;const m=worldMap();worldState.x=x??m.spawn.x;worldState.y=y??m.spawn.y;worldState.travel=0;worldState.keys={};saveWorld();worldToast(`${m.name}으로 이동했습니다.`)}
+function checkTransitions(){const m=worldMap(),r=playerRect();if(m.interior&&worldState.y>m.h-35){changeMap('town',worldState.returnX||900,worldState.returnY||760);return true}for(const e of m.exits||[]){if(rectHit(r,e)){changeMap(e.to,e.tx,e.ty);return true}}return false}
+async function ensureWorldBattleConfig(){if(worldState.configLoaded&&battleState.monsters?.length)return true;if(!API_MODE){worldToast('서버 연결 상태에서 조우할 수 있습니다.');return false}try{const d=await apiRequest('battle/config'),owned=ownedIds(loadUser()),saved=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5);battleState={config:d.settings,monsters:d.monsters||[],selectedMonster:null,deck:saved,energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now()};worldState.configLoaded=true;return true}catch(e){worldToast(e.message);return false}}
+async function triggerWorldEncounter(){if(worldState.busy)return;worldState.busy=true;worldState.keys={};worldToast('야생 몬스터와 조우했습니다!');const c=document.getElementById('worldMap');c?.classList.add('encounter-flash');await battleSleep(520);c?.classList.remove('encounter-flash');if(!await ensureWorldBattleConfig()){worldState.busy=false;return}if(battleState.deck.length!==5){worldState.busy=false;openWorldPanel('battle');alert('랜덤 조우 전투를 하려면 PVE 덱 5장을 먼저 저장해야 합니다.');return}const pool=(battleState.monsters||[]).filter(m=>!m.isBoss);if(!pool.length){worldState.busy=false;worldToast('등록된 몬스터가 없습니다.');return}battleState.selectedMonster=Number(pool[Math.floor(Math.random()*pool.length)].id);window.__worldBattleReturn=true;worldState.busy=false;startBattle()}
+function checkEncounter(d){if(!inGrass()||worldState.busy)return;worldState.travel+=d;if(worldState.travel>=worldState.nextEncounter){worldState.travel=0;worldState.nextEncounter=300+Math.random()*420;if(Math.random()<.5)triggerWorldEncounter()}}
+function worldAction(){if(worldState.busy||worldState.paused)return;const m=worldMap();if(m.interior){if(Math.hypot(worldState.x-480,worldState.y-360)<105){openWorldPanel(m.feature);return}worldToast('카운터 앞에서 A 버튼을 눌러주세요.');return}for(const b of m.buildings||[]){const d=buildingDoor(b),cx=d.x+d.w/2,cy=d.y+d.h/2;if(Math.hypot(worldState.x-cx,worldState.y-cy)<82){worldState.returnX=cx;worldState.returnY=cy+65;changeMap('interior_'+b.id);return}}for(const n of m.npcs||[]){if(Math.hypot(worldState.x-n.x,worldState.y-n.y)<75){openWorldPanel(n.tab);return}}worldToast(inGrass()?'풀숲에서 인기척이 느껴집니다.':'주변에 상호작용할 대상이 없습니다.')}
+function worldLoop(now){const c=document.getElementById('worldMap');if(!c)return;const dt=Math.min(32,now-(worldState.lastTime||now));worldState.lastTime=now;let dx=0,dy=0;if(!worldState.busy&&!worldState.paused){if(worldState.keys.left)dx--;if(worldState.keys.right)dx++;if(worldState.keys.up)dy--;if(worldState.keys.down)dy++}if(dx||dy){if(dx&&dy){dx*=.7071;dy*=.7071}const step=210*dt/1000;let moved=0,nx=worldState.x+dx*step;if(canMove(nx,worldState.y)){worldState.x=nx;moved+=Math.abs(dx*step)}let ny=worldState.y+dy*step;if(canMove(worldState.x,ny)){worldState.y=ny;moved+=Math.abs(dy*step)}if(Math.abs(dx)>Math.abs(dy))worldState.dir=dx>0?'right':'left';else worldState.dir=dy>0?'down':'up';worldState.frame=moved?Math.floor(now/105)%4:0;if(moved){if(!checkTransitions())checkEncounter(moved);if(now-(worldState.lastSave||0)>700){worldState.lastSave=now;saveWorld()}}}else worldState.frame=0;drawWorld();worldState.raf=requestAnimationFrame(worldLoop)}
+function initWorldView(){const saved=JSON.parse(localStorage.getItem('cnine_world_v3')||'null');if(saved&&WORLD_MAPS[saved.map]){worldState.map=saved.map;worldState.x=saved.x;worldState.y=saved.y;worldState.dir=saved.dir||'down'}else{const m=worldMap();worldState.x=m.spawn.x;worldState.y=m.spawn.y}worldState.keys={};worldState.lastTime=0;worldState.busy=false;worldState.paused=false;const c=document.getElementById('worldMap');if(c){c.focus();c.onclick=()=>c.focus()}worldLoadAssets().then(()=>{drawWorld();worldState.raf=requestAnimationFrame(worldLoop)}).catch(()=>worldToast('월드 이미지 로딩에 실패했습니다.'));
+ const km={arrowup:'up',w:'up',arrowdown:'down',s:'down',arrowleft:'left',a:'left',arrowright:'right',d:'right'};
+ const down=e=>{if(!document.getElementById('worldMap')||worldState.paused)return;const k=e.key.toLowerCase();if(km[k]){e.preventDefault();worldState.keys[km[k]]=true}else if(k===' '||k==='enter'||k==='z'){e.preventDefault();worldAction()}};
+ const up=e=>{const k=e.key.toLowerCase();if(km[k])worldState.keys[km[k]]=false};window.addEventListener('keydown',down);window.addEventListener('keyup',up);
+ document.querySelectorAll('[data-hold]').forEach(btn=>{const d=btn.dataset.hold,press=e=>{e.preventDefault();if(!worldState.paused)worldState.keys[d]=true},release=e=>{e.preventDefault();worldState.keys[d]=false};btn.addEventListener('pointerdown',press);btn.addEventListener('pointerup',release);btn.addEventListener('pointercancel',release);btn.addEventListener('pointerleave',release)});document.getElementById('worldAction').onclick=worldAction;
+ window.__stopWorldInput=(pause)=>{worldState.paused=pause;worldState.keys={}};
+ window.__stopWorld=()=>{cancelAnimationFrame(worldState.raf);saveWorld();window.removeEventListener('keydown',down);window.removeEventListener('keyup',up);worldState.keys={}}
 }
 
 init();
