@@ -1045,3 +1045,46 @@ body.world-root-mode,
 .battle-modal .monster-card-wrap .monster-name-only .card-footer>div{width:100%!important;text-align:center!important}
 .battle-modal .monster-card-wrap .monster-name-only .card-title{white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;text-align:center!important}
 .battle-modal .monster-card-wrap .monster-name-only .card-mini-logo{display:none!important}
+
+/* v9.4.8: monsters have no card grade or extra metadata */
+.battle-modal .monster-card-wrap .monster-name-only .card-header,
+.battle-modal .monster-card-wrap .monster-name-only .limited-badge,
+.battle-modal .monster-card-wrap .monster-name-only .breakthrough-badge,
+.battle-modal .monster-card-wrap .monster-name-only .card-mini-logo,
+.battle-modal .monster-card-wrap .monster-name-only .card-footer small{display:none!important}
+.battle-modal .monster-card-wrap .monster-name-only .card-footer{justify-content:center!important}
+.battle-modal .monster-card-wrap .monster-name-only .card-footer>div{width:100%!important;text-align:center!important}
+
+/* v9.4.9 Wago iframe/mobile world controls visibility hotfix */
+body.touch-controls-enabled .world-root-controls,
+html.touch-controls-enabled .world-root-controls {
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+  position:fixed!important;
+  left:max(10px, env(safe-area-inset-left))!important;
+  right:auto!important;
+  bottom:max(12px, env(safe-area-inset-bottom))!important;
+  z-index:2147483000!important;
+  transform:scale(.86)!important;
+  transform-origin:left bottom!important;
+}
+body.touch-controls-enabled .world-root-controls button,
+html.touch-controls-enabled .world-root-controls button {
+  visibility:visible!important;
+  opacity:1!important;
+  pointer-events:auto!important;
+}
+@media (max-width:900px), (pointer:coarse), (hover:none) {
+  .world-root-controls {
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+    pointer-events:auto!important;
+    position:fixed!important;
+    left:max(10px, env(safe-area-inset-left))!important;
+    bottom:max(12px, env(safe-area-inset-bottom))!important;
+    z-index:2147483000!important;
+  }
+}
