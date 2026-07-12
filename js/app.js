@@ -378,7 +378,7 @@ async function startBattle(){
     <div class="battle-arena">
       <div class="battle-side player-side"><div class="battle-team">${deckCards.map((c,i)=>cardHtml(c,true,`battle-card-fighter battle-fighter-${i}`,user).replace(`data-id="${c.id}"`,`data-id="${c.id}" data-fighter="${i}" style="--i:${i}"`)).join('')}</div><small>MEMBER TEAM</small></div>
       <div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div>
-      <div class="battle-side enemy-side"><div class="battle-enemy-card ${monster.isBoss?'boss':''}"><div class="enemy-card-badge">${monster.isBoss?'BOSS':'MONSTER'}</div><div class="battle-enemy-visual">${monster.image?`<img src="${monster.image}">`:'<div class="monster-placeholder">👹</div>'}</div><div class="battle-enemy-title">${escapeHtml(monster.name)}</div><div class="enemy-card-power">POWER ${Number(monster.battlePower||0).toLocaleString()}</div></div></div>
+      <div class="battle-side enemy-side"><div class="monster-card-wrap">${cardHtml({id:`monster-${monster.id}`,grade:monster.isBoss?'FUR':'SSR',image:monster.image||'assets/ui/cninelogo.png',title:monster.name,name:`전투력 ${Number(monster.battlePower||0).toLocaleString()} · 승리보상 ◈ ${Number(monster.rewardCoin||0).toLocaleString()}`,focusX:50,focusY:50,limitedTotal:null,issuedCount:0},true,`battle-card-fighter battle-enemy-card monster-battle-card ${monster.isBoss?'boss':''}`,{breakthroughs:{}}).replace(`data-id="monster-${monster.id}"`,`data-id="monster-${monster.id}" style="--i:0"`)}</div></div>
     </div>
     <div class="battle-impact"><i></i><i></i><i></i></div>
     <div id="battleMessage" class="battle-message"><span>전투 준비 중...</span></div>

@@ -989,3 +989,53 @@ body.world-root-mode,
 @media(max-width:1200px){.pvp-battle-modal .battle-team.enemy-team,.pvp-battle-modal .player-side .battle-team{width:650px!important;height:410px!important}.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame,.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * 101px)!important;width:160px!important}}
 @media(max-width:900px){.pvp-battle-modal .pvp-arena{grid-template-columns:1fr 1fr!important}.pvp-battle-modal .battle-team.enemy-team,.pvp-battle-modal .player-side .battle-team{width:100%!important;height:355px!important}.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame,.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * clamp(38px,7.8vw,58px))!important;width:clamp(82px,15vw,112px)!important}}
 @media(max-width:560px){.pvp-battle-modal .battle-team.enemy-team,.pvp-battle-modal .player-side .battle-team{height:270px!important}.pvp-battle-modal .battle-team.enemy-team .battle-card-fighter.card-frame,.pvp-battle-modal .player-side .battle-team .battle-card-fighter.card-frame{left:calc(var(--i) * 30px)!important;width:70px!important}}
+
+/* v9.4.6 — PVE monster card uses the exact same CNINE card component as member cards. */
+.battle-modal .enemy-side{display:flex!important;align-items:flex-start!important;justify-content:center!important;overflow:visible!important}
+.battle-modal .monster-card-wrap{position:relative!important;width:210px!important;height:auto!important;overflow:visible!important;margin-top:20px!important}
+.battle-modal .monster-card-wrap .monster-battle-card.card-frame{
+  position:relative!important;
+  inset:auto!important;
+  width:210px!important;
+  max-width:none!important;
+  min-width:0!important;
+  height:auto!important;
+  min-height:0!important;
+  aspect-ratio:2/3!important;
+  margin:0!important;
+  display:block!important;
+  opacity:0;
+  transform:translateX(180px) scale(.72);
+  overflow:visible!important;
+  border-radius:0!important;
+  background:var(--paper,#fff9d8)!important;
+}
+.battle-modal.enemy-enter .monster-card-wrap .monster-battle-card.card-frame,
+.battle-modal .enemy-enter .monster-card-wrap .monster-battle-card.card-frame{animation:battleEnemyEnter .7s cubic-bezier(.2,.9,.2,1) forwards!important}
+.battle-modal .monster-card-wrap .monster-battle-card .card-inner{height:100%!important;display:grid!important;grid-template-rows:auto 1fr auto!important}
+.battle-modal .monster-card-wrap .monster-battle-card .card-art{height:auto!important;min-height:0!important;overflow:hidden!important}
+.battle-modal .monster-card-wrap .monster-battle-card .card-art img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center!important;display:block!important}
+.battle-modal .monster-card-wrap .monster-battle-card .card-header{font-size:clamp(9px,.75vw,13px)!important;padding:4px 6px!important}
+.battle-modal .monster-card-wrap .monster-battle-card .card-footer{padding:5px 6px!important;min-height:44px!important;display:flex!important;align-items:center!important}
+.battle-modal .monster-card-wrap .monster-battle-card .card-footer small{font-size:clamp(8px,.62vw,11px)!important;white-space:normal!important;line-height:1.2!important}
+.battle-modal .monster-card-wrap .monster-battle-card .card-title{font-size:clamp(10px,.82vw,14px)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.battle-modal .monster-card-wrap .monster-battle-card .card-mini-logo{width:22px!important;height:22px!important;object-fit:contain!important}
+.battle-modal .monster-card-wrap .monster-battle-card.boss{box-shadow:0 0 30px rgba(255,191,0,.55)!important}
+.battle-modal .monster-heavy-attack .monster-card-wrap .monster-battle-card{animation:monsterHeavyCharge .78s cubic-bezier(.2,.8,.2,1)!important}
+.battle-modal .final-fail-v863 .monster-card-wrap .monster-battle-card{animation:monsterFinalRush .95s cubic-bezier(.1,.8,.15,1)!important}
+.battle-modal .battle-win-v863 .monster-card-wrap .monster-battle-card{animation:enemyDefeat 1s ease forwards!important}
+@media(max-width:1200px){
+  .battle-modal .monster-card-wrap,.battle-modal .monster-card-wrap .monster-battle-card.card-frame{width:165px!important}
+}
+@media(max-width:900px){
+  .battle-modal .monster-card-wrap{width:clamp(108px,19vw,136px)!important;margin-top:12px!important}
+  .battle-modal .monster-card-wrap .monster-battle-card.card-frame{width:clamp(108px,19vw,136px)!important}
+}
+@media(max-width:560px){
+  .battle-modal .monster-card-wrap,.battle-modal .monster-card-wrap .monster-battle-card.card-frame{width:88px!important}
+  .battle-modal .monster-card-wrap{margin-top:8px!important}
+  .battle-modal .monster-card-wrap .monster-battle-card .card-footer{min-height:27px!important;padding:2px!important}
+  .battle-modal .monster-card-wrap .monster-battle-card .card-title{font-size:8px!important}
+  .battle-modal .monster-card-wrap .monster-battle-card .card-footer small{font-size:6px!important}
+  .battle-modal .monster-card-wrap .monster-battle-card .card-mini-logo{display:none!important}
+}
