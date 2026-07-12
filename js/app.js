@@ -231,7 +231,12 @@ function openWorldPanel(tab){
   bindView(tab);
   loadRecentHighGradeFeed();
 }
-function closeWorldPanel(){const panel=document.getElementById('worldPanel');if(!panel)return;panel.className='world-panel';panel.innerHTML='';if(window.__stopWorldInput)window.__stopWorldInput(false);document.getElementById('worldMap')?.focus();}
+function resumeWorldInput(){
+  if(window.__stopWorldInput)window.__stopWorldInput(false);
+  worldState.paused=false;worldState.busy=false;worldState.keys={};
+  requestAnimationFrame(()=>{const map=document.getElementById('worldMap');if(map){map.setAttribute('tabindex','0');try{map.focus({preventScroll:true})}catch(_){map.focus()}}});
+}
+function closeWorldPanel(){const panel=document.getElementById('worldPanel');if(!panel){resumeWorldInput();return;}panel.className='world-panel';panel.innerHTML='';resumeWorldInput();}
 
 function summaryBar(user) {
   return `<section class="summary-bar"><div class="login-summary"><span>로그인 중</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div><div><span>COIN</span><b class="coin-value">◈ ${Number(user.coin||0).toLocaleString()}</b><small class="shard-value">🧩 카드 조각 ${Number(user.cardShards||0).toLocaleString()}</small></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><div><span>CARD SCORE</span><b>${cardScore(user).toLocaleString()}점</b></div></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">UR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 UR 이상 획득 기록을 불러오는 중...</span></div></div></section>`;
@@ -252,7 +257,7 @@ async function loadRecentHighGradeFeed(){
 }
 
 function packSelector() {
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}"><i></i><b>${pack.subtitle}</b></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.price}코인</em></button>`).join('')}</div></section>`;
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}"><img src="assets/ui/cninelogo.png" class="mini-pack-logo" alt="씨나인"><b>${pack.subtitle}</b></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.price}코인</em></button>`).join('')}</div></section>`;
 }
 
 function buyView(user) {
@@ -336,7 +341,7 @@ async function startBattle(){
       <div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${escapeHtml(monster.name)}</b><span data-hp-text="enemy">100%</span></div><div class="battle-hp-track"><i data-hp-fill="enemy"></i></div><small>전투력 ${Number(monster.battlePower||0).toLocaleString()}</small></div>
     </div>
     <div class="battle-arena">
-      <div class="battle-side player-side"><div class="battle-team">${deckCards.map((c,i)=>`<div class="battle-card-fighter grade-${String(c.grade||'C').toLowerCase()}" data-fighter="${i}" style="--i:${i}"><div class="fighter-aura"></div><img src="${c.image}" style="object-position:${c.focusX||50}% ${c.focusY||50}%"><div class="fighter-grade">${c.grade}</div><span>${escapeHtml(c.title)}</span></div>`).join('')}</div><small>MEMBER TEAM</small></div>
+      <div class="battle-side player-side"><div class="battle-team">${deckCards.map((c,i)=>cardHtml(c,true,`battle-card-fighter battle-fighter-${i}`,user).replace(`data-id="${c.id}"`,`data-id="${c.id}" data-fighter="${i}" style="--i:${i}"`)).join('')}</div><small>MEMBER TEAM</small></div>
       <div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div>
       <div class="battle-side enemy-side"><div class="battle-enemy-card ${monster.isBoss?'boss':''}"><div class="enemy-card-badge">${monster.isBoss?'BOSS':'MONSTER'}</div><div class="battle-enemy-visual">${monster.image?`<img src="${monster.image}">`:'<div class="monster-placeholder">👹</div>'}</div><div class="battle-enemy-title">${escapeHtml(monster.name)}</div><div class="enemy-card-power">POWER ${Number(monster.battlePower||0).toLocaleString()}</div></div></div>
     </div>
@@ -378,8 +383,8 @@ async function startBattle(){
     await battleSleep(1050);
     stage.classList.add(win?'battle-win-v863':'battle-lose-v863');phase.textContent=win?'MISSION CLEAR':'MISSION FAILED';
     msg.innerHTML=win?`<strong>VICTORY</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${d.reward.toLocaleString()}</b></div><em>화면을 눌러 돌아가기</em>`:`<strong>DEFEAT</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-defeat-tip">돌파 단계로 전투력을 높여보세요.</div><em>화면을 눌러 돌아가기</em>`;
-    battleState.energy=d.energy||battleState.energy;battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();saveUser(apiUserToLocal(d.user));setTimeout(()=>{const returnFromBattle=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';if(window.__worldBattleReturn){window.__worldBattleReturn=false;if(window.__stopWorldInput)window.__stopWorldInput(false);document.getElementById('worldMap')?.focus();}else if(document.getElementById('worldPanel')){openWorldPanel('battle');}else{renderShell('world');setTimeout(()=>openWorldPanel('battle'),60);}};modal.onclick=returnFromBattle;const resultButton=document.createElement('button');resultButton.type='button';resultButton.className='battle-result-return';resultButton.textContent='돌아가기';resultButton.onclick=e=>{e.stopPropagation();returnFromBattle()};msg.appendChild(resultButton)},700);
-  }catch(e){if(e.energy)battleState.energy=e.energy;msg.innerHTML=`<span>${escapeHtml(e.message)}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';if(window.__worldBattleReturn){window.__worldBattleReturn=false;if(window.__stopWorldInput)window.__stopWorldInput(false);document.getElementById('worldMap')?.focus();}else if(document.getElementById('worldPanel'))openWorldPanel('battle');else{renderShell('world');setTimeout(()=>openWorldPanel('battle'),60)}}}
+    battleState.energy=d.energy||battleState.energy;battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();saveUser(apiUserToLocal(d.user));setTimeout(()=>{const returnFromBattle=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';if(window.__worldBattleReturn){window.__worldBattleReturn=false;resumeWorldInput();}else if(document.getElementById('worldPanel')){openWorldPanel('battle');}else{renderShell('world');setTimeout(()=>openWorldPanel('battle'),60);}};modal.onclick=returnFromBattle;const resultButton=document.createElement('button');resultButton.type='button';resultButton.className='battle-result-return';resultButton.textContent='돌아가기';resultButton.onclick=e=>{e.stopPropagation();returnFromBattle()};msg.appendChild(resultButton)},700);
+  }catch(e){if(e.energy)battleState.energy=e.energy;msg.innerHTML=`<span>${escapeHtml(e.message)}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';if(window.__worldBattleReturn){window.__worldBattleReturn=false;resumeWorldInput();}else if(document.getElementById('worldPanel'))openWorldPanel('battle');else{renderShell('world');setTimeout(()=>openWorldPanel('battle'),60)}}}
 }
 
 function attendanceView(user) {
@@ -499,7 +504,7 @@ function openPack(packId, count, cost) {
     modal.className='modal show results-modal';
     modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
     document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-    const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openWorldPanel('buy')};
+    const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';worldState.keys={};worldState.busy=false;openWorldPanel('buy')};
     document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=closePackResult;
     document.getElementById('drawAgain').onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openPack(pack.id,count,cost);};
   },1550);
@@ -793,7 +798,7 @@ async function renderDrawResults(pack,count,cost,results,user,critical){
   const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
   modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?`+${shardGained} 조각`:'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div><div class="result-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div></div>`;
   document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-  const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openWorldPanel('buy')};
+  const closePackResult=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';worldState.keys={};worldState.busy=false;openWorldPanel('buy')};
   document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=closePackResult;
   document.getElementById('drawAgain').onclick=()=>{modal.onclick=null;modal.className='modal';modal.innerHTML='';openPack(pack.id,count,cost)};
 }

@@ -627,3 +627,44 @@ body.world-root-mode,
     height:158px!important;
   }
 }
+
+/* v9.3.6 pack branding + exact collection-card battle reuse */
+.mini-pack{display:flex!important;align-items:center!important;gap:10px!important;padding:8px 12px!important;background:transparent!important}
+.mini-pack:before,.mini-pack:after,.mini-pack i{display:none!important}
+.mini-pack-logo{width:34px!important;height:34px!important;object-fit:contain!important;image-rendering:auto!important;background:transparent!important;border:0!important;box-shadow:none!important;flex:0 0 34px}
+.mini-pack b{flex:1;text-align:center;color:#171914!important}
+.pack-envelope:before{content:attr(data-pack-title);display:none!important}
+.pack-envelope .pack-top{display:none!important}
+.pack-envelope .pack-brand-logo{position:absolute!important;z-index:5!important;left:50%!important;top:43%!important;transform:translate(-50%,-50%)!important;width:42%!important;height:42%!important;object-fit:contain!important;background:transparent!important;border:0!important;box-shadow:none!important;filter:none!important}
+.pack-envelope .pack-name{position:absolute!important;z-index:6!important;left:10%!important;right:10%!important;top:10%!important;text-align:center!important;font:900 16px/1.2 monospace!important;letter-spacing:2px!important;color:#171914!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
+.pack-envelope .pack-energy{display:none!important}
+.pack-envelope .pack-range{bottom:10%!important}
+
+.battle-modal .battle-stage{width:min(1500px,96vw)!important;min-height:min(900px,94vh)!important;height:min(900px,94vh)!important;overflow:hidden!important}
+.battle-modal .battle-arena{display:grid!important;grid-template-columns:minmax(0,1.65fr) 70px minmax(250px,.55fr)!important;align-items:center!important;min-height:0!important;height:calc(100% - 238px)!important;padding:12px 24px 104px!important;box-sizing:border-box!important;gap:14px!important}
+.battle-modal .player-side{min-width:0!important;width:100%!important;height:100%!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
+.battle-modal .battle-team{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:10px!important;width:100%!important;align-items:center!important;justify-items:stretch!important;overflow:visible!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame{width:100%!important;max-width:none!important;height:auto!important;aspect-ratio:2/3!important;min-width:0!important;transform:none!important;margin:0!important;animation-delay:calc(var(--i)*80ms)!important;overflow:visible!important}
+.battle-modal .battle-team .battle-card-fighter .card-inner{height:100%!important;display:grid!important;grid-template-rows:auto 1fr auto!important}
+.battle-modal .battle-team .battle-card-fighter .card-header{font-size:clamp(9px,.75vw,13px)!important;padding:4px 6px!important}
+.battle-modal .battle-team .battle-card-fighter .card-art{min-height:0!important;height:auto!important}
+.battle-modal .battle-team .battle-card-fighter .card-art img{width:100%!important;height:100%!important;object-fit:cover!important;display:block!important}
+.battle-modal .battle-team .battle-card-fighter .card-footer{padding:5px 6px!important;min-height:44px!important;display:flex!important;align-items:center!important}
+.battle-modal .battle-team .battle-card-fighter .card-footer small{font-size:clamp(8px,.62vw,11px)!important}
+.battle-modal .battle-team .battle-card-fighter .card-title{font-size:clamp(10px,.82vw,14px)!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+.battle-modal .battle-team .battle-card-fighter .card-mini-logo{width:22px!important;height:22px!important;object-fit:contain!important}
+.battle-modal .battle-team .battle-card-fighter .fighter-aura,.battle-modal .battle-team .battle-card-fighter>span,.battle-modal .battle-team .battle-card-fighter>.fighter-grade{display:none!important}
+.battle-modal .battle-team .battle-card-fighter.active-attacker{transform:translateY(-14px) scale(1.035)!important;z-index:5!important}
+.battle-modal .enemy-side{height:100%!important;display:flex!important;align-items:center!important;justify-content:center!important}
+.battle-modal .battle-enemy-card{width:min(100%,300px)!important;max-height:100%!important}
+@media(max-width:900px){
+ .battle-modal .battle-stage{height:96dvh!important;min-height:96dvh!important}
+ .battle-modal .battle-arena{grid-template-columns:1fr!important;grid-template-rows:minmax(0,1fr) 20px minmax(150px,.42fr)!important;height:calc(100% - 220px)!important;padding:8px 8px 98px!important;gap:4px!important;overflow:hidden!important}
+ .battle-modal .battle-center{display:none!important}
+ .battle-modal .battle-team{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:3px!important}
+ .battle-modal .battle-team .battle-card-fighter .card-footer{min-height:30px!important;padding:2px!important}
+ .battle-modal .battle-team .battle-card-fighter .card-mini-logo{display:none!important}
+ .battle-modal .battle-team .battle-card-fighter .card-header{padding:2px!important}
+ .battle-modal .enemy-side{min-height:0!important}
+ .battle-modal .battle-enemy-card{width:min(180px,42vw)!important}
+}
