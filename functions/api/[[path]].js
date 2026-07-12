@@ -34,6 +34,11 @@ async function userCardScore(env,userId){const settings=await battleSettings(env
 async function ensurePvpProfile(env,user,settings){let row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first();if(!row){await env.DB.prepare('INSERT OR IGNORE INTO pvp_profiles(user_id,season_score,highest_score,wins,losses,updated_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,settings.initialScore,settings.initialScore,0,0).run();row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first()}return row}
 async function pvpDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
+
+function defaultMineralExchangeSettings(){return {enabled:true,baseMineral:100000000,payoutCoin:1000,dailyLimitCoin:3000,coinUnit:1000}}
+function cleanMineralExchangeSettings(raw={}){const b=defaultMineralExchangeSettings();return {enabled:raw.enabled!==false,baseMineral:Math.max(1,Math.floor(Number(raw.baseMineral||b.baseMineral))),payoutCoin:Math.max(1,Math.floor(Number(raw.payoutCoin||b.payoutCoin))),dailyLimitCoin:Math.max(1000,Math.floor(Number(raw.dailyLimitCoin||b.dailyLimitCoin)/1000)*1000),coinUnit:1000}}
+async function mineralExchangeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='mineral_exchange_settings_v1'").first();if(!row?.value)return defaultMineralExchangeSettings();try{return cleanMineralExchangeSettings(JSON.parse(row.value))}catch{return defaultMineralExchangeSettings()}}
+function kstTodaySql(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
 async function pvpDeckSnapshot(env,userId){const ids=await pvpDeckCards(env,userId);if(!ids.length)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map(rows.results.map(x=>[String(x.id),x]));return ids.map(id=>map.get(String(id))).filter(Boolean)}
 
 async function pvpEnergyState(env,user,settings){
@@ -207,6 +212,16 @@ async function ensureUpgrades(env){
       await env.DB.prepare(`CREATE TABLE IF NOT EXISTS pve_decks (user_id INTEGER PRIMARY KEY, card_ids TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
       await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_pve_decks_updated ON pve_decks(updated_at)`).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v908_pve_deck','1',CURRENT_TIMESTAMP)").run();
+    }
+
+    // v9.0.9 미네랄 교환: 기존 migration을 수정하지 않고 설정/신청 테이블만 추가한다.
+    const mineralExchangeDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v909_mineral_exchange'").first();
+    if(mineralExchangeDone?.value!=='1'){
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS mineral_exchange_requests (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, game_nickname TEXT NOT NULL, wago_nickname TEXT NOT NULL, mineral_amount INTEGER NOT NULL, coin_amount INTEGER NOT NULL, proof_text TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'PENDING', requested_kst_date TEXT NOT NULL, reviewed_by INTEGER, reviewed_at TEXT, reject_reason TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
+      await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_mineral_exchange_user_date ON mineral_exchange_requests(user_id,requested_kst_date,status)`).run();
+      await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_mineral_exchange_status ON mineral_exchange_requests(status,created_at DESC)`).run();
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('mineral_exchange_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultMineralExchangeSettings())).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v909_mineral_exchange','1',CURRENT_TIMESTAMP)").run();
     }
 
     const pvpEnergyDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v878'").first();
@@ -729,6 +744,27 @@ export async function onRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.rankRewardsEnabled)return json({error:'시즌 랭킹 보상이 중지되어 있습니다.'},503);const seasonEndMs=settings.endsAt?utcMs(settings.endsAt):0;if(!seasonEndMs||seasonEndMs>Date.now())return json({error:'최종 랭킹 보상은 시즌 종료 후에만 받을 수 있습니다.'},409);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.wins FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname`).all(),rank=rows.results.findIndex(x=>Number(x.id)===Number(user.id))+1;if(!rank)return json({error:'시즌 랭킹 기록이 없습니다.'},404);const reward=(settings.rankRewards||[]).find(x=>rank>=Number(x.from)&&rank<=Number(x.to));if(!reward)return json({error:'현재 순위에 해당하는 랭킹 보상이 없습니다.'},404);const exists=await env.DB.prepare('SELECT 1 FROM pvp_rank_reward_claims WHERE user_id=? AND season_name=?').bind(user.id,settings.seasonName).first();if(exists)return json({error:'이미 수령한 시즌 랭킹 보상입니다.'},409);const rewardCoin=Number(reward.rewardCoin||0),rewardShards=Number(reward.rewardShards||0);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_rank_reward_claims(user_id,season_name,final_rank,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,rank,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rank,rewardCoin,rewardShards,user:await profile(env,updated)});
     }
 
+    if(path==='mineral-exchange/config'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const settings=await mineralExchangeSettings(env),today=kstTodaySql();
+      const used=await env.DB.prepare("SELECT COALESCE(SUM(coin_amount),0) total FROM mineral_exchange_requests WHERE user_id=? AND requested_kst_date=? AND status IN ('PENDING','APPROVED')").bind(user.id,today).first();
+      const mine=await env.DB.prepare("SELECT id,wago_nickname,mineral_amount,coin_amount,proof_text,status,reject_reason,created_at,reviewed_at FROM mineral_exchange_requests WHERE user_id=? ORDER BY id DESC LIMIT 10").bind(user.id).all();
+      return json({settings,usedCoin:Number(used?.total||0),remainingCoin:Math.max(0,Number(settings.dailyLimitCoin)-Number(used?.total||0)),requests:mine.results});
+    }
+    if(path==='mineral-exchange/request'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const settings=await mineralExchangeSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 미네랄 교환 신청이 중지되어 있습니다.'},503);
+      const body=await readBody(request),wagoNickname=String(body.wagoNickname||'').trim().slice(0,40),proofText=String(body.proofText||'').trim().slice(0,500),mineralAmount=Math.floor(Number(body.mineralAmount||0));
+      if(!wagoNickname)return json({error:'와이고수 닉네임을 입력하세요.'},400);if(wagoNickname.length<2)return json({error:'와이고수 닉네임을 정확히 입력하세요.'},400);
+      if(!proofText)return json({error:'기부 완료 내용을 입력하세요.'},400);if(!Number.isSafeInteger(mineralAmount)||mineralAmount<=0)return json({error:'기부한 미네랄 수량을 정확히 입력하세요.'},400);
+      const rawCoin=mineralAmount*Number(settings.payoutCoin)/Number(settings.baseMineral),coinAmount=Math.floor(rawCoin);
+      if(!Number.isInteger(rawCoin)||coinAmount<=0||coinAmount%1000!==0)return json({error:'교환 신청은 1,000코인 단위로만 가능합니다.'},400);
+      const today=kstTodaySql(),used=await env.DB.prepare("SELECT COALESCE(SUM(coin_amount),0) total FROM mineral_exchange_requests WHERE user_id=? AND requested_kst_date=? AND status IN ('PENDING','APPROVED')").bind(user.id,today).first();
+      if(Number(used?.total||0)+coinAmount>Number(settings.dailyLimitCoin))return json({error:`하루 최대 교환 가능 개수는 ${Number(settings.dailyLimitCoin).toLocaleString()}코인입니다.`},409);
+      const result=await env.DB.prepare("INSERT INTO mineral_exchange_requests(user_id,game_nickname,wago_nickname,mineral_amount,coin_amount,proof_text,status,requested_kst_date) VALUES(?,?,?,?,?,?,'PENDING',?)").bind(user.id,user.nickname,wagoNickname,mineralAmount,coinAmount,proofText,today).run();
+      return json({ok:true,id:result.meta.last_row_id,coinAmount});
+    }
+
     if(path==='recent-high-grade'){
       const rows=await env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,d.created_at
         FROM draw_logs d
@@ -849,6 +885,26 @@ export async function onRequest(context){
       if(request.method==='POST'){const name=String(payload.name||'').trim().slice(0,40),image=String(payload.image||'').trim().slice(0,500),power=Math.max(1,Math.floor(Number(payload.battlePower)||1)),reward=Math.max(0,Math.floor(Number(payload.rewardCoin)||0));if(!name)return json({error:'몬스터 이름을 입력하세요.'},400);const r=await env.DB.prepare('INSERT INTO battle_monsters(name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order) VALUES(?,?,?,?,?,?,?)').bind(name,image,power,reward,payload.isBoss?1:0,payload.isActive===false?0:1,Math.floor(Number(payload.sortOrder)||0)).run();return json({ok:true,id:r.meta.last_row_id},201);}
       if(request.method==='PATCH'){const id=Number(payload.id);if(!id)return json({error:'몬스터 ID가 필요합니다.'},400);await env.DB.prepare('UPDATE battle_monsters SET name=?,image_url=?,battle_power=?,reward_coin=?,is_boss=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(payload.name||'').trim().slice(0,40),String(payload.image||'').trim().slice(0,500),Math.max(1,Math.floor(Number(payload.battlePower)||1)),Math.max(0,Math.floor(Number(payload.rewardCoin)||0)),payload.isBoss?1:0,payload.isActive===false?0:1,Math.floor(Number(payload.sortOrder)||0),id).run();return json({ok:true});}
       if(request.method==='DELETE'){const id=Number(payload.id);await env.DB.prepare('UPDATE battle_monsters SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id).run();return json({ok:true});}
+    }
+
+    if(path==='admin/mineral-exchange'){
+      const admin=await requirePermission(request,env,'DASHBOARD');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method==='GET'){
+        const settings=await mineralExchangeSettings(env),rows=await env.DB.prepare(`SELECT r.*,u.nickname AS current_game_nickname,a.nickname AS reviewer_name FROM mineral_exchange_requests r JOIN users u ON u.id=r.user_id LEFT JOIN users a ON a.id=r.reviewed_by ORDER BY CASE r.status WHEN 'PENDING' THEN 0 ELSE 1 END,r.id DESC LIMIT 300`).all();
+        return json({settings,requests:rows.results});
+      }
+      if(request.method==='PATCH'){
+        const body=await readBody(request);
+        if(body.settings){const settings=cleanMineralExchangeSettings(body.settings);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('mineral_exchange_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(settings)).run();await writeAdminLog(env,admin,'MINERAL_EXCHANGE_SETTINGS','SETTINGS','mineral_exchange',null,settings);return json({ok:true,settings})}
+        const id=Math.floor(Number(body.id||0)),action=String(body.action||'').toUpperCase();if(!id||!['APPROVE','REJECT'].includes(action))return json({error:'처리 정보가 올바르지 않습니다.'},400);
+        const req=await env.DB.prepare('SELECT * FROM mineral_exchange_requests WHERE id=?').bind(id).first();if(!req)return json({error:'신청 내역을 찾을 수 없습니다.'},404);if(req.status!=='PENDING')return json({error:'이미 처리된 신청입니다.'},409);
+        if(action==='REJECT'){const reason=String(body.reason||'관리자 거절').trim().slice(0,200);await env.DB.prepare("UPDATE mineral_exchange_requests SET status='REJECTED',reviewed_by=?,reviewed_at=CURRENT_TIMESTAMP,reject_reason=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(admin.id,reason,id).run();await writeAdminLog(env,admin,'MINERAL_EXCHANGE_REJECT','MINERAL_EXCHANGE',id,req,{...req,status:'REJECTED',reason});return json({ok:true})}
+        const todayLimit=await mineralExchangeSettings(env),approved=await env.DB.prepare("SELECT COALESCE(SUM(coin_amount),0) total FROM mineral_exchange_requests WHERE user_id=? AND requested_kst_date=? AND status='APPROVED'").bind(req.user_id,req.requested_kst_date).first();
+        if(Number(approved?.total||0)+Number(req.coin_amount)>Number(todayLimit.dailyLimitCoin))return json({error:'해당 날짜의 하루 최대 교환 한도를 초과하여 승인할 수 없습니다.'},409);
+        const target=await env.DB.prepare('SELECT coin,nickname FROM users WHERE id=?').bind(req.user_id).first();if(!target)return json({error:'신청 유저를 찾을 수 없습니다.'},404);const nextCoin=Number(target.coin||0)+Number(req.coin_amount);
+        await env.DB.batch([env.DB.prepare("UPDATE mineral_exchange_requests SET status='APPROVED',reviewed_by=?,reviewed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(admin.id,id),env.DB.prepare('UPDATE users SET coin=? WHERE id=?').bind(nextCoin,req.user_id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'MINERAL_EXCHANGE')").bind(req.user_id,req.coin_amount,nextCoin)]);
+        await writeAdminLog(env,admin,'MINERAL_EXCHANGE_APPROVE','MINERAL_EXCHANGE',id,req,{...req,status:'APPROVED',coinGranted:req.coin_amount});return json({ok:true,coinAmount:req.coin_amount});
+      }
     }
 
     if(path==='admin/settings'){
