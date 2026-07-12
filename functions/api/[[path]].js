@@ -164,7 +164,13 @@ async function ensureUpgrades(env){
         `CREATE TABLE IF NOT EXISTS user_pack_pity (user_id INTEGER NOT NULL, pack_id TEXT NOT NULL, miss_count INTEGER NOT NULL DEFAULT 0, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(user_id,pack_id))`,
         `CREATE INDEX IF NOT EXISTS idx_user_pack_pity_user ON user_pack_pity(user_id)`,
       ]){try{await env.DB.prepare(sql).run()}catch(e){if(!String(e.message||e).toLowerCase().includes('duplicate column'))throw e}}
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('pack_pity_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultPitySettings())).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v910','1',CURRENT_TIMESTAMP)").run();
+    }
+    const pityCmsDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v912'").first();
+    if(pityCmsDone?.value!=='1'){
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('pack_pity_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultPitySettings())).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v912','1',CURRENT_TIMESTAMP)").run();
     }
     const tierDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v868'").first();
     if(tierDone?.value!=='1'){
@@ -436,10 +442,20 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
 
 
 const PITY_PACKS=new Set(['premium','pickup']);
-const PITY_SSR_RATE={61:10,62:15,63:20,64:25,65:30,66:35,67:40,68:45,69:50,70:100};
+const DEFAULT_PITY_RATES={61:10,62:15,63:20,64:25,65:30,66:35,67:40,68:45,69:50,70:100};
+function defaultPitySettings(){return {premium:{enabled:true,start:61,hard:70,rates:{...DEFAULT_PITY_RATES}},pickup:{enabled:true,start:61,hard:70,rates:{...DEFAULT_PITY_RATES}}};}
+function cleanPityPackConfig(raw,base){
+  const start=Math.max(1,Math.min(999,Math.floor(Number(raw?.start??base.start))));
+  const hard=Math.max(start,Math.min(999,Math.floor(Number(raw?.hard??base.hard))));
+  const rates={};
+  for(let n=start;n<=hard;n++) rates[n]=n===hard?100:Math.max(0,Math.min(100,Number(raw?.rates?.[n]??base.rates?.[n]??0)));
+  return {enabled:raw?.enabled!==false,start,hard,rates};
+}
+function cleanPitySettings(raw){const base=defaultPitySettings();return {premium:cleanPityPackConfig(raw?.premium,base.premium),pickup:cleanPityPackConfig(raw?.pickup,base.pickup)};}
+async function pitySettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_pity_settings_v1'").first();try{return cleanPitySettings(JSON.parse(row?.value||'{}'))}catch{return defaultPitySettings()}}
 async function packPityCount(env,userId,packId){if(!PITY_PACKS.has(packId))return 0;const row=await env.DB.prepare('SELECT miss_count FROM user_pack_pity WHERE user_id=? AND pack_id=?').bind(userId,packId).first();return Math.max(0,Number(row?.miss_count||0));}
 async function savePackPity(env,userId,packId,count){if(!PITY_PACKS.has(packId))return;await env.DB.prepare(`INSERT INTO user_pack_pity(user_id,pack_id,miss_count,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,pack_id) DO UPDATE SET miss_count=excluded.miss_count,updated_at=CURRENT_TIMESTAMP`).bind(userId,packId,Math.max(0,Math.floor(count))).run();}
-function pityRateForDraw(missCount){const drawNo=Number(missCount||0)+1;return {drawNo,rate:PITY_SSR_RATE[drawNo]??null};}
+function pityRateForDraw(settings,packId,missCount){const cfg=settings?.[packId];const drawNo=Number(missCount||0)+1;if(!cfg?.enabled)return {drawNo,rate:null};return {drawNo,rate:Number(cfg.rates?.[drawNo]??(drawNo>=cfg.hard?100:null))};}
 async function drawNormalCardByRarity(env,pack,rarity){const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results;return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
 async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
   if(pack.id==='pickup'){
@@ -629,8 +645,8 @@ export async function onRequest(context){
       const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       const cost=pack.price*count;
       if(fresh.coin<cost) return json({error:'코인이 부족합니다.'},400);
-      const cards=[];let pityCount=await packPityCount(env,user.id,pack.id);
-      for(let index=0;index<count;index++){const pity=pityRateForDraw(pityCount),card=PITY_PACKS.has(pack.id)?await drawOneWithPity(env,pack,pity.rate,criticalBonus):await drawOne(env,pack,null,true,criticalBonus);cards.push(card);pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;}
+      const cards=[];let pityCount=await packPityCount(env,user.id,pack.id);const livePitySettings=await pitySettings(env);
+      for(let index=0;index<count;index++){const pity=pityRateForDraw(livePitySettings,pack.id,pityCount),card=PITY_PACKS.has(pack.id)?await drawOneWithPity(env,pack,pity.rate,criticalBonus):await drawOne(env,pack,null,true,criticalBonus);cards.push(card);pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;}
       const guarantee=count===10?pack.guarantee_10:count===20?pack.guarantee_20:null;
       if(guarantee&&!cards.some(card=>ORDER[card.grade]>=ORDER[guarantee])){cards[cards.length-1]=await drawOne(env,pack,guarantee,true,criticalBonus);if(PITY_PACKS.has(pack.id)&&ORDER[cards[cards.length-1].grade]>=ORDER.SSR){pityCount=0;await savePackPity(env,user.id,pack.id,0);}}
       cards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
@@ -1070,7 +1086,7 @@ export async function onRequest(context){
         const cfgRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_preview_configs'").first();
         let previews={}; try{previews=JSON.parse(cfgRow?.value||'{}')}catch{}
         const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
-        return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities||'[]')})),previews,cards:cards.results});
+        return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities||'[]')})),previews,cards:cards.results,pitySettings:await pitySettings(env)});
       }
       if(request.method==='PATCH'){
         const payload=await readBody(request); const id=String(payload.id||'');
@@ -1093,6 +1109,7 @@ export async function onRequest(context){
         const pc=payload.preview||{};
         configs[id]={badge:String(pc.badge||'').slice(0,24),headline:String(pc.headline||'').slice(0,80),showNewCards:pc.showNewCards!==false,showNames:pc.showNames!==false,showGrades:pc.showGrades!==false,columns:Math.max(2,Math.min(6,Number(pc.columns)||5)),cardIds:Array.isArray(pc.cardIds)?pc.cardIds.map(String).slice(0,30):[]};
         await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('pack_preview_configs',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(configs)).run();
+        if(payload.pitySettings&&PITY_PACKS.has(id)){const beforePity=await pitySettings(env),clean=cleanPitySettings({...beforePity,[id]:payload.pitySettings});await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('pack_pity_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();}
         const after=await env.DB.prepare('SELECT * FROM card_packs WHERE id=?').bind(id).first();
         await writeAdminLog(env,admin,'PACK_DETAIL_UPDATE','CARD_PACK',id,before,{...after,preview:configs[id]});
         return json({ok:true,pack:after,preview:configs[id]});
