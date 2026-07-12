@@ -1088,3 +1088,13 @@ html.touch-controls-enabled .world-root-controls button {
     z-index:2147483000!important;
   }
 }
+
+/* v9.5.0 — touch D-pad is visible only while the world itself is controllable. */
+.world-root-controls.world-controls-hidden,
+body.touch-controls-enabled .world-root-controls.world-controls-hidden,
+html.touch-controls-enabled .world-root-controls.world-controls-hidden {
+  display:none!important;
+  visibility:hidden!important;
+  opacity:0!important;
+  pointer-events:none!important;
+}
