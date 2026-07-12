@@ -668,3 +668,52 @@ body.world-root-mode,
  .battle-modal .enemy-side{min-height:0!important}
  .battle-modal .battle-enemy-card{width:min(180px,42vw)!important}
 }
+
+/* v9.3.7 fullscreen entry, overlap battle hand, read-only monster codex, retro ranks */
+.world-entry-card .world-entry-official{margin-top:10px;background:#f8f0c9!important;color:#171914!important;border:4px double #24281f!important}
+.world-entry-card>small{display:block;margin-top:8px;color:#e8efd9;font-size:12px}
+
+/* Five collection cards as a natural overlapping hand. No wrapping. */
+.battle-modal .battle-team{display:flex!important;grid-template-columns:none!important;flex-wrap:nowrap!important;align-items:flex-end!important;justify-content:center!important;width:min(100%,920px)!important;margin:0 auto!important;padding:8px 28px 18px!important;overflow:visible!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame{flex:0 0 clamp(150px,16vw,220px)!important;width:clamp(150px,16vw,220px)!important;max-width:220px!important;aspect-ratio:2/3!important;margin-left:clamp(-64px,-4.1vw,-34px)!important;transform:none!important;transform-origin:50% 100%!important;transition:transform .18s ease,z-index .18s ease!important;z-index:calc(10 + var(--i))!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame:first-child{margin-left:0!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame:hover,.battle-modal .battle-team .battle-card-fighter.active-attacker{transform:translateY(-20px) scale(1.05)!important;z-index:50!important}
+@media(max-width:900px){.battle-modal .battle-team{padding-left:18px!important;padding-right:18px!important}.battle-modal .battle-team .battle-card-fighter.card-frame{flex-basis:clamp(92px,24vw,150px)!important;width:clamp(92px,24vw,150px)!important;margin-left:clamp(-55px,-10vw,-24px)!important}.battle-modal .battle-arena{grid-template-columns:minmax(0,1fr) minmax(150px,.38fr)!important;grid-template-rows:1fr!important}.battle-modal .enemy-side{min-width:0!important}}
+@media(max-width:560px){.battle-modal .battle-team .battle-card-fighter.card-frame{flex-basis:104px!important;width:104px!important;margin-left:-47px!important}.battle-modal .battle-team{justify-content:flex-start!important;padding-left:12px!important}.battle-modal .battle-enemy-card{width:132px!important}}
+
+/* Deck builder is now a read-only monster codex. */
+.battle-layout-codex{grid-template-columns:minmax(0,1.45fr) minmax(300px,.65fr)!important}
+.monster-codex-panel .panel-title small{display:block;margin-top:5px;color:#4d5144!important}
+.monster-codex .monster-choice{cursor:default!important;pointer-events:none!important;background:#f4edc7!important;color:#171914!important;border:4px double #292d24!important;border-radius:0!important;box-shadow:3px 3px 0 rgba(0,0,0,.22)!important}
+.monster-codex .monster-choice.active{background:#f4edc7!important;outline:none!important}
+.monster-codex .monster-choice span *{color:#171914!important;text-shadow:none!important}
+.monster-codex .monster-choice strong{color:#245f75!important}
+@media(max-width:900px){.battle-layout-codex{grid-template-columns:1fr!important}}
+
+/* Unified readable retro ranking tables */
+.world-panel-content .rank-hub,.world-panel-content .rank-panel,.world-panel-content .rank-pvp-panel{background:#eee6bc!important;color:#171914!important;border:4px double #272b22!important;border-radius:0!important;padding:16px!important}
+.world-panel-content .rank-hub *,.world-panel-content .rank-panel *,.world-panel-content .rank-pvp-panel *{text-shadow:none!important}
+.world-panel-content .rank-switch{display:flex!important;gap:6px!important;padding:5px!important;background:#c9c298!important;border:3px double #272b22!important}
+.world-panel-content .rank-switch button{background:#f7efc8!important;color:#171914!important;border:3px double #272b22!important;border-radius:0!important;font-weight:900!important}
+.world-panel-content .rank-switch button.active{background:#a9c984!important;color:#10150e!important}
+.world-panel-content .pvp-tier-guide,.world-panel-content .tier-guide{background:#d8d0a5!important;color:#171914!important;border:4px double #272b22!important;border-radius:0!important}
+.world-panel-content .pvp-tier-road-item,.world-panel-content .tier-road-item{background:#f8f1cb!important;color:#171914!important;border:3px double #4a4d40!important;border-radius:0!important}
+.world-panel-content .pvp-tier-road-item b,.world-panel-content .tier-road-item b{color:#171914!important;background:#fff8d8!important;padding:2px 6px!important;border:1px solid #4a4d40!important}
+.world-panel-content .pvp-my-rank,.world-panel-content .my-tier-card{background:#f5edc8!important;color:#171914!important;border:4px double #272b22!important;border-radius:0!important}
+.world-panel-content .pvp-ranking,.world-panel-content .rank-list{display:grid!important;gap:6px!important;background:transparent!important}
+.world-panel-content .pvp-rank-row,.world-panel-content .rank-list-row{display:grid!important;grid-template-columns:58px 86px minmax(0,1fr) 120px!important;align-items:center!important;gap:10px!important;min-height:76px!important;background:#f7efc8!important;color:#171914!important;border:3px double #34382d!important;border-radius:0!important;padding:8px 12px!important;box-shadow:3px 3px 0 rgba(0,0,0,.18)!important}
+.world-panel-content .pvp-rank-row:nth-child(even),.world-panel-content .rank-list-row:nth-child(even){background:#ded7ae!important}
+.world-panel-content .pvp-rank-row>*,.world-panel-content .rank-list-row>*{color:#171914!important}
+.world-panel-content .pvp-rank-row span small,.world-panel-content .rank-list-row span small{display:block!important;color:#4a4d40!important;margin-top:4px!important}
+.world-panel-content .pvp-rank-row>strong,.world-panel-content .rank-list-row>strong{text-align:right!important;color:#172b45!important;font-size:17px!important}
+.world-panel-content .rank-number{font-size:18px!important;color:#5b351c!important}
+.world-panel-content .rank-pos-1{border-color:#8b6816!important;background:#fff0a6!important}.world-panel-content .rank-pos-2{border-color:#707477!important;background:#e6e7dc!important}.world-panel-content .rank-pos-3{border-color:#87512d!important;background:#ead0aa!important}
+.world-panel-content .server-ranking{background:transparent!important;border:0!important;padding:0!important;color:#171914!important}
+@media(max-width:700px){.world-panel-content .pvp-rank-row,.world-panel-content .rank-list-row{grid-template-columns:42px 62px minmax(0,1fr) 76px!important;padding:6px!important;gap:5px!important}.world-panel-content .pvp-rank-row>strong,.world-panel-content .rank-list-row>strong{font-size:13px!important}}
+
+.battle-modal .battle-team .battle-card-fighter.card-frame:nth-child(1){transform:rotate(-3.2deg) translateY(10px)!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame:nth-child(2){transform:rotate(-1.6deg) translateY(5px)!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame:nth-child(3){transform:translateY(0)!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame:nth-child(4){transform:rotate(1.6deg) translateY(5px)!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame:nth-child(5){transform:rotate(3.2deg) translateY(10px)!important}
+.battle-modal .battle-team .battle-card-fighter.card-frame:hover,.battle-modal .battle-team .battle-card-fighter.active-attacker{transform:translateY(-20px) scale(1.05)!important}
