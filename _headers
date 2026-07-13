@@ -2,3 +2,12 @@
   Cache-Control: no-cache, no-store, must-revalidate
 /admin
   Cache-Control: no-cache, no-store, must-revalidate
+
+/admin/
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/admin/index.html
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/admin/admin-v943.js
+  Cache-Control: no-store, max-age=0
+/admin/admin-v943.css
+  Cache-Control: no-store, max-age=0
