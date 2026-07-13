@@ -1,5 +1,5 @@
 /* CNINE CARD MANAGER v9.4.4 HARD REPLACE */
-let token=localStorage.getItem('cnine_admin_token')||'';
+let token=localStorage.getItem('cnine_admin_token')||sessionStorage.getItem('cnine_admin_token')||'';
 let state={userVerificationFilter:'ALL',cardManageView:'MEMBERS',cardMemberFilter:'',cards:[],members:[],users:[],role:'',admin:null,view:'dashboard',rateData:null,packData:null,selectedPackId:'basic',breakthroughData:null,breakthroughGrade:'SR',battleData:null,raidData:null,tierData:null};
 const RARITIES=['FUR','MA','SSR','UR','HR','SR','R','U','C'];
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -12,7 +12,7 @@ async function api(path,opt={}){
   return d;
 }
 function setBusy(btn,busy,text='처리 중...'){if(!btn)return;btn.disabled=busy;if(!btn.dataset.label)btn.dataset.label=btn.textContent;btn.textContent=busy?text:btn.dataset.label}
-async function login(){const btn=$('#loginBtn');const key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('auth/login',{method:'POST',body:JSON.stringify({privateKey:key})});if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(d.user?.role))throw Error('관리자 권한이 없는 계정입니다.');token=d.token;localStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message)}finally{setBusy(btn,false)}}
+async function login(){const btn=$('#loginBtn');const key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('auth/login',{method:'POST',body:JSON.stringify({privateKey:key})});if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(d.user?.role))throw Error('관리자 권한이 없는 계정입니다.');token=d.token;localStorage.setItem('cnine_admin_token',token);sessionStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message)}finally{setBusy(btn,false)}}
 function setAuthScreen(isAuthenticated){document.body.classList.toggle('auth-active',isAuthenticated);document.body.classList.toggle('auth-guest',!isAuthenticated);$('#login').hidden=isAuthenticated;$('#cms').hidden=!isAuthenticated}
 async function boot(){
   try{
@@ -25,7 +25,6 @@ async function boot(){
   }catch(e){
     setAuthScreen(false);
     if(e.status===401||e.status===403){
-      localStorage.removeItem('cnine_admin_token');
       token='';
       alert('관리자 로그인이 만료되었거나 권한이 없습니다.\n다시 로그인해주세요.');
     }else{
