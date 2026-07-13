@@ -101,4 +101,10 @@ aside{height:100vh;position:sticky;top:0;overflow-y:auto}
 @media(max-width:900px){.ultimateRuleGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.ultimateRuleGrid{grid-template-columns:1fr}}
 
-.gradeBadge.grade-LIMITED{background:linear-gradient(135deg,#7b1fa2,#ff4fd8,#28d7ff);border-color:#ff9aed;color:#fff;box-shadow:0 0 14px #ff4fd888}.memberGradeStrip span:has(b:first-child){ }
+/* v9.4.9 card bulk save */
+.cardManageBar{position:sticky;top:0;z-index:20;background:rgba(9,12,20,.96);padding:10px;border-radius:12px;backdrop-filter:blur(10px)}
+.dirtyCardCount{font-size:12px;font-weight:800;white-space:nowrap;opacity:.8}
+.saveAllCardsBtn{white-space:nowrap}
+.adminCard.cardDirty{outline:2px solid #ffb020;box-shadow:0 0 0 4px rgba(255,176,32,.14)}
+.adminCard.cardDirty .body:before{content:'수정됨';display:inline-block;margin-bottom:6px;padding:3px 7px;border-radius:999px;background:#ffb020;color:#111;font-size:11px;font-weight:900}
+@media(max-width:800px){.cardManageBar{top:0}.dirtyCardCount{width:100%}.saveAllCardsBtn{flex:1}}
