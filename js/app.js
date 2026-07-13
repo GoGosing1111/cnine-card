@@ -185,8 +185,8 @@ function renderShell(tab) {
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
   const user = loadUser();
   if (!user) return renderLogin();
-  const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, attendance: attendanceView, messages: messagesView, rank: rankView, mineral: mineralExchangeView };
-  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}<button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button><button class="tab mineral-tab ${tab==='mineral'?'active':''}" data-tab="mineral"><span class="mineral-tab-label"><span>미네랄</span><span>교환</span></span></button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
+  const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView };
+  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}<button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button><button class="tab mineral-tab ${tab==='mineral'?'active':''}" data-tab="mineral"><span class="mineral-tab-label"><span>미네랄</span><span>교환</span></span></button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
   document.querySelectorAll('.tab').forEach(b => b.onclick = () => renderShell(b.dataset.tab));
   bindView(tab);
   loadRecentHighGradeFeed();
@@ -372,6 +372,18 @@ function tierEmblem(tier,size='normal'){
 }
 function pvpTierGuideHtml(tiers=[],currentTier=null){return `<section class="pvp-tier-guide"><div class="pvp-tier-guide-head"><p class="eyebrow">PVP TIER ROAD</p><h3>시즌 티어 구간</h3><span>CMS 시즌 티어 설정과 자동 연동</span></div><div class="pvp-tier-road">${tiers.map(t=>`<div class="pvp-tier-road-item ${currentTier&&String(currentTier.id)===String(t.id)?'current':''}">${tierEmblem(t,'small')}<b>${Number(t.min||0).toLocaleString()}점+</b></div>`).join('')}</div></section>`}
 let rankHubMode='pvp';
+
+function dailyQuestView(user){
+  return `${summaryBar(user)}<section class="daily-quest-panel"><div class="daily-quest-copy"><p class="eyebrow">WAGOSU DAILY QUEST</p><h2>SOOP 게시판 일일퀘스트</h2><p>와고 2단계 인증 계정으로 오늘 SOOP 게시판에 글 15개를 작성하면 1,200코인을 받을 수 있습니다.</p><div id="dailyQuestStatus" class="daily-quest-status"><span>작성글 확인 중...</span></div><div class="daily-quest-actions"><button class="btn secondary" id="dailyQuestCheck">작성글 새로 확인</button><button class="btn" id="dailyQuestClaim" disabled>1,200코인 받기</button></div><small>매일 00:00 KST 초기화 · 댓글 및 다른 게시판 글 제외 · 삭제된 글은 확인 시 제외될 수 있습니다.</small></div><div class="daily-quest-reward"><span>DAILY MISSION</span><strong>15 POSTS</strong><b>◈ 1,200</b><em>SOOP BOARD</em></div></section>`;
+}
+async function loadDailyQuest(){
+  const box=document.getElementById('dailyQuestStatus'),check=document.getElementById('dailyQuestCheck'),claim=document.getElementById('dailyQuestClaim');if(!box)return;
+  try{const d=await apiRequest('wago-daily-quest/status'),required=Number(d.settings.requiredPosts||15),reward=Number(d.settings.rewardCoin||1200),count=Number(d.postCount||0);box.innerHTML=d.excluded?'<b>관리자 계정은 보상 대상에서 제외됩니다.</b>':!d.verified?'<b>메시지함에서 와고 2단계 인증을 먼저 완료하세요.</b>':d.claimed?`<b>오늘 보상 수령 완료</b><span>${count} / ${required}개 확인</span>`:`<b>오늘 작성글 ${count} / ${required}개</b><span>${count>=required?'퀘스트 달성! 보상을 수령하세요.':`${required-count}개 더 작성하면 달성됩니다.`}</span>`;if(check)check.disabled=!d.verified||d.excluded;if(claim){claim.disabled=!d.verified||d.excluded||d.claimed||count<required;claim.textContent=d.claimed?'오늘 보상 수령 완료':`${reward.toLocaleString()}코인 받기`;}}
+  catch(e){box.innerHTML=`<b>${escapeHtml(e.message)}</b>`;if(check)check.disabled=false;}
+}
+async function checkDailyQuest(){const b=document.getElementById('dailyQuestCheck');if(b)b.disabled=true;try{const d=await apiRequest('wago-daily-quest/check',{method:'POST',body:'{}'});alert(`오늘 SOOP 게시판 작성글 ${Number(d.postCount||0)}개를 확인했습니다.`);loadDailyQuest()}catch(e){alert(e.message);loadDailyQuest()}}
+async function claimDailyQuest(){const b=document.getElementById('dailyQuestClaim');if(b)b.disabled=true;try{const d=await apiRequest('wago-daily-quest/claim',{method:'POST',body:'{}'});saveUser(apiUserToLocal(d.user));alert(`${Number(d.rewardCoin).toLocaleString()}코인을 받았습니다.`);renderShell('dailyquest')}catch(e){alert(e.message);loadDailyQuest()}}
+
 function rankView(user) {
   return `${summaryBar(user)}<section class="rank-hub"><nav class="rank-switch"><button type="button" data-rank-mode="pvp" class="active">PvP 시즌 랭킹</button><button type="button" data-rank-mode="card">카드점수 랭킹</button></nav><div id="rankHubContent" class="rank-hub-content"><div class="empty-recent">랭킹을 불러오는 중...</div></div></section>`;
 }
@@ -462,6 +474,7 @@ async function joinRaid(){const btn=document.getElementById('raidJoin');if(btn)b
 
 function bindView(tab) {
   if(tab==='messages'){document.getElementById('openWagoVerify')?.addEventListener('click',openWagoVerification);loadMessages();}
+  if(tab==='dailyquest'){document.getElementById('dailyQuestCheck')?.addEventListener('click',checkDailyQuest);document.getElementById('dailyQuestClaim')?.addEventListener('click',claimDailyQuest);loadDailyQuest();}
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
   document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));
