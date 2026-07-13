@@ -1,18 +1,42 @@
-let token=localStorage.getItem('cnine_admin_token')||localStorage.getItem('cnine_card_api_token')||'';
+let token=localStorage.getItem('cnine_admin_token')||'';
 let state={cards:[],members:[],users:[],role:'',admin:null,view:'dashboard',rateData:null,packData:null,selectedPackId:'basic',breakthroughData:null,breakthroughGrade:'SR',battleData:null,raidData:null,tierData:null};
 const RARITIES=['FUR','MA','SSR','UR','HR','SR','R','U','C'];
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const img=v=>/^https?:\/\//i.test(v)?v:'/'+String(v||'').replace(/^\//,'');
-async function api(path,opt={}){const r=await fetch('../api/'+path,{...opt,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(opt.headers||{})}});const text=await r.text();let d={};try{d=text?JSON.parse(text):{}}catch{throw Error('API 경로 또는 Cloudflare Functions 연결을 확인해주세요.')}if(!r.ok)throw Error(d.error||'요청 실패');return d}
+async function api(path,opt={}){
+  const r=await fetch('../api/'+path,{...opt,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(opt.headers||{})},cache:'no-store'});
+  const text=await r.text();let d={};
+  try{d=text?JSON.parse(text):{}}catch{const e=Error('API 경로 또는 Cloudflare Functions 연결을 확인해주세요.');e.status=r.status;throw e}
+  if(!r.ok){const e=Error(d.error||'요청 실패');e.status=r.status;e.code=d.code;throw e}
+  return d;
+}
 function setBusy(btn,busy,text='처리 중...'){if(!btn)return;btn.disabled=busy;if(!btn.dataset.label)btn.dataset.label=btn.textContent;btn.textContent=busy?text:btn.dataset.label}
-async function login(){const btn=$('#loginBtn');const key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('auth/login',{method:'POST',body:JSON.stringify({privateKey:key})});token=d.token;localStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message)}finally{setBusy(btn,false)}}
-function setAuthScreen(isAuthenticated){document.body.classList.toggle('auth-active',isAuthenticated);document.body.classList.toggle('auth-guest',!isAuthenticated);$('#login').hidden=isAuthenticated;$('#cms').hidden=!isAuthenticated}async function boot(){try{const d=await api('admin/dashboard');state.role=d.role;state.admin=d.admin||{nickname:'관리자',role:d.role};setAuthScreen(true);renderIdentity();await show('dashboard',d)}catch(e){
+async function login(){const btn=$('#loginBtn');const key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('auth/login',{method:'POST',body:JSON.stringify({privateKey:key})});if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(d.user?.role))throw Error('관리자 권한이 없는 계정입니다.');token=d.token;localStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message)}finally{setBusy(btn,false)}}
+function setAuthScreen(isAuthenticated){document.body.classList.toggle('auth-active',isAuthenticated);document.body.classList.toggle('auth-guest',!isAuthenticated);$('#login').hidden=isAuthenticated;$('#cms').hidden=!isAuthenticated}
+async function boot(){
+  try{
+    const d=await api('admin/dashboard');
+    state.role=d.role;
+    state.admin=d.admin||{nickname:'관리자',role:d.role};
+    setAuthScreen(true);
+    renderIdentity();
+    show('dashboard',d);
+  }catch(e){
+    setAuthScreen(false);
+    if(e.status===401||e.status===403){
+      localStorage.removeItem('cnine_admin_token');
+      token='';
+      alert('관리자 로그인이 만료되었거나 권한이 없습니다.\n다시 로그인해주세요.');
+    }else{
+      alert(`CMS 정보를 불러오지 못했습니다. 관리자 권한은 유지됩니다.\n${e.message}`);
+    }
+  }
+}
 async function loadWagoAdmin(){const d=await api('admin/wago-verifications');$('#wagoVerifyEnabled').value=d.settings.enabled===false?'0':'1';$('#wagoCodeMinutes').value=d.settings.codeMinutes||20;$('#wagoPostUrl').value=d.settings.postUrl||'';const box=$('#wagoVerificationList');const label={PENDING:'댓글 대기',REVIEW:'승인 검토',VERIFIED:'인증 완료',REJECTED:'거절'};box.innerHTML=d.verifications.length?d.verifications.map(v=>`<div class="row"><span><b>${esc(v.game_nickname)}</b><small>${esc(v.wago_nickname)} · #${esc(v.wago_member_no)}</small></span><span>${label[v.status]||esc(v.status)}<small>${fmt(v.issued_at)}</small></span><span><code>${esc(v.verification_code)}</code><small>${esc(v.review_note||'')}</small></span><span>${v.status!=='VERIFIED'?`<button data-wago-action="APPROVE" data-id="${v.id}">승인</button><button data-wago-action="REJECT" data-id="${v.id}" class="danger">거절</button>`:`<button data-wago-action="RESET" data-id="${v.id}" class="ghost">재인증</button>`}</span></div>`).join(''):'<div class="muted">인증 요청이 없습니다.</div>';box.querySelectorAll('[data-wago-action]').forEach(b=>b.onclick=()=>reviewWago(Number(b.dataset.id),b.dataset.wagoAction))}
 async function saveWagoSettings(){await api('admin/wago-verifications',{method:'PATCH',body:JSON.stringify({settings:{enabled:$('#wagoVerifyEnabled').value==='1',codeMinutes:Number($('#wagoCodeMinutes').value),postUrl:$('#wagoPostUrl').value.trim()}})});alert('와고 인증 설정이 저장되었습니다.');loadWagoAdmin()}
 async function reviewWago(id,action){const note=action==='REJECT'?prompt('거절 사유','인증 정보 불일치'):(action==='APPROVE'?prompt('승인 메모','댓글 및 회원번호 확인'):'재인증 요청');if(note===null)return;await api('admin/wago-verifications',{method:'PATCH',body:JSON.stringify({id,action,note})});await loadWagoAdmin()}
 async function sendVerifiedCoupons(){if(!confirm('와고 인증 완료 일반 유저 전원에게 개인 쿠폰을 발송할까요?'))return;const d=await api('admin/verified-coupon-send',{method:'POST',body:JSON.stringify({campaignName:$('#verifiedCampaign').value,rewardCoin:Number($('#verifiedRewardCoin').value),title:$('#verifiedMessageTitle').value,body:$('#verifiedMessageBody').value,endsAt:toSql($('#verifiedCouponEnd').value)})});alert(`${d.sent}명에게 ${Number(d.rewardCoin).toLocaleString()}코인 쿠폰을 발송했습니다.`)}
 
-setAuthScreen(false);if(token){localStorage.removeItem('cnine_admin_token');token='';alert('관리자 로그인이 만료되었거나 권한이 없습니다.\n다시 로그인해주세요.')}}}
 function renderIdentity(){const a=state.admin||{};$('#roleBadge').textContent=state.role;$('#adminName').textContent=a.nickname||'관리자';$('#welcomeName').textContent=a.nickname||'관리자';$('#adminLoginAt').textContent='로그인됨 · '+fmt(a.last_login_at||new Date().toISOString());const raidNav=document.querySelector('#nav button[data-view="raid"]');if(raidNav)raidNav.hidden=state.role!=='OWNER'}
 function show(view,prefetched){if(view==='raid'&&state.role!=='OWNER'){alert('레이드 관리는 OWNER만 사용할 수 있습니다.');view='dashboard';prefetched=null}state.view=view;document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!==`view-${view}`);document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===view));$('#pageTitle').textContent={dashboard:'대시보드',pending:'신규 카드 대기함',cards:'카드관리',battle:'전투관리',raid:'레이드 관리',users:'유저관리',coupons:'쿠폰관리',wago:'와고 인증·메시지',logs:'관리자로그',tiers:'티어관리',mineral:'미네랄 교환',settings:'설정'}[view];({dashboard:loadDashboard,pending:loadPending,cards:loadCards,battle:loadBattleAdmin,raid:loadRaidAdmin,tiers:loadTierAdmin,users:loadUsers,coupons:loadCoupons,wago:loadWagoAdmin,logs:loadLogs,mineral:loadMineralAdmin,settings:loadSettings}[view])(prefetched).catch(e=>alert(e.message))}
 async function loadDashboard(d){d=d||await api('admin/dashboard');state.role=d.role;state.admin=d.admin||state.admin;renderIdentity();const s=d.stats;const items=[['전체 유저',s.users,'누적 가입자'],['오늘 가입',s.usersToday||0,'오늘 신규 계정'],['24시간 카드뽑기',s.draws24h,'최근 24시간'],['활성 카드',s.cards,'현재 노출 카드'],['전체 보유 코인',Number(s.totalCoin).toLocaleString(),'모든 유저 합계'],['이용정지',s.banned,'현재 차단 계정'],['UR 보유',s.urOwned||0,'전체 보유 수량'],['SSR 보유',s.ssrOwned||0,'전체 보유 수량'],['활성 쿠폰',s.coupons,'현재 사용 가능']];$('#stats').innerHTML=items.map(x=>`<div class="stat"><small>${x[0]}</small><b>${x[1]}</b><em>${x[2]}</em></div>`).join('')}
