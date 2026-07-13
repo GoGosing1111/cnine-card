@@ -289,7 +289,7 @@ function battleSetHp(stage,target,percent){
 function battleGradeTier(grade){const n=gradeOrder[String(grade||'C').toUpperCase()]||1;return n>=9?'mythic':n>=7?'legendary':n>=5?'epic':n>=4?'rare':'normal'}
 function battleActivateCard(stage,index,grade){stage.querySelectorAll('.battle-card-fighter').forEach((el,i)=>{el.classList.toggle('active-attacker',i===index);el.classList.remove('skill-normal','skill-rare','skill-epic','skill-legendary','skill-mythic')});const card=stage.querySelectorAll('.battle-card-fighter')[index];if(card)card.classList.add(`skill-${battleGradeTier(grade)}`)}
 function normalizeUltimateMediaPath(path){const v=String(path||'/assets/effects/SKILL.gif').trim().replace(/\\/g,'/');if(!v)return '/assets/effects/SKILL.gif';return /^(https?:)?\/\//i.test(v)||v.startsWith('/')?v:`/${v.replace(/^\.\//,'')}`}
-async function playBattleUltimate(stage,ultimate,bonusDamage){if(!stage||!ultimate)return;const duration=Math.max(800,Math.min(30000,Number(ultimate.durationMs||3000))),src=normalizeUltimateMediaPath(ultimate.mediaUrl);const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);const overlay=document.createElement('div');overlay.className='battle-ultimate-overlay';overlay.innerHTML=`<div class="battle-ultimate-flash"></div><div class="battle-ultimate-title"><small>ULTIMATE SKILL</small><strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong><span>추가 데미지 +${Number(bonusDamage||0).toLocaleString()}</span></div><div class="battle-ultimate-media">${isVideo?`<video src="${escapeHtml(src)}" autoplay muted playsinline preload="auto"></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}</div></div>`;stage.appendChild(overlay);stage.classList.add('ultimate-playing');battleTone(520,.28,'sawtooth',.08);if(navigator.vibrate)navigator.vibrate([60,30,100]);await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);overlay.classList.add('closing');setTimeout(()=>{overlay.remove();stage.classList.remove('ultimate-playing');resolve()},220)};const timer=setTimeout(finish,duration);const media=overlay.querySelector('video');if(media){media.addEventListener('ended',finish,{once:true});media.addEventListener('error',()=>setTimeout(finish,800),{once:true})}const img=overlay.querySelector('img');if(img)img.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true})})}
+async function playBattleUltimate(stage,ultimate,bonusDamage){if(!stage||!ultimate)return;const duration=Math.max(800,Math.min(30000,Number(ultimate.durationMs||3000))),src=normalizeUltimateMediaPath(ultimate.mediaUrl);const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);const overlay=document.createElement('div');overlay.className='battle-ultimate-overlay';overlay.innerHTML=`<div class="battle-ultimate-flash"></div><div class="battle-ultimate-title"><small>ULTIMATE SKILL</small><strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong><span>궁극기 타격 ${Number(bonusDamage||0).toLocaleString()}</span></div><div class="battle-ultimate-media">${isVideo?`<video src="${escapeHtml(src)}" autoplay muted playsinline preload="auto"></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}</div></div>`;stage.appendChild(overlay);stage.classList.add('ultimate-playing');battleTone(520,.28,'sawtooth',.08);if(navigator.vibrate)navigator.vibrate([60,30,100]);await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);overlay.classList.add('closing');setTimeout(()=>{overlay.remove();stage.classList.remove('ultimate-playing');resolve()},220)};const timer=setTimeout(finish,duration);const media=overlay.querySelector('video');if(media){media.addEventListener('ended',finish,{once:true});media.addEventListener('error',()=>setTimeout(finish,800),{once:true})}const img=overlay.querySelector('img');if(img)img.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true})})}
 
 async function startBattle(){
   const modal=document.getElementById('modal'),monster=battleState.monsters.find(m=>Number(m.id)===Number(battleState.selectedMonster));
@@ -319,8 +319,28 @@ async function startBattle(){
     count.textContent='READY'; stage.classList.add('ready'); await battleSleep(650); count.textContent='FIGHT'; battleTone(440,.18,'square',.075); stage.classList.add('fight'); await battleSleep(520); count.textContent='';
     const fightPromise=apiRequest('battle/fight',{method:'POST',body:JSON.stringify({monsterId:battleState.selectedMonster,cardIds:battleState.deck})});
     const d=await fightPromise;
-    if(d.activatedUltimate){phase.textContent='ULTIMATE READY';await playBattleUltimate(stage,d.activatedUltimate,d.bonusDamage);phase.textContent='BATTLE RESUME';await battleSleep(250);}
     let enemyHp=100,teamHp=100;
+    if(d.activatedUltimate){
+      phase.textContent='ULTIMATE READY';
+      await playBattleUltimate(stage,d.activatedUltimate,d.bonusDamage);
+      const ultimateDamage=Math.max(0,Number((d.ultimateDamage??d.bonusDamage) || 0));
+      const ultimateHpPercent=d.monsterPower>0?Math.min(100,ultimateDamage/Number(d.monsterPower)*100):0;
+      if(ultimateDamage>0){
+        enemyHp=Math.max(0,enemyHp-ultimateHpPercent);
+        battleSetHp(stage,'enemy',enemyHp);
+        stage.classList.remove('member-strike','member-skill');
+        void stage.offsetWidth;
+        stage.classList.add('member-skill');
+        battleBurst(stage,'73%','43%',42);
+        battleDamage(stage,`-${Math.floor(ultimateDamage).toLocaleString()}`,'enemy',true);
+        phase.textContent=`ULTIMATE HIT · ${Math.floor(ultimateDamage).toLocaleString()}${d.ultimateSourceCard?.title?` · ${d.ultimateSourceCard.title}`:''}`;
+        battleTone(680,.32,'sawtooth',.09);
+        if(navigator.vibrate)navigator.vibrate([80,35,140]);
+        await battleSleep(850);
+      }
+      phase.textContent='BATTLE RESUME';
+      await battleSleep(250);
+    }
     const win=d.result==='WIN';
     const enemySteps=win?[14,17,18,20,31]:[9,11,13,15,17];
     const teamCounter=win?[8,10]:[18,25,31];
