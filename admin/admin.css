@@ -48,3 +48,15 @@ textarea{width:100%;resize:vertical;background:#08111d;border:1px solid #28435f;
 .cmsPackImageGloss{position:absolute;inset:7% 10%;border-radius:16px;background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.18) 44%,transparent 62%);mix-blend-mode:screen;opacity:.35;pointer-events:none}
 
 .raidDayGrid{display:flex;flex-wrap:wrap;gap:8px}.raidDayGrid label{display:flex;align-items:center;gap:5px;padding:8px 10px;border:1px solid rgba(255,255,255,.12);border-radius:8px}.raid-schedule-notice{margin-top:14px;padding:12px;border:1px solid rgba(255,200,80,.35);border-radius:10px;background:rgba(255,180,30,.08);font-weight:700}
+
+/* v9.2.4 관리자 로그인/CMS 화면 분리 안정화 */
+[hidden]{display:none!important}
+body.auth-guest .layout{grid-template-columns:1fr}
+body.auth-guest aside{display:none!important}
+body.auth-guest main{display:grid;min-height:100vh;place-items:center;padding:28px}
+body.auth-guest #login{width:min(540px,100%);margin:0}
+body.auth-active .layout{grid-template-columns:240px minmax(0,1fr)}
+body.auth-active main{display:block;min-height:100vh;padding:28px}
+body.auth-active #login{display:none!important}
+body.auth-active #cms{display:block}
+@media(max-width:800px){body.auth-active .layout{grid-template-columns:1fr}body.auth-active main{padding:14px}}
