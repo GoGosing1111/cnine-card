@@ -30,7 +30,7 @@ function defaultPvpSettings(){return {enabled:true,status:'ACTIVE',seasonName:'�
 function cleanPvpSettings(raw={}){const base=defaultPvpSettings(),num=(v,d,min=0,max=100000000)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):d));const tiers=(Array.isArray(raw.tiers)?raw.tiers:base.tiers).map((t,i)=>({id:String(t.id||base.tiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.tiers[i]?.name||'티어').slice(0,20),min:num(t.min,base.tiers[i]?.min||0),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.tiers[i]?.color||'#7ceeff',aura:t.aura!==false,rewardCoin:num(t.rewardCoin,base.tiers[i]?.rewardCoin||0),rewardShards:num(t.rewardShards,base.tiers[i]?.rewardShards||0)})).sort((a,b)=>a.min-b.min);const rankRewards=(Array.isArray(raw.rankRewards)?raw.rankRewards:base.rankRewards).slice(0,20).map((r,i)=>{const from=num(r.from,base.rankRewards[i]?.from||1,1,100000),to=num(r.to,base.rankRewards[i]?.to||from,1,100000);return {from:Math.min(from,to),to:Math.max(from,to),rewardCoin:num(r.rewardCoin,base.rankRewards[i]?.rewardCoin||0),rewardShards:num(r.rewardShards,base.rankRewards[i]?.rewardShards||0)}}).sort((a,b)=>a.from-b.from);return {...base,enabled:raw.enabled!==false,status:String(raw.status||base.status).slice(0,30),seasonName:String(raw.seasonName||base.seasonName).slice(0,40),startsAt:raw.startsAt||null,endsAt:raw.endsAt||null,initialScore:num(raw.initialScore,base.initialScore,0,1000000),winScore:num(raw.winScore,base.winScore,0,100000),loseScore:num(raw.loseScore,base.loseScore,0,100000),matchCardRange:num(raw.matchCardRange,base.matchCardRange,1,100),matchSeasonRange:num(raw.matchSeasonRange,base.matchSeasonRange,0,100000),historyLimit:num(raw.historyLimit,base.historyLimit,10,500),winCoin:num(raw.winCoin,base.winCoin,0,10000000),loseCoin:num(raw.loseCoin,base.loseCoin,0,10000000),scoreBalance:{enabled:raw.scoreBalance?.enabled!==false,equalRange:num(raw.scoreBalance?.equalRange,base.scoreBalance.equalRange,0,100),weakerWinMid:num(raw.scoreBalance?.weakerWinMid,base.scoreBalance.weakerWinMid,0,500),weakerWinHigh:num(raw.scoreBalance?.weakerWinHigh,base.scoreBalance.weakerWinHigh,0,500),weakerWinExtreme:num(raw.scoreBalance?.weakerWinExtreme,base.scoreBalance.weakerWinExtreme,0,500),strongerWinMid:num(raw.scoreBalance?.strongerWinMid,base.scoreBalance.strongerWinMid,0,500),strongerWinHigh:num(raw.scoreBalance?.strongerWinHigh,base.scoreBalance.strongerWinHigh,0,500),strongerWinExtreme:num(raw.scoreBalance?.strongerWinExtreme,base.scoreBalance.strongerWinExtreme,0,500),strongerLossMid:num(raw.scoreBalance?.strongerLossMid,base.scoreBalance.strongerLossMid,0,500),strongerLossHigh:num(raw.scoreBalance?.strongerLossHigh,base.scoreBalance.strongerLossHigh,0,500),strongerLossExtreme:num(raw.scoreBalance?.strongerLossExtreme,base.scoreBalance.strongerLossExtreme,0,500),weakerLossMid:num(raw.scoreBalance?.weakerLossMid,base.scoreBalance.weakerLossMid,0,500),weakerLossHigh:num(raw.scoreBalance?.weakerLossHigh,base.scoreBalance.weakerLossHigh,0,500),weakerLossExtreme:num(raw.scoreBalance?.weakerLossExtreme,base.scoreBalance.weakerLossExtreme,0,500),minChange:num(raw.scoreBalance?.minChange,base.scoreBalance.minChange,0,100000),maxChange:num(raw.scoreBalance?.maxChange,base.scoreBalance.maxChange,1,100000)},energy:{enabled:raw.energy?.enabled!==false,maxEnergy:num(raw.energy?.maxEnergy,base.energy.maxEnergy,1,999),rechargeMinutes:num(raw.energy?.rechargeMinutes,base.energy.rechargeMinutes,1,1440),costPerBattle:num(raw.energy?.costPerBattle,base.energy.costPerBattle,1,99),adminUnlimited:raw.energy?.adminUnlimited!==false,testUnlimited:raw.energy?.testUnlimited!==false},rewardClaimMode:['IMMEDIATE','SEASON_END'].includes(raw.rewardClaimMode)?raw.rewardClaimMode:base.rewardClaimMode,tierRewardsEnabled:raw.tierRewardsEnabled!==false,rankRewardsEnabled:raw.rankRewardsEnabled!==false,tiers,rankRewards};}
 async function pvpSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
 function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=settings.scoreBalance||{},safeBase=Math.max(0,Number(base||0));if(cfg.enabled===false||!myCard||!opponentCard)return {change:safeBase,multiplier:100,diffPercent:0,label:'기본 점수'};const diff=(Number(opponentCard)-Number(myCard))/Math.max(1,Number(myCard))*100,abs=Math.abs(diff),eq=Number(cfg.equalRange??10);let multiplier=100,label='비슷한 체급';if(abs>eq){const band=abs<20?'Mid':abs<30?'High':'Extreme';if(isWin){if(diff<0){multiplier=Number(cfg['weakerWin'+band]??100);label='낮은 체급 승리 패널티'}else{multiplier=Number(cfg['strongerWin'+band]??100);label='상위 체급 승리 보너스'}}else{if(diff>0){multiplier=Number(cfg['strongerLoss'+band]??100);label='상위 체급 패배 완화'}else{multiplier=Number(cfg['weakerLoss'+band]??100);label='낮은 체급 패배 패널티'}}}const min=Math.max(0,Number(cfg.minChange??1)),max=Math.max(min,Number(cfg.maxChange??999));return {change:Math.max(min,Math.min(max,Math.round(safeBase*multiplier/100))),multiplier,diffPercent:Math.round(diff*10)/10,label}}
-async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare('SELECT c.rarity,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=?').bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
+async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare('SELECT c.rarity,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')').bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
 async function ensurePvpProfile(env,user,settings){let row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first();if(!row){await env.DB.prepare('INSERT OR IGNORE INTO pvp_profiles(user_id,season_score,highest_score,wins,losses,updated_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,settings.initialScore,settings.initialScore,0,0).run();row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first()}return row}
 async function pvpDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
@@ -260,6 +260,18 @@ async function ensureUpgrades(env){
       try{await env.DB.prepare(`ALTER TABLE user_messages ADD COLUMN hidden_at TEXT`).run()}catch(e){if(!String(e.message||e).toLowerCase().includes('duplicate column'))throw e}
       await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_user_messages_visible ON user_messages(user_id,hidden_at,is_read,created_at)`).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v936_message_claim_hide','1',CURRENT_TIMESTAMP)").run();
+    }
+
+
+    const retirementDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v940_card_retirement_refund'").first();
+    if(retirementDone?.value!=='1'){
+      for(const q of [
+        `CREATE TABLE IF NOT EXISTS card_retirement_batches (id INTEGER PRIMARY KEY AUTOINCREMENT, card_id TEXT NOT NULL UNIQUE, card_title TEXT NOT NULL, member_name TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'PENDING', refund_rate INTEGER NOT NULL DEFAULT 50, created_by INTEGER NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, finalized_at TEXT)`,
+        `CREATE TABLE IF NOT EXISTS card_retirement_refunds (id INTEGER PRIMARY KEY AUTOINCREMENT, batch_id INTEGER NOT NULL, user_id INTEGER NOT NULL, breakthrough_level INTEGER NOT NULL DEFAULT 0, required_shards INTEGER NOT NULL DEFAULT 0, refund_shards INTEGER NOT NULL DEFAULT 0, message_id INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(batch_id,user_id))`,
+        `CREATE INDEX IF NOT EXISTS idx_card_retirement_refunds_batch ON card_retirement_refunds(batch_id,user_id)`,
+        `CREATE INDEX IF NOT EXISTS idx_card_retirement_batches_status ON card_retirement_batches(status,created_at)`
+      ]) await env.DB.prepare(q).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v940_card_retirement_refund','1',CURRENT_TIMESTAMP)").run();
     }
 
     const wagoAutoDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v931_wago_auto_urls'").first();
@@ -560,7 +572,7 @@ async function makeSession(env,userId){
   return raw;
 }
 async function profile(env,user){
-  const owned=await env.DB.prepare('SELECT card_id,quantity,first_obtained_at,breakthrough_level FROM user_cards WHERE user_id=?').bind(user.id).all();
+  const owned=await env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all();
   const attendance=await env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first();
   const totalAttendance=await env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first();
   const recent=await env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at
@@ -789,7 +801,7 @@ export async function onRequest(context){
       return user?json({user:await profile(env,user)}):json({error:'로그인이 필요합니다.'},401);
     }
     if(path==='cards'){
-      const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount
+      const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus
         FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 ORDER BY m.sort_order,c.id`).all();
       return json({cards:rows.results});
     }
@@ -1105,21 +1117,28 @@ export async function onRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       if(request.method==='GET'){const rows=await env.DB.prepare(`SELECT m.id,m.title,m.body,m.message_type,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at
         FROM user_messages m LEFT JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
-        WHERE m.user_id=? ORDER BY m.id DESC LIMIT 100`).bind(user.id).all();return json({messages:rows.results,unread:rows.results.filter(x=>!x.is_read).length});}
+        WHERE m.user_id=? AND m.hidden_at IS NULL ORDER BY m.id DESC LIMIT 100`).bind(user.id).all();return json({messages:rows.results,unread:rows.results.filter(x=>!x.is_read).length});}
       if(request.method==='PATCH'){const body=await readBody(request),id=Number(body.id);await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(id,user.id).run();return json({ok:true});}
     }
     if(path==='messages/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),messageId=Number(body.messageId);if(!messageId)return json({error:'메시지 정보가 올바르지 않습니다.'},400);
       const reward=await env.DB.prepare(`SELECT r.id,r.reward_type,r.reward_amount,r.claimed_at,m.title FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id WHERE r.message_id=? AND r.user_id=?`).bind(messageId,user.id).first();
-      if(!reward)return json({error:'수령할 보상이 없습니다.'},404);if(reward.claimed_at)return json({error:'이미 수령한 보상입니다.'},409);if(reward.reward_type!=='COIN'||Number(reward.reward_amount)<=0)return json({error:'지원하지 않는 메시지 보상입니다.'},400);
+      if(!reward)return json({error:'수령할 보상이 없습니다.'},404);if(reward.claimed_at)return json({error:'이미 수령한 보상입니다.'},409);
+      const rewardType=String(reward.reward_type||'').toUpperCase(),rewardAmount=Number(reward.reward_amount||0);
+      if(!['COIN','SHARDS'].includes(rewardType)||rewardAmount<=0)return json({error:'지원하지 않는 메시지 보상입니다.'},400);
+      const rewardUpdate=rewardType==='COIN'
+        ? env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=? AND EXISTS (SELECT 1 FROM user_message_rewards WHERE id=? AND user_id=? AND claimed_at IS NULL)').bind(rewardAmount,user.id,reward.id,user.id)
+        : env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=? AND EXISTS (SELECT 1 FROM user_message_rewards WHERE id=? AND user_id=? AND claimed_at IS NULL)').bind(rewardAmount,user.id,reward.id,user.id);
       const batch=await env.DB.batch([
-        env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=? AND EXISTS (SELECT 1 FROM user_message_rewards WHERE id=? AND user_id=? AND claimed_at IS NULL)').bind(Number(reward.reward_amount),user.id,reward.id,user.id),
+        rewardUpdate,
         env.DB.prepare('UPDATE user_message_rewards SET claimed_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND claimed_at IS NULL').bind(reward.id,user.id),
         env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP),hidden_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=?').bind(messageId,user.id)
       ]);
       if(!batch?.[1]?.meta?.changes)return json({error:'이미 수령한 보상입니다.'},409);
-      const updated=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rewardType:'COIN',rewardAmount:Number(reward.reward_amount),messageDeleted:true,user:updated});
+      const updated=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status FROM users WHERE id=?').bind(user.id).first();
+      if(rewardType==='SHARDS')await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'CARD_RETIREMENT_REFUND')").bind(user.id,rewardAmount,Number(updated.card_shards||0)).run();
+      return json({ok:true,rewardType,rewardAmount,messageDeleted:true,user:updated});
     }
 
     if(path==='admin/wago-verifications'){
@@ -1486,6 +1505,45 @@ export async function onRequest(context){
       }
     }
 
+
+    if(path==='admin/card-retirement'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'CARD_EDIT');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(admin.role!=='OWNER')return json({error:'퇴사 카드 처리는 OWNER만 가능합니다.'},403);
+      const body=await readBody(request),cardId=String(body.cardId||'').trim(),action=String(body.action||'PREVIEW').toUpperCase();
+      if(!cardId)return json({error:'카드를 선택하세요.'},400);
+      const card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.card_status,m.name AS member_name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first();
+      if(!card)return json({error:'카드가 없습니다.'},404);
+      const cfg=await breakthroughConfig(env),rows=await env.DB.prepare('SELECT user_id,COALESCE(breakthrough_level,0) AS breakthrough_level FROM user_cards WHERE card_id=?').bind(cardId).all();
+      const refunds=rows.results.map(r=>{const level=Math.max(0,Math.min(10,Number(r.breakthrough_level)||0));let required=0;for(let i=0;i<level;i++)required+=Number(cfg[card.rarity]?.[i]?.cost||0);return {userId:Number(r.user_id),level,requiredShards:required,refundShards:Math.floor(required*0.5)}}).filter(r=>r.refundShards>0);
+      const summary={cardId:card.id,title:card.title,memberName:card.member_name,grade:card.rarity,ownedUsers:rows.results.length,refundUsers:refunds.length,totalRequiredShards:refunds.reduce((n,r)=>n+r.requiredShards,0),totalRefundShards:refunds.reduce((n,r)=>n+r.refundShards,0),refundRate:50,status:card.card_status};
+      if(action==='PREVIEW')return json({ok:true,summary});
+      if(action==='QUEUE'){
+        if(['RETIRE_PENDING','RETIRED'].includes(String(card.card_status||'')))return json({error:'이미 퇴사 처리 중이거나 완료된 카드입니다.'},409);
+        const created=await env.DB.prepare("INSERT INTO card_retirement_batches(card_id,card_title,member_name,status,refund_rate,created_by) VALUES(?,?,?,'PENDING',50,?)").bind(card.id,card.title,card.member_name,admin.id).run();
+        const batchId=created.meta.last_row_id;
+        let sent=0;
+        for(const r of refunds){
+          const title=`${card.member_name} 퇴사 카드 조각 환급`;
+          const messageBody=`퇴사로 삭제 예정인 [${card.title}] 카드의 현재 강화 단계(★${r.level})까지 필요한 누적 재료를 기준으로 50%를 환급합니다.\n\n누적 필요 재료: ${r.requiredShards.toLocaleString()}개\n환급 카드 조각: ${r.refundShards.toLocaleString()}개\n\n실패한 강화 시도 횟수는 계산에 포함되지 않습니다.`;
+          const m=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'SHARD_REWARD')").bind(r.userId,title,messageBody).run();
+          await env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'SHARDS',?)").bind(m.meta.last_row_id,r.userId,r.refundShards).run();
+          await env.DB.prepare('INSERT INTO card_retirement_refunds(batch_id,user_id,breakthrough_level,required_shards,refund_shards,message_id) VALUES(?,?,?,?,?,?)').bind(batchId,r.userId,r.level,r.requiredShards,r.refundShards,m.meta.last_row_id).run();sent++;
+        }
+        await env.DB.prepare("UPDATE cards SET is_active=0,card_status='RETIRE_PENDING',updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(card.id).run();
+        await writeAdminLog(env,admin,'CARD_RETIREMENT_QUEUE','CARD',card.id,card,{...summary,batchId,sent});
+        return json({ok:true,batchId,sent,summary:{...summary,status:'RETIRE_PENDING'}});
+      }
+      if(action==='FINALIZE'){
+        const batch=await env.DB.prepare('SELECT * FROM card_retirement_batches WHERE card_id=?').bind(card.id).first();if(!batch)return json({error:'먼저 삭제 대기 및 환급 처리를 진행하세요.'},409);
+        await env.DB.batch([
+          env.DB.prepare("UPDATE cards SET is_active=0,card_status='RETIRED',updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(card.id),
+          env.DB.prepare("UPDATE card_retirement_batches SET status='FINALIZED',finalized_at=CURRENT_TIMESTAMP WHERE id=?").bind(batch.id)
+        ]);
+        await writeAdminLog(env,admin,'CARD_RETIREMENT_FINALIZE','CARD',card.id,card,{status:'RETIRED',batchId:batch.id});return json({ok:true,status:'RETIRED'});
+      }
+      return json({error:'올바르지 않은 처리입니다.'},400);
+    }
+
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
@@ -1570,7 +1628,7 @@ export async function onRequest(context){
           const status=String(payload.status||'').toUpperCase();
           if(!ids.length) return json({error:'처리할 카드를 선택하세요.'},400);
           if(ids.length>200) return json({error:'한 번에 최대 200장까지 처리할 수 있습니다.'},400);
-          if(!['PUBLIC','INACTIVE','PENDING'].includes(status)) return json({error:'올바르지 않은 카드 상태입니다.'},400);
+          if(!['PUBLIC','INACTIVE','PENDING','RETIRE_PENDING','RETIRED'].includes(status)) return json({error:'올바르지 않은 카드 상태입니다.'},400);
           const active=status==='PUBLIC'?1:0;
           const placeholders=ids.map(()=>'?').join(',');
           await env.DB.prepare(`UPDATE cards SET card_status=?,is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id IN (${placeholders})`).bind(status,active,...ids).run();
