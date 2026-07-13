@@ -247,6 +247,15 @@ async function ensureUpgrades(env){
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v929','1',CURRENT_TIMESTAMP)").run();
     }
 
+    const verifiedMessageDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v934_verified_messages'").first();
+    if(verifiedMessageDone?.value!=='1'){
+      for(const q of [
+        `CREATE TABLE IF NOT EXISTS user_message_rewards (id INTEGER PRIMARY KEY AUTOINCREMENT, message_id INTEGER NOT NULL UNIQUE, user_id INTEGER NOT NULL, reward_type TEXT NOT NULL DEFAULT 'COIN', reward_amount INTEGER NOT NULL DEFAULT 0, claimed_at TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+        `CREATE INDEX IF NOT EXISTS idx_user_message_rewards_user ON user_message_rewards(user_id,claimed_at,created_at)`
+      ]) await env.DB.prepare(q).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v934_verified_messages','1',CURRENT_TIMESTAMP)").run();
+    }
+
     const wagoAutoDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v931_wago_auto_urls'").first();
     if(wagoAutoDone?.value!=='1'){
       const columns=(await env.DB.prepare("PRAGMA table_info(wago_verifications)").all()).results||[];
@@ -1088,8 +1097,19 @@ export async function onRequest(context){
     }
     if(path==='messages'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT id,title,body,message_type,coupon_code,is_read,created_at,read_at FROM user_messages WHERE user_id=? ORDER BY id DESC LIMIT 100').bind(user.id).all();return json({messages:rows.results,unread:rows.results.filter(x=>!x.is_read).length});}
+      if(request.method==='GET'){const rows=await env.DB.prepare(`SELECT m.id,m.title,m.body,m.message_type,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at
+        FROM user_messages m LEFT JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
+        WHERE m.user_id=? ORDER BY m.id DESC LIMIT 100`).bind(user.id).all();return json({messages:rows.results,unread:rows.results.filter(x=>!x.is_read).length});}
       if(request.method==='PATCH'){const body=await readBody(request),id=Number(body.id);await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(id,user.id).run();return json({ok:true});}
+    }
+    if(path==='messages/claim'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const body=await readBody(request),messageId=Number(body.messageId);if(!messageId)return json({error:'메시지 정보가 올바르지 않습니다.'},400);
+      const reward=await env.DB.prepare(`SELECT r.id,r.reward_type,r.reward_amount,r.claimed_at,m.title FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id WHERE r.message_id=? AND r.user_id=?`).bind(messageId,user.id).first();
+      if(!reward)return json({error:'수령할 보상이 없습니다.'},404);if(reward.claimed_at)return json({error:'이미 수령한 보상입니다.'},409);if(reward.reward_type!=='COIN'||Number(reward.reward_amount)<=0)return json({error:'지원하지 않는 메시지 보상입니다.'},400);
+      const claim=await env.DB.prepare('UPDATE user_message_rewards SET claimed_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND claimed_at IS NULL').bind(reward.id,user.id).run();if(!claim.meta?.changes)return json({error:'이미 수령한 보상입니다.'},409);
+      await env.DB.prepare('UPDATE users SET coin=coin+?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(reward.reward_amount),user.id).run();await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(messageId,user.id).run();
+      const updated=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rewardType:'COIN',rewardAmount:Number(reward.reward_amount),user:updated});
     }
 
     if(path==='admin/wago-verifications'){
@@ -1105,6 +1125,15 @@ export async function onRequest(context){
         await writeAdminLog(env,admin,`WAGO_${action}`,'WAGO_VERIFICATION',id,before,{action,note:body.note||''});return json({ok:true});
       }
     }
+    if(path==='admin/verified-coin-message-send'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      const body=await readBody(request),title=String(body.title||'와고 2단계 인증 보상').trim().slice(0,100),messageBody=String(body.body||'와고 2단계 인증 완료 유저에게 지급되는 코인 보상입니다.').trim().slice(0,1000),rewardCoin=Math.max(1,Math.floor(Number(body.rewardCoin)||0));
+      if(!rewardCoin)return json({error:'지급 코인을 입력하세요.'},400);
+      const users=await env.DB.prepare("SELECT w.user_id,u.nickname FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE w.status='VERIFIED' AND u.status='ACTIVE' AND COALESCE(u.role,'USER')='USER'").all();let sent=0;
+      for(const u of users.results){const m=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')").bind(u.user_id,title,messageBody).run();await env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'COIN',?)").bind(m.meta.last_row_id,u.user_id,rewardCoin).run();sent++;}
+      await writeAdminLog(env,admin,'VERIFIED_COIN_MESSAGE_SEND','USER_MESSAGE','VERIFIED_USERS',null,{sent,rewardCoin,title});return json({ok:true,sent,rewardCoin});
+    }
+
     if(path==='admin/verified-coupon-send'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'COUPON_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       const body=await readBody(request),campaign=String(body.campaignName||'와고 인증 쿠폰').trim().slice(0,80),rewardCoin=Math.max(0,Math.floor(Number(body.rewardCoin)||0)),title=String(body.title||'와고 인증 유저 쿠폰').trim().slice(0,100),messageBody=String(body.body||'와고 닉네임 2단계 인증 유저에게 지급된 쿠폰입니다.').trim().slice(0,1000),endsAt=body.endsAt?String(body.endsAt).slice(0,19):null;
@@ -1333,15 +1362,13 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'USER_MANAGE');
       if(!admin) return json({error:'유저 관리 권한이 없습니다.'},403);
       if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
-      const q=(url.searchParams.get('q')||'').trim().slice(0,30);
-      const rows=q
-        ? await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
-            FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
-            WHERE u.nickname LIKE ? GROUP BY u.id ORDER BY u.nickname LIMIT 50`).bind(`%${q}%`).all()
-        : await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
-            FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id
-            GROUP BY u.id ORDER BY u.created_at DESC LIMIT 50`).all();
-      return json({users:rows.results,role:admin.role});
+      const q=(url.searchParams.get('q')||'').trim().slice(0,30),verification=String(url.searchParams.get('verification')||'ALL').toUpperCase();
+      const filters=[],binds=[];if(q){filters.push('u.nickname LIKE ?');binds.push(`%${q}%`);}if(verification==='VERIFIED')filters.push("w.status='VERIFIED'");else if(verification==='PENDING')filters.push("w.status IN ('PENDING','REVIEW')");else if(verification==='UNVERIFIED')filters.push("(w.id IS NULL OR w.status NOT IN ('VERIFIED','PENDING','REVIEW'))");
+      const sql=`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count
+        FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id LEFT JOIN user_cards uc ON uc.user_id=u.id LEFT JOIN cards c ON c.id=uc.card_id ${filters.length?'WHERE '+filters.join(' AND '):''}
+        GROUP BY u.id ORDER BY ${q?'u.nickname ASC':'u.created_at DESC'} LIMIT 100`;
+      const stmt=env.DB.prepare(sql);const rows=binds.length?await stmt.bind(...binds).all():await stmt.all();
+      return json({users:rows.results,role:admin.role,verification});
     }
 
     if(path==='admin/users/private-key-reset'&&request.method==='POST'){
