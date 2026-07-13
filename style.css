@@ -697,3 +697,42 @@ body {
 @keyframes raidBossAura{50%{transform:scale(1.12);opacity:.85}}
 @keyframes raidEnrageBanner{to{filter:brightness(1.65);box-shadow:0 0 42px rgba(255,24,56,.9)}}
 @media(max-width:720px){.raid-stage-card{width:63px!important}.raid-stage-card .raid-deck-frame{width:58px;height:82px}.raid-card-hp{width:60px}.raid-card-hp>span{font-size:6px}.raid-attacker-card .raid-main-attacker{width:100px;height:142px}.raid-attacker-card{width:115px}}
+
+
+/* v9.2.8 raid enrage aura + compact card art aspect fix */
+.raid-boss-side{isolation:isolate;overflow:visible}
+.raid-enrage-flames,.raid-enrage-skulls{display:none;position:absolute;left:50%;top:50%;pointer-events:none}
+.is-enraged .raid-enrage-flames{display:block;z-index:1;width:330px;height:330px;transform:translate(-50%,-50%);border-radius:50%;background:
+ radial-gradient(circle,rgba(255,34,52,.46) 0 28%,rgba(174,0,23,.24) 43%,transparent 69%),
+ conic-gradient(from 0deg,transparent 0 7%,rgba(255,21,49,.8) 10%,transparent 15% 24%,rgba(255,101,33,.72) 28%,transparent 35% 49%,rgba(255,19,44,.78) 54%,transparent 61% 74%,rgba(255,88,26,.72) 79%,transparent 86% 100%);
+ filter:blur(4px) drop-shadow(0 0 24px rgba(255,20,42,.9));mix-blend-mode:screen;animation:raidEnrageFlameSpin 2.1s linear infinite,raidEnrageFlamePulse .56s ease-in-out infinite alternate}
+.is-enraged .raid-enrage-flames:before,.is-enraged .raid-enrage-flames:after{content:"";position:absolute;inset:28px;border-radius:46% 54% 42% 58%;border:3px solid rgba(255,57,68,.7);box-shadow:0 0 25px #ff213e,inset 0 0 35px rgba(255,30,52,.5);animation:raidEnrageRingWarp 1.05s ease-in-out infinite alternate}
+.is-enraged .raid-enrage-flames:after{inset:57px;border-width:2px;border-color:rgba(255,151,65,.72);animation-delay:-.45s}
+.is-enraged .raid-enrage-skulls{display:block;z-index:4;width:300px;height:300px;transform:translate(-50%,-50%);animation:raidSkullOrbit 6s linear infinite}
+.raid-enrage-skulls i{position:absolute;left:50%;top:50%;font-style:normal;font-size:27px;color:#ffcad0;text-shadow:0 0 6px #fff,0 0 13px #ff3048,0 0 24px #b4001b;filter:drop-shadow(0 0 8px rgba(255,24,55,.9));opacity:.92;animation:raidSkullFlicker .45s ease-in-out infinite alternate}
+.raid-enrage-skulls i:nth-child(1){transform:rotate(0deg) translateY(-142px) rotate(0deg)}
+.raid-enrage-skulls i:nth-child(2){transform:rotate(60deg) translateY(-142px) rotate(-60deg);animation-delay:-.08s}
+.raid-enrage-skulls i:nth-child(3){transform:rotate(120deg) translateY(-142px) rotate(-120deg);animation-delay:-.16s}
+.raid-enrage-skulls i:nth-child(4){transform:rotate(180deg) translateY(-142px) rotate(-180deg);animation-delay:-.24s}
+.raid-enrage-skulls i:nth-child(5){transform:rotate(240deg) translateY(-142px) rotate(-240deg);animation-delay:-.32s}
+.raid-enrage-skulls i:nth-child(6){transform:rotate(300deg) translateY(-142px) rotate(-300deg);animation-delay:-.40s}
+.is-enraged .raid-boss-aura{width:340px;height:340px;background:radial-gradient(circle,rgba(255,38,53,.56),rgba(112,0,18,.3) 42%,transparent 72%);box-shadow:0 0 70px rgba(255,20,45,.75),inset 0 0 45px rgba(255,103,43,.4);filter:none!important;animation:raidEnrageAuraBreath .48s ease-in-out infinite alternate!important}
+.is-enraged .raid-stage-boss{z-index:3;filter:drop-shadow(0 0 12px #fff) drop-shadow(0 0 30px #ff213f) drop-shadow(0 0 70px rgba(175,0,24,.95)) saturate(1.42) contrast(1.08)!important}
+
+/* small raid deck card: keep full portrait art instead of squeezing it between header/footer */
+.raid-stage-card .raid-deck-frame{aspect-ratio:2/2.82!important;box-sizing:border-box!important;padding:3px!important}
+.raid-stage-card .raid-deck-frame .card-inner{position:relative!important;display:block!important;height:100%!important;padding:3px!important;overflow:hidden!important}
+.raid-stage-card .raid-deck-frame .card-header{position:absolute!important;z-index:5!important;left:5px!important;right:5px!important;top:5px!important;height:16px!important;padding:0 3px!important;border-radius:4px!important;background:linear-gradient(180deg,rgba(0,0,0,.78),rgba(0,0,0,.18))!important;pointer-events:none}
+.raid-stage-card .raid-deck-frame .card-header span{font-size:8px!important;line-height:1!important}.raid-stage-card .raid-deck-frame .card-header b{font-size:5px!important}
+.raid-stage-card .raid-deck-frame .card-art{position:absolute!important;inset:3px!important;margin:0!important;border-radius:6px!important;overflow:hidden!important;min-height:0!important}
+.raid-stage-card .raid-deck-frame .card-art img{display:block!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;object-fit:cover!important;object-position:center center!important;transform:none!important}
+.raid-stage-card .raid-deck-frame .card-footer{display:none!important}
+.raid-stage-card .raid-deck-frame:after{z-index:6}
+
+@keyframes raidEnrageFlameSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes raidEnrageFlamePulse{to{width:365px;height:365px;opacity:.82}}
+@keyframes raidEnrageRingWarp{to{transform:scale(1.08) rotate(18deg);border-radius:58% 42% 56% 44%}}
+@keyframes raidSkullOrbit{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+@keyframes raidSkullFlicker{to{opacity:.55;filter:drop-shadow(0 0 15px rgba(255,24,55,1));font-size:31px}}
+@keyframes raidEnrageAuraBreath{to{transform:scale(1.16);opacity:.72}}
+@media(max-width:720px){.is-enraged .raid-enrage-flames{width:230px;height:230px}.is-enraged .raid-enrage-skulls{width:220px;height:220px}.raid-enrage-skulls i{font-size:20px}.raid-enrage-skulls i:nth-child(1){transform:rotate(0deg) translateY(-104px) rotate(0deg)}.raid-enrage-skulls i:nth-child(2){transform:rotate(60deg) translateY(-104px) rotate(-60deg)}.raid-enrage-skulls i:nth-child(3){transform:rotate(120deg) translateY(-104px) rotate(-120deg)}.raid-enrage-skulls i:nth-child(4){transform:rotate(180deg) translateY(-104px) rotate(-180deg)}.raid-enrage-skulls i:nth-child(5){transform:rotate(240deg) translateY(-104px) rotate(-240deg)}.raid-enrage-skulls i:nth-child(6){transform:rotate(300deg) translateY(-104px) rotate(-300deg)}.is-enraged .raid-boss-aura{width:245px;height:245px}}
