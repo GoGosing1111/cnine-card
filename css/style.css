@@ -792,4 +792,26 @@ body {
 
 /* v9.4.9 와이고수 SOOP 일일퀘스트 */
 .daily-quest-panel{position:relative;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(260px,.65fr);gap:28px;align-items:center;overflow:hidden;border:1px solid rgba(83,210,255,.3);border-radius:24px;padding:32px;background:radial-gradient(circle at 85% 25%,rgba(255,204,60,.16),transparent 32%),linear-gradient(135deg,rgba(8,22,39,.98),rgba(5,12,24,.98));box-shadow:0 24px 60px rgba(0,0,0,.28)}
-.daily-quest-copy h2{margin:4px 0 10px;font-size:30px}.daily-quest-copy>p{color:#aebed1;line-height:1.7}.daily-quest-copy>small{display:block;margin-top:14px;color:#71869d}.daily-quest-status{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:20px 0;padding:16px 18px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(0,0,0,.22)}.daily-quest-status b{font-size:18px;color:#fff}.daily-quest-status span{color:#7fe4ff}.daily-quest-actions{display:flex;gap:10px}.daily-quest-reward{min-height:250px;display:grid;place-items:center;align-content:center;gap:8px;border:1px solid rgba(255,206,79,.36);border-radius:22px;background:linear-gradient(160deg,rgba(255,197,55,.14),rgba(255,255,255,.025));box-shadow:inset 0 0 40px rgba(255,193,38,.06)}.daily-quest-reward span{letter-spacing:2px;color:#ffda71;font-size:12px;font-weight:900}.daily-quest-reward strong{font-size:38px;color:#fff}.daily-quest-reward b{font-size:28px;color:#ffd75e}.daily-quest-reward em{font-style:normal;color:#7fa1be;letter-spacing:1.4px;font-size:11px}@media(max-width:760px){.daily-quest-panel{grid-template-columns:1fr;padding:20px}.daily-quest-reward{min-height:180px}.daily-quest-actions{flex-direction:column}}
+.daily-quest-copy h2{margin:4px 0 10px;font-size:30px}.daily-quest-copy>p{color:#aebed1;line-height:1.7}.daily-quest-copy>small{display:block;margin-top:14px;color:#71869d}.daily-quest-status{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;margin:20px 0;padding:16px 18px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(0,0,0,.22)}.daily-quest-status b{font-size:18px;color:#fff}.daily-quest-status span{color:#7fe4ff}.daily-quest-actions{display:flex;gap:10px}.daily-quest-reward{min-height:250px;display:grid;place-items:center;align-content:center;gap:8px;border:1px solid rgba(255,206,79,.36);border-radius:22px;background:linear-gradient(160deg,rgba(255,197,55,.14),rgba(255,255,255,.025));box-shadow:inset 0 0 40px rgba(255,193,38,.06)}.daily-quest-reward span{letter-spacing:2px;color:#ffda71;font-size:12px;font-weight:900}.daily-quest-reward strong{font-size:38px;color:#fff}.daily-quest-reward b{font-size:28px;color:#ffd75e}.daily-quest-reward em{font-style:normal;color:#7fa1be;letter-spacing:1.4px;font-size:11px}@media(max-width:760px){
+  .daily-quest-panel{width:100%;min-width:0;grid-template-columns:minmax(0,1fr);gap:16px;padding:18px 14px;border-radius:18px;overflow:hidden}
+  .daily-quest-copy,.daily-quest-reward{width:100%;min-width:0}
+  .daily-quest-copy h2{font-size:clamp(22px,7vw,28px);line-height:1.2;overflow-wrap:anywhere;word-break:keep-all}
+  .daily-quest-copy>p{font-size:13px;line-height:1.65;word-break:keep-all}
+  .daily-quest-copy>small{font-size:11px;line-height:1.55;word-break:keep-all}
+  .daily-quest-status{width:100%;min-width:0;display:grid;grid-template-columns:1fr;gap:7px;margin:16px 0;padding:14px}
+  .daily-quest-status b,.daily-quest-status span{min-width:0;max-width:100%;white-space:normal;overflow-wrap:anywhere;word-break:keep-all}
+  .daily-quest-status b{font-size:16px}
+  .daily-quest-status span{font-size:12px;line-height:1.5}
+  .daily-quest-actions{width:100%;display:grid;grid-template-columns:1fr;gap:9px}
+  .daily-quest-actions .btn{width:100%;min-width:0;margin:0;padding:13px 10px;font-size:14px;white-space:normal;word-break:keep-all}
+  .daily-quest-reward{min-height:150px;padding:18px 10px;border-radius:16px}
+  .daily-quest-reward strong{font-size:clamp(30px,10vw,38px)}
+  .daily-quest-reward b{font-size:clamp(23px,8vw,28px)}
+}
+@media(max-width:380px){
+  .daily-quest-panel{padding:15px 11px}
+  .daily-quest-copy h2{font-size:21px}
+  .daily-quest-copy>p{font-size:12px}
+  .daily-quest-status{padding:12px}
+  .daily-quest-reward{min-height:136px}
+}

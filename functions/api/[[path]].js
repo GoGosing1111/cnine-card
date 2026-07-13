@@ -1162,13 +1162,11 @@ export async function onRequest(context){
       const verification=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
       const progress=await env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_quest_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
       const claim=await env.DB.prepare('SELECT reward_coin,post_count,claimed_at FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-      const excluded=['OWNER','ADMIN'].includes(String(user.role||'USER').toUpperCase());
-      return json({settings:{enabled:settings.enabled,requiredPosts:Number(settings.requiredPosts||15),rewardCoin:Number(settings.rewardCoin||1200)},verified:verification?.status==='VERIFIED',wagoNickname:verification?.wago_nickname||'',postCount:Number(progress?.post_count||0),lastCheckedAt:progress?.last_checked_at||null,claimed:Boolean(claim),claim:claim||null,excluded});
+      return json({settings:{enabled:settings.enabled,requiredPosts:Number(settings.requiredPosts||15),rewardCoin:Number(settings.rewardCoin||1200)},verified:verification?.status==='VERIFIED',wagoNickname:verification?.wago_nickname||'',postCount:Number(progress?.post_count||0),lastCheckedAt:progress?.last_checked_at||null,claimed:Boolean(claim),claim:claim||null,excluded:false});
     }
     if(path==='wago-daily-quest/check'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const settings=await wagoDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
-      if(['OWNER','ADMIN'].includes(String(user.role||'USER').toUpperCase()))return json({error:'관리자 계정은 일일퀘스트 보상 대상에서 제외됩니다.'},403);
       const v=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
       if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'와고 2단계 인증 완료 후 이용할 수 있습니다.'},403);
       const today=kstDate(),old=await env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_quest_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
@@ -1182,7 +1180,6 @@ export async function onRequest(context){
     if(path==='wago-daily-quest/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const settings=await wagoDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
-      if(['OWNER','ADMIN'].includes(String(user.role||'USER').toUpperCase()))return json({error:'관리자 계정은 일일퀘스트 보상 대상에서 제외됩니다.'},403);
       const v=await env.DB.prepare("SELECT status,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
       if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'와고 2단계 인증 완료 후 이용할 수 있습니다.'},403);
       const today=kstDate(),already=await env.DB.prepare('SELECT id FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();if(already)return json({error:'오늘 일일퀘스트 보상은 이미 수령했습니다.'},409);
