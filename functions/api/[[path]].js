@@ -823,7 +823,7 @@ export async function onRequest(context){
       const claimed=await env.DB.prepare('UPDATE raid_participants SET reward_claimed=1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND reward_claimed=0').bind(row.id).run();
       if(!claimed.meta.changes)return json({error:'이미 수령한 레이드 보상입니다.'},409);
       await env.DB.batch([env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'RAID_REWARD' FROM users WHERE id=?").bind(rewardCoin,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,'RAID_REWARD' FROM users WHERE id=?").bind(rewardShards,user.id)]);
-      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rewardCoin,rewardShards,user:await profile(env,updated)});
+      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,instanceId:Number(row.instance_id),rewardCoin,rewardShards,user:await profile(env,updated)});
     }
 
     if(path==='battle/config'){
