@@ -60,3 +60,5 @@ body.auth-active main{display:block;min-height:100vh;padding:28px}
 body.auth-active #login{display:none!important}
 body.auth-active #cms{display:block}
 @media(max-width:800px){body.auth-active .layout{grid-template-columns:1fr}body.auth-active main{padding:14px}}
+
+#view-wago .wide{grid-column:1/-1}#view-wago textarea{min-height:100px}#wagoVerificationList .row code{font-weight:800;color:#ffd86a}

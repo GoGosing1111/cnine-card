@@ -229,6 +229,24 @@ async function ensureUpgrades(env){
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v913','1',CURRENT_TIMESTAMP)").run();
     }
 
+    const identityDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v929'").first();
+    if(identityDone?.value!=='1'){
+      for(const q of [
+        `CREATE TABLE IF NOT EXISTS account_ip_registrations (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL UNIQUE, ip_hash TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+        `CREATE UNIQUE INDEX IF NOT EXISTS idx_account_ip_hash_unique ON account_ip_registrations(ip_hash)`,
+        `CREATE TABLE IF NOT EXISTS account_ip_exceptions (ip_hash TEXT PRIMARY KEY, note TEXT, created_by INTEGER, expires_at TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+        `CREATE TABLE IF NOT EXISTS wago_verifications (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL UNIQUE, wago_nickname TEXT NOT NULL, wago_member_no TEXT NOT NULL, verification_code TEXT NOT NULL UNIQUE, status TEXT NOT NULL DEFAULT 'PENDING', comment_url TEXT, issued_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, expires_at TEXT NOT NULL, verified_at TEXT, reviewed_by INTEGER, review_note TEXT, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+        `CREATE UNIQUE INDEX IF NOT EXISTS idx_wago_member_verified_unique ON wago_verifications(wago_member_no) WHERE status='VERIFIED'`,
+        `CREATE INDEX IF NOT EXISTS idx_wago_status ON wago_verifications(status,issued_at)`,
+        `CREATE TABLE IF NOT EXISTS user_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, sender_type TEXT NOT NULL DEFAULT 'SYSTEM', title TEXT NOT NULL, body TEXT NOT NULL DEFAULT '', message_type TEXT NOT NULL DEFAULT 'NOTICE', coupon_code TEXT, is_read INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, read_at TEXT)`,
+        `CREATE INDEX IF NOT EXISTS idx_user_messages_user ON user_messages(user_id,is_read,created_at)`,
+        `CREATE TABLE IF NOT EXISTS verified_coupon_deliveries (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, coupon_id INTEGER NOT NULL, message_id INTEGER, campaign_name TEXT NOT NULL DEFAULT '', delivered_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(user_id,coupon_id))`,
+        `CREATE INDEX IF NOT EXISTS idx_verified_coupon_deliveries_user ON verified_coupon_deliveries(user_id,delivered_at)`
+      ]) await env.DB.prepare(q).run();
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('wago_verification_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({enabled:true,postUrl:'',codeMinutes:20,checkCooldownSeconds:10})).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v929','1',CURRENT_TIMESTAMP)").run();
+    }
+
     const tierDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v868'").first();
     if(tierDone?.value!=='1'){
       await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('tier_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultTierSettings())).run();
@@ -399,6 +417,27 @@ async function ensureUpgrades(env){
   })().catch(error=>{upgradePromise=null;throw error});
   return upgradePromise;
 }
+function requestIp(request){return String(request.headers.get('CF-Connecting-IP')||request.headers.get('x-forwarded-for')||'').split(',')[0].trim()||'unknown'}
+async function requestIpHash(request,env){return hash(`${requestIp(request)}|${env.IP_HASH_SALT||'CNINE-IP-SALT-CHANGE-ME'}`)}
+async function wagoVerificationSettings(env){const base={enabled:true,postUrl:'',codeMinutes:20,checkCooldownSeconds:10};const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='wago_verification_settings_v1'").first();try{return {...base,...JSON.parse(row?.value||'{}')}}catch{return base}}
+function makeVerificationCode(){return `CNINE-${crypto.randomUUID().replaceAll('-','').slice(0,6).toUpperCase()}`}
+function htmlText(v){return String(v||'').replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/gi,' ').replace(/&amp;/gi,'&').replace(/\s+/g,' ').trim()}
+async function inspectWagoComment(settings,verification){
+  if(!settings.postUrl) return {ok:false,error:'CMS에서 와고 인증 게시글 주소를 먼저 설정하세요.'};
+  let response;try{response=await fetch(settings.postUrl,{headers:{'User-Agent':'Mozilla/5.0 CNINE-Verification/1.0','Accept':'text/html,application/xhtml+xml'}})}catch{return {ok:false,error:'와고 인증 게시글에 연결할 수 없습니다.'}}
+  if(!response.ok)return {ok:false,error:`와고 게시글 확인 실패 (${response.status})`};
+  const html=await response.text(),code=verification.verification_code;
+  const pos=html.toUpperCase().indexOf(code.toUpperCase());
+  if(pos<0)return {ok:false,error:'인증 댓글에서 발급 코드를 찾지 못했습니다.'};
+  const nearby=html.slice(Math.max(0,pos-2500),Math.min(html.length,pos+2500));
+  const text=htmlText(nearby);
+  if(!text.includes(verification.wago_nickname))return {ok:false,error:'인증코드는 확인했지만 입력한 와고 닉네임과 댓글 작성자가 일치하지 않습니다.'};
+  const member=String(verification.wago_member_no);
+  const memberPatterns=[new RegExp(`(?:member|user|mb|no|uid)[_\-]?(?:no|id)?[=:\"']+${member}(?:[^0-9]|$)`,'i'),new RegExp(`/${member}(?:[/?#\"']|$)`),new RegExp(`\b${member}\b`)];
+  const memberConfirmed=memberPatterns.some(r=>r.test(nearby));
+  return {ok:true,memberConfirmed,commentUrl:settings.postUrl,notice:memberConfirmed?'댓글 코드·닉네임·회원번호가 확인되었습니다.':'댓글 코드와 닉네임은 확인했으나 회원번호 표기가 없어 CMS 최종 확인이 필요합니다.'};
+}
+
 async function writeAdminLog(env,admin,action,targetType,targetId,before=null,after=null){
   await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
     .bind(admin.id,action,targetType,String(targetId??''),before?JSON.stringify(before):null,after?JSON.stringify(after):null).run();
@@ -635,13 +674,18 @@ export async function onRequest(context){
       if(!nickname) return json({error:'닉네임을 입력하세요.'},400);
       const privateKey=createPrivateKey();
       const privateKeyHash=await hash(privateKey);
+      const ipHash=await requestIpHash(request,env);
+      const existingIp=await env.DB.prepare('SELECT user_id FROM account_ip_registrations WHERE ip_hash=?').bind(ipHash).first();
+      const ipException=await env.DB.prepare("SELECT ip_hash FROM account_ip_exceptions WHERE ip_hash=? AND (expires_at IS NULL OR expires_at>datetime('now'))").bind(ipHash).first();
+      if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 씨켓몬 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
       try{
         const coinSetting=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_user_coin'").first();
         const newUserCoin=Math.max(0,Number(coinSetting?.value||5000)||5000);
         const result=await env.DB.prepare('INSERT INTO users(nickname,private_key_hash,coin) VALUES(?,?,?)').bind(nickname,privateKeyHash,newUserCoin).run();
+        await env.DB.prepare('INSERT INTO account_ip_registrations(user_id,ip_hash) VALUES(?,?)').bind(result.meta.last_row_id,ipHash).run();
         const user=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(result.meta.last_row_id).first();
         return json({token:await makeSession(env,user.id),privateKey,user:await profile(env,user)},201);
-      }catch(error){return json({error:'이미 사용 중인 닉네임입니다.'},409)}
+      }catch(error){return json({error:String(error?.message||'').includes('account_ip')?'해당 네트워크에서는 이미 계정이 생성되었습니다.':'이미 사용 중인 닉네임입니다.'},409)}
     }
     if(path==='auth/login'&&request.method==='POST'){
       const payload=await readBody(request);
@@ -948,6 +992,63 @@ export async function onRequest(context){
       if(Number(used?.total||0)+coinAmount>Number(settings.dailyLimitCoin))return json({error:`하루 최대 교환 가능 개수는 ${Number(settings.dailyLimitCoin).toLocaleString()}코인입니다.`},409);
       const result=await env.DB.prepare("INSERT INTO mineral_exchange_requests(user_id,game_nickname,wago_nickname,mineral_amount,coin_amount,proof_text,status,requested_kst_date) VALUES(?,?,?,?,?,?,'PENDING',?)").bind(user.id,user.nickname,wagoNickname,mineralAmount,coinAmount,proofText,today).run();
       return json({ok:true,id:result.meta.last_row_id,coinAmount});
+    }
+
+    if(path==='wago-verification/status'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const settings=await wagoVerificationSettings(env),row=await env.DB.prepare('SELECT wago_nickname,wago_member_no,status,verification_code,comment_url,issued_at,expires_at,verified_at,review_note FROM wago_verifications WHERE user_id=?').bind(user.id).first();
+      return json({settings:{enabled:settings.enabled,postUrl:settings.postUrl,codeMinutes:settings.codeMinutes},verification:row||null});
+    }
+    if(path==='wago-verification/request'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const settings=await wagoVerificationSettings(env);if(!settings.enabled)return json({error:'현재 와고 인증이 중지되어 있습니다.'},503);
+      const body=await readBody(request),nickname=String(body.wagoNickname||'').trim().slice(0,40),memberNo=String(body.wagoMemberNo||'').replace(/\D/g,'').slice(0,30);
+      if(nickname.length<2)return json({error:'와고 닉네임을 정확히 입력하세요.'},400);if(!memberNo)return json({error:'와고 회원번호를 입력하세요.'},400);
+      const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 씨켓몬 계정에 인증된 와고 회원번호입니다.'},409);
+      const code=makeVerificationCode(),minutes=Math.max(5,Math.min(60,Number(settings.codeMinutes)||20));
+      await env.DB.prepare(`INSERT INTO wago_verifications(user_id,wago_nickname,wago_member_no,verification_code,status,expires_at,issued_at,updated_at) VALUES(?,?,?,?, 'PENDING',datetime('now',?),CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+        ON CONFLICT(user_id) DO UPDATE SET wago_nickname=excluded.wago_nickname,wago_member_no=excluded.wago_member_no,verification_code=excluded.verification_code,status='PENDING',comment_url=NULL,expires_at=excluded.expires_at,issued_at=CURRENT_TIMESTAMP,verified_at=NULL,review_note=NULL,updated_at=CURRENT_TIMESTAMP`).bind(user.id,nickname,memberNo,code,`+${minutes} minutes`).run();
+      return json({ok:true,verificationCode:code,postUrl:settings.postUrl,expiresMinutes:minutes});
+    }
+    if(path==='wago-verification/check'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const settings=await wagoVerificationSettings(env),v=await env.DB.prepare('SELECT * FROM wago_verifications WHERE user_id=?').bind(user.id).first();if(!v)return json({error:'먼저 인증코드를 발급하세요.'},404);
+      if(v.status==='VERIFIED')return json({ok:true,verified:true,verification:v});if(new Date(v.expires_at+'Z')<new Date())return json({error:'인증코드 유효시간이 만료되었습니다. 새 코드를 발급하세요.'},410);
+      const inspected=await inspectWagoComment(settings,v);if(!inspected.ok)return json({error:inspected.error},409);
+      if(inspected.memberConfirmed){
+        const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(v.wago_member_no,user.id).first();if(duplicate)return json({error:'이미 다른 씨켓몬 계정에 인증된 회원번호입니다.'},409);
+        await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',comment_url=?,verified_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.commentUrl,inspected.notice,user.id).run();
+        return json({ok:true,verified:true,message:'와고 닉네임 2단계 인증이 완료되었습니다.'});
+      }
+      await env.DB.prepare("UPDATE wago_verifications SET status='REVIEW',comment_url=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.commentUrl,inspected.notice,user.id).run();
+      return json({ok:true,verified:false,review:true,message:'댓글은 확인되었습니다. 회원번호 최종 확인을 위해 CMS 승인 대기 상태로 전환되었습니다.'});
+    }
+    if(path==='messages'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT id,title,body,message_type,coupon_code,is_read,created_at,read_at FROM user_messages WHERE user_id=? ORDER BY id DESC LIMIT 100').bind(user.id).all();return json({messages:rows.results,unread:rows.results.filter(x=>!x.is_read).length});}
+      if(request.method==='PATCH'){const body=await readBody(request),id=Number(body.id);await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(id,user.id).run();return json({ok:true});}
+    }
+
+    if(path==='admin/wago-verifications'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method==='GET'){const settings=await wagoVerificationSettings(env),rows=await env.DB.prepare(`SELECT w.*,u.nickname AS game_nickname FROM wago_verifications w JOIN users u ON u.id=w.user_id ORDER BY CASE w.status WHEN 'REVIEW' THEN 0 WHEN 'PENDING' THEN 1 ELSE 2 END,w.id DESC LIMIT 500`).all();return json({settings,verifications:rows.results});}
+      if(request.method==='PATCH'){
+        const body=await readBody(request);
+        if(body.settings){if(admin.role!=='OWNER')return json({error:'인증 설정 변경은 OWNER만 가능합니다.'},403);const before=await wagoVerificationSettings(env),next={...before,enabled:body.settings.enabled!==false,postUrl:String(body.settings.postUrl||'').trim().slice(0,500),codeMinutes:Math.max(5,Math.min(60,Number(body.settings.codeMinutes)||20)),checkCooldownSeconds:Math.max(5,Math.min(60,Number(body.settings.checkCooldownSeconds)||10))};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('wago_verification_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();await writeAdminLog(env,admin,'WAGO_SETTINGS','APP_META','wago_verification_settings_v1',before,next);return json({ok:true,settings:next});}
+        const id=Number(body.id),action=String(body.action||'').toUpperCase();const before=await env.DB.prepare('SELECT * FROM wago_verifications WHERE id=?').bind(id).first();if(!before)return json({error:'인증 요청이 없습니다.'},404);
+        if(action==='APPROVE'){const dup=await env.DB.prepare("SELECT id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND id<>?").bind(before.wago_member_no,id).first();if(dup)return json({error:'이미 인증된 회원번호입니다.'},409);await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',verified_at=CURRENT_TIMESTAMP,reviewed_by=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(admin.id,String(body.note||'CMS 승인').slice(0,200),id).run();}
+        else if(action==='REJECT')await env.DB.prepare("UPDATE wago_verifications SET status='REJECTED',reviewed_by=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(admin.id,String(body.note||'인증 정보 불일치').slice(0,200),id).run();
+        else if(action==='RESET')await env.DB.prepare("UPDATE wago_verifications SET status='PENDING',verified_at=NULL,reviewed_by=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(admin.id,'재인증 요청',id).run();else return json({error:'올바르지 않은 처리입니다.'},400);
+        await writeAdminLog(env,admin,`WAGO_${action}`,'WAGO_VERIFICATION',id,before,{action,note:body.note||''});return json({ok:true});
+      }
+    }
+    if(path==='admin/verified-coupon-send'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'COUPON_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      const body=await readBody(request),campaign=String(body.campaignName||'와고 인증 쿠폰').trim().slice(0,80),rewardCoin=Math.max(0,Math.floor(Number(body.rewardCoin)||0)),title=String(body.title||'와고 인증 유저 쿠폰').trim().slice(0,100),messageBody=String(body.body||'와고 닉네임 2단계 인증 유저에게 지급된 쿠폰입니다.').trim().slice(0,1000),endsAt=body.endsAt?String(body.endsAt).slice(0,19):null;
+      if(rewardCoin<=0)return json({error:'쿠폰 보상 코인을 입력하세요.'},400);
+      const users=await env.DB.prepare("SELECT w.user_id,u.nickname FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE w.status='VERIFIED' AND u.status='ACTIVE' AND COALESCE(u.role,'USER')='USER'").all();let sent=0;
+      for(const u of users.results){const code=`WG-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;const c=await env.DB.prepare('INSERT INTO coupons(code,reward_coin,ends_at,max_uses,is_active,created_by) VALUES(?,?,?,1,1,?)').bind(code,rewardCoin,endsAt,admin.id).run();const m=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,coupon_code) VALUES(?,'ADMIN',?,?,'COUPON',?)").bind(u.user_id,title,messageBody,code).run();await env.DB.prepare('INSERT INTO verified_coupon_deliveries(user_id,coupon_id,message_id,campaign_name) VALUES(?,?,?,?)').bind(u.user_id,c.meta.last_row_id,m.meta.last_row_id,campaign).run();sent++;}
+      await writeAdminLog(env,admin,'VERIFIED_COUPON_SEND','COUPON_CAMPAIGN',campaign,null,{sent,rewardCoin,endsAt});return json({ok:true,sent,rewardCoin});
     }
 
     if(path==='recent-high-grade'){

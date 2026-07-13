@@ -1,0 +1,8 @@
+-- D1 SAFE: 신규 테이블/인덱스만 추가. 기존 데이터 변경 없음.
+CREATE TABLE IF NOT EXISTS account_ip_registrations (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL UNIQUE, ip_hash TEXT NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_account_ip_hash_unique ON account_ip_registrations(ip_hash);
+CREATE TABLE IF NOT EXISTS account_ip_exceptions (ip_hash TEXT PRIMARY KEY, note TEXT, created_by INTEGER, expires_at TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE TABLE IF NOT EXISTS wago_verifications (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL UNIQUE, wago_nickname TEXT NOT NULL, wago_member_no TEXT NOT NULL, verification_code TEXT NOT NULL UNIQUE, status TEXT NOT NULL DEFAULT 'PENDING', comment_url TEXT, issued_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, expires_at TEXT NOT NULL, verified_at TEXT, reviewed_by INTEGER, review_note TEXT, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_wago_member_verified_unique ON wago_verifications(wago_member_no) WHERE status='VERIFIED';
+CREATE TABLE IF NOT EXISTS user_messages (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, sender_type TEXT NOT NULL DEFAULT 'SYSTEM', title TEXT NOT NULL, body TEXT NOT NULL DEFAULT '', message_type TEXT NOT NULL DEFAULT 'NOTICE', coupon_code TEXT, is_read INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, read_at TEXT);
+CREATE TABLE IF NOT EXISTS verified_coupon_deliveries (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, coupon_id INTEGER NOT NULL, message_id INTEGER, campaign_name TEXT NOT NULL DEFAULT '', delivered_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(user_id,coupon_id));
