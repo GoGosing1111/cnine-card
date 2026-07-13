@@ -826,3 +826,6 @@ body {
 .daily-quest-note{display:block;color:#71869d;line-height:1.6}
 @media(max-width:900px){.daily-quest-grid{grid-template-columns:1fr}.daily-quest-grid .daily-quest-panel{grid-template-columns:minmax(0,1fr) minmax(180px,.55fr)}}
 @media(max-width:760px){.daily-quest-grid{gap:13px}.daily-quest-grid .daily-quest-panel{grid-template-columns:1fr;padding:16px 12px}.daily-quest-grid .daily-quest-copy h3{font-size:20px}.daily-quest-grid .daily-quest-reward{min-height:125px}.daily-quest-note{font-size:11px;word-break:keep-all}}
+
+/* v9.4.12 post-only daily quest */
+.daily-quest-grid-single{grid-template-columns:minmax(0,1fr);max-width:920px;margin-inline:auto}

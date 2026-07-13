@@ -38,50 +38,21 @@ async function saveWagoSettings(){await api('admin/wago-verifications',{method:'
 async function reviewWago(id,action){const note=action==='REJECT'?prompt('거절 사유','인증 정보 불일치'):(action==='APPROVE'?prompt('승인 메모','댓글 및 회원번호 확인'):'재인증 요청');if(note===null)return;await api('admin/wago-verifications',{method:'PATCH',body:JSON.stringify({id,action,note})});await loadWagoAdmin()}
 
 async function loadDailyQuestAdmin(){
-  const d=await api('admin/daily-quests'),s=d.settings||{},stats=d.stats||{};
+  const d=await api('admin/daily-quests'),s=d.settings||{},stats=d.stats||{},users=d.users||[],logs=d.claims||[];
   $('#dqEnabled').value=s.enabled===false?'0':'1';
   $('#dqPostEnabled').value=s.postEnabled===false?'0':'1';
-  $('#dqCommentEnabled').value=s.commentEnabled===false?'0':'1';
   $('#dqRequiredPosts').value=Number(s.requiredPosts||15);
   $('#dqPostRewardCoin').value=Number(s.postRewardCoin||s.rewardCoin||1200);
   $('#dqPostMaxPages').value=Number(s.maxPages||10);
-  $('#dqRequiredComments').value=Number(s.requiredComments||20);
-  $('#dqCommentRewardCoin').value=Number(s.commentRewardCoin||1250);
-  $('#dqCommentMaxPosts').value=Number(s.commentMaxPosts||100);
   $('#dqCooldown').value=Number(s.checkCooldownSeconds||20);
   $('#dqAdminTestAllowed').value=s.adminTestAllowed===false?'0':'1';
-  const cards=[
-    ['오늘 참여자',stats.participants||0,'진행 확인 계정'],
-    ['게시글 완료',stats.postCompleted||0,`기준 ${Number(s.requiredPosts||15)}개`],
-    ['댓글 완료',stats.commentCompleted||0,`기준 ${Number(s.requiredComments||20)}개`],
-    ['게시글 보상',stats.postClaims||0,`${Number(stats.postCoins||0).toLocaleString()}코인 지급`],
-    ['댓글 보상',stats.commentClaims||0,`${Number(stats.commentCoins||0).toLocaleString()}코인 지급`]
-  ];
-  $('#dailyQuestAdminStats').innerHTML=cards.map(x=>`<div class="stat"><small>${x[0]}</small><b>${x[1]}</b><em>${x[2]}</em></div>`).join('');
-  const users=d.users||[];
-  $('#dailyQuestAdminUsers').innerHTML=users.length?users.map(u=>`<article class="dailyQuestUserRow"><div><b>${esc(u.nickname)}</b><small>${esc(u.wago_nickname||'미인증')} · ${esc(u.role||'USER')}</small></div><span>글 <b>${Number(u.post_count||0)} / ${Number(s.requiredPosts||15)}</b>${u.post_claimed_at?'<em class="done">수령</em>':'<em>미수령</em>'}</span><span>댓글 <b>${Number(u.comment_count||0)} / ${Number(s.requiredComments||20)}</b>${u.comment_claimed_at?'<em class="done">수령</em>':'<em>미수령</em>'}</span><small>${fmt(u.last_checked_at||u.comment_last_checked_at)}</small></article>`).join(''):'<div class="muted">오늘 진행 기록이 없습니다.</div>';
-  const logs=d.claims||[];
-  $('#dailyQuestClaimLogs').innerHTML=logs.length?`<div class="tr head"><span>유저</span><span>퀘스트</span><span>보상</span><span>수령시간</span></div>${logs.map(x=>`<div class="tr"><span>${esc(x.nickname)}</span><span>${x.quest_type==='COMMENT'?'댓글 20개':'게시글 15개'}</span><span>${Number(x.reward_coin||0).toLocaleString()}코인</span><span>${fmt(x.claimed_at)}</span></div>`).join('')}`:'<div class="muted">보상 지급 기록이 없습니다.</div>';
+  $('#dailyQuestAdminStats').innerHTML=[['오늘 참여자',stats.participants||0,'진행 기록 기준'],['게시글 완료',stats.postCompleted||0,`기준 ${Number(s.requiredPosts||15)}개`],['보상 수령',stats.postClaims||0,`${Number(stats.postCoins||0).toLocaleString()}코인 지급`]].map(x=>`<div class="stat"><small>${x[0]}</small><b>${Number(x[1]).toLocaleString()}</b><span>${x[2]}</span></div>`).join('');
+  $('#dailyQuestAdminUsers').innerHTML=users.length?users.map(u=>`<article class="dailyQuestUserRow"><div><b>${esc(u.nickname)}</b><small>${esc(u.wago_nickname||'미인증')} · ${esc(u.role||'USER')}</small></div><span>글 <b>${Number(u.post_count||0)} / ${Number(s.requiredPosts||15)}</b>${u.post_claimed_at?'<em class="done">수령</em>':'<em>미수령</em>'}</span><small>${fmt(u.last_checked_at)}</small></article>`).join(''):'<div class="muted">오늘 진행 기록이 없습니다.</div>';
+  $('#dailyQuestClaimLogs').innerHTML=logs.length?`<div class="tr head"><span>유저</span><span>퀘스트</span><span>보상</span><span>수령시간</span></div>${logs.map(x=>`<div class="tr"><span>${esc(x.nickname)}</span><span>게시글 ${Number(s.requiredPosts||15)}개</span><span>${Number(x.reward_coin||0).toLocaleString()}코인</span><span>${fmt(x.claimed_at)}</span></div>`).join('')}`:'<div class="muted">보상 지급 기록이 없습니다.</div>';
 }
-async function saveDailyQuestSettings(){
-  const settings={
-    enabled:$('#dqEnabled').value==='1',
-    postEnabled:$('#dqPostEnabled').value==='1',
-    commentEnabled:$('#dqCommentEnabled').value==='1',
-    requiredPosts:Number($('#dqRequiredPosts').value),
-    postRewardCoin:Number($('#dqPostRewardCoin').value),
-    rewardCoin:Number($('#dqPostRewardCoin').value),
-    maxPages:Number($('#dqPostMaxPages').value),
-    requiredComments:Number($('#dqRequiredComments').value),
-    commentRewardCoin:Number($('#dqCommentRewardCoin').value),
-    commentMaxPosts:Number($('#dqCommentMaxPosts').value),
-    checkCooldownSeconds:Number($('#dqCooldown').value),
-    adminTestAllowed:$('#dqAdminTestAllowed').value==='1',
-    boardUrl:'https://ygosu.com/board/soop'
-  };
-  await api('admin/daily-quests',{method:'PATCH',body:JSON.stringify({settings})});
-  alert('일일퀘스트 설정이 저장되었습니다.');
-  await loadDailyQuestAdmin();
+async function saveDailyQuestAdmin(){
+  const settings={enabled:$('#dqEnabled').value==='1',postEnabled:$('#dqPostEnabled').value==='1',requiredPosts:Number($('#dqRequiredPosts').value),postRewardCoin:Number($('#dqPostRewardCoin').value),rewardCoin:Number($('#dqPostRewardCoin').value),maxPages:Number($('#dqPostMaxPages').value),checkCooldownSeconds:Number($('#dqCooldown').value),adminTestAllowed:$('#dqAdminTestAllowed').value==='1',boardUrl:'https://ygosu.com/board/soop'};
+  await api('admin/daily-quests',{method:'PATCH',body:JSON.stringify({settings})});alert('일일퀘스트 설정이 저장되었습니다.');await loadDailyQuestAdmin();
 }
 async function sendVerifiedCoinMessages(){const amount=Number($('#verifiedCoinReward').value),includeOwner=Boolean($('#verifiedCoinIncludeOwner')?.checked),includeAdmin=Boolean($('#verifiedCoinIncludeAdmin')?.checked);if(!amount||amount<1)return alert('지급 코인을 입력하세요.');const extra=[includeOwner?'OWNER':'',includeAdmin?'ADMIN':''].filter(Boolean);if(!confirm(`2단계 인증 완료 유저에게 ${amount.toLocaleString()}코인 메시지를 발송할까요?${extra.length?`\n포함: ${extra.join(', ')}`:'\nOWNER·ADMIN 제외'}`))return;const d=await api('admin/verified-coin-message-send',{method:'POST',body:JSON.stringify({rewardCoin:amount,title:$('#verifiedCoinTitle').value,body:$('#verifiedCoinBody').value,includeOwner,includeAdmin})});alert(`${d.sent}명에게 ${Number(d.rewardCoin).toLocaleString()}코인 수령 메시지를 발송했습니다.\n일반 ${d.sentUsers||0}명 · OWNER ${d.sentOwners||0}명 · ADMIN ${d.sentAdmins||0}명`)}
 async function sendVerifiedCoupons(){const includeOwner=Boolean($('#verifiedCouponIncludeOwner')?.checked),includeAdmin=Boolean($('#verifiedCouponIncludeAdmin')?.checked),extra=[includeOwner?'OWNER':'',includeAdmin?'ADMIN':''].filter(Boolean);if(!confirm(`와고 인증 완료 유저에게 개인 쿠폰을 발송할까요?${extra.length?`\n포함: ${extra.join(', ')}`:'\nOWNER·ADMIN 제외'}`))return;const d=await api('admin/verified-coupon-send',{method:'POST',body:JSON.stringify({campaignName:$('#verifiedCampaign').value,rewardCoin:Number($('#verifiedRewardCoin').value),title:$('#verifiedMessageTitle').value,body:$('#verifiedMessageBody').value,endsAt:toSql($('#verifiedCouponEnd').value),includeOwner,includeAdmin})});alert(`${d.sent}명에게 ${Number(d.rewardCoin).toLocaleString()}코인 쿠폰을 발송했습니다.\n일반 ${d.sentUsers||0}명 · OWNER ${d.sentOwners||0}명 · ADMIN ${d.sentAdmins||0}명`)}

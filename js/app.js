@@ -374,34 +374,30 @@ function pvpTierGuideHtml(tiers=[],currentTier=null){return `<section class="pvp
 let rankHubMode='pvp';
 
 function dailyQuestView(user){
-  return `${summaryBar(user)}<section class="daily-quest-hub"><div class="daily-quest-head"><p class="eyebrow">WAGOSU DAILY QUEST</p><h2>SOOP 게시판 일일퀘스트</h2><p>와고 2단계 인증 계정의 오늘 게시글과 댓글을 확인해 각각 보상을 받을 수 있습니다.</p></div><div class="daily-quest-grid">
+  return `${summaryBar(user)}<section class="daily-quest-hub"><div class="daily-quest-head"><p class="eyebrow">WAGOSU DAILY QUEST</p><h2>SOOP 게시판 일일퀘스트</h2><p>와고 2단계 인증 계정의 오늘 SOOP 게시글을 확인해 보상을 받을 수 있습니다.</p></div><div class="daily-quest-grid daily-quest-grid-single">
   <article class="daily-quest-panel quest-post"><div class="daily-quest-copy"><span class="quest-kind">📝 POST MISSION</span><h3>SOOP 게시글 15개 작성</h3><div id="dailyQuestPostStatus" class="daily-quest-status"><span>작성글 확인 중...</span></div><div class="daily-quest-actions"><button class="btn secondary" id="dailyQuestPostCheck">작성글 새로 확인</button><button class="btn" id="dailyQuestPostClaim" disabled>1,200코인 받기</button></div></div><div class="daily-quest-reward"><strong>15 POSTS</strong><b>◈ 1,200</b><em>하루 1회</em></div></article>
-  <article class="daily-quest-panel quest-comment"><div class="daily-quest-copy"><span class="quest-kind">💬 COMMENT MISSION</span><h3>SOOP 댓글 20개 작성</h3><div id="dailyQuestCommentStatus" class="daily-quest-status"><span>댓글 확인 중...</span></div><div class="daily-quest-actions"><button class="btn secondary" id="dailyQuestCommentCheck">댓글 새로 확인</button><button class="btn" id="dailyQuestCommentClaim" disabled>1,250코인 받기</button></div></div><div class="daily-quest-reward"><strong>20 COMMENTS</strong><b>◈ 1,250</b><em>하루 1회</em></div></article>
-  </div><small class="daily-quest-note">매일 00:00 KST 초기화 · SOOP 게시판만 인정 · 삭제된 게시글·댓글은 재확인 시 제외될 수 있습니다.</small></section>`;
+  </div><small class="daily-quest-note">매일 00:00 KST 초기화 · SOOP 게시판 일반글만 인정 · 작성자 검색 결과 기준</small></section>`;
 }
 async function loadDailyQuest(){
-  const postBox=document.getElementById('dailyQuestPostStatus'),commentBox=document.getElementById('dailyQuestCommentStatus');if(!postBox||!commentBox)return;
-  const postCheck=document.getElementById('dailyQuestPostCheck'),postClaim=document.getElementById('dailyQuestPostClaim'),commentCheck=document.getElementById('dailyQuestCommentCheck'),commentClaim=document.getElementById('dailyQuestCommentClaim');
+  const postBox=document.getElementById('dailyQuestPostStatus');if(!postBox)return;
+  const postCheck=document.getElementById('dailyQuestPostCheck'),postClaim=document.getElementById('dailyQuestPostClaim');
   try{
     const d=await apiRequest('wago-daily-quest/status'),s=d.settings||{};
     const postRequired=Number(s.requiredPosts||15),postReward=Number(s.postRewardCoin||s.rewardCoin||1200),postCount=Number(d.postCount||0);
-    const commentRequired=Number(s.requiredComments||20),commentReward=Number(s.commentRewardCoin||1250),commentCount=Number(d.commentCount||0);
     const blocked=!d.verified||d.excluded;
     const blockText=!d.verified?'메시지함에서 와고 2단계 인증을 먼저 완료하세요.':'운영 계정 테스트가 CMS에서 중지되어 있습니다.';
     postBox.innerHTML=blocked?`<b>${blockText}</b>`:d.postClaimed?`<b>오늘 게시글 보상 수령 완료</b><span>${postCount} / ${postRequired}개 확인</span>`:`<b>오늘 작성글 ${postCount} / ${postRequired}개</b><span>${postCount>=postRequired?'퀘스트 달성! 보상을 수령하세요.':`${postRequired-postCount}개 더 작성하면 달성됩니다.`}</span>`;
-    commentBox.innerHTML=blocked?`<b>${blockText}</b>`:d.commentClaimed?`<b>오늘 댓글 보상 수령 완료</b><span>${commentCount} / ${commentRequired}개 확인</span>`:`<b>오늘 댓글 ${commentCount} / ${commentRequired}개</b><span>${commentCount>=commentRequired?'퀘스트 달성! 보상을 수령하세요.':`${commentRequired-commentCount}개 더 작성하면 달성됩니다.`}</span>`;
-    if(postCheck)postCheck.disabled=blocked||s.postEnabled===false;if(commentCheck)commentCheck.disabled=blocked||s.commentEnabled===false;
+    if(postCheck)postCheck.disabled=blocked||s.postEnabled===false;
     if(postClaim){postClaim.disabled=blocked||d.postClaimed||postCount<postRequired||s.postEnabled===false;postClaim.textContent=d.postClaimed?'오늘 보상 수령 완료':`${postReward.toLocaleString()}코인 받기`;}
-    if(commentClaim){commentClaim.disabled=blocked||d.commentClaimed||commentCount<commentRequired||s.commentEnabled===false;commentClaim.textContent=d.commentClaimed?'오늘 보상 수령 완료':`${commentReward.toLocaleString()}코인 받기`;}
-  }catch(e){postBox.innerHTML=`<b>${escapeHtml(e.message)}</b>`;commentBox.innerHTML=`<b>${escapeHtml(e.message)}</b>`;}
+  }catch(e){postBox.innerHTML=`<b>${escapeHtml(e.message)}</b>`;}
 }
-async function checkDailyQuest(type){
-  const isComment=type==='COMMENT',b=document.getElementById(isComment?'dailyQuestCommentCheck':'dailyQuestPostCheck');if(b)b.disabled=true;
-  try{const d=await apiRequest('wago-daily-quest/check',{method:'POST',body:JSON.stringify({questType:type})});alert(isComment?`오늘 SOOP 게시판 댓글 ${Number(d.commentCount||0)}개를 확인했습니다.`:`오늘 SOOP 게시판 작성글 ${Number(d.postCount||0)}개를 확인했습니다.`);}catch(e){alert(e.message)}finally{loadDailyQuest()}
+async function checkDailyQuest(){
+  const b=document.getElementById('dailyQuestPostCheck');if(b)b.disabled=true;
+  try{const d=await apiRequest('wago-daily-quest/check',{method:'POST',body:JSON.stringify({questType:'POST'})});alert(`오늘 SOOP 게시판 작성글 ${Number(d.postCount||0)}개를 확인했습니다.`);}catch(e){alert(e.message)}finally{loadDailyQuest()}
 }
-async function claimDailyQuest(type){
-  const isComment=type==='COMMENT',b=document.getElementById(isComment?'dailyQuestCommentClaim':'dailyQuestPostClaim');if(b)b.disabled=true;
-  try{const d=await apiRequest('wago-daily-quest/claim',{method:'POST',body:JSON.stringify({questType:type})});saveUser(apiUserToLocal(d.user));alert(`${Number(d.rewardCoin).toLocaleString()}코인을 받았습니다.`);renderShell('dailyquest')}catch(e){alert(e.message);loadDailyQuest()}
+async function claimDailyQuest(){
+  const b=document.getElementById('dailyQuestPostClaim');if(b)b.disabled=true;
+  try{const d=await apiRequest('wago-daily-quest/claim',{method:'POST',body:JSON.stringify({questType:'POST'})});saveUser(apiUserToLocal(d.user));alert(`${Number(d.rewardCoin).toLocaleString()}코인을 받았습니다.`);renderShell('dailyquest')}catch(e){alert(e.message);loadDailyQuest()}
 }
 
 function rankView(user) {
@@ -494,7 +490,7 @@ async function joinRaid(){const btn=document.getElementById('raidJoin');if(btn)b
 
 function bindView(tab) {
   if(tab==='messages'){document.getElementById('openWagoVerify')?.addEventListener('click',openWagoVerification);loadMessages();}
-  if(tab==='dailyquest'){document.getElementById('dailyQuestPostCheck')?.addEventListener('click',()=>checkDailyQuest('POST'));document.getElementById('dailyQuestPostClaim')?.addEventListener('click',()=>claimDailyQuest('POST'));document.getElementById('dailyQuestCommentCheck')?.addEventListener('click',()=>checkDailyQuest('COMMENT'));document.getElementById('dailyQuestCommentClaim')?.addEventListener('click',()=>claimDailyQuest('COMMENT'));loadDailyQuest();}
+  if(tab==='dailyquest'){document.getElementById('dailyQuestPostCheck')?.addEventListener('click',()=>checkDailyQuest());document.getElementById('dailyQuestPostClaim')?.addEventListener('click',()=>claimDailyQuest());loadDailyQuest();}
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
   document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));

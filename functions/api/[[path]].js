@@ -1241,9 +1241,7 @@ export async function onRequest(context){
       const verification=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
       const postProgress=await env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_quest_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
       const postClaim=await env.DB.prepare('SELECT reward_coin,post_count,claimed_at FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-      const commentProgress=await env.DB.prepare('SELECT comment_count,last_checked_at FROM wago_daily_comment_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-      const commentClaim=await env.DB.prepare('SELECT reward_coin,comment_count,claimed_at FROM wago_daily_comment_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-      return json({settings:{enabled:settings.enabled,postEnabled:settings.postEnabled!==false,commentEnabled:settings.commentEnabled!==false,requiredPosts:Number(settings.requiredPosts||15),postRewardCoin:Number(settings.postRewardCoin||1200),rewardCoin:Number(settings.postRewardCoin||1200),requiredComments:Number(settings.requiredComments||20),commentRewardCoin:Number(settings.commentRewardCoin||1250)},verified:verification?.status==='VERIFIED',wagoNickname:verification?.wago_nickname||'',postCount:Number(postProgress?.post_count||0),commentCount:Number(commentProgress?.comment_count||0),postLastCheckedAt:postProgress?.last_checked_at||null,commentLastCheckedAt:commentProgress?.last_checked_at||null,postClaimed:Boolean(postClaim),commentClaimed:Boolean(commentClaim),postClaim:postClaim||null,commentClaim:commentClaim||null,excluded:dailyQuestAdminExcluded(user,settings)});
+      return json({settings:{enabled:settings.enabled,postEnabled:settings.postEnabled!==false,requiredPosts:Number(settings.requiredPosts||15),postRewardCoin:Number(settings.postRewardCoin||1200),rewardCoin:Number(settings.postRewardCoin||1200)},verified:verification?.status==='VERIFIED',wagoNickname:verification?.wago_nickname||'',postCount:Number(postProgress?.post_count||0),postLastCheckedAt:postProgress?.last_checked_at||null,postClaimed:Boolean(postClaim),postClaim:postClaim||null,excluded:dailyQuestAdminExcluded(user,settings)});
     }
     if(path==='wago-daily-quest/check'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -1253,15 +1251,7 @@ export async function onRequest(context){
       const v=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
       if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'와고 2단계 인증 완료 후 이용할 수 있습니다.'},403);
       const today=kstDate(),cooldown=Math.max(5,Number(settings.checkCooldownSeconds)||20);
-      if(questType==='COMMENT'){
-        if(settings.commentEnabled===false)return json({error:'댓글 일일퀘스트가 중지되어 있습니다.'},503);
-        const old=await env.DB.prepare('SELECT comment_count,last_checked_at FROM wago_daily_comment_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-        if(old?.last_checked_at&&Date.now()-Date.parse(String(old.last_checked_at).replace(' ','T')+'Z')<cooldown*1000)return json({ok:true,questType:'COMMENT',commentCount:Number(old.comment_count||0),requiredComments:Number(settings.requiredComments||20),rewardCoin:Number(settings.commentRewardCoin||1250),cooldown:true});
-        const inspected=await inspectWagoDailyComments(settings,v.wago_member_no);if(!inspected.ok)return json({error:inspected.error},502);
-        await env.DB.prepare(`INSERT INTO wago_daily_comment_progress(user_id,quest_date,comment_count,comment_ids_json,last_checked_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP)
-          ON CONFLICT(user_id,quest_date) DO UPDATE SET comment_count=excluded.comment_count,comment_ids_json=excluded.comment_ids_json,last_checked_at=CURRENT_TIMESTAMP`).bind(user.id,today,inspected.commentCount,JSON.stringify(inspected.commentIds)).run();
-        return json({ok:true,questType:'COMMENT',commentCount:inspected.commentCount,requiredComments:Number(settings.requiredComments||20),rewardCoin:Number(settings.commentRewardCoin||1250)});
-      }
+      if(questType!=='POST')return json({error:'지원하지 않는 일일퀘스트입니다.'},400);
       if(settings.postEnabled===false)return json({error:'게시글 일일퀘스트가 중지되어 있습니다.'},503);
       const old=await env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_quest_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
       if(old?.last_checked_at&&Date.now()-Date.parse(String(old.last_checked_at).replace(' ','T')+'Z')<cooldown*1000)return json({ok:true,questType:'POST',postCount:Number(old.post_count||0),requiredPosts:Number(settings.requiredPosts||15),rewardCoin:Number(settings.postRewardCoin||1200),cooldown:true});
@@ -1281,20 +1271,7 @@ export async function onRequest(context){
       const v=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
       if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'와고 2단계 인증 완료 후 이용할 수 있습니다.'},403);
       const today=kstDate();
-      if(questType==='COMMENT'){
-        if(settings.commentEnabled===false)return json({error:'댓글 일일퀘스트가 중지되어 있습니다.'},503);
-        const already=await env.DB.prepare('SELECT id FROM wago_daily_comment_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();if(already)return json({error:'오늘 댓글 퀘스트 보상은 이미 수령했습니다.'},409);
-        const inspected=await inspectWagoDailyComments(settings,v.wago_member_no);if(!inspected.ok)return json({error:inspected.error},502);
-        const required=Math.max(1,Number(settings.requiredComments)||20),reward=Math.max(0,Number(settings.commentRewardCoin)||1250);
-        await env.DB.prepare(`INSERT INTO wago_daily_comment_progress(user_id,quest_date,comment_count,comment_ids_json,last_checked_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP)
-          ON CONFLICT(user_id,quest_date) DO UPDATE SET comment_count=excluded.comment_count,comment_ids_json=excluded.comment_ids_json,last_checked_at=CURRENT_TIMESTAMP`).bind(user.id,today,inspected.commentCount,JSON.stringify(inspected.commentIds)).run();
-        if(inspected.commentCount<required)return json({error:`오늘 SOOP 게시판 댓글이 ${inspected.commentCount}개입니다. ${required}개 작성 후 수령할 수 있습니다.`,commentCount:inspected.commentCount,requiredComments:required},409);
-        const inserted=await env.DB.prepare('INSERT OR IGNORE INTO wago_daily_comment_claims(user_id,quest_date,reward_coin,comment_count) VALUES(?,?,?,?)').bind(user.id,today,reward,inspected.commentCount).run();
-        if(!inserted.meta.changes)return json({error:'오늘 댓글 퀘스트 보상은 이미 수령했습니다.'},409);
-        await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();
-        const updated=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status FROM users WHERE id=?').bind(user.id).first();
-        return json({ok:true,questType:'COMMENT',rewardCoin:reward,commentCount:inspected.commentCount,user:updated});
-      }
+      if(questType!=='POST')return json({error:'지원하지 않는 일일퀘스트입니다.'},400);
       if(settings.postEnabled===false)return json({error:'게시글 일일퀘스트가 중지되어 있습니다.'},503);
       const already=await env.DB.prepare('SELECT id FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();if(already)return json({error:'오늘 게시글 퀘스트 보상은 이미 수령했습니다.'},409);
       const oldPost=await env.DB.prepare('SELECT post_count,post_ids_json FROM wago_daily_quest_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
@@ -1420,36 +1397,23 @@ export async function onRequest(context){
       if(request.method==='GET'){
         const settings=await wagoDailyQuestSettings(env),today=kstDate();
         const statsRow=await env.DB.prepare(`SELECT
-          (SELECT COUNT(DISTINCT user_id) FROM (SELECT user_id FROM wago_daily_quest_progress WHERE quest_date=? UNION SELECT user_id FROM wago_daily_comment_progress WHERE quest_date=?)) AS participants,
+          (SELECT COUNT(DISTINCT user_id) FROM wago_daily_quest_progress WHERE quest_date=?) AS participants,
           (SELECT COUNT(*) FROM wago_daily_quest_progress WHERE quest_date=? AND post_count>=?) AS postCompleted,
-          (SELECT COUNT(*) FROM wago_daily_comment_progress WHERE quest_date=? AND comment_count>=?) AS commentCompleted,
           (SELECT COUNT(*) FROM wago_daily_quest_claims WHERE quest_date=?) AS postClaims,
-          (SELECT COALESCE(SUM(reward_coin),0) FROM wago_daily_quest_claims WHERE quest_date=?) AS postCoins,
-          (SELECT COUNT(*) FROM wago_daily_comment_claims WHERE quest_date=?) AS commentClaims,
-          (SELECT COALESCE(SUM(reward_coin),0) FROM wago_daily_comment_claims WHERE quest_date=?) AS commentCoins`)
-          .bind(today,today,today,Number(settings.requiredPosts||15),today,Number(settings.requiredComments||20),today,today,today,today).first();
-        const users=await env.DB.prepare(`SELECT u.nickname,u.role,w.wago_nickname,
-          COALESCE(p.post_count,0) AS post_count,p.last_checked_at,
-          COALESCE(c.comment_count,0) AS comment_count,c.last_checked_at AS comment_last_checked_at,
-          pc.claimed_at AS post_claimed_at,cc.claimed_at AS comment_claimed_at
+          (SELECT COALESCE(SUM(reward_coin),0) FROM wago_daily_quest_claims WHERE quest_date=?) AS postCoins`).bind(today,today,Number(settings.requiredPosts||15),today,today).first();
+        const users=await env.DB.prepare(`SELECT u.nickname,u.role,w.wago_nickname,COALESCE(p.post_count,0) AS post_count,p.last_checked_at,pc.claimed_at AS post_claimed_at
           FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id
           LEFT JOIN wago_daily_quest_progress p ON p.user_id=u.id AND p.quest_date=?
-          LEFT JOIN wago_daily_comment_progress c ON c.user_id=u.id AND c.quest_date=?
           LEFT JOIN wago_daily_quest_claims pc ON pc.user_id=u.id AND pc.quest_date=?
-          LEFT JOIN wago_daily_comment_claims cc ON cc.user_id=u.id AND cc.quest_date=?
-          WHERE p.user_id IS NOT NULL OR c.user_id IS NOT NULL OR pc.user_id IS NOT NULL OR cc.user_id IS NOT NULL
-          ORDER BY COALESCE(p.last_checked_at,c.last_checked_at,pc.claimed_at,cc.claimed_at) DESC LIMIT 300`).bind(today,today,today,today).all();
-        const claims=await env.DB.prepare(`SELECT * FROM (
-          SELECT u.nickname,'POST' AS quest_type,c.reward_coin,c.claimed_at FROM wago_daily_quest_claims c JOIN users u ON u.id=c.user_id
-          UNION ALL
-          SELECT u.nickname,'COMMENT' AS quest_type,c.reward_coin,c.claimed_at FROM wago_daily_comment_claims c JOIN users u ON u.id=c.user_id
-        ) ORDER BY claimed_at DESC LIMIT 200`).all();
-        return json({settings,stats:statsRow||{},users:users.results,claims:claims.results});
+          WHERE p.user_id IS NOT NULL OR pc.user_id IS NOT NULL
+          ORDER BY COALESCE(p.last_checked_at,pc.claimed_at) DESC LIMIT 300`).bind(today,today).all();
+        const claims=await env.DB.prepare(`SELECT u.nickname,'POST' AS quest_type,c.reward_coin,c.claimed_at FROM wago_daily_quest_claims c JOIN users u ON u.id=c.user_id ORDER BY c.claimed_at DESC LIMIT 200`).all();
+        return json({settings:{...settings,commentEnabled:false},stats:statsRow||{},users:users.results,claims:claims.results});
       }
       if(request.method==='PATCH'){
         if(admin.role!=='OWNER')return json({error:'일일퀘스트 설정 변경은 OWNER만 가능합니다.'},403);
         const body=await readBody(request),before=await wagoDailyQuestSettings(env),v=body.settings||{};
-        const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:v.commentEnabled!==false,boardUrl:'https://ygosu.com/board/soop',requiredPosts:Math.max(1,Math.min(200,Number(v.requiredPosts)||15)),postRewardCoin:Math.max(0,Math.floor(Number(v.postRewardCoin??v.rewardCoin)||1200)),requiredComments:Math.max(1,Math.min(500,Number(v.requiredComments)||20)),commentRewardCoin:Math.max(0,Math.floor(Number(v.commentRewardCoin)||1250)),maxPages:Math.max(1,Math.min(20,Number(v.maxPages)||10)),commentMaxPosts:Math.max(20,Math.min(200,Number(v.commentMaxPosts)||100)),checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
+        const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardUrl:'https://ygosu.com/board/soop',requiredPosts:Math.max(1,Math.min(200,Number(v.requiredPosts)||15)),postRewardCoin:Math.max(0,Math.floor(Number(v.postRewardCoin??v.rewardCoin)||1200)),maxPages:Math.max(1,Math.min(20,Number(v.maxPages)||10)),checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
         next.rewardCoin=next.postRewardCoin;
         await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('wago_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();
         await writeAdminLog(env,admin,'DAILY_QUEST_SETTINGS','APP_META','wago_daily_quest_settings_v1',before,next);
