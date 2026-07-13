@@ -288,6 +288,16 @@ function battleSetHp(stage,target,percent){
 }
 function battleGradeTier(grade){const n=gradeOrder[String(grade||'C').toUpperCase()]||1;return n>=9?'mythic':n>=7?'legendary':n>=5?'epic':n>=4?'rare':'normal'}
 function battleActivateCard(stage,index,grade){stage.querySelectorAll('.battle-card-fighter').forEach((el,i)=>{el.classList.toggle('active-attacker',i===index);el.classList.remove('skill-normal','skill-rare','skill-epic','skill-legendary','skill-mythic')});const card=stage.querySelectorAll('.battle-card-fighter')[index];if(card)card.classList.add(`skill-${battleGradeTier(grade)}`)}
+
+async function playBattleUltimate(stage,card,settings){
+  const u=settings;if(!u||u.enabled===false)return;
+  const layer=document.createElement('div');layer.className='battle-ultimate-overlay';
+  const media=String(u.mediaUrl||'').trim(),isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(media);
+  layer.innerHTML=`<div class="battle-ultimate-flash"></div>${media?(isVideo?`<video class="battle-ultimate-media" src="${escapeHtml(media)}" autoplay muted playsinline></video>`:`<img class="battle-ultimate-media" src="${escapeHtml(media)}">`):`<div class="battle-ultimate-default"><div class="ultimate-rings"></div><img src="${card.image}" style="object-position:${card.focusX||50}% ${card.focusY||50}%"><strong>${escapeHtml(u.name||'CNINE BURST')}</strong><span>${escapeHtml(card.title)}</span></div>`}`;
+  stage.appendChild(layer);requestAnimationFrame(()=>layer.classList.add('show'));battleTone(720,.28,'sawtooth',.09);if(navigator.vibrate)navigator.vibrate([60,30,100]);
+  await battleSleep(Math.max(800,Math.min(15000,Number(u.durationMs)||2600)));layer.classList.add('hide');await battleSleep(220);layer.remove();
+}
+
 async function startBattle(){
   const modal=document.getElementById('modal'),monster=battleState.monsters.find(m=>Number(m.id)===Number(battleState.selectedMonster));
   const user=loadUser(),deckCards=battleState.deck.map(id=>cards.find(x=>x.id===id)).filter(Boolean);
@@ -322,6 +332,7 @@ async function startBattle(){
     const teamCounter=win?[8,10]:[18,25,31];
     for(let i=0;i<deckCards.length;i++){
       const c=deckCards[i],tier=battleGradeTier(c.grade),high=gradeOrder[c.grade]>=gradeOrder.UR;
+      if(i===0&&d.activatedUltimate){phase.textContent='ULTIMATE';await playBattleUltimate(stage,c,d.activatedUltimate);battleDamage(stage,`ULTIMATE +${Number(d.bonusDamage||0).toLocaleString()}`,'enemy',true);battleSetHp(stage,'enemy',Math.max(0,enemyHp-(Number(d.bonusDamage||0)/Math.max(1,Number(d.monsterPower||1))*100)));await battleSleep(420);phase.textContent=`${c.grade} MEMBER STRIKE`; }
       battleActivateCard(stage,i,c.grade);phase.textContent=`${c.grade} MEMBER STRIKE`;
       stage.classList.remove('member-strike','member-skill');void stage.offsetWidth;stage.classList.add(high?'member-skill':'member-strike');
       const dmg=enemySteps[i]||15; enemyHp=Math.max(win&&i<4?4:0,enemyHp-dmg); battleSetHp(stage,'enemy',enemyHp);
