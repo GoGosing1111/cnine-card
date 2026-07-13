@@ -77,11 +77,26 @@ body.auth-active #cms{display:block}
 .cardManagerUpgradeNotice{display:flex;align-items:center;gap:14px;margin:14px 0 18px;padding:14px 16px;border:1px solid #1e90ff;border-radius:12px;background:linear-gradient(90deg,rgba(0,174,255,.16),rgba(85,50,255,.1));box-shadow:0 0 24px rgba(0,174,255,.12)}
 .cardManagerUpgradeNotice b{color:#6fe6ff;letter-spacing:.08em}.cardManagerUpgradeNotice span{color:#bfd4ea}.cardManageTabs{position:sticky;top:0;z-index:4;background:#07111f;padding:10px 0}
 @media(max-width:720px){.cardManagerUpgradeNotice{align-items:flex-start;flex-direction:column}.cardManageTabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
-/* v9.4.5 clean deploy marker */
-.navBuildTag{display:inline-flex;margin-left:8px;padding:2px 7px;border-radius:999px;background:#18d5ff;color:#04101b;font-size:10px;font-weight:900;vertical-align:middle}
-.buildBadge{display:inline-flex;margin-left:10px;padding:4px 9px;border:1px solid #28d7ff;border-radius:999px;color:#72e8ff;font-size:12px;vertical-align:middle}
-.cardManagerUpgradeNotice{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:14px 0 18px;padding:16px 18px;border:1px solid #1d8fb5;border-radius:14px;background:linear-gradient(135deg,rgba(0,187,255,.13),rgba(47,92,255,.08));box-shadow:0 10px 35px rgba(0,174,255,.08)}
-.cardManagerUpgradeNotice b{font-size:18px;color:#6ee9ff;letter-spacing:.04em}.cardManagerUpgradeNotice span{color:#9bb5cc}
-.cardManageTabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}.cardManageTabs button{min-height:48px}.cardManageTabs button.active{background:linear-gradient(135deg,#0fb6e8,#2767ff);border-color:transparent;color:#fff}.cardManageTabs .retireTab{border-color:#8d3f50;color:#ff9daf}
-.cardAdvancedSettings{margin-bottom:16px;border:1px solid #203b58;border-radius:14px;background:#081525;overflow:hidden}.cardAdvancedSettings>summary{cursor:pointer;padding:16px 18px;font-weight:800;color:#a8c4dd}.cardAdvancedSettings[open]>summary{border-bottom:1px solid #203b58}.cardAdvancedSettings>.panel{margin:14px}
-@media(max-width:900px){.cardManageTabs{grid-template-columns:repeat(2,minmax(0,1fr))}.cardManagerUpgradeNotice{align-items:flex-start;flex-direction:column}}
+
+/* member management standalone menu */
+
+/* v9.4.10 SOOP daily quest CMS */
+.dailyQuestAdminStats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.dailyQuestAdminStats .stat{padding:16px;border:1px solid #2c3b55;border-radius:13px;background:linear-gradient(145deg,#111b2b,#0b1320)}
+.dailyQuestAdminStats small,.dailyQuestAdminStats em{display:block;color:#91a4c0;font-style:normal}.dailyQuestAdminStats b{display:block;margin:5px 0;font-size:26px;color:#77ddff}
+.dailyQuestAdminGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:14px 0}
+.dailyQuestAdminCard{padding:16px;border:1px solid #30415d;border-radius:14px;background:#0e1827}.dailyQuestAdminCard h3{margin:0 0 14px;font-size:19px}
+.dailyQuestAdminUsers{display:grid;gap:9px}.dailyQuestUserRow{display:grid;grid-template-columns:minmax(150px,1.2fr) repeat(2,minmax(160px,1fr)) 130px;gap:12px;align-items:center;padding:12px;border:1px solid #293950;border-radius:11px;background:#0d1624}
+.dailyQuestUserRow>div small,.dailyQuestUserRow>small{display:block;color:#8fa2bd}.dailyQuestUserRow>span{display:flex;gap:7px;align-items:center}.dailyQuestUserRow em{padding:3px 7px;border-radius:999px;background:#3d2a20;color:#ffc39d;font-size:11px;font-style:normal}.dailyQuestUserRow em.done{background:#173c30;color:#82efbd}
+#dailyQuestClaimLogs .tr{grid-template-columns:1.2fr 1fr .8fr 1fr}
+@media(max-width:900px){.dailyQuestAdminStats{grid-template-columns:repeat(2,minmax(0,1fr))}.dailyQuestUserRow{grid-template-columns:1fr 1fr}.dailyQuestUserRow>small{grid-column:1/-1}}
+@media(max-width:620px){.dailyQuestAdminGrid,.dailyQuestAdminStats{grid-template-columns:1fr}.dailyQuestUserRow{grid-template-columns:1fr}.dailyQuestUserRow>span{justify-content:space-between}#dailyQuestClaimLogs{overflow-x:auto}#dailyQuestClaimLogs .tr{min-width:620px}}
+
+/* v9.4.16 ultimate CMS hard-load fix */
+aside{height:100vh;position:sticky;top:0;overflow-y:auto}
+#nav button[data-view="ultimate"]{display:block!important;border:1px solid rgba(127,240,174,.35);background:rgba(23,58,40,.55);color:#9ff5bf}
+.ultimateRule{display:grid;gap:12px;margin:14px 0;padding:16px;border:1px solid #31506d;border-radius:14px;background:#091522}
+.ultimateRuleGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.ultimateRule .full{grid-column:1/-1}
+@media(max-width:900px){.ultimateRuleGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.ultimateRuleGrid{grid-template-columns:1fr}}

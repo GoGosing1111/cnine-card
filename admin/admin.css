@@ -91,3 +91,12 @@ body.auth-active #cms{display:block}
 #dailyQuestClaimLogs .tr{grid-template-columns:1.2fr 1fr .8fr 1fr}
 @media(max-width:900px){.dailyQuestAdminStats{grid-template-columns:repeat(2,minmax(0,1fr))}.dailyQuestUserRow{grid-template-columns:1fr 1fr}.dailyQuestUserRow>small{grid-column:1/-1}}
 @media(max-width:620px){.dailyQuestAdminGrid,.dailyQuestAdminStats{grid-template-columns:1fr}.dailyQuestUserRow{grid-template-columns:1fr}.dailyQuestUserRow>span{justify-content:space-between}#dailyQuestClaimLogs{overflow-x:auto}#dailyQuestClaimLogs .tr{min-width:620px}}
+
+/* v9.4.16 ultimate CMS hard-load fix */
+aside{height:100vh;position:sticky;top:0;overflow-y:auto}
+#nav button[data-view="ultimate"]{display:block!important;border:1px solid rgba(127,240,174,.35);background:rgba(23,58,40,.55);color:#9ff5bf}
+.ultimateRule{display:grid;gap:12px;margin:14px 0;padding:16px;border:1px solid #31506d;border-radius:14px;background:#091522}
+.ultimateRuleGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.ultimateRule .full{grid-column:1/-1}
+@media(max-width:900px){.ultimateRuleGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.ultimateRuleGrid{grid-template-columns:1fr}}

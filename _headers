@@ -14,3 +14,8 @@
 
 /admin/*
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+
+/admin/admin-v9416.js
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+/admin/admin-v9416.css
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
