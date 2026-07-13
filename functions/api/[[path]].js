@@ -815,15 +815,17 @@ export async function onRequest(context){
     if(path==='raid/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       if(user.role!=='OWNER')return json({error:'레이드 테스트는 OWNER 전용입니다.'},403);
-      const cfg=await raidSettings(env);
-      const row=await env.DB.prepare("SELECT rp.id,rp.reward_claimed,ri.id AS instance_id,ri.status,ri.current_hp,rb.max_hp FROM raid_participants rp JOIN raid_instances ri ON ri.id=rp.instance_id JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE rp.user_id=? AND ri.status='ENDED' ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();
+      const cfg=await raidSettings(env),body=await readBody(request),instanceId=Number(body.instanceId||0);
+      const row=instanceId>0
+        ?await env.DB.prepare("SELECT rp.id,rp.reward_claimed,ri.id AS instance_id,ri.status,ri.current_hp,rb.max_hp FROM raid_participants rp JOIN raid_instances ri ON ri.id=rp.instance_id JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE rp.user_id=? AND ri.id=? AND ri.status='ENDED' LIMIT 1").bind(user.id,instanceId).first()
+        :await env.DB.prepare("SELECT rp.id,rp.reward_claimed,ri.id AS instance_id,ri.status,ri.current_hp,rb.max_hp FROM raid_participants rp JOIN raid_instances ri ON ri.id=rp.instance_id JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE rp.user_id=? AND ri.status='ENDED' AND rp.reward_claimed=0 ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();
       if(!row)return json({error:'수령 가능한 레이드 보상이 없습니다.'},404);
       if(Number(row.reward_claimed||0))return json({error:'이미 수령한 레이드 보상입니다.'},409);
       const cleared=Number(row.current_hp||0)<=0,rewardCoin=Math.max(0,Number(cfg.participationCoin||0)+(cleared?Number(cfg.clearCoin||0):0)),rewardShards=cleared?Math.max(0,Number(cfg.rewardShards||0)):0;
       const claimed=await env.DB.prepare('UPDATE raid_participants SET reward_claimed=1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND reward_claimed=0').bind(row.id).run();
       if(!claimed.meta.changes)return json({error:'이미 수령한 레이드 보상입니다.'},409);
       await env.DB.batch([env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'RAID_REWARD' FROM users WHERE id=?").bind(rewardCoin,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,'RAID_REWARD' FROM users WHERE id=?").bind(rewardShards,user.id)]);
-      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,instanceId:Number(row.instance_id),rewardCoin,rewardShards,user:await profile(env,updated)});
+      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rewardCoin,rewardShards,user:await profile(env,updated)});
     }
 
     if(path==='battle/config'){
