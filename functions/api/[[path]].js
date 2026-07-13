@@ -255,6 +255,12 @@ async function ensureUpgrades(env){
       ]) await env.DB.prepare(q).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v934_verified_messages','1',CURRENT_TIMESTAMP)").run();
     }
+    const messageClaimDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v936_message_claim_hide'").first();
+    if(messageClaimDone?.value!=='1'){
+      try{await env.DB.prepare(`ALTER TABLE user_messages ADD COLUMN hidden_at TEXT`).run()}catch(e){if(!String(e.message||e).toLowerCase().includes('duplicate column'))throw e}
+      await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_user_messages_visible ON user_messages(user_id,hidden_at,is_read,created_at)`).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v936_message_claim_hide','1',CURRENT_TIMESTAMP)").run();
+    }
 
     const wagoAutoDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v931_wago_auto_urls'").first();
     if(wagoAutoDone?.value!=='1'){
@@ -1107,9 +1113,13 @@ export async function onRequest(context){
       const body=await readBody(request),messageId=Number(body.messageId);if(!messageId)return json({error:'메시지 정보가 올바르지 않습니다.'},400);
       const reward=await env.DB.prepare(`SELECT r.id,r.reward_type,r.reward_amount,r.claimed_at,m.title FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id WHERE r.message_id=? AND r.user_id=?`).bind(messageId,user.id).first();
       if(!reward)return json({error:'수령할 보상이 없습니다.'},404);if(reward.claimed_at)return json({error:'이미 수령한 보상입니다.'},409);if(reward.reward_type!=='COIN'||Number(reward.reward_amount)<=0)return json({error:'지원하지 않는 메시지 보상입니다.'},400);
-      const claim=await env.DB.prepare('UPDATE user_message_rewards SET claimed_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND claimed_at IS NULL').bind(reward.id,user.id).run();if(!claim.meta?.changes)return json({error:'이미 수령한 보상입니다.'},409);
-      await env.DB.prepare('UPDATE users SET coin=coin+?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(reward.reward_amount),user.id).run();await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(messageId,user.id).run();
-      const updated=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rewardType:'COIN',rewardAmount:Number(reward.reward_amount),user:updated});
+      const batch=await env.DB.batch([
+        env.DB.prepare('UPDATE users SET coin=coin+?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND EXISTS (SELECT 1 FROM user_message_rewards WHERE id=? AND user_id=? AND claimed_at IS NULL)').bind(Number(reward.reward_amount),user.id,reward.id,user.id),
+        env.DB.prepare('UPDATE user_message_rewards SET claimed_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND claimed_at IS NULL').bind(reward.id,user.id),
+        env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP),hidden_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=?').bind(messageId,user.id)
+      ]);
+      if(!batch?.[1]?.meta?.changes)return json({error:'이미 수령한 보상입니다.'},409);
+      const updated=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rewardType:'COIN',rewardAmount:Number(reward.reward_amount),messageDeleted:true,user:updated});
     }
 
     if(path==='admin/wago-verifications'){
@@ -1129,7 +1139,7 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       const body=await readBody(request),title=String(body.title||'와고 2단계 인증 보상').trim().slice(0,100),messageBody=String(body.body||'와고 2단계 인증 완료 유저에게 지급되는 코인 보상입니다.').trim().slice(0,1000),rewardCoin=Math.max(1,Math.floor(Number(body.rewardCoin)||0));
       if(!rewardCoin)return json({error:'지급 코인을 입력하세요.'},400);
-      const users=await env.DB.prepare("SELECT w.user_id,u.nickname FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE w.status='VERIFIED' AND u.status='ACTIVE' AND COALESCE(u.role,'USER')='USER'").all();let sent=0;
+      const users=await env.DB.prepare("SELECT w.user_id,u.nickname FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE UPPER(TRIM(COALESCE(w.status,'')))='VERIFIED' AND UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN')").all();let sent=0;
       for(const u of users.results){const m=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')").bind(u.user_id,title,messageBody).run();await env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'COIN',?)").bind(m.meta.last_row_id,u.user_id,rewardCoin).run();sent++;}
       await writeAdminLog(env,admin,'VERIFIED_COIN_MESSAGE_SEND','USER_MESSAGE','VERIFIED_USERS',null,{sent,rewardCoin,title});return json({ok:true,sent,rewardCoin});
     }
@@ -1138,7 +1148,7 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'COUPON_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       const body=await readBody(request),campaign=String(body.campaignName||'와고 인증 쿠폰').trim().slice(0,80),rewardCoin=Math.max(0,Math.floor(Number(body.rewardCoin)||0)),title=String(body.title||'와고 인증 유저 쿠폰').trim().slice(0,100),messageBody=String(body.body||'와고 닉네임 2단계 인증 유저에게 지급된 쿠폰입니다.').trim().slice(0,1000),endsAt=body.endsAt?String(body.endsAt).slice(0,19):null;
       if(rewardCoin<=0)return json({error:'쿠폰 보상 코인을 입력하세요.'},400);
-      const users=await env.DB.prepare("SELECT w.user_id,u.nickname FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE w.status='VERIFIED' AND u.status='ACTIVE' AND COALESCE(u.role,'USER')='USER'").all();let sent=0;
+      const users=await env.DB.prepare("SELECT w.user_id,u.nickname FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE UPPER(TRIM(COALESCE(w.status,'')))='VERIFIED' AND UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN')").all();let sent=0;
       for(const u of users.results){const code=`WG-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;const c=await env.DB.prepare('INSERT INTO coupons(code,reward_coin,ends_at,max_uses,is_active,created_by) VALUES(?,?,?,1,1,?)').bind(code,rewardCoin,endsAt,admin.id).run();const m=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type,coupon_code) VALUES(?,'ADMIN',?,?,'COUPON',?)").bind(u.user_id,title,messageBody,code).run();await env.DB.prepare('INSERT INTO verified_coupon_deliveries(user_id,coupon_id,message_id,campaign_name) VALUES(?,?,?,?)').bind(u.user_id,c.meta.last_row_id,m.meta.last_row_id,campaign).run();sent++;}
       await writeAdminLog(env,admin,'VERIFIED_COUPON_SEND','COUPON_CAMPAIGN',campaign,null,{sent,rewardCoin,endsAt});return json({ok:true,sent,rewardCoin});
     }

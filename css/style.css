@@ -784,3 +784,7 @@ body {
   .tabs .tab{font-size:12px}
   .high-grade-label{min-width:82px;font-size:8px}
 }
+
+/* v9.3.6 message claim cleanup */
+.user-message.message-removing{pointer-events:none;animation:messageClaimRemove .22s ease forwards}
+@keyframes messageClaimRemove{to{opacity:0;transform:translateY(-8px) scale(.98);max-height:0;margin:0;padding-top:0;padding-bottom:0;border-width:0;overflow:hidden}}
