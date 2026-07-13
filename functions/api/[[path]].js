@@ -259,6 +259,10 @@ async function ensureUpgrades(env){
     if(!wagoCommentMemberDone){
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v932_wago_comment_member_auto','1',CURRENT_TIMESTAMP)").run();
     }
+    const wagoDropdownMemberDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v933_wago_dropdown_member_parse'").first();
+    if(!wagoDropdownMemberDone){
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v933_wago_dropdown_member_parse','1',CURRENT_TIMESTAMP)").run();
+    }
 
     const tierDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v868'").first();
     if(tierDone?.value!=='1'){
@@ -458,27 +462,41 @@ async function inspectWagoComment(settings,verification){
   const upper=page.html.toUpperCase(),pos=upper.indexOf(code.toUpperCase());
   if(pos<0)return {ok:false,error:'인증 게시글 댓글에서 발급된 인증코드를 찾지 못했습니다. 댓글 작성 후 잠시 뒤 다시 확인하세요.'};
 
-  const radius=14000;
-  const from=Math.max(0,pos-radius),to=Math.min(page.html.length,pos+radius);
-  const nearby=page.html.slice(from,to);
-  const localCodePos=pos-from;
-  const candidates=[];
-  const patterns=[
-    /(?:https?:\/\/(?:www\.)?ygosu\.com)?\/minilog\/\?[^"'<>\s]*?member=(\d+)/gi,
-    /(?:[?&]|&amp;)member=(\d+)/gi,
-    /data-(?:member|member-no|member-id|uid)=["']?(\d+)/gi,
-    /(?:member_no|memberNo|member_id|user_id|uid)[\s:='"-]+(\d+)/gi
-  ];
-  for(const re of patterns){let m;while((m=re.exec(nearby))){const member=String(m[1]||'').replace(/\D/g,'');if(member)candidates.push({member,distance:Math.abs(m.index-localCodePos),index:m.index});}}
-  candidates.sort((a,b)=>a.distance-b.distance);
-  const nearest=candidates[0];
-  if(!nearest)return {ok:false,error:'인증코드는 확인했지만 댓글 작성자의 회원번호 링크를 찾지 못했습니다. 댓글 작성자 닉네임 링크가 표시되는지 확인하세요.'};
+  // 와고 댓글은 작성자 회원번호를 minilog 링크가 아니라
+  // YG_COMMON.show_nick_dropdown($(this), '현재로그인회원', '댓글작성자회원', ...)의
+  // 두 번째 숫자 인자로 노출한다. 인증코드가 들어간 정확한 댓글 <li>만 잘라서 확인한다.
+  const commentMarker=page.html.lastIndexOf("<div class='comment'",pos);
+  const commentMarkerDouble=page.html.lastIndexOf('<div class="comment"',pos);
+  const marker=Math.max(commentMarker,commentMarkerDouble);
+  let replyBlock='';
+  if(marker>=0){
+    const liStart=page.html.lastIndexOf('<li',marker);
+    const liEnd=page.html.indexOf('</li>',pos);
+    if(liStart>=0&&liEnd>pos)replyBlock=page.html.slice(liStart,liEnd+5);
+  }
+  if(!replyBlock){
+    const radius=7000;
+    replyBlock=page.html.slice(Math.max(0,pos-radius),Math.min(page.html.length,pos+radius));
+  }
 
-  const memberNo=nearest.member;
+  const dropdown=/show_nick_dropdown\(\$\(this\),\s*['"](\d+)['"]\s*,\s*['"](\d+)['"]/i.exec(replyBlock);
+  let memberNo=dropdown?String(dropdown[2]||'').replace(/\D/g,''):'';
+  if(!memberNo){
+    const fallbacks=[
+      /open_minilog\(\s*['"](\d+)['"]/i,
+      /(?:https?:\/\/(?:www\.)?ygosu\.com)?\/minilog\/\?[^"'<>\s]*?member=(\d+)/i,
+      /data-(?:member|member-no|member-id|uid)=["']?(\d+)/i
+    ];
+    for(const re of fallbacks){const m=re.exec(replyBlock);if(m){memberNo=String(m[1]||'').replace(/\D/g,'');if(memberNo)break;}}
+  }
+  if(!memberNo)return {ok:false,error:'인증코드는 확인했지만 해당 댓글 작성자의 회원번호를 찾지 못했습니다. 댓글을 새로 작성한 뒤 다시 확인하세요.'};
+
   const nickname=String(verification.wago_nickname||'').trim();
   if(nickname){
-    const authorArea=nearby.slice(Math.max(0,Math.min(localCodePos,nearest.index)-2500),Math.min(nearby.length,Math.max(localCodePos,nearest.index)+2500));
-    if(!htmlText(authorArea).includes(nickname))return {ok:false,error:'인증코드는 확인했지만 입력한 와고 닉네임과 댓글 작성자가 일치하지 않습니다.'};
+    const nickMatch=/<div class=['"]nick['"][^>]*>[\s\S]*?<a[^>]*show_nick_dropdown[\s\S]*?>([\s\S]*?)<\/a>/i.exec(replyBlock);
+    const authorNickname=nickMatch?htmlText(nickMatch[1]).replace(/^\S+\s+/,'').trim():'';
+    if(authorNickname&&authorNickname!==nickname)return {ok:false,error:`인증코드는 확인했지만 댓글 작성자 닉네임(${authorNickname})과 입력한 닉네임이 일치하지 않습니다.`};
+    if(!authorNickname&&!htmlText(replyBlock).includes(nickname))return {ok:false,error:'인증코드는 확인했지만 입력한 와고 닉네임과 댓글 작성자가 일치하지 않습니다.'};
   }
 
   return {ok:true,memberConfirmed:true,commentUrl:post.url,memberNo,notice:`댓글 인증코드와 작성자 회원번호(${memberNo})를 자동 확인하여 인증되었습니다.`};
