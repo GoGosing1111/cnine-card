@@ -815,3 +815,14 @@ body {
   .daily-quest-status{padding:12px}
   .daily-quest-reward{min-height:136px}
 }
+
+/* v9.4.10 SOOP post/comment daily quest */
+.daily-quest-hub{display:grid;gap:18px}.daily-quest-head{padding:4px 2px}.daily-quest-head h2{margin:4px 0 8px}.daily-quest-head p{margin:0;color:#9fb2c9}
+.daily-quest-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.daily-quest-grid .daily-quest-panel{grid-template-columns:minmax(0,1fr);gap:16px;padding:22px;align-items:stretch}
+.daily-quest-grid .daily-quest-copy h3{margin:7px 0 12px;font-size:23px}.quest-kind{font-size:12px;font-weight:900;letter-spacing:1.1px;color:#83dfff}
+.daily-quest-grid .daily-quest-reward{min-height:150px}.quest-comment{border-color:rgba(179,120,255,.34);background:radial-gradient(circle at 85% 25%,rgba(171,88,255,.17),transparent 34%),linear-gradient(135deg,rgba(16,15,39,.98),rgba(7,10,25,.98))}
+.quest-comment .quest-kind{color:#d2a6ff}.quest-comment .daily-quest-reward{border-color:rgba(190,125,255,.36);background:linear-gradient(160deg,rgba(167,84,255,.16),rgba(255,255,255,.025))}
+.daily-quest-note{display:block;color:#71869d;line-height:1.6}
+@media(max-width:900px){.daily-quest-grid{grid-template-columns:1fr}.daily-quest-grid .daily-quest-panel{grid-template-columns:minmax(0,1fr) minmax(180px,.55fr)}}
+@media(max-width:760px){.daily-quest-grid{gap:13px}.daily-quest-grid .daily-quest-panel{grid-template-columns:1fr;padding:16px 12px}.daily-quest-grid .daily-quest-copy h3{font-size:20px}.daily-quest-grid .daily-quest-reward{min-height:125px}.daily-quest-note{font-size:11px;word-break:keep-all}}
