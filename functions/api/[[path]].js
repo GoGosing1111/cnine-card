@@ -767,14 +767,26 @@ async function savePackPity(env,userId,packId,count){if(!PITY_PACKS.has(packId))
 function pityRateForDraw(settings,packId,missCount){const cfg=settings?.[packId];const drawNo=Number(missCount||0)+1;if(!cfg?.enabled)return {drawNo,rate:null};return {drawNo,rate:Number(cfg.rates?.[drawNo]??(drawNo>=cfg.hard?100:null))};}
 async function drawNormalCardByRarity(env,pack,rarity){const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results;return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
 async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
+  const allowed=JSON.parse(pack.allowed_rarities).filter(r=>RARITIES.includes(r)&&r!=='LIMITED');
+  const pityActive=ssrRate!==null&&allowed.includes('SSR');
+  const pityTriggered=pityActive&&Math.random()*100<ssrRate;
+
+  // 천장 판정 성공 슬롯은 반드시 일반 SSR만 지급한다.
+  // LIMITED/MA/FUR 추첨 및 일반 등급 폴백을 허용하지 않는다.
+  if(pityTriggered){
+    const ssr=await drawNormalCardByRarity(env,pack,'SSR');
+    if(!ssr) throw new Error('천장 보상으로 지급할 SSR 카드가 없습니다. 카드팩의 SSR 카드 설정을 확인하세요.');
+    return ssr;
+  }
+
+  // 천장이 발동하지 않은 슬롯에서만 리미티드 카드를 정상 확률로 추첨한다.
   if(pack.id==='pickup'){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
     const limitedRate=Math.max(0,Math.min(100,Number(limitedRateRow?.rate)||0));
     if(limitedRate>0&&Math.random()*100<limitedRate){const limitedCard=await drawLimitedCard(env);if(limitedCard)return limitedCard;}
   }
-  const allowed=JSON.parse(pack.allowed_rarities).filter(r=>RARITIES.includes(r)&&r!=='LIMITED');
-  if(ssrRate!==null&&allowed.includes('SSR')){
-    if(Math.random()*100<ssrRate){const ssr=await drawNormalCardByRarity(env,pack,'SSR');if(ssr)return ssr;}
+
+  if(pityActive){
     const others=allowed.filter(r=>r!=='SSR'),marks=others.map(()=>'?').join(',');
     let rates=(await env.DB.prepare(`SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rarity IN (${marks}) AND rate>0`).bind(pack.id,...others).all()).results;
     if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
