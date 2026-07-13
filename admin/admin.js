@@ -1,3 +1,4 @@
+/* CNINE CARD MANAGER v9.4.4 HARD REPLACE */
 let token=localStorage.getItem('cnine_admin_token')||'';
 let state={userVerificationFilter:'ALL',cardManageView:'MEMBERS',cardMemberFilter:'',cards:[],members:[],users:[],role:'',admin:null,view:'dashboard',rateData:null,packData:null,selectedPackId:'basic',breakthroughData:null,breakthroughGrade:'SR',battleData:null,raidData:null,tierData:null};
 const RARITIES=['FUR','MA','SSR','UR','HR','SR','R','U','C'];
