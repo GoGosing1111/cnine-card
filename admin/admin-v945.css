@@ -100,3 +100,5 @@ aside{height:100vh;position:sticky;top:0;overflow-y:auto}
 .ultimateRule .full{grid-column:1/-1}
 @media(max-width:900px){.ultimateRuleGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:560px){.ultimateRuleGrid{grid-template-columns:1fr}}
+
+.gradeBadge.grade-LIMITED{background:linear-gradient(135deg,#7b1fa2,#ff4fd8,#28d7ff);border-color:#ff9aed;color:#fff;box-shadow:0 0 14px #ff4fd888}.memberGradeStrip span:has(b:first-child){ }

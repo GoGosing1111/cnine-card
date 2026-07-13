@@ -2,12 +2,12 @@ import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000,LIMITED:3000};
-const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9,LIMITED:10};
-const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'];
+const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10};
+const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','LIMITED','FUR'];
 const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,FUR:250,LIMITED:180};
 const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
 const BREAKTHROUGH_RATE=[100,100,100,80,65,50,35,25,15,8];
-const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','FUR'];
+const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','LIMITED','FUR'];
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
 const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,FUR:2600,LIMITED:2800};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450];
@@ -172,7 +172,13 @@ async function ensureUpgrades(env){
   if(upgradePromise) return upgradePromise;
   upgradePromise=(async()=>{
     // IMPORTANT: 운영 D1의 cards/user_cards 테이블은 절대 재생성·rename·drop 하지 않는다.
-    // 한정판은 rarity가 아니라 limited_total 속성으로 처리한다.
+    // 한정판은 limited_total 속성과 LIMITED rarity를 함께 사용한다.
+
+    const limitedGradeDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v947_limited_grade'").first();
+    if(limitedGradeDone?.value!=='1'){
+      await env.DB.prepare("UPDATE cards SET rarity='LIMITED',updated_at=CURRENT_TIMESTAMP WHERE limited_total IS NOT NULL AND rarity<>'LIMITED'").run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v947_limited_grade','1',CURRENT_TIMESTAMP)").run();
+    }
 
     const battleDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v860'").first();
     if(battleDone?.value!=='1'){
@@ -713,7 +719,7 @@ function weightedPick(items,getWeight){
   return items.at(-1);
 }
 async function drawLimitedCard(env){
-  const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
+  const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,CASE WHEN c.limited_total IS NOT NULL THEN 'LIMITED' ELSE c.rarity END AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards c JOIN members m ON m.id=c.member_id
     WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total`).all()).results;
   return weightedPick(pool,row=>Number(row.draw_weight)||0)||null;
@@ -767,26 +773,14 @@ async function savePackPity(env,userId,packId,count){if(!PITY_PACKS.has(packId))
 function pityRateForDraw(settings,packId,missCount){const cfg=settings?.[packId];const drawNo=Number(missCount||0)+1;if(!cfg?.enabled)return {drawNo,rate:null};return {drawNo,rate:Number(cfg.rates?.[drawNo]??(drawNo>=cfg.hard?100:null))};}
 async function drawNormalCardByRarity(env,pack,rarity){const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results;return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
 async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
-  const allowed=JSON.parse(pack.allowed_rarities).filter(r=>RARITIES.includes(r)&&r!=='LIMITED');
-  const pityActive=ssrRate!==null&&allowed.includes('SSR');
-  const pityTriggered=pityActive&&Math.random()*100<ssrRate;
-
-  // 천장 판정 성공 슬롯은 반드시 일반 SSR만 지급한다.
-  // LIMITED/MA/FUR 추첨 및 일반 등급 폴백을 허용하지 않는다.
-  if(pityTriggered){
-    const ssr=await drawNormalCardByRarity(env,pack,'SSR');
-    if(!ssr) throw new Error('천장 보상으로 지급할 SSR 카드가 없습니다. 카드팩의 SSR 카드 설정을 확인하세요.');
-    return ssr;
-  }
-
-  // 천장이 발동하지 않은 슬롯에서만 리미티드 카드를 정상 확률로 추첨한다.
   if(pack.id==='pickup'){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
     const limitedRate=Math.max(0,Math.min(100,Number(limitedRateRow?.rate)||0));
     if(limitedRate>0&&Math.random()*100<limitedRate){const limitedCard=await drawLimitedCard(env);if(limitedCard)return limitedCard;}
   }
-
-  if(pityActive){
+  const allowed=JSON.parse(pack.allowed_rarities).filter(r=>RARITIES.includes(r)&&r!=='LIMITED');
+  if(ssrRate!==null&&allowed.includes('SSR')){
+    if(Math.random()*100<ssrRate){const ssr=await drawNormalCardByRarity(env,pack,'SSR');if(ssr)return ssr;}
     const others=allowed.filter(r=>r!=='SSR'),marks=others.map(()=>'?').join(',');
     let rates=(await env.DB.prepare(`SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rarity IN (${marks}) AND rate>0`).bind(pack.id,...others).all()).results;
     if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
@@ -1799,15 +1793,17 @@ export async function onRequest(context){
         const drawWeight=Math.max(0,Math.min(100000,Number(payload.drawWeight??1)||0));
         const rawLimit=payload.limitedTotal;
         const limitedTotal=rawLimit===null||rawLimit===undefined||rawLimit===''?null:Math.max(0,Math.floor(Number(rawLimit)));
+        const normalizedGrade=limitedTotal!==null?'LIMITED':grade;
         const issuedCount=Math.max(0,Math.floor(Number(payload.issuedCount??0)||0));
         if(!title) throw new Error('카드명을 입력하세요.');
         if(!image) throw new Error('이미지 경로 또는 URL을 입력하세요.');
         if(!Number.isInteger(memberId)||memberId<1) throw new Error('멤버를 선택하세요.');
-        if(!RARITIES.includes(grade)) throw new Error('올바르지 않은 카드 등급입니다.');
+        if(!RARITIES.includes(normalizedGrade)) throw new Error('올바르지 않은 카드 등급입니다.');
+        if(limitedTotal===null&&normalizedGrade==='LIMITED') throw new Error('LIMITED 등급은 한정 수량이 설정된 카드만 사용할 수 있습니다.');
         const member=await env.DB.prepare('SELECT id FROM members WHERE id=?').bind(memberId).first();
         if(!member) throw new Error('존재하지 않는 멤버입니다.');
         if(limitedTotal!==null&&limitedTotal<issuedCount) throw new Error('한정 수량은 이미 발급된 수량보다 작게 설정할 수 없습니다.');
-        return {title,grade,image,memberId,focusX,focusY,isActive,cardStatus,batchName,batchDate,drawWeight,limitedTotal,issuedCount};
+        return {title,grade:normalizedGrade,image,memberId,focusX,focusY,isActive,cardStatus,batchName,batchDate,drawWeight,limitedTotal,issuedCount};
       };
       const nextCardId=()=>`CN-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;
       if(request.method==='GET'){
