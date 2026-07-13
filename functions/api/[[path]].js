@@ -255,6 +255,10 @@ async function ensureUpgrades(env){
       if(!names.has('last_checked_at')) await env.DB.prepare("ALTER TABLE wago_verifications ADD COLUMN last_checked_at TEXT").run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v931_wago_auto_urls','1',CURRENT_TIMESTAMP)").run();
     }
+    const wagoCommentMemberDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v932_wago_comment_member_auto'").first();
+    if(!wagoCommentMemberDone){
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v932_wago_comment_member_auto','1',CURRENT_TIMESTAMP)").run();
+    }
 
     const tierDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v868'").first();
     if(tierDone?.value!=='1'){
@@ -431,17 +435,11 @@ async function requestIpHash(request,env){return hash(`${requestIp(request)}|${e
 async function wagoVerificationSettings(env){const base={enabled:true,postUrl:'',codeMinutes:20,checkCooldownSeconds:10};const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='wago_verification_settings_v1'").first();try{return {...base,...JSON.parse(row?.value||'{}')}}catch{return base}}
 function makeVerificationCode(){return `CNINE-${crypto.randomUUID().replaceAll('-','').slice(0,6).toUpperCase()}`}
 function htmlText(v){return String(v||'').replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/gi,' ').replace(/&amp;/gi,'&').replace(/\s+/g,' ').trim()}
-function parseYgosuUrl(raw,kind){
-  let url;try{url=new URL(String(raw||'').trim())}catch{return {ok:false,error:`${kind==='profile'?'회원번호 프로필':'댓글'} 주소 형식이 올바르지 않습니다.`}}
+function parseYgosuPostUrl(raw){
+  let url;try{url=new URL(String(raw||'').trim())}catch{return {ok:false,error:'CMS에 설정된 와고 인증 게시글 주소가 올바르지 않습니다.'}}
   const host=url.hostname.toLowerCase();
-  if(host!=='ygosu.com'&&host!=='www.ygosu.com')return {ok:false,error:'ygosu.com 주소만 사용할 수 있습니다.'};
+  if(host!=='ygosu.com'&&host!=='www.ygosu.com')return {ok:false,error:'인증 게시글은 ygosu.com 주소만 사용할 수 있습니다.'};
   url.protocol='https:';
-  if(kind==='profile'){
-    const member=String(url.searchParams.get('member')||'').replace(/\D/g,'');
-    if(!member)return {ok:false,error:'프로필 주소에서 와고 회원번호를 찾을 수 없습니다.'};
-    if(String(url.searchParams.get('m2')||'').toLowerCase()!=='profile')return {ok:false,error:'회원번호 프로필 주소는 m2=profile 형식이어야 합니다.'};
-    return {ok:true,url:url.toString(),member};
-  }
   return {ok:true,url:url.toString()};
 }
 async function fetchWagoHtml(url,label){
@@ -451,31 +449,39 @@ async function fetchWagoHtml(url,label){
   if(!response.ok)return {ok:false,error:`${label} 페이지 확인 실패 (${response.status}). 와고가 외부 조회를 차단한 경우 잠시 후 다시 시도하세요.`};
   return {ok:true,html:await response.text(),finalUrl:response.url||url};
 }
-async function inspectWagoComment(settings,verification,commentUrl,profileUrl){
-  const comment=parseYgosuUrl(commentUrl,'comment');if(!comment.ok)return comment;
-  const profile=parseYgosuUrl(profileUrl,'profile');if(!profile.ok)return profile;
-  const expectedMember=String(verification.wago_member_no||'');
-  if(expectedMember&&profile.member!==expectedMember)return {ok:false,error:'입력한 프로필 주소의 회원번호와 발급 시 등록한 회원번호가 일치하지 않습니다.'};
+async function inspectWagoComment(settings,verification){
+  const post=parseYgosuPostUrl(settings.postUrl);if(!post.ok)return post;
+  const page=await fetchWagoHtml(post.url,'인증 게시글');if(!page.ok)return page;
 
-  const [commentPage,profilePage]=await Promise.all([fetchWagoHtml(comment.url,'댓글'),fetchWagoHtml(profile.url,'프로필')]);
-  if(!commentPage.ok)return commentPage;if(!profilePage.ok)return profilePage;
+  const code=String(verification.verification_code||'').trim();
+  if(!code)return {ok:false,error:'발급된 인증코드를 확인할 수 없습니다. 새 코드를 발급하세요.'};
+  const upper=page.html.toUpperCase(),pos=upper.indexOf(code.toUpperCase());
+  if(pos<0)return {ok:false,error:'인증 게시글 댓글에서 발급된 인증코드를 찾지 못했습니다. 댓글 작성 후 잠시 뒤 다시 확인하세요.'};
 
-  const code=String(verification.verification_code||'');
-  const upper=commentPage.html.toUpperCase(),pos=upper.indexOf(code.toUpperCase());
-  if(pos<0)return {ok:false,error:'입력한 댓글 주소에서 발급된 인증코드를 찾지 못했습니다.'};
-  const nearby=commentPage.html.slice(Math.max(0,pos-5000),Math.min(commentPage.html.length,pos+5000));
-  const escaped=profile.member.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
-  const memberPatterns=[
-    new RegExp(`minilog\\/?\\?[^\"'<>]*member=${escaped}(?:&|[\"'<>]|$)`,'i'),
-    new RegExp(`(?:member|uid|user_id|mb_id)[_\\-]?(?:no|id)?[=:\"']+${escaped}(?:[^0-9]|$)`,'i')
+  const radius=14000;
+  const from=Math.max(0,pos-radius),to=Math.min(page.html.length,pos+radius);
+  const nearby=page.html.slice(from,to);
+  const localCodePos=pos-from;
+  const candidates=[];
+  const patterns=[
+    /(?:https?:\/\/(?:www\.)?ygosu\.com)?\/minilog\/\?[^"'<>\s]*?member=(\d+)/gi,
+    /(?:[?&]|&amp;)member=(\d+)/gi,
+    /data-(?:member|member-no|member-id|uid)=["']?(\d+)/gi,
+    /(?:member_no|memberNo|member_id|user_id|uid)[\s:='"-]+(\d+)/gi
   ];
-  if(!memberPatterns.some(r=>r.test(nearby)))return {ok:false,error:'인증코드는 확인했지만 해당 댓글 작성자의 회원번호가 프로필 주소의 회원번호와 일치하지 않습니다.'};
+  for(const re of patterns){let m;while((m=re.exec(nearby))){const member=String(m[1]||'').replace(/\D/g,'');if(member)candidates.push({member,distance:Math.abs(m.index-localCodePos),index:m.index});}}
+  candidates.sort((a,b)=>a.distance-b.distance);
+  const nearest=candidates[0];
+  if(!nearest)return {ok:false,error:'인증코드는 확인했지만 댓글 작성자의 회원번호 링크를 찾지 못했습니다. 댓글 작성자 닉네임 링크가 표시되는지 확인하세요.'};
 
-  const profileText=htmlText(profilePage.html);
+  const memberNo=nearest.member;
   const nickname=String(verification.wago_nickname||'').trim();
-  if(nickname&&!profileText.includes(nickname))return {ok:false,error:'프로필 페이지에서 입력한 와고 닉네임을 확인할 수 없습니다.'};
+  if(nickname){
+    const authorArea=nearby.slice(Math.max(0,Math.min(localCodePos,nearest.index)-2500),Math.min(nearby.length,Math.max(localCodePos,nearest.index)+2500));
+    if(!htmlText(authorArea).includes(nickname))return {ok:false,error:'인증코드는 확인했지만 입력한 와고 닉네임과 댓글 작성자가 일치하지 않습니다.'};
+  }
 
-  return {ok:true,memberConfirmed:true,commentUrl:comment.url,profileUrl:profile.url,memberNo:profile.member,notice:'댓글 인증코드·댓글 작성자 회원번호·프로필 회원번호가 모두 일치하여 자동 인증되었습니다.'};
+  return {ok:true,memberConfirmed:true,commentUrl:post.url,memberNo,notice:`댓글 인증코드와 작성자 회원번호(${memberNo})를 자동 확인하여 인증되었습니다.`};
 }
 
 async function writeAdminLog(env,admin,action,targetType,targetId,before=null,after=null){
@@ -1042,26 +1048,25 @@ export async function onRequest(context){
     if(path==='wago-verification/request'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const settings=await wagoVerificationSettings(env);if(!settings.enabled)return json({error:'현재 와고 인증이 중지되어 있습니다.'},503);
-      const body=await readBody(request),nickname=String(body.wagoNickname||'').trim().slice(0,40),memberNo=String(body.wagoMemberNo||'').replace(/\D/g,'').slice(0,30);
-      if(nickname.length<2)return json({error:'와고 닉네임을 정확히 입력하세요.'},400);if(!memberNo)return json({error:'와고 회원번호를 입력하세요.'},400);
-      const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 씨켓몬 계정에 인증된 와고 회원번호입니다.'},409);
+      const body=await readBody(request),nickname=String(body.wagoNickname||'').trim().slice(0,40),memberNo='';
+      if(nickname.length<2)return json({error:'와고 닉네임을 정확히 입력하세요.'},400);
+      if(!settings.postUrl)return json({error:'CMS에 와고 인증 게시글 주소가 설정되지 않았습니다.'},503);
       const code=makeVerificationCode(),minutes=Math.max(5,Math.min(60,Number(settings.codeMinutes)||20));
       await env.DB.prepare(`INSERT INTO wago_verifications(user_id,wago_nickname,wago_member_no,verification_code,status,expires_at,issued_at,updated_at) VALUES(?,?,?,?, 'PENDING',datetime('now',?),CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
-        ON CONFLICT(user_id) DO UPDATE SET wago_nickname=excluded.wago_nickname,wago_member_no=excluded.wago_member_no,verification_code=excluded.verification_code,status='PENDING',comment_url=NULL,expires_at=excluded.expires_at,issued_at=CURRENT_TIMESTAMP,verified_at=NULL,review_note=NULL,updated_at=CURRENT_TIMESTAMP`).bind(user.id,nickname,memberNo,code,`+${minutes} minutes`).run();
+        ON CONFLICT(user_id) DO UPDATE SET wago_nickname=excluded.wago_nickname,wago_member_no=excluded.wago_member_no,verification_code=excluded.verification_code,status='PENDING',comment_url=NULL,profile_url=NULL,wago_member_no='',expires_at=excluded.expires_at,issued_at=CURRENT_TIMESTAMP,verified_at=NULL,review_note=NULL,updated_at=CURRENT_TIMESTAMP`).bind(user.id,nickname,memberNo,code,`+${minutes} minutes`).run();
       return json({ok:true,verificationCode:code,postUrl:settings.postUrl,expiresMinutes:minutes});
     }
     if(path==='wago-verification/check'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const settings=await wagoVerificationSettings(env),v=await env.DB.prepare('SELECT * FROM wago_verifications WHERE user_id=?').bind(user.id).first();if(!v)return json({error:'먼저 인증코드를 발급하세요.'},404);
       if(v.status==='VERIFIED')return json({ok:true,verified:true,verification:v});if(new Date(v.expires_at+'Z')<new Date())return json({error:'인증코드 유효시간이 만료되었습니다. 새 코드를 발급하세요.'},410);
-      const body=await readBody(request),commentUrl=String(body.commentUrl||'').trim().slice(0,700),profileUrl=String(body.profileUrl||'').trim().slice(0,700);
-      if(!commentUrl)return json({error:'인증코드를 작성한 댓글 주소를 입력하세요.'},400);if(!profileUrl)return json({error:'회원번호 프로필 주소를 입력하세요.'},400);
-      const inspected=await inspectWagoComment(settings,v,commentUrl,profileUrl);
-      await env.DB.prepare("UPDATE wago_verifications SET comment_url=?,profile_url=?,last_checked_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(commentUrl,profileUrl,inspected.ok?inspected.notice:inspected.error,user.id).run();
+      if(!settings.postUrl)return json({error:'CMS에 와고 인증 게시글 주소가 설정되지 않았습니다.'},503);
+      const inspected=await inspectWagoComment(settings,v);
+      await env.DB.prepare("UPDATE wago_verifications SET comment_url=?,profile_url=NULL,last_checked_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(settings.postUrl,inspected.ok?inspected.notice:inspected.error,user.id).run();
       if(!inspected.ok)return json({error:inspected.error},409);
       const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(inspected.memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 씨켓몬 계정에 인증된 회원번호입니다.'},409);
-      await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',wago_member_no=?,comment_url=?,profile_url=?,verified_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.memberNo,inspected.commentUrl,inspected.profileUrl,inspected.notice,user.id).run();
-      return json({ok:true,verified:true,message:'댓글과 회원번호 프로필 확인이 완료되어 자동 인증되었습니다.'});
+      await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',wago_member_no=?,comment_url=?,profile_url=NULL,verified_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.memberNo,inspected.commentUrl,inspected.notice,user.id).run();
+      return json({ok:true,verified:true,message:`댓글 작성자 회원번호 ${inspected.memberNo}번을 확인하여 자동 인증되었습니다.`});
     }
     if(path==='messages'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
