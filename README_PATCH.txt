@@ -1,27 +1,36 @@
-CNINE 자동 개봉·랜덤 크리티컬·안전 처리 통합본 v9.67
+CNINE PvP 수동 시즌 정산 v9.68
 
-포함 기능
-- 카드팩 자동 개봉
-- 크리티컬 서버 랜덤 판정
-- CMS 크리티컬 사용 여부/확률/보너스/이펙트 설정 사용
-- 연타 입력 및 최소 연타 조건 제거
-- 카드 뽑기 requestId 중복 결제 방지
-- 카드 지급 실패 시 코인 환불
-- 실패한 LIMITED 예약 수량 복구
-- 카드 개봉 중복 클릭 방지
-- 일일퀘스트 카드조각 표시 보존
-- draw_logs 코인 사용량 중복 기록 수정
-- draw_request_receipts 테이블 자동 생성
-- 신규 안전 업그레이드 마커:
-  safe_runtime_upgrade_v964_draw_receipts
+안전 원칙
+- 카드점수 랭킹, cards, user_cards, 보유 카드, 돌파 데이터 미수정
+- DROP/RENAME/기존 테이블 재생성 없음
+- 신규 CREATE TABLE IF NOT EXISTS만 사용
+- PvP OFF 상태에서만 정산 가능
+- 시즌명 재입력 확인
+- 스냅샷/메시지 검증 완료 후에만 pvp_profiles 초기화
+- 동일 시즌 중복 정산 및 중복 메시지 차단
+- 기존에 직접 수령한 보상은 정산 메시지에서 제외
 
-적용
-프로젝트 루트에 아래를 그대로 덮어쓰세요.
-- functions/
-- js/
+정산 순서
+1. 최종 PvP 순위 스냅샷 저장
+2. 스냅샷 건수 검증
+3. 코인/카드조각 보상 메시지 생성
+4. 메시지 수 검증
+5. pvp_profiles 시즌 점수/최고점수/승패만 초기화
+6. 초기화 결과 검증
+7. 정산 완료 기록
+
+추가 CMS 항목
+- 시즌 영문 타이틀
+- 시즌명
+- 시즌 설명
+- 상태 문구
+- 정산 미리보기
+- 시즌 정산 실행
+
+적용 파일
+- functions/api/[[path]].js
+- admin/index.html
+- admin/admin-v968.js
+- admin/admin-v945.css
+- js/app.js
 - index.html
-
-검증
-- functions/api/[[path]].js node --check 통과
-- js/app.js node --check 통과
-- ZIP 무결성 검사 통과
