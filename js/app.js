@@ -802,10 +802,11 @@ async function runCriticalOpening(pack,count,requestDraw){
   let data;
   try{
     message.textContent=taps>=5?'크리티컬 판정 중...':'카드 결과를 불러오는 중...';
-    data=await Promise.race([
-      Promise.resolve().then(()=>requestDraw(taps)),
-      new Promise((_,reject)=>setTimeout(()=>reject(new Error('카드 개봉 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.')),12000))
-    ]);
+    const slowNotice=setTimeout(()=>{
+      if(message)message.textContent='카드 결과를 안전하게 처리 중입니다. 잠시만 기다려주세요...';
+    },8000);
+    try{data=await Promise.resolve().then(()=>requestDraw(taps));}
+    finally{clearTimeout(slowNotice);}
     if(!data||typeof data!=='object')throw new Error('카드 개봉 응답 형식이 올바르지 않습니다.');
     if(API_MODE&&!Array.isArray(data.results))throw new Error('카드 개봉 결과를 불러오지 못했습니다.');
   }catch(e){

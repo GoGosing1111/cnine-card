@@ -968,36 +968,39 @@ export async function onRequest(context){
       if(!debit.meta.changes) return json({error:'코인이 부족합니다.'},400);
       await savePackPity(env,user.id,pack.id,pityCount);
       const groupId=crypto.randomUUID();
-      const results=[];
+      // 한정판 수량 예약은 동시성 보호를 위해 개별 처리하되,
+      // 일반 보유카드/로그 저장은 아래에서 한 번의 D1 batch로 묶는다.
       for(let i=0;i<cards.length;i++){
         let card=cards[i];
         if(card.limited_total!==null&&card.limited_total!==undefined){
           const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
-          if(!reserved.meta.changes){
-            // 다른 이용자가 직전에 마지막 수량을 가져간 경우 오류로 끝내지 않고
-            // 이 슬롯만 일반 카드로 즉시 대체한다. 코인은 이미 차감된 상태이므로
-            // 반드시 정상 결과를 지급해야 한다.
-            card=await drawOne(env,pack,null,false,criticalBonus);
-          }
+          if(!reserved.meta.changes)card=await drawOne(env,pack,null,false,criticalBonus);
           cards[i]=card;
         }
-        const previous=await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?').bind(user.id,card.id).first();
-        const isNew=!previous;
-        await env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,1)
-          ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,card.id).run();
-        let shardGained=0;
-        if(!isNew){
-          shardGained=SHARD_REWARD[card.grade]||0;
-          if(shardGained>0){
-            await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardGained,user.id).run();
-            const shardUser=await env.DB.prepare('SELECT card_shards FROM users WHERE id=?').bind(user.id).first();
-            await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,shardUser.card_shards,card.id).run();
-          }
+      }
+      const uniqueIds=[...new Set(cards.map(card=>String(card.id)))];
+      const ownedRows=uniqueIds.length?(await env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${uniqueIds.map(()=>'?').join(',')})`).bind(user.id,...uniqueIds).all()).results:[];
+      const ownedMap=new Map(ownedRows.map(row=>[String(row.card_id),Number(row.quantity||0)]));
+      const statements=[];
+      const results=[];
+      let shardTotal=0;
+      let runningShardBalance=Number(fresh.card_shards||0);
+      for(const card of cards){
+        const cardId=String(card.id),previousQty=Number(ownedMap.get(cardId)||0),isNew=previousQty===0;
+        ownedMap.set(cardId,previousQty+1);
+        const shardGained=isNew?0:Number(SHARD_REWARD[card.grade]||0);
+        shardTotal+=shardGained;
+        statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,1)
+          ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,card.id));
+        if(shardGained>0){
+          runningShardBalance+=shardGained;
+          statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,runningShardBalance,card.id));
         }
-        await env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)')
-          .bind(groupId,user.id,pack.id,card.id,card.grade,cost,isNew?1:0).run();
+        statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,card.grade,cost,isNew?1:0));
         results.push({card,duplicate:!isNew,shardGained});
       }
+      if(shardTotal>0)statements.unshift(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardTotal,user.id));
+      if(statements.length)await env.DB.batch(statements);
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,updated.coin).run();
       return json({results,user:await profile(env,updated),pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,tapCount,minTaps:criticalConfig.minTaps,effects:criticalConfig.effects}});
