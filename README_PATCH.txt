@@ -1,16 +1,15 @@
-CNINE PvP 상태 문구 판정 수정 v9.55
+CNINE PvP 상대 카드 NaN 표시 수정 v9.56
 
 원인:
-CMS의 '상태 문구'는 자유 입력값인데, 기존 패치가 ACTIVE 이외의 모든 문구를 중지 상태로 처리했습니다.
-예: '시즌 진행 중' → 잘못된 중지 판정
+서버는 시즌 매칭 개편 후 scoreDiff / expectedWin / expectedLoss를 반환하지만,
+프런트가 삭제된 cardScore / diffPercent 필드를 계속 표시하여 NaN이 출력됨.
 
 수정:
-- enabled=false일 때만 운영 OFF
-- 종료 시간 도달 시 자동 종료
-- 시작 시간 전에는 시작 전 처리
-- ENDED/CLOSED/종료 계열만 종료 처리
-- PAUSED/OFF/중지 계열만 중지 처리
-- '시즌 진행 중', '1시즌 운영중' 같은 일반 문구는 ACTIVE 처리
+- 카드 NaN 표시 제거
+- 시즌 점수 표시
+- 내 점수와의 점수 차이 표시
+- 승리 예상 획득 점수 / 패배 예상 차감 점수 표시
+- app.js 캐시 버전 갱신
 
 적용:
-프로젝트 루트에 functions 폴더를 덮어쓴 뒤 재배포하세요.
+프로젝트 루트에 js 폴더와 index.html을 덮어쓴 뒤 배포하세요.
