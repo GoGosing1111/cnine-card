@@ -446,6 +446,17 @@ async function ensureUpgrades(env){
       `ALTER TABLE cards ADD COLUMN limited_total INTEGER`,
       `ALTER TABLE cards ADD COLUMN issued_count INTEGER NOT NULL DEFAULT 0`,
       `ALTER TABLE users ADD COLUMN card_shards INTEGER NOT NULL DEFAULT 0`,
+      `CREATE TABLE IF NOT EXISTS draw_request_receipts (
+        request_id TEXT PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        status TEXT NOT NULL DEFAULT 'PENDING',
+        cost INTEGER NOT NULL DEFAULT 0,
+        response_json TEXT,
+        error_message TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`,
+      `CREATE INDEX IF NOT EXISTS idx_draw_request_receipts_user ON draw_request_receipts(user_id,created_at)`,
       `ALTER TABLE user_cards ADD COLUMN breakthrough_level INTEGER NOT NULL DEFAULT 0`,
       `ALTER TABLE cards ADD COLUMN card_status TEXT NOT NULL DEFAULT 'PUBLIC'`,
       `ALTER TABLE cards ADD COLUMN batch_name TEXT`,
@@ -1021,7 +1032,22 @@ export async function onRequest(context){
       const user=await authenticate(request,env);
       if(!user) return json({error:'로그인이 필요합니다.'},401);
       const payload=await readBody(request);
+      const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      const prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      if(prior?.status==='COMPLETED'&&prior.response_json){
+        try{return json(JSON.parse(prior.response_json))}catch{}
+      }
+      if(prior?.status==='PENDING')return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
+      if(prior?.status==='FAILED')await env.DB.prepare('DELETE FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).run();
+      const claimed=await env.DB.prepare("INSERT OR IGNORE INTO draw_request_receipts(request_id,user_id,status) VALUES(?,?,'PENDING')").bind(requestId,user.id).run();
+      if(!claimed.meta.changes){
+        const duplicate=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+        if(duplicate?.status==='COMPLETED'&&duplicate.response_json){try{return json(JSON.parse(duplicate.response_json))}catch{}}
+        return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
+      }
+      let charged=false,grantsCommitted=false,cost=0,reservedCardIds=[];
+      try{
       const criticalConfig=await criticalSettings(env);
       const tapCount=Math.max(0,Math.min(100,Number(payload.tapCount)||0));
       const criticalEligible=criticalConfig.enabled&&tapCount>=criticalConfig.minTaps;
@@ -1030,7 +1056,8 @@ export async function onRequest(context){
       const pack=await env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId).first();
       if(!pack) return json({error:'판매 중인 카드팩이 아닙니다.'},404);
       const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      const cost=pack.price*count;
+      cost=pack.price*count;
+      await env.DB.prepare('UPDATE draw_request_receipts SET cost=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?').bind(cost,requestId).run();
       if(fresh.coin<cost) return json({error:'코인이 부족합니다.'},400);
       const [drawContext,pityCountStart,livePitySettings]=await Promise.all([
         loadDrawContext(env,pack),
@@ -1053,7 +1080,11 @@ export async function onRequest(context){
       }
       cards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
       const debit=await env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost).run();
-      if(!debit.meta.changes) return json({error:'코인이 부족합니다.'},400);
+      if(!debit.meta.changes){
+        await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(requestId).run();
+        return json({error:'코인이 부족합니다.'},400);
+      }
+      charged=true;
       await savePackPity(env,user.id,pack.id,pityCount);
       const groupId=crypto.randomUUID();
       // 한정판 수량 예약은 동시성 보호를 위해 개별 처리하되,
@@ -1063,6 +1094,7 @@ export async function onRequest(context){
         if(card.limited_total!==null&&card.limited_total!==undefined){
           const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
           if(!reserved.meta.changes)card=drawOneFromContext(drawContext,pack,null,false,criticalBonus);
+          else reservedCardIds.push(card.id);
           cards[i]=card;
         }
       }
@@ -1073,7 +1105,7 @@ export async function onRequest(context){
       const results=[];
       let shardTotal=0;
       let runningShardBalance=Number(fresh.card_shards||0);
-      for(const card of cards){
+      for(let drawIndex=0;drawIndex<cards.length;drawIndex++){const card=cards[drawIndex];
         const cardId=String(card.id),previousQty=Number(ownedMap.get(cardId)||0),isNew=previousQty===0;
         ownedMap.set(cardId,previousQty+1);
         const shardGained=isNew?0:Number(SHARD_REWARD[card.grade]||0);
@@ -1084,14 +1116,30 @@ export async function onRequest(context){
           runningShardBalance+=shardGained;
           statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,runningShardBalance,card.id));
         }
-        statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,card.grade,cost,isNew?1:0));
+        statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,card.grade,drawIndex===0?cost:0,isNew?1:0));
         results.push({card,duplicate:!isNew,shardGained});
       }
       if(shardTotal>0)statements.unshift(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardTotal,user.id));
+      statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,Number(fresh.coin)-cost));
       if(statements.length)await env.DB.batch(statements);
+      grantsCommitted=true;
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,updated.coin).run();
-      return json({results,user:await profile(env,updated),pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,tapCount,minTaps:criticalConfig.minTaps,effects:criticalConfig.effects}});
+      const response={results,user:await profile(env,updated),pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,tapCount,minTaps:criticalConfig.minTaps,effects:criticalConfig.effects},requestId};
+      await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
+      return json(response);
+      }catch(error){
+        const message=String(error?.message||'카드 개봉 처리 중 오류가 발생했습니다.').slice(0,300);
+        if(!grantsCommitted){
+          if(charged)await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(cost,user.id).run();
+          for(const cardId of reservedCardIds){
+            await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(cardId).run();
+          }
+          await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(message,requestId,user.id).run();
+        }else{
+          await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(message,requestId,user.id).run();
+        }
+        throw error;
+      }
     }
 
     if(path==='card/breakthrough'&&request.method==='POST'){
@@ -1413,9 +1461,12 @@ export async function onRequest(context){
       if(stablePostCount<required)return json({error:`오늘 SOOP 게시판 작성글이 ${stablePostCount}개입니다. ${required}개 작성 후 수령할 수 있습니다.`,postCount:stablePostCount,requiredPosts:required},409);
       const inserted=await env.DB.prepare('INSERT OR IGNORE INTO wago_daily_quest_claims(user_id,quest_date,reward_coin,post_count) VALUES(?,?,?,?)').bind(user.id,today,reward,stablePostCount).run();
       if(!inserted.meta.changes)return json({error:'오늘 게시글 퀘스트 보상은 이미 수령했습니다.'},409);
-      await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();
-      const updated=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status FROM users WHERE id=?').bind(user.id).first();
-      return json({ok:true,questType:'POST',rewardCoin:reward,postCount:stablePostCount,user:updated});
+      await env.DB.batch([
+        env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
+        env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin+?,'WAGO_DAILY_QUEST' FROM users WHERE id=?").bind(reward,reward,user.id)
+      ]);
+      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+      return json({ok:true,questType:'POST',rewardCoin:reward,postCount:stablePostCount,user:await profile(env,updated)});
     }
 
     if(path==='messages'){

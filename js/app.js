@@ -725,7 +725,7 @@ function renderMaintenance(m={},service={}){
   const copy=document.getElementById('maintenanceCopyKey');if(copy)copy.onclick=async()=>{try{await navigator.clipboard.writeText(key);alert('개인키가 복사되었습니다.')}catch{document.getElementById('maintenanceKey').select();document.execCommand('copy');alert('개인키가 복사되었습니다.')}};
   const login=document.getElementById('maintenanceLogin');if(login)login.onclick=()=>renderLogin();
 }
-function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:u.coin,cardShards:Number(u.cardShards||0),owned:u.owned||[],quantities:u.quantities||{},breakthroughs:u.breakthroughs||{},history:Array.isArray(u.history)?u.history:(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},serverUserId:u.id,testCoinGrantedV13:true}}
+function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:u.coin,cardShards:Number(u.cardShards??u.card_shards??old?.cardShards??0),owned:u.owned||[],quantities:u.quantities||{},breakthroughs:u.breakthroughs||{},history:Array.isArray(u.history)?u.history:(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},serverUserId:u.id,testCoinGrantedV13:true}}
 async function init(){
   migrateLegacyUser();renderLoading();let authenticated=false;
   try{
@@ -819,7 +819,9 @@ async function runCriticalOpening(pack,count,requestDraw){
   else{zone.classList.add('tearing');message.textContent=data.critical?.eligible?'크리티컬은 발생하지 않았습니다.':'일반 개봉!';await new Promise(r=>setTimeout(r,350));}
   return data;
 }
+let drawRequestInFlight=false;
 openPack=async function(packId,count,cost){
+  if(drawRequestInFlight)return alert('카드 개봉 요청을 처리 중입니다.');
   if(!API_MODE){
     const pack=getPack(packId),user=loadUser();
     if(!user||user.coin<cost)return alert('코인이 부족합니다.');
@@ -833,8 +835,10 @@ openPack=async function(packId,count,cost){
     return;
   }
   const pack=getPack(packId);
+  const requestId=(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  drawRequestInFlight=true;
   try{
-    const d=await runCriticalOpening(pack,count,tapCount=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,tapCount})}));
+    const d=await runCriticalOpening(pack,count,tapCount=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,tapCount,requestId})}));
     const next=apiUserToLocal(d.user);
     saveUser(next);
     await renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);
@@ -842,6 +846,8 @@ openPack=async function(packId,count,cost){
     const modal=document.getElementById('modal');
     if(modal){modal.className='modal';modal.innerHTML='';}
     alert(e.message||'카드 개봉 중 오류가 발생했습니다.');
+  }finally{
+    drawRequestInFlight=false;
   }
 }
 const SPECIAL_REVEAL_ORDER={SSR:1,MA:2,FUR:3};
