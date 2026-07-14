@@ -425,6 +425,22 @@ async function ensureUpgrades(env){
       await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('pack_preview_configs','{}',CURRENT_TIMESTAMP)").run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v866','1',CURRENT_TIMESTAMP)").run();
     }
+    const drawReceiptsDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v964_draw_receipts'").first();
+    if(drawReceiptsDone?.value!=='1'){
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_request_receipts (
+        request_id TEXT PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        status TEXT NOT NULL DEFAULT 'PENDING',
+        cost INTEGER NOT NULL DEFAULT 0,
+        response_json TEXT,
+        error_message TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`).run();
+      await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_request_receipts_user ON draw_request_receipts(user_id,created_at)').run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v964_draw_receipts','1',CURRENT_TIMESTAMP)").run();
+    }
+
     const completed=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v848'").first();
     if(completed?.value==='1') return;
 
@@ -1034,6 +1050,17 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_request_receipts (
+        request_id TEXT PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        status TEXT NOT NULL DEFAULT 'PENDING',
+        cost INTEGER NOT NULL DEFAULT 0,
+        response_json TEXT,
+        error_message TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`).run();
+      await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_request_receipts_user ON draw_request_receipts(user_id,created_at)').run();
       const prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       if(prior?.status==='COMPLETED'&&prior.response_json){
         try{return json(JSON.parse(prior.response_json))}catch{}
@@ -1049,8 +1076,7 @@ export async function onRequest(context){
       let charged=false,grantsCommitted=false,cost=0,reservedCardIds=[];
       try{
       const criticalConfig=await criticalSettings(env);
-      const tapCount=Math.max(0,Math.min(100,Number(payload.tapCount)||0));
-      const criticalEligible=criticalConfig.enabled&&tapCount>=criticalConfig.minTaps;
+      const criticalEligible=criticalConfig.enabled===true;
       const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
       const criticalBonus=critical?criticalConfig.bonus:0;
       const pack=await env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId).first();
@@ -1124,7 +1150,7 @@ export async function onRequest(context){
       if(statements.length)await env.DB.batch(statements);
       grantsCommitted=true;
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      const response={results,user:await profile(env,updated),pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,tapCount,minTaps:criticalConfig.minTaps,effects:criticalConfig.effects},requestId};
+      const response={results,user:await profile(env,updated),pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},requestId};
       await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
       return json(response);
       }catch(error){
