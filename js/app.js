@@ -779,34 +779,33 @@ function showCriticalBurst(stage,bonus){
   if(navigator.vibrate) navigator.vibrate([70,40,140]);
 }
 function openingMarkup(pack,count){
-  return `<div class="modal-panel draw-stage opening-panel critical-opening-stage"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="tap-counter"><b id="tapCount">0</b><span>/ 5 TAP</span></div><div class="pack-open pack-opening" id="criticalTapZone">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div><div class="tap-ripple-layer"></div></div><p class="message opening-message" id="openingMessage">팩을 빠르게 5회 이상 연타하세요!</p><div class="tap-progress"><i id="tapProgress"></i></div><small class="tap-rule">5회 이상부터 동일한 크리티컬 확률이 적용됩니다.</small></div>`;
+  return `<div class="modal-panel draw-stage opening-panel critical-opening-stage"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="pack-open pack-opening auto-opening" id="criticalTapZone">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div></div><p class="message opening-message" id="openingMessage">카드팩을 자동 개봉하고 있습니다...</p><div class="tap-progress auto-progress"><i id="tapProgress"></i></div><small class="tap-rule">크리티컬은 CMS 설정 확률에 따라 자동 판정됩니다.</small></div>`;
 }
 async function runCriticalOpening(pack,count,requestDraw){
   const modal=document.getElementById('modal');
   modal.className='modal show opening-modal';
   modal.innerHTML=openingMarkup(pack,count);
-  const stage=modal.querySelector('.critical-opening-stage'),zone=modal.querySelector('#criticalTapZone'),counter=modal.querySelector('#tapCount'),progress=modal.querySelector('#tapProgress'),message=modal.querySelector('#openingMessage');
-  let taps=0,locked=false;
-  const tap=e=>{
-    if(locked)return;
-    taps++;
-    counter.textContent=taps;
-    progress.style.width=`${Math.min(100,taps/5*100)}%`;
-    zone.classList.remove('tap-punch'); void zone.offsetWidth; zone.classList.add('tap-punch');
-    const r=document.createElement('i');r.className='tap-ripple';const rect=zone.getBoundingClientRect();r.style.left=`${(e.clientX||rect.left+rect.width/2)-rect.left}px`;r.style.top=`${(e.clientY||rect.top+rect.height/2)-rect.top}px`;zone.querySelector('.tap-ripple-layer').appendChild(r);setTimeout(()=>r.remove(),500);
-    if(taps===5){stage.classList.add('tap-ready');message.textContent='크리티컬 판정 준비 완료!';criticalTone(false);if(navigator.vibrate)navigator.vibrate(40)}
-  };
-  zone.addEventListener('pointerdown',tap);
-  await new Promise(r=>setTimeout(r,850));
-  locked=true;zone.removeEventListener('pointerdown',tap);stage.classList.add('judging');message.textContent=taps>=5?'크리티컬 판정 중...':'일반 개봉 진행 중...';
+  const stage=modal.querySelector('.critical-opening-stage');
+  const zone=modal.querySelector('#criticalTapZone');
+  const progress=modal.querySelector('#tapProgress');
+  const message=modal.querySelector('#openingMessage');
+
+  requestAnimationFrame(()=>{
+    if(progress)progress.style.width='72%';
+    if(zone)zone.classList.add('tearing');
+  });
+
   let data;
   try{
-    message.textContent=taps>=5?'크리티컬 판정 중...':'카드 결과를 불러오는 중...';
     const slowNotice=setTimeout(()=>{
       if(message)message.textContent='카드 결과를 안전하게 처리 중입니다. 잠시만 기다려주세요...';
+      if(progress)progress.style.width='90%';
     },8000);
-    try{data=await Promise.resolve().then(()=>requestDraw(taps));}
-    finally{clearTimeout(slowNotice);}
+    try{
+      data=await Promise.resolve().then(()=>requestDraw());
+    }finally{
+      clearTimeout(slowNotice);
+    }
     if(!data||typeof data!=='object')throw new Error('카드 개봉 응답 형식이 올바르지 않습니다.');
     if(API_MODE&&!Array.isArray(data.results))throw new Error('카드 개봉 결과를 불러오지 못했습니다.');
   }catch(e){
@@ -814,11 +813,22 @@ async function runCriticalOpening(pack,count,requestDraw){
     modal.innerHTML='';
     throw e;
   }
+
+  if(progress)progress.style.width='100%';
   await new Promise(r=>setTimeout(r,100));
-  if(data.critical?.success){showCriticalBurst(stage,data.critical.bonus);message.textContent='CRITICAL! 가중치 보너스 적용!';await new Promise(r=>setTimeout(r,data.critical.effects===false?300:750));}
-  else{zone.classList.add('tearing');message.textContent=data.critical?.eligible?'크리티컬은 발생하지 않았습니다.':'일반 개봉!';await new Promise(r=>setTimeout(r,350));}
+
+  if(data.critical?.success){
+    showCriticalBurst(stage,data.critical.bonus);
+    message.textContent='CRITICAL! 가중치 보너스 적용!';
+    await new Promise(r=>setTimeout(r,data.critical.effects===false?300:750));
+  }else{
+    if(zone)zone.classList.add('tearing');
+    message.textContent=data.critical?.eligible?'일반 개봉! 크리티컬은 발생하지 않았습니다.':'일반 개봉!';
+    await new Promise(r=>setTimeout(r,350));
+  }
   return data;
 }
+
 let drawRequestInFlight=false;
 openPack=async function(packId,count,cost){
   if(drawRequestInFlight)return alert('카드 개봉 요청을 처리 중입니다.');
@@ -826,9 +836,9 @@ openPack=async function(packId,count,cost){
     const pack=getPack(packId),user=loadUser();
     if(!user||user.coin<cost)return alert('코인이 부족합니다.');
     try{
-      const d=await runCriticalOpening(pack,count,async taps=>{
-        const critical=taps>=5&&Math.random()*100<3;
-        const draws=makeDraws(pack,count);return {local:true,draws,critical:{eligible:taps>=5,success:critical,bonus:critical?10:0,tapCount:taps,effects:true}};
+      const d=await runCriticalOpening(pack,count,async ()=>{
+        const critical=Math.random()*100<3;
+        const draws=makeDraws(pack,count);return {local:true,draws,critical:{eligible:true,success:critical,bonus:critical?10:0,automatic:true,chance:3,effects:true}};
       });
       user.coin-=cost;const owned=ownedIds(user),results=d.draws.map(card=>{const duplicate=owned.has(card.id),shardGained=duplicate?(shardReward[card.grade]||0):0;user.history.push({cardId:card.id,packId:pack.id,at:new Date().toISOString(),duplicate});user.quantities[card.id]=(user.quantities[card.id]||0)+1;if(duplicate)user.cardShards=(user.cardShards||0)+shardGained;if(!duplicate){user.owned.push(card.id);owned.add(card.id)}return {card,duplicate,shardGained}});saveUser(user);renderDrawResults(pack,count,cost,results,user,d.critical);
     }catch(e){alert(e.message)}
@@ -838,7 +848,7 @@ openPack=async function(packId,count,cost){
   const requestId=(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`);
   drawRequestInFlight=true;
   try{
-    const d=await runCriticalOpening(pack,count,tapCount=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,tapCount,requestId})}));
+    const d=await runCriticalOpening(pack,count,()=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,requestId})}));
     const next=apiUserToLocal(d.user);
     saveUser(next);
     await renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);
