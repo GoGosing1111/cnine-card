@@ -750,6 +750,77 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
 }
 
 
+async function loadDrawContext(env,pack){
+  const allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>RARITIES.includes(rarity)&&rarity!=='LIMITED');
+  const rateRows=(await env.DB.prepare("SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rate>0").bind(pack.id).all()).results;
+  const normalCards=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
+    FROM cards c JOIN members m ON m.id=c.member_id
+    WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NULL
+      AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
+        OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results;
+  const limitedCards=pack.id==='pickup'?(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
+    FROM cards c JOIN members m ON m.id=c.member_id
+    WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total`).all()).results:[];
+  const poolsByGrade=new Map();
+  for(const card of normalCards){
+    const grade=String(card.grade||'');
+    if(!poolsByGrade.has(grade))poolsByGrade.set(grade,[]);
+    poolsByGrade.get(grade).push(card);
+  }
+  return {
+    allowed,
+    rateRows,
+    limitedRate:Math.max(0,Math.min(100,Number(rateRows.find(row=>row.rarity==='LIMITED')?.rate)||0)),
+    limitedCards,
+    poolsByGrade
+  };
+}
+function drawNormalFromContext(ctx,pack,rarity){
+  const pool=ctx.poolsByGrade.get(rarity)||[];
+  return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;
+}
+function drawOneFromContext(ctx,pack,minimum=null,allowLimited=true,criticalBonus=0){
+  if(allowLimited&&pack.id==='pickup'&&!minimum&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+    const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
+    if(limitedCard)return limitedCard;
+  }
+  let allowed=ctx.allowed;
+  if(minimum)allowed=allowed.filter(rarity=>ORDER[rarity]>=ORDER[minimum]);
+  if(!allowed.length)throw new Error('이 카드팩에 설정된 일반 등급이 없습니다.');
+  let rates=ctx.rateRows.filter(row=>allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0);
+  if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
+  if(!rates.length)throw new Error('이 카드팩에 설정된 일반 카드 확률이 없습니다.');
+  for(let attempt=0;attempt<20;attempt++){
+    const selectedRarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
+    const card=selectedRarity&&drawNormalFromContext(ctx,pack,selectedRarity);
+    if(card)return card;
+  }
+  throw new Error('현재 뽑을 수 있는 일반 카드가 없습니다. 카드 및 확률 설정을 확인하세요.');
+}
+function drawOneWithPityFromContext(ctx,pack,ssrRate,criticalBonus=0){
+  if(pack.id==='pickup'&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+    const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
+    if(limitedCard)return limitedCard;
+  }
+  const allowed=ctx.allowed;
+  if(ssrRate!==null&&allowed.includes('SSR')){
+    if(Math.random()*100<ssrRate){
+      const ssr=drawNormalFromContext(ctx,pack,'SSR');
+      if(ssr)return ssr;
+    }
+    const others=allowed.filter(rarity=>rarity!=='SSR');
+    let rates=ctx.rateRows.filter(row=>others.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0);
+    if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
+    for(let attempt=0;attempt<20;attempt++){
+      const rarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
+      const card=rarity&&drawNormalFromContext(ctx,pack,rarity);
+      if(card)return card;
+    }
+  }
+  return drawOneFromContext(ctx,pack,null,false,criticalBonus);
+}
+
+
 const PITY_PACKS=new Set(['premium','pickup']);
 const DEFAULT_PITY_RATES={61:10,62:15,63:20,64:25,65:30,66:35,67:40,68:45,69:50,70:100};
 function defaultPitySettings(){return {premium:{enabled:true,start:61,hard:70,rates:{...DEFAULT_PITY_RATES}},pickup:{enabled:true,start:61,hard:70,rates:{...DEFAULT_PITY_RATES}}};}
@@ -959,10 +1030,25 @@ export async function onRequest(context){
       const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       const cost=pack.price*count;
       if(fresh.coin<cost) return json({error:'코인이 부족합니다.'},400);
-      const cards=[];let pityCount=await packPityCount(env,user.id,pack.id);const livePitySettings=await pitySettings(env);
-      for(let index=0;index<count;index++){const pity=pityRateForDraw(livePitySettings,pack.id,pityCount),card=PITY_PACKS.has(pack.id)?await drawOneWithPity(env,pack,pity.rate,criticalBonus):await drawOne(env,pack,null,true,criticalBonus);cards.push(card);pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;}
+      const [drawContext,pityCountStart,livePitySettings]=await Promise.all([
+        loadDrawContext(env,pack),
+        packPityCount(env,user.id,pack.id),
+        pitySettings(env)
+      ]);
+      const cards=[];let pityCount=pityCountStart;
+      for(let index=0;index<count;index++){
+        const pity=pityRateForDraw(livePitySettings,pack.id,pityCount);
+        const card=PITY_PACKS.has(pack.id)
+          ?drawOneWithPityFromContext(drawContext,pack,pity.rate,criticalBonus)
+          :drawOneFromContext(drawContext,pack,null,true,criticalBonus);
+        cards.push(card);
+        pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;
+      }
       const guarantee=count===10?pack.guarantee_10:count===20?pack.guarantee_20:null;
-      if(guarantee&&!cards.some(card=>ORDER[card.grade]>=ORDER[guarantee])){cards[cards.length-1]=await drawOne(env,pack,guarantee,true,criticalBonus);if(PITY_PACKS.has(pack.id)&&ORDER[cards[cards.length-1].grade]>=ORDER.SSR){pityCount=0;await savePackPity(env,user.id,pack.id,0);}}
+      if(guarantee&&!cards.some(card=>ORDER[card.grade]>=ORDER[guarantee])){
+        cards[cards.length-1]=drawOneFromContext(drawContext,pack,guarantee,true,criticalBonus);
+        if(PITY_PACKS.has(pack.id)&&ORDER[cards[cards.length-1].grade]>=ORDER.SSR){pityCount=0;await savePackPity(env,user.id,pack.id,0);}
+      }
       cards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
       const debit=await env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost).run();
       if(!debit.meta.changes) return json({error:'코인이 부족합니다.'},400);
@@ -974,7 +1060,7 @@ export async function onRequest(context){
         let card=cards[i];
         if(card.limited_total!==null&&card.limited_total!==undefined){
           const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
-          if(!reserved.meta.changes)card=await drawOne(env,pack,null,false,criticalBonus);
+          if(!reserved.meta.changes)card=drawOneFromContext(drawContext,pack,null,false,criticalBonus);
           cards[i]=card;
         }
       }
