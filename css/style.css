@@ -1481,3 +1481,171 @@ div{
     font-size:7px!important;
   }
 }
+
+
+/* =========================================================
+   v9.75 Mobile PVE tab/simple mode
+   PC layout remains unchanged
+   ========================================================= */
+.mobile-pve-tabs,
+.mobile-pve-quickbar,
+.pve-mobile-next,
+.pve-mobile-pane-title{
+  display:none;
+}
+
+@media (max-width:760px){
+  #pveHuntView{
+    padding-bottom:76px;
+  }
+
+  .mobile-pve-tabs{
+    position:sticky;
+    top:0;
+    z-index:35;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:5px;
+    padding:8px;
+    margin:0 0 10px;
+    border:1px solid rgba(255,224,116,.24);
+    border-radius:14px;
+    background:rgba(12,11,22,.94);
+    backdrop-filter:blur(12px);
+    box-shadow:0 10px 28px rgba(0,0,0,.3);
+  }
+  .mobile-pve-tabs button{
+    min-width:0;
+    min-height:42px;
+    padding:8px 5px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:10px;
+    background:rgba(255,255,255,.05);
+    color:#cbc8dc;
+    font-weight:900;
+  }
+  .mobile-pve-tabs button.active{
+    border-color:#f3c84c;
+    color:#17120b;
+    background:linear-gradient(180deg,#ffe58a,#dcae2c);
+    box-shadow:0 5px 18px rgba(243,200,76,.22);
+  }
+
+  .pve-mobile-pane{
+    display:none!important;
+  }
+  .pve-mobile-pane.mobile-active{
+    display:block!important;
+  }
+  .battle-layout{
+    display:block!important;
+  }
+  .pve-deck-panel{
+    width:100%;
+  }
+
+  .pve-mobile-pane-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .pve-mobile-pane-title h2{
+    margin:2px 0 0;
+    font-size:21px;
+  }
+  .pve-mobile-pane-title button,
+  .pve-mobile-next{
+    display:block;
+    min-height:42px;
+    border:1px solid rgba(255,224,116,.35);
+    border-radius:11px;
+    background:rgba(255,224,116,.09);
+    color:#ffe78f;
+    font-weight:900;
+  }
+  .pve-mobile-pane-title button{
+    padding:8px 11px;
+    white-space:nowrap;
+  }
+  .pve-mobile-next{
+    width:100%;
+    margin-top:10px;
+  }
+
+  #pveHuntView[data-mobile-pve-tab="deck"] .battle-cover,
+  #pveHuntView[data-mobile-pve-tab="cards"] .battle-cover{
+    display:none;
+  }
+  #pveHuntView[data-mobile-pve-tab="monsters"] .battle-cover{
+    margin-bottom:10px;
+  }
+
+  #pveHuntView[data-mobile-pve-tab="deck"] .pve-deck-panel,
+  #pveHuntView[data-mobile-pve-tab="cards"] .pve-deck-panel{
+    display:block;
+  }
+  #pveHuntView[data-mobile-pve-tab="monsters"] .pve-deck-panel{
+    display:none;
+  }
+
+  .pve-mobile-pane[data-pve-pane="cards"] .battle-card-picker{
+    max-height:none;
+    overflow:visible;
+  }
+  .pve-mobile-pane[data-pve-pane="monsters"]{
+    margin-top:0;
+  }
+  .pve-mobile-pane[data-pve-pane="monsters"] .battle-start{
+    position:sticky;
+    bottom:66px;
+    z-index:20;
+    width:100%;
+    min-height:52px;
+    box-shadow:0 -8px 22px rgba(0,0,0,.32);
+  }
+
+  .mobile-pve-quickbar{
+    position:fixed;
+    left:max(8px,env(safe-area-inset-left));
+    right:max(8px,env(safe-area-inset-right));
+    bottom:max(8px,env(safe-area-inset-bottom));
+    z-index:70;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:6px;
+    padding:7px;
+    border:1px solid rgba(255,224,116,.26);
+    border-radius:16px;
+    background:rgba(8,8,16,.95);
+    backdrop-filter:blur(14px);
+    box-shadow:0 12px 35px rgba(0,0,0,.55);
+  }
+  .mobile-pve-quickbar button{
+    min-width:0;
+    min-height:48px;
+    padding:5px 3px;
+    border:0;
+    border-radius:11px;
+    background:transparent;
+    color:#b9b5c9;
+    font-size:11px;
+    font-weight:900;
+  }
+  .mobile-pve-quickbar button span{
+    display:block;
+    margin-bottom:2px;
+    font-size:18px;
+  }
+  .mobile-pve-quickbar button.active{
+    color:#ffe078;
+    background:rgba(255,224,120,.11);
+  }
+}
+
+@media (min-width:761px){
+  .pve-mobile-pane{
+    display:block!important;
+  }
+}
