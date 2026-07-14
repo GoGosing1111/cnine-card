@@ -832,3 +832,552 @@ body {
 
 /* v9.4.17 PVE ultimate overlay */
 .battle-ultimate-overlay{position:absolute;inset:0;z-index:80;display:grid;place-items:center;overflow:hidden;background:#000;animation:ultimateOverlayIn .18s ease-out both}.battle-ultimate-overlay.closing{animation:ultimateOverlayOut .22s ease-in both}.battle-ultimate-media{position:absolute;inset:0;display:grid;place-items:center}.battle-ultimate-media img,.battle-ultimate-media video{width:100%;height:100%;object-fit:cover}.battle-ultimate-title{position:absolute;z-index:4;left:0;right:0;bottom:7%;text-align:center;text-shadow:0 2px 3px #000,0 0 24px #000}.battle-ultimate-title small,.battle-ultimate-title strong,.battle-ultimate-title span{display:block}.battle-ultimate-title small{font-size:12px;letter-spacing:.35em;color:#8fe9ff}.battle-ultimate-title strong{margin-top:5px;font-size:clamp(30px,6vw,72px);line-height:1;color:#fff;text-shadow:0 0 14px #48dfff,0 0 38px #2475ff}.battle-ultimate-title span{margin-top:10px;font-weight:900;color:#ffe46b}.battle-ultimate-flash{position:absolute;inset:0;z-index:3;pointer-events:none;background:white;mix-blend-mode:screen;animation:ultimateFlash .8s ease-out both}.battle-ultimate-fallback{font-size:clamp(48px,12vw,140px);font-weight:1000;letter-spacing:.08em;color:#fff;text-shadow:0 0 25px #3bdcff,0 0 65px #265bff}.ultimate-playing .battle-arena,.ultimate-playing .battle-hud,.ultimate-playing .battle-topline,.ultimate-playing .battle-message{visibility:hidden}@keyframes ultimateOverlayIn{from{opacity:0;transform:scale(1.04)}to{opacity:1;transform:scale(1)}}@keyframes ultimateOverlayOut{to{opacity:0;transform:scale(.98)}}@keyframes ultimateFlash{0%{opacity:1}18%{opacity:.05}30%{opacity:.55}100%{opacity:0}}
+
+
+/* =========================================================
+   v9.73 Mobile layout stabilization
+   - Front-end only
+   - No API / Functions / D1 changes
+   ========================================================= */
+
+html,body{
+  width:100%;
+  max-width:100%;
+  overflow-x:hidden;
+}
+img,video,canvas,svg{
+  max-width:100%;
+}
+.page,
+main,
+section,
+article,
+aside,
+div{
+  min-width:0;
+}
+
+/* Generic modal safety for mobile browser/iframe */
+.modal{
+  max-width:100vw;
+  overflow-x:hidden;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+}
+.modal.show{
+  align-items:flex-start;
+  padding:10px;
+}
+.modal-panel{
+  width:min(960px,calc(100vw - 20px));
+  max-width:calc(100vw - 20px);
+  max-height:calc(100dvh - 20px);
+  overflow-x:hidden;
+  overflow-y:auto;
+  margin:auto;
+}
+.opening-panel,
+.draw-stage{
+  max-width:calc(100vw - 20px);
+}
+.pack-opening,
+.pack-open{
+  max-width:100%;
+}
+.pack-opening .pack-envelope,
+.pack-open .pack-envelope{
+  width:min(220px,58vw);
+  height:auto;
+  aspect-ratio:220/305;
+}
+
+/* Long text protection */
+.pvp-op-head,
+.pvp-op-scores,
+.pvp-op-meta,
+.message-head,
+.user-message,
+.panel-title,
+.battle-cover,
+.battle-cover-side,
+.daily-quest-panel{
+  min-width:0;
+}
+.pvp-op-head b,
+.pvp-op-meta em,
+.user-message h3,
+.user-message p,
+.panel-title h2,
+.battle-cover p{
+  overflow-wrap:anywhere;
+  word-break:keep-all;
+}
+
+/* Tablet/mobile core */
+@media (max-width:760px){
+  body{
+    min-height:100dvh;
+  }
+  .page{
+    width:100%;
+    min-height:100dvh;
+    margin:0;
+    padding:14px 10px 28px;
+    border-left:0;
+    border-right:0;
+    border-radius:0;
+    overflow-x:hidden;
+  }
+
+  .header{
+    flex-direction:column;
+    align-items:stretch;
+    gap:12px;
+  }
+  .brand{
+    width:100%;
+  }
+  .brand-logo{
+    width:74px;
+    height:50px;
+  }
+  .brand h1{
+    font-size:clamp(23px,7vw,30px);
+    white-space:normal;
+  }
+
+  .summary-bar{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  .summary-bar>div{
+    min-height:68px;
+    padding:11px 12px;
+  }
+
+  /* Main card-pack screen */
+  .game-hero{
+    min-height:auto;
+    grid-template-columns:1fr;
+    gap:18px;
+    padding:22px 14px;
+  }
+  .hero-copy h2{
+    font-size:clamp(34px,10vw,46px);
+  }
+  .hero-pack-zone{
+    min-height:280px;
+  }
+  .pack-aura{
+    width:min(280px,78vw);
+    height:min(280px,78vw);
+  }
+  .draw-options{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:9px;
+    width:100%;
+  }
+  .draw-options .btn,
+  .btn{
+    width:100%;
+    min-width:0;
+  }
+  .dashboard-grid{
+    grid-template-columns:1fr;
+  }
+
+  /* PVE header */
+  .battle-cover{
+    display:grid;
+    grid-template-columns:1fr;
+    align-items:stretch;
+    gap:16px;
+    padding:18px 14px;
+  }
+  .battle-cover h2{
+    font-size:clamp(26px,8vw,34px);
+  }
+  .battle-cover>div:first-child p:last-child{
+    font-size:13px;
+    line-height:1.65;
+    max-width:none;
+  }
+  .battle-cover-side{
+    display:grid;
+    grid-template-columns:1fr;
+    justify-content:stretch;
+    gap:10px;
+    width:100%;
+  }
+  .battle-energy-card,
+  .battle-total{
+    width:100%;
+    min-width:0;
+    text-align:left;
+  }
+  .battle-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:13px 14px;
+    border:1px solid rgba(255,224,116,.2);
+    border-radius:13px;
+    background:rgba(0,0,0,.18);
+  }
+  .battle-total b{
+    font-size:clamp(28px,9vw,38px);
+  }
+
+  /* PVE deck area */
+  .battle-layout{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+  .battle-panel{
+    width:100%;
+    padding:16px 12px;
+    overflow:hidden;
+  }
+  .battle-panel .panel-title{
+    display:grid;
+    grid-template-columns:1fr;
+    align-items:stretch;
+    gap:12px;
+  }
+  .pve-deck-actions{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+  }
+  .pve-deck-btn{
+    width:100%;
+    min-width:0;
+    height:44px;
+    padding:0 8px;
+    white-space:nowrap;
+  }
+  .battle-deck{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    overflow:visible;
+    margin:14px 0 18px;
+  }
+  .battle-deck-card,
+  .battle-empty-slot{
+    width:100%;
+    min-width:0;
+    min-height:126px;
+  }
+  .battle-deck-card:nth-child(4),
+  .battle-empty-slot:nth-child(4){
+    grid-column:1 / 2;
+  }
+  .battle-deck-card img{
+    height:auto;
+    aspect-ratio:1/1.12;
+  }
+  .battle-deck-card span{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .battle-card-picker{
+    grid-template-columns:1fr;
+    max-height:none;
+    overflow:visible;
+  }
+  .battle-pick-card{
+    grid-template-columns:58px minmax(0,1fr) auto;
+    width:100%;
+  }
+  .battle-pick-card span{
+    min-width:0;
+  }
+  .battle-pick-card span b{
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .monster-panel{
+    overflow:visible;
+  }
+  .monster-choice{
+    width:100%;
+    grid-template-columns:72px minmax(0,1fr);
+  }
+  .monster-choice img,
+  .monster-placeholder{
+    width:72px;
+    height:82px;
+  }
+
+  /* PVP deck and opponents */
+  .pvp-deck-head{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+  .pvp-deck-actions{
+    width:100%;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  .pvp-reset-badge{
+    width:100%;
+  }
+  .pvp-deck-slots{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:8px!important;
+  }
+  .pvp-deck-slots>*{
+    min-width:0!important;
+    width:100%!important;
+  }
+  .pvp-card-picker,
+  .pvp-grade-grid{
+    min-width:0;
+  }
+  .pvp-grade-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .pvp-opponents{
+    grid-template-columns:1fr!important;
+    gap:12px;
+  }
+  .pvp-opponent{
+    min-width:0;
+    padding:16px 14px;
+  }
+  .pvp-op-head,
+  .pvp-op-scores,
+  .pvp-op-meta{
+    gap:8px;
+  }
+  .pvp-op-head b{
+    min-width:0;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .pvp-op-scores{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .pvp-op-meta{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .pvp-op-meta em{
+    width:100%;
+  }
+
+  /* Collection */
+  .dex-cover{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:14px;
+    padding:19px 15px;
+  }
+  .dex-cover h2{
+    font-size:clamp(28px,9vw,36px);
+  }
+  .dex-total{
+    text-align:left;
+  }
+  .dex-search{
+    grid-template-columns:1fr;
+  }
+  .album-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+
+  /* Raid */
+  .raid-battle-stage{
+    min-height:390px;
+    border-radius:16px;
+  }
+  .raid-stage-header{
+    padding:13px 12px;
+  }
+  .raid-stage-header b{
+    font-size:13px;
+  }
+  .raid-stage-boss-hud{
+    left:10px;
+    right:10px;
+  }
+  .raid-arena{
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);
+    min-height:220px;
+    padding:8px 2% 0;
+  }
+  .raid-party-side,
+  .raid-boss-side{
+    min-height:200px;
+  }
+  .raid-party-aura{
+    width:min(170px,42vw);
+    height:min(170px,42vw);
+  }
+  .raid-boss-aura{
+    width:min(220px,56vw);
+    height:min(220px,56vw);
+  }
+  .raid-stage-boss{
+    max-width:min(200px,48vw)!important;
+    max-height:190px!important;
+  }
+  .raid-my-deck-stage{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(5,minmax(0,1fr));
+    gap:4px;
+    padding:0 7px 12px;
+  }
+  .raid-stage-card{
+    width:100%!important;
+    min-width:0;
+  }
+  .raid-stage-card .raid-deck-frame{
+    width:100%!important;
+    height:auto!important;
+  }
+  .raid-card-hp{
+    width:100%!important;
+  }
+  .raid-live-grid{
+    grid-template-columns:1fr!important;
+  }
+  .raid-participant-list article{
+    grid-template-columns:minmax(0,1fr) auto;
+  }
+  .raid-mini-cards{
+    display:none;
+  }
+  .is-enraged .raid-enrage-flames,
+  .is-enraged .raid-enrage-skulls{
+    width:min(220px,58vw)!important;
+    height:min(220px,58vw)!important;
+  }
+  .is-enraged .raid-boss-aura{
+    width:min(235px,62vw)!important;
+    height:min(235px,62vw)!important;
+  }
+
+  /* Messages / rewards */
+  .message-center{
+    padding:16px 12px;
+  }
+  .message-reward{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .message-reward button{
+    width:100%;
+  }
+}
+
+/* Small phones */
+@media (max-width:430px){
+  .page{
+    padding-left:8px;
+    padding-right:8px;
+  }
+  .summary-bar{
+    gap:6px;
+  }
+  .summary-bar b{
+    font-size:18px;
+  }
+
+  .battle-panel{
+    padding:14px 9px;
+  }
+  .pve-deck-actions{
+    grid-template-columns:1fr;
+  }
+  .battle-deck{
+    gap:6px;
+  }
+  .battle-deck-card,
+  .battle-empty-slot{
+    min-height:112px;
+  }
+  .battle-deck-card span,
+  .battle-deck-card b{
+    font-size:9px;
+  }
+  .battle-pick-card{
+    grid-template-columns:52px minmax(0,1fr);
+  }
+  .battle-pick-card strong{
+    grid-column:2;
+    justify-self:start;
+  }
+  .monster-choice{
+    grid-template-columns:62px minmax(0,1fr);
+    padding:8px;
+  }
+  .monster-choice img,
+  .monster-placeholder{
+    width:62px;
+    height:72px;
+  }
+
+  .pvp-deck-slots{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .pvp-grade-grid{
+    grid-template-columns:1fr!important;
+  }
+  .pvp-op-scores{
+    grid-template-columns:1fr;
+  }
+
+  .album-grid{
+    grid-template-columns:1fr;
+  }
+
+  .modal.show{
+    padding:5px;
+  }
+  .modal-panel{
+    width:calc(100vw - 10px);
+    max-width:calc(100vw - 10px);
+    max-height:calc(100dvh - 10px);
+    border-radius:14px;
+    padding-left:10px;
+    padding-right:10px;
+  }
+  .opening-panel h2{
+    font-size:clamp(20px,7vw,27px);
+  }
+
+  .raid-arena{
+    grid-template-columns:1fr 1fr;
+  }
+  .raid-stage-boss{
+    max-width:43vw!important;
+  }
+  .raid-attacker-card{
+    width:92px!important;
+  }
+  .raid-attacker-card .raid-main-attacker{
+    width:82px!important;
+    height:116px!important;
+  }
+  .raid-battle-stage.is-enraged:before{
+    max-width:calc(100% - 20px);
+    padding:7px 12px;
+    font-size:10px;
+    white-space:nowrap;
+  }
+}
