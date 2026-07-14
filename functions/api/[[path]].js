@@ -1705,19 +1705,170 @@ export async function onRequest(context){
         let settlement=existing;
         if(!settlement){await env.DB.prepare("INSERT INTO pvp_season_settlements(season_key,season_name,season_title,status,initial_score,participant_count,created_by) VALUES(?,?,?,'PREPARING',?,?,?)").bind(seasonKey,settings.seasonName,settings.seasonTitle||'',Number(settings.initialScore||1000),preview.length,admin.id).run();settlement=await env.DB.prepare('SELECT * FROM pvp_season_settlements WHERE season_key=?').bind(seasonKey).first()}
         const sid=Number(settlement.id);
-        try{
-          for(let offset=0;offset<preview.length;offset+=40){const chunk=preview.slice(offset,offset+40),stmts=chunk.map(x=>env.DB.prepare(`INSERT OR IGNORE INTO pvp_season_settlement_ranks(settlement_id,user_id,nickname,final_rank,season_score,highest_score,wins,losses,tier_id,tier_name,reward_coin,reward_shards) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(sid,x.user_id,x.nickname,x.final_rank,x.season_score,x.highest_score,x.wins,x.losses,x.tier?.id||'',x.tier?.name||'',x.rewardCoin,x.rewardShards));if(stmts.length)await env.DB.batch(stmts)}
-          const snap=await env.DB.prepare('SELECT COUNT(*) count FROM pvp_season_settlement_ranks WHERE settlement_id=?').bind(sid).first();if(Number(snap.count)!==preview.length)throw new Error(`최종 순위 스냅샷 검증 실패 (${snap.count}/${preview.length})`);
-          await env.DB.prepare("UPDATE pvp_season_settlements SET status='SNAPSHOTTED',participant_count=?,error_message=NULL WHERE id=?").bind(preview.length,sid).run();
-          const rewardRows=await env.DB.prepare('SELECT * FROM pvp_season_settlement_ranks WHERE settlement_id=? AND (reward_coin>0 OR reward_shards>0) ORDER BY final_rank').bind(sid).all();
-          let expectedMessages=0;
-          for(const r of rewardRows.results){for(const spec of [['COIN',Number(r.reward_coin||0)],['SHARDS',Number(r.reward_shards||0)]]){const [rewardType,amount]=spec;if(amount<=0)continue;expectedMessages++;await env.DB.prepare("INSERT OR IGNORE INTO pvp_season_settlement_deliveries(settlement_id,user_id,reward_type,reward_amount,status) VALUES(?,?,?,?,'RESERVED')").bind(sid,r.user_id,rewardType,amount).run();const delivery=await env.DB.prepare('SELECT * FROM pvp_season_settlement_deliveries WHERE settlement_id=? AND user_id=? AND reward_type=?').bind(sid,r.user_id,rewardType).first();if(delivery.status==='SENT')continue;const title=`${settings.seasonName} PvP 시즌 정산 보상`,unit=rewardType==='COIN'?'코인':'카드조각',bodyText=`${settings.seasonName} 최종 ${r.final_rank}위 (${r.tier_name}) 정산 보상입니다.\n\n${unit} ${amount.toLocaleString()}개\n\n아래 보상 수령 버튼을 눌러주세요.`;const batch=await env.DB.batch([env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'SYSTEM',?,?,'PVP_SEASON_REWARD')").bind(r.user_id,title,bodyText),env.DB.prepare("UPDATE pvp_season_settlement_deliveries SET message_id=last_insert_rowid(),status='SENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RESERVED'").bind(delivery.id),env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) SELECT message_id,user_id,reward_type,reward_amount FROM pvp_season_settlement_deliveries WHERE id=? AND status='SENT'").bind(delivery.id)]);if(!batch?.[1]?.meta?.changes)throw new Error(`보상 메시지 연결 실패: ${r.nickname} ${rewardType}`)}}}
-          const sent=await env.DB.prepare("SELECT COUNT(*) count FROM pvp_season_settlement_deliveries WHERE settlement_id=? AND status='SENT'").bind(sid).first();if(Number(sent.count)!==expectedMessages)throw new Error(`보상 메시지 검증 실패 (${sent.count}/${expectedMessages})`);
-          await env.DB.prepare("UPDATE pvp_season_settlements SET status='MESSAGES_READY',reward_user_count=?,message_count=?,error_message=NULL WHERE id=?").bind(rewardRows.results.length,expectedMessages,sid).run();
-          const reset=await env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=?,wins=0,losses=0,updated_at=CURRENT_TIMESTAMP').bind(Number(settings.initialScore||1000),Number(settings.initialScore||1000)).run();
-          const verify=await env.DB.prepare('SELECT COUNT(*) bad FROM pvp_profiles WHERE season_score<>? OR highest_score<>? OR wins<>0 OR losses<>0').bind(Number(settings.initialScore||1000),Number(settings.initialScore||1000)).first();if(Number(verify.bad)!==0)throw new Error(`시즌 랭킹 초기화 검증 실패 (${verify.bad}건)`);
-          await env.DB.prepare("UPDATE pvp_season_settlements SET status='COMPLETED',completed_at=CURRENT_TIMESTAMP,error_message=NULL WHERE id=?").bind(sid).run();await writeAdminLog(env,admin,'PVP_SEASON_SETTLEMENT','PVP_SEASON',settings.seasonName,null,{settlementId:sid,participants:preview.length,rewardUsers:rewardRows.results.length,messages:expectedMessages,resetProfiles:Number(reset.meta?.changes||0)});return json({ok:true,settlementId:sid,participants:preview.length,rewardUsers:rewardRows.results.length,messages:expectedMessages,resetProfiles:Number(reset.meta?.changes||0)});
-        }catch(error){await env.DB.prepare("UPDATE pvp_season_settlements SET status=CASE WHEN status='MESSAGES_READY' THEN status ELSE 'FAILED' END,error_message=? WHERE id=?").bind(String(error?.message||error).slice(0,500),sid).run();return json({error:`정산이 중단되었습니다: ${String(error?.message||error)}`},500)}
+        try {
+          // 1) 최종 순위 스냅샷 저장
+          for (let offset = 0; offset < preview.length; offset += 40) {
+            const chunk = preview.slice(offset, offset + 40);
+            const statements = chunk.map((row) =>
+              env.DB.prepare(`INSERT OR IGNORE INTO pvp_season_settlement_ranks(
+                settlement_id,user_id,nickname,final_rank,season_score,highest_score,
+                wins,losses,tier_id,tier_name,reward_coin,reward_shards
+              ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
+                sid,
+                row.user_id,
+                row.nickname,
+                row.final_rank,
+                row.season_score,
+                row.highest_score,
+                row.wins,
+                row.losses,
+                row.tier?.id || '',
+                row.tier?.name || '',
+                row.rewardCoin,
+                row.rewardShards
+              )
+            );
+            if (statements.length) await env.DB.batch(statements);
+          }
+
+          const snapshotCount = await env.DB
+            .prepare('SELECT COUNT(*) count FROM pvp_season_settlement_ranks WHERE settlement_id=?')
+            .bind(sid)
+            .first();
+          if (Number(snapshotCount.count) !== preview.length) {
+            throw new Error(`최종 순위 스냅샷 검증 실패 (${snapshotCount.count}/${preview.length})`);
+          }
+
+          await env.DB
+            .prepare("UPDATE pvp_season_settlements SET status='SNAPSHOTTED',participant_count=?,error_message=NULL WHERE id=?")
+            .bind(preview.length, sid)
+            .run();
+
+          // 2) 보상 메시지 생성 및 연결
+          const rewardRows = await env.DB
+            .prepare('SELECT * FROM pvp_season_settlement_ranks WHERE settlement_id=? AND (reward_coin>0 OR reward_shards>0) ORDER BY final_rank')
+            .bind(sid)
+            .all();
+
+          let expectedMessages = 0;
+          for (const row of rewardRows.results) {
+            const rewards = [
+              ['COIN', Number(row.reward_coin || 0)],
+              ['SHARDS', Number(row.reward_shards || 0)]
+            ];
+
+            for (const [rewardType, amount] of rewards) {
+              if (amount <= 0) continue;
+              expectedMessages += 1;
+
+              await env.DB
+                .prepare("INSERT OR IGNORE INTO pvp_season_settlement_deliveries(settlement_id,user_id,reward_type,reward_amount,status) VALUES(?,?,?,?,'RESERVED')")
+                .bind(sid, row.user_id, rewardType, amount)
+                .run();
+
+              const delivery = await env.DB
+                .prepare('SELECT * FROM pvp_season_settlement_deliveries WHERE settlement_id=? AND user_id=? AND reward_type=?')
+                .bind(sid, row.user_id, rewardType)
+                .first();
+
+              if (!delivery) throw new Error(`보상 예약 생성 실패: ${row.nickname} ${rewardType}`);
+              if (delivery.status === 'SENT') continue;
+
+              const title = `${settings.seasonName} PvP 시즌 정산 보상`;
+              const unit = rewardType === 'COIN' ? '코인' : '카드조각';
+              const bodyText = `${settings.seasonName} 최종 ${row.final_rank}위 (${row.tier_name}) 정산 보상입니다.\n\n${unit} ${amount.toLocaleString()}개\n\n아래 보상 수령 버튼을 눌러주세요.`;
+
+              const messageInsert = await env.DB
+                .prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'SYSTEM',?,?,'PVP_SEASON_REWARD')")
+                .bind(row.user_id, title, bodyText)
+                .run();
+
+              const messageId = Number(messageInsert.meta?.last_row_id || 0);
+              if (!messageId) throw new Error(`보상 메시지 생성 실패: ${row.nickname} ${rewardType}`);
+
+              await env.DB.batch([
+                env.DB
+                  .prepare("UPDATE pvp_season_settlement_deliveries SET message_id=?,status='SENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RESERVED'")
+                  .bind(messageId, delivery.id),
+                env.DB
+                  .prepare('INSERT OR IGNORE INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,?,?)')
+                  .bind(messageId, row.user_id, rewardType, amount)
+              ]);
+
+              const linked = await env.DB
+                .prepare("SELECT COUNT(*) count FROM pvp_season_settlement_deliveries WHERE id=? AND status='SENT' AND message_id=?")
+                .bind(delivery.id, messageId)
+                .first();
+              if (Number(linked.count) !== 1) {
+                throw new Error(`보상 메시지 연결 실패: ${row.nickname} ${rewardType}`);
+              }
+            }
+          }
+
+          const sent = await env.DB
+            .prepare("SELECT COUNT(*) count FROM pvp_season_settlement_deliveries WHERE settlement_id=? AND status='SENT'")
+            .bind(sid)
+            .first();
+          if (Number(sent.count) !== expectedMessages) {
+            throw new Error(`보상 메시지 검증 실패 (${sent.count}/${expectedMessages})`);
+          }
+
+          await env.DB
+            .prepare("UPDATE pvp_season_settlements SET status='MESSAGES_READY',reward_user_count=?,message_count=?,error_message=NULL WHERE id=?")
+            .bind(rewardRows.results.length, expectedMessages, sid)
+            .run();
+
+          // 3) 보상 메시지가 모두 준비된 뒤 PvP 시즌 기록만 초기화
+          const initialScore = Number(settings.initialScore || 1000);
+          const reset = await env.DB
+            .prepare('UPDATE pvp_profiles SET season_score=?,highest_score=?,wins=0,losses=0,updated_at=CURRENT_TIMESTAMP')
+            .bind(initialScore, initialScore)
+            .run();
+
+          const verify = await env.DB
+            .prepare('SELECT COUNT(*) bad FROM pvp_profiles WHERE season_score<>? OR highest_score<>? OR wins<>0 OR losses<>0')
+            .bind(initialScore, initialScore)
+            .first();
+          if (Number(verify.bad) !== 0) {
+            throw new Error(`시즌 랭킹 초기화 검증 실패 (${verify.bad}건)`);
+          }
+
+          await env.DB
+            .prepare("UPDATE pvp_season_settlements SET status='COMPLETED',completed_at=CURRENT_TIMESTAMP,error_message=NULL WHERE id=?")
+            .bind(sid)
+            .run();
+
+          await writeAdminLog(
+            env,
+            admin,
+            'PVP_SEASON_SETTLEMENT',
+            'PVP_SEASON',
+            settings.seasonName,
+            null,
+            {
+              settlementId: sid,
+              participants: preview.length,
+              rewardUsers: rewardRows.results.length,
+              messages: expectedMessages,
+              resetProfiles: Number(reset.meta?.changes || 0)
+            }
+          );
+
+          return json({
+            ok: true,
+            settlementId: sid,
+            participants: preview.length,
+            rewardUsers: rewardRows.results.length,
+            messages: expectedMessages,
+            resetProfiles: Number(reset.meta?.changes || 0)
+          });
+        } catch (error) {
+          await env.DB
+            .prepare("UPDATE pvp_season_settlements SET status=CASE WHEN status='MESSAGES_READY' THEN status ELSE 'FAILED' END,error_message=? WHERE id=?")
+            .bind(String(error?.message || error).slice(0, 500), sid)
+            .run();
+          return json({ error: `정산이 중단되었습니다: ${String(error?.message || error)}` }, 500);
+        }
       }
     }
 
