@@ -779,7 +779,7 @@ function showCriticalBurst(stage,bonus){
   if(navigator.vibrate) navigator.vibrate([70,40,140]);
 }
 function openingMarkup(pack,count){
-  return `<div class="modal-panel draw-stage opening-panel critical-opening-stage"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="pack-open pack-opening auto-opening" id="criticalTapZone">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div></div><p class="message opening-message" id="openingMessage">카드팩을 자동 개봉하고 있습니다...</p><div class="tap-progress auto-progress"><i id="tapProgress"></i></div><small class="tap-rule">크리티컬은 CMS 설정 확률에 따라 자동 판정됩니다.</small></div>`;
+  return `<div class="modal-panel draw-stage opening-panel critical-opening-stage"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="pack-open pack-opening auto-opening" id="criticalTapZone">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div></div><p class="message opening-message" id="openingMessage">카드팩을 자동 개봉하고 있습니다...</p><div class="tap-progress auto-progress"><i id="tapProgress"></i></div><small class="tap-rule">크리티컬은 일정 확률로 발동됩니다.</small></div>`;
 }
 async function runCriticalOpening(pack,count,requestDraw){
   const modal=document.getElementById('modal');
