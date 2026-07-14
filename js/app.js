@@ -806,7 +806,19 @@ async function runCriticalOpening(pack,count,requestDraw){
   await new Promise(r=>setTimeout(r,850));
   locked=true;zone.removeEventListener('pointerdown',tap);stage.classList.add('judging');message.textContent=taps>=5?'크리티컬 판정 중...':'일반 개봉 진행 중...';
   let data;
-  try{data=await requestDraw(taps)}catch(e){modal.className='modal';throw e}
+  try{
+    message.textContent=taps>=5?'크리티컬 판정 중...':'카드 결과를 불러오는 중...';
+    data=await Promise.race([
+      Promise.resolve().then(()=>requestDraw(taps)),
+      new Promise((_,reject)=>setTimeout(()=>reject(new Error('카드 개봉 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.')),12000))
+    ]);
+    if(!data||typeof data!=='object')throw new Error('카드 개봉 응답 형식이 올바르지 않습니다.');
+    if(API_MODE&&!Array.isArray(data.results))throw new Error('카드 개봉 결과를 불러오지 못했습니다.');
+  }catch(e){
+    modal.className='modal';
+    modal.innerHTML='';
+    throw e;
+  }
   await new Promise(r=>setTimeout(r,100));
   if(data.critical?.success){showCriticalBurst(stage,data.critical.bonus);message.textContent='CRITICAL! 가중치 보너스 적용!';await new Promise(r=>setTimeout(r,data.critical.effects===false?300:750));}
   else{zone.classList.add('tearing');message.textContent=data.critical?.eligible?'크리티컬은 발생하지 않았습니다.':'일반 개봉!';await new Promise(r=>setTimeout(r,350));}
@@ -828,8 +840,14 @@ openPack=async function(packId,count,cost){
   const pack=getPack(packId);
   try{
     const d=await runCriticalOpening(pack,count,tapCount=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,tapCount})}));
-    const next=apiUserToLocal(d.user);saveUser(next);renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);
-  }catch(e){alert(e.message)}
+    const next=apiUserToLocal(d.user);
+    saveUser(next);
+    await renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);
+  }catch(e){
+    const modal=document.getElementById('modal');
+    if(modal){modal.className='modal';modal.innerHTML='';}
+    alert(e.message||'카드 개봉 중 오류가 발생했습니다.');
+  }
 }
 const SPECIAL_REVEAL_ORDER={SSR:1,MA:2,FUR:3};
 function getTopSpecialResult(results=[]){
