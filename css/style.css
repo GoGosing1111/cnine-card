@@ -1381,3 +1381,103 @@ div{
     white-space:nowrap;
   }
 }
+
+
+/* =========================================================
+   v9.74 Mobile PVE/PVP deck compact one-row layout
+   ========================================================= */
+@media (max-width:760px){
+  /* PVE deck: keep all five cards visible in one row */
+  .battle-deck{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:5px!important;
+    margin:10px 0 14px!important;
+  }
+  .battle-deck-card,
+  .battle-empty-slot{
+    grid-column:auto!important;
+    min-height:0!important;
+    height:auto!important;
+    padding:5px 3px!important;
+    border-radius:12px!important;
+  }
+  .battle-deck-card img{
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1.08!important;
+    border-radius:9px!important;
+  }
+  .battle-deck-card span{
+    display:block!important;
+    margin-top:4px!important;
+    font-size:9px!important;
+    line-height:1.15!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  .battle-deck-card b{
+    display:block!important;
+    font-size:9px!important;
+    line-height:1.15!important;
+    white-space:nowrap!important;
+  }
+  .battle-empty-slot{
+    aspect-ratio:.78/1!important;
+  }
+
+  /* Keep action buttons on one compact row */
+  .pve-deck-actions{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+  .pve-deck-btn{
+    height:42px!important;
+    font-size:13px!important;
+  }
+
+  /* PVP deck also stays one row */
+  .pvp-deck-slots{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:5px!important;
+  }
+  .pvp-deck-slots>*{
+    min-height:0!important;
+    padding:4px!important;
+  }
+  .pvp-deck-slots img{
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:1/1.08!important;
+    object-fit:cover!important;
+  }
+  .pvp-deck-slots b,
+  .pvp-deck-slots span,
+  .pvp-deck-slots small{
+    font-size:8px!important;
+    line-height:1.15!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+}
+
+@media (max-width:430px){
+  .battle-deck,
+  .pvp-deck-slots{
+    gap:3px!important;
+  }
+  .battle-deck-card,
+  .battle-empty-slot,
+  .pvp-deck-slots>*{
+    padding:3px 2px!important;
+    border-radius:9px!important;
+  }
+  .battle-deck-card span,
+  .battle-deck-card b,
+  .pvp-deck-slots b,
+  .pvp-deck-slots span,
+  .pvp-deck-slots small{
+    font-size:7px!important;
+  }
+}
