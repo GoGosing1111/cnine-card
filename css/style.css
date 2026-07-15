@@ -1649,3 +1649,26 @@ div{
     display:block!important;
   }
 }
+
+
+/* v9.79 RAID enrage cleanup */
+.raid-enrage-flames,
+.is-enraged .raid-enrage-flames,
+.is-enraged .raid-enrage-flames::before,
+.is-enraged .raid-enrage-flames::after{
+  display:none!important;
+  content:none!important;
+  background:none!important;
+  border:0!important;
+  box-shadow:none!important;
+  animation:none!important;
+}
+.is-enraged .raid-boss-aura{
+  z-index:1;
+}
+.is-enraged .raid-enrage-skulls{
+  z-index:2;
+}
+.raid-stage-boss{
+  z-index:3;
+}

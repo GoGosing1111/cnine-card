@@ -1,26 +1,28 @@
-CNINE 유저 개방형 레이드 v9.78
+CNINE 레이드 서버 확정 보상 표시 v9.80
 
-기준: v9.76 세션 유지 버전
+해결 대상:
+- 실제 보상에 5,000코인이 없는데 결과 화면에 +5,000이 잠깐 표시되는 문제
+- 레이드 개방 비용과 보상 설정값이 화면 계산에 섞일 가능성
+- 설정 캐시값으로 보상을 미리 계산하는 구조
 
-주요 기능
-- CMS 레이드 설정 저장 버튼 오류 수정: admin/raid에서 body를 실제로 읽도록 수정
-- 저장 후 GET 재조회 검증
-- 보스별 유저 개방 허용/차단
-- 보스별 개방 코인 비용
-- 유저가 개방하면 자동 참가
-- 전체 서버 동시 레이드 1개
-- 모든 유저 KST 기준 하루 입장 1회
-- 성공/실패/중도 종료와 관계없이 당일 재입장 불가
-- 실패 시 코인 환불 없음
-- CMS 허용 보스만 유저 화면 노출
-- OWNER 수동 시작 기능 유지
+수정:
+- raid/status 서버가 참가자별 claimableReward를 계산하여 반환
+- 결과 화면은 claimableReward만 표시
+- 프런트에서 participationCoin / clearCoin / rewardShards 직접 계산 제거
+- 서버 확정값이 없으면 보상 숫자를 표시하지 않고 '확인 중' 처리
+- 보상 수령 버튼도 서버 확정값이 있을 때만 활성화
+- 개방 비용 openCost는 레이드 개방 화면에서만 사용
+- 보상 수령 전 유저 코인 잔액을 임시 증가시키는 코드 없음
+- 보상 수령 후에는 v9.79 방식대로 /me 재조회 및 실제 잔액 검증
 
-D1 안전
-- CREATE TABLE IF NOT EXISTS만 사용
-- raid_daily_entries 신규
-- raid_open_requests 신규
+포함:
+- v9.79 보상 원자성/중복 방지
+- v9.79 광폭화 중앙 빨간 원판 제거
+- functions/api/[[path]].js
+- js/app.js
+- css/style.css
+- index.html
+
+D1:
+- 신규 파괴 변경 없음
 - DROP/RENAME/기존 데이터 삭제 없음
-- 카드점수 랭킹/PvP/보유 카드 변경 없음
-
-적용
-functions/, admin/, js/, index.html 덮어쓰기
