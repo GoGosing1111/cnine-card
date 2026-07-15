@@ -204,7 +204,7 @@ async function loadRecentHighGradeFeed(){
     const data=await apiRequest('recent-high-grade');
     const items=Array.isArray(data.items)?data.items:[];
     if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 SSR 이상 획득 기록이 없습니다.</span>';return;}
-    const messages=items.map(item=>`<span class="high-grade-item grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');
+    const messages=items.map(item=>`<span class="high-grade-item grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b><span class="ticker-body"> 님이 ${escapeHtml(item.card_title)} </span><strong>[${escapeHtml(item.rarity)}]</strong><span class="ticker-body"> 카드를 획득했습니다.</span></span>`).join('');
     track.innerHTML=messages+messages;
     track.classList.toggle('static',items.length===1);
   }catch(error){track.innerHTML='<span class="high-grade-empty">획득 소식을 불러오지 못했습니다.</span>';}
