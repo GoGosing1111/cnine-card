@@ -1731,7 +1731,7 @@ export async function onRequest(context){
         FROM draw_logs d
         JOIN users u ON u.id=d.user_id
         JOIN cards c ON c.id=d.card_id
-        WHERE d.rarity IN ('UR','SSR','MA','FUR','LIMITED') AND u.status='ACTIVE'
+        WHERE d.rarity IN ('SSR','MA','FUR','LIMITED') AND u.status='ACTIVE'
         ORDER BY d.id DESC LIMIT 20`).all();
       return json({items:rows.results});
     }
