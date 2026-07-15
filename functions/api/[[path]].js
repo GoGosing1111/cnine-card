@@ -1026,6 +1026,26 @@ export async function onRequest(context){
     }
 
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
+
+    // 관리자 로그인은 일반 유저 profile() 생성과 런타임 업그레이드에 의존하지 않는다.
+    // OWNER 계정의 카드/로그 데이터가 많아도 인증 자체가 지연되지 않도록 최소 정보만 반환한다.
+    if(path==='admin/auth/login'&&request.method==='POST'){
+      const payload=await readBody(request);
+      const normalizedKey=String(payload.privateKey||'').trim().toUpperCase();
+      if(!normalizedKey)return json({error:'관리자 개인키를 입력하세요.'},400);
+      const privateKeyHash=await hash(normalizedKey);
+      const admin=await env.DB.prepare("SELECT id,nickname,role,status,banned_until,ban_reason,last_login_at FROM users WHERE private_key_hash=?").bind(privateKeyHash).first();
+      if(!admin)return json({error:'개인키가 올바르지 않습니다.'},401);
+      const role=String(admin.role||'').trim().toUpperCase();
+      if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(role))return json({error:'관리자 권한이 없는 계정입니다.'},403);
+      if(admin.status!=='ACTIVE'||(admin.banned_until&&new Date(String(admin.banned_until).replace(' ','T')+'Z')>new Date())){
+        return json({error:`이용이 정지된 계정입니다.${admin.ban_reason?' 사유: '+admin.ban_reason:''}`},403);
+      }
+      await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(admin.id).run();
+      const token=await makeSession(env,admin.id);
+      return json({token,user:{id:admin.id,nickname:admin.nickname,role},admin:{id:admin.id,nickname:admin.nickname,role,last_login_at:new Date().toISOString()}});
+    }
+
     await ensureUpgrades(env);
 
     if(path==='service/status'){
