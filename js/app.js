@@ -644,9 +644,15 @@ async function breakthroughCard(cardId){
 
 
 
+const PLAYER_TOKEN_KEY='cnine_card_api_token';
+function persistPlayerToken(token=''){
+  API_TOKEN=String(token||'');
+  try{if(API_TOKEN)localStorage.setItem(PLAYER_TOKEN_KEY,API_TOKEN);else localStorage.removeItem(PLAYER_TOKEN_KEY)}catch(_){}
+  try{if(API_TOKEN)sessionStorage.setItem(PLAYER_TOKEN_KEY,API_TOKEN);else sessionStorage.removeItem(PLAYER_TOKEN_KEY)}catch(_){}
+}
+function clearPlayerToken(){persistPlayerToken('')}
 function clearPlayerLogin() {
-  API_TOKEN = '';
-  localStorage.removeItem('cnine_card_api_token');
+  clearPlayerToken();
   localStorage.removeItem(STORAGE_KEY);
   LEGACY_STORAGE_KEYS.forEach(key => localStorage.removeItem(key));
 }
@@ -692,7 +698,7 @@ function showAccountPanel() {
 }
 
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
-let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||'';
+let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
 const API_CACHE_TTL={'cards':120000,'packs':60000,'pvp/config':30000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
@@ -731,7 +737,7 @@ async function apiRequest(path, options={}, config={}) {
       if(contentType.includes('application/json')){try{data=JSON.parse(text)}catch{throw new Error('서버 JSON 응답 형식이 올바르지 않습니다.')}}
       else{if(response.ok&&config.allowEmpty)return {};throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'API 경로 또는 Cloudflare Functions 연결을 확인해주세요.');}
     }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
-    if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data);throw error;}
+    if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;}
     if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
     if(!isGet){if(cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');}
     return data;
@@ -763,6 +769,19 @@ function renderMaintenance(m={},service={}){
   const login=document.getElementById('maintenanceLogin');if(login)login.onclick=()=>renderLogin();
 }
 function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:u.coin,cardShards:Number(u.cardShards??u.card_shards??old?.cardShards??0),owned:u.owned||[],quantities:u.quantities||{},breakthroughs:u.breakthroughs||{},history:Array.isArray(u.history)?u.history:(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},serverUserId:u.id,testCoinGrantedV13:true}}
+async function recoverPlayerSession(){
+  const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
+  if(!privateKey)return false;
+  try{
+    const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})});
+    persistPlayerToken(d.token);
+    saveUser(apiUserToLocal(d.user,privateKey));
+    return true;
+  }catch(error){
+    console.warn('자동 세션 복구 실패:',error);
+    return false;
+  }
+}
 async function init(){
   migrateLegacyUser();renderLoading();let authenticated=false;
   try{
@@ -776,10 +795,28 @@ async function init(){
     cards=cr.cards;applyServerPacks(pr.packs);
     if(API_TOKEN){
       try{
-        const [me,pc]=await Promise.all([apiRequest('me'),apiRequest('pvp/config')]);
-        saveUser(apiUserToLocal(me.user));authenticated=true;pvpFeatureEnabled=Boolean(pc.settings?.enabled||pc.bypass);
-      }catch{clearPlayerLogin();pvpFeatureEnabled=false;}
-    }else clearPlayerLogin();
+        const me=await apiRequest('me');
+        saveUser(apiUserToLocal(me.user));
+        authenticated=true;
+      }catch(error){
+        if(Number(error?.status)===401){
+          clearPlayerToken();
+          authenticated=await recoverPlayerSession();
+        }else{
+          console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);
+          authenticated=Boolean(loadUser());
+        }
+      }
+      if(authenticated){
+        try{const pc=await apiRequest('pvp/config');pvpFeatureEnabled=Boolean(pc.settings?.enabled||pc.bypass)}
+        catch(error){console.warn('PvP 설정 조회 실패 - 로그인은 유지합니다:',error);pvpFeatureEnabled=false}
+      }
+    }else{
+      authenticated=await recoverPlayerSession();
+      if(authenticated){
+        try{const pc=await apiRequest('pvp/config');pvpFeatureEnabled=Boolean(pc.settings?.enabled||pc.bypass)}catch{pvpFeatureEnabled=false}
+      }
+    }
   }catch(e){
     if(e?.message!=='API_OFFLINE')console.error(e);
     API_MODE=false;
@@ -788,7 +825,7 @@ async function init(){
   }
   setTimeout(()=>authenticated?renderShell('buy'):renderLogin(),100);
 }
-function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 관리자에게 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});API_TOKEN=d.token;localStorage.setItem('cnine_card_api_token',API_TOKEN);saveUser(apiUserToLocal(d.user,normalizedKey));if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
+function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 관리자에게 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 async function redeemCoupon(){

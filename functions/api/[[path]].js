@@ -729,8 +729,16 @@ async function authenticate(request,env){
   const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
   if(!raw) return null;
   const tokenHash=await hash(raw);
-  return env.DB.prepare(`SELECT u.* FROM sessions s JOIN users u ON u.id=s.user_id
+  const user=await env.DB.prepare(`SELECT u.*,s.expires_at AS session_expires_at FROM sessions s JOIN users u ON u.id=s.user_id
     WHERE s.token_hash=? AND s.expires_at>datetime('now') AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).bind(tokenHash).first();
+  if(!user)return null;
+  const expiresMs=Date.parse(String(user.session_expires_at||'').replace(' ','T')+'Z');
+  if(Number.isFinite(expiresMs)&&expiresMs-Date.now()<=7*24*60*60*1000){
+    const extended=new Date(Date.now()+30*24*60*60*1000).toISOString();
+    await env.DB.prepare('UPDATE sessions SET expires_at=? WHERE token_hash=?').bind(extended,tokenHash).run();
+    user.session_expires_at=extended;
+  }
+  return user;
 }
 async function makeSession(env,userId){
   const raw=createToken();
