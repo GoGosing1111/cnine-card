@@ -505,10 +505,31 @@ function raidCombatCard(card,extra=''){
 }
 function switchPveMode(mode){document.querySelectorAll('.pve-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.pveMode===mode));const hunt=document.getElementById('pveHuntView'),raid=document.getElementById('pveRaidView');if(hunt)hunt.hidden=mode==='raid';if(raid)raid.hidden=mode!=='raid';if(mode==='raid'){stopBattleEnergyTimer();loadRaidView();}else{stopRaidTimer();loadBattleView();}}
 async function loadRaidView(){const box=document.getElementById('pveRaidView');if(!box||box.hidden||document.hidden)return;try{const d=await apiRequest('raid/status',{}, {ttl:0});raidState.data=d;renderRaidView(d);scheduleRaidPoll(d)}catch(e){stopRaidTimer();box.innerHTML=`<section class="raid-empty"><h2>월드 레이드</h2><p>${escapeHtml(e.message)}</p></section>`;}}
+function nextRaidOpenAtFromSettings(settings,nowMs=Date.now()){
+  const s=settings||{};
+  if(String(s.scheduleMode||'ALWAYS').toUpperCase()!=='SCHEDULED')return null;
+  const days=(Array.isArray(s.openDays)?s.openDays:[]).map(Number).filter(day=>Number.isInteger(day)&&day>=0&&day<=6);
+  if(!days.length)return null;
+  const openTime=/^([01]\d|2[0-3]):[0-5]\d$/.test(String(s.openTime||''))?String(s.openTime):'20:00';
+  const nowKst=new Date(nowMs+9*3600000);
+  for(let add=0;add<8;add++){
+    const day=new Date(nowKst.getTime()+add*86400000);
+    if(!days.includes(day.getUTCDay()))continue;
+    const y=day.getUTCFullYear(),m=String(day.getUTCMonth()+1).padStart(2,'0'),d=String(day.getUTCDate()).padStart(2,'0');
+    const candidate=Date.parse(`${y}-${m}-${d}T${openTime}:00+09:00`);
+    if(candidate>nowMs)return new Date(candidate).toISOString();
+  }
+  return null;
+}
+function formatRaidOpenAt(value){
+  if(!value)return '';
+  const date=new Date(value);if(Number.isNaN(date.getTime()))return '';
+  return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',weekday:'short',hour:'numeric',minute:'2-digit'}).format(date);
+}
 function renderRaidView(d){
   const box=document.getElementById('pveRaidView');if(!box)return;
   const c=d.current,s=d.settings||{},schedule=d.schedule||{isOpen:true,canEnter:true};
-  if(!c){const closed=!schedule.isOpen,entryClosed=schedule.reason==='ENTRY_CLOSED',nextOpenText=closed&&schedule.nextOpenAt?new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'long',day:'numeric',weekday:'short',hour:'numeric',minute:'2-digit'}).format(new Date(schedule.nextOpenAt)):'';const scheduleText=nextOpenText?`<div class="raid-schedule-notice raid-next-open"><span>다음 개방</span><strong>${escapeHtml(nextOpenText)} (KST)</strong></div>`:'',bosses=d.availableBosses||[],used=Boolean(d.dailyEntryUsed);const statusMessage=closed?(entryClosed?'오늘 레이드 입장이 마감되었습니다.':'현재는 레이드 개방 시간이 아닙니다.'):(used?'오늘의 레이드 입장 횟수를 이미 사용했습니다.':'현재 개방 가능한 보스를 선택해 직접 레이드를 시작할 수 있습니다.');box.innerHTML=`<section class="raid-empty raid-empty-polished"><p class="eyebrow">USER OPEN RAID</p><h2>${escapeHtml(s.title||'월드 레이드')}</h2><p>${statusMessage}</p>${scheduleText}${bosses.length?`<div class="raid-open-boss-grid">${bosses.map(b=>`<article class="raid-open-boss">${b.image?`<img src="${escapeHtml(b.image)}" alt="">`:''}<h3>${escapeHtml(b.name)}</h3><p>개방 비용 <b>${Number(b.openCost||0).toLocaleString()} 코인</b></p><p>입장 기회는 성공·실패와 관계없이 하루 1회입니다.</p><button class="btn raidOpenBtn" data-boss-id="${b.id}" ${used||!schedule.canEnter?'disabled':''}>레이드 개방</button></article>`).join('')}</div>`:`<div class="raid-schedule-notice">현재 유저 개방이 허용된 보스가 없습니다.</div>`}</section>`;document.querySelectorAll('.raidOpenBtn').forEach(btn=>btn.onclick=()=>openRaid(Number(btn.dataset.bossId),btn));return;}
+  if(!c){const closed=!schedule.isOpen,entryClosed=schedule.reason==='ENTRY_CLOSED',bosses=d.availableBosses||[],used=Boolean(d.dailyEntryUsed);const nextOpenAt=schedule.nextOpenAt||nextRaidOpenAtFromSettings(s),nextOpenText=formatRaidOpenAt(nextOpenAt),showNextOpen=String(s.scheduleMode||'ALWAYS').toUpperCase()==='SCHEDULED'&&(closed||used);const scheduleText=showNextOpen&&nextOpenText?`<div class="raid-schedule-notice raid-next-open"><span>다음 개방</span><strong>${escapeHtml(nextOpenText)} (KST)</strong></div>`:'';const statusMessage=closed?(entryClosed?'오늘 레이드 입장이 마감되었습니다.':'현재는 레이드 개방 시간이 아닙니다.'):(used?'오늘의 레이드 입장 횟수를 이미 사용했습니다.':'현재 개방 가능한 보스를 선택해 직접 레이드를 시작할 수 있습니다.');box.innerHTML=`<section class="raid-empty raid-empty-polished"><p class="eyebrow">USER OPEN RAID</p><h2>${escapeHtml(s.title||'월드 레이드')}</h2><p>${statusMessage}</p>${scheduleText}${bosses.length?`<div class="raid-open-boss-grid">${bosses.map(b=>`<article class="raid-open-boss">${b.image?`<img src="${escapeHtml(b.image)}" alt="">`:''}<h3>${escapeHtml(b.name)}</h3><p>개방 비용 <b>${Number(b.openCost||0).toLocaleString()} 코인</b></p><p>입장 기회는 성공·실패와 관계없이 하루 1회입니다.</p><button class="btn raidOpenBtn" data-boss-id="${b.id}" ${used||!schedule.canEnter?'disabled':''}>레이드 개방</button></article>`).join('')}</div>`:`<div class="raid-schedule-notice">현재 유저 개방이 허용된 보스가 없습니다.</div>`}</section>`;document.querySelectorAll('.raidOpenBtn').forEach(btn=>btn.onclick=()=>openRaid(Number(btn.dataset.bossId),btn));return;}
   const joined=Boolean(d.me),remain=Math.max(0,Date.parse(c.startsAt)-Date.now()),sec=Math.ceil(remain/1000),hpPct=Math.max(0,Math.min(100,Number(c.currentHp)/Math.max(1,Number(c.maxHp))*100));
   const participants=d.participants||[],me=d.me||participants.find(x=>Number(x.userId)===Number(loadUser()?.serverUserId));
   const battle=c.status==='BATTLE',ended=c.status==='ENDED';
