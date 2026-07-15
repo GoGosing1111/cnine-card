@@ -302,7 +302,7 @@ async function ensureUpgrades(env){
     const retirementDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v940_card_retirement_refund'").first();
     if(retirementDone?.value!=='1'){
       for(const q of [
-        `CREATE TABLE IF NOT EXISTS card_retirement_batches (id INTEGER PRIMARY KEY AUTOINCREMENT, card_id TEXT NOT NULL UNIQUE, card_title TEXT NOT NULL, member_name TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'PENDING', refund_rate INTEGER NOT NULL DEFAULT 50, created_by INTEGER NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, finalized_at TEXT)`,
+        `CREATE TABLE IF NOT EXISTS card_retirement_batches (id INTEGER PRIMARY KEY AUTOINCREMENT, card_id TEXT NOT NULL UNIQUE, card_title TEXT NOT NULL, member_name TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'PENDING', refund_rate INTEGER NOT NULL DEFAULT 100, created_by INTEGER NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, finalized_at TEXT)`,
         `CREATE TABLE IF NOT EXISTS card_retirement_refunds (id INTEGER PRIMARY KEY AUTOINCREMENT, batch_id INTEGER NOT NULL, user_id INTEGER NOT NULL, breakthrough_level INTEGER NOT NULL DEFAULT 0, required_shards INTEGER NOT NULL DEFAULT 0, refund_shards INTEGER NOT NULL DEFAULT 0, message_id INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(batch_id,user_id))`,
         `CREATE INDEX IF NOT EXISTS idx_card_retirement_refunds_batch ON card_retirement_refunds(batch_id,user_id)`,
         `CREATE INDEX IF NOT EXISTS idx_card_retirement_batches_status ON card_retirement_batches(status,created_at)`
@@ -2256,8 +2256,8 @@ export async function onRequest(context){
       const card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.card_status,m.name AS member_name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first();
       if(!card)return json({error:'카드가 없습니다.'},404);
       const cfg=await breakthroughConfig(env),rows=await env.DB.prepare('SELECT user_id,COALESCE(breakthrough_level,0) AS breakthrough_level FROM user_cards WHERE card_id=?').bind(cardId).all();
-      const refunds=rows.results.map(r=>{const level=Math.max(0,Math.min(10,Number(r.breakthrough_level)||0));let required=0;for(let i=0;i<level;i++)required+=Number(cfg[card.rarity]?.[i]?.cost||0);return {userId:Number(r.user_id),level,requiredShards:required,refundShards:Math.floor(required*0.5)}}).filter(r=>r.refundShards>0);
-      const summary={cardId:card.id,title:card.title,memberName:card.member_name,grade:card.rarity,ownedUsers:rows.results.length,refundUsers:refunds.length,totalRequiredShards:refunds.reduce((n,r)=>n+r.requiredShards,0),totalRefundShards:refunds.reduce((n,r)=>n+r.refundShards,0),refundRate:50,status:card.card_status};
+      const refunds=rows.results.map(r=>{const level=Math.max(0,Math.min(10,Number(r.breakthrough_level)||0));let required=0;for(let i=0;i<level;i++)required+=Number(cfg[card.rarity]?.[i]?.cost||0);return {userId:Number(r.user_id),level,requiredShards:required,refundShards:required}}).filter(r=>r.refundShards>0);
+      const summary={cardId:card.id,title:card.title,memberName:card.member_name,grade:card.rarity,ownedUsers:rows.results.length,refundUsers:refunds.length,totalRequiredShards:refunds.reduce((n,r)=>n+r.requiredShards,0),totalRefundShards:refunds.reduce((n,r)=>n+r.refundShards,0),refundRate:100,status:card.card_status};
       if(action==='PREVIEW')return json({ok:true,summary});
       if(action==='QUEUE'){
         if(['RETIRE_PENDING','RETIRED'].includes(String(card.card_status||'')))return json({error:'이미 퇴사 처리 중이거나 완료된 카드입니다.'},409);
