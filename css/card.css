@@ -42,12 +42,12 @@
 .grade-LIMITED{--grade:#ffd66b;background:conic-gradient(from 0deg,#fff5b8,#ffb83d,#ff6b91,#9d7cff,#73e7ff,#fff5b8);animation:ssrBorder 1.35s linear infinite;box-shadow:0 0 38px rgba(255,210,90,.62),0 18px 48px rgba(0,0,0,.5)}
 .grade-LIMITED .card-header span{font-size:10px;letter-spacing:.7px;color:#fff4bd;text-shadow:0 0 10px rgba(255,211,86,.8)}
 
-/* 카드 전투력 유형 번개 표시 (유저 화면 전용) */
+/* v987: 카드 전투력 유형 별 표시 (유저 화면 전용) */
 .power-type-indicator{display:inline-block;margin-left:4px;font-style:normal;font-size:.72em;line-height:1;letter-spacing:-2px;vertical-align:1px;white-space:nowrap}
 .power-type-normal{color:#D1D5DB}
 .power-type-advanced{color:#FACC15}
 .power-type-top{color:#F59E0B}
 .detail-grade .power-type-indicator{margin-left:7px;font-size:.68em;letter-spacing:-1px;vertical-align:2px}
-.battle-deck-power-type{display:block;margin:3px 0 0;font-size:10px;letter-spacing:-2px}
-.fighter-power-type{display:block;margin:2px 0 0;font-size:8px;letter-spacing:-2px}
-@media(max-width:767px){.power-type-indicator{margin-left:2px;font-size:.64em;letter-spacing:-2px}.detail-grade .power-type-indicator{font-size:.62em}.battle-deck-power-type{font-size:9px}.fighter-power-type{font-size:7px}}
+.battle-deck-stars{display:block;margin:3px 0 0;font-size:10px;letter-spacing:-2px}
+.fighter-power-stars{display:block;margin:2px 0 0;font-size:8px;letter-spacing:-2px}
+@media(max-width:767px){.power-type-indicator{margin-left:2px;font-size:.64em;letter-spacing:-2px}.detail-grade .power-type-indicator{font-size:.62em}.battle-deck-stars{font-size:9px}.fighter-power-stars{font-size:7px}}
