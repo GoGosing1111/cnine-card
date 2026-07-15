@@ -302,7 +302,7 @@ async function ensureUpgrades(env){
     const retirementDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v940_card_retirement_refund'").first();
     if(retirementDone?.value!=='1'){
       for(const q of [
-        `CREATE TABLE IF NOT EXISTS card_retirement_batches (id INTEGER PRIMARY KEY AUTOINCREMENT, card_id TEXT NOT NULL UNIQUE, card_title TEXT NOT NULL, member_name TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'PENDING', refund_rate INTEGER NOT NULL DEFAULT 100, created_by INTEGER NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, finalized_at TEXT)`,
+        `CREATE TABLE IF NOT EXISTS card_retirement_batches (id INTEGER PRIMARY KEY AUTOINCREMENT, card_id TEXT NOT NULL UNIQUE, card_title TEXT NOT NULL, member_name TEXT NOT NULL DEFAULT '', status TEXT NOT NULL DEFAULT 'PENDING', refund_rate INTEGER NOT NULL DEFAULT 50, created_by INTEGER NOT NULL, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, finalized_at TEXT)`,
         `CREATE TABLE IF NOT EXISTS card_retirement_refunds (id INTEGER PRIMARY KEY AUTOINCREMENT, batch_id INTEGER NOT NULL, user_id INTEGER NOT NULL, breakthrough_level INTEGER NOT NULL DEFAULT 0, required_shards INTEGER NOT NULL DEFAULT 0, refund_shards INTEGER NOT NULL DEFAULT 0, message_id INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(batch_id,user_id))`,
         `CREATE INDEX IF NOT EXISTS idx_card_retirement_refunds_batch ON card_retirement_refunds(batch_id,user_id)`,
         `CREATE INDEX IF NOT EXISTS idx_card_retirement_batches_status ON card_retirement_batches(status,created_at)`
@@ -2261,12 +2261,12 @@ export async function onRequest(context){
       if(action==='PREVIEW')return json({ok:true,summary});
       if(action==='QUEUE'){
         if(['RETIRE_PENDING','RETIRED'].includes(String(card.card_status||'')))return json({error:'이미 퇴사 처리 중이거나 완료된 카드입니다.'},409);
-        const created=await env.DB.prepare("INSERT INTO card_retirement_batches(card_id,card_title,member_name,status,refund_rate,created_by) VALUES(?,?,?,'PENDING',50,?)").bind(card.id,card.title,card.member_name,admin.id).run();
+        const created=await env.DB.prepare("INSERT INTO card_retirement_batches(card_id,card_title,member_name,status,refund_rate,created_by) VALUES(?,?,?,'PENDING',100,?)").bind(card.id,card.title,card.member_name,admin.id).run();
         const batchId=created.meta.last_row_id;
         let sent=0;
         for(const r of refunds){
           const title=`${card.member_name} 퇴사 카드 조각 환급`;
-          const messageBody=`퇴사로 삭제 예정인 [${card.title}] 카드의 현재 강화 단계(★${r.level})까지 필요한 누적 재료를 기준으로 50%를 환급합니다.\n\n누적 필요 재료: ${r.requiredShards.toLocaleString()}개\n환급 카드 조각: ${r.refundShards.toLocaleString()}개\n\n실패한 강화 시도 횟수는 계산에 포함되지 않습니다.`;
+          const messageBody=`퇴사로 삭제 예정인 [${card.title}] 카드의 현재 강화 단계(★${r.level})까지 필요한 누적 재료를 기준으로 100%를 환급합니다.\n\n누적 필요 재료: ${r.requiredShards.toLocaleString()}개\n환급 카드 조각: ${r.refundShards.toLocaleString()}개\n\n실패한 강화 시도 횟수는 계산에 포함되지 않습니다.`;
           const m=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'SHARD_REWARD')").bind(r.userId,title,messageBody).run();
           await env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'SHARDS',?)").bind(m.meta.last_row_id,r.userId,r.refundShards).run();
           await env.DB.prepare('INSERT INTO card_retirement_refunds(batch_id,user_id,breakthrough_level,required_shards,refund_shards,message_id) VALUES(?,?,?,?,?,?)').bind(batchId,r.userId,r.level,r.requiredShards,r.refundShards,m.meta.last_row_id).run();sent++;
