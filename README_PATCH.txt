@@ -1,28 +1,28 @@
-CNINE 레이드 서버 확정 보상 표시 v9.80
+CNINE 유저 화면 운영용 문구 정리 v9.81
 
-해결 대상:
-- 실제 보상에 5,000코인이 없는데 결과 화면에 +5,000이 잠깐 표시되는 문제
-- 레이드 개방 비용과 보상 설정값이 화면 계산에 섞일 가능성
-- 설정 캐시값으로 보상을 미리 계산하는 구조
+기준: cnine-card(16).zip
 
-수정:
-- raid/status 서버가 참가자별 claimableReward를 계산하여 반환
-- 결과 화면은 claimableReward만 표시
-- 프런트에서 participationCoin / clearCoin / rewardShards 직접 계산 제거
-- 서버 확정값이 없으면 보상 숫자를 표시하지 않고 '확인 중' 처리
-- 보상 수령 버튼도 서버 확정값이 있을 때만 활성화
-- 개방 비용 openCost는 레이드 개방 화면에서만 사용
-- 보상 수령 전 유저 코인 잔액을 임시 증가시키는 코드 없음
-- 보상 수령 후에는 v9.79 방식대로 /me 재조회 및 실제 잔액 검증
+수정 원칙:
+- 유저 화면에 CMS, OWNER, ADMIN, D1, DB, API, Cloudflare Functions 등 내부 운영/개발 용어를 노출하지 않음
+- 관리자 CMS 내부와 서버 권한 판정 코드는 변경하지 않음
+- 내부 JSON 필드와 requestId 등 기능용 값은 호환성을 위해 유지하되 화면에 표시하지 않음
 
-포함:
-- v9.79 보상 원자성/중복 방지
-- v9.79 광폭화 중앙 빨간 원판 제거
-- functions/api/[[path]].js
+수정 내용:
+- PvP 티어 안내의 CMS 문구 제거
+- 일일 퀘스트 중지 안내의 CMS 문구 제거
+- 레이드 개방 안내의 CMS 문구 제거
+- D1/API/Cloudflare 연결 오류를 일반 서비스 안내로 변경
+- 인증 게시글 미설정 문구를 사용자 안내로 변경
+- OWNER/ADMIN 노출 오류를 일반 운영 계정 문구로 변경
+- 개인키 재발급 안내의 관리자 표현을 운영팀으로 변경
+- 레이드 보상 설명을 게임 문구로 변경
+
+포함 파일:
 - js/app.js
-- css/style.css
+- functions/api/[[path]].js
 - index.html
 
-D1:
-- 신규 파괴 변경 없음
-- DROP/RENAME/기존 데이터 삭제 없음
+검증:
+- node --check 통과
+- Cloudflare esbuild 파싱 통과
+- 지정된 사용자 노출 금지 문구 검사 통과
