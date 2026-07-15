@@ -108,3 +108,4 @@ aside{height:100vh;position:sticky;top:0;overflow-y:auto}
 .adminCard.cardDirty{outline:2px solid #ffb020;box-shadow:0 0 0 4px rgba(255,176,32,.14)}
 .adminCard.cardDirty .body:before{content:'수정됨';display:inline-block;margin-bottom:6px;padding:3px 7px;border-radius:999px;background:#ffb020;color:#111;font-size:11px;font-weight:900}
 @media(max-width:800px){.cardManageBar{top:0}.dirtyCardCount{width:100%}.saveAllCardsBtn{flex:1}}
+.captainTeamManageHead{margin-top:28px}.captainCmsTeam{display:grid;grid-template-columns:minmax(220px,1fr) minmax(150px,260px) auto;gap:10px;align-items:center;padding:12px;border-bottom:1px solid rgba(255,255,255,.09)}.captainCmsTeam b,.captainCmsTeam small{display:block}.captainCmsTeam small{margin-top:4px;opacity:.7}@media(max-width:800px){.captainCmsTeam{grid-template-columns:1fr}}
