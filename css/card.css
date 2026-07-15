@@ -51,3 +51,26 @@
 .battle-deck-stars{display:block;margin:3px 0 0;font-size:10px;letter-spacing:-2px}
 .fighter-power-stars{display:block;margin:2px 0 0;font-size:8px;letter-spacing:-2px}
 @media(max-width:767px){.power-type-indicator{margin-left:2px;font-size:.64em;letter-spacing:-2px}.detail-grade .power-type-indicator{font-size:.62em}.battle-deck-stars{font-size:9px}.fighter-power-stars{font-size:7px}}
+
+/* v990: mobile power type / breakthrough visibility */
+.card-status-line{display:flex;align-items:center;gap:5px;min-width:0;white-space:nowrap}
+.card-status-line .breakthrough-meta{color:#ffe27a;font-weight:1000;flex:0 0 auto}
+.card-status-line .card-grade-meta{color:#9fdcf5;font-weight:900;flex:0 0 auto}
+.card-status-line .card-list-power-type{margin-left:0;font-size:.82em;letter-spacing:-2px;flex:0 0 auto}
+.pvp-card-meta{display:flex;align-items:center;justify-content:flex-end;gap:5px;min-width:0}
+.pvp-card-meta em,.pvp-card-meta i{font-style:normal}
+.pvp-card-meta .breakthrough-meta{color:#ffe27a;font-weight:1000;flex:0 0 auto}
+.pvp-card-meta .pvp-power-type{margin-left:0;font-size:.8em;flex:0 0 auto}
+@media(max-width:767px){
+  .card-frame[class*="breakthrough-"] .breakthrough-badge{top:31px;left:7px;min-width:0;padding:4px 7px;font-size:10px;line-height:1;animation:none}
+  .card-frame[class*="breakthrough-"] .breakthrough-badge:before{margin-right:2px}
+  .card-status-line{gap:4px;overflow:visible;white-space:normal;flex-wrap:wrap;line-height:1.15}
+  .card-status-line .breakthrough-meta{order:1}
+  .card-status-line .card-grade-meta{order:2}
+  .card-status-line .card-list-power-type{order:3;font-size:.76em}
+  .pvp-card-extra{align-items:flex-start;white-space:normal}
+  .pvp-card-meta{flex-wrap:wrap;gap:3px 5px;line-height:1.15;text-align:right}
+  .pvp-card-meta .breakthrough-meta{order:1;width:100%}
+  .pvp-card-meta i{order:2}
+  .pvp-card-meta .pvp-power-type{order:3;font-size:.72em}
+}
