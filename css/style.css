@@ -97,6 +97,28 @@
   width:112px;min-width:112px;height:116px;isolation:isolate;color:var(--tier-color);
   overflow:visible;filter:drop-shadow(0 8px 10px rgba(0,0,0,.52));
 }
+
+/* v1021: ranking tier emblems stay readable on desktop and mobile */
+.tier-emblem.rank{width:72px;min-width:72px;height:70px;transform:none!important;margin:0;justify-content:center}
+.tier-emblem.rank .tier-stage{width:68px;height:58px}
+.tier-emblem.rank .tier-svg{width:59px;height:56px}
+.tier-emblem.rank .tier-aura{width:63px;height:52px}
+.tier-emblem.rank .tier-ring{width:52px;height:52px}
+.tier-emblem.rank .tier-ring-two{width:62px;height:62px}
+.tier-emblem.rank .tier-spark{display:none}
+.tier-emblem.rank em{position:absolute;bottom:-1px;max-width:70px;padding:2px 6px;font-size:9px;line-height:1}
+.rank-list-v2 .rank-list-row{grid-template-columns:38px 78px minmax(0,1fr) auto;min-height:88px}
+.rank-pvp-panel .pvp-rank-row,.pvp-ranking .pvp-rank-row{grid-template-columns:44px 78px minmax(0,1fr) 110px;min-height:96px}
+.rank-pvp-panel .pvp-my-rank,.pvp-my-rank{grid-template-columns:82px minmax(0,1fr);min-height:94px;overflow:visible}
+.pvp-tier-road-item .tier-emblem.small{transform:scale(.88);margin:-7px -8px -5px}
+@media(max-width:620px){
+  .tier-emblem.rank{width:64px;min-width:64px;height:64px}
+  .tier-emblem.rank .tier-stage{width:62px;height:54px}
+  .tier-emblem.rank .tier-svg{width:54px;height:51px}
+  .rank-list-v2 .rank-list-row{grid-template-columns:28px 66px minmax(0,1fr) auto;min-height:82px;gap:6px}
+  .rank-pvp-panel .pvp-rank-row,.pvp-ranking .pvp-rank-row{grid-template-columns:30px 66px minmax(0,1fr) 68px;min-height:86px;column-gap:6px}
+  .rank-pvp-panel .pvp-my-rank,.pvp-my-rank{grid-template-columns:70px minmax(0,1fr);min-height:86px}
+}
 .tier-emblem *{pointer-events:none}
 .tier-emblem .tier-stage{position:relative;width:104px;height:88px;display:grid;place-items:center;z-index:1}
 .tier-emblem .tier-aura{position:absolute;z-index:-4;left:50%;top:46%;width:88px;height:72px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(ellipse,color-mix(in srgb,var(--tier-color) 40%,transparent) 0,color-mix(in srgb,var(--tier-color) 17%,transparent) 42%,transparent 74%);opacity:.58}
@@ -1819,4 +1841,15 @@ div{
   .battle-card-fighter>.battle-fighter-card .card-footer small,.battle-card-fighter>.battle-fighter-card .card-mini-logo{display:none!important}
   .battle-card-fighter>.battle-fighter-card .breakthrough-badge{z-index:8!important;top:16px!important;right:3px!important;padding:2px 3px!important;font-size:5px!important}
   .battle-side>small{display:block!important;margin-top:9px!important;font-size:9px!important;letter-spacing:2px!important}
+}
+
+/* v1021 ranking layout overrides must follow legacy ranking rules */
+.rank-list-v2 .rank-list-row{grid-template-columns:38px 78px minmax(0,1fr) auto;min-height:88px}
+.rank-pvp-panel .pvp-rank-row,.pvp-ranking .pvp-rank-row{grid-template-columns:44px 78px minmax(0,1fr) 110px;min-height:96px}
+.rank-pvp-panel .pvp-my-rank,.pvp-my-rank{grid-template-columns:82px minmax(0,1fr);min-height:94px;overflow:visible}
+.pvp-tier-road-item .tier-emblem.small{transform:scale(.88)!important;margin:-7px -8px -5px}
+@media(max-width:620px){
+  .rank-list-v2 .rank-list-row{grid-template-columns:28px 66px minmax(0,1fr) auto;min-height:82px;gap:6px}
+  .rank-pvp-panel .pvp-rank-row,.pvp-ranking .pvp-rank-row{grid-template-columns:30px 66px minmax(0,1fr) 68px;min-height:86px;column-gap:6px}
+  .rank-pvp-panel .pvp-my-rank,.pvp-my-rank{grid-template-columns:70px minmax(0,1fr);min-height:86px}
 }
