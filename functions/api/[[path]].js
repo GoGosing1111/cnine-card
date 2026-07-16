@@ -1348,6 +1348,10 @@ export async function onRequest(context){
       if(current.status==='BATTLE'&&now>=endMs){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(hp,current.id).run();current.status='ENDED';}
       const result=cleared?'CLEAR':allDefeated?'FAILED':'TIMEOUT';
       const me=enriched.find(x=>Number(x.userId)===Number(user.id))||null;
+      // 대기실 이후의 전투·결과 정보는 실제 참가자에게만 공개한다.
+      if(current.status!=='LOBBY'&&!me){
+        return json({settings:cfg,schedule,dailyEntryUsed:todayEntryCount>=dailyEntryLimit,dailyEntry,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,participantCount:participants.length},participants:[],me:null,claimableReward:null,raidAccess:'NOT_PARTICIPANT',serverNow:new Date().toISOString()});
+      }
       let claimableReward=null;
       if(current.status==='ENDED'&&me&&Number(me.rewardClaimed||0)!==1){
         const rewardCfg=await raidRewardSnapshot(env,current.id,cfg,true);
