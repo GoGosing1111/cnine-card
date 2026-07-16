@@ -770,7 +770,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-const API_CACHE_TTL={'cards':120000,'packs':60000,'pvp/config':30000};
+const API_CACHE_TTL={'cards':120000,'packs':60000,'pvp/config':30000,'recent-high-grade':2000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
 function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.state||'').toUpperCase();const delay=state==='BATTLE'||state==='RUNNING'?2000:5000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
@@ -993,6 +993,7 @@ openPack=async function(packId,count,cost){
   drawRequestInFlight=true;
   try{
     const d=await runCriticalOpening(pack,count,()=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,requestId})}));
+    clearApiCache('recent-high-grade');
     const next=apiUserToLocal(d.user);
     saveUser(next);
     await renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);

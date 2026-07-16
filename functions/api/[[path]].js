@@ -13,6 +13,7 @@ const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','FUR','LIMITED'];
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
 const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,FUR:2600,LIMITED:2800};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450];
+let recentHighGradeCache=null;
 
 const SCORE_TIER_DEFAULT=[
   {id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false},
@@ -136,13 +137,6 @@ async function refreshRaidForOwner(env,instance,cfg){
 
 async function raidSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_settings_v1'").first();if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
 async function raidRewardSnapshot(env,instanceId,cfg,create=true){
-  await env.DB.prepare(`CREATE TABLE IF NOT EXISTS raid_reward_snapshots (
-    instance_id INTEGER PRIMARY KEY,
-    participation_coin INTEGER NOT NULL DEFAULT 0,
-    clear_coin INTEGER NOT NULL DEFAULT 0,
-    reward_shards INTEGER NOT NULL DEFAULT 0,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-  )`).run();
   if(create)await env.DB.prepare('INSERT OR IGNORE INTO raid_reward_snapshots(instance_id,participation_coin,clear_coin,reward_shards) VALUES(?,?,?,?)').bind(Number(instanceId),Math.max(0,Number(cfg.participationCoin||0)),Math.max(0,Number(cfg.clearCoin||0)),Math.max(0,Number(cfg.rewardShards||0))).run();
   const row=await env.DB.prepare('SELECT participation_coin AS participationCoin,clear_coin AS clearCoin,reward_shards AS rewardShards FROM raid_reward_snapshots WHERE instance_id=?').bind(Number(instanceId)).first();
   return row||{participationCoin:Math.max(0,Number(cfg.participationCoin||0)),clearCoin:Math.max(0,Number(cfg.clearCoin||0)),rewardShards:Math.max(0,Number(cfg.rewardShards||0))};
@@ -218,15 +212,21 @@ async function columnExists(env,table,column){
   return rows.results.some(row=>String(row.name)===String(column));
 }
 async function initialized(env){
+  if(initializedKnown)return true;
   if(!await tableExists(env,'app_meta')) return false;
   const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='initialized'").first();
-  return row?.value==='1';
+  initializedKnown=row?.value==='1';
+  return initializedKnown;
 }
 async function runSchema(env){for(const statement of SCHEMA) await env.DB.prepare(statement).run()}
+let initializedKnown=false;
 let upgradePromise=null;
 async function ensureUpgrades(env){
   if(upgradePromise) return upgradePromise;
   upgradePromise=(async()=>{
+    const performanceGate=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1019_performance_gate'").first();
+    if(performanceGate?.value==='1')return;
+    await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_logs_rarity_id ON draw_logs(rarity,id DESC)').run();
     // IMPORTANT: 운영 D1의 cards/user_cards 테이블은 절대 재생성·rename·drop 하지 않는다.
     // 한정판은 rarity가 아니라 limited_total 속성으로 처리한다.
 
@@ -574,7 +574,10 @@ async function ensureUpgrades(env){
     }
 
     const completed=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v848'").first();
-    if(completed?.value==='1') return;
+    if(completed?.value==='1'){
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1019_performance_gate','1',CURRENT_TIMESTAMP)").run();
+      return;
+    }
 
     const statements=[
       `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
@@ -644,7 +647,10 @@ async function ensureUpgrades(env){
       await env.DB.batch(chunk);
     }
 
-    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v848','1',CURRENT_TIMESTAMP)").run();
+    await env.DB.batch([
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v848','1',CURRENT_TIMESTAMP)"),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1019_performance_gate','1',CURRENT_TIMESTAMP)")
+    ]);
   })().catch(error=>{upgradePromise=null;throw error});
   return upgradePromise;
 }
@@ -863,23 +869,37 @@ async function makeSession(env,userId){
   return raw;
 }
 async function profile(env,user){
-  const owned=await env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all();
-  const attendance=await env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first();
-  const totalAttendance=await env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first();
-  const recent=await env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at
-    FROM draw_logs d JOIN cards c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all();
+  const [owned,attendance,totalAttendance,recent,attendanceConfig,breakthroughSettings]=await Promise.all([
+    env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
+    env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first(),
+    env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first(),
+    env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at FROM draw_logs d JOIN cards c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all(),
+    attendanceSettings(env),
+    breakthroughConfig(env)
+  ]);
   return {id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),role:user.role,
     owned:owned.results.map(row=>row.card_id),
     quantities:Object.fromEntries(owned.results.map(row=>[row.card_id,row.quantity])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[row.card_id,Number(row.breakthrough_level||0)])),
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
-    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:await attendanceSettings(env)},breakthroughConfig:await breakthroughConfig(env)};
+    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings};
 }
 function weightedPick(items,getWeight){
   const total=items.reduce((sum,item)=>sum+getWeight(item),0);
   let roll=Math.random()*total;
   for(const item of items){roll-=getWeight(item);if(roll<0)return item}
   return items.at(-1);
+}
+async function recentHighGradeItems(env){
+  const now=Date.now();
+  if(recentHighGradeCache&&recentHighGradeCache.expiresAt>now)return recentHighGradeCache.promise;
+  const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,d.created_at
+    FROM draw_logs d JOIN users u ON u.id=d.user_id JOIN cards c ON c.id=d.card_id
+    WHERE d.rarity IN ('SSR','MA','FUR','LIMITED') AND u.status='ACTIVE' ORDER BY d.id DESC LIMIT 20`).all()
+    .then(rows=>rows.results)
+    .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
+  recentHighGradeCache={promise,expiresAt:now+1000};
+  return promise;
 }
 async function drawLimitedCard(env){
   const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
@@ -919,7 +939,8 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
 }
 
 
-async function loadDrawContext(env,pack){
+const drawContextCache=new Map();
+async function queryDrawContext(env,pack){
   const allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>RARITIES.includes(rarity)&&rarity!=='LIMITED');
   const rateRows=(await env.DB.prepare("SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rate>0").bind(pack.id).all()).results;
   const normalCards=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
@@ -943,6 +964,13 @@ async function loadDrawContext(env,pack){
     limitedCards,
     poolsByGrade
   };
+}
+async function loadDrawContext(env,pack){
+  const key=String(pack.id),now=Date.now(),cached=drawContextCache.get(key);
+  if(cached&&cached.expiresAt>now)return cached.promise;
+  const promise=queryDrawContext(env,pack).catch(error=>{if(drawContextCache.get(key)?.promise===promise)drawContextCache.delete(key);throw error});
+  drawContextCache.set(key,{promise,expiresAt:now+1000});
+  return promise;
 }
 function drawNormalFromContext(ctx,pack,rarity){
   const pool=ctx.poolsByGrade.get(rarity)||[];
@@ -1212,17 +1240,6 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
-      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_request_receipts (
-        request_id TEXT PRIMARY KEY,
-        user_id INTEGER NOT NULL,
-        status TEXT NOT NULL DEFAULT 'PENDING',
-        cost INTEGER NOT NULL DEFAULT 0,
-        response_json TEXT,
-        error_message TEXT,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-      )`).run();
-      await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_request_receipts_user ON draw_request_receipts(user_id,created_at)').run();
       const prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       if(prior?.status==='COMPLETED'&&prior.response_json){
         try{return json(JSON.parse(prior.response_json))}catch{}
@@ -1314,6 +1331,7 @@ export async function onRequest(context){
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       const response={results,user:await profile(env,updated),pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},requestId};
       await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
+      recentHighGradeCache=null;
       return json(response);
       }catch(error){
         const message=String(error?.message||'카드 개봉 처리 중 오류가 발생했습니다.').slice(0,300);
@@ -1357,10 +1375,10 @@ export async function onRequest(context){
 
     if(path==='raid/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const cfg=await raidSettings(env),schedule=raidScheduleState(cfg,user),todayEntryCount=await raidDailyEntryCount(env,user.id),dailyEntryLimit=Math.max(1,Number(cfg.dailyEntries||1)),dailyEntry={count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount)};
+      const [cfg,todayEntryCount]=await Promise.all([raidSettings(env),raidDailyEntryCount(env,user.id)]),schedule=raidScheduleState(cfg,user),dailyEntryLimit=Math.max(1,Number(cfg.dailyEntries||1)),dailyEntry={count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount)};
       if(cfg.ownerOnlyTest&&user.role!=='OWNER')return json({error:'현재 레이드를 이용할 수 없습니다.'},403);
       const activeBefore=(await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id").all()).results;
-      for(const room of activeBefore)await refreshRaidForOwner(env,room,cfg);
+      await Promise.all(activeBefore.map(room=>refreshRaidForOwner(env,room,cfg)));
       const roomRows=(await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,ri.participant_count AS participantCount,rb.name AS bossName,rb.image_url AS bossImage,rb.max_hp AS maxHp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 10").all()).results;
       const rooms=roomRows.map((room,i)=>({...room,roomNumber:roomRows.length-i,joinable:room.status==='LOBBY'&&Date.parse(room.startsAt)>Date.now()&&Number(room.participantCount)<Number(cfg.maxParticipants||30)}));
       const requestedId=Math.max(0,Number(new URL(request.url).searchParams.get('instanceId')||0));
@@ -1472,19 +1490,6 @@ export async function onRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const cfg=await raidSettings(env);if(cfg.ownerOnlyTest&&user.role!=='OWNER')return json({error:'현재 레이드를 이용할 수 없습니다.'},403);
       const body=await readBody(request),instanceId=Number(body.instanceId||0);
-      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS raid_reward_receipts (
-        instance_id INTEGER NOT NULL,
-        user_id INTEGER NOT NULL,
-        status TEXT NOT NULL DEFAULT 'PENDING',
-        reward_coin INTEGER NOT NULL DEFAULT 0,
-        reward_shards INTEGER NOT NULL DEFAULT 0,
-        response_json TEXT,
-        error_message TEXT,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY(instance_id,user_id)
-      )`).run();
-
       const row=instanceId>0
         ?await env.DB.prepare("SELECT rp.id,rp.reward_claimed,ri.id AS instance_id,ri.status,ri.current_hp,rb.max_hp FROM raid_participants rp JOIN raid_instances ri ON ri.id=rp.instance_id JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE rp.user_id=? AND COALESCE(rp.is_active,1)=1 AND ri.id=? AND ri.status='ENDED' LIMIT 1").bind(user.id,instanceId).first()
         :await env.DB.prepare("SELECT rp.id,rp.reward_claimed,ri.id AS instance_id,ri.status,ri.current_hp,rb.max_hp FROM raid_participants rp JOIN raid_instances ri ON ri.id=rp.instance_id JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE rp.user_id=? AND COALESCE(rp.is_active,1)=1 AND ri.status='ENDED' ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();
@@ -1843,13 +1848,7 @@ export async function onRequest(context){
     }
 
     if(path==='recent-high-grade'){
-      const rows=await env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,d.created_at
-        FROM draw_logs d
-        JOIN users u ON u.id=d.user_id
-        JOIN cards c ON c.id=d.card_id
-        WHERE d.rarity IN ('SSR','MA','FUR','LIMITED') AND u.status='ACTIVE'
-        ORDER BY d.id DESC LIMIT 20`).all();
-      return json({items:rows.results});
+      return json({items:await recentHighGradeItems(env)});
     }
     if(path==='ranking'){
       const settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
