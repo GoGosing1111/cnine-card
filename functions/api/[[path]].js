@@ -127,7 +127,13 @@ async function raidRewardSnapshot(env,instanceId,cfg,create=true){
 }
 async function raidBossOpenPolicies(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_user_open_bosses_v1'").first();if(!row?.value)return {};try{const raw=JSON.parse(row.value),out={};for(const [id,v] of Object.entries(raw||{})){out[String(Number(id))]={enabled:v?.enabled===true,cost:Math.max(0,Math.min(100000000,Math.floor(Number(v?.cost)||0)))}}return out}catch{return {}}}
 function kstDateKey(now=Date.now()){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now))}
-async function raidDailyEntry(env,userId,dateKey=kstDateKey()){return env.DB.prepare('SELECT instance_id AS instanceId,created_at AS createdAt FROM raid_daily_entries WHERE user_id=? AND entry_date=? LIMIT 1').bind(userId,dateKey).first()}
+async function raidDailyEntryCount(env,userId,dateKey=kstDateKey()){
+  const [legacy,uses]=await Promise.all([
+    env.DB.prepare('SELECT COUNT(*) count FROM raid_daily_entries WHERE user_id=? AND entry_date=?').bind(userId,dateKey).first(),
+    env.DB.prepare('SELECT COUNT(*) count FROM raid_daily_entry_uses WHERE user_id=? AND entry_date=?').bind(userId,dateKey).first()
+  ]);
+  return Math.max(0,Number(legacy?.count||0)+Number(uses?.count||0));
+}
 async function raidDeckPower(env,userId,cardIds){let ids=[...new Set((cardIds||await pveDeckCards(env,userId)).map(String))];if(ids.length!==5){const e=new Error('저장된 PvE 덱 5장이 필요합니다.');e.status=400;throw e}const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(userId,...ids).all();if(owned.results.length!==5){const e=new Error('보유하지 않은 카드가 포함되어 있습니다.');e.status=400;throw e}const battleCfg=await battleSettings(env),power=owned.results.reduce((n,c)=>n+cardBattlePower(c,c.breakthrough_level,battleCfg),0);return {ids,power}}
 
 function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL.gif',durationMs:3000,coefficientPercent:500}]};}
@@ -221,6 +227,15 @@ async function ensureUpgrades(env){
         `CREATE INDEX IF NOT EXISTS idx_raid_open_requests_user ON raid_open_requests(user_id,created_at)`
       ]) await env.DB.prepare(q).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v978_raid_user_open','1',CURRENT_TIMESTAMP)").run();
+    }
+
+    const raidMultiEntryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1001_raid_multi_entry'").first();
+    if(raidMultiEntryDone?.value!=='1'){
+      for(const q of [
+        `CREATE TABLE IF NOT EXISTS raid_daily_entry_uses (id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,entry_date TEXT NOT NULL,instance_id INTEGER NOT NULL,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(user_id,entry_date,instance_id))`,
+        `CREATE INDEX IF NOT EXISTS idx_raid_daily_entry_uses_date ON raid_daily_entry_uses(entry_date,user_id)`
+      ]) await env.DB.prepare(q).run();
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1001_raid_multi_entry','1',CURRENT_TIMESTAMP)").run();
     }
 
     const pvpSettlementDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v968_pvp_settlement'").first();
@@ -1303,12 +1318,12 @@ export async function onRequest(context){
 
     if(path==='raid/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const cfg=await raidSettings(env),schedule=raidScheduleState(cfg,user),todayEntry=await raidDailyEntry(env,user.id);
+      const cfg=await raidSettings(env),schedule=raidScheduleState(cfg,user),todayEntryCount=await raidDailyEntryCount(env,user.id),dailyEntryLimit=Math.max(1,Number(cfg.dailyEntries||1)),dailyEntry={count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount)};
       if(cfg.ownerOnlyTest&&user.role!=='OWNER')return json({error:'현재 레이드를 이용할 수 없습니다.'},403);
       let current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").first();
       if(!current){current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id JOIN raid_participants rp ON rp.instance_id=ri.id AND rp.user_id=? WHERE ri.status='ENDED' AND rp.reward_claimed=0 ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();}
       current=await refreshRaidForOwner(env,current,cfg);
-      if(!current){const policies=await raidBossOpenPolicies(env),bossRows=await env.DB.prepare('SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,sort_order AS sortOrder FROM raid_bosses WHERE is_active=1 ORDER BY sort_order,id').all();const availableBosses=bossRows.results.filter(b=>policies[String(b.id)]?.enabled).map(b=>({...b,openCost:Number(policies[String(b.id)]?.cost||0)}));return json({settings:cfg,schedule,current:null,participants:[],me:null,availableBosses,dailyEntryUsed:Boolean(todayEntry),dailyEntry:todayEntry||null,serverNow:new Date().toISOString()});}
+      if(!current){const policies=await raidBossOpenPolicies(env),bossRows=await env.DB.prepare('SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,sort_order AS sortOrder FROM raid_bosses WHERE is_active=1 ORDER BY sort_order,id').all();const availableBosses=bossRows.results.filter(b=>policies[String(b.id)]?.enabled).map(b=>({...b,openCost:Number(policies[String(b.id)]?.cost||0)}));return json({settings:cfg,schedule,current:null,participants:[],me:null,availableBosses,dailyEntryUsed:todayEntryCount>=dailyEntryLimit,dailyEntry,serverNow:new Date().toISOString()});}
       // 전투가 status 조회 도중 종료된 경우에도, 이미 정산한 OWNER에게 결과 화면을 다시 노출하지 않는다.
       if(current.status==='ENDED'){
         const myRaidState=await env.DB.prepare('SELECT reward_claimed AS rewardClaimed FROM raid_participants WHERE instance_id=? AND user_id=? LIMIT 1').bind(current.id,user.id).first();
@@ -1341,7 +1356,7 @@ export async function onRequest(context){
         claimableReward={instanceId:Number(current.id),coin:rewardCoin,shards:rewardShards,participationCoin:Number(rewardCfg.participationCoin||0),clearCoin:cleared?Number(rewardCfg.clearCoin||0):0,cleared,source:'SERVER_CONFIRMED',snapshot:true};
       }
       const visibleParticipants=current.status==='LOBBY'?enriched.map((x,i)=>({anonymous:true,slot:i+1,nickname:`익명 참가자 ${String(i+1).padStart(2,'0')}`,cards:[],totalPower:0,shownDamage:0,isDefeated:false})):enriched;
-      return json({settings:cfg,schedule,dailyEntryUsed:Boolean(todayEntry),dailyEntry:todayEntry||null,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged:rage>1},participants:visibleParticipants,me,claimableReward,serverNow:new Date().toISOString()});
+      return json({settings:cfg,schedule,dailyEntryUsed:todayEntryCount>=dailyEntryLimit,dailyEntry,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged:rage>1},participants:visibleParticipants,me,claimableReward,serverNow:new Date().toISOString()});
     }
     if(path==='raid/open'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -1349,8 +1364,8 @@ export async function onRequest(context){
       const schedule=raidScheduleState(cfg,user);if(!schedule.canEnter)return json({error:schedule.reason==='ENTRY_CLOSED'?'레이드 입장 마감 시간이 지났습니다.':'현재는 레이드 개방 시간이 아닙니다.',schedule},403);
       const body=await readBody(request),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),bossId=Number(body.bossId||0),dateKey=kstDateKey();
       const prior=await env.DB.prepare('SELECT status,instance_id AS instanceId FROM raid_open_requests WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();if(prior?.status==='COMPLETED')return json({ok:true,instanceId:prior.instanceId,reused:true});if(prior)return json({error:'같은 레이드 개방 요청을 처리 중입니다.'},409);
-      const [active,entry,policies,boss,fresh]=await Promise.all([env.DB.prepare("SELECT id FROM raid_instances WHERE status IN ('LOBBY','BATTLE') LIMIT 1").first(),raidDailyEntry(env,user.id,dateKey),raidBossOpenPolicies(env),env.DB.prepare('SELECT * FROM raid_bosses WHERE id=? AND is_active=1').bind(bossId).first(),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
-      if(active)return json({error:'이미 진행 중인 레이드가 있습니다.'},409);if(entry)return json({error:'오늘의 레이드 입장 횟수를 이미 사용했습니다. 매일 00:00(KST)에 초기화됩니다.'},409);if(!boss)return json({error:'개방 가능한 레이드 보스를 찾을 수 없습니다.'},404);
+      const [active,entryCount,policies,boss,fresh]=await Promise.all([env.DB.prepare("SELECT id FROM raid_instances WHERE status IN ('LOBBY','BATTLE') LIMIT 1").first(),raidDailyEntryCount(env,user.id,dateKey),raidBossOpenPolicies(env),env.DB.prepare('SELECT * FROM raid_bosses WHERE id=? AND is_active=1').bind(bossId).first(),env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first()]);
+      if(active)return json({error:'이미 진행 중인 레이드가 있습니다.'},409);if(entryCount>=Number(cfg.dailyEntries||1))return json({error:`오늘의 레이드 입장 횟수 ${Number(cfg.dailyEntries||1)}회를 모두 사용했습니다. 매일 00:00(KST)에 초기화됩니다.`},409);if(!boss)return json({error:'개방 가능한 레이드 보스를 찾을 수 없습니다.'},404);
       const policy=policies[String(bossId)]||{};if(!policy.enabled&&user.role!=='OWNER')return json({error:'현재 개방할 수 없는 보스입니다.'},403);const cost=Math.max(0,Number(policy.cost||0));if(Number(fresh?.coin||0)<cost)return json({error:'레이드 개방에 필요한 코인이 부족합니다.'},400);
       let deck;try{deck=await raidDeckPower(env,user.id,body.cardIds)}catch(e){return json({error:e.message},e.status||400)}
       await env.DB.prepare("INSERT INTO raid_open_requests(request_id,user_id,boss_id,cost,status) VALUES(?,?,?,?,'PENDING')").bind(requestId,user.id,bossId,cost).run();
@@ -1362,7 +1377,7 @@ export async function onRequest(context){
       try{
         await env.DB.batch([
           env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost),
-          env.DB.prepare('INSERT INTO raid_daily_entries(user_id,entry_date,instance_id) VALUES(?,?,?)').bind(user.id,dateKey,instanceId),
+          env.DB.prepare('INSERT INTO raid_daily_entry_uses(user_id,entry_date,instance_id) VALUES(?,?,?)').bind(user.id,dateKey,instanceId),
           env.DB.prepare('INSERT INTO raid_participants(instance_id,user_id,deck_cards,total_power,total_damage,updated_at) VALUES(?,?,?,?,0,CURRENT_TIMESTAMP)').bind(instanceId,user.id,JSON.stringify(deck.ids),deck.power),
           env.DB.prepare('UPDATE raid_instances SET participant_count=1,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(instanceId),
           env.DB.prepare("UPDATE raid_open_requests SET instance_id=?,status='COMPLETED',updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(instanceId,requestId),
@@ -1375,11 +1390,11 @@ export async function onRequest(context){
     if(path==='raid/join'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const cfg=await raidSettings(env);if(!cfg.enabled)return json({error:'현재 레이드를 이용할 수 없습니다.'},503);if(cfg.ownerOnlyTest&&user.role!=='OWNER')return json({error:'현재 레이드를 이용할 수 없습니다.'},403);const schedule=raidScheduleState(cfg,user);if(!schedule.canEnter)return json({error:schedule.reason==='ENTRY_CLOSED'?'레이드 입장 마감 시간이 지났습니다.':'현재는 레이드 개방 시간이 아닙니다.',schedule},403);
-      const current=await env.DB.prepare("SELECT ri.*,rb.max_hp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status='LOBBY' ORDER BY ri.id DESC LIMIT 1").first();if(!current)return json({error:'현재 참가 가능한 레이드가 없습니다.'},404);
+      const current=await env.DB.prepare("SELECT ri.*,rb.max_hp FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status='LOBBY' ORDER BY ri.id DESC LIMIT 1").first();if(!current)return json({error:'현재 참가 가능한 레이드가 없습니다.'},404);if(Date.parse(current.starts_at||0)<=Date.now())return json({error:'레이드 전투가 이미 시작되어 중간 참여할 수 없습니다.'},409);
       const already=await env.DB.prepare('SELECT id FROM raid_participants WHERE instance_id=? AND user_id=?').bind(current.id,user.id).first();if(already)return json({ok:true,alreadyJoined:true,participantCount:Number(current.participant_count||0)});
-      if(Number(current.participant_count||0)>=Number(cfg.maxParticipants||30))return json({error:'레이드 참가 인원이 가득 찼습니다.'},409);const dateKey=kstDateKey(),entry=await raidDailyEntry(env,user.id,dateKey);if(entry)return json({error:'오늘의 레이드 입장 횟수를 이미 사용했습니다. 성공·실패와 관계없이 하루 1회만 입장할 수 있습니다.'},409);
+      if(Number(current.participant_count||0)>=Number(cfg.maxParticipants||30))return json({error:'레이드 참가 인원이 가득 찼습니다.'},409);const dateKey=kstDateKey(),entryCount=await raidDailyEntryCount(env,user.id,dateKey);if(entryCount>=Number(cfg.dailyEntries||1))return json({error:`오늘의 레이드 입장 횟수 ${Number(cfg.dailyEntries||1)}회를 모두 사용했습니다. 성공·실패와 관계없이 입장 시 1회 차감됩니다.`},409);
       const body=await readBody(request);let deck;try{deck=await raidDeckPower(env,user.id,body.cardIds)}catch(e){return json({error:e.message},e.status||400)}
-      try{await env.DB.batch([env.DB.prepare('INSERT INTO raid_daily_entries(user_id,entry_date,instance_id) VALUES(?,?,?)').bind(user.id,dateKey,current.id),env.DB.prepare('INSERT INTO raid_participants(instance_id,user_id,deck_cards,total_power,total_damage,updated_at) VALUES(?,?,?,?,0,CURRENT_TIMESTAMP)').bind(current.id,user.id,JSON.stringify(deck.ids),deck.power)]);}catch{return json({error:'오늘의 레이드 입장 횟수를 이미 사용했거나 참가 처리에 실패했습니다.'},409)}
+      try{await env.DB.batch([env.DB.prepare('INSERT INTO raid_daily_entry_uses(user_id,entry_date,instance_id) VALUES(?,?,?)').bind(user.id,dateKey,current.id),env.DB.prepare('INSERT INTO raid_participants(instance_id,user_id,deck_cards,total_power,total_damage,updated_at) VALUES(?,?,?,?,0,CURRENT_TIMESTAMP)').bind(current.id,user.id,JSON.stringify(deck.ids),deck.power)]);}catch{return json({error:'레이드 입장 기록 또는 참가 처리에 실패했습니다.'},409)}
       const count=await env.DB.prepare('SELECT COUNT(*) count FROM raid_participants WHERE instance_id=?').bind(current.id).first();await env.DB.prepare('UPDATE raid_instances SET participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(count.count||0),current.id).run();if(cfg.autoStartOnFull&&Number(count.count||0)>=Number(cfg.maxParticipants||30))await env.DB.prepare("UPDATE raid_instances SET starts_at=CURRENT_TIMESTAMP,ends_at=datetime('now', ?),updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(`+${Number(cfg.battleSeconds||120)} seconds`,current.id).run();return json({ok:true,totalPower:deck.power,participantCount:Number(count.count||0)});
     }
 
