@@ -214,7 +214,7 @@ async function loadRecentHighGradeFeed(){
 
 function packImagePath(pack) {
   const files = { basic: 'standard-pack.png', advanced: 'advanced-pack.png', premium: 'premium-pack.png', pickup: 'limited-pack.png' };
-  return `assets/ui/packs/${files[pack.id] || files[pack.theme] || files.basic}?v=994-new-pack-art`;
+  return `assets/ui/packs/${files[pack.id] || files[pack.theme] || files.basic}?v=995-transparent-pack-art`;
 }
 
 function packSelector() {
