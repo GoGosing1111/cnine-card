@@ -736,11 +736,17 @@ function parseWagoTodaySearchPosts(html,wagoNickname){
     const text=htmlText(block);
     // 와이고수 목록에서 오늘 작성글은 날짜 대신 HH:MM으로 표시된다.
     if(!/\b\d{1,2}:\d{2}\b/.test(text))continue;
-    if(/공지|notice|fixed/i.test(block))continue;
+    // 제목/카테고리에 "공지"가 들어간 일반 게시글까지 제외하면 안 된다.
+    // 실제 고정 공지는 tr 자체에 notice/fixed 클래스가 붙은 경우에만 제외한다.
+    const rowTag=(/<tr\b[^>]*>/i.exec(block)||[''])[0];
+    const rowClass=(/\bclass\s*=\s*['"]([^'"]*)['"]/i.exec(rowTag)||[])[1]||'';
+    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass))continue;
     const post=/href=['"](?:https?:\/\/(?:www\.)?ygosu\.com)?\/board\/soop\/(\d+)(?:[^'"]*)?['"]/i.exec(block);
     if(!post)continue;
     // 작성자 검색 결과가 부분 일치로 섞일 경우를 막기 위해 행 안 작성자 닉네임도 확인한다.
-    const nickMatch=/<(?:a|span)\b[^>]*(?:class=['"][^'"]*(?:nick|nickname|writer)[^'"]*['"]|onclick=['"][^'"]*show_nick_dropdown[^'"]*['"])[^>]*>([\s\S]*?)<\/(?:a|span)>/i.exec(block);
+    const nameCell=/<td\b[^>]*class=['"][^'"]*(?:name|writer|nickname)[^'"]*['"][^>]*>([\s\S]*?)<\/td>/i.exec(block);
+    const authorScope=nameCell?.[1]||block;
+    const nickMatch=/<(?:a|span)\b[^>]*(?:onclick=['"][^'"]*show_nick_dropdown[^'"]*['"]|class=['"][^'"]*(?:nick|nickname|writer)[^'"]*['"])[^>]*>([\s\S]*?)<\/(?:a|span)>/i.exec(authorScope);
     if(nickMatch){
       const rowNick=htmlText(nickMatch[1]).trim();
       if(rowNick&&rowNick!==wanted)continue;
@@ -764,6 +770,8 @@ async function inspectWagoDailyPosts(settings,wagoNickname){
     u.searchParams.set('search',nickname);
     if(page>1)u.searchParams.set('page',String(page));
     const result=await fetchWagoHtml(u.toString(),'SOOP 작성자 검색');if(!result.ok)return result;
+    // 차단/점검 페이지가 HTTP 200으로 반환될 때 이를 정상적인 0건으로 저장하지 않는다.
+    if(!/<table\b[^>]*class=['"][^'"]*bd_list[^'"]*['"]/i.test(result.html))return {ok:false,error:'SOOP 작성자 검색 결과를 읽을 수 없습니다. 게시판 점검 또는 외부 조회 차단 여부를 확인한 뒤 다시 시도하세요.'};
     const ids=parseWagoTodaySearchPosts(result.html,nickname);ids.forEach(id=>all.add(id));
     if(all.size>=Number(settings.requiredPosts||15))break;
     // 검색 결과가 더 이상 없으면 불필요한 추가 요청을 중단한다.
