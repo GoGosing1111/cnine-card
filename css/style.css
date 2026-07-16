@@ -1792,6 +1792,13 @@ div{
 @keyframes combatScreenKick{0%,100%{translate:0 0}20%{translate:-4px 2px}40%{translate:5px -2px}62%{translate:-2px -1px}80%{translate:2px 1px}}
 @media(max-width:800px){.battle-sound-toggle{right:7px;bottom:8px;padding:5px 7px;font-size:8px}.combat-hit-fx{left:70%;width:68px;height:68px}.combat-hit-fx.player{left:30%}.combat-hit-fx i{left:34px;top:34px;height:38px}.combat-hit-fx u{inset:21px}.combat-hit-fx.critical{width:100px;height:100px}.combat-hit-fx.critical i{left:50px;top:50px;height:58px}.combat-hit-fx.critical u{inset:28px}}
 
+/* v1017: user-controlled message soft delete */
+.user-message{position:relative;padding-right:78px}
+.message-delete{position:absolute;z-index:3;top:14px;right:14px;padding:7px 11px;border:1px solid rgba(255,112,126,.34);border-radius:9px;background:rgba(78,18,28,.56);color:#ffb4bd;font-size:11px;font-weight:900;cursor:pointer;transition:.16s border-color,.16s background,.16s color}
+.message-delete:hover{border-color:#ff7383;background:rgba(112,22,36,.8);color:#fff}
+.message-delete:disabled{opacity:.45;cursor:default}
+@media(max-width:760px){.user-message{padding:54px 14px 16px}.message-delete{top:12px;right:12px}}
+
 /* v1016: mobile combat cards keep the artwork readable */
 @media(max-width:800px){
   .battle-arena,.pvp-battle-stage .pvp-arena{grid-template-columns:minmax(0,1fr) 38px minmax(0,1fr)!important;left:6px!important;right:6px!important;gap:2px!important}

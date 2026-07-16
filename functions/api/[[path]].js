@@ -1778,7 +1778,15 @@ export async function onRequest(context){
       if(request.method==='GET'){const rows=await env.DB.prepare(`SELECT m.id,m.title,m.body,m.message_type,m.coupon_code,m.is_read,m.created_at,m.read_at,r.reward_type,r.reward_amount,r.claimed_at
         FROM user_messages m LEFT JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
         WHERE m.user_id=? AND m.hidden_at IS NULL ORDER BY m.id DESC LIMIT 100`).bind(user.id).all();return json({messages:rows.results,unread:rows.results.filter(x=>!x.is_read).length});}
-      if(request.method==='PATCH'){const body=await readBody(request),id=Number(body.id);await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(id,user.id).run();return json({ok:true});}
+      if(request.method==='PATCH'){
+        const body=await readBody(request),id=Number(body.id);if(!id)return json({error:'메시지 정보가 올바르지 않습니다.'},400);
+        if(String(body.action||'').toUpperCase()==='HIDE'){
+          const hidden=await env.DB.prepare('UPDATE user_messages SET hidden_at=CURRENT_TIMESTAMP,is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=? AND hidden_at IS NULL').bind(id,user.id).run();
+          if(!hidden.meta.changes)return json({error:'메시지를 찾을 수 없거나 이미 삭제했습니다.'},404);
+          return json({ok:true,messageDeleted:true});
+        }
+        await env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?').bind(id,user.id).run();return json({ok:true});
+      }
     }
     if(path==='messages/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
