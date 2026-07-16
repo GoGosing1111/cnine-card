@@ -113,6 +113,18 @@ async function refreshRaidForOwner(env,instance,cfg){
 }
 
 async function raidSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_settings_v1'").first();if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
+async function raidRewardSnapshot(env,instanceId,cfg,create=true){
+  await env.DB.prepare(`CREATE TABLE IF NOT EXISTS raid_reward_snapshots (
+    instance_id INTEGER PRIMARY KEY,
+    participation_coin INTEGER NOT NULL DEFAULT 0,
+    clear_coin INTEGER NOT NULL DEFAULT 0,
+    reward_shards INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`).run();
+  if(create)await env.DB.prepare('INSERT OR IGNORE INTO raid_reward_snapshots(instance_id,participation_coin,clear_coin,reward_shards) VALUES(?,?,?,?)').bind(Number(instanceId),Math.max(0,Number(cfg.participationCoin||0)),Math.max(0,Number(cfg.clearCoin||0)),Math.max(0,Number(cfg.rewardShards||0))).run();
+  const row=await env.DB.prepare('SELECT participation_coin AS participationCoin,clear_coin AS clearCoin,reward_shards AS rewardShards FROM raid_reward_snapshots WHERE instance_id=?').bind(Number(instanceId)).first();
+  return row||{participationCoin:Math.max(0,Number(cfg.participationCoin||0)),clearCoin:Math.max(0,Number(cfg.clearCoin||0)),rewardShards:Math.max(0,Number(cfg.rewardShards||0))};
+}
 async function raidBossOpenPolicies(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_user_open_bosses_v1'").first();if(!row?.value)return {};try{const raw=JSON.parse(row.value),out={};for(const [id,v] of Object.entries(raw||{})){out[String(Number(id))]={enabled:v?.enabled===true,cost:Math.max(0,Math.min(100000000,Math.floor(Number(v?.cost)||0)))}}return out}catch{return {}}}
 function kstDateKey(now=Date.now()){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now))}
 async function raidDailyEntry(env,userId,dateKey=kstDateKey()){return env.DB.prepare('SELECT instance_id AS instanceId,created_at AS createdAt FROM raid_daily_entries WHERE user_id=? AND entry_date=? LIMIT 1').bind(userId,dateKey).first()}
@@ -1323,11 +1335,13 @@ export async function onRequest(context){
       const me=enriched.find(x=>Number(x.userId)===Number(user.id))||null;
       let claimableReward=null;
       if(current.status==='ENDED'&&me&&Number(me.rewardClaimed||0)!==1){
-        const rewardCoin=Math.max(0,Number(cfg.participationCoin||0)+(cleared?Number(cfg.clearCoin||0):0));
-        const rewardShards=cleared?Math.max(0,Number(cfg.rewardShards||0)):0;
-        claimableReward={instanceId:Number(current.id),coin:rewardCoin,shards:rewardShards,cleared,source:'SERVER_CONFIRMED'};
+        const rewardCfg=await raidRewardSnapshot(env,current.id,cfg,true);
+        const rewardCoin=Math.max(0,Number(rewardCfg.participationCoin||0)+(cleared?Number(rewardCfg.clearCoin||0):0));
+        const rewardShards=cleared?Math.max(0,Number(rewardCfg.rewardShards||0)):0;
+        claimableReward={instanceId:Number(current.id),coin:rewardCoin,shards:rewardShards,participationCoin:Number(rewardCfg.participationCoin||0),clearCoin:cleared?Number(rewardCfg.clearCoin||0):0,cleared,source:'SERVER_CONFIRMED',snapshot:true};
       }
-      return json({settings:cfg,schedule,dailyEntryUsed:Boolean(todayEntry),dailyEntry:todayEntry||null,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged:rage>1},participants:enriched,me,claimableReward,serverNow:new Date().toISOString()});
+      const visibleParticipants=current.status==='LOBBY'?enriched.map((x,i)=>({anonymous:true,slot:i+1,nickname:`익명 참가자 ${String(i+1).padStart(2,'0')}`,cards:[],totalPower:0,shownDamage:0,isDefeated:false})):enriched;
+      return json({settings:cfg,schedule,dailyEntryUsed:Boolean(todayEntry),dailyEntry:todayEntry||null,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged:rage>1},participants:visibleParticipants,me,claimableReward,serverNow:new Date().toISOString()});
     }
     if(path==='raid/open'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -1344,6 +1358,7 @@ export async function onRequest(context){
       const created=await env.DB.prepare("INSERT INTO raid_instances(boss_id,status,starts_at,ends_at,current_hp,participant_count) SELECT ?,'LOBBY',?,?,?,0 WHERE NOT EXISTS (SELECT 1 FROM raid_instances WHERE status IN ('LOBBY','BATTLE'))").bind(bossId,startsAt,endsAt,boss.max_hp).run();
       if(!created.meta.changes){await env.DB.prepare("UPDATE raid_open_requests SET status='FAILED',updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(requestId).run();return json({error:'다른 유저가 먼저 레이드를 개방했습니다.'},409)}
       const instanceId=Number(created.meta.last_row_id);
+      await raidRewardSnapshot(env,instanceId,cfg,true);
       try{
         await env.DB.batch([
           env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost),
@@ -1397,9 +1412,9 @@ export async function onRequest(context){
       if(receipt?.status==='PENDING')return json({error:'레이드 보상을 정산 중입니다. 잠시 후 다시 확인해주세요.'},409);
       if(Number(row.reward_claimed||0)&&!receipt)return json({error:'이미 수령한 레이드 보상입니다.'},409);
 
-      const cleared=Number(row.current_hp||0)<=0;
-      const rewardCoin=Math.max(0,Number(cfg.participationCoin||0)+(cleared?Number(cfg.clearCoin||0):0));
-      const rewardShards=cleared?Math.max(0,Number(cfg.rewardShards||0)):0;
+      const cleared=Number(row.current_hp||0)<=0,rewardCfg=await raidRewardSnapshot(env,row.instance_id,cfg,true);
+      const rewardCoin=Math.max(0,Number(rewardCfg.participationCoin||0)+(cleared?Number(rewardCfg.clearCoin||0):0));
+      const rewardShards=cleared?Math.max(0,Number(rewardCfg.rewardShards||0)):0;
       const reserved=await env.DB.prepare("INSERT OR IGNORE INTO raid_reward_receipts(instance_id,user_id,status,reward_coin,reward_shards) VALUES(?,?,'PENDING',?,?)").bind(row.instance_id,user.id,rewardCoin,rewardShards).run();
       if(!reserved.meta.changes){
         const duplicate=await env.DB.prepare('SELECT status,response_json FROM raid_reward_receipts WHERE instance_id=? AND user_id=?').bind(row.instance_id,user.id).first();
@@ -2066,7 +2081,7 @@ export async function onRequest(context){
       if(request.method==='PATCH'&&payload.settings){const before=await raidSettings(env),clean=cleanRaidSettings({...payload.settings,dailyEntries:1});if(clean.minParticipants>clean.maxParticipants)return json({error:'최소 시작 인원은 최대 참가 인원보다 클 수 없습니다.'},400);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();const saved=await raidSettings(env);await writeAdminLog(env,admin,'RAID_SETTINGS_UPDATE','SETTINGS','raid',before,saved);return json({ok:true,settings:saved});}
       if(request.method==='POST'&&payload.action==='CREATE_BOSS'){const name=String(payload.name||'').trim().slice(0,40),image=String(payload.image||'').trim().slice(0,500),maxHp=Math.max(1,Math.floor(Number(payload.maxHp)||1)),defenseRate=Math.max(0,Math.min(99,Number(payload.defenseRate)||0)),sortOrder=Math.floor(Number(payload.sortOrder)||0);if(!name)return json({error:'레이드 보스 이름을 입력하세요.'},400);const r=await env.DB.prepare('INSERT INTO raid_bosses(name,image_url,max_hp,defense_rate,is_active,sort_order) VALUES(?,?,?,?,?,?)').bind(name,image,maxHp,defenseRate,payload.isActive===false?0:1,sortOrder).run();const policies=await raidBossOpenPolicies(env);policies[String(r.meta.last_row_id)]={enabled:payload.userOpenEnabled===true,cost:Math.max(0,Math.floor(Number(payload.openCost)||0))};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_user_open_bosses_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(policies)).run();await writeAdminLog(env,admin,'RAID_BOSS_CREATE','RAID_BOSS',String(r.meta.last_row_id),null,{name,maxHp});return json({ok:true,id:r.meta.last_row_id},201);}
       if(request.method==='PATCH'&&payload.boss){const b=payload.boss,id=Number(b.id);if(!id)return json({error:'보스 ID가 필요합니다.'},400);await env.DB.prepare('UPDATE raid_bosses SET name=?,image_url=?,max_hp=?,defense_rate=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(b.name||'').trim().slice(0,40),String(b.image||'').trim().slice(0,500),Math.max(1,Math.floor(Number(b.maxHp)||1)),Math.max(0,Math.min(99,Number(b.defenseRate)||0)),b.isActive===false?0:1,Math.floor(Number(b.sortOrder)||0),id).run();const policies=await raidBossOpenPolicies(env);policies[String(id)]={enabled:b.userOpenEnabled===true,cost:Math.max(0,Math.min(100000000,Math.floor(Number(b.openCost)||0)))};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_user_open_bosses_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(policies)).run();await writeAdminLog(env,admin,'RAID_BOSS_UPDATE','RAID_BOSS',String(id),null,b);return json({ok:true,boss:{...b,...policies[String(id)]}});}
-      if(request.method==='POST'&&payload.action==='START'){const bossId=Number(payload.bossId),boss=await env.DB.prepare('SELECT * FROM raid_bosses WHERE id=? AND is_active=1').bind(bossId).first();if(!boss)return json({error:'활성 레이드 보스를 선택하세요.'},400);const active=await env.DB.prepare("SELECT id FROM raid_instances WHERE status IN ('LOBBY','BATTLE') LIMIT 1").first();if(active)return json({error:'이미 진행 중인 레이드가 있습니다.'},409);const cfg=await raidSettings(env),schedule=raidScheduleState(cfg,admin);if(!schedule.isOpen)return json({error:'현재는 CMS에서 설정한 레이드 개방 시간이 아닙니다.',schedule},403);const startsAt=new Date(Date.now()+cfg.lobbySeconds*1000).toISOString(),endsAt=new Date(Date.now()+(cfg.lobbySeconds+cfg.battleSeconds)*1000).toISOString(),r=await env.DB.prepare("INSERT INTO raid_instances(boss_id,status,starts_at,ends_at,current_hp,participant_count) VALUES(?,'LOBBY',?,?,?,0)").bind(bossId,startsAt,endsAt,boss.max_hp).run();await writeAdminLog(env,admin,'RAID_START','RAID_INSTANCE',String(r.meta.last_row_id),null,{bossId});return json({ok:true,id:r.meta.last_row_id});}
+      if(request.method==='POST'&&payload.action==='START'){const bossId=Number(payload.bossId),boss=await env.DB.prepare('SELECT * FROM raid_bosses WHERE id=? AND is_active=1').bind(bossId).first();if(!boss)return json({error:'활성 레이드 보스를 선택하세요.'},400);const active=await env.DB.prepare("SELECT id FROM raid_instances WHERE status IN ('LOBBY','BATTLE') LIMIT 1").first();if(active)return json({error:'이미 진행 중인 레이드가 있습니다.'},409);const cfg=await raidSettings(env),schedule=raidScheduleState(cfg,admin);if(!schedule.isOpen)return json({error:'현재는 CMS에서 설정한 레이드 개방 시간이 아닙니다.',schedule},403);const startsAt=new Date(Date.now()+cfg.lobbySeconds*1000).toISOString(),endsAt=new Date(Date.now()+(cfg.lobbySeconds+cfg.battleSeconds)*1000).toISOString(),r=await env.DB.prepare("INSERT INTO raid_instances(boss_id,status,starts_at,ends_at,current_hp,participant_count) VALUES(?,'LOBBY',?,?,?,0)").bind(bossId,startsAt,endsAt,boss.max_hp).run();await raidRewardSnapshot(env,Number(r.meta.last_row_id),cfg,true);await writeAdminLog(env,admin,'RAID_START','RAID_INSTANCE',String(r.meta.last_row_id),null,{bossId});return json({ok:true,id:r.meta.last_row_id});}
       if(request.method==='POST'&&payload.action==='END'){const id=Number(payload.instanceId);if(!id)return json({error:'진행 중 레이드가 없습니다.'},400);await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(id).run();await writeAdminLog(env,admin,'RAID_FORCE_END','RAID_INSTANCE',String(id),null,null);return json({ok:true});}
     }
 
