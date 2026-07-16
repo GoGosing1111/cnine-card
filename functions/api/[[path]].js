@@ -1316,7 +1316,9 @@ export async function onRequest(context){
       const rage=cfg.enrageEnabled&&bossHpPct*100<=Number(cfg.enrageHpPercent||30)?Number(cfg.enrageMultiplier||1.6):1;
       const enriched=participants.map(x=>{const maxHp=Math.max(1,Math.floor(Number(x.totalPower||0)*Number(cfg.deckHpMultiplier||12)));const variance=1+(((Number(x.userId||0)%31)-15)/100)*(Number(cfg.bossAttackVariance||0)/15);const taken=Math.floor(attackTicks*Number(cfg.bossAttackPower||850)*variance*rage);const currentHp=Math.max(0,maxHp-taken);return {...x,shownDamage:Math.floor(Number(x.totalDamage||0)*progress),maxHp,currentHp,isDefeated:currentHp<=0,cards:x.deckCards.map(id=>cardMap[String(id)]).filter(Boolean)};});
       const allDefeated=enriched.length>0&&enriched.every(x=>x.isDefeated),cleared=hp<=0;
-      if(current.status==='BATTLE'&&(allDefeated||cleared||now>=endMs)){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(hp,current.id).run();current.status='ENDED';}
+      // HP가 먼저 0이 되어도 설정된 전투 종료 시각까지 전투 화면을 유지한다.
+      // 최종 CLEAR / FAILED / TIMEOUT 판정은 타이머 종료 후 한 번만 확정한다.
+      if(current.status==='BATTLE'&&now>=endMs){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(hp,current.id).run();current.status='ENDED';}
       const result=cleared?'CLEAR':allDefeated?'FAILED':'TIMEOUT';
       const me=enriched.find(x=>Number(x.userId)===Number(user.id))||null;
       let claimableReward=null;
