@@ -60,6 +60,7 @@
     box.innerHTML=`
     <section class="tower-hero ${f.isBoss?'boss-ready':''}">
       <div class="tower-hero-copy"><p class="eyebrow">INFINITE TOWER</p><h2>${esc(d.season.name)}</h2><p>저장된 PVE 덱 5장으로 끝없이 올라가세요. 궁극기는 발동하지 않습니다.</p></div>
+      <div class="tower-hero-art" aria-hidden="true"><span class="tower-spire"></span><span class="tower-body"></span><span class="tower-base"></span><i></i><i></i><i></i></div>
       <div class="tower-season-clock"><span>시즌 종료</span><b>${d.season.endsAt?new Date(d.season.endsAt).toLocaleDateString('ko-KR'):'미정'}</b></div>
     </section>
     <section class="tower-overview">
