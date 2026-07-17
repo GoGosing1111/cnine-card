@@ -215,6 +215,7 @@ const CUBE_CODES=['NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'];
 function defaultCubeSettings(){return {NORMAL_CUBE:{C:45,U:30,R:18,SR:7},ADVANCED_CUBE:{HR:55,UR:30,SSR:15},PREMIUM_CUBE:{MA:70,FUR:20,LIMITED:10}};}
 function cleanCubeSettings(raw={}){const base=defaultCubeSettings(),out={};for(const code of CUBE_CODES){out[code]={};for(const grade of Object.keys(base[code]))out[code][grade]=Math.max(0,Math.min(100,Number(raw?.[code]?.[grade]??base[code][grade])||0));const total=Object.values(out[code]).reduce((a,b)=>a+b,0);if(Math.abs(total-100)>.001)out[code]=base[code];}return out;}
 async function cubeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='inventory_cube_settings_v1'").first();try{return cleanCubeSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeSettings()}}
+async function towerSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tower_settings_v1'").first();if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
 function previousKstDate(date){const d=new Date(`${date}T00:00:00+09:00`);d.setDate(d.getDate()-1);return new Date(d.getTime()+9*3600000).toISOString().slice(0,10);}
 
 const safeName=value=>(value||'').trim().slice(0,20);
@@ -318,6 +319,13 @@ async function ensureUpgrades(env){
         env.DB.prepare(`INSERT OR IGNORE INTO tower_monsters(id,name,image_url,base_power,is_boss,sort_order) VALUES(1,'탑의 수문장','',4500,0,1)`),
         env.DB.prepare(`INSERT OR IGNORE INTO tower_monsters(id,name,image_url,base_power,is_boss,sort_order) VALUES(2,'심연의 층주','',12000,1,2)`),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1038_infinite_tower','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+    const towerSettingsDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1039_tower_settings'").first();
+    if(!towerSettingsDone){
+      await env.DB.batch([
+        env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('tower_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({enabled:true})),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1039_tower_settings','1',CURRENT_TIMESTAMP)")
       ]);
     }
     const performanceGate=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1019_performance_gate'").first();
@@ -1787,8 +1795,10 @@ export async function onRequest(context){
     }
 
 
+    if(path==='tower/config'&&request.method==='GET'){const settings=await towerSettings(env);return json(settings);}
     if(path==='tower/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const towerConfig=await towerSettings(env);if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
       const season=await env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
       if(!season)return json({active:false});
       await env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id).run();
@@ -1804,6 +1814,7 @@ export async function onRequest(context){
     }
     if(path==='tower/fight'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const towerConfig=await towerSettings(env);if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
       const season=await env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();if(!season)return json({error:'진행 중인 무한의탑 시즌이 없습니다.'},404);
       await env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id).run();
       const progress=await env.DB.prepare('SELECT * FROM tower_user_progress WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();const floorNo=Math.max(1,Number(progress.current_floor||1));
@@ -1819,11 +1830,12 @@ export async function onRequest(context){
     if(path==='admin/tower'){
       const admin=await requirePermission(request,env,'BATTLE_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){
-        const seasons=(await env.DB.prepare('SELECT * FROM tower_seasons ORDER BY id DESC').all()).results;const monsters=(await env.DB.prepare('SELECT * FROM tower_monsters ORDER BY sort_order,id').all()).results;const floors=(await env.DB.prepare('SELECT tf.*,tm.name monster_name FROM tower_floors tf LEFT JOIN tower_monsters tm ON tm.id=tf.monster_id ORDER BY tf.season_id DESC,tf.floor_no').all()).results;const ranking=(await env.DB.prepare("SELECT s.name season_name,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN tower_seasons s ON s.id=p.season_id JOIN users u ON u.id=p.user_id WHERE s.status='ACTIVE' ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 100").all()).results;return json({seasons,monsters,floors,ranking});
+        const settings=await towerSettings(env);const seasons=(await env.DB.prepare('SELECT * FROM tower_seasons ORDER BY id DESC').all()).results;const monsters=(await env.DB.prepare('SELECT * FROM tower_monsters ORDER BY sort_order,id').all()).results;const floors=(await env.DB.prepare('SELECT tf.*,tm.name monster_name FROM tower_floors tf LEFT JOIN tower_monsters tm ON tm.id=tf.monster_id ORDER BY tf.season_id DESC,tf.floor_no').all()).results;const ranking=(await env.DB.prepare("SELECT s.name season_name,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN tower_seasons s ON s.id=p.season_id JOIN users u ON u.id=p.user_id WHERE s.status='ACTIVE' ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 100").all()).results;return json({settings,seasons,monsters,floors,ranking});
       }
       if(request.method==='POST'){
         const b=await readBody(request),action=String(b.action||'');
-        if(action==='SAVE_SEASON'){if(b.id)await env.DB.prepare('UPDATE tower_seasons SET name=?,status=?,starts_at=?,ends_at=?,max_floor=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(b.name||'무한의탑 시즌'),String(b.status||'ACTIVE'),b.startsAt||null,b.endsAt||null,Math.max(1,Number(b.maxFloor||100)),Number(b.id)).run();else await env.DB.prepare('INSERT INTO tower_seasons(name,status,starts_at,ends_at,max_floor) VALUES(?,?,?,?,?)').bind(String(b.name||'무한의탑 시즌'),String(b.status||'ACTIVE'),b.startsAt||null,b.endsAt||null,Math.max(1,Number(b.maxFloor||100))).run();}
+        if(action==='SAVE_SETTINGS'){await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('tower_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({enabled:b.enabled!==false})).run();}
+        else if(action==='SAVE_SEASON'){if(b.id)await env.DB.prepare('UPDATE tower_seasons SET name=?,status=?,starts_at=?,ends_at=?,max_floor=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(b.name||'무한의탑 시즌'),String(b.status||'ACTIVE'),b.startsAt||null,b.endsAt||null,Math.max(1,Number(b.maxFloor||100)),Number(b.id)).run();else await env.DB.prepare('INSERT INTO tower_seasons(name,status,starts_at,ends_at,max_floor) VALUES(?,?,?,?,?)').bind(String(b.name||'무한의탑 시즌'),String(b.status||'ACTIVE'),b.startsAt||null,b.endsAt||null,Math.max(1,Number(b.maxFloor||100))).run();}
         else if(action==='SAVE_MONSTER'){if(b.id)await env.DB.prepare('UPDATE tower_monsters SET name=?,image_url=?,base_power=?,is_boss=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(b.name||''),String(b.imageUrl||''),Math.max(1,Number(b.basePower||1)),b.isBoss?1:0,b.isActive===false?0:1,Number(b.sortOrder||0),Number(b.id)).run();else await env.DB.prepare('INSERT INTO tower_monsters(name,image_url,base_power,is_boss,is_active,sort_order) VALUES(?,?,?,?,?,?)').bind(String(b.name||''),String(b.imageUrl||''),Math.max(1,Number(b.basePower||1)),b.isBoss?1:0,b.isActive===false?0:1,Number(b.sortOrder||0)).run();}
         else if(action==='SAVE_FLOOR'){await env.DB.prepare('INSERT INTO tower_floors(season_id,floor_no,monster_id,power_override,reward_coin,is_boss,is_active) VALUES(?,?,?,?,?,?,?) ON CONFLICT(season_id,floor_no) DO UPDATE SET monster_id=excluded.monster_id,power_override=excluded.power_override,reward_coin=excluded.reward_coin,is_boss=excluded.is_boss,is_active=excluded.is_active,updated_at=CURRENT_TIMESTAMP').bind(Number(b.seasonId),Number(b.floorNo),Number(b.monsterId),b.powerOverride?Number(b.powerOverride):null,Math.max(0,Number(b.rewardCoin||0)),b.isBoss?1:0,b.isActive===false?0:1).run();}
         else if(action==='START_NEW_SEASON'){await env.DB.prepare("UPDATE tower_seasons SET status='CLOSED',updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'").run();await env.DB.prepare("INSERT INTO tower_seasons(name,status,starts_at,ends_at,max_floor) VALUES(?,'ACTIVE',CURRENT_TIMESTAMP,?,?)").bind(String(b.name||'새 무한의탑 시즌'),b.endsAt||null,Math.max(1,Number(b.maxFloor||100))).run();}

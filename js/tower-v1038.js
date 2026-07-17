@@ -1,8 +1,10 @@
 (()=>{
-  const S={data:null,busy:false};
+  const S={data:null,busy:false,enabled:true};
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  function ensure(){
+  async function ensure(){
     const tabs=document.querySelector('.pve-mode-tabs');if(!tabs||tabs.querySelector('[data-pve-mode="tower"]'))return;
+    try{const cfg=await apiRequest('tower/config',{}, {ttl:0});S.enabled=cfg?.enabled!==false}catch{S.enabled=true}
+    const user=loadUser?.();const privileged=['OWNER','ADMIN'].includes(String(user?.role||'').toUpperCase());if(!S.enabled&&!privileged)return;
     const b=document.createElement('button');b.className='pve-mode-btn';b.dataset.pveMode='tower';b.textContent='무한의탑';tabs.appendChild(b);
     const raid=document.getElementById('pveRaidView');if(!raid)return;
     const box=document.createElement('div');box.id='pveTowerView';box.className='pve-tower-view';box.hidden=true;raid.insertAdjacentElement('afterend',box);
@@ -31,9 +33,9 @@
         <div class="tower-floor-number"><span>${f.isBoss?'BOSS FLOOR':'FLOOR'}</span><b>${Number(f.floorNo||1)}</b></div>
         <div class="tower-monster-visual">${f.monsterImage?`<img src="${esc(f.monsterImage)}" alt="">`:'<div class="tower-monster-placeholder">👹</div>'}<i></i></div>
         <div class="tower-floor-info"><p>${f.isBoss?'강력한 층주가 기다리고 있습니다':'탑의 수문장이 길을 막고 있습니다'}</p><h3>${esc(f.monsterName||'탑의 수문장')}</h3><div><span>권장 전투력</span><b>${Number(f.monsterPower||0).toLocaleString()}</b></div><div><span>클리어 보상</span><b>◈ ${Number(f.rewardCoin||0).toLocaleString()}</b></div></div>
-        <button class="btn tower-start-btn" id="towerStart">${f.isBoss?'보스층 도전':'현재 층 도전'}</button>
+        <button class="tower-challenge-btn ${f.isBoss?'boss':''}" id="towerStart"><span class="tower-challenge-icon">${f.isBoss?'⚠':'▲'}</span><span class="tower-challenge-copy"><small>${f.isBoss?'BOSS CHALLENGE':'ASCEND NOW'}</small><strong>${Number(f.floorNo||1)}층 도전</strong></span><span class="tower-challenge-arrow">›</span></button>
       </div>
-      <aside class="tower-side-panel"><div class="tower-deck-preview"><div class="panel-title"><div><p class="eyebrow">PVE SAVED DECK</p><h3>현재 저장 덱</h3></div><button id="towerGoDeck" class="ghost">덱 변경</button></div><div class="tower-deck-slots">${(d.deck||[]).map(id=>{const c=cards.find(x=>String(x.id)===String(id));return c?`<div><img src="${esc(c.image)}"><span>${esc(c.title)}</span></div>`:'<div class="empty">?</div>'}).join('')}${Array.from({length:Math.max(0,5-(d.deck||[]).length)},()=>'<div class="empty">+</div>').join('')}</div><small>무한의탑은 PVE 덱 저장을 그대로 사용합니다.</small></div>
+      <aside class="tower-side-panel"><div class="tower-deck-preview"><div class="panel-title"><div><p class="eyebrow">PVE SAVED DECK</p><h3>현재 저장 덱</h3></div><button id="towerGoDeck" class="tower-deck-edit-btn"><span class="tower-deck-edit-icon">◆</span><span><small>EDIT PVE DECK</small><b>덱 편성 변경</b></span><i>›</i></button></div><div class="tower-deck-slots">${(d.deck||[]).map(id=>{const c=cards.find(x=>String(x.id)===String(id));return c?`<div><img src="${esc(c.image)}"><span>${esc(c.title)}</span></div>`:'<div class="empty">?</div>'}).join('')}${Array.from({length:Math.max(0,5-(d.deck||[]).length)},()=>'<div class="empty">+</div>').join('')}</div><small>무한의탑은 PVE 덱 저장을 그대로 사용합니다.</small></div>
       <div class="tower-ranking"><div class="panel-title"><div><p class="eyebrow">SEASON RANKING</p><h3>최고층 랭킹</h3></div></div><div class="tower-rank-list">${rank.slice(0,10).map((r,i)=>`<div class="${Number(r.user_id)===Number(loadUser()?.id)?'me':''}"><b>${i+1}</b><span>${esc(r.nickname)}</span><strong>${Number(r.highest_floor||0)}F</strong></div>`).join('')||'<p>아직 기록이 없습니다.</p>'}</div></div></aside>
     </section>`;
     document.getElementById('towerStart').onclick=startFight;document.getElementById('towerGoDeck').onclick=()=>{document.querySelector('[data-pve-mode="hunt"]')?.click();setTimeout(()=>document.querySelector('[data-pve-tab="deck"]')?.click(),100)};
