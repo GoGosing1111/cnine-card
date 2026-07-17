@@ -119,11 +119,9 @@ async function refreshRaidForOwner(env,instance,cfg){
         const damage=Math.max(1,Math.floor(Number(row.total_power||0)*Number(cfg.damageMultiplier||1)*attacks*critFactor/10));
         await env.DB.prepare('UPDATE raid_participants SET total_damage=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(damage,row.id).run();
       }
-      const total=await env.DB.prepare('SELECT COALESCE(SUM(total_damage),0) total FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(instance.id).first();
-      const remain=Math.max(0,Number(instance.max_hp||0)-Number(total?.total||0));
-      const nextStatus=remain<=0?'ENDED':'BATTLE';
-      await env.DB.prepare('UPDATE raid_instances SET status=?,current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(nextStatus,remain,participants.length,instance.id).run();
-      instance.status=nextStatus;instance.current_hp=remain;instance.participant_count=participants.length;
+      // total_damage는 전투 전체 예상치다. 시작 시 보스 HP에 선반영하지 않는다.
+      await env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(Number(instance.max_hp||0),participants.length,instance.id).run();
+      instance.status='BATTLE';instance.current_hp=Number(instance.max_hp||0);instance.participant_count=participants.length;
     }else{
       await cancelRaidForInsufficientPlayers(env,instance,participants);
       instance.status='ENDED';instance.ends_at=new Date().toISOString();
@@ -1519,16 +1517,19 @@ export async function onRequest(context){
       const cardIds=[...new Set(participants.flatMap(x=>x.deckCards))];let cardMap={},breakthroughMap={};if(cardIds.length){const marks=cardIds.map(()=>'?').join(','),userIds=[...new Set(participants.map(x=>Number(x.userId)).filter(Boolean))],userMarks=userIds.map(()=>'?').join(',');const [cs,levels]=await Promise.all([env.DB.prepare(`SELECT c.id,c.title,c.image_url AS image,c.rarity AS grade,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id IN (${marks})`).bind(...cardIds).all(),userIds.length?env.DB.prepare(`SELECT user_id,card_id,breakthrough_level FROM user_cards WHERE user_id IN (${userMarks}) AND card_id IN (${marks}) AND COALESCE(quantity,0)>0`).bind(...userIds,...cardIds).all():Promise.resolve({results:[]})]);cardMap=Object.fromEntries(cs.results.map(c=>[String(c.id),c]));breakthroughMap=Object.fromEntries(levels.results.map(x=>[`${x.user_id}:${x.card_id}`,Number(x.breakthrough_level||0)]));}
       const startMs=Date.parse(current.starts_at||0),endMs=Date.parse(current.ends_at||0),now=Date.now();
       const progress=current.status==='BATTLE'?Math.max(0,Math.min(1,(now-startMs)/Math.max(1,endMs-startMs))):current.status==='ENDED'?1:0;
-      const totalFinal=participants.reduce((n,x)=>n+Number(x.totalDamage||0),0),shownTotal=Math.floor(totalFinal*progress);
-      const hp=Math.max(0,Number(current.max_hp||0)-shownTotal),bossHpPct=Number(current.max_hp||0)>0?hp/Number(current.max_hp):1;
+      const totalFinal=participants.reduce((n,x)=>n+Number(x.totalDamage||0),0),preliminaryShownTotal=Math.floor(totalFinal*progress);
+      const preliminaryHp=Math.max(0,Number(current.max_hp||0)-preliminaryShownTotal),bossHpPct=Number(current.max_hp||0)>0?preliminaryHp/Number(current.max_hp):1;
       const elapsedMs=Math.max(0,Math.min(Math.max(0,endMs-startMs),now-startMs));
       const attackTicks=current.status==='LOBBY'?0:Math.max(0,Math.floor(elapsedMs/Math.max(500,Number(cfg.bossAttackIntervalMs||5000))));
       const rage=cfg.enrageEnabled&&bossHpPct*100<=Number(cfg.enrageHpPercent||30)?Number(cfg.enrageMultiplier||1.6):1;
-      const enriched=participants.map(x=>{const maxHp=Math.max(1,Math.floor(Number(x.totalPower||0)*Number(cfg.deckHpMultiplier||12)));const variance=1+(((Number(x.userId||0)%31)-15)/100)*(Number(cfg.bossAttackVariance||0)/15);const taken=Math.floor(attackTicks*Number(cfg.bossAttackPower||850)*variance*rage);const currentHp=Math.max(0,maxHp-taken);return {...x,shownDamage:Math.floor(Number(x.totalDamage||0)*progress),maxHp,currentHp,isDefeated:currentHp<=0,cards:x.deckCards.map(id=>cardMap[String(id)]?{...cardMap[String(id)],breakthroughLevel:Number(breakthroughMap[`${x.userId}:${id}`]||0)}:null).filter(Boolean)};});
-      const allDefeated=enriched.length>0&&enriched.every(x=>x.isDefeated),cleared=hp<=0;
-      // 보스 HP가 0이 되면 남은 전투 시간과 관계없이 즉시 결과를 확정한다.
-      if(current.status==='BATTLE'&&(hp<=0||now>=endMs)){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(hp,current.id).run();current.status='ENDED';}
-      const result=cleared?'CLEAR':allDefeated?'FAILED':'TIMEOUT';
+      const battleDurationMs=Math.max(1,endMs-startMs),bossTickMs=Math.max(500,Number(cfg.bossAttackIntervalMs||5000));
+      const enriched=participants.map(x=>{const maxHp=Math.max(1,Math.floor(Number(x.totalPower||0)*Number(cfg.deckHpMultiplier||12)));const variance=1+(((Number(x.userId||0)%31)-15)/100)*(Number(cfg.bossAttackVariance||0)/15);const damagePerBossTick=Math.max(1,Number(cfg.bossAttackPower||850)*variance*rage),taken=Math.floor(attackTicks*damagePerBossTick),currentHp=Math.max(0,maxHp-taken),ticksToDefeat=Math.max(1,Math.ceil(maxHp/damagePerBossTick)),defeatProgress=Math.min(1,ticksToDefeat*bossTickMs/battleDurationMs),damageProgress=Math.min(progress,defeatProgress);return {...x,shownDamage:Math.floor(Number(x.totalDamage||0)*damageProgress),maxHp,currentHp,isDefeated:currentHp<=0,cards:x.deckCards.map(id=>cardMap[String(id)]?{...cardMap[String(id)],breakthroughLevel:Number(breakthroughMap[`${x.userId}:${id}`]||0)}:null).filter(Boolean)};});
+      const shownTotal=enriched.reduce((n,x)=>n+Number(x.shownDamage||0),0),hp=Math.max(0,Number(current.max_hp||0)-shownTotal);
+      const allDefeated=enriched.length>0&&enriched.every(x=>x.isDefeated),cleared=hp<=0&&!allDefeated,resolvedHp=allDefeated?Math.max(1,hp):hp;
+      // 전원 사망이 보스 처치보다 우선한다. 사망 실패는 DB HP를 1 이상으로 보존해 클리어 보상을 차단한다.
+      if(current.status==='BATTLE'&&(allDefeated||cleared||now>=endMs)){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(resolvedHp,current.id).run();current.status='ENDED';current.current_hp=resolvedHp;}
+      if(current.status==='ENDED'&&allDefeated&&Number(current.current_hp||0)<=0){await env.DB.prepare('UPDATE raid_instances SET current_hp=1,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(current.id).run();current.current_hp=1;}
+      const result=allDefeated?'FAILED':cleared?'CLEAR':'TIMEOUT';
       const me=enriched.find(x=>Number(x.userId)===Number(user.id))||null;
       // 대기실 이후의 전투·결과 정보는 실제 참가자에게만 공개한다.
       if(current.status!=='LOBBY'&&!me){
@@ -1542,7 +1543,7 @@ export async function onRequest(context){
         claimableReward={instanceId:Number(current.id),coin:rewardCoin,shards:rewardShards,participationCoin:Number(rewardCfg.participationCoin||0),clearCoin:cleared?Number(rewardCfg.clearCoin||0):0,cleared,source:'SERVER_CONFIRMED',snapshot:true};
       }
       const visibleParticipants=current.status==='LOBBY'?enriched.map((x,i)=>({anonymous:true,slot:i+1,nickname:`익명 참가자 ${String(i+1).padStart(2,'0')}`,cards:[],totalPower:0,shownDamage:0,isDefeated:false})):enriched;
-      return json({settings:cfg,schedule,dailyEntryUsed:todayEntryCount>=dailyEntryLimit,dailyEntry,rooms,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged:rage>1},participants:visibleParticipants,me,claimableReward,serverNow:new Date().toISOString()});
+      return json({settings:cfg,schedule,dailyEntryUsed:todayEntryCount>=dailyEntryLimit,dailyEntry,rooms,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:resolvedHp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged:rage>1},participants:visibleParticipants,me,claimableReward,serverNow:new Date().toISOString()});
     }
     if(path==='raid/open'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
