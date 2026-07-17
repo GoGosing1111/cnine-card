@@ -121,8 +121,9 @@ async function refreshRaidForOwner(env,instance,cfg){
       }
       const total=await env.DB.prepare('SELECT COALESCE(SUM(total_damage),0) total FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(instance.id).first();
       const remain=Math.max(0,Number(instance.max_hp||0)-Number(total?.total||0));
-      await env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(remain,participants.length,instance.id).run();
-      instance.status='BATTLE';instance.current_hp=remain;instance.participant_count=participants.length;
+      const nextStatus=remain<=0?'ENDED':'BATTLE';
+      await env.DB.prepare('UPDATE raid_instances SET status=?,current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(nextStatus,remain,participants.length,instance.id).run();
+      instance.status=nextStatus;instance.current_hp=remain;instance.participant_count=participants.length;
     }else{
       await cancelRaidForInsufficientPlayers(env,instance,participants);
       instance.status='ENDED';instance.ends_at=new Date().toISOString();
@@ -1525,9 +1526,8 @@ export async function onRequest(context){
       const rage=cfg.enrageEnabled&&bossHpPct*100<=Number(cfg.enrageHpPercent||30)?Number(cfg.enrageMultiplier||1.6):1;
       const enriched=participants.map(x=>{const maxHp=Math.max(1,Math.floor(Number(x.totalPower||0)*Number(cfg.deckHpMultiplier||12)));const variance=1+(((Number(x.userId||0)%31)-15)/100)*(Number(cfg.bossAttackVariance||0)/15);const taken=Math.floor(attackTicks*Number(cfg.bossAttackPower||850)*variance*rage);const currentHp=Math.max(0,maxHp-taken);return {...x,shownDamage:Math.floor(Number(x.totalDamage||0)*progress),maxHp,currentHp,isDefeated:currentHp<=0,cards:x.deckCards.map(id=>cardMap[String(id)]?{...cardMap[String(id)],breakthroughLevel:Number(breakthroughMap[`${x.userId}:${id}`]||0)}:null).filter(Boolean)};});
       const allDefeated=enriched.length>0&&enriched.every(x=>x.isDefeated),cleared=hp<=0;
-      // HP가 먼저 0이 되어도 설정된 전투 종료 시각까지 전투 화면을 유지한다.
-      // 최종 CLEAR / FAILED / TIMEOUT 판정은 타이머 종료 후 한 번만 확정한다.
-      if(current.status==='BATTLE'&&now>=endMs){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(hp,current.id).run();current.status='ENDED';}
+      // 보스 HP가 0이 되면 남은 전투 시간과 관계없이 즉시 결과를 확정한다.
+      if(current.status==='BATTLE'&&(hp<=0||now>=endMs)){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(hp,current.id).run();current.status='ENDED';}
       const result=cleared?'CLEAR':allDefeated?'FAILED':'TIMEOUT';
       const me=enriched.find(x=>Number(x.userId)===Number(user.id))||null;
       // 대기실 이후의 전투·결과 정보는 실제 참가자에게만 공개한다.
