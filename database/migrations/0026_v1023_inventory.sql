@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS inventory_items (
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS user_inventory (
+CREATE TABLE IF NOT EXISTS cnine_user_inventory (
   user_id INTEGER NOT NULL,
   item_code TEXT NOT NULL,
   quantity INTEGER NOT NULL DEFAULT 0,
@@ -47,15 +47,15 @@ CREATE TABLE IF NOT EXISTS inventory_use_receipts (
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX IF NOT EXISTS idx_user_inventory_user ON user_inventory(user_id,quantity);
+CREATE INDEX IF NOT EXISTS idx_cnine_user_inventory_user ON cnine_user_inventory(user_id,quantity);
 CREATE INDEX IF NOT EXISTS idx_inventory_logs_user ON inventory_logs(user_id,created_at);
 CREATE INDEX IF NOT EXISTS idx_inventory_receipts_user ON inventory_use_receipts(user_id,created_at);
 
 INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
-VALUES('GUARANTEED_LIMITED_PACK','확정 리미티드팩','LIMITED SIGNATURE PACK','서버 한정판 카드 중 1장을 확정 획득합니다.','PACK','LIMITED','assets/ui/packs/limited-pack.png',10,1);
+VALUES('GUARANTEED_LIMITED_PACK','리미티드 확정 큐브','LEGACY LIMITED CUBE','기존 지급분을 보존한 리미티드 확정 보상 큐브입니다.','CUBE','LIMITED','assets/ui/packs/premium-cube.png',90,1);
 
 INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
-VALUES('GUARANTEED_MA_PACK','확정 MA팩','MASTER ARCHIVE PACK','MA 등급 카드 중 1장을 확정 획득합니다.','PACK','MA','assets/ui/packs/guaranteed-ma-pack.png',20,1);
+VALUES('GUARANTEED_MA_PACK','MA 확정 큐브','LEGACY MA CUBE','기존 지급분을 보존한 MA 확정 보상 큐브입니다.','CUBE','MA','assets/ui/packs/premium-cube.png',91,1);
 
 INSERT OR IGNORE INTO app_meta(key,value,updated_at)
 VALUES('safe_runtime_upgrade_v1023_inventory','1',CURRENT_TIMESTAMP);
