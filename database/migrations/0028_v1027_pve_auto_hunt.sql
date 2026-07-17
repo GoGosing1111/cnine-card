@@ -16,5 +16,3 @@ CREATE TABLE IF NOT EXISTS pve_auto_locks (
   expires_at TEXT NOT NULL,
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-DELETE FROM sessions WHERE rowid NOT IN (SELECT MAX(rowid) FROM sessions GROUP BY user_id);
-CREATE UNIQUE INDEX IF NOT EXISTS idx_sessions_single_user ON sessions(user_id);
