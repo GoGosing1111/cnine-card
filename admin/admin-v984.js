@@ -239,5 +239,10 @@ setAuthScreen(false);const saveRaidSettingsBtn=$('#saveRaidSettingsBtn');if(save
 // v1028: 궁극기 대상 등급 선택 목록에 LIMITED를 노출한다.
 const ultimateRuleTemplateV1028=ultimateRuleTemplate;
 ultimateRuleTemplate=(x={},i=0)=>ultimateRuleTemplateV1028(x,i).replace('</select></label><label class="field"><span>최소 돌파</span>',`<option value="LIMITED" ${String(x.requiredGrade||'SSR')==='LIMITED'?'selected':''}>LIMITED</option></select></label><label class="field"><span>최소 돌파</span>`);
+// v1031: 일반 카드 편집은 활성 상태를 보존하고, 체크를 실제 변경한 경우에만 상태를 갱신한다.
+const collectCardPayloadV1031=collectCardPayload;
+collectCardPayload=el=>{const payload=collectCardPayloadV1031(el),current=state.cards.find(x=>String(x.id)===String(payload.id));payload.updateVisibility=Boolean(current)&&Boolean(current.is_active)!==Boolean(payload.isActive);return payload};
+const applySavedCardToStateV1031=applySavedCardToState;
+applySavedCardToState=payload=>{applySavedCardToStateV1031(payload);const current=state.cards.find(x=>String(x.id)===String(payload.id));if(current&&payload.updateVisibility){current.is_active=payload.isActive?1:0;current.cardStatus=payload.isActive?'PUBLIC':'INACTIVE'}};
 
 // v9.4.2 card management cache bust
