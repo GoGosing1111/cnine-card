@@ -224,6 +224,23 @@ let upgradePromise=null;
 async function ensureUpgrades(env){
   if(upgradePromise) return upgradePromise;
   upgradePromise=(async()=>{
+    const inventoryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1023_inventory'").first();
+    if(inventoryDone?.value!=='1'){
+      for(const q of [
+        `CREATE TABLE IF NOT EXISTS inventory_items (code TEXT PRIMARY KEY,name TEXT NOT NULL,subtitle TEXT NOT NULL DEFAULT '',description TEXT NOT NULL DEFAULT '',category TEXT NOT NULL DEFAULT 'PACK',rarity TEXT NOT NULL DEFAULT 'SPECIAL',image_url TEXT NOT NULL DEFAULT '',sort_order INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+        `CREATE TABLE IF NOT EXISTS user_inventory (user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,unseen_quantity INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code))`,
+        `CREATE TABLE IF NOT EXISTS inventory_logs (id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,item_code TEXT NOT NULL,change_amount INTEGER NOT NULL,balance_after INTEGER NOT NULL,reason TEXT NOT NULL DEFAULT '',reference_type TEXT,reference_id TEXT,admin_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+        `CREATE TABLE IF NOT EXISTS inventory_use_receipts (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,item_code TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+        `CREATE INDEX IF NOT EXISTS idx_user_inventory_user ON user_inventory(user_id,quantity)`,
+        `CREATE INDEX IF NOT EXISTS idx_inventory_logs_user ON inventory_logs(user_id,created_at)`,
+        `CREATE INDEX IF NOT EXISTS idx_inventory_receipts_user ON inventory_use_receipts(user_id,created_at)`
+      ])await env.DB.prepare(q).run();
+      await env.DB.batch([
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('GUARANTEED_LIMITED_PACK','확정 리미티드팩','LIMITED SIGNATURE PACK','서버 한정판 카드 중 1장을 확정 획득합니다.','PACK','LIMITED','assets/ui/packs/limited-pack.png',10,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('GUARANTEED_MA_PACK','확정 MA팩','MASTER ARCHIVE PACK','MA 등급 카드 중 1장을 확정 획득합니다.','PACK','MA','assets/ui/packs/guaranteed-ma-pack.png',20,1)"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1023_inventory','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const performanceGate=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1019_performance_gate'").first();
     if(performanceGate?.value==='1')return;
     await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_logs_rarity_id ON draw_logs(rarity,id DESC)').run();
@@ -1228,6 +1245,60 @@ export async function onRequest(context){
     if(path==='packs'){
       const rows=await env.DB.prepare('SELECT * FROM card_packs WHERE is_active=1 ORDER BY sort_order,id').all();
       return json({packs:rows.results.map(row=>({...row,allowed:JSON.parse(row.allowed_rarities)}))});
+    }
+    if(path==='inventory'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity
+        FROM inventory_items i LEFT JOIN user_inventory ui ON ui.item_code=i.code AND ui.user_id=? WHERE i.is_active=1 ORDER BY i.sort_order,i.code`).bind(user.id).all();
+      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0)}));
+      return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
+    }
+    if(path==='inventory/seen'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await env.DB.prepare('UPDATE user_inventory SET unseen_quantity=0,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND unseen_quantity>0').bind(user.id).run();
+      return json({ok:true});
+    }
+    if(path==='inventory/use'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100);
+      if(!['GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK'].includes(itemCode))return json({error:'현재 사용할 수 없는 인벤토리 아이템입니다.'},400);
+      const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
+      if(prior)return json({error:prior.status==='PENDING'?'같은 아이템 사용 요청을 처리 중입니다.':'이 요청은 이미 실패했습니다. 인벤토리를 새로고침한 뒤 다시 시도하세요.'},409);
+      const receipt=await env.DB.prepare("INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status) VALUES(?,?,?,'PENDING')").bind(requestId,user.id,itemCode).run();
+      if(!receipt.meta.changes)return json({error:'같은 아이템 사용 요청을 처리 중입니다.'},409);
+      let consumed=false,reservedLimited=false,card=null;
+      try{
+        const used=await env.DB.prepare('UPDATE user_inventory SET quantity=quantity-1,unseen_quantity=MIN(unseen_quantity,quantity-1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>0').bind(user.id,itemCode).run();
+        if(!used.meta.changes)throw new Error('보유한 아이템이 없습니다.');
+        consumed=true;
+        const targetGrade=itemCode==='GUARANTEED_MA_PACK'?'MA':'LIMITED';
+        card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,m.name
+          FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.rarity=? AND (c.limited_total IS NULL OR c.issued_count<c.limited_total) ORDER BY RANDOM() LIMIT 1`).bind(targetGrade).first();
+        if(!card)throw new Error(`${targetGrade} 등급의 획득 가능한 카드가 없습니다. CMS 카드 공개 상태와 잔여 수량을 확인하세요.`);
+        if(card.limitedTotal!==null&&card.limitedTotal!==undefined){const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();if(!reserved.meta.changes)throw new Error('선택된 한정판 카드의 잔여 수량이 방금 소진되었습니다. 다시 시도하세요.');reservedLimited=true;}
+        const owned=await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?').bind(user.id,card.id).first(),duplicate=Number(owned?.quantity||0)>0,shardGained=duplicate?Number(SHARD_REWARD[card.grade]||0):0;
+        const remaining=(await env.DB.prepare('SELECT quantity FROM user_inventory WHERE user_id=? AND item_code=?').bind(user.id,itemCode).first())?.quantity||0;
+        const statements=[
+          env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level) VALUES(?,?,1,0) ON CONFLICT(user_id,card_id) DO UPDATE SET breakthrough_level=CASE WHEN user_cards.quantity<=0 THEN 0 ELSE user_cards.breakthrough_level END,quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,card.id),
+          env.DB.prepare("INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,0,?)").bind(requestId,user.id,itemCode,card.id,card.grade,duplicate?0:1),
+          env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?, -1,?,'PACK_OPEN','INVENTORY_USE',?)").bind(user.id,itemCode,Number(remaining),requestId)
+        ];
+        if(shardGained>0)statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardGained,user.id));
+        await env.DB.batch(statements);
+        const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+        if(shardGained>0)await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'INVENTORY_PACK_DUPLICATE',?)").bind(user.id,shardGained,updated.card_shards,card.id).run();
+        const response={ok:true,itemCode,remaining:Number(remaining),card,duplicate,shardGained,user:await profile(env,updated),requestId};
+        await env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
+        recentHighGradeCache=null;
+        return json(response);
+      }catch(error){
+        if(consumed){await env.DB.prepare('UPDATE user_inventory SET quantity=quantity+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=?').bind(user.id,itemCode).run();}
+        if(reservedLimited&&card?.id)await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(card.id).run();
+        const message=String(error?.message||'아이템 사용에 실패했습니다.').slice(0,300);
+        await env.DB.prepare("UPDATE inventory_use_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(message,requestId,user.id).run();
+        return json({error:message},409);
+      }
     }
     if(path==='attendance/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);
@@ -2275,6 +2346,7 @@ export async function onRequest(context){
       if(before.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정은 수정할 수 없습니다.'},403);
       if(action==='COIN'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경 코인을 입력하세요.'},400);if(before.coin+amount<0)return json({error:'보유 코인보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(amount,userId).run();const afterCoin=before.coin+amount;await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)').bind(userId,amount,afterCoin,String(p.reason||'관리자 조정').slice(0,100),admin.id).run();}
       else if(action==='SHARDS'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경할 카드 조각 수량을 입력하세요.'},400);const current=Number(before.card_shards||0);if(current+amount<0)return json({error:'보유 카드 조각보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(amount,userId).run();const balance=current+amount;await env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId,amount,balance,String(p.reason||'관리자 조정').slice(0,100)).run();}
+      else if(action==='INVENTORY'){const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);const item=await env.DB.prepare('SELECT code,name FROM inventory_items WHERE code=? AND is_active=1').bind(itemCode).first();if(!item)return json({error:'지급 가능한 인벤토리 아이템이 아닙니다.'},400);await env.DB.prepare(`INSERT INTO user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(?,?,?,?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=user_inventory.quantity+excluded.quantity,unseen_quantity=user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,itemCode,amount,amount).run();const inventory=await env.DB.prepare('SELECT quantity FROM user_inventory WHERE user_id=? AND item_code=?').bind(userId,itemCode).first();await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id) VALUES(?,?,?,?,?,'ADMIN_GRANT',?,?)").bind(userId,itemCode,amount,Number(inventory?.quantity||0),String(p.reason||'관리자 아이템 지급').slice(0,100),String(admin.id),admin.id).run();}
       else if(action==='CARDS_RESET')await env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId).run();
       else if(action==='ATTENDANCE_RESET')await env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId).run();
       else if(action==='ACCOUNT_RESET')await env.DB.batch([env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM draw_logs WHERE user_id=?').bind(userId),env.DB.prepare('UPDATE users SET coin=5000,card_shards=0 WHERE id=?').bind(userId)]);
