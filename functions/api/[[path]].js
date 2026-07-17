@@ -265,9 +265,14 @@ async function ensureUpgrades(env){
         env.DB.prepare(`CREATE TABLE IF NOT EXISTS pve_auto_runs (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,monster_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'RUNNING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
         env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_pve_auto_runs_user ON pve_auto_runs(user_id,created_at)`),
         env.DB.prepare(`CREATE TABLE IF NOT EXISTS pve_auto_locks (user_id INTEGER PRIMARY KEY,request_id TEXT NOT NULL,expires_at TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
-        env.DB.prepare(`DELETE FROM sessions WHERE rowid NOT IN (SELECT MAX(rowid) FROM sessions GROUP BY user_id)`),
-        env.DB.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_sessions_single_user ON sessions(user_id)`),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1027_pve_auto','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+    const sessionRecoveryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1029_session_recovery'").first();
+    if(sessionRecoveryDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare('DROP INDEX IF EXISTS idx_sessions_single_user'),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1029_session_recovery','1',CURRENT_TIMESTAMP)")
       ]);
     }
     const cubeDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1025_inventory_cubes'").first();
@@ -948,10 +953,9 @@ async function makeSession(env,userId){
   const raw=createToken();
   const tokenHash=await hash(raw);
   const expiresAt=new Date(Date.now()+1000*60*60*24*30).toISOString();
-  await env.DB.batch([
-    env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(userId),
-    env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(tokenHash,userId,expiresAt)
-  ]);
+  // 기존 로그인 일괄 마이그레이션은 하지 않고, 실제 새 로그인 시에만 이전 세션을 교체한다.
+  await env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(userId).run();
+  await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(tokenHash,userId,expiresAt).run();
   return raw;
 }
 async function profile(env,user){
