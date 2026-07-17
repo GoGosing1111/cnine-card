@@ -304,6 +304,22 @@ async function ensureUpgrades(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1023_inventory','1',CURRENT_TIMESTAMP)")
       ]);
     }
+    const towerDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1038_infinite_tower'").first();
+    if(towerDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS tower_seasons (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',starts_at TEXT,ends_at TEXT,max_floor INTEGER NOT NULL DEFAULT 100,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS tower_monsters (id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,image_url TEXT NOT NULL DEFAULT '',base_power INTEGER NOT NULL DEFAULT 1000,is_boss INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 1,sort_order INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS tower_floors (id INTEGER PRIMARY KEY AUTOINCREMENT,season_id INTEGER NOT NULL,floor_no INTEGER NOT NULL,monster_id INTEGER NOT NULL,power_override INTEGER,reward_coin INTEGER NOT NULL DEFAULT 0,is_boss INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(season_id,floor_no))`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS tower_user_progress (season_id INTEGER NOT NULL,user_id INTEGER NOT NULL,current_floor INTEGER NOT NULL DEFAULT 1,highest_floor INTEGER NOT NULL DEFAULT 0,highest_reached_at TEXT,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(season_id,user_id))`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS tower_clear_history (id INTEGER PRIMARY KEY AUTOINCREMENT,season_id INTEGER NOT NULL,user_id INTEGER NOT NULL,floor_no INTEGER NOT NULL,player_power INTEGER NOT NULL DEFAULT 0,monster_power INTEGER NOT NULL DEFAULT 0,result TEXT NOT NULL,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_tower_rank ON tower_user_progress(season_id,highest_floor DESC,highest_reached_at ASC)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_tower_history_user ON tower_clear_history(season_id,user_id,created_at DESC)`),
+        env.DB.prepare(`INSERT OR IGNORE INTO tower_seasons(id,name,status,max_floor,starts_at) VALUES(1,'무한의탑 시즌 1','ACTIVE',100,CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`INSERT OR IGNORE INTO tower_monsters(id,name,image_url,base_power,is_boss,sort_order) VALUES(1,'탑의 수문장','',4500,0,1)`),
+        env.DB.prepare(`INSERT OR IGNORE INTO tower_monsters(id,name,image_url,base_power,is_boss,sort_order) VALUES(2,'심연의 층주','',12000,1,2)`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1038_infinite_tower','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const performanceGate=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1019_performance_gate'").first();
     if(performanceGate?.value==='1')return;
     await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_logs_rarity_id ON draw_logs(rarity,id DESC)').run();
@@ -1768,6 +1784,52 @@ export async function onRequest(context){
       await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run();
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       return json({result,reward,cardReward,playerPower,basePlayerPower,totalBattleDamage,ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
+    }
+
+
+    if(path==='tower/status'&&request.method==='GET'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const season=await env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
+      if(!season)return json({active:false});
+      await env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id).run();
+      const progress=await env.DB.prepare('SELECT * FROM tower_user_progress WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();
+      const floorNo=Math.max(1,Number(progress.current_floor||1));
+      let floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
+      if(!floor){const isBoss=floorNo%10===0;const m=await env.DB.prepare('SELECT * FROM tower_monsters WHERE is_active=1 AND is_boss=? ORDER BY sort_order,id LIMIT 1').bind(isBoss?1:0).first();if(m)floor={floor_no:floorNo,monster_id:m.id,monster_name:m.name,monster_image:m.image_url,base_power:m.base_power,monster_is_boss:m.is_boss,is_boss:isBoss?1:0,reward_coin:Math.max(100,floorNo*100)};}
+      if(floor){floor.monster_power=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1)));}
+      const deck=await pveDeckCards(env,user.id);
+      const rankRow=await env.DB.prepare('SELECT COUNT(*)+1 rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,\'9999\')<COALESCE(?,\'9999\')))').bind(season.id,Number(progress.highest_floor||0),Number(progress.highest_floor||0),progress.highest_reached_at).first();
+      const ranking=(await env.DB.prepare('SELECT p.user_id,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN users u ON u.id=p.user_id WHERE p.season_id=? ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 50').bind(season.id).all()).results;
+      return json({active:true,season:{id:season.id,name:season.name,startsAt:season.starts_at,endsAt:season.ends_at,maxFloor:season.max_floor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1)},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:Boolean(floor.is_boss||floor.monster_is_boss||floorNo%10===0)}:null,deck,ranking});
+    }
+    if(path==='tower/fight'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const season=await env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();if(!season)return json({error:'진행 중인 무한의탑 시즌이 없습니다.'},404);
+      await env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id).run();
+      const progress=await env.DB.prepare('SELECT * FROM tower_user_progress WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();const floorNo=Math.max(1,Number(progress.current_floor||1));
+      const deckInfo=await raidDeckPower(env,user.id);const settings=await battleSettings(env);const ids=deckInfo.ids,marks=ids.map(()=>'?').join(',');
+      const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.image_url AS image,c.focus_x,c.focus_y,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(user.id,...ids).all();
+      let floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
+      if(!floor){const boss=floorNo%10===0;const m=await env.DB.prepare('SELECT * FROM tower_monsters WHERE is_active=1 AND is_boss=? ORDER BY sort_order,id LIMIT 1').bind(boss?1:0).first();if(!m)return json({error:'무한의탑 몬스터가 설정되지 않았습니다.'},400);floor={monster_id:m.id,monster_name:m.name,monster_image:m.image_url,base_power:m.base_power,monster_is_boss:m.is_boss,is_boss:boss?1:0,reward_coin:Math.max(100,floorNo*100)};}
+      const monsterPower=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1)));const playerPower=Number(deckInfo.power||0);const result=playerPower>=monsterPower?'WIN':'LOSE';let reward=0;
+      if(result==='WIN'){reward=Number(floor.reward_coin||Math.max(100,floorNo*100));if(reward)await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();const next=floorNo+1;await env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(next,floorNo,floorNo,season.id,user.id).run();}
+      await env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run();
+      return json({result,floorNo,nextFloor:result==='WIN'?floorNo+1:floorNo,reward,playerPower,monsterPower,isBoss:Boolean(floor.is_boss||floor.monster_is_boss||floorNo%10===0),monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
+    }
+    if(path==='admin/tower'){
+      const admin=await requirePermission(request,env,'BATTLE_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method==='GET'){
+        const seasons=(await env.DB.prepare('SELECT * FROM tower_seasons ORDER BY id DESC').all()).results;const monsters=(await env.DB.prepare('SELECT * FROM tower_monsters ORDER BY sort_order,id').all()).results;const floors=(await env.DB.prepare('SELECT tf.*,tm.name monster_name FROM tower_floors tf LEFT JOIN tower_monsters tm ON tm.id=tf.monster_id ORDER BY tf.season_id DESC,tf.floor_no').all()).results;const ranking=(await env.DB.prepare("SELECT s.name season_name,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN tower_seasons s ON s.id=p.season_id JOIN users u ON u.id=p.user_id WHERE s.status='ACTIVE' ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 100").all()).results;return json({seasons,monsters,floors,ranking});
+      }
+      if(request.method==='POST'){
+        const b=await readBody(request),action=String(b.action||'');
+        if(action==='SAVE_SEASON'){if(b.id)await env.DB.prepare('UPDATE tower_seasons SET name=?,status=?,starts_at=?,ends_at=?,max_floor=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(b.name||'무한의탑 시즌'),String(b.status||'ACTIVE'),b.startsAt||null,b.endsAt||null,Math.max(1,Number(b.maxFloor||100)),Number(b.id)).run();else await env.DB.prepare('INSERT INTO tower_seasons(name,status,starts_at,ends_at,max_floor) VALUES(?,?,?,?,?)').bind(String(b.name||'무한의탑 시즌'),String(b.status||'ACTIVE'),b.startsAt||null,b.endsAt||null,Math.max(1,Number(b.maxFloor||100))).run();}
+        else if(action==='SAVE_MONSTER'){if(b.id)await env.DB.prepare('UPDATE tower_monsters SET name=?,image_url=?,base_power=?,is_boss=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(b.name||''),String(b.imageUrl||''),Math.max(1,Number(b.basePower||1)),b.isBoss?1:0,b.isActive===false?0:1,Number(b.sortOrder||0),Number(b.id)).run();else await env.DB.prepare('INSERT INTO tower_monsters(name,image_url,base_power,is_boss,is_active,sort_order) VALUES(?,?,?,?,?,?)').bind(String(b.name||''),String(b.imageUrl||''),Math.max(1,Number(b.basePower||1)),b.isBoss?1:0,b.isActive===false?0:1,Number(b.sortOrder||0)).run();}
+        else if(action==='SAVE_FLOOR'){await env.DB.prepare('INSERT INTO tower_floors(season_id,floor_no,monster_id,power_override,reward_coin,is_boss,is_active) VALUES(?,?,?,?,?,?,?) ON CONFLICT(season_id,floor_no) DO UPDATE SET monster_id=excluded.monster_id,power_override=excluded.power_override,reward_coin=excluded.reward_coin,is_boss=excluded.is_boss,is_active=excluded.is_active,updated_at=CURRENT_TIMESTAMP').bind(Number(b.seasonId),Number(b.floorNo),Number(b.monsterId),b.powerOverride?Number(b.powerOverride):null,Math.max(0,Number(b.rewardCoin||0)),b.isBoss?1:0,b.isActive===false?0:1).run();}
+        else if(action==='START_NEW_SEASON'){await env.DB.prepare("UPDATE tower_seasons SET status='CLOSED',updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'").run();await env.DB.prepare("INSERT INTO tower_seasons(name,status,starts_at,ends_at,max_floor) VALUES(?,'ACTIVE',CURRENT_TIMESTAMP,?,?)").bind(String(b.name||'새 무한의탑 시즌'),b.endsAt||null,Math.max(1,Number(b.maxFloor||100))).run();}
+        else return json({error:'올바르지 않은 작업입니다.'},400);
+        await writeAdminLog(env,admin,'TOWER_'+action,'TOWER',String(b.id||b.floorNo||''),null,b);return json({ok:true});
+      }
     }
 
 
