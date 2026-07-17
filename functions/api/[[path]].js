@@ -224,6 +224,15 @@ let upgradePromise=null;
 async function ensureUpgrades(env){
   if(upgradePromise) return upgradePromise;
   upgradePromise=(async()=>{
+    // v1024: user_inventory가 이전 기능에서 이미 생성되어 있던 운영 DB도 안전하게 확장한다.
+    // CREATE TABLE IF NOT EXISTS는 기존 테이블의 누락 컬럼을 추가하지 않으므로 반드시 별도 검사한다.
+    const inventoryCompatDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1024_inventory_compat'").first();
+    if(inventoryCompatDone?.value!=='1'){
+      if(await tableExists(env,'user_inventory')&&!await columnExists(env,'user_inventory','unseen_quantity')){
+        await env.DB.prepare('ALTER TABLE user_inventory ADD COLUMN unseen_quantity INTEGER NOT NULL DEFAULT 0').run();
+      }
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1024_inventory_compat','1',CURRENT_TIMESTAMP)").run();
+    }
     const inventoryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1023_inventory'").first();
     if(inventoryDone?.value!=='1'){
       for(const q of [
