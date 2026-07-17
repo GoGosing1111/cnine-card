@@ -111,3 +111,14 @@ aside{height:100vh;position:sticky;top:0;overflow-y:auto}
 .captainTeamManageHead{margin-top:28px}.captainCmsTeam{display:grid;grid-template-columns:minmax(220px,1fr) minmax(150px,260px) auto;gap:10px;align-items:center;padding:12px;border-bottom:1px solid rgba(255,255,255,.09)}.captainCmsTeam b,.captainCmsTeam small{display:block}.captainCmsTeam small{margin-top:4px;opacity:.7}@media(max-width:800px){.captainCmsTeam{grid-template-columns:1fr}}
 .evolutionCmsGrid{grid-template-columns:repeat(5,minmax(120px,1fr))}.evolutionLogHead{margin-top:28px}.evolutionCmsLog{display:grid;grid-template-columns:minmax(180px,1fr) minmax(160px,.7fr) minmax(220px,.8fr);gap:12px;align-items:center;padding:12px;border-bottom:1px solid rgba(255,255,255,.08)}.evolutionCmsLog div b,.evolutionCmsLog div span{display:block}.evolutionCmsLog div span,.evolutionCmsLog small{margin-top:3px;opacity:.68}.evolutionCmsLog strong{color:#ff9c9c}.evolutionCmsLog.success strong{color:#91f2b5}@media(max-width:950px){.evolutionCmsGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.evolutionCmsLog{grid-template-columns:1fr}}@media(max-width:560px){.evolutionCmsGrid{grid-template-columns:1fr}}
 .cubeSettingsFields{display:grid;gap:14px;margin:18px 0}.cubeSettingGroup{padding:16px;border:1px solid #24445f;border-radius:14px;background:#07182a}.cubeSettingGroup>div:first-child{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}.cubeRateTotal{color:#63e8b0;font-weight:900}.cubeRateTotal.error{color:#ff718a}.cubeSettingGroup .formgrid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+
+/* v1036 standalone monster/cube CMS menus */
+#nav button[data-view="monsters"],#nav button[data-view="cubes"]{border-left:3px solid rgba(103,213,255,.7)}
+.cmsManagementMount{display:grid;gap:14px}
+#view-monsters .monsterAdminRow{grid-template-columns:minmax(130px,1.1fr) minmax(180px,1.6fr) repeat(5,minmax(78px,.7fr)) auto auto}
+#view-monsters #monsterAdminList{display:grid;gap:10px}
+#view-monsters #monsterAdminList:empty:after{content:'등록된 몬스터가 없습니다.';display:block;padding:24px;text-align:center;color:#8fa2bd;border:1px dashed #30415d;border-radius:12px}
+#view-cubes .cubeSettings{margin:0}
+#view-cubes .cmsLoadingPanel{text-align:center;color:#91a4c0}
+@media(max-width:1100px){#view-monsters .monsterAdminRow{grid-template-columns:repeat(2,minmax(0,1fr))}#view-monsters .monsterAdminRow button{width:100%}}
+@media(max-width:620px){#view-monsters .monsterAdminRow{grid-template-columns:1fr}}

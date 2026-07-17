@@ -240,14 +240,27 @@ function packArt(pack) {
   return `<div class="pack-envelope pack-image-envelope ${pack.theme}"><img src="${packImagePath(pack)}" class="pack-product-image" alt="${escapeHtml(pack.name)}"><div class="pack-image-gloss"></div></div>`;
 }
 
+const DEX_PREF_KEY='cnine:dexPreferences:v1';
+function loadDexPrefs(){try{return {...{search:'',grade:'',sort:'default',favoriteOnly:false,favoriteMembers:[]},...JSON.parse(localStorage.getItem(DEX_PREF_KEY)||'{}')}}catch(_){return {search:'',grade:'',sort:'default',favoriteOnly:false,favoriteMembers:[]}}}
+function saveDexPrefs(prefs){try{localStorage.setItem(DEX_PREF_KEY,JSON.stringify(prefs))}catch(_){}}
+function dexMemberStats(name,owned){const list=cards.filter(c=>c.name===name);return {name,list,got:list.filter(c=>owned.has(c.id)).length}}
+function sortDexMembers(items,prefs){const favorites=new Set(prefs.favoriteMembers||[]);return [...items].sort((a,b)=>{
+  const favoriteDiff=Number(favorites.has(b.name))-Number(favorites.has(a.name));
+  if(favoriteDiff)return favoriteDiff;
+  if(prefs.sort==='name')return a.name.localeCompare(b.name,'ko');
+  if(prefs.sort==='owned')return (b.got-a.got)||(b.list.length-a.list.length)||a.name.localeCompare(b.name,'ko');
+  if(prefs.sort==='rate')return ((b.got/Math.max(1,b.list.length))-(a.got/Math.max(1,a.list.length)))||a.name.localeCompare(b.name,'ko');
+  if(prefs.sort==='count')return (b.list.length-a.list.length)||a.name.localeCompare(b.name,'ko');
+  return 0;
+})}
 function dexView(user) {
-  const owned = ownedIds(user);
-  const names = [...new Set(cards.map(c => c.name))];
-  return `${summaryBar(user)}<section class="dex-cover"><div><p class="eyebrow">MY COLLECTION ALBUM</p><h2>씨켓몬 도감</h2><p>멤버별 앨범을 펼쳐 수집한 카드를 확인하세요.</p></div><div class="dex-total"><b>${owned.size}</b><span>/ ${cards.length} CARDS</span></div></section><div class="dex-search"><input id="dexSearch" placeholder="카드명 또는 멤버 검색"><select id="gradeFilter"><option value="">전체 등급</option>${['FUR','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(g=>`<option>${g}</option>`).join('')}</select></div><div id="dexSections">${names.map((name,index)=>dexSection(name,owned,index)).join('')}</div>`;
+  const owned=ownedIds(user),prefs=loadDexPrefs();
+  const members=sortDexMembers([...new Set(cards.map(c=>c.name))].map(name=>dexMemberStats(name,owned)),prefs);
+  return `${summaryBar(user)}<section class="dex-cover"><div><p class="eyebrow">MY COLLECTION ALBUM</p><h2>씨켓몬 도감</h2><p>멤버별 앨범을 펼쳐 수집한 카드를 확인하세요.</p></div><div class="dex-total"><b>${owned.size}</b><span>/ ${cards.length} CARDS</span></div></section><div class="dex-toolbar"><div class="dex-search"><input id="dexSearch" value="${escapeHtml(prefs.search||'')}" placeholder="카드명 또는 멤버 검색"><select id="gradeFilter"><option value="">전체 등급</option>${['FUR','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(g=>`<option ${prefs.grade===g?'selected':''}>${g}</option>`).join('')}</select><select id="dexSort"><option value="default" ${prefs.sort==='default'?'selected':''}>기본 순서</option><option value="name" ${prefs.sort==='name'?'selected':''}>멤버 이름순</option><option value="owned" ${prefs.sort==='owned'?'selected':''}>보유 카드 많은순</option><option value="rate" ${prefs.sort==='rate'?'selected':''}>수집률 높은순</option><option value="count" ${prefs.sort==='count'?'selected':''}>전체 카드 많은순</option></select></div><button type="button" id="favoriteMemberOnly" class="dex-favorite-filter ${prefs.favoriteOnly?'active':''}" aria-pressed="${prefs.favoriteOnly?'true':'false'}">★ 즐겨찾기 멤버만</button></div><div class="dex-guide"><span>멤버 이름 옆 별을 눌러 즐겨찾기</span><span>즐겨찾기 멤버는 항상 위에 표시</span></div><div id="dexSections">${members.map((item,index)=>dexSection(item,owned,index,prefs)).join('')}</div>`;
 }
-function dexSection(name, owned, index=0) {
-  const list = cards.filter(c=>c.name===name); const got=list.filter(c=>owned.has(c.id)).length;
-  return `<section class="dex-section ${index>1?'collapsed':''}" data-member="${escapeHtml(name)}"><button class="dex-section-head"><span><i class="fold-icon">⌄</i><strong>${escapeHtml(name)}</strong><small>COLLECTION ALBUM</small></span><b>${got} / ${list.length}</b></button><div class="album-grid">${list.map(c=>cardHtml(c,owned.has(c.id),'small')).join('')}</div></section>`;
+function dexSection(item,owned,index=0,prefs=loadDexPrefs()) {
+  const {name,list,got}=item,favorite=(prefs.favoriteMembers||[]).includes(name);
+  return `<section class="dex-section ${index>1?'collapsed':''} ${favorite?'favorite-member':''}" data-member="${escapeHtml(name)}" data-total="${list.length}" data-owned="${got}"><div class="dex-section-head"><button type="button" class="dex-fold-button"><span><i class="fold-icon">⌄</i><strong>${escapeHtml(name)}</strong><small>COLLECTION ALBUM</small></span><b>${got} / ${list.length}</b></button><button type="button" class="dex-member-favorite ${favorite?'active':''}" data-favorite-member="${escapeHtml(name)}" aria-label="${escapeHtml(name)} 즐겨찾기" aria-pressed="${favorite?'true':'false'}">★</button></div><div class="album-grid">${list.map(c=>cardHtml(c,owned.has(c.id),'small')).join('')}</div></section>`;
 }
 
 
@@ -663,11 +676,12 @@ function bindView(tab) {
   if(tab==='pvp') loadPvpView();
   if(tab==='mineral') loadMineralExchange();
   if(tab==='dex') {
-    document.querySelectorAll('.dex-section-head').forEach(h=>h.onclick=()=>h.closest('.dex-section').classList.toggle('collapsed'));
+    document.querySelectorAll('.dex-fold-button').forEach(h=>h.onclick=()=>h.closest('.dex-section').classList.toggle('collapsed'));
     document.querySelectorAll('.card-frame').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
-    const search=document.getElementById('dexSearch'), filter=document.getElementById('gradeFilter');
-    const apply=()=>{ const q=search.value.trim().toLowerCase(), g=filter.value; document.querySelectorAll('.dex-section').forEach(section=>{ let visible=0; section.querySelectorAll('.card-frame').forEach(el=>{ const c=cards.find(x=>x.id===el.dataset.id); const show=(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q))&&(!g||c.grade===g); el.style.display=show?'':'none'; if(show)visible++; }); section.style.display=visible?'':'none'; if(q||g)section.classList.remove('collapsed'); }); };
-    search.oninput=apply; filter.onchange=apply;
+    const search=document.getElementById('dexSearch'),filter=document.getElementById('gradeFilter'),sort=document.getElementById('dexSort'),favoriteOnly=document.getElementById('favoriteMemberOnly');
+    const apply=()=>{const prefs=loadDexPrefs(),q=search.value.trim().toLowerCase(),g=filter.value;document.querySelectorAll('.dex-section').forEach(section=>{let visible=0;section.querySelectorAll('.card-frame').forEach(el=>{const c=cards.find(x=>x.id===el.dataset.id),show=(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q))&&(!g||c.grade===g);el.style.display=show?'':'none';if(show)visible++});const favoriteMatch=!prefs.favoriteOnly||section.classList.contains('favorite-member');section.style.display=visible&&favoriteMatch?'':'none';if(q||g)section.classList.remove('collapsed')});prefs.search=search.value;prefs.grade=g;saveDexPrefs(prefs)};
+    document.querySelectorAll('.dex-member-favorite').forEach(button=>button.onclick=e=>{e.stopPropagation();const prefs=loadDexPrefs(),name=button.dataset.favoriteMember,list=new Set(prefs.favoriteMembers||[]);list.has(name)?list.delete(name):list.add(name);prefs.favoriteMembers=[...list];saveDexPrefs(prefs);renderShell('dex')});
+    search.oninput=apply;filter.onchange=apply;sort.onchange=()=>{const prefs=loadDexPrefs();prefs.sort=sort.value;saveDexPrefs(prefs);renderShell('dex')};favoriteOnly.onclick=()=>{const prefs=loadDexPrefs();prefs.favoriteOnly=!prefs.favoriteOnly;saveDexPrefs(prefs);renderShell('dex')};apply();
   }
 }
 
