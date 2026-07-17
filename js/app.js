@@ -406,7 +406,21 @@ async function startBattle(){
     count.textContent='READY'; stage.classList.add('ready'); await battleSleep(650); count.textContent='FIGHT'; battleTone(440,.18,'square',.075); stage.classList.add('fight'); await battleSleep(520); count.textContent='';
     const fightPromise=apiRequest('battle/fight',{method:'POST',body:JSON.stringify({monsterId:battleState.selectedMonster,cardIds:battleState.deck})});
     const d=await fightPromise;
-    let enemyHp=100,teamHp=100;
+    let enemyHp=100,teamHp=100,battleEnded=false,enemyDefeated=false;
+    const stopBattleActions=()=>{
+      battleEnded=true;
+      stage.classList.remove('member-strike','member-skill','monster-heavy-attack');
+      stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('active-attacker'));
+    };
+    const markEnemyDefeated=(label='ENEMY DEFEATED')=>{
+      if(enemyDefeated)return;
+      enemyDefeated=true;
+      enemyHp=0;
+      battleSetHp(stage,'enemy',0);
+      stopBattleActions();
+      stage.classList.add('final-strike-v863');
+      phase.textContent=label;
+    };
     if(d.activatedUltimate){
       phase.textContent='ULTIMATE READY';
       await playBattleUltimate(stage,d.activatedUltimate,d.bonusDamage);
@@ -424,14 +438,14 @@ async function startBattle(){
         battleTone(680,.32,'sawtooth',.09);
         if(navigator.vibrate)navigator.vibrate([80,35,140]);
         await battleSleep(850);
+        if(enemyHp<=0)markEnemyDefeated('ULTIMATE FINISH');
       }
-      phase.textContent='BATTLE RESUME';
-      await battleSleep(250);
+      if(!battleEnded){phase.textContent='BATTLE RESUME';await battleSleep(250);}
     }
     const win=d.result==='WIN';
     const enemySteps=win?[14,17,18,20,31]:[9,11,13,15,17];
     const teamCounter=win?[8,10]:[18,25,31];
-    for(let i=0;i<deckCards.length;i++){
+    for(let i=0;i<deckCards.length&&!battleEnded;i++){
       const c=deckCards[i],tier=battleGradeTier(c.grade),high=gradeOrder[c.grade]>=gradeOrder.UR;
       battleActivateCard(stage,i,c.grade);phase.textContent=`${c.grade} MEMBER STRIKE`;
       stage.classList.remove('member-strike','member-skill');void stage.offsetWidth;stage.classList.add(high?'member-skill':'member-strike');
@@ -439,7 +453,8 @@ async function startBattle(){
       battleBurst(stage,'73%','43%',high?30:16); battleDamage(stage,high?`${c.grade} BURST!`:`-${Math.max(120,Math.round(d.monsterPower*dmg/100))}`,'enemy',high);
       battleTone(high?360+gradeOrder[c.grade]*28:170+i*24,high?.18:.09,high?'sawtooth':'square',high?.075:.045);if(navigator.vibrate)navigator.vibrate(high?[45,25,70]:28);
       await battleSleep(high?760:580);
-      if((i===1||i===3||(!win&&i===4))&&teamHp>0){
+      if(enemyHp<=0){markEnemyDefeated('FINAL STRIKE');break;}
+      if((i===1||i===3||(!win&&i===4))&&teamHp>0&&!battleEnded){
         stage.classList.remove('member-strike','member-skill');stage.classList.add('monster-heavy-attack');phase.textContent=monster.isBoss?'BOSS RAGE':'MONSTER COUNTER';
         const hit=teamCounter.shift()||18;teamHp=Math.max(win?12:0,teamHp-hit);battleSetHp(stage,'team',teamHp);
         battleBurst(stage,'28%','43%',monster.isBoss?34:24);battleDamage(stage,monster.isBoss?'HEAVY HIT!':`-${Math.max(100,Math.round(d.playerPower*hit/100))}`,'player',monster.isBoss);
@@ -448,9 +463,16 @@ async function startBattle(){
       }
     }
     stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('active-attacker'));
-    phase.textContent=win?'FINAL STRIKE':'MONSTER FINISH';stage.classList.add(win?'final-strike-v863':'final-fail-v863');
-    if(win){battleSetHp(stage,'enemy',0);battleBurst(stage,'74%','43%',55);battleDamage(stage,'FINISH!','enemy',true);battleTone(620,.32,'sawtooth',.09);if(navigator.vibrate)navigator.vibrate([70,30,180]);}
-    else{battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',48);battleDamage(stage,'K.O.','player',true);battleTone(48,.38,'square',.09);if(navigator.vibrate)navigator.vibrate([160,50,160]);}
+    if(win){
+      if(!enemyDefeated){
+        phase.textContent='FINAL STRIKE';stage.classList.add('final-strike-v863');
+        battleSetHp(stage,'enemy',0);battleBurst(stage,'74%','43%',55);battleDamage(stage,'FINISH!','enemy',true);battleTone(620,.32,'sawtooth',.09);if(navigator.vibrate)navigator.vibrate([70,30,180]);
+        markEnemyDefeated('FINAL STRIKE');
+      }
+    }else{
+      stopBattleActions();phase.textContent='MONSTER FINISH';stage.classList.add('final-fail-v863');
+      battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',48);battleDamage(stage,'K.O.','player',true);battleTone(48,.38,'square',.09);if(navigator.vibrate)navigator.vibrate([160,50,160]);
+    }
     await battleSleep(1050);
     stage.classList.add(win?'battle-win-v863':'battle-lose-v863');phase.textContent=win?'MISSION CLEAR':'MISSION FAILED';battleSfx(win?'victory':'defeat');
     msg.innerHTML=win?`<strong>VICTORY</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${d.reward.toLocaleString()}</b>${d.cardReward?`<div class="battle-card-drop"><strong>${d.cardReward.card.grade} ${escapeHtml(d.cardReward.card.title)}</strong><span>${d.cardReward.duplicate?`중복 카드 · 조각 +${d.cardReward.shardGained}`:'신규 카드 획득!'}</span></div>`:''}</div><em>화면을 눌러 돌아가기</em>`:`<strong>DEFEAT</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-defeat-tip">돌파 단계로 전투력을 높여보세요.</div><em>화면을 눌러 돌아가기</em>`;
