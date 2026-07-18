@@ -401,6 +401,8 @@ async function playBossBattleUltimate(stage,phase,ult){
   const duration=Math.max(800,Math.min(30000,Number(ult.durationMs||3000)));
   const mediaSrc=String(ult.mediaUrl||'').trim()?normalizeUltimateMediaPath(ult.mediaUrl):'';
   const soundSrc=String(ult.soundUrl||'').trim()?normalizeUltimateMediaPath(ult.soundUrl):'';
+  const volumePercent=Math.max(0,Math.min(100,Number(ult.volumePercent??35)));
+  const volume=volumePercent/100;
   const isVideo=/\.(mp4|webm)(?:[?#].*)?$/i.test(mediaSrc);
   const overlay=document.createElement('div');
   overlay.className='boss-ultimate-overlay';
@@ -419,8 +421,8 @@ async function playBossBattleUltimate(stage,phase,ult){
   stage.classList.add('boss-ultimate-fullscreen','ultimate-playing');
   if(phase)phase.textContent=ult.warningText||'BOSS ULTIMATE';
   let audio=null;
-  if(soundSrc&&battleSoundEnabled()){audio=new Audio(soundSrc);audio.volume=.9;audio.play().catch(()=>{});}
-  battleTone(46,.42,'sawtooth',.11);
+  if(soundSrc&&battleSoundEnabled()&&volume>0){audio=new Audio(soundSrc);audio.volume=volume;audio.play().catch(()=>{});}
+  if(volume>0)battleTone(46,.42,'sawtooth',.11*volume);
   if(navigator.vibrate)navigator.vibrate([140,55,190,60,120]);
   await new Promise(resolve=>{
     let done=false;
@@ -433,7 +435,8 @@ async function playBossBattleUltimate(stage,phase,ult){
     const video=overlay.querySelector('video');
     if(video){
       video.addEventListener('loadedmetadata',()=>{const portrait=video.videoHeight>video.videoWidth;video.classList.toggle('is-portrait',portrait);video.classList.toggle('is-landscape',!portrait)},{once:true});
-      video.volume=1;
+      video.volume=volume;
+      video.muted=Boolean(soundSrc)||!battleSoundEnabled()||volume<=0;
       video.addEventListener('ended',finish,{once:true});
       video.addEventListener('error',()=>{overlay.classList.add('media-failed');setTimeout(finish,700)},{once:true});
       const play=video.play();
