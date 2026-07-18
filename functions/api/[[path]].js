@@ -2624,14 +2624,29 @@ export async function onRequest(context){
         const after=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(before.id).first();await writeAdminLog(env,admin,'COUPON_UPDATE','COUPON',before.id,before,after);return json({ok:true,coupon:after});
       }
       if(request.method==='DELETE'){
-        const p=await readBody(request),ids=[...new Set((Array.isArray(p.ids)?p.ids:[]).map(Number).filter(x=>Number.isInteger(x)&&x>0))].slice(0,200);
+        const p=await readBody(request),ids=[...new Set((Array.isArray(p.ids)?p.ids:[]).map(Number).filter(x=>Number.isInteger(x)&&x>0))].slice(0,5000);
         if(!ids.length)return json({error:'삭제할 쿠폰을 선택하세요.'},400);
-        const placeholders=ids.map(()=>'?').join(','),before=await env.DB.prepare(`SELECT * FROM coupons WHERE deleted_at IS NULL AND id IN (${placeholders}) ORDER BY id DESC`).bind(...ids).all();
-        if(!before.results.length)return json({error:'삭제 가능한 쿠폰이 없습니다.'},404);
-        const targetIds=before.results.map(x=>Number(x.id)),targetPlaceholders=targetIds.map(()=>'?').join(',');
-        await env.DB.prepare(`UPDATE coupons SET is_active=0,deleted_at=CURRENT_TIMESTAMP,deleted_by=?,updated_at=CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND id IN (${targetPlaceholders})`).bind(admin.id,...targetIds).run();
-        await writeAdminLog(env,admin,'COUPON_BULK_DELETE','COUPON',targetIds.join(','),before.results,{deletedCount:targetIds.length,ids:targetIds});
-        return json({ok:true,deletedCount:targetIds.length,ids:targetIds});
+
+        // V1063: Cloudflare D1/SQLite SQL variable limit 대응.
+        // 대량 ID를 하나의 IN 절에 바인딩하지 않고 50개 단위로 조회·삭제한다.
+        const chunkSize=50,beforeRows=[];
+        for(let offset=0;offset<ids.length;offset+=chunkSize){
+          const chunk=ids.slice(offset,offset+chunkSize),placeholders=chunk.map(()=>'?').join(',');
+          const rows=await env.DB.prepare(`SELECT * FROM coupons WHERE deleted_at IS NULL AND id IN (${placeholders}) ORDER BY id DESC`).bind(...chunk).all();
+          if(Array.isArray(rows.results))beforeRows.push(...rows.results);
+        }
+        if(!beforeRows.length)return json({error:'삭제 가능한 쿠폰이 없습니다.'},404);
+
+        const uniqueRows=[...new Map(beforeRows.map(row=>[Number(row.id),row])).values()];
+        const targetIds=uniqueRows.map(row=>Number(row.id));
+        let deletedCount=0;
+        for(let offset=0;offset<targetIds.length;offset+=chunkSize){
+          const chunk=targetIds.slice(offset,offset+chunkSize),placeholders=chunk.map(()=>'?').join(',');
+          const result=await env.DB.prepare(`UPDATE coupons SET is_active=0,deleted_at=CURRENT_TIMESTAMP,deleted_by=?,updated_at=CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND id IN (${placeholders})`).bind(admin.id,...chunk).run();
+          deletedCount+=Number(result?.meta?.changes||0);
+        }
+        await writeAdminLog(env,admin,'COUPON_BULK_DELETE','COUPON',targetIds.join(','),uniqueRows,{deletedCount,requestedCount:ids.length,ids:targetIds});
+        return json({ok:true,deletedCount,ids:targetIds});
       }
     }
 
