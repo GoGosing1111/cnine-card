@@ -87,8 +87,9 @@
   }
 
   function init(){ensureView();hookShow();collapseEvolutionLogs();bindEnhancementControls();
-    // 기존 설정 화면에서 돌파 패널 제거: 독립 메뉴에서만 관리
-    document.querySelector('.breakthroughSettings')?.remove();
+    // 기존 CMS 설정 로더가 내부 버튼에 이벤트를 연결하므로 DOM은 유지하고 화면에서만 숨긴다.
+    const legacyBreakthrough = document.querySelector('.breakthroughSettings');
+    if (legacyBreakthrough) { legacyBreakthrough.hidden = true; legacyBreakthrough.style.display = 'none'; legacyBreakthrough.dataset.v1069Compat = '1'; }
   }
   // 메뉴 버튼은 기본 CMS가 클릭 이벤트를 등록한 뒤 동적으로 추가되므로 위임 클릭으로 직접 연다.
   document.addEventListener('click', event => {
@@ -99,6 +100,10 @@
     openEnhancement();
   }, true);
 
-  new MutationObserver(()=>{ensureView();hookShow();collapseEvolutionLogs();bindEnhancementControls();document.querySelector('.breakthroughSettings')?.remove();}).observe(document.documentElement,{childList:true,subtree:true});
+  new MutationObserver(()=>{
+    ensureView();hookShow();collapseEvolutionLogs();bindEnhancementControls();
+    const legacyBreakthrough = document.querySelector('.breakthroughSettings');
+    if (legacyBreakthrough) { legacyBreakthrough.hidden = true; legacyBreakthrough.style.display = 'none'; legacyBreakthrough.dataset.v1069Compat = '1'; }
+  }).observe(document.documentElement,{childList:true,subtree:true});
   setTimeout(init,0);
 })();
