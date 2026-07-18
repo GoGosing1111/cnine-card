@@ -1830,11 +1830,16 @@ export async function onRequest(context){
       const synergy=await evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),playerPower=Math.max(0,Math.floor(basePlayerPower*synergyMultiplier));
       const totalBattleDamage=playerPower+ultimateDamage;
       const preliminaryResult=totalBattleDamage>=monsterPower?'WIN':'LOSE';
-      const bossUltimateConfigured=Boolean(monster.is_boss&&monster.ultimate_enabled&&String(monster.ultimate_name||'').trim());
+      const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true;
+      const bossUltimateEnabled=Number(monster.ultimate_enabled||0)===1||monster.ultimate_enabled===true;
+      const bossUltimateConfigured=bossIsBoss&&bossUltimateEnabled;
       const bossTrigger=String(monster.ultimate_trigger||'ON_LOSS').toUpperCase();
       const bossChance=Math.max(0,Math.min(100,Number(monster.ultimate_chance??100)));
-      const bossForceCast=Boolean(monster.ultimate_force_cast);
-      const bossShouldCast=bossUltimateConfigured&&(bossForceCast||(bossTrigger==='ALWAYS')||(bossTrigger==='ON_LOSS'&&preliminaryResult==='LOSE')||(bossTrigger==='CHANCE'&&Math.random()*100<bossChance));
+      const bossForceCast=Number(monster.ultimate_force_cast||0)===1||monster.ultimate_force_cast===true;
+      // 강제 발동은 트리거/확률/유저 궁극기 결과와 무관하게 가장 먼저 확정한다.
+      // CHANCE 100% 역시 난수 경계 문제 없이 항상 발동하도록 명시 처리한다.
+      const bossChanceHit=bossChance>=100||Math.random()*100<bossChance;
+      const bossShouldCast=bossUltimateConfigured&&(bossForceCast||bossTrigger==='ALWAYS'||(bossTrigger==='ON_LOSS'&&preliminaryResult==='LOSE')||(bossTrigger==='CHANCE'&&bossChanceHit));
       const bossPveDamagePercent=Math.max(0,Math.min(100,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0)));
       const bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(playerPower*bossPveDamagePercent/100)):0;
       const effectiveBattleDamage=Math.max(0,totalBattleDamage-bossUltimatePenalty);
@@ -1844,7 +1849,7 @@ export async function onRequest(context){
       let cardReward=null;if(result==='WIN'&&settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}
       await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run();
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({result,reward,cardReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
+      return json({result,reward,cardReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
     }
 
 

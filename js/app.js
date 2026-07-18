@@ -375,6 +375,49 @@ function combatCardHtml(card,classes='combat-collection-card',level=null){if(!ca
 function battleFighterHtml(card,index,enemy=false){const lv=Number(card?.breakthroughLevel??card?.breakthrough_level??loadUser()?.breakthroughs?.[card?.id]??0);return `<div class="battle-card-fighter" ${enemy?`data-enemy-fighter="${index}"`:`data-fighter="${index}"`} style="--i:${index}"><div class="fighter-aura"></div>${combatCardHtml(card,'battle-fighter-card',lv)}</div>`}
 function normalizeUltimateMediaPath(path){const v=String(path||'/assets/effects/SKILL.gif').trim().replace(/\\/g,'/');if(!v)return '/assets/effects/SKILL.gif';return /^(https?:)?\/\//i.test(v)||v.startsWith('/')?v:`/${v.replace(/^\.\//,'')}`}
 async function playBattleUltimate(stage,ultimate,bonusDamage){if(!stage||!ultimate)return;const duration=Math.max(800,Math.min(30000,Number(ultimate.durationMs||3000))),src=normalizeUltimateMediaPath(ultimate.mediaUrl);const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);const overlay=document.createElement('div');overlay.className='battle-ultimate-overlay';overlay.innerHTML=`<div class="battle-ultimate-flash"></div><div class="battle-ultimate-title"><small>ULTIMATE SKILL</small><strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong><span>궁극기 타격 ${Number(bonusDamage||0).toLocaleString()}</span></div><div class="battle-ultimate-media">${isVideo?`<video src="${escapeHtml(src)}" playsinline preload="auto"></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}</div></div>`;stage.appendChild(overlay);stage.classList.add('ultimate-playing');battleTone(520,.28,'sawtooth',.08);if(navigator.vibrate)navigator.vibrate([60,30,100]);await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);overlay.classList.add('closing');setTimeout(()=>{overlay.remove();stage.classList.remove('ultimate-playing');resolve()},220)};const timer=setTimeout(finish,duration);const media=overlay.querySelector('video');if(media){media.muted=!battleSoundEnabled();media.volume=1;media.addEventListener('ended',finish,{once:true});media.addEventListener('error',()=>setTimeout(finish,800),{once:true});const playback=media.play();if(playback&&typeof playback.catch==='function')playback.catch(()=>{media.muted=true;media.play().catch(()=>{})})}const img=overlay.querySelector('img');if(img)img.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true})})}
+
+async function playBossBattleUltimate(stage,phase,ult){
+  if(!stage||!ult)return {teamHpLoss:0,penalty:0};
+  const duration=Math.max(600,Math.min(15000,Number(ult.durationMs||2400)));
+  const banner=document.createElement('div');
+  let bossMedia=null,bossAudio=null;
+  try{
+    stage.dataset.bossUltimateTheme=String(ult.theme||'CRIMSON').toLowerCase();
+    stage.classList.add('boss-ultimate-cast');
+    phase.textContent=ult.warningText||'BOSS ULTIMATE';
+    banner.className='boss-ultimate-banner';
+    banner.innerHTML=`<small>${escapeHtml(ult.warningText||'BOSS ULTIMATE')}</small><strong>${escapeHtml(ult.name||'ULTIMATE')}</strong>${ult.description?`<span>${escapeHtml(ult.description)}</span>`:''}`;
+    stage.appendChild(banner);
+    const bossMediaSrc=String(ult.mediaUrl||'').trim()?normalizeUltimateMediaPath(ult.mediaUrl):'';
+    if(bossMediaSrc){
+      bossMedia=document.createElement('div');bossMedia.className='boss-ultimate-resource';
+      const isVideo=/\.(mp4|webm)(?:[?#].*)?$/i.test(bossMediaSrc);
+      bossMedia.innerHTML=isVideo?`<video src="${escapeHtml(bossMediaSrc)}" ${ult.soundUrl?'muted':''} playsinline preload="auto"></video>`:`<img src="${escapeHtml(bossMediaSrc)}" alt="${escapeHtml(ult.name||'BOSS ULTIMATE')}">`;
+      stage.appendChild(bossMedia);
+      if(isVideo){const v=bossMedia.querySelector('video');if(v){v.addEventListener('error',()=>{bossMedia?.classList.add('media-failed')},{once:true});const play=v.play();if(play&&typeof play.catch==='function')play.catch(()=>bossMedia?.classList.add('media-failed'));}}
+      else bossMedia.querySelector('img')?.addEventListener('error',()=>bossMedia?.classList.add('media-failed'),{once:true});
+    }
+    const bossSoundSrc=String(ult.soundUrl||'').trim()?normalizeUltimateMediaPath(ult.soundUrl):'';
+    if(bossSoundSrc&&battleSoundEnabled()){bossAudio=new Audio(bossSoundSrc);bossAudio.volume=.9;bossAudio.play().catch(()=>{});}
+    if(ult.zoom)stage.classList.add('boss-ultimate-zoom');
+    if(ult.shake)stage.classList.add('boss-ultimate-shake');
+    battleTone(46,.42,'sawtooth',.11);if(navigator.vibrate)navigator.vibrate([140,55,190,60,120]);
+    await battleSleep(Math.max(700,Math.min(5000,duration*.45)));
+    const penalty=Math.max(0,Number(ult.penalty||0));
+    const teamHpLoss=Math.max(12,Math.min(55,Number(ult.damagePercent||15)));
+    stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.add('boss-ultimate-hit'));
+    battleBurst(stage,'30%','43%',52);battleDamage(stage,penalty?`-${Math.floor(penalty).toLocaleString()}`:'ULTIMATE HIT','player',true);
+    phase.textContent=`${ult.name||'BOSS ULTIMATE'} · HIT`;
+    await battleSleep(Math.max(650,Math.min(3500,duration*.35)));
+    return {teamHpLoss,penalty};
+  }finally{
+    if(bossAudio){bossAudio.pause();bossAudio.currentTime=0;}
+    if(bossMedia)bossMedia.remove();
+    banner.remove();
+    stage.classList.remove('boss-ultimate-cast','boss-ultimate-zoom','boss-ultimate-shake');
+    stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('boss-ultimate-hit'));
+  }
+}
 async function startBattle(){
   if(document.getElementById('battleAuto')?.checked)return startAutoBattle();
   saveLastPveMonsterId(battleState.selectedMonster);
@@ -407,7 +450,9 @@ async function startBattle(){
     const fightPromise=apiRequest('battle/fight',{method:'POST',body:JSON.stringify({monsterId:battleState.selectedMonster,cardIds:battleState.deck})});
     const d=await fightPromise;
     let enemyHp=100,teamHp=100,battleEnded=false,enemyDefeated=false,pendingEnemyDefeat=false,pendingTeamDefeat=false;
-    const bossUltimateQueued=Boolean(d.bossUltimate);
+    const queuedBossUltimate=d.bossUltimate?{...d.bossUltimate}:null;
+    const bossUltimateQueued=Boolean(queuedBossUltimate);
+    if(d.bossUltimateState&&!bossUltimateQueued)console.warn('[BOSS ULTIMATE] server state',d.bossUltimateState);
     const stopBattleActions=()=>{
       battleEnded=true;
       stage.classList.remove('member-strike','member-skill','monster-heavy-attack');
@@ -450,25 +495,12 @@ async function startBattle(){
       }
       if(!battleEnded&&!pendingEnemyDefeat){phase.textContent='BATTLE RESUME';await battleSleep(250);}
     }
-    if(d.bossUltimate&&!battleEnded){
-      const ult=d.bossUltimate;
-      stage.dataset.bossUltimateTheme=String(ult.theme||'CRIMSON').toLowerCase();
-      stage.classList.add('boss-ultimate-cast');
-      phase.textContent=ult.warningText||'BOSS ULTIMATE';
-      const banner=document.createElement('div');banner.className='boss-ultimate-banner';banner.innerHTML=`<small>${escapeHtml(ult.warningText||'BOSS ULTIMATE')}</small><strong>${escapeHtml(ult.name||'ULTIMATE')}</strong>${ult.description?`<span>${escapeHtml(ult.description)}</span>`:''}`;stage.appendChild(banner);
-      const bossMediaSrc=String(ult.mediaUrl||'').trim()?normalizeUltimateMediaPath(ult.mediaUrl):'';let bossMedia=null;if(bossMediaSrc){bossMedia=document.createElement('div');bossMedia.className='boss-ultimate-resource';const isVideo=/\.(mp4|webm)(?:[?#].*)?$/i.test(bossMediaSrc);bossMedia.innerHTML=isVideo?`<video src="${escapeHtml(bossMediaSrc)}" autoplay ${ult.soundUrl?'muted':''} playsinline></video>`:`<img src="${escapeHtml(bossMediaSrc)}" alt="${escapeHtml(ult.name||'BOSS ULTIMATE')}">`;stage.appendChild(bossMedia);if(isVideo){const v=bossMedia.querySelector('video');v?.play?.().catch(()=>{});}}
-      const bossSoundSrc=String(ult.soundUrl||'').trim()?normalizeUltimateMediaPath(ult.soundUrl):'';let bossAudio=null;if(bossSoundSrc&&battleSoundEnabled()){bossAudio=new Audio(bossSoundSrc);bossAudio.volume=.9;bossAudio.play().catch(()=>{});}
-      if(ult.zoom)stage.classList.add('boss-ultimate-zoom');
-      if(ult.shake)stage.classList.add('boss-ultimate-shake');
-      battleTone(46,.42,'sawtooth',.11);if(navigator.vibrate)navigator.vibrate([140,55,190,60,120]);
-      await battleSleep(Math.max(700,Math.min(5000,Number(ult.durationMs||2400)*.45)));
-      const penalty=Math.max(0,Number(ult.penalty||0));
-      teamHp=Math.max(0,teamHp-Math.max(12,Math.min(55,Number(ult.damagePercent||15))));battleSetHp(stage,'team',teamHp);
-      stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.add('boss-ultimate-hit'));
-      battleBurst(stage,'30%','43%',52);battleDamage(stage,penalty?`-${Math.floor(penalty).toLocaleString()}`:'ULTIMATE HIT','player',true);
-      phase.textContent=`${ult.name||'BOSS ULTIMATE'} · HIT`;
-      await battleSleep(Math.max(650,Math.min(3500,Number(ult.durationMs||2400)*.35)));
-      if(bossAudio){bossAudio.pause();bossAudio.currentTime=0;}if(bossMedia)bossMedia.remove();banner.remove();stage.classList.remove('boss-ultimate-cast','boss-ultimate-zoom','boss-ultimate-shake');stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('boss-ultimate-hit'));
+    // 전투 시작 시 서버가 확정한 보스 궁극기는 유저 궁극기 결과와 관계없이 반드시 실행한다.
+    // 영상/사운드 로딩 실패도 배너·피해 연출을 막지 않는다.
+    if(queuedBossUltimate){
+      const bossHit=await playBossBattleUltimate(stage,phase,queuedBossUltimate);
+      teamHp=Math.max(0,teamHp-Number(bossHit.teamHpLoss||0));
+      battleSetHp(stage,'team',teamHp);
       if(teamHp<=0)pendingTeamDefeat=true;
     }
     if(pendingEnemyDefeat||pendingTeamDefeat){
