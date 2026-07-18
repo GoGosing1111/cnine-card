@@ -49,20 +49,47 @@
     });
   }
 
-  const originalShow=window.show;
-  function hookShow(){
-    if(typeof window.show!=='function'||window.show.__v1065)return;
-    const base=window.show;
-    window.show=function(view,prefetched){
-      if(view!=='enhancement')return base(view,prefetched);
-      state.view=view;document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!==`view-${view}`);document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===view));$('#pageTitle').textContent='돌파·강화 관리';load().catch(e=>alert(e.message));
-    };window.show.__v1065=true;
+  function openEnhancement(){
+    ensureView();
+    try { if (typeof state !== 'undefined') state.view = 'enhancement'; } catch (_) {}
+    document.querySelectorAll('.view').forEach(x => { x.hidden = x.id !== 'view-enhancement'; });
+    document.querySelectorAll('#nav button').forEach(x => x.classList.toggle('active', x.dataset.view === 'enhancement'));
+    const title = $('#pageTitle'); if (title) title.textContent = '돌파·강화 관리';
+    load().catch(e => alert(e.message));
   }
 
-  function init(){ensureView();hookShow();collapseEvolutionLogs();$('#enhancementSaveBtn')?.addEventListener('click',()=>save().catch(e=>alert(e.message)));
+  function hookShow(){
+    // 구형 CMS의 show가 전역으로 노출된 경우에도 호환한다.
+    if(typeof window.show!=='function'||window.show.__v1066)return;
+    const base=window.show;
+    window.show=function(view,prefetched){
+      if(view==='enhancement'){ openEnhancement(); return; }
+      return base(view,prefetched);
+    };
+    window.show.__v1066=true;
+  }
+
+  function bindEnhancementControls(){
+    const saveBtn = $('#enhancementSaveBtn');
+    if (saveBtn && saveBtn.dataset.bound !== '1') {
+      saveBtn.dataset.bound = '1';
+      saveBtn.addEventListener('click',()=>save().catch(e=>alert(e.message)));
+    }
+  }
+
+  function init(){ensureView();hookShow();collapseEvolutionLogs();bindEnhancementControls();
     // 기존 설정 화면에서 돌파 패널 제거: 독립 메뉴에서만 관리
     document.querySelector('.breakthroughSettings')?.remove();
   }
-  new MutationObserver(()=>{ensureView();hookShow();collapseEvolutionLogs();document.querySelector('.breakthroughSettings')?.remove();}).observe(document.documentElement,{childList:true,subtree:true});
+  // 메뉴 버튼은 기본 CMS가 클릭 이벤트를 등록한 뒤 동적으로 추가되므로 위임 클릭으로 직접 연다.
+  document.addEventListener('click', event => {
+    const button = event.target.closest?.('#nav button[data-view="enhancement"]');
+    if (!button) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    openEnhancement();
+  }, true);
+
+  new MutationObserver(()=>{ensureView();hookShow();collapseEvolutionLogs();bindEnhancementControls();document.querySelector('.breakthroughSettings')?.remove();}).observe(document.documentElement,{childList:true,subtree:true});
   setTimeout(init,0);
 })();
