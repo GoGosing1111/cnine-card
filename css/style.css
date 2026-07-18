@@ -2043,3 +2043,23 @@ div{
 .boss-ultimate-resource img,.boss-ultimate-resource video{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 0 28px rgba(255,44,88,.5))}
 @keyframes bossResourceIn{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}
 @media(max-width:640px){.boss-ultimate-resource{inset:12% 3%;border-radius:14px}.boss-ultimate-resource img,.boss-ultimate-resource video{object-fit:contain}}
+
+/* V1052 boss ultimate full-screen cinematic */
+.boss-ultimate-overlay{position:absolute;inset:0;z-index:92;display:grid;place-items:center;overflow:hidden;background:#000;animation:ultimateOverlayIn .18s ease-out both}
+.boss-ultimate-overlay.closing{animation:ultimateOverlayOut .22s ease-in both}
+.boss-ultimate-overlay-media{position:absolute;inset:0;display:grid;place-items:center;background:#000}
+.boss-ultimate-overlay-media img,.boss-ultimate-overlay-media video{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center center;background:#000}
+.boss-ultimate-overlay-title{position:absolute;z-index:4;left:4%;right:4%;bottom:max(4%,env(safe-area-inset-bottom));text-align:center;text-shadow:0 2px 5px #000,0 0 28px #000;pointer-events:none}
+.boss-ultimate-overlay-title small,.boss-ultimate-overlay-title strong,.boss-ultimate-overlay-title span{display:block}
+.boss-ultimate-overlay-title small{font-size:clamp(10px,1.4vw,14px);font-weight:1000;letter-spacing:.3em;color:#ff7189}
+.boss-ultimate-overlay-title strong{margin-top:6px;font-size:clamp(28px,6vw,72px);line-height:1;color:#fff;text-shadow:0 0 14px #ff365c,0 0 38px #76001e}
+.boss-ultimate-overlay-title span{margin:9px auto 0;max-width:min(720px,88vw);font-size:clamp(11px,1.6vw,15px);color:#ffd5dc}
+.boss-ultimate-overlay-flash{position:absolute;inset:0;z-index:3;pointer-events:none;background:#fff;mix-blend-mode:screen;animation:ultimateFlash .8s ease-out both}
+.boss-ultimate-overlay-fallback{font-size:clamp(42px,10vw,130px);font-weight:1000;letter-spacing:.08em;color:#fff;text-align:center;text-shadow:0 0 25px #ff365c,0 0 65px #76001e}
+.boss-ultimate-overlay.media-failed .boss-ultimate-overlay-title{opacity:1}
+.boss-ultimate-fullscreen .battle-arena,.boss-ultimate-fullscreen .battle-hud,.boss-ultimate-fullscreen .battle-topline,.boss-ultimate-fullscreen .battle-message{visibility:hidden}
+@media(max-width:640px){
+  .boss-ultimate-overlay-title{left:3%;right:3%;bottom:max(3%,env(safe-area-inset-bottom))}
+  .boss-ultimate-overlay-title strong{font-size:clamp(26px,10vw,46px)}
+  .boss-ultimate-overlay-title span{max-width:92vw;line-height:1.35}
+}
