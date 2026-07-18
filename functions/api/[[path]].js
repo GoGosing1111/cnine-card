@@ -2183,7 +2183,7 @@ export async function onRequest(context){
     }
     if(path==='admin/verified-coin-message-send'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      const body=await readBody(request),title=String(body.title||'와고 2단계 인증 보상').trim().slice(0,100),messageBody=String(body.body||'와고 2단계 인증 완료 유저에게 지급되는 코인 보상입니다.').trim().slice(0,1000),rewardCoin=Math.max(1,Math.floor(Number(body.rewardCoin)||0)),includeOwner=body.includeOwner===true,includeAdmin=body.includeAdmin===true;
+      const body=await readBody(request),title=String(body.title||'와고 2단계 인증 보상').trim().slice(0,100),messageBody=String(body.body||'와고 2단계 인증 완료 유저에게 지급되는 코인 보상입니다.').trim().slice(0,1000),rawRewardCoin=Number(String(body.rewardCoin??'').replace(/,/g,'').trim()),rewardCoin=Math.max(1,Math.min(100000000,Math.floor(rawRewardCoin||0))),includeOwner=body.includeOwner===true,includeAdmin=body.includeAdmin===true;
       if(!rewardCoin)return json({error:'지급 코인을 입력하세요.'},400);
       const users=await env.DB.prepare("SELECT w.user_id,u.nickname,UPPER(TRIM(COALESCE(u.role,'USER'))) AS role FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE UPPER(TRIM(COALESCE(w.status,'')))='VERIFIED' AND UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND (UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='OWNER') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='ADMIN'))").bind(includeOwner?1:0,includeAdmin?1:0).all();let sent=0,sentUsers=0,sentOwners=0,sentAdmins=0;
       const recipients=users.results||[];
