@@ -442,6 +442,25 @@ async function startBattle(){
       }
       if(!battleEnded){phase.textContent='BATTLE RESUME';await battleSleep(250);}
     }
+    if(d.bossUltimate&&!battleEnded){
+      const ult=d.bossUltimate;
+      stage.dataset.bossUltimateTheme=String(ult.theme||'CRIMSON').toLowerCase();
+      stage.classList.add('boss-ultimate-cast');
+      phase.textContent=ult.warningText||'BOSS ULTIMATE';
+      const banner=document.createElement('div');banner.className='boss-ultimate-banner';banner.innerHTML=`<small>${escapeHtml(ult.warningText||'BOSS ULTIMATE')}</small><strong>${escapeHtml(ult.name||'ULTIMATE')}</strong>${ult.description?`<span>${escapeHtml(ult.description)}</span>`:''}`;stage.appendChild(banner);
+      if(ult.zoom)stage.classList.add('boss-ultimate-zoom');
+      if(ult.shake)stage.classList.add('boss-ultimate-shake');
+      battleTone(46,.42,'sawtooth',.11);if(navigator.vibrate)navigator.vibrate([140,55,190,60,120]);
+      await battleSleep(900);
+      const penalty=Math.max(0,Number(ult.penalty||0));
+      teamHp=Math.max(0,teamHp-Math.max(12,Math.min(55,Number(ult.damagePercent||15))));battleSetHp(stage,'team',teamHp);
+      stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.add('boss-ultimate-hit'));
+      battleBurst(stage,'30%','43%',52);battleDamage(stage,penalty?`-${Math.floor(penalty).toLocaleString()}`:'ULTIMATE HIT','player',true);
+      phase.textContent=`${ult.name||'BOSS ULTIMATE'} · HIT`;
+      await battleSleep(900);
+      banner.remove();stage.classList.remove('boss-ultimate-cast','boss-ultimate-zoom','boss-ultimate-shake');stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('boss-ultimate-hit'));
+      if(teamHp<=0){battleEnded=true;phase.textContent='PARTY DEFEATED';}
+    }
     const win=d.result==='WIN';
     const enemySteps=win?[14,17,18,20,31]:[9,11,13,15,17];
     const teamCounter=win?[8,10]:[18,25,31];
