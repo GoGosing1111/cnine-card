@@ -406,7 +406,8 @@ async function startBattle(){
     count.textContent='READY'; stage.classList.add('ready'); await battleSleep(650); count.textContent='FIGHT'; battleTone(440,.18,'square',.075); stage.classList.add('fight'); await battleSleep(520); count.textContent='';
     const fightPromise=apiRequest('battle/fight',{method:'POST',body:JSON.stringify({monsterId:battleState.selectedMonster,cardIds:battleState.deck})});
     const d=await fightPromise;
-    let enemyHp=100,teamHp=100,battleEnded=false,enemyDefeated=false;
+    let enemyHp=100,teamHp=100,battleEnded=false,enemyDefeated=false,pendingEnemyDefeat=false,pendingTeamDefeat=false;
+    const bossUltimateQueued=Boolean(d.bossUltimate);
     const stopBattleActions=()=>{
       battleEnded=true;
       stage.classList.remove('member-strike','member-skill','monster-heavy-attack');
@@ -438,9 +439,16 @@ async function startBattle(){
         battleTone(680,.32,'sawtooth',.09);
         if(navigator.vibrate)navigator.vibrate([80,35,140]);
         await battleSleep(850);
-        if(enemyHp<=0)markEnemyDefeated('ULTIMATE FINISH');
+        if(enemyHp<=0){
+          if(bossUltimateQueued){
+            pendingEnemyDefeat=true;
+            phase.textContent='ULTIMATE FINISH · BOSS COUNTER';
+          }else{
+            markEnemyDefeated('ULTIMATE FINISH');
+          }
+        }
       }
-      if(!battleEnded){phase.textContent='BATTLE RESUME';await battleSleep(250);}
+      if(!battleEnded&&!pendingEnemyDefeat){phase.textContent='BATTLE RESUME';await battleSleep(250);}
     }
     if(d.bossUltimate&&!battleEnded){
       const ult=d.bossUltimate;
@@ -461,7 +469,17 @@ async function startBattle(){
       phase.textContent=`${ult.name||'BOSS ULTIMATE'} · HIT`;
       await battleSleep(Math.max(650,Math.min(3500,Number(ult.durationMs||2400)*.35)));
       if(bossAudio){bossAudio.pause();bossAudio.currentTime=0;}if(bossMedia)bossMedia.remove();banner.remove();stage.classList.remove('boss-ultimate-cast','boss-ultimate-zoom','boss-ultimate-shake');stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('boss-ultimate-hit'));
-      if(teamHp<=0){battleEnded=true;phase.textContent='PARTY DEFEATED';}
+      if(teamHp<=0)pendingTeamDefeat=true;
+    }
+    if(pendingEnemyDefeat||pendingTeamDefeat){
+      if(d.result==='LOSE'&&pendingTeamDefeat){
+        teamHp=0;
+        battleSetHp(stage,'team',0);
+        stopBattleActions();
+        phase.textContent='PARTY DEFEATED';
+      }else if(pendingEnemyDefeat){
+        markEnemyDefeated('ULTIMATE FINISH');
+      }
     }
     const win=d.result==='WIN';
     const enemySteps=win?[14,17,18,20,31]:[9,11,13,15,17];
