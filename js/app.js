@@ -448,17 +448,19 @@ async function startBattle(){
       stage.classList.add('boss-ultimate-cast');
       phase.textContent=ult.warningText||'BOSS ULTIMATE';
       const banner=document.createElement('div');banner.className='boss-ultimate-banner';banner.innerHTML=`<small>${escapeHtml(ult.warningText||'BOSS ULTIMATE')}</small><strong>${escapeHtml(ult.name||'ULTIMATE')}</strong>${ult.description?`<span>${escapeHtml(ult.description)}</span>`:''}`;stage.appendChild(banner);
+      const bossMediaSrc=normalizeUltimateMediaPath(ult.mediaUrl||'');let bossMedia=null;if(bossMediaSrc){bossMedia=document.createElement('div');bossMedia.className='boss-ultimate-resource';const isVideo=/\.(mp4|webm)(?:[?#].*)?$/i.test(bossMediaSrc);bossMedia.innerHTML=isVideo?`<video src="${escapeHtml(bossMediaSrc)}" autoplay muted playsinline></video>`:`<img src="${escapeHtml(bossMediaSrc)}" alt="${escapeHtml(ult.name||'BOSS ULTIMATE')}">`;stage.appendChild(bossMedia);}
+      const bossSoundSrc=normalizeUltimateMediaPath(ult.soundUrl||'');let bossAudio=null;if(bossSoundSrc&&battleSoundEnabled()){bossAudio=new Audio(bossSoundSrc);bossAudio.volume=.9;bossAudio.play().catch(()=>{});}
       if(ult.zoom)stage.classList.add('boss-ultimate-zoom');
       if(ult.shake)stage.classList.add('boss-ultimate-shake');
       battleTone(46,.42,'sawtooth',.11);if(navigator.vibrate)navigator.vibrate([140,55,190,60,120]);
-      await battleSleep(900);
+      await battleSleep(Math.max(700,Math.min(5000,Number(ult.durationMs||2400)*.45)));
       const penalty=Math.max(0,Number(ult.penalty||0));
       teamHp=Math.max(0,teamHp-Math.max(12,Math.min(55,Number(ult.damagePercent||15))));battleSetHp(stage,'team',teamHp);
       stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.add('boss-ultimate-hit'));
       battleBurst(stage,'30%','43%',52);battleDamage(stage,penalty?`-${Math.floor(penalty).toLocaleString()}`:'ULTIMATE HIT','player',true);
       phase.textContent=`${ult.name||'BOSS ULTIMATE'} · HIT`;
-      await battleSleep(900);
-      banner.remove();stage.classList.remove('boss-ultimate-cast','boss-ultimate-zoom','boss-ultimate-shake');stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('boss-ultimate-hit'));
+      await battleSleep(Math.max(650,Math.min(3500,Number(ult.durationMs||2400)*.35)));
+      if(bossAudio){bossAudio.pause();bossAudio.currentTime=0;}if(bossMedia)bossMedia.remove();banner.remove();stage.classList.remove('boss-ultimate-cast','boss-ultimate-zoom','boss-ultimate-shake');stage.querySelectorAll('.battle-card-fighter').forEach(el=>el.classList.remove('boss-ultimate-hit'));
       if(teamHp<=0){battleEnded=true;phase.textContent='PARTY DEFEATED';}
     }
     const win=d.result==='WIN';
