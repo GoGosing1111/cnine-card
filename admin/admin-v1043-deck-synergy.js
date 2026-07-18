@@ -2,6 +2,19 @@
   const prevShow=show;show=function(view,prefetched){if(view!=='decksynergy')return prevShow(view,prefetched);state.view='decksynergy';document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!=='view-decksynergy');document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.view==='decksynergy'));$('#pageTitle').textContent='덱 효과 관리';loadDeckSynergyAdmin().catch(e=>alert(e.message));};
   let data=null,editing=null,testIds=[];
   const effectLabel={attackPercent:'공격력',hpPercent:'HP',bossDamagePercent:'보스 피해',damageReductionPercent:'받는 피해 감소'};
+  function cardImageUrl(value){
+    const raw=String(value||'').trim().replace(/\\/g,'/');
+    if(!raw)return '';
+    if(/^(?:https?:)?\/\//i.test(raw)||/^(?:data|blob):/i.test(raw))return raw;
+    if(raw.startsWith('/'))return raw;
+    if(raw.startsWith('./'))return '/'+raw.slice(2);
+    if(raw.startsWith('../'))return '/'+raw.replace(/^(?:\.\.\/)+/,'');
+    return '/'+raw.replace(/^\/+/, '');
+  }
+  function cardImageAttrs(c){
+    const src=esc(cardImageUrl(c&&c.image));
+    return `src="${src}" loading="lazy" onerror="this.onerror=null;this.removeAttribute('src');this.classList.add('dsImageMissing');"`;
+  }
   async function loadDeckSynergyAdmin(){data=await api('admin/deck-synergies');const root=$('#deckSynergyAdminRoot');root.innerHTML=`<div class="dsCmsShell">
   <section class="panel dsHero"><div><small>OWNER TEST CONTROL</small><h2>덱 효과 시스템</h2><p>OFF 상태에서는 일반 유저 노출과 실제 효과 적용이 모두 차단됩니다. OWNER 테스트만 별도로 허용할 수 있습니다.</p></div><div class="dsSwitches"><label><span>전체 공개</span><input id="dsEnabled" type="checkbox" ${data.settings.enabled?'checked':''}></label><label><span>OWNER 테스트</span><input id="dsOwnerTest" type="checkbox" ${data.settings.ownerTestEnabled!==false?'checked':''}></label><button id="dsSaveSettings">운영 상태 저장</button></div></section>
   <section class="panel dsEditor"><div class="maintenanceHead"><div><small>SYNERGY BUILDER</small><h2 id="dsEditorTitle">새 덱 효과 만들기</h2><p>지정 카드가 현재 5장 덱에 모두 편성되어야 활성화됩니다.</p></div><button id="dsReset" class="ghost">새로 작성</button></div>
@@ -13,13 +26,13 @@
   <section class="panel"><div class="maintenanceHead"><div><small>REGISTERED SYNERGIES</small><h2>등록된 덱 효과</h2></div></div><div class="dsList">${data.synergies.map(row=>synergyRow(row)).join('')||'<div class="muted">등록된 덱 효과가 없습니다.</div>'}</div></section></div>`;
   bind();renderCards();renderSelected();renderTestDeck();}
   function synergyRow(x){const cards=x.requiredCardIds.map(id=>data.cards.find(c=>String(c.id)===String(id))).filter(Boolean);return `<article class="dsListRow ${x.isActive?'':'off'}"><div class="dsListHead"><div><small>${x.scopes.join(' · ')||'전체 콘텐츠'}</small><h3>${esc(x.name)}</h3><p>${esc(x.description||'설명 없음')}</p></div><span>${x.isActive?'ON':'OFF'}</span></div><div class="dsMiniCards">${cards.map(cardChip).join('')}</div><div class="dsEffectTags">${Object.entries(x.effects).filter(([,v])=>Number(v)).map(([k,v])=>`<b>${effectLabel[k]} ${Number(v)>0?'+':''}${v}%</b>`).join('')||'<b>효과 미설정</b>'}</div><div class="dsRowActions"><button data-edit="${x.id}">수정</button><button data-disable="${x.id}" class="ghost">비활성</button></div></article>`}
-  function cardChip(c){return `<span><img src="${esc(c.image||'')}" alt=""><em>${esc(c.memberName)}</em><b>${esc(c.title)}</b></span>`}
+  function cardChip(c){return `<span><img ${cardImageAttrs(c)} alt="${esc(c.title||c.memberName||'카드 이미지')}"><em>${esc(c.memberName)}</em><b>${esc(c.title)}</b></span>`}
   function bind(){
     $('#dsSaveSettings').onclick=async()=>{const enabled=$('#dsEnabled').checked;if(enabled&&!confirm('일반 유저에게 덱 효과 시스템을 공개하고 실제 전투 적용을 허용할까요?'))return;await api('admin/deck-synergies',{method:'POST',body:JSON.stringify({action:'SAVE_SETTINGS',enabled,ownerTestEnabled:$('#dsOwnerTest').checked})});alert('운영 상태가 저장되었습니다.');loadDeckSynergyAdmin()};
     $('#dsCardSearch').oninput=renderCards;$('#dsReset').onclick=resetEditor;$('#dsSave').onclick=saveSynergy;$('#dsRunTest').onclick=runTest;
     document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editSynergy(Number(b.dataset.edit)));document.querySelectorAll('[data-disable]').forEach(b=>b.onclick=async()=>{if(!confirm('이 덱 효과를 비활성화할까요?'))return;await api('admin/deck-synergies',{method:'POST',body:JSON.stringify({action:'DELETE_SYNERGY',id:Number(b.dataset.disable)})});loadDeckSynergyAdmin()});
   }
-  function renderCards(){const q=String($('#dsCardSearch')?.value||'').trim().toLowerCase(),box=$('#dsCardGrid');if(!box)return;box.innerHTML=data.cards.filter(c=>!q||`${c.memberName} ${c.title} ${c.grade}`.toLowerCase().includes(q)).slice(0,180).map(c=>`<button class="dsCardPick ${editing?.requiredCardIds?.map(String).includes(String(c.id))?'selected':''}" data-card="${c.id}"><img src="${esc(c.image||'')}" alt=""><span><small>${esc(c.memberName)} · ${esc(c.grade)}</small><b>${esc(c.title)}</b></span><em>${testIds.includes(String(c.id))?'테스트 덱':'선택'}</em></button>`).join('');box.querySelectorAll('[data-card]').forEach(b=>{b.onclick=()=>toggleRequired(String(b.dataset.card));b.oncontextmenu=e=>{e.preventDefault();toggleTest(String(b.dataset.card))}})}
+  function renderCards(){const q=String($('#dsCardSearch')?.value||'').trim().toLowerCase(),box=$('#dsCardGrid');if(!box)return;box.innerHTML=data.cards.filter(c=>!q||`${c.memberName} ${c.title} ${c.grade}`.toLowerCase().includes(q)).slice(0,180).map(c=>`<button class="dsCardPick ${editing?.requiredCardIds?.map(String).includes(String(c.id))?'selected':''}" data-card="${c.id}"><img ${cardImageAttrs(c)} alt="${esc(c.title||c.memberName||'카드 이미지')}"><span><small>${esc(c.memberName)} · ${esc(c.grade)}</small><b>${esc(c.title)}</b></span><em>${testIds.includes(String(c.id))?'테스트 덱':'선택'}</em></button>`).join('');box.querySelectorAll('[data-card]').forEach(b=>{b.onclick=()=>toggleRequired(String(b.dataset.card));b.oncontextmenu=e=>{e.preventDefault();toggleTest(String(b.dataset.card))}})}
   function toggleRequired(id){editing=editing||{requiredCardIds:[],scopes:[],effects:{},isActive:true};const a=editing.requiredCardIds.map(String),i=a.indexOf(id);if(i>=0)a.splice(i,1);else if(a.length<5)a.push(id);else return alert('조건 카드는 최대 5장입니다.');editing.requiredCardIds=a;renderCards();renderSelected()}
   function toggleTest(id){const i=testIds.indexOf(id);if(i>=0)testIds.splice(i,1);else if(testIds.length<5)testIds.push(id);else return alert('테스트 덱은 5장까지입니다.');renderCards();renderTestDeck()}
   function renderSelected(){const ids=editing?.requiredCardIds||[],box=$('#dsSelectedCards');if(!box)return;$('#dsSelectedCount').textContent=`${ids.length} / 5`;box.innerHTML=ids.map(id=>{const c=data.cards.find(x=>String(x.id)===String(id));return c?`<button data-remove-required="${id}">${cardChip(c)}<i>×</i></button>`:''}).join('')||'<span class="muted">조건 카드를 선택하세요.</span>';box.querySelectorAll('[data-remove-required]').forEach(b=>b.onclick=()=>toggleRequired(String(b.dataset.removeRequired)))}
