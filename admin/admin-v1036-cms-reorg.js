@@ -3,6 +3,7 @@
   const originalShow = window.show;
 
   function moveMonsterControls() {
+    if (window.__V1045_MONSTER_STUDIO__) return;
     const mount = document.querySelector('#monsterManagementMount');
     if (!mount) return;
     const form = document.querySelector('#monsterName')?.closest('.panel');
@@ -21,6 +22,9 @@
   }
 
   function loadMonsterMenu() {
+    if (window.__V1045_MONSTER_STUDIO__ && typeof window.loadExpandedMonsterAdmin === 'function') {
+      return Promise.resolve(window.loadExpandedMonsterAdmin());
+    }
     return Promise.resolve(window.loadBattleAdmin()).then(() => moveMonsterControls());
   }
 

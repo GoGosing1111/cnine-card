@@ -1,5 +1,6 @@
 /* V1045 expanded monster editor + boss ultimate controls */
 (()=>{
+  window.__V1045_MONSTER_STUDIO__ = true;
   const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const img=v=>{v=String(v||'').trim();if(!v)return '';if(/^(https?:|data:|blob:|\/)/i.test(v))return v;return '/'+v.replace(/^\.\/?/,'').replace(/^\.\.\//,'')};
   let cache=[];
@@ -32,7 +33,21 @@
     form.querySelector('#muPreview').onclick=()=>{const l=document.querySelector('#muPreviewLayer');l.hidden=false;l.dataset.theme=form.querySelector('#muTheme').value;l.querySelector('#muPreviewWarning').textContent=form.querySelector('#muWarning').value||'BOSS ULTIMATE';l.querySelector('#muPreviewName').textContent=form.querySelector('#muUltimateName').value||'ULTIMATE';l.onclick=()=>l.hidden=true};
     form.onsubmit=async e=>{e.preventDefault();const body={id:m.id||undefined,name:form.querySelector('#muName').value,image:form.querySelector('#muImage').value,battlePower:Number(form.querySelector('#muPower').value),rewardCoin:Number(form.querySelector('#muReward').value),isBoss:form.querySelector('#muBoss').value==='1',isActive:form.querySelector('#muActive').checked,sortOrder:Number(form.querySelector('#muSort').value),ultimateEnabled:form.querySelector('#muUltimateEnabled').checked,ultimateName:form.querySelector('#muUltimateName').value,ultimateDescription:form.querySelector('#muUltimateDescription').value,ultimateTrigger:form.querySelector('#muTrigger').value,ultimateChance:Number(form.querySelector('#muChance').value),ultimateDamagePercent:Number(form.querySelector('#muDamage').value),ultimateMaxUses:Number(form.querySelector('#muMaxUses').value),ultimateTarget:form.querySelector('#muTarget').value,ultimateTheme:form.querySelector('#muTheme').value,ultimateWarningText:form.querySelector('#muWarning').value,ultimateShake:form.querySelector('#muShake').checked,ultimateZoom:form.querySelector('#muZoom').checked};if(body.ultimateEnabled&&!body.isBoss)return alert('궁극기를 사용하려면 구분을 보스로 설정하세요.');await api('admin/battle',{method:m.id?'PATCH':'POST',body:JSON.stringify(body)});alert('몬스터 설정이 저장되었습니다.');await loadExpandedMonsterAdmin();};
   }
-  const originalShow=window.show; if(typeof originalShow==='function'){window.show=function(view,prefetched){const r=originalShow(view,prefetched);if(view==='monsters')setTimeout(loadExpandedMonsterAdmin,0);return r}}
+  const originalShow=window.show;
+  if(typeof originalShow==='function'){
+    window.show=function(view,prefetched){
+      if(view==='monsters'){
+        state.view='monsters';
+        document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!=='view-monsters');
+        document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.view==='monsters'));
+        const title=document.querySelector('#pageTitle');
+        if(title) title.textContent='몬스터 관리';
+        loadExpandedMonsterAdmin().catch(e=>alert(e.message||e));
+        return;
+      }
+      return originalShow(view,prefetched);
+    }
+  }
   window.loadExpandedMonsterAdmin=loadExpandedMonsterAdmin;
   document.addEventListener('DOMContentLoaded',()=>{if(!document.querySelector('#view-monsters')?.hidden)loadExpandedMonsterAdmin()});
 })();
