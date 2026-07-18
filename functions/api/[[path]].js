@@ -327,6 +327,12 @@ async function ensureUpgrades(env){
       if(!await columnExists(env,'battle_monsters','ultimate_volume_percent'))await env.DB.prepare("ALTER TABLE battle_monsters ADD COLUMN ultimate_volume_percent REAL NOT NULL DEFAULT 35").run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1061_boss_ultimate_volume','1',CURRENT_TIMESTAMP)").run();
     }
+    const couponBulkDeleteDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1062_coupon_bulk_delete'").first();
+    if(couponBulkDeleteDone?.value!=='1'){
+      if(!await columnExists(env,'coupons','deleted_at'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN deleted_at TEXT").run();
+      if(!await columnExists(env,'coupons','deleted_by'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN deleted_by INTEGER").run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1062_coupon_bulk_delete','1',CURRENT_TIMESTAMP)").run();
+    }
     const monsterCategoryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1053_monster_categories'").first();
     if(monsterCategoryDone?.value!=='1'){
       const additions=[
@@ -751,7 +757,7 @@ async function ensureUpgrades(env){
     }
 
     const statements=[
-      `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+      `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, deleted_at TEXT, deleted_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
       `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
       `CREATE INDEX IF NOT EXISTS idx_coupon_code ON coupons(code)`,
       `CREATE INDEX IF NOT EXISTS idx_admin_logs_created ON admin_logs(created_at)`,
@@ -2604,7 +2610,7 @@ export async function onRequest(context){
 
     if(path==='admin/coupons'){
       const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons ORDER BY id DESC').all();return json({coupons:rows.results});}
+      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC').all();return json({coupons:rows.results});}
       if(request.method==='POST'){
         const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),reward=Number(p.rewardCoin),max=Number(p.maxUses);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
@@ -2613,9 +2619,19 @@ export async function onRequest(context){
         try{const r=await env.DB.prepare('INSERT INTO coupons(code,reward_coin,starts_at,ends_at,max_uses,created_by) VALUES(?,?,?,?,?,?)').bind(code,reward,p.startsAt||null,p.endsAt||null,max,admin.id).run();await writeAdminLog(env,admin,'COUPON_CREATE','COUPON',r.meta.last_row_id,null,{code,reward,max});return json({ok:true},201)}catch{return json({error:'이미 존재하는 쿠폰 코드입니다.'},409)}
       }
       if(request.method==='PATCH'){
-        const p=await readBody(request),before=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(Number(p.id)).first();if(!before)return json({error:'쿠폰이 없습니다.'},404);
-        await env.DB.prepare('UPDATE coupons SET is_active=?,ends_at=COALESCE(?,ends_at),max_uses=COALESCE(?,max_uses),updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(p.isActive===false?0:1,p.endsAt||null,p.maxUses?Number(p.maxUses):null,before.id).run();
+        const p=await readBody(request),before=await env.DB.prepare('SELECT * FROM coupons WHERE id=? AND deleted_at IS NULL').bind(Number(p.id)).first();if(!before)return json({error:'쿠폰이 없습니다.'},404);
+        await env.DB.prepare('UPDATE coupons SET is_active=?,ends_at=COALESCE(?,ends_at),max_uses=COALESCE(?,max_uses),updated_at=CURRENT_TIMESTAMP WHERE id=? AND deleted_at IS NULL').bind(p.isActive===false?0:1,p.endsAt||null,p.maxUses?Number(p.maxUses):null,before.id).run();
         const after=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(before.id).first();await writeAdminLog(env,admin,'COUPON_UPDATE','COUPON',before.id,before,after);return json({ok:true,coupon:after});
+      }
+      if(request.method==='DELETE'){
+        const p=await readBody(request),ids=[...new Set((Array.isArray(p.ids)?p.ids:[]).map(Number).filter(x=>Number.isInteger(x)&&x>0))].slice(0,200);
+        if(!ids.length)return json({error:'삭제할 쿠폰을 선택하세요.'},400);
+        const placeholders=ids.map(()=>'?').join(','),before=await env.DB.prepare(`SELECT * FROM coupons WHERE deleted_at IS NULL AND id IN (${placeholders}) ORDER BY id DESC`).bind(...ids).all();
+        if(!before.results.length)return json({error:'삭제 가능한 쿠폰이 없습니다.'},404);
+        const targetIds=before.results.map(x=>Number(x.id)),targetPlaceholders=targetIds.map(()=>'?').join(',');
+        await env.DB.prepare(`UPDATE coupons SET is_active=0,deleted_at=CURRENT_TIMESTAMP,deleted_by=?,updated_at=CURRENT_TIMESTAMP WHERE deleted_at IS NULL AND id IN (${targetPlaceholders})`).bind(admin.id,...targetIds).run();
+        await writeAdminLog(env,admin,'COUPON_BULK_DELETE','COUPON',targetIds.join(','),before.results,{deletedCount:targetIds.length,ids:targetIds});
+        return json({ok:true,deletedCount:targetIds.length,ids:targetIds});
       }
     }
 
