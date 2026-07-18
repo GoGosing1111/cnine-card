@@ -882,7 +882,7 @@ async function breakthroughCard(cardId){
   const card=cards.find(c=>c.id===cardId),rule=user.breakthroughConfig?.[card?.grade]?.[level]||{cost,rate:breakthroughRates[level]};
   if(!confirm(`카드 조각 ${Number(rule.cost).toLocaleString()}개를 사용해 ★${level+1} 돌파를 시도하시겠습니까?\n성공 확률: ${rule.rate}%\n실패해도 단계는 유지되며 조각은 소모됩니다.`))return;
   try{
-    if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId})});saveUser(apiUserToLocal(d.user));alert(d.success?`돌파 성공! ★${d.level}`:`돌파 실패\n단계는 ★${d.level}로 유지됩니다.`);showDetail(cardId);}
+    if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId})});saveUser(apiUserToLocal(d.user));alert(d.success?`돌파 성공! ★${d.level}${d.guaranteed?'\nSSR 천장 확정 성공':''}`:`돌파 실패\n단계는 ★${d.level}로 유지됩니다.${d.pity?.enabled?`\nSSR 천장: ${d.pity.failCount}/${d.pity.threshold}회 실패`:''}`);showDetail(cardId);}
     else{const actualCost=Number(rule.cost);if(Number(user.cardShards||0)<actualCost)return alert('카드 조각이 부족합니다.');user.cardShards-=actualCost;const success=Math.random()*100<Number(rule.rate);if(success)user.breakthroughs[cardId]=level+1;saveUser(user);alert(success?`돌파 성공! ★${level+1}`:`돌파 실패\n단계는 ★${level}로 유지됩니다.`);showDetail(cardId);}
   }catch(e){alert(e.message)}
 }

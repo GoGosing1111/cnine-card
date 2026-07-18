@@ -203,6 +203,9 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids){
 
 function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRADES.map(g=>[g,BREAKTHROUGH_COST.map((cost,i)=>({cost,rate:BREAKTHROUGH_RATE[i]}))]));}
 async function breakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<10;i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
+function defaultBreakthroughPity(){return {enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};}
+function cleanBreakthroughPity(raw={}){const base=defaultBreakthroughPity();return {enabled:raw.enabled!==false,grade:'SSR',thresholds:Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Math.floor(Number(raw.thresholds?.[i]??base.thresholds[i])||base.thresholds[i]))))};}
+async function breakthroughPity(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_pity_ssr_v1'").first();try{return cleanBreakthroughPity(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughPity()}}
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store'}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
@@ -326,6 +329,12 @@ async function ensureUpgrades(env){
     if(bossUltimateVolumeDone?.value!=='1'){
       if(!await columnExists(env,'battle_monsters','ultimate_volume_percent'))await env.DB.prepare("ALTER TABLE battle_monsters ADD COLUMN ultimate_volume_percent REAL NOT NULL DEFAULT 35").run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1061_boss_ultimate_volume','1',CURRENT_TIMESTAMP)").run();
+    }
+    const breakthroughPityDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1065_ssr_breakthrough_pity'").first();
+    if(breakthroughPityDone?.value!=='1'){
+      if(!await columnExists(env,'user_cards','breakthrough_fail_count'))await env.DB.prepare("ALTER TABLE user_cards ADD COLUMN breakthrough_fail_count INTEGER NOT NULL DEFAULT 0").run();
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('breakthrough_pity_ssr_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultBreakthroughPity())).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1065_ssr_breakthrough_pity','1',CURRENT_TIMESTAMP)").run();
     }
     const couponBulkDeleteDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1062_coupon_bulk_delete'").first();
     if(couponBulkDeleteDone?.value!=='1'){
@@ -1605,7 +1614,7 @@ export async function onRequest(context){
       if(!user) return json({error:'로그인이 필요합니다.'},401);
       const payload=await readBody(request);
       const cardId=String(payload.cardId||'').trim();
-      const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,c.rarity,c.title FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
+      const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) AS breakthrough_fail_count,c.rarity,c.title FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
       if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
       if((ORDER[owned.rarity]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
       const level=Number(owned.breakthrough_level||0);
@@ -1617,11 +1626,14 @@ export async function onRequest(context){
       if(Number(fresh.card_shards||0)<cost) return json({error:`카드 조각이 부족합니다. (${cost}개 필요)`},400);
       const spent=await env.DB.prepare('UPDATE users SET card_shards=card_shards-? WHERE id=? AND card_shards>=?').bind(cost,user.id,cost).run();
       if(!spent.meta.changes) return json({error:'카드 조각이 부족합니다.'},400);
-      const success=Math.random()*100<rate;
-      if(success) await env.DB.prepare('UPDATE user_cards SET breakthrough_level=breakthrough_level+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
-      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-cost,updated.card_shards,success?'BREAKTHROUGH_SUCCESS':'BREAKTHROUGH_FAIL',cardId).run();
-      return json({ok:true,success,cost,rate,level:success?level+1:level,user:await profile(env,updated)});
+      const pity=await breakthroughPity(env),failCount=Math.max(0,Number(owned.breakthrough_fail_count||0)),threshold=Math.max(1,Number(pity.thresholds?.[level]||5));
+      const guaranteed=owned.rarity==='SSR'&&pity.enabled&&failCount>=threshold;
+      const success=guaranteed||Math.random()*100<rate;
+      if(success) await env.DB.prepare('UPDATE user_cards SET breakthrough_level=breakthrough_level+1,breakthrough_fail_count=0 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
+      else await env.DB.prepare('UPDATE user_cards SET breakthrough_fail_count=breakthrough_fail_count+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
+      const nextFailCount=success?0:failCount+1,updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+      await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-cost,updated.card_shards,success?(guaranteed?'BREAKTHROUGH_PITY_SUCCESS':'BREAKTHROUGH_SUCCESS'):'BREAKTHROUGH_FAIL',cardId).run();
+      return json({ok:true,success,cost,rate,level:success?level+1:level,guaranteed,pity:{enabled:owned.rarity==='SSR'&&pity.enabled,failCount:nextFailCount,threshold,nextGuaranteed:!success&&nextFailCount>=threshold},user:await profile(env,updated)});
     }
 
 
@@ -2198,7 +2210,23 @@ export async function onRequest(context){
       if(!rewardCoin)return json({error:'지급 코인을 입력하세요.'},400);
       const users=await env.DB.prepare("SELECT w.user_id,u.nickname,UPPER(TRIM(COALESCE(u.role,'USER'))) AS role FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE UPPER(TRIM(COALESCE(w.status,'')))='VERIFIED' AND UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND (UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='OWNER') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='ADMIN'))").bind(includeOwner?1:0,includeAdmin?1:0).all();let sent=0,sentUsers=0,sentOwners=0,sentAdmins=0;
       const recipients=users.results||[];
-      for(let offset=0;offset<recipients.length;offset+=40){const chunk=recipients.slice(offset,offset+40),statements=[];for(const u of chunk){statements.push(env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')").bind(u.user_id,title,messageBody));statements.push(env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(last_insert_rowid(),?,'COIN',?)").bind(u.user_id,rewardCoin));}if(statements.length)await env.DB.batch(statements);for(const u of chunk){sent++;if(u.role==='OWNER')sentOwners++;else if(u.role==='ADMIN')sentAdmins++;else sentUsers++;}}
+      // V1064: D1 batch 안의 last_insert_rowid()에 의존하지 않는다.
+      // 메시지를 먼저 저장하고 반환된 실제 message_id로 보상 행을 연결해야
+      // CMS 입력 금액과 다른 과거 보상 행이 잘못 연결되는 문제를 막을 수 있다.
+      for(const u of recipients){
+        const messageResult=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')")
+          .bind(u.user_id,title,messageBody)
+          .run();
+        const messageId=Number(messageResult?.meta?.last_row_id||0);
+        if(!messageId) throw new Error(`메시지 저장 ID 확인 실패: user ${u.user_id}`);
+        await env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'COIN',?)")
+          .bind(messageId,u.user_id,rewardCoin)
+          .run();
+        sent++;
+        if(u.role==='OWNER')sentOwners++;
+        else if(u.role==='ADMIN')sentAdmins++;
+        else sentUsers++;
+      }
       await writeAdminLog(env,admin,'VERIFIED_COIN_MESSAGE_SEND','USER_MESSAGE','VERIFIED_USERS',null,{sent,sentUsers,sentOwners,sentAdmins,rewardCoin,title,includeOwner,includeAdmin});return json({ok:true,sent,sentUsers,sentOwners,sentAdmins,rewardCoin});
     }
 
@@ -2507,7 +2535,7 @@ export async function onRequest(context){
 
     if(path==='admin/breakthrough-settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES});
+      if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES,pity:await breakthroughPity(env)});
       if(request.method==='PATCH'){
         const payload=await readBody(request),incoming=payload.config;
         if(!incoming||typeof incoming!=='object')return json({error:'돌파 설정값이 없습니다.'},400);
@@ -2522,9 +2550,13 @@ export async function onRequest(context){
           }
         }
         const before=await breakthroughConfig(env);
-        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_config',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();
-        await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,clean);
-        return json({ok:true,config:clean});
+        const pity=cleanBreakthroughPity(payload.pity||await breakthroughPity(env));
+        await env.DB.batch([
+          env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_config',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)),
+          env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_pity_ssr_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(pity))
+        ]);
+        await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity});
+        return json({ok:true,config:clean,pity});
       }
     }
 
