@@ -2045,10 +2045,10 @@ div{
 @media(max-width:640px){.boss-ultimate-resource{inset:12% 3%;border-radius:14px}.boss-ultimate-resource img,.boss-ultimate-resource video{object-fit:contain}}
 
 /* V1052 boss ultimate full-screen cinematic */
-.boss-ultimate-overlay{position:absolute;inset:0;z-index:92;display:grid;place-items:center;overflow:hidden;background:#000;animation:ultimateOverlayIn .18s ease-out both}
+.boss-ultimate-overlay{position:fixed;inset:0;width:100vw;height:100dvh;z-index:92;display:grid;place-items:center;overflow:hidden;background:#000;animation:ultimateOverlayIn .18s ease-out both}
 .boss-ultimate-overlay.closing{animation:ultimateOverlayOut .22s ease-in both}
 .boss-ultimate-overlay-media{position:absolute;inset:0;display:grid;place-items:center;background:#000}
-.boss-ultimate-overlay-media img,.boss-ultimate-overlay-media video{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center center;background:#000}
+.boss-ultimate-overlay-media img,.boss-ultimate-overlay-media video{display:block;width:auto;height:auto;max-width:100vw;max-height:100dvh;object-fit:contain;object-position:center center;background:#000}
 .boss-ultimate-overlay-title{position:absolute;z-index:4;left:4%;right:4%;bottom:max(4%,env(safe-area-inset-bottom));text-align:center;text-shadow:0 2px 5px #000,0 0 28px #000;pointer-events:none}
 .boss-ultimate-overlay-title small,.boss-ultimate-overlay-title strong,.boss-ultimate-overlay-title span{display:block}
 .boss-ultimate-overlay-title small{font-size:clamp(10px,1.4vw,14px);font-weight:1000;letter-spacing:.3em;color:#ff7189}
@@ -2063,3 +2063,6 @@ div{
   .boss-ultimate-overlay-title strong{font-size:clamp(26px,10vw,46px)}
   .boss-ultimate-overlay-title span{max-width:92vw;line-height:1.35}
 }
+
+/* V1053 PVE monster tabs */
+.pve-monster-browser{display:grid;gap:12px;min-width:0}.pve-monster-tabs{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 7px;scrollbar-width:none}.pve-monster-tabs::-webkit-scrollbar{display:none}.pve-monster-tabs button{flex:0 0 auto;border:1px solid rgba(125,211,252,.16);background:rgba(7,16,29,.76);color:#8fa4bb;border-radius:999px;padding:9px 14px;font-weight:900}.pve-monster-tabs button.active{background:linear-gradient(135deg,rgba(31,210,190,.25),rgba(32,125,186,.23));border-color:rgba(75,231,211,.55);color:#eaffff;box-shadow:0 0 20px rgba(37,209,190,.12)}.pve-monster-tools{display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.55fr);gap:8px}.pve-monster-tools input,.pve-monster-tools select{min-width:0;width:100%;box-sizing:border-box}.pve-monster-grid{display:grid;gap:9px}.boss-ultimate-overlay-media{width:100vw;height:100dvh;overflow:hidden}.boss-ultimate-overlay-media video.is-portrait,.boss-ultimate-overlay-media img.is-portrait{height:100dvh;width:auto;max-width:100vw}.boss-ultimate-overlay-media video.is-landscape,.boss-ultimate-overlay-media img.is-landscape{width:100vw;height:auto;max-height:100dvh}@media(max-width:700px){.pve-monster-tools{grid-template-columns:1fr}.boss-ultimate-overlay-title{bottom:max(2%,env(safe-area-inset-bottom));}.boss-ultimate-overlay-media img,.boss-ultimate-overlay-media video{max-width:100vw;max-height:100dvh}}
