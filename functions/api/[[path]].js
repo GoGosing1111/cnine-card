@@ -2556,7 +2556,7 @@ export async function onRequest(context){
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_pity_ssr_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(pity))
         ]);
         await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity});
-        return json({ok:true,config:clean,pity});
+        return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity});
       }
     }
 

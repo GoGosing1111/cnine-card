@@ -18,8 +18,17 @@
     }
   }
 
+  function normalizeData(d={}){
+    const fallbackGrades=['SR','HR','UR','SSR','MA','FUR'];
+    const grades=Array.isArray(d.grades)&&d.grades.length?d.grades:fallbackGrades;
+    const config=d.config&&typeof d.config==='object'?d.config:{};
+    const pity=d.pity&&typeof d.pity==='object'?d.pity:{enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};
+    if(!Array.isArray(pity.thresholds)) pity.thresholds=Array(10).fill(5);
+    pity.thresholds=Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Number(pity.thresholds[i]||5))));
+    return {...d,grades,config,pity};
+  }
   async function load(){
-    const d=await api('admin/breakthrough-settings');data=d;render();
+    const d=await api('admin/breakthrough-settings');data=normalizeData(d);render();
   }
   function render(){
     if(!data)return;
@@ -36,7 +45,7 @@
     const grade=$('#enhancementGradeTabs').dataset.grade||'SR';
     $('#enhancementRows').querySelectorAll('input').forEach(input=>{data.config[grade][Number(input.dataset.index)][input.dataset.kind]=Number(input.value)});
     const pity={enabled:$('#ssrPityEnabled').checked,grade:'SSR',thresholds:Array.from($('#ssrPityRows').querySelectorAll('[data-pity-index]')).map(x=>Number(x.value))};
-    const d=await api('admin/breakthrough-settings',{method:'PATCH',body:JSON.stringify({config:data.config,pity})});data=d;alert('돌파·강화 설정을 저장했습니다.');render();
+    const d=await api('admin/breakthrough-settings',{method:'PATCH',body:JSON.stringify({config:data.config,pity})});data=normalizeData(d);alert('돌파·강화 설정을 저장했습니다.');render();
   }
 
   function collapseEvolutionLogs(){
