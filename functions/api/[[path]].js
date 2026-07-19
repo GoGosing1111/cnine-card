@@ -109,6 +109,57 @@ async function cancelRaidForInsufficientPlayers(env,instance,participants){
   await env.DB.batch(statements);
 }
 
+function raidCombatSnapshot(participants,instance,cfg,nowMs=Date.now()){
+  const startMs=Date.parse(instance.starts_at||0),storedEndMs=Date.parse(instance.ends_at||0);
+  const durationMs=Math.max(1,Number(cfg.battleSeconds||120)*1000);
+  const effectiveNowMs=instance.status==='ENDED'&&storedEndMs?storedEndMs:nowMs;
+  const elapsedMs=Math.max(0,Math.min(durationMs,effectiveNowMs-startMs));
+  const bossMaxHp=Math.max(0,Number(instance.max_hp||0));
+  const bossInterval=Math.max(500,Number(cfg.bossAttackIntervalMs||5000));
+  const states=participants.map(row=>{
+    const maxHp=Math.max(1,Math.floor(Number(row.totalPower??row.total_power??0)*Number(cfg.deckHpMultiplier||12)));
+    const variance=1+(((Number(row.userId??row.user_id??0)%31)-15)/100)*(Number(cfg.bossAttackVariance||0)/15);
+    return {row,maxHp,currentHp:maxHp,variance,shownDamage:0,isDefeated:false,defeatedAtMs:null};
+  });
+  let bossHp=bossMaxHp,processedMs=0,attackTicks=0,clearedAtMs=null,wipedAtMs=null;
+  const applyPartyDamage=(segmentMs)=>{
+    if(segmentMs<=0||bossHp<=0)return;
+    const alive=states.filter(x=>!x.isDefeated);
+    if(!alive.length){if(wipedAtMs===null)wipedAtMs=processedMs;return;}
+    const segmentDamage=alive.reduce((sum,x)=>sum+(Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs),0);
+    if(segmentDamage>=bossHp){
+      const ratio=bossHp/Math.max(segmentDamage,1e-9);
+      for(const x of alive)x.shownDamage+=Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs*ratio;
+      processedMs+=segmentMs*ratio;bossHp=0;clearedAtMs=processedMs;
+      return;
+    }
+    for(const x of alive)x.shownDamage+=Number(x.row.totalDamage??x.row.total_damage??0)*segmentMs/durationMs;
+    bossHp=Math.max(0,bossHp-segmentDamage);processedMs+=segmentMs;
+  };
+  let nextBossTick=bossInterval;
+  while(processedMs<elapsedMs&&bossHp>0&&states.some(x=>!x.isDefeated)){
+    const segmentEnd=Math.min(elapsedMs,nextBossTick);
+    applyPartyDamage(segmentEnd-processedMs);
+    if(bossHp<=0||processedMs>=elapsedMs)break;
+    if(segmentEnd===nextBossTick){
+      attackTicks++;
+      const bossHpPct=bossMaxHp>0?bossHp/bossMaxHp:0;
+      const rage=cfg.enrageEnabled&&bossHpPct*100<=Number(cfg.enrageHpPercent||30)?Number(cfg.enrageMultiplier||1.6):1;
+      for(const x of states){
+        if(x.isDefeated)continue;
+        const hit=Math.max(0,Math.floor(Number(cfg.bossAttackPower||850)*x.variance*rage));
+        x.currentHp=Math.max(0,x.currentHp-hit);
+        if(x.currentHp<=0){x.isDefeated=true;x.defeatedAtMs=processedMs;}
+      }
+      if(states.length&&states.every(x=>x.isDefeated)&&bossHp>0)wipedAtMs=processedMs;
+      nextBossTick+=bossInterval;
+    }
+  }
+  const allDefeated=states.length>0&&states.every(x=>x.isDefeated);
+  const cleared=bossHp<=0&&!allDefeated;
+  return {durationMs,elapsedMs,bossHp:bossHp<=0?0:Math.max(1,Math.ceil(bossHp)),bossHpPct:bossMaxHp>0?bossHp/bossMaxHp:0,attackTicks,allDefeated,cleared,clearedAtMs,wipedAtMs,states};
+}
+
 async function refreshRaidForOwner(env,instance,cfg){
   if(!instance)return null;
   const now=Date.now(),startMs=instance.starts_at?Date.parse(instance.starts_at):0,endMs=instance.ends_at?Date.parse(instance.ends_at):0;
@@ -122,18 +173,23 @@ async function refreshRaidForOwner(env,instance,cfg){
         const damage=Math.max(1,Math.floor(Number(row.total_power||0)*Number(cfg.damageMultiplier||1)*attacks*critFactor/10));
         await env.DB.prepare('UPDATE raid_participants SET total_damage=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(damage,row.id).run();
       }
-      const total=await env.DB.prepare('SELECT COALESCE(SUM(total_damage),0) total FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(instance.id).first();
-      const remain=Math.max(0,Number(instance.max_hp||0)-Number(total?.total||0));
-      await env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(remain,participants.length,instance.id).run();
-      instance.status='BATTLE';instance.current_hp=remain;instance.participant_count=participants.length;
+      await env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(Math.max(0,Number(instance.max_hp||0)),participants.length,instance.id).run();
+      instance.status='BATTLE';instance.current_hp=Math.max(0,Number(instance.max_hp||0));instance.participant_count=participants.length;
     }else{
       await cancelRaidForInsufficientPlayers(env,instance,participants);
       instance.status='ENDED';instance.ends_at=new Date().toISOString();
     }
   }
-  if(instance.status==='BATTLE'&&endMs&&now>=endMs){
-    await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=MAX(0,current_hp),updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(instance.id).run();
-    instance.status='ENDED';
+  if(instance.status==='BATTLE'&&endMs){
+    const rows=(await env.DB.prepare('SELECT user_id AS userId,total_power AS totalPower,total_damage AS totalDamage FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(instance.id).all()).results;
+    const snapshot=raidCombatSnapshot(rows,instance,cfg,now);
+    if(snapshot.allDefeated||snapshot.cleared||now>=endMs){
+      await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(new Date(startMs+snapshot.elapsedMs).toISOString(),snapshot.bossHp,instance.id).run();
+      instance.status='ENDED';instance.ends_at=new Date(startMs+snapshot.elapsedMs).toISOString();instance.current_hp=snapshot.bossHp;
+    }else{
+      await env.DB.prepare('UPDATE raid_instances SET current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(snapshot.bossHp,instance.id).run();
+      instance.current_hp=snapshot.bossHp;
+    }
   }
   return instance;
 }
@@ -1663,18 +1719,16 @@ export async function onRequest(context){
       const participants=rows.results.map((r,i)=>({...r,rank:i+1,deckCards:(()=>{try{return JSON.parse(r.deckCards||'[]')}catch{return []}})()}));
       const cardIds=[...new Set(participants.flatMap(x=>x.deckCards))];let cardMap={},breakthroughMap={};if(cardIds.length){const marks=cardIds.map(()=>'?').join(','),userIds=[...new Set(participants.map(x=>Number(x.userId)).filter(Boolean))],userMarks=userIds.map(()=>'?').join(',');const [cs,levels]=await Promise.all([env.DB.prepare(`SELECT c.id,c.title,c.image_url AS image,c.rarity AS grade,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id IN (${marks})`).bind(...cardIds).all(),userIds.length?env.DB.prepare(`SELECT user_id,card_id,breakthrough_level FROM user_cards WHERE user_id IN (${userMarks}) AND card_id IN (${marks}) AND COALESCE(quantity,0)>0`).bind(...userIds,...cardIds).all():Promise.resolve({results:[]})]);cardMap=Object.fromEntries(cs.results.map(c=>[String(c.id),c]));breakthroughMap=Object.fromEntries(levels.results.map(x=>[`${x.user_id}:${x.card_id}`,Number(x.breakthrough_level||0)]));}
       const startMs=Date.parse(current.starts_at||0),endMs=Date.parse(current.ends_at||0),now=Date.now();
-      const progress=current.status==='BATTLE'?Math.max(0,Math.min(1,(now-startMs)/Math.max(1,endMs-startMs))):current.status==='ENDED'?1:0;
-      const totalFinal=participants.reduce((n,x)=>n+Number(x.totalDamage||0),0),shownTotal=Math.floor(totalFinal*progress);
-      const hp=Math.max(0,Number(current.max_hp||0)-shownTotal),bossHpPct=Number(current.max_hp||0)>0?hp/Number(current.max_hp):1;
-      const elapsedMs=Math.max(0,Math.min(Math.max(0,endMs-startMs),now-startMs));
-      const attackTicks=current.status==='LOBBY'?0:Math.max(0,Math.floor(elapsedMs/Math.max(500,Number(cfg.bossAttackIntervalMs||5000))));
-      const rage=cfg.enrageEnabled&&bossHpPct*100<=Number(cfg.enrageHpPercent||30)?Number(cfg.enrageMultiplier||1.6):1;
-      const enriched=participants.map(x=>{const maxHp=Math.max(1,Math.floor(Number(x.totalPower||0)*Number(cfg.deckHpMultiplier||12)));const variance=1+(((Number(x.userId||0)%31)-15)/100)*(Number(cfg.bossAttackVariance||0)/15);const taken=Math.floor(attackTicks*Number(cfg.bossAttackPower||850)*variance*rage);const currentHp=Math.max(0,maxHp-taken);return {...x,shownDamage:Math.floor(Number(x.totalDamage||0)*progress),maxHp,currentHp,isDefeated:currentHp<=0,cards:x.deckCards.map(id=>cardMap[String(id)]?{...cardMap[String(id)],breakthroughLevel:Number(breakthroughMap[`${x.userId}:${id}`]||0)}:null).filter(Boolean)};});
-      const allDefeated=enriched.length>0&&enriched.every(x=>x.isDefeated),cleared=hp<=0;
-      // HP가 먼저 0이 되어도 설정된 전투 종료 시각까지 전투 화면을 유지한다.
-      // 최종 CLEAR / FAILED / TIMEOUT 판정은 타이머 종료 후 한 번만 확정한다.
-      if(current.status==='BATTLE'&&now>=endMs){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(hp,current.id).run();current.status='ENDED';}
-      const result=cleared?'CLEAR':allDefeated?'FAILED':'TIMEOUT';
+      const combat=raidCombatSnapshot(participants,current,cfg,now);
+      const hp=combat.bossHp,bossHpPct=combat.bossHpPct,attackTicks=combat.attackTicks;
+      const enriched=combat.states.map(x=>({...x.row,shownDamage:Math.max(0,Math.floor(x.shownDamage)),maxHp:x.maxHp,currentHp:x.currentHp,isDefeated:x.isDefeated,cards:x.row.deckCards.map(id=>cardMap[String(id)]?{...cardMap[String(id)],breakthroughLevel:Number(breakthroughMap[`${x.row.userId}:${id}`]||0)}:null).filter(Boolean)})).sort((a,b)=>Number(b.shownDamage||0)-Number(a.shownDamage||0)||String(a.joinedAt||'').localeCompare(String(b.joinedAt||''))).map((x,i)=>({...x,rank:i+1}));
+      const allDefeated=combat.allDefeated,cleared=combat.cleared;
+      if(current.status==='BATTLE'&&(allDefeated||cleared||now>=endMs)){
+        const finishedAt=new Date(startMs+combat.elapsedMs).toISOString();
+        await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,hp,current.id).run();
+        current.status='ENDED';current.ends_at=finishedAt;current.current_hp=hp;
+      }
+      const result=allDefeated?'FAILED':cleared?'CLEAR':'TIMEOUT';
       const me=enriched.find(x=>Number(x.userId)===Number(user.id))||null;
       // 대기실 이후의 전투·결과 정보는 실제 참가자에게만 공개한다.
       if(current.status!=='LOBBY'&&!me){
