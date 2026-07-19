@@ -1719,8 +1719,22 @@ export async function onRequest(context){
       const participants=rows.results.map((r,i)=>({...r,rank:i+1,deckCards:(()=>{try{return JSON.parse(r.deckCards||'[]')}catch{return []}})()}));
       const cardIds=[...new Set(participants.flatMap(x=>x.deckCards))];let cardMap={},breakthroughMap={};if(cardIds.length){const marks=cardIds.map(()=>'?').join(','),userIds=[...new Set(participants.map(x=>Number(x.userId)).filter(Boolean))],userMarks=userIds.map(()=>'?').join(',');const [cs,levels]=await Promise.all([env.DB.prepare(`SELECT c.id,c.title,c.image_url AS image,c.rarity AS grade,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id IN (${marks})`).bind(...cardIds).all(),userIds.length?env.DB.prepare(`SELECT user_id,card_id,breakthrough_level FROM user_cards WHERE user_id IN (${userMarks}) AND card_id IN (${marks}) AND COALESCE(quantity,0)>0`).bind(...userIds,...cardIds).all():Promise.resolve({results:[]})]);cardMap=Object.fromEntries(cs.results.map(c=>[String(c.id),c]));breakthroughMap=Object.fromEntries(levels.results.map(x=>[`${x.user_id}:${x.card_id}`,Number(x.breakthrough_level||0)]));}
       const startMs=Date.parse(current.starts_at||0),endMs=Date.parse(current.ends_at||0),now=Date.now();
-      const combat=raidCombatSnapshot(participants,current,cfg,now);
-      const hp=combat.bossHp,bossHpPct=combat.bossHpPct,attackTicks=combat.attackTicks;
+const combat = raidCombatSnapshot(participants, current, cfg, now);
+
+const progress = current.status === 'LOBBY'
+  ? 0
+  : Math.max(
+      0,
+      Math.min(
+        1,
+        Number(combat.elapsedMs || 0) /
+          Math.max(1, Number(combat.durationMs || 1))
+      )
+    );
+
+const hp = combat.bossHp;
+const bossHpPct = combat.bossHpPct;
+const attackTicks = combat.attackTicks;
       const enriched=combat.states.map(x=>({...x.row,shownDamage:Math.max(0,Math.floor(x.shownDamage)),maxHp:x.maxHp,currentHp:x.currentHp,isDefeated:x.isDefeated,cards:x.row.deckCards.map(id=>cardMap[String(id)]?{...cardMap[String(id)],breakthroughLevel:Number(breakthroughMap[`${x.row.userId}:${id}`]||0)}:null).filter(Boolean)})).sort((a,b)=>Number(b.shownDamage||0)-Number(a.shownDamage||0)||String(a.joinedAt||'').localeCompare(String(b.joinedAt||''))).map((x,i)=>({...x,rank:i+1}));
       const allDefeated=combat.allDefeated,cleared=combat.cleared;
       if(current.status==='BATTLE'&&(allDefeated||cleared||now>=endMs)){
