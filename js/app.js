@@ -639,9 +639,32 @@ function pvpTierGuideHtml(tiers=[],currentTier=null){return `<section class="pvp
 let rankHubMode='pvp';
 
 function dailyQuestView(user){
-  return `${summaryBar(user)}<section class="daily-quest-hub"><div class="daily-quest-head"><p class="eyebrow">WAGOSU DAILY QUEST</p><h2>SOOP 게시판 일일퀘스트</h2><p>와고 2단계 인증 계정의 오늘 SOOP 게시글을 확인해 보상을 받을 수 있습니다.</p></div><div class="daily-quest-grid daily-quest-grid-single">
-  <article class="daily-quest-panel quest-post"><div class="daily-quest-copy"><span class="quest-kind">📝 POST MISSION</span><h3>SOOP 게시글 15개 작성</h3><div id="dailyQuestPostStatus" class="daily-quest-status"><span>작성글 확인 중...</span></div><div class="daily-quest-actions"><button class="btn secondary" id="dailyQuestPostCheck">작성글 새로 확인</button><button class="btn" id="dailyQuestPostClaim" disabled>1,200코인 받기</button></div></div><div class="daily-quest-reward"><strong>15 POSTS</strong><b>◈ 1,200</b><em>하루 1회</em></div></article>
-  </div><small class="daily-quest-note">매일 00:00 KST 초기화 · SOOP 게시판 일반글만 인정 · 작성자 검색 결과 기준</small></section>`;
+  return `${summaryBar(user)}<section class="daily-quest-hub daily-quest-v1072">
+    <header class="daily-quest-head">
+      <div class="daily-head-copy"><p class="eyebrow">WAGOSU DAILY QUEST</p><h2>SOOP 게시판 일일퀘스트</h2><p>오늘 작성한 게시글을 확인하고 일일 보상을 획득하세요.</p></div>
+      <div class="daily-reset-chip"><span>DAILY RESET</span><strong>00:00 KST</strong></div>
+    </header>
+    <div class="daily-quest-grid daily-quest-grid-single">
+      <article class="daily-quest-panel quest-post">
+        <div class="daily-quest-copy">
+          <div class="daily-mission-top"><span class="quest-kind"><i>✦</i> POST MISSION</span><span id="dailyQuestStateBadge" class="daily-state-badge is-loading">확인 중</span></div>
+          <h3 id="dailyQuestPostTitle">SOOP 게시글 설정 불러오는 중</h3>
+          <p class="daily-mission-desc">SOOP 게시판 일반글만 인정되며, 와고 2단계 인증 계정의 작성자 검색 결과를 기준으로 집계합니다.</p>
+          <div id="dailyQuestPostStatus" class="daily-quest-status"><span>작성글 확인 중...</span></div>
+          <div class="daily-progress-wrap" aria-label="일일 퀘스트 진행률"><div class="daily-progress-meta"><span>오늘의 진행도</span><b id="dailyQuestProgressText">0%</b></div><div class="daily-progress-track"><span id="dailyQuestProgressFill"></span></div></div>
+          <div class="daily-quest-actions"><button class="btn secondary daily-check-btn" id="dailyQuestPostCheck"><span>↻</span> 작성글 새로 확인</button><button class="btn daily-claim-btn" id="dailyQuestPostClaim" disabled>보상 정보 불러오는 중</button></div>
+        </div>
+        <aside class="daily-quest-reward" aria-live="polite">
+          <span class="daily-reward-label">MISSION REWARD</span>
+          <div class="daily-reward-icon"><span>◆</span></div>
+          <div class="daily-reward-coin"><b id="dailyQuestRewardCoin">--</b><small>COINS</small></div>
+          <div class="daily-reward-goal"><span>목표</span><strong id="dailyQuestRewardRequired">--</strong><small>POSTS</small></div>
+          <em>하루 1회 · 인벤토리가 아닌 코인으로 즉시 지급</em>
+        </aside>
+      </article>
+    </div>
+    <footer class="daily-quest-note"><span>i</span><p>매일 00:00 KST 초기화 · SOOP 게시판 일반글만 인정 · 작성자 검색 결과 기준</p></footer>
+  </section>`;
 }
 async function loadDailyQuest(){
   const postBox=document.getElementById('dailyQuestPostStatus');if(!postBox)return;
@@ -649,11 +672,21 @@ async function loadDailyQuest(){
   try{
     const d=await apiRequest('wago-daily-quest/status'),s=d.settings||{};
     const postRequired=Number(s.requiredPosts||15),postReward=Number(s.postRewardCoin||s.rewardCoin||1200),postCount=Number(d.postCount||0);
+    const postTitle=document.getElementById('dailyQuestPostTitle'),rewardRequired=document.getElementById('dailyQuestRewardRequired'),rewardCoin=document.getElementById('dailyQuestRewardCoin'),progressFill=document.getElementById('dailyQuestProgressFill'),progressText=document.getElementById('dailyQuestProgressText'),stateBadge=document.getElementById('dailyQuestStateBadge');
+    if(postTitle)postTitle.textContent=`SOOP 게시글 ${postRequired.toLocaleString()}개 작성`;
+    if(rewardRequired)rewardRequired.textContent=postRequired.toLocaleString();
+    if(rewardCoin)rewardCoin.textContent=postReward.toLocaleString();
     const blocked=!d.verified||d.excluded;
+    const disabledByAdmin=s.postEnabled===false;
+    const progress=Math.max(0,Math.min(100,Math.round((postCount/Math.max(1,postRequired))*100)));
+    if(progressFill)progressFill.style.width=`${progress}%`;
+    if(progressText)progressText.textContent=`${progress}%`;
     const blockText=!d.verified?'메시지함에서 와고 2단계 인증을 먼저 완료하세요.':'현재 일일 퀘스트를 이용할 수 없습니다.';
-    postBox.innerHTML=blocked?`<b>${blockText}</b>`:d.postClaimed?`<b>오늘 게시글 보상 수령 완료</b><span>${postCount} / ${postRequired}개 확인</span>`:`<b>오늘 작성글 ${postCount} / ${postRequired}개</b><span>${postCount>=postRequired?'퀘스트 달성! 보상을 수령하세요.':`${postRequired-postCount}개 더 작성하면 달성됩니다.`}</span>`;
-    if(postCheck)postCheck.disabled=blocked||s.postEnabled===false;
-    if(postClaim){postClaim.disabled=blocked||d.postClaimed||postCount<postRequired||s.postEnabled===false;postClaim.textContent=d.postClaimed?'오늘 보상 수령 완료':`${postReward.toLocaleString()}코인 받기`;}
+    postBox.className=`daily-quest-status ${blocked||disabledByAdmin?'is-blocked':d.postClaimed?'is-claimed':postCount>=postRequired?'is-complete':'is-progress'}`;
+    postBox.innerHTML=disabledByAdmin?`<b>현재 게시글 퀘스트가 비활성화되어 있습니다.</b><span>운영 설정이 변경되면 다시 이용할 수 있습니다.</span>`:blocked?`<b>${blockText}</b>`:d.postClaimed?`<b>오늘 보상 수령 완료</b><span>${postCount.toLocaleString()} / ${postRequired.toLocaleString()}개 확인</span>`:`<b>오늘 작성글 ${postCount.toLocaleString()} / ${postRequired.toLocaleString()}개</b><span>${postCount>=postRequired?'목표 달성! 지금 보상을 수령할 수 있습니다.':`${(postRequired-postCount).toLocaleString()}개 더 작성하면 달성됩니다.`}</span>`;
+    if(stateBadge){stateBadge.className=`daily-state-badge ${blocked||disabledByAdmin?'is-blocked':d.postClaimed?'is-claimed':postCount>=postRequired?'is-complete':'is-progress'}`;stateBadge.textContent=blocked||disabledByAdmin?'이용 불가':d.postClaimed?'수령 완료':postCount>=postRequired?'달성 완료':'진행 중';}
+    if(postCheck)postCheck.disabled=blocked||disabledByAdmin;
+    if(postClaim){postClaim.disabled=blocked||d.postClaimed||postCount<postRequired||disabledByAdmin;postClaim.textContent=d.postClaimed?'오늘 보상 수령 완료':postCount>=postRequired?`${postReward.toLocaleString()}코인 수령`:`${postReward.toLocaleString()}코인 보상`;}
   }catch(e){postBox.innerHTML=`<b>${escapeHtml(e.message)}</b>`;}
 }
 async function checkDailyQuest(){
