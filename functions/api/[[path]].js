@@ -14,6 +14,7 @@ const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
 const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,FUR:2600,LIMITED:2800};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450];
 let recentHighGradeCache=null;
+let recentPremiumCubeCache=null;
 
 const SCORE_TIER_DEFAULT=[
   {id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false},
@@ -281,7 +282,7 @@ function defaultCubeDropSettings(){return {NORMAL_CUBE:{pveEnabled:true,pveRate:
 function cleanCubeDropSettings(raw={}){const base=defaultCubeDropSettings(),out={};for(const code of CUBE_CODES){out[code]={pveEnabled:raw?.[code]?.pveEnabled!==false,pveRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pveRate??base[code].pveRate)||0)),pvpEnabled:raw?.[code]?.pvpEnabled===true,pvpRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pvpRate??base[code].pvpRate)||0))};}return out;}
 async function cubeDropSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cube_drop_settings_v1072'").first();try{return cleanCubeDropSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeDropSettings()}}
 function cubeDropTotal(settings,source){const key=String(source).toLowerCase();return CUBE_CODES.reduce((sum,code)=>sum+(settings[code]?.[`${key}Enabled`]?Number(settings[code]?.[`${key}Rate`]||0):0),0)}
-async function grantBattleCube(env,userId,source,referenceId){source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();if(!['PVE','PVP'].includes(source)||!referenceId)return null;const receiptId=`${source}:${referenceId}`,existing=await env.DB.prepare('SELECT status,response_json FROM cube_drop_receipts WHERE receipt_id=?').bind(receiptId).first();if(existing?.status==='COMPLETED'){try{return JSON.parse(existing.response_json||'null')}catch{return null}}const claimed=await env.DB.prepare("INSERT OR IGNORE INTO cube_drop_receipts(receipt_id,user_id,source,status) VALUES(?,?,?,'PENDING')").bind(receiptId,userId,source).run();if(!claimed.meta.changes){const row=await env.DB.prepare('SELECT response_json FROM cube_drop_receipts WHERE receipt_id=?').bind(receiptId).first();try{return JSON.parse(row?.response_json||'null')}catch{return null}}try{const settings=await cubeDropSettings(env),key=source.toLowerCase(),roll=Math.random()*100;let cursor=0,wonCode=null;for(const code of CUBE_CODES){if(settings[code]?.[`${key}Enabled`]!==true)continue;cursor+=Number(settings[code]?.[`${key}Rate`]||0);if(roll<cursor){wonCode=code;break}}let reward=null;if(wonCode){await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,wonCode).run();const item=await env.DB.prepare('SELECT code,name,rarity,image_url FROM inventory_items WHERE code=?').bind(wonCode).first(),balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,wonCode).first();reward={itemCode:wonCode,name:item?.name||wonCode,rarity:item?.rarity||'',image:item?.image_url||'',quantity:1,balance:Number(balance?.quantity||1),source};await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,1,?,'BATTLE_CUBE_DROP',?,?)").bind(userId,wonCode,reward.balance,source,referenceId).run();}await env.DB.prepare("UPDATE cube_drop_receipts SET status='COMPLETED',item_code=?,response_json=?,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=?").bind(wonCode,JSON.stringify(reward),receiptId).run();return reward}catch(error){await env.DB.prepare('DELETE FROM cube_drop_receipts WHERE receipt_id=? AND status=?').bind(receiptId,'PENDING').run();throw error}}
+async function grantBattleCube(env,userId,source,referenceId){source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();if(!['PVE','PVP'].includes(source)||!referenceId)return null;const receiptId=`${source}:${referenceId}`,existing=await env.DB.prepare('SELECT status,response_json FROM cube_drop_receipts WHERE receipt_id=?').bind(receiptId).first();if(existing?.status==='COMPLETED'){try{return JSON.parse(existing.response_json||'null')}catch{return null}}const claimed=await env.DB.prepare("INSERT OR IGNORE INTO cube_drop_receipts(receipt_id,user_id,source,status) VALUES(?,?,?,'PENDING')").bind(receiptId,userId,source).run();if(!claimed.meta.changes){const row=await env.DB.prepare('SELECT response_json FROM cube_drop_receipts WHERE receipt_id=?').bind(receiptId).first();try{return JSON.parse(row?.response_json||'null')}catch{return null}}try{const settings=await cubeDropSettings(env),key=source.toLowerCase(),roll=Math.random()*100;let cursor=0,wonCode=null;for(const code of CUBE_CODES){if(settings[code]?.[`${key}Enabled`]!==true)continue;cursor+=Number(settings[code]?.[`${key}Rate`]||0);if(roll<cursor){wonCode=code;break}}let reward=null;if(wonCode){await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,wonCode).run();const item=await env.DB.prepare('SELECT code,name,rarity,image_url FROM inventory_items WHERE code=?').bind(wonCode).first(),balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,wonCode).first();reward={itemCode:wonCode,name:item?.name||wonCode,rarity:item?.rarity||'',image:item?.image_url||'',quantity:1,balance:Number(balance?.quantity||1),source};await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,1,?,'BATTLE_CUBE_DROP',?,?)").bind(userId,wonCode,reward.balance,source,referenceId).run();if(wonCode==='PREMIUM_CUBE')recentPremiumCubeCache=null;}await env.DB.prepare("UPDATE cube_drop_receipts SET status='COMPLETED',item_code=?,response_json=?,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=?").bind(wonCode,JSON.stringify(reward),receiptId).run();return reward}catch(error){await env.DB.prepare('DELETE FROM cube_drop_receipts WHERE receipt_id=? AND status=?').bind(receiptId,'PENDING').run();throw error}}
 
 async function towerSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tower_settings_v1'").first();if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
 function previousKstDate(date){const d=new Date(`${date}T00:00:00+09:00`);d.setDate(d.getDate()-1);return new Date(d.getTime()+9*3600000).toISOString().slice(0,10);}
@@ -1165,6 +1166,19 @@ async function recentHighGradeItems(env){
     .then(rows=>rows.results)
     .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
   recentHighGradeCache={promise,expiresAt:now+1000};
+  return promise;
+}
+async function recentPremiumCubeItems(env){
+  const now=Date.now();
+  if(recentPremiumCubeCache&&recentPremiumCubeCache.expiresAt>now)return recentPremiumCubeCache.promise;
+  const promise=env.DB.prepare(`SELECT u.nickname,l.created_at,l.reference_type AS source
+    FROM inventory_logs l JOIN users u ON u.id=l.user_id
+    WHERE l.item_code='PREMIUM_CUBE' AND l.change_amount>0 AND l.reason='BATTLE_CUBE_DROP'
+      AND l.reference_type IN ('PVE','PVP') AND u.status='ACTIVE'
+    ORDER BY l.id DESC LIMIT 20`).all()
+    .then(rows=>rows.results)
+    .catch(error=>{if(recentPremiumCubeCache?.promise===promise)recentPremiumCubeCache=null;throw error});
+  recentPremiumCubeCache={promise,expiresAt:now+1000};
   return promise;
 }
 async function drawLimitedCard(env){
@@ -2308,6 +2322,9 @@ export async function onRequest(context){
 
     if(path==='recent-high-grade'){
       return json({items:await recentHighGradeItems(env)});
+    }
+    if(path==='recent-premium-cube'){
+      return json({items:await recentPremiumCubeItems(env)});
     }
     if(path==='ranking'){
       const settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
