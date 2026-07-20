@@ -1,16 +1,30 @@
 /* V1073.1: reliable infinite tower operations center */
 (()=>{
-  const oldShow=window.showView;
   const q=(s)=>document.querySelector(s);
   let cache=null;
-  window.showView=async function(view,prefetched){
-    if(view!=='tower') return oldShow(view,prefetched);
+
+  function activateTowerView(){
     state.view='tower';
     document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!=='view-tower');
     document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.view==='tower'));
-    q('#pageTitle').textContent='무한의탑 관리';
-    await loadTowerAdmin();
-  };
+    const title=q('#pageTitle');
+    if(title) title.textContent='무한의탑 관리';
+    return loadTowerAdmin();
+  }
+
+  // admin-v984.js uses the global `show()` function, not `showView()`.
+  // Capture the tower navigation explicitly so future CMS reorganizations cannot leave this screen on its static loading placeholder.
+  const towerNav=q('#nav button[data-view="tower"]');
+  if(towerNav){
+    towerNav.addEventListener('click',(event)=>{
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      activateTowerView().catch(()=>{});
+    },true);
+  }
+
+  // Keep programmatic navigation compatible with the rest of the CMS.
+  window.openTowerAdmin=activateTowerView;
 
   const e=(v)=>typeof esc==='function'?esc(v):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const n=(v)=>Number(v||0).toLocaleString();
@@ -21,12 +35,12 @@
     const root=q('#towerAdminRoot');
     root.innerHTML='<div class="panel towerLoading"><b>무한의탑 운영 데이터를 불러오는 중입니다.</b><small>일부 신규 설정 조회가 실패해도 기존 관리 기능은 계속 표시됩니다.</small></div>';
     try{
-      cache=await api('admin/tower');
+      cache=await Promise.race([api('admin/tower'),new Promise((_,reject)=>setTimeout(()=>reject(new Error('무한의탑 관리 API 응답 시간이 초과되었습니다. 서버 상태를 확인한 뒤 다시 시도하세요.')),15000))]);
       renderTower(cache);
     }catch(err){
       root.innerHTML=`<div class="panel towerLoadError"><small>LOAD ERROR</small><h2>무한의탑 데이터를 불러오지 못했습니다.</h2><p>${e(err?.message||err)}</p><div class="towerActionRow"><button id="towerRetry">다시 불러오기</button><button id="towerOpenLegacy" class="ghost">기존 몬스터 관리 열기</button></div></div>`;
       q('#towerRetry').onclick=loadTowerAdmin;
-      q('#towerOpenLegacy').onclick=()=>showView('monsters');
+      q('#towerOpenLegacy').onclick=()=>show('monsters');
     }
   }
 
@@ -71,7 +85,7 @@
       <section class="panel towerWide"><div class="maintenanceHead"><div><small>QUICK CONTROL</small><h2>운영 상태</h2><p>전투 데이터를 삭제하지 않고 입장만 제어합니다.</p></div><div class="towerInlineControls"><label class="towerCmsSwitch"><input id="towerEnabled" type="checkbox" ${d.settings?.enabled!==false?'checked':''}><span></span></label><b id="towerEnabledLabel">${d.settings?.enabled!==false?'ON':'OFF'}</b><button id="towerSaveSettings">상태 저장</button></div></div></section>
       <section class="panel towerWide"><div class="maintenanceHead"><div><small>MONSTER LINK</small><h2>연동 몬스터</h2><p>이미지·공격·피격·궁극기 연출은 몬스터 관리 수정값을 자동 상속합니다.</p></div><button id="towerOpenMonsterStudio" class="ghost">몬스터 관리 열기</button></div><div class="towerMonsterChips">${towerMonsters.map(m=>`<span class="${m.towerOnly?'only':''}"><b>${e(m.name)}</b><small>${monsterBadge(m)}${m.ultimateEnabled?' · 궁극기':''}</small></span>`).join('')||'<div class="inlineNotice">무한의탑 사용 몬스터가 없습니다.</div>'}</div></section>
     </div>`;
-    q('#towerOpenMonsterStudio').onclick=()=>showView('monsters');
+    q('#towerOpenMonsterStudio').onclick=()=>show('monsters');
     q('#towerEnabled').onchange=()=>q('#towerEnabledLabel').textContent=q('#towerEnabled').checked?'ON':'OFF';
     q('#towerSaveSettings').onclick=saveSettings;
   }
@@ -84,7 +98,7 @@
         <div class="towerRangeForm">
           <label><span>시작 층</span><input id="towerStartFloor" type="number" min="1" value="1"></label>
           <label><span>종료 층</span><input id="towerEndFloor" type="number" min="1" value="9"></label>
-          <label class="wide"><span>몬스터 선택</span><select id="towerRangeMonster">${monsters.filter(m=>m.towerEnabled||m.towerOnly).map(m=>`<option value="${m.id}">${e(m.name)} · ${monsterBadge(m)}${m.ultimateEnabled?' · ULT':''}</option>`).join('')}</select></label>
+          <label class="wide"><span>몬스터 선택</span><select id="towerRangeMonster">${monsters.map(m=>`<option value="${m.id}">${e(m.name)} · ${monsterBadge(m)}${m.ultimateEnabled?' · ULT':''}</option>`).join('')}</select></label>
           <label><span>층 유형</span><select id="towerRangeBoss"><option value="0">일반층</option><option value="1">보스층</option></select></label>
           <label><span>전투력 덮어쓰기</span><input id="towerRangePower" type="number" min="0" placeholder="자동"></label>
           <label><span>코인 보상</span><input id="towerRangeReward" type="number" min="0" value="1000"></label>
@@ -128,7 +142,7 @@
   async function saveRange(season){
     if(!season)return alert('활성 시즌이 없습니다. 먼저 시즌을 생성하세요.');
     const startFloor=Number(q('#towerStartFloor').value),endFloor=Number(q('#towerEndFloor').value),monsterId=Number(q('#towerRangeMonster').value);
-    if(!monsterId)return alert('무한의탑 사용 몬스터를 먼저 선택하세요.');
+    if(!monsterId)return alert('배치할 몬스터를 선택하세요. 몬스터 관리에 활성 몬스터가 없다면 먼저 등록해야 합니다.');
     if(endFloor<startFloor)return alert('종료 층은 시작 층보다 작을 수 없습니다.');
     const towerOnly=q('#towerRangeOnly').checked;
     if(towerOnly&&!confirm('이 몬스터를 무한의탑 전용으로 지정하면 일반 PVE에서 제외됩니다. 계속할까요?'))return;
