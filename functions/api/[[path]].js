@@ -263,7 +263,8 @@ async function breakthroughConfig(env){const row=await env.DB.prepare("SELECT va
 function defaultBreakthroughPity(){return {enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};}
 function cleanBreakthroughPity(raw={}){const base=defaultBreakthroughPity();return {enabled:raw.enabled!==false,grade:'SSR',thresholds:Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Math.floor(Number(raw.thresholds?.[i]??base.thresholds[i])||base.thresholds[i]))))};}
 async function breakthroughPity(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_pity_ssr_v1'").first();try{return cleanBreakthroughPity(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughPity()}}
-const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store'}});
+const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type','access-control-max-age':'86400'};
+const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store',...CORS_HEADERS}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
 const hex=buffer=>[...new Uint8Array(buffer)].map(value=>value.toString(16).padStart(2,'0')).join('');
@@ -1450,6 +1451,7 @@ export async function onRequest(context){
   const {request,env}=context;
   const url=new URL(request.url);
   const path=url.pathname.replace(/^\/api\/?/,'');
+  if(request.method==='OPTIONS') return new Response(null,{status:204,headers:CORS_HEADERS});
   try{
     if(!env.DB) return json({error:'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.'},503);
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
@@ -2461,31 +2463,29 @@ export async function onRequest(context){
     }
 
     if(path==='admin/wago-extension/grant'&&request.method==='POST'){
-      const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
-      const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),wagoNickname=String(body.wagoNickname||'').trim().slice(0,80),userId=Number(body.targetUserId),amount=Number(body.amount),reason=String(body.reason||'와고 시청 이벤트').trim().slice(0,120),sourceUrl=String(body.sourceUrl||'').trim().slice(0,1000),sourceKey=String(body.sourceKey||'').trim().slice(0,300);
-      if(!requestId||requestId.length<12)return json({error:'지급 요청 ID가 올바르지 않습니다.'},400);
-      if(!Number.isInteger(userId)||userId<1)return json({error:'지급 대상 계정이 올바르지 않습니다.'},400);
-      if(!Number.isInteger(amount)||amount<1||amount>1000000)return json({error:'지급 코인은 1~1,000,000 사이의 정수로 입력하세요.'},400);
-      if(!wagoNickname||!reason)return json({error:'와고 닉네임과 지급 사유가 필요합니다.'},400);
+      const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),userId=Number(body.targetUserId),wagoNickname=String(body.wagoNickname||'').trim().slice(0,80),amount=Math.floor(Number(body.amount||0)),reason=String(body.reason||'').trim().slice(0,120),sourceUrl=String(body.sourceUrl||'').trim().slice(0,700),sourceKey=String(body.sourceKey||'').trim().slice(0,300);
+      if(!requestId||!userId||!wagoNickname||!reason||amount<1||amount>1000000)return json({error:'지급 정보가 올바르지 않습니다.'},400);
       const previous=await env.DB.prepare('SELECT request_id,user_id,amount,balance_after,created_at FROM wago_extension_reward_receipts WHERE request_id=?').bind(requestId).first();
-      if(previous)return json({ok:true,duplicate:true,receipt:previous});
-      const linked=await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.status,w.wago_nickname,w.wago_member_no
+      if(previous)return json({ok:true,duplicate:true,delivery:'MESSAGE',receipt:previous});
+      const linked=await env.DB.prepare(`SELECT w.user_id,w.wago_nickname,w.wago_member_no,u.nickname,u.coin,u.status
         FROM wago_verifications w JOIN users u ON u.id=w.user_id
         WHERE w.user_id=? AND UPPER(TRIM(w.wago_nickname))=UPPER(TRIM(?)) AND UPPER(TRIM(w.status))='VERIFIED' LIMIT 1`).bind(userId,wagoNickname).first();
-      if(!linked)return json({error:'현재 2단계 인증 연결 기록과 지급 대상이 일치하지 않습니다.',code:'WAGO_LINK_MISMATCH'},409);
-      if(String(linked.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 씨켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
+      if(!linked)return json({error:'현재 2단계 인증 연결 정보와 일치하지 않습니다.',code:'WAGO_LINK_CHANGED'},409);
+      if(String(linked.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'정지되거나 비활성화된 계정에는 지급할 수 없습니다.'},409);
       if(sourceKey){const duplicateSource=await env.DB.prepare('SELECT id,request_id,amount,created_at FROM wago_extension_reward_receipts WHERE source_key=? AND user_id=? AND reason=? ORDER BY id DESC LIMIT 1').bind(sourceKey,userId,reason).first();if(duplicateSource&&!body.allowDuplicate)return json({error:'같은 게시글 또는 댓글에 동일 사유로 이미 지급된 기록이 있습니다.',code:'SOURCE_ALREADY_REWARDED',previous:duplicateSource},409);}
-      const beforeCoin=Number(linked.coin||0),afterCoin=beforeCoin+amount;
-      const batch=await env.DB.batch([
-        env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=? AND coin=?').bind(amount,userId,beforeCoin),
-        env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)').bind(userId,amount,afterCoin,`WAGO_EXTENSION: ${reason}`,admin.id),
-        env.DB.prepare('INSERT INTO wago_extension_reward_receipts(request_id,admin_id,user_id,wago_nickname,wago_member_no,amount,reason,source_url,source_key,balance_before,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(requestId,admin.id,userId,linked.wago_nickname,linked.wago_member_no,amount,reason,sourceUrl,sourceKey,beforeCoin,afterCoin)
+      const beforeCoin=Number(linked.coin||0);
+      const title=String(body.title||'씨켓몬 이벤트 코인 지급').trim().slice(0,100);
+      const messageBody=String(body.messageBody||`${reason} 보상으로 ${amount.toLocaleString()}코인이 도착했습니다. 메시지에서 수령해 주세요.`).trim().slice(0,1000);
+      const messageResult=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')").bind(userId,title,messageBody).run();
+      const messageId=Number(messageResult?.meta?.last_row_id||0);if(!messageId)throw new Error('코인 보상 메시지 저장 ID 확인 실패');
+      await env.DB.batch([
+        env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'COIN',?)").bind(messageId,userId,amount),
+        env.DB.prepare('INSERT INTO wago_extension_reward_receipts(request_id,admin_id,user_id,wago_nickname,wago_member_no,amount,reason,source_url,source_key,balance_before,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(requestId,admin.id,userId,linked.wago_nickname,linked.wago_member_no,amount,reason,sourceUrl,sourceKey,beforeCoin,beforeCoin)
       ]);
-      if(!batch?.[0]?.meta?.changes)return json({error:'코인 잔액이 변경되어 지급하지 못했습니다. 다시 시도하세요.',code:'BALANCE_CHANGED'},409);
-      await writeAdminLog(env,admin,'WAGO_EXTENSION_COIN_GRANT','USER',String(userId),{coin:beforeCoin,wagoNickname:linked.wago_nickname},{coin:afterCoin,amount,reason,sourceUrl,sourceKey,requestId});
-      return json({ok:true,duplicate:false,wagoNickname:linked.wago_nickname,gameUser:{id:userId,nickname:linked.nickname,coin:afterCoin},amount,reason,requestId});
+      await writeAdminLog(env,admin,'WAGO_EXTENSION_COIN_MESSAGE_SEND','USER_MESSAGE',messageId,null,{userId,nickname:linked.nickname,wagoNickname:linked.wago_nickname,amount,reason,sourceUrl,sourceKey,delivery:'MESSAGE'});
+      return json({ok:true,delivery:'MESSAGE',messageId,rewardCoin:amount,gameUser:{id:userId,nickname:linked.nickname,coin:beforeCoin},notice:'코인 보상 메시지를 발송했습니다. 유저가 메시지에서 수령하면 코인이 반영됩니다.'});
     }
-
     if(path==='admin/wago-extension/recent'&&request.method==='GET'){
       const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
       const rows=await env.DB.prepare(`SELECT r.request_id,r.wago_nickname,r.amount,r.reason,r.source_url,r.balance_after,r.created_at,u.nickname AS game_nickname,a.nickname AS admin_nickname
