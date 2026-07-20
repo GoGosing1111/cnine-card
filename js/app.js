@@ -474,6 +474,7 @@ async function playBossBattleUltimate(stage,phase,ult){
 
 async function startBattle(){
   if(document.getElementById('battleAuto')?.checked)return startAutoBattle();
+  const playUltimateCinematics=!battleState.autoRunning||Number(battleState.autoSummary?.battles||0)===0;
   saveLastPveMonsterId(battleState.selectedMonster);
   const modal=document.getElementById('modal'),monster=battleState.monsters.find(m=>Number(m.id)===Number(battleState.selectedMonster));
   const user=loadUser(),deckCards=battleState.deck.map(id=>cards.find(x=>x.id===id)).filter(Boolean);
@@ -523,7 +524,8 @@ async function startBattle(){
     };
     if(d.activatedUltimate){
       phase.textContent='ULTIMATE READY';
-      await playBattleUltimate(stage,d.activatedUltimate,d.bonusDamage);
+      if(playUltimateCinematics)await playBattleUltimate(stage,d.activatedUltimate,d.bonusDamage);
+      else phase.textContent='ULTIMATE · AUTO SKIP';
       const ultimateDamage=Math.max(0,Number((d.ultimateDamage??d.bonusDamage) || 0));
       const ultimateHpPercent=d.monsterPower>0?Math.min(100,ultimateDamage/Number(d.monsterPower)*100):0;
       if(ultimateDamage>0){
@@ -552,7 +554,10 @@ async function startBattle(){
     // 전투 시작 시 서버가 확정한 보스 궁극기는 유저 궁극기 결과와 관계없이 반드시 실행한다.
     // 영상/사운드 로딩 실패도 배너·피해 연출을 막지 않는다.
     if(queuedBossUltimate){
-      const bossHit=await playBossBattleUltimate(stage,phase,queuedBossUltimate);
+      const bossHit=playUltimateCinematics
+        ?await playBossBattleUltimate(stage,phase,queuedBossUltimate)
+        :{teamHpLoss:Math.max(12,Math.min(55,Number(queuedBossUltimate.damagePercent||15))),penalty:Math.max(0,Number(queuedBossUltimate.penalty||0))};
+      if(!playUltimateCinematics)phase.textContent=`${queuedBossUltimate.name||'BOSS ULTIMATE'} · AUTO SKIP`;
       teamHp=Math.max(0,teamHp-Number(bossHit.teamHpLoss||0));
       battleSetHp(stage,'team',teamHp);
       if(teamHp<=0)pendingTeamDefeat=true;
