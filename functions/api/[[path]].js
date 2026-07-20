@@ -2049,7 +2049,7 @@ export async function onRequest(context){
       const deck=await pveDeckCards(env,user.id);
       const rankRow=await env.DB.prepare('SELECT COUNT(*)+1 rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,\'9999\')<COALESCE(?,\'9999\')))').bind(season.id,Number(progress.highest_floor||0),Number(progress.highest_floor||0),progress.highest_reached_at).first();
       const ranking=(await env.DB.prepare('SELECT p.user_id,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN users u ON u.id=p.user_id WHERE p.season_id=? ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 50').bind(season.id).all()).results;
-      return json({active:true,completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:Boolean(floor.is_boss||floor.monster_is_boss||floorNo%10===0)}:null,deck,ranking});
+      return json({active:true,completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,ranking});
     }
     if(path==='tower/fight'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -2064,16 +2064,59 @@ export async function onRequest(context){
       const floorNo=Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
       const deckInfo=await raidDeckPower(env,user.id);const settings=await battleSettings(env);const ids=deckInfo.ids,marks=ids.map(()=>'?').join(',');
       const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.image_url AS image,c.focus_x,c.focus_y,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(user.id,...ids).all();
-      let floor=await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.season_id=? AND r.is_active=1 AND bm.is_active=1 AND COALESCE(bm.tower_enabled,0)=1 AND ?>=r.start_floor AND ?<=r.end_floor ORDER BY (r.end_floor-r.start_floor) ASC,r.id DESC LIMIT 1`).bind(season.id,floorNo,floorNo).first();if(!floor)floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
+      let floor=await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss,
+        bm.ultimate_enabled,bm.ultimate_name,bm.ultimate_description,bm.ultimate_trigger,bm.ultimate_chance,bm.ultimate_damage_percent,bm.ultimate_tower_damage_percent,
+        bm.ultimate_force_cast,bm.ultimate_target,bm.ultimate_theme,bm.ultimate_warning_text,bm.ultimate_shake,bm.ultimate_zoom,bm.ultimate_media_url,bm.ultimate_sound_url,bm.ultimate_duration_ms,bm.ultimate_volume_percent
+        FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id
+        WHERE r.season_id=? AND r.is_active=1 AND bm.is_active=1 AND COALESCE(bm.tower_enabled,0)=1 AND ?>=r.start_floor AND ?<=r.end_floor
+        ORDER BY (r.end_floor-r.start_floor) ASC,r.id DESC LIMIT 1`).bind(season.id,floorNo,floorNo).first();
+      if(!floor)floor=await env.DB.prepare(`SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss,
+        bm.id linked_battle_monster_id,bm.ultimate_enabled,bm.ultimate_name,bm.ultimate_description,bm.ultimate_trigger,bm.ultimate_chance,bm.ultimate_damage_percent,bm.ultimate_tower_damage_percent,
+        bm.ultimate_force_cast,bm.ultimate_target,bm.ultimate_theme,bm.ultimate_warning_text,bm.ultimate_shake,bm.ultimate_zoom,bm.ultimate_media_url,bm.ultimate_sound_url,bm.ultimate_duration_ms,bm.ultimate_volume_percent
+        FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id
+        LEFT JOIN battle_monsters bm ON bm.id=(SELECT b2.id FROM battle_monsters b2 WHERE b2.is_active=1 AND TRIM(b2.name)=TRIM(tm.name) ORDER BY COALESCE(b2.tower_enabled,0) DESC,b2.id DESC LIMIT 1)
+        WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1`).bind(season.id,floorNo).first();
       if(!floor)return json({error:`${floorNo}층이 설정되지 않아 도전할 수 없습니다. 무한의탑 CMS에서 해당 층을 먼저 배치하세요.`,code:'TOWER_FLOOR_UNCONFIGURED',floorNo,maxFloor},409);
       const monsterPower=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1))),towerSynergy=await evaluateDeckSynergies(env,user,ids,'TOWER',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),playerPower=Math.max(0,Math.floor(Number(deckInfo.basePower||deckInfo.power||0)*(1+Number(towerSynergy.totals.attackPercent||0)/100+Number(towerSynergy.totals.bossDamagePercent||0)/100)));
       let towerBossUltimate=null,effectiveTowerPower=playerPower;
-      if(Boolean(floor.is_boss||floor.monster_is_boss||floorNo%10===0)){const bm=await env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_boss=1 AND is_active=1').bind(Number(floor.monster_id||0)).first()||await env.DB.prepare('SELECT * FROM battle_monsters WHERE is_boss=1 AND is_active=1 AND name=? ORDER BY id DESC LIMIT 1').bind(String(floor.monster_name||'')).first();if(bm&&bm.ultimate_enabled&&String(bm.ultimate_name||'').trim()){const trigger=String(bm.ultimate_trigger||'ON_LOSS').toUpperCase(),pre=playerPower>=monsterPower?'WIN':'LOSE',chance=Math.max(0,Math.min(100,Number(bm.ultimate_chance??100))),cast=Boolean(bm.ultimate_force_cast)||trigger==='ALWAYS'||(trigger==='ON_LOSS'&&pre==='LOSE')||(trigger==='CHANCE'&&Math.random()*100<chance);if(cast){const pct=Math.max(0,Math.min(100,Number(bm.ultimate_tower_damage_percent??bm.ultimate_damage_percent??0))),penalty=Math.max(0,Math.floor(playerPower*pct/100));effectiveTowerPower=Math.max(0,playerPower-penalty);towerBossUltimate={name:String(bm.ultimate_name||'보스 궁극기'),description:String(bm.ultimate_description||''),warningText:String(bm.ultimate_warning_text||'BOSS ULTIMATE'),damagePercent:pct,target:String(bm.ultimate_target||'ALL'),theme:String(bm.ultimate_theme||'CRIMSON'),shake:Boolean(bm.ultimate_shake),zoom:Boolean(bm.ultimate_zoom),mediaUrl:String(bm.ultimate_media_url||''),soundUrl:String(bm.ultimate_sound_url||''),durationMs:Math.max(600,Math.min(25000,Number(bm.ultimate_duration_ms||2400))),volumePercent:Math.max(0,Math.min(100,Number(bm.ultimate_volume_percent??35))),penalty};}}}
+      const floorIsBoss=Number(floor.is_boss||0)===1||Number(floor.monster_is_boss||0)===1||floorNo%10===0;
+      if(floorIsBoss){
+        // V1073.12: 층 조회에서 궁극기 원본 필드를 직접 전달받는다.
+        // 이름/서로 다른 ID를 다시 추측해 조회하지 않아 ALWAYS·CHANCE 설정이 유실되는 문제를 막는다.
+        const enabledRaw=floor.ultimate_enabled;
+        const ultimateEnabled=Number(enabledRaw||0)===1||enabledRaw===true||['TRUE','ON','YES'].includes(String(enabledRaw||'').trim().toUpperCase());
+        if(ultimateEnabled){
+          const trigger=String(floor.ultimate_trigger||'ON_LOSS').trim().toUpperCase();
+          const chance=Math.max(0,Math.min(100,Number(floor.ultimate_chance??100)));
+          const chanceHit=chance>=100||Math.random()*100<chance;
+          const forceRaw=floor.ultimate_force_cast;
+          const forceCast=Number(forceRaw||0)===1||forceRaw===true||['TRUE','ON','YES'].includes(String(forceRaw||'').trim().toUpperCase());
+          const preliminaryResult=playerPower>=monsterPower?'WIN':'LOSE';
+          const cast=forceCast
+            ||trigger==='ALWAYS'
+            ||(trigger==='CHANCE'&&chanceHit)
+            ||(trigger==='ON_LOSS'&&(preliminaryResult==='LOSE'||chanceHit));
+          if(cast){
+            const pct=Math.max(0,Math.min(100,Number(floor.ultimate_tower_damage_percent??floor.ultimate_damage_percent??0)));
+            const penalty=Math.max(0,Math.floor(playerPower*pct/100));
+            effectiveTowerPower=Math.max(0,playerPower-penalty);
+            towerBossUltimate={
+              name:String(floor.ultimate_name||'보스 궁극기'),description:String(floor.ultimate_description||''),
+              warningText:String(floor.ultimate_warning_text||'BOSS ULTIMATE'),damagePercent:pct,forceCast,
+              trigger,chance,target:String(floor.ultimate_target||'ALL'),theme:String(floor.ultimate_theme||'CRIMSON'),
+              shake:Number(floor.ultimate_shake??1)!==0,zoom:Number(floor.ultimate_zoom??1)!==0,
+              mediaUrl:String(floor.ultimate_media_url||''),soundUrl:String(floor.ultimate_sound_url||''),
+              durationMs:Math.max(600,Math.min(25000,Number(floor.ultimate_duration_ms||2400))),
+              volumePercent:Math.max(0,Math.min(100,Number(floor.ultimate_volume_percent??35))),penalty
+            };
+          }
+        }
+      }
       const result=effectiveTowerPower>=monsterPower?'WIN':'LOSE';let reward=0;
       let completed=false,nextFloor=floorNo;
       if(result==='WIN'){reward=Number(floor.reward_coin||Math.max(100,floorNo*100));if(reward)await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;await env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id).run();}
       await env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run();
-      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,playerPower,monsterPower,isBoss:Boolean(floor.is_boss||floor.monster_is_boss||floorNo%10===0),monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
+      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});
