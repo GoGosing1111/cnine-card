@@ -1545,7 +1545,7 @@ export async function onRequest(context){
     }
     if(path==='cards'){
       const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,COALESCE(fx.enabled,0) AS acquisitionFxEnabled,COALESCE(fx.media_url,'') AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,COALESCE(fx.duration_ms,8000) AS acquisitionDurationMs
-        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=c.id WHERE c.is_active=1 ORDER BY m.sort_order,c.id`).all();
+        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__') WHERE c.is_active=1 ORDER BY m.sort_order,c.id`).all();
       return json({cards:rows.results});
     }
     if(path==='packs'){
@@ -3043,11 +3043,44 @@ export async function onRequest(context){
       return json({error:'올바르지 않은 처리입니다.'},400);
     }
 
+    if(path==='admin/card-acquisition-effects'){
+      const admin=await requirePermission(request,env,'CARD_EDIT');
+      if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
+      const gradeKey=grade=>`__GRADE_${grade}__`;
+      if(request.method==='GET'){
+        const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url AS mediaUrl,audio_url AS audioUrl,skip_allowed AS skipAllowed,duration_ms AS durationMs FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_FUR__')`).all();
+        const settings={LIMITED:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000},FUR:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000}};
+        for(const row of rows.results||[]){
+          const grade=String(row.card_id||'').replace('__GRADE_','').replace('__','');
+          if(settings[grade]) settings[grade]={enabled:Number(row.enabled||0),mediaUrl:row.mediaUrl||'',audioUrl:row.audioUrl||'',skipAllowed:Number(row.skipAllowed)!==0?1:0,durationMs:Number(row.durationMs||8000)};
+        }
+        return json({settings});
+      }
+      if(request.method==='PATCH'){
+        const payload=await readBody(request);
+        const grade=String(payload.grade||'').toUpperCase();
+        if(!['LIMITED','FUR'].includes(grade)) return json({error:'LIMITED 또는 FUR 등급만 설정할 수 있습니다.'},400);
+        const enabled=payload.enabled?1:0;
+        const mediaUrl=String(payload.mediaUrl||'').trim().slice(0,500);
+        const audioUrl=String(payload.audioUrl||'').trim().slice(0,500);
+        const skipAllowed=payload.skipAllowed===false?0:1;
+        const durationMs=Math.max(1000,Math.min(30000,Number(payload.durationMs||8000)));
+        if(enabled&&!mediaUrl) return json({error:'연출 사용 시 영상 경로가 필요합니다.'},400);
+        const key=gradeKey(grade);
+        const before=await env.DB.prepare('SELECT * FROM card_acquisition_effects WHERE card_id=?').bind(key).first();
+        await env.DB.prepare(`INSERT INTO card_acquisition_effects(card_id,enabled,media_url,audio_url,skip_allowed,duration_ms,updated_at) VALUES(?,?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(card_id) DO UPDATE SET enabled=excluded.enabled,media_url=excluded.media_url,audio_url=excluded.audio_url,skip_allowed=excluded.skip_allowed,duration_ms=excluded.duration_ms,updated_at=CURRENT_TIMESTAMP`).bind(key,enabled,mediaUrl,audioUrl,skipAllowed,durationMs).run();
+        const setting={grade,enabled,mediaUrl,audioUrl,skipAllowed,durationMs};
+        await writeAdminLog(env,admin,'CARD_ACQUISITION_GRADE_FX_UPDATE','CARD_GRADE',grade,before,setting);
+        return json({ok:true,setting});
+      }
+      return json({error:'지원하지 않는 요청입니다.'},405);
+    }
+
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
       const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active,c.card_status AS cardStatus,c.batch_name AS batchName,c.batch_date AS batchDate,c.draw_weight AS drawWeight,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.power_type AS powerType,c.base_power AS basePower,COALESCE(fx.enabled,0) AS acquisitionFxEnabled,COALESCE(fx.media_url,'') AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,COALESCE(fx.duration_ms,8000) AS acquisitionDurationMs
-        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=c.id`;
+        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
       const normalizeCard=async payload=>{
         const title=String(payload.title||'').trim().slice(0,80);
         const grade=String(payload.grade||'C').toUpperCase();
@@ -3156,10 +3189,6 @@ export async function onRequest(context){
         });
         await env.DB.prepare('UPDATE cards SET member_id=?,title=?,rarity=?,image_url=?,focus_x=?,focus_y=?,is_active=?,card_status=?,batch_name=?,batch_date=?,draw_weight=?,limited_total=?,power_type=?,base_power=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
           .bind(card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.cardStatus,card.batchName,card.batchDate,card.drawWeight,card.limitedTotal,card.powerType,card.basePower,payload.id).run();
-        if(['LIMITED','FUR'].includes(card.grade)){
-          const fxEnabled=payload.acquisitionFxEnabled?1:0,mediaUrl=String(payload.acquisitionMediaUrl||'').trim().slice(0,500),audioUrl=String(payload.acquisitionAudioUrl||'').trim().slice(0,500),skipAllowed=payload.acquisitionSkipAllowed===false?0:1,durationMs=Math.max(1000,Math.min(30000,Number(payload.acquisitionDurationMs||8000)));
-          await env.DB.prepare(`INSERT INTO card_acquisition_effects(card_id,enabled,media_url,audio_url,skip_allowed,duration_ms,updated_at) VALUES(?,?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(card_id) DO UPDATE SET enabled=excluded.enabled,media_url=excluded.media_url,audio_url=excluded.audio_url,skip_allowed=excluded.skip_allowed,duration_ms=excluded.duration_ms,updated_at=CURRENT_TIMESTAMP`).bind(payload.id,fxEnabled,mediaUrl,audioUrl,skipAllowed,durationMs).run();
-        }
         const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(payload.id).first();
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
           .bind(admin.id,card.isActive?'CARD_EDIT':'CARD_HIDE','CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
