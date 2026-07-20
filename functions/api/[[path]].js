@@ -665,6 +665,16 @@ async function ensureUpgrades(env){
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v929','1',CURRENT_TIMESTAMP)").run();
     }
 
+    const wagoExtensionDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1074_wago_extension_rewards'").first();
+    if(wagoExtensionDone?.value!=='1'){
+      for(const q of [
+        `CREATE TABLE IF NOT EXISTS wago_extension_reward_receipts (id INTEGER PRIMARY KEY AUTOINCREMENT, request_id TEXT NOT NULL UNIQUE, admin_id INTEGER NOT NULL, user_id INTEGER NOT NULL, wago_nickname TEXT NOT NULL, wago_member_no TEXT, amount INTEGER NOT NULL, reason TEXT NOT NULL, source_url TEXT, source_key TEXT, balance_before INTEGER NOT NULL DEFAULT 0, balance_after INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+        `CREATE INDEX IF NOT EXISTS idx_wago_extension_rewards_user ON wago_extension_reward_receipts(user_id,created_at)`,
+        `CREATE INDEX IF NOT EXISTS idx_wago_extension_rewards_source ON wago_extension_reward_receipts(source_key,created_at)`
+      ]) await env.DB.prepare(q).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1074_wago_extension_rewards','1',CURRENT_TIMESTAMP)").run();
+    }
+
     const verifiedMessageDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v934_verified_messages'").first();
     if(verifiedMessageDone?.value!=='1'){
       for(const q of [
@@ -2434,6 +2444,55 @@ export async function onRequest(context){
         await writeAdminLog(env,admin,`WAGO_${action}`,'WAGO_VERIFICATION',id,before,{action,note:body.note||''});return json({ok:true});
       }
     }
+    if(path==='admin/wago-extension/resolve'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
+      const body=await readBody(request),wagoNickname=String(body.wagoNickname||'').trim().slice(0,80);
+      if(!wagoNickname)return json({error:'와고 닉네임을 확인할 수 없습니다.'},400);
+      const rows=await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.status,w.wago_nickname,w.wago_member_no,w.verified_at
+        FROM wago_verifications w JOIN users u ON u.id=w.user_id
+        WHERE UPPER(TRIM(w.wago_nickname))=UPPER(TRIM(?)) AND UPPER(TRIM(w.status))='VERIFIED'
+        ORDER BY w.verified_at DESC,w.id DESC LIMIT 3`).bind(wagoNickname).all();
+      const matches=rows.results||[];
+      if(!matches.length)return json({error:'2단계 인증 연결 기록이 없습니다.',code:'WAGO_NOT_VERIFIED',wagoNickname},404);
+      if(matches.length>1)return json({error:'동일 와고 닉네임에 인증 완료 계정이 여러 개 연결되어 있습니다. CMS에서 연결 기록을 정리하세요.',code:'WAGO_DUPLICATE_LINK',wagoNickname,matches:matches.map(x=>({gameNickname:x.nickname,wagoMemberNo:x.wago_member_no}))},409);
+      const user=matches[0];
+      if(String(user.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 씨켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
+      return json({ok:true,wagoNickname:user.wago_nickname,wagoMemberNo:user.wago_member_no,gameUser:{id:user.id,nickname:user.nickname,coin:Number(user.coin||0)},verifiedAt:user.verified_at});
+    }
+
+    if(path==='admin/wago-extension/grant'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
+      const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),wagoNickname=String(body.wagoNickname||'').trim().slice(0,80),userId=Number(body.targetUserId),amount=Number(body.amount),reason=String(body.reason||'와고 시청 이벤트').trim().slice(0,120),sourceUrl=String(body.sourceUrl||'').trim().slice(0,1000),sourceKey=String(body.sourceKey||'').trim().slice(0,300);
+      if(!requestId||requestId.length<12)return json({error:'지급 요청 ID가 올바르지 않습니다.'},400);
+      if(!Number.isInteger(userId)||userId<1)return json({error:'지급 대상 계정이 올바르지 않습니다.'},400);
+      if(!Number.isInteger(amount)||amount<1||amount>1000000)return json({error:'지급 코인은 1~1,000,000 사이의 정수로 입력하세요.'},400);
+      if(!wagoNickname||!reason)return json({error:'와고 닉네임과 지급 사유가 필요합니다.'},400);
+      const previous=await env.DB.prepare('SELECT request_id,user_id,amount,balance_after,created_at FROM wago_extension_reward_receipts WHERE request_id=?').bind(requestId).first();
+      if(previous)return json({ok:true,duplicate:true,receipt:previous});
+      const linked=await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.status,w.wago_nickname,w.wago_member_no
+        FROM wago_verifications w JOIN users u ON u.id=w.user_id
+        WHERE w.user_id=? AND UPPER(TRIM(w.wago_nickname))=UPPER(TRIM(?)) AND UPPER(TRIM(w.status))='VERIFIED' LIMIT 1`).bind(userId,wagoNickname).first();
+      if(!linked)return json({error:'현재 2단계 인증 연결 기록과 지급 대상이 일치하지 않습니다.',code:'WAGO_LINK_MISMATCH'},409);
+      if(String(linked.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 씨켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
+      if(sourceKey){const duplicateSource=await env.DB.prepare('SELECT id,request_id,amount,created_at FROM wago_extension_reward_receipts WHERE source_key=? AND user_id=? AND reason=? ORDER BY id DESC LIMIT 1').bind(sourceKey,userId,reason).first();if(duplicateSource&&!body.allowDuplicate)return json({error:'같은 게시글 또는 댓글에 동일 사유로 이미 지급된 기록이 있습니다.',code:'SOURCE_ALREADY_REWARDED',previous:duplicateSource},409);}
+      const beforeCoin=Number(linked.coin||0),afterCoin=beforeCoin+amount;
+      const batch=await env.DB.batch([
+        env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=? AND coin=?').bind(amount,userId,beforeCoin),
+        env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)').bind(userId,amount,afterCoin,`WAGO_EXTENSION: ${reason}`,admin.id),
+        env.DB.prepare('INSERT INTO wago_extension_reward_receipts(request_id,admin_id,user_id,wago_nickname,wago_member_no,amount,reason,source_url,source_key,balance_before,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(requestId,admin.id,userId,linked.wago_nickname,linked.wago_member_no,amount,reason,sourceUrl,sourceKey,beforeCoin,afterCoin)
+      ]);
+      if(!batch?.[0]?.meta?.changes)return json({error:'코인 잔액이 변경되어 지급하지 못했습니다. 다시 시도하세요.',code:'BALANCE_CHANGED'},409);
+      await writeAdminLog(env,admin,'WAGO_EXTENSION_COIN_GRANT','USER',String(userId),{coin:beforeCoin,wagoNickname:linked.wago_nickname},{coin:afterCoin,amount,reason,sourceUrl,sourceKey,requestId});
+      return json({ok:true,duplicate:false,wagoNickname:linked.wago_nickname,gameUser:{id:userId,nickname:linked.nickname,coin:afterCoin},amount,reason,requestId});
+    }
+
+    if(path==='admin/wago-extension/recent'&&request.method==='GET'){
+      const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
+      const rows=await env.DB.prepare(`SELECT r.request_id,r.wago_nickname,r.amount,r.reason,r.source_url,r.balance_after,r.created_at,u.nickname AS game_nickname,a.nickname AS admin_nickname
+        FROM wago_extension_reward_receipts r JOIN users u ON u.id=r.user_id JOIN users a ON a.id=r.admin_id ORDER BY r.id DESC LIMIT 50`).all();
+      return json({items:rows.results||[]});
+    }
+
     if(path==='admin/verified-coin-message-send'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       const body=await readBody(request),title=String(body.title||'와고 2단계 인증 보상').trim().slice(0,100),messageBody=String(body.body||'와고 2단계 인증 완료 유저에게 지급되는 코인 보상입니다.').trim().slice(0,1000),rawRewardCoin=Number(String(body.rewardCoin??'').replace(/,/g,'').trim()),rewardCoin=Math.max(1,Math.min(100000000,Math.floor(rawRewardCoin||0))),includeOwner=body.includeOwner===true,includeAdmin=body.includeAdmin===true;

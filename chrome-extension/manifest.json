@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "씨켓몬 와고 코인 지급",
+  "version": "1.0.0",
+  "description": "와고 닉네임의 씨켓몬 2단계 인증 연결 계정에 코인을 지급합니다.",
+  "permissions": ["storage", "tabs", "activeTab"],
+  "host_permissions": [
+    "https://ygosu.com/*",
+    "https://www.ygosu.com/*",
+    "https://cnine-card.pages.dev/*"
+  ],
+  "background": {"service_worker": "service-worker.js"},
+  "action": {"default_popup": "popup.html", "default_title": "씨켓몬 코인 지급"},
+  "content_scripts": [
+    {"matches": ["https://ygosu.com/*", "https://www.ygosu.com/*"], "js": ["wago-content.js"], "css": ["wago-content.css"], "run_at": "document_idle"},
+    {"matches": ["https://cnine-card.pages.dev/admin/*"], "js": ["admin-bridge.js"], "run_at": "document_idle"}
+  ]
+}
