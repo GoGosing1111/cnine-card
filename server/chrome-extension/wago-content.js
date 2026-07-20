@@ -6,15 +6,30 @@
   const MESSAGE_SELECTOR='[data-comment-id],[data-message-id],[data-chat-id],[data-reply-id],.comment,.reply,.chat-message,.message-item,.comment-item,.reply-item,.article-comment,.memo-row,.chat-row,li,tr';
 
   function normalizeNick(raw){
-    let nick=String(raw||'').replace(/^[\s\[\(]+|[\s\]\):]+$/g,'').replace(/\s+/g,' ').trim();
-    if(nick.length%2===0&&nick.slice(0,nick.length/2)===nick.slice(nick.length/2))nick=nick.slice(0,nick.length/2);
+    let nick=String(raw||'')
+      .replace(/\u00a0/g,' ')
+      .replace(/\[\s*i\s*\]?\s*$/i,'')
+      .replace(/\s*\[i\]\s*$/i,'')
+      .replace(/\s*#\d+.*$/,'')
+      .replace(/^[\s\[\(]+|[\s\]\):]+$/g,'')
+      .replace(/\s+/g,' ')
+      .trim();
+    for(let i=0;i<2;i++){
+      if(nick.length%2===0&&nick.slice(0,nick.length/2)===nick.slice(nick.length/2))nick=nick.slice(0,nick.length/2).trim();
+    }
     if(!nick||nick.length>80||/^(로그인|회원가입|글쓰기|답글|추천|신고|삭제|수정|차단|쪽지)$/i.test(nick))return null;
     return nick;
+  }
+  function cleanNodeText(node){
+    const clone=node.cloneNode(true);
+    clone.querySelectorAll('.cnine-msg-reward-btn,[data-cnine-reward],.nickname-info,.nick-info,.member-info,[class*=nick-info],[class*=nickname-info]').forEach(x=>x.remove());
+    return clone.textContent||'';
   }
   function nicknameFrom(el){
     const node=el.closest?.(NICK_SELECTOR) || el.querySelector?.(NICK_SELECTOR);
     if(!node)return null;
-    const raw=node.dataset?.nick||node.dataset?.nickname||node.dataset?.userNick||node.dataset?.memberNick||node.getAttribute('data-name')||node.getAttribute('title')||node.textContent;
+    const explicit=node.dataset?.nick||node.dataset?.nickname||node.dataset?.userNick||node.dataset?.memberNick||node.getAttribute('data-name');
+    const raw=explicit||cleanNodeText(node)||node.getAttribute('title')||'';
     const nick=normalizeNick(raw);
     return nick?{nick,node}:null;
   }

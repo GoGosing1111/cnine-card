@@ -21,16 +21,28 @@ async function api(path,options={}){
 
 
 async function syncAdminTokenFromTabs(){
-  const tabs=await chrome.tabs.query({url:['https://cnine-card.pages.dev/admin','https://cnine-card.pages.dev/admin/*']});
+  const tabs=await chrome.tabs.query({url:['https://cnine-card.pages.dev/admin*','https://cnine-card.pages.dev/admin/*']});
+  let lastError='';
   for(const tab of tabs){
     if(!tab.id) continue;
     try{
-      const out=await chrome.scripting.executeScript({target:{tabId:tab.id},world:'MAIN',func:()=>localStorage.getItem('cnine_admin_token')||sessionStorage.getItem('cnine_admin_token')||''});
+      const out=await chrome.scripting.executeScript({
+        target:{tabId:tab.id},
+        world:'MAIN',
+        func:()=>localStorage.getItem('cnine_admin_token')||sessionStorage.getItem('cnine_admin_token')||''
+      });
       const token=String(out?.[0]?.result||'').trim();
-      if(token){await setStore({adminToken:token,adminTokenSavedAt:new Date().toISOString()});return true;}
-    }catch(e){}
+      if(token){
+        await setStore({adminToken:token,adminTokenSavedAt:new Date().toISOString()});
+        return {connected:true};
+      }
+      lastError='CMS 탭은 찾았지만 로그인 토큰이 없습니다.';
+    }catch(error){
+      lastError=error?.message||'CMS 탭에서 인증 정보를 읽지 못했습니다.';
+    }
   }
-  return false;
+  if(!tabs.length) lastError='열려 있는 씨켓몬 CMS 탭을 찾지 못했습니다.';
+  return {connected:false,error:lastError};
 }
 
 chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
@@ -46,7 +58,7 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
       const state=await getStore(['adminToken','adminTokenSavedAt','apiBase','quickAmounts','defaultReason']);
       return {ok:true,connected:Boolean(state.adminToken),...state};
     }
-    if(message?.type==='CNINE_SYNC_AUTH'){const connected=await syncAdminTokenFromTabs();return {ok:true,connected};}
+    if(message?.type==='CNINE_SYNC_AUTH'){const result=await syncAdminTokenFromTabs();return {ok:true,...result};}
     if(message?.type==='CNINE_LOGOUT'){await chrome.storage.local.remove(['adminToken','adminTokenSavedAt']);return {ok:true};}
     if(message?.type==='CNINE_RESOLVE')return api('admin/wago-extension/resolve',{method:'POST',body:JSON.stringify({wagoNickname:message.wagoNickname,sourceUrl:message.sourceUrl})});
     if(message?.type==='CNINE_GRANT')return api('admin/wago-extension/grant',{method:'POST',body:JSON.stringify(message.payload||{})});

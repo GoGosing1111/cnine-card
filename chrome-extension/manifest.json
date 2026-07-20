@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "씨켓몬 와고 코인 지급",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "와고 게시글·댓글·메시지의 닉네임에서 씨켓몬 2단계 인증 연결 계정에 코인을 지급합니다.",
   "permissions": [
     "storage",

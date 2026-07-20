@@ -2446,9 +2446,16 @@ export async function onRequest(context){
         await writeAdminLog(env,admin,`WAGO_${action}`,'WAGO_VERIFICATION',id,before,{action,note:body.note||''});return json({ok:true});
       }
     }
+    const normalizeWagoExtensionNickname=value=>{
+      let nickname=String(value||'').replace(/\u00a0/g,' ').trim();
+      nickname=nickname.replace(/\[\s*i\s*\]?\s*$/i,'').replace(/\s*\[i\]\s*$/i,'').replace(/\s*#\d+.*$/,'').replace(/\s+/g,' ').trim();
+      for(let i=0;i<2;i++){if(nickname.length%2===0&&nickname.slice(0,nickname.length/2)===nickname.slice(nickname.length/2))nickname=nickname.slice(0,nickname.length/2).trim();}
+      return nickname.slice(0,80);
+    };
+
     if(path==='admin/wago-extension/resolve'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
-      const body=await readBody(request),wagoNickname=String(body.wagoNickname||'').trim().slice(0,80);
+      const body=await readBody(request),wagoNickname=normalizeWagoExtensionNickname(body.wagoNickname);
       if(!wagoNickname)return json({error:'와고 닉네임을 확인할 수 없습니다.'},400);
       const rows=await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.status,w.wago_nickname,w.wago_member_no,w.verified_at
         FROM wago_verifications w JOIN users u ON u.id=w.user_id
@@ -2464,7 +2471,7 @@ export async function onRequest(context){
 
     if(path==='admin/wago-extension/grant'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),userId=Number(body.targetUserId),wagoNickname=String(body.wagoNickname||'').trim().slice(0,80),amount=Math.floor(Number(body.amount||0)),reason=String(body.reason||'').trim().slice(0,120),sourceUrl=String(body.sourceUrl||'').trim().slice(0,700),sourceKey=String(body.sourceKey||'').trim().slice(0,300);
+      const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),userId=Number(body.targetUserId),wagoNickname=normalizeWagoExtensionNickname(body.wagoNickname),amount=Math.floor(Number(body.amount||0)),reason=String(body.reason||'').trim().slice(0,120),sourceUrl=String(body.sourceUrl||'').trim().slice(0,700),sourceKey=String(body.sourceKey||'').trim().slice(0,300);
       if(!requestId||!userId||!wagoNickname||!reason||amount<1||amount>1000000)return json({error:'지급 정보가 올바르지 않습니다.'},400);
       const previous=await env.DB.prepare('SELECT request_id,user_id,amount,balance_after,created_at FROM wago_extension_reward_receipts WHERE request_id=?').bind(requestId).first();
       if(previous)return json({ok:true,duplicate:true,delivery:'MESSAGE',receipt:previous});
