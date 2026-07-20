@@ -66,7 +66,11 @@ body.auth-active #cms{display:block}
 
 .userVerifyTabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.userVerifyTabs button{background:#0b1624;border:1px solid #28445f;color:#9fb4c9;border-radius:999px;padding:9px 14px}.userVerifyTabs button.active{background:#17395a;border-color:#58b9ff;color:#fff;box-shadow:0 0 0 2px rgba(88,185,255,.12)}
 .verifyBadge{display:inline-flex;align-items:center;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:900;white-space:nowrap}.verifyBadge.verified{background:rgba(41,190,107,.16);color:#6cffaa;border:1px solid rgba(76,235,145,.38)}.verifyBadge.pending{background:rgba(255,190,44,.14);color:#ffd468;border:1px solid rgba(255,202,78,.35)}.verifyBadge.unverified{background:rgba(132,148,166,.13);color:#aebdca;border:1px solid rgba(155,171,188,.25)}.verifyBadge.rejected{background:rgba(240,70,84,.14);color:#ff8d98;border:1px solid rgba(255,102,115,.35)}
-#users .tr.userRows{grid-template-columns:minmax(150px,1.25fr) minmax(145px,1.15fr) repeat(2,minmax(95px,.8fr)) minmax(80px,.7fr) minmax(80px,.7fr) repeat(3,minmax(48px,.42fr)) minmax(70px,.55fr) minmax(90px,.7fr)}
+#users .tr.userRows{grid-template-columns:minmax(150px,1.25fr) minmax(145px,1.15fr) repeat(2,minmax(95px,.8fr)) minmax(80px,.7fr) minmax(80px,.7fr) repeat(5,minmax(54px,.46fr)) minmax(70px,.55fr) minmax(90px,.7fr)}
+#users .gradeHead,#users .gradeCount{font-weight:800;text-align:center}
+#users .gradeHead.limited,#users .gradeCount.limited{color:#f18cff}
+#users .gradeHead.fur,#users .gradeCount.fur{color:#ffd86b}
+@media(max-width:1500px){#users .tr.userRows{min-width:1320px}#users{overflow-x:auto}}
 
 
 /* v9.4.1 card management reorganization */
