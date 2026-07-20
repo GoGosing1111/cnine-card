@@ -2138,3 +2138,6 @@ div{
 .premium-cube-item em{margin-left:9px;padding:3px 7px;border:1px solid rgba(255,213,91,.28);border-radius:999px;background:rgba(255,194,45,.08);color:#ffe69a;font-size:9px;font-style:normal;letter-spacing:.8px}
 .premium-cube-item:after{color:rgba(255,212,91,.48)}
 @media(max-width:767px){.premium-cube-feed{margin-top:-11px}.premium-cube-label{min-width:92px;max-width:92px;white-space:normal;line-height:1.2}.premium-cube-item em{margin-left:6px;padding:2px 5px;font-size:8px}}
+
+/* V1073.4 tower completion state */
+.tower-completed{max-width:760px;margin:28px auto;padding:44px 28px;text-align:center;border:1px solid rgba(91,224,207,.24);background:radial-gradient(circle at 50% 0,rgba(62,207,190,.15),transparent 48%),linear-gradient(155deg,rgba(15,29,39,.97),rgba(7,13,23,.98));box-shadow:0 24px 70px rgba(0,0,0,.38)}.tower-completed h2{font-size:clamp(28px,5vw,48px);margin:8px 0 14px}.tower-completed strong{display:block;margin:18px 0 8px;color:#7ee9d8;font-size:18px}.tower-completed span{display:block;color:#a9b8c8;line-height:1.65}@media(max-width:640px){.tower-completed{margin:16px 10px;padding:34px 20px}}

@@ -28,7 +28,7 @@
 
   const e=(v)=>typeof esc==='function'?esc(v):String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const n=(v)=>Number(v||0).toLocaleString();
-  const activeSeason=(d)=>(d.seasons||[]).find(x=>x.status==='ACTIVE')||(d.seasons||[])[0]||null;
+  const activeSeason=(d)=>(d.seasons||[])[0]||{id:1,name:'무한의탑',max_floor:100,status:'ACTIVE'};
   const monsterBadge=(m)=>m.towerOnly?'탑 전용':(m.towerEnabled?'탑 사용':'탑 미사용');
 
   async function loadTowerAdmin(){
@@ -50,14 +50,14 @@
     root.innerHTML=`
       ${warning}
       <div class="towerOpsHeader panel">
-        <div><small>TOWER OPERATIONS CENTER</small><h2>${e(season?.name||'활성 시즌 없음')}</h2><p>몬스터 원본은 몬스터 관리에서 유지하고, 여기서는 층 배치·보스 구간·시즌 운영만 관리합니다.</p></div>
+        <div><small>TOWER OPERATIONS CENTER</small><h2>무한의탑 상시 운영</h2><p>몬스터 원본은 몬스터 관리에서 유지하고, 여기서는 층 배치·보스 구간·랭킹을 관리합니다.</p></div>
         <div class="towerOpsStatus"><span class="${d.settings?.enabled!==false?'on':'off'}">${d.settings?.enabled!==false?'운영 중':'운영 중지'}</span><b>${n(season?.max_floor||0)}층</b><small>범위 ${n(ranges.length)}개 · 사용 몬스터 ${n(monsters.filter(m=>m.towerEnabled).length)}종</small></div>
       </div>
       <div class="towerTabs" role="tablist">
         <button class="active" data-tower-tab="overview">운영 현황</button>
         <button data-tower-tab="ranges">층 구간 배치</button>
         <button data-tower-tab="legacy">기존 단일 층</button>
-        <button data-tower-tab="season">시즌·랭킹</button>
+        <button data-tower-tab="ranking">랭킹 관리</button>
       </div>
       <div id="towerTabContent"></div>`;
     root.querySelectorAll('[data-tower-tab]').forEach(btn=>btn.onclick=()=>{
@@ -72,13 +72,13 @@
     if(tab==='overview') return renderOverview(mount,d,season,monsters,ranges);
     if(tab==='ranges') return renderRanges(mount,d,season,monsters,ranges);
     if(tab==='legacy') return renderLegacy(mount,d,season);
-    return renderSeason(mount,d,season);
+    return renderRanking(mount,d,season);
   }
 
   function renderOverview(mount,d,season,monsters,ranges){
     const towerMonsters=monsters.filter(m=>m.towerEnabled), towerOnly=towerMonsters.filter(m=>m.towerOnly), bosses=ranges.filter(r=>r.is_boss);
     mount.innerHTML=`<div class="towerDashboardGrid">
-      <section class="panel towerMetric"><small>ACTIVE RANGE</small><b>${n(ranges.length)}</b><span>현재 시즌 구간 설정</span></section>
+      <section class="panel towerMetric"><small>ACTIVE RANGE</small><b>${n(ranges.length)}</b><span>현재 운영 구간 설정</span></section>
       <section class="panel towerMetric"><small>TOWER MONSTER</small><b>${n(towerMonsters.length)}</b><span>무한의탑 사용 몬스터</span></section>
       <section class="panel towerMetric"><small>TOWER ONLY</small><b>${n(towerOnly.length)}</b><span>일반 PVE 차단 몬스터</span></section>
       <section class="panel towerMetric"><small>BOSS FLOOR</small><b>${n(bosses.length)}</b><span>등록된 보스 구간</span></section>
@@ -104,10 +104,10 @@
           <label><span>코인 보상</span><input id="towerRangeReward" type="number" min="0" value="1000"></label>
           <label class="towerCheck wide"><input id="towerRangeOnly" type="checkbox" checked><span><b>무한의탑 전용으로 지정</b><small>일반 PVE 목록·자동전투·직접 요청에서 서버가 제외합니다.</small></span></label>
         </div>
-        <div class="towerEditorFooter"><small>같은 시즌의 겹치는 구간은 저장되지 않습니다. 기존 데이터는 삭제하지 않습니다.</small><button id="towerSaveRange">구간 저장</button></div>
+        <div class="towerEditorFooter"><small>겹치는 층 구간은 저장되지 않습니다. 기존 데이터는 삭제하지 않습니다.</small><button id="towerSaveRange">구간 저장</button></div>
       </section>
       <section class="panel towerRangeListPanel">
-        <div class="maintenanceHead"><div><small>FLOOR MAP</small><h2>현재 층 구성</h2><p>${e(season?.name||'시즌 없음')}</p></div><button id="towerRefresh" class="ghost">새로고침</button></div>
+        <div class="maintenanceHead"><div><small>FLOOR MAP</small><h2>현재 층 구성</h2><p>상시 운영 층 배치</p></div><button id="towerRefresh" class="ghost">새로고침</button></div>
         <div class="towerRangeCards">${ranges.map(rangeCard).join('')||'<div class="towerEmpty"><b>등록된 구간이 없습니다.</b><span>왼쪽 편집기에서 첫 구간을 추가하세요.</span></div>'}</div>
       </section>
     </div>`;
@@ -123,13 +123,19 @@
     mount.innerHTML=`<section class="panel"><div class="maintenanceHead"><div><small>LEGACY COMPATIBILITY</small><h2>기존 단일 층 설정</h2><p>기존 데이터는 유지되며 신규 범위가 없는 층에서 자동으로 사용됩니다.</p></div><span class="towerReadOnlyBadge">읽기 전용 안전 보기</span></div><div class="towerLegacyTable"><div class="head"><span>층</span><span>몬스터</span><span>전투력</span><span>보상</span><span>상태</span></div>${floors.map(f=>`<div><b>${n(f.floor_no)}F</b><span>${e(f.monster_name||'-')}</span><span>${f.power_override?n(f.power_override):'자동'}</span><span>${n(f.reward_coin)}</span><small>${f.is_active===0?'비활성':'활성'}</small></div>`).join('')||'<div class="towerEmpty"><b>기존 단일 층 설정이 없습니다.</b></div>'}</div></section>`;
   }
 
-  function renderSeason(mount,d,season){
+  function renderRanking(mount,d,season){
     const ranking=d.ranking||[];
     mount.innerHTML=`<div class="towerManageLayout">
-      <section class="panel"><div class="maintenanceHead"><div><small>SEASON CONTROL</small><h2>시즌 운영</h2><p>새 시즌 시작 시 기존 기록과 설정은 보존됩니다.</p></div></div><div class="towerRangeForm"><label class="wide"><span>새 시즌명</span><input id="towerSeasonName" value="${e(season?.name||'무한의탑 시즌')}"></label><label><span>최대 층</span><input id="towerMaxFloor" type="number" min="1" value="${Number(season?.max_floor||100)}"></label><label><span>종료일</span><input id="towerEndsAt" type="datetime-local"></label></div><div class="towerEditorFooter"><small>현재 시즌: ${e(season?.status||'없음')} · ID ${season?.id||'-'}</small><button id="towerNewSeason" class="danger">새 시즌 시작</button></div></section>
-      <section class="panel"><div class="maintenanceHead"><div><small>SEASON RANKING</small><h2>최고층 랭킹</h2></div></div><div class="towerRankingList">${ranking.map((r,i)=>`<div><b>${i+1}</b><span>${e(r.nickname)}</span><strong>${n(r.highest_floor)}F</strong><small>${r.highest_reached_at?(typeof fmt==='function'?fmt(r.highest_reached_at):e(r.highest_reached_at)):'-'}</small></div>`).join('')||'<div class="towerEmpty"><b>아직 기록이 없습니다.</b></div>'}</div></section>
+      <section class="panel"><div class="maintenanceHead"><div><small>PERMANENT RANKING</small><h2>최고층 랭킹</h2><p>시즌 없이 계속 누적됩니다. 초기화는 운영자가 직접 실행합니다.</p></div></div><div class="towerRankingList">${ranking.map((r,i)=>`<div><b>${i+1}</b><span>${e(r.nickname)}</span><strong>${n(r.highest_floor)}F</strong><small>${r.highest_reached_at?(typeof fmt==='function'?fmt(r.highest_reached_at):e(r.highest_reached_at)):'-'}</small></div>`).join('')||'<div class="towerEmpty"><b>아직 기록이 없습니다.</b></div>'}</div></section>
+      <section class="panel"><div class="maintenanceHead"><div><small>MANUAL RESET</small><h2>운영자 초기화</h2><p>랭킹 초기화와 진행도 초기화는 서로 다른 작업입니다.</p></div></div><div class="towerResetCards"><article><b>랭킹만 초기화</b><p>최고층과 달성 시간만 0으로 초기화합니다. 현재 도전층은 유지됩니다.</p><button id="towerResetRanking" class="danger">전체 랭킹 초기화</button></article><article><b>진행도까지 초기화</b><p>모든 유저를 1층으로 되돌립니다. 최고층 완료 유저의 재등반이 필요할 때만 사용하세요.</p><button id="towerResetProgress" class="danger">전체 진행도 초기화</button></article></div></section>
     </div>`;
-    q('#towerNewSeason').onclick=startSeason;
+    q('#towerResetRanking').onclick=()=>manualReset('RESET_RANKING','무한의탑 랭킹 초기화','랭킹 기록만 초기화됩니다. 현재 층은 유지됩니다.');
+    q('#towerResetProgress').onclick=()=>manualReset('RESET_PROGRESS','무한의탑 진행도 초기화','모든 유저가 1층으로 돌아갑니다.');
+  }
+  async function manualReset(action,required,message){
+    if(!confirm(message+' 계속할까요?'))return;
+    const typed=prompt(`확인 문구를 정확히 입력하세요.\n${required}`,'');if(typed===null)return;
+    await api('admin/tower',{method:'POST',body:JSON.stringify({action,confirmText:typed})});alert('초기화가 완료되었습니다.');await loadTowerAdmin();
   }
 
   function rangeCard(r){
@@ -140,7 +146,7 @@
   function resetRangeForm(){q('#towerRangeId').value='';q('#towerStartFloor').value=1;q('#towerEndFloor').value=9;q('#towerRangePower').value='';q('#towerRangeReward').value=1000;q('#towerRangeBoss').value='0';q('#towerRangeOnly').checked=true;}
   function editRange(r){if(!r)return;q('#towerRangeId').value=r.id;q('#towerStartFloor').value=r.start_floor;q('#towerEndFloor').value=r.end_floor;q('#towerRangeMonster').value=r.monster_id;q('#towerRangePower').value=r.power_override||'';q('#towerRangeReward').value=r.reward_coin||0;q('#towerRangeBoss').value=r.is_boss?'1':'0';q('.towerRangeEditor')?.scrollIntoView({behavior:'smooth',block:'start'});}
   async function saveRange(season){
-    if(!season)return alert('활성 시즌이 없습니다. 먼저 시즌을 생성하세요.');
+    if(!season?.id)return alert('무한의탑 운영 기준을 불러오지 못했습니다.');
     const startFloor=Number(q('#towerStartFloor').value),endFloor=Number(q('#towerEndFloor').value),monsterId=Number(q('#towerRangeMonster').value);
     if(!monsterId)return alert('배치할 몬스터를 선택하세요. 몬스터 관리에 활성 몬스터가 없다면 먼저 등록해야 합니다.');
     if(endFloor<startFloor)return alert('종료 층은 시작 층보다 작을 수 없습니다.');
@@ -151,5 +157,4 @@
   }
   async function deleteRange(id){if(!confirm('이 범위를 비활성화할까요? 데이터는 삭제되지 않습니다.'))return;await api('admin/tower',{method:'POST',body:JSON.stringify({action:'DELETE_RANGE',id})});await loadTowerAdmin();}
   async function saveSettings(){const enabled=q('#towerEnabled').checked;if(!enabled&&!confirm('무한의탑 입장을 중지할까요?'))return;await api('admin/tower',{method:'POST',body:JSON.stringify({action:'SAVE_SETTINGS',enabled})});alert('운영 상태를 저장했습니다.');await loadTowerAdmin();}
-  async function startSeason(){if(!confirm('현재 시즌을 마감하고 새 시즌을 시작할까요? 기존 기록은 보존됩니다.'))return;await api('admin/tower',{method:'POST',body:JSON.stringify({action:'START_NEW_SEASON',name:q('#towerSeasonName').value,maxFloor:Number(q('#towerMaxFloor').value),endsAt:q('#towerEndsAt').value||null})});await loadTowerAdmin();}
 })();

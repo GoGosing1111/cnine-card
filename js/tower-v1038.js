@@ -55,17 +55,18 @@
   function currentDeckCards(){return (S.data?.deck||[]).map(id=>cards.find(x=>String(x.id)===String(id))).filter(Boolean)}
   function render(){
     const d=S.data,box=document.getElementById('pveTowerView');if(!box)return;
-    if(!d?.active){box.innerHTML='<section class="tower-empty"><h2>진행 중인 시즌이 없습니다</h2><p>다음 시즌 개방을 기다려 주세요.</p></section>';return}
+    if(!d?.active){box.innerHTML='<section class="tower-empty"><h2>무한의탑을 이용할 수 없습니다</h2><p>운영 설정을 확인해 주세요.</p></section>';return}
     const p=d.progress||{},f=d.floor||{},rank=d.ranking||[];
+    if(d.completed||p.completed){box.innerHTML=`<section class="tower-empty tower-completed"><p class="eyebrow">INFINITE TOWER COMPLETE</p><h2>최고층 등반 완료</h2><p>${Number(d.maxFloor||p.highestFloor||0)}층까지 모두 클리어했습니다.</p><strong>자동으로 1층으로 돌아가지 않습니다.</strong><span>운영자가 진행도를 직접 초기화하거나 새로운 층을 추가하면 다시 도전할 수 있습니다.</span></section>`;return}
     box.innerHTML=`
     <section class="tower-hero ${f.isBoss?'boss-ready':''}">
-      <div class="tower-hero-copy"><p class="eyebrow">INFINITE TOWER</p><h2>${esc(d.season.name)}</h2><p>저장된 PVE 덱 5장으로 끝없이 올라가세요. 궁극기는 발동하지 않습니다.</p></div>
+      <div class="tower-hero-copy"><p class="eyebrow">INFINITE TOWER</p><h2>무한의탑</h2><p>저장된 PVE 덱 5장으로 최고층까지 도전하세요.</p></div>
       <div class="tower-hero-art" aria-hidden="true"><span class="tower-spire"></span><span class="tower-body"></span><span class="tower-base"></span><i></i><i></i><i></i></div>
-      <div class="tower-season-clock"><span>시즌 종료</span><b>${d.season.endsAt?new Date(d.season.endsAt).toLocaleDateString('ko-KR'):'미정'}</b></div>
+      <div class="tower-season-clock"><span>운영 방식</span><b>상시 운영</b></div>
     </section>
     <section class="tower-overview">
       <article><small>CURRENT FLOOR</small><strong>${Number(p.currentFloor||1)}F</strong><span>현재 도전층</span></article>
-      <article><small>SEASON BEST</small><strong>${Number(p.highestFloor||0)}F</strong><span>시즌 최고층</span></article>
+      <article><small>BEST FLOOR</small><strong>${Number(p.highestFloor||0)}F</strong><span>개인 최고층</span></article>
       <article><small>MY RANK</small><strong>${Number(p.rank||1)}위</strong><span>현재 순위</span></article>
       <article class="next-boss"><small>NEXT BOSS</small><strong>${Math.ceil(Number(p.currentFloor||1)/10)*10}F</strong><span>다음 보스층</span></article>
     </section>
@@ -81,7 +82,7 @@
       </div>
       <aside class="tower-side-panel">
         <div class="tower-deck-preview"><div class="tower-deck-head"><div><p class="eyebrow">PVE SAVED DECK</p><h3>현재 저장 덱</h3></div><button id="towerGoDeck" class="tower-deck-manage"><span class="tower-deck-glyph"><i></i><i></i><i></i></span><span><b>PVE 덱 편성</b><small>저장 덱 변경하기</small></span><em>편성</em></button></div><div class="tower-deck-slots">${(d.deck||[]).map(id=>{const c=cards.find(x=>String(x.id)===String(id));return c?`<div><img src="${esc(c.image)}"><span>${esc(c.title)}</span></div>`:'<div class="empty">?</div>'}).join('')}${Array.from({length:Math.max(0,5-(d.deck||[]).length)},()=>'<div class="empty">+</div>').join('')}</div><small>무한의탑은 PVE에 저장된 덱을 그대로 사용합니다.</small></div>
-        <div class="tower-ranking"><div class="panel-title"><div><p class="eyebrow">SEASON RANKING</p><h3>최고층 랭킹</h3></div></div><div class="tower-rank-list">${rank.slice(0,10).map((r,i)=>`<div class="${Number(r.user_id)===Number(loadUser()?.id)?'me':''}"><b>${i+1}</b><span>${esc(r.nickname)}</span><strong>${Number(r.highest_floor||0)}F</strong></div>`).join('')||'<p>아직 기록이 없습니다.</p>'}</div></div>
+        <div class="tower-ranking"><div class="panel-title"><div><p class="eyebrow">TOWER RANKING</p><h3>최고층 랭킹</h3></div></div><div class="tower-rank-list">${rank.slice(0,10).map((r,i)=>`<div class="${Number(r.user_id)===Number(loadUser()?.id)?'me':''}"><b>${i+1}</b><span>${esc(r.nickname)}</span><strong>${Number(r.highest_floor||0)}F</strong></div>`).join('')||'<p>아직 기록이 없습니다.</p>'}</div></div>
       </aside>
     </section>`;
     const auto=document.getElementById('towerAutoProgress');
@@ -96,7 +97,7 @@
     return `<div class="modal-panel battle-stage intro tower-pve-battle-stage ${monster.isBoss?'tower-boss-stage':''}">
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
       <div class="tower-floor-intro"><small>${monster.isBoss?'WARNING · BOSS FLOOR':'INFINITE TOWER'}</small><strong>${Number(f.floorNo||1)} FLOOR</strong><span>${esc(monster.name)}</span></div>
-      <div class="battle-topline"><span>INFINITE TOWER · ${esc(S.data?.season?.name||'SEASON')}</span><b id="towerBattlePhase">FLOOR ${Number(f.floorNo||1)}</b></div>
+      <div class="battle-topline"><span>INFINITE TOWER</span><b id="towerBattlePhase">FLOOR ${Number(f.floorNo||1)}</b></div>
       <div class="tower-battle-progress"><span>${Math.max(1,Number(f.floorNo||1)-1)}F</span><i><u></u></i><b>${Number(f.floorNo||1)}F</b><i><u></u></i><span>${Number(f.floorNo||1)+1}F</span></div>
       ${S.autoRunning?`<div class="tower-auto-stage-status"><i></i><b>자동진행</b><span>${Number(f.floorNo||1)}F</span><small>승리 시 다음 층으로 이동</small></div>`:''}
       <div class="battle-hud">
@@ -148,7 +149,9 @@
       if(win){battleSetHp(stage,'enemy',0);battleBurst(stage,'74%','43%',55);battleDamage(stage,'FLOOR CLEAR!','enemy',true);if(navigator.vibrate)navigator.vibrate([70,30,180])}
       else{battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',48);battleDamage(stage,'K.O.','player',true);if(navigator.vibrate)navigator.vibrate([160,50,160])}
       await battleSleep(1000);stage.classList.add(win?'battle-win-v863':'battle-lose-v863');phase.textContent=win?`${Number(d.floorNo)}F CLEAR`:'CHALLENGE FAILED';battleSfx(win?'victory':'defeat');
-      if(win&&S.autoRunning&&S.autoEnabled){
+      if(win&&d.completed){
+        stopAuto();saveAuto(false);msg.innerHTML=`<strong>최고층 등반 완료</strong><span>${Number(d.floorNo)}층까지 모두 클리어했습니다. 자동으로 1층으로 돌아가지 않습니다.</span><button type="button" class="tower-result-button" id="towerResultBtn">완료 화면 확인</button>`;document.getElementById('towerResultBtn').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()};
+      }else if(win&&S.autoRunning&&S.autoEnabled){
         msg.innerHTML=`<strong>${Number(d.floorNo)}층 클리어</strong><span>보상 ◈ ${Number(d.reward||0).toLocaleString()} · 다음 ${Number(d.nextFloor)}층</span><div class="tower-auto-next"><i></i><b>다음 층 자동진행 중</b><small>잠시 후 ${Number(d.nextFloor)}층 전투가 시작됩니다.</small></div><button type="button" class="tower-auto-stop" id="towerAutoStop">자동진행 중단</button>`;
         document.getElementById('towerAutoStop').onclick=e=>{e.stopPropagation();saveAuto(false);stopAuto();closeBattleAndRefresh()};
         S.autoTimer=setTimeout(()=>continueAuto(),1900);
