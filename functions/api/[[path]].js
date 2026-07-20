@@ -2446,6 +2446,13 @@ export async function onRequest(context){
         await writeAdminLog(env,admin,`WAGO_${action}`,'WAGO_VERIFICATION',id,before,{action,note:body.note||''});return json({ok:true});
       }
     }
+    const ensureWagoExtensionRewardReceipts=async()=>{
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS wago_extension_reward_receipts (id INTEGER PRIMARY KEY AUTOINCREMENT, request_id TEXT NOT NULL UNIQUE, admin_id INTEGER NOT NULL, user_id INTEGER NOT NULL, wago_nickname TEXT NOT NULL, wago_member_no TEXT, amount INTEGER NOT NULL, reason TEXT NOT NULL, source_url TEXT, source_key TEXT, balance_before INTEGER NOT NULL DEFAULT 0, balance_after INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
+      await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_wago_extension_rewards_user ON wago_extension_reward_receipts(user_id,created_at)`).run();
+      await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_wago_extension_rewards_source ON wago_extension_reward_receipts(source_key,created_at)`).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1074_wago_extension_rewards','1',CURRENT_TIMESTAMP)").run();
+    };
+
     const normalizeWagoExtensionNickname=value=>{
       let nickname=String(value||'').replace(/\u00a0/g,' ').trim();
       nickname=nickname.replace(/\[\s*i\s*\]?\s*$/i,'').replace(/\s*\[i\]\s*$/i,'').replace(/\s*#\d+.*$/,'').replace(/\s+/g,' ').trim();
@@ -2471,6 +2478,7 @@ export async function onRequest(context){
 
     if(path==='admin/wago-extension/grant'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      await ensureWagoExtensionRewardReceipts();
       const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),userId=Number(body.targetUserId),wagoNickname=normalizeWagoExtensionNickname(body.wagoNickname),amount=Math.floor(Number(body.amount||0)),reason=String(body.reason||'').trim().slice(0,120),sourceUrl=String(body.sourceUrl||'').trim().slice(0,700),sourceKey=String(body.sourceKey||'').trim().slice(0,300);
       if(!requestId||!userId||!wagoNickname||!reason||amount<1||amount>1000000)return json({error:'지급 정보가 올바르지 않습니다.'},400);
       const previous=await env.DB.prepare('SELECT request_id,user_id,amount,balance_after,created_at FROM wago_extension_reward_receipts WHERE request_id=?').bind(requestId).first();
@@ -2495,6 +2503,7 @@ export async function onRequest(context){
     }
     if(path==='admin/wago-extension/recent'&&request.method==='GET'){
       const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
+      await ensureWagoExtensionRewardReceipts();
       const rows=await env.DB.prepare(`SELECT r.request_id,r.wago_nickname,r.amount,r.reason,r.source_url,r.balance_after,r.created_at,u.nickname AS game_nickname,a.nickname AS admin_nickname
         FROM wago_extension_reward_receipts r JOIN users u ON u.id=r.user_id JOIN users a ON a.id=r.admin_id ORDER BY r.id DESC LIMIT 50`).all();
       return json({items:rows.results||[]});
