@@ -2509,17 +2509,30 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
       await ensureWagoExtensionRewardReceipts();
       const requestUrl=new URL(request.url),targetUserId=Math.max(0,Number(requestUrl.searchParams.get('userId')||0));
-      const sql=`SELECT r.request_id,r.wago_nickname,r.wago_member_no,r.amount,r.reason,r.source_url,r.message_id,r.created_at,
-          u.nickname AS game_nickname,a.nickname AS admin_nickname,mr.claimed_at,
-          CASE WHEN r.message_id IS NULL THEN 'UNKNOWN' WHEN mr.claimed_at IS NOT NULL THEN 'CLAIMED' ELSE 'SENT' END AS reward_status
-        FROM wago_extension_reward_receipts r
-        JOIN users u ON u.id=r.user_id
-        JOIN users a ON a.id=r.admin_id
-        LEFT JOIN user_message_rewards mr ON mr.message_id=r.message_id AND mr.user_id=r.user_id AND mr.reward_type='COIN'
-        ${targetUserId?'WHERE r.user_id=?':''}
-        ORDER BY r.id DESC LIMIT ${targetUserId?10:50}`;
-      const rows=targetUserId?await env.DB.prepare(sql).bind(targetUserId).all():await env.DB.prepare(sql).all();
-      return json({items:rows.results||[],targetUserId:targetUserId||null});
+      const where=targetUserId?'WHERE r.user_id=?':'';
+      const limit=targetUserId?10:50;
+      let rows;
+      try{
+        const sql=`SELECT r.request_id,r.admin_id,r.user_id,r.wago_nickname,r.wago_member_no,r.amount,r.reason,r.source_url,r.message_id,r.created_at,
+            u.nickname AS game_nickname,COALESCE(a.nickname,'알 수 없음') AS admin_nickname,mr.claimed_at,
+            CASE WHEN r.message_id IS NULL THEN 'UNKNOWN' WHEN mr.claimed_at IS NOT NULL THEN 'CLAIMED' ELSE 'SENT' END AS reward_status
+          FROM wago_extension_reward_receipts r
+          LEFT JOIN users u ON u.id=r.user_id
+          LEFT JOIN users a ON a.id=r.admin_id
+          LEFT JOIN user_message_rewards mr ON mr.message_id=r.message_id AND mr.user_id=r.user_id AND mr.reward_type='COIN'
+          ${where} ORDER BY r.id DESC LIMIT ${limit}`;
+        rows=targetUserId?await env.DB.prepare(sql).bind(targetUserId).all():await env.DB.prepare(sql).all();
+      }catch(historyJoinError){
+        const fallbackSql=`SELECT r.request_id,r.admin_id,r.user_id,r.wago_nickname,r.wago_member_no,r.amount,r.reason,r.source_url,r.created_at,
+            u.nickname AS game_nickname,COALESCE(a.nickname,'알 수 없음') AS admin_nickname,
+            NULL AS message_id,NULL AS claimed_at,'UNKNOWN' AS reward_status
+          FROM wago_extension_reward_receipts r
+          LEFT JOIN users u ON u.id=r.user_id
+          LEFT JOIN users a ON a.id=r.admin_id
+          ${where} ORDER BY r.id DESC LIMIT ${limit}`;
+        rows=targetUserId?await env.DB.prepare(fallbackSql).bind(targetUserId).all():await env.DB.prepare(fallbackSql).all();
+      }
+      return json({ok:true,items:rows.results||[],targetUserId:targetUserId||null});
     }
 
     if(path==='admin/verified-coin-message-send'&&request.method==='POST'){
