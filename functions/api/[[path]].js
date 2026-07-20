@@ -2450,6 +2450,10 @@ export async function onRequest(context){
       await env.DB.prepare(`CREATE TABLE IF NOT EXISTS wago_extension_reward_receipts (id INTEGER PRIMARY KEY AUTOINCREMENT, request_id TEXT NOT NULL UNIQUE, admin_id INTEGER NOT NULL, user_id INTEGER NOT NULL, wago_nickname TEXT NOT NULL, wago_member_no TEXT, amount INTEGER NOT NULL, reason TEXT NOT NULL, source_url TEXT, source_key TEXT, balance_before INTEGER NOT NULL DEFAULT 0, balance_after INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
       await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_wago_extension_rewards_user ON wago_extension_reward_receipts(user_id,created_at)`).run();
       await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_wago_extension_rewards_source ON wago_extension_reward_receipts(source_key,created_at)`).run();
+      const receiptColumns=await env.DB.prepare('PRAGMA table_info(wago_extension_reward_receipts)').all();
+      if(!(receiptColumns.results||[]).some(column=>String(column.name)==='message_id')){
+        await env.DB.prepare('ALTER TABLE wago_extension_reward_receipts ADD COLUMN message_id INTEGER').run();
+      }
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1074_wago_extension_rewards','1',CURRENT_TIMESTAMP)").run();
     };
 
@@ -2496,7 +2500,7 @@ export async function onRequest(context){
       const messageId=Number(messageResult?.meta?.last_row_id||0);if(!messageId)throw new Error('코인 보상 메시지 저장 ID 확인 실패');
       await env.DB.batch([
         env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'COIN',?)").bind(messageId,userId,amount),
-        env.DB.prepare('INSERT INTO wago_extension_reward_receipts(request_id,admin_id,user_id,wago_nickname,wago_member_no,amount,reason,source_url,source_key,balance_before,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?,?)').bind(requestId,admin.id,userId,linked.wago_nickname,linked.wago_member_no,amount,reason,sourceUrl,sourceKey,beforeCoin,beforeCoin)
+        env.DB.prepare('INSERT INTO wago_extension_reward_receipts(request_id,admin_id,user_id,wago_nickname,wago_member_no,amount,reason,source_url,source_key,balance_before,balance_after,message_id) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)').bind(requestId,admin.id,userId,linked.wago_nickname,linked.wago_member_no,amount,reason,sourceUrl,sourceKey,beforeCoin,beforeCoin,messageId)
       ]);
       await writeAdminLog(env,admin,'WAGO_EXTENSION_COIN_MESSAGE_SEND','USER_MESSAGE',messageId,null,{userId,nickname:linked.nickname,wagoNickname:linked.wago_nickname,amount,reason,sourceUrl,sourceKey,delivery:'MESSAGE'});
       return json({ok:true,delivery:'MESSAGE',messageId,rewardCoin:amount,gameUser:{id:userId,nickname:linked.nickname,coin:beforeCoin},notice:'코인 보상 메시지를 발송했습니다. 유저가 메시지에서 수령하면 코인이 반영됩니다.'});
@@ -2504,8 +2508,14 @@ export async function onRequest(context){
     if(path==='admin/wago-extension/recent'&&request.method==='GET'){
       const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
       await ensureWagoExtensionRewardReceipts();
-      const rows=await env.DB.prepare(`SELECT r.request_id,r.wago_nickname,r.amount,r.reason,r.source_url,r.balance_after,r.created_at,u.nickname AS game_nickname,a.nickname AS admin_nickname
-        FROM wago_extension_reward_receipts r JOIN users u ON u.id=r.user_id JOIN users a ON a.id=r.admin_id ORDER BY r.id DESC LIMIT 50`).all();
+      const rows=await env.DB.prepare(`SELECT r.request_id,r.wago_nickname,r.wago_member_no,r.amount,r.reason,r.source_url,r.message_id,r.created_at,
+          u.nickname AS game_nickname,a.nickname AS admin_nickname,mr.claimed_at,
+          CASE WHEN r.message_id IS NULL THEN 'UNKNOWN' WHEN mr.claimed_at IS NOT NULL THEN 'CLAIMED' ELSE 'SENT' END AS reward_status
+        FROM wago_extension_reward_receipts r
+        JOIN users u ON u.id=r.user_id
+        JOIN users a ON a.id=r.admin_id
+        LEFT JOIN user_message_rewards mr ON mr.message_id=r.message_id AND mr.user_id=r.user_id AND mr.reward_type='COIN'
+        ORDER BY r.id DESC LIMIT 50`).all();
       return json({items:rows.results||[]});
     }
 
