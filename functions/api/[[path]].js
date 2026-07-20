@@ -2078,8 +2078,28 @@ export async function onRequest(context){
     }
     if(path==='admin/tower'){
       const admin=await requirePermission(request,env,'BATTLE_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      // V1073.1: route-local idempotent safety. A failed optional upgrade must never block the legacy tower CMS.
+      const warnings=[];
+      try{
+        if(await tableExists(env,'battle_monsters')){
+          for(const [column,definition] of [['pve_enabled','INTEGER NOT NULL DEFAULT 1'],['tower_enabled','INTEGER NOT NULL DEFAULT 0'],['tower_only','INTEGER NOT NULL DEFAULT 0']]){
+            if(!await columnExists(env,'battle_monsters',column))await env.DB.prepare(`ALTER TABLE battle_monsters ADD COLUMN ${column} ${definition}`).run();
+          }
+        }
+        await env.DB.prepare(`CREATE TABLE IF NOT EXISTS tower_floor_ranges (id INTEGER PRIMARY KEY AUTOINCREMENT,season_id INTEGER NOT NULL,monster_id INTEGER NOT NULL,start_floor INTEGER NOT NULL,end_floor INTEGER NOT NULL,power_override INTEGER,reward_coin INTEGER NOT NULL DEFAULT 0,is_boss INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
+        await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_tower_floor_ranges_lookup ON tower_floor_ranges(season_id,start_floor,end_floor,is_active)`).run();
+      }catch(e){warnings.push('신규 층 구간 구조 준비 실패: '+String(e.message||e));}
       if(request.method==='GET'){
-        const settings=await towerSettings(env);const seasons=(await env.DB.prepare('SELECT * FROM tower_seasons ORDER BY id DESC').all()).results;const monsters=(await env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,is_active AS isActive,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly,ultimate_enabled AS ultimateEnabled,ultimate_name AS ultimateName FROM battle_monsters ORDER BY sort_order,id`).all()).results;const floors=(await env.DB.prepare('SELECT tf.*,tm.name monster_name FROM tower_floors tf LEFT JOIN tower_monsters tm ON tm.id=tf.monster_id ORDER BY tf.season_id DESC,tf.floor_no').all()).results;const ranges=(await env.DB.prepare(`SELECT r.*,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss,bm.ultimate_enabled,bm.ultimate_name FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.is_active=1 ORDER BY r.season_id DESC,r.start_floor,r.id`).all()).results;const ranking=(await env.DB.prepare("SELECT s.name season_name,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN tower_seasons s ON s.id=p.season_id JOIN users u ON u.id=p.user_id WHERE s.status='ACTIVE' ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 100").all()).results;return json({settings,seasons,monsters,floors,ranges,ranking});
+        const safeResults=async(sql,bind=[])=>{try{const stmt=env.DB.prepare(sql);return (await (bind.length?stmt.bind(...bind):stmt).all()).results||[]}catch(e){warnings.push(String(e.message||e));return []}};
+        let settings={enabled:true};try{settings=await towerSettings(env)}catch(e){warnings.push('운영 설정 조회 실패: '+String(e.message||e))}
+        const seasons=await safeResults('SELECT * FROM tower_seasons ORDER BY id DESC');
+        let monsters=await safeResults(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,is_active AS isActive,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly,COALESCE(ultimate_enabled,0) AS ultimateEnabled,COALESCE(ultimate_name,'') AS ultimateName FROM battle_monsters ORDER BY sort_order,id`);
+        if(!monsters.length) monsters=await safeResults(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,is_active AS isActive,1 AS pveEnabled,0 AS towerEnabled,0 AS towerOnly,0 AS ultimateEnabled,'' AS ultimateName FROM battle_monsters ORDER BY sort_order,id`);
+        const floors=await safeResults('SELECT tf.*,tm.name monster_name FROM tower_floors tf LEFT JOIN tower_monsters tm ON tm.id=tf.monster_id ORDER BY tf.season_id DESC,tf.floor_no');
+        let ranges=await safeResults(`SELECT r.*,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss,COALESCE(bm.ultimate_enabled,0) ultimate_enabled,COALESCE(bm.ultimate_name,'') ultimate_name FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.is_active=1 ORDER BY r.season_id DESC,r.start_floor,r.id`);
+        if(!ranges.length) ranges=await safeResults(`SELECT r.*,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss,0 ultimate_enabled,'' ultimate_name FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.is_active=1 ORDER BY r.season_id DESC,r.start_floor,r.id`);
+        const ranking=await safeResults("SELECT s.name season_name,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN tower_seasons s ON s.id=p.season_id JOIN users u ON u.id=p.user_id WHERE s.status='ACTIVE' ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 100");
+        return json({settings,seasons,monsters,floors,ranges,ranking,warnings:[...new Set(warnings)].slice(0,6)});
       }
       if(request.method==='POST'){
         const b=await readBody(request),action=String(b.action||'');
