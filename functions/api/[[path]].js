@@ -519,6 +519,13 @@ async function ensureUpgrades(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1043_deck_synergy','1',CURRENT_TIMESTAMP)")
       ]);
     }
+    const acquisitionFxDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v10738_card_acquisition_fx'").first();
+    if(acquisitionFxDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS card_acquisition_effects (card_id TEXT PRIMARY KEY,enabled INTEGER NOT NULL DEFAULT 0,media_url TEXT NOT NULL DEFAULT '',audio_url TEXT NOT NULL DEFAULT '',skip_allowed INTEGER NOT NULL DEFAULT 1,duration_ms INTEGER NOT NULL DEFAULT 8000,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v10738_card_acquisition_fx','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const performanceGate=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1019_performance_gate'").first();
     if(performanceGate?.value==='1')return;
     await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_logs_rarity_id ON draw_logs(rarity,id DESC)').run();
@@ -1537,8 +1544,8 @@ export async function onRequest(context){
       return user?json({user:await profile(env,user)}):json({error:'로그인이 필요합니다.'},401);
     }
     if(path==='cards'){
-      const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower
-        FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 ORDER BY m.sort_order,c.id`).all();
+      const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,COALESCE(fx.enabled,0) AS acquisitionFxEnabled,COALESCE(fx.media_url,'') AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,COALESCE(fx.duration_ms,8000) AS acquisitionDurationMs
+        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=c.id WHERE c.is_active=1 ORDER BY m.sort_order,c.id`).all();
       return json({cards:rows.results});
     }
     if(path==='packs'){
@@ -3039,8 +3046,8 @@ export async function onRequest(context){
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
-      const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active,c.card_status AS cardStatus,c.batch_name AS batchName,c.batch_date AS batchDate,c.draw_weight AS drawWeight,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.power_type AS powerType,c.base_power AS basePower
-        FROM cards c JOIN members m ON m.id=c.member_id`;
+      const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active,c.card_status AS cardStatus,c.batch_name AS batchName,c.batch_date AS batchDate,c.draw_weight AS drawWeight,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.power_type AS powerType,c.base_power AS basePower,COALESCE(fx.enabled,0) AS acquisitionFxEnabled,COALESCE(fx.media_url,'') AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,COALESCE(fx.duration_ms,8000) AS acquisitionDurationMs
+        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=c.id`;
       const normalizeCard=async payload=>{
         const title=String(payload.title||'').trim().slice(0,80);
         const grade=String(payload.grade||'C').toUpperCase();
@@ -3149,6 +3156,10 @@ export async function onRequest(context){
         });
         await env.DB.prepare('UPDATE cards SET member_id=?,title=?,rarity=?,image_url=?,focus_x=?,focus_y=?,is_active=?,card_status=?,batch_name=?,batch_date=?,draw_weight=?,limited_total=?,power_type=?,base_power=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
           .bind(card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.cardStatus,card.batchName,card.batchDate,card.drawWeight,card.limitedTotal,card.powerType,card.basePower,payload.id).run();
+        if(['LIMITED','FUR'].includes(card.grade)){
+          const fxEnabled=payload.acquisitionFxEnabled?1:0,mediaUrl=String(payload.acquisitionMediaUrl||'').trim().slice(0,500),audioUrl=String(payload.acquisitionAudioUrl||'').trim().slice(0,500),skipAllowed=payload.acquisitionSkipAllowed===false?0:1,durationMs=Math.max(1000,Math.min(30000,Number(payload.acquisitionDurationMs||8000)));
+          await env.DB.prepare(`INSERT INTO card_acquisition_effects(card_id,enabled,media_url,audio_url,skip_allowed,duration_ms,updated_at) VALUES(?,?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(card_id) DO UPDATE SET enabled=excluded.enabled,media_url=excluded.media_url,audio_url=excluded.audio_url,skip_allowed=excluded.skip_allowed,duration_ms=excluded.duration_ms,updated_at=CURRENT_TIMESTAMP`).bind(payload.id,fxEnabled,mediaUrl,audioUrl,skipAllowed,durationMs).run();
+        }
         const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(payload.id).first();
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
           .bind(admin.id,card.isActive?'CARD_EDIT':'CARD_HIDE','CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
