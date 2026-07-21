@@ -349,6 +349,15 @@ async function ensureUpgrades(env){
     if(inventoryCompatDone?.value!=='1'){
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1024_inventory_compat','1',CURRENT_TIMESTAMP)").run();
     }
+    const runtimeCommandDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1091_user_runtime_commands'").first();
+    if(runtimeCommandDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_runtime_commands (id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,command_type TEXT NOT NULL,payload_json TEXT NOT NULL DEFAULT '{}',created_by INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,expires_at TEXT NOT NULL,acknowledged_at TEXT)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_user_runtime_commands_user ON user_runtime_commands(user_id,id DESC)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_user_runtime_commands_expiry ON user_runtime_commands(expires_at)`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1091_user_runtime_commands','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const isolatedInventoryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1026_cnine_inventory'").first();
     if(isolatedInventoryDone?.value!=='1'){
       await env.DB.prepare(`CREATE TABLE IF NOT EXISTS cnine_user_inventory (user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,unseen_quantity INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code))`).run();
@@ -1508,10 +1517,27 @@ export async function onRequest(context){
     }
 
     const maintenance=await maintenanceSettings(env);
-    const maintenanceExempt=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='me'||path==='service/status'||path==='health'||path.startsWith('setup/');
+    const maintenanceExempt=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='me'||path==='service/status'||path==='user/runtime-command'||path==='health'||path.startsWith('setup/');
     if(maintenance.active&&!maintenanceExempt){
       const current=await authenticate(request,env);
       if(!canMaintenanceBypass(current,maintenance)) return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
+    }
+
+    if(path==='user/runtime-command'){
+      const user=await authenticate(request,env);
+      if(!user)return json({error:'로그인이 필요합니다.'},401);
+      if(request.method==='GET'){
+        const row=await env.DB.prepare(`SELECT id,command_type,payload_json,created_at,expires_at FROM user_runtime_commands WHERE user_id=? AND expires_at>datetime('now') ORDER BY id DESC LIMIT 1`).bind(user.id).first();
+        if(!row)return json({command:null,serverNow:new Date().toISOString()});
+        let payload={};try{payload=JSON.parse(row.payload_json||'{}')}catch{}
+        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},serverNow:new Date().toISOString()});
+      }
+      if(request.method==='POST'){
+        const body=await readBody(request),commandId=Math.floor(Number(body.commandId||0));
+        if(commandId>0)await env.DB.prepare(`UPDATE user_runtime_commands SET acknowledged_at=COALESCE(acknowledged_at,CURRENT_TIMESTAMP) WHERE id=? AND user_id=?`).bind(commandId,user.id).run();
+        return json({ok:true});
+      }
+      return json({error:'지원하지 않는 요청입니다.'},405);
     }
 
     if(path==='auth/register'&&request.method==='POST'){
@@ -3027,6 +3053,13 @@ export async function onRequest(context){
       else if(action==='ACCOUNT_RESET')await env.DB.batch([env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM draw_logs WHERE user_id=?').bind(userId),env.DB.prepare('UPDATE users SET coin=5000,card_shards=0 WHERE id=?').bind(userId)]);
       else if(action==='BAN'){const days=String(p.days||'1'),until=days==='PERMANENT'?'9999-12-31 23:59:59':new Date(Date.now()+Number(days)*86400000).toISOString().replace('T',' ').slice(0,19);await env.DB.batch([env.DB.prepare("UPDATE users SET status='BANNED',banned_until=?,ban_reason=? WHERE id=?").bind(until,String(p.reason||'').slice(0,200),userId),env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(userId)]);}
       else if(action==='UNBAN')await env.DB.prepare("UPDATE users SET status='ACTIVE',banned_until=NULL,ban_reason=NULL WHERE id=?").bind(userId).run();
+      else if(action==='FORCE_MAIN'){
+        const message=String(p.reason||'운영자가 화면 복구를 실행했습니다.').trim().slice(0,160)||'운영자가 화면 복구를 실행했습니다.';
+        const command=await env.DB.prepare(`INSERT INTO user_runtime_commands(user_id,command_type,payload_json,created_by,expires_at) VALUES(?,'FORCE_MAIN',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify({target:'buy',message}),admin.id).run();
+        const after=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();
+        await writeAdminLog(env,admin,'FORCE_MAIN','USER',userId,before,{...after,commandId:Number(command?.meta?.last_row_id||0),message});
+        return json({ok:true,user:after,commandId:Number(command?.meta?.last_row_id||0),message});
+      }
       else return json({error:'지원하지 않는 작업입니다.'},400);
       const after=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();await writeAdminLog(env,admin,action,'USER',userId,before,after);return json({ok:true,user:after});
     }

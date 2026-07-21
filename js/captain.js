@@ -600,6 +600,7 @@
     });
   }
 
+  window.addEventListener('cnine:force-main', () => { active = false; clearInterval(energyTimer); energyTimer = null; stopBgm(true); });
   window.addEventListener('beforeunload', () => stopBgm(true));
   new MutationObserver(installTab).observe(document.documentElement, { childList: true, subtree: true });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', installTab, { once: true });

@@ -185,6 +185,7 @@ function renderCreated(user) {
 
 function renderShell(tab) {
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
+  runtimeCommandContext=tab;
   const user = loadUser();
   if (!user) return renderLogin();
   const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
@@ -195,6 +196,7 @@ function renderShell(tab) {
   loadRecentHighGradeFeed();
   loadRecentPremiumCubeFeed();
   loadInventorySummary();
+  if(API_MODE&&API_TOKEN)scheduleRuntimeCommandPoll(runtimeCommandPollDelay());
 }
 
 function summaryBar(user) {
@@ -1010,6 +1012,7 @@ function showAccountPanel() {
     }catch(error){
       console.warn('서버 로그아웃 요청 실패(로컬 로그아웃은 계속 진행):',error);
     }finally{
+      stopRuntimeCommandPoll();
       clearPlayerLogin();
       modal.className='modal';
       renderLogin();
@@ -1069,6 +1072,42 @@ async function apiRequest(path, options={}, config={}) {
   if(isGet)API_INFLIGHT.set(cleanPath,task);
   try{return await task}finally{if(isGet&&API_INFLIGHT.get(cleanPath)===task)API_INFLIGHT.delete(cleanPath)}
 }
+const RUNTIME_COMMAND_TAB_KEY='cnine_runtime_command_last_id_v1091';
+function runtimeCommandStorageKey(){const user=loadUser();return `${RUNTIME_COMMAND_TAB_KEY}:${Number(user?.serverUserId||0)||String(user?.nickname||'guest')}`}
+let runtimeCommandTimer=null,runtimeCommandBusy=false,runtimeCommandContext='buy';
+function runtimeCommandPollDelay(){if(document.hidden)return 60000;const modalOpen=Boolean(document.querySelector('#modal.show'));return runtimeCommandContext==='battle'||runtimeCommandContext==='pvp'||modalOpen?3000:120000}
+function stopRuntimeCommandPoll(){if(runtimeCommandTimer){clearTimeout(runtimeCommandTimer);runtimeCommandTimer=null}}
+function scheduleRuntimeCommandPoll(delay=runtimeCommandPollDelay()){stopRuntimeCommandPoll();if(!API_MODE||!API_TOKEN||!loadUser())return;runtimeCommandTimer=setTimeout(pollRuntimeCommand,Math.max(1000,Number(delay)||runtimeCommandPollDelay()))}
+function forceMainScreenByOperator(command={}){
+  const id=Number(command.id||0);if(!id)return;
+  try{sessionStorage.setItem(runtimeCommandStorageKey(),String(id))}catch(_){}
+  try{const currentRaidId=Number(raidState.data?.current?.id||0);if(currentRaidId)markRaidResultRevealed(currentRaidId);stopRaidTimer();stopRaidResultAdvanceTimer();raidState.timer=null;raidState.data=null;raidState.selectedRoomId=0;raidState.revealingResultId=0}catch(_){}
+  try{stopBattleEnergyTimer()}catch(_){}
+  try{stopPvpEnergyTimer()}catch(_){}
+  try{window.dispatchEvent(new CustomEvent('cnine:force-main',{detail:command}))}catch(_){}
+  const modal=document.getElementById('modal');if(modal){modal.onclick=null;modal.className='modal';modal.innerHTML=''}
+  document.body.classList.remove('battle-running','raid-running','modal-open');
+  try{history.replaceState(null,'',location.pathname+location.search)}catch(_){}
+  renderShell('buy');
+  const message=String(command.payload?.message||'운영자가 화면 복구를 실행했습니다.');
+  setTimeout(()=>alert(`${message}\n메인 화면으로 복귀했습니다.`),80);
+  apiRequest('user/runtime-command',{method:'POST',body:JSON.stringify({commandId:id})},{allowEmpty:true}).catch(()=>{});
+}
+async function pollRuntimeCommand(){
+  if(runtimeCommandBusy)return scheduleRuntimeCommandPoll(1500);
+  if(!API_MODE||!API_TOKEN||!loadUser())return stopRuntimeCommandPoll();
+  runtimeCommandBusy=true;let keepPolling=true;
+  try{
+    const data=await apiRequest('user/runtime-command',{}, {ttl:0});
+    const command=data?.command,last=Number(sessionStorage.getItem(runtimeCommandStorageKey())||0);
+    if(command&&Number(command.id)>last&&String(command.type||'').toUpperCase()==='FORCE_MAIN')forceMainScreenByOperator(command);
+  }catch(error){
+    if(Number(error?.status)===401){keepPolling=false;stopRuntimeCommandPoll()}
+    else console.warn('운영자 화면 복구 명령 확인 실패:',error);
+  }finally{runtimeCommandBusy=false;if(keepPolling)scheduleRuntimeCommandPoll(runtimeCommandPollDelay())}
+}
+function startRuntimeCommandPoll(){if(!API_MODE||!API_TOKEN||!loadUser())return;stopRuntimeCommandPoll();void pollRuntimeCommand()}
+
 async function detectApi(){
   try{
     const adminToken=localStorage.getItem('cnine_admin_token')||'',authToken=API_TOKEN||adminToken;
@@ -1147,9 +1186,9 @@ async function init(){
     try{cards=await (await fetch('data/cards.json',{cache:'default'})).json()}catch{cards=[]}
     authenticated=Boolean(loadUser());
   }
-  setTimeout(()=>authenticated?renderShell('buy'):renderLogin(),100);
+  setTimeout(()=>{if(authenticated){renderShell('buy');startRuntimeCommandPoll()}else renderLogin()},100);
 }
-function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
+function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));startRuntimeCommandPoll();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 async function redeemCoupon(){
