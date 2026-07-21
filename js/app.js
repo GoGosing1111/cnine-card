@@ -213,7 +213,86 @@ function renderMainNavigation(tab){
   return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
 }
 
+
+function mobileNavigationHtml(tab){
+  const group=navGroupForTab(tab);
+  const moreActive=['attendance','dailyquest','messages','rank','mineral','inventory'].includes(tab);
+  const magicButton=magicSystemState.visible?`<button class="mobile-bottom-item ${tab==='magic'?'active':''}" type="button" data-mobile-tab="magic"><span>✦</span><b>마법카드</b></button>`:'';
+  return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
+    <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드팩</b></button>
+    <button class="mobile-bottom-item ${tab==='dex'?'active':''}" type="button" data-mobile-tab="dex"><span>◇</span><b>도감</b></button>
+    <button class="mobile-bottom-item mobile-bottom-primary ${group==='battle'?'active':''}" type="button" data-mobile-open-sheet="battle"><span>⚔</span><b>전투</b></button>
+    ${magicButton}
+    <button class="mobile-bottom-item ${moreActive?'active':''}" type="button" data-mobile-open-sheet="more"><span>•••</span><b>더보기</b></button>
+  </nav>
+  <div class="mobile-nav-sheet-layer" id="mobileNavSheetLayer" hidden>
+    <button type="button" class="mobile-nav-sheet-backdrop" data-mobile-sheet-close aria-label="메뉴 닫기"></button>
+    <section class="mobile-nav-sheet" data-mobile-sheet="battle" aria-label="전투 콘텐츠 선택">
+      <header><div><small>BATTLE CONTENTS</small><h2>전투 콘텐츠</h2><p>진입할 전투를 선택하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+      <div class="mobile-sheet-action-list">
+        <button type="button" data-mobile-tab="battle"><i>⚔</i><span><b>PVE</b><small>몬스터 토벌 · 월드레이드 · 무한의탑</small></span><em>입장</em></button>
+        ${pvpFeatureEnabled?`<button type="button" data-mobile-tab="pvp"><i>◇</i><span><b>PVP</b><small>일반 비동기 대전</small></span><em>입장</em></button>
+        <button type="button" data-mobile-captain><i>♛</i><span><b>대장전</b><small>3:3 팀 승자 연전</small></span><em>입장</em></button>`:''}
+      </div>
+    </section>
+    <section class="mobile-nav-sheet" data-mobile-sheet="more" aria-label="더보기 메뉴">
+      <header><div><small>MORE MENU</small><h2>더보기</h2><p>보상과 편의 기능을 모았습니다.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+      <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>◆</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em></button>
+      <div class="mobile-more-grid">
+        <button type="button" data-mobile-tab="rank"><i>♛</i><b>랭킹</b></button>
+        <button type="button" data-mobile-tab="mineral"><i>⬡</i><b>교환소</b></button>
+        <button type="button" data-mobile-tab="inventory"><i>▱</i><b>인벤토리</b></button>
+        <button type="button" data-mobile-account><i>●</i><b>내 정보</b></button>
+      </div>
+    </section>
+    <section class="mobile-nav-sheet" data-mobile-sheet="rewards" aria-label="보상 허브">
+      <header><div><small>REWARD HUB</small><h2>보상 허브</h2><p>받을 수 있는 보상을 확인하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+      <div class="mobile-sheet-action-list">
+        <button type="button" data-mobile-tab="attendance"><i>◈</i><span><b>접속 보상</b><small>매일 접속하고 보상 받기</small></span><em>확인</em></button>
+        <button type="button" data-mobile-tab="dailyquest"><i>✓</i><span><b>일일 퀘스트</b><small>오늘의 플레이 목표</small></span><em>확인</em></button>
+        <button type="button" data-mobile-tab="messages"><i>✉</i><span><b>메시지함</b><small>운영 메시지와 지급 내역</small></span><em>확인</em></button>
+      </div>
+      <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
+    </section>
+  </div>`;
+}
+
+function openCaptainFromMobile(){
+  renderShell('pvp');
+  let attempts=0;
+  const timer=setInterval(()=>{
+    attempts+=1;
+    const button=document.querySelector('[data-captain-v3],[data-captain]');
+    if(button){clearInterval(timer);button.click();return;}
+    if(attempts>=30)clearInterval(timer);
+  },100);
+}
+
+function bindMobileNavigation(){
+  const layer=document.getElementById('mobileNavSheetLayer');
+  if(!layer)return;
+  const sheets=[...layer.querySelectorAll('[data-mobile-sheet]')];
+  const close=()=>{
+    layer.classList.remove('open');
+    document.body.classList.remove('mobile-menu-open');
+    setTimeout(()=>{if(!layer.classList.contains('open'))layer.hidden=true},180);
+  };
+  const open=name=>{
+    sheets.forEach(sheet=>sheet.classList.toggle('active',sheet.dataset.mobileSheet===name));
+    layer.hidden=false;
+    document.body.classList.add('mobile-menu-open');
+    requestAnimationFrame(()=>layer.classList.add('open'));
+  };
+  document.querySelectorAll('[data-mobile-open-sheet]').forEach(button=>button.onclick=()=>open(button.dataset.mobileOpenSheet));
+  layer.querySelectorAll('[data-mobile-sheet-close]').forEach(button=>button.onclick=close);
+  layer.querySelectorAll('[data-mobile-switch-sheet]').forEach(button=>button.onclick=()=>open(button.dataset.mobileSwitchSheet));
+  document.querySelectorAll('[data-mobile-tab]').forEach(button=>button.onclick=()=>{close();renderShell(button.dataset.mobileTab)});
+  layer.querySelector('[data-mobile-account]')?.addEventListener('click',()=>{close();document.getElementById('playerAccountBtn')?.click()});
+  layer.querySelector('[data-mobile-captain]')?.addEventListener('click',()=>{close();openCaptainFromMobile()});
+}
+
 function renderShell(tab) {
+  document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
   runtimeCommandContext=tab;
   const user = loadUser();
@@ -242,13 +321,14 @@ function renderShell(tab) {
     <button class="main-nav-item ${tab==='rank'?'active':''}" type="button" data-tab="rank"><span class="main-nav-icon">♛</span><b>랭킹</b></button>
     <button class="main-nav-item ${tab==='mineral'?'active':''}" type="button" data-tab="mineral"><span class="main-nav-icon">⬡</span><b>교환소</b></button>
   </nav>`;
-  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div>${navHtml}</header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
+  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div>${navHtml}</header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>${mobileNavigationHtml(tab)}`;
   const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" href="https://cnine-card.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="씨켓몬 큰 화면으로 열기" title="새 탭에서 큰 화면으로 즐기기"><span>⛶</span><b>크게 보기</b></a>');
   const syncNavOpenState=()=>header?.classList.toggle('nav-menu-open',Boolean(document.querySelector('.main-nav-group.open')));
   const closeNavGroups=(except=null)=>{document.querySelectorAll('.main-nav-group.open').forEach(group=>{if(group!==except){group.classList.remove('open');group.querySelector('.main-nav-trigger')?.setAttribute('aria-expanded','false')}});syncNavOpenState()};
   document.querySelectorAll('.main-nav [data-tab]').forEach(button=>button.onclick=()=>{closeNavGroups();renderShell(button.dataset.tab)});
   document.querySelectorAll('.main-nav-trigger').forEach(button=>button.onclick=event=>{event.stopPropagation();const group=button.closest('.main-nav-group'),willOpen=!group.classList.contains('open');closeNavGroups(group);group.classList.toggle('open',willOpen);button.setAttribute('aria-expanded',String(willOpen));syncNavOpenState()});
   document.addEventListener('click',event=>{if(!event.target.closest('.main-nav'))closeNavGroups()},{once:true});
+  bindMobileNavigation();
   bindView(tab);
   loadRecentHighGradeFeed();
   loadRecentPremiumCubeFeed();
