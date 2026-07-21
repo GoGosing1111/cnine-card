@@ -736,9 +736,10 @@ function renderMineralRequests(rows){const box=document.getElementById('mineralM
 async function submitMineralExchange(){const btn=document.getElementById('mineralSubmit'),wagoNickname=document.getElementById('wagoNickname')?.value.trim(),mineralAmount=Number(document.getElementById('mineralAmount')?.value||0),proofText=document.getElementById('mineralProof')?.value.trim();if(!wagoNickname)return alert('와이고수 닉네임을 입력하세요.');if(!proofText)return alert('기부 완료 내용을 입력하세요.');btn.disabled=true;try{const d=await apiRequest('mineral-exchange/request',{method:'POST',body:JSON.stringify({wagoNickname,mineralAmount,proofText})});alert(`${Number(d.coinAmount).toLocaleString()}코인 교환 신청이 접수되었습니다.\n관리자 확인 후 지급됩니다.`);renderShell('mineral')}catch(e){alert(e.message);updateMineralPreview()}}
 
 
-let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0};
+let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,claimRetryTimer:null,claimInFlight:false};
 function stopRaidTimer(){if(raidState.timer){clearTimeout(raidState.timer);raidState.timer=null}}
 function stopRaidResultAdvanceTimer(){if(raidState.resultAdvanceTimer){clearTimeout(raidState.resultAdvanceTimer);raidState.resultAdvanceTimer=null}}
+function stopRaidClaimRetryTimer(){if(raidState.claimRetryTimer){clearTimeout(raidState.claimRetryTimer);raidState.claimRetryTimer=null}}
 function raidClaimedKey(instanceId){return `cnine_raid_claimed_${String(instanceId||'')}`}
 function raidResultRevealedKey(instanceId){return `cnine_raid_result_revealed_${String(instanceId||'')}`}
 function markRaidClaimed(instanceId){if(!instanceId)return;try{localStorage.setItem(raidClaimedKey(instanceId),'1')}catch(_){}}
@@ -827,9 +828,13 @@ function renderRaidView(d){
   box.innerHTML=`<section class="raid-battle-stage is-battle ${c.enraged?'is-enraged':''}" style="--boss-attack-ms:${Math.max(1200,Number(s.bossAttackIntervalMs||5000))}ms"><div class="raid-stage-sky"><span></span><span></span><span></span></div><div class="raid-stage-header"><div><small>${c.enraged?'⚠ ENRAGED':'WORLD RAID'}</small><b>자동 전투 진행 중</b></div><div class="raid-stage-timer">${Math.max(0,Math.ceil((Date.parse(c.endsAt)-Date.now())/1000))}s</div></div><div class="raid-combat-hud"><div class="battle-hp battle-hp-team ${myHpPct>0&&myHpPct<=25?'hp-critical':myHpPct<=0?'hp-ko':''}"><div class="battle-hp-head"><b>MY RAID DECK</b><span>${Number(me?.currentHp||0).toLocaleString()} / ${Number(me?.maxHp||0).toLocaleString()} · ${Math.ceil(myHpPct)}%</span></div><div class="battle-hp-track"><u style="width:${myHpPct}%"></u><i style="width:${myHpPct}%"></i><em>K.O.</em></div><small>${me?`전투력 ${Number(me.totalPower||0).toLocaleString()}`:'레이드 미참가'}</small></div><div class="raid-hud-center"><span>WORLD RAID</span><b>${Math.max(0,Math.ceil((Date.parse(c.endsAt)-Date.now())/1000))}s</b></div><div class="battle-hp battle-hp-enemy ${hpPct>0&&hpPct<=25?'hp-critical':hpPct<=0?'hp-ko':''}"><div class="battle-hp-head"><b>${escapeHtml(c.bossName)}</b><span>${Number(c.currentHp).toLocaleString()} / ${Number(c.maxHp).toLocaleString()} · ${Math.ceil(hpPct)}%</span></div><div class="battle-hp-track"><u style="width:${hpPct}%"></u><i style="width:${hpPct}%"></i><em>K.O.</em></div><small>${c.enraged?'⚠ ENRAGED':'BOSS'}</small></div></div><div class="raid-arena"><div class="raid-party-side"><div class="raid-party-aura"></div>${attackCard?`<div class="raid-attacker-card">${raidCombatCard(attackCard,'raid-main-attacker')}<strong>${escapeHtml(attacker.nickname)}</strong><span>${escapeHtml(attackCard.title)}</span></div>`:'<div class="raid-wait-orb">READY</div>'}</div><div class="raid-boss-side"><div class="raid-boss-aura"></div><div class="raid-enrage-skulls" aria-hidden="true"><i>☠</i><i>☠</i><i>☠</i><i>☠</i><i>☠</i><i>☠</i></div>${c.bossImage?`<img class="raid-stage-boss" src="${c.bossImage}" alt="">`:'<div class="raid-stage-boss placeholder">👹</div>'}<div class="raid-slash-effect"></div><div class="raid-hit-flash"></div><div class="raid-floating-damage">${attacker?Math.max(1,Math.floor(Number(attacker.totalPower||0)*Number(s.damageMultiplier||1)/10)).toLocaleString():''}</div></div></div><div class="raid-my-deck-stage">${(me?.cards||[]).slice(0,5).map((card,i)=>{const pct=me?Math.max(0,Math.min(100,Number(me.currentHp)/Math.max(1,Number(me.maxHp))*100)):0;return `<div class="raid-stage-card ${me?.isDefeated?'dead':''} ${pct<=25?'danger':''}" style="--delay:${i*80}ms;--hp:${pct}%">${raidCombatCard(card,'raid-deck-frame')}<div class="raid-card-hp"><span><b>HP</b><em>${Math.round(pct)}%</em></span><div><i style="width:${pct}%"></i><u style="width:${pct}%"></u></div></div><div class="raid-card-hit"></div></div>`}).join('')||'<div class="raid-stage-empty">레이드 미참가</div>'}</div><div class="raid-boss-cast"><span>보스 공격</span><i style="animation-duration:${Math.max(800,Number(s.bossAttackIntervalMs||5000))}ms"></i></div></section><section class="raid-live-grid"><div class="raid-party"><div class="panel-title"><div><p class="eyebrow">RAID PARTY</p><h2>생존 현황</h2></div></div><div class="raid-participant-list">${participants.map(x=>{const p=Math.max(0,Math.min(100,Number(x.currentHp)/Math.max(1,Number(x.maxHp))*100));return `<article class="${x.isDefeated?'defeated':''}"><div class="raid-mini-cards">${(x.cards||[]).slice(0,5).map(card=>raidCombatCard(card,'raid-mini-frame')).join('')}</div><span><b>${escapeHtml(x.nickname)}</b><small>전투력 ${Number(x.totalPower).toLocaleString()}</small><em class="raid-user-hp"><i style="width:${p}%"></i></em><small>${x.isDefeated?'전투 불능':`${Math.round(p)}%`}</small></span><strong>${Number(x.shownDamage||0).toLocaleString()} DMG</strong></article>`}).join('')}</div></div><aside class="raid-ranking"><div class="panel-title"><div><p class="eyebrow">LIVE DAMAGE</p><h2>딜 체크 미터</h2></div></div>${participants.slice(0,Number(s.rankingSize||10)).map((x,i)=>{const max=Math.max(1,Number(participants[0]?.shownDamage||1)),pct=Math.max(2,Number(x.shownDamage||0)/max*100);return `<div class="raid-rank-row ${x.isDefeated?'defeated':''}"><b>${i+1}</b><span>${escapeHtml(x.nickname)}<i style="width:${pct}%"></i></span><strong>${Number(x.shownDamage||0).toLocaleString()}</strong></div>`}).join('')}<div class="raid-my-damage"><span>내 누적 딜</span><b>${Number(me?.shownDamage||0).toLocaleString()}</b><small>${me?`HP ${Math.round(Number(me.currentHp)/Math.max(1,Number(me.maxHp))*100)}%`:'레이드 미참가'}</small></div></aside></section>`;
   const raidStage=box.querySelector('.raid-battle-stage');ensureBattleSoundButton(raidStage);if(Number(raidState.lastSoundInstance)!==Number(c.id)){raidState.lastSoundInstance=Number(c.id);raidState.lastSoundTick=Number(c.attackTicks||0)}else if(Number(c.attackTicks||0)>Number(raidState.lastSoundTick)){battleSfx(c.enraged?'heavy':'hit');raidStage?.classList.add('combat-impact-shake');setTimeout(()=>raidStage?.classList.remove('combat-impact-shake'),420);raidState.lastSoundTick=Number(c.attackTicks||0)}
 }
-async function claimRaidReward(){
+async function claimRaidReward(attempt=0){
+  if(raidState.claimInFlight)return;
+  stopRaidClaimRetryTimer();
+  raidState.claimInFlight=true;
   const btn=document.getElementById('raidClaim'),instanceId=Number(raidState.data?.current?.id||0);
-  if(btn){btn.disabled=true;btn.textContent='정산 중...';}
+  if(btn){btn.disabled=true;btn.textContent=attempt>0?'정산 상태 확인 중...':'정산 중...';}
+  let retryScheduled=false;
   try{
     const d=await apiRequest('raid/claim',{method:'POST',body:JSON.stringify({instanceId})});
     const claimedId=Number(d.instanceId||instanceId);
@@ -839,16 +844,34 @@ async function claimRaidReward(){
     const verified=await apiRequest('me');
     if(verified?.user)saveUser(apiUserToLocal(verified.user));
     const actual=loadUser();
-    if(Number.isFinite(Number(d.balanceAfter))&&Number(actual?.coin)!==Number(d.balanceAfter))throw new Error('레이드 보상 코인 잔액 확인에 실패했습니다. 새로고침 후 다시 확인해주세요.');
+    if(Number.isFinite(Number(d.balanceAfter))&&Number(actual?.coin)!==Number(d.balanceAfter)&&String(d.rewardSource||'')!=='SERVER_RECOVERED')throw new Error('레이드 보상 코인 잔액 확인에 실패했습니다. 새로고침 후 다시 확인해주세요.');
     stopRaidTimer();
+    stopRaidClaimRetryTimer();
     raidState.data={settings:raidState.data?.settings||{},schedule:raidState.data?.schedule||{},current:null,participants:[],me:null};
     alert(`${Number(d.rewardCoin||0).toLocaleString()}코인과 카드 조각 ${Number(d.rewardShards||0).toLocaleString()}개를 수령하였습니다.\n현재 코인 ${Number(actual?.coin||0).toLocaleString()}개`);
     const box=document.getElementById('pveRaidView');
     if(box)renderRaidView(raidState.data);
     await loadRaidView();
   }catch(e){
-    if(btn){btn.disabled=false;btn.textContent='보상 받기';}
+    if(e?.rewardClaimed){
+      markRaidClaimed(instanceId);
+      clearRaidResultRevealed(instanceId);
+      if(e.user)saveUser(apiUserToLocal(e.user));
+      raidState.data={settings:raidState.data?.settings||{},schedule:raidState.data?.schedule||{},current:null,participants:[],me:null};
+      await loadRaidView();
+      return;
+    }
+    if(e?.settlementPending&&attempt<12){
+      const wait=Math.max(1500,Math.min(5000,Number(e.retryAfterMs||2500)));
+      if(btn){btn.disabled=true;btn.textContent=`정산 복구 확인 중... (${attempt+1})`;}
+      retryScheduled=true;
+      raidState.claimRetryTimer=setTimeout(()=>{raidState.claimRetryTimer=null;raidState.claimInFlight=false;void claimRaidReward(attempt+1)},wait);
+      return;
+    }
+    if(btn){btn.disabled=false;btn.textContent='정산 다시 시도';}
     alert(e.message);
+  }finally{
+    if(!retryScheduled)raidState.claimInFlight=false;
   }
 }
 async function selectRaidRoom(instanceId){raidState.selectedRoomId=Number(instanceId||0);await loadRaidView()}
@@ -1081,7 +1104,7 @@ function scheduleRuntimeCommandPoll(delay=runtimeCommandPollDelay()){stopRuntime
 function forceMainScreenByOperator(command={}){
   const id=Number(command.id||0);if(!id)return;
   try{sessionStorage.setItem(runtimeCommandStorageKey(),String(id))}catch(_){}
-  try{const currentRaidId=Number(raidState.data?.current?.id||0);if(currentRaidId)markRaidResultRevealed(currentRaidId);stopRaidTimer();stopRaidResultAdvanceTimer();raidState.timer=null;raidState.data=null;raidState.selectedRoomId=0;raidState.revealingResultId=0}catch(_){}
+  try{const currentRaidId=Number(raidState.data?.current?.id||0);if(currentRaidId)markRaidResultRevealed(currentRaidId);stopRaidTimer();stopRaidResultAdvanceTimer();stopRaidClaimRetryTimer();raidState.claimInFlight=false;raidState.timer=null;raidState.data=null;raidState.selectedRoomId=0;raidState.revealingResultId=0}catch(_){}
   try{stopBattleEnergyTimer()}catch(_){}
   try{stopPvpEnergyTimer()}catch(_){}
   try{window.dispatchEvent(new CustomEvent('cnine:force-main',{detail:command}))}catch(_){}
