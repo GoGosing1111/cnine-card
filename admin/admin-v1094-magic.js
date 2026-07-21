@@ -5,21 +5,37 @@
   const effectLabel=value=>({HEAL:'회복',ATTACK_BUFF:'공격 강화',DEFENSE_BUFF:'방어 강화',HP_BUFF:'최대 HP',TRAP:'함정',SHIELD:'보호막',COUNTER:'반격',OTHER:'기타',NONE:'효과 없음'})[String(value||'').toUpperCase()]||String(value||'기타');
   const triggerLabel=value=>({BATTLE_START:'전투 시작',BEFORE_ATTACK:'공격 전',AFTER_ATTACK:'공격 후',BEFORE_HIT:'피격 전',AFTER_HIT:'피격 후',LOW_HP:'HP 조건',ON_KILL:'적 처치',ON_DEATH:'카드 사망',NEXT_OPPONENT:'새 상대 출전',PASSIVE:'상시 적용'})[String(value||'').toUpperCase()]||String(value||'상시 적용');
   const prevRenderIdentity=renderIdentity;
-  renderIdentity=function(){prevRenderIdentity();const nav=document.querySelector('#nav button[data-view="magiccards"]');if(nav)nav.hidden=state.role!=='OWNER'};
+  renderIdentity=function(){
+    prevRenderIdentity();
+    const role=String(state.role||'').toUpperCase();
+    const magicNav=document.querySelector('#nav button[data-view="magiccards"]');
+    const rewardNav=document.querySelector('#nav button[data-view="magicrewards"]');
+    if(magicNav)magicNav.hidden=role!=='OWNER';
+    if(rewardNav)rewardNav.hidden=!['OWNER','ADMIN'].includes(role);
+  };
   const prevShow=show;
   show=function(view,prefetched){
-    if(view!=='magiccards')return prevShow(view,prefetched);
-    state.view='magiccards';
-    document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!=='view-magiccards');
-    document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.view==='magiccards'));
-    $('#pageTitle').textContent='마법카드 관리';
-    loadMagicAdmin().catch(e=>{const root=$('#magicAdminRoot');if(root)root.innerHTML=`<div class="panel magicAdminError">${h(e.message)}</div>`});
+    if(view!=='magiccards'&&view!=='magicrewards')return prevShow(view,prefetched);
+    const isReward=view==='magicrewards';
+    state.view=view;
+    document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!==`view-${view}`);
+    document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===view));
+    $('#pageTitle').textContent=isReward?'마법 결정 보상':'마법카드 관리';
+    const loader=isReward?loadMagicRewards:loadMagicAdmin;
+    loader().catch(e=>{const root=$(isReward?'#magicRewardAdminRoot':'#magicAdminRoot');if(root)root.innerHTML=`<div class="panel magicAdminError">${h(e.message)}</div>`});
   };
   async function loadMagicAdmin(){
     const root=$('#magicAdminRoot');if(!root)return;
     root.innerHTML='<div class="panel magicAdminLoading">마법카드 시스템을 불러오는 중...</div>';
     magicAdmin.data=await api('admin/magic-system');
     renderMagicAdmin();
+  }
+  async function loadMagicRewards(){
+    const root=$('#magicRewardAdminRoot');if(!root)return;
+    root.innerHTML='<div class="panel magicAdminLoading">마법 결정 보상 설정을 불러오는 중...</div>';
+    magicAdmin.data=await api('admin/magic-acquisition');
+    root.innerHTML=acquisitionPanel(magicAdmin.data?.settings||{});
+    bindAcquisitionAdmin();
   }
   function statusPill(on,onText='사용',offText='중지'){return `<span class="magicStatus ${on?'on':'off'}">${on?onText:offText}</span>`}
   function floorRewardRow(row={}){return `<div class="magicRewardRow" data-magic-floor-row><label><span>층</span><input type="number" min="1" data-floor value="${number(row.floor)||''}" placeholder="10"></label><label><span>마법 결정</span><input type="number" min="0" data-amount value="${number(row.amount)||''}" placeholder="10"></label><button type="button" class="ghost" data-remove-reward>삭제</button></div>`}
@@ -78,7 +94,7 @@
     return `<section class="panel uniqueEffectEditor"><div class="maintenanceHead"><div><small>${h(x.grade)} UNIQUE EFFECT</small><h2>${h(x.memberName)} · ${h(x.title)}</h2><p>능력치와 고유 효과를 준비합니다. 전투 반영 전까지는 유저 능력치에 영향을 주지 않습니다.</p></div><button id="magicEffectCancel" class="ghost">편집 닫기</button></div><div class="magicUniqueEditorGrid"><label><span>공격력 보정 (%)</span><input id="uniqueAttack" type="number" step="0.1" value="${number(x.attackPercent)}"></label><label><span>방어력 보정 (%)</span><input id="uniqueDefense" type="number" step="0.1" value="${number(x.defensePercent)}"></label><label><span>HP 보정 (%)</span><input id="uniqueHp" type="number" step="0.1" value="${number(x.hpPercent)}"></label><label><span>속도 보정 (%)</span><input id="uniqueSpeed" type="number" step="0.1" value="${number(x.speedPercent)}"></label><label class="wide"><span>고유 효과 이름</span><input id="uniqueName" value="${h(x.effectName||'')}"></label><label class="wide"><span>고유 효과 설명</span><textarea id="uniqueDescription" rows="2">${h(x.effectDescription||'')}</textarea></label><label><span>효과 유형</span><input id="uniqueType" value="${h(x.effectType||'NONE')}"></label><label><span>발동 시점</span><input id="uniqueTrigger" value="${h(x.triggerType||'PASSIVE')}"></label><label><span>효과 수치</span><input id="uniqueValue" type="number" step="0.1" value="${number(x.effectValue)}"></label><label><span>발동 확률 (%)</span><input id="uniqueChance" type="number" min="0" max="100" step="0.1" value="${number(x.triggerChance)}"></label><label><span>최대 발동 횟수</span><input id="uniqueMax" type="number" min="1" value="${number(x.maxActivations||1)}"></label><div class="magicScopeBox"><b>적용 범위</b><label><input id="uniquePve" type="checkbox" ${x.scopes?.pve!==false?'checked':''}> PVE</label><label><input id="uniquePvp" type="checkbox" ${x.scopes?.pvp!==false?'checked':''}> PVP</label><label><input id="uniqueCaptain" type="checkbox" ${x.scopes?.captain!==false?'checked':''}> 대장전</label><label><input id="uniqueActive" type="checkbox" ${x.isActive?'checked':''}> 효과 활성</label></div></div><div class="magicAdminActions"><button id="magicEffectSave">고유 효과 저장</button></div></section>`}
   function uniqueEffectRows(){const q=magicAdmin.effectSearch.trim().toLowerCase(),list=(magicAdmin.data?.uniqueEffects||[]).filter(x=>!q||x.title.toLowerCase().includes(q)||x.memberName.toLowerCase().includes(q));return list.map(x=>`<article class="magicUniqueRow ${x.isActive?'active':''}"><div class="magicUniqueThumb">${x.imageUrl?`<img src="${h(x.imageUrl)}" alt="" onerror="this.remove()">`:''}</div><div><small>${h(x.grade)} · ${h(x.memberName)}</small><h3>${h(x.title)}</h3><p>${x.effectName?h(x.effectName):'고유 효과 미설정'}</p></div><div class="magicUniqueStats"><b>공격 ${number(x.attackPercent)}%</b><b>방어 ${number(x.defensePercent)}%</b><b>HP ${number(x.hpPercent)}%</b><b>속도 ${number(x.speedPercent)}%</b></div><div>${statusPill(x.isActive,'효과 ON','미설정')}<button data-unique-edit="${h(x.cardId)}">편집</button></div></article>`).join('')||'<div class="magicAdminEmpty">검색 결과가 없습니다.</div>'}
   function bindMagicAdmin(){
-    $('#magicSaveSettings').onclick=saveSettings;$('#magicSaveAcquisition').onclick=saveSettings;$('#magicSaveCard').onclick=saveMagicCard;$('#magicNewCard').onclick=()=>{magicAdmin.editingMagic=null;renderMagicAdmin()};
+    $('#magicSaveSettings').onclick=saveSettings;$('#magicSaveAcquisition').onclick=saveAcquisition;$('#magicSaveCard').onclick=saveMagicCard;$('#magicNewCard').onclick=()=>{magicAdmin.editingMagic=null;renderMagicAdmin()};
     $('#magicAddTowerRow')?.addEventListener('click',()=>{$('#magicTowerRows').insertAdjacentHTML('beforeend',floorRewardRow());bindRewardRemovers()});
     $('#magicAddRaidRank')?.addEventListener('click',()=>{$('#magicRaidRankRows').insertAdjacentHTML('beforeend',rankRewardRow('raid'));bindRewardRemovers()});
     $('#magicAddCaptainRank')?.addEventListener('click',()=>{$('#magicCaptainRankRows').insertAdjacentHTML('beforeend',rankRewardRow('captain'));bindRewardRemovers()});
@@ -91,6 +107,26 @@
     $('#magicEffectCancel')?.addEventListener('click',()=>{magicAdmin.editingEffect=null;renderMagicAdmin()});$('#magicEffectSave')?.addEventListener('click',saveUniqueEffect);
   }
   function bindRewardRemovers(){document.querySelectorAll('[data-remove-reward]').forEach(btn=>btn.onclick=()=>btn.closest('.magicRewardRow')?.remove())}
+  function bindAcquisitionAdmin(){
+    $('#magicSaveAcquisition').onclick=saveAcquisition;
+    $('#magicAddTowerRow')?.addEventListener('click',()=>{$('#magicTowerRows').insertAdjacentHTML('beforeend',floorRewardRow());bindRewardRemovers()});
+    $('#magicAddRaidRank')?.addEventListener('click',()=>{$('#magicRaidRankRows').insertAdjacentHTML('beforeend',rankRewardRow('raid'));bindRewardRemovers()});
+    $('#magicAddCaptainRank')?.addEventListener('click',()=>{$('#magicCaptainRankRows').insertAdjacentHTML('beforeend',rankRewardRow('captain'));bindRewardRemovers()});
+    bindRewardRemovers();
+  }
+  function collectAcquisition(){return {
+    pve:{enabled:$('#magicPveEnabled').checked,chance:number($('#magicPveChance').value),amount:number($('#magicPveAmount').value),dailyLimit:number($('#magicPveDaily').value)},
+    pvp:{enabled:$('#magicPvpEnabled').checked,chance:number($('#magicPvpChance').value),amount:number($('#magicPvpAmount').value),dailyLimit:number($('#magicPvpDaily').value)},
+    tower:{enabled:$('#magicTowerEnabled').checked,floorRewards:collectFloorRewards()},
+    raid:{enabled:$('#magicRaidEnabled').checked,participation:number($('#magicRaidParticipation').value),rankRewards:collectRankRewards('raid')},
+    captain:{enabled:$('#magicCaptainEnabled').checked,victory:number($('#magicCaptainVictory').value),settlement:collectRankRewards('captain')}
+  }}
+  async function saveAcquisition(){
+    const acquisition=collectAcquisition();
+    await api('admin/magic-acquisition',{method:'POST',body:JSON.stringify({acquisition})});
+    alert('마법 결정 획득처 보상 설정을 저장했습니다.');
+    if(state.view==='magicrewards')loadMagicRewards();else loadMagicAdmin();
+  }
   async function saveSettings(){
     const enabled=$('#magicEnabled').value==='1';
     if(enabled&&!confirm('마법카드 시스템을 일반 유저에게 공개할까요?\n아직 전투 효과 적용은 2차 단계입니다.'))return;
@@ -98,13 +134,7 @@
       enabled,ownerTestEnabled:$('#magicOwnerTest').value==='1',drawEnabled:$('#magicDrawEnabled').value==='1',drawCost:number($('#magicDrawCost').value),
       duplicateRefund:{R:number($('#magicRefundR').value),SR:number($('#magicRefundSR').value),SSR:number($('#magicRefundSSR').value)},
       acquisitionNotice:$('#magicAcquisitionNotice').value,
-      acquisition:{
-        pve:{enabled:$('#magicPveEnabled').checked,chance:number($('#magicPveChance').value),amount:number($('#magicPveAmount').value),dailyLimit:number($('#magicPveDaily').value)},
-        pvp:{enabled:$('#magicPvpEnabled').checked,chance:number($('#magicPvpChance').value),amount:number($('#magicPvpAmount').value),dailyLimit:number($('#magicPvpDaily').value)},
-        tower:{enabled:$('#magicTowerEnabled').checked,floorRewards:collectFloorRewards()},
-        raid:{enabled:$('#magicRaidEnabled').checked,participation:number($('#magicRaidParticipation').value),rankRewards:collectRankRewards('raid')},
-        captain:{enabled:$('#magicCaptainEnabled').checked,victory:number($('#magicCaptainVictory').value),settlement:collectRankRewards('captain')}
-      }
+      acquisition:collectAcquisition()
     };
     await api('admin/magic-system',{method:'POST',body:JSON.stringify({action:'SAVE_SETTINGS',settings})});
     alert('마법카드 운영 및 마법 결정 획득처 설정을 저장했습니다.');

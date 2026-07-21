@@ -181,6 +181,10 @@ async function requireOwner(request,env,authenticate){
   const user=await authenticate(request,env);
   return isOwner(user)?user:null;
 }
+async function requireAdminOperator(request,env,authenticate){
+  const user=await authenticate(request,env);
+  return ['OWNER','ADMIN'].includes(String(user?.role||'').toUpperCase())?user:null;
+}
 async function adminData(env){
   const cfg=await magicSettings(env);
   const [cards,effects,counts]=await Promise.all([
@@ -258,6 +262,22 @@ export async function handleMagic({path,request,env,deps}){
       if(!rewardCommitted)await env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(String(error.message||error).slice(0,300),requestId,user.id).run();
       return json({error:String(error.message||error)},Number(error.status||500));
     }
+  }
+  if(path==='admin/magic-acquisition'){
+    const admin=await requireAdminOperator(request,env,authenticate);if(!admin)return json({error:'마법 결정 보상 관리 권한이 없습니다.'},403);
+    if(request.method==='GET'){
+      const cfg=await magicSettings(env);
+      return json({ok:true,settings:{acquisition:cfg.acquisition},role:String(admin.role||'').toUpperCase()});
+    }
+    if(request.method==='POST'){
+      const body=await readBody(request),before=await magicSettings(env);
+      const acquisition=body.acquisition||body.settings?.acquisition||{};
+      const next=cleanMagicSettings({...before,acquisition});
+      await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('magic_card_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();
+      await writeAdminLog(env,admin,'MAGIC_ACQUISITION_SAVE','APP_META','magic_card_settings_v1',before.acquisition,next.acquisition);
+      return json({ok:true,settings:{acquisition:next.acquisition}});
+    }
+    return json({error:'지원하지 않는 요청 방식입니다.'},405);
   }
   if(path==='admin/magic-system'){
     const admin=await requireOwner(request,env,authenticate);if(!admin)return json({error:'마법카드 관리는 OWNER 전용입니다.'},403);
