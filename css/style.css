@@ -3097,3 +3097,18 @@ html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!
   .special-reveal-stage.grade-ssr .cinematic-card-shell,
   .special-reveal-stage.grade-ma .cinematic-card-shell{width:min(228px,65vw)!important;margin-top:8vh!important}
 }
+
+/* V1117 - desktop draw result action bar overflow hotfix */
+@media (min-width:801px){
+  .modal.results-modal .result-actions-top{
+    width:min(100%,640px)!important;
+    max-width:640px!important;
+    grid-template-columns:minmax(0,1.8fr) minmax(0,1fr)!important;
+    overflow:hidden!important;
+  }
+  .modal.results-modal .result-actions-top .btn{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+}
