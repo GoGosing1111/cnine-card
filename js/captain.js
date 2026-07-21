@@ -12,6 +12,20 @@
   const bgmPreferenceKey = 'cnine_captain_bgm_enabled';
   const bgmVolumeKey = 'cnine_captain_bgm_volume';
 
+
+  function applyRewardBalances(reward) {
+    if (!reward) return;
+    const saved = loadUser();
+    if (!saved) return;
+    if (reward.coinBalance != null) saved.coin = Number(reward.coinBalance);
+    else if (Number(reward.coin || 0) > 0) saved.coin = Number(saved.coin || 0) + Number(reward.coin || 0);
+    if (reward.shardBalance != null) saved.cardShards = Number(reward.shardBalance);
+    else if (Number(reward.shards || 0) > 0) saved.cardShards = Number(saved.cardShards || 0) + Number(reward.shards || 0);
+    if (reward.magicBalance != null) saved.magicCrystals = Number(reward.magicBalance);
+    else if (Number(reward.magicCrystals || 0) > 0) saved.magicCrystals = Number(saved.magicCrystals || 0) + Number(reward.magicCrystals || 0);
+    saveUser(saved);
+  }
+
   function userBgmEnabled() {
     const stored = localStorage.getItem(bgmPreferenceKey);
     return stored === null ? true : stored === '1';
@@ -410,7 +424,7 @@
           requestId: globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`
         })
       });
-      if(result.victoryReward?.magicBalance!=null){const saved=loadUser();if(saved){saved.magicCrystals=Number(result.victoryReward.magicBalance);saveUser(saved)}}
+      applyRewardBalances(result.victoryReward)
       const openLogs = await playBattle(result);
       await render();
       if (openLogs) await history(document.getElementById('pvpContent'));
@@ -564,7 +578,7 @@
           const result = await api('captain/reward/claim', { method: 'POST', body: '{}' });
           alert(`정산 보상을 수령했습니다.
 코인 ${Number(result.reward?.coin||0).toLocaleString()} · 카드 조각 ${Number(result.reward?.shards||0).toLocaleString()}${Number(result.reward?.magicCrystals||0)>0?` · 마법 결정 ${Number(result.reward.magicCrystals).toLocaleString()}`:''}`);
-          if(result.reward?.magicBalance!=null){const saved=loadUser();if(saved){saved.magicCrystals=Number(result.reward.magicBalance);saveUser(saved)}}
+          applyRewardBalances(result.reward)
           await render();
         } catch (error) { alert(error.message); }
         finally { button.disabled = false; }

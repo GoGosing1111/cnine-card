@@ -84,7 +84,7 @@ async function init() {
   try {
     const response = await fetch('data/cards.json', { cache: 'no-store' });
     if (!response.ok) throw new Error('cards.json load failed');
-    cards = await response.json();
+    cards = (await response.json()).map(normalizeClientCard);
   } catch (error) {
     console.error(error);
     cards = [];
@@ -123,7 +123,9 @@ function loadUser() {
   } catch { return null; }
 }
 function saveUser(user) { localStorage.setItem(STORAGE_KEY, JSON.stringify(user)); }
-function ownedIds(user) { return new Set(user.owned || []); }
+function ownedIds(user) { return new Set((user?.owned || []).map(id=>String(id))); }
+function normalizeClientCard(card={}){return {...card,id:String(card.id??card.card_id??''),grade:String(card.grade||card.rarity||'C').toUpperCase(),focusX:Number(card.focusX??card.focus_x??50),focusY:Number(card.focusY??card.focus_y??50)};}
+function mergeClientCards(incoming=[]){for(const raw of incoming||[]){const card=normalizeClientCard(raw?.card||raw);if(!card.id)continue;const index=cards.findIndex(x=>String(x.id)===card.id);if(index>=0)cards[index]={...cards[index],...card};else cards.push(card);}}
 function progress(user) { return cards.length ? Math.round((ownedIds(user).size / cards.length) * 1000) / 10 : 0; }
 function escapeHtml(value = '') { return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
 function powerTypeIndicator(card){const grade=String(card?.grade||card?.rarity||'').toUpperCase();if(grade==='FUR')return '';const type=String(card?.powerType||card?.power_type||'').toUpperCase();return type==='NORMAL'?'⚡':type==='HIGH'?'⚡⚡':type==='TOP'?'⚡⚡⚡':'';}
@@ -1259,7 +1261,7 @@ function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const 
 
 function inventoryView(){return `${summaryBar(loadUser())}<section class="inventory-vault"><div class="inventory-hero"><div class="inventory-hero-copy"><h2>인벤토리</h2><p>획득한 보상 큐브를 안전하게 보관합니다.</p><div class="inventory-hero-meta"><b id="inventoryOwnedSummary">보관품 확인 중</b></div></div><div class="inventory-vault-mark" aria-hidden="true"><img src="assets/ui/cninelogo.png" alt=""></div></div><div class="inventory-toolbar"><div><button type="button" class="active">전체</button><button type="button" disabled>큐브</button></div></div><div id="inventoryGrid" class="inventory-grid"><div class="inventory-loading"><i></i><b>보관함 확인 중</b><span>보유 정보를 확인하고 있습니다.</span></div></div></section>`}
 async function loadInventory(){const grid=document.getElementById('inventoryGrid');if(!grid)return;try{const d=await apiRequest('inventory',{}, {ttl:0}),summary=document.getElementById('inventoryOwnedSummary');if(summary)summary.textContent=`보유 아이템 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`;grid.innerHTML=d.items.map(item=>{const owned=Number(item.quantity)>0,kind=String(item.rarity||'normal').toLowerCase(),isCube=item.category==='CUBE';return `<article class="inventory-item inventory-item-${kind} ${owned?'owned':'locked'}"><div class="inventory-item-glow"></div>${item.unseenQuantity?`<span class="inventory-new">NEW</span>`:''}<div class="inventory-pack-stage"><span class="inventory-pack-orbit"></span><img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}"><i></i></div><div class="inventory-item-copy"><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.description)}</p><div class="inventory-item-foot"><span>보유 수량 <b>${Number(item.quantity).toLocaleString()}</b></span><button type="button" class="inventory-use" data-inventory-use="${escapeHtml(item.code)}" ${owned?'':'disabled'}>${owned?(isCube?'큐브 개봉':'아이템 사용'):'미보유'}</button></div></div></article>`}).join('')||'<div class="inventory-empty"><b>보관함이 비어 있습니다.</b><span>획득한 보관품이 이곳에 표시됩니다.</span></div>';grid.querySelectorAll('[data-inventory-use]').forEach(b=>b.onclick=()=>openInventoryPack(b.dataset.inventoryUse));if(d.unseenTotal){apiRequest('inventory/seen',{method:'POST',body:'{}'}).then(()=>clearApiCache('inventory')).catch(()=>{})}}catch(e){grid.innerHTML=`<div class="inventory-empty error"><b>인벤토리를 열 수 없습니다.</b><span>${escapeHtml(e.message)}</span><button class="btn secondary" id="inventoryRetry">다시 확인</button></div>`;document.getElementById('inventoryRetry').onclick=loadInventory}}
-async function openInventoryPack(itemCode){const items={NORMAL_CUBE:{title:'일반 큐브',image:'assets/ui/packs/normal-cube.png',range:'C · U · R · SR',theme:'normal'},ADVANCED_CUBE:{title:'고급 큐브',image:'assets/ui/packs/advanced-cube.png',range:'HR · UR · SSR',theme:'advanced'},PREMIUM_CUBE:{title:'프리미엄 큐브',image:'assets/ui/packs/premium-cube.png',range:'MA · FUR · LIMITED',theme:'premium'},GUARANTEED_MA_PACK:{title:'MA 확정 큐브',image:'assets/ui/packs/premium-cube.png',range:'MA 확정',theme:'ma'},GUARANTEED_LIMITED_PACK:{title:'리미티드 확정 큐브',image:'assets/ui/packs/premium-cube.png',range:'LIMITED 확정',theme:'limited'}},meta=items[itemCode]||items.NORMAL_CUBE,modal=document.getElementById('modal');modal.className=`modal show inventory-open-modal inventory-open-${meta.theme}`;modal.innerHTML=`<div class="modal-panel inventory-open-panel"><button type="button" class="icon-close" id="inventoryOpenClose">×</button><div class="inventory-open-intro"><h2>${meta.title}</h2><p>큐브 등급 확률에 따라 카드 1장을 획득합니다.</p></div><div class="inventory-open-stage"><span class="inventory-open-aura"></span><span class="inventory-open-ring r1"></span><span class="inventory-open-ring r2"></span><img src="${meta.image}" alt="${meta.title}"></div><div class="inventory-open-warning"><b>등장 범위</b><span>${meta.range} · 카드 1장</span></div><button type="button" class="btn inventory-open-confirm" id="inventoryOpenConfirm">큐브 해제</button><small>개봉을 완료하면 인벤토리 수량이 1개 차감됩니다.</small></div>`;const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('inventoryOpenClose').onclick=close;document.getElementById('inventoryOpenConfirm').onclick=async()=>{const btn=document.getElementById('inventoryOpenConfirm'),panel=modal.querySelector('.inventory-open-panel'),requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;btn.disabled=true;btn.textContent='봉인 확인 중';panel.classList.add('opening');try{const d=await apiRequest('inventory/use',{method:'POST',body:JSON.stringify({itemCode,requestId})});clearApiCache('inventory');saveUser(apiUserToLocal(d.user));await new Promise(r=>setTimeout(r,950));const configuredCard=cards.find(x=>String(x.id)===String(d.card.id))||{};const resultCard={...configuredCard,...d.card,id:String(d.card.id),grade:d.card.grade||d.card.rarity,focusX:Number(d.card.focusX??configuredCard.focusX??50),focusY:Number(d.card.focusY??configuredCard.focusY??50)};await playConfiguredAcquisitionCutscene(resultCard);panel.classList.remove('opening');panel.classList.add('revealed');panel.innerHTML=`<div class="inventory-result-head"><h2>${d.duplicate?'카드 중복 획득':'새로운 카드 획득'}</h2><span>${escapeHtml(d.card.grade)} 등급 보상</span></div><div class="inventory-result-card-wrap">${cardHtml(resultCard,true,'inventory-result-card',apiUserToLocal(d.user))}</div><div class="inventory-result-info"><b>${escapeHtml(d.card.title)}</b><span>${escapeHtml(d.card.name||'')} · ${escapeHtml(d.card.grade)}</span>${d.duplicate?`<em>중복 보상 · 카드 조각 +${Number(d.shardGained).toLocaleString()}</em>`:'<em>신규 카드 등록</em>'}</div><button type="button" class="btn" id="inventoryResultConfirm">인벤토리로 돌아가기</button>`;document.getElementById('inventoryResultConfirm').onclick=()=>{modal.className='modal';modal.innerHTML='';renderShell('inventory')}}catch(e){panel.classList.remove('opening');btn.disabled=false;btn.textContent='큐브 해제';alert(e.message)}}}
+async function openInventoryPack(itemCode){const items={NORMAL_CUBE:{title:'일반 큐브',image:'assets/ui/packs/normal-cube.png',range:'C · U · R · SR',theme:'normal'},ADVANCED_CUBE:{title:'고급 큐브',image:'assets/ui/packs/advanced-cube.png',range:'HR · UR · SSR',theme:'advanced'},PREMIUM_CUBE:{title:'프리미엄 큐브',image:'assets/ui/packs/premium-cube.png',range:'MA · FUR · LIMITED',theme:'premium'},GUARANTEED_MA_PACK:{title:'MA 확정 큐브',image:'assets/ui/packs/premium-cube.png',range:'MA 확정',theme:'ma'},GUARANTEED_LIMITED_PACK:{title:'리미티드 확정 큐브',image:'assets/ui/packs/premium-cube.png',range:'LIMITED 확정',theme:'limited'}},meta=items[itemCode]||items.NORMAL_CUBE,modal=document.getElementById('modal');modal.className=`modal show inventory-open-modal inventory-open-${meta.theme}`;modal.innerHTML=`<div class="modal-panel inventory-open-panel"><button type="button" class="icon-close" id="inventoryOpenClose">×</button><div class="inventory-open-intro"><h2>${meta.title}</h2><p>큐브 등급 확률에 따라 카드 1장을 획득합니다.</p></div><div class="inventory-open-stage"><span class="inventory-open-aura"></span><span class="inventory-open-ring r1"></span><span class="inventory-open-ring r2"></span><img src="${meta.image}" alt="${meta.title}"></div><div class="inventory-open-warning"><b>등장 범위</b><span>${meta.range} · 카드 1장</span></div><button type="button" class="btn inventory-open-confirm" id="inventoryOpenConfirm">큐브 해제</button><small>개봉을 완료하면 인벤토리 수량이 1개 차감됩니다.</small></div>`;const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('inventoryOpenClose').onclick=close;document.getElementById('inventoryOpenConfirm').onclick=async()=>{const btn=document.getElementById('inventoryOpenConfirm'),panel=modal.querySelector('.inventory-open-panel'),requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;btn.disabled=true;btn.textContent='봉인 확인 중';panel.classList.add('opening');try{const d=await apiRequest('inventory/use',{method:'POST',body:JSON.stringify({itemCode,requestId})});clearApiCache('inventory');clearApiCache('cards');mergeClientCards([d.card]);saveUser(apiUserToLocal(d.user));await new Promise(r=>setTimeout(r,950));const configuredCard=cards.find(x=>String(x.id)===String(d.card.id))||{};const resultCard={...configuredCard,...d.card,id:String(d.card.id),grade:d.card.grade||d.card.rarity,focusX:Number(d.card.focusX??configuredCard.focusX??50),focusY:Number(d.card.focusY??configuredCard.focusY??50)};await playConfiguredAcquisitionCutscene(resultCard);panel.classList.remove('opening');panel.classList.add('revealed');panel.innerHTML=`<div class="inventory-result-head"><h2>${d.duplicate?'카드 중복 획득':'새로운 카드 획득'}</h2><span>${escapeHtml(d.card.grade)} 등급 보상</span></div><div class="inventory-result-card-wrap">${cardHtml(resultCard,true,'inventory-result-card',apiUserToLocal(d.user))}</div><div class="inventory-result-info"><b>${escapeHtml(d.card.title)}</b><span>${escapeHtml(d.card.name||'')} · ${escapeHtml(d.card.grade)}</span>${d.duplicate?`<em>중복 보상 · 카드 조각 +${Number(d.shardGained).toLocaleString()}</em>`:'<em>신규 카드 등록</em>'}</div><button type="button" class="btn" id="inventoryResultConfirm">인벤토리로 돌아가기</button>`;document.getElementById('inventoryResultConfirm').onclick=()=>{modal.className='modal';modal.innerHTML='';renderShell('inventory')}}catch(e){panel.classList.remove('opening');btn.disabled=false;btn.textContent='큐브 해제';alert(e.message)}}}
 
 function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">CNINE MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><button class="btn secondary" id="openWagoVerify">와고 2단계 인증</button></div><div id="wagoVerifyPanel" class="wago-verify-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
 async function loadMessages(){const box=document.getElementById('messageList');if(!box)return;try{const d=await apiRequest('messages');box.innerHTML=d.messages.length?d.messages.map(m=>{const rewardType=String(m.reward_type||'').toUpperCase(),messageReward=['COIN','SHARDS'].includes(rewardType)&&Number(m.reward_amount)>0;return `<article class="user-message ${m.is_read?'read':'unread'}" data-id="${m.id}"><button type="button" class="message-delete" data-hide-message="${m.id}" aria-label="메시지 삭제">삭제</button><div><span>${escapeHtml(m.message_type)}</span><h3>${escapeHtml(m.title)}</h3><p>${escapeHtml(m.body)}</p>${messageReward?`<div class="message-reward"><strong>${rewardType==='SHARDS'?'🧩':'🪙'} ${Number(m.reward_amount).toLocaleString()} ${rewardType==='SHARDS'?'카드 조각':'코인'}</strong><button type="button" data-claim-message="${m.id}" ${m.claimed_at?'disabled':''}>${m.claimed_at?'수령 완료':'보상 받기'}</button></div>`:''}${m.coupon_code?`<div class="message-coupon"><code>${escapeHtml(m.coupon_code)}</code><button type="button" data-use-coupon="${escapeHtml(m.coupon_code)}">쿠폰 사용</button></div>`:''}<small>${escapeHtml(String(m.created_at||'').replace('T',' ').slice(0,16))}</small></div></article>`}).join(''):'<div class="empty-recent">도착한 메시지가 없습니다.</div>';box.querySelectorAll('.user-message').forEach(x=>x.onclick=async()=>{if(!x.classList.contains('unread'))return;await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(x.dataset.id)})});x.classList.remove('unread');x.classList.add('read')});box.querySelectorAll('[data-claim-message]').forEach(b=>b.onclick=async e=>{e.stopPropagation();try{const d=await apiRequest('messages/claim',{method:'POST',body:JSON.stringify({messageId:Number(b.dataset.claimMessage)})});saveUser(apiUserToLocal(d.user));alert(d.rewardType==='SHARDS'?`${Number(d.rewardAmount).toLocaleString()}개의 카드 조각을 수령했습니다. 메시지는 자동으로 삭제됩니다.`:`${Number(d.rewardAmount).toLocaleString()}코인을 수령했습니다. 메시지는 자동으로 삭제됩니다.`);const card=b.closest('.user-message');if(card){card.classList.add('message-removing');setTimeout(()=>renderShell('messages'),220)}else renderShell('messages')}catch(err){alert(err.message)}});box.querySelectorAll('[data-use-coupon]').forEach(b=>b.onclick=async e=>{e.stopPropagation();const code=b.dataset.useCoupon;try{const d=await apiRequest('coupon/redeem',{method:'POST',body:JSON.stringify({code})});saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${Number(d.rewardCoin).toLocaleString()}코인을 받았습니다.`);renderShell('messages')}catch(err){alert(err.message)}});box.querySelectorAll('[data-hide-message]').forEach(b=>b.onclick=async e=>{e.stopPropagation();if(!confirm('이 메시지를 받은 편지함에서 삭제할까요?\n쿠폰을 사용하지 않았더라도 메시지는 사라집니다.'))return;b.disabled=true;try{await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(b.dataset.hideMessage),action:'HIDE'})});const card=b.closest('.user-message');if(card){card.classList.add('message-removing');setTimeout(()=>{card.remove();if(!box.querySelector('.user-message'))box.innerHTML='<div class="empty-recent">도착한 메시지가 없습니다.</div>'},220)}else loadMessages()}catch(err){b.disabled=false;alert(err.message)}})}catch(e){box.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}}
@@ -1361,7 +1363,7 @@ function renderMaintenance(m={},service={}){
   const copy=document.getElementById('maintenanceCopyKey');if(copy)copy.onclick=async()=>{try{await navigator.clipboard.writeText(key);alert('개인키가 복사되었습니다.')}catch{document.getElementById('maintenanceKey').select();document.execCommand('copy');alert('개인키가 복사되었습니다.')}};
   const login=document.getElementById('maintenanceLogin');if(login)login.onclick=()=>renderLogin();
 }
-function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:u.coin,cardShards:Number(u.cardShards??u.card_shards??old?.cardShards??0),magicCrystals:Number(u.magicCrystals??u.magic_crystals??old?.magicCrystals??0),owned:u.owned||[],quantities:u.quantities||{},breakthroughs:u.breakthroughs||{},history:Array.isArray(u.history)?u.history:(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},serverUserId:u.id,testCoinGrantedV13:true}}
+function apiUserToLocal(u,key){const old=loadUser(),owned=(u.owned||[]).map(id=>String(id)),quantities=Object.fromEntries(Object.entries(u.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs=Object.fromEntries(Object.entries(u.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]));return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:Number(u.coin??old?.coin??0),cardShards:Number(u.cardShards??u.card_shards??old?.cardShards??0),magicCrystals:Number(u.magicCrystals??u.magic_crystals??old?.magicCrystals??0),owned,quantities,breakthroughs,history:Array.isArray(u.history)?u.history.map(x=>({...x,cardId:String(x.cardId??x.card_id??'')})):(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},serverUserId:u.id,testCoinGrantedV13:true}}
 async function recoverPlayerSession(){
   const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
   if(!privateKey)return false;
@@ -1396,7 +1398,7 @@ async function init(){
     ]);
     if(runId!==startupRunId)return;
     if(cardResult.status!=='fulfilled'||!Array.isArray(cardResult.value?.cards))throw cardResult.reason||new Error('카드 데이터를 불러오지 못했습니다.');
-    cards=cardResult.value.cards;
+    cards=cardResult.value.cards.map(normalizeClientCard);
     if(packResult.status==='fulfilled')applyServerPacks(packResult.value?.packs||[]);
     else console.warn('카드팩 설정 조회 실패 - 기본 설정으로 계속합니다:',packResult.reason);
 
@@ -1421,7 +1423,7 @@ async function init(){
   }catch(error){
     if(error?.message!=='API_OFFLINE')console.error('초기 연결 실패:',error);
     API_MODE=false;API_INFLIGHT.clear();
-    cards=await loadStaticCardsFallback();
+    cards=(await loadStaticCardsFallback()).map(normalizeClientCard);
     if(runId!==startupRunId)return;
     authenticated=Boolean(loadUser());
     if(!cards.length){
@@ -1532,7 +1534,8 @@ openPack=async function(packId,count,cost){
   drawRequestInFlight=true;
   try{
     const d=await runCriticalOpening(pack,count,()=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,requestId})}));
-    clearApiCache('recent-high-grade');
+    clearApiCache('recent-high-grade');clearApiCache('cards');
+    mergeClientCards((d.results||[]).map(x=>x.card));
     const next=apiUserToLocal(d.user);
     saveUser(next);
     await renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);
@@ -1544,7 +1547,7 @@ openPack=async function(packId,count,cost){
     drawRequestInFlight=false;
   }
 }
-const SPECIAL_REVEAL_ORDER={SSR:1,MA:2,FUR:3};
+const SPECIAL_REVEAL_ORDER={SSR:1,MA:2,LIMITED:3,FUR:4};
 function getTopSpecialResult(results=[]){
   return results.map(x=>x?.card).filter(c=>SPECIAL_REVEAL_ORDER[c?.grade]).sort((a,b)=>SPECIAL_REVEAL_ORDER[b.grade]-SPECIAL_REVEAL_ORDER[a.grade])[0]||null;
 }
@@ -1576,18 +1579,32 @@ function createCinematicRenderer(canvas,grade){
   resize();addEventListener('resize',resize);raf=requestAnimationFrame(frame);return()=>{stopped=true;cancelAnimationFrame(raf);removeEventListener('resize',resize)};
 }
 async function playConfiguredAcquisitionCutscene(card){
-  const source=cards.find(x=>String(x.id)===String(card?.id))||card||{};
+  const configured=cards.find(x=>String(x.id)===String(card?.id))||{};
+  const source={...configured,...(card||{})};
   const grade=String(source.grade||source.rarity||'').toUpperCase();
-  if(!['LIMITED','FUR'].includes(grade)||!Number(source.acquisitionFxEnabled)||!String(source.acquisitionMediaUrl||'').trim())return false;
-  const media=String(source.acquisitionMediaUrl).trim(),audio=String(source.acquisitionAudioUrl||'').trim(),duration=Math.max(1000,Math.min(30000,Number(source.acquisitionDurationMs||8000))),skip=Number(source.acquisitionSkipAllowed)!==0;
+  const configuredFlag=Number(source.acquisitionFxConfigured??(String(source.acquisitionMediaUrl||'').trim()?1:0));
+  const useLimitedDefault=grade==='LIMITED'&&!configuredFlag;
+  const enabled=useLimitedDefault?1:Number(source.acquisitionFxEnabled||0);
+  const media=String(useLimitedDefault?'/assets/effects/L2CARD.mp4':(source.acquisitionMediaUrl||'')).trim();
+  if(!['LIMITED','FUR'].includes(grade)||!enabled||!media)return false;
+  const audio=String(source.acquisitionAudioUrl||'').trim();
+  const defaultDuration=grade==='LIMITED'?10000:8000;
+  const duration=Math.max(1000,Math.min(30000,Number(source.acquisitionDurationMs||defaultDuration)));
+  const skip=Number(source.acquisitionSkipAllowed)!==0;
   const layer=document.createElement('div');layer.className=`acquisition-cutscene-stage acquisition-cutscene-${grade.toLowerCase()}`;
-  layer.innerHTML=`<video id="acquisitionCutsceneVideo" playsinline preload="auto" autoplay src="${escapeHtml(media)}"></video><div class="acquisition-cutscene-shade"></div><div class="acquisition-cutscene-label"><small>SPECIAL ACQUISITION</small><strong>${grade}</strong></div>${skip?'<button type="button" id="acquisitionCutsceneSkip">건너뛰기</button>':''}${audio?`<audio id="acquisitionCutsceneAudio" preload="auto" autoplay src="${escapeHtml(audio)}"></audio>`:''}`;
+  layer.innerHTML=`<video id="acquisitionCutsceneVideo" playsinline webkit-playsinline preload="auto" autoplay src="${escapeHtml(media)}"></video><div class="acquisition-cutscene-shade"></div><div class="acquisition-cutscene-label"><small>SPECIAL ACQUISITION</small><strong>${grade}</strong></div>${skip?'<button type="button" id="acquisitionCutsceneSkip">건너뛰기</button>':''}${audio?`<audio id="acquisitionCutsceneAudio" preload="auto" autoplay src="${escapeHtml(audio)}"></audio>`:''}`;
   document.body.appendChild(layer);
   const video=layer.querySelector('video'),sound=layer.querySelector('audio');
-  try{await video.play()}catch{video.muted=true;try{await video.play()}catch{}}
+  video.volume=1;
+  let visualStarted=false;
+  try{await video.play();visualStarted=true}catch{
+    video.muted=true;
+    try{await video.play();visualStarted=true}catch{}
+  }
   if(sound)try{await sound.play()}catch{}
-  await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);layer.remove();resolve()};const timer=setTimeout(finish,duration);video.onended=finish;video.onerror=finish;const b=layer.querySelector('button');if(b)b.onclick=e=>{e.stopPropagation();finish()}});
-  return true;
+  if(!visualStarted){layer.remove();return false;}
+  const completed=await new Promise(resolve=>{let done=false;const finish=success=>{if(done)return;done=true;clearTimeout(timer);try{video.pause()}catch{}try{sound?.pause()}catch{}layer.remove();resolve(success)};const timer=setTimeout(()=>finish(true),duration+650);video.onended=()=>finish(true);video.onerror=()=>finish(false);const b=layer.querySelector('button');if(b)b.onclick=e=>{e.stopPropagation();finish(true)}});
+  return completed;
 }
 
 async function showSpecialCardReveal(card,user){

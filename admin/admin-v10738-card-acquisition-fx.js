@@ -14,7 +14,7 @@
           <label class="acqFxSwitch"><input type="checkbox" data-field="enabled"><span>공통 연출 사용</span></label>
         </header>
         <div class="acqFxGrid">
-          <label class="acqFxWide"><span>영상 경로 (MP4 / WebM)</span><input data-field="mediaUrl" placeholder="/assets/card-acquisition/${grade.toLowerCase()}.mp4"></label>
+          <label class="acqFxWide"><span>영상 경로 (MP4 / WebM)</span><input data-field="mediaUrl" placeholder="${grade === 'LIMITED' ? '/assets/effects/L2CARD.mp4' : '/assets/card-acquisition/fur.mp4'}"></label>
           <label class="acqFxWide"><span>음향 경로 (선택)</span><input data-field="audioUrl" placeholder="/assets/card-acquisition/${grade.toLowerCase()}.mp3"></label>
           <label><span>최대 재생 시간</span><select data-field="durationMs"><option value="5000">5초</option><option value="8000">8초</option><option value="10000">10초</option><option value="15000">15초</option><option value="20000">20초</option><option value="30000">30초</option></select></label>
           <label class="acqFxSwitch"><input type="checkbox" data-field="skipAllowed" checked><span>건너뛰기 허용</span></label>
@@ -58,16 +58,17 @@
       enabled: block.querySelector('[data-field="enabled"]').checked,
       mediaUrl: block.querySelector('[data-field="mediaUrl"]').value.trim(),
       audioUrl: block.querySelector('[data-field="audioUrl"]').value.trim(),
-      durationMs: Number(block.querySelector('[data-field="durationMs"]').value || 8000),
+      durationMs: Number(block.querySelector('[data-field="durationMs"]').value || (block.dataset.acqGrade === 'LIMITED' ? 10000 : 8000)),
       skipAllowed: block.querySelector('[data-field="skipAllowed"]').checked
     };
   }
 
   function applyBlock(block, config = {}) {
-    block.querySelector('[data-field="enabled"]').checked = Boolean(Number(config.enabled));
-    block.querySelector('[data-field="mediaUrl"]').value = config.mediaUrl || '';
+    const limitedDefault = block.dataset.acqGrade === 'LIMITED';
+    block.querySelector('[data-field="enabled"]').checked = config.enabled === undefined ? limitedDefault : Boolean(Number(config.enabled));
+    block.querySelector('[data-field="mediaUrl"]').value = config.mediaUrl || (limitedDefault ? '/assets/effects/L2CARD.mp4' : '');
     block.querySelector('[data-field="audioUrl"]').value = config.audioUrl || '';
-    const duration = String(Number(config.durationMs || 8000));
+    const duration = String(Number(config.durationMs || (limitedDefault ? 10000 : 8000)));
     const select = block.querySelector('[data-field="durationMs"]');
     select.value = [...select.options].some(option => option.value === duration) ? duration : '8000';
     block.querySelector('[data-field="skipAllowed"]').checked = Number(config.skipAllowed) !== 0;

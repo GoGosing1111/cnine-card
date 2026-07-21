@@ -211,7 +211,10 @@ async function runUpgrade(env) {
   for (const sql of [
     `ALTER TABLE captain_registrations ADD COLUMN cancelled_at TEXT`,
     `ALTER TABLE captain_registrations ADD COLUMN cooldown_until TEXT`,
-    `ALTER TABLE captain_teams ADD COLUMN renamed_at TEXT`
+    `ALTER TABLE captain_teams ADD COLUMN renamed_at TEXT`,
+    `ALTER TABLE captain_reward_claims ADD COLUMN status TEXT NOT NULL DEFAULT 'COMPLETED'`,
+    `ALTER TABLE captain_reward_claims ADD COLUMN error_message TEXT`,
+    `ALTER TABLE captain_reward_claims ADD COLUMN updated_at TEXT`
   ]) {
     try { await env.DB.prepare(sql).run(); }
     catch (error) {
@@ -233,10 +236,17 @@ async function runUpgrade(env) {
     `CREATE INDEX IF NOT EXISTS idx_captain_cooldown_reset_user ON captain_cooldown_reset_events(target_user_id,created_at DESC)`
   ]) await env.DB.prepare(sql).run();
 
-  await env.DB.batch([
+  await env.DB.prepare("UPDATE captain_reward_claims SET updated_at=COALESCE(updated_at,claimed_at),status=COALESCE(NULLIF(status,''),'COMPLETED')").run();
+  const rewardRecoveryUpgrade=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1108_captain_reward_recovery'").first();
+  const upgradeStatements=[
     env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1088_captain_round_reset','1',CURRENT_TIMESTAMP)"),
     env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1089_captain_cooldown_reset','1',CURRENT_TIMESTAMP)")
-  ]);
+  ];
+  if(rewardRecoveryUpgrade?.value!=='1'){
+    upgradeStatements.push(env.DB.prepare("UPDATE captain_reward_claims SET status='FAILED',error_message='LEGACY_VICTORY_REWARD_FAILED',updated_at=CURRENT_TIMESTAMP WHERE reward_type='VICTORY' AND EXISTS (SELECT 1 FROM captain_match_receipts_v3 r WHERE r.request_id=captain_reward_claims.reward_key AND r.response_json LIKE '%victoryRewardError%')"));
+    upgradeStatements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1108_captain_reward_recovery','1',CURRENT_TIMESTAMP)"));
+  }
+  await env.DB.batch(upgradeStatements);
 }
 
 let upgradePromise;
@@ -725,17 +735,93 @@ function cleanName(value) {
   return String(value || '').trim().replace(/[<>]/g, '').slice(0, 20);
 }
 
-async function grantReward(env, userId, reward, reason) {
+async function rewardBalances(env, userId) {
+  const row = await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(userId).first();
+  if (!row) throw new Error('유저 정보를 찾을 수 없습니다.');
+  return {
+    coinBalance: Number(row.coin || 0),
+    shardBalance: Number(row.card_shards || 0),
+    magicBalance: Number(row.magic_crystals || 0)
+  };
+}
+
+async function reserveRewardClaim(env, { weekKey, userId, rewardType, rewardKey, reward }) {
+  const type = String(rewardType || '').toUpperCase();
+  const key = String(rewardKey || '').slice(0, 160);
+  let row = await env.DB.prepare('SELECT * FROM captain_reward_claims WHERE week_key=? AND user_id=? AND reward_type=? AND reward_key=?')
+    .bind(weekKey, userId, type, key).first();
+  if (row?.status === 'COMPLETED') return { acquired: false, completed: true, claim: row };
+  if (row?.status === 'PENDING') {
+    const age = Date.now() - Date.parse(String(row.updated_at || row.claimed_at || '').replace(' ', 'T') + 'Z');
+    if (Number.isFinite(age) && age < 45000) return { acquired: false, pending: true, claim: row };
+    await env.DB.prepare("UPDATE captain_reward_claims SET status='FAILED',error_message='STALE_PENDING',updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(row.id).run();
+    row.status = 'FAILED';
+  }
+  if (row) {
+    const retried = await env.DB.prepare("UPDATE captain_reward_claims SET status='PENDING',reward_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='FAILED'")
+      .bind(JSON.stringify(reward || {}), row.id).run();
+    if (Number(retried?.meta?.changes || 0)) return { acquired: true, claim: { ...row, status: 'PENDING', reward_json: JSON.stringify(reward || {}) } };
+  }
+  const inserted = await env.DB.prepare(`
+    INSERT OR IGNORE INTO captain_reward_claims(week_key,user_id,reward_type,reward_key,reward_json,status,updated_at)
+    VALUES(?,?,?,?,?,'PENDING',CURRENT_TIMESTAMP)
+  `).bind(weekKey, userId, type, key, JSON.stringify(reward || {})).run();
+  row = await env.DB.prepare('SELECT * FROM captain_reward_claims WHERE week_key=? AND user_id=? AND reward_type=? AND reward_key=?')
+    .bind(weekKey, userId, type, key).first();
+  if (Number(inserted?.meta?.changes || 0)) return { acquired: true, claim: row };
+  return { acquired: false, completed: row?.status === 'COMPLETED', pending: row?.status === 'PENDING', claim: row };
+}
+
+async function failRewardClaim(env, claimId, error) {
+  if (!claimId) return;
+  await env.DB.prepare("UPDATE captain_reward_claims SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'")
+    .bind(String(error?.message || error).slice(0, 500), claimId).run();
+}
+
+async function grantReward(env, userId, reward, reason, claimId, referenceId) {
   const coin = Math.max(0, Math.floor(Number(reward?.coin || 0)));
   const shards = Math.max(0, Math.floor(Number(reward?.shards || 0)));
   const magicCrystals = Math.max(0, Math.floor(Number(reward?.magicCrystals || 0)));
-  const before = await env.DB.prepare('SELECT magic_crystals FROM users WHERE id=?').bind(userId).first();
-  if (!before) throw new Error('유저 정보를 찾을 수 없습니다.');
-  const magicBalance = Number(before.magic_crystals || 0) + magicCrystals;
-  const statements = [env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin, shards, magicCrystals, userId)];
-  if (magicCrystals > 0) statements.push(env.DB.prepare('INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)').bind(userId, magicCrystals, magicBalance, reason === 'CAPTAIN_SETTLEMENT' ? '대장전 주간 정산 보상' : '대장전 승리 보상', reason, String(Date.now())));
+  const before = await rewardBalances(env, userId);
+  const coinBalance = before.coinBalance + coin;
+  const shardBalance = before.shardBalance + shards;
+  const magicBalance = before.magicBalance + magicCrystals;
+  const label = reason === 'CAPTAIN_SETTLEMENT' ? '대장전 주간 정산 보상' : '대장전 승리 보상';
+  const ref = String(referenceId || claimId || Date.now());
+  const statements = [
+    env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin, shards, magicCrystals, userId)
+  ];
+  if (coin > 0) statements.push(env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId, coin, coinBalance, reason));
+  if (shards > 0) statements.push(env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,NULL)').bind(userId, shards, shardBalance, reason));
+  if (magicCrystals > 0) statements.push(env.DB.prepare('INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)').bind(userId, magicCrystals, magicBalance, label, reason, ref));
+  if (claimId) statements.push(env.DB.prepare("UPDATE captain_reward_claims SET status='COMPLETED',error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(claimId));
   await env.DB.batch(statements);
-  return { coin, shards, magicCrystals, magicBalance, reason };
+  return { coin, shards, magicCrystals, coinBalance, shardBalance, magicBalance, reason };
+}
+
+async function claimCaptainReward(env, params) {
+  const reserved = await reserveRewardClaim(env, params);
+  if (reserved.completed) return { ...(params.reward || {}), ...(await rewardBalances(env, params.userId)), alreadyGranted: true };
+  if (!reserved.acquired) throw new Error('같은 대장전 보상을 처리 중입니다. 잠시 후 다시 확인하세요.');
+  try {
+    return await grantReward(env, params.userId, params.reward, params.reason, reserved.claim.id, params.rewardKey);
+  } catch (error) {
+    await failRewardClaim(env, reserved.claim?.id, error);
+    throw error;
+  }
+}
+
+async function recoverFailedVictoryRewards(env, userId) {
+  const rows = (await env.DB.prepare("SELECT * FROM captain_reward_claims WHERE user_id=? AND reward_type='VICTORY' AND status='FAILED' ORDER BY id LIMIT 10").bind(userId).all()).results || [];
+  for (const row of rows) {
+    let reward = {};
+    try { reward = JSON.parse(row.reward_json || '{}'); } catch {}
+    try {
+      await claimCaptainReward(env, { weekKey: row.week_key, userId, rewardType: 'VICTORY', rewardKey: row.reward_key, reward, reason: 'CAPTAIN_VICTORY' });
+    } catch (error) {
+      console.error('captain victory reward recovery failed', row.id, error);
+    }
+  }
 }
 
 function normalizeBattleCard(card, index) {
@@ -1021,6 +1107,7 @@ export async function handleCaptain({ path, request, env, deps }) {
   const captainMagic = magicConfig.acquisition?.captain || {};
   const currentRound = await resolveCaptainRound(env);
   const week = currentRound.roundKey;
+  if (!path.startsWith('admin/')) await recoverFailedVictoryRewards(env, user.id);
 
   if (path === 'admin/captain/settings') {
     if (!admin) return deps.json({ error: '관리자 권한이 필요합니다.' }, 403);
@@ -1435,7 +1522,15 @@ export async function handleCaptain({ path, request, env, deps }) {
 
     const receipt = await receiptStart(env, requestId, week, user.id);
     if (!receipt.acquired) {
-      if (receipt.response) return deps.json({ ...receipt.response, replayed: true });
+      if (receipt.response) {
+        const replay = { ...receipt.response, replayed: true };
+        if (replay.result === 'WIN' && !replay.victoryReward) {
+          const victoryReward = { ...(config.rewards?.victory || { coin: 0, shards: 0 }), magicCrystals: captainMagic.enabled === true ? Math.max(0, Number(captainMagic.victory || 0)) : 0 };
+          try { replay.victoryReward = await claimCaptainReward(env, { weekKey: week, userId: user.id, rewardType: 'VICTORY', rewardKey: requestId, reward: victoryReward, reason: 'CAPTAIN_VICTORY' }); }
+          catch (rewardError) { replay.victoryRewardError = '승리 보상 지급에 실패했습니다. 다시 대장전 화면에 접속하면 자동 복구됩니다.'; }
+        }
+        return deps.json(replay);
+      }
       return deps.json({ error: '같은 공격 요청이 이미 처리 중입니다.' }, 409);
     }
 
@@ -1547,16 +1642,10 @@ export async function handleCaptain({ path, request, env, deps }) {
       if (attackerWon) {
         try {
           const victoryReward = { ...(config.rewards?.victory || { coin: 0, shards: 0 }), magicCrystals: captainMagic.enabled === true ? Math.max(0, Number(captainMagic.victory || 0)) : 0 };
-          const rewardInsert = await env.DB.prepare(`
-            INSERT OR IGNORE INTO captain_reward_claims(week_key,user_id,reward_type,reward_key,reward_json)
-            VALUES(?,?,?,?,?)
-          `).bind(week, user.id, 'VICTORY', requestId, JSON.stringify(victoryReward)).run();
-          if (Number(rewardInsert?.meta?.changes || 0)) {
-            response.victoryReward = await grantReward(env, user.id, victoryReward, 'CAPTAIN_VICTORY');
-          }
+          response.victoryReward = await claimCaptainReward(env, { weekKey: week, userId: user.id, rewardType: 'VICTORY', rewardKey: requestId, reward: victoryReward, reason: 'CAPTAIN_VICTORY' });
         } catch (rewardError) {
           console.error('captain victory reward failed', rewardError);
-          response.victoryRewardError = '승리 보상 지급에 실패했습니다. 관리자에게 문의하세요.';
+          response.victoryRewardError = '승리 보상 지급에 실패했습니다. 대장전 화면에 다시 접속하면 자동 복구됩니다.';
         }
       }
       response.energy = await energy(env, user.id, week, config);
@@ -1638,10 +1727,10 @@ export async function handleCaptain({ path, request, env, deps }) {
     const baseReward = (config.rewards.settlement || []).find(item => rank >= Number(item.from) && rank <= Number(item.to)) || null;
     const reward = baseReward ? { ...baseReward, magicCrystals: captainMagic.enabled === true ? Math.max(0, Number(magicRewardForRank(captainMagic.settlement, rank) || 0)) : 0 } : null;
     const claim = await env.DB.prepare(`
-      SELECT id FROM captain_reward_claims
+      SELECT id,status FROM captain_reward_claims
       WHERE week_key=? AND user_id=? AND reward_type='SETTLEMENT' LIMIT 1
     `).bind(settlementWeek, user.id).first();
-    return deps.json({ settlementWeek, eligible: Boolean(reward), claimed: Boolean(claim), rank, reward });
+    return deps.json({ settlementWeek, eligible: Boolean(reward), claimed: claim?.status==='COMPLETED', processing: claim?.status==='PENDING', rank, reward });
   }
 
   if (path === 'captain/reward/claim' && request.method === 'POST') {
@@ -1662,12 +1751,8 @@ export async function handleCaptain({ path, request, env, deps }) {
     if (!baseReward) return deps.json({ error: '지난 주 순위에 해당하는 정산 보상이 없습니다.' }, 404);
     const reward = { ...baseReward, magicCrystals: captainMagic.enabled === true ? Math.max(0, Number(magicRewardForRank(captainMagic.settlement, rank) || 0)) : 0 };
     const key = `rank-${rank}`;
-    const inserted = await env.DB.prepare(`
-      INSERT OR IGNORE INTO captain_reward_claims(week_key,user_id,reward_type,reward_key,reward_json)
-      VALUES(?,?,?,?,?)
-    `).bind(settlementWeek, user.id, 'SETTLEMENT', key, JSON.stringify(reward)).run();
-    if (!inserted.meta.changes) return deps.json({ error: '지난 주 정산 보상을 이미 수령했습니다.' }, 409);
-    return deps.json({ ok: true, settlementWeek, rank, reward: await grantReward(env, user.id, reward, 'CAPTAIN_SETTLEMENT') });
+    const granted = await claimCaptainReward(env, { weekKey: settlementWeek, userId: user.id, rewardType: 'SETTLEMENT', rewardKey: key, reward, reason: 'CAPTAIN_SETTLEMENT' });
+    return deps.json({ ok: true, settlementWeek, rank, reward: granted, replayed: Boolean(granted.alreadyGranted) });
   }
 
   return deps.json({ error: '대장전 API를 찾을 수 없습니다.' }, 404);

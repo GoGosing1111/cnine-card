@@ -594,6 +594,16 @@ async function ensureUpgrades(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v10738_card_acquisition_fx','1',CURRENT_TIMESTAMP)")
       ]);
     }
+    const limitedAcquisitionDefaultDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1107_limited_acquisition_default'").first();
+    if(limitedAcquisitionDefaultDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS card_acquisition_effects (card_id TEXT PRIMARY KEY,enabled INTEGER NOT NULL DEFAULT 0,media_url TEXT NOT NULL DEFAULT '',audio_url TEXT NOT NULL DEFAULT '',skip_allowed INTEGER NOT NULL DEFAULT 1,duration_ms INTEGER NOT NULL DEFAULT 8000,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare("INSERT OR IGNORE INTO card_acquisition_effects(card_id,enabled,media_url,audio_url,skip_allowed,duration_ms,updated_at) VALUES('__GRADE_LIMITED__',1,'/assets/effects/L2CARD.mp4','',1,10000,CURRENT_TIMESTAMP)"),
+        env.DB.prepare("UPDATE card_acquisition_effects SET enabled=1,media_url='/assets/effects/L2CARD.mp4',duration_ms=10000,updated_at=CURRENT_TIMESTAMP WHERE card_id='__GRADE_LIMITED__' AND TRIM(COALESCE(media_url,''))=''"),
+        env.DB.prepare("UPDATE card_acquisition_effects SET duration_ms=10000,updated_at=CURRENT_TIMESTAMP WHERE card_id='__GRADE_LIMITED__' AND media_url='/assets/effects/L2CARD.mp4' AND duration_ms<10000"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1107_limited_acquisition_default','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const performanceGate=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1019_performance_gate'").first();
     if(performanceGate?.value==='1')return;
     await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_logs_rarity_id ON draw_logs(rarity,id DESC)').run();
@@ -1274,9 +1284,9 @@ async function profile(env,user){
     breakthroughConfig(env)
   ]);
   return {id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
-    owned:owned.results.map(row=>row.card_id),
-    quantities:Object.fromEntries(owned.results.map(row=>[row.card_id,row.quantity])),
-    breakthroughs:Object.fromEntries(owned.results.map(row=>[row.card_id,Number(row.breakthrough_level||0)])),
+    owned:owned.results.map(row=>String(row.card_id)),
+    quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
+    breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
     attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings};
 }
@@ -1309,6 +1319,23 @@ async function recentPremiumCubeItems(env){
     .catch(error=>{if(recentPremiumCubeCache?.promise===promise)recentPremiumCubeCache=null;throw error});
   recentPremiumCubeCache={promise,expiresAt:now+1000};
   return promise;
+}
+async function cardAcquisitionEffectsByGrade(env){
+  const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url,audio_url,skip_allowed,duration_ms FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_FUR__')`).all();
+  const settings={
+    LIMITED:{acquisitionFxConfigured:0,acquisitionFxEnabled:1,acquisitionMediaUrl:'/assets/effects/L2CARD.mp4',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:10000},
+    FUR:{acquisitionFxConfigured:0,acquisitionFxEnabled:0,acquisitionMediaUrl:'',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:8000}
+  };
+  for(const row of rows.results||[]){
+    const grade=String(row.card_id||'').replace('__GRADE_','').replace('__','').toUpperCase();
+    if(!settings[grade])continue;
+    settings[grade]={acquisitionFxConfigured:1,acquisitionFxEnabled:Number(row.enabled||0),acquisitionMediaUrl:String(row.media_url||''),acquisitionAudioUrl:String(row.audio_url||''),acquisitionSkipAllowed:Number(row.skip_allowed)!==0?1:0,acquisitionDurationMs:Number(row.duration_ms||(grade==='LIMITED'?10000:8000))};
+  }
+  return settings;
+}
+function cardWithAcquisitionEffect(card,settings){
+  const grade=String(card?.grade||card?.rarity||'').toUpperCase();
+  return {...card,...(settings?.[grade]||{})};
 }
 async function drawLimitedCard(env){
   const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
@@ -1642,9 +1669,13 @@ export async function onRequest(context){
       return user?json({user:await profile(env,user)}):json({error:'로그인이 필요합니다.'},401);
     }
     if(path==='cards'){
-      const rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,COALESCE(fx.enabled,0) AS acquisitionFxEnabled,COALESCE(fx.media_url,'') AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,COALESCE(fx.duration_ms,8000) AS acquisitionDurationMs
-        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__') WHERE c.is_active=1 ORDER BY m.sort_order,c.id`).all();
-      return json({cards:rows.results});
+      const viewer=await authenticate(request,env);
+      const select=`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,CASE WHEN fx.card_id IS NULL THEN 0 ELSE 1 END AS acquisitionFxConfigured,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 1 ELSE COALESCE(fx.enabled,0) END AS acquisitionFxEnabled,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN '/assets/effects/L2CARD.mp4' ELSE COALESCE(fx.media_url,'') END AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 10000 ELSE COALESCE(fx.duration_ms,8000) END AS acquisitionDurationMs
+        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
+      const rows=viewer
+        ? await env.DB.prepare(`${select} WHERE (c.is_active=1 OR EXISTS (SELECT 1 FROM user_cards uc WHERE uc.user_id=? AND uc.card_id=c.id AND COALESCE(uc.quantity,0)>0)) AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') ORDER BY m.sort_order,c.id`).bind(viewer.id).all()
+        : await env.DB.prepare(`${select} WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') ORDER BY m.sort_order,c.id`).all();
+      return json({cards:rows.results.map(card=>({...card,id:String(card.id)}))});
     }
     if(path==='packs'){
       const rows=await env.DB.prepare('SELECT * FROM card_packs WHERE is_active=1 ORDER BY sort_order,id').all();
@@ -1697,7 +1728,8 @@ export async function onRequest(context){
         await env.DB.batch(statements);
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
         if(shardGained>0)await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'INVENTORY_CUBE_DUPLICATE',?)").bind(user.id,shardGained,updated.card_shards,card.id).run();
-        const response={ok:true,itemCode,remaining:Number(remaining),card,duplicate,shardGained,user:await profile(env,updated),requestId};
+        const responseCard=cardWithAcquisitionEffect(card,await cardAcquisitionEffectsByGrade(env));
+        const response={ok:true,itemCode,remaining:Number(remaining),card:responseCard,duplicate,shardGained,user:await profile(env,updated),requestId};
         await env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
         recentHighGradeCache=null;
         return json(response);
@@ -1791,6 +1823,7 @@ export async function onRequest(context){
           cards[i]=card;
         }
       }
+      const acquisitionFxByGrade=await cardAcquisitionEffectsByGrade(env);
       const uniqueIds=[...new Set(cards.map(card=>String(card.id)))];
       const ownedRows=uniqueIds.length?(await env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${uniqueIds.map(()=>'?').join(',')})`).bind(user.id,...uniqueIds).all()).results:[];
       const ownedMap=new Map(ownedRows.map(row=>[String(row.card_id),Number(row.quantity||0)]));
@@ -1810,7 +1843,7 @@ export async function onRequest(context){
           statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,runningShardBalance,card.id));
         }
         statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,card.grade,drawIndex===0?cost:0,isNew?1:0));
-        results.push({card,duplicate:!isNew,shardGained});
+        results.push({card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained});
       }
       if(shardTotal>0)statements.unshift(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardTotal,user.id));
       statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,Number(fresh.coin)-cost));
@@ -3334,7 +3367,7 @@ export async function onRequest(context){
       const gradeKey=grade=>`__GRADE_${grade}__`;
       if(request.method==='GET'){
         const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url AS mediaUrl,audio_url AS audioUrl,skip_allowed AS skipAllowed,duration_ms AS durationMs FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_FUR__')`).all();
-        const settings={LIMITED:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000},FUR:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000}};
+        const settings={LIMITED:{enabled:1,mediaUrl:'/assets/effects/L2CARD.mp4',audioUrl:'',skipAllowed:1,durationMs:10000},FUR:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000}};
         for(const row of rows.results||[]){
           const grade=String(row.card_id||'').replace('__GRADE_','').replace('__','');
           if(settings[grade]) settings[grade]={enabled:Number(row.enabled||0),mediaUrl:row.mediaUrl||'',audioUrl:row.audioUrl||'',skipAllowed:Number(row.skipAllowed)!==0?1:0,durationMs:Number(row.durationMs||8000)};
@@ -3417,7 +3450,7 @@ export async function onRequest(context){
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
-      const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active,c.card_status AS cardStatus,c.batch_name AS batchName,c.batch_date AS batchDate,c.draw_weight AS drawWeight,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.power_type AS powerType,c.base_power AS basePower,COALESCE(fx.enabled,0) AS acquisitionFxEnabled,COALESCE(fx.media_url,'') AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,COALESCE(fx.duration_ms,8000) AS acquisitionDurationMs
+      const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active,c.card_status AS cardStatus,c.batch_name AS batchName,c.batch_date AS batchDate,c.draw_weight AS drawWeight,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.power_type AS powerType,c.base_power AS basePower,CASE WHEN fx.card_id IS NULL THEN 0 ELSE 1 END AS acquisitionFxConfigured,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 1 ELSE COALESCE(fx.enabled,0) END AS acquisitionFxEnabled,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN '/assets/effects/L2CARD.mp4' ELSE COALESCE(fx.media_url,'') END AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 10000 ELSE COALESCE(fx.duration_ms,8000) END AS acquisitionDurationMs
         FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
       const normalizeCard=async payload=>{
         const title=String(payload.title||'').trim().slice(0,80);
