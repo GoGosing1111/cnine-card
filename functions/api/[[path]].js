@@ -2744,7 +2744,7 @@ export async function onRequest(context){
         const settlement=await env.DB.prepare('SELECT id,season_key,season_name,status,participant_count,reward_user_count,message_count,started_at,completed_at,error_message FROM pvp_season_settlements WHERE season_key=? ORDER BY id DESC LIMIT 1').bind(pvpSeasonKey(livePvp)).first();
         return json({settings,ranking:[...map.values()].sort((a,b)=>b.score-a.score).slice(0,100),pvpRanking:pvpRows.results.map((x,i)=>({...x,rank:i+1,tier:resolveTier(Number(x.season_score),livePvp.tiers)})),pvpStats,pvpSettlement:settlement||null});
       }
-      if(request.method==='PATCH'){
+      if(request.method==='PATCH'||request.method==='POST'){
         const payload=await readBody(request),before={tiers:await tierSettings(env),pvp:await pvpSettings(env)},base=defaultTierSettings();
         const tiers=(Array.isArray(payload.cardScoreTiers)?payload.cardScoreTiers:before.tiers.cardScoreTiers).map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);
         const livePvp=cleanPvpSettings({...before.pvp,...(payload.pvp||{})}),clean={cardScoreTiers:tiers,pvp:livePvp};
