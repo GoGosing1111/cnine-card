@@ -2525,3 +2525,55 @@ div{
   .pack-list{grid-template-columns:1fr}.pack-choice{display:grid;grid-template-columns:82px 1fr;grid-template-rows:auto auto auto;column-gap:12px;text-align:left}.pack-choice .mini-pack{grid-row:1/4;width:82px}.pack-choice strong,.pack-choice small,.pack-choice em{grid-column:2}
   .draw-options{display:grid;grid-template-columns:1fr}.draw-options .btn{width:100%}
 }
+
+
+/* V1096 NAV LAYER + COMPACT STATUS STRIP */
+.header{z-index:220;overflow:visible}
+.main-nav{z-index:230;overflow:visible;isolation:isolate}
+.main-nav-group{z-index:1}
+.main-nav-group.open{z-index:250}
+.main-nav-dropdown{z-index:270;background:linear-gradient(180deg,#061936 0%,#020b1d 100%);box-shadow:0 24px 64px rgba(0,0,0,.72),0 0 0 1px rgba(98,232,255,.08),inset 0 1px 0 rgba(255,255,255,.06)}
+.summary-bar{z-index:3;gap:10px;margin-bottom:14px}
+.summary-bar>.summary-card{min-height:104px;padding:13px 15px;border-radius:17px}
+.summary-label{margin-bottom:8px!important;font-size:9px!important;letter-spacing:1.35px!important}
+.login-summary-row b{font-size:18px!important}
+.currency-list{gap:5px}
+.currency-row{min-height:20px;grid-template-columns:19px minmax(0,1fr) auto;gap:6px}
+.currency-row i{width:19px;height:19px;border-radius:7px;font-size:12px}
+.currency-row span{font-size:10px}
+.currency-row b{font-size:14px!important}
+.collection-summary-value b{font-size:29px!important}
+.collection-summary-value strong{font-size:18px}
+.collection-summary>small{margin-top:6px;font-size:9px}
+.summary-bar>.inventory-summary{gap:12px}
+.inventory-bag-icon{width:42px;height:42px}
+.inventory-summary-copy b{font-size:18px!important}
+.inventory-summary-copy em{margin-top:3px;font-size:9px}
+
+@media(max-width:1100px){
+  .summary-bar{grid-template-columns:repeat(4,minmax(126px,1fr));overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:thin;padding:0 0 5px}
+  .summary-bar>.summary-card{scroll-snap-align:start;min-width:126px}
+}
+@media(max-width:720px){
+  .header{transition:padding-bottom .2s ease}
+  .header.nav-menu-open{padding-bottom:92px}
+  .main-nav{position:relative;z-index:240}
+  .main-nav-group{position:static}
+  .main-nav-dropdown{top:calc(100% + 8px);left:0;right:0;width:auto;margin:0;padding:8px;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:6px;transform:translateY(-5px)}
+  .main-nav-group.open .main-nav-dropdown{transform:translateY(0)}
+  .main-nav-dropdown button{min-height:58px;justify-content:center;padding:8px 10px;background:#071b3b;border-color:rgba(98,232,255,.22)}
+  .main-nav-dropdown button span{font-size:7px}.main-nav-dropdown button b{font-size:11px}
+  .summary-bar{display:grid;grid-template-columns:repeat(4,126px);gap:7px;margin:0 -2px 12px;padding:0 2px 5px}
+  .summary-bar>.summary-card{min-width:126px;min-height:88px!important;padding:9px 10px;border-radius:14px}
+  .summary-label{margin-bottom:5px!important;font-size:7px!important;letter-spacing:1px!important}
+  .login-summary-row{display:grid;grid-template-columns:8px minmax(0,1fr);gap:4px 5px}.login-summary-row b{font-size:13px!important}.login-summary-row button{grid-column:2;margin:0;text-align:left;font-size:8px}
+  .login-dot{width:7px;height:7px}
+  .currency-list{gap:3px}.currency-row{min-height:15px;grid-template-columns:14px minmax(0,1fr) auto;gap:3px}.currency-row i{width:14px;height:14px;border-radius:5px;font-size:8px}.currency-row span{font-size:7px}.currency-row b{font-size:9px!important}
+  .collection-summary-value{gap:3px}.collection-summary-value b{font-size:22px!important}.collection-summary-value i{font-size:11px}.collection-summary-value strong{font-size:13px}.collection-summary>small{margin-top:4px;font-size:6px}
+  .summary-bar>.inventory-summary{gap:6px}.inventory-bag-icon{width:28px;height:28px}.inventory-summary-copy b{font-size:13px!important}.inventory-summary-copy em{font-size:6px}.inventory-summary>strong{top:5px;right:5px;padding:2px 4px;font-size:6px}
+}
+@media(max-width:420px){
+  .header.nav-menu-open{padding-bottom:94px}
+  .summary-bar{grid-template-columns:repeat(4,118px)}
+  .summary-bar>.summary-card{min-width:118px;min-height:84px!important;padding:8px}
+}
