@@ -11,6 +11,11 @@ function previousWeekKey() {
   return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`;
 }
 
+function roundLabel(round) {
+  const number = Math.max(1, Number(round?.roundNumber || 1));
+  return number === 1 ? `${round?.calendarWeekKey || weekKey()} 주차` : `${round?.calendarWeekKey || weekKey()} 주차 · ${number}회차`;
+}
+
 const DEF = {
   mode: 'OFF',
   energyMax: 5,
@@ -168,6 +173,25 @@ async function runUpgrade(env) {
       week_key TEXT PRIMARY KEY,
       executed_by INTEGER,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`,
+    `CREATE TABLE IF NOT EXISTS captain_rounds(
+      round_key TEXT PRIMARY KEY,
+      calendar_week_key TEXT NOT NULL,
+      round_number INTEGER NOT NULL DEFAULT 1,
+      status TEXT NOT NULL DEFAULT 'ACTIVE',
+      previous_round_key TEXT,
+      started_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      ended_at TEXT,
+      ended_by INTEGER,
+      end_reason TEXT,
+      UNIQUE(calendar_week_key,round_number)
+    )`,
+    `CREATE TABLE IF NOT EXISTS captain_round_reset_events(
+      request_id TEXT PRIMARY KEY,
+      old_round_key TEXT NOT NULL UNIQUE,
+      new_round_key TEXT NOT NULL UNIQUE,
+      executed_by INTEGER,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )`
   ];
 
@@ -192,11 +216,13 @@ async function runUpgrade(env) {
     `CREATE INDEX IF NOT EXISTS idx_captain_match_v2_teams ON captain_match_history_v2(week_key,attacker_team_id,defender_team_id)`,
     `CREATE INDEX IF NOT EXISTS idx_captain_match_v3_teams ON captain_match_history_v3(week_key,attacker_team_id,defender_team_id,id DESC)`,
     `CREATE INDEX IF NOT EXISTS idx_captain_match_v3_initiator ON captain_match_history_v3(week_key,initiated_by_user_id,id DESC)`,
-    `CREATE INDEX IF NOT EXISTS idx_captain_receipts_v3_user ON captain_match_receipts_v3(week_key,user_id,created_at DESC)`
+    `CREATE INDEX IF NOT EXISTS idx_captain_receipts_v3_user ON captain_match_receipts_v3(week_key,user_id,created_at DESC)`,
+    `CREATE INDEX IF NOT EXISTS idx_captain_rounds_calendar_status ON captain_rounds(calendar_week_key,status,round_number DESC)`,
+    `CREATE INDEX IF NOT EXISTS idx_captain_rounds_previous ON captain_rounds(previous_round_key)`
   ]) await env.DB.prepare(sql).run();
 
   await env.DB.prepare(
-    "INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1080_captain_gauntlet','1',CURRENT_TIMESTAMP)"
+    "INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1088_captain_round_reset','1',CURRENT_TIMESTAMP)"
   ).run();
 }
 
@@ -209,6 +235,193 @@ async function upgrade(env) {
     });
   }
   return upgradePromise;
+}
+
+async function saveRoundState(env, state) {
+  const value = JSON.stringify(state);
+  const updated = await env.DB.prepare("UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key='captain_round_state_v1'")
+    .bind(value).run();
+  if (!Number(updated?.meta?.changes || 0)) {
+    await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('captain_round_state_v1',?,CURRENT_TIMESTAMP)")
+      .bind(value).run();
+  }
+}
+
+async function resolveCaptainRound(env) {
+  const calendarWeekKey = weekKey();
+  const stateRow = await env.DB.prepare("SELECT value FROM app_meta WHERE key='captain_round_state_v1'").first();
+  const state = safeJson(stateRow?.value, null);
+
+  if (state?.calendarWeekKey === calendarWeekKey && state?.roundKey) {
+    const row = await env.DB.prepare('SELECT * FROM captain_rounds WHERE round_key=?')
+      .bind(String(state.roundKey)).first();
+    if (row && row.status === 'ACTIVE') {
+      return {
+        roundKey: row.round_key,
+        calendarWeekKey: row.calendar_week_key,
+        roundNumber: Number(row.round_number || 1),
+        previousRoundKey: row.previous_round_key || null,
+        startedAt: row.started_at,
+        status: row.status,
+        label: roundLabel({ calendarWeekKey: row.calendar_week_key, roundNumber: row.round_number })
+      };
+    }
+  }
+
+  const active = await env.DB.prepare(`
+    SELECT * FROM captain_rounds
+    WHERE calendar_week_key=? AND status='ACTIVE'
+    ORDER BY round_number DESC LIMIT 1
+  `).bind(calendarWeekKey).first();
+  if (active) {
+    const nextState = {
+      calendarWeekKey,
+      roundKey: active.round_key,
+      roundNumber: Number(active.round_number || 1),
+      previousRoundKey: active.previous_round_key || null,
+      startedAt: active.started_at
+    };
+    await saveRoundState(env, nextState);
+    return { ...nextState, status: active.status, label: roundLabel(nextState) };
+  }
+
+  const previous = await env.DB.prepare(`
+    SELECT * FROM captain_rounds
+    WHERE round_key<>?
+    ORDER BY COALESCE(ended_at,started_at) DESC,round_number DESC
+    LIMIT 1
+  `).bind(calendarWeekKey).first();
+
+  if (state?.roundKey && state?.calendarWeekKey && state.calendarWeekKey !== calendarWeekKey) {
+    await env.DB.prepare(`
+      UPDATE captain_rounds
+      SET status='COMPLETED',ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),end_reason=COALESCE(end_reason,'WEEK_ROLLOVER')
+      WHERE round_key=? AND status='ACTIVE'
+    `).bind(String(state.roundKey)).run();
+  }
+
+  await env.DB.prepare(`
+    INSERT OR IGNORE INTO captain_rounds(round_key,calendar_week_key,round_number,status,previous_round_key)
+    VALUES(?,?,1,'ACTIVE',?)
+  `).bind(calendarWeekKey, calendarWeekKey, previous?.round_key || state?.roundKey || null).run();
+
+  const created = await env.DB.prepare('SELECT * FROM captain_rounds WHERE round_key=?')
+    .bind(calendarWeekKey).first();
+  const nextState = {
+    calendarWeekKey,
+    roundKey: created?.round_key || calendarWeekKey,
+    roundNumber: Number(created?.round_number || 1),
+    previousRoundKey: created?.previous_round_key || previous?.round_key || state?.roundKey || null,
+    startedAt: created?.started_at || null
+  };
+  await saveRoundState(env, nextState);
+  return { ...nextState, status: created?.status || 'ACTIVE', label: roundLabel(nextState) };
+}
+
+async function settlementRoundKey(env, currentRound, userId) {
+  if (userId) {
+    const unclaimed = await env.DB.prepare(`
+      SELECT r.round_key
+      FROM captain_rounds r
+      JOIN captain_teams t ON t.week_key=r.round_key
+      JOIN captain_team_members m ON m.team_id=t.id AND m.user_id=?
+      LEFT JOIN captain_reward_claims c
+        ON c.week_key=r.round_key AND c.user_id=? AND c.reward_type='SETTLEMENT'
+      WHERE r.round_key<>? AND r.status='COMPLETED' AND c.id IS NULL
+      ORDER BY COALESCE(r.ended_at,r.started_at) DESC,r.round_number DESC
+      LIMIT 1
+    `).bind(userId, userId, String(currentRound?.roundKey || '')).first();
+    if (unclaimed?.round_key) return String(unclaimed.round_key);
+
+    const latestParticipated = await env.DB.prepare(`
+      SELECT r.round_key
+      FROM captain_rounds r
+      JOIN captain_teams t ON t.week_key=r.round_key
+      JOIN captain_team_members m ON m.team_id=t.id AND m.user_id=?
+      WHERE r.round_key<>? AND r.status='COMPLETED'
+      ORDER BY COALESCE(r.ended_at,r.started_at) DESC,r.round_number DESC
+      LIMIT 1
+    `).bind(userId, String(currentRound?.roundKey || '')).first();
+    if (latestParticipated?.round_key) return String(latestParticipated.round_key);
+  }
+  if (currentRound?.previousRoundKey) return String(currentRound.previousRoundKey);
+  const previous = await env.DB.prepare(`
+    SELECT round_key FROM captain_rounds
+    WHERE round_key<>? AND status='COMPLETED'
+    ORDER BY COALESCE(ended_at,started_at) DESC,round_number DESC
+    LIMIT 1
+  `).bind(String(currentRound?.roundKey || '')).first();
+  return previous?.round_key || previousWeekKey();
+}
+
+async function startNewCaptainRound(env, currentRound, userId, requestId) {
+  const existingByRequest = await env.DB.prepare('SELECT * FROM captain_round_reset_events WHERE request_id=?')
+    .bind(requestId).first();
+  if (existingByRequest) {
+    const existingRound = await env.DB.prepare('SELECT * FROM captain_rounds WHERE round_key=?')
+      .bind(existingByRequest.new_round_key).first();
+    return {
+      oldRoundKey: existingByRequest.old_round_key,
+      newRoundKey: existingByRequest.new_round_key,
+      roundNumber: Number(existingRound?.round_number || 1),
+      replayed: true
+    };
+  }
+
+  const latestState = await resolveCaptainRound(env);
+  if (String(latestState.roundKey) !== String(currentRound.roundKey)) {
+    return {
+      oldRoundKey: currentRound.roundKey,
+      newRoundKey: latestState.roundKey,
+      roundNumber: latestState.roundNumber,
+      replayed: true
+    };
+  }
+
+  const maxRow = await env.DB.prepare('SELECT COALESCE(MAX(round_number),0) max_number FROM captain_rounds WHERE calendar_week_key=?')
+    .bind(currentRound.calendarWeekKey).first();
+  const nextNumber = Math.max(2, Number(maxRow?.max_number || 0) + 1);
+  const newRoundKey = `${currentRound.calendarWeekKey}-R${nextNumber}`;
+
+  const statements = [
+    env.DB.prepare(`
+      INSERT OR IGNORE INTO captain_rounds(round_key,calendar_week_key,round_number,status,previous_round_key)
+      VALUES(?,?,?,'ACTIVE',?)
+    `).bind(newRoundKey, currentRound.calendarWeekKey, nextNumber, currentRound.roundKey),
+    env.DB.prepare(`
+      UPDATE captain_rounds
+      SET status='COMPLETED',ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),ended_by=?,end_reason='MANUAL_RESET'
+      WHERE round_key=? AND status='ACTIVE'
+    `).bind(userId, currentRound.roundKey),
+    env.DB.prepare(`
+      INSERT OR IGNORE INTO captain_round_reset_events(request_id,old_round_key,new_round_key,executed_by)
+      VALUES(?,?,?,?)
+    `).bind(requestId, currentRound.roundKey, newRoundKey, userId),
+    env.DB.prepare('INSERT OR IGNORE INTO captain_week_resets(week_key,executed_by) VALUES(?,?)')
+      .bind(currentRound.roundKey, userId)
+  ];
+  if (typeof env.DB.batch === 'function') await env.DB.batch(statements);
+  else for (const statement of statements) await statement.run();
+
+  const event = await env.DB.prepare('SELECT * FROM captain_round_reset_events WHERE old_round_key=?')
+    .bind(currentRound.roundKey).first();
+  const effectiveNewRoundKey = event?.new_round_key || newRoundKey;
+  const effectiveRound = await env.DB.prepare('SELECT * FROM captain_rounds WHERE round_key=?')
+    .bind(effectiveNewRoundKey).first();
+  const nextState = {
+    calendarWeekKey: effectiveRound?.calendar_week_key || currentRound.calendarWeekKey,
+    roundKey: effectiveNewRoundKey,
+    roundNumber: Number(effectiveRound?.round_number || nextNumber),
+    previousRoundKey: currentRound.roundKey,
+    startedAt: effectiveRound?.started_at || null
+  };
+  await saveRoundState(env, nextState);
+  return {
+    oldRoundKey: currentRound.roundKey,
+    newRoundKey: effectiveNewRoundKey,
+    roundNumber: nextState.roundNumber,
+    replayed: Boolean(event && event.request_id !== requestId)
+  };
 }
 
 async function settings(env) {
@@ -773,7 +986,8 @@ export async function handleCaptain({ path, request, env, deps }) {
 
   const admin = deps.isAdminRole(user);
   const config = await settings(env);
-  const week = weekKey();
+  const currentRound = await resolveCaptainRound(env);
+  const week = currentRound.roundKey;
 
   if (path === 'admin/captain/settings') {
     if (!admin) return deps.json({ error: '관리자 권한이 필요합니다.' }, 403);
@@ -866,6 +1080,7 @@ export async function handleCaptain({ path, request, env, deps }) {
     const activeTeams = teams.filter(row => row.status === 'ACTIVE');
     return deps.json({
       weekKey: week,
+      round: currentRound,
       registrations,
       teams,
       logs,
@@ -893,9 +1108,40 @@ export async function handleCaptain({ path, request, env, deps }) {
 
   if (path === 'admin/captain/reset' && request.method === 'POST') {
     if (!admin) return deps.json({ error: '관리자 권한이 필요합니다.' }, 403);
-    await env.DB.prepare('INSERT OR IGNORE INTO captain_week_resets(week_key,executed_by) VALUES(?,?)')
-      .bind(week, user.id).run();
-    return deps.json({ ok: true, weekKey: week, note: '주차 키 기반으로 새 주차 데이터가 자동 분리됩니다. 기존 기록은 보존됩니다.' });
+    const body = await deps.readBody(request);
+    const expectedRoundKey = String(body?.expectedRoundKey || '').trim();
+    const requestId = String(body?.requestId || crypto.randomUUID()).trim().slice(0, 120);
+    const previousRequest = await env.DB.prepare('SELECT * FROM captain_round_reset_events WHERE request_id=?')
+      .bind(requestId).first();
+    if (previousRequest) {
+      const replayRound = await resolveCaptainRound(env);
+      return deps.json({
+        ok: true,
+        oldRoundKey: previousRequest.old_round_key,
+        newRoundKey: previousRequest.new_round_key,
+        replayed: true,
+        round: replayRound,
+        note: `이미 처리된 요청입니다. 현재 ${replayRound.label}가 운영 중입니다.`
+      });
+    }
+    if (expectedRoundKey && expectedRoundKey !== currentRound.roundKey) {
+      return deps.json({
+        error: '이미 다른 운영자가 새 회차를 시작했습니다.',
+        currentRoundKey: currentRound.roundKey,
+        currentRoundLabel: currentRound.label
+      }, 409);
+    }
+    const result = await startNewCaptainRound(env, currentRound, user.id, requestId);
+    const newRound = await resolveCaptainRound(env);
+    return deps.json({
+      ok: true,
+      oldRoundKey: result.oldRoundKey,
+      newRoundKey: result.newRoundKey,
+      roundNumber: result.roundNumber,
+      replayed: result.replayed,
+      round: newRound,
+      note: `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 시작했습니다. 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존되며, 모든 유저가 새 회차에 다시 등록할 수 있습니다.`
+    });
   }
 
   if (config.mode === 'OFF') return deps.json({ error: '현재 대장전이 중지되어 있습니다.' }, 503);
@@ -905,12 +1151,14 @@ export async function handleCaptain({ path, request, env, deps }) {
   if (path === 'captain/register' && request.method === 'POST') {
     if (admin && config.mode === 'ON') return deps.json({ error: '운영 계정은 정규 랭킹에서 제외됩니다. CMS에서 TEST 모드로 전환해 테스트하세요.' }, 403);
     const last = await env.DB.prepare(`
-      SELECT cooldown_until
+      SELECT week_key,cooldown_until
       FROM captain_registrations
       WHERE user_id=? AND cooldown_until IS NOT NULL
       ORDER BY id DESC LIMIT 1
     `).bind(user.id).first();
-    if (last?.cooldown_until && Date.parse(last.cooldown_until.replace(' ', 'T') + 'Z') > Date.now()) {
+    const cooldownActive = last?.cooldown_until && Date.parse(last.cooldown_until.replace(' ', 'T') + 'Z') > Date.now();
+    const manualResetOverride = currentRound.roundNumber > 1 && last?.week_key && String(last.week_key) !== String(week);
+    if (cooldownActive && !manualResetOverride) {
       return deps.json({ error: '참가 취소 후 7일 동안 재등록할 수 없습니다.', cooldownUntil: last.cooldown_until }, 409);
     }
     const current = await env.DB.prepare('SELECT status FROM captain_registrations WHERE week_key=? AND user_id=?')
@@ -1010,6 +1258,7 @@ export async function handleCaptain({ path, request, env, deps }) {
 
     return deps.json({
       weekKey: week,
+      round: currentRound,
       registered: Boolean(registration && registration.status !== 'CANCELLED'),
       registrationStatus: registration?.status || null,
       cooldownUntil: registration?.cooldown_until || null,
@@ -1226,11 +1475,11 @@ export async function handleCaptain({ path, request, env, deps }) {
     for (const [index, row] of rows.entries()) {
       ranking.push({ ...row, rank: index + 1, members: (await team(env, row.id)).members });
     }
-    return deps.json({ weekKey: week, ranking });
+    return deps.json({ weekKey: week, round: currentRound, ranking });
   }
 
   if (path === 'captain/reward/status') {
-    const settlementWeek = previousWeekKey();
+    const settlementWeek = await settlementRoundKey(env, currentRound, user.id);
     const previousTeam = await env.DB.prepare(`
       SELECT t.* FROM captain_teams t
       JOIN captain_team_members m ON m.team_id=t.id
@@ -1252,7 +1501,7 @@ export async function handleCaptain({ path, request, env, deps }) {
   }
 
   if (path === 'captain/reward/claim' && request.method === 'POST') {
-    const settlementWeek = previousWeekKey();
+    const settlementWeek = await settlementRoundKey(env, currentRound, user.id);
     const previousTeam = await env.DB.prepare(`
       SELECT t.* FROM captain_teams t
       JOIN captain_team_members m ON m.team_id=t.id

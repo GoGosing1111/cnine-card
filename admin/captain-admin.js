@@ -100,7 +100,7 @@
           <div class="captain-admin-actions">
             <span id="capCmsModeBadge" class="captain-mode-badge off">운영 중지</span>
             <button type="button" id="capCmsRefresh" class="ghost">새로고침</button>
-            <button type="button" id="capCmsReset" class="warn">주간 초기화 확인</button>
+            <button type="button" id="capCmsReset" class="warn">현재 회차 종료·새 회차 시작</button>
           </div>
         </div>
 
@@ -112,7 +112,7 @@
 
         <section class="captain-overview-panel">
           <div class="captain-section-head">
-            <div><small id="capCmsWeek">주차 확인 중</small><h3>이번 주 운영 현황</h3></div>
+            <div><small id="capCmsWeek">회차 확인 중</small><h3>현재 회차 운영 현황</h3></div>
           </div>
           <div id="capCmsStats" class="captain-stat-grid"></div>
           <div id="capCmsBalanceNotice" class="captain-balance-notice"></div>
@@ -336,9 +336,10 @@
     const activeTeams=teams.filter(team=>team.status==='ACTIVE');
     const balance=overview.balance||{};
 
-    $('#capCmsWeek').textContent=`${overview.weekKey} 주차`;
+    const round=overview.round||{};
+    $('#capCmsWeek').textContent=round.label||`${overview.weekKey} 주차`;
     $('#capCmsStats').innerHTML=[
-      ['진행 등록',activeRegistrations.length,'이번 주 유효 참가자'],
+      ['진행 등록',activeRegistrations.length,'현재 회차 유효 참가자'],
       ['매칭 대기',waiting.length,'팀 편성 대기 중'],
       ['완성 팀',activeTeams.length,'3명 편성 완료'],
       ['최근 경기',logs.length,'최대 100건 표시']
@@ -501,12 +502,42 @@
     if(reset&&!reset.dataset.captainBound){
       reset.dataset.captainBound='1';
       reset.onclick=async()=>{
+        if(reset.disabled)return;
+        if(!latestOverview)return alert('현재 회차 정보를 먼저 불러와 주세요.');
+        const currentLabel=latestOverview?.round?.label||latestOverview?.weekKey||'현재 회차';
+        const warning=[
+          `${currentLabel} 운영을 종료하고 빈 새 회차를 즉시 시작합니다.`,
+          '',
+          '· 현재 참가자와 대기열은 새 회차로 복사되지 않습니다.',
+          '· 현재 팀·승패·공격 횟수는 새 회차 기준으로 초기화되며, 팀 점수는 기본값부터 다시 시작합니다.',
+          '· 기존 랭킹, 경기, 보상 지급 기록은 삭제하지 않고 보존합니다.',
+          '· 기존 참가자는 새 회차에서 다시 등록할 수 있는 상태가 됩니다.',
+          '',
+          '실행 후 되돌릴 수 없습니다. 계속할까요?'
+        ].join('\n');
+        if(!confirm(warning))return;
+        const verify=prompt('실행 확인을 위해 "새 회차 시작"을 입력하세요.','');
+        if(verify!=='새 회차 시작')return alert('문구가 일치하지 않아 취소했습니다.');
+        const original=reset.textContent;
+        reset.disabled=true;
+        reset.textContent='새 회차 생성 중...';
         try{
-          if(!confirm('기존 기록은 삭제하지 않고 주차 키 기준으로 분리됩니다. 계속할까요?'))return;
-          const result=await api('admin/captain/reset',{method:'POST'});
-          alert(result.note);
+          const result=await api('admin/captain/reset',{
+            method:'POST',
+            body:JSON.stringify({
+              expectedRoundKey:latestOverview?.round?.roundKey||latestOverview?.weekKey||'',
+              requestId:(globalThis.crypto?.randomUUID?.()||`captain-reset-${Date.now()}-${Math.random().toString(36).slice(2)}`)
+            })
+          });
+          alert(result.note||'새 회차를 시작했습니다.');
           await load();
-        }catch(error){alert(`주간 초기화 확인 실패\n${error.message}`)}
+        }catch(error){
+          alert(`대장전 새 회차 시작 실패\n${error.message}`);
+          await load();
+        }finally{
+          reset.disabled=false;
+          reset.textContent=original;
+        }
       };
     }
   }
