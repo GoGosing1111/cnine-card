@@ -16,10 +16,20 @@
     return new Intl.DateTimeFormat('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Seoul'}).format(new Date(parsed));
   };
   const number=value=>Number(value||0).toLocaleString();
+  const formatRemaining=seconds=>{
+    const total=Math.max(0,Math.floor(Number(seconds||0)));
+    const days=Math.floor(total/86400);
+    const hours=Math.floor((total%86400)/3600);
+    const minutes=Math.floor((total%3600)/60);
+    if(days)return `${days}일 ${hours}시간`;
+    if(hours)return `${hours}시간 ${minutes}분`;
+    return `${Math.max(1,minutes)}분`;
+  };
 
   let loading=false;
   let reloadQueued=false;
   let latestOverview=null;
+  let latestCooldownData={cooldowns:[],recentResets:[],activeCount:0};
 
   async function api(path,opt={}){
     try{
@@ -116,6 +126,28 @@
           </div>
           <div id="capCmsStats" class="captain-stat-grid"></div>
           <div id="capCmsBalanceNotice" class="captain-balance-notice"></div>
+        </section>
+
+        <section class="captain-admin-card captain-cooldown-card">
+          <div class="captain-section-head">
+            <div><small>참가 취소 페널티 관리</small><h3>7일 입장 제한 관리</h3></div>
+            <div class="captain-cooldown-actions">
+              <span id="capCmsCooldownCount" class="captain-count-pill">0명 제한 중</span>
+              <input id="capCmsCooldownSearch" type="search" placeholder="닉네임 검색">
+              <button type="button" id="capCmsCooldownResetAll" class="warn">전체 제한 초기화</button>
+            </div>
+          </div>
+          <p class="captain-cooldown-guide">참가 취소 후 적용된 7일 재등록 제한만 해제합니다. 참가 취소 기록과 기존 회차 기록은 삭제하지 않습니다.</p>
+          <div class="captain-table-scroll">
+            <table class="captain-admin-table captain-cooldown-table">
+              <thead><tr><th>유저</th><th>취소 회차</th><th>취소 시각</th><th>제한 종료</th><th>남은 시간</th><th>관리</th></tr></thead>
+              <tbody id="capCmsCooldowns"></tbody>
+            </table>
+          </div>
+          <details class="captain-cooldown-history">
+            <summary>최근 초기화 기록</summary>
+            <div id="capCmsCooldownLogs"></div>
+          </details>
         </section>
 
         <section class="captain-admin-grid">
@@ -260,6 +292,69 @@
     }).join('')||'<tr><td colspan="5" class="captain-empty-cell">조건에 맞는 참가자가 없습니다.</td></tr>';
   }
 
+  async function resetCooldown(scope,userId=0,nickname=''){
+    const all=scope==='ALL';
+    const message=all
+      ? '현재 적용 중인 모든 유저의 7일 입장 제한을 해제합니다. 참가 취소 기록은 유지됩니다. 계속할까요?'
+      : `${nickname||'선택한 유저'}님의 7일 입장 제한을 해제할까요?`;
+    if(!confirm(message))return;
+    if(all){
+      const verify=prompt('전체 초기화 확인을 위해 "7일 제한 전체 초기화"를 입력하세요.','');
+      if(verify!=='7일 제한 전체 초기화')return alert('문구가 일치하지 않아 취소했습니다.');
+    }
+    const button=all?$('#capCmsCooldownResetAll'):document.querySelector(`[data-cooldown-user="${Number(userId)}"]`);
+    const original=button?.textContent||'';
+    if(button){button.disabled=true;button.textContent='처리 중...'}
+    try{
+      const result=await api('admin/captain/cooldowns',{
+        method:'POST',
+        body:JSON.stringify({
+          scope:all?'ALL':'USER',
+          userId:all?undefined:Number(userId),
+          requestId:(globalThis.crypto?.randomUUID?.()||`captain-cooldown-${Date.now()}-${Math.random().toString(36).slice(2)}`)
+        })
+      });
+      alert(result.note||'7일 입장 제한을 초기화했습니다.');
+      await load();
+    }catch(error){
+      alert(`7일 입장 제한 초기화 실패\n${error.message}`);
+    }finally{
+      if(button){button.disabled=false;button.textContent=original}
+    }
+  }
+
+  function renderCooldowns(data=latestCooldownData){
+    latestCooldownData=data||{cooldowns:[],recentResets:[],activeCount:0};
+    const search=String($('#capCmsCooldownSearch')?.value||'').trim().toLowerCase();
+    const rows=(Array.isArray(latestCooldownData.cooldowns)?latestCooldownData.cooldowns:[])
+      .filter(row=>!search||String(row.nickname||'').toLowerCase().includes(search));
+    const count=$('#capCmsCooldownCount');
+    if(count)count.textContent=`${Number(latestCooldownData.activeCount||0)}명 제한 중`;
+    const target=$('#capCmsCooldowns');
+    if(target){
+      target.innerHTML=rows.map(row=>`<tr>
+        <td><div class="captain-user-cell"><span>${esc(String(row.nickname||'?').slice(0,1))}</span><b>${esc(row.nickname||'-')}</b></div></td>
+        <td><b>${esc(row.week_key||'-')}</b></td>
+        <td>${formatDate(row.cancelled_at)}</td>
+        <td><b>${formatDate(row.cooldown_until)}</b></td>
+        <td><span class="captain-cooldown-remaining">${formatRemaining(row.remainingSeconds)}</span></td>
+        <td><button type="button" class="ghost" data-cooldown-user="${Number(row.user_id)}" data-cooldown-name="${esc(row.nickname||'')}">개인 제한 해제</button></td>
+      </tr>`).join('')||'<tr><td colspan="6" class="captain-empty-cell">현재 적용 중인 7일 입장 제한이 없습니다.</td></tr>';
+      target.querySelectorAll('[data-cooldown-user]').forEach(button=>{
+        button.onclick=()=>resetCooldown('USER',Number(button.dataset.cooldownUser),button.dataset.cooldownName||'');
+      });
+    }
+    const logs=$('#capCmsCooldownLogs');
+    if(logs){
+      const history=Array.isArray(latestCooldownData.recentResets)?latestCooldownData.recentResets:[];
+      logs.innerHTML=history.map(row=>`<div class="captain-cooldown-log">
+        <span>${formatDate(row.created_at)}</span>
+        <b>${String(row.scope).toUpperCase()==='ALL'?'전체 제한 초기화':`${esc(row.target_nickname||`유저 ${row.target_user_id||''}`)} 개인 해제`}</b>
+        <small>${number(row.affected_count)}건 · 실행 ${esc(row.executed_by_name||'-')}</small>
+      </div>`).join('')||'<div class="captain-empty-block"><span>아직 초기화 기록이 없습니다.</span></div>';
+    }
+  }
+
   function memberRow(member){
     return `<div class="captain-team-member ${roleClass(member.position)}">
       <span class="captain-role-badge">${roleLabel(member.position)}</span>
@@ -372,9 +467,10 @@
     const refresh=$('#capCmsRefresh');
     if(refresh){refresh.disabled=true;refresh.textContent='불러오는 중'}
     try{
-      const [settingsResult,overviewResult]=await Promise.all([
+      const [settingsResult,overviewResult,cooldownResult]=await Promise.all([
         api('admin/captain/settings'),
-        api('admin/captain/overview')
+        api('admin/captain/overview'),
+        api('admin/captain/cooldowns')
       ]);
       const config=settingsResult.settings||{};
       $('#capCmsMode').value=config.mode||'OFF';
@@ -394,6 +490,7 @@
       renderSettlement(config.rewards?.settlement||[]);
       updateModeBadge(config.mode||'OFF');
       renderOverview(overviewResult);
+      renderCooldowns(cooldownResult);
     }catch(error){
       console.error('captain CMS load failed',error);
       alert(`대장전 CMS 불러오기 실패\n${error.message}`);
@@ -412,9 +509,16 @@
     const settlementAdd=$('#capSettlementAdd');
     const queueSearch=$('#capCmsQueueSearch');
     const queueFilter=$('#capCmsQueueFilter');
+    const cooldownSearch=$('#capCmsCooldownSearch');
+    const cooldownResetAll=$('#capCmsCooldownResetAll');
 
     if(queueSearch&&!queueSearch.dataset.bound){queueSearch.dataset.bound='1';queueSearch.addEventListener('input',renderQueue)}
     if(queueFilter&&!queueFilter.dataset.bound){queueFilter.dataset.bound='1';queueFilter.addEventListener('change',renderQueue)}
+    if(cooldownSearch&&!cooldownSearch.dataset.bound){cooldownSearch.dataset.bound='1';cooldownSearch.addEventListener('input',()=>renderCooldowns())}
+    if(cooldownResetAll&&!cooldownResetAll.dataset.captainBound){
+      cooldownResetAll.dataset.captainBound='1';
+      cooldownResetAll.onclick=()=>resetCooldown('ALL');
+    }
 
     if(settlementAdd&&!settlementAdd.dataset.captainBound){
       settlementAdd.dataset.captainBound='1';

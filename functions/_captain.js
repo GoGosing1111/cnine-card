@@ -192,6 +192,14 @@ async function runUpgrade(env) {
       new_round_key TEXT NOT NULL UNIQUE,
       executed_by INTEGER,
       created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`,
+    `CREATE TABLE IF NOT EXISTS captain_cooldown_reset_events(
+      request_id TEXT PRIMARY KEY,
+      scope TEXT NOT NULL,
+      target_user_id INTEGER,
+      executed_by INTEGER,
+      affected_count INTEGER NOT NULL DEFAULT 0,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
     )`
   ];
 
@@ -218,12 +226,14 @@ async function runUpgrade(env) {
     `CREATE INDEX IF NOT EXISTS idx_captain_match_v3_initiator ON captain_match_history_v3(week_key,initiated_by_user_id,id DESC)`,
     `CREATE INDEX IF NOT EXISTS idx_captain_receipts_v3_user ON captain_match_receipts_v3(week_key,user_id,created_at DESC)`,
     `CREATE INDEX IF NOT EXISTS idx_captain_rounds_calendar_status ON captain_rounds(calendar_week_key,status,round_number DESC)`,
-    `CREATE INDEX IF NOT EXISTS idx_captain_rounds_previous ON captain_rounds(previous_round_key)`
+    `CREATE INDEX IF NOT EXISTS idx_captain_rounds_previous ON captain_rounds(previous_round_key)`,
+    `CREATE INDEX IF NOT EXISTS idx_captain_cooldown_reset_user ON captain_cooldown_reset_events(target_user_id,created_at DESC)`
   ]) await env.DB.prepare(sql).run();
 
-  await env.DB.prepare(
-    "INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1088_captain_round_reset','1',CURRENT_TIMESTAMP)"
-  ).run();
+  await env.DB.batch([
+    env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1088_captain_round_reset','1',CURRENT_TIMESTAMP)"),
+    env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1089_captain_cooldown_reset','1',CURRENT_TIMESTAMP)")
+  ]);
 }
 
 let upgradePromise;
@@ -1092,6 +1102,111 @@ export async function handleCaptain({ path, request, env, deps }) {
         waitingRegulars: waitingRows.length - waitingGrandmasters,
         unbalancedExistingTeams: activeTeams.filter(row => !row.balanceOk).length
       }
+    });
+  }
+
+  if (path === 'admin/captain/cooldowns') {
+    if (!admin) return deps.json({ error: '관리자 권한이 필요합니다.' }, 403);
+
+    if (request.method === 'POST') {
+      const body = await deps.readBody(request);
+      const requestId = String(body?.requestId || crypto.randomUUID()).trim().slice(0, 120);
+      const previous = await env.DB.prepare('SELECT * FROM captain_cooldown_reset_events WHERE request_id=?')
+        .bind(requestId).first();
+      if (previous) {
+        return deps.json({
+          ok: true,
+          replayed: true,
+          scope: previous.scope,
+          targetUserId: previous.target_user_id ? Number(previous.target_user_id) : null,
+          affectedCount: Number(previous.affected_count || 0),
+          note: '이미 처리된 7일 입장 제한 초기화 요청입니다.'
+        });
+      }
+
+      const scope = String(body?.scope || '').toUpperCase() === 'ALL' ? 'ALL' : 'USER';
+      const targetUserId = Math.floor(Number(body?.userId || 0));
+      let affectedCount = 0;
+      let targetNickname = '';
+
+      if (scope === 'USER') {
+        if (!targetUserId) return deps.json({ error: '초기화할 유저를 선택하세요.' }, 400);
+        const target = await env.DB.prepare('SELECT id,nickname FROM users WHERE id=?').bind(targetUserId).first();
+        if (!target) return deps.json({ error: '대상 유저를 찾을 수 없습니다.' }, 404);
+        targetNickname = String(target.nickname || `유저 ${targetUserId}`);
+        const result = await env.DB.prepare(`
+          UPDATE captain_registrations
+          SET cooldown_until=NULL
+          WHERE user_id=?
+            AND cooldown_until IS NOT NULL
+            AND datetime(cooldown_until)>CURRENT_TIMESTAMP
+        `).bind(targetUserId).run();
+        affectedCount = Number(result?.meta?.changes || 0);
+      } else {
+        const result = await env.DB.prepare(`
+          UPDATE captain_registrations
+          SET cooldown_until=NULL
+          WHERE cooldown_until IS NOT NULL
+            AND datetime(cooldown_until)>CURRENT_TIMESTAMP
+        `).run();
+        affectedCount = Number(result?.meta?.changes || 0);
+      }
+
+      await env.DB.prepare(`
+        INSERT INTO captain_cooldown_reset_events(
+          request_id,scope,target_user_id,executed_by,affected_count
+        ) VALUES(?,?,?,?,?)
+      `).bind(requestId, scope, scope === 'USER' ? targetUserId : null, user.id, affectedCount).run();
+
+      return deps.json({
+        ok: true,
+        scope,
+        targetUserId: scope === 'USER' ? targetUserId : null,
+        affectedCount,
+        note: scope === 'ALL'
+          ? `현재 적용 중인 7일 입장 제한 ${affectedCount}건을 전체 초기화했습니다.`
+          : affectedCount
+            ? `${targetNickname}님의 7일 입장 제한을 초기화했습니다.`
+            : `${targetNickname}님에게 적용 중인 7일 입장 제한이 없습니다.`
+      });
+    }
+
+    const rows = (await env.DB.prepare(`
+      SELECT r.id,r.user_id,r.week_key,r.cancelled_at,r.cooldown_until,u.nickname
+      FROM captain_registrations r
+      JOIN users u ON u.id=r.user_id
+      WHERE r.cooldown_until IS NOT NULL
+        AND datetime(r.cooldown_until)>CURRENT_TIMESTAMP
+        AND r.id=(
+          SELECT r2.id
+          FROM captain_registrations r2
+          WHERE r2.user_id=r.user_id
+            AND r2.cooldown_until IS NOT NULL
+            AND datetime(r2.cooldown_until)>CURRENT_TIMESTAMP
+          ORDER BY datetime(r2.cooldown_until) DESC,r2.id DESC
+          LIMIT 1
+        )
+      ORDER BY datetime(r.cooldown_until),u.nickname
+      LIMIT 1000
+    `).all()).results.map(row => ({
+      ...row,
+      user_id: Number(row.user_id),
+      remainingSeconds: Math.max(0, Math.floor((Date.parse(String(row.cooldown_until).replace(' ', 'T') + 'Z') - Date.now()) / 1000))
+    }));
+
+    const recentResets = (await env.DB.prepare(`
+      SELECT e.*,u.nickname target_nickname,a.nickname executed_by_name
+      FROM captain_cooldown_reset_events e
+      LEFT JOIN users u ON u.id=e.target_user_id
+      LEFT JOIN users a ON a.id=e.executed_by
+      ORDER BY e.created_at DESC
+      LIMIT 30
+    `).all()).results;
+
+    return deps.json({
+      activeCount: rows.length,
+      cooldowns: rows,
+      recentResets
     });
   }
 
