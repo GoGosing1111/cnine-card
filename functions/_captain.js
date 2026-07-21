@@ -26,7 +26,38 @@ async function energy(env,userId,w,cfg){let e=await env.DB.prepare('SELECT * FRO
 function cleanName(v){return String(v||'').trim().replace(/[<>]/g,'').slice(0,20)}
 async function grantReward(env,userId,reward,reason){const coin=Math.max(0,Number(reward.coin||0)),shards=Math.max(0,Number(reward.shards||0)),stm=[env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(coin,shards,userId)];for(const code of ['NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE']){const q=Math.max(0,Number(reward[code]||0));if(q)stm.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,updated_at) VALUES(?,?,?, ?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+excluded.quantity,unseen_quantity=unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,code,q,q))}await env.DB.batch(stm);return {coin,shards,NORMAL_CUBE:Number(reward.NORMAL_CUBE||0),ADVANCED_CUBE:Number(reward.ADVANCED_CUBE||0),PREMIUM_CUBE:Number(reward.PREMIUM_CUBE||0),reason}}
 export async function handleCaptain({path,request,env,deps}){if(!path.startsWith('captain/')&&!path.startsWith('admin/captain'))return null;await upgrade(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);const admin=deps.isAdminRole(user),cfg=await settings(env),w=weekKey();
-if(path==='admin/captain/settings'){if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);if(request.method==='PATCH'){const b=await deps.readBody(request),next={...cfg,mode:['ON','OFF','TEST'].includes(b.mode)?b.mode:cfg.mode,energyMax:Math.max(1,Math.min(20,Number(b.energyMax||cfg.energyMax))),energyMinutes:Math.max(1,Math.min(1440,Number(b.energyMinutes||cfg.energyMinutes))),winScore:Math.max(0,Number(b.winScore??cfg.winScore)),loseScore:Math.max(0,Number(b.loseScore??cfg.loseScore)),renameCooldownMinutes:Math.max(0,Number(b.renameCooldownMinutes??cfg.renameCooldownMinutes)),rewards:b.rewards||cfg.rewards};await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('captain_settings_v2',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();return deps.json({ok:true,settings:next})}return deps.json({settings:cfg})}
+if(path==='admin/captain/settings'){
+  if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
+  if(request.method==='PATCH'){
+    try{
+      const b=await deps.readBody(request);
+      const rewardInput=(b&&typeof b.rewards==='object'&&b.rewards)?b.rewards:cfg.rewards;
+      const participation=(rewardInput&&typeof rewardInput.participation==='object'&&rewardInput.participation)?rewardInput.participation:{};
+      const cleanParticipation={};
+      for(const key of ['coin','shards','NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'])cleanParticipation[key]=Math.max(0,Math.floor(Number(participation[key]||0)));
+      const next={
+        ...cfg,
+        mode:['ON','OFF','TEST'].includes(String(b.mode||'').toUpperCase())?String(b.mode).toUpperCase():cfg.mode,
+        energyMax:Math.max(1,Math.min(20,Math.floor(Number(b.energyMax??cfg.energyMax)||cfg.energyMax))),
+        energyMinutes:Math.max(1,Math.min(1440,Math.floor(Number(b.energyMinutes??cfg.energyMinutes)||cfg.energyMinutes))),
+        winScore:Math.max(0,Math.floor(Number(b.winScore??cfg.winScore)||0)),
+        loseScore:Math.max(0,Math.floor(Number(b.loseScore??cfg.loseScore)||0)),
+        renameCooldownMinutes:Math.max(0,Math.min(10080,Math.floor(Number(b.renameCooldownMinutes??cfg.renameCooldownMinutes)||0))),
+        rewards:{...cfg.rewards,...rewardInput,participation:cleanParticipation}
+      };
+      const value=JSON.stringify(next);
+      const updated=await env.DB.prepare("UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key='captain_settings_v2'").bind(value).run();
+      if(!Number(updated?.meta?.changes||0))await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('captain_settings_v2',?,CURRENT_TIMESTAMP)").bind(value).run();
+      const verify=await env.DB.prepare("SELECT value FROM app_meta WHERE key='captain_settings_v2'").first();
+      if(!verify?.value)throw new Error('설정 저장 결과를 확인하지 못했습니다.');
+      return deps.json({ok:true,settings:next});
+    }catch(error){
+      console.error('captain settings save failed',error);
+      return deps.json({error:'대장전 설정 저장에 실패했습니다.',detail:String(error?.message||error)},500);
+    }
+  }
+  return deps.json({settings:cfg});
+}
 if(path==='admin/captain/overview'){if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);const regs=(await env.DB.prepare('SELECT r.*,u.nickname FROM captain_registrations r JOIN users u ON u.id=r.user_id WHERE r.week_key=? ORDER BY r.id DESC').bind(w).all()).results,trs=(await env.DB.prepare('SELECT * FROM captain_teams WHERE week_key=? ORDER BY score DESC,wins DESC,id').bind(w).all()).results,teams=[];for(const x of trs)teams.push(await team(env,x.id));const logs=(await env.DB.prepare(`SELECT h.*,ua.nickname attacker_name,ud.nickname defender_name FROM captain_match_history_v2 h JOIN users ua ON ua.id=h.attacker_user_id JOIN users ud ON ud.id=h.defender_user_id WHERE h.week_key=? ORDER BY h.id DESC LIMIT 100`).bind(w).all()).results;return deps.json({weekKey:w,registrations:regs,teams,logs})}
 if(path==='admin/captain/team'&&request.method==='PATCH'){if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);const b=await deps.readBody(request),id=Number(b.teamId),name=cleanName(b.name);if(!id||name.length<2)return deps.json({error:'팀명은 2~20자로 입력하세요.'},400);await env.DB.prepare('UPDATE captain_teams SET name=?,renamed_at=CURRENT_TIMESTAMP WHERE id=? AND week_key=?').bind(name,id,w).run();return deps.json({ok:true})}
 if(path==='admin/captain/reset'&&request.method==='POST'){if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);await env.DB.prepare('INSERT OR IGNORE INTO captain_week_resets(week_key,executed_by) VALUES(?,?)').bind(w,user.id).run();return deps.json({ok:true,weekKey:w,note:'주차 키 기반으로 새 주차 데이터가 자동 분리됩니다. 기존 기록은 보존됩니다.'})}
