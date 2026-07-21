@@ -1553,5 +1553,14 @@ async function fightPvp(id){if(pvpState.energy&&!pvpState.energy.unlimited&&pvpS
 async function claimPvpReward(){try{const d=await apiRequest('pvp/reward/claim',{method:'POST'});saveUser(apiUserToLocal(d.user));alert(`${d.tier.name} 달성 보상으로 ${Number(d.rewardCoin||0).toLocaleString()}코인과 카드조각 ${Number(d.rewardShards||0).toLocaleString()}개를 받았습니다.`);renderShell('pvp')}catch(e){alert(e.message)}}
 async function claimPvpRankReward(){try{const d=await apiRequest('pvp/rank-reward/claim',{method:'POST'});saveUser(apiUserToLocal(d.user));alert(`${d.rank}위 시즌 랭킹 보상으로 ${Number(d.rewardCoin||0).toLocaleString()}코인과 카드조각 ${Number(d.rewardShards||0).toLocaleString()}개를 받았습니다.`);renderShell('pvp')}catch(e){alert(e.message)}}
 
+// V1097: 전투 모달은 메인 헤더/메뉴보다 항상 위에 고정하고 모바일 스크롤을 잠근다.
+function syncBattleScreenLock(){
+  const battleModal=app.querySelector('#modal.show.battle-modal');
+  document.body.classList.toggle('battle-screen-open',Boolean(battleModal));
+}
+const battleScreenObserver=new MutationObserver(syncBattleScreenLock);
+battleScreenObserver.observe(app,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
+syncBattleScreenLock();
+
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopRaidTimer();return;}const raid=document.getElementById('pveRaidView');if(raid&&!raid.hidden)loadRaidView();});
 init();
