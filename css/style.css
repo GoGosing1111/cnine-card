@@ -3012,3 +3012,14 @@ body.battle-screen-open #modal{visibility:visible!important;pointer-events:auto!
 .battle-magic-drop{margin-top:10px;padding:10px 14px;border:1px solid rgba(196,126,255,.42);border-radius:12px;background:linear-gradient(135deg,rgba(84,35,125,.34),rgba(20,15,48,.78));text-align:left}.battle-magic-drop strong{display:block;color:#d9a7ff;font-size:17px}.battle-magic-drop span{display:block;margin-top:2px;color:#a99aba;font-size:12px}.pvp-magic-reward{color:#d7a4ff!important}.raid-reward-stage{max-width:760px}.raid-reward-stage article.magic{border-color:rgba(205,128,255,.34);background:linear-gradient(160deg,rgba(70,35,110,.92),rgba(18,12,42,.97))}.raid-reward-stage article.magic .raid-reward-icon{color:#d7a4ff}.raid-reward-stage article:nth-child(3){animation-delay:.28s}
 @media(max-width:720px){.raid-reward-stage{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.raid-reward-stage article{width:auto;min-width:0;padding:14px 5px}.raid-reward-stage span{font-size:11px}.raid-reward-stage b{font-size:18px}.raid-reward-icon{font-size:27px}}
 @media(max-width:380px){.raid-reward-stage{grid-template-columns:1fr}.raid-reward-stage article{padding:12px}.raid-reward-stage b{font-size:20px}}
+
+/* V1110: 모바일 대장전 대기/전투 중 와고 부모 페이지로 세로 스크롤 전달 */
+html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!important;overscroll-behavior-y:auto!important;touch-action:pan-y!important}
+@media(max-width:780px){
+  body.captain-battle-scroll-open .captain-v3-battle-modal,
+  body.captain-battle-scroll-open .captain-v4-battle-modal{
+    overflow-y:auto!important;overscroll-behavior-y:auto!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important;align-items:flex-start!important
+  }
+  body.captain-battle-scroll-open .captain-v3-battle-stage,
+  body.captain-battle-scroll-open .captain-v4-pvp-stage{touch-action:pan-y!important}
+}

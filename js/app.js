@@ -1655,12 +1655,17 @@ async function claimPvpRankReward(){try{const d=await apiRequest('pvp/rank-rewar
 
 // V1103: 수동 전투는 전체화면 잠금을 유지하되, PVE 자동전투는 와고/iframe 바깥 스크롤 연결을 막지 않는다.
 function syncBattleScreenLock(){
-  const battleModal=app.querySelector('#modal.show.battle-modal');
+  const visibleModal=app.querySelector('#modal.show');
+  const battleModal=visibleModal?.classList.contains('battle-modal')?visibleModal:null;
   const autoBattleOpen=Boolean(battleModal?.classList.contains('auto-battle-modal'));
-  const hardLock=Boolean(battleModal)&&!autoBattleOpen;
+  // V1110: 대장전의 경기 준비/실전 화면은 와고 iframe 바깥으로 스크롤할 수 있어야 한다.
+  const captainScrollOpen=Boolean(visibleModal&&(visibleModal.classList.contains('captain-v3-battle-modal')||visibleModal.classList.contains('captain-v4-battle-modal')));
+  const hardLock=Boolean(battleModal)&&!autoBattleOpen&&!captainScrollOpen;
   document.body.classList.toggle('battle-screen-open',hardLock);
   document.body.classList.toggle('auto-battle-screen-open',autoBattleOpen);
   document.documentElement.classList.toggle('auto-battle-screen-open',autoBattleOpen);
+  document.body.classList.toggle('captain-battle-scroll-open',captainScrollOpen);
+  document.documentElement.classList.toggle('captain-battle-scroll-open',captainScrollOpen);
 }
 const battleScreenObserver=new MutationObserver(syncBattleScreenLock);
 battleScreenObserver.observe(app,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
