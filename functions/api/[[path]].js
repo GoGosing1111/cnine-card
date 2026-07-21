@@ -6,6 +6,34 @@ import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCryst
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000,LIMITED:3000};
 const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9,LIMITED:10};
+function drawIntegrityHash(input=''){
+  let hash=0x811c9dc5;
+  const text=String(input);
+  for(let i=0;i<text.length;i++){
+    hash^=text.charCodeAt(i);
+    hash=Math.imul(hash,0x01000193)>>>0;
+  }
+  return hash.toString(16).padStart(8,'0');
+}
+function drawIntegrityCanonical(response){
+  const protocol=response?.drawProtocol||{};
+  const results=Array.isArray(response?.results)?response.results:[];
+  return JSON.stringify({
+    version:Number(protocol.version||0),
+    requestId:String(response?.requestId||''),
+    packId:String(protocol.packId||''),
+    count:Number(protocol.count||0),
+    results:results.map((item,index)=>({
+      slot:Number(item?.slot??index),
+      granted:item?.granted===true,
+      cardId:String(item?.card?.id||''),
+      grade:String(item?.card?.grade||item?.card?.rarity||'').toUpperCase(),
+      title:String(item?.card?.title||''),
+      duplicate:Boolean(item?.duplicate),
+      shardGained:Number(item?.shardGained||0)
+    }))
+  });
+}
 const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'];
 const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,FUR:250,LIMITED:180};
 const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
@@ -1445,7 +1473,9 @@ function cardWithAcquisitionEffect(card,settings){
 async function drawLimitedCard(env){
   const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total`).all()).results;
+    WHERE c.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
+      AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id='pickup')
+        OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id='pickup' AND p1.card_id=c.id))`).all()).results;
   return weightedPick(pool,row=>Number(row.draw_weight)||0)||null;
 }
 async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
@@ -1491,7 +1521,9 @@ async function queryDrawContext(env,pack){
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results;
   const limitedCards=pack.id==='pickup'?(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total`).all()).results:[];
+    WHERE c.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
+      AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
+        OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results:[];
   const poolsByGrade=new Map();
   for(const card of normalCards){
     const grade=String(card.grade||'');
@@ -1535,8 +1567,8 @@ function drawOneFromContext(ctx,pack,minimum=null,allowLimited=true,criticalBonu
   }
   throw new Error('현재 뽑을 수 있는 일반 카드가 없습니다. 카드 및 확률 설정을 확인하세요.');
 }
-function drawOneWithPityFromContext(ctx,pack,ssrRate,criticalBonus=0){
-  if(pack.id==='pickup'&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+function drawOneWithPityFromContext(ctx,pack,ssrRate,criticalBonus=0,allowLimited=true){
+  if(allowLimited&&pack.id==='pickup'&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
     const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
     if(limitedCard)return limitedCard;
   }
@@ -1896,23 +1928,24 @@ export async function onRequest(context){
       const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
       const criticalBonus=critical?criticalConfig.bonus:0;
       const pack=await env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId).first();
-      if(!pack) return json({error:'판매 중인 카드팩이 아닙니다.'},404);
+      if(!pack){await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',error_message='판매 중인 카드팩이 아닙니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(requestId,user.id).run();return json({error:'판매 중인 카드팩이 아닙니다.'},404);}
       const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       cost=pack.price*count;
       await env.DB.prepare('UPDATE draw_request_receipts SET cost=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?').bind(cost,requestId).run();
-      if(fresh.coin<cost) return json({error:'코인이 부족합니다.'},400);
+      if(fresh.coin<cost){await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(requestId,user.id).run();return json({error:'코인이 부족합니다.'},400);}
       const [drawContext,pityCountStart,livePitySettings]=await Promise.all([
         loadDrawContext(env,pack),
         packPityCount(env,user.id,pack.id),
         pitySettings(env)
       ]);
-      const cards=[];let pityCount=pityCountStart;
+      const cards=[];let pityCount=pityCountStart,limitedDrawn=false;
       for(let index=0;index<count;index++){
         const pity=pityRateForDraw(livePitySettings,pack.id,pityCount);
         const card=PITY_PACKS.has(pack.id)
-          ?drawOneWithPityFromContext(drawContext,pack,pity.rate,criticalBonus)
-          :drawOneFromContext(drawContext,pack,null,true,criticalBonus);
+          ?drawOneWithPityFromContext(drawContext,pack,pity.rate,criticalBonus,!limitedDrawn)
+          :drawOneFromContext(drawContext,pack,null,!limitedDrawn,criticalBonus);
         cards.push(card);
+        if(String(card.grade||'').toUpperCase()==='LIMITED')limitedDrawn=true;
         pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;
       }
       const guarantee=count===10?pack.guarantee_10:count===20?pack.guarantee_20:null;
@@ -1973,16 +2006,21 @@ export async function onRequest(context){
           statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,runningShardBalance,card.id));
         }
         statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,card.grade,drawIndex===0?cost:0,isNew?1:0));
-        results.push({card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained});
+        results.push({slot:drawIndex,granted:true,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained});
       }
       if(shardTotal>0)statements.unshift(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardTotal,user.id));
       statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,Number(fresh.coin)-cost));
       if(statements.length)await env.DB.batch(statements);
       grantsCommitted=true;
-      for(const event of limitedAuditEvents)await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,isDuplicate:Number(event.quantityBefore||0)>0,stockReserved:true,cardGranted:true});
+      for(const event of limitedAuditEvents){
+        try{await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,isDuplicate:Number(event.quantityBefore||0)>0,stockReserved:true,cardGranted:true})}
+        catch(auditError){console.error('limited acquisition audit completion failed',auditError)}
+      }
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      const response={results,user:await profile(env,updated),pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},requestId};
-      await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
+      const response={results,user:await profile(env,updated),pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},requestId,drawProtocol:{version:2,status:'COMPLETED',packId:String(pack.id),count:Number(count),integrity:''}};
+      response.drawProtocol.integrity=drawIntegrityHash(drawIntegrityCanonical(response));
+      try{await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run()}
+      catch(receiptError){console.error('draw receipt completion failed after grants committed',receiptError)}
       recentHighGradeCache=null;
       return json(response);
       }catch(error){

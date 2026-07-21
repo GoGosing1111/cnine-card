@@ -1515,6 +1515,62 @@ async function runCriticalOpening(pack,count,requestDraw){
 }
 
 let drawRequestInFlight=false;
+let activeDrawRequestId='';
+const consumedDrawResponses=new Set();
+function resetDrawPresentationState(){
+  const modal=document.getElementById('modal');
+  if(modal){modal.onclick=null;modal.className='modal';modal.innerHTML='';}
+  document.querySelectorAll('.acquisition-cutscene-stage').forEach(node=>node.remove());
+}
+function drawIntegrityHash(input=''){
+  let hash=0x811c9dc5;
+  const text=String(input);
+  for(let i=0;i<text.length;i++){
+    hash^=text.charCodeAt(i);
+    hash=Math.imul(hash,0x01000193)>>>0;
+  }
+  return hash.toString(16).padStart(8,'0');
+}
+function drawIntegrityCanonical(response){
+  const protocol=response?.drawProtocol||{};
+  const results=Array.isArray(response?.results)?response.results:[];
+  return JSON.stringify({
+    version:Number(protocol.version||0),
+    requestId:String(response?.requestId||''),
+    packId:String(protocol.packId||''),
+    count:Number(protocol.count||0),
+    results:results.map((item,index)=>({
+      slot:Number(item?.slot??index),
+      granted:item?.granted===true,
+      cardId:String(item?.card?.id||''),
+      grade:String(item?.card?.grade||item?.card?.rarity||'').toUpperCase(),
+      title:String(item?.card?.title||''),
+      duplicate:Boolean(item?.duplicate),
+      shardGained:Number(item?.shardGained||0)
+    }))
+  });
+}
+function validateDrawResponse(response,{requestId,packId,count}){
+  if(!response||typeof response!=='object')throw new Error('카드 개봉 응답이 비어 있습니다.');
+  if(String(response.requestId||'')!==String(requestId))throw new Error('현재 개봉 요청과 다른 응답이 도착해 결과 표시를 중단했습니다.');
+  if(activeDrawRequestId!==String(requestId))throw new Error('이미 종료된 카드 개봉 응답입니다.');
+  if(consumedDrawResponses.has(String(requestId)))throw new Error('이미 표시한 카드 개봉 결과입니다.');
+  const protocol=response.drawProtocol||{};
+  if(Number(protocol.version)!==2||String(protocol.packId||'')!==String(packId)||Number(protocol.count)!==Number(count)||protocol.status!=='COMPLETED')throw new Error('서버 카드 개봉 확정 정보가 일치하지 않습니다.');
+  if(!Array.isArray(response.results)||response.results.length!==Number(count))throw new Error('서버 카드 개봉 수량이 요청과 일치하지 않습니다.');
+  response.results.forEach((item,index)=>{
+    const card=item?.card;
+    const grade=String(card?.grade||card?.rarity||'').toUpperCase();
+    if(Number(item?.slot)!==index||item?.granted!==true)throw new Error(`${index+1}번째 카드의 서버 지급 확정값이 없습니다.`);
+    if(!card||String(card.id||'').trim()===''||String(card.title||'').trim()===''||!['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'].includes(grade))throw new Error(`${index+1}번째 카드 정보가 올바르지 않습니다.`);
+    card.grade=grade;
+  });
+  const expected=drawIntegrityHash(drawIntegrityCanonical(response));
+  if(String(protocol.integrity||'')!==expected)throw new Error('카드 개봉 결과 무결성 검증에 실패했습니다.');
+  consumedDrawResponses.add(String(requestId));
+  if(consumedDrawResponses.size>80){const first=consumedDrawResponses.values().next().value;consumedDrawResponses.delete(first);}
+  return response.results;
+}
 openPack=async function(packId,count,cost){
   if(drawRequestInFlight)return alert('카드 개봉 요청을 처리 중입니다.');
   if(!API_MODE){
@@ -1525,25 +1581,28 @@ openPack=async function(packId,count,cost){
         const critical=Math.random()*100<3;
         const draws=makeDraws(pack,count);return {local:true,draws,critical:{eligible:true,success:critical,bonus:critical?10:0,automatic:true,chance:3,effects:true}};
       });
-      user.coin-=cost;const owned=ownedIds(user),results=d.draws.map(card=>{const duplicate=owned.has(card.id),shardGained=duplicate?(shardReward[card.grade]||0):0;user.history.push({cardId:card.id,packId:pack.id,at:new Date().toISOString(),duplicate});user.quantities[card.id]=(user.quantities[card.id]||0)+1;if(duplicate)user.cardShards=(user.cardShards||0)+shardGained;if(!duplicate){user.owned.push(card.id);owned.add(card.id)}return {card,duplicate,shardGained}});saveUser(user);renderDrawResults(pack,count,cost,results,user,d.critical);
+      user.coin-=cost;const owned=ownedIds(user),results=d.draws.map((card,slot)=>{const duplicate=owned.has(card.id),shardGained=duplicate?(shardReward[card.grade]||0):0;user.history.push({cardId:card.id,packId:pack.id,at:new Date().toISOString(),duplicate});user.quantities[card.id]=(user.quantities[card.id]||0)+1;if(duplicate)user.cardShards=(user.cardShards||0)+shardGained;if(!duplicate){user.owned.push(card.id);owned.add(card.id)}return {slot,granted:true,card,duplicate,shardGained}});saveUser(user);renderDrawResults(pack,count,cost,results,user,d.critical);
     }catch(e){alert(e.message)}
     return;
   }
   const pack=getPack(packId);
   const requestId=(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  resetDrawPresentationState();
+  activeDrawRequestId=requestId;
   drawRequestInFlight=true;
   try{
     const d=await runCriticalOpening(pack,count,()=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,requestId})}));
+    const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
     clearApiCache('recent-high-grade');clearApiCache('cards');
-    mergeClientCards((d.results||[]).map(x=>x.card));
+    mergeClientCards(verifiedResults.map(x=>x.card));
     const next=apiUserToLocal(d.user);
     saveUser(next);
-    await renderDrawResults(pack,count,pack.price*count,d.results,next,d.critical);
+    await renderDrawResults(pack,count,pack.price*count,verifiedResults,next,d.critical);
   }catch(e){
-    const modal=document.getElementById('modal');
-    if(modal){modal.className='modal';modal.innerHTML='';}
+    resetDrawPresentationState();
     alert(e.message||'카드 개봉 중 오류가 발생했습니다.');
   }finally{
+    if(activeDrawRequestId===requestId)activeDrawRequestId='';
     drawRequestInFlight=false;
   }
 }
@@ -1619,6 +1678,7 @@ async function showSpecialCardReveal(card,user){
   await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;timers.forEach(clearTimeout);stopCanvas();resolve()};document.getElementById('specialRevealSkip').onclick=e=>{e.stopPropagation();finish()};stage.onclick=e=>{if(e.target.closest('.special-reveal-card-ui'))return;finish()};setTimeout(finish,duration)});
 }
 async function renderDrawResults(pack,count,cost,results,user,critical){
+  if(!Array.isArray(results)||results.length!==Number(count)||results.some((item,index)=>item?.granted!==true||Number(item?.slot)!==index||!item?.card?.id))throw new Error('서버에서 확정되지 않은 카드 결과는 표시할 수 없습니다.');
   const special=getTopSpecialResult(results);
   if(special)await showSpecialCardReveal(special,user);
   const modal=document.getElementById('modal');
