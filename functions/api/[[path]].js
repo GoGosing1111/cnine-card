@@ -229,6 +229,20 @@ async function battleSettings(env){const row=await env.DB.prepare("SELECT value 
 const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},FUR:{FIXED:3200}};
 function cardPowerBase(card,settings){const saved=Number(card.base_power??card.basePower);const grade=card.rarity||card.grade;return Number.isFinite(saved)&&saved>0?saved:Number(settings.powerByGrade[grade]||0)}
 function cardBattlePower(card,level,settings){const base=cardPowerBase(card,settings);const pct=Number(settings.breakthroughBonus[Math.max(0,Math.min(10,Number(level)||0))]||0);return Math.floor(base*(1+pct/100));}
+const ULTIMATE_GRADE_PRIORITY={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10};
+function ultimateGradePriority(grade){return Number(ULTIMATE_GRADE_PRIORITY[String(grade||'').trim().toUpperCase()]||0)}
+function selectActivatedUltimate(settings,cards,random=Math.random){
+  const eligible=(settings.ultimateRules||[]).map(u=>{
+    const requiredGrade=String(u?.requiredGrade||'').trim().toUpperCase();
+    const matchedCards=cards.filter(c=>String(c.rarity||'').trim().toUpperCase()===requiredGrade&&Number(c.breakthrough_level||0)>=Number(u.minBreakthrough||0)).sort((a,b)=>Number(b.power||0)-Number(a.power||0));
+    return {rule:{...u,requiredGrade},matchedCards};
+  }).filter(x=>x.rule.enabled!==false&&x.matchedCards.length>=Number(x.rule.requiredCount||1)).sort((a,b)=>ultimateGradePriority(b.rule.requiredGrade)-ultimateGradePriority(a.rule.requiredGrade)||Number(b.rule.minBreakthrough||0)-Number(a.rule.minBreakthrough||0)||Number(b.rule.requiredCount||0)-Number(a.rule.requiredCount||0));
+  const highest=eligible[0]||null;
+  if(!highest)return null;
+  const chance=Math.max(0,Math.min(100,Number(highest.rule.activationChance??100)));
+  const hit=chance>=100||(chance>0&&random()*100<chance);
+  return hit?highest:null;
+}
 
 function sqlUtcNow(){return new Date().toISOString().replace('T',' ').slice(0,19)}
 function utcMs(value){if(!value)return Date.now();const t=Date.parse(String(value).replace(' ','T')+'Z');return Number.isFinite(t)?t:Date.now()}
@@ -258,8 +272,7 @@ async function consumeBattleEnergy(env,user,settings){
 
 async function resolveAutoBattle(env,user,settings,monster,cards,ids){
   const basePlayerPower=cards.reduce((a,c)=>a+c.power,0),monsterPower=Number(monster.battle_power||0);
-  const eligible=(settings.ultimateRules||[]).map(u=>{const matchedCards=cards.filter(c=>String(c.rarity||'').toUpperCase()===u.requiredGrade&&Number(c.breakthrough_level||0)>=Number(u.minBreakthrough||0)).sort((a,b)=>Number(b.power||0)-Number(a.power||0));return {rule:u,matchedCards};}).filter(x=>x.rule.enabled!==false&&x.matchedCards.length>=Number(x.rule.requiredCount||1)).sort((a,b)=>Number(ORDER[b.rule.requiredGrade]||0)-Number(ORDER[a.rule.requiredGrade]||0)||Number(b.rule.minBreakthrough||0)-Number(a.rule.minBreakthrough||0)||Number(b.rule.requiredCount||0)-Number(a.rule.requiredCount||0));
-  const activatedEntry=eligible.find(x=>Math.random()*100<Math.max(0,Math.min(100,Number(x.rule.activationChance??100))))||null;
+  const activatedEntry=selectActivatedUltimate(settings,cards);
   const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
   const ultimateDamage=activatedEntry&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedEntry.rule.coefficientPercent||0)/100)):0;
   const result=basePlayerPower+ultimateDamage>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Number(monster.reward_coin||0):0;
@@ -2121,8 +2134,7 @@ export async function onRequest(context){
       if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
       const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)}));
       const basePlayerPower=cards.reduce((a,c)=>a+c.power,0),monsterPower=Number(monster.battle_power||0);
-      const eligible=(settings.ultimateRules||[]).map(u=>{const matchedCards=cards.filter(c=>String(c.rarity||'').toUpperCase()===u.requiredGrade&&Number(c.breakthrough_level||0)>=Number(u.minBreakthrough||0)).sort((a,b)=>Number(b.power||0)-Number(a.power||0));return {rule:u,matchedCards};}).filter(x=>x.rule.enabled!==false&&x.matchedCards.length>=Number(x.rule.requiredCount||1)).sort((a,b)=>Number(ORDER[b.rule.requiredGrade]||0)-Number(ORDER[a.rule.requiredGrade]||0)||Number(b.rule.minBreakthrough||0)-Number(a.rule.minBreakthrough||0)||Number(b.rule.requiredCount||0)-Number(a.rule.requiredCount||0));
-      const activatedEntry=eligible.find(x=>Math.random()*100<Math.max(0,Math.min(100,Number(x.rule.activationChance??100))))||null;
+      const activatedEntry=selectActivatedUltimate(settings,cards);
       const activatedUltimate=activatedEntry?.rule||null;
       const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
       const ultimateDamage=activatedUltimate&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedUltimate.coefficientPercent||0)/100)):0;
