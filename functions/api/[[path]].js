@@ -2,6 +2,7 @@ import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
 import { handleCaptain } from '../_captain.js';
+import { handleMagic } from '../_magic.js';
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000,LIMITED:3000};
 const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9,LIMITED:10};
@@ -44,7 +45,7 @@ async function userCardScore(env,userId){const settings=await battleSettings(env
 async function ensurePvpProfile(env,user,settings){let row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first();if(!row){await env.DB.prepare('INSERT OR IGNORE INTO pvp_profiles(user_id,season_score,highest_score,wins,losses,updated_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,settings.initialScore,settings.initialScore,0,0).run();row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first()}return row}
 async function pvpDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
-async function deckSynergySettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='deck_synergy_settings_v1'").first();if(!row?.value)return {enabled:false,ownerTestEnabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled===true,ownerTestEnabled:x.ownerTestEnabled!==false}}catch{return {enabled:false,ownerTestEnabled:true}}}
+async function deckSynergySettings(env){return {enabled:false,ownerTestEnabled:false,retired:true}}
 function cleanDeckSynergyEffects(raw={}){const n=(v,min=-100,max=100)=>Math.max(min,Math.min(max,Number(v)||0));return {attackPercent:n(raw.attackPercent),hpPercent:n(raw.hpPercent),bossDamagePercent:n(raw.bossDamagePercent),damageReductionPercent:n(raw.damageReductionPercent,0,90)}}
 async function evaluateDeckSynergies(env,user,deckIds,scope,{forceOwnerTest=false}={}){const settings=await deckSynergySettings(env),ownerTest=forceOwnerTest&&String(user?.role||'').toUpperCase()==='OWNER'&&settings.ownerTestEnabled;if(!settings.enabled&&!ownerTest)return {enabled:false,ownerTest,active:[],totals:cleanDeckSynergyEffects({})};const ids=[...new Set((deckIds||[]).map(String))];if(ids.length!==5)return {enabled:true,ownerTest,active:[],totals:cleanDeckSynergyEffects({})};const rows=(await env.DB.prepare('SELECT * FROM deck_synergies WHERE is_active=1 ORDER BY sort_order,id').all()).results,active=[];for(const row of rows){let required=[],scopes=[],effects={};try{required=JSON.parse(row.required_card_ids||'[]').map(String)}catch{}try{scopes=JSON.parse(row.scopes||'[]').map(String)}catch{}try{effects=cleanDeckSynergyEffects(JSON.parse(row.effects_json||'{}'))}catch{effects=cleanDeckSynergyEffects({})}if(!required.length||!required.every(id=>ids.includes(id)))continue;if(scopes.length&&!scopes.includes(String(scope||'').toUpperCase()))continue;active.push({id:row.id,name:row.name,description:row.description||'',requiredCardIds:required,scopes,effects})}const totals=cleanDeckSynergyEffects({});for(const x of active)for(const k of Object.keys(totals))totals[k]+=Number(x.effects[k]||0);return {enabled:true,ownerTest,active,totals:cleanDeckSynergyEffects(totals)}}
 
@@ -348,6 +349,28 @@ async function ensureUpgrades(env){
     const inventoryCompatDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1024_inventory_compat'").first();
     if(inventoryCompatDone?.value!=='1'){
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1024_inventory_compat','1',CURRENT_TIMESTAMP)").run();
+    }
+    const magicFoundationDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1094_magic_card_foundation'").first();
+    if(magicFoundationDone?.value!=='1'){
+      if(!await columnExists(env,'users','magic_crystals')){
+        try{await env.DB.prepare(`ALTER TABLE users ADD COLUMN magic_crystals INTEGER NOT NULL DEFAULT 0`).run()}catch(e){if(!String(e.message||e).toLowerCase().includes('duplicate column'))throw e}
+      }
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_cards (id INTEGER PRIMARY KEY AUTOINCREMENT,code TEXT NOT NULL UNIQUE,name TEXT NOT NULL,rarity TEXT NOT NULL DEFAULT 'R',image_url TEXT NOT NULL DEFAULT '',description TEXT NOT NULL DEFAULT '',effect_type TEXT NOT NULL DEFAULT 'NONE',trigger_type TEXT NOT NULL DEFAULT 'BATTLE_START',effect_value REAL NOT NULL DEFAULT 0,trigger_chance REAL NOT NULL DEFAULT 100,max_activations INTEGER NOT NULL DEFAULT 1,draw_weight REAL NOT NULL DEFAULT 1,scope_pve INTEGER NOT NULL DEFAULT 1,scope_pvp INTEGER NOT NULL DEFAULT 1,scope_captain INTEGER NOT NULL DEFAULT 1,is_active INTEGER NOT NULL DEFAULT 1,sort_order INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_magic_cards (user_id INTEGER NOT NULL,magic_card_id INTEGER NOT NULL,quantity INTEGER NOT NULL DEFAULT 1,first_obtained_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,magic_card_id))`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_card_loadouts (user_id INTEGER NOT NULL,deck_type TEXT NOT NULL,slot_no INTEGER NOT NULL,magic_card_id INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,deck_type,slot_no))`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_card_draw_receipts (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',cost INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_crystal_logs (id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,change_amount INTEGER NOT NULL,balance_after INTEGER NOT NULL,reason TEXT NOT NULL DEFAULT '',reference_type TEXT,reference_id TEXT,admin_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS card_unique_effects (card_id TEXT PRIMARY KEY,attack_percent REAL NOT NULL DEFAULT 0,defense_percent REAL NOT NULL DEFAULT 0,hp_percent REAL NOT NULL DEFAULT 0,speed_percent REAL NOT NULL DEFAULT 0,effect_name TEXT NOT NULL DEFAULT '',effect_description TEXT NOT NULL DEFAULT '',effect_type TEXT NOT NULL DEFAULT 'NONE',trigger_type TEXT NOT NULL DEFAULT 'PASSIVE',effect_value REAL NOT NULL DEFAULT 0,trigger_chance REAL NOT NULL DEFAULT 100,max_activations INTEGER NOT NULL DEFAULT 1,scope_pve INTEGER NOT NULL DEFAULT 1,scope_pvp INTEGER NOT NULL DEFAULT 1,scope_captain INTEGER NOT NULL DEFAULT 1,is_active INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_magic_cards_active ON magic_cards(is_active,sort_order,id)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_user_magic_cards_user ON user_magic_cards(user_id,quantity)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_magic_loadouts_user ON magic_card_loadouts(user_id,deck_type,slot_no)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_magic_draw_receipts_user ON magic_card_draw_receipts(user_id,created_at DESC)`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_magic_crystal_logs_user ON magic_crystal_logs(user_id,created_at DESC)`),
+        env.DB.prepare(`INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('magic_card_settings_v1',?,CURRENT_TIMESTAMP)`).bind(JSON.stringify({enabled:false,ownerTestEnabled:true,drawEnabled:false,drawCost:100,duplicateRefund:{R:5,SR:20,SSR:80},acquisitionNotice:'마법 결정은 인게임 플레이를 통해서만 획득할 수 있습니다.',version:1})),
+        env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('deck_synergy_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(JSON.stringify({enabled:false,ownerTestEnabled:false,retired:true,retiredReason:'MAGIC_CARD_SYSTEM'})),
+        env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1094_magic_card_foundation','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value='1',updated_at=CURRENT_TIMESTAMP")
+      ]);
     }
     const runtimeCommandDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1091_user_runtime_commands'").first();
     if(runtimeCommandDone?.value!=='1'){
@@ -1215,7 +1238,7 @@ async function profile(env,user){
     attendanceSettings(env),
     breakthroughConfig(env)
   ]);
-  return {id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),role:user.role,
+  return {id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
     owned:owned.results.map(row=>row.card_id),
     quantities:Object.fromEntries(owned.results.map(row=>[row.card_id,row.quantity])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[row.card_id,Number(row.breakthrough_level||0)])),
@@ -1522,6 +1545,8 @@ export async function onRequest(context){
       const current=await authenticate(request,env);
       if(!canMaintenanceBypass(current,maintenance)) return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
     }
+
+    const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
 
     if(path==='user/runtime-command'){
       const user=await authenticate(request,env);

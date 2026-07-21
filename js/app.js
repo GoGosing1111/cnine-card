@@ -4,6 +4,8 @@ const LEGACY_STORAGE_KEYS = ['cnine_card_user_v08', 'cnine_card_user'];
 const TEST_COIN = 5000;
 let cards = [];
 let selectedPackId = 'basic';
+let magicSystemState={visible:false,enabled:false,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
+const magicUiState={deckType:'PVE',selectedSlot:1};
 
 const gradeOrder = { FUR: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
 const gradeScore = { LIMITED: 3000, FUR: 5000, MA: 1500, SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
@@ -109,6 +111,7 @@ function loadUser() {
     user.history ??= [];
     user.attendance ??= { lastClaimDate: null, totalDays: 0 };
     user.cardShards ??= 0;
+    user.magicCrystals ??= 0;
     user.breakthroughs ??= {};
     user.quantities ??= {};
     if (!user.testCoinGrantedV13) {
@@ -188,8 +191,8 @@ function renderShell(tab) {
   runtimeCommandContext=tab;
   const user = loadUser();
   if (!user) return renderLogin();
-  const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
-  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}<button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button><button class="tab mineral-tab ${tab==='mineral'?'active':''}" data-tab="mineral"><span class="mineral-tab-label"><span>미네랄</span><span>교환</span></span></button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
+  const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, magic: magicView, attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
+  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}${magicSystemState.visible?`<button class="tab magic-main-tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}<button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button><button class="tab mineral-tab ${tab==='mineral'?'active':''}" data-tab="mineral"><span class="mineral-tab-label"><span>미네랄</span><span>교환</span></span></button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
   const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" href="https://cnine-card.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="씨켓몬 큰 화면으로 열기" title="새 탭에서 큰 화면으로 즐기기"><span>⛶</span><b>크게 보기</b></a>');
   document.querySelectorAll('.tab').forEach(b => b.onclick = () => renderShell(b.dataset.tab));
   bindView(tab);
@@ -200,7 +203,7 @@ function renderShell(tab) {
 }
 
 function summaryBar(user) {
-  return `<section class="summary-bar"><div class="login-summary"><span>로그인 중</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div><div><span>COIN</span><b class="coin-value">◈ ${Number(user.coin||0).toLocaleString()}</b><small class="shard-value">🧩 카드 조각 ${Number(user.cardShards||0).toLocaleString()}</small></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><button type="button" class="inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><b>인벤토리</b><small id="inventorySummaryMeta">보유 내역 확인</small></span><em id="inventorySummaryBadge" hidden>NEW</em></button></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">SSR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 SSR 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed premium-cube-feed" aria-live="polite"><span class="high-grade-label premium-cube-label">프리미엄 큐브 소식</span><div class="high-grade-viewport"><div id="premiumCubeTrack" class="high-grade-track premium-cube-track"><span class="high-grade-empty">최근 프리미엄 큐브 획득 기록을 불러오는 중...</span></div></div></section>`;
+  return `<section class="summary-bar"><div class="login-summary"><span>로그인 중</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div><div><span>COIN</span><b class="coin-value">◈ ${Number(user.coin||0).toLocaleString()}</b><small class="shard-value">🧩 카드 조각 ${Number(user.cardShards||0).toLocaleString()}</small><small class="magic-crystal-value"><i aria-hidden="true">✦</i> 마법 결정 ${Number(user.magicCrystals??magicSystemState.magicCrystals??0).toLocaleString()}</small></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><button type="button" class="inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><b>인벤토리</b><small id="inventorySummaryMeta">보유 내역 확인</small></span><em id="inventorySummaryBadge" hidden>NEW</em></button></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">SSR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 SSR 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed premium-cube-feed" aria-live="polite"><span class="high-grade-label premium-cube-label">프리미엄 큐브 소식</span><div class="high-grade-viewport"><div id="premiumCubeTrack" class="high-grade-track premium-cube-track"><span class="high-grade-empty">최근 프리미엄 큐브 획득 기록을 불러오는 중...</span></div></div></section>`;
 }
 
 async function loadInventorySummary(){const card=document.getElementById('inventorySummary');if(!card)return;card.onclick=()=>renderShell('inventory');if(!API_MODE)return;try{const d=await apiRequest('inventory',{}, {ttl:3000}),meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');if(meta)meta.textContent=d.totalQuantity>0?`보유 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`:'획득한 특별 보관품 없음';if(badge){badge.hidden=!d.unseenTotal;badge.textContent=d.unseenTotal>99?'99+':`NEW ${d.unseenTotal}`}}catch{}}
@@ -619,6 +622,41 @@ async function startBattle(){
   }catch(e){battleState.autoRunning=false;if(e.energy)battleState.energy=e.energy;msg.innerHTML=`<span>${escapeHtml(e.message)}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>renderShell('battle')}
 }
 
+
+function magicView(user){
+  return `${summaryBar(user)}<section class="magic-lab-hero"><div><p class="eyebrow">ARCANE CARD LAB</p><h2>마법카드 연구소</h2><p>전투 덱의 카드 5장에 마법카드를 한 장씩 장착합니다. 마법 결정은 인게임 플레이로만 획득합니다.</p></div><div class="magic-balance-card"><span>보유 마법 결정</span><b id="magicBalanceHero">✦ ${Number(user.magicCrystals??magicSystemState.magicCrystals??0).toLocaleString()}</b><small>${magicSystemState.ownerTest?'OWNER 테스트 운영':'전용 재화'}</small></div></section><section id="magicSystemRoot" class="magic-system-root"><div class="empty-recent">마법카드 정보를 불러오는 중...</div></section>`;
+}
+function magicDeckName(type){return type==='PVP'?'PVP 덱':type==='CAPTAIN'?'대장전 덱':'PVE 덱'}
+function magicEffectLabel(value){return ({HEAL:'회복',ATTACK_BUFF:'공격 강화',DEFENSE_BUFF:'방어 강화',HP_BUFF:'최대 HP',TRAP:'함정',SHIELD:'보호막',COUNTER:'반격',OTHER:'기타',NONE:'효과 없음'})[String(value||'').toUpperCase()]||String(value||'기타')}
+function magicTriggerLabel(value){return ({BATTLE_START:'전투 시작',BEFORE_ATTACK:'공격 전',AFTER_ATTACK:'공격 후',BEFORE_HIT:'피격 전',AFTER_HIT:'피격 후',LOW_HP:'HP 조건',ON_KILL:'적 처치',ON_DEATH:'카드 사망',NEXT_OPPONENT:'새 상대 출전',PASSIVE:'상시 적용'})[String(value||'').toUpperCase()]||String(value||'상시 적용')}
+function magicImage(card){const url=String(card?.imageUrl||'').trim();return `<div class="magic-card-art ${url?'':'empty'}">${url?`<img src="${escapeHtml(url)}" alt="${escapeHtml(card.name)}" onerror="this.remove();this.parentElement.classList.add('empty')">`:''}<span>✦</span></div>`}
+function renderMagicSystem(){
+  const root=document.getElementById('magicSystemRoot');if(!root)return;const d=magicSystemState;
+  if(!d.visible){root.innerHTML='<div class="magic-closed-panel"><b>마법카드 시스템 준비 중</b><span>현재 일반 유저에게는 공개되지 않았습니다.</span></div>';return;}
+  const cards=Array.isArray(d.cards)?d.cards:[],loadouts=Array.isArray(d.loadouts)?d.loadouts:[],deckType=magicUiState.deckType;
+  const equipped=new Map(loadouts.filter(x=>x.deckType===deckType).map(x=>[Number(x.slotNo),Number(x.magicCardId)]));
+  const byId=new Map(cards.map(x=>[Number(x.id),x]));
+  root.innerHTML=`<nav class="magic-deck-tabs">${[['PVE','PVE 덱'],['PVP','PVP 덱'],['CAPTAIN','대장전 덱']].map(([id,name])=>`<button type="button" data-magic-deck="${id}" class="${deckType===id?'active':''}">${name}</button>`).join('')}</nav><div class="magic-layout"><section class="magic-loadout-panel"><div class="magic-section-head"><div><p class="eyebrow">${deckType} MAGIC LOADOUT</p><h2>${magicDeckName(deckType)} 장착</h2><p>장착 위치를 선택한 뒤 보유 마법카드를 지정하세요.</p></div><span>최대 5장</span></div><div class="magic-slot-grid">${[1,2,3,4,5].map(slot=>{const card=byId.get(equipped.get(slot));return `<button type="button" class="magic-slot ${magicUiState.selectedSlot===slot?'selected':''} ${card?'filled':''}" data-magic-slot="${slot}"><em>${slot}</em>${card?`${magicImage(card)}<b>${escapeHtml(card.name)}</b><small>${escapeHtml(card.rarity)} · ${escapeHtml(magicEffectLabel(card.effectType))}</small>`:`<i>+</i><b>마법카드 장착</b><small>${slot}번 전투 카드</small>`}</button>`}).join('')}</div><button type="button" id="magicUnequip" class="magic-unequip" ${equipped.has(magicUiState.selectedSlot)?'':'disabled'}>선택 슬롯 장착 해제</button></section><aside class="magic-draw-panel"><p class="eyebrow">MAGIC CARD DRAW</p><h2>마법카드 소환</h2><p>${escapeHtml(d.settings?.acquisitionNotice||'마법 결정은 인게임 플레이로만 획득합니다.')}</p><div class="magic-draw-cost"><span>1회 소모</span><b>✦ ${Number(d.settings?.drawCost||0).toLocaleString()}</b></div><button type="button" id="magicDrawBtn" class="btn" ${d.settings?.drawEnabled?'':'disabled'}>${d.settings?.drawEnabled?'마법카드 1장 소환':'뽑기 준비 중'}</button><small>쿠폰·접속 사료 지급 경로는 제공하지 않습니다.</small></aside></div><section class="magic-inventory-panel"><div class="magic-section-head"><div><p class="eyebrow">MY MAGIC CARDS</p><h2>보유 마법카드</h2></div><span>${cards.filter(x=>Number(x.quantity)>0).length}종 보유</span></div><div class="magic-card-grid">${cards.length?cards.map(card=>`<article class="magic-card-tile rarity-${escapeHtml(card.rarity)} ${Number(card.quantity)>0?'owned':'locked'}">${magicImage(card)}<div><span>${escapeHtml(card.rarity)}</span><h3>${escapeHtml(card.name)}</h3><p>${escapeHtml(card.description||'효과 설명 준비 중')}</p><small>${escapeHtml(magicTriggerLabel(card.triggerType))} · ${Number(card.triggerChance)}% · 최대 ${Number(card.maxActivations)}회</small></div><footer><b>보유 ${Number(card.quantity||0)}장</b><button type="button" data-equip-magic="${Number(card.id)}" ${Number(card.quantity)>0?'':'disabled'}>${magicUiState.selectedSlot}번 슬롯에 장착</button></footer></article>`).join(''):'<div class="magic-empty-collection">등록된 마법카드가 없습니다.<br>CMS에서 마법카드를 준비해주세요.</div>'}</div></section>`;
+  root.querySelectorAll('[data-magic-deck]').forEach(b=>b.onclick=()=>{magicUiState.deckType=b.dataset.magicDeck;magicUiState.selectedSlot=1;renderMagicSystem()});
+  root.querySelectorAll('[data-magic-slot]').forEach(b=>b.onclick=()=>{magicUiState.selectedSlot=Number(b.dataset.magicSlot);renderMagicSystem()});
+  root.querySelectorAll('[data-equip-magic]').forEach(b=>b.onclick=()=>equipMagicCard(Number(b.dataset.equipMagic)));
+  const unequip=document.getElementById('magicUnequip');if(unequip)unequip.onclick=()=>equipMagicCard(null);
+  const draw=document.getElementById('magicDrawBtn');if(draw)draw.onclick=drawMagicCard;
+}
+async function loadMagicView(){
+  const root=document.getElementById('magicSystemRoot');if(!root)return;
+  if(!API_MODE){root.innerHTML='<div class="magic-closed-panel"><b>서버 연결 필요</b><span>마법카드는 서버 연결 상태에서만 이용할 수 있습니다.</span></div>';return;}
+  try{magicSystemState=await apiRequest('magic/status',{}, {ttl:0});const user=loadUser();if(user){user.magicCrystals=Number(magicSystemState.magicCrystals||0);saveUser(user)}const hero=document.getElementById('magicBalanceHero');if(hero)hero.textContent=`✦ ${Number(magicSystemState.magicCrystals||0).toLocaleString()}`;renderMagicSystem()}catch(e){root.innerHTML=`<div class="magic-closed-panel"><b>마법카드 정보를 불러오지 못했습니다.</b><span>${escapeHtml(e.message)}</span></div>`}
+}
+async function equipMagicCard(magicCardId){
+  try{const d=await apiRequest('magic/equip',{method:'POST',body:JSON.stringify({deckType:magicUiState.deckType,slotNo:magicUiState.selectedSlot,magicCardId})});magicSystemState=d.status;renderMagicSystem()}catch(e){alert(e.message)}
+}
+async function drawMagicCard(){
+  const cost=Number(magicSystemState.settings?.drawCost||0);if(Number(magicSystemState.magicCrystals||0)<cost)return alert(`마법 결정이 부족합니다. (${cost.toLocaleString()}개 필요)`);if(!confirm(`마법 결정 ${cost.toLocaleString()}개를 사용해 마법카드 1장을 소환할까요?`))return;
+  const btn=document.getElementById('magicDrawBtn');if(btn){btn.disabled=true;btn.textContent='소환 중...'}
+  try{const d=await apiRequest('magic/draw',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`})});const current=loadUser();if(current){current.magicCrystals=Number(d.magicCrystals||0);saveUser(current)}alert(d.duplicate?`${d.card.name} 중복 획득\n마법 결정 ${Number(d.refund||0).toLocaleString()}개로 변환되었습니다.`:`새 마법카드 획득: ${d.card.name}`);await loadMagicView()}catch(e){alert(e.message);if(btn){btn.disabled=false;btn.textContent='마법카드 1장 소환'}}
+}
+
 function attendanceView(user) {
   const claimable = canClaimAttendance(user),a=user.attendance||{},cfg=a.settings||{enabled:true,rewards:[1000,1200,1400,1600,1800,2000,3000]},nextDay=((Number(a.streak||0)%7)+1),reward=Number(cfg.rewards?.[nextDay-1]||1000);
   return `${summaryBar(user)}<section class="attendance-panel"><div class="attendance-glow"></div><div class="attendance-copy"><p class="eyebrow">DAILY LOGIN REWARD</p><h2>연속 출석 보상</h2><p>하루라도 빠지면 1일차로 초기화되며, 7일 달성 후 다시 1일차부터 반복됩니다.</p><div class="attendance-stats"><span>누적 출석 <b>${a.totalDays||0}일</b></span><span>현재 연속 <b>${a.streak||0}일</b></span><span>오늘 상태 <b>${claimable?'수령 가능':'수령 완료'}</b></span></div><button class="btn attendance-claim" id="claimAttendance" ${(claimable&&cfg.enabled!==false)?'':'disabled'}>${cfg.enabled===false?'출석체크 중지됨':claimable?`${reward.toLocaleString()}코인 받기`:'오늘 보상 수령 완료'}</button></div><div class="attendance-reward"><span>DAY ${nextDay}</span><strong>◈ ${reward.toLocaleString()}</strong><small>COIN REWARD</small></div></section><section class="coupon-panel"><div><p class="eyebrow">COUPON REWARD</p><h2>쿠폰 코드 입력</h2><p>관리자가 발급한 쿠폰 코드를 입력하면 보상이 즉시 지급됩니다.</p></div><div class="coupon-form"><input id="couponCode" maxlength="40" placeholder="쿠폰 코드"><button class="btn" id="redeemCoupon">쿠폰 사용</button></div></section>`;
@@ -881,6 +919,7 @@ async function joinRaid(){const btn=document.getElementById('raidJoin'),instance
 
 function bindView(tab) {
   if(tab==='inventory')loadInventory();
+  if(tab==='magic')loadMagicView();
   if(tab==='messages'){document.getElementById('openWagoVerify')?.addEventListener('click',openWagoVerification);loadMessages();}
   if(tab==='dailyquest'){document.getElementById('dailyQuestPostCheck')?.addEventListener('click',()=>checkDailyQuest());document.getElementById('dailyQuestPostClaim')?.addEventListener('click',()=>claimDailyQuest());loadDailyQuest();}
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
@@ -1179,7 +1218,7 @@ function renderMaintenance(m={},service={}){
   const copy=document.getElementById('maintenanceCopyKey');if(copy)copy.onclick=async()=>{try{await navigator.clipboard.writeText(key);alert('개인키가 복사되었습니다.')}catch{document.getElementById('maintenanceKey').select();document.execCommand('copy');alert('개인키가 복사되었습니다.')}};
   const login=document.getElementById('maintenanceLogin');if(login)login.onclick=()=>renderLogin();
 }
-function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:u.coin,cardShards:Number(u.cardShards??u.card_shards??old?.cardShards??0),owned:u.owned||[],quantities:u.quantities||{},breakthroughs:u.breakthroughs||{},history:Array.isArray(u.history)?u.history:(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},serverUserId:u.id,testCoinGrantedV13:true}}
+function apiUserToLocal(u,key){const old=loadUser();return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:u.coin,cardShards:Number(u.cardShards??u.card_shards??old?.cardShards??0),magicCrystals:Number(u.magicCrystals??u.magic_crystals??old?.magicCrystals??0),owned:u.owned||[],quantities:u.quantities||{},breakthroughs:u.breakthroughs||{},history:Array.isArray(u.history)?u.history:(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},serverUserId:u.id,testCoinGrantedV13:true}}
 async function recoverPlayerSession(){
   const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
   if(!privateKey)return false;
@@ -1233,6 +1272,8 @@ async function init(){
     if(authenticated){
       try{const pc=await apiRequest('pvp/config',{}, {timeoutMs:7000});pvpFeatureEnabled=Boolean(pc.settings?.enabled||pc.bypass)}
       catch(error){console.warn('PvP 설정 조회 실패 - 로그인은 유지합니다:',error);pvpFeatureEnabled=false}
+      try{magicSystemState=await apiRequest('magic/status',{}, {timeoutMs:7000,ttl:0});const current=loadUser();if(current){current.magicCrystals=Number(magicSystemState.magicCrystals||0);saveUser(current)}}
+      catch(error){console.warn('마법카드 설정 조회 실패 - 기존 화면으로 계속합니다:',error);magicSystemState={visible:false,enabled:false,ownerTest:false,magicCrystals:Number(loadUser()?.magicCrystals||0),settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]}}
     }
   }catch(error){
     if(error?.message!=='API_OFFLINE')console.error('초기 연결 실패:',error);
