@@ -186,15 +186,68 @@ function renderCreated(user) {
   document.getElementById('go').onclick = () => renderShell('buy');
 }
 
+function navGroupForTab(tab){
+  if(['battle','pvp'].includes(tab))return 'battle';
+  if(['attendance','dailyquest','messages'].includes(tab))return 'rewards';
+  if(tab==='magic')return 'magic';
+  if(tab==='rank')return 'rank';
+  if(tab==='mineral')return 'mineral';
+  if(tab==='dex')return 'dex';
+  return 'buy';
+}
+
+function renderMainNavigation(tab){
+  const group=navGroupForTab(tab);
+  const primary=[
+    {id:'buy',label:'카드팩'},
+    {id:'dex',label:'도감'},
+    {id:'battle',label:'전투',tab:group==='battle'?tab:'battle'},
+    ...(magicSystemState.visible?[{id:'magic',label:'마법카드'}]:[]),
+    {id:'rewards',label:'보상',tab:group==='rewards'?tab:'attendance'},
+    {id:'rank',label:'랭킹'},
+    {id:'mineral',label:'교환소'}
+  ];
+  const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
+  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}</nav>`;
+  if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button></nav>`;
+  return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
+}
+
 function renderShell(tab) {
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
   runtimeCommandContext=tab;
   const user = loadUser();
   if (!user) return renderLogin();
   const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, magic: magicView, attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
-  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}${magicSystemState.visible?`<button class="tab magic-main-tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}<button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button><button class="tab mineral-tab ${tab==='mineral'?'active':''}" data-tab="mineral"><span class="mineral-tab-label"><span>미네랄</span><span>교환</span></span></button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
+  const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages'].includes(tab);
+  const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
+    <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
+    <button class="main-nav-item ${tab==='dex'?'active':''}" type="button" data-tab="dex"><span class="main-nav-icon">◇</span><b>도감</b></button>
+    <div class="main-nav-group ${battleActive?'active':''}" data-nav-group="battle">
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">⚔</span><b>전투</b><i>⌄</i></button>
+      <div class="main-nav-dropdown" role="menu">
+        <button type="button" data-tab="battle"><span>몬스터 토벌·레이드</span><b>PVE</b></button>
+        ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>비동기 대전·대장전</span><b>PVP</b></button>':''}
+      </div>
+    </div>
+    ${magicSystemState.visible?`<button class="main-nav-item magic-nav-item ${tab==='magic'?'active':''}" type="button" data-tab="magic"><span class="main-nav-icon">✦</span><b>마법카드</b></button>`:''}
+    <div class="main-nav-group ${rewardActive?'active':''}" data-nav-group="reward">
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◆</span><b>보상</b><i>⌄</i></button>
+      <div class="main-nav-dropdown" role="menu">
+        <button type="button" data-tab="attendance"><span>매일 접속 보상</span><b>접속 보상</b></button>
+        <button type="button" data-tab="dailyquest"><span>오늘의 플레이 목표</span><b>일일 퀘스트</b></button>
+        <button type="button" data-tab="messages"><span>운영 메시지·쿠폰</span><b>메시지함</b></button>
+      </div>
+    </div>
+    <button class="main-nav-item ${tab==='rank'?'active':''}" type="button" data-tab="rank"><span class="main-nav-icon">♛</span><b>랭킹</b></button>
+    <button class="main-nav-item ${tab==='mineral'?'active':''}" type="button" data-tab="mineral"><span class="main-nav-icon">⬡</span><b>교환소</b></button>
+  </nav>`;
+  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div>${navHtml}</header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
   const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" href="https://cnine-card.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="씨켓몬 큰 화면으로 열기" title="새 탭에서 큰 화면으로 즐기기"><span>⛶</span><b>크게 보기</b></a>');
-  document.querySelectorAll('.tab').forEach(b => b.onclick = () => renderShell(b.dataset.tab));
+  const closeNavGroups=(except=null)=>document.querySelectorAll('.main-nav-group.open').forEach(group=>{if(group!==except){group.classList.remove('open');group.querySelector('.main-nav-trigger')?.setAttribute('aria-expanded','false')}});
+  document.querySelectorAll('.main-nav [data-tab]').forEach(button=>button.onclick=()=>{closeNavGroups();renderShell(button.dataset.tab)});
+  document.querySelectorAll('.main-nav-trigger').forEach(button=>button.onclick=event=>{event.stopPropagation();const group=button.closest('.main-nav-group'),willOpen=!group.classList.contains('open');closeNavGroups(group);group.classList.toggle('open',willOpen);button.setAttribute('aria-expanded',String(willOpen))});
+  document.addEventListener('click',()=>closeNavGroups(),{once:true});
   bindView(tab);
   loadRecentHighGradeFeed();
   loadRecentPremiumCubeFeed();
@@ -203,7 +256,13 @@ function renderShell(tab) {
 }
 
 function summaryBar(user) {
-  return `<section class="summary-bar"><div class="login-summary"><span>로그인 중</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div><div><span>COIN</span><b class="coin-value">◈ ${Number(user.coin||0).toLocaleString()}</b><small class="shard-value">🧩 카드 조각 ${Number(user.cardShards||0).toLocaleString()}</small><small class="magic-crystal-value"><i aria-hidden="true">✦</i> 마법 결정 ${Number(user.magicCrystals??magicSystemState.magicCrystals??0).toLocaleString()}</small></div><div><span>COLLECTION</span><b>${ownedIds(user).size} / ${cards.length}</b></div><button type="button" class="inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><b>인벤토리</b><small id="inventorySummaryMeta">보유 내역 확인</small></span><em id="inventorySummaryBadge" hidden>NEW</em></button></section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">SSR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 SSR 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed premium-cube-feed" aria-live="polite"><span class="high-grade-label premium-cube-label">프리미엄 큐브 소식</span><div class="high-grade-viewport"><div id="premiumCubeTrack" class="high-grade-track premium-cube-track"><span class="high-grade-empty">최근 프리미엄 큐브 획득 기록을 불러오는 중...</span></div></div></section>`;
+  const coin=Number(user.coin||0).toLocaleString(),shards=Number(user.cardShards||0).toLocaleString(),crystals=Number(user.magicCrystals??magicSystemState.magicCrystals??0).toLocaleString();
+  return `<section class="summary-bar">
+    <div class="summary-card login-summary"><span class="summary-label">내 계정</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div>
+    <div class="summary-card currency-summary"><span class="summary-label">보유 재화</span><div class="currency-list"><div class="currency-row coin"><i>◇</i><span>코인</span><b>${coin}</b></div><div class="currency-row shard"><i>✣</i><span>카드 조각</span><b>${shards}</b></div><div class="currency-row crystal"><i>✦</i><span>마법 결정</span><b>${crystals}</b></div></div></div>
+    <div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>
+    <button type="button" class="summary-card inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><small class="summary-label">보관함</small><b>인벤토리</b><em id="inventorySummaryMeta">보유 내역 확인</em></span><strong id="inventorySummaryBadge" hidden>NEW</strong></button>
+  </section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">SSR+ 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 SSR 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed premium-cube-feed" aria-live="polite"><span class="high-grade-label premium-cube-label">프리미엄 큐브 소식</span><div class="high-grade-viewport"><div id="premiumCubeTrack" class="high-grade-track premium-cube-track"><span class="high-grade-empty">최근 프리미엄 큐브 획득 기록을 불러오는 중...</span></div></div></section>`;
 }
 
 async function loadInventorySummary(){const card=document.getElementById('inventorySummary');if(!card)return;card.onclick=()=>renderShell('inventory');if(!API_MODE)return;try{const d=await apiRequest('inventory',{}, {ttl:3000}),meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');if(meta)meta.textContent=d.totalQuantity>0?`보유 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`:'획득한 특별 보관품 없음';if(badge){badge.hidden=!d.unseenTotal;badge.textContent=d.unseenTotal>99?'99+':`NEW ${d.unseenTotal}`}}catch{}}
@@ -247,7 +306,7 @@ function packSelector() {
 
 function buyView(user) {
   const pack = getPack(selectedPackId);
-  return `${summaryBar(user)}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>10연속 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot" data-pack-id="${pack.id}" data-count="10" data-cost="${pack.price*10}"><small>10 CARDS · ${pack.guarantee10}+</small>${(pack.price*10).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section><section class="dashboard-grid"><aside class="side-panel"><div class="panel-title"><div><p class="eyebrow">RECENT DROP</p><h2>최근 획득</h2></div><span>${user.history.length}회</span></div>${recentCards(user)}<button class="text-btn" id="goDex">전체 도감 열기 →</button></aside><aside class="collection-panel"><p class="eyebrow">RANK SCORE</p><h2>내 카드 점수</h2><div class="score-orb"><b>${cardScore(user).toLocaleString()}</b><span>POINT</span></div><p>높은 등급 카드일수록 점수가 큽니다.</p></aside></section>`;
+  return `${summaryBar(user)}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>10연속 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot" data-pack-id="${pack.id}" data-count="10" data-cost="${pack.price*10}"><small>10 CARDS · ${pack.guarantee10}+</small>${(pack.price*10).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>`;
 }
 
 function recentCards(user) {
