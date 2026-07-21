@@ -105,7 +105,7 @@
           <div>
             <small>3:3 승자 연전식 비동기 PVP</small>
             <h2>대장전 운영 센터</h2>
-            <p>참가 대기열, PVP 시즌 티어 기반 팀 편성, 팀 상태, 경기 기록과 보상을 한 화면에서 관리합니다.</p>
+            <p>참가 대기열, PVP 덱 전투력 기반 균형 편성, 팀 상태, 경기 기록과 보상을 한 화면에서 관리합니다.</p>
           </div>
           <div class="captain-admin-actions">
             <span id="capCmsModeBadge" class="captain-mode-badge off">운영 중지</span>
@@ -115,9 +115,9 @@
         </div>
 
         <section class="captain-balance-rules">
-          <article><span>역할 배정</span><b>시즌 점수 낮은 순</b><small>선봉 → 중견 → 대장</small></article>
-          <article><span>그랜드마스터 제한</span><b>팀당 최대 1명</b><small>2명 이상 자동 편성 차단</small></article>
-          <article><span>팀 균형</span><b>PVP 시즌 점수 분산</b><small>가능한 팀 간 점수 합계를 균등 배분</small></article>
+          <article><span>역할 배정</span><b>덱 전투력 낮은 순</b><small>선봉 → 중견 → 대장</small></article>
+          <article><span>티어 제한</span><b>그랜드마스터 제한 없음</b><small>티어 때문에 편성이 지연되지 않음</small></article>
+          <article><span>팀 균형</span><b>PVP 덱 전투력 합계</b><small>대기 인원을 가장 약한 팀부터 균등 배분</small></article>
         </section>
 
         <section class="captain-overview-panel">
@@ -369,20 +369,20 @@
     $('#capCmsTeamCount').textContent=`${teams.filter(team=>team.status==='ACTIVE').length}팀`;
     target.innerHTML=teams.map(team=>{
       const active=team.status==='ACTIVE';
-      const warning=!team.balanceOk;
-      return `<article class="captain-team-panel ${active?'active':'inactive'} ${warning?'warning':''}">
+      const legacy=!team.roleOrderOk;
+      return `<article class="captain-team-panel ${active?'active':'inactive'} ${legacy?'warning':''}">
         <header>
           <div><span class="captain-team-state">${active?'운영 중':statusKo(team.status)}</span><h4>${esc(team.name||`팀 ${team.id}`)}</h4><small>${number(team.score)}점 · ${number(team.wins)}승 ${number(team.losses)}패</small></div>
-          <div class="captain-team-balance ${warning?'bad':'good'}"><b>${warning?'균형 경고':'균형 정상'}</b><small>그랜드마스터 ${Number(team.grandmasterCount||0)}명</small></div>
+          <div class="captain-team-balance ${legacy?'bad':'good'}"><b>${legacy?'기존 역할 유지':'덱 전투력 역할'}</b><small>${legacy?'회차 초기화 후 신규 기준 적용':`개인 격차 ${number(team.powerSpread)} · 평균 ${number(team.averageDeckPower)}`}</small></div>
         </header>
         <div class="captain-team-members">${(team.members||[]).map(memberRow).join('')}</div>
         <footer>
-          <div><span>시즌 점수 합계</span><b>${number(team.seasonScoreTotal)}</b></div>
+          <div><span>덱 전투력 평균</span><b>${number(team.averageDeckPower)}</b></div>
           <div><span>덱 전투력 합계</span><b>${number(team.teamPower)}</b></div>
           <label><input value="${esc(team.name||'')}" maxlength="20" aria-label="팀명"><button type="button" data-team="${Number(team.id)}">팀명 저장</button></label>
         </footer>
       </article>`;
-    }).join('')||'<div class="captain-empty-block"><b>아직 편성된 팀이 없습니다.</b><span>대기 인원이 편성 조건을 충족하면 자동으로 생성됩니다.</span></div>';
+    }).join('')||'<div class="captain-empty-block"><b>아직 편성된 팀이 없습니다.</b><span>대기 인원 3명부터 즉시 팀을 편성하며, 여러 팀은 덱 전투력 합계를 균등하게 배분합니다.</span></div>';
 
     target.querySelectorAll('button[data-team]').forEach(button=>{
       button.onclick=async()=>{
@@ -440,12 +440,14 @@
       ['최근 경기',logs.length,'최대 100건 표시']
     ].map(([label,value,note])=>`<article><span>${label}</span><b>${number(value)}</b><small>${note}</small></article>`).join('');
 
-    const waitGm=Number(balance.waitingGrandmasters||0);
-    const waitRegular=Number(balance.waitingRegulars||0);
-    const bad=Number(balance.unbalancedExistingTeams||0);
+    const waitingCount=Number(balance.waitingCount||waiting.length||0);
+    const waitingMin=Number(balance.waitingPowerMin||0);
+    const waitingMax=Number(balance.waitingPowerMax||0);
+    const waitingAverage=Number(balance.waitingPowerAverage||0);
+    const legacyTeams=Number(balance.legacyRoleTeams||0);
     $('#capCmsBalanceNotice').innerHTML=`
-      <div><b>편성 대기 구성</b><span>그랜드마스터 ${waitGm}명 · 일반 티어 ${waitRegular}명</span></div>
-      <div class="${bad?'warning':''}"><b>${bad?'기존 팀 균형 경고':'팀 균형 정상'}</b><span>${bad?`그랜드마스터가 2명 이상인 기존 팀 ${bad}개`:'신규 편성은 팀당 그랜드마스터 1명 이하'}</span></div>`;
+      <div><b>편성 대기 전투력</b><span>${waitingCount}명 · 최저 ${number(waitingMin)} · 평균 ${number(waitingAverage)} · 최고 ${number(waitingMax)}</span></div>
+      <div class="${legacyTeams?'warning':''}"><b>${legacyTeams?'기존 역할 팀 확인':'신규 편성 기준 적용 중'}</b><span>${legacyTeams?`시즌 점수 기준 역할이 남은 기존 팀 ${legacyTeams}개 · 새 회차부터 전투력 순으로 적용`:'그랜드마스터 제한 없이 덱 전투력 합계가 비슷하도록 즉시 편성'}</span></div>`;
 
     renderQueue();
     renderTeams(teams);

@@ -497,54 +497,52 @@ function registrationOrder(a, b) {
   return timeA - timeB || Number(a.id || 0) - Number(b.id || 0);
 }
 
-function buildBalancedTeamGroups(queue, tiers) {
+function buildDeckPowerBalancedTeamGroups(queue, tiers) {
   const annotated = [...queue].sort(registrationOrder).map(row => {
     const seasonScore = Number(row.season_score || 1000);
     const pvpTier = tierFor(seasonScore, tiers);
-    return { ...row, season_score: seasonScore, pvpTier, isGrandmaster: isGrandmasterTier(pvpTier) };
+    return {
+      ...row,
+      season_score: seasonScore,
+      deck_power: Math.max(0, Number(row.deck_power || 0)),
+      pvpTier,
+      balanceJitter: randomIndex(1000000)
+    };
   });
-  const grandmasters = annotated.filter(row => row.isGrandmaster);
-  const regulars = annotated.filter(row => !row.isGrandmaster);
-  let teamCount = Math.floor(annotated.length / 3);
-
-  while (teamCount > 0) {
-    const gmToUse = Math.min(grandmasters.length, teamCount);
-    const regularNeeded = teamCount * 3 - gmToUse;
-    if (regulars.length >= regularNeeded) break;
-    teamCount -= 1;
-  }
+  const teamCount = Math.floor(annotated.length / 3);
   if (teamCount <= 0) return [];
 
-  const gmToUse = Math.min(grandmasters.length, teamCount);
-  const regularNeeded = teamCount * 3 - gmToUse;
-  const selectedGrandmasters = shuffle(grandmasters.slice(0, gmToUse));
-  const selectedRegulars = regulars.slice(0, regularNeeded)
-    .map(row => ({ ...row, balanceJitter: randomIndex(1000000) }))
-    .sort((a, b) => Number(b.season_score) - Number(a.season_score) || a.balanceJitter - b.balanceJitter);
+  // 오래 기다린 유저를 우선 포함하되, 선택된 인원은 덱 전투력 합계가
+  // 가능한 한 비슷해지도록 가장 약한 팀부터 한 명씩 배치한다.
+  const selected = annotated.slice(0, teamCount * 3)
+    .sort((a, b) => Number(b.deck_power || 0) - Number(a.deck_power || 0)
+      || Number(b.season_score || 0) - Number(a.season_score || 0)
+      || a.balanceJitter - b.balanceJitter);
   const groups = Array.from({ length: teamCount }, () => []);
-  const gmTeamOrder = shuffle(Array.from({ length: teamCount }, (_, index) => index));
 
-  selectedGrandmasters.forEach((row, index) => groups[gmTeamOrder[index]].push(row));
-
-  for (const row of selectedRegulars) {
+  for (const row of selected) {
     const available = groups.map((members, index) => ({
       index,
       slots: members.length,
-      score: members.reduce((sum, member) => sum + Number(member.season_score || 0), 0),
+      power: members.reduce((sum, member) => sum + Number(member.deck_power || 0), 0),
+      seasonScore: members.reduce((sum, member) => sum + Number(member.season_score || 0), 0),
       random: randomIndex(1000000)
     })).filter(item => item.slots < 3)
-      .sort((a, b) => a.score - b.score || a.slots - b.slots || a.random - b.random);
+      .sort((a, b) => a.power - b.power
+        || a.slots - b.slots
+        || a.seasonScore - b.seasonScore
+        || a.random - b.random);
     groups[available[0].index].push(row);
   }
 
-  return shuffle(groups.filter(group => group.length === 3 && group.filter(row => row.isGrandmaster).length <= 1));
+  return shuffle(groups.filter(group => group.length === 3));
 }
 
 function assignPvpPositions(group) {
   return [...group]
     .map(row => ({ ...row, roleJitter: randomIndex(1000000) }))
-    .sort((a, b) => Number(a.season_score || 0) - Number(b.season_score || 0)
-      || Number(a.deck_power || 0) - Number(b.deck_power || 0)
+    .sort((a, b) => Number(a.deck_power || 0) - Number(b.deck_power || 0)
+      || Number(a.season_score || 0) - Number(b.season_score || 0)
       || a.roleJitter - b.roleJitter)
     .map((row, index) => ({ ...row, position: index + 1 }));
 }
@@ -589,15 +587,30 @@ async function team(env, id, includeDeck = false) {
     };
   });
 
+  const deckPowers = members.map(member => Number(member.deck_power || 0));
+  const orderedPowers = [...members]
+    .sort((a, b) => Number(a.position || 0) - Number(b.position || 0))
+    .map(member => Number(member.deck_power || 0));
+  const roleOrderOk = orderedPowers.every((power, index) => index === 0 || power >= orderedPowers[index - 1]);
+  const teamPower = deckPowers.reduce((sum, power) => sum + power, 0);
+  const powerMin = deckPowers.length ? Math.min(...deckPowers) : 0;
+  const powerMax = deckPowers.length ? Math.max(...deckPowers) : 0;
+
   return {
     ...teamRow,
     score: Number(teamRow.score || 0),
     wins: Number(teamRow.wins || 0),
     losses: Number(teamRow.losses || 0),
-    teamPower: members.reduce((sum, member) => sum + Number(member.deck_power || 0), 0),
+    teamPower,
+    averageDeckPower: members.length ? Math.round(teamPower / members.length) : 0,
+    powerMin,
+    powerMax,
+    powerSpread: Math.max(0, powerMax - powerMin),
     seasonScoreTotal: members.reduce((sum, member) => sum + Number(member.pvpScore || 0), 0),
     grandmasterCount: members.filter(member => isGrandmasterTier(member.pvpTier)).length,
-    balanceOk: members.filter(member => isGrandmasterTier(member.pvpTier)).length <= 1,
+    roleOrderOk,
+    balanceOk: roleOrderOk,
+    balanceMode: 'DECK_POWER',
     members
   };
 }
@@ -623,7 +636,7 @@ async function formTeams(env, week) {
   if (queue.length < 3) return;
 
   const tiers = await pvpTiers(env);
-  const groups = buildBalancedTeamGroups(queue, tiers);
+  const groups = buildDeckPowerBalancedTeamGroups(queue, tiers);
 
   for (const rawGroup of groups) {
     const selected = assignPvpPositions(rawGroup);
@@ -1086,8 +1099,9 @@ export async function handleCaptain({ path, request, env, deps }) {
       battle: safeJson(row.battle_log_json, {})
     }));
     const waitingRows = registrations.filter(row => row.status === 'WAITING');
-    const waitingGrandmasters = waitingRows.filter(row => row.isGrandmaster).length;
+    const waitingPowers = waitingRows.map(row => Math.max(0, Number(row.deck_power || 0)));
     const activeTeams = teams.filter(row => row.status === 'ACTIVE');
+    const waitingPowerTotal = waitingPowers.reduce((sum, power) => sum + power, 0);
     return deps.json({
       weekKey: week,
       round: currentRound,
@@ -1095,12 +1109,16 @@ export async function handleCaptain({ path, request, env, deps }) {
       teams,
       logs,
       balance: {
-        roleRule: 'PVP_SEASON_SCORE_ASC',
-        roleDescription: '시즌 점수 낮은 순서대로 선봉 · 중견 · 대장 배정',
-        maxGrandmastersPerTeam: 1,
-        waitingGrandmasters,
-        waitingRegulars: waitingRows.length - waitingGrandmasters,
-        unbalancedExistingTeams: activeTeams.filter(row => !row.balanceOk).length
+        roleRule: 'DECK_POWER_ASC',
+        roleDescription: '등록 PVP 덱 전투력 낮은 순서대로 선봉 · 중견 · 대장 배정',
+        formationRule: 'DECK_POWER_TOTAL_BALANCE',
+        formationDescription: '대기 인원을 등록 순으로 우선 선발한 뒤 팀별 덱 전투력 합계 차이를 최소화해 배분',
+        grandmasterLimitRemoved: true,
+        waitingCount: waitingRows.length,
+        waitingPowerMin: waitingPowers.length ? Math.min(...waitingPowers) : 0,
+        waitingPowerMax: waitingPowers.length ? Math.max(...waitingPowers) : 0,
+        waitingPowerAverage: waitingPowers.length ? Math.round(waitingPowerTotal / waitingPowers.length) : 0,
+        legacyRoleTeams: activeTeams.filter(row => !row.roleOrderOk).length
       }
     });
   }
