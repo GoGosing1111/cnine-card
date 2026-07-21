@@ -5,6 +5,12 @@ function weekKey() {
   return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`;
 }
 
+function previousWeekKey() {
+  const date = new Date(`${weekKey()}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() - 7);
+  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`;
+}
+
 const DEF = {
   mode: 'OFF',
   energyMax: 5,
@@ -15,11 +21,11 @@ const DEF = {
   adminTestParticipation: true,
   bgm: { enabled: false, source: '', volume: 35, loop: true, stopOnExit: true },
   rewards: {
-    participation: { coin: 0, shards: 0, NORMAL_CUBE: 0, ADVANCED_CUBE: 0, PREMIUM_CUBE: 0 },
-    ranks: [
-      { from: 1, to: 1, coin: 5000, shards: 100, NORMAL_CUBE: 0, ADVANCED_CUBE: 1, PREMIUM_CUBE: 1 },
-      { from: 2, to: 3, coin: 3000, shards: 60, NORMAL_CUBE: 0, ADVANCED_CUBE: 1, PREMIUM_CUBE: 0 },
-      { from: 4, to: 10, coin: 1500, shards: 30, NORMAL_CUBE: 1, ADVANCED_CUBE: 0, PREMIUM_CUBE: 0 }
+    victory: { coin: 0, shards: 0 },
+    settlement: [
+      { from: 1, to: 1, coin: 5000, shards: 100 },
+      { from: 2, to: 3, coin: 3000, shards: 60 },
+      { from: 4, to: 10, coin: 1500, shards: 30 }
     ]
   }
 };
@@ -215,10 +221,13 @@ async function settings(env) {
     rewards: {
       ...DEF.rewards,
       ...(parsed.rewards || {}),
-      participation: {
-        ...DEF.rewards.participation,
-        ...(parsed.rewards?.participation || {})
-      }
+      victory: {
+        ...DEF.rewards.victory,
+        ...(parsed.rewards?.victory || {})
+      },
+      settlement: Array.isArray(parsed.rewards?.settlement)
+        ? parsed.rewards.settlement
+        : (Array.isArray(parsed.rewards?.ranks) ? parsed.rewards.ranks : DEF.rewards.settlement)
     }
   };
 }
@@ -375,35 +384,11 @@ function cleanName(value) {
 }
 
 async function grantReward(env, userId, reward, reason) {
-  const coin = Math.max(0, Number(reward.coin || 0));
-  const shards = Math.max(0, Number(reward.shards || 0));
-  const statements = [
-    env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?')
-      .bind(coin, shards, userId)
-  ];
-
-  for (const code of ['NORMAL_CUBE', 'ADVANCED_CUBE', 'PREMIUM_CUBE']) {
-    const quantity = Math.max(0, Number(reward[code] || 0));
-    if (!quantity) continue;
-    statements.push(env.DB.prepare(`
-      INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,updated_at)
-      VALUES(?,?,?,?,CURRENT_TIMESTAMP)
-      ON CONFLICT(user_id,item_code) DO UPDATE SET
-        quantity=quantity+excluded.quantity,
-        unseen_quantity=unseen_quantity+excluded.unseen_quantity,
-        updated_at=CURRENT_TIMESTAMP
-    `).bind(userId, code, quantity, quantity));
-  }
-
-  await env.DB.batch(statements);
-  return {
-    coin,
-    shards,
-    NORMAL_CUBE: Number(reward.NORMAL_CUBE || 0),
-    ADVANCED_CUBE: Number(reward.ADVANCED_CUBE || 0),
-    PREMIUM_CUBE: Number(reward.PREMIUM_CUBE || 0),
-    reason
-  };
+  const coin = Math.max(0, Math.floor(Number(reward?.coin || 0)));
+  const shards = Math.max(0, Math.floor(Number(reward?.shards || 0)));
+  await env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?')
+    .bind(coin, shards, userId).run();
+  return { coin, shards, reason };
 }
 
 function fighterFromMember(member) {
@@ -559,11 +544,18 @@ export async function handleCaptain({ path, request, env, deps }) {
       try {
         const body = await deps.readBody(request);
         const rewardInput = body && typeof body.rewards === 'object' && body.rewards ? body.rewards : config.rewards;
-        const participation = rewardInput && typeof rewardInput.participation === 'object' ? rewardInput.participation : {};
-        const cleanParticipation = {};
-        for (const key of ['coin', 'shards', 'NORMAL_CUBE', 'ADVANCED_CUBE', 'PREMIUM_CUBE']) {
-          cleanParticipation[key] = Math.max(0, Math.floor(Number(participation[key] || 0)));
-        }
+        const victoryInput = rewardInput && typeof rewardInput.victory === 'object' ? rewardInput.victory : config.rewards.victory;
+        const cleanVictory = {
+          coin: Math.max(0, Math.floor(Number(victoryInput?.coin || 0))),
+          shards: Math.max(0, Math.floor(Number(victoryInput?.shards || 0)))
+        };
+        const settlementInput = Array.isArray(rewardInput?.settlement) ? rewardInput.settlement : config.rewards.settlement;
+        const cleanSettlement = settlementInput.slice(0, 20).map(item => ({
+          from: Math.max(1, Math.floor(Number(item?.from || 1))),
+          to: Math.max(1, Math.floor(Number(item?.to || item?.from || 1))),
+          coin: Math.max(0, Math.floor(Number(item?.coin || 0))),
+          shards: Math.max(0, Math.floor(Number(item?.shards || 0)))
+        })).filter(item => item.to >= item.from);
         const next = {
           ...config,
           mode: ['ON', 'OFF', 'TEST'].includes(String(body.mode || '').toUpperCase()) ? String(body.mode).toUpperCase() : config.mode,
@@ -580,7 +572,7 @@ export async function handleCaptain({ path, request, env, deps }) {
             loop: body.bgm?.loop === undefined ? Boolean(config.bgm?.loop) : Boolean(body.bgm.loop),
             stopOnExit: body.bgm?.stopOnExit === undefined ? Boolean(config.bgm?.stopOnExit) : Boolean(body.bgm.stopOnExit)
           },
-          rewards: { ...config.rewards, ...rewardInput, participation: cleanParticipation }
+          rewards: { victory: cleanVictory, settlement: cleanSettlement }
         };
         const value = JSON.stringify(next);
         const updated = await env.DB.prepare("UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key='captain_settings_v2'")
@@ -900,6 +892,26 @@ export async function handleCaptain({ path, request, env, deps }) {
         `).bind(JSON.stringify(response), requestId)
       ]);
 
+      if (attackerWon) {
+        try {
+          const victoryReward = config.rewards?.victory || { coin: 0, shards: 0 };
+          const rewardInsert = await env.DB.prepare(`
+            INSERT OR IGNORE INTO captain_reward_claims(week_key,user_id,reward_type,reward_key,reward_json)
+            VALUES(?,?,?,?,?)
+          `).bind(week, user.id, 'VICTORY', requestId, JSON.stringify(victoryReward)).run();
+          if (Number(rewardInsert?.meta?.changes || 0)) {
+            response.victoryReward = await grantReward(env, user.id, victoryReward, 'CAPTAIN_VICTORY');
+          }
+        } catch (rewardError) {
+          console.error('captain victory reward failed', rewardError);
+          response.victoryRewardError = '승리 보상 지급에 실패했습니다. 관리자에게 문의하세요.';
+        }
+      }
+      await env.DB.prepare(`
+        UPDATE captain_match_receipts_v3
+        SET response_json=?,updated_at=CURRENT_TIMESTAMP
+        WHERE request_id=?
+      `).bind(JSON.stringify(response), requestId).run();
       response.energy = await energy(env, user.id, week, config);
       return deps.json(response);
     } catch (error) {
@@ -957,32 +969,51 @@ export async function handleCaptain({ path, request, env, deps }) {
     return deps.json({ weekKey: week, ranking });
   }
 
+  if (path === 'captain/reward/status') {
+    const settlementWeek = previousWeekKey();
+    const previousTeam = await env.DB.prepare(`
+      SELECT t.* FROM captain_teams t
+      JOIN captain_team_members m ON m.team_id=t.id
+      WHERE t.week_key=? AND m.user_id=?
+      LIMIT 1
+    `).bind(settlementWeek, user.id).first();
+    if (!previousTeam) return deps.json({ settlementWeek, eligible: false, claimed: false });
+    const rows = (await env.DB.prepare(`
+      SELECT id FROM captain_teams WHERE week_key=? AND status='ACTIVE'
+      ORDER BY score DESC,wins DESC,losses ASC,id ASC
+    `).bind(settlementWeek).all()).results;
+    const rank = rows.findIndex(row => Number(row.id) === Number(previousTeam.id)) + 1;
+    const reward = (config.rewards.settlement || []).find(item => rank >= Number(item.from) && rank <= Number(item.to)) || null;
+    const claim = await env.DB.prepare(`
+      SELECT id FROM captain_reward_claims
+      WHERE week_key=? AND user_id=? AND reward_type='SETTLEMENT' LIMIT 1
+    `).bind(settlementWeek, user.id).first();
+    return deps.json({ settlementWeek, eligible: Boolean(reward), claimed: Boolean(claim), rank, reward });
+  }
+
   if (path === 'captain/reward/claim' && request.method === 'POST') {
-    if (!mine) return deps.json({ error: '편성된 팀이 없습니다.' }, 409);
-    const body = await deps.readBody(request);
-    const type = String(body.type || 'PARTICIPATION').toUpperCase();
-    let reward;
-    let key;
-
-    if (type === 'PARTICIPATION') {
-      reward = config.rewards.participation;
-      key = 'participation';
-    } else {
-      const rows = (await env.DB.prepare('SELECT id FROM captain_teams WHERE week_key=? ORDER BY score DESC,wins DESC,losses ASC,id')
-        .bind(week).all()).results;
-      const rank = rows.findIndex(row => Number(row.id) === Number(mine.id)) + 1;
-      const rankReward = (config.rewards.ranks || []).find(item => rank >= Number(item.from) && rank <= Number(item.to));
-      if (!rankReward) return deps.json({ error: '현재 순위에 해당하는 보상이 없습니다.' }, 404);
-      reward = rankReward;
-      key = `rank-${rankReward.from}-${rankReward.to}`;
-    }
-
+    const settlementWeek = previousWeekKey();
+    const previousTeam = await env.DB.prepare(`
+      SELECT t.* FROM captain_teams t
+      JOIN captain_team_members m ON m.team_id=t.id
+      WHERE t.week_key=? AND m.user_id=?
+      LIMIT 1
+    `).bind(settlementWeek, user.id).first();
+    if (!previousTeam) return deps.json({ error: '지난 주 대장전 참가 기록이 없습니다.' }, 404);
+    const rows = (await env.DB.prepare(`
+      SELECT id FROM captain_teams WHERE week_key=? AND status='ACTIVE'
+      ORDER BY score DESC,wins DESC,losses ASC,id ASC
+    `).bind(settlementWeek).all()).results;
+    const rank = rows.findIndex(row => Number(row.id) === Number(previousTeam.id)) + 1;
+    const reward = (config.rewards.settlement || []).find(item => rank >= Number(item.from) && rank <= Number(item.to));
+    if (!reward) return deps.json({ error: '지난 주 순위에 해당하는 정산 보상이 없습니다.' }, 404);
+    const key = `rank-${rank}`;
     const inserted = await env.DB.prepare(`
       INSERT OR IGNORE INTO captain_reward_claims(week_key,user_id,reward_type,reward_key,reward_json)
       VALUES(?,?,?,?,?)
-    `).bind(week, user.id, type, key, JSON.stringify(reward)).run();
-    if (!inserted.meta.changes) return deps.json({ error: '이미 수령한 보상입니다.' }, 409);
-    return deps.json({ ok: true, reward: await grantReward(env, user.id, reward, 'CAPTAIN_BATTLE') });
+    `).bind(settlementWeek, user.id, 'SETTLEMENT', key, JSON.stringify(reward)).run();
+    if (!inserted.meta.changes) return deps.json({ error: '지난 주 정산 보상을 이미 수령했습니다.' }, 409);
+    return deps.json({ ok: true, settlementWeek, rank, reward: await grantReward(env, user.id, reward, 'CAPTAIN_SETTLEMENT') });
   }
 
   return deps.json({ error: '대장전 API를 찾을 수 없습니다.' }, 404);

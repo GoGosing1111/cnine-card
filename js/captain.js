@@ -71,13 +71,13 @@
     const volume = userBgmVolume(config.volume);
     const control = document.createElement('section');
     control.className = 'captain-v3-bgm-control';
-    control.innerHTML = `<div><small>CAPTAIN BGM</small><b id="captainBgmStatus">${enabled ? '재생 준비' : '사용자 OFF'}</b></div><button type="button" id="captainBgmToggle">${enabled ? 'BGM ON' : 'BGM OFF'}</button><input id="captainBgmVolume" type="range" min="0" max="100" value="${volume}" aria-label="대장전 배경음 음량"><span id="captainBgmVolumeValue">${volume}</span>`;
+    control.innerHTML = `<div><small>대장전 배경음</small><b id="captainBgmStatus">${enabled ? '재생 준비' : '사용자 끔'}</b></div><button type="button" id="captainBgmToggle">${enabled ? '배경음 켜짐' : '배경음 꺼짐'}</button><input id="captainBgmVolume" type="range" min="0" max="100" value="${volume}" aria-label="대장전 배경음 음량"><span id="captainBgmVolumeValue">${volume}</span>`;
     box.prepend(control);
     control.querySelector('#captainBgmToggle').onclick = async event => {
       const next = !userBgmEnabled();
       localStorage.setItem(bgmPreferenceKey, next ? '1' : '0');
-      event.currentTarget.textContent = next ? 'BGM ON' : 'BGM OFF';
-      control.querySelector('#captainBgmStatus').textContent = next ? '재생 준비' : '사용자 OFF';
+      event.currentTarget.textContent = next ? '배경음 켜짐' : '배경음 꺼짐';
+      control.querySelector('#captainBgmStatus').textContent = next ? '재생 준비' : '사용자 끔';
       if (next) await syncBgm(config, true); else stopBgm(true);
     };
     control.querySelector('#captainBgmVolume').oninput = event => {
@@ -100,7 +100,7 @@
 
   function memberCard(member, options = {}) {
     const { compact = false, status = '', index = null } = options;
-    const statusText = status === 'active' ? '출전 중' : status === 'down' ? 'DOWN' : status === 'waiting' ? '대기' : '';
+    const statusText = status === 'active' ? '출전 중' : status === 'down' ? '탈락' : status === 'waiting' ? '대기' : '';
     return `<article class="captain-v3-member ${compact ? 'compact' : ''} ${status ? `is-${status}` : ''}" ${index != null ? `data-lineup-index="${index}"` : ''}>
       <div class="captain-v3-member-top">
         <span class="captain-v3-role ${roleClass(member.position)}">${esc(member.role || '팀원')}</span>
@@ -110,7 +110,7 @@
         ${tier(member)}
         <div><b>${esc(member.nickname || '-')}</b><small>${esc(member.pvpTier?.name || '브론즈')} · ${Number(member.pvpScore || 0).toLocaleString()}점</small></div>
       </div>
-      <div class="captain-v3-member-power"><span>PVP DECK</span><strong>${Number(member.deck_power ?? member.deckPower ?? 0).toLocaleString()}</strong></div>
+      <div class="captain-v3-member-power"><span>PVP 덱 전투력</span><strong>${Number(member.deck_power ?? member.deckPower ?? 0).toLocaleString()}</strong></div>
     </article>`;
   }
 
@@ -119,7 +119,7 @@
       ? '최대 충전 완료'
       : `${energy.minutes}분마다 1회 충전`;
     return `<section class="captain-v3-energy" data-next-at="${esc(energy.nextAt || '')}">
-      <div class="captain-v3-energy-head"><span>MY ATTACK CHARGE</span><b>${energy.current}<small>/ ${energy.max}</small></b></div>
+      <div class="captain-v3-energy-head"><span>내 공격 횟수</span><b>${energy.current}<small>/ ${energy.max}</small></b></div>
       <div class="captain-v3-energy-pips">${Array.from({ length: energy.max }, (_, index) => `<i class="${index < energy.current ? 'on' : ''}"></i>`).join('')}</div>
       <p id="captainEnergyClock">${nextLabel}</p>
     </section>`;
@@ -196,12 +196,12 @@
 
   function lineupStrip(team, lineup, downSet, activeId, side) {
     return `<div class="captain-v3-lineup ${side}">
-      <div class="captain-v3-lineup-name"><small>${side === 'attacker' ? 'MY SQUAD' : 'RIVAL SQUAD'}</small><b>${esc(team.name)}</b></div>
+      <div class="captain-v3-lineup-name"><small>${side === 'attacker' ? '우리 팀' : '상대 팀'}</small><b>${esc(team.name)}</b></div>
       <div class="captain-v3-lineup-members">${lineup.map((member, index) => {
         const down = downSet.has(Number(member.userId));
         const now = Number(member.userId) === Number(activeId);
         return `<div class="captain-v3-lineup-chip ${down ? 'down' : now ? 'active' : 'standby'}" data-user-id="${Number(member.userId)}">
-          <span>${index + 1}</span>${tier(member)}<b>${esc(member.nickname)}</b><em>${down ? 'DOWN' : now ? 'FIGHT' : 'WAIT'}</em>
+          <span>${index + 1}</span>${tier(member)}<b>${esc(member.nickname)}</b><em>${down ? '탈락' : now ? '출전' : '대기'}</em>
         </div>`;
       }).join('')}</div>
     </div>`;
@@ -211,7 +211,7 @@
     return `<div class="captain-v3-duel-hp ${side}">
       <div><b>${esc(fighter.nickname)}</b><span data-hp-label="${side}">${startPercent}%</span></div>
       <div class="captain-v3-hp-track"><i data-hp-bar="${side}" style="width:${startPercent}%"></i><u data-hp-trail="${side}" style="width:${startPercent}%"></u></div>
-      <small>${Number(fighter.deckPower || 0).toLocaleString()} POWER · 궁극기 OFF</small>
+      <small>${Number(fighter.deckPower || 0).toLocaleString()} 전투력 · 궁극기 미사용</small>
     </div>`;
   }
 
@@ -222,8 +222,8 @@
     stage.innerHTML = `
       <div class="captain-v3-battle-bg"></div>
       <header class="captain-v3-battle-header">
-        <span>CAPTAIN BATTLE · ROUND ${roundNumber}</span>
-        <b>승자는 남고 패자는 DOWN</b>
+        <span>대장전 · 라운드 ${roundNumber}</span>
+        <b>승자는 남고 패자는 탈락</b>
       </header>
       <div class="captain-v3-battle-lineups">
         ${lineupStrip(data.attackerTeam, data.attackerLineup, state.attackerDown, left.userId, 'attacker')}
@@ -235,21 +235,21 @@
           ${hpBlock('attacker', left, left.startHpPercent)}
           <div class="captain-v3-battle-deck">${combatDeck(left.deckSnapshot, 'attacker')}</div>
         </article>
-        <div class="captain-v3-duel-center"><small>ROUND</small><strong>${roundNumber}</strong><i>VS</i><span id="captainRoundPhase">READY</span></div>
+        <div class="captain-v3-duel-center"><small>라운드</small><strong>${roundNumber}</strong><i>VS</i><span id="captainRoundPhase">준비</span></div>
         <article class="captain-v3-fighter-panel defender" data-fighter-panel="defender">
           <div class="captain-v3-fighter-title">${tier(right, 'rank')}<div><small>${esc(right.role)}</small><h3>${esc(right.nickname)}</h3></div></div>
           ${hpBlock('defender', right, right.startHpPercent)}
           <div class="captain-v3-battle-deck">${combatDeck(right.deckSnapshot, 'defender')}</div>
         </article>
       </section>
-      <div class="captain-v3-round-banner" id="captainRoundBanner"><span>RANDOM MATCHUP</span><b>${esc(left.nickname)} <i>VS</i> ${esc(right.nickname)}</b></div>`;
+      <div class="captain-v3-round-banner" id="captainRoundBanner"><span>무작위 대진</span><b>${esc(left.nickname)} <i>VS</i> ${esc(right.nickname)}</b></div>`;
     bindImageFallbacks(stage);
 
     const phase = stage.querySelector('#captainRoundPhase');
     const banner = stage.querySelector('#captainRoundBanner');
     await sleep(450);
     banner.classList.add('hide');
-    phase.textContent = 'FIGHT';
+    phase.textContent = '출전';
     stage.classList.add('is-fighting');
 
     const leftBar = stage.querySelector('[data-hp-bar="attacker"]');
@@ -304,7 +304,7 @@
     if (attackerWon) state.defenderDown.add(Number(loser.userId));
     else state.attackerDown.add(Number(loser.userId));
 
-    banner.innerHTML = `<span>ROUND ${roundNumber} RESULT</span><b>${esc(winner.nickname)} 승리 · ${winner.endHpPercent}% HP로 연전</b>`;
+    banner.innerHTML = `<span>라운드 ${roundNumber} 결과</span><b>${esc(winner.nickname)} 승리 · ${winner.endHpPercent}% HP로 연전</b>`;
     banner.classList.remove('hide');
     banner.classList.add('result');
     await sleep(1150);
@@ -313,20 +313,21 @@
   async function playBattle(data) {
     const modal = document.getElementById('modal');
     modal.className = 'modal show captain-v3-battle-modal';
-    modal.innerHTML = '<div class="captain-v3-battle-stage"><div class="captain-v3-match-loading"><i></i><small>RANDOM LINEUP</small><h2>출전 순서를 추첨했습니다</h2><p>승자는 남고, 패배 팀에서 다음 선수가 무작위로 출전합니다.</p></div></div>';
+    modal.innerHTML = '<div class="captain-v3-battle-stage"><div class="captain-v3-match-loading"><i></i><small>무작위 출전 순서</small><h2>출전 순서를 추첨했습니다</h2><p>승자는 남고, 패배 팀에서 다음 선수가 무작위로 출전합니다.</p></div></div>';
     const stage = modal.querySelector('.captain-v3-battle-stage');
     await sleep(850);
     const state = { attackerDown: new Set(), defenderDown: new Set() };
     for (const round of data.rounds || []) await animateDuel(stage, round, data, state);
 
-    const won = data.result === 'WIN';
+    const won = data.result === '승리';
     const survivor = data.survivor || {};
     stage.innerHTML = `<div class="captain-v3-battle-bg"></div><section class="captain-v3-final ${won ? 'victory' : 'defeat'}">
-      <small>CAPTAIN BATTLE · FINAL RESULT</small>
-      <div class="captain-v3-final-emblem">${won ? 'WIN' : 'LOSE'}</div>
+      <small>대장전 · 최종 결과</small>
+      <div class="captain-v3-final-emblem">${won ? '승리' : '패배'}</div>
       <h2>${won ? '우리 팀 승리' : '우리 팀 패배'}</h2>
       <p>최후의 생존자 <b>${esc(survivor.nickname || '-')}</b> · 잔여 HP ${Number(survivor.hpPercent || 0)}%</p>
       <div class="captain-v3-score-change"><span>${Number(data.attackerScoreBefore).toLocaleString()}</span><i>→</i><strong>${Number(data.attackerScoreAfter).toLocaleString()}</strong><em>${Number(data.scoreChange) > 0 ? '+' : ''}${Number(data.scoreChange)}점</em></div>
+      ${data.victoryReward ? `<div class="captain-v3-victory-reward"><span>공격 승리 보상</span><b>코인 ${Number(data.victoryReward.coin||0).toLocaleString()} · 카드 조각 ${Number(data.victoryReward.shards||0).toLocaleString()}</b></div>` : ''}${data.victoryRewardError ? `<div class="captain-v3-victory-reward error"><span>보상 지급 오류</span><b>${esc(data.victoryRewardError)}</b></div>` : ''}
       <div class="captain-v3-final-actions"><button class="btn" id="captainBattleClose">대장전으로 돌아가기</button><button class="text-btn" id="captainBattleLogs">공격 로그 보기</button></div>
     </section>`;
 
@@ -354,7 +355,7 @@
     button.disabled = true;
     const modal = document.getElementById('modal');
     modal.className = 'modal show captain-v3-battle-modal';
-    modal.innerHTML = '<div class="captain-v3-battle-stage"><div class="captain-v3-match-loading"><i></i><small>MATCH PREPARATION</small><h2>양 팀 출전 순서 추첨 중</h2><p>공격 횟수 1회로 3대3 전체 경기를 진행합니다.</p></div></div>';
+    modal.innerHTML = '<div class="captain-v3-battle-stage"><div class="captain-v3-match-loading"><i></i><small>경기 준비</small><h2>양 팀 출전 순서 추첨 중</h2><p>공격 횟수 1회로 3대3 전체 경기를 진행합니다.</p></div></div>';
 
     try {
       const result = await api('captain/fight', {
@@ -380,7 +381,7 @@
     const opponent = direction === 'attack' ? row.defender_team_name : row.attacker_team_name;
     const survivor = row.survivor?.nickname || '-';
     return `<article class="captain-v3-log-row ${won ? 'win' : 'lose'}">
-      <div class="captain-v3-log-result"><b>${won ? '승리' : '패배'}</b><span>${Number(row.rounds?.length || 0)}ROUND</span></div>
+      <div class="captain-v3-log-result"><b>${won ? '승리' : '패배'}</b><span>${Number(row.rounds?.length || 0)}라운드</span></div>
       <div><h3>${esc(opponent)}</h3><p>${direction === 'attack' ? `공격자 ${esc(row.initiated_by_name || '-')}` : `상대 공격자 ${esc(row.initiated_by_name || '-')}`} · 최후 생존 ${esc(survivor)}</p><small>${esc(row.created_at || '')}</small></div>
       <strong>${direction === 'attack' ? `${Number(row.attacker_score_before)} → ${Number(row.attacker_score_after)}` : `${Number(row.defender_score_before)} → ${Number(row.defender_score_after)}`}</strong>
     </article>`;
@@ -409,7 +410,7 @@
     try {
       const data = await api('captain/ranking');
       box.innerHTML = `<section class="captain-v3-subpage">
-        <header class="captain-v3-subhead"><button class="text-btn" id="captainBack">← 대장전</button><div><small>WEEKLY TEAM RANKING</small><h2>대장전 주간 랭킹</h2></div></header>
+        <header class="captain-v3-subhead"><button class="text-btn" id="captainBack">← 대장전</button><div><small>주간 팀 순위</small><h2>대장전 주간 랭킹</h2></div></header>
         <div class="captain-v3-ranking">${(data.ranking || []).map(team => `<article class="${Number(team.id) === Number(lastStatus?.team?.id) ? 'mine' : ''}">
           <em>${team.rank}</em><div class="captain-v3-rank-team"><b>${esc(team.name)}</b><small>${(team.members || []).map(member => esc(member.nickname)).join(' · ')}</small></div>
           <div class="captain-v3-rank-record"><span>${Number(team.wins || 0)}승 ${Number(team.losses || 0)}패</span><strong>${Number(team.score || 0).toLocaleString()}</strong></div>
@@ -424,24 +425,24 @@
   function renderHero(box, data) {
     box.innerHTML = `<section class="captain-v3-hero">
       <div class="captain-v3-hero-glow"></div>
-      <div class="captain-v3-kicker">WEEKLY RANDOM GAUNTLET · 3 VS 3</div>
+      <div class="captain-v3-kicker">WEEKLY 무작위 GAUNTLET · 3 VS 3</div>
       <h2>최후의 한 명이 남을 때까지</h2>
       <p>PVP 덱을 등록하면 정체가 공개되지 않은 참가자들과 3인 랜덤 팀이 결성됩니다.</p>
       <div class="captain-v3-rule-flow">
         <article><span>01</span><b>랜덤 출전</b><small>양 팀에서 1명씩 무작위 출전</small></article>
         <i>→</i><article><span>02</span><b>승자 잔류</b><small>남은 HP 그대로 다음 상대와 연전</small></article>
-        <i>→</i><article><span>03</span><b>최후 생존</b><small>상대 3명을 모두 DOWN시키면 승리</small></article>
+        <i>→</i><article><span>3</span><b>최후 생존</b><small>상대 3명을 모두 탈락시키면 승리</small></article>
       </div>
       <div class="captain-v3-rule-badges"><span>개인 공격 최대 5회</span><span>15분마다 1회 충전</span><span>궁극기 전면 미사용</span><span>PVP 5장 덱 사용</span></div>
-      <button class="btn captain-v3-main-button" id="captainRegister">대장전 참가 등록</button>${data?.operatorTestParticipant ? '<small class="captain-v3-operator-test">운영자 TEST 참가 활성화 · 정규 운영 랭킹과 분리해 테스트하세요.</small>' : ''}
+      <button class="btn captain-v3-main-button" id="captainRegister">대장전 참가 등록</button>${data?.operatorTestParticipant ? '<small class="captain-v3-operator-test">운영자 테스트 참가 활성화 · 정규 운영 랭킹과 분리해 테스트하세요.</small>' : ''}
       <small class="captain-v3-warning">대기 중 취소 시 7일간 재등록할 수 없으며, 팀 결성 후에는 탈퇴할 수 없습니다.</small>
     </section>`;
   }
 
   function renderWaiting(box, data) {
     box.innerHTML = `<section class="captain-v3-waiting">
-      <div class="captain-v3-secret-cards"><i>?</i><i class="me">YOU</i><i>?</i></div>
-      <small>IDENTITY HIDDEN · RANDOM TEAM</small><h2>팀 결성을 기다리고 있습니다</h2>
+      <div class="captain-v3-secret-cards"><i>?</i><i class="me">본인</i><i>?</i></div>
+      <small>팀원 정보 비공개 · 무작위 팀 구성</small><h2>팀 결성을 기다리고 있습니다</h2>
       <p>3명이 모일 때까지 다른 참가자의 닉네임과 티어는 공개되지 않습니다.</p>
       <div class="captain-v3-wait-count"><b>${Number(data.waitingCount || 0)}</b><span>현재 매칭 대기</span></div>
       <button class="btn ghost" id="captainCancel">참가 취소 · 7일 등록 제한</button>
@@ -450,10 +451,10 @@
 
   function opponentCard(team, energy) {
     return `<article class="captain-v3-rival">
-      <header><div><small>RIVAL TEAM</small><h3>${esc(team.name)}</h3><p>${Number(team.wins || 0)}승 ${Number(team.losses || 0)}패</p></div><strong>${Number(team.score || 0).toLocaleString()}<small>TEAM SCORE</small></strong></header>
-      <div class="captain-v3-rival-power"><span>TEAM DECK POWER</span><b>${Number(team.teamPower || 0).toLocaleString()}</b></div>
+      <header><div><small>상대 팀</small><h3>${esc(team.name)}</h3><p>${Number(team.wins || 0)}승 ${Number(team.losses || 0)}패</p></div><strong>${Number(team.score || 0).toLocaleString()}<small>팀 점수</small></strong></header>
+      <div class="captain-v3-rival-power"><span>팀 덱 전투력</span><b>${Number(team.teamPower || 0).toLocaleString()}</b></div>
       <div class="captain-v3-rival-roster">${(team.members || []).map(member => memberCard(member, { compact: true })).join('')}</div>
-      <div class="captain-v3-rival-rule"><i>RANDOM</i><span>출전 순서와 다음 출전자는 경기 시작 후 무작위 결정</span></div>
+      <div class="captain-v3-rival-rule"><i>무작위</i><span>출전 순서와 다음 출전자는 경기 시작 후 무작위 결정</span></div>
       <button class="btn captain-v3-fight" data-team-id="${Number(team.id)}" ${energy.current <= 0 ? 'disabled' : ''}>3:3 연전 시작</button>
     </article>`;
   }
@@ -462,18 +463,18 @@
     const captain = data.team.members.find(member => Number(member.position) === 3);
     box.innerHTML = `<section class="captain-v3-command">
       <header class="captain-v3-team-header">
-        <div><small>MY WEEKLY SQUAD</small><h2>${esc(data.team.name)}</h2><p>대장 ${esc(captain?.nickname || '-')} · ${Number(data.team.wins || 0)}승 ${Number(data.team.losses || 0)}패</p></div>
-        <div class="captain-v3-team-score"><span>TEAM SCORE</span><b>${Number(data.team.score || 0).toLocaleString()}</b></div>
+        <div><small>우리 팀</small><h2>${esc(data.team.name)}</h2><p>대장 ${esc(captain?.nickname || '-')} · ${Number(data.team.wins || 0)}승 ${Number(data.team.losses || 0)}패</p></div>
+        <div class="captain-v3-team-score"><span>팀 점수</span><b>${Number(data.team.score || 0).toLocaleString()}</b></div>
       </header>
       <div class="captain-v3-team-roster">${data.team.members.map(member => memberCard(member)).join('')}</div>
-      ${data.isCaptain ? `<div class="captain-v3-rename"><div><small>CAPTAIN AUTHORITY</small><b>팀명 변경</b></div><input id="captainTeamName" maxlength="20" value="${esc(data.team.name)}"><button id="captainRename">변경</button></div>` : ''}
+      ${data.isCaptain ? `<div class="captain-v3-rename"><div><small>대장 권한</small><b>팀명 변경</b></div><input id="captainTeamName" maxlength="20" value="${esc(data.team.name)}"><button id="captainRename">변경</button></div>` : ''}
       <div class="captain-v3-control-row">
         ${energyBox(data.energy)}
-        <div class="captain-v3-shortcuts"><button class="text-btn" id="captainRanking">주간 랭킹</button><button class="text-btn" id="captainHistory">공격·방어 로그</button><button class="text-btn" id="captainReward">참여 보상</button></div>
+        <div class="captain-v3-shortcuts"><button class="text-btn" id="captainRanking">주간 랭킹</button><button class="text-btn" id="captainHistory">공격·방어 로그</button><button class="text-btn" id="captainReward">지난 주 정산 보상</button></div>
       </div>
     </section>
     <section class="captain-v3-matchboard">
-      <header><div><small>TEAM GAUNTLET</small><h2>상대 팀 선택</h2><p>상대 팀원을 고르는 방식이 아닙니다. 공격 1회로 양 팀 3명이 랜덤 순서로 끝까지 연전합니다.</p></div><div class="captain-v3-format"><b>3</b><i>VS</i><b>3</b></div></header>
+      <header><div><small>3대3 연전</small><h2>상대 팀 선택</h2><p>상대 팀원을 고르는 방식이 아닙니다. 공격 1회로 양 팀 3명이 랜덤 순서로 끝까지 연전합니다.</p></div><div class="captain-v3-format"><b>3</b><i>VS</i><b>3</b></div></header>
       <div class="captain-v3-rivals">${data.opponents.map(team => opponentCard(team, data.energy)).join('') || '<div class="captain-v3-empty">현재 대결 가능한 상대 팀이 없습니다.</div>'}</div>
     </section>`;
     startEnergyClock(data.energy);
@@ -505,9 +506,21 @@
       });
       document.getElementById('captainRanking')?.addEventListener('click', () => ranking(box));
       document.getElementById('captainHistory')?.addEventListener('click', () => history(box));
-      document.getElementById('captainReward')?.addEventListener('click', async () => {
-        try { await api('captain/reward/claim', { method: 'POST', body: JSON.stringify({ type: 'PARTICIPATION' }) }); alert('참여 보상을 수령했습니다.'); await render(); }
-        catch (error) { alert(error.message); }
+      document.getElementById('captainReward')?.addEventListener('click', async event => {
+        const button = event.currentTarget;
+        button.disabled = true;
+        try {
+          const status = await api('captain/reward/status');
+          if (!status.eligible) throw new Error('지난 주 정산 대상이 아니거나 설정된 보상 구간이 없습니다.');
+          if (status.claimed) throw new Error('지난 주 정산 보상을 이미 수령했습니다.');
+          if (!confirm(`${status.settlementWeek} 주차 ${status.rank}위 정산 보상을 수령할까요?
+코인 ${Number(status.reward?.coin||0).toLocaleString()} · 카드 조각 ${Number(status.reward?.shards||0).toLocaleString()}`)) return;
+          const result = await api('captain/reward/claim', { method: 'POST', body: '{}' });
+          alert(`정산 보상을 수령했습니다.
+코인 ${Number(result.reward?.coin||0).toLocaleString()} · 카드 조각 ${Number(result.reward?.shards||0).toLocaleString()}`);
+          await render();
+        } catch (error) { alert(error.message); }
+        finally { button.disabled = false; }
       });
       document.getElementById('captainRename')?.addEventListener('click', async event => {
         const button = event.currentTarget;
