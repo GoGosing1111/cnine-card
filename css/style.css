@@ -2883,3 +2883,122 @@ body.battle-screen-open #modal{visibility:visible!important;pointer-events:auto!
   .mobile-bottom-item span,.mobile-bottom-primary span{font-size:14px!important}
   .mobile-bottom-item b{font-size:7px!important}
 }
+
+/* V1100 MOBILE TOP SUBMENU + FULLSCREEN RESTORE + NO-CLIP SUMMARY
+   Mobile-only override. Desktop layout remains unchanged. */
+@media(max-width:800px){
+  /* Menu panels live directly below the mobile top navigation and push content down. */
+  body.mobile-menu-open{
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    overscroll-behavior-x:none!important;
+    overscroll-behavior-y:auto!important;
+  }
+  .mobile-nav-sheet-layer{
+    position:relative!important;
+    z-index:42!important;
+    inset:auto!important;
+    width:100%!important;
+    margin:-5px 0 13px!important;
+    display:block;
+    pointer-events:none;
+  }
+  .mobile-nav-sheet-layer[hidden]{display:none!important}
+  .mobile-nav-sheet-layer.open{pointer-events:auto}
+  .mobile-nav-sheet-backdrop{display:none!important}
+  .mobile-nav-sheet{
+    position:relative!important;
+    left:auto!important;
+    right:auto!important;
+    top:auto!important;
+    bottom:auto!important;
+    width:100%!important;
+    max-height:min(58dvh,520px)!important;
+    padding:14px 12px!important;
+    border:1px solid rgba(101,224,255,.3)!important;
+    border-radius:0 0 17px 17px!important;
+    background:radial-gradient(circle at 82% 0,rgba(58,99,255,.16),transparent 35%),linear-gradient(180deg,#071a38,#030b1e 78%)!important;
+    box-shadow:0 15px 32px rgba(0,0,0,.32),inset 0 1px 0 rgba(255,255,255,.055)!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+    transform:translateY(-7px)!important;
+    opacity:0!important;
+    transition:transform .17s ease,opacity .15s ease!important;
+  }
+  .mobile-nav-sheet.active{display:block!important}
+  .mobile-nav-sheet-layer.open .mobile-nav-sheet.active{
+    transform:translateY(0)!important;
+    opacity:1!important;
+  }
+  .mobile-nav-sheet:before{display:none!important}
+  .mobile-nav-sheet>header{margin-bottom:11px!important}
+  .mobile-nav-sheet>header h2{font-size:20px!important}
+  .mobile-nav-sheet>header p{font-size:10px!important}
+  .mobile-nav-sheet>header>button{width:32px!important;height:32px!important;border-radius:10px!important;font-size:19px!important}
+  .mobile-sheet-action-list{gap:7px!important}
+  .mobile-sheet-action-list>button,.mobile-reward-hub-button{
+    min-height:62px!important;
+    grid-template-columns:38px minmax(0,1fr) auto!important;
+    gap:9px!important;
+    padding:9px 10px!important;
+    border-radius:14px!important;
+  }
+  .mobile-sheet-action-list>button>i,.mobile-reward-hub-button>i{
+    width:38px!important;height:38px!important;border-radius:12px!important;font-size:17px!important;
+  }
+  .mobile-sheet-action-list>button b,.mobile-reward-hub-button b{font-size:13px!important}
+  .mobile-sheet-action-list>button small,.mobile-reward-hub-button small{font-size:8px!important}
+  .mobile-more-grid{gap:7px!important}
+  .mobile-more-grid button{min-height:60px!important;border-radius:14px!important}
+
+  /* Restore the full-screen / large-view shortcut at the top of the mobile header. */
+  .header{position:relative!important}
+  .header .brand{padding-right:104px!important}
+  .fullscreen-play-link{
+    display:flex!important;
+    position:absolute!important;
+    z-index:260!important;
+    top:2px!important;
+    right:0!important;
+    bottom:auto!important;
+    min-height:32px!important;
+    padding:7px 10px!important;
+    border-radius:11px!important;
+    background:linear-gradient(135deg,rgba(8,43,80,.98),rgba(8,24,55,.98))!important;
+    border-color:rgba(111,235,255,.38)!important;
+    box-shadow:0 7px 18px rgba(0,0,0,.3)!important;
+  }
+  .fullscreen-play-link span{font-size:14px!important}
+  .fullscreen-play-link b{font-size:9px!important}
+
+  /* Four summary cards must all be visible; no horizontal clipping or hidden fourth card. */
+  .summary-bar{
+    display:grid!important;
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:7px!important;
+    width:100%!important;
+    margin:0 0 12px!important;
+    padding:0!important;
+    overflow:visible!important;
+    scroll-snap-type:none!important;
+  }
+  .summary-bar>.summary-card{
+    min-width:0!important;
+    width:100%!important;
+    min-height:86px!important;
+    padding:9px 10px!important;
+    scroll-snap-align:none!important;
+  }
+  .summary-bar>.inventory-summary{min-width:0!important}
+  .inventory-summary-copy{min-width:0!important}
+  .inventory-summary-copy em{max-width:100%!important}
+}
+
+@media(max-width:370px){
+  .header .brand{padding-right:91px!important}
+  .fullscreen-play-link{padding:6px 8px!important}
+  .fullscreen-play-link b{font-size:8px!important}
+  .summary-bar{gap:6px!important}
+  .summary-bar>.summary-card{min-height:82px!important;padding:8px!important}
+  .mobile-nav-sheet{padding:12px 9px!important}
+}
