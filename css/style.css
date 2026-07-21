@@ -3024,116 +3024,57 @@ html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!
   body.captain-battle-scroll-open .captain-v4-pvp-stage{touch-action:pan-y!important}
 }
 
-/* V1115: draw overlap fix + original SSR/MA image background restoration only. */
+/* V1116: restore original SSR/MA JPG scenes and keep draw actions above results. */
 .modal.opening-modal,
 .modal.results-modal,
 .modal.special-reveal-modal,
 .modal.inventory-open-modal{
-  position:fixed!important;
-  inset:0!important;
-  z-index:120000!important;
-  width:100vw!important;
-  height:100dvh!important;
-  max-width:none!important;
-  isolation:isolate!important;
+  position:fixed!important;inset:0!important;z-index:120000!important;
+  width:100vw!important;height:100dvh!important;max-width:none!important;isolation:isolate!important;
 }
 .modal.results-modal{
-  padding:max(14px,env(safe-area-inset-top)) max(14px,env(safe-area-inset-right)) max(14px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left))!important;
-  align-items:flex-start!important;
-  justify-content:center!important;
-  overflow-x:hidden!important;
-  overflow-y:auto!important;
+  padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))!important;
+  align-items:flex-start!important;justify-content:center!important;overflow-x:hidden!important;overflow-y:auto!important;
 }
-.modal.results-modal .multi-result-panel{
-  position:relative!important;
-  z-index:2!important;
-  width:min(1220px,calc(100vw - 28px))!important;
-  max-width:calc(100vw - 28px)!important;
-  max-height:none!important;
-  margin:0 auto!important;
-  overflow:visible!important;
+.modal.results-modal .multi-result-panel{width:min(1220px,calc(100vw - 24px))!important;max-width:calc(100vw - 24px)!important;margin:0 auto!important;overflow:visible!important}
+.modal.results-modal .result-head{position:relative!important;padding-right:52px!important}
+.modal.results-modal .icon-close{position:absolute!important;top:12px!important;right:12px!important;z-index:8!important}
+.modal.results-modal .result-actions-top{
+  position:sticky!important;top:0!important;z-index:30!important;
+  display:grid!important;grid-template-columns:minmax(190px,1fr) minmax(120px,.45fr)!important;
+  gap:10px!important;margin:8px 0 16px!important;padding:10px!important;
+  border:1px solid rgba(98,232,255,.25)!important;border-radius:14px!important;
+  background:rgba(3,13,32,.94)!important;backdrop-filter:blur(12px)!important;
+  box-shadow:0 10px 26px rgba(0,0,0,.28)!important;
 }
-.modal.results-modal .result-head{position:relative!important;z-index:5!important;padding-right:54px!important}
-.modal.results-modal .icon-close{position:absolute!important;top:14px!important;right:14px!important;z-index:8!important}
-
-/* Only SSR and MA are restored here. FUR/LIMITED selectors are intentionally untouched. */
 .modal.special-reveal-modal.reveal-ssr,
-.modal.special-reveal-modal.reveal-ma{
-  padding:0!important;
-  overflow:hidden!important;
-  background:#01030a!important;
-}
+.modal.special-reveal-modal.reveal-ma{padding:0!important;overflow:hidden!important;background:#01030a!important}
 .special-reveal-stage.grade-ssr,
 .special-reveal-stage.grade-ma{
-  position:fixed!important;
-  inset:0!important;
-  z-index:1!important;
-  width:100vw!important;
-  height:100dvh!important;
-  min-height:100dvh!important;
-  overflow:hidden!important;
-  display:grid!important;
-  place-items:center!important;
-  color:#fff!important;
-  isolation:isolate!important;
-  background-color:#01030a!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important;
-  background-size:cover!important;
+  position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;min-height:100dvh!important;
+  overflow:hidden!important;display:grid!important;place-items:center!important;isolation:isolate!important;
+  background-color:#01030a!important;background-position:center!important;background-repeat:no-repeat!important;background-size:cover!important;
 }
-.special-reveal-stage.grade-ssr{background-image:linear-gradient(rgba(1,3,10,.08),rgba(1,3,10,.18)),url('../assets/effects/reveal/ssr_bg.jpg')!important}
-.special-reveal-stage.grade-ma{background-image:linear-gradient(rgba(1,3,10,.08),rgba(1,3,10,.18)),url('../assets/effects/reveal/ma_bg.jpg')!important}
+.special-reveal-stage.grade-ssr{background-image:url('../assets/effects/reveal/ssr_bg.jpg')!important}
+.special-reveal-stage.grade-ma{background-image:url('../assets/effects/reveal/ma_bg.jpg')!important}
 .special-reveal-stage.grade-ssr:before,
-.special-reveal-stage.grade-ma:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  z-index:0;
-  pointer-events:none;
-  background:linear-gradient(180deg,rgba(0,0,0,.12),transparent 30%,transparent 68%,rgba(0,0,0,.40));
-}
-.special-reveal-stage.grade-ssr .special-cinematic-canvas,
-.special-reveal-stage.grade-ma .special-cinematic-canvas,
-.special-reveal-stage.grade-ssr .cinematic-scene-mist,
-.special-reveal-stage.grade-ma .cinematic-scene-mist,
-.special-reveal-stage.grade-ssr .cinematic-depth-grid,
-.special-reveal-stage.grade-ma .cinematic-depth-grid,
-.special-reveal-stage.grade-ssr .cinematic-horizon,
-.special-reveal-stage.grade-ma .cinematic-horizon,
-.special-reveal-stage.grade-ssr .cinematic-flash,
-.special-reveal-stage.grade-ma .cinematic-flash,
-.special-reveal-stage.grade-ssr .cinematic-vfx,
-.special-reveal-stage.grade-ma .cinematic-vfx{
-  position:absolute!important;
-  inset:0!important;
-  width:100%!important;
-  height:100%!important;
-  pointer-events:none!important;
-}
-/* The old synthetic scene background must not cover the restored JPG. */
+.special-reveal-stage.grade-ma:before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.08),transparent 35%,transparent 68%,rgba(0,0,0,.34))}
 .special-reveal-stage.grade-ssr .cinematic-scene-bg,
 .special-reveal-stage.grade-ma .cinematic-scene-bg{display:none!important}
 .special-reveal-stage.grade-ssr .special-cinematic-canvas,
-.special-reveal-stage.grade-ma .special-cinematic-canvas{z-index:2!important;display:block!important}
+.special-reveal-stage.grade-ma .special-cinematic-canvas{position:absolute!important;inset:0!important;z-index:2!important;width:100%!important;height:100%!important;background:transparent!important;pointer-events:none!important}
 .special-reveal-stage.grade-ssr .cinematic-scene-mist,
-.special-reveal-stage.grade-ma .cinematic-scene-mist{z-index:3!important}
+.special-reveal-stage.grade-ma .cinematic-scene-mist,
 .special-reveal-stage.grade-ssr .cinematic-vfx,
 .special-reveal-stage.grade-ma .cinematic-vfx,
 .special-reveal-stage.grade-ssr .cinematic-depth-grid,
 .special-reveal-stage.grade-ma .cinematic-depth-grid,
 .special-reveal-stage.grade-ssr .cinematic-horizon,
-.special-reveal-stage.grade-ma .cinematic-horizon{z-index:4!important}
+.special-reveal-stage.grade-ma .cinematic-horizon,
+.special-reveal-stage.grade-ssr .cinematic-flash,
+.special-reveal-stage.grade-ma .cinematic-flash{position:absolute!important;inset:0!important;z-index:3!important;pointer-events:none!important}
 .special-reveal-stage.grade-ssr .cinematic-emblem,
-.special-reveal-stage.grade-ma .cinematic-emblem{
-  position:absolute!important;
-  z-index:20!important;
-  top:clamp(28px,7vh,82px)!important;
-  left:50%!important;
-  width:min(92vw,760px)!important;
-  transform:translateX(-50%)!important;
-  text-align:center!important;
-  text-shadow:0 3px 18px rgba(0,0,0,.95),0 0 28px rgba(255,255,255,.45)!important;
-}
+.special-reveal-stage.grade-ma .cinematic-emblem{position:absolute!important;z-index:20!important;top:clamp(28px,7vh,82px)!important;left:50%!important;transform:translateX(-50%)!important;width:min(92vw,760px)!important;text-align:center!important;text-shadow:0 3px 18px rgba(0,0,0,.95),0 0 28px rgba(255,255,255,.45)!important}
 .special-reveal-stage.grade-ssr .cinematic-emblem small,
 .special-reveal-stage.grade-ma .cinematic-emblem small,
 .special-reveal-stage.grade-ssr .cinematic-emblem span,
@@ -3141,30 +3082,16 @@ html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!
 .special-reveal-stage.grade-ssr .cinematic-emblem strong,
 .special-reveal-stage.grade-ma .cinematic-emblem strong{display:block!important;margin:5px 0!important;font-size:clamp(58px,11vw,132px)!important;line-height:.9!important;color:#fff!important;letter-spacing:.05em!important}
 .special-reveal-stage.grade-ssr .cinematic-card-shell,
-.special-reveal-stage.grade-ma .cinematic-card-shell{
-  position:relative!important;
-  z-index:22!important;
-  width:min(260px,64vw)!important;
-  aspect-ratio:5/7!important;
-  transform-style:preserve-3d!important;
-}
-.special-reveal-stage.grade-ssr .cinematic-card-back,
-.special-reveal-stage.grade-ma .cinematic-card-back,
-.special-reveal-stage.grade-ssr .special-reveal-card,
-.special-reveal-stage.grade-ma .special-reveal-card,
-.special-reveal-stage.grade-ssr .cinematic-card-glint,
-.special-reveal-stage.grade-ma .cinematic-card-glint{position:absolute!important;inset:0!important;border-radius:20px!important;backface-visibility:hidden!important}
-.special-reveal-stage.grade-ssr .special-reveal-card-ui,
-.special-reveal-stage.grade-ma .special-reveal-card-ui{width:100%!important;height:100%!important;max-width:none!important}
+.special-reveal-stage.grade-ma .cinematic-card-shell{position:relative!important;z-index:22!important;width:min(260px,64vw)!important;aspect-ratio:5/7!important;transform-style:preserve-3d!important}
 .special-reveal-stage.grade-ssr .cinematic-caption,
-.special-reveal-stage.grade-ma .cinematic-caption{position:absolute!important;z-index:25!important;left:50%!important;bottom:max(23px,calc(env(safe-area-inset-bottom) + 14px))!important;transform:translateX(-50%)!important;color:rgba(245,251,255,.72)!important}
+.special-reveal-stage.grade-ma .cinematic-caption{position:absolute!important;z-index:25!important;left:50%!important;bottom:max(23px,calc(env(safe-area-inset-bottom) + 14px))!important;transform:translateX(-50%)!important}
 .special-reveal-stage.grade-ssr .special-skip,
 .special-reveal-stage.grade-ma .special-skip{position:absolute!important;z-index:40!important;right:max(18px,calc(env(safe-area-inset-right) + 12px))!important;top:max(18px,calc(env(safe-area-inset-top) + 12px))!important}
 @media(max-width:800px){
-  .modal.results-modal{padding:max(8px,env(safe-area-inset-top)) 8px max(82px,calc(env(safe-area-inset-bottom) + 70px))!important}
-  .modal.results-modal .multi-result-panel{width:100%!important;max-width:100%!important;padding:14px 10px 18px!important;border-radius:16px!important}
-  .modal.results-modal .result-head{padding:5px 50px 8px 4px!important}
-  .modal.results-modal .result-head h2{font-size:clamp(20px,6vw,27px)!important}
+  .modal.results-modal{padding:max(8px,env(safe-area-inset-top)) 8px max(20px,env(safe-area-inset-bottom))!important}
+  .modal.results-modal .multi-result-panel{width:100%!important;max-width:100%!important;padding:12px 10px 18px!important;border-radius:16px!important}
+  .modal.results-modal .result-actions-top{grid-template-columns:1fr!important;top:max(0px,env(safe-area-inset-top))!important;margin:4px 0 12px!important;padding:8px!important}
+  .modal.results-modal .result-actions-top .btn{min-height:48px!important;width:100%!important}
   .special-reveal-stage.grade-ssr .cinematic-emblem,
   .special-reveal-stage.grade-ma .cinematic-emblem{top:max(48px,calc(env(safe-area-inset-top) + 34px))!important}
   .special-reveal-stage.grade-ssr .cinematic-card-shell,
