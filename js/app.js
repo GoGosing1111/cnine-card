@@ -1049,6 +1049,30 @@ const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
 const API_CACHE_TTL={'cards':120000,'packs':60000,'pvp/config':30000,'recent-high-grade':2000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
+const STARTUP_REQUEST_TIMEOUT=10000;
+let startupRunId=0,startupWatchdogTimer=null;
+function requestTimeoutError(label='서버 요청',timeoutMs=10000){const error=new Error(`${label} 시간이 초과되었습니다. 잠시 후 다시 시도해주세요.`);error.code='REQUEST_TIMEOUT';error.timeout=true;error.timeoutMs=timeoutMs;return error}
+async function fetchWithTimeout(input,options={},timeoutMs=15000,label='서버 요청'){
+  const controller=new AbortController(),externalSignal=options.signal;let timedOut=false;
+  const forwardAbort=()=>controller.abort();
+  if(externalSignal){if(externalSignal.aborted)controller.abort();else externalSignal.addEventListener('abort',forwardAbort,{once:true})}
+  const timer=setTimeout(()=>{timedOut=true;controller.abort()},Math.max(1000,Number(timeoutMs)||15000));
+  try{return await fetch(input,{...options,signal:controller.signal})}
+  catch(error){if(timedOut)throw requestTimeoutError(label,timeoutMs);throw error}
+  finally{clearTimeout(timer);if(externalSignal)externalSignal.removeEventListener('abort',forwardAbort)}
+}
+async function loadStaticCardsFallback(){
+  try{const response=await fetchWithTimeout('data/cards.json',{cache:'default'},7000,'기본 카드 데이터 확인');if(!response.ok)throw new Error('기본 카드 데이터를 불러오지 못했습니다.');const data=await response.json();return Array.isArray(data)?data:[]}
+  catch(error){console.error('기본 카드 데이터 로드 실패:',error);return []}
+}
+function renderStartupRecovery(message='서버 연결이 지연되고 있습니다.'){
+  if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
+  const safeMessage=escapeHtml(message||'서버 연결이 지연되고 있습니다.');
+  app.innerHTML=`<div class="login-wrap startup-recovery-wrap"><div class="login-box game-panel startup-recovery-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CONNECTION RECOVERY</p><h1>씨켓몬 연결 확인</h1><div class="logged-out-notice"><span>로딩이 완료되지 않았습니다.</span><p>${safeMessage}</p></div><button class="btn" id="startupRetry">다시 연결</button><button class="btn secondary" id="startupSessionRetry">로그인 연결 초기화 후 재시도</button><p class="login-help">개인키와 계정 데이터는 삭제되지 않습니다. 연결 토큰만 새로 확인합니다.</p></div></div>`;
+  const retry=document.getElementById('startupRetry'),reset=document.getElementById('startupSessionRetry');
+  if(retry)retry.onclick=()=>{API_INFLIGHT.clear();clearApiCache();void init()};
+  if(reset)reset.onclick=()=>{clearPlayerToken();API_INFLIGHT.clear();clearApiCache();void init()};
+}
 function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?2000:5000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
 
 function inventoryView(){return `${summaryBar(loadUser())}<section class="inventory-vault"><div class="inventory-hero"><div class="inventory-hero-copy"><h2>인벤토리</h2><p>획득한 보상 큐브를 안전하게 보관합니다.</p><div class="inventory-hero-meta"><b id="inventoryOwnedSummary">보관품 확인 중</b></div></div><div class="inventory-vault-mark" aria-hidden="true"><img src="assets/ui/cninelogo.png" alt=""></div></div><div class="inventory-toolbar"><div><button type="button" class="active">전체</button><button type="button" disabled>큐브</button></div></div><div id="inventoryGrid" class="inventory-grid"><div class="inventory-loading"><i></i><b>보관함 확인 중</b><span>보유 정보를 확인하고 있습니다.</span></div></div></section>`}
@@ -1075,12 +1099,13 @@ async function apiRequest(path, options={}, config={}) {
   const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now();
   if(isGet&&ttl>0){const cached=API_GET_CACHE.get(cleanPath);if(cached&&cached.expiresAt>now)return cached.data;}
   if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
+  const timeoutMs=Math.max(1000,Number(config.timeoutMs??(isGet?15000:30000))||15000);
   const task=(async()=>{
-    const response=await fetch(`/api/${cleanPath}`,{
+    const response=await fetchWithTimeout(`/api/${cleanPath}`,{
       cache:isGet&&ttl>0?'default':'no-store',
       ...options,
       headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}
-    });
+    },timeoutMs,`서버 요청 (${cleanPath})`);
     const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
     let data={};
     if(text){
@@ -1089,7 +1114,7 @@ async function apiRequest(path, options={}, config={}) {
     }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
     if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;}
     if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
-    if(!isGet){if(cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');}
+    if(!isGet&&cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
     return data;
   })();
   if(isGet)API_INFLIGHT.set(cleanPath,task);
@@ -1134,13 +1159,13 @@ function startRuntimeCommandPoll(){if(!API_MODE||!API_TOKEN||!loadUser())return;
 async function detectApi(){
   try{
     const adminToken=localStorage.getItem('cnine_admin_token')||'',authToken=API_TOKEN||adminToken;
-    const response=await fetch('/api/service/status',{cache:'no-store',headers:{'authorization':authToken?`Bearer ${authToken}`:''}});
+    const response=await fetchWithTimeout('/api/service/status',{cache:'no-store',headers:{'authorization':authToken?`Bearer ${authToken}`:''}},8000,'서버 상태 확인');
     const contentType=(response.headers.get('content-type')||'').toLowerCase();
     if(!contentType.includes('application/json')){API_MODE=false;return null;}
     const data=await response.json();API_MODE=response.ok;
     if(data.bypass&&!API_TOKEN&&adminToken)API_TOKEN=adminToken;
     return data;
-  }catch{API_MODE=false;return null;}
+  }catch(error){console.warn('서버 상태 확인 실패:',error);API_MODE=false;return null;}
 }
 async function fetchServiceStatus(){const data=await detectApi();return data||{maintenance:{active:false},bypass:false}}
 function maintenanceTime(v){if(!v)return'';return String(v).replace('T',' ').slice(0,16)}
@@ -1159,7 +1184,7 @@ async function recoverPlayerSession(){
   const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
   if(!privateKey)return false;
   try{
-    const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})});
+    const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})},{timeoutMs:10000});
     persistPlayerToken(d.token);
     saveUser(apiUserToLocal(d.user,privateKey));
     return true;
@@ -1169,47 +1194,61 @@ async function recoverPlayerSession(){
   }
 }
 async function init(){
-  migrateLegacyUser();renderLoading();let authenticated=false;
+  const runId=++startupRunId;
+  if(startupWatchdogTimer)clearTimeout(startupWatchdogTimer);
+  API_INFLIGHT.clear();migrateLegacyUser();renderLoading();let authenticated=false,completed=false;
+  startupWatchdogTimer=setTimeout(()=>{
+    if(runId!==startupRunId||completed)return;
+    startupRunId++;API_MODE=false;API_INFLIGHT.clear();
+    renderStartupRecovery('서버 응답이 오래 지연되어 자동으로 로딩을 중단했습니다.');
+  },32000);
   try{
-    const servicePromise=detectApi();
-    const cardsPromise=apiRequest('cards');
-    const packsPromise=apiRequest('packs');
-    const service=await servicePromise;
+    const service=await detectApi();
+    if(runId!==startupRunId)return;
     if(!API_MODE)throw new Error('API_OFFLINE');
-    if(service?.maintenance?.active&&!service.bypass){renderMaintenance(service.maintenance,service);return;}
-    const [cr,pr]=await Promise.all([cardsPromise,packsPromise]);
-    cards=cr.cards;applyServerPacks(pr.packs);
+    if(service?.maintenance?.active&&!service.bypass){completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;renderMaintenance(service.maintenance,service);return;}
+
+    const [cardResult,packResult]=await Promise.allSettled([
+      apiRequest('cards',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT}),
+      apiRequest('packs',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT})
+    ]);
+    if(runId!==startupRunId)return;
+    if(cardResult.status!=='fulfilled'||!Array.isArray(cardResult.value?.cards))throw cardResult.reason||new Error('카드 데이터를 불러오지 못했습니다.');
+    cards=cardResult.value.cards;
+    if(packResult.status==='fulfilled')applyServerPacks(packResult.value?.packs||[]);
+    else console.warn('카드팩 설정 조회 실패 - 기본 설정으로 계속합니다:',packResult.reason);
+
     if(API_TOKEN){
       try{
-        const me=await apiRequest('me');
-        saveUser(apiUserToLocal(me.user));
-        authenticated=true;
+        const me=await apiRequest('me',{}, {timeoutMs:8000});
+        if(runId!==startupRunId)return;
+        saveUser(apiUserToLocal(me.user));authenticated=true;
       }catch(error){
-        if(Number(error?.status)===401){
-          clearPlayerToken();
-          authenticated=await recoverPlayerSession();
-        }else{
-          console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);
-          authenticated=Boolean(loadUser());
-        }
+        if(Number(error?.status)===401){clearPlayerToken();authenticated=await recoverPlayerSession();}
+        else{console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);authenticated=Boolean(loadUser());}
       }
-      if(authenticated){
-        try{const pc=await apiRequest('pvp/config');pvpFeatureEnabled=Boolean(pc.settings?.enabled||pc.bypass)}
-        catch(error){console.warn('PvP 설정 조회 실패 - 로그인은 유지합니다:',error);pvpFeatureEnabled=false}
-      }
-    }else{
-      authenticated=await recoverPlayerSession();
-      if(authenticated){
-        try{const pc=await apiRequest('pvp/config');pvpFeatureEnabled=Boolean(pc.settings?.enabled||pc.bypass)}catch{pvpFeatureEnabled=false}
-      }
+    }else authenticated=await recoverPlayerSession();
+
+    if(runId!==startupRunId)return;
+    if(authenticated){
+      try{const pc=await apiRequest('pvp/config',{}, {timeoutMs:7000});pvpFeatureEnabled=Boolean(pc.settings?.enabled||pc.bypass)}
+      catch(error){console.warn('PvP 설정 조회 실패 - 로그인은 유지합니다:',error);pvpFeatureEnabled=false}
     }
-  }catch(e){
-    if(e?.message!=='API_OFFLINE')console.error(e);
-    API_MODE=false;
-    try{cards=await (await fetch('data/cards.json',{cache:'default'})).json()}catch{cards=[]}
+  }catch(error){
+    if(error?.message!=='API_OFFLINE')console.error('초기 연결 실패:',error);
+    API_MODE=false;API_INFLIGHT.clear();
+    cards=await loadStaticCardsFallback();
+    if(runId!==startupRunId)return;
     authenticated=Boolean(loadUser());
+    if(!cards.length){
+      completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;
+      renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었고 기본 데이터도 불러오지 못했습니다.':'서버와 기본 데이터를 모두 불러오지 못했습니다.');
+      return;
+    }
   }
-  setTimeout(()=>{if(authenticated){renderShell('buy');startRuntimeCommandPoll()}else renderLogin()},100);
+  if(runId!==startupRunId)return;
+  completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
+  setTimeout(()=>{if(runId!==startupRunId)return;if(authenticated){renderShell('buy');startRuntimeCommandPoll()}else renderLogin()},100);
 }
 function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));startRuntimeCommandPoll();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
