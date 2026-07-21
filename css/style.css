@@ -2333,3 +2333,96 @@ div{
 /* V1082 대장전 승리·정산 보상 */
 .captain-v3-victory-reward{display:grid;gap:4px;margin:0 0 18px;padding:14px 18px;border:1px solid rgba(100,238,185,.25);border-radius:16px;background:rgba(56,212,153,.08)}
 .captain-v3-victory-reward span{font-size:10px;font-weight:900;letter-spacing:1.2px;color:#71edbb}.captain-v3-victory-reward b{font-size:14px;color:#edfff8}.captain-v3-victory-reward.error{border-color:rgba(255,102,126,.3);background:rgba(255,76,106,.08)}.captain-v3-victory-reward.error span{color:#ff8798}
+
+/* V1084 대장전 - 기존 PVP 전투 화면 기반 카드별 연전 */
+.captain-v4-battle-modal{padding:0!important;background:rgba(0,3,10,.985)!important;z-index:100000!important}
+.captain-v4-pvp-stage{position:relative;width:min(1500px,100vw)!important;min-height:100vh!important;max-height:none!important;margin:0 auto!important;padding:18px 28px 26px!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:#030713!important;color:#eefaff!important}
+.captain-v4-pvp-stage .battle-backdrop{position:absolute;inset:0;background:radial-gradient(circle at 21% 48%,rgba(35,179,229,.22),transparent 31%),radial-gradient(circle at 79% 48%,rgba(129,70,232,.23),transparent 31%),linear-gradient(135deg,#020713,#081128 52%,#0b071b);opacity:1}
+.captain-v4-pvp-stage .battle-backdrop:after{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(104,223,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(104,223,255,.028) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,transparent 0,black 18%,black 82%,transparent 100%)}
+.captain-v4-pvp-stage .battle-topline{position:relative;z-index:8;height:34px;padding:0 6px;display:flex;align-items:center;justify-content:space-between;color:#71eaff;font-size:10px;font-weight:950;letter-spacing:1.8px}
+.captain-v4-pvp-stage .battle-topline b{color:#ffd46a}
+.captain-v4-skip{position:absolute;z-index:20;right:28px;top:52px;min-height:34px;padding:0 12px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(4,14,29,.78);color:#a8bfd4;font-size:10px;font-weight:800;cursor:pointer;backdrop-filter:blur(10px)}
+.captain-v4-skip:hover{border-color:rgba(112,232,255,.35);color:#ecfbff}
+.captain-v4-lineups{position:relative;z-index:7;margin:4px 0 8px;padding-right:118px}
+.captain-v4-hud{position:relative;z-index:7;margin-top:6px}
+.captain-v4-hud .battle-hp{min-width:0}
+.captain-v4-hud .battle-hp small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.captain-v4-arena{position:relative;z-index:6;min-height:calc(100vh - 190px);padding:10px 0 18px;display:grid!important;grid-template-columns:minmax(0,1fr) 112px minmax(0,1fr)!important;align-items:center!important;gap:14px!important}
+.captain-v4-side{position:relative;min-width:0;padding:18px 16px 20px;border:1px solid rgba(255,255,255,.08);border-radius:24px;background:linear-gradient(145deg,rgba(8,28,52,.84),rgba(6,10,24,.74));box-shadow:0 22px 70px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.035);transition:.25s}
+.captain-v4-side.enemy-side{background:linear-gradient(215deg,rgba(50,22,78,.82),rgba(7,9,24,.74))}
+.captain-v4-side.hit{animation:captainV4HitLeft .22s ease}
+.captain-v4-side.enemy-side.hit{animation-name:captainV4HitRight}
+@keyframes captainV4HitLeft{35%{transform:translateX(-8px)}70%{transform:translateX(6px)}}
+@keyframes captainV4HitRight{35%{transform:translateX(8px)}70%{transform:translateX(-6px)}}
+.captain-v4-side.captain-v4-winner{border-color:rgba(255,211,91,.55);box-shadow:0 0 52px rgba(255,188,51,.13),0 22px 70px rgba(0,0,0,.3)}
+.captain-v4-side.captain-v4-user-down{opacity:.42;filter:grayscale(.78);transform:scale(.975)}
+.captain-v4-user-title{display:flex;align-items:center;gap:10px;margin:0 4px 12px}
+.captain-v4-user-title.defender{justify-content:flex-end;text-align:right}
+.captain-v4-user-title.defender .tier-emblem,.captain-v4-user-title.defender .captain-v3-tier-fallback{order:2}
+.captain-v4-user-title small,.captain-v4-user-title b{display:block}
+.captain-v4-user-title small{color:#7690a9;font-size:9px;letter-spacing:1px}
+.captain-v4-user-title b{margin-top:2px;font-size:22px;color:#f2fbff}
+.captain-v4-center{display:grid;place-items:center;align-content:center;gap:7px;text-align:center}
+.captain-v4-center .battle-vs-mark{font-size:34px!important;color:#ffd36a;text-shadow:0 0 24px rgba(255,188,54,.38)}
+.captain-v4-center #battleCountdown{min-height:20px;color:#75eaff;font-size:11px;font-weight:950;letter-spacing:2px}
+.captain-v4-center em{max-width:100px;color:#71869b;font-style:normal;font-size:8px;line-height:1.45}
+.captain-v4-pvp-deck{display:flex!important;justify-content:center!important;align-items:flex-end!important;min-height:310px!important;padding:8px 0 4px}
+.captain-v4-card-slot{position:relative;width:clamp(78px,8.7vw,132px);margin-left:-20px;transform-origin:50% 92%;transition:transform .18s ease,filter .18s ease,opacity .2s ease;filter:drop-shadow(0 14px 20px rgba(0,0,0,.28))}
+.captain-v4-card-slot:first-child{margin-left:0}
+.captain-v4-card-slot .battle-card-fighter{width:100%;transform:none!important}
+.captain-v4-card-slot .battle-fighter-card{width:100%!important;cursor:default!important;transform:none!important}
+.captain-v4-card-slot.is-attacking{z-index:30;transform:translateY(-22px) scale(1.075);filter:drop-shadow(0 0 24px rgba(87,231,255,.44))}
+.enemy-side .captain-v4-card-slot.is-attacking{filter:drop-shadow(0 0 24px rgba(193,112,255,.45))}
+.captain-v4-card-slot.is-down{opacity:.26;filter:grayscale(1) brightness(.55);transform:translateY(7px) scale(.96)}
+.captain-v4-card-slot.is-down:after{content:"탈락";position:absolute;z-index:10;left:50%;top:46%;transform:translate(-50%,-50%) rotate(-9deg);padding:4px 8px;border:2px solid rgba(255,104,127,.86);border-radius:6px;color:#ff7b91;background:rgba(20,3,9,.76);font-size:10px;font-weight:1000;letter-spacing:1px}
+.captain-v4-card-hp{position:relative;z-index:8;height:7px;margin:5px 7px 0;border-radius:99px;overflow:hidden;background:#121c29;box-shadow:inset 0 1px 3px rgba(0,0,0,.75)}
+.captain-v4-card-hp i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#36d3ae,#6beaff);box-shadow:0 0 10px rgba(83,227,255,.35);transition:width .18s ease}
+.enemy-side .captain-v4-card-hp i{background:linear-gradient(90deg,#8775ff,#db79ff);box-shadow:0 0 10px rgba(183,103,255,.32)}
+.captain-v4-card-state{display:flex;align-items:center;justify-content:space-between;margin:4px 7px 0;color:#71879c;font-size:7px}
+.captain-v4-card-state b{color:#c8f6ff;font-size:8px}
+.captain-v4-card-slot.is-down .captain-v4-card-state b{color:#ff7e92}
+.captain-v4-round-notice{position:absolute;z-index:40;left:50%;top:50%;width:min(560px,88vw);padding:18px 22px;border:1px solid rgba(105,231,255,.25);border-radius:20px;background:rgba(3,12,27,.94);box-shadow:0 28px 90px rgba(0,0,0,.52);backdrop-filter:blur(16px);transform:translate(-50%,-50%);text-align:center;transition:.28s ease}
+.captain-v4-round-notice.hide{opacity:0;transform:translate(-50%,-45%) scale(.94);pointer-events:none}
+.captain-v4-round-notice.result{border-color:rgba(255,207,89,.38)}
+.captain-v4-round-notice small,.captain-v4-round-notice b,.captain-v4-round-notice span{display:block}
+.captain-v4-round-notice small{color:#70eaff;font-size:9px;font-weight:900;letter-spacing:2px}
+.captain-v4-round-notice b{margin:6px 0 4px;font-size:21px}
+.captain-v4-round-notice b i{margin:0 8px;color:#ffd369;font-style:normal}
+.captain-v4-round-notice span{color:#8fa7bd;font-size:11px}
+.captain-v4-survivor-deck{display:flex;justify-content:center;align-items:flex-end;min-height:160px;margin:18px 0 4px}
+.captain-v4-survivor-deck .captain-v4-card-slot{width:clamp(58px,7vw,92px);margin-left:-15px}
+.captain-v4-survivor-deck .battle-card-fighter{transform:none!important}
+
+@media(max-width:1050px){
+  .captain-v4-pvp-stage{padding:12px 14px 18px!important}
+  .captain-v4-skip{right:14px;top:45px}
+  .captain-v4-lineups{padding-right:104px}
+  .captain-v4-arena{grid-template-columns:minmax(0,1fr) 70px minmax(0,1fr)!important;gap:7px!important}
+  .captain-v4-pvp-deck{min-height:250px!important}
+  .captain-v4-card-slot{margin-left:-17px}
+}
+@media(max-width:780px){
+  .captain-v4-pvp-stage{padding:8px 6px 12px!important;min-height:100dvh!important}
+  .captain-v4-pvp-stage .battle-topline{height:28px;font-size:7px;padding:0 3px}
+  .captain-v4-skip{right:7px;top:33px;min-height:28px;padding:0 8px;font-size:8px}
+  .captain-v4-lineups{padding-right:84px;margin-top:2px}
+  .captain-v4-lineups .captain-v3-lineup-chip{padding:4px 3px}
+  .captain-v4-hud{margin-top:4px;gap:6px}
+  .captain-v4-hud .battle-hp-head b{font-size:9px}
+  .captain-v4-hud .battle-hp-head span{font-size:8px}
+  .captain-v4-hud .battle-hp small{font-size:6px}
+  .captain-v4-arena{grid-template-columns:minmax(0,1fr) 30px minmax(0,1fr)!important;gap:2px!important;min-height:calc(100dvh - 154px);padding-top:4px}
+  .captain-v4-side{padding:9px 3px 11px;border-radius:15px}
+  .captain-v4-user-title{gap:4px;margin:0 3px 6px}
+  .captain-v4-user-title .tier-emblem,.captain-v4-user-title .captain-v3-tier-fallback{width:25px!important;height:25px!important}
+  .captain-v4-user-title small{font-size:6px}.captain-v4-user-title b{font-size:11px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .captain-v4-center .battle-vs-mark{font-size:17px!important}.captain-v4-center #battleCountdown{font-size:6px;letter-spacing:.5px}.captain-v4-center em{display:none}
+  .captain-v4-pvp-deck{min-height:180px!important;padding-top:3px}
+  .captain-v4-card-slot{width:clamp(39px,12vw,62px);margin-left:-11px}
+  .captain-v4-card-slot.is-attacking{transform:translateY(-11px) scale(1.05)}
+  .captain-v4-card-slot.is-down:after{padding:2px 4px;border-width:1px;font-size:6px}
+  .captain-v4-card-hp{height:4px;margin:2px 3px 0}.captain-v4-card-state{margin:2px 3px 0;font-size:5px}.captain-v4-card-state b{font-size:5px}
+  .captain-v4-card-slot .card-footer{display:none}.captain-v4-card-slot .card-header{height:13px}.captain-v4-card-slot .card-header span{font-size:6px}.captain-v4-card-slot .card-header b,.captain-v4-card-slot .card-mini-logo{display:none}
+  .captain-v4-round-notice{padding:12px 13px}.captain-v4-round-notice b{font-size:14px}.captain-v4-round-notice span{font-size:8px}
+  .captain-v4-survivor-deck{min-height:110px}.captain-v4-survivor-deck .captain-v4-card-slot{width:52px;margin-left:-10px}
+}

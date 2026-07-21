@@ -172,15 +172,25 @@
     </div>`;
   }
 
-  function combatDeck(cards, side) {
-    return (cards || []).map((card, index) => {
-      const normalized = normalizeCard(card);
+  function combatDeck(cardStates, side) {
+    return (cardStates || []).map((state, index) => {
+      const normalized = normalizeCard(state);
+      const maxHp = Math.max(1, Number(state?.maxHp || state?.power || 1));
+      const hp = Math.max(0, Number(state?.hp ?? maxHp));
+      const hpPercent = Math.round(Math.max(0, Math.min(100, Number(state?.hpPercent ?? (hp / maxHp * 100)))));
       let html;
-      if (typeof window.combatCardHtml === 'function') {
-        try { html = window.combatCardHtml(normalized, 'captain-v3-combat-card', normalized.breakthroughLevel); }
+      if (typeof window.battleFighterHtml === 'function') {
+        try { html = window.battleFighterHtml(normalized, index, side === 'defender'); }
+        catch { html = fallbackCombatCard(normalized, index); }
+      } else if (typeof window.combatCardHtml === 'function') {
+        try { html = `<div class="battle-card-fighter">${window.combatCardHtml(normalized, 'battle-fighter-card captain-v4-combat-card', normalized.breakthroughLevel)}</div>`; }
         catch { html = fallbackCombatCard(normalized, index); }
       } else html = fallbackCombatCard(normalized, index);
-      return `<div class="captain-v3-deck-card" data-side="${side}" data-card-index="${index}" style="--i:${index}">${html}</div>`;
+      return `<div class="captain-v4-card-slot ${hp <= 0 ? 'is-down' : ''}" data-side="${side}" data-card-index="${index}" style="--i:${index}">
+        ${html}
+        <div class="captain-v4-card-hp"><i style="width:${hpPercent}%"></i></div>
+        <div class="captain-v4-card-state"><span>${Number(state?.power || maxHp).toLocaleString()}</span><b>${hp <= 0 ? '탈락' : `${hpPercent}%`}</b></div>
+      </div>`;
     }).join('');
   }
 
@@ -201,147 +211,182 @@
         const down = downSet.has(Number(member.userId));
         const now = Number(member.userId) === Number(activeId);
         return `<div class="captain-v3-lineup-chip ${down ? 'down' : now ? 'active' : 'standby'}" data-user-id="${Number(member.userId)}">
-          <span>${index + 1}</span>${tier(member)}<b>${esc(member.nickname)}</b><em>${down ? '탈락' : now ? '출전' : '대기'}</em>
+          <span>${index + 1}</span>${tier(member)}<b>${esc(member.nickname)}</b><em>${down ? '탈락' : now ? '출전 중' : '대기'}</em>
         </div>`;
       }).join('')}</div>
     </div>`;
   }
 
-  function hpBlock(side, fighter, startPercent) {
-    return `<div class="captain-v3-duel-hp ${side}">
-      <div><b>${esc(fighter.nickname)}</b><span data-hp-label="${side}">${startPercent}%</span></div>
-      <div class="captain-v3-hp-track"><i data-hp-bar="${side}" style="width:${startPercent}%"></i><u data-hp-trail="${side}" style="width:${startPercent}%"></u></div>
-      <small>${Number(fighter.deckPower || 0).toLocaleString()} 전투력 · 궁극기 미사용</small>
+  function pvpHud(side, fighter, startPercent) {
+    const target = side === 'attacker' ? 'team' : 'enemy';
+    return `<div class="battle-hp ${side === 'attacker' ? 'battle-hp-team' : 'battle-hp-enemy'}">
+      <div class="battle-hp-head"><b>${esc(fighter.nickname)}</b><span data-hp-text="${target}">${startPercent}%</span></div>
+      <div class="battle-hp-track"><u data-hp-trail="${target}" style="width:${startPercent}%"></u><i data-hp-fill="${target}" style="width:${startPercent}%"></i><em>K.O.</em></div>
+      <small>${esc(fighter.role)} · PVP 덱 ${Number(fighter.deckPower || 0).toLocaleString()} · 궁극기 미사용</small>
     </div>`;
   }
 
-  async function animateDuel(stage, round, data, state) {
+  function setTeamHp(stage, side, percent) {
+    const target = side === 'attacker' ? 'team' : 'enemy';
+    const value = Math.max(0, Math.min(100, Math.round(Number(percent || 0))));
+    if (typeof window.battleSetHp === 'function') {
+      try { window.battleSetHp(stage, target, value); return; } catch {}
+    }
+    const fill = stage.querySelector(`[data-hp-fill="${target}"]`);
+    const trail = stage.querySelector(`[data-hp-trail="${target}"]`);
+    const label = stage.querySelector(`[data-hp-text="${target}"]`);
+    if (fill) fill.style.width = `${value}%`;
+    if (trail) setTimeout(() => { trail.style.width = `${value}%`; }, 100);
+    if (label) label.textContent = `${value}%`;
+  }
+
+  function updateCardState(stage, side, index, hpPercent, down) {
+    const slot = stage.querySelector(`.captain-v4-card-slot[data-side="${side}"][data-card-index="${index}"]`);
+    if (!slot) return;
+    const value = Math.max(0, Math.min(100, Math.round(Number(hpPercent || 0))));
+    slot.querySelector('.captain-v4-card-hp i')?.style.setProperty('width', `${value}%`);
+    const label = slot.querySelector('.captain-v4-card-state b');
+    if (label) label.textContent = down ? '탈락' : `${value}%`;
+    slot.classList.toggle('is-down', Boolean(down));
+  }
+
+  function activateCard(stage, side, index) {
+    stage.querySelectorAll(`.captain-v4-card-slot[data-side="${side}"]`).forEach((slot, slotIndex) => {
+      slot.classList.toggle('is-attacking', slotIndex === Number(index));
+    });
+  }
+
+  function hitFx(stage, side, damage, critical) {
+    const target = side === 'attacker' ? 'player' : 'enemy';
+    if (typeof window.battleDamage === 'function') {
+      try { window.battleDamage(stage, `-${Number(damage || 0).toLocaleString()}`, target, Boolean(critical)); } catch {}
+    }
+    const panel = stage.querySelector(`[data-fighter-panel="${side}"]`);
+    panel?.classList.remove('hit');
+    void panel?.offsetWidth;
+    panel?.classList.add('hit');
+    setTimeout(() => panel?.classList.remove('hit'), 180);
+  }
+
+  async function pause(playback, ms) {
+    if (playback.skip) return;
+    await sleep(ms);
+  }
+
+  async function animateDuel(stage, round, data, state, playback) {
     const left = round.left;
     const right = round.right;
     const roundNumber = Number(round.round || 1);
+    const leftCards = left.startDeck || left.deckSnapshot || [];
+    const rightCards = right.startDeck || right.deckSnapshot || [];
+    stage.className = 'modal-panel battle-stage pvp-battle-stage captain-v4-pvp-stage intro';
     stage.innerHTML = `
-      <div class="captain-v3-battle-bg"></div>
-      <header class="captain-v3-battle-header">
-        <span>대장전 · 라운드 ${roundNumber}</span>
-        <b>승자는 남고 패자는 탈락</b>
-      </header>
-      <div class="captain-v3-battle-lineups">
+      <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
+      <div class="battle-topline"><span>CNINE 대장전 · PVP 연전</span><b id="battlePhase">라운드 ${roundNumber} 출전</b></div>
+      <button type="button" class="captain-v4-skip" id="captainBattleSkip">연출 건너뛰기</button>
+      <div class="captain-v3-battle-lineups captain-v4-lineups">
         ${lineupStrip(data.attackerTeam, data.attackerLineup, state.attackerDown, left.userId, 'attacker')}
         ${lineupStrip(data.defenderTeam, data.defenderLineup, state.defenderDown, right.userId, 'defender')}
       </div>
-      <section class="captain-v3-duel-board">
-        <article class="captain-v3-fighter-panel attacker" data-fighter-panel="attacker">
-          <div class="captain-v3-fighter-title">${tier(left, 'rank')}<div><small>${esc(left.role)}</small><h3>${esc(left.nickname)}</h3></div></div>
-          ${hpBlock('attacker', left, left.startHpPercent)}
-          <div class="captain-v3-battle-deck">${combatDeck(left.deckSnapshot, 'attacker')}</div>
-        </article>
-        <div class="captain-v3-duel-center"><small>라운드</small><strong>${roundNumber}</strong><i>VS</i><span id="captainRoundPhase">준비</span></div>
-        <article class="captain-v3-fighter-panel defender" data-fighter-panel="defender">
-          <div class="captain-v3-fighter-title">${tier(right, 'rank')}<div><small>${esc(right.role)}</small><h3>${esc(right.nickname)}</h3></div></div>
-          ${hpBlock('defender', right, right.startHpPercent)}
-          <div class="captain-v3-battle-deck">${combatDeck(right.deckSnapshot, 'defender')}</div>
-        </article>
-      </section>
-      <div class="captain-v3-round-banner" id="captainRoundBanner"><span>무작위 대진</span><b>${esc(left.nickname)} <i>VS</i> ${esc(right.nickname)}</b></div>`;
+      <div class="battle-hud captain-v4-hud">${pvpHud('attacker', left, left.startHpPercent)}${pvpHud('defender', right, right.startHpPercent)}</div>
+      <div class="battle-arena pvp-arena captain-v4-arena">
+        <div class="battle-side player-side captain-v4-side" data-fighter-panel="attacker">
+          <div class="captain-v4-user-title">${tier(left, 'rank')}<div><small>${esc(left.role)}</small><b>${esc(left.nickname)}</b></div></div>
+          <div class="battle-team captain-v4-pvp-deck">${combatDeck(leftCards, 'attacker')}</div><small>우리 팀 출전자</small>
+        </div>
+        <div class="battle-center captain-v4-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown">READY</span><em>승자 HP·카드 상태 유지</em></div>
+        <div class="battle-side enemy-side captain-v4-side" data-fighter-panel="defender">
+          <div class="captain-v4-user-title defender">${tier(right, 'rank')}<div><small>${esc(right.role)}</small><b>${esc(right.nickname)}</b></div></div>
+          <div class="battle-team enemy-team captain-v4-pvp-deck">${combatDeck(rightCards, 'defender')}</div><small>상대 팀 출전자</small>
+        </div>
+      </div>
+      <div class="battle-impact"><i></i><i></i><i></i></div>
+      <div class="captain-v4-round-notice" id="captainRoundNotice"><small>무작위 출전</small><b>${esc(left.nickname)} <i>VS</i> ${esc(right.nickname)}</b><span>카드 5장 PVP 전투 시작</span></div>`;
     bindImageFallbacks(stage);
+    stage.querySelector('#captainBattleSkip').onclick = () => { playback.skip = true; };
+    const phase = stage.querySelector('#battlePhase');
+    const count = stage.querySelector('#battleCountdown');
+    const notice = stage.querySelector('#captainRoundNotice');
+    await pause(playback, 500);
+    notice?.classList.add('hide');
+    stage.classList.add('cards-enter', 'fight');
+    if (count) count.textContent = 'FIGHT';
+    if (phase) phase.textContent = `라운드 ${roundNumber} · 카드 전투`;
+    await pause(playback, 450);
+    if (count) count.textContent = '';
 
-    const phase = stage.querySelector('#captainRoundPhase');
-    const banner = stage.querySelector('#captainRoundBanner');
-    await sleep(450);
-    banner.classList.add('hide');
-    phase.textContent = '출전';
-    stage.classList.add('is-fighting');
+    for (const exchange of round.exchanges || []) {
+      activateCard(stage, 'attacker', exchange.leftCardIndex);
+      stage.classList.add('player-attack');
+      await pause(playback, 90);
+      updateCardState(stage, 'defender', exchange.rightCardIndex, exchange.rightCardHpPercent, exchange.rightCardDown);
+      setTeamHp(stage, 'defender', exchange.rightDeckHpPercent);
+      hitFx(stage, 'defender', exchange.rightDamage, exchange.rightCritical);
+      await pause(playback, 150);
+      stage.classList.remove('player-attack');
 
-    const leftBar = stage.querySelector('[data-hp-bar="attacker"]');
-    const rightBar = stage.querySelector('[data-hp-bar="defender"]');
-    const leftTrail = stage.querySelector('[data-hp-trail="attacker"]');
-    const rightTrail = stage.querySelector('[data-hp-trail="defender"]');
-    const leftLabel = stage.querySelector('[data-hp-label="attacker"]');
-    const rightLabel = stage.querySelector('[data-hp-label="defender"]');
-
-    const startLeft = Number(left.startHpPercent || 100);
-    const startRight = Number(right.startHpPercent || 100);
-    const endLeft = Number(left.endHpPercent || 0);
-    const endRight = Number(right.endHpPercent || 0);
-
-    for (let index = 0; index < 5; index += 1) {
-      stage.querySelectorAll('.captain-v3-deck-card').forEach(card => card.classList.remove('strike'));
-      const attackerCard = stage.querySelector(`[data-side="attacker"][data-card-index="${index}"]`);
-      const defenderCard = stage.querySelector(`[data-side="defender"][data-card-index="${index}"]`);
-      if (attackerCard) attackerCard.classList.add('strike');
-      stage.querySelector('[data-fighter-panel="defender"]')?.classList.add('hit');
-      await sleep(150);
-      const progressA = (index + 1) / 5;
-      const nextRight = Math.round(startRight + (endRight - startRight) * progressA);
-      rightBar.style.width = `${nextRight}%`;
-      rightLabel.textContent = `${nextRight}%`;
-      await sleep(210);
-      stage.querySelector('[data-fighter-panel="defender"]')?.classList.remove('hit');
-
-      if (defenderCard) defenderCard.classList.add('strike');
-      stage.querySelector('[data-fighter-panel="attacker"]')?.classList.add('hit');
-      await sleep(150);
-      const nextLeft = Math.round(startLeft + (endLeft - startLeft) * progressA);
-      leftBar.style.width = `${nextLeft}%`;
-      leftLabel.textContent = `${nextLeft}%`;
-      await sleep(210);
-      stage.querySelector('[data-fighter-panel="attacker"]')?.classList.remove('hit');
+      if (Number(exchange.leftDamage || 0) > 0) {
+        activateCard(stage, 'defender', exchange.rightCardIndex);
+        stage.classList.add('enemy-attack');
+        await pause(playback, 90);
+        updateCardState(stage, 'attacker', exchange.leftCardIndex, exchange.leftCardHpPercent, exchange.leftCardDown);
+        setTeamHp(stage, 'attacker', exchange.leftDeckHpPercent);
+        hitFx(stage, 'attacker', exchange.leftDamage, exchange.leftCritical);
+        await pause(playback, 150);
+        stage.classList.remove('enemy-attack');
+      }
     }
 
-    setTimeout(() => {
-      leftTrail.style.width = `${endLeft}%`;
-      rightTrail.style.width = `${endRight}%`;
-    }, 120);
-
+    (left.endDeck || []).forEach((card, index) => updateCardState(stage, 'attacker', index, card.hpPercent, card.down));
+    (right.endDeck || []).forEach((card, index) => updateCardState(stage, 'defender', index, card.hpPercent, card.down));
+    setTeamHp(stage, 'attacker', left.endHpPercent);
+    setTeamHp(stage, 'defender', right.endHpPercent);
     const attackerWon = round.winnerSide === 'ATTACKER';
-    const winnerPanel = stage.querySelector(`[data-fighter-panel="${attackerWon ? 'attacker' : 'defender'}"]`);
-    const loserPanel = stage.querySelector(`[data-fighter-panel="${attackerWon ? 'defender' : 'attacker'}"]`);
-    winnerPanel?.classList.add('winner');
-    loserPanel?.classList.add('down');
-    phase.textContent = 'K.O.';
-    const loser = attackerWon ? right : left;
+    const loserSide = attackerWon ? 'defender' : 'attacker';
     const winner = attackerWon ? left : right;
-    if (attackerWon) state.defenderDown.add(Number(loser.userId));
-    else state.attackerDown.add(Number(loser.userId));
-
-    banner.innerHTML = `<span>라운드 ${roundNumber} 결과</span><b>${esc(winner.nickname)} 승리 · ${winner.endHpPercent}% HP로 연전</b>`;
-    banner.classList.remove('hide');
-    banner.classList.add('result');
-    await sleep(1150);
+    const loser = attackerWon ? right : left;
+    stage.querySelector(`[data-fighter-panel="${attackerWon ? 'attacker' : 'defender'}"]`)?.classList.add('captain-v4-winner');
+    stage.querySelector(`[data-fighter-panel="${loserSide}"]`)?.classList.add('captain-v4-user-down');
+    if (attackerWon) state.defenderDown.add(Number(loser.userId)); else state.attackerDown.add(Number(loser.userId));
+    if (phase) phase.textContent = `라운드 ${roundNumber} 종료 · ${winner.nickname} 승리`;
+    notice.innerHTML = `<small>라운드 ${roundNumber} 결과</small><b>${esc(winner.nickname)} 승리</b><span>생존 덱 HP ${Number(winner.endHpPercent || 0)}%로 다음 상대와 연전</span>`;
+    notice.classList.remove('hide');
+    notice.classList.add('result');
+    await pause(playback, 1050);
   }
 
   async function playBattle(data) {
     const modal = document.getElementById('modal');
-    modal.className = 'modal show captain-v3-battle-modal';
-    modal.innerHTML = '<div class="captain-v3-battle-stage"><div class="captain-v3-match-loading"><i></i><small>무작위 출전 순서</small><h2>출전 순서를 추첨했습니다</h2><p>승자는 남고, 패배 팀에서 다음 선수가 무작위로 출전합니다.</p></div></div>';
-    const stage = modal.querySelector('.captain-v3-battle-stage');
-    await sleep(850);
+    modal.className = 'modal show battle-modal pvp-battle-modal captain-v4-battle-modal';
+    modal.innerHTML = '<div class="modal-panel battle-stage pvp-battle-stage captain-v4-pvp-stage"><div class="battle-backdrop"></div><div class="captain-v3-match-loading"><i></i><small>PVP 덱 동기화</small><h2>3대3 출전 순서를 추첨했습니다</h2><p>승자는 생존 카드와 남은 HP를 유지한 채 다음 상대와 계속 싸웁니다.</p></div></div>';
+    const stage = modal.querySelector('.captain-v4-pvp-stage');
+    const playback = { skip: false };
+    await sleep(700);
     const state = { attackerDown: new Set(), defenderDown: new Set() };
-    for (const round of data.rounds || []) await animateDuel(stage, round, data, state);
+    for (const round of data.rounds || []) await animateDuel(stage, round, data, state, playback);
 
-    const won = data.result === '승리';
+    const won = data.result === 'WIN';
     const survivor = data.survivor || {};
-    stage.innerHTML = `<div class="captain-v3-battle-bg"></div><section class="captain-v3-final ${won ? 'victory' : 'defeat'}">
-      <small>대장전 · 최종 결과</small>
-      <div class="captain-v3-final-emblem">${won ? '승리' : '패배'}</div>
-      <h2>${won ? '우리 팀 승리' : '우리 팀 패배'}</h2>
-      <p>최후의 생존자 <b>${esc(survivor.nickname || '-')}</b> · 잔여 HP ${Number(survivor.hpPercent || 0)}%</p>
+    stage.className = `modal-panel battle-stage pvp-battle-stage captain-v4-pvp-stage ${won ? 'battle-win-v863' : 'battle-lose-v863'}`;
+    stage.innerHTML = `<div class="battle-backdrop"></div><div class="battle-fx-layer"></div><section class="captain-v3-final ${won ? 'victory' : 'defeat'}">
+      <small>대장전 · 최종 결과</small><div class="captain-v3-final-emblem">${won ? '승리' : '패배'}</div>
+      <h2>${won ? '우리 팀이 끝까지 살아남았습니다' : '상대 팀이 최후까지 살아남았습니다'}</h2>
+      <p>최후 생존자 <b>${esc(survivor.nickname || '-')}</b> · 생존 덱 HP ${Number(survivor.hpPercent || 0)}%</p>
+      <div class="captain-v4-survivor-deck">${combatDeck(survivor.deckSnapshot || survivor.deckState || [], won ? 'attacker' : 'defender')}</div>
       <div class="captain-v3-score-change"><span>${Number(data.attackerScoreBefore).toLocaleString()}</span><i>→</i><strong>${Number(data.attackerScoreAfter).toLocaleString()}</strong><em>${Number(data.scoreChange) > 0 ? '+' : ''}${Number(data.scoreChange)}점</em></div>
-      ${data.victoryReward ? `<div class="captain-v3-victory-reward"><span>공격 승리 보상</span><b>코인 ${Number(data.victoryReward.coin||0).toLocaleString()} · 카드 조각 ${Number(data.victoryReward.shards||0).toLocaleString()}</b></div>` : ''}${data.victoryRewardError ? `<div class="captain-v3-victory-reward error"><span>보상 지급 오류</span><b>${esc(data.victoryRewardError)}</b></div>` : ''}
+      ${data.victoryReward ? `<div class="captain-v3-victory-reward"><span>공격 승리 보상</span><b>코인 ${Number(data.victoryReward.coin || 0).toLocaleString()} · 카드 조각 ${Number(data.victoryReward.shards || 0).toLocaleString()}</b></div>` : ''}
+      ${data.victoryRewardError ? `<div class="captain-v3-victory-reward error"><span>보상 지급 오류</span><b>${esc(data.victoryRewardError)}</b></div>` : ''}
       <div class="captain-v3-final-actions"><button class="btn" id="captainBattleClose">대장전으로 돌아가기</button><button class="text-btn" id="captainBattleLogs">공격 로그 보기</button></div>
     </section>`;
+    bindImageFallbacks(stage);
 
     return new Promise(resolve => {
-      const close = showLogs => {
-        modal.onclick = null;
-        modal.className = 'modal';
-        modal.innerHTML = '';
-        resolve(showLogs);
-      };
+      const close = showLogs => { modal.onclick = null; modal.className = 'modal'; modal.innerHTML = ''; resolve(showLogs); };
       document.getElementById('captainBattleClose').onclick = () => close(false);
       document.getElementById('captainBattleLogs').onclick = () => close(true);
     });
   }
+
 
   async function fight(teamId, button) {
     if (!lastStatus?.energy || lastStatus.energy.current <= 0) {

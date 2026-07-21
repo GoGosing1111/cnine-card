@@ -391,24 +391,78 @@ async function grantReward(env, userId, reward, reason) {
   return { coin, shards, reason };
 }
 
-function fighterFromMember(member) {
-  const power = Math.max(1, Number(member.deck_power || 1));
+function normalizeBattleCard(card, index) {
+  const power = Math.max(100, Math.floor(Number(
+    card?.power ?? card?.battlePower ?? card?.battle_power ?? card?.basePower ?? card?.base_power ?? 100
+  ) || 100));
   return {
+    ...card,
+    id: String(card?.id ?? card?.card_id ?? `slot-${index}`),
+    title: String(card?.title ?? card?.card_title ?? card?.name ?? '카드'),
+    grade: String(card?.grade ?? card?.rarity ?? 'C').toUpperCase(),
+    rarity: String(card?.rarity ?? card?.grade ?? 'C').toUpperCase(),
+    image: card?.image ?? card?.image_url ?? '',
+    image_url: card?.image_url ?? card?.image ?? '',
+    power,
+    maxHp: power,
+    hp: power,
+    down: false,
+    slot: index
+  };
+}
+
+function refreshFighter(fighter) {
+  fighter.maxHp = fighter.deckState.reduce((sum, card) => sum + Number(card.maxHp || 0), 0);
+  fighter.hp = fighter.deckState.reduce((sum, card) => sum + Math.max(0, Number(card.hp || 0)), 0);
+  fighter.down = fighter.deckState.every(card => Number(card.hp || 0) <= 0);
+  return fighter;
+}
+
+function fighterFromMember(member) {
+  const deckState = (member.deckSnapshot || []).slice(0, 5).map(normalizeBattleCard);
+  const fighter = {
     userId: Number(member.user_id),
     nickname: member.nickname,
     role: member.role,
     position: Number(member.position),
     pvpTier: member.pvpTier,
     pvpScore: Number(member.pvpScore || 0),
-    deckPower: power,
+    deckPower: Math.max(1, Number(member.deck_power || deckState.reduce((sum, card) => sum + card.power, 0) || 1)),
     deckSnapshot: member.deckSnapshot || [],
-    maxHp: power,
-    hp: power,
+    deckState,
+    maxHp: 1,
+    hp: 1,
     down: false
+  };
+  return refreshFighter(fighter);
+}
+
+function cardStatePayload(card) {
+  const maxHp = Math.max(1, Number(card.maxHp || card.power || 1));
+  const hp = Math.max(0, Math.round(Number(card.hp || 0)));
+  return {
+    id: card.id,
+    title: card.title,
+    name: card.name || '',
+    grade: card.grade,
+    rarity: card.rarity,
+    image: card.image,
+    image_url: card.image_url,
+    focusX: Number(card.focusX ?? card.focus_x ?? 50),
+    focusY: Number(card.focusY ?? card.focus_y ?? 50),
+    breakthroughLevel: Number(card.breakthroughLevel ?? card.breakthrough_level ?? 0),
+    powerType: card.powerType ?? card.power_type ?? '',
+    power: Number(card.power || maxHp),
+    maxHp,
+    hp,
+    hpPercent: Math.round(clamp((hp / maxHp) * 100, 0, 100)),
+    down: hp <= 0,
+    slot: Number(card.slot || 0)
   };
 }
 
 function fighterPayload(fighter, includeDeck = true) {
+  refreshFighter(fighter);
   const payload = {
     userId: fighter.userId,
     nickname: fighter.nickname,
@@ -419,53 +473,133 @@ function fighterPayload(fighter, includeDeck = true) {
     deckPower: fighter.deckPower,
     maxHp: fighter.maxHp,
     hp: Math.max(0, Math.round(fighter.hp)),
-    hpPercent: Math.round(clamp((fighter.hp / fighter.maxHp) * 100, 0, 100)),
+    hpPercent: Math.round(clamp((fighter.hp / Math.max(1, fighter.maxHp)) * 100, 0, 100)),
     down: Boolean(fighter.down)
   };
-  if (includeDeck) payload.deckSnapshot = fighter.deckSnapshot;
+  if (includeDeck) {
+    payload.deckSnapshot = fighter.deckState.map(cardStatePayload);
+    payload.deckState = payload.deckSnapshot;
+  }
   return payload;
 }
 
+function randomFactor(min = 0.92, max = 1.08) {
+  const unit = randomIndex(10001) / 10000;
+  return min + (max - min) * unit;
+}
+
+function cardDamage(attacker, defender) {
+  const attackPower = Math.max(1, Number(attacker.power || 1));
+  const defensePower = Math.max(1, Number(defender.power || 1));
+  const ratio = clamp(attackPower / defensePower, 0.45, 2.2);
+  const critical = randomIndex(100) < 10;
+  const basePercent = clamp(0.27 + (Math.sqrt(ratio) - 1) * 0.12, 0.20, 0.43);
+  const damage = Math.max(1, Math.round(Number(defender.maxHp || defensePower) * basePercent * randomFactor() * (critical ? 1.32 : 1)));
+  return { damage, critical };
+}
+
+function firstAliveCardIndex(fighter) {
+  return fighter.deckState.findIndex(card => Number(card.hp || 0) > 0);
+}
+
+function forceFighterDown(fighter) {
+  for (const card of fighter.deckState) {
+    card.hp = 0;
+    card.down = true;
+  }
+  refreshFighter(fighter);
+}
+
 function simulateDuel(left, right, roundNumber) {
-  const leftStart = Math.max(1, left.hp);
-  const rightStart = Math.max(1, right.hp);
-  const leftEffective = left.deckPower * (leftStart / left.maxHp);
-  const rightEffective = right.deckPower * (rightStart / right.maxHp);
+  refreshFighter(left);
+  refreshFighter(right);
+  const leftStart = fighterPayload(left, true);
+  const rightStart = fighterPayload(right, true);
+  const exchanges = [];
+  let exchangeNo = 0;
 
-  let leftWins;
-  if (Math.abs(leftEffective - rightEffective) < 0.0001) leftWins = randomIndex(2) === 0;
-  else leftWins = leftEffective > rightEffective;
+  while (!left.down && !right.down && exchangeNo < 80) {
+    const leftIndex = firstAliveCardIndex(left);
+    const rightIndex = firstAliveCardIndex(right);
+    if (leftIndex < 0 || rightIndex < 0) break;
+    const leftCard = left.deckState[leftIndex];
+    const rightCard = right.deckState[rightIndex];
+    const leftBefore = Number(leftCard.hp || 0);
+    const rightBefore = Number(rightCard.hp || 0);
 
+    const leftHit = cardDamage(leftCard, rightCard);
+    rightCard.hp = Math.max(0, rightBefore - leftHit.damage);
+    rightCard.down = rightCard.hp <= 0;
+
+    let rightHit = { damage: 0, critical: false };
+    if (!rightCard.down) {
+      rightHit = cardDamage(rightCard, leftCard);
+      leftCard.hp = Math.max(0, leftBefore - rightHit.damage);
+      leftCard.down = leftCard.hp <= 0;
+    }
+
+    exchangeNo += 1;
+    refreshFighter(left);
+    refreshFighter(right);
+    exchanges.push({
+      exchange: exchangeNo,
+      leftCardIndex: leftIndex,
+      rightCardIndex: rightIndex,
+      leftDamage: Number(rightHit.damage || 0),
+      rightDamage: Number(leftHit.damage || 0),
+      leftCritical: Boolean(rightHit.critical),
+      rightCritical: Boolean(leftHit.critical),
+      leftCardHp: Math.round(leftCard.hp),
+      rightCardHp: Math.round(rightCard.hp),
+      leftCardHpPercent: Math.round(clamp((leftCard.hp / Math.max(1, leftCard.maxHp)) * 100, 0, 100)),
+      rightCardHpPercent: Math.round(clamp((rightCard.hp / Math.max(1, rightCard.maxHp)) * 100, 0, 100)),
+      leftCardDown: Boolean(leftCard.down),
+      rightCardDown: Boolean(rightCard.down),
+      leftDeckHpPercent: Math.round(clamp((left.hp / Math.max(1, left.maxHp)) * 100, 0, 100)),
+      rightDeckHpPercent: Math.round(clamp((right.hp / Math.max(1, right.maxHp)) * 100, 0, 100))
+    });
+  }
+
+  if (!left.down && !right.down) {
+    const leftRatio = left.hp / Math.max(1, left.maxHp);
+    const rightRatio = right.hp / Math.max(1, right.maxHp);
+    if (leftRatio === rightRatio ? randomIndex(2) === 0 : leftRatio > rightRatio) forceFighterDown(right);
+    else forceFighterDown(left);
+  }
+
+  refreshFighter(left);
+  refreshFighter(right);
+  const leftWins = !left.down && right.down;
   const winner = leftWins ? left : right;
   const loser = leftWins ? right : left;
-  const winnerEffective = Math.max(1, leftWins ? leftEffective : rightEffective);
-  const loserEffective = Math.max(1, leftWins ? rightEffective : leftEffective);
-  const burden = clamp(loserEffective / winnerEffective, 0, 1.5);
-  const damageRatio = clamp(0.22 + burden * 0.56, 0.28, 0.92);
-  winner.hp = Math.max(1, Math.round(winner.hp * (1 - damageRatio)));
-  loser.hp = 0;
-  loser.down = true;
+  if (!loser.down) forceFighterDown(loser);
 
   return {
     round: roundNumber,
     left: {
-      ...fighterPayload(left),
-      startHp: Math.round(leftStart),
-      startHpPercent: Math.round(clamp((leftStart / left.maxHp) * 100, 0, 100)),
+      ...fighterPayload(left, true),
+      startHp: leftStart.hp,
+      startHpPercent: leftStart.hpPercent,
+      startDeck: leftStart.deckSnapshot,
       endHp: Math.round(left.hp),
-      endHpPercent: Math.round(clamp((left.hp / left.maxHp) * 100, 0, 100))
+      endHpPercent: Math.round(clamp((left.hp / Math.max(1, left.maxHp)) * 100, 0, 100)),
+      endDeck: left.deckState.map(cardStatePayload)
     },
     right: {
-      ...fighterPayload(right),
-      startHp: Math.round(rightStart),
-      startHpPercent: Math.round(clamp((rightStart / right.maxHp) * 100, 0, 100)),
+      ...fighterPayload(right, true),
+      startHp: rightStart.hp,
+      startHpPercent: rightStart.hpPercent,
+      startDeck: rightStart.deckSnapshot,
       endHp: Math.round(right.hp),
-      endHpPercent: Math.round(clamp((right.hp / right.maxHp) * 100, 0, 100))
+      endHpPercent: Math.round(clamp((right.hp / Math.max(1, right.maxHp)) * 100, 0, 100)),
+      endDeck: right.deckState.map(cardStatePayload)
     },
+    exchanges,
     winnerUserId: winner.userId,
     loserUserId: loser.userId,
     winnerSide: leftWins ? 'ATTACKER' : 'DEFENDER',
-    ultimateDisabled: true
+    ultimateDisabled: true,
+    engine: 'PVP_CARD_GAUNTLET_V1'
   };
 }
 
@@ -481,14 +615,12 @@ function simulateGauntlet(attackerTeam, defenderTeam) {
   while (activeAttacker && activeDefender && rounds.length < 5) {
     const round = simulateDuel(activeAttacker, activeDefender, rounds.length + 1);
     rounds.push(round);
-
     if (round.winnerSide === 'ATTACKER') activeDefender = defenderQueue.shift() || null;
     else activeAttacker = attackerQueue.shift() || null;
   }
 
   const attackerWon = Boolean(activeAttacker && !activeDefender);
   const survivor = attackerWon ? activeAttacker : activeDefender;
-
   return {
     winnerTeamId: Number(attackerWon ? attackerTeam.id : defenderTeam.id),
     loserTeamId: Number(attackerWon ? defenderTeam.id : attackerTeam.id),
@@ -496,10 +628,12 @@ function simulateGauntlet(attackerTeam, defenderTeam) {
     attackerLineup: attackerLineup.map(fighter => fighterPayload(fighter, false)),
     defenderLineup: defenderLineup.map(fighter => fighterPayload(fighter, false)),
     rounds,
-    survivor: survivor ? fighterPayload(survivor, false) : null,
-    ultimateDisabled: true
+    survivor: survivor ? fighterPayload(survivor, true) : null,
+    ultimateDisabled: true,
+    engine: 'PVP_CARD_GAUNTLET_V1'
   };
 }
+
 
 async function receiptStart(env, requestId, week, userId) {
   const inserted = await env.DB.prepare(`
@@ -855,7 +989,8 @@ export async function handleCaptain({ path, request, env, deps }) {
         survivor: match.survivor,
         winnerTeamId: match.winnerTeamId,
         loserTeamId: match.loserTeamId,
-        ultimateDisabled: true
+        ultimateDisabled: true,
+        battleEngine: match.engine
       };
 
       await env.DB.batch([
@@ -883,7 +1018,7 @@ export async function handleCaptain({ path, request, env, deps }) {
           defenderAfter,
           JSON.stringify(match.attackerLineup),
           JSON.stringify(match.defenderLineup),
-          JSON.stringify({ rounds: match.rounds, survivor: match.survivor, ultimateDisabled: true })
+          JSON.stringify({ rounds: match.rounds, survivor: match.survivor, ultimateDisabled: true, battleEngine: match.engine })
         ),
         env.DB.prepare(`
           UPDATE captain_match_receipts_v3
@@ -907,12 +1042,12 @@ export async function handleCaptain({ path, request, env, deps }) {
           response.victoryRewardError = '승리 보상 지급에 실패했습니다. 관리자에게 문의하세요.';
         }
       }
+      response.energy = await energy(env, user.id, week, config);
       await env.DB.prepare(`
         UPDATE captain_match_receipts_v3
         SET response_json=?,updated_at=CURRENT_TIMESTAMP
         WHERE request_id=?
       `).bind(JSON.stringify(response), requestId).run();
-      response.energy = await energy(env, user.id, week, config);
       return deps.json(response);
     } catch (error) {
       if (energySpent) {
