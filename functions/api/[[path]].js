@@ -3221,6 +3221,59 @@ export async function onRequest(context){
       return json({error:'지원하지 않는 요청입니다.'},405);
     }
 
+
+    if(path==='admin/limited-stock'){
+      const admin=await requirePermission(request,env,'CARD_EDIT');
+      if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
+      const rows=await env.DB.prepare(`SELECT
+          c.id,
+          c.title,
+          c.member_id AS memberId,
+          m.name AS memberName,
+          c.image_url AS image,
+          c.focus_x AS focusX,
+          c.focus_y AS focusY,
+          c.is_active AS isActive,
+          COALESCE(c.card_status,'PUBLIC') AS cardStatus,
+          COALESCE(c.limited_total,0) AS limitedTotal,
+          COALESCE(c.issued_count,0) AS issuedCount,
+          COALESCE(SUM(CASE WHEN COALESCE(uc.quantity,0)>0 THEN uc.quantity ELSE 0 END),0) AS heldCount,
+          COUNT(DISTINCT CASE WHEN COALESCE(uc.quantity,0)>0 THEN uc.user_id END) AS ownerCount
+        FROM cards c
+        JOIN members m ON m.id=c.member_id
+        LEFT JOIN user_cards uc ON uc.card_id=c.id
+        WHERE UPPER(c.rarity)='LIMITED' AND c.limited_total IS NOT NULL
+        GROUP BY c.id,c.title,c.member_id,m.name,c.image_url,c.focus_x,c.focus_y,c.is_active,c.card_status,c.limited_total,c.issued_count
+        ORDER BY m.sort_order,c.id`).all();
+      const cards=(rows.results||[]).map(row=>{
+        const limitedTotal=Math.max(0,Number(row.limitedTotal||0));
+        const issuedCount=Math.max(0,Number(row.issuedCount||0));
+        const remainingCount=Math.max(0,limitedTotal-issuedCount);
+        return {
+          ...row,
+          isActive:Boolean(row.isActive),
+          limitedTotal,
+          issuedCount,
+          remainingCount,
+          heldCount:Math.max(0,Number(row.heldCount||0)),
+          ownerCount:Math.max(0,Number(row.ownerCount||0)),
+          soldOut:limitedTotal>0&&remainingCount<=0
+        };
+      });
+      const summary=cards.reduce((acc,card)=>{
+        acc.cardTypes+=1;
+        acc.totalLimit+=card.limitedTotal;
+        acc.totalIssued+=card.issuedCount;
+        acc.totalRemaining+=card.remainingCount;
+        acc.totalHeld+=card.heldCount;
+        if(card.soldOut) acc.soldOutTypes+=1;
+        if(card.isActive&&card.cardStatus==='PUBLIC'&&!card.soldOut) acc.availableTypes+=1;
+        return acc;
+      },{cardTypes:0,totalLimit:0,totalIssued:0,totalRemaining:0,totalHeld:0,soldOutTypes:0,availableTypes:0});
+      return json({cards,summary,generatedAt:new Date().toISOString()});
+    }
+
     if(path==='admin/cards'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
