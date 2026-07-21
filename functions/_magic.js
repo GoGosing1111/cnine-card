@@ -2,23 +2,47 @@ const MAGIC_RARITIES=['R','SR','SSR'];
 const MAGIC_DECK_TYPES=['PVE','PVP','CAPTAIN'];
 const UNIQUE_CARD_GRADES=['SSR','MA','LIMITED','FUR'];
 
-function defaultSettings(){
+function defaultAcquisitionSettings(){
+  return {
+    tower:{enabled:false,floorRewards:[]},
+    raid:{enabled:false,participation:0,rankRewards:[]},
+    captain:{enabled:false,victory:0,settlement:[]},
+    pve:{enabled:false,chance:0,amount:0,dailyLimit:0},
+    pvp:{enabled:false,chance:0,amount:0,dailyLimit:0}
+  };
+}
+function cleanRangeRewards(rows=[],amountKey='amount'){
+  return (Array.isArray(rows)?rows:[]).slice(0,50).map(row=>{
+    const from=integer(row?.from,1,1,100000),to=integer(row?.to??row?.from,from,1,100000);
+    return {from:Math.min(from,to),to:Math.max(from,to),[amountKey]:integer(row?.[amountKey]??row?.amount,0,0,100000000)};
+  }).filter(row=>row[amountKey]>0).sort((a,b)=>a.from-b.from||a.to-b.to);
+}
+function cleanFloorRewards(rows=[]){
+  const map=new Map();
+  for(const row of (Array.isArray(rows)?rows:[]).slice(0,300)){
+    const floor=integer(row?.floor,0,1,100000),amount=integer(row?.amount,0,0,100000000);
+    if(floor&&amount>0)map.set(floor,{floor,amount});
+  }
+  return [...map.values()].sort((a,b)=>a.floor-b.floor);
+}
+export function defaultMagicSettings(){
   return {
     enabled:false,
     ownerTestEnabled:true,
     drawEnabled:false,
     drawCost:100,
     duplicateRefund:{R:5,SR:20,SSR:80},
+    acquisition:defaultAcquisitionSettings(),
     acquisitionNotice:'마법 결정은 인게임 플레이를 통해서만 획득할 수 있습니다.',
-    version:1
+    version:2
   };
 }
 function integer(value,fallback=0,min=0,max=100000000){
   const n=Number(value);
   return Math.min(max,Math.max(min,Number.isFinite(n)?Math.floor(n):fallback));
 }
-function cleanSettings(raw={}){
-  const base=defaultSettings();
+export function cleanMagicSettings(raw={}){
+  const base=defaultMagicSettings(),a=raw.acquisition||{},tower=a.tower||{},raid=a.raid||{},captain=a.captain||{},pve=a.pve||{},pvp=a.pvp||{};
   return {
     ...base,
     enabled:raw.enabled===true,
@@ -30,14 +54,92 @@ function cleanSettings(raw={}){
       SR:integer(raw.duplicateRefund?.SR,base.duplicateRefund.SR,0,100000000),
       SSR:integer(raw.duplicateRefund?.SSR,base.duplicateRefund.SSR,0,100000000)
     },
+    acquisition:{
+      tower:{enabled:tower.enabled===true,floorRewards:cleanFloorRewards(tower.floorRewards)},
+      raid:{enabled:raid.enabled===true,participation:integer(raid.participation,0,0,100000000),rankRewards:cleanRangeRewards(raid.rankRewards)},
+      captain:{enabled:captain.enabled===true,victory:integer(captain.victory,0,0,100000000),settlement:cleanRangeRewards(captain.settlement)},
+      pve:{enabled:pve.enabled===true,chance:Math.max(0,Math.min(100,Number(pve.chance)||0)),amount:integer(pve.amount,0,0,100000000),dailyLimit:integer(pve.dailyLimit,0,0,100000000)},
+      pvp:{enabled:pvp.enabled===true,chance:Math.max(0,Math.min(100,Number(pvp.chance)||0)),amount:integer(pvp.amount,0,0,100000000),dailyLimit:integer(pvp.dailyLimit,0,0,100000000)}
+    },
     acquisitionNotice:String(raw.acquisitionNotice||base.acquisitionNotice).slice(0,240),
-    version:1
+    version:2
   };
 }
-async function settings(env){
+export async function magicSettings(env){
   const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='magic_card_settings_v1'").first();
-  if(!row?.value)return defaultSettings();
-  try{return cleanSettings(JSON.parse(row.value))}catch{return defaultSettings()}
+  if(!row?.value)return defaultMagicSettings();
+  try{return cleanMagicSettings(JSON.parse(row.value))}catch{return defaultMagicSettings()}
+}
+async function tableExists(env,name){const row=await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").bind(name).first();return Boolean(row)}
+async function columnExists(env,table,column){if(!await tableExists(env,table))return false;const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();return rows.results.some(row=>String(row.name)===String(column))}
+export async function ensureMagicRewardFoundation(env){
+  if(await tableExists(env,'users')&&!await columnExists(env,'users','magic_crystals')){
+    try{await env.DB.prepare('ALTER TABLE users ADD COLUMN magic_crystals INTEGER NOT NULL DEFAULT 0').run()}catch(error){if(!String(error?.message||error).toLowerCase().includes('duplicate column'))throw error}
+  }
+  await env.DB.batch([
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_crystal_logs(
+      id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,change_amount INTEGER NOT NULL,balance_after INTEGER NOT NULL,
+      reason TEXT NOT NULL DEFAULT '',reference_type TEXT,reference_id TEXT,admin_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_crystal_reward_receipts(
+      receipt_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,source TEXT NOT NULL,reference_id TEXT NOT NULL,
+      status TEXT NOT NULL DEFAULT 'PENDING',roll_value REAL,configured_chance REAL NOT NULL DEFAULT 100,
+      configured_amount INTEGER NOT NULL DEFAULT 0,granted_amount INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,
+      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_crystal_logs_user ON magic_crystal_logs(user_id,created_at DESC)'),
+    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_reward_receipts_user ON magic_crystal_reward_receipts(user_id,created_at DESC)'),
+    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_reward_receipts_source ON magic_crystal_reward_receipts(source,created_at DESC)')
+  ]);
+}
+function kstDateKey(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
+export function magicRewardForRank(rows,rank){return (Array.isArray(rows)?rows:[]).find(x=>Number(rank)>=Number(x.from)&&Number(rank)<=Number(x.to))?.amount||0}
+export function magicRewardForTowerFloor(cfg,floor){return (cfg?.acquisition?.tower?.floorRewards||[]).find(x=>Number(x.floor)===Number(floor))?.amount||0}
+export async function resolveMagicCrystalReward(env,{userId,source,referenceId,enabled=true,chance=100,amount=0,dailyLimit=0,reason=''}){
+  await ensureMagicRewardFoundation(env);
+  source=String(source||'MAGIC_REWARD').toUpperCase().replace(/[^A-Z0-9_]/g,'_').slice(0,50);
+  referenceId=String(referenceId||'').trim().slice(0,160);
+  const configuredChance=Math.max(0,Math.min(100,Number(chance)||0)),configuredAmount=integer(amount,0,0,100000000),limit=integer(dailyLimit,0,0,100000000);
+  if(!userId||!referenceId)return null;
+  const receiptId=`${source}:${Number(userId)}:${referenceId}`.slice(0,240);
+  let existing=await env.DB.prepare('SELECT status,response_json,updated_at AS updatedAt FROM magic_crystal_reward_receipts WHERE receipt_id=?').bind(receiptId).first();
+  if(existing?.status==='COMPLETED'){try{return JSON.parse(existing.response_json||'null')}catch{return null}}
+  if(existing?.status==='PENDING'){
+    const age=Date.now()-Date.parse(String(existing.updatedAt||'').replace(' ','T')+'Z');
+    if(Number.isFinite(age)&&age<45000)return {pending:true,source,amount:0,awarded:false};
+    await env.DB.prepare("UPDATE magic_crystal_reward_receipts SET status='RETRYABLE',error_message='STALE_PENDING',updated_at=CURRENT_TIMESTAMP WHERE receipt_id=? AND status='PENDING'").bind(receiptId).run();
+  }
+  let reserved={meta:{changes:0}};
+  if(existing)reserved=await env.DB.prepare("UPDATE magic_crystal_reward_receipts SET status='PENDING',configured_chance=?,configured_amount=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=? AND status IN ('RETRYABLE','FAILED')").bind(configuredChance,configuredAmount,receiptId).run();
+  if(!Number(reserved?.meta?.changes||0))reserved=await env.DB.prepare("INSERT OR IGNORE INTO magic_crystal_reward_receipts(receipt_id,user_id,source,reference_id,status,configured_chance,configured_amount) VALUES(?,?,?,?,'PENDING',?,?)").bind(receiptId,userId,source,referenceId,configuredChance,configuredAmount).run();
+  if(!Number(reserved?.meta?.changes||0)){
+    existing=await env.DB.prepare('SELECT status,response_json FROM magic_crystal_reward_receipts WHERE receipt_id=?').bind(receiptId).first();
+    if(existing?.status==='COMPLETED'){try{return JSON.parse(existing.response_json||'null')}catch{return null}}
+    return {pending:true,source,amount:0,awarded:false};
+  }
+  try{
+    const roll=Math.random()*100;
+    let grant=enabled&&configuredAmount>0&&configuredChance>0&&roll<configuredChance?configuredAmount:0;
+    let earnedToday=0;
+    if(grant>0&&limit>0){
+      const today=kstDateKey(),row=await env.DB.prepare("SELECT COALESCE(SUM(change_amount),0) total FROM magic_crystal_logs WHERE user_id=? AND reference_type=? AND change_amount>0 AND date(created_at,'+9 hours')=?").bind(userId,source,today).first();
+      earnedToday=Math.max(0,Number(row?.total||0));
+      grant=Math.min(grant,Math.max(0,limit-earnedToday));
+    }
+    const before=await env.DB.prepare('SELECT magic_crystals FROM users WHERE id=?').bind(userId).first();
+    if(!before)throw new Error('유저 정보를 찾을 수 없습니다.');
+    const balance=Number(before.magic_crystals||0)+grant;
+    const result={source,referenceId,awarded:grant>0,amount:grant,balance,roll:Number(roll.toFixed(6)),chance:configuredChance,dailyLimit:limit,dailyEarned:earnedToday+grant,limited:limit>0&&grant<configuredAmount};
+    const statements=[];
+    if(grant>0){
+      statements.push(env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(grant,userId));
+      statements.push(env.DB.prepare('INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)').bind(userId,grant,balance,String(reason||source).slice(0,120),source,referenceId));
+    }
+    statements.push(env.DB.prepare("UPDATE magic_crystal_reward_receipts SET status='COMPLETED',roll_value=?,granted_amount=?,response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=?").bind(roll,grant,JSON.stringify(result),receiptId));
+    await env.DB.batch(statements);
+    return result;
+  }catch(error){
+    await env.DB.prepare("UPDATE magic_crystal_reward_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=? AND status='PENDING'").bind(String(error?.message||error).slice(0,400),receiptId).run();
+    throw error;
+  }
 }
 function isOwner(user){return String(user?.role||'').toUpperCase()==='OWNER'}
 function visibleTo(user,cfg){return cfg.enabled||(cfg.ownerTestEnabled&&isOwner(user))}
@@ -80,7 +182,7 @@ async function requireOwner(request,env,authenticate){
   return isOwner(user)?user:null;
 }
 async function adminData(env){
-  const cfg=await settings(env);
+  const cfg=await magicSettings(env);
   const [cards,effects,counts]=await Promise.all([
     env.DB.prepare(`SELECT * FROM magic_cards ORDER BY sort_order,id`).all(),
     env.DB.prepare(`SELECT c.id AS card_id,c.title,c.rarity,m.name AS member_name,c.image_url,COALESCE(e.attack_percent,0) attack_percent,COALESCE(e.defense_percent,0) defense_percent,COALESCE(e.hp_percent,0) hp_percent,COALESCE(e.speed_percent,0) speed_percent,COALESCE(e.effect_name,'') effect_name,COALESCE(e.effect_description,'') effect_description,COALESCE(e.effect_type,'NONE') effect_type,COALESCE(e.trigger_type,'PASSIVE') trigger_type,COALESCE(e.effect_value,0) effect_value,COALESCE(e.trigger_chance,100) trigger_chance,COALESCE(e.max_activations,1) max_activations,COALESCE(e.scope_pve,1) scope_pve,COALESCE(e.scope_pvp,1) scope_pvp,COALESCE(e.scope_captain,1) scope_captain,COALESCE(e.is_active,0) effect_active FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_unique_effects e ON e.card_id=c.id WHERE c.rarity IN ('SSR','MA','LIMITED','FUR') AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRED') ORDER BY CASE c.rarity WHEN 'FUR' THEN 4 WHEN 'LIMITED' THEN 3 WHEN 'MA' THEN 2 ELSE 1 END DESC,m.sort_order,c.id`).all(),
@@ -104,11 +206,11 @@ export async function handleMagic({path,request,env,deps}){
   const {authenticate,readBody,json,profile,writeAdminLog}=deps;
   if(path==='magic/status'&&request.method==='GET'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    return json(await userStatus(env,user,await settings(env)));
+    return json(await userStatus(env,user,await magicSettings(env)));
   }
   if(path==='magic/equip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    const cfg=await settings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);
+    const cfg=await magicSettings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);
     const body=await readBody(request),deckType=String(body.deckType||'').toUpperCase(),slotNo=integer(body.slotNo,0,1,5),magicCardId=body.magicCardId==null?null:integer(body.magicCardId,0,1,2147483647);
     if(!MAGIC_DECK_TYPES.includes(deckType)||!slotNo)return json({error:'장착 위치가 올바르지 않습니다.'},400);
     if(magicCardId===null){await env.DB.prepare(`INSERT INTO magic_card_loadouts(user_id,deck_type,slot_no,magic_card_id,updated_at) VALUES(?,?,?,0,CURRENT_TIMESTAMP) ON CONFLICT(user_id,deck_type,slot_no) DO UPDATE SET magic_card_id=0,updated_at=CURRENT_TIMESTAMP`).bind(user.id,deckType,slotNo).run();return json({ok:true,status:await userStatus(env,await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),cfg)});}
@@ -122,7 +224,7 @@ export async function handleMagic({path,request,env,deps}){
   }
   if(path==='magic/draw'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    const cfg=await settings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);if(!cfg.drawEnabled)return json({error:'마법카드 뽑기가 아직 개방되지 않았습니다.'},503);
+    const cfg=await magicSettings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);if(!cfg.drawEnabled)return json({error:'마법카드 뽑기가 아직 개방되지 않았습니다.'},503);
     const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120);if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
     let existing=await env.DB.prepare('SELECT user_id,status,response_json FROM magic_card_draw_receipts WHERE request_id=?').bind(requestId).first();
     if(existing&&Number(existing.user_id)!==Number(user.id))return json({error:'이미 사용된 요청 ID입니다.'},409);
@@ -163,7 +265,7 @@ export async function handleMagic({path,request,env,deps}){
     if(request.method==='POST'){
       const body=await readBody(request),action=String(body.action||'').toUpperCase();
       if(action==='SAVE_SETTINGS'){
-        const before=await settings(env),next=cleanSettings(body.settings||body);
+        const before=await magicSettings(env),next=cleanMagicSettings(body.settings||body);
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('magic_card_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();
         await writeAdminLog(env,admin,'MAGIC_SETTINGS_SAVE','APP_META','magic_card_settings_v1',before,next);
         return json({ok:true,settings:next});

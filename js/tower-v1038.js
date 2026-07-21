@@ -130,6 +130,8 @@
       stage.classList.add('enemy-enter');phase.textContent=f.isBoss?'BOSS APPEARS':'GUARDIAN APPEARS';battleSfx(f.isBoss?'warning':'swing');if(navigator.vibrate)navigator.vibrate(f.isBoss?[100,45,150]:60);await battleSleep(f.isBoss?1000:780);
       count.textContent='READY';stage.classList.add('ready');await battleSleep(600);count.textContent='FIGHT';battleTone(440,.18,'square',.075);stage.classList.add('fight');await battleSleep(480);count.textContent='';
       const d=await apiRequest('tower/fight',{method:'POST',body:'{}'}),win=d.result==='WIN';
+      if(d.magicReward?.amount>0){const current=loadUser();if(current){current.magicCrystals=Number(d.magicReward.balance||current.magicCrystals||0);saveUser(current)}}
+      const magicRewardText=d.magicReward?.amount>0?` · 마법 결정 ✦ ${Number(d.magicReward.amount).toLocaleString()}`:'';
       const teamPowerLabel=stage.querySelector('.battle-hp-team small'),enemyPowerLabel=stage.querySelector('.battle-hp-enemy small');if(teamPowerLabel)teamPowerLabel.textContent=`전투력 ${Number(d.playerPower||0).toLocaleString()}`;if(enemyPowerLabel)enemyPowerLabel.textContent=`${f.isBoss?'BOSS · ':''}전투력 ${Number(d.monsterPower||0).toLocaleString()}`;
       if(Array.isArray(d.cards)&&d.cards.length===5){const team=document.getElementById('towerBattleTeam');if(team)team.innerHTML=d.cards.map((c,i)=>battleFighterHtml(c,i)).join('')}
       const fighters=(d.cards?.length?d.cards:deckCards),enemySteps=win?[13,16,18,21,32]:[8,10,12,14,16],teamHits=win?[9,12]:[19,27,35];let enemyHp=100,teamHp=100;
@@ -152,14 +154,14 @@
       else{battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',48);battleDamage(stage,'K.O.','player',true);if(navigator.vibrate)navigator.vibrate([160,50,160])}
       await battleSleep(1000);stage.classList.add(win?'battle-win-v863':'battle-lose-v863');phase.textContent=win?`${Number(d.floorNo)}F CLEAR`:'CHALLENGE FAILED';battleSfx(win?'victory':'defeat');
       if(win&&d.completed){
-        stopAuto();saveAuto(false);msg.innerHTML=`<strong>최고층 등반 완료</strong><span>${Number(d.floorNo)}층까지 모두 클리어했습니다. 자동으로 1층으로 돌아가지 않습니다.</span><button type="button" class="tower-result-button" id="towerResultBtn">완료 화면 확인</button>`;document.getElementById('towerResultBtn').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()};
+        stopAuto();saveAuto(false);msg.innerHTML=`<strong>최고층 등반 완료</strong><span>${Number(d.floorNo)}층까지 모두 클리어했습니다.${magicRewardText} 자동으로 1층으로 돌아가지 않습니다.</span><button type="button" class="tower-result-button" id="towerResultBtn">완료 화면 확인</button>`;document.getElementById('towerResultBtn').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()};
       }else if(win&&S.autoRunning&&S.autoEnabled){
-        msg.innerHTML=`<strong>${Number(d.floorNo)}층 클리어</strong><span>보상 ◈ ${Number(d.reward||0).toLocaleString()} · 다음 ${Number(d.nextFloor)}층</span><div class="tower-auto-next"><i></i><b>다음 층 자동진행 중</b><small>잠시 후 ${Number(d.nextFloor)}층 전투가 시작됩니다.</small></div><button type="button" class="tower-auto-stop" id="towerAutoStop">자동진행 중단</button>`;
+        msg.innerHTML=`<strong>${Number(d.floorNo)}층 클리어</strong><span>보상 ◈ ${Number(d.reward||0).toLocaleString()}${magicRewardText} · 다음 ${Number(d.nextFloor)}층</span><div class="tower-auto-next"><i></i><b>다음 층 자동진행 중</b><small>잠시 후 ${Number(d.nextFloor)}층 전투가 시작됩니다.</small></div><button type="button" class="tower-auto-stop" id="towerAutoStop">자동진행 중단</button>`;
         document.getElementById('towerAutoStop').onclick=e=>{e.stopPropagation();saveAuto(false);stopAuto();closeBattleAndRefresh()};
         S.autoTimer=setTimeout(()=>continueAuto(),1900);
       }else{
         if(!win)S.autoRunning=false;
-        msg.innerHTML=win?`<strong>${Number(d.floorNo)}층 클리어</strong><span>보상 ◈ ${Number(d.reward||0).toLocaleString()} · 다음 ${Number(d.nextFloor)}층</span><button type="button" class="tower-result-button" id="towerResultBtn">다음 층 확인</button>`:`<strong>${Number(d.floorNo)}층 도전 실패</strong><span>${S.autoEnabled?'패배하여 자동진행이 중단되었습니다. ':''}현재 층에서 다시 도전할 수 있습니다.</span><button type="button" class="tower-result-button retry" id="towerResultBtn">무한의탑으로 돌아가기</button>`;
+        msg.innerHTML=win?`<strong>${Number(d.floorNo)}층 클리어</strong><span>보상 ◈ ${Number(d.reward||0).toLocaleString()}${magicRewardText} · 다음 ${Number(d.nextFloor)}층</span><button type="button" class="tower-result-button" id="towerResultBtn">다음 층 확인</button>`:`<strong>${Number(d.floorNo)}층 도전 실패</strong><span>${S.autoEnabled?'패배하여 자동진행이 중단되었습니다. ':''}현재 층에서 다시 도전할 수 있습니다.</span><button type="button" class="tower-result-button retry" id="towerResultBtn">무한의탑으로 돌아가기</button>`;
         document.getElementById('towerResultBtn').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()};
       }
     }catch(e){stopAuto();msg.innerHTML=`<span>${esc(e.message)}</span><button class="tower-result-button retry" id="towerCloseErr">닫기</button>`;document.getElementById('towerCloseErr').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()}}

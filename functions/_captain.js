@@ -1,3 +1,5 @@
+import { magicSettings,ensureMagicRewardFoundation,magicRewardForRank } from './_magic.js';
+
 function weekKey() {
   const date = new Date(Date.now() + 32400000);
   const mondayOffset = (date.getUTCDay() + 6) % 7;
@@ -64,6 +66,7 @@ function shuffle(items) {
 }
 
 async function runUpgrade(env) {
+  await ensureMagicRewardFoundation(env);
   const tables = [
     `CREATE TABLE IF NOT EXISTS captain_registrations(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -725,9 +728,14 @@ function cleanName(value) {
 async function grantReward(env, userId, reward, reason) {
   const coin = Math.max(0, Math.floor(Number(reward?.coin || 0)));
   const shards = Math.max(0, Math.floor(Number(reward?.shards || 0)));
-  await env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?')
-    .bind(coin, shards, userId).run();
-  return { coin, shards, reason };
+  const magicCrystals = Math.max(0, Math.floor(Number(reward?.magicCrystals || 0)));
+  const before = await env.DB.prepare('SELECT magic_crystals FROM users WHERE id=?').bind(userId).first();
+  if (!before) throw new Error('유저 정보를 찾을 수 없습니다.');
+  const magicBalance = Number(before.magic_crystals || 0) + magicCrystals;
+  const statements = [env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(coin, shards, magicCrystals, userId)];
+  if (magicCrystals > 0) statements.push(env.DB.prepare('INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)').bind(userId, magicCrystals, magicBalance, reason === 'CAPTAIN_SETTLEMENT' ? '대장전 주간 정산 보상' : '대장전 승리 보상', reason, String(Date.now())));
+  await env.DB.batch(statements);
+  return { coin, shards, magicCrystals, magicBalance, reason };
 }
 
 function normalizeBattleCard(card, index) {
@@ -1009,6 +1017,8 @@ export async function handleCaptain({ path, request, env, deps }) {
 
   const admin = deps.isAdminRole(user);
   const config = await settings(env);
+  const magicConfig = await magicSettings(env);
+  const captainMagic = magicConfig.acquisition?.captain || {};
   const currentRound = await resolveCaptainRound(env);
   const week = currentRound.roundKey;
 
@@ -1536,7 +1546,7 @@ export async function handleCaptain({ path, request, env, deps }) {
 
       if (attackerWon) {
         try {
-          const victoryReward = config.rewards?.victory || { coin: 0, shards: 0 };
+          const victoryReward = { ...(config.rewards?.victory || { coin: 0, shards: 0 }), magicCrystals: captainMagic.enabled === true ? Math.max(0, Number(captainMagic.victory || 0)) : 0 };
           const rewardInsert = await env.DB.prepare(`
             INSERT OR IGNORE INTO captain_reward_claims(week_key,user_id,reward_type,reward_key,reward_json)
             VALUES(?,?,?,?,?)
@@ -1625,7 +1635,8 @@ export async function handleCaptain({ path, request, env, deps }) {
       ORDER BY score DESC,wins DESC,losses ASC,id ASC
     `).bind(settlementWeek).all()).results;
     const rank = rows.findIndex(row => Number(row.id) === Number(previousTeam.id)) + 1;
-    const reward = (config.rewards.settlement || []).find(item => rank >= Number(item.from) && rank <= Number(item.to)) || null;
+    const baseReward = (config.rewards.settlement || []).find(item => rank >= Number(item.from) && rank <= Number(item.to)) || null;
+    const reward = baseReward ? { ...baseReward, magicCrystals: captainMagic.enabled === true ? Math.max(0, Number(magicRewardForRank(captainMagic.settlement, rank) || 0)) : 0 } : null;
     const claim = await env.DB.prepare(`
       SELECT id FROM captain_reward_claims
       WHERE week_key=? AND user_id=? AND reward_type='SETTLEMENT' LIMIT 1
@@ -1647,8 +1658,9 @@ export async function handleCaptain({ path, request, env, deps }) {
       ORDER BY score DESC,wins DESC,losses ASC,id ASC
     `).bind(settlementWeek).all()).results;
     const rank = rows.findIndex(row => Number(row.id) === Number(previousTeam.id)) + 1;
-    const reward = (config.rewards.settlement || []).find(item => rank >= Number(item.from) && rank <= Number(item.to));
-    if (!reward) return deps.json({ error: '지난 주 순위에 해당하는 정산 보상이 없습니다.' }, 404);
+    const baseReward = (config.rewards.settlement || []).find(item => rank >= Number(item.from) && rank <= Number(item.to));
+    if (!baseReward) return deps.json({ error: '지난 주 순위에 해당하는 정산 보상이 없습니다.' }, 404);
+    const reward = { ...baseReward, magicCrystals: captainMagic.enabled === true ? Math.max(0, Number(magicRewardForRank(captainMagic.settlement, rank) || 0)) : 0 };
     const key = `rank-${rank}`;
     const inserted = await env.DB.prepare(`
       INSERT OR IGNORE INTO captain_reward_claims(week_key,user_id,reward_type,reward_key,reward_json)

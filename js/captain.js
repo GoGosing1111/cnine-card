@@ -374,7 +374,7 @@
       <p>최후 생존자 <b>${esc(survivor.nickname || '-')}</b> · 생존 덱 HP ${Number(survivor.hpPercent || 0)}%</p>
       <div class="captain-v4-survivor-deck">${combatDeck(survivor.deckSnapshot || survivor.deckState || [], won ? 'attacker' : 'defender')}</div>
       <div class="captain-v3-score-change"><span>${Number(data.attackerScoreBefore).toLocaleString()}</span><i>→</i><strong>${Number(data.attackerScoreAfter).toLocaleString()}</strong><em>${Number(data.scoreChange) > 0 ? '+' : ''}${Number(data.scoreChange)}점</em></div>
-      ${data.victoryReward ? `<div class="captain-v3-victory-reward"><span>공격 승리 보상</span><b>코인 ${Number(data.victoryReward.coin || 0).toLocaleString()} · 카드 조각 ${Number(data.victoryReward.shards || 0).toLocaleString()}</b></div>` : ''}
+      ${data.victoryReward ? `<div class="captain-v3-victory-reward"><span>공격 승리 보상</span><b>코인 ${Number(data.victoryReward.coin || 0).toLocaleString()} · 카드 조각 ${Number(data.victoryReward.shards || 0).toLocaleString()}${Number(data.victoryReward.magicCrystals||0)>0?` · 마법 결정 ${Number(data.victoryReward.magicCrystals).toLocaleString()}`:''}</b></div>` : ''}
       ${data.victoryRewardError ? `<div class="captain-v3-victory-reward error"><span>보상 지급 오류</span><b>${esc(data.victoryRewardError)}</b></div>` : ''}
       <div class="captain-v3-final-actions"><button class="btn" id="captainBattleClose">대장전으로 돌아가기</button><button class="text-btn" id="captainBattleLogs">공격 로그 보기</button></div>
     </section>`;
@@ -410,6 +410,7 @@
           requestId: globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`
         })
       });
+      if(result.victoryReward?.magicBalance!=null){const saved=loadUser();if(saved){saved.magicCrystals=Number(result.victoryReward.magicBalance);saveUser(saved)}}
       const openLogs = await playBattle(result);
       await render();
       if (openLogs) await history(document.getElementById('pvpContent'));
@@ -559,10 +560,11 @@
           if (!status.eligible) throw new Error('지난 주 정산 대상이 아니거나 설정된 보상 구간이 없습니다.');
           if (status.claimed) throw new Error('지난 주 정산 보상을 이미 수령했습니다.');
           if (!confirm(`${status.settlementWeek} 주차 ${status.rank}위 정산 보상을 수령할까요?
-코인 ${Number(status.reward?.coin||0).toLocaleString()} · 카드 조각 ${Number(status.reward?.shards||0).toLocaleString()}`)) return;
+코인 ${Number(status.reward?.coin||0).toLocaleString()} · 카드 조각 ${Number(status.reward?.shards||0).toLocaleString()}${Number(status.reward?.magicCrystals||0)>0?` · 마법 결정 ${Number(status.reward.magicCrystals).toLocaleString()}`:''}`)) return;
           const result = await api('captain/reward/claim', { method: 'POST', body: '{}' });
           alert(`정산 보상을 수령했습니다.
-코인 ${Number(result.reward?.coin||0).toLocaleString()} · 카드 조각 ${Number(result.reward?.shards||0).toLocaleString()}`);
+코인 ${Number(result.reward?.coin||0).toLocaleString()} · 카드 조각 ${Number(result.reward?.shards||0).toLocaleString()}${Number(result.reward?.magicCrystals||0)>0?` · 마법 결정 ${Number(result.reward.magicCrystals).toLocaleString()}`:''}`);
+          if(result.reward?.magicBalance!=null){const saved=loadUser();if(saved){saved.magicCrystals=Number(result.reward.magicBalance);saveUser(saved)}}
           await render();
         } catch (error) { alert(error.message); }
         finally { button.disabled = false; }

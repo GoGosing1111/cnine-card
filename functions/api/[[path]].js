@@ -2,7 +2,7 @@ import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
 import { handleCaptain } from '../_captain.js';
-import { handleMagic } from '../_magic.js';
+import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor } from '../_magic.js';
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000,LIMITED:3000};
 const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9,LIMITED:10};
@@ -198,9 +198,19 @@ async function refreshRaidForOwner(env,instance,cfg){
 
 async function raidSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_settings_v1'").first();if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
 async function raidRewardSnapshot(env,instanceId,cfg,create=true){
-  if(create)await env.DB.prepare('INSERT OR IGNORE INTO raid_reward_snapshots(instance_id,participation_coin,clear_coin,reward_shards) VALUES(?,?,?,?)').bind(Number(instanceId),Math.max(0,Number(cfg.participationCoin||0)),Math.max(0,Number(cfg.clearCoin||0)),Math.max(0,Number(cfg.rewardShards||0))).run();
-  const row=await env.DB.prepare('SELECT participation_coin AS participationCoin,clear_coin AS clearCoin,reward_shards AS rewardShards FROM raid_reward_snapshots WHERE instance_id=?').bind(Number(instanceId)).first();
-  return row||{participationCoin:Math.max(0,Number(cfg.participationCoin||0)),clearCoin:Math.max(0,Number(cfg.clearCoin||0)),rewardShards:Math.max(0,Number(cfg.rewardShards||0))};
+  const magicCfg=await magicSettings(env),raidMagic=magicCfg.acquisition?.raid||{};
+  const participationMagic=raidMagic.enabled===true?Math.max(0,Math.floor(Number(raidMagic.participation||0))):0;
+  const rankMagicRewards=raidMagic.enabled===true&&Array.isArray(raidMagic.rankRewards)?raidMagic.rankRewards:[];
+  if(create)await env.DB.prepare('INSERT OR IGNORE INTO raid_reward_snapshots(instance_id,participation_coin,clear_coin,reward_shards,participation_magic_crystals,rank_magic_rewards_json) VALUES(?,?,?,?,?,?)').bind(Number(instanceId),Math.max(0,Number(cfg.participationCoin||0)),Math.max(0,Number(cfg.clearCoin||0)),Math.max(0,Number(cfg.rewardShards||0)),participationMagic,JSON.stringify(rankMagicRewards)).run();
+  const row=await env.DB.prepare('SELECT participation_coin AS participationCoin,clear_coin AS clearCoin,reward_shards AS rewardShards,COALESCE(participation_magic_crystals,0) AS participationMagicCrystals,COALESCE(rank_magic_rewards_json,'[]') AS rankMagicRewardsJson FROM raid_reward_snapshots WHERE instance_id=?').bind(Number(instanceId)).first();
+  if(!row)return {participationCoin:Math.max(0,Number(cfg.participationCoin||0)),clearCoin:Math.max(0,Number(cfg.clearCoin||0)),rewardShards:Math.max(0,Number(cfg.rewardShards||0)),participationMagicCrystals:participationMagic,rankMagicRewards};
+  let savedRankRewards=[];try{savedRankRewards=JSON.parse(row.rankMagicRewardsJson||'[]')}catch{}
+  return {...row,participationMagicCrystals:Math.max(0,Number(row.participationMagicCrystals||0)),rankMagicRewards:Array.isArray(savedRankRewards)?savedRankRewards:[]};
+}
+async function raidUserFinalRank(env,instanceId,userId){
+  const rows=(await env.DB.prepare(`SELECT user_id,total_damage,joined_at,id FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1 ORDER BY total_damage DESC,joined_at ASC,id ASC`).bind(instanceId).all()).results;
+  const index=rows.findIndex(row=>Number(row.user_id)===Number(userId));
+  return index<0?0:index+1;
 }
 async function raidBossOpenPolicies(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_user_open_bosses_v1'").first();if(!row?.value)return {};try{const raw=JSON.parse(row.value),out={};for(const [id,v] of Object.entries(raw||{})){out[String(Number(id))]={enabled:v?.enabled===true,cost:Math.max(0,Math.min(100000000,Math.floor(Number(v?.cost)||0)))}}return out}catch{return {}}}
 function kstDateKey(now=Date.now()){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now))}
@@ -371,6 +381,18 @@ async function ensureUpgrades(env){
         env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('deck_synergy_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(JSON.stringify({enabled:false,ownerTestEnabled:false,retired:true,retiredReason:'MAGIC_CARD_SYSTEM'})),
         env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1094_magic_card_foundation','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value='1',updated_at=CURRENT_TIMESTAMP")
       ]);
+    }
+    const magicAcquisitionDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1102_magic_crystal_acquisition'").first();
+    if(magicAcquisitionDone?.value!=='1'){
+      await ensureMagicRewardFoundation(env);
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS raid_reward_snapshots(
+        instance_id INTEGER PRIMARY KEY,participation_coin INTEGER NOT NULL DEFAULT 0,clear_coin INTEGER NOT NULL DEFAULT 0,
+        reward_shards INTEGER NOT NULL DEFAULT 0,participation_magic_crystals INTEGER NOT NULL DEFAULT 0,
+        rank_magic_rewards_json TEXT NOT NULL DEFAULT '[]',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
+      if(!await columnExists(env,'raid_reward_snapshots','participation_magic_crystals'))await env.DB.prepare('ALTER TABLE raid_reward_snapshots ADD COLUMN participation_magic_crystals INTEGER NOT NULL DEFAULT 0').run();
+      if(!await columnExists(env,'raid_reward_snapshots','rank_magic_rewards_json'))await env.DB.prepare("ALTER TABLE raid_reward_snapshots ADD COLUMN rank_magic_rewards_json TEXT NOT NULL DEFAULT '[]'").run();
+      if(await tableExists(env,'raid_reward_receipts')&&!await columnExists(env,'raid_reward_receipts','reward_magic_crystals'))await env.DB.prepare('ALTER TABLE raid_reward_receipts ADD COLUMN reward_magic_crystals INTEGER NOT NULL DEFAULT 0').run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1102_magic_crystal_acquisition','1',CURRENT_TIMESTAMP)").run();
     }
     const runtimeCommandDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1091_user_runtime_commands'").first();
     if(runtimeCommandDone?.value!=='1'){
@@ -1882,7 +1904,10 @@ export async function onRequest(context){
         const rewardCfg=await raidRewardSnapshot(env,current.id,cfg,true);
         const rewardCoin=Math.max(0,Number(rewardCfg.participationCoin||0)+(cleared?Number(rewardCfg.clearCoin||0):0));
         const rewardShards=cleared?Math.max(0,Number(rewardCfg.rewardShards||0)):0;
-        claimableReward={instanceId:Number(current.id),coin:rewardCoin,shards:rewardShards,participationCoin:Number(rewardCfg.participationCoin||0),clearCoin:cleared?Number(rewardCfg.clearCoin||0):0,cleared,source:'SERVER_CONFIRMED',snapshot:true};
+        const finalRank=Math.max(0,Number(me.rank||0));
+        const rankMagicCrystals=Math.max(0,Number(magicRewardForRank(rewardCfg.rankMagicRewards,finalRank)||0));
+        const rewardMagicCrystals=Math.max(0,Number(rewardCfg.participationMagicCrystals||0)+rankMagicCrystals);
+        claimableReward={instanceId:Number(current.id),coin:rewardCoin,shards:rewardShards,magicCrystals:rewardMagicCrystals,participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,participationCoin:Number(rewardCfg.participationCoin||0),clearCoin:cleared?Number(rewardCfg.clearCoin||0):0,cleared,source:'SERVER_CONFIRMED',snapshot:true};
       }
       const visibleParticipants=current.status==='LOBBY'?enriched.map((x,i)=>({anonymous:true,slot:i+1,nickname:`익명 참가자 ${String(i+1).padStart(2,'0')}`,cards:[],totalPower:0,shownDamage:0,isDefeated:false})):enriched;
       return json({settings:cfg,schedule,dailyEntryUsed:todayEntryCount>=dailyEntryLimit,dailyEntry,rooms,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged},participants:visibleParticipants,me,claimableReward,serverNow:new Date().toISOString()});
@@ -1958,7 +1983,7 @@ export async function onRequest(context){
       const cancelled=await env.DB.prepare("SELECT instance_id FROM raid_room_cancellations WHERE instance_id=? AND status='COMPLETED'").bind(row.instance_id).first();
       if(cancelled)return json({error:'최소 인원 미달로 취소된 레이드는 보상 대상이 아닙니다. 입장 횟수와 개설 비용은 복구되었습니다.'},409);
 
-      let receipt=await env.DB.prepare('SELECT status,response_json,reward_coin AS rewardCoin,reward_shards AS rewardShards,created_at AS createdAt,updated_at AS updatedAt FROM raid_reward_receipts WHERE instance_id=? AND user_id=?').bind(row.instance_id,user.id).first();
+      let receipt=await env.DB.prepare('SELECT status,response_json,reward_coin AS rewardCoin,reward_shards AS rewardShards,COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals,created_at AS createdAt,updated_at AS updatedAt FROM raid_reward_receipts WHERE instance_id=? AND user_id=?').bind(row.instance_id,user.id).first();
       if(receipt?.status==='COMPLETED'&&receipt.response_json){
         try{return json(JSON.parse(receipt.response_json))}catch{}
       }
@@ -1969,7 +1994,7 @@ export async function onRequest(context){
         if(Number(latestParticipant?.rewardClaimed||0)===1){
           const updatedUser=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
           if(!updatedUser)return json({error:'유저 정보를 찾을 수 없습니다.'},404);
-          const recovered={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin:Math.max(0,Number(receipt.rewardCoin||0)),rewardShards:Math.max(0,Number(receipt.rewardShards||0)),balanceAfter:Number(updatedUser.coin||0),shardsAfter:Number(updatedUser.card_shards||0),rewardSource:'SERVER_RECOVERED',user:await profile(env,updatedUser)};
+          const recovered={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin:Math.max(0,Number(receipt.rewardCoin||0)),rewardShards:Math.max(0,Number(receipt.rewardShards||0)),rewardMagicCrystals:Math.max(0,Number(receipt.rewardMagicCrystals||0)),balanceAfter:Number(updatedUser.coin||0),shardsAfter:Number(updatedUser.card_shards||0),magicCrystalsAfter:Number(updatedUser.magic_crystals||0),rewardSource:'SERVER_RECOVERED',user:await profile(env,updatedUser)};
           await env.DB.prepare("UPDATE raid_reward_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=?").bind(JSON.stringify(recovered),row.instance_id,user.id).run();
           return json(recovered);
         }
@@ -1979,7 +2004,7 @@ export async function onRequest(context){
       if(Number(row.reward_claimed||0)&&receipt?.status!=='COMPLETED'){
         const updatedUser=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
         if(!updatedUser)return json({error:'유저 정보를 찾을 수 없습니다.'},404);
-        const recovered={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin:Math.max(0,Number(receipt?.rewardCoin||0)),rewardShards:Math.max(0,Number(receipt?.rewardShards||0)),balanceAfter:Number(updatedUser.coin||0),shardsAfter:Number(updatedUser.card_shards||0),rewardSource:'SERVER_RECOVERED',user:await profile(env,updatedUser)};
+        const recovered={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin:Math.max(0,Number(receipt?.rewardCoin||0)),rewardShards:Math.max(0,Number(receipt?.rewardShards||0)),rewardMagicCrystals:Math.max(0,Number(receipt?.rewardMagicCrystals||0)),balanceAfter:Number(updatedUser.coin||0),shardsAfter:Number(updatedUser.card_shards||0),magicCrystalsAfter:Number(updatedUser.magic_crystals||0),rewardSource:'SERVER_RECOVERED',user:await profile(env,updatedUser)};
         if(receipt)await env.DB.prepare("UPDATE raid_reward_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=?").bind(JSON.stringify(recovered),row.instance_id,user.id).run();
         return json(recovered);
       }
@@ -1987,11 +2012,14 @@ export async function onRequest(context){
       const cleared=Number(row.current_hp||0)<=0,rewardCfg=await raidRewardSnapshot(env,row.instance_id,cfg,true);
       const rewardCoin=Math.max(0,Number(rewardCfg.participationCoin||0)+(cleared?Number(rewardCfg.clearCoin||0):0));
       const rewardShards=cleared?Math.max(0,Number(rewardCfg.rewardShards||0)):0;
+      const finalRank=await raidUserFinalRank(env,row.instance_id,user.id);
+      const rankMagicCrystals=Math.max(0,Number(magicRewardForRank(rewardCfg.rankMagicRewards,finalRank)||0));
+      const rewardMagicCrystals=Math.max(0,Number(rewardCfg.participationMagicCrystals||0)+rankMagicCrystals);
       let reserved={meta:{changes:0}};
       if(receipt&&['RETRYABLE','FAILED'].includes(String(receipt.status||'').toUpperCase())){
-        reserved=await env.DB.prepare("UPDATE raid_reward_receipts SET status='PENDING',reward_coin=?,reward_shards=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=? AND status IN ('RETRYABLE','FAILED')").bind(rewardCoin,rewardShards,row.instance_id,user.id).run();
+        reserved=await env.DB.prepare("UPDATE raid_reward_receipts SET status='PENDING',reward_coin=?,reward_shards=?,reward_magic_crystals=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=? AND status IN ('RETRYABLE','FAILED')").bind(rewardCoin,rewardShards,rewardMagicCrystals,row.instance_id,user.id).run();
       }
-      if(!reserved.meta.changes)reserved=await env.DB.prepare("INSERT OR IGNORE INTO raid_reward_receipts(instance_id,user_id,status,reward_coin,reward_shards) VALUES(?,?,'PENDING',?,?)").bind(row.instance_id,user.id,rewardCoin,rewardShards).run();
+      if(!reserved.meta.changes)reserved=await env.DB.prepare("INSERT OR IGNORE INTO raid_reward_receipts(instance_id,user_id,status,reward_coin,reward_shards,reward_magic_crystals) VALUES(?,?,'PENDING',?,?,?)").bind(row.instance_id,user.id,rewardCoin,rewardShards,rewardMagicCrystals).run();
       if(!reserved.meta.changes){
         const duplicate=await env.DB.prepare('SELECT status,response_json,created_at AS createdAt,updated_at AS updatedAt FROM raid_reward_receipts WHERE instance_id=? AND user_id=?').bind(row.instance_id,user.id).first();
         if(duplicate?.status==='COMPLETED'&&duplicate.response_json){try{return json(JSON.parse(duplicate.response_json))}catch{}}
@@ -2004,18 +2032,20 @@ export async function onRequest(context){
         if(!before)throw new Error('유저 정보를 찾을 수 없습니다.');
         const balanceAfter=Number(before.coin||0)+rewardCoin;
         const shardsAfter=Number(before.card_shards||0)+rewardShards;
-        const response={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin,rewardShards,balanceAfter,shardsAfter,rewardSource:'SERVER_CONFIRMED'};
-
-        await env.DB.batch([
-          env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),
+        const magicCrystalsAfter=Number(before.magic_crystals||0)+rewardMagicCrystals;
+        const response={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin,rewardShards,rewardMagicCrystals,participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,balanceAfter,shardsAfter,magicCrystalsAfter,rewardSource:'SERVER_CONFIRMED'};
+        const rewardStatements=[
+          env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(rewardCoin,rewardShards,rewardMagicCrystals,user.id),
           env.DB.prepare('UPDATE raid_participants SET reward_claimed=1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND reward_claimed=0').bind(row.id),
           env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'RAID_REWARD')").bind(user.id,rewardCoin,balanceAfter),
           env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'RAID_REWARD')").bind(user.id,rewardShards,shardsAfter),
           env.DB.prepare("UPDATE raid_reward_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=?").bind(JSON.stringify(response),row.instance_id,user.id)
-        ]);
+        ];
+        if(rewardMagicCrystals>0)rewardStatements.splice(4,0,env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'월드레이드 보상','RAID',?)").bind(user.id,rewardMagicCrystals,magicCrystalsAfter,String(row.instance_id)));
+        await env.DB.batch(rewardStatements);
 
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-        if(Number(updated?.coin)!==balanceAfter||Number(updated?.card_shards)!==shardsAfter)throw new Error('레이드 보상 지급 후 잔액 검증에 실패했습니다.');
+        if(Number(updated?.coin)!==balanceAfter||Number(updated?.card_shards)!==shardsAfter||Number(updated?.magic_crystals||0)!==magicCrystalsAfter)throw new Error('레이드 보상 지급 후 잔액 검증에 실패했습니다.');
         response.user=await profile(env,updated);
         await env.DB.prepare("UPDATE raid_reward_receipts SET response_json=?,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=?").bind(JSON.stringify(response),row.instance_id,user.id).run();
         return json(response);
@@ -2062,12 +2092,18 @@ export async function onRequest(context){
       const lock=await env.DB.prepare('SELECT request_id FROM pve_auto_locks WHERE user_id=?').bind(user.id).first();if(lock?.request_id!==requestId)return json({error:'이미 다른 창에서 자동사냥이 진행 중입니다.',code:'AUTO_HUNT_LOCKED'},409);
       await env.DB.prepare("INSERT INTO pve_auto_runs(request_id,user_id,monster_id,status) VALUES(?,?,?,'RUNNING')").bind(requestId,user.id,monsterId).run();
       try{
-        let battles=0,wins=0,losses=0,totalReward=0,energy=energyBefore;const cardRewards=[],cubeRewards=[];
+        let battles=0,wins=0,losses=0,totalReward=0,energy=energyBefore;const cardRewards=[],cubeRewards=[],magicRewards=[];
+        const magicCfg=await magicSettings(env),pveMagic=magicCfg.acquisition?.pve||{};
         for(let i=0;i<battleCount;i++){
           try{energy=await consumeBattleEnergy(env,user,settings)}catch(e){if(e.code==='NO_BATTLE_ENERGY'){energy=e.energy;break}throw e}
-          const one=await resolveAutoBattle(env,user,settings,monster,cards,ids);battles++;totalReward+=Number(one.reward||0);if(one.result==='WIN'){wins++;const cubeReward=await grantBattleCube(env,user.id,'PVE',`${requestId}:${i+1}`);if(cubeReward)cubeRewards.push(cubeReward)}else losses++;if(one.cardReward)cardRewards.push(one.cardReward);
+          const one=await resolveAutoBattle(env,user,settings,monster,cards,ids);battles++;totalReward+=Number(one.reward||0);if(one.result==='WIN'){
+            wins++;
+            const battleRef=`${requestId}:${i+1}`;
+            const cubeReward=await grantBattleCube(env,user.id,'PVE',battleRef);if(cubeReward)cubeRewards.push(cubeReward);
+            const magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:battleRef,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'});if(magicReward?.amount>0)magicRewards.push(magicReward);
+          }else losses++;if(one.cardReward)cardRewards.push(one.cardReward);
         }
-        const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),response={ok:true,battles,wins,losses,totalReward,cardRewards,cubeRewards,energy,serverNow:new Date().toISOString(),user:await profile(env,updated)};
+        const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),response={ok:true,battles,wins,losses,totalReward,cardRewards,cubeRewards,magicRewards,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,serverNow:new Date().toISOString(),user:await profile(env,updated)};
         await env.DB.prepare("UPDATE pve_auto_runs SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();
         await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();return json(response);
       }catch(error){await env.DB.prepare("UPDATE pve_auto_runs SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(String(error?.message||error).slice(0,500),requestId).run();await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();throw error}
@@ -2112,8 +2148,10 @@ export async function onRequest(context){
       let cardReward=null;if(result==='WIN'&&settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}
       await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run();
       const cubeReward=result==='WIN'?await grantBattleCube(env,user.id,'PVE',requestId):null;
+      const pveMagic=(await magicSettings(env)).acquisition?.pve||{};
+      const magicReward=result==='WIN'?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):null;
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({result,reward,cardReward,cubeReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
+      return json({result,reward,cardReward,cubeReward,magicReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
     }
 
 
@@ -2202,9 +2240,14 @@ export async function onRequest(context){
       }
       const result=effectiveTowerPower>=monsterPower?'WIN':'LOSE';let reward=0;
       let completed=false,nextFloor=floorNo;
-      if(result==='WIN'){reward=Number(floor.reward_coin||Math.max(100,floorNo*100));if(reward)await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;await env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id).run();}
+      let magicReward=null;
+      if(result==='WIN'){
+        reward=Number(floor.reward_coin||Math.max(100,floorNo*100));if(reward)await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;await env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id).run();
+        const magicCfg=await magicSettings(env),towerMagic=magicCfg.acquisition?.tower||{},magicAmount=magicRewardForTowerFloor(magicCfg,floorNo);
+        magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:`${season.id}:${floorNo}`,enabled:towerMagic.enabled===true,chance:100,amount:magicAmount,dailyLimit:0,reason:`무한의탑 ${floorNo}층 최초 클리어`});
+      }
       await env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run();
-      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
+      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});
@@ -2350,7 +2393,10 @@ export async function onRequest(context){
       const coinUser=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
       if(attackerCoinReward>0)await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PVP_ATTACK_BATTLE')").bind(user.id,attackerCoinReward,coinUser.coin).run();
       const cubeReward=attackerWin?await grantBattleCube(env,user.id,'PVP',requestId):null;
-      return json({result:attackerWin?'WIN':'LOSE',cubeReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:coinUser.coin,rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aDeck,defenderDeck:dDeck,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
+      const pvpMagic=(await magicSettings(env)).acquisition?.pvp||{};
+      const magicReward=attackerWin?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVP_DROP',referenceId:requestId,enabled:pvpMagic.enabled===true,chance:pvpMagic.chance,amount:pvpMagic.amount,dailyLimit:pvpMagic.dailyLimit,reason:'일반 PVP 승리 확률 드랍'}):null;
+      const freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first();
+      return json({result:attackerWin?'WIN':'LOSE',cubeReward,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aDeck,defenderDeck:dDeck,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT * FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();return json({history:rows.results.map(r=>({...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}))});
