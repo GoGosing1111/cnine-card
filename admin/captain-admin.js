@@ -1,17 +1,25 @@
 (()=>{
-  const $=s=>document.querySelector(s);
-  const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-  const statusKo=value=>({WAITING:'대기',ASSIGNED:'팀 편성',CANCELLED:'참가 취소',ACTIVE:'운영 중',DONE:'완료',PENDING:'처리 중'}[String(value||'').toUpperCase()]||String(value||'-'));
-  function settlementRow(item={}){
-    return `<div class="captainSettlementRow"><label><span>시작 순위</span><input data-key="from" type="number" min="1" value="${Number(item.from||1)}"></label><label><span>종료 순위</span><input data-key="to" type="number" min="1" value="${Number(item.to||item.from||1)}"></label><label><span>코인</span><input data-key="coin" type="number" min="0" value="${Number(item.coin||0)}"></label><label><span>카드 조각</span><input data-key="shards" type="number" min="0" value="${Number(item.shards||0)}"></label><button type="button" class="warn" data-remove-settlement>삭제</button></div>`;
-  }
-  function renderSettlement(items){
-    const box=$('#capSettlementRows'); if(!box)return;
-    box.innerHTML=(Array.isArray(items)&&items.length?items:[{from:1,to:1,coin:0,shards:0}]).map(settlementRow).join('');
-    box.querySelectorAll('[data-remove-settlement]').forEach(button=>button.onclick=()=>{button.closest('.captainSettlementRow')?.remove();if(!box.children.length)box.insertAdjacentHTML('beforeend',settlementRow())});
-  }
+  const $=selector=>document.querySelector(selector);
+  const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[char]));
+  const statusKo=value=>({
+    WAITING:'매칭 대기',ASSIGNED:'팀 편성 완료',CANCELLED:'참가 취소',
+    ACTIVE:'운영 중',DONE:'완료',PENDING:'처리 중'
+  }[String(value||'').toUpperCase()]||String(value||'-'));
+  const roleClass=position=>['','lead','mid','captain'][Number(position)]||'member';
+  const roleLabel=position=>['','선봉','중견','대장'][Number(position)]||'팀원';
+  const formatDate=value=>{
+    if(!value)return '-';
+    const parsed=Date.parse(String(value).replace(' ','T')+'Z');
+    if(!Number.isFinite(parsed))return String(value);
+    return new Intl.DateTimeFormat('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false,timeZone:'Asia/Seoul'}).format(new Date(parsed));
+  };
+  const number=value=>Number(value||0).toLocaleString();
+
   let loading=false;
   let reloadQueued=false;
+  let latestOverview=null;
 
   async function api(path,opt={}){
     try{
@@ -28,12 +36,40 @@
       });
       const text=await response.text();
       let data={};
-      try{data=text?JSON.parse(text):{}}catch{throw new Error(`API가 JSON이 아닌 응답을 반환했습니다. (HTTP ${response.status})`)}
-      if(!response.ok)throw new Error(data.error||`요청 실패 (HTTP ${response.status})`);
+      try{data=text?JSON.parse(text):{}}catch{throw new Error(`API 응답 형식 오류 (HTTP ${response.status})`)}
+      if(!response.ok)throw new Error(data.error||data.detail||`요청 실패 (HTTP ${response.status})`);
       return data;
     }catch(error){
       throw new Error(`${path}: ${error?.message||error}`);
     }
+  }
+
+  function tierBadge(tier,score){
+    const info=tier||{name:'브론즈',color:'#b87333'};
+    return `<span class="captain-tier-badge" style="--tier-color:${esc(info.color||'#b87333')}"><i></i><b>${esc(info.name||'브론즈')}</b><small>${number(score)}점</small></span>`;
+  }
+
+  function settlementRow(item={}){
+    return `<div class="captainSettlementRow">
+      <label><span>시작 순위</span><input data-key="from" type="number" min="1" value="${Number(item.from||1)}"></label>
+      <label><span>종료 순위</span><input data-key="to" type="number" min="1" value="${Number(item.to||item.from||1)}"></label>
+      <label><span>코인</span><input data-key="coin" type="number" min="0" value="${Number(item.coin||0)}"></label>
+      <label><span>카드 조각</span><input data-key="shards" type="number" min="0" value="${Number(item.shards||0)}"></label>
+      <button type="button" class="warn" data-remove-settlement>삭제</button>
+    </div>`;
+  }
+
+  function renderSettlement(items){
+    const box=$('#capSettlementRows');
+    if(!box)return;
+    const source=Array.isArray(items)&&items.length?items:[{from:1,to:1,coin:0,shards:0}];
+    box.innerHTML=source.map(settlementRow).join('');
+    box.querySelectorAll('[data-remove-settlement]').forEach(button=>{
+      button.onclick=()=>{
+        button.closest('.captainSettlementRow')?.remove();
+        if(!box.children.length)box.insertAdjacentHTML('beforeend',settlementRow());
+      };
+    });
   }
 
   function ensure(){
@@ -51,54 +87,281 @@
 
     if(!$('#view-captain')){
       const view=document.createElement('section');
-      view.className='view';
+      view.className='view captain-admin-view';
       view.id='view-captain';
       view.hidden=true;
-      view.innerHTML=`<div class="sectionIntro"><h2>대장전 관리</h2><p>3:3 랜덤 팀 승자 연전식 비동기 PVP의 운영·팀·보상·로그를 관리합니다.</p></div><div class="panel"><div class="maintenanceHead"><div><small>대장전 운영 관리</small><h2>운영 설정</h2></div><button id="capCmsSave">설정 저장</button></div><div class="formgrid"><label class="field"><span>운영 상태</span><select id="capCmsMode"><option value="OFF">운영 중지</option><option value="ON">정식 운영</option><option value="TEST">테스트 운영</option></select></label><label class="field"><span>최대 공격 횟수</span><input id="capCmsEnergyMax" type="number" min="1" value="5"></label><label class="field"><span>충전 시간(분)</span><input id="capCmsEnergyMinutes" type="number" min="1" value="15"></label><label class="field"><span>승리 점수</span><input id="capCmsWinScore" type="number" value="24"></label><label class="field"><span>패배 차감</span><input id="capCmsLoseScore" type="number" value="16"></label><label class="field"><span>팀명 변경 쿨타임(분)</span><input id="capCmsRenameCooldown" type="number" value="60"></label><label class="field"><span>운영자 테스트 참여</span><select id="capCmsAdminTest"><option value="true">허용</option><option value="false">차단</option></select></label></div><details class="captainRewardCms" open><summary>대장전 배경음 설정</summary><div class="formgrid"><label class="field"><span>배경음 사용</span><select id="capCmsBgmEnabled"><option value="false">사용 안 함</option><option value="true">사용</option></select></label><label class="field captainBgmSource"><span>음원 경로 또는 직접 URL</span><input id="capCmsBgmSource" type="text" placeholder="/assets/audio/captain-theme.mp3 또는 https://.../theme.mp3"></label><label class="field"><span>기본 음량 (0~100)</span><input id="capCmsBgmVolume" type="number" min="0" max="100" value="35"></label><label class="field"><span>반복 재생</span><select id="capCmsBgmLoop"><option value="true">사용</option><option value="false">사용 안 함</option></select></label><label class="field"><span>화면 이탈 시 정지</span><select id="capCmsBgmStop"><option value="true">사용</option><option value="false">사용 안 함</option></select></label><div class="field captainBgmPreviewActions"><span>미리듣기</span><div><button type="button" class="ghost" id="capCmsBgmPreview">재생</button><button type="button" class="ghost" id="capCmsBgmPreviewStop">정지</button></div></div></div><p class="muted">유튜브 페이지 주소는 사용할 수 없습니다. MP3·OGG·WAV 파일 직접 URL 또는 프로젝트 루트 경로를 입력하세요.</p></details><details class="captainRewardCms" open><summary>공격 승리 보상</summary><div class="formgrid"><label class="field"><span>코인</span><input id="capVictoryCoin" type="number" min="0" value="0"></label><label class="field"><span>카드 조각</span><input id="capVictoryShards" type="number" min="0" value="0"></label></div><p class="muted">공격을 시작한 유저가 3:3 경기에서 승리했을 때 즉시 지급됩니다.</p></details><details class="captainRewardCms" open><summary>주간 정산 보상</summary><div id="capSettlementRows" class="captainSettlementRows"></div><button type="button" class="ghost" id="capSettlementAdd">정산 구간 추가</button><p class="muted">지난 주 최종 팀 순위를 기준으로 유저가 직접 수령합니다. 보상은 코인과 카드 조각만 지급됩니다.</p></details></div><div class="panel"><div class="maintenanceHead"><div><h2>이번 주 운영 현황</h2><p id="capCmsWeek">불러오는 중</p></div><div><button class="ghost" id="capCmsRefresh">새로고침</button><button class="warn" id="capCmsReset">주간 초기화 확인</button></div></div><div id="capCmsStats" class="stats"></div><div class="captainCmsColumns"><section><h3>참가자·대기열</h3><div id="capCmsRegs"></div></section><section><h3>팀 관리</h3><div id="capCmsTeams"></div></section></div></div><div class="panel"><h2>최근 공격·방어 로그</h2><div id="capCmsLogs" class="table"></div></div>`;
+      view.innerHTML=`
+        <div class="captain-admin-hero">
+          <div>
+            <small>3:3 승자 연전식 비동기 PVP</small>
+            <h2>대장전 운영 센터</h2>
+            <p>참가 대기열, PVP 시즌 티어 기반 팀 편성, 팀 상태, 경기 기록과 보상을 한 화면에서 관리합니다.</p>
+          </div>
+          <div class="captain-admin-actions">
+            <span id="capCmsModeBadge" class="captain-mode-badge off">운영 중지</span>
+            <button type="button" id="capCmsRefresh" class="ghost">새로고침</button>
+            <button type="button" id="capCmsReset" class="warn">주간 초기화 확인</button>
+          </div>
+        </div>
+
+        <section class="captain-balance-rules">
+          <article><span>역할 배정</span><b>시즌 점수 낮은 순</b><small>선봉 → 중견 → 대장</small></article>
+          <article><span>그랜드마스터 제한</span><b>팀당 최대 1명</b><small>2명 이상 자동 편성 차단</small></article>
+          <article><span>팀 균형</span><b>PVP 시즌 점수 분산</b><small>가능한 팀 간 점수 합계를 균등 배분</small></article>
+        </section>
+
+        <section class="captain-overview-panel">
+          <div class="captain-section-head">
+            <div><small id="capCmsWeek">주차 확인 중</small><h3>이번 주 운영 현황</h3></div>
+          </div>
+          <div id="capCmsStats" class="captain-stat-grid"></div>
+          <div id="capCmsBalanceNotice" class="captain-balance-notice"></div>
+        </section>
+
+        <section class="captain-admin-grid">
+          <div class="captain-admin-card captain-queue-card">
+            <div class="captain-section-head">
+              <div><small>참가자 관리</small><h3>등록·대기열</h3></div>
+              <div class="captain-table-tools">
+                <input id="capCmsQueueSearch" type="search" placeholder="닉네임 검색">
+                <select id="capCmsQueueFilter">
+                  <option value="ACTIVE">진행 대상</option>
+                  <option value="WAITING">매칭 대기</option>
+                  <option value="ASSIGNED">팀 편성 완료</option>
+                  <option value="CANCELLED">참가 취소</option>
+                  <option value="ALL">전체</option>
+                </select>
+              </div>
+            </div>
+            <div class="captain-table-scroll">
+              <table class="captain-admin-table">
+                <thead><tr><th>참가자</th><th>PVP 시즌 티어</th><th>덱 전투력</th><th>상태</th><th>등록·제한 시각</th></tr></thead>
+                <tbody id="capCmsRegs"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="captain-admin-card captain-team-card">
+            <div class="captain-section-head">
+              <div><small>팀 균형 확인</small><h3>팀 관리</h3></div>
+              <span id="capCmsTeamCount" class="captain-count-pill">0팀</span>
+            </div>
+            <div id="capCmsTeams" class="captain-team-list"></div>
+          </div>
+        </section>
+
+        <section class="captain-admin-card captain-log-card">
+          <div class="captain-section-head">
+            <div><small>공격·방어 기록</small><h3>최근 경기 로그</h3></div>
+          </div>
+          <div class="captain-table-scroll">
+            <table class="captain-admin-table captain-log-table">
+              <thead><tr><th>시각</th><th>대결</th><th>공격자</th><th>결과</th><th>점수 변동</th><th>라운드</th></tr></thead>
+              <tbody id="capCmsLogs"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <details class="captain-settings-shell" open>
+          <summary><span>운영·보상·배경음 설정</span><small>클릭하여 접기/펼치기</small></summary>
+          <div class="captain-settings-content">
+            <div class="captain-section-head">
+              <div><small>대장전 운영 관리</small><h3>운영 설정</h3></div>
+              <button type="button" id="capCmsSave">설정 저장</button>
+            </div>
+            <div class="formgrid">
+              <label class="field"><span>운영 상태</span><select id="capCmsMode"><option value="OFF">운영 중지</option><option value="ON">정식 운영</option><option value="TEST">테스트 운영</option></select></label>
+              <label class="field"><span>최대 공격 횟수</span><input id="capCmsEnergyMax" type="number" min="1" value="5"></label>
+              <label class="field"><span>충전 시간(분)</span><input id="capCmsEnergyMinutes" type="number" min="1" value="15"></label>
+              <label class="field"><span>승리 점수</span><input id="capCmsWinScore" type="number" value="24"></label>
+              <label class="field"><span>패배 차감</span><input id="capCmsLoseScore" type="number" value="16"></label>
+              <label class="field"><span>팀명 변경 쿨타임(분)</span><input id="capCmsRenameCooldown" type="number" value="60"></label>
+              <label class="field"><span>운영자 테스트 참여</span><select id="capCmsAdminTest"><option value="true">허용</option><option value="false">차단</option></select></label>
+            </div>
+
+            <div class="captain-settings-subgrid">
+              <details class="captain-settings-block" open>
+                <summary>승리·주간 정산 보상</summary>
+                <div class="captain-settings-inner">
+                  <div class="captain-reward-title"><b>경기 승리 보상</b><small>공격을 시작한 유저가 승리할 때 즉시 지급</small></div>
+                  <div class="formgrid">
+                    <label class="field"><span>승리 코인</span><input id="capVictoryCoin" type="number" min="0" value="0"></label>
+                    <label class="field"><span>승리 카드 조각</span><input id="capVictoryShards" type="number" min="0" value="0"></label>
+                  </div>
+                  <div class="captain-reward-title"><b>지난 주 순위별 정산 보상</b><button type="button" id="capSettlementAdd" class="ghost">구간 추가</button></div>
+                  <div id="capSettlementRows"></div>
+                </div>
+              </details>
+
+              <details class="captain-settings-block">
+                <summary>대장전 배경음</summary>
+                <div class="captain-settings-inner">
+                  <div class="formgrid">
+                    <label class="field"><span>배경음 사용</span><select id="capCmsBgmEnabled"><option value="false">사용 안 함</option><option value="true">사용</option></select></label>
+                    <label class="field captain-bgm-source"><span>음원 경로 또는 직접 URL</span><input id="capCmsBgmSource" type="text" placeholder="/assets/audio/captain-theme.mp3"></label>
+                    <label class="field"><span>기본 음량(0~100)</span><input id="capCmsBgmVolume" type="number" min="0" max="100" value="35"></label>
+                    <label class="field"><span>반복 재생</span><select id="capCmsBgmLoop"><option value="true">반복</option><option value="false">한 번</option></select></label>
+                    <label class="field"><span>화면 이탈 시 정지</span><select id="capCmsBgmStop"><option value="true">정지</option><option value="false">계속 재생</option></select></label>
+                  </div>
+                  <div class="captain-preview-actions"><button type="button" id="capCmsBgmPreview" class="ghost">미리듣기</button><button type="button" id="capCmsBgmPreviewStop" class="ghost">정지</button></div>
+                </div>
+              </details>
+            </div>
+          </div>
+        </details>`;
       cms.appendChild(view);
     }
 
     const navButton=nav.querySelector('[data-view="captain"]');
-    if(navButton&&!navButton.dataset.captainBound){
-      navButton.dataset.captainBound='1';
+    if(navButton&&!navButton.dataset.captainRouteBound){
+      navButton.dataset.captainRouteBound='1';
       navButton.addEventListener('click',event=>{
         event.preventDefault();
-        event.stopImmediatePropagation();
-        openCaptain();
+        show();
       });
     }
     return true;
   }
 
-  function openCaptain(){
+  function show(){
     if(!ensure())return;
     document.querySelectorAll('.view').forEach(view=>{view.hidden=view.id!=='view-captain'});
     document.querySelectorAll('#nav button').forEach(button=>button.classList.toggle('active',button.dataset.view==='captain'));
     const title=$('#pageTitle');
     if(title)title.textContent='대장전 관리';
+    bind();
     load();
   }
 
+  function renderQueue(){
+    if(!latestOverview)return;
+    const search=String($('#capCmsQueueSearch')?.value||'').trim().toLowerCase();
+    const filter=$('#capCmsQueueFilter')?.value||'ACTIVE';
+    let rows=Array.isArray(latestOverview.registrations)?latestOverview.registrations:[];
+    rows=rows.filter(row=>{
+      if(search&&!String(row.nickname||'').toLowerCase().includes(search))return false;
+      if(filter==='ALL')return true;
+      if(filter==='ACTIVE')return row.status==='WAITING'||row.status==='ASSIGNED';
+      return row.status===filter;
+    });
+    const target=$('#capCmsRegs');
+    if(!target)return;
+    target.innerHTML=rows.map(row=>{
+      const time=row.status==='CANCELLED'&&row.cooldown_until
+        ? `<b>재등록 ${formatDate(row.cooldown_until)}까지</b><small>취소 ${formatDate(row.cancelled_at)}</small>`
+        : `<b>${formatDate(row.registered_at)}</b><small>${row.assigned_at?`편성 ${formatDate(row.assigned_at)}`:'등록 시각'}</small>`;
+      return `<tr>
+        <td><div class="captain-user-cell"><span>${esc(String(row.nickname||'?').slice(0,1))}</span><b>${esc(row.nickname||'-')}</b></div></td>
+        <td>${tierBadge(row.pvpTier,row.season_score)}</td>
+        <td><strong>${number(row.deck_power)}</strong></td>
+        <td><span class="captain-status-chip ${String(row.status||'').toLowerCase()}">${esc(statusKo(row.status))}</span></td>
+        <td><div class="captain-time-cell">${time}</div></td>
+      </tr>`;
+    }).join('')||'<tr><td colspan="5" class="captain-empty-cell">조건에 맞는 참가자가 없습니다.</td></tr>';
+  }
+
+  function memberRow(member){
+    return `<div class="captain-team-member ${roleClass(member.position)}">
+      <span class="captain-role-badge">${roleLabel(member.position)}</span>
+      <div class="captain-team-member-name"><b>${esc(member.nickname||'-')}</b>${tierBadge(member.pvpTier,member.pvpScore)}</div>
+      <div class="captain-team-member-power"><small>PVP 덱</small><strong>${number(member.deck_power)}</strong></div>
+    </div>`;
+  }
+
+  function renderTeams(teams){
+    const target=$('#capCmsTeams');
+    if(!target)return;
+    $('#capCmsTeamCount').textContent=`${teams.filter(team=>team.status==='ACTIVE').length}팀`;
+    target.innerHTML=teams.map(team=>{
+      const active=team.status==='ACTIVE';
+      const warning=!team.balanceOk;
+      return `<article class="captain-team-panel ${active?'active':'inactive'} ${warning?'warning':''}">
+        <header>
+          <div><span class="captain-team-state">${active?'운영 중':statusKo(team.status)}</span><h4>${esc(team.name||`팀 ${team.id}`)}</h4><small>${number(team.score)}점 · ${number(team.wins)}승 ${number(team.losses)}패</small></div>
+          <div class="captain-team-balance ${warning?'bad':'good'}"><b>${warning?'균형 경고':'균형 정상'}</b><small>그랜드마스터 ${Number(team.grandmasterCount||0)}명</small></div>
+        </header>
+        <div class="captain-team-members">${(team.members||[]).map(memberRow).join('')}</div>
+        <footer>
+          <div><span>시즌 점수 합계</span><b>${number(team.seasonScoreTotal)}</b></div>
+          <div><span>덱 전투력 합계</span><b>${number(team.teamPower)}</b></div>
+          <label><input value="${esc(team.name||'')}" maxlength="20" aria-label="팀명"><button type="button" data-team="${Number(team.id)}">팀명 저장</button></label>
+        </footer>
+      </article>`;
+    }).join('')||'<div class="captain-empty-block"><b>아직 편성된 팀이 없습니다.</b><span>대기 인원이 편성 조건을 충족하면 자동으로 생성됩니다.</span></div>';
+
+    target.querySelectorAll('button[data-team]').forEach(button=>{
+      button.onclick=async()=>{
+        if(button.disabled)return;
+        const panel=button.closest('.captain-team-panel');
+        const input=panel?.querySelector('footer input');
+        button.disabled=true;
+        const original=button.textContent;
+        button.textContent='저장 중';
+        try{
+          await api('admin/captain/team',{method:'PATCH',body:JSON.stringify({teamId:Number(button.dataset.team),name:input?.value||''})});
+          await load();
+        }catch(error){alert(`팀명 저장 실패\n${error.message}`)}
+        finally{button.disabled=false;button.textContent=original}
+      };
+    });
+  }
+
+  function renderLogs(logs){
+    const target=$('#capCmsLogs');
+    if(!target)return;
+    target.innerHTML=logs.map(row=>{
+      const battle=row.battle||{};
+      const rounds=Array.isArray(battle.rounds)?battle.rounds.length:0;
+      const attackWin=Number(row.winner_team_id)===Number(row.attacker_team_id);
+      const attackDelta=Number(row.attacker_score_after||0)-Number(row.attacker_score_before||0);
+      const defenseDelta=Number(row.defender_score_after||0)-Number(row.defender_score_before||0);
+      return `<tr>
+        <td>${formatDate(row.created_at)}</td>
+        <td><div class="captain-match-cell"><b>${esc(row.attacker_team_name||'-')}</b><span>VS</span><b>${esc(row.defender_team_name||'-')}</b></div></td>
+        <td>${esc(row.initiated_by_name||'-')}</td>
+        <td><span class="captain-result-chip ${attackWin?'win':'lose'}">${attackWin?'공격팀 승리':'방어팀 승리'}</span></td>
+        <td><div class="captain-score-delta"><b class="${attackDelta>=0?'plus':'minus'}">${attackDelta>=0?'+':''}${attackDelta}</b><small>${defenseDelta>=0?'+':''}${defenseDelta}</small></div></td>
+        <td>${rounds}라운드</td>
+      </tr>`;
+    }).join('')||'<tr><td colspan="6" class="captain-empty-cell">아직 대장전 경기 기록이 없습니다.</td></tr>';
+  }
+
   function renderOverview(overview){
-    $('#capCmsWeek').textContent=`${overview.weekKey} 주차`;
+    latestOverview=overview;
     const registrations=Array.isArray(overview.registrations)?overview.registrations:[];
     const teams=Array.isArray(overview.teams)?overview.teams:[];
     const logs=Array.isArray(overview.logs)?overview.logs:[];
-    $('#capCmsStats').innerHTML=`<article><b>${registrations.length}</b><span>등록</span></article><article><b>${registrations.filter(x=>x.status==='WAITING').length}</b><span>대기</span></article><article><b>${teams.length}</b><span>팀</span></article><article><b>${logs.length}</b><span>최근 경기</span></article>`;
-    $('#capCmsRegs').innerHTML=registrations.map(x=>`<div class="captainCmsRow"><b>${esc(x.nickname)}</b><span>${esc(statusKo(x.status))}</span><small>${esc(x.cooldown_until||'')}</small></div>`).join('')||'<p class="muted">등록자가 없습니다.</p>';
-    $('#capCmsTeams').innerHTML=teams.map(team=>`<div class="captainCmsTeam2"><div><b>${esc(team.name)}</b><small>${(team.members||[]).map(member=>`${esc(member.role)} ${esc(member.nickname)}`).join(' · ')}</small></div><input value="${esc(team.name)}" maxlength="20"><button type="button" data-team="${Number(team.id)}">저장</button></div>`).join('')||'<p class="muted">팀이 없습니다.</p>';
-    $('#capCmsTeams').querySelectorAll('button[data-team]').forEach(button=>{
-      button.onclick=async()=>{
-        if(button.disabled)return;
-        const row=button.closest('.captainCmsTeam2');
-        button.disabled=true;
-        try{
-          await api('admin/captain/team',{method:'PATCH',body:JSON.stringify({teamId:Number(button.dataset.team),name:row.querySelector('input').value})});
-          await load();
-        }catch(error){alert(`팀명 저장 실패\n${error.message}`)}finally{button.disabled=false}
-      };
-    });
-    $('#capCmsLogs').innerHTML=logs.map(x=>{const rounds=Array.isArray(x.battle?.rounds)?x.battle.rounds.length:0;const attackWin=Number(x.winner_team_id)===Number(x.attacker_team_id);return `<div class="tr"><span>${esc(x.created_at)}</span><b>${esc(x.attacker_team_name)} → ${esc(x.defender_team_name)}<small>${esc(x.initiated_by_name||'-')} 공격 · ${rounds}라운드</small></b><span>${attackWin?'공격팀 승':'방어팀 승'}</span></div>`}).join('')||'<div class="muted">로그가 없습니다.</div>';
+    const activeRegistrations=registrations.filter(row=>row.status==='WAITING'||row.status==='ASSIGNED');
+    const waiting=registrations.filter(row=>row.status==='WAITING');
+    const activeTeams=teams.filter(team=>team.status==='ACTIVE');
+    const balance=overview.balance||{};
+
+    $('#capCmsWeek').textContent=`${overview.weekKey} 주차`;
+    $('#capCmsStats').innerHTML=[
+      ['진행 등록',activeRegistrations.length,'이번 주 유효 참가자'],
+      ['매칭 대기',waiting.length,'팀 편성 대기 중'],
+      ['완성 팀',activeTeams.length,'3명 편성 완료'],
+      ['최근 경기',logs.length,'최대 100건 표시']
+    ].map(([label,value,note])=>`<article><span>${label}</span><b>${number(value)}</b><small>${note}</small></article>`).join('');
+
+    const waitGm=Number(balance.waitingGrandmasters||0);
+    const waitRegular=Number(balance.waitingRegulars||0);
+    const bad=Number(balance.unbalancedExistingTeams||0);
+    $('#capCmsBalanceNotice').innerHTML=`
+      <div><b>편성 대기 구성</b><span>그랜드마스터 ${waitGm}명 · 일반 티어 ${waitRegular}명</span></div>
+      <div class="${bad?'warning':''}"><b>${bad?'기존 팀 균형 경고':'팀 균형 정상'}</b><span>${bad?`그랜드마스터가 2명 이상인 기존 팀 ${bad}개`:'신규 편성은 팀당 그랜드마스터 1명 이하'}</span></div>`;
+
+    renderQueue();
+    renderTeams(teams);
+    renderLogs(logs);
+  }
+
+  function updateModeBadge(mode){
+    const badge=$('#capCmsModeBadge');
+    if(!badge)return;
+    const labels={OFF:'운영 중지',ON:'정식 운영',TEST:'테스트 운영'};
+    badge.textContent=labels[mode]||mode;
+    badge.className=`captain-mode-badge ${String(mode||'OFF').toLowerCase()}`;
   }
 
   async function load(){
@@ -106,10 +369,12 @@
     if(loading){reloadQueued=true;return}
     loading=true;
     const refresh=$('#capCmsRefresh');
-    if(refresh)refresh.disabled=true;
+    if(refresh){refresh.disabled=true;refresh.textContent='불러오는 중'}
     try{
-      const settingsResult=await api('admin/captain/settings');
-      const overviewResult=await api('admin/captain/overview');
+      const [settingsResult,overviewResult]=await Promise.all([
+        api('admin/captain/settings'),
+        api('admin/captain/overview')
+      ]);
       const config=settingsResult.settings||{};
       $('#capCmsMode').value=config.mode||'OFF';
       $('#capCmsEnergyMax').value=config.energyMax||5;
@@ -126,21 +391,40 @@
       $('#capVictoryCoin').value=Number(config.rewards?.victory?.coin||0);
       $('#capVictoryShards').value=Number(config.rewards?.victory?.shards||0);
       renderSettlement(config.rewards?.settlement||[]);
+      updateModeBadge(config.mode||'OFF');
       renderOverview(overviewResult);
     }catch(error){
       console.error('captain CMS load failed',error);
       alert(`대장전 CMS 불러오기 실패\n${error.message}`);
     }finally{
       loading=false;
-      if(refresh)refresh.disabled=false;
+      if(refresh){refresh.disabled=false;refresh.textContent='새로고침'}
       if(reloadQueued){reloadQueued=false;queueMicrotask(load)}
     }
   }
 
   function bind(){
     if(!ensure())return;
-    const save=$('#capCmsSave'),refresh=$('#capCmsRefresh'),reset=$('#capCmsReset'),settlementAdd=$('#capSettlementAdd');
-    if(settlementAdd&&!settlementAdd.dataset.captainBound){settlementAdd.dataset.captainBound='1';settlementAdd.onclick=()=>{const box=$('#capSettlementRows');box?.insertAdjacentHTML('beforeend',settlementRow({from:(box?.children.length||0)+1,to:(box?.children.length||0)+1}));const row=box?.lastElementChild;row?.querySelector('[data-remove-settlement]')?.addEventListener('click',()=>row.remove())}}
+    const save=$('#capCmsSave');
+    const refresh=$('#capCmsRefresh');
+    const reset=$('#capCmsReset');
+    const settlementAdd=$('#capSettlementAdd');
+    const queueSearch=$('#capCmsQueueSearch');
+    const queueFilter=$('#capCmsQueueFilter');
+
+    if(queueSearch&&!queueSearch.dataset.bound){queueSearch.dataset.bound='1';queueSearch.addEventListener('input',renderQueue)}
+    if(queueFilter&&!queueFilter.dataset.bound){queueFilter.dataset.bound='1';queueFilter.addEventListener('change',renderQueue)}
+
+    if(settlementAdd&&!settlementAdd.dataset.captainBound){
+      settlementAdd.dataset.captainBound='1';
+      settlementAdd.onclick=()=>{
+        const box=$('#capSettlementRows');
+        box?.insertAdjacentHTML('beforeend',settlementRow({from:(box?.children.length||0)+1,to:(box?.children.length||0)+1}));
+        const row=box?.lastElementChild;
+        row?.querySelector('[data-remove-settlement]')?.addEventListener('click',()=>row.remove());
+      };
+    }
+
     if(save&&!save.dataset.captainBound){
       save.dataset.captainBound='1';
       save.onclick=async()=>{
@@ -155,16 +439,41 @@
             coin:Math.max(0,Math.floor(Number(row.querySelector('[data-key="coin"]').value)||0)),
             shards:Math.max(0,Math.floor(Number(row.querySelector('[data-key="shards"]').value)||0))
           })).filter(item=>item.to>=item.from);
-          const rewards={victory:{coin:Math.max(0,Math.floor(Number($('#capVictoryCoin').value)||0)),shards:Math.max(0,Math.floor(Number($('#capVictoryShards').value)||0))},settlement};
-          const payload={mode:$('#capCmsMode').value,energyMax:Number($('#capCmsEnergyMax').value),energyMinutes:Number($('#capCmsEnergyMinutes').value),winScore:Number($('#capCmsWinScore').value),loseScore:Number($('#capCmsLoseScore').value),renameCooldownMinutes:Number($('#capCmsRenameCooldown').value),adminTestParticipation:$('#capCmsAdminTest').value==='true',bgm:{enabled:$('#capCmsBgmEnabled').value==='true',source:$('#capCmsBgmSource').value.trim(),volume:Number($('#capCmsBgmVolume').value),loop:$('#capCmsBgmLoop').value==='true',stopOnExit:$('#capCmsBgmStop').value==='true'},rewards};
+          const payload={
+            mode:$('#capCmsMode').value,
+            energyMax:Number($('#capCmsEnergyMax').value),
+            energyMinutes:Number($('#capCmsEnergyMinutes').value),
+            winScore:Number($('#capCmsWinScore').value),
+            loseScore:Number($('#capCmsLoseScore').value),
+            renameCooldownMinutes:Number($('#capCmsRenameCooldown').value),
+            adminTestParticipation:$('#capCmsAdminTest').value==='true',
+            bgm:{
+              enabled:$('#capCmsBgmEnabled').value==='true',
+              source:$('#capCmsBgmSource').value.trim(),
+              volume:Number($('#capCmsBgmVolume').value),
+              loop:$('#capCmsBgmLoop').value==='true',
+              stopOnExit:$('#capCmsBgmStop').value==='true'
+            },
+            rewards:{
+              victory:{
+                coin:Math.max(0,Math.floor(Number($('#capVictoryCoin').value)||0)),
+                shards:Math.max(0,Math.floor(Number($('#capVictoryShards').value)||0))
+              },
+              settlement
+            }
+          };
           const result=await api('admin/captain/settings',{method:'PATCH',body:JSON.stringify(payload)});
           if(!result?.ok)throw new Error(result?.error||'설정 저장 응답이 올바르지 않습니다.');
+          updateModeBadge(payload.mode);
           alert('대장전 설정을 저장했습니다.');
           await load();
-        }catch(error){alert(`대장전 설정 저장 실패\n${error.message}`)}finally{save.disabled=false;save.textContent=original}
+        }catch(error){alert(`대장전 설정 저장 실패\n${error.message}`)}
+        finally{save.disabled=false;save.textContent=original}
       };
     }
+
     if(refresh&&!refresh.dataset.captainBound){refresh.dataset.captainBound='1';refresh.onclick=load}
+
     const preview=$('#capCmsBgmPreview'),previewStop=$('#capCmsBgmPreviewStop');
     if(preview&&!preview.dataset.captainBound){
       preview.dataset.captainBound='1';
@@ -182,8 +491,13 @@
     }
     if(previewStop&&!previewStop.dataset.captainBound){
       previewStop.dataset.captainBound='1';
-      previewStop.onclick=()=>{window.__captainCmsPreview?.pause();window.__captainCmsPreview=null;if(preview)preview.textContent='재생'};
+      previewStop.onclick=()=>{
+        window.__captainCmsPreview?.pause();
+        window.__captainCmsPreview=null;
+        if(preview)preview.textContent='미리듣기';
+      };
     }
+
     if(reset&&!reset.dataset.captainBound){
       reset.dataset.captainBound='1';
       reset.onclick=async()=>{

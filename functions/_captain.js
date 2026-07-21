@@ -232,9 +232,21 @@ async function settings(env) {
   };
 }
 
+const CAPTAIN_PVP_TIER_FALLBACK = [
+  { id: 'bronze', name: '브론즈', min: 0, color: '#b87333' },
+  { id: 'silver', name: '실버', min: 1100, color: '#c9d4e3' },
+  { id: 'gold', name: '골드', min: 1250, color: '#ffd15c' },
+  { id: 'platinum', name: '플래티넘', min: 1450, color: '#5ff0df' },
+  { id: 'diamond', name: '다이아', min: 1700, color: '#69cfff' },
+  { id: 'master', name: '마스터', min: 2050, color: '#bd7cff' },
+  { id: 'grandmaster', name: '그랜드마스터', min: 2500, color: '#ff6f91' }
+];
+
 async function pvpTiers(env) {
   const row = await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();
-  return safeJson(row?.value, {}).tiers || [];
+  const tiers = safeJson(row?.value, {}).tiers;
+  const source = Array.isArray(tiers) && tiers.length ? tiers : CAPTAIN_PVP_TIER_FALLBACK;
+  return [...source].sort((a, b) => Number(a.min || 0) - Number(b.min || 0));
 }
 
 function tierFor(score, tiers) {
@@ -245,8 +257,73 @@ function tierFor(score, tiers) {
   return {
     id: tier.id || 'bronze',
     name: tier.name || '브론즈',
-    color: tier.color || '#b87333'
+    color: tier.color || '#b87333',
+    min: Number(tier.min || 0)
   };
+}
+
+function isGrandmasterTier(tier) {
+  const id = String(tier?.id || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+  const name = String(tier?.name || '').replace(/\s/g, '');
+  return id === 'grandmaster' || name.includes('그랜드마스터');
+}
+
+function registrationOrder(a, b) {
+  const timeA = Date.parse(String(a.registered_at || '').replace(' ', 'T') + 'Z') || 0;
+  const timeB = Date.parse(String(b.registered_at || '').replace(' ', 'T') + 'Z') || 0;
+  return timeA - timeB || Number(a.id || 0) - Number(b.id || 0);
+}
+
+function buildBalancedTeamGroups(queue, tiers) {
+  const annotated = [...queue].sort(registrationOrder).map(row => {
+    const seasonScore = Number(row.season_score || 1000);
+    const pvpTier = tierFor(seasonScore, tiers);
+    return { ...row, season_score: seasonScore, pvpTier, isGrandmaster: isGrandmasterTier(pvpTier) };
+  });
+  const grandmasters = annotated.filter(row => row.isGrandmaster);
+  const regulars = annotated.filter(row => !row.isGrandmaster);
+  let teamCount = Math.floor(annotated.length / 3);
+
+  while (teamCount > 0) {
+    const gmToUse = Math.min(grandmasters.length, teamCount);
+    const regularNeeded = teamCount * 3 - gmToUse;
+    if (regulars.length >= regularNeeded) break;
+    teamCount -= 1;
+  }
+  if (teamCount <= 0) return [];
+
+  const gmToUse = Math.min(grandmasters.length, teamCount);
+  const regularNeeded = teamCount * 3 - gmToUse;
+  const selectedGrandmasters = shuffle(grandmasters.slice(0, gmToUse));
+  const selectedRegulars = regulars.slice(0, regularNeeded)
+    .map(row => ({ ...row, balanceJitter: randomIndex(1000000) }))
+    .sort((a, b) => Number(b.season_score) - Number(a.season_score) || a.balanceJitter - b.balanceJitter);
+  const groups = Array.from({ length: teamCount }, () => []);
+  const gmTeamOrder = shuffle(Array.from({ length: teamCount }, (_, index) => index));
+
+  selectedGrandmasters.forEach((row, index) => groups[gmTeamOrder[index]].push(row));
+
+  for (const row of selectedRegulars) {
+    const available = groups.map((members, index) => ({
+      index,
+      slots: members.length,
+      score: members.reduce((sum, member) => sum + Number(member.season_score || 0), 0),
+      random: randomIndex(1000000)
+    })).filter(item => item.slots < 3)
+      .sort((a, b) => a.score - b.score || a.slots - b.slots || a.random - b.random);
+    groups[available[0].index].push(row);
+  }
+
+  return shuffle(groups.filter(group => group.length === 3 && group.filter(row => row.isGrandmaster).length <= 1));
+}
+
+function assignPvpPositions(group) {
+  return [...group]
+    .map(row => ({ ...row, roleJitter: randomIndex(1000000) }))
+    .sort((a, b) => Number(a.season_score || 0) - Number(b.season_score || 0)
+      || Number(a.deck_power || 0) - Number(b.deck_power || 0)
+      || a.roleJitter - b.roleJitter)
+    .map((row, index) => ({ ...row, position: index + 1 }));
 }
 
 function publicMember(member, includeDeck = false) {
@@ -295,6 +372,9 @@ async function team(env, id, includeDeck = false) {
     wins: Number(teamRow.wins || 0),
     losses: Number(teamRow.losses || 0),
     teamPower: members.reduce((sum, member) => sum + Number(member.deck_power || 0), 0),
+    seasonScoreTotal: members.reduce((sum, member) => sum + Number(member.pvpScore || 0), 0),
+    grandmasterCount: members.filter(member => isGrandmasterTier(member.pvpTier)).length,
+    balanceOk: members.filter(member => isGrandmasterTier(member.pvpTier)).length <= 1,
     members
   };
 }
@@ -310,33 +390,56 @@ async function userTeam(env, userId, week) {
 
 async function formTeams(env, week) {
   const queue = (await env.DB.prepare(`
-    SELECT * FROM captain_registrations
-    WHERE week_key=? AND status='WAITING' AND team_id IS NULL
-    ORDER BY registered_at,id
+    SELECT r.*,u.nickname,COALESCE(p.season_score,1000) season_score
+    FROM captain_registrations r
+    JOIN users u ON u.id=r.user_id
+    LEFT JOIN pvp_profiles p ON p.user_id=r.user_id
+    WHERE r.week_key=? AND r.status='WAITING' AND r.team_id IS NULL
+    ORDER BY r.registered_at,r.id
   `).bind(week).all()).results;
+  if (queue.length < 3) return;
 
-  while (queue.length >= 3) {
-    const selected = queue.splice(0, 3);
+  const tiers = await pvpTiers(env);
+  const groups = buildBalancedTeamGroups(queue, tiers);
+
+  for (const rawGroup of groups) {
+    const selected = assignPvpPositions(rawGroup);
     const created = await env.DB.prepare('INSERT INTO captain_teams(week_key,name) VALUES(?,?)')
-      .bind(week, `TEAM ${Math.random().toString(36).slice(2, 6).toUpperCase()}`)
+      .bind(week, '대장전 신규팀')
       .run();
-    const teamId = created.meta.last_row_id;
-    const roles = shuffle([1, 2, 3]);
+    const teamId = Number(created.meta.last_row_id);
+    await env.DB.prepare('UPDATE captain_teams SET name=? WHERE id=?')
+      .bind(`대장전 ${teamId}팀`, teamId).run();
 
     try {
-      await env.DB.batch([
-        ...selected.map((registration, index) => env.DB.prepare(`
-          INSERT OR IGNORE INTO captain_team_members(team_id,user_id,position,deck_snapshot,deck_power)
-          VALUES(?,?,?,?,?)
-        `).bind(teamId, registration.user_id, roles[index], registration.deck_snapshot, registration.deck_power)),
+      const results = await env.DB.batch([
         ...selected.map(registration => env.DB.prepare(`
           UPDATE captain_registrations
           SET status='ASSIGNED',team_id=?,assigned_at=CURRENT_TIMESTAMP
           WHERE id=? AND status='WAITING' AND team_id IS NULL
-        `).bind(teamId, registration.id))
+        `).bind(teamId, registration.id)),
+        ...selected.map(registration => env.DB.prepare(`
+          INSERT OR IGNORE INTO captain_team_members(team_id,user_id,position,deck_snapshot,deck_power)
+          SELECT ?,?,?,?,?
+          WHERE EXISTS(
+            SELECT 1 FROM captain_registrations
+            WHERE id=? AND status='ASSIGNED' AND team_id=?
+          )
+        `).bind(teamId, registration.user_id, registration.position, registration.deck_snapshot, registration.deck_power, registration.id, teamId))
       ]);
+      const memberCount = await env.DB.prepare('SELECT COUNT(*) n FROM captain_team_members WHERE team_id=?').bind(teamId).first();
+      if (Number(memberCount?.n || 0) !== 3) {
+        await env.DB.batch([
+          env.DB.prepare("UPDATE captain_teams SET status='CANCELLED' WHERE id=?").bind(teamId),
+          env.DB.prepare("UPDATE captain_registrations SET status='WAITING',team_id=NULL,assigned_at=NULL WHERE team_id=?").bind(teamId)
+        ]);
+        console.warn('captain balanced team formation rolled back', { teamId, results });
+      }
     } catch (error) {
-      await env.DB.prepare("UPDATE captain_teams SET status='CANCELLED' WHERE id=?").bind(teamId).run();
+      await env.DB.batch([
+        env.DB.prepare("UPDATE captain_teams SET status='CANCELLED' WHERE id=?").bind(teamId),
+        env.DB.prepare("UPDATE captain_registrations SET status='WAITING',team_id=NULL,assigned_at=NULL WHERE team_id=?").bind(teamId)
+      ]);
       throw error;
     }
   }
@@ -728,14 +831,20 @@ export async function handleCaptain({ path, request, env, deps }) {
 
   if (path === 'admin/captain/overview') {
     if (!admin) return deps.json({ error: '관리자 권한이 필요합니다.' }, 403);
-    const registrations = (await env.DB.prepare(`
-      SELECT r.*,u.nickname
+    const tiers = await pvpTiers(env);
+    const registrationRows = (await env.DB.prepare(`
+      SELECT r.*,u.nickname,COALESCE(p.season_score,1000) season_score
       FROM captain_registrations r
       JOIN users u ON u.id=r.user_id
+      LEFT JOIN pvp_profiles p ON p.user_id=r.user_id
       WHERE r.week_key=?
-      ORDER BY r.id DESC
+      ORDER BY CASE r.status WHEN 'WAITING' THEN 0 WHEN 'ASSIGNED' THEN 1 ELSE 2 END,r.registered_at,r.id
     `).bind(week).all()).results;
-    const teamRows = (await env.DB.prepare('SELECT * FROM captain_teams WHERE week_key=? ORDER BY score DESC,wins DESC,id')
+    const registrations = registrationRows.map(row => {
+      const pvpTier = tierFor(Number(row.season_score || 1000), tiers);
+      return { ...row, season_score: Number(row.season_score || 1000), pvpTier, isGrandmaster: isGrandmasterTier(pvpTier) };
+    });
+    const teamRows = (await env.DB.prepare("SELECT * FROM captain_teams WHERE week_key=? ORDER BY status='ACTIVE' DESC,score DESC,wins DESC,id")
       .bind(week).all()).results;
     const teams = [];
     for (const row of teamRows) teams.push(await team(env, row.id));
@@ -752,7 +861,23 @@ export async function handleCaptain({ path, request, env, deps }) {
       ...row,
       battle: safeJson(row.battle_log_json, {})
     }));
-    return deps.json({ weekKey: week, registrations, teams, logs });
+    const waitingRows = registrations.filter(row => row.status === 'WAITING');
+    const waitingGrandmasters = waitingRows.filter(row => row.isGrandmaster).length;
+    const activeTeams = teams.filter(row => row.status === 'ACTIVE');
+    return deps.json({
+      weekKey: week,
+      registrations,
+      teams,
+      logs,
+      balance: {
+        roleRule: 'PVP_SEASON_SCORE_ASC',
+        roleDescription: '시즌 점수 낮은 순서대로 선봉 · 중견 · 대장 배정',
+        maxGrandmastersPerTeam: 1,
+        waitingGrandmasters,
+        waitingRegulars: waitingRows.length - waitingGrandmasters,
+        unbalancedExistingTeams: activeTeams.filter(row => !row.balanceOk).length
+      }
+    });
   }
 
   if (path === 'admin/captain/team' && request.method === 'PATCH') {
