@@ -12,6 +12,8 @@ const DEF = {
   winScore: 24,
   loseScore: 16,
   renameCooldownMinutes: 60,
+  adminTestParticipation: true,
+  bgm: { enabled: false, source: '', volume: 35, loop: true, stopOnExit: true },
   rewards: {
     participation: { coin: 0, shards: 0, NORMAL_CUBE: 0, ADVANCED_CUBE: 0, PREMIUM_CUBE: 0 },
     ranks: [
@@ -209,6 +211,7 @@ async function settings(env) {
   return {
     ...DEF,
     ...parsed,
+    bgm: { ...DEF.bgm, ...(parsed.bgm || {}) },
     rewards: {
       ...DEF.rewards,
       ...(parsed.rewards || {}),
@@ -569,6 +572,14 @@ export async function handleCaptain({ path, request, env, deps }) {
           winScore: Math.max(0, Math.floor(Number(body.winScore ?? config.winScore) || 0)),
           loseScore: Math.max(0, Math.floor(Number(body.loseScore ?? config.loseScore) || 0)),
           renameCooldownMinutes: Math.max(0, Math.min(10080, Math.floor(Number(body.renameCooldownMinutes ?? config.renameCooldownMinutes) || 0))),
+          adminTestParticipation: body.adminTestParticipation === undefined ? Boolean(config.adminTestParticipation) : Boolean(body.adminTestParticipation),
+          bgm: {
+            enabled: body.bgm?.enabled === undefined ? Boolean(config.bgm?.enabled) : Boolean(body.bgm.enabled),
+            source: String(body.bgm?.source ?? config.bgm?.source ?? '').trim().slice(0, 1000),
+            volume: Math.max(0, Math.min(100, Math.round(Number(body.bgm?.volume ?? config.bgm?.volume ?? 35) || 0))),
+            loop: body.bgm?.loop === undefined ? Boolean(config.bgm?.loop) : Boolean(body.bgm.loop),
+            stopOnExit: body.bgm?.stopOnExit === undefined ? Boolean(config.bgm?.stopOnExit) : Boolean(body.bgm.stopOnExit)
+          },
           rewards: { ...config.rewards, ...rewardInput, participation: cleanParticipation }
         };
         const value = JSON.stringify(next);
@@ -638,9 +649,10 @@ export async function handleCaptain({ path, request, env, deps }) {
 
   if (config.mode === 'OFF') return deps.json({ error: '현재 대장전이 중지되어 있습니다.' }, 503);
   if (config.mode === 'TEST' && !admin) return deps.json({ error: '대장전 테스트 중입니다.' }, 403);
+  if (config.mode === 'TEST' && admin && !config.adminTestParticipation) return deps.json({ error: '운영자 테스트 참여가 비활성화되어 있습니다.' }, 403);
 
   if (path === 'captain/register' && request.method === 'POST') {
-    if (admin && config.mode === 'ON') return deps.json({ error: '운영 계정은 정규 랭킹에서 제외됩니다.' }, 403);
+    if (admin && config.mode === 'ON') return deps.json({ error: '운영 계정은 정규 랭킹에서 제외됩니다. CMS에서 TEST 모드로 전환해 테스트하세요.' }, 403);
     const last = await env.DB.prepare(`
       SELECT cooldown_until
       FROM captain_registrations
@@ -757,7 +769,15 @@ export async function handleCaptain({ path, request, env, deps }) {
       isCaptain,
       energy: energyState,
       battleRule: 'RANDOM_GAUNTLET_3V3',
-      ultimateDisabled: true
+      ultimateDisabled: true,
+      operatorTestParticipant: Boolean(admin && config.mode === 'TEST' && config.adminTestParticipation),
+      bgm: {
+        enabled: Boolean(config.bgm?.enabled && config.bgm?.source),
+        source: String(config.bgm?.source || ''),
+        volume: Math.max(0, Math.min(100, Number(config.bgm?.volume || 0))),
+        loop: config.bgm?.loop !== false,
+        stopOnExit: config.bgm?.stopOnExit !== false
+      }
     });
   }
 

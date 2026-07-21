@@ -45,7 +45,7 @@
       view.className='view';
       view.id='view-captain';
       view.hidden=true;
-      view.innerHTML=`<div class="sectionIntro"><h2>대장전 관리</h2><p>3:3 랜덤 팀 승자 연전식 비동기 PVP의 운영·팀·보상·로그를 관리합니다.</p></div><div class="panel"><div class="maintenanceHead"><div><small>CAPTAIN BATTLE CONTROL</small><h2>운영 설정</h2></div><button id="capCmsSave">설정 저장</button></div><div class="formgrid"><label class="field"><span>운영 상태</span><select id="capCmsMode"><option>OFF</option><option>ON</option><option>TEST</option></select></label><label class="field"><span>최대 공격 횟수</span><input id="capCmsEnergyMax" type="number" min="1" value="5"></label><label class="field"><span>충전 시간(분)</span><input id="capCmsEnergyMinutes" type="number" min="1" value="15"></label><label class="field"><span>승리 점수</span><input id="capCmsWinScore" type="number" value="24"></label><label class="field"><span>패배 차감</span><input id="capCmsLoseScore" type="number" value="16"></label><label class="field"><span>팀명 변경 쿨타임(분)</span><input id="capCmsRenameCooldown" type="number" value="60"></label></div><details class="captainRewardCms"><summary>참여 보상 설정</summary><div class="formgrid">${['coin','shards','NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'].map(k=>`<label class="field"><span>${k}</span><input id="capReward_${k}" type="number" min="0" value="0"></label>`).join('')}</div></details></div><div class="panel"><div class="maintenanceHead"><div><h2>이번 주 운영 현황</h2><p id="capCmsWeek">불러오는 중</p></div><div><button class="ghost" id="capCmsRefresh">새로고침</button><button class="warn" id="capCmsReset">주간 초기화 확인</button></div></div><div id="capCmsStats" class="stats"></div><div class="captainCmsColumns"><section><h3>참가자·대기열</h3><div id="capCmsRegs"></div></section><section><h3>팀 관리</h3><div id="capCmsTeams"></div></section></div></div><div class="panel"><h2>최근 공격·방어 로그</h2><div id="capCmsLogs" class="table"></div></div>`;
+      view.innerHTML=`<div class="sectionIntro"><h2>대장전 관리</h2><p>3:3 랜덤 팀 승자 연전식 비동기 PVP의 운영·팀·보상·로그를 관리합니다.</p></div><div class="panel"><div class="maintenanceHead"><div><small>CAPTAIN BATTLE CONTROL</small><h2>운영 설정</h2></div><button id="capCmsSave">설정 저장</button></div><div class="formgrid"><label class="field"><span>운영 상태</span><select id="capCmsMode"><option>OFF</option><option>ON</option><option>TEST</option></select></label><label class="field"><span>최대 공격 횟수</span><input id="capCmsEnergyMax" type="number" min="1" value="5"></label><label class="field"><span>충전 시간(분)</span><input id="capCmsEnergyMinutes" type="number" min="1" value="15"></label><label class="field"><span>승리 점수</span><input id="capCmsWinScore" type="number" value="24"></label><label class="field"><span>패배 차감</span><input id="capCmsLoseScore" type="number" value="16"></label><label class="field"><span>팀명 변경 쿨타임(분)</span><input id="capCmsRenameCooldown" type="number" value="60"></label><label class="field"><span>운영자 테스트 참여</span><select id="capCmsAdminTest"><option value="true">허용</option><option value="false">차단</option></select></label></div><details class="captainRewardCms" open><summary>대장전 배경음 설정</summary><div class="formgrid"><label class="field"><span>배경음 사용</span><select id="capCmsBgmEnabled"><option value="false">OFF</option><option value="true">ON</option></select></label><label class="field captainBgmSource"><span>음원 경로 또는 직접 URL</span><input id="capCmsBgmSource" type="text" placeholder="/assets/audio/captain-theme.mp3 또는 https://.../theme.mp3"></label><label class="field"><span>기본 음량 (0~100)</span><input id="capCmsBgmVolume" type="number" min="0" max="100" value="35"></label><label class="field"><span>반복 재생</span><select id="capCmsBgmLoop"><option value="true">ON</option><option value="false">OFF</option></select></label><label class="field"><span>화면 이탈 시 정지</span><select id="capCmsBgmStop"><option value="true">ON</option><option value="false">OFF</option></select></label><div class="field captainBgmPreviewActions"><span>미리듣기</span><div><button type="button" class="ghost" id="capCmsBgmPreview">재생</button><button type="button" class="ghost" id="capCmsBgmPreviewStop">정지</button></div></div></div><p class="muted">유튜브 페이지 주소는 사용할 수 없습니다. MP3·OGG·WAV 파일 직접 URL 또는 프로젝트 루트 경로를 입력하세요.</p></details><details class="captainRewardCms"><summary>참여 보상 설정</summary><div class="formgrid">${['coin','shards','NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'].map(k=>`<label class="field"><span>${k}</span><input id="capReward_${k}" type="number" min="0" value="0"></label>`).join('')}</div></details></div><div class="panel"><div class="maintenanceHead"><div><h2>이번 주 운영 현황</h2><p id="capCmsWeek">불러오는 중</p></div><div><button class="ghost" id="capCmsRefresh">새로고침</button><button class="warn" id="capCmsReset">주간 초기화 확인</button></div></div><div id="capCmsStats" class="stats"></div><div class="captainCmsColumns"><section><h3>참가자·대기열</h3><div id="capCmsRegs"></div></section><section><h3>팀 관리</h3><div id="capCmsTeams"></div></section></div></div><div class="panel"><h2>최근 공격·방어 로그</h2><div id="capCmsLogs" class="table"></div></div>`;
       cms.appendChild(view);
     }
 
@@ -108,6 +108,12 @@
       $('#capCmsWinScore').value=config.winScore||24;
       $('#capCmsLoseScore').value=config.loseScore||16;
       $('#capCmsRenameCooldown').value=config.renameCooldownMinutes||60;
+      $('#capCmsAdminTest').value=String(config.adminTestParticipation!==false);
+      $('#capCmsBgmEnabled').value=String(Boolean(config.bgm?.enabled));
+      $('#capCmsBgmSource').value=config.bgm?.source||'';
+      $('#capCmsBgmVolume').value=Number(config.bgm?.volume??35);
+      $('#capCmsBgmLoop').value=String(config.bgm?.loop!==false);
+      $('#capCmsBgmStop').value=String(config.bgm?.stopOnExit!==false);
       for(const key of ['coin','shards','NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'])$('#capReward_'+key).value=config.rewards?.participation?.[key]||0;
       renderOverview(overviewResult);
     }catch(error){
@@ -133,7 +139,7 @@
         try{
           const rewards={participation:{}};
           for(const key of ['coin','shards','NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'])rewards.participation[key]=Math.max(0,Math.floor(Number($('#capReward_'+key).value)||0));
-          const payload={mode:$('#capCmsMode').value,energyMax:Number($('#capCmsEnergyMax').value),energyMinutes:Number($('#capCmsEnergyMinutes').value),winScore:Number($('#capCmsWinScore').value),loseScore:Number($('#capCmsLoseScore').value),renameCooldownMinutes:Number($('#capCmsRenameCooldown').value),rewards};
+          const payload={mode:$('#capCmsMode').value,energyMax:Number($('#capCmsEnergyMax').value),energyMinutes:Number($('#capCmsEnergyMinutes').value),winScore:Number($('#capCmsWinScore').value),loseScore:Number($('#capCmsLoseScore').value),renameCooldownMinutes:Number($('#capCmsRenameCooldown').value),adminTestParticipation:$('#capCmsAdminTest').value==='true',bgm:{enabled:$('#capCmsBgmEnabled').value==='true',source:$('#capCmsBgmSource').value.trim(),volume:Number($('#capCmsBgmVolume').value),loop:$('#capCmsBgmLoop').value==='true',stopOnExit:$('#capCmsBgmStop').value==='true'},rewards};
           const result=await api('admin/captain/settings',{method:'PATCH',body:JSON.stringify(payload)});
           if(!result?.ok)throw new Error(result?.error||'설정 저장 응답이 올바르지 않습니다.');
           alert('대장전 설정을 저장했습니다.');
@@ -142,6 +148,25 @@
       };
     }
     if(refresh&&!refresh.dataset.captainBound){refresh.dataset.captainBound='1';refresh.onclick=load}
+    const preview=$('#capCmsBgmPreview'),previewStop=$('#capCmsBgmPreviewStop');
+    if(preview&&!preview.dataset.captainBound){
+      preview.dataset.captainBound='1';
+      preview.onclick=async()=>{
+        const source=$('#capCmsBgmSource').value.trim();
+        if(!source)return alert('음원 경로 또는 직접 URL을 입력하세요.');
+        if(/(?:youtube\.com|youtu\.be)/i.test(source))return alert('유튜브 페이지 주소는 직접 재생할 수 없습니다. 음원 파일 직접 URL을 사용하세요.');
+        window.__captainCmsPreview?.pause();
+        const audio=new Audio(source);
+        audio.volume=Math.max(0,Math.min(1,(Number($('#capCmsBgmVolume').value)||0)/100));
+        audio.loop=$('#capCmsBgmLoop').value==='true';
+        window.__captainCmsPreview=audio;
+        try{await audio.play();preview.textContent='재생 중'}catch(error){alert(`미리듣기 실패\n${error.message}`)}
+      };
+    }
+    if(previewStop&&!previewStop.dataset.captainBound){
+      previewStop.dataset.captainBound='1';
+      previewStop.onclick=()=>{window.__captainCmsPreview?.pause();window.__captainCmsPreview=null;if(preview)preview.textContent='재생'};
+    }
     if(reset&&!reset.dataset.captainBound){
       reset.dataset.captainBound='1';
       reset.onclick=async()=>{

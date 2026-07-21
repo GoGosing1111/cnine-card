@@ -7,6 +7,86 @@
   let lastStatus = null;
   let energyTimer = null;
   let active = false;
+  let bgmAudio = null;
+  let bgmConfig = null;
+  const bgmPreferenceKey = 'cnine_captain_bgm_enabled';
+  const bgmVolumeKey = 'cnine_captain_bgm_volume';
+
+  function userBgmEnabled() {
+    const stored = localStorage.getItem(bgmPreferenceKey);
+    return stored === null ? true : stored === '1';
+  }
+
+  function userBgmVolume(defaultVolume) {
+    const stored = Number(localStorage.getItem(bgmVolumeKey));
+    return Number.isFinite(stored) && stored >= 0 ? Math.max(0, Math.min(100, stored)) : Math.max(0, Math.min(100, Number(defaultVolume || 0)));
+  }
+
+  function normalizeAudioSource(source) {
+    const value = String(source || '').trim();
+    if (!value) return '';
+    if (/^(?:https?:|data:|blob:|\/)/i.test(value)) return value;
+    return '/' + value.replace(/^\.\//, '');
+  }
+
+  function stopBgm(force = false) {
+    if (!bgmAudio) return;
+    if (!force && bgmConfig?.stopOnExit === false) return;
+    bgmAudio.pause();
+    bgmAudio.currentTime = 0;
+  }
+
+  async function syncBgm(config, userGesture = false) {
+    bgmConfig = config || null;
+    const source = normalizeAudioSource(config?.source);
+    if (!active || !config?.enabled || !source || !userBgmEnabled()) {
+      stopBgm(true);
+      return;
+    }
+    if (!bgmAudio || bgmAudio.dataset.source !== source) {
+      bgmAudio?.pause();
+      bgmAudio = new Audio(source);
+      bgmAudio.dataset.source = source;
+      bgmAudio.preload = 'auto';
+      bgmAudio.addEventListener('error', () => {
+        document.getElementById('captainBgmStatus')?.replaceChildren(document.createTextNode('음원 로드 실패'));
+      });
+    }
+    bgmAudio.loop = config.loop !== false;
+    bgmAudio.volume = userBgmVolume(config.volume) / 100;
+    try {
+      await bgmAudio.play();
+      const status = document.getElementById('captainBgmStatus');
+      if (status) status.textContent = '재생 중';
+    } catch (error) {
+      const status = document.getElementById('captainBgmStatus');
+      if (status) status.textContent = userGesture ? `재생 실패: ${error.message}` : '재생 버튼을 눌러주세요';
+    }
+  }
+
+  function mountBgmControl(box, config) {
+    box.querySelector('.captain-v3-bgm-control')?.remove();
+    if (!config?.enabled || !config?.source) return;
+    const enabled = userBgmEnabled();
+    const volume = userBgmVolume(config.volume);
+    const control = document.createElement('section');
+    control.className = 'captain-v3-bgm-control';
+    control.innerHTML = `<div><small>CAPTAIN BGM</small><b id="captainBgmStatus">${enabled ? '재생 준비' : '사용자 OFF'}</b></div><button type="button" id="captainBgmToggle">${enabled ? 'BGM ON' : 'BGM OFF'}</button><input id="captainBgmVolume" type="range" min="0" max="100" value="${volume}" aria-label="대장전 배경음 음량"><span id="captainBgmVolumeValue">${volume}</span>`;
+    box.prepend(control);
+    control.querySelector('#captainBgmToggle').onclick = async event => {
+      const next = !userBgmEnabled();
+      localStorage.setItem(bgmPreferenceKey, next ? '1' : '0');
+      event.currentTarget.textContent = next ? 'BGM ON' : 'BGM OFF';
+      control.querySelector('#captainBgmStatus').textContent = next ? '재생 준비' : '사용자 OFF';
+      if (next) await syncBgm(config, true); else stopBgm(true);
+    };
+    control.querySelector('#captainBgmVolume').oninput = event => {
+      const value = Math.max(0, Math.min(100, Number(event.currentTarget.value) || 0));
+      localStorage.setItem(bgmVolumeKey, String(value));
+      control.querySelector('#captainBgmVolumeValue').textContent = String(value);
+      if (bgmAudio) bgmAudio.volume = value / 100;
+    };
+  }
 
   function tier(member, size = 'small') {
     const data = member?.pvpTier || { id: 'bronze', name: '브론즈', color: '#b87333' };
@@ -341,7 +421,7 @@
     }
   }
 
-  function renderHero(box) {
+  function renderHero(box, data) {
     box.innerHTML = `<section class="captain-v3-hero">
       <div class="captain-v3-hero-glow"></div>
       <div class="captain-v3-kicker">WEEKLY RANDOM GAUNTLET · 3 VS 3</div>
@@ -353,7 +433,7 @@
         <i>→</i><article><span>03</span><b>최후 생존</b><small>상대 3명을 모두 DOWN시키면 승리</small></article>
       </div>
       <div class="captain-v3-rule-badges"><span>개인 공격 최대 5회</span><span>15분마다 1회 충전</span><span>궁극기 전면 미사용</span><span>PVP 5장 덱 사용</span></div>
-      <button class="btn captain-v3-main-button" id="captainRegister">대장전 참가 등록</button>
+      <button class="btn captain-v3-main-button" id="captainRegister">대장전 참가 등록</button>${data?.operatorTestParticipant ? '<small class="captain-v3-operator-test">운영자 TEST 참가 활성화 · 정규 운영 랭킹과 분리해 테스트하세요.</small>' : ''}
       <small class="captain-v3-warning">대기 중 취소 시 7일간 재등록할 수 없으며, 팀 결성 후에는 탈퇴할 수 없습니다.</small>
     </section>`;
   }
@@ -407,9 +487,11 @@
     try {
       const data = await api('captain/status');
       lastStatus = data;
-      if (!data.registered) renderHero(box);
+      if (!data.registered) renderHero(box, data);
       else if (!data.team) renderWaiting(box, data);
       else renderDashboard(box, data);
+      mountBgmControl(box, data.bgm);
+      await syncBgm(data.bgm);
 
       document.getElementById('captainRegister')?.addEventListener('click', async () => {
         if (!confirm('PVP 덱으로 대장전에 등록할까요? 팀 결성 후에는 탈퇴할 수 없습니다.')) return;
@@ -456,10 +538,11 @@
     };
     nav.insertBefore(button, nav.children[1] || null);
     nav.querySelectorAll('button:not([data-captain-v3])').forEach(item => {
-      item.addEventListener('click', () => { active = false; clearInterval(energyTimer); }, { capture: true });
+      item.addEventListener('click', () => { active = false; clearInterval(energyTimer); stopBgm(); }, { capture: true });
     });
   }
 
+  window.addEventListener('beforeunload', () => stopBgm(true));
   new MutationObserver(installTab).observe(document.documentElement, { childList: true, subtree: true });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', installTab, { once: true });
   else installTab();
