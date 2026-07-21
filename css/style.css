@@ -2581,6 +2581,10 @@ div{
 
 /* V1097 MOBILE BATTLE FULLSCREEN + PVP RESULT LAYOUT */
 body.battle-screen-open{overflow:hidden!important;overscroll-behavior:none!important;touch-action:none}
+/* V1103: 자동전투 중에는 내부/외부 페이지의 세로 스크롤 체인을 허용한다. */
+html.auto-battle-screen-open,body.auto-battle-screen-open{overflow-y:auto!important;overscroll-behavior-y:auto!important;touch-action:pan-y!important}
+body.auto-battle-screen-open .page{visibility:visible!important;pointer-events:auto!important}
+.modal.auto-battle-modal,.modal.auto-battle-modal .modal-panel.battle-stage{overscroll-behavior-y:auto!important;touch-action:pan-y!important}
 body.battle-screen-open .page{visibility:hidden!important;pointer-events:none!important}
 body.battle-screen-open #modal{visibility:visible!important;pointer-events:auto!important}
 .modal.battle-modal{z-index:100000!important}
@@ -3002,3 +3006,9 @@ body.battle-screen-open #modal{visibility:visible!important;pointer-events:auto!
   .summary-bar>.summary-card{min-height:82px!important;padding:8px!important}
   .mobile-nav-sheet{padding:12px 9px!important}
 }
+
+
+/* V1102 magic crystal acquisition reward UI */
+.battle-magic-drop{margin-top:10px;padding:10px 14px;border:1px solid rgba(196,126,255,.42);border-radius:12px;background:linear-gradient(135deg,rgba(84,35,125,.34),rgba(20,15,48,.78));text-align:left}.battle-magic-drop strong{display:block;color:#d9a7ff;font-size:17px}.battle-magic-drop span{display:block;margin-top:2px;color:#a99aba;font-size:12px}.pvp-magic-reward{color:#d7a4ff!important}.raid-reward-stage{max-width:760px}.raid-reward-stage article.magic{border-color:rgba(205,128,255,.34);background:linear-gradient(160deg,rgba(70,35,110,.92),rgba(18,12,42,.97))}.raid-reward-stage article.magic .raid-reward-icon{color:#d7a4ff}.raid-reward-stage article:nth-child(3){animation-delay:.28s}
+@media(max-width:720px){.raid-reward-stage{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.raid-reward-stage article{width:auto;min-width:0;padding:14px 5px}.raid-reward-stage span{font-size:11px}.raid-reward-stage b{font-size:18px}.raid-reward-icon{font-size:27px}}
+@media(max-width:380px){.raid-reward-stage{grid-template-columns:1fr}.raid-reward-stage article{padding:12px}.raid-reward-stage b{font-size:20px}}
