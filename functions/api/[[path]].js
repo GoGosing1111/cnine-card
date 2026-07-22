@@ -396,6 +396,16 @@ let upgradePromise=null;
 async function ensureUpgrades(env){
   if(upgradePromise) return upgradePromise;
   upgradePromise=(async()=>{
+    // V1123: CMS에서 제거된 것으로 확인된 과거 정적 시드 카드가 다시 추첨되지 않도록 안전 비활성화한다.
+    const drawPoolCleanupDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1123_draw_pool_cleanup'").first();
+    if(drawPoolCleanupDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare("UPDATE cards SET is_active=0,card_status='PENDING',updated_at=CURRENT_TIMESTAMP WHERE id='card-0205' AND title='진지한 유승곤'"),
+        env.DB.prepare("UPDATE cards SET is_active=0,card_status='PENDING',updated_at=CURRENT_TIMESTAMP WHERE id='card-0430' AND title='한정판 은조'"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1123_draw_pool_cleanup','1',CURRENT_TIMESTAMP)")
+      ]);
+      drawContextCache.clear();
+    }
     // v1024 레거시 마커는 유지하되 동명 테이블은 더 이상 수정하지 않는다.
     const inventoryCompatDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1024_inventory_compat'").first();
     if(inventoryCompatDone?.value!=='1'){
@@ -1494,7 +1504,7 @@ function cardWithAcquisitionEffect(card,settings){
 async function drawLimitedCard(env){
   const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
+    WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id='pickup')
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id='pickup' AND p1.card_id=c.id))`).all()).results;
   return weightedPick(pool,row=>Number(row.draw_weight)||0)||null;
@@ -1520,7 +1530,7 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
     const selectedRarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
     const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
       FROM cards c JOIN members m ON m.id=c.member_id
-      WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL
+      WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL
         AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
           OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(selectedRarity,pack.id,pack.id).all()).results;
     if(!pool.length) continue;
@@ -1537,12 +1547,12 @@ async function queryDrawContext(env,pack){
   const rateRows=(await env.DB.prepare("SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rate>0").bind(pack.id).all()).results;
   const normalCards=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NULL
+    WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NULL
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results;
   const limitedCards=pack.id==='pickup'?(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
+    WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results:[];
   const poolsByGrade=new Map();
@@ -1627,7 +1637,7 @@ async function pitySettings(env){const row=await env.DB.prepare("SELECT value FR
 async function packPityCount(env,userId,packId){if(!PITY_PACKS.has(packId))return 0;const row=await env.DB.prepare('SELECT miss_count FROM user_pack_pity WHERE user_id=? AND pack_id=?').bind(userId,packId).first();return Math.max(0,Number(row?.miss_count||0));}
 async function savePackPity(env,userId,packId,count){if(!PITY_PACKS.has(packId))return;await env.DB.prepare(`INSERT INTO user_pack_pity(user_id,pack_id,miss_count,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,pack_id) DO UPDATE SET miss_count=excluded.miss_count,updated_at=CURRENT_TIMESTAMP`).bind(userId,packId,Math.max(0,Math.floor(count))).run();}
 function pityRateForDraw(settings,packId,missCount){const cfg=settings?.[packId];const drawNo=Number(missCount||0)+1;if(!cfg?.enabled)return {drawNo,rate:null};return {drawNo,rate:Number(cfg.rates?.[drawNo]??(drawNo>=cfg.hard?100:null))};}
-async function drawNormalCardByRarity(env,pack,rarity){const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results;return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
+async function drawNormalCardByRarity(env,pack,rarity){const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results;return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
 async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
   if(pack.id==='pickup'){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
@@ -1876,7 +1886,7 @@ export async function onRequest(context){
         if(!card)throw new Error(`${targetGrade} 등급의 획득 가능한 카드가 없습니다. CMS 카드 공개 상태와 잔여 수량을 확인하세요.`);
         if(card.limitedTotal!==null&&card.limitedTotal!==undefined){
           const stockBefore=Math.max(0,Number(card.issuedCount||0));
-          const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
+          const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND issued_count<limited_total').bind(card.id).run();
           if(!reserved.meta.changes)throw new Error('선택된 한정판 카드의 잔여 수량이 방금 소진되었습니다. 다시 시도하세요.');
           reservedLimited=true;
           limitedAuditEvent={eventKey:`inventory:${requestId}:${card.id}`,stockBefore,stockAfter:stockBefore+1};
@@ -1978,6 +1988,16 @@ export async function onRequest(context){
         cards[cards.length-1]=drawOneFromContext(drawContext,pack,guarantee,true,criticalBonus);
         if(PITY_PACKS.has(pack.id)&&ORDER[cards[cards.length-1].grade]>=ORDER.SSR){pityCount=0;await savePackPity(env,user.id,pack.id,0);}
       }
+      // V1123: 후보 캐시나 동시 CMS 변경과 무관하게 실제 지급 직전 현재 CMS 활성 상태를 재검증한다.
+      const selectedCardIds=[...new Set(cards.map(card=>String(card?.id||'')).filter(Boolean))];
+      if(selectedCardIds.length!==new Set(cards.map(card=>String(card?.id||''))).size)throw new Error('카드 추첨 결과 검증에 실패했습니다. 다시 시도하세요.');
+      const activeRows=selectedCardIds.length?(await env.DB.prepare(`SELECT c.id FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id IN (${selectedCardIds.map(()=>'?').join(',')}) AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...selectedCardIds).all()).results:[];
+      const activeIds=new Set((activeRows||[]).map(row=>String(row.id)));
+      const inactiveSelected=selectedCardIds.filter(cardId=>!activeIds.has(cardId));
+      if(inactiveSelected.length){
+        drawContextCache.delete(String(pack.id));
+        throw new Error('CMS에서 비활성화되거나 비공개된 카드가 추첨 후보에 포함되어 개봉을 중단했습니다. 다시 시도하세요.');
+      }
       cards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
       const debit=await env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost).run();
       if(!debit.meta.changes){
@@ -1993,7 +2013,7 @@ export async function onRequest(context){
         let card=cards[i];
         if(card.limited_total!==null&&card.limited_total!==undefined){
           const eventKey=`draw:${requestId}:${i}:${card.id}`,stockBefore=Math.max(0,Number(card.issued_count||0));
-          const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND issued_count<limited_total').bind(card.id).run();
+          const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND issued_count<limited_total').bind(card.id).run();
           if(!reserved.meta.changes){
             await beginLimitedAcquisitionAudit(env,{eventKey,requestId,sourceType:'PACK',sourceId:pack.id,userId:user.id,userNickname:user.nickname,cardId:card.id,cardTitle:card.title,packId:pack.id,status:'PENDING',coinCost:cost,stockBefore,stockAfter:stockBefore,stockReserved:false,cardGranted:false});
             await finishLimitedAcquisitionAudit(env,eventKey,{status:'SOLD_OUT_REPLACED',stockAfter:stockBefore,stockReserved:false,cardGranted:false,errorMessage:'동시 요청으로 한정 수량이 소진되어 일반 카드로 대체됨'});
@@ -3701,7 +3721,7 @@ export async function onRequest(context){
           if(quantityBefore>0&&!allowDuplicate)throw new Error(`이미 해당 카드를 ${quantityBefore}장 보유 중입니다. 중복 지급 확인을 켜야 지급할 수 있습니다.`);
           stockBefore=Math.max(0,Number(target.issuedCount||0));
           if(grantMode==='ISSUE'){
-            const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND limited_total IS NOT NULL AND issued_count<limited_total').bind(cardId).run();
+            const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND limited_total IS NOT NULL AND issued_count<limited_total').bind(cardId).run();
             if(!reserved.meta.changes)throw new Error('한정 재고가 모두 소진되어 신규 지급할 수 없습니다. 누락 복구라면 재고 미차감 유형을 선택하세요.');
             stockReserved=true;
           }
@@ -3887,6 +3907,7 @@ export async function onRequest(context){
           const active=status==='PUBLIC'?1:0;
           const placeholders=ids.map(()=>'?').join(',');
           await env.DB.prepare(`UPDATE cards SET card_status=?,is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id IN (${placeholders})`).bind(status,active,...ids).run();
+          drawContextCache.clear();
           await writeAdminLog(env,admin,'CARD_BULK_STATUS','CARD',ids.join(','),null,{status,count:ids.length});
           return json({ok:true,status,updatedIds:ids});
         }
