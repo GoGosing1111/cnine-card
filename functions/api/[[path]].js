@@ -2142,7 +2142,24 @@ export async function onRequest(context){
         const finalRank=Math.max(0,Number(me.rank||0));
         const rankMagicCrystals=Math.max(0,Number(magicRewardForRank(rewardCfg.rankMagicRewards,finalRank)||0));
         const rewardMagicCrystals=Math.max(0,Number(rewardCfg.participationMagicCrystals||0)+rankMagicCrystals);
-        claimableReward={instanceId:Number(current.id),coin:rewardCoin,shards:rewardShards,magicCrystals:rewardMagicCrystals,participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,participationCoin:Number(rewardCfg.participationCoin||0),clearCoin:cleared?Number(rewardCfg.clearCoin||0):0,cleared,source:'SERVER_CONFIRMED',snapshot:true};
+        // V1121: 결과 화면과 실제 수령이 동일한 확정 영수증 값을 사용한다.
+        // READY 상태는 아직 지급 전이며, 화면에 노출된 보상 총액을 서버에 고정한다.
+        await env.DB.prepare(`INSERT INTO raid_reward_receipts(instance_id,user_id,status,reward_coin,reward_shards,reward_magic_crystals)
+          VALUES(?,?,'READY',?,?,?)
+          ON CONFLICT(instance_id,user_id) DO UPDATE SET
+            status=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.status ELSE 'READY' END,
+            reward_coin=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.reward_coin ELSE excluded.reward_coin END,
+            reward_shards=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.reward_shards ELSE excluded.reward_shards END,
+            reward_magic_crystals=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.reward_magic_crystals ELSE excluded.reward_magic_crystals END,
+            error_message=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.error_message ELSE NULL END,
+            updated_at=CURRENT_TIMESTAMP`).bind(current.id,user.id,rewardCoin,rewardShards,rewardMagicCrystals).run();
+        const rewardReceipt=await env.DB.prepare(`SELECT status,reward_coin AS rewardCoin,reward_shards AS rewardShards,
+          COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals FROM raid_reward_receipts WHERE instance_id=? AND user_id=?`)
+          .bind(current.id,user.id).first();
+        const fixedCoin=Math.max(0,Number(rewardReceipt?.rewardCoin??rewardCoin));
+        const fixedShards=Math.max(0,Number(rewardReceipt?.rewardShards??rewardShards));
+        const fixedMagic=Math.max(0,Number(rewardReceipt?.rewardMagicCrystals??rewardMagicCrystals));
+        claimableReward={instanceId:Number(current.id),coin:fixedCoin,shards:fixedShards,magicCrystals:fixedMagic,participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,participationCoin:Number(rewardCfg.participationCoin||0),clearCoin:cleared?Number(rewardCfg.clearCoin||0):0,cleared,source:'SERVER_CONFIRMED',snapshot:true,receiptStatus:String(rewardReceipt?.status||'READY')};
       }
       const visibleParticipants=current.status==='LOBBY'?enriched.map((x,i)=>({anonymous:true,slot:i+1,nickname:`익명 참가자 ${String(i+1).padStart(2,'0')}`,cards:[],totalPower:0,shownDamage:0,isDefeated:false})):enriched;
       return json({settings:cfg,schedule,dailyEntryUsed:todayEntryCount>=dailyEntryLimit,dailyEntry,rooms,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged},participants:visibleParticipants,me,claimableReward,serverNow:new Date().toISOString()});
@@ -2219,6 +2236,14 @@ export async function onRequest(context){
       if(cancelled)return json({error:'최소 인원 미달로 취소된 레이드는 보상 대상이 아닙니다. 입장 횟수와 개설 비용은 복구되었습니다.'},409);
 
       let receipt=await env.DB.prepare('SELECT status,response_json,reward_coin AS rewardCoin,reward_shards AS rewardShards,COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals,created_at AS createdAt,updated_at AS updatedAt FROM raid_reward_receipts WHERE instance_id=? AND user_id=?').bind(row.instance_id,user.id).first();
+      const expected=body&&typeof body.expectedReward==='object'&&body.expectedReward?body.expectedReward:null;
+      if(expected&&receipt&&String(receipt.status||'').toUpperCase()!=='COMPLETED'){
+        const mismatch=Number(expected.instanceId||instanceId)!==Number(row.instance_id)
+          ||Math.max(0,Number(expected.coin||0))!==Math.max(0,Number(receipt.rewardCoin||0))
+          ||Math.max(0,Number(expected.shards||0))!==Math.max(0,Number(receipt.rewardShards||0))
+          ||Math.max(0,Number(expected.magicCrystals||0))!==Math.max(0,Number(receipt.rewardMagicCrystals||0));
+        if(mismatch)return json({error:'결과 화면과 서버 확정 보상이 일치하지 않아 지급을 중단했습니다. 보상 화면을 새로고침해주세요.',rewardMismatch:true,instanceId:Number(row.instance_id),actualReward:{coin:Math.max(0,Number(receipt.rewardCoin||0)),shards:Math.max(0,Number(receipt.rewardShards||0)),magicCrystals:Math.max(0,Number(receipt.rewardMagicCrystals||0))}},409);
+      }
       if(receipt?.status==='COMPLETED'&&receipt.response_json){
         try{return json(JSON.parse(receipt.response_json))}catch{}
       }
@@ -2250,11 +2275,14 @@ export async function onRequest(context){
       const finalRank=await raidUserFinalRank(env,row.instance_id,user.id);
       const rankMagicCrystals=Math.max(0,Number(magicRewardForRank(rewardCfg.rankMagicRewards,finalRank)||0));
       const rewardMagicCrystals=Math.max(0,Number(rewardCfg.participationMagicCrystals||0)+rankMagicCrystals);
+      // V1121: 화면에 표시한 READY 영수증을 그대로 PENDING으로 잠그며 재계산값으로 덮지 않는다.
       let reserved={meta:{changes:0}};
-      if(receipt&&['RETRYABLE','FAILED'].includes(String(receipt.status||'').toUpperCase())){
+      if(receipt&&String(receipt.status||'').toUpperCase()==='READY'){
+        reserved=await env.DB.prepare("UPDATE raid_reward_receipts SET status='PENDING',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=? AND status='READY'").bind(row.instance_id,user.id).run();
+      }else if(receipt&&['RETRYABLE','FAILED'].includes(String(receipt.status||'').toUpperCase())){
         reserved=await env.DB.prepare("UPDATE raid_reward_receipts SET status='PENDING',reward_coin=?,reward_shards=?,reward_magic_crystals=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=? AND status IN ('RETRYABLE','FAILED')").bind(rewardCoin,rewardShards,rewardMagicCrystals,row.instance_id,user.id).run();
       }
-      if(!reserved.meta.changes)reserved=await env.DB.prepare("INSERT OR IGNORE INTO raid_reward_receipts(instance_id,user_id,status,reward_coin,reward_shards,reward_magic_crystals) VALUES(?,?,'PENDING',?,?,?)").bind(row.instance_id,user.id,rewardCoin,rewardShards,rewardMagicCrystals).run();
+      if(!reserved.meta.changes&&!receipt)reserved=await env.DB.prepare("INSERT OR IGNORE INTO raid_reward_receipts(instance_id,user_id,status,reward_coin,reward_shards,reward_magic_crystals) VALUES(?,?,'PENDING',?,?,?)").bind(row.instance_id,user.id,rewardCoin,rewardShards,rewardMagicCrystals).run();
       if(!reserved.meta.changes){
         const duplicate=await env.DB.prepare('SELECT status,response_json,created_at AS createdAt,updated_at AS updatedAt FROM raid_reward_receipts WHERE instance_id=? AND user_id=?').bind(row.instance_id,user.id).first();
         if(duplicate?.status==='COMPLETED'&&duplicate.response_json){try{return json(JSON.parse(duplicate.response_json))}catch{}}
@@ -2262,21 +2290,26 @@ export async function onRequest(context){
         return json({error:'레이드 보상을 정산 중입니다. 잠시 후 자동으로 다시 확인합니다.',settlementPending:true,retryAfterMs:Math.max(1500,45000-duplicateAgeMs)},409);
       }
 
+      const lockedReceipt=await env.DB.prepare('SELECT reward_coin AS rewardCoin,reward_shards AS rewardShards,COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals FROM raid_reward_receipts WHERE instance_id=? AND user_id=? AND status='PENDING'').bind(row.instance_id,user.id).first();
+      if(!lockedReceipt)return json({error:'레이드 보상 영수증을 확정하지 못했습니다. 다시 시도해주세요.'},409);
+      const fixedRewardCoin=Math.max(0,Number(lockedReceipt.rewardCoin||0));
+      const fixedRewardShards=Math.max(0,Number(lockedReceipt.rewardShards||0));
+      const fixedRewardMagicCrystals=Math.max(0,Number(lockedReceipt.rewardMagicCrystals||0));
       try{
         const before=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
         if(!before)throw new Error('유저 정보를 찾을 수 없습니다.');
-        const balanceAfter=Number(before.coin||0)+rewardCoin;
-        const shardsAfter=Number(before.card_shards||0)+rewardShards;
-        const magicCrystalsAfter=Number(before.magic_crystals||0)+rewardMagicCrystals;
-        const response={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin,rewardShards,rewardMagicCrystals,participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,balanceAfter,shardsAfter,magicCrystalsAfter,rewardSource:'SERVER_CONFIRMED'};
+        const balanceAfter=Number(before.coin||0)+fixedRewardCoin;
+        const shardsAfter=Number(before.card_shards||0)+fixedRewardShards;
+        const magicCrystalsAfter=Number(before.magic_crystals||0)+fixedRewardMagicCrystals;
+        const response={ok:true,instanceId:Number(row.instance_id),rewardClaimed:true,rewardCoin:fixedRewardCoin,rewardShards:fixedRewardShards,rewardMagicCrystals:fixedRewardMagicCrystals,participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,balanceAfter,shardsAfter,magicCrystalsAfter,rewardSource:'SERVER_CONFIRMED'};
         const rewardStatements=[
-          env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(rewardCoin,rewardShards,rewardMagicCrystals,user.id),
+          env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+?,magic_crystals=magic_crystals+? WHERE id=?').bind(fixedRewardCoin,fixedRewardShards,fixedRewardMagicCrystals,user.id),
           env.DB.prepare('UPDATE raid_participants SET reward_claimed=1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND reward_claimed=0').bind(row.id),
-          env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'RAID_REWARD')").bind(user.id,rewardCoin,balanceAfter),
-          env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'RAID_REWARD')").bind(user.id,rewardShards,shardsAfter),
+          env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'RAID_REWARD')").bind(user.id,fixedRewardCoin,balanceAfter),
+          env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'RAID_REWARD')").bind(user.id,fixedRewardShards,shardsAfter),
           env.DB.prepare("UPDATE raid_reward_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=?").bind(JSON.stringify(response),row.instance_id,user.id)
         ];
-        if(rewardMagicCrystals>0)rewardStatements.splice(4,0,env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'월드레이드 보상','RAID',?)").bind(user.id,rewardMagicCrystals,magicCrystalsAfter,String(row.instance_id)));
+        if(fixedRewardMagicCrystals>0)rewardStatements.splice(4,0,env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'월드레이드 보상','RAID',?)").bind(user.id,fixedRewardMagicCrystals,magicCrystalsAfter,String(row.instance_id)));
         await env.DB.batch(rewardStatements);
 
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
