@@ -282,8 +282,7 @@
     setTimeout(() => panel?.classList.remove('hit'), 180);
   }
 
-  async function pause(playback, ms) {
-    if (playback.skip) return;
+  async function pause(_playback, ms) {
     await sleep(ms);
   }
 
@@ -297,7 +296,6 @@
     stage.innerHTML = `
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
       <div class="battle-topline"><span>CNINE 대장전 · PVP 연전</span><b id="battlePhase">라운드 ${roundNumber} 출전</b></div>
-      <button type="button" class="captain-v4-skip" id="captainBattleSkip">연출 건너뛰기</button>
       <div class="captain-v3-battle-lineups captain-v4-lineups">
         ${lineupStrip(data.attackerTeam, data.attackerLineup, state.attackerDown, left.userId, 'attacker')}
         ${lineupStrip(data.defenderTeam, data.defenderLineup, state.defenderDown, right.userId, 'defender')}
@@ -317,7 +315,6 @@
       <div class="battle-impact"><i></i><i></i><i></i></div>
       <div class="captain-v4-round-notice" id="captainRoundNotice"><small>무작위 출전</small><b>${esc(left.nickname)} <i>VS</i> ${esc(right.nickname)}</b><span>카드 5장 PVP 전투 시작</span></div>`;
     bindImageFallbacks(stage);
-    stage.querySelector('#captainBattleSkip').onclick = () => { playback.skip = true; };
     const phase = stage.querySelector('#battlePhase');
     const count = stage.querySelector('#battleCountdown');
     const notice = stage.querySelector('#captainRoundNotice');
@@ -374,7 +371,7 @@
     modal.className = 'modal show battle-modal pvp-battle-modal captain-v4-battle-modal';
     modal.innerHTML = '<div class="modal-panel battle-stage pvp-battle-stage captain-v4-pvp-stage"><div class="battle-backdrop"></div><div class="captain-v3-match-loading"><i></i><small>PVP 덱 동기화</small><h2>3대3 출전 순서를 추첨했습니다</h2><p>승자는 생존 카드와 남은 HP를 유지한 채 다음 상대와 계속 싸웁니다.</p></div></div>';
     const stage = modal.querySelector('.captain-v4-pvp-stage');
-    const playback = { skip: false };
+    const playback = {}; // 대장전 연출은 항상 전체 재생
     await sleep(700);
     const state = { attackerDown: new Set(), defenderDown: new Set() };
     for (const round of data.rounds || []) await animateDuel(stage, round, data, state, playback);
