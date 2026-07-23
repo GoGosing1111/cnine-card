@@ -422,6 +422,8 @@
         })
       });
       applyRewardBalances(result.victoryReward)
+      if(result.weeklyPremiumCube){const current=loadUser();if(current){current.weeklyPremiumCube=result.weeklyPremiumCube;saveUser(current)}}
+      if(result.cubeReward&&window.showCubeDropAcquisition)await window.showCubeDropAcquisition(result.cubeReward);
       const openLogs = await playBattle(result);
       await render();
       if (openLogs) await history(document.getElementById('pvpContent'));

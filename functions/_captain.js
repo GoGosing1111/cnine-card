@@ -1648,6 +1648,13 @@ export async function handleCaptain({ path, request, env, deps }) {
           response.victoryRewardError = '승리 보상 지급에 실패했습니다. 대장전 화면에 다시 접속하면 자동 복구됩니다.';
         }
       }
+      try {
+        const weeklyPremium = await deps.grantWeeklyPremiumCube(env, user.id, 'CAPTAIN', requestId);
+        response.cubeReward = weeklyPremium?.reward || null;
+        response.weeklyPremiumCube = weeklyPremium?.status || null;
+      } catch (cubeError) {
+        console.error('captain weekly premium cube failed', cubeError);
+      }
       response.energy = await energy(env, user.id, week, config);
       await env.DB.prepare(`
         UPDATE captain_match_receipts_v3

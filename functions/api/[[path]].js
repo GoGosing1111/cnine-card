@@ -340,12 +340,56 @@ function defaultCubeDropSettings(){return {NORMAL_CUBE:{pveEnabled:true,pveRate:
 function cleanCubeDropSettings(raw={}){const base=defaultCubeDropSettings(),out={};for(const code of CUBE_CODES){out[code]={pveEnabled:raw?.[code]?.pveEnabled!==false,pveRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pveRate??base[code].pveRate)||0)),pvpEnabled:raw?.[code]?.pvpEnabled===true,pvpRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pvpRate??base[code].pvpRate)||0))};}return out;}
 async function cubeDropSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cube_drop_settings_v1072'").first();try{return cleanCubeDropSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeDropSettings()}}
 function cubeDropTotal(settings,source){const key=String(source).toLowerCase();return CUBE_CODES.reduce((sum,code)=>sum+(settings[code]?.[`${key}Enabled`]?Number(settings[code]?.[`${key}Rate`]||0):0),0)}
-function defaultCubeBoostSettings(){return {enabled:true,targetHighGradeCount:2,zeroCountMultiplier:1.5,oneCountMultiplier:1.25,pveEnabled:true,pvpEnabled:true,excludeAdmins:true,pityEnabled:true,pityStartWins:30,pityIncrementRate:0.05,pityMaxBonusRate:2};}
-function cleanCubeBoostSettings(raw){const d=defaultCubeBoostSettings(),num=(v,min,max,fallback)=>{v=Number(v);return Number.isFinite(v)?Math.max(min,Math.min(max,v)):fallback};return {enabled:raw?.enabled!==false,targetHighGradeCount:Math.max(1,Math.floor(num(raw?.targetHighGradeCount,1,20,d.targetHighGradeCount))),zeroCountMultiplier:num(raw?.zeroCountMultiplier,1,10,d.zeroCountMultiplier),oneCountMultiplier:num(raw?.oneCountMultiplier,1,10,d.oneCountMultiplier),pveEnabled:raw?.pveEnabled!==false,pvpEnabled:raw?.pvpEnabled!==false,excludeAdmins:raw?.excludeAdmins!==false,pityEnabled:raw?.pityEnabled!==false,pityStartWins:Math.max(1,Math.floor(num(raw?.pityStartWins,1,10000,d.pityStartWins))),pityIncrementRate:num(raw?.pityIncrementRate,0,10,d.pityIncrementRate),pityMaxBonusRate:num(raw?.pityMaxBonusRate,0,100,d.pityMaxBonusRate)};}
-async function cubeBoostSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cube_drop_boost_settings_v1072'").first();try{return cleanCubeBoostSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeBoostSettings()}}
-async function cubeBoostContext(env,userId,source,cfg){if(!cfg.enabled||!cfg[`${String(source).toLowerCase()}Enabled`])return {eligible:false,highGradeCount:0,pendingPremiumCubes:0,multiplier:1,pityMissWins:0,pityBonusRate:0};const user=await env.DB.prepare('SELECT role FROM users WHERE id=?').bind(userId).first();if(cfg.excludeAdmins&&['OWNER','ADMIN'].includes(String(user?.role||'').toUpperCase()))return {eligible:false,highGradeCount:0,pendingPremiumCubes:0,multiplier:1,pityMissWins:0,pityBonusRate:0};const owned=await env.DB.prepare(`SELECT COALESCE(SUM(COALESCE(uc.quantity,0)),0) AS total FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity IN ('MA','LIMITED','FUR') AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')`).bind(userId).first();const highGradeCount=Number(owned?.total||0);if(highGradeCount>=cfg.targetHighGradeCount)return {eligible:false,highGradeCount,pendingPremiumCubes:0,multiplier:1,pityMissWins:0,pityBonusRate:0};const pending=await env.DB.prepare("SELECT COALESCE(quantity,0) AS quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='PREMIUM_CUBE'").bind(userId).first();const pendingPremiumCubes=Math.max(0,Number(pending?.quantity||0));if(pendingPremiumCubes>0)return {eligible:false,highGradeCount,pendingPremiumCubes,multiplier:1,pityMissWins:0,pityBonusRate:0};const multiplier=highGradeCount<=0?cfg.zeroCountMultiplier:cfg.oneCountMultiplier;let pityMissWins=0;if(cfg.pityEnabled){const row=await env.DB.prepare('SELECT premium_miss_wins FROM cube_drop_boost_state WHERE user_id=? AND source=?').bind(userId,source).first();pityMissWins=Number(row?.premium_miss_wins||0)}const pityBonusRate=cfg.pityEnabled&&pityMissWins>=cfg.pityStartWins?Math.min(cfg.pityMaxBonusRate,(pityMissWins-cfg.pityStartWins+1)*cfg.pityIncrementRate):0;return {eligible:true,highGradeCount,pendingPremiumCubes,multiplier,pityMissWins,pityBonusRate};}
-async function updateCubeBoostState(env,userId,source,eligible,wonPremium){if(!eligible)return;if(wonPremium){await env.DB.prepare(`INSERT INTO cube_drop_boost_state(user_id,source,premium_miss_wins,updated_at) VALUES(?,?,0,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source) DO UPDATE SET premium_miss_wins=0,updated_at=CURRENT_TIMESTAMP`).bind(userId,source).run()}else{await env.DB.prepare(`INSERT INTO cube_drop_boost_state(user_id,source,premium_miss_wins,updated_at) VALUES(?,?,1,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source) DO UPDATE SET premium_miss_wins=premium_miss_wins+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,source).run()}}
-async function grantBattleCube(env,userId,source,referenceId){
+function defaultCubeBoostSettings(){return {enabled:false,targetHighGradeCount:2,zeroCountMultiplier:1,oneCountMultiplier:1,pveEnabled:false,pvpEnabled:false,excludeAdmins:true,pityEnabled:false,pityStartWins:30,pityIncrementRate:0,pityMaxBonusRate:0};}
+function cleanCubeBoostSettings(){return defaultCubeBoostSettings();}
+async function cubeBoostSettings(){return defaultCubeBoostSettings();}
+function premiumCubeWeekKey(date=new Date()){
+  const parts=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit',weekday:'short'}).formatToParts(date).map(x=>[x.type,x.value]));
+  const dayMap={Mon:0,Tue:1,Wed:2,Thu:3,Fri:4,Sat:5,Sun:6},offset=dayMap[parts.weekday]??0;
+  const monday=new Date(`${parts.year}-${parts.month}-${parts.day}T00:00:00+09:00`);monday.setDate(monday.getDate()-offset);
+  return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(monday);
+}
+async function premiumCubeWeeklyStatus(env,userId){
+  const weekKey=premiumCubeWeekKey();
+  await env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_state(user_id,week_key,current_rate,earned_count,attempt_count,updated_at) VALUES(?,?,0.1,0,0,CURRENT_TIMESTAMP)`).bind(userId,weekKey).run();
+  const row=await env.DB.prepare('SELECT current_rate,earned_count,attempt_count FROM premium_cube_weekly_state WHERE user_id=? AND week_key=?').bind(userId,weekKey).first();
+  return {weekKey,currentRate:Math.max(.1,Math.min(10,Number(row?.current_rate||.1))),earnedCount:Math.max(0,Number(row?.earned_count||0)),weeklyLimit:2,attemptCount:Math.max(0,Number(row?.attempt_count||0))};
+}
+async function rollWeeklyPremiumCube(env,userId){
+  const status=await premiumCubeWeeklyStatus(env,userId);
+  if(status.earnedCount>=status.weeklyLimit)return {won:false,status};
+  const won=Math.random()*100<status.currentRate;
+  if(won){
+    const updated=await env.DB.prepare(`UPDATE premium_cube_weekly_state SET earned_count=earned_count+1,current_rate=0.1,attempt_count=attempt_count+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND earned_count<2`).bind(userId,status.weekKey).run();
+    if(!updated.meta.changes)return {won:false,status:await premiumCubeWeeklyStatus(env,userId)};
+  }else{
+    await env.DB.prepare(`UPDATE premium_cube_weekly_state SET current_rate=MIN(10,current_rate+0.1),attempt_count=attempt_count+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=?`).bind(userId,status.weekKey).run();
+  }
+  return {won,status:await premiumCubeWeeklyStatus(env,userId)};
+}
+async function grantPremiumCubeInventory(env,userId,source,referenceId){
+  await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'PREMIUM_CUBE',1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId).run();
+  const item=await env.DB.prepare("SELECT code,name,rarity,image_url FROM inventory_items WHERE code='PREMIUM_CUBE'").first(),balance=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='PREMIUM_CUBE'").bind(userId).first();
+  const reward={itemCode:'PREMIUM_CUBE',name:item?.name||'프리미엄 큐브',rarity:item?.rarity||'PREMIUM',image:item?.image_url||'',quantity:1,balance:Number(balance?.quantity||1),source,weekly:true};
+  await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'PREMIUM_CUBE',1,?,'WEEKLY_PREMIUM_CUBE',?,?)").bind(userId,reward.balance,source,referenceId).run();
+  recentPremiumCubeCache=null;return reward;
+}
+async function grantWeeklyPremiumCube(env,userId,source,referenceId){
+  source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();
+  if(!['PVE','TOWER','PVP','CAPTAIN'].includes(source)||!referenceId)return null;
+  const receiptId=`WEEKLY_PREMIUM:${source}:${referenceId}`;
+  const existing=await env.DB.prepare('SELECT status,response_json FROM cube_drop_receipts WHERE receipt_id=?').bind(receiptId).first();
+  if(existing?.status==='COMPLETED'){try{return JSON.parse(existing.response_json||'null')}catch{return null}}
+  const claimed=await env.DB.prepare("INSERT OR IGNORE INTO cube_drop_receipts(receipt_id,user_id,source,status) VALUES(?,?,?,'PENDING')").bind(receiptId,userId,source).run();
+  if(!claimed.meta.changes){const row=await env.DB.prepare('SELECT response_json FROM cube_drop_receipts WHERE receipt_id=?').bind(receiptId).first();try{return JSON.parse(row?.response_json||'null')}catch{return null}}
+  try{
+    const rolled=await rollWeeklyPremiumCube(env,userId);const reward=rolled.won?await grantPremiumCubeInventory(env,userId,source,referenceId):null;
+    const response={reward,status:rolled.status};
+    await env.DB.prepare("UPDATE cube_drop_receipts SET status='COMPLETED',item_code=?,response_json=?,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=?").bind(reward?.itemCode||null,JSON.stringify(response),receiptId).run();
+    return response;
+  }catch(error){await env.DB.prepare("DELETE FROM cube_drop_receipts WHERE receipt_id=? AND status='PENDING'").bind(receiptId).run();throw error}
+}
+async function grantBattleCube(env,userId,source,referenceId,allowStandard=true){
   source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();
   if(!['PVE','PVP'].includes(source)||!referenceId)return null;
   const receiptId=`${source}:${referenceId}`;
@@ -354,24 +398,23 @@ async function grantBattleCube(env,userId,source,referenceId){
   const claimed=await env.DB.prepare("INSERT OR IGNORE INTO cube_drop_receipts(receipt_id,user_id,source,status) VALUES(?,?,?,'PENDING')").bind(receiptId,userId,source).run();
   if(!claimed.meta.changes){const row=await env.DB.prepare('SELECT response_json FROM cube_drop_receipts WHERE receipt_id=?').bind(receiptId).first();try{return JSON.parse(row?.response_json||'null')}catch{return null}}
   try{
-    const settings=await cubeDropSettings(env),boostCfg=await cubeBoostSettings(env),boost=await cubeBoostContext(env,userId,source,boostCfg),key=source.toLowerCase();
-    const rates={};let nonPremiumTotal=0;
-    for(const code of CUBE_CODES){const enabled=settings[code]?.[`${key}Enabled`]===true;rates[code]=enabled?Number(settings[code]?.[`${key}Rate`]||0):0;if(code!=='PREMIUM_CUBE')nonPremiumTotal+=rates[code]}
-    if(rates.PREMIUM_CUBE>0&&boost.eligible)rates.PREMIUM_CUBE=Math.min(Math.max(0,100-nonPremiumTotal),rates.PREMIUM_CUBE*boost.multiplier+boost.pityBonusRate);
-    const roll=Math.random()*100;let cursor=0,wonCode=null;
-    for(const code of CUBE_CODES){cursor+=rates[code];if(roll<cursor){wonCode=code;break}}
-    let reward=null;
-    if(wonCode){
-      await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,wonCode).run();
-      const item=await env.DB.prepare('SELECT code,name,rarity,image_url FROM inventory_items WHERE code=?').bind(wonCode).first(),balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,wonCode).first();
-      reward={itemCode:wonCode,name:item?.name||wonCode,rarity:item?.rarity||'',image:item?.image_url||'',quantity:1,balance:Number(balance?.quantity||1),source};
-      await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,1,?,'BATTLE_CUBE_DROP',?,?)").bind(userId,wonCode,reward.balance,source,referenceId).run();
-      if(wonCode==='PREMIUM_CUBE')recentPremiumCubeCache=null;
+    const weekly=await rollWeeklyPremiumCube(env,userId);let reward=weekly.won?await grantPremiumCubeInventory(env,userId,source,referenceId):null;
+    let wonCode=reward?.itemCode||null;
+    if(!reward&&allowStandard){
+      const settings=await cubeDropSettings(env),key=source.toLowerCase(),rates={};
+      for(const code of ['NORMAL_CUBE','ADVANCED_CUBE'])rates[code]=settings[code]?.[`${key}Enabled`]===true?Number(settings[code]?.[`${key}Rate`]||0):0;
+      const roll=Math.random()*100;let cursor=0;
+      for(const code of ['NORMAL_CUBE','ADVANCED_CUBE']){cursor+=rates[code];if(roll<cursor){wonCode=code;break}}
+      if(wonCode){
+        await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,wonCode).run();
+        const item=await env.DB.prepare('SELECT code,name,rarity,image_url FROM inventory_items WHERE code=?').bind(wonCode).first(),balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,wonCode).first();
+        reward={itemCode:wonCode,name:item?.name||wonCode,rarity:item?.rarity||'',image:item?.image_url||'',quantity:1,balance:Number(balance?.quantity||1),source};
+        await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,1,?,'BATTLE_CUBE_DROP',?,?)").bind(userId,wonCode,reward.balance,source,referenceId).run();
+      }
     }
-    await updateCubeBoostState(env,userId,source,boost.eligible,wonCode==='PREMIUM_CUBE');
     await env.DB.prepare("UPDATE cube_drop_receipts SET status='COMPLETED',item_code=?,response_json=?,updated_at=CURRENT_TIMESTAMP WHERE receipt_id=?").bind(wonCode,JSON.stringify(reward),receiptId).run();
     return reward;
-  }catch(error){await env.DB.prepare('DELETE FROM cube_drop_receipts WHERE receipt_id=? AND status=?').bind(receiptId,'PENDING').run();throw error}
+  }catch(error){await env.DB.prepare("DELETE FROM cube_drop_receipts WHERE receipt_id=? AND status='PENDING'").bind(receiptId).run();throw error}
 }
 
 async function towerSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tower_settings_v1'").first();if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
@@ -567,7 +610,9 @@ async function ensureUpgrades(env){
     const cubeDropDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1072_cube_drop'").first();
     if(cubeDropDone?.value!=='1'){await env.DB.batch([env.DB.prepare(`CREATE TABLE IF NOT EXISTS cube_drop_receipts (receipt_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,source TEXT NOT NULL,item_code TEXT,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_cube_drop_receipts_user ON cube_drop_receipts(user_id,created_at DESC)`),env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('cube_drop_settings_v1072',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultCubeDropSettings())),env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1072_cube_drop','1',CURRENT_TIMESTAMP)")]);}
     const cubeBoostDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1072_cube_boost'").first();
-    if(cubeBoostDone?.value!=='1'){await env.DB.batch([env.DB.prepare(`CREATE TABLE IF NOT EXISTS cube_drop_boost_state (user_id INTEGER NOT NULL,source TEXT NOT NULL,premium_miss_wins INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,source))`),env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('cube_drop_boost_settings_v1072',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultCubeBoostSettings())),env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1072_cube_boost','1',CURRENT_TIMESTAMP)")]);}
+    if(cubeBoostDone?.value!=='1'){await env.DB.batch([env.DB.prepare(`CREATE TABLE IF NOT EXISTS cube_drop_boost_state (user_id INTEGER NOT NULL,source TEXT NOT NULL,premium_miss_wins INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,source))`),env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1072_cube_boost','1',CURRENT_TIMESTAMP)")]);}
+    const weeklyPremiumDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1128_weekly_premium_cube'").first();
+    if(weeklyPremiumDone?.value!=='1'){await env.DB.batch([env.DB.prepare(`CREATE TABLE IF NOT EXISTS premium_cube_weekly_state (user_id INTEGER NOT NULL,week_key TEXT NOT NULL,current_rate REAL NOT NULL DEFAULT 0.1,earned_count INTEGER NOT NULL DEFAULT 0,attempt_count INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,week_key))`),env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_premium_cube_weekly_state_week ON premium_cube_weekly_state(week_key,earned_count)`),env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1128_weekly_premium_cube','1',CURRENT_TIMESTAMP)")]);}
     const towerMonsterLinkDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1073_tower_monster_link'").first();
     if(towerMonsterLinkDone?.value!=='1'){
       const additions=[['pve_enabled',"INTEGER NOT NULL DEFAULT 1"],['tower_enabled',"INTEGER NOT NULL DEFAULT 0"],['tower_only',"INTEGER NOT NULL DEFAULT 0"]];
@@ -1622,20 +1667,21 @@ async function makeSession(env,userId){
   return raw;
 }
 async function profile(env,user){
-  const [owned,attendance,totalAttendance,recent,attendanceConfig,breakthroughSettings]=await Promise.all([
+  const [owned,attendance,totalAttendance,recent,attendanceConfig,breakthroughSettings,weeklyPremiumCube]=await Promise.all([
     env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
     env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first(),
     env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first(),
     env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at FROM draw_logs d JOIN cards c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all(),
     attendanceSettings(env),
-    breakthroughConfig(env)
+    breakthroughConfig(env),
+    premiumCubeWeeklyStatus(env,user.id)
   ]);
   return {id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
     owned:owned.results.map(row=>String(row.card_id)),
     quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
-    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings};
+    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,weeklyPremiumCube};
 }
 function weightedPick(items,getWeight){
   const total=items.reduce((sum,item)=>sum+getWeight(item),0);
@@ -1659,8 +1705,8 @@ async function recentPremiumCubeItems(env){
   if(recentPremiumCubeCache&&recentPremiumCubeCache.expiresAt>now)return recentPremiumCubeCache.promise;
   const promise=env.DB.prepare(`SELECT u.nickname,l.created_at,l.reference_type AS source
     FROM inventory_logs l JOIN users u ON u.id=l.user_id
-    WHERE l.item_code='PREMIUM_CUBE' AND l.change_amount>0 AND l.reason='BATTLE_CUBE_DROP'
-      AND l.reference_type IN ('PVE','PVP') AND u.status='ACTIVE'
+    WHERE l.item_code='PREMIUM_CUBE' AND l.change_amount>0 AND l.reason IN ('BATTLE_CUBE_DROP','WEEKLY_PREMIUM_CUBE')
+      AND l.reference_type IN ('PVE','TOWER','PVP','CAPTAIN') AND u.status='ACTIVE'
     ORDER BY l.id DESC LIMIT 20`).all()
     .then(rows=>rows.results)
     .catch(error=>{if(recentPremiumCubeCache?.promise===promise)recentPremiumCubeCache=null;throw error});
@@ -1900,7 +1946,7 @@ export async function onRequest(context){
   try{
     if(!env.DB) return json({error:'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.'},503);
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
-    const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower}});if(captainResponse)return captainResponse;
+    const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,grantWeeklyPremiumCube}});if(captainResponse)return captainResponse;
 
     if(path==='health') return json({ok:true,version:'2.8.2',database:true,initialized:await initialized(env)});
     if(path==='setup/status') return json({initialized:await initialized(env),tables:await tableExists(env,'users')});
@@ -2679,10 +2725,10 @@ export async function onRequest(context){
         const magicCfg=await magicSettings(env),pveMagic=magicCfg.acquisition?.pve||{};
         for(let i=0;i<battleCount;i++){
           try{energy=await consumeBattleEnergy(env,user,settings)}catch(e){if(e.code==='NO_BATTLE_ENERGY'){energy=e.energy;break}throw e}
-          const one=await resolveAutoBattle(env,user,settings,monster,cards,ids);battles++;totalReward+=Number(one.reward||0);if(one.result==='WIN'){
+          const one=await resolveAutoBattle(env,user,settings,monster,cards,ids);battles++;totalReward+=Number(one.reward||0);const battleRef=`${requestId}:${i+1}`;
+          const cubeReward=await grantBattleCube(env,user.id,'PVE',battleRef,one.result==='WIN');if(cubeReward)cubeRewards.push(cubeReward);
+          if(one.result==='WIN'){
             wins++;
-            const battleRef=`${requestId}:${i+1}`;
-            const cubeReward=await grantBattleCube(env,user.id,'PVE',battleRef);if(cubeReward)cubeRewards.push(cubeReward);
             const magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:battleRef,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'});if(magicReward?.amount>0)magicRewards.push(magicReward);
           }else losses++;if(one.cardReward)cardRewards.push(one.cardReward);
         }
@@ -2729,7 +2775,7 @@ export async function onRequest(context){
       if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id).run();}
       let cardReward=null;if(result==='WIN'&&settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}
       await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run();
-      const cubeReward=result==='WIN'?await grantBattleCube(env,user.id,'PVE',requestId):null;
+      const cubeReward=await grantBattleCube(env,user.id,'PVE',requestId,result==='WIN');
       const pveMagic=(await magicSettings(env)).acquisition?.pve||{};
       const magicReward=result==='WIN'?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):null;
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
@@ -2760,7 +2806,7 @@ export async function onRequest(context){
       return json({active:true,completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,ranking});
     }
     if(path==='tower/fight'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const towerBody=await readBody(request),towerRequestId=String(towerBody.requestId||crypto.randomUUID()).slice(0,120);
       const towerConfig=await towerSettings(env);if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
       const season=await env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();if(!season)return json({error:'진행 중인 무한의탑 시즌이 없습니다.'},404);
       await env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id).run();
@@ -2829,7 +2875,8 @@ export async function onRequest(context){
         magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:`${season.id}:${floorNo}`,enabled:towerMagic.enabled===true,chance:100,amount:magicAmount,dailyLimit:0,reason:`무한의탑 ${floorNo}층 최초 클리어`});
       }
       await env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run();
-      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
+      const weeklyPremium=await grantWeeklyPremiumCube(env,user.id,'TOWER',towerRequestId);
+      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});
@@ -2974,11 +3021,11 @@ export async function onRequest(context){
       ]);
       const coinUser=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
       if(attackerCoinReward>0)await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PVP_ATTACK_BATTLE')").bind(user.id,attackerCoinReward,coinUser.coin).run();
-      const cubeReward=attackerWin?await grantBattleCube(env,user.id,'PVP',requestId):null;
+      const cubeReward=await grantBattleCube(env,user.id,'PVP',requestId,attackerWin);
       const pvpMagic=(await magicSettings(env)).acquisition?.pvp||{};
       const magicReward=attackerWin?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVP_DROP',referenceId:requestId,enabled:pvpMagic.enabled===true,chance:pvpMagic.chance,amount:pvpMagic.amount,dailyLimit:pvpMagic.dailyLimit,reason:'일반 PVP 승리 확률 드랍'}):null;
-      const freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first();
-      return json({result:attackerWin?'WIN':'LOSE',cubeReward,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aDeck,defenderDeck:dDeck,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
+      const freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),weeklyPremiumCube=await premiumCubeWeeklyStatus(env,user.id);
+      return json({result:attackerWin?'WIN':'LOSE',cubeReward,weeklyPremiumCube,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aDeck,defenderDeck:dDeck,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT * FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();return json({history:rows.results.map(r=>({...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}))});
