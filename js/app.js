@@ -850,7 +850,7 @@ function dailyQuestView(user){
         </aside>
       </article>
     </div>
-    <footer class="daily-quest-note"><span>i</span><p>매일 00:00 KST 초기화 · SOOP 게시판 일반글만 인정 · 작성자 검색 결과 기준</p></footer>
+    <footer class="daily-quest-note"><span>i</span><p>매일 00:00 KST 초기화 · SOOP 게시판 일반글만 인정 · 게시글 원문 회원번호 기준</p></footer>
   </section>`;
 }
 async function loadDailyQuest(){

@@ -1260,62 +1260,107 @@ function extractWagoMemberNoFromAuthorRow(block){
   for(const re of patterns){const m=re.exec(source);if(m?.[1])return String(m[1]).replace(/\D/g,'');}
   return '';
 }
-function parseWagoTodayMemberPosts(html,memberNo){
-  const wanted=String(memberNo||'').replace(/\D/g,'');
-  if(!wanted)return {postIds:[],todayRows:0,memberRows:0,unresolvedRows:0};
-  const blocks=String(html||'').match(/<tr\b[\s\S]*?<\/tr>/gi)||[];
-  const ids=[];let todayRows=0,memberRows=0,unresolvedRows=0;
+function normalizeWagoNickname(value){
+  return htmlText(String(value||'')).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim().toLowerCase();
+}
+function parseWagoTodaySearchPosts(html,wagoNickname){
+  const wanted=normalizeWagoNickname(wagoNickname);
+  if(!wanted)return [];
+  const blocks=String(html||'').match(/<tr\b[\s\S]*?<\/tr>/gi)||[],ids=[];
   for(const block of blocks){
     const text=htmlText(block);
-    // 와이고수 목록에서 오늘 작성글은 날짜 대신 HH:MM으로 표시된다.
+    // 검색 결과 목록에서 오늘 글은 날짜 대신 HH:MM으로 표시된다.
     if(!/\b\d{1,2}:\d{2}\b/.test(text))continue;
     const rowTag=(/<tr\b[^>]*>/i.exec(block)||[''])[0];
     const rowClass=(/\bclass\s*=\s*['"]([^'"]*)['"]/i.exec(rowTag)||[])[1]||'';
-    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass))continue;
+    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass)||/공지/.test(text))continue;
     const post=/href=['"](?:https?:\/\/(?:www\.)?ygosu\.com)?\/board\/soop\/(\d+)(?:[^'"]*)?['"]/i.exec(block);
     if(!post)continue;
-    todayRows++;
+    // 검색 결과가 넓게 반환되는 경우를 대비해 목록 닉네임도 후보 단계에서 한 번 좁힌다.
     const nameCell=/<td\b[^>]*class=['"][^'"]*(?:name|writer|nickname)[^'"]*['"][^>]*>([\s\S]*?)<\/td>/i.exec(block);
-    const authorScope=nameCell?.[1]||block;
-    const rowMemberNo=extractWagoMemberNoFromAuthorRow(authorScope)||extractWagoMemberNoFromAuthorRow(block);
-    if(!rowMemberNo){unresolvedRows++;continue;}
-    memberRows++;
-    if(rowMemberNo!==wanted)continue;
+    if(nameCell){
+      const rowNick=normalizeWagoNickname(nameCell[1]);
+      if(rowNick&&!rowNick.includes(wanted)&&!wanted.includes(rowNick))continue;
+    }
     ids.push(post[1]);
   }
-  return {postIds:[...new Set(ids)],todayRows,memberRows,unresolvedRows};
+  return [...new Set(ids)];
 }
-async function inspectWagoDailyPosts(settings,memberNo,questDate=kstDate()){
+function extractWagoPostKstDate(html){
+  const source=String(html||'');
+  const patterns=[
+    /(?:작성일|등록일|date|datetime)[^0-9]{0,40}(20\d{2})[.\/-](\d{1,2})[.\/-](\d{1,2})\s+\d{1,2}:\d{2}/i,
+    /\b(20\d{2})[.\/-](\d{1,2})[.\/-](\d{1,2})\s+\d{1,2}:\d{2}(?::\d{2})?\b/i,
+    /\b(\d{2})[.\/-](\d{1,2})[.\/-](\d{1,2})\s+\d{1,2}:\d{2}(?::\d{2})?\b/i
+  ];
+  for(let i=0;i<patterns.length;i++){
+    const m=patterns[i].exec(source);if(!m)continue;
+    let year=Number(m[1]);if(i===2)year+=2000;
+    const month=String(Number(m[2])).padStart(2,'0'),day=String(Number(m[3])).padStart(2,'0');
+    if(year>=2020&&Number(month)>=1&&Number(month)<=12&&Number(day)>=1&&Number(day)<=31)return `${year}-${month}-${day}`;
+  }
+  return '';
+}
+function inspectWagoPostDetail(html,memberNo,questDate){
   const wanted=String(memberNo||'').replace(/\D/g,'');
+  const source=String(html||'');
+  // 댓글 영역의 다른 회원번호가 섞이지 않도록 본문 앞부분을 우선 검사한다.
+  const commentAt=source.search(/<(?:div|section|ul|ol)\b[^>]*(?:id|class)=['"][^'"]*(?:reply|comment)[^'"]*['"]/i);
+  const articleScope=commentAt>0?source.slice(0,commentAt):source.slice(0,Math.min(source.length,180000));
+  const authorMemberNo=extractWagoMemberNoFromAuthorRow(articleScope);
+  const postDate=extractWagoPostKstDate(articleScope);
+  return {
+    ok:Boolean(authorMemberNo&&postDate),
+    memberMatched:Boolean(authorMemberNo&&authorMemberNo===wanted),
+    dateMatched:Boolean(postDate&&postDate===String(questDate||'')),
+    authorMemberNo,
+    postDate
+  };
+}
+async function inspectWagoDailyPosts(settings,memberNo,wagoNickname,questDate=kstDate()){
+  const wanted=String(memberNo||'').replace(/\D/g,''),nickname=String(wagoNickname||'').trim();
   const requestedKstDate=String(questDate||kstDate());
   if(!wanted)return {ok:false,error:'인증된 와고 회원번호가 없습니다.'};
+  if(!nickname)return {ok:false,error:'인증된 와고 닉네임이 없습니다.'};
   const boardUrl=settings.boardUrl||'https://ygosu.com/board/soop';
   const base=parseYgosuPostUrl(boardUrl);if(!base.ok)return base;
-  const all=new Set(),maxPages=Math.max(1,Math.min(20,Number(settings.maxPages)||10));
-  let scannedPages=0,totalTodayRows=0,totalMemberRows=0,totalUnresolvedRows=0;
+  const candidates=new Set(),confirmed=new Set();
+  const maxPages=Math.max(1,Math.min(20,Number(settings.maxPages)||10));
+  const required=Math.max(1,Number(settings.requiredPosts)||15);
+  let scannedPages=0,scannedPosts=0,unresolvedPosts=0,rejectedMember=0,rejectedDate=0;
   for(let page=1;page<=maxPages;page++){
     const u=new URL(base.url);
     u.searchParams.set('best_article','N');
     u.searchParams.set('s_category','');
+    u.searchParams.set('searcht','w');
+    u.searchParams.set('add_search_log','Y');
+    u.searchParams.set('search',nickname);
     u.searchParams.set('_cnine_kst_date',requestedKstDate);
     u.searchParams.set('_cnine_nocache',String(Date.now()));
     if(page>1)u.searchParams.set('page',String(page));
-    const result=await fetchWagoHtml(u.toString(),'SOOP 게시판 회원번호 확인');if(!result.ok)return result;
-    if(!/<table\b[^>]*class=['"][^'"]*bd_list[^'"]*['"]/i.test(result.html))return {ok:false,error:'SOOP 게시판 목록을 읽을 수 없습니다. 게시판 점검 또는 외부 조회 차단 여부를 확인한 뒤 다시 시도하세요.'};
+    const result=await fetchWagoHtml(u.toString(),'SOOP 작성자 검색');if(!result.ok)return result;
+    if(!/<table\b[^>]*class=['"][^'"]*bd_list[^'"]*['"]/i.test(result.html))return {ok:false,error:'SOOP 작성자 검색 결과를 읽을 수 없습니다. 게시판 점검 또는 외부 조회 차단 여부를 확인한 뒤 다시 시도하세요.'};
     scannedPages++;
-    const parsed=parseWagoTodayMemberPosts(result.html,wanted);
-    parsed.postIds.forEach(id=>all.add(id));
-    totalTodayRows+=parsed.todayRows;totalMemberRows+=parsed.memberRows;totalUnresolvedRows+=parsed.unresolvedRows;
-    if(all.size>=Number(settings.requiredPosts||15))break;
-    // 오늘 글이 한 건도 없는 페이지에 도달하면 이후 페이지는 과거 글이므로 중단한다.
-    if(parsed.todayRows===0)break;
+    const ids=parseWagoTodaySearchPosts(result.html,nickname);ids.forEach(id=>candidates.add(id));
+    if(candidates.size>=Math.max(required,40))break;
+    if(ids.length===0)break;
   }
-  // 조회 도중 KST 날짜가 바뀌면 전날 목록과 새 날짜 진행도가 섞일 수 있으므로 저장하지 않는다.
+  // 닉네임 검색은 후보 수집용일 뿐이며, 최종 인정은 각 원문 작성자 회원번호와 KST 작성일로 판정한다.
+  for(const postId of [...candidates].slice(0,Math.max(required*3,40))){
+    const result=await fetchWagoHtml(`https://ygosu.com/board/soop/${postId}?_cnine_nocache=${Date.now()}`,'SOOP 게시글 원문 확인');
+    if(!result.ok){unresolvedPosts++;continue;}
+    scannedPosts++;
+    const detail=inspectWagoPostDetail(result.html,wanted,requestedKstDate);
+    if(!detail.ok){unresolvedPosts++;continue;}
+    if(!detail.memberMatched){rejectedMember++;continue;}
+    if(!detail.dateMatched){rejectedDate++;continue;}
+    confirmed.add(postId);
+    if(confirmed.size>=required)break;
+  }
   const completedKstDate=kstDate();
   if(completedKstDate!==requestedKstDate)return {ok:false,error:'일일퀘스트 확인 중 날짜가 변경되었습니다. 새 날짜 기준으로 다시 확인해 주세요.',code:'KST_DATE_ROLLOVER',requestedKstDate,completedKstDate};
-  // 목록에 오늘 글은 있지만 회원번호를 하나도 읽지 못한 경우, 0건으로 저장하지 않고 구조 변경 오류로 알린다.
-  if(totalTodayRows>0&&totalMemberRows===0)return {ok:false,error:'SOOP 게시글 작성자 회원번호를 확인하지 못했습니다. 와고 목록 구조가 변경되었을 수 있으니 운영자에게 문의하세요.',code:'WAGO_MEMBER_PARSE_FAILED',scannedPages,totalTodayRows,totalUnresolvedRows};
-  return {ok:true,postCount:all.size,postIds:[...all],verificationMode:'MEMBER_NO',memberNo:wanted,questDate:requestedKstDate,scannedPages,totalTodayRows,totalUnresolvedRows};
+  if(candidates.size>0&&scannedPosts>0&&confirmed.size===0&&unresolvedPosts===scannedPosts)return {ok:false,error:'SOOP 게시글 원문에서 작성자 회원번호 또는 작성일을 확인하지 못했습니다. 게시판 구조가 변경되었을 수 있으니 잠시 후 다시 시도하세요.',code:'WAGO_POST_DETAIL_PARSE_FAILED',scannedPages,scannedPosts,unresolvedPosts};
+  return {ok:true,postCount:confirmed.size,postIds:[...confirmed],verificationMode:'NICKNAME_CANDIDATE_MEMBER_NO_DETAIL',memberNo:wanted,questDate:requestedKstDate,scannedPages,scannedPosts,candidatePosts:candidates.size,unresolvedPosts,rejectedMember,rejectedDate};
 }
 
 function parseWagoTodayBoardPostIds(html){
@@ -2886,7 +2931,7 @@ export async function onRequest(context){
       if(settings.postEnabled===false)return json({error:'게시글 일일퀘스트가 중지되어 있습니다.'},503);
       const old=await env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_quest_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
       if(old?.last_checked_at&&Date.now()-Date.parse(String(old.last_checked_at).replace(' ','T')+'Z')<cooldown*1000)return json({ok:true,questType:'POST',postCount:Number(old.post_count||0),requiredPosts:Number(settings.requiredPosts||15),rewardCoin:Number(settings.postRewardCoin||1200),cooldown:true});
-      const inspected=await inspectWagoDailyPosts(settings,v.wago_member_no,today);if(!inspected.ok)return json({error:inspected.error},502);
+      const inspected=await inspectWagoDailyPosts(settings,v.wago_member_no,v.wago_nickname,today);if(!inspected.ok)return json({error:inspected.error},502);
       // 같은 KST 날짜 안에서는 외부 검색 페이지 일시 누락 때문에 진행도가 감소하지 않도록 최고값을 유지한다.
       const stablePostCount=Math.max(Number(old?.post_count||0),Number(inspected.postCount||0));
       const stablePostIds=[...new Set([...(JSON.parse((await env.DB.prepare('SELECT post_ids_json FROM wago_daily_quest_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first())?.post_ids_json||'[]')),...inspected.postIds])];
@@ -2906,7 +2951,7 @@ export async function onRequest(context){
       if(settings.postEnabled===false)return json({error:'게시글 일일퀘스트가 중지되어 있습니다.'},503);
       const already=await env.DB.prepare('SELECT id FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();if(already)return json({error:'오늘 게시글 퀘스트 보상은 이미 수령했습니다.'},409);
       const oldPost=await env.DB.prepare('SELECT post_count,post_ids_json FROM wago_daily_quest_progress WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-      const inspected=await inspectWagoDailyPosts(settings,v.wago_member_no,today);if(!inspected.ok)return json({error:inspected.error},502);
+      const inspected=await inspectWagoDailyPosts(settings,v.wago_member_no,v.wago_nickname,today);if(!inspected.ok)return json({error:inspected.error},502);
       // 같은 KST 날짜 안에서는 외부 검색 페이지 일시 누락 때문에 진행도가 감소하지 않도록 최고값을 유지한다.
       const stablePostCount=Math.max(Number(oldPost?.post_count||0),Number(inspected.postCount||0));
       const stablePostIds=[...new Set([...(JSON.parse(oldPost?.post_ids_json||'[]')),...inspected.postIds])];
