@@ -1694,9 +1694,14 @@ async function profile(env,user){
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
     attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,weeklyPremiumCube};
 }
+function secureRandom01(){
+  try{const values=new Uint32Array(1);crypto.getRandomValues(values);return values[0]/4294967296}catch{return Math.random()}
+}
+function randomPercent(){return secureRandom01()*100}
 function weightedPick(items,getWeight){
   const total=items.reduce((sum,item)=>sum+getWeight(item),0);
-  let roll=Math.random()*total;
+  if(!(total>0))return null;
+  let roll=secureRandom01()*total;
   for(const item of items){roll-=getWeight(item);if(roll<0)return item}
   return items.at(-1);
 }
@@ -1755,7 +1760,7 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
   if(allowLimited&&pack.id==='pickup'&&!minimum){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
     const limitedRate=Math.max(0,Math.min(100,Number(limitedRateRow?.rate)||0));
-    if(limitedRate>0&&Math.random()*100<limitedRate){
+    if(limitedRate>0&&randomPercent()<limitedRate){
       const limitedCard=await drawLimitedCard(env);
       if(limitedCard) return limitedCard;
     }
@@ -1802,6 +1807,12 @@ async function queryDrawContext(env,pack){
     if(!poolsByGrade.has(grade))poolsByGrade.set(grade,[]);
     poolsByGrade.get(grade).push(card);
   }
+  const activeNormalRates=rateRows.filter(row=>allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0);
+  const normalRateTotal=activeNormalRates.reduce((sum,row)=>sum+Number(row.rate||0),0);
+  if(Math.abs(normalRateTotal-100)>0.001)throw new Error(`카드팩 ${pack.id} 일반 등급 확률 합계가 100%가 아닙니다. (현재 ${normalRateTotal}%)`);
+  const emptyGrades=activeNormalRates.filter(row=>!(poolsByGrade.get(row.rarity)||[]).length).map(row=>row.rarity);
+  if(emptyGrades.length)throw new Error(`카드팩 ${pack.id}의 확률이 설정된 등급에 활성 카드가 없습니다: ${emptyGrades.join(', ')}`);
+  if(pack.id==='pickup'&&Math.max(0,Number(rateRows.find(row=>row.rarity==='LIMITED')?.rate||0))>0&&!limitedCards.length)throw new Error('리미티드 확률이 설정되어 있지만 현재 추첨 가능한 LIMITED 카드가 없습니다.');
   return {
     allowed,
     rateRows,
@@ -1822,7 +1833,7 @@ function drawNormalFromContext(ctx,pack,rarity){
   return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;
 }
 function drawOneFromContext(ctx,pack,minimum=null,allowLimited=true,criticalBonus=0){
-  if(allowLimited&&pack.id==='pickup'&&!minimum&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+  if(allowLimited&&pack.id==='pickup'&&!minimum&&ctx.limitedRate>0&&randomPercent()<ctx.limitedRate){
     const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
     if(limitedCard)return limitedCard;
   }
@@ -1840,13 +1851,13 @@ function drawOneFromContext(ctx,pack,minimum=null,allowLimited=true,criticalBonu
   throw new Error('현재 뽑을 수 있는 일반 카드가 없습니다. 카드 및 확률 설정을 확인하세요.');
 }
 function drawOneWithPityFromContext(ctx,pack,ssrRate,criticalBonus=0,allowLimited=true){
-  if(allowLimited&&pack.id==='pickup'&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+  if(allowLimited&&pack.id==='pickup'&&ctx.limitedRate>0&&randomPercent()<ctx.limitedRate){
     const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
     if(limitedCard)return limitedCard;
   }
   const allowed=ctx.allowed;
   if(ssrRate!==null&&allowed.includes('SSR')){
-    if(Math.random()*100<ssrRate){
+    if(randomPercent()<ssrRate){
       const ssr=drawNormalFromContext(ctx,pack,'SSR');
       if(ssr)return ssr;
     }
@@ -1883,11 +1894,11 @@ async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
   if(pack.id==='pickup'){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
     const limitedRate=Math.max(0,Math.min(100,Number(limitedRateRow?.rate)||0));
-    if(limitedRate>0&&Math.random()*100<limitedRate){const limitedCard=await drawLimitedCard(env);if(limitedCard)return limitedCard;}
+    if(limitedRate>0&&randomPercent()<limitedRate){const limitedCard=await drawLimitedCard(env);if(limitedCard)return limitedCard;}
   }
   const allowed=JSON.parse(pack.allowed_rarities).filter(r=>RARITIES.includes(r)&&r!=='LIMITED');
   if(ssrRate!==null&&allowed.includes('SSR')){
-    if(Math.random()*100<ssrRate){const ssr=await drawNormalCardByRarity(env,pack,'SSR');if(ssr)return ssr;}
+    if(randomPercent()<ssrRate){const ssr=await drawNormalCardByRarity(env,pack,'SSR');if(ssr)return ssr;}
     const others=allowed.filter(r=>r!=='SSR'),marks=others.map(()=>'?').join(',');
     let rates=(await env.DB.prepare(`SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rarity IN (${marks}) AND rate>0`).bind(pack.id,...others).all()).results;
     if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
@@ -2255,7 +2266,7 @@ export async function onRequest(context){
       try{
         const criticalConfig=await criticalSettings(env);
         const criticalEligible=criticalConfig.enabled===true;
-        const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
+        const critical=criticalEligible&&randomPercent()<criticalConfig.chance;
         const criticalBonus=critical?criticalConfig.bonus:0;
         const pack=await env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId).first();
         if(!pack){
@@ -2890,8 +2901,9 @@ export async function onRequest(context){
         magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:`${season.id}:${floorNo}`,enabled:towerMagic.enabled===true,chance:100,amount:magicAmount,dailyLimit:0,reason:`무한의탑 ${floorNo}층 최초 클리어`});
       }
       await env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run();
-      const weeklyPremium=await grantWeeklyPremiumCube(env,user.id,'TOWER',towerRequestId);
-      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
+      let weeklyPremium=null,weeklyPremiumError=null;
+      try{weeklyPremium=await grantWeeklyPremiumCube(env,user.id,'TOWER',towerRequestId)}catch(cubeError){weeklyPremiumError=String(cubeError?.message||cubeError||'프리미엄 큐브 처리 실패');console.error('tower weekly premium cube failed',{userId:user.id,floorNo,requestId:towerRequestId,error:weeklyPremiumError})}
+      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});
