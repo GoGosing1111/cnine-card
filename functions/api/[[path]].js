@@ -1968,9 +1968,43 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      const finalizeAppliedDraw=async draft=>{
+        const proof=draft?.grantProof||{};
+        if(String(proof.requestId||'')!==requestId||Number(proof.userId)!==Number(user.id))throw new Error('카드 지급 증명 정보가 현재 요청과 일치하지 않습니다.');
+        const proofCards=Array.isArray(proof.cards)?proof.cards:[];
+        const cardIds=[...new Set(proofCards.map(row=>String(row?.cardId||'')).filter(Boolean))];
+        if(!cardIds.length||cardIds.length!==proofCards.length)throw new Error('카드 지급 증명에 중복되거나 비어 있는 카드가 있습니다.');
+        const [actualUser,ownedRows,masterRow]=await Promise.all([
+          env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
+          env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${cardIds.map(()=>'?').join(',')})`).bind(user.id,...cardIds).all(),
+          env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()
+        ]);
+        if(!actualUser)throw new Error('카드 지급 후 유저 정보를 확인하지 못했습니다.');
+        const actualQuantities=new Map((ownedRows.results||[]).map(row=>[String(row.card_id),Number(row.quantity||0)]));
+        for(const row of proofCards){
+          const cardId=String(row.cardId||''),expected=Number(row.quantityAfter||0),actual=Number(actualQuantities.get(cardId)||0);
+          if(!Number.isInteger(expected)||expected<1||actual!==expected)throw new Error(`${cardId} 카드의 서버 도감 수량 검증에 실패했습니다. (예상 ${expected}, 실제 ${actual})`);
+        }
+        if(Number(actualUser.coin||0)!==Number(proof.coinAfter))throw new Error('카드뽑기 코인 차감 검증에 실패했습니다.');
+        if(Number(actualUser.card_shards||0)!==Number(proof.shardsAfter))throw new Error('카드 조각 지급 검증에 실패했습니다.');
+        if(Number(masterRow?.quantity||0)!==Number(proof.masterStarAfter||0))throw new Error('마스터의 별 지급 검증에 실패했습니다.');
+        const actualProfile=await profile(env,actualUser);
+        const ownedSet=new Set((actualProfile.owned||[]).map(String));
+        for(const row of proofCards){if(!ownedSet.has(String(row.cardId)))throw new Error(`${row.cardId} 카드가 실제 유저 도감 응답에 포함되지 않았습니다.`)}
+        const response={...draft,user:actualProfile};
+        response.results=(response.results||[]).map(item=>({...item,granted:true,grantVerified:true}));
+        response.drawProtocol={...(response.drawProtocol||{}),version:3,status:'COMPLETED',grantVerified:true,integrity:''};
+        response.drawProtocol.integrity=drawIntegrityHash(drawIntegrityCanonical(response));
+        const completed=await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('APPLIED','COMPLETED')").bind(JSON.stringify(response),requestId,user.id).run();
+        if(!completed.meta.changes)throw new Error('카드 지급 영수증 확정에 실패했습니다.');
+        return response;
+      };
       const prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       if(prior?.status==='COMPLETED'&&prior.response_json){
         try{return json(JSON.parse(prior.response_json))}catch{}
+      }
+      if(prior?.status==='APPLIED'&&prior.response_json){
+        try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json)))}catch(error){return json({error:String(error?.message||'이전 카드 지급 검증을 완료하지 못했습니다.'),requestId},503)}
       }
       if(prior?.status==='PENDING')return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
       if(prior?.status==='FAILED')await env.DB.prepare('DELETE FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).run();
@@ -2090,7 +2124,7 @@ export async function onRequest(context){
             statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,runningShardBalance,card.id));
           }
           statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,card.grade,drawIndex===0?cost:0,isNew?1:0));
-          results.push({slot:drawIndex,granted:true,grantVerified:true,quantityBefore,quantityAfter,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained,masterStarGained});
+          results.push({slot:drawIndex,granted:false,grantVerified:false,quantityBefore,quantityAfter,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained,masterStarGained});
         }
 
         const expectedCoin=Number(fresh.coin||0)-cost;
@@ -2116,14 +2150,13 @@ export async function onRequest(context){
           masterStarBefore,masterStarAfter:expectedMasterStars,
           cards:[...expectedAfterByCard.entries()].map(([cardId,quantityAfter])=>({cardId,quantityAfter:Number(quantityAfter)}))
         };
-        const response={
+        const draftResponse={
           results,user:nextProfile,
           pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,
           critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},
           requestId,grantProof,
-          drawProtocol:{version:3,status:'COMPLETED',grantVerified:true,packId:String(pack.id),count:Number(count),integrity:''}
+          drawProtocol:{version:3,status:'APPLIED',grantVerified:false,packId:String(pack.id),count:Number(count),integrity:''}
         };
-        response.drawProtocol.integrity=drawIntegrityHash(drawIntegrityCanonical(response));
 
         statements.unshift(env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost));
         if(PITY_PACKS.has(pack.id))statements.unshift(env.DB.prepare(`INSERT INTO user_pack_pity(user_id,pack_id,miss_count,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP)
@@ -2137,41 +2170,11 @@ export async function onRequest(context){
           statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'MA_DUPLICATE','PACK_DRAW',?)").bind(user.id,masterStarTotal,expectedMasterStars,groupId));
         }
         statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));
-        statements.push(env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(response),requestId,user.id));
-
-        const expectedEntries=[...expectedAfterByCard.entries()];
-        const expectedValuesSql=expectedEntries.map(()=>'(?,?)').join(',');
-        const activePlaceholders=finalActiveIds.map(()=>'?').join(',');
-        const assertionSql=`WITH expected(card_id,expected_qty) AS (VALUES ${expectedValuesSql})
-          INSERT INTO draw_grant_assertions(request_id,user_id,verified,proof_json)
-          SELECT ?,?,CASE WHEN
-            NOT EXISTS(
-              SELECT 1 FROM expected e
-              LEFT JOIN user_cards uc ON uc.user_id=? AND uc.card_id=e.card_id
-              WHERE COALESCE(uc.quantity,0)<>e.expected_qty
-            )
-            AND COALESCE((SELECT coin FROM users WHERE id=?),-1)=?
-            AND COALESCE((SELECT card_shards FROM users WHERE id=?),-1)=?
-            AND COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'),0)=?
-            AND COALESCE((SELECT COUNT(*) FROM cards c JOIN members m ON m.id=c.member_id
-              WHERE c.id IN (${activePlaceholders}) AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1),0)=?
-            AND COALESCE((SELECT status FROM draw_request_receipts WHERE request_id=? AND user_id=?),'')='COMPLETED'
-            THEN 1 ELSE 0 END,?`;
-        const assertionBinds=[];
-        for(const [cardId,quantityAfter] of expectedEntries)assertionBinds.push(cardId,Number(quantityAfter));
-        assertionBinds.push(
-          requestId,user.id,user.id,
-          user.id,expectedCoin,
-          user.id,expectedShards,
-          user.id,expectedMasterStars,
-          ...finalActiveIds,finalActiveIds.length,
-          requestId,user.id,
-          JSON.stringify(grantProof)
-        );
-        statements.push(env.DB.prepare(assertionSql).bind(...assertionBinds));
+        statements.push(env.DB.prepare("UPDATE draw_request_receipts SET status='APPLIED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(draftResponse),requestId,user.id));
 
         await env.DB.batch(statements);
         grantsCommitted=true;
+        const response=await finalizeAppliedDraw(draftResponse);
 
         for(const event of limitedAuditEvents){
           try{await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,isDuplicate:Number(event.quantityBefore||0)>0,stockReserved:true,cardGranted:true})}

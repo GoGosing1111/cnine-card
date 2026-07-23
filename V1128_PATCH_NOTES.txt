@@ -1,0 +1,19 @@
+V1128 카드뽑기 서버 지급 확정 오류 수정
+
+기준
+- 현재 적용된 V1127 서버 파일 기준
+- 카드뽑기 API 구간만 수정
+- PVE/PVP/레이드/대장전/일일퀘스트/UI/CSS/연출 파일 변경 없음
+
+수정
+1. D1 batch 내부의 SQL 검증 INSERT를 제거해 중첩 트랜잭션 오류 차단
+2. 코인 차감, 카드 수량 증가, 중복 조각, 마스터의 별, 뽑기 로그, 영수증 APPLIED 기록을 D1 batch 한 번으로 원자 처리
+3. batch 성공 후 실제 users/user_cards/cnine_user_inventory를 다시 조회
+4. 실제 카드 수량, 코인, 조각, 마스터의 별이 모두 예상값과 일치할 때만 영수증 COMPLETED 처리
+5. 실제 profile() 도감 응답에 카드가 포함된 것까지 확인한 뒤에만 granted=true / grantVerified=true 반환
+6. 검증 전 응답은 APPLIED + granted=false 상태라 획득 연출 재생 불가
+7. 검증 실패 또는 조회 실패 시 성공 응답을 반환하지 않음
+8. 동일 requestId의 APPLIED 영수증은 재호출 시 실제 DB를 다시 검증하여 완료 가능
+
+변경 파일
+- functions/api/[[path]].js
