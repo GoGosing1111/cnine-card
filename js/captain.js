@@ -423,7 +423,7 @@
       });
       applyRewardBalances(result.victoryReward)
       if(result.weeklyPremiumCube){const current=loadUser();if(current){current.weeklyPremiumCube=result.weeklyPremiumCube;saveUser(current)}}
-      if(result.cubeReward&&window.showCubeDropAcquisition)await window.showCubeDropAcquisition(result.cubeReward);
+      if(result.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(result.cubeReward)}catch(cubeFxError){console.warn('대장전 큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
       const openLogs = await playBattle(result);
       await render();
       if (openLogs) await history(document.getElementById('pvpContent'));
