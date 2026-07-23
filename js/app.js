@@ -335,10 +335,12 @@ function renderShell(tab) {
   bindMobileNavigation();
   bindView(tab);
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
-  // 메인 화면 자체를 먼저 그린 뒤 비필수 소식/요약 요청을 분산해 초기 D1 경합을 줄인다.
+  // 메인 화면 출력 직후 MA 이상/프리미엄 큐브 소식을 동시에 불러오고, 인벤토리 요약만 짧게 지연한다.
+  deferShellLoad(0,()=>Promise.allSettled([
+    loadRecentHighGradeFeed(),
+    loadRecentPremiumCubeFeed()
+  ]));
   deferShellLoad(180,loadInventorySummary);
-  deferShellLoad(520,loadRecentHighGradeFeed);
-  deferShellLoad(900,loadRecentPremiumCubeFeed);
   if(API_MODE&&API_TOKEN)scheduleRuntimeCommandPoll(runtimeCommandPollDelay());
 }
 
