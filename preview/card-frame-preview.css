@@ -36,8 +36,6 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 .concept-panel{min-width:0;padding:18px;border:1px solid rgba(128,198,255,.15);border-radius:20px;background:linear-gradient(180deg,rgba(6,19,41,.85),rgba(3,10,23,.86));overflow:hidden}
 .concept-copy{min-height:116px}
 .concept-index{display:inline-flex;padding:5px 8px;border-radius:7px;background:rgba(72,183,255,.08);color:#63dcff;font-size:10px;font-weight:1000;letter-spacing:1.4px}
-.hybrid-tag{display:inline-flex;margin-left:8px;padding:5px 8px;border-radius:999px;background:linear-gradient(135deg,rgba(255,199,93,.18),rgba(255,130,72,.18));border:1px solid rgba(255,220,140,.28);color:#ffedb5;font-size:10px;font-weight:1000;letter-spacing:1.2px;vertical-align:middle}
-
 .concept-copy h3{margin:11px 0 7px;font-size:21px}
 .concept-copy p{margin:0;color:#8ea7c8;font-size:13px;line-height:1.65}
 .card-stage{position:relative;display:grid;place-items:center;min-height:435px;margin-top:8px;border-radius:18px;background:
@@ -116,97 +114,14 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 .prism-ascendant .grade-orbit{border-color:rgba(155,220,255,.6)}
 .prism-ascendant .grade-sigil{color:#fff;border-color:#d4f8ff;box-shadow:0 0 18px rgba(95,227,255,.76),0 0 36px rgba(255,168,219,.3),inset 0 0 11px rgba(255,222,117,.28)}
 
-
-
-/* HYBRID FRAME OVERLAY - dedicated transparent assets */
-.preview-card.hybrid-frame{
-  padding:0;
-  border-radius:0;
-  overflow:visible;
-  background:transparent;
-  box-shadow:none;
-  filter:none;
-  animation:none;
-}
-.preview-card.hybrid-frame::before{
-  content:"";
-  position:absolute;
-  z-index:9;
-  inset:0;
-  background:var(--frame-image) center/100% 100% no-repeat;
-  pointer-events:none;
-  filter:drop-shadow(0 0 11px color-mix(in srgb,var(--glow) 62%,transparent));
-}
-.preview-card.hybrid-frame::after{
-  content:"";
-  position:absolute;
-  z-index:-2;
-  inset:8% 7%;
-  border-radius:28px;
-  background:radial-gradient(circle at 50% 16%,rgba(255,255,255,.12),transparent 30%),radial-gradient(circle,var(--glow),transparent 70%);
-  opacity:.54;
-  filter:blur(13px);
-  pointer-events:none;
-  animation:hybrid-aura 3.8s ease-in-out infinite;
-}
-.preview-card.hybrid-frame .card-inner{
-  position:absolute;
-  z-index:4;
-  padding:8px;
-  border-radius:17px;
-  background:linear-gradient(180deg,rgba(7,17,34,.985),rgba(2,7,16,.995));
-  border:1px solid rgba(255,228,164,.68);
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.8),inset 0 0 28px rgba(0,0,0,.42);
-  transform:none;
-}
-.preview-card.hybrid-frame .card-art{
-  border-color:rgba(255,231,171,.78);
-  box-shadow:inset 0 0 22px rgba(0,0,0,.62),0 0 12px rgba(255,228,162,.10);
-}
-.preview-card.hybrid-frame .grade-corner,
-.preview-card.hybrid-frame .grade-glint,
-.preview-card.hybrid-frame .grade-sigil,
-.preview-card.hybrid-frame .grade-orbit{display:none}
-.preview-card.hybrid-frame .grade-aura{
-  z-index:-4;
-  inset:-16%;
-  border-radius:44%;
-  opacity:.5;
-  filter:blur(4px);
-}
-.preview-card.hybrid-frame .mini-crest{background:rgba(4,8,17,.86)}
-.preview-card.hybrid-frame .enhance-overlay{inset:12%;z-index:12;border-radius:18px}
-
-.astral-gold.hybrid-frame{
-  --frame-image:url('./assets/prestige-frame-p02.webp');
-  --frame-a:#ffe9a7;
-  --frame-b:#8aa8ff;
-  --glow:rgba(255,207,96,.56);
-  width:250px;
-  aspect-ratio:465/705;
-}
-.astral-gold.hybrid-frame .card-inner{inset:11.7% 13.7% 11.4%}
-.astral-gold.hybrid-frame .grade-aura{background:radial-gradient(circle,rgba(255,210,98,.32),rgba(93,168,255,.14) 44%,transparent 72%)}
-.astral-gold.hybrid-frame .card-header span{color:#fff0be}
-.astral-gold.hybrid-frame .card-header b{color:#d3e8ff}
-
-.crimson-dominion.hybrid-frame{
-  --frame-image:url('./assets/fur-frame-f02.webp');
-  --frame-a:#ffe09a;
-  --frame-b:#ff4b45;
-  --glow:rgba(255,86,60,.66);
-  width:250px;
-  aspect-ratio:485/715;
-}
-.crimson-dominion.hybrid-frame .card-inner{inset:14.5% 14% 11.8%}
-.crimson-dominion.hybrid-frame .grade-aura{background:radial-gradient(circle,rgba(255,169,62,.34),rgba(255,46,51,.24) 42%,transparent 72%)}
-.crimson-dominion.hybrid-frame .card-header span{color:#fff2c7}
-.crimson-dominion.hybrid-frame .card-header b{color:#ffd0c6}
-
-@keyframes hybrid-aura{50%{opacity:.78;transform:scale(1.035)}}
-
 .preview-footer{display:flex;gap:14px;align-items:center;margin-top:22px;padding:17px 20px;border:1px solid rgba(102,205,255,.18);border-radius:16px;background:rgba(4,15,34,.78);color:#91a9c8;font-size:13px}
 .preview-footer strong{color:#e7f8ff;white-space:nowrap}.preview-footer code{color:#70e5ff}
+
+
+.prestige-sigil{font-size:24px;letter-spacing:0}
+.prestige-crest{font-size:17px}
+.fur-crown{font-size:23px;line-height:1;text-shadow:0 0 10px rgba(255,208,120,.6)}
+.fur-crown-crest{font-size:16px;line-height:1;color:#fff4c9;text-shadow:0 0 8px rgba(255,208,120,.55)}
 
 .preview-shell.motion-paused *,.preview-shell.motion-paused *:before,.preview-shell.motion-paused *:after{animation-play-state:paused!important}
 
@@ -251,12 +166,10 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
   .grade-section{padding:14px;border-radius:20px}
   .section-heading h2{font-size:45px}
   .concept-panel{padding:13px}
-  .card-stage{min-height:400px}
+  .card-stage{min-height:390px}
   .preview-card{width:205px}
 }
 @media (prefers-reduced-motion:reduce){
   *{scroll-behavior:auto!important}
   .preview-card,.preview-card *,.preview-card:before,.preview-card:after{animation:none!important;transition:none!important}
 }
-
-@media (min-width:431px){.concept-panel:has(.hybrid-frame) .card-stage{min-height:500px}}
