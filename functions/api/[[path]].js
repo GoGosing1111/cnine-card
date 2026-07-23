@@ -1992,9 +1992,9 @@ export async function onRequest(context){
         const remaining=(await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,itemCode).first())?.quantity||0;
         const statements=[
           env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level) VALUES(?,?,1,0) ON CONFLICT(user_id,card_id) DO UPDATE SET breakthrough_level=CASE WHEN user_cards.quantity<=0 THEN 0 ELSE user_cards.breakthrough_level END,quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,card.id),
-          env.DB.prepare("INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,0,?)").bind(requestId,user.id,itemCode,card.id,card.grade,duplicate?0:1),
           env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?, -1,?,'CUBE_OPEN','INVENTORY_USE',?)").bind(user.id,itemCode,Number(remaining),requestId)
         ];
+        if(String(card.grade||'').toUpperCase()==='LIMITED')statements.push(env.DB.prepare("INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?, 'LIMITED',0,?)").bind(requestId,user.id,itemCode,card.id,duplicate?0:1));
         if(shardGained>0)statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardGained,user.id));
         if(masterStarGained){
           statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'MASTER_STAR',1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id));
@@ -2037,6 +2037,19 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
+      // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
+      const compactDrawReceipt=response=>{
+        if(!response||typeof response!=='object')return response;
+        const compact={...response};
+        delete compact.user;
+        return compact;
+      };
+      const hydrateDrawReceipt=async stored=>{
+        if(!stored||typeof stored!=='object')return stored;
+        const latestUser=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+        return {...stored,user:latestUser?await profile(env,latestUser):undefined};
+      };
       const finalizeAppliedDraw=async draft=>{
         const proof=draft?.grantProof||{};
         if(String(proof.requestId||'')!==requestId||Number(proof.userId)!==Number(user.id))throw new Error('카드 지급 증명 정보가 현재 요청과 일치하지 않습니다.');
@@ -2064,13 +2077,17 @@ export async function onRequest(context){
         response.results=(response.results||[]).map(item=>({...item,granted:true,grantVerified:true}));
         response.drawProtocol={...(response.drawProtocol||{}),version:3,status:'COMPLETED',grantVerified:true,integrity:''};
         response.drawProtocol.integrity=drawIntegrityHash(drawIntegrityCanonical(response));
-        const completed=await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('APPLIED','COMPLETED')").bind(JSON.stringify(response),requestId,user.id).run();
+        const completed=await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('APPLIED','COMPLETED')").bind(JSON.stringify(compactDrawReceipt(response)),requestId,user.id).run();
         if(!completed.meta.changes)throw new Error('카드 지급 영수증 확정에 실패했습니다.');
+        // 오래된 응답 본문은 요청 ID/상태를 남긴 채 비워 D1 재팽창을 방지한다.
+        if(Math.random()<0.02){
+          try{await env.DB.prepare(`UPDATE draw_request_receipts SET response_json=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id IN (SELECT request_id FROM draw_request_receipts WHERE status='COMPLETED' AND response_json IS NOT NULL AND created_at<datetime('now','-1 hour') LIMIT 50)`).run()}catch(cleanupError){console.warn('draw receipt cleanup skipped',cleanupError)}
+        }
         return response;
       };
       const prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       if(prior?.status==='COMPLETED'&&prior.response_json){
-        try{return json(JSON.parse(prior.response_json))}catch{}
+        try{return json(await hydrateDrawReceipt(JSON.parse(prior.response_json)))}catch{}
       }
       if(prior?.status==='APPLIED'&&prior.response_json){
         try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json)))}catch(error){return json({error:String(error?.message||'이전 카드 지급 검증을 완료하지 못했습니다.'),requestId},503)}
@@ -2080,7 +2097,7 @@ export async function onRequest(context){
       const claimed=await env.DB.prepare("INSERT OR IGNORE INTO draw_request_receipts(request_id,user_id,status) VALUES(?,?,'PENDING')").bind(requestId,user.id).run();
       if(!claimed.meta.changes){
         const duplicate=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
-        if(duplicate?.status==='COMPLETED'&&duplicate.response_json){try{return json(JSON.parse(duplicate.response_json))}catch{}}
+        if(duplicate?.status==='COMPLETED'&&duplicate.response_json){try{return json(await hydrateDrawReceipt(JSON.parse(duplicate.response_json)))}catch{}}
         return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
@@ -2192,7 +2209,7 @@ export async function onRequest(context){
             runningShardBalance+=shardGained;
             statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,runningShardBalance,card.id));
           }
-          statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,card.grade,drawIndex===0?cost:0,isNew?1:0));
+          if(String(card.grade||'').toUpperCase()==='LIMITED')statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,'LIMITED',drawIndex===0?cost:0,isNew?1:0));
           results.push({slot:drawIndex,granted:false,grantVerified:false,quantityBefore,quantityAfter,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained,masterStarGained});
         }
 
@@ -2239,7 +2256,7 @@ export async function onRequest(context){
           statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'MA_DUPLICATE','PACK_DRAW',?)").bind(user.id,masterStarTotal,expectedMasterStars,groupId));
         }
         statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));
-        statements.push(env.DB.prepare("UPDATE draw_request_receipts SET status='APPLIED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(draftResponse),requestId,user.id));
+        statements.push(env.DB.prepare("UPDATE draw_request_receipts SET status='APPLIED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(compactDrawReceipt(draftResponse)),requestId,user.id));
 
         await env.DB.batch(statements);
         grantsCommitted=true;
