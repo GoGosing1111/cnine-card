@@ -413,7 +413,7 @@ async function createCaptainSettlementMessages(env, currentRound, config, captai
       FROM captain_team_members m
       JOIN users u ON u.id=m.user_id
       WHERE m.team_id=?
-      ORDER BY m.position ASC,m.id ASC
+      ORDER BY m.position ASC,m.user_id ASC
     `).bind(teamRow.id).all()).results || [];
 
     for (const member of members) {
