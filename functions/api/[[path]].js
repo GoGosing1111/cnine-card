@@ -2002,13 +2002,16 @@ export async function onRequest(context){
       return json({token,user:{id:admin.id,nickname:admin.nickname,role},admin:{id:admin.id,nickname:admin.nickname,role,last_login_at:new Date().toISOString()}});
     }
 
-    await ensureUpgrades(env);
-
+    // 시작 화면의 서버 상태 확인은 런타임 스키마 업그레이드와 분리한다.
+    // 대용량 D1 또는 업그레이드 잠금이 발생해도 전체 유저 로그인이 막히지 않도록
+    // service/status는 읽기 전용 최소 조회만 수행한 뒤 즉시 응답한다.
     if(path==='service/status'){
       const maintenance=await maintenanceSettings(env);
       const user=await authenticate(request,env);
       return json({maintenance,bypass:canMaintenanceBypass(user,maintenance),role:user?.role||null,user:user?{id:user.id,nickname:user.nickname,role:user.role}:null});
     }
+
+    await ensureUpgrades(env);
 
     const maintenance=await maintenanceSettings(env);
     const maintenanceExempt=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='me'||path==='service/status'||path==='user/runtime-command'||path==='health'||path.startsWith('setup/');
