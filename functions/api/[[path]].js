@@ -603,6 +603,14 @@ async function ensureUpgrades(env){
       }
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1026_cnine_inventory','1',CURRENT_TIMESTAMP)").run();
     }
+    const magicCardPackDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1136_magic_card_pack'").first();
+    if(magicCardPackDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MAGIC_CARD_PACK','마법카드 팩','MAGIC CARD PACK','마법카드 연구소에서 사용하는 마법카드 팩입니다.','PACK','SPECIAL','assets/cards/magiccard.png',40,1)"),
+        env.DB.prepare("UPDATE inventory_items SET name='마법카드 팩',subtitle='MAGIC CARD PACK',description='마법카드 연구소에서 사용하는 마법카드 팩입니다.',category='PACK',rarity='SPECIAL',image_url='assets/cards/magiccard.png',sort_order=40,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1136_magic_card_pack','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const masterStarDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1119_master_star'").first();
     if(masterStarDone?.value!=='1'){
       await env.DB.batch([
