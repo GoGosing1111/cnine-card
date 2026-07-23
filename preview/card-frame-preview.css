@@ -117,6 +117,12 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 .preview-footer{display:flex;gap:14px;align-items:center;margin-top:22px;padding:17px 20px;border:1px solid rgba(102,205,255,.18);border-radius:16px;background:rgba(4,15,34,.78);color:#91a9c8;font-size:13px}
 .preview-footer strong{color:#e7f8ff;white-space:nowrap}.preview-footer code{color:#70e5ff}
 
+
+.prestige-sigil{font-size:24px;letter-spacing:0}
+.prestige-crest{font-size:17px}
+.fur-crown{font-size:23px;line-height:1;text-shadow:0 0 10px rgba(255,208,120,.6)}
+.fur-crown-crest{font-size:16px;line-height:1;color:#fff4c9;text-shadow:0 0 8px rgba(255,208,120,.55)}
+
 .preview-shell.motion-paused *,.preview-shell.motion-paused *:before,.preview-shell.motion-paused *:after{animation-play-state:paused!important}
 
 @keyframes frame-breathe{50%{box-shadow:0 25px 58px rgba(0,0,0,.62),0 0 45px var(--glow)}}
@@ -137,81 +143,64 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 
 
 
-/* F-02 clean rebuild */
-.crimson-dominion{
-  --frame-a:#ffe5a2;
-  --frame-b:#a14227;
-  --glow:rgba(255,118,88,.34);
-  background:linear-gradient(145deg,#ffe09b 0%,#8b3d1f 11%,#1a0b0d 28%,#08080d 52%,#14090b 75%,#8f331e 90%,#ffd991 100%);
-  animation:crimson-pulse 2.8s ease-in-out infinite;
-  box-shadow:0 24px 52px rgba(0,0,0,.62),0 0 16px rgba(255,134,89,.20),0 0 28px rgba(255,88,62,.10);
-}
+/* F-02 tune */
 .crimson-dominion .grade-aura{display:none}
-.crimson-dominion .grade-orbit{opacity:.10;border-color:rgba(255,93,77,.18)}
-.crimson-dominion .grade-corner{display:none}
-.crimson-dominion .grade-sigil{
-  width:42px;
-  height:42px;
-  top:-15px;
+.crimson-dominion .fur-crown{
+  width:46px;
+  height:46px;
+  top:-16px;
   border-radius:50%;
-  border:1px solid rgba(255,207,123,.9);
-  background:linear-gradient(180deg,#26120f 0%,#130707 100%);
-  box-shadow:0 0 0 1px rgba(255,240,203,.08) inset,0 0 14px rgba(255,136,82,.20),0 0 24px rgba(255,83,61,.08);
+  border:1px solid rgba(255,204,120,.82);
+  background:radial-gradient(circle at 50% 38%, rgba(255,247,211,.28), rgba(36,12,7,.95) 62%);
+  color:#fff0be;
+  box-shadow:0 0 0 1px rgba(255,141,72,.22) inset, 0 0 16px rgba(255,145,76,.48), 0 0 30px rgba(255,94,72,.24);
+  transform:translateX(-50%) translateZ(24px) !important;
 }
-.crimson-dominion .fur-logo-badge::before,
-.crimson-dominion .fur-logo-mini::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  margin:auto;
-  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
-  filter:drop-shadow(0 0 4px rgba(255,208,135,.12));
-}
-.crimson-dominion .fur-logo-badge::before{width:18px;height:18px}
-.crimson-dominion .fur-logo-badge::after,
-.crimson-dominion .fur-logo-mini::after{
+.crimson-dominion .fur-crown::before{
   content:"";
   position:absolute;
   inset:4px;
   border-radius:50%;
-  border:1px solid rgba(255,227,169,.12);
-  pointer-events:none;
+  border:1px solid rgba(255,222,156,.28);
+  box-shadow:inset 0 0 10px rgba(255,230,179,.08);
 }
-.crimson-dominion .card-header b.fur-one-label{
-  color:#ffd9c1;
-  font-size:9px;
-  letter-spacing:1.45px;
-  text-transform:uppercase;
-  text-shadow:0 0 8px rgba(255,142,96,.16);
+.crimson-dominion .fur-crown::first-letter{display:inline-block; transform:none !important; line-height:1}
+.crimson-dominion .fur-crown-crest{
+  font-size:17px;
+  color:#fff1c8;
+  background:radial-gradient(circle at 50% 38%, rgba(255,245,207,.16), rgba(29,11,8,.9) 72%);
+  border-color:rgba(255,199,115,.72);
+  box-shadow:inset 0 0 12px rgba(255,209,123,.16), 0 0 12px rgba(255,136,74,.28);
 }
-.crimson-dominion .card-footer{padding-top:10px; align-items:flex-end}
 .crimson-dominion .fur-name-kicker{
-  color:#ffd6c0;
-  letter-spacing:1.25px;
-  text-shadow:0 0 8px rgba(255,120,89,.12);
+  letter-spacing:1.35px;
+  color:#ffd6bf;
+  text-shadow:0 0 8px rgba(255,140,88,.24);
 }
 .crimson-dominion .fur-name-accent{
-  background:linear-gradient(180deg,#fff4d2 0%,#ffd9ab 48%,#ffbf83 100%);
+  position:relative;
+  display:inline-block;
+  font-size:16px;
+  font-weight:1000;
+  letter-spacing:-0.2px;
+  background:linear-gradient(180deg,#fff8dd 0%,#ffd7aa 46%,#ffbe82 100%);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
-  font-weight:1000;
-  text-shadow:0 0 10px rgba(255,150,84,.14);
+  text-shadow:0 0 10px rgba(255,161,83,.18), 0 0 22px rgba(255,93,66,.12);
 }
-.crimson-dominion .mini-crest.fur-logo-mini{
-  position:relative;
-  display:grid;
-  place-items:center;
-  flex:0 0 31px;
-  width:31px;
-  height:31px;
-  border-radius:50%;
-  border:1px solid rgba(255,199,115,.82);
-  background:linear-gradient(180deg,#21100d 0%,#100606 100%);
-  box-shadow:inset 0 0 10px rgba(255,205,124,.05),0 0 10px rgba(255,129,74,.10);
+.crimson-dominion .fur-name-accent::after{
+  content:"";
+  position:absolute;
+  left:-2px;
+  right:-2px;
+  bottom:-5px;
+  height:1px;
+  background:linear-gradient(90deg,transparent, rgba(255,210,154,.95) 22%, rgba(255,126,88,.85) 50%, rgba(255,210,154,.95) 78%, transparent);
+  box-shadow:0 0 8px rgba(255,144,84,.35);
 }
-.crimson-dominion .fur-logo-mini::before{width:13px;height:13px}
-.crimson-dominion .art-shine{opacity:.55}
+.crimson-dominion .card-footer{padding-top:10px}
+.crimson-dominion .card-footer strong{margin-top:5px}
 
 @media (max-width:1120px){
   .concept-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
