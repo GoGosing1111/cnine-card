@@ -328,7 +328,7 @@ const hex=buffer=>[...new Uint8Array(buffer)].map(value=>value.toString(16).padS
 const hash=async value=>hex(await crypto.subtle.digest('SHA-256',bytes(value)));
 const createToken=()=>crypto.randomUUID().replaceAll('-','')+crypto.randomUUID().replaceAll('-','');
 const createPrivateKey=()=>{const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const part=()=>Array.from({length:4},()=>chars[Math.floor(Math.random()*chars.length)]).join('');return `CN-${part()}-${part()}-${part()}`};
-const kstDate=()=>new Date(Date.now()+9*3600000).toISOString().slice(0,10);
+const kstDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 function defaultAttendanceSettings(){return {enabled:true,rewards:[1000,1200,1400,1600,1800,2000,3000]};}
 function cleanAttendanceSettings(raw={}){const base=defaultAttendanceSettings();const rewards=Array.from({length:7},(_,i)=>Math.max(0,Math.min(10000000,Math.floor(Number(raw.rewards?.[i]??base.rewards[i])||0))));return {enabled:raw.enabled!==false,rewards};}
 async function attendanceSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='attendance_settings_v1'").first();if(!row?.value)return defaultAttendanceSettings();try{return cleanAttendanceSettings(JSON.parse(row.value))}catch{return defaultAttendanceSettings()}}
@@ -397,6 +397,26 @@ async function initialized(env){
 }
 async function runSchema(env){for(const statement of SCHEMA) await env.DB.prepare(statement).run()}
 let initializedKnown=false;
+let wagoDailyPostProgressReadyPromise=null;
+async function ensureWagoDailyPostProgressTable(env){
+  if(wagoDailyPostProgressReadyPromise)return wagoDailyPostProgressReadyPromise;
+  wagoDailyPostProgressReadyPromise=(async()=>{
+    await env.DB.prepare(`CREATE TABLE IF NOT EXISTS wago_daily_post_progress_v2 (
+      user_id INTEGER NOT NULL,
+      quest_date TEXT NOT NULL,
+      post_count INTEGER NOT NULL DEFAULT 0,
+      post_ids_json TEXT NOT NULL DEFAULT '[]',
+      last_checked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      PRIMARY KEY(user_id,quest_date)
+    )`).run();
+    await env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_wago_daily_post_progress_v2_date ON wago_daily_post_progress_v2(quest_date,last_checked_at)`).run();
+    const exists=await tableExists(env,'wago_daily_post_progress_v2');
+    if(!exists)throw new Error('일일퀘스트 진행도 테이블 생성에 실패했습니다.');
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1132_wago_daily_post_progress_repair','1',CURRENT_TIMESTAMP)").run();
+    return true;
+  })().catch(error=>{wagoDailyPostProgressReadyPromise=null;throw error});
+  return wagoDailyPostProgressReadyPromise;
+}
 let upgradePromise=null;
 async function ensureUpgrades(env){
   if(upgradePromise) return upgradePromise;
@@ -905,14 +925,10 @@ async function ensureUpgrades(env){
       await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('wago_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({enabled:true,boardUrl:'https://ygosu.com/board/soop',requiredPosts:15,rewardCoin:1200,maxPages:10,checkCooldownSeconds:20})).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v949_wago_daily_quest','1',CURRENT_TIMESTAMP)").run();
     }
-    const wagoDailyQuestV3Done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1130_wago_daily_post_rebuild'").first();
-    if(wagoDailyQuestV3Done?.value!=='1'){
-      await env.DB.batch([
-        env.DB.prepare(`CREATE TABLE IF NOT EXISTS wago_daily_post_progress_v2 (user_id INTEGER NOT NULL, quest_date TEXT NOT NULL, post_count INTEGER NOT NULL DEFAULT 0, post_ids_json TEXT NOT NULL DEFAULT '[]', last_checked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(user_id,quest_date))`),
-        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_wago_daily_post_progress_v2_date ON wago_daily_post_progress_v2(quest_date,last_checked_at)`)
-      ]);
-      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1130_wago_daily_post_rebuild','1',CURRENT_TIMESTAMP)").run();
-    }
+    // V1132: 과거 용량 초과 중 마커만 남고 진행도 테이블이 생성되지 않은 상태도 자동 복구한다.
+    // 마커 값과 무관하게 실제 테이블/인덱스 존재를 매 배포 최초 요청에서 검증한다.
+    await ensureWagoDailyPostProgressTable(env);
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1130_wago_daily_post_rebuild','1',CURRENT_TIMESTAMP)").run();
 
 
     const wagoDailyQuestV2Done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v9410_wago_daily_quest_comments'").first();
@@ -2954,6 +2970,7 @@ export async function onRequest(context){
     }
     if(path==='wago-daily-quest/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensureWagoDailyPostProgressTable(env);
       const settings=await wagoDailyQuestSettings(env),today=kstDate();
       const verification=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
       const postProgress=await env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_post_progress_v2 WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
@@ -2962,6 +2979,7 @@ export async function onRequest(context){
     }
     if(path==='wago-daily-quest/check'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensureWagoDailyPostProgressTable(env);
       const body=await readBody(request),questType=String(body.questType||'POST').toUpperCase();
       const settings=await wagoDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
       if(dailyQuestAdminExcluded(user,settings))return json({error:'운영 계정의 일일퀘스트 테스트가 중지되어 있습니다.'},403);
@@ -2981,6 +2999,7 @@ export async function onRequest(context){
     }
     if(path==='wago-daily-quest/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensureWagoDailyPostProgressTable(env);
       const body=await readBody(request),questType=String(body.questType||'POST').toUpperCase();
       const settings=await wagoDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
       if(dailyQuestAdminExcluded(user,settings))return json({error:'운영 계정의 일일퀘스트 테스트가 중지되어 있습니다.'},403);
