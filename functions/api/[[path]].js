@@ -1288,25 +1288,18 @@ function normalizeWagoNickname(value){
   return htmlText(String(value||'')).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim().toLowerCase();
 }
 function parseWagoTodaySearchPosts(html,wagoNickname){
-  const wanted=normalizeWagoNickname(wagoNickname);
-  if(!wanted)return [];
+  if(!normalizeWagoNickname(wagoNickname))return [];
   const blocks=String(html||'').match(/<tr\b[\s\S]*?<\/tr>/gi)||[],ids=[];
   for(const block of blocks){
     const text=htmlText(block);
-    // 검색 결과 목록에서 오늘 글은 날짜 대신 HH:MM으로 표시된다.
+    // 작성자 검색 결과에서 당일 글은 날짜 대신 HH:MM으로 표시된다.
     if(!/\b\d{1,2}:\d{2}\b/.test(text))continue;
     const rowTag=(/<tr\b[^>]*>/i.exec(block)||[''])[0];
     const rowClass=(/\bclass\s*=\s*['"]([^'"]*)['"]/i.exec(rowTag)||[])[1]||'';
-    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass)||/공지/.test(text))continue;
+    // 제목에 '공지'라는 단어가 있는 일반글은 인정하고, 실제 고정 공지 행만 제외한다.
+    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass))continue;
     const post=/href=['"](?:https?:\/\/(?:www\.)?ygosu\.com)?\/board\/soop\/(\d+)(?:[^'"]*)?['"]/i.exec(block);
-    if(!post)continue;
-    // 검색 결과가 넓게 반환되는 경우를 대비해 목록 닉네임도 후보 단계에서 한 번 좁힌다.
-    const nameCell=/<td\b[^>]*class=['"][^'"]*(?:name|writer|nickname)[^'"]*['"][^>]*>([\s\S]*?)<\/td>/i.exec(block);
-    if(nameCell){
-      const rowNick=normalizeWagoNickname(nameCell[1]);
-      if(rowNick&&!rowNick.includes(wanted)&&!wanted.includes(rowNick))continue;
-    }
-    ids.push(post[1]);
+    if(post)ids.push(post[1]);
   }
   return [...new Set(ids)];
 }
@@ -1341,23 +1334,44 @@ function inspectWagoPostDetail(html,memberNo,questDate){
     postDate
   };
 }
+function extractWagoBoardAuthor(block){
+  const source=String(block||'');
+  let nickname='';
+  let authorHtml='';
+  const explicit=/<td\b[^>]*class=['"][^'"]*(?:name|writer|nickname|author)[^'"]*['"][^>]*>([\s\S]*?)<\/td>/i.exec(source);
+  if(explicit){authorHtml=explicit[1];nickname=normalizeWagoNickname(explicit[1]);}
+  if(!nickname){
+    const drop=/<a\b[^>]*(?:show_nick_dropdown|open_minilog)[^>]*>([\s\S]*?)<\/a>/i.exec(source);
+    if(drop){authorHtml=drop[0];nickname=normalizeWagoNickname(drop[1]);}
+  }
+  // 현재 SOOP 목록은 작성자 칸에 고정 class가 없을 수 있다.
+  // 각 td를 읽고 HH:MM 시간 칸을 찾은 뒤, 조회수 숫자 칸 바로 앞을 작성자로 판정한다.
+  if(!nickname){
+    const cells=[...source.matchAll(/<td\b[^>]*>([\s\S]*?)<\/td>/gi)].map(m=>({html:m[1],text:htmlText(m[1]).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim()}));
+    const timeIndex=cells.findIndex(c=>/^\d{1,2}:\d{2}$/.test(c.text));
+    if(timeIndex>0){
+      let authorIndex=timeIndex-1;
+      if(authorIndex>=0&&/^\d[\d,]*$/.test(cells[authorIndex].text))authorIndex--;
+      if(authorIndex>=0){authorHtml=cells[authorIndex].html;nickname=normalizeWagoNickname(cells[authorIndex].text);}
+    }
+  }
+  // 아이콘 대체문자나 불필요한 접두사가 섞여도 실제 표시 닉네임만 남긴다.
+  nickname=nickname.replace(/^(?:image|img|아이콘)\s*:?\s*/i,'').trim();
+  const memberNo=extractWagoMemberNoFromAuthorRow(authorHtml||source);
+  return {nickname,memberNo};
+}
 function parseWagoTodayBoardRows(html){
   const blocks=String(html||'').match(/<tr\b[\s\S]*?<\/tr>/gi)||[],rows=[];
   for(const block of blocks){
     const text=htmlText(block);
     if(!/\b\d{1,2}:\d{2}\b/.test(text))continue;
-    if(/공지|notice|fixed/i.test(block))continue;
+    const rowTag=(/<tr\b[^>]*>/i.exec(block)||[''])[0];
+    const rowClass=(/\bclass\s*=\s*['"]([^'"]*)['"]/i.exec(rowTag)||[])[1]||'';
+    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass)||/\[?\s*씨켓몬 공지\s*\]?/.test(text))continue;
     const post=/href=['"](?:https?:\/\/(?:www\.)?ygosu\.com)?\/board\/soop\/(\d+)(?:[^'"]*)?['"]/i.exec(block);
     if(!post)continue;
-    const memberNo=extractWagoMemberNoFromAuthorRow(block);
-    let nickname='';
-    const nameCell=/<td\b[^>]*class=['"][^'"]*(?:name|writer|nickname)[^'"]*['"][^>]*>([\s\S]*?)<\/td>/i.exec(block);
-    if(nameCell)nickname=normalizeWagoNickname(nameCell[1]);
-    if(!nickname){
-      const drop=/show_nick_dropdown\([\s\S]{0,500}?\)[^>]*>([\s\S]*?)<\/a>/i.exec(block);
-      if(drop)nickname=normalizeWagoNickname(drop[1]);
-    }
-    rows.push({postId:post[1],memberNo,nickname});
+    const author=extractWagoBoardAuthor(block);
+    rows.push({postId:post[1],memberNo:author.memberNo,nickname:author.nickname});
   }
   return rows;
 }
@@ -1365,28 +1379,33 @@ async function inspectWagoDailyPosts(settings,memberNo,wagoNickname,questDate=ks
   const wanted=String(memberNo||'').replace(/\D/g,''),wantedNick=normalizeWagoNickname(wagoNickname);
   const requestedKstDate=String(questDate||kstDate());
   if(!wanted)return {ok:false,error:'인증된 와고 회원번호가 없습니다.'};
+  if(!wantedNick)return {ok:false,error:'2단계 인증에 저장된 와고 닉네임이 없습니다. 다시 인증해 주세요.'};
   const base=parseYgosuPostUrl(settings.boardUrl||'https://ygosu.com/board/soop');if(!base.ok)return base;
   const candidates=new Set(),confirmed=new Set();
   const maxPages=Math.max(1,Math.min(20,Number(settings.maxPages)||10));
   const required=Math.max(1,Number(settings.requiredPosts)||15);
   let scannedPages=0,scannedPosts=0,unresolvedPosts=0,rejectedMember=0,rejectedDate=0;
-  // 검색 기능에 의존하지 않고 오늘 일반 게시판 목록을 직접 훑는다.
+  // 와이고수의 작성자 검색(searcht=w)을 직접 사용한다.
+  // 검색 결과에서 오늘(HH:MM 표시) 글만 후보로 잡고, 원문 회원번호와 KST 날짜를 다시 검증한다.
   for(let page=1;page<=maxPages;page++){
     const u=new URL(base.url);
     u.searchParams.set('best_article','N');
-    u.searchParams.set('_cnine_kst_date',requestedKstDate);
+    u.searchParams.set('s_category','');
+    u.searchParams.set('searcht','w');
+    u.searchParams.set('add_search_log','Y');
+    u.searchParams.set('search',String(wagoNickname||'').trim());
+    u.searchParams.set('x','0');
+    u.searchParams.set('y','0');
     u.searchParams.set('_cnine_nocache',String(Date.now()+page));
     if(page>1)u.searchParams.set('page',String(page));
-    const result=await fetchWagoHtml(u.toString(),'SOOP 오늘 게시글 목록');if(!result.ok)return result;
+    const result=await fetchWagoHtml(u.toString(),'SOOP 작성자 검색 결과');if(!result.ok)return result;
     scannedPages++;
-    const rows=parseWagoTodayBoardRows(result.html);
-    if(rows.length===0)break;
-    for(const row of rows){
-      if((row.memberNo&&row.memberNo===wanted)||(wantedNick&&row.nickname&&row.nickname===wantedNick))candidates.add(row.postId);
-    }
-    if(candidates.size>=Math.max(required,40))break;
+    const ids=parseWagoTodaySearchPosts(result.html,wagoNickname);
+    if(ids.length===0)break;
+    for(const postId of ids)candidates.add(postId);
+    if(candidates.size>=Math.max(required*3,60))break;
   }
-  for(const postId of [...candidates].slice(0,Math.max(required*3,60))){
+  for(const postId of [...candidates].slice(0,Math.max(required*4,80))){
     const result=await fetchWagoHtml(`https://ygosu.com/board/soop/${postId}?_cnine_nocache=${Date.now()}`,'SOOP 게시글 원문 확인');
     if(!result.ok){unresolvedPosts++;continue;}
     scannedPosts++;
@@ -1400,7 +1419,7 @@ async function inspectWagoDailyPosts(settings,memberNo,wagoNickname,questDate=ks
   const completedKstDate=kstDate();
   if(completedKstDate!==requestedKstDate)return {ok:false,error:'일일퀘스트 확인 중 날짜가 변경되었습니다. 새 날짜 기준으로 다시 확인해 주세요.',code:'KST_DATE_ROLLOVER'};
   if(candidates.size>0&&scannedPosts>0&&confirmed.size===0&&unresolvedPosts===scannedPosts)return {ok:false,error:'SOOP 게시글 원문에서 작성자 회원번호 또는 작성일을 확인하지 못했습니다.',code:'WAGO_POST_DETAIL_PARSE_FAILED'};
-  return {ok:true,postCount:confirmed.size,postIds:[...confirmed],verificationMode:'BOARD_TODAY_MEMBER_DETAIL',memberNo:wanted,questDate:requestedKstDate,scannedPages,scannedPosts,candidatePosts:candidates.size,unresolvedPosts,rejectedMember,rejectedDate};
+  return {ok:true,postCount:confirmed.size,postIds:[...confirmed],verificationMode:'WRITER_SEARCH_MEMBER_DETAIL',memberNo:wanted,wagoNickname:String(wagoNickname||'').trim(),questDate:requestedKstDate,scannedPages,scannedPosts,candidatePosts:candidates.size,unresolvedPosts,rejectedMember,rejectedDate};
 }
 
 function parseWagoTodayBoardPostIds(html){
