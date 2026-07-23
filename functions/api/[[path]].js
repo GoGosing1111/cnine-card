@@ -2426,7 +2426,7 @@ export async function onRequest(context){
         return json({error:'레이드 보상을 정산 중입니다. 잠시 후 자동으로 다시 확인합니다.',settlementPending:true,retryAfterMs:Math.max(1500,45000-duplicateAgeMs)},409);
       }
 
-      const lockedReceipt=await env.DB.prepare('SELECT reward_coin AS rewardCoin,reward_shards AS rewardShards,COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals FROM raid_reward_receipts WHERE instance_id=? AND user_id=? AND status='PENDING'').bind(row.instance_id,user.id).first();
+      const lockedReceipt=await env.DB.prepare("SELECT reward_coin AS rewardCoin,reward_shards AS rewardShards,COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals FROM raid_reward_receipts WHERE instance_id=? AND user_id=? AND status='PENDING'").bind(row.instance_id,user.id).first();
       if(!lockedReceipt)return json({error:'레이드 보상 영수증을 확정하지 못했습니다. 다시 시도해주세요.'},409);
       const fixedRewardCoin=Math.max(0,Number(lockedReceipt.rewardCoin||0));
       const fixedRewardShards=Math.max(0,Number(lockedReceipt.rewardShards||0));
