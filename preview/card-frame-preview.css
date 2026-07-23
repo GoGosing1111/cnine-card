@@ -117,12 +117,6 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 .preview-footer{display:flex;gap:14px;align-items:center;margin-top:22px;padding:17px 20px;border:1px solid rgba(102,205,255,.18);border-radius:16px;background:rgba(4,15,34,.78);color:#91a9c8;font-size:13px}
 .preview-footer strong{color:#e7f8ff;white-space:nowrap}.preview-footer code{color:#70e5ff}
 
-
-.prestige-sigil{font-size:24px;letter-spacing:0}
-.prestige-crest{font-size:17px}
-.fur-crown{font-size:23px;line-height:1;text-shadow:0 0 10px rgba(255,208,120,.6)}
-.fur-crown-crest{font-size:16px;line-height:1;color:#fff4c9;text-shadow:0 0 8px rgba(255,208,120,.55)}
-
 .preview-shell.motion-paused *,.preview-shell.motion-paused *:before,.preview-shell.motion-paused *:after{animation-play-state:paused!important}
 
 @keyframes frame-breathe{50%{box-shadow:0 25px 58px rgba(0,0,0,.62),0 0 45px var(--glow)}}
@@ -143,190 +137,81 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 
 
 
-/* F-02 tune */
-.crimson-dominion .grade-aura{display:none}
-.crimson-dominion .fur-crown{
-  width:46px;
-  height:46px;
-  top:-16px;
-  border-radius:50%;
-  border:1px solid rgba(255,204,120,.82);
-  background:radial-gradient(circle at 50% 38%, rgba(255,247,211,.28), rgba(36,12,7,.95) 62%);
-  color:#fff0be;
-  box-shadow:0 0 0 1px rgba(255,141,72,.22) inset, 0 0 16px rgba(255,145,76,.48), 0 0 30px rgba(255,94,72,.24);
-  transform:translateX(-50%) translateZ(24px) !important;
+/* F-02 clean rebuild */
+.crimson-dominion{
+  --frame-a:#ffe5a2;
+  --frame-b:#a14227;
+  --glow:rgba(255,118,88,.34);
+  background:linear-gradient(145deg,#ffe09b 0%,#8b3d1f 11%,#1a0b0d 28%,#08080d 52%,#14090b 75%,#8f331e 90%,#ffd991 100%);
+  animation:crimson-pulse 2.8s ease-in-out infinite;
+  box-shadow:0 24px 52px rgba(0,0,0,.62),0 0 16px rgba(255,134,89,.20),0 0 28px rgba(255,88,62,.10);
 }
-.crimson-dominion .fur-crown::before{
+.crimson-dominion .grade-aura{display:none}
+.crimson-dominion .grade-orbit{opacity:.10;border-color:rgba(255,93,77,.18)}
+.crimson-dominion .grade-corner{display:none}
+.crimson-dominion .grade-sigil{
+  width:42px;
+  height:42px;
+  top:-15px;
+  border-radius:50%;
+  border:1px solid rgba(255,207,123,.9);
+  background:linear-gradient(180deg,#26120f 0%,#130707 100%);
+  box-shadow:0 0 0 1px rgba(255,240,203,.08) inset,0 0 14px rgba(255,136,82,.20),0 0 24px rgba(255,83,61,.08);
+}
+.crimson-dominion .fur-logo-badge::before,
+.crimson-dominion .fur-logo-mini::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  margin:auto;
+  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
+  filter:drop-shadow(0 0 4px rgba(255,208,135,.12));
+}
+.crimson-dominion .fur-logo-badge::before{width:18px;height:18px}
+.crimson-dominion .fur-logo-badge::after,
+.crimson-dominion .fur-logo-mini::after{
   content:"";
   position:absolute;
   inset:4px;
   border-radius:50%;
-  border:1px solid rgba(255,222,156,.28);
-  box-shadow:inset 0 0 10px rgba(255,230,179,.08);
+  border:1px solid rgba(255,227,169,.12);
+  pointer-events:none;
 }
-.crimson-dominion .fur-crown::first-letter{display:inline-block; transform:none !important; line-height:1}
-.crimson-dominion .fur-crown-crest{
-  font-size:17px;
-  color:#fff1c8;
-  background:radial-gradient(circle at 50% 38%, rgba(255,245,207,.16), rgba(29,11,8,.9) 72%);
-  border-color:rgba(255,199,115,.72);
-  box-shadow:inset 0 0 12px rgba(255,209,123,.16), 0 0 12px rgba(255,136,74,.28);
+.crimson-dominion .card-header b.fur-one-label{
+  color:#ffd9c1;
+  font-size:9px;
+  letter-spacing:1.45px;
+  text-transform:uppercase;
+  text-shadow:0 0 8px rgba(255,142,96,.16);
 }
+.crimson-dominion .card-footer{padding-top:10px; align-items:flex-end}
 .crimson-dominion .fur-name-kicker{
-  letter-spacing:1.35px;
-  color:#ffd6bf;
-  text-shadow:0 0 8px rgba(255,140,88,.24);
+  color:#ffd6c0;
+  letter-spacing:1.25px;
+  text-shadow:0 0 8px rgba(255,120,89,.12);
 }
 .crimson-dominion .fur-name-accent{
-  position:relative;
-  display:inline-block;
-  font-size:16px;
-  font-weight:1000;
-  letter-spacing:-0.2px;
-  background:linear-gradient(180deg,#fff8dd 0%,#ffd7aa 46%,#ffbe82 100%);
+  background:linear-gradient(180deg,#fff4d2 0%,#ffd9ab 48%,#ffbf83 100%);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
-  text-shadow:0 0 10px rgba(255,161,83,.18), 0 0 22px rgba(255,93,66,.12);
+  font-weight:1000;
+  text-shadow:0 0 10px rgba(255,150,84,.14);
 }
-.crimson-dominion .fur-name-accent::after{
-  content:"";
-  position:absolute;
-  left:-2px;
-  right:-2px;
-  bottom:-5px;
-  height:1px;
-  background:linear-gradient(90deg,transparent, rgba(255,210,154,.95) 22%, rgba(255,126,88,.85) 50%, rgba(255,210,154,.95) 78%, transparent);
-  box-shadow:0 0 8px rgba(255,144,84,.35);
-}
-.crimson-dominion .card-footer{padding-top:10px}
-.crimson-dominion .card-footer strong{margin-top:5px}
-
-
-
-/* F-02 crown / label retune */
-.fur-one-label{
-  color:#ffd8c0 !important;
-  font-size:9px !important;
-  letter-spacing:1.55px !important;
-  text-transform:uppercase;
-  text-shadow:0 0 10px rgba(255,143,92,.24);
-}
-.crown-icon{display:block;width:100%;height:100%}
-.crown-icon path,.crown-icon circle{
-  fill:none;
-  stroke:url(#fallback);
-}
-.fur-crown{
-  width:50px;
-  height:50px;
-  padding:10px;
-  border-radius:14px;
-  border:1px solid rgba(255,197,110,.95);
-  background:linear-gradient(180deg,#23110d 0%, #120707 100%);
-  box-shadow:0 0 0 1px rgba(255,146,79,.24) inset, 0 0 18px rgba(255,146,79,.34), 0 0 32px rgba(255,92,65,.18);
-  transform:translateX(-50%) translateZ(24px) !important;
-}
-.fur-crown::before{display:none}
-.fur-crown .crown-icon-top path,
-.fur-crown .crown-icon-top circle{
-  stroke:#ffd88e;
-  stroke-width:3.2;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-  filter:drop-shadow(0 0 4px rgba(255,206,117,.28));
-}
-.fur-crown-crest{
+.crimson-dominion .mini-crest.fur-logo-mini{
+  position:relative;
   display:grid;
   place-items:center;
-  padding:6px;
-  background:linear-gradient(180deg,#1d0d0a 0%, #0f0606 100%);
-  border-color:rgba(255,199,115,.86);
-  box-shadow:inset 0 0 12px rgba(255,209,123,.12), 0 0 12px rgba(255,136,74,.18);
-}
-.fur-crown-crest .crown-icon-mini path,
-.fur-crown-crest .crown-icon-mini circle{
-  stroke:#ffe2a3;
-  stroke-width:3.2;
-  stroke-linecap:round;
-  stroke-linejoin:round;
-}
-.crimson-dominion .fur-name-accent{
-  font-size:17px;
-}
-
-
-
-/* F-02 emblem retune: crest + tiny CNINE logo */
-.crimson-dominion .fur-emblem,
-.crimson-dominion .fur-emblem-mini{
-  position:relative;
-  display:block;
-  overflow:hidden;
-  border-radius:0;
-  background:
-    linear-gradient(180deg,#2a140f 0%,#140808 58%,#0a0506 100%);
-  border:1px solid rgba(255,204,122,.88);
-  box-shadow:
-    inset 0 0 0 1px rgba(255,244,204,.08),
-    0 0 14px rgba(255,137,74,.22),
-    0 0 28px rgba(255,87,63,.12);
-}
-.crimson-dominion .fur-emblem{
-  width:56px;
-  height:58px;
-  top:-22px;
-  transform:translateX(-50%) translateZ(24px) !important;
-  clip-path:polygon(18% 0,82% 0,100% 18%,100% 68%,50% 100%,0 68%,0 18%);
-}
-.crimson-dominion .fur-emblem::before,
-.crimson-dominion .fur-emblem::after,
-.crimson-dominion .fur-emblem-mini::before,
-.crimson-dominion .fur-emblem-mini::after{
-  content:"";
-  position:absolute;
-  pointer-events:none;
-}
-.crimson-dominion .fur-emblem::before{
-  left:50%;
-  top:6px;
-  width:24px;
-  height:18px;
-  transform:translateX(-50%);
-  background:center/contain no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'><path d='M9 38 15 14l17 11 17-11 6 24H9Z' fill='none' stroke='%23ffd690' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/><path d='M15 14 23 22 32 7 41 22 49 14' fill='none' stroke='%23ffd690' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='14' r='2.7' fill='none' stroke='%23ffd690' stroke-width='3.2'/><circle cx='32' cy='7' r='2.7' fill='none' stroke='%23ffd690' stroke-width='3.2'/><circle cx='49' cy='14' r='2.7' fill='none' stroke='%23ffd690' stroke-width='3.2'/><path d='M13 38h38' fill='none' stroke='%23ffd690' stroke-width='3.2' stroke-linecap='round'/></svg>");
-  filter:drop-shadow(0 0 4px rgba(255,209,126,.28));
-}
-.crimson-dominion .fur-emblem::after{
-  left:50%;
-  top:26px;
-  width:20px;
-  height:20px;
-  transform:translateX(-50%);
-  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
-  filter:drop-shadow(0 0 5px rgba(255,196,117,.18));
-}
-.crimson-dominion .fur-emblem-mini{
-  width:33px;
+  flex:0 0 31px;
+  width:31px;
   height:31px;
-  clip-path:polygon(16% 0,84% 0,100% 28%,84% 100%,16% 100%,0 28%);
-  background:linear-gradient(180deg,#21100d 0%,#0f0606 100%);
-  border-color:rgba(255,199,115,.78);
-  box-shadow:inset 0 0 12px rgba(255,209,123,.08), 0 0 10px rgba(255,136,74,.12);
+  border-radius:50%;
+  border:1px solid rgba(255,199,115,.82);
+  background:linear-gradient(180deg,#21100d 0%,#100606 100%);
+  box-shadow:inset 0 0 10px rgba(255,205,124,.05),0 0 10px rgba(255,129,74,.10);
 }
-.crimson-dominion .fur-emblem-mini::before{
-  inset:7px 6px 6px;
-  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
-  filter:drop-shadow(0 0 4px rgba(255,196,117,.15));
-}
-.crimson-dominion .fur-emblem-mini::after{
-  left:50%;
-  top:2px;
-  width:12px;
-  height:9px;
-  transform:translateX(-50%);
-  background:center/contain no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'><path d='M9 38 15 14l17 11 17-11 6 24H9Z' fill='none' stroke='%23ffd690' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/><path d='M15 14 23 22 32 7 41 22 49 14' fill='none' stroke='%23ffd690' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>");
-}
-.crimson-dominion .card-footer{align-items:flex-end}
+.crimson-dominion .fur-logo-mini::before{width:13px;height:13px}
+.crimson-dominion .art-shine{opacity:.55}
 
 @media (max-width:1120px){
   .concept-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
