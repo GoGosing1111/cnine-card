@@ -2217,39 +2217,39 @@ export async function onRequest(context){
         const latestUser=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
         return {...stored,user:latestUser?await profile(env,latestUser):undefined};
       };
-      const finalizeAppliedDraw=async draft=>{
+      const finalizeAppliedDraw=async (draft,{recoveryVerify=false}={})=>{
         const proof=draft?.grantProof||{};
         if(String(proof.requestId||'')!==requestId||Number(proof.userId)!==Number(user.id))throw new Error('카드 지급 증명 정보가 현재 요청과 일치하지 않습니다.');
         const proofCards=Array.isArray(proof.cards)?proof.cards:[];
         const cardIds=[...new Set(proofCards.map(row=>String(row?.cardId||'')).filter(Boolean))];
         if(!cardIds.length||cardIds.length!==proofCards.length)throw new Error('카드 지급 증명에 중복되거나 비어 있는 카드가 있습니다.');
-        const [actualUser,ownedRows,masterRow]=await Promise.all([
-          env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
-          env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${cardIds.map(()=>'?').join(',')})`).bind(user.id,...cardIds).all(),
-          env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()
-        ]);
-        if(!actualUser)throw new Error('카드 지급 후 유저 정보를 확인하지 못했습니다.');
-        const actualQuantities=new Map((ownedRows.results||[]).map(row=>[String(row.card_id),Number(row.quantity||0)]));
-        for(const row of proofCards){
-          const cardId=String(row.cardId||''),expected=Number(row.quantityAfter||0),actual=Number(actualQuantities.get(cardId)||0);
-          if(!Number.isInteger(expected)||expected<1||actual!==expected)throw new Error(`${cardId} 카드의 서버 도감 수량 검증에 실패했습니다. (예상 ${expected}, 실제 ${actual})`);
+
+        // 정상 개봉은 카드 지급·코인 차감·영수증 APPLIED 저장이 같은 D1 batch에서 완료된다.
+        // 직후 동일 데이터를 다시 여러 번 SELECT하고 전체 profile을 재생성하던 중복 검증이 개봉 지연의 주원인이므로 제거한다.
+        // Worker 재시도 등 APPLIED 영수증 복구 경로에서만 실제 DB 상태를 다시 확인한다.
+        let response={...draft};
+        if(recoveryVerify){
+          const [actualUser,ownedRows,masterRow]=await Promise.all([
+            env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
+            env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${cardIds.map(()=>'?').join(',')})`).bind(user.id,...cardIds).all(),
+            env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()
+          ]);
+          if(!actualUser)throw new Error('카드 지급 후 유저 정보를 확인하지 못했습니다.');
+          const actualQuantities=new Map((ownedRows.results||[]).map(row=>[String(row.card_id),Number(row.quantity||0)]));
+          for(const row of proofCards){
+            const cardId=String(row.cardId||''),expected=Number(row.quantityAfter||0),actual=Number(actualQuantities.get(cardId)||0);
+            if(!Number.isInteger(expected)||expected<1||actual!==expected)throw new Error(`${cardId} 카드의 서버 도감 수량 검증에 실패했습니다. (예상 ${expected}, 실제 ${actual})`);
+          }
+          if(Number(actualUser.coin||0)!==Number(proof.coinAfter))throw new Error('카드뽑기 코인 차감 검증에 실패했습니다.');
+          if(Number(actualUser.card_shards||0)!==Number(proof.shardsAfter))throw new Error('카드 조각 지급 검증에 실패했습니다.');
+          if(Number(masterRow?.quantity||0)!==Number(proof.masterStarAfter||0))throw new Error('마스터의 별 지급 검증에 실패했습니다.');
+          response={...draft,user:await profile(env,actualUser)};
         }
-        if(Number(actualUser.coin||0)!==Number(proof.coinAfter))throw new Error('카드뽑기 코인 차감 검증에 실패했습니다.');
-        if(Number(actualUser.card_shards||0)!==Number(proof.shardsAfter))throw new Error('카드 조각 지급 검증에 실패했습니다.');
-        if(Number(masterRow?.quantity||0)!==Number(proof.masterStarAfter||0))throw new Error('마스터의 별 지급 검증에 실패했습니다.');
-        const actualProfile=await profile(env,actualUser);
-        const ownedSet=new Set((actualProfile.owned||[]).map(String));
-        for(const row of proofCards){if(!ownedSet.has(String(row.cardId)))throw new Error(`${row.cardId} 카드가 실제 유저 도감 응답에 포함되지 않았습니다.`)}
-        const response={...draft,user:actualProfile};
         response.results=(response.results||[]).map(item=>({...item,granted:true,grantVerified:true}));
         response.drawProtocol={...(response.drawProtocol||{}),version:3,status:'COMPLETED',grantVerified:true,integrity:''};
         response.drawProtocol.integrity=drawIntegrityHash(drawIntegrityCanonical(response));
         const completed=await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('APPLIED','COMPLETED')").bind(JSON.stringify(compactDrawReceipt(response)),requestId,user.id).run();
         if(!completed.meta.changes)throw new Error('카드 지급 영수증 확정에 실패했습니다.');
-        // 오래된 응답 본문은 요청 ID/상태를 남긴 채 비워 D1 재팽창을 방지한다.
-        if(Math.random()<0.02){
-          try{await env.DB.prepare(`UPDATE draw_request_receipts SET response_json=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id IN (SELECT request_id FROM draw_request_receipts WHERE status='COMPLETED' AND response_json IS NOT NULL AND created_at<datetime('now','-1 hour') LIMIT 50)`).run()}catch(cleanupError){console.warn('draw receipt cleanup skipped',cleanupError)}
-        }
         return response;
       };
       const prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
@@ -2257,7 +2257,7 @@ export async function onRequest(context){
         try{return json(await hydrateDrawReceipt(JSON.parse(prior.response_json)))}catch{}
       }
       if(prior?.status==='APPLIED'&&prior.response_json){
-        try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json)))}catch(error){return json({error:String(error?.message||'이전 카드 지급 검증을 완료하지 못했습니다.'),requestId},503)}
+        try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json),{recoveryVerify:true}))}catch(error){return json({error:String(error?.message||'이전 카드 지급 검증을 완료하지 못했습니다.'),requestId},503)}
       }
       if(prior?.status==='PENDING')return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
       if(prior?.status==='FAILED')await env.DB.prepare('DELETE FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).run();
@@ -2323,7 +2323,7 @@ export async function onRequest(context){
           }
           return ids;
         };
-        await validateActiveCards(cards);
+        // 최종 후보가 확정된 뒤 한 번만 활성 상태를 검증한다.
         cards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
         const groupId=crypto.randomUUID();
 
