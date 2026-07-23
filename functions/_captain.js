@@ -514,7 +514,7 @@ async function createCaptainSettlementMessages(env, currentRound, config, captai
   return { participants, rewardUsers, messages, magicUsers };
 }
 
-async function startNewCaptainRound(env, currentRound, userId, requestId, config, captainMagic) {
+async function startNewCaptainRound(env, currentRound, userId, requestId, config, captainMagic, options = {}) {
   const existingByRequest = await env.DB.prepare('SELECT * FROM captain_round_reset_events WHERE request_id=?')
     .bind(requestId).first();
   if (existingByRequest) {
@@ -538,7 +538,10 @@ async function startNewCaptainRound(env, currentRound, userId, requestId, config
     };
   }
 
-  const settlement = await createCaptainSettlementMessages(env, currentRound, config, captainMagic);
+  const skipSettlement = options?.skipSettlement === true;
+  const settlement = skipSettlement
+    ? { participants: 0, rewardUsers: 0, messages: 0, magicUsers: 0, skipped: true }
+    : await createCaptainSettlementMessages(env, currentRound, config, captainMagic);
 
   const maxRow = await env.DB.prepare('SELECT COALESCE(MAX(round_number),0) max_number FROM captain_rounds WHERE calendar_week_key=?')
     .bind(currentRound.calendarWeekKey).first();
@@ -1501,7 +1504,8 @@ export async function handleCaptain({ path, request, env, deps }) {
         currentRoundLabel: currentRound.label
       }, 409);
     }
-    const result = await startNewCaptainRound(env, currentRound, user.id, requestId, config, captainMagic);
+    const skipSettlement = body?.skipSettlement === true;
+    const result = await startNewCaptainRound(env, currentRound, user.id, requestId, config, captainMagic, { skipSettlement });
     const newRound = await resolveCaptainRound(env);
     return deps.json({
       ok: true,
@@ -1511,7 +1515,9 @@ export async function handleCaptain({ path, request, env, deps }) {
       replayed: result.replayed,
       round: newRound,
       settlement: result.settlement || { participants: 0, rewardUsers: 0, messages: 0, magicUsers: 0 },
-      note: `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 시작했습니다. 정산 보상 메시지 ${Number(result.settlement?.messages || 0)}개를 생성했으며, 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존됩니다.`
+      note: skipSettlement
+        ? `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 보상 없이 시작했습니다. 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존됩니다.`
+        : `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 시작했습니다. 정산 보상 메시지 ${Number(result.settlement?.messages || 0)}개를 생성했으며, 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존됩니다.`
     });
   }
 

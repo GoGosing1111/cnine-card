@@ -111,6 +111,7 @@
             <span id="capCmsModeBadge" class="captain-mode-badge off">운영 중지</span>
             <button type="button" id="capCmsRefresh" class="ghost">새로고침</button>
             <button type="button" id="capCmsReset" class="warn">현재 회차 종료·새 회차 시작</button>
+            <button type="button" id="capCmsResetNoReward" class="ghost">아무 보상없이 새 회차 시작</button>
           </div>
         </div>
 
@@ -508,6 +509,7 @@
     const save=$('#capCmsSave');
     const refresh=$('#capCmsRefresh');
     const reset=$('#capCmsReset');
+    const resetNoReward=$('#capCmsResetNoReward');
     const settlementAdd=$('#capSettlementAdd');
     const queueSearch=$('#capCmsQueueSearch');
     const queueFilter=$('#capCmsQueueFilter');
@@ -644,6 +646,52 @@
         }finally{
           reset.disabled=false;
           reset.textContent=original;
+        }
+      };
+    }
+
+    if(resetNoReward&&!resetNoReward.dataset.captainBound){
+      resetNoReward.dataset.captainBound='1';
+      resetNoReward.onclick=async()=>{
+        if(resetNoReward.disabled)return;
+        if(!latestOverview)return alert('현재 회차 정보를 먼저 불러와 주세요.');
+        const currentLabel=latestOverview?.round?.label||latestOverview?.weekKey||'현재 회차';
+        const warning=[
+          `${currentLabel} 운영을 종료하고 아무 보상 없이 빈 새 회차를 즉시 시작합니다.`,
+          '',
+          '· 정산 보상 메시지와 보상 지급을 생성하지 않습니다.',
+          '· 현재 참가자와 대기열은 새 회차로 복사되지 않습니다.',
+          '· 현재 팀·승패·공격 횟수는 새 회차 기준으로 초기화되며, 팀 점수는 기본값부터 다시 시작합니다.',
+          '· 기존 랭킹, 경기, 보상 지급 기록은 삭제하지 않고 보존합니다.',
+          '· 기존 참가자는 새 회차에서 다시 등록할 수 있는 상태가 됩니다.',
+          '',
+          '실행 후 되돌릴 수 없습니다. 계속할까요?'
+        ].join('\n');
+        if(!confirm(warning))return;
+        const verify=prompt('실행 확인을 위해 "보상없이 새 회차 시작"을 입력하세요.','');
+        if(verify!=='보상없이 새 회차 시작')return alert('문구가 일치하지 않아 취소했습니다.');
+        const original=resetNoReward.textContent;
+        resetNoReward.disabled=true;
+        if(reset)reset.disabled=true;
+        resetNoReward.textContent='보상 없이 새 회차 생성 중...';
+        try{
+          const result=await api('admin/captain/reset',{
+            method:'POST',
+            body:JSON.stringify({
+              expectedRoundKey:latestOverview?.round?.roundKey||latestOverview?.weekKey||'',
+              skipSettlement:true,
+              requestId:(globalThis.crypto?.randomUUID?.()||`captain-reset-no-reward-${Date.now()}-${Math.random().toString(36).slice(2)}`)
+            })
+          });
+          alert(result.note||'아무 보상 없이 새 회차를 시작했습니다.');
+          await load();
+        }catch(error){
+          alert(`대장전 보상 없는 새 회차 시작 실패\n${error.message}`);
+          await load();
+        }finally{
+          resetNoReward.disabled=false;
+          if(reset)reset.disabled=false;
+          resetNoReward.textContent=original;
         }
       };
     }
