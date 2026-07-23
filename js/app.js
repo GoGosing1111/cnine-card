@@ -1430,20 +1430,16 @@ async function init(){
   }catch(error){
     if(error?.message!=='API_OFFLINE')console.error('초기 연결 실패:',error);
     API_MODE=false;API_INFLIGHT.clear();
-    cards=(await loadStaticCardsFallback()).map(normalizeClientCard);
     if(runId!==startupRunId)return;
-    authenticated=Boolean(loadUser());
-    if(!cards.length){
-      completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;
-      renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었고 기본 데이터도 불러오지 못했습니다.':'서버와 기본 데이터를 모두 불러오지 못했습니다.');
-      return;
-    }
+    completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;
+    renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 실제 서버 지급이 확인되지 않는 카드뽑기는 차단됩니다.':'서버 연결을 확인할 수 없습니다. 실제 서버 지급이 확인되지 않는 카드뽑기는 차단됩니다.');
+    return;
   }
   if(runId!==startupRunId)return;
   completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
   setTimeout(()=>{if(runId!==startupRunId)return;if(authenticated){renderShell('buy');startRuntimeCommandPoll()}else renderLogin()},100);
 }
-function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){const user={nickname,key:generateKey(),coin:TEST_COIN,owned:[],history:[],attendance:{lastClaimDate:null,totalDays:0},testCoinGrantedV13:true};saveUser(user);return renderCreated(user)}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){const u=loadUser();if(!u||u.key!==key)return alert('저장된 개인키와 일치하지 않습니다.');return renderShell('buy')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));startRuntimeCommandPoll();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
+function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>씨켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));startRuntimeCommandPoll();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 async function redeemCoupon(){
@@ -1546,14 +1542,19 @@ function drawIntegrityCanonical(response){
     requestId:String(response?.requestId||''),
     packId:String(protocol.packId||''),
     count:Number(protocol.count||0),
+    grantVerified:protocol.grantVerified===true,
     results:results.map((item,index)=>({
       slot:Number(item?.slot??index),
       granted:item?.granted===true,
+      grantVerified:item?.grantVerified===true,
       cardId:String(item?.card?.id||''),
       grade:String(item?.card?.grade||item?.card?.rarity||'').toUpperCase(),
       title:String(item?.card?.title||''),
       duplicate:Boolean(item?.duplicate),
-      shardGained:Number(item?.shardGained||0)
+      shardGained:Number(item?.shardGained||0),
+      masterStarGained:Number(item?.masterStarGained||0),
+      quantityBefore:Number(item?.quantityBefore??-1),
+      quantityAfter:Number(item?.quantityAfter??-1)
     }))
   });
 }
@@ -1562,14 +1563,21 @@ function validateDrawResponse(response,{requestId,packId,count}){
   if(String(response.requestId||'')!==String(requestId))throw new Error('현재 개봉 요청과 다른 응답이 도착해 결과 표시를 중단했습니다.');
   if(activeDrawRequestId!==String(requestId))throw new Error('이미 종료된 카드 개봉 응답입니다.');
   if(consumedDrawResponses.has(String(requestId)))throw new Error('이미 표시한 카드 개봉 결과입니다.');
-  const protocol=response.drawProtocol||{};
-  if(Number(protocol.version)!==2||String(protocol.packId||'')!==String(packId)||Number(protocol.count)!==Number(count)||protocol.status!=='COMPLETED')throw new Error('서버 카드 개봉 확정 정보가 일치하지 않습니다.');
+  const protocol=response.drawProtocol||{},proof=response.grantProof||{};
+  if(Number(protocol.version)!==3||protocol.grantVerified!==true||String(protocol.packId||'')!==String(packId)||Number(protocol.count)!==Number(count)||protocol.status!=='COMPLETED')throw new Error('서버 카드 지급 확정 정보가 일치하지 않습니다.');
+  if(String(proof.requestId||'')!==String(requestId)||Number(proof.count)!==Number(count)||String(proof.packId||'')!==String(packId))throw new Error('서버 카드 지급 증명 정보가 일치하지 않습니다.');
   if(!Array.isArray(response.results)||response.results.length!==Number(count))throw new Error('서버 카드 개봉 수량이 요청과 일치하지 않습니다.');
+  const serverOwned=new Set((response.user?.owned||[]).map(id=>String(id)));
+  const serverQuantities=Object.fromEntries(Object.entries(response.user?.quantities||{}).map(([id,value])=>[String(id),Number(value||0)]));
+  const proofQuantities=new Map((proof.cards||[]).map(row=>[String(row.cardId||''),Number(row.quantityAfter||0)]));
   response.results.forEach((item,index)=>{
-    const card=item?.card;
-    const grade=String(card?.grade||card?.rarity||'').toUpperCase();
-    if(Number(item?.slot)!==index||item?.granted!==true)throw new Error(`${index+1}번째 카드의 서버 지급 확정값이 없습니다.`);
-    if(!card||String(card.id||'').trim()===''||String(card.title||'').trim()===''||!['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'].includes(grade))throw new Error(`${index+1}번째 카드 정보가 올바르지 않습니다.`);
+    const card=item?.card,cardId=String(card?.id||''),grade=String(card?.grade||card?.rarity||'').toUpperCase();
+    const quantityBefore=Number(item?.quantityBefore),quantityAfter=Number(item?.quantityAfter);
+    if(Number(item?.slot)!==index||item?.granted!==true||item?.grantVerified!==true)throw new Error(`${index+1}번째 카드의 실제 지급 확정값이 없습니다.`);
+    if(!card||!cardId.trim()||String(card.title||'').trim()===''||!['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'].includes(grade))throw new Error(`${index+1}번째 카드 정보가 올바르지 않습니다.`);
+    if(!Number.isInteger(quantityBefore)||!Number.isInteger(quantityAfter)||quantityBefore<0||quantityAfter!==quantityBefore+1)throw new Error(`${index+1}번째 카드의 지급 전후 수량 검증에 실패했습니다.`);
+    if(!serverOwned.has(cardId)||Number(serverQuantities[cardId]||0)<quantityAfter)throw new Error(`${card.title} 카드가 서버 도감에 실제 등록되지 않아 획득 연출을 중단했습니다.`);
+    if(Number(proofQuantities.get(cardId)||0)<quantityAfter)throw new Error(`${card.title} 카드의 서버 지급 증명이 부족합니다.`);
     card.grade=grade;
   });
   const expected=drawIntegrityHash(drawIntegrityCanonical(response));
@@ -1581,15 +1589,8 @@ function validateDrawResponse(response,{requestId,packId,count}){
 openPack=async function(packId,count,cost){
   if(drawRequestInFlight)return alert('카드 개봉 요청을 처리 중입니다.');
   if(!API_MODE){
-    const pack=getPack(packId),user=loadUser();
-    if(!user||user.coin<cost)return alert('코인이 부족합니다.');
-    try{
-      const d=await runCriticalOpening(pack,count,async ()=>{
-        const critical=Math.random()*100<3;
-        const draws=makeDraws(pack,count);return {local:true,draws,critical:{eligible:true,success:critical,bonus:critical?10:0,automatic:true,chance:3,effects:true}};
-      });
-      user.coin-=cost;const owned=ownedIds(user),results=d.draws.map((card,slot)=>{const duplicate=owned.has(card.id),shardGained=duplicate?(shardReward[card.grade]||0):0;user.history.push({cardId:card.id,packId:pack.id,at:new Date().toISOString(),duplicate});user.quantities[card.id]=(user.quantities[card.id]||0)+1;if(duplicate)user.cardShards=(user.cardShards||0)+shardGained;if(!duplicate){user.owned.push(card.id);owned.add(card.id)}return {slot,granted:true,card,duplicate,shardGained}});saveUser(user);renderDrawResults(pack,count,cost,results,user,d.critical);
-    }catch(e){alert(e.message)}
+    resetDrawPresentationState();
+    alert('서버 연결이 확인되지 않아 카드뽑기를 중단했습니다.\n서버에 실제 지급되지 않는 허위 획득 화면을 방지하기 위해 오프라인 뽑기는 사용할 수 없습니다.\n새로고침 후 다시 시도해주세요.');
     return;
   }
   const pack=getPack(packId);
