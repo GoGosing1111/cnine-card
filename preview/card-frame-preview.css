@@ -202,6 +202,59 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 .crimson-dominion .card-footer{padding-top:10px}
 .crimson-dominion .card-footer strong{margin-top:5px}
 
+
+
+/* F-02 crown / label retune */
+.fur-one-label{
+  color:#ffd8c0 !important;
+  font-size:9px !important;
+  letter-spacing:1.55px !important;
+  text-transform:uppercase;
+  text-shadow:0 0 10px rgba(255,143,92,.24);
+}
+.crown-icon{display:block;width:100%;height:100%}
+.crown-icon path,.crown-icon circle{
+  fill:none;
+  stroke:url(#fallback);
+}
+.fur-crown{
+  width:50px;
+  height:50px;
+  padding:10px;
+  border-radius:14px;
+  border:1px solid rgba(255,197,110,.95);
+  background:linear-gradient(180deg,#23110d 0%, #120707 100%);
+  box-shadow:0 0 0 1px rgba(255,146,79,.24) inset, 0 0 18px rgba(255,146,79,.34), 0 0 32px rgba(255,92,65,.18);
+  transform:translateX(-50%) translateZ(24px) !important;
+}
+.fur-crown::before{display:none}
+.fur-crown .crown-icon-top path,
+.fur-crown .crown-icon-top circle{
+  stroke:#ffd88e;
+  stroke-width:3.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 4px rgba(255,206,117,.28));
+}
+.fur-crown-crest{
+  display:grid;
+  place-items:center;
+  padding:6px;
+  background:linear-gradient(180deg,#1d0d0a 0%, #0f0606 100%);
+  border-color:rgba(255,199,115,.86);
+  box-shadow:inset 0 0 12px rgba(255,209,123,.12), 0 0 12px rgba(255,136,74,.18);
+}
+.fur-crown-crest .crown-icon-mini path,
+.fur-crown-crest .crown-icon-mini circle{
+  stroke:#ffe2a3;
+  stroke-width:3.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.crimson-dominion .fur-name-accent{
+  font-size:17px;
+}
+
 @media (max-width:1120px){
   .concept-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .concept-panel:last-child{grid-column:1/-1}
