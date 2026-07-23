@@ -1910,7 +1910,7 @@ export async function onRequest(context){
         if(!card)throw new Error(`${targetGrade} 등급의 획득 가능한 카드가 없습니다. CMS 카드 공개 상태와 잔여 수량을 확인하세요.`);
         if(card.limitedTotal!==null&&card.limitedTotal!==undefined){
           const stockBefore=Math.max(0,Number(card.issuedCount||0));
-          const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND issued_count<limited_total').bind(card.id).run();
+          const reserved=await env.DB.prepare("UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND issued_count<limited_total").bind(card.id).run();
           if(!reserved.meta.changes)throw new Error('선택된 한정판 카드의 잔여 수량이 방금 소진되었습니다. 다시 시도하세요.');
           reservedLimited=true;
           limitedAuditEvent={eventKey:`inventory:${requestId}:${card.id}`,stockBefore,stockAfter:stockBefore+1};
@@ -3823,7 +3823,7 @@ export async function onRequest(context){
           if(quantityBefore>0&&!allowDuplicate)throw new Error(`이미 해당 카드를 ${quantityBefore}장 보유 중입니다. 중복 지급 확인을 켜야 지급할 수 있습니다.`);
           stockBefore=Math.max(0,Number(target.issuedCount||0));
           if(grantMode==='ISSUE'){
-            const reserved=await env.DB.prepare('UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND limited_total IS NOT NULL AND issued_count<limited_total').bind(cardId).run();
+            const reserved=await env.DB.prepare("UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND limited_total IS NOT NULL AND issued_count<limited_total").bind(cardId).run();
             if(!reserved.meta.changes)throw new Error('한정 재고가 모두 소진되어 신규 지급할 수 없습니다. 누락 복구라면 재고 미차감 유형을 선택하세요.');
             stockReserved=true;
           }
