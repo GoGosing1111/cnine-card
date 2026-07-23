@@ -255,6 +255,79 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
   font-size:17px;
 }
 
+
+
+/* F-02 emblem retune: crest + tiny CNINE logo */
+.crimson-dominion .fur-emblem,
+.crimson-dominion .fur-emblem-mini{
+  position:relative;
+  display:block;
+  overflow:hidden;
+  border-radius:0;
+  background:
+    linear-gradient(180deg,#2a140f 0%,#140808 58%,#0a0506 100%);
+  border:1px solid rgba(255,204,122,.88);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,244,204,.08),
+    0 0 14px rgba(255,137,74,.22),
+    0 0 28px rgba(255,87,63,.12);
+}
+.crimson-dominion .fur-emblem{
+  width:56px;
+  height:58px;
+  top:-22px;
+  transform:translateX(-50%) translateZ(24px) !important;
+  clip-path:polygon(18% 0,82% 0,100% 18%,100% 68%,50% 100%,0 68%,0 18%);
+}
+.crimson-dominion .fur-emblem::before,
+.crimson-dominion .fur-emblem::after,
+.crimson-dominion .fur-emblem-mini::before,
+.crimson-dominion .fur-emblem-mini::after{
+  content:"";
+  position:absolute;
+  pointer-events:none;
+}
+.crimson-dominion .fur-emblem::before{
+  left:50%;
+  top:6px;
+  width:24px;
+  height:18px;
+  transform:translateX(-50%);
+  background:center/contain no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'><path d='M9 38 15 14l17 11 17-11 6 24H9Z' fill='none' stroke='%23ffd690' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/><path d='M15 14 23 22 32 7 41 22 49 14' fill='none' stroke='%23ffd690' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/><circle cx='15' cy='14' r='2.7' fill='none' stroke='%23ffd690' stroke-width='3.2'/><circle cx='32' cy='7' r='2.7' fill='none' stroke='%23ffd690' stroke-width='3.2'/><circle cx='49' cy='14' r='2.7' fill='none' stroke='%23ffd690' stroke-width='3.2'/><path d='M13 38h38' fill='none' stroke='%23ffd690' stroke-width='3.2' stroke-linecap='round'/></svg>");
+  filter:drop-shadow(0 0 4px rgba(255,209,126,.28));
+}
+.crimson-dominion .fur-emblem::after{
+  left:50%;
+  top:26px;
+  width:20px;
+  height:20px;
+  transform:translateX(-50%);
+  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
+  filter:drop-shadow(0 0 5px rgba(255,196,117,.18));
+}
+.crimson-dominion .fur-emblem-mini{
+  width:33px;
+  height:31px;
+  clip-path:polygon(16% 0,84% 0,100% 28%,84% 100%,16% 100%,0 28%);
+  background:linear-gradient(180deg,#21100d 0%,#0f0606 100%);
+  border-color:rgba(255,199,115,.78);
+  box-shadow:inset 0 0 12px rgba(255,209,123,.08), 0 0 10px rgba(255,136,74,.12);
+}
+.crimson-dominion .fur-emblem-mini::before{
+  inset:7px 6px 6px;
+  background:center/contain no-repeat url('../assets/ui/cninelogo.png');
+  filter:drop-shadow(0 0 4px rgba(255,196,117,.15));
+}
+.crimson-dominion .fur-emblem-mini::after{
+  left:50%;
+  top:2px;
+  width:12px;
+  height:9px;
+  transform:translateX(-50%);
+  background:center/contain no-repeat url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 48'><path d='M9 38 15 14l17 11 17-11 6 24H9Z' fill='none' stroke='%23ffd690' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/><path d='M15 14 23 22 32 7 41 22 49 14' fill='none' stroke='%23ffd690' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+}
+.crimson-dominion .card-footer{align-items:flex-end}
+
 @media (max-width:1120px){
   .concept-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .concept-panel:last-child{grid-column:1/-1}
