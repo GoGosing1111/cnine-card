@@ -36,6 +36,8 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 .concept-panel{min-width:0;padding:18px;border:1px solid rgba(128,198,255,.15);border-radius:20px;background:linear-gradient(180deg,rgba(6,19,41,.85),rgba(3,10,23,.86));overflow:hidden}
 .concept-copy{min-height:116px}
 .concept-index{display:inline-flex;padding:5px 8px;border-radius:7px;background:rgba(72,183,255,.08);color:#63dcff;font-size:10px;font-weight:1000;letter-spacing:1.4px}
+.hybrid-tag{display:inline-flex;margin-left:8px;padding:5px 8px;border-radius:999px;background:linear-gradient(135deg,rgba(255,199,93,.18),rgba(255,130,72,.18));border:1px solid rgba(255,220,140,.28);color:#ffedb5;font-size:10px;font-weight:1000;letter-spacing:1.2px;vertical-align:middle}
+
 .concept-copy h3{margin:11px 0 7px;font-size:21px}
 .concept-copy p{margin:0;color:#8ea7c8;font-size:13px;line-height:1.65}
 .card-stage{position:relative;display:grid;place-items:center;min-height:435px;margin-top:8px;border-radius:18px;background:
@@ -114,6 +116,29 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
 .prism-ascendant .grade-orbit{border-color:rgba(155,220,255,.6)}
 .prism-ascendant .grade-sigil{color:#fff;border-color:#d4f8ff;box-shadow:0 0 18px rgba(95,227,255,.76),0 0 36px rgba(255,168,219,.3),inset 0 0 11px rgba(255,222,117,.28)}
 
+
+
+/* HYBRID FRAME OVERLAY */
+.preview-card.hybrid-frame{padding:0;border-radius:0;overflow:visible;background:transparent;box-shadow:0 28px 60px rgba(0,0,0,.58),0 0 34px var(--glow);filter:none}
+.preview-card.hybrid-frame::before{content:"";position:absolute;z-index:2;inset:-10px -15px -16px -15px;background:var(--frame-image) center/100% 100% no-repeat;pointer-events:none;filter:drop-shadow(0 0 18px color-mix(in srgb,var(--glow) 72%,transparent))}
+.preview-card.hybrid-frame::after{content:"";position:absolute;z-index:1;inset:0;border-radius:24px;background:radial-gradient(circle at 50% 14%,rgba(255,255,255,.09),transparent 28%),linear-gradient(180deg,rgba(17,14,7,.15),transparent 26%,rgba(12,8,5,.12) 78%,rgba(0,0,0,.38));pointer-events:none}
+.preview-card.hybrid-frame .card-inner{position:absolute;z-index:5;inset:31px 22px 30px;border-radius:20px;background:linear-gradient(180deg,rgba(8,18,34,.96),rgba(3,8,16,.98));backdrop-filter:blur(1px);border:1px solid color-mix(in srgb,var(--frame-a) 50%,#ffeab5)}
+.preview-card.hybrid-frame .card-art{border-color:rgba(255,231,171,.72);box-shadow:inset 0 0 22px rgba(0,0,0,.62),0 0 14px rgba(255,228,162,.12)}
+.preview-card.hybrid-frame .grade-corner,.preview-card.hybrid-frame .grade-glint{display:none}
+.preview-card.hybrid-frame .grade-orbit{opacity:.15}
+.preview-card.hybrid-frame .mini-crest{background:rgba(4,8,17,.82)}
+.astral-gold.hybrid-frame{--frame-image:url('./assets/prestige-frame-p02.webp');--frame-a:#ffe8a3;--frame-b:#7c5eff;--glow:rgba(255,206,104,.56);background:none;animation:frame-breathe 5s ease-in-out infinite}
+.astral-gold.hybrid-frame .grade-aura{inset:-50px;opacity:.58;background:radial-gradient(circle,rgba(255,210,98,.32),rgba(93,168,255,.16) 42%,transparent 72%)}
+.astral-gold.hybrid-frame .grade-sigil{top:-10px;border-color:#f7e1a7;box-shadow:0 0 18px rgba(255,216,115,.45),0 0 28px rgba(83,170,255,.25),inset 0 0 11px rgba(255,224,132,.25)}
+.astral-gold.hybrid-frame .card-header span{color:#fff0be}
+.astral-gold.hybrid-frame .card-header b{color:#d3e8ff}
+.crimson-dominion.hybrid-frame{--frame-image:url('./assets/fur-frame-f02.webp');--frame-a:#ffe29a;--frame-b:#ff3f52;--glow:rgba(255,92,76,.68);background:none;animation:crimson-pulse 2.6s ease-in-out infinite,frame-breathe 4.8s ease-in-out infinite}
+.crimson-dominion.hybrid-frame .grade-aura{inset:-56px;opacity:.72;background:radial-gradient(circle,rgba(255,176,81,.32),rgba(255,52,67,.24) 40%,transparent 72%)}
+.crimson-dominion.hybrid-frame .grade-orbit{border-color:rgba(255,108,94,.38)}
+.crimson-dominion.hybrid-frame .grade-sigil{top:-12px;border-color:#ffd28d;box-shadow:0 0 18px rgba(255,98,75,.78),0 0 34px rgba(255,185,83,.34),inset 0 0 11px rgba(255,87,76,.35)}
+.crimson-dominion.hybrid-frame .card-header span{color:#fff2c7}
+.crimson-dominion.hybrid-frame .card-header b{color:#ffd0c6}
+
 .preview-footer{display:flex;gap:14px;align-items:center;margin-top:22px;padding:17px 20px;border:1px solid rgba(102,205,255,.18);border-radius:16px;background:rgba(4,15,34,.78);color:#91a9c8;font-size:13px}
 .preview-footer strong{color:#e7f8ff;white-space:nowrap}.preview-footer code{color:#70e5ff}
 
@@ -160,7 +185,7 @@ h1{margin:0;font-size:clamp(28px,3vw,46px);letter-spacing:-1.4px}
   .grade-section{padding:14px;border-radius:20px}
   .section-heading h2{font-size:45px}
   .concept-panel{padding:13px}
-  .card-stage{min-height:390px}
+  .card-stage{min-height:400px}
   .preview-card{width:205px}
 }
 @media (prefers-reduced-motion:reduce){
