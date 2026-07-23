@@ -1648,7 +1648,7 @@ async function recentHighGradeItems(env){
   if(recentHighGradeCache&&recentHighGradeCache.expiresAt>now)return recentHighGradeCache.promise;
   const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,d.created_at
     FROM draw_logs d JOIN users u ON u.id=d.user_id JOIN cards c ON c.id=d.card_id
-    WHERE d.rarity IN ('SSR','MA','FUR','LIMITED') AND u.status='ACTIVE' ORDER BY d.id DESC LIMIT 20`).all()
+    WHERE d.rarity IN ('MA','FUR','LIMITED') AND u.status='ACTIVE' ORDER BY d.id DESC LIMIT 20`).all()
     .then(rows=>rows.results)
     .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
   recentHighGradeCache={promise,expiresAt:now+1000};
