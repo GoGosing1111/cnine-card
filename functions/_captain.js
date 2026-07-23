@@ -377,7 +377,144 @@ async function settlementRoundKey(env, currentRound, userId) {
   return previous?.round_key || previousWeekKey();
 }
 
-async function startNewCaptainRound(env, currentRound, userId, requestId) {
+
+async function createCaptainSettlementMessages(env, currentRound, config, captainMagic) {
+  const roundKey = String(currentRound?.roundKey || '').trim();
+  if (!roundKey) return { participants: 0, rewardUsers: 0, messages: 0, magicUsers: 0 };
+
+  const teams = (await env.DB.prepare(`
+    SELECT id,name,score,wins,losses
+    FROM captain_teams
+    WHERE week_key=? AND status='ACTIVE'
+    ORDER BY score DESC,wins DESC,losses ASC,id ASC
+  `).bind(roundKey).all()).results || [];
+
+  let participants = 0;
+  let rewardUsers = 0;
+  let messages = 0;
+  let magicUsers = 0;
+
+  for (const [index, teamRow] of teams.entries()) {
+    const rank = index + 1;
+    const baseReward = (config.rewards?.settlement || []).find(item => rank >= Number(item.from) && rank <= Number(item.to));
+    if (!baseReward) continue;
+
+    const reward = {
+      coin: Math.max(0, Math.floor(Number(baseReward.coin || 0))),
+      shards: Math.max(0, Math.floor(Number(baseReward.shards || 0))),
+      magicCrystals: captainMagic?.enabled === true
+        ? Math.max(0, Math.floor(Number(magicRewardForRank(captainMagic.settlement, rank) || 0)))
+        : 0
+    };
+    if (reward.coin <= 0 && reward.shards <= 0 && reward.magicCrystals <= 0) continue;
+
+    const members = (await env.DB.prepare(`
+      SELECT m.user_id,u.nickname
+      FROM captain_team_members m
+      JOIN users u ON u.id=m.user_id
+      WHERE m.team_id=?
+      ORDER BY m.position ASC,m.id ASC
+    `).bind(teamRow.id).all()).results || [];
+
+    for (const member of members) {
+      participants += 1;
+      const rewardKey = `rank-${rank}`;
+      let claim = await env.DB.prepare(`
+        SELECT * FROM captain_reward_claims
+        WHERE week_key=? AND user_id=? AND reward_type='SETTLEMENT' AND reward_key=?
+        LIMIT 1
+      `).bind(roundKey, member.user_id, rewardKey).first();
+      if (claim?.status === 'COMPLETED') continue;
+
+      if (!claim) {
+        await env.DB.prepare(`
+          INSERT OR IGNORE INTO captain_reward_claims(
+            week_key,user_id,reward_type,reward_key,reward_json,status,error_message,updated_at
+          ) VALUES(?,?,'SETTLEMENT',?,?,'PENDING',NULL,CURRENT_TIMESTAMP)
+        `).bind(roundKey, member.user_id, rewardKey, JSON.stringify(reward)).run();
+        claim = await env.DB.prepare(`
+          SELECT * FROM captain_reward_claims
+          WHERE week_key=? AND user_id=? AND reward_type='SETTLEMENT' AND reward_key=?
+          LIMIT 1
+        `).bind(roundKey, member.user_id, rewardKey).first();
+      } else {
+        await env.DB.prepare(`
+          UPDATE captain_reward_claims
+          SET status='PENDING',reward_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP
+          WHERE id=? AND status<>'COMPLETED'
+        `).bind(JSON.stringify(reward), claim.id).run();
+      }
+
+      try {
+        const titleBase = `${roundLabel(currentRound)} 대장전 정산 보상`;
+        for (const [rewardType, amount, unit] of [
+          ['COIN', reward.coin, '코인'],
+          ['SHARDS', reward.shards, '카드조각']
+        ]) {
+          if (amount <= 0) continue;
+          const title = `${titleBase} · ${unit}`;
+          let message = await env.DB.prepare(`
+            SELECT id FROM user_messages
+            WHERE user_id=? AND message_type='CAPTAIN_SETTLEMENT_REWARD' AND title=?
+            ORDER BY id DESC LIMIT 1
+          `).bind(member.user_id, title).first();
+          if (!message) {
+            const bodyText = `${roundLabel(currentRound)} 최종 ${rank}위 (${teamRow.name || '대장전 팀'}) 정산 보상입니다.\n\n${unit} ${amount.toLocaleString()}개\n\n아래 보상 수령 버튼을 눌러주세요.`;
+            const inserted = await env.DB.prepare(`
+              INSERT INTO user_messages(user_id,sender_type,title,body,message_type)
+              VALUES(?,'SYSTEM',?,?,'CAPTAIN_SETTLEMENT_REWARD')
+            `).bind(member.user_id, title, bodyText).run();
+            message = { id: Number(inserted.meta?.last_row_id || 0) };
+            if (!message.id) throw new Error(`${member.nickname} ${unit} 보상 메시지 생성 실패`);
+            messages += 1;
+          }
+          await env.DB.prepare(`
+            INSERT OR IGNORE INTO user_message_rewards(message_id,user_id,reward_type,reward_amount)
+            VALUES(?,?,?,?)
+          `).bind(message.id, member.user_id, rewardType, amount).run();
+        }
+
+        if (reward.magicCrystals > 0) {
+          const magicReference = `${roundKey}:${member.user_id}:${rank}`;
+          const existingMagic = await env.DB.prepare(`
+            SELECT id FROM magic_crystal_logs
+            WHERE user_id=? AND reference_type='CAPTAIN_SETTLEMENT' AND reference_id=?
+            LIMIT 1
+          `).bind(member.user_id, magicReference).first();
+          if (!existingMagic) {
+            const before = await rewardBalances(env, member.user_id);
+            await env.DB.batch([
+              env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(reward.magicCrystals, member.user_id),
+              env.DB.prepare(`
+                INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id)
+                VALUES(?,?,?,?,?,?)
+              `).bind(member.user_id, reward.magicCrystals, before.magicBalance + reward.magicCrystals, '대장전 주간 정산 보상', 'CAPTAIN_SETTLEMENT', magicReference)
+            ]);
+            magicUsers += 1;
+          }
+        }
+
+        await env.DB.prepare(`
+          UPDATE captain_reward_claims
+          SET status='COMPLETED',error_message=NULL,updated_at=CURRENT_TIMESTAMP
+          WHERE id=?
+        `).bind(claim.id).run();
+        rewardUsers += 1;
+      } catch (error) {
+        await env.DB.prepare(`
+          UPDATE captain_reward_claims
+          SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP
+          WHERE id=?
+        `).bind(String(error?.message || error).slice(0, 500), claim.id).run();
+        throw error;
+      }
+    }
+  }
+
+  return { participants, rewardUsers, messages, magicUsers };
+}
+
+async function startNewCaptainRound(env, currentRound, userId, requestId, config, captainMagic) {
   const existingByRequest = await env.DB.prepare('SELECT * FROM captain_round_reset_events WHERE request_id=?')
     .bind(requestId).first();
   if (existingByRequest) {
@@ -400,6 +537,8 @@ async function startNewCaptainRound(env, currentRound, userId, requestId) {
       replayed: true
     };
   }
+
+  const settlement = await createCaptainSettlementMessages(env, currentRound, config, captainMagic);
 
   const maxRow = await env.DB.prepare('SELECT COALESCE(MAX(round_number),0) max_number FROM captain_rounds WHERE calendar_week_key=?')
     .bind(currentRound.calendarWeekKey).first();
@@ -443,7 +582,8 @@ async function startNewCaptainRound(env, currentRound, userId, requestId) {
     oldRoundKey: currentRound.roundKey,
     newRoundKey: effectiveNewRoundKey,
     roundNumber: nextState.roundNumber,
-    replayed: Boolean(event && event.request_id !== requestId)
+    replayed: Boolean(event && event.request_id !== requestId),
+    settlement
   };
 }
 
@@ -1361,7 +1501,7 @@ export async function handleCaptain({ path, request, env, deps }) {
         currentRoundLabel: currentRound.label
       }, 409);
     }
-    const result = await startNewCaptainRound(env, currentRound, user.id, requestId);
+    const result = await startNewCaptainRound(env, currentRound, user.id, requestId, config, captainMagic);
     const newRound = await resolveCaptainRound(env);
     return deps.json({
       ok: true,
@@ -1370,7 +1510,8 @@ export async function handleCaptain({ path, request, env, deps }) {
       roundNumber: result.roundNumber,
       replayed: result.replayed,
       round: newRound,
-      note: `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 시작했습니다. 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존되며, 모든 유저가 새 회차에 다시 등록할 수 있습니다.`
+      settlement: result.settlement || { participants: 0, rewardUsers: 0, messages: 0, magicUsers: 0 },
+      note: `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 시작했습니다. 정산 보상 메시지 ${Number(result.settlement?.messages || 0)}개를 생성했으며, 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존됩니다.`
     });
   }
 

@@ -616,6 +616,7 @@
           '',
           '· 현재 참가자와 대기열은 새 회차로 복사되지 않습니다.',
           '· 현재 팀·승패·공격 횟수는 새 회차 기준으로 초기화되며, 팀 점수는 기본값부터 다시 시작합니다.',
+          '· 종료 시 현재 최종 순위 기준 정산 보상을 메시지함으로 지급합니다.',
           '· 기존 랭킹, 경기, 보상 지급 기록은 삭제하지 않고 보존합니다.',
           '· 기존 참가자는 새 회차에서 다시 등록할 수 있는 상태가 됩니다.',
           '',
@@ -626,7 +627,7 @@
         if(verify!=='새 회차 시작')return alert('문구가 일치하지 않아 취소했습니다.');
         const original=reset.textContent;
         reset.disabled=true;
-        reset.textContent='새 회차 생성 중...';
+        reset.textContent='정산·새 회차 생성 중...';
         try{
           const result=await api('admin/captain/reset',{
             method:'POST',
