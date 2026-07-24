@@ -194,7 +194,7 @@ function navGroupForTab(tab){
   if(tab==='magic')return 'magic';
   if(tab==='rank')return 'rank';
   if(tab==='mineral')return 'mineral';
-  if(tab==='dex')return 'dex';
+  if(['dex','evolution'].includes(tab))return 'dex';
   return 'buy';
 }
 
@@ -222,13 +222,20 @@ function mobileNavigationHtml(tab){
   const magicButton=magicSystemState.visible?`<button class="mobile-bottom-item ${tab==='magic'?'active':''}" type="button" data-mobile-tab="magic"><span>✦</span><b>마법카드</b></button>`:'';
   return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
     <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드팩</b></button>
-    <button class="mobile-bottom-item ${tab==='dex'?'active':''}" type="button" data-mobile-tab="dex"><span>◇</span><b>도감</b></button>
+    <button class="mobile-bottom-item ${group==='dex'?'active':''}" type="button" data-mobile-open-sheet="collection"><span>◇</span><b>도감</b></button>
     <button class="mobile-bottom-item mobile-bottom-primary ${group==='battle'?'active':''}" type="button" data-mobile-open-sheet="battle"><span>⚔</span><b>전투</b></button>
     ${magicButton}
     <button class="mobile-bottom-item ${moreActive?'active':''}" type="button" data-mobile-open-sheet="more"><span>•••</span><b>더보기</b></button>
   </nav>
   <div class="mobile-nav-sheet-layer" id="mobileNavSheetLayer" hidden>
     <button type="button" class="mobile-nav-sheet-backdrop" data-mobile-sheet-close aria-label="메뉴 닫기"></button>
+    <section class="mobile-nav-sheet" data-mobile-sheet="collection" aria-label="도감 메뉴 선택">
+      <header><div><small>COLLECTION MENU</small><h2>도감</h2><p>카드 수집 현황을 확인하거나 진화를 진행하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+      <div class="mobile-sheet-action-list">
+        <button type="button" data-mobile-tab="dex"><i>◇</i><span><b>카드 도감</b><small>멤버별 수집 카드 확인</small></span><em>열기</em></button>
+        <button type="button" data-mobile-tab="evolution"><i>✦</i><span><b>카드 진화</b><small>SSR → MA · MA +13 → PRESTIGE</small></span><em>입장</em></button>
+      </div>
+    </section>
     <section class="mobile-nav-sheet" data-mobile-sheet="battle" aria-label="전투 콘텐츠 선택">
       <header><div><small>BATTLE CONTENTS</small><h2>전투 콘텐츠</h2><p>진입할 전투를 선택하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
@@ -301,11 +308,17 @@ function renderShell(tab) {
   runtimeCommandContext=tab;
   const user = loadUser();
   if (!user) return renderLogin();
-  const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, magic: magicView, attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
-  const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages'].includes(tab);
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
+  const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages'].includes(tab),collectionActive=['dex','evolution'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
-    <button class="main-nav-item ${tab==='dex'?'active':''}" type="button" data-tab="dex"><span class="main-nav-icon">◇</span><b>도감</b></button>
+    <div class="main-nav-group ${collectionActive?'active':''}" data-nav-group="collection">
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◇</span><b>도감</b><i>⌄</i></button>
+      <div class="main-nav-dropdown" role="menu">
+        <button type="button" data-tab="dex"><span>멤버별 카드 수집 현황</span><b>카드 도감</b></button>
+        <button type="button" data-tab="evolution"><span>상위 등급 카드 진화</span><b>카드 진화</b></button>
+      </div>
+    </div>
     <div class="main-nav-group ${battleActive?'active':''}" data-nav-group="battle">
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">⚔</span><b>전투</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
@@ -1077,6 +1090,7 @@ async function joinRaid(){const btn=document.getElementById('raidJoin'),instance
 
 function bindView(tab) {
   if(tab==='inventory')loadInventory();
+  if(tab==='evolution'&&typeof window.bindEvolutionView==='function')window.bindEvolutionView();
   if(tab==='magic')loadMagicView();
   if(tab==='messages'){document.getElementById('openWagoVerify')?.addEventListener('click',openWagoVerification);loadMessages();}
   if(tab==='dailyquest'){document.getElementById('dailyQuestPostCheck')?.addEventListener('click',()=>checkDailyQuest());document.getElementById('dailyQuestPostClaim')?.addEventListener('click',()=>claimDailyQuest());loadDailyQuest();}
