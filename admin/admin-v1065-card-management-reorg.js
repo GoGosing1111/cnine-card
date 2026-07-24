@@ -13,7 +13,7 @@
     const cms=$('#cms');
     if(cms && !$('#view-enhancement')){
       const section=document.createElement('section');section.className='view';section.id='view-enhancement';section.hidden=true;
-      section.innerHTML=`<div class="sectionIntro"><h2>돌파·강화 관리 <span class="buildBadge">v1065</span></h2><p>등급별 카드 조각 비용·성공 확률과 SSR 실패 천장을 독립적으로 관리합니다.</p></div><div class="panel enhancementHero"><div><small>BREAKTHROUGH CONTROL</small><h2>단계별 돌파 설정</h2><p>실패 시 단계는 유지되고 카드 조각은 소모됩니다.</p></div><button id="enhancementSaveBtn">설정 저장</button></div><div class="panel"><div class="enhancementGradeTabs" id="enhancementGradeTabs"></div><div id="enhancementRows" class="enhancementRows"></div></div><div class="panel pityPanel"><div class="maintenanceHead"><div><small>SSR GUARANTEE SYSTEM</small><h2>SSR 강화 천장</h2><p>설정한 횟수만큼 연속 실패하면 다음 시도가 확정 성공합니다.</p></div><label class="enhancementSwitch"><input type="checkbox" id="ssrPityEnabled"><span>천장 사용</span></label></div><div id="ssrPityRows" class="enhancementRows pityRows"></div><div class="inlineNotice">기본값: 각 단계에서 5회 실패 후 다음 시도 확정 성공. 성공하거나 단계가 오르면 실패 횟수는 0으로 초기화됩니다.</div></div>`;
+      section.innerHTML=`<div class="sectionIntro"><h2>돌파·강화 관리 <span class="buildBadge">v1166</span></h2><p>등급별 강화 재료·성공 확률과 SSR 실패 천장을 독립적으로 관리합니다.</p></div><div class="panel enhancementHero"><div><small>BREAKTHROUGH CONTROL</small><h2>단계별 돌파 설정</h2><p>실패 시 단계는 유지되며 해당 단계에 설정된 강화 재료가 소모됩니다.</p></div><button type="button" id="enhancementSaveBtn">설정 저장</button></div><div class="panel"><div class="enhancementGradeTabs" id="enhancementGradeTabs"></div><div id="enhancementRows" class="enhancementRows"></div><div id="maHighEnhancementPanel" hidden><div class="maintenanceHead"><div><small>MA MASTER STAR ENHANCEMENT</small><h3>MA +10 → +13 고급 강화</h3><p>+10 이후 세 단계는 카드 조각이 아닌 마스터의 별을 사용합니다.</p></div><label class="enhancementSwitch"><input type="checkbox" id="maHighEnabled"><span>고급 강화 운영</span></label></div><div id="maHighEnhancementRows" class="enhancementRows"></div><div class="inlineNotice">퇴사 환급 카드 조각은 마스터의 별 투자분을 카드 조각으로 정산할 때 사용할 단계별 환산값입니다. 운영 ON 전에 반드시 입력하세요.</div></div></div><div class="panel pityPanel"><div class="maintenanceHead"><div><small>SSR GUARANTEE SYSTEM</small><h2>SSR 강화 천장</h2><p>설정한 횟수만큼 연속 실패하면 다음 시도가 확정 성공합니다.</p></div><label class="enhancementSwitch"><input type="checkbox" id="ssrPityEnabled"><span>천장 사용</span></label></div><div id="ssrPityRows" class="enhancementRows pityRows"></div><div class="inlineNotice">기본값: 각 단계에서 5회 실패 후 다음 시도 확정 성공. 성공하거나 단계가 오르면 실패 횟수는 0으로 초기화됩니다.</div></div>`;
       cms.appendChild(section);
     }
   }
@@ -25,7 +25,7 @@
     const pity=d.pity&&typeof d.pity==='object'?d.pity:{enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};
     if(!Array.isArray(pity.thresholds)) pity.thresholds=Array(10).fill(5);
     pity.thresholds=Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Number(pity.thresholds[i]||5))));
-    return {...d,grades,config,pity};
+    const maHigh=d.maHigh&&typeof d.maHigh==='object'?d.maHigh:{enabled:false,steps:Array.from({length:3},()=>({cost:1,rate:100,retirementShardRefund:0}))};if(!Array.isArray(maHigh.steps))maHigh.steps=[];maHigh.steps=Array.from({length:3},(_,i)=>({cost:Math.max(1,Number(maHigh.steps[i]?.cost||1)),rate:Math.max(0,Math.min(100,Number(maHigh.steps[i]?.rate??100))),retirementShardRefund:Math.max(0,Number(maHigh.steps[i]?.retirementShardRefund||0))}));return {...d,grades,config,pity,maHigh};
   }
   async function load(){
     const d=await api('admin/breakthrough-settings');data=normalizeData(d);render();
@@ -38,14 +38,17 @@
     tabs.dataset.grade=current;
     tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{tabs.dataset.grade=b.dataset.grade;render()});
     $('#enhancementRows').innerHTML=(data.config[current]||[]).map((r,i)=>`<div class="enhancementRow"><div><small>STEP ${i+1}</small><b>★${i} → ★${i+1}</b></div><label><span>카드 조각 비용</span><input data-kind="cost" data-index="${i}" type="number" min="1" max="10000000" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label></div>`).join('');
+    const highPanel=$('#maHighEnhancementPanel');if(highPanel){highPanel.hidden=current!=='MA';$('#maHighEnabled').checked=data.maHigh?.enabled===true;$('#maHighEnhancementRows').innerHTML=data.maHigh.steps.map((r,i)=>`<div class="enhancementRow maHighEnhancementRow"><div><small>MA HIGH STEP ${i+1}</small><b>★${10+i} → ★${11+i}</b></div><label><span>마스터의 별 비용</span><input data-ma-high-kind="cost" data-index="${i}" type="number" min="1" max="9999" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-ma-high-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label><label><span>퇴사 환급 카드 조각</span><input data-ma-high-kind="retirementShardRefund" data-index="${i}" type="number" min="0" max="10000000" value="${Number(r.retirementShardRefund||0)}"></label></div>`).join('')}
     $('#ssrPityEnabled').checked=data.pity?.enabled!==false;
     $('#ssrPityRows').innerHTML=Array.from({length:10},(_,i)=>`<div class="enhancementRow pityRow"><div><small>SSR STEP ${i+1}</small><b>★${i} → ★${i+1}</b></div><label><span>연속 실패 횟수</span><input data-pity-index="${i}" type="number" min="1" max="100" value="${Number(data.pity?.thresholds?.[i]||5)}"></label><em>${Number(data.pity?.thresholds?.[i]||5)}회 실패 후 다음 시도 확정</em></div>`).join('');
   }
   async function save(){
     const grade=$('#enhancementGradeTabs').dataset.grade||'SR';
     $('#enhancementRows').querySelectorAll('input').forEach(input=>{data.config[grade][Number(input.dataset.index)][input.dataset.kind]=Number(input.value)});
+    $('#maHighEnhancementRows')?.querySelectorAll('input').forEach(input=>{data.maHigh.steps[Number(input.dataset.index)][input.dataset.maHighKind]=Number(input.value)});
+    data.maHigh.enabled=$('#maHighEnabled')?.checked===true;
     const pity={enabled:$('#ssrPityEnabled').checked,grade:'SSR',thresholds:Array.from($('#ssrPityRows').querySelectorAll('[data-pity-index]')).map(x=>Number(x.value))};
-    const d=await api('admin/breakthrough-settings',{method:'PATCH',body:JSON.stringify({config:data.config,pity})});data=normalizeData(d);alert('돌파·강화 설정을 저장했습니다.');render();
+    const d=await api('admin/breakthrough-settings',{method:'PATCH',body:JSON.stringify({config:data.config,pity,maHigh:data.maHigh})});data=normalizeData(d);alert('돌파·강화 설정을 저장했습니다.');render();
   }
 
   function collapseEvolutionLogs(){

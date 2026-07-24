@@ -98,3 +98,8 @@
   .pvp-card-meta i{order:2}
   .pvp-card-meta .pvp-power-type{order:3;font-size:.72em}
 }
+
+/* v1166 MA +11~+13 visual continuity */
+.breakthrough-11,.breakthrough-12,.breakthrough-13{--bt-hi:#fff3bf;--bt-mid:#d9a83d;--bt-low:#62400c;--bt-aura:rgba(230,171,54,.5);--bt-radius:43px;--bt-halo:rgba(208,139,29,.26);--bt-halo-radius:66px;--bt-speed:3.8s;--bt-glint:4.2s;background:linear-gradient(132deg,#fff5c9 0%,#9c6a16 17%,#241606 34%,#d8a538 50%,#201305 67%,#8e5d12 83%,#fff1b0 100%)!important;box-shadow:0 20px 50px rgba(0,0,0,.62),0 0 18px rgba(255,226,143,.48),0 0 44px rgba(213,151,35,.42),0 0 66px rgba(208,139,29,.26),inset 0 0 0 1px #fff0ac}
+.breakthrough-11 .breakthrough-effect,.breakthrough-12 .breakthrough-effect,.breakthrough-13 .breakthrough-effect{border-color:#ffe9a3;box-shadow:inset 0 0 0 1px #5c3909,inset 0 0 17px rgba(220,161,42,.3)}
+.breakthrough-11 .breakthrough-badge,.breakthrough-12 .breakthrough-badge,.breakthrough-13 .breakthrough-badge{background:linear-gradient(155deg,#211606,#050402);border-color:#f4d276;color:#ffe9a9;box-shadow:0 5px 14px rgba(0,0,0,.65),0 0 12px rgba(225,171,53,.42)}

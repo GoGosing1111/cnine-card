@@ -46,7 +46,9 @@ const BREAKTHROUGH_RATE=[100,100,100,80,65,50,35,25,15,8];
 const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','FUR','LIMITED'];
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
 const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,FUR:2600,LIMITED:2800};
-const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450];
+const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450,528,612,702];
+const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:1,rate:100,retirementShardRefund:0},{cost:1,rate:100,retirementShardRefund:0},{cost:1,rate:100,retirementShardRefund:0}]};
+let maMasterStarBreakthroughCache=null;
 let recentHighGradeCache=null;
 let recentPremiumCubeCache=null;
 
@@ -274,7 +276,7 @@ function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{.
 async function battleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};}catch{return base}}
 const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},FUR:{FIXED:3200}};
 function cardPowerBase(card,settings){const saved=Number(card.base_power??card.basePower);const grade=card.rarity||card.grade;return Number.isFinite(saved)&&saved>0?saved:Number(settings.powerByGrade[grade]||0)}
-function cardBattlePower(card,level,settings){const base=cardPowerBase(card,settings);const pct=Number(settings.breakthroughBonus[Math.max(0,Math.min(10,Number(level)||0))]||0);return Math.floor(base*(1+pct/100));}
+function cardBattlePower(card,level,settings){const base=cardPowerBase(card,settings);const pct=Number(settings.breakthroughBonus[Math.max(0,Math.min(13,Number(level)||0))]||0);return Math.floor(base*(1+pct/100));}
 const ULTIMATE_GRADE_PRIORITY={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10};
 function ultimateGradePriority(grade){return Number(ULTIMATE_GRADE_PRIORITY[String(grade||'').trim().toUpperCase()]||0)}
 function selectActivatedUltimate(settings,cards,random=Math.random){
@@ -332,6 +334,8 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
 
 function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRADES.map(g=>[g,BREAKTHROUGH_COST.map((cost,i)=>({cost,rate:BREAKTHROUGH_RATE[i]}))]));}
 async function breakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<10;i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
+function cleanMaMasterStarBreakthrough(raw={}){const base=MA_MASTER_STAR_BREAKTHROUGH_DEFAULT;return {enabled:raw.enabled===true,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999,Math.floor(Number(x.cost)||fallback.cost))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||0)))}})}}
+async function maMasterStarBreakthroughConfig(env){const now=Date.now();if(maMasterStarBreakthroughCache&&maMasterStarBreakthroughCache.expiresAt>now)return maMasterStarBreakthroughCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='ma_master_star_breakthrough_v1'").first();let value=cleanMaMasterStarBreakthrough();if(row?.value){try{value=cleanMaMasterStarBreakthrough(JSON.parse(row.value))}catch{}}maMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
 function defaultBreakthroughPity(){return {enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};}
 function cleanBreakthroughPity(raw={}){const base=defaultBreakthroughPity();return {enabled:raw.enabled!==false,grade:'SSR',thresholds:Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Math.floor(Number(raw.thresholds?.[i]??base.thresholds[i])||base.thresholds[i]))))};}
 async function breakthroughPity(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_pity_ssr_v1'").first();try{return cleanBreakthroughPity(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughPity()}}
@@ -1742,21 +1746,23 @@ async function makeSession(env,userId){
   return raw;
 }
 async function profile(env,user){
-  const [owned,attendance,totalAttendance,recent,attendanceConfig,breakthroughSettings,weeklyPremiumCube]=await Promise.all([
+  const [owned,attendance,totalAttendance,recent,attendanceConfig,breakthroughSettings,weeklyPremiumCube,masterStarRow,maHighBreakthrough]=await Promise.all([
     env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
     env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first(),
     env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first(),
     env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at FROM draw_logs d JOIN cards c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all(),
     attendanceSettings(env),
     breakthroughConfig(env),
-    premiumCubeWeeklyStatus(env,user.id)
+    premiumCubeWeeklyStatus(env,user.id),
+    env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),
+    maMasterStarBreakthroughConfig(env)
   ]);
   return {id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
     owned:owned.results.map(row=>String(row.card_id)),
     quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
-    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,weeklyPremiumCube};
+    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,masterStars:Number(masterStarRow?.quantity||0),maHighBreakthrough,weeklyPremiumCube};
 }
 function weightedPick(items,getWeight){
   const total=items.reduce((sum,item)=>sum+getWeight(item),0);
@@ -2518,8 +2524,40 @@ export async function onRequest(context){
       const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) AS breakthrough_fail_count,c.rarity,c.title FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
       if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
       if((ORDER[owned.rarity]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
-      const level=Number(owned.breakthrough_level||0);
-      if(level>=10) return json({error:'이미 최대 돌파 단계입니다.'},409);
+      const level=Number(owned.breakthrough_level||0),grade=String(owned.rarity||'').toUpperCase(),isMaHigh=grade==='MA'&&level>=10,maxLevel=grade==='MA'?13:10;
+      if(level>=maxLevel) return json({error:'이미 최대 강화 단계입니다.'},409);
+      const failCount=Math.max(0,Number(owned.breakthrough_fail_count||0));
+      if(isMaHigh){
+        const high=await maMasterStarBreakthroughConfig(env);
+        if(!high.enabled)return json({error:'MA +11~+13 강화가 아직 운영 준비 중입니다.'},409);
+        const rule=high.steps[level-10];if(!rule)return json({error:'MA 고급 강화 설정을 찾을 수 없습니다.'},500);
+        const cost=Number(rule.cost),rate=Number(rule.rate),starRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),starBefore=Math.max(0,Number(starRow?.quantity||0));
+        if(starBefore<cost)return json({error:`마스터의 별이 부족합니다. (${cost}개 필요)`},400);
+        const success=Math.random()*100<rate,starAfter=starBefore-cost,nextFailCount=success?0:failCount+1;
+        // D1 batch 안에서 임시 음수 마커를 사용해 별 차감과 카드 상태 변경을 순차적으로 연결한다.
+        // 앞 단계가 0건이면 뒤 단계도 반드시 0건이 되어, stale 요청이 별 차감 없이 강화만 진행되는 것을 막는다.
+        const inventoryMarker=-(1000000000+Math.floor(Math.random()*900000000)),cardMarker=-(2000000000+Math.floor(Math.random()*900000000));
+        const results=await env.DB.batch([
+          env.DB.prepare("UPDATE cnine_user_inventory SET quantity=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=? AND quantity>=?").bind(inventoryMarker,user.id,starBefore,cost),
+          env.DB.prepare(`UPDATE user_cards SET breakthrough_fail_count=? WHERE user_id=? AND card_id=? AND breakthrough_level=? AND COALESCE(breakthrough_fail_count,0)=? AND EXISTS (SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?)`).bind(cardMarker,user.id,cardId,level,failCount,user.id,inventoryMarker),
+          env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=?,unseen_quantity=MIN(unseen_quantity,?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=? AND EXISTS (SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND breakthrough_level=? AND breakthrough_fail_count=?)`).bind(starAfter,starAfter,user.id,inventoryMarker,user.id,cardId,level,cardMarker),
+          success
+            ?env.DB.prepare(`UPDATE user_cards SET breakthrough_level=breakthrough_level+1,breakthrough_fail_count=0 WHERE user_id=? AND card_id=? AND breakthrough_level=? AND breakthrough_fail_count=? AND EXISTS (SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?)`).bind(user.id,cardId,level,cardMarker,user.id,starAfter)
+            :env.DB.prepare(`UPDATE user_cards SET breakthrough_fail_count=? WHERE user_id=? AND card_id=? AND breakthrough_level=? AND breakthrough_fail_count=? AND EXISTS (SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?)`).bind(nextFailCount,user.id,cardId,level,cardMarker,user.id,starAfter)
+        ]);
+        const changes=results.map(result=>Number(result?.meta?.changes||0));
+        if(changes.some(value=>value!==1)){
+          // 정상 경로에서는 네 문장이 모두 1건이다. 일부만 반영된 비정상 상태는 마커를 기준으로 원복한다.
+          await env.DB.batch([
+            env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=?,unseen_quantity=MIN(unseen_quantity,?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND (quantity=? OR (quantity=? AND EXISTS (SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND breakthrough_level=? AND breakthrough_fail_count=?)))`).bind(starBefore,starBefore,user.id,inventoryMarker,starAfter,user.id,cardId,level,cardMarker),
+            env.DB.prepare('UPDATE user_cards SET breakthrough_fail_count=? WHERE user_id=? AND card_id=? AND breakthrough_level=? AND breakthrough_fail_count=?').bind(failCount,user.id,cardId,level,cardMarker)
+          ]);
+          return json({error:'강화 상태가 변경되어 요청을 처리하지 못했습니다. 새로고침 후 다시 시도하세요.'},409);
+        }
+        try{await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH',?)").bind(user.id,-cost,starAfter,success?'MA_HIGH_BREAKTHROUGH_SUCCESS':'MA_HIGH_BREAKTHROUGH_FAIL',cardId).run()}catch(logError){console.error('MA high breakthrough inventory log failed',logError)}
+        const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+        return json({ok:true,success,cost,rate,material:'MASTER_STAR',masterStarsAfter:starAfter,level:success?level+1:level,guaranteed:false,pity:{enabled:false,failCount:nextFailCount,threshold:null,nextGuaranteed:false},user:await profile(env,updated)});
+      }
       const config=await breakthroughConfig(env),rule=config[owned.rarity]?.[level];
       if(!rule) return json({error:'돌파 설정을 찾을 수 없습니다.'},500);
       const cost=Number(rule.cost),rate=Number(rule.rate);
@@ -2527,16 +2565,15 @@ export async function onRequest(context){
       if(Number(fresh.card_shards||0)<cost) return json({error:`카드 조각이 부족합니다. (${cost}개 필요)`},400);
       const spent=await env.DB.prepare('UPDATE users SET card_shards=card_shards-? WHERE id=? AND card_shards>=?').bind(cost,user.id,cost).run();
       if(!spent.meta.changes) return json({error:'카드 조각이 부족합니다.'},400);
-      const pity=await breakthroughPity(env),failCount=Math.max(0,Number(owned.breakthrough_fail_count||0)),threshold=Math.max(1,Number(pity.thresholds?.[level]||5));
+      const pity=await breakthroughPity(env),threshold=Math.max(1,Number(pity.thresholds?.[level]||5));
       const guaranteed=owned.rarity==='SSR'&&pity.enabled&&failCount>=threshold;
       const success=guaranteed||Math.random()*100<rate;
       if(success) await env.DB.prepare('UPDATE user_cards SET breakthrough_level=breakthrough_level+1,breakthrough_fail_count=0 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
       else await env.DB.prepare('UPDATE user_cards SET breakthrough_fail_count=breakthrough_fail_count+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
       const nextFailCount=success?0:failCount+1,updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-cost,updated.card_shards,success?(guaranteed?'BREAKTHROUGH_PITY_SUCCESS':'BREAKTHROUGH_SUCCESS'):'BREAKTHROUGH_FAIL',cardId).run();
-      return json({ok:true,success,cost,rate,level:success?level+1:level,guaranteed,pity:{enabled:owned.rarity==='SSR'&&pity.enabled,failCount:nextFailCount,threshold,nextGuaranteed:!success&&nextFailCount>=threshold},user:await profile(env,updated)});
+      return json({ok:true,success,cost,rate,material:'CARD_SHARD',level:success?level+1:level,guaranteed,pity:{enabled:owned.rarity==='SSR'&&pity.enabled,failCount:nextFailCount,threshold,nextGuaranteed:!success&&nextFailCount>=threshold},user:await profile(env,updated)});
     }
-
 
     if(path==='raid/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -3721,7 +3758,7 @@ export async function onRequest(context){
 
     if(path==='admin/breakthrough-settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES,pity:await breakthroughPity(env)});
+      if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES,pity:await breakthroughPity(env),maHigh:await maMasterStarBreakthroughConfig(env)});
       if(request.method==='PATCH'){
         const payload=await readBody(request),incoming=payload.config;
         if(!incoming||typeof incoming!=='object')return json({error:'돌파 설정값이 없습니다.'},400);
@@ -3735,14 +3772,17 @@ export async function onRequest(context){
             clean[grade][i]={cost,rate:Math.round(rate*10000)/10000};
           }
         }
-        const before=await breakthroughConfig(env);
-        const pity=cleanBreakthroughPity(payload.pity||await breakthroughPity(env));
+        const before={config:await breakthroughConfig(env),maHigh:await maMasterStarBreakthroughConfig(env)};
+        const pity=cleanBreakthroughPity(payload.pity||await breakthroughPity(env)),maHigh=cleanMaMasterStarBreakthrough(payload.maHigh||{});
+        if(maHigh.enabled&&maHigh.steps.some(step=>Number(step.retirementShardRefund)<=0))return json({error:'MA +11~+13 운영을 켜려면 각 단계의 퇴사 환급 카드 조각을 1개 이상 설정하세요.'},400);
         await env.DB.batch([
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_config',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)),
-          env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_pity_ssr_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(pity))
+          env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_pity_ssr_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(pity)),
+          env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('ma_master_star_breakthrough_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(maHigh))
         ]);
-        await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity});
-        return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity});
+        maMasterStarBreakthroughCache=null;
+        try{await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity,maHigh})}catch(logError){console.error('breakthrough settings admin log failed',logError)}
+        return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity,maHigh});
       }
     }
 
@@ -4023,18 +4063,19 @@ export async function onRequest(context){
       const card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.card_status,m.name AS member_name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first();
       if(!card)return json({error:'카드가 없습니다.'},404);
 
-      const cfg=await breakthroughConfig(env);
-      const gradeRules=Array.isArray(cfg[card.rarity])?cfg[card.rarity]:[];
+      const cfg=await breakthroughConfig(env),maHigh=await maMasterStarBreakthroughConfig(env);
+      const gradeRules=(Array.isArray(cfg[card.rarity])?cfg[card.rarity]:[]).map(rule=>({refundShards:Math.max(0,Number(rule?.cost)||0)}));
+      if(String(card.rarity||'').toUpperCase()==='MA')for(const step of maHigh.steps)gradeRules.push({refundShards:Math.max(0,Number(step?.retirementShardRefund)||0)});
       const cumulative=[0];
-      for(const rule of gradeRules)cumulative.push(cumulative[cumulative.length-1]+Math.max(0,Number(rule?.cost)||0));
+      for(const rule of gradeRules)cumulative.push(cumulative[cumulative.length-1]+Math.max(0,Number(rule?.refundShards)||0));
       const pendingBatch=String(card.card_status||'').toUpperCase()==='RETIRE_PENDING'
         ? await env.DB.prepare("SELECT * FROM card_retirement_batches WHERE card_id=? AND status='PENDING'").bind(card.id).first()
         : null;
       const ownedRows=(await env.DB.prepare('SELECT user_id,COALESCE(breakthrough_level,0) AS breakthrough_level FROM user_cards WHERE card_id=? AND COALESCE(quantity,0)>0 ORDER BY user_id').bind(cardId).all()).results||[];
-      const unsupported=ownedRows.filter(row=>Math.max(0,Number(row.breakthrough_level)||0)>gradeRules.length);
+      const unsupported=ownedRows.filter(row=>{const level=Math.max(0,Number(row.breakthrough_level)||0);if(level>gradeRules.length)return true;if(String(card.rarity||'').toUpperCase()==='MA'&&level>10)return maHigh.steps.slice(0,level-10).some(step=>Number(step?.retirementShardRefund||0)<=0);return false});
       if(unsupported.length){
         const maxLevel=Math.max(...unsupported.map(row=>Math.max(0,Number(row.breakthrough_level)||0)));
-        return json({error:`${card.rarity} +${maxLevel} 카드의 정확한 환급 비용 설정이 없습니다. 과소 지급 방지를 위해 퇴사 처리를 중단했습니다.`},409);
+        return json({error:`${card.rarity} +${maxLevel} 카드의 정확한 퇴사 환급 카드 조각 설정이 없습니다. 과소 지급 방지를 위해 퇴사 처리를 중단했습니다.`},409);
       }
       const currentSnapshots=ownedRows.map(row=>{
         const level=Math.max(0,Math.min(gradeRules.length,Number(row.breakthrough_level)||0));
