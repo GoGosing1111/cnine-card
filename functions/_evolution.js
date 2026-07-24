@@ -1,5 +1,5 @@
 const LEGACY_DEFAULTS={enabled:true,coinCost:50000,shardCost:1500,successRate:10,pityAttempts:10};
-const PRESTIGE_DEFAULTS={maToPrestigeMasterStarCost:1};
+const PRESTIGE_DEFAULTS={maToPrestigeMasterStarCost:1,maToPrestigeSuccessRate:100,maToPrestigePityAttempts:10};
 const EVOLUTION_TYPES={
   SSR_TO_MA:{sourceGrade:'SSR',targetGrade:'MA',minBreakthrough:10,label:'SSR → MA',mode:'LEGACY_ATTEMPT'},
   MA_TO_PRESTIGE:{sourceGrade:'MA',targetGrade:'PRESTIGE',minBreakthrough:13,label:'MA +13 → PRESTIGE',mode:'MASTER_STAR'}
@@ -31,7 +31,7 @@ let upgradePromise=null;
 async function upgrade(env){if(!upgradePromise)upgradePromise=(async()=>{const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1157_evolution_ui_master_star'").first();if(done?.value==='1')return;await runUpgrade(env)})().catch(error=>{upgradePromise=null;throw error});return upgradePromise}
 
 function cleanLegacy(raw={}){return {enabled:raw.enabled!==false,coinCost:clampInt(raw.coinCost,LEGACY_DEFAULTS.coinCost,0,999999999),shardCost:clampInt(raw.shardCost,LEGACY_DEFAULTS.shardCost,0,999999999),successRate:Math.max(0,Math.min(100,Number.isFinite(Number(raw.successRate))?Number(raw.successRate):LEGACY_DEFAULTS.successRate)),pityAttempts:clampInt(raw.pityAttempts,LEGACY_DEFAULTS.pityAttempts,1,100)}}
-function cleanPrestige(raw={}){return {maToPrestigeMasterStarCost:clampInt(raw.maToPrestigeMasterStarCost,PRESTIGE_DEFAULTS.maToPrestigeMasterStarCost,1,9999)}}
+function cleanPrestige(raw={}){return {maToPrestigeMasterStarCost:clampInt(raw.maToPrestigeMasterStarCost,PRESTIGE_DEFAULTS.maToPrestigeMasterStarCost,1,9999),maToPrestigeSuccessRate:Math.max(0,Math.min(100,Number.isFinite(Number(raw.maToPrestigeSuccessRate))?Number(raw.maToPrestigeSuccessRate):PRESTIGE_DEFAULTS.maToPrestigeSuccessRate)),maToPrestigePityAttempts:clampInt(raw.maToPrestigePityAttempts,PRESTIGE_DEFAULTS.maToPrestigePityAttempts,1,100)}}
 async function config(env){
   const rows=await env.DB.batch([
     env.DB.prepare("SELECT value FROM app_meta WHERE key='card_evolution_settings_v1'"),
@@ -43,6 +43,7 @@ async function config(env){
   return {...legacy,...prestige};
 }
 async function state(env,userId,cardId){return await env.DB.prepare('SELECT * FROM card_evolution_progress WHERE user_id=? AND source_card_id=?').bind(userId,cardId).first()||{failed_attempts:0,total_attempts:0,is_success:0,reward_card_id:null}}
+function randomPercent(){try{const values=new Uint32Array(1);crypto.getRandomValues(values);return values[0]/4294967296*100}catch{return Math.random()*100}}
 function pickRandom(items){if(!items.length)return null;try{const values=new Uint32Array(1);crypto.getRandomValues(values);return items[values[0]%items.length]}catch{return items[Math.floor(Math.random()*items.length)]}}
 function baseCandidate(row,rule){return {id:String(row.id),title:row.title,name:row.name,grade:row.grade,image:row.image,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50),breakthroughLevel:Number(row.breakthrough_level||0),quantity:Number(row.quantity||0),basePower:Number(row.base_power||0),powerType:String(row.power_type||'')}}
 function candidatePayload(row,rule,pveDeck,pvpDeck,progressMap){
@@ -72,7 +73,7 @@ async function overview(env,userId,settings){
     settings,masterStars,userResources:{coin:Number(resources.coin||0),cardShards:Number(resources.card_shards||0)},
     types:{
       SSR_TO_MA:{...ssrRule,type:'SSR_TO_MA',candidates:ssrCandidates,resultPool:resultRows(results[2]).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:ssrCandidates.filter(card=>card.eligible).length,coinCost:settings.coinCost,shardCost:settings.shardCost,successRate:settings.successRate,pityAttempts:settings.pityAttempts},
-      MA_TO_PRESTIGE:{...prestigeRule,type:'MA_TO_PRESTIGE',candidates:prestigeCandidates,resultPool:resultRows(results[3]).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:prestigeCandidates.filter(card=>card.eligible).length,masterStarCost:settings.maToPrestigeMasterStarCost}
+      MA_TO_PRESTIGE:{...prestigeRule,type:'MA_TO_PRESTIGE',candidates:prestigeCandidates,resultPool:resultRows(results[3]).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:prestigeCandidates.filter(card=>card.eligible).length,masterStarCost:settings.maToPrestigeMasterStarCost,successRate:settings.maToPrestigeSuccessRate,pityAttempts:settings.maToPrestigePityAttempts}
     }
   };
 }
@@ -122,27 +123,39 @@ async function prestigeAttempt({env,deps,user,cardId,requestId,settings}){
   if(!source)return deps.json({error:'보유한 카드가 아닙니다.'},404);
   if(String(source.grade).toUpperCase()!=='MA'||Number(source.breakthrough_level||0)<13)return deps.json({error:'MA +13 강화 카드만 PRESTIGE로 진화할 수 있습니다.'},400);
   const deckReason=await cardInCurrentDeck(env,user.id,cardId);if(deckReason)return deps.json({error:deckReason},409);
-  const masterStarCost=Number(settings.maToPrestigeMasterStarCost||1),starRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),masterStarBefore=Number(starRow?.quantity||0);
+  let progress=await state(env,user.id,cardId);
+  if(progress.is_success){await env.DB.prepare('UPDATE card_evolution_progress SET failed_attempts=0,total_attempts=0,is_success=0,reward_card_id=NULL,completed_at=NULL,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND source_card_id=? AND is_success=1').bind(user.id,cardId).run();progress=await state(env,user.id,cardId)}
+  const masterStarCost=Number(settings.maToPrestigeMasterStarCost||1),successRate=Number(settings.maToPrestigeSuccessRate??100),pityAttempts=Math.max(1,Number(settings.maToPrestigePityAttempts||10)),starRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),masterStarBefore=Number(starRow?.quantity||0);
   if(masterStarBefore<masterStarCost)return deps.json({error:`마스터의 별이 ${masterStarCost-masterStarBefore}개 부족합니다.`},400);
   const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards c JOIN members m ON m.id=c.member_id WHERE c.rarity='PRESTIGE' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY c.id`).all()).results||[];
   if(!pool.length)return deps.json({error:'획득 가능한 공개 PRESTIGE 카드가 없습니다. CMS 카드 설정을 확인하세요.'},503);
-  const reward=pickRandom(pool),duplicate=Boolean(await env.DB.prepare('SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND COALESCE(quantity,0)>0').bind(user.id,reward.id).first()),rewardShards=duplicate?Number(deps.shardReward?.PRESTIGE||0):0,guardId=`${user.id}:${requestId}`;
+  const attemptNo=Number(progress.total_attempts||0)+1,isPity=Number(progress.failed_attempts||0)+1>=pityAttempts,success=isPity||randomPercent()<successRate,guardId=`${user.id}:${requestId}`;
+  let reward=null,duplicate=false,rewardShards=0;
+  if(success){
+    reward=pickRandom(pool);duplicate=Boolean(await env.DB.prepare('SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND COALESCE(quantity,0)>0').bind(user.id,reward.id).first());rewardShards=duplicate?Number(deps.shardReward?.PRESTIGE||0):0;
+  }
   const statements=[
     env.DB.prepare(`INSERT INTO card_evolution_atomic_guard(guard_id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity='MA' AND COALESCE(uc.breakthrough_level,0)>=13) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?) THEN 1 ELSE 0 END`).bind(guardId,user.id,cardId,user.id,masterStarCost),
-    env.DB.prepare('UPDATE user_cards SET quantity=0,breakthrough_level=0,last_obtained_at=CURRENT_TIMESTAMP WHERE user_id=? AND card_id=? AND quantity>0').bind(user.id,cardId),
-    env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?").bind(masterStarCost,masterStarCost,user.id,masterStarCost),
-    env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,first_obtained_at,last_obtained_at) VALUES(?,?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,reward.id)
+    env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?").bind(masterStarCost,masterStarCost,user.id,masterStarCost)
   ];
-  if(rewardShards>0){statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(rewardShards,user.id));statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,?,card_shards,'EVOLUTION_DUPLICATE',? FROM users WHERE id=?").bind(user.id,rewardShards,reward.id,user.id))}
+  if(success){
+    statements.push(
+      env.DB.prepare('UPDATE user_cards SET quantity=0,breakthrough_level=0,last_obtained_at=CURRENT_TIMESTAMP WHERE user_id=? AND card_id=? AND quantity>0').bind(user.id,cardId),
+      env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,first_obtained_at,last_obtained_at) VALUES(?,?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,reward.id)
+    );
+    if(rewardShards>0){statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(rewardShards,user.id));statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,?,card_shards,'EVOLUTION_DUPLICATE',? FROM users WHERE id=?").bind(user.id,rewardShards,reward.id,user.id))}
+    statements.push(env.DB.prepare(`INSERT INTO card_evolution_progress(user_id,source_card_id,failed_attempts,total_attempts,is_success,reward_card_id,completed_at,updated_at) VALUES(?,?,0,1,1,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source_card_id) DO UPDATE SET failed_attempts=0,total_attempts=card_evolution_progress.total_attempts+1,is_success=1,reward_card_id=excluded.reward_card_id,completed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP`).bind(user.id,cardId,reward.id));
+  }else{
+    statements.push(env.DB.prepare(`INSERT INTO card_evolution_progress(user_id,source_card_id,failed_attempts,total_attempts,is_success,reward_card_id,completed_at,updated_at) VALUES(?,?,1,1,0,NULL,NULL,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source_card_id) DO UPDATE SET failed_attempts=card_evolution_progress.failed_attempts+1,total_attempts=card_evolution_progress.total_attempts+1,is_success=0,reward_card_id=NULL,completed_at=NULL,updated_at=CURRENT_TIMESTAMP`).bind(user.id,cardId));
+  }
   statements.push(
     env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',-?,quantity,'PRESTIGE_EVOLUTION','EVOLUTION',? FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id,masterStarCost,requestId,user.id),
-    env.DB.prepare(`INSERT INTO card_evolution_progress(user_id,source_card_id,failed_attempts,total_attempts,is_success,reward_card_id,completed_at,updated_at) VALUES(?,?,0,1,1,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source_card_id) DO UPDATE SET failed_attempts=0,total_attempts=card_evolution_progress.total_attempts+1,is_success=1,reward_card_id=excluded.reward_card_id,completed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP`).bind(user.id,cardId,reward.id),
-    env.DB.prepare(`INSERT INTO card_evolution_logs(user_id,source_card_id,attempt_no,coin_cost,shard_cost,success_rate,is_pity,is_success,reward_card_id,reward_duplicate,reward_shards,evolution_type,master_star_cost,request_id,source_consumed) VALUES(?,?,1,0,0,100,0,1,?,?,?,?,?,?,1)`).bind(user.id,cardId,reward.id,duplicate?1:0,rewardShards,'MA_TO_PRESTIGE',masterStarCost,requestId),
+    env.DB.prepare(`INSERT INTO card_evolution_logs(user_id,source_card_id,attempt_no,coin_cost,shard_cost,success_rate,is_pity,is_success,reward_card_id,reward_duplicate,reward_shards,evolution_type,master_star_cost,request_id,source_consumed) VALUES(?,?,?,0,0,?,?,?,?,?,?, 'MA_TO_PRESTIGE',?,?,?)`).bind(user.id,cardId,attemptNo,successRate,isPity?1:0,success?1:0,reward?.id||null,duplicate?1:0,rewardShards,masterStarCost,requestId,success?1:0),
     env.DB.prepare('DELETE FROM card_evolution_atomic_guard WHERE guard_id=?').bind(guardId)
   );
   try{await env.DB.batch(statements)}catch(error){const message=String(error?.message||error||'');if(/request_id|UNIQUE/i.test(message))return deps.json({error:'이미 처리된 진화 요청입니다.',code:'EVOLUTION_DUPLICATE_REQUEST'},409);if(/CHECK constraint|verified/i.test(message))return deps.json({error:'진화 재료 또는 대상 카드 상태가 변경되었습니다. 다시 확인해주세요.',code:'EVOLUTION_STATE_CHANGED'},409);throw error}
   const [updated,starAfter]=await Promise.all([env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()]);
-  return deps.json({ok:true,success:true,evolutionType:'MA_TO_PRESTIGE',sourceConsumed:true,source:{id:cardId,title:source.title,grade:source.grade,breakthroughLevel:Number(source.breakthrough_level||0)},reward:{...reward,focusX:Number(reward.focusX??50),focusY:Number(reward.focusY??50)},duplicate,rewardShards,masterStarGained:0,masterStarCost,masterStarsAfter:Number(starAfter?.quantity||0),user:await deps.profile(env,updated)});
+  return deps.json({ok:true,success,isPity,attemptNo,pityAttempts,successRate,evolutionType:'MA_TO_PRESTIGE',sourceConsumed:success,source:{id:cardId,title:source.title,grade:source.grade,breakthroughLevel:Number(source.breakthrough_level||0)},reward:reward?{...reward,focusX:Number(reward.focusX??50),focusY:Number(reward.focusY??50)}:null,duplicate,rewardShards,masterStarGained:0,masterStarCost,masterStarsAfter:Number(starAfter?.quantity||0),user:await deps.profile(env,updated),progress:await state(env,user.id,cardId)});
 }
 
 export async function handleEvolution({path,request,env,deps}){

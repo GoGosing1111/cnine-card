@@ -11,7 +11,7 @@
   function evolutionView(user){
     return `${summaryBar(user)}<section class="evolution-page">
       <header class="evolution-hero">
-        <div><p class="eyebrow">CARD EVOLUTION</p><h2>카드 진화</h2><p>SSR 진화는 기존 도전 방식을 유지하며, PRESTIGE 진화에만 마스터의 별을 사용합니다.</p></div>
+        <div><p class="eyebrow">CARD EVOLUTION</p><h2>카드 진화</h2><p>SSR과 PRESTIGE 진화 모두 성공 확률과 천장이 적용되며, PRESTIGE 진화에는 마스터의 별을 사용합니다.</p></div>
         <div class="evolution-star-wallet" id="evolutionStarWallet">${starIcon('evolution-wallet-star')}<span><small>보유 마스터의 별</small><b>불러오는 중</b></span></div>
       </header>
       <div id="evolutionWorkspace" class="evolution-workspace"><div class="evolution-loading"><i></i><b>진화 정보를 불러오는 중입니다.</b></div></div>
@@ -22,13 +22,13 @@
     const blocked=!card.eligible,progress=card.progress||{};
     return `<button type="button" class="evolution-candidate ${String(card.id)===String(state.selectedId)?'selected':''} ${blocked?'blocked':''}" data-evolution-card="${esc(card.id)}" ${blocked?'disabled':''}>
       <span class="evolution-candidate-art"><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><i>${esc(card.grade)} +${Number(card.breakthroughLevel||0)}</i></span>
-      <span class="evolution-candidate-copy"><b>${esc(card.title)}</b><small>${esc(card.name||'')} · 보유 ${num(card.quantity)}장</small>${blocked?`<em>${esc(card.blockedReason)}</em>`:isPrestige()?'<em class="ready">진화 가능</em>':`<em class="ready">실패 누적 ${num(progress.failedAttempts||0)}회</em>`}</span>
+      <span class="evolution-candidate-copy"><b>${esc(card.title)}</b><small>${esc(card.name||'')} · 보유 ${num(card.quantity)}장</small>${blocked?`<em>${esc(card.blockedReason)}</em>`:`<em class="ready">실패 누적 ${num(progress.failedAttempts||0)}회</em>`}</span>
     </button>`;
   }
 
   function selectedPanel(type,card){
     if(!card)return `<div class="evolution-slot empty"><span>01</span><div class="evolution-empty-card"><i>+</i><b>진화할 카드를 선택하세요.</b><small>${type?.sourceGrade||''} +${Number(type?.minBreakthrough||0)} 카드가 필요합니다.</small></div></div>`;
-    const consumeText=isPrestige()?'진화 완료 시 카드가 완전히 소모됩니다.':'진화 성공 시에만 카드가 완전히 소모됩니다.';
+    const consumeText='진화 성공 시에만 카드가 완전히 소모됩니다.';
     return `<div class="evolution-slot source">
       <span>01 · SOURCE CARD</span>
       <div class="evolution-selected-card">
@@ -48,12 +48,13 @@
     </div>`;
   }
 
-  function prestigeCore(type,masterStars){
-    const cost=Number(type?.masterStarCost||0),enough=masterStars>=cost;
+  function prestigeCore(type,masterStars,card){
+    const cost=Number(type?.masterStarCost||0),enough=masterStars>=cost,progress=card?.progress||{},pityAttempts=Math.max(1,Number(type?.pityAttempts||1)),pityNext=Number(progress.failedAttempts||0)+1>=pityAttempts;
     return `<div class="evolution-slot core prestige">
       <span>02 · EVOLUTION CORE</span>
       <div class="evolution-core-visual"><i class="core-ring one"></i><i class="core-ring two"></i>${starIcon('evolution-core-star')}<b>PRESTIGE ASCENSION</b><small>${esc(type?.label||'')}</small></div>
       <div class="evolution-material-row"><div>${starIcon('evolution-material-icon')}<span><small>필요 재료</small><b>마스터의 별 ${num(cost)}개</b></span></div><em class="${enough?'enough':'shortage'}">보유 ${num(masterStars)}개</em></div>
+      <div class="evolution-legacy-rate"><span>${pityNext?'다음 도전 천장 확정':`성공 확률 ${Number(type?.successRate||0)}%`}</span><small>실패 ${num(progress.failedAttempts||0)}회 / 천장 ${num(pityAttempts)}회</small></div>
     </div>`;
   }
 
@@ -73,20 +74,20 @@
     const enoughMaterial=isPrestige()?masterStars>=Number(type?.masterStarCost||0):Number(resources.coin||0)>=Number(type?.coinCost||0)&&Number(resources.cardShards||0)>=Number(type?.shardCost||0);
     const canAttempt=enabled&&card?.eligible&&enoughMaterial&&hasPool&&!state.pending,candidates=type?.candidates||[];
     const warning=isPrestige()
-      ?'<div><i>!</i><span><b>PRESTIGE 진화 주의사항</b><small>진화가 완료되면 선택한 MA +13 카드와 마스터의 별이 함께 소모됩니다. 강화 수치는 계승되지 않습니다.</small></span></div><p>결과 지급에 실패하면 카드와 마스터의 별은 소모되지 않습니다.</p>'
+      ?'<div><i>!</i><span><b>PRESTIGE 진화 주의사항</b><small>매 도전마다 마스터의 별이 소모됩니다. 실패 시 MA +13 카드와 강화 수치는 유지되며, 성공 시에만 원본 카드가 소모됩니다.</small></span></div><p>천장 회차에는 성공이 확정되며, 성공 결과 지급에 실패하면 원본 카드가 소모되지 않습니다.</p>'
       :'<div><i>!</i><span><b>SSR 진화 주의사항</b><small>기존 방식과 동일합니다. 실패 시 코인과 카드조각만 소모되고 SSR 카드와 +10 강화는 유지됩니다.</small></span></div><p>성공한 경우에만 SSR 카드가 소모되고 랜덤 MA 카드가 지급됩니다.</p>';
     root.innerHTML=`
       <nav class="evolution-type-tabs" aria-label="진화 종류">
         <button type="button" data-evolution-type="${TYPE_SSR}" class="${state.type===TYPE_SSR?'active':''}"><small>STANDARD EVOLUTION</small><b>SSR → MA</b><span>기존 확률·천장 방식</span></button>
-        <button type="button" data-evolution-type="${TYPE_PRESTIGE}" class="${state.type===TYPE_PRESTIGE?'active':''}"><small>PRESTIGE ASCENSION</small><b>MA +13 → PRESTIGE</b><span>마스터의 별 사용</span></button>
+        <button type="button" data-evolution-type="${TYPE_PRESTIGE}" class="${state.type===TYPE_PRESTIGE?'active':''}"><small>PRESTIGE ASCENSION</small><b>MA +13 → PRESTIGE</b><span>확률·천장 · 마스터의 별</span></button>
       </nav>
       ${enabled?'':'<div class="evolution-closed-notice">현재 CMS에서 카드 진화가 중지되어 있습니다.</div>'}
       <section class="evolution-layout">
         <aside class="evolution-picker"><header><div><p class="eyebrow">SELECT MATERIAL</p><h3>진화 대상 카드</h3></div><span>${num(type?.eligibleCount||0)}장 가능</span></header><div class="evolution-candidate-list">${candidates.length?candidates.map(candidateCard).join(''):`<div class="evolution-candidate-empty"><b>보유한 ${esc(type?.sourceGrade||'')} 카드가 없습니다.</b><small>진화 조건을 충족한 카드가 이곳에 표시됩니다.</small></div>`}</div></aside>
         <div class="evolution-main">
-          <div class="evolution-process-grid">${selectedPanel(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${isPrestige()?prestigeCore(type,masterStars):legacyCore(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${resultPanel(type)}</div>
+          <div class="evolution-process-grid">${selectedPanel(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${isPrestige()?prestigeCore(type,masterStars,card):legacyCore(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${resultPanel(type)}</div>
           <div class="evolution-warning-panel">${warning}</div>
-          <button type="button" class="evolution-submit ${isPrestige()?'prestige':''}" id="evolutionSubmit" ${canAttempt?'':'disabled'}>${state.pending?'진화 처리 중...':card?`${esc(card.title)} ${isPrestige()?'진화하기':'진화 도전'}`:'진화할 카드 선택'}</button>
+          <button type="button" class="evolution-submit ${isPrestige()?'prestige':''}" id="evolutionSubmit" ${canAttempt?'':'disabled'}>${state.pending?'진화 처리 중...':card?`${esc(card.title)} 진화 도전`:'진화할 카드 선택'}</button>
           ${card&&!enoughMaterial?`<small class="evolution-submit-help">${isPrestige()?`마스터의 별이 ${num(Number(type.masterStarCost||0)-masterStars)}개 부족합니다.`:`진화 재료가 부족합니다. (${num(type.coinCost)}코인 / 카드조각 ${num(type.shardCost)}개)`}</small>`:''}
           ${!hasPool?`<small class="evolution-submit-help">CMS에서 공개 ${esc(type?.targetGrade||'')} 카드를 먼저 등록해야 합니다.</small>`:''}
         </div>
@@ -105,25 +106,26 @@
   function openConfirm(){
     const type=current(),card=selected(),modal=document.getElementById('modal');if(!modal||!card||state.pending)return;
     const material=isPrestige()?`마스터의 별 ${num(type.masterStarCost)}개`:`${num(type.coinCost)}코인 · 카드조각 ${num(type.shardCost)}개`;
-    const warning=isPrestige()?'선택한 카드와 마스터의 별은 진화 완료 후 복구할 수 없습니다.':'실패하면 코인과 카드조각만 소모되며 SSR 카드와 +10 강화는 유지됩니다.';
+    const warning=isPrestige()?'실패하면 마스터의 별만 소모되고 MA +13 카드는 유지됩니다. 성공 시에만 원본 카드가 소모됩니다.':'실패하면 코인과 카드조각만 소모되며 SSR 카드와 +10 강화는 유지됩니다.';
     modal.className='modal show evolution-confirm-modal';
-    modal.innerHTML=`<div class="modal-panel evolution-confirm-panel"><button type="button" class="icon-close" id="evolutionConfirmClose">×</button><p class="eyebrow">FINAL CONFIRMATION</p><h2>${isPrestige()?'진화를 진행하시겠습니까?':'진화에 도전하시겠습니까?'}</h2><div class="evolution-confirm-card"><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><span><small>${esc(card.grade)} +${Number(card.breakthroughLevel||0)}</small><b>${esc(card.title)}</b><em>${material}</em></span></div><div class="evolution-confirm-warning"><b>${warning}</b><span>결과는 랜덤 ${esc(type.targetGrade)} 카드로 결정됩니다.</span></div><div class="evolution-confirm-actions"><button type="button" class="btn secondary" id="evolutionConfirmCancel">취소</button><button type="button" class="btn evolution-confirm-submit" id="evolutionConfirmSubmit" disabled>진화 확정 (1)</button></div></div>`;
-    const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('evolutionConfirmClose').onclick=close;document.getElementById('evolutionConfirmCancel').onclick=close;const submit=document.getElementById('evolutionConfirmSubmit');setTimeout(()=>{if(submit?.isConnected){submit.disabled=false;submit.textContent=isPrestige()?'진화 확정':'진화 도전'}},1000);submit.onclick=()=>attempt(card,type);
+    modal.innerHTML=`<div class="modal-panel evolution-confirm-panel"><button type="button" class="icon-close" id="evolutionConfirmClose">×</button><p class="eyebrow">FINAL CONFIRMATION</p><h2>진화에 도전하시겠습니까?</h2><div class="evolution-confirm-card"><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><span><small>${esc(card.grade)} +${Number(card.breakthroughLevel||0)}</small><b>${esc(card.title)}</b><em>${material}</em></span></div><div class="evolution-confirm-warning"><b>${warning}</b><span>결과는 랜덤 ${esc(type.targetGrade)} 카드로 결정됩니다.</span></div><div class="evolution-confirm-actions"><button type="button" class="btn secondary" id="evolutionConfirmCancel">취소</button><button type="button" class="btn evolution-confirm-submit" id="evolutionConfirmSubmit" disabled>진화 확정 (1)</button></div></div>`;
+    const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('evolutionConfirmClose').onclick=close;document.getElementById('evolutionConfirmCancel').onclick=close;const submit=document.getElementById('evolutionConfirmSubmit');setTimeout(()=>{if(submit?.isConnected){submit.disabled=false;submit.textContent='진화 도전'}},1000);submit.onclick=()=>attempt(card,type);
   }
 
   async function attempt(card,type){
     if(state.pending)return;state.pending=true;
     const modal=document.getElementById('modal'),requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
     modal.className=`modal show evolution-casting-modal ${isPrestige()?'prestige':''}`;
-    modal.innerHTML=`<div class="modal-panel evolution-casting-panel"><div class="evolution-casting-core"><i class="cast-ring a"></i><i class="cast-ring b"></i>${isPrestige()?starIcon('evolution-cast-star'):''}<img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"></div><p class="eyebrow">EVOLUTION PROCESS</p><h2>${isPrestige()?'진화 결과를 확정하고 있습니다.':'진화 성공 여부를 확인하고 있습니다.'}</h2><span>창을 닫거나 새로고침하지 마세요.</span></div>`;
+    modal.innerHTML=`<div class="modal-panel evolution-casting-panel"><div class="evolution-casting-core"><i class="cast-ring a"></i><i class="cast-ring b"></i>${isPrestige()?starIcon('evolution-cast-star'):''}<img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"></div><p class="eyebrow">EVOLUTION PROCESS</p><h2>진화 성공 여부를 확인하고 있습니다.</h2><span>창을 닫거나 새로고침하지 마세요.</span></div>`;
     try{const result=await apiRequest('evolution/attempt',{method:'POST',body:JSON.stringify({cardId:card.id,evolutionType:state.type,requestId})});if(result.user&&typeof saveUser==='function'&&typeof apiUserToLocal==='function')saveUser(apiUserToLocal(result.user));await new Promise(resolve=>setTimeout(resolve,650));showResult(result)}catch(error){state.pending=false;modal.className='modal show evolution-error-modal';modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>!</i><p class="eyebrow">EVOLUTION ERROR</p><h2>진화 처리에 실패했습니다.</h2><span>${esc(error.message||'잠시 후 다시 시도해주세요.')}</span><small>${isPrestige()?'카드와 마스터의 별은 소모되지 않았습니다.':'처리되지 않은 요청의 재료는 소모되지 않았습니다.'}</small><button type="button" class="btn" id="evolutionErrorClose">확인</button></div>`;document.getElementById('evolutionErrorClose').onclick=()=>{modal.className='modal';modal.innerHTML='';load()}}
   }
 
   function showResult(result){
     const modal=document.getElementById('modal');
-    if(result.evolutionType===TYPE_SSR&&!result.success){
+    if(!result.success){
+      const prestige=result.evolutionType===TYPE_PRESTIGE,nextPity=Number(result.progress?.failedAttempts||0)+1>=Number(result.pityAttempts||1);
       modal.className='modal show evolution-error-modal';
-      modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>×</i><p class="eyebrow">EVOLUTION FAILED</p><h2>${num(result.attemptNo)}번째 진화 도전 실패</h2><span>코인과 카드조각이 소모되었습니다.</span><small>SSR 카드와 +10 강화는 그대로 유지됩니다.${Number(result.progress?.failedAttempts||0)+1>=Number(result.pityAttempts||10)?' 다음 도전은 천장 확정입니다.':''}</small><button type="button" class="btn" id="evolutionFailureClose">확인</button></div>`;
+      modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>×</i><p class="eyebrow">EVOLUTION FAILED</p><h2>${num(result.attemptNo)}번째 진화 도전 실패</h2><span>${prestige?'마스터의 별이 소모되었습니다.':'코인과 카드조각이 소모되었습니다.'}</span><small>${prestige?'MA +13 카드와 강화 수치는 그대로 유지됩니다.':'SSR 카드와 +10 강화는 그대로 유지됩니다.'}${nextPity?' 다음 도전은 천장 확정입니다.':''}</small><button type="button" class="btn" id="evolutionFailureClose">확인</button></div>`;
       document.getElementById('evolutionFailureClose').onclick=()=>{state.pending=false;modal.className='modal';modal.innerHTML='';renderShell('evolution')};return;
     }
     const reward=result.reward||{};modal.className=`modal show evolution-result-modal ${result.evolutionType===TYPE_PRESTIGE?'prestige':''}`;
