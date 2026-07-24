@@ -1,5 +1,5 @@
 (()=>{
-  const magicAdmin={data:null,editingMagic:null,editingEffect:null,effectSearch:''};
+  const magicAdmin={data:null,editingMagic:null,editingEffect:null,effectSearch:'',uniqueGrade:'ALL',uniqueStatus:'ALL',uniqueSelected:new Set()};
   const h=value=>String(value??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
   const number=value=>Number(value||0);
   const effectLabel=value=>({HEAL:'회복',ATTACK_BUFF:'공격 강화',DEFENSE_BUFF:'방어 강화',HP_BUFF:'최대 HP',TRAP:'함정',SHIELD:'보호막',COUNTER:'반격',OTHER:'기타',NONE:'효과 없음'})[String(value||'').toUpperCase()]||String(value||'기타');
@@ -10,25 +10,36 @@
     const role=String(state.role||'').toUpperCase();
     const magicNav=document.querySelector('#nav button[data-view="magiccards"]');
     const rewardNav=document.querySelector('#nav button[data-view="magicrewards"]');
+    const uniqueNav=document.querySelector('#nav button[data-view="uniqueabilities"]');
     if(magicNav)magicNav.hidden=role!=='OWNER';
+    if(uniqueNav)uniqueNav.hidden=role!=='OWNER';
     if(rewardNav)rewardNav.hidden=!['OWNER','ADMIN'].includes(role);
   };
   const prevShow=show;
   show=function(view,prefetched){
-    if(view!=='magiccards'&&view!=='magicrewards')return prevShow(view,prefetched);
-    const isReward=view==='magicrewards';
+    if(!['magiccards','magicrewards','uniqueabilities'].includes(view))return prevShow(view,prefetched);
+    const isReward=view==='magicrewards',isUnique=view==='uniqueabilities';
     state.view=view;
     document.querySelectorAll('.view').forEach(x=>x.hidden=x.id!==`view-${view}`);
     document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===view));
-    $('#pageTitle').textContent=isReward?'마법 결정 보상':'마법카드 관리';
-    const loader=isReward?loadMagicRewards:loadMagicAdmin;
-    loader().catch(e=>{const root=$(isReward?'#magicRewardAdminRoot':'#magicAdminRoot');if(root)root.innerHTML=`<div class="panel magicAdminError">${h(e.message)}</div>`});
+    $('#pageTitle').textContent=isReward?'마법 결정 보상':isUnique?'카드 고유 능력치':'마법카드 관리';
+    const loader=isReward?loadMagicRewards:isUnique?loadUniqueAbilityAdmin:loadMagicAdmin;
+    const rootSelector=isReward?'#magicRewardAdminRoot':isUnique?'#uniqueAbilityAdminRoot':'#magicAdminRoot';
+    loader().catch(e=>{const root=$(rootSelector);if(root)root.innerHTML=`<div class="panel magicAdminError">${h(e.message)}</div>`});
   };
   async function loadMagicAdmin(){
     const root=$('#magicAdminRoot');if(!root)return;
     root.innerHTML='<div class="panel magicAdminLoading">마법카드 시스템을 불러오는 중...</div>';
     magicAdmin.data=await api('admin/magic-system');
     renderMagicAdmin();
+  }
+  async function loadUniqueAbilityAdmin(){
+    const root=$('#uniqueAbilityAdminRoot');if(!root)return;
+    root.innerHTML='<div class="panel magicAdminLoading">카드별 고유 능력치를 불러오는 중...</div>';
+    magicAdmin.data=await api('admin/magic-system');
+    const validIds=new Set((magicAdmin.data?.uniqueEffects||[]).map(x=>String(x.cardId)));
+    magicAdmin.uniqueSelected=new Set([...magicAdmin.uniqueSelected].filter(id=>validIds.has(String(id))));
+    renderUniqueAbilityAdmin();
   }
   async function loadMagicRewards(){
     const root=$('#magicRewardAdminRoot');if(!root)return;
@@ -57,7 +68,7 @@
     if(!root)return;
     root.innerHTML=`
       <section class="magicAdminHero panel">
-        <div><small>MAGIC CARD SYSTEM · V1159</small><h2>마법카드·카드 고유 능력 운영 센터</h2><p>카드별 고유 능력은 전체 OFF 상태에서 OWNER만 먼저 전투 점검한 뒤 일반 적용할 수 있습니다.</p></div>
+        <div><small>MAGIC CARD SYSTEM · V1160</small><h2>마법카드 운영 센터</h2><p>마법카드 등록·뽑기·마법 결정 운영을 관리합니다. 카드별 고유 능력치는 전용 메뉴에서 관리합니다.</p></div>
         <div class="magicAdminHeroStats"><div><span>등록 마법카드</span><b>${number(stats.magicCardCount).toLocaleString()}</b></div><div><span>활성 카드</span><b>${number(stats.activeMagicCardCount).toLocaleString()}</b></div><div><span>보유 기록</span><b>${number(stats.ownedRecordCount).toLocaleString()}</b></div><div><span>전체 마법 결정</span><b>${number(stats.totalMagicCrystals).toLocaleString()}</b></div></div>
       </section>
       <section class="panel magicSettingsPanel">
@@ -75,15 +86,89 @@
       </section>
       ${acquisitionPanel(cfg)}
       ${magicCardEditor()}
-      <section class="panel"><div class="maintenanceHead"><div><small>REGISTERED MAGIC CARDS</small><h2>등록된 마법카드</h2><p>삭제하지 않고 비활성화 방식으로 운영합니다.</p></div><button id="magicNewCard" class="ghost">새 마법카드</button></div><div class="magicCardAdminGrid">${(d.cards||[]).map(magicCardRow).join('')||'<div class="magicAdminEmpty">등록된 마법카드가 없습니다.</div>'}</div></section>
-      ${uniqueAbilityControl(uniqueCfg)}
-      ${uniqueEffectEditor()}
-      <section class="panel"><div class="maintenanceHead"><div><small>SSR+ UNIQUE ABILITIES</small><h2>카드별 고유 능력치</h2><p>SSR·MA·LIMITED·PRESTIGE·FUR 카드만 표시됩니다. 개별 능력치 활성과 전역 적용 스위치가 모두 켜져야 전투에 반영됩니다.</p></div><input id="magicEffectSearch" class="magicEffectSearch" value="${h(magicAdmin.effectSearch)}" placeholder="카드명 또는 멤버 검색"></div><div id="magicUniqueList" class="magicUniqueList">${uniqueEffectRows()}</div></section>`;
+      <section class="panel"><div class="maintenanceHead"><div><small>REGISTERED MAGIC CARDS</small><h2>등록된 마법카드</h2><p>삭제하지 않고 비활성화 방식으로 운영합니다.</p></div><button id="magicNewCard" class="ghost">새 마법카드</button></div><div class="magicCardAdminGrid">${(d.cards||[]).map(magicCardRow).join('')||'<div class="magicAdminEmpty">등록된 마법카드가 없습니다.</div>'}</div></section>`;
     bindMagicAdmin();
   }
   function uniqueAbilityControl(cfg={}){
     const active=cfg.enabled===true,ownerTest=cfg.ownerTestEnabled!==false,detail=cfg.userDetailEnabled!==false;
     return `<section class="panel uniqueAbilityControl ${active?'live':'test'}"><div class="maintenanceHead"><div><small>UNIQUE ABILITY CONTROL</small><h2>카드 고유 능력 전투 적용</h2><p>전체 적용이 OFF여도 OWNER 테스트가 허용되어 있으면 OWNER 계정 전투에만 반영됩니다. 일반 유저 화면과 전투에는 노출되지 않습니다.</p></div>${statusPill(active,'일반 적용 ON',ownerTest?'OWNER 테스트':'완전 OFF')}</div><div class="magicSettingsGrid uniqueAbilitySwitchGrid"><label><span>일반 유저 전투 적용</span><select id="uniqueSystemEnabled"><option value="0" ${!active?'selected':''}>OFF · 일반 미적용</option><option value="1" ${active?'selected':''}>ON · 전체 적용</option></select></label><label><span>OWNER 단독 테스트</span><select id="uniqueOwnerTest"><option value="1" ${ownerTest?'selected':''}>허용</option><option value="0" ${!ownerTest?'selected':''}>차단</option></select></label><label><span>카드 상세 능력 표시</span><select id="uniqueUserDetail"><option value="1" ${detail?'selected':''}>표시</option><option value="0" ${!detail?'selected':''}>숨김</option></select></label></div><div class="uniqueAbilityFormula"><b>현재 테스트 반영 범위</b><span>PVE·자동전투·무한의탑·레이드·PVP·대장전</span><p>공격력은 공격 수치, HP·방어력은 생존 수치, 속도는 전투 점수 보정과 대장전 선공 판정에 사용됩니다. 발동형 고유 효과 데이터는 이번 단계에서 저장·표시만 하며 전투 발동은 하지 않습니다.</p></div><div class="magicAdminActions"><button id="uniqueSystemSave">고유 능력 적용 설정 저장</button></div></section>`;
+  }
+  function uniqueFilteredList(){
+    const q=magicAdmin.effectSearch.trim().toLowerCase(),grade=magicAdmin.uniqueGrade,status=magicAdmin.uniqueStatus;
+    return (magicAdmin.data?.uniqueEffects||[]).filter(x=>{
+      if(q&&!String(x.title||'').toLowerCase().includes(q)&&!String(x.memberName||'').toLowerCase().includes(q))return false;
+      if(grade!=='ALL'&&String(x.grade||'').toUpperCase()!==grade)return false;
+      if(status==='ACTIVE'&&!x.isActive)return false;
+      if(status==='INACTIVE'&&x.isActive)return false;
+      if(status==='UNSET'&&(x.isActive||number(x.attackPercent)||number(x.defensePercent)||number(x.hpPercent)||number(x.speedPercent)||x.effectName))return false;
+      return true;
+    });
+  }
+  function uniqueBatchEditor(){
+    const selected=magicAdmin.uniqueSelected.size;
+    return `<section class="panel uniqueBatchPanel"><div class="maintenanceHead"><div><small>MULTI CARD EDITOR</small><h2>여러 카드 일괄 설정</h2><p>체크한 항목만 선택 카드에 변경됩니다. 체크하지 않은 기존 값과 고유 효과 이름·설명은 유지됩니다.</p></div><span class="uniqueSelectionBadge"><b id="uniqueSelectedCount">${selected}</b>장 선택</span></div>
+      <div class="uniqueBatchGrid">
+        <label class="uniqueBatchField"><span><input type="checkbox" data-batch-enable="attackPercent"> 공격력 변경</span><input id="batchUniqueAttack" type="number" step="0.1" value="0" disabled><small>-90% ~ 500%</small></label>
+        <label class="uniqueBatchField"><span><input type="checkbox" data-batch-enable="defensePercent"> 방어력 변경</span><input id="batchUniqueDefense" type="number" step="0.1" value="0" disabled><small>-90% ~ 500%</small></label>
+        <label class="uniqueBatchField"><span><input type="checkbox" data-batch-enable="hpPercent"> HP 변경</span><input id="batchUniqueHp" type="number" step="0.1" value="0" disabled><small>-90% ~ 500%</small></label>
+        <label class="uniqueBatchField"><span><input type="checkbox" data-batch-enable="speedPercent"> 속도 변경</span><input id="batchUniqueSpeed" type="number" step="0.1" value="0" disabled><small>-90% ~ 300%</small></label>
+        <div class="uniqueBatchScope"><label class="uniqueBatchMaster"><input id="batchUniqueScopeEnabled" type="checkbox"> 적용 콘텐츠 변경</label><div><label><input id="batchUniquePve" type="checkbox" checked disabled> PVE·자동·탑·레이드</label><label><input id="batchUniquePvp" type="checkbox" checked disabled> PVP</label><label><input id="batchUniqueCaptain" type="checkbox" checked disabled> 대장전</label></div></div>
+        <label class="uniqueBatchField uniqueBatchStatus"><span><input id="batchUniqueActiveEnabled" type="checkbox"> 활성 상태 변경</span><select id="batchUniqueActive" disabled><option value="1">능력치 활성</option><option value="0">능력치 비활성</option></select><small>전역 ON/OFF와 별도로 카드 단위 적용 상태입니다.</small></label>
+      </div><div class="uniqueBatchFooter"><p>한 번에 최대 100장까지 처리합니다. 검색·등급 필터 후 ‘현재 목록 전체 선택’을 사용하면 빠르게 묶을 수 있습니다.</p><button id="uniqueBatchSave" ${selected?'':'disabled'}>선택 카드 일괄 적용</button></div></section>`;
+  }
+  function uniqueEffectRows(){
+    const list=uniqueFilteredList();
+    return list.map(x=>{const id=String(x.cardId),selected=magicAdmin.uniqueSelected.has(id);return `<article class="magicUniqueRow uniqueManageRow ${x.isActive?'active':''} ${selected?'selected':''}" data-unique-row="${h(id)}"><label class="uniqueCardCheck" title="선택"><input type="checkbox" data-unique-select="${h(id)}" ${selected?'checked':''}><span></span></label><div class="magicUniqueThumb">${x.imageUrl?`<img src="${h(x.imageUrl)}" alt="" onerror="this.remove()">`:''}</div><div><small>${h(x.grade)} · ${h(x.memberName)}</small><h3>${h(x.title)}</h3><p>${x.effectName?h(x.effectName):'고유 능력 미설정'}</p></div><div class="magicUniqueStats"><b>공격 ${number(x.attackPercent)}%</b><b>방어 ${number(x.defensePercent)}%</b><b>HP ${number(x.hpPercent)}%</b><b>속도 ${number(x.speedPercent)}%</b></div><div>${statusPill(x.isActive,'능력 ON','미적용')}<button data-unique-edit="${h(id)}">개별 편집</button></div></article>`}).join('')||'<div class="magicAdminEmpty">조건에 맞는 카드가 없습니다.</div>';
+  }
+  function uniqueManagerPanel(){
+    const filtered=uniqueFilteredList().length,total=(magicAdmin.data?.uniqueEffects||[]).length;
+    return `<section class="panel uniqueManagerPanel"><div class="maintenanceHead uniqueManagerHead"><div><small>SSR+ UNIQUE ABILITY LIBRARY</small><h2>카드 선택 및 개별 관리</h2><p>검색과 등급 필터로 대상을 좁힌 뒤 여러 장을 선택하거나 카드별 세부 효과를 편집합니다.</p></div><div class="uniqueManagerStats"><span>현재 목록 <b id="uniqueFilteredCount">${filtered}</b> / ${total}</span></div></div><div class="uniqueManagerToolbar"><input id="uniqueAbilitySearch" class="magicEffectSearch" value="${h(magicAdmin.effectSearch)}" placeholder="카드명 또는 멤버 검색"><select id="uniqueGradeFilter"><option value="ALL">전체 등급</option>${['SSR','MA','LIMITED','PRESTIGE','FUR'].map(v=>`<option value="${v}" ${magicAdmin.uniqueGrade===v?'selected':''}>${v}</option>`).join('')}</select><select id="uniqueStatusFilter"><option value="ALL">전체 상태</option><option value="ACTIVE" ${magicAdmin.uniqueStatus==='ACTIVE'?'selected':''}>활성 카드</option><option value="INACTIVE" ${magicAdmin.uniqueStatus==='INACTIVE'?'selected':''}>비활성 카드</option><option value="UNSET" ${magicAdmin.uniqueStatus==='UNSET'?'selected':''}>미설정 카드</option></select><button id="uniqueSelectVisible" class="ghost">현재 목록 전체 선택</button><button id="uniqueClearSelection" class="ghost">선택 해제</button></div><div id="uniqueAbilityList" class="magicUniqueList">${uniqueEffectRows()}</div></section>`;
+  }
+  function renderUniqueAbilityAdmin(){
+    const root=$('#uniqueAbilityAdminRoot'),d=magicAdmin.data||{},cfg=d.uniqueEffectSettings||{},list=d.uniqueEffects||[];
+    if(!root)return;
+    const activeCount=list.filter(x=>x.isActive).length,configuredCount=list.filter(x=>number(x.attackPercent)||number(x.defensePercent)||number(x.hpPercent)||number(x.speedPercent)||x.effectName).length;
+    root.innerHTML=`<section class="panel uniqueAbilityHero"><div><small>CARD UNIQUE ABILITY · V1160</small><h2>카드별 고유 능력치 운영</h2><p>일반 유저 적용은 OFF로 유지한 채 OWNER 전투에서 먼저 점검할 수 있습니다. 다중 선택으로 반복 입력을 줄이고, 고유 효과 이름·설명은 개별 편집으로 보존합니다.</p></div><div class="uniqueAbilityHeroStats"><div><span>대상 카드</span><b>${list.length}</b></div><div><span>설정 카드</span><b>${configuredCount}</b></div><div><span>활성 카드</span><b>${activeCount}</b></div><div><span>선택 카드</span><b id="uniqueHeroSelected">${magicAdmin.uniqueSelected.size}</b></div></div></section>${uniqueAbilityControl(cfg)}${uniqueEffectEditor()}${uniqueBatchEditor()}${uniqueManagerPanel()}`;
+    bindUniqueAbilityAdmin();
+  }
+  function updateUniqueSelectionState(){
+    const count=magicAdmin.uniqueSelected.size;
+    const countNode=$('#uniqueSelectedCount'),heroNode=$('#uniqueHeroSelected'),save=$('#uniqueBatchSave');
+    if(countNode)countNode.textContent=String(count);if(heroNode)heroNode.textContent=String(count);if(save)save.disabled=count===0;
+  }
+  function bindUniqueRows(){
+    document.querySelectorAll('[data-unique-select]').forEach(input=>input.onchange=()=>{const id=String(input.dataset.uniqueSelect);if(input.checked&&magicAdmin.uniqueSelected.size>=100){input.checked=false;alert('일괄 처리는 한 번에 최대 100장까지 선택할 수 있습니다.');return}if(input.checked)magicAdmin.uniqueSelected.add(id);else magicAdmin.uniqueSelected.delete(id);input.closest('.uniqueManageRow')?.classList.toggle('selected',input.checked);updateUniqueSelectionState()});
+    document.querySelectorAll('[data-unique-edit]').forEach(button=>button.onclick=()=>openUniqueEffect(button.dataset.uniqueEdit));
+  }
+  function refreshUniqueList(){
+    const list=$('#uniqueAbilityList');if(!list)return;list.innerHTML=uniqueEffectRows();const count=$('#uniqueFilteredCount');if(count)count.textContent=String(uniqueFilteredList().length);bindUniqueRows();updateUniqueSelectionState();
+  }
+  function bindUniqueAbilityAdmin(){
+    $('#uniqueSystemSave')?.addEventListener('click',saveUniqueSettings);
+    $('#magicEffectCancel')?.addEventListener('click',()=>{magicAdmin.editingEffect=null;renderUniqueAbilityAdmin()});
+    $('#magicEffectSave')?.addEventListener('click',saveUniqueEffect);
+    const search=$('#uniqueAbilitySearch');if(search)search.oninput=()=>{magicAdmin.effectSearch=search.value;refreshUniqueList()};
+    $('#uniqueGradeFilter')?.addEventListener('change',event=>{magicAdmin.uniqueGrade=event.target.value;refreshUniqueList()});
+    $('#uniqueStatusFilter')?.addEventListener('change',event=>{magicAdmin.uniqueStatus=event.target.value;refreshUniqueList()});
+    $('#uniqueSelectVisible')?.addEventListener('click',()=>{for(const card of uniqueFilteredList()){if(magicAdmin.uniqueSelected.size>=100)break;magicAdmin.uniqueSelected.add(String(card.cardId))}refreshUniqueList()});
+    $('#uniqueClearSelection')?.addEventListener('click',()=>{magicAdmin.uniqueSelected.clear();refreshUniqueList()});
+    document.querySelectorAll('[data-batch-enable]').forEach(check=>check.onchange=()=>{const map={attackPercent:'#batchUniqueAttack',defensePercent:'#batchUniqueDefense',hpPercent:'#batchUniqueHp',speedPercent:'#batchUniqueSpeed'};const input=$(map[check.dataset.batchEnable]);if(input)input.disabled=!check.checked});
+    $('#batchUniqueScopeEnabled')?.addEventListener('change',event=>['#batchUniquePve','#batchUniquePvp','#batchUniqueCaptain'].forEach(selector=>{$(selector).disabled=!event.target.checked}));
+    $('#batchUniqueActiveEnabled')?.addEventListener('change',event=>{$('#batchUniqueActive').disabled=!event.target.checked});
+    $('#uniqueBatchSave')?.addEventListener('click',saveUniqueBatch);
+    bindUniqueRows();
+  }
+  async function saveUniqueBatch(){
+    const ids=[...magicAdmin.uniqueSelected].slice(0,100),changes={};
+    const fields=[['attackPercent','#batchUniqueAttack'],['defensePercent','#batchUniqueDefense'],['hpPercent','#batchUniqueHp'],['speedPercent','#batchUniqueSpeed']];
+    for(const [key,selector] of fields){const check=document.querySelector(`[data-batch-enable="${key}"]`);if(check?.checked)changes[key]=number($(selector).value)}
+    if($('#batchUniqueScopeEnabled')?.checked)changes.scopes={pve:$('#batchUniquePve').checked,pvp:$('#batchUniquePvp').checked,captain:$('#batchUniqueCaptain').checked};
+    if($('#batchUniqueActiveEnabled')?.checked)changes.isActive=$('#batchUniqueActive').value==='1';
+    if(!ids.length)return alert('일괄 적용할 카드를 선택하세요.');
+    if(!Object.keys(changes).length)return alert('변경할 능력치·적용 콘텐츠·활성 상태 중 하나 이상을 체크하세요.');
+    if(!confirm(`${ids.length}장의 카드에 체크한 항목만 일괄 적용할까요?\n고유 효과 이름과 설명은 변경되지 않습니다.`))return;
+    const result=await api('admin/magic-system',{method:'POST',body:JSON.stringify({action:'BATCH_SAVE_UNIQUE_EFFECTS',cardIds:ids,changes})});
+    alert(`${number(result.updatedCount)}장의 카드 고유 능력치를 일괄 저장했습니다.`);magicAdmin.uniqueSelected.clear();await loadUniqueAbilityAdmin();
   }
   function magicCardEditor(){
     const x=magicAdmin.editingMagic||{rarity:'R',effectType:'HEAL',triggerType:'BATTLE_START',effectValue:0,triggerChance:100,maxActivations:1,drawWeight:1,scopes:{pve:true,pvp:true,captain:true},isActive:true,sortOrder:0};
@@ -96,10 +181,9 @@
   }
   function magicCardRow(x){return `<article class="magicAdminCard ${x.isActive?'':'off'}"><div class="magicAdminArt">${x.imageUrl?`<img src="${h(x.imageUrl)}" alt="" onerror="this.remove()">`:''}<span>✦</span></div><div><small>${h(x.rarity)} · ${h(x.code)}</small><h3>${h(x.name)}</h3><p>${h(x.description||'설명 없음')}</p><div class="magicAdminTags"><b>${h(effectLabel(x.effectType))}</b><b>${h(triggerLabel(x.triggerType))}</b><b>${number(x.triggerChance)}%</b><b>최대 ${number(x.maxActivations)}회</b></div></div><div class="magicAdminCardActions">${statusPill(x.isActive)}<button data-magic-edit="${x.id}">수정</button><button data-magic-toggle="${x.id}" data-active="${x.isActive?'0':'1'}" class="ghost">${x.isActive?'비활성':'활성화'}</button></div></article>`}
   function uniqueEffectEditor(){const x=magicAdmin.editingEffect;if(!x)return '';
-    return `<section class="panel uniqueEffectEditor"><div class="maintenanceHead"><div><small>${h(x.grade)} UNIQUE EFFECT</small><h2>${h(x.memberName)} · ${h(x.title)}</h2><p>개별 능력치 활성 후 전역 스위치 또는 OWNER 테스트가 켜져 있을 때 4종 능력치가 전투에 반영됩니다.</p></div><button id="magicEffectCancel" class="ghost">편집 닫기</button></div><div class="magicUniqueEditorGrid"><label><span>공격력 보정 (%)</span><input id="uniqueAttack" type="number" step="0.1" value="${number(x.attackPercent)}"></label><label><span>방어력 보정 (%)</span><input id="uniqueDefense" type="number" step="0.1" value="${number(x.defensePercent)}"></label><label><span>HP 보정 (%)</span><input id="uniqueHp" type="number" step="0.1" value="${number(x.hpPercent)}"></label><label><span>속도 보정 (%)</span><input id="uniqueSpeed" type="number" step="0.1" value="${number(x.speedPercent)}"></label><label class="wide"><span>고유 효과 이름</span><input id="uniqueName" value="${h(x.effectName||'')}"></label><label class="wide"><span>고유 효과 설명</span><textarea id="uniqueDescription" rows="2">${h(x.effectDescription||'')}</textarea></label><label><span>효과 유형</span><input id="uniqueType" value="${h(x.effectType||'NONE')}"></label><label><span>발동 시점</span><input id="uniqueTrigger" value="${h(x.triggerType||'PASSIVE')}"></label><label><span>효과 수치</span><input id="uniqueValue" type="number" step="0.1" value="${number(x.effectValue)}"></label><label><span>발동 확률 (%)</span><input id="uniqueChance" type="number" min="0" max="100" step="0.1" value="${number(x.triggerChance)}"></label><label><span>최대 발동 횟수</span><input id="uniqueMax" type="number" min="1" value="${number(x.maxActivations||1)}"></label><div class="magicScopeBox"><b>적용 범위</b><label><input id="uniquePve" type="checkbox" ${x.scopes?.pve!==false?'checked':''}> PVE</label><label><input id="uniquePvp" type="checkbox" ${x.scopes?.pvp!==false?'checked':''}> PVP</label><label><input id="uniqueCaptain" type="checkbox" ${x.scopes?.captain!==false?'checked':''}> 대장전</label><label><input id="uniqueActive" type="checkbox" ${x.isActive?'checked':''}> 능력치 활성</label></div></div><div class="magicAdminActions"><button id="magicEffectSave">고유 능력 저장</button></div></section>`}
-  function uniqueEffectRows(){const q=magicAdmin.effectSearch.trim().toLowerCase(),list=(magicAdmin.data?.uniqueEffects||[]).filter(x=>!q||x.title.toLowerCase().includes(q)||x.memberName.toLowerCase().includes(q));return list.map(x=>`<article class="magicUniqueRow ${x.isActive?'active':''}"><div class="magicUniqueThumb">${x.imageUrl?`<img src="${h(x.imageUrl)}" alt="" onerror="this.remove()">`:''}</div><div><small>${h(x.grade)} · ${h(x.memberName)}</small><h3>${h(x.title)}</h3><p>${x.effectName?h(x.effectName):'고유 능력 미설정'}</p></div><div class="magicUniqueStats"><b>공격 ${number(x.attackPercent)}%</b><b>방어 ${number(x.defensePercent)}%</b><b>HP ${number(x.hpPercent)}%</b><b>속도 ${number(x.speedPercent)}%</b></div><div>${statusPill(x.isActive,'능력 ON','미적용')}<button data-unique-edit="${h(x.cardId)}">편집</button></div></article>`).join('')||'<div class="magicAdminEmpty">검색 결과가 없습니다.</div>'}
+    return `<section class="panel uniqueEffectEditor"><div class="maintenanceHead"><div><small>${h(x.grade)} UNIQUE EFFECT</small><h2>${h(x.memberName)} · ${h(x.title)}</h2><p>개별 능력치 활성 후 전역 스위치 또는 OWNER 테스트가 켜져 있을 때 4종 능력치가 전투에 반영됩니다.</p></div><button id="magicEffectCancel" class="ghost">편집 닫기</button></div><div class="magicUniqueEditorGrid"><label><span>공격력 보정 (%)</span><input id="uniqueAttack" type="number" step="0.1" value="${number(x.attackPercent)}"></label><label><span>방어력 보정 (%)</span><input id="uniqueDefense" type="number" step="0.1" value="${number(x.defensePercent)}"></label><label><span>HP 보정 (%)</span><input id="uniqueHp" type="number" step="0.1" value="${number(x.hpPercent)}"></label><label><span>속도 보정 (%)</span><input id="uniqueSpeed" type="number" step="0.1" value="${number(x.speedPercent)}"></label><label class="wide"><span>고유 효과 이름</span><input id="uniqueName" value="${h(x.effectName||'')}"></label><label class="wide"><span>고유 효과 설명</span><textarea id="uniqueDescription" rows="2">${h(x.effectDescription||'')}</textarea></label><label><span>효과 유형</span><input id="uniqueType" value="${h(x.effectType||'NONE')}"></label><label><span>발동 시점</span><input id="uniqueTrigger" value="${h(x.triggerType||'PASSIVE')}"></label><label><span>효과 수치</span><input id="uniqueValue" type="number" step="0.1" value="${number(x.effectValue)}"></label><label><span>발동 확률 (%)</span><input id="uniqueChance" type="number" min="0" max="100" step="0.1" value="${number(x.triggerChance)}"></label><label><span>최대 발동 횟수</span><input id="uniqueMax" type="number" min="1" value="${number(x.maxActivations||1)}"></label><div class="magicScopeBox"><b>적용 범위</b><label><input id="uniquePve" type="checkbox" ${x.scopes?.pve!==false?'checked':''}> PVE·자동·탑·레이드</label><label><input id="uniquePvp" type="checkbox" ${x.scopes?.pvp!==false?'checked':''}> PVP</label><label><input id="uniqueCaptain" type="checkbox" ${x.scopes?.captain!==false?'checked':''}> 대장전</label><label><input id="uniqueActive" type="checkbox" ${x.isActive?'checked':''}> 능력치 활성</label></div></div><div class="magicAdminActions"><button id="magicEffectSave">고유 능력 저장</button></div></section>`}
   function bindMagicAdmin(){
-    $('#magicSaveSettings').onclick=saveSettings;$('#uniqueSystemSave')?.addEventListener('click',saveUniqueSettings);$('#magicSaveAcquisition').onclick=saveAcquisition;$('#magicSaveCard').onclick=saveMagicCard;$('#magicNewCard').onclick=()=>{magicAdmin.editingMagic=null;renderMagicAdmin()};
+    $('#magicSaveSettings').onclick=saveSettings;$('#magicSaveAcquisition').onclick=saveAcquisition;$('#magicSaveCard').onclick=saveMagicCard;$('#magicNewCard').onclick=()=>{magicAdmin.editingMagic=null;renderMagicAdmin()};
     $('#magicAddTowerRow')?.addEventListener('click',()=>{$('#magicTowerRows').insertAdjacentHTML('beforeend',floorRewardRow());bindRewardRemovers()});
     $('#magicAddRaidRank')?.addEventListener('click',()=>{$('#magicRaidRankRows').insertAdjacentHTML('beforeend',rankRewardRow('raid'));bindRewardRemovers()});
     $('#magicAddCaptainRank')?.addEventListener('click',()=>{$('#magicCaptainRankRows').insertAdjacentHTML('beforeend',rankRewardRow('captain'));bindRewardRemovers()});
@@ -107,9 +191,6 @@
     $('#magicCancelEdit')?.addEventListener('click',()=>{magicAdmin.editingMagic=null;renderMagicAdmin()});
     document.querySelectorAll('[data-magic-edit]').forEach(b=>b.onclick=()=>{magicAdmin.editingMagic=magicAdmin.data.cards.find(x=>Number(x.id)===Number(b.dataset.magicEdit));renderMagicAdmin();window.scrollTo({top:0,behavior:'smooth'})});
     document.querySelectorAll('[data-magic-toggle]').forEach(b=>b.onclick=()=>toggleCard(Number(b.dataset.magicToggle),b.dataset.active==='1'));
-    const search=$('#magicEffectSearch');search.oninput=()=>{magicAdmin.effectSearch=search.value;$('#magicUniqueList').innerHTML=uniqueEffectRows();document.querySelectorAll('[data-unique-edit]').forEach(b=>b.onclick=()=>openUniqueEffect(b.dataset.uniqueEdit))};
-    document.querySelectorAll('[data-unique-edit]').forEach(b=>b.onclick=()=>openUniqueEffect(b.dataset.uniqueEdit));
-    $('#magicEffectCancel')?.addEventListener('click',()=>{magicAdmin.editingEffect=null;renderMagicAdmin()});$('#magicEffectSave')?.addEventListener('click',saveUniqueEffect);
   }
   function bindRewardRemovers(){document.querySelectorAll('[data-remove-reward]').forEach(btn=>btn.onclick=()=>btn.closest('.magicRewardRow')?.remove())}
   function bindAcquisitionAdmin(){
@@ -151,10 +232,10 @@
     const settings={enabled,ownerTestEnabled:$('#uniqueOwnerTest').value==='1',userDetailEnabled:$('#uniqueUserDetail').value==='1'};
     await api('admin/magic-system',{method:'POST',body:JSON.stringify({action:'SAVE_UNIQUE_SETTINGS',settings})});
     alert(enabled?'카드 고유 능력 일반 적용을 시작했습니다.':'일반 적용을 중지했습니다. OWNER 테스트 설정은 별도로 유지됩니다.');
-    loadMagicAdmin();
+    loadUniqueAbilityAdmin();
   }
   async function saveMagicCard(){const x=magicAdmin.editingMagic||{};await api('admin/magic-system',{method:'POST',body:JSON.stringify({action:'SAVE_MAGIC_CARD',id:x.id||null,name:$('#magicCardName').value,code:$('#magicCardCode').value,rarity:$('#magicCardRarity').value,imageUrl:$('#magicCardImage').value,description:$('#magicCardDescription').value,effectType:$('#magicCardEffectType').value,triggerType:$('#magicCardTrigger').value,effectValue:number($('#magicCardEffectValue').value),triggerChance:number($('#magicCardChance').value),maxActivations:number($('#magicCardMax').value),drawWeight:number($('#magicCardWeight').value),sortOrder:number($('#magicCardSort').value),scopes:{pve:$('#magicScopePve').checked,pvp:$('#magicScopePvp').checked,captain:$('#magicScopeCaptain').checked},isActive:$('#magicCardActive').checked})});alert('마법카드를 저장했습니다.');magicAdmin.editingMagic=null;loadMagicAdmin()}
   async function toggleCard(id,isActive){if(!confirm(`이 마법카드를 ${isActive?'활성화':'비활성화'}할까요?`))return;await api('admin/magic-system',{method:'POST',body:JSON.stringify({action:'TOGGLE_MAGIC_CARD',id,isActive})});loadMagicAdmin()}
-  function openUniqueEffect(cardId){magicAdmin.editingEffect=magicAdmin.data.uniqueEffects.find(x=>String(x.cardId)===String(cardId));renderMagicAdmin();window.scrollTo({top:0,behavior:'smooth'})}
-  async function saveUniqueEffect(){const x=magicAdmin.editingEffect;await api('admin/magic-system',{method:'POST',body:JSON.stringify({action:'SAVE_UNIQUE_EFFECT',cardId:x.cardId,attackPercent:number($('#uniqueAttack').value),defensePercent:number($('#uniqueDefense').value),hpPercent:number($('#uniqueHp').value),speedPercent:number($('#uniqueSpeed').value),effectName:$('#uniqueName').value,effectDescription:$('#uniqueDescription').value,effectType:$('#uniqueType').value,triggerType:$('#uniqueTrigger').value,effectValue:number($('#uniqueValue').value),triggerChance:number($('#uniqueChance').value),maxActivations:number($('#uniqueMax').value),scopes:{pve:$('#uniquePve').checked,pvp:$('#uniquePvp').checked,captain:$('#uniqueCaptain').checked},isActive:$('#uniqueActive').checked})});alert('카드 고유 능력치를 저장했습니다.');magicAdmin.editingEffect=null;loadMagicAdmin()}
+  function openUniqueEffect(cardId){magicAdmin.editingEffect=magicAdmin.data.uniqueEffects.find(x=>String(x.cardId)===String(cardId));renderUniqueAbilityAdmin();window.scrollTo({top:0,behavior:'smooth'})}
+  async function saveUniqueEffect(){const x=magicAdmin.editingEffect;await api('admin/magic-system',{method:'POST',body:JSON.stringify({action:'SAVE_UNIQUE_EFFECT',cardId:x.cardId,attackPercent:number($('#uniqueAttack').value),defensePercent:number($('#uniqueDefense').value),hpPercent:number($('#uniqueHp').value),speedPercent:number($('#uniqueSpeed').value),effectName:$('#uniqueName').value,effectDescription:$('#uniqueDescription').value,effectType:$('#uniqueType').value,triggerType:$('#uniqueTrigger').value,effectValue:number($('#uniqueValue').value),triggerChance:number($('#uniqueChance').value),maxActivations:number($('#uniqueMax').value),scopes:{pve:$('#uniquePve').checked,pvp:$('#uniquePvp').checked,captain:$('#uniqueCaptain').checked},isActive:$('#uniqueActive').checked})});alert('카드 고유 능력치를 저장했습니다.');magicAdmin.editingEffect=null;loadUniqueAbilityAdmin()}
 })();

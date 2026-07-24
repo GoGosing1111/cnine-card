@@ -385,6 +385,30 @@ export async function handleMagic({path,request,env,deps}){
       if(action==='TOGGLE_MAGIC_CARD'){
         const id=integer(body.id,0,1,2147483647);await env.DB.prepare('UPDATE magic_cards SET is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(body.isActive===true?1:0,id).run();await writeAdminLog(env,admin,'MAGIC_CARD_TOGGLE','MAGIC_CARD',String(id),null,{isActive:body.isActive===true});return json({ok:true});
       }
+      if(action==='BATCH_SAVE_UNIQUE_EFFECTS'){
+        const ids=[...new Set((Array.isArray(body.cardIds)?body.cardIds:[]).map(value=>String(value||'').trim()).filter(Boolean))].slice(0,100);
+        if(!ids.length)return json({error:'일괄 적용할 카드를 선택하세요.'},400);
+        const raw=body.changes&&typeof body.changes==='object'?body.changes:{},columns=[],values=[];
+        const add=(column,value)=>{columns.push(column);values.push(value)};
+        if(Object.prototype.hasOwnProperty.call(raw,'attackPercent'))add('attack_percent',uniqueStat(raw.attackPercent));
+        if(Object.prototype.hasOwnProperty.call(raw,'defensePercent'))add('defense_percent',uniqueStat(raw.defensePercent));
+        if(Object.prototype.hasOwnProperty.call(raw,'hpPercent'))add('hp_percent',uniqueStat(raw.hpPercent));
+        if(Object.prototype.hasOwnProperty.call(raw,'speedPercent'))add('speed_percent',uniqueStat(raw.speedPercent,300));
+        if(raw.scopes&&typeof raw.scopes==='object'){
+          add('scope_pve',raw.scopes.pve===false?0:1);add('scope_pvp',raw.scopes.pvp===false?0:1);add('scope_captain',raw.scopes.captain===false?0:1);
+        }
+        if(Object.prototype.hasOwnProperty.call(raw,'isActive'))add('is_active',raw.isActive===true?1:0);
+        if(!columns.length)return json({error:'변경할 능력치 또는 적용 상태를 선택하세요.'},400);
+        const marks=ids.map(()=>'?').join(','),rows=(await env.DB.prepare(`SELECT id,rarity FROM cards WHERE id IN (${marks})`).bind(...ids).all()).results||[];
+        const valid=rows.filter(card=>UNIQUE_CARD_GRADES.includes(String(card.rarity||'').toUpperCase())).map(card=>String(card.id));
+        if(valid.length!==ids.length)return json({error:'선택 카드 중 존재하지 않거나 고유 능력치 대상이 아닌 카드가 포함되어 있습니다.'},400);
+        const insertColumns=['card_id',...columns,'updated_at'],placeholders=['?',...columns.map(()=>'?'),'CURRENT_TIMESTAMP'];
+        const updates=columns.map(column=>`${column}=excluded.${column}`).concat('updated_at=CURRENT_TIMESTAMP').join(',');
+        const sql=`INSERT INTO card_unique_effects(${insertColumns.join(',')}) VALUES(${placeholders.join(',')}) ON CONFLICT(card_id) DO UPDATE SET ${updates}`;
+        await env.DB.batch(valid.map(cardId=>env.DB.prepare(sql).bind(cardId,...values)));
+        await writeAdminLog(env,admin,'CARD_UNIQUE_EFFECT_BATCH_SAVE','CARD_BATCH',valid.join(',').slice(0,500),null,{count:valid.length,fields:columns});
+        return json({ok:true,updatedCount:valid.length,fields:columns});
+      }
       if(action==='SAVE_UNIQUE_EFFECT'){
         const cardId=String(body.cardId||'').trim(),card=await env.DB.prepare(`SELECT id,rarity FROM cards WHERE id=?`).bind(cardId).first();if(!card)return json({error:'카드를 찾을 수 없습니다.'},404);if(!UNIQUE_CARD_GRADES.includes(String(card.rarity||'').toUpperCase()))return json({error:'고유 효과는 SSR 이상 카드에만 설정할 수 있습니다.'},400);
         const v=[cardId,uniqueStat(body.attackPercent),uniqueStat(body.defensePercent),uniqueStat(body.hpPercent),uniqueStat(body.speedPercent,300),String(body.effectName||'').trim().slice(0,80),String(body.effectDescription||'').trim().slice(0,300),String(body.effectType||'NONE').toUpperCase().slice(0,40),String(body.triggerType||'PASSIVE').toUpperCase().slice(0,40),Number(body.effectValue||0),Math.min(100,Math.max(0,Number(body.triggerChance??100))),integer(body.maxActivations,1,1,99),body.scopes?.pve===false?0:1,body.scopes?.pvp===false?0:1,body.scopes?.captain===false?0:1,body.isActive===true?1:0];
