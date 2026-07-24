@@ -377,8 +377,8 @@ export async function handleMagic({path,request,env,deps}){
       if(action==='SAVE_UNIQUE_SETTINGS'){
         const before=await cardUniqueSettings(env),next=cleanCardUniqueSettings(body.settings||body);
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('card_unique_effect_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();
-        await writeAdminLog(env,admin,'CARD_UNIQUE_SETTINGS_SAVE','APP_META','card_unique_effect_settings_v1',before,next);
-        return json({ok:true,settings:next});
+        let warning='';try{await writeAdminLog(env,admin,'CARD_UNIQUE_SETTINGS_SAVE','APP_META','card_unique_effect_settings_v1',before,next)}catch(error){warning='설정은 저장됐지만 관리자 로그 기록에 실패했습니다.';console.error('CARD_UNIQUE_SETTINGS_SAVE log failed',error)}
+        return json({ok:true,settings:next,warning:warning||undefined});
       }
       if(action==='SAVE_MAGIC_CARD'){
         const id=body.id?integer(body.id,0,1,2147483647):null,code=safeCode(body.code||body.name),name=String(body.name||'').trim().slice(0,60),rarity=String(body.rarity||'R').toUpperCase();
@@ -391,6 +391,19 @@ export async function handleMagic({path,request,env,deps}){
       }
       if(action==='TOGGLE_MAGIC_CARD'){
         const id=integer(body.id,0,1,2147483647);await env.DB.prepare('UPDATE magic_cards SET is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(body.isActive===true?1:0,id).run();await writeAdminLog(env,admin,'MAGIC_CARD_TOGGLE','MAGIC_CARD',String(id),null,{isActive:body.isActive===true});return json({ok:true});
+      }
+      if(action==='BATCH_SAVE_UNIQUE_ROWS'){
+        const incoming=Array.isArray(body.items)?body.items:[],byId=new Map();
+        for(const raw of incoming.slice(0,100)){const cardId=String(raw?.cardId||'').trim();if(cardId)byId.set(cardId,raw)}
+        const items=[...byId.entries()].map(([cardId,raw])=>({cardId,attackPercent:uniqueStat(raw.attackPercent),defensePercent:uniqueStat(raw.defensePercent),hpPercent:uniqueStat(raw.hpPercent),speedPercent:uniqueStat(raw.speedPercent,300),scopePve:raw.scopes?.pve===false?0:1,scopePvp:raw.scopes?.pvp===false?0:1,scopeCaptain:raw.scopes?.captain===false?0:1,isActive:raw.isActive===true?1:0}));
+        if(!items.length)return json({error:'저장할 카드 능력치가 없습니다.'},400);
+        const ids=items.map(item=>item.cardId),marks=ids.map(()=>'?').join(','),rows=(await env.DB.prepare(`SELECT id,rarity FROM cards WHERE id IN (${marks})`).bind(...ids).all()).results||[];
+        const valid=new Set(rows.filter(card=>UNIQUE_CARD_GRADES.includes(String(card.rarity||'').toUpperCase())).map(card=>String(card.id)));
+        if(valid.size!==ids.length)return json({error:'저장 대상에 존재하지 않거나 고유 능력치 대상이 아닌 카드가 포함되어 있습니다.'},400);
+        const sql=`INSERT INTO card_unique_effects(card_id,attack_percent,defense_percent,hp_percent,speed_percent,scope_pve,scope_pvp,scope_captain,is_active,updated_at) VALUES(?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(card_id) DO UPDATE SET attack_percent=excluded.attack_percent,defense_percent=excluded.defense_percent,hp_percent=excluded.hp_percent,speed_percent=excluded.speed_percent,scope_pve=excluded.scope_pve,scope_pvp=excluded.scope_pvp,scope_captain=excluded.scope_captain,is_active=excluded.is_active,updated_at=CURRENT_TIMESTAMP`;
+        await env.DB.batch(items.map(item=>env.DB.prepare(sql).bind(item.cardId,item.attackPercent,item.defensePercent,item.hpPercent,item.speedPercent,item.scopePve,item.scopePvp,item.scopeCaptain,item.isActive)));
+        let warning='';try{await writeAdminLog(env,admin,'CARD_UNIQUE_INLINE_BATCH_SAVE','CARD_BATCH',ids.join(',').slice(0,500),null,{count:items.length})}catch(error){warning='능력치는 저장됐지만 관리자 로그 기록에 실패했습니다.';console.error('CARD_UNIQUE_INLINE_BATCH_SAVE log failed',error)}
+        return json({ok:true,updatedCount:items.length,warning:warning||undefined});
       }
       if(action==='BATCH_SAVE_UNIQUE_EFFECTS'){
         const ids=[...new Set((Array.isArray(body.cardIds)?body.cardIds:[]).map(value=>String(value||'').trim()).filter(Boolean))].slice(0,100);
@@ -420,7 +433,7 @@ export async function handleMagic({path,request,env,deps}){
         const cardId=String(body.cardId||'').trim(),card=await env.DB.prepare(`SELECT id,rarity FROM cards WHERE id=?`).bind(cardId).first();if(!card)return json({error:'카드를 찾을 수 없습니다.'},404);if(!UNIQUE_CARD_GRADES.includes(String(card.rarity||'').toUpperCase()))return json({error:'고유 효과는 SSR 이상 카드에만 설정할 수 있습니다.'},400);
         const v=[cardId,uniqueStat(body.attackPercent),uniqueStat(body.defensePercent),uniqueStat(body.hpPercent),uniqueStat(body.speedPercent,300),String(body.effectName||'').trim().slice(0,80),String(body.effectDescription||'').trim().slice(0,300),String(body.effectType||'NONE').toUpperCase().slice(0,40),String(body.triggerType||'PASSIVE').toUpperCase().slice(0,40),Number(body.effectValue||0),Math.min(100,Math.max(0,Number(body.triggerChance??100))),integer(body.maxActivations,1,1,99),body.scopes?.pve===false?0:1,body.scopes?.pvp===false?0:1,body.scopes?.captain===false?0:1,body.isActive===true?1:0];
         await env.DB.prepare(`INSERT INTO card_unique_effects(card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations,scope_pve,scope_pvp,scope_captain,is_active,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(card_id) DO UPDATE SET attack_percent=excluded.attack_percent,defense_percent=excluded.defense_percent,hp_percent=excluded.hp_percent,speed_percent=excluded.speed_percent,effect_name=excluded.effect_name,effect_description=excluded.effect_description,effect_type=excluded.effect_type,trigger_type=excluded.trigger_type,effect_value=excluded.effect_value,trigger_chance=excluded.trigger_chance,max_activations=excluded.max_activations,scope_pve=excluded.scope_pve,scope_pvp=excluded.scope_pvp,scope_captain=excluded.scope_captain,is_active=excluded.is_active,updated_at=CURRENT_TIMESTAMP`).bind(...v).run();
-        await writeAdminLog(env,admin,'CARD_UNIQUE_EFFECT_SAVE','CARD',cardId,null,{effectName:body.effectName,isActive:body.isActive===true});return json({ok:true});
+        let warning='';try{await writeAdminLog(env,admin,'CARD_UNIQUE_EFFECT_SAVE','CARD',cardId,null,{effectName:body.effectName,isActive:body.isActive===true})}catch(error){warning='세부 효과는 저장됐지만 관리자 로그 기록에 실패했습니다.';console.error('CARD_UNIQUE_EFFECT_SAVE log failed',error)}return json({ok:true,warning:warning||undefined});
       }
       return json({error:'올바르지 않은 작업입니다.'},400);
     }
