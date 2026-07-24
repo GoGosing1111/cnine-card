@@ -348,6 +348,13 @@ function defaultAttendanceSettings(){return {enabled:true,rewards:[1000,1200,140
 function cleanAttendanceSettings(raw={}){const base=defaultAttendanceSettings();const rewards=Array.from({length:7},(_,i)=>Math.max(0,Math.min(10000000,Math.floor(Number(raw.rewards?.[i]??base.rewards[i])||0))));return {enabled:raw.enabled!==false,rewards};}
 async function attendanceSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='attendance_settings_v1'").first();if(!row?.value)return defaultAttendanceSettings();try{return cleanAttendanceSettings(JSON.parse(row.value))}catch{return defaultAttendanceSettings()}}
 const CUBE_CODES=['NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'];
+const RETIREMENT_REROLL_TICKETS={
+  MA:{code:'MA_REROLL_TICKET',name:'MA 재뽑기권'},
+  LIMITED:{code:'LIMITED_REROLL_TICKET',name:'리미티드 재뽑기권'},
+  PRESTIGE:{code:'PRESTIGE_REROLL_TICKET',name:'PRESTIGE 재뽑기권'},
+  FUR:{code:'FUR_REROLL_TICKET',name:'FUR 재뽑기권'}
+};
+const RETIREMENT_REROLL_CODES=Object.values(RETIREMENT_REROLL_TICKETS).map(item=>item.code);
 function defaultCubeSettings(){return {NORMAL_CUBE:{C:45,U:30,R:18,SR:7},ADVANCED_CUBE:{HR:55,UR:30,SSR:15},PREMIUM_CUBE:{MA:70,FUR:20,LIMITED:10}};}
 function cleanCubeSettings(raw={}){const base=defaultCubeSettings(),out={};for(const code of CUBE_CODES){out[code]={};for(const grade of Object.keys(base[code]))out[code][grade]=Math.max(0,Math.min(100,Number(raw?.[code]?.[grade]??base[code][grade])||0));const total=Object.values(out[code]).reduce((a,b)=>a+b,0);if(Math.abs(total-100)>.001)out[code]=base[code];}return out;}
 async function cubeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='inventory_cube_settings_v1'").first();try{return cleanCubeSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeSettings()}}
@@ -649,6 +656,20 @@ async function ensureUpgrades(env){
       await env.DB.batch([
         env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MASTER_STAR','마스터의 별','MASTER STAR','MA 등급 카드를 중복으로 획득할 때마다 1개씩 지급되는 특별 재화입니다.','MATERIAL','MA','',5,1)"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1119_master_star','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+    const retirementRerollDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1164_retirement_reroll_tickets'").first();
+    if(retirementRerollDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MA_REROLL_TICKET','MA 재뽑기권','MA RETIREMENT REROLL','퇴사 처리된 MA 카드를 대신해 활성 MA 카드 1장을 다시 뽑습니다.','REROLL','MA','',110,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('LIMITED_REROLL_TICKET','리미티드 재뽑기권','LIMITED RETIREMENT REROLL','퇴사 처리된 리미티드 카드를 대신해 활성 리미티드 카드 1장을 다시 뽑습니다.','REROLL','LIMITED','',111,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('PRESTIGE_REROLL_TICKET','PRESTIGE 재뽑기권','PRESTIGE RETIREMENT REROLL','퇴사 처리된 PRESTIGE 카드를 대신해 활성 PRESTIGE 카드 1장을 다시 뽑습니다.','REROLL','PRESTIGE','',112,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('FUR_REROLL_TICKET','FUR 재뽑기권','FUR RETIREMENT REROLL','퇴사 처리된 FUR 카드를 대신해 활성 FUR 카드 1장을 다시 뽑습니다.','REROLL','FUR','',113,1)"),
+        env.DB.prepare("UPDATE inventory_items SET name='MA 재뽑기권',subtitle='MA RETIREMENT REROLL',description='퇴사 처리된 MA 카드를 대신해 활성 MA 카드 1장을 다시 뽑습니다.',category='REROLL',rarity='MA',image_url='',sort_order=110,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MA_REROLL_TICKET'"),
+        env.DB.prepare("UPDATE inventory_items SET name='리미티드 재뽑기권',subtitle='LIMITED RETIREMENT REROLL',description='퇴사 처리된 리미티드 카드를 대신해 활성 리미티드 카드 1장을 다시 뽑습니다.',category='REROLL',rarity='LIMITED',image_url='',sort_order=111,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='LIMITED_REROLL_TICKET'"),
+        env.DB.prepare("UPDATE inventory_items SET name='PRESTIGE 재뽑기권',subtitle='PRESTIGE RETIREMENT REROLL',description='퇴사 처리된 PRESTIGE 카드를 대신해 활성 PRESTIGE 카드 1장을 다시 뽑습니다.',category='REROLL',rarity='PRESTIGE',image_url='',sort_order=112,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='PRESTIGE_REROLL_TICKET'"),
+        env.DB.prepare("UPDATE inventory_items SET name='FUR 재뽑기권',subtitle='FUR RETIREMENT REROLL',description='퇴사 처리된 FUR 카드를 대신해 활성 FUR 카드 1장을 다시 뽑습니다.',category='REROLL',rarity='FUR',image_url='',sort_order=113,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='FUR_REROLL_TICKET'"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1164_retirement_reroll_tickets','1',CURRENT_TIMESTAMP)")
       ]);
     }
     const cubeDropDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1072_cube_drop'").first();
@@ -2148,7 +2169,9 @@ export async function onRequest(context){
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity
-        FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=? WHERE i.is_active=1 AND (i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK') OR COALESCE(ui.quantity,0)>0) ORDER BY i.sort_order,i.code`).bind(user.id).all();
+        FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
+        WHERE i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
+        ORDER BY i.sort_order,i.code`).bind(user.id).all();
       const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0)}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
@@ -2160,7 +2183,7 @@ export async function onRequest(context){
     if(path==='inventory/use'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100);
-      const usableCodes=[...CUBE_CODES,'GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK'];
+      const usableCodes=[...CUBE_CODES,'GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK',...RETIREMENT_REROLL_CODES];
       if(!usableCodes.includes(itemCode))return json({error:'현재 사용할 수 없는 인벤토리 아이템입니다.'},400);
       const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
@@ -2172,11 +2195,12 @@ export async function onRequest(context){
         const used=await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=MIN(unseen_quantity,quantity-1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>0').bind(user.id,itemCode).run();
         if(!used.meta.changes)throw new Error('보유한 아이템이 없습니다.');
         consumed=true;
-        const legacyGrade=itemCode==='GUARANTEED_MA_PACK'?'MA':itemCode==='GUARANTEED_LIMITED_PACK'?'LIMITED':null,cubeConfig=await cubeSettings(env),configured=legacyGrade?{[legacyGrade]:100}:cubeConfig[itemCode];
+        const fixedGradeByItem={GUARANTEED_MA_PACK:'MA',GUARANTEED_LIMITED_PACK:'LIMITED',MA_REROLL_TICKET:'MA',LIMITED_REROLL_TICKET:'LIMITED',PRESTIGE_REROLL_TICKET:'PRESTIGE',FUR_REROLL_TICKET:'FUR'};
+        const fixedGrade=fixedGradeByItem[itemCode]||null,isReroll=RETIREMENT_REROLL_CODES.includes(itemCode),cubeConfig=await cubeSettings(env),configured=fixedGrade?{[fixedGrade]:100}:cubeConfig[itemCode];
         const available=[];
         for(const [grade,rate] of Object.entries(configured||{})){if(Number(rate)<=0)continue;const row=await env.DB.prepare(`SELECT COUNT(*) AS cnt FROM cards WHERE is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND rarity=? AND (limited_total IS NULL OR issued_count<limited_total)`).bind(grade).first();if(Number(row?.cnt||0)>0)available.push({grade,rate:Number(rate)});}
         const targetGrade=weightedPick(available,x=>x.rate)?.grade;
-        if(!targetGrade)throw new Error('이 큐브에서 획득 가능한 카드가 없습니다. CMS의 등급 확률과 카드 공개 상태를 확인하세요.');
+        if(!targetGrade)throw new Error(isReroll?'이 재뽑기권으로 획득 가능한 활성 카드가 없습니다. CMS 카드 공개 상태를 확인하세요.':'이 큐브에서 획득 가능한 카드가 없습니다. CMS의 등급 확률과 카드 공개 상태를 확인하세요.');
         card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,m.name
           FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.rarity=? AND (c.limited_total IS NULL OR c.issued_count<c.limited_total) ORDER BY RANDOM() LIMIT 1`).bind(targetGrade).first();
         if(!card)throw new Error(`${targetGrade} 등급의 획득 가능한 카드가 없습니다. CMS 카드 공개 상태와 잔여 수량을 확인하세요.`);
@@ -2192,10 +2216,10 @@ export async function onRequest(context){
           limitedAuditEvent.quantityBefore=Math.max(0,Number(owned?.quantity||0));
           await beginLimitedAcquisitionAudit(env,{eventKey:limitedAuditEvent.eventKey,requestId,drawGroupId:requestId,sourceType:'INVENTORY',sourceId:itemCode,userId:user.id,userNickname:user.nickname,cardId:card.id,cardTitle:card.title,packId:itemCode,status:'STOCK_RESERVED',coinCost:0,stockBefore:limitedAuditEvent.stockBefore,stockAfter:limitedAuditEvent.stockAfter,quantityBefore:limitedAuditEvent.quantityBefore,isDuplicate:duplicate,stockReserved:true,cardGranted:false});
         }
-        const remaining=(await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,itemCode).first())?.quantity||0;
+        const remaining=(await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,itemCode).first())?.quantity||0,useReason=isReroll?'CARD_RETIREMENT_REROLL_USE':'CUBE_OPEN';
         const statements=[
           env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level) VALUES(?,?,1,0) ON CONFLICT(user_id,card_id) DO UPDATE SET breakthrough_level=CASE WHEN user_cards.quantity<=0 THEN 0 ELSE user_cards.breakthrough_level END,quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,card.id),
-          env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?, -1,?,'CUBE_OPEN','INVENTORY_USE',?)").bind(user.id,itemCode,Number(remaining),requestId)
+          env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,-1,?,?,'INVENTORY_USE',?)").bind(user.id,itemCode,Number(remaining),useReason,requestId)
         ];
         if(String(card.grade||'').toUpperCase()==='LIMITED')statements.push(env.DB.prepare("INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?, 'LIMITED',0,?)").bind(requestId,user.id,itemCode,card.id,duplicate?0:1));
         if(shardGained>0)statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardGained,user.id));
@@ -2205,9 +2229,9 @@ export async function onRequest(context){
         }
         await env.DB.batch(statements);
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-        if(shardGained>0)await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'INVENTORY_CUBE_DUPLICATE',?)").bind(user.id,shardGained,updated.card_shards,card.id).run();
+        if(shardGained>0)await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,shardGained,updated.card_shards,isReroll?'INVENTORY_REROLL_DUPLICATE':'INVENTORY_CUBE_DUPLICATE',card.id).run();
         const responseCard=cardWithAcquisitionEffect(card,await cardAcquisitionEffectsByGrade(env));
-        const response={ok:true,itemCode,remaining:Number(remaining),card:responseCard,duplicate,shardGained,masterStarGained,user:await profile(env,updated),requestId};
+        const response={ok:true,itemCode,isReroll,remaining:Number(remaining),card:responseCard,duplicate,shardGained,masterStarGained,user:await profile(env,updated),requestId};
         await env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
         if(limitedAuditEvent)await finishLimitedAcquisitionAudit(env,limitedAuditEvent.eventKey,{status:'COMPLETED',stockAfter:limitedAuditEvent.stockAfter,quantityAfter:limitedAuditEvent.quantityBefore+1,isDuplicate:duplicate,stockReserved:true,cardGranted:true});
         recentHighGradeCache=null;
@@ -4000,7 +4024,8 @@ export async function onRequest(context){
       if(!card)return json({error:'카드가 없습니다.'},404);
       const cfg=await breakthroughConfig(env),rows=await env.DB.prepare('SELECT user_id,COALESCE(breakthrough_level,0) AS breakthrough_level FROM user_cards WHERE card_id=? AND COALESCE(quantity,0)>0').bind(cardId).all();
       const refunds=rows.results.map(r=>{const level=Math.max(0,Math.min(10,Number(r.breakthrough_level)||0));let required=0;for(let i=0;i<level;i++)required+=Number(cfg[card.rarity]?.[i]?.cost||0);return {userId:Number(r.user_id),level,requiredShards:required,refundShards:required}}).filter(r=>r.refundShards>0);
-      const summary={cardId:card.id,title:card.title,memberName:card.member_name,grade:card.rarity,ownedUsers:rows.results.length,refundUsers:refunds.length,totalRequiredShards:refunds.reduce((n,r)=>n+r.requiredShards,0),totalRefundShards:refunds.reduce((n,r)=>n+r.refundShards,0),refundRate:100,status:card.card_status};
+      const rerollTicket=RETIREMENT_REROLL_TICKETS[String(card.rarity||'').toUpperCase()]||null;
+      const summary={cardId:card.id,title:card.title,memberName:card.member_name,grade:card.rarity,ownedUsers:rows.results.length,refundUsers:refunds.length,totalRequiredShards:refunds.reduce((n,r)=>n+r.requiredShards,0),totalRefundShards:refunds.reduce((n,r)=>n+r.refundShards,0),refundRate:100,rerollTicketCode:rerollTicket?.code||null,rerollTicketName:rerollTicket?.name||null,rerollTicketUsers:rerollTicket?rows.results.length:0,status:card.card_status};
       if(action==='PREVIEW')return json({ok:true,summary});
       if(action==='QUEUE'){
         if(['RETIRE_PENDING','RETIRED'].includes(String(card.card_status||'')))return json({error:'이미 퇴사 처리 중이거나 완료된 카드입니다.'},409);
@@ -4019,12 +4044,33 @@ export async function onRequest(context){
         return json({ok:true,batchId,sent,summary:{...summary,status:'RETIRE_PENDING'}});
       }
       if(action==='FINALIZE'){
-        const batch=await env.DB.prepare('SELECT * FROM card_retirement_batches WHERE card_id=?').bind(card.id).first();if(!batch)return json({error:'먼저 삭제 대기 및 환급 처리를 진행하세요.'},409);
-        await env.DB.batch([
-          env.DB.prepare("UPDATE cards SET is_active=0,card_status='RETIRED',updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(card.id),
-          env.DB.prepare("UPDATE card_retirement_batches SET status='FINALIZED',finalized_at=CURRENT_TIMESTAMP WHERE id=?").bind(batch.id)
-        ]);
-        await writeAdminLog(env,admin,'CARD_RETIREMENT_FINALIZE','CARD',card.id,card,{status:'RETIRED',batchId:batch.id});return json({ok:true,status:'RETIRED'});
+        const batch=await env.DB.prepare('SELECT * FROM card_retirement_batches WHERE card_id=?').bind(card.id).first();
+        if(!batch)return json({error:'먼저 삭제 대기 및 환급 처리를 진행하세요.'},409);
+        if(String(batch.status||'').toUpperCase()!=='PENDING')return json({error:'이미 퇴사 확정이 완료된 카드입니다.'},409);
+        const statements=[];
+        if(rerollTicket){
+          statements.push(
+            env.DB.prepare(`INSERT OR IGNORE INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+              SELECT uc.user_id,?,0,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP FROM user_cards uc
+              WHERE uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,card.id,batch.id),
+            env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP
+              WHERE item_code=? AND user_id IN (SELECT user_id FROM user_cards WHERE card_id=? AND COALESCE(quantity,0)>0)
+              AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,card.id,batch.id),
+            env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id,created_at)
+              SELECT uc.user_id,?,1,ui.quantity,'CARD_RETIREMENT_REROLL','CARD_RETIREMENT',?,?,CURRENT_TIMESTAMP
+              FROM user_cards uc JOIN cnine_user_inventory ui ON ui.user_id=uc.user_id AND ui.item_code=?
+              WHERE uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,String(card.id),admin.id,rerollTicket.code,card.id,batch.id)
+          );
+        }
+        statements.push(
+          env.DB.prepare("UPDATE cards SET is_active=0,card_status='RETIRED',updated_at=CURRENT_TIMESTAMP WHERE id=? AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')").bind(card.id,batch.id),
+          env.DB.prepare("UPDATE card_retirement_batches SET status='FINALIZED',finalized_at=CURRENT_TIMESTAMP WHERE id=? AND status='PENDING'").bind(batch.id)
+        );
+        const results=await env.DB.batch(statements),finalized=results[results.length-1];
+        if(!finalized?.meta?.changes)return json({error:'이미 퇴사 확정이 완료됐거나 처리 상태가 변경되었습니다.'},409);
+        const ticketRecipients=rerollTicket?rows.results.length:0;
+        await writeAdminLog(env,admin,'CARD_RETIREMENT_FINALIZE','CARD',card.id,card,{status:'RETIRED',batchId:batch.id,rerollTicketCode:rerollTicket?.code||null,ticketRecipients});
+        return json({ok:true,status:'RETIRED',rerollTicketCode:rerollTicket?.code||null,rerollTicketName:rerollTicket?.name||null,ticketRecipients});
       }
       return json({error:'올바르지 않은 처리입니다.'},400);
     }

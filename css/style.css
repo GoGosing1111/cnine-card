@@ -3328,3 +3328,29 @@ html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!
 @media(max-width:430px){
   .card-profile-v1161{padding:10px}.card-profile-visual>.card-frame{width:min(210px,68vw)}.card-profile-heading{align-items:flex-start;flex-direction:column}.profile-status{align-self:flex-start}.card-profile-tabs button{font-size:11px}.unique-ability-stats .unique-stat{min-height:68px;padding:9px}.unique-stat i{width:27px;height:27px}.unique-scope{align-items:flex-start;flex-direction:column}.unique-scope b{text-align:left}.card-unique-ability footer{align-items:flex-start;flex-direction:column}.card-unique-badge small{display:none}.recent-unique-tag{font-size:7px}
 }
+
+
+/* v1164 · 퇴사 등급별 재뽑기권 */
+.inventory-item-prestige{--item-accent:#e6c878;background:radial-gradient(circle at 22% 48%,rgba(220,187,91,.18),transparent 37%),linear-gradient(145deg,#2b2412,#111526 62%,#090b13)}
+.inventory-item-fur{--item-accent:#ff7a9f;background:radial-gradient(circle at 22% 48%,rgba(255,82,132,.18),transparent 37%),linear-gradient(145deg,#301126,#111326 62%,#090a13)}
+.inventory-item-reroll{min-height:350px}
+.inventory-reroll-ticket,.inventory-open-ticket{position:relative;z-index:4;display:grid;place-content:center;text-align:center;overflow:hidden;border:1px solid color-mix(in srgb,var(--item-accent,#7cecff) 68%,#fff);background:radial-gradient(circle at 50% 20%,rgba(255,255,255,.13),transparent 32%),linear-gradient(145deg,color-mix(in srgb,var(--item-accent,#7cecff) 26%,#10182a),#090f1d 70%);box-shadow:0 24px 34px rgba(0,0,0,.5),0 0 25px color-mix(in srgb,var(--item-accent,#7cecff) 28%,transparent)}
+.inventory-reroll-ticket{width:156px;height:224px;border-radius:16px;clip-path:polygon(0 0,100% 0,100% 42%,94% 47%,100% 52%,100% 100%,0 100%,0 52%,6% 47%,0 42%)}
+.inventory-reroll-ticket:before,.inventory-open-ticket:before{content:"";position:absolute;inset:11px;border:1px solid color-mix(in srgb,var(--item-accent,#7cecff) 38%,transparent);border-radius:10px}
+.inventory-reroll-ticket:after,.inventory-open-ticket:after{content:"↻";position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);color:color-mix(in srgb,var(--item-accent,#7cecff) 70%,#fff);font-size:58px;font-weight:1000;opacity:.22;text-shadow:0 0 18px currentColor}
+.inventory-reroll-ticket small,.inventory-open-ticket small{position:relative;z-index:2;color:var(--item-accent,#7cecff);font-size:12px;font-weight:1000;letter-spacing:2px}
+.inventory-reroll-ticket b,.inventory-open-ticket b{position:relative;z-index:2;margin-top:43px;color:#fff;font-size:19px;letter-spacing:2px;text-shadow:0 0 15px color-mix(in srgb,var(--item-accent,#7cecff) 55%,transparent)}
+.inventory-reroll-ticket span,.inventory-open-ticket span{position:relative;z-index:2;margin-top:8px;color:#8299ae;font-size:8px;font-weight:900;letter-spacing:1.5px}
+.inventory-item.owned:hover .inventory-reroll-ticket{transform:translateY(-7px) rotate(-1deg);box-shadow:0 30px 42px rgba(0,0,0,.58),0 0 34px color-mix(in srgb,var(--item-accent,#7cecff) 42%,transparent)}
+.inventory-reroll-ticket{transition:.28s transform,.28s box-shadow}
+.inventory-open-reroll .inventory-open-panel{--item-accent:#7cecff;border-color:color-mix(in srgb,var(--item-accent) 45%,transparent)}
+.inventory-open-reroll.inventory-open-ma .inventory-open-panel{--item-accent:#e1a1ff}
+.inventory-open-reroll.inventory-open-limited .inventory-open-panel{--item-accent:#6df0ff}
+.inventory-open-reroll.inventory-open-prestige .inventory-open-panel{--item-accent:#e6c878}
+.inventory-open-reroll.inventory-open-fur .inventory-open-panel{--item-accent:#ff7a9f}
+.inventory-open-ticket{width:210px;height:300px;border-radius:20px;clip-path:polygon(0 0,100% 0,100% 42%,95% 47%,100% 52%,100% 100%,0 100%,0 52%,5% 47%,0 42%)}
+.inventory-open-ticket b{margin-top:62px;font-size:25px}
+.inventory-open-ticket small{font-size:15px}
+.inventory-open-panel.opening .inventory-open-ticket{animation:inventoryRerollUse .9s ease-in-out both}
+@keyframes inventoryRerollUse{0%{transform:scale(1);filter:brightness(1)}45%{transform:scale(1.08) rotateY(12deg);filter:brightness(1.8)}100%{transform:scale(.72) rotateY(90deg);filter:brightness(2.4);opacity:0}}
+@media(max-width:620px){.inventory-reroll-ticket{width:138px;height:198px}.inventory-open-ticket{width:180px;height:258px}.inventory-toolbar>div{width:100%;overflow-x:auto}.inventory-toolbar button{white-space:nowrap}}
