@@ -6,6 +6,8 @@
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   let lastStatus = null;
   let energyTimer = null;
+  let recruitmentTimer = null;
+  let formationTimer = null;
   let active = false;
   let bgmAudio = null;
   let bgmConfig = null;
@@ -137,6 +139,33 @@
       <div class="captain-v3-energy-pips">${Array.from({ length: energy.max }, (_, index) => `<i class="${index < energy.current ? 'on' : ''}"></i>`).join('')}</div>
       <p id="captainEnergyClock">${nextLabel}</p>
     </section>`;
+  }
+
+  function recruitmentClock(recruitment) {
+    if (!recruitment) return '';
+    if (!recruitment.open) return '<div class="captain-v3-recruitment closed"><small>팀 모집 종료</small><b>전체 신청자 팀 편성 완료</b><span>3인 단위 잔여 인원은 대기 상태로 남습니다.</span></div>';
+    return `<div class="captain-v3-recruitment" data-recruitment-end="${esc(recruitment.endsAt || '')}"><small>전체 신청자 모집 중</small><b id="captainRecruitmentClock">남은 시간 계산 중</b><span>${Number(recruitment.hours || 3)}시간 모집 종료 후 전투력 균형 팀 편성</span></div>`;
+  }
+
+  function startRecruitmentClock(recruitment) {
+    clearInterval(recruitmentTimer);
+    const label = document.getElementById('captainRecruitmentClock');
+    if (!label || !recruitment?.open || !recruitment.endsAt) return;
+    const update = () => {
+      const remain = Math.max(0, Date.parse(recruitment.endsAt) - Date.now());
+      if (!remain) {
+        label.textContent = '모집 종료 · 팀 편성 중';
+        clearInterval(recruitmentTimer);
+        setTimeout(render, 900);
+        return;
+      }
+      const hours = Math.floor(remain / 3600000);
+      const minutes = Math.floor((remain % 3600000) / 60000);
+      const seconds = Math.floor((remain % 60000) / 1000);
+      label.textContent = `${hours}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    };
+    update();
+    recruitmentTimer = setInterval(update, 1000);
   }
 
   function startEnergyClock(energy) {
@@ -482,30 +511,36 @@
   }
 
   function renderHero(box, data) {
+    const open = data?.recruitment?.open !== false;
     box.innerHTML = `<section class="captain-v3-hero">
       <div class="captain-v3-hero-glow"></div>
       <div class="captain-v3-kicker">WEEKLY 무작위 GAUNTLET · 3 VS 3</div>
       <h2>최후의 한 명이 남을 때까지</h2>
-      <p>PVP 덱을 등록하면 정체가 공개되지 않은 참가자들과 3인 랜덤 팀이 결성됩니다.</p>
+      <p>새 회차 시작 후 3시간 동안 신청자를 모집하고, 전체 신청자의 PVP 덱 전투력을 기준으로 팀 균형을 맞춥니다.</p>
+      ${recruitmentClock(data?.recruitment)}
       <div class="captain-v3-rule-flow">
-        <article><span>01</span><b>랜덤 출전</b><small>양 팀에서 1명씩 무작위 출전</small></article>
-        <i>→</i><article><span>02</span><b>승자 잔류</b><small>남은 HP 그대로 다음 상대와 연전</small></article>
-        <i>→</i><article><span>3</span><b>최후 생존</b><small>상대 3명을 모두 탈락시키면 승리</small></article>
+        <article><span>01</span><b>3시간 모집</b><small>신청자 전체를 한 번에 수집</small></article>
+        <i>→</i><article><span>02</span><b>균형 편성</b><small>팀별 덱 전투력 합계를 균등 배분</small></article>
+        <i>→</i><article><span>03</span><b>랜덤 연전</b><small>최후의 한 팀이 남을 때까지</small></article>
       </div>
-      <div class="captain-v3-rule-badges"><span>개인 공격 최대 5회</span><span>15분마다 1회 충전</span><span>궁극기 전면 미사용</span><span>PVP 5장 덱 사용</span></div>
-      <button class="btn captain-v3-main-button" id="captainRegister">대장전 참가 등록</button>${data?.operatorTestParticipant ? '<small class="captain-v3-operator-test">운영자 테스트 참가 활성화 · 정규 운영 랭킹과 분리해 테스트하세요.</small>' : ''}
+      <div class="captain-v3-rule-badges"><span>개인 공격 최대 5회</span><span>15분마다 1회 충전</span><span>궁극기 전면 미사용</span><span>신청 당시 PVP 5장 덱 고정</span></div>
+      <button class="btn captain-v3-main-button" id="captainRegister" ${open?'':'disabled'}>${open?'대장전 참가 등록':'이번 회차 모집 종료'}</button>${data?.operatorTestParticipant ? '<small class="captain-v3-operator-test">운영자 테스트 참가 활성화 · 정규 운영 랭킹과 분리해 테스트하세요.</small>' : ''}
       <small class="captain-v3-warning">대기 중 취소 시 7일간 재등록할 수 없으며, 팀 결성 후에는 탈퇴할 수 없습니다.</small>
     </section>`;
+    startRecruitmentClock(data?.recruitment);
   }
 
   function renderWaiting(box, data) {
+    const open = data?.recruitment?.open === true;
     box.innerHTML = `<section class="captain-v3-waiting">
       <div class="captain-v3-secret-cards"><i>?</i><i class="me">본인</i><i>?</i></div>
-      <small>팀원 정보 비공개 · 무작위 팀 구성</small><h2>팀 결성을 기다리고 있습니다</h2>
-      <p>3명이 모일 때까지 다른 참가자의 닉네임과 티어는 공개되지 않습니다.</p>
-      <div class="captain-v3-wait-count"><b>${Number(data.waitingCount || 0)}</b><span>현재 매칭 대기</span></div>
-      <button class="btn ghost" id="captainCancel">참가 취소 · 7일 등록 제한</button>
+      <small>팀원 정보 비공개 · 전체 신청자 균형 편성</small><h2>${open?'팀 모집을 기다리고 있습니다':'팀 편성 결과를 확인하고 있습니다'}</h2>
+      <p>${open?'회차 시작 후 3시간 동안 신청자를 모은 뒤 전체 신청자 기준으로 팀을 편성합니다.':'모집이 종료되었습니다. 3인 단위로 편성되지 못한 잔여 인원은 대기 상태로 남습니다.'}</p>
+      ${recruitmentClock(data?.recruitment)}
+      <div class="captain-v3-wait-count"><b>${Number(data.waitingCount || 0)}</b><span>${open?'현재 신청 인원':'미편성 대기 인원'}</span></div>
+      <button class="btn ghost" id="captainCancel" data-no-cooldown="${open?'0':'1'}">${open?'참가 취소 · 7일 등록 제한':'미편성 신청 정리 · 제한 없음'}</button>
     </section>`;
+    startRecruitmentClock(data?.recruitment);
   }
 
   function opponentCard(team, energy) {
@@ -543,6 +578,8 @@
     const box = document.getElementById('pvpContent');
     if (!box || !active) return;
     clearInterval(energyTimer);
+    clearInterval(recruitmentTimer);
+    clearTimeout(formationTimer);
     box.innerHTML = '<div class="captain-v3-loading"><i></i><span>대장전 정보를 불러오는 중...</span></div>';
     try {
       const data = await api('captain/status');
@@ -552,14 +589,19 @@
       else renderDashboard(box, data);
       mountBgmControl(box, data.bgm);
       await syncBgm(data.bgm);
+      if (data?.formation?.status === 'FORMING') formationTimer = setTimeout(render, 1200);
 
       document.getElementById('captainRegister')?.addEventListener('click', async () => {
         if (!confirm('PVP 덱으로 대장전에 등록할까요? 팀 결성 후에는 탈퇴할 수 없습니다.')) return;
         try { await api('captain/register', { method: 'POST' }); await render(); }
         catch (error) { alert(error.message); }
       });
-      document.getElementById('captainCancel')?.addEventListener('click', async () => {
-        if (!confirm('참가를 취소하면 7일 동안 다시 등록할 수 없습니다. 계속할까요?')) return;
+      document.getElementById('captainCancel')?.addEventListener('click', async event => {
+        const noCooldown = event.currentTarget.dataset.noCooldown === '1';
+        const message = noCooldown
+          ? '3인 단위 편성에서 제외된 신청을 정리할까요? 재등록 제한은 적용되지 않습니다.'
+          : '참가를 취소하면 7일 동안 다시 등록할 수 없습니다. 계속할까요?';
+        if (!confirm(message)) return;
         try { await api('captain/register', { method: 'DELETE' }); await render(); }
         catch (error) { alert(error.message); }
       });
@@ -611,11 +653,11 @@
     };
     nav.insertBefore(button, nav.children[1] || null);
     nav.querySelectorAll('button:not([data-captain-v3])').forEach(item => {
-      item.addEventListener('click', () => { active = false; clearInterval(energyTimer); stopBgm(); }, { capture: true });
+      item.addEventListener('click', () => { active = false; clearInterval(energyTimer); clearInterval(recruitmentTimer); clearTimeout(formationTimer); stopBgm(); }, { capture: true });
     });
   }
 
-  window.addEventListener('cnine:force-main', () => { active = false; clearInterval(energyTimer); energyTimer = null; stopBgm(true); });
+  window.addEventListener('cnine:force-main', () => { active = false; clearInterval(energyTimer); clearInterval(recruitmentTimer); clearTimeout(formationTimer); energyTimer = null; recruitmentTimer = null; formationTimer = null; stopBgm(true); });
   window.addEventListener('beforeunload', () => stopBgm(true));
   new MutationObserver(installTab).observe(document.documentElement, { childList: true, subtree: true });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', installTab, { once: true });

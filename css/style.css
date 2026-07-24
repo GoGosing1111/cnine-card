@@ -3354,3 +3354,9 @@ html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!
 .inventory-open-panel.opening .inventory-open-ticket{animation:inventoryRerollUse .9s ease-in-out both}
 @keyframes inventoryRerollUse{0%{transform:scale(1);filter:brightness(1)}45%{transform:scale(1.08) rotateY(12deg);filter:brightness(1.8)}100%{transform:scale(.72) rotateY(90deg);filter:brightness(2.4);opacity:0}}
 @media(max-width:620px){.inventory-reroll-ticket{width:138px;height:198px}.inventory-open-ticket{width:180px;height:258px}.inventory-toolbar>div{width:100%;overflow-x:auto}.inventory-toolbar button{white-space:nowrap}}
+
+
+/* v1165 captain 3-hour recruitment and full-pool balance */
+.captain-v3-recruitment{width:min(540px,100%);margin:18px auto;padding:14px 16px;border:1px solid rgba(89,229,220,.26);border-radius:16px;background:linear-gradient(145deg,rgba(10,42,54,.7),rgba(10,18,36,.78));box-shadow:0 12px 30px rgba(0,0,0,.18)}
+.captain-v3-recruitment small,.captain-v3-recruitment b,.captain-v3-recruitment span{display:block}.captain-v3-recruitment small{color:#62e8df;font-size:10px;font-weight:900;letter-spacing:.12em}.captain-v3-recruitment b{margin:5px 0;color:#f2fbff;font-size:22px}.captain-v3-recruitment span{color:#91a8bc;font-size:12px;line-height:1.5}.captain-v3-recruitment.closed{border-color:rgba(255,211,106,.2);background:rgba(33,27,17,.54)}.captain-v3-recruitment.closed small{color:#ffd36a}.captain-v3-main-button:disabled{cursor:not-allowed;opacity:.52;filter:saturate(.35)}
+@media(max-width:650px){.captain-v3-recruitment{margin:14px auto;padding:12px}.captain-v3-recruitment b{font-size:19px}}

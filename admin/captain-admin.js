@@ -448,7 +448,7 @@
     const legacyTeams=Number(balance.legacyRoleTeams||0);
     $('#capCmsBalanceNotice').innerHTML=`
       <div><b>편성 대기 전투력</b><span>${waitingCount}명 · 최저 ${number(waitingMin)} · 평균 ${number(waitingAverage)} · 최고 ${number(waitingMax)}</span></div>
-      <div class="${legacyTeams?'warning':''}"><b>${legacyTeams?'기존 역할 팀 확인':'신규 편성 기준 적용 중'}</b><span>${legacyTeams?`시즌 점수 기준 역할이 남은 기존 팀 ${legacyTeams}개 · 새 회차부터 전투력 순으로 적용`:'그랜드마스터 제한 없이 덱 전투력 합계가 비슷하도록 즉시 편성'}</span></div>`;
+      <div class="${legacyTeams?'warning':''}"><b>${legacyTeams?'기존 역할 팀 확인':overview.recruitment?.open?'3시간 전체 모집 중':'전체 신청자 균형 편성'}</b><span>${legacyTeams?`시즌 점수 기준 역할이 남은 기존 팀 ${legacyTeams}개 · 새 회차부터 전투력 순으로 적용`:overview.recruitment?.open?`모집 종료 ${new Date(overview.recruitment.endsAt).toLocaleString('ko-KR')} · 종료 후 일괄 편성`:'그랜드마스터 제한 없이 전체 신청자의 덱 전투력 합계가 비슷하도록 일괄 편성'}</span></div>`;
 
     renderQueue();
     renderTeams(teams);
@@ -617,6 +617,7 @@
           `${currentLabel} 운영을 종료하고 빈 새 회차를 즉시 시작합니다.`,
           '',
           '· 현재 참가자와 대기열은 새 회차로 복사되지 않습니다.',
+          '· 새 회차 시작 후 3시간 동안 전체 신청자를 모집한 뒤 팀 전투력을 균형 편성합니다.',
           '· 현재 팀·승패·공격 횟수는 새 회차 기준으로 초기화되며, 팀 점수는 기본값부터 다시 시작합니다.',
           '· 종료 시 현재 최종 순위 기준 정산 보상을 메시지함으로 지급합니다.',
           '· 기존 랭킹, 경기, 보상 지급 기록은 삭제하지 않고 보존합니다.',
@@ -661,6 +662,7 @@
           '',
           '· 정산 보상 메시지와 보상 지급을 생성하지 않습니다.',
           '· 현재 참가자와 대기열은 새 회차로 복사되지 않습니다.',
+          '· 새 회차 시작 후 3시간 동안 전체 신청자를 모집한 뒤 팀 전투력을 균형 편성합니다.',
           '· 현재 팀·승패·공격 횟수는 새 회차 기준으로 초기화되며, 팀 점수는 기본값부터 다시 시작합니다.',
           '· 기존 랭킹, 경기, 보상 지급 기록은 삭제하지 않고 보존합니다.',
           '· 기존 참가자는 새 회차에서 다시 등록할 수 있는 상태가 됩니다.',

@@ -26,6 +26,7 @@ const DEF = {
   loseScore: 16,
   renameCooldownMinutes: 60,
   adminTestParticipation: true,
+  recruitmentHours: 3,
   bgm: { enabled: false, source: '', volume: 35, loop: true, stopOnExit: true },
   rewards: {
     victory: { coin: 0, shards: 0 },
@@ -54,6 +55,68 @@ function randomIndex(max) {
   } catch {
     return Math.floor(Math.random() * max);
   }
+}
+
+const CAPTAIN_RECRUITMENT_HOURS = 3;
+const CAPTAIN_FORMATION_LOCK_KEY = 'captain_team_formation_lock_v1165';
+const CAPTAIN_FORMATION_LOCK_STALE_MS = 120000;
+
+function sqlUtcMs(value) {
+  const text = String(value || '').trim();
+  if (!text) return NaN;
+  return Date.parse(text.includes('T') ? text : `${text.replace(' ', 'T')}Z`);
+}
+
+function captainRecruitmentState(round) {
+  const parsedStart = sqlUtcMs(round?.startedAt || round?.started_at);
+  const startMs = Number.isFinite(parsedStart) ? parsedStart : Date.now();
+  const endMs = startMs + CAPTAIN_RECRUITMENT_HOURS * 60 * 60 * 1000;
+  const remainingSeconds = Math.max(0, Math.ceil((endMs - Date.now()) / 1000));
+  return {
+    status: remainingSeconds > 0 ? 'OPEN' : 'CLOSED',
+    open: remainingSeconds > 0,
+    hours: CAPTAIN_RECRUITMENT_HOURS,
+    startsAt: new Date(startMs).toISOString(),
+    endsAt: new Date(endMs).toISOString(),
+    remainingSeconds
+  };
+}
+
+async function acquireCaptainFormationLock(env, roundKey) {
+  const token = `${roundKey}|RUNNING|${crypto.randomUUID()}`;
+  const inserted = await env.DB.prepare(`
+    INSERT OR IGNORE INTO app_meta(key,value,updated_at)
+    VALUES(?,?,CURRENT_TIMESTAMP)
+  `).bind(CAPTAIN_FORMATION_LOCK_KEY, token).run();
+  if (Number(inserted?.meta?.changes || 0)) return { acquired: true, token };
+
+  const row = await env.DB.prepare('SELECT value,updated_at FROM app_meta WHERE key=?')
+    .bind(CAPTAIN_FORMATION_LOCK_KEY).first();
+  const value = String(row?.value || '');
+  if (value === `${roundKey}|DONE`) return { acquired: false, done: true };
+
+  const updatedMs = sqlUtcMs(row?.updated_at);
+  const sameRoundRunning = value.startsWith(`${roundKey}|RUNNING|`);
+  if (sameRoundRunning && Number.isFinite(updatedMs) && Date.now() - updatedMs < CAPTAIN_FORMATION_LOCK_STALE_MS) {
+    return { acquired: false, busy: true };
+  }
+
+  const claimed = await env.DB.prepare(`
+    UPDATE app_meta
+    SET value=?,updated_at=CURRENT_TIMESTAMP
+    WHERE key=? AND value=?
+  `).bind(token, CAPTAIN_FORMATION_LOCK_KEY, value).run();
+  return Number(claimed?.meta?.changes || 0)
+    ? { acquired: true, token }
+    : { acquired: false, busy: true };
+}
+
+async function finishCaptainFormationLock(env, token, roundKey, status) {
+  await env.DB.prepare(`
+    UPDATE app_meta
+    SET value=?,updated_at=CURRENT_TIMESTAMP
+    WHERE key=? AND value=?
+  `).bind(`${roundKey}|${status}`, CAPTAIN_FORMATION_LOCK_KEY, token).run();
 }
 
 function shuffle(items) {
@@ -780,60 +843,87 @@ async function userTeam(env, userId, week) {
   `).bind(week, userId).first();
 }
 
-async function formTeams(env, week) {
-  const queue = (await env.DB.prepare(`
-    SELECT r.*,u.nickname,COALESCE(p.season_score,1000) season_score
-    FROM captain_registrations r
-    JOIN users u ON u.id=r.user_id
-    LEFT JOIN pvp_profiles p ON p.user_id=r.user_id
-    WHERE r.week_key=? AND r.status='WAITING' AND r.team_id IS NULL
-    ORDER BY r.registered_at,r.id
-  `).bind(week).all()).results;
-  if (queue.length < 3) return;
+async function formTeams(env, week, currentRound) {
+  const recruitment = captainRecruitmentState(currentRound);
+  if (recruitment.open) return { status: 'RECRUITING', recruitment, formedTeams: 0, assignedUsers: 0 };
 
-  const tiers = await pvpTiers(env);
-  const groups = buildDeckPowerBalancedTeamGroups(queue, tiers);
+  const lock = await acquireCaptainFormationLock(env, week);
+  if (!lock.acquired) {
+    return {
+      status: lock.done ? 'COMPLETED' : 'FORMING',
+      recruitment,
+      formedTeams: 0,
+      assignedUsers: 0
+    };
+  }
 
-  for (const rawGroup of groups) {
-    const selected = assignPvpPositions(rawGroup);
-    const created = await env.DB.prepare('INSERT INTO captain_teams(week_key,name) VALUES(?,?)')
-      .bind(week, '대장전 신규팀')
-      .run();
-    const teamId = Number(created.meta.last_row_id);
-    await env.DB.prepare('UPDATE captain_teams SET name=? WHERE id=?')
-      .bind(`대장전 ${teamId}팀`, teamId).run();
+  let formedTeams = 0;
+  let assignedUsers = 0;
+  try {
+    // 모집 종료 뒤의 전체 WAITING 신청자를 한 번에 읽고, 가능한 모든 3인 팀을
+    // 팀별 덱 전투력 합계가 최대한 비슷해지도록 배분한다.
+    const queue = (await env.DB.prepare(`
+      SELECT r.*,u.nickname,COALESCE(p.season_score,1000) season_score
+      FROM captain_registrations r
+      JOIN users u ON u.id=r.user_id
+      LEFT JOIN pvp_profiles p ON p.user_id=r.user_id
+      WHERE r.week_key=? AND r.status='WAITING' AND r.team_id IS NULL
+      ORDER BY r.registered_at,r.id
+    `).bind(week).all()).results;
 
-    try {
-      const results = await env.DB.batch([
-        ...selected.map(registration => env.DB.prepare(`
-          UPDATE captain_registrations
-          SET status='ASSIGNED',team_id=?,assigned_at=CURRENT_TIMESTAMP
-          WHERE id=? AND status='WAITING' AND team_id IS NULL
-        `).bind(teamId, registration.id)),
-        ...selected.map(registration => env.DB.prepare(`
-          INSERT OR IGNORE INTO captain_team_members(team_id,user_id,position,deck_snapshot,deck_power)
-          SELECT ?,?,?,?,?
-          WHERE EXISTS(
-            SELECT 1 FROM captain_registrations
-            WHERE id=? AND status='ASSIGNED' AND team_id=?
-          )
-        `).bind(teamId, registration.user_id, registration.position, registration.deck_snapshot, registration.deck_power, registration.id, teamId))
-      ]);
-      const memberCount = await env.DB.prepare('SELECT COUNT(*) n FROM captain_team_members WHERE team_id=?').bind(teamId).first();
-      if (Number(memberCount?.n || 0) !== 3) {
+    const tiers = await pvpTiers(env);
+    const groups = buildDeckPowerBalancedTeamGroups(queue, tiers);
+
+    for (const rawGroup of groups) {
+      const selected = assignPvpPositions(rawGroup);
+      const created = await env.DB.prepare('INSERT INTO captain_teams(week_key,name) VALUES(?,?)')
+        .bind(week, '대장전 신규팀')
+        .run();
+      const teamId = Number(created.meta.last_row_id);
+      await env.DB.prepare('UPDATE captain_teams SET name=? WHERE id=?')
+        .bind(`대장전 ${teamId}팀`, teamId).run();
+
+      try {
+        const results = await env.DB.batch([
+          ...selected.map(registration => env.DB.prepare(`
+            UPDATE captain_registrations
+            SET status='ASSIGNED',team_id=?,assigned_at=CURRENT_TIMESTAMP
+            WHERE id=? AND status='WAITING' AND team_id IS NULL
+          `).bind(teamId, registration.id)),
+          ...selected.map(registration => env.DB.prepare(`
+            INSERT OR IGNORE INTO captain_team_members(team_id,user_id,position,deck_snapshot,deck_power)
+            SELECT ?,?,?,?,?
+            WHERE EXISTS(
+              SELECT 1 FROM captain_registrations
+              WHERE id=? AND status='ASSIGNED' AND team_id=?
+            )
+          `).bind(teamId, registration.user_id, registration.position, registration.deck_snapshot, registration.deck_power, registration.id, teamId))
+        ]);
+        const memberCount = await env.DB.prepare('SELECT COUNT(*) n FROM captain_team_members WHERE team_id=?').bind(teamId).first();
+        if (Number(memberCount?.n || 0) !== 3) {
+          await env.DB.batch([
+            env.DB.prepare("UPDATE captain_teams SET status='CANCELLED' WHERE id=?").bind(teamId),
+            env.DB.prepare("UPDATE captain_registrations SET status='WAITING',team_id=NULL,assigned_at=NULL WHERE team_id=?").bind(teamId)
+          ]);
+          console.warn('captain balanced team formation rolled back', { teamId, results });
+          continue;
+        }
+        formedTeams += 1;
+        assignedUsers += 3;
+      } catch (error) {
         await env.DB.batch([
           env.DB.prepare("UPDATE captain_teams SET status='CANCELLED' WHERE id=?").bind(teamId),
           env.DB.prepare("UPDATE captain_registrations SET status='WAITING',team_id=NULL,assigned_at=NULL WHERE team_id=?").bind(teamId)
         ]);
-        console.warn('captain balanced team formation rolled back', { teamId, results });
+        throw error;
       }
-    } catch (error) {
-      await env.DB.batch([
-        env.DB.prepare("UPDATE captain_teams SET status='CANCELLED' WHERE id=?").bind(teamId),
-        env.DB.prepare("UPDATE captain_registrations SET status='WAITING',team_id=NULL,assigned_at=NULL WHERE team_id=?").bind(teamId)
-      ]);
-      throw error;
     }
+
+    await finishCaptainFormationLock(env, lock.token, week, 'DONE');
+    return { status: 'COMPLETED', recruitment, formedTeams, assignedUsers, waitingRemainder: queue.length % 3 };
+  } catch (error) {
+    await finishCaptainFormationLock(env, lock.token, week, 'FAILED');
+    throw error;
   }
 }
 
@@ -1073,12 +1163,12 @@ function randomFactor(min = 0.92, max = 1.08) {
 
 function cardDamage(attacker, defender) {
   const attackPower = Math.max(1, Number(attacker.power || 1));
-  const defensePower = Math.max(1, Number(defender.baseBattlePower || defender.power || 1));
-  const ratio = clamp(attackPower / defensePower, 0.45, 2.2);
   const critical = randomIndex(100) < 10;
-  const basePercent = clamp(0.27 + (Math.sqrt(ratio) - 1) * 0.12, 0.20, 0.43);
   const defenseMultiplier = 1 + Math.max(-90, Number(defender.uniqueDefensePercent || 0)) / 100;
-  const damage = Math.max(1, Math.round((Number(defender.maxHp || defensePower) * basePercent * randomFactor() * (critical ? 1.32 : 1)) / Math.max(0.1, defenseMultiplier)));
+  // 피해량은 공격자의 실제 공격 전투력을 기준으로 계산한다.
+  // 이전처럼 피격자의 최대 HP 비율을 기준으로 잡으면 약한 카드도 강한 카드 HP의
+  // 일정 비율을 깎아 전투력 격차가 비정상적으로 축소되는 문제가 발생한다.
+  const damage = Math.max(1, Math.round((attackPower * 0.27 * randomFactor(0.94, 1.06) * (critical ? 1.32 : 1)) / Math.max(0.1, defenseMultiplier)));
   return { damage, critical };
 }
 
@@ -1197,7 +1287,7 @@ function simulateDuel(left, right, roundNumber) {
     loserUserId: loser.userId,
     winnerSide: leftWins ? 'ATTACKER' : 'DEFENDER',
     ultimateDisabled: true,
-    engine: 'PVP_CARD_GAUNTLET_V1'
+    engine: 'PVP_CARD_GAUNTLET_V2_POWER_DAMAGE'
   };
 }
 
@@ -1228,7 +1318,7 @@ function simulateGauntlet(attackerTeam, defenderTeam) {
     rounds,
     survivor: survivor ? fighterPayload(survivor, true) : null,
     ultimateDisabled: true,
-    engine: 'PVP_CARD_GAUNTLET_V1'
+    engine: 'PVP_CARD_GAUNTLET_V2_POWER_DAMAGE'
   };
 }
 
@@ -1330,6 +1420,8 @@ export async function handleCaptain({ path, request, env, deps }) {
 
   if (path === 'admin/captain/overview') {
     if (!admin) return deps.json({ error: '관리자 권한이 필요합니다.' }, 403);
+    const formation = await formTeams(env, week, currentRound);
+    const recruitment = captainRecruitmentState(currentRound);
     const tiers = await pvpTiers(env);
     const registrationRows = (await env.DB.prepare(`
       SELECT r.*,u.nickname,COALESCE(p.season_score,1000) season_score
@@ -1367,6 +1459,8 @@ export async function handleCaptain({ path, request, env, deps }) {
     return deps.json({
       weekKey: week,
       round: currentRound,
+      recruitment,
+      formation,
       registrations,
       teams,
       logs,
@@ -1374,7 +1468,7 @@ export async function handleCaptain({ path, request, env, deps }) {
         roleRule: 'DECK_POWER_ASC',
         roleDescription: '등록 PVP 덱 전투력 낮은 순서대로 선봉 · 중견 · 대장 배정',
         formationRule: 'DECK_POWER_TOTAL_BALANCE',
-        formationDescription: '대기 인원을 등록 순으로 우선 선발한 뒤 팀별 덱 전투력 합계 차이를 최소화해 배분',
+        formationDescription: '회차 시작 후 3시간 동안 전체 신청자를 모집한 뒤 가능한 모든 3인 팀의 덱 전투력 합계 차이를 최소화해 일괄 배분',
         grandmasterLimitRemoved: true,
         waitingCount: waitingRows.length,
         waitingPowerMin: waitingPowers.length ? Math.min(...waitingPowers) : 0,
@@ -1538,8 +1632,8 @@ export async function handleCaptain({ path, request, env, deps }) {
       round: newRound,
       settlement: result.settlement || { participants: 0, rewardUsers: 0, messages: 0, magicUsers: 0 },
       note: skipSettlement
-        ? `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 보상 없이 시작했습니다. 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존됩니다.`
-        : `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 시작했습니다. 정산 보상 메시지 ${Number(result.settlement?.messages || 0)}개를 생성했으며, 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존됩니다.`
+        ? `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 보상 없이 시작했습니다. 지금부터 3시간 동안 참가자를 모집한 뒤 전체 신청자 기준으로 팀을 편성합니다. 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존됩니다.`
+        : `${roundLabel(currentRound)} 운영을 종료하고 ${newRound.label}를 시작했습니다. 지금부터 3시간 동안 참가자를 모집한 뒤 전체 신청자 기준으로 팀을 편성합니다. 정산 보상 메시지 ${Number(result.settlement?.messages || 0)}개를 생성했으며, 기존 참가·팀·랭킹·경기·보상 기록은 삭제하지 않고 보존됩니다.`
     });
   }
 
@@ -1549,6 +1643,13 @@ export async function handleCaptain({ path, request, env, deps }) {
 
   if (path === 'captain/register' && request.method === 'POST') {
     if (admin && config.mode === 'ON') return deps.json({ error: '운영 계정은 정규 랭킹에서 제외됩니다. CMS에서 TEST 모드로 전환해 테스트하세요.' }, 403);
+    const recruitment = captainRecruitmentState(currentRound);
+    if (!recruitment.open) {
+      return deps.json({
+        error: '이번 회차의 3시간 팀 모집이 종료되었습니다.',
+        recruitment
+      }, 409);
+    }
     const last = await env.DB.prepare(`
       SELECT week_key,cooldown_until
       FROM captain_registrations
@@ -1590,12 +1691,24 @@ export async function handleCaptain({ path, request, env, deps }) {
         .bind(week, user.id, JSON.stringify(snapshot), power).run();
     }
 
-    await formTeams(env, week);
-    return deps.json({ ok: true });
+    return deps.json({ ok: true, recruitment });
   }
 
   if (path === 'captain/register' && request.method === 'DELETE') {
     if (await userTeam(env, user.id, week)) return deps.json({ error: '팀 결성 후에는 탈퇴할 수 없습니다.' }, 409);
+    const recruitment = captainRecruitmentState(currentRound);
+    if (!recruitment.open) {
+      const formation = await formTeams(env, week, currentRound);
+      if (formation.status === 'FORMING') return deps.json({ error: '팀 편성 처리 중입니다. 잠시 후 다시 확인하세요.' }, 409);
+      if (await userTeam(env, user.id, week)) return deps.json({ error: '팀 결성이 완료되어 탈퇴할 수 없습니다.' }, 409);
+      const unassigned = await env.DB.prepare(`
+        UPDATE captain_registrations
+        SET status='CANCELLED',cancelled_at=CURRENT_TIMESTAMP,cooldown_until=NULL
+        WHERE week_key=? AND user_id=? AND status='WAITING' AND team_id IS NULL
+      `).bind(week, user.id).run();
+      if (!unassigned.meta.changes) return deps.json({ error: '정리할 미편성 참가 신청이 없습니다.' }, 409);
+      return deps.json({ ok: true, cooldownDays: 0, unassigned: true });
+    }
     const result = await env.DB.prepare(`
       UPDATE captain_registrations
       SET status='CANCELLED',cancelled_at=CURRENT_TIMESTAMP,cooldown_until=datetime('now','+7 days')
@@ -1629,7 +1742,8 @@ export async function handleCaptain({ path, request, env, deps }) {
   }
 
   if (path === 'captain/status') {
-    await formTeams(env, week);
+    const formation = await formTeams(env, week, currentRound);
+    const recruitment = captainRecruitmentState(currentRound);
     const registration = await env.DB.prepare('SELECT * FROM captain_registrations WHERE week_key=? AND user_id=?')
       .bind(week, user.id).first();
     const myTeamRow = await userTeam(env, user.id, week);
@@ -1660,6 +1774,8 @@ export async function handleCaptain({ path, request, env, deps }) {
     return deps.json({
       weekKey: week,
       round: currentRound,
+      recruitment,
+      formation,
       registered: Boolean(registration && registration.status !== 'CANCELLED'),
       registrationStatus: registration?.status || null,
       cooldownUntil: registration?.cooldown_until || null,
@@ -1669,7 +1785,7 @@ export async function handleCaptain({ path, request, env, deps }) {
       canCancel: registration?.status === 'WAITING',
       isCaptain,
       energy: energyState,
-      battleRule: 'RANDOM_GAUNTLET_3V3',
+      battleRule: 'RANDOM_GAUNTLET_3V3_POWER_DAMAGE_V2',
       ultimateDisabled: true,
       operatorTestParticipant: Boolean(admin && config.mode === 'TEST' && config.adminTestParticipation),
       bgm: {
@@ -1743,7 +1859,11 @@ export async function handleCaptain({ path, request, env, deps }) {
       const uniqueStates=await deps.cardUniqueDeckStates(env,allMembers.map(member=>({user:{id:member.user_id,role:Number(member.user_id)===Number(user.id)?user.role:''},cards:member.deckSnapshot||[]})),'CAPTAIN');
       allMembers.forEach((member,index)=>{
         const state=uniqueStates[index];
-        member.deckSnapshot=state?.cards?.length?state.cards:(member.deckSnapshot||[]);
+        const fixedSnapshot=Array.isArray(member.deckSnapshot)?member.deckSnapshot.slice(0,5):[];
+        const uniqueCards=Array.isArray(state?.cards)&&state.cards.length===fixedSnapshot.length?state.cards:fixedSnapshot;
+        // 대장전은 신청 당시 저장된 카드 5장을 기준으로 한다. 이후 보유 카드 삭제·퇴사·덱 변경이나
+        // 고유 능력 보정 과정이 스냅샷 카드 수를 줄여서는 안 된다.
+        member.deckSnapshot=uniqueCards;
         member.deck_power=Number(state?.power||member.deck_power||member.deckSnapshot.reduce((sum,card)=>sum+Number(card.power||0),0));
       });
       const match = simulateGauntlet(attackerTeam, defenderTeam);
