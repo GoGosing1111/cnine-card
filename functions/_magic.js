@@ -222,6 +222,13 @@ function visibleTo(user,cfg){return cfg.enabled||(cfg.ownerTestEnabled&&isOwner(
 function safeCode(value=''){
   return String(value).trim().toUpperCase().replace(/[^A-Z0-9_]/g,'_').replace(/_+/g,'_').replace(/^_+|_+$/g,'').slice(0,50);
 }
+function publicImageUrl(value=''){
+  let url=String(value||'').trim().replace(/\\/g,'/');
+  if(!url)return '';
+  if(/^(?:https?:|data:|blob:)/i.test(url)||url.startsWith('//'))return url;
+  url=url.replace(/^\.\/+/, '').replace(/^(?:\.\.\/)+/, '');
+  return `/${url.replace(/^\/+/, '')}`;
+}
 function randomPick(rows){
   const total=rows.reduce((sum,row)=>sum+Math.max(0.0001,Number(row.draw_weight||1)),0);
   let roll=Math.random()*total;
@@ -231,7 +238,7 @@ function randomPick(rows){
 function cardPayload(row){
   return {
     id:Number(row.id),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R'),
-    imageUrl:String(row.image_url||''),description:String(row.description||''),effectType:String(row.effect_type||'NONE'),
+    imageUrl:publicImageUrl(row.image_url),description:String(row.description||''),effectType:String(row.effect_type||'NONE'),
     triggerType:String(row.trigger_type||'BATTLE_START'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance||100),
     maxActivations:Number(row.max_activations||1),drawWeight:Number(row.draw_weight||1),
     scopes:{pve:row.scope_pve!==0,pvp:row.scope_pvp!==0,captain:row.scope_captain!==0},
@@ -273,7 +280,7 @@ async function adminData(env){
     uniqueEffectSettings:await cardUniqueSettings(env),
     cards:cards.results.map(cardPayload),
     uniqueEffects:effects.results.map(x=>({
-      cardId:String(x.card_id),title:String(x.title||''),grade:String(x.rarity||''),memberName:String(x.member_name||''),imageUrl:String(x.image_url||''),
+      cardId:String(x.card_id),title:String(x.title||''),grade:String(x.rarity||''),memberName:String(x.member_name||''),imageUrl:publicImageUrl(x.image_url),
       attackPercent:Number(x.attack_percent||0),defensePercent:Number(x.defense_percent||0),hpPercent:Number(x.hp_percent||0),speedPercent:Number(x.speed_percent||0),
       effectName:String(x.effect_name||''),effectDescription:String(x.effect_description||''),effectType:String(x.effect_type||'NONE'),triggerType:String(x.trigger_type||'PASSIVE'),
       effectValue:Number(x.effect_value||0),triggerChance:Number(x.trigger_chance||100),maxActivations:Number(x.max_activations||1),
