@@ -4022,44 +4022,114 @@ export async function onRequest(context){
       if(!cardId)return json({error:'카드를 선택하세요.'},400);
       const card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.card_status,m.name AS member_name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first();
       if(!card)return json({error:'카드가 없습니다.'},404);
-      const cfg=await breakthroughConfig(env),rows=await env.DB.prepare('SELECT user_id,COALESCE(breakthrough_level,0) AS breakthrough_level FROM user_cards WHERE card_id=? AND COALESCE(quantity,0)>0').bind(cardId).all();
-      const refunds=rows.results.map(r=>{const level=Math.max(0,Math.min(10,Number(r.breakthrough_level)||0));let required=0;for(let i=0;i<level;i++)required+=Number(cfg[card.rarity]?.[i]?.cost||0);return {userId:Number(r.user_id),level,requiredShards:required,refundShards:required}}).filter(r=>r.refundShards>0);
-      const rerollTicket=RETIREMENT_REROLL_TICKETS[String(card.rarity||'').toUpperCase()]||null;
-      const summary={cardId:card.id,title:card.title,memberName:card.member_name,grade:card.rarity,ownedUsers:rows.results.length,refundUsers:refunds.length,totalRequiredShards:refunds.reduce((n,r)=>n+r.requiredShards,0),totalRefundShards:refunds.reduce((n,r)=>n+r.refundShards,0),refundRate:100,rerollTicketCode:rerollTicket?.code||null,rerollTicketName:rerollTicket?.name||null,rerollTicketUsers:rerollTicket?rows.results.length:0,status:card.card_status};
-      if(action==='PREVIEW')return json({ok:true,summary});
-      if(action==='QUEUE'){
-        if(['RETIRE_PENDING','RETIRED'].includes(String(card.card_status||'')))return json({error:'이미 퇴사 처리 중이거나 완료된 카드입니다.'},409);
-        const created=await env.DB.prepare("INSERT INTO card_retirement_batches(card_id,card_title,member_name,status,refund_rate,created_by) VALUES(?,?,?,'PENDING',100,?)").bind(card.id,card.title,card.member_name,admin.id).run();
-        const batchId=created.meta.last_row_id;
-        let sent=0;
-        for(const r of refunds){
-          const title=`${card.member_name} 퇴사 카드 조각 환급`;
-          const messageBody=`퇴사로 삭제 예정인 [${card.title}] 카드의 현재 강화 단계(★${r.level})까지 필요한 누적 재료를 기준으로 100%를 환급합니다.\n\n누적 필요 재료: ${r.requiredShards.toLocaleString()}개\n환급 카드 조각: ${r.refundShards.toLocaleString()}개\n\n실패한 강화 시도 횟수는 계산에 포함되지 않습니다.`;
-          const m=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'SHARD_REWARD')").bind(r.userId,title,messageBody).run();
-          await env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'SHARDS',?)").bind(m.meta.last_row_id,r.userId,r.refundShards).run();
-          await env.DB.prepare('INSERT INTO card_retirement_refunds(batch_id,user_id,breakthrough_level,required_shards,refund_shards,message_id) VALUES(?,?,?,?,?,?)').bind(batchId,r.userId,r.level,r.requiredShards,r.refundShards,m.meta.last_row_id).run();sent++;
-        }
-        await env.DB.prepare("UPDATE cards SET is_active=0,card_status='RETIRE_PENDING',updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(card.id).run();
-        await writeAdminLog(env,admin,'CARD_RETIREMENT_QUEUE','CARD',card.id,card,{...summary,batchId,sent});
-        return json({ok:true,batchId,sent,summary:{...summary,status:'RETIRE_PENDING'}});
+
+      const cfg=await breakthroughConfig(env);
+      const gradeRules=Array.isArray(cfg[card.rarity])?cfg[card.rarity]:[];
+      const cumulative=[0];
+      for(const rule of gradeRules)cumulative.push(cumulative[cumulative.length-1]+Math.max(0,Number(rule?.cost)||0));
+      const pendingBatch=String(card.card_status||'').toUpperCase()==='RETIRE_PENDING'
+        ? await env.DB.prepare("SELECT * FROM card_retirement_batches WHERE card_id=? AND status='PENDING'").bind(card.id).first()
+        : null;
+      const ownedRows=(await env.DB.prepare('SELECT user_id,COALESCE(breakthrough_level,0) AS breakthrough_level FROM user_cards WHERE card_id=? AND COALESCE(quantity,0)>0 ORDER BY user_id').bind(cardId).all()).results||[];
+      const unsupported=ownedRows.filter(row=>Math.max(0,Number(row.breakthrough_level)||0)>gradeRules.length);
+      if(unsupported.length){
+        const maxLevel=Math.max(...unsupported.map(row=>Math.max(0,Number(row.breakthrough_level)||0)));
+        return json({error:`${card.rarity} +${maxLevel} 카드의 정확한 환급 비용 설정이 없습니다. 과소 지급 방지를 위해 퇴사 처리를 중단했습니다.`},409);
       }
+      const currentSnapshots=ownedRows.map(row=>{
+        const level=Math.max(0,Math.min(gradeRules.length,Number(row.breakthrough_level)||0));
+        const shards=Number(cumulative[level]||0);
+        return {userId:Number(row.user_id),level,requiredShards:shards,refundShards:shards,messageId:null};
+      });
+      let snapshots=currentSnapshots;
+      if(pendingBatch){
+        const stored=(await env.DB.prepare('SELECT user_id,breakthrough_level,required_shards,refund_shards,message_id FROM card_retirement_refunds WHERE batch_id=? ORDER BY user_id').bind(pendingBatch.id).all()).results||[];
+        const storedMap=new Map(stored.map(row=>[Number(row.user_id),{
+          userId:Number(row.user_id),level:Number(row.breakthrough_level||0),
+          requiredShards:Number(row.required_shards||0),refundShards:Number(row.refund_shards||0),
+          messageId:row.message_id==null?null:Number(row.message_id)
+        }]));
+        for(const row of currentSnapshots)if(!storedMap.has(row.userId))storedMap.set(row.userId,row);
+        snapshots=[...storedMap.values()].sort((a,b)=>a.userId-b.userId);
+      }
+      const refundable=snapshots.filter(row=>row.refundShards>0);
+      const directRefundable=refundable.filter(row=>row.messageId==null);
+      const legacyMessageRefundable=refundable.filter(row=>row.messageId!=null);
+      const maxLevel=gradeRules.length;
+      const levelExpr=`MAX(0,MIN(${maxLevel},CAST(COALESCE(uc.breakthrough_level,0) AS INTEGER)))`;
+      const refundCase=maxLevel>0
+        ? `CASE ${levelExpr} ${cumulative.map((value,index)=>`WHEN ${index} THEN ${Math.max(0,Math.floor(Number(value)||0))}`).join(' ')} ELSE 0 END`
+        : '0';
+      const rerollTicket=RETIREMENT_REROLL_TICKETS[String(card.rarity||'').toUpperCase()]||null;
+      const summary={
+        cardId:card.id,title:card.title,memberName:card.member_name,grade:card.rarity,
+        ownedUsers:snapshots.length,refundUsers:refundable.length,
+        totalRequiredShards:refundable.reduce((sum,row)=>sum+row.requiredShards,0),
+        totalRefundShards:refundable.reduce((sum,row)=>sum+row.refundShards,0),
+        directRefundUsers:directRefundable.length,directRefundShards:directRefundable.reduce((sum,row)=>sum+row.refundShards,0),
+        legacyMessageRefundUsers:legacyMessageRefundable.length,legacyMessageRefundShards:legacyMessageRefundable.reduce((sum,row)=>sum+row.refundShards,0),
+        refundRate:100,rerollTicketCode:rerollTicket?.code||null,rerollTicketName:rerollTicket?.name||null,
+        rerollTicketUsers:rerollTicket?snapshots.length:0,status:card.card_status
+      };
+      if(action==='PREVIEW')return json({ok:true,summary});
+
+      if(action==='QUEUE'){
+        if(String(card.card_status||'').toUpperCase()==='RETIRED')return json({error:'이미 퇴사 처리가 완료된 카드입니다.'},409);
+        await env.DB.prepare("INSERT OR IGNORE INTO card_retirement_batches(card_id,card_title,member_name,status,refund_rate,created_by) VALUES(?,?,?,'PENDING',100,?)").bind(card.id,card.title,card.member_name,admin.id).run();
+        const batch=await env.DB.prepare('SELECT * FROM card_retirement_batches WHERE card_id=?').bind(card.id).first();
+        if(!batch)return json({error:'퇴사 정산 배치를 생성하지 못했습니다.'},500);
+        if(String(batch.status||'').toUpperCase()!=='PENDING')return json({error:'이미 퇴사 확정이 완료된 카드입니다.'},409);
+
+        const results=await env.DB.batch([
+          env.DB.prepare(`INSERT OR IGNORE INTO card_retirement_refunds(batch_id,user_id,breakthrough_level,required_shards,refund_shards,message_id)
+            SELECT ?,uc.user_id,${levelExpr},${refundCase},${refundCase},NULL
+            FROM user_cards uc
+            WHERE uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(batch.id,card.id),
+          env.DB.prepare("UPDATE cards SET is_active=0,card_status='RETIRE_PENDING',updated_at=CURRENT_TIMESTAMP WHERE id=? AND COALESCE(card_status,'PUBLIC')!='RETIRED'").bind(card.id)
+        ]);
+        const snapshotCount=Number((await env.DB.prepare('SELECT COUNT(*) AS cnt FROM card_retirement_refunds WHERE batch_id=?').bind(batch.id).first())?.cnt||0);
+        const snapshotRefund=await env.DB.prepare('SELECT COUNT(CASE WHEN refund_shards>0 THEN 1 END) AS users,COALESCE(SUM(refund_shards),0) AS shards FROM card_retirement_refunds WHERE batch_id=?').bind(batch.id).first();
+        let logWarning='';
+        try{await writeAdminLog(env,admin,'CARD_RETIREMENT_QUEUE','CARD',card.id,card,{...summary,batchId:batch.id,snapshotCount})}catch(error){logWarning=String(error?.message||error||'관리자 로그 기록 실패')}
+        return json({
+          ok:true,batchId:batch.id,snapshotUsers:snapshotCount,
+          refundUsers:Number(snapshotRefund?.users||0),totalRefundShards:Number(snapshotRefund?.shards||0),
+          summary:{...summary,status:'RETIRE_PENDING'},logWarning
+        });
+      }
+
       if(action==='FINALIZE'){
         const batch=await env.DB.prepare('SELECT * FROM card_retirement_batches WHERE card_id=?').bind(card.id).first();
-        if(!batch)return json({error:'먼저 삭제 대기 및 환급 처리를 진행하세요.'},409);
+        if(!batch)return json({error:'먼저 삭제 대기 처리를 진행하세요.'},409);
         if(String(batch.status||'').toUpperCase()!=='PENDING')return json({error:'이미 퇴사 확정이 완료된 카드입니다.'},409);
-        const statements=[];
+        const statements=[
+          env.DB.prepare(`INSERT OR IGNORE INTO card_retirement_refunds(batch_id,user_id,breakthrough_level,required_shards,refund_shards,message_id)
+            SELECT ?,uc.user_id,${levelExpr},${refundCase},${refundCase},NULL
+            FROM user_cards uc
+            WHERE uc.card_id=? AND COALESCE(uc.quantity,0)>0
+            AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(batch.id,card.id,batch.id),
+          env.DB.prepare(`UPDATE users SET card_shards=card_shards+COALESCE((SELECT rr.refund_shards FROM card_retirement_refunds rr WHERE rr.batch_id=? AND rr.user_id=users.id AND rr.message_id IS NULL),0)
+            WHERE id IN (SELECT user_id FROM card_retirement_refunds WHERE batch_id=? AND refund_shards>0 AND message_id IS NULL)
+            AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(batch.id,batch.id,batch.id),
+          env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id)
+            SELECT rr.user_id,rr.refund_shards,u.card_shards,'CARD_RETIREMENT_REFUND',?
+            FROM card_retirement_refunds rr JOIN users u ON u.id=rr.user_id
+            WHERE rr.batch_id=? AND rr.refund_shards>0 AND rr.message_id IS NULL
+            AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(String(card.id),batch.id,batch.id)
+        ];
         if(rerollTicket){
           statements.push(
             env.DB.prepare(`INSERT OR IGNORE INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
-              SELECT uc.user_id,?,0,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP FROM user_cards uc
-              WHERE uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,card.id,batch.id),
+              SELECT rr.user_id,?,0,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
+              FROM card_retirement_refunds rr
+              WHERE rr.batch_id=? AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,batch.id,batch.id),
             env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP
-              WHERE item_code=? AND user_id IN (SELECT user_id FROM user_cards WHERE card_id=? AND COALESCE(quantity,0)>0)
-              AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,card.id,batch.id),
+              WHERE item_code=? AND user_id IN (SELECT user_id FROM card_retirement_refunds WHERE batch_id=?)
+              AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,batch.id,batch.id),
             env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id,created_at)
-              SELECT uc.user_id,?,1,ui.quantity,'CARD_RETIREMENT_REROLL','CARD_RETIREMENT',?,?,CURRENT_TIMESTAMP
-              FROM user_cards uc JOIN cnine_user_inventory ui ON ui.user_id=uc.user_id AND ui.item_code=?
-              WHERE uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,String(card.id),admin.id,rerollTicket.code,card.id,batch.id)
+              SELECT rr.user_id,?,1,ui.quantity,'CARD_RETIREMENT_REROLL','CARD_RETIREMENT',?,?,CURRENT_TIMESTAMP
+              FROM card_retirement_refunds rr JOIN cnine_user_inventory ui ON ui.user_id=rr.user_id AND ui.item_code=?
+              WHERE rr.batch_id=? AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,String(card.id),admin.id,rerollTicket.code,batch.id,batch.id)
           );
         }
         statements.push(
@@ -4068,9 +4138,33 @@ export async function onRequest(context){
         );
         const results=await env.DB.batch(statements),finalized=results[results.length-1];
         if(!finalized?.meta?.changes)return json({error:'이미 퇴사 확정이 완료됐거나 처리 상태가 변경되었습니다.'},409);
-        const ticketRecipients=rerollTicket?rows.results.length:0;
-        await writeAdminLog(env,admin,'CARD_RETIREMENT_FINALIZE','CARD',card.id,card,{status:'RETIRED',batchId:batch.id,rerollTicketCode:rerollTicket?.code||null,ticketRecipients});
-        return json({ok:true,status:'RETIRED',rerollTicketCode:rerollTicket?.code||null,rerollTicketName:rerollTicket?.name||null,ticketRecipients});
+        const settlement=await env.DB.prepare(`SELECT
+          COUNT(*) AS ownedUsers,
+          COUNT(CASE WHEN refund_shards>0 THEN 1 END) AS refundUsers,
+          COALESCE(SUM(refund_shards),0) AS refundShards,
+          COUNT(CASE WHEN refund_shards>0 AND message_id IS NULL THEN 1 END) AS directRefundUsers,
+          COALESCE(SUM(CASE WHEN message_id IS NULL THEN refund_shards ELSE 0 END),0) AS directRefundShards,
+          COUNT(CASE WHEN refund_shards>0 AND message_id IS NOT NULL THEN 1 END) AS legacyMessageRefundUsers,
+          COALESCE(SUM(CASE WHEN message_id IS NOT NULL THEN refund_shards ELSE 0 END),0) AS legacyMessageRefundShards
+          FROM card_retirement_refunds WHERE batch_id=?`).bind(batch.id).first();
+        const ticketRecipients=rerollTicket?Number(settlement?.ownedUsers||0):0;
+        let logWarning='';
+        try{
+          await writeAdminLog(env,admin,'CARD_RETIREMENT_FINALIZE','CARD',card.id,card,{
+            status:'RETIRED',batchId:batch.id,refundUsers:Number(settlement?.refundUsers||0),
+            refundShards:Number(settlement?.refundShards||0),directRefundUsers:Number(settlement?.directRefundUsers||0),
+            directRefundShards:Number(settlement?.directRefundShards||0),legacyMessageRefundUsers:Number(settlement?.legacyMessageRefundUsers||0),
+            legacyMessageRefundShards:Number(settlement?.legacyMessageRefundShards||0),
+            rerollTicketCode:rerollTicket?.code||null,ticketRecipients
+          });
+        }catch(error){logWarning=String(error?.message||error||'관리자 로그 기록 실패')}
+        return json({
+          ok:true,status:'RETIRED',
+          refundUsers:Number(settlement?.refundUsers||0),refundShards:Number(settlement?.refundShards||0),
+          directRefundUsers:Number(settlement?.directRefundUsers||0),directRefundShards:Number(settlement?.directRefundShards||0),
+          legacyMessageRefundUsers:Number(settlement?.legacyMessageRefundUsers||0),legacyMessageRefundShards:Number(settlement?.legacyMessageRefundShards||0),
+          rerollTicketCode:rerollTicket?.code||null,rerollTicketName:rerollTicket?.name||null,ticketRecipients,logWarning
+        });
       }
       return json({error:'올바르지 않은 처리입니다.'},400);
     }
