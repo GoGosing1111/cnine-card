@@ -971,6 +971,7 @@ function normalizeBattleCard(card, index) {
   const power = Math.max(100, Math.floor(Number(
     card?.power ?? card?.battlePower ?? card?.battle_power ?? card?.basePower ?? card?.base_power ?? 100
   ) || 100));
+  const maxHp = Math.max(100, Math.floor(Number(card?.maxHp ?? card?.max_hp ?? power) || power));
   return {
     ...card,
     id: String(card?.id ?? card?.card_id ?? `slot-${index}`),
@@ -980,8 +981,10 @@ function normalizeBattleCard(card, index) {
     image: card?.image ?? card?.image_url ?? '',
     image_url: card?.image_url ?? card?.image ?? '',
     power,
-    maxHp: power,
-    hp: power,
+    maxHp,
+    hp: maxHp,
+    uniqueDefensePercent: Number(card?.uniqueDefensePercent || 0),
+    uniqueSpeedPercent: Number(card?.uniqueSpeedPercent || 0),
     down: false,
     slot: index
   };
@@ -1029,8 +1032,12 @@ function cardStatePayload(card) {
     breakthroughLevel: Number(card.breakthroughLevel ?? card.breakthrough_level ?? 0),
     powerType: card.powerType ?? card.power_type ?? '',
     power: Number(card.power || maxHp),
+    baseBattlePower: Number(card.baseBattlePower ?? card.power ?? maxHp),
     maxHp,
     hp,
+    uniqueAbility: card.uniqueAbility || null,
+    uniqueDefensePercent: Number(card.uniqueDefensePercent || 0),
+    uniqueSpeedPercent: Number(card.uniqueSpeedPercent || 0),
     hpPercent: Math.round(clamp((hp / maxHp) * 100, 0, 100)),
     down: hp <= 0,
     slot: Number(card.slot || 0)
@@ -1066,11 +1073,12 @@ function randomFactor(min = 0.92, max = 1.08) {
 
 function cardDamage(attacker, defender) {
   const attackPower = Math.max(1, Number(attacker.power || 1));
-  const defensePower = Math.max(1, Number(defender.power || 1));
+  const defensePower = Math.max(1, Number(defender.baseBattlePower || defender.power || 1));
   const ratio = clamp(attackPower / defensePower, 0.45, 2.2);
   const critical = randomIndex(100) < 10;
   const basePercent = clamp(0.27 + (Math.sqrt(ratio) - 1) * 0.12, 0.20, 0.43);
-  const damage = Math.max(1, Math.round(Number(defender.maxHp || defensePower) * basePercent * randomFactor() * (critical ? 1.32 : 1)));
+  const defenseMultiplier = 1 + Math.max(-90, Number(defender.uniqueDefensePercent || 0)) / 100;
+  const damage = Math.max(1, Math.round((Number(defender.maxHp || defensePower) * basePercent * randomFactor() * (critical ? 1.32 : 1)) / Math.max(0.1, defenseMultiplier)));
   return { damage, critical };
 }
 
@@ -1103,15 +1111,29 @@ function simulateDuel(left, right, roundNumber) {
     const leftBefore = Number(leftCard.hp || 0);
     const rightBefore = Number(rightCard.hp || 0);
 
-    const leftHit = cardDamage(leftCard, rightCard);
-    rightCard.hp = Math.max(0, rightBefore - leftHit.damage);
-    rightCard.down = rightCard.hp <= 0;
-
+    let leftHit = { damage: 0, critical: false };
     let rightHit = { damage: 0, critical: false };
-    if (!rightCard.down) {
+    const leftSpeed = Number(leftCard.uniqueSpeedPercent || 0);
+    const rightSpeed = Number(rightCard.uniqueSpeedPercent || 0);
+    const leftFirst = leftSpeed === rightSpeed ? randomIndex(2) === 0 : leftSpeed > rightSpeed;
+    if (leftFirst) {
+      leftHit = cardDamage(leftCard, rightCard);
+      rightCard.hp = Math.max(0, rightBefore - leftHit.damage);
+      rightCard.down = rightCard.hp <= 0;
+      if (!rightCard.down) {
+        rightHit = cardDamage(rightCard, leftCard);
+        leftCard.hp = Math.max(0, leftBefore - rightHit.damage);
+        leftCard.down = leftCard.hp <= 0;
+      }
+    } else {
       rightHit = cardDamage(rightCard, leftCard);
       leftCard.hp = Math.max(0, leftBefore - rightHit.damage);
       leftCard.down = leftCard.hp <= 0;
+      if (!leftCard.down) {
+        leftHit = cardDamage(leftCard, rightCard);
+        rightCard.hp = Math.max(0, rightBefore - leftHit.damage);
+        rightCard.down = rightCard.hp <= 0;
+      }
     }
 
     exchangeNo += 1;
@@ -1548,11 +1570,13 @@ export async function handleCaptain({ path, request, env, deps }) {
     ]);
     if (deck.length !== 5) return deps.json({ error: 'PVP 덱 5장을 먼저 저장하세요.' }, 400);
 
-    const snapshot = deck.map(card => ({
+    const baseSnapshot = deck.map(card => ({
       ...card,
       power: deps.cardBattlePower(card, card.breakthrough_level, battle)
     }));
-    const power = snapshot.reduce((sum, card) => sum + Number(card.power || 0), 0);
+    const uniqueState = await deps.cardUniqueDeckState(env, user, baseSnapshot, 'CAPTAIN');
+    const snapshot = uniqueState.cards?.length ? uniqueState.cards : baseSnapshot;
+    const power = Number(uniqueState.power || snapshot.reduce((sum, card) => sum + Number(card.power || 0), 0));
 
     if (current) {
       await env.DB.prepare(`
@@ -1715,6 +1739,13 @@ export async function handleCaptain({ path, request, env, deps }) {
       }
       energySpent = true;
 
+      const allMembers=[...(attackerTeam.members||[]),...(defenderTeam.members||[])];
+      const uniqueStates=await deps.cardUniqueDeckStates(env,allMembers.map(member=>({user:{id:member.user_id,role:Number(member.user_id)===Number(user.id)?user.role:''},cards:member.deckSnapshot||[]})),'CAPTAIN');
+      allMembers.forEach((member,index)=>{
+        const state=uniqueStates[index];
+        member.deckSnapshot=state?.cards?.length?state.cards:(member.deckSnapshot||[]);
+        member.deck_power=Number(state?.power||member.deck_power||member.deckSnapshot.reduce((sum,card)=>sum+Number(card.power||0),0));
+      });
       const match = simulateGauntlet(attackerTeam, defenderTeam);
       const attackerWon = match.result === 'WIN';
       const attackerBefore = Number(mine.score || 0);

@@ -1,6 +1,6 @@
 const MAGIC_RARITIES=['R','SR','SSR'];
 const MAGIC_DECK_TYPES=['PVE','PVP','CAPTAIN'];
-const UNIQUE_CARD_GRADES=['SSR','MA','LIMITED','FUR'];
+const UNIQUE_CARD_GRADES=['SSR','MA','LIMITED','PRESTIGE','FUR'];
 
 function defaultAcquisitionSettings(){
   return {
@@ -70,6 +70,82 @@ export async function magicSettings(env){
   if(!row?.value)return defaultMagicSettings();
   try{return cleanMagicSettings(JSON.parse(row.value))}catch{return defaultMagicSettings()}
 }
+
+
+export function defaultCardUniqueSettings(){
+  return {enabled:false,ownerTestEnabled:true,userDetailEnabled:true,version:1};
+}
+export function cleanCardUniqueSettings(raw={}){
+  const base=defaultCardUniqueSettings();
+  return {
+    enabled:raw.enabled===true,
+    ownerTestEnabled:raw.ownerTestEnabled!==false,
+    userDetailEnabled:raw.userDetailEnabled!==false,
+    version:1
+  };
+}
+export async function cardUniqueSettings(env){
+  const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='card_unique_effect_settings_v1'").first();
+  if(!row?.value)return defaultCardUniqueSettings();
+  try{return cleanCardUniqueSettings(JSON.parse(row.value))}catch{return defaultCardUniqueSettings()}
+}
+function uniqueStat(value,max=500){
+  const n=Number(value);
+  return Math.max(-90,Math.min(max,Number.isFinite(n)?n:0));
+}
+export function cardUniqueVisibleTo(user,cfg){
+  return cfg?.enabled===true||(cfg?.ownerTestEnabled!==false&&isOwner(user));
+}
+function uniqueScopeColumn(scope){
+  const key=String(scope||'PVE').trim().toUpperCase();
+  if(key==='PVP')return 'scope_pvp';
+  if(key==='CAPTAIN')return 'scope_captain';
+  return 'scope_pve';
+}
+function normalizeUniqueCards(cards=[]){
+  return (Array.isArray(cards)?cards:[]).map((card,index)=>{
+    const base=Math.max(0,Number(card?.baseBattlePower??card?.power??card?.battlePower??card?.battle_power??0)||0);
+    return {...card,id:String(card?.id??card?.card_id??`slot-${index}`),power:base,maxHp:base,baseBattlePower:base,uniqueAbility:null,uniqueDefensePercent:0,uniqueSpeedPercent:0};
+  });
+}
+function buildCardUniqueDeckState(user,cards,cfg,effectMap){
+  const normalized=normalizeUniqueCards(cards),basePower=normalized.reduce((sum,card)=>sum+Number(card.power||0),0),visible=cardUniqueVisibleTo(user,cfg),ownerTest=!cfg.enabled&&visible&&isOwner(user);
+  if(!visible||!normalized.length)return {enabled:false,ownerTest:false,settings:cfg,basePower,power:basePower,attackPower:basePower,durabilityPower:basePower,speedPercent:0,cards:normalized,effects:[]};
+  let attackPower=0,durabilityPower=0,speedWeight=0,speedBase=0;
+  const appliedEffects=[];
+  const appliedCards=normalized.map(card=>{
+    const effect=effectMap.get(String(card.id))||null,rawPower=Math.max(0,Number(card.power||0));
+    if(!effect){attackPower+=rawPower;durabilityPower+=rawPower;speedBase+=rawPower;return card;}
+    appliedEffects.push(effect);
+    const attack=Math.max(0,Math.round(rawPower*(1+effect.attackPercent/100)));
+    const hp=Math.max(1,Math.round(rawPower*(1+effect.hpPercent/100)));
+    const durable=Math.max(0,rawPower*(1+effect.hpPercent/100)*(1+effect.defensePercent/100));
+    attackPower+=attack;durabilityPower+=durable;speedWeight+=rawPower*effect.speedPercent;speedBase+=rawPower;
+    return {...card,power:attack,maxHp:hp,uniqueAbility:effect,uniqueDefensePercent:effect.defensePercent,uniqueSpeedPercent:effect.speedPercent};
+  });
+  const speedPercent=speedBase>0?speedWeight/speedBase:0;
+  const power=Math.max(0,Math.floor(Math.sqrt(Math.max(0,attackPower)*Math.max(0,durabilityPower))*(1+speedPercent/200)));
+  return {enabled:true,ownerTest,settings:cfg,basePower,power,attackPower:Math.round(attackPower),durabilityPower:Math.round(durabilityPower),speedPercent:Number(speedPercent.toFixed(3)),cards:appliedCards,effects:appliedEffects};
+}
+export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
+  const cfg=await cardUniqueSettings(env),list=(Array.isArray(entries)?entries:[]).map(entry=>({user:entry?.user||null,cards:Array.isArray(entry?.cards)?entry.cards:[]}));
+  const visibleEntries=list.filter(entry=>cardUniqueVisibleTo(entry.user,cfg));
+  const ids=[...new Set(visibleEntries.flatMap(entry=>entry.cards.map(card=>String(card?.id??card?.card_id??'')).filter(Boolean)))];
+  const effectMap=new Map();
+  if(ids.length){
+    const marks=ids.map(()=>'?').join(','),scopeColumn=uniqueScopeColumn(scope);
+    const rows=(await env.DB.prepare(`SELECT card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations FROM card_unique_effects WHERE is_active=1 AND ${scopeColumn}=1 AND card_id IN (${marks})`).bind(...ids).all()).results||[];
+    for(const row of rows){
+      const effect={cardId:String(row.card_id),attackPercent:uniqueStat(row.attack_percent),defensePercent:uniqueStat(row.defense_percent),hpPercent:uniqueStat(row.hp_percent),speedPercent:uniqueStat(row.speed_percent,300),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??100)||0)),maxActivations:Math.max(1,Math.floor(Number(row.max_activations||1)))};
+      effectMap.set(effect.cardId,effect);
+    }
+  }
+  return list.map(entry=>buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap));
+}
+export async function cardUniqueDeckState(env,user,cards=[],scope='PVE'){
+  return (await cardUniqueDeckStates(env,[{user,cards}],scope))[0];
+}
+
 async function tableExists(env,name){const row=await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").bind(name).first();return Boolean(row)}
 async function columnExists(env,table,column){if(!await tableExists(env,table))return false;const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();return rows.results.some(row=>String(row.name)===String(column))}
 export async function ensureMagicRewardFoundation(env){
@@ -189,11 +265,12 @@ async function adminData(env){
   const cfg=await magicSettings(env);
   const [cards,effects,counts]=await Promise.all([
     env.DB.prepare(`SELECT * FROM magic_cards ORDER BY sort_order,id`).all(),
-    env.DB.prepare(`SELECT c.id AS card_id,c.title,c.rarity,m.name AS member_name,c.image_url,COALESCE(e.attack_percent,0) attack_percent,COALESCE(e.defense_percent,0) defense_percent,COALESCE(e.hp_percent,0) hp_percent,COALESCE(e.speed_percent,0) speed_percent,COALESCE(e.effect_name,'') effect_name,COALESCE(e.effect_description,'') effect_description,COALESCE(e.effect_type,'NONE') effect_type,COALESCE(e.trigger_type,'PASSIVE') trigger_type,COALESCE(e.effect_value,0) effect_value,COALESCE(e.trigger_chance,100) trigger_chance,COALESCE(e.max_activations,1) max_activations,COALESCE(e.scope_pve,1) scope_pve,COALESCE(e.scope_pvp,1) scope_pvp,COALESCE(e.scope_captain,1) scope_captain,COALESCE(e.is_active,0) effect_active FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_unique_effects e ON e.card_id=c.id WHERE c.rarity IN ('SSR','MA','LIMITED','FUR') AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRED') ORDER BY CASE c.rarity WHEN 'FUR' THEN 4 WHEN 'LIMITED' THEN 3 WHEN 'MA' THEN 2 ELSE 1 END DESC,m.sort_order,c.id`).all(),
+    env.DB.prepare(`SELECT c.id AS card_id,c.title,c.rarity,m.name AS member_name,c.image_url,COALESCE(e.attack_percent,0) attack_percent,COALESCE(e.defense_percent,0) defense_percent,COALESCE(e.hp_percent,0) hp_percent,COALESCE(e.speed_percent,0) speed_percent,COALESCE(e.effect_name,'') effect_name,COALESCE(e.effect_description,'') effect_description,COALESCE(e.effect_type,'NONE') effect_type,COALESCE(e.trigger_type,'PASSIVE') trigger_type,COALESCE(e.effect_value,0) effect_value,COALESCE(e.trigger_chance,100) trigger_chance,COALESCE(e.max_activations,1) max_activations,COALESCE(e.scope_pve,1) scope_pve,COALESCE(e.scope_pvp,1) scope_pvp,COALESCE(e.scope_captain,1) scope_captain,COALESCE(e.is_active,0) effect_active FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_unique_effects e ON e.card_id=c.id WHERE c.rarity IN ('SSR','MA','LIMITED','PRESTIGE','FUR') AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRED') ORDER BY CASE c.rarity WHEN 'FUR' THEN 5 WHEN 'PRESTIGE' THEN 4 WHEN 'LIMITED' THEN 3 WHEN 'MA' THEN 2 ELSE 1 END DESC,m.sort_order,c.id`).all(),
     env.DB.prepare(`SELECT (SELECT COUNT(*) FROM magic_cards) magic_card_count,(SELECT COUNT(*) FROM magic_cards WHERE is_active=1) active_magic_card_count,(SELECT COUNT(*) FROM user_magic_cards WHERE quantity>0) owned_record_count,(SELECT COALESCE(SUM(magic_crystals),0) FROM users) total_magic_crystals`).first()
   ]);
   return {
     settings:cfg,
+    uniqueEffectSettings:await cardUniqueSettings(env),
     cards:cards.results.map(cardPayload),
     uniqueEffects:effects.results.map(x=>({
       cardId:String(x.card_id),title:String(x.title||''),grade:String(x.rarity||''),memberName:String(x.member_name||''),imageUrl:String(x.image_url||''),
@@ -290,6 +367,12 @@ export async function handleMagic({path,request,env,deps}){
         await writeAdminLog(env,admin,'MAGIC_SETTINGS_SAVE','APP_META','magic_card_settings_v1',before,next);
         return json({ok:true,settings:next});
       }
+      if(action==='SAVE_UNIQUE_SETTINGS'){
+        const before=await cardUniqueSettings(env),next=cleanCardUniqueSettings(body.settings||body);
+        await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('card_unique_effect_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();
+        await writeAdminLog(env,admin,'CARD_UNIQUE_SETTINGS_SAVE','APP_META','card_unique_effect_settings_v1',before,next);
+        return json({ok:true,settings:next});
+      }
       if(action==='SAVE_MAGIC_CARD'){
         const id=body.id?integer(body.id,0,1,2147483647):null,code=safeCode(body.code||body.name),name=String(body.name||'').trim().slice(0,60),rarity=String(body.rarity||'R').toUpperCase();
         if(!name)return json({error:'마법카드 이름을 입력하세요.'},400);if(!code)return json({error:'마법카드 코드를 입력하세요.'},400);if(!MAGIC_RARITIES.includes(rarity))return json({error:'마법카드 등급은 R·SR·SSR만 사용할 수 있습니다.'},400);
@@ -304,7 +387,7 @@ export async function handleMagic({path,request,env,deps}){
       }
       if(action==='SAVE_UNIQUE_EFFECT'){
         const cardId=String(body.cardId||'').trim(),card=await env.DB.prepare(`SELECT id,rarity FROM cards WHERE id=?`).bind(cardId).first();if(!card)return json({error:'카드를 찾을 수 없습니다.'},404);if(!UNIQUE_CARD_GRADES.includes(String(card.rarity||'').toUpperCase()))return json({error:'고유 효과는 SSR 이상 카드에만 설정할 수 있습니다.'},400);
-        const v=[cardId,Number(body.attackPercent||0),Number(body.defensePercent||0),Number(body.hpPercent||0),Number(body.speedPercent||0),String(body.effectName||'').trim().slice(0,80),String(body.effectDescription||'').trim().slice(0,300),String(body.effectType||'NONE').toUpperCase().slice(0,40),String(body.triggerType||'PASSIVE').toUpperCase().slice(0,40),Number(body.effectValue||0),Math.min(100,Math.max(0,Number(body.triggerChance??100))),integer(body.maxActivations,1,1,99),body.scopes?.pve===false?0:1,body.scopes?.pvp===false?0:1,body.scopes?.captain===false?0:1,body.isActive===true?1:0];
+        const v=[cardId,uniqueStat(body.attackPercent),uniqueStat(body.defensePercent),uniqueStat(body.hpPercent),uniqueStat(body.speedPercent,300),String(body.effectName||'').trim().slice(0,80),String(body.effectDescription||'').trim().slice(0,300),String(body.effectType||'NONE').toUpperCase().slice(0,40),String(body.triggerType||'PASSIVE').toUpperCase().slice(0,40),Number(body.effectValue||0),Math.min(100,Math.max(0,Number(body.triggerChance??100))),integer(body.maxActivations,1,1,99),body.scopes?.pve===false?0:1,body.scopes?.pvp===false?0:1,body.scopes?.captain===false?0:1,body.isActive===true?1:0];
         await env.DB.prepare(`INSERT INTO card_unique_effects(card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations,scope_pve,scope_pvp,scope_captain,is_active,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(card_id) DO UPDATE SET attack_percent=excluded.attack_percent,defense_percent=excluded.defense_percent,hp_percent=excluded.hp_percent,speed_percent=excluded.speed_percent,effect_name=excluded.effect_name,effect_description=excluded.effect_description,effect_type=excluded.effect_type,trigger_type=excluded.trigger_type,effect_value=excluded.effect_value,trigger_chance=excluded.trigger_chance,max_activations=excluded.max_activations,scope_pve=excluded.scope_pve,scope_pvp=excluded.scope_pvp,scope_captain=excluded.scope_captain,is_active=excluded.is_active,updated_at=CURRENT_TIMESTAMP`).bind(...v).run();
         await writeAdminLog(env,admin,'CARD_UNIQUE_EFFECT_SAVE','CARD',cardId,null,{effectName:body.effectName,isActive:body.isActive===true});return json({ok:true});
       }

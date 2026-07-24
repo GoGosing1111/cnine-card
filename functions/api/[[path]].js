@@ -2,7 +2,7 @@ import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
 import { handleCaptain } from '../_captain.js';
-import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor } from '../_magic.js';
+import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates } from '../_magic.js';
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000,LIMITED:3000};
 const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9,LIMITED:10};
@@ -255,7 +255,20 @@ async function raidDailyEntryCount(env,userId,dateKey=kstDateKey()){
   ]);
   return Math.max(0,Number(legacy?.count||0)+Number(uses?.count||0)-Number(restores?.count||0));
 }
-async function raidDeckPower(env,userId,cardIds){let ids=[...new Set((cardIds||await pveDeckCards(env,userId)).map(String))];if(ids.length!==5){const e=new Error('저장된 PvE 덱 5장이 필요합니다.');e.status=400;throw e}const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();if(owned.results.length!==5){const e=new Error('보유하지 않은 카드가 포함되어 있습니다.');e.status=400;throw e}const battleCfg=await battleSettings(env),basePower=owned.results.reduce((n,c)=>n+cardBattlePower(c,c.breakthrough_level,battleCfg),0),deckUser=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(userId).first(),synergy=await evaluateDeckSynergies(env,deckUser,ids,'RAID',{forceOwnerTest:String(deckUser?.role||'').toUpperCase()==='OWNER'}),power=Math.max(0,Math.floor(basePower*(1+Number(synergy.totals.attackPercent||0)/100+Number(synergy.totals.bossDamagePercent||0)/100)));return {ids,power,basePower,synergy}}
+async function raidDeckPower(env,userId,cardIds){
+  let ids=[...new Set((cardIds||await pveDeckCards(env,userId)).map(String))];
+  if(ids.length!==5){const e=new Error('저장된 PvE 덱 5장이 필요합니다.');e.status=400;throw e}
+  const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();
+  if(owned.results.length!==5){const e=new Error('보유하지 않은 카드가 포함되어 있습니다.');e.status=400;throw e}
+  const battleCfg=await battleSettings(env),deckUser=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(userId).first();
+  const cards=owned.results.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battleCfg)}));
+  const unique=await cardUniqueDeckState(env,deckUser,cards,'PVE');
+  const synergy=await evaluateDeckSynergies(env,deckUser,ids,'RAID',{forceOwnerTest:String(deckUser?.role||'').toUpperCase()==='OWNER'});
+  const basePower=Number(unique.power||cards.reduce((n,c)=>n+Number(c.power||0),0));
+  const power=Math.max(0,Math.floor(basePower*(1+Number(synergy.totals.attackPercent||0)/100+Number(synergy.totals.bossDamagePercent||0)/100)));
+  return {ids,power,basePower,synergy,unique};
+}
+
 
 function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL.gif',durationMs:3000,coefficientPercent:500}]};}
 async function battleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};}catch{return base}}
@@ -303,17 +316,19 @@ async function consumeBattleEnergy(env,user,settings){
   return battleEnergyState(env,user,settings);
 }
 
-async function resolveAutoBattle(env,user,settings,monster,cards,ids){
-  const basePlayerPower=cards.reduce((a,c)=>a+c.power,0),monsterPower=Number(monster.battle_power||0);
-  const activatedEntry=selectActivatedUltimate(settings,cards);
+async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle=null){
+  const battleCards=uniqueBattle?.cards?.length?uniqueBattle.cards:cards;
+  const basePlayerPower=Number(uniqueBattle?.power||cards.reduce((a,c)=>a+Number(c.power||0),0)),monsterPower=Number(monster.battle_power||0);
+  const activatedEntry=selectActivatedUltimate(settings,battleCards);
   const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
   const ultimateDamage=activatedEntry&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedEntry.rule.coefficientPercent||0)/100)):0;
   const result=basePlayerPower+ultimateDamage>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Number(monster.reward_coin||0):0;
   if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 자동사냥 승리 보상: ${monster.name}`,user.id).run();}
   let cardReward=null;if(result==='WIN'&&settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}
   await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),basePlayerPower,monsterPower,result,reward).run();
-  return {result,reward,cardReward};
+  return {result,reward,cardReward,playerPower:basePlayerPower,uniqueAbility:uniqueBattle?.enabled?{ownerTest:uniqueBattle.ownerTest,effects:uniqueBattle.effects}:null};
 }
+
 
 function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRADES.map(g=>[g,BREAKTHROUGH_COST.map((cost,i)=>({cost,rate:BREAKTHROUGH_RATE[i]}))]));}
 async function breakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<10;i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
@@ -2049,7 +2064,7 @@ export async function onRequest(context){
     // 하위 시스템 라우터도 업그레이드 확인과 점검 차단을 통과한 뒤 실행한다.
     // 대장전·진화 요청이 점검 모드를 우회하거나 준비되지 않은 DB 구조를 먼저 참조하지 않도록 한다.
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
-    const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,grantWeeklyPremiumCube}});if(captainResponse)return captainResponse;
+    const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,cardUniqueSettings,grantWeeklyPremiumCube}});if(captainResponse)return captainResponse;
 
     const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
 
@@ -2118,7 +2133,13 @@ export async function onRequest(context){
       const rows=viewer
         ? await env.DB.prepare(`${select} WHERE (c.is_active=1 OR EXISTS (SELECT 1 FROM user_cards uc WHERE uc.user_id=? AND uc.card_id=c.id AND COALESCE(uc.quantity,0)>0)) AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') ORDER BY m.sort_order,c.id`).bind(viewer.id).all()
         : await env.DB.prepare(`${select} WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') ORDER BY m.sort_order,c.id`).all();
-      return json({cards:rows.results.map(card=>({...card,id:String(card.id)}))});
+      const uniqueCfg=await cardUniqueSettings(env),uniqueVisible=Boolean(viewer&&uniqueCfg.userDetailEnabled!==false&&cardUniqueVisibleTo(viewer,uniqueCfg));
+      let uniqueMap=new Map();
+      if(uniqueVisible&&rows.results.length){
+        const uniqueRows=(await env.DB.prepare(`SELECT card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations,scope_pve,scope_pvp,scope_captain FROM card_unique_effects WHERE is_active=1`).all()).results||[];
+        uniqueMap=new Map(uniqueRows.map(row=>[String(row.card_id),{attackPercent:Number(row.attack_percent||0),defensePercent:Number(row.defense_percent||0),hpPercent:Number(row.hp_percent||0),speedPercent:Number(row.speed_percent||0),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance??100),maxActivations:Number(row.max_activations||1),scopes:{pve:row.scope_pve!==0,pvp:row.scope_pvp!==0,captain:row.scope_captain!==0}}]));
+      }
+      return json({cards:rows.results.map(card=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
       const rows=await env.DB.prepare('SELECT * FROM card_packs WHERE is_active=1 ORDER BY sort_order,id').all();
@@ -2762,7 +2783,7 @@ export async function onRequest(context){
       const energyBefore=await battleEnergyState(env,user,settings);if(energyBefore.unlimited)return json({error:'무제한 계정에서는 남은 횟수 자동사냥을 사용할 수 없습니다.'},400);
       const battleCount=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1)));if(battleCount<1)return json({error:'전투 횟수가 부족합니다.',code:'NO_BATTLE_ENERGY',energy:energyBefore},429);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
-      const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)})),lockUntil=new Date(Date.now()+120000).toISOString().replace('T',' ').slice(0,19);
+      const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)})),uniqueBattle=await cardUniqueDeckState(env,user,cards,'PVE'),lockUntil=new Date(Date.now()+120000).toISOString().replace('T',' ').slice(0,19);
       await env.DB.prepare("INSERT INTO pve_auto_locks(user_id,request_id,expires_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,expires_at=excluded.expires_at,updated_at=CURRENT_TIMESTAMP WHERE pve_auto_locks.expires_at<=datetime('now')").bind(user.id,requestId,lockUntil).run();
       const lock=await env.DB.prepare('SELECT request_id FROM pve_auto_locks WHERE user_id=?').bind(user.id).first();if(lock?.request_id!==requestId)return json({error:'이미 다른 창에서 자동사냥이 진행 중입니다.',code:'AUTO_HUNT_LOCKED'},409);
       await env.DB.prepare("INSERT INTO pve_auto_runs(request_id,user_id,monster_id,status) VALUES(?,?,?,'RUNNING')").bind(requestId,user.id,monsterId).run();
@@ -2771,7 +2792,7 @@ export async function onRequest(context){
         const magicCfg=await magicSettings(env),pveMagic=magicCfg.acquisition?.pve||{};
         for(let i=0;i<battleCount;i++){
           try{energy=await consumeBattleEnergy(env,user,settings)}catch(e){if(e.code==='NO_BATTLE_ENERGY'){energy=e.energy;break}throw e}
-          const one=await resolveAutoBattle(env,user,settings,monster,cards,ids);battles++;totalReward+=Number(one.reward||0);const battleRef=`${requestId}:${i+1}`;
+          const one=await resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle);battles++;totalReward+=Number(one.reward||0);const battleRef=`${requestId}:${i+1}`;
           const cubeReward=await grantBattleCube(env,user.id,'PVE',battleRef,one.result==='WIN');if(cubeReward)cubeRewards.push(cubeReward);
           if(one.result==='WIN'){
             wins++;
@@ -2795,8 +2816,9 @@ export async function onRequest(context){
       const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();
       if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
       const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)}));
-      const basePlayerPower=cards.reduce((a,c)=>a+c.power,0),monsterPower=Number(monster.battle_power||0);
-      const activatedEntry=selectActivatedUltimate(settings,cards);
+      const uniqueBattle=await cardUniqueDeckState(env,user,cards,'PVE'),battleCards=uniqueBattle.cards?.length?uniqueBattle.cards:cards;
+      const basePlayerPower=Number(uniqueBattle.power||cards.reduce((a,c)=>a+c.power,0)),monsterPower=Number(monster.battle_power||0);
+      const activatedEntry=selectActivatedUltimate(settings,battleCards);
       const activatedUltimate=activatedEntry?.rule||null;
       const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
       const ultimateDamage=activatedUltimate&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedUltimate.coefficientPercent||0)/100)):0;
@@ -2825,7 +2847,7 @@ export async function onRequest(context){
       const pveMagic=(await magicSettings(env)).acquisition?.pve||{};
       const magicReward=result==='WIN'?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):null;
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({result,reward,cardReward,cubeReward,magicReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
+      return json({result,reward,cardReward,cubeReward,magicReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattle.enabled?{ownerTest:uniqueBattle.ownerTest,basePower:uniqueBattle.basePower,effectivePower:uniqueBattle.power,attackPower:uniqueBattle.attackPower,durabilityPower:uniqueBattle.durabilityPower,speedPercent:uniqueBattle.speedPercent,effects:uniqueBattle.effects}:null,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
     }
 
 
@@ -2923,7 +2945,7 @@ export async function onRequest(context){
       await env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run();
       let weeklyPremium=null,weeklyPremiumError=null;
       try{weeklyPremium=await grantWeeklyPremiumCube(env,user.id,'TOWER',towerRequestId)}catch(cubeError){weeklyPremiumError=String(cubeError?.message||cubeError||'프리미엄 큐브 처리 실패');console.error('tower weekly premium cube failed',{userId:user.id,floorNo,requestId:towerRequestId,error:weeklyPremiumError})}
-      return json({result,completed,maxFloor,deckSynergy:towerSynergy,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
+      return json({result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:deckInfo.unique?.enabled?{ownerTest:deckInfo.unique.ownerTest,basePower:deckInfo.unique.basePower,effectivePower:deckInfo.unique.power,attackPower:deckInfo.unique.attackPower,durabilityPower:deckInfo.unique.durabilityPower,speedPercent:deckInfo.unique.speedPercent,effects:deckInfo.unique.effects}:null,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:owned.results.map(c=>({...c,grade:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)}))});
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});
@@ -3055,7 +3077,20 @@ export async function onRequest(context){
       const recent=await env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 2').bind(user.id).all();
       if(recent.results.length===2&&Number(recent.results[0].defender_id)===defenderId&&Number(recent.results[1].defender_id)===defenderId)return json({error:'같은 상대와는 연속 3회 이상 대전할 수 없습니다. 다른 상대와 1회 대전한 뒤 다시 도전하세요.',code:'PVP_REPEAT_OPPONENT_LIMIT'},409);
       const attacker=await ensurePvpProfile(env,user,settings),defUser=await env.DB.prepare("SELECT * FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=datetime('now'))").bind(defenderId).first();if(!defUser)return json({error:'상대를 찾을 수 없습니다.'},404);const defender=await ensurePvpProfile(env,defUser,settings);
-      const [aDeck,dDeck,battle]=await Promise.all([pvpDeckSnapshot(env,user.id),pvpDeckSnapshot(env,defenderId),battleSettings(env)]);if(aDeck.length!==5)return json({error:'먼저 PvP 덱 편성을 완료하세요.'},400);if(dDeck.length!==5)return json({error:'상대의 PvP 덱이 완성되지 않았습니다.'},409);const defUserRole=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(defenderId).first(),aIds=aDeck.map(c=>String(c.id)),dIds=dDeck.map(c=>String(c.id)),aSyn=await evaluateDeckSynergies(env,user,aIds,'PVP',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),dSyn=await evaluateDeckSynergies(env,defUserRole,dIds,'PVP',{forceOwnerTest:String(defUserRole?.role||'').toUpperCase()==='OWNER'}),aBase=aDeck.reduce((s,c)=>s+cardBattlePower(c,c.breakthrough_level,battle),0),dBase=dDeck.reduce((s,c)=>s+cardBattlePower(c,c.breakthrough_level,battle),0),aPower=Math.max(0,Math.floor(aBase*(1+Number(aSyn.totals.attackPercent||0)/100))),dPower=Math.max(0,Math.floor(dBase*(1+Number(dSyn.totals.attackPercent||0)/100))),attackerWin=aPower>=dPower,winnerId=attackerWin?user.id:defenderId,aBefore=Number(attacker.season_score),dBefore=Number(defender.season_score),aAdj=pvpSeasonScoreAdjustment(attackerWin,aBefore,dBefore),dAdj=pvpSeasonScoreAdjustment(!attackerWin,dBefore,aBefore),change=aAdj.change,defenderChange=dAdj.change,aAfter=Math.max(0,aBefore+(attackerWin?change:-change)),dAfter=Math.max(0,dBefore+(attackerWin?-defenderChange:defenderChange)),aCard=0,dCard=0;
+      const [aDeck,dDeck,battle]=await Promise.all([pvpDeckSnapshot(env,user.id),pvpDeckSnapshot(env,defenderId),battleSettings(env)]);
+      if(aDeck.length!==5)return json({error:'먼저 PvP 덱 편성을 완료하세요.'},400);
+      if(dDeck.length!==5)return json({error:'상대의 PvP 덱이 완성되지 않았습니다.'},409);
+      const defUserRole=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(defenderId).first(),aIds=aDeck.map(c=>String(c.id)),dIds=dDeck.map(c=>String(c.id));
+      const aCards=aDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)})),dCards=dDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)}));
+      const [aSyn,dSyn,uniqueStates]=await Promise.all([
+        evaluateDeckSynergies(env,user,aIds,'PVP',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),
+        evaluateDeckSynergies(env,defUserRole,dIds,'PVP',{forceOwnerTest:String(defUserRole?.role||'').toUpperCase()==='OWNER'}),
+        cardUniqueDeckStates(env,[{user,cards:aCards},{user:defUserRole,cards:dCards}],'PVP')
+      ]);
+      const [aUnique,dUnique]=uniqueStates;
+      const aBase=Number(aUnique.power||aCards.reduce((s,c)=>s+Number(c.power||0),0)),dBase=Number(dUnique.power||dCards.reduce((s,c)=>s+Number(c.power||0),0));
+      const aPower=Math.max(0,Math.floor(aBase*(1+Number(aSyn.totals.attackPercent||0)/100))),dPower=Math.max(0,Math.floor(dBase*(1+Number(dSyn.totals.attackPercent||0)/100)));
+      const attackerWin=aPower>=dPower,winnerId=attackerWin?user.id:defenderId,aBefore=Number(attacker.season_score),dBefore=Number(defender.season_score),aAdj=pvpSeasonScoreAdjustment(attackerWin,aBefore,dBefore),dAdj=pvpSeasonScoreAdjustment(!attackerWin,dBefore,aBefore),change=aAdj.change,defenderChange=dAdj.change,aAfter=Math.max(0,aBefore+(attackerWin?change:-change)),dAfter=Math.max(0,dBefore+(attackerWin?-defenderChange:defenderChange)),aCard=0,dCard=0;
       const pvpEnergy=await consumePvpEnergy(env,user,settings);
       // PvP battle coin is an active-challenge reward. Only the authenticated attacker receives it.
       // The asynchronous defender never receives win/lose coins from being challenged.
@@ -3072,7 +3107,7 @@ export async function onRequest(context){
       const pvpMagic=(await magicSettings(env)).acquisition?.pvp||{};
       const magicReward=attackerWin?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVP_DROP',referenceId:requestId,enabled:pvpMagic.enabled===true,chance:pvpMagic.chance,amount:pvpMagic.amount,dailyLimit:pvpMagic.dailyLimit,reason:'일반 PVP 승리 확률 드랍'}):null;
       const freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),weeklyPremiumCube=await premiumCubeWeeklyStatus(env,user.id);
-      return json({result:attackerWin?'WIN':'LOSE',cubeReward,weeklyPremiumCube,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aDeck,defenderDeck:dDeck,scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
+      return json({result:attackerWin?'WIN':'LOSE',cubeReward,weeklyPremiumCube,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:aUnique.enabled?{ownerTest:aUnique.ownerTest,basePower:aUnique.basePower,effectivePower:aUnique.power,effects:aUnique.effects}:null,defender:dUnique.enabled?{ownerTest:dUnique.ownerTest,basePower:dUnique.basePower,effectivePower:dUnique.power,effects:dUnique.effects}:null},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT * FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();return json({history:rows.results.map(r=>({...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}))});
