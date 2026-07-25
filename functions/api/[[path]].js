@@ -66,6 +66,18 @@ async function tierSettings(env){const row=await env.DB.prepare("SELECT value FR
 function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false};for(const t of tiers)if(score>=t.min)current=t;return current}
 
 
+
+const BURNING_EVENT_META_KEY='burning_event_settings_v1';
+let burningEventCache=null;
+function defaultBurningEventSettings(){return {enabled:false,generation:0,activatedAt:null,title:'씨켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,battleRewardMultiplier:1.5};}
+function cleanBurningEventSettings(raw={}){const b=defaultBurningEventSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,title:String(raw.title||b.title).trim().slice(0,80)||b.title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};}
+async function burningEventSettings(env,{fresh=false}={}){if(!fresh&&burningEventCache&&Date.now()-burningEventCache.at<5000)return burningEventCache.value;const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BURNING_EVENT_META_KEY).first();let value=defaultBurningEventSettings();if(row?.value)try{value=cleanBurningEventSettings(JSON.parse(row.value))}catch{}burningEventCache={at:Date.now(),value};return value;}
+function burningPublicState(settings){return {enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:settings.duplicateShardMultiplier,packDiscountPercent:settings.packDiscountPercent,battleRewardMultiplier:settings.battleRewardMultiplier};}
+function applyBurningPveSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
+function applyBurningPvpSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningActivatedAt:burning.activatedAt||null,energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pvpMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
+function burningDiscountPrice(price,burning){const original=Math.max(0,Math.floor(Number(price)||0));return burning?.enabled?Math.max(0,Math.floor(original*(100-Number(burning.packDiscountPercent||0))/100)):original;}
+function burningRewardAmount(amount,burning){const base=Math.max(0,Math.floor(Number(amount)||0));return burning?.enabled?Math.max(0,Math.floor(base*Number(burning.battleRewardMultiplier||1))):base;}
+
 function defaultPvpSettings(){return {enabled:true,status:'ACTIVE',seasonTitle:'ASYNC PVP SEASON',seasonName:'시즌 1',seasonDescription:'저장한 PvP 덱으로 비동기 대전을 진행합니다.',startsAt:null,endsAt:null,initialScore:1000,winScore:24,loseScore:16,matchCardRange:15,matchSeasonRange:300,historyLimit:100,winCoin:50,loseCoin:25,scoreBalance:{enabled:true,equalRange:10,weakerWinMid:80,weakerWinHigh:60,weakerWinExtreme:40,strongerWinMid:110,strongerWinHigh:125,strongerWinExtreme:140,strongerLossMid:90,strongerLossHigh:75,strongerLossExtreme:60,weakerLossMid:110,weakerLossHigh:125,weakerLossExtreme:140,minChange:1,maxChange:999},energy:{enabled:true,maxEnergy:5,rechargeMinutes:30,costPerBattle:1,adminUnlimited:true,testUnlimited:true},rewardClaimMode:'SEASON_END',tierRewardsEnabled:true,rankRewardsEnabled:true,tiers:[{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false,rewardCoin:500,rewardShards:0},{id:'silver',name:'실버',min:1100,color:'#c9d4e3',aura:false,rewardCoin:1000,rewardShards:20},{id:'gold',name:'골드',min:1250,color:'#ffd15c',aura:false,rewardCoin:2000,rewardShards:50},{id:'platinum',name:'플래티넘',min:1450,color:'#5ff0df',aura:true,rewardCoin:4000,rewardShards:100},{id:'diamond',name:'다이아',min:1700,color:'#69cfff',aura:true,rewardCoin:7000,rewardShards:180},{id:'master',name:'마스터',min:2050,color:'#bd7cff',aura:true,rewardCoin:12000,rewardShards:300},{id:'grandmaster',name:'그랜드마스터',min:2500,color:'#ff6f91',aura:true,rewardCoin:20000,rewardShards:500}],rankRewards:[{from:1,to:1,rewardCoin:30000,rewardShards:700},{from:2,to:3,rewardCoin:20000,rewardShards:500},{from:4,to:10,rewardCoin:12000,rewardShards:300},{from:11,to:50,rewardCoin:5000,rewardShards:120}]};}
 function cleanPvpSettings(raw={}){const base=defaultPvpSettings(),num=(v,d,min=0,max=100000000)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):d));const tiers=(Array.isArray(raw.tiers)?raw.tiers:base.tiers).map((t,i)=>({id:String(t.id||base.tiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.tiers[i]?.name||'티어').slice(0,20),min:num(t.min,base.tiers[i]?.min||0),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.tiers[i]?.color||'#7ceeff',aura:t.aura!==false,rewardCoin:num(t.rewardCoin,base.tiers[i]?.rewardCoin||0),rewardShards:num(t.rewardShards,base.tiers[i]?.rewardShards||0)})).sort((a,b)=>a.min-b.min);const rankRewards=(Array.isArray(raw.rankRewards)?raw.rankRewards:base.rankRewards).slice(0,20).map((r,i)=>{const from=num(r.from,base.rankRewards[i]?.from||1,1,100000),to=num(r.to,base.rankRewards[i]?.to||from,1,100000);return {from:Math.min(from,to),to:Math.max(from,to),rewardCoin:num(r.rewardCoin,base.rankRewards[i]?.rewardCoin||0),rewardShards:num(r.rewardShards,base.rankRewards[i]?.rewardShards||0)}}).sort((a,b)=>a.from-b.from);return {...base,enabled:raw.enabled!==false,status:String(raw.status||base.status).slice(0,60),seasonTitle:String(raw.seasonTitle||base.seasonTitle).slice(0,80),seasonName:String(raw.seasonName||base.seasonName).slice(0,40),seasonDescription:String(raw.seasonDescription||base.seasonDescription).slice(0,240),startsAt:raw.startsAt||null,endsAt:raw.endsAt||null,initialScore:num(raw.initialScore,base.initialScore,0,1000000),winScore:num(raw.winScore,base.winScore,0,100000),loseScore:num(raw.loseScore,base.loseScore,0,100000),matchCardRange:num(raw.matchCardRange,base.matchCardRange,1,100),matchSeasonRange:num(raw.matchSeasonRange,base.matchSeasonRange,0,100000),historyLimit:num(raw.historyLimit,base.historyLimit,10,500),winCoin:num(raw.winCoin,base.winCoin,0,10000000),loseCoin:num(raw.loseCoin,base.loseCoin,0,10000000),scoreBalance:{enabled:raw.scoreBalance?.enabled!==false,equalRange:num(raw.scoreBalance?.equalRange,base.scoreBalance.equalRange,0,100),weakerWinMid:num(raw.scoreBalance?.weakerWinMid,base.scoreBalance.weakerWinMid,0,500),weakerWinHigh:num(raw.scoreBalance?.weakerWinHigh,base.scoreBalance.weakerWinHigh,0,500),weakerWinExtreme:num(raw.scoreBalance?.weakerWinExtreme,base.scoreBalance.weakerWinExtreme,0,500),strongerWinMid:num(raw.scoreBalance?.strongerWinMid,base.scoreBalance.strongerWinMid,0,500),strongerWinHigh:num(raw.scoreBalance?.strongerWinHigh,base.scoreBalance.strongerWinHigh,0,500),strongerWinExtreme:num(raw.scoreBalance?.strongerWinExtreme,base.scoreBalance.strongerWinExtreme,0,500),strongerLossMid:num(raw.scoreBalance?.strongerLossMid,base.scoreBalance.strongerLossMid,0,500),strongerLossHigh:num(raw.scoreBalance?.strongerLossHigh,base.scoreBalance.strongerLossHigh,0,500),strongerLossExtreme:num(raw.scoreBalance?.strongerLossExtreme,base.scoreBalance.strongerLossExtreme,0,500),weakerLossMid:num(raw.scoreBalance?.weakerLossMid,base.scoreBalance.weakerLossMid,0,500),weakerLossHigh:num(raw.scoreBalance?.weakerLossHigh,base.scoreBalance.weakerLossHigh,0,500),weakerLossExtreme:num(raw.scoreBalance?.weakerLossExtreme,base.scoreBalance.weakerLossExtreme,0,500),minChange:num(raw.scoreBalance?.minChange,base.scoreBalance.minChange,0,100000),maxChange:num(raw.scoreBalance?.maxChange,base.scoreBalance.maxChange,1,100000)},energy:{enabled:raw.energy?.enabled!==false,maxEnergy:num(raw.energy?.maxEnergy,base.energy.maxEnergy,1,999),rechargeMinutes:num(raw.energy?.rechargeMinutes,base.energy.rechargeMinutes,1,1440),costPerBattle:num(raw.energy?.costPerBattle,base.energy.costPerBattle,1,99),adminUnlimited:raw.energy?.adminUnlimited!==false,testUnlimited:raw.energy?.testUnlimited!==false},rewardClaimMode:['IMMEDIATE','SEASON_END'].includes(raw.rewardClaimMode)?raw.rewardClaimMode:base.rewardClaimMode,tierRewardsEnabled:raw.tierRewardsEnabled!==false,rankRewardsEnabled:raw.rankRewardsEnabled!==false,tiers,rankRewards};}
 async function pvpSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
@@ -99,6 +111,7 @@ async function pvpEnergyState(env,user,settings){
   let row=await env.DB.prepare('SELECT * FROM user_pvp_energy WHERE user_id=?').bind(user.id).first();
   if(!row){await env.DB.prepare('INSERT OR IGNORE INTO user_pvp_energy(user_id,energy,last_recharged_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP)').bind(user.id,cfg.maxEnergy,nowSql).run();row=await env.DB.prepare('SELECT * FROM user_pvp_energy WHERE user_id=?').bind(user.id).first();}
   let energy=Math.max(0,Math.min(cfg.maxEnergy,Number(row.energy||0))),last=utcMs(row.last_recharged_at);
+  const burningActivated=Date.parse(String(settings.__burningActivatedAt||''));if(Number.isFinite(burningActivated)&&last<burningActivated){energy=cfg.maxEnergy;last=now;}
   if(energy<cfg.maxEnergy){const interval=cfg.rechargeMinutes*60000,gained=Math.floor((now-last)/interval);if(gained>0){energy=Math.min(cfg.maxEnergy,energy+gained);last=energy>=cfg.maxEnergy?now:last+gained*interval;}}
   await env.DB.prepare('UPDATE user_pvp_energy SET energy=?,last_recharged_at=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(energy,new Date(last).toISOString().replace('T',' ').slice(0,19),user.id).run();
   const nextRechargeAt=energy>=cfg.maxEnergy?null:new Date(last+cfg.rechargeMinutes*60000).toISOString();
@@ -106,7 +119,7 @@ async function pvpEnergyState(env,user,settings){
 }
 async function consumePvpEnergy(env,user,settings){
   const state=await pvpEnergyState(env,user,settings);if(state.unlimited)return state;
-  if(state.energy<state.costPerBattle){const e=new Error('PvP 전투 횟수가 부족합니다. 30분마다 1회 충전됩니다.');e.code='NO_PVP_ENERGY';e.energy=state;throw e;}
+  if(state.energy<state.costPerBattle){const e=new Error(`PvP 전투 횟수가 부족합니다. ${cfg.rechargeMinutes}분마다 1회 충전됩니다.`);e.code='NO_PVP_ENERGY';e.energy=state;throw e;}
   const nowSql=sqlUtcNow();
   const result=await env.DB.prepare('UPDATE user_pvp_energy SET energy=energy-?,last_recharged_at=CASE WHEN energy>=? THEN ? ELSE last_recharged_at END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND energy>=?').bind(state.costPerBattle,state.maxEnergy,nowSql,user.id,state.costPerBattle).run();
   if(!result.meta.changes){const e=new Error('PvP 전투 횟수가 부족합니다.');e.code='NO_PVP_ENERGY';e.energy=await pvpEnergyState(env,user,settings);throw e;}
@@ -303,6 +316,7 @@ async function battleEnergyState(env,user,settings){
   let row=await env.DB.prepare('SELECT * FROM user_battle_energy WHERE user_id=?').bind(user.id).first();
   if(!row){await env.DB.prepare('INSERT OR IGNORE INTO user_battle_energy(user_id,energy,last_recharged_at,last_daily_reset_date,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,Math.min(cfg.maxEnergy,cfg.dailyRestore),nowSql,today).run();row=await env.DB.prepare('SELECT * FROM user_battle_energy WHERE user_id=?').bind(user.id).first();}
   let energy=Math.max(0,Math.min(cfg.maxEnergy,Number(row.energy||0))),last=utcMs(row.last_recharged_at),resetDate=String(row.last_daily_reset_date||'');
+  const burningActivated=Date.parse(String(settings.__burningActivatedAt||''));if(Number.isFinite(burningActivated)&&last<burningActivated){energy=cfg.maxEnergy;last=now;resetDate=today;}
   if(resetDate!==today){energy=Math.min(cfg.maxEnergy,cfg.dailyRestore);last=now;resetDate=today;}
   if(energy<cfg.maxEnergy){const interval=cfg.rechargeMinutes*60000,gained=Math.floor((now-last)/interval);if(gained>0){energy=Math.min(cfg.maxEnergy,energy+gained);last=energy>=cfg.maxEnergy?now:last+gained*interval;}}
   await env.DB.prepare('UPDATE user_battle_energy SET energy=?,last_recharged_at=?,last_daily_reset_date=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(energy,new Date(last).toISOString().replace('T',' ').slice(0,19),resetDate,user.id).run();
@@ -324,7 +338,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const activatedEntry=selectActivatedUltimate(settings,battleCards);
   const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
   const ultimateDamage=activatedEntry&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedEntry.rule.coefficientPercent||0)/100)):0;
-  const result=basePlayerPower+ultimateDamage>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Number(monster.reward_coin||0):0;
+  const result=basePlayerPower+ultimateDamage>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Math.max(0,Math.floor(Number(monster.reward_coin||0)*Number(settings.__burningRewardMultiplier||1))):0;
   if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 자동사냥 승리 보상: ${monster.name}`,user.id).run();}
   let cardReward=null;if(result==='WIN'&&settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}
   await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),basePlayerPower,monsterPower,result,reward).run();
@@ -2169,8 +2183,8 @@ export async function onRequest(context){
       return json({cards:rows.results.map(card=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const rows=await env.DB.prepare('SELECT * FROM card_packs WHERE is_active=1 ORDER BY sort_order,id').all();
-      return json({packs:rows.results.map(row=>({...row,allowed:JSON.parse(row.allowed_rarities)}))});
+      const [rows,burning]=await Promise.all([env.DB.prepare('SELECT * FROM card_packs WHERE is_active=1 ORDER BY sort_order,id').all(),burningEventSettings(env)]);
+      return json({packs:rows.results.map(row=>{const originalPrice=Number(row.price||0),price=burningDiscountPrice(originalPrice,burning);return {...row,price,originalPrice,burningDiscountPercent:burning.enabled?burning.packDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}}),burningEvent:burningPublicState(burning)});
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -2335,7 +2349,7 @@ export async function onRequest(context){
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
       try{
-        const criticalConfig=await criticalSettings(env);
+        const [criticalConfig,burning]=await Promise.all([criticalSettings(env),burningEventSettings(env)]);
         const criticalEligible=criticalConfig.enabled===true;
         const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
         const criticalBonus=critical?criticalConfig.bonus:0;
@@ -2346,7 +2360,7 @@ export async function onRequest(context){
         }
         const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
         const beforeProfile=await profile(env,fresh);
-        cost=Number(pack.price||0)*count;
+        cost=burningDiscountPrice(pack.price,burning)*count;
         await env.DB.prepare('UPDATE draw_request_receipts SET cost=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?').bind(cost,requestId,user.id).run();
         if(Number(fresh.coin||0)<cost){
           await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(requestId,user.id).run();
@@ -2432,7 +2446,7 @@ export async function onRequest(context){
           }
           ownedMap.set(cardId,quantityAfter);
           expectedAfterByCard.set(cardId,quantityAfter);
-          const shardGained=isNew?0:Number(SHARD_REWARD[card.grade]||0);
+          const shardGained=isNew?0:Math.floor(Number(SHARD_REWARD[card.grade]||0)*(burning.enabled?Number(burning.duplicateShardMultiplier||2):1));
           const masterStarGained=!isNew&&String(card.grade||'').toUpperCase()==='MA'?1:0;
           shardTotal+=shardGained;
           masterStarTotal+=masterStarGained;
@@ -2473,7 +2487,7 @@ export async function onRequest(context){
           results,user:nextProfile,
           pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,
           critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},
-          requestId,grantProof,
+          requestId,grantProof,burningEvent:burningPublicState(burning),
           drawProtocol:{version:3,status:'APPLIED',grantVerified:false,packId:String(pack.id),count:Number(count),integrity:''}
         };
 
@@ -2814,9 +2828,9 @@ export async function onRequest(context){
 
     if(path==='battle/config'){
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
-      const settings=await battleSettings(env);
+      const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning);
       const monsters=await env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all();
-      return json({settings,deck:await pveDeckCards(env,user.id),energy:await battleEnergyState(env,user,settings),serverNow:new Date().toISOString(),monsters:monsters.results});
+      return json({settings,deck:await pveDeckCards(env,user.id),energy:await battleEnergyState(env,user,settings),serverNow:new Date().toISOString(),monsters:monsters.results,burningEvent:burningPublicState(burning)});
     }
     if(path==='battle/deck'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -2834,7 +2848,7 @@ export async function onRequest(context){
     }
     if(path==='battle/auto'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'다른 기기 또는 창에서 다시 로그인되어 현재 로그인이 종료되었습니다.',code:'SESSION_REPLACED'},401);
-      const settings=await battleSettings(env);if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
+      const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning);if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
       const payload=await readBody(request),requestId=String(payload.requestId||'').trim(),monsterId=Number(payload.monsterId),ids=[...new Set((payload.cardIds||[]).map(String))];
       if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))return json({error:'자동사냥 요청 정보가 올바르지 않습니다.'},400);
       const previous=await env.DB.prepare('SELECT user_id,status,response_json FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
@@ -2867,7 +2881,7 @@ export async function onRequest(context){
     }
     if(path==='battle/fight'&&request.method==='POST'){
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
-      const settings=await battleSettings(env); if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
+      const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning); if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
       const payload=await readBody(request),requestId=String(payload.requestId||crypto.randomUUID()),monsterId=Number(payload.monsterId),ids=[...new Set((payload.cardIds||[]).map(String))];
       if(ids.length!==5)return json({error:'보유 카드 5장을 편성해야 합니다.'},400);
       const monster=await env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0').bind(monsterId).first();
@@ -2899,7 +2913,7 @@ export async function onRequest(context){
       const bossPveDamagePercent=Math.max(0,Math.min(100,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0)));
       const bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(playerPower*bossPveDamagePercent/100)):0;
       const effectiveBattleDamage=Math.max(0,totalBattleDamage-bossUltimatePenalty);
-      const result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Number(monster.reward_coin||0):0;
+      const result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?burningRewardAmount(monster.reward_coin,burning):0;
       const bossUltimate=bossShouldCast?{name:String(monster.ultimate_name||'보스 궁극기'),description:String(monster.ultimate_description||''),warningText:String(monster.ultimate_warning_text||'BOSS ULTIMATE'),damagePercent:bossPveDamagePercent,forceCast:bossForceCast,target:String(monster.ultimate_target||'ALL'),theme:String(monster.ultimate_theme||'CRIMSON'),shake:Boolean(monster.ultimate_shake),zoom:Boolean(monster.ultimate_zoom),mediaUrl:String(monster.ultimate_media_url||''),soundUrl:String(monster.ultimate_sound_url||''),durationMs:Math.max(600,Math.min(25000,Number(monster.ultimate_duration_ms||2400))),volumePercent:Math.max(0,Math.min(100,Number(monster.ultimate_volume_percent??35))),penalty:bossUltimatePenalty}:null;
       if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id).run();}
       let cardReward=null;if(result==='WIN'&&settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}
@@ -2908,7 +2922,7 @@ export async function onRequest(context){
       const pveMagic=(await magicSettings(env)).acquisition?.pve||{};
       const magicReward=result==='WIN'?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):null;
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({result,reward,cardReward,cubeReward,magicReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattle.enabled?{ownerTest:uniqueBattle.ownerTest,basePower:uniqueBattle.basePower,effectivePower:uniqueBattle.power,attackPower:uniqueBattle.attackPower,durabilityPower:uniqueBattle.durabilityPower,speedPercent:uniqueBattle.speedPercent,effects:uniqueBattle.effects}:null,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
+      return json({result,reward,burningEvent:burningPublicState(burning),cardReward,cubeReward,magicReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattle.enabled?{ownerTest:uniqueBattle.ownerTest,basePower:uniqueBattle.basePower,effectivePower:uniqueBattle.power,attackPower:uniqueBattle.attackPower,durabilityPower:uniqueBattle.durabilityPower,speedPercent:uniqueBattle.speedPercent,effects:uniqueBattle.effects}:null,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
     }
 
 
@@ -3086,8 +3100,8 @@ export async function onRequest(context){
 
     if(path==='pvp/config'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const settings=await pvpSettings(env),profile=await ensurePvpProfile(env,user,settings),deck=await pvpDeckCards(env,user.id),score=await userCardScore(env,user.id);
-      return json({settings,profile:{...profile,tier:resolveTier(Number(profile.season_score),settings.tiers)},deck,cardScore:score,energy:await pvpEnergyState(env,user,settings),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
+      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(await pvpSettings(env),burning),profile=await ensurePvpProfile(env,user,settings),deck=await pvpDeckCards(env,user.id),score=await userCardScore(env,user.id);
+      return json({settings,burningEvent:burningPublicState(burning),profile:{...profile,tier:resolveTier(Number(profile.season_score),settings.tiers)},deck,cardScore:score,energy:await pvpEnergyState(env,user,settings),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
     }
     if(path==='pvp/deck'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -3134,7 +3148,7 @@ export async function onRequest(context){
     }
     if(path==='pvp/fight'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),requestId=String(body.requestId||crypto.randomUUID()),defenderId=Number(body.opponentId);if(!defenderId||defenderId===user.id)return json({error:'올바른 상대를 선택하세요.'},400);
-      const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 시즌이 중지되어 있습니다.'},503);
+      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(await pvpSettings(env),burning);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 시즌이 중지되어 있습니다.'},503);
       const recent=await env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 2').bind(user.id).all();
       if(recent.results.length===2&&Number(recent.results[0].defender_id)===defenderId&&Number(recent.results[1].defender_id)===defenderId)return json({error:'같은 상대와는 연속 3회 이상 대전할 수 없습니다. 다른 상대와 1회 대전한 뒤 다시 도전하세요.',code:'PVP_REPEAT_OPPONENT_LIMIT'},409);
       const attacker=await ensurePvpProfile(env,user,settings),defUser=await env.DB.prepare("SELECT * FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=datetime('now'))").bind(defenderId).first();if(!defUser)return json({error:'상대를 찾을 수 없습니다.'},404);const defender=await ensurePvpProfile(env,defUser,settings);
@@ -3155,7 +3169,7 @@ export async function onRequest(context){
       const pvpEnergy=await consumePvpEnergy(env,user,settings);
       // PvP battle coin is an active-challenge reward. Only the authenticated attacker receives it.
       // The asynchronous defender never receives win/lose coins from being challenged.
-      const attackerCoinReward=attackerWin?Number(settings.winCoin||0):Number(settings.loseCoin||0);
+      const attackerCoinReward=burningRewardAmount(attackerWin?settings.winCoin:settings.loseCoin,burning);
       await env.DB.batch([
         env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=MAX(highest_score,?),wins=wins+?,losses=losses+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(aAfter,aAfter,attackerWin?1:0,attackerWin?0:1,user.id),
         env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=MAX(highest_score,?),wins=wins+?,losses=losses+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(dAfter,dAfter,attackerWin?0:1,attackerWin?1:0,defenderId),
@@ -3168,7 +3182,7 @@ export async function onRequest(context){
       const pvpMagic=(await magicSettings(env)).acquisition?.pvp||{};
       const magicReward=attackerWin?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVP_DROP',referenceId:requestId,enabled:pvpMagic.enabled===true,chance:pvpMagic.chance,amount:pvpMagic.amount,dailyLimit:pvpMagic.dailyLimit,reason:'일반 PVP 승리 확률 드랍'}):null;
       const freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),weeklyPremiumCube=await premiumCubeWeeklyStatus(env,user.id);
-      return json({result:attackerWin?'WIN':'LOSE',cubeReward,weeklyPremiumCube,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:aUnique.enabled?{ownerTest:aUnique.ownerTest,basePower:aUnique.basePower,effectivePower:aUnique.power,effects:aUnique.effects}:null,defender:dUnique.enabled?{ownerTest:dUnique.ownerTest,basePower:dUnique.basePower,effectivePower:dUnique.power,effects:dUnique.effects}:null},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
+      return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),cubeReward,weeklyPremiumCube,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:aUnique.enabled?{ownerTest:aUnique.ownerTest,basePower:aUnique.basePower,effectivePower:aUnique.power,effects:aUnique.effects}:null,defender:dUnique.enabled?{ownerTest:dUnique.ownerTest,basePower:dUnique.basePower,effectivePower:dUnique.power,effects:dUnique.effects}:null},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT * FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();return json({history:rows.results.map(r=>({...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}))});
@@ -3987,6 +4001,22 @@ export async function onRequest(context){
         .bind(admin.id,'COIN_GRANT','USER',String(userId),JSON.stringify(before),JSON.stringify({...after,amount,reason})).run();
       return json({ok:true,user:after,amount,reason});
     }
+
+    if(path==='burning-event/status'){
+      const burning=await burningEventSettings(env);return json({burningEvent:burningPublicState(burning)});
+    }
+    if(path==='admin/burning-event'){
+      const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 없습니다.'},403);
+      if(request.method==='GET'){const settings=await burningEventSettings(env,{fresh:true});return json({settings});}
+      if(request.method==='PATCH'){
+        const body=await readBody(request),before=await burningEventSettings(env,{fresh:true});
+        const requested=cleanBurningEventSettings({...before,...(body.settings||body)}),turningOn=before.enabled!==true&&requested.enabled===true;
+        const next=cleanBurningEventSettings({...requested,generation:turningOn?Number(before.generation||0)+1:Number(before.generation||0),activatedAt:turningOn?new Date().toISOString():before.activatedAt});
+        await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(BURNING_EVENT_META_KEY,JSON.stringify(next)).run();
+        burningEventCache={at:Date.now(),value:next};await writeAdminLog(env,admin,'BURNING_EVENT_UPDATE','APP_META',BURNING_EVENT_META_KEY,before,next);return json({ok:true,settings:next,activated:turningOn});
+      }
+    }
+
     if(path==='admin/card-packs'){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'카드팩 관리 권한이 없습니다.'},403);
