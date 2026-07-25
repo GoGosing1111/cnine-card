@@ -1134,6 +1134,7 @@ function bindView(tab) {
   if(tab==='pvp') loadPvpView();
   if(tab==='mineral') loadMineralExchange();
   if(tab==='dex') {
+    syncCollectionFromServer({rerender:true});
     document.querySelectorAll('.dex-fold-button').forEach(h=>h.onclick=()=>h.closest('.dex-section').classList.toggle('collapsed'));
     document.querySelectorAll('.card-frame').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
     const search=document.getElementById('dexSearch'),filter=document.getElementById('gradeFilter'),sort=document.getElementById('dexSort'),favoriteOnly=document.getElementById('favoriteMemberOnly');
@@ -1392,6 +1393,7 @@ async function verifyStartupSession(){
 async function loadStartupOptionalFeatures(runId){
   await new Promise(resolve=>setTimeout(resolve,6000));
   if(runId!==startupRunId||!API_MODE||!API_TOKEN)return;
+  if(collectionSnapshotLooksIncomplete(loadUser()))await syncCollectionFromServer({force:true,rerender:runtimeCommandContext==='dex'});
   const previousPvp=pvpFeatureEnabled,previousMagic=Boolean(magicSystemState.visible);
   const [pvpResult,magicResult]=await Promise.all([
     settled(apiRequest('pvp/config',{}, {timeoutMs:5000})),
@@ -1593,7 +1595,7 @@ function renderMaintenance(m={},service={}){
   const copy=document.getElementById('maintenanceCopyKey');if(copy)copy.onclick=async()=>{try{await navigator.clipboard.writeText(key);alert('개인키가 복사되었습니다.')}catch{document.getElementById('maintenanceKey').select();document.execCommand('copy');alert('개인키가 복사되었습니다.')}};
   const login=document.getElementById('maintenanceLogin');if(login)login.onclick=()=>renderLogin();
 }
-function apiUserToLocal(u,key){const old=loadUser(),owned=(u.owned||[]).map(id=>String(id)),quantities=Object.fromEntries(Object.entries(u.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs=Object.fromEntries(Object.entries(u.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]));return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:Number(u.coin??old?.coin??0),cardShards:Number(u.cardShards??u.card_shards??old?.cardShards??0),masterStars:Number(u.masterStars??old?.masterStars??0),magicCrystals:Number(u.magicCrystals??u.magic_crystals??old?.magicCrystals??0),owned,quantities,breakthroughs,history:Array.isArray(u.history)?u.history.map(x=>({...x,cardId:String(x.cardId??x.card_id??'')})):(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},maHighBreakthrough:u.maHighBreakthrough||old?.maHighBreakthrough||{enabled:false,steps:[]},weeklyPremiumCube:u.weeklyPremiumCube||old?.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2,attemptCount:0},serverUserId:u.id,testCoinGrantedV13:true}}
+function apiUserToLocal(u={},key){const old=loadUser()||{},scope=String(u.profileScope||'').toUpperCase(),partial=scope.includes('PARTIAL'),hasOwned=Array.isArray(u.owned),incomingOwned=hasOwned?u.owned.map(id=>String(id)):[],incomingQuantities=Object.fromEntries(Object.entries(u.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),incomingBreakthroughs=Object.fromEntries(Object.entries(u.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]));const owned=partial?[...new Set([...(old.owned||[]).map(String),...incomingOwned])]:hasOwned?incomingOwned:[...(old.owned||[])];const quantities=partial?{...(old.quantities||{}),...incomingQuantities}:hasOwned?incomingQuantities:{...(old.quantities||{})};const breakthroughs=partial?{...(old.breakthroughs||{}),...incomingBreakthroughs}:hasOwned?incomingBreakthroughs:{...(old.breakthroughs||{})};return {nickname:u.nickname??old.nickname,key:key||old.key||'',role:u.role||old.role||'USER',coin:Number(u.coin??old.coin??0),cardShards:Number(u.cardShards??u.card_shards??old.cardShards??0),masterStars:Number(u.masterStars??old.masterStars??0),magicCrystals:Number(u.magicCrystals??u.magic_crystals??old.magicCrystals??0),owned,quantities,breakthroughs,history:Array.isArray(u.history)?u.history.map(x=>({...x,cardId:String(x.cardId??x.card_id??'')})):(old.history||[]),attendance:u.attendance||old.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old.breakthroughConfig||{},maHighBreakthrough:u.maHighBreakthrough||old.maHighBreakthrough||{enabled:false,steps:[]},weeklyPremiumCube:u.weeklyPremiumCube||old.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2,attemptCount:0},serverUserId:u.id??old.serverUserId,testCoinGrantedV13:true}}
 function mergeApiUserSummary(summary={},base=loadUser()||{}){
   return {...base,nickname:summary.nickname??base.nickname,role:summary.role??base.role??'USER',coin:Number(summary.coin??base.coin??0),cardShards:Number(summary.cardShards??summary.card_shards??base.cardShards??0),masterStars:Number(summary.masterStars??base.masterStars??0),magicCrystals:Number(summary.magicCrystals??summary.magic_crystals??base.magicCrystals??0),serverUserId:Number(summary.id??base.serverUserId??0)||base.serverUserId,testCoinGrantedV13:true};
 }
@@ -1602,6 +1604,14 @@ function mergeDrawUserSnapshot(snapshot={},results=[]){
   current.quantities={...(current.quantities||{})};current.breakthroughs={...(current.breakthroughs||{})};
   for(const item of results){const id=String(item?.card?.id||'');if(!id)continue;owned.add(id);current.quantities[id]=Number(item.quantityAfter??snapshot?.quantities?.[id]??current.quantities[id]??0);}
   current.owned=[...owned];return current;
+}
+let collectionSyncPromise=null,collectionSyncAt=0;
+function collectionSnapshotLooksIncomplete(user=loadUser()||{}){if(user.collectionRepairR6)return false;const owned=new Set((user.owned||[]).map(String)),historyIds=new Set((user.history||[]).map(row=>String(row?.cardId||'')).filter(Boolean));for(const id of historyIds)if(!owned.has(id))return true;return false;}
+async function syncCollectionFromServer({force=false,rerender=false}={}){
+  if(!API_MODE||!API_TOKEN)return false;
+  const now=Date.now();if(!force&&now-collectionSyncAt<30000)return false;if(collectionSyncPromise)return collectionSyncPromise;
+  collectionSyncPromise=(async()=>{const data=await apiRequest('me/collection',{}, {ttl:force?0:30000,timeoutMs:10000}),collection=data?.collection||{},current=loadUser();if(!current||!Array.isArray(collection.owned))return false;const beforeIds=[...ownedIds(current)].sort().join(','),next={...current,collectionRepairR6:true,owned:collection.owned.map(String),quantities:Object.fromEntries(Object.entries(collection.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs:Object.fromEntries(Object.entries(collection.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]))};saveUser(next);collectionSyncAt=Date.now();const changed=beforeIds!==[...ownedIds(next)].sort().join(',');if(changed&&rerender&&runtimeCommandContext==='dex')renderShell('dex');return changed;})().catch(error=>{console.warn('서버 도감 동기화 실패:',error);return false}).finally(()=>{collectionSyncPromise=null});
+  return collectionSyncPromise;
 }
 async function recoverPlayerSession(){
   const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();

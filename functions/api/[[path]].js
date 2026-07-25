@@ -1784,7 +1784,7 @@ async function profile(env,user){
     env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),
     maMasterStarBreakthroughConfig(env)
   ]);
-  return {id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
+  return {profileScope:'FULL',id:user.id,nickname:user.nickname,coin:user.coin,cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
     owned:owned.results.map(row=>String(row.card_id)),
     quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
@@ -1793,7 +1793,7 @@ async function profile(env,user){
 }
 function drawResponseProfileFromRows(user,ownedRows=[],masterStarRow=null){
   const rows=ownedRows||[];
-  return {id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
+  return {profileScope:'DRAW_PARTIAL',id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
     owned:rows.map(row=>String(row.card_id)),
     quantities:Object.fromEntries(rows.map(row=>[String(row.card_id),Number(row.quantity||0)])),
     breakthroughs:Object.fromEntries(rows.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
@@ -2138,6 +2138,20 @@ export async function onRequest(context){
       if(!user)return json({error:'로그인이 필요합니다.'},401);
       const masterStarRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first();
       return json({user:{id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),masterStars:Number(masterStarRow?.quantity||0),role:user.role}});
+    }
+
+    if(path==='me/collection'&&request.method==='GET'){
+      const user=await authenticate(request,env);
+      if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const owned=await env.DB.prepare(`SELECT uc.card_id,uc.quantity,uc.breakthrough_level
+        FROM user_cards uc JOIN cards c ON c.id=uc.card_id
+        WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0
+          AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')`).bind(user.id).all();
+      return json({collection:{profileScope:'COLLECTION_FULL',
+        owned:owned.results.map(row=>String(row.card_id)),
+        quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
+        breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)]))
+      },serverNow:new Date().toISOString()});
     }
 
     await ensureRuntimeUpgrades(env);
