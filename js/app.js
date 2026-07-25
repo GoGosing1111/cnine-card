@@ -1350,6 +1350,7 @@ function writeStartupSnapshot(patch={}){
 function applyStartupSnapshot(snapshot){
   if(Array.isArray(snapshot?.cards)&&snapshot.cards.length)cards=snapshot.cards.map(normalizeClientCard);
   if(Array.isArray(snapshot?.packs)&&snapshot.packs.length)applyServerPacks(snapshot.packs);
+  if(snapshot?.burningEvent&&typeof snapshot.burningEvent==='object')applyBurningEventState(snapshot.burningEvent);
 }
 async function settled(promise){try{return {ok:true,value:await promise}}catch(error){return {ok:false,error}}}
 function refreshBuyShellAfterStartup(runId){
@@ -1367,7 +1368,7 @@ async function refreshStartupCatalog(runId,cardTask,packTask){
   }else if(!viewerCatalogWasRefreshed&&!cards.length)console.warn('카드 데이터 백그라운드 갱신 실패:',cardResult.error);
   if(packResult.ok&&Array.isArray(packResult.value?.packs)&&packResult.value.packs.length){
     changed=changed||JSON.stringify(before.packs||[])!==JSON.stringify(packResult.value.packs);
-    applyServerPacks(packResult.value.packs);cachePatch.packs=packResult.value.packs;
+    applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{};
   }else if(packResult.error)console.warn('카드팩 설정 백그라운드 갱신 실패:',packResult.error);
   if(Object.keys(cachePatch).length)writeStartupSnapshot(cachePatch);
   if(changed)refreshBuyShellAfterStartup(runId);
@@ -1641,7 +1642,7 @@ async function init(){
       // 팩 조회는 이미 병렬 실행 중이다. 카드 조회 후에도 늦으면 기본/캐시 설정으로 먼저 화면을 연다.
       const packResult=await Promise.race([packTask,new Promise(resolve=>setTimeout(()=>resolve({pending:true}),650))]);
       if(packResult?.pending)packPending=true;
-      else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs}
+      else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{}}
       else console.warn('카드팩 설정 조회 실패 - 기본 설정으로 계속합니다:',packResult.error);
       writeStartupSnapshot(cachePatch);
     }
@@ -1743,6 +1744,20 @@ async function runCriticalOpening(pack,count,requestDraw){
 let drawRequestInFlight=false;
 let activeDrawRequestId='';
 const consumedDrawResponses=new Set();
+const PENDING_DRAW_STORAGE_KEY='cnine_pending_draw_v1168_r4';
+function readPendingDraw(){try{const row=JSON.parse(sessionStorage.getItem(PENDING_DRAW_STORAGE_KEY)||'null');if(!row||!row.requestId||Date.now()-Number(row.createdAt||0)>10*60*1000){sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY);return null}return row}catch(_){return null}}
+function writePendingDraw(row){try{sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(row))}catch(_){}}
+function clearPendingDraw(requestId=''){try{const row=readPendingDraw();if(!requestId||String(row?.requestId||'')===String(requestId))sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY)}catch(_){}}
+function drawRequestStillProcessing(error){return Boolean(error?.timeout)||(Number(error?.status)===409&&String(error?.message||'').includes('처리 중'))}
+async function requestDrawWithRecovery(packId,count,requestId){
+  const options={method:'POST',body:JSON.stringify({packId,count,requestId})};
+  try{return await apiRequest('draw',options,{timeoutMs:45000})}
+  catch(error){
+    if(!drawRequestStillProcessing(error))throw error;
+    await new Promise(resolve=>setTimeout(resolve,1800));
+    return apiRequest('draw',options,{timeoutMs:20000});
+  }
+}
 function resetDrawPresentationState(){
   const modal=document.getElementById('modal');
   if(modal){modal.onclick=null;modal.className='modal';modal.innerHTML='';}
@@ -1816,22 +1831,30 @@ openPack=async function(packId,count,cost){
     alert('서버 연결이 확인되지 않아 카드뽑기를 중단했습니다.\n서버에 실제 지급되지 않는 허위 획득 화면을 방지하기 위해 오프라인 뽑기는 사용할 수 없습니다.\n새로고침 후 다시 시도해주세요.');
     return;
   }
+  const previous=readPendingDraw();
+  if(previous){packId=String(previous.packId);count=Number(previous.count);}
   const pack=getPack(packId);
-  const requestId=(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`);
+  const requestId=String(previous?.requestId||(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`));
+  if(!previous)writePendingDraw({requestId,packId,count,createdAt:Date.now()});
   resetDrawPresentationState();
   activeDrawRequestId=requestId;
   drawRequestInFlight=true;
   try{
-    const d=await runCriticalOpening(pack,count,()=>apiRequest('draw',{method:'POST',body:JSON.stringify({packId,count,requestId})}));
+    const d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId));
     const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
+    clearPendingDraw(requestId);
     clearApiCache('recent-high-grade');clearApiCache('cards');
     mergeClientCards(verifiedResults.map(x=>x.card));
     const next=apiUserToLocal(d.user);
+    const obtainedAt=new Date().toISOString();
+    next.history=[...(next.history||[]),...verifiedResults.map(item=>({cardId:String(item.card.id),at:obtainedAt,duplicate:Boolean(item.duplicate),title:item.card.title,grade:item.card.grade}))].slice(-30);
     saveUser(next);
     await renderDrawResults(pack,count,pack.price*count,verifiedResults,next,d.critical);
   }catch(e){
     resetDrawPresentationState();
-    alert(e.message||'카드 개봉 중 오류가 발생했습니다.');
+    if(!drawRequestStillProcessing(e))clearPendingDraw(requestId);
+    const message=drawRequestStillProcessing(e)?'카드 지급 결과 확인이 지연되고 있습니다.\n같은 요청 번호를 보존했으며 다음 시도에서 새로 결제하지 않고 이전 결과부터 확인합니다.':(e.message||'카드 개봉 중 오류가 발생했습니다.');
+    alert(message);
   }finally{
     if(activeDrawRequestId===requestId)activeDrawRequestId='';
     drawRequestInFlight=false;

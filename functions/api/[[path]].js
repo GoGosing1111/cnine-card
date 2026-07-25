@@ -68,10 +68,23 @@ function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브�
 
 
 const BURNING_EVENT_META_KEY='burning_event_settings_v1';
+const BURNING_EVENT_CACHE_MS=30000;
 let burningEventCache=null;
 function defaultBurningEventSettings(){return {enabled:false,generation:0,activatedAt:null,title:'씨켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,battleRewardMultiplier:1.5};}
 function cleanBurningEventSettings(raw={}){const b=defaultBurningEventSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,title:String(raw.title||b.title).trim().slice(0,80)||b.title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};}
-async function burningEventSettings(env,{fresh=false}={}){if(!fresh&&burningEventCache&&Date.now()-burningEventCache.at<5000)return burningEventCache.value;const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BURNING_EVENT_META_KEY).first();let value=defaultBurningEventSettings();if(row?.value)try{value=cleanBurningEventSettings(JSON.parse(row.value))}catch{}burningEventCache={at:Date.now(),value};return value;}
+async function burningEventSettings(env,{fresh=false}={}){
+  const now=Date.now();
+  if(!fresh&&burningEventCache&&now-burningEventCache.at<BURNING_EVENT_CACHE_MS)return burningEventCache.value;
+  try{
+    const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BURNING_EVENT_META_KEY).first();
+    let value=defaultBurningEventSettings();if(row?.value)try{value=cleanBurningEventSettings(JSON.parse(row.value))}catch{}
+    burningEventCache={at:now,value};return value;
+  }catch(error){
+    // 버닝 설정의 일시 조회 실패가 카드팩·전투 전체 장애로 번지지 않도록 직전 정상값을 유지한다.
+    if(burningEventCache?.value){console.warn('burning event settings fallback to cache',error);return burningEventCache.value;}
+    throw error;
+  }
+}
 function burningPublicState(settings){return {enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:settings.duplicateShardMultiplier,packDiscountPercent:settings.packDiscountPercent,battleRewardMultiplier:settings.battleRewardMultiplier};}
 function applyBurningPveSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
 function applyBurningPvpSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningActivatedAt:burning.activatedAt||null,energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pvpMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
@@ -1778,6 +1791,14 @@ async function profile(env,user){
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
     attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,masterStars:Number(masterStarRow?.quantity||0),maHighBreakthrough,weeklyPremiumCube};
 }
+function drawResponseProfileFromRows(user,ownedRows=[],masterStarRow=null){
+  const rows=ownedRows||[];
+  return {id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
+    owned:rows.map(row=>String(row.card_id)),
+    quantities:Object.fromEntries(rows.map(row=>[String(row.card_id),Number(row.quantity||0)])),
+    breakthroughs:Object.fromEntries(rows.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
+    masterStars:Number(masterStarRow?.quantity||0)};
+}
 function weightedPick(items,getWeight){
   const total=items.reduce((sum,item)=>sum+getWeight(item),0);
   let roll=Math.random()*total;
@@ -1809,7 +1830,9 @@ async function recentPremiumCubeItems(env){
   recentPremiumCubeCache={promise,expiresAt:now+1000};
   return promise;
 }
+let cardAcquisitionGradeFxCache=null;
 async function cardAcquisitionEffectsByGrade(env){
+  const now=Date.now();if(cardAcquisitionGradeFxCache&&cardAcquisitionGradeFxCache.expiresAt>now)return cardAcquisitionGradeFxCache.value;
   const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url,audio_url,skip_allowed,duration_ms FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_FUR__')`).all();
   const settings={
     LIMITED:{acquisitionFxConfigured:0,acquisitionFxEnabled:1,acquisitionMediaUrl:'/assets/effects/L2CARD.mp4',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:10000},
@@ -1820,7 +1843,7 @@ async function cardAcquisitionEffectsByGrade(env){
     if(!settings[grade])continue;
     settings[grade]={acquisitionFxConfigured:1,acquisitionFxEnabled:Number(row.enabled||0),acquisitionMediaUrl:String(row.media_url||''),acquisitionAudioUrl:String(row.audio_url||''),acquisitionSkipAllowed:Number(row.skip_allowed)!==0?1:0,acquisitionDurationMs:Number(row.duration_ms||(grade==='LIMITED'?10000:8000))};
   }
-  return settings;
+  cardAcquisitionGradeFxCache={value:settings,expiresAt:now+30000};return settings;
 }
 function cardWithAcquisitionEffect(card,settings){
   const grade=String(card?.grade||card?.rarity||'').toUpperCase();
@@ -1993,17 +2016,20 @@ async function grantBattleCard(env,userId,settings){
   return {card,duplicate:!isNew,shardGained,masterStarGained};
 }
 
+let criticalSettingsCache=null;
 async function criticalSettings(env){
+  const now=Date.now();if(criticalSettingsCache&&criticalSettingsCache.expiresAt>now)return criticalSettingsCache.value;
   const keys=['critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects'];
   const rows=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`).bind(...keys).all();
   const v=Object.fromEntries(rows.results.map(row=>[row.key,row.value]));
-  return {
+  const value={
     enabled:String(v.critical_enabled??'1')==='1',
     minTaps:Math.max(1,Math.min(30,Number(v.critical_min_taps||5)||5)),
     chance:Math.max(0,Math.min(100,Number(v.critical_chance||3)||3)),
     bonus:Math.max(0,Math.min(100,Number(v.critical_bonus||10)||10)),
     effects:String(v.critical_effects??'1')==='1'
   };
+  criticalSettingsCache={value,expiresAt:now+30000};return value;
 }
 function applyCriticalRateBonus(rates,bonus){
   const boosted=new Set(['SR','HR','UR','SSR','MA','FUR']);
@@ -2286,10 +2312,21 @@ export async function onRequest(context){
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
       // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
       // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
+      const compactDrawCard=card=>({
+        id:String(card?.id||''),title:String(card?.title||''),name:String(card?.name||''),grade:String(card?.grade||card?.rarity||'').toUpperCase(),
+        image:String(card?.image||card?.image_url||''),focusX:Number(card?.focusX??card?.focus_x??50),focusY:Number(card?.focusY??card?.focus_y??50),member_id:card?.member_id??null,
+        acquisitionFxConfigured:Number(card?.acquisitionFxConfigured||0),acquisitionFxEnabled:Number(card?.acquisitionFxEnabled||0),
+        acquisitionMediaUrl:String(card?.acquisitionMediaUrl||''),acquisitionAudioUrl:String(card?.acquisitionAudioUrl||''),
+        acquisitionSkipAllowed:Number(card?.acquisitionSkipAllowed??1),acquisitionDurationMs:Number(card?.acquisitionDurationMs||0)
+      });
       const compactDrawReceipt=response=>{
         if(!response||typeof response!=='object')return response;
-        const compact={...response};
-        delete compact.user;
+        const compact={...response};delete compact.user;
+        compact.results=Array.isArray(response.results)?response.results.map((item,index)=>({
+          slot:Number(item?.slot??index),granted:item?.granted===true,grantVerified:item?.grantVerified===true,
+          quantityBefore:Number(item?.quantityBefore||0),quantityAfter:Number(item?.quantityAfter||0),duplicate:Boolean(item?.duplicate),
+          shardGained:Number(item?.shardGained||0),masterStarGained:Number(item?.masterStarGained||0),card:compactDrawCard(item?.card)
+        })):[];
         return compact;
       };
       const hydrateDrawReceipt=async stored=>{
@@ -2349,17 +2386,22 @@ export async function onRequest(context){
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
       try{
-        const [criticalConfig,burning]=await Promise.all([criticalSettings(env),burningEventSettings(env)]);
+        const [criticalConfig,burning,pack,fresh,allOwnedRows,masterStarRow]=await Promise.all([
+          criticalSettings(env),burningEventSettings(env),
+          env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId).first(),
+          env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
+          env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
+          env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()
+        ]);
         const criticalEligible=criticalConfig.enabled===true;
         const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
         const criticalBonus=critical?criticalConfig.bonus:0;
-        const pack=await env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId).first();
         if(!pack){
           await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',error_message='판매 중인 카드팩이 아닙니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(requestId,user.id).run();
           return json({error:'판매 중인 카드팩이 아닙니다.'},404);
         }
-        const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-        const beforeProfile=await profile(env,fresh);
+        if(!fresh)throw new Error('유저 정보를 확인하지 못했습니다.');
+        const beforeProfile=drawResponseProfileFromRows(fresh,allOwnedRows.results||[],masterStarRow);
         cost=burningDiscountPrice(pack.price,burning)*count;
         await env.DB.prepare('UPDATE draw_request_receipts SET cost=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?').bind(cost,requestId,user.id).run();
         if(Number(fresh.coin||0)<cost){
@@ -2424,12 +2466,10 @@ export async function onRequest(context){
             cards[i]=card;
           }
         }
-        const finalActiveIds=await validateActiveCards(cards);
-        const acquisitionFxByGrade=await cardAcquisitionEffectsByGrade(env);
         const uniqueIds=[...new Set(cards.map(card=>String(card.id)))];
-        const ownedRows=uniqueIds.length?(await env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${uniqueIds.map(()=>'?').join(',')})`).bind(user.id,...uniqueIds).all()).results:[];
-        const ownedMap=new Map(ownedRows.map(row=>[String(row.card_id),Number(row.quantity||0)]));
-        const masterStarBefore=Number((await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first())?.quantity||0);
+        const [,acquisitionFxByGrade]=await Promise.all([validateActiveCards(cards),cardAcquisitionEffectsByGrade(env)]);
+        const ownedMap=new Map(Object.entries(beforeProfile.quantities||{}).map(([cardId,quantity])=>[String(cardId),Number(quantity||0)]));
+        const masterStarBefore=Number(beforeProfile.masterStars||0);
         const statements=[];
         const results=[];
         let shardTotal=0,masterStarTotal=0,runningShardBalance=Number(fresh.card_shards||0);
@@ -2468,13 +2508,10 @@ export async function onRequest(context){
         nextProfile.cardShards=expectedShards;
         nextProfile.owned=[...new Set([...(nextProfile.owned||[]).map(String),...uniqueIds])];
         nextProfile.quantities={...(nextProfile.quantities||{})};
-        nextProfile.history=Array.isArray(nextProfile.history)?nextProfile.history.slice():[];
         for(const result of results){
           const cardId=String(result.card.id);
           nextProfile.quantities[cardId]=Number(result.quantityAfter);
-          nextProfile.history.push({cardId,at:new Date().toISOString(),duplicate:Boolean(result.duplicate),title:result.card.title,grade:result.card.grade});
         }
-        nextProfile.history=nextProfile.history.slice(-30);
 
         const grantProof={
           version:1,requestId,userId:Number(user.id),packId:String(pack.id),count:Number(count),
@@ -3878,6 +3915,7 @@ export async function onRequest(context){
         const beforeRows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
         const before=Object.fromEntries(beforeRows.results.map(x=>[x.key,x.value]));
         for(const key of [...maintenanceKeys,...criticalKeys,...ownerKeys]) if(key in payload) await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(key,String(payload[key]??'')).run();
+        if(criticalKeys.some(key=>key in payload))criticalSettingsCache=null;
         const action=String(payload.maintenance_mode)==='1'&&before.maintenance_mode!=='1'?'MAINTENANCE_START':String(payload.maintenance_mode)==='0'&&before.maintenance_mode==='1'?'MAINTENANCE_END':'SETTINGS_UPDATE';
         await writeAdminLog(env,admin,action,'SETTINGS','global',before,payload); return json({ok:true,maintenance:await maintenanceSettings(env)});
       }
