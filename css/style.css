@@ -3365,3 +3365,109 @@ html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!
 .burning-event-active body:before{content:"";position:fixed;z-index:9998;pointer-events:none;left:0;right:0;bottom:-20px;height:95px;background:radial-gradient(ellipse at 8% 100%,rgba(255,70,20,.68),transparent 38%),radial-gradient(ellipse at 28% 100%,rgba(255,154,31,.55),transparent 34%),radial-gradient(ellipse at 52% 100%,rgba(255,49,22,.62),transparent 40%),radial-gradient(ellipse at 77% 100%,rgba(255,145,20,.55),transparent 34%),radial-gradient(ellipse at 96% 100%,rgba(255,55,20,.68),transparent 38%);filter:blur(4px);animation:burningFooter 1.4s ease-in-out infinite alternate}.burning-event-active #app{box-shadow:inset 0 0 70px rgba(255,55,20,.12)}
 @keyframes burningFooter{from{transform:translateY(14px) scaleY(.72);opacity:.62}to{transform:translateY(-3px) scaleY(1.08);opacity:1}}
 .burning-event-strip{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 16px;padding:13px 18px;border:1px solid rgba(255,103,53,.52);border-radius:15px;background:linear-gradient(135deg,rgba(111,15,15,.9),rgba(238,62,20,.2),rgba(25,8,10,.94));box-shadow:0 0 28px rgba(255,68,25,.2),inset 0 0 24px rgba(255,145,44,.08)}.burning-event-strip b{color:#fff2db;font-size:16px;text-shadow:0 0 13px #ff531f}.burning-event-strip span{color:#ffcab0;font-size:12px;font-weight:800}.pack-choice s{opacity:.6;margin-right:4px}.pack-choice em b{color:#ff7853}.burning-activation-notice{position:fixed;z-index:20000;inset:0;display:grid;place-items:center;background:rgba(5,0,2,.84);backdrop-filter:blur(8px);opacity:0;transition:.25s}.burning-activation-notice.show{opacity:1}.burning-notice-panel{position:relative;width:min(620px,calc(100% - 28px));padding:52px 34px 34px;text-align:center;border:1px solid rgba(255,109,50,.8);border-radius:25px;background:radial-gradient(circle at 50% 0,rgba(255,85,28,.28),transparent 42%),linear-gradient(180deg,#3c090c,#120408 70%);box-shadow:0 0 70px rgba(255,49,18,.45),inset 0 0 50px rgba(255,112,31,.12);transform:scale(.88);transition:.28s}.show .burning-notice-panel{transform:scale(1)}.burning-notice-panel small{color:#ff9b65;font-weight:1000;letter-spacing:3px}.burning-notice-panel h2{margin:13px 0;color:#fff3df;font-size:clamp(27px,5vw,46px);text-shadow:0 0 20px #ff3b18}.burning-notice-panel p{color:#ffc3a5;line-height:1.8;font-weight:800}.burning-notice-panel button{margin-top:14px;padding:14px 35px;border:1px solid #ffb067;border-radius:13px;color:white;font-weight:1000;background:linear-gradient(135deg,#ff3b18,#c41422);box-shadow:0 10px 28px rgba(255,49,18,.35)}.burning-notice-flames{position:absolute;inset:auto 0 0;height:30%;overflow:hidden}.burning-notice-flames i{position:absolute;bottom:-60px;width:120px;height:210px;border-radius:50% 50% 20% 20%;background:linear-gradient(0deg,#ff1e12,#ff8a24 55%,rgba(255,219,98,.1));filter:blur(7px);animation:burningRise 1.2s ease-in-out infinite alternate}.burning-notice-flames i:nth-child(1){left:5%}.burning-notice-flames i:nth-child(2){left:29%;animation-delay:.3s}.burning-notice-flames i:nth-child(3){right:28%;animation-delay:.6s}.burning-notice-flames i:nth-child(4){right:5%;animation-delay:.15s}@keyframes burningRise{from{transform:translateY(45px) scale(.7);opacity:.35}to{transform:translateY(-8px) scale(1.05);opacity:.85}}@media(max-width:700px){.burning-event-strip{display:block}.burning-event-strip span{display:block;margin-top:6px;line-height:1.5}.burning-notice-panel{padding:42px 20px 28px}}
+
+/* V1168 R3 - full burning red UI theme (active only) */
+.burning-event-active{
+  --line:rgba(255,96,52,.38);
+  --blue:#ff4a20;
+  --blue2:#b80f22;
+  --cyan:#ffb071;
+  --shadow:0 28px 90px rgba(255,48,18,.22);
+}
+.burning-event-active body{
+  background:
+    radial-gradient(circle at 15% 0%,rgba(255,53,22,.28),transparent 30%),
+    radial-gradient(circle at 88% 8%,rgba(172,9,30,.28),transparent 32%),
+    linear-gradient(180deg,#0b0306,#2a080c 55%,#080207);
+}
+.burning-event-active body:after{
+  content:"";
+  position:fixed;
+  z-index:9997;
+  pointer-events:none;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 12% 106%,rgba(255,49,12,.36),transparent 24%),
+    radial-gradient(ellipse at 50% 110%,rgba(255,120,20,.22),transparent 31%),
+    radial-gradient(ellipse at 88% 106%,rgba(255,42,12,.34),transparent 24%);
+  box-shadow:inset 0 0 115px rgba(255,34,13,.13);
+  animation:burningScreenPulse 2.4s ease-in-out infinite alternate;
+}
+@keyframes burningScreenPulse{from{opacity:.64}to{opacity:1}}
+.burning-event-active body:before{
+  height:128px;
+  bottom:-28px;
+  background:
+    radial-gradient(ellipse at 3% 105%,rgba(255,34,9,.94),transparent 32%),
+    radial-gradient(ellipse at 15% 110%,rgba(255,154,24,.76),transparent 30%),
+    radial-gradient(ellipse at 29% 102%,rgba(255,44,10,.9),transparent 34%),
+    radial-gradient(ellipse at 43% 110%,rgba(255,174,28,.7),transparent 31%),
+    radial-gradient(ellipse at 57% 104%,rgba(255,39,10,.9),transparent 34%),
+    radial-gradient(ellipse at 72% 110%,rgba(255,151,22,.75),transparent 30%),
+    radial-gradient(ellipse at 87% 102%,rgba(255,45,10,.9),transparent 34%),
+    radial-gradient(ellipse at 98% 108%,rgba(255,151,22,.75),transparent 31%);
+  filter:blur(3px) saturate(1.2);
+  box-shadow:0 -14px 36px rgba(255,45,12,.3);
+}
+.burning-event-active .page{
+  border-color:rgba(255,95,46,.52);
+  background:linear-gradient(180deg,rgba(52,8,14,.96),rgba(15,3,8,.96));
+  box-shadow:0 28px 90px rgba(255,37,15,.22),inset 0 0 100px rgba(255,66,20,.08);
+}
+.burning-event-active .ambient-lines{
+  background:linear-gradient(110deg,transparent 18%,rgba(255,120,70,.045) 19%,transparent 20%,transparent 76%,rgba(255,120,70,.045) 77%,transparent 78%);
+}
+.burning-event-active .header{border-bottom-color:rgba(255,104,57,.45)}
+.burning-event-active .brand-logo{filter:drop-shadow(0 0 18px rgba(255,80,35,.62))}
+.burning-event-active .brand h1{text-shadow:0 0 22px rgba(255,78,34,.42)}
+.burning-event-active .eyebrow,
+.burning-event-active .coin-value,
+.burning-event-active .text-btn{color:#ffab72!important}
+.burning-event-active .tabs,
+.burning-event-active .summary-bar>div,
+.burning-event-active .side-panel,
+.burning-event-active .collection-panel,
+.burning-event-active .pvp-content,
+.burning-event-active .pvp-tabs button,
+.burning-event-active .dex-section,
+.burning-event-active input,
+.burning-event-active select{
+  border-color:rgba(255,103,55,.34);
+}
+.burning-event-active .summary-bar>div,
+.burning-event-active .side-panel,
+.burning-event-active .collection-panel,
+.burning-event-active .pvp-content{
+  background:linear-gradient(180deg,rgba(61,12,22,.84),rgba(18,4,10,.92));
+  box-shadow:inset 0 0 30px rgba(255,71,24,.045);
+}
+.burning-event-active .game-hero{
+  border-color:rgba(255,99,48,.4);
+  background:radial-gradient(circle at 75% 50%,rgba(255,65,20,.18),transparent 34%),linear-gradient(135deg,rgba(61,11,19,.95),rgba(18,4,10,.97));
+  box-shadow:inset 0 0 70px rgba(255,63,20,.08),0 20px 60px rgba(0,0,0,.28);
+}
+.burning-event-active .hero-copy h2 em{color:#ffae70;text-shadow:0 0 24px rgba(255,76,30,.58)}
+.burning-event-active .tab.active,
+.burning-event-active .btn:not(.secondary):not(.dark):not(.premium-btn),
+.burning-event-active .pvp-tabs button.active{
+  background:linear-gradient(135deg,#ff5221,#b80f22);
+  box-shadow:0 0 26px rgba(255,55,20,.38),0 12px 28px rgba(156,8,26,.22);
+}
+.burning-event-active .btn.secondary{
+  border-color:rgba(255,112,65,.44);
+  background:rgba(255,74,26,.12);
+}
+.burning-event-active .recent-item:hover{border-color:rgba(255,112,65,.52);background:rgba(255,60,20,.09)}
+.burning-event-active .progress-ring{background:conic-gradient(#ff7748 var(--progress),rgba(255,255,255,.08) 0);box-shadow:0 0 35px rgba(255,55,20,.2)}
+.burning-event-active .pack-aura{background:radial-gradient(circle,rgba(255,159,91,.32),rgba(255,52,16,.09) 43%,transparent 68%)}
+.burning-event-active .burning-event-strip:before{content:"🔥";font-size:25px;filter:drop-shadow(0 0 8px #ff4b18);animation:burningIconFlicker .75s ease-in-out infinite alternate}
+@keyframes burningIconFlicker{from{transform:translateY(1px) scale(.94);opacity:.76}to{transform:translateY(-2px) scale(1.08);opacity:1}}
+.burning-event-active .burning-notice-panel{width:min(760px,calc(100% - 28px));padding-left:40px;padding-right:40px}
+.burning-event-active .burning-notice-panel h2{font-size:clamp(25px,4.1vw,40px);line-height:1.28;letter-spacing:-1.2px;word-break:keep-all}
+@media(max-width:700px){
+  .burning-event-active .burning-notice-panel{width:min(620px,calc(100% - 22px));padding-left:20px;padding-right:20px}
+  .burning-event-active .burning-notice-panel h2{font-size:clamp(24px,7.2vw,34px)}
+}
+@media(prefers-reduced-motion:reduce){
+  .burning-event-active body:before,.burning-event-active body:after,.burning-event-active .burning-event-strip:before{animation:none}
+}
