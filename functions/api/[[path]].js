@@ -4087,6 +4087,68 @@ export async function onRequest(context){
       }
     }
 
+    if(path==='admin/users/card-grant'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');
+      if(!admin)return json({error:'카드 수동 지급 권한이 없습니다.'},403);
+      const manualGrantMaxLevel=grade=>{
+        grade=String(grade||'').trim().toUpperCase();
+        if(grade==='MA')return 13;
+        return BREAKTHROUGH_GRADES.includes(grade)?10:0;
+      };
+      if(request.method==='GET'){
+        const userId=Math.floor(Number(url.searchParams.get('userId')||0));
+        const q=String(url.searchParams.get('q')||'').trim().slice(0,60);
+        if(!Number.isInteger(userId)||userId<1)return json({error:'카드를 지급할 유저를 선택하세요.'},400);
+        const targetUser=await env.DB.prepare('SELECT id,nickname,role,status FROM users WHERE id=?').bind(userId).first();
+        if(!targetUser)return json({error:'유저를 찾을 수 없습니다.'},404);
+        if(targetUser.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정에는 카드를 지급할 수 없습니다.'},403);
+        const filters=["UPPER(c.rarity)<>'LIMITED'","c.is_active=1","COALESCE(c.card_status,'PUBLIC')='PUBLIC'","COALESCE(m.is_active,1)=1"],binds=[userId];
+        if(q){filters.push("(c.id LIKE ? OR c.title LIKE ? OR m.name LIKE ? OR UPPER(c.rarity) LIKE ?)");const like=`%${q}%`;binds.push(like,like,like,like.toUpperCase());}
+        const rows=await env.DB.prepare(`SELECT c.id,c.title,UPPER(c.rarity) AS grade,c.image_url AS image,m.name,
+          COALESCE(uc.quantity,0) AS ownedQuantity,COALESCE(uc.breakthrough_level,0) AS breakthroughLevel
+          FROM cards c JOIN members m ON m.id=c.member_id
+          LEFT JOIN user_cards uc ON uc.user_id=? AND uc.card_id=c.id
+          WHERE ${filters.join(' AND ')}
+          ORDER BY CASE UPPER(c.rarity) WHEN 'FUR' THEN 1 WHEN 'PRESTIGE' THEN 2 WHEN 'MA' THEN 3 WHEN 'SSR' THEN 4 WHEN 'UR' THEN 5 WHEN 'HR' THEN 6 WHEN 'SR' THEN 7 WHEN 'R' THEN 8 WHEN 'U' THEN 9 ELSE 10 END,m.sort_order,c.title,c.id LIMIT 80`).bind(...binds).all();
+        return json({user:targetUser,storageMode:'SINGLE_ROW_PER_USER_CARD',cards:(rows.results||[]).map(card=>({...card,ownedQuantity:Number(card.ownedQuantity||0),breakthroughLevel:Number(card.breakthroughLevel||0),maxBreakthrough:manualGrantMaxLevel(card.grade)}))});
+      }
+      if(request.method==='POST'){
+        const body=await readBody(request),userId=Math.floor(Number(body.userId||0)),cardId=String(body.cardId||'').trim(),breakthroughLevel=Number(body.breakthroughLevel),reason=String(body.reason||'관리자 카드 수동 지급').trim().slice(0,200),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,120);
+        if(!Number.isInteger(userId)||userId<1)return json({error:'카드를 지급할 유저를 선택하세요.'},400);
+        if(!cardId)return json({error:'지급할 카드를 선택하세요.'},400);
+        if(!Number.isInteger(breakthroughLevel)||breakthroughLevel<0)return json({error:'강화 수치는 0 이상의 정수로 입력하세요.'},400);
+        if(!reason)return json({error:'카드 지급 사유를 입력하세요.'},400);
+        const [targetUser,card]=await Promise.all([
+          env.DB.prepare('SELECT id,nickname,role,status FROM users WHERE id=?').bind(userId).first(),
+          env.DB.prepare(`SELECT c.id,c.title,UPPER(c.rarity) AS grade,c.is_active,c.card_status,m.name,COALESCE(m.is_active,1) AS member_active
+            FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first()
+        ]);
+        if(!targetUser)return json({error:'유저를 찾을 수 없습니다.'},404);
+        if(targetUser.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정에는 카드를 지급할 수 없습니다.'},403);
+        if(!card)return json({error:'카드를 찾을 수 없습니다.'},404);
+        if(card.grade==='LIMITED')return json({error:'LIMITED 등급 카드는 이 기능으로 지급할 수 없습니다.'},400);
+        if(Number(card.is_active)!==1||Number(card.member_active)!==1||String(card.card_status||'PUBLIC').toUpperCase()!=='PUBLIC')return json({error:'현재 공개·활성 상태인 카드만 지급할 수 있습니다.'},409);
+        const maxBreakthrough=manualGrantMaxLevel(card.grade);
+        if(breakthroughLevel>maxBreakthrough)return json({error:maxBreakthrough>0?`${card.grade} 등급의 강화 수치는 0~${maxBreakthrough}까지만 지정할 수 있습니다.`:`${card.grade} 등급은 현재 강화 수치 0으로만 지급할 수 있습니다.`},400);
+        const owned=await env.DB.prepare('SELECT quantity,COALESCE(breakthrough_level,0) AS breakthrough_level FROM user_cards WHERE user_id=? AND card_id=?').bind(userId,cardId).first();
+        const quantityBefore=Number(owned?.quantity||0),levelBefore=Number(owned?.breakthrough_level||0),alreadyOwned=quantityBefore>0;
+        if(alreadyOwned&&levelBefore!==breakthroughLevel)return json({error:`현재 구조는 같은 카드를 별도 강화 행으로 저장할 수 없습니다. 이 유저가 보유한 카드는 +${levelBefore}이므로 +${breakthroughLevel} 지급을 차단했습니다. 동일 강화 수치로 지급하거나 다른 카드를 선택하세요.`,current:{quantity:quantityBefore,breakthroughLevel:levelBefore}},409);
+        const quantityAfter=Math.max(0,quantityBefore)+1,effectiveLevel=alreadyOwned?levelBefore:breakthroughLevel;
+        const beforeData={requestId,userId,nickname:targetUser.nickname,cardId,cardTitle:card.title,memberName:card.name,grade:card.grade,quantity:quantityBefore,breakthroughLevel:levelBefore};
+        const afterData={...beforeData,quantity:quantityAfter,breakthroughLevel:effectiveLevel,reason,grantMode:alreadyOwned?'DUPLICATE_QUANTITY_INCREMENT':'NEW_CARD_WITH_LEVEL'};
+        await env.DB.batch([
+          env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level) VALUES(?,?,1,?)
+            ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=CASE WHEN user_cards.quantity<0 THEN 1 ELSE user_cards.quantity+1 END,
+            breakthrough_level=CASE WHEN user_cards.quantity<=0 THEN excluded.breakthrough_level ELSE user_cards.breakthrough_level END,last_obtained_at=CURRENT_TIMESTAMP`).bind(userId,cardId,breakthroughLevel),
+          env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'USER_CARD_MANUAL_GRANT','USER_CARD',`${userId}:${cardId}`,JSON.stringify(beforeData),JSON.stringify(afterData))
+        ]);
+        const verified=await env.DB.prepare('SELECT quantity,COALESCE(breakthrough_level,0) AS breakthrough_level FROM user_cards WHERE user_id=? AND card_id=?').bind(userId,cardId).first();
+        if(Number(verified?.quantity)!==quantityAfter||Number(verified?.breakthrough_level)!==effectiveLevel)return json({error:'카드 지급 후 검증 값이 일치하지 않습니다. 관리자 로그에서 처리 내역을 확인하세요.'},500);
+        return json({ok:true,requestId,user:{id:targetUser.id,nickname:targetUser.nickname},card:{id:card.id,title:card.title,name:card.name,grade:card.grade},quantityBefore,quantityAfter,breakthroughLevel:effectiveLevel,grantMode:afterData.grantMode,reason});
+      }
+      return json({error:'지원하지 않는 요청입니다.'},405);
+    }
+
     if(path==='admin/users/action'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE'); if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
       const p=await readBody(request),userId=Number(p.userId),action=String(p.action||'');
