@@ -165,17 +165,62 @@ async function deleteUsers(env,ids){
   results.forEach((r,i)=>{changes[labels[i]]=(changes[labels[i]]||0)+Number(r?.meta?.changes||0)});
   return changes;
 }
+async function tableColumnNames(env,table){
+  const rows=(await env.DB.prepare(`PRAGMA table_info(${table})`).all()).results||[];
+  return rows.map(row=>String(row.name||'')).filter(name=>/^[A-Za-z0-9_]+$/.test(name));
+}
+function textByteExpression(columns){
+  const clean=(columns||[]).filter(name=>/^[A-Za-z0-9_]+$/.test(name));
+  return clean.length?clean.map(name=>`LENGTH(CAST(COALESCE(${name},'') AS BLOB))`).join(' + '):'0';
+}
+function emptyReceiptMetrics(){
+  return {
+    receiptRows:0,responseJsonRows:0,responseJsonBytes:0,receiptPayloadBytes:0,
+    assertionRows:0,assertionProofBytes:0,assertionPayloadBytes:0,
+    estimatedTextBytes:0,estimatedStorageBytes:0
+  };
+}
 async function receiptPreview(env,{table='draw_request_receipts',retentionDays=14,batchSize=25}={}){
   if(!RECEIPT_TABLES.has(table))table='draw_request_receipts';
   retentionDays=clampInt(retentionDays,14,1,3650);batchSize=clampInt(batchSize,25,1,MAX_RECEIPT_BATCH);
-  const existing=await existingTableSet(env,[table]);if(!existing.has(table))return {table,retentionDays,batchSize,rows:[],estimatedBytes:0};
-  const rows=(await env.DB.prepare(`SELECT request_id,status,created_at,LENGTH(COALESCE(response_json,'')) response_bytes FROM ${table}
+  const existing=await existingTableSet(env,[table,'draw_grant_assertions']);
+  if(!existing.has(table))return {table,retentionDays,batchSize,rows:[],estimatedBytes:0,metrics:emptyReceiptMetrics()};
+
+  const columns=await tableColumnNames(env,table);
+  const responseExpr=columns.includes('response_json')?"LENGTH(CAST(COALESCE(response_json,'') AS BLOB))":'0';
+  const payloadExpr=textByteExpression(columns);
+  const rows=(await env.DB.prepare(`SELECT request_id,status,created_at,${responseExpr} response_bytes,${payloadExpr} row_payload_bytes FROM ${table}
     WHERE status IN ('COMPLETED','APPLIED','FAILED') AND created_at<datetime('now',?)
     ORDER BY rowid ASC LIMIT ?`).bind(`-${retentionDays} days`,batchSize).all()).results||[];
-  return {table,retentionDays,batchSize,rows,estimatedBytes:rows.reduce((s,r)=>s+Number(r.response_bytes||0),0)};
+
+  const ids=rows.map(row=>String(row.request_id||'')).filter(Boolean);
+  let assertionRows=0,assertionProofBytes=0,assertionPayloadBytes=0;
+  if(ids.length&&existing.has('draw_grant_assertions')){
+    const assertionColumns=await tableColumnNames(env,'draw_grant_assertions');
+    const assertionPayloadExpr=textByteExpression(assertionColumns);
+    const proofExpr=assertionColumns.includes('proof_json')?"LENGTH(CAST(COALESCE(proof_json,'') AS BLOB))":'0';
+    const assertion=await env.DB.prepare(`SELECT COUNT(*) assertion_rows,COALESCE(SUM(${proofExpr}),0) proof_bytes,COALESCE(SUM(${assertionPayloadExpr}),0) payload_bytes
+      FROM draw_grant_assertions WHERE request_id IN (${placeholders(ids.length)})`).bind(...ids).first();
+    assertionRows=Number(assertion?.assertion_rows||0);
+    assertionProofBytes=Number(assertion?.proof_bytes||0);
+    assertionPayloadBytes=Number(assertion?.payload_bytes||0);
+  }
+
+  const responseJsonBytes=rows.reduce((sum,row)=>sum+Number(row.response_bytes||0),0);
+  const responseJsonRows=rows.reduce((sum,row)=>sum+(Number(row.response_bytes||0)>0?1:0),0);
+  const receiptPayloadBytes=rows.reduce((sum,row)=>sum+Number(row.row_payload_bytes||0),0);
+  const estimatedTextBytes=receiptPayloadBytes+assertionPayloadBytes;
+  // SQLite 행 헤더·레코드 헤더의 대략적인 값만 더한다. 페이지와 인덱스 공간은 포함하지 않는다.
+  const estimatedStorageBytes=estimatedTextBytes+(rows.length+assertionRows)*64;
+  const metrics={
+    receiptRows:rows.length,responseJsonRows,responseJsonBytes,receiptPayloadBytes,
+    assertionRows,assertionProofBytes,assertionPayloadBytes,estimatedTextBytes,estimatedStorageBytes
+  };
+  return {table,retentionDays,batchSize,rows,estimatedBytes:responseJsonBytes,estimatedTotalBytes:estimatedStorageBytes,metrics};
 }
 async function deleteReceiptBatch(env,opts){
-  const preview=await receiptPreview(env,opts),ids=preview.rows.map(x=>String(x.request_id));if(!ids.length)return {...preview,deleted:0,assertionsDeleted:0};
+  const preview=await receiptPreview(env,opts),ids=preview.rows.map(x=>String(x.request_id));
+  if(!ids.length)return {...preview,deleted:0,assertionsDeleted:0};
   const existing=await existingTableSet(env,[preview.table,'draw_grant_assertions']),statements=[];
   if(existing.has('draw_grant_assertions'))statements.push(env.DB.prepare(`DELETE FROM draw_grant_assertions WHERE request_id IN (${placeholders(ids.length)})`).bind(...ids));
   statements.push(env.DB.prepare(`DELETE FROM ${preview.table} WHERE request_id IN (${placeholders(ids.length)}) AND status IN ('COMPLETED','APPLIED','FAILED')`).bind(...ids));
@@ -211,7 +256,7 @@ export async function handleStorageCleanup({request,env,path,requirePermission,w
   if(path==='admin/storage-cleanup/receipts/delete'&&request.method==='POST'){
     const body=await readBody(request);if(String(body.confirmation||'')!=='영수증정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
     const beforePages=await databasePageInfo(env),result=await deleteReceiptBatch(env,body),afterPages=await databasePageInfo(env);
-    try{await writeAdminLog(env,admin,'DRAW_RECEIPT_PURGE','TABLE',result.table,null,{retentionDays:result.retentionDays,deleted:result.deleted,assertionsDeleted:result.assertionsDeleted,estimatedBytes:result.estimatedBytes,beforePages,afterPages})}catch(e){console.error('receipt cleanup admin log failed',e)}
+    try{await writeAdminLog(env,admin,'DRAW_RECEIPT_PURGE','TABLE',result.table,null,{retentionDays:result.retentionDays,deleted:result.deleted,assertionsDeleted:result.assertionsDeleted,metrics:result.metrics,beforePages,afterPages})}catch(e){console.error('receipt cleanup admin log failed',e)}
     return json({ok:true,...result,beforePages,afterPages});
   }
   return json({error:'지원하지 않는 DB 정리 요청입니다.'},404);
