@@ -51,6 +51,33 @@ const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:1,rate:100
 let maMasterStarBreakthroughCache=null;
 let recentHighGradeCache=null;
 let recentPremiumCubeCache=null;
+const runtimeSettingsCache=new Map();
+async function cachedRuntimeSetting(key,ttlMs,loader){
+  const now=Date.now(),cached=runtimeSettingsCache.get(key);
+  if(cached&&cached.expiresAt>now)return cached.promise;
+  const promise=Promise.resolve().then(loader).catch(error=>{if(runtimeSettingsCache.get(key)?.promise===promise)runtimeSettingsCache.delete(key);throw error});
+  runtimeSettingsCache.set(key,{promise,expiresAt:now+Math.max(1000,Number(ttlMs)||5000)});return promise;
+}
+let cardCatalogCache=null,cardUniqueRowsCache=null,packCatalogCache=null;
+function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null}
+let drawReceiptV2ReadyPromise=null;
+async function ensureDrawReceiptV2(env){
+  if(drawReceiptV2ReadyPromise)return drawReceiptV2ReadyPromise;
+  drawReceiptV2ReadyPromise=(async()=>{
+    const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1168_r7_draw_receipts'").first();
+    if(marker?.value==='1')return true;
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_request_receipts_v2 (
+        request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,pack_id TEXT NOT NULL DEFAULT '',draw_count INTEGER NOT NULL DEFAULT 1,
+        status TEXT NOT NULL DEFAULT 'PENDING',cost INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1168_r7_draw_receipts','1',CURRENT_TIMESTAMP)")
+    ]);
+    return true;
+  })().catch(error=>{drawReceiptV2ReadyPromise=null;throw error});
+  return drawReceiptV2ReadyPromise;
+}
 
 const SCORE_TIER_DEFAULT=[
   {id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false},
@@ -62,7 +89,8 @@ const SCORE_TIER_DEFAULT=[
   {id:'grandmaster',name:'그랜드마스터',min:500000,color:'#ff6f91',aura:true}
 ];
 function defaultTierSettings(){return {cardScoreTiers:SCORE_TIER_DEFAULT,pvp:{enabled:true,status:'ACTIVE',seasonName:'시즌 준비 중',startsAt:null,endsAt:null,tiers:SCORE_TIER_DEFAULT.map((x,i)=>({...x,min:i*500}))}}}
-async function tierSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tier_settings_v1'").first();const base=defaultTierSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value),source=Array.isArray(x.cardScoreTiers)&&x.cardScoreTiers.length?x.cardScoreTiers:base.cardScoreTiers;const cleanTiers=source.map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.cardScoreTiers[i]?.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.cardScoreTiers[i]?.color||'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);return {cardScoreTiers:cleanTiers,pvp:{enabled:x.pvp?.enabled!==false,status:String(x.pvp?.status||'ACTIVE').slice(0,30),seasonName:String(x.pvp?.seasonName||'시즌 준비 중').slice(0,40),startsAt:x.pvp?.startsAt||null,endsAt:x.pvp?.endsAt||null,tiers:Array.isArray(x.pvp?.tiers)&&x.pvp.tiers.length?x.pvp.tiers:base.pvp.tiers}}}catch{return base}}
+async function readTierSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tier_settings_v1'").first();const base=defaultTierSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value),source=Array.isArray(x.cardScoreTiers)&&x.cardScoreTiers.length?x.cardScoreTiers:base.cardScoreTiers;const cleanTiers=source.map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.cardScoreTiers[i]?.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.cardScoreTiers[i]?.color||'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);return {cardScoreTiers:cleanTiers,pvp:{enabled:x.pvp?.enabled!==false,status:String(x.pvp?.status||'ACTIVE').slice(0,30),seasonName:String(x.pvp?.seasonName||'시즌 준비 중').slice(0,40),startsAt:x.pvp?.startsAt||null,endsAt:x.pvp?.endsAt||null,tiers:Array.isArray(x.pvp?.tiers)&&x.pvp.tiers.length?x.pvp.tiers:base.pvp.tiers}}}catch{return base}}
+async function tierSettings(env){return cachedRuntimeSetting('tier',30000,()=>readTierSettings(env))}
 function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false};for(const t of tiers)if(score>=t.min)current=t;return current}
 
 
@@ -93,7 +121,8 @@ function burningRewardAmount(amount,burning){const base=Math.max(0,Math.floor(Nu
 
 function defaultPvpSettings(){return {enabled:true,status:'ACTIVE',seasonTitle:'ASYNC PVP SEASON',seasonName:'시즌 1',seasonDescription:'저장한 PvP 덱으로 비동기 대전을 진행합니다.',startsAt:null,endsAt:null,initialScore:1000,winScore:24,loseScore:16,matchCardRange:15,matchSeasonRange:300,historyLimit:100,winCoin:50,loseCoin:25,scoreBalance:{enabled:true,equalRange:10,weakerWinMid:80,weakerWinHigh:60,weakerWinExtreme:40,strongerWinMid:110,strongerWinHigh:125,strongerWinExtreme:140,strongerLossMid:90,strongerLossHigh:75,strongerLossExtreme:60,weakerLossMid:110,weakerLossHigh:125,weakerLossExtreme:140,minChange:1,maxChange:999},energy:{enabled:true,maxEnergy:5,rechargeMinutes:30,costPerBattle:1,adminUnlimited:true,testUnlimited:true},rewardClaimMode:'SEASON_END',tierRewardsEnabled:true,rankRewardsEnabled:true,tiers:[{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false,rewardCoin:500,rewardShards:0},{id:'silver',name:'실버',min:1100,color:'#c9d4e3',aura:false,rewardCoin:1000,rewardShards:20},{id:'gold',name:'골드',min:1250,color:'#ffd15c',aura:false,rewardCoin:2000,rewardShards:50},{id:'platinum',name:'플래티넘',min:1450,color:'#5ff0df',aura:true,rewardCoin:4000,rewardShards:100},{id:'diamond',name:'다이아',min:1700,color:'#69cfff',aura:true,rewardCoin:7000,rewardShards:180},{id:'master',name:'마스터',min:2050,color:'#bd7cff',aura:true,rewardCoin:12000,rewardShards:300},{id:'grandmaster',name:'그랜드마스터',min:2500,color:'#ff6f91',aura:true,rewardCoin:20000,rewardShards:500}],rankRewards:[{from:1,to:1,rewardCoin:30000,rewardShards:700},{from:2,to:3,rewardCoin:20000,rewardShards:500},{from:4,to:10,rewardCoin:12000,rewardShards:300},{from:11,to:50,rewardCoin:5000,rewardShards:120}]};}
 function cleanPvpSettings(raw={}){const base=defaultPvpSettings(),num=(v,d,min=0,max=100000000)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):d));const tiers=(Array.isArray(raw.tiers)?raw.tiers:base.tiers).map((t,i)=>({id:String(t.id||base.tiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.tiers[i]?.name||'티어').slice(0,20),min:num(t.min,base.tiers[i]?.min||0),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.tiers[i]?.color||'#7ceeff',aura:t.aura!==false,rewardCoin:num(t.rewardCoin,base.tiers[i]?.rewardCoin||0),rewardShards:num(t.rewardShards,base.tiers[i]?.rewardShards||0)})).sort((a,b)=>a.min-b.min);const rankRewards=(Array.isArray(raw.rankRewards)?raw.rankRewards:base.rankRewards).slice(0,20).map((r,i)=>{const from=num(r.from,base.rankRewards[i]?.from||1,1,100000),to=num(r.to,base.rankRewards[i]?.to||from,1,100000);return {from:Math.min(from,to),to:Math.max(from,to),rewardCoin:num(r.rewardCoin,base.rankRewards[i]?.rewardCoin||0),rewardShards:num(r.rewardShards,base.rankRewards[i]?.rewardShards||0)}}).sort((a,b)=>a.from-b.from);return {...base,enabled:raw.enabled!==false,status:String(raw.status||base.status).slice(0,60),seasonTitle:String(raw.seasonTitle||base.seasonTitle).slice(0,80),seasonName:String(raw.seasonName||base.seasonName).slice(0,40),seasonDescription:String(raw.seasonDescription||base.seasonDescription).slice(0,240),startsAt:raw.startsAt||null,endsAt:raw.endsAt||null,initialScore:num(raw.initialScore,base.initialScore,0,1000000),winScore:num(raw.winScore,base.winScore,0,100000),loseScore:num(raw.loseScore,base.loseScore,0,100000),matchCardRange:num(raw.matchCardRange,base.matchCardRange,1,100),matchSeasonRange:num(raw.matchSeasonRange,base.matchSeasonRange,0,100000),historyLimit:num(raw.historyLimit,base.historyLimit,10,500),winCoin:num(raw.winCoin,base.winCoin,0,10000000),loseCoin:num(raw.loseCoin,base.loseCoin,0,10000000),scoreBalance:{enabled:raw.scoreBalance?.enabled!==false,equalRange:num(raw.scoreBalance?.equalRange,base.scoreBalance.equalRange,0,100),weakerWinMid:num(raw.scoreBalance?.weakerWinMid,base.scoreBalance.weakerWinMid,0,500),weakerWinHigh:num(raw.scoreBalance?.weakerWinHigh,base.scoreBalance.weakerWinHigh,0,500),weakerWinExtreme:num(raw.scoreBalance?.weakerWinExtreme,base.scoreBalance.weakerWinExtreme,0,500),strongerWinMid:num(raw.scoreBalance?.strongerWinMid,base.scoreBalance.strongerWinMid,0,500),strongerWinHigh:num(raw.scoreBalance?.strongerWinHigh,base.scoreBalance.strongerWinHigh,0,500),strongerWinExtreme:num(raw.scoreBalance?.strongerWinExtreme,base.scoreBalance.strongerWinExtreme,0,500),strongerLossMid:num(raw.scoreBalance?.strongerLossMid,base.scoreBalance.strongerLossMid,0,500),strongerLossHigh:num(raw.scoreBalance?.strongerLossHigh,base.scoreBalance.strongerLossHigh,0,500),strongerLossExtreme:num(raw.scoreBalance?.strongerLossExtreme,base.scoreBalance.strongerLossExtreme,0,500),weakerLossMid:num(raw.scoreBalance?.weakerLossMid,base.scoreBalance.weakerLossMid,0,500),weakerLossHigh:num(raw.scoreBalance?.weakerLossHigh,base.scoreBalance.weakerLossHigh,0,500),weakerLossExtreme:num(raw.scoreBalance?.weakerLossExtreme,base.scoreBalance.weakerLossExtreme,0,500),minChange:num(raw.scoreBalance?.minChange,base.scoreBalance.minChange,0,100000),maxChange:num(raw.scoreBalance?.maxChange,base.scoreBalance.maxChange,1,100000)},energy:{enabled:raw.energy?.enabled!==false,maxEnergy:num(raw.energy?.maxEnergy,base.energy.maxEnergy,1,999),rechargeMinutes:num(raw.energy?.rechargeMinutes,base.energy.rechargeMinutes,1,1440),costPerBattle:num(raw.energy?.costPerBattle,base.energy.costPerBattle,1,99),adminUnlimited:raw.energy?.adminUnlimited!==false,testUnlimited:raw.energy?.testUnlimited!==false},rewardClaimMode:['IMMEDIATE','SEASON_END'].includes(raw.rewardClaimMode)?raw.rewardClaimMode:base.rewardClaimMode,tierRewardsEnabled:raw.tierRewardsEnabled!==false,rankRewardsEnabled:raw.rankRewardsEnabled!==false,tiers,rankRewards};}
-async function pvpSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
+async function readPvpSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
+async function pvpSettings(env){return cachedRuntimeSetting('pvp',10000,()=>readPvpSettings(env))}
 function pvpSeasonKey(settings){return [String(settings?.seasonName||'').trim(),String(settings?.startsAt||''),String(settings?.endsAt||'')].join('|').slice(0,220)}
 async function completedPvpSettlement(env,settings){const key=pvpSeasonKey(settings);if(!key)return null;return env.DB.prepare("SELECT id,status,completed_at FROM pvp_season_settlements WHERE season_key=? AND status='COMPLETED'").bind(key).first()}
 function pvpSettlementRewardFor(rankRow,settings,tierClaimed,rankClaimed){const tier=resolveTier(Number(rankRow.highest_score||0),settings.tiers||[]),rankReward=(settings.rankRewards||[]).find(x=>Number(rankRow.final_rank)>=Number(x.from)&&Number(rankRow.final_rank)<=Number(x.to));return {tier,tierCoin:settings.tierRewardsEnabled&&!tierClaimed?Number(tier.rewardCoin||0):0,tierShards:settings.tierRewardsEnabled&&!tierClaimed?Number(tier.rewardShards||0):0,rankCoin:settings.rankRewardsEnabled&&!rankClaimed?Number(rankReward?.rewardCoin||0):0,rankShards:settings.rankRewardsEnabled&&!rankClaimed?Number(rankReward?.rewardShards||0):0}}
@@ -257,7 +286,8 @@ async function refreshRaidForOwner(env,instance,cfg){
   return instance;
 }
 
-async function raidSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_settings_v1'").first();if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
+async function readRaidSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_settings_v1'").first();if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
+async function raidSettings(env){return cachedRuntimeSetting('raid',5000,()=>readRaidSettings(env))}
 async function raidRewardSnapshot(env,instanceId,cfg,create=true){
   const magicCfg=await magicSettings(env),raidMagic=magicCfg.acquisition?.raid||{};
   const participationMagic=raidMagic.enabled===true?Math.max(0,Math.floor(Number(raidMagic.participation||0))):0;
@@ -299,7 +329,8 @@ async function raidDeckPower(env,userId,cardIds){
 
 
 function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL.gif',durationMs:3000,coefficientPercent:500}]};}
-async function battleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};}catch{return base}}
+async function readBattleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};}catch{return base}}
+async function battleSettings(env){return cachedRuntimeSetting('battle',10000,()=>readBattleSettings(env))}
 const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},FUR:{FIXED:3200}};
 function cardPowerBase(card,settings){const saved=Number(card.base_power??card.basePower);const grade=card.rarity||card.grade;return Number.isFinite(saved)&&saved>0?saved:Number(settings.powerByGrade[grade]||0)}
 function cardBattlePower(card,level,settings){const base=cardPowerBase(card,settings);const pct=Number(settings.breakthroughBonus[Math.max(0,Math.min(13,Number(level)||0))]||0);return Math.floor(base*(1+pct/100));}
@@ -377,7 +408,8 @@ const createPrivateKey=()=>{const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const
 const kstDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 function defaultAttendanceSettings(){return {enabled:true,rewards:[1000,1200,1400,1600,1800,2000,3000]};}
 function cleanAttendanceSettings(raw={}){const base=defaultAttendanceSettings();const rewards=Array.from({length:7},(_,i)=>Math.max(0,Math.min(10000000,Math.floor(Number(raw.rewards?.[i]??base.rewards[i])||0))));return {enabled:raw.enabled!==false,rewards};}
-async function attendanceSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='attendance_settings_v1'").first();if(!row?.value)return defaultAttendanceSettings();try{return cleanAttendanceSettings(JSON.parse(row.value))}catch{return defaultAttendanceSettings()}}
+async function readAttendanceSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='attendance_settings_v1'").first();if(!row?.value)return defaultAttendanceSettings();try{return cleanAttendanceSettings(JSON.parse(row.value))}catch{return defaultAttendanceSettings()}}
+async function attendanceSettings(env){return cachedRuntimeSetting('attendance',30000,()=>readAttendanceSettings(env))}
 const CUBE_CODES=['NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'];
 const RETIREMENT_REROLL_TICKETS={
   MA:{code:'MA_REROLL_TICKET',name:'MA 재뽑기권'},
@@ -388,10 +420,12 @@ const RETIREMENT_REROLL_TICKETS={
 const RETIREMENT_REROLL_CODES=Object.values(RETIREMENT_REROLL_TICKETS).map(item=>item.code);
 function defaultCubeSettings(){return {NORMAL_CUBE:{C:45,U:30,R:18,SR:7},ADVANCED_CUBE:{HR:55,UR:30,SSR:15},PREMIUM_CUBE:{MA:70,FUR:20,LIMITED:10}};}
 function cleanCubeSettings(raw={}){const base=defaultCubeSettings(),out={};for(const code of CUBE_CODES){out[code]={};for(const grade of Object.keys(base[code]))out[code][grade]=Math.max(0,Math.min(100,Number(raw?.[code]?.[grade]??base[code][grade])||0));const total=Object.values(out[code]).reduce((a,b)=>a+b,0);if(Math.abs(total-100)>.001)out[code]=base[code];}return out;}
-async function cubeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='inventory_cube_settings_v1'").first();try{return cleanCubeSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeSettings()}}
+async function readCubeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='inventory_cube_settings_v1'").first();try{return cleanCubeSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeSettings()}}
+async function cubeSettings(env){return cachedRuntimeSetting('cube',30000,()=>readCubeSettings(env))}
 function defaultCubeDropSettings(){return {NORMAL_CUBE:{pveEnabled:true,pveRate:10,pvpEnabled:false,pvpRate:0},ADVANCED_CUBE:{pveEnabled:true,pveRate:3,pvpEnabled:true,pvpRate:5},PREMIUM_CUBE:{pveEnabled:true,pveRate:1,pvpEnabled:true,pvpRate:1}};}
 function cleanCubeDropSettings(raw={}){const base=defaultCubeDropSettings(),out={};for(const code of CUBE_CODES){out[code]={pveEnabled:raw?.[code]?.pveEnabled!==false,pveRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pveRate??base[code].pveRate)||0)),pvpEnabled:raw?.[code]?.pvpEnabled===true,pvpRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pvpRate??base[code].pvpRate)||0))};}return out;}
-async function cubeDropSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cube_drop_settings_v1072'").first();try{return cleanCubeDropSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeDropSettings()}}
+async function readCubeDropSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cube_drop_settings_v1072'").first();try{return cleanCubeDropSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeDropSettings()}}
+async function cubeDropSettings(env){return cachedRuntimeSetting('cube-drop',10000,()=>readCubeDropSettings(env))}
 function cubeDropTotal(settings,source){const key=String(source).toLowerCase();return CUBE_CODES.reduce((sum,code)=>sum+(settings[code]?.[`${key}Enabled`]?Number(settings[code]?.[`${key}Rate`]||0):0),0)}
 function defaultCubeBoostSettings(){return {enabled:false,targetHighGradeCount:2,zeroCountMultiplier:1,oneCountMultiplier:1,pveEnabled:false,pvpEnabled:false,excludeAdmins:true,pityEnabled:false,pityStartWins:30,pityIncrementRate:0,pityMaxBonusRate:0};}
 function cleanCubeBoostSettings(){return defaultCubeBoostSettings();}
@@ -478,7 +512,8 @@ async function grantBattleCube(env,userId,source,referenceId,allowStandard=true)
   return reward;
 }
 
-async function towerSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tower_settings_v1'").first();if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
+async function readTowerSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tower_settings_v1'").first();if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
+async function towerSettings(env){return cachedRuntimeSetting('tower',10000,()=>readTowerSettings(env))}
 function previousKstDate(date){const d=new Date(`${date}T00:00:00+09:00`);d.setDate(d.getDate()-1);return new Date(d.getTime()+9*3600000).toISOString().slice(0,10);}
 
 const safeName=value=>(value||'').trim().slice(0,20);
@@ -546,7 +581,7 @@ async function ensureUpgrades(env){
         env.DB.prepare("UPDATE cards SET is_active=0,card_status='PENDING',updated_at=CURRENT_TIMESTAMP WHERE id='card-0430' AND title='한정판 은조'"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1123_draw_pool_cleanup','1',CURRENT_TIMESTAMP)")
       ]);
-      drawContextCache.clear();
+      drawContextCache.clear();invalidateCatalogCaches();
     }
     // v1024 레거시 마커는 유지하되 동명 테이블은 더 이상 수정하지 않는다.
     const inventoryCompatDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1024_inventory_compat'").first();
@@ -1772,6 +1807,30 @@ async function makeSession(env,userId){
     )`).bind(userId,userId).run();
   return raw;
 }
+
+const CARD_CATALOG_CACHE_MS=60000,PACK_CATALOG_CACHE_MS=60000,UNIQUE_ROWS_CACHE_MS=30000;
+const CARD_CATALOG_SELECT=`SELECT c.id,c.title,m.name,m.sort_order AS memberSortOrder,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,CASE WHEN fx.card_id IS NULL THEN 0 ELSE 1 END AS acquisitionFxConfigured,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 1 ELSE COALESCE(fx.enabled,0) END AS acquisitionFxEnabled,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN '/assets/effects/L2CARD.mp4' ELSE COALESCE(fx.media_url,'') END AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 10000 ELSE COALESCE(fx.duration_ms,8000) END AS acquisitionDurationMs FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
+async function publicCardCatalogRows(env){
+  const now=Date.now();if(cardCatalogCache&&cardCatalogCache.expiresAt>now)return cardCatalogCache.promise;
+  const promise=env.DB.prepare(`${CARD_CATALOG_SELECT} WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') ORDER BY m.sort_order,c.id`).all().then(rows=>rows.results||[]).catch(error=>{if(cardCatalogCache?.promise===promise)cardCatalogCache=null;throw error});
+  cardCatalogCache={promise,expiresAt:now+CARD_CATALOG_CACHE_MS};return promise;
+}
+async function inactiveOwnedCardRows(env,userId){
+  if(!userId)return [];
+  const rows=await env.DB.prepare(`${CARD_CATALOG_SELECT} WHERE c.is_active<>1 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') AND EXISTS (SELECT 1 FROM user_cards uc WHERE uc.user_id=? AND uc.card_id=c.id AND COALESCE(uc.quantity,0)>0) ORDER BY m.sort_order,c.id`).bind(userId).all();
+  return rows.results||[];
+}
+async function activeUniqueAbilityRows(env){
+  const now=Date.now();if(cardUniqueRowsCache&&cardUniqueRowsCache.expiresAt>now)return cardUniqueRowsCache.promise;
+  const promise=env.DB.prepare(`SELECT card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations,scope_pve,scope_pvp,scope_captain FROM card_unique_effects WHERE is_active=1`).all().then(rows=>rows.results||[]).catch(error=>{if(cardUniqueRowsCache?.promise===promise)cardUniqueRowsCache=null;throw error});
+  cardUniqueRowsCache={promise,expiresAt:now+UNIQUE_ROWS_CACHE_MS};return promise;
+}
+async function activePackCatalogRows(env){
+  const now=Date.now();if(packCatalogCache&&packCatalogCache.expiresAt>now)return packCatalogCache.promise;
+  const promise=env.DB.prepare('SELECT * FROM card_packs WHERE is_active=1 ORDER BY sort_order,id').all().then(rows=>rows.results||[]).catch(error=>{if(packCatalogCache?.promise===promise)packCatalogCache=null;throw error});
+  packCatalogCache={promise,expiresAt:now+PACK_CATALOG_CACHE_MS};return promise;
+}
+
 async function profile(env,user){
   const [owned,attendance,totalAttendance,recent,attendanceConfig,breakthroughSettings,weeklyPremiumCube,masterStarRow,maHighBreakthrough]=await Promise.all([
     env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
@@ -1810,11 +1869,11 @@ async function recentHighGradeItems(env){
   if(recentHighGradeCache&&recentHighGradeCache.expiresAt>now)return recentHighGradeCache.promise;
   const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,uc.last_obtained_at AS created_at
     FROM user_cards uc JOIN users u ON u.id=uc.user_id JOIN cards c ON c.id=uc.card_id
-    WHERE c.rarity IN ('MA','FUR','LIMITED') AND COALESCE(uc.quantity,0)>0 AND u.status='ACTIVE'
+    WHERE c.rarity IN ('MA','LIMITED','PRESTIGE','FUR') AND COALESCE(uc.quantity,0)>0 AND u.status='ACTIVE'
     ORDER BY datetime(uc.last_obtained_at) DESC LIMIT 20`).all()
     .then(rows=>rows.results)
     .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
-  recentHighGradeCache={promise,expiresAt:now+1000};
+  recentHighGradeCache={promise,expiresAt:now+15000};
   return promise;
 }
 async function recentPremiumCubeItems(env){
@@ -1827,7 +1886,7 @@ async function recentPremiumCubeItems(env){
     ORDER BY l.id DESC LIMIT 20`).all()
     .then(rows=>rows.results)
     .catch(error=>{if(recentPremiumCubeCache?.promise===promise)recentPremiumCubeCache=null;throw error});
-  recentPremiumCubeCache={promise,expiresAt:now+1000};
+  recentPremiumCubeCache={promise,expiresAt:now+15000};
   return promise;
 }
 let cardAcquisitionGradeFxCache=null;
@@ -2154,6 +2213,15 @@ export async function onRequest(context){
       },serverNow:new Date().toISOString()});
     }
 
+
+    if(path==='shell/summary'&&request.method==='GET'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const [inventory,highGrade,premiumCube]=await Promise.all([
+        env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
+        recentHighGradeItems(env),recentPremiumCubeItems(env)
+      ]);
+      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},highGradeItems:highGrade,premiumCubeItems:premiumCube,serverNow:new Date().toISOString()});
+    }
     await ensureRuntimeUpgrades(env);
 
     const maintenance=await maintenanceSettings(env);
@@ -2230,22 +2298,20 @@ export async function onRequest(context){
     }
     if(path==='cards'){
       const viewer=await authenticate(request,env);
-      const select=`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,CASE WHEN fx.card_id IS NULL THEN 0 ELSE 1 END AS acquisitionFxConfigured,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 1 ELSE COALESCE(fx.enabled,0) END AS acquisitionFxEnabled,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN '/assets/effects/L2CARD.mp4' ELSE COALESCE(fx.media_url,'') END AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 10000 ELSE COALESCE(fx.duration_ms,8000) END AS acquisitionDurationMs
-        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
-      const rows=viewer
-        ? await env.DB.prepare(`${select} WHERE (c.is_active=1 OR EXISTS (SELECT 1 FROM user_cards uc WHERE uc.user_id=? AND uc.card_id=c.id AND COALESCE(uc.quantity,0)>0)) AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') ORDER BY m.sort_order,c.id`).bind(viewer.id).all()
-        : await env.DB.prepare(`${select} WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') ORDER BY m.sort_order,c.id`).all();
       const uniqueCfg=await cardUniqueSettings(env),uniqueVisible=Boolean(viewer&&uniqueCfg.userDetailEnabled!==false&&cardUniqueVisibleTo(viewer,uniqueCfg));
-      let uniqueMap=new Map();
-      if(uniqueVisible&&rows.results.length){
-        const uniqueRows=(await env.DB.prepare(`SELECT card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations,scope_pve,scope_pvp,scope_captain FROM card_unique_effects WHERE is_active=1`).all()).results||[];
-        uniqueMap=new Map(uniqueRows.map(row=>[String(row.card_id),{attackPercent:Number(row.attack_percent||0),defensePercent:Number(row.defense_percent||0),hpPercent:Number(row.hp_percent||0),speedPercent:Number(row.speed_percent||0),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance??100),maxActivations:Number(row.max_activations||1),scopes:{pve:row.scope_pve!==0,pvp:row.scope_pvp!==0,captain:row.scope_captain!==0}}]));
-      }
-      return json({cards:rows.results.map(card=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
+      const [baseRows,extraRows,uniqueRows]=await Promise.all([
+        publicCardCatalogRows(env),
+        viewer?inactiveOwnedCardRows(env,viewer.id):Promise.resolve([]),
+        uniqueVisible?activeUniqueAbilityRows(env):Promise.resolve([])
+      ]);
+      const merged=new Map();for(const row of [...baseRows,...extraRows])merged.set(String(row.id),row);
+      const rows=[...merged.values()].sort((a,b)=>Number(a.memberSortOrder||0)-Number(b.memberSortOrder||0)||String(a.id).localeCompare(String(b.id)));
+      const uniqueMap=new Map(uniqueRows.map(row=>[String(row.card_id),{attackPercent:Number(row.attack_percent||0),defensePercent:Number(row.defense_percent||0),hpPercent:Number(row.hp_percent||0),speedPercent:Number(row.speed_percent||0),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance??100),maxActivations:Number(row.max_activations||1),scopes:{pve:row.scope_pve!==0,pvp:row.scope_pvp!==0,captain:row.scope_captain!==0}}]));
+      return json({cards:rows.map(({memberSortOrder,...card})=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const [rows,burning]=await Promise.all([env.DB.prepare('SELECT * FROM card_packs WHERE is_active=1 ORDER BY sort_order,id').all(),burningEventSettings(env)]);
-      return json({packs:rows.results.map(row=>{const originalPrice=Number(row.price||0),price=burningDiscountPrice(originalPrice,burning);return {...row,price,originalPrice,burningDiscountPercent:burning.enabled?burning.packDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}}),burningEvent:burningPublicState(burning)});
+      const [rows,burning]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env)]);
+      return json({packs:rows.map(row=>{const originalPrice=Number(row.price||0),price=burningDiscountPrice(originalPrice,burning);return {...row,price,originalPrice,burningDiscountPercent:burning.enabled?burning.packDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}}),burningEvent:burningPublicState(burning)});
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -2345,15 +2411,10 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      await ensureDrawReceiptV2(env);let drawReceiptTable='draw_request_receipts_v2';
       // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
       // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
-      const compactDrawCard=card=>({
-        id:String(card?.id||''),title:String(card?.title||''),name:String(card?.name||''),grade:String(card?.grade||card?.rarity||'').toUpperCase(),
-        image:String(card?.image||card?.image_url||''),focusX:Number(card?.focusX??card?.focus_x??50),focusY:Number(card?.focusY??card?.focus_y??50),member_id:card?.member_id??null,
-        acquisitionFxConfigured:Number(card?.acquisitionFxConfigured||0),acquisitionFxEnabled:Number(card?.acquisitionFxEnabled||0),
-        acquisitionMediaUrl:String(card?.acquisitionMediaUrl||''),acquisitionAudioUrl:String(card?.acquisitionAudioUrl||''),
-        acquisitionSkipAllowed:Number(card?.acquisitionSkipAllowed??1),acquisitionDurationMs:Number(card?.acquisitionDurationMs||0)
-      });
+      const compactDrawCard=card=>({id:String(card?.id||''),title:String(card?.title||''),grade:String(card?.grade||card?.rarity||'').toUpperCase()});
       const compactDrawReceipt=response=>{
         if(!response||typeof response!=='object')return response;
         const compact={...response};delete compact.user;
@@ -2366,10 +2427,17 @@ export async function onRequest(context){
       };
       const hydrateDrawReceipt=async stored=>{
         if(!stored||typeof stored!=='object')return stored;
-        const latestUser=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+        const ids=[...new Set((stored.results||[]).map(item=>String(item?.card?.id||'')).filter(Boolean))];
+        const [latestUser,cardRows,fxByGrade]=await Promise.all([
+          env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
+          ids.length?env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all():Promise.resolve({results:[]}),
+          cardAcquisitionEffectsByGrade(env)
+        ]);
         if(!latestUser)return stored;
-        const rows=(stored.results||[]).map(item=>({card_id:String(item?.card?.id||''),quantity:Number(item?.quantityAfter||0),breakthrough_level:0})).filter(row=>row.card_id&&row.quantity>0);
-        return {...stored,user:drawResponseProfileFromRows(latestUser,rows,{quantity:Number(stored?.grantProof?.masterStarAfter||0)})};
+        const cardMap=new Map((cardRows.results||[]).map(card=>[String(card.id),cardWithAcquisitionEffect(card,fxByGrade)]));
+        const results=(stored.results||[]).map(item=>({...item,card:{...(cardMap.get(String(item?.card?.id||''))||{}),...(item.card||{})}}));
+        const rows=results.map(item=>({card_id:String(item?.card?.id||''),quantity:Number(item?.quantityAfter||0),breakthrough_level:0})).filter(row=>row.card_id&&row.quantity>0);
+        return {...stored,results,user:drawResponseProfileFromRows(latestUser,rows,{quantity:Number(stored?.grantProof?.masterStarAfter||0)})};
       };
       const finalizeAppliedDraw=async (draft,{recoveryVerify=false}={})=>{
         const proof=draft?.grantProof||{};
@@ -2402,11 +2470,16 @@ export async function onRequest(context){
         response.results=(response.results||[]).map(item=>({...item,granted:true,grantVerified:true}));
         response.drawProtocol={...(response.drawProtocol||{}),version:3,status:'COMPLETED',grantVerified:true,integrity:''};
         response.drawProtocol.integrity=drawIntegrityHash(drawIntegrityCanonical(response));
-        const completed=await env.DB.prepare("UPDATE draw_request_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('APPLIED','COMPLETED')").bind(JSON.stringify(compactDrawReceipt(response)),requestId,user.id).run();
+        const completed=await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('APPLIED','COMPLETED')`).bind(JSON.stringify(compactDrawReceipt(response)),requestId,user.id).run();
         if(!completed.meta.changes)throw new Error('카드 지급 영수증 확정에 실패했습니다.');
-        return response;
+        return recoveryVerify?hydrateDrawReceipt(response):response;
       };
-      const prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      let prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      const allowLegacyReceiptLookup=String(request.headers.get('x-cnine-draw-receipt')||'').toLowerCase()!=='v2';
+      if(!prior&&allowLegacyReceiptLookup){
+        const legacy=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+        if(legacy&&['COMPLETED','APPLIED','PENDING'].includes(String(legacy.status||''))){prior=legacy;drawReceiptTable='draw_request_receipts';}
+      }
       if(prior?.status==='COMPLETED'&&prior.response_json){
         try{return json(await hydrateDrawReceipt(JSON.parse(prior.response_json)))}catch{}
       }
@@ -2414,10 +2487,10 @@ export async function onRequest(context){
         try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json),{recoveryVerify:true}))}catch(error){return json({error:String(error?.message||'이전 카드 지급 검증을 완료하지 못했습니다.'),requestId},503)}
       }
       if(prior?.status==='PENDING')return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
-      if(prior?.status==='FAILED')await env.DB.prepare('DELETE FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).run();
-      const claimed=await env.DB.prepare("INSERT OR IGNORE INTO draw_request_receipts(request_id,user_id,status) VALUES(?,?,'PENDING')").bind(requestId,user.id).run();
+      drawReceiptTable='draw_request_receipts_v2';
+      const claimed=await env.DB.prepare(`INSERT OR IGNORE INTO ${drawReceiptTable}(request_id,user_id,pack_id,draw_count,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,String(payload.packId||''),count).run();
       if(!claimed.meta.changes){
-        const duplicate=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+        const duplicate=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
         if(duplicate?.status==='COMPLETED'&&duplicate.response_json){try{return json(await hydrateDrawReceipt(JSON.parse(duplicate.response_json)))}catch{}}
         return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
       }
@@ -2433,14 +2506,14 @@ export async function onRequest(context){
         const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
         const criticalBonus=critical?criticalConfig.bonus:0;
         if(!pack){
-          await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',error_message='판매 중인 카드팩이 아닙니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(requestId,user.id).run();
+          await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',error_message='판매 중인 카드팩이 아닙니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(requestId,user.id).run();
           return json({error:'판매 중인 카드팩이 아닙니다.'},404);
         }
         if(!fresh)throw new Error('유저 정보를 확인하지 못했습니다.');
         cost=burningDiscountPrice(pack.price,burning)*count;
-        await env.DB.prepare('UPDATE draw_request_receipts SET cost=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?').bind(cost,requestId,user.id).run();
+        await env.DB.prepare(`UPDATE ${drawReceiptTable} SET cost=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,requestId,user.id).run();
         if(Number(fresh.coin||0)<cost){
-          await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(requestId,user.id).run();
+          await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(requestId,user.id).run();
           return json({error:'코인이 부족합니다.'},400);
         }
 
@@ -2584,7 +2657,7 @@ export async function onRequest(context){
           statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'MA_DUPLICATE','PACK_DRAW',?)").bind(user.id,masterStarTotal,expectedMasterStars,groupId));
         }
         statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));
-        statements.push(env.DB.prepare("UPDATE draw_request_receipts SET status='APPLIED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(compactDrawReceipt(draftResponse)),requestId,user.id));
+        statements.push(env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='APPLIED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(compactDrawReceipt(draftResponse)),requestId,user.id));
 
         await env.DB.batch(statements);
         grantsCommitted=true;
@@ -2603,7 +2676,7 @@ export async function onRequest(context){
             await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(cardId).run();
           }
           for(const event of limitedAuditEvents)await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'FAILED_ROLLED_BACK',stockAfter:event.stockBefore,quantityAfter:event.quantityBefore,stockReserved:false,cardGranted:false,errorMessage:message});
-          await env.DB.prepare("UPDATE draw_request_receipts SET status='FAILED',response_json=NULL,error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(message,requestId,user.id).run();
+          await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',response_json=NULL,error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(message,requestId,user.id).run();
         }else{
           for(const event of limitedAuditEvents)await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED_WITH_WARNING',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,stockReserved:true,cardGranted:true,errorMessage:message});
         }
@@ -4126,6 +4199,7 @@ export async function onRequest(context){
         if(!RARITIES.includes(g10)||!RARITIES.includes(g20)) return json({error:'보장 등급을 확인하세요.'},400);
         await env.DB.prepare('UPDATE card_packs SET name=?,subtitle=?,description=?,theme=?,price=?,guarantee_10=?,guarantee_20=?,is_active=?,sort_order=? WHERE id=?')
           .bind(name,subtitle,description,theme,price,g10,g20,active,sort,id).run();
+        packCatalogCache=null;drawContextCache.clear();
         const cfgRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_preview_configs'").first();
         let configs={}; try{configs=JSON.parse(cfgRow?.value||'{}')}catch{}
         const pc=payload.preview||{};
@@ -4161,7 +4235,7 @@ export async function onRequest(context){
         if(limitedRate<0||limitedRate>100) return json({error:'한정판 별도 확률은 0~100 사이여야 합니다.'},400);
         await env.DB.prepare('INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,?)').bind(packId,'LIMITED',limitedRate).run();
         const allowed=normalRarities.filter(r=>(Number(rates[r])||0)>0); if(packId==='pickup') allowed.push('LIMITED');
-        await env.DB.prepare('UPDATE card_packs SET allowed_rarities=? WHERE id=?').bind(JSON.stringify(allowed),packId).run();
+        await env.DB.prepare('UPDATE card_packs SET allowed_rarities=? WHERE id=?').bind(JSON.stringify(allowed),packId).run();packCatalogCache=null;
         await writeAdminLog(env,admin,'PACK_RATE_UPDATE','CARD_PACK',packId,null,{...rates,LIMITED:limitedRate});
         return json({ok:true,total,limitedRate});
       }
@@ -4613,7 +4687,7 @@ export async function onRequest(context){
           const active=status==='PUBLIC'?1:0;
           const placeholders=ids.map(()=>'?').join(',');
           await env.DB.prepare(`UPDATE cards SET card_status=?,is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id IN (${placeholders})`).bind(status,active,...ids).run();
-          drawContextCache.clear();
+          drawContextCache.clear();invalidateCatalogCaches();
           await writeAdminLog(env,admin,'CARD_BULK_STATUS','CARD',ids.join(','),null,{status,count:ids.length});
           return json({ok:true,status,updatedIds:ids});
         }

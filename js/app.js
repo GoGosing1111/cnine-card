@@ -76,6 +76,7 @@ function applyServerPacks(rows = []) {
 
 function applyBurningEventState(next={}){
   burningEventState={...burningEventState,...next};
+  PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=burningEventState.enabled?Math.max(0,Math.min(90,Number(burningEventState.packDiscountPercent||0))):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
   document.documentElement.classList.toggle('burning-event-active',burningEventState.enabled===true);
   if(!burningEventState.enabled)return;
   const key=`cnine:burning-announced:${Number(burningEventState.generation||0)}`;
@@ -375,12 +376,8 @@ function renderShell(tab) {
   bindMobileNavigation();
   bindView(tab);
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
-  // 메인 화면 출력 직후 MA 이상/프리미엄 큐브 소식을 동시에 불러오고, 인벤토리 요약만 짧게 지연한다.
-  deferShellLoad(0,()=>Promise.allSettled([
-    loadRecentHighGradeFeed(),
-    loadRecentPremiumCubeFeed()
-  ]));
-  deferShellLoad(180,loadInventorySummary);
+  // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
+  deferShellLoad(80,loadShellSummary);
   if(API_MODE&&API_TOKEN)scheduleRuntimeCommandPoll(runtimeCommandPollDelay());
 }
 
@@ -392,6 +389,21 @@ function summaryBar(user) {
     <div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>
     <button type="button" class="summary-card inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><small class="summary-label">보관함</small><b>인벤토리</b><em id="inventorySummaryMeta">보유 내역 확인</em></span><strong id="inventorySummaryBadge" hidden>NEW</strong></button>
   </section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">MA 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 MA 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed premium-cube-feed" aria-live="polite"><span class="high-grade-label premium-cube-label">프리미엄 큐브 소식</span><div class="high-grade-viewport"><div id="premiumCubeTrack" class="high-grade-track premium-cube-track"><span class="high-grade-empty">최근 프리미엄 큐브 획득 기록을 불러오는 중...</span></div></div></section>`;
+}
+
+async function loadShellSummary(){
+  const inventoryCard=document.getElementById('inventorySummary');if(inventoryCard)inventoryCard.onclick=()=>renderShell('inventory');
+  if(!API_MODE)return;
+  try{
+    const d=await apiRequest('shell/summary',{}, {ttl:30000,timeoutMs:7000});
+    const inventory=d.inventory||{},meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');
+    if(meta)meta.textContent=Number(inventory.totalQuantity)>0?`보유 ${Number(inventory.totalQuantity).toLocaleString()}개 · ${Number(inventory.ownedTypes)}종`:'획득한 특별 보관품 없음';
+    if(badge){badge.hidden=!Number(inventory.unseenTotal);badge.textContent=Number(inventory.unseenTotal)>99?'99+':`NEW ${Number(inventory.unseenTotal||0)}`}
+    const highTrack=document.getElementById('highGradeTrack'),highItems=Array.isArray(d.highGradeItems)?d.highGradeItems:[];
+    if(highTrack){if(!highItems.length)highTrack.innerHTML='<span class="high-grade-empty">아직 MA 등급 이상 획득 기록이 없습니다.</span>';else{const messages=highItems.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');highTrack.innerHTML=messages+messages;highTrack.classList.toggle('static',highItems.length===1)}}
+    const cubeTrack=document.getElementById('premiumCubeTrack'),cubeItems=Array.isArray(d.premiumCubeItems)?d.premiumCubeItems:[];
+    if(cubeTrack){if(!cubeItems.length)cubeTrack.innerHTML='<span class="high-grade-empty">아직 프리미엄 큐브 획득 기록이 없습니다.</span>';else{const messages=cubeItems.map(item=>`<span class="high-grade-item premium-cube-item"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>프리미엄 큐브</strong>를 획득했습니다.<em>${escapeHtml(item.source||'PVE')}</em></span>`).join('');cubeTrack.innerHTML=messages+messages;cubeTrack.classList.toggle('static',cubeItems.length===1)}}
+  }catch(error){console.warn('공통 화면 요약 조회 실패:',error)}
 }
 
 async function loadInventorySummary(){const card=document.getElementById('inventorySummary');if(!card)return;card.onclick=()=>renderShell('inventory');if(!API_MODE)return;try{const d=await apiRequest('inventory',{}, {ttl:3000}),meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');if(meta)meta.textContent=d.totalQuantity>0?`보유 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`:'획득한 특별 보관품 없음';if(badge){badge.hidden=!d.unseenTotal;badge.textContent=d.unseenTotal>99?'99+':`NEW ${d.unseenTotal}`}}catch{}}
@@ -1328,24 +1340,29 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-const API_CACHE_TTL={'cards':120000,'packs':60000,'pvp/config':30000,'recent-high-grade':2000};
+const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':60000,'shell/summary':30000,'recent-high-grade':30000,'recent-premium-cube':30000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
 const STARTUP_REQUEST_TIMEOUT=10000;
-const STARTUP_SNAPSHOT_KEY='cnine_startup_snapshot_v1161';
-const STARTUP_SNAPSHOT_MAX_AGE=15*60*1000;
+const STARTUP_SNAPSHOT_KEY='cnine_startup_snapshot_v1168_r7';
+function startupSnapshotStorageKey(){const u=loadUser();return `${STARTUP_SNAPSHOT_KEY}:${Number(u?.serverUserId||0)||String(u?.nickname||'guest')}:${String(u?.role||'USER').toUpperCase()}`}
+const STARTUP_SNAPSHOT_LEGACY_KEY='cnine_startup_snapshot_v1161';
+const STARTUP_SNAPSHOT_MAX_AGE=6*60*60*1000;
+const STARTUP_SNAPSHOT_REFRESH_AGE=5*60*1000;
 let startupRunId=0,startupWatchdogTimer=null,viewerCatalogWasRefreshed=false;
 function readStartupSnapshot(){
   try{
-    const raw=sessionStorage.getItem(STARTUP_SNAPSHOT_KEY);if(!raw)return null;
-    const data=JSON.parse(raw);if(!data||Date.now()-Number(data.savedAt||0)>STARTUP_SNAPSHOT_MAX_AGE){sessionStorage.removeItem(STARTUP_SNAPSHOT_KEY);return null}
+    const storageKey=startupSnapshotStorageKey();let raw=localStorage.getItem(storageKey);
+    if(!raw){raw=sessionStorage.getItem(STARTUP_SNAPSHOT_LEGACY_KEY);if(raw)localStorage.setItem(storageKey,raw)}
+    if(!raw)return null;
+    const data=JSON.parse(raw);if(!data||Date.now()-Number(data.savedAt||0)>STARTUP_SNAPSHOT_MAX_AGE){localStorage.removeItem(storageKey);return null}
     return data;
   }catch(_){return null}
 }
 function writeStartupSnapshot(patch={}){
   try{
-    let previous={};const raw=sessionStorage.getItem(STARTUP_SNAPSHOT_KEY);if(raw)previous=JSON.parse(raw)||{};
-    sessionStorage.setItem(STARTUP_SNAPSHOT_KEY,JSON.stringify({...previous,...patch,savedAt:Date.now()}));
+    const storageKey=startupSnapshotStorageKey();let previous={};const raw=localStorage.getItem(storageKey);if(raw)previous=JSON.parse(raw)||{};
+    localStorage.setItem(storageKey,JSON.stringify({...previous,...patch,savedAt:Date.now()}));
   }catch(error){console.warn('초기 데이터 캐시 저장 실패:',error)}
 }
 function applyStartupSnapshot(snapshot){
@@ -1391,7 +1408,7 @@ async function verifyStartupSession(){
   return recoverPlayerSession();
 }
 async function loadStartupOptionalFeatures(runId){
-  await new Promise(resolve=>setTimeout(resolve,6000));
+  await new Promise(resolve=>setTimeout(resolve,12000));
   if(runId!==startupRunId||!API_MODE||!API_TOKEN)return;
   if(collectionSnapshotLooksIncomplete(loadUser()))await syncCollectionFromServer({force:true,rerender:runtimeCommandContext==='dex'});
   const previousPvp=pvpFeatureEnabled,previousMagic=Boolean(magicSystemState.visible);
@@ -1431,7 +1448,7 @@ function renderStartupRecovery(message='서버 연결이 지연되고 있습니�
   if(retry)retry.onclick=()=>{API_INFLIGHT.clear();clearApiCache();void init()};
   if(reset)reset.onclick=()=>{clearPlayerToken();API_INFLIGHT.clear();clearApiCache();void init()};
 }
-function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?2000:5000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
+function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?4000:8000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
 
 const RETIREMENT_REROLL_META={
   MA_REROLL_TICKET:{title:'MA 재뽑기권',grade:'MA',theme:'ma'},
@@ -1484,7 +1501,7 @@ async function openInventoryPack(itemCode){
     btn.disabled=true;btn.textContent=reroll?'재뽑기 처리 중':'봉인 확인 중';panel.classList.add('opening');
     try{
       const d=await apiRequest('inventory/use',{method:'POST',body:JSON.stringify({itemCode,requestId})});
-      clearApiCache('inventory');clearApiCache('cards');mergeClientCards([d.card]);saveUser(apiUserToLocal(d.user));
+      clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('cards');mergeClientCards([d.card]);saveUser(apiUserToLocal(d.user));
       await new Promise(resolve=>setTimeout(resolve,950));
       const configuredCard=cards.find(x=>String(x.id)===String(d.card.id))||{},resultCard={...configuredCard,...d.card,id:String(d.card.id),grade:d.card.grade||d.card.rarity,focusX:Number(d.card.focusX??configuredCard.focusX??50),focusY:Number(d.card.focusY??configuredCard.focusY??50)};
       await playConfiguredAcquisitionCutscene(resultCard);
@@ -1539,7 +1556,7 @@ async function apiRequest(path, options={}, config={}) {
 const RUNTIME_COMMAND_TAB_KEY='cnine_runtime_command_last_id_v1091';
 function runtimeCommandStorageKey(){const user=loadUser();return `${RUNTIME_COMMAND_TAB_KEY}:${Number(user?.serverUserId||0)||String(user?.nickname||'guest')}`}
 let runtimeCommandTimer=null,runtimeCommandBusy=false,runtimeCommandContext='buy';
-function runtimeCommandPollDelay(){if(document.hidden)return 60000;const modalOpen=Boolean(document.querySelector('#modal.show'));return runtimeCommandContext==='battle'||runtimeCommandContext==='pvp'||modalOpen?3000:120000}
+function runtimeCommandPollDelay(){if(document.hidden)return 300000;const modalOpen=Boolean(document.querySelector('#modal.show'));return runtimeCommandContext==='battle'||runtimeCommandContext==='pvp'||modalOpen?15000:120000}
 function stopRuntimeCommandPoll(){if(runtimeCommandTimer){clearTimeout(runtimeCommandTimer);runtimeCommandTimer=null}}
 function scheduleRuntimeCommandPoll(delay=runtimeCommandPollDelay()){stopRuntimeCommandPoll();if(!API_MODE||!API_TOKEN||!loadUser())return;runtimeCommandTimer=setTimeout(pollRuntimeCommand,Math.max(1000,Number(delay)||runtimeCommandPollDelay()))}
 function forceMainScreenByOperator(command={}){
@@ -1632,8 +1649,9 @@ async function init(){
   const runId=++startupRunId;
   if(startupWatchdogTimer)clearTimeout(startupWatchdogTimer);
   API_INFLIGHT.clear();migrateLegacyUser();renderLoading();let authenticated=false,completed=false;
-  const snapshot=readStartupSnapshot();
+  const snapshot=readStartupSnapshot(),snapshotAge=snapshot?Date.now()-Number(snapshot.savedAt||0):Infinity;
   const hasCatalogSnapshot=Boolean(Array.isArray(snapshot?.cards)&&snapshot.cards.length&&Array.isArray(snapshot?.packs)&&snapshot.packs.length);
+  const staticCardTask=hasCatalogSnapshot?Promise.resolve([]):loadStaticCardsFallback();
   if(hasCatalogSnapshot)applyStartupSnapshot(snapshot);
   startupWatchdogTimer=setTimeout(()=>{
     if(runId!==startupRunId||completed)return;
@@ -1650,8 +1668,13 @@ async function init(){
     if(!API_MODE)throw new Error('API_OFFLINE');
     if(service?.maintenance?.active&&!service.bypass){completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;renderMaintenance(service.maintenance,service);return;}
 
-    cardTask=settled(apiRequest('cards',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT}));
-    packTask=settled(apiRequest('packs',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT}));
+    if(!hasCatalogSnapshot){
+      cardTask=settled(apiRequest('cards',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT}));
+      packTask=settled(apiRequest('packs',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT}));
+    }else{
+      const refreshDelay=snapshotAge>STARTUP_SNAPSHOT_REFRESH_AGE?3000:30000;
+      setTimeout(()=>{if(runId!==startupRunId||!API_MODE)return;const c=settled(apiRequest('cards',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT,ttl:0})),p=settled(apiRequest('packs',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT,ttl:0}));void refreshStartupCatalog(runId,c,p)},refreshDelay);
+    }
     const authTask=settled(verifyStartupSession());
     const authResult=await authTask;
     if(runId!==startupRunId)return;
@@ -1659,13 +1682,15 @@ async function init(){
     else{console.warn('시작 세션 확인 실패:',authResult.error);authenticated=Boolean(loadUser())}
 
     if(!hasCatalogSnapshot){
-      const cardResult=await cardTask;
-      if(runId!==startupRunId)return;
-      if(!cardResult.ok||!Array.isArray(cardResult.value?.cards))throw cardResult.error||new Error('카드 데이터를 불러오지 못했습니다.');
-      if(!viewerCatalogWasRefreshed)cards=cardResult.value.cards.map(normalizeClientCard);
-      const cachePatch=viewerCatalogWasRefreshed?{}:{cards:cardResult.value.cards};
-      // 팩 조회는 이미 병렬 실행 중이다. 카드 조회 후에도 늦으면 기본/캐시 설정으로 먼저 화면을 연다.
-      const packResult=await Promise.race([packTask,new Promise(resolve=>setTimeout(()=>resolve({pending:true}),650))]);
+      const staticCards=await staticCardTask;
+      let cachePatch={};
+      if(Array.isArray(staticCards)&&staticCards.length&&!viewerCatalogWasRefreshed){cards=staticCards.map(normalizeClientCard);cachePatch.cards=staticCards;packPending=true;}
+      else{
+        const cardResult=await cardTask;if(runId!==startupRunId)return;
+        if(!cardResult.ok||!Array.isArray(cardResult.value?.cards))throw cardResult.error||new Error('카드 데이터를 불러오지 못했습니다.');
+        if(!viewerCatalogWasRefreshed)cards=cardResult.value.cards.map(normalizeClientCard);cachePatch=viewerCatalogWasRefreshed?{}:{cards:cardResult.value.cards};
+      }
+      const packResult=await Promise.race([packTask,new Promise(resolve=>setTimeout(()=>resolve({pending:true}),350))]);
       if(packResult?.pending)packPending=true;
       else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{}}
       else console.warn('카드팩 설정 조회 실패 - 기본 설정으로 계속합니다:',packResult.error);
@@ -1781,8 +1806,8 @@ function readPendingDraw(){try{const row=JSON.parse(sessionStorage.getItem(PENDI
 function writePendingDraw(row){try{sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(row))}catch(_){}}
 function clearPendingDraw(requestId=''){try{const row=readPendingDraw();if(!requestId||String(row?.requestId||'')===String(requestId))sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY)}catch(_){}}
 function drawRequestStillProcessing(error){return Boolean(error?.timeout)||(Number(error?.status)===409&&String(error?.message||'').includes('처리 중'))}
-async function requestDrawWithRecovery(packId,count,requestId){
-  const options={method:'POST',body:JSON.stringify({packId,count,requestId})};
+async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2){
+  const options={method:'POST',headers:{'x-cnine-draw-receipt':Number(receiptVersion)===2?'v2':'legacy'},body:JSON.stringify({packId,count,requestId})};
   try{return await apiRequest('draw',options,{timeoutMs:45000})}
   catch(error){
     if(!drawRequestStillProcessing(error))throw error;
@@ -1871,15 +1896,15 @@ openPack=async function(packId,count,cost){
   if(previous){packId=String(previous.packId);count=Number(previous.count);}
   const pack=getPack(packId);
   const requestId=String(previous?.requestId||(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`));
-  if(!previous)writePendingDraw({requestId,packId,count,createdAt:Date.now()});
+  if(!previous)writePendingDraw({requestId,packId,count,receiptVersion:2,createdAt:Date.now()});
   resetDrawPresentationState();
   activeDrawRequestId=requestId;
   drawRequestInFlight=true;
   try{
-    const d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId));
+    const d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2));
     const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
     clearPendingDraw(requestId);
-    clearApiCache('recent-high-grade');clearApiCache('cards');
+    clearApiCache('recent-high-grade');clearApiCache('shell/summary');clearApiCache('cards');
     mergeClientCards(verifiedResults.map(x=>x.card));
     const next=mergeDrawUserSnapshot(d.user,verifiedResults);
     const obtainedAt=new Date().toISOString();
