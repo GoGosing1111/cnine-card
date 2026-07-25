@@ -15,9 +15,38 @@
   async function purgeSelected(){let ids=$$('.cleanupUserCheck:checked').map(x=>Number(x.value));if(!ids.length)return alert('삭제할 후보를 선택하세요.');const phrase=prompt(`선택한 ${ids.length}명의 계정과 연관 데이터를 영구 삭제합니다.\n최근 활동·유효 세션·LIMITED 이상·+8강 이상 보유 계정은 서버가 삭제 직전에 다시 차단합니다.\n\n계속하려면 휴면계정삭제 를 입력하세요.`,'');if(phrase!=='휴면계정삭제')return alert('삭제를 취소했습니다.');const btn=$('#cleanupDeleteBtn');busy(btn,true,'배치 삭제 중...');let done=0,total=ids.length;try{while(ids.length){const chunk=ids.splice(0,10),d=await request('admin/storage-cleanup/delete',{method:'POST',body:JSON.stringify({ids:chunk,criteria:lastCriteria||criteria(),confirmation:'휴면계정삭제'})});done+=Number(d.deletedUsers||0);chunk.forEach(id=>$(`.storageCandidate[data-id="${id}"]`)?.remove());const pct=Math.min(100,done/total*100);$('#cleanupProgressBar').style.width=pct+'%';$('#cleanupProgressText').textContent=`${done} / ${total}명 삭제 완료 · 현재 단계 ${Object.entries(d.changes||{}).filter(([,v])=>v).map(([k,v])=>`${k} ${v}`).slice(0,3).join(', ')}`}
       alert(`${done}명의 휴면·저활동 계정을 정리했습니다.\nDB 대시보드 용량 반영은 지연될 수 있으며 삭제된 페이지는 신규 데이터에 재사용됩니다.`);await loadSummary();
     }catch(e){alert(`정리 작업이 중단되었습니다. 완료된 배치는 유지됩니다.\n${e.message}`)}finally{busy(btn,false);updateSelected()}}
-  function receiptOpts(){return {table:$('#cleanupReceiptTable').value,retentionDays:Number($('#cleanupReceiptDays').value),batchSize:Number($('#cleanupReceiptBatch').value)}}
+  function receiptOpts(){const targetCount=Math.max(100,Math.min(5000,Number($('#cleanupReceiptBatch').value)||1000));return {table:$('#cleanupReceiptTable').value,retentionDays:Number($('#cleanupReceiptDays').value),targetCount,batchSize:Math.min(500,targetCount)}}
   function receiptMetrics(d){return d.metrics||{receiptRows:d.rows?.length||0,responseJsonRows:0,responseJsonBytes:Number(d.estimatedBytes||0),receiptPayloadBytes:Number(d.estimatedBytes||0),assertionRows:0,assertionPayloadBytes:0,estimatedTextBytes:Number(d.estimatedBytes||0),estimatedStorageBytes:Number(d.estimatedBytes||0)}}
-  async function previewReceipts(){const b=$('#cleanupReceiptPreviewBtn');busy(b,true);try{const d=await request('admin/storage-cleanup/receipts/preview',{method:'POST',body:JSON.stringify(receiptOpts())}),m=receiptMetrics(d),count=Number(d.rows?.length||0);$('#cleanupReceiptPreview').innerHTML=count?`정리 가능 <b>${fmt(count)}</b>건 · 삭제 대상 전체 추정 <b>${bytes(m.estimatedStorageBytes)}</b><br><small>응답 JSON ${fmt(m.responseJsonRows)}건 / ${bytes(m.responseJsonBytes)} · 영수증 행 텍스트 ${bytes(m.receiptPayloadBytes)} · 지급 검증 ${fmt(m.assertionRows)}건 / ${bytes(m.assertionPayloadBytes)}</small>`:'현재 조건에 정리할 완료·실패 영수증이 없습니다.';$('#cleanupReceiptDeleteBtn').disabled=!count}catch(e){alert(e.message)}finally{busy(b,false)}}
-  async function purgeReceipts(){const opts=receiptOpts(),phrase=prompt('오래된 완료·실패 영수증을 한 배치 정리합니다. PENDING 요청은 삭제하지 않습니다.\n\n계속하려면 영수증정리 를 입력하세요.','');if(phrase!=='영수증정리')return;const b=$('#cleanupReceiptDeleteBtn');busy(b,true,'영수증 삭제 중...');try{const d=await request('admin/storage-cleanup/receipts/delete',{method:'POST',body:JSON.stringify({...opts,confirmation:'영수증정리'})}),m=receiptMetrics(d);alert(`${fmt(d.deleted)}건의 영수증을 정리했습니다.\n\n응답 JSON: ${fmt(m.responseJsonRows)}건 / ${bytes(m.responseJsonBytes)}\n영수증 행 텍스트: ${bytes(m.receiptPayloadBytes)}\n지급 검증 기록: ${fmt(d.assertionsDeleted||m.assertionRows)}건 / ${bytes(m.assertionPayloadBytes)}\n삭제 대상 전체 추정: ${bytes(m.estimatedStorageBytes)}\n\n※ 위 수치는 행 데이터 추정치이며 D1 파일 용량 감소량과 동일하지 않습니다. 삭제된 페이지는 신규 데이터에 재사용될 수 있습니다.`);await previewReceipts();await loadSummary()}catch(e){alert(e.message)}finally{busy(b,false)}}
+  async function previewReceipts(){const b=$('#cleanupReceiptPreviewBtn');busy(b,true);try{const opts=receiptOpts(),d=await request('admin/storage-cleanup/receipts/preview',{method:'POST',body:JSON.stringify(opts)}),m=receiptMetrics(d),count=Number(d.availableRows??m.receiptRows??0);$('#cleanupReceiptPreview').innerHTML=count?`한 번 클릭으로 <b>${fmt(count)}</b>건 정리 예정 · 서버에서 최대 500건씩 <b>${fmt(d.estimatedBatches||Math.ceil(count/500))}회</b> 자동 분할<br>삭제 대상 전체 추정 <b>${bytes(m.estimatedStorageBytes)}</b><br><small>응답 JSON ${fmt(m.responseJsonRows)}건 / ${bytes(m.responseJsonBytes)} · 영수증 행 텍스트 ${bytes(m.receiptPayloadBytes)} · 지급 검증 ${fmt(m.assertionRows)}건 / ${bytes(m.assertionPayloadBytes)}</small>`:'현재 조건에 정리할 완료·실패 영수증이 없습니다.';$('#cleanupReceiptDeleteBtn').disabled=!count}catch(e){alert(e.message)}finally{busy(b,false)}}
+  async function purgeReceipts(){
+    const opts=receiptOpts(),target=opts.targetCount;
+    const phrase=prompt(`오래된 완료·실패 영수증을 최대 ${fmt(target)}건 자동 정리합니다.\n서버에서는 한 번에 최대 500건씩 나눠 처리하며 PENDING 요청은 삭제하지 않습니다.\n\n계속하려면 영수증정리 를 입력하세요.`,'');
+    if(phrase!=='영수증정리')return;
+    const b=$('#cleanupReceiptDeleteBtn');busy(b,true,'자동 정리 준비 중...');
+    const totals=emptyReceiptTotals();let deleted=0,assertionsDeleted=0,batches=0,remaining=target;
+    const runId=`receipt-purge-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    try{
+      while(remaining>0){
+        const batchSize=Math.min(500,remaining);
+        busy(b,true,`영수증 삭제 중 ${fmt(deleted)} / ${fmt(target)}`);
+        const d=await request('admin/storage-cleanup/receipts/delete',{method:'POST',body:JSON.stringify({table:opts.table,retentionDays:opts.retentionDays,batchSize,confirmation:'영수증정리',bulkRun:true,runId})});
+        const count=Number(d.deleted||0),m=receiptMetrics(d);
+        mergeReceiptTotals(totals,m);
+        deleted+=count;assertionsDeleted+=Number(d.assertionsDeleted||0);batches++;
+        remaining=Math.max(0,target-deleted);
+        const pct=target?Math.min(100,deleted/target*100):100;
+        $('#cleanupReceiptPreview').innerHTML=`자동 정리 진행 중 <b>${fmt(deleted)} / ${fmt(target)}</b>건 · ${fmt(batches)}회 분할 처리<br><div class="storageProgress"><i style="width:${pct}%"></i></div><small>현재 누적 추정 ${bytes(totals.estimatedStorageBytes)} · 지급 검증 ${fmt(assertionsDeleted)}건 삭제</small>`;
+        if(!count||count<batchSize)break;
+        await new Promise(resolve=>setTimeout(resolve,80));
+      }
+      alert(`${fmt(deleted)}건의 영수증을 ${fmt(batches)}회 분할해 정리했습니다.\n\n응답 JSON: ${fmt(totals.responseJsonRows)}건 / ${bytes(totals.responseJsonBytes)}\n영수증 행 텍스트: ${bytes(totals.receiptPayloadBytes)}\n지급 검증 기록: ${fmt(assertionsDeleted)}건 / ${bytes(totals.assertionPayloadBytes)}\n삭제 대상 전체 추정: ${bytes(totals.estimatedStorageBytes)}\n\n※ 위 수치는 행 데이터 추정치이며 D1 파일 용량 감소량과 동일하지 않습니다. 삭제된 페이지는 신규 데이터에 재사용될 수 있습니다.`);
+      await previewReceipts();await loadSummary();
+    }catch(e){
+      alert(`영수증 정리가 중단되었습니다. 이미 완료된 ${fmt(deleted)}건은 유지됩니다.\n${e.message}`);
+      try{await previewReceipts()}catch{}
+    }finally{busy(b,false)}
+  }
+  function emptyReceiptTotals(){return {receiptRows:0,responseJsonRows:0,responseJsonBytes:0,receiptPayloadBytes:0,assertionRows:0,assertionProofBytes:0,assertionPayloadBytes:0,estimatedTextBytes:0,estimatedStorageBytes:0}}
+  function mergeReceiptTotals(total,m){for(const key of Object.keys(total))total[key]+=Number(m?.[key]||0);return total}
   document.addEventListener('DOMContentLoaded',()=>{const syncOwnerVisibility=()=>{const role=String($('#roleBadge')?.textContent||'').trim().toUpperCase();if(role)$('#storageCleanupPanel').hidden=role!=='OWNER'};new MutationObserver(syncOwnerVisibility).observe($('#roleBadge'),{childList:true,subtree:true});syncOwnerVisibility();$('#cleanupSummaryBtn')?.addEventListener('click',loadSummary);$('#cleanupPreviewBtn')?.addEventListener('click',preview);$('#cleanupDeleteBtn')?.addEventListener('click',purgeSelected);$('#cleanupCandidateList')?.addEventListener('change',updateSelected);$('#cleanupReceiptPreviewBtn')?.addEventListener('click',previewReceipts);$('#cleanupReceiptDeleteBtn')?.addEventListener('click',purgeReceipts)});
 })();
