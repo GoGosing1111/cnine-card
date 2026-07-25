@@ -77,14 +77,28 @@ async function existingTableSet(env,names){
   return found;
 }
 async function databasePageInfo(env){
+  // D1 exposes the authoritative database byte size in every D1Result meta.size_after.
+  // PRAGMA page_* may be unavailable depending on the D1 execution path, so each
+  // optional PRAGMA is isolated and must never zero out the authoritative size.
+  let sizeBytes=null,pageSize=null,freePages=null;
   try{
-    const [pc,ps,fc]=await Promise.all([
-      env.DB.prepare('PRAGMA page_count').first(),env.DB.prepare('PRAGMA page_size').first(),env.DB.prepare('PRAGMA freelist_count').first()
-    ]);
-    const firstNumber=o=>Number(Object.values(o||{})[0]||0);
-    const pageCount=firstNumber(pc),pageSize=firstNumber(ps),freePages=firstNumber(fc);
-    return {pageCount,pageSize,freePages,sizeBytes:pageCount*pageSize,reusableBytes:freePages*pageSize};
-  }catch{return {pageCount:null,pageSize:null,freePages:null,sizeBytes:null,reusableBytes:null}}
+    const probe=await env.DB.prepare('SELECT 1 AS storage_probe').run();
+    const size=Number(probe?.meta?.size_after);
+    if(Number.isFinite(size)&&size>=0)sizeBytes=size;
+  }catch(e){console.error('D1 size_after probe failed',e)}
+  const pragmaNumber=async sql=>{
+    try{
+      const row=await env.DB.prepare(sql).first();
+      const value=Number(Object.values(row||{})[0]);
+      return Number.isFinite(value)&&value>=0?value:null;
+    }catch{return null}
+  };
+  [pageSize,freePages]=await Promise.all([
+    pragmaNumber('PRAGMA page_size'),pragmaNumber('PRAGMA freelist_count')
+  ]);
+  const reusableBytes=Number.isFinite(pageSize)&&Number.isFinite(freePages)?pageSize*freePages:null;
+  const pageCount=Number.isFinite(sizeBytes)&&Number.isFinite(pageSize)&&pageSize>0?Math.ceil(sizeBytes/pageSize):null;
+  return {pageCount,pageSize,freePages,sizeBytes,reusableBytes,sizeSource:sizeBytes===null?'UNAVAILABLE':'D1_META'};
 }
 async function chunkedGroupedCount(env,table,column,ids){
   const map=new Map(); if(!ids.length)return map;
