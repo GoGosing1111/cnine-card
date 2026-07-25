@@ -1375,7 +1375,13 @@ async function refreshStartupCatalog(runId,cardTask,packTask){
 }
 async function verifyStartupSession(){
   if(API_TOKEN){
-    try{const me=await apiRequest('me',{}, {timeoutMs:8000});saveUser(apiUserToLocal(me.user));return true}
+    try{
+      const me=await apiRequest('me/summary',{}, {timeoutMs:6000,ttl:0});
+      const current=loadUser();
+      if(current)saveUser(mergeApiUserSummary(me.user,current));
+      else{const full=await apiRequest('me',{}, {timeoutMs:10000,ttl:0});saveUser(apiUserToLocal(full.user));}
+      return true;
+    }
     catch(error){
       if(Number(error?.status)===401){clearPlayerToken();return recoverPlayerSession()}
       console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);return Boolean(loadUser());
@@ -1384,12 +1390,12 @@ async function verifyStartupSession(){
   return recoverPlayerSession();
 }
 async function loadStartupOptionalFeatures(runId){
-  await new Promise(resolve=>setTimeout(resolve,1250));
+  await new Promise(resolve=>setTimeout(resolve,6000));
   if(runId!==startupRunId||!API_MODE||!API_TOKEN)return;
   const previousPvp=pvpFeatureEnabled,previousMagic=Boolean(magicSystemState.visible);
   const [pvpResult,magicResult]=await Promise.all([
-    settled(apiRequest('pvp/config',{}, {timeoutMs:7000})),
-    settled(apiRequest('magic/status',{}, {timeoutMs:7000,ttl:0}))
+    settled(apiRequest('pvp/config',{}, {timeoutMs:5000})),
+    settled(apiRequest('magic/status',{}, {timeoutMs:5000,ttl:0}))
   ]);
   if(runId!==startupRunId)return;
   if(pvpResult.ok)pvpFeatureEnabled=Boolean(pvpResult.value?.settings?.enabled||pvpResult.value?.bypass);
@@ -1588,6 +1594,15 @@ function renderMaintenance(m={},service={}){
   const login=document.getElementById('maintenanceLogin');if(login)login.onclick=()=>renderLogin();
 }
 function apiUserToLocal(u,key){const old=loadUser(),owned=(u.owned||[]).map(id=>String(id)),quantities=Object.fromEntries(Object.entries(u.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs=Object.fromEntries(Object.entries(u.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]));return {nickname:u.nickname,key:key||old?.key||'',role:u.role||old?.role||'USER',coin:Number(u.coin??old?.coin??0),cardShards:Number(u.cardShards??u.card_shards??old?.cardShards??0),masterStars:Number(u.masterStars??old?.masterStars??0),magicCrystals:Number(u.magicCrystals??u.magic_crystals??old?.magicCrystals??0),owned,quantities,breakthroughs,history:Array.isArray(u.history)?u.history.map(x=>({...x,cardId:String(x.cardId??x.card_id??'')})):(old?.history||[]),attendance:u.attendance||old?.attendance||{lastClaimDate:null,totalDays:0},breakthroughConfig:u.breakthroughConfig||old?.breakthroughConfig||{},maHighBreakthrough:u.maHighBreakthrough||old?.maHighBreakthrough||{enabled:false,steps:[]},weeklyPremiumCube:u.weeklyPremiumCube||old?.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2,attemptCount:0},serverUserId:u.id,testCoinGrantedV13:true}}
+function mergeApiUserSummary(summary={},base=loadUser()||{}){
+  return {...base,nickname:summary.nickname??base.nickname,role:summary.role??base.role??'USER',coin:Number(summary.coin??base.coin??0),cardShards:Number(summary.cardShards??summary.card_shards??base.cardShards??0),masterStars:Number(summary.masterStars??base.masterStars??0),magicCrystals:Number(summary.magicCrystals??summary.magic_crystals??base.magicCrystals??0),serverUserId:Number(summary.id??base.serverUserId??0)||base.serverUserId,testCoinGrantedV13:true};
+}
+function mergeDrawUserSnapshot(snapshot={},results=[]){
+  const current=mergeApiUserSummary(snapshot,loadUser()||{}),owned=new Set((current.owned||[]).map(String));
+  current.quantities={...(current.quantities||{})};current.breakthroughs={...(current.breakthroughs||{})};
+  for(const item of results){const id=String(item?.card?.id||'');if(!id)continue;owned.add(id);current.quantities[id]=Number(item.quantityAfter??snapshot?.quantities?.[id]??current.quantities[id]??0);}
+  current.owned=[...owned];return current;
+}
 async function recoverPlayerSession(){
   const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
   if(!privateKey)return false;
@@ -1651,7 +1666,14 @@ async function init(){
     API_MODE=false;API_INFLIGHT.clear();
     if(runId!==startupRunId)return;
     completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;
-    renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 실제 서버 지급이 확인되지 않는 카드뽑기는 차단됩니다.':'서버 연결을 확인할 수 없습니다. 실제 서버 지급이 확인되지 않는 카드뽑기는 차단됩니다.');
+    // 직전 정상 카탈로그와 로그인 정보가 있으면 서버 지연만으로 전체 UI를 닫지 않는다.
+    // 실제 쓰기 기능은 API_MODE=false 상태에서 계속 차단하고, 한 번만 백그라운드 재연결을 시도한다.
+    if(hasCatalogSnapshot&&loadUser()){
+      renderShell('buy');
+      setTimeout(async()=>{if(runId!==startupRunId||API_MODE)return;const service=await detectApi();if(!API_MODE)return;if(service?.maintenance?.active&&!service.bypass)return renderMaintenance(service.maintenance,service);await verifyStartupSession();await refreshBurningEventState();refreshBuyShellAfterStartup(runId)},5000);
+      return;
+    }
+    renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 잠시 후 다시 연결해주세요.':'서버 연결을 확인할 수 없습니다. 잠시 후 다시 연결해주세요.');
     return;
   }
   if(runId!==startupRunId)return;
@@ -1818,6 +1840,10 @@ function validateDrawResponse(response,{requestId,packId,count}){
     if(Number(proofQuantities.get(cardId)||0)<quantityAfter)throw new Error(`${card.title} 카드의 서버 지급 증명이 부족합니다.`);
     card.grade=grade;
   });
+  const duplicateMa=response.results.filter(item=>item?.duplicate&&String(item?.card?.grade||item?.card?.rarity||'').toUpperCase()==='MA');
+  if(duplicateMa.some(item=>Number(item.masterStarGained)!==1))throw new Error('MA 중복 카드의 마스터의 별 지급 정보가 누락되어 결과 표시를 중단했습니다.');
+  const masterStarDelta=Number(proof.masterStarAfter||0)-Number(proof.masterStarBefore||0);
+  if(masterStarDelta!==response.results.reduce((sum,item)=>sum+Number(item?.masterStarGained||0),0))throw new Error('마스터의 별 서버 지급량과 결과 표시값이 일치하지 않습니다.');
   const expected=drawIntegrityHash(drawIntegrityCanonical(response));
   if(String(protocol.integrity||'')!==expected)throw new Error('카드 개봉 결과 무결성 검증에 실패했습니다.');
   consumedDrawResponses.add(String(requestId));
@@ -1845,7 +1871,7 @@ openPack=async function(packId,count,cost){
     clearPendingDraw(requestId);
     clearApiCache('recent-high-grade');clearApiCache('cards');
     mergeClientCards(verifiedResults.map(x=>x.card));
-    const next=apiUserToLocal(d.user);
+    const next=mergeDrawUserSnapshot(d.user,verifiedResults);
     const obtainedAt=new Date().toISOString();
     next.history=[...(next.history||[]),...verifiedResults.map(item=>({cardId:String(item.card.id),at:obtainedAt,duplicate:Boolean(item.duplicate),title:item.card.title,grade:item.card.grade}))].slice(-30);
     saveUser(next);
@@ -1940,7 +1966,9 @@ async function renderDrawResults(pack,count,cost,results,user,critical){
   const modal=document.getElementById('modal');
   modal.className='modal show results-modal';
   const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
-  modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-actions result-actions-top"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0,masterStarGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'} ${masterStarGained?'master-star-dupe':''}">${duplicate?(masterStarGained?`<b>마스터의 별 +${masterStarGained}</b><small>카드 조각 +${shardGained}</small>`:`카드 조각 +${shardGained}`):'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div></div>`;
+  const shardTotal=results.reduce((sum,item)=>sum+Number(item?.shardGained||0),0),masterStarTotal=results.reduce((sum,item)=>sum+Number(item?.masterStarGained||0),0);
+  const rewardSummary=(shardTotal||masterStarTotal)?`<div class="draw-reward-summary">${masterStarTotal?`<b>★ 마스터의 별 +${masterStarTotal}</b>`:''}${shardTotal?`<span>카드 조각 +${Number(shardTotal).toLocaleString()}</span>`:''}</div>`:'';
+  modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div>${rewardSummary}<div class="result-actions result-actions-top"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0,masterStarGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'} ${masterStarGained?'master-star-dupe':''}">${duplicate?(masterStarGained?`<b>마스터의 별 +${masterStarGained}</b><small>카드 조각 +${shardGained}</small>`:`카드 조각 +${shardGained}`):'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div></div>`;
   document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
   document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
   document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,cost)};

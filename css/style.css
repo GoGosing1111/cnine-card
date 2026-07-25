@@ -3471,3 +3471,9 @@ html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!
 @media(prefers-reduced-motion:reduce){
   .burning-event-active body:before,.burning-event-active body:after,.burning-event-active .burning-event-strip:before{animation:none}
 }
+
+/* V1168 R5 draw reward confirmation */
+.draw-reward-summary{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:-4px auto 16px;padding:10px 14px;max-width:560px;border:1px solid rgba(255,213,91,.42);border-radius:12px;background:linear-gradient(135deg,rgba(255,206,77,.15),rgba(255,104,51,.08));box-shadow:0 0 20px rgba(255,185,54,.10)}
+.draw-reward-summary b{color:#ffe176;font-size:15px;text-shadow:0 0 12px rgba(255,205,70,.25)}
+.draw-reward-summary span{color:#ffd5a0;font-size:13px;font-weight:1000}
+@media(max-width:600px){.draw-reward-summary{margin-bottom:12px;padding:9px 10px}.draw-reward-summary b{font-size:13px}.draw-reward-summary span{font-size:11px}}
