@@ -3,6 +3,7 @@ import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
 import { handleCaptain } from '../_captain.js';
 import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates } from '../_magic.js';
+import { handleStorageCleanup } from '../_storage_cleanup.js';
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000,LIMITED:3000};
 const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9,LIMITED:10};
@@ -2150,6 +2151,11 @@ export async function onRequest(context){
     }
 
     if(path==='health') return json({ok:true,version:'2.8.2',database:true,initialized:await initialized(env)});
+
+    if(path.startsWith('admin/storage-cleanup')){
+      const cleanupResponse=await handleStorageCleanup({request,env,path,requirePermission,writeAdminLog,readBody,json});
+      if(cleanupResponse)return cleanupResponse;
+    }
 
     if(path==='setup/status') return json({initialized:await initialized(env),tables:await tableExists(env,'users')});
     if(path==='setup/init'&&request.method==='POST'){
