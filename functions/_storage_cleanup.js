@@ -56,16 +56,10 @@ function bool(value, fallback=false){return value===undefined?fallback:value===t
 function placeholders(n){return Array.from({length:n},()=>'?').join(',')}
 function cleanCriteria(raw={}){
   return {
-    dormantDays:clampInt(raw.dormantDays,90,30,3650),
-    maxCards:clampInt(raw.maxCards,10,0,100000),
-    maxDraws:clampInt(raw.maxDraws,20,0,10000000),
-    maxCoin:clampInt(raw.maxCoin,5000,0,1000000000),
-    maxShards:clampInt(raw.maxShards,0,0,1000000000),
-    maxInventory:clampInt(raw.maxInventory,0,0,1000000000),
-    unverifiedOnly:bool(raw.unverifiedOnly,true),
-    excludeHighGrade:bool(raw.excludeHighGrade,true),
-    excludeActiveCaptain:bool(raw.excludeActiveCaptain,true),
-    limit:clampInt(raw.limit,200,1,MAX_PREVIEW)
+    // v1169 R3: 운영자가 입력한 미접속 기간 하나만 후보 조건으로 사용한다.
+    // 7일 같은 단기 정리도 가능하도록 최소값을 1일로 낮춘다.
+    dormantDays:clampInt(raw.dormantDays,7,1,3650),
+    limit:MAX_PREVIEW
   };
 }
 async function existingTableSet(env,names){
@@ -112,64 +106,38 @@ async function baseDormantUsers(env,criteria,onlyIds=null){
   const modifier=`-${criteria.dormantDays} days`,binds=[modifier];
   let idClause='';
   if(Array.isArray(onlyIds)&&onlyIds.length){idClause=` AND u.id IN (${placeholders(onlyIds.length)})`;binds.push(...onlyIds)}
-  binds.push(Array.isArray(onlyIds)&&onlyIds.length?onlyIds.length:MAX_BASE_SCAN);
+  const limit=Array.isArray(onlyIds)&&onlyIds.length?onlyIds.length:criteria.limit;
+  binds.push(limit);
   const sql=`SELECT u.id,u.nickname,u.coin,COALESCE(u.card_shards,0) card_shards,u.status,u.created_at,u.last_login_at,
     COALESCE(u.last_login_at,u.created_at) activity_at
     FROM users u
     WHERE COALESCE(u.role,'USER')='USER'
-      AND datetime(COALESCE(u.last_login_at,u.created_at))<=datetime('now',?)
-      AND NOT EXISTS (SELECT 1 FROM sessions sx WHERE sx.user_id=u.id AND sx.expires_at>datetime('now'))${idClause}
+      AND datetime(COALESCE(u.last_login_at,u.created_at))<=datetime('now',?)${idClause}
     ORDER BY datetime(COALESCE(u.last_login_at,u.created_at)) ASC,u.id ASC LIMIT ?`;
   return (await env.DB.prepare(sql).bind(...binds).all()).results||[];
 }
-async function hydrateCandidateStats(env,baseRows,criteria){
+async function hydrateCandidateStats(env,baseRows){
   if(!baseRows.length)return [];
-  const ids=baseRows.map(x=>Number(x.id)),tables=await existingTableSet(env,['wago_verifications','user_cards','draw_logs','cnine_user_inventory','captain_registrations','captain_team_members','captain_rounds','captain_teams','raid_participants','raid_instances']);
-  const verified=new Set(),cardMap=new Map(),drawMap=new Map(),inventoryMap=new Map(),captainSet=new Set(),raidSet=new Set();
-  if(tables.has('wago_verifications')){
-    for(let i=0;i<ids.length;i+=50){const chunk=ids.slice(i,i+50),rows=await env.DB.prepare(`SELECT user_id,status FROM wago_verifications WHERE user_id IN (${placeholders(chunk.length)})`).bind(...chunk).all();for(const r of rows.results||[])if(String(r.status).toUpperCase()==='VERIFIED')verified.add(Number(r.user_id));}
-  }
+  // 후보 필터에는 통계를 사용하지 않는다. 목록 표시에 필요한 카드 종류 수만
+  // 최대 200명 단위로 조회해 대형 draw/log 테이블 스캔을 피한다.
+  const ids=baseRows.map(x=>Number(x.id)),tables=await existingTableSet(env,['user_cards']);
+  const cardMap=new Map();
   if(tables.has('user_cards')){
-    for(let i=0;i<ids.length;i+=50){const chunk=ids.slice(i,i+50),rows=await env.DB.prepare(`SELECT uc.user_id,COUNT(*) card_count,COALESCE(SUM(uc.quantity),0) card_quantity,
-      COALESCE(SUM(CASE WHEN UPPER(COALESCE(c.rarity,'')) IN ('MA','LIMITED','PRESTIGE','FUR') AND COALESCE(uc.quantity,0)>0 THEN 1 ELSE 0 END),0) high_grade_count
-      FROM user_cards uc LEFT JOIN cards c ON c.id=uc.card_id WHERE COALESCE(uc.quantity,0)>0 AND uc.user_id IN (${placeholders(chunk.length)}) GROUP BY uc.user_id`).bind(...chunk).all();for(const r of rows.results||[])cardMap.set(Number(r.user_id),r);}
-  }
-  if(tables.has('draw_logs'))drawMap.clear(),(await chunkedGroupedCount(env,'draw_logs','user_id',ids)).forEach((v,k)=>drawMap.set(k,v));
-  if(tables.has('cnine_user_inventory')){
-    for(let i=0;i<ids.length;i+=50){const chunk=ids.slice(i,i+50),rows=await env.DB.prepare(`SELECT user_id,COALESCE(SUM(quantity),0) total FROM cnine_user_inventory WHERE user_id IN (${placeholders(chunk.length)}) GROUP BY user_id`).bind(...chunk).all();for(const r of rows.results||[])inventoryMap.set(Number(r.user_id),Number(r.total||0));}
-  }
-  if(criteria.excludeActiveCaptain&&tables.has('captain_rounds')){
     for(let i=0;i<ids.length;i+=50){
-      const chunk=ids.slice(i,i+50);
-      if(tables.has('captain_registrations')){
-        const rows=await env.DB.prepare(`SELECT DISTINCT r.user_id FROM captain_registrations r JOIN captain_rounds cr ON cr.round_key=r.week_key WHERE cr.status='ACTIVE' AND r.status IN ('WAITING','ASSIGNED') AND r.user_id IN (${placeholders(chunk.length)})`).bind(...chunk).all();
-        for(const r of rows.results||[])captainSet.add(Number(r.user_id));
-      }
-      if(tables.has('captain_team_members')&&tables.has('captain_teams')){
-        const rows=await env.DB.prepare(`SELECT DISTINCT m.user_id FROM captain_team_members m JOIN captain_teams t ON t.id=m.team_id JOIN captain_rounds cr ON cr.round_key=t.week_key WHERE cr.status='ACTIVE' AND t.status='ACTIVE' AND m.user_id IN (${placeholders(chunk.length)})`).bind(...chunk).all();
-        for(const r of rows.results||[])captainSet.add(Number(r.user_id));
-      }
+      const chunk=ids.slice(i,i+50),rows=await env.DB.prepare(`SELECT user_id,COUNT(*) card_count,COALESCE(SUM(quantity),0) card_quantity FROM user_cards WHERE COALESCE(quantity,0)>0 AND user_id IN (${placeholders(chunk.length)}) GROUP BY user_id`).bind(...chunk).all();
+      for(const row of rows.results||[])cardMap.set(Number(row.user_id),row);
     }
   }
-  if(tables.has('raid_participants')&&tables.has('raid_instances')){
-    for(let i=0;i<ids.length;i+=50){const chunk=ids.slice(i,i+50),rows=await env.DB.prepare(`SELECT DISTINCT p.user_id FROM raid_participants p JOIN raid_instances ri ON ri.id=p.instance_id WHERE COALESCE(p.is_active,1)=1 AND ri.status IN ('WAITING','ACTIVE','OPEN') AND p.user_id IN (${placeholders(chunk.length)})`).bind(...chunk).all();for(const r of rows.results||[])raidSet.add(Number(r.user_id));}
-  }
   return baseRows.map(row=>{
-    const id=Number(row.id),cs=cardMap.get(id)||{};
-    return {...row,id,coin:Number(row.coin||0),card_shards:Number(row.card_shards||0),verified:verified.has(id),card_count:Number(cs.card_count||0),card_quantity:Number(cs.card_quantity||0),high_grade_count:Number(cs.high_grade_count||0),draw_count:Number(drawMap.get(id)||0),inventory_count:Number(inventoryMap.get(id)||0),active_captain:captainSet.has(id),active_raid:raidSet.has(id)};
+    const id=Number(row.id),cards=cardMap.get(id)||{};
+    return {...row,id,coin:Number(row.coin||0),card_shards:Number(row.card_shards||0),card_count:Number(cards.card_count||0),card_quantity:Number(cards.card_quantity||0)};
   });
 }
-function isCandidate(row,c){
-  if(c.unverifiedOnly&&row.verified)return false;
-  if(c.excludeHighGrade&&row.high_grade_count>0)return false;
-  if(c.excludeActiveCaptain&&row.active_captain)return false;
-  if(row.active_raid)return false;
-  return row.card_count<=c.maxCards&&row.draw_count<=c.maxDraws&&row.coin<=c.maxCoin&&row.card_shards<=c.maxShards&&row.inventory_count<=c.maxInventory;
-}
 async function loadCandidates(env,criteria,onlyIds=null){
-  const base=await baseDormantUsers(env,criteria,onlyIds),hydrated=await hydrateCandidateStats(env,base,criteria);
-  return hydrated.filter(x=>isCandidate(x,criteria)).slice(0,criteria.limit);
+  const base=await baseDormantUsers(env,criteria,onlyIds);
+  return hydrateCandidateStats(env,base);
 }
+
 async function estimateRows(env,ids){
   if(!ids.length)return {total:0,tables:{}};
   const existing=await existingTableSet(env,ESTIMATE_SPECS.map(x=>x[0])),statements=[],labels=[];
@@ -224,8 +192,8 @@ export async function handleStorageCleanup({request,env,path,requirePermission,w
     return json({ok:true,pages,userCount:Number(userRow?.count||0),limits:{preview:MAX_PREVIEW,deleteBatch:MAX_DELETE_BATCH,receiptBatch:MAX_RECEIPT_BATCH}});
   }
   if(path==='admin/storage-cleanup/preview'&&request.method==='POST'){
-    const body=await readBody(request),criteria=cleanCriteria(body.criteria||body),candidates=await loadCandidates(env,criteria),estimate=await estimateRows(env,candidates.map(x=>x.id));
-    return json({ok:true,criteria,candidates,estimate,truncated:candidates.length>=criteria.limit});
+    const body=await readBody(request),criteria=cleanCriteria(body.criteria||body),candidates=await loadCandidates(env,criteria);
+    return json({ok:true,criteria,candidates,estimate:{total:0,tables:{}},truncated:candidates.length>=criteria.limit});
   }
   if(path==='admin/storage-cleanup/delete'&&request.method==='POST'){
     const body=await readBody(request),criteria=cleanCriteria(body.criteria||{}),ids=[...new Set((Array.isArray(body.ids)?body.ids:[]).map(Number).filter(Number.isInteger))].slice(0,MAX_DELETE_BATCH);
