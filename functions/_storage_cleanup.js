@@ -3,6 +3,7 @@ const MAX_BASE_SCAN = 1200;
 const MAX_DELETE_BATCH = 10;
 const MAX_RECEIPT_BATCH = 500;
 const MAX_RECEIPT_TARGET = 5000;
+const RECEIPT_SQL_ID_CHUNK = 100; // D1/SQLite 바인딩 변수 255개 제한보다 충분히 낮게 유지
 
 const USER_DELETE_SPECS = [
   ['sessions',['user_id']],['user_cards',['user_id']],['attendance_logs',['user_id']],
@@ -294,11 +295,16 @@ async function receiptPreview(env,{table='draw_request_receipts',retentionDays=1
     const assertionColumns=await tableColumnNames(env,'draw_grant_assertions');
     const assertionPayloadExpr=textByteExpression(assertionColumns);
     const proofExpr=assertionColumns.includes('proof_json')?"LENGTH(CAST(COALESCE(proof_json,'') AS BLOB))":'0';
-    const assertion=await env.DB.prepare(`SELECT COUNT(*) assertion_rows,COALESCE(SUM(${proofExpr}),0) proof_bytes,COALESCE(SUM(${assertionPayloadExpr}),0) payload_bytes
-      FROM draw_grant_assertions WHERE request_id IN (${placeholders(ids.length)})`).bind(...ids).first();
-    assertionRows=Number(assertion?.assertion_rows||0);
-    assertionProofBytes=Number(assertion?.proof_bytes||0);
-    assertionPayloadBytes=Number(assertion?.payload_bytes||0);
+    // D1은 SQL 한 문장당 바인딩 변수가 255개를 넘으면 실패한다.
+    // 500건 미리보기에서도 안전하도록 요청 ID를 100개씩 나눠 합산한다.
+    for(let i=0;i<ids.length;i+=RECEIPT_SQL_ID_CHUNK){
+      const idChunk=ids.slice(i,i+RECEIPT_SQL_ID_CHUNK);
+      const assertion=await env.DB.prepare(`SELECT COUNT(*) assertion_rows,COALESCE(SUM(${proofExpr}),0) proof_bytes,COALESCE(SUM(${assertionPayloadExpr}),0) payload_bytes
+        FROM draw_grant_assertions WHERE request_id IN (${placeholders(idChunk.length)})`).bind(...idChunk).first();
+      assertionRows+=Number(assertion?.assertion_rows||0);
+      assertionProofBytes+=Number(assertion?.proof_bytes||0);
+      assertionPayloadBytes+=Number(assertion?.payload_bytes||0);
+    }
   }
 
   const responseJsonBytes=rows.reduce((sum,row)=>sum+Number(row.response_bytes||0),0);
@@ -364,13 +370,31 @@ async function receiptAggregatePreview(env,{table='draw_request_receipts',retent
 }
 
 async function deleteReceiptBatch(env,opts){
-  const preview=await receiptPreview(env,opts),ids=preview.rows.map(x=>String(x.request_id));
+  const preview=await receiptPreview(env,opts),ids=preview.rows.map(x=>String(x.request_id||'')).filter(Boolean);
   if(!ids.length)return {...preview,deleted:0,assertionsDeleted:0};
   const existing=await existingTableSet(env,[preview.table,'draw_grant_assertions']),statements=[];
-  if(existing.has('draw_grant_assertions'))statements.push(env.DB.prepare(`DELETE FROM draw_grant_assertions WHERE request_id IN (${placeholders(ids.length)})`).bind(...ids));
-  statements.push(env.DB.prepare(`DELETE FROM ${preview.table} WHERE request_id IN (${placeholders(ids.length)}) AND status IN ('COMPLETED','APPLIED','FAILED')`).bind(...ids));
-  const result=await env.DB.batch(statements),assertionsDeleted=statements.length===2?Number(result[0]?.meta?.changes||0):0,deleted=Number(result[result.length-1]?.meta?.changes||0);
-  return {...preview,deleted,assertionsDeleted};
+  const idChunks=[];
+  for(let i=0;i<ids.length;i+=RECEIPT_SQL_ID_CHUNK)idChunks.push(ids.slice(i,i+RECEIPT_SQL_ID_CHUNK));
+
+  // 지급 검증 기록을 먼저 지우고 영수증을 지운다. 각 SQL은 최대 100개 변수만 사용한다.
+  const assertionStatementCount=existing.has('draw_grant_assertions')?idChunks.length:0;
+  if(assertionStatementCount){
+    for(const idChunk of idChunks){
+      statements.push(env.DB.prepare(`DELETE FROM draw_grant_assertions WHERE request_id IN (${placeholders(idChunk.length)})`).bind(...idChunk));
+    }
+  }
+  for(const idChunk of idChunks){
+    statements.push(env.DB.prepare(`DELETE FROM ${preview.table} WHERE request_id IN (${placeholders(idChunk.length)}) AND status IN ('COMPLETED','APPLIED','FAILED')`).bind(...idChunk));
+  }
+
+  const result=await env.DB.batch(statements);
+  let assertionsDeleted=0,deleted=0;
+  result.forEach((row,index)=>{
+    const changes=Number(row?.meta?.changes||0);
+    if(index<assertionStatementCount)assertionsDeleted+=changes;
+    else deleted+=changes;
+  });
+  return {...preview,deleted,assertionsDeleted,sqlChunks:idChunks.length};
 }
 
 export async function handleStorageCleanup({request,env,path,requirePermission,writeAdminLog,readBody,json}){
