@@ -97,7 +97,7 @@ function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브�
 
 
 const BURNING_EVENT_META_KEY='burning_event_settings_v1';
-const BURNING_EVENT_CACHE_MS=30000;
+const BURNING_EVENT_CACHE_MS=5000;
 let burningEventCache=null;
 function defaultBurningEventSettings(){return {enabled:false,generation:0,activatedAt:null,title:'씨켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,battleRewardMultiplier:1.5};}
 function cleanBurningEventSettings(raw={}){const b=defaultBurningEventSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,title:String(raw.title||b.title).trim().slice(0,80)||b.title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};}
@@ -4227,7 +4227,9 @@ export async function onRequest(context){
     }
 
     if(path==='burning-event/status'){
-      const burning=await burningEventSettings(env);return json({burningEvent:burningPublicState(burning)});
+      const forceFresh=new URL(request.url).searchParams.get('fresh')==='1';
+      const burning=await burningEventSettings(env,{fresh:forceFresh});
+      return json({burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='admin/burning-event'){
       const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 없습니다.'},403);

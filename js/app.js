@@ -74,25 +74,61 @@ function applyServerPacks(rows = []) {
 }
 
 
-function applyBurningEventState(next={}){
+const BURNING_EVENT_SYNC_KEY='cnine:burning-event-sync-v1171';
+let burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null;
+function burningEventFingerprint(state={}){
+  return JSON.stringify([state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),Number(state.duplicateShardMultiplier||0),Number(state.packDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
+}
+function syncBurningEventVisibleUi(){
+  if(runtimeCommandContext!=='buy'||!document.querySelector('.page')||document.querySelector('#modal.show'))return;
+  const y=window.scrollY;renderShell('buy');requestAnimationFrame(()=>window.scrollTo(0,y));
+}
+function applyBurningEventState(next={},options={}){
+  const before=burningEventFingerprint(burningEventState);
   burningEventState={...burningEventState,...next};
   PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=burningEventState.enabled?Math.max(0,Math.min(90,Number(burningEventState.packDiscountPercent||0))):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
   document.documentElement.classList.toggle('burning-event-active',burningEventState.enabled===true);
-  if(!burningEventState.enabled)return;
+  const changed=before!==burningEventFingerprint(burningEventState);
+  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice)notice.remove();document.querySelector('.burning-event-strip')?.remove();if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
   const key=`cnine:burning-announced:${Number(burningEventState.generation||0)}`;
-  if(Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
+  if(options.announce!==false&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
     localStorage.setItem(key,'1');
-    setTimeout(()=>showBurningActivationNotice(),300);
+    setTimeout(()=>{if(burningEventState.enabled)showBurningActivationNotice()},300);
   }
+  if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);
+  return changed;
 }
 function showBurningActivationNotice(){
+  if(!burningEventState.enabled)return;
   const old=document.getElementById('burningActivationNotice');if(old)old.remove();
   const el=document.createElement('div');el.id='burningActivationNotice';el.className='burning-activation-notice';
   el.innerHTML=`<div class="burning-notice-flames"><i></i><i></i><i></i><i></i></div><div class="burning-notice-panel"><small>CNINE BURNING EVENT</small><h2>${escapeHtml(burningEventState.title||'씨켓몬 버닝이 발동 되었습니다')}</h2><p>PVE · PVP 15회 / 2분 충전<br>카드조각 2배 · 카드팩 20% 할인 · 일반 전투 보상 50% 증가</p><button type="button">버닝 시작</button></div>`;
   document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'));
   el.querySelector('button').onclick=()=>{el.classList.remove('show');setTimeout(()=>el.remove(),260)};
 }
-async function refreshBurningEventState(){if(!API_MODE)return;try{const d=await apiRequest('burning-event/status',{}, {ttl:3000});applyBurningEventState(d.burningEvent||{})}catch(_){}}
+function stopBurningEventWatch(){if(burningEventWatchTimer){clearTimeout(burningEventWatchTimer);burningEventWatchTimer=null}}
+function scheduleBurningEventWatch(delay=burningEventState.enabled?10000:60000){
+  stopBurningEventWatch();
+  if(!API_MODE||!loadUser()||document.hidden)return;
+  burningEventWatchTimer=setTimeout(async()=>{await refreshBurningEventState({rerender:true});scheduleBurningEventWatch()},Math.max(3000,Number(delay)||10000));
+}
+async function refreshBurningEventState({forceFresh=false,rerender=true}={}){
+  if(!API_MODE)return false;
+  const now=Date.now();if(!forceFresh&&now-burningEventLastRefreshAt<2500)return false;
+  if(burningEventRefreshPromise)return burningEventRefreshPromise;
+  burningEventLastRefreshAt=now;
+  burningEventRefreshPromise=(async()=>{
+    try{
+      const path=forceFresh?'burning-event/status?fresh=1':'burning-event/status';
+      const d=await apiRequest(path,{}, {ttl:0,timeoutMs:7000}),next=d.burningEvent||{};
+      const changed=applyBurningEventState(next,{rerender});
+      if(changed)try{writeStartupSnapshot({burningEvent:next})}catch(_){}
+      return changed;
+    }catch(error){console.warn('버닝 상태 갱신 실패:',error);return false}
+    finally{burningEventRefreshPromise=null}
+  })();
+  return burningEventRefreshPromise;
+}
 
 function migrateLegacyUser() {
   if (localStorage.getItem(STORAGE_KEY)) return;
@@ -1368,7 +1404,7 @@ function writeStartupSnapshot(patch={}){
 function applyStartupSnapshot(snapshot){
   if(Array.isArray(snapshot?.cards)&&snapshot.cards.length)cards=snapshot.cards.map(normalizeClientCard);
   if(Array.isArray(snapshot?.packs)&&snapshot.packs.length)applyServerPacks(snapshot.packs);
-  if(snapshot?.burningEvent&&typeof snapshot.burningEvent==='object')applyBurningEventState(snapshot.burningEvent);
+  if(snapshot?.burningEvent&&typeof snapshot.burningEvent==='object')applyBurningEventState(snapshot.burningEvent,{announce:false});
 }
 async function settled(promise){try{return {ok:true,value:await promise}}catch(error){return {ok:false,error}}}
 function refreshBuyShellAfterStartup(runId){
@@ -1705,7 +1741,7 @@ async function init(){
     // 실제 쓰기 기능은 API_MODE=false 상태에서 계속 차단하고, 한 번만 백그라운드 재연결을 시도한다.
     if(hasCatalogSnapshot&&loadUser()){
       renderShell('buy');
-      setTimeout(async()=>{if(runId!==startupRunId||API_MODE)return;const service=await detectApi();if(!API_MODE)return;if(service?.maintenance?.active&&!service.bypass)return renderMaintenance(service.maintenance,service);await verifyStartupSession();await refreshBurningEventState();refreshBuyShellAfterStartup(runId)},5000);
+      setTimeout(async()=>{if(runId!==startupRunId||API_MODE)return;const service=await detectApi();if(!API_MODE)return;if(service?.maintenance?.active&&!service.bypass)return renderMaintenance(service.maintenance,service);await verifyStartupSession();await refreshBurningEventState({forceFresh:true,rerender:true});scheduleBurningEventWatch();refreshBuyShellAfterStartup(runId)},5000);
       return;
     }
     renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 잠시 후 다시 연결해주세요.':'서버 연결을 확인할 수 없습니다. 잠시 후 다시 연결해주세요.');
@@ -1714,7 +1750,7 @@ async function init(){
   if(runId!==startupRunId)return;
   completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
   if(authenticated)renderShell('buy');else renderLogin();
-  if(authenticated)void refreshBurningEventState();
+  if(authenticated)void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
 
   // 캐시 사용 또는 팩 설정 지연 시 최신 카탈로그는 화면 표시 이후 반영한다.
   if((hasCatalogSnapshot||packPending)&&cardTask&&packTask)void refreshStartupCatalog(runId,cardTask,packTask);
@@ -2050,5 +2086,7 @@ const battleScreenObserver=new MutationObserver(syncBattleScreenLock);
 battleScreenObserver.observe(app,{subtree:true,childList:true,attributes:true,attributeFilter:['class']});
 syncBattleScreenLock();
 
-document.addEventListener('visibilitychange',()=>{if(document.hidden){stopRaidTimer();return;}const raid=document.getElementById('pveRaidView');if(raid&&!raid.hidden)loadRaidView();});
+window.addEventListener('storage',event=>{if(event.key!==BURNING_EVENT_SYNC_KEY||document.hidden)return;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
+window.addEventListener('focus',()=>{if(!loadUser())return;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopRaidTimer();stopBurningEventWatch();return;}const raid=document.getElementById('pveRaidView');if(raid&&!raid.hidden)loadRaidView();if(loadUser())void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
 init();
