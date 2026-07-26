@@ -1469,3 +1469,234 @@ body::-webkit-scrollbar-thumb:hover{
   .pve-card-extra.compact b,.pve-card-extra.compact .compact-mid em,.pve-card-extra.compact strong,
   .pvp-card-extra.compact b,.pvp-card-extra.compact .compact-mid em,.pvp-card-extra.compact strong{font-size:10px!important}
 }
+
+/* V1186: 덱 카드 정보 최종 정리 - 하단 돌파/번개 제거, 상단 유형 아이콘 + 돌파 배지 */
+.pve-card-mini-full,
+.pvp-card-mini-full{
+  display:flex!important;
+  flex-direction:column!important;
+  gap:0!important;
+  margin:0!important;
+  padding:0!important;
+}
+.pve-card-mini-full>.card-frame,
+.pvp-card-mini-full>.card-frame{
+  display:block!important;
+  margin:0!important;
+}
+
+/* 상단 우측 배지를 하나의 줄로 묶는다. */
+.pve-deck-card-display .deck-card-top-badges,
+.pvp-card-display .deck-card-top-badges{
+  position:absolute;
+  z-index:30;
+  top:8px;
+  right:8px;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:4px;
+  max-width:calc(100% - 54px);
+  margin:0;
+  padding:0;
+  pointer-events:none;
+}
+.pve-deck-card-display .deck-card-top-badges>.breakthrough-badge,
+.pvp-card-display .deck-card-top-badges>.breakthrough-badge,
+.pve-deck-card-display[class*="breakthrough-"] .deck-card-top-badges>.breakthrough-badge,
+.pvp-card-display[class*="breakthrough-"] .deck-card-top-badges>.breakthrough-badge{
+  position:static!important;
+  inset:auto!important;
+  left:auto!important;
+  right:auto!important;
+  top:auto!important;
+  bottom:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 auto!important;
+  min-width:46px!important;
+  height:28px!important;
+  margin:0!important;
+  padding:0 8px!important;
+  border-radius:7px!important;
+  font-size:10px!important;
+  line-height:1!important;
+  letter-spacing:.3px!important;
+  animation:none!important;
+}
+.pve-deck-card-display .deck-card-top-badges>.breakthrough-badge:before,
+.pvp-card-display .deck-card-top-badges>.breakthrough-badge:before{
+  margin-right:3px!important;
+  font-size:7px!important;
+}
+.deck-ability-icon{
+  display:inline-grid;
+  place-items:center;
+  flex:0 0 28px;
+  width:28px;
+  height:28px;
+  margin:0;
+  padding:0;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:8px;
+  background:rgba(6,14,29,.94);
+  box-shadow:0 4px 12px rgba(0,0,0,.48),inset 0 1px 0 rgba(255,255,255,.12);
+  line-height:1;
+}
+.deck-ability-icon i{
+  display:block;
+  margin:0;
+  font-size:14px;
+  font-style:normal;
+  font-weight:1000;
+  line-height:1;
+  transform:translateY(-.5px);
+}
+.deck-ability-icon.unique-type-attack{border-color:rgba(255,104,92,.72);background:linear-gradient(145deg,rgba(92,21,23,.97),rgba(43,8,13,.97));color:#ff8d82;box-shadow:0 4px 12px rgba(0,0,0,.48),0 0 10px rgba(255,77,62,.24)}
+.deck-ability-icon.unique-type-defense{border-color:rgba(104,218,255,.72);background:linear-gradient(145deg,rgba(8,67,92,.97),rgba(4,27,48,.97));color:#85e7ff;box-shadow:0 4px 12px rgba(0,0,0,.48),0 0 10px rgba(69,204,255,.23)}
+.deck-ability-icon.unique-type-speed{border-color:rgba(255,215,92,.75);background:linear-gradient(145deg,rgba(91,64,9,.97),rgba(39,25,4,.97));color:#ffe06f;box-shadow:0 4px 12px rgba(0,0,0,.48),0 0 10px rgba(255,211,72,.24)}
+.deck-ability-icon.unique-type-hp{border-color:rgba(103,234,155,.72);background:linear-gradient(145deg,rgba(11,79,48,.97),rgba(4,37,25,.97));color:#87f0b0;box-shadow:0 4px 12px rgba(0,0,0,.48),0 0 10px rgba(72,226,135,.23)}
+.deck-ability-icon.owner-test{border-color:rgba(206,161,255,.75);background:linear-gradient(145deg,rgba(66,31,103,.97),rgba(30,13,51,.97));color:#dcbcff}
+
+/* 카드 상단·하단의 불필요한 표시와 공백 제거 */
+.pve-deck-card-display .limited-badge,
+.pvp-card-display .limited-badge,
+.pve-deck-card-display .card-header .power-type-indicator,
+.pvp-card-display .card-header .power-type-indicator,
+.pve-deck-card-display .card-title-row>.card-unique-badge,
+.pvp-card-display .card-title-row>.card-unique-badge{
+  display:none!important;
+}
+.pve-deck-card-display .card-header,
+.pvp-card-display .card-header{
+  height:28px!important;
+  padding:0 4px!important;
+}
+.pve-deck-card-display .card-header>b,
+.pvp-card-display .card-header>b{
+  display:none!important;
+}
+.pve-deck-card-display .card-footer,
+.pvp-card-display .card-footer{
+  min-height:48px!important;
+  padding:5px 3px 1px!important;
+  gap:4px!important;
+}
+.pve-deck-card-display .card-footer>div,
+.pvp-card-display .card-footer>div{
+  min-width:0!important;
+  flex:1 1 auto!important;
+}
+.pve-deck-card-display .card-footer small,
+.pvp-card-display .card-footer small{
+  min-height:0!important;
+  margin:0 0 2px!important;
+  font-size:9px!important;
+  line-height:1.05!important;
+  -webkit-line-clamp:1!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  text-overflow:ellipsis!important;
+}
+.pve-deck-card-display .card-title-row,
+.pvp-card-display .card-title-row{
+  display:block!important;
+  margin:0!important;
+  padding:0!important;
+}
+.pve-deck-card-display .card-title-row>.card-title,
+.pvp-card-display .card-title-row>.card-title{
+  min-height:23px!important;
+  margin:0!important;
+  color:#f8fbff!important;
+  font-size:11px!important;
+  font-weight:1000!important;
+  line-height:1.05!important;
+  letter-spacing:-.045em!important;
+  white-space:normal!important;
+  overflow:hidden!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2!important;
+  -webkit-box-orient:vertical!important;
+}
+.pve-deck-card-display .card-mini-logo,
+.pvp-card-display .card-mini-logo{
+  flex:0 0 auto!important;
+  width:25px!important;
+  height:20px!important;
+  margin:0!important;
+}
+
+/* 하단은 등급과 전투력만 한 줄로 붙인다. */
+.pve-card-extra.compact.deck-card-summary,
+.pvp-card-extra.compact.deck-card-summary{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:8px!important;
+  min-height:34px!important;
+  margin:0!important;
+  padding:5px 8px!important;
+  border-top:0!important;
+  border-radius:0 0 12px 12px!important;
+}
+.pve-card-extra.compact.deck-card-summary>b,
+.pvp-card-extra.compact.deck-card-summary>b{
+  overflow:hidden;
+  color:#64ddf5!important;
+  font-size:11px!important;
+  font-weight:1000!important;
+  line-height:1!important;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.pve-card-extra.compact.deck-card-summary>strong,
+.pvp-card-extra.compact.deck-card-summary>strong{
+  justify-self:end!important;
+  color:#ffe070!important;
+  font-size:12px!important;
+  font-weight:1000!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+}
+.pve-card-extra.compact.deck-card-summary>.compact-mid,
+.pvp-card-extra.compact.deck-card-summary>.compact-mid{
+  display:none!important;
+}
+
+/* 카드와 하단 정보 사이 공백 제거 */
+.pve-frame-slot,
+.pve-frame-pick,
+.pvp-deck-slot,
+.pvp-pick,
+.pve-card-mini-full,
+.pvp-card-mini-full{
+  vertical-align:top!important;
+}
+.pve-frame-slot .pve-card-mini-full,
+.pve-frame-pick .pve-card-mini-full,
+.pvp-deck-slot .pvp-card-mini-full,
+.pvp-pick .pvp-card-mini-full{
+  margin:0!important;
+  padding:0!important;
+}
+
+@media(max-width:680px){
+  .pve-deck-card-display .deck-card-top-badges,
+  .pvp-card-display .deck-card-top-badges{top:6px;right:6px;gap:3px}
+  .deck-ability-icon{width:24px;height:24px;flex-basis:24px;border-radius:7px}
+  .deck-ability-icon i{font-size:12px}
+  .pve-deck-card-display .deck-card-top-badges>.breakthrough-badge,
+  .pvp-card-display .deck-card-top-badges>.breakthrough-badge,
+  .pve-deck-card-display[class*="breakthrough-"] .deck-card-top-badges>.breakthrough-badge,
+  .pvp-card-display[class*="breakthrough-"] .deck-card-top-badges>.breakthrough-badge{
+    min-width:40px!important;height:24px!important;padding:0 6px!important;font-size:9px!important
+  }
+  .pve-deck-card-display .card-footer,
+  .pvp-card-display .card-footer{min-height:43px!important;padding-top:4px!important}
+  .pve-deck-card-display .card-title-row>.card-title,
+  .pvp-card-display .card-title-row>.card-title{font-size:10px!important;min-height:21px!important}
+  .pve-card-extra.compact.deck-card-summary,
+  .pvp-card-extra.compact.deck-card-summary{min-height:31px!important;padding:4px 7px!important}
+}
