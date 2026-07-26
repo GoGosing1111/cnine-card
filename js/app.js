@@ -516,7 +516,7 @@ function dexView(user) {
 }
 function dexSection(item,owned,index=0,prefs=loadDexPrefs()) {
   const {name,list,got}=item,favorite=(prefs.favoriteMembers||[]).includes(name);
-  return `<section class="dex-section ${index>1?'collapsed':''} ${favorite?'favorite-member':''}" data-member="${escapeHtml(name)}" data-total="${list.length}" data-owned="${got}"><div class="dex-section-head"><button type="button" class="dex-fold-button"><span><i class="fold-icon">⌄</i><strong>${escapeHtml(name)}</strong><small>COLLECTION ALBUM</small></span><b>${got} / ${list.length}</b></button><button type="button" class="dex-member-favorite ${favorite?'active':''}" data-favorite-member="${escapeHtml(name)}" aria-label="${escapeHtml(name)} 즐겨찾기" aria-pressed="${favorite?'true':'false'}">★</button></div><div class="album-grid">${list.map(c=>cardHtml(c,owned.has(c.id),'small')).join('')}</div></section>`;
+  return `<section class="dex-section ${index>1?'collapsed':''} ${favorite?'favorite-member':''}" data-member="${escapeHtml(name)}" data-total="${list.length}" data-owned="${got}"><div class="dex-section-head"><button type="button" class="dex-fold-button"><span><i class="fold-icon">⌄</i><strong>${escapeHtml(name)}</strong><small>COLLECTION ALBUM</small></span><b>${got} / ${list.length}</b></button><button type="button" class="dex-member-favorite ${favorite?'active':''}" data-favorite-member="${escapeHtml(name)}" aria-label="${escapeHtml(name)} 즐겨찾기" aria-pressed="${favorite?'true':'false'}">★</button></div><div class="album-grid">${list.map(c=>cardHtml(c,owned.has(c.id),'small dex-card-display')).join('')}</div></section>`;
 }
 
 
@@ -1365,7 +1365,7 @@ function bindView(tab) {
     const search=document.getElementById('dexSearch'),filter=document.getElementById('gradeFilter'),sort=document.getElementById('dexSort'),favoriteOnly=document.getElementById('favoriteMemberOnly');
     const apply=()=>{const prefs=loadDexPrefs(),q=search.value.trim().toLowerCase(),g=filter.value;document.querySelectorAll('.dex-section').forEach(section=>{let visible=0;section.querySelectorAll('.card-frame').forEach(el=>{const c=cards.find(x=>x.id===el.dataset.id),show=(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q))&&(!g||c.grade===g);el.style.display=show?'':'none';if(show)visible++});const favoriteMatch=!prefs.favoriteOnly||section.classList.contains('favorite-member');section.style.display=visible&&favoriteMatch?'':'none';if(q||g)section.classList.remove('collapsed')});prefs.search=search.value;prefs.grade=g;saveDexPrefs(prefs)};
     document.querySelectorAll('.dex-member-favorite').forEach(button=>button.onclick=e=>{e.stopPropagation();const prefs=loadDexPrefs(),name=button.dataset.favoriteMember,list=new Set(prefs.favoriteMembers||[]);list.has(name)?list.delete(name):list.add(name);prefs.favoriteMembers=[...list];saveDexPrefs(prefs);renderShell('dex')});
-    search.oninput=apply;filter.onchange=apply;sort.onchange=()=>{const prefs=loadDexPrefs();prefs.sort=sort.value;saveDexPrefs(prefs);renderShell('dex')};favoriteOnly.onclick=()=>{const prefs=loadDexPrefs();prefs.favoriteOnly=!prefs.favoriteOnly;saveDexPrefs(prefs);renderShell('dex')};const uniqueLegend=document.querySelector('[data-scroll-unique]');if(uniqueLegend)uniqueLegend.onclick=()=>{const first=document.querySelector('.card-unique-badge');if(first){first.closest('.dex-section')?.classList.remove('collapsed');first.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>first.classList.add('pulse'),300);setTimeout(()=>first.classList.remove('pulse'),1700)}};apply();
+    search.oninput=apply;filter.onchange=apply;sort.onchange=()=>{const prefs=loadDexPrefs();prefs.sort=sort.value;saveDexPrefs(prefs);renderShell('dex')};favoriteOnly.onclick=()=>{const prefs=loadDexPrefs();prefs.favoriteOnly=!prefs.favoriteOnly;saveDexPrefs(prefs);renderShell('dex')};const uniqueLegend=document.querySelector('[data-scroll-unique]');if(uniqueLegend)uniqueLegend.onclick=()=>{const first=document.querySelector('.dex-card-display .deck-ability-icon, .card-unique-badge');if(first){first.closest('.dex-section')?.classList.remove('collapsed');first.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>first.classList.add('pulse'),300);setTimeout(()=>first.classList.remove('pulse'),1700)}};apply();
   }
 }
 
@@ -1494,7 +1494,7 @@ async function playUniqueBattleEventSequence(stage,phase,msg,uniquePayload,cards
 }
 
 function deckAbilityIconHtml(card,classes=''){
-  if(!/(?:pve-deck-card-display|pvp-card-display)/.test(String(classes)))return '';
+  if(!/(?:pve-deck-card-display|pvp-card-display|dex-card-display)/.test(String(classes)))return '';
   const dominant=uniqueAbilityDominant(card);
   if(!dominant)return '';
   const icon=dominant.key==='attack'?'⚔':dominant.key==='defense'?'⬡':dominant.key==='speed'?'↯':'♥';
@@ -1510,8 +1510,10 @@ function cardHtml(card, owned, classes='', user=loadUser()) {
   const level=Number(user?.breakthroughs?.[card.id]||0);
   const breakthrough=level>0?` breakthrough-${level}`:'';
   const deckCard=/(?:pve-deck-card-display|pvp-card-display)/.test(String(classes));
-  const topBadges=deckCard?`<div class="deck-card-top-badges">${deckAbilityIconHtml(card,classes)}${level>0?`<div class="breakthrough-badge">★${level}</div>`:''}</div>`:(level>0?`<div class="breakthrough-badge">★${level}</div>`:'');
-  return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>CNINE</b></div><div class="card-art"><img loading="lazy" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${deckCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="CNINE"></div></div></article>`;
+  const dexCard=/dex-card-display/.test(String(classes));
+  const iconCard=deckCard||dexCard;
+  const topBadges=iconCard?`<div class="deck-card-top-badges">${deckAbilityIconHtml(card,classes)}${level>0?`<div class="breakthrough-badge">★${level}</div>`:''}</div>`:(level>0?`<div class="breakthrough-badge">★${level}</div>`:'');
+  return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>CNINE</b></div><div class="card-art"><img loading="lazy" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="CNINE"></div></div></article>`;
 }
 
 function showDetail(id,initialTab='auto') {
