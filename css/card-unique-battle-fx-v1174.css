@@ -785,3 +785,160 @@
 .pvp-card-display .card-footer{
   align-items:flex-end!important;
 }
+
+/* V1183: PVE/PVP 덱 편성 카드 크기 통일 + 출전덱보기 버튼 고급화 */
+:root{
+  --cnine-deck-card-width:198px;
+  --cnine-deck-card-min:186px;
+}
+
+/* PVE 덱 편성 화면 */
+#pveHuntView.pve-view-deck .pve-command-layout-v1179{
+  grid-template-columns:minmax(320px,360px) minmax(0,1fr)!important;
+}
+#pveHuntView.pve-view-deck .pve-squad-grid{
+  grid-template-columns:1fr!important;
+  justify-items:center!important;
+}
+#pveHuntView.pve-view-deck .pve-frame-slot.filled,
+#pveHuntView.pve-view-deck .pve-frame-slot.empty,
+#pveHuntView.pve-view-deck .pve-frame-pick{
+  max-width:var(--cnine-deck-card-width)!important;
+  width:100%!important;
+}
+#pveHuntView.pve-view-deck .pve-frame-slot.empty{
+  min-height:290px!important;
+}
+#pveHuntView.pve-view-deck .pve-card-mini-full>.card-frame,
+#pveHuntView.pve-view-deck .pve-card-extra{
+  max-width:var(--cnine-deck-card-width)!important;
+}
+#pveHuntView.pve-view-deck .pve-grade-grid{
+  grid-template-columns:repeat(3,minmax(var(--cnine-deck-card-min),var(--cnine-deck-card-width)))!important;
+  gap:14px!important;
+}
+#pveHuntView.pve-view-deck .pve-builder-list{
+  padding-right:10px!important;
+}
+
+/* PVE 덱 편성실 우측 상단 버튼 */
+#pveHuntView.pve-view-deck .pve-mobile-pane-title button[data-pve-tab="deck"]{
+  appearance:none;
+  border:1px solid rgba(114,197,255,.28)!important;
+  background:linear-gradient(135deg,rgba(17,74,132,.92),rgba(82,120,255,.86))!important;
+  color:#f4fbff!important;
+  border-radius:999px!important;
+  min-height:42px;
+  padding:0 16px!important;
+  font-size:13px!important;
+  font-weight:900!important;
+  letter-spacing:-.02em;
+  box-shadow:0 10px 22px rgba(28,74,158,.26), inset 0 1px 0 rgba(255,255,255,.18);
+  transition:transform .16s ease,filter .16s ease,box-shadow .16s ease;
+}
+#pveHuntView.pve-view-deck .pve-mobile-pane-title button[data-pve-tab="deck"]:hover,
+#pveHuntView.pve-view-deck .pve-mobile-pane-title button[data-pve-tab="deck"]:focus-visible{
+  transform:translateY(-1px);
+  filter:brightness(1.05);
+  box-shadow:0 14px 26px rgba(28,74,158,.32), inset 0 1px 0 rgba(255,255,255,.2);
+}
+
+/* PVP도 PVE와 같은 카드 크기/배치로 통일 */
+.pvp-deck-slots{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(var(--cnine-deck-card-min),var(--cnine-deck-card-width)));
+  gap:14px;
+  align-items:start;
+  justify-content:start;
+  margin-bottom:18px;
+}
+.pvp-deck-slot.filled,
+.pvp-deck-slot.empty,
+.pvp-pick{
+  width:100%;
+  max-width:var(--cnine-deck-card-width);
+}
+.pvp-card-picker.grouped .pvp-grade-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(var(--cnine-deck-card-min),var(--cnine-deck-card-width)));
+  gap:14px;
+  justify-content:start;
+  align-items:start;
+}
+.pvp-card-mini-full>.card-frame,
+.pvp-card-extra{
+  max-width:var(--cnine-deck-card-width)!important;
+  margin:0 auto!important;
+}
+.pvp-deck-slot.empty{
+  display:flex;
+  min-height:290px;
+}
+.pvp-empty-slot{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  border:1px dashed rgba(103,176,244,.34);
+  border-radius:18px;
+  background:linear-gradient(180deg,rgba(6,18,39,.76),rgba(5,13,30,.62));
+  color:#829fc7;
+}
+.pvp-empty-slot span{
+  display:grid;
+  place-items:center;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  background:rgba(71,127,190,.15);
+  border:1px solid rgba(112,184,255,.2);
+  color:#d5e7ff;
+  font-size:15px;
+  font-weight:1000;
+}
+
+@media(max-width:1320px){
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{
+    grid-template-columns:repeat(2,minmax(var(--cnine-deck-card-min),var(--cnine-deck-card-width)))!important;
+  }
+  .pvp-deck-slots{
+    grid-template-columns:repeat(4,minmax(var(--cnine-deck-card-min),var(--cnine-deck-card-width)));
+  }
+}
+@media(max-width:980px){
+  #pveHuntView.pve-view-deck .pve-command-layout-v1179{
+    grid-template-columns:1fr!important;
+  }
+  #pveHuntView.pve-view-deck .pve-squad-grid,
+  .pvp-deck-slots{
+    grid-template-columns:repeat(2,minmax(var(--cnine-deck-card-min),var(--cnine-deck-card-width)))!important;
+    justify-content:center!important;
+  }
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{
+    grid-template-columns:repeat(3,minmax(160px,1fr))!important;
+  }
+}
+@media(max-width:760px){
+  #pveHuntView.pve-view-deck .pve-squad-grid,
+  .pvp-deck-slots{
+    grid-template-columns:1fr!important;
+  }
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{
+    grid-template-columns:repeat(2,minmax(150px,1fr))!important;
+  }
+  #pveHuntView.pve-view-deck .pve-mobile-pane-title button[data-pve-tab="deck"]{
+    min-height:38px;
+    padding:0 14px!important;
+    font-size:12px!important;
+  }
+}
+@media(max-width:560px){
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{
+    grid-template-columns:1fr!important;
+  }
+}
