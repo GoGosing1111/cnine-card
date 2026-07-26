@@ -598,8 +598,8 @@ async function loadBattleEnergyOnly(){try{const d=await apiRequest('battle/confi
 
 function battleCardPower(card,user,settings){const base=Number(card.basePower||settings?.powerByGrade?.[card.grade]||0),lv=Number(user.breakthroughs?.[card.id]||0),pct=Number(settings?.breakthroughBonus?.[lv]||0);return Math.floor(base*(1+pct/100));}
 function pveDeckCardMini(card,user=loadUser()){
-  const level=Number(user?.breakthroughs?.[card.id]||0),limited=card.limitedTotal!==null&&card.limitedTotal!==undefined,power=battleCardPower(card,user,battleState.config);
-  return `<div class="pve-card-mini-full">${cardHtml(card,true,'pve-deck-card-display',user)}<div class="pve-card-extra"><b>${escapeHtml(card.grade||card.rarity||'C')}</b><span><em>돌파 ★${level}</em><i>${limited?'한정판':'일반'}</i>${powerTypeIndicatorHtml(card,'pve-power-type')}</span><strong>${power.toLocaleString()}</strong></div></div>`;
+  const power=battleCardPower(card,user,battleState.config);
+  return `<div class="pve-card-mini-full">${cardHtml(card,true,'pve-deck-card-display',user)}<div class="pve-card-extra compact"><b>${escapeHtml(card.grade||card.rarity||'C')}</b><strong>${power.toLocaleString()}</strong></div></div>`;
 }
 function pveDeckGradeGroups(list=[]){
   return [...new Set(list.map(card=>card.grade))].map(grade=>({grade,cards:list.filter(card=>card.grade===grade)}));

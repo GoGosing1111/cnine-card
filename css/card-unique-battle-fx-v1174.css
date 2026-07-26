@@ -634,3 +634,154 @@
   #pveHuntView.pve-view-hunt .pve-target-image{width:100%!important;height:210px!important}
   #pveHuntView.pve-view-hunt .pve-monster-grid.redesign{grid-template-columns:1fr!important;max-height:none;overflow:visible}
 }
+
+/* V1182: PVE 카드형 편성 화면 가독성 개선 - 카드 수를 제한해 크게 보이도록 조정 */
+#pveHuntView.pve-view-deck .pve-command-layout-v1179{
+  grid-template-columns:minmax(360px,420px) minmax(0,1fr)!important;
+  gap:18px!important;
+}
+#pveHuntView.pve-view-deck .pve-squad-panel,
+#pveHuntView.pve-view-deck .pve-builder-panel{
+  min-width:0;
+}
+#pveHuntView.pve-view-deck .pve-squad-grid{
+  grid-template-columns:1fr!important;
+  gap:14px!important;
+}
+#pveHuntView.pve-view-deck .pve-frame-slot.empty{
+  min-height:320px;
+}
+#pveHuntView.pve-view-deck .pve-frame-slot.filled,
+#pveHuntView.pve-view-deck .pve-frame-slot.empty{
+  max-width:320px;
+  width:100%;
+  margin:0 auto;
+}
+#pveHuntView.pve-view-deck .pve-builder-list{
+  display:block!important;
+  max-height:1180px;
+  overflow:auto;
+  padding-right:8px;
+}
+#pveHuntView.pve-view-deck .pve-grade-group{
+  margin-top:18px;
+}
+#pveHuntView.pve-view-deck .pve-grade-grid{
+  grid-template-columns:repeat(3,minmax(205px,230px))!important;
+  justify-content:start!important;
+  gap:16px!important;
+}
+#pveHuntView.pve-view-deck .pve-frame-pick{
+  width:100%;
+  max-width:230px;
+}
+#pveHuntView.pve-view-deck .pve-card-mini-full>.card-frame{
+  max-width:230px!important;
+  margin:0 auto!important;
+}
+#pveHuntView.pve-view-deck .pve-card-extra{
+  max-width:230px;
+  margin:0 auto;
+}
+#pveHuntView.pve-view-deck .pve-selected-cover{
+  padding:12px;
+}
+#pveHuntView.pve-view-deck .pve-selected-cover b{
+  height:32px;
+  padding:0 12px;
+  font-size:12px;
+}
+
+@media(max-width:1320px){
+  #pveHuntView.pve-view-deck .pve-command-layout-v1179{
+    grid-template-columns:minmax(320px,380px) minmax(0,1fr)!important;
+  }
+  #pveHuntView.pve-view-deck .pve-grade-grid{
+    grid-template-columns:repeat(2,minmax(205px,230px))!important;
+  }
+}
+@media(max-width:980px){
+  #pveHuntView.pve-view-deck .pve-command-layout-v1179{
+    grid-template-columns:1fr!important;
+  }
+  #pveHuntView.pve-view-deck .pve-squad-grid{
+    grid-template-columns:repeat(2,minmax(220px,1fr))!important;
+    justify-content:center!important;
+  }
+  #pveHuntView.pve-view-deck .pve-frame-slot.filled,
+  #pveHuntView.pve-view-deck .pve-frame-slot.empty{
+    max-width:none;
+  }
+  #pveHuntView.pve-view-deck .pve-grade-grid{
+    grid-template-columns:repeat(3,minmax(180px,1fr))!important;
+  }
+  #pveHuntView.pve-view-deck .pve-frame-pick,
+  #pveHuntView.pve-view-deck .pve-card-mini-full>.card-frame,
+  #pveHuntView.pve-view-deck .pve-card-extra{
+    max-width:none!important;
+  }
+}
+@media(max-width:760px){
+  #pveHuntView.pve-view-deck .pve-squad-grid{
+    grid-template-columns:1fr!important;
+  }
+  #pveHuntView.pve-view-deck .pve-grade-grid{
+    grid-template-columns:repeat(2,minmax(160px,1fr))!important;
+  }
+}
+@media(max-width:560px){
+  #pveHuntView.pve-view-deck .pve-grade-grid{
+    grid-template-columns:1fr!important;
+  }
+}
+
+/* V1182-2: PVE 카드 하단 정보 최소화 + 카드명 가독성 개선 */
+.pve-card-extra.compact{
+  grid-template-columns:minmax(0,1fr) auto!important;
+  gap:10px!important;
+}
+.pve-card-extra.compact>strong{
+  justify-self:end;
+}
+.pve-deck-card-display .limited-badge,
+.pve-deck-card-display .card-header .power-type-indicator{
+  display:none!important;
+}
+.pve-deck-card-display .card-header span,
+.pvp-card-display .card-header span{
+  gap:0!important;
+}
+.pve-deck-card-display .card-footer small,
+.pvp-card-display .card-footer small{
+  color:#ff7cc7!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  line-height:1.12!important;
+  letter-spacing:-.02em!important;
+}
+.pve-deck-card-display .card-title-row,
+.pvp-card-display .card-title-row{
+  align-items:flex-start!important;
+  gap:4px!important;
+}
+.pve-deck-card-display .card-title-row>.card-title,
+.pvp-card-display .card-title-row>.card-title{
+  color:#f7fbff!important;
+  font-size:12px!important;
+  font-weight:1000!important;
+  line-height:1.14!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:unset!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+}
+.pve-deck-card-display .card-title-row>.card-unique-badge,
+.pvp-card-display .card-title-row>.card-unique-badge{
+  margin-top:1px!important;
+}
+.pve-deck-card-display .card-footer,
+.pvp-card-display .card-footer{
+  align-items:flex-end!important;
+}
