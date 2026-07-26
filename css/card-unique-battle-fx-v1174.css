@@ -241,3 +241,75 @@
     top:48%!important;
   }
 }
+
+/* V1176: PVE/PVP 덱 편성 UI 통합. 과한 포지션 라벨 대신 동일한 컴팩트 타입 칩을 사용한다. */
+.unified-deck-card{
+  position:relative;display:block;width:100%;text-align:left;
+  border:1px solid rgba(101,154,214,.2);border-radius:16px;
+  background:linear-gradient(180deg,rgba(7,18,38,.96),rgba(5,13,30,.92));
+  box-shadow:0 10px 24px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.04);
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,filter .16s ease;
+}
+.unified-deck-card:hover,.unified-deck-card:focus-visible{transform:translateY(-1px);border-color:rgba(105,186,255,.42);box-shadow:0 14px 30px rgba(0,0,0,.28),0 0 0 1px rgba(76,169,255,.16)}
+.unified-deck-card.selected,.unified-deck-card[disabled]{border-color:rgba(96,209,172,.38);box-shadow:0 12px 28px rgba(0,0,0,.28),0 0 0 1px rgba(77,214,176,.16);filter:saturate(.9)}
+.unified-deck-card[disabled]{cursor:default;opacity:.82}
+
+.deck-builder-card-body{display:grid;grid-template-columns:74px minmax(0,1fr);gap:12px;align-items:center;padding:12px 14px}
+.deck-builder-card-body.pve-slot,.deck-builder-card-body.pvp-slot{grid-template-columns:64px minmax(0,1fr);padding:11px 12px}
+.deck-builder-thumb-wrap{width:74px;height:74px;border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.08);background:linear-gradient(135deg,rgba(16,39,76,.95),rgba(7,19,38,.95));box-shadow:inset 0 0 0 1px rgba(255,255,255,.04)}
+.deck-builder-card-body.pve-slot .deck-builder-thumb-wrap,.deck-builder-card-body.pvp-slot .deck-builder-thumb-wrap{width:64px;height:64px;border-radius:12px}
+.deck-builder-thumb{display:block;width:100%;height:100%;object-fit:cover}
+.deck-builder-copy{min-width:0;display:flex;flex-direction:column;gap:8px}
+.deck-builder-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.deck-builder-title-box{min-width:0;display:flex;flex-direction:column;gap:2px}
+.deck-builder-title-box small{color:#86a4cf;font-size:11px;font-weight:800;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deck-builder-title-box b{color:#f4f8ff;font-size:18px;font-weight:900;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deck-builder-card-body.pve-slot .deck-builder-title-box b,.deck-builder-card-body.pvp-slot .deck-builder-title-box b{font-size:16px}
+.deck-builder-power{flex:0 0 auto;color:#f7d45f;font-size:17px;font-weight:900;letter-spacing:-.02em;white-space:nowrap}
+.deck-builder-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.deck-meta-pill{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:999px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04);color:#c7d6ee;font-size:11px;font-weight:800;line-height:1}
+.deck-meta-pill.breakthrough{color:#ffe69b;border-color:rgba(255,217,120,.2);background:rgba(255,206,84,.08)}
+.deck-meta-pill.grade{color:#8bd4ff;border-color:rgba(105,198,255,.18);background:rgba(43,123,183,.12)}
+.deck-meta-pill.edition{color:#b8c7df}
+.deck-meta-power-type{display:inline-flex;align-items:center;gap:3px}
+.deck-meta-power-type .power-type-indicator{margin-left:2px}
+.deck-builder-chip-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.deck-slot-action{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:999px;background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.08);color:#7f9cc3;font-size:11px;font-weight:800}
+
+.deck-type-chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);font-size:12px;font-weight:900;line-height:1;white-space:nowrap;box-shadow:inset 0 0 0 1px rgba(255,255,255,.03)}
+.deck-type-chip i{font-size:11px;opacity:.9}
+.deck-type-chip b{font-size:12px;letter-spacing:-.02em}
+.deck-type-chip em{margin-left:1px;font-size:11px;font-style:normal;font-weight:900;opacity:.86}
+.deck-type-chip.deck-type-none{color:#a9b9d4;border-color:rgba(140,160,192,.18);background:rgba(255,255,255,.035)}
+.deck-type-chip.unique-type-attack{border-color:rgba(255,118,103,.5);background:linear-gradient(135deg,rgba(67,17,20,.94),rgba(112,34,30,.9));color:#ffd6d0}
+.deck-type-chip.unique-type-defense{border-color:rgba(103,218,255,.5);background:linear-gradient(135deg,rgba(5,37,65,.94),rgba(12,76,105,.9));color:#d8f8ff}
+.deck-type-chip.unique-type-speed{border-color:rgba(121,240,255,.5);background:linear-gradient(135deg,rgba(7,45,60,.94),rgba(15,91,108,.9));color:#dcfbff}
+.deck-type-chip.unique-type-hp{border-color:rgba(112,239,165,.5);background:linear-gradient(135deg,rgba(7,54,37,.94),rgba(18,101,67,.9));color:#dfffea}
+.deck-type-chip.owner-test{border-color:rgba(206,161,255,.45);background:linear-gradient(135deg,rgba(39,18,67,.95),rgba(61,31,96,.92));color:#eadbff}
+
+.unified-empty-slot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:118px;padding:16px;border:1px dashed rgba(118,170,227,.24);border-radius:16px;background:linear-gradient(180deg,rgba(6,17,36,.64),rgba(7,18,34,.48));color:#8da9ce;text-align:center}
+.unified-empty-slot span{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:rgba(83,137,205,.12);border:1px solid rgba(117,177,255,.18);font-size:13px;font-weight:900;color:#cfe2ff}
+.unified-empty-slot b{font-size:14px;color:#d9e8ff}.unified-empty-slot small{font-size:12px;color:#7d98bf}
+
+#battleCards.battle-card-picker,.unified-pvp-picker{display:grid;gap:12px}
+#battleDeck.battle-deck,.unified-pvp-slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.unified-grade-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+.pvp-grade-title{margin-bottom:10px}
+.pvp-pick,.battle-pick-card,.battle-deck-card,.pvp-deck-slot.filled{padding:0;background:none}
+.pvp-pick .pvp-card-mini-full,.pvp-deck-slot .pvp-card-mini-full,.battle-pick-card>img,.battle-pick-card>span,.battle-pick-card>strong,.battle-deck-card>img,.battle-deck-card>span,.battle-deck-card>b,.battle-deck-card>small{display:unset}
+
+@media(max-width:900px){
+  #battleDeck.battle-deck,.unified-pvp-slots,.unified-grade-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .deck-builder-card-body{grid-template-columns:60px minmax(0,1fr);gap:10px;padding:10px 11px}
+  .deck-builder-card-body.pve-slot,.deck-builder-card-body.pvp-slot{grid-template-columns:56px minmax(0,1fr);padding:10px}
+  .deck-builder-thumb-wrap{width:60px;height:60px;border-radius:12px}
+  .deck-builder-card-body.pve-slot .deck-builder-thumb-wrap,.deck-builder-card-body.pvp-slot .deck-builder-thumb-wrap{width:56px;height:56px;border-radius:11px}
+  .deck-builder-title-box b{font-size:15px}
+  .deck-builder-power{font-size:15px}
+  .deck-meta-pill{height:20px;padding:0 7px;font-size:10px}
+  .deck-type-chip{height:24px;padding:0 8px;font-size:11px}
+  .deck-type-chip b{font-size:11px}.deck-type-chip em{font-size:10px}
+  .unified-empty-slot{min-height:96px;padding:14px}
+}
