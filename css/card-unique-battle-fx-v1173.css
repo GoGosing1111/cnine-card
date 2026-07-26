@@ -1,0 +1,129 @@
+/* V1173 카드 고유 능력 대표 스탯 전투 이펙트
+   수치 보정은 4종 모두 적용하고, 카드별 최고 양수 스탯 1종만 시각 발동한다. */
+.unique-card-fx-host{position:relative;isolation:isolate;overflow:visible!important}
+.unique-card-fx-host>.unique-card-fx{position:absolute;z-index:7;inset:-42%;display:block;pointer-events:none;opacity:0;overflow:visible;transform:translateZ(0)}
+.unique-card-fx-host>.unique-card-fx>i,.unique-card-fx-host>.unique-card-fx>b{position:absolute;display:block;pointer-events:none}
+.unique-card-fx-host>.unique-card-fx>b{z-index:12;left:50%;bottom:3%;padding:4px 8px;border:1px solid currentColor;border-radius:999px;background:rgba(3,9,18,.88);font-size:7px;font-style:normal;font-weight:1000;letter-spacing:.12em;line-height:1;white-space:nowrap;opacity:0;transform:translate(-50%,8px);text-shadow:0 0 9px currentColor}
+.unique-card-fx-host>.battle-fighter-card,.unique-card-fx-host>.raid-main-attacker{position:relative;z-index:8}
+.unique-card-fx-host.unique-fx-active>.unique-card-fx{opacity:1}
+.unique-card-fx-host.unique-fx-active>.unique-card-fx>b{animation:uniqueFxName .8s ease-out both}
+
+/* 공격형: 카드 중심 에너지 응축 + 미세 궤도 + 수평 잔상 */
+.unique-fx-attack>.unique-card-fx{color:#ff867b}
+.unique-fx-core{z-index:1;inset:16%;border-radius:50%;background:radial-gradient(circle,rgba(255,245,240,.88) 0 2%,rgba(255,102,89,.42) 8%,rgba(255,65,52,.16) 28%,transparent 64%);filter:blur(.3px);transform:scale(.42);opacity:0}
+.unique-fx-arc{z-index:2;left:50%;top:50%;width:78%;height:78%;border:2px solid rgba(255,132,120,.78);border-left-color:transparent;border-bottom-color:transparent;border-radius:50%;opacity:0;transform:translate(-50%,-50%) rotate(-35deg) scale(.55)}
+.unique-fx-arc.a2{width:104%;height:104%;border-color:rgba(255,197,188,.42);border-right-color:transparent;border-top-color:transparent;transform:translate(-50%,-50%) rotate(125deg) scale(.45)}
+.unique-fx-velocity{z-index:10;left:2%;top:38%;width:96%;height:3px;border-radius:999px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.96) 35%,#ff8b80 58%,transparent);box-shadow:0 0 10px rgba(255,92,78,.78);opacity:0;transform:translateX(-52%) scaleX(.25)}
+.unique-fx-velocity.v2{top:50%;width:82%;animation-delay:.06s}
+.unique-fx-velocity.v3{top:61%;width:68%;animation-delay:.12s}
+.unique-fx-attack.unique-fx-active .unique-fx-core{animation:uniqueAttackCore .78s cubic-bezier(.16,.82,.25,1) both}
+.unique-fx-attack.unique-fx-active .unique-fx-arc{animation:uniqueAttackArc .9s ease-out both}
+.unique-fx-attack.unique-fx-active .unique-fx-arc.a2{animation-delay:.06s}
+.unique-fx-attack.unique-fx-active .unique-fx-velocity{animation:uniqueAttackVelocity .68s cubic-bezier(.2,.78,.18,1) both}
+
+/* 방어형: 반투명 방패 + 육각 필드 + 피격 확산 파동 */
+.unique-fx-defense>.unique-card-fx{color:#82e7ff}
+.unique-fx-shield{z-index:9;left:50%;top:49%;width:76%;height:88%;clip-path:polygon(50% 0,90% 14%,97% 57%,80% 85%,50% 100%,20% 85%,3% 57%,10% 14%);border:2px solid rgba(143,232,255,.9);background:linear-gradient(180deg,rgba(103,217,255,.16),rgba(103,217,255,.025));box-shadow:inset 0 0 25px rgba(103,217,255,.18),0 0 20px rgba(103,217,255,.2);opacity:0;transform:translate(-50%,-50%) scale(.82)}
+.unique-fx-hex{z-index:1;inset:3%;border-radius:50%;background:radial-gradient(circle,rgba(103,217,255,.34) 0 1.5px,transparent 2.2px) 0 0/18px 16px;mask-image:radial-gradient(circle,#000 0 46%,transparent 72%);opacity:0;transform:scale(.72) rotate(-10deg)}
+.unique-fx-guard-ring{z-index:3;left:50%;top:50%;width:62%;height:62%;border:2px solid rgba(132,236,255,.7);border-radius:50%;box-shadow:0 0 20px rgba(80,213,255,.35);opacity:0;transform:translate(-50%,-50%) scale(.55)}
+.unique-fx-defense.unique-fx-active .unique-fx-shield{animation:uniqueShield .95s ease-out both}
+.unique-fx-defense.unique-fx-active .unique-fx-hex{animation:uniqueHex .95s ease-out both}
+.unique-fx-defense.unique-fx-active .unique-fx-guard-ring{animation:uniqueGuardRing .85s ease-out both}
+
+/* 속도형: 짧은 잔상 + 전방 가속선 */
+.unique-fx-speed>.unique-card-fx{color:#c8f7ff}
+.unique-fx-afterimage{z-index:2;left:50%;top:50%;width:42%;height:62%;border:2px solid rgba(183,243,255,.5);border-radius:12%;background:linear-gradient(90deg,rgba(140,230,255,.05),rgba(220,252,255,.13));opacity:0;transform:translate(-50%,-50%)}
+.unique-fx-afterimage.a2{border-color:rgba(99,204,255,.3)}
+.unique-fx-speed-line{z-index:10;right:0;top:34%;width:85%;height:2px;border-radius:99px;background:linear-gradient(90deg,transparent,#e8fdff 58%,rgba(94,218,255,.9));box-shadow:0 0 8px rgba(91,218,255,.75);opacity:0;transform:translateX(-65%) scaleX(.22)}
+.unique-fx-speed-line.s2{top:49%;width:106%;animation-delay:.04s}
+.unique-fx-speed-line.s3{top:64%;width:72%;animation-delay:.09s}
+.unique-fx-speed.unique-fx-active .unique-fx-afterimage.a1{animation:uniqueAfterimageOne .72s ease-out both}
+.unique-fx-speed.unique-fx-active .unique-fx-afterimage.a2{animation:uniqueAfterimageTwo .72s .05s ease-out both}
+.unique-fx-speed.unique-fx-active .unique-fx-speed-line{animation:uniqueSpeedLine .62s cubic-bezier(.1,.72,.2,1) both}
+
+/* HP형: 빈사 구간 1회 생명 공명. 전투 수치나 HP를 추가 변경하지 않는 시각 효과 */
+.unique-fx-hp>.unique-card-fx{color:#9af4bc}
+.unique-fx-life-flash{z-index:1;left:50%;top:50%;width:84%;height:84%;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.92),rgba(120,240,173,.24) 20%,transparent 61%);opacity:0;transform:translate(-50%,-50%) scale(.45)}
+.unique-fx-heal-ring{z-index:6;left:50%;top:50%;width:66%;height:66%;border:2px solid rgba(154,244,188,.86);border-radius:50%;box-shadow:0 0 18px rgba(120,240,173,.45);opacity:0;transform:translate(-50%,-50%) scale(.48)}
+.unique-fx-plus{z-index:10;color:#d6ffe6;font-size:14px;font-style:normal;font-weight:1000;text-shadow:0 0 9px rgba(120,240,173,.8);opacity:0}
+.unique-fx-plus.p1{left:24%;top:48%}.unique-fx-plus.p2{right:23%;top:39%;animation-delay:.08s}.unique-fx-plus.p3{left:47%;top:24%;animation-delay:.16s}
+.unique-fx-hp.unique-fx-active .unique-fx-life-flash{animation:uniqueLifeFlash 1.05s ease-out both}
+.unique-fx-hp.unique-fx-active .unique-fx-heal-ring{animation:uniqueHealRing 1.18s ease-out both}
+.unique-fx-hp.unique-fx-active .unique-fx-plus{animation:uniquePlusRise 1.12s ease-out both}
+
+/* 레이드: 메인 공격 카드는 공격/속도, 내 덱은 보스 피격/빈사 이벤트에 맞춰 재생 */
+.raid-attacker-card.unique-card-fx-host,.raid-stage-card.unique-card-fx-host{isolation:isolate;overflow:visible}
+.raid-attacker-card.unique-card-fx-host>.unique-card-fx{inset:-28% -45% 8%}
+.raid-attacker-card.unique-card-fx-host>.unique-card-fx>b{bottom:-2%}
+.raid-stage-card.unique-card-fx-host>.unique-card-fx{inset:-34% -28% 4%;z-index:9}
+.raid-stage-card.unique-card-fx-host>.raid-deck-frame{position:relative;z-index:8}
+.raid-stage-card.unique-card-fx-host>.unique-card-fx>b{bottom:-3%;font-size:5px}
+
+/* 상세 화면: 최고 수치만 대표 발동으로 강조 */
+.unique-ability-stats .unique-stat.dominant{border-color:rgba(255,212,95,.62);background:linear-gradient(145deg,rgba(255,198,58,.13),rgba(31,55,78,.72));box-shadow:inset 0 0 18px rgba(255,194,54,.08),0 0 18px rgba(255,180,45,.08)}
+.unique-ability-stats .unique-stat.dominant span em{display:block;margin-top:3px;color:#ffd86b;font-size:8px;font-style:normal;font-weight:1000;letter-spacing:.06em}
+.card-ability-inline em.dominant{border-color:rgba(255,211,93,.55)!important;color:#ffe17f!important;background:rgba(255,190,45,.1)!important}
+
+@keyframes uniqueFxName{0%{opacity:0;transform:translate(-50%,8px) scale(.82)}24%,72%{opacity:1;transform:translate(-50%,0) scale(1)}100%{opacity:0;transform:translate(-50%,-5px) scale(.96)}}
+@keyframes uniqueAttackCore{0%{opacity:0;transform:scale(.28)}28%{opacity:1;transform:scale(.72)}62%{opacity:.78;transform:scale(1.05)}100%{opacity:0;transform:scale(1.32)}}
+@keyframes uniqueAttackArc{0%{opacity:0;transform:translate(-50%,-50%) rotate(-70deg) scale(.48)}25%{opacity:.9}100%{opacity:0;transform:translate(-50%,-50%) rotate(150deg) scale(1.05)}}
+@keyframes uniqueAttackVelocity{0%{opacity:0;transform:translateX(-58%) scaleX(.18)}22%{opacity:1}100%{opacity:0;transform:translateX(62%) scaleX(1)}}
+@keyframes uniqueShield{0%{opacity:0;transform:translate(-50%,-50%) scale(.72);filter:brightness(2)}24%{opacity:1;transform:translate(-50%,-50%) scale(1.04)}70%{opacity:.72;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.08)}}
+@keyframes uniqueHex{0%{opacity:0;transform:scale(.65) rotate(-12deg)}30%{opacity:.48}100%{opacity:0;transform:scale(1.02) rotate(20deg)}}
+@keyframes uniqueGuardRing{0%{opacity:0;transform:translate(-50%,-50%) scale(.48)}28%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.5)}}
+@keyframes uniqueAfterimageOne{0%{opacity:0;transform:translate(-50%,-50%)}28%{opacity:.55}100%{opacity:0;transform:translate(-112%,-50%) scale(.9)}}
+@keyframes uniqueAfterimageTwo{0%{opacity:0;transform:translate(-50%,-50%)}28%{opacity:.4}100%{opacity:0;transform:translate(-155%,-50%) scale(.8)}}
+@keyframes uniqueSpeedLine{0%{opacity:0;transform:translateX(-72%) scaleX(.18)}24%{opacity:1}100%{opacity:0;transform:translateX(72%) scaleX(1.08)}}
+@keyframes uniqueLifeFlash{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}22%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.32)}}
+@keyframes uniqueHealRing{0%{opacity:0;transform:translate(-50%,-50%) scale(.42)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.48)}}
+@keyframes uniquePlusRise{0%{opacity:0;transform:translateY(14px) scale(.62)}30%{opacity:1}100%{opacity:0;transform:translateY(-38px) scale(1.08)}}
+
+@media(max-width:800px){
+  .unique-card-fx-host>.unique-card-fx{inset:-54%}
+  .unique-card-fx-host>.unique-card-fx>b{font-size:5px;padding:3px 5px}
+  .unique-fx-plus{font-size:10px}
+  .raid-attacker-card.unique-card-fx-host>.unique-card-fx{inset:-22% -34% 12%}
+  .raid-stage-card.unique-card-fx-host>.unique-card-fx{inset:-42% -34% 2%}
+}
+@media(prefers-reduced-motion:reduce){
+  .unique-card-fx-host>.unique-card-fx *{animation-duration:.001ms!important;animation-iteration-count:1!important}
+}
+
+/* V1173: 전투 카드 내부의 overflow/z-index에 가려지지 않도록 실제 발동 FX를 전투 스테이지 최상단에 복제한다. */
+.unique-card-fx-host>.unique-card-fx{z-index:18}
+.unique-stage-fx{
+  position:absolute!important;z-index:46!important;display:block!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  opacity:1!important;transform:none!important;overflow:visible!important;pointer-events:none!important;isolation:isolate
+}
+.unique-stage-fx>.unique-card-fx{inset:-58%!important;z-index:1!important;opacity:1!important;overflow:visible!important}
+.unique-stage-fx>.unique-card-fx>b{bottom:-2%;font-size:8px;padding:5px 9px;box-shadow:0 0 16px currentColor,0 6px 18px rgba(0,0,0,.56)}
+.battle-card-fighter.unique-fx-source-active{filter:brightness(1.2) drop-shadow(0 0 14px currentColor)}
+.battle-card-fighter.unique-fx-attack{color:#ff867b}.battle-card-fighter.unique-fx-defense{color:#82e7ff}.battle-card-fighter.unique-fx-speed{color:#c8f7ff}.battle-card-fighter.unique-fx-hp{color:#9af4bc}
+
+/* V1173: 도감 고유 배지를 카드 좌상단이 아니라 카드 이름 오른쪽에 배치하고 최고 스탯 유형을 표시한다. */
+.card-title-row{display:flex;align-items:center;gap:5px;min-width:0;max-width:100%}
+.card-title-row>.card-title{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card-title-row>.card-unique-badge{
+  position:relative!important;inset:auto!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;
+  flex:0 0 auto;max-width:none;margin:0!important;padding:3px 5px!important;gap:3px!important;
+  border-radius:6px!important;transform:none!important;box-shadow:0 2px 8px rgba(0,0,0,.35)!important;backdrop-filter:none
+}
+.card-title-row>.card-unique-badge:hover,.card-title-row>.card-unique-badge:focus-visible{transform:translateY(-1px)!important}
+.card-title-row>.card-unique-badge i{font-size:7px!important}.card-title-row>.card-unique-badge b{font-size:6px!important;letter-spacing:0!important;white-space:nowrap}.card-title-row>.card-unique-badge small{display:none!important}
+.card-frame.small .card-title-row{gap:3px}.card-frame.small .card-title-row>.card-unique-badge{padding:2px 3px!important}.card-frame.small .card-title-row>.card-unique-badge i{display:none}.card-frame.small .card-title-row>.card-unique-badge b{font-size:5px!important}
+.card-frame.locked .card-title-row>.card-unique-badge{opacity:.94}
+
+.card-unique-badge.unique-type-attack,.card-ability-inline.unique-type-attack,.profile-status.unique-type-attack,.profile-ability-mark.unique-type-attack{border-color:rgba(255,118,103,.62);background:linear-gradient(135deg,rgba(67,17,20,.94),rgba(112,34,30,.9));color:#ffd6d0}
+.card-unique-badge.unique-type-defense,.card-ability-inline.unique-type-defense,.profile-status.unique-type-defense,.profile-ability-mark.unique-type-defense{border-color:rgba(103,218,255,.62);background:linear-gradient(135deg,rgba(5,37,65,.94),rgba(12,76,105,.9));color:#d8f8ff}
+.card-unique-badge.unique-type-speed,.card-ability-inline.unique-type-speed,.profile-status.unique-type-speed,.profile-ability-mark.unique-type-speed{border-color:rgba(121,240,255,.62);background:linear-gradient(135deg,rgba(7,45,60,.94),rgba(15,91,108,.9));color:#dcfbff}
+.card-unique-badge.unique-type-hp,.card-ability-inline.unique-type-hp,.profile-status.unique-type-hp,.profile-ability-mark.unique-type-hp{border-color:rgba(112,239,165,.62);background:linear-gradient(135deg,rgba(7,54,37,.94),rgba(18,101,67,.9));color:#dfffea}
+.card-unique-badge.unique-type-attack i,.recent-unique-tag.unique-type-attack{color:#ff9c92}.card-unique-badge.unique-type-defense i,.recent-unique-tag.unique-type-defense{color:#8eeaff}.card-unique-badge.unique-type-speed i,.recent-unique-tag.unique-type-speed{color:#a9f5ff}.card-unique-badge.unique-type-hp i,.recent-unique-tag.unique-type-hp{color:#9af4bc}
+.card-unique-badge.owner-test,.card-ability-inline.owner-test,.profile-status.owner-test,.profile-ability-mark.owner-test{border-color:rgba(206,161,255,.55);background:linear-gradient(135deg,rgba(39,18,67,.95),rgba(61,31,96,.92));color:#eadbff}
+
+@media(max-width:800px){
+  .unique-stage-fx>.unique-card-fx{inset:-72%!important}
+  .unique-stage-fx>.unique-card-fx>b{font-size:6px;padding:4px 6px}
+  .card-title-row>.card-unique-badge{padding:2px 3px!important}.card-title-row>.card-unique-badge i{display:none}.card-title-row>.card-unique-badge b{font-size:5px!important}
+}
+
