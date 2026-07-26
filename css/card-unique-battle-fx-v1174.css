@@ -1700,3 +1700,128 @@ body::-webkit-scrollbar-thumb:hover{
   .pve-card-extra.compact.deck-card-summary,
   .pvp-card-extra.compact.deck-card-summary{min-height:31px!important;padding:4px 7px!important}
 }
+
+/* V1187: 카드 본체/하단 바 폭 완전 일치 + 카드 간 불필요한 여백 제거 */
+:root{
+  --cnine-deck-card-fixed:214px;
+  --cnine-deck-card-tight-gap:8px;
+}
+
+/* 카드와 하단 요약을 하나의 정확한 폭으로 묶는다. */
+.pve-card-mini-full,
+.pvp-card-mini-full,
+.pve-frame-slot.filled,
+.pve-frame-pick,
+.pvp-deck-slot.filled,
+.pvp-pick{
+  inline-size:var(--cnine-deck-card-fixed)!important;
+  max-inline-size:var(--cnine-deck-card-fixed)!important;
+  min-inline-size:0!important;
+  box-sizing:border-box!important;
+  justify-self:start!important;
+}
+.pve-card-mini-full>.card-frame,
+.pvp-card-mini-full>.card-frame,
+.pve-card-extra.compact.deck-card-summary,
+.pvp-card-extra.compact.deck-card-summary{
+  display:block!important;
+  inline-size:100%!important;
+  max-inline-size:100%!important;
+  min-inline-size:0!important;
+  margin:0!important;
+  box-sizing:border-box!important;
+}
+.pve-card-extra.compact.deck-card-summary,
+.pvp-card-extra.compact.deck-card-summary{
+  display:grid!important;
+  margin-top:-1px!important;
+  border-radius:0 0 12px 12px!important;
+}
+.pve-card-mini-full>.card-frame,
+.pvp-card-mini-full>.card-frame{
+  border-radius:18px!important;
+}
+
+/* 출전 덱 5장은 한 줄에 왼쪽부터 촘촘히 배치한다. */
+#pveHuntView.pve-view-deck .pve-squad-grid,
+.pvp-deck-slots{
+  display:grid!important;
+  grid-template-columns:repeat(5,var(--cnine-deck-card-fixed))!important;
+  grid-auto-columns:var(--cnine-deck-card-fixed)!important;
+  justify-content:start!important;
+  justify-items:start!important;
+  align-items:start!important;
+  column-gap:var(--cnine-deck-card-tight-gap)!important;
+  row-gap:var(--cnine-deck-card-tight-gap)!important;
+  overflow:visible!important;
+}
+#pveHuntView.pve-view-deck .pve-frame-slot.empty,
+.pvp-deck-slot.empty{
+  inline-size:var(--cnine-deck-card-fixed)!important;
+  max-inline-size:var(--cnine-deck-card-fixed)!important;
+  min-inline-size:0!important;
+  justify-self:start!important;
+  box-sizing:border-box!important;
+}
+
+/* 편성실 카드도 고정 폭으로 붙여서 배치한다. */
+#pveHuntView.pve-view-deck .pve-grade-grid,
+.pvp-card-picker.grouped .pvp-grade-grid{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fill,var(--cnine-deck-card-fixed))!important;
+  grid-auto-columns:var(--cnine-deck-card-fixed)!important;
+  justify-content:start!important;
+  justify-items:start!important;
+  align-items:start!important;
+  column-gap:var(--cnine-deck-card-tight-gap)!important;
+  row-gap:10px!important;
+}
+#pveHuntView.pve-view-deck .pve-grade-group,
+.pvp-card-picker.grouped .pvp-grade-group{
+  inline-size:100%!important;
+  min-inline-size:0!important;
+}
+
+/* 선택 커버와 제거 안내도 카드 폭 안에서만 동작 */
+.pve-selected-cover,
+.pve-remove-hint,
+.pvp-remove-hint{
+  box-sizing:border-box!important;
+}
+
+@media(max-width:1180px){
+  #pveHuntView.pve-view-deck .pve-squad-grid,
+  .pvp-deck-slots{
+    grid-template-columns:repeat(3,var(--cnine-deck-card-fixed))!important;
+  }
+}
+@media(max-width:760px){
+  #pveHuntView.pve-view-deck .pve-squad-grid,
+  .pvp-deck-slots{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .pve-card-mini-full,
+  .pvp-card-mini-full,
+  .pve-frame-slot.filled,
+  .pve-frame-pick,
+  .pvp-deck-slot.filled,
+  .pvp-pick,
+  #pveHuntView.pve-view-deck .pve-frame-slot.empty,
+  .pvp-deck-slot.empty{
+    inline-size:100%!important;
+    max-inline-size:none!important;
+  }
+}
+@media(max-width:430px){
+  #pveHuntView.pve-view-deck .pve-squad-grid,
+  .pvp-deck-slots,
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{
+    column-gap:6px!important;
+    row-gap:8px!important;
+  }
+}
