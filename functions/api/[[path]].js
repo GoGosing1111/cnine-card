@@ -2,7 +2,7 @@ import { SCHEMA } from '../_data/schema.js';
 import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js';
 import { handleEvolution } from '../_evolution.js';
 import { handleCaptain } from '../_captain.js';
-import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates } from '../_magic.js';
+import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates,resolveUniqueBattleRuntime } from '../_magic.js';
 import { handleStorageCleanup } from '../_storage_cleanup.js';
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000,LIMITED:3000};
@@ -377,17 +377,33 @@ async function consumeBattleEnergy(env,user,settings){
   return battleEnergyState(env,user,settings);
 }
 
+function uniqueBattleResponsePayload(uniqueState,runtime=null){
+  if(!uniqueState?.enabled)return null;
+  return {
+    ownerTest:uniqueState.ownerTest,
+    basePower:Number(uniqueState.basePower||0),
+    effectivePower:Number(runtime?.effectivePower??uniqueState.power??0),
+    attackPower:Number(uniqueState.attackPower||0),
+    durabilityPower:Number(uniqueState.durabilityPower||0),
+    speedPercent:Number(uniqueState.speedPercent||0),
+    effects:uniqueState.effects||[],
+    battleEffects:runtime&&runtime.hasEvents?runtime:null
+  };
+}
+
 async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle=null){
   const battleCards=uniqueBattle?.cards?.length?uniqueBattle.cards:cards;
   const basePlayerPower=Number(uniqueBattle?.power||cards.reduce((a,c)=>a+Number(c.power||0),0)),monsterPower=Number(monster.battle_power||0);
+  const uniqueRuntime=uniqueBattle?.enabled?resolveUniqueBattleRuntime(uniqueBattle,{mode:'PVE_AUTO',opponentPower:monsterPower}):null;
+  const uniquePlayerPower=Math.max(0,Number(uniqueRuntime?.effectivePower||basePlayerPower));
   const activatedEntry=selectActivatedUltimate(settings,battleCards);
   const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
   const ultimateDamage=activatedEntry&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedEntry.rule.coefficientPercent||0)/100)):0;
-  const result=basePlayerPower+ultimateDamage>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Math.max(0,Math.floor(Number(monster.reward_coin||0)*Number(settings.__burningRewardMultiplier||1))):0;
+  const result=uniquePlayerPower+ultimateDamage>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Math.max(0,Math.floor(Number(monster.reward_coin||0)*Number(settings.__burningRewardMultiplier||1))):0;
   if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 자동사냥 승리 보상: ${monster.name}`,user.id).run();}
   let cardReward=null;if(result==='WIN'&&settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}
-  await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),basePlayerPower,monsterPower,result,reward).run();
-  return {result,reward,cardReward,playerPower:basePlayerPower,uniqueAbility:uniqueBattle?.enabled?{ownerTest:uniqueBattle.ownerTest,effects:uniqueBattle.effects}:null};
+  await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),uniquePlayerPower,monsterPower,result,reward).run();
+  return {result,reward,cardReward,playerPower:uniquePlayerPower,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime)};
 }
 
 
@@ -3053,11 +3069,13 @@ export async function onRequest(context){
       const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)}));
       const uniqueBattle=await cardUniqueDeckState(env,user,cards,'PVE'),battleCards=uniqueBattle.cards?.length?uniqueBattle.cards:cards;
       const basePlayerPower=Number(uniqueBattle.power||cards.reduce((a,c)=>a+c.power,0)),monsterPower=Number(monster.battle_power||0);
+      const uniqueRuntime=uniqueBattle.enabled?resolveUniqueBattleRuntime(uniqueBattle,{mode:'PVE',opponentPower:monsterPower}):null;
+      const uniqueEffectivePower=Math.max(0,Number(uniqueRuntime?.effectivePower||basePlayerPower));
       const activatedEntry=selectActivatedUltimate(settings,battleCards);
       const activatedUltimate=activatedEntry?.rule||null;
       const ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
       const ultimateDamage=activatedUltimate&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedUltimate.coefficientPercent||0)/100)):0;
-      const synergy=await evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),playerPower=Math.max(0,Math.floor(basePlayerPower*synergyMultiplier));
+      const synergy=await evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),playerPower=Math.max(0,Math.floor(uniqueEffectivePower*synergyMultiplier));
       const totalBattleDamage=playerPower+ultimateDamage;
       const preliminaryResult=totalBattleDamage>=monsterPower?'WIN':'LOSE';
       const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true;
@@ -3082,7 +3100,7 @@ export async function onRequest(context){
       const pveMagic=(await magicSettings(env)).acquisition?.pve||{};
       const magicReward=result==='WIN'?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):null;
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({result,reward,burningEvent:burningPublicState(burning),cardReward,cubeReward,magicReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattle.enabled?{ownerTest:uniqueBattle.ownerTest,basePower:uniqueBattle.basePower,effectivePower:uniqueBattle.power,attackPower:uniqueBattle.attackPower,durabilityPower:uniqueBattle.durabilityPower,speedPercent:uniqueBattle.speedPercent,effects:uniqueBattle.effects}:null,monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
+      return json({result,reward,burningEvent:burningPublicState(burning),cardReward,cubeReward,magicReward,playerPower,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss)},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
     }
 
 
@@ -3134,7 +3152,7 @@ export async function onRequest(context){
         LEFT JOIN battle_monsters bm ON bm.id=(SELECT b2.id FROM battle_monsters b2 WHERE b2.is_active=1 AND TRIM(b2.name)=TRIM(tm.name) ORDER BY COALESCE(b2.tower_enabled,0) DESC,b2.id DESC LIMIT 1)
         WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1`).bind(season.id,floorNo).first();
       if(!floor)return json({error:`${floorNo}층이 설정되지 않아 도전할 수 없습니다. 무한의탑 CMS에서 해당 층을 먼저 배치하세요.`,code:'TOWER_FLOOR_UNCONFIGURED',floorNo,maxFloor},409);
-      const monsterPower=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1))),towerSynergy=await evaluateDeckSynergies(env,user,ids,'TOWER',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),playerPower=Math.max(0,Math.floor(Number(deckInfo.basePower||deckInfo.power||0)*(1+Number(towerSynergy.totals.attackPercent||0)/100+Number(towerSynergy.totals.bossDamagePercent||0)/100)));
+      const monsterPower=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1))),towerSynergy=await evaluateDeckSynergies(env,user,ids,'TOWER',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),towerUniqueRuntime=deckInfo.unique?.enabled?resolveUniqueBattleRuntime(deckInfo.unique,{mode:'TOWER',opponentPower:monsterPower}):null,playerPower=Math.max(0,Math.floor(Number(towerUniqueRuntime?.effectivePower??deckInfo.basePower??deckInfo.power||0)*(1+Number(towerSynergy.totals.attackPercent||0)/100+Number(towerSynergy.totals.bossDamagePercent||0)/100)));
       let towerBossUltimate=null,effectiveTowerPower=playerPower;
       const floorIsBoss=Number(floor.is_boss||0)===1||Number(floor.monster_is_boss||0)===1||floorNo%10===0;
       if(floorIsBoss){
@@ -3182,7 +3200,7 @@ export async function onRequest(context){
       try{weeklyPremium=await grantWeeklyPremiumCube(env,user.id,'TOWER',towerRequestId)}catch(cubeError){weeklyPremiumError=String(cubeError?.message||cubeError||'프리미엄 큐브 처리 실패');console.error('tower weekly premium cube failed',{userId:user.id,floorNo,requestId:towerRequestId,error:weeklyPremiumError})}
       const towerUniqueCardMap=new Map((deckInfo.unique?.cards||[]).map(card=>[String(card.id),card]));
       const towerBattleCards=owned.results.map(c=>{const uniqueCard=towerUniqueCardMap.get(String(c.id))||{};return {...c,...uniqueCard,id:String(c.id),title:c.title,image:c.image,grade:c.rarity,rarity:c.rarity,focusX:Number(c.focus_x||50),focusY:Number(c.focus_y||50),breakthroughLevel:Number(c.breakthrough_level||0)};});
-      return json({result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:deckInfo.unique?.enabled?{ownerTest:deckInfo.unique.ownerTest,basePower:deckInfo.unique.basePower,effectivePower:deckInfo.unique.power,attackPower:deckInfo.unique.attackPower,durabilityPower:deckInfo.unique.durabilityPower,speedPercent:deckInfo.unique.speedPercent,effects:deckInfo.unique.effects}:null,bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards});
+      return json({result,completed,maxFloor,deckSynergy:towerSynergy,uniqueAbility:uniqueBattleResponsePayload(deckInfo.unique,towerUniqueRuntime),bossUltimate:towerBossUltimate,effectivePlayerPower:effectiveTowerPower,floorNo,nextFloor,reward,magicReward,cubeReward:weeklyPremium?.reward||null,weeklyPremiumCube:weeklyPremium?.status||null,weeklyPremiumError,playerPower,monsterPower,isBoss:floorIsBoss,monster:{id:floor.monster_id,name:floor.monster_name,image:floor.monster_image},cards:towerBattleCards});
     }
     if(path==='deck-synergy/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await deckSynergySettings(env);if(!settings.enabled&&String(user.role||'').toUpperCase()!=='OWNER')return json({enabled:false});const deck=await pveDeckCards(env,user.id);const evaluation=await evaluateDeckSynergies(env,user,deck,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'});return json({enabled:settings.enabled,ownerTest:evaluation.ownerTest,deck,evaluation});
@@ -3326,7 +3344,8 @@ export async function onRequest(context){
       ]);
       const [aUnique,dUnique]=uniqueStates;
       const aBase=Number(aUnique.power||aCards.reduce((s,c)=>s+Number(c.power||0),0)),dBase=Number(dUnique.power||dCards.reduce((s,c)=>s+Number(c.power||0),0));
-      const aPower=Math.max(0,Math.floor(aBase*(1+Number(aSyn.totals.attackPercent||0)/100))),dPower=Math.max(0,Math.floor(dBase*(1+Number(dSyn.totals.attackPercent||0)/100)));
+      const aUniqueRuntime=aUnique.enabled?resolveUniqueBattleRuntime(aUnique,{mode:'PVP',opponentPower:dBase}):null,dUniqueRuntime=dUnique.enabled?resolveUniqueBattleRuntime(dUnique,{mode:'PVP',opponentPower:aBase}):null;
+      const aPower=Math.max(0,Math.floor(Number(aUniqueRuntime?.effectivePower||aBase)*(1+Number(aSyn.totals.attackPercent||0)/100))),dPower=Math.max(0,Math.floor(Number(dUniqueRuntime?.effectivePower||dBase)*(1+Number(dSyn.totals.attackPercent||0)/100)));
       const attackerWin=aPower>=dPower,winnerId=attackerWin?user.id:defenderId,aBefore=Number(attacker.season_score),dBefore=Number(defender.season_score),aAdj=pvpSeasonScoreAdjustment(attackerWin,aBefore,dBefore),dAdj=pvpSeasonScoreAdjustment(!attackerWin,dBefore,aBefore),change=aAdj.change,defenderChange=dAdj.change,aAfter=Math.max(0,aBefore+(attackerWin?change:-change)),dAfter=Math.max(0,dBefore+(attackerWin?-defenderChange:defenderChange)),aCard=0,dCard=0;
       const pvpEnergy=await consumePvpEnergy(env,user,settings);
       // PvP battle coin is an active-challenge reward. Only the authenticated attacker receives it.
@@ -3344,7 +3363,7 @@ export async function onRequest(context){
       const pvpMagic=(await magicSettings(env)).acquisition?.pvp||{};
       const magicReward=attackerWin?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVP_DROP',referenceId:requestId,enabled:pvpMagic.enabled===true,chance:pvpMagic.chance,amount:pvpMagic.amount,dailyLimit:pvpMagic.dailyLimit,reason:'일반 PVP 승리 확률 드랍'}):null;
       const freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),weeklyPremiumCube=await premiumCubeWeeklyStatus(env,user.id);
-      return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),cubeReward,weeklyPremiumCube,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:aUnique.enabled?{ownerTest:aUnique.ownerTest,basePower:aUnique.basePower,effectivePower:aUnique.power,effects:aUnique.effects}:null,defender:dUnique.enabled?{ownerTest:dUnique.ownerTest,basePower:dUnique.basePower,effectivePower:dUnique.power,effects:dUnique.effects}:null},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
+      return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),cubeReward,weeklyPremiumCube,magicReward,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:uniqueBattleResponsePayload(aUnique,aUniqueRuntime),defender:uniqueBattleResponsePayload(dUnique,dUniqueRuntime)},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT * FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();return json({history:rows.results.map(r=>({...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}))});

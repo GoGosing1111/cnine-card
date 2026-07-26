@@ -807,6 +807,7 @@ async function startBattle(){
     const d=await fightPromise;
     if(Array.isArray(d.cards)&&d.cards.length===deckCards.length){deckCards=d.cards;const team=stage.querySelector('.player-side .battle-team');if(team)team.innerHTML=deckCards.map((card,index)=>battleFighterHtml(card,index)).join('');stage.classList.add('cards-enter')}
     const teamPowerLabel=stage.querySelector('.battle-hp-team small');if(teamPowerLabel)teamPowerLabel.textContent=`전투력 ${Number(d.playerPower||previewPower).toLocaleString()}`;
+    if(d.uniqueAbility?.battleEffects?.events?.length){await playUniqueBattleEventSequence(stage,phase,msg,d.uniqueAbility,deckCards,false);phase.textContent='UNIQUE ABILITY READY';await battleSleep(180);}
     let enemyHp=100,teamHp=100,battleEnded=false,enemyDefeated=false,pendingEnemyDefeat=false,pendingTeamDefeat=false;
     const queuedBossUltimate=d.bossUltimate?{...d.bossUltimate}:null;
     const bossUltimateQueued=Boolean(queuedBossUltimate);
@@ -1347,6 +1348,29 @@ function uniqueAbilityDetailHtml(card){
   const x=card?.uniqueAbility;if(!x)return '<div class="card-unique-empty"><i>◇</i><b>설정된 고유 능력이 없습니다.</b><span>고유 능력이 활성화된 카드에는 도감과 덱 화면에 전용 배지가 표시됩니다.</span></div>';
   const type=uniqueAbilityTypeInfo(card),dominant=uniqueAbilityDominant(card),stat=({key,label,icon,value})=>`<article class="unique-stat unique-${key} ${dominant?.key===key?'dominant':''}"><i>${icon}</i><span>${label}${dominant?.key===key?'<em>대표 발동</em>':''}</span><b>${value>0?'+':''}${value}%</b></article>`;
   return `<section class="card-unique-ability ${type.typeClass} ${x.ownerTest?'owner-test':''}"><div class="unique-ability-head"><div><small>${x.ownerTest?'OWNER TEST · ':''}UNIQUE ABILITY</small><h3>${escapeHtml(type.typeLabel)} · ${escapeHtml(x.effectName||'카드 고유 능력')}</h3></div><em>${x.ownerTest?'TEST MODE':'ACTIVE'}</em></div>${x.ownerTest?'<div class="unique-owner-notice"><b>OWNER 테스트 중</b><span>일반 유저에게는 아직 공개·적용되지 않는 능력치입니다.</span></div>':''}<div class="unique-ability-stats">${uniqueAbilityStats(card).map(stat).join('')}</div>${x.effectDescription?`<div class="unique-effect-copy"><small>ABILITY DESCRIPTION</small><p>${escapeHtml(x.effectDescription)}</p></div>`:'<div class="unique-effect-copy muted"><small>ABILITY DESCRIPTION</small><p>등록된 고유 효과 설명이 없습니다.</p></div>'}<div class="unique-scope"><small>적용 콘텐츠</small><b>${escapeHtml(uniqueAbilityScopeText(x))}</b></div><footer><span>공격·방어·속도·HP 수치는 모두 전투 계산에 반영됩니다.</span><b>${dominant?`${escapeHtml(type.typeLabel)} · ${dominant.value>0?'+':''}${dominant.value}% 대표 이펙트 발동`:'대표 발동 이펙트 없음'}</b></footer></section>`;
+}
+
+function uniqueBattleEvents(uniquePayload){
+  return Array.isArray(uniquePayload?.battleEffects?.events)?uniquePayload.battleEffects.events:[];
+}
+function uniqueBattleCardIndex(cards,cardId){
+  if(!Array.isArray(cards))return -1;
+  return cards.findIndex(card=>String(card?.id||card?.card_id||'')===String(cardId||''));
+}
+async function playUniqueBattleEventSequence(stage,phase,msg,uniquePayload,cards=[],enemy=false){
+  const events=uniqueBattleEvents(uniquePayload).slice(0,6);
+  if(!events.length||!stage||!phase)return;
+  for(const event of events){
+    const type=String(event?.type||'').toUpperCase();
+    const index=uniqueBattleCardIndex(cards,event?.cardId);
+    if(index>=0){
+      const trigger=type==='DEFENSE'?'defense':type==='HP'?'low-hp':'attack';
+      battleTriggerUniqueFx(stage,index,trigger,enemy);
+    }
+    phase.textContent=`${enemy?'ENEMY ':'UNIQUE '} ${event?.label||'효과'} 발동`;
+    if(msg)msg.innerHTML=`<span>${escapeHtml(event?.cardTitle||'카드')} · ${escapeHtml(event?.summary||'고유 효과 발동')}</span>`;
+    await battleSleep(type==='HP'?620:460);
+  }
 }
 
 function cardHtml(card, owned, classes='', user=loadUser()) {
@@ -2170,6 +2194,8 @@ async function fightPvp(id){
     const d=await fightPromise;count.textContent='';
     const serverMine=(d.attackerDeck||[]).map(normalizeBattleCard);if(serverMine.length===5){mine=serverMine;const myBox=stage.querySelector('.player-side .battle-team');if(myBox)myBox.innerHTML=mine.map((c,i)=>battleFighterHtml(c,i)).join('')}
     const enemyCards=(d.defenderDeck||[]).map(normalizeBattleCard),enemyBox=document.getElementById('pvpEnemyTeam');enemyBox.classList.remove('pvp-enemy-loading');enemyBox.innerHTML=enemyCards.map((c,i)=>battleFighterHtml(c,i,true)).join('');stage.classList.add('enemy-enter');phase.textContent='OPPONENT DEPLOY';await battleSleep(850);
+    if(d.uniqueAbility?.attacker?.battleEffects?.events?.length){await playUniqueBattleEventSequence(stage,phase,msg,d.uniqueAbility.attacker,mine,false)}
+    if(d.uniqueAbility?.defender?.battleEffects?.events?.length){await playUniqueBattleEventSequence(stage,phase,msg,d.uniqueAbility.defender,enemyCards,true)}
     let myHp=100,enemyHp=100;const myWin=d.result==='WIN',myHit=Math.max(12,Math.min(28,Math.round((Number(d.attackerPower)||1)/(Number(d.defenderPower)||1)*18))),enemyHit=Math.max(12,Math.min(28,Math.round((Number(d.defenderPower)||1)/(Number(d.attackerPower)||1)*18)));
     for(let i=0;i<5;i++){
       battleActivateCard(stage,i,mine[i]?.grade);phase.textContent=`${mine[i]?.grade||'CARD'} MEMBER STRIKE`;stage.classList.add('player-attack');await battleSleep(220);

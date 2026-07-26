@@ -169,6 +169,108 @@ export async function cardUniqueDeckState(env,user,cards=[],scope='PVE'){
   return (await cardUniqueDeckStates(env,[{user,cards}],scope))[0];
 }
 
+function uniqueEffectMagnitude(effect,type='ATTACK'){
+  const configured=Number(effect?.effectValue||0);
+  if(Number.isFinite(configured)&&configured>0)return Math.max(0,configured);
+  const dominant=Math.max(0,Number(effect?.dominantValue||0));
+  if(type==='HP')return Math.max(6,dominant);
+  if(type==='DEFENSE')return Math.max(5,dominant);
+  if(type==='SPEED')return Math.max(5,dominant);
+  return Math.max(5,dominant);
+}
+function uniqueEffectActivationBonus(card={},effect={},type='ATTACK'){
+  const magnitude=uniqueEffectMagnitude(effect,type);
+  const attackBase=Math.max(0,Number(card?.power||card?.baseBattlePower||0));
+  const hpBase=Math.max(0,Number(card?.maxHp||card?.power||card?.baseBattlePower||0));
+  if(type==='DEFENSE')return Math.max(0,Math.round(hpBase*magnitude/100*0.72));
+  if(type==='SPEED')return Math.max(0,Math.round(attackBase*magnitude/100*0.84));
+  if(type==='HP')return Math.max(0,Math.round(hpBase*magnitude/100));
+  return Math.max(0,Math.round(attackBase*magnitude/100));
+}
+function uniqueEffectLabel(type='ATTACK'){
+  if(type==='ATTACK')return '공격형';
+  if(type==='DEFENSE')return '방어형';
+  if(type==='SPEED')return '속도형';
+  if(type==='HP')return 'HP형';
+  return '고유효과';
+}
+function uniqueEffectSummary(type='ATTACK',bonus=0){
+  const amount=Math.max(0,Math.floor(Number(bonus)||0)).toLocaleString();
+  if(type==='ATTACK')return `추가 타격 +${amount}`;
+  if(type==='DEFENSE')return `방벽 +${amount}`;
+  if(type==='SPEED')return `선공 타격 +${amount}`;
+  if(type==='HP')return `긴급 회복 +${amount}`;
+  return `효과 +${amount}`;
+}
+function uniqueEffectPhase(type='ATTACK'){
+  if(type==='DEFENSE')return 'DEFENSE';
+  if(type==='HP')return 'RECOVERY';
+  return 'ATTACK';
+}
+export function resolveUniqueBattleRuntime(deckState={},options={}){
+  const random=typeof options?.random==='function'?options.random:Math.random;
+  const cards=Array.isArray(deckState?.cards)?deckState.cards:[];
+  const basePower=Math.max(0,Number(options?.basePower??deckState?.power??cards.reduce((sum,card)=>sum+Math.max(0,Number(card?.power||0)),0)));
+  const opponentPower=Math.max(0,Number(options?.opponentPower||0));
+  const mode=String(options?.mode||'PVE').trim().toUpperCase();
+  const immediateEvents=[];
+  const pendingHpEvents=[];
+  let immediateBonus=0;
+  for(const card of cards){
+    const effect=card?.uniqueAbility;
+    if(!effect||effect.dominantType==='NONE')continue;
+    const type=String(effect.dominantType||'').trim().toUpperCase();
+    if(!['ATTACK','DEFENSE','SPEED','HP'].includes(type))continue;
+    const maxActivations=Math.max(0,Math.floor(Number(effect.maxActivations||1)));
+    if(maxActivations<1)continue;
+    const chance=Math.max(0,Math.min(100,Number(effect.triggerChance??100)));
+    const roll=chance>=100?0:random()*100;
+    const triggered=chance>=100||roll<chance;
+    const bonusPower=uniqueEffectActivationBonus(card,effect,type);
+    const baseEvent={
+      cardId:String(card?.id||effect.cardId||''),
+      cardTitle:String(card?.title||card?.card_title||''),
+      type,
+      label:uniqueEffectLabel(type),
+      phase:uniqueEffectPhase(type),
+      mode,
+      triggerChance:chance,
+      roll:Number(roll.toFixed(6)),
+      triggered,
+      magnitude:uniqueEffectMagnitude(effect,type),
+      bonusPower,
+      summary:uniqueEffectSummary(type,bonusPower)
+    };
+    if(!triggered||bonusPower<=0)continue;
+    if(type==='HP')pendingHpEvents.push(baseEvent);
+    else {immediateEvents.push(baseEvent); immediateBonus+=bonusPower;}
+  }
+  let effectivePower=basePower+immediateBonus;
+  const recoveryNeeded=pendingHpEvents.length>0&&effectivePower<opponentPower;
+  let hpRecoveryBonus=0;
+  const hpEvents=[];
+  if(recoveryNeeded){
+    for(const event of pendingHpEvents){
+      hpEvents.push({...event,triggered:true,activated:true});
+      hpRecoveryBonus+=Math.max(0,Number(event.bonusPower||0));
+    }
+    effectivePower+=hpRecoveryBonus;
+  }
+  const events=[...immediateEvents.map(event=>({...event,activated:true})),...hpEvents];
+  return {
+    mode,
+    basePower,
+    opponentPower,
+    immediateBonus,
+    hpRecoveryBonus,
+    totalBonus:immediateBonus+hpRecoveryBonus,
+    effectivePower,
+    recoveryTriggered:hpRecoveryBonus>0,
+    events,
+    hasEvents:events.length>0
+  };
+}
+
 async function tableExists(env,name){const row=await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").bind(name).first();return Boolean(row)}
 async function columnExists(env,table,column){if(!await tableExists(env,table))return false;const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();return rows.results.some(row=>String(row.name)===String(column))}
 export async function ensureMagicRewardFoundation(env){
