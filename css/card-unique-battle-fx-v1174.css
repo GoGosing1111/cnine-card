@@ -313,3 +313,96 @@
   .deck-type-chip b{font-size:11px}.deck-type-chip em{font-size:10px}
   .unified-empty-slot{min-height:96px;padding:14px}
 }
+
+/* V1177: PVE는 PVP와 분리된 전용 토벌 지휘실 구조로 재구성 */
+.pve-hunt-redesign .battle-cover.pve-hunt-cover{
+  margin-bottom:16px;
+}
+.pve-command-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);
+  gap:16px;
+  align-items:start;
+}
+.pve-command-left{display:grid;gap:16px;min-width:0}
+.pve-panel-title{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pve-panel-title small{display:block;margin-top:4px;color:#8ea8ce;font-size:12px;font-weight:700}
+.pve-builder-helper{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(116,165,226,.14);color:#9db7dd;font-size:12px;font-weight:700}
+.pve-builder-helper b{color:#dbe8ff;font-size:12px}
+
+.pve-squad-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.pve-deck-slot-card{
+  position:relative;display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;width:100%;text-align:left;
+  border:1px solid rgba(110,167,233,.2);border-radius:18px;background:linear-gradient(180deg,rgba(8,20,42,.97),rgba(6,16,33,.94));
+  box-shadow:0 10px 22px rgba(0,0,0,.22),inset 0 1px 0 rgba(255,255,255,.03);padding:10px 12px;
+  transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease;
+}
+.pve-deck-slot-card:hover,.pve-deck-slot-card:focus-visible{transform:translateY(-1px);border-color:rgba(121,197,255,.38);box-shadow:0 14px 30px rgba(0,0,0,.26),0 0 0 1px rgba(110,190,255,.12)}
+.pve-deck-slot-index{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(180deg,rgba(35,72,124,.46),rgba(19,41,79,.34));border:1px solid rgba(112,172,244,.22);color:#deebff;font-size:15px;font-weight:900}
+.pve-deck-slot-body{min-width:0}
+.pve-deck-slot-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:96px;
+  border:1px dashed rgba(116,165,226,.24);border-radius:18px;background:linear-gradient(180deg,rgba(7,18,37,.7),rgba(5,13,29,.56));color:#90aace;padding:18px;text-align:center;
+}
+.pve-deck-slot-empty span{display:grid;place-items:center;width:32px;height:32px;border-radius:11px;background:rgba(62,104,163,.18);color:#d7e5ff;font-size:14px;font-weight:900}
+.pve-deck-slot-empty b{color:#eff5ff;font-size:14px}.pve-deck-slot-empty small{font-size:12px;color:#7d97be}
+
+.pve-builder-list{display:grid;gap:12px}
+.pve-builder-row{
+  display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;width:100%;text-align:left;
+  border:1px solid rgba(111,168,233,.18);border-radius:18px;background:linear-gradient(180deg,rgba(7,18,38,.96),rgba(5,13,29,.93));padding:10px 12px;
+  box-shadow:0 8px 20px rgba(0,0,0,.18),inset 0 1px 0 rgba(255,255,255,.02);transition:transform .16s ease,border-color .16s ease,box-shadow .16s ease,opacity .16s ease;
+}
+.pve-builder-row:hover,.pve-builder-row:focus-visible{transform:translateY(-1px);border-color:rgba(116,190,255,.36);box-shadow:0 12px 24px rgba(0,0,0,.22),0 0 0 1px rgba(116,190,255,.1)}
+.pve-builder-row.selected,.pve-builder-row[disabled]{border-color:rgba(83,210,170,.34);opacity:.88;box-shadow:0 10px 24px rgba(0,0,0,.24),0 0 0 1px rgba(83,210,170,.12)}
+.pve-builder-row[disabled]{cursor:default}
+.pve-builder-status{display:flex;align-items:center;justify-content:center;min-width:70px}
+.pve-builder-status b,.pve-builder-status span{display:inline-flex;align-items:center;justify-content:center;height:28px;padding:0 10px;border-radius:999px;font-size:11px;font-weight:900;line-height:1;white-space:nowrap}
+.pve-builder-status span{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:#93add0}
+.pve-builder-status b{background:rgba(29,105,76,.24);border:1px solid rgba(83,210,170,.28);color:#bff8df}
+
+.pve-target-panel .pve-monster-browser.redesign{display:grid;gap:14px}
+.pve-target-spotlight{
+  display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;padding:14px;border-radius:22px;
+  background:linear-gradient(135deg,rgba(11,24,49,.96),rgba(8,19,39,.94));border:1px solid rgba(110,166,233,.2);box-shadow:0 14px 32px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.03)
+}
+.pve-target-spotlight.empty{grid-template-columns:1fr}
+.pve-target-image{width:120px;height:120px;border-radius:18px;object-fit:cover;border:1px solid rgba(255,255,255,.08);background:#071427}
+.pve-target-image.placeholder{display:grid;place-items:center;font-size:40px;color:#c9dcff}
+.pve-target-copy{display:flex;flex-direction:column;gap:10px;min-width:0}
+.pve-target-tag{display:inline-flex;align-self:flex-start;align-items:center;height:26px;padding:0 10px;border-radius:999px;background:rgba(255,203,92,.12);border:1px solid rgba(255,203,92,.22);color:#ffe4a2;font-size:11px;font-weight:900;letter-spacing:.04em}
+.pve-target-copy h3{margin:0;color:#f4f8ff;font-size:24px;letter-spacing:-.02em}
+.pve-target-copy p{margin:0;color:#9ab5da;font-size:13px;line-height:1.5}
+.pve-target-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pve-target-stats article{padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06)}
+.pve-target-stats small{display:block;color:#86a3cb;font-size:11px;font-weight:700}
+.pve-target-stats b{display:block;margin-top:4px;color:#f6d878;font-size:16px;font-weight:900}
+.pve-target-start{align-self:flex-start;min-width:140px}
+.pve-monster-grid.redesign{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.monster-choice.redesign{display:grid;grid-template-columns:68px minmax(0,1fr);gap:10px;align-items:center;padding:10px 12px;border-radius:18px;background:linear-gradient(180deg,rgba(8,19,38,.95),rgba(5,13,28,.92));border:1px solid rgba(109,165,233,.16);text-align:left;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
+.monster-choice.redesign:hover,.monster-choice.redesign:focus-visible{transform:translateY(-1px);border-color:rgba(115,189,255,.34);box-shadow:0 10px 22px rgba(0,0,0,.22)}
+.monster-choice.redesign.active{border-color:rgba(255,212,92,.36);box-shadow:0 12px 26px rgba(0,0,0,.24),0 0 0 1px rgba(255,212,92,.12)}
+.monster-choice.redesign img,.monster-choice.redesign .monster-placeholder{width:68px;height:68px;border-radius:14px;object-fit:cover;background:#09172d;border:1px solid rgba(255,255,255,.06)}
+.monster-choice.redesign .monster-placeholder{display:grid;place-items:center;color:#d3e2ff;font-size:28px}
+.monster-choice.redesign span{min-width:0;display:flex;flex-direction:column;gap:4px}
+.monster-choice.redesign small{color:#8db1dd;font-size:11px;font-weight:800}.monster-choice.redesign b{color:#f2f7ff;font-size:16px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.monster-choice.redesign em{color:#a6bfdf;font-size:12px;font-style:normal}.monster-choice.redesign strong{color:#f7d778;font-size:12px;font-weight:900}
+
+@media(max-width:1024px){
+  .pve-command-layout{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .pve-builder-helper{flex-direction:column;align-items:flex-start}
+  .pve-target-spotlight{grid-template-columns:1fr}
+  .pve-target-image{width:100%;height:180px}
+  .pve-target-start{width:100%}
+  .pve-builder-row{grid-template-columns:1fr;gap:10px}
+  .pve-builder-status{justify-content:flex-start}
+}
+@media(max-width:640px){
+  .pve-deck-slot-card{grid-template-columns:32px minmax(0,1fr);padding:9px 10px}
+  .pve-deck-slot-index{width:32px;height:32px;border-radius:10px;font-size:13px}
+  .pve-target-copy h3{font-size:20px}
+  .pve-target-stats{grid-template-columns:1fr}
+  .monster-choice.redesign{grid-template-columns:56px minmax(0,1fr)}
+  .monster-choice.redesign img,.monster-choice.redesign .monster-placeholder{width:56px;height:56px;border-radius:12px}
+}
