@@ -1209,3 +1209,263 @@
   #pveHuntView.pve-view-deck .pve-grade-grid,
   .pvp-card-picker.grouped .pvp-grade-grid{gap:8px!important}
 }
+
+/* V1185: 좌우 스크롤 제거 중심 재정렬 + 카드 라벨 단순화 + 커스텀 스크롤 */
+:root{
+  --cnine-deck-card-width:168px;
+  --cnine-deck-card-min:160px;
+  --cnine-card-gap:10px;
+  --cnine-scroll-track:rgba(11,28,58,.88);
+  --cnine-scroll-thumb:linear-gradient(180deg,rgba(79,180,255,.72),rgba(129,108,255,.7));
+}
+
+/* PVE/PVP 카드 내부 라벨 정리 */
+.pve-deck-card-display .card-title-row>.card-unique-badge,
+.pvp-card-display .card-title-row>.card-unique-badge{
+  display:none!important;
+}
+.pve-deck-card-display .card-title-row,
+.pvp-card-display .card-title-row{
+  display:block!important;
+}
+.pve-deck-card-display .card-title-row>.card-title,
+.pvp-card-display .card-title-row>.card-title{
+  color:#f7fbff!important;
+  font-size:11px!important;
+  font-weight:1000!important;
+  line-height:1.1!important;
+  letter-spacing:-.04em!important;
+  white-space:normal!important;
+  overflow:visible!important;
+  text-overflow:unset!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  min-height:24px;
+}
+.pve-deck-card-display .card-footer small,
+.pvp-card-display .card-footer small{
+  color:#ff7dc7!important;
+  font-size:10px!important;
+  font-weight:900!important;
+  line-height:1.08!important;
+  letter-spacing:-.03em!important;
+  white-space:normal!important;
+  display:-webkit-box!important;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  min-height:20px;
+}
+
+/* 하단 메타: 등급 / 돌파+로고 / 전투력 */
+.pve-card-extra.compact,
+.pvp-card-extra.compact{
+  display:grid!important;
+  grid-template-columns:auto minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:6px!important;
+  padding:7px 9px!important;
+}
+.pve-card-extra.compact b,
+.pvp-card-extra.compact b{
+  font-size:11px!important;
+  font-weight:1000!important;
+}
+.pve-card-extra.compact .compact-mid,
+.pvp-card-extra.compact .compact-mid{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  min-width:0;
+  color:#e6c56b;
+  font-size:11px;
+  font-weight:900;
+  line-height:1;
+  white-space:nowrap;
+}
+.pve-card-extra.compact .compact-mid em,
+.pvp-card-extra.compact .compact-mid em{
+  font-style:normal;
+  color:#d8c688;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:-.03em;
+}
+.pve-card-extra.compact .compact-power-type,
+.pvp-card-extra.compact .compact-power-type{
+  margin-left:1px;
+  transform:translateY(-.5px);
+  font-size:12px!important;
+  letter-spacing:-1px;
+}
+.pve-card-extra.compact strong,
+.pvp-card-extra.compact strong{
+  font-size:12px!important;
+  font-weight:1000!important;
+}
+
+/* 출전덱 5장: 데스크톱에서는 한 줄 고정, 좌우 스크롤 제거 */
+#pveHuntView.pve-view-deck .pve-command-layout-v1179{
+  grid-template-columns:320px minmax(0,1fr)!important;
+}
+#pveHuntView.pve-view-deck .pve-squad-grid,
+.pvp-deck-slots{
+  display:grid!important;
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:var(--cnine-card-gap)!important;
+  align-items:start!important;
+  justify-items:stretch!important;
+}
+#pveHuntView.pve-view-deck .pve-frame-slot.filled,
+#pveHuntView.pve-view-deck .pve-frame-slot.empty,
+.pvp-deck-slot.filled,
+.pvp-deck-slot.empty{
+  max-width:none!important;
+  width:100%!important;
+}
+#pveHuntView.pve-view-deck .pve-card-mini-full>.card-frame,
+#pveHuntView.pve-view-deck .pve-card-extra,
+.pvp-card-mini-full>.card-frame,
+.pvp-card-extra{
+  max-width:none!important;
+}
+#pveHuntView.pve-view-deck .pve-frame-slot.empty,
+.pvp-deck-slot.empty{
+  min-height:262px!important;
+}
+.pve-frame-slot.empty .pve-empty-slot,
+.pvp-empty-slot{
+  min-height:262px!important;
+}
+
+/* 카드 목록: 3열 고정 제거, 붙여서 자동 배치 */
+#pveHuntView.pve-view-deck .pve-grade-grid,
+.pvp-card-picker.grouped .pvp-grade-grid{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fill,minmax(168px,1fr))!important;
+  gap:10px!important;
+  justify-content:stretch!important;
+  align-items:start!important;
+}
+#pveHuntView.pve-view-deck .pve-frame-pick,
+.pvp-pick{
+  max-width:none!important;
+  width:100%!important;
+}
+#pveHuntView.pve-view-deck .pve-builder-list,
+.pvp-card-picker.grouped{
+  padding-right:8px!important;
+}
+
+/* 검색/필터 UI 정리 */
+.deck-filter-toolbar{
+  display:grid!important;
+  grid-template-columns:minmax(220px,1.3fr) repeat(3,minmax(130px,.7fr)) auto!important;
+  gap:10px!important;
+  align-items:end!important;
+  padding:12px!important;
+  border-radius:18px!important;
+  background:linear-gradient(180deg,rgba(8,20,42,.92),rgba(6,15,33,.88))!important;
+  border:1px solid rgba(110,170,235,.14)!important;
+}
+.deck-filter-toolbar label,
+.deck-filter-result{
+  min-width:0;
+}
+.deck-filter-search{
+  min-height:42px!important;
+  border-radius:14px!important;
+}
+.deck-filter-toolbar select,
+.deck-filter-toolbar input,
+.deck-filter-result button{
+  min-height:42px!important;
+  border-radius:14px!important;
+}
+
+/* 스크롤바 디자인 */
+.pve-builder-list,
+.pvp-card-picker.grouped,
+.pve-target-panel .pve-monster-browser,
+.inventory-grid,
+.app-shell,
+body{
+  scrollbar-width:thin;
+  scrollbar-color:#64b8ff rgba(10,24,48,.88);
+}
+.pve-builder-list::-webkit-scrollbar,
+.pvp-card-picker.grouped::-webkit-scrollbar,
+.pve-target-panel .pve-monster-browser::-webkit-scrollbar,
+.inventory-grid::-webkit-scrollbar,
+.app-shell::-webkit-scrollbar,
+body::-webkit-scrollbar{
+  width:12px;
+  height:12px;
+}
+.pve-builder-list::-webkit-scrollbar-track,
+.pvp-card-picker.grouped::-webkit-scrollbar-track,
+.pve-target-panel .pve-monster-browser::-webkit-scrollbar-track,
+.inventory-grid::-webkit-scrollbar-track,
+.app-shell::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track{
+  background:var(--cnine-scroll-track);
+  border-radius:999px;
+  border:1px solid rgba(96,149,214,.12);
+}
+.pve-builder-list::-webkit-scrollbar-thumb,
+.pvp-card-picker.grouped::-webkit-scrollbar-thumb,
+.pve-target-panel .pve-monster-browser::-webkit-scrollbar-thumb,
+.inventory-grid::-webkit-scrollbar-thumb,
+.app-shell::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb{
+  background:var(--cnine-scroll-thumb);
+  border-radius:999px;
+  border:2px solid rgba(7,20,42,.9);
+}
+.pve-builder-list::-webkit-scrollbar-thumb:hover,
+.pvp-card-picker.grouped::-webkit-scrollbar-thumb:hover,
+.pve-target-panel .pve-monster-browser::-webkit-scrollbar-thumb:hover,
+.inventory-grid::-webkit-scrollbar-thumb:hover,
+.app-shell::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover{
+  background:linear-gradient(180deg,rgba(105,202,255,.86),rgba(151,120,255,.84));
+}
+
+/* 모바일/태블릿 대응: 5장 덱은 3+2, 카드 목록은 2열/1열 */
+@media(max-width:1180px){
+  #pveHuntView.pve-view-deck .pve-command-layout-v1179{grid-template-columns:1fr!important}
+  #pveHuntView.pve-view-deck .pve-squad-grid,
+  .pvp-deck-slots{grid-template-columns:repeat(5,minmax(0,1fr))!important}
+}
+@media(max-width:980px){
+  #pveHuntView.pve-view-deck .pve-squad-grid,
+  .pvp-deck-slots{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .deck-filter-toolbar{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .deck-filter-search,.deck-filter-result{grid-column:1/-1}
+}
+@media(max-width:680px){
+  #pveHuntView.pve-view-deck .pve-squad-grid,
+  .pvp-deck-slots{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .pve-card-extra.compact,
+  .pvp-card-extra.compact{grid-template-columns:1fr auto!important;gap:5px!important}
+  .pve-card-extra.compact .compact-mid,
+  .pvp-card-extra.compact .compact-mid{grid-column:1/2;justify-content:flex-start}
+  .pve-card-extra.compact strong,
+  .pvp-card-extra.compact strong{grid-column:2/3;grid-row:1 / span 2;align-self:center}
+}
+@media(max-width:480px){
+  #pveHuntView.pve-view-deck .pve-grade-grid,
+  .pvp-card-picker.grouped .pvp-grade-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important}
+  .deck-filter-toolbar{grid-template-columns:1fr!important}
+  .pve-deck-card-display .card-title-row>.card-title,
+  .pvp-card-display .card-title-row>.card-title{font-size:10px!important;min-height:22px}
+  .pve-deck-card-display .card-footer small,
+  .pvp-card-display .card-footer small{font-size:9px!important;min-height:18px}
+  .pve-card-extra.compact b,.pve-card-extra.compact .compact-mid em,.pve-card-extra.compact strong,
+  .pvp-card-extra.compact b,.pvp-card-extra.compact .compact-mid em,.pvp-card-extra.compact strong{font-size:10px!important}
+}

@@ -598,8 +598,8 @@ async function loadBattleEnergyOnly(){try{const d=await apiRequest('battle/confi
 
 function battleCardPower(card,user,settings){const base=Number(card.basePower||settings?.powerByGrade?.[card.grade]||0),lv=Number(user.breakthroughs?.[card.id]||0),pct=Number(settings?.breakthroughBonus?.[lv]||0);return Math.floor(base*(1+pct/100));}
 function pveDeckCardMini(card,user=loadUser()){
-  const power=battleCardPower(card,user,battleState.config);
-  return `<div class="pve-card-mini-full">${cardHtml(card,true,'pve-deck-card-display',user)}<div class="pve-card-extra compact"><b>${escapeHtml(card.grade||card.rarity||'C')}</b><strong>${power.toLocaleString()}</strong></div></div>`;
+  const power=battleCardPower(card,user,battleState.config),level=Number(user?.breakthroughs?.[card.id]||0);
+  return `<div class="pve-card-mini-full">${cardHtml(card,true,'pve-deck-card-display',user)}<div class="pve-card-extra compact"><b>${escapeHtml(card.grade||card.rarity||'C')}</b><span class="compact-mid"><em>돌파 ★${level}</em>${powerTypeIndicatorHtml(card,'compact-power-type')}</span><strong>${power.toLocaleString()}</strong></div></div>`;
 }
 function pveDeckGradeGroups(list=[]){
   return [...new Set(list.map(card=>card.grade))].map(grade=>({grade,cards:list.filter(card=>card.grade===grade)}));
@@ -2283,8 +2283,8 @@ let pvpFeatureEnabled=true;
 let pvpState={tab:'match',config:null,profile:null,deck:[],opponents:[],history:[],ranking:[],energy:null,energyTimer:null,serverOffset:0};
 function pvpView(user){return `${summaryBar(user)}<section class="pvp-cover"><div class="pvp-cover-intro"><p class="eyebrow" id="pvpSeasonEyebrow">ASYNC PVP SEASON</p><h2 id="pvpSeasonTitle">PvP 시즌</h2><p id="pvpSeasonDescription">저장한 PvP 덱으로 비동기 대전을 진행합니다.</p><small id="pvpSeasonStatusLine">상태 불러오는 중</small></div><div class="pvp-me"><div id="pvpMyTierBadge" class="pvp-tier-badge"></div><span id="pvpMyTier">-</span><b id="pvpMyScore">-</b><small id="pvpSeasonTime">시즌 정보 불러오는 중</small></div><div class="battle-energy-card pvp-energy-card"><div class="pvp-energy-head"><span>⚔ PvP 전투 횟수</span><b id="pvpEnergyCount">- / -</b></div><div class="battle-energy-track"><i id="pvpEnergyFill"></i></div><small id="pvpEnergyTimer">불러오는 중...</small></div></section><nav class="pvp-tabs"><button data-pvp="match" class="active">대전</button><button data-pvp="deck">덱 편성</button><button data-pvp="history">전투 기록</button><button data-pvp="ranking">시즌 랭킹</button><button data-pvp="reward">시즌 보상</button></nav><section id="pvpContent" class="pvp-content"><div class="empty-recent">PvP 정보를 불러오는 중...</div></section>`}
 function pvpCardMini(c,user=loadUser()){
-  const power=battleCardPower(c,user,pvpState.config||battleState.config);
-  return `<div class="pvp-card-mini-full">${cardHtml(c,true,'pvp-card-display',user)}<div class="pvp-card-extra compact"><b>${escapeHtml(c.grade||c.rarity||'C')}</b><strong>${power.toLocaleString()}</strong></div></div>`;
+  const power=battleCardPower(c,user,pvpState.config||battleState.config),level=Number(user?.breakthroughs?.[c.id]||0);
+  return `<div class="pvp-card-mini-full">${cardHtml(c,true,'pvp-card-display',user)}<div class="pvp-card-extra compact"><b>${escapeHtml(c.grade||c.rarity||'C')}</b><span class="compact-mid"><em>돌파 ★${level}</em>${powerTypeIndicatorHtml(c,'compact-power-type')}</span><strong>${power.toLocaleString()}</strong></div></div>`;
 }
 const PVP_DECK_FILTER_KEY='cnine_pvp_deck_filter_v1';
 function loadPvpDeckFilter(){try{return {query:'',grade:'ALL',type:'ALL',sort:'POWER_DESC',...JSON.parse(localStorage.getItem(PVP_DECK_FILTER_KEY)||'{}')}}catch{return {query:'',grade:'ALL',type:'ALL',sort:'POWER_DESC'}}}
