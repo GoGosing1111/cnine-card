@@ -297,6 +297,9 @@
     stage.querySelectorAll(`.captain-v4-card-slot[data-side="${side}"]`).forEach((slot, slotIndex) => {
       slot.classList.toggle('is-attacking', slotIndex === Number(index));
     });
+    if (typeof window.battleTriggerUniqueFx === 'function') {
+      try { window.battleTriggerUniqueFx(stage, Number(index), 'attack', side === 'defender'); } catch {}
+    }
   }
 
   function hitFx(stage, side, damage, critical) {
@@ -362,6 +365,7 @@
       updateCardState(stage, 'defender', exchange.rightCardIndex, exchange.rightCardHpPercent, exchange.rightCardDown);
       setTeamHp(stage, 'defender', exchange.rightDeckHpPercent);
       hitFx(stage, 'defender', exchange.rightDamage, exchange.rightCritical);
+      if (typeof window.battleTriggerUniqueFx === 'function') { try { window.battleTriggerUniqueFx(stage, Number(exchange.rightCardIndex), 'defense', true); } catch {} }
       await pause(playback, 150);
       stage.classList.remove('player-attack');
 
@@ -372,6 +376,7 @@
         updateCardState(stage, 'attacker', exchange.leftCardIndex, exchange.leftCardHpPercent, exchange.leftCardDown);
         setTeamHp(stage, 'attacker', exchange.leftDeckHpPercent);
         hitFx(stage, 'attacker', exchange.leftDamage, exchange.leftCritical);
+        if (typeof window.battleTriggerUniqueFx === 'function') { try { window.battleTriggerUniqueFx(stage, Number(exchange.leftCardIndex), 'defense', false); } catch {} }
         await pause(playback, 150);
         stage.classList.remove('enemy-attack');
       }

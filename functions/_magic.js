@@ -72,6 +72,7 @@ export async function magicSettings(env){
 }
 
 
+let cardUniqueSettingsCache={at:0,value:null};
 export function defaultCardUniqueSettings(){
   return {enabled:false,ownerTestEnabled:true,userDetailEnabled:true,version:1};
 }
@@ -84,14 +85,36 @@ export function cleanCardUniqueSettings(raw={}){
     version:1
   };
 }
-export async function cardUniqueSettings(env){
+export async function cardUniqueSettings(env,{fresh=false}={}){
+  const now=Date.now();
+  if(!fresh&&cardUniqueSettingsCache.value&&now-cardUniqueSettingsCache.at<5000)return cardUniqueSettingsCache.value;
   const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='card_unique_effect_settings_v1'").first();
-  if(!row?.value)return defaultCardUniqueSettings();
-  try{return cleanCardUniqueSettings(JSON.parse(row.value))}catch{return defaultCardUniqueSettings()}
+  let value=defaultCardUniqueSettings();
+  if(row?.value){try{value=cleanCardUniqueSettings(JSON.parse(row.value))}catch{}}
+  cardUniqueSettingsCache={at:now,value};
+  return value;
 }
 function uniqueStat(value,max=500){
   const n=Number(value);
   return Math.max(-90,Math.min(max,Number.isFinite(n)?n:0));
+}
+const UNIQUE_DOMINANT_STATS=[
+  {type:'ATTACK',key:'attackPercent',label:'공격'},
+  {type:'DEFENSE',key:'defensePercent',label:'방어'},
+  {type:'SPEED',key:'speedPercent',label:'속도'},
+  {type:'HP',key:'hpPercent',label:'HP'}
+];
+function withDominantUniqueStat(effect={}){
+  const values=UNIQUE_DOMINANT_STATS.map(stat=>({stat,value:Number(effect?.[stat.key]||0)}));
+  const highest=Math.max(...values.map(item=>item.value));
+  const winner=highest>0?values.find(item=>item.value===highest):null;
+  return {
+    ...effect,
+    dominantType:winner?.stat.type||'NONE',
+    dominantKey:winner?.stat.key||'',
+    dominantLabel:winner?.stat.label||'',
+    dominantValue:winner?winner.value:0
+  };
 }
 export function cardUniqueVisibleTo(user,cfg){
   return cfg?.enabled===true||(cfg?.ownerTestEnabled!==false&&isOwner(user));
@@ -136,7 +159,7 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
     const marks=ids.map(()=>'?').join(','),scopeColumn=uniqueScopeColumn(scope);
     const rows=(await env.DB.prepare(`SELECT card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations FROM card_unique_effects WHERE is_active=1 AND ${scopeColumn}=1 AND card_id IN (${marks})`).bind(...ids).all()).results||[];
     for(const row of rows){
-      const effect={cardId:String(row.card_id),attackPercent:uniqueStat(row.attack_percent),defensePercent:uniqueStat(row.defense_percent),hpPercent:uniqueStat(row.hp_percent),speedPercent:uniqueStat(row.speed_percent,300),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??100)||0)),maxActivations:Math.max(1,Math.floor(Number(row.max_activations||1)))};
+      const effect=withDominantUniqueStat({cardId:String(row.card_id),attackPercent:uniqueStat(row.attack_percent),defensePercent:uniqueStat(row.defense_percent),hpPercent:uniqueStat(row.hp_percent),speedPercent:uniqueStat(row.speed_percent,300),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??100)||0)),maxActivations:Math.max(1,Math.floor(Number(row.max_activations||1)))});
       effectMap.set(effect.cardId,effect);
     }
   }
@@ -375,8 +398,9 @@ export async function handleMagic({path,request,env,deps}){
         return json({ok:true,settings:next});
       }
       if(action==='SAVE_UNIQUE_SETTINGS'){
-        const before=await cardUniqueSettings(env),next=cleanCardUniqueSettings(body.settings||body);
+        const before=await cardUniqueSettings(env,{fresh:true}),next=cleanCardUniqueSettings(body.settings||body);
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('card_unique_effect_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();
+        cardUniqueSettingsCache={at:Date.now(),value:next};
         let warning='';try{await writeAdminLog(env,admin,'CARD_UNIQUE_SETTINGS_SAVE','APP_META','card_unique_effect_settings_v1',before,next)}catch(error){warning='설정은 저장됐지만 관리자 로그 기록에 실패했습니다.';console.error('CARD_UNIQUE_SETTINGS_SAVE log failed',error)}
         return json({ok:true,settings:next,warning:warning||undefined});
       }
