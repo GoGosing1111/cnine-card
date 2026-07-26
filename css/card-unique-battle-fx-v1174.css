@@ -406,3 +406,80 @@
   .monster-choice.redesign{grid-template-columns:56px minmax(0,1fr)}
   .monster-choice.redesign img,.monster-choice.redesign .monster-placeholder{width:56px;height:56px;border-radius:12px}
 }
+
+/* V1179: PVE 덱 편성 전용 칼럼 신설 + 몬스터 토벌 재구성 */
+.pve-hunt-v1179 .pve-command-layout-v1179{
+  display:grid;
+  grid-template-columns:minmax(280px,.82fr) minmax(0,1.15fr) minmax(360px,.95fr);
+  gap:18px;
+  align-items:start;
+}
+.pve-hunt-v1179 .battle-panel{
+  border-radius:24px;
+  background:linear-gradient(180deg,rgba(8,20,42,.96),rgba(6,15,33,.94));
+  border:1px solid rgba(118,169,233,.14);
+  box-shadow:0 18px 40px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.03);
+}
+.pve-hunt-v1179 .pve-squad-panel,
+.pve-hunt-v1179 .pve-builder-panel,
+.pve-hunt-v1179 .pve-target-panel{padding:18px}
+.pve-hunt-v1179 .pve-squad-summary{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:0 0 14px;
+}
+.pve-hunt-v1179 .pve-squad-summary article{
+  padding:12px 14px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.025));
+  border:1px solid rgba(255,255,255,.06);
+}
+.pve-hunt-v1179 .pve-squad-summary small{display:block;color:#87a4cc;font-size:11px;font-weight:800}
+.pve-hunt-v1179 .pve-squad-summary b{display:block;margin-top:6px;color:#f4f8ff;font-size:18px;font-weight:900;letter-spacing:-.02em}
+.pve-hunt-v1179 .pve-squad-grid{display:grid;gap:12px}
+.pve-hunt-v1179 .pve-deck-slot-card{border-radius:20px;padding:12px 13px;background:linear-gradient(180deg,rgba(10,24,47,.98),rgba(7,16,34,.94))}
+.pve-hunt-v1179 .pve-deck-slot-empty{border-radius:20px;min-height:110px;background:linear-gradient(180deg,rgba(9,21,42,.78),rgba(6,14,31,.64))}
+.pve-hunt-v1179 .pve-deck-slot-index{background:linear-gradient(180deg,rgba(57,104,173,.54),rgba(26,50,95,.34));box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+
+.pve-hunt-v1179 .pve-builder-panel{min-width:0}
+.pve-hunt-v1179 .pve-builder-helper{margin-bottom:14px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.025));border-color:rgba(114,167,234,.16)}
+.pve-hunt-v1179 .pve-builder-list{max-height:1120px;overflow:auto;padding-right:4px}
+.pve-hunt-v1179 .pve-builder-list::-webkit-scrollbar{width:10px}
+.pve-hunt-v1179 .pve-builder-list::-webkit-scrollbar-thumb{background:rgba(131,165,211,.24);border-radius:999px;border:2px solid transparent;background-clip:padding-box}
+.pve-hunt-v1179 .pve-builder-row{border-radius:20px;padding:12px 13px;background:linear-gradient(180deg,rgba(10,23,45,.98),rgba(7,15,31,.94))}
+.pve-hunt-v1179 .pve-builder-row.selected,.pve-hunt-v1179 .pve-builder-row[disabled]{border-color:rgba(87,213,171,.36);background:linear-gradient(180deg,rgba(10,28,28,.98),rgba(7,22,26,.94))}
+.pve-hunt-v1179 .pve-builder-status{min-width:78px}
+.pve-hunt-v1179 .pve-builder-status b,.pve-hunt-v1179 .pve-builder-status span{height:30px;padding:0 12px}
+
+.pve-hunt-v1179 .pve-target-panel .pve-monster-browser.redesign{gap:16px}
+.pve-hunt-v1179 .pve-target-spotlight{grid-template-columns:128px minmax(0,1fr);padding:16px;border-radius:24px;background:linear-gradient(135deg,rgba(16,30,57,.98),rgba(10,22,41,.96));border-color:rgba(255,204,92,.18)}
+.pve-hunt-v1179 .pve-target-copy h3{font-size:26px}
+.pve-hunt-v1179 .pve-target-copy p{font-size:13px;line-height:1.6}
+.pve-hunt-v1179 .pve-target-stats article{border-radius:16px;background:rgba(255,255,255,.045)}
+.pve-hunt-v1179 .pve-target-start{width:100%;height:48px;border-radius:14px;font-size:15px;font-weight:900}
+.pve-hunt-v1179 .pve-monster-grid.redesign{grid-template-columns:1fr;gap:10px}
+.pve-hunt-v1179 .monster-choice.redesign{grid-template-columns:74px minmax(0,1fr);padding:12px;border-radius:18px}
+.pve-hunt-v1179 .monster-choice.redesign.active{border-color:rgba(255,214,101,.42);background:linear-gradient(180deg,rgba(49,38,17,.24),rgba(10,18,31,.94))}
+.pve-hunt-v1179 .monster-choice.redesign b{font-size:17px}
+.pve-hunt-v1179 .monster-choice.redesign strong{font-size:13px}
+.pve-hunt-v1179 .battle-cover .pve-total-card small{display:block;margin-top:6px;color:#9eb8dc;font-size:12px;line-height:1.45}
+
+@media(max-width:1280px){
+  .pve-hunt-v1179 .pve-command-layout-v1179{grid-template-columns:minmax(250px,.85fr) minmax(0,1fr)}
+  .pve-hunt-v1179 .pve-target-panel{grid-column:1 / -1}
+  .pve-hunt-v1179 .pve-monster-grid.redesign{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:980px){
+  .pve-hunt-v1179 .pve-command-layout-v1179{grid-template-columns:1fr}
+  .pve-hunt-v1179 .pve-target-panel,
+  .pve-hunt-v1179 .pve-builder-panel,
+  .pve-hunt-v1179 .pve-squad-panel{grid-column:auto}
+}
+@media(max-width:760px){
+  .pve-hunt-v1179 .pve-squad-summary{grid-template-columns:1fr 1fr}
+  .pve-hunt-v1179 .pve-target-spotlight{grid-template-columns:1fr}
+  .pve-hunt-v1179 .pve-monster-grid.redesign{grid-template-columns:1fr}
+  .pve-hunt-v1179 .pve-builder-list{max-height:none;overflow:visible;padding-right:0}
+}
+@media(max-width:560px){
+  .pve-hunt-v1179 .pve-squad-summary{grid-template-columns:1fr}
+  .pve-hunt-v1179 .pve-squad-panel,
+  .pve-hunt-v1179 .pve-builder-panel,
+  .pve-hunt-v1179 .pve-target-panel{padding:14px}
+}
