@@ -469,48 +469,62 @@ async function premiumCubeWeeklyStatus(env,userId,settingsOverride=null){
   const row=await env.DB.prepare('SELECT current_rate,earned_count,attempt_count,last_attempt_key,last_attempt_won FROM premium_cube_weekly_state WHERE user_id=? AND week_key=?').bind(userId,weekKey).first();
   return {weekKey,currentRate:Math.max(settings.startRate,Math.min(settings.maxRate,Number(row?.current_rate??settings.startRate))),earnedCount:Math.max(0,Number(row?.earned_count||0)),weeklyLimit:settings.weeklyLimit,attemptCount:Math.max(0,Number(row?.attempt_count||0)),enabled:settings.enabled,settings,lastAttemptKey:String(row?.last_attempt_key||''),lastAttemptWon:Number(row?.last_attempt_won||0)===1};
 }
+async function weeklyPremiumAttemptReceipt(env,userId,weekKey,source,referenceId){
+  return await env.DB.prepare(`SELECT outcome,granted,roll_rate,operation_key FROM premium_cube_weekly_attempt_receipts WHERE user_id=? AND week_key=? AND source=? AND reference_id=?`).bind(userId,weekKey,source,referenceId).first();
+}
+function weeklyPremiumOperationKey(source,referenceId){
+  const nonce=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  return `${source}:${referenceId}#${nonce}`;
+}
 async function rollWeeklyPremiumCube(env,userId,source,referenceId){
+  source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();
   const settings=await weeklyPremiumCubeSettings(env),weekKey=premiumCubeWeekKey();
   await env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_state(user_id,week_key,current_rate,earned_count,attempt_count,updated_at) VALUES(?,?,?,0,0,CURRENT_TIMESTAMP)`).bind(userId,weekKey,settings.startRate).run();
-  const status=await premiumCubeWeeklyStatus(env,userId,settings);
-  const attemptKey=`${String(source||'').toUpperCase()}:${String(referenceId||'').trim()}`;
-  if(!attemptKey||attemptKey.endsWith(':'))return {won:false,status,duplicate:false};
-  if(status.lastAttemptKey===attemptKey)return {won:status.lastAttemptWon,status,duplicate:true};
-  if(!settings.enabled||status.earnedCount>=status.weeklyLimit)return {won:false,status,duplicate:false};
-  const won=Math.random()*100<status.currentRate;
-  if(won){
-    const updated=await env.DB.prepare(`UPDATE premium_cube_weekly_state SET earned_count=earned_count+1,current_rate=?,attempt_count=attempt_count+1,last_attempt_key=?,last_attempt_won=1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND earned_count<? AND COALESCE(last_attempt_key,'')<>?`).bind(settings.startRate,attemptKey,userId,status.weekKey,settings.weeklyLimit,attemptKey).run();
-    if(!updated.meta.changes){const fresh=await premiumCubeWeeklyStatus(env,userId,settings);return {won:fresh.lastAttemptKey===attemptKey&&fresh.lastAttemptWon,status:fresh,duplicate:true};}
-  }else{
-    const updated=await env.DB.prepare(`UPDATE premium_cube_weekly_state SET current_rate=MIN(?,current_rate+?),attempt_count=attempt_count+1,last_attempt_key=?,last_attempt_won=0,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND COALESCE(last_attempt_key,'')<>?`).bind(settings.maxRate,settings.incrementRate,attemptKey,userId,status.weekKey,attemptKey).run();
-    if(!updated.meta.changes){const fresh=await premiumCubeWeeklyStatus(env,userId,settings);return {won:fresh.lastAttemptKey===attemptKey&&fresh.lastAttemptWon,status:fresh,duplicate:true};}
+  const priorReceipt=await weeklyPremiumAttemptReceipt(env,userId,weekKey,source,referenceId);
+  if(priorReceipt){
+    const status=await premiumCubeWeeklyStatus(env,userId,settings),won=String(priorReceipt.outcome||'').toUpperCase()==='WON'&&Number(priorReceipt.granted||0)===1;
+    return {won,status,duplicate:true};
   }
-  return {won,status:await premiumCubeWeeklyStatus(env,userId,settings),duplicate:false};
+  const status=await premiumCubeWeeklyStatus(env,userId,settings);
+  if(!source||!referenceId||!settings.enabled||status.earnedCount>=status.weeklyLimit)return {won:false,status,duplicate:false};
+  const operationKey=weeklyPremiumOperationKey(source,referenceId),won=Math.random()*100<status.currentRate;
+  if(won){
+    await env.DB.batch([
+      env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) VALUES(?,?,?,?,'PENDING',0,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(userId,weekKey,source,referenceId,status.currentRate,operationKey),
+      env.DB.prepare(`UPDATE premium_cube_weekly_state SET earned_count=earned_count+1,current_rate=?,attempt_count=attempt_count+1,last_attempt_key=?,last_attempt_won=1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND earned_count<? AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?) AND EXISTS(SELECT 1 FROM premium_cube_weekly_attempt_receipts WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='PENDING' AND operation_key=?)`).bind(settings.startRate,operationKey,userId,weekKey,settings.weeklyLimit,userId,source,referenceId,userId,weekKey,source,referenceId,operationKey),
+      env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'PREMIUM_CUBE',1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM premium_cube_weekly_state s JOIN premium_cube_weekly_attempt_receipts r ON r.user_id=s.user_id AND r.week_key=s.week_key WHERE s.user_id=? AND s.week_key=? AND s.last_attempt_key=? AND s.last_attempt_won=1 AND r.source=? AND r.reference_id=? AND r.outcome='PENDING' AND r.operation_key=?) AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+1,unseen_quantity=cnine_user_inventory.unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,userId,weekKey,operationKey,source,referenceId,operationKey,userId,source,referenceId),
+      env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'PREMIUM_CUBE',1,i.quantity,'WEEKLY_PREMIUM_CUBE',?,? FROM cnine_user_inventory i WHERE i.user_id=? AND i.item_code='PREMIUM_CUBE' AND EXISTS(SELECT 1 FROM premium_cube_weekly_state s JOIN premium_cube_weekly_attempt_receipts r ON r.user_id=s.user_id AND r.week_key=s.week_key WHERE s.user_id=? AND s.week_key=? AND s.last_attempt_key=? AND s.last_attempt_won=1 AND r.source=? AND r.reference_id=? AND r.outcome='PENDING' AND r.operation_key=?) AND NOT EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?)`).bind(userId,source,referenceId,userId,userId,weekKey,operationKey,source,referenceId,operationKey,userId,source,referenceId),
+      env.DB.prepare(`UPDATE premium_cube_weekly_attempt_receipts SET outcome=CASE WHEN EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?) THEN 'WON' ELSE 'BLOCKED' END,granted=CASE WHEN EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?) THEN 1 ELSE 0 END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='PENDING' AND operation_key=?`).bind(userId,source,referenceId,userId,source,referenceId,userId,weekKey,source,referenceId,operationKey)
+    ]);
+  }else{
+    await env.DB.batch([
+      env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) VALUES(?,?,?,?,'PENDING',0,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(userId,weekKey,source,referenceId,status.currentRate,operationKey),
+      env.DB.prepare(`UPDATE premium_cube_weekly_state SET current_rate=MIN(?,current_rate+?),attempt_count=attempt_count+1,last_attempt_key=?,last_attempt_won=0,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND earned_count<? AND EXISTS(SELECT 1 FROM premium_cube_weekly_attempt_receipts WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='PENDING' AND operation_key=?)`).bind(settings.maxRate,settings.incrementRate,operationKey,userId,weekKey,settings.weeklyLimit,userId,weekKey,source,referenceId,operationKey),
+      env.DB.prepare(`UPDATE premium_cube_weekly_attempt_receipts SET outcome=CASE WHEN EXISTS(SELECT 1 FROM premium_cube_weekly_state WHERE user_id=? AND week_key=? AND last_attempt_key=? AND last_attempt_won=0) THEN 'LOST' ELSE 'BLOCKED' END,granted=0,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='PENDING' AND operation_key=?`).bind(userId,weekKey,operationKey,userId,weekKey,source,referenceId,operationKey)
+    ]);
+  }
+  const receipt=await weeklyPremiumAttemptReceipt(env,userId,weekKey,source,referenceId),fresh=await premiumCubeWeeklyStatus(env,userId,settings);
+  return {won:String(receipt?.outcome||'').toUpperCase()==='WON'&&Number(receipt?.granted||0)===1,status:fresh,duplicate:Boolean(receipt&&String(receipt.operation_key||'')!==operationKey)};
 }
-async function grantPremiumCubeInventory(env,userId,source,referenceId,reuseOnly=false){
+async function grantPremiumCubeInventory(env,userId,source,referenceId){
   const prior=await env.DB.prepare("SELECT balance_after FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=? ORDER BY id DESC LIMIT 1").bind(userId,source,referenceId).first();
+  if(!prior)return null;
   const item=await env.DB.prepare("SELECT code,name,rarity,image_url FROM inventory_items WHERE code='PREMIUM_CUBE'").first();
-  if(prior){return {itemCode:'PREMIUM_CUBE',name:item?.name||'프리미엄 큐브',rarity:item?.rarity||'PREMIUM',image:item?.image_url||'',quantity:1,balance:Number(prior.balance_after||0),source,weekly:true,reused:true};}
-  if(reuseOnly)return null;
-  await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'PREMIUM_CUBE',1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId).run();
-  const balance=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='PREMIUM_CUBE'").bind(userId).first();
-  const reward={itemCode:'PREMIUM_CUBE',name:item?.name||'프리미엄 큐브',rarity:item?.rarity||'PREMIUM',image:item?.image_url||'',quantity:1,balance:Number(balance?.quantity||1),source,weekly:true};
-  await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'PREMIUM_CUBE',1,?,'WEEKLY_PREMIUM_CUBE',?,?)").bind(userId,reward.balance,source,referenceId).run();
-  recentPremiumCubeCache=null;return reward;
+  return {itemCode:'PREMIUM_CUBE',name:item?.name||'프리미엄 큐브',rarity:item?.rarity||'PREMIUM',image:item?.image_url||'',quantity:1,balance:Number(prior.balance_after||0),source,weekly:true,reused:true};
 }
 async function grantWeeklyPremiumCube(env,userId,source,referenceId){
   source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();
   if(!['PVE','TOWER','PVP','CAPTAIN'].includes(source)||!referenceId)return null;
   const rolled=await rollWeeklyPremiumCube(env,userId,source,referenceId);
-  let reward=null;
-  if(rolled.won)reward=await grantPremiumCubeInventory(env,userId,source,referenceId,rolled.duplicate);
+  const reward=rolled.won?await grantPremiumCubeInventory(env,userId,source,referenceId):null;
+  if(reward)recentPremiumCubeCache=null;
   return {reward,status:rolled.status,reused:rolled.duplicate};
 }
 async function grantBattleCube(env,userId,source,referenceId,allowStandard=true){
   source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();
   if(!['PVE','PVP'].includes(source)||!referenceId)return null;
   const weekly=await rollWeeklyPremiumCube(env,userId,source,referenceId);
-  if(weekly.won)return await grantPremiumCubeInventory(env,userId,source,referenceId,weekly.duplicate);
+  if(weekly.won){const reward=await grantPremiumCubeInventory(env,userId,source,referenceId);if(reward)recentPremiumCubeCache=null;return reward;}
   const prior=await env.DB.prepare("SELECT item_code,balance_after FROM inventory_logs WHERE user_id=? AND reason='BATTLE_CUBE_DROP' AND reference_type=? AND reference_id=? ORDER BY id DESC LIMIT 1").bind(userId,source,referenceId).first();
   if(prior){
     const item=await env.DB.prepare('SELECT code,name,rarity,image_url FROM inventory_items WHERE code=?').bind(prior.item_code).first();
@@ -580,8 +594,9 @@ async function ensureRuntimeUpgrades(env){
   runtimeUpgradeGatePromise=(async()=>{
     // 일반 유저 요청에서는 전체 런타임 마이그레이션을 매 Worker 콜드 스타트마다 재검사하지 않는다.
     // 최신 주간 큐브 마커와 기존 성능 게이트가 모두 완료된 운영 DB라면 단일 조회로 즉시 통과한다.
-    const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1144_stability_gate'").first();
-    if(marker?.value==='1')return true;
+    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts')").all();
+    const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
+    if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1')return true;
     await ensureUpgrades(env);
     return true;
   })().catch(error=>{runtimeUpgradeGatePromise=null;throw error});
@@ -766,6 +781,17 @@ async function ensureUpgrades(env){
       if(!await columnExists(env,'premium_cube_weekly_state','last_attempt_key'))await env.DB.prepare("ALTER TABLE premium_cube_weekly_state ADD COLUMN last_attempt_key TEXT").run();
       if(!await columnExists(env,'premium_cube_weekly_state','last_attempt_won'))await env.DB.prepare("ALTER TABLE premium_cube_weekly_state ADD COLUMN last_attempt_won INTEGER NOT NULL DEFAULT 0").run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1141_weekly_premium_bounded_state','1',CURRENT_TIMESTAMP)").run();
+    }
+    const weeklyPremiumAtomicDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts'").first();
+    if(weeklyPremiumAtomicDone?.value!=='1'){
+      const repairWeekKey=premiumCubeWeekKey(),repairWeekStart=new Date(`${repairWeekKey}T00:00:00+09:00`),repairWeekEnd=new Date(repairWeekStart.getTime()+7*24*60*60*1000),repairStartSql=repairWeekStart.toISOString().slice(0,19).replace('T',' '),repairEndSql=repairWeekEnd.toISOString().slice(0,19).replace('T',' ');
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS premium_cube_weekly_attempt_receipts (user_id INTEGER NOT NULL,week_key TEXT NOT NULL,source TEXT NOT NULL,reference_id TEXT NOT NULL,outcome TEXT NOT NULL DEFAULT 'PENDING',granted INTEGER NOT NULL DEFAULT 0,roll_rate REAL NOT NULL DEFAULT 0,operation_key TEXT NOT NULL DEFAULT '',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,week_key,source,reference_id))`),
+        env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_weekly_premium_attempt_receipts_user ON premium_cube_weekly_attempt_receipts(user_id,week_key,created_at DESC)`),
+        env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) SELECT user_id,?,UPPER(COALESCE(reference_type,'')),COALESCE(reference_id,''),'WON',1,0,'LEGACY:' || id,created_at,created_at FROM inventory_logs WHERE item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND COALESCE(reference_type,'')<>'' AND COALESCE(reference_id,'')<>'' AND datetime(created_at)>=datetime(?) AND datetime(created_at)<datetime(?)`).bind(repairWeekKey,repairStartSql,repairEndSql),
+        env.DB.prepare(`UPDATE premium_cube_weekly_state SET earned_count=(SELECT COUNT(*) FROM premium_cube_weekly_attempt_receipts r WHERE r.user_id=premium_cube_weekly_state.user_id AND r.week_key=premium_cube_weekly_state.week_key AND r.outcome='WON' AND r.granted=1),updated_at=CURRENT_TIMESTAMP WHERE week_key=?`).bind(repairWeekKey),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','1',CURRENT_TIMESTAMP)")
+      ]);
     }
     const towerMonsterLinkDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1073_tower_monster_link'").first();
     if(towerMonsterLinkDone?.value!=='1'){
