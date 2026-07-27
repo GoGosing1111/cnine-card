@@ -49,7 +49,7 @@
       const difficulty=index+1;
       const percent=safe(settings.difficultyRewardPercent?.[index],defaults.difficultyRewardPercent[index]);
       const crystal=safe(settings.difficultyCrystalBonus?.[index],defaults.difficultyCrystalBonus[index]);
-      return `<article class="riftDifficultyRewardCard" data-difficulty="${difficulty}"><header><small>DIFFICULTY</small><b>${difficulty}</b><span>${difficulty<=3?'탐색':difficulty<=6?'심층':difficulty<=9?'극한':'붕괴'}</span></header><label><span>코인·조각 배율</span><div><input class="riftDifficultyPercent" type="number" min="0" max="10000" step="1" value="${percent}"><em>%</em></div></label><label><span>결정 추가값</span><div><input class="riftDifficultyCrystal" type="number" min="0" max="100000" step="1" value="${crystal}"><em>개</em></div></label><footer>${(percent/100).toFixed(2)}배</footer></article>`;
+      return `<article class="riftDifficultyRewardCard" data-difficulty="${difficulty}"><header><small>DIFFICULTY</small><b>${difficulty}</b><span>${difficulty<=3?'탐색':difficulty<=6?'심층':difficulty<=9?'극한':'붕괴'}</span></header><label><span>코인·조각 배율</span><div><input class="riftDifficultyPercent" type="number" min="0" max="10000" step="1" value="${percent}"><em>%</em></div></label><label><span>마법 결정 추가값</span><div><input class="riftDifficultyCrystal" type="number" min="0" max="100000" step="1" value="${crystal}"><em>개</em></div></label><footer>${(percent/100).toFixed(2)}배</footer></article>`;
     }).join('');
     q('#riftDifficultyRewardGrid').querySelectorAll('.riftDifficultyPercent').forEach(input=>input.addEventListener('input',()=>{const card=input.closest('.riftDifficultyRewardCard');card.querySelector('footer').textContent=`${(safe(input.value)/100).toFixed(2)}배`;}));
     updateDifficultyVisibility();
@@ -118,7 +118,7 @@
     const nonNegative=['baseCoin','stageCoinIncrease','baseShards','baseCrystals','eventCrystalReward','riskCrystalReward'];
     if(nonNegative.some(key=>!Number.isFinite(settings[key])||settings[key]<0))return '기본 보상은 0 이상의 숫자로 입력하세요.';
     if(settings.difficultyRewardPercent.some(value=>!Number.isFinite(value)||value<0||value>10000))return '난이도 배율은 0~10,000% 범위로 입력하세요.';
-    if(settings.difficultyCrystalBonus.some(value=>!Number.isFinite(value)||value<0))return '난이도 결정 추가값은 0 이상으로 입력하세요.';
+    if(settings.difficultyCrystalBonus.some(value=>!Number.isFinite(value)||value<0))return '난이도 마법 결정 추가값은 0 이상으로 입력하세요.';
     if(Object.values(settings.nodeRewardPercent).some(value=>!Number.isFinite(value)||value<0||value>10000))return '노드 배율은 0~10,000% 범위로 입력하세요.';
     if(Object.values(settings.shardRewardPercent).some(value=>!Number.isFinite(value)||value<0||value>10000))return '카드 조각 배율은 0~10,000% 범위로 입력하세요.';
     return '';
