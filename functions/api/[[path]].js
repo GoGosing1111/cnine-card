@@ -5,8 +5,8 @@ import { handleCaptain } from '../_captain.js';
 import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates,resolveUniqueBattleRuntime } from '../_magic.js';
 import { handleStorageCleanup } from '../_storage_cleanup.js';
 
-const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,FUR:5000,LIMITED:3000};
-const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,FUR:9,LIMITED:10};
+const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,LIMITED:3000,PRESTIGE:3100,FUR:5000};
+const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11};
 function drawIntegrityHash(input=''){
   let hash=0x811c9dc5;
   const text=String(input);
@@ -40,13 +40,14 @@ function drawIntegrityCanonical(response){
     }))
   });
 }
-const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'];
-const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,FUR:250,LIMITED:180};
+const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR'];
+const DRAW_RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'];
+const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,LIMITED:180,PRESTIGE:220,FUR:250};
 const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
 const BREAKTHROUGH_RATE=[100,100,100,80,65,50,35,25,15,8];
-const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','FUR','LIMITED'];
+const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR'];
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
-const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,FUR:2600,LIMITED:2800};
+const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,LIMITED:2800,PRESTIGE:3100,FUR:3200};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450,528,612,702];
 const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:1,rate:100,retirementShardRefund:0},{cost:1,rate:100,retirementShardRefund:0},{cost:1,rate:100,retirementShardRefund:0}]};
 let maMasterStarBreakthroughCache=null;
@@ -395,12 +396,12 @@ async function riftReceiptFail(env,requestId,message){await env.DB.prepare("UPDA
 
 
 function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL.gif',durationMs:3000,coefficientPercent:500}]};}
-async function readBattleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};}catch{return base}}
+async function readBattleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,g==='PRESTIGE'?3100:Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};}catch{return base}}
 async function battleSettings(env){return cachedRuntimeSetting('battle',10000,()=>readBattleSettings(env))}
-const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},FUR:{FIXED:3200}};
-function cardPowerBase(card,settings){const saved=Number(card.base_power??card.basePower);const grade=card.rarity||card.grade;return Number.isFinite(saved)&&saved>0?saved:Number(settings.powerByGrade[grade]||0)}
+const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{FIXED:3100},FUR:{FIXED:3200}};
+function cardPowerBase(card,settings){const saved=Number(card.base_power??card.basePower),grade=String(card.rarity||card.grade||'').toUpperCase();if(grade==='PRESTIGE')return 3100;return Number.isFinite(saved)&&saved>0?saved:Number(settings.powerByGrade[grade]||0)}
 function cardBattlePower(card,level,settings){const base=cardPowerBase(card,settings);const pct=Number(settings.breakthroughBonus[Math.max(0,Math.min(13,Number(level)||0))]||0);return Math.floor(base*(1+pct/100));}
-const ULTIMATE_GRADE_PRIORITY={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10};
+const ULTIMATE_GRADE_PRIORITY={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11};
 function ultimateGradePriority(grade){return Number(ULTIMATE_GRADE_PRIORITY[String(grade||'').trim().toUpperCase()]||0)}
 function selectActivatedUltimate(settings,cards,random=Math.random){
   const eligible=(settings.ultimateRules||[]).map(u=>{
@@ -2064,9 +2065,10 @@ async function recentPremiumCubeItems(env){
 let cardAcquisitionGradeFxCache=null;
 async function cardAcquisitionEffectsByGrade(env){
   const now=Date.now();if(cardAcquisitionGradeFxCache&&cardAcquisitionGradeFxCache.expiresAt>now)return cardAcquisitionGradeFxCache.value;
-  const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url,audio_url,skip_allowed,duration_ms FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_FUR__')`).all();
+  const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url,audio_url,skip_allowed,duration_ms FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_PRESTIGE__','__GRADE_FUR__')`).all();
   const settings={
     LIMITED:{acquisitionFxConfigured:0,acquisitionFxEnabled:1,acquisitionMediaUrl:'/assets/effects/L2CARD.mp4',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:10000},
+    PRESTIGE:{acquisitionFxConfigured:0,acquisitionFxEnabled:0,acquisitionMediaUrl:'',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:8000},
     FUR:{acquisitionFxConfigured:0,acquisitionFxEnabled:0,acquisitionMediaUrl:'',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:8000}
   };
   for(const row of rows.results||[]){
@@ -2098,7 +2100,7 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
       if(limitedCard) return limitedCard;
     }
   }
-  let allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>RARITIES.includes(rarity)&&rarity!=='LIMITED');
+  let allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>DRAW_RARITIES.includes(rarity)&&rarity!=='LIMITED');
   if(minimum) allowed=allowed.filter(rarity=>ORDER[rarity]>=ORDER[minimum]);
   if(!allowed.length) throw new Error('이 카드팩에 설정된 일반 등급이 없습니다.');
   const placeholders=allowed.map(()=>'?').join(',');
@@ -2122,7 +2124,7 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
 
 const drawContextCache=new Map();
 async function queryDrawContext(env,pack){
-  const allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>RARITIES.includes(rarity)&&rarity!=='LIMITED');
+  const allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>DRAW_RARITIES.includes(rarity)&&rarity!=='LIMITED');
   const rateRows=(await env.DB.prepare("SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rate>0").bind(pack.id).all()).results;
   const normalCards=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards c JOIN members m ON m.id=c.member_id
@@ -2224,7 +2226,7 @@ async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
     const limitedRate=Math.max(0,Math.min(100,Number(limitedRateRow?.rate)||0));
     if(limitedRate>0&&Math.random()*100<limitedRate){const limitedCard=await drawLimitedCard(env);if(limitedCard)return limitedCard;}
   }
-  const allowed=JSON.parse(pack.allowed_rarities).filter(r=>RARITIES.includes(r)&&r!=='LIMITED');
+  const allowed=JSON.parse(pack.allowed_rarities).filter(r=>DRAW_RARITIES.includes(r)&&r!=='LIMITED');
   if(ssrRate!==null&&allowed.includes('SSR')){
     if(Math.random()*100<ssrRate){const ssr=await drawNormalCardByRarity(env,pack,'SSR');if(ssr)return ssr;}
     const others=allowed.filter(r=>r!=='SSR'),marks=others.map(()=>'?').join(',');
@@ -4249,7 +4251,7 @@ export async function onRequest(context){
         await writeAdminLog(env,admin,'ULTIMATE_SETTINGS_UPDATE','SETTINGS','battle_ultimate',before.ultimateRules,saved.ultimateRules);
         return json({ok:true,settings:saved,ultimateRules:saved.ultimateRules});
       }
-      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings;const clean={enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};const gradeRateTotal=Object.values(clean.cardDrop.gradeRates).reduce((a,b)=>a+Number(b||0),0);if(Math.abs(gradeRateTotal-100)>0.001)return json({error:`카드 드롭 등급 확률 합계가 100%여야 합니다. 현재 ${gradeRateTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,clean);return json({ok:true,settings:clean});}
+      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings;const clean={enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,g==='PRESTIGE'?3100:Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};const gradeRateTotal=Object.values(clean.cardDrop.gradeRates).reduce((a,b)=>a+Number(b||0),0);if(Math.abs(gradeRateTotal-100)>0.001)return json({error:`카드 드롭 등급 확률 합계가 100%여야 합니다. 현재 ${gradeRateTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,clean);return json({ok:true,settings:clean});}
       if(request.method==='POST'){const name=String(payload.name||'').trim().slice(0,40),image=String(payload.image||'').trim().slice(0,500),power=Math.max(1,Math.floor(Number(payload.battlePower)||1)),reward=Math.max(0,Math.floor(Number(payload.rewardCoin)||0));if(!name)return json({error:'몬스터 이름을 입력하세요.'},400);const r=await env.DB.prepare('INSERT INTO battle_monsters(name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order,ultimate_enabled,ultimate_name,ultimate_description,ultimate_trigger,ultimate_chance,ultimate_damage_percent,ultimate_max_uses,ultimate_target,ultimate_theme,ultimate_warning_text,ultimate_shake,ultimate_zoom,ultimate_media_url,ultimate_sound_url,ultimate_duration_ms,ultimate_volume_percent,ultimate_force_cast,ultimate_pve_damage_percent,ultimate_tower_damage_percent,monster_category,pve_tab,pve_display_order,pve_enabled,tower_enabled,tower_only) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(name,image,power,reward,payload.isBoss?1:0,payload.isActive===false?0:1,Math.floor(Number(payload.sortOrder)||0),payload.ultimateEnabled?1:0,String(payload.ultimateName||'').slice(0,60),String(payload.ultimateDescription||'').slice(0,300),String(payload.ultimateTrigger||'ON_LOSS'),Math.max(0,Math.min(100,Number(payload.ultimateChance??100))),Math.max(0,Math.min(100,Number(payload.ultimateDamagePercent??15))),Math.max(1,Math.min(9,Number(payload.ultimateMaxUses||1))),String(payload.ultimateTarget||'ALL'),String(payload.ultimateTheme||'CRIMSON'),String(payload.ultimateWarningText||'BOSS ULTIMATE').slice(0,60),payload.ultimateShake===false?0:1,payload.ultimateZoom===false?0:1,String(payload.ultimateMediaUrl||'').trim().slice(0,500),String(payload.ultimateSoundUrl||'').trim().slice(0,500),Math.max(600,Math.min(25000,Math.floor(Number(payload.ultimateDurationMs)||2400))),Math.max(0,Math.min(100,Number(payload.ultimateVolumePercent??35))),payload.ultimateForceCast?1:0,Math.max(0,Math.min(100,Number(payload.ultimatePveDamagePercent??payload.ultimateDamagePercent??15))),Math.max(0,Math.min(100,Number(payload.ultimateTowerDamagePercent??payload.ultimateDamagePercent??15))),String(payload.category|| (payload.isBoss?'BOSS':'GENERAL')).toUpperCase(),String(payload.pveTab||(payload.isBoss?'HELL':'NORMAL')).toUpperCase(),Math.floor(Number(payload.displayOrder??payload.sortOrder)||0),payload.pveEnabled===false?0:1,payload.towerEnabled?1:0,payload.towerOnly?1:0).run();return json({ok:true,id:r.meta.last_row_id},201);}
       if(request.method==='PATCH'){const id=Number(payload.id);if(!id)return json({error:'몬스터 ID가 필요합니다.'},400);await env.DB.prepare('UPDATE battle_monsters SET name=?,image_url=?,battle_power=?,reward_coin=?,is_boss=?,is_active=?,sort_order=?,ultimate_enabled=?,ultimate_name=?,ultimate_description=?,ultimate_trigger=?,ultimate_chance=?,ultimate_damage_percent=?,ultimate_max_uses=?,ultimate_target=?,ultimate_theme=?,ultimate_warning_text=?,ultimate_shake=?,ultimate_zoom=?,ultimate_media_url=?,ultimate_sound_url=?,ultimate_duration_ms=?,ultimate_volume_percent=?,ultimate_force_cast=?,ultimate_pve_damage_percent=?,ultimate_tower_damage_percent=?,monster_category=?,pve_tab=?,pve_display_order=?,pve_enabled=?,tower_enabled=?,tower_only=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(payload.name||'').trim().slice(0,40),String(payload.image||'').trim().slice(0,500),Math.max(1,Math.floor(Number(payload.battlePower)||1)),Math.max(0,Math.floor(Number(payload.rewardCoin)||0)),payload.isBoss?1:0,payload.isActive===false?0:1,Math.floor(Number(payload.sortOrder)||0),payload.ultimateEnabled?1:0,String(payload.ultimateName||'').slice(0,60),String(payload.ultimateDescription||'').slice(0,300),String(payload.ultimateTrigger||'ON_LOSS'),Math.max(0,Math.min(100,Number(payload.ultimateChance??100))),Math.max(0,Math.min(100,Number(payload.ultimateDamagePercent??15))),Math.max(1,Math.min(9,Number(payload.ultimateMaxUses||1))),String(payload.ultimateTarget||'ALL'),String(payload.ultimateTheme||'CRIMSON'),String(payload.ultimateWarningText||'BOSS ULTIMATE').slice(0,60),payload.ultimateShake===false?0:1,payload.ultimateZoom===false?0:1,String(payload.ultimateMediaUrl||'').trim().slice(0,500),String(payload.ultimateSoundUrl||'').trim().slice(0,500),Math.max(600,Math.min(25000,Math.floor(Number(payload.ultimateDurationMs)||2400))),Math.max(0,Math.min(100,Number(payload.ultimateVolumePercent??35))),payload.ultimateForceCast?1:0,Math.max(0,Math.min(100,Number(payload.ultimatePveDamagePercent??payload.ultimateDamagePercent??15))),Math.max(0,Math.min(100,Number(payload.ultimateTowerDamagePercent??payload.ultimateDamagePercent??15))),String(payload.category||(payload.isBoss?'BOSS':'GENERAL')).toUpperCase(),String(payload.pveTab||(payload.isBoss?'HELL':'NORMAL')).toUpperCase(),Math.floor(Number(payload.displayOrder??payload.sortOrder)||0),payload.pveEnabled===false?0:1,payload.towerEnabled?1:0,payload.towerOnly?1:0,id).run();return json({ok:true});}
       if(request.method==='DELETE'){const id=Number(payload.id);await env.DB.prepare('UPDATE battle_monsters SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id).run();return json({ok:true});}
@@ -4377,7 +4379,7 @@ export async function onRequest(context){
           FROM cards c JOIN members m ON m.id=c.member_id
           LEFT JOIN user_cards uc ON uc.user_id=? AND uc.card_id=c.id
           WHERE ${filters.join(' AND ')}
-          ORDER BY CASE UPPER(c.rarity) WHEN 'FUR' THEN 1 WHEN 'PRESTIGE' THEN 2 WHEN 'MA' THEN 3 WHEN 'SSR' THEN 4 WHEN 'UR' THEN 5 WHEN 'HR' THEN 6 WHEN 'SR' THEN 7 WHEN 'R' THEN 8 WHEN 'U' THEN 9 ELSE 10 END,m.sort_order,c.title,c.id LIMIT 80`).bind(...binds).all();
+          ORDER BY CASE UPPER(c.rarity) WHEN 'FUR' THEN 1 WHEN 'PRESTIGE' THEN 2 WHEN 'LIMITED' THEN 3 WHEN 'MA' THEN 4 WHEN 'SSR' THEN 5 WHEN 'UR' THEN 6 WHEN 'HR' THEN 7 WHEN 'SR' THEN 8 WHEN 'R' THEN 9 WHEN 'U' THEN 10 ELSE 11 END,m.sort_order,c.title,c.id LIMIT 80`).bind(...binds).all();
         return json({user:targetUser,storageMode:'SINGLE_ROW_PER_USER_CARD',cards:(rows.results||[]).map(card=>({...card,ownedQuantity:Number(card.ownedQuantity||0),breakthroughLevel:Number(card.breakthroughLevel||0),maxBreakthrough:manualGrantMaxLevel(card.grade)}))});
       }
       if(request.method==='POST'){
@@ -4448,7 +4450,7 @@ export async function onRequest(context){
       if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
       const q=(url.searchParams.get('q')||'').trim().slice(0,30),verification=String(url.searchParams.get('verification')||'ALL').toUpperCase();
       const filters=[],binds=[];if(q){filters.push('u.nickname LIKE ?');binds.push(`%${q}%`);}if(verification==='VERIFIED')filters.push("w.status='VERIFIED'");else if(verification==='PENDING')filters.push("w.status IN ('PENDING','REVIEW')");else if(verification==='UNVERIFIED')filters.push("(w.id IS NULL OR w.status NOT IN ('VERIFIED','PENDING','REVIEW'))");
-      const sql=`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count,COALESCE(SUM(CASE WHEN c.rarity='LIMITED' THEN 1 ELSE 0 END),0) AS limited_count,COALESCE(SUM(CASE WHEN c.rarity='FUR' THEN 1 ELSE 0 END),0) AS fur_count
+      const sql=`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count,COALESCE(SUM(CASE WHEN c.rarity='LIMITED' THEN 1 ELSE 0 END),0) AS limited_count,COALESCE(SUM(CASE WHEN c.rarity='PRESTIGE' THEN 1 ELSE 0 END),0) AS prestige_count,COALESCE(SUM(CASE WHEN c.rarity='FUR' THEN 1 ELSE 0 END),0) AS fur_count
         FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards c ON c.id=uc.card_id ${filters.length?'WHERE '+filters.join(' AND '):''}
         GROUP BY u.id ORDER BY ${q?'u.nickname ASC':'u.created_at DESC'} LIMIT 100`;
       const stmt=env.DB.prepare(sql);const rows=binds.length?await stmt.bind(...binds).all():await stmt.all();
@@ -4534,7 +4536,7 @@ export async function onRequest(context){
         const g20=String(payload.guarantee20||before.guarantee_20).toUpperCase();
         const active=payload.isActive?1:0; const sort=Math.floor(Number(payload.sortOrder??before.sort_order)||0);
         if(!name||!subtitle||!description) return json({error:'팩 이름, 영문명, 설명을 입력하세요.'},400);
-        if(!RARITIES.includes(g10)||!RARITIES.includes(g20)) return json({error:'보장 등급을 확인하세요.'},400);
+        if(!DRAW_RARITIES.includes(g10)||!DRAW_RARITIES.includes(g20)) return json({error:'보장 등급을 확인하세요.'},400);
         await env.DB.prepare('UPDATE card_packs SET name=?,subtitle=?,description=?,theme=?,price=?,guarantee_10=?,guarantee_20=?,is_active=?,sort_order=? WHERE id=?')
           .bind(name,subtitle,description,theme,price,g10,g20,active,sort,id).run();
         packCatalogCache=null;drawContextCache.clear();
@@ -4556,13 +4558,13 @@ export async function onRequest(context){
       if(request.method==='GET'){
         const packs=await env.DB.prepare('SELECT id,name,allowed_rarities FROM card_packs ORDER BY sort_order,id').all();
         const rates=await env.DB.prepare('SELECT pack_id,rarity,rate FROM card_pack_rates ORDER BY pack_id').all();
-        return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities)})),rates:rates.results,rarities:RARITIES});
+        return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities)})),rates:rates.results,rarities:DRAW_RARITIES});
       }
       if(request.method==='PATCH'){
         const payload=await readBody(request); const packId=String(payload.packId||'');
         const pack=await env.DB.prepare('SELECT * FROM card_packs WHERE id=?').bind(packId).first();
         if(!pack) return json({error:'카드팩을 찾을 수 없습니다.'},404);
-        const rates=payload.rates||{}; const normalRarities=RARITIES.filter(r=>r!=='LIMITED');
+        const rates=payload.rates||{}; const normalRarities=DRAW_RARITIES.filter(r=>r!=='LIMITED');
         const total=normalRarities.reduce((sum,r)=>sum+(Number(rates[r])||0),0);
         if(Math.abs(total-100)>0.0001) return json({error:`일반 등급 확률 합계는 100%여야 합니다. 현재 ${total.toFixed(4)}%입니다.`},400);
         for(const rarity of normalRarities){
@@ -4740,8 +4742,8 @@ export async function onRequest(context){
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
       const gradeKey=grade=>`__GRADE_${grade}__`;
       if(request.method==='GET'){
-        const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url AS mediaUrl,audio_url AS audioUrl,skip_allowed AS skipAllowed,duration_ms AS durationMs FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_FUR__')`).all();
-        const settings={LIMITED:{enabled:1,mediaUrl:'/assets/effects/L2CARD.mp4',audioUrl:'',skipAllowed:1,durationMs:10000},FUR:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000}};
+        const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url AS mediaUrl,audio_url AS audioUrl,skip_allowed AS skipAllowed,duration_ms AS durationMs FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_PRESTIGE__','__GRADE_FUR__')`).all();
+        const settings={LIMITED:{enabled:1,mediaUrl:'/assets/effects/L2CARD.mp4',audioUrl:'',skipAllowed:1,durationMs:10000},PRESTIGE:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000},FUR:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000}};
         for(const row of rows.results||[]){
           const grade=String(row.card_id||'').replace('__GRADE_','').replace('__','');
           if(settings[grade]) settings[grade]={enabled:Number(row.enabled||0),mediaUrl:row.mediaUrl||'',audioUrl:row.audioUrl||'',skipAllowed:Number(row.skipAllowed)!==0?1:0,durationMs:Number(row.durationMs||8000)};
@@ -4751,7 +4753,7 @@ export async function onRequest(context){
       if(request.method==='PATCH'){
         const payload=await readBody(request);
         const grade=String(payload.grade||'').toUpperCase();
-        if(!['LIMITED','FUR'].includes(grade)) return json({error:'LIMITED 또는 FUR 등급만 설정할 수 있습니다.'},400);
+        if(!['LIMITED','PRESTIGE','FUR'].includes(grade)) return json({error:'LIMITED, PRESTIGE 또는 FUR 등급만 설정할 수 있습니다.'},400);
         const enabled=payload.enabled?1:0;
         const mediaUrl=String(payload.mediaUrl||'').trim().slice(0,500);
         const audioUrl=String(payload.audioUrl||'').trim().slice(0,500);
@@ -4763,6 +4765,7 @@ export async function onRequest(context){
         await env.DB.prepare(`INSERT INTO card_acquisition_effects(card_id,enabled,media_url,audio_url,skip_allowed,duration_ms,updated_at) VALUES(?,?,?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(card_id) DO UPDATE SET enabled=excluded.enabled,media_url=excluded.media_url,audio_url=excluded.audio_url,skip_allowed=excluded.skip_allowed,duration_ms=excluded.duration_ms,updated_at=CURRENT_TIMESTAMP`).bind(key,enabled,mediaUrl,audioUrl,skipAllowed,durationMs).run();
         const setting={grade,enabled,mediaUrl,audioUrl,skipAllowed,durationMs};
         await writeAdminLog(env,admin,'CARD_ACQUISITION_GRADE_FX_UPDATE','CARD_GRADE',grade,before,setting);
+        cardAcquisitionGradeFxCache=null;invalidateCatalogCaches();
         return json({ok:true,setting});
       }
       return json({error:'지원하지 않는 요청입니다.'},405);
@@ -4941,7 +4944,8 @@ export async function onRequest(context){
         const isActive=cardStatus==='PUBLIC'?1:0;
         const batchName=String(payload.batchName||'').trim().slice(0,100)||null;
         const batchDate=String(payload.batchDate||'').trim().slice(0,10)||null;
-        const drawWeight=Math.max(0,Math.min(100000,Number(payload.drawWeight??1)||0));
+        let drawWeight=Math.max(0,Math.min(100000,Number(payload.drawWeight??1)||0));
+        if(grade==='PRESTIGE') drawWeight=0;
         const rawLimit=payload.limitedTotal;
         let limitedTotal=rawLimit===null||rawLimit===undefined||rawLimit===''?null:Math.max(0,Math.floor(Number(rawLimit)));
         const issuedCount=Math.max(0,Math.floor(Number(payload.issuedCount??0)||0));
@@ -4956,10 +4960,11 @@ export async function onRequest(context){
         const member=await env.DB.prepare('SELECT id FROM members WHERE id=?').bind(memberId).first();
         if(!member) throw new Error('존재하지 않는 멤버입니다.');
         if(limitedTotal!==null&&limitedTotal<issuedCount) throw new Error('한정 수량은 이미 발급된 수량보다 작게 설정할 수 없습니다.');
-        const supportsPowerType=['SSR','MA','LIMITED','FUR'].includes(grade);
+        const supportsPowerType=['SSR','MA','LIMITED','PRESTIGE','FUR'].includes(grade);
         let powerType=payload.powerType===null||payload.powerType===undefined||payload.powerType===''?null:String(payload.powerType).toUpperCase();
         let basePower=payload.basePower===null||payload.basePower===undefined||payload.basePower===''?null:Math.max(0,Math.floor(Number(payload.basePower)||0));
         if(!supportsPowerType){powerType=null;basePower=null}
+        else if(grade==='PRESTIGE'){powerType='FIXED';basePower=3100}
         else if(grade==='FUR'){powerType='FIXED';basePower=3200}
         else if(powerType!==null){
           if(!['NORMAL','HIGH','TOP'].includes(powerType)) throw new Error('올바르지 않은 전투력 유형입니다.');

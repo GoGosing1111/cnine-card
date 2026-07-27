@@ -103,3 +103,48 @@
 .breakthrough-11,.breakthrough-12,.breakthrough-13{--bt-hi:#fff3bf;--bt-mid:#d9a83d;--bt-low:#62400c;--bt-aura:rgba(230,171,54,.5);--bt-radius:43px;--bt-halo:rgba(208,139,29,.26);--bt-halo-radius:66px;--bt-speed:3.8s;--bt-glint:4.2s;background:linear-gradient(132deg,#fff5c9 0%,#9c6a16 17%,#241606 34%,#d8a538 50%,#201305 67%,#8e5d12 83%,#fff1b0 100%)!important;box-shadow:0 20px 50px rgba(0,0,0,.62),0 0 18px rgba(255,226,143,.48),0 0 44px rgba(213,151,35,.42),0 0 66px rgba(208,139,29,.26),inset 0 0 0 1px #fff0ac}
 .breakthrough-11 .breakthrough-effect,.breakthrough-12 .breakthrough-effect,.breakthrough-13 .breakthrough-effect{border-color:#ffe9a3;box-shadow:inset 0 0 0 1px #5c3909,inset 0 0 17px rgba(220,161,42,.3)}
 .breakthrough-11 .breakthrough-badge,.breakthrough-12 .breakthrough-badge,.breakthrough-13 .breakthrough-badge{background:linear-gradient(155deg,#211606,#050402);border-color:#f4d276;color:#ffe9a9;box-shadow:0 5px 14px rgba(0,0,0,.65),0 0 12px rgba(225,171,53,.42)}
+
+
+/* v1209 PRESTIGE P-02 · ASTRAL GOLD */
+.card-frame.grade-PRESTIGE{
+  --grade:#ffe09a;
+  --prestige-violet:#7c5eff;
+  --prestige-cyan:#2db7e8;
+  padding:5px;
+  background:conic-gradient(from 80deg,#fff1b7,#7a5eff,#2db7e8,#e4b146,#fff4ca,#7a5eff,#fff1b7);
+  box-shadow:0 22px 54px rgba(0,0,0,.58),0 0 34px rgba(255,204,84,.42),0 0 58px rgba(86,94,255,.2);
+  animation:prestigeAstralFrame 8s linear infinite,prestigeAstralBreathe 5.2s ease-in-out infinite;
+}
+.card-frame.grade-PRESTIGE .card-inner{
+  background:radial-gradient(circle at 50% 42%,rgba(42,67,122,.46),transparent 34%),repeating-radial-gradient(circle at 50% 42%,transparent 0 31px,rgba(255,216,105,.075) 32px 33px),linear-gradient(180deg,#0a1731,#030814);
+  border-color:rgba(255,233,170,.68);
+}
+.card-frame.grade-PRESTIGE .card-header{padding-left:38px}
+.card-frame.grade-PRESTIGE .card-header b{display:none}
+.card-frame.grade-PRESTIGE .card-mini-logo{display:none}
+.card-frame.grade-PRESTIGE:before{
+  content:"";
+  position:absolute;
+  z-index:18;
+  top:8px;
+  left:8px;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  border:1px solid rgba(255,237,177,.92);
+  background:radial-gradient(circle at 35% 28%,rgba(255,255,255,.28),transparent 35%),linear-gradient(145deg,#18254c,#080d1d 68%);
+  background-image:url('../assets/ui/cninelogo.png'),radial-gradient(circle at 35% 28%,rgba(255,255,255,.28),transparent 35%),linear-gradient(145deg,#18254c,#080d1d 68%);
+  background-repeat:no-repeat;
+  background-position:center,center,center;
+  background-size:76%,100%,100%;
+  box-shadow:0 3px 10px rgba(0,0,0,.5),0 0 13px rgba(255,213,103,.5);
+}
+.card-frame.grade-PRESTIGE .card-art{border-color:rgba(255,224,139,.78);box-shadow:inset 0 0 24px rgba(18,39,83,.46),0 0 12px rgba(66,156,224,.18)}
+.card-frame.grade-PRESTIGE .card-footer small{color:#ffe6a4}
+.card-frame.grade-PRESTIGE[class*="breakthrough-"]{
+  background:conic-gradient(from 80deg,#fff1b7,#7a5eff,#2db7e8,#e4b146,#fff4ca,#7a5eff,#fff1b7)!important;
+  box-shadow:var(--bt-glow),0 0 35px rgba(255,204,84,.4),0 0 58px rgba(86,94,255,.18)!important;
+}
+@keyframes prestigeAstralFrame{to{filter:hue-rotate(12deg)}}
+@keyframes prestigeAstralBreathe{50%{box-shadow:0 25px 58px rgba(0,0,0,.62),0 0 45px rgba(255,204,84,.48),0 0 68px rgba(73,105,255,.24)}}
+@media(max-width:767px){.card-frame.grade-PRESTIGE:before{top:5px;left:5px;width:22px;height:22px}.card-frame.grade-PRESTIGE .card-header{padding-left:29px}}

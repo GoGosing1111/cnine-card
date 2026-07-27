@@ -8,10 +8,10 @@ let burningEventState={enabled:false,generation:0,title:'씨켓몬 버닝이 발
 let magicSystemState={visible:false,enabled:false,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
 const magicUiState={deckType:'PVE',selectedSlot:1};
 
-const gradeOrder = { FUR: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
-const gradeScore = { LIMITED: 3000, FUR: 5000, MA: 1500, SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
+const gradeOrder = { FUR: 11, PRESTIGE: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
+const gradeScore = { LIMITED: 3000, PRESTIGE: 3100, FUR: 5000, MA: 1500, SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
 const baseRates = { FUR: 0, MA: 0, SSR: 1, UR: 4, HR: 7, SR: 13, R: 20, U: 25, C: 30 };
-const shardReward = { LIMITED:180, FUR:250, MA:120, SSR:60, UR:30, HR:15, SR:8, R:4, U:2, C:1 };
+const shardReward = { LIMITED:180, PRESTIGE:220, FUR:250, MA:120, SSR:60, UR:30, HR:15, SR:8, R:4, U:2, C:1 };
 const breakthroughCosts = [50,100,200,350,550,800,1100,1450,1850,2300];
 const breakthroughRates = [100,100,100,80,65,50,35,25,15,8];
 const breakthroughMinGrade = 'SR';
@@ -200,7 +200,7 @@ function canClaimAttendance(user) { return user.attendance?.lastClaimDate !== ks
 function cardScore(user) { const owned = ownedIds(user); return cards.reduce((sum, card) => { if(!owned.has(card.id)) return sum; const level=Number(user.breakthroughs?.[card.id]||0); return sum + gradeScore[card.grade] + Math.round(gradeScore[card.grade] * level * 0.12); }, 0); }
 function scoreBreakdown(user) {
   const owned = ownedIds(user);
-  return ['FUR','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade => ({ grade, count: cards.filter(c => c.grade === grade && owned.has(c.id)).length, score: gradeScore[grade] }));
+  return ['FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade => ({ grade, count: cards.filter(c => c.grade === grade && owned.has(c.id)).length, score: gradeScore[grade] }));
 }
 
 function pickGrade(allowedGrades) {
@@ -596,7 +596,7 @@ function renderBattleEnergy(){const e=battleState.energy,count=document.getEleme
 function startBattleEnergyTimer(){stopBattleEnergyTimer();renderBattleEnergy();battleState.energyTimer=setInterval(()=>{if(!document.getElementById('battleEnergyCount'))return stopBattleEnergyTimer();const e=battleState.energy;if(e&&!e.unlimited&&e.nextRechargeAt&&Date.parse(e.nextRechargeAt)<=(Date.now()+battleState.serverOffset)){loadBattleEnergyOnly();return}renderBattleEnergy()},1000)}
 async function loadBattleEnergyOnly(){try{const d=await apiRequest('battle/config');battleState.energy=d.energy;battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startBattleEnergyTimer()}catch(_){renderBattleEnergy()}}
 
-function battleCardPower(card,user,settings){const base=Number(card.basePower||settings?.powerByGrade?.[card.grade]||0),lv=Number(user.breakthroughs?.[card.id]||0),pct=Number(settings?.breakthroughBonus?.[lv]||0);return Math.floor(base*(1+pct/100));}
+function battleCardPower(card,user,settings){const grade=String(card?.grade||card?.rarity||'').toUpperCase(),base=grade==='PRESTIGE'?3100:Number(card.basePower||settings?.powerByGrade?.[grade]||0),lv=Number(user.breakthroughs?.[card.id]||0),pct=Number(settings?.breakthroughBonus?.[lv]||0);return Math.floor(base*(1+pct/100));}
 function pveDeckCardMini(card,user=loadUser()){
   const power=battleCardPower(card,user,battleState.config);
   return `<div class="pve-card-mini-full pvp-card-mini-full">${cardHtml(card,true,'pve-deck-card-display pvp-card-display',user)}<div class="pve-card-extra pvp-card-extra compact deck-card-summary"><b>${escapeHtml(card.grade||card.rarity||'C')}</b><strong>${power.toLocaleString()}</strong></div></div>`;
@@ -1478,7 +1478,7 @@ function uniqueAbilityDeckChipHtml(card,classes=''){
 }
 function deckBuilderStatusMeta(card,user=loadUser()){
   const level=Number(user?.breakthroughs?.[card.id]||0),limited=card.limitedTotal!==null&&card.limitedTotal!==undefined;
-  return `<span class="deck-meta-pill breakthrough">돌파 ★${level}</span><span class="deck-meta-pill grade">${escapeHtml(card.grade||card.rarity||'C')}</span><span class="deck-meta-pill edition">${limited?'한정판':'일반'}</span>${powerTypeIndicatorHtml(card,'deck-meta-power-type')}`;
+  return `<span class="deck-meta-pill breakthrough">돌파 ★${level}</span><span class="deck-meta-pill grade">${escapeHtml(card.grade||card.rarity||'C')}</span><span class="deck-meta-pill edition">${String(card.grade||card.rarity||'').toUpperCase()==='PRESTIGE'?'진화 전용':(limited?'한정판':'일반')}</span>${powerTypeIndicatorHtml(card,'deck-meta-power-type')}`;
 }
 function deckBuilderListCardHtml(card,user=loadUser(),powerValue=0,mode='pve-pick'){
   const secondary=escapeHtml(card.name||'');
@@ -2210,7 +2210,7 @@ function validateDrawResponse(response,{requestId,packId,count}){
     const card=item?.card,cardId=String(card?.id||''),grade=String(card?.grade||card?.rarity||'').toUpperCase();
     const quantityBefore=Number(item?.quantityBefore),quantityAfter=Number(item?.quantityAfter);
     if(Number(item?.slot)!==index||item?.granted!==true||item?.grantVerified!==true)throw new Error(`${index+1}번째 카드의 실제 지급 확정값이 없습니다.`);
-    if(!card||!cardId.trim()||String(card.title||'').trim()===''||!['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'].includes(grade))throw new Error(`${index+1}번째 카드 정보가 올바르지 않습니다.`);
+    if(!card||!cardId.trim()||String(card.title||'').trim()===''||!['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR'].includes(grade))throw new Error(`${index+1}번째 카드 정보가 올바르지 않습니다.`);
     if(!Number.isInteger(quantityBefore)||!Number.isInteger(quantityAfter)||quantityBefore<0||quantityAfter!==quantityBefore+1)throw new Error(`${index+1}번째 카드의 지급 전후 수량 검증에 실패했습니다.`);
     if(!serverOwned.has(cardId)||Number(serverQuantities[cardId]||0)<quantityAfter)throw new Error(`${card.title} 카드가 서버 도감에 실제 등록되지 않아 획득 연출을 중단했습니다.`);
     if(Number(proofQuantities.get(cardId)||0)<quantityAfter)throw new Error(`${card.title} 카드의 서버 지급 증명이 부족합니다.`);
@@ -2262,31 +2262,31 @@ openPack=async function(packId,count,cost){
     drawRequestInFlight=false;
   }
 }
-const SPECIAL_REVEAL_ORDER={SSR:1,MA:2,LIMITED:3,FUR:4};
+const SPECIAL_REVEAL_ORDER={SSR:1,MA:2,LIMITED:3,PRESTIGE:4,FUR:5};
 function getTopSpecialResult(results=[]){
   return results.map(x=>x?.card).filter(c=>SPECIAL_REVEAL_ORDER[c?.grade]).sort((a,b)=>SPECIAL_REVEAL_ORDER[b.grade]-SPECIAL_REVEAL_ORDER[a.grade])[0]||null;
 }
 function specialRevealTone(grade){
   try{
     const C=window.AudioContext||window.webkitAudioContext,ctx=new C(),now=ctx.currentTime;
-    const seq=grade==='FUR'?[55,82.4,110,220,440,880]:grade==='MA'?[82.4,123.5,185,277,554]:[110,164.8,247,370];
+    const seq=grade==='FUR'?[55,82.4,110,220,440,880]:grade==='PRESTIGE'?[73.4,110,164.8,246.9,370,740]:grade==='MA'?[82.4,123.5,185,277,554]:[110,164.8,247,370];
     const master=ctx.createGain();master.gain.setValueAtTime(.0001,now);master.gain.exponentialRampToValueAtTime(.18,now+.08);master.gain.exponentialRampToValueAtTime(.0001,now+2.6);master.connect(ctx.destination);
-    seq.forEach((freq,i)=>{const o=ctx.createOscillator(),g=ctx.createGain(),t=now+i*.16;o.type=grade==='FUR'?'sawtooth':grade==='MA'?'triangle':'sine';o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(freq*1.35,t+.5);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.1,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+.65);o.connect(g).connect(master);o.start(t);o.stop(t+.72)});
+    seq.forEach((freq,i)=>{const o=ctx.createOscillator(),g=ctx.createGain(),t=now+i*.16;o.type=grade==='FUR'?'sawtooth':grade==='PRESTIGE'?'triangle':grade==='MA'?'triangle':'sine';o.frequency.setValueAtTime(freq,t);o.frequency.exponentialRampToValueAtTime(freq*1.35,t+.5);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.1,t+.025);g.gain.exponentialRampToValueAtTime(.0001,t+.65);o.connect(g).connect(master);o.start(t);o.stop(t+.72)});
   }catch{}
 }
 function createCinematicRenderer(canvas,grade){
   const transparentScene=grade==='SSR'||grade==='MA';
   const ctx=canvas.getContext('2d',{alpha:transparentScene}),dpr=Math.min(2,window.devicePixelRatio||1);
   let w=0,h=0,raf=0,stopped=false,start=performance.now();
-  const palette=grade==='FUR'?['#ffffff','#7cf7ff','#d76cff','#ff5ca8','#ffe879']:grade==='MA'?['#ffffff','#8cecff','#a778ff','#ff8ad8']:['#fff7cf','#ffd45f','#ff9f24','#ffffff'];
-  const stars=Array.from({length:grade==='FUR'?190:grade==='MA'?150:115},()=>({x:(Math.random()-.5)*2,y:(Math.random()-.5)*2,z:Math.random(),s:.25+Math.random()*1.3}));
-  const shards=Array.from({length:grade==='FUR'?46:grade==='MA'?34:24},()=>({a:Math.random()*Math.PI*2,r:.15+Math.random()*.85,z:Math.random(),spin:(Math.random()-.5)*3,size:3+Math.random()*11}));
+  const palette=grade==='FUR'?['#ffffff','#7cf7ff','#d76cff','#ff5ca8','#ffe879']:grade==='PRESTIGE'?['#fff7d0','#ffd56a','#7c5eff','#2db7e8','#ffffff']:grade==='MA'?['#ffffff','#8cecff','#a778ff','#ff8ad8']:['#fff7cf','#ffd45f','#ff9f24','#ffffff'];
+  const stars=Array.from({length:grade==='FUR'?190:grade==='PRESTIGE'?170:grade==='MA'?150:115},()=>({x:(Math.random()-.5)*2,y:(Math.random()-.5)*2,z:Math.random(),s:.25+Math.random()*1.3}));
+  const shards=Array.from({length:grade==='FUR'?46:grade==='PRESTIGE'?40:grade==='MA'?34:24},()=>({a:Math.random()*Math.PI*2,r:.15+Math.random()*.85,z:Math.random(),spin:(Math.random()-.5)*3,size:3+Math.random()*11}));
   function resize(){w=innerWidth;h=innerHeight;canvas.width=Math.max(1,w*dpr);canvas.height=Math.max(1,h*dpr);canvas.style.width=w+'px';canvas.style.height=h+'px';ctx.setTransform(dpr,0,0,dpr,0,0)}
   function frame(now){if(stopped)return;const t=(now-start)/1000,cx=w/2,cy=h/2;
     ctx.clearRect(0,0,w,h);
     if(!transparentScene){const bg=ctx.createLinearGradient(0,0,0,h);bg.addColorStop(0,'#02000a');bg.addColorStop(.55,'#071325');bg.addColorStop(1,'#010207');ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);}
     ctx.save();ctx.translate(cx,cy);
-    const speed=grade==='FUR'?.62:grade==='MA'?.48:.38;
+    const speed=grade==='FUR'?.62:grade==='PRESTIGE'?.55:grade==='MA'?.48:.38;
     stars.forEach((p,i)=>{p.z=(p.z-speed*.012+1)%1;const depth=.08+p.z*.92,scale=1/depth,px=p.x*w*.42*scale,py=p.y*h*.38*scale,alpha=Math.min(1,(1-depth)*1.35);ctx.fillStyle=palette[i%palette.length];ctx.globalAlpha=alpha;ctx.beginPath();ctx.arc(px,py,p.s*scale,0,Math.PI*2);ctx.fill();if(scale>4){ctx.strokeStyle=palette[i%palette.length];ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px-p.x*24,py-p.y*24);ctx.stroke()}});
     ctx.globalAlpha=1;const pulse=.5+.5*Math.sin(t*2.1),core=Math.min(w,h)*(.075+pulse*.012);
     for(let j=0;j<5;j++){const rr=core*(1+j*.75)+(t*85%(core*1.8));ctx.strokeStyle=palette[(j+1)%palette.length];ctx.globalAlpha=Math.max(0,.24-j*.035)*(1-(rr%(core*2))/(core*2));ctx.lineWidth=Math.max(1,4-j*.55);ctx.beginPath();ctx.ellipse(0,0,rr,rr*.36,Math.sin(t*.42+j)*.28,0,Math.PI*2);ctx.stroke()}
@@ -2303,7 +2303,7 @@ async function playConfiguredAcquisitionCutscene(card){
   const useLimitedDefault=grade==='LIMITED'&&!configuredFlag;
   const enabled=useLimitedDefault?1:Number(source.acquisitionFxEnabled||0);
   const media=String(useLimitedDefault?'/assets/effects/L2CARD.mp4':(source.acquisitionMediaUrl||'')).trim();
-  if(!['LIMITED','FUR'].includes(grade)||!enabled||!media)return false;
+  if(!['LIMITED','PRESTIGE','FUR'].includes(grade)||!enabled||!media)return false;
   const audio=String(source.acquisitionAudioUrl||'').trim();
   const defaultDuration=grade==='LIMITED'?10000:8000;
   const duration=Math.max(1000,Math.min(30000,Number(source.acquisitionDurationMs||defaultDuration)));
@@ -2327,7 +2327,7 @@ async function playConfiguredAcquisitionCutscene(card){
 async function showSpecialCardReveal(card,user){
   if(await playConfiguredAcquisitionCutscene(card))return;
   const modal=document.getElementById('modal'),grade=card.grade,duration=grade==='SSR'?4700:grade==='MA'?5900:7200;
-  const copy=grade==='FUR'?['THE FINAL RARITY','최고 등급의 존재가 강림합니다']:grade==='MA'?['MASTER AWAKENING','마스터의 궤도가 열립니다']:['SUPREME SIGNAL','희귀한 별이 선택되었습니다'];
+  const copy=grade==='FUR'?['THE FINAL RARITY','최고 등급의 존재가 강림합니다']:grade==='PRESTIGE'?['ASTRAL PRESTIGE','별의 위상이 완성되었습니다']:grade==='MA'?['MASTER AWAKENING','마스터의 궤도가 열립니다']:['SUPREME SIGNAL','희귀한 별이 선택되었습니다'];
   modal.className=`modal show special-reveal-modal reveal-${grade.toLowerCase()}`;
   modal.innerHTML=`<div class="special-reveal-stage grade-${grade.toLowerCase()}" role="dialog" aria-label="${grade} 카드 특별 연출"><canvas class="special-cinematic-canvas" id="specialCinematicCanvas"></canvas><div class="cinematic-scene-bg" aria-hidden="true"></div><div class="cinematic-scene-mist" aria-hidden="true"></div><div class="cinematic-vfx cinematic-vfx-portal"></div><div class="cinematic-vfx cinematic-vfx-ring ring-a"></div><div class="cinematic-vfx cinematic-vfx-ring ring-b"></div><div class="cinematic-vfx cinematic-vfx-flare"></div><div class="cinematic-vfx cinematic-vfx-shards"></div><div class="cinematic-vfx cinematic-vfx-crack"></div><div class="cinematic-vfx cinematic-vfx-noise"></div><div class="cinematic-depth-grid"></div><div class="cinematic-horizon"></div><div class="cinematic-flash"></div><div class="cinematic-emblem"><small>${copy[0]}</small><strong>${grade}</strong><span>${copy[1]}</span></div><div class="cinematic-card-shell"><div class="cinematic-card-back"><i></i><b>CNINE</b></div><div class="special-reveal-card">${cardHtml(card,true,'special-reveal-card-ui',user)}</div><div class="cinematic-card-glint"></div></div><div class="cinematic-caption">TAP TO SKIP</div><button type="button" class="special-skip" id="specialRevealSkip">건너뛰기</button></div>`;
   const stage=modal.querySelector('.special-reveal-stage'),stopCanvas=createCinematicRenderer(document.getElementById('specialCinematicCanvas'),grade);
