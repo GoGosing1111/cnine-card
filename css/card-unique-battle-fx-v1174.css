@@ -2465,3 +2465,39 @@ body::-webkit-scrollbar-thumb:hover{
   .rift-choice-clear-bonus b{font-size:11px}
   .rift-clear-bonus{padding:9px 10px}
 }
+
+/* V1200: 출정 강화 선택 및 1단계 초심자 보호 */
+.rift-buff-select.starter{
+  position:relative;
+  overflow:hidden;
+  padding:18px;
+  border:1px solid rgba(86,190,177,.24);
+  border-radius:20px;
+  background:radial-gradient(circle at 15% 0,rgba(62,176,165,.13),transparent 36%),linear-gradient(180deg,rgba(8,28,42,.72),rgba(6,17,34,.46));
+}
+.rift-buff-select.starter:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(115deg,transparent 18%,rgba(117,237,220,.035) 42%,transparent 66%);
+}
+.rift-buff-select.starter>.rift-section-head,
+.rift-buff-select.starter>.rift-buff-choice-grid{position:relative;z-index:1}
+.rift-buff-select.starter .rift-section-head .eyebrow{color:#72dcca}
+.rift-buff-select.starter .rift-buff-choice-grid button{
+  border-color:rgba(74,191,175,.24);
+  background:radial-gradient(circle at 50% 0,rgba(51,167,153,.2),transparent 56%),linear-gradient(160deg,#0d2737,#09172b);
+}
+.rift-buff-select.starter .rift-buff-choice-grid button:hover{
+  border-color:#69d9c8;
+  box-shadow:0 20px 40px rgba(21,91,85,.28);
+}
+.rift-buff-select.starter .rift-buff-choice-grid button>i{
+  background:radial-gradient(circle,#73d9ca,#246f70 58%,#15364b);
+  box-shadow:0 0 28px rgba(75,202,185,.34);
+}
+.rift-buff-select.starter .rift-buff-choice-grid small,
+.rift-buff-select.starter .rift-buff-choice-grid strong{color:#78d9ca}
+.battle-defeat-tip strong{color:#8bf0d5;font-size:12px}
+@media(max-width:760px){.rift-buff-select.starter{padding:14px;border-radius:17px}}
