@@ -2401,3 +2401,67 @@ body::-webkit-scrollbar-thumb:hover{
   .rift-status-summary h3{font-size:20px!important}
   .rift-status-card b{font-size:16px!important}
 }
+
+/* V1199: 전투 선택 가치 강화 - 최종 보상 누적 배율 */
+.rift-choice-clear-bonus{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:11px 0 2px;
+  padding:9px 11px;
+  border:1px solid rgba(89,215,174,.24);
+  border-radius:12px;
+  background:linear-gradient(135deg,rgba(20,70,63,.42),rgba(12,35,48,.58));
+  box-shadow:inset 0 0 18px rgba(73,213,169,.05);
+}
+.rift-choice-clear-bonus span{
+  color:#8edec3;
+  font-size:10px;
+  font-weight:900;
+}
+.rift-choice-clear-bonus b{
+  color:#b9ffe6;
+  font-size:12px;
+  white-space:nowrap;
+}
+.rift-run-summary .rift-bonus-summary{
+  border-color:rgba(83,209,167,.2);
+  background:rgba(11,47,45,.62);
+}
+.rift-run-summary .rift-bonus-summary b{
+  color:#83efc7;
+}
+.rift-reward-wrap{
+  margin-top:18px;
+}
+.rift-reward-wrap .rift-stash{
+  margin-top:8px;
+}
+.rift-clear-bonus{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  border:1px solid rgba(78,211,166,.23);
+  border-radius:13px;
+  background:linear-gradient(135deg,rgba(13,58,53,.78),rgba(12,29,45,.82));
+  box-shadow:0 10px 24px rgba(10,43,39,.16),inset 0 0 18px rgba(89,228,181,.04);
+}
+.rift-clear-bonus span{
+  color:#8bdabd;
+  font-size:10px;
+  font-weight:900;
+  letter-spacing:.03em;
+}
+.rift-clear-bonus b{
+  color:#b9ffe4;
+  font-size:13px;
+}
+@media(max-width:760px){
+  .rift-run-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rift-choice-clear-bonus{padding:8px 9px}
+  .rift-choice-clear-bonus b{font-size:11px}
+  .rift-clear-bonus{padding:9px 10px}
+}
