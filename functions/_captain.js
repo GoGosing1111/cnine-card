@@ -299,7 +299,16 @@ async function runUpgrade(env) {
     `CREATE INDEX IF NOT EXISTS idx_captain_cooldown_reset_user ON captain_cooldown_reset_events(target_user_id,created_at DESC)`
   ]) await env.DB.prepare(sql).run();
 
-  await env.DB.prepare("UPDATE captain_reward_claims SET updated_at=COALESCE(updated_at,claimed_at),status=COALESCE(NULLIF(status,''),'COMPLETED')").run();
+  // V1205: 과거에는 대장전 요청이 들어올 때마다 보상 테이블 전체 행을 다시 UPDATE해
+  // 하루 수천만 건의 불필요한 D1 쓰기가 발생했다. 비어 있는 레거시 값만 1회 보정한다.
+  const rewardNormalizeUpgrade=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1205_captain_reward_normalize_once'").first();
+  if(rewardNormalizeUpgrade?.value!=='1'){
+    await env.DB.batch([
+      env.DB.prepare("UPDATE captain_reward_claims SET updated_at=COALESCE(updated_at,claimed_at),status=COALESCE(NULLIF(status,''),'COMPLETED') WHERE updated_at IS NULL OR status IS NULL OR TRIM(status)=''"),
+      env.DB.prepare("CREATE INDEX IF NOT EXISTS idx_captain_reward_claims_user_type_status ON captain_reward_claims(user_id,reward_type,status,id)"),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1205_captain_reward_normalize_once','1',CURRENT_TIMESTAMP)")
+    ]);
+  }
   const rewardRecoveryUpgrade=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1108_captain_reward_recovery'").first();
   const upgradeStatements=[
     env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1088_captain_round_reset','1',CURRENT_TIMESTAMP)"),
@@ -315,7 +324,13 @@ async function runUpgrade(env) {
 let upgradePromise;
 async function upgrade(env) {
   if (!upgradePromise) {
-    upgradePromise = runUpgrade(env).catch(error => {
+    upgradePromise = (async()=>{
+      const gate=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1205_captain_schema_gate'").first();
+      if(gate?.value==='1')return true;
+      await runUpgrade(env);
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1205_captain_schema_gate','1',CURRENT_TIMESTAMP)").run();
+      return true;
+    })().catch(error => {
       upgradePromise = null;
       throw error;
     });

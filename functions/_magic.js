@@ -271,25 +271,47 @@ export function resolveUniqueBattleRuntime(deckState={},options={}){
   };
 }
 
-async function tableExists(env,name){const row=await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").bind(name).first();return Boolean(row)}
-async function columnExists(env,table,column){if(!await tableExists(env,table))return false;const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();return rows.results.some(row=>String(row.name)===String(column))}
+const magicSchemaTableCache=new Set();
+const magicSchemaColumnCache=new Set();
+async function tableExists(env,name){
+  const key=String(name||'');if(magicSchemaTableCache.has(key))return true;
+  const row=await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").bind(key).first();
+  if(row)magicSchemaTableCache.add(key);return Boolean(row);
+}
+async function columnExists(env,table,column){
+  const key=`${table}:${column}`;if(magicSchemaColumnCache.has(key))return true;
+  if(!await tableExists(env,table))return false;
+  const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all(),exists=rows.results.some(row=>String(row.name)===String(column));
+  if(exists)magicSchemaColumnCache.add(key);return exists;
+}
+let magicRewardFoundationPromise=null;
 export async function ensureMagicRewardFoundation(env){
-  if(await tableExists(env,'users')&&!await columnExists(env,'users','magic_crystals')){
-    try{await env.DB.prepare('ALTER TABLE users ADD COLUMN magic_crystals INTEGER NOT NULL DEFAULT 0').run()}catch(error){if(!String(error?.message||error).toLowerCase().includes('duplicate column'))throw error}
-  }
-  await env.DB.batch([
-    env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_crystal_logs(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,change_amount INTEGER NOT NULL,balance_after INTEGER NOT NULL,
-      reason TEXT NOT NULL DEFAULT '',reference_type TEXT,reference_id TEXT,admin_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
-    env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_crystal_reward_receipts(
-      receipt_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,source TEXT NOT NULL,reference_id TEXT NOT NULL,
-      status TEXT NOT NULL DEFAULT 'PENDING',roll_value REAL,configured_chance REAL NOT NULL DEFAULT 100,
-      configured_amount INTEGER NOT NULL DEFAULT 0,granted_amount INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,
-      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
-    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_crystal_logs_user ON magic_crystal_logs(user_id,created_at DESC)'),
-    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_reward_receipts_user ON magic_crystal_reward_receipts(user_id,created_at DESC)'),
-    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_reward_receipts_source ON magic_crystal_reward_receipts(source,created_at DESC)')
-  ]);
+  if(magicRewardFoundationPromise)return magicRewardFoundationPromise;
+  magicRewardFoundationPromise=(async()=>{
+    const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1205_magic_reward_foundation_gate'").first();
+    if(marker?.value==='1')return true;
+    if(await tableExists(env,'users')&&!await columnExists(env,'users','magic_crystals')){
+      try{await env.DB.prepare('ALTER TABLE users ADD COLUMN magic_crystals INTEGER NOT NULL DEFAULT 0').run();magicSchemaColumnCache.add('users:magic_crystals')}
+      catch(error){if(!String(error?.message||error).toLowerCase().includes('duplicate column'))throw error}
+    }
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_crystal_logs(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,change_amount INTEGER NOT NULL,balance_after INTEGER NOT NULL,
+        reason TEXT NOT NULL DEFAULT '',reference_type TEXT,reference_id TEXT,admin_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_crystal_reward_receipts(
+        receipt_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,source TEXT NOT NULL,reference_id TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'PENDING',roll_value REAL,configured_chance REAL NOT NULL DEFAULT 100,
+        configured_amount INTEGER NOT NULL DEFAULT 0,granted_amount INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_crystal_logs_user ON magic_crystal_logs(user_id,created_at DESC)'),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_reward_receipts_user ON magic_crystal_reward_receipts(user_id,created_at DESC)'),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_reward_receipts_source ON magic_crystal_reward_receipts(source,created_at DESC)'),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1205_magic_reward_foundation_gate','1',CURRENT_TIMESTAMP)")
+    ]);
+    magicSchemaTableCache.add('magic_crystal_logs');magicSchemaTableCache.add('magic_crystal_reward_receipts');
+    return true;
+  })().catch(error=>{magicRewardFoundationPromise=null;throw error});
+  return magicRewardFoundationPromise;
 }
 function kstDateKey(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
 export function magicRewardForRank(rows,rank){return (Array.isArray(rows)?rows:[]).find(x=>Number(rank)>=Number(x.from)&&Number(rank)<=Number(x.to))?.amount||0}

@@ -73,6 +73,7 @@ async function ensureDrawReceiptV2(env){
         status TEXT NOT NULL DEFAULT 'PENDING',cost INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1168_r7_draw_receipts','1',CURRENT_TIMESTAMP)")
     ]);
     return true;
@@ -613,14 +614,18 @@ function previousKstDate(date){const d=new Date(`${date}T00:00:00+09:00`);d.setD
 
 const safeName=value=>(value||'').trim().slice(0,20);
 
+const schemaTableCache=new Set();
+const schemaColumnCache=new Set();
 async function tableExists(env,name){
-  const row=await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").bind(name).first();
-  return Boolean(row);
+  const key=String(name||'');if(schemaTableCache.has(key))return true;
+  const row=await env.DB.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name=?").bind(key).first();
+  if(row)schemaTableCache.add(key);return Boolean(row);
 }
 async function columnExists(env,table,column){
+  const key=`${table}:${column}`;if(schemaColumnCache.has(key))return true;
   if(!await tableExists(env,table)) return false;
-  const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();
-  return rows.results.some(row=>String(row.name)===String(column));
+  const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all(),exists=rows.results.some(row=>String(row.name)===String(column));
+  if(exists)schemaColumnCache.add(key);return exists;
 }
 async function initialized(env){
   if(initializedKnown)return true;
@@ -652,15 +657,32 @@ async function ensureWagoDailyPostProgressTable(env){
   return wagoDailyPostProgressReadyPromise;
 }
 let upgradePromise=null;
+let d1HotpathUpgradePromise=null;
+async function ensureD1HotpathIndexes(env){
+  if(d1HotpathUpgradePromise)return d1HotpathUpgradePromise;
+  d1HotpathUpgradePromise=(async()=>{
+    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1205_d1_hotpath_indexes'").first();
+    if(done?.value==='1')return true;
+    const statements=[];
+    if(await tableExists(env,'user_cards'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_cards_last_obtained ON user_cards(last_obtained_at DESC,user_id,card_id)'));
+    if(await tableExists(env,'inventory_logs'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_inventory_logs_premium_feed ON inventory_logs(item_code,reason,reference_type,id DESC)'));
+    if(await tableExists(env,'pvp_match_history'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_match_history_attacker_recent ON pvp_match_history(attacker_id,id DESC)'));
+    if(await tableExists(env,'pvp_profiles'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_profiles_score_user ON pvp_profiles(season_score,user_id)'));
+    if(await tableExists(env,'draw_request_receipts_v2'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'));
+    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1205_d1_hotpath_indexes','1',CURRENT_TIMESTAMP)"));
+    await env.DB.batch(statements);return true;
+  })().catch(error=>{d1HotpathUpgradePromise=null;throw error});
+  return d1HotpathUpgradePromise;
+}
 let runtimeUpgradeGatePromise=null;
 async function ensureRuntimeUpgrades(env){
   if(runtimeUpgradeGatePromise)return runtimeUpgradeGatePromise;
   runtimeUpgradeGatePromise=(async()=>{
-    // 일반 유저 요청에서는 전체 런타임 마이그레이션을 매 Worker 콜드 스타트마다 재검사하지 않는다.
-    // 최신 주간 큐브 마커와 기존 성능 게이트가 모두 완료된 운영 DB라면 단일 조회로 즉시 통과한다.
-    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition')").all();
+    // 신규 성능 인덱스만 먼저 빠르게 설치한 뒤, 과거 마이그레이션은 기존 마커가 없는 DB에서만 검사한다.
+    await ensureD1HotpathIndexes(env);
+    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes')").all();
     const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
-    if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1')return true;
+    if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'&&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1')return true;
     await ensureUpgrades(env);
     return true;
   })().catch(error=>{runtimeUpgradeGatePromise=null;throw error});
@@ -669,6 +691,7 @@ async function ensureRuntimeUpgrades(env){
 async function ensureUpgrades(env){
   if(upgradePromise) return upgradePromise;
   upgradePromise=(async()=>{
+    await ensureD1HotpathIndexes(env);
     // V1123: CMS에서 제거된 것으로 확인된 과거 정적 시드 카드가 다시 추첨되지 않도록 안전 비활성화한다.
     const drawPoolCleanupDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1123_draw_pool_cleanup'").first();
     if(drawPoolCleanupDone?.value!=='1'){
@@ -2007,26 +2030,35 @@ function weightedPick(items,getWeight){
 async function recentHighGradeItems(env){
   const now=Date.now();
   if(recentHighGradeCache&&recentHighGradeCache.expiresAt>now)return recentHighGradeCache.promise;
-  const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,uc.last_obtained_at AS created_at
-    FROM user_cards uc JOIN users u ON u.id=uc.user_id JOIN cards c ON c.id=uc.card_id
-    WHERE c.rarity IN ('MA','LIMITED','PRESTIGE','FUR') AND COALESCE(uc.quantity,0)>0 AND u.status='ACTIVE'
-    ORDER BY datetime(uc.last_obtained_at) DESC LIMIT 20`).all()
-    .then(rows=>rows.results)
+  // datetime(column) 정렬은 인덱스를 무력화해 매 요청마다 user_cards 전체를 읽었다.
+  // 최근 갱신 20,000건만 인덱스로 선별한 뒤 고등급 20건을 추려 최악의 읽기량을 제한한다.
+  const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,recent.last_obtained_at AS created_at
+    FROM (
+      SELECT user_id,card_id,last_obtained_at
+      FROM user_cards INDEXED BY idx_user_cards_last_obtained
+      WHERE quantity>0 AND last_obtained_at IS NOT NULL
+      ORDER BY last_obtained_at DESC LIMIT 20000
+    ) recent
+    JOIN users u ON u.id=recent.user_id
+    JOIN cards c ON c.id=recent.card_id
+    WHERE c.rarity IN ('MA','LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
+    ORDER BY recent.last_obtained_at DESC LIMIT 20`).all()
+    .then(rows=>rows.results||[])
     .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
-  recentHighGradeCache={promise,expiresAt:now+15000};
+  recentHighGradeCache={promise,expiresAt:now+60000};
   return promise;
 }
 async function recentPremiumCubeItems(env){
   const now=Date.now();
   if(recentPremiumCubeCache&&recentPremiumCubeCache.expiresAt>now)return recentPremiumCubeCache.promise;
   const promise=env.DB.prepare(`SELECT u.nickname,l.created_at,l.reference_type AS source
-    FROM inventory_logs l JOIN users u ON u.id=l.user_id
+    FROM inventory_logs l INDEXED BY idx_inventory_logs_premium_feed JOIN users u ON u.id=l.user_id
     WHERE l.item_code='PREMIUM_CUBE' AND l.change_amount>0 AND l.reason IN ('BATTLE_CUBE_DROP','WEEKLY_PREMIUM_CUBE')
       AND l.reference_type IN ('PVE','TOWER','PVP','CAPTAIN') AND u.status='ACTIVE'
     ORDER BY l.id DESC LIMIT 20`).all()
-    .then(rows=>rows.results)
+    .then(rows=>rows.results||[])
     .catch(error=>{if(recentPremiumCubeCache?.promise===promise)recentPremiumCubeCache=null;throw error});
-  recentPremiumCubeCache={promise,expiresAt:now+15000};
+  recentPremiumCubeCache={promise,expiresAt:now+60000};
   return promise;
 }
 let cardAcquisitionGradeFxCache=null;
@@ -2361,6 +2393,8 @@ export async function onRequest(context){
 
     if(path==='shell/summary'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      // 이 경로는 전역 업그레이드 게이트보다 먼저 처리되므로 신규 인덱스를 선행 보장한다.
+      await ensureD1HotpathIndexes(env);
       const [inventory,highGrade,premiumCube]=await Promise.all([
         env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
         recentHighGradeItems(env),recentPremiumCubeItems(env)
@@ -2550,6 +2584,20 @@ export async function onRequest(context){
       await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'ATTENDANCE')").bind(user.id,reward,updated.coin).run();
       return json({reward,streak,user:await profile(env,updated)});
     }
+    if(path==='draw/status'&&request.method==='GET'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const requestId=String(url.searchParams.get('requestId')||'').trim().slice(0,100);
+      if(!requestId)return json({error:'카드 개봉 요청번호가 필요합니다.'},400);
+      await ensureDrawReceiptV2(env);
+      const row=await env.DB.prepare('SELECT status,error_message,created_at,updated_at FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      if(!row)return json({requestId,status:'NOT_FOUND'});
+      let status=String(row.status||'PENDING').toUpperCase();
+      if(status==='PENDING'){
+        const updatedAtMs=Date.parse(String(row.updated_at||'').replace(' ','T')+'Z');
+        if(Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000)status='RETRYABLE';
+      }
+      return json({requestId,status,error:String(row.error_message||''),createdAt:row.created_at||null,updatedAt:row.updated_at||null});
+    }
     if(path==='draw'&&request.method==='POST'){
       const user=await authenticate(request,env);
       if(!user) return json({error:'로그인이 필요합니다.'},401);
@@ -2584,60 +2632,73 @@ export async function onRequest(context){
         const rows=results.map(item=>({card_id:String(item?.card?.id||''),quantity:Number(item?.quantityAfter||0),breakthrough_level:0})).filter(row=>row.card_id&&row.quantity>0);
         return {...stored,results,user:drawResponseProfileFromRows(latestUser,rows,{quantity:Number(stored?.grantProof?.masterStarAfter||0)})};
       };
-      const finalizeAppliedDraw=async (draft,{recoveryVerify=false}={})=>{
+      const finalizeDrawPayload=draft=>{
         const proof=draft?.grantProof||{};
         if(String(proof.requestId||'')!==requestId||Number(proof.userId)!==Number(user.id))throw new Error('카드 지급 증명 정보가 현재 요청과 일치하지 않습니다.');
-        const proofCards=Array.isArray(proof.cards)?proof.cards:[];
-        const cardIds=[...new Set(proofCards.map(row=>String(row?.cardId||'')).filter(Boolean))];
-        if(!cardIds.length||cardIds.length!==proofCards.length)throw new Error('카드 지급 증명에 중복되거나 비어 있는 카드가 있습니다.');
-
-        // 정상 개봉은 카드 지급·코인 차감·영수증 APPLIED 저장이 같은 D1 batch에서 완료된다.
-        // 직후 동일 데이터를 다시 여러 번 SELECT하고 전체 profile을 재생성하던 중복 검증이 개봉 지연의 주원인이므로 제거한다.
-        // Worker 재시도 등 APPLIED 영수증 복구 경로에서만 실제 DB 상태를 다시 확인한다.
-        let response={...draft};
-        if(recoveryVerify){
-          const [actualUser,ownedRows,masterRow]=await Promise.all([
-            env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
-            env.DB.prepare(`SELECT card_id,quantity FROM user_cards WHERE user_id=? AND card_id IN (${cardIds.map(()=>'?').join(',')})`).bind(user.id,...cardIds).all(),
-            env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()
-          ]);
-          if(!actualUser)throw new Error('카드 지급 후 유저 정보를 확인하지 못했습니다.');
-          const actualQuantities=new Map((ownedRows.results||[]).map(row=>[String(row.card_id),Number(row.quantity||0)]));
-          for(const row of proofCards){
-            const cardId=String(row.cardId||''),expected=Number(row.quantityAfter||0),actual=Number(actualQuantities.get(cardId)||0);
-            if(!Number.isInteger(expected)||expected<1||actual!==expected)throw new Error(`${cardId} 카드의 서버 도감 수량 검증에 실패했습니다. (예상 ${expected}, 실제 ${actual})`);
-          }
-          if(Number(actualUser.coin||0)!==Number(proof.coinAfter))throw new Error('카드뽑기 코인 차감 검증에 실패했습니다.');
-          if(Number(actualUser.card_shards||0)!==Number(proof.shardsAfter))throw new Error('카드 조각 지급 검증에 실패했습니다.');
-          if(Number(masterRow?.quantity||0)!==Number(proof.masterStarAfter||0))throw new Error('마스터의 별 지급 검증에 실패했습니다.');
-          response={...draft,user:drawResponseProfileFromRows(actualUser,ownedRows.results||[],masterRow)};
-        }
+        const proofCards=Array.isArray(proof.cards)?proof.cards:[],cardIds=proofCards.map(row=>String(row?.cardId||'')).filter(Boolean);
+        if(!cardIds.length||new Set(cardIds).size!==cardIds.length)throw new Error('카드 지급 증명에 중복되거나 비어 있는 카드가 있습니다.');
+        const response={...draft};
         response.results=(response.results||[]).map(item=>({...item,granted:true,grantVerified:true}));
         response.drawProtocol={...(response.drawProtocol||{}),version:3,status:'COMPLETED',grantVerified:true,integrity:''};
         response.drawProtocol.integrity=drawIntegrityHash(drawIntegrityCanonical(response));
+        return response;
+      };
+      const finalizeAppliedDraw=async draft=>{
+        // APPLIED는 과거 버전에서 카드·재화와 함께 원자 batch로 저장된 상태다.
+        // 이후 유저가 코인/조각을 사용했을 수 있으므로 현재 총잔액과 과거 스냅샷을 비교하지 않는다.
+        const response=finalizeDrawPayload(draft);
         const completed=await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('APPLIED','COMPLETED')`).bind(JSON.stringify(compactDrawReceipt(response)),requestId,user.id).run();
         if(!completed.meta.changes)throw new Error('카드 지급 영수증 확정에 실패했습니다.');
-        return recoveryVerify?hydrateDrawReceipt(response):response;
+        return hydrateDrawReceipt(response);
       };
-      let prior=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      const reclaimStalePendingDraw=async priorUpdatedAt=>{
+        // PENDING 상태에서는 카드·재화 batch가 아직 커밋되지 않았다. 다만 LIMITED 재고 선예약만 남을 수 있어 먼저 반환한다.
+        const statements=[];
+        if(await tableExists(env,'limited_acquisition_audit')){
+          const auditRows=(await env.DB.prepare(`SELECT event_key,card_id FROM limited_acquisition_audit
+            WHERE request_id=? AND stock_reserved=1 AND card_granted=0 AND status IN ('PENDING','STOCK_RESERVED')`).bind(requestId).all()).results||[];
+          const reservedByCard=new Map();
+          for(const row of auditRows){const cardId=String(row.card_id||'');if(cardId)reservedByCard.set(cardId,Number(reservedByCard.get(cardId)||0)+1)}
+          for(const [cardId,reservedCount] of reservedByCard){
+            statements.push(env.DB.prepare('UPDATE cards SET issued_count=MAX(0,issued_count-?) WHERE id=?').bind(reservedCount,cardId));
+          }
+          if(auditRows.length)statements.push(env.DB.prepare(`UPDATE limited_acquisition_audit SET status='FAILED_ROLLED_BACK',stock_reserved=0,card_granted=0,error_message='STALE_PENDING_RECOVERED',updated_at=CURRENT_TIMESTAMP,completed_at=CURRENT_TIMESTAMP
+            WHERE request_id=? AND stock_reserved=1 AND card_granted=0 AND status IN ('PENDING','STOCK_RESERVED')`).bind(requestId));
+        }
+        statements.push(env.DB.prepare(`UPDATE draw_request_receipts_v2 SET status='PENDING',response_json=NULL,error_message=NULL,pack_id=?,draw_count=?,updated_at=CURRENT_TIMESTAMP
+          WHERE request_id=? AND user_id=? AND status='PENDING' AND updated_at=?`).bind(String(payload.packId||''),count,requestId,user.id,priorUpdatedAt));
+        const results=await env.DB.batch(statements),claimResult=results.at(-1);
+        return Number(claimResult?.meta?.changes||0)===1;
+      };
+      let prior=await env.DB.prepare('SELECT status,response_json,error_message,updated_at FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       const allowLegacyReceiptLookup=String(request.headers.get('x-cnine-draw-receipt')||'').toLowerCase()!=='v2';
       if(!prior&&allowLegacyReceiptLookup){
-        const legacy=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+        const legacy=await env.DB.prepare('SELECT status,response_json,error_message,updated_at FROM draw_request_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
         if(legacy&&['COMPLETED','APPLIED','PENDING'].includes(String(legacy.status||''))){prior=legacy;drawReceiptTable='draw_request_receipts';}
       }
       if(prior?.status==='COMPLETED'&&prior.response_json){
-        try{return json(await hydrateDrawReceipt(JSON.parse(prior.response_json)))}catch{}
+        try{return json(await hydrateDrawReceipt(JSON.parse(prior.response_json)))}
+        catch(error){return json({error:String(error?.message||'완료된 카드 개봉 결과를 불러오지 못했습니다.'),requestId,status:'COMPLETED'},503)}
       }
       if(prior?.status==='APPLIED'&&prior.response_json){
-        try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json),{recoveryVerify:true}))}catch(error){return json({error:String(error?.message||'이전 카드 지급 검증을 완료하지 못했습니다.'),requestId},503)}
+        try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json)))}catch(error){return json({error:String(error?.message||'이전 카드 지급 확정을 완료하지 못했습니다.'),requestId,status:'APPLIED'},503)}
       }
-      if(prior?.status==='PENDING')return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
+      let receiptAlreadyClaimed=false;
+      if(prior?.status==='PENDING'){
+        const updatedAtMs=Date.parse(String(prior.updated_at||'').replace(' ','T')+'Z'),stale=Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000;
+        if(stale&&drawReceiptTable==='draw_request_receipts_v2')receiptAlreadyClaimed=await reclaimStalePendingDraw(prior.updated_at);
+        if(!receiptAlreadyClaimed)return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId,status:'PENDING',updatedAt:prior.updated_at||null},409);
+      }
       drawReceiptTable='draw_request_receipts_v2';
-      const claimed=await env.DB.prepare(`INSERT OR IGNORE INTO ${drawReceiptTable}(request_id,user_id,pack_id,draw_count,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,String(payload.packId||''),count).run();
+      const claimed=receiptAlreadyClaimed?{meta:{changes:1}}:await env.DB.prepare(`INSERT OR IGNORE INTO ${drawReceiptTable}(request_id,user_id,pack_id,draw_count,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,String(payload.packId||''),count).run();
       if(!claimed.meta.changes){
-        const duplicate=await env.DB.prepare('SELECT status,response_json FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
-        if(duplicate?.status==='COMPLETED'&&duplicate.response_json){try{return json(await hydrateDrawReceipt(JSON.parse(duplicate.response_json)))}catch{}}
-        return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId},409);
+        const duplicate=await env.DB.prepare('SELECT status,response_json,error_message,updated_at FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+        if(duplicate?.status==='COMPLETED'&&duplicate.response_json){
+          try{return json(await hydrateDrawReceipt(JSON.parse(duplicate.response_json)))}
+          catch(error){return json({error:String(error?.message||'완료된 카드 개봉 결과를 불러오지 못했습니다.'),requestId,status:'COMPLETED'},503)}
+        }
+        if(duplicate?.status==='FAILED')return json({error:String(duplicate.error_message||'이전 카드 개봉 요청이 실패했습니다.'),requestId,status:'FAILED'},409);
+        return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId,status:String(duplicate?.status||'PENDING'),updatedAt:duplicate?.updated_at||null},409);
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
       try{
@@ -2730,7 +2791,7 @@ export async function onRequest(context){
         const statements=[];
         const results=[];
         let shardTotal=0,masterStarTotal=0,runningShardBalance=Number(fresh.card_shards||0);
-        const expectedAfterByCard=new Map();
+        const expectedAfterByCard=new Map(),cardGrantCounts=new Map(),shardTotalsByCard=new Map();
 
         for(let drawIndex=0;drawIndex<cards.length;drawIndex++){
           const card=cards[drawIndex],cardId=String(card.id);
@@ -2747,14 +2808,20 @@ export async function onRequest(context){
           const masterStarGained=!isNew&&String(card.grade||'').toUpperCase()==='MA'?1:0;
           shardTotal+=shardGained;
           masterStarTotal+=masterStarGained;
-          statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,1)
-            ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,card.id));
-          if(shardGained>0){
-            runningShardBalance+=shardGained;
-            statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardGained,runningShardBalance,card.id));
-          }
+          cardGrantCounts.set(cardId,Number(cardGrantCounts.get(cardId)||0)+1);
+          if(shardGained>0)shardTotalsByCard.set(cardId,Number(shardTotalsByCard.get(cardId)||0)+shardGained);
           if(String(card.grade||'').toUpperCase()==='LIMITED')statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,'LIMITED',drawIndex===0?cost:0,isNew?1:0));
           results.push({slot:drawIndex,granted:false,grantVerified:false,quantityBefore,quantityAfter,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained,masterStarGained});
+        }
+
+        // 동일 카드가 여러 장 나온 경우 슬롯마다 쓰지 않고 카드별 1회 UPSERT/로그로 합산한다.
+        for(const [cardId,grantCount] of cardGrantCounts){
+          statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,?)
+            ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,cardId,grantCount));
+        }
+        for(const [cardId,shardAmount] of shardTotalsByCard){
+          runningShardBalance+=shardAmount;
+          statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardAmount,runningShardBalance,cardId));
         }
 
         const duplicateMaCount=results.filter(item=>item.duplicate&&String(item.card?.grade||'').toUpperCase()==='MA').length;
@@ -2802,11 +2869,12 @@ export async function onRequest(context){
           statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'MA_DUPLICATE','PACK_DRAW',?)").bind(user.id,masterStarTotal,expectedMasterStars,groupId));
         }
         statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));
-        statements.push(env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='APPLIED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(compactDrawReceipt(draftResponse)),requestId,user.id));
+        const response=finalizeDrawPayload(draftResponse);
+        // 카드·코인·조각·영수증 COMPLETED를 같은 D1 batch에 넣어 APPLIED/PENDING 고착 구간을 제거한다.
+        statements.push(env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(JSON.stringify(compactDrawReceipt(response)),requestId,user.id));
 
         await env.DB.batch(statements);
         grantsCommitted=true;
-        const response=await finalizeAppliedDraw(draftResponse);
 
         for(const event of limitedAuditEvents){
           try{await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,isDuplicate:Number(event.quantityBefore||0)>0,stockReserved:true,cardGranted:true})}

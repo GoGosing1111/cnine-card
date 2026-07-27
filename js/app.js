@@ -1651,7 +1651,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':60000,'shell/summary':30000,'recent-high-grade':30000,'recent-premium-cube':30000};
+const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':60000,'shell/summary':60000,'recent-high-grade':60000,'recent-premium-cube':60000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
 const STARTUP_REQUEST_TIMEOUT=10000;
@@ -2112,17 +2112,47 @@ async function runCriticalOpening(pack,count,requestDraw){
 let drawRequestInFlight=false;
 let activeDrawRequestId='';
 const consumedDrawResponses=new Set();
-const PENDING_DRAW_STORAGE_KEY='cnine_pending_draw_v1168_r4';
-function readPendingDraw(){try{const row=JSON.parse(sessionStorage.getItem(PENDING_DRAW_STORAGE_KEY)||'null');if(!row||!row.requestId||Date.now()-Number(row.createdAt||0)>10*60*1000){sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY);return null}return row}catch(_){return null}}
-function writePendingDraw(row){try{sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(row))}catch(_){}}
-function clearPendingDraw(requestId=''){try{const row=readPendingDraw();if(!requestId||String(row?.requestId||'')===String(requestId))sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY)}catch(_){}}
-function drawRequestStillProcessing(error){return Boolean(error?.timeout)||(Number(error?.status)===409&&String(error?.message||'').includes('처리 중'))}
+const PENDING_DRAW_STORAGE_KEY='cnine_pending_draw_v1205';
+const PENDING_DRAW_LEGACY_KEYS=['cnine_pending_draw_v1168_r4'];
+function pendingDrawStorage(){try{return localStorage}catch(_){return sessionStorage}}
+function readPendingDraw(){
+  try{
+    const storage=pendingDrawStorage();let raw=storage.getItem(PENDING_DRAW_STORAGE_KEY),sourceKey=PENDING_DRAW_STORAGE_KEY;
+    if(!raw){for(const key of PENDING_DRAW_LEGACY_KEYS){raw=storage.getItem(key)||sessionStorage.getItem(key);if(raw){sourceKey=key;break}}}
+    const row=JSON.parse(raw||'null'),currentUserId=Number(loadUser()?.serverUserId||loadUser()?.id||0);
+    if(!row||!row.requestId||Date.now()-Number(row.createdAt||0)>60*60*1000||(Number(row.userId||0)>0&&currentUserId>0&&Number(row.userId)!==currentUserId)){
+      storage.removeItem(PENDING_DRAW_STORAGE_KEY);PENDING_DRAW_LEGACY_KEYS.forEach(key=>{storage.removeItem(key);try{sessionStorage.removeItem(key)}catch(_){}});return null;
+    }
+    if(sourceKey!==PENDING_DRAW_STORAGE_KEY){storage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify({...row,userId:Number(row.userId||currentUserId||0)}));PENDING_DRAW_LEGACY_KEYS.forEach(key=>{storage.removeItem(key);try{sessionStorage.removeItem(key)}catch(_){}})}
+    return row;
+  }catch(_){return null}
+}
+function writePendingDraw(row){try{pendingDrawStorage().setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(row))}catch(_){}}
+function clearPendingDraw(requestId=''){try{const storage=pendingDrawStorage(),row=readPendingDraw();if(!requestId||String(row?.requestId||'')===String(requestId)){storage.removeItem(PENDING_DRAW_STORAGE_KEY);PENDING_DRAW_LEGACY_KEYS.forEach(key=>{storage.removeItem(key);try{sessionStorage.removeItem(key)}catch(_){}})}}catch(_){}}
+function drawRequestStillProcessing(error){return Boolean(error?.timeout)||(Number(error?.status)===409&&String(error?.status||error?.message||'').includes('PENDING'))||(Number(error?.status)===409&&String(error?.message||'').includes('처리 중'))}
+async function waitForDrawReceipt(requestId,timeoutMs=105000){
+  const deadline=Date.now()+Math.max(10000,Number(timeoutMs)||105000);
+  while(Date.now()<deadline){
+    await new Promise(resolve=>setTimeout(resolve,1800));
+    try{
+      const state=await apiRequest(`draw/status?requestId=${encodeURIComponent(requestId)}`,{}, {ttl:0,timeoutMs:7000});
+      const status=String(state?.status||'').toUpperCase();
+      if(status==='COMPLETED'||status==='APPLIED'||status==='RETRYABLE')return status;
+      if(status==='FAILED'){const error=new Error(state.error||'카드 개봉 요청이 실패했습니다.');error.status=409;error.requestId=requestId;throw error}
+      if(status==='NOT_FOUND')continue;
+    }catch(error){
+      if(Number(error?.status)===401||Number(error?.status)===409)throw error;
+    }
+  }
+  const error=new Error('카드 지급 결과 확인이 지연되고 있습니다.');error.timeout=true;error.status='PENDING';error.requestId=requestId;throw error;
+}
 async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2){
   const options={method:'POST',headers:{'x-cnine-draw-receipt':Number(receiptVersion)===2?'v2':'legacy'},body:JSON.stringify({packId,count,requestId})};
   try{return await apiRequest('draw',options,{timeoutMs:45000})}
   catch(error){
     if(!drawRequestStillProcessing(error))throw error;
-    await new Promise(resolve=>setTimeout(resolve,1800));
+    await waitForDrawReceipt(requestId);
+    // 상태가 COMPLETED/APPLIED로 바뀐 뒤에만 동일 요청을 한 번 호출해 저장된 결과를 복원한다.
     return apiRequest('draw',options,{timeoutMs:20000});
   }
 }
@@ -2207,7 +2237,7 @@ openPack=async function(packId,count,cost){
   if(previous){packId=String(previous.packId);count=Number(previous.count);}
   const pack=getPack(packId);
   const requestId=String(previous?.requestId||(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`));
-  if(!previous)writePendingDraw({requestId,packId,count,receiptVersion:2,createdAt:Date.now()});
+  if(!previous)writePendingDraw({requestId,packId,count,receiptVersion:2,userId:Number(loadUser()?.serverUserId||loadUser()?.id||0),createdAt:Date.now()});
   resetDrawPresentationState();
   activeDrawRequestId=requestId;
   drawRequestInFlight=true;
