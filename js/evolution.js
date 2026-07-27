@@ -7,6 +7,8 @@
   const selected=()=>current()?.candidates?.find(card=>String(card.id)===String(state.selectedId))||null;
   const starIcon=className=>`<span class="${className||'evolution-master-star'}" aria-hidden="true"><i>★</i><b></b></span>`;
   const isPrestige=()=>state.type===TYPE_PRESTIGE;
+  const normalizeMediaPath=path=>{const value=String(path||'').trim().replace(/\\/g,'/');if(!value)return '';return /^(https?:)?\/\//i.test(value)||value.startsWith('/')?value:`/${value.replace(/^\.\//,'')}`};
+  const effectSoundEnabled=()=>{try{return typeof battleSoundEnabled==='function'?battleSoundEnabled():localStorage.getItem('cnineSoundEnabled')!=='0'}catch{return true}};
 
   function evolutionView(user){
     return `${summaryBar(user)}<section class="evolution-page">
@@ -117,10 +119,63 @@
     const modal=document.getElementById('modal'),requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
     modal.className=`modal show evolution-casting-modal ${isPrestige()?'prestige':''}`;
     modal.innerHTML=`<div class="modal-panel evolution-casting-panel"><div class="evolution-casting-core"><i class="cast-ring a"></i><i class="cast-ring b"></i>${isPrestige()?starIcon('evolution-cast-star'):''}<img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"></div><p class="eyebrow">EVOLUTION PROCESS</p><h2>진화 성공 여부를 확인하고 있습니다.</h2><span>창을 닫거나 새로고침하지 마세요.</span></div>`;
-    try{const result=await apiRequest('evolution/attempt',{method:'POST',body:JSON.stringify({cardId:card.id,evolutionType:state.type,requestId})});if(result.user&&typeof saveUser==='function'&&typeof apiUserToLocal==='function')saveUser(apiUserToLocal(result.user));await new Promise(resolve=>setTimeout(resolve,650));showResult(result)}catch(error){state.pending=false;modal.className='modal show evolution-error-modal';modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>!</i><p class="eyebrow">EVOLUTION ERROR</p><h2>진화 처리에 실패했습니다.</h2><span>${esc(error.message||'잠시 후 다시 시도해주세요.')}</span><small>${isPrestige()?'카드와 마스터의 별은 소모되지 않았습니다.':'처리되지 않은 요청의 재료는 소모되지 않았습니다.'}</small><button type="button" class="btn" id="evolutionErrorClose">확인</button></div>`;document.getElementById('evolutionErrorClose').onclick=()=>{modal.className='modal';modal.innerHTML='';load()}}
+    try{const result=await apiRequest('evolution/attempt',{method:'POST',body:JSON.stringify({cardId:card.id,evolutionType:state.type,requestId})});if(result.user&&typeof saveUser==='function'&&typeof apiUserToLocal==='function')saveUser(apiUserToLocal(result.user));await new Promise(resolve=>setTimeout(resolve,650));await showResult(result)}catch(error){state.pending=false;modal.className='modal show evolution-error-modal';modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>!</i><p class="eyebrow">EVOLUTION ERROR</p><h2>진화 처리에 실패했습니다.</h2><span>${esc(error.message||'잠시 후 다시 시도해주세요.')}</span><small>${isPrestige()?'카드와 마스터의 별은 소모되지 않았습니다.':'처리되지 않은 요청의 재료는 소모되지 않았습니다.'}</small><button type="button" class="btn" id="evolutionErrorClose">확인</button></div>`;document.getElementById('evolutionErrorClose').onclick=()=>{modal.className='modal';modal.innerHTML='';load()}}
   }
 
-  function showResult(result){
+  async function playPrestigeSuccessEffect(result){
+    if(result?.evolutionType!==TYPE_PRESTIGE||!result?.success||!result?.successEffect)return;
+    const modal=document.getElementById('modal');
+    if(!modal)return;
+    const effect=result.successEffect||{};
+    const reward=result.reward||{};
+    const mediaSrc=String(effect.mediaUrl||'').trim()?normalizeMediaPath(effect.mediaUrl):'';
+    const soundSrc=String(effect.soundUrl||'').trim()?normalizeMediaPath(effect.soundUrl):'';
+    const duration=Math.max(800,Math.min(30000,Number(effect.durationMs||3200)));
+    const volumePercent=Math.max(0,Math.min(100,Number(effect.volumePercent??70)));
+    const volume=volumePercent/100;
+    const isVideo=/\.(mp4|webm)(?:[?#].*)?$/i.test(mediaSrc);
+    const title=reward.title||effect.name||'PRESTIGE EVOLUTION';
+    const subtitle=effect.warningText||'PRESTIGE ASCENSION';
+    const description=effect.description||'MA +13 카드가 PRESTIGE 카드로 진화했습니다.';
+    modal.className='modal show prestige-success-cinematic-modal';
+    modal.innerHTML=`<div class="prestige-success-overlay"><div class="prestige-success-overlay-flash"></div><div class="prestige-success-overlay-media">${mediaSrc?(isVideo?`<video src="${esc(mediaSrc)}" ${soundSrc?'muted':''} playsinline preload="auto"></video>`:`<img src="${esc(mediaSrc)}" alt="${esc(title)}">`):'<div class="prestige-success-overlay-fallback">PRESTIGE</div>'}</div><div class="prestige-success-overlay-title"><small>${esc(subtitle)}</small><strong>${esc(title)}</strong><span>${esc(description)}</span>${reward.grade?`<em>${esc(reward.grade)} 획득</em>`:''}</div><button type="button" class="prestige-success-skip" id="prestigeSuccessSkip">건너뛰기</button></div>`;
+    const overlay=modal.querySelector('.prestige-success-overlay');
+    let audio=null;
+    if(soundSrc&&effectSoundEnabled()&&volume>0){audio=new Audio(soundSrc);audio.volume=volume;audio.play().catch(()=>{});}
+    await new Promise(resolve=>{
+      let done=false;
+      const finish=()=>{
+        if(done)return;
+        done=true;
+        clearTimeout(timer);
+        overlay?.classList.add('closing');
+        setTimeout(()=>{try{if(audio){audio.pause();audio.currentTime=0}}catch{}resolve()},220);
+      };
+      const timer=setTimeout(finish,duration);
+      document.getElementById('prestigeSuccessSkip')?.addEventListener('click',finish,{once:true});
+      overlay?.addEventListener('click',event=>{if(event.target===overlay)finish()},{once:true});
+      const video=overlay?.querySelector('video');
+      if(video){
+        video.addEventListener('loadedmetadata',()=>{const portrait=video.videoHeight>video.videoWidth;video.classList.toggle('is-portrait',portrait);video.classList.toggle('is-landscape',!portrait)},{once:true});
+        video.volume=volume;
+        video.muted=Boolean(soundSrc)||!effectSoundEnabled()||volume<=0;
+        video.addEventListener('ended',finish,{once:true});
+        video.addEventListener('error',()=>{overlay.classList.add('media-failed');setTimeout(finish,700)},{once:true});
+        const playback=video.play();
+        if(playback&&typeof playback.catch==='function')playback.catch(()=>{video.muted=true;video.play().catch(()=>overlay.classList.add('media-failed'))});
+      }
+      const img=overlay?.querySelector('img');
+      if(img){
+        img.addEventListener('load',()=>{const portrait=img.naturalHeight>img.naturalWidth;img.classList.toggle('is-portrait',portrait);img.classList.toggle('is-landscape',!portrait)},{once:true});
+        img.addEventListener('error',()=>{overlay.classList.add('media-failed');const mediaBox=overlay.querySelector('.prestige-success-overlay-media');if(mediaBox)mediaBox.innerHTML='<div class="prestige-success-overlay-fallback">PRESTIGE</div>'},{once:true});
+      }
+      if(navigator.vibrate)navigator.vibrate([120,60,180,70,120]);
+    });
+    modal.className='modal';
+    modal.innerHTML='';
+  }
+
+  async function showResult(result){
     const modal=document.getElementById('modal');
     if(!result.success){
       const prestige=result.evolutionType===TYPE_PRESTIGE,nextPity=Number(result.progress?.failedAttempts||0)+1>=Number(result.pityAttempts||1);
@@ -128,6 +183,7 @@
       modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>×</i><p class="eyebrow">EVOLUTION FAILED</p><h2>${num(result.attemptNo)}번째 진화 도전 실패</h2><span>${prestige?'마스터의 별이 소모되었습니다.':'코인과 카드조각이 소모되었습니다.'}</span><small>${prestige?'MA +13 카드와 강화 수치는 그대로 유지됩니다.':'SSR 카드와 +10 강화는 그대로 유지됩니다.'}${nextPity?' 다음 도전은 천장 확정입니다.':''}</small><button type="button" class="btn" id="evolutionFailureClose">확인</button></div>`;
       document.getElementById('evolutionFailureClose').onclick=()=>{state.pending=false;modal.className='modal';modal.innerHTML='';renderShell('evolution')};return;
     }
+    await playPrestigeSuccessEffect(result);
     const reward=result.reward||{};modal.className=`modal show evolution-result-modal ${result.evolutionType===TYPE_PRESTIGE?'prestige':''}`;
     modal.innerHTML=`<div class="modal-panel evolution-result-panel"><div class="evolution-result-rays"></div><p class="eyebrow">EVOLUTION COMPLETE</p><h2>${esc(reward.grade)} 진화 성공</h2><div class="evolution-result-card"><img src="${esc(reward.image)}" alt="${esc(reward.title)}" style="object-position:${Number(reward.focusX||50)}% ${Number(reward.focusY||50)}%"><span>${esc(reward.grade)}</span></div><strong>${esc(reward.title)}</strong><small>${esc(reward.name||'')}</small>${result.duplicate?`<div class="evolution-duplicate-reward"><b>중복 카드 획득</b>${Number(result.masterStarGained||0)>0?`<span>마스터의 별 +${num(result.masterStarGained)}</span>`:''}${Number(result.rewardShards||0)>0?`<span>카드 조각 +${num(result.rewardShards)}</span>`:''}</div>`:'<div class="evolution-new-reward">새로운 카드가 도감에 등록되었습니다.</div>'}<button type="button" class="btn evolution-result-confirm" id="evolutionResultConfirm">확인</button></div>`;
     document.getElementById('evolutionResultConfirm').onclick=()=>{state.pending=false;modal.className='modal';modal.innerHTML='';renderShell('evolution')};
