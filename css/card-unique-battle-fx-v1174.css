@@ -2386,3 +2386,18 @@ body::-webkit-scrollbar-thumb:hover{
 @media(max-width:430px){
   .rift-status-cards{grid-template-columns:1fr}
 }
+
+/* V1198: 주간 현황 글자 크기 조정 + 중복 배너 정보 제거 후 간격 보정 */
+.rift-status-kicker{font-size:10px!important;letter-spacing:.15em!important}
+.rift-status-summary h3{font-size:23px!important;line-height:1.08!important}
+.rift-status-summary p{font-size:12px!important;line-height:1.55!important}
+.rift-status-card{padding:12px 13px 11px!important;gap:5px!important}
+.rift-status-card small{font-size:9px!important}
+.rift-status-card b{font-size:18px!important;line-height:1.18!important}
+.rift-status-card span{font-size:10px!important;line-height:1.4!important}
+.rift-landing-copy>p:not(.eyebrow){margin-bottom:0!important}
+.rift-weekly-badges{display:none!important}
+@media(max-width:760px){
+  .rift-status-summary h3{font-size:20px!important}
+  .rift-status-card b{font-size:16px!important}
+}
