@@ -166,8 +166,9 @@ async function ensurePvpProfile(env,user,settings){let row=await env.DB.prepare(
 async function pvpDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 const PRESTIGE_DECK_LIMIT=2;
-async function prestigeDeckCount(env,cardIds=[]){const ids=[...new Set((cardIds||[]).map(String).filter(Boolean))];if(!ids.length)return 0;const marks=ids.map(()=>'?').join(',');const row=await env.DB.prepare(`SELECT COUNT(*) count FROM cards_effective_v1210 WHERE id IN (${marks}) AND UPPER(rarity)='PRESTIGE'`).bind(...ids).first();return Math.max(0,Number(row?.count||0))}
-async function validatePrestigeDeckLimit(env,cardIds=[],deckName='덱'){const count=await prestigeDeckCount(env,cardIds);if(count>PRESTIGE_DECK_LIMIT){const error=new Error(`${deckName}에는 PRESTIGE 카드를 최대 ${PRESTIGE_DECK_LIMIT}장까지만 편성할 수 있습니다.`);error.status=400;error.code='PRESTIGE_DECK_LIMIT';error.prestigeCount=count;throw error}return count}
+const FUR_DECK_LIMIT=1;
+async function deckGradeCount(env,cardIds=[],grade=''){const ids=[...new Set((cardIds||[]).map(String).filter(Boolean))];if(!ids.length)return 0;const marks=ids.map(()=>'?').join(',');const row=await env.DB.prepare(`SELECT COUNT(*) count FROM cards_effective_v1210 WHERE id IN (${marks}) AND UPPER(rarity)=?`).bind(...ids,String(grade||'').toUpperCase()).first();return Math.max(0,Number(row?.count||0))}
+async function validateDeckGradeLimits(env,cardIds=[],deckName='덱'){const prestigeCount=await deckGradeCount(env,cardIds,'PRESTIGE');if(prestigeCount>PRESTIGE_DECK_LIMIT){const error=new Error(`${deckName}에는 PRESTIGE 카드를 최대 ${PRESTIGE_DECK_LIMIT}장까지만 편성할 수 있습니다.`);error.status=400;error.code='PRESTIGE_DECK_LIMIT';error.grade='PRESTIGE';error.count=prestigeCount;error.limit=PRESTIGE_DECK_LIMIT;throw error}const furCount=await deckGradeCount(env,cardIds,'FUR');if(furCount>FUR_DECK_LIMIT){const error=new Error(`${deckName}에는 FUR 카드를 최대 ${FUR_DECK_LIMIT}장까지만 편성할 수 있습니다.`);error.status=400;error.code='FUR_DECK_LIMIT';error.grade='FUR';error.count=furCount;error.limit=FUR_DECK_LIMIT;throw error}return {prestigeCount,furCount}}
 async function deckSynergySettings(env){return {enabled:false,ownerTestEnabled:false,retired:true}}
 function cleanDeckSynergyEffects(raw={}){const n=(v,min=-100,max=100)=>Math.max(min,Math.min(max,Number(v)||0));return {attackPercent:n(raw.attackPercent),hpPercent:n(raw.hpPercent),bossDamagePercent:n(raw.bossDamagePercent),damageReductionPercent:n(raw.damageReductionPercent,0,90)}}
 async function evaluateDeckSynergies(env,user,deckIds,scope,{forceOwnerTest=false}={}){const settings=await deckSynergySettings(env),ownerTest=forceOwnerTest&&String(user?.role||'').toUpperCase()==='OWNER'&&settings.ownerTestEnabled;if(!settings.enabled&&!ownerTest)return {enabled:false,ownerTest,active:[],totals:cleanDeckSynergyEffects({})};const ids=[...new Set((deckIds||[]).map(String))];if(ids.length!==5)return {enabled:true,ownerTest,active:[],totals:cleanDeckSynergyEffects({})};const rows=(await env.DB.prepare('SELECT * FROM deck_synergies WHERE is_active=1 ORDER BY sort_order,id').all()).results,active=[];for(const row of rows){let required=[],scopes=[],effects={};try{required=JSON.parse(row.required_card_ids||'[]').map(String)}catch{}try{scopes=JSON.parse(row.scopes||'[]').map(String)}catch{}try{effects=cleanDeckSynergyEffects(JSON.parse(row.effects_json||'{}'))}catch{effects=cleanDeckSynergyEffects({})}if(!required.length||!required.every(id=>ids.includes(id)))continue;if(scopes.length&&!scopes.includes(String(scope||'').toUpperCase()))continue;active.push({id:row.id,name:row.name,description:row.description||'',requiredCardIds:required,scopes,effects})}const totals=cleanDeckSynergyEffects({});for(const x of active)for(const k of Object.keys(totals))totals[k]+=Number(x.effects[k]||0);return {enabled:true,ownerTest,active,totals:cleanDeckSynergyEffects(totals)}}
@@ -350,7 +351,7 @@ async function raidDailyEntryCount(env,userId,dateKey=kstDateKey()){
 async function raidDeckPower(env,userId,cardIds){
   let ids=[...new Set((cardIds||await pveDeckCards(env,userId)).map(String))];
   if(ids.length!==5){const e=new Error('저장된 PvE 덱 5장이 필요합니다.');e.status=400;throw e}
-  await validatePrestigeDeckLimit(env,ids,'PvE 덱');
+  await validateDeckGradeLimits(env,ids,'PvE 덱');
   const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();
   if(owned.results.length!==5){const e=new Error('보유하지 않은 카드가 포함되어 있습니다.');e.status=400;throw e}
   const battleCfg=await battleSettings(env),deckUser=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(userId).first();
@@ -3285,7 +3286,7 @@ export async function onRequest(context){
       if(ids.length!==5)return json({error:'PvE 덱은 보유 카드 5장으로 편성해야 합니다.'},400);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT card_id FROM user_cards WHERE user_id=? AND COALESCE(quantity,0)>0 AND card_id IN (${marks})`).bind(user.id,...ids).all();
       if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
-      try{await validatePrestigeDeckLimit(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,prestigeCount:error.prestigeCount,limit:PRESTIGE_DECK_LIMIT},400)}
+      try{await validateDeckGradeLimits(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
       await env.DB.prepare('INSERT INTO pve_decks(user_id,card_ids,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET card_ids=excluded.card_ids,updated_at=CURRENT_TIMESTAMP').bind(user.id,JSON.stringify(ids)).run();
       return json({ok:true,deck:ids});
     }
@@ -3302,7 +3303,7 @@ export async function onRequest(context){
       const previous=await env.DB.prepare('SELECT user_id,status,response_json FROM pve_auto_runs WHERE request_id=?').bind(requestId).first();
       if(previous){if(Number(previous.user_id)!==Number(user.id))return json({error:'잘못된 자동사냥 요청입니다.'},403);if(previous.status==='COMPLETED'&&previous.response_json)return json(JSON.parse(previous.response_json));return json({error:'동일한 자동사냥 요청이 이미 처리 중입니다.',code:'AUTO_HUNT_RUNNING'},409);}
       if(ids.length!==5)return json({error:'보유 카드 5장을 편성해야 합니다.'},400);
-      try{await validatePrestigeDeckLimit(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,prestigeCount:error.prestigeCount,limit:PRESTIGE_DECK_LIMIT},400)}
+      try{await validateDeckGradeLimits(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
       const monster=await env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0').bind(monsterId).first();if(!monster)return json({error:'전투할 몬스터를 찾을 수 없습니다.'},404);
       const energyBefore=await battleEnergyState(env,user,settings);if(energyBefore.unlimited)return json({error:'무제한 계정에서는 남은 횟수 자동사냥을 사용할 수 없습니다.'},400);
       const battleCount=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1)));if(battleCount<1)return json({error:'전투 횟수가 부족합니다.',code:'NO_BATTLE_ENERGY',energy:energyBefore},429);
@@ -3333,7 +3334,7 @@ export async function onRequest(context){
       const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning); if(!settings.enabled)return json({error:'현재 전투 콘텐츠가 중지되어 있습니다.'},503);
       const payload=await readBody(request),requestId=String(payload.requestId||crypto.randomUUID()),monsterId=Number(payload.monsterId),ids=[...new Set((payload.cardIds||[]).map(String))];
       if(ids.length!==5)return json({error:'보유 카드 5장을 편성해야 합니다.'},400);
-      try{await validatePrestigeDeckLimit(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,prestigeCount:error.prestigeCount,limit:PRESTIGE_DECK_LIMIT},400)}
+      try{await validateDeckGradeLimits(env,ids,'PvE 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
       const monster=await env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0').bind(monsterId).first();
       if(!monster)return json({error:'전투할 몬스터를 찾을 수 없습니다.'},404);
       let energyAfter;try{energyAfter=await consumeBattleEnergy(env,user,settings)}catch(e){if(e.code==='NO_BATTLE_ENERGY')return json({error:e.message,code:e.code,energy:e.energy},429);throw e}
@@ -3561,8 +3562,8 @@ export async function onRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const body=await readBody(request),ids=[...new Set((body.cardIds||[]).map(String))];if(ids.length!==5)return json({error:'PvP 덱은 보유 카드 5장으로 편성해야 합니다.'},400);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT card_id FROM user_cards WHERE user_id=? AND COALESCE(quantity,0)>0 AND card_id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
-      try{await validatePrestigeDeckLimit(env,ids,'PvP 덱')}catch(error){return json({error:error.message,code:error.code,prestigeCount:error.prestigeCount,limit:PRESTIGE_DECK_LIMIT},400)}
-      await env.DB.prepare('INSERT INTO pvp_decks(user_id,card_ids,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET card_ids=excluded.card_ids,updated_at=CURRENT_TIMESTAMP').bind(user.id,JSON.stringify(ids)).run();return json({ok:true,deck:ids,prestigeLimit:PRESTIGE_DECK_LIMIT});
+      try{await validateDeckGradeLimits(env,ids,'PvP 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
+      await env.DB.prepare('INSERT INTO pvp_decks(user_id,card_ids,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET card_ids=excluded.card_ids,updated_at=CURRENT_TIMESTAMP').bind(user.id,JSON.stringify(ids)).run();return json({ok:true,deck:ids,prestigeLimit:PRESTIGE_DECK_LIMIT,furLimit:FUR_DECK_LIMIT});
     }
     if(path==='pvp/opponents'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -3610,7 +3611,9 @@ export async function onRequest(context){
       const [aDeck,dDeck,battle]=await Promise.all([pvpDeckSnapshot(env,user.id),pvpDeckSnapshot(env,defenderId),battleSettings(env)]);
       if(aDeck.length!==5)return json({error:'먼저 PvP 덱 편성을 완료하세요.'},400);
       if(dDeck.length!==5)return json({error:'상대의 PvP 덱이 완성되지 않았습니다.'},409);
-      const aPrestigeCount=aDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='PRESTIGE').length,dPrestigeCount=dDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='PRESTIGE').length;
+      const aPrestigeCount=aDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='PRESTIGE').length,dPrestigeCount=dDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='PRESTIGE').length,aFurCount=aDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='FUR').length,dFurCount=dDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='FUR').length;
+      if(aFurCount>FUR_DECK_LIMIT)return json({error:`PvP 덱에는 FUR 카드를 최대 ${FUR_DECK_LIMIT}장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.`,code:'FUR_DECK_LIMIT',furCount:aFurCount,limit:FUR_DECK_LIMIT},409);
+      if(dFurCount>FUR_DECK_LIMIT)return json({error:'상대의 PvP 덱이 FUR 편성 제한을 초과해 대전할 수 없습니다.',code:'OPPONENT_FUR_DECK_LIMIT'},409);
       if(aPrestigeCount>PRESTIGE_DECK_LIMIT)return json({error:`PvP 덱에는 PRESTIGE 카드를 최대 ${PRESTIGE_DECK_LIMIT}장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.`,code:'PRESTIGE_DECK_LIMIT',prestigeCount:aPrestigeCount,limit:PRESTIGE_DECK_LIMIT},409);
       if(dPrestigeCount>PRESTIGE_DECK_LIMIT)return json({error:'상대의 PvP 덱이 PRESTIGE 편성 제한을 초과해 대전할 수 없습니다.',code:'OPPONENT_PRESTIGE_DECK_LIMIT'},409);
       const defUserRole=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(defenderId).first(),aIds=aDeck.map(c=>String(c.id)),dIds=dDeck.map(c=>String(c.id));
