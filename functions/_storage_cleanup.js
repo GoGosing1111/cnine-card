@@ -398,73 +398,99 @@ async function deleteReceiptBatch(env,opts){
 }
 
 
-const SAFE_RECEIPT_COMPACT_TABLES = new Set(['draw_request_receipts','draw_request_receipts_v2']);
-const SAFE_RECEIPT_SCAN_BATCH = 5000;
-const SAFE_RECEIPT_MAX_TARGET = 250000;
-const SAFE_RECEIPT_CURSOR_OVERLAP = 1000;
-const SAFE_RECEIPT_ARCHIVE_OBJECT = {
-  ok:true,
-  archived:true,
-  status:'COMPLETED',
-  message:'오래된 카드 개봉 결과 본문이 안전 보관 처리되었습니다.',
-  results:[],
-  drawProtocol:{version:3,status:'COMPLETED',grantVerified:true,archived:true}
-};
-const SAFE_RECEIPT_ARCHIVE_JSON = JSON.stringify(SAFE_RECEIPT_ARCHIVE_OBJECT);
-const SAFE_RECEIPT_ARCHIVE_BYTES = new TextEncoder().encode(SAFE_RECEIPT_ARCHIVE_JSON).length;
+const SAFE_LOG_CLEANUP_SPECS = Object.freeze({
+  SHARD_DUPLICATE:{
+    table:'shard_logs',label:'중복 카드 조각 로그',retentionDefault:3,
+    whereSql:"reason='DUPLICATE'",reasonColumn:true,
+    description:'카드팩 중복 획득으로 생성된 조각 감사 로그만 정리합니다. 현재 카드 조각 잔액은 users.card_shards에 유지됩니다.'
+  },
+  COIN_PACK_DRAW:{
+    table:'coin_logs',label:'카드팩 코인 사용 로그',retentionDefault:14,
+    whereSql:"reason='PACK_DRAW'",reasonColumn:true,
+    description:'오래된 카드팩 코인 사용 이력만 정리합니다. 현재 코인 잔액은 users.coin에 유지됩니다.'
+  },
+  BATTLE_HISTORY:{
+    table:'battle_logs',label:'오래된 PVE 전투 로그',retentionDefault:7,
+    whereSql:'1=1',reasonColumn:false,
+    description:'오래된 PVE 결과 기록만 정리합니다. 에너지·보상·덱·진행 데이터는 건드리지 않습니다.'
+  },
+  PVP_HISTORY:{
+    table:'pvp_match_history',label:'오래된 PVP 전투 기록',retentionDefault:14,
+    whereSql:'1=1',reasonColumn:false,
+    description:'보존 기간이 지난 PVP 상세 전투 이력만 정리합니다. 점수·승패·랭킹 프로필은 유지됩니다.'
+  }
+});
+const SAFE_LOG_SCAN_BATCH = 10000;
+const SAFE_LOG_MAX_TARGET = 1000000;
+const SAFE_LOG_DELETE_CHUNK = 200;
 
 function cleanSafeCleanupOptions(raw={}){
-  const table=SAFE_RECEIPT_COMPACT_TABLES.has(String(raw.table||''))?String(raw.table):'draw_request_receipts';
+  const requested=String(raw.logType||raw.table||'SHARD_DUPLICATE').toUpperCase();
+  const logType=SAFE_LOG_CLEANUP_SPECS[requested]?requested:'SHARD_DUPLICATE';
+  const spec=SAFE_LOG_CLEANUP_SPECS[logType];
   return {
-    table,
-    retentionDays:clampInt(raw.retentionDays,2,2,3650),
-    targetRows:clampInt(raw.targetRows,50000,1000,SAFE_RECEIPT_MAX_TARGET),
-    scanBatch:clampInt(raw.scanBatch,SAFE_RECEIPT_SCAN_BATCH,100,SAFE_RECEIPT_SCAN_BATCH),
+    logType,
+    table:spec.table,
+    retentionDays:clampInt(raw.retentionDays,spec.retentionDefault,2,3650),
+    targetRows:clampInt(raw.targetRows,250000,10000,SAFE_LOG_MAX_TARGET),
+    scanBatch:clampInt(raw.scanBatch,SAFE_LOG_SCAN_BATCH,1000,SAFE_LOG_SCAN_BATCH),
     sessionRetentionDays:clampInt(raw.sessionRetentionDays,7,1,3650),
     cleanupExpiredSessions:bool(raw.cleanupExpiredSessions,true)
   };
 }
-function safeReceiptCursorKey(table){return `storage_safe_compact_cursor_${table}`}
-async function safeReceiptCursor(env,table){
+function safeLogCursorKey(logType,retentionDays){return `storage_safe_log_cursor_${String(logType||'').toLowerCase()}_${Math.max(2,Number(retentionDays||0))}d`}
+async function safeLogCursor(env,logType,retentionDays){
   try{
-    const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(safeReceiptCursorKey(table)).first();
+    const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(safeLogCursorKey(logType,retentionDays)).first();
     const value=Math.max(0,Math.floor(Number(row?.value||0)));
     return Number.isFinite(value)?value:0;
   }catch{return 0}
 }
-async function safeReceiptCompactBatch(env,raw={},execute=false){
-  const options=cleanSafeCleanupOptions(raw),existing=await existingTableSet(env,[options.table,'app_meta']);
-  if(!existing.has(options.table))return {...options,scannedRows:0,advancedRows:0,candidateRows:0,compactedRows:0,originalBytes:0,archivedBytes:0,estimatedSavedBytes:0,cursorBefore:0,cursorAfter:0,done:true};
-  const cursorBefore=await safeReceiptCursor(env,options.table),scanStart=Math.max(0,cursorBefore-SAFE_RECEIPT_CURSOR_OVERLAP);
-  const rows=(await env.DB.prepare(`SELECT rowid AS rid,status,LENGTH(CAST(COALESCE(response_json,'') AS BLOB)) AS response_bytes
-    FROM ${options.table}
-    WHERE rowid>? AND created_at<datetime('now',?)
-    ORDER BY rowid ASC LIMIT ?`).bind(scanStart,`-${options.retentionDays} days`,options.scanBatch).all()).results||[];
-  const cursorAfter=rows.length?Math.max(cursorBefore,Number(rows[rows.length-1].rid||cursorBefore)):cursorBefore;
-  const advancedRows=rows.reduce((sum,row)=>sum+(Number(row.rid||0)>cursorBefore?1:0),0);
-  const candidates=rows.filter(row=>String(row.status||'').toUpperCase()==='COMPLETED'&&Number(row.response_bytes||0)>SAFE_RECEIPT_ARCHIVE_BYTES+128);
-  const originalBytes=candidates.reduce((sum,row)=>sum+Number(row.response_bytes||0),0),archivedBytes=candidates.length*SAFE_RECEIPT_ARCHIVE_BYTES;
-  let compactedRows=0;
+async function safeLogCleanupBatch(env,raw={},execute=false){
+  const options=cleanSafeCleanupOptions(raw),spec=SAFE_LOG_CLEANUP_SPECS[options.logType];
+  const existing=await existingTableSet(env,[spec.table,'app_meta']);
+  if(!existing.has(spec.table))return {...options,label:spec.label,description:spec.description,scannedRows:0,advancedRows:0,candidateRows:0,deletedRows:0,estimatedPayloadBytes:0,estimatedStorageBytes:0,cursorBefore:0,cursorAfter:0,highestSequence:0,cycleComplete:true};
+
+  const columns=await tableColumnNames(env,spec.table),columnSet=new Set(columns);
+  if(!columnSet.has('id')||!columnSet.has('created_at'))throw new Error(`${spec.table} 정리 기준 컬럼을 확인할 수 없습니다.`);
+  const cursorBefore=await safeLogCursor(env,options.logType,options.retentionDays);
+  const payloadExpr=columns.length?textByteExpression(columns):'0';
+  const reasonSelect=spec.reasonColumn&&columnSet.has('reason')?',reason':'';
+  const rows=(await env.DB.prepare(`SELECT id,created_at${reasonSelect},${payloadExpr} row_payload_bytes FROM ${spec.table} WHERE id>? ORDER BY id ASC LIMIT ?`).bind(cursorBefore,options.scanBatch).all()).results||[];
+  const cutoffMs=Date.now()-options.retentionDays*86400000;
+  const eligible=rows.filter(row=>{
+    if(utcMs(row.created_at)>cutoffMs)return false;
+    if(options.logType==='SHARD_DUPLICATE')return String(row.reason||'').toUpperCase()==='DUPLICATE';
+    if(options.logType==='COIN_PACK_DRAW')return String(row.reason||'').toUpperCase()==='PACK_DRAW';
+    return true;
+  });
+  const scannedCursor=rows.length?Number(rows[rows.length-1].id||cursorBefore):cursorBefore;
+  const cycleComplete=rows.length<options.scanBatch;
+  const cursorAfter=cycleComplete?0:Math.max(cursorBefore,scannedCursor);
+  const estimatedPayloadBytes=eligible.reduce((sum,row)=>sum+Number(row.row_payload_bytes||0),0);
+  const estimatedStorageBytes=estimatedPayloadBytes+eligible.length*96;
+  let deletedRows=0;
+
   if(execute){
     const statements=[];
-    for(let i=0;i<candidates.length;i+=RECEIPT_SQL_ID_CHUNK){
-      const chunk=candidates.slice(i,i+RECEIPT_SQL_ID_CHUNK).map(row=>Number(row.rid)).filter(Number.isFinite);
-      if(!chunk.length)continue;
-      statements.push(env.DB.prepare(`UPDATE ${options.table} SET response_json=?
-        WHERE rowid IN (${placeholders(chunk.length)}) AND status='COMPLETED'
-          AND response_json IS NOT NULL AND LENGTH(CAST(response_json AS BLOB))>?`).bind(SAFE_RECEIPT_ARCHIVE_JSON,...chunk,SAFE_RECEIPT_ARCHIVE_BYTES+128));
+    for(let i=0;i<eligible.length;i+=SAFE_LOG_DELETE_CHUNK){
+      const ids=eligible.slice(i,i+SAFE_LOG_DELETE_CHUNK).map(row=>Number(row.id)).filter(Number.isFinite);
+      if(!ids.length)continue;
+      statements.push(env.DB.prepare(`DELETE FROM ${spec.table} WHERE id IN (${placeholders(ids.length)}) AND (${spec.whereSql}) AND created_at<datetime('now',?)`).bind(...ids,`-${options.retentionDays} days`));
     }
     if(existing.has('app_meta'))statements.push(env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
-      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(safeReceiptCursorKey(options.table),String(cursorAfter)));
+      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(safeLogCursorKey(options.logType,options.retentionDays),String(cursorAfter)));
     if(statements.length){
       const results=await env.DB.batch(statements),cursorStatement=existing.has('app_meta')?1:0;
-      compactedRows=results.slice(0,Math.max(0,results.length-cursorStatement)).reduce((sum,row)=>sum+Number(row?.meta?.changes||0),0);
+      deletedRows=results.slice(0,Math.max(0,results.length-cursorStatement)).reduce((sum,row)=>sum+Number(row?.meta?.changes||0),0);
     }
   }
+  let highestSequence=0;
+  try{const seq=await env.DB.prepare('SELECT seq FROM sqlite_sequence WHERE name=?').bind(spec.table).first();highestSequence=Number(seq?.seq||0)}catch{}
   return {
-    ...options,scannedRows:rows.length,advancedRows,candidateRows:candidates.length,compactedRows,
-    originalBytes,archivedBytes,estimatedSavedBytes:Math.max(0,originalBytes-archivedBytes),cursorBefore,cursorAfter,
-    done:rows.length<options.scanBatch
+    ...options,label:spec.label,description:spec.description,scannedRows:rows.length,advancedRows:rows.length,
+    candidateRows:eligible.length,deletedRows,estimatedPayloadBytes,estimatedStorageBytes,
+    cursorBefore,cursorAfter,highestSequence,cycleComplete
   };
 }
 async function expiredSessionPreview(env,raw={}){
@@ -508,17 +534,17 @@ export async function handleStorageCleanup({request,env,path,requirePermission,w
   }
   if(path==='admin/storage-cleanup/safe/preview'&&request.method==='POST'){
     const body=await readBody(request),options=cleanSafeCleanupOptions(body);
-    const [compact,sessions]=await Promise.all([safeReceiptCompactBatch(env,options,false),expiredSessionPreview(env,options)]);
-    return json({ok:true,options,compact,sessions,protectedTables:['users','user_cards','cnine_user_inventory','user_pack_pity','pve_decks','pvp_decks','pve_rift_runs','user_messages','attendance_logs']});
+    const [logs,sessions]=await Promise.all([safeLogCleanupBatch(env,options,false),expiredSessionPreview(env,options)]);
+    return json({ok:true,options,logs,sessions,protectedTables:['users','user_cards','cnine_user_inventory','user_pack_pity','pve_decks','pvp_decks','pvp_profiles','pve_rift_runs','user_messages','attendance_logs']});
   }
   if(path==='admin/storage-cleanup/safe/run'&&request.method==='POST'){
     const body=await readBody(request);if(String(body.confirmation||'')!=='안전정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
     const options=cleanSafeCleanupOptions(body),bulkRun=bool(body.bulkRun,false);
     const beforePages=bulkRun?null:await databasePageInfo(env);
-    const compact=await safeReceiptCompactBatch(env,options,true),sessions=await deleteExpiredSessionsBatch(env,options);
+    const logs=await safeLogCleanupBatch(env,options,true),sessions=await deleteExpiredSessionsBatch(env,options);
     const afterPages=bulkRun?null:await databasePageInfo(env);
-    try{await writeAdminLog(env,admin,'SAFE_DB_COMPACT','TABLE',options.table,null,{options,compact,sessions,bulkRun,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,protectedUserData:true})}catch(e){console.error('safe storage cleanup admin log failed',e)}
-    return json({ok:true,options,compact,sessions,beforePages,afterPages});
+    try{await writeAdminLog(env,admin,'SAFE_LOG_PURGE','TABLE',options.table,null,{options,logs,sessions,bulkRun,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,protectedUserData:true})}catch(e){console.error('safe storage cleanup admin log failed',e)}
+    return json({ok:true,options,logs,sessions,beforePages,afterPages});
   }
   if(path==='admin/storage-cleanup/receipts/preview'&&request.method==='POST'){
     const body=await readBody(request),preview=await receiptAggregatePreview(env,body);return json({ok:true,...preview});

@@ -15,48 +15,50 @@
   async function purgeSelected(){let ids=$$('.cleanupUserCheck:checked').map(x=>Number(x.value));if(!ids.length)return alert('삭제할 후보를 선택하세요.');const phrase=prompt(`선택한 ${ids.length}명의 계정과 연관 데이터를 영구 삭제합니다.\n최근 활동·유효 세션·LIMITED 이상·+8강 이상 보유 계정은 서버가 삭제 직전에 다시 차단합니다.\n\n계속하려면 휴면계정삭제 를 입력하세요.`,'');if(phrase!=='휴면계정삭제')return alert('삭제를 취소했습니다.');const btn=$('#cleanupDeleteBtn');busy(btn,true,'배치 삭제 중...');let done=0,total=ids.length;try{while(ids.length){const chunk=ids.splice(0,10),d=await request('admin/storage-cleanup/delete',{method:'POST',body:JSON.stringify({ids:chunk,criteria:lastCriteria||criteria(),confirmation:'휴면계정삭제'})});done+=Number(d.deletedUsers||0);chunk.forEach(id=>$(`.storageCandidate[data-id="${id}"]`)?.remove());const pct=Math.min(100,done/total*100);$('#cleanupProgressBar').style.width=pct+'%';$('#cleanupProgressText').textContent=`${done} / ${total}명 삭제 완료 · 현재 단계 ${Object.entries(d.changes||{}).filter(([,v])=>v).map(([k,v])=>`${k} ${v}`).slice(0,3).join(', ')}`}
       alert(`${done}명의 휴면·저활동 계정을 정리했습니다.\nDB 대시보드 용량 반영은 지연될 수 있으며 삭제된 페이지는 신규 데이터에 재사용됩니다.`);await loadSummary();
     }catch(e){alert(`정리 작업이 중단되었습니다. 완료된 배치는 유지됩니다.\n${e.message}`)}finally{busy(btn,false);updateSelected()}}
+  const safeDefaults={SHARD_DUPLICATE:3,COIN_PACK_DRAW:14,BATTLE_HISTORY:7,PVP_HISTORY:14};
   function safeOpts(){
-    const targetRows=Math.max(1000,Math.min(250000,Number($('#cleanupSafeTarget').value)||50000));
+    const targetRows=Math.max(10000,Math.min(1000000,Number($('#cleanupSafeTarget').value)||250000));
     return {
-      table:$('#cleanupSafeTable').value,
-      retentionDays:Math.max(2,Number($('#cleanupSafeDays').value)||2),
+      logType:$('#cleanupSafeTable').value,
+      retentionDays:Math.max(2,Number($('#cleanupSafeDays').value)||3),
       targetRows,
-      scanBatch:5000,
+      scanBatch:10000,
       sessionRetentionDays:Math.max(1,Number($('#cleanupSafeSessionDays').value)||7),
       cleanupExpiredSessions:$('#cleanupSafeSessions').checked
     };
   }
-  function safeResultHtml(compact={},sessions={}){
-    const candidate=Number(compact.candidateRows||0),sessionRows=Number(sessions.eligibleRows??sessions.deletedRows??0);
-    if(!Number(compact.scannedRows||0)&&!candidate&&!sessionRows)return '현재 조건에 안전 정리할 데이터가 없습니다.';
-    return `다음 배치 검사 <b>${fmt(compact.scannedRows||0)}</b>행 · 영수증 본문 축소 <b>${fmt(candidate)}</b>건 / 예상 절감 <b>${bytes(compact.estimatedSavedBytes||0)}</b><br><small>완료 영수증의 요청번호·상태·유저·비용·지급 검증은 유지 · PENDING/APPLIED 보호 · 만료 세션 ${fmt(sessionRows)}건</small>`;
+  function safeResultHtml(logs={},sessions={}){
+    const candidate=Number(logs.candidateRows||0),sessionRows=Number(sessions.eligibleRows??sessions.deletedRows??0),scanned=Number(logs.scannedRows||0);
+    if(!scanned&&!candidate&&!sessionRows)return '현재 조건에 안전 정리할 데이터가 없습니다.';
+    return `다음 구간 검사 <b>${fmt(scanned)}</b>행 · 삭제 가능 <b>${fmt(candidate)}</b>행 · 행 데이터 추정 <b>${bytes(logs.estimatedStorageBytes||0)}</b><br><small>${escapeHtml(logs.description||'현재 잔액과 보유 데이터는 유지됩니다.')} · 현재 테이블 생성 번호 ${fmt(logs.highestSequence||0)} · 만료 세션 ${fmt(sessionRows)}건</small>`;
   }
   async function previewSafeCleanup(){
     const b=$('#cleanupSafePreviewBtn');busy(b,true,'안전 정리 분석 중...');
     try{
       const d=await request('admin/storage-cleanup/safe/preview',{method:'POST',body:JSON.stringify(safeOpts())});
-      $('#cleanupSafePreview').innerHTML=safeResultHtml(d.compact,d.sessions);
-      $('#cleanupSafeRunBtn').disabled=!(Number(d.compact?.candidateRows||0)||Number(d.sessions?.eligibleRows||0)||Number(d.compact?.scannedRows||0));
+      $('#cleanupSafePreview').innerHTML=safeResultHtml(d.logs,d.sessions);
+      $('#cleanupSafeRunBtn').disabled=!(Number(d.logs?.candidateRows||0)||Number(d.sessions?.eligibleRows||0)||Number(d.logs?.scannedRows||0));
     }catch(e){alert(e.message)}finally{busy(b,false)}
   }
   async function runSafeCleanup(){
-    const opts=safeOpts(),phrase=prompt(`유저 보유 카드·코인·조각·인벤토리·덱·진행도는 삭제하지 않습니다.\n오래된 완료 영수증의 대형 응답 본문만 축소하고 만료된 로그인 세션만 정리합니다.\nPENDING/APPLIED 요청과 지급 검증 기록은 보호합니다.\n\n계속하려면 안전정리 를 입력하세요.`,'');
+    const opts=safeOpts(),selected=$('#cleanupSafeTable')?.selectedOptions?.[0]?.textContent||'선택 로그';
+    const phrase=prompt(`${selected}의 오래된 감사·전투 로그만 분할 삭제합니다.\n유저 보유 카드·강화·코인·카드 조각·인벤토리·덱·랭킹 점수·원정 진행도는 수정하지 않습니다.\n\n계속하려면 안전정리 를 입력하세요.`,'');
     if(phrase!=='안전정리')return;
     const b=$('#cleanupSafeRunBtn');busy(b,true,'안전 정리 준비 중...');
-    const runId=`safe-cleanup-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-    let advanced=0,scanned=0,compacted=0,saved=0,sessionsDeleted=0,batches=0;
+    const runId=`safe-log-cleanup-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    let advanced=0,scanned=0,deleted=0,estimated=0,sessionsDeleted=0,batches=0;
     try{
       while(advanced<opts.targetRows){
         busy(b,true,`안전 정리 중 ${fmt(advanced)} / ${fmt(opts.targetRows)}`);
         const d=await request('admin/storage-cleanup/safe/run',{method:'POST',body:JSON.stringify({...opts,confirmation:'안전정리',bulkRun:true,runId})});
-        const c=d.compact||{},s=d.sessions||{};
-        scanned+=Number(c.scannedRows||0);advanced+=Number(c.advancedRows||0);compacted+=Number(c.compactedRows||0);saved+=Number(c.estimatedSavedBytes||0);sessionsDeleted+=Number(s.deletedRows||0);batches++;
+        const l=d.logs||{},s=d.sessions||{};
+        scanned+=Number(l.scannedRows||0);advanced+=Number(l.advancedRows||0);deleted+=Number(l.deletedRows||0);estimated+=Number(l.estimatedStorageBytes||0);sessionsDeleted+=Number(s.deletedRows||0);batches++;
         const pct=opts.targetRows?Math.min(100,advanced/opts.targetRows*100):100;
-        $('#cleanupSafePreview').innerHTML=`안전 정리 진행 중 <b>${fmt(advanced)} / ${fmt(opts.targetRows)}</b>행 이동 · ${fmt(batches)}회 분할<br><div class="storageProgress"><i style="width:${pct}%"></i></div><small>영수증 본문 ${fmt(compacted)}건 축소 / 추정 ${bytes(saved)} · 만료 세션 ${fmt(sessionsDeleted)}건 삭제</small>`;
-        if((c.done&&Number(s.deletedRows||0)<Number(opts.scanBatch||5000))||(!Number(c.advancedRows||0)&&!Number(s.deletedRows||0)))break;
+        $('#cleanupSafePreview').innerHTML=`안전 정리 진행 중 <b>${fmt(advanced)} / ${fmt(opts.targetRows)}</b>행 검사 · ${fmt(batches)}회 분할<br><div class="storageProgress"><i style="width:${pct}%"></i></div><small>로그 ${fmt(deleted)}행 삭제 · 행 데이터 추정 ${bytes(estimated)} · 만료 세션 ${fmt(sessionsDeleted)}건 삭제</small>`;
+        if(l.cycleComplete||(!Number(l.advancedRows||0)&&!Number(s.deletedRows||0)))break;
         await new Promise(resolve=>setTimeout(resolve,100));
       }
-      alert(`안전 정리를 완료했습니다.\n\n검사 행: ${fmt(scanned)}\n영수증 본문 축소: ${fmt(compacted)}건\n추정 절감 데이터: ${bytes(saved)}\n만료 세션 삭제: ${fmt(sessionsDeleted)}건\n\n유저 보유 카드·코인·조각·인벤토리·덱·진행 데이터는 변경하지 않았습니다.\nD1 파일 크기는 즉시 줄지 않을 수 있으며 비워진 페이지는 신규 데이터에 재사용됩니다.`);
+      alert(`안전 정리를 완료했습니다.\n\n검사 행: ${fmt(scanned)}\n삭제 로그: ${fmt(deleted)}행\n삭제 행 데이터 추정: ${bytes(estimated)}\n만료 세션 삭제: ${fmt(sessionsDeleted)}건\n\n유저 보유 카드·강화·코인·카드 조각·인벤토리·덱·점수·진행 데이터는 변경하지 않았습니다.\nD1 파일 크기는 즉시 줄지 않을 수 있으며 비워진 페이지는 신규 데이터에 재사용됩니다.`);
       await previewSafeCleanup();await loadSummary();
     }catch(e){alert(`안전 정리가 중단되었습니다. 이미 완료된 배치는 유지됩니다.\n${e.message}`);try{await previewSafeCleanup()}catch{}}
     finally{busy(b,false)}
@@ -94,5 +96,5 @@
   }
   function emptyReceiptTotals(){return {receiptRows:0,responseJsonRows:0,responseJsonBytes:0,receiptPayloadBytes:0,assertionRows:0,assertionProofBytes:0,assertionPayloadBytes:0,estimatedTextBytes:0,estimatedStorageBytes:0}}
   function mergeReceiptTotals(total,m){for(const key of Object.keys(total))total[key]+=Number(m?.[key]||0);return total}
-  document.addEventListener('DOMContentLoaded',()=>{const syncOwnerVisibility=()=>{const role=String($('#roleBadge')?.textContent||'').trim().toUpperCase();if(role)$('#storageCleanupPanel').hidden=role!=='OWNER'};new MutationObserver(syncOwnerVisibility).observe($('#roleBadge'),{childList:true,subtree:true});syncOwnerVisibility();$('#cleanupSummaryBtn')?.addEventListener('click',loadSummary);$('#cleanupPreviewBtn')?.addEventListener('click',preview);$('#cleanupDeleteBtn')?.addEventListener('click',purgeSelected);$('#cleanupCandidateList')?.addEventListener('change',updateSelected);$('#cleanupSafePreviewBtn')?.addEventListener('click',previewSafeCleanup);$('#cleanupSafeRunBtn')?.addEventListener('click',runSafeCleanup);$('#cleanupReceiptPreviewBtn')?.addEventListener('click',previewReceipts);$('#cleanupReceiptDeleteBtn')?.addEventListener('click',purgeReceipts)});
+  document.addEventListener('DOMContentLoaded',()=>{const syncOwnerVisibility=()=>{const role=String($('#roleBadge')?.textContent||'').trim().toUpperCase();if(role)$('#storageCleanupPanel').hidden=role!=='OWNER'};new MutationObserver(syncOwnerVisibility).observe($('#roleBadge'),{childList:true,subtree:true});syncOwnerVisibility();$('#cleanupSummaryBtn')?.addEventListener('click',loadSummary);$('#cleanupPreviewBtn')?.addEventListener('click',preview);$('#cleanupDeleteBtn')?.addEventListener('click',purgeSelected);$('#cleanupCandidateList')?.addEventListener('change',updateSelected);$('#cleanupSafeTable')?.addEventListener('change',()=>{$('#cleanupSafeDays').value=String(safeDefaults[$('#cleanupSafeTable').value]||7);$('#cleanupSafeRunBtn').disabled=true;$('#cleanupSafePreview').textContent='대상 확인 전입니다.'});$('#cleanupSafePreviewBtn')?.addEventListener('click',previewSafeCleanup);$('#cleanupSafeRunBtn')?.addEventListener('click',runSafeCleanup);$('#cleanupReceiptPreviewBtn')?.addEventListener('click',previewReceipts);$('#cleanupReceiptDeleteBtn')?.addEventListener('click',purgeReceipts)});
 })();
