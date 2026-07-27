@@ -422,7 +422,6 @@ const SAFE_LOG_CLEANUP_SPECS = Object.freeze({
 });
 const SAFE_LOG_SCAN_BATCH = 10000;
 const SAFE_LOG_MAX_TARGET = 1000000;
-const SAFE_LOG_DELETE_CHUNK = 200;
 
 function cleanSafeCleanupOptions(raw={}){
   const requested=String(raw.logType||raw.table||'SHARD_DUPLICATE').toUpperCase();
@@ -472,17 +471,21 @@ async function safeLogCleanupBatch(env,raw={},execute=false){
   let deletedRows=0;
 
   if(execute){
-    const statements=[];
-    for(let i=0;i<eligible.length;i+=SAFE_LOG_DELETE_CHUNK){
-      const ids=eligible.slice(i,i+SAFE_LOG_DELETE_CHUNK).map(row=>Number(row.id)).filter(Number.isFinite);
-      if(!ids.length)continue;
-      statements.push(env.DB.prepare(`DELETE FROM ${spec.table} WHERE id IN (${placeholders(ids.length)}) AND (${spec.whereSql}) AND created_at<datetime('now',?)`).bind(...ids,`-${options.retentionDays} days`));
+    // D1은 SQL 한 문장에 사용할 수 있는 바인딩 변수 수가 제한되어 있다.
+    // 개별 ID를 IN (...)으로 전달하지 않고, 이번에 실제로 검사한 연속 ID 구간만 삭제한다.
+    // 동일한 조건과 보존 기간을 서버에서 다시 확인하므로 유저 자산 데이터에는 접근하지 않는다.
+    if(rows.length&&scannedCursor>cursorBefore){
+      const result=await env.DB.prepare(`DELETE FROM ${spec.table}
+        WHERE id>? AND id<=?
+          AND (${spec.whereSql})
+          AND created_at<datetime('now',?)`)
+        .bind(cursorBefore,scannedCursor,`-${options.retentionDays} days`).run();
+      deletedRows=Number(result?.meta?.changes||0);
     }
-    if(existing.has('app_meta'))statements.push(env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
-      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(safeLogCursorKey(options.logType,options.retentionDays),String(cursorAfter)));
-    if(statements.length){
-      const results=await env.DB.batch(statements),cursorStatement=existing.has('app_meta')?1:0;
-      deletedRows=results.slice(0,Math.max(0,results.length-cursorStatement)).reduce((sum,row)=>sum+Number(row?.meta?.changes||0),0);
+    if(existing.has('app_meta')){
+      await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
+        ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`)
+        .bind(safeLogCursorKey(options.logType,options.retentionDays),String(cursorAfter)).run();
     }
   }
   let highestSequence=0;
