@@ -397,6 +397,93 @@ async function deleteReceiptBatch(env,opts){
   return {...preview,deleted,assertionsDeleted,sqlChunks:idChunks.length};
 }
 
+
+const SAFE_RECEIPT_COMPACT_TABLES = new Set(['draw_request_receipts','draw_request_receipts_v2']);
+const SAFE_RECEIPT_SCAN_BATCH = 5000;
+const SAFE_RECEIPT_MAX_TARGET = 250000;
+const SAFE_RECEIPT_CURSOR_OVERLAP = 1000;
+const SAFE_RECEIPT_ARCHIVE_OBJECT = {
+  ok:true,
+  archived:true,
+  status:'COMPLETED',
+  message:'오래된 카드 개봉 결과 본문이 안전 보관 처리되었습니다.',
+  results:[],
+  drawProtocol:{version:3,status:'COMPLETED',grantVerified:true,archived:true}
+};
+const SAFE_RECEIPT_ARCHIVE_JSON = JSON.stringify(SAFE_RECEIPT_ARCHIVE_OBJECT);
+const SAFE_RECEIPT_ARCHIVE_BYTES = new TextEncoder().encode(SAFE_RECEIPT_ARCHIVE_JSON).length;
+
+function cleanSafeCleanupOptions(raw={}){
+  const table=SAFE_RECEIPT_COMPACT_TABLES.has(String(raw.table||''))?String(raw.table):'draw_request_receipts';
+  return {
+    table,
+    retentionDays:clampInt(raw.retentionDays,2,2,3650),
+    targetRows:clampInt(raw.targetRows,50000,1000,SAFE_RECEIPT_MAX_TARGET),
+    scanBatch:clampInt(raw.scanBatch,SAFE_RECEIPT_SCAN_BATCH,100,SAFE_RECEIPT_SCAN_BATCH),
+    sessionRetentionDays:clampInt(raw.sessionRetentionDays,7,1,3650),
+    cleanupExpiredSessions:bool(raw.cleanupExpiredSessions,true)
+  };
+}
+function safeReceiptCursorKey(table){return `storage_safe_compact_cursor_${table}`}
+async function safeReceiptCursor(env,table){
+  try{
+    const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(safeReceiptCursorKey(table)).first();
+    const value=Math.max(0,Math.floor(Number(row?.value||0)));
+    return Number.isFinite(value)?value:0;
+  }catch{return 0}
+}
+async function safeReceiptCompactBatch(env,raw={},execute=false){
+  const options=cleanSafeCleanupOptions(raw),existing=await existingTableSet(env,[options.table,'app_meta']);
+  if(!existing.has(options.table))return {...options,scannedRows:0,advancedRows:0,candidateRows:0,compactedRows:0,originalBytes:0,archivedBytes:0,estimatedSavedBytes:0,cursorBefore:0,cursorAfter:0,done:true};
+  const cursorBefore=await safeReceiptCursor(env,options.table),scanStart=Math.max(0,cursorBefore-SAFE_RECEIPT_CURSOR_OVERLAP);
+  const rows=(await env.DB.prepare(`SELECT rowid AS rid,status,LENGTH(CAST(COALESCE(response_json,'') AS BLOB)) AS response_bytes
+    FROM ${options.table}
+    WHERE rowid>? AND created_at<datetime('now',?)
+    ORDER BY rowid ASC LIMIT ?`).bind(scanStart,`-${options.retentionDays} days`,options.scanBatch).all()).results||[];
+  const cursorAfter=rows.length?Math.max(cursorBefore,Number(rows[rows.length-1].rid||cursorBefore)):cursorBefore;
+  const advancedRows=rows.reduce((sum,row)=>sum+(Number(row.rid||0)>cursorBefore?1:0),0);
+  const candidates=rows.filter(row=>String(row.status||'').toUpperCase()==='COMPLETED'&&Number(row.response_bytes||0)>SAFE_RECEIPT_ARCHIVE_BYTES+128);
+  const originalBytes=candidates.reduce((sum,row)=>sum+Number(row.response_bytes||0),0),archivedBytes=candidates.length*SAFE_RECEIPT_ARCHIVE_BYTES;
+  let compactedRows=0;
+  if(execute){
+    const statements=[];
+    for(let i=0;i<candidates.length;i+=RECEIPT_SQL_ID_CHUNK){
+      const chunk=candidates.slice(i,i+RECEIPT_SQL_ID_CHUNK).map(row=>Number(row.rid)).filter(Number.isFinite);
+      if(!chunk.length)continue;
+      statements.push(env.DB.prepare(`UPDATE ${options.table} SET response_json=?
+        WHERE rowid IN (${placeholders(chunk.length)}) AND status='COMPLETED'
+          AND response_json IS NOT NULL AND LENGTH(CAST(response_json AS BLOB))>?`).bind(SAFE_RECEIPT_ARCHIVE_JSON,...chunk,SAFE_RECEIPT_ARCHIVE_BYTES+128));
+    }
+    if(existing.has('app_meta'))statements.push(env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(safeReceiptCursorKey(options.table),String(cursorAfter)));
+    if(statements.length){
+      const results=await env.DB.batch(statements),cursorStatement=existing.has('app_meta')?1:0;
+      compactedRows=results.slice(0,Math.max(0,results.length-cursorStatement)).reduce((sum,row)=>sum+Number(row?.meta?.changes||0),0);
+    }
+  }
+  return {
+    ...options,scannedRows:rows.length,advancedRows,candidateRows:candidates.length,compactedRows,
+    originalBytes,archivedBytes,estimatedSavedBytes:Math.max(0,originalBytes-archivedBytes),cursorBefore,cursorAfter,
+    done:rows.length<options.scanBatch
+  };
+}
+async function expiredSessionPreview(env,raw={}){
+  const options=cleanSafeCleanupOptions(raw),existing=await existingTableSet(env,['sessions']);
+  if(!options.cleanupExpiredSessions||!existing.has('sessions'))return {eligibleRows:0,retentionDays:options.sessionRetentionDays};
+  const row=await env.DB.prepare(`SELECT COUNT(*) count FROM (
+    SELECT token_hash FROM sessions WHERE expires_at<datetime('now',?) LIMIT ?
+  )`).bind(`-${options.sessionRetentionDays} days`,options.scanBatch).first();
+  return {eligibleRows:Number(row?.count||0),retentionDays:options.sessionRetentionDays};
+}
+async function deleteExpiredSessionsBatch(env,raw={}){
+  const options=cleanSafeCleanupOptions(raw),existing=await existingTableSet(env,['sessions']);
+  if(!options.cleanupExpiredSessions||!existing.has('sessions'))return {deletedRows:0,retentionDays:options.sessionRetentionDays};
+  const result=await env.DB.prepare(`DELETE FROM sessions WHERE token_hash IN (
+    SELECT token_hash FROM sessions WHERE expires_at<datetime('now',?) ORDER BY expires_at ASC LIMIT ?
+  )`).bind(`-${options.sessionRetentionDays} days`,options.scanBatch).run();
+  return {deletedRows:Number(result?.meta?.changes||0),retentionDays:options.sessionRetentionDays};
+}
+
 export async function handleStorageCleanup({request,env,path,requirePermission,writeAdminLog,readBody,json}){
   if(!String(path).startsWith('admin/storage-cleanup'))return null;
   const admin=await requirePermission(request,env,'USER_MANAGE');
@@ -418,6 +505,20 @@ export async function handleStorageCleanup({request,env,path,requirePermission,w
     const beforePages=await databasePageInfo(env),changes=await deleteUsers(env,validIds),afterPages=await databasePageInfo(env);
     try{await writeAdminLog(env,admin,'DORMANT_USER_PURGE','USER',validIds.join(','),valid,{criteria,changes,beforePages,afterPages})}catch(e){console.error('storage cleanup admin log failed',e)}
     return json({ok:true,deletedUsers:Number(changes.users||0),ids:validIds,changes,beforePages,afterPages});
+  }
+  if(path==='admin/storage-cleanup/safe/preview'&&request.method==='POST'){
+    const body=await readBody(request),options=cleanSafeCleanupOptions(body);
+    const [compact,sessions]=await Promise.all([safeReceiptCompactBatch(env,options,false),expiredSessionPreview(env,options)]);
+    return json({ok:true,options,compact,sessions,protectedTables:['users','user_cards','cnine_user_inventory','user_pack_pity','pve_decks','pvp_decks','pve_rift_runs','user_messages','attendance_logs']});
+  }
+  if(path==='admin/storage-cleanup/safe/run'&&request.method==='POST'){
+    const body=await readBody(request);if(String(body.confirmation||'')!=='안전정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
+    const options=cleanSafeCleanupOptions(body),bulkRun=bool(body.bulkRun,false);
+    const beforePages=bulkRun?null:await databasePageInfo(env);
+    const compact=await safeReceiptCompactBatch(env,options,true),sessions=await deleteExpiredSessionsBatch(env,options);
+    const afterPages=bulkRun?null:await databasePageInfo(env);
+    try{await writeAdminLog(env,admin,'SAFE_DB_COMPACT','TABLE',options.table,null,{options,compact,sessions,bulkRun,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,protectedUserData:true})}catch(e){console.error('safe storage cleanup admin log failed',e)}
+    return json({ok:true,options,compact,sessions,beforePages,afterPages});
   }
   if(path==='admin/storage-cleanup/receipts/preview'&&request.method==='POST'){
     const body=await readBody(request),preview=await receiptAggregatePreview(env,body);return json({ok:true,...preview});
