@@ -2164,3 +2164,32 @@ body::-webkit-scrollbar-thumb:hover{
   .rift-card-stat{padding:4px}
   .rift-linked-battle-modal .battle-stage{width:min(96vw,96vw)!important}
 }
+
+/* V1193: CMS 연동 원정 노드 보상 미리보기 */
+.rift-choice-copy>.rift-choice-rewards{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:6px;
+  margin:11px 0;
+}
+.rift-choice-rewards span{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+  min-width:0;
+  padding:7px 8px;
+  border:1px solid rgba(104,137,194,.12);
+  border-radius:9px;
+  background:rgba(5,15,32,.55);
+  color:#7188a8;
+  font-size:9px;
+}
+.rift-choice-rewards b{
+  color:#dce8ff;
+  font-size:10px;
+  white-space:nowrap;
+}
+@media(max-width:430px){
+  .rift-choice-copy>.rift-choice-rewards{grid-template-columns:1fr}
+}
