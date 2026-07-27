@@ -2537,3 +2537,46 @@ body::-webkit-scrollbar-thumb:hover{
   .rift-monster-ultimate-resist{padding:5px 8px;font-size:10px}
   .rift-ultimate-defense-result{width:calc(100% - 20px);padding:8px 10px}
 }
+
+/* V1204: 균열 난이도 5단계 이상 몬스터 전투력 대폭 상향 */
+.rift-difficulty-grid button em{
+  margin-top:3px;
+  padding:2px 5px;
+  border:1px solid rgba(245,115,116,.24);
+  border-radius:999px;
+  background:rgba(105,25,39,.32);
+  color:#ffaaa7;
+  font-size:8px;
+  font-style:normal;
+  font-weight:1000;
+  line-height:1.1;
+  white-space:nowrap;
+}
+.rift-run-summary .rift-danger-summary{
+  border-color:rgba(240,95,101,.24);
+  background:rgba(78,20,33,.62);
+}
+.rift-run-summary .rift-danger-summary b{color:#ffaaa4}
+.rift-monster-power-boost{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  margin-top:8px;
+  margin-right:6px;
+  padding:6px 10px;
+  border:1px solid rgba(255,110,113,.32);
+  border-radius:999px;
+  background:linear-gradient(135deg,rgba(111,28,42,.76),rgba(67,25,57,.74));
+  color:#ffc0b7;
+  box-shadow:0 0 18px rgba(231,71,86,.17),inset 0 0 0 1px rgba(255,255,255,.025);
+  font-size:11px;
+  font-weight:1000;
+  letter-spacing:.02em;
+}
+@media(max-width:760px){
+  .rift-difficulty-grid button em{font-size:7px;padding:2px 4px}
+  .rift-monster-power-boost{padding:5px 8px;font-size:10px}
+}
+@media(max-width:430px){
+  .rift-difficulty-grid button em{transform:scale(.9);margin-top:1px}
+}
