@@ -57,9 +57,9 @@ function candidatePayload(row,rule,pveDeck,pvpDeck,progressMap){
 async function overview(env,userId,settings){
   const results=await env.DB.batch([
     env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId),
-    env.DB.prepare(`SELECT uc.card_id AS id,uc.quantity,uc.breakthrough_level,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type,c.base_power,m.name FROM user_cards uc JOIN cards c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity IN ('SSR','MA') ORDER BY CASE c.rarity WHEN 'MA' THEN 2 ELSE 1 END DESC,uc.breakthrough_level DESC,m.sort_order,c.title`).bind(userId),
-    env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards c JOIN members m ON m.id=c.member_id WHERE c.rarity='MA' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY m.sort_order,c.title`),
-    env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards c JOIN members m ON m.id=c.member_id WHERE c.rarity='PRESTIGE' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY m.sort_order,c.title`),
+    env.DB.prepare(`SELECT uc.card_id AS id,uc.quantity,uc.breakthrough_level,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type,c.base_power,m.name FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity IN ('SSR','MA') ORDER BY CASE c.rarity WHEN 'MA' THEN 2 ELSE 1 END DESC,uc.breakthrough_level DESC,m.sort_order,c.title`).bind(userId),
+    env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='MA' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY m.sort_order,c.title`),
+    env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='PRESTIGE' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY m.sort_order,c.title`),
     env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId),
     env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId),
     env.DB.prepare('SELECT source_card_id,failed_attempts,total_attempts,is_success,reward_card_id FROM card_evolution_progress WHERE user_id=?').bind(userId),
@@ -80,7 +80,7 @@ async function overview(env,userId,settings){
 async function cardInCurrentDeck(env,userId,cardId){const rows=await env.DB.batch([env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId),env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId)]);if(parseDeck(firstRow(rows[0])).has(String(cardId)))return '현재 PVE 덱에 편성된 카드입니다.';if(parseDeck(firstRow(rows[1])).has(String(cardId)))return '현재 PVP 덱에 편성된 카드입니다.';return ''}
 
 async function legacyAttempt({env,deps,user,cardId,settings}){
-  const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,uc.quantity,c.rarity,c.title FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
+  const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,uc.quantity,c.rarity,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
   if(!owned)return deps.json({error:'보유한 카드가 아닙니다.'},404);
   let progress=await state(env,user.id,cardId);
   if(progress.is_success){await env.DB.prepare('UPDATE card_evolution_progress SET failed_attempts=0,total_attempts=0,is_success=0,reward_card_id=NULL,completed_at=NULL,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND source_card_id=? AND is_success=1').bind(user.id,cardId).run();progress=await state(env,user.id,cardId)}
@@ -88,7 +88,7 @@ async function legacyAttempt({env,deps,user,cardId,settings}){
   if(!settings.enabled)return deps.json({error:'현재 카드 진화가 중지되어 있습니다.'},503);
   if(!eligible)return deps.json({error:'SSR 등급 ★10 돌파 카드만 진화할 수 있습니다.'},400);
   if(progress.is_success)return deps.json({error:'이 SSR 카드는 이미 진화에 성공했습니다.'},409);
-  const pool=(await env.DB.prepare("SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.rarity='MA' AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY RANDOM()").all()).results;
+  const pool=(await env.DB.prepare("SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='MA' AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY RANDOM()").all()).results;
   if(!pool.length)return deps.json({error:'획득 가능한 공개 MA 카드가 없습니다.'},503);
   const fresh=await env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(Number(fresh.coin)<settings.coinCost||Number(fresh.card_shards)<settings.shardCost)return deps.json({error:`진화 재료가 부족합니다. (${settings.coinCost.toLocaleString()}코인 / 카드조각 ${settings.shardCost.toLocaleString()}개)`},400);
@@ -119,7 +119,7 @@ async function prestigeAttempt({env,deps,user,cardId,requestId,settings}){
   if(!settings.enabled)return deps.json({error:'현재 카드 진화가 중지되어 있습니다.'},503);
   if(!/^[A-Za-z0-9._:-]{8,120}$/.test(requestId))return deps.json({error:'진화 요청 ID가 올바르지 않습니다.'},400);
   const prior=await env.DB.prepare('SELECT id FROM card_evolution_logs WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();if(prior)return deps.json({error:'이미 처리된 진화 요청입니다.',code:'EVOLUTION_DUPLICATE_REQUEST'},409);
-  const source=await env.DB.prepare(`SELECT uc.quantity,uc.breakthrough_level,c.id,c.title,c.rarity AS grade FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
+  const source=await env.DB.prepare(`SELECT uc.quantity,uc.breakthrough_level,c.id,c.title,c.rarity AS grade FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
   if(!source)return deps.json({error:'보유한 카드가 아닙니다.'},404);
   if(String(source.grade).toUpperCase()!=='MA'||Number(source.breakthrough_level||0)<13)return deps.json({error:'MA +13 강화 카드만 PRESTIGE로 진화할 수 있습니다.'},400);
   const deckReason=await cardInCurrentDeck(env,user.id,cardId);if(deckReason)return deps.json({error:deckReason},409);
@@ -127,7 +127,7 @@ async function prestigeAttempt({env,deps,user,cardId,requestId,settings}){
   if(progress.is_success){await env.DB.prepare('UPDATE card_evolution_progress SET failed_attempts=0,total_attempts=0,is_success=0,reward_card_id=NULL,completed_at=NULL,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND source_card_id=? AND is_success=1').bind(user.id,cardId).run();progress=await state(env,user.id,cardId)}
   const masterStarCost=Number(settings.maToPrestigeMasterStarCost||1),successRate=Number(settings.maToPrestigeSuccessRate??100),pityAttempts=Math.max(1,Number(settings.maToPrestigePityAttempts||10)),starRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),masterStarBefore=Number(starRow?.quantity||0);
   if(masterStarBefore<masterStarCost)return deps.json({error:`마스터의 별이 ${masterStarCost-masterStarBefore}개 부족합니다.`},400);
-  const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards c JOIN members m ON m.id=c.member_id WHERE c.rarity='PRESTIGE' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY c.id`).all()).results||[];
+  const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='PRESTIGE' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY c.id`).all()).results||[];
   if(!pool.length)return deps.json({error:'획득 가능한 공개 PRESTIGE 카드가 없습니다. CMS 카드 설정을 확인하세요.'},503);
   const attemptNo=Number(progress.total_attempts||0)+1,isPity=Number(progress.failed_attempts||0)+1>=pityAttempts,success=isPity||randomPercent()<successRate,guardId=`${user.id}:${requestId}`;
   let reward=null,duplicate=false,rewardShards=0;
@@ -135,7 +135,7 @@ async function prestigeAttempt({env,deps,user,cardId,requestId,settings}){
     reward=pickRandom(pool);duplicate=Boolean(await env.DB.prepare('SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND COALESCE(quantity,0)>0').bind(user.id,reward.id).first());rewardShards=duplicate?Number(deps.shardReward?.PRESTIGE||0):0;
   }
   const statements=[
-    env.DB.prepare(`INSERT INTO card_evolution_atomic_guard(guard_id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity='MA' AND COALESCE(uc.breakthrough_level,0)>=13) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?) THEN 1 ELSE 0 END`).bind(guardId,user.id,cardId,user.id,masterStarCost),
+    env.DB.prepare(`INSERT INTO card_evolution_atomic_guard(guard_id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity='MA' AND COALESCE(uc.breakthrough_level,0)>=13) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?) THEN 1 ELSE 0 END`).bind(guardId,user.id,cardId,user.id,masterStarCost),
     env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?").bind(masterStarCost,masterStarCost,user.id,masterStarCost)
   ];
   if(success){
@@ -171,14 +171,14 @@ export async function handleEvolution({path,request,env,deps}){
       ]);
       return deps.json({ok:true,settings:{...legacy,...prestige}});
     }
-    const logs=await env.DB.prepare(`SELECT l.*,u.nickname,c.title source_title,r.title reward_title FROM card_evolution_logs l JOIN users u ON u.id=l.user_id JOIN cards c ON c.id=l.source_card_id LEFT JOIN cards r ON r.id=l.reward_card_id ORDER BY l.id DESC LIMIT 50`).all();
+    const logs=await env.DB.prepare(`SELECT l.*,u.nickname,c.title source_title,r.title reward_title FROM card_evolution_logs l JOIN users u ON u.id=l.user_id JOIN cards_effective_v1210 c ON c.id=l.source_card_id LEFT JOIN cards_effective_v1210 r ON r.id=l.reward_card_id ORDER BY l.id DESC LIMIT 50`).all();
     return deps.json({settings:await config(env),logs:logs.results||[]});
   }
   const settings=await config(env);
   if(path==='evolution/overview'&&request.method==='GET')return deps.json(await overview(env,user.id,settings));
   if(path==='evolution/status'&&request.method==='GET'){
     const cardId=String(new URL(request.url).searchParams.get('cardId')||'').trim();if(!cardId)return deps.json({error:'카드를 선택하세요.'},400);
-    const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,uc.quantity,c.rarity,c.title FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();if(!owned)return deps.json({error:'보유한 카드가 아닙니다.'},404);
+    const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,uc.quantity,c.rarity,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();if(!owned)return deps.json({error:'보유한 카드가 아닙니다.'},404);
     const progress=await state(env,user.id,cardId),eligible=owned.rarity==='SSR'&&Number(owned.breakthrough_level)>=10;
     return deps.json({settings:{enabled:settings.enabled,coinCost:settings.coinCost,shardCost:settings.shardCost,successRate:settings.successRate,pityAttempts:settings.pityAttempts},eligible,card:{id:cardId,title:owned.title,rarity:owned.rarity,breakthroughLevel:Number(owned.breakthrough_level)},progress:{failedAttempts:Number(progress.failed_attempts),totalAttempts:Number(progress.total_attempts),success:Boolean(progress.is_success),rewardCardId:progress.reward_card_id},nextAttempt:Number(progress.total_attempts)+1,pityNext:Number(progress.failed_attempts)+1>=settings.pityAttempts,user:{coin:Number(user.coin),cardShards:Number(user.card_shards||0)}});
   }

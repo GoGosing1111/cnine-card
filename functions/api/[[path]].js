@@ -63,6 +63,34 @@ async function cachedRuntimeSetting(key,ttlMs,loader){
 let cardCatalogCache=null,cardUniqueRowsCache=null,packCatalogCache=null;
 function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null}
 let drawReceiptV2ReadyPromise=null;
+
+let prestigeCardStorageReadyPromise=null;
+async function ensurePrestigeCardStorage(env){
+  if(prestigeCardStorageReadyPromise)return prestigeCardStorageReadyPromise;
+  prestigeCardStorageReadyPromise=(async()=>{
+    const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1210_prestige_storage'").first();
+    if(marker?.value==='1')return true;
+    if(!await columnExists(env,'cards','rarity_override')){
+      try{
+        await env.DB.prepare('ALTER TABLE cards ADD COLUMN rarity_override TEXT').run();
+        schemaColumnCache.add('cards:rarity_override');
+      }catch(error){
+        if(!String(error?.message||error).toLowerCase().includes('duplicate column'))throw error;
+      }
+    }
+    await env.DB.batch([
+      env.DB.prepare(`CREATE VIEW IF NOT EXISTS cards_effective_v1210 AS
+        SELECT id,member_id,title,COALESCE(NULLIF(rarity_override,''),rarity) AS rarity,image_url,focus_x,focus_y,is_active,created_by,created_at,updated_at,
+          power_type,base_power,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,rarity AS storage_rarity,rarity_override
+        FROM cards`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_cards_rarity_override ON cards(rarity_override,is_active,card_status)'),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1210_prestige_storage','1',CURRENT_TIMESTAMP)")
+    ]);
+    return true;
+  })().catch(error=>{prestigeCardStorageReadyPromise=null;throw error});
+  return prestigeCardStorageReadyPromise;
+}
+
 async function ensureDrawReceiptV2(env){
   if(drawReceiptV2ReadyPromise)return drawReceiptV2ReadyPromise;
   drawReceiptV2ReadyPromise=(async()=>{
@@ -133,7 +161,7 @@ function pvpSettlementRewardFor(rankRow,settings,tierClaimed,rankClaimed){const 
 function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=settings.scoreBalance||{},safeBase=Math.max(0,Number(base||0));if(cfg.enabled===false||!myCard||!opponentCard)return {change:safeBase,multiplier:100,diffPercent:0,label:'기본 점수'};const diff=(Number(opponentCard)-Number(myCard))/Math.max(1,Number(myCard))*100,abs=Math.abs(diff),eq=Number(cfg.equalRange??10);let multiplier=100,label='비슷한 체급';if(abs>eq){const band=abs<20?'Mid':abs<30?'High':'Extreme';if(isWin){if(diff<0){multiplier=Number(cfg['weakerWin'+band]??100);label='낮은 체급 승리 패널티'}else{multiplier=Number(cfg['strongerWin'+band]??100);label='상위 체급 승리 보너스'}}else{if(diff>0){multiplier=Number(cfg['strongerLoss'+band]??100);label='상위 체급 패배 완화'}else{multiplier=Number(cfg['weakerLoss'+band]??100);label='낮은 체급 패배 패널티'}}}const min=Math.max(0,Number(cfg.minChange??1)),max=Math.max(min,Number(cfg.maxChange??999));return {change:Math.max(min,Math.min(max,Math.round(safeBase*multiplier/100))),multiplier,diffPercent:Math.round(diff*10)/10,label}}
 
 function pvpSeasonScoreAdjustment(isWin,myScore,opponentScore){const diff=Number(opponentScore||0)-Number(myScore||0);let change,label;if(diff>=500){change=isWin?36:6;label=isWin?'상위 점수 상대 승리 보너스':'상위 점수 상대 패배 완화'}else if(diff>=200){change=isWin?30:10;label=isWin?'강한 상대 승리 보너스':'강한 상대 패배 완화'}else if(diff<=-500){change=isWin?12:24;label=isWin?'낮은 점수 상대 승리 조정':'낮은 점수 상대 패배 패널티'}else if(diff<=-200){change=isWin?18:20;label=isWin?'낮은 상대 승리 조정':'낮은 상대 패배 패널티'}else{change=isWin?24:16;label='비슷한 시즌 점수'}return {change,scoreDiff:diff,label}}
-async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare("SELECT c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
+async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare("SELECT c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
 async function ensurePvpProfile(env,user,settings){let row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first();if(!row){await env.DB.prepare('INSERT OR IGNORE INTO pvp_profiles(user_id,season_score,highest_score,wins,losses,updated_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,settings.initialScore,settings.initialScore,0,0).run();row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first()}return row}
 async function pvpDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
@@ -145,7 +173,7 @@ function defaultMineralExchangeSettings(){return {enabled:true,baseMineral:10000
 function cleanMineralExchangeSettings(raw={}){const b=defaultMineralExchangeSettings();return {enabled:raw.enabled!==false,baseMineral:Math.max(1,Math.floor(Number(raw.baseMineral||b.baseMineral))),payoutCoin:Math.max(1,Math.floor(Number(raw.payoutCoin||b.payoutCoin))),dailyLimitCoin:Math.max(1000,Math.floor(Number(raw.dailyLimitCoin||b.dailyLimitCoin)/1000)*1000),coinUnit:1000}}
 async function mineralExchangeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='mineral_exchange_settings_v1'").first();if(!row?.value)return defaultMineralExchangeSettings();try{return cleanMineralExchangeSettings(JSON.parse(row.value))}catch{return defaultMineralExchangeSettings()}}
 function kstTodaySql(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
-async function pvpDeckSnapshot(env,userId){const ids=await pvpDeckCards(env,userId);if(!ids.length)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map(rows.results.map(x=>[String(x.id),x]));return ids.map(id=>map.get(String(id))).filter(Boolean)}
+async function pvpDeckSnapshot(env,userId){const ids=await pvpDeckCards(env,userId);if(!ids.length)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map(rows.results.map(x=>[String(x.id),x]));return ids.map(id=>map.get(String(id))).filter(Boolean)}
 
 async function pvpEnergyState(env,user,settings){
   const cfg=settings.energy||defaultPvpSettings().energy;
@@ -319,7 +347,7 @@ async function raidDailyEntryCount(env,userId,dateKey=kstDateKey()){
 async function raidDeckPower(env,userId,cardIds){
   let ids=[...new Set((cardIds||await pveDeckCards(env,userId)).map(String))];
   if(ids.length!==5){const e=new Error('저장된 PvE 덱 5장이 필요합니다.');e.status=400;throw e}
-  const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();
+  const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();
   if(owned.results.length!==5){const e=new Error('보유하지 않은 카드가 포함되어 있습니다.');e.status=400;throw e}
   const battleCfg=await battleSettings(env),deckUser=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(userId).first();
   const cards=owned.results.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battleCfg)}));
@@ -384,7 +412,7 @@ async function riftWeeklyRow(env,userId,settings){const weekKey=premiumCubeWeekK
 function riftStateFromRow(row){if(!row)return null;const state=riftJson(row.state_json,{});return {runId:row.run_id,weekKey:row.week_key,difficulty:Number(row.difficulty||1),status:row.status,deck:riftJson(row.deck_cards,[]).map(String),stage:Number(state.stage||0),maxStages:Number(state.maxStages||7),hp:state.hp||{},buffs:Array.isArray(state.buffs)?state.buffs:[],history:Array.isArray(state.history)?state.history:[],currentChoices:Array.isArray(state.currentChoices)?state.currentChoices:[],activeNode:state.activeNode||null,pendingBuffChoices:Array.isArray(state.pendingBuffChoices)?state.pendingBuffChoices:[],stash:state.stash||{coin:0,shards:0,crystals:0},basePower:Number(state.basePower||0),rewardEligible:state.rewardEligible!==false,reviveUsed:state.reviveUsed===true,initialBuffPending:state.initialBuffPending===true,noviceProtectionUsed:state.noviceProtectionUsed===true,battleRewardBonusPercent:Math.max(0,Number(state.battleRewardBonusPercent||0)),battleWinCounts:{BATTLE:Math.max(0,Number(state.battleWinCounts?.BATTLE||0)),ELITE:Math.max(0,Number(state.battleWinCounts?.ELITE||0))},createdAt:row.created_at,updatedAt:row.updated_at,completedAt:row.completed_at||null};}
 function riftStateForSave(run){return {stage:run.stage,maxStages:run.maxStages,hp:run.hp,buffs:run.buffs,history:run.history,currentChoices:run.currentChoices,activeNode:run.activeNode,pendingBuffChoices:run.pendingBuffChoices,stash:run.stash,basePower:run.basePower,rewardEligible:run.rewardEligible,reviveUsed:run.reviveUsed,initialBuffPending:run.initialBuffPending===true,noviceProtectionUsed:run.noviceProtectionUsed===true,battleRewardBonusPercent:Math.max(0,Number(run.battleRewardBonusPercent||0)),battleWinCounts:{BATTLE:Math.max(0,Number(run.battleWinCounts?.BATTLE||0)),ELITE:Math.max(0,Number(run.battleWinCounts?.ELITE||0))}};}
 async function riftLatestRun(env,userId){let row=await env.DB.prepare(`SELECT * FROM pve_rift_runs WHERE user_id=? AND COALESCE(status,'ACTIVE') NOT IN ('CLAIMED','ABANDONED') ORDER BY CASE COALESCE(status,'ACTIVE') WHEN 'ACTIVE' THEN 0 WHEN 'COMPLETED_PENDING' THEN 1 WHEN 'CLAIMING' THEN 2 WHEN 'FAILED' THEN 3 ELSE 4 END,datetime(updated_at) DESC,datetime(created_at) DESC,rowid DESC LIMIT 1`).bind(userId).first();if(!row)return null;if(String(row.status||'ACTIVE')==='CLAIMING'){await env.DB.prepare("UPDATE pve_rift_runs SET status='COMPLETED_PENDING',updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='CLAIMING'").bind(row.run_id,userId).run();row={...row,status:'COMPLETED_PENDING'}}return riftStateFromRow(row)}
-async function riftDeckCardsInfo(env,userId,ids){if(ids.length!==5)return [];const marks=ids.map(()=>'?').join(','),settings=await battleSettings(env),rows=(await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all()).results;return rows.map(c=>({...c,id:String(c.id),power:cardBattlePower(c,c.breakthrough_level,settings)}))}
+async function riftDeckCardsInfo(env,userId,ids){if(ids.length!==5)return [];const marks=ids.map(()=>'?').join(','),settings=await battleSettings(env),rows=(await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all()).results;return rows.map(c=>({...c,id:String(c.id),power:cardBattlePower(c,c.breakthrough_level,settings)}))}
 function riftLegacyDifficultyOneScale(run,node){return Number(run?.difficulty||1)===1&&Number(node?.balanceVersion||0)<2?((node?.type==='BOSS'||node?.type==='FINAL_BOSS') ? .75 : .8):1}
 function riftMonsterPowerScale(run,node){let scale=riftLegacyDifficultyOneScale(run,node);if(Number(run?.difficulty||1)>=5&&Number(node?.balanceVersion||0)<3)scale*=riftHighDifficultyMonsterPowerMultiplier(run.difficulty);return scale}
 function riftPublicNode(run,node){if(!node)return null;const scale=riftMonsterPowerScale(run,node);return scale===1?node:{...node,battlePower:Math.max(1,Math.floor(Number(node.battlePower||1)*scale))}}
@@ -396,10 +424,10 @@ async function riftReceiptFail(env,requestId,message){await env.DB.prepare("UPDA
 
 
 function defaultBattleSettings(){return {enabled:true,deckSize:5,powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL.gif',durationMs:3000,coefficientPercent:500}]};}
-async function readBattleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,g==='PRESTIGE'?3100:Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};}catch{return base}}
+async function readBattleSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_settings_v1'").first();const base=defaultBattleSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};}catch{return base}}
 async function battleSettings(env){return cachedRuntimeSetting('battle',10000,()=>readBattleSettings(env))}
-const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{FIXED:3100},FUR:{FIXED:3200}};
-function cardPowerBase(card,settings){const saved=Number(card.base_power??card.basePower),grade=String(card.rarity||card.grade||'').toUpperCase();if(grade==='PRESTIGE')return 3100;return Number.isFinite(saved)&&saved>0?saved:Number(settings.powerByGrade[grade]||0)}
+const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{CUSTOM:3100},FUR:{FIXED:3200}};
+function cardPowerBase(card,settings){const saved=Number(card.base_power??card.basePower),grade=String(card.rarity||card.grade||'').toUpperCase();return Number.isFinite(saved)&&saved>0?saved:Number(settings.powerByGrade[grade]||0)}
 function cardBattlePower(card,level,settings){const base=cardPowerBase(card,settings);const pct=Number(settings.breakthroughBonus[Math.max(0,Math.min(13,Number(level)||0))]||0);return Math.floor(base*(1+pct/100));}
 const ULTIMATE_GRADE_PRIORITY={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11};
 function ultimateGradePriority(grade){return Number(ULTIMATE_GRADE_PRIORITY[String(grade||'').trim().toUpperCase()]||0)}
@@ -803,7 +831,7 @@ async function ensureUpgrades(env){
         CASE WHEN c.limited_total IS NULL THEN 0 ELSE 1 END,1,d.created_at,d.created_at,d.created_at
       FROM draw_logs d
       JOIN users u ON u.id=d.user_id
-      JOIN cards c ON c.id=d.card_id
+      JOIN cards_effective_v1210 c ON c.id=d.card_id
       WHERE UPPER(COALESCE(d.rarity,c.rarity,''))='LIMITED'`).run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1109_limited_acquisition_audit','1',CURRENT_TIMESTAMP)").run();
     }
@@ -1973,7 +2001,7 @@ async function makeSession(env,userId){
 }
 
 const CARD_CATALOG_CACHE_MS=60000,PACK_CATALOG_CACHE_MS=60000,UNIQUE_ROWS_CACHE_MS=30000;
-const CARD_CATALOG_SELECT=`SELECT c.id,c.title,m.name,m.sort_order AS memberSortOrder,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,CASE WHEN fx.card_id IS NULL THEN 0 ELSE 1 END AS acquisitionFxConfigured,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 1 ELSE COALESCE(fx.enabled,0) END AS acquisitionFxEnabled,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN '/assets/effects/L2CARD.mp4' ELSE COALESCE(fx.media_url,'') END AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 10000 ELSE COALESCE(fx.duration_ms,8000) END AS acquisitionDurationMs FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
+const CARD_CATALOG_SELECT=`SELECT c.id,c.title,m.name,m.sort_order AS memberSortOrder,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,CASE WHEN fx.card_id IS NULL THEN 0 ELSE 1 END AS acquisitionFxConfigured,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 1 ELSE COALESCE(fx.enabled,0) END AS acquisitionFxEnabled,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN '/assets/effects/L2CARD.mp4' ELSE COALESCE(fx.media_url,'') END AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 10000 ELSE COALESCE(fx.duration_ms,8000) END AS acquisitionDurationMs FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
 async function publicCardCatalogRows(env){
   const now=Date.now();if(cardCatalogCache&&cardCatalogCache.expiresAt>now)return cardCatalogCache.promise;
   const promise=env.DB.prepare(`${CARD_CATALOG_SELECT} WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED') ORDER BY m.sort_order,c.id`).all().then(rows=>rows.results||[]).catch(error=>{if(cardCatalogCache?.promise===promise)cardCatalogCache=null;throw error});
@@ -1997,10 +2025,10 @@ async function activePackCatalogRows(env){
 
 async function profile(env,user){
   const [owned,attendance,totalAttendance,recent,attendanceConfig,breakthroughSettings,weeklyPremiumCube,masterStarRow,maHighBreakthrough]=await Promise.all([
-    env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
+    env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
     env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first(),
     env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first(),
-    env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at FROM draw_logs d JOIN cards c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all(),
+    env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at FROM draw_logs d JOIN cards_effective_v1210 c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all(),
     attendanceSettings(env),
     breakthroughConfig(env),
     premiumCubeWeeklyStatus(env,user.id),
@@ -2041,7 +2069,7 @@ async function recentHighGradeItems(env){
       ORDER BY last_obtained_at DESC LIMIT 20000
     ) recent
     JOIN users u ON u.id=recent.user_id
-    JOIN cards c ON c.id=recent.card_id
+    JOIN cards_effective_v1210 c ON c.id=recent.card_id
     WHERE c.rarity IN ('MA','LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
     ORDER BY recent.last_obtained_at DESC LIMIT 20`).all()
     .then(rows=>rows.results||[])
@@ -2084,7 +2112,7 @@ function cardWithAcquisitionEffect(card,settings){
 }
 async function drawLimitedCard(env){
   const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
-    FROM cards c JOIN members m ON m.id=c.member_id
+    FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
     WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id='pickup')
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id='pickup' AND p1.card_id=c.id))`).all()).results;
@@ -2110,7 +2138,7 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
   for(let attempt=0;attempt<20;attempt++){
     const selectedRarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
     const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
-      FROM cards c JOIN members m ON m.id=c.member_id
+      FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
       WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL
         AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
           OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(selectedRarity,pack.id,pack.id).all()).results;
@@ -2127,12 +2155,12 @@ async function queryDrawContext(env,pack){
   const allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>DRAW_RARITIES.includes(rarity)&&rarity!=='LIMITED');
   const rateRows=(await env.DB.prepare("SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rate>0").bind(pack.id).all()).results;
   const normalCards=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
-    FROM cards c JOIN members m ON m.id=c.member_id
+    FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
     WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NULL
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results;
   const limitedCards=pack.id==='pickup'?(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
-    FROM cards c JOIN members m ON m.id=c.member_id
+    FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
     WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results:[];
@@ -2219,7 +2247,7 @@ async function pitySettings(env,{fresh=false}={}){const now=Date.now();if(!fresh
 async function packPityCount(env,userId,packId){if(!PITY_PACKS.has(packId))return 0;const row=await env.DB.prepare('SELECT miss_count FROM user_pack_pity WHERE user_id=? AND pack_id=?').bind(userId,packId).first();return Math.max(0,Number(row?.miss_count||0));}
 async function savePackPity(env,userId,packId,count){if(!PITY_PACKS.has(packId))return;await env.DB.prepare(`INSERT INTO user_pack_pity(user_id,pack_id,miss_count,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,pack_id) DO UPDATE SET miss_count=excluded.miss_count,updated_at=CURRENT_TIMESTAMP`).bind(userId,packId,Math.max(0,Math.floor(count))).run();}
 function pityRateForDraw(settings,packId,missCount){const cfg=settings?.[packId];const drawNo=Number(missCount||0)+1;if(!cfg?.enabled)return {drawNo,rate:null};return {drawNo,rate:Number(cfg.rates?.[drawNo]??(drawNo>=cfg.hard?100:null))};}
-async function drawNormalCardByRarity(env,pack,rarity){const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results;return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
+async function drawNormalCardByRarity(env,pack,rarity){const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results;return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
 async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
   if(pack.id==='pickup'){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
@@ -2238,11 +2266,11 @@ async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
 }
 async function grantBattleCard(env,userId,settings){
   const configured=settings.cardDrop?.gradeRates||defaultBattleSettings().cardDrop.gradeRates;
-  const available=(await env.DB.prepare(`SELECT c.rarity,COUNT(*) AS cnt FROM cards c WHERE c.is_active=1 AND c.card_status='PUBLIC' AND c.limited_total IS NULL AND c.rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR') GROUP BY c.rarity`).all()).results;
+  const available=(await env.DB.prepare(`SELECT c.rarity,COUNT(*) AS cnt FROM cards_effective_v1210 c WHERE c.is_active=1 AND c.card_status='PUBLIC' AND c.limited_total IS NULL AND c.rarity IN ('C','U','R','SR','HR','UR','SSR','MA','FUR') GROUP BY c.rarity`).all()).results;
   const availableSet=new Set(available.filter(x=>Number(x.cnt)>0).map(x=>x.rarity));
   const gradePool=Object.entries(configured).filter(([grade,rate])=>availableSet.has(grade)&&Number(rate)>0).map(([grade,rate])=>({grade,rate:Number(rate)}));
   const pickedGrade=weightedPick(gradePool,row=>row.rate)?.grade;if(!pickedGrade)return null;
-  const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND c.card_status='PUBLIC' AND c.limited_total IS NULL AND c.rarity=?`).bind(pickedGrade).all()).results;
+  const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND c.card_status='PUBLIC' AND c.limited_total IS NULL AND c.rarity=?`).bind(pickedGrade).all()).results;
   if(!pool.length)return null;const card=pool[Math.floor(Math.random()*pool.length)];
   const previous=await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?').bind(userId,card.id).first(),isNew=!previous||Number(previous.quantity||0)<=0;
   await env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,1) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(userId,card.id).run();
@@ -2351,6 +2379,7 @@ export async function onRequest(context){
     }
 
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
+    await ensurePrestigeCardStorage(env);
 
     // 관리자 로그인은 일반 유저 profile() 생성과 런타임 업그레이드에 의존하지 않는다.
     // OWNER 계정의 카드/로그 데이터가 많아도 인증 자체가 지연되지 않도록 최소 정보만 반환한다.
@@ -2382,7 +2411,7 @@ export async function onRequest(context){
       const user=await authenticate(request,env);
       if(!user)return json({error:'로그인이 필요합니다.'},401);
       const owned=await env.DB.prepare(`SELECT uc.card_id,uc.quantity,uc.breakthrough_level
-        FROM user_cards uc JOIN cards c ON c.id=uc.card_id
+        FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
         WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0
           AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')`).bind(user.id).all();
       return json({collection:{profileScope:'COLLECTION_FULL',
@@ -2526,11 +2555,11 @@ export async function onRequest(context){
         const fixedGradeByItem={GUARANTEED_MA_PACK:'MA',GUARANTEED_LIMITED_PACK:'LIMITED',MA_REROLL_TICKET:'MA',LIMITED_REROLL_TICKET:'LIMITED',PRESTIGE_REROLL_TICKET:'PRESTIGE',FUR_REROLL_TICKET:'FUR'};
         const fixedGrade=fixedGradeByItem[itemCode]||null,isReroll=RETIREMENT_REROLL_CODES.includes(itemCode),cubeConfig=await cubeSettings(env),configured=fixedGrade?{[fixedGrade]:100}:cubeConfig[itemCode];
         const available=[];
-        for(const [grade,rate] of Object.entries(configured||{})){if(Number(rate)<=0)continue;const row=await env.DB.prepare(`SELECT COUNT(*) AS cnt FROM cards WHERE is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND rarity=? AND (limited_total IS NULL OR issued_count<limited_total)`).bind(grade).first();if(Number(row?.cnt||0)>0)available.push({grade,rate:Number(rate)});}
+        for(const [grade,rate] of Object.entries(configured||{})){if(Number(rate)<=0)continue;const row=await env.DB.prepare(`SELECT COUNT(*) AS cnt FROM cards_effective_v1210 WHERE is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND rarity=? AND (limited_total IS NULL OR issued_count<limited_total)`).bind(grade).first();if(Number(row?.cnt||0)>0)available.push({grade,rate:Number(rate)});}
         const targetGrade=weightedPick(available,x=>x.rate)?.grade;
         if(!targetGrade)throw new Error(isReroll?'이 재뽑기권으로 획득 가능한 활성 카드가 없습니다. CMS 카드 공개 상태를 확인하세요.':'이 큐브에서 획득 가능한 카드가 없습니다. CMS의 등급 확률과 카드 공개 상태를 확인하세요.');
         card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,m.name
-          FROM cards c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.rarity=? AND (c.limited_total IS NULL OR c.issued_count<c.limited_total) ORDER BY RANDOM() LIMIT 1`).bind(targetGrade).first();
+          FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.rarity=? AND (c.limited_total IS NULL OR c.issued_count<c.limited_total) ORDER BY RANDOM() LIMIT 1`).bind(targetGrade).first();
         if(!card)throw new Error(`${targetGrade} 등급의 획득 가능한 카드가 없습니다. CMS 카드 공개 상태와 잔여 수량을 확인하세요.`);
         if(card.limitedTotal!==null&&card.limitedTotal!==undefined){
           const stockBefore=Math.max(0,Number(card.issuedCount||0));
@@ -2625,7 +2654,7 @@ export async function onRequest(context){
         const ids=[...new Set((stored.results||[]).map(item=>String(item?.card?.id||'')).filter(Boolean))];
         const [latestUser,cardRows,fxByGrade]=await Promise.all([
           env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
-          ids.length?env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all():Promise.resolve({results:[]}),
+          ids.length?env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all():Promise.resolve({results:[]}),
           cardAcquisitionEffectsByGrade(env)
         ]);
         if(!latestUser)return stored;
@@ -2750,7 +2779,7 @@ export async function onRequest(context){
         const validateActiveCards=async selected=>{
           const ids=[...new Set(selected.map(card=>String(card?.id||'')).filter(Boolean))];
           if(!ids.length||selected.some(card=>!card?.id))throw new Error('카드 추첨 결과 검증에 실패했습니다. 다시 시도하세요.');
-          const rows=(await env.DB.prepare(`SELECT c.id FROM cards c JOIN members m ON m.id=c.member_id
+          const rows=(await env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
             WHERE c.id IN (${ids.map(()=>'?').join(',')}) AND c.is_active=1
               AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...ids).all()).results;
           const active=new Set((rows||[]).map(row=>String(row.id)));
@@ -2904,7 +2933,7 @@ export async function onRequest(context){
       if(!user) return json({error:'로그인이 필요합니다.'},401);
       const payload=await readBody(request);
       const cardId=String(payload.cardId||'').trim();
-      const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) AS breakthrough_fail_count,c.rarity,c.title FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
+      const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) AS breakthrough_fail_count,c.rarity,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
       if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
       if((ORDER[owned.rarity]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
       const level=Number(owned.breakthrough_level||0),grade=String(owned.rarity||'').toUpperCase(),isMaHigh=grade==='MA'&&level>=10,maxLevel=grade==='MA'?13:10;
@@ -2982,7 +3011,7 @@ export async function onRequest(context){
       }
       const rows=await env.DB.prepare(`SELECT rp.user_id AS userId,u.nickname,rp.deck_cards AS deckCards,rp.total_power AS totalPower,rp.total_damage AS totalDamage,rp.reward_claimed AS rewardClaimed,rp.joined_at AS joinedAt FROM raid_participants rp JOIN users u ON u.id=rp.user_id WHERE rp.instance_id=? AND COALESCE(rp.is_active,1)=1 ORDER BY rp.total_damage DESC,rp.joined_at`).bind(current.id).all();
       const participants=rows.results.map((r,i)=>({...r,rank:i+1,deckCards:(()=>{try{return JSON.parse(r.deckCards||'[]')}catch{return []}})()}));
-      const cardIds=[...new Set(participants.flatMap(x=>x.deckCards))];let cardMap={},breakthroughMap={};if(cardIds.length){const marks=cardIds.map(()=>'?').join(','),userIds=[...new Set(participants.map(x=>Number(x.userId)).filter(Boolean))],userMarks=userIds.map(()=>'?').join(','),cardSql=uniqueVisible?`SELECT c.id,c.title,c.image_url AS image,c.rarity AS grade,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,m.name,cue.card_id AS uniqueCardId,cue.attack_percent AS uniqueAttackPercent,cue.defense_percent AS uniqueDefensePercent,cue.hp_percent AS uniqueHpPercent,cue.speed_percent AS uniqueSpeedPercent,cue.effect_name AS uniqueEffectName,cue.effect_description AS uniqueEffectDescription FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_unique_effects cue ON cue.card_id=c.id AND cue.is_active=1 AND cue.scope_pve=1 WHERE c.id IN (${marks})`:`SELECT c.id,c.title,c.image_url AS image,c.rarity AS grade,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id IN (${marks})`;const [cs,levels]=await Promise.all([env.DB.prepare(cardSql).bind(...cardIds).all(),userIds.length?env.DB.prepare(`SELECT user_id,card_id,breakthrough_level FROM user_cards WHERE user_id IN (${userMarks}) AND card_id IN (${marks}) AND COALESCE(quantity,0)>0`).bind(...userIds,...cardIds).all():Promise.resolve({results:[]})]);cardMap=Object.fromEntries(cs.results.map(c=>{const {uniqueCardId,uniqueAttackPercent,uniqueDefensePercent,uniqueHpPercent,uniqueSpeedPercent,uniqueEffectName,uniqueEffectDescription,...card}=c,uniqueAbility=uniqueCardId?{cardId:String(uniqueCardId),attackPercent:Number(uniqueAttackPercent||0),defensePercent:Number(uniqueDefensePercent||0),hpPercent:Number(uniqueHpPercent||0),speedPercent:Number(uniqueSpeedPercent||0),effectName:String(uniqueEffectName||''),effectDescription:String(uniqueEffectDescription||''),ownerTest:uniqueCfg.enabled!==true}:null;return [String(card.id),{...card,uniqueAbility}]}));breakthroughMap=Object.fromEntries(levels.results.map(x=>[`${x.user_id}:${x.card_id}`,Number(x.breakthrough_level||0)]));}
+      const cardIds=[...new Set(participants.flatMap(x=>x.deckCards))];let cardMap={},breakthroughMap={};if(cardIds.length){const marks=cardIds.map(()=>'?').join(','),userIds=[...new Set(participants.map(x=>Number(x.userId)).filter(Boolean))],userMarks=userIds.map(()=>'?').join(','),cardSql=uniqueVisible?`SELECT c.id,c.title,c.image_url AS image,c.rarity AS grade,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,m.name,cue.card_id AS uniqueCardId,cue.attack_percent AS uniqueAttackPercent,cue.defense_percent AS uniqueDefensePercent,cue.hp_percent AS uniqueHpPercent,cue.speed_percent AS uniqueSpeedPercent,cue.effect_name AS uniqueEffectName,cue.effect_description AS uniqueEffectDescription FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id LEFT JOIN card_unique_effects cue ON cue.card_id=c.id AND cue.is_active=1 AND cue.scope_pve=1 WHERE c.id IN (${marks})`:`SELECT c.id,c.title,c.image_url AS image,c.rarity AS grade,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${marks})`;const [cs,levels]=await Promise.all([env.DB.prepare(cardSql).bind(...cardIds).all(),userIds.length?env.DB.prepare(`SELECT user_id,card_id,breakthrough_level FROM user_cards WHERE user_id IN (${userMarks}) AND card_id IN (${marks}) AND COALESCE(quantity,0)>0`).bind(...userIds,...cardIds).all():Promise.resolve({results:[]})]);cardMap=Object.fromEntries(cs.results.map(c=>{const {uniqueCardId,uniqueAttackPercent,uniqueDefensePercent,uniqueHpPercent,uniqueSpeedPercent,uniqueEffectName,uniqueEffectDescription,...card}=c,uniqueAbility=uniqueCardId?{cardId:String(uniqueCardId),attackPercent:Number(uniqueAttackPercent||0),defensePercent:Number(uniqueDefensePercent||0),hpPercent:Number(uniqueHpPercent||0),speedPercent:Number(uniqueSpeedPercent||0),effectName:String(uniqueEffectName||''),effectDescription:String(uniqueEffectDescription||''),ownerTest:uniqueCfg.enabled!==true}:null;return [String(card.id),{...card,uniqueAbility}]}));breakthroughMap=Object.fromEntries(levels.results.map(x=>[`${x.user_id}:${x.card_id}`,Number(x.breakthrough_level||0)]));}
       const startMs=Date.parse(current.starts_at||0),endMs=Date.parse(current.ends_at||0),now=Date.now();
       const combat=raidCombatSnapshot(participants,current,cfg,now);
       const progress=current.status==='LOBBY'
@@ -3271,7 +3300,7 @@ export async function onRequest(context){
       const monster=await env.DB.prepare('SELECT * FROM battle_monsters WHERE id=? AND is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0').bind(monsterId).first();if(!monster)return json({error:'전투할 몬스터를 찾을 수 없습니다.'},404);
       const energyBefore=await battleEnergyState(env,user,settings);if(energyBefore.unlimited)return json({error:'무제한 계정에서는 남은 횟수 자동사냥을 사용할 수 없습니다.'},400);
       const battleCount=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1)));if(battleCount<1)return json({error:'전투 횟수가 부족합니다.',code:'NO_BATTLE_ENERGY',energy:energyBefore},429);
-      const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
+      const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
       const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)})),uniqueBattle=await cardUniqueDeckState(env,user,cards,'PVE'),lockUntil=new Date(Date.now()+120000).toISOString().replace('T',' ').slice(0,19);
       await env.DB.prepare("INSERT INTO pve_auto_locks(user_id,request_id,expires_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,expires_at=excluded.expires_at,updated_at=CURRENT_TIMESTAMP WHERE pve_auto_locks.expires_at<=datetime('now')").bind(user.id,requestId,lockUntil).run();
       const lock=await env.DB.prepare('SELECT request_id FROM pve_auto_locks WHERE user_id=?').bind(user.id).first();if(lock?.request_id!==requestId)return json({error:'이미 다른 창에서 자동사냥이 진행 중입니다.',code:'AUTO_HUNT_LOCKED'},409);
@@ -3302,7 +3331,7 @@ export async function onRequest(context){
       if(!monster)return json({error:'전투할 몬스터를 찾을 수 없습니다.'},404);
       let energyAfter;try{energyAfter=await consumeBattleEnergy(env,user,settings)}catch(e){if(e.code==='NO_BATTLE_ENERGY')return json({error:e.message,code:e.code,energy:e.energy},429);throw e}
       const marks=ids.map(()=>'?').join(',');
-      const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();
+      const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();
       if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
       const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)}));
       const uniqueBattle=await cardUniqueDeckState(env,user,cards,'PVE'),battleCards=uniqueBattle.cards?.length?uniqueBattle.cards:cards;
@@ -3376,7 +3405,7 @@ export async function onRequest(context){
       if(Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor)return json({error:'무한의탑 최고층 등반을 완료했습니다. 운영자가 진행도를 초기화하기 전까지 다시 1층부터 시작하지 않습니다.',code:'TOWER_COMPLETED',completed:true,maxFloor},409);
       const floorNo=Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
       const deckInfo=await raidDeckPower(env,user.id);const settings=await battleSettings(env);const ids=deckInfo.ids,marks=ids.map(()=>'?').join(',');
-      const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.image_url AS image,c.focus_x,c.focus_y,uc.breakthrough_level FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(user.id,...ids).all();
+      const owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.image_url AS image,c.focus_x,c.focus_y,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND c.id IN (${marks})`).bind(user.id,...ids).all();
       let floor=await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss,
         bm.ultimate_enabled,bm.ultimate_name,bm.ultimate_description,bm.ultimate_trigger,bm.ultimate_chance,bm.ultimate_damage_percent,bm.ultimate_tower_damage_percent,
         bm.ultimate_force_cast,bm.ultimate_target,bm.ultimate_theme,bm.ultimate_warning_text,bm.ultimate_shake,bm.ultimate_zoom,bm.ultimate_media_url,bm.ultimate_sound_url,bm.ultimate_duration_ms,bm.ultimate_volume_percent
@@ -3446,7 +3475,7 @@ export async function onRequest(context){
     if(path==='admin/deck-synergies'){
       const admin=await requirePermission(request,env,'BATTLE_MANAGE');if(!admin||String(admin.role||'').toUpperCase()!=='OWNER')return json({error:'덱 효과 관리는 OWNER 전용입니다.'},403);
       if(request.method==='GET'){
-        const settings=await deckSynergySettings(env),rows=(await env.DB.prepare('SELECT * FROM deck_synergies ORDER BY sort_order,id').all()).results,cards=(await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,m.name AS memberName FROM cards c JOIN members m ON m.id=c.member_id WHERE COALESCE(c.is_active,1)=1 ORDER BY m.sort_order,c.id`).all()).results;
+        const settings=await deckSynergySettings(env),rows=(await env.DB.prepare('SELECT * FROM deck_synergies ORDER BY sort_order,id').all()).results,cards=(await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,m.name AS memberName FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE COALESCE(c.is_active,1)=1 ORDER BY m.sort_order,c.id`).all()).results;
         const synergies=rows.map(r=>{let requiredCardIds=[],scopes=[],effects={};try{requiredCardIds=JSON.parse(r.required_card_ids||'[]')}catch{}try{scopes=JSON.parse(r.scopes||'[]')}catch{}try{effects=cleanDeckSynergyEffects(JSON.parse(r.effects_json||'{}'))}catch{effects=cleanDeckSynergyEffects({})}return {id:r.id,name:r.name,description:r.description||'',requiredCardIds,scopes,effects,isActive:r.is_active!==0,sortOrder:Number(r.sort_order||0)}});return json({settings,synergies,cards});
       }
       if(request.method==='POST'){
@@ -3454,7 +3483,7 @@ export async function onRequest(context){
         if(action==='SAVE_SETTINGS'){const before=await deckSynergySettings(env),next={enabled:b.enabled===true,ownerTestEnabled:b.ownerTestEnabled!==false};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('deck_synergy_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();await writeAdminLog(env,admin,'DECK_SYNERGY_SETTINGS','APP_META','deck_synergy_settings_v1',before,next);return json({ok:true,settings:next});}
         if(action==='SAVE_SYNERGY'){const ids=[...new Set((b.requiredCardIds||[]).map(String))].slice(0,5);if(!String(b.name||'').trim())return json({error:'덱 효과 이름을 입력하세요.'},400);if(!ids.length)return json({error:'조건 카드를 1장 이상 선택하세요.'},400);const scopes=[...new Set((b.scopes||[]).map(x=>String(x).toUpperCase()).filter(x=>['PVE','PVP','RAID','TOWER'].includes(x)))],effects=cleanDeckSynergyEffects(b.effects||{});if(b.id)await env.DB.prepare('UPDATE deck_synergies SET name=?,description=?,required_card_ids=?,scopes=?,effects_json=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(b.name).trim().slice(0,80),String(b.description||'').slice(0,300),JSON.stringify(ids),JSON.stringify(scopes),JSON.stringify(effects),b.isActive===false?0:1,Number(b.sortOrder||0),Number(b.id)).run();else await env.DB.prepare('INSERT INTO deck_synergies(name,description,required_card_ids,scopes,effects_json,is_active,sort_order,created_by) VALUES(?,?,?,?,?,?,?,?)').bind(String(b.name).trim().slice(0,80),String(b.description||'').slice(0,300),JSON.stringify(ids),JSON.stringify(scopes),JSON.stringify(effects),b.isActive===false?0:1,Number(b.sortOrder||0),admin.id).run();await writeAdminLog(env,admin,'DECK_SYNERGY_SAVE','DECK_SYNERGY',String(b.id||'NEW'),null,{name:b.name,requiredCardIds:ids,scopes,effects});return json({ok:true});}
         if(action==='DELETE_SYNERGY'){await env.DB.prepare('UPDATE deck_synergies SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(b.id)).run();await writeAdminLog(env,admin,'DECK_SYNERGY_DISABLE','DECK_SYNERGY',String(b.id),null,{isActive:false});return json({ok:true});}
-        if(action==='TEST'){const ids=[...new Set((b.cardIds||[]).map(String))];const evaluation=await evaluateDeckSynergies(env,admin,ids,String(b.scope||'PVE').toUpperCase(),{forceOwnerTest:true});const marks=ids.length?ids.map(()=>'?').join(','):'';let cards=[];if(ids.length)cards=(await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,m.name AS memberName FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id IN (${marks})`).bind(...ids).all()).results;return json({ok:true,evaluation,cards});}
+        if(action==='TEST'){const ids=[...new Set((b.cardIds||[]).map(String))];const evaluation=await evaluateDeckSynergies(env,admin,ids,String(b.scope||'PVE').toUpperCase(),{forceOwnerTest:true});const marks=ids.length?ids.map(()=>'?').join(','):'';let cards=[];if(ids.length)cards=(await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,m.name AS memberName FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${marks})`).bind(...ids).all()).results;return json({ok:true,evaluation,cards});}
         return json({error:'올바르지 않은 작업입니다.'},400);
       }
     }
@@ -3902,7 +3931,7 @@ export async function onRequest(context){
     if(path==='ranking'){
       const settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
       const rows=await env.DB.prepare(`SELECT u.id,u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level,COUNT(uc.card_id) OVER(PARTITION BY u.id) AS card_count
-        FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards c ON c.id=uc.card_id
+        FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id
         WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY u.id`).all();
       const map=new Map();for(const r of rows.results){if(!map.has(r.id))map.set(r.id,{nickname:r.nickname,score:0,card_count:0,max_breakthrough:0});const x=map.get(r.id);if(r.rarity){x.score+=cardBattlePower(r,Number(r.breakthrough_level||0),settings);x.card_count++;x.max_breakthrough=Math.max(x.max_breakthrough,Number(r.breakthrough_level||0));}}
       const ranking=[...map.values()].sort((a,b)=>b.score-a.score||b.card_count-a.card_count||a.nickname.localeCompare(b.nickname,'ko')).slice(0,100).map((x,i)=>({...x,rank:i+1,tier:resolveTier(x.score,tiers)}));
@@ -3973,8 +4002,8 @@ export async function onRequest(context){
         env.DB.prepare('SELECT COALESCE(SUM(coin),0) total FROM users').first(),
         env.DB.prepare("SELECT COUNT(*) count FROM users WHERE status!='ACTIVE' OR (banned_until IS NOT NULL AND banned_until>datetime('now'))").first(),
         env.DB.prepare("SELECT COUNT(*) count FROM coupons WHERE is_active=1 AND (starts_at IS NULL OR starts_at<=datetime('now')) AND (ends_at IS NULL OR ends_at>=datetime('now'))").first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE c.rarity='UR' AND COALESCE(uc.quantity,0)>0").first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE c.rarity='SSR' AND COALESCE(uc.quantity,0)>0").first()
+        env.DB.prepare("SELECT COUNT(*) count FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE c.rarity='UR' AND COALESCE(uc.quantity,0)>0").first(),
+        env.DB.prepare("SELECT COUNT(*) count FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE c.rarity='SSR' AND COALESCE(uc.quantity,0)>0").first()
       ]);
       return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at},stats:{users:users.count,usersToday:usersToday.count,cards:cards.count,draws24h:draws.count,totalCoin:coins.total,banned:banned.count,coupons:coupons.count,urOwned:urOwned.count,ssrOwned:ssrOwned.count}});
     }
@@ -3989,7 +4018,7 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'티어 관리 권한이 없습니다.'},403);
       if(request.method==='GET'){
         const settings=await tierSettings(env),battle=await battleSettings(env),livePvp=await pvpSettings(env);settings.pvp={...settings.pvp,...livePvp};
-        const rows=await env.DB.prepare(`SELECT u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards c ON c.id=uc.card_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).all();
+        const rows=await env.DB.prepare(`SELECT u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).all();
         const map=new Map();for(const r of rows.results){if(!map.has(r.nickname))map.set(r.nickname,{nickname:r.nickname,score:0});if(r.rarity)map.get(r.nickname).score+=cardBattlePower(r,Number(r.breakthrough_level||0),battle)}
         const pvpRows=await env.DB.prepare(`SELECT u.nickname,p.season_score,p.highest_score,p.wins,p.losses FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname LIMIT 100`).all();
         const pvpStats=await env.DB.prepare(`SELECT COUNT(*) AS profiles,COALESCE(SUM(wins+losses),0)/2 AS matches,COALESCE(MAX(season_score),0) AS top_score FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).first();
@@ -4251,7 +4280,7 @@ export async function onRequest(context){
         await writeAdminLog(env,admin,'ULTIMATE_SETTINGS_UPDATE','SETTINGS','battle_ultimate',before.ultimateRules,saved.ultimateRules);
         return json({ok:true,settings:saved,ultimateRules:saved.ultimateRules});
       }
-      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings;const clean={enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,g==='PRESTIGE'?3100:Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};const gradeRateTotal=Object.values(clean.cardDrop.gradeRates).reduce((a,b)=>a+Number(b||0),0);if(Math.abs(gradeRateTotal-100)>0.001)return json({error:`카드 드롭 등급 확률 합계가 100%여야 합니다. 현재 ${gradeRateTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,clean);return json({ok:true,settings:clean});}
+      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings;const clean={enabled:x.enabled!==false,deckSize:5,powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:[]).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};const gradeRateTotal=Object.values(clean.cardDrop.gradeRates).reduce((a,b)=>a+Number(b||0),0);if(Math.abs(gradeRateTotal-100)>0.001)return json({error:`카드 드롭 등급 확률 합계가 100%여야 합니다. 현재 ${gradeRateTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,clean);return json({ok:true,settings:clean});}
       if(request.method==='POST'){const name=String(payload.name||'').trim().slice(0,40),image=String(payload.image||'').trim().slice(0,500),power=Math.max(1,Math.floor(Number(payload.battlePower)||1)),reward=Math.max(0,Math.floor(Number(payload.rewardCoin)||0));if(!name)return json({error:'몬스터 이름을 입력하세요.'},400);const r=await env.DB.prepare('INSERT INTO battle_monsters(name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order,ultimate_enabled,ultimate_name,ultimate_description,ultimate_trigger,ultimate_chance,ultimate_damage_percent,ultimate_max_uses,ultimate_target,ultimate_theme,ultimate_warning_text,ultimate_shake,ultimate_zoom,ultimate_media_url,ultimate_sound_url,ultimate_duration_ms,ultimate_volume_percent,ultimate_force_cast,ultimate_pve_damage_percent,ultimate_tower_damage_percent,monster_category,pve_tab,pve_display_order,pve_enabled,tower_enabled,tower_only) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(name,image,power,reward,payload.isBoss?1:0,payload.isActive===false?0:1,Math.floor(Number(payload.sortOrder)||0),payload.ultimateEnabled?1:0,String(payload.ultimateName||'').slice(0,60),String(payload.ultimateDescription||'').slice(0,300),String(payload.ultimateTrigger||'ON_LOSS'),Math.max(0,Math.min(100,Number(payload.ultimateChance??100))),Math.max(0,Math.min(100,Number(payload.ultimateDamagePercent??15))),Math.max(1,Math.min(9,Number(payload.ultimateMaxUses||1))),String(payload.ultimateTarget||'ALL'),String(payload.ultimateTheme||'CRIMSON'),String(payload.ultimateWarningText||'BOSS ULTIMATE').slice(0,60),payload.ultimateShake===false?0:1,payload.ultimateZoom===false?0:1,String(payload.ultimateMediaUrl||'').trim().slice(0,500),String(payload.ultimateSoundUrl||'').trim().slice(0,500),Math.max(600,Math.min(25000,Math.floor(Number(payload.ultimateDurationMs)||2400))),Math.max(0,Math.min(100,Number(payload.ultimateVolumePercent??35))),payload.ultimateForceCast?1:0,Math.max(0,Math.min(100,Number(payload.ultimatePveDamagePercent??payload.ultimateDamagePercent??15))),Math.max(0,Math.min(100,Number(payload.ultimateTowerDamagePercent??payload.ultimateDamagePercent??15))),String(payload.category|| (payload.isBoss?'BOSS':'GENERAL')).toUpperCase(),String(payload.pveTab||(payload.isBoss?'HELL':'NORMAL')).toUpperCase(),Math.floor(Number(payload.displayOrder??payload.sortOrder)||0),payload.pveEnabled===false?0:1,payload.towerEnabled?1:0,payload.towerOnly?1:0).run();return json({ok:true,id:r.meta.last_row_id},201);}
       if(request.method==='PATCH'){const id=Number(payload.id);if(!id)return json({error:'몬스터 ID가 필요합니다.'},400);await env.DB.prepare('UPDATE battle_monsters SET name=?,image_url=?,battle_power=?,reward_coin=?,is_boss=?,is_active=?,sort_order=?,ultimate_enabled=?,ultimate_name=?,ultimate_description=?,ultimate_trigger=?,ultimate_chance=?,ultimate_damage_percent=?,ultimate_max_uses=?,ultimate_target=?,ultimate_theme=?,ultimate_warning_text=?,ultimate_shake=?,ultimate_zoom=?,ultimate_media_url=?,ultimate_sound_url=?,ultimate_duration_ms=?,ultimate_volume_percent=?,ultimate_force_cast=?,ultimate_pve_damage_percent=?,ultimate_tower_damage_percent=?,monster_category=?,pve_tab=?,pve_display_order=?,pve_enabled=?,tower_enabled=?,tower_only=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(payload.name||'').trim().slice(0,40),String(payload.image||'').trim().slice(0,500),Math.max(1,Math.floor(Number(payload.battlePower)||1)),Math.max(0,Math.floor(Number(payload.rewardCoin)||0)),payload.isBoss?1:0,payload.isActive===false?0:1,Math.floor(Number(payload.sortOrder)||0),payload.ultimateEnabled?1:0,String(payload.ultimateName||'').slice(0,60),String(payload.ultimateDescription||'').slice(0,300),String(payload.ultimateTrigger||'ON_LOSS'),Math.max(0,Math.min(100,Number(payload.ultimateChance??100))),Math.max(0,Math.min(100,Number(payload.ultimateDamagePercent??15))),Math.max(1,Math.min(9,Number(payload.ultimateMaxUses||1))),String(payload.ultimateTarget||'ALL'),String(payload.ultimateTheme||'CRIMSON'),String(payload.ultimateWarningText||'BOSS ULTIMATE').slice(0,60),payload.ultimateShake===false?0:1,payload.ultimateZoom===false?0:1,String(payload.ultimateMediaUrl||'').trim().slice(0,500),String(payload.ultimateSoundUrl||'').trim().slice(0,500),Math.max(600,Math.min(25000,Math.floor(Number(payload.ultimateDurationMs)||2400))),Math.max(0,Math.min(100,Number(payload.ultimateVolumePercent??35))),payload.ultimateForceCast?1:0,Math.max(0,Math.min(100,Number(payload.ultimatePveDamagePercent??payload.ultimateDamagePercent??15))),Math.max(0,Math.min(100,Number(payload.ultimateTowerDamagePercent??payload.ultimateDamagePercent??15))),String(payload.category||(payload.isBoss?'BOSS':'GENERAL')).toUpperCase(),String(payload.pveTab||(payload.isBoss?'HELL':'NORMAL')).toUpperCase(),Math.floor(Number(payload.displayOrder??payload.sortOrder)||0),payload.pveEnabled===false?0:1,payload.towerEnabled?1:0,payload.towerOnly?1:0,id).run();return json({ok:true});}
       if(request.method==='DELETE'){const id=Number(payload.id);await env.DB.prepare('UPDATE battle_monsters SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id).run();return json({ok:true});}
@@ -4376,7 +4405,7 @@ export async function onRequest(context){
         if(q){filters.push("(c.id LIKE ? OR c.title LIKE ? OR m.name LIKE ? OR UPPER(c.rarity) LIKE ?)");const like=`%${q}%`;binds.push(like,like,like,like.toUpperCase());}
         const rows=await env.DB.prepare(`SELECT c.id,c.title,UPPER(c.rarity) AS grade,c.image_url AS image,m.name,
           COALESCE(uc.quantity,0) AS ownedQuantity,COALESCE(uc.breakthrough_level,0) AS breakthroughLevel
-          FROM cards c JOIN members m ON m.id=c.member_id
+          FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
           LEFT JOIN user_cards uc ON uc.user_id=? AND uc.card_id=c.id
           WHERE ${filters.join(' AND ')}
           ORDER BY CASE UPPER(c.rarity) WHEN 'FUR' THEN 1 WHEN 'PRESTIGE' THEN 2 WHEN 'LIMITED' THEN 3 WHEN 'MA' THEN 4 WHEN 'SSR' THEN 5 WHEN 'UR' THEN 6 WHEN 'HR' THEN 7 WHEN 'SR' THEN 8 WHEN 'R' THEN 9 WHEN 'U' THEN 10 ELSE 11 END,m.sort_order,c.title,c.id LIMIT 80`).bind(...binds).all();
@@ -4391,7 +4420,7 @@ export async function onRequest(context){
         const [targetUser,card]=await Promise.all([
           env.DB.prepare('SELECT id,nickname,role,status FROM users WHERE id=?').bind(userId).first(),
           env.DB.prepare(`SELECT c.id,c.title,UPPER(c.rarity) AS grade,c.is_active,c.card_status,m.name,COALESCE(m.is_active,1) AS member_active
-            FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first()
+            FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first()
         ]);
         if(!targetUser)return json({error:'유저를 찾을 수 없습니다.'},404);
         if(targetUser.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정에는 카드를 지급할 수 없습니다.'},403);
@@ -4451,7 +4480,7 @@ export async function onRequest(context){
       const q=(url.searchParams.get('q')||'').trim().slice(0,30),verification=String(url.searchParams.get('verification')||'ALL').toUpperCase();
       const filters=[],binds=[];if(q){filters.push('u.nickname LIKE ?');binds.push(`%${q}%`);}if(verification==='VERIFIED')filters.push("w.status='VERIFIED'");else if(verification==='PENDING')filters.push("w.status IN ('PENDING','REVIEW')");else if(verification==='UNVERIFIED')filters.push("(w.id IS NULL OR w.status NOT IN ('VERIFIED','PENDING','REVIEW'))");
       const sql=`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count,COALESCE(SUM(CASE WHEN c.rarity='LIMITED' THEN 1 ELSE 0 END),0) AS limited_count,COALESCE(SUM(CASE WHEN c.rarity='PRESTIGE' THEN 1 ELSE 0 END),0) AS prestige_count,COALESCE(SUM(CASE WHEN c.rarity='FUR' THEN 1 ELSE 0 END),0) AS fur_count
-        FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards c ON c.id=uc.card_id ${filters.length?'WHERE '+filters.join(' AND '):''}
+        FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id ${filters.length?'WHERE '+filters.join(' AND '):''}
         GROUP BY u.id ORDER BY ${q?'u.nickname ASC':'u.created_at DESC'} LIMIT 100`;
       const stmt=env.DB.prepare(sql);const rows=binds.length?await stmt.bind(...binds).all():await stmt.all();
       return json({users:rows.results,role:admin.role,verification});
@@ -4520,7 +4549,7 @@ export async function onRequest(context){
         const packs=await env.DB.prepare("SELECT * FROM card_packs WHERE id<>'summer-new' ORDER BY sort_order,id").all();
         const cfgRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_preview_configs'").first();
         let previews={}; try{previews=JSON.parse(cfgRow?.value||'{}')}catch{}
-        const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
+        const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
         return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities||'[]')})),previews,cards:cards.results,pitySettings:await pitySettings(env)});
       }
       if(request.method==='PATCH'){
@@ -4587,7 +4616,7 @@ export async function onRequest(context){
       if(admin.role!=='OWNER')return json({error:'퇴사 카드 처리는 OWNER만 가능합니다.'},403);
       const body=await readBody(request),cardId=String(body.cardId||'').trim(),action=String(body.action||'PREVIEW').toUpperCase();
       if(!cardId)return json({error:'카드를 선택하세요.'},400);
-      const card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.card_status,m.name AS member_name FROM cards c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first();
+      const card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.card_status,m.name AS member_name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first();
       if(!card)return json({error:'카드가 없습니다.'},404);
 
       const cfg=await breakthroughConfig(env),maHigh=await maMasterStarBreakthroughConfig(env);
@@ -4781,7 +4810,7 @@ export async function onRequest(context){
         return json({users:rows.results});
       }
       const like=`%${q}%`,rows=await env.DB.prepare(`SELECT c.id,c.title,m.name,c.is_active AS isActive,c.card_status AS cardStatus,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.image_url AS image
-        FROM cards c JOIN members m ON m.id=c.member_id WHERE UPPER(c.rarity)='LIMITED' AND (?='' OR c.title LIKE ? OR m.name LIKE ? OR c.id LIKE ?)
+        FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE UPPER(c.rarity)='LIMITED' AND (?='' OR c.title LIKE ? OR m.name LIKE ? OR c.id LIKE ?)
         ORDER BY c.is_active DESC,m.sort_order,c.title LIMIT 100`).bind(q,like,like,like).all();
       return json({cards:rows.results.map(x=>({...x,remaining:Math.max(0,Number(x.limitedTotal||0)-Number(x.issuedCount||0))}))});
     }
@@ -4791,7 +4820,7 @@ export async function onRequest(context){
       if(!userId||!cardId)return json({error:'유저와 리미티드 카드를 선택하세요.'},400);
       const row=await env.DB.prepare(`SELECT u.id AS userId,u.nickname,u.role,u.status,c.id AS cardId,c.title,m.name,c.is_active AS isActive,c.card_status AS cardStatus,
         c.limited_total AS limitedTotal,c.issued_count AS issuedCount,COALESCE(uc.quantity,0) AS ownedQuantity,COALESCE(uc.breakthrough_level,0) AS breakthroughLevel
-        FROM users u CROSS JOIN cards c JOIN members m ON m.id=c.member_id LEFT JOIN user_cards uc ON uc.user_id=u.id AND uc.card_id=c.id
+        FROM users u CROSS JOIN cards_effective_v1210 c JOIN members m ON m.id=c.member_id LEFT JOIN user_cards uc ON uc.user_id=u.id AND uc.card_id=c.id
         WHERE u.id=? AND c.id=? AND UPPER(c.rarity)='LIMITED'`).bind(userId,cardId).first();
       if(!row)return json({error:'유저 또는 리미티드 카드를 찾을 수 없습니다.'},404);
       return json({preview:{...row,remaining:Math.max(0,Number(row.limitedTotal||0)-Number(row.issuedCount||0))},role:admin.role});
@@ -4810,7 +4839,7 @@ export async function onRequest(context){
         const rows=await env.DB.prepare(`SELECT a.*,COALESCE(u.nickname,a.user_nickname) AS currentNickname,COALESCE(c.title,a.card_title) AS currentCardTitle,
           COALESCE(uc.quantity,0) AS currentOwnedQuantity,c.limited_total AS currentLimitedTotal,c.issued_count AS currentIssuedCount,
           COALESCE(ad.nickname,'') AS adminNickname
-          FROM limited_acquisition_audit a LEFT JOIN users u ON u.id=a.user_id LEFT JOIN cards c ON c.id=a.card_id
+          FROM limited_acquisition_audit a LEFT JOIN users u ON u.id=a.user_id LEFT JOIN cards_effective_v1210 c ON c.id=a.card_id
           LEFT JOIN user_cards uc ON uc.user_id=a.user_id AND uc.card_id=a.card_id LEFT JOIN users ad ON ad.id=a.admin_id
           ${filter} ORDER BY a.id DESC LIMIT ?`).bind(...bind,limit).all();
         const statsRows=await env.DB.prepare(`SELECT status,COUNT(*) AS count FROM limited_acquisition_audit GROUP BY status`).all();
@@ -4836,7 +4865,7 @@ export async function onRequest(context){
         let stockReserved=false,stockBefore=null;
         try{
           const target=await env.DB.prepare(`SELECT u.id AS userId,u.nickname,u.status,c.id AS cardId,c.title,c.rarity,c.is_active AS isActive,c.card_status AS cardStatus,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,COALESCE(uc.quantity,0) AS ownedQuantity
-            FROM users u CROSS JOIN cards c LEFT JOIN user_cards uc ON uc.user_id=u.id AND uc.card_id=c.id WHERE u.id=? AND c.id=?`).bind(userId,cardId).first();
+            FROM users u CROSS JOIN cards_effective_v1210 c LEFT JOIN user_cards uc ON uc.user_id=u.id AND uc.card_id=c.id WHERE u.id=? AND c.id=?`).bind(userId,cardId).first();
           if(!target||String(target.rarity||'').toUpperCase()!=='LIMITED')throw new Error('유저 또는 리미티드 카드를 찾을 수 없습니다.');
           const quantityBefore=Math.max(0,Number(target.ownedQuantity||0));
           if(quantityBefore>0&&!allowDuplicate)throw new Error(`이미 해당 카드를 ${quantityBefore}장 보유 중입니다. 중복 지급 확인을 켜야 지급할 수 있습니다.`);
@@ -4864,7 +4893,7 @@ export async function onRequest(context){
           if(stockReserved)await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(cardId).run();
           const message=String(error?.message||'리미티드 수동 지급에 실패했습니다.').slice(0,500);
           const snapshots=await env.DB.prepare(`SELECT COALESCE(u.nickname,'') AS nickname,COALESCE(c.title,'') AS title,COALESCE(c.issued_count,0) AS issuedCount,COALESCE(uc.quantity,0) AS ownedQuantity
-            FROM (SELECT ? AS user_id,? AS card_id) x LEFT JOIN users u ON u.id=x.user_id LEFT JOIN cards c ON c.id=x.card_id LEFT JOIN user_cards uc ON uc.user_id=x.user_id AND uc.card_id=x.card_id`).bind(userId,cardId).first();
+            FROM (SELECT ? AS user_id,? AS card_id) x LEFT JOIN users u ON u.id=x.user_id LEFT JOIN cards_effective_v1210 c ON c.id=x.card_id LEFT JOIN user_cards uc ON uc.user_id=x.user_id AND uc.card_id=x.card_id`).bind(userId,cardId).first();
           const failedKey=`manual-failed:${requestId}`;
           await beginLimitedAcquisitionAudit(env,{eventKey:failedKey,requestId,drawGroupId:requestId,sourceType:'ADMIN_MANUAL',sourceId:referenceRequestId||(grantMode==='RECOVERY'?'MISSING_RESTORE':'NEW_ISSUE'),userId,userNickname:snapshots?.nickname||'',cardId,cardTitle:snapshots?.title||'',packId:grantMode==='RECOVERY'?'ADMIN_LIMITED_RESTORE':'ADMIN_LIMITED_ISSUE',status:'MANUAL_FAILED',stockBefore:stockBefore??Number(snapshots?.issuedCount||0),stockAfter:stockBefore??Number(snapshots?.issuedCount||0),quantityBefore:Number(snapshots?.ownedQuantity||0),quantityAfter:Number(snapshots?.ownedQuantity||0),isDuplicate:Number(snapshots?.ownedQuantity||0)>0,stockReserved:false,cardGranted:false,adminId:admin.id,adminReason:reason,evidenceNote:evidence,errorMessage:message});
           await finishLimitedAcquisitionAudit(env,failedKey,{status:'MANUAL_FAILED',stockReserved:false,cardGranted:false,errorMessage:message});
@@ -4893,7 +4922,7 @@ export async function onRequest(context){
           COALESCE(c.issued_count,0) AS issuedCount,
           COALESCE(SUM(CASE WHEN COALESCE(uc.quantity,0)>0 THEN uc.quantity ELSE 0 END),0) AS heldCount,
           COUNT(DISTINCT CASE WHEN COALESCE(uc.quantity,0)>0 THEN uc.user_id END) AS ownerCount
-        FROM cards c
+        FROM cards_effective_v1210 c
         JOIN members m ON m.id=c.member_id
         LEFT JOIN user_cards uc ON uc.card_id=c.id
         WHERE UPPER(c.rarity)='LIMITED' AND c.limited_total IS NOT NULL
@@ -4931,7 +4960,7 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'CARD_EDIT');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
       const cardView=`SELECT c.id,c.title,c.member_id AS memberId,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.is_active,c.card_status AS cardStatus,c.batch_name AS batchName,c.batch_date AS batchDate,c.draw_weight AS drawWeight,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.power_type AS powerType,c.base_power AS basePower,CASE WHEN fx.card_id IS NULL THEN 0 ELSE 1 END AS acquisitionFxConfigured,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 1 ELSE COALESCE(fx.enabled,0) END AS acquisitionFxEnabled,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN '/assets/effects/L2CARD.mp4' ELSE COALESCE(fx.media_url,'') END AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 10000 ELSE COALESCE(fx.duration_ms,8000) END AS acquisitionDurationMs
-        FROM cards c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
+        FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
       const normalizeCard=async payload=>{
         const title=String(payload.title||'').trim().slice(0,80);
         const grade=String(payload.grade||'C').toUpperCase();
@@ -4964,13 +4993,18 @@ export async function onRequest(context){
         let powerType=payload.powerType===null||payload.powerType===undefined||payload.powerType===''?null:String(payload.powerType).toUpperCase();
         let basePower=payload.basePower===null||payload.basePower===undefined||payload.basePower===''?null:Math.max(0,Math.floor(Number(payload.basePower)||0));
         if(!supportsPowerType){powerType=null;basePower=null}
-        else if(grade==='PRESTIGE'){powerType='FIXED';basePower=3100}
+        else if(grade==='PRESTIGE'){
+          powerType='CUSTOM';
+          basePower=Math.max(1,Math.min(100000000,Math.floor(Number(basePower||3100))));
+        }
         else if(grade==='FUR'){powerType='FIXED';basePower=3200}
         else if(powerType!==null){
           if(!['NORMAL','HIGH','TOP'].includes(powerType)) throw new Error('올바르지 않은 전투력 유형입니다.');
           basePower=CARD_POWER_TYPES[grade][powerType];
         }else basePower=null;
-        return {title,grade,image,memberId,focusX,focusY,isActive,cardStatus,batchName,batchDate,drawWeight,limitedTotal,issuedCount,powerType,basePower};
+        const storageGrade=grade==='PRESTIGE'?'FUR':grade;
+        const rarityOverride=grade==='PRESTIGE'?'PRESTIGE':null;
+        return {title,grade,storageGrade,rarityOverride,image,memberId,focusX,focusY,isActive,cardStatus,batchName,batchDate,drawWeight,limitedTotal,issuedCount,powerType,basePower};
       };
       const nextCardId=()=>`CN-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;
       if(request.method==='GET'){
@@ -4986,8 +5020,8 @@ export async function onRequest(context){
           for(const raw of payload.cards){
             const card=await normalizeCard(raw);
             const id=nextCardId();
-            await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,power_type,base_power,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
-              .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,card.cardStatus,card.batchName,card.batchDate,card.powerType,card.basePower,admin.id).run();
+            await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,rarity_override,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,power_type,base_power,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
+              .bind(id,card.memberId,card.title,card.storageGrade,card.rarityOverride,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,card.cardStatus,card.batchName,card.batchDate,card.powerType,card.basePower,admin.id).run();
             const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
             created.push(after);
           }
@@ -4996,15 +5030,15 @@ export async function onRequest(context){
           return json({ok:true,cards:created},201);
         }
         if(payload.cloneFrom){
-          const source=await env.DB.prepare('SELECT * FROM cards WHERE id=?').bind(payload.cloneFrom).first();
+          const source=await env.DB.prepare('SELECT * FROM cards_effective_v1210 WHERE id=?').bind(payload.cloneFrom).first();
           if(!source) return json({error:'복제할 카드가 없습니다.'},404);
           const card=await normalizeCard({
             title:payload.title||`${source.title} 복사본`,grade:payload.grade||source.rarity,image:payload.image||source.image_url,
             memberId:payload.memberId||source.member_id,focusX:payload.focusX??source.focus_x,focusY:payload.focusY??source.focus_y,isActive:payload.isActive??Boolean(source.is_active),cardStatus:payload.cardStatus||source.card_status,batchName:payload.batchName??source.batch_name,batchDate:payload.batchDate??source.batch_date,drawWeight:payload.drawWeight??source.draw_weight,limitedTotal:payload.limitedTotal??source.limited_total,issuedCount:0,powerType:payload.powerType===undefined?source.power_type:payload.powerType,basePower:payload.basePower===undefined?source.base_power:payload.basePower
           });
           const id=nextCardId();
-          await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,power_type,base_power,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
-            .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,card.cardStatus,card.batchName,card.batchDate,card.powerType,card.basePower,admin.id).run();
+          await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,rarity_override,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,power_type,base_power,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
+            .bind(id,card.memberId,card.title,card.storageGrade,card.rarityOverride,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,card.cardStatus,card.batchName,card.batchDate,card.powerType,card.basePower,admin.id).run();
           const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
           await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
             .bind(admin.id,'CARD_CLONE','CARD',id,JSON.stringify({source:payload.cloneFrom}),JSON.stringify(after)).run();
@@ -5012,8 +5046,8 @@ export async function onRequest(context){
         }
         const card=await normalizeCard(payload);
         const id=nextCardId();
-        await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,power_type,base_power,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
-          .bind(id,card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,card.cardStatus,card.batchName,card.batchDate,card.powerType,card.basePower,admin.id).run();
+        await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,rarity_override,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,power_type,base_power,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
+          .bind(id,card.memberId,card.title,card.storageGrade,card.rarityOverride,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,card.cardStatus,card.batchName,card.batchDate,card.powerType,card.basePower,admin.id).run();
         const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,after_data) VALUES(?,?,?,?,?)')
           .bind(admin.id,'CARD_CREATE','CARD',id,JSON.stringify(after)).run();
@@ -5034,15 +5068,15 @@ export async function onRequest(context){
           await writeAdminLog(env,admin,'CARD_BULK_STATUS','CARD',ids.join(','),null,{status,count:ids.length});
           return json({ok:true,status,updatedIds:ids});
         }
-        const before=await env.DB.prepare('SELECT * FROM cards WHERE id=?').bind(payload.id).first();
+        const before=await env.DB.prepare('SELECT * FROM cards_effective_v1210 WHERE id=?').bind(payload.id).first();
         if(!before) return json({error:'카드가 없습니다.'},404);
         const updateVisibility=payload.updateVisibility===true;
         const card=await normalizeCard({
           title:payload.title??before.title,grade:payload.grade??before.rarity,image:payload.image??before.image_url,
           memberId:payload.memberId??before.member_id,focusX:payload.focusX??before.focus_x,focusY:payload.focusY??before.focus_y,isActive:updateVisibility?(payload.isActive??Boolean(before.is_active)):Boolean(before.is_active),cardStatus:updateVisibility?(payload.cardStatus||before.card_status):before.card_status,batchName:payload.batchName===undefined?before.batch_name:payload.batchName,batchDate:payload.batchDate===undefined?before.batch_date:payload.batchDate,drawWeight:payload.drawWeight??before.draw_weight,limitedTotal:payload.limitedTotal===undefined?before.limited_total:payload.limitedTotal,issuedCount:before.issued_count,powerType:payload.powerType===undefined?before.power_type:payload.powerType,basePower:payload.basePower===undefined?before.base_power:payload.basePower
         });
-        await env.DB.prepare('UPDATE cards SET member_id=?,title=?,rarity=?,image_url=?,focus_x=?,focus_y=?,is_active=?,card_status=?,batch_name=?,batch_date=?,draw_weight=?,limited_total=?,power_type=?,base_power=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
-          .bind(card.memberId,card.title,card.grade,card.image,card.focusX,card.focusY,card.isActive,card.cardStatus,card.batchName,card.batchDate,card.drawWeight,card.limitedTotal,card.powerType,card.basePower,payload.id).run();
+        await env.DB.prepare('UPDATE cards SET member_id=?,title=?,rarity=?,rarity_override=?,image_url=?,focus_x=?,focus_y=?,is_active=?,card_status=?,batch_name=?,batch_date=?,draw_weight=?,limited_total=?,power_type=?,base_power=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
+          .bind(card.memberId,card.title,card.storageGrade,card.rarityOverride,card.image,card.focusX,card.focusY,card.isActive,card.cardStatus,card.batchName,card.batchDate,card.drawWeight,card.limitedTotal,card.powerType,card.basePower,payload.id).run();
         const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(payload.id).first();
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
           .bind(admin.id,card.isActive?'CARD_EDIT':'CARD_HIDE','CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
@@ -5055,7 +5089,7 @@ export async function onRequest(context){
         if(ids.length<1) return json({error:'삭제할 카드를 선택하세요.'},400);
         if(ids.length>200) return json({error:'한 번에 최대 200장까지 삭제할 수 있습니다.'},400);
         const placeholders=ids.map(()=>'?').join(',');
-        const found=await env.DB.prepare(`SELECT * FROM cards WHERE id IN (${placeholders})`).bind(...ids).all();
+        const found=await env.DB.prepare(`SELECT * FROM cards_effective_v1210 WHERE id IN (${placeholders})`).bind(...ids).all();
         const existingIds=found.results.map(x=>x.id);
         if(!existingIds.length) return json({error:'삭제할 카드가 없습니다.'},404);
         const statements=[];

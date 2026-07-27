@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS cards (
   member_id INTEGER NOT NULL,
   title TEXT NOT NULL,
   rarity TEXT NOT NULL CHECK (rarity IN ('C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR')),
+  rarity_override TEXT,
   image_url TEXT NOT NULL,
   focus_x INTEGER NOT NULL DEFAULT 50,
   focus_y INTEGER NOT NULL DEFAULT 50,

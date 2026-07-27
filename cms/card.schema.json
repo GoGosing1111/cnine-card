@@ -54,6 +54,22 @@
     "enabled": {
       "type": "boolean",
       "default": true
+    },
+    "basePower": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "PRESTIGE 카드 개별 전투력. 미입력 시 3100"
+    },
+    "powerType": {
+      "enum": [
+        "NORMAL",
+        "HIGH",
+        "TOP",
+        "CUSTOM",
+        "FIXED",
+        null
+      ],
+      "description": "PRESTIGE는 CUSTOM, FUR는 FIXED"
     }
   }
 }
