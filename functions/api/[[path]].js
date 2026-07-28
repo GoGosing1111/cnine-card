@@ -5046,6 +5046,49 @@ export async function onRequest(context){
         return {title,grade,storageGrade,rarityOverride,image,memberId,focusX,focusY,isActive,cardStatus,batchName,batchDate,drawWeight,limitedTotal,issuedCount,powerType,basePower};
       };
       const nextCardId=()=>`CN-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;
+      const normalizeNewMemberDraft=raw=>{
+        if(!raw||typeof raw!=='object') return null;
+        const name=String(raw.name||'').replace(/\s+/g,' ').trim().slice(0,40);
+        const suppliedSlug=String(raw.slug||'').trim().toLowerCase().slice(0,60);
+        if(!name) throw new Error('신규 멤버명을 입력하세요.');
+        if(suppliedSlug&&!/^[a-z0-9][a-z0-9_-]{1,59}$/.test(suppliedSlug)) throw new Error('멤버 코드는 영문 소문자·숫자·하이픈·밑줄만 사용할 수 있습니다.');
+        return {name,suppliedSlug};
+      };
+      const createMemberForCard=async raw=>{
+        const draft=normalizeNewMemberDraft(raw);
+        if(!draft) return null;
+        const duplicateName=await env.DB.prepare('SELECT id,name,is_active FROM members WHERE name=? COLLATE NOCASE LIMIT 1').bind(draft.name).first();
+        if(duplicateName) throw new Error(`이미 등록된 멤버명입니다: ${duplicateName.name}`);
+        let slug=draft.suppliedSlug;
+        if(slug){
+          const duplicateSlug=await env.DB.prepare('SELECT id FROM members WHERE slug=? COLLATE NOCASE LIMIT 1').bind(slug).first();
+          if(duplicateSlug) throw new Error('이미 사용 중인 멤버 코드입니다.');
+        }else{
+          for(let attempt=0;attempt<8;attempt++){
+            const suffix=crypto.randomUUID().replaceAll('-','').slice(0,10).toLowerCase();
+            const candidate=`member-${suffix}`;
+            const duplicate=await env.DB.prepare('SELECT id FROM members WHERE slug=? LIMIT 1').bind(candidate).first();
+            if(!duplicate){slug=candidate;break}
+          }
+          if(!slug) throw new Error('멤버 코드 자동 생성에 실패했습니다. 다시 시도해주세요.');
+        }
+        const orderRow=await env.DB.prepare('SELECT COALESCE(MAX(sort_order),0)+10 AS nextOrder FROM members').first();
+        const sortOrder=Math.max(0,Math.floor(Number(orderRow?.nextOrder||10)));
+        try{
+          const created=await env.DB.prepare('INSERT INTO members(name,slug,profile_image,is_active,sort_order) VALUES(?,?,NULL,1,?)').bind(draft.name,slug,sortOrder).run();
+          const memberId=Number(created.meta?.last_row_id||0);
+          if(!memberId) throw new Error('신규 멤버 ID를 확인하지 못했습니다.');
+          return {id:memberId,name:draft.name,slug,sortOrder,isActive:true};
+        }catch(error){
+          const message=String(error?.message||'');
+          if(/UNIQUE|constraint/i.test(message)) throw new Error('동일한 멤버명 또는 멤버 코드가 이미 등록되어 있습니다.');
+          throw error;
+        }
+      };
+      const removeUnusedCreatedMember=async member=>{
+        if(!member?.id) return;
+        try{await env.DB.prepare('DELETE FROM members WHERE id=? AND NOT EXISTS(SELECT 1 FROM cards WHERE member_id=?)').bind(member.id,member.id).run()}catch{}
+      };
       if(request.method==='GET'){
         const rows=await env.DB.prepare(`${cardView} ORDER BY m.sort_order,c.id`).all();
         const members=await env.DB.prepare('SELECT id,name,slug FROM members WHERE is_active=1 ORDER BY sort_order,id').all();
@@ -5083,14 +5126,26 @@ export async function onRequest(context){
             .bind(admin.id,'CARD_CLONE','CARD',id,JSON.stringify({source:payload.cloneFrom}),JSON.stringify(after)).run();
           return json({ok:true,card:after},201);
         }
-        const card=await normalizeCard(payload);
-        const id=nextCardId();
-        await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,rarity_override,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,power_type,base_power,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
-          .bind(id,card.memberId,card.title,card.storageGrade,card.rarityOverride,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,card.cardStatus,card.batchName,card.batchDate,card.powerType,card.basePower,admin.id).run();
-        const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
-        await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,after_data) VALUES(?,?,?,?,?)')
-          .bind(admin.id,'CARD_CREATE','CARD',id,JSON.stringify(after)).run();
-        return json({ok:true,card:after},201);
+        let createdMember=null,createdCardId=null;
+        try{
+          if(payload.newMember){
+            createdMember=await createMemberForCard(payload.newMember);
+            payload.memberId=createdMember.id;
+          }
+          const card=await normalizeCard(payload);
+          const id=nextCardId();
+          await env.DB.prepare('INSERT INTO cards(id,member_id,title,rarity,rarity_override,image_url,focus_x,focus_y,is_active,draw_weight,limited_total,issued_count,card_status,batch_name,batch_date,power_type,base_power,created_by) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)')
+            .bind(id,card.memberId,card.title,card.storageGrade,card.rarityOverride,card.image,card.focusX,card.focusY,card.isActive,card.drawWeight,card.limitedTotal,card.issuedCount,card.cardStatus,card.batchName,card.batchDate,card.powerType,card.basePower,admin.id).run();
+          createdCardId=id;
+          const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(id).first();
+          const logs=[env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,after_data) VALUES(?,?,?,?,?)').bind(admin.id,'CARD_CREATE','CARD',id,JSON.stringify(after))];
+          if(createdMember) logs.unshift(env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,after_data) VALUES(?,?,?,?,?)').bind(admin.id,'MEMBER_CREATE','MEMBER',String(createdMember.id),JSON.stringify({...createdMember,source:'CARD_CREATE_DIALOG'})));
+          await env.DB.batch(logs);
+          return json({ok:true,card:after,memberCreated:Boolean(createdMember),member:createdMember},201);
+        }catch(error){
+          if(createdMember&&!createdCardId) await removeUnusedCreatedMember(createdMember);
+          throw error;
+        }
       }
       if(request.method==='PATCH'){
         const payload=await readBody(request);
