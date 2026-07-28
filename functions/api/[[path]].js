@@ -1283,6 +1283,36 @@ async function ensureUpgrades(env){
     }
 
 
+    const messageRewardAtomicDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1221_message_reward_atomic'").first();
+    if(messageRewardAtomicDone?.value!=='1'){
+      await env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_user_message_reward_coin_claim_v1221
+        AFTER UPDATE OF claimed_at ON user_message_rewards
+        FOR EACH ROW
+        WHEN (OLD.claimed_at IS NULL OR TRIM(OLD.claimed_at)='')
+          AND NEW.claimed_at IS NOT NULL
+          AND UPPER(COALESCE(NEW.reward_type,''))='COIN'
+          AND COALESCE(NEW.reward_amount,0)>0
+        BEGIN
+          UPDATE users SET coin=coin+NEW.reward_amount WHERE id=NEW.user_id;
+          INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
+          SELECT NEW.user_id,NEW.reward_amount,coin,'MESSAGE_REWARD' FROM users WHERE id=NEW.user_id;
+        END`).run();
+      await env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_user_message_reward_shards_claim_v1221
+        AFTER UPDATE OF claimed_at ON user_message_rewards
+        FOR EACH ROW
+        WHEN (OLD.claimed_at IS NULL OR TRIM(OLD.claimed_at)='')
+          AND NEW.claimed_at IS NOT NULL
+          AND UPPER(COALESCE(NEW.reward_type,''))='SHARDS'
+          AND COALESCE(NEW.reward_amount,0)>0
+        BEGIN
+          UPDATE users SET card_shards=card_shards+NEW.reward_amount WHERE id=NEW.user_id;
+          INSERT INTO shard_logs(user_id,change_amount,balance_after,reason)
+          SELECT NEW.user_id,NEW.reward_amount,card_shards,'MESSAGE_REWARD' FROM users WHERE id=NEW.user_id;
+        END`).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1221_message_reward_atomic','1',CURRENT_TIMESTAMP)").run();
+    }
+
+
     const retirementDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v940_card_retirement_refund'").first();
     if(retirementDone?.value!=='1'){
       for(const q of [
@@ -3786,21 +3816,19 @@ export async function onRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const body=await readBody(request),messageId=Number(body.messageId);if(!messageId)return json({error:'메시지 정보가 올바르지 않습니다.'},400);
       const reward=await env.DB.prepare(`SELECT r.id,r.reward_type,r.reward_amount,r.claimed_at,m.title FROM user_message_rewards r JOIN user_messages m ON m.id=r.message_id WHERE r.message_id=? AND r.user_id=?`).bind(messageId,user.id).first();
-      if(!reward)return json({error:'수령할 보상이 없습니다.'},404);if(reward.claimed_at)return json({error:'이미 수령한 보상입니다.'},409);
-      const rewardType=String(reward.reward_type||'').toUpperCase(),rewardAmount=Number(reward.reward_amount||0);
+      if(!reward)return json({error:'수령할 보상이 없습니다.'},404);if(String(reward.claimed_at||'').trim())return json({error:'이미 수령한 보상입니다.'},409);
+      const rewardType=String(reward.reward_type||'').toUpperCase(),rewardAmount=Math.floor(Number(reward.reward_amount||0));
       if(!['COIN','SHARDS'].includes(rewardType)||rewardAmount<=0)return json({error:'지원하지 않는 메시지 보상입니다.'},400);
-      const rewardUpdate=rewardType==='COIN'
-        ? env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=? AND EXISTS (SELECT 1 FROM user_message_rewards WHERE id=? AND user_id=? AND claimed_at IS NULL)').bind(rewardAmount,user.id,reward.id,user.id)
-        : env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=? AND EXISTS (SELECT 1 FROM user_message_rewards WHERE id=? AND user_id=? AND claimed_at IS NULL)').bind(rewardAmount,user.id,reward.id,user.id);
+      const balanceBefore=rewardType==='COIN'?Number(user.coin||0):Number(user.card_shards||0);
       const batch=await env.DB.batch([
-        rewardUpdate,
-        env.DB.prepare('UPDATE user_message_rewards SET claimed_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND claimed_at IS NULL').bind(reward.id,user.id),
+        env.DB.prepare("UPDATE user_message_rewards SET claimed_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND (claimed_at IS NULL OR TRIM(claimed_at)='')").bind(reward.id,user.id),
         env.DB.prepare('UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP),hidden_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=?').bind(messageId,user.id)
       ]);
-      if(!batch?.[1]?.meta?.changes)return json({error:'이미 수령한 보상입니다.'},409);
-      const updated=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status FROM users WHERE id=?').bind(user.id).first();
-      if(rewardType==='SHARDS')await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'CARD_RETIREMENT_REFUND')").bind(user.id,rewardAmount,Number(updated.card_shards||0)).run();
-      return json({ok:true,rewardType,rewardAmount,messageDeleted:true,user:updated});
+      if(!batch?.[0]?.meta?.changes)return json({error:'이미 수령한 보상입니다.'},409);
+      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
+      if(!updated)return json({error:'보상 수령 후 계정 정보를 확인하지 못했습니다.'},500);
+      const balanceAfter=rewardType==='COIN'?Number(updated.coin||0):Number(updated.card_shards||0);
+      return json({ok:true,rewardType,rewardAmount,balanceBefore,balanceAfter,coinAfter:Number(updated.coin||0),cardShardsAfter:Number(updated.card_shards||0),messageDeleted:true,user:await profile(env,updated)});
     }
 
     if(path==='admin/wago-verifications'){
