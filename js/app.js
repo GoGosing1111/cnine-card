@@ -1579,6 +1579,41 @@ function bindCardProfileDelegation(){
 }
 bindCardProfileDelegation();
 
+
+async function playBreakthroughCinematic(effect,card,level){
+  if(!effect||effect.enabled===false)return;
+  const src=String(effect.mediaUrl||'').trim()?normalizeUltimateMediaPath(effect.mediaUrl):'';
+  if(!src)return;
+  const soundSrc=String(effect.soundUrl||'').trim()?normalizeUltimateMediaPath(effect.soundUrl):'';
+  const duration=Math.max(800,Math.min(30000,Number(effect.durationMs||5000)));
+  const volume=Math.max(0,Math.min(1,Number(effect.volumePercent??100)/100));
+  const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);
+  const overlay=document.createElement('div');
+  overlay.className='breakthrough-cinematic-overlay';
+  overlay.innerHTML=`<div class="breakthrough-cinematic-flash"></div><div class="breakthrough-cinematic-media">${isVideo?`<video src="${escapeHtml(src)}" ${soundSrc?'muted':''} playsinline preload="auto"></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(effect.title||'강화 각성')}">`}</div><div class="breakthrough-cinematic-title"><small>BREAKTHROUGH AWAKENING</small><strong>${escapeHtml(effect.title||'강화 각성')}</strong><span>${escapeHtml(card?.title||effect.cardTitle||'카드')} · ★${Number(level||effect.level||0)} 강화 성공</span></div>${effect.skipAllowed===false?'':`<button type="button" class="breakthrough-cinematic-skip">SKIP</button>`}`;
+  document.body.appendChild(overlay);
+  document.body.classList.add('breakthrough-cinematic-playing');
+  if(navigator.vibrate)navigator.vibrate([60,30,100]);
+  await new Promise(resolve=>{
+    let done=false,audio=null;
+    const finish=()=>{if(done)return;done=true;clearTimeout(timer);try{audio?.pause()}catch{}const video=overlay.querySelector('video');try{video?.pause()}catch{}overlay.classList.add('closing');setTimeout(()=>{overlay.remove();document.body.classList.remove('breakthrough-cinematic-playing');resolve()},220)};
+    const timer=setTimeout(finish,duration);
+    overlay.querySelector('.breakthrough-cinematic-skip')?.addEventListener('click',finish,{once:true});
+    const video=overlay.querySelector('video');
+    if(video){
+      video.addEventListener('loadedmetadata',()=>{const portrait=video.videoHeight>video.videoWidth;video.classList.toggle('is-portrait',portrait);video.classList.toggle('is-landscape',!portrait)},{once:true});
+      video.volume=volume;
+      video.muted=Boolean(soundSrc)||!battleSoundEnabled()||volume<=0;
+      video.addEventListener('ended',finish,{once:true});
+      video.addEventListener('error',()=>{overlay.classList.add('media-failed');setTimeout(finish,700)},{once:true});
+      const play=video.play();if(play&&typeof play.catch==='function')play.catch(()=>{video.muted=true;video.play().catch(()=>overlay.classList.add('media-failed'))});
+    }
+    const img=overlay.querySelector('img');
+    if(img){img.addEventListener('load',()=>{const portrait=img.naturalHeight>img.naturalWidth;img.classList.toggle('is-portrait',portrait);img.classList.toggle('is-landscape',!portrait)},{once:true});img.addEventListener('error',()=>{overlay.classList.add('media-failed');overlay.querySelector('.breakthrough-cinematic-media').innerHTML='<div class="breakthrough-cinematic-fallback">BREAKTHROUGH</div>'},{once:true});}
+    if(soundSrc&&battleSoundEnabled()&&volume>0){audio=new Audio(soundSrc);audio.volume=volume;audio.play().catch(()=>{});}
+  });
+}
+
 async function breakthroughCard(cardId){
   const user=loadUser(),level=Number(user.breakthroughs?.[cardId]||0),normalizedCardId=String(cardId),card=cards.find(c=>String(c.id)===normalizedCardId),isMa=String(card?.grade||'').toUpperCase()==='MA',maxLevel=isMa?13:10,isMaHigh=isMa&&level>=10;
   if(level>=maxLevel)return;
@@ -1588,7 +1623,7 @@ async function breakthroughCard(cardId){
   if(balance<Number(rule.cost))return alert(`${materialName}이 부족합니다.`);
   if(!confirm(`${materialName} ${Number(rule.cost).toLocaleString()}개를 사용해 ★${level+1} 강화를 시도하시겠습니까?\n성공 확률: ${rule.rate}%\n실패해도 단계는 유지되며 재료는 소모됩니다.`))return;
   try{
-    if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId:normalizedCardId})});saveUser(apiUserToLocal(d.user));alert(d.success?`강화 성공! ★${d.level}${d.guaranteed?'\nSSR 천장 확정 성공':''}`:`강화 실패\n단계는 ★${d.level}로 유지됩니다.${d.pity?.enabled?`\nSSR 천장: ${d.pity.failCount}/${d.pity.threshold}회 실패`:''}`);showDetail(normalizedCardId);}
+    if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId:normalizedCardId})});saveUser(apiUserToLocal(d.user));if(d.success&&d.cinematic)await playBreakthroughCinematic(d.cinematic,card,d.level);alert(d.success?`강화 성공! ★${d.level}${d.guaranteed?'\nSSR 천장 확정 성공':''}`:`강화 실패\n단계는 ★${d.level}로 유지됩니다.${d.pity?.enabled?`\nSSR 천장: ${d.pity.failCount}/${d.pity.threshold}회 실패`:''}`);showDetail(normalizedCardId);}
     else{const actualCost=Number(rule.cost);if(isMaHigh)user.masterStars-=actualCost;else user.cardShards-=actualCost;const success=Math.random()*100<Number(rule.rate);if(success)user.breakthroughs[cardId]=level+1;saveUser(user);alert(success?`강화 성공! ★${level+1}`:`강화 실패\n단계는 ★${level}로 유지됩니다.`);showDetail(normalizedCardId);}
   }catch(e){alert(e.message)}
 }

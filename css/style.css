@@ -3507,3 +3507,23 @@ html.captain-battle-scroll-open,body.captain-battle-scroll-open{overflow-y:auto!
 .prestige-success-skip:hover{background:rgba(30,20,44,.76)}
 .prestige-success-overlay.media-failed .prestige-success-overlay-title{opacity:1}
 @media(max-width:900px){.prestige-success-overlay-title{left:3%;right:3%;bottom:max(3%,env(safe-area-inset-bottom))}.prestige-success-overlay-title strong{font-size:clamp(26px,9vw,46px)}.prestige-success-overlay-title span{max-width:92vw;line-height:1.38}.prestige-success-skip{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));padding:9px 12px;font-size:12px}}
+
+/* V1223 · 강화 성공 궁극기형 영상 연출 */
+body.breakthrough-cinematic-playing{overflow:hidden;touch-action:none}
+.breakthrough-cinematic-overlay{position:fixed;inset:0;width:100vw;height:100dvh;z-index:10050;display:grid;place-items:center;overflow:hidden;background:#000;animation:ultimateOverlayIn .18s ease-out both}
+.breakthrough-cinematic-overlay.closing{animation:ultimateOverlayOut .22s ease-in both}
+.breakthrough-cinematic-media{position:absolute;inset:0;display:grid;place-items:center;background:#000;overflow:hidden}
+.breakthrough-cinematic-media img,.breakthrough-cinematic-media video{display:block;width:auto;height:auto;max-width:100vw;max-height:100dvh;object-fit:contain;object-position:center center;background:#000}
+.breakthrough-cinematic-media video.is-portrait,.breakthrough-cinematic-media img.is-portrait{height:100dvh;width:auto;max-width:100vw}
+.breakthrough-cinematic-media video.is-landscape,.breakthrough-cinematic-media img.is-landscape{width:100vw;height:auto;max-height:100dvh}
+.breakthrough-cinematic-title{position:absolute;z-index:4;left:4%;right:4%;bottom:max(5%,env(safe-area-inset-bottom));text-align:center;text-shadow:0 2px 5px #000,0 0 28px #000;pointer-events:none}
+.breakthrough-cinematic-title small,.breakthrough-cinematic-title strong,.breakthrough-cinematic-title span{display:block}
+.breakthrough-cinematic-title small{font-size:clamp(10px,1.4vw,14px);font-weight:1000;letter-spacing:.3em;color:#8fe9ff}
+.breakthrough-cinematic-title strong{margin-top:6px;font-size:clamp(30px,6vw,76px);line-height:1;color:#fff;text-shadow:0 0 14px #48dfff,0 0 38px #2475ff}
+.breakthrough-cinematic-title span{margin:10px auto 0;max-width:min(760px,90vw);font-size:clamp(12px,1.8vw,17px);font-weight:900;color:#ffeaa0}
+.breakthrough-cinematic-flash{position:absolute;inset:0;z-index:3;pointer-events:none;background:#fff;mix-blend-mode:screen;animation:ultimateFlash .8s ease-out both}
+.breakthrough-cinematic-skip{position:absolute;z-index:6;top:max(18px,env(safe-area-inset-top));right:max(18px,env(safe-area-inset-right));min-width:78px;padding:10px 14px;border:1px solid rgba(255,255,255,.5);border-radius:999px;background:rgba(0,0,0,.52);color:#fff;font-size:11px;font-weight:900;letter-spacing:.18em;backdrop-filter:blur(8px);cursor:pointer}
+.breakthrough-cinematic-skip:hover{background:rgba(255,255,255,.16)}
+.breakthrough-cinematic-fallback{font-size:clamp(38px,9vw,120px);font-weight:1000;letter-spacing:.08em;color:#fff;text-align:center;text-shadow:0 0 25px #3bdcff,0 0 65px #265bff}
+.breakthrough-cinematic-overlay.media-failed .breakthrough-cinematic-title{opacity:1}
+@media(max-width:900px){.breakthrough-cinematic-title{left:3%;right:3%;bottom:max(3%,env(safe-area-inset-bottom))}.breakthrough-cinematic-title strong{font-size:clamp(28px,10vw,48px)}.breakthrough-cinematic-title span{max-width:92vw;line-height:1.35}.breakthrough-cinematic-skip{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}}

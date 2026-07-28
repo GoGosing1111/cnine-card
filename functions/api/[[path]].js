@@ -615,6 +615,10 @@ async function maMasterStarBreakthroughConfig(env){const now=Date.now();if(maMas
 function defaultBreakthroughPity(){return {enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};}
 function cleanBreakthroughPity(raw={}){const base=defaultBreakthroughPity();return {enabled:raw.enabled!==false,grade:'SSR',thresholds:Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Math.floor(Number(raw.thresholds?.[i]??base.thresholds[i])||base.thresholds[i]))))};}
 async function breakthroughPity(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_pity_ssr_v1'").first();try{return cleanBreakthroughPity(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughPity()}}
+function defaultBreakthroughCinematic(){return {enabled:true,minLevel:10,grades:[...BREAKTHROUGH_GRADES],title:'강화 각성',mediaUrl:'/assets/effects/SKILL.gif',soundUrl:'',durationMs:5000,volumePercent:100,skipAllowed:true};}
+function cleanBreakthroughCinematic(raw={}){const base=defaultBreakthroughCinematic(),allowed=new Set(BREAKTHROUGH_GRADES),grades=(Array.isArray(raw.grades)?raw.grades:base.grades).map(x=>String(x||'').toUpperCase()).filter(x=>allowed.has(x));return {enabled:raw.enabled!==false,minLevel:Math.max(1,Math.min(13,Math.floor(Number(raw.minLevel??base.minLevel)||base.minLevel))),grades:[...new Set(grades.length?grades:base.grades)],title:String(raw.title||base.title).trim().slice(0,60)||base.title,mediaUrl:String(raw.mediaUrl||base.mediaUrl).trim().replace(/\/g,'/').slice(0,500)||base.mediaUrl,soundUrl:String(raw.soundUrl||'').trim().replace(/\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(raw.durationMs??base.durationMs)||base.durationMs))),volumePercent:Math.max(0,Math.min(100,Number(raw.volumePercent??base.volumePercent))),skipAllowed:raw.skipAllowed!==false};}
+async function breakthroughCinematicConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_cinematic_v1'").first();try{return cleanBreakthroughCinematic(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughCinematic()}}
+async function breakthroughCinematicFor(env,{success=false,grade='',level=0,cardId='',cardTitle=''}){if(!success)return null;const cfg=await breakthroughCinematicConfig(env),normalizedGrade=String(grade||'').toUpperCase(),nextLevel=Math.max(0,Number(level||0));if(!cfg.enabled||nextLevel<cfg.minLevel||!cfg.grades.includes(normalizedGrade))return null;return {...cfg,grade:normalizedGrade,level:nextLevel,cardId:String(cardId||''),cardTitle:String(cardTitle||'')};}
 const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type','access-control-max-age':'86400'};
 const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store',...CORS_HEADERS}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
@@ -3108,7 +3112,7 @@ export async function onRequest(context){
         }
         try{await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH',?)").bind(user.id,-cost,starAfter,success?'MA_HIGH_BREAKTHROUGH_SUCCESS':'MA_HIGH_BREAKTHROUGH_FAIL',cardId).run()}catch(logError){console.error('MA high breakthrough inventory log failed',logError)}
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-        return json({ok:true,success,cost,rate,material:'MASTER_STAR',masterStarsAfter:starAfter,level:success?level+1:level,guaranteed:false,pity:{enabled:false,failCount:nextFailCount,threshold:null,nextGuaranteed:false},user:await profile(env,updated)});
+        const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'MASTER_STAR',masterStarsAfter:starAfter,level:finalLevel,guaranteed:false,pity:{enabled:false,failCount:nextFailCount,threshold:null,nextGuaranteed:false},cinematic,user:await profile(env,updated)});
       }
       const config=await breakthroughConfig(env),rule=config[owned.rarity]?.[level];
       if(!rule) return json({error:'돌파 설정을 찾을 수 없습니다.'},500);
@@ -3124,7 +3128,7 @@ export async function onRequest(context){
       else await env.DB.prepare('UPDATE user_cards SET breakthrough_fail_count=breakthrough_fail_count+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
       const nextFailCount=success?0:failCount+1,updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-cost,updated.card_shards,success?(guaranteed?'BREAKTHROUGH_PITY_SUCCESS':'BREAKTHROUGH_SUCCESS'):'BREAKTHROUGH_FAIL',cardId).run();
-      return json({ok:true,success,cost,rate,material:'CARD_SHARD',level:success?level+1:level,guaranteed,pity:{enabled:owned.rarity==='SSR'&&pity.enabled,failCount:nextFailCount,threshold,nextGuaranteed:!success&&nextFailCount>=threshold},user:await profile(env,updated)});
+      const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'CARD_SHARD',level:finalLevel,guaranteed,pity:{enabled:owned.rarity==='SSR'&&pity.enabled,failCount:nextFailCount,threshold,nextGuaranteed:!success&&nextFailCount>=threshold},cinematic,user:await profile(env,updated)});
     }
 
     if(path==='raid/status'){
@@ -4393,7 +4397,7 @@ export async function onRequest(context){
 
     if(path==='admin/breakthrough-settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES,pity:await breakthroughPity(env),maHigh:await maMasterStarBreakthroughConfig(env)});
+      if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES,pity:await breakthroughPity(env),maHigh:await maMasterStarBreakthroughConfig(env),cinematic:await breakthroughCinematicConfig(env)});
       if(request.method==='PATCH'){
         const payload=await readBody(request),incoming=payload.config;
         if(!incoming||typeof incoming!=='object')return json({error:'돌파 설정값이 없습니다.'},400);
@@ -4407,17 +4411,18 @@ export async function onRequest(context){
             clean[grade][i]={cost,rate:Math.round(rate*10000)/10000};
           }
         }
-        const before={config:await breakthroughConfig(env),maHigh:await maMasterStarBreakthroughConfig(env)};
-        const pity=cleanBreakthroughPity(payload.pity||await breakthroughPity(env)),maHigh=cleanMaMasterStarBreakthrough(payload.maHigh||{});
+        const before={config:await breakthroughConfig(env),maHigh:await maMasterStarBreakthroughConfig(env),cinematic:await breakthroughCinematicConfig(env)};
+        const pity=cleanBreakthroughPity(payload.pity||await breakthroughPity(env)),maHigh=cleanMaMasterStarBreakthrough(payload.maHigh||{}),cinematic=cleanBreakthroughCinematic(payload.cinematic||await breakthroughCinematicConfig(env));
         if(maHigh.enabled&&maHigh.steps.some(step=>Number(step.retirementShardRefund)<=0))return json({error:'MA +11~+13 운영을 켜려면 각 단계의 퇴사 환급 카드 조각을 1개 이상 설정하세요.'},400);
         await env.DB.batch([
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_config',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)),
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_pity_ssr_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(pity)),
-          env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('ma_master_star_breakthrough_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(maHigh))
+          env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('ma_master_star_breakthrough_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(maHigh)),
+          env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_cinematic_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(cinematic))
         ]);
         maMasterStarBreakthroughCache=null;
-        try{await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity,maHigh})}catch(logError){console.error('breakthrough settings admin log failed',logError)}
-        return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity,maHigh});
+        try{await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity,maHigh,cinematic})}catch(logError){console.error('breakthrough settings admin log failed',logError)}
+        return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity,maHigh,cinematic});
       }
     }
 
