@@ -129,8 +129,8 @@ function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브�
 const BURNING_EVENT_META_KEY='burning_event_settings_v1';
 const BURNING_EVENT_CACHE_MS=5000;
 let burningEventCache=null;
-function defaultBurningEventSettings(){return {enabled:false,generation:0,activatedAt:null,title:'씨켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,battleRewardMultiplier:1.5};}
-function cleanBurningEventSettings(raw={}){const b=defaultBurningEventSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,title:String(raw.title||b.title).trim().slice(0,80)||b.title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};}
+function defaultBurningEventSettings(){return {enabled:false,generation:0,activatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,battleRewardMultiplier:1.5};}
+function cleanBurningEventSettings(raw={}){const b=defaultBurningEventSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));let title=String(raw.title||b.title).trim().slice(0,80)||b.title;if(title==='씨켓몬 버닝이 발동 되었습니다')title=b.title;return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};}
 async function burningEventSettings(env,{fresh=false}={}){
   const now=Date.now();
   if(!fresh&&burningEventCache&&now-burningEventCache.at<BURNING_EVENT_CACHE_MS)return burningEventCache.value;
@@ -4468,7 +4468,32 @@ export async function onRequest(context){
       const before=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();
       if(!before)return json({error:'유저를 찾을 수 없습니다.'},404);
       if(before.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정은 수정할 수 없습니다.'},403);
-      if(action==='COIN'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경 코인을 입력하세요.'},400);if(before.coin+amount<0)return json({error:'보유 코인보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(amount,userId).run();const afterCoin=before.coin+amount;await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)').bind(userId,amount,afterCoin,String(p.reason||'관리자 조정').slice(0,100),admin.id).run();}
+      if(action==='NICKNAME'){
+        const rawNickname=String(p.nickname||'').replace(/\u00a0/g,' ').trim(),newNickname=rawNickname.replace(/\s+/g,' '),reason=String(p.reason||'관리자 닉네임 변경').trim().slice(0,160)||'관리자 닉네임 변경';
+        if(!newNickname)return json({error:'변경할 닉네임을 입력하세요.'},400);
+        if(newNickname.length>20)return json({error:'닉네임은 20자 이하로 입력하세요.'},400);
+        if(newNickname===before.nickname)return json({error:'현재 닉네임과 동일합니다.'},400);
+        const duplicate=await env.DB.prepare('SELECT id,nickname FROM users WHERE id<>? AND nickname=? COLLATE NOCASE LIMIT 1').bind(userId,newNickname).first();
+        if(duplicate)return json({error:'이미 사용 중인 닉네임입니다.'},409);
+        const maintenanceRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='maintenance_test_users'").first();
+        const maintenanceNames=String(maintenanceRow?.value||'').split(',').map(name=>name.trim()).filter(Boolean),maintenanceUpdated=maintenanceNames.some(name=>name===before.nickname);
+        const nextMaintenanceNames=maintenanceUpdated?maintenanceNames.map(name=>name===before.nickname?newNickname:name).join(', '):String(maintenanceRow?.value||'');
+        const afterData={...before,nickname:newNickname,nicknameChangeReason:reason,maintenanceTestUserUpdated:maintenanceUpdated};
+        const statements=[
+          env.DB.prepare('UPDATE users SET nickname=? WHERE id=?').bind(newNickname,userId),
+          env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'NICKNAME_CHANGE','USER',String(userId),JSON.stringify(before),JSON.stringify(afterData))
+        ];
+        if(maintenanceUpdated)statements.push(env.DB.prepare("UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key='maintenance_test_users'").bind(nextMaintenanceNames));
+        try{
+          await env.DB.batch(statements);
+        }catch(error){
+          if(String(error?.message||error).toLowerCase().includes('unique'))return json({error:'이미 사용 중인 닉네임입니다.'},409);
+          throw error;
+        }
+        const after=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();
+        return json({ok:true,user:after,previousNickname:before.nickname,reason});
+      }
+      else if(action==='COIN'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경 코인을 입력하세요.'},400);if(before.coin+amount<0)return json({error:'보유 코인보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(amount,userId).run();const afterCoin=before.coin+amount;await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason,admin_id) VALUES(?,?,?,?,?)').bind(userId,amount,afterCoin,String(p.reason||'관리자 조정').slice(0,100),admin.id).run();}
       else if(action==='SHARDS'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경할 카드 조각 수량을 입력하세요.'},400);const current=Number(before.card_shards||0);if(current+amount<0)return json({error:'보유 카드 조각보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(amount,userId).run();const balance=current+amount;await env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId,amount,balance,String(p.reason||'관리자 조정').slice(0,100)).run();}
       else if(action==='INVENTORY'){const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);const item=await env.DB.prepare('SELECT code,name FROM inventory_items WHERE code=? AND is_active=1').bind(itemCode).first();if(!item)return json({error:'지급 가능한 인벤토리 아이템이 아닙니다.'},400);await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(?,?,?,?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,itemCode,amount,amount).run();const inventory=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,itemCode).first();await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id) VALUES(?,?,?,?,?,'ADMIN_GRANT',?,?)").bind(userId,itemCode,amount,Number(inventory?.quantity||0),String(p.reason||'관리자 아이템 지급').slice(0,100),String(admin.id),admin.id).run();}
       else if(action==='CARDS_RESET')await env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId).run();
