@@ -1550,7 +1550,7 @@ function showDetail(id,initialTab='auto') {
   const normalizedId=String(card.id),owned=ownedIds(user).has(normalizedId),history=user.history.find(x=>String(x.cardId)===normalizedId),modal=document.getElementById('modal');
   const level=Number(user.breakthroughs?.[normalizedId]||0),canBreak=owned&&gradeOrder[card.grade]>=gradeOrder[breakthroughMinGrade],isMa=String(card.grade||'').toUpperCase()==='MA',maxLevel=isMa?13:10,isMaHigh=isMa&&level>=10&&level<13,standardRule=user.breakthroughConfig?.[card.grade]?.[level]||{cost:breakthroughCosts[level],rate:breakthroughRates[level]},highRule=user.maHighBreakthrough?.steps?.[level-10],rule=isMaHigh?highRule:standardRule,cost=level<maxLevel?Number(rule?.cost||0):null,successRate=level<maxLevel?Number(rule?.rate||0):null,materialBalance=isMaHigh?Number(user.masterStars||0):Number(user.cardShards||0),materialName=isMaHigh?'마스터의 별':'카드 조각',highEnabled=user.maHighBreakthrough?.enabled===true;
   const hasUnique=Boolean(card.uniqueAbility),uniqueType=uniqueAbilityTypeInfo(card),activeTab=hasUnique&&initialTab!=='info'?'ability':'info',basePower=Number(card.basePower||0);
-  const infoPanel=`<section class="card-profile-panel ${activeTab==='info'?'active':''}" data-profile-panel="info"><div class="card-profile-facts"><article><small>보유 상태</small><b>${owned?'보유 중':'미획득'}</b></article><article><small>등급</small><b>${escapeHtml(card.grade||'?')}</b></article><article><small>기본 전투력</small><b>${basePower>0?basePower.toLocaleString():'-'}</b></article><article><small>전투력 유형</small><b>${escapeHtml(powerTypeIndicator(card)||'기본')}</b></article></div>${owned?`<div class="breakthrough-info"><span>돌파 단계</span><strong>${level>=maxLevel?`★${maxLevel} MAX`:`★${level}`}</strong><small>보유 ${materialName} ${materialBalance.toLocaleString()}개</small>${canBreak?(level<maxLevel?(isMaHigh&&!highEnabled?'<b class="max-breakthrough">MA 고급 강화 운영 준비 중</b>':`<button type="button" class="btn breakthrough-btn" id="breakthroughBtn" data-breakthrough-card="${escapeHtml(normalizedId)}" ${materialBalance<cost?'disabled':''}>${materialName} ${cost.toLocaleString()}개 · 성공 ${successRate}%<br>★${level+1} 강화</button>`):'<b class="max-breakthrough">LEGEND · 최대 강화</b>'):'<small>SR 등급 이상부터 돌파할 수 있습니다.</small>'}</div>`:'<div class="card-profile-locked-info"><i>LOCKED</i><b>아직 획득하지 않은 카드입니다.</b><span>고유 능력은 미리 확인할 수 있지만 돌파·보유 정보는 획득 후 공개됩니다.</span></div>'}${history?`<p class="obtained-date">최초 획득<br><strong>${new Date(history.at).toLocaleString('ko-KR')}</strong></p>`:''}</section>`;
+  const infoPanel=`<section class="card-profile-panel ${activeTab==='info'?'active':''}" data-profile-panel="info"><div class="card-profile-facts"><article><small>보유 상태</small><b>${owned?'보유 중':'미획득'}</b></article><article><small>등급</small><b>${escapeHtml(card.grade||'?')}</b></article><article><small>기본 전투력</small><b>${basePower>0?basePower.toLocaleString():'-'}</b></article><article><small>전투력 유형</small><b>${escapeHtml(powerTypeIndicator(card)||'기본')}</b></article></div>${owned?`<div class="breakthrough-info"><span>돌파 단계</span><strong>${level>=maxLevel?`★${maxLevel} MAX`:`★${level}`}</strong><small>보유 ${materialName} ${materialBalance.toLocaleString()}개</small>${canBreak?(level<maxLevel?(isMaHigh&&!highEnabled?'<b class="max-breakthrough">MA 고급 강화 운영 준비 중</b>':`<button type="button" class="btn breakthrough-btn${materialBalance<cost?' material-shortage':''}" id="breakthroughBtn" data-breakthrough-card="${escapeHtml(normalizedId)}" data-client-shortage="${materialBalance<cost?'1':'0'}">${materialName} ${cost.toLocaleString()}개 · 성공 ${successRate}%<br>★${level+1} 강화</button>`):'<b class="max-breakthrough">LEGEND · 최대 강화</b>'):'<small>SR 등급 이상부터 돌파할 수 있습니다.</small>'}</div>`:'<div class="card-profile-locked-info"><i>LOCKED</i><b>아직 획득하지 않은 카드입니다.</b><span>고유 능력은 미리 확인할 수 있지만 돌파·보유 정보는 획득 후 공개됩니다.</span></div>'}${history?`<p class="obtained-date">최초 획득<br><strong>${new Date(history.at).toLocaleString('ko-KR')}</strong></p>`:''}</section>`;
   const abilityPanel=hasUnique?`<section class="card-profile-panel ${activeTab==='ability'?'active':''}" data-profile-panel="ability">${uniqueAbilityDetailHtml(card)}</section>`:'';
   modal.className='modal show detail-modal card-profile-modal';
   modal.innerHTML=`<div class="modal-panel detail-panel card-profile-v1161"><button type="button" class="icon-close detail-close" id="closeDetail">×</button><div class="detail-layout"><div class="card-profile-visual">${cardHtml(card,owned,'detail-card',user)}${hasUnique?`<div class="profile-ability-mark ${uniqueType.typeClass} ${card.uniqueAbility.ownerTest?'owner-test':''}"><i>◇</i><span>${card.uniqueAbility.ownerTest?'OWNER TEST · ':''}${escapeHtml(uniqueType.typeLabel)}</span></div>`:''}</div><div class="detail-info"><div class="card-profile-heading"><div><p class="eyebrow">CARD PROFILE</p><span class="detail-grade">${owned?`${card.grade}${powerTypeIndicatorHtml(card,'detail-power-stars')}`:'미획득'}</span><h2>${owned?escapeHtml(card.title):'미획득 카드'}</h2><p>${owned?escapeHtml(card.name):'도감에 등록된 고유 능력 정보만 공개됩니다.'}</p></div>${hasUnique?`<span class="profile-status ${uniqueType.typeClass} ${card.uniqueAbility.ownerTest?'owner-test':''}"><i>◇</i>${card.uniqueAbility.ownerTest?'TEST · ':''}${escapeHtml(uniqueType.typeLabel)}</span>`:''}</div><nav class="card-profile-tabs" aria-label="카드 프로필 정보">${hasUnique?`<button type="button" class="${activeTab==='ability'?'active':''}" data-profile-tab="ability"><i>◇</i> ${escapeHtml(uniqueType.typeLabel)}</button>`:''}<button type="button" class="${activeTab==='info'?'active':''}" data-profile-tab="info">카드 정보</button></nav><div class="card-profile-panels">${abilityPanel}${infoPanel}</div><button type="button" class="btn dark card-profile-close" id="closeDetail2">닫기</button></div></div></div>`;
@@ -1589,38 +1589,101 @@ async function playBreakthroughCinematic(effect,card,level){
   const volume=Math.max(0,Math.min(1,Number(effect.volumePercent??100)/100));
   const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);
   const overlay=document.createElement('div');
-  overlay.className='breakthrough-cinematic-overlay';
-  overlay.innerHTML=`<div class="breakthrough-cinematic-flash"></div><div class="breakthrough-cinematic-media">${isVideo?`<video src="${escapeHtml(src)}" ${soundSrc?'muted':''} playsinline preload="auto"></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(effect.title||'강화 각성')}">`}</div><div class="breakthrough-cinematic-title"><small>BREAKTHROUGH AWAKENING</small><strong>${escapeHtml(effect.title||'강화 각성')}</strong><span>${escapeHtml(card?.title||effect.cardTitle||'카드')} · ★${Number(level||effect.level||0)} 강화 성공</span></div>${effect.skipAllowed===false?'':`<button type="button" class="breakthrough-cinematic-skip">SKIP</button>`}`;
+  overlay.className='breakthrough-cinematic-overlay breakthrough-cinematic-preparing';
+  overlay.innerHTML=`<div class="breakthrough-cinematic-media"></div><div class="breakthrough-cinematic-flash"></div><div class="breakthrough-cinematic-title"><small>BREAKTHROUGH AWAKENING</small><strong>${escapeHtml(effect.title||'강화 각성')}</strong><span>${escapeHtml(card?.title||effect.cardTitle||'카드')} · ★${Number(level||effect.level||0)} 강화 성공</span></div>${effect.skipAllowed===false?'':`<button type="button" class="breakthrough-cinematic-skip">SKIP</button>`}`;
+  const mediaWrap=overlay.querySelector('.breakthrough-cinematic-media');
+  let media=null,audio=null;
+  if(isVideo){
+    media=document.createElement('video');
+    media.src=src;
+    media.preload='auto';
+    media.playsInline=true;
+    media.disablePictureInPicture=true;
+    media.setAttribute('playsinline','');
+    media.setAttribute('webkit-playsinline','');
+    media.setAttribute('controlsList','nodownload noplaybackrate noremoteplayback');
+    media.volume=volume;
+    media.muted=Boolean(soundSrc)||!battleSoundEnabled()||volume<=0;
+    mediaWrap.appendChild(media);
+    try{
+      media.load();
+      if(media.readyState<3){
+        await new Promise(resolve=>{
+          let settled=false;
+          const finishReady=()=>{if(settled)return;settled=true;clearTimeout(waitTimer);media.removeEventListener('canplay',finishReady);media.removeEventListener('canplaythrough',finishReady);media.removeEventListener('error',finishReady);resolve()};
+          const waitTimer=setTimeout(finishReady,1800);
+          media.addEventListener('canplay',finishReady,{once:true});
+          media.addEventListener('canplaythrough',finishReady,{once:true});
+          media.addEventListener('error',finishReady,{once:true});
+        });
+      }
+    }catch{}
+  }else{
+    media=document.createElement('img');
+    media.src=src;
+    media.alt=String(effect.title||'강화 각성');
+    media.decoding='async';
+    mediaWrap.appendChild(media);
+  }
   document.body.appendChild(overlay);
   document.body.classList.add('breakthrough-cinematic-playing');
   if(navigator.vibrate)navigator.vibrate([60,30,100]);
   await new Promise(resolve=>{
-    let done=false,audio=null;
-    const finish=()=>{if(done)return;done=true;clearTimeout(timer);try{audio?.pause()}catch{}const video=overlay.querySelector('video');try{video?.pause()}catch{}overlay.classList.add('closing');setTimeout(()=>{overlay.remove();document.body.classList.remove('breakthrough-cinematic-playing');resolve()},220)};
-    const timer=setTimeout(finish,duration);
+    let done=false,started=false,timer=0;
+    const finish=()=>{
+      if(done)return;done=true;clearTimeout(timer);
+      try{audio?.pause();if(audio)audio.currentTime=0}catch{}
+      try{if(media?.tagName==='VIDEO'){media.pause();media.removeAttribute('src');media.load()}}catch{}
+      overlay.classList.add('closing');
+      setTimeout(()=>{overlay.remove();document.body.classList.remove('breakthrough-cinematic-playing');resolve()},140);
+    };
     overlay.querySelector('.breakthrough-cinematic-skip')?.addEventListener('click',finish,{once:true});
-    const video=overlay.querySelector('video');
-    if(video){
-      video.addEventListener('loadedmetadata',()=>{const portrait=video.videoHeight>video.videoWidth;video.classList.toggle('is-portrait',portrait);video.classList.toggle('is-landscape',!portrait)},{once:true});
-      video.volume=volume;
-      video.muted=Boolean(soundSrc)||!battleSoundEnabled()||volume<=0;
-      video.addEventListener('ended',finish,{once:true});
-      video.addEventListener('error',()=>{overlay.classList.add('media-failed');setTimeout(finish,700)},{once:true});
-      const play=video.play();if(play&&typeof play.catch==='function')play.catch(()=>{video.muted=true;video.play().catch(()=>overlay.classList.add('media-failed'))});
+    const startPlayback=()=>{
+      if(done||started)return;started=true;
+      overlay.classList.remove('breakthrough-cinematic-preparing');
+      overlay.classList.add('breakthrough-cinematic-active');
+      timer=setTimeout(finish,duration);
+      if(soundSrc&&battleSoundEnabled()&&volume>0){audio=new Audio(soundSrc);audio.preload='auto';audio.volume=volume;audio.play().catch(()=>{});}
+    };
+    if(media?.tagName==='VIDEO'){
+      media.addEventListener('loadedmetadata',()=>{const portrait=media.videoHeight>media.videoWidth;media.classList.toggle('is-portrait',portrait);media.classList.toggle('is-landscape',!portrait)},{once:true});
+      media.addEventListener('ended',finish,{once:true});
+      media.addEventListener('error',()=>{overlay.classList.add('media-failed');setTimeout(finish,700)},{once:true});
+      const play=media.play();
+      if(play&&typeof play.then==='function')play.then(()=>{
+        if(typeof media.requestVideoFrameCallback==='function')media.requestVideoFrameCallback(()=>requestAnimationFrame(startPlayback));
+        else requestAnimationFrame(startPlayback);
+      }).catch(()=>{media.muted=true;media.play().then(()=>requestAnimationFrame(startPlayback)).catch(()=>{overlay.classList.add('media-failed');startPlayback()})});
+      else requestAnimationFrame(startPlayback);
+    }else{
+      media?.addEventListener('load',()=>{const portrait=media.naturalHeight>media.naturalWidth;media.classList.toggle('is-portrait',portrait);media.classList.toggle('is-landscape',!portrait);requestAnimationFrame(startPlayback)},{once:true});
+      media?.addEventListener('error',()=>{overlay.classList.add('media-failed');mediaWrap.innerHTML='<div class="breakthrough-cinematic-fallback">BREAKTHROUGH</div>';startPlayback()},{once:true});
+      if(media?.complete&&media.naturalWidth>0)requestAnimationFrame(startPlayback);
     }
-    const img=overlay.querySelector('img');
-    if(img){img.addEventListener('load',()=>{const portrait=img.naturalHeight>img.naturalWidth;img.classList.toggle('is-portrait',portrait);img.classList.toggle('is-landscape',!portrait)},{once:true});img.addEventListener('error',()=>{overlay.classList.add('media-failed');overlay.querySelector('.breakthrough-cinematic-media').innerHTML='<div class="breakthrough-cinematic-fallback">BREAKTHROUGH</div>'},{once:true});}
-    if(soundSrc&&battleSoundEnabled()&&volume>0){audio=new Audio(soundSrc);audio.volume=volume;audio.play().catch(()=>{});}
   });
 }
 
+async function freshBreakthroughUserState(){
+  const fallback=loadUser();
+  if(!API_MODE)return fallback;
+  try{
+    if(typeof clearApiCache==='function')clearApiCache('me');
+    const data=await apiRequest('me',{}, {ttl:0,timeoutMs:10000});
+    if(data?.user){const next=apiUserToLocal(data.user);saveUser(next);return next;}
+  }catch(error){console.warn('강화 전 최신 재료/설정 동기화 실패:',error);}
+  return loadUser()||fallback;
+}
+
 async function breakthroughCard(cardId){
-  const user=loadUser(),level=Number(user.breakthroughs?.[cardId]||0),normalizedCardId=String(cardId),card=cards.find(c=>String(c.id)===normalizedCardId),isMa=String(card?.grade||'').toUpperCase()==='MA',maxLevel=isMa?13:10,isMaHigh=isMa&&level>=10;
-  if(level>=maxLevel)return;
+  let user=await freshBreakthroughUserState();
+  const normalizedCardId=String(cardId),card=cards.find(c=>String(c.id)===normalizedCardId);
+  if(!user||!card)return alert('카드 정보를 다시 불러오지 못했습니다. 새로고침 후 다시 시도하세요.');
+  const level=Number(user.breakthroughs?.[normalizedCardId]||0),isMa=String(card?.grade||'').toUpperCase()==='MA',maxLevel=isMa?13:10,isMaHigh=isMa&&level>=10;
+  if(level>=maxLevel)return alert('이미 최대 강화 단계입니다.');
   const rule=isMaHigh?user.maHighBreakthrough?.steps?.[level-10]:(user.breakthroughConfig?.[card?.grade]?.[level]||{cost:breakthroughCosts[level],rate:breakthroughRates[level]}),materialName=isMaHigh?'마스터의 별':'카드 조각',balance=isMaHigh?Number(user.masterStars||0):Number(user.cardShards||0);
   if(isMaHigh&&user.maHighBreakthrough?.enabled!==true)return alert('MA +11~+13 강화가 아직 운영 준비 중입니다.');
   if(!rule)return alert('강화 설정을 찾을 수 없습니다.');
-  if(balance<Number(rule.cost))return alert(`${materialName}이 부족합니다.`);
+  if(balance<Number(rule.cost)){alert(`${materialName}이 부족합니다. (보유 ${balance.toLocaleString()}개 / 필요 ${Number(rule.cost).toLocaleString()}개)`);showDetail(normalizedCardId,'info');return;}
   if(!confirm(`${materialName} ${Number(rule.cost).toLocaleString()}개를 사용해 ★${level+1} 강화를 시도하시겠습니까?\n성공 확률: ${rule.rate}%\n실패해도 단계는 유지되며 재료는 소모됩니다.`))return;
   try{
     if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId:normalizedCardId})});saveUser(apiUserToLocal(d.user));if(d.success&&d.cinematic)await playBreakthroughCinematic(d.cinematic,card,d.level);alert(d.success?`강화 성공! ★${d.level}${d.guaranteed?'\nSSR 천장 확정 성공':''}`:`강화 실패\n단계는 ★${d.level}로 유지됩니다.${d.pity?.enabled?`\nSSR 천장: ${d.pity.failCount}/${d.pity.threshold}회 실패`:''}`);showDetail(normalizedCardId);}

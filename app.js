@@ -740,28 +740,77 @@ async function playBreakthroughCinematic(effect,card,level){
   const volume=Math.max(0,Math.min(1,Number(effect.volumePercent??100)/100));
   const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);
   const overlay=document.createElement('div');
-  overlay.className='breakthrough-cinematic-overlay';
-  overlay.innerHTML=`<div class="breakthrough-cinematic-flash"></div><div class="breakthrough-cinematic-media">${isVideo?`<video src="${escapeHtml(src)}" ${soundSrc?'muted':''} playsinline preload="auto"></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(effect.title||'강화 각성')}">`}</div><div class="breakthrough-cinematic-title"><small>BREAKTHROUGH AWAKENING</small><strong>${escapeHtml(effect.title||'강화 각성')}</strong><span>${escapeHtml(card?.title||effect.cardTitle||'카드')} · ★${Number(level||effect.level||0)} 강화 성공</span></div>${effect.skipAllowed===false?'':`<button type="button" class="breakthrough-cinematic-skip">SKIP</button>`}`;
+  overlay.className='breakthrough-cinematic-overlay breakthrough-cinematic-preparing';
+  overlay.innerHTML=`<div class="breakthrough-cinematic-media"></div><div class="breakthrough-cinematic-flash"></div><div class="breakthrough-cinematic-title"><small>BREAKTHROUGH AWAKENING</small><strong>${escapeHtml(effect.title||'강화 각성')}</strong><span>${escapeHtml(card?.title||effect.cardTitle||'카드')} · ★${Number(level||effect.level||0)} 강화 성공</span></div>${effect.skipAllowed===false?'':`<button type="button" class="breakthrough-cinematic-skip">SKIP</button>`}`;
+  const mediaWrap=overlay.querySelector('.breakthrough-cinematic-media');
+  let media=null,audio=null;
+  if(isVideo){
+    media=document.createElement('video');
+    media.src=src;
+    media.preload='auto';
+    media.playsInline=true;
+    media.disablePictureInPicture=true;
+    media.setAttribute('playsinline','');
+    media.setAttribute('webkit-playsinline','');
+    media.setAttribute('controlsList','nodownload noplaybackrate noremoteplayback');
+    media.volume=volume;
+    media.muted=Boolean(soundSrc)||!battleSoundEnabled()||volume<=0;
+    mediaWrap.appendChild(media);
+    try{
+      media.load();
+      if(media.readyState<3){
+        await new Promise(resolve=>{
+          let settled=false;
+          const finishReady=()=>{if(settled)return;settled=true;clearTimeout(waitTimer);media.removeEventListener('canplay',finishReady);media.removeEventListener('canplaythrough',finishReady);media.removeEventListener('error',finishReady);resolve()};
+          const waitTimer=setTimeout(finishReady,1800);
+          media.addEventListener('canplay',finishReady,{once:true});
+          media.addEventListener('canplaythrough',finishReady,{once:true});
+          media.addEventListener('error',finishReady,{once:true});
+        });
+      }
+    }catch{}
+  }else{
+    media=document.createElement('img');
+    media.src=src;
+    media.alt=String(effect.title||'강화 각성');
+    media.decoding='async';
+    mediaWrap.appendChild(media);
+  }
   document.body.appendChild(overlay);
   document.body.classList.add('breakthrough-cinematic-playing');
   if(navigator.vibrate)navigator.vibrate([60,30,100]);
   await new Promise(resolve=>{
-    let done=false,audio=null;
-    const finish=()=>{if(done)return;done=true;clearTimeout(timer);try{audio?.pause()}catch{}const video=overlay.querySelector('video');try{video?.pause()}catch{}overlay.classList.add('closing');setTimeout(()=>{overlay.remove();document.body.classList.remove('breakthrough-cinematic-playing');resolve()},220)};
-    const timer=setTimeout(finish,duration);
+    let done=false,started=false,timer=0;
+    const finish=()=>{
+      if(done)return;done=true;clearTimeout(timer);
+      try{audio?.pause();if(audio)audio.currentTime=0}catch{}
+      try{if(media?.tagName==='VIDEO'){media.pause();media.removeAttribute('src');media.load()}}catch{}
+      overlay.classList.add('closing');
+      setTimeout(()=>{overlay.remove();document.body.classList.remove('breakthrough-cinematic-playing');resolve()},140);
+    };
     overlay.querySelector('.breakthrough-cinematic-skip')?.addEventListener('click',finish,{once:true});
-    const video=overlay.querySelector('video');
-    if(video){
-      video.addEventListener('loadedmetadata',()=>{const portrait=video.videoHeight>video.videoWidth;video.classList.toggle('is-portrait',portrait);video.classList.toggle('is-landscape',!portrait)},{once:true});
-      video.volume=volume;
-      video.muted=Boolean(soundSrc)||!battleSoundEnabled()||volume<=0;
-      video.addEventListener('ended',finish,{once:true});
-      video.addEventListener('error',()=>{overlay.classList.add('media-failed');setTimeout(finish,700)},{once:true});
-      const play=video.play();if(play&&typeof play.catch==='function')play.catch(()=>{video.muted=true;video.play().catch(()=>overlay.classList.add('media-failed'))});
+    const startPlayback=()=>{
+      if(done||started)return;started=true;
+      overlay.classList.remove('breakthrough-cinematic-preparing');
+      overlay.classList.add('breakthrough-cinematic-active');
+      timer=setTimeout(finish,duration);
+      if(soundSrc&&battleSoundEnabled()&&volume>0){audio=new Audio(soundSrc);audio.preload='auto';audio.volume=volume;audio.play().catch(()=>{});}
+    };
+    if(media?.tagName==='VIDEO'){
+      media.addEventListener('loadedmetadata',()=>{const portrait=media.videoHeight>media.videoWidth;media.classList.toggle('is-portrait',portrait);media.classList.toggle('is-landscape',!portrait)},{once:true});
+      media.addEventListener('ended',finish,{once:true});
+      media.addEventListener('error',()=>{overlay.classList.add('media-failed');setTimeout(finish,700)},{once:true});
+      const play=media.play();
+      if(play&&typeof play.then==='function')play.then(()=>{
+        if(typeof media.requestVideoFrameCallback==='function')media.requestVideoFrameCallback(()=>requestAnimationFrame(startPlayback));
+        else requestAnimationFrame(startPlayback);
+      }).catch(()=>{media.muted=true;media.play().then(()=>requestAnimationFrame(startPlayback)).catch(()=>{overlay.classList.add('media-failed');startPlayback()})});
+      else requestAnimationFrame(startPlayback);
+    }else{
+      media?.addEventListener('load',()=>{const portrait=media.naturalHeight>media.naturalWidth;media.classList.toggle('is-portrait',portrait);media.classList.toggle('is-landscape',!portrait);requestAnimationFrame(startPlayback)},{once:true});
+      media?.addEventListener('error',()=>{overlay.classList.add('media-failed');mediaWrap.innerHTML='<div class="breakthrough-cinematic-fallback">BREAKTHROUGH</div>';startPlayback()},{once:true});
+      if(media?.complete&&media.naturalWidth>0)requestAnimationFrame(startPlayback);
     }
-    const img=overlay.querySelector('img');
-    if(img){img.addEventListener('load',()=>{const portrait=img.naturalHeight>img.naturalWidth;img.classList.toggle('is-portrait',portrait);img.classList.toggle('is-landscape',!portrait)},{once:true});img.addEventListener('error',()=>{overlay.classList.add('media-failed');overlay.querySelector('.breakthrough-cinematic-media').innerHTML='<div class="breakthrough-cinematic-fallback">BREAKTHROUGH</div>'},{once:true});}
-    if(soundSrc&&battleSoundEnabled()&&volume>0){audio=new Audio(soundSrc);audio.volume=volume;audio.play().catch(()=>{});}
   });
 }
 
