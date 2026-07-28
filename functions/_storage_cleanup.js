@@ -190,7 +190,7 @@ async function protectedCardMap(env,ids){
       MAX(CASE WHEN UPPER(COALESCE(c.rarity,'')) IN ('LIMITED','PRESTIGE','FUR') THEN 1 ELSE 0 END) limited_or_higher,
       MAX(CASE WHEN ${levelExpr}>=8 THEN 1 ELSE 0 END) enhanced_eight_or_higher,
       MAX(${levelExpr}) max_breakthrough
-      FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
+      FROM user_cards uc JOIN cards c ON c.id=uc.card_id
       WHERE COALESCE(uc.quantity,0)>0 AND uc.user_id IN (${placeholders(chunk.length)})
       GROUP BY uc.user_id`).bind(...chunk).all();
     for(const row of rows.results||[])map.set(Number(row.user_id),{
