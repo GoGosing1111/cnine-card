@@ -364,6 +364,33 @@ function bindMobileNavigation(){
   layer.querySelector('[data-mobile-captain]')?.addEventListener('click',()=>{close();openCaptainFromMobile()});
 }
 
+
+const STANDALONE_GAME_URL='https://cnine-card.pages.dev/';
+function bindFullscreenPlayLink(header){
+  const link=header?.querySelector('[data-fullscreen-play]');
+  if(!link)return;
+  const mobileViewport=window.matchMedia?.('(max-width:820px)')?.matches===true||/Android|iPhone|iPad|iPod/i.test(String(navigator.userAgent||''));
+  let embedded=false;
+  try{embedded=window.self!==window.top}catch(_){embedded=true}
+  link.target=embedded||mobileViewport?'_top':'_blank';
+  link.addEventListener('click',event=>{
+    if(!(embedded||mobileViewport))return;
+    const url=link.href||STANDALONE_GAME_URL;
+    let navigated=false;
+    try{
+      if(window.top&&window.top!==window){window.top.location.href=url;navigated=true}
+      else{window.location.href=url;navigated=true}
+    }catch(_){}
+    if(!navigated){
+      try{const opened=window.open(url,'_blank','noopener,noreferrer');navigated=Boolean(opened)}catch(_){}
+    }
+    if(!navigated){
+      try{window.location.assign(url);navigated=true}catch(_){}
+    }
+    if(navigated){event.preventDefault();event.stopPropagation()}
+  },{capture:true});
+}
+
 let shellRenderSeq=0;
 function renderShell(tab) {
   const renderSeq=++shellRenderSeq;
@@ -403,7 +430,7 @@ function renderShell(tab) {
     <button class="main-nav-item ${tab==='mineral'?'active':''}" type="button" data-tab="mineral"><span class="main-nav-icon">⬡</span><b>교환소</b></button>
   </nav>`;
   app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div>${navHtml}</header>${mobileNavigationHtml(tab)}${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
-  const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" href="https://cnine-card.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="씨켓몬 큰 화면으로 열기" title="새 탭에서 큰 화면으로 즐기기"><span>⛶</span><b>크게 보기</b></a>');
+  const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a>');bindFullscreenPlayLink(header);
   const syncNavOpenState=()=>header?.classList.toggle('nav-menu-open',Boolean(document.querySelector('.main-nav-group.open')));
   const closeNavGroups=(except=null)=>{document.querySelectorAll('.main-nav-group.open').forEach(group=>{if(group!==except){group.classList.remove('open');group.querySelector('.main-nav-trigger')?.setAttribute('aria-expanded','false')}});syncNavOpenState()};
   document.querySelectorAll('.main-nav [data-tab]').forEach(button=>button.onclick=()=>{closeNavGroups();renderShell(button.dataset.tab)});

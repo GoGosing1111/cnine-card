@@ -183,6 +183,33 @@ function renderCreated(user) {
   document.getElementById('go').onclick = () => renderShell('buy');
 }
 
+
+const STANDALONE_GAME_URL='https://cnine-card.pages.dev/';
+function bindFullscreenPlayLink(header){
+  const link=header?.querySelector('[data-fullscreen-play]');
+  if(!link)return;
+  const mobileViewport=window.matchMedia?.('(max-width:820px)')?.matches===true||/Android|iPhone|iPad|iPod/i.test(String(navigator.userAgent||''));
+  let embedded=false;
+  try{embedded=window.self!==window.top}catch(_){embedded=true}
+  link.target=embedded||mobileViewport?'_top':'_blank';
+  link.addEventListener('click',event=>{
+    if(!(embedded||mobileViewport))return;
+    const url=link.href||STANDALONE_GAME_URL;
+    let navigated=false;
+    try{
+      if(window.top&&window.top!==window){window.top.location.href=url;navigated=true}
+      else{window.location.href=url;navigated=true}
+    }catch(_){}
+    if(!navigated){
+      try{const opened=window.open(url,'_blank','noopener,noreferrer');navigated=Boolean(opened)}catch(_){}
+    }
+    if(!navigated){
+      try{window.location.assign(url);navigated=true}catch(_){}
+    }
+    if(navigated){event.preventDefault();event.stopPropagation()}
+  },{capture:true});
+}
+
 function renderShell(tab) {
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
   const user = loadUser();
@@ -190,7 +217,7 @@ function renderShell(tab) {
   const views = { buy: buyView, dex: dexView, battle: battleView, pvp: pvpView, attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
   app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="CNINE"><div><p class="eyebrow">CNINE CARD COLLECTION</p><h1>씨켓몬 카드뽑기</h1></div></div><nav class="tabs"><button class="tab ${tab==='buy'?'active':''}" data-tab="buy">카드팩</button><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">도감</button><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}<button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">랭킹</button><button class="tab mineral-tab ${tab==='mineral'?'active':''}" data-tab="mineral"><span class="mineral-tab-label"><span>미네랄</span><span>교환</span></span></button></nav></header>${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
   const mainTabs=document.querySelector('.header .tabs');if(mainTabs&&!mainTabs.querySelector('[data-tab="inventory"]')){const inventoryTab=document.createElement('button');inventoryTab.type='button';inventoryTab.className=`tab inventory-main-tab ${tab==='inventory'?'active':''}`;inventoryTab.dataset.tab='inventory';inventoryTab.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg><span>인벤토리</span>';mainTabs.appendChild(inventoryTab)}
-  const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" href="https://cnine-card.pages.dev/" target="_blank" rel="noopener noreferrer" aria-label="씨켓몬 큰 화면으로 열기" title="새 탭에서 큰 화면으로 즐기기"><span>⛶</span><b>크게 보기</b></a>');
+  const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a>');bindFullscreenPlayLink(header);
   document.querySelectorAll('.tab').forEach(b => b.onclick = () => renderShell(b.dataset.tab));
   bindView(tab);
   loadRecentHighGradeFeed();
