@@ -4395,6 +4395,23 @@ export async function onRequest(context){
       }
     }
 
+    if(path==='admin/breakthrough-cinematic'){
+      const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method==='GET') return json({cinematic:await breakthroughCinematicConfig(env)});
+      if(request.method==='PATCH'||request.method==='POST'){
+        const payload=await readBody(request);
+        if(!payload?.cinematic||typeof payload.cinematic!=='object')return json({error:'강화 성공 영상 연출 설정값이 없습니다.'},400);
+        const before=await breakthroughCinematicConfig(env),cinematic=cleanBreakthroughCinematic(payload.cinematic);
+        if(cinematic.enabled&&!String(cinematic.mediaUrl||'').trim())return json({error:'연출을 사용할 때는 GIF / WebM / MP4 경로가 필요합니다.'},400);
+        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_cinematic_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(cinematic)).run();
+        const saved=await breakthroughCinematicConfig(env);
+        if(JSON.stringify(saved)!==JSON.stringify(cinematic))return json({error:'강화 성공 영상 연출 저장 검증에 실패했습니다.'},500);
+        try{await writeAdminLog(env,admin,'BREAKTHROUGH_CINEMATIC_UPDATE','SETTINGS','breakthrough_cinematic',before,saved)}catch(logError){console.error('breakthrough cinematic admin log failed',logError)}
+        return json({ok:true,cinematic:saved});
+      }
+      return json({error:'지원하지 않는 요청입니다.'},405);
+    }
+
     if(path==='admin/breakthrough-settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES,pity:await breakthroughPity(env),maHigh:await maMasterStarBreakthroughConfig(env),cinematic:await breakthroughCinematicConfig(env)});
