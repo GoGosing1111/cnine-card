@@ -425,16 +425,28 @@ export async function handleEquipment({path,request,env,deps}){
       const used=await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=?').bind(count,count,user.id,SUPPLY_BOX_CODE,count).run();
       if(!used.meta.changes)throw new Error(`보급상자가 ${count}개 이상 필요합니다.`);
       consumed=true;
-      const [pool,userRow,remainingRow]=await Promise.all([
+      const [pool,userRow,remainingRow,ownedRows]=await Promise.all([
         env.DB.prepare('SELECT * FROM character_equipment_items WHERE is_active=1 AND is_public=1 AND supply_enabled=1 AND supply_weight>0 ORDER BY sort_order,id').all(),
         env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first(),
-        env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,SUPPLY_BOX_CODE).first()
+        env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,SUPPLY_BOX_CODE).first(),
+        env.DB.prepare('SELECT DISTINCT equipment_id FROM user_equipment_instances WHERE user_id=?').bind(user.id).all()
       ]);
+      const ownedEquipmentIds=new Set((ownedRows.results||[]).map(row=>Number(row.equipment_id)));
       const results=[],equipmentRewards=[];let coinGained=0,shardGained=0;
       for(let index=0;index<count;index++){
         const roll=Math.random()*100,eqLimit=settings.rewardRates.equipment,shardLimit=eqLimit+settings.rewardRates.shards;
-        if(roll<eqLimit&&(pool.results||[]).length){const picked=weightedPick(pool.results.map(row=>({...row,weight:row.supply_weight})));const item=publicItem(picked);equipmentRewards.push({index,item});results.push({type:'EQUIPMENT',item});}
-        else if(roll<shardLimit||!(pool.results||[]).length){const amount=deterministicInt(`${requestId}:SHARD:${index}`,settings.shards.min,settings.shards.max);shardGained+=amount;results.push({type:'SHARDS',amount});}
+        if(roll<eqLimit&&(pool.results||[]).length){
+          const picked=weightedPick(pool.results.map(row=>({...row,weight:row.supply_weight}))),item=publicItem(picked);
+          if(ownedEquipmentIds.has(Number(item.id))){
+            const amount=deterministicInt(`${requestId}:DUPLICATE_SHARD:${index}`,settings.shards.min,settings.shards.max);
+            shardGained+=amount;
+            results.push({type:'DUPLICATE_SHARDS',amount,duplicateItem:{id:item.id,name:item.name,image:item.image,rarity:item.rarity}});
+          }else{
+            ownedEquipmentIds.add(Number(item.id));
+            equipmentRewards.push({index,item});
+            results.push({type:'EQUIPMENT',item});
+          }
+        }else if(roll<shardLimit||!(pool.results||[]).length){const amount=deterministicInt(`${requestId}:SHARD:${index}`,settings.shards.min,settings.shards.max);shardGained+=amount;results.push({type:'SHARDS',amount});}
         else{const amount=deterministicInt(`${requestId}:COIN:${index}`,settings.coins.min,settings.coins.max);coinGained+=amount;results.push({type:'COINS',amount});}
       }
       const remaining=Number(remainingRow?.quantity||0),newCoin=Number(userRow?.coin||0)+coinGained,newShards=Number(userRow?.card_shards||0)+shardGained;
