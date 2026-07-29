@@ -234,7 +234,7 @@ const BURNING_EVENT_META_KEY='burning_event_settings_v1';
 const BURNING_EVENT_CACHE_MS=5000;
 let burningEventCache=null;
 function defaultBurningEventSettings(){return {enabled:false,generation:0,activatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,battleRewardMultiplier:1.5};}
-function cleanBurningEventSettings(raw={}){const b=defaultBurningEventSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));let title=String(raw.title||b.title).trim().slice(0,80)||b.title;if(title==='씨켓몬 버닝이 발동 되었습니다')title=b.title;return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};}
+function cleanBurningEventSettings(raw={}){const b=defaultBurningEventSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));let title=String(raw.title||b.title).trim().slice(0,80)||b.title;if(title==='씨켓몬 버닝이 발동 되었습니다')title=b.title;title=title.replace(/씨켓몬/g,'숲켓몬');return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};}
 async function burningEventSettings(env,{fresh=false}={}){
   const now=Date.now();
   if(!fresh&&burningEventCache&&now-burningEventCache.at<BURNING_EVENT_CACHE_MS)return burningEventCache.value;
@@ -1947,7 +1947,7 @@ function parseWagoTodayBoardRows(html){
     if(!/\b\d{1,2}:\d{2}\b/.test(text))continue;
     const rowTag=(/<tr\b[^>]*>/i.exec(block)||[''])[0];
     const rowClass=(/\bclass\s*=\s*['"]([^'"]*)['"]/i.exec(rowTag)||[])[1]||'';
-    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass)||/\[?\s*씨켓몬 공지\s*\]?/.test(text))continue;
+    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass)||/\[?\s*(?:씨켓몬|숲켓몬) 공지\s*\]?/.test(text))continue;
     const post=/href=['"](?:https?:\/\/(?:www\.)?ygosu\.com)?\/board\/soop\/(\d+)(?:[^'"]*)?['"]/i.exec(block);
     if(!post)continue;
     const author=extractWagoBoardAuthor(block);
@@ -2456,7 +2456,7 @@ async function maintenanceSettings(env,{fresh=false}={}){
     const values=Object.fromEntries(rows.results.map(row=>[row.key,row.value]));
     const value={
       active:String(values.maintenance_mode||'0')==='1',
-      title:values.maintenance_title||'씨켓몬 서버 점검 중',
+      title:String(values.maintenance_title||'숲켓몬 서버 점검 중').replace(/씨켓몬/g,'숲켓몬'),
       message:values.maintenance_message||'안정적인 서비스 제공을 위해 점검을 진행하고 있습니다.',
       startAt:values.maintenance_start_at||'',
       endAt:values.maintenance_end_at||'',
@@ -2623,7 +2623,7 @@ export async function onRequest(context){
       const ipHash=await requestIpHash(request,env);
       const existingIp=await env.DB.prepare('SELECT user_id FROM account_ip_registrations WHERE ip_hash=?').bind(ipHash).first();
       const ipException=await env.DB.prepare("SELECT ip_hash FROM account_ip_exceptions WHERE ip_hash=? AND (expires_at IS NULL OR expires_at>datetime('now'))").bind(ipHash).first();
-      if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 씨켓몬 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
+      if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 숲켓몬 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
       try{
         const coinSetting=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_user_coin'").first();
         const newUserCoin=Math.max(0,Number(coinSetting?.value||5000)||5000);
@@ -3865,7 +3865,7 @@ export async function onRequest(context){
       const inspected=await inspectWagoComment(settings,v);
       await env.DB.prepare("UPDATE wago_verifications SET comment_url=?,profile_url=NULL,last_checked_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(settings.postUrl,inspected.ok?inspected.notice:inspected.error,user.id).run();
       if(!inspected.ok)return json({error:inspected.error},409);
-      const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(inspected.memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 씨켓몬 계정에 인증된 회원번호입니다.'},409);
+      const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(inspected.memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 숲켓몬 계정에 인증된 회원번호입니다.'},409);
       await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',wago_member_no=?,comment_url=?,profile_url=NULL,verified_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.memberNo,inspected.commentUrl,inspected.notice,user.id).run();
       return json({ok:true,verified:true,message:`댓글 작성자 회원번호 ${inspected.memberNo}번을 확인하여 자동 인증되었습니다.`});
     }
@@ -4031,7 +4031,7 @@ export async function onRequest(context){
       if(!matches.length)return json({error:'2단계 인증 연결 기록이 없습니다.',code:'WAGO_NOT_VERIFIED',wagoNickname},404);
       if(matches.length>1)return json({error:'동일 와고 닉네임에 인증 완료 계정이 여러 개 연결되어 있습니다. CMS에서 연결 기록을 정리하세요.',code:'WAGO_DUPLICATE_LINK',wagoNickname,matches:matches.map(x=>({gameNickname:x.nickname,wagoMemberNo:x.wago_member_no}))},409);
       const user=matches[0];
-      if(String(user.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 씨켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
+      if(String(user.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 숲켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
       return json({ok:true,wagoNickname:user.wago_nickname,wagoMemberNo:user.wago_member_no,gameUser:{id:user.id,nickname:user.nickname,coin:Number(user.coin||0)},verifiedAt:user.verified_at});
     }
 
@@ -4049,7 +4049,7 @@ export async function onRequest(context){
       if(String(linked.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'정지되거나 비활성화된 계정에는 지급할 수 없습니다.'},409);
       if(sourceKey){const duplicateSource=await env.DB.prepare('SELECT id,request_id,amount,created_at FROM wago_extension_reward_receipts WHERE source_key=? AND user_id=? AND reason=? ORDER BY id DESC LIMIT 1').bind(sourceKey,userId,reason).first();if(duplicateSource&&!body.allowDuplicate)return json({error:'같은 게시글 또는 댓글에 동일 사유로 이미 지급된 기록이 있습니다.',code:'SOURCE_ALREADY_REWARDED',previous:duplicateSource},409);}
       const beforeCoin=Number(linked.coin||0);
-      const title=String(body.title||'씨켓몬 이벤트 코인 지급').trim().slice(0,100);
+      const title=String(body.title||'숲켓몬 이벤트 코인 지급').trim().slice(0,100);
       const messageBody=String(body.messageBody||`${reason} 보상으로 ${amount.toLocaleString()}코인이 도착했습니다. 메시지에서 수령해 주세요.`).trim().slice(0,1000);
       const messageResult=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')").bind(userId,title,messageBody).run();
       const messageId=Number(messageResult?.meta?.last_row_id||0);if(!messageId)throw new Error('코인 보상 메시지 저장 ID 확인 실패');
