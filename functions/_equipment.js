@@ -7,12 +7,28 @@ const EQUIPMENT_RARITY_ALIASES={COMMON:'NORMAL',UNCOMMON:'MAGIC',ADVANCED:'MAGIC
 const SOURCE_TYPES=['PVE','PVE_AUTO','TOWER','RAID','RIFT','PVP','CAPTAIN'];
 const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET','CONTENT_CLEAR'];
 const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID'];
-let foundationPromise=null;
+const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
+const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
+const SUPPLY_BOX_MAX_OPEN=10;
+const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1},PVE_AUTO:{enabled:true,rate:.05},TOWER:{enabled:true,rate:.2},RAID:{enabled:true,rate:1},RIFT:{enabled:true,rate:.5},PVP:{enabled:true,rate:.2},CAPTAIN:{enabled:true,rate:.3}}};
+let foundationPromise=null,supplySettingsCache=null,supplySettingsCacheAt=0;
 
 function cleanText(value,max=120){return String(value??'').trim().slice(0,max)}
 function cleanInt(value,min=0,max=100000000){const n=Math.floor(Number(value)||0);return Math.max(min,Math.min(max,n))}
 function cleanRate(value){const n=Number(value);return Math.max(0,Math.min(100,Number.isFinite(n)?n:0))}
 function cleanBool(value,defaultValue=true){if(value===undefined||value===null)return defaultValue;return value===true||value===1||String(value)==='1'}
+function cleanWeight(value,defaultValue=1){const n=Number(value);return Math.max(0,Math.min(1000000,Number.isFinite(n)?n:defaultValue))}
+function cleanSupplyBoxSettings(value){
+  const raw=value&&typeof value==='object'?value:{};
+  const rewardRates={equipment:cleanRate(raw.rewardRates?.equipment??DEFAULT_SUPPLY_BOX_SETTINGS.rewardRates.equipment),shards:cleanRate(raw.rewardRates?.shards??DEFAULT_SUPPLY_BOX_SETTINGS.rewardRates.shards),coins:cleanRate(raw.rewardRates?.coins??DEFAULT_SUPPLY_BOX_SETTINGS.rewardRates.coins)};
+  const total=rewardRates.equipment+rewardRates.shards+rewardRates.coins;
+  if(Math.abs(total-100)>.0001)throw new Error('보급상자 보상 확률 합계는 100%여야 합니다.');
+  const range=(input,defaults)=>{const min=cleanInt(input?.min??defaults.min,0,100000000),max=cleanInt(input?.max??defaults.max,min,100000000);return {min,max:Math.max(min,max)}};
+  const sources={};for(const type of SOURCE_TYPES){const current=raw.sources?.[type]||DEFAULT_SUPPLY_BOX_SETTINGS.sources[type]||{enabled:false,rate:0};sources[type]={enabled:cleanBool(current.enabled,false),rate:cleanRate(current.rate)}}
+  return {enabled:cleanBool(raw.enabled,true),shopEnabled:cleanBool(raw.shopEnabled,true),shopPrice:cleanInt(raw.shopPrice??DEFAULT_SUPPLY_BOX_SETTINGS.shopPrice,1,100000000),rewardRates,shards:range(raw.shards,DEFAULT_SUPPLY_BOX_SETTINGS.shards),coins:range(raw.coins,DEFAULT_SUPPLY_BOX_SETTINGS.coins),sources};
+}
+function deterministicUnit(text){let hash=2166136261;for(const ch of String(text||'')){hash^=ch.charCodeAt(0);hash=Math.imul(hash,16777619)>>>0}return hash/4294967296}
+function deterministicInt(text,min,max){const a=Math.max(0,Math.floor(Number(min)||0)),b=Math.max(a,Math.floor(Number(max)||a));return a+Math.floor(deterministicUnit(text)*(b-a+1))}
 function normalizeSlot(value){const x=String(value||'').trim().toUpperCase();return EQUIPMENT_SLOTS.includes(x)?x:''}
 function normalizeSubtype(value){const x=String(value||'').trim().toUpperCase();return EQUIPMENT_SUBTYPES.includes(x)?x:''}
 function normalizeSource(value){const x=String(value||'').trim().toUpperCase();return SOURCE_TYPES.includes(x)?x:''}
@@ -154,12 +170,49 @@ export async function ensureEquipmentFoundation(env){
       statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1232_character_title_styles','1',CURRENT_TIMESTAMP)"));
       await env.DB.batch(statements);
     }
+    const markerV1247=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1247_equipment_supply_box'").first();
+    if(markerV1247?.value!=='1'){
+      const itemTableInfo=await env.DB.prepare('PRAGMA table_info(character_equipment_items)').all();
+      const itemColumns=new Set((itemTableInfo.results||[]).map(col=>String(col.name||'').toLowerCase()));
+      const statements=[
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS inventory_items (code TEXT PRIMARY KEY,name TEXT NOT NULL,subtitle TEXT NOT NULL DEFAULT '',description TEXT NOT NULL DEFAULT '',category TEXT NOT NULL DEFAULT 'PACK',rarity TEXT NOT NULL DEFAULT 'SPECIAL',image_url TEXT NOT NULL DEFAULT '',sort_order INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS cnine_user_inventory (user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,unseen_quantity INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code))`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS inventory_logs (id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,item_code TEXT NOT NULL,change_amount INTEGER NOT NULL,balance_after INTEGER NOT NULL,reason TEXT NOT NULL DEFAULT '',reference_type TEXT,reference_id TEXT,admin_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS inventory_use_receipts (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,item_code TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`)
+      ];
+      if(!itemColumns.has('supply_enabled'))statements.push(env.DB.prepare("ALTER TABLE character_equipment_items ADD COLUMN supply_enabled INTEGER NOT NULL DEFAULT 1"));
+      if(!itemColumns.has('supply_weight'))statements.push(env.DB.prepare("ALTER TABLE character_equipment_items ADD COLUMN supply_weight REAL NOT NULL DEFAULT 1"));
+      statements.push(env.DB.prepare(`CREATE TABLE IF NOT EXISTS equipment_supply_drop_grants (
+        user_id INTEGER NOT NULL,
+        source_type TEXT NOT NULL,
+        reference_id TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'PENDING',
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(user_id,source_type,reference_id)
+      )`));
+      statements.push(env.DB.prepare("CREATE INDEX IF NOT EXISTS idx_equipment_supply_drop_grants_created ON equipment_supply_drop_grants(created_at)"));
+      statements.push(env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES(?,?,?,?,?,?,?,?,1)").bind(SUPPLY_BOX_CODE,'장비 보급상자','EQUIPMENT SUPPLY BOX','장비·카드 조각·코인 중 하나를 획득합니다. 한 번에 최대 10개까지 개방할 수 있습니다.','SUPPLY_BOX','HIGH',SUPPLY_BOX_IMAGE,35));
+      statements.push(env.DB.prepare("UPDATE inventory_items SET name='장비 보급상자',subtitle='EQUIPMENT SUPPLY BOX',description='장비·카드 조각·코인 중 하나를 획득합니다. 한 번에 최대 10개까지 개방할 수 있습니다.',category='SUPPLY_BOX',rarity='HIGH',image_url=?,sort_order=35,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code=?").bind(SUPPLY_BOX_IMAGE,SUPPLY_BOX_CODE));
+      statements.push(env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('equipment_supply_box_settings_v1247',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(DEFAULT_SUPPLY_BOX_SETTINGS)));
+      statements.push(env.DB.prepare("UPDATE equipment_drop_profiles SET enabled=0,updated_at=CURRENT_TIMESTAMP WHERE enabled<>0"));
+      statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1247_equipment_supply_box','1',CURRENT_TIMESTAMP)"));
+      await env.DB.batch(statements);
+    }
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
 }
 
-function publicItem(row){return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0)}}
+export async function supplyBoxSettings(env,{fresh=false}={}){
+  await ensureEquipmentFoundation(env);
+  const now=Date.now();if(!fresh&&supplySettingsCache&&now-supplySettingsCacheAt<30000)return supplySettingsCache;
+  const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='equipment_supply_box_settings_v1247'").first();
+  try{supplySettingsCache=cleanSupplyBoxSettings(parseJson(row?.value,DEFAULT_SUPPLY_BOX_SETTINGS))}catch{supplySettingsCache=cleanSupplyBoxSettings(DEFAULT_SUPPLY_BOX_SETTINGS)}
+  supplySettingsCacheAt=now;return supplySettingsCache;
+}
+function publicSupplyBoxConfig(settings){return {enabled:settings.enabled,shopEnabled:settings.shopEnabled,shopPrice:settings.shopPrice,maxOpen:SUPPLY_BOX_MAX_OPEN,itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,rewardRates:settings.rewardRates}}
+function publicItem(row){return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),supplyEnabled:row.supply_enabled!==0,supplyWeight:Number(row.supply_weight??1)}}
 function publicTitle(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig:parseJson(row.unlock_config_json,{}),stylePreset:normalizeTitleStylePreset(row.style_preset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null}}
 
 export async function publicEquippedTitleMap(env,userIds=[]){
@@ -243,23 +296,28 @@ export async function grantEquipmentDrop(env,{userId,sourceType,sourceId='*',req
   await ensureEquipmentFoundation(env);
   const type=normalizeSource(sourceType);if(!type||!userId)return null;
   const key=cleanText(sourceId||'*',120)||'*',rid=cleanText(requestId||`${Date.now()}-${Math.random().toString(36).slice(2)}`,160);
-  const prior=await env.DB.prepare('SELECT result,response_json FROM equipment_drop_receipts WHERE request_id=? AND user_id=? AND source_type=? AND source_key=?').bind(rid,userId,type,key).first();
-  if(prior){if(prior.response_json)try{return JSON.parse(prior.response_json)}catch{}return null}
-  const exact=await env.DB.prepare(`SELECT * FROM equipment_drop_profiles WHERE source_type=? AND source_key=? AND enabled=1 LIMIT 1`).bind(type,key).first();
-  const profile=exact||await env.DB.prepare(`SELECT * FROM equipment_drop_profiles WHERE source_type=? AND source_key='*' AND enabled=1 LIMIT 1`).bind(type).first();
-  const inserted=await env.DB.prepare(`INSERT OR IGNORE INTO equipment_drop_receipts(request_id,user_id,source_type,source_key,profile_id,result) VALUES(?,?,?,?,?,'PENDING')`).bind(rid,userId,type,key,profile?.id||null).run();
-  if(!inserted.meta.changes)return null;
-  try{await recordCharacterProgress(env,userId,type,key)}catch(error){await env.DB.prepare("DELETE FROM equipment_drop_receipts WHERE request_id=? AND user_id=? AND source_type=? AND source_key=? AND result='PENDING'").bind(rid,userId,type,key).run();throw error}
-  if(!profile){await env.DB.prepare("UPDATE equipment_drop_receipts SET result='NO_PROFILE',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND source_type=? AND source_key=?").bind(rid,userId,type,key).run();return null}
-  if(Math.random()*100>=cleanRate(profile.drop_rate)){
-    await env.DB.prepare("UPDATE equipment_drop_receipts SET result='MISS',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND source_type=? AND source_key=?").bind(rid,userId,type,key).run();return null;
+  try{await recordCharacterProgress(env,userId,type,key)}catch(error){console.error('character progress record failed',error)}
+  const settings=await supplyBoxSettings(env),source=settings.sources[type];
+  if(!settings.enabled||!source?.enabled||source.rate<=0)return null;
+  const rollKey=`SUPPLY_DROP:${userId}:${type}:${key}:${rid}`;
+  if(deterministicUnit(rollKey)*100>=source.rate)return null;
+  const prior=await env.DB.prepare('SELECT status FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=?').bind(userId,type,rid).first();
+  if(prior?.status==='GRANTED'){
+    const balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,SUPPLY_BOX_CODE).first();
+    return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:1,balance:Number(balance?.quantity||0),sourceType:type,sourceId:key,reused:true};
   }
-  const entries=await env.DB.prepare(`SELECT e.*,i.* FROM equipment_drop_entries e JOIN character_equipment_items i ON i.id=e.equipment_id WHERE e.profile_id=? AND e.is_active=1 AND e.weight>0 AND i.is_active=1 AND i.is_public=1`).bind(profile.id).all();
-  const picked=weightedPick(entries.results);if(!picked){await env.DB.prepare("UPDATE equipment_drop_receipts SET result='EMPTY',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND source_type=? AND source_key=?").bind(rid,userId,type,key).run();return null}
-  const created=await env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) VALUES(?,?,?,?,?)`).bind(userId,picked.equipment_id,type,key,rid).run();
-  const instanceId=Number(created.meta.last_row_id),item=publicItem({...picked,id:picked.equipment_id}),response={instanceId,item,sourceType:type,sourceId:key};
-  await env.DB.prepare("UPDATE equipment_drop_receipts SET result='GRANTED',equipment_instance_id=?,response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND source_type=? AND source_key=?").bind(instanceId,JSON.stringify(response),rid,userId,type,key).run();
-  return response;
+  await env.DB.batch([
+    env.DB.prepare("INSERT OR IGNORE INTO equipment_supply_drop_grants(user_id,source_type,reference_id,status) VALUES(?,?,?,'PENDING')").bind(userId,type,rid),
+    env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+      SELECT ?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
+      WHERE EXISTS(SELECT 1 FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=? AND status='PENDING')
+      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+1,unseen_quantity=cnine_user_inventory.unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,SUPPLY_BOX_CODE,userId,type,rid),
+    env.DB.prepare("UPDATE equipment_supply_drop_grants SET status='GRANTED',updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND source_type=? AND reference_id=? AND status='PENDING'").bind(userId,type,rid)
+  ]);
+  const granted=await env.DB.prepare("SELECT status FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=?").bind(userId,type,rid).first();
+  if(granted?.status!=='GRANTED')return null;
+  const balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,SUPPLY_BOX_CODE).first();
+  return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:1,balance:Number(balance?.quantity||0),sourceType:type,sourceId:key};
 }
 
 async function characterPayload(env,userId,{admin=false}={}){
@@ -276,18 +334,16 @@ async function characterPayload(env,userId,{admin=false}={}){
 }
 
 async function adminSystemPayload(env){
-  const [items,titles,profiles,entries]=await Promise.all([
+  const [items,titles,settings]=await Promise.all([
     env.DB.prepare('SELECT * FROM character_equipment_items ORDER BY slot,sort_order,id').all(),
     env.DB.prepare('SELECT * FROM character_titles ORDER BY sort_order,id').all(),
-    env.DB.prepare('SELECT * FROM equipment_drop_profiles ORDER BY source_type,source_key,id').all(),
-    env.DB.prepare(`SELECT e.*,i.name AS equipment_name,i.slot,i.rarity FROM equipment_drop_entries e JOIN character_equipment_items i ON i.id=e.equipment_id ORDER BY e.profile_id,e.id`).all()
+    supplyBoxSettings(env)
   ]);
-  const byProfile=new Map();for(const entry of entries.results){if(!byProfile.has(Number(entry.profile_id)))byProfile.set(Number(entry.profile_id),[]);byProfile.get(Number(entry.profile_id)).push({id:Number(entry.id),equipmentId:Number(entry.equipment_id),equipmentName:entry.equipment_name,slot:entry.slot,rarity:entry.rarity,weight:Number(entry.weight||0),isActive:entry.is_active!==0})}
-  return {slots:EQUIPMENT_SLOTS.map(id=>({id,label:EQUIPMENT_SLOT_LABELS[id]})),subtypes:EQUIPMENT_SUBTYPES,equipmentRarities:EQUIPMENT_RARITIES,sourceTypes:SOURCE_TYPES,titleUnlockTypes:TITLE_UNLOCK_TYPES,titleStylePresets:TITLE_STYLE_PRESETS,items:items.results.map(publicItem),titles:titles.results.map(row=>publicTitle(row)),profiles:profiles.results.map(row=>({id:Number(row.id),name:row.name,sourceType:row.source_type,sourceKey:row.source_key,enabled:row.enabled!==0,dropRate:Number(row.drop_rate||0),maxDrops:Number(row.max_drops||1),entries:byProfile.get(Number(row.id))||[]}))};
+  return {slots:EQUIPMENT_SLOTS.map(id=>({id,label:EQUIPMENT_SLOT_LABELS[id]})),subtypes:EQUIPMENT_SUBTYPES,equipmentRarities:EQUIPMENT_RARITIES,sourceTypes:SOURCE_TYPES,titleUnlockTypes:TITLE_UNLOCK_TYPES,titleStylePresets:TITLE_STYLE_PRESETS,items:items.results.map(publicItem),titles:titles.results.map(row=>publicTitle(row)),profiles:[],supplyBox:publicSupplyBoxConfig(settings),supplyBoxSettings:settings};
 }
 
 export async function handleEquipment({path,request,env,deps}){
-  if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('admin/equipment')||path.startsWith('admin/title')))return null;
+  if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')))return null;
   await ensureEquipmentFoundation(env);
   const {authenticate,readBody,json,writeAdminLog}=deps;
   if(path==='character/loadout'&&request.method==='GET'){
@@ -321,6 +377,82 @@ export async function handleEquipment({path,request,env,deps}){
     return json({ok:true,equippedTitleId:null,title:null});
   }
 
+  if(path==='equipment/supply-box/config'&&request.method==='GET'){
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const [settings,balance]=await Promise.all([supplyBoxSettings(env),env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,SUPPLY_BOX_CODE).first()]);
+    return json({...publicSupplyBoxConfig(settings),balance:Number(balance?.quantity||0),coin:Number(user.coin||0)});
+  }
+  if(path==='equipment/supply-box/purchase'&&request.method==='POST'){
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const body=await readBody(request),count=cleanInt(body.count,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100),settings=await supplyBoxSettings(env);
+    if(!settings.enabled||!settings.shopEnabled)return json({error:'현재 장비 보급상자 판매가 중지되어 있습니다.'},403);
+    const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+    if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
+    if(prior)return json({error:'같은 구매 요청을 처리 중이거나 이미 종료했습니다.'},409);
+    const totalCost=settings.shopPrice*count;
+    const receipt=await env.DB.prepare("INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status) VALUES(?,?,?,'PENDING')").bind(requestId,user.id,`${SUPPLY_BOX_CODE}_PURCHASE`).run();
+    if(!receipt.meta.changes)return json({error:'같은 구매 요청을 처리 중입니다.'},409);
+    let charged=false;
+    try{
+      const paid=await env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(totalCost,user.id,totalCost).run();
+      if(!paid.meta.changes)throw new Error('코인이 부족합니다.');
+      charged=true;
+      const before=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,SUPPLY_BOX_CODE).first(),balance=Number(before?.quantity||0)+count,newCoin=Number(user.coin||0)-totalCost;
+      const response={ok:true,itemCode:SUPPLY_BOX_CODE,count,balance,spent:totalCost,coin:newCoin,requestId};
+      await env.DB.batch([
+        env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,SUPPLY_BOX_CODE,count,count),
+        env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,'SUPPLY_SHOP',?)").bind(user.id,SUPPLY_BOX_CODE,count,balance,'장비 보급상자 구매',requestId),
+        env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id)
+      ]);
+      return json(response);
+    }catch(error){
+      if(charged)await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(totalCost,user.id).run();
+      await env.DB.prepare("UPDATE inventory_use_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(cleanText(error.message,300),requestId,user.id).run();
+      return json({error:error.message||'보급상자 구매에 실패했습니다.'},error.message==='코인이 부족합니다.'?400:500);
+    }
+  }
+  if(path==='equipment/supply-box/open'&&request.method==='POST'){
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const body=await readBody(request),count=cleanInt(body.count,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100),settings=await supplyBoxSettings(env);
+    if(!settings.enabled)return json({error:'현재 장비 보급상자를 개방할 수 없습니다.'},403);
+    const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+    if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
+    if(prior)return json({error:'같은 개방 요청을 처리 중이거나 이미 종료했습니다.'},409);
+    const receipt=await env.DB.prepare("INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status) VALUES(?,?,?,'PENDING')").bind(requestId,user.id,SUPPLY_BOX_CODE).run();
+    if(!receipt.meta.changes)return json({error:'같은 개방 요청을 처리 중입니다.'},409);
+    let consumed=false;
+    try{
+      const used=await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=?').bind(count,count,user.id,SUPPLY_BOX_CODE,count).run();
+      if(!used.meta.changes)throw new Error(`보급상자가 ${count}개 이상 필요합니다.`);
+      consumed=true;
+      const [pool,userRow,remainingRow]=await Promise.all([
+        env.DB.prepare('SELECT * FROM character_equipment_items WHERE is_active=1 AND is_public=1 AND supply_enabled=1 AND supply_weight>0 ORDER BY sort_order,id').all(),
+        env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first(),
+        env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,SUPPLY_BOX_CODE).first()
+      ]);
+      const results=[],equipmentRewards=[];let coinGained=0,shardGained=0;
+      for(let index=0;index<count;index++){
+        const roll=Math.random()*100,eqLimit=settings.rewardRates.equipment,shardLimit=eqLimit+settings.rewardRates.shards;
+        if(roll<eqLimit&&(pool.results||[]).length){const picked=weightedPick(pool.results.map(row=>({...row,weight:row.supply_weight})));const item=publicItem(picked);equipmentRewards.push({index,item});results.push({type:'EQUIPMENT',item});}
+        else if(roll<shardLimit||!(pool.results||[]).length){const amount=deterministicInt(`${requestId}:SHARD:${index}`,settings.shards.min,settings.shards.max);shardGained+=amount;results.push({type:'SHARDS',amount});}
+        else{const amount=deterministicInt(`${requestId}:COIN:${index}`,settings.coins.min,settings.coins.max);coinGained+=amount;results.push({type:'COINS',amount});}
+      }
+      const remaining=Number(remainingRow?.quantity||0),newCoin=Number(userRow?.coin||0)+coinGained,newShards=Number(userRow?.card_shards||0)+shardGained;
+      const response={ok:true,itemCode:SUPPLY_BOX_CODE,count,remaining,results,coinGained,shardGained,coin:newCoin,cardShards:newShards,requestId};
+      const statements=[];
+      if(coinGained||shardGained)statements.push(env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(coinGained,shardGained,user.id));
+      for(const reward of equipmentRewards)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) VALUES(?,?,?,?,?)`).bind(user.id,reward.item.id,'SUPPLY_BOX',requestId,`SUPPLY:${requestId}:${reward.index}`));
+      statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,'SUPPLY_OPEN',?)").bind(user.id,SUPPLY_BOX_CODE,-count,remaining,'장비 보급상자 개방',requestId));
+      statements.push(env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id));
+      await env.DB.batch(statements);
+      return json(response);
+    }catch(error){
+      if(consumed)await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=?').bind(count,user.id,SUPPLY_BOX_CODE).run();
+      await env.DB.prepare("UPDATE inventory_use_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(cleanText(error.message,300),requestId,user.id).run();
+      return json({error:error.message||'보급상자 개방에 실패했습니다.'},String(error.message||'').includes('필요합니다')?400:500);
+    }
+  }
+
   if(path==='admin/equipment-user-search'&&request.method==='GET'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
     const query=cleanText(new URL(request.url).searchParams.get('q')||'',40);
@@ -333,7 +465,7 @@ export async function handleEquipment({path,request,env,deps}){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);return json(await adminSystemPayload(env));
   }
   if(path==='admin/equipment-item'&&['POST','PATCH'].includes(request.method)){
-    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,0,2147483647),slot=normalizeSlot(b.slot),subtype=normalizeSubtype(b.subtype);if(!slot||!subtype)return json({error:'장비 부위와 종류를 확인하세요.'},400);const allowedSubtypes={WEAPON:['MODERN_SWORD','AXE','PISTOL','RIFLE'],TOP:['TOP'],BOTTOM:['BOTTOM'],SHOES:['SHOES'],ACCESSORY:['DUAL_DISK']};if(!allowedSubtypes[slot]?.includes(subtype))return json({error:'장비 부위와 세부 종류가 맞지 않습니다.'},400);const name=cleanText(b.name,80),code=cleanText(b.code||`EQ_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');if(!name)return json({error:'장비명을 입력하세요.'},400);const duplicateCode=await env.DB.prepare('SELECT id FROM character_equipment_items WHERE code=? AND id<>?').bind(code,id||0).first();if(duplicateCode)return json({error:'이미 사용 중인 장비 코드입니다.'},409);if(id){const current=await env.DB.prepare('SELECT slot FROM character_equipment_items WHERE id=?').bind(id).first();if(!current)return json({error:'수정할 장비를 찾을 수 없습니다.'},404);if(current.slot!==slot){const ownedCount=await env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE equipment_id=?').bind(id).first();if(Number(ownedCount?.count||0)>0)return json({error:'유저가 보유 중인 장비는 부위를 변경할 수 없습니다. 새 장비로 등록하세요.'},409)}}const power=itemPower(b.totalPower),args=[code,name,slot,subtype,normalizeEquipmentRarity(b.rarity),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,cleanBool(b.isActive)?1:0,cleanBool(b.isPublic)?1:0,cleanInt(b.sortOrder,0,100000)];if(id)await env.DB.prepare(`UPDATE character_equipment_items SET code=?,name=?,slot=?,subtype=?,rarity=?,image_url=?,description=?,total_power=?,pve_power=?,pvp_power=?,is_active=?,is_public=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id).run();else await env.DB.prepare(`INSERT INTO character_equipment_items(code,name,slot,subtype,rarity,image_url,description,total_power,pve_power,pvp_power,is_active,is_public,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();if(id&&!cleanBool(b.isActive))await env.DB.batch([env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id),env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id)]);if(writeAdminLog)await writeAdminLog(env,admin,id?'EQUIPMENT_UPDATE':'EQUIPMENT_CREATE','EQUIPMENT',String(id||code),null,{name,slot,subtype,totalPower:power.total});return json({ok:true,...await adminSystemPayload(env)});
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,0,2147483647),slot=normalizeSlot(b.slot),subtype=normalizeSubtype(b.subtype);if(!slot||!subtype)return json({error:'장비 부위와 종류를 확인하세요.'},400);const allowedSubtypes={WEAPON:['MODERN_SWORD','AXE','PISTOL','RIFLE'],TOP:['TOP'],BOTTOM:['BOTTOM'],SHOES:['SHOES'],ACCESSORY:['DUAL_DISK']};if(!allowedSubtypes[slot]?.includes(subtype))return json({error:'장비 부위와 세부 종류가 맞지 않습니다.'},400);const name=cleanText(b.name,80),code=cleanText(b.code||`EQ_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');if(!name)return json({error:'장비명을 입력하세요.'},400);const duplicateCode=await env.DB.prepare('SELECT id FROM character_equipment_items WHERE code=? AND id<>?').bind(code,id||0).first();if(duplicateCode)return json({error:'이미 사용 중인 장비 코드입니다.'},409);let current=null;if(id){current=await env.DB.prepare('SELECT slot,supply_enabled,supply_weight FROM character_equipment_items WHERE id=?').bind(id).first();if(!current)return json({error:'수정할 장비를 찾을 수 없습니다.'},404);if(current.slot!==slot){const ownedCount=await env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE equipment_id=?').bind(id).first();if(Number(ownedCount?.count||0)>0)return json({error:'유저가 보유 중인 장비는 부위를 변경할 수 없습니다. 새 장비로 등록하세요.'},409)}}const supplyEnabled=b.supplyEnabled===undefined?(current?current.supply_enabled!==0:true):cleanBool(b.supplyEnabled,true),supplyWeight=b.supplyWeight===undefined?(current?cleanWeight(current.supply_weight,1):1):cleanWeight(b.supplyWeight,1),power=itemPower(b.totalPower),args=[code,name,slot,subtype,normalizeEquipmentRarity(b.rarity),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,cleanBool(b.isActive)?1:0,cleanBool(b.isPublic)?1:0,cleanInt(b.sortOrder,0,100000),supplyEnabled?1:0,supplyWeight];if(id)await env.DB.prepare(`UPDATE character_equipment_items SET code=?,name=?,slot=?,subtype=?,rarity=?,image_url=?,description=?,total_power=?,pve_power=?,pvp_power=?,is_active=?,is_public=?,sort_order=?,supply_enabled=?,supply_weight=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id).run();else await env.DB.prepare(`INSERT INTO character_equipment_items(code,name,slot,subtype,rarity,image_url,description,total_power,pve_power,pvp_power,is_active,is_public,sort_order,supply_enabled,supply_weight) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();if(id&&!cleanBool(b.isActive))await env.DB.batch([env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id),env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id)]);if(writeAdminLog)await writeAdminLog(env,admin,id?'EQUIPMENT_UPDATE':'EQUIPMENT_CREATE','EQUIPMENT',String(id||code),null,{name,slot,subtype,totalPower:power.total});return json({ok:true,...await adminSystemPayload(env)});
   }
   if(path==='admin/equipment-item'&&request.method==='DELETE'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,1,2147483647),used=await env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE equipment_id=?').bind(id).first();if(Number(used?.count||0)>0){await env.DB.batch([env.DB.prepare('UPDATE character_equipment_items SET is_active=0,is_public=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id),env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id),env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id)]);return json({ok:true,disabled:true,...await adminSystemPayload(env)})}await env.DB.batch([env.DB.prepare('DELETE FROM equipment_drop_entries WHERE equipment_id=?').bind(id),env.DB.prepare('DELETE FROM character_equipment_items WHERE id=?').bind(id)]);return json({ok:true,deleted:true,...await adminSystemPayload(env)});
@@ -344,11 +476,22 @@ export async function handleEquipment({path,request,env,deps}){
   if(path==='admin/title-item'&&request.method==='DELETE'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,1,2147483647),used=await env.DB.prepare('SELECT COUNT(*) count FROM user_character_titles WHERE title_id=?').bind(id).first();if(Number(used?.count||0)>0){await env.DB.batch([env.DB.prepare('UPDATE character_titles SET is_active=0,is_public=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id),env.DB.prepare('DELETE FROM user_title_loadout WHERE title_id=?').bind(id)]);return json({ok:true,disabled:true,...await adminSystemPayload(env)})}await env.DB.prepare('DELETE FROM character_titles WHERE id=?').bind(id).run();return json({ok:true,deleted:true,...await adminSystemPayload(env)});
   }
-  if(path==='admin/equipment-drop-profile'&&['POST','PATCH'].includes(request.method)){
-    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,0,2147483647),sourceType=normalizeSource(b.sourceType),sourceKey=cleanText(b.sourceKey||'*',120)||'*',name=cleanText(b.name||`${sourceType} ${sourceKey}`,100),entries=Array.isArray(b.entries)?b.entries:[];if(!sourceType)return json({error:'콘텐츠 종류를 선택하세요.'},400);const duplicateProfile=await env.DB.prepare('SELECT id FROM equipment_drop_profiles WHERE source_type=? AND source_key=? AND id<>?').bind(sourceType,sourceKey,id||0).first();if(duplicateProfile)return json({error:'해당 콘텐츠와 대상 ID의 드랍 설정이 이미 존재합니다.'},409);let profileId=id;if(id)await env.DB.prepare('UPDATE equipment_drop_profiles SET name=?,source_type=?,source_key=?,enabled=?,drop_rate=?,max_drops=1,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(name,sourceType,sourceKey,cleanBool(b.enabled)?1:0,cleanRate(b.dropRate),id).run();else{const result=await env.DB.prepare(`INSERT INTO equipment_drop_profiles(name,source_type,source_key,enabled,drop_rate,max_drops) VALUES(?,?,?,?,?,1) ON CONFLICT(source_type,source_key) DO UPDATE SET name=excluded.name,enabled=excluded.enabled,drop_rate=excluded.drop_rate,updated_at=CURRENT_TIMESTAMP`).bind(name,sourceType,sourceKey,cleanBool(b.enabled)?1:0,cleanRate(b.dropRate)).run();const row=await env.DB.prepare('SELECT id FROM equipment_drop_profiles WHERE source_type=? AND source_key=?').bind(sourceType,sourceKey).first();profileId=Number(row?.id||result.meta.last_row_id)}await env.DB.prepare('DELETE FROM equipment_drop_entries WHERE profile_id=?').bind(profileId).run();const statements=[];for(const entry of entries){const equipmentId=cleanInt(entry.equipmentId,1,2147483647),weight=Math.max(0,Math.min(1000000,Number(entry.weight)||0));if(equipmentId&&weight>0)statements.push(env.DB.prepare('INSERT INTO equipment_drop_entries(profile_id,equipment_id,weight,is_active) VALUES(?,?,?,1)').bind(profileId,equipmentId,weight))}if(statements.length)await env.DB.batch(statements);return json({ok:true,...await adminSystemPayload(env)});
+  if(path==='admin/equipment-supply-settings'&&request.method==='POST'){
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
+    const body=await readBody(request),settings=cleanSupplyBoxSettings(body.settings||{}),entries=Array.isArray(body.entries)?body.entries:[];
+    const statements=[
+      env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('equipment_supply_box_settings_v1247',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(settings)),
+      env.DB.prepare('UPDATE character_equipment_items SET supply_enabled=0,updated_at=CURRENT_TIMESTAMP'),
+      env.DB.prepare('UPDATE equipment_drop_profiles SET enabled=0,updated_at=CURRENT_TIMESTAMP WHERE enabled<>0')
+    ];
+    for(const entry of entries){const equipmentId=cleanInt(entry.equipmentId,1,2147483647),weight=cleanWeight(entry.weight,1);if(equipmentId&&weight>0)statements.push(env.DB.prepare('UPDATE character_equipment_items SET supply_enabled=1,supply_weight=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND is_active=1').bind(weight,equipmentId));}
+    await env.DB.batch(statements);supplySettingsCache=settings;supplySettingsCacheAt=Date.now();
+    if(writeAdminLog)await writeAdminLog(env,admin,'EQUIPMENT_SUPPLY_SETTINGS_UPDATE','SETTINGS','equipment_supply_box_settings_v1247',null,{settings,poolCount:entries.length});
+    return json({ok:true,...await adminSystemPayload(env)});
   }
-  if(path==='admin/equipment-drop-profile'&&request.method==='DELETE'){
-    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,1,2147483647);await env.DB.batch([env.DB.prepare('DELETE FROM equipment_drop_entries WHERE profile_id=?').bind(id),env.DB.prepare('DELETE FROM equipment_drop_profiles WHERE id=?').bind(id)]);return json({ok:true,...await adminSystemPayload(env)});
+  if(path==='admin/equipment-drop-profile'&&['POST','PATCH','DELETE'].includes(request.method)){
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
+    return json({error:'개별 장비 드랍 설정은 종료되었습니다. 보급상자 설정에서 통합 관리하세요.',code:'LEGACY_EQUIPMENT_DROP_DISABLED'},410);
   }
   if(path==='admin/equipment-grant'&&request.method==='POST'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),userId=cleanInt(b.userId,1,2147483647),equipmentId=cleanInt(b.equipmentId,1,2147483647),quantity=cleanInt(b.quantity||1,1,100),[targetUser,targetItem]=await Promise.all([env.DB.prepare('SELECT id FROM users WHERE id=?').bind(userId).first(),env.DB.prepare('SELECT id FROM character_equipment_items WHERE id=? AND is_active=1').bind(equipmentId).first()]);if(!targetUser)return json({error:'지급 대상 유저를 찾을 수 없습니다.'},404);if(!targetItem)return json({error:'지급할 활성 장비를 찾을 수 없습니다.'},404);const statements=[];for(let i=0;i<quantity;i++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'ADMIN',?,? FROM character_equipment_items WHERE id=?`).bind(userId,String(admin.id),`ADMIN-${admin.id}-${Date.now()}-${i}`,equipmentId));await env.DB.batch(statements);return json({ok:true,quantity});
