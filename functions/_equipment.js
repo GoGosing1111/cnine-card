@@ -202,11 +202,13 @@ function collectionConditionMet(title,state){
 
 export async function syncCollectionTitles(env,userId){
   await ensureEquipmentFoundation(env);
-  const rows=await env.DB.prepare(`SELECT * FROM character_titles WHERE is_active=1 AND unlock_type IN ('COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET')`).all();
+  const rows=await env.DB.prepare(`SELECT id,unlock_type,unlock_config_json FROM character_titles WHERE is_active=1 AND unlock_type IN ('COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET')`).all();
   if(!rows.results.length)return [];
-  const state=await userCollectionState(env,userId),granted=[];
-  for(const title of rows.results){if(collectionConditionMet(title,state)&&await grantTitle(env,userId,title.id,'COLLECTION',title.unlock_type))granted.push(Number(title.id))}
-  return granted;
+  const state=await userCollectionState(env,userId);
+  const matched=rows.results.filter(title=>collectionConditionMet(title,state));
+  if(!matched.length)return [];
+  const results=await env.DB.batch(matched.map(title=>env.DB.prepare(`INSERT OR IGNORE INTO user_character_titles(user_id,title_id,source_type,source_id) VALUES(?,?,?,?)`).bind(userId,title.id,'COLLECTION',title.unlock_type)));
+  return matched.filter((title,index)=>Number(results[index]?.meta?.changes||0)>0).map(title=>Number(title.id));
 }
 
 export async function recordCharacterProgress(env,userId,eventType,eventKey){
@@ -292,16 +294,31 @@ export async function handleEquipment({path,request,env,deps}){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);return json(await characterPayload(env,user.id));
   }
   if(path==='character/equipment/equip'&&request.method==='POST'){
-    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),instanceId=cleanInt(body.instanceId,1,2147483647),owned=await env.DB.prepare(`SELECT x.id,i.slot FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.is_active=1`).bind(instanceId,user.id).first();if(!owned)return json({error:'장착할 장비를 찾을 수 없습니다.'},404);await env.DB.prepare(`INSERT INTO user_equipment_loadout(user_id,slot,instance_id,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=excluded.instance_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,owned.slot,instanceId).run();return json({ok:true,...await characterPayload(env,user.id)});
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const body=await readBody(request),instanceId=cleanInt(body.instanceId,1,2147483647);
+    const owned=await env.DB.prepare(`SELECT x.id,i.slot FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.is_active=1`).bind(instanceId,user.id).first();
+    if(!owned)return json({error:'장착할 장비를 찾을 수 없습니다.'},404);
+    await env.DB.prepare(`INSERT INTO user_equipment_loadout(user_id,slot,instance_id,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=excluded.instance_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,owned.slot,instanceId).run();
+    return json({ok:true,slot:owned.slot,instanceId});
   }
   if(path==='character/equipment/unequip'&&request.method==='POST'){
-    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),slot=normalizeSlot(body.slot);if(!slot)return json({error:'올바른 장비 슬롯이 아닙니다.'},400);await env.DB.prepare('DELETE FROM user_equipment_loadout WHERE user_id=? AND slot=?').bind(user.id,slot).run();return json({ok:true,...await characterPayload(env,user.id)});
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const body=await readBody(request),slot=normalizeSlot(body.slot);if(!slot)return json({error:'올바른 장비 슬롯이 아닙니다.'},400);
+    await env.DB.prepare('DELETE FROM user_equipment_loadout WHERE user_id=? AND slot=?').bind(user.id,slot).run();
+    return json({ok:true,slot,instanceId:null});
   }
   if(path==='character/title/equip'&&request.method==='POST'){
-    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),titleId=cleanInt(body.titleId,1,2147483647),owned=await env.DB.prepare(`SELECT t.id FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id WHERE u.user_id=? AND t.id=? AND t.is_active=1`).bind(user.id,titleId).first();if(!owned)return json({error:'보유하지 않은 칭호입니다.'},404);await env.DB.prepare(`INSERT INTO user_title_loadout(user_id,title_id,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET title_id=excluded.title_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,titleId).run();return json({ok:true,...await characterPayload(env,user.id)});
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const body=await readBody(request),titleId=cleanInt(body.titleId,1,2147483647);
+    const owned=await env.DB.prepare(`SELECT t.id FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id WHERE u.user_id=? AND t.id=? AND t.is_active=1`).bind(user.id,titleId).first();
+    if(!owned)return json({error:'보유하지 않은 칭호입니다.'},404);
+    await env.DB.prepare(`INSERT INTO user_title_loadout(user_id,title_id,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET title_id=excluded.title_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,titleId).run();
+    return json({ok:true,equippedTitleId:titleId});
   }
   if(path==='character/title/unequip'&&request.method==='POST'){
-    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await env.DB.prepare('DELETE FROM user_title_loadout WHERE user_id=?').bind(user.id).run();return json({ok:true,...await characterPayload(env,user.id)});
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    await env.DB.prepare('DELETE FROM user_title_loadout WHERE user_id=?').bind(user.id).run();
+    return json({ok:true,equippedTitleId:null,title:null});
   }
 
   if(path==='admin/equipment-user-search'&&request.method==='GET'){
