@@ -1,9 +1,12 @@
-/* V1231 CHARACTER EQUIPMENT + TITLE SYSTEM */
+/* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const EQUIPMENT_SLOTS=['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'];
 const EQUIPMENT_SLOT_LABELS={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구'};
 const EQUIPMENT_SUBTYPES=['MODERN_SWORD','AXE','PISTOL','TOP','BOTTOM','SHOES','DUAL_DISK'];
+const EQUIPMENT_RARITIES=['NORMAL','MAGIC','RARE','EPIC','LEGENDARY','MYTHIC'];
+const EQUIPMENT_RARITY_ALIASES={COMMON:'NORMAL',UNCOMMON:'MAGIC',ADVANCED:'MAGIC',MAGIC:'MAGIC',NORMAL:'NORMAL',RARE:'RARE',EPIC:'EPIC',LEGEND:'LEGENDARY',LEGENDARY:'LEGENDARY',MYTH:'MYTHIC',MYTHIC:'MYTHIC'};
 const SOURCE_TYPES=['PVE','PVE_AUTO','TOWER','RAID','RIFT','PVP','CAPTAIN'];
 const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET','CONTENT_CLEAR'];
+const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID'];
 let foundationPromise=null;
 
 function cleanText(value,max=120){return String(value??'').trim().slice(0,max)}
@@ -13,6 +16,8 @@ function cleanBool(value,defaultValue=true){if(value===undefined||value===null)r
 function normalizeSlot(value){const x=String(value||'').trim().toUpperCase();return EQUIPMENT_SLOTS.includes(x)?x:''}
 function normalizeSubtype(value){const x=String(value||'').trim().toUpperCase();return EQUIPMENT_SUBTYPES.includes(x)?x:''}
 function normalizeSource(value){const x=String(value||'').trim().toUpperCase();return SOURCE_TYPES.includes(x)?x:''}
+function normalizeEquipmentRarity(value){const x=String(value||'').trim().toUpperCase();const normalized=EQUIPMENT_RARITY_ALIASES[x]||x;return EQUIPMENT_RARITIES.includes(normalized)?normalized:'NORMAL'}
+function normalizeTitleStylePreset(value){const x=String(value||'').trim().toUpperCase();return TITLE_STYLE_PRESETS.includes(x)?x:'DEFAULT'}
 function parseJson(value,fallback={}){try{const x=typeof value==='string'?JSON.parse(value):value;return x&&typeof x==='object'?x:fallback}catch{return fallback}}
 function itemPower(total){const safe=cleanInt(total,0,100000000),pve=Math.floor(safe*.9);return {total:safe,pve,pvp:safe-pve}}
 function isAdmin(user){return Boolean(user&&['OWNER','ADMIN'].includes(String(user.role||'').toUpperCase()))}
@@ -20,131 +25,142 @@ function isAdmin(user){return Boolean(user&&['OWNER','ADMIN'].includes(String(us
 export async function ensureEquipmentFoundation(env){
   if(foundationPromise)return foundationPromise;
   foundationPromise=(async()=>{
-    const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1231_character_equipment_titles'").first();
-    if(marker?.value==='1')return true;
-    await env.DB.batch([
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS character_equipment_items (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        code TEXT NOT NULL UNIQUE,
-        name TEXT NOT NULL,
-        slot TEXT NOT NULL,
-        subtype TEXT NOT NULL DEFAULT '',
-        rarity TEXT NOT NULL DEFAULT 'NORMAL',
-        image_url TEXT NOT NULL DEFAULT '',
-        description TEXT NOT NULL DEFAULT '',
-        total_power INTEGER NOT NULL DEFAULT 0,
-        pve_power INTEGER NOT NULL DEFAULT 0,
-        pvp_power INTEGER NOT NULL DEFAULT 0,
-        is_active INTEGER NOT NULL DEFAULT 1,
-        is_public INTEGER NOT NULL DEFAULT 1,
-        sort_order INTEGER NOT NULL DEFAULT 0,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_equipment_instances (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
-        equipment_id INTEGER NOT NULL,
-        source_type TEXT NOT NULL DEFAULT 'ADMIN',
-        source_id TEXT NOT NULL DEFAULT '',
-        request_id TEXT,
-        acquired_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_equipment_loadout (
-        user_id INTEGER NOT NULL,
-        slot TEXT NOT NULL,
-        instance_id INTEGER NOT NULL UNIQUE,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY(user_id,slot)
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS character_titles (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        code TEXT NOT NULL UNIQUE,
-        name TEXT NOT NULL,
-        description TEXT NOT NULL DEFAULT '',
-        badge_text TEXT NOT NULL DEFAULT '',
-        image_url TEXT NOT NULL DEFAULT '',
-        pve_power INTEGER NOT NULL DEFAULT 0,
-        unlock_type TEXT NOT NULL DEFAULT 'MANUAL',
-        unlock_config_json TEXT NOT NULL DEFAULT '{}',
-        is_active INTEGER NOT NULL DEFAULT 1,
-        is_public INTEGER NOT NULL DEFAULT 1,
-        sort_order INTEGER NOT NULL DEFAULT 0,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_character_titles (
-        user_id INTEGER NOT NULL,
-        title_id INTEGER NOT NULL,
-        source_type TEXT NOT NULL DEFAULT 'SYSTEM',
-        source_id TEXT NOT NULL DEFAULT '',
-        unlocked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY(user_id,title_id)
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_title_loadout (
-        user_id INTEGER PRIMARY KEY,
-        title_id INTEGER NOT NULL,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_title_progress_events (
-        user_id INTEGER NOT NULL,
-        event_type TEXT NOT NULL,
-        event_key TEXT NOT NULL,
-        first_cleared_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        clear_count INTEGER NOT NULL DEFAULT 1,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY(user_id,event_type,event_key)
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS equipment_drop_profiles (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        source_type TEXT NOT NULL,
-        source_key TEXT NOT NULL DEFAULT '*',
-        enabled INTEGER NOT NULL DEFAULT 1,
-        drop_rate REAL NOT NULL DEFAULT 0,
-        max_drops INTEGER NOT NULL DEFAULT 1,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        UNIQUE(source_type,source_key)
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS equipment_drop_entries (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        profile_id INTEGER NOT NULL,
-        equipment_id INTEGER NOT NULL,
-        weight REAL NOT NULL DEFAULT 1,
-        is_active INTEGER NOT NULL DEFAULT 1,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        UNIQUE(profile_id,equipment_id)
-      )`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS equipment_drop_receipts (
-        request_id TEXT NOT NULL,
-        user_id INTEGER NOT NULL,
-        source_type TEXT NOT NULL,
-        source_key TEXT NOT NULL DEFAULT '',
-        profile_id INTEGER,
-        result TEXT NOT NULL DEFAULT 'PENDING',
-        equipment_instance_id INTEGER,
-        response_json TEXT,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY(request_id,user_id,source_type,source_key)
-      )`),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_equipment_instances_user ON user_equipment_instances(user_id,acquired_at DESC,id DESC)'),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_equipment_instances_item ON user_equipment_instances(equipment_id,user_id)'),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_equipment_loadout_user ON user_equipment_loadout(user_id,slot)'),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_titles_user ON user_character_titles(user_id,unlocked_at DESC)'),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_equipment_drop_profiles_source ON equipment_drop_profiles(source_type,source_key,enabled)'),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_equipment_drop_entries_profile ON equipment_drop_entries(profile_id,is_active,weight)'),
-      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1231_character_equipment_titles','1',CURRENT_TIMESTAMP)")
-    ]);
+    const markerV1231=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1231_character_equipment_titles'").first();
+    if(markerV1231?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS character_equipment_items (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          code TEXT NOT NULL UNIQUE,
+          name TEXT NOT NULL,
+          slot TEXT NOT NULL,
+          subtype TEXT NOT NULL DEFAULT '',
+          rarity TEXT NOT NULL DEFAULT 'NORMAL',
+          image_url TEXT NOT NULL DEFAULT '',
+          description TEXT NOT NULL DEFAULT '',
+          total_power INTEGER NOT NULL DEFAULT 0,
+          pve_power INTEGER NOT NULL DEFAULT 0,
+          pvp_power INTEGER NOT NULL DEFAULT 0,
+          is_active INTEGER NOT NULL DEFAULT 1,
+          is_public INTEGER NOT NULL DEFAULT 1,
+          sort_order INTEGER NOT NULL DEFAULT 0,
+          created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_equipment_instances (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER NOT NULL,
+          equipment_id INTEGER NOT NULL,
+          source_type TEXT NOT NULL DEFAULT 'ADMIN',
+          source_id TEXT NOT NULL DEFAULT '',
+          request_id TEXT,
+          acquired_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_equipment_loadout (
+          user_id INTEGER NOT NULL,
+          slot TEXT NOT NULL,
+          instance_id INTEGER NOT NULL UNIQUE,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY(user_id,slot)
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS character_titles (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          code TEXT NOT NULL UNIQUE,
+          name TEXT NOT NULL,
+          description TEXT NOT NULL DEFAULT '',
+          badge_text TEXT NOT NULL DEFAULT '',
+          image_url TEXT NOT NULL DEFAULT '',
+          pve_power INTEGER NOT NULL DEFAULT 0,
+          unlock_type TEXT NOT NULL DEFAULT 'MANUAL',
+          unlock_config_json TEXT NOT NULL DEFAULT '{}',
+          is_active INTEGER NOT NULL DEFAULT 1,
+          is_public INTEGER NOT NULL DEFAULT 1,
+          sort_order INTEGER NOT NULL DEFAULT 0,
+          created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_character_titles (
+          user_id INTEGER NOT NULL,
+          title_id INTEGER NOT NULL,
+          source_type TEXT NOT NULL DEFAULT 'SYSTEM',
+          source_id TEXT NOT NULL DEFAULT '',
+          unlocked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY(user_id,title_id)
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_title_loadout (
+          user_id INTEGER PRIMARY KEY,
+          title_id INTEGER NOT NULL,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_title_progress_events (
+          user_id INTEGER NOT NULL,
+          event_type TEXT NOT NULL,
+          event_key TEXT NOT NULL,
+          first_cleared_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          clear_count INTEGER NOT NULL DEFAULT 1,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY(user_id,event_type,event_key)
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS equipment_drop_profiles (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT NOT NULL,
+          source_type TEXT NOT NULL,
+          source_key TEXT NOT NULL DEFAULT '*',
+          enabled INTEGER NOT NULL DEFAULT 1,
+          drop_rate REAL NOT NULL DEFAULT 0,
+          max_drops INTEGER NOT NULL DEFAULT 1,
+          created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          UNIQUE(source_type,source_key)
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS equipment_drop_entries (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          profile_id INTEGER NOT NULL,
+          equipment_id INTEGER NOT NULL,
+          weight REAL NOT NULL DEFAULT 1,
+          is_active INTEGER NOT NULL DEFAULT 1,
+          created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          UNIQUE(profile_id,equipment_id)
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS equipment_drop_receipts (
+          request_id TEXT NOT NULL,
+          user_id INTEGER NOT NULL,
+          source_type TEXT NOT NULL,
+          source_key TEXT NOT NULL DEFAULT '',
+          profile_id INTEGER,
+          result TEXT NOT NULL DEFAULT 'PENDING',
+          equipment_instance_id INTEGER,
+          response_json TEXT,
+          created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY(request_id,user_id,source_type,source_key)
+        )`),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_equipment_instances_user ON user_equipment_instances(user_id,acquired_at DESC,id DESC)'),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_equipment_instances_item ON user_equipment_instances(equipment_id,user_id)'),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_equipment_loadout_user ON user_equipment_loadout(user_id,slot)'),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_titles_user ON user_character_titles(user_id,unlocked_at DESC)'),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_equipment_drop_profiles_source ON equipment_drop_profiles(source_type,source_key,enabled)'),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_equipment_drop_entries_profile ON equipment_drop_entries(profile_id,is_active,weight)'),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1231_character_equipment_titles','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+    const markerV1232=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1232_character_title_styles'").first();
+    if(markerV1232?.value!=='1'){
+      const titleTableInfo=await env.DB.prepare('PRAGMA table_info(character_titles)').all();
+      const titleColumns=new Set((titleTableInfo.results||[]).map(col=>String(col.name||'').toLowerCase()));
+      const statements=[];
+      if(!titleColumns.has('style_preset'))statements.push(env.DB.prepare("ALTER TABLE character_titles ADD COLUMN style_preset TEXT NOT NULL DEFAULT 'DEFAULT'"));
+      statements.push(env.DB.prepare("UPDATE character_titles SET style_preset='DEFAULT' WHERE style_preset IS NULL OR TRIM(style_preset)=''"));
+      statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1232_character_title_styles','1',CURRENT_TIMESTAMP)"));
+      await env.DB.batch(statements);
+    }
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
 }
 
-function publicItem(row){return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:row.rarity,image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0)}}
-function publicTitle(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig:parseJson(row.unlock_config_json,{}),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null}}
+function publicItem(row){return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0)}}
+function publicTitle(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig:parseJson(row.unlock_config_json,{}),stylePreset:normalizeTitleStylePreset(row.style_preset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null}}
 
 async function grantTitle(env,userId,titleId,sourceType='SYSTEM',sourceId=''){
   const result=await env.DB.prepare(`INSERT OR IGNORE INTO user_character_titles(user_id,title_id,source_type,source_id) VALUES(?,?,?,?)`).bind(userId,titleId,cleanText(sourceType,40),cleanText(sourceId,120)).run();
@@ -199,11 +215,11 @@ export async function userEquipmentBonuses(env,userId){
   const row=await env.DB.prepare(`SELECT COALESCE(SUM(i.pve_power),0) AS equipment_pve,COALESCE(SUM(i.pvp_power),0) AS equipment_pvp
     FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
     JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1 WHERE l.user_id=?`).bind(userId).first();
-  const title=await env.DB.prepare(`SELECT COALESCE(t.pve_power,0) AS title_pve,t.id AS title_id,t.name AS title_name
+  const title=await env.DB.prepare(`SELECT COALESCE(t.pve_power,0) AS title_pve,t.id AS title_id,t.name AS title_name,t.style_preset AS title_style_preset
     FROM user_title_loadout l JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id
     JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 WHERE l.user_id=?`).bind(userId).first();
   const equipmentPve=Number(row?.equipment_pve||0),equipmentPvp=Number(row?.equipment_pvp||0),titlePve=Number(title?.title_pve||0);
-  return {equipmentPve,equipmentPvp,titlePve,pve:equipmentPve+titlePve,pvp:equipmentPvp,title:title?.title_id?{id:Number(title.title_id),name:title.title_name,pvePower:titlePve}:null};
+  return {equipmentPve,equipmentPvp,titlePve,pve:equipmentPve+titlePve,pvp:equipmentPvp,title:title?.title_id?{id:Number(title.title_id),name:title.title_name,pvePower:titlePve,stylePreset:normalizeTitleStylePreset(title.title_style_preset)}:null};
 }
 
 function weightedPick(rows){const total=rows.reduce((sum,row)=>sum+Math.max(0,Number(row.weight||0)),0);if(total<=0)return null;let roll=Math.random()*total;for(const row of rows){roll-=Math.max(0,Number(row.weight||0));if(roll<0)return row}return rows[rows.length-1]||null}
@@ -252,7 +268,7 @@ async function adminSystemPayload(env){
     env.DB.prepare(`SELECT e.*,i.name AS equipment_name,i.slot,i.rarity FROM equipment_drop_entries e JOIN character_equipment_items i ON i.id=e.equipment_id ORDER BY e.profile_id,e.id`).all()
   ]);
   const byProfile=new Map();for(const entry of entries.results){if(!byProfile.has(Number(entry.profile_id)))byProfile.set(Number(entry.profile_id),[]);byProfile.get(Number(entry.profile_id)).push({id:Number(entry.id),equipmentId:Number(entry.equipment_id),equipmentName:entry.equipment_name,slot:entry.slot,rarity:entry.rarity,weight:Number(entry.weight||0),isActive:entry.is_active!==0})}
-  return {slots:EQUIPMENT_SLOTS.map(id=>({id,label:EQUIPMENT_SLOT_LABELS[id]})),subtypes:EQUIPMENT_SUBTYPES,sourceTypes:SOURCE_TYPES,titleUnlockTypes:TITLE_UNLOCK_TYPES,items:items.results.map(publicItem),titles:titles.results.map(row=>publicTitle(row)),profiles:profiles.results.map(row=>({id:Number(row.id),name:row.name,sourceType:row.source_type,sourceKey:row.source_key,enabled:row.enabled!==0,dropRate:Number(row.drop_rate||0),maxDrops:Number(row.max_drops||1),entries:byProfile.get(Number(row.id))||[]}))};
+  return {slots:EQUIPMENT_SLOTS.map(id=>({id,label:EQUIPMENT_SLOT_LABELS[id]})),subtypes:EQUIPMENT_SUBTYPES,equipmentRarities:EQUIPMENT_RARITIES,sourceTypes:SOURCE_TYPES,titleUnlockTypes:TITLE_UNLOCK_TYPES,titleStylePresets:TITLE_STYLE_PRESETS,items:items.results.map(publicItem),titles:titles.results.map(row=>publicTitle(row)),profiles:profiles.results.map(row=>({id:Number(row.id),name:row.name,sourceType:row.source_type,sourceKey:row.source_key,enabled:row.enabled!==0,dropRate:Number(row.drop_rate||0),maxDrops:Number(row.max_drops||1),entries:byProfile.get(Number(row.id))||[]}))};
 }
 
 export async function handleEquipment({path,request,env,deps}){
@@ -279,13 +295,13 @@ export async function handleEquipment({path,request,env,deps}){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);return json(await adminSystemPayload(env));
   }
   if(path==='admin/equipment-item'&&['POST','PATCH'].includes(request.method)){
-    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,0,2147483647),slot=normalizeSlot(b.slot),subtype=normalizeSubtype(b.subtype);if(!slot||!subtype)return json({error:'장비 부위와 종류를 확인하세요.'},400);const allowedSubtypes={WEAPON:['MODERN_SWORD','AXE','PISTOL'],TOP:['TOP'],BOTTOM:['BOTTOM'],SHOES:['SHOES'],ACCESSORY:['DUAL_DISK']};if(!allowedSubtypes[slot]?.includes(subtype))return json({error:'장비 부위와 세부 종류가 맞지 않습니다.'},400);const name=cleanText(b.name,80),code=cleanText(b.code||`EQ_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');if(!name)return json({error:'장비명을 입력하세요.'},400);const duplicateCode=await env.DB.prepare('SELECT id FROM character_equipment_items WHERE code=? AND id<>?').bind(code,id||0).first();if(duplicateCode)return json({error:'이미 사용 중인 장비 코드입니다.'},409);if(id){const current=await env.DB.prepare('SELECT slot FROM character_equipment_items WHERE id=?').bind(id).first();if(!current)return json({error:'수정할 장비를 찾을 수 없습니다.'},404);if(current.slot!==slot){const ownedCount=await env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE equipment_id=?').bind(id).first();if(Number(ownedCount?.count||0)>0)return json({error:'유저가 보유 중인 장비는 부위를 변경할 수 없습니다. 새 장비로 등록하세요.'},409)}}const power=itemPower(b.totalPower),args=[code,name,slot,subtype,cleanText(b.rarity||'NORMAL',20).toUpperCase(),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,cleanBool(b.isActive)?1:0,cleanBool(b.isPublic)?1:0,cleanInt(b.sortOrder,0,100000)];if(id)await env.DB.prepare(`UPDATE character_equipment_items SET code=?,name=?,slot=?,subtype=?,rarity=?,image_url=?,description=?,total_power=?,pve_power=?,pvp_power=?,is_active=?,is_public=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id).run();else await env.DB.prepare(`INSERT INTO character_equipment_items(code,name,slot,subtype,rarity,image_url,description,total_power,pve_power,pvp_power,is_active,is_public,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();if(id&&!cleanBool(b.isActive))await env.DB.batch([env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id),env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id)]);if(writeAdminLog)await writeAdminLog(env,admin,id?'EQUIPMENT_UPDATE':'EQUIPMENT_CREATE','EQUIPMENT',String(id||code),null,{name,slot,subtype,totalPower:power.total});return json({ok:true,...await adminSystemPayload(env)});
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,0,2147483647),slot=normalizeSlot(b.slot),subtype=normalizeSubtype(b.subtype);if(!slot||!subtype)return json({error:'장비 부위와 종류를 확인하세요.'},400);const allowedSubtypes={WEAPON:['MODERN_SWORD','AXE','PISTOL'],TOP:['TOP'],BOTTOM:['BOTTOM'],SHOES:['SHOES'],ACCESSORY:['DUAL_DISK']};if(!allowedSubtypes[slot]?.includes(subtype))return json({error:'장비 부위와 세부 종류가 맞지 않습니다.'},400);const name=cleanText(b.name,80),code=cleanText(b.code||`EQ_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');if(!name)return json({error:'장비명을 입력하세요.'},400);const duplicateCode=await env.DB.prepare('SELECT id FROM character_equipment_items WHERE code=? AND id<>?').bind(code,id||0).first();if(duplicateCode)return json({error:'이미 사용 중인 장비 코드입니다.'},409);if(id){const current=await env.DB.prepare('SELECT slot FROM character_equipment_items WHERE id=?').bind(id).first();if(!current)return json({error:'수정할 장비를 찾을 수 없습니다.'},404);if(current.slot!==slot){const ownedCount=await env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE equipment_id=?').bind(id).first();if(Number(ownedCount?.count||0)>0)return json({error:'유저가 보유 중인 장비는 부위를 변경할 수 없습니다. 새 장비로 등록하세요.'},409)}}const power=itemPower(b.totalPower),args=[code,name,slot,subtype,normalizeEquipmentRarity(b.rarity),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,cleanBool(b.isActive)?1:0,cleanBool(b.isPublic)?1:0,cleanInt(b.sortOrder,0,100000)];if(id)await env.DB.prepare(`UPDATE character_equipment_items SET code=?,name=?,slot=?,subtype=?,rarity=?,image_url=?,description=?,total_power=?,pve_power=?,pvp_power=?,is_active=?,is_public=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id).run();else await env.DB.prepare(`INSERT INTO character_equipment_items(code,name,slot,subtype,rarity,image_url,description,total_power,pve_power,pvp_power,is_active,is_public,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();if(id&&!cleanBool(b.isActive))await env.DB.batch([env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id),env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id)]);if(writeAdminLog)await writeAdminLog(env,admin,id?'EQUIPMENT_UPDATE':'EQUIPMENT_CREATE','EQUIPMENT',String(id||code),null,{name,slot,subtype,totalPower:power.total});return json({ok:true,...await adminSystemPayload(env)});
   }
   if(path==='admin/equipment-item'&&request.method==='DELETE'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,1,2147483647),used=await env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE equipment_id=?').bind(id).first();if(Number(used?.count||0)>0){await env.DB.batch([env.DB.prepare('UPDATE character_equipment_items SET is_active=0,is_public=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id),env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id),env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id)]);return json({ok:true,disabled:true,...await adminSystemPayload(env)})}await env.DB.batch([env.DB.prepare('DELETE FROM equipment_drop_entries WHERE equipment_id=?').bind(id),env.DB.prepare('DELETE FROM character_equipment_items WHERE id=?').bind(id)]);return json({ok:true,deleted:true,...await adminSystemPayload(env)});
   }
   if(path==='admin/title-item'&&['POST','PATCH'].includes(request.method)){
-    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,0,2147483647),unlockType=String(b.unlockType||'MANUAL').toUpperCase();if(!TITLE_UNLOCK_TYPES.includes(unlockType))return json({error:'올바른 칭호 획득 조건이 아닙니다.'},400);const name=cleanText(b.name,80),code=cleanText(b.code||`TITLE_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');if(!name)return json({error:'칭호명을 입력하세요.'},400);const duplicateCode=await env.DB.prepare('SELECT id FROM character_titles WHERE code=? AND id<>?').bind(code,id||0).first();if(duplicateCode)return json({error:'이미 사용 중인 칭호 코드입니다.'},409);const config=typeof b.unlockConfig==='string'?parseJson(b.unlockConfig,{}):(b.unlockConfig||{}),args=[code,name,cleanText(b.description,500),cleanText(b.badgeText||name,40),cleanText(b.image,500),cleanInt(b.pvePower,0,100000000),unlockType,JSON.stringify(config),cleanBool(b.isActive)?1:0,cleanBool(b.isPublic)?1:0,cleanInt(b.sortOrder,0,100000)];if(id)await env.DB.prepare(`UPDATE character_titles SET code=?,name=?,description=?,badge_text=?,image_url=?,pve_power=?,unlock_type=?,unlock_config_json=?,is_active=?,is_public=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id).run();else await env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,is_active,is_public,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();if(id&&!cleanBool(b.isActive))await env.DB.prepare('DELETE FROM user_title_loadout WHERE title_id=?').bind(id).run();return json({ok:true,...await adminSystemPayload(env)});
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,0,2147483647),unlockType=String(b.unlockType||'MANUAL').toUpperCase();if(!TITLE_UNLOCK_TYPES.includes(unlockType))return json({error:'올바른 칭호 획득 조건이 아닙니다.'},400);const name=cleanText(b.name,80),code=cleanText(b.code||`TITLE_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');if(!name)return json({error:'칭호명을 입력하세요.'},400);const duplicateCode=await env.DB.prepare('SELECT id FROM character_titles WHERE code=? AND id<>?').bind(code,id||0).first();if(duplicateCode)return json({error:'이미 사용 중인 칭호 코드입니다.'},409);const config=typeof b.unlockConfig==='string'?parseJson(b.unlockConfig,{}):(b.unlockConfig||{}),stylePreset=normalizeTitleStylePreset(b.stylePreset),args=[code,name,cleanText(b.description,500),cleanText(b.badgeText||name,40),cleanText(b.image,500),cleanInt(b.pvePower,0,100000000),unlockType,JSON.stringify(config),stylePreset,cleanBool(b.isActive)?1:0,cleanBool(b.isPublic)?1:0,cleanInt(b.sortOrder,0,100000)];if(id)await env.DB.prepare(`UPDATE character_titles SET code=?,name=?,description=?,badge_text=?,image_url=?,pve_power=?,unlock_type=?,unlock_config_json=?,style_preset=?,is_active=?,is_public=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id).run();else await env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,style_preset,is_active,is_public,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();if(id&&!cleanBool(b.isActive))await env.DB.prepare('DELETE FROM user_title_loadout WHERE title_id=?').bind(id).run();return json({ok:true,...await adminSystemPayload(env)});
   }
   if(path==='admin/title-item'&&request.method==='DELETE'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,1,2147483647),used=await env.DB.prepare('SELECT COUNT(*) count FROM user_character_titles WHERE title_id=?').bind(id).first();if(Number(used?.count||0)>0){await env.DB.batch([env.DB.prepare('UPDATE character_titles SET is_active=0,is_public=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id),env.DB.prepare('DELETE FROM user_title_loadout WHERE title_id=?').bind(id)]);return json({ok:true,disabled:true,...await adminSystemPayload(env)})}await env.DB.prepare('DELETE FROM character_titles WHERE id=?').bind(id).run();return json({ok:true,deleted:true,...await adminSystemPayload(env)});
