@@ -1,0 +1,59 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skin" x1="450" y1="130" x2="450" y2="500" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6DFC8"/>
+      <stop offset="1" stop-color="#E3B79E"/>
+    </linearGradient>
+    <linearGradient id="coat" x1="450" y1="335" x2="450" y2="1180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#243D57"/>
+      <stop offset="0.52" stop-color="#18283B"/>
+      <stop offset="1" stop-color="#101A27"/>
+    </linearGradient>
+    <linearGradient id="coatTrim" x1="450" y1="300" x2="450" y2="1180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6FD8FF"/>
+      <stop offset="1" stop-color="#3677C9"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="450" y1="790" x2="450" y2="1190" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A9F0FF"/>
+      <stop offset="1" stop-color="#6CA6E8"/>
+    </linearGradient>
+    <linearGradient id="pants" x1="450" y1="790" x2="450" y2="1280" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#25374D"/>
+      <stop offset="1" stop-color="#101925"/>
+    </linearGradient>
+    <linearGradient id="boot" x1="450" y1="1110" x2="450" y2="1350" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1F2D42"/>
+      <stop offset="1" stop-color="#0A1018"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-10%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <radialGradient id="aura" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(450 650) rotate(90) scale(560 280)">
+      <stop stop-color="#6FE5FF" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#6FE5FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="450" cy="720" rx="250" ry="470" fill="url(#aura)"/>
+  <g filter="url(#shadow)">
+    <path d="M365 121C372 80 403 50 450 50C497 50 528 80 535 121L545 181C548 196 544 211 534 223L512 250H388L366 223C356 211 352 196 355 181L365 121Z" fill="#171E28"/>
+    <path d="M388 153C388 116 417 87 454 87C491 87 520 116 520 153V228C520 266 490 297 452 297C415 297 385 266 385 228L388 153Z" fill="url(#skin)"/>
+    <path d="M382 151C382 110 411 78 450 78C489 78 518 110 518 151V177C502 168 479 160 451 160C423 160 400 168 384 177L382 151Z" fill="#212935"/>
+    <path d="M311 397C323 335 377 291 440 291H460C523 291 577 335 589 397L627 602C634 638 659 668 694 682L733 697L679 849L606 814L584 1056C582 1094 550 1124 512 1124H388C350 1124 318 1094 316 1056L294 814L221 849L167 697L206 682C241 668 266 638 273 602L311 397Z" fill="url(#coat)"/>
+    <path d="M408 292H492L528 358L501 787H399L372 358L408 292Z" fill="#121E2D" stroke="url(#coatTrim)" stroke-width="10"/>
+    <path d="M381 365L345 636C339 668 318 694 289 708L233 735" stroke="#314B67" stroke-width="18" stroke-linecap="round"/>
+    <path d="M519 365L555 636C561 668 582 694 611 708L667 735" stroke="#314B67" stroke-width="18" stroke-linecap="round"/>
+    <path d="M419 329H481" stroke="url(#coatTrim)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M414 419H486" stroke="url(#coatTrim)" stroke-width="8" stroke-linecap="round" opacity="0.9"/>
+    <path d="M407 513H493" stroke="url(#coatTrim)" stroke-width="8" stroke-linecap="round" opacity="0.75"/>
+    <path d="M404 611H496" stroke="url(#coatTrim)" stroke-width="8" stroke-linecap="round" opacity="0.62"/>
+    <path d="M398 803H502V1138H398V803Z" fill="url(#pants)"/>
+    <path d="M332 845C332 808 362 778 399 778H418V1142H336L332 845Z" fill="url(#pants)"/>
+    <path d="M568 845C568 808 538 778 501 778H482V1142H564L568 845Z" fill="url(#pants)"/>
+    <path d="M336 1140H419V1260C419 1296 390 1325 354 1325H340C319 1325 302 1308 302 1287V1174C302 1155 317 1140 336 1140Z" fill="url(#boot)"/>
+    <path d="M481 1140H564C583 1140 598 1155 598 1174V1287C598 1308 581 1325 560 1325H546C510 1325 481 1296 481 1260V1140Z" fill="url(#boot)"/>
+    <path d="M282 621L234 665L276 804L325 775L316 642L282 621Z" fill="url(#metal)"/>
+    <path d="M618 621L666 665L624 804L575 775L584 642L618 621Z" fill="url(#metal)"/>
+    <path d="M358 772L450 724L542 772V810H358V772Z" fill="#162334" stroke="url(#coatTrim)" stroke-width="8"/>
+    <circle cx="450" cy="706" r="22" fill="#5ED6FF" fill-opacity="0.25" stroke="url(#coatTrim)" stroke-width="8"/>
+  </g>
+</svg>
