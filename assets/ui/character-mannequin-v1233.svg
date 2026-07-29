@@ -1,0 +1,36 @@
+<svg width="800" height="1200" viewBox="0 0 800 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(400 535) rotate(90) scale(440 260)">
+      <stop stop-color="#7EE6FF" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#7EE6FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="body" x1="400" y1="120" x2="400" y2="1090" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAF9FF"/>
+      <stop offset="0.5" stop-color="#8CDFFF"/>
+      <stop offset="1" stop-color="#5AAEFF"/>
+    </linearGradient>
+    <linearGradient id="soft" x1="400" y1="160" x2="400" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B2F0FF" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#69BFFF" stop-opacity="0.22"/>
+    </linearGradient>
+    <filter id="blurGlow" x="-30%" y="-20%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="20" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <ellipse cx="400" cy="555" rx="238" ry="410" fill="url(#glow)"/>
+  <g filter="url(#blurGlow)">
+    <circle cx="400" cy="176" r="62" stroke="url(#body)" stroke-width="18" fill="rgba(255,255,255,0.02)"/>
+    <path d="M328 305C328 265 360 233 400 233C440 233 472 265 472 305V381C472 413 490 443 519 459L594 501C621 516 632 549 618 577L567 674C560 688 556 704 556 720V1012C556 1042 531 1067 501 1067C473 1067 450 1044 450 1016V775C450 752 431 733 408 733H392C369 733 350 752 350 775V1016C350 1044 327 1067 299 1067C269 1067 244 1042 244 1012V720C244 704 240 688 233 674L182 577C168 549 179 516 206 501L281 459C310 443 328 413 328 381V305Z" fill="url(#soft)" fill-opacity="0.10" stroke="url(#body)" stroke-width="18" stroke-linejoin="round"/>
+    <path d="M286 338L236 583" stroke="url(#body)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M514 338L564 583" stroke="url(#body)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M350 422C382 444 418 444 450 422" stroke="url(#body)" stroke-width="14" stroke-linecap="round"/>
+    <path d="M339 562H461" stroke="url(#body)" stroke-width="10" stroke-linecap="round" opacity="0.9"/>
+    <path d="M340 864H460" stroke="url(#body)" stroke-width="10" stroke-linecap="round" opacity="0.72"/>
+    <path d="M307 1086H349" stroke="url(#body)" stroke-width="18" stroke-linecap="round"/>
+    <path d="M451 1086H493" stroke="url(#body)" stroke-width="18" stroke-linecap="round"/>
+  </g>
+</svg>
