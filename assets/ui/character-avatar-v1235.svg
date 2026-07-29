@@ -1,0 +1,65 @@
+<svg width="900" height="1400" viewBox="0 0 900 1400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="skin" x1="450" y1="120" x2="450" y2="460" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F9E2CF"/>
+      <stop offset="1" stop-color="#E4B79E"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="450" y1="40" x2="450" y2="230" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#222A35"/>
+      <stop offset="1" stop-color="#10161F"/>
+    </linearGradient>
+    <linearGradient id="coat" x1="450" y1="320" x2="450" y2="1200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#283D54"/>
+      <stop offset="0.55" stop-color="#162536"/>
+      <stop offset="1" stop-color="#0D141D"/>
+    </linearGradient>
+    <linearGradient id="trim" x1="450" y1="330" x2="450" y2="1180" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7BE7FF"/>
+      <stop offset="1" stop-color="#3D7BC8"/>
+    </linearGradient>
+    <linearGradient id="belt" x1="450" y1="730" x2="450" y2="840" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4D5967"/>
+      <stop offset="1" stop-color="#212B37"/>
+    </linearGradient>
+    <linearGradient id="pants" x1="450" y1="790" x2="450" y2="1260" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#26384D"/>
+      <stop offset="1" stop-color="#101824"/>
+    </linearGradient>
+    <linearGradient id="boot" x1="450" y1="1115" x2="450" y2="1340" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#202D42"/>
+      <stop offset="1" stop-color="#091019"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-10%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+    <radialGradient id="aura" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(450 670) rotate(90) scale(580 280)">
+      <stop stop-color="#6FE5FF" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#6FE5FF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <ellipse cx="450" cy="710" rx="248" ry="470" fill="url(#aura)"/>
+  <g filter="url(#shadow)">
+    <path d="M356 104C365 64 396 38 449 38C502 38 533 64 542 104L552 160C556 178 552 196 540 210L514 240H386L360 210C348 196 344 178 348 160L356 104Z" fill="url(#hair)"/>
+    <path d="M388 145C388 108 417 80 454 80C491 80 520 108 520 145V224C520 264 488 296 448 296C409 296 377 264 377 224V145H388Z" fill="url(#skin)"/>
+    <path d="M379 137C379 100 410 74 449 74C488 74 519 100 519 137V176C503 167 480 159 451 159C423 159 400 167 384 176L379 137Z" fill="#1E2733"/>
+    <path d="M321 391C334 331 386 291 448 291H452C514 291 566 331 579 391L620 575C626 605 646 631 673 645L714 666L675 797L619 773L598 1101C597 1141 564 1173 524 1173H376C336 1173 303 1141 302 1101L281 773L225 797L186 666L227 645C254 631 274 605 280 575L321 391Z" fill="url(#coat)"/>
+    <path d="M411 294H489L529 362L503 773H397L371 362L411 294Z" fill="#121E2D" stroke="url(#trim)" stroke-width="10"/>
+    <path d="M404 325H496" stroke="url(#trim)" stroke-width="7" stroke-linecap="round"/>
+    <path d="M394 417H506" stroke="url(#trim)" stroke-width="7" stroke-linecap="round" opacity="0.88"/>
+    <path d="M388 513H512" stroke="url(#trim)" stroke-width="7" stroke-linecap="round" opacity="0.76"/>
+    <path d="M381 610H519" stroke="url(#trim)" stroke-width="7" stroke-linecap="round" opacity="0.62"/>
+    <path d="M346 416L310 618C304 648 285 673 258 687L221 706" stroke="#314B67" stroke-width="18" stroke-linecap="round"/>
+    <path d="M554 416L590 618C596 648 615 673 642 687L679 706" stroke="#314B67" stroke-width="18" stroke-linecap="round"/>
+    <path d="M393 760H507L527 827H373L393 760Z" fill="url(#belt)"/>
+    <circle cx="450" cy="794" r="26" fill="#50D4FF" fill-opacity="0.22" stroke="url(#trim)" stroke-width="8"/>
+    <path d="M394 827H506V1177H394V827Z" fill="url(#pants)"/>
+    <path d="M330 850C330 813 360 783 397 783H414V1177H334L330 850Z" fill="url(#pants)"/>
+    <path d="M570 850C570 813 540 783 503 783H486V1177H566L570 850Z" fill="url(#pants)"/>
+    <path d="M334 1172H414V1263C414 1304 381 1337 340 1337H334C309 1337 289 1317 289 1292V1217C289 1192 309 1172 334 1172Z" fill="url(#boot)"/>
+    <path d="M486 1172H566C591 1172 611 1192 611 1217V1292C611 1317 591 1337 566 1337H560C519 1337 486 1304 486 1263V1172Z" fill="url(#boot)"/>
+    <path d="M278 602L237 640L275 760L318 738L311 622L278 602Z" fill="#5689CB"/>
+    <path d="M622 602L663 640L625 760L582 738L589 622L622 602Z" fill="#5689CB"/>
+    <path d="M430 127C442 120 456 120 468 127" stroke="#C98C74" stroke-width="6" stroke-linecap="round"/>
+    <path d="M422 210C439 224 461 224 478 210" stroke="#CB9A84" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>
