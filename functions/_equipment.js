@@ -478,15 +478,24 @@ export async function handleEquipment({path,request,env,deps}){
   }
   if(path==='admin/equipment-supply-settings'&&request.method==='POST'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
-    const body=await readBody(request),settings=cleanSupplyBoxSettings(body.settings||{}),entries=Array.isArray(body.entries)?body.entries:[];
+    const body=await readBody(request),settings=cleanSupplyBoxSettings(body.settings||{}),sourceEntries=Array.isArray(body.entries)?body.entries:[];
+    const byId=new Map();
+    for(const entry of sourceEntries){const equipmentId=cleanInt(entry?.equipmentId,1,2147483647),weight=cleanRate(entry?.weight);if(equipmentId)byId.set(equipmentId,weight)}
+    const entries=[...byId.entries()].map(([equipmentId,weight])=>({equipmentId,weight})),poolTotal=entries.reduce((sum,entry)=>sum+entry.weight,0);
+    if(settings.rewardRates.equipment>0&&!entries.some(entry=>entry.weight>0))return json({error:'장비 확률이 0%보다 크면 장비 풀을 하나 이상 선택해야 합니다.'},400);
+    if(entries.length&&Math.abs(poolTotal-100)>.0001)return json({error:'장비 풀 확률 합계를 정확히 100%로 맞추세요.'},400);
+    if(entries.length){
+      const marks=entries.map(()=>'?').join(','),active=await env.DB.prepare(`SELECT id FROM character_equipment_items WHERE id IN (${marks}) AND is_active=1 AND is_public=1`).bind(...entries.map(entry=>entry.equipmentId)).all(),activeIds=new Set((active.results||[]).map(row=>Number(row.id)));
+      if(activeIds.size!==entries.length)return json({error:'장비 풀에는 활성·공개 상태인 장비만 포함할 수 있습니다.'},400);
+    }
     const statements=[
       env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('equipment_supply_box_settings_v1247',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(settings)),
       env.DB.prepare('UPDATE character_equipment_items SET supply_enabled=0,updated_at=CURRENT_TIMESTAMP'),
       env.DB.prepare('UPDATE equipment_drop_profiles SET enabled=0,updated_at=CURRENT_TIMESTAMP WHERE enabled<>0')
     ];
-    for(const entry of entries){const equipmentId=cleanInt(entry.equipmentId,1,2147483647),weight=cleanWeight(entry.weight,1);if(equipmentId&&weight>0)statements.push(env.DB.prepare('UPDATE character_equipment_items SET supply_enabled=1,supply_weight=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND is_active=1').bind(weight,equipmentId));}
+    for(const entry of entries)statements.push(env.DB.prepare('UPDATE character_equipment_items SET supply_enabled=1,supply_weight=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND is_active=1 AND is_public=1').bind(entry.weight,entry.equipmentId));
     await env.DB.batch(statements);supplySettingsCache=settings;supplySettingsCacheAt=Date.now();
-    if(writeAdminLog)await writeAdminLog(env,admin,'EQUIPMENT_SUPPLY_SETTINGS_UPDATE','SETTINGS','equipment_supply_box_settings_v1247',null,{settings,poolCount:entries.length});
+    if(writeAdminLog)await writeAdminLog(env,admin,'EQUIPMENT_SUPPLY_SETTINGS_UPDATE','SETTINGS','equipment_supply_box_settings_v1247',null,{settings,poolCount:entries.length,poolTotal});
     return json({ok:true,...await adminSystemPayload(env)});
   }
   if(path==='admin/equipment-drop-profile'&&['POST','PATCH','DELETE'].includes(request.method)){
