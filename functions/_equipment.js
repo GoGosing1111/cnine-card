@@ -484,7 +484,58 @@ export async function handleEquipment({path,request,env,deps}){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);return json(await adminSystemPayload(env));
   }
   if(path==='admin/equipment-item'&&['POST','PATCH'].includes(request.method)){
-    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,0,2147483647),slot=normalizeSlot(b.slot),subtype=normalizeSubtype(b.subtype);if(!slot||!subtype)return json({error:'장비 부위와 종류를 확인하세요.'},400);const allowedSubtypes={WEAPON:['MODERN_SWORD','AXE','PISTOL','RIFLE'],TOP:['TOP'],BOTTOM:['BOTTOM'],SHOES:['SHOES'],ACCESSORY:['DUAL_DISK']};if(!allowedSubtypes[slot]?.includes(subtype))return json({error:'장비 부위와 세부 종류가 맞지 않습니다.'},400);const name=cleanText(b.name,80),code=cleanText(b.code||`EQ_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');if(!name)return json({error:'장비명을 입력하세요.'},400);const duplicateCode=await env.DB.prepare('SELECT id FROM character_equipment_items WHERE code=? AND id<>?').bind(code,id||0).first();if(duplicateCode)return json({error:'이미 사용 중인 장비 코드입니다.'},409);let current=null;if(id){current=await env.DB.prepare('SELECT slot,supply_enabled,supply_weight FROM character_equipment_items WHERE id=?').bind(id).first();if(!current)return json({error:'수정할 장비를 찾을 수 없습니다.'},404);if(current.slot!==slot){const ownedCount=await env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE equipment_id=?').bind(id).first();if(Number(ownedCount?.count||0)>0)return json({error:'유저가 보유 중인 장비는 부위를 변경할 수 없습니다. 새 장비로 등록하세요.'},409)}}const supplyEnabled=b.supplyEnabled===undefined?(current?current.supply_enabled!==0:true):cleanBool(b.supplyEnabled,true),supplyWeight=b.supplyWeight===undefined?(current?cleanWeight(current.supply_weight,1):1):cleanWeight(b.supplyWeight,1),power=itemPower(b.totalPower),args=[code,name,slot,subtype,normalizeEquipmentRarity(b.rarity),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,cleanBool(b.isActive)?1:0,cleanBool(b.isPublic)?1:0,cleanInt(b.sortOrder,0,100000),supplyEnabled?1:0,supplyWeight];if(id)await env.DB.prepare(`UPDATE character_equipment_items SET code=?,name=?,slot=?,subtype=?,rarity=?,image_url=?,description=?,total_power=?,pve_power=?,pvp_power=?,is_active=?,is_public=?,sort_order=?,supply_enabled=?,supply_weight=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id).run();else await env.DB.prepare(`INSERT INTO character_equipment_items(code,name,slot,subtype,rarity,image_url,description,total_power,pve_power,pvp_power,is_active,is_public,sort_order,supply_enabled,supply_weight) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();if(id&&!cleanBool(b.isActive))await env.DB.batch([env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id),env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id)]);if(writeAdminLog)await writeAdminLog(env,admin,id?'EQUIPMENT_UPDATE':'EQUIPMENT_CREATE','EQUIPMENT',String(id||code),null,{name,slot,subtype,totalPower:power.total});return json({ok:true,...await adminSystemPayload(env)});
+    const admin=await authenticate(request,env);
+    if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
+
+    const b=await readBody(request),id=cleanInt(b.id,0,2147483647),slot=normalizeSlot(b.slot),subtype=normalizeSubtype(b.subtype);
+    if(!slot||!subtype)return json({error:'장비 부위와 종류를 확인하세요.'},400);
+
+    const allowedSubtypes={WEAPON:['MODERN_SWORD','AXE','PISTOL','RIFLE'],TOP:['TOP'],BOTTOM:['BOTTOM'],SHOES:['SHOES'],ACCESSORY:['DUAL_DISK']};
+    if(!allowedSubtypes[slot]?.includes(subtype))return json({error:'장비 부위와 세부 종류가 맞지 않습니다.'},400);
+
+    const name=cleanText(b.name,80),code=cleanText(b.code||`EQ_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');
+    if(!name)return json({error:'장비명을 입력하세요.'},400);
+
+    const duplicateCode=await env.DB.prepare('SELECT id FROM character_equipment_items WHERE code=? AND id<>?').bind(code,id||0).first();
+    if(duplicateCode)return json({error:'이미 사용 중인 장비 코드입니다.'},409);
+
+    let current=null;
+    if(id){
+      current=await env.DB.prepare('SELECT slot,subtype,supply_enabled,supply_weight FROM character_equipment_items WHERE id=?').bind(id).first();
+      if(!current)return json({error:'수정할 장비를 찾을 수 없습니다.'},404);
+    }
+
+    const slotChanged=Boolean(current&&current.slot!==slot);
+    let autoUnequipped=0;
+    if(slotChanged){
+      const row=await env.DB.prepare(`SELECT COUNT(*) count FROM user_equipment_loadout
+        WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)`).bind(id).first();
+      autoUnequipped=Number(row?.count||0);
+    }
+
+    const supplyEnabled=b.supplyEnabled===undefined?(current?current.supply_enabled!==0:true):cleanBool(b.supplyEnabled,true);
+    const supplyWeight=b.supplyWeight===undefined?(current?cleanWeight(current.supply_weight,1):1):cleanWeight(b.supplyWeight,1);
+    const power=itemPower(b.totalPower),isActive=cleanBool(b.isActive),isPublic=cleanBool(b.isPublic);
+    const args=[code,name,slot,subtype,normalizeEquipmentRarity(b.rarity),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,isActive?1:0,isPublic?1:0,cleanInt(b.sortOrder,0,100000),supplyEnabled?1:0,supplyWeight];
+
+    if(id){
+      const statements=[env.DB.prepare(`UPDATE character_equipment_items SET code=?,name=?,slot=?,subtype=?,rarity=?,image_url=?,description=?,total_power=?,pve_power=?,pvp_power=?,is_active=?,is_public=?,sort_order=?,supply_enabled=?,supply_weight=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id)];
+
+      // 부위가 바뀐 장비는 보유권을 유지하되 기존 장착만 안전하게 해제한다.
+      // 새 부위에 이미 장착된 다른 장비를 덮어쓰지 않기 위한 처리다.
+      if(slotChanged||!isActive){
+        statements.push(env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id));
+      }
+      if(!isActive){
+        statements.push(env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id));
+      }
+      await env.DB.batch(statements);
+    }else{
+      await env.DB.prepare(`INSERT INTO character_equipment_items(code,name,slot,subtype,rarity,image_url,description,total_power,pve_power,pvp_power,is_active,is_public,sort_order,supply_enabled,supply_weight) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();
+    }
+
+    if(writeAdminLog)await writeAdminLog(env,admin,id?'EQUIPMENT_UPDATE':'EQUIPMENT_CREATE','EQUIPMENT',String(id||code),null,{name,previousSlot:current?.slot||null,slot,previousSubtype:current?.subtype||null,subtype,totalPower:power.total,slotChanged,autoUnequipped});
+    return json({ok:true,slotChanged,previousSlot:current?.slot||null,slot,autoUnequipped,...await adminSystemPayload(env)});
   }
   if(path==='admin/equipment-item'&&request.method==='DELETE'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),id=cleanInt(b.id,1,2147483647),used=await env.DB.prepare('SELECT COUNT(*) count FROM user_equipment_instances WHERE equipment_id=?').bind(id).first();if(Number(used?.count||0)>0){await env.DB.batch([env.DB.prepare('UPDATE character_equipment_items SET is_active=0,is_public=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id),env.DB.prepare('DELETE FROM user_equipment_loadout WHERE instance_id IN (SELECT id FROM user_equipment_instances WHERE equipment_id=?)').bind(id),env.DB.prepare('UPDATE equipment_drop_entries SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE equipment_id=?').bind(id)]);return json({ok:true,disabled:true,...await adminSystemPayload(env)})}await env.DB.batch([env.DB.prepare('DELETE FROM equipment_drop_entries WHERE equipment_id=?').bind(id),env.DB.prepare('DELETE FROM character_equipment_items WHERE id=?').bind(id)]);return json({ok:true,deleted:true,...await adminSystemPayload(env)});
