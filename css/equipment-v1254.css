@@ -254,3 +254,26 @@
 }
 .frame-slot-v1249:not(.filled) .frame-slot-image-v1249,
 .frame-slot-v1249:not(.filled) .frame-slot-desc-mask-v1249{display:none}
+
+
+/* V1254 PATCH: Fixed Right-Side Blank Space and Aspect Ratio */
+.frame-slot-v1249 .frame-slot-image-v1249{
+  left: 5% !important;
+  top: 12% !important;
+  width: 90% !important;
+  height: 60% !important;
+  aspect-ratio: 1 / 1 !important;
+  margin: auto !important;
+}
+
+.frame-slot-v1249.slot-accessory .frame-slot-image-v1249{
+  left: 5% !important;
+  width: 90% !important;
+}
+
+.frame-slot-v1249 .frame-slot-image-v1249 img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
