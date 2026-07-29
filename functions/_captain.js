@@ -1680,9 +1680,10 @@ export async function handleCaptain({ path, request, env, deps }) {
       .bind(week, user.id).first();
     if (current && current.status !== 'CANCELLED') return deps.json({ error: '이번 주에 이미 등록했습니다.' }, 409);
 
-    const [deck, battle] = await Promise.all([
+    const [deck, battle, characterBonus] = await Promise.all([
       deps.pvpDeckSnapshot(env, user.id),
-      deps.battleSettings(env)
+      deps.battleSettings(env),
+      deps.userEquipmentBonuses(env, user.id)
     ]);
     if (deck.length !== 5) return deps.json({ error: 'PVP 덱 5장을 먼저 저장하세요.' }, 400);
 
@@ -1692,7 +1693,7 @@ export async function handleCaptain({ path, request, env, deps }) {
     }));
     const uniqueState = await deps.cardUniqueDeckState(env, user, baseSnapshot, 'CAPTAIN');
     const snapshot = uniqueState.cards?.length ? uniqueState.cards : baseSnapshot;
-    const power = Number(uniqueState.power || snapshot.reduce((sum, card) => sum + Number(card.power || 0), 0));
+    const power = Number(uniqueState.power || snapshot.reduce((sum, card) => sum + Number(card.power || 0), 0)) + Number(characterBonus.pvp || 0);
 
     if (current) {
       await env.DB.prepare(`
@@ -1871,15 +1872,18 @@ export async function handleCaptain({ path, request, env, deps }) {
       energySpent = true;
 
       const allMembers=[...(attackerTeam.members||[]),...(defenderTeam.members||[])];
-      const uniqueStates=await deps.cardUniqueDeckStates(env,allMembers.map(member=>({user:{id:member.user_id,role:Number(member.user_id)===Number(user.id)?user.role:''},cards:member.deckSnapshot||[]})),'CAPTAIN');
+      const [uniqueStates,memberBonuses]=await Promise.all([
+        deps.cardUniqueDeckStates(env,allMembers.map(member=>({user:{id:member.user_id,role:Number(member.user_id)===Number(user.id)?user.role:''},cards:member.deckSnapshot||[]})),'CAPTAIN'),
+        Promise.all(allMembers.map(member=>deps.userEquipmentBonuses(env,Number(member.user_id))))
+      ]);
       allMembers.forEach((member,index)=>{
-        const state=uniqueStates[index];
+        const state=uniqueStates[index],characterBonus=memberBonuses[index]||{};
         const fixedSnapshot=Array.isArray(member.deckSnapshot)?member.deckSnapshot.slice(0,5):[];
         const uniqueCards=Array.isArray(state?.cards)&&state.cards.length===fixedSnapshot.length?state.cards:fixedSnapshot;
         // 대장전은 신청 당시 저장된 카드 5장을 기준으로 한다. 이후 보유 카드 삭제·퇴사·덱 변경이나
         // 고유 능력 보정 과정이 스냅샷 카드 수를 줄여서는 안 된다.
         member.deckSnapshot=uniqueCards;
-        member.deck_power=Number(state?.power||member.deck_power||member.deckSnapshot.reduce((sum,card)=>sum+Number(card.power||0),0));
+        member.deck_power=Number(state?.power||member.deckSnapshot.reduce((sum,card)=>sum+Number(card.power||0),0))+Number(characterBonus.pvp||0);
       });
       const match = simulateGauntlet(attackerTeam, defenderTeam);
       const attackerWon = match.result === 'WIN';
@@ -1967,6 +1971,10 @@ export async function handleCaptain({ path, request, env, deps }) {
         response.weeklyPremiumCube = weeklyPremium?.status || null;
       } catch (cubeError) {
         console.error('captain weekly premium cube failed', cubeError);
+      }
+      if(attackerWon){
+        try{response.equipmentReward=await deps.grantEquipmentDrop(env,{userId:user.id,sourceType:'CAPTAIN',sourceId:'*',requestId})}
+        catch(equipmentError){console.error('captain equipment drop failed',equipmentError)}
       }
       response.energy = await energy(env, user.id, week, config);
       await env.DB.prepare(`

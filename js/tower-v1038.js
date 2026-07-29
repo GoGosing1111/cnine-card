@@ -131,6 +131,7 @@
       count.textContent='READY';stage.classList.add('ready');await battleSleep(600);count.textContent='FIGHT';battleTone(440,.18,'square',.075);stage.classList.add('fight');await battleSleep(480);count.textContent='';
       const d=await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`})}),win=d.result==='WIN';
       if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('무한의탑 큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
+      if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('무한의탑 장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
       if(d.weeklyPremiumError)console.warn('무한의탑 프리미엄 큐브 처리 경고:',d.weeklyPremiumError);
       if(d.magicReward?.amount>0||d.weeklyPremiumCube){const current=loadUser();if(current){if(d.magicReward?.amount>0)current.magicCrystals=Number(d.magicReward.balance||current.magicCrystals||0);if(d.weeklyPremiumCube)current.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(current)}}
       const magicRewardText=d.magicReward?.amount>0?` · 마법 결정 ✦ ${Number(d.magicReward.amount).toLocaleString()}`:'';
