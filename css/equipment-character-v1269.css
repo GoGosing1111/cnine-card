@@ -1,0 +1,6 @@
+/* V1269 EQUIPMENT CHARACTER ART REPLACEMENT
+   Keeps all equipment UI geometry and dynamic overlays unchanged.
+   Only the baked central character artwork is replaced. */
+.frame-background-v1249{
+  background-image:url("../assets/ui/equipment-screen-frame-v1269.png")!important;
+}
