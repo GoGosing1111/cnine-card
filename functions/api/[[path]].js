@@ -5345,17 +5345,24 @@ export async function onRequest(context){
         }
         const before=await env.DB.prepare('SELECT * FROM cards_effective_v1210 WHERE id=?').bind(payload.id).first();
         if(!before) return json({error:'카드가 없습니다.'},404);
+        // 일반 카드 정보 수정은 기존 공개 상태를 절대 변경하지 않는다.
+        // CMS의 '게임에 노출' 체크박스가 실제로 변경된 요청만 공개/비공개 상태를 갱신한다.
         const updateVisibility=payload.updateVisibility===true;
+        const beforeActive=Number(before.is_active)===1;
+        const beforeStatus=String(before.card_status||(beforeActive?'PUBLIC':'INACTIVE')).toUpperCase();
         const card=await normalizeCard({
           title:payload.title??before.title,grade:payload.grade??before.rarity,image:payload.image??before.image_url,
           memberId:payload.memberId??before.member_id,focusX:payload.focusX??before.focus_x,focusY:payload.focusY??before.focus_y,isActive:updateVisibility?(payload.isActive??Boolean(before.is_active)):Boolean(before.is_active),cardStatus:updateVisibility?(payload.cardStatus||before.card_status):before.card_status,batchName:payload.batchName===undefined?before.batch_name:payload.batchName,batchDate:payload.batchDate===undefined?before.batch_date:payload.batchDate,drawWeight:payload.drawWeight??before.draw_weight,limitedTotal:payload.limitedTotal===undefined?before.limited_total:payload.limitedTotal,issuedCount:before.issued_count,powerType:payload.powerType===undefined?before.power_type:payload.powerType,basePower:payload.basePower===undefined?before.base_power:payload.basePower
         });
         await env.DB.prepare('UPDATE cards SET member_id=?,title=?,rarity=?,rarity_override=?,image_url=?,focus_x=?,focus_y=?,is_active=?,card_status=?,batch_name=?,batch_date=?,draw_weight=?,limited_total=?,power_type=?,base_power=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
           .bind(card.memberId,card.title,card.storageGrade,card.rarityOverride,card.image,card.focusX,card.focusY,card.isActive,card.cardStatus,card.batchName,card.batchDate,card.drawWeight,card.limitedTotal,card.powerType,card.basePower,payload.id).run();
+        drawContextCache.clear();invalidateCatalogCaches();
         const after=await env.DB.prepare(`${cardView} WHERE c.id=?`).bind(payload.id).first();
+        const visibilityChanged=updateVisibility&&(beforeActive!==Boolean(card.isActive)||beforeStatus!==String(card.cardStatus).toUpperCase());
+        const actionType=visibilityChanged?(card.isActive?'CARD_SHOW':'CARD_HIDE'):'CARD_EDIT';
         await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
-          .bind(admin.id,card.isActive?'CARD_EDIT':'CARD_HIDE','CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
-        return json({ok:true,card:after});
+          .bind(admin.id,actionType,'CARD',payload.id,JSON.stringify(before),JSON.stringify(after)).run();
+        return json({ok:true,card:after,visibilityChanged});
       }
       if(request.method==='DELETE'){
         if(admin.role!=='OWNER') return json({error:'완전 삭제는 OWNER만 가능합니다.'},403);
