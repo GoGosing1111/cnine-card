@@ -3084,8 +3084,9 @@ export async function onRequest(context){
       const cardId=String(payload.cardId||'').trim();
       const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) AS breakthrough_fail_count,c.rarity,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
       if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
-      if((ORDER[owned.rarity]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
-      const level=Number(owned.breakthrough_level||0),grade=String(owned.rarity||'').toUpperCase(),isMaHigh=grade==='MA'&&level>=10,maxLevel=grade==='MA'?13:10;
+      const grade=String(owned.rarity||'').trim().toUpperCase();
+      if((ORDER[grade]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
+      const level=Number(owned.breakthrough_level||0),isMaHigh=grade==='MA'&&level>=10,maxLevel=grade==='MA'?13:10;
       if(level>=maxLevel) return json({error:'이미 최대 강화 단계입니다.'},409);
       const failCount=Math.max(0,Number(owned.breakthrough_fail_count||0));
       if(isMaHigh){
@@ -3119,7 +3120,7 @@ export async function onRequest(context){
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
         const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'MASTER_STAR',masterStarsAfter:starAfter,level:finalLevel,guaranteed:false,pity:{enabled:false,failCount:nextFailCount,threshold:null,nextGuaranteed:false},cinematic,user:await profile(env,updated)});
       }
-      const config=await breakthroughConfig(env),rule=config[owned.rarity]?.[level];
+      const config=await breakthroughConfig(env),rule=config[grade]?.[level];
       if(!rule) return json({error:'돌파 설정을 찾을 수 없습니다.'},500);
       const cost=Number(rule.cost),rate=Number(rule.rate);
       const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
@@ -3127,13 +3128,13 @@ export async function onRequest(context){
       const spent=await env.DB.prepare('UPDATE users SET card_shards=card_shards-? WHERE id=? AND card_shards>=?').bind(cost,user.id,cost).run();
       if(!spent.meta.changes) return json({error:'카드 조각이 부족합니다.'},400);
       const pity=await breakthroughPity(env),threshold=Math.max(1,Number(pity.thresholds?.[level]||5));
-      const guaranteed=owned.rarity==='SSR'&&pity.enabled&&failCount>=threshold;
+      const guaranteed=grade==='SSR'&&pity.enabled&&failCount>=threshold;
       const success=guaranteed||Math.random()*100<rate;
       if(success) await env.DB.prepare('UPDATE user_cards SET breakthrough_level=breakthrough_level+1,breakthrough_fail_count=0 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
       else await env.DB.prepare('UPDATE user_cards SET breakthrough_fail_count=breakthrough_fail_count+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
       const nextFailCount=success?0:failCount+1,updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-cost,updated.card_shards,success?(guaranteed?'BREAKTHROUGH_PITY_SUCCESS':'BREAKTHROUGH_SUCCESS'):'BREAKTHROUGH_FAIL',cardId).run();
-      const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'CARD_SHARD',level:finalLevel,guaranteed,pity:{enabled:owned.rarity==='SSR'&&pity.enabled,failCount:nextFailCount,threshold,nextGuaranteed:!success&&nextFailCount>=threshold},cinematic,user:await profile(env,updated)});
+      const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'CARD_SHARD',level:finalLevel,guaranteed,pity:{enabled:grade==='SSR'&&pity.enabled,failCount:nextFailCount,threshold,nextGuaranteed:!success&&nextFailCount>=threshold},cinematic,user:await profile(env,updated)});
     }
 
     if(path==='raid/status'){
