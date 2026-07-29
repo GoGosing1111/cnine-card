@@ -320,8 +320,10 @@ export async function grantEquipmentDrop(env,{userId,sourceType,sourceId='*',req
   return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:1,balance:Number(balance?.quantity||0),sourceType:type,sourceId:key};
 }
 
-async function characterPayload(env,userId,{admin=false}={}){
-  await syncCollectionTitles(env,userId);
+async function characterPayload(env,userId,{admin=false,syncTitles=false}={}){
+  // Opening the equipment screen must stay fast. Collection-title synchronization
+  // scans card ownership and is intentionally not run on every loadout request.
+  if(syncTitles)await syncCollectionTitles(env,userId);
   const [instances,loadoutRows,titleRows,titleLoadout,bonuses]=await Promise.all([
     env.DB.prepare(`SELECT x.id AS instance_id,x.source_type,x.source_id,x.acquired_at,i.* FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.user_id=? ${admin?'':"AND i.is_active=1 AND i.is_public=1"} ORDER BY i.slot,i.sort_order,x.acquired_at DESC,x.id DESC`).bind(userId).all(),
     env.DB.prepare('SELECT slot,instance_id FROM user_equipment_loadout WHERE user_id=?').bind(userId).all(),
@@ -348,6 +350,11 @@ export async function handleEquipment({path,request,env,deps}){
   const {authenticate,readBody,json,writeAdminLog}=deps;
   if(path==='character/loadout'&&request.method==='GET'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);return json(await characterPayload(env,user.id));
+  }
+  if(path==='character/title/sync'&&request.method==='POST'){
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const granted=await syncCollectionTitles(env,user.id);
+    return json({ok:true,granted});
   }
   if(path==='character/equipment/equip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
