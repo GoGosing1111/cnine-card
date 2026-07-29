@@ -110,6 +110,19 @@
     return `<span class="captain-v3-tier-fallback" style="--tier:${esc(data.color || '#b87333')}">◆</span>`;
   }
 
+  function titleBadge(title, compact = true) {
+    if (!title) return '';
+    if (typeof window.publicTitleBadgeHtml === 'function') return window.publicTitleBadgeHtml(title, { compact });
+    const style = String(title.stylePreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+    const text = esc(title.badgeText || title.name || '');
+    return text ? `<span class="public-title-badge ${compact ? 'compact' : ''} title-style-${style}">[${text}]</span>` : '';
+  }
+
+  function titledName(member, { tag = 'b', compact = true } = {}) {
+    const safeTag = ['b', 'strong', 'span', 'h3'].includes(tag) ? tag : 'b';
+    return `<span class="public-name-stack">${titleBadge(member?.title, compact)}<${safeTag}>${esc(member?.nickname || '-')}</${safeTag}></span>`;
+  }
+
   function roleClass(position) {
     return ['member', 'lead', 'mid', 'captain'][Number(position)] || 'member';
   }
@@ -124,7 +137,7 @@
       </div>
       <div class="captain-v3-identity">
         ${tier(member)}
-        <div><b>${esc(member.nickname || '-')}</b><small>${esc(member.pvpTier?.name || '브론즈')} · ${Number(member.pvpScore || 0).toLocaleString()}점</small></div>
+        <div>${titleBadge(member.title)}<b>${esc(member.nickname || '-')}</b><small>${esc(member.pvpTier?.name || '브론즈')} · ${Number(member.pvpScore || 0).toLocaleString()}점</small></div>
       </div>
       <div class="captain-v3-member-power"><span>PVP 덱 전투력</span><strong>${Number(member.deck_power ?? member.deckPower ?? 0).toLocaleString()}</strong></div>
     </article>`;
@@ -254,7 +267,7 @@
         const down = downSet.has(Number(member.userId));
         const now = Number(member.userId) === Number(activeId);
         return `<div class="captain-v3-lineup-chip ${down ? 'down' : now ? 'active' : 'standby'}" data-user-id="${Number(member.userId)}">
-          <span>${index + 1}</span>${tier(member)}<b>${esc(member.nickname)}</b><em>${down ? '탈락' : now ? '출전 중' : '대기'}</em>
+          <span>${index + 1}</span>${tier(member)}<span class="captain-lineup-public-name">${titleBadge(member.title)}<b>${esc(member.nickname)}</b></span><em>${down ? '탈락' : now ? '출전 중' : '대기'}</em>
         </div>`;
       }).join('')}</div>
     </div>`;
@@ -263,7 +276,7 @@
   function pvpHud(side, fighter, startPercent) {
     const target = side === 'attacker' ? 'team' : 'enemy';
     return `<div class="battle-hp ${side === 'attacker' ? 'battle-hp-team' : 'battle-hp-enemy'}">
-      <div class="battle-hp-head"><b>${esc(fighter.nickname)}</b><span data-hp-text="${target}">${startPercent}%</span></div>
+      <div class="battle-hp-head"><b class="captain-hud-public-name">${titleBadge(fighter.title)}${esc(fighter.nickname)}</b><span data-hp-text="${target}">${startPercent}%</span></div>
       <div class="battle-hp-track"><u data-hp-trail="${target}" style="width:${startPercent}%"></u><i data-hp-fill="${target}" style="width:${startPercent}%"></i><em>K.O.</em></div>
       <small>${esc(fighter.role)} · PVP 덱 ${Number(fighter.deckPower || 0).toLocaleString()} · 궁극기 미사용</small>
     </div>`;
@@ -335,17 +348,17 @@
       <div class="battle-hud captain-v4-hud">${pvpHud('attacker', left, left.startHpPercent)}${pvpHud('defender', right, right.startHpPercent)}</div>
       <div class="battle-arena pvp-arena captain-v4-arena">
         <div class="battle-side player-side captain-v4-side" data-fighter-panel="attacker">
-          <div class="captain-v4-user-title">${tier(left, 'rank')}<div><small>${esc(left.role)}</small><b>${esc(left.nickname)}</b></div></div>
+          <div class="captain-v4-user-title">${tier(left, 'rank')}<div><small>${esc(left.role)}</small>${titleBadge(left.title)}<b>${esc(left.nickname)}</b></div></div>
           <div class="battle-team captain-v4-pvp-deck">${combatDeck(leftCards, 'attacker')}</div><small>우리 팀 출전자</small>
         </div>
         <div class="battle-center captain-v4-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown">READY</span><em>승자 HP·카드 상태 유지</em></div>
         <div class="battle-side enemy-side captain-v4-side" data-fighter-panel="defender">
-          <div class="captain-v4-user-title defender">${tier(right, 'rank')}<div><small>${esc(right.role)}</small><b>${esc(right.nickname)}</b></div></div>
+          <div class="captain-v4-user-title defender">${tier(right, 'rank')}<div><small>${esc(right.role)}</small>${titleBadge(right.title)}<b>${esc(right.nickname)}</b></div></div>
           <div class="battle-team enemy-team captain-v4-pvp-deck">${combatDeck(rightCards, 'defender')}</div><small>상대 팀 출전자</small>
         </div>
       </div>
       <div class="battle-impact"><i></i><i></i><i></i></div>
-      <div class="captain-v4-round-notice" id="captainRoundNotice"><small>무작위 출전</small><b>${esc(left.nickname)} <i>VS</i> ${esc(right.nickname)}</b><span>카드 5장 PVP 전투 시작</span></div>`;
+      <div class="captain-v4-round-notice" id="captainRoundNotice"><small>무작위 출전</small><b class="captain-round-public-names"><span>${titleBadge(left.title)}${esc(left.nickname)}</span><i>VS</i><span>${titleBadge(right.title)}${esc(right.nickname)}</span></b><span>카드 5장 PVP 전투 시작</span></div>`;
     bindImageFallbacks(stage);
     const phase = stage.querySelector('#battlePhase');
     const count = stage.querySelector('#battleCountdown');
@@ -394,7 +407,7 @@
     stage.querySelector(`[data-fighter-panel="${loserSide}"]`)?.classList.add('captain-v4-user-down');
     if (attackerWon) state.defenderDown.add(Number(loser.userId)); else state.attackerDown.add(Number(loser.userId));
     if (phase) phase.textContent = `라운드 ${roundNumber} 종료 · ${winner.nickname} 승리`;
-    notice.innerHTML = `<small>라운드 ${roundNumber} 결과</small><b>${esc(winner.nickname)} 승리</b><span>생존 덱 HP ${Number(winner.endHpPercent || 0)}%로 다음 상대와 연전</span>`;
+    notice.innerHTML = `<small>라운드 ${roundNumber} 결과</small><b class="captain-result-public-name">${titleBadge(winner.title)}${esc(winner.nickname)} 승리</b><span>생존 덱 HP ${Number(winner.endHpPercent || 0)}%로 다음 상대와 연전</span>`;
     notice.classList.remove('hide');
     notice.classList.add('result');
     await pause(playback, 1050);
@@ -416,7 +429,7 @@
     stage.innerHTML = `<div class="battle-backdrop"></div><div class="battle-fx-layer"></div><section class="captain-v3-final ${won ? 'victory' : 'defeat'}">
       <small>대장전 · 최종 결과</small><div class="captain-v3-final-emblem">${won ? '승리' : '패배'}</div>
       <h2>${won ? '우리 팀이 끝까지 살아남았습니다' : '상대 팀이 최후까지 살아남았습니다'}</h2>
-      <p>최후 생존자 <b>${esc(survivor.nickname || '-')}</b> · 생존 덱 HP ${Number(survivor.hpPercent || 0)}%</p>
+      <p>최후 생존자 <b class="captain-survivor-public-name">${titleBadge(survivor.title)}${esc(survivor.nickname || '-')}</b> · 생존 덱 HP ${Number(survivor.hpPercent || 0)}%</p>
       <div class="captain-v4-survivor-deck">${combatDeck(survivor.deckSnapshot || survivor.deckState || [], won ? 'attacker' : 'defender')}</div>
       <div class="captain-v3-score-change"><span>${Number(data.attackerScoreBefore).toLocaleString()}</span><i>→</i><strong>${Number(data.attackerScoreAfter).toLocaleString()}</strong><em>${Number(data.scoreChange) > 0 ? '+' : ''}${Number(data.scoreChange)}점</em></div>
       ${data.victoryReward ? `<div class="captain-v3-victory-reward"><span>공격 승리 보상</span><b>코인 ${Number(data.victoryReward.coin || 0).toLocaleString()} · 카드 조각 ${Number(data.victoryReward.shards || 0).toLocaleString()}${Number(data.victoryReward.magicCrystals||0)>0?` · 마법 결정 ${Number(data.victoryReward.magicCrystals).toLocaleString()}`:''}</b></div>` : ''}
@@ -473,10 +486,10 @@
   function historyRow(row, direction, myTeamId) {
     const won = Number(row.winner_team_id) === Number(myTeamId);
     const opponent = direction === 'attack' ? row.defender_team_name : row.attacker_team_name;
-    const survivor = row.survivor?.nickname || '-';
+    const survivor = row.survivor || { nickname: '-' };
     return `<article class="captain-v3-log-row ${won ? 'win' : 'lose'}">
       <div class="captain-v3-log-result"><b>${won ? '승리' : '패배'}</b><span>${Number(row.rounds?.length || 0)}라운드</span></div>
-      <div><h3>${esc(opponent)}</h3><p>${direction === 'attack' ? `공격자 ${esc(row.initiated_by_name || '-')}` : `상대 공격자 ${esc(row.initiated_by_name || '-')}`} · 최후 생존 ${esc(survivor)}</p><small>${esc(row.created_at || '')}</small></div>
+      <div><h3>${esc(opponent)}</h3><p>${direction === 'attack' ? `공격자 ${esc(row.initiated_by_name || '-')}` : `상대 공격자 ${esc(row.initiated_by_name || '-')}`} · 최후 생존 <span class="captain-log-public-name">${titleBadge(survivor.title)}${esc(survivor.nickname || '-')}</span></p><small>${esc(row.created_at || '')}</small></div>
       <strong>${direction === 'attack' ? `${Number(row.attacker_score_before)} → ${Number(row.attacker_score_after)}` : `${Number(row.defender_score_before)} → ${Number(row.defender_score_after)}`}</strong>
     </article>`;
   }
@@ -506,7 +519,7 @@
       box.innerHTML = `<section class="captain-v3-subpage">
         <header class="captain-v3-subhead"><button class="text-btn" id="captainBack">← 대장전</button><div><small>주간 팀 순위</small><h2>대장전 주간 랭킹</h2></div></header>
         <div class="captain-v3-ranking">${(data.ranking || []).map(team => `<article class="${Number(team.id) === Number(lastStatus?.team?.id) ? 'mine' : ''}">
-          <em>${team.rank}</em><div class="captain-v3-rank-team"><b>${esc(team.name)}</b><small>${(team.members || []).map(member => esc(member.nickname)).join(' · ')}</small></div>
+          <em>${team.rank}</em><div class="captain-v3-rank-team"><b>${esc(team.name)}</b><small>${(team.members || []).map(member => `<span class="captain-rank-public-member">${titleBadge(member.title)}${esc(member.nickname)}</span>`).join('<i>·</i>')}</small></div>
           <div class="captain-v3-rank-record"><span>${Number(team.wins || 0)}승 ${Number(team.losses || 0)}패</span><strong>${Number(team.score || 0).toLocaleString()}</strong></div>
         </article>`).join('') || '<div class="captain-v3-empty">편성된 팀이 없습니다.</div>'}</div>
       </section>`;
@@ -563,7 +576,7 @@
     const captain = data.team.members.find(member => Number(member.position) === 3);
     box.innerHTML = `<section class="captain-v3-command">
       <header class="captain-v3-team-header">
-        <div><small>우리 팀</small><h2>${esc(data.team.name)}</h2><p>대장 ${esc(captain?.nickname || '-')} · ${Number(data.team.wins || 0)}승 ${Number(data.team.losses || 0)}패</p></div>
+        <div><small>우리 팀</small><h2>${esc(data.team.name)}</h2><p>대장 <span class="captain-team-captain-name">${titleBadge(captain?.title)}${esc(captain?.nickname || '-')}</span> · ${Number(data.team.wins || 0)}승 ${Number(data.team.losses || 0)}패</p></div>
         <div class="captain-v3-team-score"><span>팀 점수</span><b>${Number(data.team.score || 0).toLocaleString()}</b></div>
       </header>
       <div class="captain-v3-team-roster">${data.team.members.map(member => memberCard(member)).join('')}</div>

@@ -785,6 +785,7 @@ function publicMember(member, includeDeck = false) {
   const result = {
     user_id: Number(member.user_id),
     nickname: member.nickname,
+    title: member.title || null,
     position: Number(member.position),
     role: member.role,
     deck_power: Number(member.deck_power || 0),
@@ -801,10 +802,14 @@ async function team(env, id, includeDeck = false) {
   if (!teamRow) return null;
 
   const rows = (await env.DB.prepare(`
-    SELECT m.*,u.nickname,COALESCE(p.season_score,1000) season_score
+    SELECT m.*,u.nickname,COALESCE(p.season_score,1000) season_score,
+      t.id AS title_id,t.name AS title_name,t.badge_text AS title_badge_text,t.style_preset AS title_style_preset
     FROM captain_team_members m
     JOIN users u ON u.id=m.user_id
     LEFT JOIN pvp_profiles p ON p.user_id=m.user_id
+    LEFT JOIN user_title_loadout tl ON tl.user_id=u.id
+    LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id
+    LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1
     WHERE m.team_id=?
     ORDER BY m.position
   `).bind(id).all()).results;
@@ -814,6 +819,7 @@ async function team(env, id, includeDeck = false) {
     const deckSnapshot = includeDeck ? safeJson(row.deck_snapshot, []) : undefined;
     return {
       ...row,
+      title: row.title_id ? { id:Number(row.title_id), name:row.title_name, badgeText:row.title_badge_text||row.title_name, stylePreset:String(row.title_style_preset||'DEFAULT').toUpperCase() } : null,
       role: ['', '선봉', '중견', '대장'][Number(row.position)] || '팀원',
       pvpTier: tierFor(Number(row.season_score), tiers),
       pvpScore: Number(row.season_score),
@@ -1107,6 +1113,7 @@ function fighterFromMember(member) {
   const fighter = {
     userId: Number(member.user_id),
     nickname: member.nickname,
+    title: member.title || null,
     role: member.role,
     position: Number(member.position),
     pvpTier: member.pvpTier,
@@ -1154,6 +1161,7 @@ function fighterPayload(fighter, includeDeck = true) {
   const payload = {
     userId: fighter.userId,
     nickname: fighter.nickname,
+    title: fighter.title || null,
     role: fighter.role,
     position: fighter.position,
     pvpTier: fighter.pvpTier,
@@ -1367,6 +1375,7 @@ async function receiptFail(env, requestId, error) {
 export async function handleCaptain({ path, request, env, deps }) {
   if (!path.startsWith('captain/') && !path.startsWith('admin/captain')) return null;
   await upgrade(env);
+  if (typeof deps.publicEquippedTitleMap === 'function') await deps.publicEquippedTitleMap(env, []);
 
   const user = await deps.authenticate(request, env);
   if (!user) return deps.json({ error: '로그인이 필요합니다.' }, 401);

@@ -1,0 +1,26 @@
+/* V1245 PUBLIC EQUIPPED TITLE — PVP / RAID / CAPTAIN */
+.public-name-stack{display:inline-flex;flex-direction:column;align-items:flex-start;justify-content:center;min-width:0;max-width:100%;line-height:1.15;vertical-align:middle}
+.public-name-stack>b,.public-name-stack>strong,.public-name-stack>h3,.public-name-stack>span:not(.public-title-badge){max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.public-title-badge{display:inline-flex;align-items:center;justify-content:center;max-width:100%;min-height:20px;margin:0 0 4px;padding:4px 9px;border:1px solid rgba(111,213,255,.22);border-radius:999px;background:rgba(4,12,25,.86);box-shadow:0 0 12px rgba(47,183,255,.12);font-size:10px;font-weight:900;line-height:1;letter-spacing:.015em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;vertical-align:middle}
+.public-title-badge.compact{min-height:17px;margin-bottom:3px;padding:3px 7px;font-size:9px}
+.public-title-badge.title-style-default{color:#edf5ff;text-shadow:0 0 8px rgba(116,210,255,.35)}
+.public-title-badge.title-style-forest{color:#8ef0a5;border-color:rgba(102,230,133,.32);text-shadow:0 0 9px rgba(98,225,121,.38)}
+.public-title-badge.title-style-flame{color:#ffad66;border-color:rgba(255,118,77,.34);text-shadow:0 0 9px rgba(255,91,54,.45)}
+.public-title-badge.title-style-frost{color:#92e8ff;border-color:rgba(93,205,255,.38);text-shadow:0 0 9px rgba(85,201,255,.5)}
+.public-title-badge.title-style-storm{color:#bdc8ff;border-color:rgba(140,134,255,.38);text-shadow:0 0 10px rgba(137,150,255,.46)}
+.public-title-badge.title-style-shadow{color:#d9bfff;border-color:rgba(154,102,222,.36);text-shadow:0 0 10px rgba(125,74,194,.55)}
+.public-title-badge.title-style-gold{color:#ffd86e;border-color:rgba(255,205,88,.42);text-shadow:0 0 10px rgba(255,205,88,.45)}
+.public-title-badge.title-style-rainbow{color:#fff;border-color:rgba(199,160,255,.38);background:linear-gradient(90deg,rgba(255,100,145,.18),rgba(255,211,103,.15),rgba(86,224,191,.15),rgba(92,176,255,.17),rgba(190,121,255,.17));text-shadow:0 0 9px rgba(255,255,255,.28)}
+.public-title-badge.title-style-void{color:#a7dfff;border-color:rgba(119,91,255,.42);text-shadow:0 0 10px rgba(118,82,255,.62),0 0 18px rgba(76,197,255,.28)}
+.pvp-op-head .public-name-stack,.pvp-rank-row .public-name-stack,.pvp-history-row .public-name-stack{min-width:0}
+.battle-hp-head b:has(.public-title-badge),.raid-my-public-title,.captain-hud-public-name{display:flex;flex-wrap:wrap;align-items:center;gap:5px;min-width:0}
+.battle-hp-head b .public-title-badge,.raid-my-public-title .public-title-badge,.captain-hud-public-name .public-title-badge{margin:0;max-width:150px}
+.raid-attacker-card>strong{display:flex;flex-direction:column;align-items:center;gap:2px}.raid-attacker-card>strong .public-title-badge{margin:0}
+.raid-participant-list .public-name-stack,.raid-rank-row .public-name-stack{align-items:flex-start}
+.captain-v3-identity>div{display:flex;flex-direction:column;align-items:flex-start;min-width:0}.captain-v3-identity .public-title-badge{margin-bottom:3px;max-width:170px}
+.captain-lineup-public-name,.captain-team-captain-name,.captain-log-public-name,.captain-rank-public-member{display:inline-flex;flex-direction:column;align-items:flex-start;min-width:0;vertical-align:middle}
+.captain-lineup-public-name .public-title-badge,.captain-team-captain-name .public-title-badge,.captain-log-public-name .public-title-badge,.captain-rank-public-member .public-title-badge{margin-bottom:2px;max-width:125px}
+.captain-v4-user-title>div{display:flex;flex-direction:column;align-items:flex-start}.captain-v4-user-title.defender>div{align-items:flex-end}.captain-v4-user-title .public-title-badge{margin:2px 0 3px;max-width:155px}
+.captain-round-public-names{display:flex!important;align-items:center;justify-content:center;gap:14px}.captain-round-public-names>span{display:flex;flex-direction:column;align-items:center;gap:2px}.captain-round-public-names .public-title-badge{margin:0}.captain-result-public-name,.captain-survivor-public-name{display:inline-flex!important;flex-direction:column;align-items:center;vertical-align:middle}.captain-result-public-name .public-title-badge,.captain-survivor-public-name .public-title-badge{margin-bottom:3px}
+.captain-v3-rank-team small{display:flex!important;flex-wrap:wrap;align-items:center;gap:7px}.captain-v3-rank-team small>i{font-style:normal;color:#516477}.captain-rank-public-member{padding:4px 7px;border-radius:9px;background:rgba(255,255,255,.035)}
+@media(max-width:640px){.public-title-badge{font-size:9px;padding:3px 7px}.public-title-badge.compact{font-size:8px;padding:2px 5px}.battle-hp-head b .public-title-badge,.raid-my-public-title .public-title-badge,.captain-hud-public-name .public-title-badge{max-width:92px}.captain-v3-identity .public-title-badge{max-width:120px}.captain-round-public-names{gap:8px}.captain-round-public-names>span{max-width:112px}}

@@ -162,6 +162,19 @@ export async function ensureEquipmentFoundation(env){
 function publicItem(row){return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0)}}
 function publicTitle(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig:parseJson(row.unlock_config_json,{}),stylePreset:normalizeTitleStylePreset(row.style_preset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null}}
 
+export async function publicEquippedTitleMap(env,userIds=[]){
+  await ensureEquipmentFoundation(env);
+  const ids=[...new Set((Array.isArray(userIds)?userIds:[userIds]).map(value=>cleanInt(value,0,2147483647)).filter(Boolean))];
+  if(!ids.length)return {};
+  const marks=ids.map(()=>'?').join(',');
+  const rows=await env.DB.prepare(`SELECT l.user_id AS user_id,t.id,t.code,t.name,t.badge_text,t.style_preset,t.image_url
+    FROM user_title_loadout l
+    JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id
+    JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 AND t.is_public=1
+    WHERE l.user_id IN (${marks})`).bind(...ids).all();
+  return Object.fromEntries((rows.results||[]).map(row=>[String(row.user_id),{id:Number(row.id),code:row.code,name:row.name,badgeText:row.badge_text||row.name,stylePreset:normalizeTitleStylePreset(row.style_preset),image:row.image_url||''}]));
+}
+
 async function grantTitle(env,userId,titleId,sourceType='SYSTEM',sourceId=''){
   const result=await env.DB.prepare(`INSERT OR IGNORE INTO user_character_titles(user_id,title_id,source_type,source_id) VALUES(?,?,?,?)`).bind(userId,titleId,cleanText(sourceType,40),cleanText(sourceId,120)).run();
   return Number(result?.meta?.changes||0)>0;
@@ -291,6 +304,14 @@ export async function handleEquipment({path,request,env,deps}){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await env.DB.prepare('DELETE FROM user_title_loadout WHERE user_id=?').bind(user.id).run();return json({ok:true,...await characterPayload(env,user.id)});
   }
 
+  if(path==='admin/equipment-user-search'&&request.method==='GET'){
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
+    const query=cleanText(new URL(request.url).searchParams.get('q')||'',40);
+    if(query.length<1)return json({users:[]});
+    const like=`%${query}%`;
+    const rows=await env.DB.prepare(`SELECT id,nickname,role,status FROM users WHERE nickname LIKE ? ORDER BY CASE WHEN nickname=? THEN 0 WHEN nickname LIKE ? THEN 1 ELSE 2 END,nickname LIMIT 20`).bind(like,query,`${query}%`).all();
+    return json({users:(rows.results||[]).map(row=>({id:Number(row.id),nickname:row.nickname,role:row.role||'USER',status:row.status||'ACTIVE'}))});
+  }
   if(path==='admin/equipment-system'&&request.method==='GET'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);return json(await adminSystemPayload(env));
   }
