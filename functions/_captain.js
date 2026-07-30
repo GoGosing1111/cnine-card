@@ -1354,10 +1354,11 @@ async function receiptStart(env, requestId, week, userId) {
 
   if (Number(inserted.meta?.changes || 0) > 0) return { acquired: true };
 
-  const existing = await env.DB.prepare('SELECT * FROM captain_match_receipts_v3 WHERE request_id=?')
+  const existing = await env.DB.prepare('SELECT status,response_json FROM captain_match_receipts_v3 WHERE request_id=?')
     .bind(requestId).first();
-  if (existing?.status === 'DONE' && existing.response_json) {
-    return { acquired: false, response: safeJson(existing.response_json, null) };
+  if (existing?.status === 'DONE') {
+    if (existing.response_json) return { acquired: false, response: safeJson(existing.response_json, null) };
+    return { acquired: false, completed: true };
   }
   return { acquired: false, pending: true };
 }
@@ -1366,10 +1367,76 @@ async function receiptFail(env, requestId, error) {
   try {
     await env.DB.prepare(`
       UPDATE captain_match_receipts_v3
-      SET status='FAILED',error_text=?,updated_at=CURRENT_TIMESTAMP
+      SET status='FAILED',response_json=NULL,error_text=?,updated_at=CURRENT_TIMESTAMP
       WHERE request_id=?
     `).bind(String(error?.message || error).slice(0, 500), requestId).run();
   } catch {}
+}
+
+function captainHistorySummary(match) {
+  const survivor = match?.survivor ? {
+    userId: Number(match.survivor.userId || 0),
+    nickname: String(match.survivor.nickname || ''),
+    title: match.survivor.title || null,
+    role: String(match.survivor.role || ''),
+    position: Number(match.survivor.position || 0),
+    pvpTier: match.survivor.pvpTier || null,
+    pvpScore: Number(match.survivor.pvpScore || 0),
+    deckPower: Number(match.survivor.deckPower || 0),
+    maxHp: Number(match.survivor.maxHp || 0),
+    hp: Number(match.survivor.hp || 0),
+    hpPercent: Number(match.survivor.hpPercent || 0),
+    down: Boolean(match.survivor.down)
+  } : null;
+  return {
+    storageVersion: 2,
+    roundCount: Array.isArray(match?.rounds) ? match.rounds.length : 0,
+    survivor,
+    ultimateDisabled: true,
+    battleEngine: String(match?.engine || '')
+  };
+}
+
+async function maybeCleanupCaptainStorage(env) {
+  // 신규 경기 20회당 평균 1회만 실행해 전투 요청 부하를 늘리지 않으면서
+  // 대용량 재시도 응답과 오래된 요약 로그가 무기한 누적되는 것을 막는다.
+  if (randomIndex(20) !== 0) return;
+  try {
+    await env.DB.batch([
+      env.DB.prepare(`
+        UPDATE captain_match_receipts_v3
+        SET response_json=NULL,updated_at=CURRENT_TIMESTAMP
+        WHERE request_id IN (
+          SELECT request_id FROM captain_match_receipts_v3
+          WHERE status='DONE' AND response_json IS NOT NULL
+            AND updated_at<datetime('now','-30 minutes')
+          ORDER BY updated_at ASC
+          LIMIT 200
+        )
+      `),
+      env.DB.prepare(`
+        DELETE FROM captain_match_receipts_v3
+        WHERE request_id IN (
+          SELECT request_id FROM captain_match_receipts_v3
+          WHERE status IN ('DONE','FAILED')
+            AND updated_at<datetime('now','-7 days')
+          ORDER BY updated_at ASC
+          LIMIT 200
+        )
+      `),
+      env.DB.prepare(`
+        DELETE FROM captain_match_history_v3
+        WHERE id IN (
+          SELECT id FROM captain_match_history_v3
+          WHERE created_at<datetime('now','-7 days')
+          ORDER BY id ASC
+          LIMIT 200
+        )
+      `)
+    ]);
+  } catch (error) {
+    console.error('captain storage auto cleanup failed', error);
+  }
 }
 
 export async function handleCaptain({ path, request, env, deps }) {
@@ -1843,6 +1910,7 @@ export async function handleCaptain({ path, request, env, deps }) {
         }
         return deps.json(replay);
       }
+      if (receipt.completed) return deps.json({ error: '이미 처리 완료된 공격 요청입니다. 대장전 화면을 새로고침해 결과를 확인하세요.', alreadyProcessed: true }, 409);
       return deps.json({ error: '같은 공격 요청이 이미 처리 중입니다.' }, 409);
     }
 
@@ -1956,7 +2024,7 @@ export async function handleCaptain({ path, request, env, deps }) {
           defenderAfter,
           JSON.stringify(match.attackerLineup),
           JSON.stringify(match.defenderLineup),
-          JSON.stringify({ rounds: match.rounds, survivor: match.survivor, ultimateDisabled: true, battleEngine: match.engine })
+          JSON.stringify(captainHistorySummary(match))
         ),
         env.DB.prepare(`
           UPDATE captain_match_receipts_v3
@@ -1991,6 +2059,7 @@ export async function handleCaptain({ path, request, env, deps }) {
         SET response_json=?,updated_at=CURRENT_TIMESTAMP
         WHERE request_id=?
       `).bind(JSON.stringify(response), requestId).run();
+      await maybeCleanupCaptainStorage(env);
       return deps.json(response);
     } catch (error) {
       if (energySpent) {
@@ -2020,9 +2089,11 @@ export async function handleCaptain({ path, request, env, deps }) {
       LIMIT 100
     `).bind(week, mine.id, mine.id).all()).results.map(row => {
       const battle = safeJson(row.battle_log_json, {});
+      const legacyRounds = Array.isArray(battle.rounds) ? battle.rounds : [];
       return {
         ...row,
-        rounds: battle.rounds || [],
+        rounds: legacyRounds,
+        roundCount: Math.max(0, Number(battle.roundCount ?? legacyRounds.length) || 0),
         survivor: battle.survivor || null,
         myResult: Number(row.winner_team_id) === Number(mine.id) ? 'WIN' : 'LOSE'
       };

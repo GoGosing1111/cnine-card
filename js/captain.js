@@ -488,7 +488,7 @@
     const opponent = direction === 'attack' ? row.defender_team_name : row.attacker_team_name;
     const survivor = row.survivor || { nickname: '-' };
     return `<article class="captain-v3-log-row ${won ? 'win' : 'lose'}">
-      <div class="captain-v3-log-result"><b>${won ? '승리' : '패배'}</b><span>${Number(row.rounds?.length || 0)}라운드</span></div>
+      <div class="captain-v3-log-result"><b>${won ? '승리' : '패배'}</b><span>${Number(row.roundCount ?? row.rounds?.length ?? 0)}라운드</span></div>
       <div><h3>${esc(opponent)}</h3><p>${direction === 'attack' ? `공격자 ${esc(row.initiated_by_name || '-')}` : `상대 공격자 ${esc(row.initiated_by_name || '-')}`} · 최후 생존 <span class="captain-log-public-name">${titleBadge(survivor.title)}${esc(survivor.nickname || '-')}</span></p><small>${esc(row.created_at || '')}</small></div>
       <strong>${direction === 'attack' ? `${Number(row.attacker_score_before)} → ${Number(row.attacker_score_after)}` : `${Number(row.defender_score_before)} → ${Number(row.defender_score_after)}`}</strong>
     </article>`;

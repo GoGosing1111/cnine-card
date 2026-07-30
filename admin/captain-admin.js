@@ -407,7 +407,7 @@
     if(!target)return;
     target.innerHTML=logs.map(row=>{
       const battle=row.battle||{};
-      const rounds=Array.isArray(battle.rounds)?battle.rounds.length:0;
+      const rounds=Math.max(0,Number(battle.roundCount??(Array.isArray(battle.rounds)?battle.rounds.length:0))||0);
       const attackWin=Number(row.winner_team_id)===Number(row.attacker_team_id);
       const attackDelta=Number(row.attacker_score_after||0)-Number(row.attacker_score_before||0);
       const defenseDelta=Number(row.defender_score_after||0)-Number(row.defender_score_before||0);
