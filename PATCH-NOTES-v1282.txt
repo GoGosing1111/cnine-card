@@ -1,0 +1,30 @@
+숲켓몬 v1282 대장전 대용량 DB 재발 차단 누적 패치
+
+기준: cnine-card(39).zip
+포함: v1279 CMS 수동 정리 + v1280 기록 요약/보존 제한 + v1281 5천건 정리 안정화 + v1282 대용량 응답 저장 제거
+
+핵심 변경
+- 신규 대장전 경기의 전체 전투 response_json을 D1 영수증에 저장하지 않음
+- 전투 연출용 전체 데이터는 해당 HTTP 응답으로만 사용자에게 전달
+- captain_match_receipts_v3에는 request_id, 회차, 사용자, DONE/FAILED 상태와 짧은 오류만 보존
+- 중복 요청은 DONE 상태로 차단하며, 전체 응답이 없으면 새로고침 안내
+- 기존 captain_match_history_v3의 battle_log_json은 v1280 방식대로 요약만 저장
+- 자동 정리는 무작위 1/20 방식 제거
+- AUTOINCREMENT 경기 ID 기준 정확히 20경기마다 기존 대용량 응답 및 7일 초과 기록을 최대 200건씩 정리
+- ACTIVE/PENDING 보호 및 CMS 수동 정리 유지
+
+재발 방지 효과
+- 기존 구조: 경기 1건당 약 220KB 수준의 상세 JSON이 기록/영수증에 중복 저장될 수 있었음
+- v1282 신규 구조: 상세 전투 JSON의 DB 영수증 저장 0바이트, 경기 기록은 조회용 요약과 소형 라인업만 저장
+- 같은 수준의 경기 수가 발생해도 과거처럼 대장전 두 테이블이 수 GB로 폭증하는 경로를 제거
+
+수정 파일
+- functions/_captain.js
+
+누적 포함 파일
+- index.html
+- js/captain.js
+- admin/index.html
+- admin/captain-admin.js
+- admin/storage-cleanup.js
+- functions/_storage_cleanup.js

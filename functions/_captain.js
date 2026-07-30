@@ -1397,10 +1397,18 @@ function captainHistorySummary(match) {
   };
 }
 
-async function maybeCleanupCaptainStorage(env) {
-  // 신규 경기 20회당 평균 1회만 실행해 전투 요청 부하를 늘리지 않으면서
-  // 대용량 재시도 응답과 오래된 요약 로그가 무기한 누적되는 것을 막는다.
-  if (randomIndex(20) !== 0) return;
+async function maybeCleanupCaptainStorage(env, historyId = 0, requestId = '') {
+  // v1282: 무작위 실행을 제거한다. 정상적으로 반환되는 AUTOINCREMENT 경기 ID를
+  // 기준으로 정확히 20경기마다 실행하며, ID를 받지 못한 예외 상황에서만 요청 ID
+  // 해시를 보조 게이트로 사용한다.
+  const numericId = Math.max(0, Number(historyId || 0));
+  let shouldRun = numericId > 0 && numericId % 20 === 0;
+  if (!shouldRun && numericId <= 0 && requestId) {
+    let hash = 0;
+    for (const char of String(requestId)) hash = ((hash * 31) + char.charCodeAt(0)) | 0;
+    shouldRun = Math.abs(hash) % 20 === 0;
+  }
+  if (!shouldRun) return;
   try {
     await env.DB.batch([
       env.DB.prepare(`
@@ -1999,7 +2007,7 @@ export async function handleCaptain({ path, request, env, deps }) {
         battleEngine: match.engine
       };
 
-      await env.DB.batch([
+      const matchWriteResults = await env.DB.batch([
         env.DB.prepare('UPDATE captain_teams SET score=?,wins=wins+?,losses=losses+? WHERE id=?')
           .bind(attackerAfter, attackerWon ? 1 : 0, attackerWon ? 0 : 1, attackerTeam.id),
         env.DB.prepare('UPDATE captain_teams SET score=?,wins=wins+?,losses=losses+? WHERE id=?')
@@ -2028,9 +2036,9 @@ export async function handleCaptain({ path, request, env, deps }) {
         ),
         env.DB.prepare(`
           UPDATE captain_match_receipts_v3
-          SET status='DONE',response_json=?,error_text=NULL,updated_at=CURRENT_TIMESTAMP
+          SET status='DONE',response_json=NULL,error_text=NULL,updated_at=CURRENT_TIMESTAMP
           WHERE request_id=?
-        `).bind(JSON.stringify(response), requestId)
+        `).bind(requestId)
       ]);
 
       if (attackerWon) {
@@ -2054,12 +2062,11 @@ export async function handleCaptain({ path, request, env, deps }) {
         catch(equipmentError){console.error('captain equipment drop failed',equipmentError)}
       }
       response.energy = await energy(env, user.id, week, config);
-      await env.DB.prepare(`
-        UPDATE captain_match_receipts_v3
-        SET response_json=?,updated_at=CURRENT_TIMESTAMP
-        WHERE request_id=?
-      `).bind(JSON.stringify(response), requestId).run();
-      await maybeCleanupCaptainStorage(env);
+      // v1282: 전투 연출용 전체 응답은 현재 HTTP 응답으로만 전달한다.
+      // D1 영수증에는 DONE 상태만 남겨 중복 지급을 차단하고, 수십~수백 KB의
+      // 라운드/카드 JSON을 영구 또는 임시로도 저장하지 않는다.
+      const historyId = Number(matchWriteResults?.[2]?.meta?.last_row_id || 0);
+      await maybeCleanupCaptainStorage(env, historyId, requestId);
       return deps.json(response);
     } catch (error) {
       if (energySpent) {
