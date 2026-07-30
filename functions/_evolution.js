@@ -11,6 +11,12 @@ const normalizeType=value=>EVOLUTION_TYPES[String(value||'').toUpperCase()]?Stri
 const resultRows=result=>Array.isArray(result?.results)?result.results:[];
 const firstRow=result=>resultRows(result)[0]||null;
 const parseDeck=row=>{try{return new Set(JSON.parse(row?.card_ids||'[]').map(String))}catch{return new Set()}};
+// V1272: 진화 결과 후보에서 특정 멤버/카드를 완전히 제외한다.
+// 보유한 철구 카드를 진화 재료로 쓰는 것은 허용하지만, 결과 카드로 철구가 지급되지는 않는다.
+const EVOLUTION_RESULT_EXCLUDED_KEYWORDS=['철구'];
+function normalizedEvolutionResultText(card={}){return `${card?.name||''} ${card?.title||''}`.normalize('NFKC').replace(/\s+/g,'')}
+function isEvolutionResultExcluded(card={}){const text=normalizedEvolutionResultText(card);return EVOLUTION_RESULT_EXCLUDED_KEYWORDS.some(keyword=>text.includes(String(keyword).normalize('NFKC').replace(/\s+/g,'')))}
+function evolutionResultPool(rows=[]){return (Array.isArray(rows)?rows:[]).filter(card=>!isEvolutionResultExcluded(card))}
 
 async function tableColumns(env,table){const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();return new Set((rows.results||[]).map(row=>String(row.name)))}
 async function runUpgrade(env){
@@ -74,8 +80,8 @@ async function overview(env,userId,settings){
   return {
     settings,masterStars,userResources:{coin:Number(resources.coin||0),cardShards:Number(resources.card_shards||0)},
     types:{
-      SSR_TO_MA:{...ssrRule,type:'SSR_TO_MA',candidates:ssrCandidates,resultPool:resultRows(results[2]).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:ssrCandidates.filter(card=>card.eligible).length,coinCost:settings.coinCost,shardCost:settings.shardCost,successRate:settings.successRate,pityAttempts:settings.pityAttempts},
-      MA_TO_PRESTIGE:{...prestigeRule,type:'MA_TO_PRESTIGE',candidates:prestigeCandidates,resultPool:resultRows(results[3]).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:prestigeCandidates.filter(card=>card.eligible).length,masterStarCost:settings.maToPrestigeMasterStarCost,successRate:settings.maToPrestigeSuccessRate,pityAttempts:settings.maToPrestigePityAttempts,successEffect:buildPrestigeSuccessEffect(settings)}
+      SSR_TO_MA:{...ssrRule,type:'SSR_TO_MA',candidates:ssrCandidates,resultPool:evolutionResultPool(resultRows(results[2])).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:ssrCandidates.filter(card=>card.eligible).length,coinCost:settings.coinCost,shardCost:settings.shardCost,successRate:settings.successRate,pityAttempts:settings.pityAttempts},
+      MA_TO_PRESTIGE:{...prestigeRule,type:'MA_TO_PRESTIGE',candidates:prestigeCandidates,resultPool:evolutionResultPool(resultRows(results[3])).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:prestigeCandidates.filter(card=>card.eligible).length,masterStarCost:settings.maToPrestigeMasterStarCost,successRate:settings.maToPrestigeSuccessRate,pityAttempts:settings.maToPrestigePityAttempts,successEffect:buildPrestigeSuccessEffect(settings)}
     }
   };
 }
@@ -90,7 +96,7 @@ async function legacyAttempt({env,deps,user,cardId,settings}){
   if(!settings.enabled)return deps.json({error:'현재 카드 진화가 중지되어 있습니다.'},503);
   if(!eligible)return deps.json({error:'SSR 등급 ★10 돌파 카드만 진화할 수 있습니다.'},400);
   if(progress.is_success)return deps.json({error:'이 SSR 카드는 이미 진화에 성공했습니다.'},409);
-  const pool=(await env.DB.prepare("SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='MA' AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY RANDOM()").all()).results;
+  const pool=evolutionResultPool((await env.DB.prepare("SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='MA' AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY RANDOM()").all()).results);
   if(!pool.length)return deps.json({error:'획득 가능한 공개 MA 카드가 없습니다.'},503);
   const fresh=await env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(Number(fresh.coin)<settings.coinCost||Number(fresh.card_shards)<settings.shardCost)return deps.json({error:`진화 재료가 부족합니다. (${settings.coinCost.toLocaleString()}코인 / 카드조각 ${settings.shardCost.toLocaleString()}개)`},400);
@@ -129,7 +135,7 @@ async function prestigeAttempt({env,deps,user,cardId,requestId,settings}){
   if(progress.is_success){await env.DB.prepare('UPDATE card_evolution_progress SET failed_attempts=0,total_attempts=0,is_success=0,reward_card_id=NULL,completed_at=NULL,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND source_card_id=? AND is_success=1').bind(user.id,cardId).run();progress=await state(env,user.id,cardId)}
   const masterStarCost=Number(settings.maToPrestigeMasterStarCost||1),successRate=Number(settings.maToPrestigeSuccessRate??100),pityAttempts=Math.max(1,Number(settings.maToPrestigePityAttempts||10)),starRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),masterStarBefore=Number(starRow?.quantity||0);
   if(masterStarBefore<masterStarCost)return deps.json({error:`마스터의 별이 ${masterStarCost-masterStarBefore}개 부족합니다.`},400);
-  const pool=(await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='PRESTIGE' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY c.id`).all()).results||[];
+  const pool=evolutionResultPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='PRESTIGE' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY c.id`).all()).results||[]);
   if(!pool.length)return deps.json({error:'획득 가능한 공개 PRESTIGE 카드가 없습니다. CMS 카드 설정을 확인하세요.'},503);
   const attemptNo=Number(progress.total_attempts||0)+1,isPity=Number(progress.failed_attempts||0)+1>=pityAttempts,success=isPity||randomPercent()<successRate,guardId=`${user.id}:${requestId}`;
   let reward=null,duplicate=false,rewardShards=0;
