@@ -12,12 +12,13 @@ const DEFAULT_SETTINGS = {
   description: '저장된 PvE 덱으로 역할별 봉인 보스와 전투하고, 서버 전체가 파괴·수호·정화 세 봉인을 완성하는 공동 보스 콘텐츠입니다.',
   startsAt: null,
   endsAt: null,
-  dailyAttempts: 3,
+  dailyAttempts: 5,
+  rechargeMinutes: 60,
   targets: { attack: 20000000, guard: 16000000, purify: 14000000 },
   multipliers: { attack: 100, guard: 90, purify: 85 },
   battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
   lowestRoleBonusPercent: 20,
-  defeatContributionPercent: 0,
+  defeatContributionPercent: 10,
   attemptReward: { coin: 100, shards: 1 },
   clearReward: { coin: 2000, shards: 50 },
   receiptRetentionDays: 14,
@@ -65,6 +66,7 @@ function cleanSettings(raw = {}) {
     startsAt: cleanDate(raw.startsAt),
     endsAt: cleanDate(raw.endsAt),
     dailyAttempts: clampInt(raw.dailyAttempts, base.dailyAttempts, 1, 30),
+    rechargeMinutes: clampInt(raw.rechargeMinutes, base.rechargeMinutes, 1, 1440),
     targets: {
       attack: clampInt(targets.attack, base.targets.attack, 1, 2000000000),
       guard: clampInt(targets.guard, base.targets.guard, 1, 2000000000),
@@ -81,7 +83,7 @@ function cleanSettings(raw = {}) {
       purify: clampInt(battlePowers.purify, base.battlePowers.purify, 1, 2000000000)
     },
     lowestRoleBonusPercent: clampInt(raw.lowestRoleBonusPercent, base.lowestRoleBonusPercent, 0, 500),
-    defeatContributionPercent: 0,
+    defeatContributionPercent: clampInt(raw.defeatContributionPercent, base.defeatContributionPercent, 0, 100),
     attemptReward: {
       coin: clampInt(attemptReward.coin, base.attemptReward.coin, 0, 100000000),
       shards: clampInt(attemptReward.shards, base.attemptReward.shards, 0, 1000000)
@@ -125,7 +127,8 @@ async function ensureFoundation(env, deps = {}) {
         status TEXT NOT NULL DEFAULT 'ACTIVE',
         starts_at TEXT,
         ends_at TEXT,
-        daily_attempts INTEGER NOT NULL DEFAULT 3,
+        daily_attempts INTEGER NOT NULL DEFAULT 5,
+        recharge_minutes INTEGER NOT NULL DEFAULT 60,
         attack_target INTEGER NOT NULL DEFAULT 1,
         guard_target INTEGER NOT NULL DEFAULT 1,
         purify_target INTEGER NOT NULL DEFAULT 1,
@@ -138,7 +141,7 @@ async function ensureFoundation(env, deps = {}) {
         attack_battle_power INTEGER NOT NULL DEFAULT 12000,
         guard_battle_power INTEGER NOT NULL DEFAULT 11000,
         purify_battle_power INTEGER NOT NULL DEFAULT 10000,
-        defeat_contribution_percent INTEGER NOT NULL DEFAULT 0,
+        defeat_contribution_percent INTEGER NOT NULL DEFAULT 10,
         lowest_bonus_percent INTEGER NOT NULL DEFAULT 20,
         attempt_coin INTEGER NOT NULL DEFAULT 0,
         attempt_shards INTEGER NOT NULL DEFAULT 0,
@@ -155,6 +158,8 @@ async function ensureFoundation(env, deps = {}) {
         user_id INTEGER NOT NULL,
         day_key TEXT NOT NULL,
         attempts_today INTEGER NOT NULL DEFAULT 0,
+        attempt_charges INTEGER NOT NULL DEFAULT -1,
+        last_recharged_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         total_attempts INTEGER NOT NULL DEFAULT 0,
         attack_contribution INTEGER NOT NULL DEFAULT 0,
         guard_contribution INTEGER NOT NULL DEFAULT 0,
@@ -204,7 +209,10 @@ async function ensureFoundation(env, deps = {}) {
       ['seal_battle_events','attack_battle_power','INTEGER NOT NULL DEFAULT 12000'],
       ['seal_battle_events','guard_battle_power','INTEGER NOT NULL DEFAULT 11000'],
       ['seal_battle_events','purify_battle_power','INTEGER NOT NULL DEFAULT 10000'],
-      ['seal_battle_events','defeat_contribution_percent','INTEGER NOT NULL DEFAULT 0'],
+      ['seal_battle_events','recharge_minutes','INTEGER NOT NULL DEFAULT 60'],
+      ['seal_battle_events','defeat_contribution_percent','INTEGER NOT NULL DEFAULT 10'],
+      ['seal_battle_user_progress','attempt_charges','INTEGER NOT NULL DEFAULT -1'],
+      ['seal_battle_user_progress','last_recharged_at',"TEXT NOT NULL DEFAULT ''"],
       ['seal_battle_action_receipts','boss_power','INTEGER NOT NULL DEFAULT 0'],
       ['seal_battle_action_receipts','battle_result',"TEXT NOT NULL DEFAULT ''"],
       ['seal_battle_action_receipts','ultimate_damage','INTEGER NOT NULL DEFAULT 0']
@@ -219,6 +227,22 @@ async function ensureFoundation(env, deps = {}) {
       }
     }
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1285_seal_battle_combat','1',CURRENT_TIMESTAMP)").run();
+
+    const v1287 = await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1287_seal_attempt_recharge'").first();
+    if (String(v1287?.value || '') !== '1') {
+      const stored = await env.DB.prepare("SELECT value FROM app_meta WHERE key='seal_battle_settings_v1'").first();
+      const migrated = cleanSettings({
+        ...safeJson(stored?.value, {}),
+        dailyAttempts: 5,
+        rechargeMinutes: 60,
+        defeatContributionPercent: 10
+      });
+      await env.DB.batch([
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(migrated)),
+        env.DB.prepare(`UPDATE seal_battle_events SET daily_attempts=5,recharge_minutes=60,defeat_contribution_percent=10,updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1287_seal_attempt_recharge','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     return true;
   })().catch(error => {
     foundationPromise = null;
@@ -265,9 +289,11 @@ function normalizeEvent(row) {
     status: String(row.status || 'ENDED').toUpperCase(),
     startsAt: row.starts_at || null,
     endsAt: row.ends_at || null,
-    dailyAttempts: Number(row.daily_attempts || 3),
+    dailyAttempts: Number(row.daily_attempts || 5),
+    maxAttempts: Number(row.daily_attempts || 5),
+    rechargeMinutes: Number(row.recharge_minutes || 60),
     lowestRoleBonusPercent: Number(row.lowest_bonus_percent || 0),
-    defeatContributionPercent: 0,
+    defeatContributionPercent: Number(row.defeat_contribution_percent ?? 10),
     attemptReward: { coin: Number(row.attempt_coin || 0), shards: Number(row.attempt_shards || 0) },
     clearReward: { coin: Number(row.clear_coin || 0), shards: Number(row.clear_shards || 0) },
     roles,
@@ -331,13 +357,31 @@ async function userProgress(env, eventId, userId) {
     .bind(eventId, userId).first();
 }
 
+function sqlTimestamp(ms) {
+  return new Date(ms).toISOString().replace('T', ' ').slice(0, 19);
+}
+
 function publicProgress(row, dayKey, event) {
+  const maxAttempts = Math.max(1, Number(event?.maxAttempts || event?.dailyAttempts || 5));
+  const rechargeMinutes = Math.max(1, Number(event?.rechargeMinutes || 60));
   const sameDay = row && String(row.day_key) === dayKey;
   const attemptsToday = sameDay ? Number(row.attempts_today || 0) : 0;
+  const storedCharges = Number(row?.attempt_charges);
+  const availableAttempts = row
+    ? Math.max(0, Math.min(maxAttempts, Number.isFinite(storedCharges) && storedCharges >= 0 ? storedCharges : maxAttempts))
+    : maxAttempts;
+  const lastRechargeMs = row?.last_recharged_at ? Date.parse(String(row.last_recharged_at).replace(' ', 'T') + (String(row.last_recharged_at).includes('Z') ? '' : 'Z')) : NaN;
+  const nextRechargeAt = availableAttempts >= maxAttempts || !Number.isFinite(lastRechargeMs)
+    ? null
+    : new Date(lastRechargeMs + rechargeMinutes * 60000).toISOString();
   const totalContribution = Number(row?.attack_contribution || 0) + Number(row?.guard_contribution || 0) + Number(row?.purify_contribution || 0);
   return {
     attemptsToday,
-    remainingAttempts: Math.max(0, Number(event?.dailyAttempts || 0) - attemptsToday),
+    availableAttempts,
+    remainingAttempts: availableAttempts,
+    maxAttempts,
+    rechargeMinutes,
+    nextRechargeAt,
     totalAttempts: Number(row?.total_attempts || 0),
     totalContribution,
     attackContribution: Number(row?.attack_contribution || 0),
@@ -411,12 +455,89 @@ async function combatDeckState(deps, env, userId, bossPower) {
   };
 }
 
+async function refreshAttemptCharges(env, event, userId, dayKey, { create = false } = {}) {
+  const maxAttempts = Math.max(1, Number(event?.maxAttempts || event?.dailyAttempts || 5));
+  const rechargeMinutes = Math.max(1, Number(event?.rechargeMinutes || 60));
+  const now = Date.now();
+  const nowSql = sqlTimestamp(now);
+  if (create) {
+    await env.DB.prepare(`INSERT OR IGNORE INTO seal_battle_user_progress(
+      event_id,user_id,day_key,attempts_today,attempt_charges,last_recharged_at,total_attempts
+    ) VALUES(?,?,?,0,?,?,0)`).bind(event.id, userId, dayKey, maxAttempts, nowSql).run();
+  }
+  const row = await userProgress(env, event.id, userId);
+  if (!row) return null;
+
+  const sameDay = String(row.day_key || '') === dayKey;
+  const attemptsToday = sameDay ? Math.max(0, Number(row.attempts_today || 0)) : 0;
+  const originalCharges = Number(row.attempt_charges);
+  const originalLast = String(row.last_recharged_at || '');
+  let charges = originalCharges;
+  let last = Date.parse(originalLast.replace(' ', 'T') + (originalLast.includes('Z') ? '' : 'Z'));
+  if (!Number.isFinite(last)) last = now;
+  if (!Number.isFinite(charges) || charges < 0) charges = Math.max(0, maxAttempts - attemptsToday);
+  charges = Math.max(0, Math.min(maxAttempts, Math.floor(charges)));
+
+  if (charges < maxAttempts) {
+    const interval = rechargeMinutes * 60000;
+    const gained = Math.max(0, Math.floor((now - last) / interval));
+    if (gained > 0) {
+      charges = Math.min(maxAttempts, charges + gained);
+      last = charges >= maxAttempts ? now : last + gained * interval;
+    }
+  }
+
+  const nextLastSql = sqlTimestamp(last);
+  const normalizedOriginalLast = Number.isFinite(Date.parse(originalLast.replace(' ', 'T') + (originalLast.includes('Z') ? '' : 'Z')))
+    ? sqlTimestamp(Date.parse(originalLast.replace(' ', 'T') + (originalLast.includes('Z') ? '' : 'Z')))
+    : '';
+  const needsUpdate = !sameDay
+    || attemptsToday !== Number(row.attempts_today || 0)
+    || charges !== originalCharges
+    || nextLastSql !== normalizedOriginalLast;
+  if (needsUpdate) {
+    await env.DB.prepare(`UPDATE seal_battle_user_progress SET
+      day_key=?,attempts_today=?,attempt_charges=?,last_recharged_at=?,updated_at=CURRENT_TIMESTAMP
+      WHERE event_id=? AND user_id=?`).bind(dayKey, attemptsToday, charges, nextLastSql, event.id, userId).run();
+  }
+  return { charges, maxAttempts, rechargeMinutes, lastRechargedAt: last };
+}
+
+async function reserveAttempt(env, event, userId, dayKey) {
+  const state = await refreshAttemptCharges(env, event, userId, dayKey, { create: true });
+  if (!state || state.charges < 1) return { reserved: false, state };
+  const nowSql = sqlTimestamp(Date.now());
+  const result = await env.DB.prepare(`UPDATE seal_battle_user_progress SET
+    attempt_charges=attempt_charges-1,
+    attempts_today=attempts_today+1,
+    last_recharged_at=CASE WHEN attempt_charges>=? THEN ? ELSE last_recharged_at END,
+    updated_at=CURRENT_TIMESTAMP
+    WHERE event_id=? AND user_id=? AND attempt_charges>=1`)
+    .bind(state.maxAttempts, nowSql, event.id, userId).run();
+  return { reserved: Number(result?.meta?.changes || 0) > 0, state };
+}
+
+async function releaseAttempt(env, event, userId, dayKey) {
+  try {
+    const maxAttempts = Math.max(1, Number(event?.maxAttempts || event?.dailyAttempts || 5));
+    const nowSql = sqlTimestamp(Date.now());
+    await env.DB.prepare(`UPDATE seal_battle_user_progress SET
+      attempts_today=MAX(0,attempts_today-1),
+      attempt_charges=MIN(?,attempt_charges+1),
+      last_recharged_at=CASE WHEN attempt_charges+1>=? THEN ? ELSE last_recharged_at END,
+      updated_at=CURRENT_TIMESTAMP
+      WHERE event_id=? AND user_id=? AND day_key=?`)
+      .bind(maxAttempts, maxAttempts, nowSql, event.id, userId, dayKey).run();
+  } catch {}
+}
+
 async function statusPayload(env, deps, user, settings = null, eventRow = null) {
   settings ||= await loadSettings(env);
   eventRow ||= await currentEventRow(env);
   const event = normalizeEvent(eventRow);
   if (!event) return { settings: { mode: settings.mode }, event: null, availability: eventAvailability(null, settings, user), serverNow: new Date().toISOString() };
   const dayKey = kstDayKey();
+  await refreshAttemptCharges(env, event, user.id, dayKey);
   const [progressRow, stats, deck, claim, pendingClaim] = await Promise.all([
     userProgress(env, event.id, user.id),
     eventStats(env, event.id),
@@ -488,25 +609,6 @@ async function maybeCleanup(env, settings, receiptId) {
   }
 }
 
-async function reserveDailyAttempt(env, event, userId, dayKey) {
-  await env.DB.prepare(`INSERT INTO seal_battle_user_progress(event_id,user_id,day_key,attempts_today,total_attempts)
-    VALUES(?,?,?,0,0)
-    ON CONFLICT(event_id,user_id) DO UPDATE SET
-      day_key=CASE WHEN seal_battle_user_progress.day_key<>excluded.day_key THEN excluded.day_key ELSE seal_battle_user_progress.day_key END,
-      attempts_today=CASE WHEN seal_battle_user_progress.day_key<>excluded.day_key THEN 0 ELSE seal_battle_user_progress.attempts_today END,
-      updated_at=CURRENT_TIMESTAMP`).bind(event.id, userId, dayKey).run();
-  return env.DB.prepare(`UPDATE seal_battle_user_progress SET attempts_today=attempts_today+1,updated_at=CURRENT_TIMESTAMP
-    WHERE event_id=? AND user_id=? AND day_key=? AND attempts_today<?`)
-    .bind(event.id, userId, dayKey, event.dailyAttempts).run();
-}
-
-async function releaseDailyAttempt(env, eventId, userId, dayKey) {
-  try {
-    await env.DB.prepare(`UPDATE seal_battle_user_progress
-      SET attempts_today=MAX(0,attempts_today-1),updated_at=CURRENT_TIMESTAMP
-      WHERE event_id=? AND user_id=? AND day_key=?`).bind(eventId, userId, dayKey).run();
-  } catch {}
-}
 
 function eventProgressSql(role) {
   const meta = ROLE_META[role];
@@ -590,20 +692,23 @@ async function participate(env, deps, user, settings, event, body) {
   if (!Number(receiptInsert?.meta?.changes || 0)) return deps.json({ error: '동일한 요청을 처리 중입니다.' }, 409);
   const receiptId = Number(receiptInsert?.meta?.last_row_id || 0);
 
-  const reserved = await reserveDailyAttempt(env, event, user.id, dayKey);
-  if (!Number(reserved?.meta?.changes || 0)) {
-    await env.DB.prepare("UPDATE seal_battle_action_receipts SET status='FAILED',error_text='오늘의 참여 횟수를 모두 사용했습니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=?")
-      .bind(requestId).run();
-    return deps.json({ error: '오늘의 봉인전 참여 횟수를 모두 사용했습니다.' }, 429);
+  const reservation = await reserveAttempt(env, event, user.id, dayKey);
+  if (!reservation.reserved) {
+    const waitText = `${Number(event.rechargeMinutes || 60)}분마다 1회 충전됩니다.`;
+    await env.DB.prepare("UPDATE seal_battle_action_receipts SET status='FAILED',error_text=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?")
+      .bind(`봉인전 도전 횟수가 부족합니다. ${waitText}`, requestId).run();
+    return deps.json({ error: `봉인전 도전 횟수가 부족합니다. ${waitText}`, code: 'NO_SEAL_ATTEMPT' }, 429);
   }
 
   const lowest = lowestRoleKeys(event);
   const bonusPercent = lowest.includes(role) ? Number(event.lowestRoleBonusPercent || 0) : 0;
   const multiplier = Number(event.roles[role]?.multiplier || 100);
   const result = Number(combat.playerPower || 0) >= bossPower ? 'WIN' : 'LOSE';
-  const defeatPercent = 0;
+  const defeatPercent = Math.max(0, Math.min(100, Number(event.defeatContributionPercent ?? 10)));
   const rawContribution = Math.max(1, Math.floor(Number(combat.playerPower || 0) * multiplier / 100 * (1 + bonusPercent / 100)));
-  const contribution = result === 'WIN' ? Math.min(2000000000, rawContribution) : 0;
+  const contribution = result === 'WIN'
+    ? Math.min(2000000000, rawContribution)
+    : defeatPercent > 0 ? Math.max(1, Math.min(2000000000, Math.floor(rawContribution * defeatPercent / 100))) : 0;
   const attemptCoin = Math.max(0, Number(event.attemptReward.coin || 0));
   const attemptShards = Math.max(0, Number(event.attemptReward.shards || 0));
 
@@ -635,7 +740,7 @@ async function participate(env, deps, user, settings, event, body) {
   try {
     results = await env.DB.batch(statements);
   } catch (error) {
-    await releaseDailyAttempt(env, event.id, user.id, dayKey);
+    await releaseAttempt(env, event, user.id, dayKey);
     try {
       await env.DB.prepare("UPDATE seal_battle_action_receipts SET status='FAILED',error_text=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'")
         .bind(String(error?.message || error).slice(0, 300), requestId).run();
@@ -645,7 +750,7 @@ async function participate(env, deps, user, settings, event, body) {
   }
 
   if (!Number(results?.[0]?.meta?.changes || 0)) {
-    await releaseDailyAttempt(env, event.id, user.id, dayKey);
+    await releaseAttempt(env, event, user.id, dayKey);
     await env.DB.prepare("UPDATE seal_battle_action_receipts SET status='FAILED',error_text='봉인전이 이미 종료되었습니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'")
       .bind(requestId).run();
     return deps.json({ error: '봉인전이 이미 종료되었습니다.' }, 409);
@@ -795,17 +900,17 @@ async function adminStart(env, settings, admin) {
       ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP
       WHERE status='ACTIVE'`),
     env.DB.prepare(`INSERT INTO seal_battle_events(
-      event_key,title,boss_name,boss_image,description,status,starts_at,ends_at,daily_attempts,
+      event_key,title,boss_name,boss_image,description,status,starts_at,ends_at,daily_attempts,recharge_minutes,
       attack_target,guard_target,purify_target,attack_multiplier,guard_multiplier,purify_multiplier,
       attack_battle_power,guard_battle_power,purify_battle_power,defeat_contribution_percent,
       lowest_bonus_percent,attempt_coin,attempt_shards,clear_coin,clear_shards,created_by
-    ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
+    ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
       key, settings.title, settings.bossName, settings.bossImage, settings.description,
-      settings.startsAt, settings.endsAt, settings.dailyAttempts,
+      settings.startsAt, settings.endsAt, settings.dailyAttempts, settings.rechargeMinutes,
       settings.targets.attack, settings.targets.guard, settings.targets.purify,
       settings.multipliers.attack, settings.multipliers.guard, settings.multipliers.purify,
       settings.battlePowers.attack, settings.battlePowers.guard, settings.battlePowers.purify,
-      0,
+      settings.defeatContributionPercent,
       settings.lowestRoleBonusPercent, settings.attemptReward.coin, settings.attemptReward.shards,
       settings.clearReward.coin, settings.clearReward.shards, admin.id
     )

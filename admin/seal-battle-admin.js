@@ -10,11 +10,11 @@
   const defaults = {
     mode: 'OFF', title: '봉인전', bossName: '심연에 봉인된 군주', bossImage: '',
     description: '저장된 PvE 덱으로 역할별 봉인 보스와 전투하고, 서버 전체가 파괴·수호·정화 세 봉인을 완성하는 공동 보스 콘텐츠입니다.',
-    startsAt: null, endsAt: null, dailyAttempts: 3,
+    startsAt: null, endsAt: null, dailyAttempts: 5, rechargeMinutes: 60,
     targets: { attack: 20000000, guard: 16000000, purify: 14000000 },
     multipliers: { attack: 100, guard: 90, purify: 85 },
     battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
-    lowestRoleBonusPercent: 20, defeatContributionPercent: 0,
+    lowestRoleBonusPercent: 20, defeatContributionPercent: 10,
     attemptReward: { coin: 100, shards: 1 },
     clearReward: { coin: 2000, shards: 50 },
     receiptRetentionDays: 14, progressRetentionDays: 90
@@ -95,9 +95,11 @@
           <label class="wide"><span>설명</span><textarea id="sealDescription" maxlength="300" rows="3"></textarea></label>
           <label><span>시작 시각 · KST</span><input id="sealStartsAt" type="datetime-local"></label>
           <label><span>종료 시각 · KST</span><input id="sealEndsAt" type="datetime-local"></label>
-          <label><span>일일 참여 횟수</span><input id="sealDailyAttempts" type="number" min="1" max="30"></label>
+          <label><span>최대 보유 도전 횟수</span><input id="sealDailyAttempts" type="number" min="1" max="30"></label>
+          <label><span>1회 충전 시간</span><div class="input-unit"><input id="sealRechargeMinutes" type="number" min="1" max="1440"><em>분</em></div></label>
+          <label><span>패배 공헌 반영</span><div class="input-unit"><input id="sealDefeatContribution" type="number" min="0" max="100"><em>%</em></div></label>
           <label><span>부족 역할 지원 보너스</span><div class="input-unit"><input id="sealLowestBonus" type="number" min="0" max="500"><em>%</em></div></label>
-          <div class="seal-admin-combat-rule"><b>전투 고정 규칙</b><span>승리 시에만 봉인 공헌 반영 · 패배 공헌 0 · 유저/보스 궁극기 사용 불가</span></div>
+          <div class="seal-admin-combat-rule"><b>전투 고정 규칙</b><span>최대 횟수까지 자동 충전 · 승리 100% 공헌 · 패배 설정 비율 공헌 · 유저/보스 궁극기 사용 불가</span></div>
         </div>
 
         <div class="seal-admin-section-title"><div><small>GLOBAL TARGETS</small><h4>역할별 공동 목표</h4></div></div>
@@ -174,9 +176,10 @@
     $('#sealDescription').value = settings.description || '';
     $('#sealStartsAt').value = toInputDate(settings.startsAt);
     $('#sealEndsAt').value = toInputDate(settings.endsAt);
-    $('#sealDailyAttempts').value = Number(settings.dailyAttempts || 3);
+    $('#sealDailyAttempts').value = Number(settings.dailyAttempts || 5);
+    $('#sealRechargeMinutes').value = Number(settings.rechargeMinutes || 60);
     $('#sealLowestBonus').value = Number(settings.lowestRoleBonusPercent || 0);
-    if ($('#sealDefeatContribution')) $('#sealDefeatContribution').value = 0;
+    if ($('#sealDefeatContribution')) $('#sealDefeatContribution').value = Number(settings.defeatContributionPercent ?? 10);
     $('#sealAttackBattlePower').value = Number(settings.battlePowers?.attack || 1);
     $('#sealGuardBattlePower').value = Number(settings.battlePowers?.guard || 1);
     $('#sealPurifyBattlePower').value = Number(settings.battlePowers?.purify || 1);
@@ -208,7 +211,8 @@
       description: $('#sealDescription').value.trim(),
       startsAt: fromInputDate($('#sealStartsAt').value),
       endsAt: fromInputDate($('#sealEndsAt').value),
-      dailyAttempts: integer('#sealDailyAttempts', 3),
+      dailyAttempts: integer('#sealDailyAttempts', 5),
+      rechargeMinutes: integer('#sealRechargeMinutes', 60),
       targets: {
         attack: integer('#sealAttackTarget', 1), guard: integer('#sealGuardTarget', 1), purify: integer('#sealPurifyTarget', 1)
       },
@@ -219,7 +223,7 @@
         attack: integer('#sealAttackBattlePower', 12000), guard: integer('#sealGuardBattlePower', 11000), purify: integer('#sealPurifyBattlePower', 10000)
       },
       lowestRoleBonusPercent: integer('#sealLowestBonus', 20),
-      defeatContributionPercent: 0,
+      defeatContributionPercent: integer('#sealDefeatContribution', 10),
       attemptReward: { coin: integer('#sealAttemptCoin'), shards: integer('#sealAttemptShards') },
       clearReward: { coin: integer('#sealClearCoin'), shards: integer('#sealClearShards') },
       receiptRetentionDays: integer('#sealReceiptDays', 14),
@@ -230,7 +234,9 @@
   function validate(settings) {
     if (!settings.title || !settings.bossName) return '콘텐츠명과 보스 이름을 입력하세요.';
     if (settings.endsAt && settings.startsAt && Date.parse(settings.endsAt) <= Date.parse(settings.startsAt)) return '종료 시각은 시작 시각보다 뒤여야 합니다.';
-    if (settings.dailyAttempts < 1 || settings.dailyAttempts > 30) return '일일 참여 횟수는 1~30회로 입력하세요.';
+    if (settings.dailyAttempts < 1 || settings.dailyAttempts > 30) return '최대 보유 도전 횟수는 1~30회로 입력하세요.';
+    if (settings.rechargeMinutes < 1 || settings.rechargeMinutes > 1440) return '충전 시간은 1~1,440분으로 입력하세요.';
+    if (settings.defeatContributionPercent < 0 || settings.defeatContributionPercent > 100) return '패배 공헌 반영률은 0~100%로 입력하세요.';
     if (Object.values(settings.targets).some(value => value < 1)) return '역할별 목표 공헌도는 1 이상이어야 합니다.';
     if (Object.values(settings.multipliers).some(value => value < 1 || value > 1000)) return '역할 배율은 1~1,000%로 입력하세요.';
     if (Object.values(settings.battlePowers).some(value => value < 1)) return '역할별 보스 전투력은 1 이상이어야 합니다.';

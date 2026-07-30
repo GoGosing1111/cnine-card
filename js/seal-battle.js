@@ -11,6 +11,7 @@
   let active = false;
   let loading = false;
   let latest = null;
+  let chargeTimer = null;
 
   function source(value) {
     const text = String(value || '').trim();
@@ -43,6 +44,45 @@
     }).format(new Date(time));
   }
 
+  function clearChargeTimer() {
+    if (chargeTimer) clearInterval(chargeTimer);
+    chargeTimer = null;
+  }
+
+  function countdownText(ms) {
+    const total = Math.max(0, Math.ceil(ms / 1000));
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const seconds = total % 60;
+    return `${hours > 0 ? `${String(hours).padStart(2, '0')}:` : ''}${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  }
+
+  function startChargeTimer(progress) {
+    clearChargeTimer();
+    const label = document.getElementById('sealRechargeTimer');
+    if (!label) return;
+    const maxAttempts = Math.max(1, Number(progress?.maxAttempts || 5));
+    const available = Math.max(0, Number(progress?.availableAttempts ?? progress?.remainingAttempts ?? 0));
+    const rechargeMinutes = Math.max(1, Number(progress?.rechargeMinutes || 60));
+    const next = progress?.nextRechargeAt ? Date.parse(progress.nextRechargeAt) : NaN;
+    if (available >= maxAttempts || !Number.isFinite(next)) {
+      label.textContent = `최대 충전 완료 · ${rechargeMinutes}분마다 1회 충전`;
+      return;
+    }
+    const tick = () => {
+      const remain = next - Date.now();
+      if (remain <= 0) {
+        label.textContent = '도전 횟수 갱신 중...';
+        clearChargeTimer();
+        if (active && !loading) load();
+        return;
+      }
+      label.textContent = `다음 충전 ${countdownText(remain)} · ${rechargeMinutes}분마다 1회`;
+    };
+    tick();
+    chargeTimer = setInterval(tick, 1000);
+  }
+
   function updateBalances(balances) {
     if (!balances || typeof window.loadUser !== 'function' || typeof window.saveUser !== 'function') return;
     const saved = window.loadUser();
@@ -73,7 +113,7 @@
       <p>${meta.description}</p>
       <div class="seal-progress-numbers"><b>${number(role.progress)}</b><span>/ ${number(role.target)}</span></div>
       <div class="seal-progress-track"><i style="width:${percent(role.percent)}%"></i><u style="left:${percent(role.percent)}%"></u></div>
-      <footer><span>${role.completed ? '봉인 완료' : `${role.percent.toFixed(2)}%`}</span><small>보스 전투력 ${number(role.battlePower)} · 승리 공헌 ${Number(role.multiplier || 100)}% · 궁극기 금지</small></footer>
+      <footer><span>${role.completed ? '봉인 완료' : `${role.percent.toFixed(2)}%`}</span><small>보스 전투력 ${number(role.battlePower)} · 승리 100% / 패배 ${Number(data.event.defeatContributionPercent ?? 10)}% 공헌 · 궁극기 금지</small></footer>
       <button type="button" class="seal-action-button" data-seal-role="${roleKey}" ${canAct ? '' : 'disabled'}>${role.completed ? '완료된 봉인' : `${meta.label} 보스 전투`}</button>
     </article>`;
   }
@@ -87,6 +127,7 @@
     if (!root || !active) return;
     latest = data;
     if (!data?.event) {
+      clearChargeTimer();
       root.innerHTML = emptyView('현재 진행 중인 봉인전이 없습니다.', 'CMS에서 봉인전을 시작하면 이곳에 공동 보스가 등장합니다.');
       root.querySelector('#sealRefresh')?.addEventListener('click', load);
       return;
@@ -117,7 +158,7 @@
 
       <section class="seal-personal-bar">
         <article><small>내 PvE 전투 덱</small><b>${data.deck?.ready ? number(data.deck.power) : '편성 필요'}</b><span>${data.deck?.ready ? '카드 5장 · 장비·시너지 포함' : esc(data.deck?.error || 'PvE 덱 5장을 저장해주세요.')}</span></article>
-        <article><small>오늘 남은 참여</small><b>${Number(progress.remainingAttempts || 0)}<em>/ ${Number(event.dailyAttempts || 0)}</em></b><span>매일 KST 00시 초기화</span></article>
+        <article><small>보유 도전 횟수</small><b>${Number(progress.availableAttempts ?? progress.remainingAttempts ?? 0)}<em>/ ${Number(progress.maxAttempts || event.maxAttempts || event.dailyAttempts || 5)}</em></b><span id="sealRechargeTimer">${Number(progress.rechargeMinutes || event.rechargeMinutes || 60)}분마다 1회 충전</span></article>
         <article><small>내 누적 공헌도</small><b>${number(progress.totalContribution)}</b><span>총 ${number(progress.totalAttempts)}회 참여</span></article>
         <article><small>참여 보상</small><b>코인 ${number(event.attemptReward?.coin)}</b><span>카드 조각 ${number(event.attemptReward?.shards)}개</span></article>
       </section>
@@ -138,7 +179,7 @@
 
       <section class="seal-guide">
         <div><b>1</b><span><strong>역할 보스 전투</strong><small>저장된 PvE 덱으로 실제 전투하며 승패가 판정됩니다.</small></span></div>
-        <div><b>2</b><span><strong>승리 전용 공동 공헌</strong><small>보스를 쓰러뜨린 전투만 봉인 게이지에 반영되며 패배 공헌은 0입니다.</small></span></div>
+        <div><b>2</b><span><strong>승패 공동 공헌</strong><small>승리는 정상 공헌, 패배도 설정된 ${Number(event.defeatContributionPercent ?? 10)}%가 봉인 게이지에 반영됩니다.</small></span></div>
         <div><b>3</b><span><strong>제한 시간 봉인</strong><small>종료 전 세 봉인을 못 채우면 실패 처리되고 완료 보상이 소멸합니다.</small></span></div>
       </section>
     </section>`;
@@ -150,6 +191,7 @@
     root.querySelector('#sealRankings')?.addEventListener('click', showRankings);
     root.querySelector('#sealClearClaim')?.addEventListener('click', claimClearReward);
     root.querySelector('[data-seal-pending-claim]')?.addEventListener('click', claimClearReward);
+    startChargeTimer(progress);
     root.querySelector('.seal-boss-stage img')?.addEventListener('error', event => {
       event.currentTarget.replaceWith(Object.assign(document.createElement('div'), {
         className: 'seal-boss-placeholder', innerHTML: '<span>封</span><small>IMAGE LOAD FAILED</small>'
@@ -304,7 +346,7 @@
       if (typeof globalThis.battleSfx === 'function') globalThis.battleSfx('defeat');
     }
 
-    const lossLine = win ? '전투 승리로 봉인 공헌도가 반영되었습니다.' : '전투 패배로 봉인 공헌도는 반영되지 않습니다.';
+    const lossLine = win ? '전투 승리로 봉인 공헌도가 100% 반영되었습니다.' : `전투 패배지만 ${Number(result.defeatContributionPercent ?? latest?.event?.defeatContributionPercent ?? 10)}% 공헌도가 반영되었습니다.`;
     message.innerHTML = `<strong>${win ? 'BATTLE VICTORY' : 'BATTLE DEFEAT'}</strong><span>${number(result.totalBattleDamage || result.playerPower)} VS ${number(result.bossPower)} · ${esc(lossLine)}</span><div class="battle-reward-pop"><small>${meta.label} 공헌</small><b>+${number(result.contribution)}</b><small>참여 보상</small><b>◈ ${number(result.reward?.coin)} · 조각 ${number(result.reward?.shards)}</b>${Number(result.bonusPercent || 0) > 0 ? `<em>부족 역할 지원 +${Number(result.bonusPercent)}%</em>` : ''}</div><button type="button" class="seal-battle-return">봉인전으로 돌아가기</button>`;
     const close = () => { modal.onclick = null; modal.className = 'modal'; modal.innerHTML = ''; };
     message.querySelector('.seal-battle-return').onclick = event => { event.stopPropagation(); close(); };
@@ -315,7 +357,9 @@
     if (loading) return;
     const meta = ROLE[roleKey];
     const role = latest?.event?.roles?.[roleKey];
-    if (!confirm(`${meta.label} 보스와 전투합니다.\n오늘의 참여 횟수 1회가 사용됩니다. 패배 시 공헌도는 0이며 횟수는 복구되지 않습니다. 궁극기는 사용할 수 없습니다.\n\n전투를 시작할까요?`)) return;
+    const defeatPercent = Number(latest?.event?.defeatContributionPercent ?? 10);
+    const rechargeMinutes = Number(latest?.progress?.rechargeMinutes || latest?.event?.rechargeMinutes || 60);
+    if (!confirm(`${meta.label} 보스와 전투합니다.\n도전 횟수 1회가 사용되며 ${rechargeMinutes}분마다 1회 충전됩니다. 패배해도 공헌도 ${defeatPercent}%가 반영됩니다. 궁극기는 사용할 수 없습니다.\n\n전투를 시작할까요?`)) return;
     loading = true;
     button.disabled = true;
     const modal = sealCombatModal(roleKey);
@@ -430,6 +474,7 @@
 
   function deactivate() {
     active = false;
+    clearChargeTimer();
     const view = document.getElementById('pveSealBattleView');
     if (view) view.hidden = true;
   }
