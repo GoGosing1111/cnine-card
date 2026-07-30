@@ -10,6 +10,8 @@ const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','
 const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
 const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
 const SUPPLY_BOX_MAX_OPEN=10;
+const SUPPLY_POOL_SCALE=1000;
+const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
 const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1,quantity:1},PVE_AUTO:{enabled:true,rate:.05,quantity:1},TOWER:{enabled:true,rate:.2,quantity:1},RAID:{enabled:true,rate:1,quantity:1},RIFT:{enabled:true,rate:.5,quantity:1},PVP:{enabled:true,rate:.2,quantity:1},CAPTAIN:{enabled:true,rate:.3,quantity:1}}};
 let foundationPromise=null,supplySettingsCache=null,supplySettingsCacheAt=0;
 
@@ -18,6 +20,8 @@ function cleanInt(value,min=0,max=100000000){const n=Math.floor(Number(value)||0
 function cleanRate(value){const n=Number(value);return Math.max(0,Math.min(100,Number.isFinite(n)?n:0))}
 function cleanBool(value,defaultValue=true){if(value===undefined||value===null)return defaultValue;return value===true||value===1||String(value)==='1'}
 function cleanWeight(value,defaultValue=1){const n=Number(value);return Math.max(0,Math.min(1000000,Number.isFinite(n)?n:defaultValue))}
+function cleanSupplyPoolWeight(value){const n=Number(value);if(!Number.isFinite(n))return 0;return Math.max(0,Math.min(100,Math.round(n*SUPPLY_POOL_SCALE)/SUPPLY_POOL_SCALE))}
+function supplyPoolUnits(value){return Math.round(cleanSupplyPoolWeight(value)*SUPPLY_POOL_SCALE)}
 function cleanSupplyBoxSettings(value){
   const raw=value&&typeof value==='object'?value:{};
   const rewardRates={equipment:cleanRate(raw.rewardRates?.equipment??DEFAULT_SUPPLY_BOX_SETTINGS.rewardRates.equipment),shards:cleanRate(raw.rewardRates?.shards??DEFAULT_SUPPLY_BOX_SETTINGS.rewardRates.shards),coins:cleanRate(raw.rewardRates?.coins??DEFAULT_SUPPLY_BOX_SETTINGS.rewardRates.coins)};
@@ -566,10 +570,10 @@ export async function handleEquipment({path,request,env,deps}){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
     const body=await readBody(request),settings=cleanSupplyBoxSettings(body.settings||{}),sourceEntries=Array.isArray(body.entries)?body.entries:[];
     const byId=new Map();
-    for(const entry of sourceEntries){const equipmentId=cleanInt(entry?.equipmentId,1,2147483647),weight=cleanRate(entry?.weight);if(equipmentId)byId.set(equipmentId,weight)}
-    const entries=[...byId.entries()].map(([equipmentId,weight])=>({equipmentId,weight})),poolTotal=entries.reduce((sum,entry)=>sum+entry.weight,0);
+    for(const entry of sourceEntries){const equipmentId=cleanInt(entry?.equipmentId,1,2147483647),weight=cleanSupplyPoolWeight(entry?.weight);if(equipmentId)byId.set(equipmentId,weight)}
+    const entries=[...byId.entries()].map(([equipmentId,weight])=>({equipmentId,weight})),poolTotalUnits=entries.reduce((sum,entry)=>sum+supplyPoolUnits(entry.weight),0),poolTotal=poolTotalUnits/SUPPLY_POOL_SCALE;
     if(settings.rewardRates.equipment>0&&!entries.some(entry=>entry.weight>0))return json({error:'장비 확률이 0%보다 크면 장비 풀을 하나 이상 선택해야 합니다.'},400);
-    if(entries.length&&Math.abs(poolTotal-100)>.0001)return json({error:'장비 풀 확률 합계를 정확히 100%로 맞추세요.'},400);
+    if(entries.length&&poolTotalUnits!==SUPPLY_POOL_TOTAL_UNITS)return json({error:`장비 풀 확률 합계를 정확히 100.000%로 맞추세요. 현재 ${poolTotal.toFixed(3)}%입니다.`},400);
     if(entries.length){
       const marks=entries.map(()=>'?').join(','),active=await env.DB.prepare(`SELECT id FROM character_equipment_items WHERE id IN (${marks}) AND is_active=1 AND is_public=1`).bind(...entries.map(entry=>entry.equipmentId)).all(),activeIds=new Set((active.results||[]).map(row=>Number(row.id)));
       if(activeIds.size!==entries.length)return json({error:'장비 풀에는 활성·공개 상태인 장비만 포함할 수 있습니다.'},400);
