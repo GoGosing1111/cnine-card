@@ -102,18 +102,64 @@ async function ensureMessageRewardClaimV1222(env){
 function messageRewardClaimToken(){
   try{return globalThis.crypto?.randomUUID?.()||`msg-${Date.now()}-${Math.random().toString(36).slice(2)}`}catch{return `msg-${Date.now()}-${Math.random().toString(36).slice(2)}`}
 }
+
+const VERIFIED_MESSAGE_REWARD_TYPES={
+  COIN:{label:'코인',icon:'🪙',inventory:false,max:100000000,messageType:'COIN_REWARD'},
+  SHARDS:{label:'카드 조각',icon:'🧩',inventory:false,max:100000000,messageType:'SHARD_REWARD'},
+  MASTER_STAR:{label:'마스터의 별',icon:'⭐',inventory:true,max:100000,messageType:'ITEM_REWARD'},
+  PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎',inventory:true,max:100000,messageType:'ITEM_REWARD'},
+  EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'}
+};
+function verifiedMessageRewardSpec(value){const type=String(value||'').trim().toUpperCase();return VERIFIED_MESSAGE_REWARD_TYPES[type]?{type,...VERIFIED_MESSAGE_REWARD_TYPES[type]}:null}
+let verifiedRewardMessageV1276ReadyPromise=null;
+async function ensureVerifiedRewardMessageV1276(env){
+  if(verifiedRewardMessageV1276ReadyPromise)return verifiedRewardMessageV1276ReadyPromise;
+  verifiedRewardMessageV1276ReadyPromise=(async()=>{
+    await ensureMessageRewardClaimV1222(env);
+    await ensureEquipmentFoundation(env);
+    const [marker,info,indexRow]=await Promise.all([
+      env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1276_verified_reward_messages'").first(),
+      env.DB.prepare('PRAGMA table_info(user_messages)').all(),
+      env.DB.prepare("SELECT name FROM sqlite_master WHERE type='index' AND name='idx_user_messages_campaign_user_v1276'").first()
+    ]);
+    const columns=new Set((info.results||[]).map(row=>String(row.name||'').toLowerCase()));
+    if(marker?.value==='1'&&columns.has('campaign_key')&&indexRow?.name)return true;
+    if(!columns.has('campaign_key')){
+      try{await env.DB.prepare('ALTER TABLE user_messages ADD COLUMN campaign_key TEXT').run()}
+      catch(error){if(!String(error?.message||error).toLowerCase().includes('duplicate column'))throw error}
+    }
+    await env.DB.batch([
+      env.DB.prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_user_messages_campaign_user_v1276 ON user_messages(user_id,campaign_key) WHERE campaign_key IS NOT NULL AND TRIM(campaign_key)<>''"),
+      env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MASTER_STAR','마스터의 별','MASTER STAR','MA 강화와 진화에 사용하는 특별 재화입니다.','MATERIAL','MA','',5,1)"),
+      env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('PREMIUM_CUBE','프리미엄 큐브','PREMIUM REWARD CUBE','MA·FUR·LIMITED 등급 카드가 등장하는 최고급 보상 큐브입니다.','CUBE','PREMIUM','assets/ui/packs/premium-cube.png',30,1)"),
+      env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('EQUIPMENT_SUPPLY_BOX','장비 보급상자','EQUIPMENT SUPPLY BOX','장비·카드 조각·코인 중 하나를 획득합니다.','SUPPLY_BOX','HIGH','assets/ui/packs/supply-high.jpeg',35,1)"),
+      env.DB.prepare("UPDATE inventory_items SET is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code IN ('MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX')"),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1276_verified_reward_messages','1',CURRENT_TIMESTAMP)")
+    ]);
+    return true;
+  })().catch(error=>{verifiedRewardMessageV1276ReadyPromise=null;throw error});
+  return verifiedRewardMessageV1276ReadyPromise;
+}
 async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowClaimedRecovery=false}={}){
-  await ensureMessageRewardClaimV1222(env);
+  await ensureVerifiedRewardMessageV1276(env);
   const rewardType=String(reward?.reward_type||'').toUpperCase();
+  const spec=verifiedMessageRewardSpec(rewardType);
   const rewardAmount=Math.max(0,Math.floor(Number(reward?.reward_amount||0)));
-  if(!['COIN','SHARDS'].includes(rewardType)||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
+  if(!spec||rewardAmount<=0)throw new Error('지원하지 않는 메시지 보상입니다.');
   const current=await env.DB.prepare('SELECT id,coin,card_shards FROM users WHERE id=?').bind(user.id).first();
   if(!current)throw new Error('보상을 받을 계정을 찾을 수 없습니다.');
-  const balanceBefore=rewardType==='COIN'?Number(current.coin||0):Number(current.card_shards||0);
+  let balanceBefore=0;
+  if(spec.inventory){
+    const inventory=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,rewardType).first();
+    balanceBefore=Number(inventory?.quantity||0);
+  }else balanceBefore=rewardType==='COIN'?Number(current.coin||0):Number(current.card_shards||0);
   const existingReceipt=await env.DB.prepare('SELECT * FROM user_message_reward_claim_receipts_v1222 WHERE reward_id=? AND user_id=?').bind(reward.id,user.id).first();
   if(existingReceipt){
     const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-    return {credited:false,duplicate:true,receipt:existingReceipt,updated,balanceBefore:Number(existingReceipt.balance_before||0),balanceAfter:rewardType==='COIN'?Number(updated?.coin||0):Number(updated?.card_shards||0)};
+    let balanceAfter=0;
+    if(spec.inventory){const inventory=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,rewardType).first();balanceAfter=Number(inventory?.quantity||0)}
+    else balanceAfter=rewardType==='COIN'?Number(updated?.coin||0):Number(updated?.card_shards||0);
+    return {credited:false,duplicate:true,receipt:existingReceipt,updated,balanceBefore:Number(existingReceipt.balance_before||0),balanceAfter,rewardLabel:spec.label,itemCode:spec.inventory?rewardType:null};
   }
   const alreadyClaimed=String(reward?.claimed_at||'').trim()!=='';
   if(alreadyClaimed&&!allowClaimedRecovery){
@@ -131,29 +177,42 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
     WHERE id=? AND user_id=? AND ${claimCondition}`)
     .bind(token,balanceBefore,balanceBefore,source,reward.id,user.id);
   const tokenExists=`EXISTS(SELECT 1 FROM user_message_reward_claim_receipts_v1222 WHERE reward_id=? AND user_id=? AND claim_token=?)`;
-  const balanceUpdate=rewardType==='COIN'
-    ?env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${tokenExists}`).bind(rewardAmount,user.id,reward.id,user.id,token)
-    :env.DB.prepare(`UPDATE users SET card_shards=card_shards+? WHERE id=? AND ${tokenExists}`).bind(rewardAmount,user.id,reward.id,user.id,token);
-  const logReason=`MESSAGE_REWARD#${Number(reward.id)}`;
-  const logInsert=rewardType==='COIN'
-    ?env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
-      SELECT id,?,coin,? FROM users WHERE id=? AND ${tokenExists}`).bind(rewardAmount,logReason,user.id,reward.id,user.id,token)
-    :env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason)
-      SELECT id,?,card_shards,? FROM users WHERE id=? AND ${tokenExists}`).bind(rewardAmount,logReason,user.id,reward.id,user.id,token);
-  const receiptBalanceUpdate=rewardType==='COIN'
-    ?env.DB.prepare(`UPDATE user_message_reward_claim_receipts_v1222 SET balance_after=(SELECT coin FROM users WHERE id=?),credited_at=CURRENT_TIMESTAMP WHERE reward_id=? AND user_id=? AND claim_token=?`).bind(user.id,reward.id,user.id,token)
-    :env.DB.prepare(`UPDATE user_message_reward_claim_receipts_v1222 SET balance_after=(SELECT card_shards FROM users WHERE id=?),credited_at=CURRENT_TIMESTAMP WHERE reward_id=? AND user_id=? AND claim_token=?`).bind(user.id,reward.id,user.id,token);
-  const markClaimed=env.DB.prepare(`UPDATE user_message_rewards SET claimed_at=COALESCE(NULLIF(claimed_at,''),CURRENT_TIMESTAMP)
-    WHERE id=? AND user_id=? AND ${tokenExists}`).bind(reward.id,user.id,reward.id,user.id,token);
-  const hideMessage=env.DB.prepare(`UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP),hidden_at=CURRENT_TIMESTAMP
-    WHERE id=? AND user_id=? AND ${tokenExists}`).bind(messageId,user.id,reward.id,user.id,token);
+  let balanceUpdate,logInsert,receiptBalanceUpdate;
+  if(spec.inventory){
+    balanceUpdate=env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+      SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${tokenExists}
+      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`)
+      .bind(user.id,rewardType,rewardAmount,rewardAmount,reward.id,user.id,token);
+    logInsert=env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+      SELECT ?,?,?,i.quantity,'MESSAGE_REWARD','USER_MESSAGE',? FROM cnine_user_inventory i
+      WHERE i.user_id=? AND i.item_code=? AND ${tokenExists}`)
+      .bind(user.id,rewardType,rewardAmount,String(messageId),user.id,rewardType,reward.id,user.id,token);
+    receiptBalanceUpdate=env.DB.prepare(`UPDATE user_message_reward_claim_receipts_v1222 SET balance_after=COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),credited_at=CURRENT_TIMESTAMP WHERE reward_id=? AND user_id=? AND claim_token=?`)
+      .bind(user.id,rewardType,reward.id,user.id,token);
+  }else{
+    balanceUpdate=rewardType==='COIN'
+      ?env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${tokenExists}`).bind(rewardAmount,user.id,reward.id,user.id,token)
+      :env.DB.prepare(`UPDATE users SET card_shards=card_shards+? WHERE id=? AND ${tokenExists}`).bind(rewardAmount,user.id,reward.id,user.id,token);
+    const logReason=`MESSAGE_REWARD#${Number(reward.id)}`;
+    logInsert=rewardType==='COIN'
+      ?env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=? AND ${tokenExists}`).bind(rewardAmount,logReason,user.id,reward.id,user.id,token)
+      :env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,? FROM users WHERE id=? AND ${tokenExists}`).bind(rewardAmount,logReason,user.id,reward.id,user.id,token);
+    receiptBalanceUpdate=rewardType==='COIN'
+      ?env.DB.prepare(`UPDATE user_message_reward_claim_receipts_v1222 SET balance_after=(SELECT coin FROM users WHERE id=?),credited_at=CURRENT_TIMESTAMP WHERE reward_id=? AND user_id=? AND claim_token=?`).bind(user.id,reward.id,user.id,token)
+      :env.DB.prepare(`UPDATE user_message_reward_claim_receipts_v1222 SET balance_after=(SELECT card_shards FROM users WHERE id=?),credited_at=CURRENT_TIMESTAMP WHERE reward_id=? AND user_id=? AND claim_token=?`).bind(user.id,reward.id,user.id,token);
+  }
+  const markClaimed=env.DB.prepare(`UPDATE user_message_rewards SET claimed_at=COALESCE(NULLIF(claimed_at,''),CURRENT_TIMESTAMP) WHERE id=? AND user_id=? AND ${tokenExists}`).bind(reward.id,user.id,reward.id,user.id,token);
+  const hideMessage=env.DB.prepare(`UPDATE user_messages SET is_read=1,read_at=COALESCE(read_at,CURRENT_TIMESTAMP),hidden_at=CURRENT_TIMESTAMP WHERE id=? AND user_id=? AND ${tokenExists}`).bind(messageId,user.id,reward.id,user.id,token);
   const batch=await env.DB.batch([insertReceipt,balanceUpdate,logInsert,receiptBalanceUpdate,markClaimed,hideMessage]);
   const receipt=await env.DB.prepare('SELECT * FROM user_message_reward_claim_receipts_v1222 WHERE reward_id=? AND user_id=? AND claim_token=?').bind(reward.id,user.id,token).first();
   if(!receipt||!batch?.[1]?.meta?.changes){
     const existing=await env.DB.prepare('SELECT * FROM user_message_reward_claim_receipts_v1222 WHERE reward_id=? AND user_id=?').bind(reward.id,user.id).first();
     if(existing){
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return {credited:false,duplicate:true,receipt:existing,updated,balanceBefore:Number(existing.balance_before||0),balanceAfter:rewardType==='COIN'?Number(updated?.coin||0):Number(updated?.card_shards||0)};
+      let balanceAfter=0;
+      if(spec.inventory){const inventory=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,rewardType).first();balanceAfter=Number(inventory?.quantity||0)}
+      else balanceAfter=rewardType==='COIN'?Number(updated?.coin||0):Number(updated?.card_shards||0);
+      return {credited:false,duplicate:true,receipt:existing,updated,balanceBefore:Number(existing.balance_before||0),balanceAfter,rewardLabel:spec.label,itemCode:spec.inventory?rewardType:null};
     }
     throw new Error('메시지 보상 지급 트랜잭션을 완료하지 못했습니다. 메시지는 수령 처리되지 않았습니다.');
   }
@@ -161,9 +220,12 @@ async function claimMessageRewardDirectV1222(env,user,reward,messageId,{allowCla
     try{await env.DB.prepare('UPDATE wago_extension_reward_receipts SET balance_after=(SELECT coin FROM users WHERE id=? ) WHERE message_id=? AND user_id=?').bind(user.id,messageId,user.id).run()}catch{}
   }
   const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-  const balanceAfter=rewardType==='COIN'?Number(updated?.coin||0):Number(updated?.card_shards||0);
-  return {credited:true,duplicate:false,receipt,updated,balanceBefore,balanceAfter};
+  let balanceAfter=0;
+  if(spec.inventory){const inventory=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,rewardType).first();balanceAfter=Number(inventory?.quantity||0)}
+  else balanceAfter=rewardType==='COIN'?Number(updated?.coin||0):Number(updated?.card_shards||0);
+  return {credited:true,duplicate:false,receipt,updated,balanceBefore,balanceAfter,rewardLabel:spec.label,itemCode:spec.inventory?rewardType:null};
 }
+
 async function canSafelyRecoverFailedMessageRewardV1222(env,user,reward,messageId){
   if(String(reward?.reward_type||'').toUpperCase()!=='COIN')return false;
   try{
@@ -3990,7 +4052,7 @@ export async function onRequest(context){
         WHERE r.message_id=? AND r.user_id=?`).bind(messageId,user.id).first();
       if(!reward)return json({error:'수령할 보상이 없습니다.'},404);
       const rewardType=String(reward.reward_type||'').toUpperCase(),rewardAmount=Math.floor(Number(reward.reward_amount||0));
-      if(!['COIN','SHARDS'].includes(rewardType)||rewardAmount<=0)return json({error:'지원하지 않는 메시지 보상입니다.'},400);
+      const rewardSpec=verifiedMessageRewardSpec(rewardType);if(!rewardSpec||rewardAmount<=0)return json({error:'지원하지 않는 메시지 보상입니다.'},400);
       const alreadyClaimed=String(reward.claimed_at||'').trim()!=='';
       let allowClaimedRecovery=false;
       if(alreadyClaimed){
@@ -4002,8 +4064,8 @@ export async function onRequest(context){
       const claimed=await claimMessageRewardDirectV1222(env,user,reward,messageId,{allowClaimedRecovery});
       if(claimed.duplicate)return json({error:'이미 정상 수령한 보상입니다.'},409);
       const updated=claimed.updated;if(!updated)return json({error:'보상 수령 후 계정 정보를 확인하지 못했습니다.'},500);
-      const balanceAfter=rewardType==='COIN'?Number(updated.coin||0):Number(updated.card_shards||0);
-      return json({ok:true,rewardType,rewardAmount,balanceBefore:claimed.balanceBefore,balanceAfter,coinAfter:Number(updated.coin||0),cardShardsAfter:Number(updated.card_shards||0),messageDeleted:true,recovered:allowClaimedRecovery===true,user:await profile(env,updated)});
+      const balanceAfter=Number(claimed.balanceAfter||0);
+      return json({ok:true,rewardType,rewardAmount,rewardLabel:claimed.rewardLabel||rewardSpec.label,itemCode:claimed.itemCode||null,balanceBefore:claimed.balanceBefore,balanceAfter,inventoryBalanceAfter:rewardSpec.inventory?balanceAfter:null,coinAfter:Number(updated.coin||0),cardShardsAfter:Number(updated.card_shards||0),messageDeleted:true,recovered:allowClaimedRecovery===true,user:await profile(env,updated)});
     }
 
     if(path==='admin/wago-verifications'){
@@ -4108,30 +4170,39 @@ export async function onRequest(context){
       return json({ok:true,items:rows.results||[],targetUserId:targetUserId||null});
     }
 
-    if(path==='admin/verified-coin-message-send'&&request.method==='POST'){
+    if((path==='admin/verified-reward-message-send'||path==='admin/verified-coin-message-send')&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      const body=await readBody(request),title=String(body.title||'와고 2단계 인증 보상').trim().slice(0,100),messageBody=String(body.body||'와고 2단계 인증 완료 유저에게 지급되는 코인 보상입니다.').trim().slice(0,1000),rawRewardCoin=Number(String(body.rewardCoin??'').replace(/,/g,'').trim()),rewardCoin=Math.max(1,Math.min(100000000,Math.floor(rawRewardCoin||0))),includeOwner=body.includeOwner===true,includeAdmin=body.includeAdmin===true;
-      if(!rewardCoin)return json({error:'지급 코인을 입력하세요.'},400);
-      const users=await env.DB.prepare("SELECT w.user_id,u.nickname,UPPER(TRIM(COALESCE(u.role,'USER'))) AS role FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE UPPER(TRIM(COALESCE(w.status,'')))='VERIFIED' AND UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND (UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='OWNER') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='ADMIN'))").bind(includeOwner?1:0,includeAdmin?1:0).all();let sent=0,sentUsers=0,sentOwners=0,sentAdmins=0;
-      const recipients=users.results||[];
-      // V1064: D1 batch 안의 last_insert_rowid()에 의존하지 않는다.
-      // 메시지를 먼저 저장하고 반환된 실제 message_id로 보상 행을 연결해야
-      // CMS 입력 금액과 다른 과거 보상 행이 잘못 연결되는 문제를 막을 수 있다.
-      for(const u of recipients){
-        const messageResult=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')")
-          .bind(u.user_id,title,messageBody)
-          .run();
-        const messageId=Number(messageResult?.meta?.last_row_id||0);
-        if(!messageId) throw new Error(`메시지 저장 ID 확인 실패: user ${u.user_id}`);
-        await env.DB.prepare("INSERT INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,'COIN',?)")
-          .bind(messageId,u.user_id,rewardCoin)
-          .run();
-        sent++;
-        if(u.role==='OWNER')sentOwners++;
-        else if(u.role==='ADMIN')sentAdmins++;
-        else sentUsers++;
-      }
-      await writeAdminLog(env,admin,'VERIFIED_COIN_MESSAGE_SEND','USER_MESSAGE','VERIFIED_USERS',null,{sent,sentUsers,sentOwners,sentAdmins,rewardCoin,title,includeOwner,includeAdmin});return json({ok:true,sent,sentUsers,sentOwners,sentAdmins,rewardCoin});
+      await ensureVerifiedRewardMessageV1276(env);
+      const body=await readBody(request);
+      const requestedType=path==='admin/verified-coin-message-send'?'COIN':String(body.rewardType||'COIN').trim().toUpperCase();
+      const spec=verifiedMessageRewardSpec(requestedType);
+      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
+      const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
+      if(!Number.isFinite(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위로 입력하세요.`},400);
+      const rewardAmount=Math.floor(rawAmount);
+      const title=String(body.title||`와고 2단계 인증 ${spec.label} 보상`).trim().slice(0,100);
+      const messageBody=String(body.body||`와고 2단계 인증 완료 보상으로 ${spec.label} ${rewardAmount.toLocaleString()}개 보상이 도착했습니다. 메시지에서 수령해 주세요.`).trim().slice(0,1000);
+      const includeOwner=body.includeOwner===true,includeAdmin=body.includeAdmin===true;
+      const campaignKey=String(body.requestId||globalThis.crypto?.randomUUID?.()||`verified-reward-${Date.now()}-${Math.random().toString(36).slice(2)}`).trim().slice(0,120);
+      if(!campaignKey)return json({error:'발송 요청 식별자를 생성하지 못했습니다.'},500);
+      const recipientWhere=`UPPER(TRIM(COALESCE(w.status,'')))='VERIFIED' AND UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND (UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='OWNER') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='ADMIN'))`;
+      await env.DB.batch([
+        env.DB.prepare(`INSERT OR IGNORE INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key)
+          SELECT w.user_id,'ADMIN',?,?,?,? FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE ${recipientWhere}`)
+          .bind(title,messageBody,spec.messageType,campaignKey,includeOwner?1:0,includeAdmin?1:0),
+        env.DB.prepare(`INSERT OR IGNORE INTO user_message_rewards(message_id,user_id,reward_type,reward_amount)
+          SELECT m.id,m.user_id,?,? FROM user_messages m WHERE m.campaign_key=?`)
+          .bind(requestedType,rewardAmount,campaignKey)
+      ]);
+      const roleRows=await env.DB.prepare(`SELECT UPPER(TRIM(COALESCE(u.role,'USER'))) AS role,COUNT(*) AS count
+        FROM user_messages m JOIN users u ON u.id=m.user_id WHERE m.campaign_key=? GROUP BY UPPER(TRIM(COALESCE(u.role,'USER')))`)
+        .bind(campaignKey).all();
+      let sentUsers=0,sentOwners=0,sentAdmins=0;
+      for(const row of roleRows.results||[]){const count=Number(row.count||0);if(row.role==='OWNER')sentOwners+=count;else if(row.role==='ADMIN')sentAdmins+=count;else sentUsers+=count}
+      const sent=sentUsers+sentOwners+sentAdmins;
+      if(!sent)return json({error:'발송 대상인 2단계 인증 완료 유저가 없습니다.'},404);
+      await writeAdminLog(env,admin,'VERIFIED_REWARD_MESSAGE_SEND','USER_MESSAGE',campaignKey,null,{sent,sentUsers,sentOwners,sentAdmins,rewardType:requestedType,rewardAmount,rewardLabel:spec.label,title,includeOwner,includeAdmin,campaignKey});
+      return json({ok:true,sent,sentUsers,sentOwners,sentAdmins,rewardType:requestedType,rewardAmount,rewardLabel:spec.label,rewardCoin:requestedType==='COIN'?rewardAmount:0,campaignKey,delivery:'MESSAGE'});
     }
 
     if(path==='admin/verified-coupon-send'&&request.method==='POST'){
