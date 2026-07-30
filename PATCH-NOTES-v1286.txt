@@ -1,0 +1,27 @@
+[SOOPKETMON v1286] 봉인전 승리 전용 공헌 / 궁극기 완전 금지 누적 패치
+
+기준
+- cnine-card(39).zip
+- v1279~v1285 누적 포함
+
+변경
+- 봉인전은 전투 승리 시에만 역할별 봉인 게이지 상승
+- 패배 시 공헌도 0, 일일 참여 횟수 1회 소모
+- 유저 궁극기 선택/피해 계산/연출 완전 제거
+- 봉인 보스 궁극기 사용 경로 없음
+- 기존 PvE 덱의 카드 전투력, 장비 PVE 보너스, 시너지, 고유 능력만 승패 계산에 사용
+- 파괴/수호/정화 보스 전투력은 CMS에서 각각 설정
+- 기존 이벤트의 패배 인정 비율이 20%여도 서버에서 강제 0% 적용
+
+기본 보스 전투력
+- 파괴 12,000
+- 수호 11,000
+- 정화 10,000
+
+수정 파일
+- index.html
+- js/seal-battle.js
+- admin/index.html
+- admin/seal-battle-admin.js
+- admin/seal-battle-admin.css
+- functions/_seal_battle.js

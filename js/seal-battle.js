@@ -73,7 +73,7 @@
       <p>${meta.description}</p>
       <div class="seal-progress-numbers"><b>${number(role.progress)}</b><span>/ ${number(role.target)}</span></div>
       <div class="seal-progress-track"><i style="width:${percent(role.percent)}%"></i><u style="left:${percent(role.percent)}%"></u></div>
-      <footer><span>${role.completed ? '봉인 완료' : `${role.percent.toFixed(2)}%`}</span><small>보스 전투력 ${number(role.battlePower)} · 공헌 ${Number(role.multiplier || 100)}%</small></footer>
+      <footer><span>${role.completed ? '봉인 완료' : `${role.percent.toFixed(2)}%`}</span><small>보스 전투력 ${number(role.battlePower)} · 승리 공헌 ${Number(role.multiplier || 100)}% · 궁극기 금지</small></footer>
       <button type="button" class="seal-action-button" data-seal-role="${roleKey}" ${canAct ? '' : 'disabled'}>${role.completed ? '완료된 봉인' : `${meta.label} 보스 전투`}</button>
     </article>`;
   }
@@ -138,7 +138,7 @@
 
       <section class="seal-guide">
         <div><b>1</b><span><strong>역할 보스 전투</strong><small>저장된 PvE 덱으로 실제 전투하며 승패가 판정됩니다.</small></span></div>
-        <div><b>2</b><span><strong>승패별 공동 공헌</strong><small>승리는 정상 공헌, 패배는 ${Number(event.defeatContributionPercent || 0)}%만 인정됩니다.</small></span></div>
+        <div><b>2</b><span><strong>승리 전용 공동 공헌</strong><small>보스를 쓰러뜨린 전투만 봉인 게이지에 반영되며 패배 공헌은 0입니다.</small></span></div>
         <div><b>3</b><span><strong>제한 시간 봉인</strong><small>종료 전 세 봉인을 못 채우면 실패 처리되고 완료 보상이 소멸합니다.</small></span></div>
       </section>
     </section>`;
@@ -179,7 +179,7 @@
     modal.innerHTML = `<div class="modal-panel battle-stage seal-battle-stage intro">
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
       <div class="battle-topline"><span>SOOPKETMON SEAL BATTLE</span><b id="battlePhase">SEAL ENCOUNTER</b></div>
-      <div class="seal-combat-role-chip"><span>${meta.icon}</span><b>${meta.label}</b><small>패배 시 공헌 ${Number(event.defeatContributionPercent || 0)}%</small></div>
+      <div class="seal-combat-role-chip"><span>${meta.icon}</span><b>${meta.label}</b><small>승리 시에만 공헌 · 궁극기 사용 불가</small></div>
       <div class="battle-hud">
         <div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>PVE SEAL TEAM</b><span data-hp-text="team">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="team"></u><i data-hp-fill="team"></i><em>K.O.</em></div><small>전투력 ${number(latest?.deck?.power)}</small></div>
         <div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${esc(event.bossName || '봉인 보스')}</b><span data-hp-text="enemy">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="enemy"></u><i data-hp-fill="enemy"></i><em>SEALED</em></div><small>역할 전투력 ${number(role.battlePower)}</small></div>
@@ -243,20 +243,6 @@
     let teamHp = 100;
     const win = result.result === 'WIN';
     const bossPower = Math.max(1, Number(result.bossPower || 1));
-    const ultimateDamage = Math.max(0, Number(result.ultimateDamage || 0));
-
-    if (result.activatedUltimate) {
-      phase.textContent = 'ULTIMATE READY';
-      if (typeof globalThis.playBattleUltimate === 'function') await globalThis.playBattleUltimate(stage, result.activatedUltimate, ultimateDamage);
-      const ultimatePct = Math.min(72, ultimateDamage / bossPower * 100);
-      if (ultimatePct > 0) {
-        enemyHp = Math.max(0, enemyHp - ultimatePct);
-        setHp(stage, 'enemy', enemyHp);
-        burst(stage, 'enemy', true, `-${number(ultimateDamage)}`);
-        await battleSleepSafe(760);
-      }
-    }
-
     const cardPowerTotal = Math.max(1, cards.reduce((sum, card) => sum + Math.max(1, Number(card.power || 0)), 0));
     const desiredCardDamage = win
       ? Math.max(0, enemyHp)
@@ -273,7 +259,7 @@
       void stage.offsetWidth;
       stage.classList.add(index >= 3 ? 'member-skill' : 'member-strike');
       const share = index === cards.length - 1
-        ? Math.max(0, desiredCardDamage - (100 - enemyHp - (ultimateDamage / bossPower * 100)))
+        ? Math.max(0, desiredCardDamage - (100 - enemyHp))
         : desiredCardDamage * Math.max(1, Number(card.power || 0)) / cardPowerTotal;
       const hpDamage = Math.max(4, Math.min(36, share));
       enemyHp = Math.max(win ? (index < cards.length - 1 ? 3 : 0) : 8, enemyHp - hpDamage);
@@ -318,7 +304,7 @@
       if (typeof globalThis.battleSfx === 'function') globalThis.battleSfx('defeat');
     }
 
-    const lossLine = win ? '전투 승리로 정상 공헌도가 적용되었습니다.' : `전투 패배로 공헌도의 ${Number(result.defeatContributionPercent || 0)}%만 적용되었습니다.`;
+    const lossLine = win ? '전투 승리로 봉인 공헌도가 반영되었습니다.' : '전투 패배로 봉인 공헌도는 반영되지 않습니다.';
     message.innerHTML = `<strong>${win ? 'BATTLE VICTORY' : 'BATTLE DEFEAT'}</strong><span>${number(result.totalBattleDamage || result.playerPower)} VS ${number(result.bossPower)} · ${esc(lossLine)}</span><div class="battle-reward-pop"><small>${meta.label} 공헌</small><b>+${number(result.contribution)}</b><small>참여 보상</small><b>◈ ${number(result.reward?.coin)} · 조각 ${number(result.reward?.shards)}</b>${Number(result.bonusPercent || 0) > 0 ? `<em>부족 역할 지원 +${Number(result.bonusPercent)}%</em>` : ''}</div><button type="button" class="seal-battle-return">봉인전으로 돌아가기</button>`;
     const close = () => { modal.onclick = null; modal.className = 'modal'; modal.innerHTML = ''; };
     message.querySelector('.seal-battle-return').onclick = event => { event.stopPropagation(); close(); };
@@ -329,7 +315,7 @@
     if (loading) return;
     const meta = ROLE[roleKey];
     const role = latest?.event?.roles?.[roleKey];
-    if (!confirm(`${meta.label} 보스와 전투합니다.\n오늘의 참여 횟수 1회가 사용되며 패배해도 횟수는 복구되지 않습니다.\n\n전투를 시작할까요?`)) return;
+    if (!confirm(`${meta.label} 보스와 전투합니다.\n오늘의 참여 횟수 1회가 사용됩니다. 패배 시 공헌도는 0이며 횟수는 복구되지 않습니다. 궁극기는 사용할 수 없습니다.\n\n전투를 시작할까요?`)) return;
     loading = true;
     button.disabled = true;
     const modal = sealCombatModal(roleKey);

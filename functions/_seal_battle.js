@@ -17,7 +17,7 @@ const DEFAULT_SETTINGS = {
   multipliers: { attack: 100, guard: 90, purify: 85 },
   battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
   lowestRoleBonusPercent: 20,
-  defeatContributionPercent: 20,
+  defeatContributionPercent: 0,
   attemptReward: { coin: 100, shards: 1 },
   clearReward: { coin: 2000, shards: 50 },
   receiptRetentionDays: 14,
@@ -81,7 +81,7 @@ function cleanSettings(raw = {}) {
       purify: clampInt(battlePowers.purify, base.battlePowers.purify, 1, 2000000000)
     },
     lowestRoleBonusPercent: clampInt(raw.lowestRoleBonusPercent, base.lowestRoleBonusPercent, 0, 500),
-    defeatContributionPercent: clampInt(raw.defeatContributionPercent, base.defeatContributionPercent, 0, 100),
+    defeatContributionPercent: 0,
     attemptReward: {
       coin: clampInt(attemptReward.coin, base.attemptReward.coin, 0, 100000000),
       shards: clampInt(attemptReward.shards, base.attemptReward.shards, 0, 1000000)
@@ -138,7 +138,7 @@ async function ensureFoundation(env, deps = {}) {
         attack_battle_power INTEGER NOT NULL DEFAULT 12000,
         guard_battle_power INTEGER NOT NULL DEFAULT 11000,
         purify_battle_power INTEGER NOT NULL DEFAULT 10000,
-        defeat_contribution_percent INTEGER NOT NULL DEFAULT 20,
+        defeat_contribution_percent INTEGER NOT NULL DEFAULT 0,
         lowest_bonus_percent INTEGER NOT NULL DEFAULT 20,
         attempt_coin INTEGER NOT NULL DEFAULT 0,
         attempt_shards INTEGER NOT NULL DEFAULT 0,
@@ -204,7 +204,7 @@ async function ensureFoundation(env, deps = {}) {
       ['seal_battle_events','attack_battle_power','INTEGER NOT NULL DEFAULT 12000'],
       ['seal_battle_events','guard_battle_power','INTEGER NOT NULL DEFAULT 11000'],
       ['seal_battle_events','purify_battle_power','INTEGER NOT NULL DEFAULT 10000'],
-      ['seal_battle_events','defeat_contribution_percent','INTEGER NOT NULL DEFAULT 20'],
+      ['seal_battle_events','defeat_contribution_percent','INTEGER NOT NULL DEFAULT 0'],
       ['seal_battle_action_receipts','boss_power','INTEGER NOT NULL DEFAULT 0'],
       ['seal_battle_action_receipts','battle_result',"TEXT NOT NULL DEFAULT ''"],
       ['seal_battle_action_receipts','ultimate_damage','INTEGER NOT NULL DEFAULT 0']
@@ -267,7 +267,7 @@ function normalizeEvent(row) {
     endsAt: row.ends_at || null,
     dailyAttempts: Number(row.daily_attempts || 3),
     lowestRoleBonusPercent: Number(row.lowest_bonus_percent || 0),
-    defeatContributionPercent: Number(row.defeat_contribution_percent ?? DEFAULT_SETTINGS.defeatContributionPercent),
+    defeatContributionPercent: 0,
     attemptReward: { coin: Number(row.attempt_coin || 0), shards: Number(row.attempt_shards || 0) },
     clearReward: { coin: Number(row.clear_coin || 0), shards: Number(row.clear_shards || 0) },
     roles,
@@ -393,28 +393,18 @@ async function combatDeckState(deps, env, userId, bossPower) {
   const synergyMultiplier = 1 + Number(deck.synergy?.totals?.attackPercent || 0) / 100 + Number(deck.synergy?.totals?.bossDamagePercent || 0) / 100;
   const cardPower = Math.max(0, Math.floor(basePower * synergyMultiplier));
   const playerPower = Math.max(0, cardPower + Number(deck.characterBonus?.pve || 0));
-  const activatedEntry = typeof deps.selectActivatedUltimate === 'function'
-    ? deps.selectActivatedUltimate(deck.battleSettings || {}, cards)
-    : null;
-  const activatedUltimate = activatedEntry?.rule || null;
-  const ultimateSourceCard = activatedEntry?.matchedCards?.[0] || null;
-  const ultimateDamage = activatedUltimate && ultimateSourceCard
-    ? Math.max(0, Math.floor(Number(ultimateSourceCard.power || 0) * Number(activatedUltimate.coefficientPercent || 0) / 100))
-    : 0;
+  // 봉인전은 유저/보스 궁극기를 모두 사용하지 않는다.
+  // 기존 PvE 덱의 카드 전투력·장비·시너지·고유 능력만 승패 계산에 반영한다.
   return {
     ...deck,
     cards: publicBattleCards(cards),
     basePower,
     cardPower,
     playerPower,
-    totalBattleDamage: playerPower + ultimateDamage,
-    ultimateDamage,
-    activatedUltimate,
-    ultimateSourceCard: ultimateSourceCard ? {
-      id: String(ultimateSourceCard.id || ''), title: String(ultimateSourceCard.title || ''),
-      rarity: String(ultimateSourceCard.rarity || ultimateSourceCard.grade || 'C').toUpperCase(),
-      power: Number(ultimateSourceCard.power || 0), breakthroughLevel: Number(ultimateSourceCard.breakthroughLevel ?? ultimateSourceCard.breakthrough_level ?? 0)
-    } : null,
+    totalBattleDamage: playerPower,
+    ultimateDamage: 0,
+    activatedUltimate: null,
+    ultimateSourceCard: null,
     uniqueAbility: typeof deps.uniqueBattleResponsePayload === 'function'
       ? deps.uniqueBattleResponsePayload(deck.unique, runtime)
       : null
@@ -610,10 +600,10 @@ async function participate(env, deps, user, settings, event, body) {
   const lowest = lowestRoleKeys(event);
   const bonusPercent = lowest.includes(role) ? Number(event.lowestRoleBonusPercent || 0) : 0;
   const multiplier = Number(event.roles[role]?.multiplier || 100);
-  const result = Number(combat.totalBattleDamage || 0) >= bossPower ? 'WIN' : 'LOSE';
-  const defeatPercent = Math.max(0, Math.min(100, Number(event.defeatContributionPercent ?? DEFAULT_SETTINGS.defeatContributionPercent)));
-  const rawContribution = Math.max(1, Math.floor(Number(combat.totalBattleDamage || 0) * multiplier / 100 * (1 + bonusPercent / 100)));
-  const contribution = Math.min(2000000000, result === 'WIN' ? Math.max(1, rawContribution) : Math.max(0, Math.floor(rawContribution * defeatPercent / 100)));
+  const result = Number(combat.playerPower || 0) >= bossPower ? 'WIN' : 'LOSE';
+  const defeatPercent = 0;
+  const rawContribution = Math.max(1, Math.floor(Number(combat.playerPower || 0) * multiplier / 100 * (1 + bonusPercent / 100)));
+  const contribution = result === 'WIN' ? Math.min(2000000000, rawContribution) : 0;
   const attemptCoin = Math.max(0, Number(event.attemptReward.coin || 0));
   const attemptShards = Math.max(0, Number(event.attemptReward.shards || 0));
 
@@ -623,7 +613,7 @@ async function participate(env, deps, user, settings, event, body) {
         SELECT 1 FROM seal_battle_events WHERE id=? AND status='ACTIVE'
           AND (starts_at IS NULL OR datetime(starts_at)<=datetime('now'))
           AND (ends_at IS NULL OR datetime(ends_at)>datetime('now'))
-      )`).bind(combat.playerPower, bossPower, contribution, bonusPercent, result, combat.ultimateDamage, requestId, user.id, event.id),
+      )`).bind(combat.playerPower, bossPower, contribution, bonusPercent, result, 0, requestId, user.id, event.id),
     env.DB.prepare(eventProgressSql(role)).bind(...eventProgressBindings(role, contribution, event.id, requestId)),
     env.DB.prepare(roleContributionUpdateSql(role)).bind(contribution, role, contribution, event.id, user.id, requestId),
     env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+?
@@ -815,7 +805,7 @@ async function adminStart(env, settings, admin) {
       settings.targets.attack, settings.targets.guard, settings.targets.purify,
       settings.multipliers.attack, settings.multipliers.guard, settings.multipliers.purify,
       settings.battlePowers.attack, settings.battlePowers.guard, settings.battlePowers.purify,
-      settings.defeatContributionPercent,
+      0,
       settings.lowestRoleBonusPercent, settings.attemptReward.coin, settings.attemptReward.shards,
       settings.clearReward.coin, settings.clearReward.shards, admin.id
     )

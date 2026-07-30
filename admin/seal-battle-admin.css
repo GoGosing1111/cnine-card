@@ -184,3 +184,5 @@
   .seal-admin-event-summary>div:last-child{align-items:flex-start}
 }
 .seal-admin-event-summary .status-failed,.seal-admin-history #sealAdminHistory .status-failed{background:#fff0f0;color:#b53d45;border:1px solid #f1c7cb}.seal-admin-role-settings article label:first-of-type input{font-weight:900;color:#25324a;background:#f7faff}.seal-admin-settings .seal-admin-failure-note{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid #f0d0d3;background:#fff7f7;color:#83434a;font-size:12px;line-height:1.55}
+
+.seal-admin-combat-rule{grid-column:span 2;display:flex;flex-direction:column;justify-content:center;gap:5px;min-height:48px;padding:12px 14px;border:1px solid #d7c58e;border-radius:12px;background:linear-gradient(135deg,#fffaf0,#f7f1e2);box-sizing:border-box}.seal-admin-combat-rule b{color:#57461d;font-size:13px}.seal-admin-combat-rule span{color:#75643a;font-size:12px;line-height:1.45;font-weight:700}@media(max-width:760px){.seal-admin-combat-rule{grid-column:auto}}

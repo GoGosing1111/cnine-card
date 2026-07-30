@@ -14,7 +14,7 @@
     targets: { attack: 20000000, guard: 16000000, purify: 14000000 },
     multipliers: { attack: 100, guard: 90, purify: 85 },
     battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
-    lowestRoleBonusPercent: 20, defeatContributionPercent: 20,
+    lowestRoleBonusPercent: 20, defeatContributionPercent: 0,
     attemptReward: { coin: 100, shards: 1 },
     clearReward: { coin: 2000, shards: 50 },
     receiptRetentionDays: 14, progressRetentionDays: 90
@@ -97,7 +97,7 @@
           <label><span>종료 시각 · KST</span><input id="sealEndsAt" type="datetime-local"></label>
           <label><span>일일 참여 횟수</span><input id="sealDailyAttempts" type="number" min="1" max="30"></label>
           <label><span>부족 역할 지원 보너스</span><div class="input-unit"><input id="sealLowestBonus" type="number" min="0" max="500"><em>%</em></div></label>
-          <label><span>개인 전투 패배 시 공헌 인정</span><div class="input-unit"><input id="sealDefeatContribution" type="number" min="0" max="100"><em>%</em></div></label>
+          <div class="seal-admin-combat-rule"><b>전투 고정 규칙</b><span>승리 시에만 봉인 공헌 반영 · 패배 공헌 0 · 유저/보스 궁극기 사용 불가</span></div>
         </div>
 
         <div class="seal-admin-section-title"><div><small>GLOBAL TARGETS</small><h4>역할별 공동 목표</h4></div></div>
@@ -176,7 +176,7 @@
     $('#sealEndsAt').value = toInputDate(settings.endsAt);
     $('#sealDailyAttempts').value = Number(settings.dailyAttempts || 3);
     $('#sealLowestBonus').value = Number(settings.lowestRoleBonusPercent || 0);
-    $('#sealDefeatContribution').value = Number(settings.defeatContributionPercent ?? 20);
+    if ($('#sealDefeatContribution')) $('#sealDefeatContribution').value = 0;
     $('#sealAttackBattlePower').value = Number(settings.battlePowers?.attack || 1);
     $('#sealGuardBattlePower').value = Number(settings.battlePowers?.guard || 1);
     $('#sealPurifyBattlePower').value = Number(settings.battlePowers?.purify || 1);
@@ -219,7 +219,7 @@
         attack: integer('#sealAttackBattlePower', 12000), guard: integer('#sealGuardBattlePower', 11000), purify: integer('#sealPurifyBattlePower', 10000)
       },
       lowestRoleBonusPercent: integer('#sealLowestBonus', 20),
-      defeatContributionPercent: integer('#sealDefeatContribution', 20),
+      defeatContributionPercent: 0,
       attemptReward: { coin: integer('#sealAttemptCoin'), shards: integer('#sealAttemptShards') },
       clearReward: { coin: integer('#sealClearCoin'), shards: integer('#sealClearShards') },
       receiptRetentionDays: integer('#sealReceiptDays', 14),
@@ -234,7 +234,6 @@
     if (Object.values(settings.targets).some(value => value < 1)) return '역할별 목표 공헌도는 1 이상이어야 합니다.';
     if (Object.values(settings.multipliers).some(value => value < 1 || value > 1000)) return '역할 배율은 1~1,000%로 입력하세요.';
     if (Object.values(settings.battlePowers).some(value => value < 1)) return '역할별 보스 전투력은 1 이상이어야 합니다.';
-    if (settings.defeatContributionPercent < 0 || settings.defeatContributionPercent > 100) return '패배 시 공헌 인정 비율은 0~100%로 입력하세요.';
     return '';
   }
 
