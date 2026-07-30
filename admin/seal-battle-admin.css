@@ -1,2 +1,185 @@
-.seal-admin-view{display:grid;gap:18px}.seal-admin-hero{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:26px 28px;border:1px solid rgba(222,188,100,.25);border-radius:20px;background:radial-gradient(circle at 88% 25%,rgba(190,55,61,.18),transparent 30%),linear-gradient(135deg,#181a26,#0e0f16);color:#fff}.seal-admin-hero small,.seal-admin-section-title small,.seal-admin-history header small{font-size:10px;letter-spacing:.17em;color:#d8bd78;font-weight:900}.seal-admin-hero h2{margin:5px 0 6px;font-size:30px}.seal-admin-hero p{margin:0;color:rgba(255,255,255,.56)}.seal-admin-actions{display:flex;gap:8px;align-items:center}.seal-admin-actions>span{padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.07);font-weight:900}.seal-admin-actions>span.on{background:rgba(74,196,151,.15);color:#75dab4}.seal-admin-actions>span.test{background:rgba(221,181,82,.15);color:#f1d081}.seal-admin-actions>span.off{color:#ff9095}.seal-admin-actions button{padding:10px 13px;border-radius:10px}.seal-admin-status-card,.seal-admin-settings,.seal-admin-history{padding:22px;border:1px solid var(--line,#dfe3ea);border-radius:18px;background:var(--panel,#fff)}.seal-admin-event-summary{display:flex;justify-content:space-between;gap:18px;align-items:center;padding-bottom:17px;border-bottom:1px solid var(--line,#e3e6eb)}.seal-admin-event-summary small{color:#8b909a}.seal-admin-event-summary h3{margin:4px 0;font-size:22px}.seal-admin-event-summary p{margin:0;color:#737983}.seal-admin-event-summary>div:last-child{display:flex;flex-direction:column;align-items:flex-end;gap:6px}.seal-admin-event-summary [class^="status-"]{padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;background:#eef0f4}.seal-admin-event-summary .status-active{background:#e8f7ef;color:#198052}.seal-admin-event-summary .status-cleared{background:#e8f2ff;color:#245e9e}.seal-admin-event-summary .status-ended{background:#f4ecec;color:#9a4646}.seal-admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:17px}.seal-admin-stats article{padding:16px;border-radius:14px;background:#f6f7f9;border:1px solid #e8eaee}.seal-admin-stats small{display:block;color:#7f8590}.seal-admin-stats b{display:block;margin-top:5px;font-size:22px}.seal-admin-stats em{margin-left:3px;font-size:12px;color:#8d939d;font-style:normal}.seal-admin-progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-top:12px}.seal-admin-progress-grid article{padding:15px;border-radius:14px;background:#11131b;color:#fff}.seal-admin-progress-grid header{display:flex;align-items:center;gap:10px}.seal-admin-progress-grid header>span{font-size:21px}.seal-admin-progress-grid header div{display:flex;justify-content:space-between;align-items:center;gap:10px;flex:1}.seal-admin-progress-grid small{color:rgba(255,255,255,.56)}.seal-admin-progress-grid article>div{height:9px;margin:12px 0 8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}.seal-admin-progress-grid article>div i{display:block;height:100%;background:linear-gradient(90deg,#c9434d,#f37a80)}.seal-admin-progress-grid article:nth-child(2)>div i{background:linear-gradient(90deg,#4d79b8,#83b7ef)}.seal-admin-progress-grid article:nth-child(3)>div i{background:linear-gradient(90deg,#8250af,#c084df)}.seal-admin-progress-grid footer{display:flex;justify-content:flex-end;gap:4px;font-size:12px}.seal-admin-progress-grid footer em{font-style:normal;color:rgba(255,255,255,.45)}.seal-admin-settings>header,.seal-admin-history>header{display:flex;justify-content:space-between;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--line,#e4e7ec)}.seal-admin-settings h3,.seal-admin-history h3{margin:4px 0}.seal-admin-settings header p{margin:0;color:#7d838d}.seal-admin-settings button.primary{padding:11px 16px;border-radius:10px;background:#26324a;color:#fff}.seal-admin-form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:18px}.seal-admin-form-grid label,.seal-admin-role-settings label,.seal-admin-reward-grid label{display:flex;flex-direction:column;gap:6px}.seal-admin-form-grid label.wide{grid-column:span 2}.seal-admin-form-grid label>span,.seal-admin-role-settings label>span,.seal-admin-reward-grid label>span{font-size:12px;font-weight:800;color:#646a74}.seal-admin-form-grid input,.seal-admin-form-grid select,.seal-admin-form-grid textarea,.seal-admin-role-settings input,.seal-admin-reward-grid input{width:100%;padding:10px 11px;border:1px solid #d9dde4;border-radius:9px;background:#fff;box-sizing:border-box}.seal-admin-section-title{margin-top:24px}.seal-admin-section-title h4{margin:3px 0;font-size:18px}.seal-admin-role-settings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}.seal-admin-role-settings article{padding:17px;border:1px solid #e2e5ea;border-radius:14px;background:#fafbfc}.seal-admin-role-settings header{display:flex;gap:9px;align-items:center;margin-bottom:13px}.seal-admin-role-settings header i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#f9e9eb;color:#b83a44;font-style:normal}.seal-admin-role-settings .guard header i{background:#eaf2fc;color:#3e6fae}.seal-admin-role-settings .purify header i{background:#f1eafb;color:#7a48a5}.seal-admin-role-settings label+label{margin-top:10px}.input-unit{display:flex;align-items:center}.input-unit input{border-radius:9px 0 0 9px!important}.input-unit em{align-self:stretch;display:grid;place-items:center;min-width:44px;border:1px solid #d9dde4;border-left:0;border-radius:0 9px 9px 0;background:#f3f5f7;color:#777d87;font-style:normal;font-size:12px}.seal-admin-reward-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}.seal-admin-reward-grid article{padding:17px;border:1px solid #e2e5ea;border-radius:14px}.seal-admin-reward-grid header{margin-bottom:12px}.seal-admin-reward-grid header small{color:#9a8150;font-size:10px;letter-spacing:.12em}.seal-admin-reward-grid h4{margin:3px 0}.seal-admin-reward-grid label+label{margin-top:9px}.seal-admin-start-box{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:20px;padding:19px;border-radius:14px;background:#171a24;color:#fff}.seal-admin-start-box small{color:#d5ba75;letter-spacing:.15em}.seal-admin-start-box h3{margin:4px 0}.seal-admin-start-box p{margin:0;color:rgba(255,255,255,.52)}.seal-admin-start-box button{padding:13px 17px;border-radius:11px;border:0;background:#e0bd68;color:#251f10;font-weight:900}.seal-admin-history #sealAdminHistory{display:grid;gap:8px;margin-top:14px}.seal-admin-history #sealAdminHistory article{display:flex;align-items:center;gap:12px;padding:12px 13px;border:1px solid #e5e8ed;border-radius:11px}.seal-admin-history #sealAdminHistory [class^="status-"]{min-width:70px;padding:6px 8px;border-radius:8px;background:#eef0f3;text-align:center;font-size:10px;font-weight:900}.seal-admin-history #sealAdminHistory .status-active{background:#e8f7ef;color:#1b7c52}.seal-admin-history #sealAdminHistory .status-cleared{background:#e8f2ff;color:#245e9e}.seal-admin-history #sealAdminHistory .status-ended{background:#f4ecec;color:#914242}.seal-admin-history #sealAdminHistory div{display:flex;flex-direction:column;gap:3px}.seal-admin-history #sealAdminHistory small{color:#7e848d}.seal-admin-loading,.seal-admin-empty{padding:26px;text-align:center;color:#7a8089}.seal-admin-actions button:disabled,.seal-admin-settings button:disabled{opacity:.5;cursor:not-allowed}
-@media(max-width:1100px){.seal-admin-form-grid{grid-template-columns:repeat(2,1fr)}.seal-admin-stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:760px){.seal-admin-hero,.seal-admin-event-summary,.seal-admin-start-box{flex-direction:column;align-items:flex-start}.seal-admin-actions{flex-wrap:wrap}.seal-admin-form-grid,.seal-admin-role-settings,.seal-admin-reward-grid,.seal-admin-progress-grid{grid-template-columns:1fr}.seal-admin-form-grid label.wide{grid-column:auto}.seal-admin-stats{grid-template-columns:1fr 1fr}.seal-admin-event-summary>div:last-child{align-items:flex-start}}
+:root{
+  --seal-bg:#f3f6fb;
+  --seal-panel:#ffffff;
+  --seal-panel-2:#f8fbff;
+  --seal-line:#d6deea;
+  --seal-line-2:#e5ebf3;
+  --seal-text:#1d2433;
+  --seal-text-2:#4a5568;
+  --seal-text-3:#708096;
+  --seal-accent:#26324a;
+  --seal-shadow:0 12px 28px rgba(22,32,54,.08);
+}
+
+.seal-admin-view{display:grid;gap:22px;color:var(--seal-text)}
+.seal-admin-hero{
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:28px 30px;border:1px solid rgba(222,188,100,.28);border-radius:22px;
+  background:
+    radial-gradient(circle at 84% 18%,rgba(255,202,130,.18),transparent 26%),
+    radial-gradient(circle at 92% 32%,rgba(190,55,61,.16),transparent 22%),
+    linear-gradient(135deg,#161c2b 0%,#11141d 100%);
+  color:#fff;box-shadow:0 18px 40px rgba(7,11,20,.22)
+}
+.seal-admin-hero small,
+.seal-admin-section-title small,
+.seal-admin-history header small{
+  display:block;font-size:11px;letter-spacing:.17em;color:#d7b76a;font-weight:900;text-transform:uppercase
+}
+.seal-admin-hero h2{margin:6px 0 8px;font-size:31px;line-height:1.15}
+.seal-admin-hero p{margin:0;max-width:760px;color:rgba(255,255,255,.76);line-height:1.6}
+.seal-admin-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.seal-admin-actions>span{padding:9px 13px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08);font-size:12px;font-weight:900}
+.seal-admin-actions>span.on{background:rgba(73,196,151,.16);border-color:rgba(73,196,151,.25);color:#8af0c9}
+.seal-admin-actions>span.test{background:rgba(221,181,82,.16);border-color:rgba(221,181,82,.25);color:#f6d48a}
+.seal-admin-actions>span.off{background:rgba(255,120,126,.14);border-color:rgba(255,120,126,.2);color:#ffafb2}
+.seal-admin-actions button{padding:11px 15px;border-radius:12px;font-weight:800}
+
+.seal-admin-status-card,
+.seal-admin-settings,
+.seal-admin-history{
+  padding:24px;border:1px solid var(--seal-line);border-radius:20px;
+  background:linear-gradient(180deg,var(--seal-panel),var(--seal-panel-2));
+  box-shadow:var(--seal-shadow)
+}
+.seal-admin-event-summary{
+  display:flex;justify-content:space-between;gap:18px;align-items:flex-start;
+  padding-bottom:18px;border-bottom:1px solid var(--seal-line-2)
+}
+.seal-admin-event-summary small{display:block;color:#7b8698;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.seal-admin-event-summary h3{margin:5px 0 7px;font-size:24px;line-height:1.24;color:#192235}
+.seal-admin-event-summary p{margin:0;color:var(--seal-text-2);line-height:1.58}
+.seal-admin-event-summary>div:last-child{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.seal-admin-event-summary b{color:#2b3750}
+.seal-admin-event-summary [class^="status-"]{padding:7px 11px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.04em;background:#eef0f4}
+.seal-admin-event-summary .status-active{background:#e8f7ef;color:#198052}
+.seal-admin-event-summary .status-cleared{background:#e8f2ff;color:#245e9e}
+.seal-admin-event-summary .status-ended{background:#f4ecec;color:#9a4646}
+
+.seal-admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.seal-admin-stats article{
+  padding:17px 18px;border-radius:16px;border:1px solid #e3eaf5;
+  background:#fbfdff;box-shadow:0 4px 12px rgba(41,56,87,.04)
+}
+.seal-admin-stats small{display:block;color:#728097;font-weight:700}
+.seal-admin-stats b{display:block;margin-top:7px;font-size:24px;color:#1a2232}
+.seal-admin-stats em{margin-left:4px;font-size:12px;color:#8090a8;font-style:normal;font-weight:700}
+
+.seal-admin-progress-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.seal-admin-progress-grid article{padding:18px;border-radius:16px;background:#11151f;color:#fff;box-shadow:0 10px 20px rgba(13,17,27,.18)}
+.seal-admin-progress-grid header{display:flex;align-items:center;gap:11px}
+.seal-admin-progress-grid header>span{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;font-size:19px;background:rgba(255,255,255,.08)}
+.seal-admin-progress-grid header div{display:flex;justify-content:space-between;align-items:center;gap:10px;flex:1}
+.seal-admin-progress-grid header b{font-size:16px}
+.seal-admin-progress-grid small{color:rgba(255,255,255,.72);font-weight:700}
+.seal-admin-progress-grid article>div{height:10px;margin:13px 0 9px;border-radius:99px;background:rgba(255,255,255,.11);overflow:hidden}
+.seal-admin-progress-grid article>div i{display:block;height:100%;background:linear-gradient(90deg,#c9434d,#f37a80);box-shadow:0 0 10px rgba(243,122,128,.35)}
+.seal-admin-progress-grid article:nth-child(2)>div i{background:linear-gradient(90deg,#4d79b8,#83b7ef);box-shadow:0 0 10px rgba(131,183,239,.35)}
+.seal-admin-progress-grid article:nth-child(3)>div i{background:linear-gradient(90deg,#8250af,#c084df);box-shadow:0 0 10px rgba(192,132,223,.35)}
+.seal-admin-progress-grid footer{display:flex;justify-content:flex-end;gap:4px;font-size:12px;font-weight:800}
+.seal-admin-progress-grid footer em{font-style:normal;color:rgba(255,255,255,.52)}
+
+.seal-admin-settings>header,
+.seal-admin-history>header{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-bottom:18px;border-bottom:1px solid var(--seal-line-2)}
+.seal-admin-settings h3,.seal-admin-history h3{margin:4px 0;color:#192235;font-size:24px;line-height:1.25}
+.seal-admin-settings header p{margin:0;color:#586579;line-height:1.55}
+.seal-admin-settings button.primary{
+  padding:12px 18px;border-radius:12px;background:#26324a;color:#fff;
+  box-shadow:0 10px 18px rgba(38,50,74,.18);font-weight:900
+}
+
+.seal-admin-form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+.seal-admin-form-grid label,
+.seal-admin-role-settings label,
+.seal-admin-reward-grid label{display:flex;flex-direction:column;gap:7px}
+.seal-admin-form-grid label.wide{grid-column:span 2}
+
+.seal-admin-form-grid label>span,
+.seal-admin-role-settings label>span,
+.seal-admin-reward-grid label>span{font-size:13px;font-weight:900;color:#445069}
+
+.seal-admin-form-grid input,
+.seal-admin-form-grid select,
+.seal-admin-form-grid textarea,
+.seal-admin-role-settings input,
+.seal-admin-reward-grid input{
+  width:100%;padding:12px 13px;border:1px solid #cfd8e5;border-radius:11px;background:#fff;box-sizing:border-box;
+  color:#1d2433;font-size:14px;line-height:1.45;
+  box-shadow:inset 0 1px 2px rgba(16,24,40,.03),0 1px 0 rgba(255,255,255,.75)
+}
+.seal-admin-form-grid input::placeholder,
+.seal-admin-form-grid textarea::placeholder,
+.seal-admin-role-settings input::placeholder,
+.seal-admin-reward-grid input::placeholder{color:#98a4b6}
+.seal-admin-form-grid textarea{min-height:86px;resize:vertical}
+.seal-admin-form-grid input:focus,
+.seal-admin-form-grid select:focus,
+.seal-admin-form-grid textarea:focus,
+.seal-admin-role-settings input:focus,
+.seal-admin-reward-grid input:focus{
+  outline:none;border-color:#7b90b4;box-shadow:0 0 0 4px rgba(65,95,150,.12)
+}
+
+.seal-admin-section-title{margin-top:28px;padding-top:4px}
+.seal-admin-section-title h4{margin:4px 0 2px;font-size:20px;color:#1e283c}
+.seal-admin-section-title p{margin:0;color:#617087;line-height:1.55}
+
+.seal-admin-role-settings{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:12px}
+.seal-admin-role-settings article{
+  padding:18px;border:1px solid #dde5f0;border-radius:16px;background:#fbfcfe;box-shadow:0 6px 14px rgba(33,45,69,.04)
+}
+.seal-admin-role-settings header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
+.seal-admin-role-settings header i{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:#f9e9eb;color:#b83a44;font-style:normal;font-size:18px}
+.seal-admin-role-settings header b{font-size:18px;color:#1f293d}
+.seal-admin-role-settings article header small{display:block;font-size:11px;letter-spacing:.14em;color:#9aa6ba;font-weight:900}
+.seal-admin-role-settings .guard header i{background:#eaf2fc;color:#3e6fae}
+.seal-admin-role-settings .purify header i{background:#f1eafb;color:#7a48a5}
+.seal-admin-role-settings label+label{margin-top:11px}
+
+.input-unit{display:flex;align-items:stretch}
+.input-unit input{border-radius:11px 0 0 11px!important}
+.input-unit em{align-self:stretch;display:grid;place-items:center;min-width:50px;border:1px solid #cfd8e5;border-left:0;border-radius:0 11px 11px 0;background:#f1f5fa;color:#56647a;font-style:normal;font-size:12px;font-weight:900}
+
+.seal-admin-reward-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-top:20px}
+.seal-admin-reward-grid article{padding:18px;border:1px solid #dde5f0;border-radius:16px;background:#fbfcfe;box-shadow:0 6px 14px rgba(33,45,69,.04)}
+.seal-admin-reward-grid header{margin-bottom:13px}
+.seal-admin-reward-grid header small{display:block;color:#9a8150;font-size:11px;letter-spacing:.13em;font-weight:900}
+.seal-admin-reward-grid h4{margin:4px 0 0;font-size:18px;color:#1f293d}
+.seal-admin-reward-grid label+label{margin-top:10px}
+
+.seal-admin-start-box{
+  display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:22px;padding:20px 22px;border-radius:16px;
+  background:linear-gradient(135deg,#171a24,#1f2636);color:#fff;box-shadow:0 14px 28px rgba(12,16,24,.15)
+}
+.seal-admin-start-box small{display:block;color:#d5ba75;letter-spacing:.15em;font-weight:900}
+.seal-admin-start-box h3{margin:5px 0;font-size:22px}
+.seal-admin-start-box p{margin:0;color:rgba(255,255,255,.72);line-height:1.55}
+.seal-admin-start-box button{padding:13px 18px;border-radius:12px;border:0;background:#e0bd68;color:#251f10;font-weight:900;box-shadow:0 10px 18px rgba(224,189,104,.22)}
+
+.seal-admin-history #sealAdminHistory{display:grid;gap:10px;margin-top:16px}
+.seal-admin-history #sealAdminHistory article{display:flex;align-items:center;gap:14px;padding:14px;border:1px solid #e3eaf3;border-radius:13px;background:#fbfcfe}
+.seal-admin-history #sealAdminHistory [class^="status-"]{min-width:78px;padding:7px 9px;border-radius:9px;background:#eef0f3;text-align:center;font-size:10px;font-weight:900;letter-spacing:.04em}
+.seal-admin-history #sealAdminHistory .status-active{background:#e8f7ef;color:#1b7c52}
+.seal-admin-history #sealAdminHistory .status-cleared{background:#e8f2ff;color:#245e9e}
+.seal-admin-history #sealAdminHistory .status-ended{background:#f4ecec;color:#914242}
+.seal-admin-history #sealAdminHistory div{display:flex;flex-direction:column;gap:4px}
+.seal-admin-history #sealAdminHistory b{color:#1d2433}
+.seal-admin-history #sealAdminHistory small{color:#69778b}
+
+.seal-admin-loading,.seal-admin-empty{padding:28px;border:1px dashed #d5deea;border-radius:16px;background:#fafcff;text-align:center;color:#6e7b8f}
+.seal-admin-actions button:disabled,.seal-admin-settings button:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+
+@media(max-width:1100px){
+  .seal-admin-form-grid{grid-template-columns:repeat(2,1fr)}
+  .seal-admin-stats{grid-template-columns:repeat(2,1fr)}
+}
+
+@media(max-width:760px){
+  .seal-admin-view{gap:18px}
+  .seal-admin-hero,.seal-admin-event-summary,.seal-admin-start-box{flex-direction:column;align-items:flex-start}
+  .seal-admin-actions{width:100%}
+  .seal-admin-form-grid,.seal-admin-role-settings,.seal-admin-reward-grid,.seal-admin-progress-grid{grid-template-columns:1fr}
+  .seal-admin-form-grid label.wide{grid-column:auto}
+  .seal-admin-stats{grid-template-columns:1fr 1fr}
+  .seal-admin-event-summary>div:last-child{align-items:flex-start}
+}
