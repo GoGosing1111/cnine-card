@@ -76,28 +76,42 @@
     catch(e){alert(e.message)}finally{busy(b,false)}
   }
   async function runCaptainCleanup(){
-    const opts=captainCleanupOpts(),target=opts.targetCount;
+    const opts=captainCleanupOpts(),target=opts.targetCount,serverBatch=100;
     const phrase=prompt(`종료된 대장전 회차의 v3 상세 전투 기록과 완료·실패 영수증을 각 테이블 최대 ${fmt(target)}건씩 분할 삭제합니다.\n현재 ACTIVE 회차와 처리 중(PENDING) 영수증은 삭제하지 않습니다.\n\n계속하려면 대장전정리 를 입력하세요.`,'');
     if(phrase!=='대장전정리')return;
     const b=$('#cleanupCaptainRunBtn');busy(b,true,'대장전 정리 준비 중...');
     const runId=`captain-v3-cleanup-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
-    let historyDeleted=0,receiptsDeleted=0,batches=0;
-    try{
-      while(historyDeleted<target||receiptsDeleted<target){
-        const historyBatchSize=historyDeleted<target?Math.min(50,target-historyDeleted):0;
-        const receiptBatchSize=receiptsDeleted<target?Math.min(50,target-receiptsDeleted):0;
-        busy(b,true,`대장전 정리 중 기록 ${fmt(historyDeleted)} / 영수증 ${fmt(receiptsDeleted)}`);
-        const d=await request('admin/storage-cleanup/captain/run',{method:'POST',body:JSON.stringify({...opts,historyBatchSize,receiptBatchSize,confirmation:'대장전정리',bulkRun:true,runId})});
-        const hd=Number(d.deleted?.history||0),rd=Number(d.deleted?.receipts||0);
-        historyDeleted+=hd;receiptsDeleted+=rd;batches++;
-        const pct=Math.min(100,Math.max(historyDeleted,target?receiptsDeleted:0)/target*100);
-        $('#cleanupCaptainPreview').innerHTML=`대장전 v3 정리 진행 중 · 기록 <b>${fmt(historyDeleted)} / ${fmt(target)}</b> · 영수증 <b>${fmt(receiptsDeleted)} / ${fmt(target)}</b><br><div class="storageProgress"><i style="width:${pct}%"></i></div><small>${fmt(batches)}회 분할 처리 · ACTIVE 회차 및 PENDING 영수증 보호 중</small>`;
-        if(!hd&&!rd)break;
-        await new Promise(resolve=>setTimeout(resolve,120));
+    let historyDeleted=0,receiptsDeleted=0,batches=0,historyCursor=0,receiptCursor=0,historyDone=false,receiptsDone=false;
+    const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    const runBatch=async payload=>{
+      let lastError=null;
+      for(let attempt=0;attempt<4;attempt++){
+        try{return await request('admin/storage-cleanup/captain/run',{method:'POST',body:JSON.stringify(payload)})}
+        catch(e){lastError=e;if(attempt<3)await pause([600,1400,3000][attempt])}
       }
+      throw lastError||new Error('대장전 정리 요청 실패');
+    };
+    try{
+      while((historyDeleted<target&&!historyDone)||(receiptsDeleted<target&&!receiptsDone)){
+        const historyBatchSize=!historyDone&&historyDeleted<target?Math.min(serverBatch,target-historyDeleted):0;
+        const receiptBatchSize=!receiptsDone&&receiptsDeleted<target?Math.min(serverBatch,target-receiptsDeleted):0;
+        busy(b,true,`대장전 정리 중 기록 ${fmt(historyDeleted)} / 영수증 ${fmt(receiptsDeleted)}`);
+        const d=await runBatch({...opts,historyBatchSize,receiptBatchSize,historyCursor,receiptCursor,confirmation:'대장전정리',bulkRun:true,runId});
+        const hd=Number(d.deleted?.history||0),rd=Number(d.deleted?.receipts||0),hp=d.progress?.history||{},rp=d.progress?.receipts||{};
+        historyDeleted+=hd;receiptsDeleted+=rd;batches++;
+        historyCursor=Math.max(historyCursor,Number(hp.cursor||0));receiptCursor=Math.max(receiptCursor,Number(rp.cursor||0));
+        historyDone=historyBatchSize<=0||Boolean(hp.cycleComplete)||historyDeleted>=target;
+        receiptsDone=receiptBatchSize<=0||Boolean(rp.cycleComplete)||receiptsDeleted>=target;
+        const pct=Math.min(100,Math.max(historyDeleted,receiptsDeleted)/target*100);
+        $('#cleanupCaptainPreview').innerHTML=`대장전 v3 정리 진행 중 · 기록 <b>${fmt(historyDeleted)} / ${fmt(target)}</b> · 영수증 <b>${fmt(receiptsDeleted)} / ${fmt(target)}</b><br><div class="storageProgress"><i style="width:${pct}%"></i></div><small>${fmt(batches)}회 커서 분할 처리 · 오류 시 자동 재시도 · ACTIVE 회차 및 PENDING 영수증 보호 중</small>`;
+        if((!hd&&!rd)&&(historyDone&&receiptsDone))break;
+        await pause(batches%10===0?900:180);
+      }
+      // 내부 배치마다 감사 로그를 만들지 않고 실행 전체를 한 번만 기록한다.
+      try{await runBatch({...opts,historyBatchSize:0,receiptBatchSize:0,historyCursor,receiptCursor,confirmation:'대장전정리',bulkRun:true,finalize:true,runId,summary:{historyDeleted,receiptsDeleted,batches}})}catch(e){console.error('captain cleanup final audit failed',e)}
       alert(`대장전 v3 대용량 기록 정리를 완료했습니다.\n\n상세 전투 기록: ${fmt(historyDeleted)}건\n완료·실패 영수증: ${fmt(receiptsDeleted)}건\n분할 처리: ${fmt(batches)}회\n\n현재 ACTIVE 회차와 PENDING 영수증은 유지했습니다.`);
       await previewCaptainCleanup();await loadSummary();
-    }catch(e){alert(`대장전 v3 정리가 중단되었습니다. 이미 완료된 배치는 유지됩니다.\n${e.message}`);try{await previewCaptainCleanup()}catch{}}
+    }catch(e){alert(`대장전 v3 정리가 중단되었습니다. 이미 완료된 배치는 유지됩니다. 다시 실행하면 남은 대상부터 계속 정리됩니다.\n${e.message}`);try{await previewCaptainCleanup()}catch{}}
     finally{busy(b,false)}
   }
   function receiptOpts(){const targetCount=Math.max(100,Math.min(5000,Number($('#cleanupReceiptBatch').value)||1000));return {table:$('#cleanupReceiptTable').value,retentionDays:Number($('#cleanupReceiptDays').value),targetCount,batchSize:Math.min(500,targetCount)}}

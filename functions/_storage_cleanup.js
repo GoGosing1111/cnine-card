@@ -4,7 +4,7 @@ const MAX_DELETE_BATCH = 10;
 const MAX_RECEIPT_BATCH = 500;
 const MAX_RECEIPT_TARGET = 5000;
 const RECEIPT_SQL_ID_CHUNK = 100; // D1/SQLite 바인딩 변수 255개 제한보다 충분히 낮게 유지
-const CAPTAIN_CLEANUP_BATCH = 50;
+const CAPTAIN_CLEANUP_BATCH = 100;
 const CAPTAIN_CLEANUP_MAX_TARGET = 5000;
 const CAPTAIN_CLEANUP_COUNT_CAP = 1000000;
 
@@ -406,7 +406,9 @@ function cleanCaptainCleanupOptions(raw={}){
   const historyBatchSize=clampInt(raw.historyBatchSize,CAPTAIN_CLEANUP_BATCH,0,CAPTAIN_CLEANUP_BATCH);
   const receiptBatchSize=clampInt(raw.receiptBatchSize,CAPTAIN_CLEANUP_BATCH,0,CAPTAIN_CLEANUP_BATCH);
   const targetCount=clampInt(raw.targetCount,2500,100,CAPTAIN_CLEANUP_MAX_TARGET);
-  return {retentionDays,historyBatchSize,receiptBatchSize,targetCount,batchMax:CAPTAIN_CLEANUP_BATCH};
+  const historyCursor=clampInt(raw.historyCursor,0,0,Number.MAX_SAFE_INTEGER);
+  const receiptCursor=clampInt(raw.receiptCursor,0,0,Number.MAX_SAFE_INTEGER);
+  return {retentionDays,historyBatchSize,receiptBatchSize,targetCount,historyCursor,receiptCursor,batchMax:CAPTAIN_CLEANUP_BATCH};
 }
 function captainHistoryWhere(){
   return `h.created_at<datetime('now',?)
@@ -466,29 +468,45 @@ async function captainCleanupPreview(env,raw={}){
 }
 async function deleteCaptainCleanupBatch(env,raw={}){
   const options=cleanCaptainCleanupOptions(raw),existing=await captainCleanupFoundation(env),modifier=`-${options.retentionDays} days`;
-  const statements=[],keys=[];
-  if(options.historyBatchSize>0&&existing.has('captain_match_history_v3')){
-    statements.push(env.DB.prepare(`DELETE FROM captain_match_history_v3 WHERE id IN (
-      SELECT h.id FROM captain_match_history_v3 h
-      WHERE ${captainHistoryWhere()}
-      ORDER BY h.id ASC LIMIT ?
-    )`).bind(modifier,options.historyBatchSize));
-    keys.push('history');
-  }
-  if(options.receiptBatchSize>0&&existing.has('captain_match_receipts_v3')){
-    statements.push(env.DB.prepare(`DELETE FROM captain_match_receipts_v3 WHERE rowid IN (
-      SELECT cr.rowid FROM captain_match_receipts_v3 cr
-      WHERE ${captainReceiptWhere()}
-      ORDER BY cr.updated_at ASC,cr.rowid ASC LIMIT ?
-    )`).bind(modifier,options.receiptBatchSize));
-    keys.push('receipts');
-  }
   const deleted={history:0,receipts:0};
-  if(statements.length){
-    const results=await env.DB.batch(statements);
-    results.forEach((result,index)=>{deleted[keys[index]]=Number(result?.meta?.changes||0)});
+  const progress={
+    history:{cursor:options.historyCursor,cycleComplete:options.historyBatchSize<=0},
+    receipts:{cursor:options.receiptCursor,cycleComplete:options.receiptBatchSize<=0}
+  };
+
+  // v1281: 5,000건 정리 시 매 배치마다 테이블 처음부터 다시 정렬·검색하지 않는다.
+  // PK/rowid 커서를 다음 요청으로 이어 받아 앞으로만 스캔한다. 대용량 JSON 컬럼은 조회하지 않는다.
+  if(options.historyBatchSize>0&&existing.has('captain_match_history_v3')){
+    const window=await env.DB.prepare(`SELECT COUNT(*) candidate_rows,MIN(id) first_id,MAX(id) last_id FROM (
+      SELECT h.id FROM captain_match_history_v3 h
+      WHERE h.id>? AND ${captainHistoryWhere()}
+      ORDER BY h.id ASC LIMIT ?
+    )`).bind(options.historyCursor,modifier,options.historyBatchSize).first();
+    const lastId=Number(window?.last_id||0),candidateRows=Number(window?.candidate_rows||0);
+    if(candidateRows>0&&lastId>options.historyCursor){
+      const result=await env.DB.prepare(`DELETE FROM captain_match_history_v3
+        WHERE id>? AND id<=? AND ${captainHistoryWhere()}`).bind(options.historyCursor,lastId,modifier).run();
+      deleted.history=Number(result?.meta?.changes||0);
+      progress.history={cursor:lastId,cycleComplete:candidateRows<options.historyBatchSize};
+    }else progress.history={cursor:options.historyCursor,cycleComplete:true};
   }
-  return {options,deleted,activeRoundsProtected:true,pendingReceiptsProtected:true};
+
+  if(options.receiptBatchSize>0&&existing.has('captain_match_receipts_v3')){
+    const window=await env.DB.prepare(`SELECT COUNT(*) candidate_rows,MIN(rowid) first_id,MAX(rowid) last_id FROM (
+      SELECT cr.rowid FROM captain_match_receipts_v3 cr
+      WHERE cr.rowid>? AND ${captainReceiptWhere()}
+      ORDER BY cr.rowid ASC LIMIT ?
+    )`).bind(options.receiptCursor,modifier,options.receiptBatchSize).first();
+    const lastId=Number(window?.last_id||0),candidateRows=Number(window?.candidate_rows||0);
+    if(candidateRows>0&&lastId>options.receiptCursor){
+      const result=await env.DB.prepare(`DELETE FROM captain_match_receipts_v3
+        WHERE rowid>? AND rowid<=? AND ${captainReceiptWhere()}`).bind(options.receiptCursor,lastId,modifier).run();
+      deleted.receipts=Number(result?.meta?.changes||0);
+      progress.receipts={cursor:lastId,cycleComplete:candidateRows<options.receiptBatchSize};
+    }else progress.receipts={cursor:options.receiptCursor,cycleComplete:true};
+  }
+
+  return {options,deleted,progress,activeRoundsProtected:true,pendingReceiptsProtected:true};
 }
 
 
@@ -649,8 +667,16 @@ export async function handleStorageCleanup({request,env,path,requirePermission,w
   }
   if(path==='admin/storage-cleanup/captain/run'&&request.method==='POST'){
     const body=await readBody(request);if(String(body.confirmation||'')!=='대장전정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
-    const bulkRun=bool(body.bulkRun,false),beforePages=bulkRun?null:await databasePageInfo(env),result=await deleteCaptainCleanupBatch(env,body),afterPages=bulkRun?null:await databasePageInfo(env);
-    try{await writeAdminLog(env,admin,'CAPTAIN_V3_DETAIL_PURGE','TABLE','captain_match_history_v3,captain_match_receipts_v3',null,{options:result.options,deleted:result.deleted,bulkRun,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,activeRoundsProtected:true,pendingReceiptsProtected:true})}catch(e){console.error('captain v3 cleanup admin log failed',e)}
+    const bulkRun=bool(body.bulkRun,false),finalize=bool(body.finalize,false),beforePages=bulkRun?null:await databasePageInfo(env),result=await deleteCaptainCleanupBatch(env,body),afterPages=bulkRun?null:await databasePageInfo(env);
+    // v1281: 5천건 실행은 수십 회의 내부 배치로 나뉜다. 배치마다 admin_logs를 쓰지 않고 완료 시 한 번만 기록한다.
+    if(!bulkRun||finalize){
+      const summary=body.summary&&typeof body.summary==='object'?{
+        historyDeleted:clampInt(body.summary.historyDeleted,0,0,CAPTAIN_CLEANUP_MAX_TARGET+CAPTAIN_CLEANUP_BATCH),
+        receiptsDeleted:clampInt(body.summary.receiptsDeleted,0,0,CAPTAIN_CLEANUP_MAX_TARGET+CAPTAIN_CLEANUP_BATCH),
+        batches:clampInt(body.summary.batches,0,0,1000)
+      }:null;
+      try{await writeAdminLog(env,admin,'CAPTAIN_V3_DETAIL_PURGE','TABLE','captain_match_history_v3,captain_match_receipts_v3',null,{options:result.options,deleted:finalize&&summary?summary:result.deleted,bulkRun,finalize,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,activeRoundsProtected:true,pendingReceiptsProtected:true,cursorScan:true})}catch(e){console.error('captain v3 cleanup admin log failed',e)}
+    }
     return json({ok:true,...result,beforePages,afterPages});
   }
   if(path==='admin/storage-cleanup/receipts/preview'&&request.method==='POST'){

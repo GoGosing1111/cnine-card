@@ -1,0 +1,24 @@
+숲켓몬 v1281 대장전 v3 CMS 5,000건 정리 안정화 누적 패치
+
+기준: cnine-card(39).zip
+포함: v1279 CMS 수동 정리 + v1280 신규 누적 방지 + v1281 5천건 정리 안정화
+
+핵심 변경
+- 대장전 v3 정리를 100건 단위 PK/rowid 커서 방식으로 변경
+- 매 배치마다 테이블 처음부터 다시 정렬·탐색하던 구조 제거
+- 5,000건 실행 중 일시적 요청 실패 시 최대 3회 자동 재시도
+- 10배치마다 짧은 휴식으로 D1 연속 요청 압력 완화
+- 내부 배치마다 admin_logs를 기록하지 않고 실행 완료 시 1건만 기록
+- ACTIVE 회차 및 PENDING 영수증 보호 유지
+- 실패 시 완료된 배치는 유지되며 재실행하면 남은 대상부터 정리
+
+수정 파일
+- admin/index.html
+- admin/storage-cleanup.js
+- functions/_storage_cleanup.js
+
+누적 포함 파일
+- index.html
+- js/captain.js
+- admin/captain-admin.js
+- functions/_captain.js
