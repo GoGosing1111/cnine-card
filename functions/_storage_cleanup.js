@@ -4,6 +4,9 @@ const MAX_DELETE_BATCH = 10;
 const MAX_RECEIPT_BATCH = 500;
 const MAX_RECEIPT_TARGET = 5000;
 const RECEIPT_SQL_ID_CHUNK = 100; // D1/SQLite 바인딩 변수 255개 제한보다 충분히 낮게 유지
+const CAPTAIN_CLEANUP_BATCH = 50;
+const CAPTAIN_CLEANUP_MAX_TARGET = 5000;
+const CAPTAIN_CLEANUP_COUNT_CAP = 1000000;
 
 const USER_DELETE_SPECS = [
   ['sessions',['user_id']],['user_cards',['user_id']],['attendance_logs',['user_id']],
@@ -398,6 +401,97 @@ async function deleteReceiptBatch(env,opts){
 }
 
 
+function cleanCaptainCleanupOptions(raw={}){
+  const retentionDays=clampInt(raw.retentionDays,2,2,3650);
+  const historyBatchSize=clampInt(raw.historyBatchSize,CAPTAIN_CLEANUP_BATCH,0,CAPTAIN_CLEANUP_BATCH);
+  const receiptBatchSize=clampInt(raw.receiptBatchSize,CAPTAIN_CLEANUP_BATCH,0,CAPTAIN_CLEANUP_BATCH);
+  const targetCount=clampInt(raw.targetCount,2500,100,CAPTAIN_CLEANUP_MAX_TARGET);
+  return {retentionDays,historyBatchSize,receiptBatchSize,targetCount,batchMax:CAPTAIN_CLEANUP_BATCH};
+}
+function captainHistoryWhere(){
+  return `h.created_at<datetime('now',?)
+    AND NOT EXISTS (
+      SELECT 1 FROM captain_rounds r
+      WHERE r.round_key=h.week_key AND r.status='ACTIVE'
+    )`;
+}
+function captainReceiptWhere(){
+  return `cr.status IN ('DONE','FAILED')
+    AND cr.updated_at<datetime('now',?)
+    AND NOT EXISTS (
+      SELECT 1 FROM captain_rounds r
+      WHERE r.round_key=cr.week_key AND r.status='ACTIVE'
+    )`;
+}
+async function captainCleanupFoundation(env){
+  const existing=await existingTableSet(env,['captain_rounds','captain_match_history_v3','captain_match_receipts_v3']);
+  if(!existing.has('captain_rounds'))throw new Error('활성 대장전 회차 보호 테이블을 확인할 수 없어 정리를 중단했습니다.');
+  return existing;
+}
+async function captainCleanupPreview(env,raw={}){
+  const options=cleanCaptainCleanupOptions(raw),existing=await captainCleanupFoundation(env),modifier=`-${options.retentionDays} days`;
+  const empty={availableRows:0,countCapped:false,sampleRows:0,samplePayloadBytes:0};
+  const historyPromise=existing.has('captain_match_history_v3')?(async()=>{
+    const count=await env.DB.prepare(`SELECT COUNT(*) count FROM (
+      SELECT h.id FROM captain_match_history_v3 h
+      WHERE ${captainHistoryWhere()}
+      ORDER BY h.id ASC LIMIT ?
+    )`).bind(modifier,CAPTAIN_CLEANUP_COUNT_CAP).first();
+    const sample=await env.DB.prepare(`SELECT COUNT(*) sample_rows,COALESCE(SUM(payload_bytes),0) sample_payload_bytes FROM (
+      SELECT LENGTH(CAST(COALESCE(h.attacker_lineup_json,'') AS BLOB))+LENGTH(CAST(COALESCE(h.defender_lineup_json,'') AS BLOB))+LENGTH(CAST(COALESCE(h.battle_log_json,'') AS BLOB)) payload_bytes
+      FROM captain_match_history_v3 h
+      WHERE ${captainHistoryWhere()}
+      ORDER BY h.id ASC LIMIT ?
+    )`).bind(modifier,CAPTAIN_CLEANUP_BATCH).first();
+    const availableRows=Number(count?.count||0);
+    return {availableRows,countCapped:availableRows>=CAPTAIN_CLEANUP_COUNT_CAP,sampleRows:Number(sample?.sample_rows||0),samplePayloadBytes:Number(sample?.sample_payload_bytes||0)};
+  })():Promise.resolve(empty);
+  const receiptPromise=existing.has('captain_match_receipts_v3')?(async()=>{
+    const count=await env.DB.prepare(`SELECT COUNT(*) count FROM (
+      SELECT cr.rowid FROM captain_match_receipts_v3 cr
+      WHERE ${captainReceiptWhere()}
+      ORDER BY cr.updated_at ASC,cr.rowid ASC LIMIT ?
+    )`).bind(modifier,CAPTAIN_CLEANUP_COUNT_CAP).first();
+    const sample=await env.DB.prepare(`SELECT COUNT(*) sample_rows,COALESCE(SUM(payload_bytes),0) sample_payload_bytes FROM (
+      SELECT LENGTH(CAST(COALESCE(cr.response_json,'') AS BLOB))+LENGTH(CAST(COALESCE(cr.error_text,'') AS BLOB)) payload_bytes
+      FROM captain_match_receipts_v3 cr
+      WHERE ${captainReceiptWhere()}
+      ORDER BY cr.updated_at ASC,cr.rowid ASC LIMIT ?
+    )`).bind(modifier,CAPTAIN_CLEANUP_BATCH).first();
+    const availableRows=Number(count?.count||0);
+    return {availableRows,countCapped:availableRows>=CAPTAIN_CLEANUP_COUNT_CAP,sampleRows:Number(sample?.sample_rows||0),samplePayloadBytes:Number(sample?.sample_payload_bytes||0)};
+  })():Promise.resolve(empty);
+  const [history,receipts]=await Promise.all([historyPromise,receiptPromise]);
+  return {options,history,receipts,activeRoundsProtected:true,pendingReceiptsProtected:true};
+}
+async function deleteCaptainCleanupBatch(env,raw={}){
+  const options=cleanCaptainCleanupOptions(raw),existing=await captainCleanupFoundation(env),modifier=`-${options.retentionDays} days`;
+  const statements=[],keys=[];
+  if(options.historyBatchSize>0&&existing.has('captain_match_history_v3')){
+    statements.push(env.DB.prepare(`DELETE FROM captain_match_history_v3 WHERE id IN (
+      SELECT h.id FROM captain_match_history_v3 h
+      WHERE ${captainHistoryWhere()}
+      ORDER BY h.id ASC LIMIT ?
+    )`).bind(modifier,options.historyBatchSize));
+    keys.push('history');
+  }
+  if(options.receiptBatchSize>0&&existing.has('captain_match_receipts_v3')){
+    statements.push(env.DB.prepare(`DELETE FROM captain_match_receipts_v3 WHERE rowid IN (
+      SELECT cr.rowid FROM captain_match_receipts_v3 cr
+      WHERE ${captainReceiptWhere()}
+      ORDER BY cr.updated_at ASC,cr.rowid ASC LIMIT ?
+    )`).bind(modifier,options.receiptBatchSize));
+    keys.push('receipts');
+  }
+  const deleted={history:0,receipts:0};
+  if(statements.length){
+    const results=await env.DB.batch(statements);
+    results.forEach((result,index)=>{deleted[keys[index]]=Number(result?.meta?.changes||0)});
+  }
+  return {options,deleted,activeRoundsProtected:true,pendingReceiptsProtected:true};
+}
+
+
 const SAFE_LOG_CLEANUP_SPECS = Object.freeze({
   SHARD_DUPLICATE:{
     table:'shard_logs',label:'중복 카드 조각 로그',retentionDefault:3,
@@ -548,6 +642,16 @@ export async function handleStorageCleanup({request,env,path,requirePermission,w
     const afterPages=bulkRun?null:await databasePageInfo(env);
     try{await writeAdminLog(env,admin,'SAFE_LOG_PURGE','TABLE',options.table,null,{options,logs,sessions,bulkRun,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,protectedUserData:true})}catch(e){console.error('safe storage cleanup admin log failed',e)}
     return json({ok:true,options,logs,sessions,beforePages,afterPages});
+  }
+  if(path==='admin/storage-cleanup/captain/preview'&&request.method==='POST'){
+    const body=await readBody(request),preview=await captainCleanupPreview(env,body);
+    return json({ok:true,...preview});
+  }
+  if(path==='admin/storage-cleanup/captain/run'&&request.method==='POST'){
+    const body=await readBody(request);if(String(body.confirmation||'')!=='대장전정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
+    const bulkRun=bool(body.bulkRun,false),beforePages=bulkRun?null:await databasePageInfo(env),result=await deleteCaptainCleanupBatch(env,body),afterPages=bulkRun?null:await databasePageInfo(env);
+    try{await writeAdminLog(env,admin,'CAPTAIN_V3_DETAIL_PURGE','TABLE','captain_match_history_v3,captain_match_receipts_v3',null,{options:result.options,deleted:result.deleted,bulkRun,runId:String(body.runId||'').slice(0,80),beforePages,afterPages,activeRoundsProtected:true,pendingReceiptsProtected:true})}catch(e){console.error('captain v3 cleanup admin log failed',e)}
+    return json({ok:true,...result,beforePages,afterPages});
   }
   if(path==='admin/storage-cleanup/receipts/preview'&&request.method==='POST'){
     const body=await readBody(request),preview=await receiptAggregatePreview(env,body);return json({ok:true,...preview});

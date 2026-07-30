@@ -7,7 +7,7 @@
   function busy(btn,on,text='처리 중...'){if(!btn)return;btn.disabled=on;if(!btn.dataset.old)btn.dataset.old=btn.textContent;btn.textContent=on?text:btn.dataset.old}
   function criteria(){return {dormantDays:Math.max(1,Number($('#cleanupDormantDays').value)||7)}}
   async function loadSummary(){const b=$('#cleanupSummaryBtn');busy(b,true);try{const d=await request('admin/storage-cleanup/summary');$('#cleanupDbSize').textContent=bytes(d.pages?.sizeBytes);$('#cleanupReusable').textContent=bytes(d.pages?.reusableBytes);$('#cleanupUserCount').textContent=fmt(d.userCount);$('#cleanupBatchLimit').textContent=`${d.limits?.deleteBatch||10}명`;$('#cleanupSummaryState').textContent=d.pages?.sizeSource==='D1_META'?'D1 실제 파일 크기 기준 · 삭제 후 빈 페이지는 신규 데이터에 재사용됩니다.':'DB 용량을 조회하지 못했습니다. Cloudflare D1 대시보드 수치를 확인하세요.'}catch(e){alert(e.message)}finally{busy(b,false)}}
-  const tableNames={user_cards:'카드 보유',draw_logs:'카드 추첨 기록',draw_request_receipts:'구형 대형 영수증',draw_request_receipts_v2:'신규 경량 영수증',coin_logs:'코인 기록',shard_logs:'조각 기록',inventory_logs:'인벤토리 기록',battle_logs:'PVE 기록',raid_damage_logs:'레이드 피해 기록',cube_drop_receipts:'큐브 영수증',user_messages:'메시지',pvp_match_history:'PVP 전투 기록',captain_match_history_v2:'대장전 기록'};
+  const tableNames={user_cards:'카드 보유',draw_logs:'카드 추첨 기록',draw_request_receipts:'구형 대형 영수증',draw_request_receipts_v2:'신규 경량 영수증',coin_logs:'코인 기록',shard_logs:'조각 기록',inventory_logs:'인벤토리 기록',battle_logs:'PVE 기록',raid_damage_logs:'레이드 피해 기록',cube_drop_receipts:'큐브 영수증',user_messages:'메시지',pvp_match_history:'PVP 전투 기록',captain_match_history_v2:'대장전 기록 v2',captain_match_history_v3:'대장전 기록 v3',captain_match_receipts_v3:'대장전 영수증 v3'};
   function renderCandidates(d){candidates=d.candidates||[];const box=$('#cleanupCandidateList'),days=Number(d.criteria?.dormantDays||criteria().dormantDays),x=d.excluded||{};$('#cleanupCandidateMeta').textContent=`${fmt(days)}일 이상 미접속 후보 ${fmt(candidates.length)}명${d.truncated?' · 최대 200명 표시':''}`;$('#cleanupEstimate').textContent=`최근 활동·유효 세션 ${fmt(Number(x.recentActivity||0)+Number(x.activeSession||0))}명, LIMITED 이상 ${fmt(x.limitedOrHigher||0)}명, +8강 이상 ${fmt(x.enhancedEightOrHigher||0)}명 자동 제외`;box.innerHTML=`<div class="storageCandidate head"><span><input id="cleanupSelectAll" type="checkbox"></span><span>닉네임 / 최종 활동</span><span>보유 카드 종류</span><span>보유 코인</span></div>`+candidates.map(u=>`<label class="storageCandidate" data-id="${u.id}"><span><input class="cleanupUserCheck" type="checkbox" value="${u.id}" checked></span><b>${escapeHtml(u.nickname)}<small>${escapeHtml(u.activity_at||u.created_at||'')}</small></b><span>${fmt(u.card_count)}</span><span>${fmt(u.coin)}</span></label>`).join('');if(!candidates.length)box.innerHTML+='<div class="storageEmpty">보호 조건을 제외한 삭제 후보가 없습니다.</div>';$('#cleanupSelectAll')?.addEventListener('change',e=>$$('.cleanupUserCheck').forEach(x=>x.checked=e.target.checked));updateSelected()}
   function escapeHtml(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
   function updateSelected(){const n=$$('.cleanupUserCheck:checked').length;$('#cleanupSelectedCount').textContent=`선택 ${n}명`}
@@ -63,6 +63,43 @@
     }catch(e){alert(`안전 정리가 중단되었습니다. 이미 완료된 배치는 유지됩니다.\n${e.message}`);try{await previewSafeCleanup()}catch{}}
     finally{busy(b,false)}
   }
+  function captainCleanupOpts(){return {retentionDays:Math.max(2,Number($('#cleanupCaptainDays').value)||2),targetCount:Math.max(100,Math.min(5000,Number($('#cleanupCaptainTarget').value)||2500))}}
+  function captainCountLabel(row={}){const count=Number(row.availableRows||0);return `${fmt(count)}건${row.countCapped?' 이상':''}`}
+  function captainPreviewHtml(d={}){
+    const history=d.history||{},receipts=d.receipts||{},total=Number(history.availableRows||0)+Number(receipts.availableRows||0);
+    if(!total)return '현재 조건에 정리할 종료 회차 대장전 v3 기록·영수증이 없습니다.';
+    return `종료 회차 상세 전투 기록 <b>${captainCountLabel(history)}</b> · 완료·실패 영수증 <b>${captainCountLabel(receipts)}</b><br><small>다음 표본 ${fmt(Number(history.sampleRows||0)+Number(receipts.sampleRows||0))}건의 JSON 약 ${bytes(Number(history.samplePayloadBytes||0)+Number(receipts.samplePayloadBytes||0))} · ACTIVE 회차와 PENDING 영수증은 서버에서 강제 보호합니다.</small>`;
+  }
+  async function previewCaptainCleanup(){
+    const b=$('#cleanupCaptainPreviewBtn');busy(b,true,'대장전 정리 분석 중...');
+    try{const d=await request('admin/storage-cleanup/captain/preview',{method:'POST',body:JSON.stringify(captainCleanupOpts())});$('#cleanupCaptainPreview').innerHTML=captainPreviewHtml(d);$('#cleanupCaptainRunBtn').disabled=!(Number(d.history?.availableRows||0)||Number(d.receipts?.availableRows||0))}
+    catch(e){alert(e.message)}finally{busy(b,false)}
+  }
+  async function runCaptainCleanup(){
+    const opts=captainCleanupOpts(),target=opts.targetCount;
+    const phrase=prompt(`종료된 대장전 회차의 v3 상세 전투 기록과 완료·실패 영수증을 각 테이블 최대 ${fmt(target)}건씩 분할 삭제합니다.\n현재 ACTIVE 회차와 처리 중(PENDING) 영수증은 삭제하지 않습니다.\n\n계속하려면 대장전정리 를 입력하세요.`,'');
+    if(phrase!=='대장전정리')return;
+    const b=$('#cleanupCaptainRunBtn');busy(b,true,'대장전 정리 준비 중...');
+    const runId=`captain-v3-cleanup-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    let historyDeleted=0,receiptsDeleted=0,batches=0;
+    try{
+      while(historyDeleted<target||receiptsDeleted<target){
+        const historyBatchSize=historyDeleted<target?Math.min(50,target-historyDeleted):0;
+        const receiptBatchSize=receiptsDeleted<target?Math.min(50,target-receiptsDeleted):0;
+        busy(b,true,`대장전 정리 중 기록 ${fmt(historyDeleted)} / 영수증 ${fmt(receiptsDeleted)}`);
+        const d=await request('admin/storage-cleanup/captain/run',{method:'POST',body:JSON.stringify({...opts,historyBatchSize,receiptBatchSize,confirmation:'대장전정리',bulkRun:true,runId})});
+        const hd=Number(d.deleted?.history||0),rd=Number(d.deleted?.receipts||0);
+        historyDeleted+=hd;receiptsDeleted+=rd;batches++;
+        const pct=Math.min(100,Math.max(historyDeleted,target?receiptsDeleted:0)/target*100);
+        $('#cleanupCaptainPreview').innerHTML=`대장전 v3 정리 진행 중 · 기록 <b>${fmt(historyDeleted)} / ${fmt(target)}</b> · 영수증 <b>${fmt(receiptsDeleted)} / ${fmt(target)}</b><br><div class="storageProgress"><i style="width:${pct}%"></i></div><small>${fmt(batches)}회 분할 처리 · ACTIVE 회차 및 PENDING 영수증 보호 중</small>`;
+        if(!hd&&!rd)break;
+        await new Promise(resolve=>setTimeout(resolve,120));
+      }
+      alert(`대장전 v3 대용량 기록 정리를 완료했습니다.\n\n상세 전투 기록: ${fmt(historyDeleted)}건\n완료·실패 영수증: ${fmt(receiptsDeleted)}건\n분할 처리: ${fmt(batches)}회\n\n현재 ACTIVE 회차와 PENDING 영수증은 유지했습니다.`);
+      await previewCaptainCleanup();await loadSummary();
+    }catch(e){alert(`대장전 v3 정리가 중단되었습니다. 이미 완료된 배치는 유지됩니다.\n${e.message}`);try{await previewCaptainCleanup()}catch{}}
+    finally{busy(b,false)}
+  }
   function receiptOpts(){const targetCount=Math.max(100,Math.min(5000,Number($('#cleanupReceiptBatch').value)||1000));return {table:$('#cleanupReceiptTable').value,retentionDays:Number($('#cleanupReceiptDays').value),targetCount,batchSize:Math.min(500,targetCount)}}
   function receiptMetrics(d){return d.metrics||{receiptRows:d.rows?.length||0,responseJsonRows:0,responseJsonBytes:Number(d.estimatedBytes||0),receiptPayloadBytes:Number(d.estimatedBytes||0),assertionRows:0,assertionPayloadBytes:0,estimatedTextBytes:Number(d.estimatedBytes||0),estimatedStorageBytes:Number(d.estimatedBytes||0)}}
   async function previewReceipts(){const b=$('#cleanupReceiptPreviewBtn');busy(b,true);try{const opts=receiptOpts(),d=await request('admin/storage-cleanup/receipts/preview',{method:'POST',body:JSON.stringify(opts)}),m=receiptMetrics(d),count=Number(d.availableRows??m.receiptRows??0);$('#cleanupReceiptPreview').innerHTML=count?`한 번 클릭으로 <b>${fmt(count)}</b>건 정리 예정 · 서버에서 최대 500건씩 <b>${fmt(d.estimatedBatches||Math.ceil(count/500))}회</b> 자동 분할<br>삭제 대상 전체 추정 <b>${bytes(m.estimatedStorageBytes)}</b><br><small>응답 JSON ${fmt(m.responseJsonRows)}건 / ${bytes(m.responseJsonBytes)} · 영수증 행 텍스트 ${bytes(m.receiptPayloadBytes)} · 지급 검증 ${fmt(m.assertionRows)}건 / ${bytes(m.assertionPayloadBytes)}</small>`:'현재 조건에 정리할 완료·실패 영수증이 없습니다.';$('#cleanupReceiptDeleteBtn').disabled=!count}catch(e){alert(e.message)}finally{busy(b,false)}}
@@ -96,5 +133,5 @@
   }
   function emptyReceiptTotals(){return {receiptRows:0,responseJsonRows:0,responseJsonBytes:0,receiptPayloadBytes:0,assertionRows:0,assertionProofBytes:0,assertionPayloadBytes:0,estimatedTextBytes:0,estimatedStorageBytes:0}}
   function mergeReceiptTotals(total,m){for(const key of Object.keys(total))total[key]+=Number(m?.[key]||0);return total}
-  document.addEventListener('DOMContentLoaded',()=>{const syncOwnerVisibility=()=>{const role=String($('#roleBadge')?.textContent||'').trim().toUpperCase();if(role)$('#storageCleanupPanel').hidden=role!=='OWNER'};new MutationObserver(syncOwnerVisibility).observe($('#roleBadge'),{childList:true,subtree:true});syncOwnerVisibility();$('#cleanupSummaryBtn')?.addEventListener('click',loadSummary);$('#cleanupPreviewBtn')?.addEventListener('click',preview);$('#cleanupDeleteBtn')?.addEventListener('click',purgeSelected);$('#cleanupCandidateList')?.addEventListener('change',updateSelected);$('#cleanupSafeTable')?.addEventListener('change',()=>{$('#cleanupSafeDays').value=String(safeDefaults[$('#cleanupSafeTable').value]||7);$('#cleanupSafeRunBtn').disabled=true;$('#cleanupSafePreview').textContent='대상 확인 전입니다.'});$('#cleanupSafePreviewBtn')?.addEventListener('click',previewSafeCleanup);$('#cleanupSafeRunBtn')?.addEventListener('click',runSafeCleanup);$('#cleanupReceiptPreviewBtn')?.addEventListener('click',previewReceipts);$('#cleanupReceiptDeleteBtn')?.addEventListener('click',purgeReceipts)});
+  document.addEventListener('DOMContentLoaded',()=>{const syncOwnerVisibility=()=>{const role=String($('#roleBadge')?.textContent||'').trim().toUpperCase();if(role)$('#storageCleanupPanel').hidden=role!=='OWNER'};new MutationObserver(syncOwnerVisibility).observe($('#roleBadge'),{childList:true,subtree:true});syncOwnerVisibility();$('#cleanupSummaryBtn')?.addEventListener('click',loadSummary);$('#cleanupPreviewBtn')?.addEventListener('click',preview);$('#cleanupDeleteBtn')?.addEventListener('click',purgeSelected);$('#cleanupCandidateList')?.addEventListener('change',updateSelected);$('#cleanupSafeTable')?.addEventListener('change',()=>{$('#cleanupSafeDays').value=String(safeDefaults[$('#cleanupSafeTable').value]||7);$('#cleanupSafeRunBtn').disabled=true;$('#cleanupSafePreview').textContent='대상 확인 전입니다.'});$('#cleanupSafePreviewBtn')?.addEventListener('click',previewSafeCleanup);$('#cleanupSafeRunBtn')?.addEventListener('click',runSafeCleanup);$('#cleanupCaptainPreviewBtn')?.addEventListener('click',previewCaptainCleanup);$('#cleanupCaptainRunBtn')?.addEventListener('click',runCaptainCleanup);$('#cleanupReceiptPreviewBtn')?.addEventListener('click',previewReceipts);$('#cleanupReceiptDeleteBtn')?.addEventListener('click',purgeReceipts)});
 })();
