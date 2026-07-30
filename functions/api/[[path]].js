@@ -1001,6 +1001,18 @@ async function ensureUpgrades(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1164_retirement_reroll_tickets','1',CURRENT_TIMESTAMP)")
       ]);
     }
+    const retirementRerollRepairDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1271_limited_fur_reroll_repair'").first();
+    if(retirementRerollRepairDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
+          VALUES('LIMITED_REROLL_TICKET','리미티드 재뽑기권','LIMITED RETIREMENT REROLL','퇴사 처리된 리미티드 카드를 대신해 활성 리미티드 카드 1장을 다시 뽑습니다.','REROLL','LIMITED','',111,1)
+          ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
+        env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
+          VALUES('FUR_REROLL_TICKET','FUR 재뽑기권','FUR RETIREMENT REROLL','퇴사 처리된 FUR 카드를 대신해 활성 FUR 카드 1장을 다시 뽑습니다.','REROLL','FUR','',113,1)
+          ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1271_limited_fur_reroll_repair','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const cubeDropDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1072_cube_drop'").first();
     if(cubeDropDone?.value!=='1'){await env.DB.batch([env.DB.prepare(`CREATE TABLE IF NOT EXISTS cube_drop_receipts (receipt_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,source TEXT NOT NULL,item_code TEXT,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_cube_drop_receipts_user ON cube_drop_receipts(user_id,created_at DESC)`),env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('cube_drop_settings_v1072',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultCubeDropSettings())),env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1072_cube_drop','1',CURRENT_TIMESTAMP)")]);}
     const cubeBoostDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1072_cube_boost'").first();
@@ -4899,7 +4911,11 @@ export async function onRequest(context){
       const refundCase=maxLevel>0
         ? `CASE ${levelExpr} ${cumulative.map((value,index)=>`WHEN ${index} THEN ${Math.max(0,Math.floor(Number(value)||0))}`).join(' ')} ELSE 0 END`
         : '0';
-      const rerollTicket=RETIREMENT_REROLL_TICKETS[String(card.rarity||'').toUpperCase()]||null;
+      const normalizedRetirementGrade=String(card.rarity||'').toUpperCase();
+      const rerollTicket=RETIREMENT_REROLL_TICKETS[normalizedRetirementGrade]||null;
+      if((normalizedRetirementGrade==='LIMITED'||normalizedRetirementGrade==='FUR')&&!rerollTicket){
+        return json({error:`${normalizedRetirementGrade} 퇴사 재뽑기권 설정이 없어 안전을 위해 처리를 중단했습니다.`},500);
+      }
       const summary={
         cardId:card.id,title:card.title,memberName:card.member_name,grade:card.rarity,
         ownedUsers:snapshots.length,refundUsers:refundable.length,
@@ -4956,20 +4972,37 @@ export async function onRequest(context){
             WHERE rr.batch_id=? AND rr.refund_shards>0 AND rr.message_id IS NULL
             AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(String(card.id),batch.id,batch.id)
         ];
+        let ticketGrantResultIndex=-1;
         if(rerollTicket){
+          const ticketReferenceId=String(card.id);
+          const missingGrantFilter=`NOT EXISTS (
+            SELECT 1 FROM inventory_logs il
+            WHERE il.user_id=rr.user_id
+              AND il.item_code=?
+              AND il.reason='CARD_RETIREMENT_REROLL'
+              AND il.reference_type='CARD_RETIREMENT'
+              AND il.reference_id=?
+          )`;
+          const ticketInsertIndex=statements.length;
           statements.push(
             env.DB.prepare(`INSERT OR IGNORE INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
               SELECT rr.user_id,?,0,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
               FROM card_retirement_refunds rr
-              WHERE rr.batch_id=? AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,batch.id,batch.id),
+              WHERE rr.batch_id=? AND ${missingGrantFilter}
+              AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,batch.id,rerollTicket.code,ticketReferenceId,batch.id),
             env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP
-              WHERE item_code=? AND user_id IN (SELECT user_id FROM card_retirement_refunds WHERE batch_id=?)
-              AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,batch.id,batch.id),
+              WHERE item_code=? AND user_id IN (
+                SELECT rr.user_id FROM card_retirement_refunds rr
+                WHERE rr.batch_id=? AND ${missingGrantFilter}
+              )
+              AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,batch.id,rerollTicket.code,ticketReferenceId,batch.id),
             env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id,created_at)
               SELECT rr.user_id,?,1,ui.quantity,'CARD_RETIREMENT_REROLL','CARD_RETIREMENT',?,?,CURRENT_TIMESTAMP
               FROM card_retirement_refunds rr JOIN cnine_user_inventory ui ON ui.user_id=rr.user_id AND ui.item_code=?
-              WHERE rr.batch_id=? AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,String(card.id),admin.id,rerollTicket.code,batch.id,batch.id)
+              WHERE rr.batch_id=? AND ${missingGrantFilter}
+              AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')`).bind(rerollTicket.code,ticketReferenceId,admin.id,rerollTicket.code,batch.id,rerollTicket.code,ticketReferenceId,batch.id)
           );
+          ticketGrantResultIndex=ticketInsertIndex+1;
         }
         statements.push(
           env.DB.prepare("UPDATE cards SET is_active=0,card_status='RETIRED',updated_at=CURRENT_TIMESTAMP WHERE id=? AND EXISTS (SELECT 1 FROM card_retirement_batches WHERE id=? AND status='PENDING')").bind(card.id,batch.id),
@@ -4986,7 +5019,13 @@ export async function onRequest(context){
           COUNT(CASE WHEN refund_shards>0 AND message_id IS NOT NULL THEN 1 END) AS legacyMessageRefundUsers,
           COALESCE(SUM(CASE WHEN message_id IS NOT NULL THEN refund_shards ELSE 0 END),0) AS legacyMessageRefundShards
           FROM card_retirement_refunds WHERE batch_id=?`).bind(batch.id).first();
-        const ticketRecipients=rerollTicket?Number(settlement?.ownedUsers||0):0;
+        const ticketGrantedNow=rerollTicket&&ticketGrantResultIndex>=0?Number(results[ticketGrantResultIndex]?.meta?.changes||0):0;
+        const ticketSettlement=rerollTicket?await env.DB.prepare(`SELECT COUNT(DISTINCT il.user_id) AS cnt
+          FROM inventory_logs il
+          WHERE il.item_code=? AND il.reason='CARD_RETIREMENT_REROLL'
+            AND il.reference_type='CARD_RETIREMENT' AND il.reference_id=?
+            AND il.user_id IN (SELECT user_id FROM card_retirement_refunds WHERE batch_id=?)`).bind(rerollTicket.code,String(card.id),batch.id).first():null;
+        const ticketRecipients=rerollTicket?Number(ticketSettlement?.cnt||0):0;
         let logWarning='';
         try{
           await writeAdminLog(env,admin,'CARD_RETIREMENT_FINALIZE','CARD',card.id,card,{
@@ -4994,7 +5033,7 @@ export async function onRequest(context){
             refundShards:Number(settlement?.refundShards||0),directRefundUsers:Number(settlement?.directRefundUsers||0),
             directRefundShards:Number(settlement?.directRefundShards||0),legacyMessageRefundUsers:Number(settlement?.legacyMessageRefundUsers||0),
             legacyMessageRefundShards:Number(settlement?.legacyMessageRefundShards||0),
-            rerollTicketCode:rerollTicket?.code||null,ticketRecipients
+            rerollTicketCode:rerollTicket?.code||null,ticketRecipients,ticketGrantedNow
           });
         }catch(error){logWarning=String(error?.message||error||'관리자 로그 기록 실패')}
         return json({
@@ -5002,7 +5041,8 @@ export async function onRequest(context){
           refundUsers:Number(settlement?.refundUsers||0),refundShards:Number(settlement?.refundShards||0),
           directRefundUsers:Number(settlement?.directRefundUsers||0),directRefundShards:Number(settlement?.directRefundShards||0),
           legacyMessageRefundUsers:Number(settlement?.legacyMessageRefundUsers||0),legacyMessageRefundShards:Number(settlement?.legacyMessageRefundShards||0),
-          rerollTicketCode:rerollTicket?.code||null,rerollTicketName:rerollTicket?.name||null,ticketRecipients,logWarning
+          rerollTicketCode:rerollTicket?.code||null,rerollTicketName:rerollTicket?.name||null,
+          ticketRecipients,ticketGrantedNow,logWarning
         });
       }
       return json({error:'올바르지 않은 처리입니다.'},400);
