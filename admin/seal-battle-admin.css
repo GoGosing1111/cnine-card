@@ -183,3 +183,4 @@
   .seal-admin-stats{grid-template-columns:1fr 1fr}
   .seal-admin-event-summary>div:last-child{align-items:flex-start}
 }
+.seal-admin-event-summary .status-failed,.seal-admin-history #sealAdminHistory .status-failed{background:#fff0f0;color:#b53d45;border:1px solid #f1c7cb}.seal-admin-role-settings article label:first-of-type input{font-weight:900;color:#25324a;background:#f7faff}.seal-admin-settings .seal-admin-failure-note{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid #f0d0d3;background:#fff7f7;color:#83434a;font-size:12px;line-height:1.55}

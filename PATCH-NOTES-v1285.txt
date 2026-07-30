@@ -1,0 +1,63 @@
+[SOOPKETMON v1285] 봉인전 PvE 전투 엔진·실패 규칙 누적 패치
+
+기준
+- 전체 프로젝트 기준본: cnine-card(39).zip
+- 누적 포함: v1279 ~ v1284
+- v1284 봉인전 CMS 시인성 개선 포함
+
+핵심 변경
+1. 봉인전 참여를 단순 버튼 공헌 방식에서 실제 PvE 전투 방식으로 변경
+- 저장된 PvE 덱 5장 사용
+- 카드 강화 전투력, 캐릭터 장비 PVE 전투력, 덱 시너지, 카드 고유 능력, 카드 궁극기 계산 반영
+- 기존 PvE 전투 화면/카드 출전/타격/반격/궁극기/승패 연출 사용
+- 일반 PvE 에너지는 사용하지 않고 봉인전 일일 참여 횟수만 1회 차감
+
+2. 역할별 보스 전투력 추가
+- 파괴/수호/정화마다 CMS에서 별도 보스 전투력 설정
+- 개인 전투 승리: 정상 공헌도 적용
+- 개인 전투 패배: CMS 설정 비율만 부분 공헌 적용(기본 20%)
+- 패배해도 참여 횟수는 소비되며 참여 보상은 지급
+
+3. 서버 봉인 실패 규칙 추가
+- 종료 시각까지 세 역할 목표를 모두 달성하지 못하면 상태 FAILED(봉인 실패)
+- 진행도 동결
+- 미완성 역할과 최종 달성률 표시
+- 봉인 완료 보상 지급 불가
+- 이미 받은 참여 보상은 유지
+- CMS 수동 종료 또는 새 이벤트 시작 시 미완성 활성 이벤트도 실패 처리
+
+4. DB 저용량 원칙 유지
+- 전투 상세/연출/라운드 JSON을 D1에 저장하지 않음
+- 요청 영수증에는 승패, 유저 전투력, 보스 전투력, 공헌도, 궁극기 피해 등 소형 숫자/문자 필드만 저장
+- 기존 DB DROP/RENAME/초기화 없음
+- 신규 컬럼은 안전 런타임 업그레이드로만 추가
+
+CMS 추가 설정
+- 역할별 보스 전투력
+- 개인 전투 패배 시 공헌 인정 비율(0~100%)
+- 실패 상태/이력 시인성 표시
+
+수정·신규 파일
+- index.html
+- js/captain.js
+- js/seal-battle.js
+- css/seal-battle.css
+- admin/index.html
+- admin/captain-admin.js
+- admin/storage-cleanup.js
+- admin/seal-battle-admin.js
+- admin/seal-battle-admin.css
+- functions/api/[[path]].js
+- functions/_captain.js
+- functions/_storage_cleanup.js
+- functions/_seal_battle.js
+
+검사
+- JavaScript 문법 검사 통과
+- 역할별 PvE 전투력/궁극기/고유 능력 응답 연결 검사 통과
+- 승리 정상 공헌·패배 부분 공헌 계산 검사 통과
+- 일일 횟수 차감 및 중복 요청 차단 유지 확인
+- 종료 시간 미달성 FAILED 전환 SQL 검사 통과
+- FAILED 이벤트 완료 보상 차단 확인
+- 전투 상세 JSON 미저장 확인
+- SQLite 핵심 SQL 실행 검사 통과

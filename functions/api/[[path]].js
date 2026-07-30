@@ -521,20 +521,22 @@ async function raidDailyEntryCount(env,userId,dateKey=kstDateKey()){
   ]);
   return Math.max(0,Number(legacy?.count||0)+Number(uses?.count||0)-Number(restores?.count||0));
 }
-async function raidDeckPower(env,userId,cardIds){
+async function raidDeckPower(env,userId,cardIds,mode='RAID'){
   let ids=[...new Set((cardIds||await pveDeckCards(env,userId)).map(String))];
   if(ids.length!==5){const e=new Error('저장된 PvE 덱 5장이 필요합니다.');e.status=400;throw e}
   await validateDeckGradeLimits(env,ids,'PvE 덱');
-  const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();
+  const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();
   if(owned.results.length!==5){const e=new Error('보유하지 않은 카드가 포함되어 있습니다.');e.status=400;throw e}
   const [battleCfg,deckUser,characterBonus]=await Promise.all([battleSettings(env),env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(userId).first(),userEquipmentBonuses(env,userId)]);
-  const cards=owned.results.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battleCfg)}));
+  const cards=owned.results.map(card=>({...card,grade:String(card.rarity||'C').toUpperCase(),breakthroughLevel:Number(card.breakthrough_level||0),power:cardBattlePower(card,card.breakthrough_level,battleCfg)}));
   const unique=await cardUniqueDeckState(env,deckUser,cards,'PVE');
-  const synergy=await evaluateDeckSynergies(env,deckUser,ids,'RAID',{forceOwnerTest:String(deckUser?.role||'').toUpperCase()==='OWNER'});
+  const battleCards=unique?.cards?.length?unique.cards:cards;
+  const synergyMode=String(mode||'RAID').toUpperCase()==='PVE'?'PVE':'RAID';
+  const synergy=await evaluateDeckSynergies(env,deckUser,ids,synergyMode,{forceOwnerTest:String(deckUser?.role||'').toUpperCase()==='OWNER'});
   const basePower=Number(unique.power||cards.reduce((n,c)=>n+Number(c.power||0),0));
   const cardPower=Math.max(0,Math.floor(basePower*(1+Number(synergy.totals.attackPercent||0)/100+Number(synergy.totals.bossDamagePercent||0)/100)));
   const power=cardPower+Number(characterBonus.pve||0);
-  return {ids,power,basePower,cardPower,characterBonus,synergy,unique};
+  return {ids,power,basePower,cardPower,characterBonus,synergy,unique,cards:battleCards,battleSettings:battleCfg};
 }
 
 /* V1191: 차원의 균열 원정 */
@@ -2674,7 +2676,7 @@ export async function onRequest(context){
     // 대장전·진화 요청이 점검 모드를 우회하거나 준비되지 않은 DB 구조를 먼저 참조하지 않도록 한다.
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
     const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,cardUniqueSettings,grantWeeklyPremiumCube,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap}});if(captainResponse)return captainResponse;
-    const sealBattleResponse=await handleSealBattle({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,raidDeckPower}});if(sealBattleResponse)return sealBattleResponse;
+    const sealBattleResponse=await handleSealBattle({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,raidDeckPower,columnExists,resolveUniqueBattleRuntime,selectActivatedUltimate,uniqueBattleResponsePayload}});if(sealBattleResponse)return sealBattleResponse;
 
     const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;

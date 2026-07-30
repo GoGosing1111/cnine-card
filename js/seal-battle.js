@@ -56,6 +56,7 @@
     const event = data?.event;
     if (!event) return ['미운영', '현재 진행 중인 봉인전이 없습니다.'];
     if (event.status === 'CLEARED') return ['봉인 완료', '서버 전체가 세 개의 봉인을 완성했습니다.'];
+    if (event.status === 'FAILED') return ['봉인 실패', '제한 시간 안에 세 봉인을 완성하지 못해 보스가 봉인진을 돌파했습니다.'];
     if (event.status === 'ENDED') return ['종료', '이번 봉인전은 종료되었습니다.'];
     if (data?.availability?.code === 'NOT_STARTED') return ['시작 대기', data.availability.message];
     if (!data?.availability?.open) return ['운영 중지', data?.availability?.message || '현재 참여할 수 없습니다.'];
@@ -72,8 +73,8 @@
       <p>${meta.description}</p>
       <div class="seal-progress-numbers"><b>${number(role.progress)}</b><span>/ ${number(role.target)}</span></div>
       <div class="seal-progress-track"><i style="width:${percent(role.percent)}%"></i><u style="left:${percent(role.percent)}%"></u></div>
-      <footer><span>${role.completed ? '봉인 완료' : `${role.percent.toFixed(2)}%`}</span><small>역할 배율 ${Number(role.multiplier || 100)}%</small></footer>
-      <button type="button" class="seal-action-button" data-seal-role="${roleKey}" ${canAct ? '' : 'disabled'}>${role.completed ? '완료된 봉인' : `${meta.label} 참여`}</button>
+      <footer><span>${role.completed ? '봉인 완료' : `${role.percent.toFixed(2)}%`}</span><small>보스 전투력 ${number(role.battlePower)} · 공헌 ${Number(role.multiplier || 100)}%</small></footer>
+      <button type="button" class="seal-action-button" data-seal-role="${roleKey}" ${canAct ? '' : 'disabled'}>${role.completed ? '완료된 봉인' : `${meta.label} 보스 전투`}</button>
     </article>`;
   }
 
@@ -110,12 +111,12 @@
         <div class="seal-boss-stage">
           <div class="seal-rune-ring"><i></i><i></i><i></i></div>
           ${bossImage ? `<img src="${esc(bossImage)}" alt="${esc(event.bossName)}">` : '<div class="seal-boss-placeholder"><span>封</span><small>BOSS IMAGE</small></div>'}
-          <div class="seal-boss-status"><span>${esc(badge)}</span><b>${number(data.stats?.participants)}명 참여</b><small>총 ${number(data.stats?.attempts)}회 의식</small></div>
+          <div class="seal-boss-status"><span>${esc(badge)}</span><b>${number(data.stats?.participants)}명 참여</b><small>총 ${number(data.stats?.attempts)}회 전투</small></div>
         </div>
       </section>
 
       <section class="seal-personal-bar">
-        <article><small>내 PvE 덱</small><b>${data.deck?.ready ? number(data.deck.power) : '편성 필요'}</b><span>${data.deck?.ready ? '장비·시너지 포함 전투력' : esc(data.deck?.error || 'PvE 덱 5장을 저장해주세요.')}</span></article>
+        <article><small>내 PvE 전투 덱</small><b>${data.deck?.ready ? number(data.deck.power) : '편성 필요'}</b><span>${data.deck?.ready ? '카드 5장 · 장비·시너지 포함' : esc(data.deck?.error || 'PvE 덱 5장을 저장해주세요.')}</span></article>
         <article><small>오늘 남은 참여</small><b>${Number(progress.remainingAttempts || 0)}<em>/ ${Number(event.dailyAttempts || 0)}</em></b><span>매일 KST 00시 초기화</span></article>
         <article><small>내 누적 공헌도</small><b>${number(progress.totalContribution)}</b><span>총 ${number(progress.totalAttempts)}회 참여</span></article>
         <article><small>참여 보상</small><b>코인 ${number(event.attemptReward?.coin)}</b><span>카드 조각 ${number(event.attemptReward?.shards)}개</span></article>
@@ -129,16 +130,16 @@
         ${sealCard('PURIFY', data)}
       </section>
 
-      <section class="seal-clear-panel ${event.status === 'CLEARED' ? 'ready' : ''}">
+      ${event.status === 'FAILED' ? `<section class="seal-failure-panel"><div><small>SEAL BREACH</small><h2>봉인 실패 · 보스 탈출</h2><p>제한 시간 안에 ${event.failureRoleKeys.map(key => ROLE[key]?.label).filter(Boolean).join(' · ') || '미완성 봉인'}을 완성하지 못했습니다. 진행도는 동결되며 완료 보상은 지급되지 않습니다.</p></div><div class="seal-failure-runes">${event.failureRoleKeys.map(key => `<span class="role-${key.toLowerCase()}">${ROLE[key]?.icon}<b>${ROLE[key]?.label}</b><em>${Number(event.roles[key]?.percent || 0).toFixed(1)}%</em></span>`).join('')}</div></section>` : `<section class="seal-clear-panel ${event.status === 'CLEARED' ? 'ready' : ''}">
         <div><small>SERVER CLEAR REWARD</small><h2>${event.status === 'CLEARED' ? '봉인 완료 보상' : '세 개의 봉인을 모두 완성하세요'}</h2><p>이번 봉인전에 1회 이상 참여한 유저만 완료 보상을 받을 수 있습니다.</p></div>
         <div class="seal-clear-reward"><span>코인 <b>${number(event.clearReward?.coin)}</b></span><span>카드 조각 <b>${number(event.clearReward?.shards)}</b></span></div>
         <button type="button" id="sealClearClaim" ${canClaim ? '' : 'disabled'}>${clear.claimed ? '보상 수령 완료' : clear.processing ? '보상 처리 중' : event.status === 'CLEARED' ? (clear.eligible ? '봉인 완료 보상 받기' : '참여 기록 없음') : '봉인 완료 후 수령'}</button>
-      </section>
+      </section>`}
 
       <section class="seal-guide">
-        <div><b>1</b><span><strong>역할 선택</strong><small>현재 가장 부족한 봉인에는 지원 보너스가 적용됩니다.</small></span></div>
-        <div><b>2</b><span><strong>서버 공동 누적</strong><small>개인 딜 순위가 아니라 세 역할의 공동 목표 달성이 핵심입니다.</small></span></div>
-        <div><b>3</b><span><strong>전원 봉인 완료</strong><small>세 봉인이 모두 완성되면 참여자 전원이 완료 보상을 받을 수 있습니다.</small></span></div>
+        <div><b>1</b><span><strong>역할 보스 전투</strong><small>저장된 PvE 덱으로 실제 전투하며 승패가 판정됩니다.</small></span></div>
+        <div><b>2</b><span><strong>승패별 공동 공헌</strong><small>승리는 정상 공헌, 패배는 ${Number(event.defeatContributionPercent || 0)}%만 인정됩니다.</small></span></div>
+        <div><b>3</b><span><strong>제한 시간 봉인</strong><small>종료 전 세 봉인을 못 채우면 실패 처리되고 완료 보상이 소멸합니다.</small></span></div>
       </section>
     </section>`;
 
@@ -156,54 +157,221 @@
     }, { once: true });
   }
 
-  function ritualModal(roleKey) {
+  const battleSleepSafe = ms => typeof globalThis.battleSleep === 'function'
+    ? globalThis.battleSleep(ms)
+    : new Promise(resolve => setTimeout(resolve, ms));
+
+  function fighterHtml(card, index) {
+    if (typeof globalThis.battleFighterHtml === 'function') return globalThis.battleFighterHtml(card, index);
+    const image = source(card?.image);
+    return `<div class="battle-card-fighter" data-fighter="${index}" style="--i:${index}"><div class="fighter-aura"></div><div class="seal-fallback-fighter">${image ? `<img src="${esc(image)}">` : '<span>◆</span>'}<b>${esc(card?.title || '카드')}</b><small>${esc(card?.grade || card?.rarity || 'C')}</small></div></div>`;
+  }
+
+  function sealCombatModal(roleKey) {
     const modal = document.getElementById('modal');
     if (!modal) return null;
     const meta = ROLE[roleKey];
-    modal.className = `modal show seal-ritual-modal role-${roleKey.toLowerCase()}`;
-    modal.innerHTML = `<div class="seal-ritual-stage">
-      <div class="seal-ritual-circle"><i></i><i></i><i></i><span>${meta.icon}</span></div>
-      <small>SEAL RITUAL</small><h2>${meta.label}</h2><p id="sealRitualMessage">PvE 덱의 힘을 봉인진에 연결하는 중...</p>
-      <div class="seal-ritual-loader"><i></i></div>
+    const event = latest?.event || {};
+    const role = event.roles?.[roleKey] || {};
+    const previewCards = latest?.deck?.cards || [];
+    const bossImage = source(event.bossImage);
+    modal.className = `modal show battle-modal seal-combat-modal role-${roleKey.toLowerCase()}`;
+    modal.innerHTML = `<div class="modal-panel battle-stage seal-battle-stage intro">
+      <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
+      <div class="battle-topline"><span>SOOPKETMON SEAL BATTLE</span><b id="battlePhase">SEAL ENCOUNTER</b></div>
+      <div class="seal-combat-role-chip"><span>${meta.icon}</span><b>${meta.label}</b><small>패배 시 공헌 ${Number(event.defeatContributionPercent || 0)}%</small></div>
+      <div class="battle-hud">
+        <div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>PVE SEAL TEAM</b><span data-hp-text="team">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="team"></u><i data-hp-fill="team"></i><em>K.O.</em></div><small>전투력 ${number(latest?.deck?.power)}</small></div>
+        <div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${esc(event.bossName || '봉인 보스')}</b><span data-hp-text="enemy">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="enemy"></u><i data-hp-fill="enemy"></i><em>SEALED</em></div><small>역할 전투력 ${number(role.battlePower)}</small></div>
+      </div>
+      <div class="battle-arena">
+        <div class="battle-side player-side"><div class="battle-team">${previewCards.map(fighterHtml).join('') || '<div class="seal-team-linking">PvE 덱 연결 중...</div>'}</div><small>MEMBER SEAL TEAM</small></div>
+        <div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div>
+        <div class="battle-side enemy-side"><div class="battle-enemy-card boss seal-role-boss"><div class="enemy-card-badge">${meta.label}</div><div class="battle-enemy-visual">${bossImage ? `<img src="${esc(bossImage)}" alt="${esc(event.bossName || '')}">` : '<div class="monster-placeholder">封</div>'}</div><div class="battle-enemy-title">${esc(event.bossName || '봉인 보스')}</div><div class="enemy-card-power">POWER ${number(role.battlePower)}</div></div></div>
+      </div>
+      <div class="battle-impact"><i></i><i></i><i></i></div>
+      <div id="battleMessage" class="battle-message"><span>PvE 덱과 봉인진을 연결하는 중...</span></div>
     </div>`;
+    const stage = modal.querySelector('.battle-stage');
+    if (typeof globalThis.ensureBattleSoundButton === 'function') globalThis.ensureBattleSoundButton(stage);
     return modal;
   }
 
-  function ritualResult(modal, roleKey, result) {
+  function setHp(stage, target, value) {
+    if (typeof globalThis.battleSetHp === 'function') return globalThis.battleSetHp(stage, target, value);
+    const fill = stage.querySelector(`[data-hp-fill="${target}"]`);
+    const label = stage.querySelector(`[data-hp-text="${target}"]`);
+    if (fill) fill.style.width = `${Math.max(0, Math.min(100, value))}%`;
+    if (label) label.textContent = `${Math.ceil(value)} / 100 · ${Math.ceil(value)}%`;
+  }
+
+  function burst(stage, target = 'enemy', critical = false, text = '') {
+    const x = target === 'enemy' ? '74%' : '27%';
+    if (typeof globalThis.battleBurst === 'function') globalThis.battleBurst(stage, x, '43%', critical ? 46 : 22);
+    if (typeof globalThis.battleDamage === 'function') globalThis.battleDamage(stage, text || (critical ? 'SEAL BREAK!' : 'HIT'), target, critical);
+  }
+
+  async function animateSealCombat(modal, roleKey, result) {
     if (!modal) return;
     const meta = ROLE[roleKey];
-    const stage = modal.querySelector('.seal-ritual-stage');
-    stage.classList.add('complete');
-    stage.innerHTML = `<div class="seal-ritual-success">${meta.icon}</div><small>CONTRIBUTION COMPLETE</small><h2>${meta.label} 공헌 완료</h2>
-      <strong>+${number(result.contribution)}</strong>
-      <p>덱 전투력 ${number(result.deckPower)}${Number(result.bonusPercent || 0) > 0 ? ` · 부족 역할 지원 +${Number(result.bonusPercent)}%` : ''}</p>
-      <div class="seal-result-reward"><span>코인 +${number(result.reward?.coin)}</span><span>카드 조각 +${number(result.reward?.shards)}</span></div>
-      <button type="button" id="sealRitualClose">봉인전으로 돌아가기</button>`;
-    stage.querySelector('#sealRitualClose').onclick = () => {
-      modal.className = 'modal';
-      modal.innerHTML = '';
-    };
+    const stage = modal.querySelector('.battle-stage');
+    const phase = stage.querySelector('#battlePhase');
+    const message = stage.querySelector('#battleMessage');
+    const cards = Array.isArray(result.cards) && result.cards.length ? result.cards : (latest?.deck?.cards || []);
+    const team = stage.querySelector('.player-side .battle-team');
+    if (team && cards.length) team.innerHTML = cards.map(fighterHtml).join('');
+    const teamPowerLabel = stage.querySelector('.battle-hp-team small');
+    const bossPowerLabel = stage.querySelector('.battle-hp-enemy small');
+    if (teamPowerLabel) teamPowerLabel.textContent = `전투력 ${number(result.playerPower || result.deckPower)}`;
+    if (bossPowerLabel) bossPowerLabel.textContent = `역할 전투력 ${number(result.bossPower)}`;
+
+    if (result.replayed) {
+      stage.classList.add(result.result === 'WIN' ? 'battle-win-v863' : 'battle-lose-v863');
+      phase.textContent = 'RESULT RESTORED';
+      message.innerHTML = `<strong>처리 완료된 전투</strong><span>중복 요청이 차단되어 기존 결과만 불러왔습니다.</span><div class="battle-reward-pop"><small>공헌도</small><b>+${number(result.contribution)}</b></div><button type="button" class="seal-battle-return">봉인전으로 돌아가기</button>`;
+      message.querySelector('.seal-battle-return').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
+      return;
+    }
+
+    if (result.uniqueAbility?.battleEffects?.events?.length && typeof globalThis.playUniqueBattleEventSequence === 'function') {
+      await globalThis.playUniqueBattleEventSequence(stage, phase, message, result.uniqueAbility, cards, false);
+      phase.textContent = 'UNIQUE ABILITY READY';
+      await battleSleepSafe(180);
+    }
+
+    let enemyHp = 100;
+    let teamHp = 100;
+    const win = result.result === 'WIN';
+    const bossPower = Math.max(1, Number(result.bossPower || 1));
+    const ultimateDamage = Math.max(0, Number(result.ultimateDamage || 0));
+
+    if (result.activatedUltimate) {
+      phase.textContent = 'ULTIMATE READY';
+      if (typeof globalThis.playBattleUltimate === 'function') await globalThis.playBattleUltimate(stage, result.activatedUltimate, ultimateDamage);
+      const ultimatePct = Math.min(72, ultimateDamage / bossPower * 100);
+      if (ultimatePct > 0) {
+        enemyHp = Math.max(0, enemyHp - ultimatePct);
+        setHp(stage, 'enemy', enemyHp);
+        burst(stage, 'enemy', true, `-${number(ultimateDamage)}`);
+        await battleSleepSafe(760);
+      }
+    }
+
+    const cardPowerTotal = Math.max(1, cards.reduce((sum, card) => sum + Math.max(1, Number(card.power || 0)), 0));
+    const desiredCardDamage = win
+      ? Math.max(0, enemyHp)
+      : Math.max(8, Math.min(enemyHp - 8, Number(result.playerPower || 0) / bossPower * 78));
+    const counterIndices = win ? new Set([1, 3]) : new Set([0, 2, 4]);
+    const loseHits = [24, 31, 45];
+    let loseHitIndex = 0;
+
+    for (let index = 0; index < cards.length && enemyHp > 0 && teamHp > 0; index++) {
+      const card = cards[index];
+      if (typeof globalThis.battleActivateCard === 'function') globalThis.battleActivateCard(stage, index, card.grade || card.rarity);
+      phase.textContent = `${meta.label} · ${String(card.grade || card.rarity || 'CARD').toUpperCase()} STRIKE`;
+      stage.classList.remove('member-strike', 'member-skill');
+      void stage.offsetWidth;
+      stage.classList.add(index >= 3 ? 'member-skill' : 'member-strike');
+      const share = index === cards.length - 1
+        ? Math.max(0, desiredCardDamage - (100 - enemyHp - (ultimateDamage / bossPower * 100)))
+        : desiredCardDamage * Math.max(1, Number(card.power || 0)) / cardPowerTotal;
+      const hpDamage = Math.max(4, Math.min(36, share));
+      enemyHp = Math.max(win ? (index < cards.length - 1 ? 3 : 0) : 8, enemyHp - hpDamage);
+      setHp(stage, 'enemy', enemyHp);
+      burst(stage, 'enemy', index >= 3, `-${number(Math.max(1, Math.floor(bossPower * hpDamage / 100)))}`);
+      if (typeof globalThis.battleTone === 'function') globalThis.battleTone(180 + index * 34, .12, index >= 3 ? 'sawtooth' : 'square', .055);
+      await battleSleepSafe(index >= 3 ? 720 : 560);
+
+      if (enemyHp <= 0) break;
+      if (counterIndices.has(index)) {
+        stage.classList.remove('member-strike', 'member-skill');
+        stage.classList.add('monster-heavy-attack');
+        phase.textContent = win ? 'BOSS COUNTER' : 'SEAL BREACH ATTACK';
+        const hit = win ? (index === 1 ? 14 : 18) : (loseHits[loseHitIndex++] || 40);
+        teamHp = Math.max(win ? 18 : 0, teamHp - hit);
+        setHp(stage, 'team', teamHp);
+        burst(stage, 'player', !win, win ? 'BOSS HIT' : 'BREACH!');
+        if (typeof globalThis.battleTone === 'function') globalThis.battleTone(win ? 62 : 42, .28, 'sawtooth', .085);
+        await battleSleepSafe(820);
+        stage.classList.remove('monster-heavy-attack');
+      }
+    }
+
+    stage.querySelectorAll('.battle-card-fighter').forEach(element => element.classList.remove('active-attacker'));
+    if (win) {
+      setHp(stage, 'enemy', 0);
+      stage.classList.add('final-strike-v863');
+      phase.textContent = 'ROLE BOSS DEFEATED';
+      burst(stage, 'enemy', true, 'SEAL HIT!');
+      await battleSleepSafe(900);
+      stage.classList.add('battle-win-v863');
+      phase.textContent = 'SEAL BATTLE VICTORY';
+      if (typeof globalThis.battleSfx === 'function') globalThis.battleSfx('victory');
+    } else {
+      setHp(stage, 'team', 0);
+      stage.classList.add('final-fail-v863');
+      phase.textContent = 'SEAL TEAM DEFEATED';
+      burst(stage, 'player', true, 'K.O.');
+      await battleSleepSafe(900);
+      stage.classList.add('battle-lose-v863');
+      phase.textContent = 'SEAL BATTLE DEFEAT';
+      if (typeof globalThis.battleSfx === 'function') globalThis.battleSfx('defeat');
+    }
+
+    const lossLine = win ? '전투 승리로 정상 공헌도가 적용되었습니다.' : `전투 패배로 공헌도의 ${Number(result.defeatContributionPercent || 0)}%만 적용되었습니다.`;
+    message.innerHTML = `<strong>${win ? 'BATTLE VICTORY' : 'BATTLE DEFEAT'}</strong><span>${number(result.totalBattleDamage || result.playerPower)} VS ${number(result.bossPower)} · ${esc(lossLine)}</span><div class="battle-reward-pop"><small>${meta.label} 공헌</small><b>+${number(result.contribution)}</b><small>참여 보상</small><b>◈ ${number(result.reward?.coin)} · 조각 ${number(result.reward?.shards)}</b>${Number(result.bonusPercent || 0) > 0 ? `<em>부족 역할 지원 +${Number(result.bonusPercent)}%</em>` : ''}</div><button type="button" class="seal-battle-return">봉인전으로 돌아가기</button>`;
+    const close = () => { modal.onclick = null; modal.className = 'modal'; modal.innerHTML = ''; };
+    message.querySelector('.seal-battle-return').onclick = event => { event.stopPropagation(); close(); };
+    setTimeout(() => { modal.onclick = close; }, 450);
   }
 
   async function participate(roleKey, button) {
     if (loading) return;
     const meta = ROLE[roleKey];
-    if (!confirm(`${meta.label} 역할로 오늘의 참여 횟수 1회를 사용할까요?`)) return;
+    const role = latest?.event?.roles?.[roleKey];
+    if (!confirm(`${meta.label} 보스와 전투합니다.\n오늘의 참여 횟수 1회가 사용되며 패배해도 횟수는 복구되지 않습니다.\n\n전투를 시작할까요?`)) return;
     loading = true;
     button.disabled = true;
-    const modal = ritualModal(roleKey);
+    const modal = sealCombatModal(roleKey);
+    const stage = modal?.querySelector('.battle-stage');
+    const phase = stage?.querySelector('#battlePhase');
+    const count = stage?.querySelector('#battleCountdown');
+    const message = stage?.querySelector('#battleMessage');
     try {
-      const result = await api('seal-battle/participate', {
+      if (typeof globalThis.battleTone === 'function') globalThis.battleTone(80, .18, 'sawtooth', .04);
+      await battleSleepSafe(380);
+      stage?.classList.add('cards-enter');
+      if (phase) phase.textContent = 'PVE TEAM DEPLOY';
+      await battleSleepSafe(720);
+      stage?.classList.add('enemy-enter');
+      if (phase) phase.textContent = `${meta.label} BOSS APPEARS`;
+      await battleSleepSafe(760);
+      if (count) count.textContent = 'READY';
+      await battleSleepSafe(520);
+      if (count) count.textContent = 'FIGHT';
+      stage?.classList.add('fight');
+      const fightPromise = api('seal-battle/participate', {
         method: 'POST',
         body: JSON.stringify({ requestId: requestId(), role: roleKey })
       });
+      await battleSleepSafe(420);
+      if (count) count.textContent = '';
+      if (message) message.innerHTML = `<span>${esc(role?.label || meta.label)} 보스와 전투 중...</span>`;
+      const result = await fightPromise;
       updateBalances(result.balances);
       latest = result.state || latest;
       render(latest);
-      ritualResult(modal, roleKey, result);
+      await animateSealCombat(modal, roleKey, result);
     } catch (error) {
-      if (modal) { modal.className = 'modal'; modal.innerHTML = ''; }
-      alert(error.message);
+      if (stage && message) {
+        phase.textContent = 'BATTLE ERROR';
+        message.innerHTML = `<strong>전투 처리 실패</strong><span>${esc(error.message)}</span><button type="button" class="seal-battle-return">봉인전으로 돌아가기</button>`;
+        message.querySelector('.seal-battle-return').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
+      } else {
+        if (modal) { modal.className = 'modal'; modal.innerHTML = ''; }
+        alert(error.message);
+      }
+      loading = false;
       await load();
     } finally {
       loading = false;

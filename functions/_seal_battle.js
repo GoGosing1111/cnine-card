@@ -9,13 +9,15 @@ const DEFAULT_SETTINGS = {
   title: '봉인전',
   bossName: '심연에 봉인된 군주',
   bossImage: '',
-  description: '서버 전체가 파괴·수호·정화 역할을 나누어 세 개의 봉인을 완성하는 공동 보스 콘텐츠입니다.',
+  description: '저장된 PvE 덱으로 역할별 봉인 보스와 전투하고, 서버 전체가 파괴·수호·정화 세 봉인을 완성하는 공동 보스 콘텐츠입니다.',
   startsAt: null,
   endsAt: null,
   dailyAttempts: 3,
   targets: { attack: 20000000, guard: 16000000, purify: 14000000 },
   multipliers: { attack: 100, guard: 90, purify: 85 },
+  battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
   lowestRoleBonusPercent: 20,
+  defeatContributionPercent: 20,
   attemptReward: { coin: 100, shards: 1 },
   clearReward: { coin: 2000, shards: 50 },
   receiptRetentionDays: 14,
@@ -50,6 +52,7 @@ function cleanSettings(raw = {}) {
   const base = DEFAULT_SETTINGS;
   const targets = raw.targets || {};
   const multipliers = raw.multipliers || {};
+  const battlePowers = raw.battlePowers || {};
   const attemptReward = raw.attemptReward || {};
   const clearReward = raw.clearReward || {};
   const mode = String(raw.mode || base.mode).toUpperCase();
@@ -72,7 +75,13 @@ function cleanSettings(raw = {}) {
       guard: clampInt(multipliers.guard, base.multipliers.guard, 1, 1000),
       purify: clampInt(multipliers.purify, base.multipliers.purify, 1, 1000)
     },
+    battlePowers: {
+      attack: clampInt(battlePowers.attack, base.battlePowers.attack, 1, 2000000000),
+      guard: clampInt(battlePowers.guard, base.battlePowers.guard, 1, 2000000000),
+      purify: clampInt(battlePowers.purify, base.battlePowers.purify, 1, 2000000000)
+    },
     lowestRoleBonusPercent: clampInt(raw.lowestRoleBonusPercent, base.lowestRoleBonusPercent, 0, 500),
+    defeatContributionPercent: clampInt(raw.defeatContributionPercent, base.defeatContributionPercent, 0, 100),
     attemptReward: {
       coin: clampInt(attemptReward.coin, base.attemptReward.coin, 0, 100000000),
       shards: clampInt(attemptReward.shards, base.attemptReward.shards, 0, 1000000)
@@ -102,7 +111,7 @@ function requestIdValid(value) {
   return /^[a-zA-Z0-9:_-]{12,160}$/.test(String(value || '').trim());
 }
 
-async function ensureFoundation(env) {
+async function ensureFoundation(env, deps = {}) {
   if (foundationPromise) return foundationPromise;
   foundationPromise = (async () => {
     await env.DB.batch([
@@ -126,6 +135,10 @@ async function ensureFoundation(env) {
         attack_multiplier INTEGER NOT NULL DEFAULT 100,
         guard_multiplier INTEGER NOT NULL DEFAULT 90,
         purify_multiplier INTEGER NOT NULL DEFAULT 85,
+        attack_battle_power INTEGER NOT NULL DEFAULT 12000,
+        guard_battle_power INTEGER NOT NULL DEFAULT 11000,
+        purify_battle_power INTEGER NOT NULL DEFAULT 10000,
+        defeat_contribution_percent INTEGER NOT NULL DEFAULT 20,
         lowest_bonus_percent INTEGER NOT NULL DEFAULT 20,
         attempt_coin INTEGER NOT NULL DEFAULT 0,
         attempt_shards INTEGER NOT NULL DEFAULT 0,
@@ -160,8 +173,11 @@ async function ensureFoundation(env) {
         day_key TEXT NOT NULL,
         role TEXT NOT NULL,
         deck_power INTEGER NOT NULL DEFAULT 0,
+        boss_power INTEGER NOT NULL DEFAULT 0,
         contribution INTEGER NOT NULL DEFAULT 0,
         bonus_percent INTEGER NOT NULL DEFAULT 0,
+        battle_result TEXT NOT NULL DEFAULT '',
+        ultimate_damage INTEGER NOT NULL DEFAULT 0,
         status TEXT NOT NULL DEFAULT 'PENDING',
         error_text TEXT,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -183,6 +199,26 @@ async function ensureFoundation(env) {
       env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(DEFAULT_SETTINGS)),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1283_seal_battle','1',CURRENT_TIMESTAMP)")
     ]);
+
+    const additions = [
+      ['seal_battle_events','attack_battle_power','INTEGER NOT NULL DEFAULT 12000'],
+      ['seal_battle_events','guard_battle_power','INTEGER NOT NULL DEFAULT 11000'],
+      ['seal_battle_events','purify_battle_power','INTEGER NOT NULL DEFAULT 10000'],
+      ['seal_battle_events','defeat_contribution_percent','INTEGER NOT NULL DEFAULT 20'],
+      ['seal_battle_action_receipts','boss_power','INTEGER NOT NULL DEFAULT 0'],
+      ['seal_battle_action_receipts','battle_result',"TEXT NOT NULL DEFAULT ''"],
+      ['seal_battle_action_receipts','ultimate_damage','INTEGER NOT NULL DEFAULT 0']
+    ];
+    for (const [table, column, definition] of additions) {
+      const exists = typeof deps.columnExists === 'function' ? await deps.columnExists(env, table, column) : false;
+      if (!exists) {
+        try { await env.DB.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run(); }
+        catch (error) {
+          if (!/duplicate column|already exists/i.test(String(error?.message || error))) throw error;
+        }
+      }
+    }
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1285_seal_battle_combat','1',CURRENT_TIMESTAMP)").run();
     return true;
   })().catch(error => {
     foundationPromise = null;
@@ -215,7 +251,8 @@ function normalizeEvent(row) {
       target,
       percent: Math.max(0, Math.min(100, progress / target * 100)),
       completed: progress >= target,
-      multiplier: Number(row[`${role.key.toLowerCase()}_multiplier`] || 100)
+      multiplier: Number(row[`${role.key.toLowerCase()}_multiplier`] || 100),
+      battlePower: Number(row[`${role.key.toLowerCase()}_battle_power`] || DEFAULT_SETTINGS.battlePowers[role.key.toLowerCase()] || 1)
     };
   }
   return {
@@ -230,19 +267,29 @@ function normalizeEvent(row) {
     endsAt: row.ends_at || null,
     dailyAttempts: Number(row.daily_attempts || 3),
     lowestRoleBonusPercent: Number(row.lowest_bonus_percent || 0),
+    defeatContributionPercent: Number(row.defeat_contribution_percent ?? DEFAULT_SETTINGS.defeatContributionPercent),
     attemptReward: { coin: Number(row.attempt_coin || 0), shards: Number(row.attempt_shards || 0) },
     clearReward: { coin: Number(row.clear_coin || 0), shards: Number(row.clear_shards || 0) },
     roles,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
     clearedAt: row.cleared_at || null,
-    endedAt: row.ended_at || null
+    endedAt: row.ended_at || null,
+    failureRoleKeys: Object.values(roles).filter(role => !role.completed).map(role => role.key)
   };
 }
 
 async function refreshExpiredEvent(env) {
   await env.DB.prepare(`UPDATE seal_battle_events
-    SET status='ENDED',ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP
+    SET status=CASE
+      WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN 'CLEARED'
+      ELSE 'FAILED'
+    END,
+    cleared_at=CASE
+      WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN COALESCE(cleared_at,CURRENT_TIMESTAMP)
+      ELSE cleared_at
+    END,
+    ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP
     WHERE status='ACTIVE' AND ends_at IS NOT NULL AND datetime(ends_at)<=datetime('now')`).run();
 }
 
@@ -260,11 +307,12 @@ function eventAvailability(event, settings, user) {
     return { open: false, code: 'TEST_MODE', message: '현재 봉인전 테스트 운영 중입니다.' };
   }
   if (event.status === 'CLEARED') return { open: false, code: 'CLEARED', message: '세 개의 봉인이 모두 완성되었습니다.' };
+  if (event.status === 'FAILED') return { open: false, code: 'FAILED', message: '제한 시간 안에 모든 봉인을 완성하지 못해 보스 봉인에 실패했습니다.' };
   if (event.status !== 'ACTIVE') return { open: false, code: 'ENDED', message: '종료된 봉인전입니다.' };
   const now = Date.now();
   if (event.startsAt && Date.parse(event.startsAt) > now) return { open: false, code: 'NOT_STARTED', message: '봉인전 시작 전입니다.' };
-  if (event.endsAt && Date.parse(event.endsAt) <= now) return { open: false, code: 'ENDED', message: '봉인전이 종료되었습니다.' };
-  return { open: true, code: 'OPEN', message: '봉인 의식에 참여할 수 있습니다.' };
+  if (event.endsAt && Date.parse(event.endsAt) <= now) return { open: false, code: 'FAILED', message: '봉인 제한 시간이 종료되었습니다.' };
+  return { open: true, code: 'OPEN', message: '역할을 선택해 봉인 보스와 전투할 수 있습니다.' };
 }
 
 function normalizedPercent(role) {
@@ -311,13 +359,66 @@ async function eventStats(env, eventId) {
   };
 }
 
+function publicBattleCards(cards = []) {
+  return (Array.isArray(cards) ? cards : []).map(card => ({
+    id: String(card.id || ''),
+    title: String(card.title || card.card_title || '카드'),
+    rarity: String(card.rarity || card.grade || 'C').toUpperCase(),
+    grade: String(card.grade || card.rarity || 'C').toUpperCase(),
+    image: String(card.image || card.image_url || ''),
+    powerType: String(card.powerType || card.power_type || ''),
+    breakthroughLevel: Number(card.breakthroughLevel ?? card.breakthrough_level ?? 0),
+    power: Math.max(0, Number(card.power || 0)),
+    uniqueAbility: card.uniqueAbility || null,
+    uniqueEffects: card.uniqueEffects || card.unique_effects || null
+  }));
+}
+
 async function deckState(deps, env, userId) {
   try {
-    const deck = await deps.raidDeckPower(env, userId);
-    return { ready: true, power: Number(deck.power || 0), cardIds: deck.ids || [] };
+    const deck = await deps.raidDeckPower(env, userId, null, 'PVE');
+    return { ready: true, power: Number(deck.power || 0), cardIds: deck.ids || [], cards: publicBattleCards(deck.cards) };
   } catch (error) {
-    return { ready: false, power: 0, cardIds: [], error: String(error?.message || '저장된 PvE 덱 5장이 필요합니다.') };
+    return { ready: false, power: 0, cardIds: [], cards: [], error: String(error?.message || '저장된 PvE 덱 5장이 필요합니다.') };
   }
+}
+
+async function combatDeckState(deps, env, userId, bossPower) {
+  const deck = await deps.raidDeckPower(env, userId, null, 'PVE');
+  const cards = Array.isArray(deck.cards) ? deck.cards : [];
+  const runtime = deck.unique?.enabled && typeof deps.resolveUniqueBattleRuntime === 'function'
+    ? deps.resolveUniqueBattleRuntime(deck.unique, { mode: 'PVE', opponentPower: bossPower })
+    : null;
+  const basePower = Math.max(0, Number(runtime?.effectivePower ?? deck.basePower ?? deck.power ?? 0));
+  const synergyMultiplier = 1 + Number(deck.synergy?.totals?.attackPercent || 0) / 100 + Number(deck.synergy?.totals?.bossDamagePercent || 0) / 100;
+  const cardPower = Math.max(0, Math.floor(basePower * synergyMultiplier));
+  const playerPower = Math.max(0, cardPower + Number(deck.characterBonus?.pve || 0));
+  const activatedEntry = typeof deps.selectActivatedUltimate === 'function'
+    ? deps.selectActivatedUltimate(deck.battleSettings || {}, cards)
+    : null;
+  const activatedUltimate = activatedEntry?.rule || null;
+  const ultimateSourceCard = activatedEntry?.matchedCards?.[0] || null;
+  const ultimateDamage = activatedUltimate && ultimateSourceCard
+    ? Math.max(0, Math.floor(Number(ultimateSourceCard.power || 0) * Number(activatedUltimate.coefficientPercent || 0) / 100))
+    : 0;
+  return {
+    ...deck,
+    cards: publicBattleCards(cards),
+    basePower,
+    cardPower,
+    playerPower,
+    totalBattleDamage: playerPower + ultimateDamage,
+    ultimateDamage,
+    activatedUltimate,
+    ultimateSourceCard: ultimateSourceCard ? {
+      id: String(ultimateSourceCard.id || ''), title: String(ultimateSourceCard.title || ''),
+      rarity: String(ultimateSourceCard.rarity || ultimateSourceCard.grade || 'C').toUpperCase(),
+      power: Number(ultimateSourceCard.power || 0), breakthroughLevel: Number(ultimateSourceCard.breakthroughLevel ?? ultimateSourceCard.breakthrough_level ?? 0)
+    } : null,
+    uniqueAbility: typeof deps.uniqueBattleResponsePayload === 'function'
+      ? deps.uniqueBattleResponsePayload(deck.unique, runtime)
+      : null
+  };
 }
 
 async function statusPayload(env, deps, user, settings = null, eventRow = null) {
@@ -380,14 +481,14 @@ async function maybeCleanup(env, settings, receiptId) {
       env.DB.prepare(`DELETE FROM seal_battle_clear_claims WHERE rowid IN (
         SELECT c.rowid FROM seal_battle_clear_claims c
         JOIN seal_battle_events e ON e.id=c.event_id
-        WHERE c.status='COMPLETED' AND e.status IN ('ENDED','CLEARED')
+        WHERE c.status='COMPLETED' AND e.status IN ('ENDED','CLEARED','FAILED')
           AND COALESCE(e.ended_at,e.cleared_at,e.updated_at)<datetime('now',?)
         ORDER BY c.rowid ASC LIMIT 100
       )`).bind(`-${progressDays} days`),
       env.DB.prepare(`DELETE FROM seal_battle_user_progress WHERE rowid IN (
         SELECT p.rowid FROM seal_battle_user_progress p
         JOIN seal_battle_events e ON e.id=p.event_id
-        WHERE e.status IN ('ENDED','CLEARED')
+        WHERE e.status IN ('ENDED','CLEARED','FAILED')
           AND COALESCE(e.ended_at,e.cleared_at,e.updated_at)<datetime('now',?)
         ORDER BY p.rowid ASC LIMIT 100
       )`).bind(`-${progressDays} days`)
@@ -468,8 +569,13 @@ async function participate(env, deps, user, settings, event, body) {
         ok: true,
         replayed: true,
         role: existing.role,
+        result: existing.battle_result || 'DONE',
+        playerPower: Number(existing.deck_power || 0),
+        deckPower: Number(existing.deck_power || 0),
+        bossPower: Number(existing.boss_power || 0),
         contribution: Number(existing.contribution || 0),
         bonusPercent: Number(existing.bonus_percent || 0),
+        ultimateDamage: Number(existing.ultimate_damage || 0),
         state: await statusPayload(env, deps, user, settings)
       });
     }
@@ -479,8 +585,13 @@ async function participate(env, deps, user, settings, event, body) {
   const availability = eventAvailability(event, settings, user);
   if (!availability.open) return deps.json({ error: availability.message, code: availability.code }, 409);
 
-  const deck = await deckState(deps, env, user.id);
-  if (!deck.ready) return deps.json({ error: deck.error || '저장된 PvE 덱 5장이 필요합니다.' }, 400);
+  const bossPower = Math.max(1, Number(event.roles[role]?.battlePower || 1));
+  let combat;
+  try {
+    combat = await combatDeckState(deps, env, user.id, bossPower);
+  } catch (error) {
+    return deps.json({ error: String(error?.message || '저장된 PvE 덱 5장이 필요합니다.') }, Number(error?.status || 400));
+  }
 
   const dayKey = kstDayKey();
   const receiptInsert = await env.DB.prepare(`INSERT OR IGNORE INTO seal_battle_action_receipts(
@@ -499,17 +610,20 @@ async function participate(env, deps, user, settings, event, body) {
   const lowest = lowestRoleKeys(event);
   const bonusPercent = lowest.includes(role) ? Number(event.lowestRoleBonusPercent || 0) : 0;
   const multiplier = Number(event.roles[role]?.multiplier || 100);
-  const contribution = Math.max(1, Math.min(2000000000, Math.floor(deck.power * multiplier / 100 * (1 + bonusPercent / 100))));
+  const result = Number(combat.totalBattleDamage || 0) >= bossPower ? 'WIN' : 'LOSE';
+  const defeatPercent = Math.max(0, Math.min(100, Number(event.defeatContributionPercent ?? DEFAULT_SETTINGS.defeatContributionPercent)));
+  const rawContribution = Math.max(1, Math.floor(Number(combat.totalBattleDamage || 0) * multiplier / 100 * (1 + bonusPercent / 100)));
+  const contribution = Math.min(2000000000, result === 'WIN' ? Math.max(1, rawContribution) : Math.max(0, Math.floor(rawContribution * defeatPercent / 100)));
   const attemptCoin = Math.max(0, Number(event.attemptReward.coin || 0));
   const attemptShards = Math.max(0, Number(event.attemptReward.shards || 0));
 
   const statements = [
-    env.DB.prepare(`UPDATE seal_battle_action_receipts SET status='AUTHORIZED',deck_power=?,contribution=?,bonus_percent=?,updated_at=CURRENT_TIMESTAMP
+    env.DB.prepare(`UPDATE seal_battle_action_receipts SET status='AUTHORIZED',deck_power=?,boss_power=?,contribution=?,bonus_percent=?,battle_result=?,ultimate_damage=?,updated_at=CURRENT_TIMESTAMP
       WHERE request_id=? AND user_id=? AND status='PENDING' AND EXISTS(
         SELECT 1 FROM seal_battle_events WHERE id=? AND status='ACTIVE'
           AND (starts_at IS NULL OR datetime(starts_at)<=datetime('now'))
           AND (ends_at IS NULL OR datetime(ends_at)>datetime('now'))
-      )`).bind(deck.power, contribution, bonusPercent, requestId, user.id, event.id),
+      )`).bind(combat.playerPower, bossPower, contribution, bonusPercent, result, combat.ultimateDamage, requestId, user.id, event.id),
     env.DB.prepare(eventProgressSql(role)).bind(...eventProgressBindings(role, contribution, event.id, requestId)),
     env.DB.prepare(roleContributionUpdateSql(role)).bind(contribution, role, contribution, event.id, user.id, requestId),
     env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+?
@@ -537,7 +651,7 @@ async function participate(env, deps, user, settings, event, body) {
         .bind(String(error?.message || error).slice(0, 300), requestId).run();
     } catch {}
     console.error('seal battle participation commit failed', error);
-    return deps.json({ error: '봉인전 참여 처리에 실패했습니다.' }, 500);
+    return deps.json({ error: '봉인전 전투 결과 처리에 실패했습니다.' }, 500);
   }
 
   if (!Number(results?.[0]?.meta?.changes || 0)) {
@@ -565,10 +679,26 @@ async function participate(env, deps, user, settings, event, body) {
   return deps.json({
     ok: true,
     role,
+    result,
     contribution,
-    deckPower: deck.power,
+    defeatContributionPercent: defeatPercent,
+    playerPower: combat.playerPower,
+    deckPower: combat.playerPower,
+    cardPower: combat.cardPower,
+    basePlayerPower: combat.basePower,
+    totalBattleDamage: combat.totalBattleDamage,
+    bossPower,
+    cards: combat.cards,
+    activatedUltimate: combat.activatedUltimate,
+    ultimateDamage: combat.ultimateDamage,
+    bonusDamage: combat.ultimateDamage,
+    ultimateSourceCard: combat.ultimateSourceCard,
+    uniqueAbility: combat.uniqueAbility,
+    deckSynergy: combat.synergy,
+    characterBonus: combat.characterBonus,
     bonusPercent,
     reward: { coin: attemptCoin, shards: attemptShards },
+    boss: { name: event.bossName, image: event.bossImage, role, roleLabel: ROLE_META[role].label },
     balances: balance ? { coin: Number(balance.coin || 0), cardShards: Number(balance.card_shards || 0) } : null,
     state
   });
@@ -669,16 +799,23 @@ async function adminOverview(env, settings) {
 async function adminStart(env, settings, admin) {
   const key = eventKey();
   await env.DB.batch([
-    env.DB.prepare("UPDATE seal_battle_events SET status='ENDED',ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'"),
+    env.DB.prepare(`UPDATE seal_battle_events SET
+      status=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN 'CLEARED' ELSE 'FAILED' END,
+      cleared_at=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN COALESCE(cleared_at,CURRENT_TIMESTAMP) ELSE cleared_at END,
+      ended_at=COALESCE(ended_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP
+      WHERE status='ACTIVE'`),
     env.DB.prepare(`INSERT INTO seal_battle_events(
       event_key,title,boss_name,boss_image,description,status,starts_at,ends_at,daily_attempts,
       attack_target,guard_target,purify_target,attack_multiplier,guard_multiplier,purify_multiplier,
+      attack_battle_power,guard_battle_power,purify_battle_power,defeat_contribution_percent,
       lowest_bonus_percent,attempt_coin,attempt_shards,clear_coin,clear_shards,created_by
-    ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
+    ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
       key, settings.title, settings.bossName, settings.bossImage, settings.description,
       settings.startsAt, settings.endsAt, settings.dailyAttempts,
       settings.targets.attack, settings.targets.guard, settings.targets.purify,
       settings.multipliers.attack, settings.multipliers.guard, settings.multipliers.purify,
+      settings.battlePowers.attack, settings.battlePowers.guard, settings.battlePowers.purify,
+      settings.defeatContributionPercent,
       settings.lowestRoleBonusPercent, settings.attemptReward.coin, settings.attemptReward.shards,
       settings.clearReward.coin, settings.clearReward.shards, admin.id
     )
@@ -688,7 +825,7 @@ async function adminStart(env, settings, admin) {
 
 export async function handleSealBattle({ path, request, env, deps }) {
   if (!path.startsWith('seal-battle') && !path.startsWith('admin/seal-battle')) return null;
-  await ensureFoundation(env);
+  await ensureFoundation(env, deps);
 
   const user = await deps.authenticate(request, env);
   if (!user) return deps.json({ error: '로그인이 필요합니다.' }, 401);
@@ -758,7 +895,7 @@ export async function handleSealBattle({ path, request, env, deps }) {
     if (action === 'END') {
       const active = await env.DB.prepare("SELECT * FROM seal_battle_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
       if (!active) return deps.json({ error: '종료할 활성 봉인전이 없습니다.' }, 409);
-      await env.DB.prepare("UPDATE seal_battle_events SET status='ENDED',ended_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'").bind(active.id).run();
+      await env.DB.prepare(`UPDATE seal_battle_events SET status=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN 'CLEARED' ELSE 'FAILED' END,cleared_at=CASE WHEN attack_progress>=attack_target AND guard_progress>=guard_target AND purify_progress>=purify_target THEN COALESCE(cleared_at,CURRENT_TIMESTAMP) ELSE cleared_at END,ended_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'`).bind(active.id).run();
       if (typeof deps.writeAdminLog === 'function') await deps.writeAdminLog(env, admin, 'SEAL_BATTLE_END', 'SEAL_BATTLE', active.event_key, normalizeEvent(active), null);
       return deps.json({ ok: true, overview: await adminOverview(env, settings) });
     }

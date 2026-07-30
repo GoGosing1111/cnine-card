@@ -9,11 +9,12 @@
 
   const defaults = {
     mode: 'OFF', title: '봉인전', bossName: '심연에 봉인된 군주', bossImage: '',
-    description: '서버 전체가 파괴·수호·정화 역할을 나누어 세 개의 봉인을 완성하는 공동 보스 콘텐츠입니다.',
+    description: '저장된 PvE 덱으로 역할별 봉인 보스와 전투하고, 서버 전체가 파괴·수호·정화 세 봉인을 완성하는 공동 보스 콘텐츠입니다.',
     startsAt: null, endsAt: null, dailyAttempts: 3,
     targets: { attack: 20000000, guard: 16000000, purify: 14000000 },
     multipliers: { attack: 100, guard: 90, purify: 85 },
-    lowestRoleBonusPercent: 20,
+    battlePowers: { attack: 12000, guard: 11000, purify: 10000 },
+    lowestRoleBonusPercent: 20, defeatContributionPercent: 20,
     attemptReward: { coin: 100, shards: 1 },
     clearReward: { coin: 2000, shards: 50 },
     receiptRetentionDays: 14, progressRetentionDays: 90
@@ -45,6 +46,10 @@
     }).format(new Date(time));
   }
 
+  function statusText(value) {
+    return ({ ACTIVE: '진행 중', CLEARED: '봉인 완료', FAILED: '봉인 실패', ENDED: '종료' })[String(value || '').toUpperCase()] || String(value || '-');
+  }
+
   function apiCall(path, options = {}) {
     if (typeof window.api === 'function') return window.api(path, options);
     throw new Error('CMS API 함수를 찾을 수 없습니다.');
@@ -70,7 +75,7 @@
       view.id = 'view-sealbattle';
       view.hidden = true;
       view.innerHTML = `<section class="seal-admin-hero">
-        <div><small>SERVER COOPERATIVE BOSS</small><h2>봉인전 운영 센터</h2><p>파괴·수호·정화 세 역할의 서버 공동 진행도와 보상을 관리합니다. 상세 전투 JSON은 저장하지 않습니다.</p></div>
+        <div><small>SERVER COOPERATIVE BOSS</small><h2>봉인전 운영 센터</h2><p>파괴·수호·정화 역할별 PvE 보스 전투와 서버 공동 진행도를 관리합니다. 전투 상세 JSON은 저장하지 않습니다.</p></div>
         <div class="seal-admin-actions"><span id="sealAdminModeBadge">운영 중지</span><button type="button" id="sealAdminRefresh" class="ghost">새로고침</button><button type="button" id="sealAdminEnd" class="warn">현재 봉인전 종료</button></div>
       </section>
 
@@ -92,13 +97,14 @@
           <label><span>종료 시각 · KST</span><input id="sealEndsAt" type="datetime-local"></label>
           <label><span>일일 참여 횟수</span><input id="sealDailyAttempts" type="number" min="1" max="30"></label>
           <label><span>부족 역할 지원 보너스</span><div class="input-unit"><input id="sealLowestBonus" type="number" min="0" max="500"><em>%</em></div></label>
+          <label><span>개인 전투 패배 시 공헌 인정</span><div class="input-unit"><input id="sealDefeatContribution" type="number" min="0" max="100"><em>%</em></div></label>
         </div>
 
         <div class="seal-admin-section-title"><div><small>GLOBAL TARGETS</small><h4>역할별 공동 목표</h4></div></div>
         <div class="seal-admin-role-settings">
-          <article class="attack"><header><i>⚔</i><b>파괴 봉인</b></header><label><span>목표 공헌도</span><input id="sealAttackTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealAttackMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
-          <article class="guard"><header><i>◆</i><b>수호 봉인</b></header><label><span>목표 공헌도</span><input id="sealGuardTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealGuardMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
-          <article class="purify"><header><i>✦</i><b>정화 봉인</b></header><label><span>목표 공헌도</span><input id="sealPurifyTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealPurifyMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
+          <article class="attack"><header><i>⚔</i><b>파괴 봉인</b></header><label><span>보스 전투력</span><input id="sealAttackBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealAttackTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealAttackMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
+          <article class="guard"><header><i>◆</i><b>수호 봉인</b></header><label><span>보스 전투력</span><input id="sealGuardBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealGuardTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealGuardMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
+          <article class="purify"><header><i>✦</i><b>정화 봉인</b></header><label><span>보스 전투력</span><input id="sealPurifyBattlePower" type="number" min="1"></label><label><span>목표 공헌도</span><input id="sealPurifyTarget" type="number" min="1"></label><label><span>역할 배율</span><div class="input-unit"><input id="sealPurifyMultiplier" type="number" min="1" max="1000"><em>%</em></div></label></article>
         </div>
 
         <div class="seal-admin-reward-grid">
@@ -128,7 +134,7 @@
   function roleProgress(role, label, icon) {
     if (!role) return '';
     const pct = Math.max(0, Math.min(100, Number(role.percent || 0)));
-    return `<article><header><span>${icon}</span><div><small>${label}</small><b>${pct.toFixed(2)}%</b></div></header><div><i style="width:${pct}%"></i></div><footer><span>${num(role.progress)}</span><em>/ ${num(role.target)}</em></footer></article>`;
+    return `<article><header><span>${icon}</span><div><small>${label} · 보스 ${num(role.battlePower)}</small><b>${pct.toFixed(2)}%</b></div></header><div><i style="width:${pct}%"></i></div><footer><span>${num(role.progress)}</span><em>/ ${num(role.target)}</em></footer></article>`;
   }
 
   function renderOverview(data) {
@@ -140,7 +146,7 @@
       badge.textContent = settings.mode === 'ON' ? '전체 운영' : settings.mode === 'TEST' ? '테스트 운영' : '운영 중지';
       badge.className = settings.mode.toLowerCase();
     }
-    $('#sealAdminEventSummary').innerHTML = event ? `<div><small>현재 이벤트 #${event.id}</small><h3>${esc(event.title)} · ${esc(event.bossName)}</h3><p>${esc(event.description || '')}</p></div><div><span class="status-${String(event.status).toLowerCase()}">${esc(event.status)}</span><b>${formatDate(event.startsAt)} ~ ${formatDate(event.endsAt)}</b></div>` : '<div><small>NO ACTIVE EVENT</small><h3>시작된 봉인전이 없습니다.</h3><p>아래 설정을 저장한 뒤 새 봉인전을 시작하세요.</p></div>';
+    $('#sealAdminEventSummary').innerHTML = event ? `<div><small>현재 이벤트 #${event.id}</small><h3>${esc(event.title)} · ${esc(event.bossName)}</h3><p>${esc(event.description || '')}</p></div><div><span class="status-${String(event.status).toLowerCase()}">${esc(statusText(event.status))}</span><b>${formatDate(event.startsAt)} ~ ${formatDate(event.endsAt)}</b></div>` : '<div><small>NO ACTIVE EVENT</small><h3>시작된 봉인전이 없습니다.</h3><p>아래 설정을 저장한 뒤 새 봉인전을 시작하세요.</p></div>';
     const stats = data.stats || {};
     $('#sealAdminStats').innerHTML = [
       ['참여 유저', num(stats.participants), '명'], ['총 참여', num(stats.attempts), '회'],
@@ -156,7 +162,7 @@
       const attack = Math.min(100, Number(row.attack_progress || 0) / Math.max(1, Number(row.attack_target || 1)) * 100);
       const guard = Math.min(100, Number(row.guard_progress || 0) / Math.max(1, Number(row.guard_target || 1)) * 100);
       const purify = Math.min(100, Number(row.purify_progress || 0) / Math.max(1, Number(row.purify_target || 1)) * 100);
-      return `<article><span class="status-${String(row.status).toLowerCase()}">${esc(row.status)}</span><div><b>${esc(row.title)} · ${esc(row.boss_name)}</b><small>${formatDate(row.created_at)} · 파괴 ${attack.toFixed(1)}% · 수호 ${guard.toFixed(1)}% · 정화 ${purify.toFixed(1)}%</small></div></article>`;
+      return `<article><span class="status-${String(row.status).toLowerCase()}">${esc(statusText(row.status))}</span><div><b>${esc(row.title)} · ${esc(row.boss_name)}</b><small>${formatDate(row.created_at)} · 파괴 ${attack.toFixed(1)}% · 수호 ${guard.toFixed(1)}% · 정화 ${purify.toFixed(1)}%</small></div></article>`;
     }).join('') || '<div class="seal-admin-empty">봉인전 이력이 없습니다.</div>';
   }
 
@@ -170,6 +176,10 @@
     $('#sealEndsAt').value = toInputDate(settings.endsAt);
     $('#sealDailyAttempts').value = Number(settings.dailyAttempts || 3);
     $('#sealLowestBonus').value = Number(settings.lowestRoleBonusPercent || 0);
+    $('#sealDefeatContribution').value = Number(settings.defeatContributionPercent ?? 20);
+    $('#sealAttackBattlePower').value = Number(settings.battlePowers?.attack || 1);
+    $('#sealGuardBattlePower').value = Number(settings.battlePowers?.guard || 1);
+    $('#sealPurifyBattlePower').value = Number(settings.battlePowers?.purify || 1);
     $('#sealAttackTarget').value = Number(settings.targets?.attack || 1);
     $('#sealGuardTarget').value = Number(settings.targets?.guard || 1);
     $('#sealPurifyTarget').value = Number(settings.targets?.purify || 1);
@@ -205,7 +215,11 @@
       multipliers: {
         attack: integer('#sealAttackMultiplier', 100), guard: integer('#sealGuardMultiplier', 90), purify: integer('#sealPurifyMultiplier', 85)
       },
+      battlePowers: {
+        attack: integer('#sealAttackBattlePower', 12000), guard: integer('#sealGuardBattlePower', 11000), purify: integer('#sealPurifyBattlePower', 10000)
+      },
       lowestRoleBonusPercent: integer('#sealLowestBonus', 20),
+      defeatContributionPercent: integer('#sealDefeatContribution', 20),
       attemptReward: { coin: integer('#sealAttemptCoin'), shards: integer('#sealAttemptShards') },
       clearReward: { coin: integer('#sealClearCoin'), shards: integer('#sealClearShards') },
       receiptRetentionDays: integer('#sealReceiptDays', 14),
@@ -219,6 +233,8 @@
     if (settings.dailyAttempts < 1 || settings.dailyAttempts > 30) return '일일 참여 횟수는 1~30회로 입력하세요.';
     if (Object.values(settings.targets).some(value => value < 1)) return '역할별 목표 공헌도는 1 이상이어야 합니다.';
     if (Object.values(settings.multipliers).some(value => value < 1 || value > 1000)) return '역할 배율은 1~1,000%로 입력하세요.';
+    if (Object.values(settings.battlePowers).some(value => value < 1)) return '역할별 보스 전투력은 1 이상이어야 합니다.';
+    if (settings.defeatContributionPercent < 0 || settings.defeatContributionPercent > 100) return '패배 시 공헌 인정 비율은 0~100%로 입력하세요.';
     return '';
   }
 
@@ -247,7 +263,7 @@
       finally { button.disabled = false; }
     };
     $('#sealAdminSaveStart').onclick = async event => {
-      if (!confirm('현재 활성 봉인전을 종료하고 새 봉인전을 시작할까요?\n현재 진행도는 되돌릴 수 없습니다.')) return;
+      if (!confirm('현재 활성 봉인전을 종료하고 새 봉인전을 시작할까요?\n세 역할이 모두 완료되지 않았다면 기존 봉인전은 실패로 확정됩니다.')) return;
       const button = event.currentTarget;
       button.disabled = true;
       try {
@@ -259,7 +275,7 @@
       finally { button.disabled = false; }
     };
     $('#sealAdminEnd').onclick = async event => {
-      if (!confirm('현재 활성 봉인전을 종료할까요?')) return;
+      if (!confirm('현재 활성 봉인전을 종료할까요?\n세 역할이 모두 완료되지 않았다면 봉인 실패로 확정되며 완료 보상은 지급되지 않습니다.')) return;
       const button = event.currentTarget;
       button.disabled = true;
       try { await apiCall('admin/seal-battle/event', { method: 'POST', body: JSON.stringify({ action: 'END' }) }); await load(); }
