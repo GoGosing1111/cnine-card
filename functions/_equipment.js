@@ -10,7 +10,7 @@ const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','
 const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
 const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
 const SUPPLY_BOX_MAX_OPEN=10;
-const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1},PVE_AUTO:{enabled:true,rate:.05},TOWER:{enabled:true,rate:.2},RAID:{enabled:true,rate:1},RIFT:{enabled:true,rate:.5},PVP:{enabled:true,rate:.2},CAPTAIN:{enabled:true,rate:.3}}};
+const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1,quantity:1},PVE_AUTO:{enabled:true,rate:.05,quantity:1},TOWER:{enabled:true,rate:.2,quantity:1},RAID:{enabled:true,rate:1,quantity:1},RIFT:{enabled:true,rate:.5,quantity:1},PVP:{enabled:true,rate:.2,quantity:1},CAPTAIN:{enabled:true,rate:.3,quantity:1}}};
 let foundationPromise=null,supplySettingsCache=null,supplySettingsCacheAt=0;
 
 function cleanText(value,max=120){return String(value??'').trim().slice(0,max)}
@@ -24,7 +24,7 @@ function cleanSupplyBoxSettings(value){
   const total=rewardRates.equipment+rewardRates.shards+rewardRates.coins;
   if(Math.abs(total-100)>.0001)throw new Error('보급상자 보상 확률 합계는 100%여야 합니다.');
   const range=(input,defaults)=>{const min=cleanInt(input?.min??defaults.min,0,100000000),max=cleanInt(input?.max??defaults.max,min,100000000);return {min,max:Math.max(min,max)}};
-  const sources={};for(const type of SOURCE_TYPES){const current=raw.sources?.[type]||DEFAULT_SUPPLY_BOX_SETTINGS.sources[type]||{enabled:false,rate:0};sources[type]={enabled:cleanBool(current.enabled,false),rate:cleanRate(current.rate)}}
+  const sources={};for(const type of SOURCE_TYPES){const current=raw.sources?.[type]||DEFAULT_SUPPLY_BOX_SETTINGS.sources[type]||{enabled:false,rate:0,quantity:1};sources[type]={enabled:cleanBool(current.enabled,false),rate:cleanRate(current.rate),quantity:cleanInt(current.quantity??1,1,100)}}
   return {enabled:cleanBool(raw.enabled,true),shopEnabled:cleanBool(raw.shopEnabled,true),shopPrice:cleanInt(raw.shopPrice??DEFAULT_SUPPLY_BOX_SETTINGS.shopPrice,1,100000000),rewardRates,shards:range(raw.shards,DEFAULT_SUPPLY_BOX_SETTINGS.shards),coins:range(raw.coins,DEFAULT_SUPPLY_BOX_SETTINGS.coins),sources};
 }
 function deterministicUnit(text){let hash=2166136261;for(const ch of String(text||'')){hash^=ch.charCodeAt(0);hash=Math.imul(hash,16777619)>>>0}return hash/4294967296}
@@ -187,6 +187,7 @@ export async function ensureEquipmentFoundation(env){
         source_type TEXT NOT NULL,
         reference_id TEXT NOT NULL,
         status TEXT NOT NULL DEFAULT 'PENDING',
+        quantity INTEGER NOT NULL DEFAULT 1,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY(user_id,source_type,reference_id)
@@ -198,6 +199,19 @@ export async function ensureEquipmentFoundation(env){
       statements.push(env.DB.prepare("UPDATE equipment_drop_profiles SET enabled=0,updated_at=CURRENT_TIMESTAMP WHERE enabled<>0"));
       statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1247_equipment_supply_box','1',CURRENT_TIMESTAMP)"));
       await env.DB.batch(statements);
+    }
+    const markerV1274=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1274_supply_drop_quantity'").first();
+    if(markerV1274?.value!=='1'){
+      const grantTableInfo=await env.DB.prepare('PRAGMA table_info(equipment_supply_drop_grants)').all();
+      const grantColumns=new Set((grantTableInfo.results||[]).map(col=>String(col.name||'').toLowerCase()));
+      if(!grantColumns.has('quantity')){
+        try{await env.DB.prepare('ALTER TABLE equipment_supply_drop_grants ADD COLUMN quantity INTEGER NOT NULL DEFAULT 1').run()}
+        catch(error){if(!String(error?.message||error).toLowerCase().includes('duplicate column'))throw error}
+      }
+      await env.DB.batch([
+        env.DB.prepare('UPDATE equipment_supply_drop_grants SET quantity=1 WHERE quantity IS NULL OR quantity<1'),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1274_supply_drop_quantity','1',CURRENT_TIMESTAMP)")
+      ]);
     }
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
@@ -299,25 +313,27 @@ export async function grantEquipmentDrop(env,{userId,sourceType,sourceId='*',req
   try{await recordCharacterProgress(env,userId,type,key)}catch(error){console.error('character progress record failed',error)}
   const settings=await supplyBoxSettings(env),source=settings.sources[type];
   if(!settings.enabled||!source?.enabled||source.rate<=0)return null;
+  const configuredQuantity=cleanInt(source.quantity??1,1,100);
   const rollKey=`SUPPLY_DROP:${userId}:${type}:${key}:${rid}`;
   if(deterministicUnit(rollKey)*100>=source.rate)return null;
-  const prior=await env.DB.prepare('SELECT status FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=?').bind(userId,type,rid).first();
+  const prior=await env.DB.prepare('SELECT status,quantity FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=?').bind(userId,type,rid).first();
   if(prior?.status==='GRANTED'){
     const balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,SUPPLY_BOX_CODE).first();
-    return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:1,balance:Number(balance?.quantity||0),sourceType:type,sourceId:key,reused:true};
+    return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:cleanInt(prior.quantity??1,1,100),balance:Number(balance?.quantity||0),sourceType:type,sourceId:key,reused:true};
   }
   await env.DB.batch([
-    env.DB.prepare("INSERT OR IGNORE INTO equipment_supply_drop_grants(user_id,source_type,reference_id,status) VALUES(?,?,?,'PENDING')").bind(userId,type,rid),
+    env.DB.prepare("INSERT OR IGNORE INTO equipment_supply_drop_grants(user_id,source_type,reference_id,status,quantity) VALUES(?,?,?,'PENDING',?)").bind(userId,type,rid,configuredQuantity),
     env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
-      SELECT ?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
-      WHERE EXISTS(SELECT 1 FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=? AND status='PENDING')
-      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+1,unseen_quantity=cnine_user_inventory.unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,SUPPLY_BOX_CODE,userId,type,rid),
+      SELECT ?,?,g.quantity,g.quantity,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
+      FROM equipment_supply_drop_grants g
+      WHERE g.user_id=? AND g.source_type=? AND g.reference_id=? AND g.status='PENDING'
+      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,SUPPLY_BOX_CODE,userId,type,rid),
     env.DB.prepare("UPDATE equipment_supply_drop_grants SET status='GRANTED',updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND source_type=? AND reference_id=? AND status='PENDING'").bind(userId,type,rid)
   ]);
-  const granted=await env.DB.prepare("SELECT status FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=?").bind(userId,type,rid).first();
+  const granted=await env.DB.prepare("SELECT status,quantity FROM equipment_supply_drop_grants WHERE user_id=? AND source_type=? AND reference_id=?").bind(userId,type,rid).first();
   if(granted?.status!=='GRANTED')return null;
   const balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,SUPPLY_BOX_CODE).first();
-  return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:1,balance:Number(balance?.quantity||0),sourceType:type,sourceId:key};
+  return {kind:'SUPPLY_BOX',itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,quantity:cleanInt(granted.quantity??configuredQuantity,1,100),balance:Number(balance?.quantity||0),sourceType:type,sourceId:key};
 }
 
 async function characterPayload(env,userId,{admin=false,syncTitles=false}={}){

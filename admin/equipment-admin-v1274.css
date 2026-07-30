@@ -1,0 +1,28 @@
+/* V1274 SUPPLY BOX POOL TOTAL + SOURCE QUANTITY */
+.supply-source-grid label{
+  grid-template-columns:minmax(0,1fr) 90px minmax(115px,145px) minmax(90px,115px)!important;
+}
+.supply-source-number,.supply-pool-rate{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 24px;
+  gap:6px;
+  align-items:center;
+  min-width:0;
+}
+.supply-source-number input,.supply-pool-rate input{min-width:0;width:100%}
+.supply-source-number em,.supply-pool-rate em{color:#8fa3b7;font-style:normal;text-align:center}
+.supply-equipment-pool label{
+  grid-template-columns:auto minmax(0,1fr) minmax(100px,125px)!important;
+}
+#supplyPoolRateTotal{position:sticky;bottom:8px;z-index:3;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+@media(max-width:900px){
+  .supply-source-grid label{grid-template-columns:minmax(0,1fr) 84px minmax(105px,1fr) minmax(85px,110px)!important}
+}
+@media(max-width:640px){
+  .supply-source-grid label{grid-template-columns:minmax(0,1fr) 78px!important}
+  .supply-source-grid label>span:first-child{grid-column:1/2}
+  .supply-source-grid label>select{grid-column:2/3}
+  .supply-source-number{grid-column:span 1}
+  .supply-equipment-pool label{grid-template-columns:auto minmax(0,1fr)!important}
+  .supply-pool-rate{grid-column:2/3}
+}
