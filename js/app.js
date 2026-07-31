@@ -399,6 +399,8 @@ function bindFullscreenPlayLink(header){
 
 let shellRenderSeq=0;
 function renderShell(tab) {
+  // V1298: 화면을 떠난 뒤 도착한 레이드 상태 응답/결과 타이머가 새 화면을 다시 덮지 못하게 먼저 무효화한다.
+  try{invalidateRaidUiState({clearSelection:true,stopClaimRetry:true})}catch(_){}
   const renderSeq=++shellRenderSeq;
   document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
@@ -1254,10 +1256,18 @@ async function claimRiftReward(){const button=document.getElementById('riftClaim
 async function abandonRift(silent=false,capturedRunId='',button=null){const runId=String(capturedRunId||riftState.data?.run?.runId||'');if(!runId){if(!silent){await loadRiftView();alert('진행 중인 원정 정보를 다시 불러왔습니다. 원정 포기를 다시 시도해주세요.')}return}if(!silent&&!confirm('현재 원정을 포기할까요?\n누적한 임시 보상과 원정 강화가 모두 사라집니다.'))return;if(button)button.disabled=true;try{await apiRequest('rift/abandon',{method:'POST',body:JSON.stringify({runId})});riftState.data={...(riftState.data||{}),run:null};if(!silent)await loadRiftView()}catch(e){if(!silent)alert(e.message);if(button?.isConnected)button.disabled=false}}
 
 
-let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,lastHpUniqueKey:'',claimRetryTimer:null,claimInFlight:false};
+let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,lastHpUniqueKey:'',claimRetryTimer:null,claimInFlight:false,loadSeq:0};
 function stopRaidTimer(){if(raidState.timer){clearTimeout(raidState.timer);raidState.timer=null}}
 function stopRaidResultAdvanceTimer(){if(raidState.resultAdvanceTimer){clearTimeout(raidState.resultAdvanceTimer);raidState.resultAdvanceTimer=null}}
 function stopRaidClaimRetryTimer(){if(raidState.claimRetryTimer){clearTimeout(raidState.claimRetryTimer);raidState.claimRetryTimer=null}}
+function invalidateRaidUiState({clearSelection=false,stopClaimRetry=false}={}){
+  raidState.loadSeq++;
+  stopRaidTimer();
+  stopRaidResultAdvanceTimer();
+  if(stopClaimRetry)stopRaidClaimRetryTimer();
+  raidState.revealingResultId=0;
+  if(clearSelection)raidState.selectedRoomId=0;
+}
 function raidClaimedKey(instanceId){return `cnine_raid_claimed_${String(instanceId||'')}`}
 function raidResultRevealedKey(instanceId){return `cnine_raid_result_revealed_${String(instanceId||'')}`}
 function markRaidClaimed(instanceId){if(!instanceId)return;try{localStorage.setItem(raidClaimedKey(instanceId),'1')}catch(_){}}
@@ -1265,7 +1275,7 @@ function isRaidClaimedLocally(instanceId){if(!instanceId)return false;try{return
 function markRaidResultRevealed(instanceId){const id=Number(instanceId||0);if(!id)return;raidState.resultRevealed.add(id);try{localStorage.setItem(raidResultRevealedKey(id),'1')}catch(_){}}
 function isRaidResultRevealed(instanceId){const id=Number(instanceId||0);if(!id)return false;if(raidState.resultRevealed.has(id))return true;try{if(localStorage.getItem(raidResultRevealedKey(id))==='1'){raidState.resultRevealed.add(id);return true}}catch(_){}return false}
 function clearRaidResultRevealed(instanceId){const id=Number(instanceId||0);if(!id)return;raidState.resultRevealed.delete(id);try{localStorage.removeItem(raidResultRevealedKey(id))}catch(_){}}
-async function revealRaidResult(instanceId){const id=Number(instanceId||raidState.data?.current?.id||0);if(!id||raidState.revealingResultId===id)return;raidState.revealingResultId=id;stopRaidResultAdvanceTimer();markRaidResultRevealed(id);try{if(raidState.data?.current&&Number(raidState.data.current.id)===id)renderRaidView(raidState.data);await loadRaidView()}finally{raidState.revealingResultId=0}}
+async function revealRaidResult(instanceId){const id=Number(instanceId||raidState.data?.current?.id||0);if(!id||raidState.revealingResultId===id||isRaidClaimedLocally(id))return;raidState.revealingResultId=id;stopRaidResultAdvanceTimer();markRaidResultRevealed(id);try{if(raidState.data?.current&&Number(raidState.data.current.id)===id)renderRaidView(raidState.data);await loadRaidView()}finally{raidState.revealingResultId=0}}
 function bindRaidResultContinue(button,instanceId){if(!button)return;const advance=event=>{event?.preventDefault?.();event?.stopPropagation?.();void revealRaidResult(instanceId)};button.addEventListener('click',advance,{once:true});button.addEventListener('pointerup',event=>{if(event.pointerType==='touch'||event.pointerType==='pen')advance(event)},{once:true});}
 
 function raidCombatCard(card,extra=''){
@@ -1283,8 +1293,31 @@ function triggerRaidDeckUniqueFx(stage,type){
     clearTimeout(card._uniqueFxTimer);card._uniqueFxTimer=setTimeout(()=>card.classList.remove('unique-fx-active'),1500+index*70);
   });
 }
-function switchPveMode(mode){const hunt=document.getElementById('pveHuntView'),raid=document.getElementById('pveRaidView'),rift=document.getElementById('pveRiftView');if(hunt)hunt.hidden=mode==='raid'||mode==='rift';if(raid)raid.hidden=mode!=='raid';if(rift)rift.hidden=mode!=='rift';document.querySelectorAll('.pve-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.pveMode===mode));if(mode==='raid'){stopBattleEnergyTimer();loadRaidView();return;}if(mode==='rift'){stopBattleEnergyTimer();stopRaidTimer();stopRaidResultAdvanceTimer();loadRiftView();return;}const subMode=mode==='hunt'?'hunt':'deck';setPveViewMode(subMode);stopRaidTimer();stopRaidResultAdvanceTimer();loadBattleView().then(()=>applyPveViewMode(subMode));}
-async function loadRaidView(){const box=document.getElementById('pveRaidView');if(!box||box.hidden||document.hidden)return;try{const query=raidState.selectedRoomId?`?instanceId=${Number(raidState.selectedRoomId)}`:'';const d=await apiRequest(`raid/status${query}`,{}, {ttl:0});raidState.data=d;renderRaidView(d);scheduleRaidPoll(d)}catch(e){stopRaidTimer();box.innerHTML=`<section class="raid-empty"><h2>월드 레이드</h2><p>${escapeHtml(e.message)}</p></section>`;}}
+function switchPveMode(mode){
+  const hunt=document.getElementById('pveHuntView'),raid=document.getElementById('pveRaidView'),rift=document.getElementById('pveRiftView');
+  if(mode!=='raid')invalidateRaidUiState({clearSelection:false,stopClaimRetry:true});
+  if(hunt)hunt.hidden=mode==='raid'||mode==='rift';if(raid)raid.hidden=mode!=='raid';if(rift)rift.hidden=mode!=='rift';
+  document.querySelectorAll('.pve-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.pveMode===mode));
+  if(mode==='raid'){stopBattleEnergyTimer();loadRaidView();return;}
+  if(mode==='rift'){stopBattleEnergyTimer();loadRiftView();return;}
+  const subMode=mode==='hunt'?'hunt':'deck';setPveViewMode(subMode);loadBattleView().then(()=>applyPveViewMode(subMode));
+}
+async function loadRaidView(){
+  const box=document.getElementById('pveRaidView');if(!box||box.hidden||document.hidden)return;
+  const requestSeq=++raidState.loadSeq,requestedRoomId=Math.max(0,Number(raidState.selectedRoomId||0));
+  try{
+    const params=new URLSearchParams();if(requestedRoomId)params.set('instanceId',String(requestedRoomId));params.set('_request',`${Date.now()}-${requestSeq}`);
+    const d=await apiRequest(`raid/status?${params.toString()}`,{}, {ttl:0});
+    if(requestSeq!==raidState.loadSeq||!box.isConnected||box.hidden||document.hidden)return;
+    const currentId=Math.max(0,Number(d?.current?.id||0));
+    if(currentId)raidState.selectedRoomId=currentId;
+    else if(requestedRoomId&&Number(raidState.selectedRoomId||0)!==requestedRoomId)return;
+    raidState.data=d;renderRaidView(d);scheduleRaidPoll(d);
+  }catch(e){
+    if(requestSeq!==raidState.loadSeq||!box.isConnected||box.hidden||document.hidden)return;
+    stopRaidTimer();box.innerHTML=`<section class="raid-empty"><h2>월드 레이드</h2><p>${escapeHtml(e.message)}</p></section>`;
+  }
+}
 function nextRaidOpenAtFromSettings(settings,nowMs=Date.now()){
   const s=settings||{};
   if(String(s.scheduleMode||'ALWAYS').toUpperCase()!=='SCHEDULED')return null;
@@ -1343,7 +1376,8 @@ function renderRaidView(d){
     const join=document.getElementById('raidJoin');if(join&&!join.disabled)join.onclick=joinRaid;return;
   }
   if(ended){
-    if(me&&(Number(me.rewardClaimed||0)===1||isRaidClaimedLocally(c.id))){box.innerHTML=`<section class="raid-empty raid-empty-polished"><p class="eyebrow">WORLD RAID</p><h2>${escapeHtml(s.title||'월드 레이드')}</h2><p>이미 보상 정산이 완료되었습니다.<br>현재 열린 레이드가 없습니다.</p></section>`;stopRaidTimer();return;}
+    const settlementCompleted=Boolean(Number(me?.rewardClaimed||0)===1||isRaidClaimedLocally(c.id)||String(d?.claimableReward?.receiptStatus||'').toUpperCase()==='COMPLETED'||(d?.lastRaid&&Number(d.lastRaid.id)===Number(c.id)&&d.lastRaid.rewardClaimed===true));
+    if(me&&settlementCompleted){box.innerHTML=`<section class="raid-empty raid-empty-polished"><p class="eyebrow">WORLD RAID</p><h2>${escapeHtml(s.title||'월드 레이드')}</h2><p>이미 보상 정산이 완료되었습니다.<br>현재 열린 레이드가 없습니다.</p></section>`;stopRaidTimer();stopRaidResultAdvanceTimer();return;}
     if(!isRaidResultRevealed(c.id)){const outcome=c.result==='CLEAR'?'clear':c.result==='FAILED'?'failed':'timeout',outcomeTitle=outcome==='clear'?'레이드 클리어':outcome==='failed'?'레이드 실패':'시간 초과',outcomeText=outcome==='clear'?'보스 처치에 성공했습니다.':outcome==='failed'?'참가 인원이 모두 전투 불능 상태가 되었습니다.':'제한 시간 안에 보스를 처치하지 못했습니다.',outcomeIcon=outcome==='clear'?'✓':outcome==='failed'?'✕':'⌛',instanceId=Number(c.id||0);box.innerHTML=`<section class="raid-outcome-screen ${outcome}"><div class="raid-outcome-backdrop"></div><div class="raid-outcome-mark">${outcomeIcon}</div><p class="eyebrow">WORLD RAID RESULT</p><span class="raid-outcome-label">${c.result==='CLEAR'?'RAID CLEAR':c.result==='FAILED'?'RAID FAILED':'TIME OUT'}</span><h1>${outcomeTitle}</h1><h2>${escapeHtml(c.bossName)}</h2><p>${outcomeText}</p><div class="raid-outcome-hp"><span>보스 최종 HP</span><b>${Number(c.currentHp||0).toLocaleString()} / ${Number(c.maxHp||0).toLocaleString()}</b></div><button type="button" class="btn raid-result-continue" id="raidResultContinue" data-instance-id="${instanceId}">결과 상세 확인</button><small>버튼을 누르거나 잠시 기다리면 결과 상세 화면으로 이동합니다.</small></section>`;const next=document.getElementById('raidResultContinue');bindRaidResultContinue(next,instanceId);stopRaidTimer();stopRaidResultAdvanceTimer();raidState.resultAdvanceTimer=setTimeout(()=>{void revealRaidResult(instanceId)},8000);return;}
     const rank=me?participants.findIndex(x=>Number(x.userId)===Number(me.userId))+1:0;
     const clear=c.result==='CLEAR';
@@ -1383,8 +1417,9 @@ async function claimRaidReward(attempt=0){
     const d=await apiRequest('raid/claim',{method:'POST',body:JSON.stringify({instanceId,expectedReward:shownReward?{instanceId,coin:Number(shownReward.coin||0),shards:Number(shownReward.shards||0),magicCrystals:Number(shownReward.magicCrystals||0)}:null})});
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('레이드 장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
     const claimedId=Number(d.instanceId||instanceId);
+    invalidateRaidUiState({clearSelection:true,stopClaimRetry:true});
     markRaidClaimed(claimedId);
-    clearRaidResultRevealed(claimedId);
+    markRaidResultRevealed(claimedId);
     if(d.user)saveUser(apiUserToLocal(d.user));
     const verified=await apiRequest('me');
     if(verified?.user)saveUser(apiUserToLocal(verified.user));
@@ -1405,8 +1440,9 @@ async function claimRaidReward(attempt=0){
       return;
     }
     if(e?.rewardClaimed){
+      invalidateRaidUiState({clearSelection:true,stopClaimRetry:true});
       markRaidClaimed(instanceId);
-      clearRaidResultRevealed(instanceId);
+      markRaidResultRevealed(instanceId);
       if(e.user)saveUser(apiUserToLocal(e.user));
       raidState.data={settings:raidState.data?.settings||{},schedule:raidState.data?.schedule||{},current:null,participants:[],me:null};
       await loadRaidView();
@@ -1427,8 +1463,8 @@ async function claimRaidReward(attempt=0){
 }
 async function selectRaidRoom(instanceId){raidState.selectedRoomId=Number(instanceId||0);await loadRaidView()}
 async function leaveRaid(){const instanceId=Number(raidState.data?.current?.id||0);if(!instanceId||!confirm('레이드 대기실에서 퇴장할까요?\n사용한 오늘의 입장 횟수는 복구되며 같은 방에는 다시 참가할 수 없습니다.'))return;const btn=document.getElementById('raidLeave');if(btn){btn.disabled=true;btn.textContent='퇴장 중...'}try{const d=await apiRequest('raid/leave',{method:'POST',body:JSON.stringify({instanceId})});raidState.selectedRoomId=0;alert(`레이드 방에서 퇴장했습니다.\n입장 횟수 복구 완료 · 현재 참가자 ${Number(d.participantCount||0)}명`);await loadRaidView()}catch(e){alert(e.message);if(btn){btn.disabled=false;btn.textContent='레이드 퇴장'}}}
-async function openRaid(bossId,btn){if(!confirm('이 레이드를 개방하면 코인이 차감되고 현재 운영 타임 참여 기회 1회를 사용합니다.\n최소 인원 미달로 취소되면 개설 코인과 입장 횟수가 자동 복구됩니다.\n\n레이드를 개방할까요?'))return;const requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;if(btn){btn.disabled=true;btn.textContent='개방 중...'}try{const d=await apiRequest('raid/open',{method:'POST',body:JSON.stringify({bossId,cardIds:battleState.deck,requestId})});raidState.selectedRoomId=Number(d.instanceId||0);alert(`레이드 방이 개설되었습니다.\n${Number(d.cost||0).toLocaleString()}코인 사용 · 자동 참가 완료`);await loadRaidView()}catch(e){alert(e.message);if(btn){btn.disabled=false;btn.textContent='레이드 개방'}}}
-async function joinRaid(){const btn=document.getElementById('raidJoin'),instanceId=Number(raidState.data?.current?.id||raidState.selectedRoomId||0);if(btn)btn.disabled=true;try{const d=await apiRequest('raid/join',{method:'POST',body:JSON.stringify({instanceId,cardIds:battleState.deck})});raidState.selectedRoomId=instanceId;alert(`레이드 신청 완료!\n참가 전투력 ${Number(d.totalPower).toLocaleString()}`);loadRaidView()}catch(e){alert(e.message);if(btn)btn.disabled=false}}
+async function openRaid(bossId,btn){if(!confirm('이 레이드를 개방하면 코인이 차감되고 현재 운영 타임 참여 기회 1회를 사용합니다.\n최소 인원 미달로 취소되면 개설 코인과 입장 횟수가 자동 복구됩니다.\n\n레이드를 개방할까요?'))return;const requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;if(btn){btn.disabled=true;btn.textContent='개방 중...'}try{const d=await apiRequest('raid/open',{method:'POST',body:JSON.stringify({bossId,cardIds:battleState.deck,requestId})});raidState.selectedRoomId=Number(d.instanceId||0);raidState.loadSeq++;alert(`레이드 방이 개설되었습니다.\n${Number(d.cost||0).toLocaleString()}코인 사용 · 자동 참가 완료`);await loadRaidView()}catch(e){alert(e.message);if(btn){btn.disabled=false;btn.textContent='레이드 개방'}}}
+async function joinRaid(){const btn=document.getElementById('raidJoin'),instanceId=Number(raidState.data?.current?.id||raidState.selectedRoomId||0);if(btn)btn.disabled=true;try{const d=await apiRequest('raid/join',{method:'POST',body:JSON.stringify({instanceId,cardIds:battleState.deck})});raidState.selectedRoomId=instanceId;raidState.loadSeq++;alert(`레이드 신청 완료!\n참가 전투력 ${Number(d.totalPower).toLocaleString()}`);await loadRaidView()}catch(e){alert(e.message);if(btn)btn.disabled=false}}
 
 function bindView(tab) {
   if(tab==='buy')loadSupplyBoxShop();

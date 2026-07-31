@@ -496,6 +496,22 @@ async function raidUserFinalRank(env,instanceId,userId){
   const index=rows.findIndex(row=>Number(row.user_id)===Number(userId));
   return index<0?0:index+1;
 }
+async function raidSettlementState(env,instanceId,userId,{repair=true}={}){
+  const row=await env.DB.prepare(`SELECT
+      COALESCE(rp.reward_claimed,0) AS rewardClaimed,
+      UPPER(COALESCE(rr.status,'')) AS receiptStatus,
+      UPPER(COALESCE(ur.status,'')) AS rewardStatus
+    FROM raid_participants rp
+    LEFT JOIN raid_reward_receipts rr ON rr.instance_id=rp.instance_id AND rr.user_id=rp.user_id
+    LEFT JOIN raid_user_reward_v1293 ur ON ur.instance_id=rp.instance_id AND ur.user_id=rp.user_id
+    WHERE rp.instance_id=? AND rp.user_id=? AND COALESCE(rp.is_active,1)=1
+    LIMIT 1`).bind(Number(instanceId),Number(userId)).first();
+  const settled=Number(row?.rewardClaimed||0)===1||String(row?.receiptStatus||'')==='COMPLETED'||String(row?.rewardStatus||'')==='COMPLETED';
+  if(settled&&repair&&Number(row?.rewardClaimed||0)!==1){
+    await env.DB.prepare('UPDATE raid_participants SET reward_claimed=1,updated_at=CURRENT_TIMESTAMP WHERE instance_id=? AND user_id=? AND COALESCE(reward_claimed,0)=0').bind(Number(instanceId),Number(userId)).run();
+  }
+  return {settled,rewardClaimed:settled?1:Number(row?.rewardClaimed||0),receiptStatus:String(row?.receiptStatus||''),rewardStatus:String(row?.rewardStatus||'')};
+}
 async function raidBossOpenPolicies(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_user_open_bosses_v1'").first();if(!row?.value)return {};try{const raw=JSON.parse(row.value),out={};for(const [id,v] of Object.entries(raw||{})){out[String(Number(id))]={enabled:v?.enabled===true,cost:Math.max(0,Math.min(100000000,Math.floor(Number(v?.cost)||0)))}}return out}catch{return {}}}
 function kstDateKey(now=Date.now()){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now))}
 async function raidDailyEntryCount(env,userId,dateKey=kstDateKey()){
@@ -3315,12 +3331,34 @@ export async function onRequest(context){
       if(cfg.ownerOnlyTest&&!owner)return json({error:'현재 레이드는 OWNER 테스트 전용입니다.'},403);
       const activeBefore=(await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id").all()).results;
       await Promise.all(activeBefore.map(room=>refreshRaidForOwner(env,room,cfg)));
-      const roomRows=(await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,ri.participant_count AS participantCount,rb.name AS bossName,rb.image_url AS bossImage,rb.max_hp AS maxHp,COALESCE(x.slot_id,'LEGACY') AS slotId FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id LEFT JOIN raid_instance_v1293 x ON x.instance_id=ri.id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 10").all()).results;
+      const roomRows=(await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,(SELECT COUNT(*) FROM raid_participants rp2 WHERE rp2.instance_id=ri.id AND COALESCE(rp2.is_active,1)=1) AS participantCount,rb.name AS bossName,rb.image_url AS bossImage,rb.max_hp AS maxHp,COALESCE(x.slot_id,'LEGACY') AS slotId FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id LEFT JOIN raid_instance_v1293 x ON x.instance_id=ri.id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 10").all()).results;
       const rooms=roomRows.map((room,i)=>{const slot=(cfg.timeSlots||[]).find(x=>String(x.id)===String(room.slotId)),activeSlotId=String(schedule.currentSlot?.id||'');const slotOpen=owner||room.slotId==='LEGACY'||room.slotId==='ALWAYS'||(activeSlotId&&activeSlotId===String(room.slotId));return {...room,slotLabel:slot?.label||room.slotId,roomNumber:roomRows.length-i,joinable:slotOpen&&room.status==='LOBBY'&&Date.parse(room.startsAt)>Date.now()&&Number(room.participantCount)<Number(cfg.maxParticipants||30)}});
       const requestedId=Math.max(0,Number(new URL(request.url).searchParams.get('instanceId')||0));
-      let current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id JOIN raid_participants rp ON rp.instance_id=ri.id AND rp.user_id=? AND COALESCE(rp.is_active,1)=1 WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();
-      if(!current){current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id JOIN raid_participants rp ON rp.instance_id=ri.id AND rp.user_id=? AND COALESCE(rp.is_active,1)=1 WHERE ri.status='ENDED' AND rp.reward_claimed=0 AND NOT EXISTS (SELECT 1 FROM raid_room_cancellations rc WHERE rc.instance_id=ri.id AND rc.status='COMPLETED') ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();}
-      if(!current&&requestedId)current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.id=? AND ri.status='LOBBY' LIMIT 1").bind(requestedId).first();
+      const activeParticipantSql="SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id JOIN raid_participants rp ON rp.instance_id=ri.id AND rp.user_id=? AND COALESCE(rp.is_active,1)=1 WHERE ri.status IN ('LOBBY','BATTLE')";
+      let current=requestedId?await env.DB.prepare(`${activeParticipantSql} AND ri.id=? LIMIT 1`).bind(user.id,requestedId).first():null;
+      if(!current)current=await env.DB.prepare(`${activeParticipantSql} ORDER BY ri.id DESC LIMIT 1`).bind(user.id).first();
+      // OWNER가 직접 개설한 방의 참가 행이 비정상적으로 누락된 경우 저장된 PvE 덱으로 한 번만 복구한다.
+      // 명시적으로 퇴장한 행(is_active=0)은 복구하지 않아 일반 퇴장 규칙을 침범하지 않는다.
+      if(!current&&owner){
+        const opened=requestedId
+          ?await env.DB.prepare("SELECT ri.id,ri.status FROM raid_open_requests ro JOIN raid_instances ri ON ri.id=ro.instance_id WHERE ro.user_id=? AND ro.instance_id=? AND ro.status='COMPLETED' AND ri.status IN ('LOBBY','BATTLE') LIMIT 1").bind(user.id,requestedId).first()
+          :await env.DB.prepare("SELECT ri.id,ri.status FROM raid_open_requests ro JOIN raid_instances ri ON ri.id=ro.instance_id WHERE ro.user_id=? AND ro.status='COMPLETED' AND ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();
+        const repairRoomId=Math.max(0,Number(opened?.id||0));
+        if(repairRoomId){
+          const participantRow=await env.DB.prepare('SELECT id,is_active AS isActive FROM raid_participants WHERE instance_id=? AND user_id=? LIMIT 1').bind(repairRoomId,user.id).first();
+          if(!participantRow){
+            try{
+              const savedDeck=await pveDeckCards(env,user.id),deck=await raidDeckPower(env,user.id,savedDeck);
+              await env.DB.prepare('INSERT OR IGNORE INTO raid_participants(instance_id,user_id,deck_cards,total_power,total_damage,updated_at) VALUES(?,?,?,?,0,CURRENT_TIMESTAMP)').bind(repairRoomId,user.id,JSON.stringify(deck.ids),deck.power).run();
+              await env.DB.prepare('UPDATE raid_instances SET participant_count=(SELECT COUNT(*) FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1),updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(repairRoomId,repairRoomId).run();
+            }catch(repairError){console.error('OWNER raid participant recovery failed',repairError)}
+          }
+          current=await env.DB.prepare(`${activeParticipantSql} AND ri.id=? LIMIT 1`).bind(user.id,repairRoomId).first();
+        }
+      }
+      if(!current){current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id JOIN raid_participants rp ON rp.instance_id=ri.id AND rp.user_id=? AND COALESCE(rp.is_active,1)=1 WHERE ri.status='ENDED' AND COALESCE(rp.reward_claimed,0)=0 AND NOT EXISTS (SELECT 1 FROM raid_reward_receipts rr WHERE rr.instance_id=ri.id AND rr.user_id=rp.user_id AND UPPER(COALESCE(rr.status,''))='COMPLETED') AND NOT EXISTS (SELECT 1 FROM raid_user_reward_v1293 ur WHERE ur.instance_id=ri.id AND ur.user_id=rp.user_id AND UPPER(COALESCE(ur.status,''))='COMPLETED') AND NOT EXISTS (SELECT 1 FROM raid_room_cancellations rc WHERE rc.instance_id=ri.id AND rc.status='COMPLETED') ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();}
+      // 선택한 방이 전투로 전환된 순간에도 목록으로 되돌리지 않고 참가 여부 화면을 명확히 반환한다.
+      if(!current&&requestedId)current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.id=? AND ri.status IN ('LOBBY','BATTLE') LIMIT 1").bind(requestedId).first();
       if(!current){
         const policies=await raidBossOpenPolicies(env),bossRows=await env.DB.prepare('SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,sort_order AS sortOrder FROM raid_bosses WHERE is_active=1 ORDER BY sort_order,id').all(),slot=schedule.currentSlot||null,slotBossId=Number(slot?.bossId||0);
         const availableBosses=bossRows.results.filter(b=>(owner||policies[String(b.id)]?.enabled)&&(owner||slotBossId<=0||Number(b.id)===slotBossId)).map(b=>({...b,openCost:Number(policies[String(b.id)]?.cost||0),ownerTestVisible:ownerTestMode&&policies[String(b.id)]?.enabled!==true}));
@@ -3330,9 +3368,9 @@ export async function onRequest(context){
       if(current.status==='ENDED'){
         const cancelled=await env.DB.prepare("SELECT reason,refund_coin AS refundCoin,restored_entries AS restoredEntries FROM raid_room_cancellations WHERE instance_id=? AND status='COMPLETED'").bind(current.id).first();
         if(cancelled){const cancelledSlotId=await raidInstanceSlotV1293(env,current.id),adjustedDaily={...dailyEntry,count:Math.max(0,dailyEntry.count-1),remaining:Math.min(dailyEntry.limit,dailyEntry.remaining+1)},adjustedSlots=slotEntries.map(row=>String(row.id)===String(cancelledSlotId)?{...row,count:Math.max(0,Number(row.count||0)-1),remaining:Math.min(Number(row.limit||1),Number(row.remaining||0)+1)}:row),adjustedSlot=String(slotEntry.id)===String(cancelledSlotId)?(adjustedSlots.find(row=>String(row.id)===String(cancelledSlotId))||slotEntry):slotEntry;return json({settings:cfg,schedule,current:null,rooms,participants:[],me:null,dailyEntryUsed:false,dailyEntry:adjustedDaily,slotEntry:adjustedSlot,slotEntries:adjustedSlots,cancelledRaid:{id:current.id,reason:cancelled.reason,refundCoin:Number(cancelled.refundCoin||0),entryRestored:true},serverNow:new Date().toISOString()});}
-        const myRaidState=await env.DB.prepare('SELECT reward_claimed AS rewardClaimed FROM raid_participants WHERE instance_id=? AND user_id=? AND COALESCE(is_active,1)=1 LIMIT 1').bind(current.id,user.id).first();
-        if(Number(myRaidState?.rewardClaimed||0)===1){
-          return json({settings:cfg,schedule,current:null,participants:[],me:null,serverNow:new Date().toISOString(),lastRaid:{id:current.id,rewardClaimed:true}});
+        const settlement=await raidSettlementState(env,current.id,user.id);
+        if(settlement.settled){
+          return json({settings:cfg,schedule,current:null,rooms,participants:[],me:null,dailyEntryUsed:ownerTestMode?false:(todayEntryCount>=dailyEntryLimit||slotEntryUsed),dailyEntry,slotEntry,slotEntries,serverNow:new Date().toISOString(),lastRaid:{id:current.id,rewardClaimed:true,receiptStatus:settlement.receiptStatus,rewardStatus:settlement.rewardStatus}});
         }
       }
       const rows=await env.DB.prepare(`SELECT rp.user_id AS userId,u.nickname,rp.deck_cards AS deckCards,rp.total_power AS totalPower,rp.total_damage AS totalDamage,rp.reward_claimed AS rewardClaimed,rp.joined_at AS joinedAt,
@@ -3366,6 +3404,14 @@ export async function onRequest(context){
       }
       const result=allDefeated?'FAILED':cleared?'CLEAR':'TIMEOUT';
       const me=enriched.find(x=>Number(x.userId)===Number(user.id))||null;
+      // 상태 조회가 시작될 때는 BATTLE이었더라도, 조회 도중 종료·정산이 끝날 수 있다.
+      // 최종 응답 직전에 서버의 세 정산 마커를 다시 확인해 완료된 결과 화면이 재노출되는 경합을 차단한다.
+      if(current.status==='ENDED'&&me){
+        const settlement=await raidSettlementState(env,current.id,user.id);
+        if(settlement.settled){
+          return json({settings:cfg,schedule,current:null,rooms,participants:[],me:null,dailyEntryUsed:entryUsedForCurrent,dailyEntry,slotEntry:instanceSlotEntry,slotEntries,serverNow:new Date().toISOString(),lastRaid:{id:current.id,rewardClaimed:true,receiptStatus:settlement.receiptStatus,rewardStatus:settlement.rewardStatus}});
+        }
+      }
       // 대기실 이후의 전투·결과 정보는 실제 참가자에게만 공개한다.
       if(current.status!=='LOBBY'&&!me){
         return json({settings:cfg,schedule,ownerTestMode,dailyEntryUsed:entryUsedForCurrent,dailyEntry,slotEntry:instanceSlotEntry,slotEntries,rooms,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,participantCount:participants.length},participants:[],me:null,claimableReward:null,raidAccess:'NOT_PARTICIPANT',serverNow:new Date().toISOString()});
@@ -3386,6 +3432,10 @@ export async function onRequest(context){
             error_message=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.error_message ELSE NULL END,
             updated_at=CURRENT_TIMESTAMP`).bind(current.id,user.id,rewardCoin,rewardShards,rewardMagicCrystals).run();
         const rewardReceipt=await env.DB.prepare(`SELECT status,reward_coin AS rewardCoin,reward_shards AS rewardShards,COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals FROM raid_reward_receipts WHERE instance_id=? AND user_id=?`).bind(current.id,user.id).first();
+        if(String(rewardReceipt?.status||'').toUpperCase()==='COMPLETED'){
+          await raidSettlementState(env,current.id,user.id);
+          return json({settings:cfg,schedule,current:null,rooms,participants:[],me:null,dailyEntryUsed:entryUsedForCurrent,dailyEntry,slotEntry:instanceSlotEntry,slotEntries,serverNow:new Date().toISOString(),lastRaid:{id:current.id,rewardClaimed:true,receiptStatus:'COMPLETED'}});
+        }
         claimableReward={instanceId:Number(current.id),coin:Math.max(0,Number(rewardReceipt?.rewardCoin??rewardCoin)),shards:Math.max(0,Number(rewardReceipt?.rewardShards??rewardShards)),magicCrystals:Math.max(0,Number(rewardReceipt?.rewardMagicCrystals??rewardMagicCrystals)),participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,finalDamage,cleared,inventoryRewards:rewardDisplay.inventoryRewards,entries:rewardDisplay.entries,rareDrops:rewardDisplay.rareDrops,source:'SERVER_CONFIRMED',snapshot:true,receiptStatus:String(rewardReceipt?.status||'READY')};
       }
       const visibleParticipants=current.status==='LOBBY'?enriched.map((x,i)=>({anonymous:true,slot:i+1,nickname:`익명 참가자 ${String(i+1).padStart(2,'0')}`,cards:[],totalPower:0,shownDamage:0,isDefeated:false})):enriched;
@@ -3433,8 +3483,15 @@ export async function onRequest(context){
       const activeMine=await env.DB.prepare("SELECT rp.instance_id FROM raid_participants rp JOIN raid_instances ri ON ri.id=rp.instance_id WHERE rp.user_id=? AND COALESCE(rp.is_active,1)=1 AND ri.status IN ('LOBBY','BATTLE') LIMIT 1").bind(user.id).first();if(activeMine)return json({error:'이미 다른 레이드 방에 참가 중입니다.'},409);
       if(Number(current.participant_count||0)>=Number(instanceCfg.maxParticipants||30))return json({error:'레이드 참가 인원이 가득 찼습니다.'},409);const dateKey=String(schedule.entryDateKey||kstDateKey()),entryCount=await raidDailyEntryCount(env,user.id,dateKey),slotEntryCount=await raidSlotEntryCountV1293(env,user.id,dateKey,instanceSlot);if(!ownerTestMode&&entryCount>=Number(instanceCfg.dailyEntries||2))return json({error:`오늘의 레이드 입장 횟수 ${Number(instanceCfg.dailyEntries||2)}회를 모두 사용했습니다.`},409);if(!ownerTestMode&&instanceSlot!=='LEGACY'&&instanceSlot!=='ALWAYS'&&slotEntryCount>=instanceSlotLimit)return json({error:`${instanceSlotCfg?.label||instanceSlot} 레이드 참여 횟수 ${instanceSlotLimit}회를 모두 사용했습니다.`},409);
       let deck;try{deck=await raidDeckPower(env,user.id,body.cardIds)}catch(e){return json({error:e.message},e.status||400)}
-      try{const joinStatements=[env.DB.prepare('INSERT INTO raid_participants(instance_id,user_id,deck_cards,total_power,total_damage,updated_at) VALUES(?,?,?,?,0,CURRENT_TIMESTAMP)').bind(current.id,user.id,JSON.stringify(deck.ids),deck.power)];if(!ownerTestMode)joinStatements.unshift(env.DB.prepare('INSERT INTO raid_daily_entry_uses(user_id,entry_date,instance_id) VALUES(?,?,?)').bind(user.id,dateKey,current.id));await env.DB.batch(joinStatements);}catch{return json({error:'레이드 입장 기록 또는 참가 처리에 실패했습니다.'},409)}
-      const count=await env.DB.prepare('SELECT COUNT(*) count FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(current.id).first();await env.DB.prepare('UPDATE raid_instances SET participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(count.count||0),current.id).run();if(instanceCfg.autoStartOnFull&&Number(count.count||0)>=Number(instanceCfg.maxParticipants||30))await env.DB.prepare("UPDATE raid_instances SET starts_at=CURRENT_TIMESTAMP,ends_at=datetime('now', ?),updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(`+${Number(instanceCfg.battleSeconds||120)} seconds`,current.id).run();return json({ok:true,totalPower:deck.power,participantCount:Number(count.count||0),slotId:instanceSlot});
+      const inserted=await env.DB.prepare(`INSERT INTO raid_participants(instance_id,user_id,deck_cards,total_power,total_damage,updated_at)
+        SELECT ?,?,?,?,?,CURRENT_TIMESTAMP
+        WHERE EXISTS (SELECT 1 FROM raid_instances ri WHERE ri.id=? AND ri.status='LOBBY' AND datetime(ri.starts_at)>CURRENT_TIMESTAMP)
+          AND NOT EXISTS (SELECT 1 FROM raid_participants mine JOIN raid_instances active ON active.id=mine.instance_id WHERE mine.user_id=? AND COALESCE(mine.is_active,1)=1 AND active.status IN ('LOBBY','BATTLE'))
+          AND (SELECT COUNT(*) FROM raid_participants cap WHERE cap.instance_id=? AND COALESCE(cap.is_active,1)=1)<?`).bind(current.id,user.id,JSON.stringify(deck.ids),deck.power,0,current.id,user.id,current.id,Number(instanceCfg.maxParticipants||30)).run();
+      if(!Number(inserted?.meta?.changes||0))return json({error:'레이드 참가 인원이 가득 찼거나 이미 다른 방에 참가 중입니다. 방 목록을 새로고침해주세요.'},409);
+      try{if(!ownerTestMode)await env.DB.prepare('INSERT INTO raid_daily_entry_uses(user_id,entry_date,instance_id) VALUES(?,?,?)').bind(user.id,dateKey,current.id).run();}
+      catch(entryError){await env.DB.prepare('DELETE FROM raid_participants WHERE instance_id=? AND user_id=? AND total_damage=0').bind(current.id,user.id).run();await env.DB.prepare('UPDATE raid_instances SET participant_count=(SELECT COUNT(*) FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1),updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(current.id,current.id).run();return json({error:'레이드 입장 횟수 기록에 실패해 참가 처리를 취소했습니다. 다시 시도해주세요.'},409)}
+      const count=await env.DB.prepare('SELECT COUNT(*) count FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(current.id).first();await env.DB.prepare('UPDATE raid_instances SET participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(count.count||0),current.id).run();if(instanceCfg.autoStartOnFull&&Number(count.count||0)>=Number(instanceCfg.maxParticipants||30))await env.DB.prepare("UPDATE raid_instances SET starts_at=CURRENT_TIMESTAMP,ends_at=datetime('now', ?),updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='LOBBY'").bind(`+${Number(instanceCfg.battleSeconds||120)} seconds`,current.id).run();return json({ok:true,totalPower:deck.power,participantCount:Number(count.count||0),slotId:instanceSlot});
     }
 
     if(path==='raid/leave'&&request.method==='POST'){
