@@ -21,6 +21,15 @@ const DEFAULT_SETTINGS = {
   defeatContributionPercent: 10,
   attemptReward: { coin: 100, shards: 1 },
   clearReward: { coin: 2000, shards: 50 },
+  rankRewards: {
+    enabled: false,
+    rewardOnFailure: true,
+    tiers: [
+      { startRank: 1, endRank: 1, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 },
+      { startRank: 2, endRank: 3, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 },
+      { startRank: 4, endRank: 10, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 }
+    ]
+  },
   receiptRetentionDays: 14,
   progressRetentionDays: 90
 };
@@ -47,6 +56,56 @@ function cleanDate(value) {
   if (!text) return null;
   const time = Date.parse(text);
   return Number.isFinite(time) ? new Date(time).toISOString() : null;
+}
+
+const RANK_REWARD_CODES = {
+  normalCube: 'NORMAL_CUBE',
+  advancedCube: 'ADVANCED_CUBE',
+  premiumCube: 'PREMIUM_CUBE',
+  equipmentBox: 'EQUIPMENT_SUPPLY_BOX'
+};
+
+function cleanRankRewardTier(raw = {}, index = 0) {
+  const startRank = clampInt(raw.startRank, index + 1, 1, 1000000);
+  const endRank = clampInt(raw.endRank, startRank, startRank, 1000000);
+  return {
+    startRank,
+    endRank,
+    coin: clampInt(raw.coin, 0, 0, 1000000000),
+    normalCube: clampInt(raw.normalCube, 0, 0, 1000000),
+    advancedCube: clampInt(raw.advancedCube, 0, 0, 1000000),
+    premiumCube: clampInt(raw.premiumCube, 0, 0, 1000000),
+    equipmentBox: clampInt(raw.equipmentBox, 0, 0, 1000000)
+  };
+}
+
+function cleanRankRewards(raw = {}) {
+  const source = Array.isArray(raw.tiers) ? raw.tiers : DEFAULT_SETTINGS.rankRewards.tiers;
+  const tiers = source.slice(0, 50).map(cleanRankRewardTier).sort((a, b) => a.startRank - b.startRank || a.endRank - b.endRank);
+  return {
+    enabled: raw.enabled === true,
+    rewardOnFailure: raw.rewardOnFailure !== false,
+    tiers
+  };
+}
+
+function rankRewardValue(tier = {}) {
+  return Number(tier.coin || 0) + Number(tier.normalCube || 0) + Number(tier.advancedCube || 0)
+    + Number(tier.premiumCube || 0) + Number(tier.equipmentBox || 0);
+}
+
+function validateRankRewards(rankRewards) {
+  if (!rankRewards?.enabled) return;
+  if (!Array.isArray(rankRewards.tiers) || !rankRewards.tiers.length) throw new Error('공헌도 순위 보상 구간을 하나 이상 추가하세요.');
+  let previousEnd = 0;
+  let payable = 0;
+  for (const tier of rankRewards.tiers) {
+    if (tier.startRank <= previousEnd) throw new Error('공헌도 순위 보상 구간이 서로 겹칩니다.');
+    if (tier.endRank < tier.startRank) throw new Error('공헌도 순위 보상 종료 순위를 확인하세요.');
+    previousEnd = tier.endRank;
+    if (rankRewardValue(tier) > 0) payable++;
+  }
+  if (!payable) throw new Error('공헌도 순위 보상 품목과 수량을 하나 이상 설정하세요.');
 }
 
 function cleanSettings(raw = {}) {
@@ -92,6 +151,7 @@ function cleanSettings(raw = {}) {
       coin: clampInt(clearReward.coin, base.clearReward.coin, 0, 100000000),
       shards: clampInt(clearReward.shards, base.clearReward.shards, 0, 1000000)
     },
+    rankRewards: cleanRankRewards(raw.rankRewards || base.rankRewards),
     receiptRetentionDays: clampInt(raw.receiptRetentionDays, base.receiptRetentionDays, 1, 90),
     progressRetentionDays: clampInt(raw.progressRetentionDays, base.progressRetentionDays, 7, 365)
   };
@@ -147,6 +207,7 @@ async function ensureFoundation(env, deps = {}) {
         attempt_shards INTEGER NOT NULL DEFAULT 0,
         clear_coin INTEGER NOT NULL DEFAULT 0,
         clear_shards INTEGER NOT NULL DEFAULT 0,
+        rank_rewards_json TEXT NOT NULL DEFAULT '{}',
         created_by INTEGER,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -164,6 +225,8 @@ async function ensureFoundation(env, deps = {}) {
         attack_contribution INTEGER NOT NULL DEFAULT 0,
         guard_contribution INTEGER NOT NULL DEFAULT 0,
         purify_contribution INTEGER NOT NULL DEFAULT 0,
+        total_contribution INTEGER NOT NULL DEFAULT 0,
+        last_contribution_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         last_role TEXT,
         last_contribution INTEGER NOT NULL DEFAULT 0,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -198,8 +261,21 @@ async function ensureFoundation(env, deps = {}) {
         updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY(event_id,user_id)
       )`),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS seal_battle_rank_claims(
+        event_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        final_rank INTEGER NOT NULL,
+        total_contribution INTEGER NOT NULL DEFAULT 0,
+        reward_json TEXT NOT NULL DEFAULT '{}',
+        status TEXT NOT NULL DEFAULT 'PENDING',
+        claimed_at TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(event_id,user_id)
+      )`),
       env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_seal_events_status ON seal_battle_events(status,id DESC)'),
       env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_seal_progress_event_total ON seal_battle_user_progress(event_id,total_attempts DESC,updated_at DESC)'),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_seal_rank_claim_status_v1288 ON seal_battle_rank_claims(user_id,status,event_id DESC)'),
       env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_seal_receipts_cleanup ON seal_battle_action_receipts(status,created_at,id)'),
       env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(DEFAULT_SETTINGS)),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1283_seal_battle','1',CURRENT_TIMESTAMP)")
@@ -211,7 +287,10 @@ async function ensureFoundation(env, deps = {}) {
       ['seal_battle_events','purify_battle_power','INTEGER NOT NULL DEFAULT 10000'],
       ['seal_battle_events','recharge_minutes','INTEGER NOT NULL DEFAULT 60'],
       ['seal_battle_events','defeat_contribution_percent','INTEGER NOT NULL DEFAULT 10'],
+      ['seal_battle_events','rank_rewards_json',"TEXT NOT NULL DEFAULT '{}'"],
       ['seal_battle_user_progress','attempt_charges','INTEGER NOT NULL DEFAULT -1'],
+      ['seal_battle_user_progress','total_contribution','INTEGER NOT NULL DEFAULT 0'],
+      ['seal_battle_user_progress','last_contribution_at',"TEXT NOT NULL DEFAULT ''"],
       ['seal_battle_user_progress','last_recharged_at',"TEXT NOT NULL DEFAULT ''"],
       ['seal_battle_action_receipts','boss_power','INTEGER NOT NULL DEFAULT 0'],
       ['seal_battle_action_receipts','battle_result',"TEXT NOT NULL DEFAULT ''"],
@@ -243,6 +322,25 @@ async function ensureFoundation(env, deps = {}) {
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1287_seal_attempt_recharge','1',CURRENT_TIMESTAMP)")
       ]);
     }
+    try {
+      await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_seal_progress_rank_v1288 ON seal_battle_user_progress(event_id,total_contribution DESC,total_attempts DESC,last_contribution_at ASC,user_id ASC)').run();
+    } catch (error) {
+      if (!/no such column/i.test(String(error?.message || error))) throw error;
+    }
+    const v1288 = await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1288_seal_rank_rewards'").first();
+    if (String(v1288?.value || '') !== '1') {
+      const stored = await env.DB.prepare("SELECT value FROM app_meta WHERE key='seal_battle_settings_v1'").first();
+      const migrated = cleanSettings(safeJson(stored?.value, {}));
+      await env.DB.batch([
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(migrated)),
+        env.DB.prepare(`UPDATE seal_battle_user_progress SET total_contribution=attack_contribution+guard_contribution+purify_contribution,last_contribution_at=CASE WHEN COALESCE(last_contribution_at,'')='' THEN updated_at ELSE last_contribution_at END WHERE total_contribution<>(attack_contribution+guard_contribution+purify_contribution) OR COALESCE(last_contribution_at,'')=''`),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('NORMAL_CUBE','일반 큐브','STANDARD REWARD CUBE','몬스터 사냥과 이벤트에서 획득하는 C~SR 등급 보상 큐브입니다.','CUBE','NORMAL','assets/ui/packs/normal-cube.png',10,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('ADVANCED_CUBE','고급 큐브','ADVANCED REWARD CUBE','HR~SSR 등급 카드가 등장하는 고급 보상 큐브입니다.','CUBE','ADVANCED','assets/ui/packs/advanced-cube.png',20,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('PREMIUM_CUBE','프리미엄 큐브','PREMIUM REWARD CUBE','MA·FUR·LIMITED 등급 카드가 등장하는 최고급 보상 큐브입니다.','CUBE','PREMIUM','assets/ui/packs/premium-cube.png',30,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('EQUIPMENT_SUPPLY_BOX','장비 보급상자','EQUIPMENT SUPPLY BOX','장비·카드 조각·코인 중 하나를 획득합니다.','SUPPLY_BOX','HIGH','assets/ui/packs/supply-high.jpeg',35,1)"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1288_seal_rank_rewards','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     return true;
   })().catch(error => {
     foundationPromise = null;
@@ -258,6 +356,7 @@ async function loadSettings(env) {
 
 async function saveSettings(env, value) {
   const clean = cleanSettings(value);
+  validateRankRewards(clean.rankRewards);
   await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)")
     .bind(JSON.stringify(clean)).run();
   return clean;
@@ -296,6 +395,7 @@ function normalizeEvent(row) {
     defeatContributionPercent: Number(row.defeat_contribution_percent ?? 10),
     attemptReward: { coin: Number(row.attempt_coin || 0), shards: Number(row.attempt_shards || 0) },
     clearReward: { coin: Number(row.clear_coin || 0), shards: Number(row.clear_shards || 0) },
+    rankRewards: cleanRankRewards(safeJson(row.rank_rewards_json, {})),
     roles,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -374,7 +474,7 @@ function publicProgress(row, dayKey, event) {
   const nextRechargeAt = availableAttempts >= maxAttempts || !Number.isFinite(lastRechargeMs)
     ? null
     : new Date(lastRechargeMs + rechargeMinutes * 60000).toISOString();
-  const totalContribution = Number(row?.attack_contribution || 0) + Number(row?.guard_contribution || 0) + Number(row?.purify_contribution || 0);
+  const totalContribution = Number(row?.total_contribution ?? (Number(row?.attack_contribution || 0) + Number(row?.guard_contribution || 0) + Number(row?.purify_contribution || 0)));
   return {
     attemptsToday,
     availableAttempts,
@@ -394,13 +494,91 @@ function publicProgress(row, dayKey, event) {
 
 async function eventStats(env, eventId) {
   const row = await env.DB.prepare(`SELECT COUNT(*) AS participants,COALESCE(SUM(total_attempts),0) AS attempts,
-    COALESCE(SUM(attack_contribution+guard_contribution+purify_contribution),0) AS total_contribution
+    COALESCE(SUM(total_contribution),0) AS total_contribution
     FROM seal_battle_user_progress WHERE event_id=? AND total_attempts>0`).bind(eventId).first();
   return {
     participants: Number(row?.participants || 0),
     attempts: Number(row?.attempts || 0),
     totalContribution: Number(row?.total_contribution || 0)
   };
+}
+
+function publicRankReward(reward = {}) {
+  return {
+    coin: Math.max(0, Number(reward.coin || 0)),
+    normalCube: Math.max(0, Number(reward.normalCube || 0)),
+    advancedCube: Math.max(0, Number(reward.advancedCube || 0)),
+    premiumCube: Math.max(0, Number(reward.premiumCube || 0)),
+    equipmentBox: Math.max(0, Number(reward.equipmentBox || 0))
+  };
+}
+
+function rankRewardTierForRank(event, rank) {
+  if (!event?.rankRewards?.enabled || rank < 1) return null;
+  return event.rankRewards.tiers.find(tier => rank >= tier.startRank && rank <= tier.endRank && rankRewardValue(tier) > 0) || null;
+}
+
+function rankRewardEventEligible(event) {
+  if (!event?.rankRewards?.enabled) return false;
+  if (!['CLEARED', 'FAILED', 'ENDED'].includes(String(event.status || '').toUpperCase())) return false;
+  if (event.status === 'FAILED' && !event.rankRewards.rewardOnFailure) return false;
+  return true;
+}
+
+async function finalRankForProgress(env, eventId, progress) {
+  if (!progress || Number(progress.total_attempts || 0) < 1) return 0;
+  const total = Number(progress.total_contribution ?? (Number(progress.attack_contribution || 0) + Number(progress.guard_contribution || 0) + Number(progress.purify_contribution || 0)));
+  const attempts = Number(progress.total_attempts || 0);
+  const updatedAt = String(progress.last_contribution_at || progress.updated_at || '9999-12-31 23:59:59');
+  const userId = Number(progress.user_id || 0);
+  const row = await env.DB.prepare(`SELECT 1+COUNT(*) AS final_rank
+    FROM seal_battle_user_progress p
+    WHERE p.event_id=? AND p.total_attempts>0 AND (
+      p.total_contribution>? OR
+      (p.total_contribution=? AND p.total_attempts>?) OR
+      (p.total_contribution=? AND p.total_attempts=? AND p.last_contribution_at<?) OR
+      (p.total_contribution=? AND p.total_attempts=? AND p.last_contribution_at=? AND p.user_id<?)
+    )`).bind(eventId, total, total, attempts, total, attempts, updatedAt, total, attempts, updatedAt, userId).first();
+  return Math.max(1, Number(row?.final_rank || 1));
+}
+
+async function rankRewardPreview(env, event, userId) {
+  if (!rankRewardEventEligible(event)) return null;
+  const progress = await userProgress(env, event.id, userId);
+  if (!progress || Number(progress.total_attempts || 0) < 1) return null;
+  const finalRank = await finalRankForProgress(env, event.id, progress);
+  const tier = rankRewardTierForRank(event, finalRank);
+  if (!tier) return null;
+  const claim = await env.DB.prepare('SELECT status,reward_json,final_rank,total_contribution FROM seal_battle_rank_claims WHERE event_id=? AND user_id=?')
+    .bind(event.id, userId).first();
+  const reward = claim?.reward_json ? publicRankReward(safeJson(claim.reward_json, tier)) : publicRankReward(tier);
+  return {
+    eventId: event.id,
+    eventKey: event.eventKey,
+    title: event.title,
+    bossName: event.bossName,
+    eventStatus: event.status,
+    finalRank: Number(claim?.final_rank || finalRank),
+    totalContribution: Number(claim?.total_contribution ?? progress.total_contribution ?? 0),
+    tier: { startRank: tier.startRank, endRank: tier.endRank },
+    reward,
+    eligible: true,
+    claimed: String(claim?.status || '') === 'COMPLETED',
+    processing: String(claim?.status || '') === 'CLAIMING'
+  };
+}
+
+async function pendingRankReward(env, userId, excludeEventId = 0) {
+  const rows = (await env.DB.prepare(`SELECT e.* FROM seal_battle_events e
+    JOIN seal_battle_user_progress p ON p.event_id=e.id AND p.user_id=? AND p.total_attempts>0
+    LEFT JOIN seal_battle_rank_claims c ON c.event_id=e.id AND c.user_id=?
+    WHERE e.id<>? AND e.status IN ('CLEARED','FAILED','ENDED') AND COALESCE(c.status,'')<>'COMPLETED'
+    ORDER BY e.id DESC LIMIT 12`).bind(userId, userId, Number(excludeEventId || 0)).all()).results;
+  for (const row of rows) {
+    const preview = await rankRewardPreview(env, normalizeEvent(row), userId);
+    if (preview && !preview.claimed) return preview;
+  }
+  return null;
 }
 
 function publicBattleCards(cards = []) {
@@ -552,6 +730,10 @@ async function statusPayload(env, deps, user, settings = null, eventRow = null) 
   ]);
   const progress = publicProgress(progressRow, dayKey, event);
   const availability = eventAvailability(event, settings, user);
+  const [rankReward, previousRankReward] = await Promise.all([
+    rankRewardPreview(env, event, user.id),
+    pendingRankReward(env, user.id, event.id)
+  ]);
   return {
     settings: { mode: settings.mode },
     event,
@@ -574,6 +756,8 @@ async function statusPayload(env, deps, user, settings = null, eventRow = null) 
       reward: { coin: Number(pendingClaim.clear_coin || 0), shards: Number(pendingClaim.clear_shards || 0) },
       processing: ['PENDING', 'CLAIMING'].includes(String(pendingClaim.claim_status || ''))
     } : null,
+    rankReward,
+    pendingRankReward: previousRankReward,
     serverNow: new Date().toISOString()
   };
 }
@@ -591,6 +775,13 @@ async function maybeCleanup(env, settings, receiptId) {
       )`).bind(`-${receiptDays} days`),
       env.DB.prepare(`DELETE FROM seal_battle_clear_claims WHERE rowid IN (
         SELECT c.rowid FROM seal_battle_clear_claims c
+        JOIN seal_battle_events e ON e.id=c.event_id
+        WHERE c.status='COMPLETED' AND e.status IN ('ENDED','CLEARED','FAILED')
+          AND COALESCE(e.ended_at,e.cleared_at,e.updated_at)<datetime('now',?)
+        ORDER BY c.rowid ASC LIMIT 100
+      )`).bind(`-${progressDays} days`),
+      env.DB.prepare(`DELETE FROM seal_battle_rank_claims WHERE rowid IN (
+        SELECT c.rowid FROM seal_battle_rank_claims c
         JOIN seal_battle_events e ON e.id=c.event_id
         WHERE c.status='COMPLETED' AND e.status IN ('ENDED','CLEARED','FAILED')
           AND COALESCE(e.ended_at,e.cleared_at,e.updated_at)<datetime('now',?)
@@ -641,7 +832,8 @@ function roleContributionUpdateSql(role) {
   return `UPDATE seal_battle_user_progress SET
     total_attempts=total_attempts+1,
     ${column}=${column}+?,
-    last_role=?,last_contribution=?,updated_at=CURRENT_TIMESTAMP
+    total_contribution=total_contribution+?,
+    last_role=?,last_contribution=?,last_contribution_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP
     WHERE event_id=? AND user_id=? AND EXISTS(
       SELECT 1 FROM seal_battle_action_receipts WHERE request_id=? AND status='AUTHORIZED'
     )`;
@@ -720,7 +912,7 @@ async function participate(env, deps, user, settings, event, body) {
           AND (ends_at IS NULL OR datetime(ends_at)>datetime('now'))
       )`).bind(combat.playerPower, bossPower, contribution, bonusPercent, result, 0, requestId, user.id, event.id),
     env.DB.prepare(eventProgressSql(role)).bind(...eventProgressBindings(role, contribution, event.id, requestId)),
-    env.DB.prepare(roleContributionUpdateSql(role)).bind(contribution, role, contribution, event.id, user.id, requestId),
+    env.DB.prepare(roleContributionUpdateSql(role)).bind(contribution, contribution, role, contribution, event.id, user.id, requestId),
     env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+?
       WHERE id=? AND EXISTS(SELECT 1 FROM seal_battle_action_receipts WHERE request_id=? AND status='AUTHORIZED')`)
       .bind(attemptCoin, attemptShards, user.id, requestId)
@@ -863,21 +1055,118 @@ async function claimClearReward(env, deps, user, event) {
   });
 }
 
-async function rankings(env, eventId) {
+async function claimRankReward(env, deps, user, event) {
+  if (!rankRewardEventEligible(event)) return deps.json({ error: '아직 공헌도 순위 보상을 받을 수 없습니다.' }, 409);
+  const progress = await userProgress(env, event.id, user.id);
+  if (!progress || Number(progress.total_attempts || 0) < 1) return deps.json({ error: '이번 봉인전 참여 기록이 없습니다.' }, 403);
+  const finalRank = await finalRankForProgress(env, event.id, progress);
+  const tier = rankRewardTierForRank(event, finalRank);
+  if (!tier) return deps.json({ error: '해당 순위에 설정된 공헌도 보상이 없습니다.' }, 403);
+  const reward = publicRankReward(tier);
+  const totalContribution = Number(progress.total_contribution ?? 0);
+  await env.DB.prepare(`INSERT OR IGNORE INTO seal_battle_rank_claims(
+    event_id,user_id,final_rank,total_contribution,reward_json,status
+  ) VALUES(?,?,?,?,?,'PENDING')`).bind(event.id, user.id, finalRank, totalContribution, JSON.stringify(reward)).run();
+
+  const reserved = await env.DB.prepare(`UPDATE seal_battle_rank_claims SET status='CLAIMING',updated_at=CURRENT_TIMESTAMP
+    WHERE event_id=? AND user_id=? AND (status='PENDING' OR (status='CLAIMING' AND updated_at<datetime('now','-5 minutes')))`)
+    .bind(event.id, user.id).run();
+  if (!Number(reserved?.meta?.changes || 0)) {
+    const row = await env.DB.prepare('SELECT status FROM seal_battle_rank_claims WHERE event_id=? AND user_id=?').bind(event.id, user.id).first();
+    if (row?.status === 'COMPLETED') return deps.json({ error: '이미 공헌도 순위 보상을 수령했습니다.' }, 409);
+    return deps.json({ error: '공헌도 순위 보상을 처리 중입니다.' }, 409);
+  }
+
+  const claimGate = `EXISTS(SELECT 1 FROM seal_battle_rank_claims WHERE event_id=? AND user_id=? AND status='CLAIMING')`;
+  const statements = [env.DB.prepare(`UPDATE seal_battle_rank_claims SET updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND status='CLAIMING'`).bind(event.id, user.id)];
+  if (reward.coin > 0) {
+    statements.push(env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${claimGate}`).bind(reward.coin, user.id, event.id, user.id));
+    statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
+      SELECT id,?,coin,'SEAL_BATTLE_RANK' FROM users WHERE id=? AND ${claimGate}`).bind(reward.coin, user.id, event.id, user.id));
+  }
+  for (const [field, itemCode] of Object.entries(RANK_REWARD_CODES)) {
+    const quantity = Math.max(0, Number(reward[field] || 0));
+    if (!quantity) continue;
+    statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+      SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${claimGate}
+      ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,
+        unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`)
+      .bind(user.id, itemCode, quantity, quantity, event.id, user.id));
+    statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+      SELECT ?,?,?,i.quantity,'SEAL_BATTLE_RANK','SEAL_BATTLE',? FROM cnine_user_inventory i
+      WHERE i.user_id=? AND i.item_code=? AND ${claimGate}`)
+      .bind(user.id, itemCode, quantity, event.eventKey, user.id, itemCode, event.id, user.id));
+  }
+  statements.push(env.DB.prepare(`UPDATE seal_battle_rank_claims SET status='COMPLETED',claimed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP
+    WHERE event_id=? AND user_id=? AND status='CLAIMING'`).bind(event.id, user.id));
+
+  let results;
+  try {
+    results = await env.DB.batch(statements);
+  } catch (error) {
+    try { await env.DB.prepare("UPDATE seal_battle_rank_claims SET status='PENDING',updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND status='CLAIMING'").bind(event.id, user.id).run(); } catch {}
+    console.error('seal battle rank reward commit failed', error);
+    return deps.json({ error: '공헌도 순위 보상 지급에 실패했습니다.' }, 500);
+  }
+  if (!Number(results?.[0]?.meta?.changes || 0)) {
+    try { await env.DB.prepare("UPDATE seal_battle_rank_claims SET status='PENDING',updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND status='CLAIMING'").bind(event.id, user.id).run(); } catch {}
+    return deps.json({ error: '공헌도 순위 보상 상태가 변경되어 지급되지 않았습니다.' }, 409);
+  }
+
+  let balance = null;
+  const itemBalances = {};
+  try {
+    balance = await env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first();
+    const codes = Object.values(RANK_REWARD_CODES).filter((code, index, array) => array.indexOf(code) === index);
+    const placeholders = codes.map(() => '?').join(',');
+    const rows = (await env.DB.prepare(`SELECT item_code,quantity FROM cnine_user_inventory WHERE user_id=? AND item_code IN (${placeholders})`).bind(user.id, ...codes).all()).results;
+    for (const row of rows) itemBalances[row.item_code] = Number(row.quantity || 0);
+  } catch (error) {
+    console.warn('seal battle rank reward balance refresh failed after commit', error);
+  }
+  return deps.json({
+    ok: true,
+    finalRank,
+    totalContribution,
+    reward,
+    itemBalances,
+    balances: balance ? { coin: Number(balance.coin || 0), cardShards: Number(balance.card_shards || 0) } : null
+  });
+}
+
+async function rankings(env, eventId, userId = 0) {
+  const event = normalizeEvent(await env.DB.prepare('SELECT * FROM seal_battle_events WHERE id=?').bind(eventId).first());
   const overall = (await env.DB.prepare(`SELECT p.user_id,u.nickname,p.total_attempts,
-    p.attack_contribution,p.guard_contribution,p.purify_contribution,
-    (p.attack_contribution+p.guard_contribution+p.purify_contribution) AS total_contribution
+    p.attack_contribution,p.guard_contribution,p.purify_contribution,p.total_contribution,p.last_contribution_at
     FROM seal_battle_user_progress p JOIN users u ON u.id=p.user_id
     WHERE p.event_id=? AND p.total_attempts>0
-    ORDER BY total_contribution DESC,p.total_attempts DESC,p.updated_at ASC LIMIT 50`).bind(eventId).all()).results;
+    ORDER BY p.total_contribution DESC,p.total_attempts DESC,p.last_contribution_at ASC,p.user_id ASC LIMIT 50`).bind(eventId).all()).results
+    .map((row, index) => ({ ...row, rank: index + 1 }));
   const roleRanks = {};
   for (const role of Object.values(ROLE_META)) {
     roleRanks[role.key] = (await env.DB.prepare(`SELECT p.user_id,u.nickname,p.${role.userColumn} AS contribution,p.total_attempts
       FROM seal_battle_user_progress p JOIN users u ON u.id=p.user_id
       WHERE p.event_id=? AND p.${role.userColumn}>0
-      ORDER BY p.${role.userColumn} DESC,p.updated_at ASC LIMIT 20`).bind(eventId).all()).results;
+      ORDER BY p.${role.userColumn} DESC,p.updated_at ASC,p.user_id ASC LIMIT 20`).bind(eventId).all()).results
+      .map((row, index) => ({ ...row, rank: index + 1 }));
   }
-  return { overall, roles: roleRanks };
+  let myRank = null;
+  if (userId) {
+    const progress = await userProgress(env, eventId, userId);
+    if (progress && Number(progress.total_attempts || 0) > 0) {
+      myRank = {
+        rank: await finalRankForProgress(env, eventId, progress),
+        totalContribution: Number(progress.total_contribution || 0),
+        totalAttempts: Number(progress.total_attempts || 0)
+      };
+    }
+  }
+  return {
+    overall,
+    roles: roleRanks,
+    myRank,
+    rankRewards: event?.rankRewards || cleanRankRewards({})
+  };
 }
 
 async function adminOverview(env, settings) {
@@ -885,10 +1174,11 @@ async function adminOverview(env, settings) {
   const event = normalizeEvent(row);
   const stats = event ? await eventStats(env, event.id) : { participants: 0, attempts: 0, totalContribution: 0 };
   const claims = event ? await env.DB.prepare("SELECT COUNT(*) AS total FROM seal_battle_clear_claims WHERE event_id=? AND status='COMPLETED'").bind(event.id).first() : null;
+  const rankClaims = event ? await env.DB.prepare("SELECT COUNT(*) AS total FROM seal_battle_rank_claims WHERE event_id=? AND status='COMPLETED'").bind(event.id).first() : null;
   const history = (await env.DB.prepare(`SELECT id,event_key,title,boss_name,status,attack_target,guard_target,purify_target,
     attack_progress,guard_progress,purify_progress,created_at,cleared_at,ended_at
     FROM seal_battle_events ORDER BY id DESC LIMIT 10`).all()).results;
-  return { settings, event, stats: { ...stats, clearClaims: Number(claims?.total || 0) }, history };
+  return { settings, event, stats: { ...stats, clearClaims: Number(claims?.total || 0), rankClaims: Number(rankClaims?.total || 0) }, history };
 }
 
 async function adminStart(env, settings, admin) {
@@ -903,8 +1193,8 @@ async function adminStart(env, settings, admin) {
       event_key,title,boss_name,boss_image,description,status,starts_at,ends_at,daily_attempts,recharge_minutes,
       attack_target,guard_target,purify_target,attack_multiplier,guard_multiplier,purify_multiplier,
       attack_battle_power,guard_battle_power,purify_battle_power,defeat_contribution_percent,
-      lowest_bonus_percent,attempt_coin,attempt_shards,clear_coin,clear_shards,created_by
-    ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
+      lowest_bonus_percent,attempt_coin,attempt_shards,clear_coin,clear_shards,rank_rewards_json,created_by
+    ) VALUES(?,?,?,?,?,'ACTIVE',?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(
       key, settings.title, settings.bossName, settings.bossImage, settings.description,
       settings.startsAt, settings.endsAt, settings.dailyAttempts, settings.rechargeMinutes,
       settings.targets.attack, settings.targets.guard, settings.targets.purify,
@@ -912,7 +1202,7 @@ async function adminStart(env, settings, admin) {
       settings.battlePowers.attack, settings.battlePowers.guard, settings.battlePowers.purify,
       settings.defeatContributionPercent,
       settings.lowestRoleBonusPercent, settings.attemptReward.coin, settings.attemptReward.shards,
-      settings.clearReward.coin, settings.clearReward.shards, admin.id
+      settings.clearReward.coin, settings.clearReward.shards, JSON.stringify(settings.rankRewards), admin.id
     )
   ]);
   return normalizeEvent(await env.DB.prepare('SELECT * FROM seal_battle_events WHERE event_key=?').bind(key).first());
@@ -960,10 +1250,19 @@ export async function handleSealBattle({ path, request, env, deps }) {
     return claimClearReward(env, deps, user, normalizeEvent(eventRow));
   }
 
+  if (path === 'seal-battle/rank-reward' && request.method === 'POST') {
+    const body = await deps.readBody(request);
+    const requestedEventId = Math.max(0, Math.floor(Number(body.eventId || 0)));
+    const eventRow = requestedEventId
+      ? await env.DB.prepare('SELECT * FROM seal_battle_events WHERE id=?').bind(requestedEventId).first()
+      : await currentEventRow(env);
+    return claimRankReward(env, deps, user, normalizeEvent(eventRow));
+  }
+
   if (path === 'seal-battle/rankings' && request.method === 'GET') {
     const event = normalizeEvent(await currentEventRow(env));
-    if (!event) return deps.json({ event: null, overall: [], roles: {} });
-    return deps.json({ event, ...(await rankings(env, event.id)) });
+    if (!event) return deps.json({ event: null, overall: [], roles: {}, myRank: null, rankRewards: cleanRankRewards({}) });
+    return deps.json({ event, ...(await rankings(env, event.id, user.id)) });
   }
 
   if (path === 'admin/seal-battle/overview' && request.method === 'GET') {

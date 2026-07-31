@@ -30,6 +30,31 @@
     return Math.max(0, Number(value || 0)).toLocaleString();
   }
 
+  function rankRewardParts(reward = {}) {
+    return [
+      ['◈', '코인', reward.coin],
+      ['◫', '일반 큐브', reward.normalCube],
+      ['◆', '고급 큐브', reward.advancedCube],
+      ['✦', '프리미엄 큐브', reward.premiumCube],
+      ['▣', '장비 보급상자', reward.equipmentBox]
+    ].filter(([, , quantity]) => Number(quantity || 0) > 0);
+  }
+
+  function rankRewardSummary(reward = {}) {
+    const parts = rankRewardParts(reward);
+    return parts.length ? parts.map(([, label, quantity]) => `${label} ${number(quantity)}`).join(' · ') : '설정된 보상 없음';
+  }
+
+  function rankRewardItemsHtml(reward = {}) {
+    return rankRewardParts(reward).map(([icon, label, quantity]) => `<span><i>${icon}</i><small>${esc(label)}</small><b>${number(quantity)}</b></span>`).join('');
+  }
+
+  function rankTierLabel(tier = {}) {
+    const start = Math.max(1, Number(tier.startRank || 1));
+    const end = Math.max(start, Number(tier.endRank || start));
+    return start === end ? `${start}위` : `${start}~${end}위`;
+  }
+
   function percent(value) {
     return Math.max(0, Math.min(100, Number(value || 0)));
   }
@@ -139,6 +164,8 @@
     const progress = data.progress || {};
     const clear = data.clearReward || {};
     const canClaim = clear.eligible && !clear.claimed && !clear.processing;
+    const rankReward = data.rankReward || null;
+    const pendingRankReward = data.pendingRankReward || null;
     root.innerHTML = `<section class="seal-battle-shell">
       <section class="seal-hero ${String(event.status || '').toLowerCase()}">
         <div class="seal-hero-copy">
@@ -164,6 +191,10 @@
       </section>
 
       ${data.pendingClearReward ? `<section class="seal-pending-reward"><div><small>PREVIOUS CLEAR REWARD</small><h3>${esc(data.pendingClearReward.title)} 완료 보상 미수령</h3><p>${esc(data.pendingClearReward.bossName || '')} 봉인 완료 보상을 지금 받을 수 있습니다.</p></div><div><span>코인 <b>${number(data.pendingClearReward.reward?.coin)}</b></span><span>카드 조각 <b>${number(data.pendingClearReward.reward?.shards)}</b></span><button type="button" data-seal-pending-claim="${Number(data.pendingClearReward.eventId)}" ${data.pendingClearReward.processing ? 'disabled' : ''}>${data.pendingClearReward.processing ? '처리 중' : '지난 봉인전 보상 받기'}</button></div></section>` : ''}
+
+      ${pendingRankReward ? `<section class="seal-rank-reward-panel previous"><div class="seal-rank-reward-copy"><small>PREVIOUS CONTRIBUTION REWARD</small><h3>${esc(pendingRankReward.title)} · 최종 ${number(pendingRankReward.finalRank)}위</h3><p>누적 공헌도 ${number(pendingRankReward.totalContribution)} · ${esc(rankTierLabel(pendingRankReward.tier))} 보상</p></div><div class="seal-rank-reward-items">${rankRewardItemsHtml(pendingRankReward.reward)}</div><button type="button" data-seal-rank-claim="${Number(pendingRankReward.eventId)}" ${pendingRankReward.processing ? 'disabled' : ''}>${pendingRankReward.processing ? '보상 처리 중' : pendingRankReward.claimed ? '수령 완료' : '지난 순위 보상 받기'}</button></section>` : ''}
+
+      ${rankReward ? `<section class="seal-rank-reward-panel current ${rankReward.claimed ? 'claimed' : ''}"><div class="seal-rank-medal"><small>FINAL RANK</small><b>${number(rankReward.finalRank)}</b><em>위</em></div><div class="seal-rank-reward-copy"><small>CONTRIBUTION RANK REWARD</small><h3>${esc(rankTierLabel(rankReward.tier))} 공헌도 차등 보상</h3><p>최종 공헌도 ${number(rankReward.totalContribution)} · ${esc(event.status === 'FAILED' ? '봉인 실패 순위 보상' : '봉인 완료 순위 보상')}</p></div><div class="seal-rank-reward-items">${rankRewardItemsHtml(rankReward.reward)}</div><button type="button" data-seal-rank-claim="${Number(rankReward.eventId)}" ${rankReward.claimed || rankReward.processing ? 'disabled' : ''}>${rankReward.claimed ? '순위 보상 수령 완료' : rankReward.processing ? '보상 처리 중' : '공헌도 순위 보상 받기'}</button></section>` : ''}
 
       <section class="seal-role-grid">
         ${sealCard('ATTACK', data)}
@@ -191,6 +222,7 @@
     root.querySelector('#sealRankings')?.addEventListener('click', showRankings);
     root.querySelector('#sealClearClaim')?.addEventListener('click', claimClearReward);
     root.querySelector('[data-seal-pending-claim]')?.addEventListener('click', claimClearReward);
+    root.querySelectorAll('[data-seal-rank-claim]').forEach(button => button.addEventListener('click', claimRankReward));
     startChargeTimer(progress);
     root.querySelector('.seal-boss-stage img')?.addEventListener('error', event => {
       event.currentTarget.replaceWith(Object.assign(document.createElement('div'), {
@@ -221,7 +253,7 @@
     modal.innerHTML = `<div class="modal-panel battle-stage seal-battle-stage intro">
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
       <div class="battle-topline"><span>SOOPKETMON SEAL BATTLE</span><b id="battlePhase">SEAL ENCOUNTER</b></div>
-      <div class="seal-combat-role-chip"><span>${meta.icon}</span><b>${meta.label}</b><small>승리 시에만 공헌 · 궁극기 사용 불가</small></div>
+      <div class="seal-combat-role-chip"><span>${meta.icon}</span><b>${meta.label}</b><small>승리 100% · 패배 ${Number(event.defeatContributionPercent ?? 10)}% 공헌 · 궁극기 사용 불가</small></div>
       <div class="battle-hud">
         <div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>PVE SEAL TEAM</b><span data-hp-text="team">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="team"></u><i data-hp-fill="team"></i><em>K.O.</em></div><small>전투력 ${number(latest?.deck?.power)}</small></div>
         <div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${esc(event.bossName || '봉인 보스')}</b><span data-hp-text="enemy">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="enemy"></u><i data-hp-fill="enemy"></i><em>SEALED</em></div><small>역할 전투력 ${number(role.battlePower)}</small></div>
@@ -424,8 +456,25 @@
     }
   }
 
+  async function claimRankReward(event) {
+    const button = event.currentTarget;
+    const eventId = Number(button.dataset.sealRankClaim || 0);
+    if (!confirm('공헌도 순위 보상을 수령할까요?')) return;
+    button.disabled = true;
+    try {
+      const result = await api('seal-battle/rank-reward', { method: 'POST', body: JSON.stringify(eventId ? { eventId } : {}) });
+      updateBalances(result.balances);
+      alert(`공헌도 최종 ${number(result.finalRank)}위 보상을 수령했습니다.
+${rankRewardSummary(result.reward)}`);
+      await load();
+    } catch (error) {
+      alert(error.message);
+      button.disabled = false;
+    }
+  }
+
   function rankingRows(rows, valueKey = 'total_contribution') {
-    return (rows || []).map((row, index) => `<div class="seal-ranking-row"><b>${index + 1}</b><span>${esc(row.nickname || '-')}<small>${number(row.total_attempts)}회 참여</small></span><strong>${number(row[valueKey])}</strong></div>`).join('') || '<div class="seal-ranking-empty">아직 공헌 기록이 없습니다.</div>';
+    return (rows || []).map((row, index) => `<div class="seal-ranking-row"><b>${Number(row.rank || index + 1)}</b><span>${esc(row.nickname || '-')}<small>${number(row.total_attempts)}회 참여</small></span><strong>${number(row[valueKey])}</strong></div>`).join('') || '<div class="seal-ranking-empty">아직 공헌 기록이 없습니다.</div>';
   }
 
   async function showRankings() {
@@ -436,7 +485,10 @@
     try {
       const data = await api('seal-battle/rankings');
       const panel = modal.querySelector('.seal-ranking-panel');
-      panel.innerHTML = `<header><div><small>COOPERATIVE CONTRIBUTION</small><h2>봉인전 공헌도 현황</h2><p>순위는 현황 확인용이며 봉인 완료 보상은 참여자 모두에게 동일하게 지급됩니다.</p></div><button type="button" id="sealRankingClose">×</button></header>
+      const tiers = data.rankRewards?.enabled ? (data.rankRewards.tiers || []).filter(tier => rankRewardParts(tier).length) : [];
+      panel.innerHTML = `<header><div><small>COOPERATIVE CONTRIBUTION</small><h2>봉인전 공헌도 현황</h2><p>${tiers.length ? `봉인전 종료 시 확정된 전체 공헌도 순위에 따라 차등 보상이 지급됩니다. · ${data.rankRewards?.rewardOnFailure !== false ? '봉인 실패 시에도 지급' : '봉인 성공 시에만 지급'}` : '현재 봉인전에는 공헌도 순위 보상이 설정되지 않았습니다.'}</p></div><button type="button" id="sealRankingClose">×</button></header>
+        ${data.myRank ? `<section class="seal-my-rank"><small>MY CURRENT RANK</small><b>${number(data.myRank.rank)}위</b><span>공헌도 ${number(data.myRank.totalContribution)} · ${number(data.myRank.totalAttempts)}회 참여</span></section>` : ''}
+        ${tiers.length ? `<section class="seal-ranking-reward-tiers">${tiers.map(tier => `<article><b>${esc(rankTierLabel(tier))}</b><span>${esc(rankRewardSummary(tier))}</span></article>`).join('')}</section>` : ''}
         <nav class="seal-ranking-tabs"><button class="active" data-rank-tab="overall">전체</button><button data-rank-tab="ATTACK">파괴</button><button data-rank-tab="GUARD">수호</button><button data-rank-tab="PURIFY">정화</button></nav>
         <div id="sealRankingList">${rankingRows(data.overall)}</div>`;
       panel.querySelector('#sealRankingClose').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };

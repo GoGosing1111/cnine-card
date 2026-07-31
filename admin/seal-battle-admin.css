@@ -186,3 +186,43 @@
 .seal-admin-event-summary .status-failed,.seal-admin-history #sealAdminHistory .status-failed{background:#fff0f0;color:#b53d45;border:1px solid #f1c7cb}.seal-admin-role-settings article label:first-of-type input{font-weight:900;color:#25324a;background:#f7faff}.seal-admin-settings .seal-admin-failure-note{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid #f0d0d3;background:#fff7f7;color:#83434a;font-size:12px;line-height:1.55}
 
 .seal-admin-combat-rule{grid-column:span 2;display:flex;flex-direction:column;justify-content:center;gap:5px;min-height:48px;padding:12px 14px;border:1px solid #d7c58e;border-radius:12px;background:linear-gradient(135deg,#fffaf0,#f7f1e2);box-sizing:border-box}.seal-admin-combat-rule b{color:#57461d;font-size:13px}.seal-admin-combat-rule span{color:#75643a;font-size:12px;line-height:1.45;font-weight:700}@media(max-width:760px){.seal-admin-combat-rule{grid-column:auto}}
+
+/* v1288 · 봉인전 공헌도 순위 차등 보상 */
+.seal-admin-stats{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.seal-admin-rank-rewards{margin-top:24px;padding:22px;border:1px solid #dbe3ef;border-radius:18px;background:linear-gradient(180deg,#fdfefe,#f7faff);box-shadow:0 10px 24px rgba(31,45,72,.06)}
+.seal-admin-rank-rewards>header{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-bottom:17px;border-bottom:1px solid #e4eaf2}
+.seal-admin-rank-rewards>header small{display:block;color:#a28542;font-size:10px;letter-spacing:.16em;font-weight:900}
+.seal-admin-rank-rewards>header h3{margin:4px 0 5px;color:#1d273a;font-size:22px}
+.seal-admin-rank-rewards>header p{margin:0;color:#617087;line-height:1.55}
+.seal-admin-rank-rewards>header button{padding:10px 14px;border:1px solid #cdd7e5;border-radius:11px;background:#fff;color:#34425b;font-weight:900;cursor:pointer}
+.seal-rank-reward-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:17px}
+.seal-switch-row{display:flex;align-items:center;gap:11px;padding:13px 14px;border:1px solid #dce4ef;border-radius:13px;background:#fff;cursor:pointer}
+.seal-switch-row>input{width:18px;height:18px;accent-color:#26324a}
+.seal-switch-row>span{display:flex;flex-direction:column;gap:3px}
+.seal-switch-row b{color:#27344b;font-size:13px}
+.seal-switch-row small{color:#758298;font-size:11px;line-height:1.4}
+.seal-rank-tier-list{display:grid;gap:13px;margin-top:16px;transition:opacity .2s ease}
+.seal-rank-tier-list.disabled{opacity:.5}
+.seal-rank-tier{padding:17px;border:1px solid #dce4ef;border-radius:15px;background:#fff;box-shadow:0 5px 13px rgba(31,45,72,.035)}
+.seal-rank-tier>header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:13px}
+.seal-rank-tier>header small{display:block;color:#a28749;font-size:9px;letter-spacing:.14em;font-weight:900}
+.seal-rank-tier>header h4{margin:3px 0;color:#202b40;font-size:17px}
+.seal-rank-tier>header button{padding:7px 10px;border:1px solid #efcfd2;border-radius:9px;background:#fff7f7;color:#a14248;font-size:11px;font-weight:900;cursor:pointer}
+.seal-rank-range{display:grid;grid-template-columns:minmax(0,170px) 22px minmax(0,170px);align-items:end;gap:9px;margin-bottom:13px}
+.seal-rank-range label{display:flex;flex-direction:column;gap:6px}
+.seal-rank-range label span{font-size:12px;font-weight:900;color:#4a566d}
+.seal-rank-range input{width:100%;padding:10px 11px;border:1px solid #cfd8e5;border-radius:10px;background:#f9fbfe;color:#1f293b;font-weight:900;box-sizing:border-box}
+.seal-rank-range i{padding-bottom:11px;color:#8996a9;text-align:center;font-style:normal;font-weight:900}
+.seal-rank-item-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.seal-rank-item{display:grid;grid-template-columns:20px minmax(0,1fr) 76px;align-items:center;gap:8px;padding:10px;border:1px solid #e0e6ef;border-radius:12px;background:#f7f9fc;cursor:pointer;transition:border-color .18s,background .18s,box-shadow .18s}
+.seal-rank-item.enabled{border-color:#c9b064;background:#fffaf0;box-shadow:0 4px 10px rgba(145,112,33,.08)}
+.seal-rank-item>input[type="checkbox"]{width:17px;height:17px;accent-color:#a8832c}
+.seal-rank-item>span{display:flex;min-width:0;flex-direction:column;gap:2px}
+.seal-rank-item small{color:#9a8756;font-size:8px;letter-spacing:.08em;font-weight:900}
+.seal-rank-item b{overflow:hidden;color:#344058;font-size:11px;text-overflow:ellipsis;white-space:nowrap}
+.seal-rank-item>input[type="number"]{width:100%;padding:8px;border:1px solid #cfd8e5;border-radius:8px;background:#fff;color:#202a3c;font-weight:900;box-sizing:border-box}
+.seal-rank-item>input[type="number"]:disabled{background:#edf1f6;color:#9ba5b3}
+.seal-rank-reward-note{display:flex;align-items:flex-start;gap:10px;margin-top:14px;padding:12px 14px;border:1px solid #d9e0ea;border-radius:12px;background:#f3f6fa;color:#657287;font-size:12px;line-height:1.5}
+.seal-rank-reward-note b{flex:0 0 auto;color:#334158}
+@media(max-width:1280px){.seal-rank-item-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){.seal-admin-rank-rewards>header{align-items:flex-start;flex-direction:column}.seal-rank-reward-options{grid-template-columns:1fr}.seal-rank-range{grid-template-columns:1fr 18px 1fr}.seal-rank-item-grid{grid-template-columns:1fr}.seal-rank-item{grid-template-columns:20px minmax(0,1fr) 90px}.seal-rank-reward-note{flex-direction:column}}

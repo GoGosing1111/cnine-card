@@ -17,6 +17,14 @@
     lowestRoleBonusPercent: 20, defeatContributionPercent: 10,
     attemptReward: { coin: 100, shards: 1 },
     clearReward: { coin: 2000, shards: 50 },
+    rankRewards: {
+      enabled: false, rewardOnFailure: true,
+      tiers: [
+        { startRank: 1, endRank: 1, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 },
+        { startRank: 2, endRank: 3, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 },
+        { startRank: 4, endRank: 10, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 }
+      ]
+    },
     receiptRetentionDays: 14, progressRetentionDays: 90
   };
 
@@ -115,6 +123,16 @@
           <article><header><small>STORAGE LIMIT</small><h4>소형 기록 보존</h4></header><label><span>요청 영수증</span><div class="input-unit"><input id="sealReceiptDays" type="number" min="1" max="90"><em>일</em></div></label><label><span>종료 이벤트 개인 집계</span><div class="input-unit"><input id="sealProgressDays" type="number" min="7" max="365"><em>일</em></div></label></article>
         </div>
 
+        <section class="seal-admin-rank-rewards">
+          <header><div><small>CONTRIBUTION RANK REWARD</small><h3>공헌도 순위 차등 보상</h3><p>봉인전 종료 시 확정된 전체 공헌도 순위에 따라 큐브·장비 보급상자·코인을 조합해 지급합니다.</p></div><button type="button" id="sealAddRankTier" class="ghost">+ 순위 구간 추가</button></header>
+          <div class="seal-rank-reward-options">
+            <label class="seal-switch-row"><input id="sealRankRewardsEnabled" type="checkbox"><span><b>순위 보상 사용</b><small>새 봉인전 시작 시 현재 구간과 보상이 이벤트에 고정됩니다.</small></span></label>
+            <label class="seal-switch-row"><input id="sealRankRewardsOnFailure" type="checkbox"><span><b>봉인 실패 시에도 지급</b><small>해제하면 봉인 성공 이벤트에서만 순위 보상을 받을 수 있습니다.</small></span></label>
+          </div>
+          <div id="sealRankRewardTiers" class="seal-rank-tier-list"></div>
+          <div class="seal-rank-reward-note"><b>순위 판정 기준</b><span>총 공헌도 → 참여 횟수 → 마지막 공헌 시각 → 사용자 ID 순으로 확정됩니다. 동일 순위 중복 없이 1위부터 순차 배정됩니다.</span></div>
+        </section>
+
         <div class="seal-admin-start-box"><div><small>NEW EVENT</small><h3>새 봉인전 시작</h3><p>기존 활성 봉인전은 종료 처리되고 위 설정으로 새로운 서버 공동 진행도가 시작됩니다.</p></div><button type="button" id="sealAdminSaveStart">설정 저장 후 새 봉인전 시작</button></div>
       </section>
 
@@ -152,7 +170,8 @@
     const stats = data.stats || {};
     $('#sealAdminStats').innerHTML = [
       ['참여 유저', num(stats.participants), '명'], ['총 참여', num(stats.attempts), '회'],
-      ['누적 공헌도', num(stats.totalContribution), ''], ['완료 보상 수령', num(stats.clearClaims), '명']
+      ['누적 공헌도', num(stats.totalContribution), ''], ['완료 보상 수령', num(stats.clearClaims), '명'],
+      ['순위 보상 수령', num(stats.rankClaims), '명']
     ].map(([label, value, unit]) => `<article><small>${label}</small><b>${value}<em>${unit}</em></b></article>`).join('');
     $('#sealAdminProgress').innerHTML = event ? [
       roleProgress(event.roles?.ATTACK, '파괴 봉인', '⚔'),
@@ -166,6 +185,68 @@
       const purify = Math.min(100, Number(row.purify_progress || 0) / Math.max(1, Number(row.purify_target || 1)) * 100);
       return `<article><span class="status-${String(row.status).toLowerCase()}">${esc(statusText(row.status))}</span><div><b>${esc(row.title)} · ${esc(row.boss_name)}</b><small>${formatDate(row.created_at)} · 파괴 ${attack.toFixed(1)}% · 수호 ${guard.toFixed(1)}% · 정화 ${purify.toFixed(1)}%</small></div></article>`;
     }).join('') || '<div class="seal-admin-empty">봉인전 이력이 없습니다.</div>';
+  }
+
+  function rankTierCard(tier = {}, index = 0) {
+    const rewardFields = [
+      ['normalCube', '일반 큐브', 'NORMAL'],
+      ['advancedCube', '고급 큐브', 'ADVANCED'],
+      ['premiumCube', '프리미엄 큐브', 'PREMIUM'],
+      ['equipmentBox', '장비 보급상자', 'EQUIPMENT'],
+      ['coin', '코인', 'COIN']
+    ];
+    const rewards = rewardFields.map(([field, label, badge]) => {
+      const quantity = Math.max(0, Number(tier[field] || 0));
+      return `<label class="seal-rank-item ${quantity > 0 ? 'enabled' : ''}" data-rank-reward-item="${field}"><input type="checkbox" ${quantity > 0 ? 'checked' : ''}><span><small>${badge}</small><b>${label}</b></span><input type="number" data-rank-reward-quantity="${field}" min="0" max="1000000000" value="${quantity}" ${quantity > 0 ? '' : 'disabled'}></label>`;
+    }).join('');
+    return `<article class="seal-rank-tier" data-rank-tier-index="${index}">
+      <header><div><small>RANK RANGE</small><h4><span data-rank-tier-label>${Number(tier.startRank || 1)}위${Number(tier.endRank || tier.startRank || 1) > Number(tier.startRank || 1) ? ` ~ ${Number(tier.endRank)}위` : ''}</span> 보상</h4></div><button type="button" data-rank-tier-remove aria-label="구간 삭제">삭제</button></header>
+      <div class="seal-rank-range"><label><span>시작 순위</span><input type="number" data-rank-start min="1" max="1000000" value="${Number(tier.startRank || 1)}"></label><i>~</i><label><span>종료 순위</span><input type="number" data-rank-end min="1" max="1000000" value="${Number(tier.endRank || tier.startRank || 1)}"></label></div>
+      <div class="seal-rank-item-grid">${rewards}</div>
+    </article>`;
+  }
+
+  function renderRankTiers(tiers = []) {
+    const root = $('#sealRankRewardTiers');
+    if (!root) return;
+    const source = Array.isArray(tiers) && tiers.length ? tiers : defaults.rankRewards.tiers;
+    root.innerHTML = source.map(rankTierCard).join('');
+    refreshRankTierState();
+  }
+
+  function refreshRankTierState() {
+    const enabled = $('#sealRankRewardsEnabled')?.checked === true;
+    $('#sealRankRewardTiers')?.classList.toggle('disabled', !enabled);
+    document.querySelectorAll('.seal-rank-tier').forEach(card => {
+      const start = Math.max(1, Number(card.querySelector('[data-rank-start]')?.value || 1));
+      const end = Math.max(start, Number(card.querySelector('[data-rank-end]')?.value || start));
+      const label = card.querySelector('[data-rank-tier-label]');
+      if (label) label.textContent = start === end ? `${start}위` : `${start}위 ~ ${end}위`;
+      card.querySelectorAll('[data-rank-reward-item]').forEach(item => {
+        const checked = item.querySelector('input[type="checkbox"]')?.checked === true;
+        item.classList.toggle('enabled', checked);
+        const quantity = item.querySelector('[data-rank-reward-quantity]');
+        if (quantity) quantity.disabled = !checked || !enabled;
+      });
+      card.querySelectorAll('[data-rank-start],[data-rank-end],[data-rank-tier-remove],input[type="checkbox"]').forEach(control => { control.disabled = !enabled; });
+    });
+    if ($('#sealRankRewardsOnFailure')) $('#sealRankRewardsOnFailure').disabled = !enabled;
+  }
+
+  function collectRankTiers() {
+    return [...document.querySelectorAll('.seal-rank-tier')].map(card => {
+      const result = {
+        startRank: Math.max(1, Number(card.querySelector('[data-rank-start]')?.value || 1)),
+        endRank: Math.max(1, Number(card.querySelector('[data-rank-end]')?.value || 1)),
+        coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0
+      };
+      card.querySelectorAll('[data-rank-reward-item]').forEach(item => {
+        const field = item.dataset.rankRewardItem;
+        const checked = item.querySelector('input[type="checkbox"]')?.checked === true;
+        result[field] = checked ? Math.max(0, Math.floor(Number(item.querySelector('[data-rank-reward-quantity]')?.value || 0))) : 0;
+      });
+      return result;
+    }).sort((a, b) => a.startRank - b.startRank || a.endRank - b.endRank);
   }
 
   function fill(settings) {
@@ -195,6 +276,10 @@
     $('#sealClearShards').value = Number(settings.clearReward?.shards || 0);
     $('#sealReceiptDays').value = Number(settings.receiptRetentionDays || 14);
     $('#sealProgressDays').value = Number(settings.progressRetentionDays || 90);
+    const rankRewards = settings.rankRewards || defaults.rankRewards;
+    $('#sealRankRewardsEnabled').checked = rankRewards.enabled === true;
+    $('#sealRankRewardsOnFailure').checked = rankRewards.rewardOnFailure !== false;
+    renderRankTiers(rankRewards.tiers || defaults.rankRewards.tiers);
   }
 
   function integer(id, fallback = 0) {
@@ -226,6 +311,11 @@
       defeatContributionPercent: integer('#sealDefeatContribution', 10),
       attemptReward: { coin: integer('#sealAttemptCoin'), shards: integer('#sealAttemptShards') },
       clearReward: { coin: integer('#sealClearCoin'), shards: integer('#sealClearShards') },
+      rankRewards: {
+        enabled: $('#sealRankRewardsEnabled')?.checked === true,
+        rewardOnFailure: $('#sealRankRewardsOnFailure')?.checked !== false,
+        tiers: collectRankTiers()
+      },
       receiptRetentionDays: integer('#sealReceiptDays', 14),
       progressRetentionDays: integer('#sealProgressDays', 90)
     };
@@ -240,6 +330,18 @@
     if (Object.values(settings.targets).some(value => value < 1)) return '역할별 목표 공헌도는 1 이상이어야 합니다.';
     if (Object.values(settings.multipliers).some(value => value < 1 || value > 1000)) return '역할 배율은 1~1,000%로 입력하세요.';
     if (Object.values(settings.battlePowers).some(value => value < 1)) return '역할별 보스 전투력은 1 이상이어야 합니다.';
+    if (settings.rankRewards?.enabled) {
+      if (!settings.rankRewards.tiers.length) return '공헌도 순위 보상 구간을 하나 이상 추가하세요.';
+      let previousEnd = 0;
+      let payable = 0;
+      for (const tier of settings.rankRewards.tiers) {
+        if (tier.startRank < 1 || tier.endRank < tier.startRank) return '공헌도 순위 범위를 확인하세요.';
+        if (tier.startRank <= previousEnd) return '공헌도 순위 보상 구간이 서로 겹칩니다.';
+        previousEnd = tier.endRank;
+        if (tier.coin + tier.normalCube + tier.advancedCube + tier.premiumCube + tier.equipmentBox > 0) payable++;
+      }
+      if (!payable) return '공헌도 순위 보상 품목과 수량을 하나 이상 설정하세요.';
+    }
     return '';
   }
 
@@ -261,6 +363,24 @@
     if ($('#view-sealbattle')?.dataset.bound === '1') return;
     $('#view-sealbattle').dataset.bound = '1';
     $('#sealAdminRefresh').onclick = () => load().catch(error => alert(error.message));
+    $('#sealRankRewardsEnabled').onchange = refreshRankTierState;
+    $('#sealRankRewardsOnFailure').onchange = refreshRankTierState;
+    $('#sealAddRankTier').onclick = () => {
+      const tiers = collectRankTiers();
+      const lastEnd = tiers.length ? Math.max(...tiers.map(tier => tier.endRank)) : 0;
+      tiers.push({ startRank: lastEnd + 1, endRank: lastEnd + 1, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 });
+      renderRankTiers(tiers);
+    };
+    $('#sealRankRewardTiers').addEventListener('click', event => {
+      const remove = event.target.closest('[data-rank-tier-remove]');
+      if (remove) {
+        remove.closest('.seal-rank-tier')?.remove();
+        refreshRankTierState();
+        return;
+      }
+    });
+    $('#sealRankRewardTiers').addEventListener('input', refreshRankTierState);
+    $('#sealRankRewardTiers').addEventListener('change', refreshRankTierState);
     $('#sealAdminSave').onclick = async event => {
       const button = event.currentTarget;
       button.disabled = true;
