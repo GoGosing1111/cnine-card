@@ -120,7 +120,7 @@ export function cleanRaidSettingsV1293(raw={}){
 function kstParts(nowMs){const kst=new Date(nowMs+9*3600000);return {kst,day:kst.getUTCDay(),date:[kst.getUTCFullYear(),String(kst.getUTCMonth()+1).padStart(2,'0'),String(kst.getUTCDate()).padStart(2,'0')].join('-')};}
 function slotWindow(date,slot){const open=Date.parse(`${date}T${slot.openTime}:00+09:00`),base=Date.parse(`${date}T${slot.closeTime}:00+09:00`),close=base<=open?base+86400000:base;return {open,close};}
 export function raidScheduleStateV1293(cfg,user,nowMs=Date.now()){
-  const bypass=Boolean(user?.role==='OWNER'&&cfg.ownerScheduleBypass),slots=cleanTimeSlots(cfg.timeSlots,{openTime:cfg.openTime,closeTime:cfg.closeTime});
+  const role=String(user?.role||'').trim().toUpperCase(),bypass=Boolean(role==='OWNER'&&cfg.ownerScheduleBypass),slots=cleanTimeSlots(cfg.timeSlots,{openTime:cfg.openTime,closeTime:cfg.closeTime});
   if(cfg.scheduleMode==='ALWAYS'||bypass){const {date}=kstParts(nowMs);return {isOpen:true,canEnter:true,bypassed:bypass,currentSlot:{id:'ALWAYS',label:'상시 개방',entriesPerSlot:Math.max(1,Number(cfg.dailyEntries||99)),bossId:0},slots,nextOpenAt:null,closesAt:null,entryDateKey:date,reason:bypass?'OWNER_BYPASS':'ALWAYS'};}
   const {kst}=kstParts(nowMs),enabled=slots.filter(x=>x.enabled);let currentSlot=null,currentWindow=null,currentEntryDateKey=null;
   const candidates=[];
