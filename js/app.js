@@ -89,7 +89,7 @@ function applyBurningEventState(next={},options={}){
   PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=burningEventState.enabled?Math.max(0,Math.min(90,Number(burningEventState.packDiscountPercent||0))):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
   document.documentElement.classList.toggle('burning-event-active',burningEventState.enabled===true);
   const changed=before!==burningEventFingerprint(burningEventState);
-  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice)notice.remove();document.querySelector('.burning-event-strip')?.remove();if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
+  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open');document.querySelector('.burning-event-strip')?.remove();if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
   const key=`cnine:burning-announced:${Number(burningEventState.generation||0)}`;
   if(options.announce!==false&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
     localStorage.setItem(key,'1');
@@ -100,11 +100,44 @@ function applyBurningEventState(next={},options={}){
 }
 function showBurningActivationNotice(){
   if(!burningEventState.enabled)return;
-  const old=document.getElementById('burningActivationNotice');if(old)old.remove();
+  const previous=document.getElementById('burningActivationNotice');
+  if(previous){try{previous.__burningCleanup?.()}catch(_){}previous.remove()}
   const el=document.createElement('div');el.id='burningActivationNotice';el.className='burning-activation-notice';
-  el.innerHTML=`<div class="burning-notice-flames"><i></i><i></i><i></i><i></i></div><div class="burning-notice-panel"><small>SOOP BURNING EVENT</small><h2>${escapeHtml(burningEventState.title||'숲켓몬 버닝이 발동 되었습니다')}</h2><p>PVE · PVP 15회 / 2분 충전<br>카드조각 2배 · 카드팩 20% 할인 · 일반 전투 보상 50% 증가</p><button type="button">버닝 시작</button></div>`;
+  let embedded=false;
+  try{embedded=window.self!==window.top}catch(_){embedded=true}
+  const mobileViewport=window.matchMedia?.('(max-width:820px)')?.matches===true||/Android|iPhone|iPad|iPod/i.test(String(navigator.userAgent||''));
+  const startLabel=embedded&&mobileViewport?'전체화면으로 시작':'버닝 시작';
+  el.innerHTML=`<div class="burning-notice-flames"><i></i><i></i><i></i><i></i></div><div class="burning-notice-panel" role="dialog" aria-modal="true" aria-labelledby="burningNoticeTitle"><small>SOOP BURNING EVENT</small><h2 id="burningNoticeTitle">${escapeHtml(burningEventState.title||'숲켓몬 버닝이 발동 되었습니다')}</h2><p>PVE · PVP 15회 / 2분 충전<br>카드조각 2배 · 카드팩 20% 할인 · 일반 전투 보상 50% 증가</p><button type="button">${startLabel}</button></div>`;
+  const root=document.documentElement;
+  const syncViewport=()=>{
+    const viewport=window.visualViewport;
+    const width=Math.max(1,Math.round(viewport?.width||window.innerWidth||document.documentElement.clientWidth||1));
+    const height=Math.max(1,Math.round(viewport?.height||window.innerHeight||document.documentElement.clientHeight||1));
+    el.style.setProperty('--burning-vv-left',`${Math.round(viewport?.offsetLeft||0)}px`);
+    el.style.setProperty('--burning-vv-top',`${Math.round(viewport?.offsetTop||0)}px`);
+    el.style.setProperty('--burning-vv-width',`${width}px`);
+    el.style.setProperty('--burning-vv-height',`${height}px`);
+  };
+  const unlock=()=>{root.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open');window.visualViewport?.removeEventListener('resize',syncViewport);window.visualViewport?.removeEventListener('scroll',syncViewport);window.removeEventListener('orientationchange',syncViewport)};
+  const close=()=>{if(!el.isConnected){unlock();return}el.classList.remove('show');unlock();setTimeout(()=>el.remove(),260)};
+  el.__burningCleanup=unlock;
+  syncViewport();root.classList.add('burning-notice-open');document.body.classList.add('burning-notice-open');
+  window.visualViewport?.addEventListener('resize',syncViewport,{passive:true});
+  window.visualViewport?.addEventListener('scroll',syncViewport,{passive:true});
+  window.addEventListener('orientationchange',syncViewport,{passive:true});
   document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'));
-  el.querySelector('button').onclick=()=>{el.classList.remove('show');setTimeout(()=>el.remove(),260)};
+  el.querySelector('button').onclick=async()=>{
+    if(embedded&&mobileViewport){
+      const url='https://cnine-card.pages.dev/';
+      try{window.top.location.href=url;return}catch(_){}
+      try{const opened=window.open(url,'_top');if(opened)return}catch(_){}
+    }
+    if(mobileViewport&&!document.fullscreenElement){
+      const target=document.documentElement;
+      try{await (target.requestFullscreen?.({navigationUI:'hide'})||target.webkitRequestFullscreen?.())}catch(_){}
+    }
+    close();
+  };
 }
 function stopBurningEventWatch(){if(burningEventWatchTimer){clearTimeout(burningEventWatchTimer);burningEventWatchTimer=null}}
 function scheduleBurningEventWatch(delay=burningEventState.enabled?10000:60000){
