@@ -63,8 +63,8 @@ function cleanRankRewards(rows){
 }
 function cleanTimeSlots(rawSlots,legacy={}){
   const source=Array.isArray(rawSlots)&&rawSlots.length?rawSlots:[
-    {id:'A',label:'1부',enabled:true,openTime:legacy.openTime||'20:00',closeTime:legacy.closeTime||'21:00',entriesPerSlot:1,bossId:0},
-    {id:'B',label:'2부',enabled:true,openTime:'23:00',closeTime:'23:30',entriesPerSlot:1,bossId:0}
+    {id:'A',label:'1부',enabled:true,openTime:legacy.openTime||'20:00',closeTime:legacy.closeTime||'21:00',entriesPerSlot:3,bossId:0},
+    {id:'B',label:'2부',enabled:true,openTime:'23:00',closeTime:'23:30',entriesPerSlot:3,bossId:0}
   ];
   const ids=new Set(),result=[];
   for(let index=0;index<Math.min(4,source.length);index++){
@@ -74,14 +74,14 @@ function cleanTimeSlots(rawSlots,legacy={}){
       id,label:String(row.label||`${index+1}부`).trim().slice(0,20)||`${index+1}부`,enabled:row.enabled!==false,
       openTime:validTime(row.openTime)?String(row.openTime):index===0?'20:00':'23:00',
       closeTime:validTime(row.closeTime)?String(row.closeTime):index===0?'21:00':'23:30',
-      entriesPerSlot:integer(row.entriesPerSlot,1,1,20),bossId:integer(row.bossId,0,0,2147483647)
+      entriesPerSlot:integer(row.entriesPerSlot,3,1,20),bossId:integer(row.bossId,0,0,2147483647)
     });
   }
-  while(result.length<2){const i=result.length;result.push({id:i===0?'A':'B',label:i===0?'1부':'2부',enabled:true,openTime:i===0?'20:00':'23:00',closeTime:i===0?'21:00':'23:30',entriesPerSlot:1,bossId:0});}
+  while(result.length<2){const i=result.length;result.push({id:i===0?'A':'B',label:i===0?'1부':'2부',enabled:true,openTime:i===0?'20:00':'23:00',closeTime:i===0?'21:00':'23:30',entriesPerSlot:3,bossId:0});}
   return result;
 }
 export function defaultRaidSettingsV1293(){
-  return {enabled:false,ownerOnlyTest:false,userOpenEnabled:true,title:'월드 레이드',maxParticipants:30,minParticipants:5,lobbySeconds:60,battleSeconds:120,dailyEntries:2,autoStartOnFull:true,showNicknames:true,showRepresentativeCard:true,showDamageLog:true,showPersonalDamage:true,showLiveRanking:true,rankingSize:10,attackIntervalMs:800,damageMultiplier:1,criticalEnabled:true,criticalChance:10,criticalMultiplier:1.5,participationCoin:100,clearCoin:300,rewardShards:20,deckHpMultiplier:12,bossAttackPower:850,bossAttackIntervalMs:5000,bossAttackVariance:15,enrageEnabled:true,enrageHpPercent:30,enrageMultiplier:1.6,showBattleStage:true,showParticipantHp:true,scheduleMode:'SCHEDULED',openDays:[0,1,2,3,4,5,6],openTime:'20:00',closeTime:'21:00',entryCloseMinutes:0,showOpenCountdown:true,ownerScheduleBypass:true,
+  return {enabled:false,ownerOnlyTest:false,userOpenEnabled:true,title:'월드 레이드',maxParticipants:30,minParticipants:5,lobbySeconds:60,battleSeconds:120,dailyEntries:6,autoStartOnFull:true,showNicknames:true,showRepresentativeCard:true,showDamageLog:true,showPersonalDamage:true,showLiveRanking:true,rankingSize:10,attackIntervalMs:800,damageMultiplier:1,criticalEnabled:true,criticalChance:10,criticalMultiplier:1.5,participationCoin:100,clearCoin:300,rewardShards:20,deckHpMultiplier:12,bossAttackPower:850,bossAttackIntervalMs:5000,bossAttackVariance:15,enrageEnabled:true,enrageHpPercent:30,enrageMultiplier:1.6,showBattleStage:true,showParticipantHp:true,scheduleMode:'SCHEDULED',openDays:[0,1,2,3,4,5,6],openTime:'20:00',closeTime:'21:00',entryCloseMinutes:0,showOpenCountdown:true,ownerScheduleBypass:true,
     timeSlots:cleanTimeSlots(null,{openTime:'20:00',closeTime:'21:00'}),
     phase2Enabled:true,phase2StartHpPercent:70,phase2EndHpPercent:30,phase2ShieldPercent:12,phase2BreakDamageMultiplier:1.25,
     phase3EnrageEnabled:true,phase3EnrageMultiplier:1.75,
@@ -104,13 +104,14 @@ export function cleanRaidSettingsV1293(raw={}){
     rareDrops:cleanRewardItems(rewardRaw.rareDrops,true)
   };
   const timeSlots=cleanTimeSlots(raw.timeSlots,{openTime:raw.openTime||base.openTime,closeTime:raw.closeTime||base.closeTime});
-  const first=timeSlots.find(x=>x.enabled)||timeSlots[0];
+  const first=timeSlots.find(x=>x.enabled)||timeSlots[0],scheduleMode=String(raw.scheduleMode||base.scheduleMode).toUpperCase()==='ALWAYS'?'ALWAYS':'SCHEDULED';
+  const scheduledDailyEntries=Math.max(1,timeSlots.filter(x=>x.enabled!==false).reduce((sum,slot)=>sum+Math.max(1,Number(slot.entriesPerSlot||0)),0));
   const out={...base,
     enabled:raw.enabled===true,ownerOnlyTest:raw.ownerOnlyTest===true,userOpenEnabled:raw.userOpenEnabled!==false,title:String(raw.title||base.title).trim().slice(0,40),
-    maxParticipants:integer(raw.maxParticipants,base.maxParticipants,1,200),minParticipants:integer(raw.minParticipants,base.minParticipants,1,200),lobbySeconds:integer(raw.lobbySeconds,base.lobbySeconds,5,3600),battleSeconds:integer(raw.battleSeconds,base.battleSeconds,10,3600),dailyEntries:integer(raw.timeSlots?raw.dailyEntries:Math.max(2,Number(raw.dailyEntries||0)),base.dailyEntries,1,99),autoStartOnFull:raw.autoStartOnFull!==false,
+    maxParticipants:integer(raw.maxParticipants,base.maxParticipants,1,200),minParticipants:integer(raw.minParticipants,base.minParticipants,1,200),lobbySeconds:integer(raw.lobbySeconds,base.lobbySeconds,5,3600),battleSeconds:integer(raw.battleSeconds,base.battleSeconds,10,3600),dailyEntries:scheduleMode==='SCHEDULED'?scheduledDailyEntries:integer(raw.dailyEntries,base.dailyEntries,1,99),autoStartOnFull:raw.autoStartOnFull!==false,
     showNicknames:raw.showNicknames!==false,showRepresentativeCard:raw.showRepresentativeCard!==false,showDamageLog:raw.showDamageLog!==false,showPersonalDamage:raw.showPersonalDamage!==false,showLiveRanking:raw.showLiveRanking!==false,rankingSize:integer(raw.rankingSize,base.rankingSize,1,100),attackIntervalMs:integer(raw.attackIntervalMs,base.attackIntervalMs,200,5000),damageMultiplier:num(raw.damageMultiplier,base.damageMultiplier,.01,100),criticalEnabled:raw.criticalEnabled!==false,criticalChance:num(raw.criticalChance,base.criticalChance,0,100),criticalMultiplier:num(raw.criticalMultiplier,base.criticalMultiplier,1,10),
     participationCoin:integer(raw.participationCoin,base.participationCoin,0,100000000),clearCoin:integer(raw.clearCoin,base.clearCoin,0,100000000),rewardShards:integer(raw.rewardShards,base.rewardShards,0,1000000),deckHpMultiplier:num(raw.deckHpMultiplier,base.deckHpMultiplier,1,1000),bossAttackPower:integer(raw.bossAttackPower,base.bossAttackPower,1,100000000),bossAttackIntervalMs:integer(raw.bossAttackIntervalMs,base.bossAttackIntervalMs,500,60000),bossAttackVariance:num(raw.bossAttackVariance,base.bossAttackVariance,0,90),enrageEnabled:raw.enrageEnabled!==false,enrageHpPercent:num(raw.enrageHpPercent,base.enrageHpPercent,1,99),enrageMultiplier:num(raw.enrageMultiplier,base.enrageMultiplier,1,10),showBattleStage:raw.showBattleStage!==false,showParticipantHp:raw.showParticipantHp!==false,
-    scheduleMode:String(raw.scheduleMode||base.scheduleMode).toUpperCase()==='ALWAYS'?'ALWAYS':'SCHEDULED',openDays:days.length?days:base.openDays,openTime:first.openTime,closeTime:first.closeTime,entryCloseMinutes:integer(raw.entryCloseMinutes,base.entryCloseMinutes,0,1440),showOpenCountdown:raw.showOpenCountdown!==false,ownerScheduleBypass:raw.ownerScheduleBypass!==false,
+    scheduleMode,openDays:days.length?days:base.openDays,openTime:first.openTime,closeTime:first.closeTime,entryCloseMinutes:integer(raw.entryCloseMinutes,base.entryCloseMinutes,0,1440),showOpenCountdown:raw.showOpenCountdown!==false,ownerScheduleBypass:raw.ownerScheduleBypass!==false,
     timeSlots,
     phase2Enabled:raw.phase2Enabled!==false,phase2StartHpPercent:num(raw.phase2StartHpPercent,base.phase2StartHpPercent,31,95),phase2EndHpPercent:num(raw.phase2EndHpPercent,base.phase2EndHpPercent,5,69),phase2ShieldPercent:num(raw.phase2ShieldPercent,base.phase2ShieldPercent,0,100),phase2BreakDamageMultiplier:num(raw.phase2BreakDamageMultiplier,base.phase2BreakDamageMultiplier,1,5),phase3EnrageEnabled:raw.phase3EnrageEnabled!==false,phase3EnrageMultiplier:num(raw.phase3EnrageMultiplier,base.phase3EnrageMultiplier,1,10),rewards
   };
@@ -120,8 +121,8 @@ export function cleanRaidSettingsV1293(raw={}){
 function kstParts(nowMs){const kst=new Date(nowMs+9*3600000);return {kst,day:kst.getUTCDay(),date:[kst.getUTCFullYear(),String(kst.getUTCMonth()+1).padStart(2,'0'),String(kst.getUTCDate()).padStart(2,'0')].join('-')};}
 function slotWindow(date,slot){const open=Date.parse(`${date}T${slot.openTime}:00+09:00`),base=Date.parse(`${date}T${slot.closeTime}:00+09:00`),close=base<=open?base+86400000:base;return {open,close};}
 export function raidScheduleStateV1293(cfg,user,nowMs=Date.now()){
-  const role=String(user?.role||'').trim().toUpperCase(),bypass=Boolean(role==='OWNER'&&cfg.ownerScheduleBypass),slots=cleanTimeSlots(cfg.timeSlots,{openTime:cfg.openTime,closeTime:cfg.closeTime});
-  if(cfg.scheduleMode==='ALWAYS'||bypass){const {date}=kstParts(nowMs);return {isOpen:true,canEnter:true,bypassed:bypass,currentSlot:{id:'ALWAYS',label:'상시 개방',entriesPerSlot:Math.max(1,Number(cfg.dailyEntries||99)),bossId:0},slots,nextOpenAt:null,closesAt:null,entryDateKey:date,reason:bypass?'OWNER_BYPASS':'ALWAYS'};}
+  const role=String(user?.role||'').trim().toUpperCase(),ownerBypass=Boolean(role==='OWNER'&&cfg.ownerScheduleBypass),slots=cleanTimeSlots(cfg.timeSlots,{openTime:cfg.openTime,closeTime:cfg.closeTime});
+  if(cfg.scheduleMode==='ALWAYS'){const {date}=kstParts(nowMs);return {isOpen:true,canEnter:true,bypassed:false,currentSlot:{id:'ALWAYS',label:'상시 개방',entriesPerSlot:Math.max(1,Number(cfg.dailyEntries||99)),bossId:0},slots,nextOpenAt:null,closesAt:null,entryDateKey:date,reason:'ALWAYS'};}
   const {kst}=kstParts(nowMs),enabled=slots.filter(x=>x.enabled);let currentSlot=null,currentWindow=null,currentEntryDateKey=null;
   const candidates=[];
   for(const offset of [-1,0]){
@@ -137,7 +138,10 @@ export function raidScheduleStateV1293(cfg,user,nowMs=Date.now()){
     const ymd=[d.getUTCFullYear(),String(d.getUTCMonth()+1).padStart(2,'0'),String(d.getUTCDate()).padStart(2,'0')].join('-');
     for(const slot of enabled){const candidate=slotWindow(ymd,slot).open;if(candidate>nowMs&&(!nextOpenAt||candidate<Date.parse(nextOpenAt))){nextOpenAt=new Date(candidate).toISOString();nextSlot=slot;}}
   }
-  if(!currentSlot)return {isOpen:false,canEnter:false,bypassed:false,currentSlot:null,slots,nextOpenAt,nextSlot,closesAt:null,reason:'CLOSED'};
+  if(!currentSlot){
+    if(ownerBypass){const {date}=kstParts(nowMs);return {isOpen:true,canEnter:true,bypassed:true,currentSlot:{id:'ALWAYS',label:'OWNER 시간 우회',entriesPerSlot:Math.max(1,Number(cfg.dailyEntries||99)),bossId:0},slots,nextOpenAt,nextSlot,closesAt:null,entryDateKey:date,reason:'OWNER_BYPASS'};}
+    return {isOpen:false,canEnter:false,bypassed:false,currentSlot:null,slots,nextOpenAt,nextSlot,closesAt:null,reason:'CLOSED'};
+  }
   const entryCloseAt=currentWindow.close-Math.max(0,Number(cfg.entryCloseMinutes||0))*60000,canEnter=nowMs<entryCloseAt;
   return {isOpen:true,canEnter,bypassed:false,currentSlot,slots,nextOpenAt,nextSlot,closesAt:new Date(currentWindow.close).toISOString(),entryClosesAt:new Date(entryCloseAt).toISOString(),entryDateKey:currentEntryDateKey,reason:canEnter?'OPEN':'ENTRY_CLOSED'};
 }
@@ -154,6 +158,15 @@ export async function ensureRaidOverhaulV1293(env){
       env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_raid_user_reward_v1293_status ON raid_user_reward_v1293(status,updated_at)`),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1293_raid_overhaul','1',CURRENT_TIMESTAMP)")
     ]);
+    const resetKey='safe_runtime_upgrade_v1296_raid_20260731_entry_reset',resetDone=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(resetKey).first();
+    if(!resetDone){
+      await env.DB.batch([
+        env.DB.prepare("DELETE FROM raid_daily_entry_restores WHERE entry_date='2026-07-31'"),
+        env.DB.prepare("DELETE FROM raid_daily_entry_uses WHERE entry_date='2026-07-31'"),
+        env.DB.prepare("DELETE FROM raid_daily_entries WHERE entry_date='2026-07-31'"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?, '1', CURRENT_TIMESTAMP)").bind(resetKey)
+      ]);
+    }
     const cleanup=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_v1293_cleanup_last'").first(),last=Date.parse(cleanup?.value||0);
     if(!Number.isFinite(last)||Date.now()-last>=86400000){
       await env.DB.batch([
@@ -182,6 +195,13 @@ export async function raidSlotEntryCountV1293(env,userId,dateKey,slotId){
   await ensureRaidOverhaulV1293(env);if(!slotId||slotId==='ALWAYS')return 0;
   const row=await env.DB.prepare(`SELECT COUNT(*) count FROM raid_daily_entry_uses u JOIN raid_instance_v1293 x ON x.instance_id=u.instance_id LEFT JOIN raid_daily_entry_restores r ON r.user_id=u.user_id AND r.entry_date=u.entry_date AND r.instance_id=u.instance_id WHERE u.user_id=? AND u.entry_date=? AND x.slot_id=? AND r.instance_id IS NULL`).bind(Number(userId),String(dateKey),String(slotId)).first();
   return Math.max(0,Number(row?.count||0));
+}
+export async function raidSlotEntryCountsV1296(env,userId,dateKey,slots=[]){
+  await ensureRaidOverhaulV1293(env);const ids=[...new Set((Array.isArray(slots)?slots:[]).map(slot=>String(slot?.id||slot)).filter(id=>id&&id!=='ALWAYS'&&id!=='LEGACY'))];
+  const limits=Object.fromEntries((Array.isArray(slots)?slots:[]).map(slot=>[String(slot?.id||slot),Math.max(1,Number(slot?.entriesPerSlot||1))]));
+  if(!ids.length)return [];
+  const marks=ids.map(()=>'?').join(','),rows=(await env.DB.prepare(`SELECT x.slot_id AS slotId,COUNT(*) count FROM raid_daily_entry_uses u JOIN raid_instance_v1293 x ON x.instance_id=u.instance_id LEFT JOIN raid_daily_entry_restores r ON r.user_id=u.user_id AND r.entry_date=u.entry_date AND r.instance_id=u.instance_id WHERE u.user_id=? AND u.entry_date=? AND x.slot_id IN (${marks}) AND r.instance_id IS NULL GROUP BY x.slot_id`).bind(Number(userId),String(dateKey),...ids).all()).results||[],counts=Object.fromEntries(rows.map(row=>[String(row.slotId),Math.max(0,Number(row.count||0))]));
+  return ids.map(id=>{const slot=(Array.isArray(slots)?slots:[]).find(row=>String(row?.id||row)===id)||{},count=Math.max(0,Number(counts[id]||0)),limit=Math.max(1,Number(limits[id]||1));return {id,label:String(slot.label||id),count,limit,remaining:Math.max(0,limit-count),enabled:slot.enabled!==false};});
 }
 
 export function raidCombatSnapshotV1293(participants,instance,cfg,nowMs=Date.now()){

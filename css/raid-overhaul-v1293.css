@@ -7,3 +7,9 @@
 .raid-v1294-owner-test b{font-size:12px;letter-spacing:.14em;color:#fbbf24;white-space:nowrap}
 .raid-v1294-owner-test span{font-size:12px;color:#ffedd5;text-align:right}
 @media(max-width:640px){.raid-v1294-owner-test{align-items:flex-start;flex-direction:column;gap:4px}.raid-v1294-owner-test span{text-align:left;line-height:1.45}}
+
+/* v1296: per-slot entry status layout */
+.raid-room-browser>.panel-title{align-items:center;gap:12px;flex-wrap:wrap}
+.raid-room-browser>.panel-title>strong{margin-left:auto;padding:9px 13px;border:1px solid rgba(90,224,255,.24);border-radius:999px;background:rgba(42,195,255,.08);white-space:nowrap;font-size:14px}
+@media(max-width:760px){.raid-room-browser>.panel-title{align-items:flex-start}.raid-room-browser>.panel-title>div{width:100%}.raid-room-browser>.panel-title>strong{order:2;margin-left:0;font-size:12px}.raid-room-browser>.panel-title>.raid-refresh-btn{order:3;margin-left:auto}}
+@media(max-width:520px){.raid-room-browser>.panel-title>strong,.raid-room-browser>.panel-title>.raid-refresh-btn{width:100%!important;margin-left:0;text-align:center}}
