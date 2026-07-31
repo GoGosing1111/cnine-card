@@ -3640,3 +3640,23 @@ body.burning-notice-open .fullscreen-play-link{
   .burning-activation-notice .burning-notice-panel p{margin:7px 0!important;line-height:1.45!important}
   .burning-activation-notice .burning-notice-panel button{margin-top:8px!important;min-height:42px!important}
 }
+
+
+/* v1303: synthetic card-draw click guard */
+.draw-automation-warning{
+  margin:12px auto 0;
+  padding:10px 12px;
+  max-width:560px;
+  border:1px solid rgba(255,184,77,.45);
+  border-radius:10px;
+  background:rgba(92,48,0,.22);
+  color:#ffd79a;
+  font-size:12px;
+  line-height:1.45;
+  text-align:center;
+}
+button[data-automation-blocked="1"]{
+  opacity:.62!important;
+  cursor:not-allowed!important;
+  filter:saturate(.35)!important;
+}

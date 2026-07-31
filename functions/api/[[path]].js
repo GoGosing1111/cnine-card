@@ -73,6 +73,7 @@ async function cachedRuntimeSetting(key,ttlMs,loader){
 let cardCatalogCache=null,cardUniqueRowsCache=null,packCatalogCache=null;
 function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null}
 let drawReceiptV2ReadyPromise=null;
+let drawAutomationGuardV1303ReadyPromise=null;
 let furFirstPityV1291ReadyPromise=null;
 
 let messageRewardClaimV1222ReadyPromise=null;
@@ -283,6 +284,109 @@ async function ensureDrawReceiptV2(env){
     return true;
   })().catch(error=>{drawReceiptV2ReadyPromise=null;throw error});
   return drawReceiptV2ReadyPromise;
+}
+
+
+const DRAW_AUTOMATION_GUARD_V1303=Object.freeze({
+  minIntervalMs:1500,
+  shortWindowMs:30000,
+  shortMax:10,
+  longWindowMs:600000,
+  longMax:80
+});
+const drawAutomationMemoryGuardV1303=new Map();
+
+async function ensureDrawAutomationGuardV1303(env){
+  if(drawAutomationGuardV1303ReadyPromise)return drawAutomationGuardV1303ReadyPromise;
+  drawAutomationGuardV1303ReadyPromise=(async()=>{
+    const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1303_draw_automation_guard'").first();
+    if(marker?.value==='1')return true;
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_automation_guard_v1303 (
+        user_id INTEGER PRIMARY KEY,
+        last_request_at_ms INTEGER NOT NULL DEFAULT 0,
+        short_window_started_at_ms INTEGER NOT NULL DEFAULT 0,
+        short_request_count INTEGER NOT NULL DEFAULT 0,
+        long_window_started_at_ms INTEGER NOT NULL DEFAULT 0,
+        long_request_count INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1303_draw_automation_guard','1',CURRENT_TIMESTAMP)")
+    ]);
+    return true;
+  })().catch(error=>{drawAutomationGuardV1303ReadyPromise=null;throw error});
+  return drawAutomationGuardV1303ReadyPromise;
+}
+
+async function claimDrawAutomationSlotV1303(env,userId){
+  const config=DRAW_AUTOMATION_GUARD_V1303,now=Date.now(),key=String(userId);
+  const memory=drawAutomationMemoryGuardV1303.get(key);
+  if(memory&&now-Number(memory.lastSeenAt||0)<750){
+    return {allowed:false,retryAfterMs:Math.max(250,750-(now-Number(memory.lastSeenAt||0))),reason:'RAPID'};
+  }
+  drawAutomationMemoryGuardV1303.set(key,{lastSeenAt:now});
+  if(drawAutomationMemoryGuardV1303.size>5000){
+    for(const [memoryKey,row] of drawAutomationMemoryGuardV1303){
+      if(now-Number(row?.lastSeenAt||0)>config.longWindowMs)drawAutomationMemoryGuardV1303.delete(memoryKey);
+      if(drawAutomationMemoryGuardV1303.size<=4000)break;
+    }
+  }
+
+  const result=await env.DB.prepare(`INSERT INTO draw_automation_guard_v1303(
+      user_id,last_request_at_ms,short_window_started_at_ms,short_request_count,long_window_started_at_ms,long_request_count,updated_at
+    ) VALUES(?,?,?,1,?,1,CURRENT_TIMESTAMP)
+    ON CONFLICT(user_id) DO UPDATE SET
+      last_request_at_ms=excluded.last_request_at_ms,
+      short_window_started_at_ms=CASE
+        WHEN excluded.last_request_at_ms-draw_automation_guard_v1303.short_window_started_at_ms>=? THEN excluded.last_request_at_ms
+        ELSE draw_automation_guard_v1303.short_window_started_at_ms
+      END,
+      short_request_count=CASE
+        WHEN excluded.last_request_at_ms-draw_automation_guard_v1303.short_window_started_at_ms>=? THEN 1
+        ELSE draw_automation_guard_v1303.short_request_count+1
+      END,
+      long_window_started_at_ms=CASE
+        WHEN excluded.last_request_at_ms-draw_automation_guard_v1303.long_window_started_at_ms>=? THEN excluded.last_request_at_ms
+        ELSE draw_automation_guard_v1303.long_window_started_at_ms
+      END,
+      long_request_count=CASE
+        WHEN excluded.last_request_at_ms-draw_automation_guard_v1303.long_window_started_at_ms>=? THEN 1
+        ELSE draw_automation_guard_v1303.long_request_count+1
+      END,
+      updated_at=CURRENT_TIMESTAMP
+    WHERE excluded.last_request_at_ms-draw_automation_guard_v1303.last_request_at_ms>=?
+      AND (
+        excluded.last_request_at_ms-draw_automation_guard_v1303.short_window_started_at_ms>=?
+        OR draw_automation_guard_v1303.short_request_count<?
+      )
+      AND (
+        excluded.last_request_at_ms-draw_automation_guard_v1303.long_window_started_at_ms>=?
+        OR draw_automation_guard_v1303.long_request_count<?
+      )
+    RETURNING last_request_at_ms,short_window_started_at_ms,short_request_count,long_window_started_at_ms,long_request_count`)
+    .bind(
+      userId,now,now,now,
+      config.shortWindowMs,config.shortWindowMs,
+      config.longWindowMs,config.longWindowMs,
+      config.minIntervalMs,
+      config.shortWindowMs,config.shortMax,
+      config.longWindowMs,config.longMax
+    ).all();
+  if(Array.isArray(result?.results)&&result.results.length)return {allowed:true};
+
+  const row=await env.DB.prepare(`SELECT last_request_at_ms,short_window_started_at_ms,short_request_count,
+      long_window_started_at_ms,long_request_count
+    FROM draw_automation_guard_v1303 WHERE user_id=?`).bind(userId).first();
+  const intervalRetry=Math.max(0,config.minIntervalMs-(now-Number(row?.last_request_at_ms||0)));
+  const shortRetry=Number(row?.short_request_count||0)>=config.shortMax
+    ?Math.max(0,config.shortWindowMs-(now-Number(row?.short_window_started_at_ms||0))):0;
+  const longRetry=Number(row?.long_request_count||0)>=config.longMax
+    ?Math.max(0,config.longWindowMs-(now-Number(row?.long_window_started_at_ms||0))):0;
+  return {
+    allowed:false,
+    retryAfterMs:Math.max(500,intervalRetry,shortRetry,longRetry),
+    reason:longRetry>0?'LONG_BURST':shortRetry>0?'SHORT_BURST':'RAPID'
+  };
 }
 
 async function ensureFurFirstPityV1291(env){
@@ -2979,7 +3083,7 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
-      await Promise.all([ensureDrawReceiptV2(env),ensureFurFirstPityV1291(env)]);let drawReceiptTable='draw_request_receipts_v2';
+      await Promise.all([ensureDrawReceiptV2(env),ensureDrawAutomationGuardV1303(env),ensureFurFirstPityV1291(env)]);let drawReceiptTable='draw_request_receipts_v2';
       // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
       // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
       const compactDrawCard=card=>({id:String(card?.id||''),title:String(card?.title||''),grade:String(card?.grade||card?.rarity||'').toUpperCase()});
@@ -3065,6 +3169,18 @@ export async function onRequest(context){
         if(!receiptAlreadyClaimed)return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId,status:'PENDING',updatedAt:prior.updated_at||null},409);
       }
       drawReceiptTable='draw_request_receipts_v2';
+      if(!receiptAlreadyClaimed){
+        const automationSlot=await claimDrawAutomationSlotV1303(env,user.id);
+        if(!automationSlot.allowed){
+          const retryAfterSec=Math.max(1,Math.ceil(Number(automationSlot.retryAfterMs||1000)/1000));
+          return json({
+            error:`카드팩 개봉 요청이 너무 빠릅니다. ${retryAfterSec}초 후 직접 다시 시도해주세요.`,
+            code:'DRAW_AUTOMATION_GUARD',
+            retryAfterSec,
+            reason:automationSlot.reason||'RAPID'
+          },429);
+        }
+      }
       const claimed=receiptAlreadyClaimed?{meta:{changes:1}}:await env.DB.prepare(`INSERT OR IGNORE INTO ${drawReceiptTable}(request_id,user_id,pack_id,draw_count,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,String(payload.packId||''),count).run();
       if(!claimed.meta.changes){
         const duplicate=await env.DB.prepare('SELECT status,response_json,error_message,updated_at FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();

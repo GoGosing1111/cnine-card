@@ -1509,7 +1509,7 @@ function bindView(tab) {
   if(tab==='dailyquest'){document.getElementById('dailyQuestPostCheck')?.addEventListener('click',()=>checkDailyQuest());document.getElementById('dailyQuestPostClaim')?.addEventListener('click',()=>claimDailyQuest());loadDailyQuest();}
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
-  document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));
+  document.querySelectorAll('.draw').forEach(b => b.onclick = event => { if(!allowTrustedDrawAction(event,b,'카드팩 개봉'))return; openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)); });
   document.querySelectorAll('.recent-item').forEach(b => b.onclick = () => showDetail(b.dataset.cardId));
   const goDex=document.getElementById('goDex'); if(goDex)goDex.onclick=()=>renderShell('dex');
   const claim = document.getElementById('claimAttendance');
@@ -1566,7 +1566,7 @@ function openPack(packId, count, cost) {
     modal.innerHTML=`<div class="modal-panel multi-result-panel"><div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div><div class="result-actions result-actions-top"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0,masterStarGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'}">${duplicate?(masterStarGained?`<b>마스터의 별 +${masterStarGained}</b><small>카드 조각 +${shardGained}</small>`:`카드 조각 +${shardGained}`):'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div></div>`;
     document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
     document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
-    document.getElementById('drawAgain').onclick=()=>{ modal.className='modal'; openPack(pack.id,count,cost); };
+    document.getElementById('drawAgain').onclick=event=>{ const button=event.currentTarget; if(!allowTrustedDrawAction(event,button,'같은 팩 다시 뽑기'))return; modal.className='modal'; openPack(pack.id,count,cost); };
   },1550);
 }
 
@@ -2402,6 +2402,33 @@ async function runCriticalOpening(pack,count,requestDraw){
   return data;
 }
 
+
+let drawSyntheticActionNoticeAt=0;
+function allowTrustedDrawAction(event,button,actionLabel='카드뽑기'){
+  if(event?.isTrusted===true)return true;
+  if(button){
+    button.disabled=true;
+    button.dataset.automationBlocked='1';
+    button.setAttribute('aria-disabled','true');
+    button.title='자동 클릭이 감지되어 현재 화면에서 잠겼습니다.';
+    if(!button.dataset.originalLabel)button.dataset.originalLabel=String(button.textContent||'');
+    button.textContent='자동 클릭 차단됨';
+  }
+  const now=Date.now();
+  if(now-drawSyntheticActionNoticeAt>5000){
+    drawSyntheticActionNoticeAt=now;
+    console.warn(`[CNINE] ${actionLabel} synthetic click blocked`);
+    const host=button?.closest?.('.modal-panel')||button?.parentElement;
+    if(host&&!host.querySelector?.('.draw-automation-warning')){
+      const note=document.createElement('p');
+      note.className='draw-automation-warning';
+      note.textContent='자동 클릭이 감지되어 이 버튼을 잠갔습니다. 창을 닫은 뒤 직접 다시 이용하세요.';
+      host.appendChild(note);
+    }
+  }
+  return false;
+}
+
 let drawRequestInFlight=false;
 let activeDrawRequestId='';
 const consumedDrawResponses=new Set();
@@ -2596,7 +2623,7 @@ async function showSpecialCardReveal(card,user){
   const stage=modal.querySelector('.special-reveal-stage'),stopCanvas=createCinematicRenderer(document.getElementById('specialCinematicCanvas'),grade);
   specialRevealTone(grade);if(navigator.vibrate)navigator.vibrate(grade==='FUR'?[90,40,160,45,260]:grade==='MA'?[70,30,150]:[55,25,100]);
   const timers=[setTimeout(()=>stage.classList.add('phase-approach'),180),setTimeout(()=>stage.classList.add('phase-awaken'),grade==='SSR'?1180:1450),setTimeout(()=>stage.classList.add('phase-impact'),grade==='SSR'?1950:grade==='MA'?2350:2850),setTimeout(()=>stage.classList.add('phase-reveal'),grade==='SSR'?2350:grade==='MA'?2950:3600),setTimeout(()=>stage.classList.add('phase-final'),grade==='SSR'?3400:grade==='MA'?4300:5200)];
-  await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;timers.forEach(clearTimeout);stopCanvas();resolve()};document.getElementById('specialRevealSkip').onclick=e=>{e.stopPropagation();finish()};stage.onclick=e=>{if(e.target.closest('.special-reveal-card-ui'))return;finish()};setTimeout(finish,duration)});
+  await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;timers.forEach(clearTimeout);stopCanvas();resolve()};document.getElementById('specialRevealSkip').onclick=e=>{e.stopPropagation();if(!allowTrustedDrawAction(e,e.currentTarget,'스페셜 연출 건너뛰기'))return;finish()};stage.onclick=e=>{if(e.isTrusted!==true)return;if(e.target.closest('.special-reveal-card-ui'))return;finish()};setTimeout(finish,duration)});
 }
 async function renderDrawResults(pack,count,cost,results,user,critical){
   if(!Array.isArray(results)||results.length!==Number(count)||results.some((item,index)=>item?.granted!==true||Number(item?.slot)!==index||!item?.card?.id))throw new Error('서버에서 확정되지 않은 카드 결과는 표시할 수 없습니다.');
@@ -2610,7 +2637,7 @@ async function renderDrawResults(pack,count,cost,results,user,critical){
   modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div>${rewardSummary}<div class="result-actions result-actions-top"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0,masterStarGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'} ${masterStarGained?'master-star-dupe':''}">${duplicate?(masterStarGained?`<b>마스터의 별 +${masterStarGained}</b><small>카드 조각 +${shardGained}</small>`:`카드 조각 +${shardGained}`):'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div></div>`;
   document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
   document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
-  document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,cost)};
+  document.getElementById('drawAgain').onclick=event=>{const button=event.currentTarget;if(!allowTrustedDrawAction(event,button,'같은 팩 다시 뽑기'))return;modal.className='modal';openPack(pack.id,count,cost)};
 }
 
 
