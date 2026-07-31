@@ -288,6 +288,8 @@ async function ensureDrawReceiptV2(env){
 async function ensureFurFirstPityV1291(env){
   if(furFirstPityV1291ReadyPromise)return furFirstPityV1291ReadyPromise;
   furFirstPityV1291ReadyPromise=(async()=>{
+    const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1291_fur_first_pity'").first();
+    if(marker?.value==='1')return true;
     await env.DB.batch([
       env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_fur_first_pity (
         user_id INTEGER PRIMARY KEY,
@@ -2385,17 +2387,23 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
 const drawContextCache=new Map();
 async function queryDrawContext(env,pack){
   const allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>DRAW_RARITIES.includes(rarity)&&rarity!=='LIMITED');
-  const rateRows=(await env.DB.prepare("SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rate>0").bind(pack.id).all()).results;
-  const normalCards=randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
-    FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NULL
-      AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
-        OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results);
-  const limitedCards=pack.id==='pickup'?randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
+  const statements=[
+    env.DB.prepare("SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rate>0").bind(pack.id),
+    env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
+      FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
+      WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NULL
+        AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
+          OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id)
+  ];
+  if(pack.id==='pickup')statements.push(env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
     WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
-        OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id).all()).results):[];
+        OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id));
+  const batch=await env.DB.batch(statements);
+  const rateRows=batch[0]?.results||[];
+  const normalCards=randomDrawPool(batch[1]?.results||[]);
+  const limitedCards=pack.id==='pickup'?randomDrawPool(batch[2]?.results||[]):[];
   const poolsByGrade=new Map();
   for(const card of normalCards){
     const grade=String(card.grade||'');
@@ -2501,12 +2509,35 @@ async function furFirstSettings(env,{fresh=false}={}){
 }
 async function furFirstPityState(env,userId){
   await ensureFurFirstPityV1291(env);
-  const [everOwned,row]=await Promise.all([
-    env.DB.prepare(`SELECT 1 AS owned FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
-      WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' LIMIT 1`).bind(userId).first(),
-    env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId).first()
+  const row=await env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId).first();
+  if(row?.completed_at)return {everOwned:true,completed:true,missCount:0,lastPackId:row.last_pack_id||null};
+  const everOwned=await env.DB.prepare(`SELECT 1 AS owned FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
+    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' LIMIT 1`).bind(userId).first();
+  if(everOwned)await env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,completed_at,created_at,updated_at)
+    VALUES(?,0,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+    ON CONFLICT(user_id) DO UPDATE SET miss_count=0,completed_at=COALESCE(user_fur_first_pity.completed_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP`).bind(userId,row?.last_pack_id||null).run();
+  return {everOwned:Boolean(everOwned),completed:Boolean(everOwned),missCount:everOwned?0:Math.max(0,Number(row?.miss_count||0)),lastPackId:row?.last_pack_id||null};
+}
+async function drawUserPityState(env,userId,packId){
+  await ensureFurFirstPityV1291(env);
+  const [pityResult,furResult]=await env.DB.batch([
+    env.DB.prepare('SELECT miss_count FROM user_pack_pity WHERE user_id=? AND pack_id=?').bind(userId,packId),
+    env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId)
   ]);
-  return {everOwned:Boolean(everOwned),completed:Boolean(row?.completed_at),missCount:Math.max(0,Number(row?.miss_count||0)),lastPackId:row?.last_pack_id||null};
+  const pityRow=pityResult?.results?.[0]||null,furRow=furResult?.results?.[0]||null;
+  let everOwned=Boolean(furRow?.completed_at);
+  if(!everOwned){
+    const owned=await env.DB.prepare(`SELECT 1 AS owned FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
+      WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' LIMIT 1`).bind(userId).first();
+    everOwned=Boolean(owned);
+    if(everOwned)await env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,completed_at,created_at,updated_at)
+      VALUES(?,0,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+      ON CONFLICT(user_id) DO UPDATE SET miss_count=0,completed_at=COALESCE(user_fur_first_pity.completed_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP`).bind(userId,furRow?.last_pack_id||null).run();
+  }
+  return {
+    pityCount:PITY_PACKS.has(packId)?Math.max(0,Number(pityRow?.miss_count||0)):0,
+    fur:{everOwned,completed:Boolean(furRow?.completed_at),missCount:Math.max(0,Number(furRow?.miss_count||0)),lastPackId:furRow?.last_pack_id||null}
+  };
 }
 function furFirstRateForDraw(settings,missCount){
   const cfg=cleanFurFirstSettings(settings||{}),drawNo=Math.max(1,Math.floor(Number(missCount||0))+1);
@@ -3046,12 +3077,15 @@ export async function onRequest(context){
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
       try{
-        const [criticalConfig,burning,pack,fresh,masterStarRow]=await Promise.all([
+        const [criticalConfig,burning,baseRows]=await Promise.all([
           criticalSettings(env),burningEventSettings(env),
-          env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId).first(),
-          env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
-          env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()
+          env.DB.batch([
+            env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId),
+            env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id),
+            env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id)
+          ])
         ]);
+        const pack=baseRows[0]?.results?.[0]||null,fresh=baseRows[1]?.results?.[0]||null,masterStarRow=baseRows[2]?.results?.[0]||null;
         const criticalEligible=criticalConfig.enabled===true;
         const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
         const criticalBonus=critical?criticalConfig.bonus:0;
@@ -3067,13 +3101,13 @@ export async function onRequest(context){
           return json({error:'코인이 부족합니다.'},400);
         }
 
-        const [drawContext,pityCountStart,livePitySettings,liveFurFirstSettings,furFirstStateStart]=await Promise.all([
+        const [drawContext,livePitySettings,liveFurFirstSettings,userPityState]=await Promise.all([
           loadDrawContext(env,pack),
-          packPityCount(env,user.id,pack.id),
           pitySettings(env),
           furFirstSettings(env),
-          furFirstPityState(env,user.id)
+          drawUserPityState(env,user.id,pack.id)
         ]);
+        const pityCountStart=userPityState.pityCount,furFirstStateStart=userPityState.fur;
         const furFirstEligibleAtStart=FUR_FIRST_PITY_PACKS.has(pack.id)&&liveFurFirstSettings.enabled&&!furFirstStateStart.everOwned&&!furFirstStateStart.completed;
         const cards=[];let pityCount=pityCountStart,limitedDrawn=false,furFirstMissCount=furFirstStateStart.missCount,furFirstEligible=furFirstEligibleAtStart,furFirstCompleted=false;
         for(let index=0;index<count;index++){
@@ -3139,10 +3173,19 @@ export async function onRequest(context){
           }
         }
         const uniqueIds=[...new Set(cards.map(card=>String(card.id)))];
-        const [ownedSelectedRows,acquisitionFxByGrade]=await Promise.all([
-          (async()=>{await validateActiveCards(cards);return env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (${uniqueIds.map(()=>'?').join(',')})`).bind(user.id,...uniqueIds).all()})(),
+        const [validationRows,acquisitionFxByGrade]=await Promise.all([
+          env.DB.batch([
+            env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
+              WHERE c.id IN (${uniqueIds.map(()=>'?').join(',')}) AND c.is_active=1
+                AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...uniqueIds),
+            env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (${uniqueIds.map(()=>'?').join(',')})`).bind(user.id,...uniqueIds)
+          ]),
           cardAcquisitionEffectsByGrade(env)
         ]);
+        const activeIds=new Set((validationRows[0]?.results||[]).map(row=>String(row.id)));
+        const inactiveIds=uniqueIds.filter(id=>!activeIds.has(id));
+        if(inactiveIds.length){drawContextCache.delete(String(pack.id));throw new Error('CMS에서 비활성화되거나 비공개된 카드가 추첨 후보에 포함되어 개봉을 중단했습니다. 다시 시도하세요.');}
+        const ownedSelectedRows={results:validationRows[1]?.results||[]};
         const beforeProfile=drawResponseProfileFromRows(fresh,ownedSelectedRows.results||[],masterStarRow);
         const ownedMap=new Map(Object.entries(beforeProfile.quantities||{}).map(([cardId,quantity])=>[String(cardId),Number(quantity||0)]));
         const masterStarBefore=Number(beforeProfile.masterStars||0);
@@ -3172,14 +3215,19 @@ export async function onRequest(context){
           results.push({slot:drawIndex,granted:false,grantVerified:false,quantityBefore,quantityAfter,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained,masterStarGained});
         }
 
-        // 동일 카드가 여러 장 나온 경우 슬롯마다 쓰지 않고 카드별 1회 UPSERT/로그로 합산한다.
-        for(const [cardId,grantCount] of cardGrantCounts){
-          statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,?)
-            ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,cardId,grantCount));
+        // 20장 묶음도 카드 지급과 중복 조각 로그를 각각 SQL 1문장으로 합쳐 batch 문장 수를 제한한다.
+        const grantRows=[...cardGrantCounts.entries()];
+        if(grantRows.length){
+          const placeholders=grantRows.map(()=>'(?,?,?)').join(','),binds=[];
+          for(const [cardId,grantCount] of grantRows)binds.push(user.id,cardId,grantCount);
+          statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES ${placeholders}
+            ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(...binds));
         }
-        for(const [cardId,shardAmount] of shardTotalsByCard){
-          runningShardBalance+=shardAmount;
-          statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',?)").bind(user.id,shardAmount,runningShardBalance,cardId));
+        const shardRows=[];
+        for(const [cardId,shardAmount] of shardTotalsByCard){runningShardBalance+=shardAmount;shardRows.push([user.id,shardAmount,runningShardBalance,cardId]);}
+        if(shardRows.length){
+          const placeholders=shardRows.map(()=>"(?,?,?,'DUPLICATE',?)").join(',');
+          statements.push(env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES ${placeholders}`).bind(...shardRows.flat()));
         }
 
         const duplicateMaCount=results.filter(item=>item.duplicate&&String(item.card?.grade||'').toUpperCase()==='MA').length;
