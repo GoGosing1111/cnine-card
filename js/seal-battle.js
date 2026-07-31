@@ -480,7 +480,23 @@ ${rankRewardSummary(result.reward)}`);
   async function showRankings() {
     const modal = document.getElementById('modal');
     if (!modal) return;
+    const closeRankings = () => {
+      modal.className = 'modal';
+      modal.innerHTML = '';
+      modal.onclick = null;
+      document.body.classList.remove('seal-ranking-open');
+      document.removeEventListener('keydown', onRankingEscape);
+    };
+    const onRankingEscape = event => {
+      if (event.key === 'Escape') closeRankings();
+    };
+    document.body.classList.add('seal-ranking-open');
     modal.className = 'modal show seal-ranking-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', '봉인전 공헌도 현황');
+    modal.onclick = event => { if (event.target === modal) closeRankings(); };
+    document.addEventListener('keydown', onRankingEscape);
     modal.innerHTML = '<div class="seal-ranking-panel"><div class="seal-ranking-loading"><i></i><b>공헌도 현황을 불러오는 중...</b></div></div>';
     try {
       const data = await api('seal-battle/rankings');
@@ -491,7 +507,7 @@ ${rankRewardSummary(result.reward)}`);
         ${tiers.length ? `<section class="seal-ranking-reward-tiers">${tiers.map(tier => `<article><b>${esc(rankTierLabel(tier))}</b><span>${esc(rankRewardSummary(tier))}</span></article>`).join('')}</section>` : ''}
         <nav class="seal-ranking-tabs"><button class="active" data-rank-tab="overall">전체</button><button data-rank-tab="ATTACK">파괴</button><button data-rank-tab="GUARD">수호</button><button data-rank-tab="PURIFY">정화</button></nav>
         <div id="sealRankingList">${rankingRows(data.overall)}</div>`;
-      panel.querySelector('#sealRankingClose').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
+      panel.querySelector('#sealRankingClose').onclick = closeRankings;
       panel.querySelectorAll('[data-rank-tab]').forEach(button => {
         button.onclick = () => {
           panel.querySelectorAll('[data-rank-tab]').forEach(item => item.classList.toggle('active', item === button));
@@ -502,8 +518,7 @@ ${rankRewardSummary(result.reward)}`);
         };
       });
     } catch (error) {
-      modal.className = 'modal';
-      modal.innerHTML = '';
+      closeRankings();
       alert(error.message);
     }
   }
