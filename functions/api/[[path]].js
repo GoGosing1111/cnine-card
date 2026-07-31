@@ -2505,8 +2505,8 @@ const FUR_FIRST_PITY_PACKS=new Set(['premium','pickup']);
 function defaultFurFirstSettings(){return {enabled:true,start:50,hard:100,startRate:2,maxSoftRate:20};}
 function cleanFurFirstSettings(raw={}){
   const base=defaultFurFirstSettings(),num=(value,fallback,min,max)=>{const parsed=Number(value);return Math.max(min,Math.min(max,Number.isFinite(parsed)?parsed:fallback));};
-  const start=Math.floor(num(raw.start,base.start,1,999));
-  const hard=Math.max(start,Math.floor(num(raw.hard,base.hard,1,999)));
+  const start=Math.floor(num(raw.start,base.start,1,1000000));
+  const hard=Math.max(start,Math.floor(num(raw.hard,base.hard,1,1000000)));
   const startRate=num(raw.startRate,base.startRate,0,100);
   const maxSoftRate=Math.max(startRate,num(raw.maxSoftRate,base.maxSoftRate,0,100));
   return {enabled:raw.enabled!==false,start,hard,startRate:Math.round(startRate*1000)/1000,maxSoftRate:Math.round(maxSoftRate*1000)/1000};
