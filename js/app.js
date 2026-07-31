@@ -572,7 +572,7 @@ async function purchaseSupplyBoxes(count,button){
 function showSupplyNotice(message,error=false){const old=document.querySelector('.supply-action-toast');if(old)old.remove();const toast=document.createElement('div');toast.className=`supply-action-toast${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2600:1500)}
 function buyView(user) {
   const pack = getPack(selectedPackId),weekly=user.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2};
-  return `${summaryBar(user)}${burningEventState.enabled?'<section class="burning-event-strip"><b>🔥 숲켓몬 버닝 진행 중</b><span>PVE·PVP 15회 / 2분 충전 · 중복 조각 2배 · 전 카드팩 20% 할인 · 일반 전투 보상 50% 증가</span></section>':''}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>10연속 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot" data-pack-id="${pack.id}" data-count="10" data-cost="${pack.price*10}"><small>10 CARDS · ${pack.guarantee10}+</small>${(pack.price*10).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP · 대장전<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
+  return `${summaryBar(user)}${burningEventState.enabled?'<section class="burning-event-strip"><b>🔥 숲켓몬 버닝 진행 중</b><span>PVE·PVP 15회 / 2분 충전 · 중복 조각 2배 · 전 카드팩 20% 할인 · 일반 전투 보상 50% 증가</span></section>':''}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>10연속 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot" data-pack-id="${pack.id}" data-count="10" data-cost="${pack.price*10}"><small>10 CARDS · ${pack.guarantee10}+</small>${(pack.price*10).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP · 대장전<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
 }
 
 function recentCards(user) {
@@ -1499,6 +1499,138 @@ async function leaveRaid(){const instanceId=Number(raidState.data?.current?.id||
 async function openRaid(bossId,btn){if(!confirm('이 레이드를 개방하면 코인이 차감되고 현재 운영 타임 참여 기회 1회를 사용합니다.\n최소 인원 미달로 취소되면 개설 코인과 입장 횟수가 자동 복구됩니다.\n\n레이드를 개방할까요?'))return;const requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;if(btn){btn.disabled=true;btn.textContent='개방 중...'}try{const d=await apiRequest('raid/open',{method:'POST',body:JSON.stringify({bossId,cardIds:battleState.deck,requestId})});raidState.selectedRoomId=Number(d.instanceId||0);raidState.loadSeq++;alert(`레이드 방이 개설되었습니다.\n${Number(d.cost||0).toLocaleString()}코인 사용 · 자동 참가 완료`);await loadRaidView()}catch(e){alert(e.message);if(btn){btn.disabled=false;btn.textContent='레이드 개방'}}}
 async function joinRaid(){const btn=document.getElementById('raidJoin'),instanceId=Number(raidState.data?.current?.id||raidState.selectedRoomId||0);if(btn)btn.disabled=true;try{const d=await apiRequest('raid/join',{method:'POST',body:JSON.stringify({instanceId,cardIds:battleState.deck})});raidState.selectedRoomId=instanceId;raidState.loadSeq++;alert(`레이드 신청 완료!\n참가 전투력 ${Number(d.totalPower).toLocaleString()}`);await loadRaidView()}catch(e){alert(e.message);if(btn)btn.disabled=false}}
 
+
+const AUTO_DRAW_PREFS_KEY='cnine_official_auto_draw_v1305';
+const AUTO_DRAW_LOCK_KEY='cnine_official_auto_draw_lock_v1305';
+const AUTO_DRAW_TAB_ID=globalThis.crypto?.randomUUID?.()||`tab-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+const autoDrawState={
+  active:false,stopRequested:false,packId:'',count:20,targetRuns:0,completedRuns:0,totalCards:0,spentCoins:0,
+  startedAt:0,timer:null,lockTimer:null,gradeCounts:{},highGradeHits:[],prefs:null,lastStatus:'',finishDetail:''
+};
+function loadAutoDrawPrefs(){
+  const defaults={count:20,runs:10,delayMs:4000,simplified:true,stopGrade:'NONE'};
+  try{return {...defaults,...JSON.parse(localStorage.getItem(AUTO_DRAW_PREFS_KEY)||'{}')}}catch(_){return defaults}
+}
+function saveAutoDrawPrefs(prefs){try{localStorage.setItem(AUTO_DRAW_PREFS_KEY,JSON.stringify(prefs))}catch(_){}}
+function readAutoDrawLock(){try{return JSON.parse(localStorage.getItem(AUTO_DRAW_LOCK_KEY)||'null')}catch(_){return null}}
+function acquireAutoDrawLock(){
+  const now=Date.now(),lock=readAutoDrawLock();
+  if(lock&&lock.tabId!==AUTO_DRAW_TAB_ID&&now-Number(lock.heartbeatAt||0)<20000)return false;
+  try{localStorage.setItem(AUTO_DRAW_LOCK_KEY,JSON.stringify({tabId:AUTO_DRAW_TAB_ID,heartbeatAt:now}));}catch(_){}
+  clearInterval(autoDrawState.lockTimer);
+  autoDrawState.lockTimer=setInterval(()=>{if(!autoDrawState.active)return;try{localStorage.setItem(AUTO_DRAW_LOCK_KEY,JSON.stringify({tabId:AUTO_DRAW_TAB_ID,heartbeatAt:Date.now()}))}catch(_){}},5000);
+  return true;
+}
+function releaseAutoDrawLock(){
+  if(autoDrawState.lockTimer){clearInterval(autoDrawState.lockTimer);autoDrawState.lockTimer=null}
+  const lock=readAutoDrawLock();
+  if(!lock||lock.tabId===AUTO_DRAW_TAB_ID){try{localStorage.removeItem(AUTO_DRAW_LOCK_KEY)}catch(_){}}
+}
+window.addEventListener('beforeunload',releaseAutoDrawLock);
+
+function autoDrawStopLabel(grade){return grade==='SSR'?'SSR 이상':grade==='MA'?'MA 이상':grade==='LIMITED'?'LIMITED 이상':grade==='FUR'?'FUR':'정지 조건 없음'}
+function autoDrawFormatTime(ms){const sec=Math.max(0,Math.floor(ms/1000)),m=Math.floor(sec/60),s=sec%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+function autoDrawSetupEstimate(){
+  const packId=document.getElementById('autoDrawPackId')?.value||'',pack=getPack(packId),count=Math.max(1,Number(document.getElementById('autoDrawCount')?.value||20)),runs=Math.max(1,Math.min(500,Number(document.getElementById('autoDrawRuns')?.value||1))),box=document.getElementById('autoDrawEstimate');
+  if(!pack||!box)return;
+  const perRun=Math.max(0,Number(pack.price||0))*count,total=perRun*runs,balance=Math.max(0,Number(loadUser()?.coin||0)),possible=perRun>0?Math.floor(balance/perRun):0;
+  box.innerHTML=`<span>총 ${Number(count*runs).toLocaleString()}장 · 최대 ${Number(total).toLocaleString()}코인</span><small>현재 코인으로 최대 ${Number(possible).toLocaleString()}회 진행 가능</small>`;
+}
+function openAutoDrawSetup(packId,defaultCount=20){
+  if(autoDrawState.active)return alert('자동 뽑기가 이미 진행 중입니다.');
+  if(drawRequestInFlight)return alert('현재 카드 개봉 요청이 끝난 뒤 다시 시도해주세요.');
+  const pending=readPendingDraw();
+  if(pending){alert('확인되지 않은 카드 개봉 요청이 있습니다. 먼저 이전 결과를 복구합니다.');openPack(String(pending.packId),Number(pending.count),0);return;}
+  const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
+  const prefs=loadAutoDrawPrefs(),count=[1,10,20].includes(Number(defaultCount))?Number(defaultCount):Number(prefs.count||20),modal=document.getElementById('modal');
+  modal.className='modal show auto-draw-setup-modal';
+  modal.innerHTML=`<div class="modal-panel auto-draw-setup-panel"><button type="button" class="icon-close auto-draw-setup-close" id="closeAutoDrawSetup">×</button><p class="eyebrow">OFFICIAL AUTO DRAW</p><h2>자동 뽑기 설정</h2><p class="auto-draw-setup-copy"><b>${escapeHtml(pack.name)}</b>을 같은 조건으로 순차 개봉합니다. 서버 요청은 한 번에 하나씩만 처리됩니다.</p><input type="hidden" id="autoDrawPackId" value="${escapeHtml(pack.id)}"><div class="auto-draw-form"><label><span>한 번에 개봉</span><select id="autoDrawCount"><option value="1" ${count===1?'selected':''}>1장</option><option value="10" ${count===10?'selected':''}>10장</option><option value="20" ${count===20?'selected':''}>20장</option></select></label><label><span>반복 횟수</span><div class="auto-draw-number"><input id="autoDrawRuns" type="number" min="1" max="500" step="1" value="${Math.max(1,Math.min(500,Number(prefs.runs||10)))}"><small>최대 500회</small></div></label><label><span>다음 개봉 간격</span><select id="autoDrawDelay"><option value="4000" ${Number(prefs.delayMs)===4000?'selected':''}>4초</option><option value="6000" ${Number(prefs.delayMs)===6000?'selected':''}>6초</option><option value="10000" ${Number(prefs.delayMs)===10000?'selected':''}>10초</option></select></label><label><span>획득 시 자동 정지</span><select id="autoDrawStopGrade"><option value="NONE" ${prefs.stopGrade==='NONE'?'selected':''}>끝까지 진행</option><option value="SSR" ${prefs.stopGrade==='SSR'?'selected':''}>SSR 이상</option><option value="MA" ${prefs.stopGrade==='MA'?'selected':''}>MA 이상</option><option value="LIMITED" ${prefs.stopGrade==='LIMITED'?'selected':''}>LIMITED 이상</option><option value="FUR" ${prefs.stopGrade==='FUR'?'selected':''}>FUR</option></select></label><label class="auto-draw-check"><input id="autoDrawSimplified" type="checkbox" ${prefs.simplified!==false?'checked':''}><span><b>연출 간소화</b><small>팩 개봉·특별 연출을 생략하고 결과만 잠시 표시합니다.</small></span></label></div><div class="auto-draw-estimate" id="autoDrawEstimate"></div><div class="auto-draw-safety"><b>자동 뽑기 안전 규칙</b><span>병렬 요청 없음 · 요청 영수증 유지 · 코인 부족·오류 발생 시 즉시 종료</span></div><div class="auto-draw-setup-actions"><button type="button" class="btn secondary" id="cancelAutoDrawSetup">취소</button><button type="button" class="btn" id="startAutoDraw">자동 뽑기 시작</button></div></div>`;
+  const close=()=>{modal.className='modal';modal.innerHTML=''};
+  document.getElementById('closeAutoDrawSetup').onclick=document.getElementById('cancelAutoDrawSetup').onclick=close;
+  ['autoDrawCount','autoDrawRuns'].forEach(id=>document.getElementById(id)?.addEventListener('input',autoDrawSetupEstimate));
+  document.getElementById('startAutoDraw').onclick=()=>{
+    const next={count:Number(document.getElementById('autoDrawCount').value),runs:Math.max(1,Math.min(500,Math.floor(Number(document.getElementById('autoDrawRuns').value||1)))),delayMs:Number(document.getElementById('autoDrawDelay').value),simplified:Boolean(document.getElementById('autoDrawSimplified').checked),stopGrade:String(document.getElementById('autoDrawStopGrade').value||'NONE')};
+    saveAutoDrawPrefs(next);close();startOfficialAutoDraw(pack.id,next);
+  };
+  autoDrawSetupEstimate();
+}
+function startOfficialAutoDraw(packId,prefs){
+  if(autoDrawState.active||drawRequestInFlight)return alert('현재 카드 개봉 요청을 처리 중입니다.');
+  const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
+  if(!acquireAutoDrawLock())return alert('다른 탭에서 자동 뽑기가 진행 중입니다.\n중복 요청 방지를 위해 한 탭에서만 사용할 수 있습니다.');
+  const count=[1,10,20].includes(Number(prefs.count))?Number(prefs.count):20,runs=Math.max(1,Math.min(500,Number(prefs.runs||1))),cost=Number(pack.price||0)*count;
+  if(Number(loadUser()?.coin||0)<cost){releaseAutoDrawLock();return alert(`코인이 부족합니다.\n${count}장 개봉에는 ${Number(cost).toLocaleString()}코인이 필요합니다.`);}
+  Object.assign(autoDrawState,{active:true,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:''});
+  renderAutoDrawDock();runOfficialAutoDrawNext();
+}
+function clearAutoDrawTimer(){if(autoDrawState.timer){clearTimeout(autoDrawState.timer);autoDrawState.timer=null}}
+function renderAutoDrawDock(){
+  let dock=document.getElementById('autoDrawDock');
+  if(!autoDrawState.active){dock?.remove();return}
+  if(!dock){dock=document.createElement('aside');dock.id='autoDrawDock';dock.className='auto-draw-dock';document.body.appendChild(dock)}
+  const pack=getPack(autoDrawState.packId),elapsed=Date.now()-autoDrawState.startedAt,progress=autoDrawState.targetRuns?Math.min(100,autoDrawState.completedRuns/autoDrawState.targetRuns*100):0;
+  dock.innerHTML=`<div class="auto-draw-dock-head"><span><i></i> AUTO DRAW</span><b>${escapeHtml(pack?.name||'카드팩')}</b></div><div class="auto-draw-dock-progress"><span style="width:${progress}%"></span></div><div class="auto-draw-dock-values"><strong>${autoDrawState.completedRuns} / ${autoDrawState.targetRuns}회</strong><span>${Number(autoDrawState.totalCards).toLocaleString()}장 · ${Number(autoDrawState.spentCoins).toLocaleString()}코인</span><small>${escapeHtml(autoDrawState.lastStatus||'진행 중')} · ${autoDrawFormatTime(elapsed)}</small></div><button type="button" id="stopAutoDrawDock" ${autoDrawState.stopRequested?'disabled':''}>${autoDrawState.stopRequested?'종료 대기 중':'자동 뽑기 중지'}</button>`;
+  const stop=dock.querySelector('#stopAutoDrawDock');if(stop)stop.onclick=requestStopAutoDraw;
+}
+function updateAutoDrawDock(status=''){if(status)autoDrawState.lastStatus=status;renderAutoDrawDock()}
+function requestStopAutoDraw(){
+  if(!autoDrawState.active)return;
+  autoDrawState.stopRequested=true;clearAutoDrawTimer();updateAutoDrawDock(drawRequestInFlight?'현재 개봉 지급 완료 후 종료합니다.':'사용자 중지 요청');
+  if(!drawRequestInFlight)finishOfficialAutoDraw('사용자가 중지했습니다.');
+}
+function autoDrawHitStopGrade(results=[]){
+  const target=String(autoDrawState.prefs?.stopGrade||'NONE');if(target==='NONE')return null;
+  const targetPower=Number(gradeOrder[target]||999);
+  return results.map(x=>x?.card).find(card=>Number(gradeOrder[String(card?.grade||'').toUpperCase()]||0)>=targetPower)||null;
+}
+function collectAutoDrawBatch(results=[]){
+  autoDrawState.completedRuns+=1;autoDrawState.totalCards+=results.length;
+  const pack=getPack(autoDrawState.packId);autoDrawState.spentCoins+=Math.max(0,Number(pack?.price||0))*autoDrawState.count;
+  results.forEach(item=>{const card=item?.card,grade=String(card?.grade||'').toUpperCase();if(!grade)return;autoDrawState.gradeCounts[grade]=Number(autoDrawState.gradeCounts[grade]||0)+1;if(Number(gradeOrder[grade]||0)>=Number(gradeOrder.SSR)){autoDrawState.highGradeHits.unshift({grade,title:String(card?.title||card?.name||'카드'),duplicate:Boolean(item?.duplicate)});autoDrawState.highGradeHits=autoDrawState.highGradeHits.slice(0,18)}});
+}
+function autoDrawSummaryMarkup(){
+  const grades=Object.entries(autoDrawState.gradeCounts).sort((a,b)=>Number(gradeOrder[b[0]]||0)-Number(gradeOrder[a[0]]||0));
+  return `<div class="auto-draw-summary-stats"><div><small>완료 횟수</small><b>${autoDrawState.completedRuns}회</b></div><div><small>획득 카드</small><b>${Number(autoDrawState.totalCards).toLocaleString()}장</b></div><div><small>사용 코인</small><b>${Number(autoDrawState.spentCoins).toLocaleString()}</b></div><div><small>진행 시간</small><b>${autoDrawFormatTime(Date.now()-autoDrawState.startedAt)}</b></div></div><div class="auto-draw-grade-summary">${grades.map(([grade,value])=>`<span class="grade-${grade.toLowerCase()}"><b>${escapeHtml(grade)}</b>${Number(value).toLocaleString()}장</span>`).join('')||'<span>획득 결과 없음</span>'}</div>${autoDrawState.highGradeHits.length?`<div class="auto-draw-high-list"><h3>SSR 이상 획득 기록</h3>${autoDrawState.highGradeHits.map(row=>`<div><b>${escapeHtml(row.grade)}</b><span>${escapeHtml(row.title)}</span><small>${row.duplicate?'중복':'신규'}</small></div>`).join('')}</div>`:''}`;
+}
+function finishOfficialAutoDraw(reason='자동 뽑기 완료',detail=''){
+  if(!autoDrawState.active)return;
+  clearAutoDrawTimer();autoDrawState.active=false;autoDrawState.stopRequested=false;releaseAutoDrawLock();document.getElementById('autoDrawDock')?.remove();
+  const modal=document.getElementById('modal');modal.className='modal show auto-draw-summary-modal';
+  modal.innerHTML=`<div class="modal-panel auto-draw-summary-panel"><p class="eyebrow">AUTO DRAW REPORT</p><h2>${escapeHtml(reason)}</h2>${detail?`<p class="auto-draw-finish-detail">${escapeHtml(detail)}</p>`:''}${autoDrawSummaryMarkup()}<div class="auto-draw-summary-actions"><button type="button" class="btn" id="autoDrawSummaryConfirm">확인</button><button type="button" class="btn secondary" id="autoDrawSummaryAgain" ${autoDrawState.completedRuns?'':'disabled'}>같은 설정으로 다시 시작</button></div></div>`;
+  const snapshot={packId:autoDrawState.packId,prefs:{...autoDrawState.prefs}};
+  document.getElementById('autoDrawSummaryConfirm').onclick=()=>renderShell('buy');
+  const again=document.getElementById('autoDrawSummaryAgain');if(again)again.onclick=()=>{modal.className='modal';modal.innerHTML='';startOfficialAutoDraw(snapshot.packId,snapshot.prefs)};
+}
+function renderAutoDrawProcessing(pack,count){
+  const modal=document.getElementById('modal');modal.className='modal show opening-modal auto-draw-processing-modal';
+  modal.innerHTML=`<div class="modal-panel auto-draw-processing-panel"><div class="auto-draw-loader"><i></i><i></i><i></i></div><p class="eyebrow">AUTO DRAW PROCESSING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><p>서버에서 카드 지급 결과를 확정하고 있습니다.</p><small>${autoDrawState.completedRuns+1} / ${autoDrawState.targetRuns}회차</small><button type="button" class="btn secondary" id="stopAutoDrawProcessing">현재 개봉 후 중지</button></div>`;
+  document.getElementById('stopAutoDrawProcessing').onclick=requestStopAutoDraw;
+}
+function scheduleOfficialAutoDrawNext(){
+  if(!autoDrawState.active)return;
+  clearAutoDrawTimer();
+  const delay=Math.max(4000,Number(autoDrawState.prefs?.delayMs||4000));
+  updateAutoDrawDock(`다음 개봉까지 ${(delay/1000).toFixed(1)}초`);
+  autoDrawState.timer=setTimeout(()=>{autoDrawState.timer=null;runOfficialAutoDrawNext()},delay);
+}
+function handleOfficialAutoDrawBatch(results=[]){
+  collectAutoDrawBatch(results);const hit=autoDrawHitStopGrade(results);updateAutoDrawDock(`${autoDrawState.completedRuns}회차 지급 완료`);
+  if(autoDrawState.stopRequested){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('자동 뽑기 중지','현재 진행 중이던 개봉까지 정상 지급했습니다.'),700);return}
+  if(hit){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw(`${autoDrawStopLabel(autoDrawState.prefs.stopGrade)} 획득으로 정지`,`${hit.title||hit.name||'카드'} 획득`),900);return}
+  if(autoDrawState.completedRuns>=autoDrawState.targetRuns){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('설정한 자동 뽑기를 완료했습니다.'),900);return}
+  scheduleOfficialAutoDrawNext();
+}
+async function runOfficialAutoDrawNext(){
+  if(!autoDrawState.active)return;
+  if(autoDrawState.stopRequested)return finishOfficialAutoDraw('자동 뽑기 중지');
+  if(autoDrawState.completedRuns>=autoDrawState.targetRuns)return finishOfficialAutoDraw('설정한 자동 뽑기를 완료했습니다.');
+  const pack=getPack(autoDrawState.packId);if(!pack)return finishOfficialAutoDraw('자동 뽑기 오류','카드팩 정보를 불러오지 못했습니다.');
+  const cost=Math.max(0,Number(pack.price||0))*autoDrawState.count,balance=Math.max(0,Number(loadUser()?.coin||0));
+  if(balance<cost)return finishOfficialAutoDraw('코인 부족으로 자동 종료',`${autoDrawState.count}장 개봉에 ${Number(cost).toLocaleString()}코인이 필요합니다.`);
+  updateAutoDrawDock(`${autoDrawState.completedRuns+1}회차 개봉 요청 중`);
+  await openPack(pack.id,autoDrawState.count,cost,{autoRun:true});
+}
+
 function bindView(tab) {
   if(tab==='buy')loadSupplyBoxShop();
   if(tab==='inventory')loadInventory();
@@ -1510,6 +1642,7 @@ function bindView(tab) {
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
   document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));
+  document.querySelectorAll('.auto-draw-config').forEach(b=>b.onclick=()=>openAutoDrawSetup(b.dataset.packId,Number(b.dataset.defaultCount||20)));
   document.querySelectorAll('.recent-item').forEach(b => b.onclick = () => showDetail(b.dataset.cardId));
   const goDex=document.getElementById('goDex'); if(goDex)goDex.onclick=()=>renderShell('dex');
   const claim = document.getElementById('claimAttendance');
@@ -2489,23 +2622,32 @@ function validateDrawResponse(response,{requestId,packId,count}){
   if(consumedDrawResponses.size>80){const first=consumedDrawResponses.values().next().value;consumedDrawResponses.delete(first);}
   return response.results;
 }
-openPack=async function(packId,count,cost){
-  if(drawRequestInFlight)return alert('카드 개봉 요청을 처리 중입니다.');
+openPack=async function(packId,count,cost,options={}){
+  const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
+  if(drawRequestInFlight){if(autoRun)return false;alert('카드 개봉 요청을 처리 중입니다.');return false}
   if(!API_MODE){
     resetDrawPresentationState();
-    alert('서버 연결이 확인되지 않아 카드뽑기를 중단했습니다.\n서버에 실제 지급되지 않는 허위 획득 화면을 방지하기 위해 오프라인 뽑기는 사용할 수 없습니다.\n새로고침 후 다시 시도해주세요.');
-    return;
+    const message='서버 연결이 확인되지 않아 카드뽑기를 중단했습니다.\n서버에 실제 지급되지 않는 허위 획득 화면을 방지하기 위해 오프라인 뽑기는 사용할 수 없습니다.\n새로고침 후 다시 시도해주세요.';
+    if(autoRun)finishOfficialAutoDraw('서버 연결 오류',message);else alert(message);
+    return false;
   }
   const previous=readPendingDraw();
   if(previous){packId=String(previous.packId);count=Number(previous.count);}
   const pack=getPack(packId);
+  if(!pack){if(autoRun)finishOfficialAutoDraw('자동 뽑기 오류','카드팩 정보를 찾지 못했습니다.');else alert('카드팩 정보를 찾지 못했습니다.');return false}
   const requestId=String(previous?.requestId||(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`));
   if(!previous)writePendingDraw({requestId,packId,count,receiptVersion:2,createdAt:Date.now()});
   resetDrawPresentationState();
   activeDrawRequestId=requestId;
   drawRequestInFlight=true;
   try{
-    const d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2));
+    let d;
+    if(autoRun&&autoDrawState.prefs?.simplified!==false){
+      renderAutoDrawProcessing(pack,count);
+      d=await requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2);
+    }else{
+      d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2));
+    }
     const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
     clearPendingDraw(requestId);
     clearApiCache('recent-high-grade');clearApiCache('shell/summary');clearApiCache('cards');
@@ -2514,12 +2656,14 @@ openPack=async function(packId,count,cost){
     const obtainedAt=new Date().toISOString();
     next.history=[...(next.history||[]),...verifiedResults.map(item=>({cardId:String(item.card.id),at:obtainedAt,duplicate:Boolean(item.duplicate),title:item.card.title,grade:item.card.grade}))].slice(-30);
     saveUser(next);
-    await renderDrawResults(pack,count,pack.price*count,verifiedResults,next,d.critical);
+    await renderDrawResults(pack,count,pack.price*count,verifiedResults,next,d.critical,{autoRun});
+    return true;
   }catch(e){
     resetDrawPresentationState();
     if(!drawRequestStillProcessing(e))clearPendingDraw(requestId);
     const message=drawRequestStillProcessing(e)?'카드 지급 결과 확인이 지연되고 있습니다.\n같은 요청 번호를 보존했으며 다음 시도에서 새로 결제하지 않고 이전 결과부터 확인합니다.':(e.message||'카드 개봉 중 오류가 발생했습니다.');
-    alert(message);
+    if(autoRun)finishOfficialAutoDraw(drawRequestStillProcessing(e)?'카드 지급 확인 지연으로 중지':'자동 뽑기 오류',message);else alert(message);
+    return false;
   }finally{
     if(activeDrawRequestId===requestId)activeDrawRequestId='';
     drawRequestInFlight=false;
@@ -2598,19 +2742,27 @@ async function showSpecialCardReveal(card,user){
   const timers=[setTimeout(()=>stage.classList.add('phase-approach'),180),setTimeout(()=>stage.classList.add('phase-awaken'),grade==='SSR'?1180:1450),setTimeout(()=>stage.classList.add('phase-impact'),grade==='SSR'?1950:grade==='MA'?2350:2850),setTimeout(()=>stage.classList.add('phase-reveal'),grade==='SSR'?2350:grade==='MA'?2950:3600),setTimeout(()=>stage.classList.add('phase-final'),grade==='SSR'?3400:grade==='MA'?4300:5200)];
   await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;timers.forEach(clearTimeout);stopCanvas();resolve()};document.getElementById('specialRevealSkip').onclick=e=>{e.stopPropagation();finish()};stage.onclick=e=>{if(e.target.closest('.special-reveal-card-ui'))return;finish()};setTimeout(finish,duration)});
 }
-async function renderDrawResults(pack,count,cost,results,user,critical){
+async function renderDrawResults(pack,count,cost,results,user,critical,options={}){
   if(!Array.isArray(results)||results.length!==Number(count)||results.some((item,index)=>item?.granted!==true||Number(item?.slot)!==index||!item?.card?.id))throw new Error('서버에서 확정되지 않은 카드 결과는 표시할 수 없습니다.');
-  const special=getTopSpecialResult(results);
-  if(special)await showSpecialCardReveal(special,user);
+  const autoRun=Boolean(options?.autoRun&&autoDrawState.active),special=getTopSpecialResult(results);
+  if(special&&(!autoRun||autoDrawState.prefs?.simplified===false))await showSpecialCardReveal(special,user);
   const modal=document.getElementById('modal');
-  modal.className='modal show results-modal';
+  modal.className=`modal show results-modal ${autoRun?'auto-draw-results-modal':''}`;
   const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
   const shardTotal=results.reduce((sum,item)=>sum+Number(item?.shardGained||0),0),masterStarTotal=results.reduce((sum,item)=>sum+Number(item?.masterStarGained||0),0);
   const rewardSummary=(shardTotal||masterStarTotal)?`<div class="draw-reward-summary">${masterStarTotal?`<b>★ 마스터의 별 +${masterStarTotal}</b>`:''}${shardTotal?`<span>카드 조각 +${Number(shardTotal).toLocaleString()}</span>`:''}</div>`:'';
-  modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div>${rewardSummary}<div class="result-actions result-actions-top"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div><div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0,masterStarGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'} ${masterStarGained?'master-star-dupe':''}">${duplicate?(masterStarGained?`<b>마스터의 별 +${masterStarGained}</b><small>카드 조각 +${shardGained}</small>`:`카드 조각 +${shardGained}`):'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div></div>`;
+  const actions=autoRun?`<div class="auto-draw-result-strip"><div><small>AUTO DRAW RUNNING</small><b>${autoDrawState.completedRuns+1} / ${autoDrawState.targetRuns}회차 결과</b><span>${autoDrawStopLabel(autoDrawState.prefs?.stopGrade||'NONE')}</span></div><button type="button" id="autoDrawStopInResult">현재 결과까지 받고 중지</button></div>`:`<div class="result-actions result-actions-top manual-draw-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn auto-draw-result-start" id="startAutoDrawFromResult">자동 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div>`;
+  modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div>${rewardSummary}${actions}<div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0,masterStarGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'} ${masterStarGained?'master-star-dupe':''}">${duplicate?(masterStarGained?`<b>마스터의 별 +${masterStarGained}</b><small>카드 조각 +${shardGained}</small>`:`카드 조각 +${shardGained}`):'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div></div>`;
   document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
+  if(autoRun){
+    document.getElementById('closeResult').onclick=requestStopAutoDraw;
+    document.getElementById('autoDrawStopInResult').onclick=requestStopAutoDraw;
+    handleOfficialAutoDrawBatch(results);
+    return;
+  }
   document.getElementById('closeResult').onclick=document.getElementById('confirmResult').onclick=()=>renderShell('buy');
   document.getElementById('drawAgain').onclick=()=>{modal.className='modal';openPack(pack.id,count,cost)};
+  document.getElementById('startAutoDrawFromResult').onclick=()=>openAutoDrawSetup(pack.id,count);
 }
 
 
