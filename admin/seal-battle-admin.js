@@ -6,6 +6,9 @@
   const num = value => Math.max(0, Number(value || 0)).toLocaleString();
   let installed = false;
   let current = null;
+  let loadSequence = 0;
+  let formDirty = false;
+  let savingSettings = false;
 
   const defaults = {
     mode: 'OFF', title: '봉인전', bossName: '심연에 봉인된 군주', bossImage: '',
@@ -157,7 +160,7 @@
     return `<article><header><span>${icon}</span><div><small>${label} · 보스 ${num(role.battlePower)}</small><b>${pct.toFixed(2)}%</b></div></header><div><i style="width:${pct}%"></i></div><footer><span>${num(role.progress)}</span><em>/ ${num(role.target)}</em></footer></article>`;
   }
 
-  function renderOverview(data) {
+  function renderOverview(data, { applySettings = true } = {}) {
     current = data;
     const settings = { ...defaults, ...(data.settings || {}) };
     const event = data.event;
@@ -178,7 +181,10 @@
       roleProgress(event.roles?.GUARD, '수호 봉인', '◆'),
       roleProgress(event.roles?.PURIFY, '정화 봉인', '✦')
     ].join('') : '';
-    fill(settings);
+    if (applySettings) {
+      fill(settings);
+      formDirty = false;
+    }
     $('#sealAdminHistory').innerHTML = (data.history || []).map(row => {
       const attack = Math.min(100, Number(row.attack_progress || 0) / Math.max(1, Number(row.attack_target || 1)) * 100);
       const guard = Math.min(100, Number(row.guard_progress || 0) / Math.max(1, Number(row.guard_target || 1)) * 100);
@@ -349,20 +355,51 @@
     const settings = collect();
     const error = validate(settings);
     if (error) throw new Error(error);
-    const result = await apiCall('admin/seal-battle/settings', { method: 'PATCH', body: JSON.stringify({ settings }) });
-    if (!silent) alert('봉인전 기본 설정을 저장했습니다.');
-    return result.settings;
+
+    // 저장 전에 시작된 overview 응답이 뒤늦게 도착해 과거 값으로 폼을 덮지 못하게 무효화한다.
+    loadSequence += 1;
+    savingSettings = true;
+    try {
+      const result = await apiCall('admin/seal-battle/settings', {
+        method: 'PATCH',
+        body: JSON.stringify({ settings })
+      });
+      const saved = result.settings || settings;
+
+      // 서버가 실제로 저장했다고 반환한 정규화 값을 즉시 화면의 기준값으로 확정한다.
+      fill(saved);
+      formDirty = false;
+      if (result.overview) renderOverview(result.overview, { applySettings: false });
+
+      if (!silent) alert('봉인전 기본 설정을 저장했습니다.');
+      return saved;
+    } finally {
+      savingSettings = false;
+    }
   }
 
-  async function load() {
+  async function load({ forceSettings = false } = {}) {
+    const sequence = ++loadSequence;
     $('#sealAdminEventSummary').innerHTML = '<div class="seal-admin-loading">봉인전 운영 현황을 불러오는 중...</div>';
-    renderOverview(await apiCall('admin/seal-battle/overview'));
+    const data = await apiCall('admin/seal-battle/overview');
+
+    // 더 최근 조회/저장 작업이 있으면 이 응답은 폐기한다.
+    if (sequence !== loadSequence) return null;
+    const applySettings = forceSettings || (!formDirty && !savingSettings);
+    renderOverview(data, { applySettings });
+    return data;
   }
 
   function bind() {
     if ($('#view-sealbattle')?.dataset.bound === '1') return;
     $('#view-sealbattle').dataset.bound = '1';
-    $('#sealAdminRefresh').onclick = () => load().catch(error => alert(error.message));
+    $('#view-sealbattle').addEventListener('input', event => {
+      if (event.target.matches('input,select,textarea')) formDirty = true;
+    });
+    $('#view-sealbattle').addEventListener('change', event => {
+      if (event.target.matches('input,select,textarea')) formDirty = true;
+    });
+    $('#sealAdminRefresh').onclick = () => load({ forceSettings: !formDirty }).catch(error => alert(error.message));
     $('#sealRankRewardsEnabled').onchange = refreshRankTierState;
     $('#sealRankRewardsOnFailure').onchange = refreshRankTierState;
     $('#sealAddRankTier').onclick = () => {
@@ -384,7 +421,7 @@
     $('#sealAdminSave').onclick = async event => {
       const button = event.currentTarget;
       button.disabled = true;
-      try { await saveSettings(); await load(); } catch (error) { alert(error.message); }
+      try { await saveSettings(); } catch (error) { alert(error.message); }
       finally { button.disabled = false; }
     };
     $('#sealAdminSaveStart').onclick = async event => {
@@ -393,8 +430,9 @@
       button.disabled = true;
       try {
         await saveSettings({ silent: true });
-        await apiCall('admin/seal-battle/event', { method: 'POST', body: JSON.stringify({ action: 'START' }) });
-        await load();
+        const result = await apiCall('admin/seal-battle/event', { method: 'POST', body: JSON.stringify({ action: 'START' }) });
+        if (result.overview) renderOverview(result.overview, { applySettings: false });
+        else await load();
         alert('새 봉인전을 시작했습니다.');
       } catch (error) { alert(error.message); }
       finally { button.disabled = false; }
@@ -403,7 +441,11 @@
       if (!confirm('현재 활성 봉인전을 종료할까요?\n세 역할이 모두 완료되지 않았다면 봉인 실패로 확정되며 완료 보상은 지급되지 않습니다.')) return;
       const button = event.currentTarget;
       button.disabled = true;
-      try { await apiCall('admin/seal-battle/event', { method: 'POST', body: JSON.stringify({ action: 'END' }) }); await load(); }
+      try {
+        const result = await apiCall('admin/seal-battle/event', { method: 'POST', body: JSON.stringify({ action: 'END' }) });
+        if (result.overview) renderOverview(result.overview, { applySettings: false });
+        else await load();
+      }
       catch (error) { alert(error.message); }
       finally { button.disabled = false; }
     };

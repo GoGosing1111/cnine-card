@@ -357,9 +357,19 @@ async function loadSettings(env) {
 async function saveSettings(env, value) {
   const clean = cleanSettings(value);
   validateRankRewards(clean.rankRewards);
-  await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)")
-    .bind(JSON.stringify(clean)).run();
-  return clean;
+  const serialized = JSON.stringify(clean);
+  await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at)
+    VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`)
+    .bind(serialized).run();
+
+  // 저장 직후 DB에서 다시 읽어 실제 반영값을 검증한다. 불일치 시 성공 응답을 보내지 않는다.
+  const storedRow = await env.DB.prepare("SELECT value FROM app_meta WHERE key='seal_battle_settings_v1'").first();
+  const stored = cleanSettings(safeJson(storedRow?.value, {}));
+  if (JSON.stringify(stored) !== serialized) {
+    throw new Error('봉인전 설정 저장 검증에 실패했습니다. 잠시 후 다시 시도하세요.');
+  }
+  return stored;
 }
 
 function normalizeEvent(row) {
@@ -1275,7 +1285,7 @@ export async function handleSealBattle({ path, request, env, deps }) {
     if (typeof deps.writeAdminLog === 'function') {
       await deps.writeAdminLog(env, admin, 'SEAL_BATTLE_SETTINGS_UPDATE', 'SEAL_BATTLE', 'settings', settings, next);
     }
-    return deps.json({ ok: true, settings: next });
+    return deps.json({ ok: true, settings: next, overview: await adminOverview(env, next) });
   }
 
   if (path === 'admin/seal-battle/event' && request.method === 'POST') {
