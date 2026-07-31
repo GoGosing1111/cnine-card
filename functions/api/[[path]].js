@@ -72,6 +72,7 @@ async function cachedRuntimeSetting(key,ttlMs,loader){
 let cardCatalogCache=null,cardUniqueRowsCache=null,packCatalogCache=null;
 function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null}
 let drawReceiptV2ReadyPromise=null;
+let furFirstPityV1291ReadyPromise=null;
 
 let messageRewardClaimV1222ReadyPromise=null;
 async function ensureMessageRewardClaimV1222(env){
@@ -281,6 +282,26 @@ async function ensureDrawReceiptV2(env){
     return true;
   })().catch(error=>{drawReceiptV2ReadyPromise=null;throw error});
   return drawReceiptV2ReadyPromise;
+}
+
+async function ensureFurFirstPityV1291(env){
+  if(furFirstPityV1291ReadyPromise)return furFirstPityV1291ReadyPromise;
+  furFirstPityV1291ReadyPromise=(async()=>{
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_fur_first_pity (
+        user_id INTEGER PRIMARY KEY,
+        miss_count INTEGER NOT NULL DEFAULT 0,
+        last_pack_id TEXT,
+        completed_at TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`),
+      env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('fur_first_acquisition_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultFurFirstSettings())),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1291_fur_first_pity','1',CURRENT_TIMESTAMP)")
+    ]);
+    return true;
+  })().catch(error=>{furFirstPityV1291ReadyPromise=null;throw error});
+  return furFirstPityV1291ReadyPromise;
 }
 
 const SCORE_TIER_DEFAULT=[
@@ -2478,6 +2499,85 @@ async function pitySettings(env,{fresh=false}={}){const now=Date.now();if(!fresh
 async function packPityCount(env,userId,packId){if(!PITY_PACKS.has(packId))return 0;const row=await env.DB.prepare('SELECT miss_count FROM user_pack_pity WHERE user_id=? AND pack_id=?').bind(userId,packId).first();return Math.max(0,Number(row?.miss_count||0));}
 async function savePackPity(env,userId,packId,count){if(!PITY_PACKS.has(packId))return;await env.DB.prepare(`INSERT INTO user_pack_pity(user_id,pack_id,miss_count,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,pack_id) DO UPDATE SET miss_count=excluded.miss_count,updated_at=CURRENT_TIMESTAMP`).bind(userId,packId,Math.max(0,Math.floor(count))).run();}
 function pityRateForDraw(settings,packId,missCount){const cfg=settings?.[packId];const drawNo=Number(missCount||0)+1;if(!cfg?.enabled)return {drawNo,rate:null};return {drawNo,rate:Number(cfg.rates?.[drawNo]??(drawNo>=cfg.hard?100:null))};}
+
+const FUR_FIRST_PITY_META_KEY='fur_first_acquisition_settings_v1';
+const FUR_FIRST_PITY_PACKS=new Set(['premium','pickup']);
+function defaultFurFirstSettings(){return {enabled:true,start:50,hard:100,startRate:2,maxSoftRate:20};}
+function cleanFurFirstSettings(raw={}){
+  const base=defaultFurFirstSettings(),num=(value,fallback,min,max)=>{const parsed=Number(value);return Math.max(min,Math.min(max,Number.isFinite(parsed)?parsed:fallback));};
+  const start=Math.floor(num(raw.start,base.start,1,999));
+  const hard=Math.max(start,Math.floor(num(raw.hard,base.hard,1,999)));
+  const startRate=num(raw.startRate,base.startRate,0,100);
+  const maxSoftRate=Math.max(startRate,num(raw.maxSoftRate,base.maxSoftRate,0,100));
+  return {enabled:raw.enabled!==false,start,hard,startRate:Math.round(startRate*1000)/1000,maxSoftRate:Math.round(maxSoftRate*1000)/1000};
+}
+let furFirstSettingsCache=null;
+async function furFirstSettings(env,{fresh=false}={}){
+  const now=Date.now();
+  if(!fresh&&furFirstSettingsCache&&furFirstSettingsCache.expiresAt>now)return furFirstSettingsCache.value;
+  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FUR_FIRST_PITY_META_KEY).first();
+  let value;try{value=cleanFurFirstSettings(JSON.parse(row?.value||'{}'))}catch{value=defaultFurFirstSettings()}
+  furFirstSettingsCache={value,expiresAt:now+30000};return value;
+}
+async function furFirstPityState(env,userId){
+  await ensureFurFirstPityV1291(env);
+  const [everOwned,row]=await Promise.all([
+    env.DB.prepare(`SELECT 1 AS owned FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
+      WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' LIMIT 1`).bind(userId).first(),
+    env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId).first()
+  ]);
+  return {everOwned:Boolean(everOwned),completed:Boolean(row?.completed_at),missCount:Math.max(0,Number(row?.miss_count||0)),lastPackId:row?.last_pack_id||null};
+}
+function furFirstRateForDraw(settings,missCount){
+  const cfg=cleanFurFirstSettings(settings||{}),drawNo=Math.max(1,Math.floor(Number(missCount||0))+1);
+  if(!cfg.enabled||drawNo<cfg.start)return {drawNo,rate:null,hard:false};
+  if(drawNo>=cfg.hard)return {drawNo,rate:100,hard:true};
+  const span=Math.max(1,cfg.hard-cfg.start-1),progress=Math.max(0,Math.min(1,(drawNo-cfg.start)/span));
+  const rate=cfg.startRate+(cfg.maxSoftRate-cfg.startRate)*progress;
+  return {drawNo,rate:Math.round(rate*1000)/1000,hard:false};
+}
+function normalGradeRatePercentFromContext(ctx,grade,criticalBonus=0){
+  let rates=ctx.rateRows.filter(row=>ctx.allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0);
+  if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
+  const total=rates.reduce((sum,row)=>sum+Math.max(0,Number(row.rate)||0),0);
+  if(total<=0)return 0;
+  return Math.max(0,Number(rates.find(row=>String(row.rarity).toUpperCase()===String(grade).toUpperCase())?.rate)||0)/total*100;
+}
+function drawOneWithPityAndFurFromContext(ctx,pack,ssrRate,furAssistRate,criticalBonus=0,allowLimited=true){
+  const furPool=ctx.poolsByGrade.get('FUR')||[],forceFur=furAssistRate!==null&&Number(furAssistRate)>=100;
+  if(forceFur){
+    const fur=weightedPick(furPool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1));
+    if(!fur)throw new Error('FUR 최초 획득 확정 회차지만 이 팩에서 획득 가능한 FUR 카드가 없습니다. CMS 카드 공개 상태와 팩 카드 구성을 확인하세요.');
+    return fur;
+  }
+  if(allowLimited&&pack.id==='pickup'&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+    const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
+    if(limitedCard)return limitedCard;
+  }
+  const excluded=new Set();
+  if(furAssistRate!==null&&furPool.length){
+    const baseRate=normalGradeRatePercentFromContext(ctx,'FUR',criticalBonus),targetRate=Math.max(baseRate,Math.max(0,Math.min(100,Number(furAssistRate)||0)));
+    if(Math.random()*100<targetRate){
+      const fur=weightedPick(furPool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1));
+      if(fur)return fur;
+    }
+    excluded.add('FUR');
+  }
+  const allowed=ctx.allowed.filter(rarity=>rarity!=='LIMITED'&&!excluded.has(rarity));
+  if(ssrRate!==null&&allowed.includes('SSR')){
+    if(Math.random()*100<ssrRate){const ssr=drawNormalFromContext(ctx,pack,'SSR');if(ssr)return ssr;}
+    excluded.add('SSR');
+  }
+  let rates=ctx.rateRows.filter(row=>ctx.allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&!excluded.has(row.rarity)&&Number(row.rate)>0);
+  if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
+  if(!rates.length)throw new Error('FUR 보정 및 SSR 천장 조건을 제외하고 추첨 가능한 일반 등급이 없습니다. 카드팩 확률 설정을 확인하세요.');
+  for(let attempt=0;attempt<20;attempt++){
+    const rarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
+    const card=rarity&&drawNormalFromContext(ctx,pack,rarity);
+    if(card)return card;
+  }
+  throw new Error('FUR 보정 카드 추첨 후보를 생성하지 못했습니다. 카드팩 구성과 공개 카드를 확인하세요.');
+}
 async function drawNormalCardByRarity(env,pack,rarity){const pool=randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results);return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
 async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
   if(pack.id==='pickup'){
@@ -2868,7 +2968,7 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
-      await ensureDrawReceiptV2(env);let drawReceiptTable='draw_request_receipts_v2';
+      await Promise.all([ensureDrawReceiptV2(env),ensureFurFirstPityV1291(env)]);let drawReceiptTable='draw_request_receipts_v2';
       // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
       // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
       const compactDrawCard=card=>({id:String(card?.id||''),title:String(card?.title||''),grade:String(card?.grade||card?.rarity||'').toUpperCase()});
@@ -2987,26 +3087,40 @@ export async function onRequest(context){
           return json({error:'코인이 부족합니다.'},400);
         }
 
-        const [drawContext,pityCountStart,livePitySettings]=await Promise.all([
+        const [drawContext,pityCountStart,livePitySettings,liveFurFirstSettings,furFirstStateStart]=await Promise.all([
           loadDrawContext(env,pack),
           packPityCount(env,user.id,pack.id),
-          pitySettings(env)
+          pitySettings(env),
+          furFirstSettings(env),
+          furFirstPityState(env,user.id)
         ]);
-        const cards=[];let pityCount=pityCountStart,limitedDrawn=false;
+        const furFirstEligibleAtStart=FUR_FIRST_PITY_PACKS.has(pack.id)&&liveFurFirstSettings.enabled&&!furFirstStateStart.everOwned&&!furFirstStateStart.completed;
+        const cards=[];let pityCount=pityCountStart,limitedDrawn=false,furFirstMissCount=furFirstStateStart.missCount,furFirstEligible=furFirstEligibleAtStart,furFirstCompleted=false;
         for(let index=0;index<count;index++){
           const pity=pityRateForDraw(livePitySettings,pack.id,pityCount);
+          const furPity=furFirstEligible?furFirstRateForDraw(liveFurFirstSettings,furFirstMissCount):{drawNo:furFirstMissCount+1,rate:null,hard:false};
           const card=PITY_PACKS.has(pack.id)
-            ?drawOneWithPityFromContext(drawContext,pack,pity.rate,criticalBonus,!limitedDrawn)
+            ?(furFirstEligible
+              ?drawOneWithPityAndFurFromContext(drawContext,pack,pity.rate,furPity.rate,criticalBonus,!limitedDrawn)
+              :drawOneWithPityFromContext(drawContext,pack,pity.rate,criticalBonus,!limitedDrawn))
             :drawOneFromContext(drawContext,pack,null,!limitedDrawn,criticalBonus);
           if(!card?.id)throw new Error('카드 추첨 결과를 생성하지 못했습니다.');
           cards.push(card);
-          if(String(card.grade||'').toUpperCase()==='LIMITED')limitedDrawn=true;
+          const drawnGrade=String(card.grade||'').toUpperCase();
+          if(drawnGrade==='LIMITED')limitedDrawn=true;
+          if(furFirstEligible){
+            if(drawnGrade==='FUR'){furFirstCompleted=true;furFirstEligible=false;furFirstMissCount=0;}
+            else furFirstMissCount++;
+          }
           pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;
         }
         const guarantee=count===10?pack.guarantee_10:count===20?pack.guarantee_20:null;
         if(guarantee&&!cards.some(card=>ORDER[card.grade]>=ORDER[guarantee])){
           cards[cards.length-1]=drawOneFromContext(drawContext,pack,guarantee,true,criticalBonus);
           if(PITY_PACKS.has(pack.id)&&ORDER[cards[cards.length-1].grade]>=ORDER.SSR)pityCount=0;
+        }
+        if(furFirstEligibleAtStart&&cards.some(card=>String(card?.grade||'').toUpperCase()==='FUR')){
+          furFirstCompleted=true;furFirstEligible=false;furFirstMissCount=0;
         }
 
         const validateActiveCards=async selected=>{
@@ -3116,6 +3230,7 @@ export async function onRequest(context){
         const draftResponse={
           results,user:nextProfile,
           pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,
+          furFirstAssist:FUR_FIRST_PITY_PACKS.has(pack.id)?{sharedAcrossPacks:true,eligibleAtStart:furFirstEligibleAtStart,completed:furFirstCompleted||furFirstStateStart.everOwned||furFirstStateStart.completed,missCount:furFirstMissCount,nextDraw:furFirstMissCount+1,start:liveFurFirstSettings.start,hard:liveFurFirstSettings.hard}:null,
           critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},
           requestId,grantProof,burningEvent:burningPublicState(burning),
           drawProtocol:{version:3,status:'APPLIED',grantVerified:false,packId:String(pack.id),count:Number(count),integrity:''}
@@ -3124,6 +3239,14 @@ export async function onRequest(context){
         statements.unshift(env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost));
         if(PITY_PACKS.has(pack.id))statements.unshift(env.DB.prepare(`INSERT INTO user_pack_pity(user_id,pack_id,miss_count,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP)
           ON CONFLICT(user_id,pack_id) DO UPDATE SET miss_count=excluded.miss_count,updated_at=CURRENT_TIMESTAMP`).bind(user.id,pack.id,Math.max(0,Math.floor(pityCount))));
+        if(furFirstEligibleAtStart){
+          if(furFirstCompleted)statements.unshift(env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,completed_at,created_at,updated_at)
+            VALUES(?,0,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id) DO UPDATE SET miss_count=0,last_pack_id=excluded.last_pack_id,completed_at=COALESCE(user_fur_first_pity.completed_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP`).bind(user.id,pack.id));
+          else statements.unshift(env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,created_at,updated_at)
+            VALUES(?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id) DO UPDATE SET miss_count=excluded.miss_count,last_pack_id=excluded.last_pack_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,Math.max(0,Math.floor(furFirstMissCount)),pack.id));
+        }
         if(shardTotal>0)statements.unshift(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardTotal,user.id));
         if(masterStarTotal>0){
           statements.unshift(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
@@ -4887,7 +5010,9 @@ export async function onRequest(context){
         const cfgRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_preview_configs'").first();
         let previews={}; try{previews=JSON.parse(cfgRow?.value||'{}')}catch{}
         const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
-        return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities||'[]')})),previews,cards:cards.results,pitySettings:await pitySettings(env)});
+        const furPoolCounts={};
+        await Promise.all((packs.results||[]).filter(pack=>FUR_FIRST_PITY_PACKS.has(String(pack.id))).map(async pack=>{const ctx=await loadDrawContext(env,pack);furPoolCounts[String(pack.id)]=(ctx.poolsByGrade.get('FUR')||[]).length;}));
+        return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities||'[]')})),previews,cards:cards.results,pitySettings:await pitySettings(env),furFirstSettings:await furFirstSettings(env),furPoolCounts});
       }
       if(request.method==='PATCH'){
         const payload=await readBody(request); const id=String(payload.id||'');
@@ -4912,9 +5037,15 @@ export async function onRequest(context){
         configs[id]={badge:String(pc.badge||'').slice(0,24),headline:String(pc.headline||'').slice(0,80),showNewCards:pc.showNewCards!==false,showNames:pc.showNames!==false,showGrades:pc.showGrades!==false,columns:Math.max(2,Math.min(6,Number(pc.columns)||5)),cardIds:Array.isArray(pc.cardIds)?pc.cardIds.map(String).slice(0,30):[]};
         await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('pack_preview_configs',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(configs)).run();
         if(payload.pitySettings&&PITY_PACKS.has(id)){const beforePity=await pitySettings(env),clean=cleanPitySettings({...beforePity,[id]:payload.pitySettings});await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('pack_pity_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();pitySettingsCache=null;}
+        let savedFurFirst=await furFirstSettings(env,{fresh:true});
+        if(payload.furFirstSettings&&FUR_FIRST_PITY_PACKS.has(id)){
+          savedFurFirst=cleanFurFirstSettings(payload.furFirstSettings);
+          await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(FUR_FIRST_PITY_META_KEY,JSON.stringify(savedFurFirst)).run();
+          furFirstSettingsCache={value:savedFurFirst,expiresAt:Date.now()+30000};
+        }
         const after=await env.DB.prepare('SELECT * FROM card_packs WHERE id=?').bind(id).first();
-        await writeAdminLog(env,admin,'PACK_DETAIL_UPDATE','CARD_PACK',id,before,{...after,preview:configs[id]});
-        return json({ok:true,pack:after,preview:configs[id]});
+        await writeAdminLog(env,admin,'PACK_DETAIL_UPDATE','CARD_PACK',id,before,{...after,preview:configs[id],furFirstSettings:savedFurFirst});
+        return json({ok:true,pack:after,preview:configs[id],furFirstSettings:savedFurFirst});
       }
     }
 
