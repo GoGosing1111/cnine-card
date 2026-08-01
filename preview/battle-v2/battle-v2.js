@@ -12,13 +12,30 @@
   const replayButton = document.getElementById('battleV2Replay');
   const rerollButton = document.getElementById('battleV2Reroll');
   const speedSelect = document.getElementById('battleV2Speed');
+  const shell = document.getElementById('battleV2App');
+  const layoutSelect = document.getElementById('battleV2Layout');
+  const layoutBadge = document.getElementById('battleV2LayoutBadge');
+  const layoutDetail = document.getElementById('battleV2LayoutDetail');
+  const fullscreenButton = document.getElementById('battleV2Fullscreen');
+  const openWindowButton = document.getElementById('battleV2OpenWindow');
+  const focusRoot = document.getElementById('battleV2Focus');
+  const focusMessage = document.getElementById('battleV2FocusMessage');
+  const focusSlotA = document.getElementById('focusSlotA');
+  const focusSlotB = document.getElementById('focusSlotB');
+  const focusRosterA = document.getElementById('focusRosterA');
+  const focusRosterB = document.getElementById('focusRosterB');
 
   const state = {
     data: null,
     cards: new Map(),
     playing: false,
     playToken: 0,
-    cursor: 0
+    cursor: 0,
+    requestedLayout: 'auto',
+    effectiveLayout: 'desktop',
+    activeAId: '',
+    activeBId: '',
+    resizeTimer: 0
   };
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[ch]));
@@ -63,8 +80,24 @@
     statusBox.classList.toggle('error', error);
   }
 
+  function isFocusLayout() {
+    return state.effectiveLayout !== 'desktop';
+  }
+
+  function fighterNodes(id) {
+    const key = String(id);
+    return [...document.querySelectorAll('.battle-card-v2')].filter(node => node.dataset.fighterId === key || node.dataset.focusFighterId === key);
+  }
+
   function fighterNode(id) {
-    return [...document.querySelectorAll('.battle-card-v2')].find(node => node.dataset.fighterId === String(id)) || null;
+    const key = String(id);
+    if (isFocusLayout()) {
+      const focusNode = [...document.querySelectorAll('.battle-card-v2[data-focus-fighter-id]')]
+        .find(node => node.dataset.focusFighterId === key && node.offsetParent !== null);
+      if (focusNode) return focusNode;
+    }
+    return [...document.querySelectorAll('.battle-card-v2[data-fighter-id]')]
+      .find(node => node.dataset.fighterId === key) || null;
   }
 
   function fighterState(id) {
@@ -121,11 +154,13 @@
     </div>`;
   }
 
-  function cardHtml(card) {
+  function cardHtml(card, options = {}) {
     const hpPercent = Math.max(0, Math.min(100, card.hp / Math.max(1, card.maxHp) * 100));
     const shieldPercent = card.maxShield > 0 ? Math.max(0, Math.min(100, card.shield / card.maxShield * 100)) : 0;
     const fxType = typeKey(card.type);
-    return `<article class="battle-card-v2${fxType ? ` unique-card-fx-host unique-fx-${fxType}` : ''}" data-fighter-id="${escapeHtml(card.id)}" data-side="${escapeHtml(card.side)}" data-effect-type="${fxType}">
+    const idAttribute = options.focus ? `data-focus-fighter-id="${escapeHtml(card.id)}"` : `data-fighter-id="${escapeHtml(card.id)}"`;
+    const focusClass = options.focus ? ' focus-battle-card' : '';
+    return `<article class="battle-card-v2${focusClass}${fxType ? ` unique-card-fx-host unique-fx-${fxType}` : ''}" ${idAttribute} data-side="${escapeHtml(card.side)}" data-effect-type="${fxType}">
       ${fxType ? uniqueFxMarkup(fxType) : ''}
       <div class="battle-v2-frame-shell">${frameHtml(card)}</div>
       <div class="stat-pills"><span>HP ${number(card.maxHp)}</span><span>ATK ${number(card.attack)}</span><span>DEF ${number(card.defense)}</span><span>SPD ${number(card.speed)}</span></div>
@@ -136,6 +171,116 @@
       </div>
       <div class="gauge-ring" style="--gauge:${Math.max(0, Math.min(100, card.gauge || 0))}"></div>
     </article>`;
+  }
+
+  function miniCardHtml(card, activeId) {
+    const hpPercent = Math.max(0, Math.min(100, Number(card.hp || 0) / Math.max(1, Number(card.maxHp || 1)) * 100));
+    const shieldPercent = Number(card.maxShield || 0) > 0 ? Math.max(0, Math.min(100, Number(card.shield || 0) / Number(card.maxShield) * 100)) : 0;
+    const gaugePercent = Math.max(0, Math.min(100, Number(card.gauge || 0)));
+    const type = typeKey(card.type);
+    const classes = ['focus-mini-card', `side-${String(card.side).toLowerCase()}`];
+    if (String(card.id) === String(activeId || '')) classes.push('is-active');
+    if (Number(card.hp || 0) <= 0) classes.push('is-ko');
+    return `<div class="${classes.join(' ')}" data-mini-fighter-id="${escapeHtml(card.id)}">
+      <div class="focus-mini-image"><img src="${assetUrl(card.image)}" alt="${escapeHtml(card.title)}" onerror="window.battleV2ImageFallback(this)"><b>${typeIcon(card.type)}</b></div>
+      <div class="focus-mini-info"><strong>${escapeHtml(card.title)}</strong><small>${escapeHtml(card.row === 'FRONT' ? '전열' : '후열')} · ${escapeHtml(card.typeLabel || '균형')}</small>
+        <div class="focus-mini-bars"><i class="mini-hp" style="--value:${hpPercent}%"></i><i class="mini-shield" style="--value:${shieldPercent}%"></i><i class="mini-gauge" style="--value:${gaugePercent}%"></i></div>
+      </div>
+    </div>`;
+  }
+
+  function firstLiving(side, preferredRow = 'FRONT') {
+    const cards = [...state.cards.values()].filter(card => card.side === side && Number(card.hp || 0) > 0);
+    return cards.find(card => card.row === preferredRow) || cards[0] || [...state.cards.values()].find(card => card.side === side) || null;
+  }
+
+  function syncFocusRoster(side) {
+    const root = side === 'A' ? focusRosterA : focusRosterB;
+    if (!root) return;
+    const activeId = side === 'A' ? state.activeAId : state.activeBId;
+    const cards = [...state.cards.values()].filter(card => card.side === side);
+    root.innerHTML = cards.map(card => miniCardHtml(card, activeId)).join('');
+  }
+
+  function syncFocusCard(side) {
+    const root = side === 'A' ? focusSlotA : focusSlotB;
+    if (!root) return;
+    const activeId = side === 'A' ? state.activeAId : state.activeBId;
+    const card = fighterState(activeId) || firstLiving(side);
+    if (!card) {
+      root.innerHTML = '<div class="focus-empty">전투 가능 카드 없음</div>';
+      return;
+    }
+    if (side === 'A') state.activeAId = String(card.id);
+    else state.activeBId = String(card.id);
+    root.innerHTML = cardHtml(card, { focus: true });
+  }
+
+  function syncFocusStage() {
+    if (!state.data || !focusRoot) return;
+    if (!state.activeAId || !fighterState(state.activeAId)) state.activeAId = String(firstLiving('A')?.id || '');
+    if (!state.activeBId || !fighterState(state.activeBId)) state.activeBId = String(firstLiving('B')?.id || '');
+    syncFocusCard('A');
+    syncFocusCard('B');
+    syncFocusRoster('A');
+    syncFocusRoster('B');
+    focusRoot.setAttribute('aria-hidden', isFocusLayout() ? 'false' : 'true');
+  }
+
+  function setActiveDuel(actorId, targetId) {
+    const actor = fighterState(actorId);
+    const target = fighterState(targetId);
+    if (actor?.side === 'A') state.activeAId = String(actor.id);
+    if (actor?.side === 'B') state.activeBId = String(actor.id);
+    if (target?.side === 'A') state.activeAId = String(target.id);
+    if (target?.side === 'B') state.activeBId = String(target.id);
+    if (isFocusLayout()) syncFocusStage();
+  }
+
+  function focusTarget(id) {
+    const card = fighterState(id);
+    if (!card) return;
+    if (card.side === 'A') state.activeAId = String(card.id);
+    else state.activeBId = String(card.id);
+    if (!state.activeAId) state.activeAId = String(firstLiving('A')?.id || '');
+    if (!state.activeBId) state.activeBId = String(firstLiving('B')?.id || '');
+    if (isFocusLayout()) syncFocusStage();
+  }
+
+  function isEmbedded() {
+    try { return window.self !== window.top; }
+    catch { return true; }
+  }
+
+  function resolveLayout() {
+    if (state.requestedLayout && state.requestedLayout !== 'auto') return state.requestedLayout;
+    const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    const height = Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0);
+    if (width <= 760) return width > height ? 'mobile-landscape' : 'mobile-portrait';
+    if (document.fullscreenElement && width >= 1100) return 'desktop';
+    if (isEmbedded()) return 'wago';
+    return 'desktop';
+  }
+
+  function layoutCopy(mode) {
+    if (mode === 'wago') return ['와고 집중 전투', '100% 폭·1750px iframe 기준 · 활성 카드 2장과 양 팀 미니 덱을 동시에 표시'];
+    if (mode === 'mobile-portrait') return ['모바일 세로', '상대 카드 상단 · 내 카드 하단 · 동일한 카드 프레임과 고유효과 유지'];
+    if (mode === 'mobile-landscape') return ['모바일 가로', '활성 카드 좌우 대치 · 미니 덱과 행동 순서 동시 표시'];
+    return ['PC 전체 전장', '10장 전체 배치 · 카드 프레임과 모든 이펙트 유지'];
+  }
+
+  function applyLayout(force = false) {
+    const next = resolveLayout();
+    if (!force && next === state.effectiveLayout) return;
+    state.effectiveLayout = next;
+    shell.classList.remove('layout-desktop', 'layout-wago', 'layout-mobile-portrait', 'layout-mobile-landscape');
+    shell.classList.add(`layout-${next}`);
+    document.body.dataset.battleLayout = next;
+    const [label, detail] = layoutCopy(next);
+    if (layoutBadge) layoutBadge.textContent = label;
+    if (layoutDetail) layoutDetail.textContent = detail;
+    if (focusRoot) focusRoot.setAttribute('aria-hidden', next === 'desktop' ? 'true' : 'false');
+    if (state.data) syncFocusStage();
   }
 
   function cloneCard(card) {
@@ -151,6 +296,8 @@
     const teamA = state.data.teams.A.cards.map(cloneCard);
     const teamB = state.data.teams.B.cards.map(cloneCard);
     [...teamA, ...teamB].forEach(card => state.cards.set(String(card.id), card));
+    state.activeAId = String(firstLiving('A')?.id || '');
+    state.activeBId = String(firstLiving('B')?.id || '');
     document.getElementById('teamFieldA').innerHTML = teamA.map(cardHtml).join('');
     document.getElementById('teamFieldB').innerHTML = teamB.map(cardHtml).join('');
     document.getElementById('teamSummaryA').innerHTML = teamSummaryHtml(state.data.teams.A, 'MY PVP TEAM', 'A');
@@ -158,7 +305,7 @@
     document.getElementById('battleSeed').textContent = `SEED ${state.data.seed}`;
     logList.innerHTML = '';
     progress.textContent = `0 / ${state.data.result.timeline.length}`;
-    message.innerHTML = '<small>TACTICAL BATTLE</small><strong>READY</strong><span>기존 카드 프레임·고유효과 이펙트 연결 완료</span>';
+    setMessage('TACTICAL BATTLE', 'READY', '카드 프레임·고유효과·기기별 전투 표현 준비 완료');
     arena.classList.remove('flash-a', 'flash-b');
     fxRoot.innerHTML = '';
     playButton.disabled = false;
@@ -166,6 +313,8 @@
     rerollButton.disabled = false;
     playButton.textContent = '전투 시작';
     renderOrder(0);
+    applyLayout(true);
+    syncFocusStage();
   }
 
   function renderOrder(cursor) {
@@ -177,12 +326,8 @@
     }).join('') || '<small>행동 순서를 계산하는 중...</small>';
   }
 
-  function updateCard(id, changes = {}) {
-    const card = fighterState(id);
-    if (!card) return null;
-    Object.assign(card, changes);
-    const node = fighterNode(id);
-    if (!node) return card;
+  function updateCardNode(node, card) {
+    if (!node) return;
     const hp = Math.max(0, Number(card.hp ?? card.maxHp));
     const hpPercent = hp / Math.max(1, card.maxHp) * 100;
     const shield = Math.max(0, Number(card.shield || 0));
@@ -194,7 +339,15 @@
     const hpValue = node.querySelector('.hp-value');
     if (hpValue) hpValue.textContent = `${number(hp)} / ${number(card.maxHp)}`;
     node.querySelector('.gauge-ring')?.style.setProperty('--gauge', Math.max(0, Math.min(100, Number(card.gauge || 0))));
-    if (hp <= 0) node.classList.add('is-ko');
+    node.classList.toggle('is-ko', hp <= 0);
+  }
+
+  function updateCard(id, changes = {}) {
+    const card = fighterState(id);
+    if (!card) return null;
+    Object.assign(card, changes);
+    fighterNodes(id).forEach(node => updateCardNode(node, card));
+    syncFocusRoster(card.side);
     return card;
   }
 
@@ -276,7 +429,9 @@
   }
 
   function setMessage(kicker, title, detail) {
-    message.innerHTML = `<small>${escapeHtml(kicker)}</small><strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail)}</span>`;
+    const html = `<small>${escapeHtml(kicker)}</small><strong>${escapeHtml(title)}</strong><span>${escapeHtml(detail)}</span>`;
+    if (message) message.innerHTML = html;
+    if (focusMessage) focusMessage.innerHTML = html;
   }
 
   function addLog(event, text, value = '') {
@@ -293,6 +448,7 @@
     const baseDelay = 650 / speed();
 
     if (event.type === 'START_EFFECT') {
+      focusTarget(event.targetId);
       const target = fighterState(event.targetId);
       updateCard(event.targetId, { shield: event.shieldAfter });
       const node = fighterNode(event.targetId);
@@ -306,6 +462,7 @@
     }
 
     if (event.type === 'REGEN' || event.type === 'EMERGENCY_HEAL' || event.type === 'SURVIVE') {
+      focusTarget(event.targetId);
       const target = fighterState(event.targetId);
       updateCard(event.targetId, { hp: event.hpAfter });
       const node = fighterNode(event.targetId);
@@ -321,6 +478,7 @@
     }
 
     if (event.type === 'TURN' || event.type === 'COUNTER') {
+      setActiveDuel(event.actorId, event.targetId);
       const actor = fighterState(event.actorId);
       const target = fighterState(event.targetId);
       const actorNode = fighterNode(event.actorId);
@@ -366,6 +524,7 @@
     }
 
     if (event.type === 'KO') {
+      focusTarget(event.targetId);
       const target = fighterState(event.targetId);
       updateCard(event.targetId, { hp: 0, gauge: 0 });
       const node = fighterNode(event.targetId);
@@ -456,6 +615,28 @@
     }
   }
 
+  async function enterFullscreen() {
+    try {
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+        return;
+      }
+      const target = document.documentElement;
+      if (!target.requestFullscreen) throw new Error('fullscreen unavailable');
+      await target.requestFullscreen({ navigationUI: 'hide' });
+    } catch {
+      const opened = window.open(location.href, '_blank', 'noopener');
+      if (!opened) setStatus('현재 게시판 iframe에서는 전체화면이 제한됩니다. 독립 화면 버튼을 눌러주세요.', true);
+    }
+  }
+
+  function openIndependent() {
+    const url = new URL(location.href);
+    url.searchParams.set('view', 'independent');
+    const opened = window.open(url.href, '_blank', 'noopener');
+    if (!opened) location.href = url.href;
+  }
+
   playButton.addEventListener('click', () => {
     if (state.cursor >= (state.data?.result?.timeline?.length || 0)) resetBattle();
     void play();
@@ -463,6 +644,32 @@
   replayButton.addEventListener('click', () => { resetBattle(); void play(); });
   rerollButton.addEventListener('click', loadBattle);
   speedSelect.addEventListener('change', () => setStatus(`재생 속도 ${speedSelect.options[speedSelect.selectedIndex].text} · 전투 결과는 변경되지 않습니다.`));
+  layoutSelect.addEventListener('change', () => {
+    state.requestedLayout = layoutSelect.value || 'auto';
+    applyLayout(true);
+    setStatus(`${layoutCopy(state.effectiveLayout)[0]} 표현으로 전환했습니다. 전투 계산과 현재 진행 상태는 그대로 유지됩니다.`);
+  });
+  fullscreenButton.addEventListener('click', () => { void enterFullscreen(); });
+  openWindowButton.addEventListener('click', openIndependent);
+  document.addEventListener('fullscreenchange', () => {
+    fullscreenButton.textContent = document.fullscreenElement ? '전체화면 종료' : '전체화면';
+    clearTimeout(state.resizeTimer);
+    state.resizeTimer = setTimeout(() => applyLayout(true), 80);
+  });
+  window.addEventListener('resize', () => {
+    clearTimeout(state.resizeTimer);
+    state.resizeTimer = setTimeout(() => applyLayout(), 120);
+  }, { passive: true });
+  window.addEventListener('orientationchange', () => {
+    clearTimeout(state.resizeTimer);
+    state.resizeTimer = setTimeout(() => applyLayout(true), 180);
+  }, { passive: true });
 
+  const initialLayout = new URLSearchParams(location.search).get('layout');
+  if (['auto', 'desktop', 'wago', 'mobile-portrait', 'mobile-landscape'].includes(initialLayout || '')) {
+    state.requestedLayout = initialLayout;
+    layoutSelect.value = initialLayout;
+  }
+  applyLayout(true);
   void loadBattle();
 })();

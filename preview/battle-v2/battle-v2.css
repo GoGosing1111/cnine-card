@@ -209,3 +209,179 @@ button { cursor: pointer; }
   .action-order { width: calc(100% - 18px); }
   .order-chip { width: 29px; height: 29px; }
 }
+
+/* v1314 responsive presentation layer */
+.battle-v2-layout-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  margin: -2px 0 14px;
+  padding: 9px 13px;
+  border: 1px solid rgba(122, 206, 255, .17);
+  border-radius: 14px;
+  background: rgba(5, 14, 26, .72);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+.battle-v2-layout-note b {
+  flex: 0 0 auto;
+  color: var(--gold);
+  letter-spacing: .04em;
+}
+.layout-control { margin-left: auto !important; }
+.fullscreen-button { border-color: rgba(164,124,255,.42) !important; background: linear-gradient(135deg,rgba(53,24,92,.94),rgba(18,29,70,.96)) !important; }
+.focus-battle { display: none; position: relative; z-index: 5; width: 100%; min-height: 100%; }
+.focus-duel { position: relative; z-index: 5; display: grid; grid-template-areas: "a message b"; grid-template-columns: minmax(190px, 1fr) minmax(150px, .58fr) minmax(190px, 1fr); align-items: center; gap: 18px; min-height: 600px; padding: 26px 24px 20px; }
+.focus-slot { min-width: 0; display: grid; place-items: center; overflow: visible; }
+.focus-slot-a { grid-area: a; }
+.focus-slot-b { grid-area: b; }
+.focus-message { grid-area: message; }
+.focus-slot .battle-card-v2 { width: min(250px, 100%); height: 388px; }
+.focus-slot .battle-v2-frame-shell { height: 330px; }
+.focus-slot .battle-v2-card-frame.card-frame { width: 232px; height: 330px; }
+.focus-slot .battle-v2-card-frame .card-header { height: 36px; }
+.focus-slot .battle-v2-card-frame .card-header span { font-size: 15px; }
+.focus-slot .battle-v2-card-frame .card-footer { min-height: 66px; }
+.focus-slot .battle-v2-card-frame .card-title { font-size: 15px; }
+.focus-slot .battle-v2-card-frame .card-footer small { max-width: 145px; font-size: 10px; }
+.focus-slot .battle-v2-card-frame .card-mini-logo { width: 32px; }
+.focus-slot .battle-v2-card-frame .card-unique-badge { top: 42px; right: 9px; min-height: 28px; padding: 5px 9px; }
+.focus-slot .battle-v2-card-frame .card-unique-badge b { font-size: 10px; }
+.focus-slot .battle-v2-card-frame .card-unique-badge small { display: inline; max-width: 92px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 8px; opacity: .82; }
+.focus-slot .stat-pills { top: 70px; width: 218px; opacity: 0; }
+.focus-slot .battle-card-v2.is-acting .stat-pills { opacity: .96; }
+.focus-slot .hp-stack { width: 246px; padding: 8px 10px 9px; }
+.focus-slot .hp-caption { font-size: 10px; }
+.focus-slot .hp-track, .focus-slot .shield-track { height: 9px; }
+.focus-slot .gauge-ring { right: 0; bottom: 30px; width: 36px; height: 36px; }
+.focus-slot .gauge-ring::after { width: 24px; height: 24px; }
+.focus-roster { position: relative; z-index: 8; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; padding: 12px 16px; border: 1px solid rgba(122,206,255,.13); border-radius: 18px; background: rgba(2, 9, 18, .78); }
+.focus-roster-b { border-color: rgba(255,95,114,.18); }
+.focus-roster-a { border-color: rgba(99,230,255,.18); }
+.focus-mini-card { position: relative; min-width: 0; height: 74px; display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 9px; align-items: center; padding: 7px; border: 1px solid rgba(255,255,255,.08); border-radius: 12px; background: linear-gradient(145deg,rgba(12,26,44,.96),rgba(4,11,21,.96)); transition: transform .2s ease,border-color .2s ease,filter .2s ease,opacity .2s ease; overflow: hidden; }
+.focus-mini-card.side-a { box-shadow: inset 3px 0 0 rgba(99,230,255,.8); }
+.focus-mini-card.side-b { box-shadow: inset 3px 0 0 rgba(255,95,114,.8); }
+.focus-mini-card.is-active { transform: translateY(-3px); border-color: var(--gold); filter: brightness(1.15); box-shadow: 0 0 20px rgba(255,214,122,.18),inset 3px 0 0 var(--gold); }
+.focus-mini-card.is-ko { opacity: .3; filter: grayscale(1); }
+.focus-mini-image { position: relative; width: 52px; height: 58px; border-radius: 8px; overflow: hidden; border: 2px solid rgba(255,255,255,.16); background: #07111f; }
+.focus-mini-image img { width: 100%; height: 100%; object-fit: cover; }
+.focus-mini-image b { position: absolute; right: 3px; bottom: 3px; display: grid; place-items: center; width: 17px; height: 17px; border-radius: 50%; background: rgba(2,8,16,.88); color: var(--gold); font-size: 9px; }
+.focus-mini-info { min-width: 0; display: grid; gap: 5px; }
+.focus-mini-info strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+.focus-mini-info small { color: #8ea7bd; font-size: 9px; font-weight: 900; }
+.focus-mini-bars { display: grid; gap: 3px; }
+.focus-mini-bars i { display: block; height: 5px; border-radius: 99px; background: rgba(0,0,0,.72); overflow: hidden; }
+.focus-mini-bars i::before { content: ''; display: block; width: var(--value, 0%); height: 100%; transition: width .3s ease; }
+.focus-mini-bars .mini-hp::before { background: linear-gradient(90deg,#18c978,#80f5b8); }
+.focus-mini-bars .mini-shield::before { background: linear-gradient(90deg,#48c4ff,#9a82ff); }
+.focus-mini-bars .mini-gauge::before { background: linear-gradient(90deg,#ffbd4a,#fff09a); }
+
+/* desktop keeps the full 10-card field */
+.layout-desktop .focus-battle { display: none; }
+.layout-desktop .team-field,
+.layout-desktop .desktop-message { display: grid; }
+
+/* WAGo iframe: 100% width / 1750px high, focus on the current duel without reducing effects */
+.layout-wago .battle-v2-shell { width: min(1180px, 100%); padding-top: 20px; }
+.layout-wago .battle-v2-header { margin-bottom: 14px; }
+.layout-wago .battle-v2-header h1 { font-size: clamp(34px, 5vw, 52px); }
+.layout-wago .battle-v2-badges { max-width: 420px; }
+.layout-wago .battle-v2-arena { min-height: 930px; display: block; padding: 76px 18px 20px; }
+.layout-wago .team-field,
+.layout-wago .desktop-message { display: none; }
+.layout-wago .focus-battle { display: grid; grid-template-rows: auto 1fr auto; gap: 12px; }
+.layout-wago .focus-duel { min-height: 690px; }
+.layout-wago .action-order { width: min(760px, calc(100% - 30px)); }
+.layout-wago .battle-v2-lower { grid-template-columns: 1.2fr .8fr; }
+
+/* mobile portrait: current opponent on top, current player on bottom */
+.layout-mobile-portrait .battle-v2-shell { width: 100%; padding: 12px 8px calc(24px + var(--safe-bottom)); }
+.layout-mobile-portrait .battle-v2-header { align-items: flex-start; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+.layout-mobile-portrait .battle-v2-header h1 { font-size: clamp(31px, 11vw, 46px); }
+.layout-mobile-portrait .battle-v2-header span { font-size: 12px; }
+.layout-mobile-portrait .battle-v2-badges { justify-content: flex-start; }
+.layout-mobile-portrait .battle-v2-scoreboard { grid-template-columns: 1fr; }
+.layout-mobile-portrait .team-summary { min-height: 94px; padding: 13px 15px; }
+.layout-mobile-portrait .team-summary dl { grid-template-columns: repeat(4,1fr); gap: 5px; margin-top: 10px; }
+.layout-mobile-portrait .team-summary dd { font-size: 13px; }
+.layout-mobile-portrait .battle-v2-center-mark { min-height: 43px; }
+.layout-mobile-portrait .battle-v2-controls { gap: 7px; padding: 9px; }
+.layout-mobile-portrait .battle-v2-controls button,
+.layout-mobile-portrait .battle-v2-controls .back-main,
+.layout-mobile-portrait .battle-v2-controls select { min-height: 42px; padding: 0 11px; font-size: 12px; }
+.layout-mobile-portrait .battle-v2-controls label { margin-left: 0 !important; width: calc(50% - 4px); display: grid; gap: 4px; font-size: 10px; }
+.layout-mobile-portrait .battle-v2-controls label select { width: 100%; }
+.layout-mobile-portrait .battle-v2-layout-note { align-items: flex-start; flex-direction: column; gap: 4px; }
+.layout-mobile-portrait .battle-v2-arena { min-height: 1110px; display: block; padding: 68px 7px 12px; border-radius: 20px; }
+.layout-mobile-portrait .team-field,
+.layout-mobile-portrait .desktop-message { display: none; }
+.layout-mobile-portrait .focus-battle { display: grid; grid-template-rows: auto 1fr auto; gap: 9px; }
+.layout-mobile-portrait .focus-duel { grid-template-areas: "b" "message" "a"; grid-template-columns: 1fr; grid-template-rows: minmax(350px,auto) auto minmax(350px,auto); gap: 6px; min-height: 860px; padding: 8px 6px; }
+.layout-mobile-portrait .focus-slot .battle-card-v2 { width: min(252px, 82vw); height: 370px; }
+.layout-mobile-portrait .focus-slot .battle-v2-frame-shell { height: 312px; }
+.layout-mobile-portrait .focus-slot .battle-v2-card-frame.card-frame { width: 220px; height: 312px; }
+.layout-mobile-portrait .focus-message { padding: 8px 0; }
+.layout-mobile-portrait .focus-message strong { font-size: 34px; }
+.layout-mobile-portrait .focus-roster { gap: 4px; padding: 7px; border-radius: 13px; }
+.layout-mobile-portrait .focus-mini-card { height: 72px; grid-template-columns: 1fr; gap: 0; padding: 4px; }
+.layout-mobile-portrait .focus-mini-image { width: 100%; height: 46px; }
+.layout-mobile-portrait .focus-mini-info strong,
+.layout-mobile-portrait .focus-mini-info small { display: none; }
+.layout-mobile-portrait .focus-mini-bars { gap: 2px; margin-top: 3px; }
+.layout-mobile-portrait .focus-mini-bars i { height: 3px; }
+.layout-mobile-portrait .action-order { top: 13px; width: calc(100% - 14px); height: 42px; gap: 4px; padding: 4px 8px; }
+.layout-mobile-portrait .order-chip { width: 29px; height: 29px; }
+.layout-mobile-portrait .battle-v2-lower { grid-template-columns: 1fr; }
+.layout-mobile-portrait .battle-v2-explain { min-height: 0; }
+.layout-mobile-portrait #battleV2LogList { max-height: 320px; }
+
+/* mobile landscape: active cards stay left/right and the roster remains below */
+.layout-mobile-landscape .battle-v2-shell { width: 100%; padding: 10px 10px calc(18px + var(--safe-bottom)); }
+.layout-mobile-landscape .battle-v2-header { display: none; }
+.layout-mobile-landscape .battle-v2-status { min-height: 38px; margin-bottom: 8px; padding: 8px 12px; font-size: 11px; }
+.layout-mobile-landscape .battle-v2-scoreboard { display: none; }
+.layout-mobile-landscape .battle-v2-controls { margin-bottom: 8px; padding: 7px; gap: 6px; }
+.layout-mobile-landscape .battle-v2-controls button,
+.layout-mobile-landscape .battle-v2-controls .back-main,
+.layout-mobile-landscape .battle-v2-controls select { min-height: 36px; padding: 0 10px; font-size: 11px; }
+.layout-mobile-landscape .battle-v2-controls label { margin-left: 0 !important; font-size: 10px; }
+.layout-mobile-landscape .battle-v2-layout-note { min-height: 34px; margin-bottom: 8px; padding: 6px 10px; }
+.layout-mobile-landscape .battle-v2-arena { min-height: 620px; display: block; padding: 58px 10px 10px; border-radius: 18px; }
+.layout-mobile-landscape .team-field,
+.layout-mobile-landscape .desktop-message { display: none; }
+.layout-mobile-landscape .focus-battle { display: grid; grid-template-rows: auto 1fr auto; gap: 7px; }
+.layout-mobile-landscape .focus-duel { grid-template-areas: "a message b"; grid-template-columns: minmax(180px,1fr) 140px minmax(180px,1fr); min-height: 455px; gap: 8px; padding: 7px; }
+.layout-mobile-landscape .focus-slot .battle-card-v2 { width: min(205px, 27vw); height: 315px; }
+.layout-mobile-landscape .focus-slot .battle-v2-frame-shell { height: 260px; }
+.layout-mobile-landscape .focus-slot .battle-v2-card-frame.card-frame { width: 184px; height: 260px; }
+.layout-mobile-landscape .focus-slot .battle-v2-card-frame .card-header { height: 29px; }
+.layout-mobile-landscape .focus-slot .battle-v2-card-frame .card-title { font-size: 12px; }
+.layout-mobile-landscape .focus-slot .battle-v2-card-frame .card-footer { min-height: 52px; }
+.layout-mobile-landscape .focus-slot .hp-stack { width: 204px; }
+.layout-mobile-landscape .focus-slot .gauge-ring { width: 30px; height: 30px; bottom: 27px; }
+.layout-mobile-landscape .focus-slot .gauge-ring::after { width: 20px; height: 20px; }
+.layout-mobile-landscape .focus-message strong { font-size: 30px; }
+.layout-mobile-landscape .focus-message span { font-size: 10px; }
+.layout-mobile-landscape .focus-roster { padding: 6px; gap: 5px; }
+.layout-mobile-landscape .focus-mini-card { height: 55px; grid-template-columns: 38px 1fr; padding: 4px; }
+.layout-mobile-landscape .focus-mini-image { width: 38px; height: 43px; }
+.layout-mobile-landscape .focus-mini-info strong { font-size: 9px; }
+.layout-mobile-landscape .focus-mini-info small { display: none; }
+.layout-mobile-landscape .action-order { top: 9px; height: 38px; }
+.layout-mobile-landscape .order-chip { width: 27px; height: 27px; }
+.layout-mobile-landscape .battle-v2-lower { grid-template-columns: 1fr; }
+.layout-mobile-landscape .battle-v2-explain { display: none; }
+
+@media (max-width: 760px) {
+  /* v1314 layout classes own mobile sizing; prevent the legacy 10-card shrink rules from taking over */
+  .layout-mobile-portrait .battle-card-v2,
+  .layout-mobile-landscape .battle-card-v2 { height: auto; }
+  .layout-mobile-portrait .focus-slot .battle-card-v2,
+  .layout-mobile-landscape .focus-slot .battle-card-v2 { height: var(--focus-card-height, 370px); }
+  .layout-mobile-portrait .focus-slot .battle-card-v2 { --focus-card-height: 370px; }
+  .layout-mobile-landscape .focus-slot .battle-card-v2 { --focus-card-height: 315px; }
+  .layout-mobile-portrait .focus-slot .stat-pills,
+  .layout-mobile-landscape .focus-slot .stat-pills { display: grid; }
+}
