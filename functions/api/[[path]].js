@@ -62,7 +62,7 @@ const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450,528,61
 const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:1,rate:100,retirementShardRefund:0},{cost:1,rate:100,retirementShardRefund:0},{cost:1,rate:100,retirementShardRefund:0}]};
 let maMasterStarBreakthroughCache=null;
 let recentHighGradeCache=null;
-let recentPremiumCubeCache=null;
+let recentEquipmentFeedCache=null;
 const runtimeSettingsCache=new Map();
 async function cachedRuntimeSetting(key,ttlMs,loader){
   const now=Date.now(),cached=runtimeSettingsCache.get(key);
@@ -2311,17 +2311,25 @@ async function recentHighGradeItems(env){
   recentHighGradeCache={promise,expiresAt:now+60000};
   return promise;
 }
-async function recentPremiumCubeItems(env){
+async function recentMythicEquipmentItems(env){
   const now=Date.now();
-  if(recentPremiumCubeCache&&recentPremiumCubeCache.expiresAt>now)return recentPremiumCubeCache.promise;
-  const promise=env.DB.prepare(`SELECT u.nickname,l.created_at,l.reference_type AS source
-    FROM inventory_logs l INDEXED BY idx_inventory_logs_premium_feed JOIN users u ON u.id=l.user_id
-    WHERE l.item_code='PREMIUM_CUBE' AND l.change_amount>0 AND l.reason IN ('BATTLE_CUBE_DROP','WEEKLY_PREMIUM_CUBE')
-      AND l.reference_type IN ('PVE','TOWER','PVP','CAPTAIN') AND u.status='ACTIVE'
-    ORDER BY l.id DESC LIMIT 20`).all()
+  if(recentEquipmentFeedCache&&recentEquipmentFeedCache.expiresAt>now)return recentEquipmentFeedCache.promise;
+  // 실시간 소식 때문에 장비 전체를 읽지 않도록 최근 획득 20,000건만 PK 역순으로 제한한 뒤 신화 장비를 추린다.
+  // 현재 장비 등급 체계에서 MYTHIC이 최고 등급이며, 신화 미만 장비는 메인 획득 소식에 노출하지 않는다.
+  const promise=ensureEquipmentFoundation(env)
+    .then(()=>env.DB.prepare(`SELECT u.nickname,e.name AS equipment_name,e.rarity,recent.acquired_at AS created_at,recent.source_type AS source
+      FROM (
+        SELECT id,user_id,equipment_id,source_type,acquired_at
+        FROM user_equipment_instances
+        ORDER BY id DESC LIMIT 20000
+      ) recent
+      JOIN users u ON u.id=recent.user_id
+      JOIN character_equipment_items e ON e.id=recent.equipment_id
+      WHERE UPPER(e.rarity)='MYTHIC' AND u.status='ACTIVE'
+      ORDER BY recent.id DESC LIMIT 20`).all())
     .then(rows=>rows.results||[])
-    .catch(error=>{if(recentPremiumCubeCache?.promise===promise)recentPremiumCubeCache=null;throw error});
-  recentPremiumCubeCache={promise,expiresAt:now+60000};
+    .catch(error=>{if(recentEquipmentFeedCache?.promise===promise)recentEquipmentFeedCache=null;throw error});
+  recentEquipmentFeedCache={promise,expiresAt:now+60000};
   return promise;
 }
 let cardAcquisitionGradeFxCache=null;
@@ -2768,11 +2776,11 @@ export async function onRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       // 이 경로는 전역 업그레이드 게이트보다 먼저 처리되므로 신규 인덱스를 선행 보장한다.
       await ensureD1HotpathIndexes(env);
-      const [inventory,highGrade,premiumCube]=await Promise.all([
+      const [inventory,highGrade,equipment]=await Promise.all([
         env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
-        recentHighGradeItems(env),recentPremiumCubeItems(env)
+        recentHighGradeItems(env),recentMythicEquipmentItems(env)
       ]);
-      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},highGradeItems:highGrade,premiumCubeItems:premiumCube,serverNow:new Date().toISOString()});
+      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},highGradeItems:highGrade,equipmentItems:equipment,serverNow:new Date().toISOString()});
     }
     await ensureRuntimeUpgrades(env);
 
@@ -4413,8 +4421,8 @@ export async function onRequest(context){
     if(path==='recent-high-grade'){
       return json({items:await recentHighGradeItems(env)});
     }
-    if(path==='recent-premium-cube'){
-      return json({items:await recentPremiumCubeItems(env)});
+    if(path==='recent-equipment'){
+      return json({items:await recentMythicEquipmentItems(env)});
     }
     if(path==='ranking'){
       const settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;

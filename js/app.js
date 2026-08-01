@@ -493,7 +493,7 @@ function summaryBar(user) {
     <div class="summary-card currency-summary"><span class="summary-label">보유 재화</span><div class="currency-list"><div class="currency-row coin"><i>◇</i><span>코인</span><b>${coin}</b></div><div class="currency-row shard"><i>✣</i><span>카드 조각</span><b>${shards}</b></div><div class="currency-row crystal"><i>✦</i><span>마법 결정</span><b>${crystals}</b></div></div></div>
     <div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>
     <button type="button" class="summary-card inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><small class="summary-label">보관함</small><b>인벤토리</b><em id="inventorySummaryMeta">보유 내역 확인</em></span><strong id="inventorySummaryBadge" hidden>NEW</strong></button>
-  </section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">MA 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 MA 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed premium-cube-feed" aria-live="polite"><span class="high-grade-label premium-cube-label">프리미엄 큐브 소식</span><div class="high-grade-viewport"><div id="premiumCubeTrack" class="high-grade-track premium-cube-track"><span class="high-grade-empty">최근 프리미엄 큐브 획득 기록을 불러오는 중...</span></div></div></section>`;
+  </section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">MA 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 MA 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed equipment-feed" aria-live="polite"><span class="high-grade-label equipment-feed-label">신화 장비 획득 소식</span><div class="high-grade-viewport"><div id="equipmentAcquisitionTrack" class="high-grade-track equipment-feed-track"><span class="high-grade-empty">최근 신화 장비 획득 기록을 불러오는 중...</span></div></div></section>`;
 }
 
 async function loadShellSummary(){
@@ -506,8 +506,8 @@ async function loadShellSummary(){
     if(badge){badge.hidden=!Number(inventory.unseenTotal);badge.textContent=Number(inventory.unseenTotal)>99?'99+':`NEW ${Number(inventory.unseenTotal||0)}`}
     const highTrack=document.getElementById('highGradeTrack'),highItems=Array.isArray(d.highGradeItems)?d.highGradeItems:[];
     if(highTrack){if(!highItems.length)highTrack.innerHTML='<span class="high-grade-empty">아직 MA 등급 이상 획득 기록이 없습니다.</span>';else{const messages=highItems.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');highTrack.innerHTML=messages+messages;highTrack.classList.toggle('static',highItems.length===1)}}
-    const cubeTrack=document.getElementById('premiumCubeTrack'),cubeItems=Array.isArray(d.premiumCubeItems)?d.premiumCubeItems:[];
-    if(cubeTrack){if(!cubeItems.length)cubeTrack.innerHTML='<span class="high-grade-empty">아직 프리미엄 큐브 획득 기록이 없습니다.</span>';else{const messages=cubeItems.map(item=>`<span class="high-grade-item premium-cube-item"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>프리미엄 큐브</strong>를 획득했습니다.<em>${escapeHtml(item.source||'PVE')}</em></span>`).join('');cubeTrack.innerHTML=messages+messages;cubeTrack.classList.toggle('static',cubeItems.length===1)}}
+    const equipmentTrack=document.getElementById('equipmentAcquisitionTrack'),equipmentItems=Array.isArray(d.equipmentItems)?d.equipmentItems:[];
+    if(equipmentTrack){if(!equipmentItems.length)equipmentTrack.innerHTML='<span class="high-grade-empty">아직 신화 등급 장비 획득 기록이 없습니다.</span>';else{const messages=equipmentItems.map(item=>`<span class="high-grade-item equipment-feed-item rarity-mythic"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.equipment_name)} [신화]</strong> 장비를 획득했습니다.<em>${escapeHtml(equipmentFeedSourceLabel(item.source))}</em></span>`).join('');equipmentTrack.innerHTML=messages+messages;equipmentTrack.classList.toggle('static',equipmentItems.length===1)}}
   }catch(error){console.warn('공통 화면 요약 조회 실패:',error)}
 }
 
@@ -527,18 +527,23 @@ async function loadRecentHighGradeFeed(){
   }catch(error){track.innerHTML='<span class="high-grade-empty">획득 소식을 불러오지 못했습니다.</span>';}
 }
 
-async function loadRecentPremiumCubeFeed(){
-  const track=document.getElementById('premiumCubeTrack');
+function equipmentFeedSourceLabel(source){
+  const key=String(source||'').trim().toUpperCase();
+  return ({SUPPLY_BOX:'장비상자',ADMIN:'관리자 지급',PVE:'PVE',PVE_AUTO:'자동전투',TOWER:'무한의탑',RAID:'레이드',RIFT:'균열',PVP:'PVP',CAPTAIN:'대장전'}[key]||key||'장비 획득');
+}
+
+async function loadRecentEquipmentFeed(){
+  const track=document.getElementById('equipmentAcquisitionTrack');
   if(!track)return;
-  if(!API_MODE){track.innerHTML='<span class="high-grade-empty">현재는 실시간 큐브 소식을 불러올 수 없습니다.</span>';return;}
+  if(!API_MODE){track.innerHTML='<span class="high-grade-empty">현재는 실시간 장비 소식을 불러올 수 없습니다.</span>';return;}
   try{
-    const data=await apiRequest('recent-premium-cube',{}, {ttl:1000});
+    const data=await apiRequest('recent-equipment',{}, {ttl:1000});
     const items=Array.isArray(data.items)?data.items:[];
-    if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 프리미엄 큐브 획득 기록이 없습니다.</span>';return;}
-    const messages=items.map(item=>`<span class="high-grade-item premium-cube-item"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>프리미엄 큐브</strong>를 획득했습니다.<em>${escapeHtml(item.source||'PVE')}</em></span>`).join('');
+    if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 신화 등급 장비 획득 기록이 없습니다.</span>';return;}
+    const messages=items.map(item=>`<span class="high-grade-item equipment-feed-item rarity-mythic"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.equipment_name)} [신화]</strong> 장비를 획득했습니다.<em>${escapeHtml(equipmentFeedSourceLabel(item.source))}</em></span>`).join('');
     track.innerHTML=messages+messages;
     track.classList.toggle('static',items.length===1);
-  }catch(error){track.innerHTML='<span class="high-grade-empty">큐브 획득 소식을 불러오지 못했습니다.</span>';}
+  }catch(error){track.innerHTML='<span class="high-grade-empty">장비 획득 소식을 불러오지 못했습니다.</span>';}
 }
 
 function packImagePath(pack) {
@@ -2014,7 +2019,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':60000,'shell/summary':30000,'recent-high-grade':30000,'recent-premium-cube':30000};
+const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':60000,'shell/summary':30000,'recent-high-grade':30000,'recent-equipment':30000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
 const STARTUP_REQUEST_TIMEOUT=10000;
