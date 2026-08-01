@@ -48,7 +48,7 @@ function uniquePercent(effect, key) {
   return clamp(effect?.[key] ?? 0, -90, key === 'speedPercent' ? 300 : 500);
 }
 
-function distributeEquipment(cards = [], equipmentBonus = 0) {
+export function distributeEquipment(cards = [], equipmentBonus = 0) {
   const total = cards.reduce((sum, card) => sum + Math.max(0, Number(card.power || 0)), 0);
   let assigned = 0;
   return cards.map((card, index) => {
@@ -60,7 +60,7 @@ function distributeEquipment(cards = [], equipmentBonus = 0) {
   });
 }
 
-function buildFighter(card, index, side, uniqueAbility = null) {
+export function buildFighter(card, index, side, uniqueAbility = null) {
   const type = normalizeType(card, uniqueAbility);
   const profile = STAT_PROFILES[type];
   const power = Math.max(1, Number(card.effectivePower || card.power || 1));
@@ -120,7 +120,7 @@ function buildFighter(card, index, side, uniqueAbility = null) {
   };
 }
 
-function publicFighter(fighter) {
+export function publicFighter(fighter) {
   const {
     emergencyUsed, survivalUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone,
     ...card
@@ -227,7 +227,7 @@ function resolveKnockout(target, timeline, clock) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxActions = 80 } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxActions = 80, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0 } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
@@ -246,6 +246,42 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
         label: '방어형 · 선봉 방벽'
       });
     }
+  }
+
+  const openingUltimate = Math.max(0, Math.round(Number(openingPlayerUltimateDamage || 0)));
+  if (openingUltimate > 0 && alive(b).length) {
+    const target = alive(b)[0];
+    const damageState = applyDamage(target, openingUltimate);
+    pushEvent(timeline, clock + 0.0001, 'PVE_ULTIMATE', {
+      targetId: target.id,
+      damage: damageState.hpDamage,
+      absorbed: damageState.absorbed,
+      targetHpAfter: target.hp,
+      targetMaxHp: target.maxHp,
+      targetShieldAfter: target.shield
+    });
+    resolveKnockout(target, timeline, clock + 0.0002);
+  }
+
+  const bossOpeningPercent = clamp(openingBossUltimatePercent, 0, 100);
+  if (bossOpeningPercent > 0 && alive(a).length && alive(b).length) {
+    const hits = [];
+    const damagedTargets = [...alive(a)];
+    for (const target of damagedTargets) {
+      const amount = Math.max(1, Math.round(target.maxHp * bossOpeningPercent / 100));
+      const damageState = applyDamage(target, amount);
+      hits.push({
+        targetId: target.id,
+        damage: damageState.hpDamage,
+        absorbed: damageState.absorbed,
+        targetHpAfter: target.hp,
+        targetMaxHp: target.maxHp,
+        targetShieldAfter: target.shield
+      });
+    }
+    pushEvent(timeline, clock + 0.0003, 'BOSS_ULTIMATE', { damagePercent: bossOpeningPercent, hits });
+    for (const target of damagedTargets) resolveKnockout(target, timeline, clock + 0.0004);
+    maybeFrontlineBreak(a, 'A', timeline, clock + 0.0005);
   }
 
   while (alive(a).length && alive(b).length && actionCount < maxActions) {
@@ -364,7 +400,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
   };
 }
 
-function teamSummary(cards = []) {
+export function teamSummary(cards = []) {
   return {
     power: cards.reduce((sum, card) => sum + Number(card.power || 0), 0),
     basePower: cards.reduce((sum, card) => sum + Number(card.basePower || 0), 0),
@@ -373,6 +409,51 @@ function teamSummary(cards = []) {
     attack: cards.reduce((sum, card) => sum + Number(card.attack || 0), 0),
     defense: cards.reduce((sum, card) => sum + Number(card.defense || 0), 0),
     averageSpeed: cards.length ? Math.round(cards.reduce((sum, card) => sum + Number(card.speed || 0), 0) / cards.length) : 0
+  };
+}
+
+export function buildMonsterFighter(monster = {}) {
+  const power = Math.max(1, Number(monster.battle_power ?? monster.battlePower ?? monster.power ?? 1));
+  const isBoss = Number(monster.is_boss ?? monster.isBoss ?? 0) === 1 || monster.isBoss === true;
+  const maxHp = Math.max(500, Math.round(power * (isBoss ? 4.6 : 4.0)));
+  const attack = Math.max(20, Math.round(power * (isBoss ? 0.205 : 0.175)));
+  const defense = Math.max(1, Math.round(power * (isBoss ? 0.105 : 0.082)));
+  const speed = Math.max(55, Math.round(isBoss ? 104 : 92));
+  return {
+    id: `B:0:MONSTER:${String(monster.id || 0)}`,
+    cardId: `MONSTER:${String(monster.id || 0)}`,
+    side: 'B', slot: 0, row: 'FRONT',
+    title: String(monster.name || 'MONSTER'), memberName: '',
+    grade: isBoss ? 'BOSS' : 'MONSTER', image: String(monster.image_url || monster.image || ''),
+    focusX: 50, focusY: 50, breakthroughLevel: 0,
+    basePower: Math.round(power), equipmentShare: 0, power: Math.round(power),
+    type: 'NONE', typeLabel: isBoss ? '보스' : '몬스터', uniqueAbility: null,
+    maxHp, hp: maxHp, attack, defense, speed, shield: 0, maxShield: 0, gauge: isBoss ? 12 : 4,
+    alive: true, emergencyUsed: false, survivalUsed: false, frontlineAnnounced: false,
+    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss
+  };
+}
+
+export function createPveBattleV2({ cards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0 } = {}) {
+  const withBonus = distributeEquipment(cards, Math.max(0, Number(characterBonus || 0)));
+  const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null));
+  const teamB = [buildMonsterFighter(monster)];
+  const result = simulateBattleV2Preview({
+    teamA, teamB, seed, maxActions: 90,
+    openingPlayerUltimateDamage: ultimateDamage,
+    openingBossUltimatePercent: bossUltimatePercent
+  });
+  return {
+    schemaVersion: 2,
+    engine: 'BATTLE_ENGINE_V2',
+    playbackSpeed: 1.6,
+    seed: Number(seed) >>> 0,
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, dbTimelineWrites: 0 },
+    teams: {
+      A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
+      B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
+    },
+    result
   };
 }
 
@@ -455,6 +536,7 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
   return deps.json({
     preview: true,
     schemaVersion: 2,
+    playbackSpeed: 1.6,
     engine: 'BATTLE_ENGINE_V2_PREVIEW',
     persistence: 'NONE',
     seed,

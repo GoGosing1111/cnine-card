@@ -41,7 +41,7 @@
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[ch]));
   const number = value => Math.round(Number(value || 0)).toLocaleString();
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-  const speed = () => Math.max(.5, Number(speedSelect.value || 1));
+  const speed = () => 1.6;
 
   function encodePathPart(part) {
     if (!part) return '';
@@ -643,7 +643,7 @@
   });
   replayButton.addEventListener('click', () => { resetBattle(); void play(); });
   rerollButton.addEventListener('click', loadBattle);
-  speedSelect.addEventListener('change', () => setStatus(`재생 속도 ${speedSelect.options[speedSelect.selectedIndex].text} · 전투 결과는 변경되지 않습니다.`));
+  if (speedSelect) { speedSelect.value = '1.6'; speedSelect.disabled = true; }
   layoutSelect.addEventListener('change', () => {
     state.requestedLayout = layoutSelect.value || 'auto';
     applyLayout(true);

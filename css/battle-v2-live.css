@@ -1,0 +1,77 @@
+/* v1315 · 일반 PVE 전투엔진 V2 실전 화면 전용. 기존 전투 화면에는 영향 없음. */
+.pve-v2-live-badge{display:inline-flex;align-items:center;gap:7px;margin-top:9px;padding:7px 10px;border:1px solid rgba(177,103,255,.55);border-radius:999px;background:linear-gradient(120deg,rgba(11,5,22,.96),rgba(74,25,120,.88));box-shadow:0 0 22px rgba(147,61,255,.22);color:#eadcff;font-size:10px;font-weight:1000;letter-spacing:.08em}
+.pve-v2-live-badge i{width:7px;height:7px;border-radius:50%;background:#c777ff;box-shadow:0 0 10px #a43cff;animation:pveV2BadgePulse 1.25s ease-in-out infinite}
+.pve-v2-live-badge small{color:#bfa7d7;font-size:8px;letter-spacing:.03em}
+@keyframes pveV2BadgePulse{50%{opacity:.45;transform:scale(.72)}}
+
+.battle-stage.pve-v2-live{--v2-purple:#b76cff;--v2-blue:#54dcff;--v2-hp:#4ee27d;--v2-shield:#64c8ff;--v2-gauge:#d879ff;background:#040711}
+.battle-stage.pve-v2-live .battle-backdrop{background:radial-gradient(circle at 50% 44%,rgba(91,35,151,.40),transparent 35%),radial-gradient(circle at 72% 45%,rgba(255,72,44,.17),transparent 28%),linear-gradient(180deg,#080917 0%,#10142a 48%,#03050b 100%)}
+.battle-stage.pve-v2-live .battle-backdrop:after{background:linear-gradient(90deg,transparent 49.8%,rgba(193,120,255,.12) 50%,transparent 50.2%),repeating-linear-gradient(115deg,transparent 0 45px,rgba(123,80,255,.035) 46px 47px)}
+.battle-stage.pve-v2-live .battle-topline span{color:#cfadff;text-shadow:0 0 14px rgba(165,80,255,.55)}
+.battle-stage.pve-v2-live .battle-vs-mark{color:#e7c6ff;text-shadow:0 0 12px #9f4eff,0 0 34px #5c1ea8}
+.battle-stage.pve-v2-live .battle-arena{inset:82px 22px 148px;grid-template-columns:minmax(0,1fr) 112px minmax(0,1fr);overflow:visible}
+.battle-stage.pve-v2-live .battle-side{overflow:visible}
+.battle-stage.pve-v2-live .battle-team{overflow:visible;padding:0 0 54px}
+.battle-stage.pve-v2-live .battle-card-fighter{overflow:visible!important}
+.battle-stage.pve-v2-live .pve-v2-fighter,.battle-stage.pve-v2-live .pve-v2-monster{opacity:1;transform:none}
+.battle-stage.pve-v2-live .battle-card-fighter>.battle-fighter-card{position:relative;z-index:2;width:100%;height:100%;overflow:hidden!important}
+.battle-stage.pve-v2-live .pve-v2-fighter:before,.battle-stage.pve-v2-live .pve-v2-monster:before{content:"";position:absolute;z-index:9;inset:-7px;border:2px solid transparent;border-radius:19px;pointer-events:none;transition:.18s ease}
+.battle-stage.pve-v2-live .pve-v2-fighter.v2-active:before,.battle-stage.pve-v2-live .pve-v2-monster.v2-active:before{border-color:#c67cff;box-shadow:0 0 15px #b058ff,0 0 34px rgba(123,43,226,.62)}
+.battle-stage.pve-v2-live .pve-v2-fighter.v2-target:before,.battle-stage.pve-v2-live .pve-v2-monster.v2-target:before{border-color:#ff8c68;box-shadow:0 0 15px #ff5a32,0 0 30px rgba(255,64,31,.50)}
+.battle-stage.pve-v2-live .pve-v2-fighter.v2-hit>.battle-fighter-card,.battle-stage.pve-v2-live .pve-v2-monster.v2-hit{animation:pveV2Hit .24s 2}
+.battle-stage.pve-v2-live .pve-v2-fighter.v2-dodge{animation:pveV2Dodge .42s ease}
+.battle-stage.pve-v2-live .pve-v2-fighter.v2-ko>.battle-fighter-card,.battle-stage.pve-v2-live .pve-v2-monster.v2-ko{filter:grayscale(.9) brightness(.33);opacity:.48;transform:translateY(12px) scale(.94)!important;transition:.35s ease}
+.battle-stage.pve-v2-live .pve-v2-fighter.v2-ko:after,.battle-stage.pve-v2-live .pve-v2-monster.v2-ko:after{content:"K.O.";position:absolute;z-index:18;left:50%;top:47%;transform:translate(-50%,-50%) rotate(-8deg);padding:4px 8px;border:2px solid #ff405e;border-radius:5px;background:rgba(23,2,7,.9);color:#fff;font-size:14px;font-weight:1000;letter-spacing:.12em;text-shadow:0 0 9px #ff234e}
+.battle-stage.pve-v2-live .pve-v2-fighter.v2-low-hp>.battle-fighter-card{box-shadow:0 0 18px rgba(255,54,82,.7)!important;animation:pveV2LowHp .8s ease-in-out infinite alternate}
+.battle-stage.pve-v2-live.v2-frontline-break:after{content:"FRONTLINE BREAK";position:absolute;z-index:24;left:50%;top:45%;transform:translate(-50%,-50%);padding:10px 22px;border-top:1px solid #e6bcff;border-bottom:1px solid #e6bcff;background:linear-gradient(90deg,transparent,rgba(80,20,126,.92),transparent);color:#fff;font-size:clamp(17px,3vw,32px);font-weight:1000;letter-spacing:.16em;text-shadow:0 0 20px #a63cff;animation:pveV2Break .45s ease both}
+
+.pve-v2-card-hud{position:absolute;z-index:12;left:-5px;right:-5px;top:calc(100% + 5px);padding:5px 6px 6px;border:1px solid rgba(151,115,203,.48);border-radius:8px;background:linear-gradient(180deg,rgba(10,9,25,.96),rgba(3,5,12,.98));box-shadow:0 7px 16px rgba(0,0,0,.38);pointer-events:none}
+.pve-v2-card-head{display:flex;justify-content:space-between;gap:5px;margin-bottom:4px;color:#d7c9e8;font-size:7px;line-height:1.1;white-space:nowrap}
+.pve-v2-card-head b{overflow:hidden;color:#e7c8ff;text-overflow:ellipsis}
+.pve-v2-card-head span{color:#c8eaff;font-variant-numeric:tabular-nums}
+.pve-v2-card-hp,.pve-v2-card-shield,.pve-v2-card-gauge{position:relative;height:5px;margin-top:3px;overflow:hidden;border-radius:999px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.pve-v2-card-hp i,.pve-v2-card-shield i,.pve-v2-card-gauge i{display:block;width:0;height:100%;border-radius:inherit;transition:width .25s ease}
+.pve-v2-card-hp i{background:linear-gradient(90deg,#159644,#59ee87);box-shadow:0 0 8px rgba(75,231,124,.65)}
+.pve-v2-card-shield i{background:linear-gradient(90deg,#287bc8,#71d7ff);box-shadow:0 0 8px rgba(80,196,255,.72)}
+.pve-v2-card-gauge i{background:linear-gradient(90deg,#7040bb,#dc78ff);box-shadow:0 0 8px rgba(192,91,255,.65)}
+
+.battle-stage.pve-v2-live .pve-v2-monster{position:relative;overflow:visible!important}
+.battle-stage.pve-v2-live .pve-v2-monster .battle-enemy-visual{overflow:hidden}
+.pve-v2-monster-stats{display:grid;grid-template-columns:repeat(2,auto);justify-content:center;gap:3px 9px;margin-top:7px;color:#d4c4e6;font-size:8px;font-weight:800;letter-spacing:.04em}
+.pve-v2-monster-stats span:first-child{color:#77ef9a}
+.pve-v2-monster-stats span:nth-child(2){color:#ff9e82}
+.pve-v2-monster-stats span:nth-child(3){color:#88d5ff}
+.pve-v2-monster-stats span:nth-child(4){color:#df9aff}
+.battle-stage.pve-v2-live .battle-hp-head span{font-variant-numeric:tabular-nums}
+.battle-stage.pve-v2-live .battle-hp-track>i{transition:width .28s ease}
+
+@keyframes pveV2Hit{50%{transform:translateX(8px) scale(.97);filter:brightness(1.9) saturate(1.6)}}
+@keyframes pveV2Dodge{35%{transform:translateX(-34px) skewX(-8deg);opacity:.25}70%{transform:translateX(12px);opacity:.75}}
+@keyframes pveV2LowHp{to{filter:drop-shadow(0 0 8px rgba(255,40,73,.82))}}
+@keyframes pveV2Break{0%{opacity:0;transform:translate(-50%,-50%) scaleX(.3)}60%{opacity:1;transform:translate(-50%,-50%) scaleX(1.08)}100%{transform:translate(-50%,-50%) scaleX(1)}}
+
+@media(max-width:800px){
+  .battle-stage.pve-v2-live .battle-arena{top:86px!important;bottom:103px!important;left:4px!important;right:4px!important;grid-template-columns:minmax(0,1fr) 34px minmax(0,1fr)!important;gap:1px!important}
+  .battle-stage.pve-v2-live .battle-team{padding-bottom:27px!important}
+  .battle-stage.pve-v2-live .battle-side .battle-card-fighter{overflow:visible!important}
+  .battle-stage.pve-v2-live .pve-v2-fighter:before{inset:-3px;border-radius:11px}
+  .pve-v2-card-hud{left:-2px;right:-2px;top:calc(100% + 2px);padding:2px 2px 3px;border-radius:5px}
+  .pve-v2-card-head{margin-bottom:1px;font-size:4.8px;gap:1px}
+  .pve-v2-card-head b{max-width:58%}
+  .pve-v2-card-hp,.pve-v2-card-shield,.pve-v2-card-gauge{height:3px;margin-top:1px}
+  .pve-v2-monster-stats{grid-template-columns:repeat(2,auto);gap:2px 4px;margin-top:3px;font-size:5.5px}
+  .battle-stage.pve-v2-live .pve-v2-monster:before{inset:-4px;border-radius:13px}
+  .battle-stage.pve-v2-live .pve-v2-fighter.v2-ko:after{padding:2px 3px;font-size:7px}
+  .battle-stage.pve-v2-live.v2-frontline-break:after{padding:7px 10px;font-size:14px}
+  .pve-v2-live-badge{max-width:100%;flex-wrap:wrap;padding:6px 8px;font-size:8px}
+  .pve-v2-live-badge small{font-size:7px}
+}
+
+@media(max-width:430px){
+  .battle-stage.pve-v2-live .battle-arena{top:80px!important;bottom:92px!important}
+  .pve-v2-card-head b{display:none}
+  .pve-v2-card-head{justify-content:center;font-size:4.5px}
+  .pve-v2-card-hud{padding-top:1px}
+  .battle-stage.pve-v2-live .battle-message>strong{font-size:34px}
+  .battle-stage.pve-v2-live .battle-message>span{font-size:9px}
+}
