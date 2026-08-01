@@ -185,7 +185,7 @@ function lowestRatioTarget(pool, random) {
 
 function healerPenaltyForTeam(team = []) {
   const healerCount = team.filter(card => card.type === 'HP').length;
-  const reductionPercent = healerCount >= 5 ? 70 : healerCount === 4 ? 60 : healerCount === 3 ? 45 : healerCount === 2 ? 30 : 0;
+  const reductionPercent = healerCount >= 5 ? 90 : healerCount === 4 ? 85 : healerCount === 3 ? 75 : healerCount === 2 ? 60 : 0;
   return { healerCount, reductionPercent, multiplier: 1 - reductionPercent / 100 };
 }
 
@@ -215,7 +215,7 @@ function maybeFrontlineBreak(team, side, timeline, clock) {
 
 function resolveKnockout(target, timeline, clock) {
   if (target.hp > 0 || !target.alive) return false;
-  if (target.type === 'HP' && !target.survivalUsed) {
+  if (target.type === 'HP' && Number(target.teamHealerCount || 0) < 2 && !target.survivalUsed) {
     target.survivalUsed = true;
     target.hp = Math.max(1, Math.round(target.maxHp * 0.12));
     pushEvent(timeline, clock, 'SURVIVE', {
@@ -241,6 +241,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
   let clock = 0;
   let actionCount = 0;
   const healerRules = healerPenalty ? { A: healerPenaltyForTeam(a), B: healerPenaltyForTeam(b) } : { A: { healerCount: 0, reductionPercent: 0, multiplier: 1 }, B: { healerCount: 0, reductionPercent: 0, multiplier: 1 } };
+  for (const fighter of a) fighter.teamHealerCount = healerRules.A.healerCount;
+  for (const fighter of b) fighter.teamHealerCount = healerRules.B.healerCount;
 
   for (const fighter of [...a, ...b]) {
     fighter.gauge = clamp(Number(fighter.gauge || 0) + random() * 8, 0, 99);
@@ -478,7 +480,7 @@ export function createPveBattleV2({ cards = [], characterBonus = 0, monster = {}
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.6,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 120, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 30, 3: 45, 4: 60, 5: 70 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_ONLY', dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 120, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
@@ -518,8 +520,8 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       actionMode: 'SPEED_GAUGE',
       damageCapPercent: 46,
       drawRule: 'POWER_THEN_ATTACKER',
-      healerDuplicatePenalty: { 2: 30, 3: 45, 4: 60, 5: 70 },
-      healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_ONLY',
+      healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 },
+      healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED',
       dbTimelineWrites: 0
     },
     teams: {
@@ -619,7 +621,7 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
       formation: 'FRONT_2_BACK_3',
       actionMode: 'SPEED_GAUGE',
       damageCapPercent: 46,
-      healerDuplicatePenalty: { 2: 30, 3: 45, 4: 60, 5: 70 },
+      healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 },
       dbWrites: 0
     },
     player: { id: Number(user.id), nickname: String(user.nickname || 'PLAYER') },
