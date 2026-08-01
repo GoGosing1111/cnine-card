@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#07111f">
+  <title>숲켓몬 전투엔진 V2 프리뷰</title>
+  <link rel="stylesheet" href="./battle-v2.css?v=1312">
+</head>
+<body>
+  <main id="battleV2App" class="battle-v2-shell">
+    <header class="battle-v2-header">
+      <div>
+        <p>SOOPKETMON · IMPLEMENTATION PREVIEW</p>
+        <h1>전투엔진 V2</h1>
+        <span>실제 PvP 덱 · 장비 PVP 전투력 · 카드 고유효과를 서버에서 계산합니다.</span>
+      </div>
+      <div class="battle-v2-badges">
+        <b>DB WRITE 0</b><b>HP POWER SCALE</b><b>2 FRONT · 3 BACK</b>
+      </div>
+    </header>
+
+    <section id="battleV2Status" class="battle-v2-status">전투 데이터를 불러오는 중...</section>
+
+    <section class="battle-v2-scoreboard">
+      <article class="team-summary team-a" id="teamSummaryA"></article>
+      <div class="battle-v2-center-mark"><span>ENGINE V2</span><strong>VS</strong><small id="battleSeed">SEED -</small></div>
+      <article class="team-summary team-b" id="teamSummaryB"></article>
+    </section>
+
+    <section class="battle-v2-controls">
+      <button type="button" id="battleV2Play" class="primary">전투 시작</button>
+      <button type="button" id="battleV2Replay">다시 재생</button>
+      <button type="button" id="battleV2Reroll">새 전투 계산</button>
+      <label>재생 속도
+        <select id="battleV2Speed">
+          <option value="1">1배</option>
+          <option value="1.6" selected>1.6배</option>
+          <option value="2.5">2.5배</option>
+        </select>
+      </label>
+      <a href="/" class="back-main">메인으로</a>
+    </section>
+
+    <section id="battleV2Arena" class="battle-v2-arena" aria-live="polite">
+      <div class="arena-glow"></div>
+      <div class="action-order" id="battleV2Order"></div>
+      <div class="team-field team-field-a" id="teamFieldA"></div>
+      <div class="battle-v2-message" id="battleV2Message"><small>TACTICAL BATTLE</small><strong>READY</strong><span>전열과 후열을 배치하는 중</span></div>
+      <div class="team-field team-field-b" id="teamFieldB"></div>
+      <div id="battleV2Fx" class="battle-v2-fx"></div>
+    </section>
+
+    <section class="battle-v2-lower">
+      <article class="battle-v2-log">
+        <header><div><small>LIVE TIMELINE</small><h2>전투 기록</h2></div><span id="battleV2Progress">0 / 0</span></header>
+        <div id="battleV2LogList"></div>
+      </article>
+      <article class="battle-v2-explain">
+        <small>V2 RULES</small>
+        <h2>이번 검증 범위</h2>
+        <ul>
+          <li><b>공격형</b><span>방어 관통·처형·치명타</span></li>
+          <li><b>방어형</b><span>시작 방벽·피해 감소·반격</span></li>
+          <li><b>생명형</b><span>지속 회복·긴급 회복·1회 생존</span></li>
+          <li><b>속도형</b><span>선행 게이지·회피·행동 지연</span></li>
+        </ul>
+        <p>이 페이지는 전투 결과를 DB에 저장하지 않습니다. 서버는 압축 타임라인만 응답하고 브라우저가 연출합니다.</p>
+      </article>
+    </section>
+  </main>
+  <script src="./battle-v2.js?v=1312"></script>
+</body>
+</html>
