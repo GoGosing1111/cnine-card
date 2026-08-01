@@ -599,3 +599,181 @@
 .battle-v2-live-footer:empty { display:none; }
 .battle-v2-live-result:not(.is-visible):empty,
 [data-live-result-slot]:empty { display:none; }
+
+/* v1326: mobile portrait battle fit + internal scrolling recovery */
+@media (max-width: 800px) and (orientation: portrait) {
+  .battle-modal .modal-panel.battle-stage.battle-v2-live-shell {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: contain !important;
+    touch-action: pan-y !important;
+  }
+  .layout-mobile-portrait.battle-v2-live-shell {
+    min-height: 100dvh !important;
+    height: auto !important;
+  }
+  .layout-mobile-portrait .battle-v2-shell {
+    min-height: 100dvh;
+    padding: max(8px, env(safe-area-inset-top, 0px)) 6px calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .layout-mobile-portrait .battle-v2-arena {
+    min-height: 610px !important;
+    height: auto !important;
+    padding: 54px 5px 8px !important;
+    overflow: hidden !important;
+  }
+  .layout-mobile-portrait .focus-battle {
+    display: grid !important;
+    grid-template-rows: 58px minmax(430px, 1fr) 58px !important;
+    gap: 5px !important;
+    min-height: 550px !important;
+  }
+  .layout-mobile-portrait .focus-duel {
+    grid-template-areas: "a message b" !important;
+    grid-template-columns: minmax(0, 1fr) 46px minmax(0, 1fr) !important;
+    grid-template-rows: 1fr !important;
+    align-items: center !important;
+    gap: 2px !important;
+    min-height: 430px !important;
+    padding: 4px 1px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-card-v2 {
+    width: min(172px, 43vw) !important;
+    height: 280px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-frame-shell {
+    height: 226px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame.card-frame {
+    width: min(154px, 39vw) !important;
+    height: 226px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-header {
+    height: 24px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-header span {
+    font-size: 10px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-footer {
+    min-height: 43px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-title {
+    font-size: 10px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-footer small,
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-unique-badge small {
+    display: none !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-mini-logo {
+    width: 20px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-unique-badge {
+    top: 28px !important;
+    right: 4px !important;
+    min-height: 20px !important;
+    padding: 3px 5px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame .card-unique-badge b {
+    font-size: 7px !important;
+  }
+  .layout-mobile-portrait .focus-slot .stat-pills {
+    top: 51px !important;
+    width: min(148px, 38vw) !important;
+  }
+  .layout-mobile-portrait .focus-slot .hp-stack {
+    width: min(168px, 42vw) !important;
+    padding: 5px 6px 6px !important;
+  }
+  .layout-mobile-portrait .focus-slot .hp-caption {
+    font-size: 8px !important;
+  }
+  .layout-mobile-portrait .focus-slot .hp-track,
+  .layout-mobile-portrait .focus-slot .shield-track {
+    height: 6px !important;
+  }
+  .layout-mobile-portrait .focus-slot .gauge-ring {
+    width: 27px !important;
+    height: 27px !important;
+    right: -1px !important;
+    bottom: 24px !important;
+  }
+  .layout-mobile-portrait .focus-slot .gauge-ring::after {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  .layout-mobile-portrait .focus-message {
+    min-width: 0 !important;
+    padding: 0 !important;
+  }
+  .layout-mobile-portrait .focus-message small,
+  .layout-mobile-portrait .focus-message span {
+    display: none !important;
+  }
+  .layout-mobile-portrait .focus-message strong {
+    font-size: clamp(16px, 5vw, 23px) !important;
+    writing-mode: horizontal-tb !important;
+    margin: 0 !important;
+  }
+  .layout-mobile-portrait .focus-roster {
+    height: 58px !important;
+    gap: 3px !important;
+    padding: 4px !important;
+    border-radius: 11px !important;
+  }
+  .layout-mobile-portrait .focus-mini-card {
+    height: 48px !important;
+    grid-template-columns: 1fr !important;
+    padding: 3px !important;
+    border-radius: 8px !important;
+  }
+  .layout-mobile-portrait .focus-mini-image {
+    width: 100% !important;
+    height: 34px !important;
+    border-width: 1px !important;
+  }
+  .layout-mobile-portrait .focus-mini-image b {
+    width: 13px !important;
+    height: 13px !important;
+    font-size: 7px !important;
+  }
+  .layout-mobile-portrait .focus-mini-info strong,
+  .layout-mobile-portrait .focus-mini-info small {
+    display: none !important;
+  }
+  .layout-mobile-portrait .focus-mini-bars {
+    gap: 1px !important;
+    margin-top: 2px !important;
+  }
+  .layout-mobile-portrait .focus-mini-bars i {
+    height: 2px !important;
+  }
+  .layout-mobile-portrait .action-order {
+    top: 7px !important;
+    height: 36px !important;
+    width: calc(100% - 10px) !important;
+    padding: 3px 5px !important;
+    gap: 3px !important;
+  }
+  .layout-mobile-portrait .order-chip {
+    width: 25px !important;
+    height: 25px !important;
+  }
+}
+
+@media (max-width: 380px) and (orientation: portrait) {
+  .layout-mobile-portrait .focus-duel {
+    grid-template-columns: minmax(0, 1fr) 36px minmax(0, 1fr) !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-card-v2 {
+    width: min(154px, 42vw) !important;
+    height: 258px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-frame-shell {
+    height: 207px !important;
+  }
+  .layout-mobile-portrait .focus-slot .battle-v2-card-frame.card-frame {
+    width: min(140px, 38vw) !important;
+    height: 207px !important;
+  }
+}
