@@ -1510,7 +1510,8 @@ const AUTO_DRAW_LOCK_KEY='cnine_official_auto_draw_lock_v1305';
 const AUTO_DRAW_TAB_ID=globalThis.crypto?.randomUUID?.()||`tab-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 const autoDrawState={
   active:false,stopRequested:false,packId:'',count:20,targetRuns:0,completedRuns:0,totalCards:0,spentCoins:0,
-  startedAt:0,timer:null,lockTimer:null,gradeCounts:{},highGradeHits:[],prefs:null,lastStatus:'',finishDetail:''
+  startedAt:0,timer:null,lockTimer:null,gradeCounts:{},highGradeHits:[],prefs:null,lastStatus:'',finishDetail:'',
+  transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]
 };
 function loadAutoDrawPrefs(){
   const defaults={count:20,runs:10,delayMs:4000,simplified:true,stopGrade:'NONE'};
@@ -1549,7 +1550,7 @@ function openAutoDrawSetup(packId,defaultCount=20){
   const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
   const prefs=loadAutoDrawPrefs(),count=[1,10,20].includes(Number(defaultCount))?Number(defaultCount):Number(prefs.count||20),modal=document.getElementById('modal');
   modal.className='modal show auto-draw-setup-modal';
-  modal.innerHTML=`<div class="modal-panel auto-draw-setup-panel"><button type="button" class="icon-close auto-draw-setup-close" id="closeAutoDrawSetup">×</button><p class="eyebrow">OFFICIAL AUTO DRAW</p><h2>자동 뽑기 설정</h2><p class="auto-draw-setup-copy"><b>${escapeHtml(pack.name)}</b>을 같은 조건으로 순차 개봉합니다. 서버 요청은 한 번에 하나씩만 처리됩니다.</p><input type="hidden" id="autoDrawPackId" value="${escapeHtml(pack.id)}"><div class="auto-draw-form"><label><span>한 번에 개봉</span><select id="autoDrawCount"><option value="1" ${count===1?'selected':''}>1장</option><option value="10" ${count===10?'selected':''}>10장</option><option value="20" ${count===20?'selected':''}>20장</option></select></label><label><span>반복 횟수</span><div class="auto-draw-number"><input id="autoDrawRuns" type="number" min="1" max="500" step="1" value="${Math.max(1,Math.min(500,Number(prefs.runs||10)))}"><small>최대 500회</small></div></label><label><span>다음 개봉 간격</span><select id="autoDrawDelay"><option value="4000" ${Number(prefs.delayMs)===4000?'selected':''}>4초</option><option value="6000" ${Number(prefs.delayMs)===6000?'selected':''}>6초</option><option value="10000" ${Number(prefs.delayMs)===10000?'selected':''}>10초</option></select></label><label><span>획득 시 자동 정지</span><select id="autoDrawStopGrade"><option value="NONE" ${prefs.stopGrade==='NONE'?'selected':''}>끝까지 진행</option><option value="SSR" ${prefs.stopGrade==='SSR'?'selected':''}>SSR 이상</option><option value="MA" ${prefs.stopGrade==='MA'?'selected':''}>MA 이상</option><option value="LIMITED" ${prefs.stopGrade==='LIMITED'?'selected':''}>LIMITED 이상</option><option value="FUR" ${prefs.stopGrade==='FUR'?'selected':''}>FUR</option></select></label><label class="auto-draw-check"><input id="autoDrawSimplified" type="checkbox" ${prefs.simplified!==false?'checked':''}><span><b>연출 간소화</b><small>팩 개봉·특별 연출을 생략하고 결과만 잠시 표시합니다.</small></span></label></div><div class="auto-draw-estimate" id="autoDrawEstimate"></div><div class="auto-draw-safety"><b>자동 뽑기 안전 규칙</b><span>병렬 요청 없음 · 요청 영수증 유지 · 코인 부족·오류 발생 시 즉시 종료</span></div><div class="auto-draw-setup-actions"><button type="button" class="btn secondary" id="cancelAutoDrawSetup">취소</button><button type="button" class="btn" id="startAutoDraw">자동 뽑기 시작</button></div></div>`;
+  modal.innerHTML=`<div class="modal-panel auto-draw-setup-panel"><button type="button" class="icon-close auto-draw-setup-close" id="closeAutoDrawSetup">×</button><p class="eyebrow">OFFICIAL AUTO DRAW</p><h2>자동 뽑기 설정</h2><p class="auto-draw-setup-copy"><b>${escapeHtml(pack.name)}</b>을 같은 조건으로 순차 개봉합니다. 서버 요청은 한 번에 하나씩만 처리됩니다.</p><input type="hidden" id="autoDrawPackId" value="${escapeHtml(pack.id)}"><div class="auto-draw-form"><label><span>한 번에 개봉</span><select id="autoDrawCount"><option value="1" ${count===1?'selected':''}>1장</option><option value="10" ${count===10?'selected':''}>10장</option><option value="20" ${count===20?'selected':''}>20장</option></select></label><label><span>반복 횟수</span><div class="auto-draw-number"><input id="autoDrawRuns" type="number" min="1" max="500" step="1" value="${Math.max(1,Math.min(500,Number(prefs.runs||10)))}"><small>최대 500회</small></div></label><label><span>다음 개봉 간격</span><select id="autoDrawDelay"><option value="4000" ${Number(prefs.delayMs)===4000?'selected':''}>4초</option><option value="6000" ${Number(prefs.delayMs)===6000?'selected':''}>6초</option><option value="10000" ${Number(prefs.delayMs)===10000?'selected':''}>10초</option></select></label><label><span>획득 시 자동 정지</span><select id="autoDrawStopGrade"><option value="NONE" ${prefs.stopGrade==='NONE'?'selected':''}>끝까지 진행</option><option value="SSR" ${prefs.stopGrade==='SSR'?'selected':''}>SSR 이상</option><option value="MA" ${prefs.stopGrade==='MA'?'selected':''}>MA 이상</option><option value="LIMITED" ${prefs.stopGrade==='LIMITED'?'selected':''}>LIMITED 이상</option><option value="FUR" ${prefs.stopGrade==='FUR'?'selected':''}>FUR</option></select></label><label class="auto-draw-check"><input id="autoDrawSimplified" type="checkbox" ${prefs.simplified!==false?'checked':''}><span><b>연출 간소화</b><small>팩 개봉·특별 연출을 생략하고 결과만 잠시 표시합니다.</small></span></label></div><div class="auto-draw-estimate" id="autoDrawEstimate"></div><div class="auto-draw-safety"><b>자동 뽑기 안전 규칙</b><span>병렬 요청 없음 · 요청 영수증 유지 · D1 혼잡 시 동일 요청 자동 복구 · 50회마다 짧은 보호 휴식</span></div><div class="auto-draw-setup-actions"><button type="button" class="btn secondary" id="cancelAutoDrawSetup">취소</button><button type="button" class="btn" id="startAutoDraw">자동 뽑기 시작</button></div></div>`;
   const close=()=>{modal.className='modal';modal.innerHTML=''};
   document.getElementById('closeAutoDrawSetup').onclick=document.getElementById('cancelAutoDrawSetup').onclick=close;
   ['autoDrawCount','autoDrawRuns'].forEach(id=>document.getElementById(id)?.addEventListener('input',autoDrawSetupEstimate));
@@ -1565,7 +1566,7 @@ function startOfficialAutoDraw(packId,prefs){
   if(!acquireAutoDrawLock())return alert('다른 탭에서 자동 뽑기가 진행 중입니다.\n중복 요청 방지를 위해 한 탭에서만 사용할 수 있습니다.');
   const count=[1,10,20].includes(Number(prefs.count))?Number(prefs.count):20,runs=Math.max(1,Math.min(500,Number(prefs.runs||1))),cost=Number(pack.price||0)*count;
   if(Number(loadUser()?.coin||0)<cost){releaseAutoDrawLock();return alert(`코인이 부족합니다.\n${count}장 개봉에는 ${Number(cost).toLocaleString()}코인이 필요합니다.`);}
-  Object.assign(autoDrawState,{active:true,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:''});
+  Object.assign(autoDrawState,{active:true,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:'',transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]});
   renderAutoDrawDock();runOfficialAutoDrawNext();
 }
 function clearAutoDrawTimer(){if(autoDrawState.timer){clearTimeout(autoDrawState.timer);autoDrawState.timer=null}}
@@ -1608,17 +1609,23 @@ function finishOfficialAutoDraw(reason='자동 뽑기 완료',detail=''){
 }
 function renderAutoDrawProcessing(pack,count){
   const modal=document.getElementById('modal');modal.className='modal show opening-modal auto-draw-processing-modal';
-  modal.innerHTML=`<div class="modal-panel auto-draw-processing-panel"><div class="auto-draw-loader"><i></i><i></i><i></i></div><p class="eyebrow">AUTO DRAW PROCESSING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><p>서버에서 카드 지급 결과를 확정하고 있습니다.</p><small>${autoDrawState.completedRuns+1} / ${autoDrawState.targetRuns}회차</small><button type="button" class="btn secondary" id="stopAutoDrawProcessing">현재 개봉 후 중지</button></div>`;
+  modal.innerHTML=`<div class="modal-panel auto-draw-processing-panel"><div class="auto-draw-loader"><i></i><i></i><i></i></div><p class="eyebrow">AUTO DRAW PROCESSING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><p id="autoDrawProcessingMessage">서버에서 카드 지급 결과를 확정하고 있습니다.</p><small id="autoDrawProcessingStep">${autoDrawState.completedRuns+1} / ${autoDrawState.targetRuns}회차</small><button type="button" class="btn secondary" id="stopAutoDrawProcessing">현재 개봉 후 중지</button></div>`;
   document.getElementById('stopAutoDrawProcessing').onclick=requestStopAutoDraw;
 }
 function scheduleOfficialAutoDrawNext(){
   if(!autoDrawState.active)return;
   clearAutoDrawTimer();
-  const delay=Math.max(4000,Number(autoDrawState.prefs?.delayMs||4000));
-  updateAutoDrawDock(`다음 개봉까지 ${(delay/1000).toFixed(1)}초`);
+  const baseDelay=Math.max(4000,Number(autoDrawState.prefs?.delayMs||4000));
+  const adaptiveDelay=Math.max(0,Number(autoDrawState.adaptiveDelayMs||0));
+  const protectionBreak=autoDrawState.completedRuns>0&&autoDrawState.completedRuns%50===0;
+  const delay=protectionBreak?Math.max(baseDelay,adaptiveDelay,20000):Math.max(baseDelay,adaptiveDelay);
+  const label=protectionBreak?`서버 보호 휴식 ${(delay/1000).toFixed(0)}초`:adaptiveDelay>baseDelay?`혼잡 완화 대기 ${(delay/1000).toFixed(0)}초`:`다음 개봉까지 ${(delay/1000).toFixed(1)}초`;
+  updateAutoDrawDock(label);
   autoDrawState.timer=setTimeout(()=>{autoDrawState.timer=null;runOfficialAutoDrawNext()},delay);
 }
 function handleOfficialAutoDrawBatch(results=[]){
+  autoDrawState.transientRetries=0;
+  autoDrawState.adaptiveDelayMs=Math.max(0,Math.floor(Number(autoDrawState.adaptiveDelayMs||0)*0.72)-1000);
   collectAutoDrawBatch(results);const hit=autoDrawHitStopGrade(results);updateAutoDrawDock(`${autoDrawState.completedRuns}회차 지급 완료`);
   if(autoDrawState.stopRequested){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('자동 뽑기 중지','현재 진행 중이던 개봉까지 정상 지급했습니다.'),700);return}
   if(hit){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw(`${autoDrawStopLabel(autoDrawState.prefs.stopGrade)} 획득으로 정지`,`${hit.title||hit.name||'카드'} 획득`),900);return}
@@ -2547,15 +2554,105 @@ const PENDING_DRAW_STORAGE_KEY='cnine_pending_draw_v1168_r4';
 function readPendingDraw(){try{const row=JSON.parse(sessionStorage.getItem(PENDING_DRAW_STORAGE_KEY)||'null');if(!row||!row.requestId||Date.now()-Number(row.createdAt||0)>10*60*1000){sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY);return null}return row}catch(_){return null}}
 function writePendingDraw(row){try{sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(row))}catch(_){}}
 function clearPendingDraw(requestId=''){try{const row=readPendingDraw();if(!requestId||String(row?.requestId||'')===String(requestId))sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY)}catch(_){}}
-function drawRequestStillProcessing(error){return Boolean(error?.timeout)||(Number(error?.status)===409&&String(error?.message||'').includes('처리 중'))}
-async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2){
-  const options={method:'POST',headers:{'x-cnine-draw-receipt':Number(receiptVersion)===2?'v2':'legacy'},body:JSON.stringify({packId,count,requestId})};
-  try{return await apiRequest('draw',options,{timeoutMs:45000})}
-  catch(error){
-    if(!drawRequestStillProcessing(error))throw error;
-    await new Promise(resolve=>setTimeout(resolve,1800));
-    return apiRequest('draw',options,{timeoutMs:20000});
+function isDrawStorageBusy(error){
+  const message=String(error?.message||error?.error||'').toLowerCase();
+  return error?.code==='D1_OVERLOADED'
+    || message.includes('d1 db is overloaded')
+    || message.includes('requests queued for too long')
+    || message.includes('database is locked')
+    || message.includes('sqlite_busy')
+    || Number(error?.status)===429
+    || (Number(error?.status)===503&&error?.retryable===true);
+}
+function drawRequestStillProcessing(error){
+  return Boolean(error?.timeout)
+    || error?.retryable===true
+    || isDrawStorageBusy(error)
+    || (Number(error?.status)===409&&['처리 중','복구 요청'].some(text=>String(error?.message||'').includes(text)));
+}
+function setAutoDrawRecoveryMessage(message){
+  if(!autoDrawState.active)return;
+  updateAutoDrawDock(message);
+  const node=document.getElementById('autoDrawProcessingMessage');
+  if(node)node.textContent=message;
+}
+async function waitForDrawRecovery(ms,label='서버 혼잡 복구 대기'){
+  const end=Date.now()+Math.max(1000,Number(ms)||1000);
+  while(Date.now()<end){
+    const remain=Math.max(1,Math.ceil((end-Date.now())/1000));
+    setAutoDrawRecoveryMessage(`${label} · ${remain}초`);
+    await new Promise(resolve=>setTimeout(resolve,Math.min(1000,Math.max(100,end-Date.now()))));
   }
+}
+async function drawReceiptStatus(requestId){
+  return apiRequest(`draw/status?requestId=${encodeURIComponent(requestId)}`,{}, {ttl:0,timeoutMs:10000});
+}
+async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{autoRun=false,acknowledgedRequestIds=[]}={}){
+  const options={
+    method:'POST',
+    headers:{
+      'x-cnine-draw-receipt':Number(receiptVersion)===2?'v2':'legacy',
+      'x-cnine-auto-draw':autoRun?'1':'0'
+    },
+    body:JSON.stringify({packId,count,requestId,autoDraw:autoRun,acknowledgedRequestIds:Array.isArray(acknowledgedRequestIds)?acknowledgedRequestIds.slice(0,10):[]})
+  };
+  const maxAttempts=autoRun?8:3;
+  let lastError=null,shouldPost=true;
+  for(let attempt=0;attempt<maxAttempts;attempt++){
+    if(shouldPost){
+      const started=Date.now();
+      try{
+        const result=await apiRequest('draw',options,{timeoutMs:autoRun?60000:45000});
+        if(autoRun)autoDrawState.lastRequestMs=Date.now()-started;
+        return result;
+      }catch(error){
+        if(!drawRequestStillProcessing(error))throw error;
+        lastError=error;
+      }
+    }
+
+    const busy=isDrawStorageBusy(lastError);
+    const suggested=Math.max(2000,Number(lastError?.retryAfterMs||0));
+    const waitMs=Math.min(60000,Math.max(suggested,busy?10000*Math.pow(1.55,attempt):2500*Math.pow(1.4,attempt)));
+    if(autoRun){
+      autoDrawState.transientRetries=attempt+1;
+      if(busy)autoDrawState.adaptiveDelayMs=Math.max(Number(autoDrawState.adaptiveDelayMs||0),Math.min(60000,waitMs));
+      await waitForDrawRecovery(waitMs,busy?'D1 혼잡 자동 복구':'카드 지급 결과 확인');
+    }else{
+      await new Promise(resolve=>setTimeout(resolve,waitMs));
+    }
+
+    let status=null;
+    try{status=await drawReceiptStatus(requestId)}
+    catch(statusError){
+      if(!drawRequestStillProcessing(statusError)&&!isDrawStorageBusy(statusError))throw statusError;
+      lastError=statusError;
+      shouldPost=false;
+      continue;
+    }
+
+    const state=String(status?.status||'NOT_FOUND').toUpperCase();
+    if(state==='FAILED'){
+      const error=new Error(status?.error||'이전 카드 개봉 요청이 실패했습니다.');
+      Object.assign(error,{status:409,requestId,receiptStatus:'FAILED'});
+      throw error;
+    }
+    if(state==='ARCHIVED'){
+      const error=new Error('이미 지급·확인 완료된 이전 자동 뽑기 요청입니다.');
+      Object.assign(error,{status:410,code:'DRAW_RESULT_ARCHIVED',requestId,receiptStatus:'ARCHIVED'});
+      throw error;
+    }
+    if(state==='COMPLETED'){
+      try{return await apiRequest('draw',options,{timeoutMs:30000})}
+      catch(error){lastError=error;shouldPost=true;continue}
+    }
+    shouldPost=state==='NOT_FOUND'||state==='RETRYABLE';
+    if(state==='PENDING')lastError=Object.assign(new Error('같은 카드 개봉 요청을 처리 중입니다.'),{status:409,retryable:true,code:'DRAW_PENDING',retryAfterMs:5000});
+  }
+  const error=lastError||new Error('카드 지급 결과 확인 시간이 길어져 자동 뽑기를 안전하게 중지했습니다.');
+  error.retryable=true;
+  error.requestId=requestId;
+  throw error;
 }
 function resetDrawPresentationState(){
   const modal=document.getElementById('modal');
@@ -2647,14 +2744,20 @@ openPack=async function(packId,count,cost,options={}){
   drawRequestInFlight=true;
   try{
     let d;
+    const archiveIds=autoRun&&autoDrawState.receiptArchiveQueue.length>=10?autoDrawState.receiptArchiveQueue.slice(0,10):[];
     if(autoRun&&autoDrawState.prefs?.simplified!==false){
       renderAutoDrawProcessing(pack,count);
-      d=await requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2);
+      d=await requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,acknowledgedRequestIds:archiveIds});
     }else{
-      d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2));
+      d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,acknowledgedRequestIds:archiveIds}));
     }
     const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
     clearPendingDraw(requestId);
+    if(autoRun){
+      if(archiveIds.length){const archived=new Set(archiveIds);autoDrawState.receiptArchiveQueue=autoDrawState.receiptArchiveQueue.filter(id=>!archived.has(id));}
+      autoDrawState.receiptArchiveQueue.push(requestId);
+      autoDrawState.receiptArchiveQueue=autoDrawState.receiptArchiveQueue.slice(-20);
+    }
     clearApiCache('recent-high-grade');clearApiCache('shell/summary');clearApiCache('cards');
     mergeClientCards(verifiedResults.map(x=>x.card));
     const next=mergeDrawUserSnapshot(d.user,verifiedResults);
@@ -2666,8 +2769,11 @@ openPack=async function(packId,count,cost,options={}){
   }catch(e){
     resetDrawPresentationState();
     if(!drawRequestStillProcessing(e))clearPendingDraw(requestId);
-    const message=drawRequestStillProcessing(e)?'카드 지급 결과 확인이 지연되고 있습니다.\n같은 요청 번호를 보존했으며 다음 시도에서 새로 결제하지 않고 이전 결과부터 확인합니다.':(e.message||'카드 개봉 중 오류가 발생했습니다.');
-    if(autoRun)finishOfficialAutoDraw(drawRequestStillProcessing(e)?'카드 지급 확인 지연으로 중지':'자동 뽑기 오류',message);else alert(message);
+    const storageBusy=isDrawStorageBusy(e),pending=drawRequestStillProcessing(e);
+    const message=pending
+      ?`${storageBusy?'저장 서버 혼잡이 오래 지속되어 자동 뽑기를 안전하게 멈췄습니다.':'카드 지급 결과 확인이 지연되고 있습니다.'}\n같은 요청 번호를 보존했으며 다시 시작할 때 새로 결제하지 않고 이전 결과부터 확인합니다.`
+      :(e.message||'카드 개봉 중 오류가 발생했습니다.');
+    if(autoRun)finishOfficialAutoDraw(pending?(storageBusy?'서버 혼잡으로 안전 중지':'카드 지급 확인 지연으로 중지'):'자동 뽑기 오류',message);else alert(message);
     return false;
   }finally{
     if(activeDrawRequestId===requestId)activeDrawRequestId='';

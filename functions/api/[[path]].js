@@ -20,6 +20,18 @@ function drawIntegrityHash(input=''){
   }
   return hash.toString(16).padStart(8,'0');
 }
+function isTransientD1Error(error){
+  const message=String(error?.message||error||'').toLowerCase();
+  return message.includes('d1 db is overloaded')
+    || message.includes('requests queued for too long')
+    || message.includes('database is locked')
+    || message.includes('sqlite_busy')
+    || message.includes('too many requests')
+    || message.includes('temporarily unavailable')
+    || message.includes('internal error; reference')
+    || Number(error?.status)===429
+    || Number(error?.status)===503;
+}
 function drawIntegrityCanonical(response){
   const protocol=response?.drawProtocol||{};
   const results=Array.isArray(response?.results)?response.results:[];
@@ -2987,13 +2999,20 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      const acknowledgedRequestIds=payload.autoDraw===true&&Array.isArray(payload.acknowledgedRequestIds)
+        ?[...new Set(payload.acknowledgedRequestIds.map(value=>String(value||'').trim().slice(0,100)).filter(value=>value&&value!==requestId))].slice(0,10)
+        :[];
       await Promise.all([ensureDrawReceiptV2(env),ensureFurFirstPityV1291(env)]);let drawReceiptTable='draw_request_receipts_v2';
       // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
       // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
       const compactDrawCard=card=>({id:String(card?.id||''),title:String(card?.title||''),grade:String(card?.grade||card?.rarity||'').toUpperCase()});
       const compactDrawReceipt=response=>{
         if(!response||typeof response!=='object')return response;
-        const compact={...response};delete compact.user;
+        const compact={...response};delete compact.user;delete compact.burningEvent;
+        if(response.critical)compact.critical={
+          eligible:response.critical.eligible===true,success:response.critical.success===true,
+          bonus:Number(response.critical.bonus||0),chance:Number(response.critical.chance||0)
+        };
         compact.results=Array.isArray(response.results)?response.results.map((item,index)=>({
           slot:Number(item?.slot??index),granted:item?.granted===true,grantVerified:item?.grantVerified===true,
           quantityBefore:Number(item?.quantityBefore||0),quantityAfter:Number(item?.quantityAfter||0),duplicate:Boolean(item?.duplicate),
@@ -3066,11 +3085,19 @@ export async function onRequest(context){
       if(prior?.status==='APPLIED'&&prior.response_json){
         try{return json(await finalizeAppliedDraw(JSON.parse(prior.response_json)))}catch(error){return json({error:String(error?.message||'이전 카드 지급 확정을 완료하지 못했습니다.'),requestId,status:'APPLIED'},503)}
       }
+      if(prior?.status==='ARCHIVED')return json({error:'이미 지급·확인 완료된 이전 자동 뽑기 요청입니다.',code:'DRAW_RESULT_ARCHIVED',requestId,status:'ARCHIVED'},410);
       let receiptAlreadyClaimed=false;
+      if(prior?.status==='RETRYABLE'&&drawReceiptTable==='draw_request_receipts_v2'){
+        const retryClaim=await env.DB.prepare(`UPDATE draw_request_receipts_v2
+          SET status='PENDING',response_json=NULL,error_message=NULL,pack_id=?,draw_count=?,updated_at=CURRENT_TIMESTAMP
+          WHERE request_id=? AND user_id=? AND status='RETRYABLE'`).bind(String(payload.packId||''),count,requestId,user.id).run();
+        receiptAlreadyClaimed=Number(retryClaim?.meta?.changes||0)===1;
+        if(!receiptAlreadyClaimed)return json({error:'카드 개봉 복구 요청을 다른 처리기가 확인 중입니다.',code:'DRAW_RECOVERY_BUSY',retryable:true,retryAfterMs:5000,requestId,status:'PENDING'},409);
+      }
       if(prior?.status==='PENDING'){
         const updatedAtMs=Date.parse(String(prior.updated_at||'').replace(' ','T')+'Z'),stale=Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000;
         if(stale&&drawReceiptTable==='draw_request_receipts_v2')receiptAlreadyClaimed=await reclaimStalePendingDraw(prior.updated_at);
-        if(!receiptAlreadyClaimed)return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId,status:'PENDING',updatedAt:prior.updated_at||null},409);
+        if(!receiptAlreadyClaimed)return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',code:'DRAW_PENDING',retryable:true,retryAfterMs:5000,requestId,status:'PENDING',updatedAt:prior.updated_at||null},409);
       }
       drawReceiptTable='draw_request_receipts_v2';
       const claimed=receiptAlreadyClaimed?{meta:{changes:1}}:await env.DB.prepare(`INSERT OR IGNORE INTO ${drawReceiptTable}(request_id,user_id,pack_id,draw_count,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,String(payload.packId||''),count).run();
@@ -3081,7 +3108,9 @@ export async function onRequest(context){
           catch(error){return json({error:String(error?.message||'완료된 카드 개봉 결과를 불러오지 못했습니다.'),requestId,status:'COMPLETED'},503)}
         }
         if(duplicate?.status==='FAILED')return json({error:String(duplicate.error_message||'이전 카드 개봉 요청이 실패했습니다.'),requestId,status:'FAILED'},409);
-        return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',requestId,status:String(duplicate?.status||'PENDING'),updatedAt:duplicate?.updated_at||null},409);
+        if(duplicate?.status==='ARCHIVED')return json({error:'이미 지급·확인 완료된 이전 자동 뽑기 요청입니다.',code:'DRAW_RESULT_ARCHIVED',requestId,status:'ARCHIVED'},410);
+        if(duplicate?.status==='RETRYABLE')return json({error:'카드 개봉 요청을 안전하게 다시 시도할 수 있습니다.',code:'D1_OVERLOADED',retryable:true,retryAfterMs:10000,requestId,status:'RETRYABLE',updatedAt:duplicate?.updated_at||null},503);
+        return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',code:'DRAW_PENDING',retryable:true,retryAfterMs:5000,requestId,status:String(duplicate?.status||'PENDING'),updatedAt:duplicate?.updated_at||null},409);
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
       try{
@@ -3103,9 +3132,8 @@ export async function onRequest(context){
         }
         if(!fresh)throw new Error('유저 정보를 확인하지 못했습니다.');
         cost=burningDiscountPrice(pack.price,burning)*count;
-        await env.DB.prepare(`UPDATE ${drawReceiptTable} SET cost=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,requestId,user.id).run();
         if(Number(fresh.coin||0)<cost){
-          await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(requestId,user.id).run();
+          await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',cost=?,error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,requestId,user.id).run();
           return json({error:'코인이 부족합니다.'},400);
         }
 
@@ -3199,8 +3227,8 @@ export async function onRequest(context){
         const masterStarBefore=Number(beforeProfile.masterStars||0);
         const statements=[];
         const results=[];
-        let shardTotal=0,masterStarTotal=0,runningShardBalance=Number(fresh.card_shards||0);
-        const expectedAfterByCard=new Map(),cardGrantCounts=new Map(),shardTotalsByCard=new Map();
+        let shardTotal=0,masterStarTotal=0;
+        const expectedAfterByCard=new Map(),cardGrantCounts=new Map();
 
         for(let drawIndex=0;drawIndex<cards.length;drawIndex++){
           const card=cards[drawIndex],cardId=String(card.id);
@@ -3218,24 +3246,18 @@ export async function onRequest(context){
           shardTotal+=shardGained;
           masterStarTotal+=masterStarGained;
           cardGrantCounts.set(cardId,Number(cardGrantCounts.get(cardId)||0)+1);
-          if(shardGained>0)shardTotalsByCard.set(cardId,Number(shardTotalsByCard.get(cardId)||0)+shardGained);
           if(String(card.grade||'').toUpperCase()==='LIMITED')statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,'LIMITED',drawIndex===0?cost:0,isNew?1:0));
           results.push({slot:drawIndex,granted:false,grantVerified:false,quantityBefore,quantityAfter,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained,masterStarGained});
         }
 
-        // 20장 묶음도 카드 지급과 중복 조각 로그를 각각 SQL 1문장으로 합쳐 batch 문장 수를 제한한다.
+        // 카드 지급은 카드 ID별로 합치고, 중복 조각 감사 로그는 묶음 개봉당 1행만 남긴다.
+        // 20장 자동 뽑기에서 카드별 로그가 최대 20행씩 누적되던 구조를 제거해 D1 쓰기와 용량 증가를 제한한다.
         const grantRows=[...cardGrantCounts.entries()];
         if(grantRows.length){
           const placeholders=grantRows.map(()=>'(?,?,?)').join(','),binds=[];
           for(const [cardId,grantCount] of grantRows)binds.push(user.id,cardId,grantCount);
           statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES ${placeholders}
             ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(...binds));
-        }
-        const shardRows=[];
-        for(const [cardId,shardAmount] of shardTotalsByCard){runningShardBalance+=shardAmount;shardRows.push([user.id,shardAmount,runningShardBalance,cardId]);}
-        if(shardRows.length){
-          const placeholders=shardRows.map(()=>"(?,?,?,'DUPLICATE',?)").join(',');
-          statements.push(env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES ${placeholders}`).bind(...shardRows.flat()));
         }
 
         const duplicateMaCount=results.filter(item=>item.duplicate&&String(item.card?.grade||'').toUpperCase()==='MA').length;
@@ -3291,10 +3313,17 @@ export async function onRequest(context){
               unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,masterStarTotal,masterStarTotal));
           statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'MA_DUPLICATE','PACK_DRAW',?)").bind(user.id,masterStarTotal,expectedMasterStars,groupId));
         }
+        if(shardTotal>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',NULL)").bind(user.id,shardTotal,expectedShards));
         statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));
         const response=finalizeDrawPayload(draftResponse);
+        // 자동 뽑기에서 이미 화면 표시가 끝난 이전 영수증 10개는 결과 JSON만 비워 장기 용량 증가를 제한한다.
+        // 다음 뽑기가 성공적으로 커밋될 때만 함께 정리하므로 현재 지급 복구 가능성은 유지된다.
+        if(acknowledgedRequestIds.length){
+          statements.push(env.DB.prepare(`UPDATE draw_request_receipts_v2 SET status='ARCHIVED',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP
+            WHERE user_id=? AND status='COMPLETED' AND request_id IN (${acknowledgedRequestIds.map(()=>'?').join(',')})`).bind(user.id,...acknowledgedRequestIds));
+        }
         // 카드·코인·조각·영수증 COMPLETED를 같은 D1 batch에 넣어 APPLIED/PENDING 고착 구간을 제거한다.
-        statements.push(env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(JSON.stringify(compactDrawReceipt(response)),requestId,user.id));
+        statements.push(env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='COMPLETED',cost=?,response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,JSON.stringify(compactDrawReceipt(response)),requestId,user.id));
 
         await env.DB.batch(statements);
         grantsCommitted=true;
@@ -3306,15 +3335,51 @@ export async function onRequest(context){
         recentHighGradeCache=null;
         return json(response);
       }catch(error){
-        const message=String(error?.message||'카드 지급 검증에 실패했습니다. 코인과 카드 지급은 처리되지 않았습니다.').slice(0,300);
+        const transient=isTransientD1Error(error);
+        const rawMessage=String(error?.message||'카드 지급 검증에 실패했습니다. 코인과 카드 지급은 처리되지 않았습니다.').slice(0,300);
+        const message=transient?'D1_BUSY_RETRYABLE':rawMessage;
+
+        // 응답 직전에 일시 오류가 난 경우 이미 원자 batch가 완료됐을 수 있으므로 영수증을 먼저 확인한다.
+        if(transient&&!grantsCommitted){
+          try{
+            const completedRow=await env.DB.prepare(`SELECT status,response_json FROM ${drawReceiptTable} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
+            if(completedRow?.status==='COMPLETED'&&completedRow.response_json)return json(await hydrateDrawReceipt(JSON.parse(completedRow.response_json)));
+          }catch(checkError){console.warn('draw transient completion check failed',checkError)}
+        }
+
         if(!grantsCommitted){
+          let rollbackOk=true;
           for(const cardId of reservedCardIds){
-            await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(cardId).run();
+            try{await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(cardId).run()}
+            catch(rollbackError){rollbackOk=false;console.error('limited draw stock rollback failed',rollbackError)}
           }
-          for(const event of limitedAuditEvents)await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'FAILED_ROLLED_BACK',stockAfter:event.stockBefore,quantityAfter:event.quantityBefore,stockReserved:false,cardGranted:false,errorMessage:message});
-          await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',response_json=NULL,error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(message,requestId,user.id).run();
+          for(const event of limitedAuditEvents){
+            try{await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'FAILED_ROLLED_BACK',stockAfter:event.stockBefore,quantityAfter:event.quantityBefore,stockReserved:false,cardGranted:false,errorMessage:message})}
+            catch(auditError){rollbackOk=false;console.error('limited draw audit rollback failed',auditError)}
+          }
+          if(transient){
+            let retryStatus=rollbackOk?'RETRYABLE':'PENDING';
+            try{
+              const marked=await env.DB.prepare(`UPDATE ${drawReceiptTable}
+                SET status=?,cost=?,response_json=NULL,error_message=?,updated_at=CURRENT_TIMESTAMP
+                WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(retryStatus,cost,message,requestId,user.id).run();
+              if(!marked?.meta?.changes){
+                const row=await env.DB.prepare(`SELECT status,response_json FROM ${drawReceiptTable} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
+                if(row?.status==='COMPLETED'&&row.response_json)return json(await hydrateDrawReceipt(JSON.parse(row.response_json)));
+                retryStatus=String(row?.status||retryStatus);
+              }
+            }catch(markError){retryStatus='PENDING';console.error('draw retryable receipt mark failed',markError)}
+            return json({
+              error:'카드 지급 서버가 일시적으로 혼잡합니다. 결제 요청 번호를 유지한 채 자동으로 다시 확인합니다.',
+              code:'D1_OVERLOADED',retryable:true,retryAfterMs:15000,requestId,status:retryStatus
+            },503);
+          }
+          await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',cost=?,response_json=NULL,error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,message,requestId,user.id).run();
         }else{
-          for(const event of limitedAuditEvents)await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED_WITH_WARNING',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,stockReserved:true,cardGranted:true,errorMessage:message});
+          for(const event of limitedAuditEvents){
+            try{await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED_WITH_WARNING',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,stockReserved:true,cardGranted:true,errorMessage:message})}
+            catch(auditError){console.error('limited draw completion warning audit failed',auditError)}
+          }
         }
         throw error;
       }
@@ -5744,5 +5809,12 @@ export async function onRequest(context){
       }
     }
     return json({error:'요청한 기능을 찾을 수 없습니다.'},404);
-  }catch(error){console.error(error);return json({error:error.message||'서버 오류가 발생했습니다.'},500)}
+  }catch(error){
+    console.error(error);
+    if(isTransientD1Error(error))return json({
+      error:'현재 저장 서버가 혼잡합니다. 잠시 후 같은 요청으로 다시 시도해주세요.',
+      code:'D1_OVERLOADED',retryable:true,retryAfterMs:15000
+    },503);
+    return json({error:error.message||'서버 오류가 발생했습니다.'},500);
+  }
 }

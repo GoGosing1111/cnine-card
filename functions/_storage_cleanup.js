@@ -289,7 +289,7 @@ async function receiptPreview(env,{table='draw_request_receipts',retentionDays=1
   const responseExpr=columns.includes('response_json')?"LENGTH(CAST(COALESCE(response_json,'') AS BLOB))":'0';
   const payloadExpr=textByteExpression(columns);
   const rows=(await env.DB.prepare(`SELECT request_id,status,created_at,${responseExpr} response_bytes,${payloadExpr} row_payload_bytes FROM ${table}
-    WHERE status IN ('COMPLETED','APPLIED','FAILED') AND created_at<datetime('now',?)
+    WHERE status IN ('COMPLETED','APPLIED','FAILED','RETRYABLE','ARCHIVED') AND created_at<datetime('now',?)
     ORDER BY rowid ASC LIMIT ?`).bind(`-${retentionDays} days`,batchSize).all()).results||[];
 
   const ids=rows.map(row=>String(row.request_id||'')).filter(Boolean);
@@ -336,7 +336,7 @@ async function receiptAggregatePreview(env,{table='draw_request_receipts',retent
   const receipt=await env.DB.prepare(`WITH target AS (
       SELECT request_id,${responseExpr} response_bytes,${payloadExpr} row_payload_bytes
       FROM ${table}
-      WHERE status IN ('COMPLETED','APPLIED','FAILED') AND created_at<datetime('now',?)
+      WHERE status IN ('COMPLETED','APPLIED','FAILED','RETRYABLE','ARCHIVED') AND created_at<datetime('now',?)
       ORDER BY rowid ASC LIMIT ?
     )
     SELECT COUNT(*) receipt_rows,
@@ -352,7 +352,7 @@ async function receiptAggregatePreview(env,{table='draw_request_receipts',retent
     const proofExpr=assertionColumns.includes('proof_json')?"LENGTH(CAST(COALESCE(a.proof_json,'') AS BLOB))":'0';
     const assertion=await env.DB.prepare(`WITH target AS (
         SELECT request_id FROM ${table}
-        WHERE status IN ('COMPLETED','APPLIED','FAILED') AND created_at<datetime('now',?)
+        WHERE status IN ('COMPLETED','APPLIED','FAILED','RETRYABLE','ARCHIVED') AND created_at<datetime('now',?)
         ORDER BY rowid ASC LIMIT ?
       )
       SELECT COUNT(*) assertion_rows,COALESCE(SUM(${proofExpr}),0) proof_bytes,COALESCE(SUM(${assertionPayloadExpr}),0) payload_bytes
@@ -387,7 +387,7 @@ async function deleteReceiptBatch(env,opts){
     }
   }
   for(const idChunk of idChunks){
-    statements.push(env.DB.prepare(`DELETE FROM ${preview.table} WHERE request_id IN (${placeholders(idChunk.length)}) AND status IN ('COMPLETED','APPLIED','FAILED')`).bind(...idChunk));
+    statements.push(env.DB.prepare(`DELETE FROM ${preview.table} WHERE request_id IN (${placeholders(idChunk.length)}) AND status IN ('COMPLETED','APPLIED','FAILED','RETRYABLE','ARCHIVED')`).bind(...idChunk));
   }
 
   const result=await env.DB.batch(statements);
