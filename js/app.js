@@ -3035,6 +3035,31 @@ function pvpHealerPenaltyState(){const selected=pvpState.deck.map(id=>cards.find
 function renderPvpHealerPenalty(){const box=document.getElementById('pvpHealerPenalty');if(!box)return;const state=pvpHealerPenaltyState();box.className=`pvp-healer-penalty ${state.reduction?'active':''}`;box.innerHTML=`<b>힐러 ${state.count}장</b><span>${state.reduction?`PVP 회복량 ${state.reduction}% 감소 적용`:'힐러 2장부터 중복 회복 패널티 적용'}</span><small>2장 -10% · 3장 -25% · 4장 -40% · 5장 -55%</small>`}
 function renderPvpDeckSlots(){const el=document.getElementById('pvpDeckSlots');if(!el)return;el.innerHTML=Array.from({length:5},(_,i)=>{const c=cards.find(x=>x.id===pvpState.deck[i]),position=pvpFormationLabel(i),row=i<2?'front':'back';return c?`<button type="button" class="pvp-deck-slot filled ${row}" data-pvp-remove="${c.id}" title="${position} · 클릭해서 덱에서 제외"><span class="pvp-position-badge">${position}</span>${pvpCardMini(c,loadUser())}<span class="pvp-remove-hint">덱에서 빼기</span></button>`:`<div class="pvp-deck-slot empty ${row}"><span class="pvp-position-badge">${position}</span><div class="pvp-empty-slot"><span>${i+1}</span></div></div>`}).join('');el.querySelectorAll('[data-pvp-remove]').forEach(b=>b.onclick=async()=>{pvpState.deck=pvpState.deck.filter(id=>id!==b.dataset.pvpRemove);await rerenderPvpDeckPreserveScroll()});renderPvpHealerPenalty()}
 async function savePvpDeck(){if(pvpState.deck.length!==5)return alert('보유 카드 5장을 선택하세요.');try{await apiRequest('pvp/deck',{method:'POST',body:JSON.stringify({cardIds:pvpState.deck})});alert('PvP 덱이 저장되었습니다.')}catch(e){alert(e.message)}}
+function pvpResultSafeNumber(value,fallback=0){const number=Number(value);return Number.isFinite(number)?number:fallback}
+function buildPvpV2ResultHtml(d,myWin,attackerPower,defenderPower,pvpV2Detail=''){
+  const scoreChange=pvpResultSafeNumber(d?.scoreChange,0),coinReward=Math.max(0,pvpResultSafeNumber(d?.coinReward,0)),magicReward=Math.max(0,pvpResultSafeNumber(d?.magicReward?.amount,0));
+  const multiplier=Number(d?.scoreAdjustment?.multiplier),adjustmentLabel=String(d?.scoreAdjustment?.label||'').trim();
+  const adjustmentHtml=adjustmentLabel&&Number.isFinite(multiplier)?`<div class="pvp-result-adjustment"><span>${escapeHtml(adjustmentLabel)}</span><b>${multiplier>0?'+':''}${multiplier.toLocaleString(undefined,{maximumFractionDigits:1})}%</b></div>`:'';
+  const reason=String(d?.battleV2?.result?.reason||'');
+  const actions=pvpResultSafeNumber(d?.battleV2?.result?.actions,0);
+  const judged=['ACTION_LIMIT','POWER_TIEBREAK'].includes(reason)&&actions>0?`<span>${actions.toLocaleString()} ACTIONS</span>`:'';
+  return `<div class="pvp-v2-result ${myWin?'is-win':'is-loss'}">
+    <div class="pvp-result-glow" aria-hidden="true"></div>
+    <div class="pvp-result-kicker">SOOPKETMON · PVP RESULT</div>
+    <strong class="pvp-result-title">${myWin?'VICTORY':'DEFEAT'}</strong>
+    <div class="pvp-result-power"><b>${pvpResultSafeNumber(attackerPower,0).toLocaleString()}</b><i>VS</i><b>${pvpResultSafeNumber(defenderPower,0).toLocaleString()}</b></div>
+    <div class="pvp-result-meta"><span>ENGINE V2 · 1.6X</span>${judged}</div>
+    <div class="pvp-result-rewards">
+      <div class="pvp-result-reward"><small>SEASON SCORE</small><b>${scoreChange>0?'+':''}${scoreChange.toLocaleString()}</b></div>
+      <div class="pvp-result-reward"><small>PVP COIN</small><b>+${coinReward.toLocaleString()}</b></div>
+      ${magicReward>0?`<div class="pvp-result-reward"><small>MAGIC CRYSTAL</small><b>✦ +${magicReward.toLocaleString()}</b></div>`:''}
+    </div>
+    ${adjustmentHtml}
+    <button type="button" class="btn pvp-result-confirm" id="pvpResultConfirm">PVP 화면으로 돌아가기</button>
+    <em class="pvp-result-tap">화면을 눌러도 돌아갑니다</em>
+  </div>`;
+}
+
 async function fightPvpV2Live({id,target,mine,pvpPreviewPower}){
   const modal=document.getElementById('modal'),user=loadUser();
   const live=window.prepareBattleV2LiveLoading({modal,mode:'PVP',playerName:user?.nickname||'MY PVP TEAM',opponentName:target?.nickname||'OPPONENT',autoText:'상대 덱·장비 PVP 전투력·고유효과를 기준으로 서버 전투를 계산하고 있습니다.'});
@@ -3054,7 +3079,7 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower}){
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
     const judged=['ACTION_LIMIT','POWER_TIEBREAK'].includes(String(d.battleV2?.result?.reason||''));
     const pvpV2Detail=` · 전투엔진 V2 1.6배${judged?` · ${Number(d.battleV2?.result?.actions||0)}행동 판정`:''}`;
-    msg.innerHTML=`<strong>${myWin?'VICTORY':'DEFEAT'}</strong><span>${Number(d.attackerPower||pvpPreviewPower).toLocaleString()} VS ${Number(d.defenderPower||0).toLocaleString()}${pvpV2Detail}</span><div class="battle-reward-pop"><small>SEASON SCORE</small><b>${d.scoreChange>0?'+':''}${d.scoreChange}</b>${d.scoreAdjustment?`<em>${escapeHtml(d.scoreAdjustment.label)} · ${Number(d.scoreAdjustment.multiplier)}%</em>`:''}<small>PVP COIN</small><b>+${Number(d.coinReward||0).toLocaleString()}</b>${Number(d.magicReward?.amount||0)>0?`<small>마법 결정</small><b class="pvp-magic-reward">✦ +${Number(d.magicReward.amount).toLocaleString()}</b>`:''}</div><button type="button" class="btn pvp-result-confirm" id="pvpResultConfirm">PvP 화면으로 돌아가기</button><em>화면을 눌러도 돌아갑니다</em>`;
+    msg.innerHTML=buildPvpV2ResultHtml(d,myWin,d.attackerPower||pvpPreviewPower,d.defenderPower||0,pvpV2Detail);
     msg.classList.add('is-visible');
     pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser){if(d.coinAfter!=null)savedPvpUser.coin=Number(d.coinAfter);if(d.magicCrystalsAfter!=null)savedPvpUser.magicCrystals=Number(d.magicCrystalsAfter);if(d.weeklyPremiumCube)savedPvpUser.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(savedPvpUser)}
     pvpState.energy=d.energy||pvpState.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();
@@ -3110,7 +3135,7 @@ async function fightPvp(id){
     if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
     const pvpV2Detail=useV2?` · 전투엔진 V2 1.6배${d.battleV2?.result?.reason==='ACTION_LIMIT'||d.battleV2?.result?.reason==='POWER_TIEBREAK'?` · ${Number(d.battleV2?.result?.actions||0)}행동 판정`:''}`:'';
-    msg.innerHTML=`<strong>${myWin?'VICTORY':'DEFEAT'}</strong><span>${Number(d.attackerPower).toLocaleString()} VS ${Number(d.defenderPower).toLocaleString()}${pvpV2Detail}</span><div class="battle-reward-pop"><small>SEASON SCORE</small><b>${d.scoreChange>0?'+':''}${d.scoreChange}</b>${d.scoreAdjustment?`<em>${escapeHtml(d.scoreAdjustment.label)} · ${Number(d.scoreAdjustment.multiplier)}%</em>`:''}<small>PVP COIN</small><b>+${Number(d.coinReward||0).toLocaleString()}</b>${Number(d.magicReward?.amount||0)>0?`<small>마법 결정</small><b class="pvp-magic-reward">✦ +${Number(d.magicReward.amount).toLocaleString()}</b>`:''}</div><button type="button" class="btn pvp-result-confirm" id="pvpResultConfirm">PvP 화면으로 돌아가기</button><em>화면을 눌러도 돌아갑니다</em>`;
+    msg.innerHTML=buildPvpV2ResultHtml(d,myWin,d.attackerPower,d.defenderPower,pvpV2Detail);
     pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser){if(d.coinAfter!=null)savedPvpUser.coin=Number(d.coinAfter);if(d.magicCrystalsAfter!=null)savedPvpUser.magicCrystals=Number(d.magicCrystalsAfter);if(d.weeklyPremiumCube)savedPvpUser.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(savedPvpUser)}
     pvpState.energy=d.energy||pvpState.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();
     const exitPvpBattle=()=>{modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';pvpState.tab='match';renderShell('pvp')};setTimeout(()=>{modal.onclick=()=>exitPvpBattle();const confirmBtn=document.getElementById('pvpResultConfirm');if(confirmBtn)confirmBtn.onclick=e=>{e.stopPropagation();exitPvpBattle()}},250);
