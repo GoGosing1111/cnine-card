@@ -122,9 +122,9 @@
     const layout = resolveLayout();
     modal.className = `modal show battle-modal ${mode === 'PVP' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v2-shell battle-v2-live-shell battle-v2-live-loading layout-${layout}">
-      <header class="battle-v2-live-header"><div><p>SOOPKETMON ${esc(mode)} · BATTLE ENGINE V2 · 1.6X</p><h1>${mode === 'PVE' ? '몬스터 토벌' : 'PVP 대전'}</h1></div><div class="battle-v2-badges"><b>HP POWER SCALE</b><b>UNIQUE EFFECT</b><b>DB TIMELINE 0</b></div></header>
-      <section class="battle-v2-scoreboard"><article class="team-summary team-a"><header><div><small>${mode === 'PVE' ? 'MEMBER TEAM' : 'MY PVP TEAM'}</small><strong>${esc(playerName)}</strong></div><b>READY</b></header><div class="v2-loading-stat-grid"><i></i><i></i><i></i><i></i></div></article><div class="battle-v2-center-mark"><span>ENGINE V2</span><strong>VS</strong><small>SERVER CALC</small></div><article class="team-summary team-b"><header><div><small>${mode === 'PVE' ? 'MONSTER' : 'OPPONENT TEAM'}</small><strong>${esc(opponentName)}</strong></div><b>READY</b></header><div class="v2-loading-stat-grid"><i></i><i></i><i></i><i></i></div></article></section>
-      <div class="battle-v2-layout-note"><b>${esc(layoutCopy(layout)[0])}</b><span>${esc(layoutCopy(layout)[1])}</span><em id="battlePhase" class="battle-v2-live-phase">SERVER BATTLE CALCULATION</em></div>
+      <header class="battle-v2-live-header"><div><h1>${mode === 'PVE' ? '몬스터 토벌' : 'PVP 대전'}</h1></div></header>
+      <section class="battle-v2-scoreboard"><article class="team-summary team-a"><header><div><small>${mode === 'PVE' ? 'MEMBER TEAM' : 'MY PVP TEAM'}</small><strong>${esc(playerName)}</strong></div><b>READY</b></header><div class="v2-loading-stat-grid"><i></i><i></i><i></i><i></i></div></article><div class="battle-v2-center-mark"><strong>VS</strong></div><article class="team-summary team-b"><header><div><small>${mode === 'PVE' ? 'MONSTER' : 'OPPONENT TEAM'}</small><strong>${esc(opponentName)}</strong></div><b>READY</b></header><div class="v2-loading-stat-grid"><i></i><i></i><i></i><i></i></div></article></section>
+      <div class="battle-v2-layout-note battle-v2-phase-only"><em id="battlePhase" class="battle-v2-live-phase">전투 준비 중</em></div>
       <section class="battle-v2-arena v2-loading-arena"><div class="arena-glow"></div><div class="action-order"><small>실제 덱·장비·고유효과 확인 중</small></div><div class="v2-loading-card-line side-a">${Array.from({length:5},(_,i)=>`<i style="--delay:${i}"></i>`).join('')}</div><div class="battle-v2-message desktop-message"><small>TACTICAL BATTLE</small><strong>CALCULATING</strong><span>${esc(autoText || '전투 타임라인을 서버에서 계산하고 있습니다.')}</span></div><div class="v2-loading-card-line side-b">${Array.from({length:mode === 'PVE' ? 1 : 5},(_,i)=>`<i style="--delay:${i}"></i>`).join('')}</div></section>
       <section class="battle-v2-live-footer"><div class="battle-v2-live-progress"><small>LIVE TIMELINE</small><b>READY</b><span>전투 속도 1.6배 고정</span></div><div id="battleMessage" class="battle-message battle-v2-live-result"></div></section>
     </div>`;
@@ -148,9 +148,9 @@
     const preservedPhase = phase;
     const preservedMsg = msg;
     stage.className = 'modal-panel battle-stage battle-v2-shell battle-v2-live-shell';
-    stage.innerHTML = `<header class="battle-v2-live-header"><div><p>SOOPKETMON ${mode} · BATTLE ENGINE V2 · 1.6X</p><h1>${mode === 'PVE' ? '몬스터 토벌' : 'PVP 대전'}</h1></div><div class="battle-v2-badges"><b>HP POWER SCALE</b><b>UNIQUE EFFECT</b><b>DB TIMELINE 0</b></div></header>
-      <section class="battle-v2-scoreboard"><article class="team-summary team-a" data-live-summary="A"></article><div class="battle-v2-center-mark"><span>ENGINE V2</span><strong>VS</strong><small>SEED ${esc(v2.seed || '-')}</small></div><article class="team-summary team-b" data-live-summary="B"></article></section>
-      <div class="battle-v2-layout-note"><b data-layout-badge></b><span data-layout-detail></span><em data-live-phase-slot></em></div>
+    stage.innerHTML = `<header class="battle-v2-live-header"><div><h1>${mode === 'PVE' ? '몬스터 토벌' : 'PVP 대전'}</h1></div></header>
+      <section class="battle-v2-scoreboard"><article class="team-summary team-a" data-live-summary="A"></article><div class="battle-v2-center-mark"><strong>VS</strong></div><article class="team-summary team-b" data-live-summary="B"></article></section>
+      <div class="battle-v2-layout-note battle-v2-phase-only"><em data-live-phase-slot></em></div>
       <section class="battle-v2-arena" data-live-arena aria-live="polite"><div class="arena-glow"></div><div class="action-order" data-live-order></div><div class="team-field team-field-a" data-live-field="A"></div><div class="battle-v2-message desktop-message" data-live-message><small>TACTICAL BATTLE</small><strong>READY</strong><span>전투 데이터를 배치하는 중</span></div><div class="team-field team-field-b" data-live-field="B"></div>
         <div class="focus-battle" data-live-focus aria-hidden="true"><div class="focus-roster focus-roster-b" data-live-roster="B"></div><div class="focus-duel"><div class="focus-slot focus-slot-a" data-live-focus-slot="A"></div><div class="battle-v2-message focus-message" data-live-focus-message><small>TACTICAL BATTLE</small><strong>READY</strong><span>현재 행동 카드를 집중 표시합니다.</span></div><div class="focus-slot focus-slot-b" data-live-focus-slot="B"></div></div><div class="focus-roster focus-roster-a" data-live-roster="A"></div></div><div class="battle-v2-fx" data-live-fx></div>
       </section>
@@ -229,7 +229,7 @@
     function applyLayout(force = false) {
       const next = resolveLayout(); if (!force && next === state.layout) return;
       state.layout = next; root.classList.remove('layout-desktop','layout-wago','layout-mobile-portrait','layout-mobile-landscape'); root.classList.add(`layout-${next}`);
-      const [label, detail] = layoutCopy(next); root.querySelector('[data-layout-badge]').textContent = label; root.querySelector('[data-layout-detail]').textContent = detail;
+      const [label, detail] = layoutCopy(next); const badge=root.querySelector('[data-layout-badge]'); const detailNode=root.querySelector('[data-layout-detail]'); if(badge) badge.textContent=label; if(detailNode) detailNode.textContent=detail;
       root.querySelector('[data-live-focus]')?.setAttribute('aria-hidden', next === 'desktop' ? 'true' : 'false'); syncFocusStage();
     }
     function setMessage(kicker, title, detail) { const html = `<small>${esc(kicker)}</small><strong>${esc(title)}</strong><span>${esc(detail)}</span>`; desktopMessage.innerHTML = html; focusMessage.innerHTML = html; }

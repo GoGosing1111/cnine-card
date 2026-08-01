@@ -440,3 +440,74 @@
 /* V1319: 궁극기 오버레이가 전투 컨테이너 밖으로 확대되지 않도록 기준 영역 고정 */
 .battle-v2-live-shell { position:relative; overflow:hidden; container-type:inline-size; }
 @media(max-width:600px){.battle-v2-live-shell{min-height:100dvh}.battle-v2-live-shell .battle-ultimate-overlay,.battle-v2-live-shell .boss-ultimate-overlay{border-radius:0}}
+
+
+/* v1320 mobile battle-first cleanup */
+.battle-v2-live-header { justify-content:center; align-items:center; margin:0 0 12px; text-align:center; }
+.battle-v2-live-header h1 { margin:0; font-size:clamp(28px,5vw,46px); letter-spacing:-.045em; }
+.battle-v2-live-header p,
+.battle-v2-live-header .battle-v2-badges,
+.battle-v2-badges { display:none !important; }
+.battle-v2-phase-only { justify-content:center; min-height:34px; margin:0 0 8px; padding:6px 10px; }
+.battle-v2-phase-only b,
+.battle-v2-phase-only span { display:none !important; }
+.battle-v2-phase-only em { margin:0; color:#8ea8bf; font-size:11px; font-style:normal; font-weight:900; letter-spacing:.06em; }
+.battle-v2-center-mark span,
+.battle-v2-center-mark small { display:none !important; }
+.battle-v2-center-mark { min-width:64px; }
+
+.layout-mobile-portrait .battle-v2-shell { padding-top:8px; }
+.layout-mobile-portrait .battle-v2-live-header { margin-bottom:7px; }
+.layout-mobile-portrait .battle-v2-live-header h1 { font-size:30px; }
+.layout-mobile-portrait .battle-v2-scoreboard { display:none !important; }
+.layout-mobile-portrait .battle-v2-phase-only { margin-bottom:6px; }
+.layout-mobile-portrait .battle-v2-arena { min-height:900px; padding-top:58px; }
+.layout-mobile-portrait .focus-duel { min-height:730px; grid-template-rows:minmax(285px,auto) auto minmax(285px,auto); }
+.layout-mobile-portrait .focus-slot .battle-card-v2 { width:min(218px,72vw); --focus-card-height:318px; }
+.layout-mobile-portrait .focus-slot .battle-v2-frame-shell { height:264px; }
+.layout-mobile-portrait .focus-slot .battle-v2-card-frame.card-frame { width:186px; height:264px; }
+.layout-mobile-portrait .focus-slot .hp-stack { width:205px; }
+.layout-mobile-portrait .focus-message { min-height:68px; }
+.layout-mobile-portrait .focus-message small,
+.layout-mobile-portrait .focus-message span { display:none; }
+.layout-mobile-portrait .focus-message strong { font-size:26px; }
+
+/* Loading must resemble the duel instead of five empty bars and oversized panels. */
+.battle-v2-live-loading.layout-mobile-portrait .battle-v2-scoreboard { display:none !important; }
+.battle-v2-live-loading.layout-mobile-portrait .v2-loading-arena {
+  min-height:760px;
+  display:grid;
+  grid-template-columns:1fr;
+  grid-template-rows:280px 70px 280px;
+  gap:12px;
+  padding:58px 16px 18px;
+}
+.battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line {
+  width:190px;
+  height:270px;
+  display:block;
+  margin:auto;
+}
+.battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line i { display:none; }
+.battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line i:first-child {
+  display:block;
+  width:190px;
+  height:270px;
+  min-height:0;
+  border-radius:18px;
+}
+.battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line.side-b { grid-row:1; }
+.battle-v2-live-loading.layout-mobile-portrait .desktop-message { grid-row:2; display:grid; min-height:62px; }
+.battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line.side-a { grid-row:3; }
+.battle-v2-live-loading.layout-mobile-portrait .desktop-message small { display:none; }
+.battle-v2-live-loading.layout-mobile-portrait .desktop-message strong { font-size:22px; }
+.battle-v2-live-loading.layout-mobile-portrait .desktop-message span { font-size:11px; }
+
+.layout-mobile-landscape .battle-v2-live-header,
+.layout-mobile-landscape .battle-v2-scoreboard,
+.layout-mobile-landscape .battle-v2-phase-only { display:none !important; }
+.layout-mobile-landscape .battle-v2-arena { margin-top:0; }
+
+/* Keep server errors visible without pushing the card field below the fold. */
+.layout-mobile-portrait .battle-v2-live-footer { position:relative; z-index:20; }
+.layout-mobile-portrait .battle-v2-live-result.is-visible { margin-top:8px; max-height:180px; overflow:auto; }
