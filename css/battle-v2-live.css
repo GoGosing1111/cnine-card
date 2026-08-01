@@ -777,3 +777,87 @@
     height: 207px !important;
   }
 }
+
+/* v1327: PC/fullscreen uses the same focused duel stage as WAGo/mobile.
+   Keep both 5-card rosters visible, but render only the current active fighter
+   from each team in the center battle field. */
+.layout-desktop .team-field,
+.layout-desktop .desktop-message {
+  display: none !important;
+}
+.layout-desktop .focus-battle {
+  display: grid !important;
+  grid-template-rows: auto minmax(620px, 1fr) auto;
+  gap: 14px;
+  min-height: 900px;
+}
+.layout-desktop .focus-duel {
+  grid-template-areas: "a message b";
+  grid-template-columns: minmax(260px, 1fr) minmax(130px, .42fr) minmax(260px, 1fr);
+  min-height: 620px;
+  gap: clamp(18px, 3vw, 48px);
+  padding: 26px clamp(28px, 5vw, 88px) 20px;
+}
+.layout-desktop .focus-slot .battle-card-v2 {
+  width: min(330px, 27vw);
+  height: 500px;
+}
+.layout-desktop .focus-slot .battle-v2-frame-shell {
+  height: 430px;
+}
+.layout-desktop .focus-slot .battle-v2-card-frame.card-frame {
+  width: min(304px, 25vw);
+  height: 430px;
+}
+.layout-desktop .focus-slot .hp-stack {
+  width: min(320px, 26vw);
+}
+.layout-desktop .focus-roster {
+  min-height: 94px;
+  padding: 12px 18px;
+  gap: 10px;
+}
+.layout-desktop .focus-mini-card {
+  height: 78px;
+}
+.layout-desktop .action-order {
+  width: min(860px, calc(100% - 50px));
+}
+@media (min-width: 1500px) {
+  .layout-desktop .focus-battle {
+    grid-template-rows: auto minmax(700px, 1fr) auto;
+    min-height: 1020px;
+  }
+  .layout-desktop .focus-duel { min-height: 700px; }
+  .layout-desktop .focus-slot .battle-card-v2 { width: 360px; height: 540px; }
+  .layout-desktop .focus-slot .battle-v2-frame-shell { height: 466px; }
+  .layout-desktop .focus-slot .battle-v2-card-frame.card-frame { width: 330px; height: 466px; }
+  .layout-desktop .focus-slot .hp-stack { width: 350px; }
+}
+
+/* v1328: PVE result uses the same premium V2 result presentation as PVP. */
+.battle-v2-live-result.is-visible:has(.pve-v2-result) {
+  position:absolute;
+  inset:0;
+  z-index:160;
+  width:100%;
+  max-height:none;
+  margin:0;
+  padding:clamp(14px,3vw,34px);
+  border:0;
+  border-radius:inherit;
+  overflow:auto;
+  background:rgba(2,8,18,.88);
+  backdrop-filter:blur(9px);
+  -webkit-backdrop-filter:blur(9px);
+}
+.battle-v2-live-result .pve-v2-result { margin:auto; }
+.pve-v2-result .pve-card-result-reward { grid-column:1/-1; }
+.pve-v2-result .pve-card-result-reward b { font-size:16px; line-height:1.25; }
+.pve-v2-result .pve-card-result-reward span { display:block; margin-top:6px; color:#8eb3ca; font-size:10px; font-weight:800; }
+.pve-result-tip { margin-top:13px; padding:11px 13px; border:1px solid rgba(255,126,126,.14); border-radius:12px; background:rgba(116,33,48,.13); color:#c9d6e3; font-size:11px; line-height:1.55; }
+@media(max-width:560px){
+  .battle-v2-live-result.is-visible:has(.pve-v2-result){padding:max(12px,env(safe-area-inset-top)) 10px max(12px,env(safe-area-inset-bottom));}
+  .pve-v2-result .pvp-result-rewards{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .pve-v2-result .pve-card-result-reward{grid-column:1/-1;}
+}

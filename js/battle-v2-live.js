@@ -178,7 +178,7 @@
 
     const fighterState = id => state.cards.get(String(id)) || null;
     const fighterNodes = id => [...root.querySelectorAll('.battle-card-v2')].filter(node => node.dataset.fighterId === String(id) || node.dataset.focusFighterId === String(id));
-    const isFocus = () => state.layout !== 'desktop';
+    const isFocus = () => true;
     const fighterNode = id => {
       if (isFocus()) {
         const focus = [...root.querySelectorAll('[data-focus-fighter-id]')].find(node => node.dataset.focusFighterId === String(id) && node.offsetParent !== null);
@@ -278,10 +278,28 @@
     battleSfx(win ? 'victory' : 'defeat');
     if (data.cubeReward && window.showCubeDropAcquisition) { try { await window.showCubeDropAcquisition(data.cubeReward); } catch (error) { console.warn(error); } }
     if (data.equipmentReward && window.showEquipmentDropReward) { try { await window.showEquipmentDropReward(data.equipmentReward); } catch (error) { console.warn(error); } }
-    const detail = `${reason === 'MONSTER_SURVIVED' ? `제한 행동 ${actions}회 내 몬스터 처치 실패 · ` : ''}전투엔진 V2 · 1.6배 · 전투력 ${number(data.battleV2?.teams?.A?.summary?.power || data.playerPower)} VS ${number(data.monsterPower)}`;
-    msg.innerHTML = win
-      ? `<strong>VICTORY</strong><span>${detail}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${number(data.reward)}</b>${Number(data.magicReward?.amount || 0)>0?`<div class="battle-magic-drop"><strong>✦ 마법 결정 +${number(data.magicReward.amount)}</strong></div>`:''}${data.cardReward?`<div class="battle-card-drop"><strong>${esc(data.cardReward.card.grade)} ${esc(data.cardReward.card.title)}</strong><span>${data.cardReward.duplicate?`중복 카드 · 조각 +${number(data.cardReward.shardGained)}`:'신규 카드 획득!'}</span></div>`:''}</div><em>화면을 눌러 돌아가기</em>`
-      : `<strong>DEFEAT</strong><span>${detail}</span><div class="battle-defeat-tip">몬스터가 살아 있으면 남은 HP 비율과 관계없이 패배합니다. 장비·강화·전열 구성을 조정하세요.</div><em>화면을 눌러 돌아가기</em>`;
+    const playerPower = Number(data.battleV2?.teams?.A?.summary?.power || data.playerPower || 0);
+    const monsterPower = Number(data.monsterPower || data.battleV2?.teams?.B?.summary?.power || 0);
+    const coinReward = Math.max(0, Number(data.reward || 0));
+    const magicReward = Math.max(0, Number(data.magicReward?.amount || 0));
+    const actionMeta = actions > 0 ? `<span>${number(actions)} ACTIONS</span>` : '';
+    const survivedMeta = reason === 'MONSTER_SURVIVED' ? '<span>MONSTER SURVIVED</span>' : '';
+    const cardRewardHtml = data.cardReward ? `<div class="pvp-result-reward pve-card-result-reward"><small>CARD REWARD</small><b>${esc(data.cardReward.card.grade)} · ${esc(data.cardReward.card.title)}</b><span>${data.cardReward.duplicate ? `중복 카드 · 조각 +${number(data.cardReward.shardGained)}` : '신규 카드 획득'}</span></div>` : '';
+    msg.innerHTML = `<div class="pvp-v2-result pve-v2-result ${win?'is-win':'is-loss'}">
+      <div class="pvp-result-glow" aria-hidden="true"></div>
+      <div class="pvp-result-kicker">SOOPKETMON · PVE RESULT</div>
+      <strong class="pvp-result-title">${win?'VICTORY':'DEFEAT'}</strong>
+      <div class="pvp-result-power"><b>${number(playerPower)}</b><i>VS</i><b>${number(monsterPower)}</b></div>
+      <div class="pvp-result-meta"><span>ENGINE V2 · 1.6X</span>${actionMeta}${survivedMeta}</div>
+      <div class="pvp-result-rewards">
+        <div class="pvp-result-reward"><small>PVE COIN</small><b>${win?'+':''}${number(coinReward)}</b></div>
+        ${magicReward>0?`<div class="pvp-result-reward"><small>MAGIC CRYSTAL</small><b>✦ +${number(magicReward)}</b></div>`:''}
+        ${cardRewardHtml}
+      </div>
+      ${win?'':`<div class="pve-result-tip">${reason==='MONSTER_SURVIVED'?'제한 행동 안에 몬스터를 처치하지 못했습니다.':'장비·강화·전열 구성을 조정한 뒤 다시 도전하세요.'}</div>`}
+      <button type="button" class="btn pvp-result-confirm" id="pveResultConfirm">PVE 화면으로 돌아가기</button>
+      <em class="pvp-result-tap">화면을 눌러도 돌아갑니다</em>
+    </div>`;
     renderer.showResult();
 
     battleState.energy = data.energy || battleState.energy;
