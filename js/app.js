@@ -769,8 +769,9 @@ function renderPveMonsterBrowser(){
  if(!PVE_MONSTER_TABS.includes(state.tab))state.tab='NORMAL';
  const resolveTab=m=>{const raw=String(m.pveTab||m.category||(m.isBoss?'HELL':'NORMAL')).toUpperCase();return (({GENERAL:'NORMAL',ELITE:'HARD',BOSS:'HELL',EVENT:'HELL'})[raw]||raw)};
  const rows=(battleState.monsters||[]).filter(m=>resolveTab(m)===state.tab&&String(m.name||'').toLowerCase().includes(String(state.query||'').toLowerCase())).sort((x,y)=>state.sort==='POWER_DESC'?Number(y.battlePower)-Number(x.battlePower):state.sort==='NAME'?String(x.name).localeCompare(String(y.name),'ko'):Number(x.battlePower)-Number(y.battlePower));
- const selected=(battleState.monsters||[]).find(m=>Number(m.id)===Number(battleState.selectedMonster))||rows[0]||null;
- root.innerHTML=`<div class="pve-monster-browser redesign"><section class="pve-target-spotlight ${selected?'ready':'empty'}">${selected?`${selected.image?`<img class="pve-target-image" src="${selected.image}" alt="${escapeHtml(selected.name)}">`:'<div class="pve-target-image placeholder">👹</div>'}<div class="pve-target-copy"><span class="pve-target-tag">${monsterCategoryLabel(resolveTab(selected))}</span><h3>${escapeHtml(selected.name)}</h3><div class="pve-target-stats"><article><small>요구 전투력</small><b>${Number(selected.battlePower||0).toLocaleString()}</b></article><article><small>승리 보상</small><b>◈ ${Number(selected.rewardCoin||0).toLocaleString()}</b></article></div><p>${Number(selected.isBoss)?'강력한 토벌 목표입니다. 덱 저장 후 신중하게 도전하세요.':'현재 덱으로 바로 도전할 수 있는 기본 토벌 목표입니다.'}</p>${battleState.battleEngine?.active?`<div class="pve-v2-live-badge"><i></i><b>전투엔진 V2</b><small>실전 적용 · 1.6배 고정${battleState.battleEngine?.ownerTest?' · OWNER TEST':''}</small></div>`:''}<button class="btn battle-start pve-target-start" id="battleStart" ${battleState.deck.length!==5?'disabled':''}>전투 시작</button></div>`:`<div class="empty-recent">먼저 토벌할 몬스터를 선택하세요.</div>`}</section><div class="pve-monster-tabs">${PVE_MONSTER_TABS.map(t=>`<button type="button" data-monster-tab="${t}" class="${state.tab===t?'active':''}">${monsterCategoryLabel(t)}</button>`).join('')}</div><div class="pve-monster-tools"><label class="pve-tool-field pve-tool-search"><span class="pve-tool-head"><span class="pve-tool-icon" aria-hidden="true">⌕</span><span>몬스터 검색</span></span><input id="pveMonsterSearch" value="${escapeHtml(state.query||'')}" placeholder="몬스터 이름"></label><label class="pve-tool-field pve-tool-sort"><span class="pve-tool-head"><span class="pve-tool-icon" aria-hidden="true">⇅</span><span>정렬 기준</span></span><span class="pve-select-wrap"><select id="pveMonsterSort" aria-label="몬스터 정렬 기준"><option value="POWER_ASC" ${state.sort==='POWER_ASC'?'selected':''}>전투력 낮은순</option><option value="POWER_DESC" ${state.sort==='POWER_DESC'?'selected':''}>전투력 높은순</option><option value="NAME" ${state.sort==='NAME'?'selected':''}>이름순</option></select></span></label></div><div class="pve-monster-grid redesign">${rows.map(m=>`<button class="monster-choice redesign ${Number(battleState.selectedMonster)===Number(m.id)?'active':''}" data-monster="${m.id}">${m.image?`<img src="${m.image}" alt="${escapeHtml(m.name)}">`:'<div class="monster-placeholder">👹</div>'}<span><small>${monsterCategoryLabel(resolveTab(m))}</small><b>${escapeHtml(m.name)}</b><em>전투력 ${Number(m.battlePower).toLocaleString()}</em><strong>보상 ◈ ${Number(m.rewardCoin).toLocaleString()}</strong></span></button>`).join('')||'<div class="empty-recent">조건에 맞는 몬스터가 없습니다.</div>'}</div></div>`;
+ let selected=(battleState.monsters||[]).find(m=>Number(m.id)===Number(battleState.selectedMonster))||rows[0]||null;
+ if(selected&&Number(battleState.selectedMonster)!==Number(selected.id)){battleState.selectedMonster=Number(selected.id);saveLastPveMonsterId(battleState.selectedMonster)}
+ root.innerHTML=`<div class="pve-monster-browser redesign"><section class="pve-target-spotlight ${selected?'ready':'empty'}">${selected?`${selected.image?`<img class="pve-target-image" src="${selected.image}" alt="${escapeHtml(selected.name)}">`:'<div class="pve-target-image placeholder">👹</div>'}<div class="pve-target-copy"><span class="pve-target-tag">${monsterCategoryLabel(resolveTab(selected))}</span><h3>${escapeHtml(selected.name)}</h3><div class="pve-target-stats"><article><small>요구 전투력</small><b>${Number(selected.battlePower||0).toLocaleString()}</b></article><article><small>승리 보상</small><b>◈ ${Number(selected.rewardCoin||0).toLocaleString()}</b></article></div><p>${Number(selected.isBoss)?'강력한 토벌 목표입니다. 덱 저장 후 신중하게 도전하세요.':'현재 덱으로 바로 도전할 수 있는 기본 토벌 목표입니다.'}</p>${battleState.battleEngine?.active?`<div class="pve-v2-live-badge"><i></i><b>전투엔진 V2</b><small>실전 적용 · 1.6배 고정${battleState.battleEngine?.ownerTest?' · OWNER TEST':''}</small></div>`:''}<button type="button" class="btn battle-start pve-target-start" id="battleStart" data-pve-start-button="1" ${battleState.deck.length!==5?'disabled':''}>전투 시작</button></div>`:`<div class="empty-recent">먼저 토벌할 몬스터를 선택하세요.</div>`}</section><div class="pve-monster-tabs">${PVE_MONSTER_TABS.map(t=>`<button type="button" data-monster-tab="${t}" class="${state.tab===t?'active':''}">${monsterCategoryLabel(t)}</button>`).join('')}</div><div class="pve-monster-tools"><label class="pve-tool-field pve-tool-search"><span class="pve-tool-head"><span class="pve-tool-icon" aria-hidden="true">⌕</span><span>몬스터 검색</span></span><input id="pveMonsterSearch" value="${escapeHtml(state.query||'')}" placeholder="몬스터 이름"></label><label class="pve-tool-field pve-tool-sort"><span class="pve-tool-head"><span class="pve-tool-icon" aria-hidden="true">⇅</span><span>정렬 기준</span></span><span class="pve-select-wrap"><select id="pveMonsterSort" aria-label="몬스터 정렬 기준"><option value="POWER_ASC" ${state.sort==='POWER_ASC'?'selected':''}>전투력 낮은순</option><option value="POWER_DESC" ${state.sort==='POWER_DESC'?'selected':''}>전투력 높은순</option><option value="NAME" ${state.sort==='NAME'?'selected':''}>이름순</option></select></span></label></div><div class="pve-monster-grid redesign">${rows.map(m=>`<button class="monster-choice redesign ${Number(battleState.selectedMonster)===Number(m.id)?'active':''}" data-monster="${m.id}">${m.image?`<img src="${m.image}" alt="${escapeHtml(m.name)}">`:'<div class="monster-placeholder">👹</div>'}<span><small>${monsterCategoryLabel(resolveTab(m))}</small><b>${escapeHtml(m.name)}</b><em>전투력 ${Number(m.battlePower).toLocaleString()}</em><strong>보상 ◈ ${Number(m.rewardCoin).toLocaleString()}</strong></span></button>`).join('')||'<div class="empty-recent">조건에 맞는 몬스터가 없습니다.</div>'}</div></div>`;
  root.querySelectorAll('[data-monster-tab]').forEach(b=>b.onclick=()=>{state.tab=b.dataset.monsterTab;const visible=(battleState.monsters||[]).filter(m=>resolveTab(m)===state.tab);if(!visible.some(m=>Number(m.id)===Number(battleState.selectedMonster)))battleState.selectedMonster=visible[0]?.id||null;savePveMonsterFilterState(state);if(battleState.selectedMonster)saveLastPveMonsterId(battleState.selectedMonster);renderBattleBuilder()});
  root.querySelector('#pveMonsterSearch').oninput=e=>{state.query=e.target.value;savePveMonsterFilterState(state);renderPveMonsterBrowser()};
  root.querySelector('#pveMonsterSort').onchange=e=>{state.sort=e.target.value;savePveMonsterFilterState(state);renderPveMonsterBrowser()};
@@ -799,7 +800,7 @@ function renderBattleBuilder(){
     if(cardRoot)cardRoot.innerHTML='';
     renderPveMonsterBrowser();
     const start=document.getElementById('battleStart'),noEnergy=battleState.energy&&!battleState.energy.unlimited&&battleState.energy.energy<battleState.energy.costPerBattle;
-    if(start){start.disabled=!isReady||!battleState.selectedMonster||noEnergy;start.textContent=noEnergy?'전투 횟수 부족':'전투 시작';start.onclick=startBattle;}
+    if(start){start.disabled=!isReady||!battleState.selectedMonster||noEnergy;start.textContent=noEnergy?'전투 횟수 부족':'전투 시작';start.dataset.pveStartBound='1';}
   }
   renderBattleEnergy();bindMobilePveTabs();setMobilePveTab(activeMobileTab,{scroll:false});applyPveViewMode(viewMode);
   if(viewMode==='hunt'&&battleState.restoreMonsterCursor){battleState.restoreMonsterCursor=false;requestAnimationFrame(()=>{const selected=document.querySelector(`#battleMonsters [data-monster="${battleState.selectedMonster}"]`);if(selected&&(!isMobilePve()||activeMobileTab==='monsters')){selected.focus({preventScroll:true});selected.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'});}});}
@@ -816,6 +817,18 @@ async function resetBattleDeck(){
   const button=document.getElementById('clearBattleDeck');if(button)button.disabled=true;
   try{await apiRequest('battle/deck',{method:'DELETE'});battleState.deck=[];renderBattleBuilder();alert('PvE 덱이 리셋되었습니다.')}
   catch(e){alert(e.message);if(button)button.disabled=false}
+}
+function handlePveBattleStartClick(event){
+  const button=event?.target?.closest?.('#battleStart,[data-pve-start-button="1"]');
+  if(!button||!button.isConnected)return;
+  event.preventDefault();event.stopImmediatePropagation();
+  if(button.disabled||button.getAttribute('aria-disabled')==='true')return;
+  if(battleState.fightStarting)return;
+  void startBattle();
+}
+if(!document.documentElement.dataset.pveStartGuardV1316){
+  document.documentElement.dataset.pveStartGuardV1316='1';
+  document.addEventListener('click',handlePveBattleStartClick,true);
 }
 function ensureBattleAutoToggle(){
   const start=document.getElementById('battleStart');if(!start||document.getElementById('battleAuto'))return;
@@ -987,11 +1000,20 @@ async function playBossBattleUltimate(stage,phase,ult){
 
 async function startBattle(){
   if(document.getElementById('battleAuto')?.checked)return startAutoBattle();
-  const playUltimateCinematics=!battleState.autoRunning||Number(battleState.autoSummary?.battles||0)===0;
+  if(battleState.fightStarting)return;
+  const modal=document.getElementById('modal');
+  const monster=(battleState.monsters||[]).find(m=>Number(m.id)===Number(battleState.selectedMonster));
+  if(!modal){alert('전투 화면을 준비하지 못했습니다. PVE 화면을 다시 열어주세요.');return;}
+  if(!monster){battleState.selectedMonster=Number((battleState.monsters||[])[0]?.id||0)||null;renderBattleBuilder();alert('선택한 몬스터 정보가 갱신되었습니다. 다시 전투를 시작해주세요.');return;}
+  if((battleState.deck||[]).length!==5){alert('PvE 출전 카드 5장을 먼저 편성해주세요.');return;}
+  const energy=battleState.energy;if(energy&&!energy.unlimited&&Number(energy.energy||0)<Math.max(1,Number(energy.costPerBattle||1))){renderBattleEnergy();alert('남은 전투 횟수가 부족합니다.');return;}
+  battleState.fightStarting=true;
+  let msg=null;
+  try{
+    const playUltimateCinematics=!battleState.autoRunning||Number(battleState.autoSummary?.battles||0)===0;
   const v2Playback=Boolean(battleState.battleEngine?.active),battleIntroSleep=ms=>battleSleep(v2Playback?Math.max(24,Math.round(Number(ms||0)/1.6)):ms);
   saveLastPveMonsterId(battleState.selectedMonster);
-  const modal=document.getElementById('modal'),monster=battleState.monsters.find(m=>Number(m.id)===Number(battleState.selectedMonster));
-  const user=loadUser();let deckCards=battleState.deck.map(id=>cards.find(x=>x.id===id)).filter(Boolean);
+  const user=loadUser();let deckCards=battleState.deck.map(id=>cards.find(x=>String(x.id)===String(id))).filter(Boolean);
   const previewCardPower=deckCards.reduce((sum,c)=>sum+battleCardPower(c,user,battleState.config),0),previewPower=previewCardPower+Number(battleState.characterBonus?.pve||0);
   modal.className=`modal show battle-modal${battleState.autoRunning?' auto-battle-modal':''}`;
   modal.innerHTML=`<div class="modal-panel battle-stage intro">
@@ -1010,8 +1032,7 @@ async function startBattle(){
     <div class="battle-impact"><i></i><i></i><i></i></div>
     <div id="battleMessage" class="battle-message"><span>전투 준비 중...</span></div>
   </div>`;
-  const stage=modal.querySelector('.battle-stage'),phase=document.getElementById('battlePhase'),count=document.getElementById('battleCountdown'),msg=document.getElementById('battleMessage');ensureBattleSoundButton(stage);
-  try{
+    const stage=modal.querySelector('.battle-stage'),phase=document.getElementById('battlePhase'),count=document.getElementById('battleCountdown');msg=document.getElementById('battleMessage');ensureBattleSoundButton(stage);
     battleTone(90,.18,'sawtooth',.035); await battleIntroSleep(500);
     stage.classList.add('cards-enter'); phase.textContent='TEAM DEPLOY'; await battleIntroSleep(900);
     stage.classList.add('enemy-enter'); phase.textContent=monster.isBoss?'BOSS APPEARS':'ENEMY APPEARS'; battleTone(monster.isBoss?52:105,.34,'square',.055); if(navigator.vibrate)navigator.vibrate(monster.isBoss?[100,50,150]:70); await battleIntroSleep(950);
@@ -1133,7 +1154,12 @@ async function startBattle(){
       if(remaining>0){msg.insertAdjacentHTML('beforeend',`<em class="auto-battle-next">자동전투 ${summary.battles}회 완료 · ${remaining}회 남음<br>잠시 후 다음 전투가 시작됩니다. 화면을 누르면 중단합니다.</em>`);modal.onclick=()=>{battleState.autoRunning=false;renderShell('battle')};setTimeout(()=>{if(battleState.autoRunning){modal.onclick=null;startBattle()}},1600)}
       else{battleState.autoRunning=false;const supplyBoxCount=(summary.equipmentRewards||[]).reduce((sum,reward)=>sum+Math.max(1,Number(reward?.quantity||1)),0);msg.insertAdjacentHTML('beforeend',`<div class="battle-auto-total"><b>자동전투 ${summary.battles}회 완료</b><span>승리 ${summary.wins} · 패배 ${summary.losses} · 코인 ◈ ${summary.totalReward.toLocaleString()}</span>${summary.magicCrystals>0?`<small>마법 결정 ✦ ${summary.magicCrystals.toLocaleString()}개</small>`:''}${summary.cardRewards.length?`<small>카드 획득 ${summary.cardRewards.length}장</small>`:''}${supplyBoxCount?`<small>보급상자 획득 ${supplyBoxCount}개</small>`:''}</div>`);setTimeout(()=>{modal.onclick=()=>renderShell('battle')},700)}
     }else setTimeout(()=>{modal.onclick=()=>renderShell('battle')},700);
-  }catch(e){battleState.autoRunning=false;if(e.energy)battleState.energy=e.energy;msg.innerHTML=`<span>${escapeHtml(e.message)}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>renderShell('battle')}
+  }catch(e){
+    battleState.autoRunning=false;if(e.energy)battleState.energy=e.energy;
+    console.error('PVE 전투 시작 실패:',e);
+    if(msg){msg.innerHTML=`<span>${escapeHtml(e.message||'전투를 시작하지 못했습니다.')}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>renderShell('battle')}
+    else{modal.className='modal';modal.innerHTML='';alert(e.message||'전투 화면을 준비하지 못했습니다.');renderShell('battle')}
+  }finally{battleState.fightStarting=false}
 }
 
 

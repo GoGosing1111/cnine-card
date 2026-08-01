@@ -75,3 +75,9 @@
   .battle-stage.pve-v2-live .battle-message>strong{font-size:34px}
   .battle-stage.pve-v2-live .battle-message>span{font-size:9px}
 }
+
+/* v1316 PVE start-button click safety */
+.pve-target-copy{position:relative}
+.pve-v2-live-badge{pointer-events:none}
+.pve-target-start{position:relative!important;z-index:30!important;pointer-events:auto!important;touch-action:manipulation}
+.pve-target-start:not(:disabled){cursor:pointer}
