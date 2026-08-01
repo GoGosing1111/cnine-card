@@ -6,11 +6,25 @@ const CARD_RARITIES=['FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const img=v=>/^https?:\/\//i.test(v)?v:'/'+String(v||'').replace(/^\//,'');
 async function api(path,opt={}){
-  const r=await fetch('../api/'+path,{...opt,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(opt.headers||{})},cache:'no-store'});
-  const text=await r.text();let d={};
-  try{d=text?JSON.parse(text):{}}catch{const e=Error('API 경로 또는 Cloudflare Functions 연결을 확인해주세요.');e.status=r.status;throw e}
-  if(!r.ok){const e=Error(d.error||'요청 실패');e.status=r.status;e.code=d.code;throw e}
-  return d;
+  const controller=new AbortController();
+  const timeoutMs=Math.max(5000,Number(opt.timeoutMs||20000));
+  const timer=setTimeout(()=>controller.abort(),timeoutMs);
+  const externalSignal=opt.signal;
+  if(externalSignal){
+    if(externalSignal.aborted)controller.abort();
+    else externalSignal.addEventListener('abort',()=>controller.abort(),{once:true});
+  }
+  const requestOpt={...opt};delete requestOpt.timeoutMs;delete requestOpt.signal;
+  try{
+    const r=await fetch('../api/'+path,{...requestOpt,signal:controller.signal,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(requestOpt.headers||{})},cache:'no-store'});
+    const text=await r.text();let d={};
+    try{d=text?JSON.parse(text):{}}catch{const e=Error('API 경로 또는 Cloudflare Functions 연결을 확인해주세요.');e.status=r.status;throw e}
+    if(!r.ok){const e=Error(d.error||'요청 실패');e.status=r.status;e.code=d.code;throw e}
+    return d;
+  }catch(error){
+    if(error?.name==='AbortError'){const e=Error('요청 시간이 초과되었습니다. 관리자 로그인은 유지됩니다. 잠시 후 다시 시도해주세요.');e.code='REQUEST_TIMEOUT';throw e}
+    throw error;
+  }finally{clearTimeout(timer)}
 }
 function setBusy(btn,busy,text='처리 중...'){if(!btn)return;btn.disabled=busy;if(!btn.dataset.label)btn.dataset.label=btn.textContent;btn.textContent=busy?text:btn.dataset.label}
 async function login(){const btn=$('#loginBtn'),key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('admin/auth/login',{method:'POST',body:JSON.stringify({privateKey:key})}),role=String(d.user?.role||'').toUpperCase();if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(role))throw Error('관리자 권한이 없는 계정입니다.');if(!d.token)throw Error('관리자 로그인 정보를 발급받지 못했습니다.');token=d.token;localStorage.setItem('cnine_admin_token',token);sessionStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message||'관리자 로그인 중 오류가 발생했습니다.')}finally{setBusy(btn,false)}}
@@ -24,11 +38,14 @@ async function boot(){
     renderIdentity();
     show('dashboard',d);
   }catch(e){
-    setAuthScreen(false);
-    if(e.status===401||e.status===403){
-      alert('관리자 인증 확인에 실패했습니다. 저장된 로그인 정보는 삭제하지 않았습니다.\n페이지를 새로고침하거나 다시 로그인해주세요.');
+    if(e.status===401){
+      setAuthScreen(false);
+      alert('관리자 세션이 실제로 만료되었습니다. 다시 로그인해주세요.');
     }else{
-      alert(`CMS 정보를 불러오지 못했습니다. 관리자 권한은 유지됩니다.\n${e.message}`);
+      // 네트워크 지연, Cloudflare 오류, 권한별 403은 세션 만료가 아니다.
+      // 저장된 토큰과 CMS 화면을 그대로 유지해 가짜 로그아웃처럼 보이지 않게 한다.
+      setAuthScreen(Boolean(token));
+      alert(`CMS 정보를 불러오지 못했지만 관리자 로그인은 유지됩니다.\n${e.message}`);
     }
   }
 }
@@ -219,7 +236,7 @@ async function userAction(action){const userId=Number($('#selectedUserId').value
 async function resetKey(){const userId=Number($('#selectedUserId').value);if(!confirm('기존 개인키와 로그인 세션이 즉시 무효화됩니다.\n새 개인키를 발급할까요?'))return;const d=await api('admin/users/private-key-reset',{method:'POST',body:JSON.stringify({userId})});prompt('새 개인키입니다. 이 창을 닫기 전에 복사하세요.',d.privateKey)}
 async function loadCoupons(){const d=await api('admin/coupons');$('#coupons').innerHTML=`<div class="tr head"><b>쿠폰 코드</b><b>보상</b><b>사용량</b><b>시작</b><b>종료</b><b class="optional">1인 제한</b><b>상태</b><b></b></div>`+(d.coupons.length?d.coupons.map(c=>`<div class="tr"><div class="couponCode"><b>${esc(c.code)}</b><button class="ghost copyCoupon" data-code="${esc(c.code)}">복사</button></div><span>${Number(c.reward_coin).toLocaleString()} 코인</span><span>${c.used_count} / ${c.max_uses}</span><span>${fmt(c.starts_at)}</span><span>${fmt(c.ends_at)}</span><span class="optional">계정당 1회</span><span><i class="statusPill ${c.is_active?'':'off'}">${c.is_active?'사용 가능':'중지됨'}</i></span><button data-coupon="${c.id}" data-active="${c.is_active}">${c.is_active?'비활성':'재활성'}</button></div>`).join(''):'<div class="panel muted">발급된 쿠폰이 없습니다.</div>');document.querySelectorAll('[data-coupon]').forEach(b=>b.onclick=()=>toggleCoupon(b));document.querySelectorAll('.copyCoupon').forEach(b=>b.onclick=()=>copyCoupon(b.dataset.code,b))}
 async function copyCoupon(code,btn){try{await navigator.clipboard.writeText(code);const old=btn.textContent;btn.textContent='복사됨';setTimeout(()=>btn.textContent=old,1000)}catch{prompt('쿠폰 코드를 복사하세요.',code)}}
-async function createCoupon(){const p={code:$('#couponCode').value.trim(),rewardCoin:Number($('#couponReward').value),maxUses:Number($('#couponMax').value),startsAt:toSql($('#couponStart').value),endsAt:toSql($('#couponEnd').value)};if(!p.code)return alert('쿠폰 코드를 입력하세요.');if(!p.startsAt||!p.endsAt)return alert('쿠폰 사용 시작과 종료 시간을 모두 입력하세요.');if(new Date($('#couponEnd').value)<=new Date($('#couponStart').value))return alert('종료 시간은 시작 시간보다 늦어야 합니다.');const btn=$('#createCouponBtn');setBusy(btn,true,'발급 중...');try{await api('admin/coupons',{method:'POST',body:JSON.stringify(p)});$('#couponCode').value='';await loadCoupons();alert('공용 쿠폰이 발급되었습니다.\n모든 유저가 계정당 한 번 사용할 수 있습니다.')}finally{setBusy(btn,false)}}
+async function createCoupon(){const p={code:$('#couponCode').value.trim(),rewardCoin:Number($('#couponReward').value),maxUses:Number($('#couponMax').value),startsAt:toSql($('#couponStart').value),endsAt:toSql($('#couponEnd').value)};if(!p.code)return alert('쿠폰 코드를 입력하세요.');if(!p.startsAt||!p.endsAt)return alert('쿠폰 사용 시작과 종료 시간을 모두 입력하세요.');if(new Date($('#couponEnd').value)<=new Date($('#couponStart').value))return alert('종료 시간은 시작 시간보다 늦어야 합니다.');const btn=$('#createCouponBtn');if(btn.disabled)return;setBusy(btn,true,'발급 중...');try{const d=await api('admin/coupons',{method:'POST',body:JSON.stringify(p),timeoutMs:15000});$('#couponCode').value='';if(d.coupon){await loadCoupons()}else{await loadCoupons()}alert('공용 쿠폰이 발급되었습니다.\n모든 유저가 계정당 한 번 사용할 수 있습니다.')}catch(e){alert(e.message||'쿠폰 발급에 실패했습니다. 관리자 로그인은 유지됩니다.')}finally{setBusy(btn,false)}}
 async function toggleCoupon(b){const enabling=b.dataset.active!=='1';if(!confirm(enabling?'이 쿠폰을 다시 사용할 수 있게 할까요?':'이 쿠폰의 사용을 즉시 중지할까요?'))return;await api('admin/coupons',{method:'PATCH',body:JSON.stringify({id:Number(b.dataset.coupon),isActive:enabling})});await loadCoupons()}
 async function loadLogs(){const d=await api('admin/logs');$('#logs').innerHTML=d.logs.length?d.logs.map(l=>`<div class="panel logRow"><span>${fmt(l.created_at)}</span><b>${esc(l.admin_nickname||'알 수 없음')}<small>${esc(l.admin_role||'')}</small></b><span>${actionName(l.action_type)}<small>${esc(l.target_type)} #${esc(l.target_id)}</small></span><div class="detail">${logSummary(l)}${l.after_data?`<code>${esc(l.after_data)}</code>`:''}</div></div>`).join(''):'<div class="panel muted">기록된 관리자 작업이 없습니다.</div>'}
 function actionName(v){return ({COIN:'코인 조정',SHARDS:'카드 조각 조정',CARDS_RESET:'카드 초기화',ATTENDANCE_RESET:'출석 초기화',ACCOUNT_RESET:'계정 초기화',BAN:'이용정지',UNBAN:'이용해제',FORCE_MAIN:'강제 메인 화면 복귀',PRIVATE_KEY_RESET:'개인키 재발급',COUPON_CREATE:'쿠폰 발급',COUPON_UPDATE:'쿠폰 변경',SETTINGS_UPDATE:'설정 변경',CARD_UPDATE:'카드 수정',CARD_CREATE:'카드 추가',CARD_DELETE:'카드 삭제',PACK_RATE_UPDATE:'카드팩 확률 변경',BREAKTHROUGH_SETTINGS_UPDATE:'돌파 확률 변경',CRITICAL_SETTINGS_UPDATE:'크리티컬 설정 변경',MAINTENANCE_START:'서버 점검 시작',MAINTENANCE_END:'서버 점검 종료'})[v]||v}

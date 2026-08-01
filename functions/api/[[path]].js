@@ -5045,13 +5045,27 @@ export async function onRequest(context){
 
     if(path==='admin/coupons'){
       const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC').all();return json({coupons:rows.results});}
+      if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[]});}
       if(request.method==='POST'){
         const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),reward=Number(p.rewardCoin),max=Number(p.maxUses);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
         if(!Number.isInteger(reward)||reward<1||reward>10000000)return json({error:'보상 코인을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
-        try{const r=await env.DB.prepare('INSERT INTO coupons(code,reward_coin,starts_at,ends_at,max_uses,created_by) VALUES(?,?,?,?,?,?)').bind(code,reward,p.startsAt||null,p.endsAt||null,max,admin.id).run();await writeAdminLog(env,admin,'COUPON_CREATE','COUPON',r.meta.last_row_id,null,{code,reward,max});return json({ok:true},201)}catch{return json({error:'이미 존재하는 쿠폰 코드입니다.'},409)}
+        const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? LIMIT 1').bind(code).first();
+        if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
+        try{
+          await env.DB.batch([
+            env.DB.prepare('INSERT INTO coupons(code,reward_coin,starts_at,ends_at,max_uses,created_by) VALUES(?,?,?,?,?,?)').bind(code,reward,p.startsAt||null,p.endsAt||null,max,admin.id),
+            env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'COUPON_CREATE','COUPON',code,null,JSON.stringify({code,reward,max}))
+          ]);
+          const coupon=await env.DB.prepare('SELECT * FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
+          return json({ok:true,coupon},201);
+        }catch(error){
+          const message=String(error?.message||'');
+          if(/UNIQUE|constraint|already exists/i.test(message))return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
+          console.error('coupon create failed',message);
+          return json({error:'쿠폰 발급 처리 중 오류가 발생했습니다. 관리자 로그인은 유지됩니다.'},500);
+        }
       }
       if(request.method==='PATCH'){
         const p=await readBody(request),before=await env.DB.prepare('SELECT * FROM coupons WHERE id=? AND deleted_at IS NULL').bind(Number(p.id)).first();if(!before)return json({error:'쿠폰이 없습니다.'},404);
