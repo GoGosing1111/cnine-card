@@ -5,7 +5,7 @@ import { handleCaptain } from '../_captain.js';
 import { handleSealBattle } from '../_seal_battle.js';
 import { handleMagic,magicSettings,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates,resolveUniqueBattleRuntime } from '../_magic.js';
 import { handleStorageCleanup } from '../_storage_cleanup.js';
-import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation } from '../_equipment.js';
+import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 
@@ -336,26 +336,48 @@ function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브�
 
 
 const BURNING_EVENT_META_KEY='burning_event_settings_v1';
-const BURNING_EVENT_CACHE_MS=5000;
+const HYPER_BURNING_EVENT_META_KEY='hyper_burning_event_settings_v1310';
+const BURNING_EVENT_CACHE_MS=1000;
 let burningEventCache=null;
-function defaultBurningEventSettings(){return {enabled:false,generation:0,activatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,battleRewardMultiplier:1.5};}
-function cleanBurningEventSettings(raw={}){const b=defaultBurningEventSettings(),num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));let title=String(raw.title||b.title).trim().slice(0,80)||b.title;if(title==='씨켓몬 버닝이 발동 되었습니다')title=b.title;return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};}
-async function burningEventSettings(env,{fresh=false}={}){
+function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,equipmentBoxDiscountPercent:0,battleRewardMultiplier:1.5};}
+function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:2,packDiscountPercent:30,equipmentBoxDiscountPercent:20,battleRewardMultiplier:2.5};}
+function cleanBurningEventSettings(raw={},mode='BURNING'){
+  const hyper=String(mode||raw.mode||'BURNING').toUpperCase()==='HYPER',b=hyper?defaultHyperBurningEventSettings():defaultBurningEventSettings();
+  const num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));
+  let title=String(raw.title||b.title).trim().slice(0,80)||b.title;
+  if(title.includes('\uC528\uCF13\uBAAC'))title=title.replaceAll('\uC528\uCF13\uBAAC','숲켓몬');
+  return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:num(raw.packDiscountPercent,b.packDiscountPercent,0,90),equipmentBoxDiscountPercent:num(raw.equipmentBoxDiscountPercent,b.equipmentBoxDiscountPercent,0,90),battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};
+}
+function activeBurningEvent(pair={}){
+  const normal=cleanBurningEventSettings(pair.normal||{},'BURNING'),hyper=cleanBurningEventSettings(pair.hyper||{},'HYPER');
+  if(hyper.enabled)return hyper;
+  if(normal.enabled)return normal;
+  const normalAt=Date.parse(String(normal.updatedAt||normal.activatedAt||''))||0,hyperAt=Date.parse(String(hyper.updatedAt||hyper.activatedAt||''))||0;
+  return hyperAt>normalAt?hyper:normal;
+}
+async function burningEventPair(env,{fresh=false}={}){
   const now=Date.now();
   if(!fresh&&burningEventCache&&now-burningEventCache.at<BURNING_EVENT_CACHE_MS)return burningEventCache.value;
   try{
-    const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BURNING_EVENT_META_KEY).first();
-    let value=defaultBurningEventSettings();if(row?.value)try{value=cleanBurningEventSettings(JSON.parse(row.value))}catch{}
+    const [normalResult,hyperResult]=await env.DB.batch([
+      env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BURNING_EVENT_META_KEY),
+      env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(HYPER_BURNING_EVENT_META_KEY)
+    ]);
+    let normal=defaultBurningEventSettings(),hyper=defaultHyperBurningEventSettings();
+    const normalValue=normalResult?.results?.[0]?.value,hyperValue=hyperResult?.results?.[0]?.value;
+    if(normalValue)try{normal=cleanBurningEventSettings(JSON.parse(normalValue),'BURNING')}catch{}
+    if(hyperValue)try{hyper=cleanBurningEventSettings(JSON.parse(hyperValue),'HYPER')}catch{}
+    const value={normal,hyper,active:activeBurningEvent({normal,hyper})};
     burningEventCache={at:now,value};return value;
   }catch(error){
-    // 버닝 설정의 일시 조회 실패가 카드팩·전투 전체 장애로 번지지 않도록 직전 정상값을 유지한다.
     if(burningEventCache?.value){console.warn('burning event settings fallback to cache',error);return burningEventCache.value;}
     throw error;
   }
 }
-function burningPublicState(settings){return {enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:settings.duplicateShardMultiplier,packDiscountPercent:settings.packDiscountPercent,battleRewardMultiplier:settings.battleRewardMultiplier};}
-function applyBurningPveSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
-function applyBurningPvpSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningActivatedAt:burning.activatedAt||null,energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pvpMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
+async function burningEventSettings(env,{fresh=false}={}){return (await burningEventPair(env,{fresh})).active;}
+function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:settings.duplicateShardMultiplier,packDiscountPercent:settings.packDiscountPercent,equipmentBoxDiscountPercent:settings.equipmentBoxDiscountPercent||0,battleRewardMultiplier:settings.battleRewardMultiplier};}
+function applyBurningPveSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
+function applyBurningPvpSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pvpMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
 function burningDiscountPrice(price,burning){const original=Math.max(0,Math.floor(Number(price)||0));return burning?.enabled?Math.max(0,Math.floor(original*(100-Number(burning.packDiscountPercent||0))/100)):original;}
 function burningRewardAmount(amount,burning){const base=Math.max(0,Math.floor(Number(amount)||0));return burning?.enabled?Math.max(0,Math.floor(base*Number(burning.battleRewardMultiplier||1))):base;}
 
@@ -2045,7 +2067,7 @@ function parseWagoTodayBoardRows(html){
     if(!/\b\d{1,2}:\d{2}\b/.test(text))continue;
     const rowTag=(/<tr\b[^>]*>/i.exec(block)||[''])[0];
     const rowClass=(/\bclass\s*=\s*['"]([^'"]*)['"]/i.exec(rowTag)||[])[1]||'';
-    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass)||/\[?\s*씨켓몬 공지\s*\]?/.test(text))continue;
+    if(/(?:^|\s)(?:notice|fixed)(?:\s|$)/i.test(rowClass)||/\[?\s*\uC528\uCF13\uBAAC 공지\s*\]?/.test(text))continue;
     const post=/href=['"](?:https?:\/\/(?:www\.)?ygosu\.com)?\/board\/soop\/(\d+)(?:[^'"]*)?['"]/i.exec(block);
     if(!post)continue;
     const author=extractWagoBoardAuthor(block);
@@ -2670,7 +2692,7 @@ async function maintenanceSettings(env,{fresh=false}={}){
     const values=Object.fromEntries(rows.results.map(row=>[row.key,row.value]));
     const value={
       active:String(values.maintenance_mode||'0')==='1',
-      title:values.maintenance_title||'씨켓몬 서버 점검 중',
+      title:values.maintenance_title||'숲켓몬 서버 점검 중',
       message:values.maintenance_message||'안정적인 서비스 제공을 위해 점검을 진행하고 있습니다.',
       startAt:values.maintenance_start_at||'',
       endAt:values.maintenance_end_at||'',
@@ -2838,7 +2860,7 @@ export async function onRequest(context){
       const ipHash=await requestIpHash(request,env);
       const existingIp=await env.DB.prepare('SELECT user_id FROM account_ip_registrations WHERE ip_hash=?').bind(ipHash).first();
       const ipException=await env.DB.prepare("SELECT ip_hash FROM account_ip_exceptions WHERE ip_hash=? AND (expires_at IS NULL OR expires_at>datetime('now'))").bind(ipHash).first();
-      if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 씨켓몬 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
+      if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 숲켓몬 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
       try{
         const coinSetting=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_user_coin'").first();
         const newUserCoin=Math.max(0,Number(coinSetting?.value||5000)||5000);
@@ -4221,7 +4243,7 @@ export async function onRequest(context){
       const inspected=await inspectWagoComment(settings,v);
       await env.DB.prepare("UPDATE wago_verifications SET comment_url=?,profile_url=NULL,last_checked_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(settings.postUrl,inspected.ok?inspected.notice:inspected.error,user.id).run();
       if(!inspected.ok)return json({error:inspected.error},409);
-      const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(inspected.memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 씨켓몬 계정에 인증된 회원번호입니다.'},409);
+      const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(inspected.memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 숲켓몬 계정에 인증된 회원번호입니다.'},409);
       await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',wago_member_no=?,comment_url=?,profile_url=NULL,verified_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.memberNo,inspected.commentUrl,inspected.notice,user.id).run();
       return json({ok:true,verified:true,message:`댓글 작성자 회원번호 ${inspected.memberNo}번을 확인하여 자동 인증되었습니다.`});
     }
@@ -4387,7 +4409,7 @@ export async function onRequest(context){
       if(!matches.length)return json({error:'2단계 인증 연결 기록이 없습니다.',code:'WAGO_NOT_VERIFIED',wagoNickname},404);
       if(matches.length>1)return json({error:'동일 와고 닉네임에 인증 완료 계정이 여러 개 연결되어 있습니다. CMS에서 연결 기록을 정리하세요.',code:'WAGO_DUPLICATE_LINK',wagoNickname,matches:matches.map(x=>({gameNickname:x.nickname,wagoMemberNo:x.wago_member_no}))},409);
       const user=matches[0];
-      if(String(user.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 씨켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
+      if(String(user.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 숲켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
       return json({ok:true,wagoNickname:user.wago_nickname,wagoMemberNo:user.wago_member_no,gameUser:{id:user.id,nickname:user.nickname,coin:Number(user.coin||0)},verifiedAt:user.verified_at});
     }
 
@@ -4405,7 +4427,7 @@ export async function onRequest(context){
       if(String(linked.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'정지되거나 비활성화된 계정에는 지급할 수 없습니다.'},409);
       if(sourceKey){const duplicateSource=await env.DB.prepare('SELECT id,request_id,amount,created_at FROM wago_extension_reward_receipts WHERE source_key=? AND user_id=? AND reason=? ORDER BY id DESC LIMIT 1').bind(sourceKey,userId,reason).first();if(duplicateSource&&!body.allowDuplicate)return json({error:'같은 게시글 또는 댓글에 동일 사유로 이미 지급된 기록이 있습니다.',code:'SOURCE_ALREADY_REWARDED',previous:duplicateSource},409);}
       const beforeCoin=Number(linked.coin||0);
-      const title=String(body.title||'씨켓몬 이벤트 코인 지급').trim().slice(0,100);
+      const title=String(body.title||'숲켓몬 이벤트 코인 지급').trim().slice(0,100);
       const messageBody=String(body.messageBody||`${reason} 보상으로 ${amount.toLocaleString()}코인이 도착했습니다. 메시지에서 수령해 주세요.`).trim().slice(0,1000);
       const messageResult=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'ADMIN',?,?,'COIN_REWARD')").bind(userId,title,messageBody).run();
       const messageId=Number(messageResult?.meta?.last_row_id||0);if(!messageId)throw new Error('코인 보상 메시지 저장 ID 확인 실패');
@@ -5136,18 +5158,28 @@ export async function onRequest(context){
 
     if(path==='burning-event/status'){
       const forceFresh=new URL(request.url).searchParams.get('fresh')==='1';
-      const burning=await burningEventSettings(env,{fresh:forceFresh});
-      return json({burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
+      const pair=await burningEventPair(env,{fresh:forceFresh});
+      return json({burningEvent:burningPublicState(pair.active),serverNow:new Date().toISOString()});
     }
-    if(path==='admin/burning-event'){
+    if(path==='admin/burning-event'||path==='admin/hyper-burning-event'){
       const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 없습니다.'},403);
-      if(request.method==='GET'){const settings=await burningEventSettings(env,{fresh:true});return json({settings});}
+      const isHyper=path==='admin/hyper-burning-event',mode=isHyper?'HYPER':'BURNING',metaKey=isHyper?HYPER_BURNING_EVENT_META_KEY:BURNING_EVENT_META_KEY,otherKey=isHyper?BURNING_EVENT_META_KEY:HYPER_BURNING_EVENT_META_KEY;
+      if(request.method==='GET'){
+        const pair=await burningEventPair(env,{fresh:true}),settings=isHyper?pair.hyper:pair.normal;
+        return json({settings,activeMode:pair.active.enabled?pair.active.mode:'NONE',activeEvent:burningPublicState(pair.active)});
+      }
       if(request.method==='PATCH'){
-        const body=await readBody(request),before=await burningEventSettings(env,{fresh:true});
-        const requested=cleanBurningEventSettings({...before,...(body.settings||body)}),turningOn=before.enabled!==true&&requested.enabled===true;
-        const next=cleanBurningEventSettings({...requested,generation:turningOn?Number(before.generation||0)+1:Number(before.generation||0),activatedAt:turningOn?new Date().toISOString():before.activatedAt});
-        await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(BURNING_EVENT_META_KEY,JSON.stringify(next)).run();
-        burningEventCache={at:Date.now(),value:next};await writeAdminLog(env,admin,'BURNING_EVENT_UPDATE','APP_META',BURNING_EVENT_META_KEY,before,next);return json({ok:true,settings:next,activated:turningOn});
+        const body=await readBody(request),pairBefore=await burningEventPair(env,{fresh:true}),before=isHyper?pairBefore.hyper:pairBefore.normal,otherBefore=isHyper?pairBefore.normal:pairBefore.hyper;
+        const requested=cleanBurningEventSettings({...before,...(body.settings||body)},mode),turningOn=before.enabled!==true&&requested.enabled===true,changedAt=new Date().toISOString(),shouldDisableOther=requested.enabled===true&&otherBefore.enabled===true;
+        const next=cleanBurningEventSettings({...requested,generation:turningOn?Number(before.generation||0)+1:Number(before.generation||0),activatedAt:turningOn?changedAt:before.activatedAt,updatedAt:changedAt},mode);
+        const otherNext=shouldDisableOther?cleanBurningEventSettings({...otherBefore,enabled:false,updatedAt:changedAt},isHyper?'BURNING':'HYPER'):otherBefore;
+        const statements=[env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(metaKey,JSON.stringify(next))];
+        if(shouldDisableOther)statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(otherKey,JSON.stringify(otherNext)));
+        await env.DB.batch(statements);
+        burningEventCache=null;invalidateEquipmentPromotionCache();
+        const verified=await burningEventPair(env,{fresh:true}),verifiedSettings=isHyper?verified.hyper:verified.normal;
+        await writeAdminLog(env,admin,isHyper?'HYPER_BURNING_EVENT_UPDATE':'BURNING_EVENT_UPDATE','APP_META',metaKey,before,verifiedSettings);
+        return json({ok:true,settings:verifiedSettings,otherSettings:isHyper?verified.normal:verified.hyper,activeMode:verified.active.enabled?verified.active.mode:'NONE',activeEvent:burningPublicState(verified.active),activated:turningOn});
       }
     }
 

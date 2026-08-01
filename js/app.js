@@ -4,7 +4,7 @@ const LEGACY_STORAGE_KEYS = ['cnine_card_user_v08', 'cnine_card_user'];
 const TEST_COIN = 5000;
 let cards = [];
 let selectedPackId = 'basic';
-let burningEventState={enabled:false,generation:0,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:20,duplicateShardMultiplier:2,battleRewardMultiplier:1.5};
+let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:20,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:2,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
 let magicSystemState={visible:false,enabled:false,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
 const magicUiState={deckType:'PVE',selectedSlot:1};
 
@@ -74,23 +74,40 @@ function applyServerPacks(rows = []) {
 }
 
 
-const BURNING_EVENT_SYNC_KEY='cnine:burning-event-sync-v1171';
+const BURNING_EVENT_SYNC_KEY='cnine:burning-event-sync-v1310';
 let burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null;
 function burningEventFingerprint(state={}){
-  return JSON.stringify([state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),Number(state.duplicateShardMultiplier||0),Number(state.packDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
+  return JSON.stringify([String(state.mode||'NONE'),String(state.theme||''),state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.updatedAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),Number(state.duplicateShardMultiplier||0),Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
+}
+function burningMode(){return burningEventState.enabled?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
+function burningBenefitText(){
+  const pve=Number(burningEventState.pve?.maxEnergy||0),pvp=Number(burningEventState.pvp?.maxEnergy||0),minutes=Number(burningEventState.pve?.rechargeMinutes||0),shards=Number(burningEventState.duplicateShardMultiplier||1),pack=Number(burningEventState.packDiscountPercent||0),box=Number(burningEventState.equipmentBoxDiscountPercent||0),coins=Number(burningEventState.battleRewardMultiplier||1);
+  return `PVE ${pve}회 · PVP ${pvp}회 / ${minutes}분 충전 · 중복 조각 ${shards}배 · 카드팩 ${pack}% 할인${box>0?` · 장비상자 ${box}% 할인`:''} · 코인 보상 ${coins}배`;
+}
+function burningEventStripMarkup(){
+  if(!burningEventState.enabled)return '';
+  const hyper=burningMode()==='HYPER';
+  return `<section class="burning-event-strip ${hyper?'hyper-burning-strip':''}"><b>${hyper?'✦':'🔥'} 숲켓몬 ${hyper?'하이퍼 버닝':'버닝'} 진행 중</b><span>${burningBenefitText()}</span></section>`;
 }
 function syncBurningEventVisibleUi(){
   if(runtimeCommandContext!=='buy'||!document.querySelector('.page')||document.querySelector('#modal.show'))return;
   const y=window.scrollY;renderShell('buy');requestAnimationFrame(()=>window.scrollTo(0,y));
 }
 function applyBurningEventState(next={},options={}){
-  const before=burningEventFingerprint(burningEventState);
+  const before=burningEventFingerprint(burningEventState),currentUpdated=Date.parse(String(burningEventState.updatedAt||burningEventState.activatedAt||''))||0,incomingUpdated=Date.parse(String(next.updatedAt||next.activatedAt||''))||0;
+  if(currentUpdated&&(!incomingUpdated||incomingUpdated<currentUpdated)){
+    PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=burningEventState.enabled?Math.max(0,Math.min(90,Number(burningEventState.packDiscountPercent||0))):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
+    return false;
+  }
   burningEventState={...burningEventState,...next};
   PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=burningEventState.enabled?Math.max(0,Math.min(90,Number(burningEventState.packDiscountPercent||0))):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
-  document.documentElement.classList.toggle('burning-event-active',burningEventState.enabled===true);
+  const mode=burningMode(),normalActive=burningEventState.enabled===true&&mode==='BURNING',hyperActive=burningEventState.enabled===true&&mode==='HYPER';
+  document.documentElement.classList.toggle('burning-event-active',normalActive);
+  document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
   const changed=before!==burningEventFingerprint(burningEventState);
-  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open');document.querySelector('.burning-event-strip')?.remove();if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
-  const key=`cnine:burning-announced:${Number(burningEventState.generation||0)}`;
+  if(changed){clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1')}
+  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelector('.burning-event-strip')?.remove();if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
+  const key=`cnine:burning-announced:${mode}:${Number(burningEventState.generation||0)}`;
   if(options.announce!==false&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
     localStorage.setItem(key,'1');
     setTimeout(()=>{if(burningEventState.enabled)showBurningActivationNotice()},300);
@@ -102,12 +119,13 @@ function showBurningActivationNotice(){
   if(!burningEventState.enabled)return;
   const previous=document.getElementById('burningActivationNotice');
   if(previous){try{previous.__burningCleanup?.()}catch(_){}previous.remove()}
-  const el=document.createElement('div');el.id='burningActivationNotice';el.className='burning-activation-notice';
+  const hyper=burningMode()==='HYPER';
+  const el=document.createElement('div');el.id='burningActivationNotice';el.className=`burning-activation-notice${hyper?' hyper-burning-notice':''}`;
   let embedded=false;
   try{embedded=window.self!==window.top}catch(_){embedded=true}
   const mobileViewport=window.matchMedia?.('(max-width:820px)')?.matches===true||/Android|iPhone|iPad|iPod/i.test(String(navigator.userAgent||''));
-  const startLabel=embedded&&mobileViewport?'전체화면으로 시작':'버닝 시작';
-  el.innerHTML=`<div class="burning-notice-flames"><i></i><i></i><i></i><i></i></div><div class="burning-notice-panel" role="dialog" aria-modal="true" aria-labelledby="burningNoticeTitle"><small>SOOP BURNING EVENT</small><h2 id="burningNoticeTitle">${escapeHtml(burningEventState.title||'숲켓몬 버닝이 발동 되었습니다')}</h2><p>PVE · PVP 15회 / 2분 충전<br>카드조각 2배 · 카드팩 20% 할인 · 일반 전투 보상 50% 증가</p><button type="button">${startLabel}</button></div>`;
+  const startLabel=embedded&&mobileViewport?'전체화면으로 시작':hyper?'하이퍼 버닝 시작':'버닝 시작';
+  el.innerHTML=`<div class="burning-notice-flames"><i></i><i></i><i></i><i></i></div><div class="burning-notice-panel" role="dialog" aria-modal="true" aria-labelledby="burningNoticeTitle"><small>SOOP ${hyper?'HYPER ':''}BURNING EVENT</small><h2 id="burningNoticeTitle">${escapeHtml(String(burningEventState.title||'숲켓몬 버닝이 발동 되었습니다').replaceAll('\uC528\uCF13\uBAAC','숲켓몬'))}</h2><p>${escapeHtml(burningBenefitText())}</p><button type="button">${startLabel}</button></div>`;
   const root=document.documentElement;
   const syncViewport=()=>{
     const viewport=window.visualViewport;
@@ -556,12 +574,13 @@ function packSelector() {
 }
 
 function supplyBoxShopMarkup(config=null){
-  const loading=!config,enabled=config?.enabled!==false&&config?.shopEnabled!==false,price=Number(config?.shopPrice||0),balance=Number(config?.balance||0);
-  return `<section class="equipment-supply-shop" id="equipmentSupplyShop"><div class="equipment-supply-art"><span></span><img src="assets/ui/packs/supply-high.jpeg?v=1247" alt="장비 보급상자"></div><div class="equipment-supply-copy"><small>EQUIPMENT SUPPLY</small><h3>장비 보급상자</h3><p>장비·카드 조각·코인 중 하나를 획득합니다.<br>PVE·PVP 콘텐츠에서도 확률적으로 획득할 수 있습니다.</p><div class="equipment-supply-meta"><span>보유 <b>${loading?'—':balance.toLocaleString()}개</b></span><span>개당 <b>${loading?'확인 중':price.toLocaleString()+'코인'}</b></span></div></div><div class="equipment-supply-actions">${loading?'<button type="button" disabled>판매 정보 확인 중</button>':enabled?`<button type="button" data-supply-buy="1">1개 구매 <b>${price.toLocaleString()}</b></button><button type="button" class="hot" data-supply-buy="10">10개 구매 <b>${(price*10).toLocaleString()}</b></button>`:'<button type="button" disabled>현재 판매 중지</button>'}<small>구매한 보급상자는 인벤토리에서 최대 10개까지 개방</small></div></section>`;
+  const loading=!config,enabled=config?.enabled!==false&&config?.shopEnabled!==false,price=Number(config?.shopPrice||0),original=Number(config?.originalShopPrice??price),discount=Number(config?.promotionDiscountPercent||0),balance=Number(config?.balance||0),discounted=discount>0&&original>price;
+  const unitPrice=loading?'확인 중':discounted?`<s>${original.toLocaleString()}</s> <b>${price.toLocaleString()}코인</b>`:`<b>${price.toLocaleString()}코인</b>`;
+  return `<section class="equipment-supply-shop${discounted?' promotion-discount':''}" id="equipmentSupplyShop"><div class="equipment-supply-art"><span></span><img src="assets/ui/packs/supply-high.jpeg?v=1247" alt="장비 보급상자"></div><div class="equipment-supply-copy"><small>EQUIPMENT SUPPLY</small><h3>장비 보급상자 ${discounted?`<em>${discount}% OFF</em>`:''}</h3><p>장비·카드 조각·코인 중 하나를 획득합니다.<br>PVE·PVP 콘텐츠에서도 확률적으로 획득할 수 있습니다.</p><div class="equipment-supply-meta"><span>보유 <b>${loading?'—':balance.toLocaleString()}개</b></span><span>개당 ${unitPrice}</span></div></div><div class="equipment-supply-actions">${loading?'<button type="button" disabled>판매 정보 확인 중</button>':enabled?`<button type="button" data-supply-buy="1">1개 구매 <b>${price.toLocaleString()}</b></button><button type="button" class="hot" data-supply-buy="10">10개 구매 <b>${(price*10).toLocaleString()}</b></button>`:'<button type="button" disabled>현재 판매 중지</button>'}<small>구매한 보급상자는 인벤토리에서 최대 10개까지 개방</small></div></section>`;
 }
 async function loadSupplyBoxShop(){
   const root=document.getElementById('equipmentSupplyShop');if(!root||!API_MODE)return;
-  try{const config=await apiRequest('equipment/supply-box/config',{}, {ttl:3000});root.outerHTML=supplyBoxShopMarkup(config);document.querySelectorAll('[data-supply-buy]').forEach(button=>button.onclick=()=>purchaseSupplyBoxes(Number(button.dataset.supplyBuy),button));}
+  try{const config=await apiRequest('equipment/supply-box/config?fresh=1',{}, {ttl:0});root.outerHTML=supplyBoxShopMarkup(config);document.querySelectorAll('[data-supply-buy]').forEach(button=>button.onclick=()=>purchaseSupplyBoxes(Number(button.dataset.supplyBuy),button));}
   catch(error){root.innerHTML='<div class="equipment-supply-error"><b>보급상자 판매 정보를 불러오지 못했습니다.</b><button type="button" id="supplyShopRetry">다시 확인</button></div>';document.getElementById('supplyShopRetry')?.addEventListener('click',loadSupplyBoxShop)}
 }
 async function purchaseSupplyBoxes(count,button){
@@ -570,14 +589,14 @@ async function purchaseSupplyBoxes(count,button){
   if(button){button.disabled=true;button.dataset.label=button.innerHTML;button.textContent='구매 처리 중';}
   try{
     const result=await apiRequest('equipment/supply-box/purchase',{method:'POST',body:JSON.stringify({count,requestId})});
-    const user=loadUser();user.coin=Number(result.coin??user.coin);saveUser(user);clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('equipment/supply-box/config');
+    const user=loadUser();user.coin=Number(result.coin??user.coin);saveUser(user);clearApiCache('inventory');clearApiCache('shell/summary');clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1');
     showSupplyNotice(`장비 보급상자 ${Number(result.count).toLocaleString()}개 구매 완료`);renderShell('buy');
   }catch(error){showSupplyNotice(error.message||'보급상자 구매에 실패했습니다.',true);if(button){button.disabled=false;button.innerHTML=button.dataset.label||'다시 구매';}}
 }
 function showSupplyNotice(message,error=false){const old=document.querySelector('.supply-action-toast');if(old)old.remove();const toast=document.createElement('div');toast.className=`supply-action-toast${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2600:1500)}
 function buyView(user) {
   const pack = getPack(selectedPackId),weekly=user.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2};
-  return `${summaryBar(user)}${burningEventState.enabled?'<section class="burning-event-strip"><b>🔥 숲켓몬 버닝 진행 중</b><span>PVE·PVP 15회 / 2분 충전 · 중복 조각 2배 · 전 카드팩 20% 할인 · 일반 전투 보상 50% 증가</span></section>':''}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>10연속 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot" data-pack-id="${pack.id}" data-count="10" data-cost="${pack.price*10}"><small>10 CARDS · ${pack.guarantee10}+</small>${(pack.price*10).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP · 대장전<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
+  return `${summaryBar(user)}${burningEventStripMarkup()}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>10연속 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot" data-pack-id="${pack.id}" data-count="10" data-cost="${pack.price*10}"><small>10 CARDS · ${pack.guarantee10}+</small>${(pack.price*10).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP · 대장전<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
 }
 
 function recentCards(user) {
