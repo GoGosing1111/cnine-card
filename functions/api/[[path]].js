@@ -3543,6 +3543,8 @@ export async function onRequest(context){
         const rewardCfg=await raidRewardSnapshot(env,current.id,instanceCfg,true),finalState=await raidFinalParticipantV1293(env,current.id,user.id),finalDamage=Math.max(0,Number((finalState?.finalDamage??me.shownDamage)||0)),finalRank=Math.max(0,Number((finalState?.finalRank??me.rank)||0)),cleared=Number(hp||0)<=0;
         const fixedPlan=await ensureRaidUserRewardPlanV1293(env,{instanceId:current.id,userId:user.id,cfg:instanceCfg,totalDamage:finalDamage,finalRank,cleared}),rewardDisplay=raidRewardDisplayV1293(fixedPlan.plan);
         const rewardCoin=Math.max(0,Number(rewardDisplay.coin||0)),rewardShards=Math.max(0,Number(rewardDisplay.shards||0)),rankMagicCrystals=Math.max(0,Number(magicRewardForRank(rewardCfg.rankMagicRewards,finalRank)||0)),rewardMagicCrystals=Math.max(0,Number(rewardCfg.participationMagicCrystals||0)+rankMagicCrystals);
+        // V1308: PENDING/COMPLETED 영수증의 updated_at은 정산 잠금 시작 시각이다.
+        // raid/status 조회가 이 값을 갱신하면 stale 복구 시간이 영원히 리셋되므로 반드시 보존한다.
         await env.DB.prepare(`INSERT INTO raid_reward_receipts(instance_id,user_id,status,reward_coin,reward_shards,reward_magic_crystals)
           VALUES(?,?,'READY',?,?,?)
           ON CONFLICT(instance_id,user_id) DO UPDATE SET
@@ -3551,7 +3553,7 @@ export async function onRequest(context){
             reward_shards=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.reward_shards ELSE excluded.reward_shards END,
             reward_magic_crystals=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.reward_magic_crystals ELSE excluded.reward_magic_crystals END,
             error_message=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.error_message ELSE NULL END,
-            updated_at=CURRENT_TIMESTAMP`).bind(current.id,user.id,rewardCoin,rewardShards,rewardMagicCrystals).run();
+            updated_at=CASE WHEN raid_reward_receipts.status IN ('COMPLETED','PENDING') THEN raid_reward_receipts.updated_at ELSE CURRENT_TIMESTAMP END`).bind(current.id,user.id,rewardCoin,rewardShards,rewardMagicCrystals).run();
         const rewardReceipt=await env.DB.prepare(`SELECT status,reward_coin AS rewardCoin,reward_shards AS rewardShards,COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals FROM raid_reward_receipts WHERE instance_id=? AND user_id=?`).bind(current.id,user.id).first();
         if(String(rewardReceipt?.status||'').toUpperCase()==='COMPLETED'){
           await raidSettlementState(env,current.id,user.id);
