@@ -3733,3 +3733,11 @@ body.burning-notice-open .fullscreen-play-link{
   .auto-draw-summary-stats{grid-template-columns:repeat(2,1fr)}
   .auto-draw-high-list>div{grid-template-columns:58px 1fr auto;gap:7px}
 }
+
+
+/* V1309 equipment power display consistency */
+.content-power-summary{display:grid;align-content:center;min-width:220px;padding:11px 14px;border:1px solid rgba(100,218,255,.24);border-radius:16px;background:linear-gradient(145deg,rgba(7,30,62,.92),rgba(8,17,38,.82));box-shadow:inset 0 1px rgba(255,255,255,.06),0 10px 24px rgba(0,0,0,.2)}
+.content-power-summary small{font-size:10px;font-weight:900;letter-spacing:.12em;color:#8edfff}.content-power-summary b{margin:2px 0;font-size:22px;color:#fff}.content-power-summary span{font-size:11px;font-weight:800;color:#abc9dc}.content-power-summary i{font-style:normal;color:#59e3ff;margin:0 3px}
+#battleDeckStatusText i{font-style:normal;color:#73e4ff;margin:0 3px}#battleDeckStatusText em{font-style:normal;color:#9db5c6}
+.pvp-power-summary{min-width:250px}.rift-power-summary,.tower-power-summary{margin:14px 0 8px;width:100%;min-width:0}.tower-power-summary{border-color:rgba(242,198,93,.28);background:linear-gradient(145deg,rgba(55,42,13,.5),rgba(15,17,25,.92))}.tower-power-summary small,.tower-power-summary i{color:#ffe08a}
+@media(max-width:720px){.content-power-summary{min-width:0;width:100%;padding:9px 12px}.content-power-summary b{font-size:19px}.pvp-deck-actions{width:100%;display:grid;grid-template-columns:1fr auto}.pvp-power-summary{min-width:0}.rift-power-summary,.tower-power-summary{margin-top:10px}}
