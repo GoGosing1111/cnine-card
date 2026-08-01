@@ -861,3 +861,29 @@
   .pve-v2-result .pvp-result-rewards{grid-template-columns:repeat(2,minmax(0,1fr));}
   .pve-v2-result .pve-card-result-reward{grid-column:1/-1;}
 }
+
+
+/* v1335: mobile V2 rendering performance hardening */
+@media (max-width:800px), (pointer:coarse){
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-arena,
+  .battle-v2-live-shell.mobile-low-fx .focus-battle,
+  .battle-v2-live-shell.mobile-low-fx .focus-duel{contain:layout paint style;}
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-arena{box-shadow:none!important;}
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-arena::after{display:none!important;}
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-frame-shell,
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-card-frame,
+  .battle-v2-live-shell.mobile-low-fx .battle-card-v2,
+  .battle-v2-live-shell.mobile-low-fx .focus-mini-card{filter:none!important;box-shadow:none!important;}
+  .battle-v2-live-shell.mobile-low-fx .stat-pills span,
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-live-result,
+  .battle-v2-live-shell.mobile-low-fx .battle-ultimate-overlay,
+  .battle-v2-live-shell.mobile-low-fx .boss-ultimate-overlay{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;}
+  .battle-v2-live-shell.mobile-low-fx .unique-card-fx,
+  .battle-v2-live-shell.mobile-low-fx .unique-stage-fx{display:none!important;}
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-impact{animation-duration:.3s!important;box-shadow:none!important;}
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-burst{width:62px!important;height:62px!important;filter:none!important;animation-duration:.42s!important;}
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-card-frame .card-holo,
+  .battle-v2-live-shell.mobile-low-fx .battle-v2-card-frame .breakthrough-effect{display:none!important;}
+  .battle-v2-live-shell.mobile-low-fx video{transform:translateZ(0);will-change:auto;object-fit:cover;}
+  .battle-v2-live-shell.mobile-low-fx .damage-number{animation-duration:.42s!important;text-shadow:none!important;}
+}
