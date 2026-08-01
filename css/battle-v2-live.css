@@ -511,3 +511,77 @@
 /* Keep server errors visible without pushing the card field below the fold. */
 .layout-mobile-portrait .battle-v2-live-footer { position:relative; z-index:20; }
 .layout-mobile-portrait .battle-v2-live-result.is-visible { margin-top:8px; max-height:180px; overflow:auto; }
+
+/* v1321 PVP clean battle-first layout: desktop / WAGO / mobile */
+.pvp-battle-modal .battle-v2-live-header,
+.pvp-battle-modal .battle-v2-scoreboard,
+.pvp-battle-modal .battle-v2-phase-only,
+.pvp-battle-modal .battle-v2-message.desktop-message,
+.pvp-battle-modal .battle-v2-message.focus-message,
+.pvp-battle-modal .battle-v2-live-progress {
+  display: none !important;
+}
+
+.pvp-battle-modal .battle-v2-live-shell {
+  padding-top: 10px;
+}
+
+.pvp-battle-modal .battle-v2-arena {
+  margin-top: 0;
+}
+
+/* PC: remove the unused center status column and give both five-card fields equal space. */
+.pvp-battle-modal .battle-v2-live-shell.layout-desktop .battle-v2-arena,
+.pvp-battle-modal .battle-v2-live-loading.layout-desktop .battle-v2-arena {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  min-height: 720px;
+  padding-top: 72px;
+}
+
+.pvp-battle-modal .battle-v2-live-shell.layout-desktop .team-field-a,
+.pvp-battle-modal .battle-v2-live-loading.layout-desktop .v2-loading-card-line.side-a {
+  grid-column: 1;
+}
+
+.pvp-battle-modal .battle-v2-live-shell.layout-desktop .team-field-b,
+.pvp-battle-modal .battle-v2-live-loading.layout-desktop .v2-loading-card-line.side-b {
+  grid-column: 2;
+}
+
+/* Result area remains available, but no empty LIVE TIMELINE panel is reserved. */
+.pvp-battle-modal .battle-v2-live-footer {
+  display: block;
+  margin-top: 10px;
+}
+
+.pvp-battle-modal .battle-v2-live-result.is-visible {
+  width: 100%;
+}
+
+/* Focus layouts: remove the center message cell and let active cards face each other directly. */
+.pvp-battle-modal .layout-wago .focus-duel,
+.pvp-battle-modal .layout-mobile-landscape .focus-duel {
+  grid-template-areas: "a b";
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.pvp-battle-modal .layout-mobile-portrait .focus-duel {
+  grid-template-areas: "b" "a";
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(350px, auto) minmax(350px, auto);
+}
+
+/* Loading view follows the same battle-first structure on every device. */
+.pvp-battle-modal .battle-v2-live-loading.layout-wago .v2-loading-arena,
+.pvp-battle-modal .battle-v2-live-loading.layout-mobile-landscape .v2-loading-arena {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.pvp-battle-modal .battle-v2-live-loading.layout-mobile-portrait .v2-loading-arena {
+  grid-template-rows: minmax(270px, auto) minmax(270px, auto);
+}
+
+.pvp-battle-modal .battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line.side-b { grid-row: 1; }
+.pvp-battle-modal .battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line.side-a { grid-row: 2; }
