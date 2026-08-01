@@ -3,347 +3,301 @@
 
   const PLAYBACK_SPEED = 1.6;
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[ch]));
-  const num = value => Math.max(0, Math.round(Number(value || 0))).toLocaleString();
-  const pause = ms => battleSleep(Math.max(24, Math.round(Number(ms || 0) / PLAYBACK_SPEED)));
+  const number = value => Math.max(0, Math.round(Number(value || 0))).toLocaleString();
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(24, Math.round(Number(ms || 0) / PLAYBACK_SPEED))));
   const typeKey = type => ({ ATTACK:'attack', DEFENSE:'defense', HP:'hp', SPEED:'speed' })[String(type || '').toUpperCase()] || '';
+  const typeIcon = type => ({ ATTACK:'⚔', DEFENSE:'⬡', HP:'♥', SPEED:'↯', NONE:'◇' })[String(type || '').toUpperCase()] || '◇';
 
-  function fighterHtml(card, index, enemy = false) {
+  function encodePathPart(part) {
+    if (!part) return '';
+    try { return encodeURIComponent(decodeURIComponent(part)); }
+    catch { return encodeURIComponent(part); }
+  }
+
+  function assetUrl(value) {
+    let raw = String(value || '').trim();
+    if (!raw) return '/assets/ui/cninelogo.png';
+    if (/^(?:data:|blob:)/i.test(raw)) return raw;
+    raw = raw.replace(/\\/g, '/').replace(/#/g, '%23');
+    if (/^https?:\/\//i.test(raw)) {
+      try {
+        const url = new URL(raw);
+        url.pathname = url.pathname.split('/').map(encodePathPart).join('/');
+        return url.href;
+      } catch { return raw; }
+    }
+    const qIndex = raw.indexOf('?');
+    const query = qIndex >= 0 ? raw.slice(qIndex) : '';
+    let path = qIndex >= 0 ? raw.slice(0, qIndex) : raw;
+    path = path.replace(/^(?:\.\.\/)+/, '').replace(/^\.\//, '').replace(/^\/+/, '');
+    return `/${path.split('/').map(encodePathPart).join('/')}${query}`;
+  }
+
+  window.battleV2ImageFallback = image => {
+    if (!image || image.dataset.fallbackApplied === '1') return;
+    image.dataset.fallbackApplied = '1';
+    image.classList.add('is-fallback');
+    image.src = '/assets/ui/cninelogo.png';
+  };
+
+  function uniqueFxMarkup(type) {
+    if (type === 'attack') return '<div class="unique-card-fx" aria-hidden="true"><i class="unique-fx-core"></i><i class="unique-fx-arc a1"></i><i class="unique-fx-arc a2"></i><i class="unique-fx-velocity v1"></i><i class="unique-fx-velocity v2"></i><i class="unique-fx-velocity v3"></i><b>ATTACK CORE</b></div>';
+    if (type === 'defense') return '<div class="unique-card-fx" aria-hidden="true"><i class="unique-fx-hex"></i><i class="unique-fx-shield"></i><i class="unique-fx-guard-ring"></i><b>BARRIER FIELD</b></div>';
+    if (type === 'speed') return '<div class="unique-card-fx" aria-hidden="true"><i class="unique-fx-afterimage a1"></i><i class="unique-fx-afterimage a2"></i><i class="unique-fx-speed-line s1"></i><i class="unique-fx-speed-line s2"></i><i class="unique-fx-speed-line s3"></i><b>VELOCITY</b></div>';
+    if (type === 'hp') return '<div class="unique-card-fx" aria-hidden="true"><i class="unique-fx-life-flash"></i><i class="unique-fx-heal-ring"></i><i class="unique-fx-plus p1">＋</i><i class="unique-fx-plus p2">＋</i><i class="unique-fx-plus p3">＋</i><b>LIFE PULSE</b></div>';
+    return '';
+  }
+
+  function uniqueBadgeHtml(card) {
     const type = typeKey(card.type);
-    const classes = ['battle-card-fighter', 'pve-v2-fighter'];
-    if (type) classes.push('unique-card-fx-host', `unique-fx-${type}`);
-    return `<div class="${classes.join(' ')}" ${enemy ? `data-enemy-fighter="${index}"` : `data-fighter="${index}"`} data-v2-id="${esc(card.id)}" ${type ? `data-unique-fx="${type}" data-unique-value="1"` : ''} style="--i:${index}">
-      <div class="fighter-aura"></div>
-      ${combatCardHtml(card, 'battle-fighter-card', Number(card.breakthroughLevel || 0))}
-      <div class="pve-v2-card-hud">
-        <div class="pve-v2-card-head"><b>${card.row === 'FRONT' ? '전열' : '후열'} · ${esc(card.typeLabel || '균형형')}</b><span data-v2-hp-text>${num(card.hp)} / ${num(card.maxHp)}</span></div>
-        <div class="pve-v2-card-shield" ${Number(card.maxShield || 0) > 0 ? '' : 'hidden'}><i data-v2-shield-fill style="width:${Math.max(0, Math.min(100, Number(card.shield || 0) / Math.max(1, Number(card.maxShield || 1)) * 100))}%"></i></div>
-        <div class="pve-v2-card-hp"><i data-v2-hp-fill style="width:${Math.max(0, Math.min(100, Number(card.hp || 0) / Math.max(1, Number(card.maxHp || 1)) * 100))}%"></i></div>
-        <div class="pve-v2-card-gauge"><i data-v2-gauge-fill style="width:${Math.max(0, Math.min(100, Number(card.gauge || 0)))}%"></i></div>
+    if (!type || !card.uniqueAbility) return '';
+    return `<span class="card-unique-badge unique-type-${type}" title="${esc(card.uniqueAbility.effectDescription || card.uniqueAbility.effectName || card.typeLabel)}"><i>${typeIcon(card.type)}</i><b>${esc(card.typeLabel)}</b><small>${esc(card.uniqueAbility.effectName || '')}</small></span>`;
+  }
+
+  function frameHtml(card) {
+    const grade = String(card.grade || 'C').toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+    const level = Math.max(0, Math.min(13, Number(card.breakthroughLevel || 0)));
+    const breakthroughClass = level > 0 ? ` breakthrough-${level}` : '';
+    return `<div class="card-frame grade-${grade}${breakthroughClass} battle-v2-card-frame">
+      ${level > 0 ? `<div class="breakthrough-badge">★${level}</div>` : ''}
+      ${uniqueBadgeHtml(card)}
+      <div class="card-holo"></div><div class="breakthrough-effect"></div>
+      <div class="card-inner">
+        <div class="card-header"><span>${esc(grade)}</span><b>SOOP</b></div>
+        <div class="card-art"><img src="${assetUrl(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX ?? 50)}% ${Number(card.focusY ?? 50)}%" onerror="window.battleV2ImageFallback(this)"></div>
+        <div class="card-footer"><div><small>${esc(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${esc(card.title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
       </div>
     </div>`;
   }
 
-  function monsterHtml(card, monster) {
-    return `<div class="battle-enemy-card ${monster?.isBoss ? 'boss' : ''} pve-v2-monster" data-v2-id="${esc(card.id)}">
-      <div class="enemy-card-badge">${monster?.isBoss ? 'BOSS' : 'MONSTER'}</div>
-      <div class="battle-enemy-visual">${card.image ? `<img src="${esc(card.image)}" alt="${esc(card.title)}">` : '<div class="monster-placeholder">👹</div>'}</div>
-      <div class="battle-enemy-title">${esc(card.title)}</div>
-      <div class="enemy-card-power">POWER ${num(card.power)}</div>
-      <div class="pve-v2-monster-stats"><span>HP ${num(card.maxHp)}</span><span>ATK ${num(card.attack)}</span><span>DEF ${num(card.defense)}</span><span>SPD ${num(card.speed)}</span></div>
+  function cardHtml(card, focus = false) {
+    const hpPct = Math.max(0, Math.min(100, Number(card.hp || 0) / Math.max(1, Number(card.maxHp || 1)) * 100));
+    const shieldPct = Number(card.maxShield || 0) > 0 ? Math.max(0, Math.min(100, Number(card.shield || 0) / Number(card.maxShield) * 100)) : 0;
+    const fxType = typeKey(card.type);
+    const idAttr = focus ? `data-focus-fighter-id="${esc(card.id)}"` : `data-fighter-id="${esc(card.id)}"`;
+    return `<article class="battle-card-v2${focus ? ' focus-battle-card' : ''}${fxType ? ` unique-card-fx-host unique-fx-${fxType}` : ''}" ${idAttr} data-side="${esc(card.side)}" data-effect-type="${fxType}">
+      ${fxType ? uniqueFxMarkup(fxType) : ''}
+      <div class="battle-v2-frame-shell">${frameHtml(card)}</div>
+      <div class="stat-pills"><span>HP ${number(card.maxHp)}</span><span>ATK ${number(card.attack)}</span><span>DEF ${number(card.defense)}</span><span>SPD ${number(card.speed)}</span></div>
+      <div class="hp-stack"><div class="hp-caption"><b>${card.row === 'FRONT' ? '전열' : '후열'}</b><span class="hp-value">${number(card.hp)} / ${number(card.maxHp)}</span></div>
+        ${Number(card.maxShield || 0) > 0 ? `<div class="shield-track"><i style="width:${shieldPct}%"></i></div>` : ''}<div class="hp-track"><i style="width:${hpPct}%"></i></div></div>
+      <div class="gauge-ring" style="--gauge:${Math.max(0, Math.min(100, Number(card.gauge || 0)))}"></div>
+    </article>`;
+  }
+
+  function miniCardHtml(card, activeId) {
+    const hpPct = Math.max(0, Math.min(100, Number(card.hp || 0) / Math.max(1, Number(card.maxHp || 1)) * 100));
+    const shieldPct = Number(card.maxShield || 0) > 0 ? Math.max(0, Math.min(100, Number(card.shield || 0) / Number(card.maxShield) * 100)) : 0;
+    const gaugePct = Math.max(0, Math.min(100, Number(card.gauge || 0)));
+    return `<div class="focus-mini-card side-${String(card.side).toLowerCase()}${String(card.id) === String(activeId || '') ? ' is-active' : ''}${Number(card.hp || 0) <= 0 ? ' is-ko' : ''}" data-mini-fighter-id="${esc(card.id)}">
+      <div class="focus-mini-image"><img src="${assetUrl(card.image)}" alt="${esc(card.title)}" onerror="window.battleV2ImageFallback(this)"><b>${typeIcon(card.type)}</b></div>
+      <div class="focus-mini-info"><strong>${esc(card.title)}</strong><small>${card.row === 'FRONT' ? '전열' : '후열'} · ${esc(card.typeLabel || '균형')}</small><div class="focus-mini-bars"><i class="mini-hp" style="--value:${hpPct}%"></i><i class="mini-shield" style="--value:${shieldPct}%"></i><i class="mini-gauge" style="--value:${gaugePct}%"></i></div></div>
     </div>`;
   }
 
-  function cloneCard(card) {
-    return { ...card, id:String(card.id), hp:Number(card.hp || 0), maxHp:Number(card.maxHp || 1), shield:Number(card.shield || 0), maxShield:Number(card.maxShield || 0), gauge:Number(card.gauge || 0) };
+  function teamSummaryHtml(team, label, nickname) {
+    const summary = team.summary || {};
+    return `<header><div><small>${esc(label)}</small><strong>${esc(nickname)}</strong></div><b>${number(summary.power)}</b></header><dl>
+      <div><dt>총 HP</dt><dd>${number(summary.maxHp)}</dd></div><div><dt>총 공격</dt><dd>${number(summary.attack)}</dd></div><div><dt>총 방어</dt><dd>${number(summary.defense)}</dd></div><div><dt>평균 속도</dt><dd>${number(summary.averageSpeed)}</dd></div></dl>`;
   }
 
-  function nodeFor(stage, id) {
-    const wanted = String(id ?? '');
-    return [...stage.querySelectorAll('[data-v2-id]')].find(node => node.dataset.v2Id === wanted) || null;
+  function isEmbedded() { try { return window.self !== window.top; } catch { return true; } }
+  function resolveLayout() {
+    const width = Number(window.innerWidth || document.documentElement.clientWidth || 0);
+    const height = Number(window.innerHeight || document.documentElement.clientHeight || 0);
+    if (width <= 760) return width > height ? 'mobile-landscape' : 'mobile-portrait';
+    if (document.fullscreenElement && width >= 1100) return 'desktop';
+    if (isEmbedded()) return 'wago';
+    return 'desktop';
+  }
+  function layoutCopy(mode) {
+    if (mode === 'wago') return ['와고 집중 전투', '100% 폭·1750px iframe 기준 · 활성 카드 2장과 양 팀 미니 덱 표시'];
+    if (mode === 'mobile-portrait') return ['모바일 세로', '상대 카드 상단 · 내 카드 하단 · 카드 프레임과 고유효과 유지'];
+    if (mode === 'mobile-landscape') return ['모바일 가로', '활성 카드 좌우 대치 · 미니 덱과 행동 순서 표시'];
+    return ['PC 전체 전장', '전체 카드 배치 · 프레임과 모든 이펙트 유지'];
   }
 
-  function syncCard(stage, card) {
-    const node = nodeFor(stage, card.id);
-    if (!node) return;
-    const hpPct = Math.max(0, Math.min(100, Number(card.hp || 0) / Math.max(1, Number(card.maxHp || 1)) * 100));
-    const shieldPct = Number(card.maxShield || 0) > 0 ? Math.max(0, Math.min(100, Number(card.shield || 0) / Number(card.maxShield) * 100)) : 0;
-    node.classList.toggle('v2-ko', Number(card.hp || 0) <= 0);
-    node.classList.toggle('v2-low-hp', Number(card.hp || 0) > 0 && hpPct <= 25);
-    const hp = node.querySelector('[data-v2-hp-fill]'); if (hp) hp.style.width = `${hpPct}%`;
-    const shield = node.querySelector('[data-v2-shield-fill]'); if (shield) shield.style.width = `${shieldPct}%`;
-    const gauge = node.querySelector('[data-v2-gauge-fill]'); if (gauge) gauge.style.width = `${Math.max(0, Math.min(100, Number(card.gauge || 0)))}%`;
-    const text = node.querySelector('[data-v2-hp-text]'); if (text) text.textContent = `${num(card.hp)} / ${num(card.maxHp)}`;
-  }
+  window.prepareBattleV2LiveLoading = ({ modal, mode = 'PVE', playerName = 'MEMBER TEAM', opponentName = 'OPPONENT', autoText = '' } = {}) => {
+    if (!modal) throw new Error('전투 모달을 준비하지 못했습니다.');
+    const layout = resolveLayout();
+    modal.className = `modal show battle-modal ${mode === 'PVP' ? 'pvp-battle-modal' : ''}`;
+    modal.innerHTML = `<div class="modal-panel battle-stage battle-v2-shell battle-v2-live-shell battle-v2-live-loading layout-${layout}">
+      <header class="battle-v2-live-header"><div><p>SOOPKETMON ${esc(mode)} · BATTLE ENGINE V2 · 1.6X</p><h1>${mode === 'PVE' ? '몬스터 토벌' : 'PVP 대전'}</h1></div><div class="battle-v2-badges"><b>HP POWER SCALE</b><b>UNIQUE EFFECT</b><b>DB TIMELINE 0</b></div></header>
+      <section class="battle-v2-scoreboard"><article class="team-summary team-a"><header><div><small>${mode === 'PVE' ? 'MEMBER TEAM' : 'MY PVP TEAM'}</small><strong>${esc(playerName)}</strong></div><b>READY</b></header><div class="v2-loading-stat-grid"><i></i><i></i><i></i><i></i></div></article><div class="battle-v2-center-mark"><span>ENGINE V2</span><strong>VS</strong><small>SERVER CALC</small></div><article class="team-summary team-b"><header><div><small>${mode === 'PVE' ? 'MONSTER' : 'OPPONENT TEAM'}</small><strong>${esc(opponentName)}</strong></div><b>READY</b></header><div class="v2-loading-stat-grid"><i></i><i></i><i></i><i></i></div></article></section>
+      <div class="battle-v2-layout-note"><b>${esc(layoutCopy(layout)[0])}</b><span>${esc(layoutCopy(layout)[1])}</span><em id="battlePhase" class="battle-v2-live-phase">SERVER BATTLE CALCULATION</em></div>
+      <section class="battle-v2-arena v2-loading-arena"><div class="arena-glow"></div><div class="action-order"><small>실제 덱·장비·고유효과 확인 중</small></div><div class="v2-loading-card-line side-a">${Array.from({length:5},(_,i)=>`<i style="--delay:${i}"></i>`).join('')}</div><div class="battle-v2-message desktop-message"><small>TACTICAL BATTLE</small><strong>CALCULATING</strong><span>${esc(autoText || '전투 타임라인을 서버에서 계산하고 있습니다.')}</span></div><div class="v2-loading-card-line side-b">${Array.from({length:mode === 'PVE' ? 1 : 5},(_,i)=>`<i style="--delay:${i}"></i>`).join('')}</div></section>
+      <section class="battle-v2-live-footer"><div class="battle-v2-live-progress"><small>LIVE TIMELINE</small><b>READY</b><span>전투 속도 1.6배 고정</span></div><div id="battleMessage" class="battle-message battle-v2-live-result"></div></section>
+    </div>`;
+    const stage = modal.querySelector('.battle-stage');
+    const phase = modal.querySelector('#battlePhase');
+    const msg = modal.querySelector('#battleMessage');
+    return { stage, phase, msg };
+  };
 
-  function syncTeamHud(stage, cards) {
-    const sides = { team:[...cards.values()].filter(card => card.side === 'A'), enemy:[...cards.values()].filter(card => card.side === 'B') };
-    for (const [target, rows] of Object.entries(sides)) {
-      const current = rows.reduce((sum, card) => sum + Math.max(0, Number(card.hp || 0)) + Math.max(0, Number(card.shield || 0)), 0);
-      const maximum = rows.reduce((sum, card) => sum + Math.max(1, Number(card.maxHp || 1)) + Math.max(0, Number(card.maxShield || 0)), 0);
-      const pct = maximum > 0 ? current / maximum * 100 : 0;
-      battleSetHp(stage, target, pct);
-      const label = stage.querySelector(`[data-hp-text="${target}"]`);
-      if (label) label.textContent = `${num(current)} / ${num(maximum)} · ${Math.ceil(pct)}%`;
-    }
-  }
-
-  function syncAll(stage, cards) {
-    cards.forEach(card => syncCard(stage, card));
-    syncTeamHud(stage, cards);
-  }
-
-  function setActive(stage, actor, target) {
-    stage.querySelectorAll('.pve-v2-fighter,.pve-v2-monster').forEach(node => node.classList.remove('v2-active','v2-target'));
-    nodeFor(stage, actor?.id)?.classList.add('v2-active');
-    nodeFor(stage, target?.id)?.classList.add('v2-target');
-  }
-
-  function applyHit(card, event) {
-    if (!card) return;
-    if (event.targetHpAfter != null) card.hp = Number(event.targetHpAfter);
-    if (event.targetMaxHp != null) card.maxHp = Number(event.targetMaxHp);
-    if (event.targetShieldAfter != null) card.shield = Number(event.targetShieldAfter);
-    if (event.targetGaugeAfter != null) card.gauge = Number(event.targetGaugeAfter);
-  }
-
-  async function playTimeline({ stage, phase, msg, data, monster, playUltimateCinematics }) {
+  function createRenderer({ stage, phase, msg, modal, data, mode, monster }) {
     const v2 = data.battleV2;
-    const cards = new Map([...(v2.teams?.A?.cards || []), ...(v2.teams?.B?.cards || [])].map(card => [String(card.id), cloneCard(card)]));
-    const playerRows = v2.teams?.A?.cards || [];
-    const monsterCard = v2.teams?.B?.cards?.[0];
-    const team = stage.querySelector('.player-side .battle-team');
-    if (team) team.innerHTML = playerRows.map(fighterHtml).join('');
-    const enemy = stage.querySelector('.enemy-side');
-    if (enemy && monsterCard) enemy.innerHTML = monsterHtml(monsterCard, monster);
-    stage.classList.remove('cards-enter', 'enemy-enter');
-    stage.classList.add('pve-v2-live');
-    const topline = stage.querySelector('.battle-topline span');
-    if (topline) topline.textContent = 'SOOPKETMON PVE · BATTLE ENGINE V2 · 1.6X';
-    syncAll(stage, cards);
+    const state = {
+      cards: new Map(), cursor: 0, activeAId: '', activeBId: '', layout: '', destroyed: false,
+      playerName: String(loadUser?.()?.nickname || 'MEMBER TEAM'),
+      opponentName: mode === 'PVE' ? String(monster?.name || v2.teams?.B?.cards?.[0]?.title || 'MONSTER') : String((typeof data.opponent === 'string' ? data.opponent : data.opponent?.nickname) || 'OPPONENT')
+    };
+    const cardsA = (v2.teams?.A?.cards || []).map(card => ({ ...card }));
+    const cardsB = (v2.teams?.B?.cards || []).map(card => ({ ...card }));
+    [...cardsA, ...cardsB].forEach(card => state.cards.set(String(card.id), card));
 
-    for (const event of v2.result?.timeline || []) {
-      const actor = cards.get(String(event.actorId || ''));
-      const target = cards.get(String(event.targetId || ''));
-      if (event.type === 'START_EFFECT') {
-        if (target) { target.shield = Number(event.shieldAfter ?? event.amount ?? target.shield); syncCard(stage, target); }
-        if (target?.side === 'A') battleTriggerUniqueFx(stage, Number(target.slot || 0), 'defense', false);
-        phase.textContent = event.label || 'BARRIER FIELD';
-        await pause(180);
-        continue;
-      }
-      if (event.type === 'PVE_ULTIMATE') {
-        phase.textContent = 'ULTIMATE READY';
-        if (playUltimateCinematics && data.activatedUltimate) { const ultimate={...data.activatedUltimate,playbackRate:PLAYBACK_SPEED,durationMs:Math.max(500,Math.round(Number(data.activatedUltimate.durationMs||3000)/PLAYBACK_SPEED))}; await playBattleUltimate(stage, ultimate, event.damage || data.ultimateDamage); }
-        applyHit(target, event); syncAll(stage, cards);
-        battleBurst(stage, '74%', '43%', 46); battleDamage(stage, `-${num((event.damage || 0) + (event.absorbed || 0))}`, 'enemy', true);
-        phase.textContent = `ULTIMATE HIT · ${num(event.damage || 0)}`;
-        await pause(720);
-        continue;
-      }
-      if (event.type === 'BOSS_ULTIMATE') {
-        phase.textContent = data.bossUltimate?.warningText || 'BOSS ULTIMATE';
-        if (playUltimateCinematics && data.bossUltimate) { const ultimate={...data.bossUltimate,playbackRate:PLAYBACK_SPEED,durationMs:Math.max(500,Math.round(Number(data.bossUltimate.durationMs||2400)/PLAYBACK_SPEED))}; await playBossBattleUltimate(stage, phase, ultimate); }
-        for (const hit of event.hits || []) applyHit(cards.get(String(hit.targetId)), hit);
-        syncAll(stage, cards); battleBurst(stage, '28%', '43%', 50); battleDamage(stage, 'BOSS ULTIMATE', 'player', true);
-        await pause(760);
-        continue;
-      }
-      if (event.type === 'REGEN' || event.type === 'EMERGENCY_HEAL' || event.type === 'SURVIVE') {
-        if (target) { target.hp = Number(event.hpAfter ?? target.hp); target.maxHp = Number(event.maxHp ?? target.maxHp); syncAll(stage, cards); }
-        if (target?.side === 'A') battleTriggerUniqueFx(stage, Number(target.slot || 0), 'low-hp', false);
-        battleDamage(stage, `+${num(event.amount || Math.max(1, Number(target?.hp || 0)))}`, target?.side === 'A' ? 'player' : 'enemy', false);
-        phase.textContent = event.label || 'RECOVERY';
-        await pause(420);
-        continue;
-      }
-      if (event.type === 'TURN') {
-        setActive(stage, actor, target);
-        if (event.actorGaugeAfter != null && actor) actor.gauge = Number(event.actorGaugeAfter);
-        if (event.targetGaugeAfter != null && target) target.gauge = Number(event.targetGaugeAfter);
-        if (event.dodge) {
-          if (target?.side === 'A') battleTriggerUniqueFx(stage, Number(target.slot || 0), 'attack', false);
-          nodeFor(stage, target?.id)?.classList.add('v2-dodge');
-          phase.textContent = `${target?.title || 'CARD'} · 회피`;
-          await pause(430);
-          nodeFor(stage, target?.id)?.classList.remove('v2-dodge');
-          syncAll(stage, cards);
-          continue;
-        }
-        applyHit(target, event);
-        if (actor?.side === 'A') {
-          battleActivateCard(stage, Number(actor.slot || 0), actor.grade);
-          stage.classList.remove('monster-heavy-attack'); stage.classList.add(event.critical ? 'member-skill' : 'member-strike');
-          battleBurst(stage, '73%', '43%', event.critical ? 36 : 20);
-          battleDamage(stage, `-${num((event.damage || 0) + (event.absorbed || 0))}`, 'enemy', Boolean(event.critical));
-          phase.textContent = `${actor.title} · ${event.critical ? 'CRITICAL' : event.execute ? 'EXECUTE' : 'STRIKE'}`;
-        } else {
-          stage.classList.remove('member-strike','member-skill'); stage.classList.add('monster-heavy-attack');
-          if (target?.side === 'A') battleTriggerUniqueFx(stage, Number(target.slot || 0), 'defense', false);
-          nodeFor(stage, target?.id)?.classList.add('v2-hit');
-          battleBurst(stage, '28%', '43%', event.critical ? 38 : 24);
-          battleDamage(stage, `-${num((event.damage || 0) + (event.absorbed || 0))}`, 'player', Boolean(event.critical));
-          phase.textContent = `${actor?.title || 'MONSTER'} · ${event.critical ? 'HEAVY CRITICAL' : 'COUNTER ATTACK'}`;
-        }
-        syncAll(stage, cards);
-        await pause(event.critical ? 720 : 520);
-        stage.classList.remove('member-strike','member-skill','monster-heavy-attack');
-        nodeFor(stage, target?.id)?.classList.remove('v2-hit');
-        continue;
-      }
-      if (event.type === 'COUNTER') {
-        setActive(stage, actor, target); applyHit(target, event);
-        if (actor?.side === 'A') battleTriggerUniqueFx(stage, Number(actor.slot || 0), 'defense', false);
-        battleBurst(stage, actor?.side === 'A' ? '73%' : '28%', '43%', 28);
-        battleDamage(stage, `-${num((event.damage || 0) + (event.absorbed || 0))}`, target?.side === 'A' ? 'player' : 'enemy', Boolean(event.critical));
-        phase.textContent = event.label || 'COUNTER'; syncAll(stage, cards); await pause(560); continue;
-      }
-      if (event.type === 'KO') {
-        if (target) { target.hp = 0; syncAll(stage, cards); }
-        nodeFor(stage, target?.id)?.classList.add('v2-ko');
-        phase.textContent = `${target?.title || 'TARGET'} · K.O.`;
-        await pause(360); continue;
-      }
-      if (event.type === 'FRONTLINE_BREAK') {
-        phase.textContent = event.label || 'FRONTLINE BREAK';
-        stage.classList.add('v2-frontline-break'); await pause(460); stage.classList.remove('v2-frontline-break'); continue;
-      }
-      if (event.type === 'RESULT') {
-        phase.textContent = event.winner === 'A' ? 'MISSION CLEAR' : 'MISSION FAILED';
-      }
+    const preservedPhase = phase;
+    const preservedMsg = msg;
+    stage.className = 'modal-panel battle-stage battle-v2-shell battle-v2-live-shell';
+    stage.innerHTML = `<header class="battle-v2-live-header"><div><p>SOOPKETMON ${mode} · BATTLE ENGINE V2 · 1.6X</p><h1>${mode === 'PVE' ? '몬스터 토벌' : 'PVP 대전'}</h1></div><div class="battle-v2-badges"><b>HP POWER SCALE</b><b>UNIQUE EFFECT</b><b>DB TIMELINE 0</b></div></header>
+      <section class="battle-v2-scoreboard"><article class="team-summary team-a" data-live-summary="A"></article><div class="battle-v2-center-mark"><span>ENGINE V2</span><strong>VS</strong><small>SEED ${esc(v2.seed || '-')}</small></div><article class="team-summary team-b" data-live-summary="B"></article></section>
+      <div class="battle-v2-layout-note"><b data-layout-badge></b><span data-layout-detail></span><em data-live-phase-slot></em></div>
+      <section class="battle-v2-arena" data-live-arena aria-live="polite"><div class="arena-glow"></div><div class="action-order" data-live-order></div><div class="team-field team-field-a" data-live-field="A"></div><div class="battle-v2-message desktop-message" data-live-message><small>TACTICAL BATTLE</small><strong>READY</strong><span>전투 데이터를 배치하는 중</span></div><div class="team-field team-field-b" data-live-field="B"></div>
+        <div class="focus-battle" data-live-focus aria-hidden="true"><div class="focus-roster focus-roster-b" data-live-roster="B"></div><div class="focus-duel"><div class="focus-slot focus-slot-a" data-live-focus-slot="A"></div><div class="battle-v2-message focus-message" data-live-focus-message><small>TACTICAL BATTLE</small><strong>READY</strong><span>현재 행동 카드를 집중 표시합니다.</span></div><div class="focus-slot focus-slot-b" data-live-focus-slot="B"></div></div><div class="focus-roster focus-roster-a" data-live-roster="A"></div></div><div class="battle-v2-fx" data-live-fx></div>
+      </section>
+      <section class="battle-v2-live-footer"><div class="battle-v2-live-progress"><small>LIVE TIMELINE</small><b data-live-progress>0 / ${Number(v2.result?.timeline?.length || 0)}</b><span>전투 속도 1.6배 고정</span></div><div data-live-result-slot></div></section>`;
+
+    const root = stage;
+    const arena = root.querySelector('[data-live-arena]');
+    const fxRoot = root.querySelector('[data-live-fx]');
+    const desktopMessage = root.querySelector('[data-live-message]');
+    const focusMessage = root.querySelector('[data-live-focus-message]');
+    const resultSlot = root.querySelector('[data-live-result-slot]');
+    const phaseSlot = root.querySelector('[data-live-phase-slot]');
+    if (preservedPhase) { preservedPhase.className = 'battle-v2-live-phase'; phaseSlot.appendChild(preservedPhase); }
+    if (preservedMsg) {
+      preservedMsg.className = 'battle-message battle-v2-live-result';
+      preservedMsg.innerHTML = '';
+      resultSlot.appendChild(preservedMsg);
+      new MutationObserver(() => preservedMsg.classList.toggle('is-visible', Boolean(preservedMsg.textContent.trim()))).observe(preservedMsg, { childList:true, subtree:true, characterData:true });
     }
-    syncAll(stage, cards);
-    return cards;
+
+    root.querySelector('[data-live-summary="A"]').innerHTML = teamSummaryHtml(v2.teams.A, mode === 'PVE' ? 'MEMBER TEAM' : 'MY PVP TEAM', state.playerName);
+    root.querySelector('[data-live-summary="B"]').innerHTML = teamSummaryHtml(v2.teams.B, mode === 'PVE' ? (monster?.isBoss ? 'BOSS MONSTER' : 'MONSTER') : 'OPPONENT TEAM', state.opponentName);
+    root.querySelector('[data-live-field="A"]').innerHTML = cardsA.map(card => cardHtml(card)).join('');
+    root.querySelector('[data-live-field="B"]').innerHTML = cardsB.map(card => cardHtml(card)).join('');
+
+    const fighterState = id => state.cards.get(String(id)) || null;
+    const fighterNodes = id => [...root.querySelectorAll('.battle-card-v2')].filter(node => node.dataset.fighterId === String(id) || node.dataset.focusFighterId === String(id));
+    const isFocus = () => state.layout !== 'desktop';
+    const fighterNode = id => {
+      if (isFocus()) {
+        const focus = [...root.querySelectorAll('[data-focus-fighter-id]')].find(node => node.dataset.focusFighterId === String(id) && node.offsetParent !== null);
+        if (focus) return focus;
+      }
+      return [...root.querySelectorAll('[data-fighter-id]')].find(node => node.dataset.fighterId === String(id)) || null;
+    };
+    const firstLiving = side => [...state.cards.values()].find(card => card.side === side && Number(card.hp || 0) > 0) || [...state.cards.values()].find(card => card.side === side) || null;
+
+    function updateNode(node, card) {
+      if (!node || !card) return;
+      const hp = Math.max(0, Number(card.hp || 0));
+      const hpPct = hp / Math.max(1, Number(card.maxHp || 1)) * 100;
+      const shield = Math.max(0, Number(card.shield || 0));
+      const shieldPct = Number(card.maxShield || 0) > 0 ? shield / Number(card.maxShield) * 100 : 0;
+      const hpFill = node.querySelector('.hp-track i'); if (hpFill) hpFill.style.width = `${Math.max(0, Math.min(100, hpPct))}%`;
+      const shieldFill = node.querySelector('.shield-track i'); if (shieldFill) shieldFill.style.width = `${Math.max(0, Math.min(100, shieldPct))}%`;
+      const hpValue = node.querySelector('.hp-value'); if (hpValue) hpValue.textContent = `${number(hp)} / ${number(card.maxHp)}`;
+      node.querySelector('.gauge-ring')?.style.setProperty('--gauge', Math.max(0, Math.min(100, Number(card.gauge || 0))));
+      node.classList.toggle('is-ko', hp <= 0);
+    }
+    function updateCard(id, changes = {}) {
+      const card = fighterState(id); if (!card) return null;
+      Object.assign(card, changes); fighterNodes(id).forEach(node => updateNode(node, card)); syncRosters(card.side); return card;
+    }
+    function syncRosters(side) {
+      const active = side === 'A' ? state.activeAId : state.activeBId;
+      const roster = root.querySelector(`[data-live-roster="${side}"]`);
+      if (roster) roster.innerHTML = [...state.cards.values()].filter(card => card.side === side).map(card => miniCardHtml(card, active)).join('');
+    }
+    function syncFocus(side) {
+      const slot = root.querySelector(`[data-live-focus-slot="${side}"]`);
+      if (!slot) return;
+      let id = side === 'A' ? state.activeAId : state.activeBId;
+      let card = fighterState(id) || firstLiving(side);
+      if (!card) return;
+      if (side === 'A') state.activeAId = String(card.id); else state.activeBId = String(card.id);
+      slot.innerHTML = cardHtml(card, true);
+    }
+    function syncFocusStage() { syncFocus('A'); syncFocus('B'); syncRosters('A'); syncRosters('B'); }
+    function setActive(actorId, targetId) {
+      const actor = fighterState(actorId), target = fighterState(targetId);
+      if (actor?.side === 'A') state.activeAId = String(actor.id); if (actor?.side === 'B') state.activeBId = String(actor.id);
+      if (target?.side === 'A') state.activeAId = String(target.id); if (target?.side === 'B') state.activeBId = String(target.id);
+      if (isFocus()) syncFocusStage();
+    }
+    function focusTarget(id) { const card = fighterState(id); if (!card) return; if (card.side === 'A') state.activeAId = String(card.id); else state.activeBId = String(card.id); if (isFocus()) syncFocusStage(); }
+    function applyLayout(force = false) {
+      const next = resolveLayout(); if (!force && next === state.layout) return;
+      state.layout = next; root.classList.remove('layout-desktop','layout-wago','layout-mobile-portrait','layout-mobile-landscape'); root.classList.add(`layout-${next}`);
+      const [label, detail] = layoutCopy(next); root.querySelector('[data-layout-badge]').textContent = label; root.querySelector('[data-layout-detail]').textContent = detail;
+      root.querySelector('[data-live-focus]')?.setAttribute('aria-hidden', next === 'desktop' ? 'true' : 'false'); syncFocusStage();
+    }
+    function setMessage(kicker, title, detail) { const html = `<small>${esc(kicker)}</small><strong>${esc(title)}</strong><span>${esc(detail)}</span>`; desktopMessage.innerHTML = html; focusMessage.innerHTML = html; }
+    function renderOrder(cursor) {
+      const upcoming = (v2.result?.timeline || []).slice(cursor).filter(event => event.type === 'TURN' || event.type === 'COUNTER').slice(0, 11);
+      root.querySelector('[data-live-order]').innerHTML = upcoming.map(event => { const card = fighterState(event.actorId); return card ? `<span class="order-chip ${String(card.side).toLowerCase()}" title="${esc(card.title)}"><img src="${assetUrl(card.image)}" alt="" onerror="window.battleV2ImageFallback(this)"></span>` : ''; }).join('') || '<small>행동 순서 계산 완료</small>';
+    }
+    function pointFor(node) { const ar = arena.getBoundingClientRect(), r = node?.getBoundingClientRect?.(); return r ? { x:r.left-ar.left+r.width/2, y:r.top-ar.top+r.height/2 } : { x:ar.width/2, y:ar.height/2 }; }
+    function damageNumber(node, value, className = '') { if (!node) return; const p=pointFor(node), el=document.createElement('b'); el.className=`damage-number ${className}`; el.style.left=`${p.x}px`;el.style.top=`${p.y}px`;el.textContent=value;fxRoot.appendChild(el);setTimeout(()=>el.remove(),700); }
+    function pulse(node, cls, duration=420) { if (!node) return; node.classList.remove(cls);void node.offsetWidth;node.classList.add(cls);setTimeout(()=>node.classList.remove(cls),Math.round(duration/PLAYBACK_SPEED)); }
+    function triggerFx(node, type, event='attack') { if (!node || !type) return; node.classList.remove('unique-fx-active','unique-fx-attack-active','unique-fx-defense-active','unique-fx-low-hp-active');void node.offsetWidth;node.classList.add('unique-fx-active',`unique-fx-${event}-active`,'unique-fx-source-active');clearTimeout(node._v2Fx);node._v2Fx=setTimeout(()=>node.classList.remove('unique-fx-active',`unique-fx-${event}-active`,'unique-fx-source-active'),Math.round((type==='hp'?1450:1100)/PLAYBACK_SPEED)); }
+    function impactFx(actorNode,targetNode,type='attack',label='') { if(!actorNode||!targetNode)return;const s=pointFor(actorNode),t=pointFor(targetNode),mx=(s.x+t.x)/2,my=(s.y+t.y)/2,d=Math.max(90,Math.hypot(t.x-s.x,t.y-s.y)),angle=Math.atan2(t.y-s.y,t.x-s.x)*180/Math.PI,host=document.createElement('div'),size=Math.min(190,Math.max(118,d*.32));host.className=`unique-stage-fx unique-card-fx-host unique-fx-${type} unique-fx-active unique-fx-attack-active${type==='attack'?' unique-fx-between-targets':''}`;host.style.left=`${mx-size/2}px`;host.style.top=`${my-size/2}px`;host.style.width=`${size}px`;host.style.height=`${size}px`;host.style.setProperty('--unique-fx-angle',`${angle}deg`);if(t.x<s.x)host.classList.add('unique-fx-reverse');host.innerHTML=uniqueFxMarkup(type);if(label)host.querySelector('b')?.replaceChildren(document.createTextNode(label));fxRoot.appendChild(host);const beam=document.createElement('i');beam.className=`battle-v2-impact impact-${type}`;beam.style.left=`${s.x}px`;beam.style.top=`${s.y}px`;beam.style.width=`${d}px`;beam.style.setProperty('--impact-angle',`${angle}deg`);fxRoot.appendChild(beam);setTimeout(()=>{host.remove();beam.remove()},Math.round(1100/PLAYBACK_SPEED)); }
+    function burstFx(node,type='attack',critical=false){if(!node)return;const p=pointFor(node),b=document.createElement('i');b.className=`battle-v2-burst burst-${type}${critical?' is-critical':''}`;b.style.left=`${p.x}px`;b.style.top=`${p.y}px`;fxRoot.appendChild(b);setTimeout(()=>b.remove(),Math.round(850/PLAYBACK_SPEED));}
+
+    async function eventPlay(event) {
+      renderOrder(state.cursor); const base=650;
+      if (event.type === 'START_EFFECT') { focusTarget(event.targetId); const target=updateCard(event.targetId,{shield:event.shieldAfter});const node=fighterNode(event.targetId);triggerFx(node,'defense','defense');pulse(node,'is-shield',800);damageNumber(node,`SHIELD +${number(event.amount)}`,'shield');setMessage('UNIQUE DEFENSE','선봉 방벽',`${target?.title||''} · 피해 흡수 ${number(event.amount)}`);await sleep(base*.95);return; }
+      if (event.type === 'PVE_ULTIMATE') { const target=fighterState(event.targetId);focusTarget(event.targetId);if (data.activatedUltimate && mode==='PVE') { const ult={...data.activatedUltimate,playbackRate:PLAYBACK_SPEED,durationMs:Math.max(500,Math.round(Number(data.activatedUltimate.durationMs||3000)/PLAYBACK_SPEED))};try{await playBattleUltimate(root,ult,event.damage||data.ultimateDamage)}catch{}}updateCard(event.targetId,{hp:event.targetHpAfter,shield:event.targetShieldAfter});const node=fighterNode(event.targetId);impactFx(fighterNode(state.activeAId),node,'attack','ULTIMATE');burstFx(node,'attack',true);damageNumber(node,`-${number(Number(event.damage||0)+Number(event.absorbed||0))}`,'critical');setMessage('ULTIMATE','ULTIMATE HIT',target?.title||'MONSTER');await sleep(720);return; }
+      if (event.type === 'BOSS_ULTIMATE') { if(data.bossUltimate&&mode==='PVE'){const ult={...data.bossUltimate,playbackRate:PLAYBACK_SPEED,durationMs:Math.max(500,Math.round(Number(data.bossUltimate.durationMs||2400)/PLAYBACK_SPEED))};try{await playBossBattleUltimate(root,preservedPhase,ult)}catch{}}for(const hit of event.hits||[])updateCard(hit.targetId,{hp:hit.targetHpAfter,shield:hit.targetShieldAfter});setMessage('BOSS ULTIMATE','광역 공격',`${(event.hits||[]).length}명 타격`);await sleep(760);return; }
+      if (event.type === 'REGEN' || event.type === 'EMERGENCY_HEAL' || event.type === 'SURVIVE') { focusTarget(event.targetId);const target=updateCard(event.targetId,{hp:event.hpAfter});const node=fighterNode(event.targetId);node?.classList.remove('is-ko');triggerFx(node,'hp','low-hp');pulse(node,'is-heal',820);burstFx(node,'hp');damageNumber(node,`+${number(event.amount||event.hpAfter)}`,'heal');setMessage('LIFE EFFECT',event.type==='REGEN'?'지속 회복':event.type==='SURVIVE'?'불굴의 생존':'긴급 회복',target?.title||'');await sleep(base*.9);return; }
+      if (event.type === 'TURN' || event.type === 'COUNTER') { setActive(event.actorId,event.targetId);const actor=fighterState(event.actorId),target=fighterState(event.targetId),an=fighterNode(event.actorId),tn=fighterNode(event.targetId),actorType=typeKey(actor?.type)||'attack';pulse(an,'is-acting',720);triggerFx(an,actorType,event.type==='COUNTER'?'defense':'attack');arena.classList.remove('flash-a','flash-b');void arena.offsetWidth;arena.classList.add(actor?.side==='A'?'flash-a':'flash-b');if(event.dodge){triggerFx(tn,'speed','attack');pulse(tn,'is-dodge',720);impactFx(an,tn,'speed','DODGE');damageNumber(tn,'DODGE','shield');setMessage('SPEED EFFECT','DODGE',`${target?.title||''}이 공격을 회피했습니다.`);await sleep(base);return;}impactFx(an,tn,event.type==='COUNTER'?'defense':actorType,event.type==='COUNTER'?'COUNTER':actor?.typeLabel||'HIT');await sleep(180);pulse(tn,event.absorbed>0?'is-guard-hit':'is-hit',520);if(event.absorbed>0||target?.type==='DEFENSE')triggerFx(tn,'defense','defense');burstFx(tn,event.absorbed>0?'defense':actorType,event.critical);updateCard(event.actorId,{gauge:event.actorGaugeAfter??actor?.gauge??0});updateCard(event.targetId,{hp:event.targetHpAfter,shield:event.targetShieldAfter,gauge:event.targetGaugeAfter??target?.gauge??0});const total=Number(event.damage||0)+Number(event.absorbed||0);damageNumber(tn,`${event.critical?'CRITICAL ':''}-${number(total)}`,event.critical?'critical':event.absorbed>0?'shield':'');setMessage(event.type==='COUNTER'?'DEFENSE EFFECT':`${actor?.typeLabel||'BATTLE'} ACTION`,event.type==='COUNTER'?'COUNTER':event.critical?'CRITICAL':event.execute?'EXECUTE':'ATTACK',`${actor?.title||''} → ${target?.title||''}${event.penetration?` · 관통 ${event.penetration}%`:''}`);await sleep(base);return; }
+      if (event.type === 'KO') { focusTarget(event.targetId);const target=updateCard(event.targetId,{hp:0,gauge:0});const node=fighterNode(event.targetId);node?.classList.add('is-ko');pulse(node,'is-ko-burst',900);burstFx(node,'ko',true);setMessage('BATTLE STATE','K.O.',target?.title||'');await sleep(base*.72);return; }
+      if (event.type === 'FRONTLINE_BREAK') { arena.classList.add(event.side==='A'?'front-break-a':'front-break-b');setMessage('FORMATION BREAK','전열 붕괴',event.label||'후열이 노출됩니다.');await sleep(base*1.05);arena.classList.remove('front-break-a','front-break-b');return; }
+      if (event.type === 'RESULT') { const winner=event.winner==='A'?state.playerName:event.winner==='B'?state.opponentName:'무승부';const survived=event.reason==='MONSTER_SURVIVED';setMessage('BATTLE RESULT',event.winner==='DRAW'?'DRAW':event.winner==='A'?'VICTORY':'DEFEAT',survived?`${state.opponentName} 생존 · 제한 행동 내 처치 실패`:`${winner} · ${event.actions}회 행동 · 생존 HP ${event.teamAHpPercent}% : ${event.teamBHpPercent}%`);arena.classList.add(event.winner==='A'?'result-a':event.winner==='B'?'result-b':'result-draw');await sleep(base*1.25); }
+    }
+
+    state.activeAId=String(firstLiving('A')?.id||'');state.activeBId=String(firstLiving('B')?.id||'');
+    const onResize=()=>applyLayout(); window.__battleV2LiveCleanup?.(); window.__battleV2LiveCleanup=()=>window.removeEventListener('resize',onResize);window.addEventListener('resize',onResize,{passive:true});
+    applyLayout(true);syncFocusStage();renderOrder(0);setMessage('TACTICAL BATTLE','READY','HP·공격·방어·속도와 고유효과 전투 준비 완료');
+
+    return {
+      async play() { const timeline=v2.result?.timeline||[];for(let i=0;i<timeline.length;i++){if(!document.documentElement.contains(root))break;state.cursor=i;root.querySelector('[data-live-progress]').textContent=`${i+1} / ${timeline.length}`;await eventPlay(timeline[i]);} },
+      showResult() { preservedMsg?.classList.add('is-visible'); },
+      destroy() { window.__battleV2LiveCleanup?.(); }
+    };
   }
 
-  async function playPvpTimeline({ stage, phase, data }) {
-    const v2 = data.battleV2;
-    const cards = new Map([...(v2.teams?.A?.cards || []), ...(v2.teams?.B?.cards || [])].map(card => [String(card.id), cloneCard(card)]));
-    const attackerRows = v2.teams?.A?.cards || [];
-    const defenderRows = v2.teams?.B?.cards || [];
-    const attackerBox = stage.querySelector('.player-side .battle-team');
-    const defenderBox = stage.querySelector('.enemy-side .battle-team');
-    if (attackerBox) attackerBox.innerHTML = attackerRows.map((card, index) => fighterHtml(card, index, false)).join('');
-    if (defenderBox) defenderBox.innerHTML = defenderRows.map((card, index) => fighterHtml(card, index, true)).join('');
-    stage.classList.remove('cards-enter', 'enemy-enter', 'player-attack', 'monster-heavy-attack');
-    stage.classList.add('pve-v2-live', 'pvp-v2-live');
-    const topline = stage.querySelector('.battle-topline span');
-    if (topline) topline.textContent = 'SOOPKETMON PVP · BATTLE ENGINE V2 · 1.6X';
-    syncAll(stage, cards);
-
-    for (const event of v2.result?.timeline || []) {
-      const actor = cards.get(String(event.actorId || ''));
-      const target = cards.get(String(event.targetId || ''));
-      if (event.type === 'START_EFFECT') {
-        if (target) { target.shield = Number(event.shieldAfter ?? event.amount ?? target.shield); syncCard(stage, target); }
-        battleTriggerUniqueFx(stage, Number(target?.slot || 0), 'defense', target?.side === 'B');
-        phase.textContent = event.label || 'BARRIER FIELD';
-        await pause(180);
-        continue;
-      }
-      if (event.type === 'REGEN' || event.type === 'EMERGENCY_HEAL' || event.type === 'SURVIVE') {
-        if (target) { target.hp = Number(event.hpAfter ?? target.hp); target.maxHp = Number(event.maxHp ?? target.maxHp); syncAll(stage, cards); }
-        battleTriggerUniqueFx(stage, Number(target?.slot || 0), 'low-hp', target?.side === 'B');
-        battleDamage(stage, `+${num(event.amount || Math.max(1, Number(target?.hp || 0)))}`, target?.side === 'A' ? 'player' : 'enemy', false);
-        phase.textContent = event.label || 'RECOVERY';
-        await pause(420);
-        continue;
-      }
-      if (event.type === 'TURN') {
-        setActive(stage, actor, target);
-        if (event.actorGaugeAfter != null && actor) actor.gauge = Number(event.actorGaugeAfter);
-        if (event.targetGaugeAfter != null && target) target.gauge = Number(event.targetGaugeAfter);
-        if (event.dodge) {
-          battleTriggerUniqueFx(stage, Number(target?.slot || 0), 'attack', target?.side === 'B');
-          nodeFor(stage, target?.id)?.classList.add('v2-dodge');
-          phase.textContent = `${target?.title || 'CARD'} · 회피`;
-          await pause(430);
-          nodeFor(stage, target?.id)?.classList.remove('v2-dodge');
-          syncAll(stage, cards);
-          continue;
-        }
-        applyHit(target, event);
-        const actorEnemy = actor?.side === 'B';
-        const targetEnemy = target?.side === 'B';
-        battleTriggerUniqueFx(stage, Number(actor?.slot || 0), 'attack', actorEnemy);
-        battleTriggerUniqueFx(stage, Number(target?.slot || 0), 'defense', targetEnemy);
-        if (!actorEnemy) battleActivateCard(stage, Number(actor?.slot || 0), actor?.grade);
-        nodeFor(stage, target?.id)?.classList.add('v2-hit');
-        stage.classList.toggle('member-strike', !actorEnemy && !event.critical);
-        stage.classList.toggle('member-skill', !actorEnemy && Boolean(event.critical));
-        stage.classList.toggle('monster-heavy-attack', actorEnemy);
-        battleBurst(stage, actorEnemy ? '28%' : '73%', '43%', event.critical ? 38 : 23);
-        battleDamage(stage, `-${num((event.damage || 0) + (event.absorbed || 0))}`, target?.side === 'A' ? 'player' : 'enemy', Boolean(event.critical));
-        phase.textContent = `${actor?.title || 'CARD'} · ${event.critical ? 'CRITICAL' : event.execute ? 'EXECUTE' : 'STRIKE'}`;
-        syncAll(stage, cards);
-        await pause(event.critical ? 720 : 520);
-        stage.classList.remove('member-strike', 'member-skill', 'monster-heavy-attack');
-        nodeFor(stage, target?.id)?.classList.remove('v2-hit');
-        continue;
-      }
-      if (event.type === 'COUNTER') {
-        setActive(stage, actor, target);
-        applyHit(target, event);
-        battleTriggerUniqueFx(stage, Number(actor?.slot || 0), 'defense', actor?.side === 'B');
-        nodeFor(stage, target?.id)?.classList.add('v2-hit');
-        battleBurst(stage, actor?.side === 'A' ? '73%' : '28%', '43%', 30);
-        battleDamage(stage, `-${num((event.damage || 0) + (event.absorbed || 0))}`, target?.side === 'A' ? 'player' : 'enemy', Boolean(event.critical));
-        phase.textContent = event.label || 'COUNTER';
-        syncAll(stage, cards);
-        await pause(560);
-        nodeFor(stage, target?.id)?.classList.remove('v2-hit');
-        continue;
-      }
-      if (event.type === 'KO') {
-        if (target) { target.hp = 0; syncAll(stage, cards); }
-        nodeFor(stage, target?.id)?.classList.add('v2-ko');
-        phase.textContent = `${target?.title || 'TARGET'} · K.O.`;
-        await pause(360);
-        continue;
-      }
-      if (event.type === 'FRONTLINE_BREAK') {
-        phase.textContent = event.label || 'FRONTLINE BREAK';
-        stage.classList.add('v2-frontline-break');
-        await pause(460);
-        stage.classList.remove('v2-frontline-break');
-        continue;
-      }
-      if (event.type === 'RESULT') phase.textContent = event.winner === 'A' ? 'PVP VICTORY' : 'PVP DEFEAT';
-    }
-    syncAll(stage, cards);
-    stage.querySelectorAll('.battle-card-fighter').forEach(node => node.classList.remove('active-attacker', 'v2-active', 'v2-target'));
-    return cards;
-  }
-
-  async function finishBattle({ stage, phase, msg, modal, data }) {
+  async function finishPve({ stage, phase, msg, modal, data, renderer }) {
     const win = data.result === 'WIN';
-    const judged = data.battleV2?.result?.reason === 'ACTION_LIMIT';
+    const reason = String(data.battleV2?.result?.reason || '');
     const actions = Math.max(0, Number(data.battleV2?.result?.actions || 0));
-    stage.querySelectorAll('.battle-card-fighter').forEach(node => node.classList.remove('active-attacker','v2-active','v2-target'));
     stage.classList.add(win ? 'battle-win-v863' : 'battle-lose-v863');
-    phase.textContent = win ? (judged ? 'MISSION CLEAR · JUDGEMENT' : 'MISSION CLEAR') : (judged ? 'MISSION FAILED · JUDGEMENT' : 'MISSION FAILED');
+    phase.textContent = win ? 'MISSION CLEAR' : reason === 'MONSTER_SURVIVED' ? 'MISSION FAILED · MONSTER SURVIVED' : 'MISSION FAILED';
     battleSfx(win ? 'victory' : 'defeat');
     if (data.cubeReward && window.showCubeDropAcquisition) { try { await window.showCubeDropAcquisition(data.cubeReward); } catch (error) { console.warn(error); } }
     if (data.equipmentReward && window.showEquipmentDropReward) { try { await window.showEquipmentDropReward(data.equipmentReward); } catch (error) { console.warn(error); } }
-    const resultDetail = `${judged ? `행동 ${actions}회 판정 · ` : ''}전투엔진 V2 · 1.6배 · 전투력 ${num(data.battleV2?.teams?.A?.summary?.power || data.playerPower)} VS ${num(data.monsterPower)}`;
+    const detail = `${reason === 'MONSTER_SURVIVED' ? `제한 행동 ${actions}회 내 몬스터 처치 실패 · ` : ''}전투엔진 V2 · 1.6배 · 전투력 ${number(data.battleV2?.teams?.A?.summary?.power || data.playerPower)} VS ${number(data.monsterPower)}`;
     msg.innerHTML = win
-      ? `<strong>VICTORY</strong><span>${resultDetail}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${num(data.reward)}</b>${Number(data.magicReward?.amount || 0) > 0 ? `<div class="battle-magic-drop"><strong>✦ 마법 결정 +${num(data.magicReward.amount)}</strong><span>확률 드랍 성공</span></div>` : ''}${data.cardReward ? `<div class="battle-card-drop"><strong>${esc(data.cardReward.card.grade)} ${esc(data.cardReward.card.title)}</strong><span>${data.cardReward.duplicate ? `중복 카드 · 조각 +${num(data.cardReward.shardGained)}` : '신규 카드 획득!'}</span></div>` : ''}</div><em>화면을 눌러 돌아가기</em>`
-      : `<strong>DEFEAT</strong><span>${resultDetail}</span><div class="battle-defeat-tip">HP·공격·방어·속도와 전열 구성을 조정해보세요.</div><em>화면을 눌러 돌아가기</em>`;
+      ? `<strong>VICTORY</strong><span>${detail}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${number(data.reward)}</b>${Number(data.magicReward?.amount || 0)>0?`<div class="battle-magic-drop"><strong>✦ 마법 결정 +${number(data.magicReward.amount)}</strong></div>`:''}${data.cardReward?`<div class="battle-card-drop"><strong>${esc(data.cardReward.card.grade)} ${esc(data.cardReward.card.title)}</strong><span>${data.cardReward.duplicate?`중복 카드 · 조각 +${number(data.cardReward.shardGained)}`:'신규 카드 획득!'}</span></div>`:''}</div><em>화면을 눌러 돌아가기</em>`
+      : `<strong>DEFEAT</strong><span>${detail}</span><div class="battle-defeat-tip">몬스터가 살아 있으면 남은 HP 비율과 관계없이 패배합니다. 장비·강화·전열 구성을 조정하세요.</div><em>화면을 눌러 돌아가기</em>`;
+    renderer.showResult();
 
     battleState.energy = data.energy || battleState.energy;
     battleState.serverOffset = Date.parse(data.serverNow || new Date().toISOString()) - Date.now();
     saveUser(apiUserToLocal(data.user));
     if (battleState.autoRunning) {
-      const summary = battleState.autoSummary || (battleState.autoSummary = { battles:0,wins:0,losses:0,totalReward:0,magicCrystals:0,cardRewards:[],equipmentRewards:[] });
-      summary.battles++; summary.totalReward += Number(data.reward || 0); summary.magicCrystals += Number(data.magicReward?.amount || 0);
-      if (win) summary.wins++; else summary.losses++;
-      if (data.cardReward) summary.cardRewards.push(data.cardReward);
-      if (data.equipmentReward) summary.equipmentRewards.push(data.equipmentReward);
-      battleState.autoRemaining = Math.max(0, Number(battleState.autoRemaining || 0) - 1);
-      const available = Math.floor(Number(battleState.energy?.energy || 0) / Math.max(1, Number(battleState.energy?.costPerBattle || 1)));
-      const remaining = Math.min(Number(battleState.autoRemaining || 0), available);
-      if (remaining > 0) {
-        msg.insertAdjacentHTML('beforeend', `<em class="auto-battle-next">자동전투 ${summary.battles}회 완료 · ${remaining}회 남음<br>잠시 후 다음 전투가 시작됩니다. 화면을 누르면 중단합니다.</em>`);
-        modal.onclick = () => { battleState.autoRunning = false; renderShell('battle'); };
-        setTimeout(() => { if (battleState.autoRunning) { modal.onclick = null; startBattle(); } }, Math.round(1600 / PLAYBACK_SPEED));
-      } else {
-        battleState.autoRunning = false;
-        const boxes = (summary.equipmentRewards || []).reduce((sum, reward) => sum + Math.max(1, Number(reward?.quantity || 1)), 0);
-        msg.insertAdjacentHTML('beforeend', `<div class="battle-auto-total"><b>자동전투 ${summary.battles}회 완료</b><span>승리 ${summary.wins} · 패배 ${summary.losses} · 코인 ◈ ${num(summary.totalReward)}</span>${summary.magicCrystals > 0 ? `<small>마법 결정 ✦ ${num(summary.magicCrystals)}개</small>` : ''}${summary.cardRewards.length ? `<small>카드 획득 ${summary.cardRewards.length}장</small>` : ''}${boxes ? `<small>보급상자 획득 ${boxes}개</small>` : ''}</div>`);
-        setTimeout(() => { modal.onclick = () => renderShell('battle'); }, 450);
-      }
-    } else setTimeout(() => { modal.onclick = () => renderShell('battle'); }, 450);
+      const summary = battleState.autoSummary || (battleState.autoSummary={battles:0,wins:0,losses:0,totalReward:0,magicCrystals:0,cardRewards:[],equipmentRewards:[]});
+      summary.battles++;summary.totalReward+=Number(data.reward||0);summary.magicCrystals+=Number(data.magicReward?.amount||0);if(win)summary.wins++;else summary.losses++;if(data.cardReward)summary.cardRewards.push(data.cardReward);if(data.equipmentReward)summary.equipmentRewards.push(data.equipmentReward);
+      battleState.autoRemaining=Math.max(0,Number(battleState.autoRemaining||0)-1);const available=Math.floor(Number(battleState.energy?.energy||0)/Math.max(1,Number(battleState.energy?.costPerBattle||1))),remaining=Math.min(Number(battleState.autoRemaining||0),available);
+      if(remaining>0){msg.insertAdjacentHTML('beforeend',`<em class="auto-battle-next">자동전투 ${summary.battles}회 완료 · ${remaining}회 남음<br>잠시 후 다음 전투가 시작됩니다. 화면을 누르면 중단합니다.</em>`);modal.onclick=()=>{battleState.autoRunning=false;renderer.destroy();renderShell('battle')};setTimeout(()=>{if(battleState.autoRunning){modal.onclick=null;renderer.destroy();startBattle()}},Math.round(1600/PLAYBACK_SPEED));}
+      else{battleState.autoRunning=false;const boxes=(summary.equipmentRewards||[]).reduce((sum,reward)=>sum+Math.max(1,Number(reward?.quantity||1)),0);msg.insertAdjacentHTML('beforeend',`<div class="battle-auto-total"><b>자동전투 ${summary.battles}회 완료</b><span>승리 ${summary.wins} · 패배 ${summary.losses} · 코인 ◈ ${number(summary.totalReward)}</span>${summary.magicCrystals>0?`<small>마법 결정 ✦ ${number(summary.magicCrystals)}개</small>`:''}${summary.cardRewards.length?`<small>카드 획득 ${summary.cardRewards.length}장</small>`:''}${boxes?`<small>보급상자 획득 ${boxes}개</small>`:''}</div>`);setTimeout(()=>{modal.onclick=()=>{renderer.destroy();renderShell('battle')}},450);}
+    } else setTimeout(()=>{modal.onclick=()=>{renderer.destroy();renderShell('battle')}},450);
   }
 
   window.playPveBattleV2Live = async options => {
-    const { stage, phase, msg, modal, data, monster, playUltimateCinematics } = options;
-    await playTimeline({ stage, phase, msg, data, monster, playUltimateCinematics });
-    await pause(540);
-    await finishBattle({ stage, phase, msg, modal, data });
+    const renderer=createRenderer({...options,mode:'PVE'});await renderer.play();await sleep(420);await finishPve({...options,renderer});
   };
-
   window.playPvpBattleV2Live = async options => {
-    const { stage, phase, data } = options;
-    await playPvpTimeline({ stage, phase, data });
-    await pause(420);
+    const renderer=createRenderer({...options,mode:'PVP'});options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(320);renderer.showResult();
   };
 })();

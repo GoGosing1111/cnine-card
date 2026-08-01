@@ -415,9 +415,17 @@ export function teamSummary(cards = []) {
 export function buildMonsterFighter(monster = {}) {
   const power = Math.max(1, Number(monster.battle_power ?? monster.battlePower ?? monster.power ?? 1));
   const isBoss = Number(monster.is_boss ?? monster.isBoss ?? 0) === 1 || monster.isBoss === true;
-  const maxHp = Math.max(500, Math.round(power * (isBoss ? 4.6 : 4.0)));
-  const attack = Math.max(20, Math.round(power * (isBoss ? 0.205 : 0.175)));
-  const defense = Math.max(1, Math.round(power * (isBoss ? 0.105 : 0.082)));
+  // V1318: 기존 전투력 비교식에서 V2 능력치 전투로 전환되며 몬스터가 상대적으로 약해지지 않도록
+  // PVE 전용 HP/공격/방어 보정을 독립적으로 적용한다. 저장 전투력 자체는 변경하지 않는다.
+  const hpBuffPercent = isBoss ? 20 : 10;
+  const attackBuffPercent = isBoss ? 45 : 35;
+  const defenseBuffPercent = isBoss ? 40 : 30;
+  const baseHp = Math.max(500, Math.round(power * (isBoss ? 4.6 : 4.0)));
+  const baseAttack = Math.max(20, Math.round(power * (isBoss ? 0.205 : 0.175)));
+  const baseDefense = Math.max(1, Math.round(power * (isBoss ? 0.105 : 0.082)));
+  const maxHp = Math.max(500, Math.round(baseHp * (1 + hpBuffPercent / 100)));
+  const attack = Math.max(20, Math.round(baseAttack * (1 + attackBuffPercent / 100)));
+  const defense = Math.max(1, Math.round(baseDefense * (1 + defenseBuffPercent / 100)));
   const speed = Math.max(55, Math.round(isBoss ? 104 : 92));
   return {
     id: `B:0:MONSTER:${String(monster.id || 0)}`,
@@ -429,26 +437,39 @@ export function buildMonsterFighter(monster = {}) {
     basePower: Math.round(power), equipmentShare: 0, power: Math.round(power),
     type: 'NONE', typeLabel: isBoss ? '보스' : '몬스터', uniqueAbility: null,
     maxHp, hp: maxHp, attack, defense, speed, shield: 0, maxShield: 0, gauge: isBoss ? 12 : 4,
+    pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent },
     alive: true, emergencyUsed: false, survivalUsed: false, frontlineAnnounced: false,
     actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss
   };
+}
+
+function forcePveMonsterSurvivalLoss(result = {}) {
+  if (result.reason !== 'ACTION_LIMIT') return result;
+  const monsterAlive = (result.final?.B || []).some(card => Number(card.hp || 0) > 0);
+  if (!monsterAlive) return result;
+  const timeline = (result.timeline || []).map(event => event.type === 'RESULT'
+    ? { ...event, winner: 'B', reason: 'MONSTER_SURVIVED', originalWinner: result.winner, originalReason: result.reason }
+    : event);
+  return { ...result, winner: 'B', reason: 'MONSTER_SURVIVED', originalWinner: result.winner, originalReason: result.reason, timeline };
 }
 
 export function createPveBattleV2({ cards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0 } = {}) {
   const withBonus = distributeEquipment(cards, Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null));
   const teamB = [buildMonsterFighter(monster)];
-  const result = simulateBattleV2Preview({
-    teamA, teamB, seed, maxActions: 90,
+  const simulated = simulateBattleV2Preview({
+    teamA, teamB, seed, maxActions: 120,
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent
   });
+  // PVE는 제한 행동까지 몬스터가 살아 있으면 잔여 HP 비율과 무관하게 실패한다.
+  const result = forcePveMonsterSurvivalLoss(simulated);
   return {
     schemaVersion: 2,
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.6,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 120, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
