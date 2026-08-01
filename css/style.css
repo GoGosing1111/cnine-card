@@ -3766,3 +3766,77 @@ body.burning-notice-open .fullscreen-play-link{
 .hyper-burning-notice .burning-notice-flames i{background:linear-gradient(0deg,#31105f,#8e3ce1 55%,rgba(214,161,255,.12))}
 .equipment-supply-shop.promotion-discount{border-color:rgba(166,99,255,.52);box-shadow:0 0 30px rgba(115,43,205,.16)}.equipment-supply-shop.promotion-discount h3 em{display:inline-flex;margin-left:8px;padding:3px 8px;border:1px solid rgba(183,117,255,.55);border-radius:999px;color:#d9b5ff;font-size:11px;font-style:normal}.equipment-supply-meta s{margin-right:5px;opacity:.55}.equipment-supply-meta span> b{color:#d9b5ff}
 @media(max-width:700px){.hyper-burning-event-active body:before{animation:none;filter:none;opacity:.78}.hyper-burning-event-active body:after{box-shadow:inset 0 0 52px rgba(95,33,166,.12)}.hyper-burning-strip:before{animation:none!important}}
+
+
+/* V1319 ultimate responsive viewport: PC / WAGO iframe / mobile portrait / mobile landscape */
+.battle-ultimate-overlay,
+.boss-ultimate-overlay{
+  --ultimate-host-w:100vw;
+  --ultimate-host-h:100dvh;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  contain:layout paint;
+}
+.battle-ultimate-media,
+.boss-ultimate-overlay-media{
+  inset:0;
+  width:100%;
+  height:100%;
+  padding:clamp(8px,1.8vmin,24px);
+  overflow:hidden;
+  background:#000;
+}
+.battle-ultimate-media img,
+.battle-ultimate-media video,
+.boss-ultimate-overlay-media img,
+.boss-ultimate-overlay-media video,
+.boss-ultimate-overlay-media video.is-portrait,
+.boss-ultimate-overlay-media img.is-portrait,
+.boss-ultimate-overlay-media video.is-landscape,
+.boss-ultimate-overlay-media img.is-landscape{
+  display:block;
+  width:100%;
+  height:100%;
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  object-position:center center;
+  background:#000;
+}
+.boss-ultimate-overlay{
+  position:absolute;
+  inset:0;
+}
+.battle-v2-live-shell .battle-ultimate-overlay,
+.battle-v2-live-shell .boss-ultimate-overlay{
+  border-radius:inherit;
+}
+.battle-ultimate-overlay.ultimate-host-narrow .battle-ultimate-title,
+.boss-ultimate-overlay.ultimate-host-narrow .boss-ultimate-overlay-title{
+  left:3%;
+  right:3%;
+  bottom:max(2.5%,env(safe-area-inset-bottom));
+}
+.battle-ultimate-overlay.ultimate-host-phone .battle-ultimate-title small,
+.boss-ultimate-overlay.ultimate-host-phone .boss-ultimate-overlay-title small{
+  font-size:9px;
+  letter-spacing:.18em;
+}
+.battle-ultimate-overlay.ultimate-host-phone .battle-ultimate-title strong,
+.boss-ultimate-overlay.ultimate-host-phone .boss-ultimate-overlay-title strong{
+  font-size:clamp(24px,9vw,42px);
+}
+.battle-ultimate-overlay.ultimate-host-phone .battle-ultimate-title span,
+.boss-ultimate-overlay.ultimate-host-phone .boss-ultimate-overlay-title span{
+  margin-top:6px;
+  font-size:11px;
+  line-height:1.3;
+}
+@media (orientation:landscape) and (max-height:600px){
+  .battle-ultimate-media,.boss-ultimate-overlay-media{padding:4px 8px}
+  .battle-ultimate-title,.boss-ultimate-overlay-title{bottom:max(1.5%,env(safe-area-inset-bottom))}
+  .battle-ultimate-title strong,.boss-ultimate-overlay-title strong{font-size:clamp(22px,6vh,38px)}
+  .battle-ultimate-title span,.boss-ultimate-overlay-title span{margin-top:4px;font-size:10px}
+}

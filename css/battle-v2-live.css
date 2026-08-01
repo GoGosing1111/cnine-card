@@ -436,3 +436,7 @@
 .battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line { width:min(310px,86vw); margin:auto; }
 .battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line i { min-height:112px; }
 .battle-v2-live-loading.layout-mobile-landscape .v2-loading-arena { min-height:600px; }
+
+/* V1319: 궁극기 오버레이가 전투 컨테이너 밖으로 확대되지 않도록 기준 영역 고정 */
+.battle-v2-live-shell { position:relative; overflow:hidden; container-type:inline-size; }
+@media(max-width:600px){.battle-v2-live-shell{min-height:100dvh}.battle-v2-live-shell .battle-ultimate-overlay,.battle-v2-live-shell .boss-ultimate-overlay{border-radius:0}}

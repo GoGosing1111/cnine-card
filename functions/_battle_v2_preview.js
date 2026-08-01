@@ -415,11 +415,11 @@ export function teamSummary(cards = []) {
 export function buildMonsterFighter(monster = {}) {
   const power = Math.max(1, Number(monster.battle_power ?? monster.battlePower ?? monster.power ?? 1));
   const isBoss = Number(monster.is_boss ?? monster.isBoss ?? 0) === 1 || monster.isBoss === true;
-  // V1318: 기존 전투력 비교식에서 V2 능력치 전투로 전환되며 몬스터가 상대적으로 약해지지 않도록
-  // PVE 전용 HP/공격/방어 보정을 독립적으로 적용한다. 저장 전투력 자체는 변경하지 않는다.
-  const hpBuffPercent = isBoss ? 20 : 10;
-  const attackBuffPercent = isBoss ? 45 : 35;
-  const defenseBuffPercent = isBoss ? 40 : 30;
+  // V1319: 몬스터의 위협성은 유지하되 방어 누적으로 전투가 과도하게 길어지지 않도록 재조정한다.
+  // DB 전투력은 그대로 두고 V2 환산 단계의 PVE 전용 배수만 변경한다.
+  const hpBuffPercent = isBoss ? 10 : 5;
+  const attackBuffPercent = isBoss ? 40 : 30;
+  const defenseBuffPercent = isBoss ? 18 : 10;
   const baseHp = Math.max(500, Math.round(power * (isBoss ? 4.6 : 4.0)));
   const baseAttack = Math.max(20, Math.round(power * (isBoss ? 0.205 : 0.175)));
   const baseDefense = Math.max(1, Math.round(power * (isBoss ? 0.105 : 0.082)));
