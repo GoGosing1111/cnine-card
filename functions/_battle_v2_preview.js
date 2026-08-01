@@ -457,6 +457,47 @@ export function createPveBattleV2({ cards = [], characterBonus = 0, monster = {}
   };
 }
 
+
+function resolvePvpDraw(result, teamA, teamB) {
+  if (result?.winner !== 'DRAW') return result;
+  const sumA = teamSummary(teamA);
+  const sumB = teamSummary(teamB);
+  // 기존 PvP의 동률 공격자 우선 규칙을 유지한다. 완전 동률이 아니면 편성 전투력이 높은 쪽이 승리한다.
+  const winner = sumA.power >= sumB.power ? 'A' : 'B';
+  const patchedTimeline = (result.timeline || []).map(event => event.type === 'RESULT'
+    ? { ...event, winner, reason: 'POWER_TIEBREAK', originalReason: event.reason || result.reason || 'ACTION_LIMIT' }
+    : event);
+  return { ...result, winner, reason: 'POWER_TIEBREAK', originalReason: result.reason || 'ACTION_LIMIT', timeline: patchedTimeline };
+}
+
+export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1 } = {}) {
+  const attackerWithEquipment = distributeEquipment(attackerCards, Math.max(0, Number(attackerEquipmentBonus || 0)));
+  const defenderWithEquipment = distributeEquipment(defenderCards, Math.max(0, Number(defenderEquipmentBonus || 0)));
+  const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null));
+  const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null));
+  const simulated = simulateBattleV2Preview({ teamA, teamB, seed, maxActions: 100 });
+  const result = resolvePvpDraw(simulated, teamA, teamB);
+  return {
+    schemaVersion: 2,
+    engine: 'BATTLE_ENGINE_V2_PVP',
+    playbackSpeed: 1.6,
+    seed: Number(seed) >>> 0,
+    rules: {
+      hpMode: 'POWER_DISTRIBUTED',
+      formation: 'FRONT_2_BACK_3',
+      actionMode: 'SPEED_GAUGE',
+      damageCapPercent: 46,
+      drawRule: 'POWER_THEN_ATTACKER',
+      dbTimelineWrites: 0
+    },
+    teams: {
+      A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
+      B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
+    },
+    result
+  };
+}
+
 async function selectOpponent(env, user, requestedId = 0) {
   if (requestedId && requestedId !== Number(user.id)) {
     const row = await env.DB.prepare(`SELECT u.id,u.nickname,u.role,COALESCE(p.season_score,1000) AS seasonScore,d.card_ids AS cardIds

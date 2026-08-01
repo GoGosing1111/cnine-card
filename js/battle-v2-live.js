@@ -7,11 +7,11 @@
   const pause = ms => battleSleep(Math.max(24, Math.round(Number(ms || 0) / PLAYBACK_SPEED)));
   const typeKey = type => ({ ATTACK:'attack', DEFENSE:'defense', HP:'hp', SPEED:'speed' })[String(type || '').toUpperCase()] || '';
 
-  function fighterHtml(card, index) {
+  function fighterHtml(card, index, enemy = false) {
     const type = typeKey(card.type);
     const classes = ['battle-card-fighter', 'pve-v2-fighter'];
     if (type) classes.push('unique-card-fx-host', `unique-fx-${type}`);
-    return `<div class="${classes.join(' ')}" data-fighter="${index}" data-v2-id="${esc(card.id)}" ${type ? `data-unique-fx="${type}" data-unique-value="1"` : ''} style="--i:${index}">
+    return `<div class="${classes.join(' ')}" ${enemy ? `data-enemy-fighter="${index}"` : `data-fighter="${index}"`} data-v2-id="${esc(card.id)}" ${type ? `data-unique-fx="${type}" data-unique-value="1"` : ''} style="--i:${index}">
       <div class="fighter-aura"></div>
       ${combatCardHtml(card, 'battle-fighter-card', Number(card.breakthroughLevel || 0))}
       <div class="pve-v2-card-hud">
@@ -195,6 +195,105 @@
     return cards;
   }
 
+  async function playPvpTimeline({ stage, phase, data }) {
+    const v2 = data.battleV2;
+    const cards = new Map([...(v2.teams?.A?.cards || []), ...(v2.teams?.B?.cards || [])].map(card => [String(card.id), cloneCard(card)]));
+    const attackerRows = v2.teams?.A?.cards || [];
+    const defenderRows = v2.teams?.B?.cards || [];
+    const attackerBox = stage.querySelector('.player-side .battle-team');
+    const defenderBox = stage.querySelector('.enemy-side .battle-team');
+    if (attackerBox) attackerBox.innerHTML = attackerRows.map((card, index) => fighterHtml(card, index, false)).join('');
+    if (defenderBox) defenderBox.innerHTML = defenderRows.map((card, index) => fighterHtml(card, index, true)).join('');
+    stage.classList.remove('cards-enter', 'enemy-enter', 'player-attack', 'monster-heavy-attack');
+    stage.classList.add('pve-v2-live', 'pvp-v2-live');
+    const topline = stage.querySelector('.battle-topline span');
+    if (topline) topline.textContent = 'SOOPKETMON PVP · BATTLE ENGINE V2 · 1.6X';
+    syncAll(stage, cards);
+
+    for (const event of v2.result?.timeline || []) {
+      const actor = cards.get(String(event.actorId || ''));
+      const target = cards.get(String(event.targetId || ''));
+      if (event.type === 'START_EFFECT') {
+        if (target) { target.shield = Number(event.shieldAfter ?? event.amount ?? target.shield); syncCard(stage, target); }
+        battleTriggerUniqueFx(stage, Number(target?.slot || 0), 'defense', target?.side === 'B');
+        phase.textContent = event.label || 'BARRIER FIELD';
+        await pause(180);
+        continue;
+      }
+      if (event.type === 'REGEN' || event.type === 'EMERGENCY_HEAL' || event.type === 'SURVIVE') {
+        if (target) { target.hp = Number(event.hpAfter ?? target.hp); target.maxHp = Number(event.maxHp ?? target.maxHp); syncAll(stage, cards); }
+        battleTriggerUniqueFx(stage, Number(target?.slot || 0), 'low-hp', target?.side === 'B');
+        battleDamage(stage, `+${num(event.amount || Math.max(1, Number(target?.hp || 0)))}`, target?.side === 'A' ? 'player' : 'enemy', false);
+        phase.textContent = event.label || 'RECOVERY';
+        await pause(420);
+        continue;
+      }
+      if (event.type === 'TURN') {
+        setActive(stage, actor, target);
+        if (event.actorGaugeAfter != null && actor) actor.gauge = Number(event.actorGaugeAfter);
+        if (event.targetGaugeAfter != null && target) target.gauge = Number(event.targetGaugeAfter);
+        if (event.dodge) {
+          battleTriggerUniqueFx(stage, Number(target?.slot || 0), 'attack', target?.side === 'B');
+          nodeFor(stage, target?.id)?.classList.add('v2-dodge');
+          phase.textContent = `${target?.title || 'CARD'} · 회피`;
+          await pause(430);
+          nodeFor(stage, target?.id)?.classList.remove('v2-dodge');
+          syncAll(stage, cards);
+          continue;
+        }
+        applyHit(target, event);
+        const actorEnemy = actor?.side === 'B';
+        const targetEnemy = target?.side === 'B';
+        battleTriggerUniqueFx(stage, Number(actor?.slot || 0), 'attack', actorEnemy);
+        battleTriggerUniqueFx(stage, Number(target?.slot || 0), 'defense', targetEnemy);
+        if (!actorEnemy) battleActivateCard(stage, Number(actor?.slot || 0), actor?.grade);
+        nodeFor(stage, target?.id)?.classList.add('v2-hit');
+        stage.classList.toggle('member-strike', !actorEnemy && !event.critical);
+        stage.classList.toggle('member-skill', !actorEnemy && Boolean(event.critical));
+        stage.classList.toggle('monster-heavy-attack', actorEnemy);
+        battleBurst(stage, actorEnemy ? '28%' : '73%', '43%', event.critical ? 38 : 23);
+        battleDamage(stage, `-${num((event.damage || 0) + (event.absorbed || 0))}`, target?.side === 'A' ? 'player' : 'enemy', Boolean(event.critical));
+        phase.textContent = `${actor?.title || 'CARD'} · ${event.critical ? 'CRITICAL' : event.execute ? 'EXECUTE' : 'STRIKE'}`;
+        syncAll(stage, cards);
+        await pause(event.critical ? 720 : 520);
+        stage.classList.remove('member-strike', 'member-skill', 'monster-heavy-attack');
+        nodeFor(stage, target?.id)?.classList.remove('v2-hit');
+        continue;
+      }
+      if (event.type === 'COUNTER') {
+        setActive(stage, actor, target);
+        applyHit(target, event);
+        battleTriggerUniqueFx(stage, Number(actor?.slot || 0), 'defense', actor?.side === 'B');
+        nodeFor(stage, target?.id)?.classList.add('v2-hit');
+        battleBurst(stage, actor?.side === 'A' ? '73%' : '28%', '43%', 30);
+        battleDamage(stage, `-${num((event.damage || 0) + (event.absorbed || 0))}`, target?.side === 'A' ? 'player' : 'enemy', Boolean(event.critical));
+        phase.textContent = event.label || 'COUNTER';
+        syncAll(stage, cards);
+        await pause(560);
+        nodeFor(stage, target?.id)?.classList.remove('v2-hit');
+        continue;
+      }
+      if (event.type === 'KO') {
+        if (target) { target.hp = 0; syncAll(stage, cards); }
+        nodeFor(stage, target?.id)?.classList.add('v2-ko');
+        phase.textContent = `${target?.title || 'TARGET'} · K.O.`;
+        await pause(360);
+        continue;
+      }
+      if (event.type === 'FRONTLINE_BREAK') {
+        phase.textContent = event.label || 'FRONTLINE BREAK';
+        stage.classList.add('v2-frontline-break');
+        await pause(460);
+        stage.classList.remove('v2-frontline-break');
+        continue;
+      }
+      if (event.type === 'RESULT') phase.textContent = event.winner === 'A' ? 'PVP VICTORY' : 'PVP DEFEAT';
+    }
+    syncAll(stage, cards);
+    stage.querySelectorAll('.battle-card-fighter').forEach(node => node.classList.remove('active-attacker', 'v2-active', 'v2-target'));
+    return cards;
+  }
+
   async function finishBattle({ stage, phase, msg, modal, data }) {
     const win = data.result === 'WIN';
     const judged = data.battleV2?.result?.reason === 'ACTION_LIMIT';
@@ -240,5 +339,11 @@
     await playTimeline({ stage, phase, msg, data, monster, playUltimateCinematics });
     await pause(540);
     await finishBattle({ stage, phase, msg, modal, data });
+  };
+
+  window.playPvpBattleV2Live = async options => {
+    const { stage, phase, data } = options;
+    await playPvpTimeline({ stage, phase, data });
+    await pause(420);
   };
 })();
