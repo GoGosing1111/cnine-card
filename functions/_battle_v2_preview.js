@@ -185,7 +185,7 @@ function lowestRatioTarget(pool, random) {
 
 function healerPenaltyForTeam(team = []) {
   const healerCount = team.filter(card => card.type === 'HP').length;
-  const reductionPercent = healerCount >= 5 ? 55 : healerCount === 4 ? 40 : healerCount === 3 ? 25 : healerCount === 2 ? 10 : 0;
+  const reductionPercent = healerCount >= 5 ? 70 : healerCount === 4 ? 60 : healerCount === 3 ? 45 : healerCount === 2 ? 30 : 0;
   return { healerCount, reductionPercent, multiplier: 1 - reductionPercent / 100 };
 }
 
@@ -468,7 +468,8 @@ export function createPveBattleV2({ cards = [], characterBonus = 0, monster = {}
   const simulated = simulateBattleV2Preview({
     teamA, teamB, seed, maxActions: 120,
     openingPlayerUltimateDamage: ultimateDamage,
-    openingBossUltimatePercent: bossUltimatePercent
+    openingBossUltimatePercent: bossUltimatePercent,
+    healerPenalty: true
   });
   // PVE는 제한 행동까지 몬스터가 살아 있으면 잔여 HP 비율과 무관하게 실패한다.
   const result = forcePveMonsterSurvivalLoss(simulated);
@@ -477,7 +478,7 @@ export function createPveBattleV2({ cards = [], characterBonus = 0, monster = {}
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.6,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 120, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 120, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 30, 3: 45, 4: 60, 5: 70 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_ONLY', dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
@@ -517,8 +518,8 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       actionMode: 'SPEED_GAUGE',
       damageCapPercent: 46,
       drawRule: 'POWER_THEN_ATTACKER',
-      healerDuplicatePenalty: { 2: 10, 3: 25, 4: 40, 5: 55 },
-      healerPenaltyScope: 'PVP_HP_RECOVERY_ONLY',
+      healerDuplicatePenalty: { 2: 30, 3: 45, 4: 60, 5: 70 },
+      healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_ONLY',
       dbTimelineWrites: 0
     },
     teams: {
@@ -618,7 +619,7 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
       formation: 'FRONT_2_BACK_3',
       actionMode: 'SPEED_GAUGE',
       damageCapPercent: 46,
-      healerDuplicatePenalty: { 2: 10, 3: 25, 4: 40, 5: 55 },
+      healerDuplicatePenalty: { 2: 30, 3: 45, 4: 60, 5: 70 },
       dbWrites: 0
     },
     player: { id: Number(user.id), nickname: String(user.nickname || 'PLAYER') },

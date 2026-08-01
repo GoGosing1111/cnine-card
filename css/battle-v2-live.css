@@ -835,7 +835,7 @@
   .layout-desktop .focus-slot .hp-stack { width: 350px; }
 }
 
-/* v1328: PVE result uses the same premium V2 result presentation as PVP. */
+/* v1329: PVE result uses the same premium V2 result presentation as PVP. */
 .battle-v2-live-result.is-visible:has(.pve-v2-result) {
   position:absolute;
   inset:0;
