@@ -585,3 +585,17 @@
 
 .pvp-battle-modal .battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line.side-b { grid-row: 1; }
 .pvp-battle-modal .battle-v2-live-loading.layout-mobile-portrait .v2-loading-card-line.side-a { grid-row: 2; }
+
+
+/* v1325: remove non-gameplay timeline/speed status panels in PVE and PVP. */
+.battle-v2-live-progress { display:none !important; }
+.battle-v2-live-footer {
+  display:block;
+  grid-template-columns:1fr;
+  min-height:0;
+  padding:0;
+  margin-top:8px;
+}
+.battle-v2-live-footer:empty { display:none; }
+.battle-v2-live-result:not(.is-visible):empty,
+[data-live-result-slot]:empty { display:none; }

@@ -126,7 +126,7 @@
       <section class="battle-v2-scoreboard"><article class="team-summary team-a"><header><div><small>${mode === 'PVE' ? 'MEMBER TEAM' : 'MY PVP TEAM'}</small><strong>${esc(playerName)}</strong></div><b>READY</b></header><div class="v2-loading-stat-grid"><i></i><i></i><i></i><i></i></div></article><div class="battle-v2-center-mark"><strong>VS</strong></div><article class="team-summary team-b"><header><div><small>${mode === 'PVE' ? 'MONSTER' : 'OPPONENT TEAM'}</small><strong>${esc(opponentName)}</strong></div><b>READY</b></header><div class="v2-loading-stat-grid"><i></i><i></i><i></i><i></i></div></article></section>
       <div class="battle-v2-layout-note battle-v2-phase-only"><em id="battlePhase" class="battle-v2-live-phase">전투 준비 중</em></div>
       <section class="battle-v2-arena v2-loading-arena"><div class="arena-glow"></div><div class="action-order"><small>실제 덱·장비·고유효과 확인 중</small></div><div class="v2-loading-card-line side-a">${Array.from({length:5},(_,i)=>`<i style="--delay:${i}"></i>`).join('')}</div><div class="battle-v2-message desktop-message"><small>TACTICAL BATTLE</small><strong>CALCULATING</strong><span>${esc(autoText || '전투 타임라인을 서버에서 계산하고 있습니다.')}</span></div><div class="v2-loading-card-line side-b">${Array.from({length:mode === 'PVE' ? 1 : 5},(_,i)=>`<i style="--delay:${i}"></i>`).join('')}</div></section>
-      <section class="battle-v2-live-footer"><div class="battle-v2-live-progress"><small>LIVE TIMELINE</small><b>READY</b><span>전투 속도 1.6배 고정</span></div><div id="battleMessage" class="battle-message battle-v2-live-result"></div></section>
+      <section class="battle-v2-live-footer"><div id="battleMessage" class="battle-message battle-v2-live-result"></div></section>
     </div>`;
     const stage = modal.querySelector('.battle-stage');
     const phase = modal.querySelector('#battlePhase');
@@ -154,7 +154,7 @@
       <section class="battle-v2-arena" data-live-arena aria-live="polite"><div class="arena-glow"></div><div class="action-order" data-live-order></div><div class="team-field team-field-a" data-live-field="A"></div><div class="battle-v2-message desktop-message" data-live-message><small>TACTICAL BATTLE</small><strong>READY</strong><span>전투 데이터를 배치하는 중</span></div><div class="team-field team-field-b" data-live-field="B"></div>
         <div class="focus-battle" data-live-focus aria-hidden="true"><div class="focus-roster focus-roster-b" data-live-roster="B"></div><div class="focus-duel"><div class="focus-slot focus-slot-a" data-live-focus-slot="A"></div><div class="battle-v2-message focus-message" data-live-focus-message><small>TACTICAL BATTLE</small><strong>READY</strong><span>현재 행동 카드를 집중 표시합니다.</span></div><div class="focus-slot focus-slot-b" data-live-focus-slot="B"></div></div><div class="focus-roster focus-roster-a" data-live-roster="A"></div></div><div class="battle-v2-fx" data-live-fx></div>
       </section>
-      <section class="battle-v2-live-footer"><div class="battle-v2-live-progress"><small>LIVE TIMELINE</small><b data-live-progress>0 / ${Number(v2.result?.timeline?.length || 0)}</b><span>전투 속도 1.6배 고정</span></div><div data-live-result-slot></div></section>`;
+      <section class="battle-v2-live-footer"><div data-live-result-slot></div></section>`;
 
     const root = stage;
     const arena = root.querySelector('[data-live-arena]');
@@ -263,7 +263,7 @@
     applyLayout(true);syncFocusStage();renderOrder(0);setMessage('TACTICAL BATTLE','READY','HP·공격·방어·속도와 고유효과 전투 준비 완료');
 
     return {
-      async play() { const timeline=v2.result?.timeline||[];for(let i=0;i<timeline.length;i++){if(!document.documentElement.contains(root))break;state.cursor=i;root.querySelector('[data-live-progress]').textContent=`${i+1} / ${timeline.length}`;await eventPlay(timeline[i]);} },
+      async play() { const timeline=v2.result?.timeline||[];for(let i=0;i<timeline.length;i++){if(!document.documentElement.contains(root))break;state.cursor=i;await eventPlay(timeline[i]);} },
       showResult() { preservedMsg?.classList.add('is-visible'); },
       destroy() { window.__battleV2LiveCleanup?.(); }
     };
