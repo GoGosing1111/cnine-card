@@ -3592,7 +3592,7 @@ export async function onRequest(context){
         if(!ownerTestMode)openStatements.splice(1,0,env.DB.prepare('INSERT INTO raid_daily_entry_uses(user_id,entry_date,instance_id) VALUES(?,?,?)').bind(user.id,dateKey,instanceId));
         await env.DB.batch(openStatements);
       }catch(e){await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(instanceId).run();await env.DB.prepare("UPDATE raid_open_requests SET status='FAILED',updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(requestId).run();return json({error:'레이드 개방 처리에 실패했습니다. 다시 시도하지 말고 운영자에게 문의해주세요.'},500)}
-      return json({ok:true,instanceId,cost,totalPower:deck.power,participantCount:1,slot:{id:slotId,label:slot.label}});
+      return json({ok:true,instanceId,cost,totalPower:deck.power,cardPower:deck.cardPower,characterBonus:deck.characterBonus,participantCount:1,slot:{id:slotId,label:slot.label}});
     }
 
     if(path==='raid/join'&&request.method==='POST'){
@@ -3614,7 +3614,7 @@ export async function onRequest(context){
       if(!Number(inserted?.meta?.changes||0))return json({error:'레이드 참가 인원이 가득 찼거나 이미 다른 방에 참가 중입니다. 방 목록을 새로고침해주세요.'},409);
       try{if(!ownerTestMode)await env.DB.prepare('INSERT INTO raid_daily_entry_uses(user_id,entry_date,instance_id) VALUES(?,?,?)').bind(user.id,dateKey,current.id).run();}
       catch(entryError){await env.DB.prepare('DELETE FROM raid_participants WHERE instance_id=? AND user_id=? AND total_damage=0').bind(current.id,user.id).run();await env.DB.prepare('UPDATE raid_instances SET participant_count=(SELECT COUNT(*) FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1),updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(current.id,current.id).run();return json({error:'레이드 입장 횟수 기록에 실패해 참가 처리를 취소했습니다. 다시 시도해주세요.'},409)}
-      const count=await env.DB.prepare('SELECT COUNT(*) count FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(current.id).first();await env.DB.prepare('UPDATE raid_instances SET participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(count.count||0),current.id).run();if(instanceCfg.autoStartOnFull&&Number(count.count||0)>=Number(instanceCfg.maxParticipants||30))await env.DB.prepare("UPDATE raid_instances SET starts_at=CURRENT_TIMESTAMP,ends_at=datetime('now', ?),updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='LOBBY'").bind(`+${Number(instanceCfg.battleSeconds||120)} seconds`,current.id).run();return json({ok:true,totalPower:deck.power,participantCount:Number(count.count||0),slotId:instanceSlot});
+      const count=await env.DB.prepare('SELECT COUNT(*) count FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(current.id).first();await env.DB.prepare('UPDATE raid_instances SET participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(Number(count.count||0),current.id).run();if(instanceCfg.autoStartOnFull&&Number(count.count||0)>=Number(instanceCfg.maxParticipants||30))await env.DB.prepare("UPDATE raid_instances SET starts_at=CURRENT_TIMESTAMP,ends_at=datetime('now', ?),updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='LOBBY'").bind(`+${Number(instanceCfg.battleSeconds||120)} seconds`,current.id).run();return json({ok:true,totalPower:deck.power,cardPower:deck.cardPower,characterBonus:deck.characterBonus,participantCount:Number(count.count||0),slotId:instanceSlot});
     }
 
     if(path==='raid/leave'&&request.method==='POST'){
@@ -3739,8 +3739,8 @@ export async function onRequest(context){
 
     if(path==='rift/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const settings=await riftSettings(env),weekly=await riftWeeklyRow(env,user.id,settings),run=await riftLatestRun(env,user.id),runCards=run?await riftDeckCardsInfo(env,user.id,run.deck):[],savedDeck=await pveDeckCards(env,user.id),balance=await env.DB.prepare('SELECT magic_crystals FROM users WHERE id=?').bind(user.id).first();
-      return json({settings,weekly,run:riftPublicRun(run,runCards),savedDeck,magicCrystals:Number(balance?.magic_crystals||0),weekKey:weekly.weekKey});
+      const settings=await riftSettings(env),weekly=await riftWeeklyRow(env,user.id,settings),run=await riftLatestRun(env,user.id),[runCards,savedDeck,balance,characterBonus]=await Promise.all([run?riftDeckCardsInfo(env,user.id,run.deck):Promise.resolve([]),pveDeckCards(env,user.id),env.DB.prepare('SELECT magic_crystals FROM users WHERE id=?').bind(user.id).first(),userEquipmentBonuses(env,user.id)]);
+      return json({settings,weekly,run:riftPublicRun(run,runCards),savedDeck,characterBonus,magicCrystals:Number(balance?.magic_crystals||0),weekKey:weekly.weekKey});
     }
     if(path==='rift/start'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -3786,7 +3786,8 @@ export async function onRequest(context){
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
       const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning);
       const monsters=await env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all();
-      return json({settings,deck:await pveDeckCards(env,user.id),energy:await battleEnergyState(env,user,settings),serverNow:new Date().toISOString(),monsters:monsters.results,burningEvent:burningPublicState(burning)});
+      const [deck,characterBonus,energy]=await Promise.all([pveDeckCards(env,user.id),userEquipmentBonuses(env,user.id),battleEnergyState(env,user,settings)]);
+      return json({settings,deck,characterBonus,energy,serverNow:new Date().toISOString(),monsters:monsters.results,burningEvent:burningPublicState(burning)});
     }
     if(path==='battle/deck'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -3890,24 +3891,24 @@ export async function onRequest(context){
     if(path==='tower/config'&&request.method==='GET'){const settings=await towerSettings(env);return json(settings);}
     if(path==='tower/status'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const towerConfig=await towerSettings(env);if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
+      const [towerConfig,characterBonus]=await Promise.all([towerSettings(env),userEquipmentBonuses(env,user.id)]);if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
       const season=await env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
       if(!season)return json({active:false});
       await env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id).run();
       const progress=await env.DB.prepare('SELECT * FROM tower_user_progress WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();
       const configuredMax=await env.DB.prepare('SELECT MAX(v) max_floor FROM (SELECT MAX(end_floor) v FROM tower_floor_ranges WHERE season_id=? AND is_active=1 UNION ALL SELECT MAX(floor_no) v FROM tower_floors WHERE season_id=? AND is_active=1)').bind(season.id,season.id).first();
       const maxFloor=Math.max(0,Number(configuredMax?.max_floor||0));
-      if(maxFloor<1)return json({active:true,configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck:await pveDeckCards(env,user.id),ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
+      if(maxFloor<1)return json({active:true,configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck:await pveDeckCards(env,user.id),characterBonus,ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
       const completed=Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor;
       const floorNo=completed?maxFloor:Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
       let floor=completed?null:await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.season_id=? AND r.is_active=1 AND bm.is_active=1 AND COALESCE(bm.tower_enabled,0)=1 AND ?>=r.start_floor AND ?<=r.end_floor ORDER BY (r.end_floor-r.start_floor) ASC,r.id DESC LIMIT 1`).bind(season.id,floorNo,floorNo).first();if(!floor)floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
-      if(!floor)return json({active:true,configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck:await pveDeckCards(env,user.id),ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
+      if(!floor)return json({active:true,configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck:await pveDeckCards(env,user.id),characterBonus,ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
       if(floor){floor.monster_power=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1)));}
       const floorIsBoss=Boolean(floor)&&(Number(floor.is_boss||0)===1||Number(floor.monster_is_boss||0)===1||floorNo%10===0);
       const deck=await pveDeckCards(env,user.id);
       const rankRow=await env.DB.prepare('SELECT COUNT(*)+1 rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,\'9999\')<COALESCE(?,\'9999\')))').bind(season.id,Number(progress.highest_floor||0),Number(progress.highest_floor||0),progress.highest_reached_at).first();
       const ranking=(await env.DB.prepare('SELECT p.user_id,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN users u ON u.id=p.user_id WHERE p.season_id=? ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 50').bind(season.id).all()).results;
-      return json({active:true,completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,ranking});
+      return json({active:true,completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,characterBonus,ranking});
     }
     if(path==='tower/fight'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const towerBody=await readBody(request),towerRequestId=String(towerBody.requestId||crypto.randomUUID()).slice(0,120);
@@ -4064,8 +4065,8 @@ export async function onRequest(context){
 
     if(path==='pvp/config'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(await pvpSettings(env),burning),profile=await ensurePvpProfile(env,user,settings),deck=await pvpDeckCards(env,user.id),score=await userCardScore(env,user.id),titleMap=await publicEquippedTitleMap(env,[user.id]);
-      return json({settings,burningEvent:burningPublicState(burning),profile:{...profile,tier:resolveTier(Number(profile.season_score),settings.tiers)},title:titleMap[String(user.id)]||null,deck,cardScore:score,energy:await pvpEnergyState(env,user,settings),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
+      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(await pvpSettings(env),burning),[profile,deck,score,titleMap,characterBonus,energy]=await Promise.all([ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),userCardScore(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings)]);
+      return json({settings,burningEvent:burningPublicState(burning),profile:{...profile,tier:resolveTier(Number(profile.season_score),settings.tiers)},title:titleMap[String(user.id)]||null,deck,cardScore:score,characterBonus,energy,bypass:isAdminRole(user),serverNow:new Date().toISOString()});
     }
     if(path==='pvp/deck'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);

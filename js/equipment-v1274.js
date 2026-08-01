@@ -66,6 +66,12 @@
     setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2200:900);
   }
 
+  function publishPowerChange(bonuses){
+    if(!bonuses||typeof bonuses!=='object')return;
+    state.data.bonuses={...(state.data.bonuses||{}),...bonuses};
+    window.dispatchEvent(new CustomEvent('cnine:character-power-changed',{detail:{bonuses:state.data.bonuses}}));
+  }
+
   function slotOverlay(slot){
     const row=equipped(slot),item=row?.item;
     const description=item?(item.name||subtypeLabels[item.subtype]||slotDefaults[slot]):'';
@@ -165,7 +171,7 @@
     try{
       const response=await request('character/equipment/equip',{method:'POST',body:JSON.stringify({instanceId})});
       if(response?.ok!==true)throw new Error(response?.error||'장비 장착에 실패했습니다.');
-      if(isCurrentMutation(key,token))showNotice('장비 장착 완료');
+      if(isCurrentMutation(key,token)){publishPowerChange(response.bonuses);render();showNotice('장비 장착 완료')}
     }catch(error){if(isCurrentMutation(key,token))setEquipment(slot,previous);showNotice(error.message||'장비 장착에 실패했습니다.',true)}
   }
   async function unequipItem(slot){
@@ -175,7 +181,7 @@
     try{
       const response=await request('character/equipment/unequip',{method:'POST',body:JSON.stringify({slot})});
       if(response?.ok!==true)throw new Error(response?.error||'장비 해제에 실패했습니다.');
-      if(isCurrentMutation(key,token))showNotice('장비 해제 완료');
+      if(isCurrentMutation(key,token)){publishPowerChange(response.bonuses);render();showNotice('장비 해제 완료')}
     }catch(error){if(isCurrentMutation(key,token))setEquipment(slot,previous);showNotice(error.message||'장비 해제에 실패했습니다.',true)}
   }
   async function equipTitle(titleId){
@@ -186,7 +192,7 @@
     try{
       const response=await request('character/title/equip',{method:'POST',body:JSON.stringify({titleId})});
       if(response?.ok!==true)throw new Error(response?.error||'칭호 장착에 실패했습니다.');
-      if(isCurrentMutation(key,token))showNotice('칭호 장착 완료');
+      if(isCurrentMutation(key,token)){publishPowerChange(response.bonuses);render();showNotice('칭호 장착 완료')}
     }catch(error){if(isCurrentMutation(key,token))setTitle(previous);showNotice(error.message||'칭호 장착에 실패했습니다.',true)}
   }
   async function unequipTitle(){
@@ -195,7 +201,7 @@
     try{
       const response=await request('character/title/unequip',{method:'POST',body:'{}'});
       if(response?.ok!==true)throw new Error(response?.error||'칭호 해제에 실패했습니다.');
-      if(isCurrentMutation(key,token))showNotice('칭호 해제 완료');
+      if(isCurrentMutation(key,token)){publishPowerChange(response.bonuses);render();showNotice('칭호 해제 완료')}
     }catch(error){if(isCurrentMutation(key,token))setTitle(previous);showNotice(error.message||'칭호 해제에 실패했습니다.',true)}
   }
   async function load({force=false}={}){

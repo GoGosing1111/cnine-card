@@ -298,14 +298,26 @@ export async function recordCharacterProgress(env,userId,eventType,eventKey){
 
 export async function userEquipmentBonuses(env,userId){
   await ensureEquipmentFoundation(env);
-  const row=await env.DB.prepare(`SELECT COALESCE(SUM(i.pve_power),0) AS equipment_pve,COALESCE(SUM(i.pvp_power),0) AS equipment_pvp
-    FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
-    JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1 WHERE l.user_id=?`).bind(userId).first();
-  const title=await env.DB.prepare(`SELECT COALESCE(t.pve_power,0) AS title_pve,t.id AS title_id,t.name AS title_name,t.style_preset AS title_style_preset
-    FROM user_title_loadout l JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id
-    JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 WHERE l.user_id=?`).bind(userId).first();
-  const equipmentPve=Number(row?.equipment_pve||0),equipmentPvp=Number(row?.equipment_pvp||0),titlePve=Number(title?.title_pve||0);
-  return {equipmentPve,equipmentPvp,titlePve,pve:equipmentPve+titlePve,pvp:equipmentPvp,title:title?.title_id?{id:Number(title.title_id),name:title.title_name,pvePower:titlePve,stylePreset:normalizeTitleStylePreset(title.title_style_preset)}:null};
+  // V1309: equipment + title power is fetched in one D1 statement so every
+  // content screen can reuse the same authoritative values without doubling reads.
+  const row=await env.DB.prepare(`WITH equipment AS (
+      SELECT COALESCE(SUM(i.pve_power),0) AS equipment_pve,COALESCE(SUM(i.pvp_power),0) AS equipment_pvp
+      FROM user_equipment_loadout l
+      JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
+      JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
+      WHERE l.user_id=?
+    ),equipped_title AS (
+      SELECT COALESCE(t.pve_power,0) AS title_pve,t.id AS title_id,t.name AS title_name,t.style_preset AS title_style_preset
+      FROM user_title_loadout l
+      JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id
+      JOIN character_titles t ON t.id=l.title_id AND t.is_active=1
+      WHERE l.user_id=? LIMIT 1
+    )
+    SELECT equipment.equipment_pve,equipment.equipment_pvp,
+      COALESCE(equipped_title.title_pve,0) AS title_pve,equipped_title.title_id,equipped_title.title_name,equipped_title.title_style_preset
+    FROM equipment LEFT JOIN equipped_title ON 1=1`).bind(userId,userId).first();
+  const equipmentPve=Number(row?.equipment_pve||0),equipmentPvp=Number(row?.equipment_pvp||0),titlePve=Number(row?.title_pve||0);
+  return {equipmentPve,equipmentPvp,titlePve,pve:equipmentPve+titlePve,pvp:equipmentPvp,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset)}:null};
 }
 
 function weightedPick(rows){const total=rows.reduce((sum,row)=>sum+Math.max(0,Number(row.weight||0)),0);if(total<=0)return null;let roll=Math.random()*total;for(const row of rows){roll-=Math.max(0,Number(row.weight||0));if(roll<0)return row}return rows[rows.length-1]||null}
@@ -382,13 +394,13 @@ export async function handleEquipment({path,request,env,deps}){
     const owned=await env.DB.prepare(`SELECT x.id,i.slot FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.id=? AND x.user_id=? AND i.is_active=1`).bind(instanceId,user.id).first();
     if(!owned)return json({error:'장착할 장비를 찾을 수 없습니다.'},404);
     await env.DB.prepare(`INSERT INTO user_equipment_loadout(user_id,slot,instance_id,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,slot) DO UPDATE SET instance_id=excluded.instance_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,owned.slot,instanceId).run();
-    return json({ok:true,slot:owned.slot,instanceId});
+    return json({ok:true,slot:owned.slot,instanceId,bonuses:await userEquipmentBonuses(env,user.id)});
   }
   if(path==='character/equipment/unequip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     const body=await readBody(request),slot=normalizeSlot(body.slot);if(!slot)return json({error:'올바른 장비 슬롯이 아닙니다.'},400);
     await env.DB.prepare('DELETE FROM user_equipment_loadout WHERE user_id=? AND slot=?').bind(user.id,slot).run();
-    return json({ok:true,slot,instanceId:null});
+    return json({ok:true,slot,instanceId:null,bonuses:await userEquipmentBonuses(env,user.id)});
   }
   if(path==='character/title/equip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -396,12 +408,12 @@ export async function handleEquipment({path,request,env,deps}){
     const owned=await env.DB.prepare(`SELECT t.id FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id WHERE u.user_id=? AND t.id=? AND t.is_active=1`).bind(user.id,titleId).first();
     if(!owned)return json({error:'보유하지 않은 칭호입니다.'},404);
     await env.DB.prepare(`INSERT INTO user_title_loadout(user_id,title_id,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET title_id=excluded.title_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,titleId).run();
-    return json({ok:true,equippedTitleId:titleId});
+    return json({ok:true,equippedTitleId:titleId,bonuses:await userEquipmentBonuses(env,user.id)});
   }
   if(path==='character/title/unequip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     await env.DB.prepare('DELETE FROM user_title_loadout WHERE user_id=?').bind(user.id).run();
-    return json({ok:true,equippedTitleId:null,title:null});
+    return json({ok:true,equippedTitleId:null,title:null,bonuses:await userEquipmentBonuses(env,user.id)});
   }
 
   if(path==='equipment/supply-box/config'&&request.method==='GET'){

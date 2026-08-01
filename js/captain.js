@@ -139,7 +139,7 @@
         ${tier(member)}
         <div>${titleBadge(member.title)}<b>${esc(member.nickname || '-')}</b><small>${esc(member.pvpTier?.name || '브론즈')} · ${Number(member.pvpScore || 0).toLocaleString()}점</small></div>
       </div>
-      <div class="captain-v3-member-power"><span>PVP 덱 전투력</span><strong>${Number(member.deck_power ?? member.deckPower ?? 0).toLocaleString()}</strong></div>
+      <div class="captain-v3-member-power"><span>PVP 덱 전투력 · 장비 포함</span><strong>${Number(member.deck_power ?? member.deckPower ?? 0).toLocaleString()}</strong></div>
     </article>`;
   }
 
@@ -565,7 +565,7 @@
   function opponentCard(team, energy) {
     return `<article class="captain-v3-rival">
       <header><div><small>상대 팀</small><h3>${esc(team.name)}</h3><p>${Number(team.wins || 0)}승 ${Number(team.losses || 0)}패</p></div><strong>${Number(team.score || 0).toLocaleString()}<small>팀 점수</small></strong></header>
-      <div class="captain-v3-rival-power"><span>팀 덱 전투력</span><b>${Number(team.teamPower || 0).toLocaleString()}</b></div>
+      <div class="captain-v3-rival-power"><span>팀 덱 전투력 · 장비 포함</span><b>${Number(team.teamPower || 0).toLocaleString()}</b></div>
       <div class="captain-v3-rival-roster">${(team.members || []).map(member => memberCard(member, { compact: true })).join('')}</div>
       <div class="captain-v3-rival-rule"><i>무작위</i><span>출전 순서와 다음 출전자는 경기 시작 후 무작위 결정</span></div>
       <button class="btn captain-v3-fight" data-team-id="${Number(team.id)}" ${energy.current <= 0 ? 'disabled' : ''}>3:3 연전 시작</button>

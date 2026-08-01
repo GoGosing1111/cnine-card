@@ -56,7 +56,7 @@
   function render(){
     const d=S.data,box=document.getElementById('pveTowerView');if(!box)return;
     if(!d?.active){box.innerHTML='<section class="tower-empty"><h2>무한의탑을 이용할 수 없습니다</h2><p>운영 설정을 확인해 주세요.</p></section>';return}
-    const p=d.progress||{},f=d.floor||{},rank=d.ranking||[];
+    const p=d.progress||{},f=d.floor||{},rank=d.ranking||[],deckCards=currentDeckCards(),cardPower=deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,loadUser(),battleState?.config):Number(c.basePower||0)),0),bonus=d.characterBonus||battleState?.characterBonus||{},deckPower=cardPower+Number(bonus.pve||0);
     if(d.configured===false||Number(d.maxFloor||0)<1){box.innerHTML=`<section class="tower-empty tower-unconfigured"><p class="eyebrow">INFINITE TOWER</p><h2>아직 개방되지 않았습니다</h2><p>${esc(d.message||'운영자가 무한의탑 층을 아직 설정하지 않았습니다.')}</p><strong>설정된 층이 생기면 이곳에서 바로 도전할 수 있습니다.</strong></section>`;return}
     if(d.blocked||!d.floor){box.innerHTML=`<section class="tower-empty tower-blocked"><p class="eyebrow">FLOOR LOCKED</p><h2>${Number(p.currentFloor||1)}층은 아직 설정되지 않았습니다</h2><p>${esc(d.message||'운영자가 다음 층을 배치할 때까지 진행할 수 없습니다.')}</p><strong>임의 몬스터는 출현하지 않으며, 설정된 최고층까지만 등반할 수 있습니다.</strong></section>`;return}
     if(d.completed||p.completed){box.innerHTML=`<section class="tower-empty tower-completed"><p class="eyebrow">INFINITE TOWER COMPLETE</p><h2>최고층 등반 완료</h2><p>${Number(d.maxFloor||p.highestFloor||0)}층까지 모두 클리어했습니다.</p><strong>자동으로 1층으로 돌아가지 않습니다.</strong><span>운영자가 진행도를 직접 초기화하거나 새로운 층을 추가하면 다시 도전할 수 있습니다.</span></section>`;return}
@@ -83,7 +83,7 @@
         </div>
       </div>
       <aside class="tower-side-panel">
-        <div class="tower-deck-preview"><div class="tower-deck-head"><div><p class="eyebrow">PVE SAVED DECK</p><h3>현재 저장 덱</h3></div><button id="towerGoDeck" class="tower-deck-manage"><span class="tower-deck-glyph"><i></i><i></i><i></i></span><span><b>PVE 덱 편성</b><small>저장 덱 변경하기</small></span><em>편성</em></button></div><div class="tower-deck-slots">${(d.deck||[]).map(id=>{const c=cards.find(x=>String(x.id)===String(id));return c?`<div><img src="${esc(c.image)}"><span>${esc(c.title)}</span></div>`:'<div class="empty">?</div>'}).join('')}${Array.from({length:Math.max(0,5-(d.deck||[]).length)},()=>'<div class="empty">+</div>').join('')}</div><small>무한의탑은 PVE에 저장된 덱을 그대로 사용합니다.</small></div>
+        <div class="tower-deck-preview"><div class="tower-deck-head"><div><p class="eyebrow">PVE SAVED DECK</p><h3>현재 저장 덱</h3></div><button id="towerGoDeck" class="tower-deck-manage"><span class="tower-deck-glyph"><i></i><i></i><i></i></span><span><b>PVE 덱 편성</b><small>저장 덱 변경하기</small></span><em>편성</em></button></div><div class="content-power-summary tower-power-summary"><small>무한의탑 출전 전투력</small><b>${deckPower.toLocaleString()}</b><span>카드 ${cardPower.toLocaleString()} <i>+</i> 장비·칭호 ${Number(bonus.pve||0).toLocaleString()}</span></div><div class="tower-deck-slots">${(d.deck||[]).map(id=>{const c=cards.find(x=>String(x.id)===String(id));return c?`<div><img src="${esc(c.image)}"><span>${esc(c.title)}</span></div>`:'<div class="empty">?</div>'}).join('')}${Array.from({length:Math.max(0,5-(d.deck||[]).length)},()=>'<div class="empty">+</div>').join('')}</div><small>장비·칭호 PVE 전투력이 포함된 값입니다.</small></div>
         <div class="tower-ranking"><div class="panel-title"><div><p class="eyebrow">TOWER RANKING</p><h3>최고층 랭킹</h3></div></div><div class="tower-rank-list">${rank.slice(0,10).map((r,i)=>`<div class="${Number(r.user_id)===Number(loadUser()?.id)?'me':''}"><b>${i+1}</b><span>${esc(r.nickname)}</span><strong>${Number(r.highest_floor||0)}F</strong></div>`).join('')||'<p>아직 기록이 없습니다.</p>'}</div></div>
       </aside>
     </section>`;
@@ -120,7 +120,7 @@
     if((S.data?.deck||[]).length!==5)return alert('먼저 PVE 덱 5장을 저장하세요.');
     clearAutoTimer();S.busy=true;S.autoRunning=Boolean(fromAuto||S.autoEnabled);
     const f=S.data.floor||{},modal=document.getElementById('modal'),deckCards=currentDeckCards();
-    const previewPower=deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,loadUser(),battleState?.config):Number(c.basePower||0)),0);
+    const previewPower=deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,loadUser(),battleState?.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||battleState?.characterBonus?.pve||0);
     modal.className='modal show battle-modal tower-battle-modal';modal.innerHTML=towerBattleMarkup(f,deckCards,previewPower);
     const stage=modal.querySelector('.battle-stage'),phase=document.getElementById('towerBattlePhase'),count=document.getElementById('towerBattleCountdown'),msg=document.getElementById('towerBattleMessage');
     ensureBattleSoundButton(stage);
@@ -177,5 +177,6 @@
     catch(e){stopAuto();alert(e.message);openTower()}
   }
   function closeBattleAndRefresh(){clearAutoTimer();S.busy=false;S.autoRunning=false;const modal=document.getElementById('modal');modal.className='modal';modal.innerHTML='';openTower()}
+  window.addEventListener('cnine:character-power-changed',event=>{const bonuses=event.detail?.bonuses;if(!bonuses)return;if(S.data)S.data.characterBonus=bonuses;const view=document.getElementById('pveTowerView');if(view&&!view.hidden&&S.data)render()});
   const observer=new MutationObserver(scheduleEnsure);observer.observe(document.documentElement,{childList:true,subtree:true});ensure();
 })();
