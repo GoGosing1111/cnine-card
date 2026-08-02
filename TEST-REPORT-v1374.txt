@@ -1,0 +1,8 @@
+[v1374] 검사 결과
+- js/territory-war-v1362.js node 구문 검사 통과
+- window.prepareBattleV2LiveLoading 연결 확인
+- window.playPvpBattleV2Live 연결 확인
+- 서버 결과 duels[].result / teams 기반 재생 확인
+- 소대전 순차 재생 루프 확인
+- 최종 영토 결과 화면 연결 확인
+- 무방비 점령 pending 분기 유지 확인
