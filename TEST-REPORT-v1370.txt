@@ -1,0 +1,9 @@
+[v1370] 검사
+
+- functions/_high_grade_reroll.js node 구문 검사 통과
+- js/high-grade-reroll-v1354.js node 구문 검사 통과
+- admin/high-grade-reroll-admin-v1354.js node 구문 검사 통과
+- 기존 1회 문구 제거 확인
+- v1 사용 기록 -> v2 usage_no=1 이관 SQL 확인
+- v2 PK(user_id, grade, usage_no) 확인
+- 등급별 2회 제한 및 remaining 계산 확인
