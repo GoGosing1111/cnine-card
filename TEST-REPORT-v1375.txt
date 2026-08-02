@@ -1,0 +1,6 @@
+정적 검사
+- functions/_territory_war.js node -c 통과
+- js/territory-war-v1362.js node -c 통과
+- admin/territory-war-admin-v1362.js node -c 통과
+- ZIP 무결성 검사 수행
+주의: 실제 Cloudflare D1 원격 배포 실행 검증은 이 환경에서 수행하지 않음
