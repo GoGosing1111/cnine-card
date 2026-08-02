@@ -114,7 +114,7 @@
     }catch(e){alert(`대장전 v3 정리가 중단되었습니다. 이미 완료된 배치는 유지됩니다. 다시 실행하면 남은 대상부터 계속 정리됩니다.\n${e.message}`);try{await previewCaptainCleanup()}catch{}}
     finally{busy(b,false)}
   }
-  function receiptOpts(){const targetCount=Math.max(100,Math.min(5000,Number($('#cleanupReceiptBatch').value)||1000));return {table:$('#cleanupReceiptTable').value,retentionDays:Number($('#cleanupReceiptDays').value),targetCount,batchSize:Math.min(500,targetCount)}}
+  function receiptOpts(){const targetCount=Math.max(100,Math.min(50000,Number($('#cleanupReceiptBatch').value)||50000));return {table:$('#cleanupReceiptTable').value,retentionDays:Number($('#cleanupReceiptDays').value),targetCount,batchSize:Math.min(500,targetCount)}}
   function receiptMetrics(d){return d.metrics||{receiptRows:d.rows?.length||0,responseJsonRows:0,responseJsonBytes:Number(d.estimatedBytes||0),receiptPayloadBytes:Number(d.estimatedBytes||0),assertionRows:0,assertionPayloadBytes:0,estimatedTextBytes:Number(d.estimatedBytes||0),estimatedStorageBytes:Number(d.estimatedBytes||0)}}
   async function previewReceipts(){const b=$('#cleanupReceiptPreviewBtn');busy(b,true);try{const opts=receiptOpts(),d=await request('admin/storage-cleanup/receipts/preview',{method:'POST',body:JSON.stringify(opts)}),m=receiptMetrics(d),count=Number(d.availableRows??m.receiptRows??0);$('#cleanupReceiptPreview').innerHTML=count?`한 번 클릭으로 <b>${fmt(count)}</b>건 정리 예정 · 서버에서 최대 500건씩 <b>${fmt(d.estimatedBatches||Math.ceil(count/500))}회</b> 자동 분할<br>삭제 대상 전체 추정 <b>${bytes(m.estimatedStorageBytes)}</b><br><small>응답 JSON ${fmt(m.responseJsonRows)}건 / ${bytes(m.responseJsonBytes)} · 영수증 행 텍스트 ${bytes(m.receiptPayloadBytes)} · 지급 검증 ${fmt(m.assertionRows)}건 / ${bytes(m.assertionPayloadBytes)}</small>`:'현재 조건에 정리할 완료·실패 영수증이 없습니다.';$('#cleanupReceiptDeleteBtn').disabled=!count}catch(e){alert(e.message)}finally{busy(b,false)}}
   async function purgeReceipts(){
@@ -123,12 +123,13 @@
     if(phrase!=='영수증정리')return;
     const b=$('#cleanupReceiptDeleteBtn');busy(b,true,'자동 정리 준비 중...');
     const totals=emptyReceiptTotals();let deleted=0,assertionsDeleted=0,batches=0,remaining=target;
-    const runId=`receipt-purge-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
+    const runId=`receipt-purge-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    const runBatch=async payload=>{let lastError=null;for(let attempt=0;attempt<4;attempt++){try{return await request('admin/storage-cleanup/receipts/delete',{method:'POST',body:JSON.stringify(payload)})}catch(e){lastError=e;if(attempt<3)await pause([500,1200,2500][attempt])}}throw lastError||new Error('영수증 정리 요청 실패')};
     try{
       while(remaining>0){
         const batchSize=Math.min(500,remaining);
         busy(b,true,`영수증 삭제 중 ${fmt(deleted)} / ${fmt(target)}`);
-        const d=await request('admin/storage-cleanup/receipts/delete',{method:'POST',body:JSON.stringify({table:opts.table,retentionDays:opts.retentionDays,batchSize,confirmation:'영수증정리',bulkRun:true,runId})});
+        const d=await runBatch({table:opts.table,retentionDays:opts.retentionDays,batchSize,confirmation:'영수증정리',bulkRun:true,runId});
         const count=Number(d.deleted||0),m=receiptMetrics(d);
         mergeReceiptTotals(totals,m);
         deleted+=count;assertionsDeleted+=Number(d.assertionsDeleted||0);batches++;
@@ -136,8 +137,9 @@
         const pct=target?Math.min(100,deleted/target*100):100;
         $('#cleanupReceiptPreview').innerHTML=`자동 정리 진행 중 <b>${fmt(deleted)} / ${fmt(target)}</b>건 · ${fmt(batches)}회 분할 처리<br><div class="storageProgress"><i style="width:${pct}%"></i></div><small>현재 누적 추정 ${bytes(totals.estimatedStorageBytes)} · 지급 검증 ${fmt(assertionsDeleted)}건 삭제</small>`;
         if(!count||count<batchSize)break;
-        await new Promise(resolve=>setTimeout(resolve,80));
+        await pause(batches%10===0?700:100);
       }
+      try{await runBatch({table:opts.table,retentionDays:opts.retentionDays,batchSize:0,confirmation:'영수증정리',bulkRun:true,finalize:true,runId,summary:{deleted,assertionsDeleted,batches}})}catch(e){console.error('receipt cleanup final audit failed',e)}
       alert(`${fmt(deleted)}건의 영수증을 ${fmt(batches)}회 분할해 정리했습니다.\n\n응답 JSON: ${fmt(totals.responseJsonRows)}건 / ${bytes(totals.responseJsonBytes)}\n영수증 행 텍스트: ${bytes(totals.receiptPayloadBytes)}\n지급 검증 기록: ${fmt(assertionsDeleted)}건 / ${bytes(totals.assertionPayloadBytes)}\n삭제 대상 전체 추정: ${bytes(totals.estimatedStorageBytes)}\n\n※ 위 수치는 행 데이터 추정치이며 D1 파일 용량 감소량과 동일하지 않습니다. 삭제된 페이지는 신규 데이터에 재사용될 수 있습니다.`);
       await previewReceipts();await loadSummary();
     }catch(e){

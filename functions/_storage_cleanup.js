@@ -2,7 +2,7 @@ const MAX_PREVIEW = 200;
 const MAX_BASE_SCAN = 1200;
 const MAX_DELETE_BATCH = 10;
 const MAX_RECEIPT_BATCH = 500;
-const MAX_RECEIPT_TARGET = 5000;
+const MAX_RECEIPT_TARGET = 50000;
 const RECEIPT_SQL_ID_CHUNK = 100; // D1/SQLite 바인딩 변수 255개 제한보다 충분히 낮게 유지
 const CAPTAIN_CLEANUP_BATCH = 100;
 const CAPTAIN_CLEANUP_MAX_TARGET = 5000;
@@ -684,9 +684,18 @@ export async function handleStorageCleanup({request,env,path,requirePermission,w
   }
   if(path==='admin/storage-cleanup/receipts/delete'&&request.method==='POST'){
     const body=await readBody(request);if(String(body.confirmation||'')!=='영수증정리')return json({error:'확인 문구가 올바르지 않습니다.'},400);
-    const bulkRun=bool(body.bulkRun,false);
+    const bulkRun=bool(body.bulkRun,false),finalize=bool(body.finalize,false);
+    if(finalize){
+      const summary=body.summary&&typeof body.summary==='object'?{
+        deleted:clampInt(body.summary.deleted,0,0,MAX_RECEIPT_TARGET+MAX_RECEIPT_BATCH),
+        assertionsDeleted:clampInt(body.summary.assertionsDeleted,0,0,MAX_RECEIPT_TARGET*10),
+        batches:clampInt(body.summary.batches,0,0,1000)
+      }:null;
+      if(summary){try{await writeAdminLog(env,admin,'DRAW_RECEIPT_PURGE','TABLE',RECEIPT_TABLES.has(body.table)?body.table:'draw_request_receipts',null,{retentionDays:clampInt(body.retentionDays,14,1,3650),deleted:summary.deleted,assertionsDeleted:summary.assertionsDeleted,batches:summary.batches,bulkRun:true,finalize:true,runId:String(body.runId||'').slice(0,80)})}catch(e){console.error('receipt cleanup final audit failed',e)}}
+      return json({ok:true,finalized:true,summary});
+    }
     const beforePages=bulkRun?null:await databasePageInfo(env),result=await deleteReceiptBatch(env,body),afterPages=bulkRun?null:await databasePageInfo(env);
-    try{await writeAdminLog(env,admin,'DRAW_RECEIPT_PURGE','TABLE',result.table,null,{retentionDays:result.retentionDays,deleted:result.deleted,assertionsDeleted:result.assertionsDeleted,metrics:result.metrics,bulkRun,runId:String(body.runId||'').slice(0,80),beforePages,afterPages})}catch(e){console.error('receipt cleanup admin log failed',e)}
+    if(!bulkRun){try{await writeAdminLog(env,admin,'DRAW_RECEIPT_PURGE','TABLE',result.table,null,{retentionDays:result.retentionDays,deleted:result.deleted,assertionsDeleted:result.assertionsDeleted,metrics:result.metrics,bulkRun:false,runId:String(body.runId||'').slice(0,80),beforePages,afterPages})}catch(e){console.error('receipt cleanup admin log failed',e)}}
     return json({ok:true,...result,beforePages,afterPages});
   }
   return json({error:'지원하지 않는 DB 정리 요청입니다.'},404);

@@ -291,7 +291,6 @@ async function ensureDrawReceiptV2(env){
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`),
       env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_status_updated ON draw_request_receipts_v2(status,updated_at,request_id)'),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1168_r7_draw_receipts','1',CURRENT_TIMESTAMP)")
     ]);
     return true;
@@ -994,32 +993,26 @@ let d1HotpathUpgradePromise=null;
 async function ensureD1HotpathIndexes(env){
   if(d1HotpathUpgradePromise)return d1HotpathUpgradePromise;
   d1HotpathUpgradePromise=(async()=>{
-    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1336_draw_pending_recovery'").first();
+    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1205_d1_hotpath_indexes'").first();
     if(done?.value==='1')return true;
     const statements=[];
     if(await tableExists(env,'user_cards'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_cards_last_obtained ON user_cards(last_obtained_at DESC,user_id,card_id)'));
     if(await tableExists(env,'inventory_logs'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_inventory_logs_premium_feed ON inventory_logs(item_code,reason,reference_type,id DESC)'));
     if(await tableExists(env,'pvp_match_history'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_match_history_attacker_recent ON pvp_match_history(attacker_id,id DESC)'));
     if(await tableExists(env,'pvp_profiles'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_profiles_score_user ON pvp_profiles(season_score,user_id)'));
-    if(await tableExists(env,'draw_request_receipts_v2')){
-      statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'));
-      statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_status_updated ON draw_request_receipts_v2(status,updated_at,request_id)'));
-    }
+    if(await tableExists(env,'draw_request_receipts_v2'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'));
     statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1205_d1_hotpath_indexes','1',CURRENT_TIMESTAMP)"));
-    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1336_draw_pending_recovery','1',CURRENT_TIMESTAMP)"));
     await env.DB.batch(statements);return true;
   })().catch(error=>{d1HotpathUpgradePromise=null;throw error});
   return d1HotpathUpgradePromise;
 }
-const DRAW_PENDING_LEASE_MS=90000;
 let runtimeUpgradeGatePromise=null;
 async function ensureRuntimeUpgrades(env){
   if(runtimeUpgradeGatePromise)return runtimeUpgradeGatePromise;
   runtimeUpgradeGatePromise=(async()=>{
     // 신규 성능 인덱스만 먼저 빠르게 설치한 뒤, 과거 마이그레이션은 기존 마커가 없는 DB에서만 검사한다.
     await ensureD1HotpathIndexes(env);
-    // 장비 기반은 장비/전투 기능이 실제 호출될 때 _equipment.js에서 자체 보장한다.
-    // 모든 API 콜드 스타트에서 장비 마커·DDL 점검을 선행하지 않아 불필요한 D1 왕복을 제거한다.
+    await ensureEquipmentFoundation(env);
     const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes')").all();
     const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
     if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'&&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1')return true;
@@ -3097,20 +3090,12 @@ export async function onRequest(context){
       await ensureDrawReceiptV2(env);
       const row=await env.DB.prepare('SELECT status,error_message,created_at,updated_at FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       if(!row)return json({requestId,status:'NOT_FOUND'});
-      let status=String(row.status||'PENDING').toUpperCase(),updatedAt=row.updated_at||null;
+      let status=String(row.status||'PENDING').toUpperCase();
       if(status==='PENDING'){
         const updatedAtMs=Date.parse(String(row.updated_at||'').replace(' ','T')+'Z');
-        if(Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=DRAW_PENDING_LEASE_MS){
-          const released=await env.DB.prepare(`UPDATE draw_request_receipts_v2 SET status='RETRYABLE',error_message='STALE_PENDING_LEASE_EXPIRED',updated_at=CURRENT_TIMESTAMP
-            WHERE request_id=? AND user_id=? AND status='PENDING' AND updated_at=?`).bind(requestId,user.id,row.updated_at).run();
-          if(Number(released?.meta?.changes||0)===1){status='RETRYABLE';updatedAt=new Date().toISOString();}
-          else{
-            const latest=await env.DB.prepare('SELECT status,error_message,updated_at FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
-            status=String(latest?.status||'PENDING').toUpperCase();updatedAt=latest?.updated_at||updatedAt;row.error_message=latest?.error_message||row.error_message;
-          }
-        }
+        if(Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000)status='RETRYABLE';
       }
-      return json({requestId,status,error:String(row.error_message||''),createdAt:row.created_at||null,updatedAt});
+      return json({requestId,status,error:String(row.error_message||''),createdAt:row.created_at||null,updatedAt:row.updated_at||null});
     }
     if(path==='draw'&&request.method==='POST'){
       const user=await authenticate(request,env);
@@ -3214,7 +3199,7 @@ export async function onRequest(context){
         if(!receiptAlreadyClaimed)return json({error:'카드 개봉 복구 요청을 다른 처리기가 확인 중입니다.',code:'DRAW_RECOVERY_BUSY',retryable:true,retryAfterMs:5000,requestId,status:'PENDING'},409);
       }
       if(prior?.status==='PENDING'){
-        const updatedAtMs=Date.parse(String(prior.updated_at||'').replace(' ','T')+'Z'),stale=Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=DRAW_PENDING_LEASE_MS;
+        const updatedAtMs=Date.parse(String(prior.updated_at||'').replace(' ','T')+'Z'),stale=Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000;
         if(stale&&drawReceiptTable==='draw_request_receipts_v2')receiptAlreadyClaimed=await reclaimStalePendingDraw(prior.updated_at);
         if(!receiptAlreadyClaimed)return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',code:'DRAW_PENDING',retryable:true,retryAfterMs:5000,requestId,status:'PENDING',updatedAt:prior.updated_at||null},409);
       }
