@@ -1,0 +1,5 @@
+SOOPKETMON v1335 MOBILE V2 PERFORMANCE
+- Mobile/coarse-pointer V2 uses reduced FX rendering.
+- Removes repeated ResizeObserver work during ultimate overlays on mobile.
+- Disables expensive blur/drop-shadow/holo layers on mobile battle stage.
+- Keeps battle calculations, timing order, damage, rewards and ultimate activation unchanged.

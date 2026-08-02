@@ -1,0 +1,11 @@
+[TEST REPORT v1353]
+- admin/equipment-vehicle-admin-v1353.js node --check 통과
+- functions/_equipment.js node --check 통과
+- admin/index.html CSS/JS 로드 경로 확인
+- admin/equipment-system 응답의 garageItems 사용 확인
+- admin/garage-item POST/PATCH/DELETE 경로 확인
+- admin/garage-grant 지급/회수 경로 확인
+- admin/equipment-user-search 닉네임 검색 경로 확인
+- 신규 DB 변경 없음
+
+주의: 정적 구문 및 연결 경로 검증이며 실제 Cloudflare 배포 환경 브라우저 통합 테스트는 포함하지 않습니다.

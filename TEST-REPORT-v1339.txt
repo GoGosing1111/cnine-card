@@ -1,0 +1,8 @@
+[V1339 STATIC TEST]
+- node --check js/app.js : PASS
+- node --check js/equipment-v1274.js : PASS
+- node --check functions/_equipment.js : PASS
+- ZIP integrity : PASS 예정
+
+주의
+- 정적 문법 및 ZIP 무결성 검사이며 실제 Cloudflare D1/브라우저 배포 환경 통합 테스트는 포함하지 않음.

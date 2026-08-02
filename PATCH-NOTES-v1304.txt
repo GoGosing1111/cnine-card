@@ -1,0 +1,19 @@
+CNINE CARD v1304 - v1303 자동 뽑기 차단 롤백
+
+기준: v1302 누적 상태
+
+제거된 v1303 기능:
+- event.isTrusted 기반 자동 클릭 차단
+- 뽑기 API 최소 요청 간격 및 구간별 횟수 제한
+- draw_automation_guard_v1303 런타임 사용
+- 자동 클릭 차단 UI/CSS
+
+유지:
+- v1302 PRESTIGE 진화 중복 방지
+- FUR 최초 획득 보정
+- SSR 천장 및 기존 뽑기 확률/영수증/원자 지급
+- 버닝 모바일 전체화면 수정
+
+주의:
+- v1303을 이미 배포했다면 DB에 생성된 draw_automation_guard_v1303 테이블은 남아 있을 수 있으나 v1304 코드에서는 읽거나 쓰지 않습니다. 안전 원칙상 DROP하지 않습니다.
+- 소스에 database/migrations/0032_v1303_draw_automation_guard.sql 파일이 남아 있다면 삭제해도 됩니다.

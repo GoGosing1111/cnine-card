@@ -1,0 +1,10 @@
+CNINE Card v1308 - 월드 레이드 정산 PENDING 무한 잠금 / 화면 강제 복귀 수정
+
+1. raid/status가 PENDING·COMPLETED 영수증의 updated_at을 갱신하지 않도록 수정
+   - 기존에는 상태 조회 때마다 잠금 시간이 초기화되어 45초 stale 복구가 영원히 실행되지 않을 수 있었음
+2. 레이드 보상 정산 요청에 UI epoch + claim token 적용
+   - 메인/다른 메뉴 이동 후 늦게 도착한 응답은 알림·재시도·렌더링 금지
+   - 화면 이탈 시 기존 자동 재시도 타이머와 진행 플래그 무효화
+3. raid-overhaul-v1293.js의 중복 claimRaidReward override 제거
+   - 정산 흐름을 app.js 한 곳으로 통합해 회귀 방지
+4. DB 스키마 변경, DROP/RENAME/초기화 없음

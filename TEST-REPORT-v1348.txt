@@ -1,0 +1,6 @@
+[TEST REPORT V1348]
+- js/equipment-v1274.js node --check: PASS
+- 장비 PNG 크기 941x1672 확인: PASS
+- 차고 PNG 크기 941x1672 확인: PASS
+- ZIP 무결성 검사: PASS
+- 정적 검사이며 실제 배포 브라우저의 최종 좌표/캐시 상태는 배포 후 확인 필요

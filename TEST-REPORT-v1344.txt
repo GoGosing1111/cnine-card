@@ -1,0 +1,9 @@
+[TEST REPORT V1344]
+- js/equipment-v1274.js node --check: PASS
+- index.html 신규 CSS 및 캐시버전 연결 확인: PASS
+- 941x1672 장비창 PNG 3종 포함 확인: PASS
+- 차고 프레임 PNG 포함 확인: PASS
+- ZIP 무결성 검사: PASS 예정
+
+주의
+- 정적 문법/파일 무결성 검사이며 실제 배포 브라우저의 모든 해상도 시각 검증을 대신하지 않음.

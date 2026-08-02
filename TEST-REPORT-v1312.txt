@@ -1,0 +1,32 @@
+숲켓몬 v1312 검사 결과
+
+1. JavaScript 문법
+- functions/_battle_v2_preview.js 통과
+- functions/api/[[path]].js 통과
+- preview/battle-v2/battle-v2.js 통과
+
+2. 전투 시뮬레이션
+- 동일 전력 대칭 덱 500회 테스트
+- A 승 252 / B 승 248
+- 평균 행동 수 60.6회
+- 최소 45회 / 최대 80회
+- 행동 상한 종료 3/500회
+
+3. 고유효과 동작 100회 테스트
+- 방어형 시작 방벽 200회
+- 방어형 반격 296회
+- 생명형 지속 회복 1,077회
+- 생명형 긴급 회복 166회
+- 생명형 1회 생존 132회
+- 전열 붕괴 200회
+
+4. DB/회귀
+- 신규 모듈 내 INSERT/UPDATE/DELETE/CREATE/ALTER/DROP 없음
+- 프리뷰 API는 OWNER 전용, GET 전용
+- 기존 pvp/fight 및 PVE 전투 판정 코드 변경 없음
+- 메인 API에는 신규 모듈 import와 프리뷰 라우터 연결만 추가
+- 전투 결과 및 타임라인 DB 저장 없음
+
+5. 문구
+- 구 브랜드 문자열 없음
+- 숲켓몬/SOOPKETMON 표기 확인

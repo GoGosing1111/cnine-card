@@ -1,0 +1,9 @@
+SOOPKETMON v1328 - PVE/PVP V2 result screen unification
+
+- Base: v1327 cumulative patch.
+- PVE V2 victory/defeat result now uses the same premium result-card structure as PVP.
+- Shows player power vs monster power, action count, PVE coin, magic crystal and card reward.
+- MONSTER_SURVIVED is displayed as a result meta badge and a clear failure guide.
+- PC, WAGO iframe, mobile portrait and landscape responsive result overlay.
+- Battle calculation, rewards, DB, API and drop logic are unchanged.
+- CMS display version updated to v1328.

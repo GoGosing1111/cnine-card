@@ -1,0 +1,15 @@
+v1309 테스트 결과
+
+PASS JavaScript 문법: js/app.js
+PASS JavaScript 문법: js/equipment-v1274.js
+PASS JavaScript 문법: js/tower-v1038.js
+PASS JavaScript 문법: js/captain.js
+PASS JavaScript 문법: functions/_equipment.js
+PASS JavaScript 문법: functions/api/[[path]].js
+PASS SQLite CTE 장비/칭호 단일 조회: 장착/미장착 경로
+PASS 장비 10,000 기준: PVE 9,000 / PVP 1,000
+PASS 칭호 전투력: PVE에만 합산
+PASS 서버 판정 점검: 일반 PVE, PVE 자동전투, 균열, 무한의탑, 월드 레이드, 봉인전, PVP, 대장전
+PASS 표시 점검: PVE/PVP/균열/무한의탑/레이드/봉인전/대장전
+PASS 장비·칭호 변경 이벤트 즉시 반영
+PASS 신규 DB 마이그레이션 없음

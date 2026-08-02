@@ -1,0 +1,7 @@
+[V1340 TEST]
+- node --check js/equipment-v1274.js : PASS
+- node --check js/app.js : PASS
+- node --check functions/_equipment.js : PASS
+- ZIP integrity : PASS
+
+정적 구문 및 패키지 무결성 검사이며 실제 브라우저 런타임/배포 환경 테스트는 포함하지 않음.

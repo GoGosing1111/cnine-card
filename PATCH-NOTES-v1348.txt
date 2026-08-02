@@ -1,0 +1,30 @@
+[숲켓몬 v1348 최종 장비/차고 PNG 적용 패치]
+
+기준
+- v1347 누적본 위에 적용
+
+실제 적용 ASSET
+- assets/ui/equipment/equipment-screen-frame-v1348-final.png
+- assets/ui/garage/garage-frame-v1348-final.png
+
+변경 내용
+1. 사용자가 확정한 장비 화면 PNG를 실제 장비 화면 배경으로 연결
+- PVE/PVP 고정 숫자가 없는 완성 PNG 사용
+- 장비 슬롯, 칭호, 인벤토리 데이터는 기존 HTML 레이어로 유지
+- 상단 장비/칭호/차고 탭은 투명 클릭 영역으로 실제 작동
+
+2. 사용자가 확정한 차고 클린 PNG를 실제 차고 화면 배경으로 연결
+- 기본 바이크, 기본 차량명, 기본 스탯, 기본 카드 흔적이 없는 완성 PNG 사용
+- 실제 차량 보유/장착 데이터가 있을 때만 차량 이미지와 수치 표시
+- 장착/해제, 등급 필터, 보유 이동수단 목록 기능 유지
+
+3. 임시 CSS 버튼/그림 제거
+- 보이는 탭은 PNG 자체 디자인만 사용
+- HTML 버튼은 투명 클릭 영역으로만 동작
+
+수정/신규 파일
+- index.html
+- js/equipment-v1274.js
+- css/garage-v1341.css
+- assets/ui/equipment/equipment-screen-frame-v1348-final.png
+- assets/ui/garage/garage-frame-v1348-final.png

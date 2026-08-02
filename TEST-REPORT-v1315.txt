@@ -1,0 +1,46 @@
+숲켓몬 v1315 테스트 보고서
+
+1. 정적 검사
+- functions/api/[[path]].js: node --check 통과
+- functions/_battle_v2_preview.js: node --check 통과
+- js/app.js: node --check 통과
+- js/battle-v2-live.js: node --check 통과
+- admin/admin-v1276.js: node --check 통과
+- preview/battle-v2/battle-v2.js: node --check 통과
+- battle-v2-live.css 중괄호 76/76 일치
+- index/admin/preview HTML 중복 ID 없음
+
+2. 전체 기준본 병합 검사
+- cnine-card(39).zip 전체 기준본에 v1315 누적 패치를 덮어쓴 병합 트리 생성
+- functions/api/[[path]].js ESM import 성공
+- index.html, admin/index.html, preview/battle-v2/index.html의 CSS/JS 참조 파일 누락 0건
+- 실제 화면·서버 코드에서 씨켓몬 문구 0건
+
+3. 엔진 검사
+- 같은 덱·몬스터·숫자 시드의 결과 JSON 완전 일치: 결정론 통과
+- 테스트 덱 카드 10,000 + 장비·칭호 PVE 1,000 = V2 팀 전투력 11,000 확인
+- 공격형/방어형/생명형/속도형/균형형의 HP·공격·방어·속도 분배 차이 확인
+- 방어형 시작 보호막, 생명형 회복·1회 생존, 속도형 게이지·회피, 공격형 관통·치명타 이벤트 확인
+- 플레이어 궁극기와 보스 궁극기 이벤트 확인
+- 보스 궁극기 피해 결과가 궁극기 연출 이벤트보다 먼저 재생되지 않도록 순서 확인
+- 500회 균형 표본: 총전투력 11,000 덱 대 일반 몬스터 전투력 10,000에서 승률 49.8%, 평균 행동 89.0회
+- 보스는 동일 표기 전투력의 일반 몬스터보다 강하도록 별도 HP·공격·방어 계수를 사용하는 OWNER 조정 단계임
+
+4. 응답 및 DB 용량 검사
+- 보스·양측 궁극기 포함 표본: 57행동 / 타임라인 77이벤트 / JSON 약 24.8KB
+- 일반 전투 500회 표본 평균 응답 JSON 약 30KB
+- 타임라인은 API 응답 전용이며 엔진 모듈의 INSERT/UPDATE/DELETE/DB run/batch 호출 0건
+- D1 신규 DDL 0건
+- 전투당 기존 battle_logs 요약 1행 외 V2 전용 저장 0건
+
+5. 캐시·롤백 검사
+- battle_settings_v1 런타임 캐시 최대 1초
+- 일반 PVE 설정 조회 클라이언트 TTL 0 및 fetch no-store
+- CMS 저장 후 DB 재조회 일치 검증
+- V2_OWNER에서 OWNER만 active=true, 일반 유저는 LEGACY 유지
+- CMS에서 LEGACY로 변경하면 신규 DB 작업 없이 기존 엔진 복귀 가능
+
+6. 적용 범위
+- 일반 PVE의 battle/fight 실전 전투에만 적용
+- 현재 화면의 반복 자동전투는 battle/fight를 한 전투씩 호출하므로 OWNER V2 적용
+- 별도 일괄 처리 API battle/auto 및 PVP·무한의탑·레이드·봉인전·대장전은 기존 엔진 유지

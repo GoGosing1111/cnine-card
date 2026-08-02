@@ -1,0 +1,61 @@
+숲켓몬 v1318 테스트 보고서
+
+1. 문법 및 모듈 검사
+- functions/_battle_v2_preview.js node --check 통과
+- functions/api/[[path]].js node --check 통과
+- js/battle-v2-live.js node --check 통과
+- js/app.js node --check 통과
+- 전체 원본과 누적 패치 병합 후 API 모듈 import 통과
+- battle-v2-live.css 중괄호 392개 / 392개 일치
+- index.html, admin/index.html 파싱 및 정적 ID 중복 없음 확인
+
+2. PVE 서버 판정 검사
+- 500개 시드에서 몬스터가 생존한 상태로 유저 승리가 반환된 사례 0건
+- ACTION_LIMIT 상태에서 몬스터 생존 시 reason=MONSTER_SURVIVED, winner=B 확인
+- 약한 몬스터를 실제로 처치한 경우 winner=A 및 몬스터 최종 HP 0 확인
+- 동일 덱, 몬스터, 시드의 결과 JSON 완전 일치 확인
+- PVE 최대 행동 수 120 확인
+- timeoutRule=MONSTER_SURVIVES_LOSE 확인
+
+3. 몬스터 보정 검사
+- 일반 몬스터 HP +10%, 공격 +35%, 방어 +30% 적용 확인
+- 보스 몬스터 HP +20%, 공격 +45%, 방어 +40% 적용 확인
+- 저장 전투력 power 값은 변경하지 않고 V2 환산 능력치에만 적용됨을 확인
+
+4. 실제 화면 렌더링 검사
+- PVE PC 렌더링: 플레이어 5장 + 몬스터 1장, 팀 요약 2개, V2 전장, 결과 패널 정상
+- PVE 몬스터 생존 종료 화면: DEFEAT 및 MISSION FAILED · MONSTER SURVIVED 표시 확인
+- PVP PC 렌더링: 양 팀 10장, 팀 요약 2개, 결과 패널 정상
+- 모바일 600×1000 렌더링: layout-mobile-portrait, 활성 카드 2장, 미니 덱 10장 확인
+- 와고 iframe 1200×1750 렌더링: layout-wago, 활성 카드 2장, 미니 덱 10장 확인
+- 와고 V2 서버 계산 화면에서 기존 battle-hud 및 battle-side 노출 0건 확인
+- 브라우저 Runtime 예외 0건 확인
+
+5. 화면 통합 검사
+- V2 활성 PVE는 서버 요청 전부터 V2 전용 계산 화면을 표시함을 확인
+- V2 활성 PVP는 서버 요청 전부터 V2 전용 계산 화면을 표시함을 확인
+- V2 경로에서 기존 전투 화면 인트로를 거치지 않음
+- 카드 프레임, 돌파, 고유효과 CSS, 타격 궤적, 피해 숫자, 회복, 방어, 회피, K.O. 연결 확인
+- 전투 속도 1.6 고정 확인
+- 화면 리사이즈 시 타임라인 재요청 없음
+- 저사양 모드 분기 없음
+
+6. PVP 회귀 검사
+- PVP V2 playbackSpeed 1.6 확인
+- PVP dbTimelineWrites 0 확인
+- PVP 승패 결과와 결과 패널 연결 확인
+- 기존 시즌 점수, 에너지, 코인, 큐브, 마법 결정, 장비 보상 처리 코드 유지 확인
+- 상대 닉네임이 문자열 응답일 때도 V2 팀 이름에 정상 표시하도록 보정
+
+7. DB 및 응답 크기 검사
+- 신규 DDL 없음
+- functions/api/[[path]].js가 v1317과 동일함을 확인
+- V2 엔진 모듈에서 새 DB 쓰기 없음
+- PVE 테스트 최대 응답 39,238바이트
+- 타임라인은 브라우저 응답으로만 사용하고 D1에 저장하지 않음
+- PVE battle_logs 1행, PVP pvp_match_history 1행 구조 유지
+
+8. 문구 및 패키지 검사
+- 변경 실행 파일의 씨켓몬 문구 0건
+- V2 화면 표기는 SOOPKETMON으로 통일
+- 누적 ZIP CRC 검사 통과

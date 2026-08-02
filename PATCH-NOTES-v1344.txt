@@ -1,0 +1,36 @@
+[V1344] V1269 장비창 3탭 PNG 실적용 패치
+
+기준
+- v1342 차고 진입/미장착 수정본 기준
+- 사용자가 제공한 941x1672 완성 PNG를 실제 장비창 배경 ASSET으로 적용
+
+변경 내용
+1. 실제 PNG ASSET 적용
+- assets/ui/equipment/equipment-screen-frame-v1344-equipment.png
+- assets/ui/equipment/equipment-screen-frame-v1344-title.png
+- assets/ui/equipment/equipment-screen-frame-v1344-garage.png
+- 장비창 상단에 EQUIPMENT / TITLES / 차고 3탭이 이미지 자체에 포함
+
+2. 클릭 연결
+- HTML에는 보이지 않는 투명 클릭 영역만 사용
+- EQUIPMENT 클릭: 장비 화면
+- TITLES 클릭: 칭호 화면
+- 차고 클릭: 기존 실제 차고 화면
+- 화면 위에 보이는 CSS 버튼을 별도로 그리지 않음
+
+3. 장비창 정리
+- 장비 인벤토리 위에 임시로 추가됐던 차고 요약 박스 제거
+- 완성 PNG 구조에 맞춰 기존 장비 목록이 바로 이어지도록 복구
+
+4. 차고 ASSET 포함
+- assets/ui/garage/garage-frame-v1341.png 유지 포함
+- 기존 차량 장착/해제/API/전투력 합산 기능 유지
+
+수정/신규 파일
+- index.html
+- js/equipment-v1274.js
+- css/equipment-tabs-v1344.css
+- assets/ui/equipment/equipment-screen-frame-v1344-equipment.png
+- assets/ui/equipment/equipment-screen-frame-v1344-title.png
+- assets/ui/equipment/equipment-screen-frame-v1344-garage.png
+- assets/ui/garage/garage-frame-v1341.png

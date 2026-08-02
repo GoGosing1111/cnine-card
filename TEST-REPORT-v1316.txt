@@ -1,0 +1,24 @@
+숲켓몬 v1316 테스트 보고서
+
+1. 정적 검사
+- js/app.js node --check 통과
+- js/battle-v2-live.js node --check 통과
+- functions/api/[[path]].js node --check 통과
+
+2. 클릭 경로 검사
+- 전투 시작 버튼 type=button 확인
+- document capture 위임 클릭 핸들러 연결 확인
+- 활성 버튼 클릭 시 startBattle 1회 호출 확인
+- disabled 버튼 클릭 시 호출 0회 확인
+- fightStarting 상태에서 중복 호출 차단 확인
+
+3. 상태 복구 검사
+- 표시 몬스터 fallback 시 selectedMonster ID 동기화 코드 확인
+- 유효 몬스터 누락 시 첫 몬스터 복구 및 사용자 안내 확인
+- 모달 생성 전후 예외를 전체 try/catch에서 처리하는 구조 확인
+- 성공·실패 경로 모두 finally에서 fightStarting 해제 확인
+
+4. 변경 범위
+- v1315 대비 js/app.js, css/battle-v2-live.css, index.html과 v1316 문서만 변경
+- 서버 함수 및 DB 관련 파일 변경 없음
+- 신규 DDL 및 누적 데이터 없음

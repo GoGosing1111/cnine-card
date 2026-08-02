@@ -1,0 +1,7 @@
+v1319 정적 검증 보고
+- JavaScript 구문 검사 대상: app.js, battle-v2-live.js, _battle_v2_preview.js
+- 궁극기 미디어 contain 적용 확인
+- 전투 컨테이너 ResizeObserver 및 orientationchange 처리 확인
+- 모바일 세로/가로 미디어쿼리 확인
+- 몬스터 보정값 일반 5/30/10, 보스 10/40/18 확인
+- 전투 판정·DB 스키마 변경 없음

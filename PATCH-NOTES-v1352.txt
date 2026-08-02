@@ -1,0 +1,16 @@
+[숲켓몬 v1352 장비창 3탭 PNG 연결 복구]
+
+원인
+- v1351 칭호 CSS 정리 과정에서 장비 화면용 최종 3탭 PNG 강제 연결 규칙이 누락됨
+- 그 결과 기존 equipment-character-v1269.css의 2탭 배경이 다시 표시됨
+
+수정
+- 장비 화면 배경을 assets/ui/equipment/equipment-screen-frame-v1348-final.png로 다시 고정
+- EQUIPMENT / TITLES / 차고 3탭 이미지 복구
+- CSS와 JS 캐시 버전 v1352로 갱신
+- 칭호 화면 개편 및 차고 GOAT 제거 기능은 그대로 유지
+
+수정/포함 파일
+- index.html
+- css/garage-v1341.css
+- assets/ui/equipment/equipment-screen-frame-v1348-final.png

@@ -1,0 +1,9 @@
+SOOPKETMON v1326 MOBILE V2 BATTLE FIT
+
+- Base: v1325 cumulative patch
+- Mobile portrait V2 battle changed to active card 1 vs 1 horizontal layout
+- Opponent/player five-card rosters remain visible as compact rows
+- Battle modal panel restores internal vertical touch scrolling
+- Removes the tall 1110px portrait duel stack that could trap scrolling
+- PC, WAGo and mobile landscape layouts unchanged
+- Battle calculation, rewards, healer penalty, formation labels and DB/API unchanged

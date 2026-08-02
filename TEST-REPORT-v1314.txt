@@ -1,0 +1,31 @@
+숲켓몬 v1314 검사 결과
+
+정적 검사
+- preview/battle-v2/battle-v2.js node --check 통과
+- preview CSS 중괄호 개수 일치
+- preview HTML ID 중복 없음
+- 씨켓몬 문구 미포함 확인
+
+브라우저 실행 검사 (Chromium)
+- PC 1440x1100: PC 전체 전장 모드 렌더링
+- 와고 980x1750: 집중 전투 카드 2장 + 미니 덱 10장 렌더링
+- 모바일 세로 390x844: 상대 상단/내 카드 하단 렌더링
+- 모바일 가로 844x390: 활성 카드 좌우 렌더링
+- 네 화면 모드 모두 pageerror 0건
+- 각 집중 모드 focus card 2장 확인
+
+상태 구조 검사
+- 모드 변경 시 battle API 호출 코드 없음
+- state.cursor/resetBattle 호출 없이 applyLayout/syncFocusStage만 실행
+- HP/방벽/게이지는 state.cards 단일 상태를 원본/집중 카드/미니 덱에 동기화
+
+DB 검사
+- 서버 모듈 변경 없음
+- 신규 마이그레이션 없음
+- 신규 로그/영수증 없음
+
+실행 중 모드 전환 검사
+- 와고 모드에서 전투 2/4 진행 중 모바일 세로로 전환
+- 전환 전 2/4, 전환 후 2/4 유지
+- battle API 호출 횟수 1회 유지
+- 브라우저 pageerror 0건

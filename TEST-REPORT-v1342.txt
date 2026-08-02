@@ -1,0 +1,6 @@
+[TEST REPORT V1342]
+- node --check js/equipment-v1274.js : OK
+- node --check js/app.js : OK
+- node --check functions/_equipment.js : OK
+- ZIP integrity : pending at package time
+- Static checks only; browser runtime and exact device pixel alignment require deployment verification.

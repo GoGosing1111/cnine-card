@@ -1,0 +1,8 @@
+[TEST REPORT V1341]
+- node --check js/equipment-v1274.js: PASS
+- node --check js/app.js: PASS
+- node --check functions/_equipment.js: PASS
+- PNG 리소스 포함 확인: PASS
+- ZIP 무결성 검사 예정
+
+주의: 정적 구문 검사는 실제 브라우저/D1 배포 환경 전체 검증을 대체하지 않습니다.

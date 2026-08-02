@@ -1,0 +1,7 @@
+CNINE Card v1295 - RAID OWNER normal-open participation fix
+
+- 정상 공개 레이드에서도 OWNER가 실제 참가한 방은 최소 참가 인원 1명으로 전투 시작
+- OWNER 혼자 테스트할 때 카운트다운 종료 후 최소 인원 미달 취소 및 방 목록 복귀 문제 수정
+- OWNER가 없는 일반 공개 방은 CMS 최소 참가 인원 규칙을 그대로 적용
+- OWNER 테스트 전용 모드의 단독 전투, 입장 횟수 미소모 기능 유지
+- DB 변경, 초기화, DROP, RENAME 없음

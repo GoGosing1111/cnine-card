@@ -1,0 +1,16 @@
+CNINE Card v1298 - 월드 레이드 정산 완료 결과 화면 재노출 및 강제 복귀 수정
+
+- 보상 수령/정산 완료 후 TIME OUT·RAID CLEAR·RAID FAILED 결과 상세 화면이 반복 노출되던 문제 수정
+- 서버가 정산 완료를 raid_participants.reward_claimed 한 곳만 보지 않고 아래 3개 상태로 교차 판정
+  1) raid_participants.reward_claimed = 1
+  2) raid_reward_receipts.status = COMPLETED
+  3) raid_user_reward_v1293.status = COMPLETED
+- 세 상태 중 하나라도 완료이면 종료 레이드를 미수령 대상으로 다시 선택하지 않음
+- 정산 영수증은 완료됐지만 참가자 플래그가 남은 과거 불일치 데이터는 조회 시 참가자 플래그를 안전 보정
+- raid/status 요청 도중 BATTLE -> ENDED 전환 또는 보상 수령이 완료되는 경합을 최종 응답 직전에 다시 검증
+- 보상 수령 직전 시작된 오래된 raid/status 응답을 요청 순번으로 폐기
+- 레이드 상태 요청마다 고유 요청 키를 사용해 이전 진행 중 GET 응답 재사용 방지
+- 메인 메뉴 또는 다른 PVE 메뉴로 이동하면 레이드 폴링·결과 자동 이동 타이머·대기 중 응답을 즉시 무효화
+- 화면 이동 후 늦게 도착한 응답은 DOM 연결/hidden 상태를 검사해 렌더링하지 않음
+- 보상 수령 완료 시 결과 공개 플래그를 지우지 않고 완료 상태로 유지
+- 기존 DB DROP/RENAME/초기화 및 신규 테이블/컬럼 없음

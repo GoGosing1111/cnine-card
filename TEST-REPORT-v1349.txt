@@ -1,0 +1,6 @@
+[TEST REPORT V1349]
+- js/equipment-v1274.js node --check 통과
+- equipmentLayer에 data-dynamic-pve / data-dynamic-pvp 복구 확인
+- PVE 값: state.data.bonuses.pve
+- PVP 값: state.data.bonuses.pvp
+- index.html 캐시 버전 갱신

@@ -1,0 +1,37 @@
+[V1339] 차고지 UI 재설계 + 이동수단 시스템
+
+기준
+- v1337 누적본 기준
+- v1338의 임시 3버튼 UI는 사용하지 않음
+- 첨부된 Gemini HTML/CSS의 다크 사이버 슬롯 톤, 등급 표시, PVE/PVP 스탯 배지를 참고
+
+UI
+- 기존 EQUIPMENT / TITLES 탭과 장비창 배경·캐릭터·슬롯 위치를 그대로 유지
+- 장비 인벤토리 상단에 기존 디자인과 어울리는 차고지 요약 슬롯 추가
+- 차고지 열기 시 기존 캐릭터 화면 위에 전용 차고 화면으로 전환
+- 차고 화면에는 캐릭터 이미지와 장비 슬롯을 표시하지 않음
+- 이동수단 이미지를 중앙 대형 쇼케이스에 배치
+- PVE/PVP 이동수단 보너스 및 전체 합산 수치 표시
+- 보유 이동수단 등급 필터, 장착, 해제, 미획득 상태 구현
+- PC/모바일 반응형 구성
+
+시스템
+- character_garage_items / user_garage_vehicles / user_garage_loadout 안전 추가
+- 이동수단 총 전투력은 장비와 같은 90% PVE / 10% PVP 자동 분배
+- 이동수단 1대 장착
+- PVE/PVP 실제 전투력 계산과 덱 요약에 반영
+- 기존 장비/칭호 장착 및 계산 유지
+
+API
+- character/loadout: vehicles, equippedVehicleId 포함
+- character/garage/equip
+- character/garage/unequip
+- admin/garage-item
+- admin/garage-grant
+
+수정 파일
+- index.html
+- js/app.js
+- js/equipment-v1274.js
+- functions/_equipment.js
+- css/garage-v1339.css

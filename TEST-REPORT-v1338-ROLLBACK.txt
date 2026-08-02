@@ -1,0 +1,6 @@
+[정적 검사 결과]
+- js/app.js: node --check 통과
+- js/equipment-v1274.js: node --check 통과
+- functions/_equipment.js: node --check 통과
+- index.html에서 garage-v1338.css 및 GARAGE 연결 없음 확인
+- 롤백 파일은 v1337 누적본에서 직접 추출

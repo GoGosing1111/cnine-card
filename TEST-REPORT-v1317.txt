@@ -1,0 +1,55 @@
+숲켓몬 v1317 테스트 보고서
+
+1. 문법 및 모듈 검사
+- functions/_battle_v2_preview.js node --check 통과
+- functions/api/[[path]].js node --check 통과
+- js/battle-v2-live.js node --check 통과
+- js/app.js node --check 통과
+- 전체 원본과 누적 패치 병합 후 functions/api/[[path]].js 모듈 import 통과
+- battle-v2-live.css 중괄호 수 일치 확인
+- index.html 및 admin/index.html 파싱, ID 중복 없음 확인
+
+2. PVP V2 엔진 검사
+- 동일 덱, 동일 장비, 동일 시드의 결과 JSON 완전 일치 확인
+- 공격자 5장과 수비자 5장 적용 확인
+- 양 진영 장비 PVP 보너스 분배 확인
+- playbackSpeed 1.6 고정 확인
+- dbTimelineWrites 0 확인
+- 공격형, 방어형, 생명형, 속도형, 균형형 능력치 분배 확인
+- START_EFFECT, REGEN, EMERGENCY_HEAL, SURVIVE, COUNTER, TURN, KO, FRONTLINE_BREAK, RESULT 이벤트 생성 확인
+
+3. 밸런스 반복 검사
+- 완전 대칭 덱 1,000회 실행: 공격자 490승, 수비자 510승, 무승부 0회
+- 대칭 덱 행동 범위: 39~59행동
+- 동일 전투 응답 예시 크기: 약 23KB
+- 1,000개 시드 중 최대 응답: 46,894바이트, 97행동, 167개 타임라인 이벤트
+- 응답 타임라인은 DB에 저장하지 않음
+
+4. 서버 분기 및 기존 기능 검사
+- V2 활성 시 battleV2.result.winner를 실제 승패로 사용함을 확인
+- V2 비활성 시 기존 legacyAPower >= legacyDPower 판정을 유지함을 확인
+- 장비 PVP 10% 보너스를 공격자와 수비자 모두 전달함을 확인
+- 기존 시즌 점수, 승패, 전투 횟수, 코인, 큐브, 마법 결정, 장비 드롭 경로 유지 확인
+- 전투 횟수 부족 경로의 미정의 cfg 참조 제거 확인
+
+5. DB 용량 검사
+- 신규 DDL 없음
+- 전투당 pvp_match_history 1행 유지
+- 샘플 전체 카드 객체 덱 2개: 4,708바이트
+- 같은 샘플의 카드 ID 덱 2개: 112바이트
+- 덱 JSON 부분 약 97.6% 감소
+- 샘플 기준 100경기당 약 459,600바이트 저장 방지
+- SQLite에서 카드 ID 덱 INSERT와 기록 조회 SELECT 정상 실행 확인
+- 기록 조회 SELECT에서 attacker_deck, defender_deck 제외 확인
+
+6. 변경 범위
+- admin/index.html
+- css/battle-v2-live.css
+- functions/_battle_v2_preview.js
+- functions/api/[[path]].js
+- index.html
+- js/app.js
+- js/battle-v2-live.js
+- PATCH-NOTES-v1317.txt
+- TEST-REPORT-v1317.txt
+- 변경 파일의 씨켓몬 문구 0건 확인

@@ -1,0 +1,6 @@
+[TEST REPORT V1343]
+- index.html 캐시버전 갱신 완료
+- js/equipment-v1274.js node --check 통과
+- 상단 탭 구조 변경 확인
+- 장비 인벤토리 내 차고 요약 박스 제거 반영
+- 차고 화면 중복 back 버튼 제거 반영
