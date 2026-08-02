@@ -54,7 +54,7 @@ async function publicState(env,user){
   const cfg=await settings(env),tickets={},usage=await usageMap(env,user.id);
   for(const [grade,code] of Object.entries(TICKETS)){const r=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,code).first();tickets[grade]=Number(r?.quantity||0)}
   const anyAvailable=Object.keys(TICKETS).some(grade=>!usage[grade].used&&tickets[grade]>0);
-  return {settings:cfg,tickets,usage,limits:{PRESTIGE:1,FUR:1},visible:cfg.enabled&&(cfg.buttonMode==='ALWAYS'||anyAvailable)};
+  return {settings:cfg,tickets,usage,limits:{PRESTIGE:1,FUR:1},visible:cfg.enabled};
 }
 async function assertUnused(env,userId,grade){
   const row=await env.DB.prepare('SELECT request_id,response_json,used_at FROM high_grade_reroll_usage WHERE user_id=? AND grade=?').bind(userId,grade).first();
