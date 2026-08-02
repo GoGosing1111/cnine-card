@@ -4804,7 +4804,7 @@ export async function onRequest(context){
           if(status==='PREPARING'){
             const have=await env.DB.prepare('SELECT COUNT(*) count FROM pvp_season_settlement_ranks WHERE settlement_id=?').bind(sid).first();
             const offset=Number(have?.count||0),chunk=preview.slice(offset,offset+120);
-            if(chunk.length){await env.DB.batch(chunk.map(row=>env.DB.prepare(`INSERT OR IGNORE INTO pvp_season_settlement_ranks(settlement_id,user_id,nickname,final_rank,season_score,highest_score,wins,losses,tier_id,tier_name,reward_coin,reward_shards) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(sid,row.user_id,row.nickname,row.final_rank,row.season_score,row.highest_score,row.wins,row.losses,row.tier?.id||'',row.tier?.name||'',row.rewardCoin,row.rewardShards))}
+            if(chunk.length){await env.DB.batch(chunk.map(row=>env.DB.prepare(`INSERT OR IGNORE INTO pvp_season_settlement_ranks(settlement_id,user_id,nickname,final_rank,season_score,highest_score,wins,losses,tier_id,tier_name,reward_coin,reward_shards) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(sid,row.user_id,row.nickname,row.final_rank,row.season_score,row.highest_score,row.wins,row.losses,row.tier?.id||'',row.tier?.name||'',row.rewardCoin,row.rewardShards)))}
             const nowCount=offset+chunk.length;
             if(nowCount<preview.length)return json({ok:true,done:false,status:'PREPARING',phase:'SNAPSHOT',processed:nowCount,total:preview.length,settlementId:sid});
             await env.DB.prepare("UPDATE pvp_season_settlements SET status='SNAPSHOTTED',participant_count=?,error_message=NULL WHERE id=?").bind(preview.length,sid).run();status='SNAPSHOTTED';

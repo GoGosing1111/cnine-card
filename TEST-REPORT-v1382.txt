@@ -1,0 +1,8 @@
+v1382 검사 결과
+
+- node -c functions/api/[[path]].js 통과
+- node -c functions/_territory_war.js 통과
+- node -c js/territory-war-v1362.js 통과
+- node -c admin/admin-v1276.js 통과
+- node -c admin/territory-war-admin-v1362.js 통과
+- ZIP 무결성 검사 통과
