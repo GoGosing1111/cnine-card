@@ -2969,9 +2969,11 @@ export async function onRequest(context){
     }
 
     // 하위 시스템 라우터도 업그레이드 확인과 점검 차단을 통과한 뒤 실행한다.
-    // 대장전·진화 요청이 점검 모드를 우회하거나 준비되지 않은 DB 구조를 먼저 참조하지 않도록 한다.
+    // 기존 대장전은 v1363부터 폐기했다. DB 기록은 보존하되 신규 신청·매칭·전투·정산 요청은 모두 차단한다.
+    if(path==='captain'||path.startsWith('captain/')||path==='admin/captain'||path.startsWith('admin/captain/')){
+      return json({error:'기존 대장전은 폐기되었습니다. 영토전을 이용해주세요.',code:'CAPTAIN_RETIRED'},410);
+    }
     const evolutionResponse=await handleEvolution({path,request,env,deps:{authenticate,readBody,json,isAdminRole,profile,shardReward:SHARD_REWARD}});if(evolutionResponse)return evolutionResponse;
-    const captainResponse=await handleCaptain({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckState,cardUniqueDeckStates,cardUniqueSettings,grantWeeklyPremiumCube,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap}});if(captainResponse)return captainResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckStates,userEquipmentBonuses,createPvpBattleV2}});if(territoryWarResponse)return territoryWarResponse;
     const sealBattleResponse=await handleSealBattle({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog,raidDeckPower,columnExists,resolveUniqueBattleRuntime,selectActivatedUltimate,uniqueBattleResponsePayload}});if(sealBattleResponse)return sealBattleResponse;
     const battleV2PreviewResponse=await handleBattleV2Preview({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckStates,userEquipmentBonuses}});if(battleV2PreviewResponse)return battleV2PreviewResponse;
