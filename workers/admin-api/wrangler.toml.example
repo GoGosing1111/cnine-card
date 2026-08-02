@@ -1,0 +1,11 @@
+name = "cnine-card-admin-api"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "cnine-card-db"
+database_id = "PUT_YOUR_D1_DATABASE_ID_HERE"
+
+# 배포 후 admin/index.html보다 먼저 아래 값을 주입하면 CMS만 별도 Worker를 사용합니다.
+# window.CNINE_ADMIN_API_BASE = 'https://cnine-card-admin-api.<account>.workers.dev/'

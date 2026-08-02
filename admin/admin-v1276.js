@@ -5,27 +5,37 @@ const RARITIES=['FUR','LIMITED','MA','SSR','UR','HR','SR','R','U','C'];
 const CARD_RARITIES=['FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'];
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const img=v=>/^https?:\/\//i.test(v)?v:'/'+String(v||'').replace(/^\//,'');
+const adminGetInflight=new Map(),adminGetCache=new Map();
+function adminApiBase(){const configured=String(globalThis.CNINE_ADMIN_API_BASE||localStorage.getItem('cnine_admin_api_base')||'').trim();return configured?configured.replace(/\/?$/,'/'):'../api/'}
 async function api(path,opt={}){
-  const controller=new AbortController();
-  const timeoutMs=Math.max(5000,Number(opt.timeoutMs||20000));
-  const timer=setTimeout(()=>controller.abort(),timeoutMs);
-  const externalSignal=opt.signal;
-  if(externalSignal){
-    if(externalSignal.aborted)controller.abort();
-    else externalSignal.addEventListener('abort',()=>controller.abort(),{once:true});
-  }
-  const requestOpt={...opt};delete requestOpt.timeoutMs;delete requestOpt.signal;
-  try{
-    const r=await fetch('../api/'+path,{...requestOpt,signal:controller.signal,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(requestOpt.headers||{})},cache:'no-store'});
-    const text=await r.text();let d={};
-    try{d=text?JSON.parse(text):{}}catch{const e=Error('API 경로 또는 Cloudflare Functions 연결을 확인해주세요.');e.status=r.status;throw e}
-    if(!r.ok){const e=Error(d.error||'요청 실패');e.status=r.status;e.code=d.code;throw e}
-    return d;
-  }catch(error){
-    if(error?.name==='AbortError'){const e=Error('요청 시간이 초과되었습니다. 관리자 로그인은 유지됩니다. 잠시 후 다시 시도해주세요.');e.code='REQUEST_TIMEOUT';throw e}
-    throw error;
-  }finally{clearTimeout(timer)}
+  const method=String(opt.method||'GET').toUpperCase(),cacheable=method==='GET'&&opt.cacheBust!==true,cacheKey=`${path}|${token}`;
+  const now=Date.now(),cached=adminGetCache.get(cacheKey);
+  if(cacheable&&cached&&cached.expiresAt>now)return cached.value;
+  if(cacheable&&adminGetInflight.has(cacheKey))return adminGetInflight.get(cacheKey);
+  const run=(async()=>{
+    const controller=new AbortController();
+    const timeoutMs=Math.max(5000,Number(opt.timeoutMs||20000));
+    const timer=setTimeout(()=>controller.abort(),timeoutMs);
+    const externalSignal=opt.signal;
+    if(externalSignal){if(externalSignal.aborted)controller.abort();else externalSignal.addEventListener('abort',()=>controller.abort(),{once:true})}
+    const requestOpt={...opt};delete requestOpt.timeoutMs;delete requestOpt.signal;delete requestOpt.cacheTtlMs;delete requestOpt.cacheBust;
+    try{
+      const r=await fetch(adminApiBase()+path,{...requestOpt,signal:controller.signal,headers:{'content-type':'application/json','authorization':'Bearer '+token,...(requestOpt.headers||{})},cache:'no-store'});
+      const text=await r.text();let d={};
+      try{d=text?JSON.parse(text):{}}catch{const e=Error('API 경로 또는 Cloudflare Functions 연결을 확인해주세요.');e.status=r.status;throw e}
+      if(!r.ok){const e=Error(d.error||'요청 실패');e.status=r.status;e.code=d.code;throw e}
+      if(cacheable)adminGetCache.set(cacheKey,{value:d,expiresAt:Date.now()+Math.max(3000,Math.min(30000,Number(opt.cacheTtlMs||12000)))});
+      else adminGetCache.clear();
+      return d;
+    }catch(error){
+      if(error?.name==='AbortError'){const e=Error('요청 시간이 초과되었습니다. 관리자 로그인은 유지됩니다. 잠시 후 다시 시도해주세요.');e.code='REQUEST_TIMEOUT';throw e}
+      throw error;
+    }finally{clearTimeout(timer)}
+  })();
+  if(cacheable)adminGetInflight.set(cacheKey,run);
+  try{return await run}finally{if(cacheable)adminGetInflight.delete(cacheKey)}
 }
+
 function setBusy(btn,busy,text='처리 중...'){if(!btn)return;btn.disabled=busy;if(!btn.dataset.label)btn.dataset.label=btn.textContent;btn.textContent=busy?text:btn.dataset.label}
 async function login(){const btn=$('#loginBtn'),key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('admin/auth/login',{method:'POST',body:JSON.stringify({privateKey:key})}),role=String(d.user?.role||'').toUpperCase();if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(role))throw Error('관리자 권한이 없는 계정입니다.');if(!d.token)throw Error('관리자 로그인 정보를 발급받지 못했습니다.');token=d.token;localStorage.setItem('cnine_admin_token',token);sessionStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message||'관리자 로그인 중 오류가 발생했습니다.')}finally{setBusy(btn,false)}}
 function setAuthScreen(isAuthenticated){document.body.classList.toggle('auth-active',isAuthenticated);document.body.classList.toggle('auth-guest',!isAuthenticated);$('#login').hidden=isAuthenticated;$('#cms').hidden=!isAuthenticated}

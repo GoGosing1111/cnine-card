@@ -1,0 +1,16 @@
+[정적 검사 보고서 v1361]
+- functions/api/[[path]].js: node --check 통과
+- admin/admin-v1276.js: node --check 통과
+- workers/admin-api/src/index.js: node --check 통과
+- workers/draw-maintenance/src/index.js: node --check 통과
+- LIMITED 예약: env.DB.batch 사용 확인
+- LIMITED 성공 감사: 최종 statements batch 포함 확인
+- 성공 후 개별 finish loop 제거 확인
+- 영수증 자동 정리: PENDING 제외 확인
+- 영수증 삭제 LIMIT 적용 확인
+- CMS GET 중복 요청 병합·TTL 캐시 확인
+- ZIP 무결성 검사 예정
+
+주의
+- 실제 Cloudflare D1 동시 부하 수치는 로컬 정적 검사로 재현할 수 없음
+- 별도 관리자 Worker와 Cron Worker는 예시 wrangler 파일에 실제 D1 database_id 입력 후 별도 배포 필요

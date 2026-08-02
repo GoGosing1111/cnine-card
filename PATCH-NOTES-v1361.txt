@@ -1,0 +1,37 @@
+[숲켓몬 v1361 버닝 카드뽑기·CMS 부하 종합 안정화]
+
+기준
+- v1356 전체 누적본에 v1357~v1360을 순서대로 병합한 최신본
+
+1. 카드뽑기 영수증 자동 상한 관리
+- ARCHIVED 1일, COMPLETED/FAILED 3일, RETRYABLE 7일 보존
+- 한 번에 최대 250행만 삭제
+- 요청 64개 중 1개만 정리 후보가 되며 app_meta 5분 lease로 중복 정리 방지
+- PENDING은 자동 삭제하지 않음
+- 관리자 API admin/draw-performance에서 현황 조회·수동 제한 정리 가능
+- 별도 Cron Worker 예시 포함(10분마다 최대 500행)
+
+2. LIMITED 재고·감사 처리 왕복 감소
+- 여러 LIMITED 예약 UPDATE를 D1 batch 1회로 병합
+- 성공 감사 INSERT를 카드 지급 최종 batch에 포함
+- 성공 후 카드별 감사 완료 UPDATE 제거
+- 실패 시 재고 반환·감사 실패 처리를 한 batch로 병합
+- 한정 수량, 품절 대체, 카드 지급 원칙은 유지
+
+3. CMS 부하 보호
+- 대시보드 9개 개별 조회를 D1 batch로 묶음
+- UR/SSR 보유량 집계를 단일 쿼리로 병합
+- 대시보드 결과 15초 isolate 캐시
+- CMS GET 요청 12초 캐시 및 동일 요청 진행 중 중복 합치기
+- POST/PATCH/DELETE 후 GET 캐시 전체 무효화
+- 관리자 API 주소를 별도 Worker로 전환할 수 있는 CNINE_ADMIN_API_BASE 지원
+
+4. 관리자 Worker 분리 배포 준비
+- workers/admin-api/ 포함
+- 동일 D1을 사용하되 사용자 게임 Worker와 관리자 Worker CPU·요청 경로 분리 가능
+- 기본 배포는 기존 Pages API를 그대로 사용하므로 추가 Worker 미배포 시에도 정상 작동
+
+5. 유지 사항
+- 카드 확률, 천장, FUR 최초 보정, 중복 조각, 마스터의 별, 코인 비용 변경 없음
+- 사용자 카드·재화 지급은 기존 최종 D1 batch 원자 처리 유지
+- 신규 무한 로그 테이블 없음

@@ -77,6 +77,56 @@ const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:1,rate:100
 let maMasterStarBreakthroughCache=null;
 let recentHighGradeCache=null;
 let recentEquipmentFeedCache=null;
+// v1361 burst protection: tiny in-isolate caches only. Authoritative writes remain uncached.
+let adminDashboardBurstCache=null;
+const ADMIN_DASHBOARD_BURST_CACHE_MS=15000;
+const DRAW_RECEIPT_CLEANUP_SAMPLE_MOD=64;
+const DRAW_RECEIPT_CLEANUP_BATCH=250;
+function stableSmallHash(value){let h=2166136261;for(const ch of String(value||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+async function boundedDrawReceiptCleanup(env,{limit=DRAW_RECEIPT_CLEANUP_BATCH,force=false}={}){
+  limit=Math.max(25,Math.min(1000,Math.floor(Number(limit)||DRAW_RECEIPT_CLEANUP_BATCH)));
+  await ensureDrawReceiptV2(env);
+  // One shared lease prevents every hot draw request from running cleanup.
+  const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('draw_receipt_cleanup_lease_v1361',?,CURRENT_TIMESTAMP)
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
+    WHERE app_meta.updated_at<datetime('now','-5 minutes')`).bind(String(Date.now())).run();
+  if(!force&&!Number(lease?.meta?.changes||0))return {skipped:true,deleted:0};
+  const statements=[
+    env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status='ARCHIVED' AND updated_at<datetime('now','-1 day') ORDER BY updated_at LIMIT ?
+    )`).bind(limit),
+    env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-3 days') ORDER BY updated_at LIMIT ?
+    )`).bind(limit),
+    env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status='RETRYABLE' AND updated_at<datetime('now','-7 days') ORDER BY updated_at LIMIT ?
+    )`).bind(limit)
+  ];
+  const results=await env.DB.batch(statements);
+  return {skipped:false,deleted:results.reduce((n,r)=>n+Number(r?.meta?.changes||0),0),limit};
+}
+function scheduleDrawReceiptCleanup(context,env,requestId){
+  if(stableSmallHash(requestId)%DRAW_RECEIPT_CLEANUP_SAMPLE_MOD!==0)return;
+  const job=boundedDrawReceiptCleanup(env).catch(error=>console.warn('bounded draw receipt cleanup failed',error));
+  if(typeof context?.waitUntil==='function')context.waitUntil(job);
+}
+async function adminDashboardSnapshot(env,{fresh=false}={}){
+  const now=Date.now();
+  if(!fresh&&adminDashboardBurstCache&&adminDashboardBurstCache.expiresAt>now)return adminDashboardBurstCache.value;
+  const rows=await env.DB.batch([
+    env.DB.prepare('SELECT COUNT(*) count FROM users'),
+    env.DB.prepare("SELECT COUNT(*) count FROM users WHERE created_at>=datetime('now','start of day')"),
+    env.DB.prepare('SELECT COUNT(*) count FROM cards WHERE is_active=1'),
+    env.DB.prepare("SELECT COUNT(*) count FROM draw_logs WHERE created_at>=datetime('now','-1 day')"),
+    env.DB.prepare('SELECT COALESCE(SUM(coin),0) total FROM users'),
+    env.DB.prepare("SELECT COUNT(*) count FROM users WHERE status!='ACTIVE' OR (banned_until IS NOT NULL AND banned_until>datetime('now'))"),
+    env.DB.prepare("SELECT COUNT(*) count FROM coupons WHERE is_active=1 AND (starts_at IS NULL OR starts_at<=datetime('now')) AND (ends_at IS NULL OR ends_at>=datetime('now'))"),
+    env.DB.prepare("SELECT SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END) urOwned,SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END) ssrOwned FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE COALESCE(uc.quantity,0)>0")
+  ]);
+  const value={users:Number(rows[0]?.results?.[0]?.count||0),usersToday:Number(rows[1]?.results?.[0]?.count||0),cards:Number(rows[2]?.results?.[0]?.count||0),draws24h:Number(rows[3]?.results?.[0]?.count||0),totalCoin:Number(rows[4]?.results?.[0]?.total||0),banned:Number(rows[5]?.results?.[0]?.count||0),coupons:Number(rows[6]?.results?.[0]?.count||0),urOwned:Number(rows[7]?.results?.[0]?.urOwned||0),ssrOwned:Number(rows[7]?.results?.[0]?.ssrOwned||0)};
+  adminDashboardBurstCache={value,expiresAt:now+ADMIN_DASHBOARD_BURST_CACHE_MS};
+  return value;
+}
 const runtimeSettingsCache=new Map();
 async function cachedRuntimeSetting(key,ttlMs,loader){
   const now=Date.now(),cached=runtimeSettingsCache.get(key);
@@ -2257,9 +2307,9 @@ async function writeAdminLog(env,admin,action,targetType,targetId,before=null,af
 }
 
 function cleanLimitedAuditText(value,max=300){return String(value??'').trim().slice(0,max)}
-async function beginLimitedAcquisitionAudit(env,data={}){
+function limitedAuditUpsertStatement(env,data={}){
   const eventKey=cleanLimitedAuditText(data.eventKey||crypto.randomUUID(),180);
-  await env.DB.prepare(`INSERT INTO limited_acquisition_audit(
+  return {eventKey,statement:env.DB.prepare(`INSERT INTO limited_acquisition_audit(
     event_key,request_id,draw_group_id,source_type,source_id,user_id,user_nickname,card_id,card_title,pack_id,status,
     coin_cost,stock_before,stock_after,quantity_before,quantity_after,is_duplicate,stock_reserved,card_granted,
     admin_id,admin_reason,evidence_note,error_message,created_at,updated_at
@@ -2281,11 +2331,11 @@ async function beginLimitedAcquisitionAudit(env,data={}){
       Number.isFinite(Number(data.quantityAfter))?Number(data.quantityAfter):null,data.isDuplicate?1:0,data.stockReserved?1:0,
       data.cardGranted?1:0,Number(data.adminId||0)||null,cleanLimitedAuditText(data.adminReason,300)||null,
       cleanLimitedAuditText(data.evidenceNote,500)||null,cleanLimitedAuditText(data.errorMessage,500)||null
-    ).run();
-  return eventKey;
+    )};
 }
-async function finishLimitedAcquisitionAudit(env,eventKey,data={}){
-  await env.DB.prepare(`UPDATE limited_acquisition_audit SET status=?,stock_after=COALESCE(?,stock_after),
+async function beginLimitedAcquisitionAudit(env,data={}){const prepared=limitedAuditUpsertStatement(env,data);await prepared.statement.run();return prepared.eventKey}
+function limitedAuditFinishStatement(env,eventKey,data={}){
+  return env.DB.prepare(`UPDATE limited_acquisition_audit SET status=?,stock_after=COALESCE(?,stock_after),
     quantity_after=COALESCE(?,quantity_after),is_duplicate=COALESCE(?,is_duplicate),stock_reserved=COALESCE(?,stock_reserved),
     card_granted=COALESCE(?,card_granted),error_message=?,updated_at=CURRENT_TIMESTAMP,
     completed_at=CASE WHEN ? IN ('PENDING','STOCK_RESERVED') THEN completed_at ELSE CURRENT_TIMESTAMP END WHERE event_key=?`).bind(
@@ -2293,8 +2343,9 @@ async function finishLimitedAcquisitionAudit(env,eventKey,data={}){
       Number.isFinite(Number(data.quantityAfter))?Number(data.quantityAfter):null,data.isDuplicate===undefined?null:(data.isDuplicate?1:0),
       data.stockReserved===undefined?null:(data.stockReserved?1:0),data.cardGranted===undefined?null:(data.cardGranted?1:0),
       cleanLimitedAuditText(data.errorMessage,500)||null,cleanLimitedAuditText(data.status||'COMPLETED',40),cleanLimitedAuditText(eventKey,180)
-    ).run();
+    );
 }
+async function finishLimitedAcquisitionAudit(env,eventKey,data={}){await limitedAuditFinishStatement(env,eventKey,data).run()}
 async function seedDatabase(env){
   for(const member of MEMBERS){
     await env.DB.prepare('INSERT OR IGNORE INTO members(id,name,slug,sort_order) VALUES(?,?,?,?)')
@@ -3309,22 +3360,22 @@ export async function onRequest(context){
         cards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
         const groupId=crypto.randomUUID();
 
-        // LIMITED 재고만 먼저 예약한다. 이후 카드 지급/코인/로그/영수증은 하나의 검증 batch에서 원자 처리한다.
-        for(let i=0;i<cards.length;i++){
-          let card=cards[i];
-          if(card.limited_total!==null&&card.limited_total!==undefined){
-            const eventKey=`draw:${requestId}:${i}:${card.id}`,stockBefore=Math.max(0,Number(card.issued_count||0));
-            const reserved=await env.DB.prepare("UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND issued_count<limited_total").bind(card.id).run();
-            if(!reserved.meta.changes){
-              await beginLimitedAcquisitionAudit(env,{eventKey,requestId,sourceType:'PACK',sourceId:pack.id,userId:user.id,userNickname:user.nickname,cardId:card.id,cardTitle:card.title,packId:pack.id,status:'PENDING',coinCost:cost,stockBefore,stockAfter:stockBefore,stockReserved:false,cardGranted:false});
-              await finishLimitedAcquisitionAudit(env,eventKey,{status:'SOLD_OUT_REPLACED',stockAfter:stockBefore,stockReserved:false,cardGranted:false,errorMessage:'동시 요청으로 한정 수량이 소진되어 일반 카드로 대체됨'});
-              card=drawOneFromContext(drawContext,pack,null,false,criticalBonus);
-            }else{
-              reservedCardIds.push(card.id);
-              limitedAuditEvents.push({eventKey,drawIndex:i,cardId:String(card.id),cardTitle:card.title,stockBefore,stockAfter:stockBefore+1});
-            }
-            cards[i]=card;
+        // LIMITED 예약 UPDATE를 한 D1 batch로 묶어 네트워크 왕복을 카드 수와 무관하게 유지한다.
+        const limitedCandidates=[];
+        for(let i=0;i<cards.length;i++)if(cards[i]?.limited_total!==null&&cards[i]?.limited_total!==undefined)limitedCandidates.push({drawIndex:i,card:cards[i],eventKey:`draw:${requestId}:${i}:${cards[i].id}`,stockBefore:Math.max(0,Number(cards[i].issued_count||0))});
+        if(limitedCandidates.length){
+          const reserveResults=await env.DB.batch(limitedCandidates.map(row=>env.DB.prepare("UPDATE cards SET issued_count=issued_count+1 WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND issued_count<limited_total").bind(row.card.id)));
+          const soldOutAudit=[];
+          for(let n=0;n<limitedCandidates.length;n++){
+            const row=limitedCandidates[n],reserved=Number(reserveResults[n]?.meta?.changes||0)===1;
+            if(reserved){reservedCardIds.push(row.card.id);limitedAuditEvents.push({eventKey:row.eventKey,drawIndex:row.drawIndex,cardId:String(row.card.id),cardTitle:row.card.title,stockBefore:row.stockBefore,stockAfter:row.stockBefore+1});continue}
+            const replacement=drawOneFromContext(drawContext,pack,null,false,criticalBonus);
+            if(!replacement?.id)throw new Error('한정 카드 품절 대체 결과를 생성하지 못했습니다.');
+            cards[row.drawIndex]=replacement;
+            const pending=limitedAuditUpsertStatement(env,{eventKey:row.eventKey,requestId,sourceType:'PACK',sourceId:pack.id,userId:user.id,userNickname:user.nickname,cardId:row.card.id,cardTitle:row.card.title,packId:pack.id,status:'SOLD_OUT_REPLACED',coinCost:cost,stockBefore:row.stockBefore,stockAfter:row.stockBefore,stockReserved:false,cardGranted:false,errorMessage:'동시 요청으로 한정 수량이 소진되어 일반 카드로 대체됨'});
+            soldOutAudit.push(pending.statement);
           }
+          if(soldOutAudit.length)await env.DB.batch(soldOutAudit);
         }
         const uniqueIds=[...new Set(cards.map(card=>String(card.id)))];
         const [validationRows,acquisitionFxByGrade]=await Promise.all([
@@ -3355,7 +3406,7 @@ export async function onRequest(context){
           if(limitedEvent){
             limitedEvent.quantityBefore=quantityBefore;
             limitedEvent.quantityAfter=quantityAfter;
-            await beginLimitedAcquisitionAudit(env,{eventKey:limitedEvent.eventKey,requestId,drawGroupId:groupId,sourceType:'PACK',sourceId:pack.id,userId:user.id,userNickname:user.nickname,cardId,cardTitle:card.title,packId:pack.id,status:'STOCK_RESERVED',coinCost:cost,stockBefore:limitedEvent.stockBefore,stockAfter:limitedEvent.stockAfter,quantityBefore,quantityAfter:quantityBefore,isDuplicate:!isNew,stockReserved:true,cardGranted:false});
+            statements.push(limitedAuditUpsertStatement(env,{eventKey:limitedEvent.eventKey,requestId,drawGroupId:groupId,sourceType:'PACK',sourceId:pack.id,userId:user.id,userNickname:user.nickname,cardId,cardTitle:card.title,packId:pack.id,status:'COMPLETED',coinCost:cost,stockBefore:limitedEvent.stockBefore,stockAfter:limitedEvent.stockAfter,quantityBefore,quantityAfter,isDuplicate:!isNew,stockReserved:true,cardGranted:true}).statement);
           }
           ownedMap.set(cardId,quantityAfter);
           expectedAfterByCard.set(cardId,quantityAfter);
@@ -3446,11 +3497,9 @@ export async function onRequest(context){
         await env.DB.batch(statements);
         grantsCommitted=true;
 
-        for(const event of limitedAuditEvents){
-          try{await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,isDuplicate:Number(event.quantityBefore||0)>0,stockReserved:true,cardGranted:true})}
-          catch(auditError){console.error('limited acquisition audit completion failed',auditError)}
-        }
+        // LIMITED 감사 성공 기록도 위 원자 batch에 포함되어 별도 완료 UPDATE 왕복이 없다.
         recentHighGradeCache=null;
+        scheduleDrawReceiptCleanup(context,env,requestId);
         return json(response);
       }catch(error){
         const transient=isTransientD1Error(error);
@@ -3467,14 +3516,13 @@ export async function onRequest(context){
 
         if(!grantsCommitted){
           let rollbackOk=true;
-          for(const cardId of reservedCardIds){
-            try{await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(cardId).run()}
-            catch(rollbackError){rollbackOk=false;console.error('limited draw stock rollback failed',rollbackError)}
-          }
-          for(const event of limitedAuditEvents){
-            try{await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'FAILED_ROLLED_BACK',stockAfter:event.stockBefore,quantityAfter:event.quantityBefore,stockReserved:false,cardGranted:false,errorMessage:message})}
-            catch(auditError){rollbackOk=false;console.error('limited draw audit rollback failed',auditError)}
-          }
+          try{
+            const rollbackStatements=[];
+            const rollbackCounts=new Map();for(const cardId of reservedCardIds)rollbackCounts.set(String(cardId),Number(rollbackCounts.get(String(cardId))||0)+1);
+            for(const [cardId,amount] of rollbackCounts)rollbackStatements.push(env.DB.prepare('UPDATE cards SET issued_count=MAX(0,issued_count-?) WHERE id=?').bind(amount,cardId));
+            for(const event of limitedAuditEvents)rollbackStatements.push(limitedAuditFinishStatement(env,event.eventKey,{status:'FAILED_ROLLED_BACK',stockAfter:event.stockBefore,quantityAfter:event.quantityBefore,stockReserved:false,cardGranted:false,errorMessage:message}));
+            if(rollbackStatements.length)await env.DB.batch(rollbackStatements);
+          }catch(rollbackError){rollbackOk=false;console.error('limited draw rollback batch failed',rollbackError)}
           if(transient){
             let retryStatus=rollbackOk?'RETRYABLE':'PENDING';
             try{
@@ -3494,10 +3542,7 @@ export async function onRequest(context){
           }
           await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',cost=?,response_json=NULL,error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,message,requestId,user.id).run();
         }else{
-          for(const event of limitedAuditEvents){
-            try{await finishLimitedAcquisitionAudit(env,event.eventKey,{status:'COMPLETED_WITH_WARNING',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,stockReserved:true,cardGranted:true,errorMessage:message})}
-            catch(auditError){console.error('limited draw completion warning audit failed',auditError)}
-          }
+          try{if(limitedAuditEvents.length)await env.DB.batch(limitedAuditEvents.map(event=>limitedAuditFinishStatement(env,event.eventKey,{status:'COMPLETED_WITH_WARNING',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,stockReserved:true,cardGranted:true,errorMessage:message})))}catch(auditError){console.error('limited draw completion warning audit batch failed',auditError)}
         }
         throw error;
       }
@@ -4687,18 +4732,27 @@ export async function onRequest(context){
     if(path==='admin/dashboard'){
       const admin=await requirePermission(request,env,'DASHBOARD');
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
-      const [users,usersToday,cards,draws,coins,banned,coupons,urOwned,ssrOwned]=await Promise.all([
-        env.DB.prepare('SELECT COUNT(*) count FROM users').first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM users WHERE date(created_at)=date('now','localtime')").first(),
-        env.DB.prepare('SELECT COUNT(*) count FROM cards WHERE is_active=1').first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM draw_logs WHERE created_at>=datetime('now','-1 day')").first(),
-        env.DB.prepare('SELECT COALESCE(SUM(coin),0) total FROM users').first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM users WHERE status!='ACTIVE' OR (banned_until IS NOT NULL AND banned_until>datetime('now'))").first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM coupons WHERE is_active=1 AND (starts_at IS NULL OR starts_at<=datetime('now')) AND (ends_at IS NULL OR ends_at>=datetime('now'))").first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE c.rarity='UR' AND COALESCE(uc.quantity,0)>0").first(),
-        env.DB.prepare("SELECT COUNT(*) count FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE c.rarity='SSR' AND COALESCE(uc.quantity,0)>0").first()
-      ]);
-      return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at},stats:{users:users.count,usersToday:usersToday.count,cards:cards.count,draws24h:draws.count,totalCoin:coins.total,banned:banned.count,coupons:coupons.count,urOwned:urOwned.count,ssrOwned:ssrOwned.count}});
+      const fresh=url.searchParams.get('fresh')==='1';
+      const stats=await adminDashboardSnapshot(env,{fresh});
+      return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at},stats,cache:{ttlMs:ADMIN_DASHBOARD_BURST_CACHE_MS,fresh}});
+    }
+
+    if(path==='admin/draw-performance'){
+      const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'설정 관리 권한이 없습니다.'},403);
+      if(request.method==='GET'){
+        await ensureDrawReceiptV2(env);
+        const rows=await env.DB.batch([
+          env.DB.prepare(`SELECT status,COUNT(*) count FROM draw_request_receipts_v2 GROUP BY status`),
+          env.DB.prepare(`SELECT COUNT(*) count FROM draw_request_receipts_v2 WHERE updated_at<datetime('now','-3 days')`),
+          env.DB.prepare(`SELECT COUNT(*) count FROM limited_acquisition_audit WHERE created_at>=datetime('now','-1 day')`)
+        ]);
+        return json({receiptsByStatus:rows[0]?.results||[],oldReceiptCount:Number(rows[1]?.results?.[0]?.count||0),limitedAudit24h:Number(rows[2]?.results?.[0]?.count||0),policy:{archivedDays:1,completedFailedDays:3,retryableDays:7,batch:DRAW_RECEIPT_CLEANUP_BATCH,sampleMod:DRAW_RECEIPT_CLEANUP_SAMPLE_MOD}});
+      }
+      if(request.method==='POST'){
+        const body=await readBody(request),result=await boundedDrawReceiptCleanup(env,{limit:body.limit,force:true});
+        await writeAdminLog(env,admin,'DRAW_RECEIPT_BOUNDED_CLEANUP','SYSTEM','draw_request_receipts_v2',null,result);
+        return json({ok:true,...result});
+      }
     }
 
     if(path==='admin/logs'){
