@@ -1,0 +1,9 @@
+[v1368] 검사 결과
+
+- functions/_territory_war.js 구문 검사 통과
+- js/territory-war-v1362.js 구문 검사 통과
+- admin/territory-war-admin-v1362.js 구문 검사 통과
+- OFF 모드 신규 회차 생성 차단 코드 확인
+- OFF 저장 시 DISABLED 전환 코드 확인
+- OFF 사용자 API 변경 요청 차단 확인
+- 사용자 OFF 전용 화면 존재 확인

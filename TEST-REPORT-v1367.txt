@@ -1,0 +1,21 @@
+[v1367] 정적 검사 보고
+
+통과
+- functions/_territory_war.js : node -c
+- js/territory-war-v1362.js : node -c
+- admin/territory-war-admin-v1362.js : node -c
+- 유지 점수 키워드/settleHold 실행 로직 제거 확인
+- 사용자 index 캐시 v1367 갱신 확인
+- CMS script 캐시 v1367 갱신 확인
+- 모집/준비/전쟁/종료 상태 분기 존재 확인
+- 소대 단위 행동력/위치/지휘권 API 존재 확인
+- 이동/공격/신청취소/작전취소 API 존재 확인
+- 종료 시 영토 점수 1회 마커 존재 확인
+- 최근 전투 pruning 및 구회차 운영 데이터 정리 SQL 존재 확인
+
+배포 후 실제 D1에서 확인할 항목
+- 기존 DB에 신규 소대/작전 테이블이 IF NOT EXISTS로 생성되는지
+- PREPARING 10분 후 ACTIVE 자동 전환
+- 무방비 점령 30초 후 상태 조회 시 점령 반영
+- 소대장 외 공격 차단 및 설정시간 후 순차 지휘권 위임
+- 종료 정산 중복 방지(final_territory_scored)
