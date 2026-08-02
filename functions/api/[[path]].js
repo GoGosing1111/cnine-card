@@ -2548,9 +2548,17 @@ async function loadDrawContext(env,pack){
   drawContextCache.set(key,{promise,expiresAt:now+15000});
   return promise;
 }
-function drawNormalFromContext(ctx,pack,rarity){
+function drawPoolFromContext(ctx,rarity){
   const pool=ctx.poolsByGrade.get(rarity)||[];
-  return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;
+  if(String(rarity).toUpperCase()!=='FUR'||!(ctx.blockedFurIds instanceof Set))return pool;
+  return pool.filter(card=>!ctx.blockedFurIds.has(String(card.id)));
+}
+function drawGradeHasCandidate(ctx,rarity){return drawPoolFromContext(ctx,rarity).length>0;}
+function drawNormalFromContext(ctx,pack,rarity){
+  const pool=drawPoolFromContext(ctx,rarity);
+  const picked=weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;
+  if(picked&&String(rarity).toUpperCase()==='FUR'&&ctx.blockedFurIds instanceof Set)ctx.blockedFurIds.add(String(picked.id));
+  return picked;
 }
 function drawOneFromContext(ctx,pack,minimum=null,allowLimited=true,criticalBonus=0){
   if(allowLimited&&pack.id==='pickup'&&!minimum&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
@@ -2560,7 +2568,7 @@ function drawOneFromContext(ctx,pack,minimum=null,allowLimited=true,criticalBonu
   let allowed=ctx.allowed;
   if(minimum)allowed=allowed.filter(rarity=>ORDER[rarity]>=ORDER[minimum]);
   if(!allowed.length)throw new Error('이 카드팩에 설정된 일반 등급이 없습니다.');
-  let rates=ctx.rateRows.filter(row=>allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0);
+  let rates=ctx.rateRows.filter(row=>allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0&&drawGradeHasCandidate(ctx,row.rarity));
   if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
   if(!rates.length)throw new Error('이 카드팩에 설정된 일반 카드 확률이 없습니다.');
   for(let attempt=0;attempt<20;attempt++){
@@ -2582,7 +2590,7 @@ function drawOneWithPityFromContext(ctx,pack,ssrRate,criticalBonus=0,allowLimite
       if(ssr)return ssr;
     }
     const others=allowed.filter(rarity=>rarity!=='SSR');
-    let rates=ctx.rateRows.filter(row=>others.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0);
+    let rates=ctx.rateRows.filter(row=>others.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0&&drawGradeHasCandidate(ctx,row.rarity));
     if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
     for(let attempt=0;attempt<20;attempt++){
       const rarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
@@ -2671,16 +2679,17 @@ function furFirstRateForDraw(settings,missCount){
   return {drawNo,rate:Math.round(rate*1000)/1000,hard:false};
 }
 function normalGradeRatePercentFromContext(ctx,grade,criticalBonus=0){
-  let rates=ctx.rateRows.filter(row=>ctx.allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0);
+  if(!drawGradeHasCandidate(ctx,grade))return 0;
+  let rates=ctx.rateRows.filter(row=>ctx.allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&Number(row.rate)>0&&drawGradeHasCandidate(ctx,row.rarity));
   if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
   const total=rates.reduce((sum,row)=>sum+Math.max(0,Number(row.rate)||0),0);
   if(total<=0)return 0;
   return Math.max(0,Number(rates.find(row=>String(row.rarity).toUpperCase()===String(grade).toUpperCase())?.rate)||0)/total*100;
 }
 function drawOneWithPityAndFurFromContext(ctx,pack,ssrRate,furAssistRate,criticalBonus=0,allowLimited=true){
-  const furPool=ctx.poolsByGrade.get('FUR')||[],forceFur=furAssistRate!==null&&Number(furAssistRate)>=100;
+  const furPool=drawPoolFromContext(ctx,'FUR'),forceFur=furAssistRate!==null&&Number(furAssistRate)>=100;
   if(forceFur){
-    const fur=weightedPick(furPool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1));
+    const fur=drawNormalFromContext(ctx,pack,'FUR');
     if(!fur)throw new Error('FUR 최초 획득 확정 회차지만 이 팩에서 획득 가능한 FUR 카드가 없습니다. CMS 카드 공개 상태와 팩 카드 구성을 확인하세요.');
     return fur;
   }
@@ -2692,7 +2701,7 @@ function drawOneWithPityAndFurFromContext(ctx,pack,ssrRate,furAssistRate,critica
   if(furAssistRate!==null&&furPool.length){
     const baseRate=normalGradeRatePercentFromContext(ctx,'FUR',criticalBonus),targetRate=Math.max(baseRate,Math.max(0,Math.min(100,Number(furAssistRate)||0)));
     if(Math.random()*100<targetRate){
-      const fur=weightedPick(furPool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1));
+      const fur=drawNormalFromContext(ctx,pack,'FUR');
       if(fur)return fur;
     }
     excluded.add('FUR');
@@ -2702,7 +2711,7 @@ function drawOneWithPityAndFurFromContext(ctx,pack,ssrRate,furAssistRate,critica
     if(Math.random()*100<ssrRate){const ssr=drawNormalFromContext(ctx,pack,'SSR');if(ssr)return ssr;}
     excluded.add('SSR');
   }
-  let rates=ctx.rateRows.filter(row=>ctx.allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&!excluded.has(row.rarity)&&Number(row.rate)>0);
+  let rates=ctx.rateRows.filter(row=>ctx.allowed.includes(row.rarity)&&row.rarity!=='LIMITED'&&!excluded.has(row.rarity)&&Number(row.rate)>0&&drawGradeHasCandidate(ctx,row.rarity));
   if(criticalBonus>0)rates=applyCriticalRateBonus(rates,criticalBonus);
   if(!rates.length)throw new Error('FUR 보정 및 SSR 천장 조건을 제외하고 추첨 가능한 일반 등급이 없습니다. 카드팩 확률 설정을 확인하세요.');
   for(let attempt=0;attempt<20;attempt++){
@@ -3241,12 +3250,15 @@ export async function onRequest(context){
           return json({error:'코인이 부족합니다.'},400);
         }
 
-        const [drawContext,livePitySettings,liveFurFirstSettings,userPityState]=await Promise.all([
+        const [baseDrawContext,livePitySettings,liveFurFirstSettings,userPityState,ownedFurRows]=await Promise.all([
           loadDrawContext(env,pack),
           pitySettings(env),
           furFirstSettings(env),
-          drawUserPityState(env,user.id,pack.id)
+          drawUserPityState(env,user.id,pack.id),
+          env.DB.prepare(`SELECT uc.card_id FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
+            WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0`).bind(user.id).all()
         ]);
+        const drawContext={...baseDrawContext,blockedFurIds:new Set((ownedFurRows?.results||[]).map(row=>String(row.card_id)))};
         const pityCountStart=userPityState.pityCount,furFirstStateStart=userPityState.fur;
         const furFirstEligibleAtStart=FUR_FIRST_PITY_PACKS.has(pack.id)&&liveFurFirstSettings.enabled&&!furFirstStateStart.everOwned&&!furFirstStateStart.completed;
         const cards=[];let pityCount=pityCountStart,limitedDrawn=false,furFirstMissCount=furFirstStateStart.missCount,furFirstEligible=furFirstEligibleAtStart,furFirstCompleted=false;
