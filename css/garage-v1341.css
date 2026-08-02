@@ -55,3 +55,28 @@
   .garage-live-title-v1341{left:24%;width:52%}
   .garage-live-vehicle-v1341{left:5%;width:90%}
 }
+
+/* V1342 garage connection and empty-state alignment fix */
+.frame-garage-entry-v1342{position:absolute;z-index:8;top:13.1%;right:7.3%;width:22.5%;height:4.8%;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid rgba(255,196,70,.72);clip-path:polygon(9% 0,91% 0,100% 50%,91% 100%,9% 100%,0 50%);background:linear-gradient(180deg,rgba(58,31,3,.98),rgba(19,10,2,.98));color:#ffd76b;box-shadow:0 0 0 2px rgba(255,174,0,.12),inset 0 0 18px rgba(255,159,0,.16);font-weight:1000;font-size:clamp(11px,2vw,20px);cursor:pointer;text-shadow:0 1px 4px #000}
+.frame-garage-entry-v1342 span{font-size:1.1em}.frame-garage-entry-v1342 b{white-space:nowrap}
+.garage-screen-v1341.no-vehicle .garage-frame-art-v1341{filter:brightness(.72) saturate(.82)}
+.garage-empty-mask-v1342{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(2,10,25,.78),rgba(2,12,29,.92)),radial-gradient(circle at 50% 55%,rgba(13,93,155,.30),transparent 48%);border:1px solid rgba(71,181,255,.18);box-shadow:inset 0 0 80px rgba(0,0,0,.7)}
+.garage-screen-v1341.no-vehicle .garage-live-vehicle-v1341{left:7%;top:16%;width:86%;height:34%;z-index:4}
+.garage-screen-v1341.no-vehicle .garage-live-title-v1341{display:none}
+.garage-screen-v1341.no-vehicle .garage-live-stats-v1341{top:54.7%}
+.garage-screen-v1341.no-vehicle .garage-live-collection-v1341{top:64.4%;height:31.2%}
+.garage-screen-v1341.no-vehicle .garage-live-empty-v1341{width:min(78%,520px);box-sizing:border-box;padding:22px 20px;border-radius:14px;background:rgba(1,13,32,.91)}
+.garage-screen-v1341.no-vehicle .garage-live-empty-v1341 b{font-size:clamp(18px,3.8vw,38px);letter-spacing:0;white-space:nowrap}
+.garage-screen-v1341.no-vehicle .garage-live-empty-v1341 span{font-size:clamp(10px,1.7vw,17px);line-height:1.45}
+.garage-live-collection-v1341{display:flex;flex-direction:column}
+.garage-live-collection-v1341 header{flex:0 0 15%;align-items:center}
+.garage-filter-row-v1341{flex:0 0 12%}
+.garage-card-row-v1341{flex:1 1 auto;height:auto;min-height:0}
+.garage-live-empty-list-v1341{height:100%;min-height:0;text-align:center;padding:0 10%;box-sizing:border-box}
+.garage-live-empty-list-v1341 b{line-height:1.25}.garage-live-empty-list-v1341 span{line-height:1.45}
+@media(max-width:640px){
+  .frame-garage-entry-v1342{right:6.2%;top:13.2%;width:24.5%;height:4.5%;font-size:11px;gap:5px}
+  .garage-screen-v1341.no-vehicle .garage-live-empty-v1341{width:82%;padding:18px 12px}
+  .garage-screen-v1341.no-vehicle .garage-live-empty-v1341 b{font-size:22px}
+  .garage-screen-v1341.no-vehicle .garage-live-stats-v1341{top:55.2%}
+}
