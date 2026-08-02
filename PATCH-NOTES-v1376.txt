@@ -1,0 +1,6 @@
+v1376 영토전 진입 속도 최적화
+- state 응답에서 최근 V2 전체 battle_summary JSON 제외
+- 최근 전투 목록은 화면에 필요한 요약 컬럼만 최대 20건 조회
+- state 요청의 settings/current round/maybeAdvance 중복 실행 제거
+- 런타임 스키마 검사 app_meta 마커 및 isolate 캐시 적용
+- 전투 실행 응답의 V2 duels 데이터는 그대로 유지
