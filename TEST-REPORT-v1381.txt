@@ -1,0 +1,3 @@
+node -c functions/api/[[path]].js: PASS
+node -c admin/admin-v1276.js: PASS
+ZIP integrity: PASS
