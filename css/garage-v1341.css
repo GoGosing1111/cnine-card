@@ -164,3 +164,21 @@
   .garage-card-row-v1347{grid-auto-columns:minmax(42%,42%);gap:3%}
   .garage-filter-row-v1347 button{height:28px;padding:0 11px;font-size:10px}
 }
+
+/* V1352 restore final 3-tab equipment PNG after title CSS rewrite */
+.image-frame-ui-v1249.tab-equipment-v1348 .frame-background-v1249{
+  position:absolute!important;
+  inset:0!important;
+  width:100%!important;
+  height:100%!important;
+  background-image:url('../assets/ui/equipment/equipment-screen-frame-v1348-final.png?v=1352')!important;
+  background-position:center top!important;
+  background-repeat:no-repeat!important;
+  background-size:100% 100%!important;
+  filter:none!important;
+  opacity:1!important;
+}
+.image-frame-ui-v1249.tab-equipment-v1348{
+  position:relative!important;
+  overflow:hidden!important;
+}
