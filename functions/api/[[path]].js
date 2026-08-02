@@ -4764,7 +4764,8 @@ export async function onRequest(context){
     if(path==='admin/tiers'){
       const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'티어 관리 권한이 없습니다.'},403);
       if(request.method==='GET'){
-        const settings=await tierSettings(env),battle=await battleSettings(env),livePvp=await pvpSettings(env);settings.pvp={...settings.pvp,...livePvp};
+        // 관리자 화면은 저장 직후 이전 런타임 캐시가 보이면 안 된다.
+        const settings=await readTierSettings(env),battle=await battleSettings(env),livePvp=await readPvpSettings(env);settings.pvp={...settings.pvp,...livePvp};
         const rows=await env.DB.prepare(`SELECT u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).all();
         const map=new Map();for(const r of rows.results){if(!map.has(r.nickname))map.set(r.nickname,{nickname:r.nickname,score:0});if(r.rarity)map.get(r.nickname).score+=cardBattlePower(r,Number(r.breakthrough_level||0),battle)}
         const pvpRows=await env.DB.prepare(`SELECT u.nickname,p.season_score,p.highest_score,p.wins,p.losses FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname LIMIT 100`).all();
@@ -4773,11 +4774,16 @@ export async function onRequest(context){
         return json({settings,ranking:[...map.values()].sort((a,b)=>b.score-a.score).slice(0,100),pvpRanking:pvpRows.results.map((x,i)=>({...x,rank:i+1,tier:resolveTier(Number(x.season_score),livePvp.tiers)})),pvpStats,pvpSettlement:settlement||null});
       }
       if(request.method==='PATCH'||request.method==='POST'){
-        const payload=await readBody(request),before={tiers:await tierSettings(env),pvp:await pvpSettings(env)},base=defaultTierSettings();
+        const payload=await readBody(request),before={tiers:await readTierSettings(env),pvp:await readPvpSettings(env)},base=defaultTierSettings();
         const tiers=(Array.isArray(payload.cardScoreTiers)?payload.cardScoreTiers:before.tiers.cardScoreTiers).map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);
         const livePvp=cleanPvpSettings({...before.pvp,...(payload.pvp||{})}),clean={cardScoreTiers:tiers,pvp:livePvp};
         if(livePvp.endsAt&&livePvp.startsAt&&new Date(livePvp.endsAt)<=new Date(livePvp.startsAt))return json({error:'시즌 종료일은 시작일보다 뒤여야 합니다.'},400);
-        await env.DB.batch([env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('tier_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)),env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(livePvp))]);await writeAdminLog(env,admin,'PVP_SEASON_SETTINGS_UPDATE','SETTINGS','pvp',before,clean);return json({ok:true,settings:clean});
+        await env.DB.batch([env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('tier_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)),env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(livePvp))]);
+        // 저장 성공 즉시 게임/관리자 공용 런타임 캐시를 폐기한다.
+        runtimeSettingsCache.delete('tier');
+        runtimeSettingsCache.delete('pvp');
+        const savedTiers=await readTierSettings(env),savedPvp=await readPvpSettings(env),saved={...savedTiers,pvp:{...savedTiers.pvp,...savedPvp}};
+        await writeAdminLog(env,admin,'PVP_SEASON_SETTINGS_UPDATE','SETTINGS','pvp',before,saved);return json({ok:true,settings:saved});
       }
     }
 

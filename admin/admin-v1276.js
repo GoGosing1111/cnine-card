@@ -332,16 +332,35 @@ function addPvpRankReward(){const p=state.tierData?.settings?.pvp;if(!p)return;(
 function collectCardScoreTiers(){const tiers=[];document.querySelectorAll('.tierSettingRow').forEach((r,i)=>tiers.push({id:state.tierData.settings.cardScoreTiers[i].id,name:r.querySelector('.tName').value,min:Number(r.querySelector('.tMin').value),color:r.querySelector('.tColor').value,aura:r.querySelector('.tAura').value==='1'}));return tiers}
 function collectPvpTierRewards(){const tiers=[];document.querySelectorAll('.pvpTierRewardRow').forEach((r,i)=>tiers.push({id:state.tierData.settings.pvp.tiers[i]?.id||`tier${i}`,name:r.querySelector('.ptName').value,min:Number(r.querySelector('.ptMin').value),color:r.querySelector('.ptColor').value,aura:r.querySelector('.ptAura').value==='1',rewardCoin:Number(r.querySelector('.ptCoin').value),rewardShards:Number(r.querySelector('.ptShards').value)}));return tiers}
 function collectPvpRankRewards(){const rewards=[];document.querySelectorAll('.pvpRankRewardRow').forEach(r=>rewards.push({from:Number(r.querySelector('.prFrom').value),to:Number(r.querySelector('.prTo').value),rewardCoin:Number(r.querySelector('.prCoin').value),rewardShards:Number(r.querySelector('.prShards').value)}));return rewards}
+let tierSaveInFlight=false;
 async function patchTierSettings(payload,message){
+  if(tierSaveInFlight)return alert('티어 설정을 저장 중입니다. 잠시만 기다려주세요.');
+  tierSaveInFlight=true;
   const body=JSON.stringify(payload);
   try{
-    await api('admin/tiers',{method:'PATCH',body});
-  }catch(e){
-    if(Number(e?.status)!==404)throw e;
-    await api('admin/tiers',{method:'POST',body});
+    let saved;
+    try{
+      saved=await api('admin/tiers',{method:'PATCH',body});
+    }catch(e){
+      if(Number(e?.status)!==404)throw e;
+      saved=await api('admin/tiers',{method:'POST',body});
+    }
+    if(saved?.settings){
+      state.tierData={...(state.tierData||{}),settings:saved.settings};
+      const p=saved.settings.pvp||{};
+      $('#pvpEnabled').value=p.enabled===false?'0':'1';
+      $('#pvpTierStatus').value=p.status||'진행 중';
+      $('#pvpSeasonEnglishTitle').value=p.seasonTitle||'ASYNC PVP SEASON';
+      $('#pvpSeasonName').value=p.seasonName||'시즌 1';
+      $('#pvpSeasonDescription').value=p.seasonDescription||'저장한 PvP 덱으로 비동기 대전을 진행합니다.';
+      $('#pvpSeasonStart').value=localDateTime(p.startsAt);
+      $('#pvpSeasonEnd').value=localDateTime(p.endsAt);
+      renderTierAdmin();
+    }
+    alert(message);
+  }finally{
+    tierSaveInFlight=false;
   }
-  alert(message);
-  await loadTierAdmin();
 }
 async function saveCardTierAdmin(){await patchTierSettings({cardScoreTiers:collectCardScoreTiers()},'카드점수 티어 구간이 저장되었습니다.')}
 async function savePvpSeasonSettings(){const pvp={enabled:$('#pvpEnabled').value==='1',status:$('#pvpTierStatus').value.trim(),seasonTitle:$('#pvpSeasonEnglishTitle').value.trim(),seasonName:$('#pvpSeasonName').value.trim(),seasonDescription:$('#pvpSeasonDescription').value.trim(),startsAt:toSql($('#pvpSeasonStart').value),endsAt:toSql($('#pvpSeasonEnd').value),rewardClaimMode:$('#pvpRewardClaimMode').value,tierRewardsEnabled:$('#pvpTierRewardsEnabled').value==='1',rankRewardsEnabled:$('#pvpRankRewardsEnabled').value==='1'};if(pvp.startsAt&&pvp.endsAt&&new Date(pvp.endsAt)<=new Date(pvp.startsAt))return alert('시즌 종료일은 시작일보다 뒤여야 합니다.');await patchTierSettings({pvp},'PvP 시즌 기본 설정이 저장되었습니다.')}
