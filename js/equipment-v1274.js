@@ -49,13 +49,13 @@
     const vehicleId=Number(state.data.equippedVehicleId||0);
     let garage=null;
     for(const row of state.data.vehicles||[]){row.equipped=vehicleId>0&&Number(row.id)===vehicleId;if(row.equipped)garage=row}
-    const titlePve=Number(title?.pvePower||0),garagePve=Number(garage?.pvePower||0),garagePvp=Number(garage?.pvpPower||0);
+    const titlePve=Number(title?.pvePower||0),titlePvp=titlePve,garagePve=Number(garage?.pvePower||0),garagePvp=Number(garage?.pvpPower||0);
     state.data.bonuses={
       ...(state.data.bonuses||{}),
-      equipmentPve,equipmentPvp,garagePve,garagePvp,titlePve,
+      equipmentPve,equipmentPvp,garagePve,garagePvp,titlePve,titlePvp,
       pve:equipmentPve+garagePve+titlePve,
-      pvp:equipmentPvp+garagePvp,
-      title:title?{id:Number(title.id),name:title.name,badgeText:title.badgeText||title.name,pvePower:titlePve,stylePreset:title.stylePreset,image:title.image||''}:null,
+      pvp:equipmentPvp+garagePvp+titlePvp,
+      title:title?{id:Number(title.id),name:title.name,badgeText:title.badgeText||title.name,pvePower:titlePve,pvpPower:titlePvp,allBattlePower:titlePve,stylePreset:title.stylePreset,image:title.image||''}:null,
       garage:garage?{id:Number(garage.id),name:garage.name,rarity:garage.rarity,image:garage.image||'',description:garage.description||'',pvePower:garagePve,pvpPower:garagePvp}:null
     };
   }
@@ -156,9 +156,9 @@
         <div class="title-current-copy-v1350">
           <small>현재 장착 효과</small>
           <strong>${equippedTitle?'칭호 장착 중':'장착된 칭호 없음'}</strong>
-          <span>${equippedTitle?'장착된 칭호의 PVE 보너스가 적용됩니다.':'보유 칭호에서 하나를 선택해 장착하세요.'}</span>
+          <span>${equippedTitle?'장착된 칭호의 전투력 보너스가 모든 전투에 적용됩니다.':'보유 칭호에서 하나를 선택해 장착하세요.'}</span>
         </div>
-        <b>PVE +${num(equippedTitle?.pvePower||state.data?.bonuses?.titlePve||0)}</b>
+        <b>전체 전투 +${num(equippedTitle?.pvePower||state.data?.bonuses?.titlePve||0)}</b>
         ${equippedTitle?'<button type="button" data-character-title-unequip>해제</button>':''}
       </section>
       <section class="title-collection-v1350">
@@ -169,7 +169,7 @@
             return `<article class="title-card-v1350 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${titleClass(row.stylePreset)}">
               <div class="title-card-badge-v1350"><span>[${esc(row.badgeText||row.name)}]</span></div>
               <small>${esc(row.owned?(unlockLabels[row.unlockType]||row.unlockType):titleRequirement(row))}</small>
-              <b>PVE +${num(row.pvePower)}</b>
+              <b>전체 전투 +${num(row.pvePower)}</b>
               ${action}
             </article>`;
           }).join(''):'<div class="title-empty-v1350">등록된 칭호가 없습니다.</div>'}
