@@ -109,7 +109,6 @@
     return `<div class="frame-equipment-layer-v1249">
       <div class="frame-nickname-v1249" data-dynamic-nickname>${esc(nicknameText())}</div>
       <div class="frame-title-v1249 ${titleClass(title?.stylePreset)}" data-dynamic-title>[${esc(titleText(title))}]</div>
-      <button type="button" class="frame-garage-entry-v1342" data-open-garage><span>🚗</span><b>차고지</b></button>
       ${slotOrder.map(slotOverlay).join('')}
       <div class="frame-stat-box-v1249 pve" data-dynamic-pve><small>PVE</small><b>+${num(b.pve)}</b></div>
       <div class="frame-stat-box-v1249 pvp" data-dynamic-pvp><small>PVP</small><b>+${num(b.pvp)}</b></div>
@@ -167,23 +166,28 @@
     const stars=vehicle?'★★★★★':'';
     const visible=rows.filter(row=>state.garageFilter==='ALL'||String(row.rarity||'')===state.garageFilter);
     const ownedCount=rows.filter(row=>row.owned).length;
+    const titleTextValue=vehicle?vehicle.name:'장착된 이동수단 없음';
+    const subText=vehicle?`${esc(rarityLabels[rarity])} 등급 ${stars}`:'보유 이동수단에서 장착하세요';
     return `<div class="garage-screen-v1341 ${vehicle?'has-vehicle':'no-vehicle'} ${vehicle?rarityClass(rarity):''}">
-      <img class="garage-frame-art-v1341" src="assets/ui/garage/garage-frame-v1341.png?v=1341" alt="" aria-hidden="true">
+      <img class="garage-frame-art-v1341" src="assets/ui/garage/garage-frame-v1345-clean.png?v=1345" alt="" aria-hidden="true">
       <div class="garage-live-layer-v1341">
-        <button type="button" class="garage-back-v1341" data-close-garage aria-label="장비창으로 돌아가기">장비창으로</button>
-        ${vehicle?`<div class="garage-live-title-v1341"><span>${esc(vehicle.name)}</span><small>${esc(rarityLabels[rarity])} 등급 ${stars}</small></div>`:''}
-        <div class="garage-live-vehicle-v1341">
-          ${vehicle?.image?`<img src="${esc(vehicle.image)}" alt="${esc(vehicle.name)}" loading="eager">`:'<div class="garage-empty-mask-v1342"><div class="garage-live-empty-v1341"><b>이동수단 미장착</b><span>아래 보유 이동수단에서 장착하세요</span></div></div>'}
+        <button type="button" class="frame-tab-hit-v1249 equipment" data-character-tab="equipment" aria-label="장비"></button>
+        <button type="button" class="frame-tab-hit-v1249 title" data-character-tab="title" aria-label="칭호"></button>
+        <button type="button" class="frame-tab-hit-v1249 garage" data-character-tab="garage" aria-label="차고"></button>
+        <div class="garage-live-vehicle-v1341 ${vehicle?.image?'filled':'empty'}">
+          ${vehicle?.image?`<img src="${esc(vehicle.image)}" alt="${esc(vehicle.name)}" loading="eager">`:`<div class="garage-live-empty-v1341"><b>이동수단 미장착</b><span>아래 보유 이동수단에서 장착하세요</span></div>`}
         </div>
+        <div class="garage-live-title-v1341"><span>${esc(titleTextValue)}</span><small>${subText}</small></div>
+        <div class="garage-live-subline-v1345">${esc(vehicle?.description||'이동수단을 장착하면 PVE / PVP 전투력이 함께 상승합니다.')}</div>
         <div class="garage-live-stats-v1341"><div><small>PVE</small><b>+${num(vehicle?.pvePower||0)}</b></div><div><small>PVP</small><b>+${num(vehicle?.pvpPower||0)}</b></div></div>
         ${vehicle?.equipped?'<button type="button" class="garage-unequip-v1341" data-garage-unequip>장착 해제</button>':''}
         <section class="garage-live-collection-v1341">
           <header><div><small>MY VEHICLES</small><h3>보유 이동수단</h3></div><span>${ownedCount} / ${rows.length}</span></header>
           <div class="garage-filter-row-v1341">${garageFilters.map(filter=>`<button type="button" class="${state.garageFilter===filter?'active':''}" data-garage-filter="${filter}">${filter==='ALL'?'전체':esc(rarityLabels[filter]||filter)}</button>`).join('')}</div>
-          <div class="garage-card-row-v1341">${visible.length?visible.map(row=>`<article class="garage-card-v1341 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${rarityClass(row.rarity)}">
-            <div class="garage-card-rarity-v1341">${esc(rarityLabels[normRarity(row.rarity)])}</div>
+          <div class="garage-card-row-v1341 ${visible.length?'':'empty'}">${visible.length?visible.map(row=>`<article class="garage-card-v1341 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${rarityClass(row.rarity)}">
             <div class="garage-card-image-v1341">${row.image?`<img src="${esc(row.image)}" alt="${esc(row.name)}" loading="lazy">`:'<b>VEHICLE</b>'}</div>
             <strong>${esc(row.name)}</strong>
+            <div class="garage-card-meta-v1345"><span>${esc(rarityLabels[normRarity(row.rarity)])}</span>${row.owned?'':`<i>${esc(row.unlockHint||'미획득')}</i>`}</div>
             <div class="garage-card-power-v1341"><span>PVE <em>+${num(row.pvePower)}</em></span><span>PVP <em>+${num(row.pvpPower)}</em></span></div>
             ${row.owned?(row.equipped?'<button type="button" disabled>장착 중</button>':`<button type="button" data-garage-equip="${row.id}">장착</button>`):'<button type="button" disabled>미획득</button>'}
           </article>`).join(''):'<div class="garage-live-empty-list-v1341"><b>등록된 이동수단이 없습니다.</b><span>CMS에서 이동수단을 등록하고 지급하세요.</span></div>'}</div>
@@ -192,9 +196,8 @@
     </div>`;
   }
   function shellHtml(){
-    const tabClass=`tab-${state.tab}-v1344`;
-    const tabs=`<button type="button" class="frame-tab-hit-v1344 equipment" data-character-tab="equipment" aria-label="장비"></button><button type="button" class="frame-tab-hit-v1344 title" data-character-tab="title" aria-label="칭호"></button><button type="button" class="frame-tab-hit-v1344 garage" data-character-tab="garage" aria-label="차고"></button>`;
-    return `<div class="image-frame-ui-v1249 ${state.tab==='garage'?'garage-open-v1341':''} ${tabClass}"><div class="frame-background-v1249"></div>${tabs}${state.tab==='equipment'?equipmentLayer():state.tab==='title'?titleLayer():garageLayer()}</div>`;
+    const tabs=state.tab!=='garage'?`<button type="button" class="frame-tab-hit-v1249 equipment ${state.tab==='equipment'?'active':''}" data-character-tab="equipment" aria-label="장비"></button><button type="button" class="frame-tab-hit-v1249 title ${state.tab==='title'?'active':''}" data-character-tab="title" aria-label="칭호"></button><button type="button" class="frame-tab-hit-v1249 garage ${state.tab==='garage'?'active':''}" data-character-tab="garage" aria-label="차고"></button>`:'';
+    return `<div class="image-frame-ui-v1249 ${state.tab==='garage'?'garage-open-v1341':''}"><div class="frame-background-v1249"></div>${tabs}${state.tab==='equipment'?equipmentLayer():state.tab==='title'?titleLayer():garageLayer()}</div>`;
   }
   function bind(root){
     root.querySelectorAll('[data-character-tab]').forEach(btn=>btn.onclick=()=>{state.tab=btn.dataset.characterTab;render()});
@@ -204,7 +207,6 @@
     root.querySelectorAll('[data-character-title-equip]').forEach(btn=>btn.onclick=()=>equipTitle(Number(btn.dataset.characterTitleEquip)));
     root.querySelectorAll('[data-character-title-unequip]').forEach(btn=>btn.onclick=()=>unequipTitle());
     root.querySelectorAll('[data-open-garage]').forEach(btn=>btn.onclick=()=>{state.tab='garage';render()});
-    root.querySelectorAll('[data-close-garage]').forEach(btn=>btn.onclick=()=>{state.tab='equipment';render()});
     root.querySelectorAll('[data-garage-filter]').forEach(btn=>btn.onclick=()=>{state.garageFilter=btn.dataset.garageFilter||'ALL';render()});
     root.querySelectorAll('[data-garage-equip]').forEach(btn=>btn.onclick=()=>equipGarage(Number(btn.dataset.garageEquip)));
     root.querySelectorAll('[data-garage-unequip]').forEach(btn=>btn.onclick=()=>unequipGarage());
