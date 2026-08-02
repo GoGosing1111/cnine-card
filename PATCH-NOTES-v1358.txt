@@ -1,0 +1,21 @@
+[숲켓몬 v1358 재뽑기 D1 누락 테이블 안전 마이그레이션 수정]
+
+기준
+- v1357 적용 후 추가 적용
+
+원인
+- v1355 이전 영수증 이관 SQL이 high_grade_reroll_receipts 테이블의 존재 여부를 확인하지 않고 실행됨
+- 해당 구버전 테이블이 없는 설치 DB에서 CMS 설정 조회가 D1_ERROR로 중단됨
+
+수정
+1. sqlite_master에서 구버전 영수증 테이블 존재 여부를 먼저 확인
+2. high_grade_reroll_receipts가 존재할 때만 완료 기록을 1회 이관
+3. 구버전 테이블이 없으면 이관 SQL을 실행하지 않고 정상 진행
+4. 실제 사용 상태는 high_grade_reroll_usage만 사용
+5. PRIMARY KEY(user_id, grade)로 계정당 PRESTIGE/FUR 최대 2행 유지
+6. 요청별 로그/영수증 테이블 신규 생성 없음
+7. 잘못된 이전 마커가 있어도 사용 상태 테이블 존재 여부를 함께 확인
+
+수정 파일
+- functions/_high_grade_reroll.js
+- admin/index.html

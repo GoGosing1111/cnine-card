@@ -11,8 +11,12 @@ const cleanSettings=v=>({
 async function settings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='high_grade_reroll_settings_v1'").first();return cleanSettings({...DEFAULT_SETTINGS,...safeJson(row?.value||'{}',{})});}
 async function ensureColumn(env,table,column,definition){const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();if(!(rows.results||[]).some(r=>String(r.name)===column))await env.DB.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();}
 export async function ensureHighGradeRerollFoundation(env){
-  const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1355_high_grade_reroll_once' ").first();
-  if(marker?.value==='1')return;
+  const [marker,usageTable,legacyReceipts]=await Promise.all([
+    env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1358_high_grade_reroll_once'").first(),
+    env.DB.prepare("SELECT 1 ok FROM sqlite_master WHERE type='table' AND name='high_grade_reroll_usage'").first(),
+    env.DB.prepare("SELECT 1 ok FROM sqlite_master WHERE type='table' AND name='high_grade_reroll_receipts'").first()
+  ]);
+  if(marker?.value==='1'&&usageTable?.ok)return;
   await ensureColumn(env,'cards','reroll_material_enabled','INTEGER NOT NULL DEFAULT 1');
   await ensureColumn(env,'cards','reroll_result_enabled','INTEGER NOT NULL DEFAULT 1');
   await env.DB.batch([
@@ -28,15 +32,17 @@ export async function ensureHighGradeRerollFoundation(env){
       used_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
       PRIMARY KEY(user_id,grade)
     )`),
-    env.DB.prepare(`INSERT OR IGNORE INTO high_grade_reroll_usage(user_id,grade,request_id,source_card_id,result_card_id,excluded_role,breakthrough_level,response_json,used_at)
+    env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('high_grade_reroll_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING").bind(JSON.stringify(DEFAULT_SETTINGS))
+  ]);
+  if(legacyReceipts?.ok){
+    await env.DB.prepare(`INSERT OR IGNORE INTO high_grade_reroll_usage(user_id,grade,request_id,source_card_id,result_card_id,excluded_role,breakthrough_level,response_json,used_at)
       SELECT r.user_id,UPPER(r.grade),r.request_id,r.source_card_id,r.result_card_id,r.excluded_role,COALESCE(r.breakthrough_level,0),COALESCE(r.response_json,'{}'),COALESCE(r.updated_at,r.created_at,CURRENT_TIMESTAMP)
       FROM high_grade_reroll_receipts r
       WHERE r.status='COMPLETED' AND UPPER(r.grade) IN ('PRESTIGE','FUR')
       AND NOT EXISTS (SELECT 1 FROM high_grade_reroll_usage u WHERE u.user_id=r.user_id AND u.grade=UPPER(r.grade))
-      ORDER BY r.created_at ASC`),
-    env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('high_grade_reroll_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING").bind(JSON.stringify(DEFAULT_SETTINGS)),
-    env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1355_high_grade_reroll_once','1',CURRENT_TIMESTAMP)")
-  ]);
+      ORDER BY r.created_at ASC`).run();
+  }
+  await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1358_high_grade_reroll_once','1',CURRENT_TIMESTAMP)").run();
 }
 function dominantRole(row){
   const stats=[['ATTACK',Number(row.attack_percent||0)],['DEFENSE',Number(row.defense_percent||0)],['SPEED',Number(row.speed_percent||0)],['HEALER',Number(row.hp_percent||0)]];
