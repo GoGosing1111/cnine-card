@@ -1,39 +1,104 @@
-/* V1347 garage rebuilt on a clean PNG asset - no black cover panels */
+/* v1351 title screen polish fix */
+
+/* keep all tab hit zones fully transparent on equipment/title/garage */
+.image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249,
+.image-frame-ui-v1249.tab-title-v1348>.frame-tab-hit-v1249,
+.garage-screen-v1347 .frame-tab-hit-v1249{
+  position:absolute;
+  top:3.18%;
+  height:6%;
+  padding:0!important;
+  margin:0!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  outline:none!important;
+  appearance:none!important;
+  -webkit-appearance:none!important;
+  color:transparent!important;
+  font-size:0!important;
+  z-index:20;
+  cursor:pointer;
+}
+.image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249.equipment,
+.image-frame-ui-v1249.tab-title-v1348>.frame-tab-hit-v1249.equipment,
+.garage-screen-v1347 .frame-tab-hit-v1249.equipment{left:5.8%;width:27%}
+.image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249.title,
+.image-frame-ui-v1249.tab-title-v1348>.frame-tab-hit-v1249.title,
+.garage-screen-v1347 .frame-tab-hit-v1249.title{left:36.3%;width:26%}
+.image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249.garage,
+.image-frame-ui-v1249.tab-title-v1348>.frame-tab-hit-v1249.garage,
+.garage-screen-v1347 .frame-tab-hit-v1249.garage{left:67.25%;width:26%}
+
+.image-frame-ui-v1249.tab-title-v1348{position:relative;overflow:hidden}
+.image-frame-ui-v1249.tab-title-v1348 .frame-background-v1249{
+  background-image:url('../assets/ui/equipment/equipment-screen-frame-v1348-final.png?v=1348')!important;
+  background-position:center top!important;
+  background-repeat:no-repeat!important;
+  background-size:100% 100%!important;
+  filter:brightness(.38) saturate(.72);
+}
+.image-frame-ui-v1249.tab-title-v1348::after{
+  content:"";position:absolute;left:4.1%;right:4.1%;top:10.7%;bottom:2.5%;z-index:1;
+  border:1px solid rgba(70,180,255,.24);border-radius:24px;
+  background:linear-gradient(180deg,rgba(2,15,34,.985),rgba(1,8,20,.995));
+  box-shadow:inset 0 0 70px rgba(0,83,160,.08),0 0 24px rgba(0,0,0,.45)
+}
+
+.title-screen-v1350{position:absolute;left:5.7%;top:12.2%;width:88.6%;height:84.4%;z-index:3;color:#eef7ff;display:flex;flex-direction:column;gap:1.8%;box-sizing:border-box}
+.title-screen-head-v1350{flex:0 0 10%;display:flex;align-items:flex-end;justify-content:space-between;padding:0 1.2% 1.2%;border-bottom:1px solid rgba(76,181,255,.18)}
+.title-screen-head-v1350 small{display:block;color:#69d9ff;font-size:clamp(9px,1.05vw,12px);font-weight:900;letter-spacing:.16em}
+.title-screen-head-v1350 h2{margin:4px 0 0;font-size:clamp(22px,3vw,34px);line-height:1.05}
+.title-screen-head-v1350 p{margin:7px 0 0;color:#95aec3;font-size:clamp(10px,1.25vw,14px)}
+.title-screen-head-v1350>span{font-size:clamp(13px,1.8vw,19px);font-weight:1000;color:#d8ebff}
+
+/* remove weird boxed icon and keep the current title panel clean */
+.title-current-v1350{flex:0 0 16%;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:2.2%;padding:1.7% 2.2%;border:1px solid rgba(82,188,255,.28);border-radius:18px;background:linear-gradient(180deg,rgba(7,28,56,.94),rgba(2,13,31,.96));box-shadow:inset 0 0 28px rgba(0,102,190,.08)}
+.title-current-copy-v1350{min-width:0}
+.title-current-copy-v1350 small{display:block;color:#73d8ff;font-size:clamp(9px,1.05vw,12px);font-weight:900;letter-spacing:.08em}
+.title-current-copy-v1350 strong{display:block;margin-top:5px;font-size:clamp(18px,2.5vw,28px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#ffd86d}
+.title-current-copy-v1350 span{display:block;margin-top:6px;color:#9bb3c7;font-size:clamp(9px,1.15vw,13px)}
+.title-current-v1350>b{color:#44ecef;font-size:clamp(17px,2.5vw,28px);white-space:nowrap;text-shadow:0 0 16px rgba(68,236,239,.18)}
+.title-current-v1350>button{height:38px;padding:0 17px;border-radius:999px;border:1px solid rgba(255,197,78,.5);background:linear-gradient(180deg,rgba(92,57,8,.96),rgba(49,27,1,.96));color:#ffd775;font-weight:1000;cursor:pointer}
+
+.title-collection-v1350{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:1.5% 1.6% 1.8%;border:1px solid rgba(70,174,255,.2);border-radius:18px;background:linear-gradient(180deg,rgba(3,15,33,.9),rgba(1,9,21,.94));overflow:hidden}
+.title-collection-v1350>header{flex:0 0 9%;display:flex;align-items:flex-end;justify-content:space-between;padding:0 .5% 1%}
+.title-collection-v1350>header small{display:block;color:#6fdcff;font-size:clamp(8px,1vw,11px);font-weight:900;letter-spacing:.14em}
+.title-collection-v1350>header h3{margin:3px 0 0;font-size:clamp(17px,2.3vw,26px)}
+.title-collection-v1350>header>span{font-size:clamp(11px,1.45vw,15px);font-weight:900;color:#bdd2e4}
+.title-grid-v1350{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;overflow:auto;padding:4px 2px 2px}
+.title-empty-v1350{display:grid;place-items:center;min-height:150px;color:#9cb6ca}
+.title-card-v1350{display:grid;grid-template-rows:auto auto auto auto;gap:10px;align-content:center;min-height:150px;padding:16px;border:1px solid rgba(80,163,230,.24);border-radius:16px;background:linear-gradient(180deg,rgba(8,24,48,.94),rgba(2,11,25,.96));box-shadow:inset 0 0 22px rgba(0,90,170,.05);text-align:center}
+.title-card-v1350.equipped{border-color:#ffc441;box-shadow:0 0 16px rgba(255,181,34,.14),inset 0 0 18px rgba(255,170,0,.07)}
+.title-card-v1350.locked{filter:grayscale(.48);opacity:.72}
+.title-card-badge-v1350{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:12px;background:radial-gradient(circle,rgba(0,133,255,.17),transparent 70%)}
+.title-card-badge-v1350 span{font-size:clamp(15px,2vw,22px);font-weight:1000;color:#eef8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.title-card-v1350>small{color:#93aec4;font-size:clamp(9px,1.05vw,12px)}
+.title-card-v1350>b{color:#48e9ed;font-size:clamp(13px,1.55vw,17px)}
+.title-card-v1350>button{height:34px;border-radius:10px;border:1px solid rgba(70,197,255,.45);background:linear-gradient(180deg,#0b67a7,#07385f);color:#fff;font-weight:1000;cursor:pointer}
+.title-card-v1350.equipped>button{border-color:#ffc844;background:linear-gradient(180deg,#8c5200,#4a2a00);color:#ffde78}
+.title-card-v1350>button:disabled{cursor:default}
+
 .garage-open-v1347{background:#020814;min-height:0}
 .garage-open-v1347 .frame-background-v1249{display:none!important}
-
-/* top tab hit zones on equipment/title shell */
-.image-frame-ui-v1249>.frame-tab-hit-v1249.garage,
-.garage-screen-v1347 .frame-tab-hit-v1249.garage{position:absolute;left:67.25%;top:3.18%;width:26%;height:6.0%;padding:0;border:0;background:transparent;cursor:pointer;z-index:20}
-.garage-screen-v1347 .frame-tab-hit-v1249.equipment{position:absolute;left:5.8%;top:3.18%;width:27%;height:6.0%;padding:0;border:0;background:transparent;cursor:pointer;z-index:20}
-.garage-screen-v1347 .frame-tab-hit-v1249.title{position:absolute;left:36.3%;top:3.18%;width:26%;height:6.0%;padding:0;border:0;background:transparent;cursor:pointer;z-index:20}
-
 .garage-screen-v1347{position:relative;width:100%;max-width:941px;margin:0 auto;aspect-ratio:941/1672;background:#020814;overflow:hidden;color:#fff}
 .garage-frame-art-v1347{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none;user-select:none}
 .garage-live-layer-v1347{position:absolute;inset:0;z-index:2}
-
-/* Showcase: keep bay empty and only place live vehicle image when equipped */
 .garage-showcase-v1347{position:absolute;left:4.8%;top:11.7%;width:90.2%;height:39.0%;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .garage-showcase-v1347 img{max-width:78%;max-height:74%;object-fit:contain;filter:drop-shadow(0 18px 24px rgba(0,0,0,.55)) drop-shadow(0 0 22px rgba(0,160,255,.16))}
 .garage-empty-copy-v1347{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:0 8%;max-width:74%}
 .garage-empty-copy-v1347 b{font-size:clamp(32px,4.4vw,48px);line-height:1.08;font-weight:1000;color:#f2f8ff;text-shadow:0 2px 12px rgba(0,0,0,.6)}
 .garage-empty-copy-v1347 span{font-size:clamp(12px,1.55vw,17px);line-height:1.55;color:#9fc1df}
-
-/* Vehicle info between showcase and stat panels */
 .garage-info-v1347{position:absolute;left:12%;top:49.4%;width:76%;min-height:4.8%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;z-index:4}
 .garage-title-v1347{font-size:clamp(28px,4vw,42px);line-height:1.05;font-weight:1000;color:#eff8ff;text-shadow:0 2px 8px rgba(0,0,0,.55);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .garage-meta-v1347{margin-top:8px;font-size:clamp(11px,1.35vw,15px);line-height:1.45;color:#a7c3da;max-width:90%}
 .garage-unequip-v1347{margin-top:10px;height:34px;padding:0 16px;border-radius:999px;border:1px solid rgba(255,198,78,.55);background:linear-gradient(180deg,rgba(94,60,10,.95),rgba(58,32,0,.95));color:#ffd873;font-size:13px;font-weight:1000;cursor:pointer;box-shadow:0 0 12px rgba(255,180,0,.12)}
-
-/* stats align to the two blank stat frames in the PNG */
 .garage-stats-v1347{position:absolute;left:8.1%;top:56.9%;width:83.8%;height:9.1%;display:grid;grid-template-columns:1fr 1fr;gap:2.7%;z-index:4}
 .garage-stats-v1347 .stat{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .garage-stats-v1347 .stat small{font-size:clamp(14px,2.1vw,22px);font-weight:1000;letter-spacing:.06em;line-height:1}
 .garage-stats-v1347 .stat b{margin-top:8px;font-size:clamp(38px,5.7vw,64px);line-height:1;font-weight:1000;text-shadow:0 2px 10px rgba(0,0,0,.58)}
 .garage-stats-v1347 .stat.pve small,.garage-stats-v1347 .stat.pve b{color:#3eeef1}
 .garage-stats-v1347 .stat.pvp small,.garage-stats-v1347 .stat.pvp b{color:#ff6d87}
-
-/* Lower collection panel */
 .garage-collection-v1347{position:absolute;left:5.4%;top:67.7%;width:89.3%;height:24.2%;padding:2.2% 2.5% 2%;box-sizing:border-box;display:flex;flex-direction:column;overflow:hidden;z-index:4}
 .garage-collection-head-v1347{flex:0 0 13%;display:flex;align-items:flex-end;justify-content:space-between}
 .garage-collection-head-v1347 small{display:block;color:#69d6ff;font-size:clamp(8px,1vw,11px);font-weight:900;letter-spacing:.14em}
@@ -44,8 +109,7 @@
 .garage-filter-row-v1347 button{flex:0 0 auto;height:30px;padding:0 14px;border-radius:999px;border:1px solid rgba(95,175,255,.36);background:rgba(2,16,33,.76);color:#c4d7e8;font-size:clamp(10px,1.15vw,12px);font-weight:900;cursor:pointer}
 .garage-filter-row-v1347 button.active{border-color:#5ce1ff;background:rgba(0,118,198,.28);color:#fff;box-shadow:0 0 14px rgba(0,170,255,.12)}
 .garage-card-row-v1347{flex:1 1 auto;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(23%,23%);gap:2%;overflow-x:auto;overscroll-behavior-inline:contain;scroll-snap-type:x proximity;padding-top:1.1%;scrollbar-width:thin;scrollbar-color:#2c84c9 transparent}
-.garage-card-row-v1347::-webkit-scrollbar{height:8px}
-.garage-card-row-v1347::-webkit-scrollbar-thumb{background:#2c84c9;border-radius:999px}
+.garage-card-row-v1347::-webkit-scrollbar{height:8px}.garage-card-row-v1347::-webkit-scrollbar-thumb{background:#2c84c9;border-radius:999px}
 .garage-card-v1347{scroll-snap-align:start;display:grid;grid-template-rows:48% auto auto auto auto;gap:6px;padding:10px 10px 8px;border-radius:14px;border:1px solid rgba(84,175,255,.24);background:linear-gradient(180deg,rgba(7,21,42,.88),rgba(2,10,23,.9));box-shadow:inset 0 0 20px rgba(0,90,170,.05);min-width:0;text-align:center}
 .garage-card-v1347.equipped{border-color:#ffc341;box-shadow:0 0 16px rgba(255,176,35,.14),inset 0 0 18px rgba(255,166,0,.07)}
 .garage-card-v1347.locked{opacity:.8;filter:grayscale(.45)}
@@ -56,27 +120,39 @@
 .garage-card-meta-v1347{display:flex;justify-content:center;gap:8px;align-items:center;min-height:18px;color:#8ecfff;font-size:clamp(9px,1vw,11px);font-weight:900}
 .garage-card-meta-v1347 i{font-style:normal;color:#91aac1;font-weight:800}
 .garage-card-power-v1347{display:flex;justify-content:center;gap:10px;font-size:clamp(9px,1.05vw,11px);font-weight:1000}
-.garage-card-power-v1347 span:first-child{color:#42ecef}
-.garage-card-power-v1347 span:last-child{color:#ff6e84}
-.garage-card-power-v1347 em{font-style:normal}
+.garage-card-power-v1347 span:first-child{color:#42ecef}.garage-card-power-v1347 span:last-child{color:#ff6e84}.garage-card-power-v1347 em{font-style:normal}
 .garage-card-v1347>button{height:32px;border-radius:10px;border:1px solid rgba(72,200,255,.45);background:linear-gradient(180deg,#0b69ad,#06385e);color:#fff;font-size:clamp(11px,1.2vw,13px);font-weight:1000;cursor:pointer}
 .garage-card-v1347.equipped>button{border-color:#ffc845;background:linear-gradient(180deg,#885000,#4a2900);color:#ffdf7a}
 .garage-card-v1347>button:disabled{cursor:default}
 .garage-empty-list-v1347{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-width:100%;padding:0 10%;box-sizing:border-box;color:#92abc0}
-.garage-empty-list-v1347 b{font-size:clamp(17px,2.2vw,23px);line-height:1.2;color:#eff6ff}
-.garage-empty-list-v1347 span{margin-top:8px;font-size:clamp(10px,1.25vw,13px);line-height:1.45}
-
-/* old temporary garage button styles removed */
+.garage-empty-list-v1347 b{font-size:clamp(17px,2.2vw,23px);line-height:1.2;color:#eff6ff}.garage-empty-list-v1347 span{margin-top:8px;font-size:clamp(10px,1.25vw,13px);line-height:1.45}
 .frame-garage-entry-v1342,.garage-back-v1341,.garage-entry-v1340,.garage-entry-open-v1340{display:none!important}
 
 @media(max-width:640px){
-  .image-frame-ui-v1249>.frame-tab-hit-v1249.garage,.garage-screen-v1347 .frame-tab-hit-v1249.garage{left:67.2%;top:3.15%;width:26.1%;height:5.95%}
-  .garage-screen-v1347 .frame-tab-hit-v1249.equipment{left:5.8%;top:3.15%;width:27%;height:5.95%}
-  .garage-screen-v1347 .frame-tab-hit-v1249.title{left:36.4%;top:3.15%;width:26%;height:5.95%}
+  .image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249,
+  .image-frame-ui-v1249.tab-title-v1348>.frame-tab-hit-v1249,
+  .garage-screen-v1347 .frame-tab-hit-v1249{top:3.15%;height:5.95%}
+  .image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249.equipment,
+  .image-frame-ui-v1249.tab-title-v1348>.frame-tab-hit-v1249.equipment,
+  .garage-screen-v1347 .frame-tab-hit-v1249.equipment{left:5.8%;width:27%}
+  .image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249.title,
+  .image-frame-ui-v1249.tab-title-v1348>.frame-tab-hit-v1249.title,
+  .garage-screen-v1347 .frame-tab-hit-v1249.title{left:36.4%;width:26%}
+  .image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249.garage,
+  .image-frame-ui-v1249.tab-title-v1348>.frame-tab-hit-v1249.garage,
+  .garage-screen-v1347 .frame-tab-hit-v1249.garage{left:67.2%;width:26.1%}
+  .title-screen-v1350{left:5%;top:11.8%;width:90%;height:85%}
+  .title-screen-head-v1350{flex-basis:11%}
+  .title-screen-head-v1350 p{display:none}
+  .title-current-v1350{grid-template-columns:1fr auto;grid-template-areas:"copy copy" "power action";gap:8px;padding:3%}
+  .title-current-copy-v1350{grid-area:copy}
+  .title-current-v1350>b{grid-area:power}
+  .title-current-v1350>button{grid-area:action;justify-self:end;height:32px}
+  .title-grid-v1350{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .title-card-v1350{min-height:130px;padding:12px;gap:8px}
   .garage-showcase-v1347{left:4.1%;width:91.8%;height:38.4%}
   .garage-showcase-v1347 img{max-width:84%;max-height:70%}
-  .garage-empty-copy-v1347 b{font-size:28px}
-  .garage-empty-copy-v1347 span{font-size:11px}
+  .garage-empty-copy-v1347 b{font-size:28px}.garage-empty-copy-v1347 span{font-size:11px}
   .garage-info-v1347{left:8.5%;width:83%;top:49.1%}
   .garage-title-v1347{font-size:24px}
   .garage-meta-v1347{font-size:10px;line-height:1.45}
@@ -87,73 +163,4 @@
   .garage-collection-v1347{left:5.1%;width:89.8%;top:67.6%;height:24.6%}
   .garage-card-row-v1347{grid-auto-columns:minmax(42%,42%);gap:3%}
   .garage-filter-row-v1347 button{height:28px;padding:0 11px;font-size:10px}
-}
-
-/* V1348 final user-approved equipment and garage PNG assets */
-.image-frame-ui-v1249.tab-equipment-v1348 .frame-background-v1249{
-  background-image:url('../assets/ui/equipment/equipment-screen-frame-v1348-final.png?v=1348')!important;
-  background-position:center top!important;
-  background-repeat:no-repeat!important;
-  background-size:100% 100%!important;
-}
-.garage-screen-v1347 .garage-frame-art-v1347{
-  content:url('../assets/ui/garage/garage-frame-v1348-final.png?v=1348');
-}
-/* Completed PNG contains the visible tab art. HTML buttons remain transparent hit zones only. */
-.image-frame-ui-v1249.tab-equipment-v1348>.frame-tab-hit-v1249,
-.garage-screen-v1347 .frame-tab-hit-v1249{
-  color:transparent!important;
-  font-size:0!important;
-  box-shadow:none!important;
-  outline:none!important;
-}
-
-/* V1350 dedicated title collection screen */
-.image-frame-ui-v1249.tab-title-v1348{position:relative;overflow:hidden}
-.image-frame-ui-v1249.tab-title-v1348 .frame-background-v1249{
-  background-image:url('../assets/ui/equipment/equipment-screen-frame-v1348-final.png?v=1348')!important;
-  background-position:center top!important;background-repeat:no-repeat!important;background-size:100% 100%!important;
-  filter:brightness(.38) saturate(.72);
-}
-.image-frame-ui-v1249.tab-title-v1348::after{content:"";position:absolute;left:4.1%;right:4.1%;top:10.7%;bottom:2.5%;z-index:1;border:1px solid rgba(70,180,255,.24);border-radius:24px;background:linear-gradient(180deg,rgba(2,15,34,.985),rgba(1,8,20,.995));box-shadow:inset 0 0 70px rgba(0,83,160,.08),0 0 24px rgba(0,0,0,.45)}
-.title-screen-v1350{position:absolute;left:5.7%;top:12.2%;width:88.6%;height:84.4%;z-index:3;color:#eef7ff;display:flex;flex-direction:column;gap:1.8%;box-sizing:border-box}
-.title-screen-head-v1350{flex:0 0 10%;display:flex;align-items:flex-end;justify-content:space-between;padding:0 1.2% 1.2%;border-bottom:1px solid rgba(76,181,255,.18)}
-.title-screen-head-v1350 small{display:block;color:#69d9ff;font-size:clamp(9px,1.05vw,12px);font-weight:900;letter-spacing:.16em}
-.title-screen-head-v1350 h2{margin:4px 0 0;font-size:clamp(22px,3vw,34px);line-height:1.05}
-.title-screen-head-v1350 p{margin:7px 0 0;color:#95aec3;font-size:clamp(10px,1.25vw,14px)}
-.title-screen-head-v1350>span{font-size:clamp(13px,1.8vw,19px);font-weight:1000;color:#d8ebff}
-.title-current-v1350{flex:0 0 16%;display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:2.2%;padding:1.7% 2.2%;border:1px solid rgba(82,188,255,.28);border-radius:18px;background:linear-gradient(180deg,rgba(7,28,56,.94),rgba(2,13,31,.96));box-shadow:inset 0 0 28px rgba(0,102,190,.08)}
-.title-current-icon-v1350{width:clamp(48px,7vw,72px);aspect-ratio:1;display:grid;place-items:center;border-radius:18px;border:1px solid rgba(94,198,255,.28);background:radial-gradient(circle,rgba(0,150,255,.22),rgba(2,18,40,.86));font-size:clamp(24px,3.6vw,42px);color:#72dcff}
-.title-current-copy-v1350{min-width:0}
-.title-current-copy-v1350 small{display:block;color:#73d8ff;font-size:clamp(9px,1.05vw,12px);font-weight:900;letter-spacing:.08em}
-.title-current-copy-v1350 strong{display:block;margin-top:5px;font-size:clamp(18px,2.5vw,28px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.title-current-copy-v1350 span{display:block;margin-top:6px;color:#9bb3c7;font-size:clamp(9px,1.15vw,13px)}
-.title-current-v1350>b{color:#44ecef;font-size:clamp(17px,2.5vw,28px);white-space:nowrap}
-.title-current-v1350>button{height:38px;padding:0 17px;border-radius:999px;border:1px solid rgba(255,197,78,.5);background:linear-gradient(180deg,rgba(92,57,8,.96),rgba(49,27,1,.96));color:#ffd775;font-weight:1000;cursor:pointer}
-.title-collection-v1350{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:1.5% 1.6% 1.8%;border:1px solid rgba(70,174,255,.2);border-radius:18px;background:linear-gradient(180deg,rgba(3,15,33,.9),rgba(1,9,21,.94));overflow:hidden}
-.title-collection-v1350>header{flex:0 0 9%;display:flex;align-items:flex-end;justify-content:space-between;padding:0 .5% 1%}
-.title-collection-v1350>header small{display:block;color:#6fdcff;font-size:clamp(8px,1vw,11px);font-weight:900;letter-spacing:.14em}
-.title-collection-v1350>header h3{margin:3px 0 0;font-size:clamp(17px,2.3vw,26px)}
-.title-collection-v1350>header>span{font-size:clamp(11px,1.45vw,15px);font-weight:900;color:#bdd2e4}
-.title-grid-v1350{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;overflow-y:auto;padding:4px 5px 10px;scrollbar-width:thin;scrollbar-color:#2f85c7 transparent}
-.title-grid-v1350::-webkit-scrollbar{width:8px}.title-grid-v1350::-webkit-scrollbar-thumb{background:#2f85c7;border-radius:999px}
-.title-card-v1350{display:grid;grid-template-rows:auto auto auto auto;gap:10px;align-content:center;min-height:150px;padding:16px;border:1px solid rgba(80,163,230,.24);border-radius:16px;background:linear-gradient(180deg,rgba(8,24,48,.94),rgba(2,11,25,.96));box-shadow:inset 0 0 22px rgba(0,90,170,.05);text-align:center}
-.title-card-v1350.equipped{border-color:#ffc441;box-shadow:0 0 16px rgba(255,181,34,.14),inset 0 0 18px rgba(255,170,0,.07)}
-.title-card-v1350.locked{filter:grayscale(.48);opacity:.72}
-.title-card-badge-v1350{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:12px;background:radial-gradient(circle,rgba(0,133,255,.17),transparent 70%)}
-.title-card-badge-v1350 span{font-size:clamp(15px,2vw,22px);font-weight:1000;color:#eef8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-.title-card-v1350>small{color:#93aec4;font-size:clamp(9px,1.05vw,12px)}
-.title-card-v1350>b{color:#48e9ed;font-size:clamp(13px,1.55vw,17px)}
-.title-card-v1350>button{height:34px;border-radius:10px;border:1px solid rgba(70,197,255,.45);background:linear-gradient(180deg,#0b67a7,#07385f);color:#fff;font-weight:1000;cursor:pointer}
-.title-card-v1350.equipped>button{border-color:#ffc844;background:linear-gradient(180deg,#8c5200,#4a2a00);color:#ffde78}.title-card-v1350>button:disabled{cursor:default}
-.title-empty-v1350{grid-column:1/-1;display:grid;place-items:center;color:#98b0c4;font-weight:900}
-/* The title screen has its own full-body panel, so the embedded GOAT plate and character are fully hidden. */
-.image-frame-ui-v1249.tab-title-v1348 .frame-title-v1249,.image-frame-ui-v1249.tab-title-v1348 .frame-nickname-v1249{display:none!important}
-@media(max-width:640px){
-  .title-screen-v1350{left:5%;top:11.8%;width:90%;height:85%}
-  .title-screen-head-v1350{flex-basis:11%}.title-screen-head-v1350 p{display:none}
-  .title-current-v1350{grid-template-columns:auto 1fr;grid-template-areas:"icon copy" "power action";gap:8px;padding:3%}
-  .title-current-icon-v1350{grid-area:icon}.title-current-copy-v1350{grid-area:copy}.title-current-v1350>b{grid-area:power}.title-current-v1350>button{grid-area:action;justify-self:end;height:32px}
-  .title-grid-v1350{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-  .title-card-v1350{min-height:130px;padding:12px;gap:8px}
 }

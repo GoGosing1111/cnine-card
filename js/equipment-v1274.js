@@ -153,7 +153,6 @@
         <span>${ownedCount} / ${rows.length}</span>
       </div>
       <section class="title-current-v1350 ${titleClass(equippedTitle?.stylePreset)}">
-        <div class="title-current-icon-v1350">✦</div>
         <div class="title-current-copy-v1350">
           <small>현재 장착 효과</small>
           <strong>${equippedTitle?'칭호 장착 중':'장착된 칭호 없음'}</strong>
