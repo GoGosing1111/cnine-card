@@ -16,9 +16,9 @@ export async function ensureHighGradeRerollFoundation(env){
     env.DB.prepare("SELECT 1 ok FROM sqlite_master WHERE type='table' AND name='high_grade_reroll_usage'").first(),
     env.DB.prepare("SELECT 1 ok FROM sqlite_master WHERE type='table' AND name='high_grade_reroll_receipts'").first()
   ]);
-  if(marker?.value==='1'&&usageTable?.ok)return;
   await ensureColumn(env,'cards','reroll_material_enabled','INTEGER NOT NULL DEFAULT 1');
   await ensureColumn(env,'cards','reroll_result_enabled','INTEGER NOT NULL DEFAULT 1');
+  if(marker?.value==='1'&&usageTable?.ok)return;
   await env.DB.batch([
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS high_grade_reroll_usage (
       user_id INTEGER NOT NULL,
@@ -49,7 +49,7 @@ function dominantRole(row){
   const max=Math.max(...stats.map(x=>x[1]));return max>0?(stats.find(x=>x[1]===max)?.[0]||'NONE'):'NONE';
 }
 function roleLabel(role){return {ATTACK:'공격형',DEFENSE:'방어형',SPEED:'속도형',HEALER:'힐러형',NONE:'기본형'}[role]||role;}
-async function cardRows(env,where='',bind=[]){return (await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,c.card_status AS cardStatus,c.is_active,c.reroll_material_enabled,c.reroll_result_enabled,m.name,COALESCE(e.attack_percent,0) attack_percent,COALESCE(e.defense_percent,0) defense_percent,COALESCE(e.hp_percent,0) hp_percent,COALESCE(e.speed_percent,0) speed_percent FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id LEFT JOIN card_unique_effects e ON e.card_id=c.id AND e.is_active=1 ${where}`).bind(...bind).all()).results||[];}
+async function cardRows(env,where='',bind=[]){return (await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,c.card_status AS cardStatus,c.is_active,COALESCE(rc.reroll_material_enabled,1) AS reroll_material_enabled,COALESCE(rc.reroll_result_enabled,1) AS reroll_result_enabled,m.name,COALESCE(e.attack_percent,0) attack_percent,COALESCE(e.defense_percent,0) defense_percent,COALESCE(e.hp_percent,0) hp_percent,COALESCE(e.speed_percent,0) speed_percent FROM cards_effective_v1210 c JOIN cards rc ON rc.id=c.id JOIN members m ON m.id=c.member_id LEFT JOIN card_unique_effects e ON e.card_id=c.id AND e.is_active=1 ${where}`).bind(...bind).all()).results||[];}
 async function usageMap(env,userId){
   const rows=(await env.DB.prepare("SELECT grade,request_id,source_card_id,result_card_id,breakthrough_level,used_at FROM high_grade_reroll_usage WHERE user_id=?").bind(userId).all()).results||[];
   const result={PRESTIGE:{used:false,remaining:1},FUR:{used:false,remaining:1}};
@@ -67,14 +67,14 @@ async function assertUnused(env,userId,grade){
   if(row){const error=new Error(`${grade} 재뽑기는 계정당 1회만 가능하며 이미 사용 완료되었습니다.`);error.code='GRADE_REROLL_ALREADY_USED';error.usage=row;throw error;}
 }
 async function candidates(env,user,sourceCardId){
-  const sourceOwned=await env.DB.prepare(`SELECT uc.card_id,uc.quantity,uc.breakthrough_level,c.rarity AS grade,c.title,c.reroll_material_enabled,COALESCE(e.attack_percent,0) attack_percent,COALESCE(e.defense_percent,0) defense_percent,COALESCE(e.hp_percent,0) hp_percent,COALESCE(e.speed_percent,0) speed_percent FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id LEFT JOIN card_unique_effects e ON e.card_id=c.id AND e.is_active=1 WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,String(sourceCardId)).first();
+  const sourceOwned=await env.DB.prepare(`SELECT uc.card_id,uc.quantity,uc.breakthrough_level,c.rarity AS grade,c.title,COALESCE(rc.reroll_material_enabled,1) AS reroll_material_enabled,COALESCE(e.attack_percent,0) attack_percent,COALESCE(e.defense_percent,0) defense_percent,COALESCE(e.hp_percent,0) hp_percent,COALESCE(e.speed_percent,0) speed_percent FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN cards rc ON rc.id=c.id LEFT JOIN card_unique_effects e ON e.card_id=c.id AND e.is_active=1 WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,String(sourceCardId)).first();
   if(!sourceOwned)throw new Error('보유하지 않은 카드입니다.');
   const grade=String(sourceOwned.grade||'').toUpperCase();if(!ALLOWED_GRADES.has(grade))throw new Error('PRESTIGE 또는 FUR 카드만 재뽑기할 수 있습니다.');
   await assertUnused(env,user.id,grade);
   if(Number(sourceOwned.reroll_material_enabled??1)!==1)throw new Error('이 카드는 재뽑기 재료로 사용할 수 없습니다.');
   const cfg=await settings(env);if(!cfg.enabled||!(grade==='PRESTIGE'?cfg.prestigeEnabled:cfg.furEnabled))throw new Error(`${grade} 재뽑기가 현재 중지되어 있습니다.`);
   const sourceRole=dominantRole(sourceOwned);
-  const pool=await cardRows(env,`WHERE UPPER(c.rarity)=? AND c.id<>? AND COALESCE(c.is_active,1)=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(c.reroll_result_enabled,1)=1 AND NOT EXISTS (SELECT 1 FROM user_cards uc2 WHERE uc2.user_id=? AND uc2.card_id=c.id AND COALESCE(uc2.quantity,0)>0)`,[grade,String(sourceCardId),user.id]);
+  const pool=await cardRows(env,`WHERE UPPER(c.rarity)=? AND c.id<>? AND COALESCE(c.is_active,1)=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(rc.reroll_result_enabled,1)=1 AND NOT EXISTS (SELECT 1 FROM user_cards uc2 WHERE uc2.user_id=? AND uc2.card_id=c.id AND COALESCE(uc2.quantity,0)>0)`,[grade,String(sourceCardId),user.id]);
   const filtered=pool.map(x=>({...x,role:dominantRole(x),roleLabel:roleLabel(dominantRole(x))})).filter(x=>x.role!==sourceRole);
   return {source:{...sourceOwned,id:String(sourceOwned.card_id),role:sourceRole,roleLabel:roleLabel(sourceRole),breakthroughLevel:Number(sourceOwned.breakthrough_level||0)},grade,candidates:filtered,remaining:1};
 }

@@ -5,3 +5,10 @@
 .dex-toolbar-actions-v1356 .high-grade-reroll-btn-v1354{display:flex;align-items:center;justify-content:center;gap:7px;min-width:190px;white-space:nowrap}
 .dex-toolbar-actions-v1356 .high-grade-reroll-btn-v1354[hidden]{display:none!important}
 @media(max-width:760px){.dex-toolbar-actions-v1356{width:100%;display:grid;grid-template-columns:1fr 1fr}.dex-toolbar-actions-v1356 .high-grade-reroll-btn-v1354{min-width:0}.dex-toolbar-actions-v1356 .high-grade-reroll-btn-v1354 small{display:none}}
+
+/* v1359: move reroll action into dex header */
+.dex-cover-actions-v1359{display:flex;flex-direction:column;align-items:flex-end;gap:14px;flex:0 0 auto}
+.dex-cover-actions-v1359 .high-grade-reroll-btn-v1354{margin:0;min-width:220px;justify-content:center}
+.dex-cover-actions-v1359 .high-grade-reroll-btn-v1354[hidden]{display:none!important}
+.dex-toolbar-actions-v1356{margin-left:auto}
+@media(max-width:767px){.dex-cover-actions-v1359{width:100%;align-items:stretch;margin-top:14px}.dex-cover-actions-v1359 .dex-total{text-align:left}.dex-cover-actions-v1359 .high-grade-reroll-btn-v1354{width:100%;min-width:0}.dex-toolbar-actions-v1356{width:100%;display:block}.dex-toolbar-actions-v1356 .dex-favorite-filter{width:100%}}
