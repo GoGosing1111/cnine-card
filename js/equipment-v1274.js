@@ -146,17 +146,36 @@
   }
   function titleLayer(){
     const rows=state.data?.titles||[],equippedTitle=currentTitle();
-    return `<div class="frame-title-layer-v1249">
-      <div class="frame-nickname-v1249" data-dynamic-nickname>${esc(nicknameText())}</div>
-      <div class="frame-title-current-v1249 ${titleClass(equippedTitle?.stylePreset)}">
-        <small>현재 칭호</small><strong>[${esc(titleText(equippedTitle))}]</strong><b>PVE +${num(equippedTitle?.pvePower||state.data?.bonuses?.titlePve)}</b>
+    const ownedCount=rows.filter(row=>row.owned).length;
+    return `<div class="title-screen-v1350">
+      <div class="title-screen-head-v1350">
+        <div><small>TITLE COLLECTION</small><h2>칭호 컬렉션</h2><p>획득한 칭호를 확인하고 하나를 장착할 수 있습니다.</p></div>
+        <span>${ownedCount} / ${rows.length}</span>
       </div>
-      <div class="frame-title-list-v1249">
-        ${rows.length?rows.map(row=>{
-          const action=row.owned?(row.equipped?'<button type="button" data-character-title-unequip>해제</button>':`<button type="button" data-character-title-equip="${row.id}">장착</button>`):'<button type="button" disabled>미획득</button>';
-          return `<article class="frame-title-card-v1249 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${titleClass(row.stylePreset)}"><strong>[${esc(row.badgeText||row.name)}]</strong><small>${esc(row.owned?(unlockLabels[row.unlockType]||row.unlockType):titleRequirement(row))}</small><b>PVE +${num(row.pvePower)}</b>${action}</article>`;
-        }).join(''):'<div class="frame-empty-v1249">등록된 칭호 없음</div>'}
-      </div>
+      <section class="title-current-v1350 ${titleClass(equippedTitle?.stylePreset)}">
+        <div class="title-current-icon-v1350">✦</div>
+        <div class="title-current-copy-v1350">
+          <small>현재 장착 효과</small>
+          <strong>${equippedTitle?'칭호 장착 중':'장착된 칭호 없음'}</strong>
+          <span>${equippedTitle?'장착된 칭호의 PVE 보너스가 적용됩니다.':'보유 칭호에서 하나를 선택해 장착하세요.'}</span>
+        </div>
+        <b>PVE +${num(equippedTitle?.pvePower||state.data?.bonuses?.titlePve||0)}</b>
+        ${equippedTitle?'<button type="button" data-character-title-unequip>해제</button>':''}
+      </section>
+      <section class="title-collection-v1350">
+        <header><div><small>OWNED TITLES</small><h3>전체 칭호</h3></div><span>${ownedCount}개 보유</span></header>
+        <div class="title-grid-v1350">
+          ${rows.length?rows.map(row=>{
+            const action=row.owned?(row.equipped?'<button type="button" disabled>장착 중</button>':`<button type="button" data-character-title-equip="${row.id}">장착</button>`):'<button type="button" disabled>미획득</button>';
+            return `<article class="title-card-v1350 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${titleClass(row.stylePreset)}">
+              <div class="title-card-badge-v1350"><span>[${esc(row.badgeText||row.name)}]</span></div>
+              <small>${esc(row.owned?(unlockLabels[row.unlockType]||row.unlockType):titleRequirement(row))}</small>
+              <b>PVE +${num(row.pvePower)}</b>
+              ${action}
+            </article>`;
+          }).join(''):'<div class="title-empty-v1350">등록된 칭호가 없습니다.</div>'}
+        </div>
+      </section>
     </div>`;
   }
   function garageLayer(){
@@ -166,7 +185,7 @@
     const visible=rows.filter(row=>state.garageFilter==='ALL'||String(row.rarity||'').toUpperCase()===state.garageFilter);
     const ownedCount=rows.filter(row=>row.owned).length;
     return `<div class="garage-screen-v1347 ${vehicle?'has-vehicle':'no-vehicle'} ${vehicle?rarityClass(rarity):''}">
-      <img class="garage-frame-art-v1347" src="assets/ui/garage/garage-frame-v1348-final.png?v=1348" alt="" aria-hidden="true">
+      <img class="garage-frame-art-v1347" src="assets/ui/garage/garage-frame-v1350-no-title.png?v=1350" alt="" aria-hidden="true">
       <div class="garage-live-layer-v1347">
         <button type="button" class="frame-tab-hit-v1249 equipment" data-character-tab="equipment" aria-label="장비"></button>
         <button type="button" class="frame-tab-hit-v1249 title" data-character-tab="title" aria-label="칭호"></button>
