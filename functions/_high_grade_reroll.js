@@ -1,12 +1,10 @@
-const DEFAULT_SETTINGS={enabled:false,prestigeEnabled:false,furEnabled:false,buttonMode:'OWNED_TICKET_ONLY'};
-const TICKETS={PRESTIGE:'PRESTIGE_REROLL_TICKET',FUR:'FUR_REROLL_TICKET'};
-const ALLOWED_GRADES=new Set(Object.keys(TICKETS));
+const DEFAULT_SETTINGS={enabled:false,prestigeEnabled:false,furEnabled:false};
+const ALLOWED_GRADES=new Set(['PRESTIGE','FUR']);
 const safeJson=(v,fallback={})=>{try{return JSON.parse(v)}catch{return fallback}};
 const cleanSettings=v=>({
   enabled:v?.enabled===true,
   prestigeEnabled:v?.prestigeEnabled===true,
-  furEnabled:v?.furEnabled===true,
-  buttonMode:String(v?.buttonMode||'OWNED_TICKET_ONLY').toUpperCase()==='ALWAYS'?'ALWAYS':'OWNED_TICKET_ONLY'
+  furEnabled:v?.furEnabled===true
 });
 async function settings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='high_grade_reroll_settings_v1'").first();return cleanSettings({...DEFAULT_SETTINGS,...safeJson(row?.value||'{}',{})});}
 async function ensureColumn(env,table,column,definition){const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();if(!(rows.results||[]).some(r=>String(r.name)===column))await env.DB.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();}
@@ -57,10 +55,8 @@ async function usageMap(env,userId){
   return result;
 }
 async function publicState(env,user){
-  const cfg=await settings(env),tickets={},usage=await usageMap(env,user.id);
-  for(const [grade,code] of Object.entries(TICKETS)){const r=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,code).first();tickets[grade]=Number(r?.quantity||0)}
-  const anyAvailable=Object.keys(TICKETS).some(grade=>!usage[grade].used&&tickets[grade]>0);
-  return {settings:cfg,tickets,usage,limits:{PRESTIGE:1,FUR:1},visible:cfg.enabled};
+  const cfg=await settings(env),usage=await usageMap(env,user.id);
+  return {settings:cfg,usage,limits:{PRESTIGE:1,FUR:1},visible:cfg.enabled};
 }
 async function assertUnused(env,userId,grade){
   const row=await env.DB.prepare('SELECT request_id,response_json,used_at FROM high_grade_reroll_usage WHERE user_id=? AND grade=?').bind(userId,grade).first();
@@ -96,11 +92,9 @@ export async function handleHighGradeReroll({path,request,env,deps}){
     try{
       const data=await candidates(env,user,sourceCardId);if(!data.candidates.length)return json({error:'같은 역할과 보유 카드를 제외하면 재뽑기 가능한 후보가 없습니다.'},409);
       if(await cardInDeck(env,user.id,sourceCardId))return json({error:'PVE·PVP·원정 덱에서 해당 카드를 먼저 해제하세요.'},409);
-      const ticketCode=TICKETS[data.grade],ticket=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,ticketCode).first();if(Number(ticket?.quantity||0)<1)return json({error:`${data.grade} 재뽑기권이 없습니다.`},409);
       const result=data.candidates[Math.floor(Math.random()*data.candidates.length)],level=Number(data.source.breakthroughLevel||0),response={ok:true,grade:data.grade,excludedRole:data.source.role,excludedRoleLabel:data.source.roleLabel,sourceCardId,resultCardId:String(result.id),breakthroughLevel:level,remaining:0,card:result};
       await env.DB.batch([
         env.DB.prepare(`INSERT INTO high_grade_reroll_usage(user_id,grade,request_id,source_card_id,result_card_id,excluded_role,breakthrough_level,response_json,used_at) VALUES(?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)`).bind(user.id,data.grade,requestId,sourceCardId,String(result.id),data.source.role,level,JSON.stringify(response)),
-        env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>0').bind(user.id,ticketCode),
         env.DB.prepare('DELETE FROM user_cards WHERE user_id=? AND card_id=? AND quantity>0').bind(user.id,sourceCardId),
         env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level,first_obtained_at,last_obtained_at) VALUES(?,?,1,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=1,breakthrough_level=excluded.breakthrough_level,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,String(result.id),level)
       ]);
