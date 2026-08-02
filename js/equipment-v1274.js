@@ -105,11 +105,13 @@
     </section>`;
   }
   function equipmentLayer(){
-    const title=currentTitle();
-    return `<div class="frame-equipment-layer-v1249 no-summary-stats-v1347">
+    const b=state.data?.bonuses||{},title=currentTitle();
+    return `<div class="frame-equipment-layer-v1249">
       <div class="frame-nickname-v1249" data-dynamic-nickname>${esc(nicknameText())}</div>
       <div class="frame-title-v1249 ${titleClass(title?.stylePreset)}" data-dynamic-title>[${esc(titleText(title))}]</div>
       ${slotOrder.map(slotOverlay).join('')}
+      <div class="frame-stat-box-v1249 pve" data-dynamic-pve><small>PVE</small><b>+${num(b.pve)}</b></div>
+      <div class="frame-stat-box-v1249 pvp" data-dynamic-pvp><small>PVP</small><b>+${num(b.pvp)}</b></div>
       ${inventoryLayer()}
     </div>`;
   }
