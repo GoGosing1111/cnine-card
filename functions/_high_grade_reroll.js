@@ -80,7 +80,7 @@ async function cardInDeck(env,userId,cardId){
   ]).catch(()=>[]);return checks.some(Boolean);
 }
 export async function handleHighGradeReroll({path,request,env,deps}){
-  if(!path.startsWith('high-grade-reroll'))return null;
+  if(!(path.startsWith('high-grade-reroll')||path.startsWith('admin/high-grade-reroll')))return null;
   const {authenticate,readBody,json,requirePermission,writeAdminLog}=deps;await ensureHighGradeRerollFoundation(env);
   if(path==='high-grade-reroll/state'&&request.method==='GET'){const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);return json(await publicState(env,user));}
   if(path==='high-grade-reroll/candidates'&&request.method==='GET'){const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const url=new URL(request.url),sourceCardId=url.searchParams.get('sourceCardId');try{return json(await candidates(env,user,sourceCardId))}catch(e){return json({error:e.message,code:e.code||null},e.code==='GRADE_REROLL_ALREADY_USED'?409:400)}}
