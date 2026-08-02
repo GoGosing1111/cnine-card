@@ -1,0 +1,26 @@
+/* V1344 — real PNG-based 3-tab equipment frame. Visible tab art is inside PNG; HTML only supplies transparent hit zones. */
+.image-frame-ui-v1249.tab-equipment-v1344 .frame-background-v1249{
+  background-image:url("../assets/ui/equipment/equipment-screen-frame-v1344-equipment.png")!important;
+  background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
+}
+.image-frame-ui-v1249.tab-title-v1344 .frame-background-v1249{
+  background-image:url("../assets/ui/equipment/equipment-screen-frame-v1344-title.png")!important;
+  background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
+}
+/* Garage uses its dedicated garage frame art; this fallback keeps the 3-tab equipment asset available during transitions. */
+.image-frame-ui-v1249.tab-garage-v1344:not(.garage-open-v1341) .frame-background-v1249{
+  background-image:url("../assets/ui/equipment/equipment-screen-frame-v1344-garage.png")!important;
+  background-position:center!important;background-size:100% 100%!important;background-repeat:no-repeat!important;
+}
+.frame-tab-hit-v1344{position:absolute;top:5.80%;height:4.90%;z-index:30;border:0;padding:0;background:transparent!important;box-shadow:none!important;outline:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.frame-tab-hit-v1344.equipment{left:5.05%;width:30.35%}
+.frame-tab-hit-v1344.title{left:35.85%;width:28.45%}
+.frame-tab-hit-v1344.garage{left:64.85%;width:28.55%}
+.no-garage-summary-v1344{padding-top:4.2%!important}
+/* Suppress legacy visible active-tab overlays; active appearance is already baked into state PNGs. */
+.image-frame-ui-v1249[class*="tab-"] .frame-tab-hit-v1249,
+.image-frame-ui-v1249[class*="tab-"] .frame-tab-hit-v1249.active,
+.image-frame-ui-v1249[class*="tab-"] .frame-tab-hit-v1249:not(.active){background:transparent!important;box-shadow:none!important;border:0!important}
+@media(max-width:560px){
+  .frame-tab-hit-v1344{top:5.75%;height:5.05%}
+}
