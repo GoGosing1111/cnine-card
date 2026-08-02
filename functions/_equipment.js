@@ -4,6 +4,7 @@ const EQUIPMENT_SLOT_LABELS={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:
 const EQUIPMENT_SUBTYPES=['MODERN_SWORD','AXE','PISTOL','RIFLE','TOP','BOTTOM','SHOES','DUAL_DISK'];
 const EQUIPMENT_RARITIES=['NORMAL','MAGIC','RARE','EPIC','LEGENDARY','MYTHIC'];
 const EQUIPMENT_RARITY_ALIASES={COMMON:'NORMAL',UNCOMMON:'MAGIC',ADVANCED:'MAGIC',MAGIC:'MAGIC',NORMAL:'NORMAL',RARE:'RARE',EPIC:'EPIC',LEGEND:'LEGENDARY',LEGENDARY:'LEGENDARY',MYTH:'MYTHIC',MYTHIC:'MYTHIC'};
+const GARAGE_RARITIES=[...EQUIPMENT_RARITIES];
 const SOURCE_TYPES=['PVE','PVE_AUTO','TOWER','RAID','RIFT','PVP','CAPTAIN'];
 const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET','CONTENT_CLEAR'];
 const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID'];
@@ -37,6 +38,7 @@ function normalizeSlot(value){const x=String(value||'').trim().toUpperCase();ret
 function normalizeSubtype(value){const x=String(value||'').trim().toUpperCase();return EQUIPMENT_SUBTYPES.includes(x)?x:''}
 function normalizeSource(value){const x=String(value||'').trim().toUpperCase();return SOURCE_TYPES.includes(x)?x:''}
 function normalizeEquipmentRarity(value){const x=String(value||'').trim().toUpperCase();const normalized=EQUIPMENT_RARITY_ALIASES[x]||x;return EQUIPMENT_RARITIES.includes(normalized)?normalized:'NORMAL'}
+function normalizeGarageRarity(value){const x=String(value||'').trim().toUpperCase();const normalized=EQUIPMENT_RARITY_ALIASES[x]||x;return GARAGE_RARITIES.includes(normalized)?normalized:'NORMAL'}
 function normalizeTitleStylePreset(value){const x=String(value||'').trim().toUpperCase();return TITLE_STYLE_PRESETS.includes(x)?x:'DEFAULT'}
 function parseJson(value,fallback={}){try{const x=typeof value==='string'?JSON.parse(value):value;return x&&typeof x==='object'?x:fallback}catch{return fallback}}
 function itemPower(total){const safe=cleanInt(total,0,100000000),pve=Math.floor(safe*.9);return {total:safe,pve,pvp:safe-pve}}
@@ -232,6 +234,44 @@ export async function ensureEquipmentFoundation(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1274_supply_drop_quantity','1',CURRENT_TIMESTAMP)")
       ]);
     }
+
+    const markerV1338=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1338_garage_system'").first();
+    if(markerV1338?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS character_garage_items (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          code TEXT NOT NULL UNIQUE,
+          name TEXT NOT NULL,
+          rarity TEXT NOT NULL DEFAULT 'NORMAL',
+          image_url TEXT NOT NULL DEFAULT '',
+          description TEXT NOT NULL DEFAULT '',
+          total_power INTEGER NOT NULL DEFAULT 0,
+          pve_power INTEGER NOT NULL DEFAULT 0,
+          pvp_power INTEGER NOT NULL DEFAULT 0,
+          is_active INTEGER NOT NULL DEFAULT 1,
+          is_public INTEGER NOT NULL DEFAULT 1,
+          sort_order INTEGER NOT NULL DEFAULT 0,
+          created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_garage_vehicles (
+          user_id INTEGER NOT NULL,
+          garage_id INTEGER NOT NULL,
+          source_type TEXT NOT NULL DEFAULT 'ADMIN',
+          source_id TEXT NOT NULL DEFAULT '',
+          acquired_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          PRIMARY KEY(user_id,garage_id)
+        )`),
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_garage_loadout (
+          user_id INTEGER PRIMARY KEY,
+          garage_id INTEGER NOT NULL,
+          updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_garage_items_public ON character_garage_items(is_active,is_public,sort_order,id)'),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_garage_user ON user_garage_vehicles(user_id,acquired_at DESC,garage_id)'),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1338_garage_system','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -246,6 +286,7 @@ export async function supplyBoxSettings(env,{fresh=false}={}){
 }
 function publicSupplyBoxConfig(settings,promotion={mode:'NONE',discount:0}){return {enabled:settings.enabled,shopEnabled:settings.shopEnabled,...supplyShopPricing(settings,promotion),maxOpen:SUPPLY_BOX_MAX_OPEN,itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,rewardRates:settings.rewardRates}}
 function publicItem(row){return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),supplyEnabled:row.supply_enabled!==0,supplyWeight:Number(row.supply_weight??1)}}
+function publicGarageItem(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,rarity:normalizeGarageRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),acquiredAt:row.acquired_at||null}}
 function publicTitle(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig:parseJson(row.unlock_config_json,{}),stylePreset:normalizeTitleStylePreset(row.style_preset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null}}
 
 export async function publicEquippedTitleMap(env,userIds=[]){
@@ -313,14 +354,18 @@ export async function recordCharacterProgress(env,userId,eventType,eventKey){
 
 export async function userEquipmentBonuses(env,userId){
   await ensureEquipmentFoundation(env);
-  // V1309: equipment + title power is fetched in one D1 statement so every
-  // content screen can reuse the same authoritative values without doubling reads.
   const row=await env.DB.prepare(`WITH equipment AS (
       SELECT COALESCE(SUM(i.pve_power),0) AS equipment_pve,COALESCE(SUM(i.pvp_power),0) AS equipment_pvp
       FROM user_equipment_loadout l
       JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
       JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
       WHERE l.user_id=?
+    ),garage AS (
+      SELECT COALESCE(g.pve_power,0) AS garage_pve,COALESCE(g.pvp_power,0) AS garage_pvp,g.id AS garage_id,g.name AS garage_name,g.rarity AS garage_rarity,g.image_url AS garage_image
+      FROM user_garage_loadout l
+      JOIN user_garage_vehicles u ON u.user_id=l.user_id AND u.garage_id=l.garage_id
+      JOIN character_garage_items g ON g.id=l.garage_id AND g.is_active=1
+      WHERE l.user_id=? LIMIT 1
     ),equipped_title AS (
       SELECT COALESCE(t.pve_power,0) AS title_pve,t.id AS title_id,t.name AS title_name,t.style_preset AS title_style_preset
       FROM user_title_loadout l
@@ -329,10 +374,13 @@ export async function userEquipmentBonuses(env,userId){
       WHERE l.user_id=? LIMIT 1
     )
     SELECT equipment.equipment_pve,equipment.equipment_pvp,
+      COALESCE(garage.garage_pve,0) AS garage_pve,COALESCE(garage.garage_pvp,0) AS garage_pvp,garage.garage_id,garage.garage_name,garage.garage_rarity,garage.garage_image,
       COALESCE(equipped_title.title_pve,0) AS title_pve,equipped_title.title_id,equipped_title.title_name,equipped_title.title_style_preset
-    FROM equipment LEFT JOIN equipped_title ON 1=1`).bind(userId,userId).first();
-  const equipmentPve=Number(row?.equipment_pve||0),equipmentPvp=Number(row?.equipment_pvp||0),titlePve=Number(row?.title_pve||0);
-  return {equipmentPve,equipmentPvp,titlePve,pve:equipmentPve+titlePve,pvp:equipmentPvp,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset)}:null};
+    FROM equipment
+    LEFT JOIN garage ON 1=1
+    LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId).first();
+  const equipmentPve=Number(row?.equipment_pve||0),equipmentPvp=Number(row?.equipment_pvp||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0);
+  return {equipmentPve,equipmentPvp,garagePve,garagePvp,titlePve,pve:equipmentPve+garagePve+titlePve,pvp:equipmentPvp+garagePvp,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset)}:null,garage:row?.garage_id?{id:Number(row.garage_id),name:row.garage_name,rarity:normalizeGarageRarity(row.garage_rarity),image:row.garage_image||'',pvePower:garagePve,pvpPower:garagePvp}:null};
 }
 
 function weightedPick(rows){const total=rows.reduce((sum,row)=>sum+Math.max(0,Number(row.weight||0)),0);if(total<=0)return null;let roll=Math.random()*total;for(const row of rows){roll-=Math.max(0,Number(row.weight||0));if(roll<0)return row}return rows[rows.length-1]||null}
@@ -371,15 +419,17 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false}={}){
   // Opening the equipment screen must stay fast. Collection-title synchronization
   // scans card ownership and is intentionally not run on every loadout request.
   if(syncTitles)await syncCollectionTitles(env,userId);
-  const [instances,loadoutRows,titleRows,titleLoadout,bonuses]=await Promise.all([
+  const [instances,loadoutRows,titleRows,titleLoadout,garageRows,garageLoadout,bonuses]=await Promise.all([
     env.DB.prepare(`SELECT x.id AS instance_id,x.source_type,x.source_id,x.acquired_at,i.* FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.user_id=? ${admin?'':"AND i.is_active=1 AND i.is_public=1"} ORDER BY i.slot,i.sort_order,x.acquired_at DESC,x.id DESC`).bind(userId).all(),
     env.DB.prepare('SELECT slot,instance_id FROM user_equipment_loadout WHERE user_id=?').bind(userId).all(),
     env.DB.prepare(`SELECT t.*,u.unlocked_at,CASE WHEN u.title_id IS NULL THEN 0 ELSE 1 END AS owned FROM character_titles t LEFT JOIN user_character_titles u ON u.title_id=t.id AND u.user_id=? WHERE ${admin?'1=1':'t.is_active=1 AND t.is_public=1'} ORDER BY t.sort_order,t.id`).bind(userId).all(),
     env.DB.prepare('SELECT title_id FROM user_title_loadout WHERE user_id=?').bind(userId).first(),
+    env.DB.prepare(`SELECT g.*,u.acquired_at,CASE WHEN u.garage_id IS NULL THEN 0 ELSE 1 END AS owned FROM character_garage_items g LEFT JOIN user_garage_vehicles u ON u.garage_id=g.id AND u.user_id=? WHERE ${admin?'1=1':'g.is_active=1 AND g.is_public=1'} ORDER BY g.sort_order,g.id`).bind(userId).all(),
+    env.DB.prepare('SELECT garage_id FROM user_garage_loadout WHERE user_id=?').bind(userId).first(),
     userEquipmentBonuses(env,userId)
   ]);
-  const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0);
-  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:instances.results.map(row=>({instanceId:Number(row.instance_id),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)})),loadout,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,bonuses};
+  const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0),equippedVehicleId=Number(garageLoadout?.garage_id||0);
+  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:instances.results.map(row=>({instanceId:Number(row.instance_id),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)})),loadout,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses};
 }
 
 async function adminSystemPayload(env){
@@ -388,11 +438,12 @@ async function adminSystemPayload(env){
     env.DB.prepare('SELECT * FROM character_titles ORDER BY sort_order,id').all(),
     supplyBoxSettings(env)
   ]);
-  return {slots:EQUIPMENT_SLOTS.map(id=>({id,label:EQUIPMENT_SLOT_LABELS[id]})),subtypes:EQUIPMENT_SUBTYPES,equipmentRarities:EQUIPMENT_RARITIES,sourceTypes:SOURCE_TYPES,titleUnlockTypes:TITLE_UNLOCK_TYPES,titleStylePresets:TITLE_STYLE_PRESETS,items:items.results.map(publicItem),titles:titles.results.map(row=>publicTitle(row)),profiles:[],supplyBox:publicSupplyBoxConfig(settings),supplyBoxSettings:settings};
+  const garageItems=await env.DB.prepare('SELECT * FROM character_garage_items ORDER BY sort_order,id').all();
+  return {slots:EQUIPMENT_SLOTS.map(id=>({id,label:EQUIPMENT_SLOT_LABELS[id]})),subtypes:EQUIPMENT_SUBTYPES,equipmentRarities:EQUIPMENT_RARITIES,garageRarities:GARAGE_RARITIES,sourceTypes:SOURCE_TYPES,titleUnlockTypes:TITLE_UNLOCK_TYPES,titleStylePresets:TITLE_STYLE_PRESETS,items:items.results.map(publicItem),garageItems:garageItems.results.map(row=>publicGarageItem(row)),titles:titles.results.map(row=>publicTitle(row)),profiles:[],supplyBox:publicSupplyBoxConfig(settings),supplyBoxSettings:settings};
 }
 
 export async function handleEquipment({path,request,env,deps}){
-  if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')))return null;
+  if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')||path.startsWith('admin/garage')))return null;
   await ensureEquipmentFoundation(env);
   const {authenticate,readBody,json,writeAdminLog}=deps;
   if(path==='character/loadout'&&request.method==='GET'){
@@ -429,6 +480,19 @@ export async function handleEquipment({path,request,env,deps}){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     await env.DB.prepare('DELETE FROM user_title_loadout WHERE user_id=?').bind(user.id).run();
     return json({ok:true,equippedTitleId:null,title:null,bonuses:await userEquipmentBonuses(env,user.id)});
+  }
+  if(path==='character/garage/equip'&&request.method==='POST'){
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const body=await readBody(request),vehicleId=cleanInt(body.vehicleId,1,2147483647);
+    const owned=await env.DB.prepare(`SELECT g.id FROM user_garage_vehicles u JOIN character_garage_items g ON g.id=u.garage_id WHERE u.user_id=? AND g.id=? AND g.is_active=1`).bind(user.id,vehicleId).first();
+    if(!owned)return json({error:'보유하지 않은 이동수단입니다.'},404);
+    await env.DB.prepare(`INSERT INTO user_garage_loadout(user_id,garage_id,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET garage_id=excluded.garage_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,vehicleId).run();
+    return json({ok:true,equippedVehicleId:vehicleId,bonuses:await userEquipmentBonuses(env,user.id)});
+  }
+  if(path==='character/garage/unequip'&&request.method==='POST'){
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    await env.DB.prepare('DELETE FROM user_garage_loadout WHERE user_id=?').bind(user.id).run();
+    return json({ok:true,equippedVehicleId:null,bonuses:await userEquipmentBonuses(env,user.id)});
   }
 
   if(path==='equipment/supply-box/config'&&request.method==='GET'){
@@ -623,6 +687,34 @@ export async function handleEquipment({path,request,env,deps}){
   if(path==='admin/equipment-grant'&&request.method==='POST'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),userId=cleanInt(b.userId,1,2147483647),equipmentId=cleanInt(b.equipmentId,1,2147483647),quantity=cleanInt(b.quantity||1,1,100),[targetUser,targetItem]=await Promise.all([env.DB.prepare('SELECT id FROM users WHERE id=?').bind(userId).first(),env.DB.prepare('SELECT id FROM character_equipment_items WHERE id=? AND is_active=1').bind(equipmentId).first()]);if(!targetUser)return json({error:'지급 대상 유저를 찾을 수 없습니다.'},404);if(!targetItem)return json({error:'지급할 활성 장비를 찾을 수 없습니다.'},404);const statements=[];for(let i=0;i<quantity;i++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'ADMIN',?,? FROM character_equipment_items WHERE id=?`).bind(userId,String(admin.id),`ADMIN-${admin.id}-${Date.now()}-${i}`,equipmentId));await env.DB.batch(statements);return json({ok:true,quantity});
   }
+
+  if(path==='admin/garage-item'&&['POST','PATCH'].includes(request.method)){
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
+    const b=await readBody(request),id=cleanInt(b.id,0,2147483647),name=cleanText(b.name,80),code=cleanText(b.code||`GARAGE_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');
+    if(!name)return json({error:'이동수단명을 입력하세요.'},400);
+    const duplicateCode=await env.DB.prepare('SELECT id FROM character_garage_items WHERE code=? AND id<>?').bind(code,id||0).first();if(duplicateCode)return json({error:'이미 사용 중인 이동수단 코드입니다.'},409);
+    const power=itemPower(b.totalPower||0),args=[code,name,normalizeGarageRarity(b.rarity),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,cleanBool(b.isActive)?1:0,cleanBool(b.isPublic)?1:0,cleanInt(b.sortOrder,0,100000)];
+    if(id)await env.DB.prepare(`UPDATE character_garage_items SET code=?,name=?,rarity=?,image_url=?,description=?,total_power=?,pve_power=?,pvp_power=?,is_active=?,is_public=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...args,id).run();
+    else await env.DB.prepare(`INSERT INTO character_garage_items(code,name,rarity,image_url,description,total_power,pve_power,pvp_power,is_active,is_public,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?)`).bind(...args).run();
+    if(id&&!cleanBool(b.isActive))await env.DB.prepare('DELETE FROM user_garage_loadout WHERE garage_id=?').bind(id).run();
+    return json({ok:true,...await adminSystemPayload(env)});
+  }
+  if(path==='admin/garage-item'&&request.method==='DELETE'){
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
+    const b=await readBody(request),id=cleanInt(b.id,1,2147483647),used=await env.DB.prepare('SELECT COUNT(*) count FROM user_garage_vehicles WHERE garage_id=?').bind(id).first();
+    if(Number(used?.count||0)>0){await env.DB.batch([env.DB.prepare('UPDATE character_garage_items SET is_active=0,is_public=0,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(id),env.DB.prepare('DELETE FROM user_garage_loadout WHERE garage_id=?').bind(id)]);return json({ok:true,disabled:true,...await adminSystemPayload(env)})}
+    await env.DB.prepare('DELETE FROM character_garage_items WHERE id=?').bind(id).run();
+    return json({ok:true,deleted:true,...await adminSystemPayload(env)});
+  }
+  if(path==='admin/garage-grant'&&request.method==='POST'){
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);
+    const b=await readBody(request),userId=cleanInt(b.userId,1,2147483647),garageId=cleanInt(b.garageId,1,2147483647),action=String(b.action||'GRANT').toUpperCase(),[targetUser,targetItem]=await Promise.all([env.DB.prepare('SELECT id FROM users WHERE id=?').bind(userId).first(),env.DB.prepare('SELECT id FROM character_garage_items WHERE id=?').bind(garageId).first()]);
+    if(!targetUser)return json({error:'지급 대상 유저를 찾을 수 없습니다.'},404);if(!targetItem)return json({error:'이동수단을 찾을 수 없습니다.'},404);
+    if(action==='REVOKE')await env.DB.batch([env.DB.prepare('DELETE FROM user_garage_loadout WHERE user_id=? AND garage_id=?').bind(userId,garageId),env.DB.prepare('DELETE FROM user_garage_vehicles WHERE user_id=? AND garage_id=?').bind(userId,garageId)]);
+    else await env.DB.prepare(`INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) VALUES(?,?,?,?)`).bind(userId,garageId,'ADMIN',String(admin.id)).run();
+    return json({ok:true});
+  }
+
   if(path==='admin/title-grant'&&request.method==='POST'){
     const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),userId=cleanInt(b.userId,1,2147483647),titleId=cleanInt(b.titleId,1,2147483647),action=String(b.action||'GRANT').toUpperCase(),[targetUser,targetTitle]=await Promise.all([env.DB.prepare('SELECT id FROM users WHERE id=?').bind(userId).first(),env.DB.prepare('SELECT id FROM character_titles WHERE id=?').bind(titleId).first()]);if(!targetUser)return json({error:'지급 대상 유저를 찾을 수 없습니다.'},404);if(!targetTitle)return json({error:'칭호를 찾을 수 없습니다.'},404);if(action==='REVOKE'){await env.DB.batch([env.DB.prepare('DELETE FROM user_title_loadout WHERE user_id=? AND title_id=?').bind(userId,titleId),env.DB.prepare('DELETE FROM user_character_titles WHERE user_id=? AND title_id=?').bind(userId,titleId)])}else await grantTitle(env,userId,titleId,'ADMIN',String(admin.id));return json({ok:true});
   }

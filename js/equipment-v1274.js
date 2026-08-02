@@ -1,17 +1,18 @@
 /* V1259 NEW BACKGROUND + INSTANT EQUIP */
 (()=>{
-  const state={data:null,loading:false,loadedAt:0,tab:'equipment',slot:'WEAPON',mutationTokens:{}};
+  const state={data:null,loading:false,loadedAt:0,tab:'equipment',slot:'WEAPON',garageFilter:'ALL',mutationTokens:{}};
   const slotOrder=['WEAPON','ACCESSORY','TOP','BOTTOM','SHOES'];
   const slotLabels={WEAPON:'무기',ACCESSORY:'장신구',TOP:'상의',BOTTOM:'하의',SHOES:'신발'};
   const slotDefaults={WEAPON:'현대식 무기',ACCESSORY:'듀얼디스크',TOP:'현대식 상의',BOTTOM:'현대식 하의',SHOES:'현대식 신발'};
   const subtypeLabels={MODERN_SWORD:'현대식 칼',AXE:'도끼',PISTOL:'권총',RIFLE:'라이플',TOP:'상의',BOTTOM:'하의',SHOES:'신발',DUAL_DISK:'듀얼디스크'};
   const rarityLabels={NORMAL:'일반',MAGIC:'고급',RARE:'희귀',EPIC:'영웅',LEGENDARY:'전설',MYTHIC:'신화'};
+  const garageFilters=['ALL','MYTHIC','LEGENDARY','EPIC','RARE','MAGIC','NORMAL'];
   const titleStyleLabels={DEFAULT:'기본',FOREST:'숲',FLAME:'화염',FROST:'서리',STORM:'폭풍',SHADOW:'그림자',GOLD:'황금',RAINBOW:'무지개',VOID:'심연'};
   const unlockLabels={MANUAL:'운영 지급',COLLECTION_COUNT:'도감',GRADE_COUNT:'등급 도감',MEMBER_COMPLETE:'멤버 도감',CARD_SET:'카드 세트',CONTENT_CLEAR:'콘텐츠'};
   const esc=v=>typeof escapeHtml==='function'?escapeHtml(String(v??'')):String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   const num=v=>Number(v||0).toLocaleString();
   const profile=()=>typeof loadUser==='function'?loadUser():null;
-  const request=(path,options)=>apiRequest(path,options);
+  const request=(path,options={},extra)=>apiRequest(path,options,extra);
   const normRarity=v=>{const a={COMMON:'NORMAL',UNCOMMON:'MAGIC',ADVANCED:'MAGIC',LEGEND:'LEGENDARY',MYTH:'MYTHIC'};const x=String(v||'NORMAL').toUpperCase();return rarityLabels[a[x]||x]?a[x]||x:'NORMAL'};
   const rarityClass=v=>`rarity-${normRarity(v).toLowerCase()}`;
   const normTitle=v=>{const x=String(v||'DEFAULT').toUpperCase();return titleStyleLabels[x]?x:'DEFAULT'};
@@ -25,6 +26,10 @@
   function currentTitle(){
     const id=Number(state.data?.equippedTitleId||0);
     return state.data?.titles?.find(row=>Number(row.id)===id)||state.data?.bonuses?.title||null;
+  }
+  function currentVehicle(){
+    const id=Number(state.data?.equippedVehicleId||0);
+    return state.data?.vehicles?.find(row=>Number(row.id)===id)||state.data?.bonuses?.garage||null;
   }
   function titleText(row){return row?(row.badgeText||row.name):'칭호 없음'}
   function nicknameText(){const value=String(profile()?.nickname||'플레이어').trim();return value||'플레이어'}
@@ -41,13 +46,17 @@
     const titleId=Number(state.data.equippedTitleId||0);
     let title=null;
     for(const row of state.data.titles||[]){row.equipped=titleId>0&&Number(row.id)===titleId;if(row.equipped)title=row}
-    const titlePve=Number(title?.pvePower||0);
+    const vehicleId=Number(state.data.equippedVehicleId||0);
+    let garage=null;
+    for(const row of state.data.vehicles||[]){row.equipped=vehicleId>0&&Number(row.id)===vehicleId;if(row.equipped)garage=row}
+    const titlePve=Number(title?.pvePower||0),garagePve=Number(garage?.pvePower||0),garagePvp=Number(garage?.pvpPower||0);
     state.data.bonuses={
       ...(state.data.bonuses||{}),
-      equipmentPve,equipmentPvp,titlePve,
-      pve:equipmentPve+titlePve,
-      pvp:equipmentPvp,
-      title:title?{id:Number(title.id),name:title.name,badgeText:title.badgeText||title.name,pvePower:titlePve,stylePreset:title.stylePreset,image:title.image||''}:null
+      equipmentPve,equipmentPvp,garagePve,garagePvp,titlePve,
+      pve:equipmentPve+garagePve+titlePve,
+      pvp:equipmentPvp+garagePvp,
+      title:title?{id:Number(title.id),name:title.name,badgeText:title.badgeText||title.name,pvePower:titlePve,stylePreset:title.stylePreset,image:title.image||''}:null,
+      garage:garage?{id:Number(garage.id),name:garage.name,rarity:garage.rarity,image:garage.image||'',description:garage.description||'',pvePower:garagePve,pvpPower:garagePvp}:null
     };
   }
   function nextMutationToken(key){const value=Number(state.mutationTokens[key]||0)+1;state.mutationTokens[key]=value;return value}
@@ -59,6 +68,7 @@
     recalculateState();render();
   }
   function setTitle(titleId){if(!state.data)return;state.data.equippedTitleId=titleId?Number(titleId):null;recalculateState();render()}
+  function setGarage(vehicleId){if(!state.data)return;state.data.equippedVehicleId=vehicleId?Number(vehicleId):null;recalculateState();render()}
   function showNotice(message,error=false){
     document.querySelector('.frame-action-toast-v1249')?.remove();
     const toast=document.createElement('div');toast.className=`frame-action-toast-v1249${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);
@@ -81,6 +91,18 @@
       ${item?`<button type="button" class="frame-slot-remove-v1249" data-character-unequip="${slot}" aria-label="해제">×</button>`:''}
     </div>`;
   }
+  function garageSummaryCard(){
+    const vehicle=currentVehicle();
+    const rarity=vehicle?normRarity(vehicle.rarity):'NORMAL';
+    return `<section class="garage-entry-v1339 ${vehicle?'filled':''} ${vehicle?rarityClass(rarity):''}">
+      <div class="garage-entry-head-v1339"><small>차고지 (이동수단)</small>${vehicle?`<span>${esc(rarityLabels[rarity])}</span>`:'<span>미장착</span>'}</div>
+      <div class="garage-entry-body-v1339">
+        <div class="garage-entry-thumb-v1339">${vehicle?.image?`<img src="${esc(vehicle.image)}" alt="${esc(vehicle.name)}" loading="lazy">`:'<b>GARAGE</b>'}</div>
+        <div class="garage-entry-copy-v1339"><strong>${esc(vehicle?.name||'장착된 이동수단 없음')}</strong><p>${esc(vehicle?.description||'이동수단을 장착하면 PVE·PVP 전투력이 함께 상승합니다.')}</p><div class="garage-entry-stats-v1339"><span>PVE <em>+${num(vehicle?.pvePower||0)}</em></span><span>PVP <em>+${num(vehicle?.pvpPower||0)}</em></span></div></div>
+      </div>
+      <button type="button" class="garage-entry-open-v1339" data-open-garage>차고지 열기</button>
+    </section>`;
+  }
   function equipmentLayer(){
     const b=state.data?.bonuses||{},title=currentTitle();
     return `<div class="frame-equipment-layer-v1249">
@@ -95,7 +117,8 @@
   function inventoryLayer(){
     const all=state.data?.instances||[];
     const rows=all.filter(row=>state.slot==='ALL'||row.item.slot===state.slot);
-    return `<div class="frame-inventory-layer-v1249">
+    return `<div class="frame-inventory-layer-v1249 garage-enabled-inventory-v1339">
+      ${garageSummaryCard()}
       <div class="frame-inventory-head-v1249"><b>보유 장비</b><span>${all.length}</span></div>
       <div class="frame-filter-row-v1249">
         <button class="${state.slot==='ALL'?'active':''}" data-character-filter="ALL">전체</button>
@@ -105,11 +128,7 @@
         ${rows.length?rows.map(row=>{const i=row.item;return `<button type="button" class="frame-item-card-v1249 ${row.equipped?'equipped':''} ${rarityClass(i.rarity)} ${subtypeClass(i)}" ${row.equipped?'disabled':''} data-character-equip="${row.instanceId}" title="${esc(i.name)}">
           <i class="frame-item-rarity-v1249">${esc(rarityLabels[normRarity(i.rarity)])}</i>
           <div class="frame-item-thumb-v1249">${itemImage(i)}</div>
-          <div class="frame-item-info-v1249">
-            <strong>${esc(i.name)}</strong>
-            <span class="frame-item-type-v1249">${esc(slotLabels[i.slot]||i.slot)} · ${esc(subtypeLabels[i.subtype]||i.subtype)}</span>
-            <div class="frame-item-power-v1249"><i>PVE +${num(i.pvePower)}</i><i class="pvp">PVP +${num(i.pvpPower)}</i></div>
-          </div>
+          <div class="frame-item-info-v1249"><strong>${esc(i.name)}</strong><span class="frame-item-type-v1249">${esc(slotLabels[i.slot]||i.slot)} · ${esc(subtypeLabels[i.subtype]||i.subtype)}</span><div class="frame-item-power-v1249"><i>PVE +${num(i.pvePower)}</i><i class="pvp">PVP +${num(i.pvpPower)}</i></div></div>
         </button>`}).join(''):'<div class="frame-empty-v1249">보유 장비<br>없음</div>'}
       </div>
     </div>`;
@@ -140,13 +159,29 @@
       </div>
     </div>`;
   }
-  function shellHtml(){
-    return `<div class="image-frame-ui-v1249">
-      <div class="frame-background-v1249"></div>
-      <button type="button" class="frame-tab-hit-v1249 equipment ${state.tab==='equipment'?'active':''}" data-character-tab="equipment" aria-label="장비"></button>
-      <button type="button" class="frame-tab-hit-v1249 title ${state.tab==='title'?'active':''}" data-character-tab="title" aria-label="칭호"></button>
-      ${state.tab==='equipment'?equipmentLayer():titleLayer()}
+  function garageLayer(){
+    const rows=Array.isArray(state.data?.vehicles)?state.data.vehicles:[];
+    const vehicle=currentVehicle();
+    const bonus=state.data?.bonuses||{};
+    const visible=rows.filter(row=>state.garageFilter==='ALL'||String(row.rarity||'')===state.garageFilter);
+    const rarity=vehicle?normRarity(vehicle.rarity):'NORMAL';
+    return `<div class="garage-screen-v1339 ${vehicle?'has-vehicle':''} ${vehicle?rarityClass(rarity):''}">
+      <header class="garage-screen-head-v1339"><button type="button" data-close-garage aria-label="장비창으로 돌아가기">‹</button><div><small>CHARACTER GARAGE</small><h2>차고지</h2><p>이동수단을 장착해 PVE·PVP 전투력을 보강합니다.</p></div><span>${rows.filter(row=>row.owned).length}대 보유</span></header>
+      <section class="garage-showcase-v1339">
+        <div class="garage-showcase-light-v1339"></div>
+        <div class="garage-showcase-copy-v1339"><small>${vehicle?esc(rarityLabels[rarity]):'NO VEHICLE'}</small><h3>${esc(vehicle?.name||'이동수단 미장착')}</h3><p>${esc(vehicle?.description||'아래 보유 이동수단에서 장착할 차량을 선택하세요.')}</p></div>
+        <div class="garage-showcase-vehicle-v1339">${vehicle?.image?`<img src="${esc(vehicle.image)}" alt="${esc(vehicle.name)}" loading="eager">`:'<div class="garage-empty-symbol-v1339"><b>GARAGE</b><span>EMPTY SLOT</span></div>'}</div>
+        <div class="garage-floor-v1339"></div>
+        <div class="garage-showcase-stats-v1339"><div><small>PVE BOOST</small><b>+${num(vehicle?.pvePower||0)}</b></div><div><small>PVP BOOST</small><b>+${num(vehicle?.pvpPower||0)}</b></div><div><small>TOTAL PVE</small><b>+${num(bonus.pve||0)}</b></div><div><small>TOTAL PVP</small><b>+${num(bonus.pvp||0)}</b></div></div>
+        ${vehicle?'<button type="button" class="garage-showcase-remove-v1339" data-garage-unequip>장착 해제</button>':''}
+      </section>
+      <section class="garage-collection-v1339"><div class="garage-collection-head-v1339"><div><small>MY VEHICLES</small><h3>보유 이동수단</h3></div><div class="garage-filter-row-v1339">${garageFilters.map(filter=>`<button type="button" class="${state.garageFilter===filter?'active':''}" data-garage-filter="${filter}">${filter==='ALL'?'전체':esc(rarityLabels[filter]||filter)}</button>`).join('')}</div></div>
+        <div class="garage-vehicle-grid-v1339">${visible.length?visible.map(row=>`<article class="garage-vehicle-card-v1339 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${rarityClass(row.rarity)}"><div class="garage-vehicle-thumb-v1339">${row.image?`<img src="${esc(row.image)}" alt="${esc(row.name)}" loading="lazy">`:'<b>VEHICLE</b>'}</div><div class="garage-vehicle-info-v1339"><small>${esc(rarityLabels[normRarity(row.rarity)])}</small><strong>${esc(row.name)}</strong><p>${esc(row.description||'이동수단 장착 시 전투력이 상승합니다.')}</p><div><span>PVE <em>+${num(row.pvePower)}</em></span><span>PVP <em>+${num(row.pvpPower)}</em></span></div></div>${row.owned?(row.equipped?'<button type="button" disabled>장착 중</button>':`<button type="button" data-garage-equip="${row.id}">장착</button>`):'<button type="button" disabled>미획득</button>'}</article>`).join(''):'<div class="garage-empty-list-v1339">등록된 이동수단이 없습니다.</div>'}</div>
+      </section>
     </div>`;
+  }
+  function shellHtml(){
+    return `<div class="image-frame-ui-v1249 ${state.tab==='garage'?'garage-open-v1339':''}"><div class="frame-background-v1249"></div>${state.tab!=='garage'?`<button type="button" class="frame-tab-hit-v1249 equipment ${state.tab==='equipment'?'active':''}" data-character-tab="equipment" aria-label="장비"></button><button type="button" class="frame-tab-hit-v1249 title ${state.tab==='title'?'active':''}" data-character-tab="title" aria-label="칭호"></button>`:''}${state.tab==='equipment'?equipmentLayer():state.tab==='title'?titleLayer():garageLayer()}</div>`;
   }
   function bind(root){
     root.querySelectorAll('[data-character-tab]').forEach(btn=>btn.onclick=()=>{state.tab=btn.dataset.characterTab;render()});
@@ -155,11 +190,16 @@
     root.querySelectorAll('[data-character-unequip]').forEach(btn=>btn.onclick=e=>{e.stopPropagation();unequipItem(btn.dataset.characterUnequip)});
     root.querySelectorAll('[data-character-title-equip]').forEach(btn=>btn.onclick=()=>equipTitle(Number(btn.dataset.characterTitleEquip)));
     root.querySelectorAll('[data-character-title-unequip]').forEach(btn=>btn.onclick=()=>unequipTitle());
+    root.querySelectorAll('[data-open-garage]').forEach(btn=>btn.onclick=()=>{state.tab='garage';render()});
+    root.querySelectorAll('[data-close-garage]').forEach(btn=>btn.onclick=()=>{state.tab='equipment';render()});
+    root.querySelectorAll('[data-garage-filter]').forEach(btn=>btn.onclick=()=>{state.garageFilter=btn.dataset.garageFilter||'ALL';render()});
+    root.querySelectorAll('[data-garage-equip]').forEach(btn=>btn.onclick=()=>equipGarage(Number(btn.dataset.garageEquip)));
+    root.querySelectorAll('[data-garage-unequip]').forEach(btn=>btn.onclick=()=>unequipGarage());
   }
   function render(){
     const root=document.getElementById('characterSystemRoot');if(!root)return;
     if(state.loading&&!state.data){root.innerHTML='<div class="frame-loading-v1249"><span></span><b>불러오는 중...</b></div>';return}
-    if(!state.data){root.innerHTML='<div class="frame-empty-v1249">장비 정보를 불러오지 못했습니다.</div>';return}
+    if(!state.data){root.innerHTML='<div class="frame-empty-v1249">장비/칭호/차고 정보를 불러오지 못했습니다.</div>';return}
     root.innerHTML=shellHtml();bind(root);
   }
 
@@ -204,6 +244,26 @@
       if(isCurrentMutation(key,token)){publishPowerChange(response.bonuses);render();showNotice('칭호 해제 완료')}
     }catch(error){if(isCurrentMutation(key,token))setTitle(previous);showNotice(error.message||'칭호 해제에 실패했습니다.',true)}
   }
+  async function equipGarage(vehicleId){
+    const row=state.data?.vehicles?.find(value=>Number(value.id)===Number(vehicleId)&&value.owned);
+    if(!row)return;
+    const key='garage',token=nextMutationToken(key),previous=Number(state.data?.equippedVehicleId||0)||null;
+    setGarage(vehicleId);
+    try{
+      const response=await request('character/garage/equip',{method:'POST',body:JSON.stringify({vehicleId})});
+      if(response?.ok!==true)throw new Error(response?.error||'이동수단 장착에 실패했습니다.');
+      if(isCurrentMutation(key,token)){publishPowerChange(response.bonuses);render();showNotice('이동수단 장착 완료')}
+    }catch(error){if(isCurrentMutation(key,token))setGarage(previous);showNotice(error.message||'이동수단 장착에 실패했습니다.',true)}
+  }
+  async function unequipGarage(){
+    const key='garage',token=nextMutationToken(key),previous=Number(state.data?.equippedVehicleId||0)||null;
+    setGarage(null);
+    try{
+      const response=await request('character/garage/unequip',{method:'POST',body:'{}'});
+      if(response?.ok!==true)throw new Error(response?.error||'이동수단 해제에 실패했습니다.');
+      if(isCurrentMutation(key,token)){publishPowerChange(response.bonuses);render();showNotice('이동수단 해제 완료')}
+    }catch(error){if(isCurrentMutation(key,token))setGarage(previous);showNotice(error.message||'이동수단 해제에 실패했습니다.',true)}
+  }
   async function load({force=false}={}){
     if(state.loading)return;
     const now=Date.now();
@@ -211,7 +271,7 @@
     state.loading=true;render();
     const root=document.getElementById('characterSystemRoot');
     let slowTimer=setTimeout(()=>{
-      if(root&&state.loading&&!state.data)root.innerHTML='<div class="frame-loading-v1249"><span></span><b>장비 정보를 불러오는 중...</b><small>서버 응답이 지연되고 있습니다.</small></div>';
+      if(root&&state.loading&&!state.data)root.innerHTML='<div class="frame-loading-v1249"><span></span><b>장비/칭호/차고 정보를 불러오는 중...</b><small>서버 응답이 지연되고 있습니다.</small></div>';
     },3500);
     try{
       state.data=await request('character/loadout',{}, {ttl:10000,timeoutMs:12000});
@@ -220,7 +280,7 @@
       setTimeout(()=>request('character/title/sync',{method:'POST',body:'{}'},{timeoutMs:20000}).catch(()=>{}),250);
     }catch(error){
       if(state.data){render();showNotice('최신 장비 정보를 불러오지 못해 이전 정보를 표시합니다.',true)}
-      else if(root)root.innerHTML=`<div class="frame-empty-v1249 frame-load-error-v1261"><b>장비 정보를 불러오지 못했습니다.</b><small>${esc(error?.message||'서버 응답이 지연되었습니다.')}</small><button type="button" id="characterLoadRetry">다시 불러오기</button></div>`;
+      else if(root)root.innerHTML=`<div class="frame-empty-v1249 frame-load-error-v1261"><b>장비/칭호/차고 정보를 불러오지 못했습니다.</b><small>${esc(error?.message||'서버 응답이 지연되었습니다.')}</small><button type="button" id="characterLoadRetry">다시 불러오기</button></div>`;
       document.getElementById('characterLoadRetry')?.addEventListener('click',()=>load({force:true}));
     }finally{clearTimeout(slowTimer);state.loading=false}
   }
