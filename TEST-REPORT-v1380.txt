@@ -1,0 +1,8 @@
+v1380 static verification
+- node -c functions/_territory_war.js: PASS
+- node -c js/territory-war-v1362.js: PASS
+- automatic setInterval state-lite polling removed: PASS
+- manual refresh button binding present: PASS
+- client 15 second cooldown present: PASS
+- server state-lite 15 second guard present: PASS
+- cache query updated to v1380-manual-refresh: PASS

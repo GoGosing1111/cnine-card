@@ -9,6 +9,7 @@ const DEFAULTS={
  winnerCoin:5000,loserCoin:2000,drawCoin:3000,participationShards:50,contributionCoinPerPoint:100,settlementMinBattles:1
 };
 let upgradeReady=false;
+const manualRefreshGuard=new Map();
 function safeJson(v,f){try{return JSON.parse(v||'')}catch{return f}}
 function clamp(v,a,b){return Math.max(a,Math.min(b,Number(v)||0))}
 function seedOf(text){let h=2166136261;for(const c of String(text)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
@@ -127,7 +128,7 @@ async function pruneBattles(env,rid,limit){await env.DB.prepare('DELETE FROM ter
 export async function handleTerritoryWar({path,request,env,deps}){
  if(!path.startsWith('territory-war')&&!path.startsWith('admin/territory-war'))return null;await upgrade(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);const admin=deps.isAdminRole(user);
  if(path==='territory-war/state'&&request.method==='GET')return deps.json(await publicState(env,user.id));
- if(path==='territory-war/state-lite'&&request.method==='GET')return deps.json(await realtimeState(env,user.id));
+ if(path==='territory-war/state-lite'&&request.method==='GET'){const now=Date.now(),key=Number(user.id),last=manualRefreshGuard.get(key)||0,retry=Math.ceil((15000-(now-last))/1000);if(retry>0)return deps.json({error:`${retry}초 후 다시 갱신할 수 있습니다.`,retryAfter:retry},429);manualRefreshGuard.set(key,now);if(manualRefreshGuard.size>5000){for(const [k,t] of manualRefreshGuard)if(now-t>60000)manualRefreshGuard.delete(k)}return deps.json(await realtimeState(env,user.id));}
  if(path.startsWith('territory-war/encounter/')&&request.method==='GET'){const id=Number(path.split('/').pop());const e=await env.DB.prepare('SELECT * FROM territory_war_encounters WHERE id=?').bind(id).first();if(!e)return deps.json({error:'조우전을 찾을 수 없습니다.'},404);const mine=await env.DB.prepare('SELECT side,squad_no FROM territory_war_registrations WHERE round_id=? AND user_id=?').bind(e.round_id,user.id).first();if(!mine||!((mine.side==='A'&&Number(mine.squad_no)===Number(e.a_squad_no))||(mine.side==='B'&&Number(mine.squad_no)===Number(e.b_squad_no))))return deps.json({error:'해당 조우전 참가자가 아닙니다.'},403);return deps.json({encounter:{...e,battle:safeJson(e.battle_summary,{})}})}
  const cfg=await settings(env);let r=await currentOrCreate(env,cfg);if(r)r=await maybeAdvance(env,r,cfg,false);
  if(path==='territory-war/register'&&request.method==='POST'){if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);if(!r||r.status!=='RECRUITING')return deps.json({error:'현재 신청 기간이 아닙니다.'},409);const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env);const power=deck.reduce((s,c)=>s+deps.cardBattlePower(c,c.breakthrough_level,bs),0);await env.DB.prepare(`INSERT INTO territory_war_registrations(round_id,user_id,deck_power,deck_snapshot,status) VALUES(?,?,?,?, 'WAITING') ON CONFLICT(round_id,user_id) DO UPDATE SET deck_power=excluded.deck_power,deck_snapshot=excluded.deck_snapshot,status='WAITING',registered_at=CURRENT_TIMESTAMP`).bind(r.id,user.id,power,JSON.stringify(deck.map(x=>x.id))).run();return deps.json({ok:true,state:await publicState(env,user.id)})}
