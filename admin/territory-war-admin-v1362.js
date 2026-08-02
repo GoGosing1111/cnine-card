@@ -1,15 +1,15 @@
 (()=>{
  const token=()=>localStorage.getItem('cnine_admin_token')||'';
  async function api(path,opt={}){const r=await fetch('/api/'+path,{...opt,headers:{'Content-Type':'application/json','Authorization':'Bearer '+token(),...(opt.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||'요청 실패');return d}
- function mount(){const root=document.getElementById('territoryWarAdminRoot');if(!root||document.getElementById('territoryWarAdminV1377'))return;root.innerHTML='';const box=document.createElement('section');box.id='territoryWarAdminV1377';box.className='panel';box.innerHTML=`
- <div class="maintenanceHead"><div><small>TERRITORY WAR V1377</small><h2>영토전 운영 관리</h2><p>운영 모드 OFF 시 모집·편성·전투가 즉시 중지되며, TEST/ON 전환 시 새 모집 회차가 시작됩니다.</p></div><button id="twReload" class="ghost">새로고침</button></div>
+ function mount(){const root=document.getElementById('territoryWarAdminRoot');if(!root||document.getElementById('territoryWarAdminV1378'))return;root.innerHTML='';const box=document.createElement('section');box.id='territoryWarAdminV1378';box.className='panel';box.innerHTML=`
+ <div class="maintenanceHead"><div><small>TERRITORY WAR V1378</small><h2>영토전 운영 관리</h2><p>운영 모드 OFF 시 모집·편성·전투가 즉시 중지되며, TEST/ON 전환 시 새 모집 회차가 시작됩니다.</p></div><button id="twReload" class="ghost">새로고침</button></div>
  <div class="formgrid">
   <label class="field"><span>운영 모드</span><select id="twMode"><option>OFF</option><option>TEST</option><option>ON</option></select></label>
   <label class="field"><span>모집 시간(시간)</span><input id="twRecruit" type="number" min="1"></label>
   <label class="field"><span>편성 공개·준비 시간(분)</span><input id="twPrep" type="number" min="0"></label>
   <label class="field"><span>영토전 진행 시간(분)</span><input id="twRound" type="number" min="10"></label>
-  <label class="field"><span>소대 행동력 최대</span><input id="twEnergyMax" type="number" min="1"></label>
-  <label class="field"><span>행동력 충전 간격(분)</span><input id="twEnergyMin" type="number" min="1"></label>
+  <label class="field"><span>개인 행동력 최대</span><input id="twEnergyMax" type="number" min="1"></label>
+  <label class="field"><span>개인 행동력 충전 간격(분)</span><input id="twEnergyMin" type="number" min="1"></label>
   <label class="field"><span>일반 적 영토 점령 승점</span><input id="twNormalWins" type="number" min="1"></label>
   <label class="field"><span>중앙 영토 점령 승점</span><input id="twCenterWins" type="number" min="1"></label>
   <label class="field"><span>소대전 승리 점수</span><input id="twBattlePoint" type="number" min="0"></label>
