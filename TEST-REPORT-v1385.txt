@@ -1,0 +1,7 @@
+Static verification
+- node -c functions/api/[[path]].js: PASS
+- node -c admin/admin-v1276.js: PASS
+- node -c js/app.js: PASS
+- ZIP integrity: PASS
+
+Runtime D1 validation was not performed in this local environment.

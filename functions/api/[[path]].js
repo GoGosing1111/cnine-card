@@ -5013,7 +5013,7 @@ export async function onRequest(context){
       }
     }
 
-    if(path==='admin/coupons'){
+    if(path==='admin/coupons'||path==='admin/coupons-v2'){
       const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[]});}
       if(request.method==='POST'){
