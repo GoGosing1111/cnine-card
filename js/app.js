@@ -107,7 +107,8 @@ function applyBurningEventState(next={},options={}){
   const changed=before!==burningEventFingerprint(burningEventState);
   if(changed){clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1')}
   if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelector('.burning-event-strip')?.remove();if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
-  const key=`cnine:burning-announced:${mode}:${Number(burningEventState.generation||0)}`;
+  const activationToken=String(burningEventState.activatedAt||burningEventState.updatedAt||'').replace(/[^0-9TZ:+.-]/g,'').slice(0,48);
+  const key=`cnine:burning-announced:${mode}:${Number(burningEventState.generation||0)}:${activationToken}`;
   if(options.announce!==false&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
     localStorage.setItem(key,'1');
     setTimeout(()=>{if(burningEventState.enabled)showBurningActivationNotice()},300);
@@ -158,10 +159,10 @@ function showBurningActivationNotice(){
   };
 }
 function stopBurningEventWatch(){if(burningEventWatchTimer){clearTimeout(burningEventWatchTimer);burningEventWatchTimer=null}}
-function scheduleBurningEventWatch(delay=burningEventState.enabled?45000:60000){
+function scheduleBurningEventWatch(delay=burningEventState.enabled?10000:15000){
   stopBurningEventWatch();
   if(!API_MODE||!loadUser()||document.hidden)return;
-  burningEventWatchTimer=setTimeout(async()=>{await refreshBurningEventState({rerender:true});scheduleBurningEventWatch()},Math.max(15000,Number(delay)||45000));
+  burningEventWatchTimer=setTimeout(async()=>{await refreshBurningEventState({rerender:true});scheduleBurningEventWatch()},Math.max(5000,Number(delay)||10000));
 }
 async function refreshBurningEventState({forceFresh=false,rerender=true}={}){
   if(!API_MODE)return false;
