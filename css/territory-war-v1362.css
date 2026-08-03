@@ -9,3 +9,6 @@
 
 /* v1404: actual V2 participant battle and late test join */
 .tw3-join-live{font-size:18px;padding:18px!important;background:linear-gradient(180deg,#178ac2,#0b547f)!important;border-color:#5ddcff!important}.modal.tw3-v2-battle-modal{z-index:100030!important}.tw3-v2-result{display:grid;justify-items:center;gap:8px;text-align:center;padding:18px}.tw3-v2-result>small{color:#63d9ff;letter-spacing:.18em;font-weight:900}.tw3-v2-result>strong{font-size:clamp(38px,7vw,74px);line-height:1;color:#65dcff;text-shadow:0 0 26px rgba(80,215,255,.5)}.tw3-v2-result.is-loss>strong{color:#ff7088;text-shadow:0 0 26px rgba(255,82,118,.45)}.tw3-v2-result>p,.tw3-v2-result>span{margin:0;color:#a8bed2}.tw3-v2-result>b{font-size:24px;color:#ffe274}.tw3-v2-result button{margin-top:10px}
+
+/* v1406: instant V2 matchmaking / silent request recovery */
+.tw3-v2-wait{display:grid;justify-items:center;gap:10px;text-align:center;padding:22px}.tw3-v2-wait small{color:#63d9ff;letter-spacing:.18em;font-weight:900}.tw3-v2-wait strong{font-size:clamp(22px,4vw,38px);color:#fff}.tw3-v2-wait span{color:#91a9be;max-width:560px;line-height:1.6}

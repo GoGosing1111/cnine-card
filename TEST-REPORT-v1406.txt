@@ -1,0 +1,47 @@
+CNINE CARD v1406 verification
+
+PASS — JavaScript syntax
+- functions/_territory_war.js
+- js/territory-war-v1362.js
+
+PASS — global front lock removal
+- attack handler no longer acquires front_<frontId> lock before V2 simulation
+- resolution lock runs only when a_hp or b_hp reaches zero
+
+PASS — 100 participant SQL simulation
+- 50 A + 50 B participants
+- 100 individual battle commits
+- 100 attacker energy decrements
+- 100 attack counters and 100 defense counters
+- A/B siege HP each reduced by exactly applied damage
+- no negative HP
+
+PASS — low HP concurrency boundary
+- 1,500 HP with two 1,000 planned attacks records 1,000 then 500
+- third post-zero action remains unapplied
+- post-zero action consumes no energy and grants no contribution
+
+PASS — opponent distribution
+- similar-power-first ±30% matching
+- deterministic request seed distribution
+- synthetic 50-attacker sample distributed across 28 defenders
+
+PASS — Battle Engine V2 CPU benchmark
+- 100 V2 simulations completed
+- local container elapsed: 32.51ms total
+- average pure simulation time: 0.325ms
+- this benchmark excludes D1/network latency
+
+PASS — request recovery
+- pending duplicate returns HTTP-success pending payload
+- client polls territory-war/action-status
+- no pending alert popup
+- completed request replays deterministic V2 seed
+
+PASS — polling load reduction
+- lite state removes participant count aggregation
+- front and my state loaded by one JOIN
+- active polling jitter ±12%
+
+Operational note
+- Actual Cloudflare concurrency, D1 queue latency and regional network behavior must be confirmed after deployment with 50v50 test accounts.
