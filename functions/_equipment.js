@@ -551,21 +551,17 @@ export async function handleEquipment({path,request,env,deps}){
         env.DB.prepare('SELECT DISTINCT equipment_id FROM user_equipment_instances WHERE user_id=?').bind(user.id).all()
       ]);
       const ownedEquipmentIds=new Set((ownedRows.results||[]).map(row=>Number(row.equipment_id)));
+      const availableEquipment=(pool.results||[]).filter(row=>!ownedEquipmentIds.has(Number(row.id)));
       const results=[],equipmentRewards=[];let coinGained=0,shardGained=0;
       for(let index=0;index<count;index++){
         const roll=Math.random()*100,eqLimit=settings.rewardRates.equipment,shardLimit=eqLimit+settings.rewardRates.shards;
-        if(roll<eqLimit&&(pool.results||[]).length){
-          const picked=weightedPick(pool.results.map(row=>({...row,weight:row.supply_weight}))),item=publicItem(picked);
-          if(ownedEquipmentIds.has(Number(item.id))){
-            const amount=deterministicInt(`${requestId}:DUPLICATE_SHARD:${index}`,settings.shards.min,settings.shards.max);
-            shardGained+=amount;
-            results.push({type:'DUPLICATE_SHARDS',amount,duplicateItem:{id:item.id,name:item.name,image:item.image,rarity:item.rarity}});
-          }else{
-            ownedEquipmentIds.add(Number(item.id));
-            equipmentRewards.push({index,item});
-            results.push({type:'EQUIPMENT',item});
-          }
-        }else if(roll<shardLimit||!(pool.results||[]).length){const amount=deterministicInt(`${requestId}:SHARD:${index}`,settings.shards.min,settings.shards.max);shardGained+=amount;results.push({type:'SHARDS',amount});}
+        if(roll<eqLimit&&availableEquipment.length){
+          const picked=weightedPick(availableEquipment.map(row=>({...row,weight:row.supply_weight}))),item=publicItem(picked);
+          ownedEquipmentIds.add(Number(item.id));
+          availableEquipment.splice(availableEquipment.findIndex(row=>Number(row.id)===Number(item.id)),1);
+          equipmentRewards.push({index,item});
+          results.push({type:'EQUIPMENT',item});
+        }else if(roll<shardLimit){const amount=deterministicInt(`${requestId}:SHARD:${index}`,settings.shards.min,settings.shards.max);shardGained+=amount;results.push({type:'SHARDS',amount});}
         else{const amount=deterministicInt(`${requestId}:COIN:${index}`,settings.coins.min,settings.coins.max);coinGained+=amount;results.push({type:'COINS',amount});}
       }
       const remaining=Number(remainingRow?.quantity||0),newCoin=Number(userRow?.coin||0)+coinGained,newShards=Number(userRow?.card_shards||0)+shardGained;

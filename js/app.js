@@ -2262,7 +2262,10 @@ function renderStartupRecovery(message='서버 연결이 지연되고 있습니�
   if(retry)retry.onclick=()=>{API_INFLIGHT.clear();clearApiCache();void init()};
   if(reset)reset.onclick=()=>{clearPlayerToken();API_INFLIGHT.clear();clearApiCache();void init()};
 }
-function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?5000:10000;raidState.timer=setTimeout(()=>loadRaidView(),pollJitter(delay,.18))}
+// Raid is synchronized content: use a fixed cadence so clients observe the same
+// server state window. The next poll is scheduled only after the current request
+// finishes, therefore requests cannot overlap even at the faster battle cadence.
+function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?2000:5000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
 
 const RETIREMENT_REROLL_META={
   MA_REROLL_TICKET:{title:'MA 재뽑기권',grade:'MA',theme:'ma'},
