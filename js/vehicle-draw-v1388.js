@@ -58,20 +58,12 @@
           panel.classList.remove('opening');
           panel.classList.add('revealed');
           panel.innerHTML=`
-            <button type="button" class="vehicle-draw-close-v1396" id="vehicleResultCloseV1396" aria-label="이동수단 결과 닫기">×</button>
-            <div class="vehicle-result-v1388 rarity-${esc(String(r.vehicle.rarity||'NORMAL').toLowerCase())}">
-              <small>${esc(r.duplicate?'DUPLICATE VEHICLE':'NEW VEHICLE')}</small>
-              <h2>${esc(r.vehicle.name)}</h2>
-              <div class="vehicle-result-image-v1388">${r.vehicle.image?`<img src="${esc(r.vehicle.image)}" alt="${esc(r.vehicle.name)}">`:'<b>NO IMAGE</b>'}</div>
-              <strong>${esc(rarity[r.vehicle.rarity]||r.vehicle.rarity)}</strong>
-              <p>${esc(r.vehicle.description||'새로운 이동수단을 획득했습니다.')}</p>
-              <div class="vehicle-result-ticket-balance-v1422"><span>보유 뽑기권</span><b>${Number(r.ticketQuantity||0).toLocaleString()}개</b></div>
-              <div class="vehicle-result-rewards-v1388">${r.duplicate?`<span>중복 환산 <b>카드 조각 +${Number(r.shardsGained||0).toLocaleString()}</b></span>`:'<span>차고지 등록 <b>신규 획득</b></span>'}${Number(r.masterStarsGained||0)>0?`<span>보너스 <b>마스터의 별 +${Number(r.masterStarsGained).toLocaleString()}</b></span>`:''}</div>
-              <div class="vehicle-result-actions-v1396">
-                <button type="button" class="btn secondary" id="vehicleResultCloseButtonV1396">닫기</button>
-                <button type="button" class="btn" id="vehicleResultAgainV1420" ${Number(r.ticketQuantity||0)>0?'':'disabled'}>한 번 더 뽑기 (${Number(r.ticketQuantity||0).toLocaleString()}개)</button>
-                <button type="button" class="btn" id="vehicleResultDoneV1388">인벤토리로 돌아가기</button>
-              </div>
+            <div class="vehicle-result-v1424 rarity-${esc(String(r.vehicle.rarity||'NORMAL').toLowerCase())}">
+              <div class="vehicle-result-grid-v1424" aria-hidden="true"></div>
+              <header class="vehicle-result-head-v1424"><div><div class="vehicle-result-state-v1424"><i></i><span>${esc(r.duplicate?'DUPLICATE CONVERTED':'NEW VEHICLE ACQUIRED')}</span></div><h2>${esc(r.vehicle.name)}<small>VEHICLE · ${esc(String(r.vehicle.rarity||'NORMAL'))} CLASS</small></h2></div><button type="button" class="vehicle-draw-close-v1396" id="vehicleResultCloseV1396" aria-label="이동수단 결과 닫기">×</button></header>
+              <div class="vehicle-result-stage-v1424">${r.vehicle.image?`<img src="${esc(r.vehicle.image)}" alt="${esc(r.vehicle.name)}">`:'<b>NO IMAGE</b>'}<span class="vehicle-result-rarity-v1424">${esc(String(r.vehicle.rarity||'NORMAL'))} · ${esc(rarity[r.vehicle.rarity]||r.vehicle.rarity)}</span><span class="vehicle-result-index-v1424">GARAGE VEHICLE</span><div class="vehicle-result-scan-v1424" aria-hidden="true"></div></div>
+              <div class="vehicle-result-info-v1424"><div class="vehicle-result-copy-v1424"><p>${esc(r.duplicate?'이미 보유한 이동수단이 보상으로 자동 변환되었습니다.':r.vehicle.description||'새로운 이동수단이 차고지에 등록되었습니다.')}</p><div class="vehicle-result-rewards-v1424">${r.duplicate?`<span>중복 변환 <b>카드 조각 +${Number(r.shardsGained||0).toLocaleString()}</b></span>`:'<span>차고지 <b>신규 등록 완료</b></span>'}${Number(r.masterStarsGained||0)>0?`<span>보너스 <b>마스터의 별 +${Number(r.masterStarsGained).toLocaleString()}</b></span>`:''}</div></div><div class="vehicle-result-ticket-v1424"><span>보유 뽑기권</span><b>${Number(r.ticketQuantity||0).toLocaleString()}개</b></div></div>
+              <div class="vehicle-result-actions-v1396"><button type="button" class="btn secondary" id="vehicleResultCloseButtonV1396">닫기</button><button type="button" class="btn" id="vehicleResultAgainV1420" ${Number(r.ticketQuantity||0)>0?'':'disabled'}>한 번 더 뽑기<small>즉시 다음 획득 연출 시작</small></button><button type="button" class="btn secondary" id="vehicleResultDoneV1388">인벤토리</button></div>
             </div>`;
           document.getElementById('vehicleResultCloseV1396')?.addEventListener('click',close);
           document.getElementById('vehicleResultCloseButtonV1396')?.addEventListener('click',close);
