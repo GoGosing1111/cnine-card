@@ -1,0 +1,37 @@
+CNINE CARD v1408 verification
+
+PASS — JavaScript syntax
+- functions/api/[[path]].js
+- js/app.js
+- all JavaScript files contained in the cumulative patch
+
+PASS — API separation
+- shell/summary contains only inventory aggregation.
+- acquisition-feed is excluded from maintenance sampling and full runtime-upgrade gate.
+- legacy recent-high-grade/recent-equipment endpoints share the same bounded feed query/cache.
+
+PASS — query plan inspection (SQLite synthetic data)
+Old card feed:
+- materialized up to 20,000 recent rows
+- scanned temporary result
+- used a temporary B-tree for final ordering
+
+New card feed:
+- scans idx_user_cards_last_obtained directly
+- no 20,000-row materialization
+- no temporary order B-tree in the inspected plan
+
+Synthetic 100,000 ownership-row benchmark (local SQLite, not Cloudflare D1):
+- old query mean: about 12.9 ms
+- new query mean: about 2.9 ms
+This local benchmark demonstrates the query-shape improvement only; it is not an operating D1 latency guarantee.
+
+PASS — client request behavior
+- feed cache TTL: 5 minutes
+- uncached refresh is jittered
+- cached feed renders before network response
+- draw completion does not invalidate shell/summary/feed
+- own high-grade draw updates local marquee immediately
+
+LIMITATION
+- No live Cloudflare D1 production load test was performed.

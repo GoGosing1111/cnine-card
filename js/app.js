@@ -498,6 +498,8 @@ function renderShell(tab) {
   document.addEventListener('click',event=>{if(!event.target.closest('.main-nav'))closeNavGroups()},{once:true});
   bindMobileNavigation();
   bindView(tab);
+  renderCachedAcquisitionFeed();
+  scheduleAcquisitionFeedRefreshV1408();
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
   deferShellLoad(8000+Math.floor(Math.random()*9000),loadShellSummary);
@@ -514,55 +516,88 @@ function summaryBar(user) {
   </section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">MA 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 MA 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed equipment-feed" aria-live="polite"><span class="high-grade-label equipment-feed-label">신화 장비 획득 소식</span><div class="high-grade-viewport"><div id="equipmentAcquisitionTrack" class="high-grade-track equipment-feed-track"><span class="high-grade-empty">최근 신화 장비 획득 기록을 불러오는 중...</span></div></div></section>`;
 }
 
+
+const ACQUISITION_FEED_STORAGE_KEY='cnine_public_acquisition_feed_v1408';
+const ACQUISITION_FEED_CLIENT_TTL=5*60*1000;
+let acquisitionFeedRefreshTimer=null;
+function readCachedAcquisitionFeed(){
+  try{
+    const parsed=JSON.parse(localStorage.getItem(ACQUISITION_FEED_STORAGE_KEY)||'null');
+    if(!parsed||typeof parsed!=='object')return null;
+    return {savedAt:Number(parsed.savedAt||0),highGradeItems:Array.isArray(parsed.highGradeItems)?parsed.highGradeItems:[],equipmentItems:Array.isArray(parsed.equipmentItems)?parsed.equipmentItems:[]};
+  }catch{return null}
+}
+function writeCachedAcquisitionFeed(feed){
+  try{localStorage.setItem(ACQUISITION_FEED_STORAGE_KEY,JSON.stringify({savedAt:Date.now(),highGradeItems:feed.highGradeItems||[],equipmentItems:feed.equipmentItems||[]}))}catch(_){}
+}
+function renderAcquisitionFeed(feed){
+  const highTrack=document.getElementById('highGradeTrack'),highItems=Array.isArray(feed?.highGradeItems)?feed.highGradeItems:[];
+  if(highTrack){
+    if(!highItems.length)highTrack.innerHTML='<span class="high-grade-empty">아직 MA 등급 이상 획득 기록이 없습니다.</span>';
+    else{const messages=highItems.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');highTrack.innerHTML=messages+messages;highTrack.classList.toggle('static',highItems.length===1)}
+  }
+  const equipmentTrack=document.getElementById('equipmentAcquisitionTrack'),equipmentItems=Array.isArray(feed?.equipmentItems)?feed.equipmentItems:[];
+  if(equipmentTrack){
+    if(!equipmentItems.length)equipmentTrack.innerHTML='<span class="high-grade-empty">아직 신화 등급 장비 획득 기록이 없습니다.</span>';
+    else{const messages=equipmentItems.map(item=>`<span class="high-grade-item equipment-feed-item rarity-mythic"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.equipment_name)} [신화]</strong> 장비를 획득했습니다.<em>${escapeHtml(equipmentFeedSourceLabel(item.source))}</em></span>`).join('');equipmentTrack.innerHTML=messages+messages;equipmentTrack.classList.toggle('static',equipmentItems.length===1)}
+  }
+}
+function renderCachedAcquisitionFeed(){
+  const cached=readCachedAcquisitionFeed();
+  if(cached)renderAcquisitionFeed(cached);
+}
+async function loadAcquisitionFeedV1408({force=false}={}){
+  if(!API_MODE||!API_TOKEN)return;
+  const cached=readCachedAcquisitionFeed();
+  if(!force&&cached&&Date.now()-cached.savedAt<ACQUISITION_FEED_CLIENT_TTL){renderAcquisitionFeed(cached);return}
+  try{
+    const data=await apiRequest('acquisition-feed',{}, {ttl:ACQUISITION_FEED_CLIENT_TTL,timeoutMs:5000,background:true,retryTransient:false});
+    const feed={highGradeItems:Array.isArray(data.highGradeItems)?data.highGradeItems:[],equipmentItems:Array.isArray(data.equipmentItems)?data.equipmentItems:[]};
+    writeCachedAcquisitionFeed(feed);renderAcquisitionFeed(feed);
+  }catch(error){
+    if(!cached)console.warn('획득 소식 경량 조회 실패:',error);
+  }
+}
+function scheduleAcquisitionFeedRefreshV1408(){
+  if(acquisitionFeedRefreshTimer||!API_MODE||!API_TOKEN)return;
+  const cached=readCachedAcquisitionFeed(),age=cached?Date.now()-cached.savedAt:Number.POSITIVE_INFINITY;
+  const delay=Number.isFinite(age)&&age<ACQUISITION_FEED_CLIENT_TTL
+    ?Math.max(15000,ACQUISITION_FEED_CLIENT_TTL-age+Math.floor(Math.random()*45000))
+    :20000+Math.floor(Math.random()*40000);
+  acquisitionFeedRefreshTimer=setTimeout(async()=>{
+    acquisitionFeedRefreshTimer=null;
+    await loadAcquisitionFeedV1408();
+  },delay);
+}
+function rememberLocalCardAcquisitionsV1408(results=[],nickname=''){
+  const items=(Array.isArray(results)?results:[]).filter(item=>['MA','LIMITED','PRESTIGE','FUR'].includes(String(item?.card?.grade||item?.card?.rarity||'').toUpperCase()));
+  if(!items.length)return;
+  const cached=readCachedAcquisitionFeed()||{highGradeItems:[],equipmentItems:[]},created_at=new Date().toISOString();
+  const added=items.map(item=>({nickname:String(nickname||loadUser()?.nickname||''),card_title:String(item.card.title||''),rarity:String(item.card.grade||item.card.rarity||'').toUpperCase(),created_at}));
+  const seen=new Set(),merged=[...added,...cached.highGradeItems].filter(item=>{const key=`${item.nickname}|${item.card_title}|${item.rarity}|${item.created_at}`;if(seen.has(key))return false;seen.add(key);return true}).slice(0,20);
+  const feed={highGradeItems:merged,equipmentItems:cached.equipmentItems||[]};writeCachedAcquisitionFeed(feed);renderAcquisitionFeed(feed);
+}
 async function loadShellSummary(){
   const inventoryCard=document.getElementById('inventorySummary');if(inventoryCard)inventoryCard.onclick=()=>renderShell('inventory');
   if(!API_MODE)return;
   try{
-    const d=await apiRequest('shell/summary',{}, {ttl:120000,timeoutMs:7000,background:true,retryTransient:false});
+    const d=await apiRequest('shell/summary',{}, {ttl:120000,timeoutMs:5000,background:true,retryTransient:false});
     const inventory=d.inventory||{},meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');
     if(meta)meta.textContent=Number(inventory.totalQuantity)>0?`보유 ${Number(inventory.totalQuantity).toLocaleString()}개 · ${Number(inventory.ownedTypes)}종`:'획득한 특별 보관품 없음';
     if(badge){badge.hidden=!Number(inventory.unseenTotal);badge.textContent=Number(inventory.unseenTotal)>99?'99+':`NEW ${Number(inventory.unseenTotal||0)}`}
-    const highTrack=document.getElementById('highGradeTrack'),highItems=Array.isArray(d.highGradeItems)?d.highGradeItems:[];
-    if(highTrack){if(!highItems.length)highTrack.innerHTML='<span class="high-grade-empty">아직 MA 등급 이상 획득 기록이 없습니다.</span>';else{const messages=highItems.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');highTrack.innerHTML=messages+messages;highTrack.classList.toggle('static',highItems.length===1)}}
-    const equipmentTrack=document.getElementById('equipmentAcquisitionTrack'),equipmentItems=Array.isArray(d.equipmentItems)?d.equipmentItems:[];
-    if(equipmentTrack){if(!equipmentItems.length)equipmentTrack.innerHTML='<span class="high-grade-empty">아직 신화 등급 장비 획득 기록이 없습니다.</span>';else{const messages=equipmentItems.map(item=>`<span class="high-grade-item equipment-feed-item rarity-mythic"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.equipment_name)} [신화]</strong> 장비를 획득했습니다.<em>${escapeHtml(equipmentFeedSourceLabel(item.source))}</em></span>`).join('');equipmentTrack.innerHTML=messages+messages;equipmentTrack.classList.toggle('static',equipmentItems.length===1)}}
   }catch(error){console.warn('공통 화면 요약 조회 실패:',error)}
 }
 
 async function loadInventorySummary(){const card=document.getElementById('inventorySummary');if(!card)return;card.onclick=()=>renderShell('inventory');if(!API_MODE)return;try{const d=await apiRequest('inventory',{}, {ttl:3000}),meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');if(meta)meta.textContent=d.totalQuantity>0?`보유 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`:'획득한 특별 보관품 없음';if(badge){badge.hidden=!d.unseenTotal;badge.textContent=d.unseenTotal>99?'99+':`NEW ${d.unseenTotal}`}}catch{}}
 
-async function loadRecentHighGradeFeed(){
-  const track=document.getElementById('highGradeTrack');
-  if(!track)return;
-  if(!API_MODE){track.innerHTML='<span class="high-grade-empty">현재는 실시간 획득 소식을 불러올 수 없습니다.</span>';return;}
-  try{
-    const data=await apiRequest('recent-high-grade');
-    const items=Array.isArray(data.items)?data.items:[];
-    if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 MA 등급 이상 획득 기록이 없습니다.</span>';return;}
-    const messages=items.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');
-    track.innerHTML=messages+messages;
-    track.classList.toggle('static',items.length===1);
-  }catch(error){track.innerHTML='<span class="high-grade-empty">획득 소식을 불러오지 못했습니다.</span>';}
-}
+async function loadRecentHighGradeFeed(){return loadAcquisitionFeedV1408({force:true})}
 
 function equipmentFeedSourceLabel(source){
   const key=String(source||'').trim().toUpperCase();
   return ({SUPPLY_BOX:'장비상자',ADMIN:'관리자 지급',PVE:'PVE',PVE_AUTO:'자동전투',TOWER:'무한의탑',RAID:'레이드',RIFT:'균열',PVP:'PVP',CAPTAIN:'대장전'}[key]||key||'장비 획득');
 }
 
-async function loadRecentEquipmentFeed(){
-  const track=document.getElementById('equipmentAcquisitionTrack');
-  if(!track)return;
-  if(!API_MODE){track.innerHTML='<span class="high-grade-empty">현재는 실시간 장비 소식을 불러올 수 없습니다.</span>';return;}
-  try{
-    const data=await apiRequest('recent-equipment',{}, {ttl:1000});
-    const items=Array.isArray(data.items)?data.items:[];
-    if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 신화 등급 장비 획득 기록이 없습니다.</span>';return;}
-    const messages=items.map(item=>`<span class="high-grade-item equipment-feed-item rarity-mythic"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.equipment_name)} [신화]</strong> 장비를 획득했습니다.<em>${escapeHtml(equipmentFeedSourceLabel(item.source))}</em></span>`).join('');
-    track.innerHTML=messages+messages;
-    track.classList.toggle('static',items.length===1);
-  }catch(error){track.innerHTML='<span class="high-grade-empty">장비 획득 소식을 불러오지 못했습니다.</span>';}
-}
+async function loadRecentEquipmentFeed(){return loadAcquisitionFeedV1408({force:true})}
 
 function packImagePath(pack) {
   const files = { basic: 'standard-pack.png', advanced: 'advanced-pack.png', premium: 'premium-pack.png', pickup: 'limited-pack.png' };
@@ -2187,7 +2222,7 @@ const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
 let playerSessionRecoveryPromiseV1401=null,apiReconnectTimerV1401=null,apiReconnectBusyV1401=false,apiReconnectAttemptV1401=0;
 let apiBackgroundBackoffUntilV1407=0,apiBackgroundBusyStrikesV1407=0;
 const API_RECONNECT_DELAYS_V1401=[5000,10000,20000,30000];
-const API_CACHE_TTL={'cards':600000,'packs':300000,'pvp/config':30000,'shell/summary':120000,'recent-high-grade':120000,'recent-equipment':120000};
+const API_CACHE_TTL={'cards':600000,'packs':300000,'pvp/config':30000,'shell/summary':120000,'acquisition-feed':300000,'recent-high-grade':300000,'recent-equipment':300000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
 const STARTUP_REQUEST_TIMEOUT=10000;
@@ -2999,12 +3034,13 @@ openPack=async function(packId,count,cost,options={}){
       autoDrawState.receiptArchiveQueue.push(requestId);
       autoDrawState.receiptArchiveQueue=autoDrawState.receiptArchiveQueue.slice(-20);
     }
-    clearApiCache('recent-high-grade');clearApiCache('shell/summary');clearApiCache('cards');
+    clearApiCache('cards');
     mergeClientCards(verifiedResults.map(x=>x.card));
     const next=mergeDrawUserSnapshot(d.user,verifiedResults);
     const obtainedAt=new Date().toISOString();
     next.history=[...(next.history||[]),...verifiedResults.map(item=>({cardId:String(item.card.id),at:obtainedAt,duplicate:Boolean(item.duplicate),title:item.card.title,grade:item.card.grade}))].slice(-30);
     saveUser(next);
+    rememberLocalCardAcquisitionsV1408(verifiedResults,next.nickname);
     if(responseBatchRuns>1){
       const batches=Array.from({length:responseBatchRuns},(_,index)=>verifiedResults.slice(index*responseRunSize,(index+1)*responseRunSize));
       if(autoRun)handleOfficialAutoDrawServerBatch(batches,d);else renderRecoveredDrawServerBatch(pack,batches,d,next);

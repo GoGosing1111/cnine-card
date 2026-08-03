@@ -1,0 +1,24 @@
+CNINE CARD v1408 — acquisition feed API hot-path fix
+
+Problem confirmed
+- shell/summary bundled user inventory with global card/equipment acquisition feeds.
+- Every cache miss executed a fixed 20,000-row user_cards scan and a fixed 20,000-row equipment scan.
+- The equipment feed also called ensureEquipmentFoundation(), so a harmless marquee refresh could wait for migration-marker checks.
+- renderShell schedules shell/summary after tab changes; after the 120-second browser cache expired, changing screens could trigger the heavy feed again.
+- Card draws cleared shell/summary/recent-high-grade caches, amplifying feed reads during burning events.
+
+Changes
+1. shell/summary now returns only the current user's lightweight inventory summary.
+2. Added acquisition-feed endpoint for the two public marquee feeds.
+3. Removed fixed 20,000-row subqueries.
+   - Card feed reads idx_user_cards_last_obtained in reverse order and stops after 20 matching high-grade rows.
+   - Equipment feed reads recent instance IDs in reverse order and stops after 20 mythic rows.
+4. Removed ensureEquipmentFoundation() from feed reads.
+5. Card and equipment feed SQL execute in one D1 batch and share a 120-second isolate result cache.
+6. Browser stores the feed for 5 minutes and renders cached text immediately.
+7. Refresh is delayed/jittered and performed only through acquisition-feed.
+8. A user's own MA/LIMITED/PRESTIGE/FUR draw is inserted into the local marquee immediately without a server feed refresh.
+9. Card draws no longer invalidate shell/summary or the global feed cache.
+10. No card probability, reward, equipment drop, battle, or account data rule was changed.
+
+No new per-draw/per-drop DB write was added.
