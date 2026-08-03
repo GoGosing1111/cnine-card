@@ -89,9 +89,21 @@ function burningEventStripMarkup(){
   const hyper=burningMode()==='HYPER';
   return `<section class="burning-event-strip ${hyper?'hyper-burning-strip':''}"><b>${hyper?'✦':'🔥'} 숲켓몬 ${hyper?'하이퍼 버닝':'버닝'} 진행 중</b><span>${burningBenefitText()}</span></section>`;
 }
+function ensureBurningEventStripVisible(){
+  const page=document.querySelector('.page');
+  if(!page)return;
+  const existing=page.querySelector('.burning-event-strip');
+  if(!burningEventState.enabled){existing?.remove();return;}
+  const markup=burningEventStripMarkup();
+  if(!markup)return;
+  const holder=document.createElement('div');holder.innerHTML=markup;const next=holder.firstElementChild;if(!next)return;
+  if(existing)existing.replaceWith(next);
+  else{const summary=page.querySelector('.summary-bar');if(summary)summary.insertAdjacentElement('afterend',next);else page.prepend(next)}
+}
 function syncBurningEventVisibleUi(){
+  ensureBurningEventStripVisible();
   if(runtimeCommandContext!=='buy'||!document.querySelector('.page')||document.querySelector('#modal.show'))return;
-  const y=window.scrollY;renderShell('buy');requestAnimationFrame(()=>window.scrollTo(0,y));
+  const y=window.scrollY;renderShell('buy');requestAnimationFrame(()=>{window.scrollTo(0,y);ensureBurningEventStripVisible()});
 }
 function applyBurningEventState(next={},options={}){
   const before=burningEventFingerprint(burningEventState),currentUpdated=Date.parse(String(burningEventState.updatedAt||burningEventState.activatedAt||''))||0,incomingUpdated=Date.parse(String(next.updatedAt||next.activatedAt||''))||0;
@@ -106,9 +118,10 @@ function applyBurningEventState(next={},options={}){
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
   const changed=before!==burningEventFingerprint(burningEventState);
   if(changed){clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1')}
-  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelector('.burning-event-strip')?.remove();if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
+  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelectorAll('.burning-event-strip').forEach(node=>node.remove());if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
+  queueMicrotask(ensureBurningEventStripVisible);
   const activationToken=String(burningEventState.activatedAt||burningEventState.updatedAt||'').replace(/[^0-9TZ:+.-]/g,'').slice(0,48);
-  const key=`cnine:burning-announced:${mode}:${Number(burningEventState.generation||0)}:${activationToken}`;
+  const key=`cnine:burning-announced-v1414:${mode}:${Number(burningEventState.generation||0)}:${activationToken}`;
   if(options.announce!==false&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
     localStorage.setItem(key,'1');
     setTimeout(()=>{if(burningEventState.enabled)showBurningActivationNotice()},300);

@@ -948,13 +948,16 @@ async function rollWeeklyPremiumCube(env,userId,source,referenceId){
       env.DB.prepare(`UPDATE premium_cube_weekly_attempt_receipts SET outcome=CASE WHEN EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?) THEN 'WON' ELSE 'BLOCKED' END,granted=CASE WHEN EXISTS(SELECT 1 FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=?) THEN 1 ELSE 0 END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='PENDING' AND operation_key=?`).bind(userId,source,referenceId,userId,source,referenceId,userId,weekKey,source,referenceId,operationKey)
     ]);
   }else{
+    // 실패 판정은 PENDING→LOST 후속 UPDATE를 만들지 않고 최초 INSERT 시 바로 LOST로 확정한다.
+    // 동일 reference_id 재호출은 INSERT OR IGNORE로 차단되며, 상태 증가는 새 LOST 영수증이 존재할 때만 1회 반영된다.
     await env.DB.batch([
-      env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) VALUES(?,?,?,?,'PENDING',0,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(userId,weekKey,source,referenceId,status.currentRate,operationKey),
-      env.DB.prepare(`UPDATE premium_cube_weekly_state SET current_rate=MIN(?,current_rate+?),attempt_count=attempt_count+1,last_attempt_key=?,last_attempt_won=0,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND earned_count<? AND EXISTS(SELECT 1 FROM premium_cube_weekly_attempt_receipts WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='PENDING' AND operation_key=?)`).bind(settings.maxRate,settings.incrementRate,operationKey,userId,weekKey,settings.weeklyLimit,userId,weekKey,source,referenceId,operationKey),
-      env.DB.prepare(`UPDATE premium_cube_weekly_attempt_receipts SET outcome=CASE WHEN EXISTS(SELECT 1 FROM premium_cube_weekly_state WHERE user_id=? AND week_key=? AND last_attempt_key=? AND last_attempt_won=0) THEN 'LOST' ELSE 'BLOCKED' END,granted=0,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='PENDING' AND operation_key=?`).bind(userId,weekKey,operationKey,userId,weekKey,source,referenceId,operationKey)
+      env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_attempt_receipts(user_id,week_key,source,reference_id,outcome,granted,roll_rate,operation_key,created_at,updated_at) VALUES(?,?,?,?,'LOST',0,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(userId,weekKey,source,referenceId,status.currentRate,operationKey),
+      env.DB.prepare(`UPDATE premium_cube_weekly_state SET current_rate=MIN(?,current_rate+?),attempt_count=attempt_count+1,last_attempt_key=?,last_attempt_won=0,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND week_key=? AND earned_count<? AND EXISTS(SELECT 1 FROM premium_cube_weekly_attempt_receipts WHERE user_id=? AND week_key=? AND source=? AND reference_id=? AND outcome='LOST' AND operation_key=?)`).bind(settings.maxRate,settings.incrementRate,operationKey,userId,weekKey,settings.weeklyLimit,userId,weekKey,source,referenceId,operationKey)
     ]);
   }
-  const receipt=await weeklyPremiumAttemptReceipt(env,userId,weekKey,source,referenceId),fresh=await premiumCubeWeeklyStatus(env,userId,settings);
+  const fresh=await premiumCubeWeeklyStatus(env,userId,settings);
+  if(!won)return {won:false,status:fresh,duplicate:fresh.lastAttemptKey!==operationKey};
+  const receipt=await weeklyPremiumAttemptReceipt(env,userId,weekKey,source,referenceId);
   return {won:String(receipt?.outcome||'').toUpperCase()==='WON'&&Number(receipt?.granted||0)===1,status:fresh,duplicate:Boolean(receipt&&String(receipt.operation_key||'')!==operationKey)};
 }
 async function grantPremiumCubeInventory(env,userId,source,referenceId){
