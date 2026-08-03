@@ -1622,7 +1622,7 @@ const AUTO_DRAW_TAB_ID=globalThis.crypto?.randomUUID?.()||`tab-${Date.now()}-${M
 const autoDrawState={
   active:false,stopRequested:false,packId:'',count:20,targetRuns:0,completedRuns:0,totalCards:0,spentCoins:0,
   startedAt:0,timer:null,lockTimer:null,gradeCounts:{},highGradeHits:[],prefs:null,lastStatus:'',finishDetail:'',
-  transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,busyStrikes:0,receiptArchiveQueue:[]
+  transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]
 };
 function loadAutoDrawPrefs(){
   const defaults={count:20,runs:10,delayMs:4000,simplified:true,stopGrade:'NONE'};
@@ -1661,7 +1661,7 @@ function openAutoDrawSetup(packId,defaultCount=20){
   const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
   const prefs=loadAutoDrawPrefs(),count=[1,10,20].includes(Number(defaultCount))?Number(defaultCount):Number(prefs.count||20),modal=document.getElementById('modal');
   modal.className='modal show auto-draw-setup-modal';
-  modal.innerHTML=`<div class="modal-panel auto-draw-setup-panel"><button type="button" class="icon-close auto-draw-setup-close" id="closeAutoDrawSetup">×</button><p class="eyebrow">OFFICIAL AUTO DRAW</p><h2>자동 뽑기 설정</h2><p class="auto-draw-setup-copy"><b>${escapeHtml(pack.name)}</b>을 같은 조건으로 순차 개봉합니다. 연출 간소화·정지 조건 없음에서는 최대 5회가 서버 한 요청으로 묶여 처리됩니다.</p><input type="hidden" id="autoDrawPackId" value="${escapeHtml(pack.id)}"><div class="auto-draw-form"><label><span>한 번에 개봉</span><select id="autoDrawCount"><option value="1" ${count===1?'selected':''}>1장</option><option value="10" ${count===10?'selected':''}>10장</option><option value="20" ${count===20?'selected':''}>20장</option></select></label><label><span>반복 횟수</span><div class="auto-draw-number"><input id="autoDrawRuns" type="number" min="1" max="500" step="1" value="${Math.max(1,Math.min(500,Number(prefs.runs||10)))}"><small>최대 500회</small></div></label><label><span>다음 개봉 간격</span><select id="autoDrawDelay"><option value="4000" ${Number(prefs.delayMs)===4000?'selected':''}>4초</option><option value="6000" ${Number(prefs.delayMs)===6000?'selected':''}>6초</option><option value="10000" ${Number(prefs.delayMs)===10000?'selected':''}>10초</option></select></label><label><span>획득 시 자동 정지</span><select id="autoDrawStopGrade"><option value="NONE" ${prefs.stopGrade==='NONE'?'selected':''}>끝까지 진행</option><option value="SSR" ${prefs.stopGrade==='SSR'?'selected':''}>SSR 이상</option><option value="MA" ${prefs.stopGrade==='MA'?'selected':''}>MA 이상</option><option value="LIMITED" ${prefs.stopGrade==='LIMITED'?'selected':''}>LIMITED 이상</option><option value="FUR" ${prefs.stopGrade==='FUR'?'selected':''}>FUR</option></select></label><label class="auto-draw-check"><input id="autoDrawSimplified" type="checkbox" ${prefs.simplified!==false?'checked':''}><span><b>연출 간소화</b><small>팩 개봉·특별 연출을 생략하고 결과만 잠시 표시합니다.</small></span></label></div><div class="auto-draw-estimate" id="autoDrawEstimate"></div><div class="auto-draw-safety"><b>자동 뽑기 안전 규칙</b><span>병렬 요청 없음 · 최대 5회 서버 묶음 · 요청 영수증 유지 · D1 혼잡 회로 차단 · 요청 시점 자동 분산</span></div><div class="auto-draw-setup-actions"><button type="button" class="btn secondary" id="cancelAutoDrawSetup">취소</button><button type="button" class="btn" id="startAutoDraw">자동 뽑기 시작</button></div></div>`;
+  modal.innerHTML=`<div class="modal-panel auto-draw-setup-panel"><button type="button" class="icon-close auto-draw-setup-close" id="closeAutoDrawSetup">×</button><p class="eyebrow">OFFICIAL AUTO DRAW</p><h2>자동 뽑기 설정</h2><p class="auto-draw-setup-copy"><b>${escapeHtml(pack.name)}</b>을 같은 조건으로 순차 개봉합니다. 서버 요청은 한 번에 하나씩만 처리됩니다.</p><input type="hidden" id="autoDrawPackId" value="${escapeHtml(pack.id)}"><div class="auto-draw-form"><label><span>한 번에 개봉</span><select id="autoDrawCount"><option value="1" ${count===1?'selected':''}>1장</option><option value="10" ${count===10?'selected':''}>10장</option><option value="20" ${count===20?'selected':''}>20장</option></select></label><label><span>반복 횟수</span><div class="auto-draw-number"><input id="autoDrawRuns" type="number" min="1" max="500" step="1" value="${Math.max(1,Math.min(500,Number(prefs.runs||10)))}"><small>최대 500회</small></div></label><label><span>다음 개봉 간격</span><select id="autoDrawDelay"><option value="4000" ${Number(prefs.delayMs)===4000?'selected':''}>4초</option><option value="6000" ${Number(prefs.delayMs)===6000?'selected':''}>6초</option><option value="10000" ${Number(prefs.delayMs)===10000?'selected':''}>10초</option></select></label><label><span>획득 시 자동 정지</span><select id="autoDrawStopGrade"><option value="NONE" ${prefs.stopGrade==='NONE'?'selected':''}>끝까지 진행</option><option value="SSR" ${prefs.stopGrade==='SSR'?'selected':''}>SSR 이상</option><option value="MA" ${prefs.stopGrade==='MA'?'selected':''}>MA 이상</option><option value="LIMITED" ${prefs.stopGrade==='LIMITED'?'selected':''}>LIMITED 이상</option><option value="FUR" ${prefs.stopGrade==='FUR'?'selected':''}>FUR</option></select></label><label class="auto-draw-check"><input id="autoDrawSimplified" type="checkbox" ${prefs.simplified!==false?'checked':''}><span><b>연출 간소화</b><small>팩 개봉·특별 연출을 생략하고 결과만 잠시 표시합니다.</small></span></label></div><div class="auto-draw-estimate" id="autoDrawEstimate"></div><div class="auto-draw-safety"><b>자동 뽑기 안전 규칙</b><span>병렬 요청 없음 · 요청 영수증 유지 · D1 혼잡 시 동일 요청 자동 복구 · 50회마다 짧은 보호 휴식</span></div><div class="auto-draw-setup-actions"><button type="button" class="btn secondary" id="cancelAutoDrawSetup">취소</button><button type="button" class="btn" id="startAutoDraw">자동 뽑기 시작</button></div></div>`;
   const close=()=>{modal.className='modal';modal.innerHTML=''};
   document.getElementById('closeAutoDrawSetup').onclick=document.getElementById('cancelAutoDrawSetup').onclick=close;
   ['autoDrawCount','autoDrawRuns'].forEach(id=>document.getElementById(id)?.addEventListener('input',autoDrawSetupEstimate));
@@ -1677,10 +1677,8 @@ function startOfficialAutoDraw(packId,prefs){
   if(!acquireAutoDrawLock())return alert('다른 탭에서 자동 뽑기가 진행 중입니다.\n중복 요청 방지를 위해 한 탭에서만 사용할 수 있습니다.');
   const count=[1,10,20].includes(Number(prefs.count))?Number(prefs.count):20,runs=Math.max(1,Math.min(500,Number(prefs.runs||1))),cost=Number(pack.price||0)*count;
   if(Number(loadUser()?.coin||0)<cost){releaseAutoDrawLock();return alert(`코인이 부족합니다.\n${count}장 개봉에는 ${Number(cost).toLocaleString()}코인이 필요합니다.`);}
-  Object.assign(autoDrawState,{active:true,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:'',transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,busyStrikes:0,receiptArchiveQueue:[]});
-  const initialDelay=700+Math.floor(Math.random()*2800);
-  updateAutoDrawDock(`동시 요청 분산 대기 ${(initialDelay/1000).toFixed(1)}초`);
-  autoDrawState.timer=setTimeout(()=>{autoDrawState.timer=null;runOfficialAutoDrawNext()},initialDelay);
+  Object.assign(autoDrawState,{active:true,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:'',transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]});
+  renderAutoDrawDock();runOfficialAutoDrawNext();
 }
 function clearAutoDrawTimer(){if(autoDrawState.timer){clearTimeout(autoDrawState.timer);autoDrawState.timer=null}}
 function renderAutoDrawDock(){
@@ -1702,9 +1700,9 @@ function autoDrawHitStopGrade(results=[]){
   const targetPower=Number(gradeOrder[target]||999);
   return results.map(x=>x?.card).find(card=>Number(gradeOrder[String(card?.grade||'').toUpperCase()]||0)>=targetPower)||null;
 }
-function collectAutoDrawBatch(results=[],options={}){
+function collectAutoDrawBatch(results=[]){
   autoDrawState.completedRuns+=1;autoDrawState.totalCards+=results.length;
-  if(options.skipCost!==true){const pack=getPack(autoDrawState.packId);autoDrawState.spentCoins+=Math.max(0,Number(options.cost??(Number(pack?.price||0)*autoDrawState.count)));}
+  const pack=getPack(autoDrawState.packId);autoDrawState.spentCoins+=Math.max(0,Number(pack?.price||0))*autoDrawState.count;
   results.forEach(item=>{const card=item?.card,grade=String(card?.grade||'').toUpperCase();if(!grade)return;autoDrawState.gradeCounts[grade]=Number(autoDrawState.gradeCounts[grade]||0)+1;if(Number(gradeOrder[grade]||0)>=Number(gradeOrder.SSR)){autoDrawState.highGradeHits.unshift({grade,title:String(card?.title||card?.name||'카드'),duplicate:Boolean(item?.duplicate)});autoDrawState.highGradeHits=autoDrawState.highGradeHits.slice(0,18)}});
 }
 function autoDrawSummaryMarkup(){
@@ -1720,10 +1718,9 @@ function finishOfficialAutoDraw(reason='자동 뽑기 완료',detail=''){
   document.getElementById('autoDrawSummaryConfirm').onclick=()=>renderShell('buy');
   const again=document.getElementById('autoDrawSummaryAgain');if(again)again.onclick=()=>{modal.className='modal';modal.innerHTML='';startOfficialAutoDraw(snapshot.packId,snapshot.prefs)};
 }
-function renderAutoDrawProcessing(pack,count,batchRuns=1){
+function renderAutoDrawProcessing(pack,count){
   const modal=document.getElementById('modal');modal.className='modal show opening-modal auto-draw-processing-modal';
-  const totalCards=count*Math.max(1,Number(batchRuns||1)),lastRun=Math.min(autoDrawState.targetRuns,autoDrawState.completedRuns+Math.max(1,Number(batchRuns||1)));
-  modal.innerHTML=`<div class="modal-panel auto-draw-processing-panel"><div class="auto-draw-loader"><i></i><i></i><i></i></div><p class="eyebrow">AUTO DRAW PROCESSING</p><h2>${escapeHtml(pack.name)} · ${Number(totalCards).toLocaleString()}장</h2><p id="autoDrawProcessingMessage">서버에서 ${batchRuns>1?`${batchRuns}회 묶음으로 `:''}카드 지급 결과를 확정하고 있습니다.</p><small id="autoDrawProcessingStep">${autoDrawState.completedRuns+1} ~ ${lastRun} / ${autoDrawState.targetRuns}회차</small><button type="button" class="btn secondary" id="stopAutoDrawProcessing">현재 묶음 지급 후 중지</button></div>`;
+  modal.innerHTML=`<div class="modal-panel auto-draw-processing-panel"><div class="auto-draw-loader"><i></i><i></i><i></i></div><p class="eyebrow">AUTO DRAW PROCESSING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><p id="autoDrawProcessingMessage">서버에서 카드 지급 결과를 확정하고 있습니다.</p><small id="autoDrawProcessingStep">${autoDrawState.completedRuns+1} / ${autoDrawState.targetRuns}회차</small><button type="button" class="btn secondary" id="stopAutoDrawProcessing">현재 개봉 후 중지</button></div>`;
   document.getElementById('stopAutoDrawProcessing').onclick=requestStopAutoDraw;
 }
 function scheduleOfficialAutoDrawNext(){
@@ -1732,8 +1729,7 @@ function scheduleOfficialAutoDrawNext(){
   const baseDelay=Math.max(4000,Number(autoDrawState.prefs?.delayMs||4000));
   const adaptiveDelay=Math.max(0,Number(autoDrawState.adaptiveDelayMs||0));
   const protectionBreak=autoDrawState.completedRuns>0&&autoDrawState.completedRuns%50===0;
-  const jitter=Math.floor(baseDelay*(0.25+Math.random()*0.35));
-  const delay=(protectionBreak?Math.max(baseDelay,adaptiveDelay,20000):Math.max(baseDelay,adaptiveDelay))+jitter;
+  const delay=protectionBreak?Math.max(baseDelay,adaptiveDelay,20000):Math.max(baseDelay,adaptiveDelay);
   const label=protectionBreak?`서버 보호 휴식 ${(delay/1000).toFixed(0)}초`:adaptiveDelay>baseDelay?`혼잡 완화 대기 ${(delay/1000).toFixed(0)}초`:`다음 개봉까지 ${(delay/1000).toFixed(1)}초`;
   updateAutoDrawDock(label);
   autoDrawState.timer=setTimeout(()=>{autoDrawState.timer=null;runOfficialAutoDrawNext()},delay);
@@ -1747,41 +1743,6 @@ function handleOfficialAutoDrawBatch(results=[]){
   if(autoDrawState.completedRuns>=autoDrawState.targetRuns){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('설정한 자동 뽑기를 완료했습니다.'),900);return}
   scheduleOfficialAutoDrawNext();
 }
-function autoDrawServerBatchSize(){
-  const remaining=Math.max(0,Number(autoDrawState.targetRuns||0)-Number(autoDrawState.completedRuns||0));
-  if(remaining<=1||autoDrawState.prefs?.simplified===false||String(autoDrawState.prefs?.stopGrade||'NONE')!=='NONE')return 1;
-  return Math.max(1,Math.min(5,remaining,Math.floor(100/Math.max(1,Number(autoDrawState.count||20)))));
-}
-function renderRecoveredDrawServerBatch(pack,batches=[],response={},user=loadUser()){
-  const modal=document.getElementById('modal'),results=batches.flat(),grades={};
-  for(const item of results){const grade=String(item?.card?.grade||'').toUpperCase();if(grade)grades[grade]=Number(grades[grade]||0)+1;}
-  const gradeMarkup=Object.entries(grades).sort((a,b)=>Number(gradeOrder[b[0]]||0)-Number(gradeOrder[a[0]]||0)).map(([grade,value])=>`<span class="grade-${grade.toLowerCase()}"><b>${escapeHtml(grade)}</b>${Number(value).toLocaleString()}장</span>`).join('');
-  const high=results.filter(item=>Number(gradeOrder[String(item?.card?.grade||'').toUpperCase()]||0)>=Number(gradeOrder.SSR)).slice(0,12);
-  const totalCost=Math.max(0,Number(response?.grantProof?.coinBefore||0)-Number(response?.grantProof?.coinAfter||0));
-  modal.className='modal show auto-draw-summary-modal';
-  modal.innerHTML=`<div class="modal-panel auto-draw-summary-panel"><p class="eyebrow">DRAW RECOVERY COMPLETE</p><h2>${escapeHtml(pack?.name||'카드팩')} · ${batches.length}회 결과 복구</h2><p class="auto-draw-finish-detail">${results.length}장 지급과 ${Number(totalCost).toLocaleString()}코인 차감이 서버 영수증으로 확인되었습니다.</p><div class="auto-draw-grade-summary">${gradeMarkup}</div>${high.length?`<div class="auto-draw-high-list"><h3>SSR 이상 획득 기록</h3>${high.map(item=>`<div><b>${escapeHtml(item.card.grade)}</b><span>${escapeHtml(item.card.title)}</span><small>${item.duplicate?'중복':'신규'}</small></div>`).join('')}</div>`:''}<div class="auto-draw-summary-actions"><button type="button" class="btn" id="drawRecoveryConfirm">확인</button></div></div>`;
-  document.getElementById('drawRecoveryConfirm').onclick=()=>renderShell('buy');
-}
-function handleOfficialAutoDrawServerBatch(batches=[],response={}){
-  autoDrawState.transientRetries=0;autoDrawState.busyStrikes=Math.max(0,Number(autoDrawState.busyStrikes||0)-1);
-  autoDrawState.adaptiveDelayMs=Math.max(0,Math.floor(Number(autoDrawState.adaptiveDelayMs||0)*0.68)-1500);
-  const totalCost=Math.max(0,Number(response?.grantProof?.coinBefore||0)-Number(response?.grantProof?.coinAfter||0));
-  let hit=null;
-  for(const results of batches){collectAutoDrawBatch(results,{skipCost:true});hit=hit||autoDrawHitStopGrade(results);}
-  autoDrawState.spentCoins+=totalCost;
-  updateAutoDrawDock(`${Math.max(1,batches.length)}회 묶음 지급 완료 · 총 ${autoDrawState.completedRuns}회`);
-  const modal=document.getElementById('modal');
-  if(modal&&autoDrawState.active){
-    const high=batches.flat().filter(item=>Number(gradeOrder[String(item?.card?.grade||'').toUpperCase()]||0)>=Number(gradeOrder.SSR)).slice(0,8);
-    modal.className='modal show opening-modal auto-draw-processing-modal';
-    modal.innerHTML=`<div class="modal-panel auto-draw-processing-panel"><p class="eyebrow">SERVER BATCH COMPLETE</p><h2>${batches.length}회 · ${batches.flat().length}장 지급 완료</h2><p>${high.length?`SSR 이상 ${high.length}장 포함`:'모든 카드가 서버 도감에 지급되었습니다.'}</p><small>다음 요청은 사용자별 임의 지연 후 실행됩니다.</small><button type="button" class="btn secondary" id="stopAutoDrawProcessing">자동 뽑기 중지</button></div>`;
-    document.getElementById('stopAutoDrawProcessing').onclick=requestStopAutoDraw;
-  }
-  if(autoDrawState.stopRequested){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('자동 뽑기 중지','현재 서버 묶음까지 정상 지급했습니다.'),700);return}
-  if(hit){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw(`${autoDrawStopLabel(autoDrawState.prefs.stopGrade)} 획득으로 정지`,`${hit.title||hit.name||'카드'} 획득`),900);return}
-  if(autoDrawState.completedRuns>=autoDrawState.targetRuns){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('설정한 자동 뽑기를 완료했습니다.'),900);return}
-  scheduleOfficialAutoDrawNext();
-}
 async function runOfficialAutoDrawNext(){
   if(!autoDrawState.active)return;
   if(autoDrawState.stopRequested)return finishOfficialAutoDraw('자동 뽑기 중지');
@@ -1789,9 +1750,8 @@ async function runOfficialAutoDrawNext(){
   const pack=getPack(autoDrawState.packId);if(!pack)return finishOfficialAutoDraw('자동 뽑기 오류','카드팩 정보를 불러오지 못했습니다.');
   const cost=Math.max(0,Number(pack.price||0))*autoDrawState.count,balance=Math.max(0,Number(loadUser()?.coin||0));
   if(balance<cost)return finishOfficialAutoDraw('코인 부족으로 자동 종료',`${autoDrawState.count}장 개봉에 ${Number(cost).toLocaleString()}코인이 필요합니다.`);
-  const affordable=Math.max(1,Math.floor(balance/Math.max(1,cost))),batchRuns=Math.min(autoDrawServerBatchSize(),affordable);
-  updateAutoDrawDock(batchRuns>1?`${autoDrawState.completedRuns+1}~${autoDrawState.completedRuns+batchRuns}회차 서버 묶음 요청 중`:`${autoDrawState.completedRuns+1}회차 개봉 요청 중`);
-  await openPack(pack.id,autoDrawState.count,cost,{autoRun:true,batchRuns});
+  updateAutoDrawDock(`${autoDrawState.completedRuns+1}회차 개봉 요청 중`);
+  await openPack(pack.id,autoDrawState.count,cost,{autoRun:true});
 }
 
 function bindView(tab) {
@@ -2177,8 +2137,6 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-let playerSessionRecoveryPromiseV1401=null,apiReconnectTimerV1401=null,apiReconnectBusyV1401=false,apiReconnectAttemptV1401=0;
-const API_RECONNECT_DELAYS_V1401=[5000,10000,20000,30000];
 const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':1000,'shell/summary':30000,'recent-high-grade':30000,'recent-equipment':30000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
@@ -2230,18 +2188,18 @@ async function refreshStartupCatalog(runId,cardTask,packTask){
   if(Object.keys(cachePatch).length)writeStartupSnapshot(cachePatch);
   if(changed)refreshBuyShellAfterStartup(runId);
 }
-async function verifyStartupSession({strict=false}={}){
+async function verifyStartupSession(){
   if(API_TOKEN){
     try{
-      const me=await apiRequest('me/summary',{}, {timeoutMs:6000,ttl:0,skipAuthRecovery:true});
+      const me=await apiRequest('me/summary',{}, {timeoutMs:6000,ttl:0});
       const current=loadUser();
       if(current)saveUser(mergeApiUserSummary(me.user,current));
-      else{const full=await apiRequest('me',{}, {timeoutMs:10000,ttl:0,skipAuthRecovery:true});saveUser(apiUserToLocal(full.user));}
+      else{const full=await apiRequest('me',{}, {timeoutMs:10000,ttl:0});saveUser(apiUserToLocal(full.user));}
       return true;
     }
     catch(error){
       if(Number(error?.status)===401){clearPlayerToken();return recoverPlayerSession()}
-      console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);return strict?false:Boolean(loadUser());
+      console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);return Boolean(loadUser());
     }
   }
   return recoverPlayerSession();
@@ -2287,40 +2245,6 @@ function renderStartupRecovery(message='서버 연결이 지연되고 있습니�
   if(retry)retry.onclick=()=>{API_INFLIGHT.clear();clearApiCache();void init()};
   if(reset)reset.onclick=()=>{clearPlayerToken();API_INFLIGHT.clear();clearApiCache();void init()};
 }
-function stopApiReconnectV1401(){if(apiReconnectTimerV1401){clearTimeout(apiReconnectTimerV1401);apiReconnectTimerV1401=null}apiReconnectAttemptV1401=0}
-function scheduleApiReconnectV1401(reason='connection',delayOverride=null){
-  if(API_MODE)return stopApiReconnectV1401();
-  if(apiReconnectBusyV1401)return;
-  if(apiReconnectTimerV1401)return;
-  const index=Math.min(apiReconnectAttemptV1401,API_RECONNECT_DELAYS_V1401.length-1),delay=delayOverride===null?API_RECONNECT_DELAYS_V1401[index]:Math.max(0,Number(delayOverride)||0);
-  apiReconnectTimerV1401=setTimeout(()=>{apiReconnectTimerV1401=null;void runApiReconnectV1401(reason)},delay);
-}
-async function runApiReconnectV1401(reason='connection'){
-  if(API_MODE)return stopApiReconnectV1401();
-  if(apiReconnectBusyV1401)return;
-  if(document.hidden||navigator.onLine===false){apiReconnectAttemptV1401=Math.min(apiReconnectAttemptV1401+1,API_RECONNECT_DELAYS_V1401.length-1);return scheduleApiReconnectV1401(reason)}
-  apiReconnectBusyV1401=true;
-  try{
-    const service=await detectApi();
-    if(!API_MODE)throw new Error('API_OFFLINE');
-    if(service?.maintenance?.active&&!service.bypass){stopApiReconnectV1401();renderMaintenance(service.maintenance,service);return}
-    const authenticated=await verifyStartupSession({strict:true});
-    if(loadUser()&&!authenticated)throw new Error('SESSION_RECOVERY_PENDING');
-    stopApiReconnectV1401();
-    if(authenticated){
-      void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
-      startRuntimeCommandPoll();
-      refreshBuyShellAfterStartup(startupRunId);
-    }else if(!loadUser())renderLogin();
-    try{window.dispatchEvent(new CustomEvent('cnine:api-reconnected',{detail:{reason}}))}catch(_){}
-  }catch(error){
-    console.warn('서버 자동 재연결 실패:',error);
-    API_MODE=false;apiReconnectAttemptV1401=Math.min(apiReconnectAttemptV1401+1,API_RECONNECT_DELAYS_V1401.length-1);
-    setTimeout(()=>scheduleApiReconnectV1401(reason),0);
-  }finally{apiReconnectBusyV1401=false}
-}
-window.addEventListener('online',()=>{if(!API_MODE)scheduleApiReconnectV1401('online',0)});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!API_MODE)scheduleApiReconnectV1401('visible',0)});
 function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?4000:8000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
 
 const RETIREMENT_REROLL_META={
@@ -2465,16 +2389,6 @@ async function openWagoVerification(){
   }catch(e){panel.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
 
-function apiAuthRecoveryAllowedV1401(path,config={}){
-  const clean=String(path||'').toLowerCase();
-  return config.skipAuthRecovery!==true&&!clean.startsWith('auth/')&&!clean.startsWith('admin/')&&Boolean(loadUser()?.key);
-}
-function apiTransientRetryStatusV1401(status){return [429,502,504].includes(Number(status))}
-function apiRetryDelayV1401(response=null){
-  const retryAfter=Number(response?.headers?.get?.('retry-after')||0);
-  if(Number.isFinite(retryAfter)&&retryAfter>0)return Math.min(2000,retryAfter*1000);
-  return 350+Math.floor(Math.random()*350);
-}
 async function apiRequest(path, options={}, config={}) {
   const cleanPath=apiCacheKey(path),method=String(options.method||'GET').toUpperCase(),isGet=method==='GET';
   const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now();
@@ -2483,40 +2397,21 @@ async function apiRequest(path, options={}, config={}) {
   else if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
   const timeoutMs=Math.max(1000,Number(config.timeoutMs??(isGet?15000:30000))||15000);
   const task=(async()=>{
-    let authRetried=false,transientRetried=false;
-    for(;;){
-      let response;
-      try{
-        response=await fetchWithTimeout(`/api/${cleanPath}`,{
-          cache:isGet&&ttl>0?'default':'no-store',
-          ...options,
-          headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}
-        },timeoutMs,`서버 요청 (${cleanPath})`);
-      }catch(error){
-        const externallyAborted=Boolean(options.signal?.aborted);
-        if(isGet&&!transientRetried&&!externallyAborted){transientRetried=true;await new Promise(resolve=>setTimeout(resolve,apiRetryDelayV1401()));continue}
-        throw error;
-      }
-      const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
-      let data={};
-      if(text){
-        if(contentType.includes('application/json')){try{data=JSON.parse(text)}catch{throw new Error('서버 JSON 응답 형식이 올바르지 않습니다.')}}
-        else{if(response.ok&&config.allowEmpty)return {};throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.');}
-      }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
-      if(response.status===401&&!authRetried&&apiAuthRecoveryAllowedV1401(cleanPath,config)){
-        authRetried=true;
-        const recovered=await recoverPlayerSession({refreshCatalog:false,reason:'HTTP_401'});
-        if(recovered){clearApiCache();continue}
-      }
-      if(isGet&&!transientRetried&&apiTransientRetryStatusV1401(response.status)){
-        transientRetried=true;await new Promise(resolve=>setTimeout(resolve,apiRetryDelayV1401(response)));continue;
-      }
-      if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;}
-      API_MODE=true;apiReconnectAttemptV1401=0;
-      if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
-      if(!isGet&&cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
-      return data;
-    }
+    const response=await fetchWithTimeout(`/api/${cleanPath}`,{
+      cache:isGet&&ttl>0?'default':'no-store',
+      ...options,
+      headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}
+    },timeoutMs,`서버 요청 (${cleanPath})`);
+    const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
+    let data={};
+    if(text){
+      if(contentType.includes('application/json')){try{data=JSON.parse(text)}catch{throw new Error('서버 JSON 응답 형식이 올바르지 않습니다.')}}
+      else{if(response.ok&&config.allowEmpty)return {};throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.');}
+    }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
+    if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;}
+    if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
+    if(!isGet&&cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
+    return data;
   })();
   if(isGet)API_INFLIGHT.set(cleanPath,task);
   try{return await task}finally{if(isGet&&API_INFLIGHT.get(cleanPath)===task)API_INFLIGHT.delete(cleanPath)}
@@ -2564,7 +2459,6 @@ async function detectApi(){
     const contentType=(response.headers.get('content-type')||'').toLowerCase();
     if(!contentType.includes('application/json')){API_MODE=false;return null;}
     const data=await response.json();API_MODE=response.ok;
-    if(API_MODE){apiReconnectAttemptV1401=0;if(apiReconnectTimerV1401){clearTimeout(apiReconnectTimerV1401);apiReconnectTimerV1401=null}}
     if(data.bypass&&!API_TOKEN&&adminToken)API_TOKEN=adminToken;
     return data;
   }catch(error){console.warn('서버 상태 확인 실패:',error);API_MODE=false;return null;}
@@ -2599,26 +2493,19 @@ async function syncCollectionFromServer({force=false,rerender=false}={}){
   collectionSyncPromise=(async()=>{const data=await apiRequest('me/collection',{}, {ttl:force?0:30000,timeoutMs:10000}),collection=data?.collection||{},current=loadUser();if(!current||!Array.isArray(collection.owned))return false;const beforeIds=[...ownedIds(current)].sort().join(','),next={...current,collectionRepairR6:true,owned:collection.owned.map(String),quantities:Object.fromEntries(Object.entries(collection.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs:Object.fromEntries(Object.entries(collection.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]))};saveUser(next);collectionSyncAt=Date.now();const changed=beforeIds!==[...ownedIds(next)].sort().join(',');if(changed&&rerender&&runtimeCommandContext==='dex')renderShell('dex');return changed;})().catch(error=>{console.warn('서버 도감 동기화 실패:',error);return false}).finally(()=>{collectionSyncPromise=null});
   return collectionSyncPromise;
 }
-async function recoverPlayerSession({refreshCatalog=true,reason='startup'}={}){
-  if(playerSessionRecoveryPromiseV1401)return playerSessionRecoveryPromiseV1401;
-  playerSessionRecoveryPromiseV1401=(async()=>{
-    const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
-    if(!privateKey)return false;
-    try{
-      const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})},{timeoutMs:10000,skipAuthRecovery:true});
-      persistPlayerToken(d.token);API_MODE=true;apiReconnectAttemptV1401=0;
-      saveUser(apiUserToLocal(d.user,privateKey));
-      if(refreshCatalog)await refreshCardCatalogForCurrentViewer();
-      try{window.dispatchEvent(new CustomEvent('cnine:session-recovered',{detail:{reason}}))}catch(_){}
-      return true;
-    }catch(error){
-      if([401,403].includes(Number(error?.status)))clearPlayerToken();
-      else{API_MODE=false;apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('session-recovery',5000)}
-      console.warn('자동 세션 복구 실패:',error);
-      return false;
-    }
-  })();
-  try{return await playerSessionRecoveryPromiseV1401}finally{playerSessionRecoveryPromiseV1401=null}
+async function recoverPlayerSession(){
+  const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
+  if(!privateKey)return false;
+  try{
+    const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})},{timeoutMs:10000});
+    persistPlayerToken(d.token);
+    saveUser(apiUserToLocal(d.user,privateKey));
+    await refreshCardCatalogForCurrentViewer();
+    return true;
+  }catch(error){
+    console.warn('자동 세션 복구 실패:',error);
+    return false;
+  }
 }
 async function init(){
   viewerCatalogWasRefreshed=false;
@@ -2681,16 +2568,14 @@ async function init(){
     // 실제 쓰기 기능은 API_MODE=false 상태에서 계속 차단하고, 한 번만 백그라운드 재연결을 시도한다.
     if(hasCatalogSnapshot&&loadUser()){
       renderShell('buy');
-      apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-cache',5000);
+      setTimeout(async()=>{if(runId!==startupRunId||API_MODE)return;const service=await detectApi();if(!API_MODE)return;if(service?.maintenance?.active&&!service.bypass)return renderMaintenance(service.maintenance,service);await verifyStartupSession();await refreshBurningEventState({forceFresh:true,rerender:true});scheduleBurningEventWatch();refreshBuyShellAfterStartup(runId)},5000);
       return;
     }
-    renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 자동 재연결을 계속 시도합니다.':'서버 연결을 확인할 수 없습니다. 자동 재연결을 계속 시도합니다.');
-    apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-recovery',5000);
+    renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 잠시 후 다시 연결해주세요.':'서버 연결을 확인할 수 없습니다. 잠시 후 다시 연결해주세요.');
     return;
   }
   if(runId!==startupRunId)return;
   completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
-  stopApiReconnectV1401();
   if(authenticated)renderShell('buy');else renderLogin();
   if(authenticated)void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
 
@@ -2816,24 +2701,23 @@ async function waitForDrawRecovery(ms,label='서버 혼잡 복구 대기'){
 async function drawReceiptStatus(requestId){
   return apiRequest(`draw/status?requestId=${encodeURIComponent(requestId)}`,{}, {ttl:0,timeoutMs:10000});
 }
-async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{autoRun=false,batchRuns=1,acknowledgedRequestIds=[]}={}){
-  const serverBatch=Math.max(1,Number(batchRuns||1))>1;
+async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{autoRun=false,acknowledgedRequestIds=[]}={}){
   const options={
     method:'POST',
     headers:{
       'x-cnine-draw-receipt':Number(receiptVersion)===2?'v2':'legacy',
-      'x-cnine-auto-draw':autoRun||serverBatch?'1':'0'
+      'x-cnine-auto-draw':autoRun?'1':'0'
     },
-    body:JSON.stringify({packId,count,requestId,autoDraw:autoRun||serverBatch,batchMode:serverBatch?'SERVER_BATCH':'SINGLE',batchRuns:Math.max(1,Math.min(5,Number(batchRuns)||1)),acknowledgedRequestIds:Array.isArray(acknowledgedRequestIds)?acknowledgedRequestIds.slice(0,10):[]})
+    body:JSON.stringify({packId,count,requestId,autoDraw:autoRun,acknowledgedRequestIds:Array.isArray(acknowledgedRequestIds)?acknowledgedRequestIds.slice(0,10):[]})
   };
-  const maxAttempts=autoRun||serverBatch?5:3;
+  const maxAttempts=autoRun?8:3;
   let lastError=null,shouldPost=true;
   for(let attempt=0;attempt<maxAttempts;attempt++){
     if(shouldPost){
       const started=Date.now();
       try{
-        const result=await apiRequest('draw',options,{timeoutMs:serverBatch?90000:(autoRun?60000:45000)});
-        if(autoRun){autoDrawState.lastRequestMs=Date.now()-started;autoDrawState.busyStrikes=Math.max(0,Number(autoDrawState.busyStrikes||0)-1);}
+        const result=await apiRequest('draw',options,{timeoutMs:autoRun?60000:45000});
+        if(autoRun)autoDrawState.lastRequestMs=Date.now()-started;
         return result;
       }catch(error){
         if(!drawRequestStillProcessing(error))throw error;
@@ -2843,10 +2727,10 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
 
     const busy=isDrawStorageBusy(lastError);
     const suggested=Math.max(2000,Number(lastError?.retryAfterMs||0));
-    const waitMs=Math.min(90000,Math.max(suggested,busy?15000*Math.pow(1.6,attempt):3000*Math.pow(1.45,attempt)));
+    const waitMs=Math.min(60000,Math.max(suggested,busy?10000*Math.pow(1.55,attempt):2500*Math.pow(1.4,attempt)));
     if(autoRun){
       autoDrawState.transientRetries=attempt+1;
-      if(busy){autoDrawState.busyStrikes=Number(autoDrawState.busyStrikes||0)+1;const circuitDelay=autoDrawState.busyStrikes>=3?Math.max(30000,waitMs):waitMs;autoDrawState.adaptiveDelayMs=Math.max(Number(autoDrawState.adaptiveDelayMs||0),Math.min(90000,circuitDelay));}
+      if(busy)autoDrawState.adaptiveDelayMs=Math.max(Number(autoDrawState.adaptiveDelayMs||0),Math.min(60000,waitMs));
       await waitForDrawRecovery(waitMs,busy?'D1 혼잡 자동 복구':'카드 지급 결과 확인');
     }else{
       await new Promise(resolve=>setTimeout(resolve,waitMs));
@@ -2873,7 +2757,7 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
       throw error;
     }
     if(state==='COMPLETED'){
-      try{return await apiRequest('draw',options,{timeoutMs:serverBatch?45000:30000})}
+      try{return await apiRequest('draw',options,{timeoutMs:30000})}
       catch(error){lastError=error;shouldPost=true;continue}
     }
     shouldPost=state==='NOT_FOUND'||state==='RETRYABLE';
@@ -2922,14 +2806,14 @@ function drawIntegrityCanonical(response){
     }))
   });
 }
-function validateDrawResponse(response,{requestId,packId,count,runSize=count,batchRuns=1}){
+function validateDrawResponse(response,{requestId,packId,count}){
   if(!response||typeof response!=='object')throw new Error('카드 개봉 응답이 비어 있습니다.');
   if(String(response.requestId||'')!==String(requestId))throw new Error('현재 개봉 요청과 다른 응답이 도착해 결과 표시를 중단했습니다.');
   if(activeDrawRequestId!==String(requestId))throw new Error('이미 종료된 카드 개봉 응답입니다.');
   if(consumedDrawResponses.has(String(requestId)))throw new Error('이미 표시한 카드 개봉 결과입니다.');
   const protocol=response.drawProtocol||{},proof=response.grantProof||{};
-  if(Number(protocol.version)!==3||protocol.grantVerified!==true||String(protocol.packId||'')!==String(packId)||Number(protocol.count)!==Number(count)||Number(protocol.runSize||runSize)!==Number(runSize)||Number(protocol.batchRuns||batchRuns)!==Number(batchRuns)||protocol.status!=='COMPLETED')throw new Error('서버 카드 지급 확정 정보가 일치하지 않습니다.');
-  if(String(proof.requestId||'')!==String(requestId)||Number(proof.count)!==Number(count)||Number(proof.runSize||runSize)!==Number(runSize)||Number(proof.batchRuns||batchRuns)!==Number(batchRuns)||String(proof.packId||'')!==String(packId))throw new Error('서버 카드 지급 증명 정보가 일치하지 않습니다.');
+  if(Number(protocol.version)!==3||protocol.grantVerified!==true||String(protocol.packId||'')!==String(packId)||Number(protocol.count)!==Number(count)||protocol.status!=='COMPLETED')throw new Error('서버 카드 지급 확정 정보가 일치하지 않습니다.');
+  if(String(proof.requestId||'')!==String(requestId)||Number(proof.count)!==Number(count)||String(proof.packId||'')!==String(packId))throw new Error('서버 카드 지급 증명 정보가 일치하지 않습니다.');
   if(!Array.isArray(response.results)||response.results.length!==Number(count))throw new Error('서버 카드 개봉 수량이 요청과 일치하지 않습니다.');
   const serverOwned=new Set((response.user?.owned||[]).map(id=>String(id)));
   const serverQuantities=Object.fromEntries(Object.entries(response.user?.quantities||{}).map(([id,value])=>[String(id),Number(value||0)]));
@@ -2938,7 +2822,7 @@ function validateDrawResponse(response,{requestId,packId,count,runSize=count,bat
     const card=item?.card,cardId=String(card?.id||''),grade=String(card?.grade||card?.rarity||'').toUpperCase();
     const quantityBefore=Number(item?.quantityBefore),quantityAfter=Number(item?.quantityAfter);
     if(Number(item?.slot)!==index||item?.granted!==true||item?.grantVerified!==true)throw new Error(`${index+1}번째 카드의 실제 지급 확정값이 없습니다.`);
-    if(!card||!cardId.trim()||String(card.title||'').trim()===''||!['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR'].includes(grade))throw new Error(`${index+1}번째 카드 정보가 올바르지 않습니다.`);
+    if(!card||!cardId.trim()||String(card.title||'').trim()===''||!['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'].includes(grade))throw new Error(`${index+1}번째 카드 정보가 올바르지 않습니다.`);
     if(!Number.isInteger(quantityBefore)||!Number.isInteger(quantityAfter)||quantityBefore<0||quantityAfter!==quantityBefore+1)throw new Error(`${index+1}번째 카드의 지급 전후 수량 검증에 실패했습니다.`);
     if(!serverOwned.has(cardId)||Number(serverQuantities[cardId]||0)<quantityAfter)throw new Error(`${card.title} 카드가 서버 도감에 실제 등록되지 않아 획득 연출을 중단했습니다.`);
     if(Number(proofQuantities.get(cardId)||0)<quantityAfter)throw new Error(`${card.title} 카드의 서버 지급 증명이 부족합니다.`);
@@ -2955,7 +2839,7 @@ function validateDrawResponse(response,{requestId,packId,count,runSize=count,bat
   return response.results;
 }
 openPack=async function(packId,count,cost,options={}){
-  const autoRun=Boolean(options?.autoRun&&autoDrawState.active),requestedBatchRuns=autoRun?Math.max(1,Math.min(5,Math.floor(Number(options?.batchRuns||1)))):1;
+  const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   if(drawRequestInFlight){if(autoRun)return false;alert('카드 개봉 요청을 처리 중입니다.');return false}
   if(!API_MODE){
     resetDrawPresentationState();
@@ -2964,27 +2848,24 @@ openPack=async function(packId,count,cost,options={}){
     return false;
   }
   const previous=readPendingDraw();
-  if(previous){packId=String(previous.packId);count=Number(previous.count);options.batchRuns=Math.max(1,Math.min(5,Number(previous.batchRuns||1)));}
+  if(previous){packId=String(previous.packId);count=Number(previous.count);}
   const pack=getPack(packId);
   if(!pack){if(autoRun)finishOfficialAutoDraw('자동 뽑기 오류','카드팩 정보를 찾지 못했습니다.');else alert('카드팩 정보를 찾지 못했습니다.');return false}
   const requestId=String(previous?.requestId||(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`));
-  const batchRuns=previous?Math.max(1,Math.min(5,Number(previous.batchRuns||1))):requestedBatchRuns;
-  if(!previous)writePendingDraw({requestId,packId,count,batchRuns,receiptVersion:2,createdAt:Date.now()});
+  if(!previous)writePendingDraw({requestId,packId,count,receiptVersion:2,createdAt:Date.now()});
   resetDrawPresentationState();
   activeDrawRequestId=requestId;
   drawRequestInFlight=true;
   try{
     let d;
-    const archiveThreshold=batchRuns>1?1:10;
-    const archiveIds=autoRun&&autoDrawState.receiptArchiveQueue.length>=archiveThreshold?autoDrawState.receiptArchiveQueue.slice(0,10):[];
-    if((autoRun&&autoDrawState.prefs?.simplified!==false)||batchRuns>1){
-      renderAutoDrawProcessing(pack,count,batchRuns);
-      d=await requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,batchRuns,acknowledgedRequestIds:archiveIds});
+    const archiveIds=autoRun&&autoDrawState.receiptArchiveQueue.length>=10?autoDrawState.receiptArchiveQueue.slice(0,10):[];
+    if(autoRun&&autoDrawState.prefs?.simplified!==false){
+      renderAutoDrawProcessing(pack,count);
+      d=await requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,acknowledgedRequestIds:archiveIds});
     }else{
-      d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,batchRuns:1,acknowledgedRequestIds:archiveIds}));
+      d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,acknowledgedRequestIds:archiveIds}));
     }
-    const responseBatchRuns=Math.max(1,Number(d?.batchRuns||batchRuns||1)),responseRunSize=Math.max(1,Number(d?.runSize||count)),totalCount=responseBatchRuns*responseRunSize;
-    const verifiedResults=validateDrawResponse(d,{requestId,packId,count:totalCount,runSize:responseRunSize,batchRuns:responseBatchRuns});
+    const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
     clearPendingDraw(requestId);
     if(autoRun){
       if(archiveIds.length){const archived=new Set(archiveIds);autoDrawState.receiptArchiveQueue=autoDrawState.receiptArchiveQueue.filter(id=>!archived.has(id));}
@@ -2997,12 +2878,7 @@ openPack=async function(packId,count,cost,options={}){
     const obtainedAt=new Date().toISOString();
     next.history=[...(next.history||[]),...verifiedResults.map(item=>({cardId:String(item.card.id),at:obtainedAt,duplicate:Boolean(item.duplicate),title:item.card.title,grade:item.card.grade}))].slice(-30);
     saveUser(next);
-    if(responseBatchRuns>1){
-      const batches=Array.from({length:responseBatchRuns},(_,index)=>verifiedResults.slice(index*responseRunSize,(index+1)*responseRunSize));
-      if(autoRun)handleOfficialAutoDrawServerBatch(batches,d);else renderRecoveredDrawServerBatch(pack,batches,d,next);
-    }else{
-      await renderDrawResults(pack,count,pack.price*count,verifiedResults,next,d.critical,{autoRun});
-    }
+    await renderDrawResults(pack,count,pack.price*count,verifiedResults,next,d.critical,{autoRun});
     return true;
   }catch(e){
     resetDrawPresentationState();

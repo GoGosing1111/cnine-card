@@ -1,0 +1,16 @@
+검사 결과
+- JavaScript 문법 검사 통과:
+  functions/_data/schema.js
+  functions/_storage_cleanup.js
+  functions/api/[[path]].js
+  js/app.js
+- SERVER_BATCH / batchRuns 제거 확인
+- /api/bootstrap 제거 확인
+- acquisition-feed 제거 확인
+- territory_war_v3 스키마 유지 확인
+- Battle V2 및 영토전 V2 스크립트 연결 유지 확인
+- 충돌 마커 없음
+- ZIP 무결성 검사 통과 예정
+
+주의:
+실제 Cloudflare 운영 부하 테스트 및 D1 운영 데이터 변경은 수행하지 않음.
