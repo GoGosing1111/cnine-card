@@ -1,0 +1,14 @@
+CNINE CARD v1396 검사 결과
+
+[실행]
+- node --check js/vehicle-draw-v1388.js: PASS
+- 결과 상단 닫기 버튼 ID/이벤트 정적 확인: PASS
+- 결과 하단 닫기 버튼 ID/이벤트 정적 확인: PASS
+- ESC 및 배경 클릭 닫기 이벤트 정적 확인: PASS
+- index.html 캐시 버전 v1396 확인: PASS
+- ZIP 무결성 검사: PASS
+
+[미실행]
+- 실제 Cloudflare Pages 배포
+- 원격 D1 테스트
+- 실제 브라우저 수동 클릭 테스트
