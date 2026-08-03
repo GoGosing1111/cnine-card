@@ -1,0 +1,22 @@
+v1401 정적·로컬 검증 결과
+
+PASS  JavaScript 문법 검사: 패치 포함 JS 전체
+PASS  신규 D1 SCHEMA 26개 문장 메모리 SQLite 설치
+PASS  자동 정리 인덱스 SQL 32개 메모리 SQLite 실행
+PASS  자동 정리/축약 SQL 39개 메모리 SQLite 실행
+PASS  ISO/SQL 세션 만료시간 혼합 판정 및 변환
+PASS  출석 지급 batch 원자성 및 동일 날짜 중복 롤백
+PASS  출석 요약 유지 후 180일 초과 상세 이력 정리
+PASS  PENDING 영수증 보호 및 오래된 COMPLETED 영수증 소량 삭제
+PASS  서로 다른 API의 동시 401 발생 시 로그인 요청 1회 병합
+PASS  인증 복구 후 원래 요청 1회 재실행
+PASS  GET 일시 오류 1회 재시도 / POST 502 무조건 재전송 금지
+PASS  일반 시작 인증은 일시 장애 시 로컬 세션 유지
+PASS  자동 재연결 인증 검사는 strict 모드로 실패를 숨기지 않음
+PASS  일시 로그인 장애 재연결 예약 / 잘못된 개인키 무한 재시도 차단
+PASS  영토전 CSS/JS 로딩 태그 각각 정확히 1회
+PASS  ZIP 무결성 검사 예정 후 배포
+
+제한:
+- 실제 Cloudflare Pages/Workers/D1 운영 트래픽 부하 시험은 수행하지 않음
+- 운영 배포 후 D1 read/write, p50/p95 지연, Functions 5xx/429, DB 크기 추이를 확인해야 실제 효과를 최종 확정할 수 있음

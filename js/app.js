@@ -2137,6 +2137,8 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
+let playerSessionRecoveryPromiseV1401=null,apiReconnectTimerV1401=null,apiReconnectBusyV1401=false,apiReconnectAttemptV1401=0;
+const API_RECONNECT_DELAYS_V1401=[5000,10000,20000,30000];
 const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':1000,'shell/summary':30000,'recent-high-grade':30000,'recent-equipment':30000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
@@ -2188,18 +2190,18 @@ async function refreshStartupCatalog(runId,cardTask,packTask){
   if(Object.keys(cachePatch).length)writeStartupSnapshot(cachePatch);
   if(changed)refreshBuyShellAfterStartup(runId);
 }
-async function verifyStartupSession(){
+async function verifyStartupSession({strict=false}={}){
   if(API_TOKEN){
     try{
-      const me=await apiRequest('me/summary',{}, {timeoutMs:6000,ttl:0});
+      const me=await apiRequest('me/summary',{}, {timeoutMs:6000,ttl:0,skipAuthRecovery:true});
       const current=loadUser();
       if(current)saveUser(mergeApiUserSummary(me.user,current));
-      else{const full=await apiRequest('me',{}, {timeoutMs:10000,ttl:0});saveUser(apiUserToLocal(full.user));}
+      else{const full=await apiRequest('me',{}, {timeoutMs:10000,ttl:0,skipAuthRecovery:true});saveUser(apiUserToLocal(full.user));}
       return true;
     }
     catch(error){
       if(Number(error?.status)===401){clearPlayerToken();return recoverPlayerSession()}
-      console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);return Boolean(loadUser());
+      console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);return strict?false:Boolean(loadUser());
     }
   }
   return recoverPlayerSession();
@@ -2245,6 +2247,40 @@ function renderStartupRecovery(message='서버 연결이 지연되고 있습니�
   if(retry)retry.onclick=()=>{API_INFLIGHT.clear();clearApiCache();void init()};
   if(reset)reset.onclick=()=>{clearPlayerToken();API_INFLIGHT.clear();clearApiCache();void init()};
 }
+function stopApiReconnectV1401(){if(apiReconnectTimerV1401){clearTimeout(apiReconnectTimerV1401);apiReconnectTimerV1401=null}apiReconnectAttemptV1401=0}
+function scheduleApiReconnectV1401(reason='connection',delayOverride=null){
+  if(API_MODE)return stopApiReconnectV1401();
+  if(apiReconnectBusyV1401)return;
+  if(apiReconnectTimerV1401)return;
+  const index=Math.min(apiReconnectAttemptV1401,API_RECONNECT_DELAYS_V1401.length-1),delay=delayOverride===null?API_RECONNECT_DELAYS_V1401[index]:Math.max(0,Number(delayOverride)||0);
+  apiReconnectTimerV1401=setTimeout(()=>{apiReconnectTimerV1401=null;void runApiReconnectV1401(reason)},delay);
+}
+async function runApiReconnectV1401(reason='connection'){
+  if(API_MODE)return stopApiReconnectV1401();
+  if(apiReconnectBusyV1401)return;
+  if(document.hidden||navigator.onLine===false){apiReconnectAttemptV1401=Math.min(apiReconnectAttemptV1401+1,API_RECONNECT_DELAYS_V1401.length-1);return scheduleApiReconnectV1401(reason)}
+  apiReconnectBusyV1401=true;
+  try{
+    const service=await detectApi();
+    if(!API_MODE)throw new Error('API_OFFLINE');
+    if(service?.maintenance?.active&&!service.bypass){stopApiReconnectV1401();renderMaintenance(service.maintenance,service);return}
+    const authenticated=await verifyStartupSession({strict:true});
+    if(loadUser()&&!authenticated)throw new Error('SESSION_RECOVERY_PENDING');
+    stopApiReconnectV1401();
+    if(authenticated){
+      void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
+      startRuntimeCommandPoll();
+      refreshBuyShellAfterStartup(startupRunId);
+    }else if(!loadUser())renderLogin();
+    try{window.dispatchEvent(new CustomEvent('cnine:api-reconnected',{detail:{reason}}))}catch(_){}
+  }catch(error){
+    console.warn('서버 자동 재연결 실패:',error);
+    API_MODE=false;apiReconnectAttemptV1401=Math.min(apiReconnectAttemptV1401+1,API_RECONNECT_DELAYS_V1401.length-1);
+    setTimeout(()=>scheduleApiReconnectV1401(reason),0);
+  }finally{apiReconnectBusyV1401=false}
+}
+window.addEventListener('online',()=>{if(!API_MODE)scheduleApiReconnectV1401('online',0)});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&!API_MODE)scheduleApiReconnectV1401('visible',0)});
 function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?4000:8000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
 
 const RETIREMENT_REROLL_META={
@@ -2389,6 +2425,16 @@ async function openWagoVerification(){
   }catch(e){panel.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
 
+function apiAuthRecoveryAllowedV1401(path,config={}){
+  const clean=String(path||'').toLowerCase();
+  return config.skipAuthRecovery!==true&&!clean.startsWith('auth/')&&!clean.startsWith('admin/')&&Boolean(loadUser()?.key);
+}
+function apiTransientRetryStatusV1401(status){return [429,502,504].includes(Number(status))}
+function apiRetryDelayV1401(response=null){
+  const retryAfter=Number(response?.headers?.get?.('retry-after')||0);
+  if(Number.isFinite(retryAfter)&&retryAfter>0)return Math.min(2000,retryAfter*1000);
+  return 350+Math.floor(Math.random()*350);
+}
 async function apiRequest(path, options={}, config={}) {
   const cleanPath=apiCacheKey(path),method=String(options.method||'GET').toUpperCase(),isGet=method==='GET';
   const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now();
@@ -2397,21 +2443,40 @@ async function apiRequest(path, options={}, config={}) {
   else if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
   const timeoutMs=Math.max(1000,Number(config.timeoutMs??(isGet?15000:30000))||15000);
   const task=(async()=>{
-    const response=await fetchWithTimeout(`/api/${cleanPath}`,{
-      cache:isGet&&ttl>0?'default':'no-store',
-      ...options,
-      headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}
-    },timeoutMs,`서버 요청 (${cleanPath})`);
-    const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
-    let data={};
-    if(text){
-      if(contentType.includes('application/json')){try{data=JSON.parse(text)}catch{throw new Error('서버 JSON 응답 형식이 올바르지 않습니다.')}}
-      else{if(response.ok&&config.allowEmpty)return {};throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.');}
-    }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
-    if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;}
-    if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
-    if(!isGet&&cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
-    return data;
+    let authRetried=false,transientRetried=false;
+    for(;;){
+      let response;
+      try{
+        response=await fetchWithTimeout(`/api/${cleanPath}`,{
+          cache:isGet&&ttl>0?'default':'no-store',
+          ...options,
+          headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}
+        },timeoutMs,`서버 요청 (${cleanPath})`);
+      }catch(error){
+        const externallyAborted=Boolean(options.signal?.aborted);
+        if(isGet&&!transientRetried&&!externallyAborted){transientRetried=true;await new Promise(resolve=>setTimeout(resolve,apiRetryDelayV1401()));continue}
+        throw error;
+      }
+      const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
+      let data={};
+      if(text){
+        if(contentType.includes('application/json')){try{data=JSON.parse(text)}catch{throw new Error('서버 JSON 응답 형식이 올바르지 않습니다.')}}
+        else{if(response.ok&&config.allowEmpty)return {};throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.');}
+      }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
+      if(response.status===401&&!authRetried&&apiAuthRecoveryAllowedV1401(cleanPath,config)){
+        authRetried=true;
+        const recovered=await recoverPlayerSession({refreshCatalog:false,reason:'HTTP_401'});
+        if(recovered){clearApiCache();continue}
+      }
+      if(isGet&&!transientRetried&&apiTransientRetryStatusV1401(response.status)){
+        transientRetried=true;await new Promise(resolve=>setTimeout(resolve,apiRetryDelayV1401(response)));continue;
+      }
+      if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;}
+      API_MODE=true;apiReconnectAttemptV1401=0;
+      if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
+      if(!isGet&&cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
+      return data;
+    }
   })();
   if(isGet)API_INFLIGHT.set(cleanPath,task);
   try{return await task}finally{if(isGet&&API_INFLIGHT.get(cleanPath)===task)API_INFLIGHT.delete(cleanPath)}
@@ -2459,6 +2524,7 @@ async function detectApi(){
     const contentType=(response.headers.get('content-type')||'').toLowerCase();
     if(!contentType.includes('application/json')){API_MODE=false;return null;}
     const data=await response.json();API_MODE=response.ok;
+    if(API_MODE){apiReconnectAttemptV1401=0;if(apiReconnectTimerV1401){clearTimeout(apiReconnectTimerV1401);apiReconnectTimerV1401=null}}
     if(data.bypass&&!API_TOKEN&&adminToken)API_TOKEN=adminToken;
     return data;
   }catch(error){console.warn('서버 상태 확인 실패:',error);API_MODE=false;return null;}
@@ -2493,19 +2559,26 @@ async function syncCollectionFromServer({force=false,rerender=false}={}){
   collectionSyncPromise=(async()=>{const data=await apiRequest('me/collection',{}, {ttl:force?0:30000,timeoutMs:10000}),collection=data?.collection||{},current=loadUser();if(!current||!Array.isArray(collection.owned))return false;const beforeIds=[...ownedIds(current)].sort().join(','),next={...current,collectionRepairR6:true,owned:collection.owned.map(String),quantities:Object.fromEntries(Object.entries(collection.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs:Object.fromEntries(Object.entries(collection.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]))};saveUser(next);collectionSyncAt=Date.now();const changed=beforeIds!==[...ownedIds(next)].sort().join(',');if(changed&&rerender&&runtimeCommandContext==='dex')renderShell('dex');return changed;})().catch(error=>{console.warn('서버 도감 동기화 실패:',error);return false}).finally(()=>{collectionSyncPromise=null});
   return collectionSyncPromise;
 }
-async function recoverPlayerSession(){
-  const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
-  if(!privateKey)return false;
-  try{
-    const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})},{timeoutMs:10000});
-    persistPlayerToken(d.token);
-    saveUser(apiUserToLocal(d.user,privateKey));
-    await refreshCardCatalogForCurrentViewer();
-    return true;
-  }catch(error){
-    console.warn('자동 세션 복구 실패:',error);
-    return false;
-  }
+async function recoverPlayerSession({refreshCatalog=true,reason='startup'}={}){
+  if(playerSessionRecoveryPromiseV1401)return playerSessionRecoveryPromiseV1401;
+  playerSessionRecoveryPromiseV1401=(async()=>{
+    const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
+    if(!privateKey)return false;
+    try{
+      const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})},{timeoutMs:10000,skipAuthRecovery:true});
+      persistPlayerToken(d.token);API_MODE=true;apiReconnectAttemptV1401=0;
+      saveUser(apiUserToLocal(d.user,privateKey));
+      if(refreshCatalog)await refreshCardCatalogForCurrentViewer();
+      try{window.dispatchEvent(new CustomEvent('cnine:session-recovered',{detail:{reason}}))}catch(_){}
+      return true;
+    }catch(error){
+      if([401,403].includes(Number(error?.status)))clearPlayerToken();
+      else{API_MODE=false;apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('session-recovery',5000)}
+      console.warn('자동 세션 복구 실패:',error);
+      return false;
+    }
+  })();
+  try{return await playerSessionRecoveryPromiseV1401}finally{playerSessionRecoveryPromiseV1401=null}
 }
 async function init(){
   viewerCatalogWasRefreshed=false;
@@ -2568,14 +2641,16 @@ async function init(){
     // 실제 쓰기 기능은 API_MODE=false 상태에서 계속 차단하고, 한 번만 백그라운드 재연결을 시도한다.
     if(hasCatalogSnapshot&&loadUser()){
       renderShell('buy');
-      setTimeout(async()=>{if(runId!==startupRunId||API_MODE)return;const service=await detectApi();if(!API_MODE)return;if(service?.maintenance?.active&&!service.bypass)return renderMaintenance(service.maintenance,service);await verifyStartupSession();await refreshBurningEventState({forceFresh:true,rerender:true});scheduleBurningEventWatch();refreshBuyShellAfterStartup(runId)},5000);
+      apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-cache',5000);
       return;
     }
-    renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 잠시 후 다시 연결해주세요.':'서버 연결을 확인할 수 없습니다. 잠시 후 다시 연결해주세요.');
+    renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 자동 재연결을 계속 시도합니다.':'서버 연결을 확인할 수 없습니다. 자동 재연결을 계속 시도합니다.');
+    apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-recovery',5000);
     return;
   }
   if(runId!==startupRunId)return;
   completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
+  stopApiReconnectV1401();
   if(authenticated)renderShell('buy');else renderLogin();
   if(authenticated)void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
 

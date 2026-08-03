@@ -9,7 +9,7 @@ const CAPTAIN_CLEANUP_MAX_TARGET = 5000;
 const CAPTAIN_CLEANUP_COUNT_CAP = 1000000;
 
 const USER_DELETE_SPECS = [
-  ['sessions',['user_id']],['user_cards',['user_id']],['attendance_logs',['user_id']],
+  ['sessions',['user_id']],['user_cards',['user_id']],['attendance_logs',['user_id']],['user_attendance_summary_v1401',['user_id']],
   ['draw_logs',['user_id']],['coin_logs',['user_id']],['shard_logs',['user_id']],
   ['admin_permissions',['admin_user_id']],['account_ip_registrations',['user_id']],
   ['wago_verifications',['user_id']],['user_messages',['user_id']],['user_message_rewards',['user_id']],
@@ -110,6 +110,7 @@ async function chunkedGroupedCount(env,table,column,ids){
 const RECENT_ACTIVITY_SPECS = [
   {table:'draw_logs',userColumns:['user_id'],timeColumns:['created_at']},
   {table:'attendance_logs',userColumns:['user_id'],timeColumns:['claimed_at','created_at']},
+  {table:'user_attendance_summary_v1401',userColumns:['user_id'],timeColumns:['last_attendance_date','updated_at']},
   {table:'battle_logs',userColumns:['user_id'],timeColumns:['created_at','updated_at']},
   {table:'pve_auto_runs',userColumns:['user_id'],timeColumns:['updated_at','created_at']},
   {table:'inventory_logs',userColumns:['user_id'],timeColumns:['created_at','updated_at']},
@@ -153,7 +154,7 @@ async function recentActivityMap(env,ids){
     if(cols.has('user_id')&&cols.has('created_at')){
       for(let i=0;i<ids.length;i+=50){
         const chunk=ids.slice(i,i+50);
-        const activeExpr=cols.has('expires_at')?"MAX(CASE WHEN expires_at>datetime('now') THEN 1 ELSE 0 END)":"0";
+        const activeExpr=cols.has('expires_at')?"MAX(CASE WHEN datetime(expires_at)>datetime('now') THEN 1 ELSE 0 END)":"0";
         const rows=await env.DB.prepare(`SELECT user_id,MAX(created_at) activity_at,${activeExpr} active_session FROM sessions WHERE user_id IN (${placeholders(chunk.length)}) GROUP BY user_id`).bind(...chunk).all();
         for(const row of rows.results||[]){
           const id=Number(row.user_id);map.set(id,newerTimestamp(map.get(id),row.activity_at));
@@ -627,7 +628,7 @@ async function expiredSessionPreview(env,raw={}){
   const options=cleanSafeCleanupOptions(raw),existing=await existingTableSet(env,['sessions']);
   if(!options.cleanupExpiredSessions||!existing.has('sessions'))return {eligibleRows:0,retentionDays:options.sessionRetentionDays};
   const row=await env.DB.prepare(`SELECT COUNT(*) count FROM (
-    SELECT token_hash FROM sessions WHERE expires_at<datetime('now',?) LIMIT ?
+    SELECT token_hash FROM sessions WHERE datetime(expires_at)<datetime('now',?) LIMIT ?
   )`).bind(`-${options.sessionRetentionDays} days`,options.scanBatch).first();
   return {eligibleRows:Number(row?.count||0),retentionDays:options.sessionRetentionDays};
 }
@@ -635,17 +636,53 @@ async function deleteExpiredSessionsBatch(env,raw={}){
   const options=cleanSafeCleanupOptions(raw),existing=await existingTableSet(env,['sessions']);
   if(!options.cleanupExpiredSessions||!existing.has('sessions'))return {deletedRows:0,retentionDays:options.sessionRetentionDays};
   const result=await env.DB.prepare(`DELETE FROM sessions WHERE token_hash IN (
-    SELECT token_hash FROM sessions WHERE expires_at<datetime('now',?) ORDER BY expires_at ASC LIMIT ?
+    SELECT token_hash FROM sessions WHERE datetime(expires_at)<datetime('now',?) ORDER BY datetime(expires_at) ASC LIMIT ?
   )`).bind(`-${options.sessionRetentionDays} days`,options.scanBatch).run();
   return {deletedRows:Number(result?.meta?.changes||0),retentionDays:options.sessionRetentionDays};
 }
 
 
-// v1400: hot paths must not keep full response payloads and audit rows forever.
-// One sampled request rotates through one tiny task. Active PENDING/RUNNING/READY rows are protected; only stale terminal rows or oversized completed payloads are touched.
+// v1401: bounded storage maintenance keeps terminal receipts/logs from growing forever without touching live state.
+// One sampled request installs at most one missing cleanup index and executes one tiny cleanup/compaction task.
 const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=64;
 const AUTO_STORAGE_MAINTENANCE_BATCH=50;
+const AUTO_STORAGE_INDEX_TASKS=Object.freeze([
+  {key:'sessions_expiry',table:'sessions',columns:['expires_at','token_hash'],sql:'CREATE INDEX IF NOT EXISTS idx_sessions_expiry_v1401 ON sessions(expires_at,token_hash)'},
+  {key:'sessions_expiry_datetime',table:'sessions',columns:['expires_at','token_hash'],sql:'CREATE INDEX IF NOT EXISTS idx_sessions_expiry_dt_v1401 ON sessions(datetime(expires_at),token_hash)'},
+  {key:'inventory_receipts_cleanup',table:'inventory_use_receipts',columns:['status','updated_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_inventory_use_receipts_cleanup_v1401 ON inventory_use_receipts(status,updated_at,request_id)'},
+  {key:'rift_receipts_cleanup',table:'pve_rift_action_receipts',columns:['status','updated_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_rift_action_receipts_cleanup_v1401 ON pve_rift_action_receipts(status,updated_at,request_id)'},
+  {key:'raid_receipts_cleanup',table:'raid_reward_receipts',columns:['status','updated_at','instance_id','user_id'],sql:'CREATE INDEX IF NOT EXISTS idx_raid_reward_receipts_cleanup_v1401 ON raid_reward_receipts(status,updated_at,instance_id,user_id)'},
+  {key:'magic_draw_cleanup',table:'magic_card_draw_receipts',columns:['status','updated_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_magic_draw_receipts_cleanup_v1401 ON magic_card_draw_receipts(status,updated_at,request_id)'},
+  {key:'magic_reward_cleanup',table:'magic_crystal_reward_receipts',columns:['status','updated_at','receipt_id'],sql:'CREATE INDEX IF NOT EXISTS idx_magic_reward_receipts_cleanup_v1401 ON magic_crystal_reward_receipts(status,updated_at,receipt_id)'},
+  {key:'limited_grant_cleanup',table:'limited_manual_grant_receipts',columns:['status','updated_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_limited_grant_receipts_cleanup_v1401 ON limited_manual_grant_receipts(status,updated_at,request_id)'},
+  {key:'vehicle_receipts_cleanup',table:'vehicle_draw_receipts',columns:['status','updated_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_vehicle_draw_receipts_cleanup_v1401 ON vehicle_draw_receipts(status,updated_at,request_id)'},
+  {key:'pve_auto_cleanup',table:'pve_auto_runs',columns:['status','updated_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_pve_auto_runs_cleanup_v1401 ON pve_auto_runs(status,updated_at,request_id)'},
+  {key:'cube_receipts_cleanup',table:'cube_drop_receipts',columns:['status','updated_at','receipt_id'],sql:'CREATE INDEX IF NOT EXISTS idx_cube_drop_receipts_cleanup_v1401 ON cube_drop_receipts(status,updated_at,receipt_id)'},
+  {key:'equipment_drop_cleanup',table:'equipment_drop_receipts',columns:['result','updated_at'],sql:'CREATE INDEX IF NOT EXISTS idx_equipment_drop_receipts_cleanup_v1401 ON equipment_drop_receipts(result,updated_at)'},
+  {key:'coin_logs_cleanup',table:'coin_logs',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_coin_logs_cleanup_v1401 ON coin_logs(created_at,id)'},
+  {key:'shard_logs_cleanup',table:'shard_logs',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_shard_logs_cleanup_v1401 ON shard_logs(created_at,id)'},
+  {key:'inventory_logs_cleanup',table:'inventory_logs',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_inventory_logs_cleanup_v1401 ON inventory_logs(created_at,id)'},
+  {key:'magic_logs_cleanup',table:'magic_crystal_logs',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_magic_crystal_logs_cleanup_v1401 ON magic_crystal_logs(created_at,id)'},
+  {key:'battle_logs_cleanup',table:'battle_logs',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_battle_logs_cleanup_v1401 ON battle_logs(created_at,id)'},
+  {key:'pvp_history_cleanup',table:'pvp_match_history',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_pvp_match_history_cleanup_v1401 ON pvp_match_history(created_at,id)'},
+  {key:'tower_history_cleanup',table:'tower_clear_history',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_tower_history_cleanup_v1401 ON tower_clear_history(created_at,id)'},
+  {key:'raid_damage_cleanup',table:'raid_damage_logs',columns:['created_at','id','instance_id'],sql:'CREATE INDEX IF NOT EXISTS idx_raid_damage_cleanup_v1401 ON raid_damage_logs(created_at,id,instance_id)'},
+  {key:'runtime_commands_cleanup',table:'user_runtime_commands',columns:['expires_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_runtime_commands_cleanup_v1401 ON user_runtime_commands(expires_at,id)'},
+  {key:'attendance_detail_cleanup',table:'attendance_logs',columns:['attendance_date','user_id'],sql:'CREATE INDEX IF NOT EXISTS idx_attendance_logs_cleanup_v1401 ON attendance_logs(attendance_date,user_id)'},
+  {key:'weekly_attempt_cleanup',table:'premium_cube_weekly_attempt_receipts',columns:['updated_at','outcome'],sql:'CREATE INDEX IF NOT EXISTS idx_weekly_attempt_cleanup_v1401 ON premium_cube_weekly_attempt_receipts(updated_at,outcome)'},
+  {key:'rift_runs_cleanup',table:'pve_rift_runs',columns:['status','updated_at','run_id'],sql:'CREATE INDEX IF NOT EXISTS idx_rift_runs_cleanup_v1401 ON pve_rift_runs(status,updated_at,run_id)'},
+  {key:'rift_weekly_cleanup',table:'pve_rift_weekly',columns:['updated_at','week_key'],sql:'CREATE INDEX IF NOT EXISTS idx_rift_weekly_cleanup_v1401 ON pve_rift_weekly(updated_at,week_key)'},
+  {key:'raid_daily_uses_cleanup',table:'raid_daily_entry_uses',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_raid_daily_uses_cleanup_v1401 ON raid_daily_entry_uses(created_at,id)'},
+  {key:'limited_audit_cleanup',table:'limited_acquisition_audit',columns:['status','updated_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_limited_audit_cleanup_v1401 ON limited_acquisition_audit(status,updated_at,id)'},
+  {key:'evolution_logs_cleanup',table:'card_evolution_logs',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_evolution_logs_cleanup_v1401 ON card_evolution_logs(created_at,id)'},
+  {key:'captain_team_name_cleanup',table:'captain_team_name_logs',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_team_name_cleanup_v1401 ON captain_team_name_logs(created_at,id)'},
+  {key:'captain_cooldown_cleanup',table:'captain_cooldown_reset_events',columns:['created_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_cooldown_cleanup_v1401 ON captain_cooldown_reset_events(created_at,request_id)'},
+  {key:'captain_round_reset_cleanup',table:'captain_round_reset_events',columns:['created_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_round_reset_cleanup_v1401 ON captain_round_reset_events(created_at,request_id)'},
+  {key:'captain_week_reset_cleanup',table:'captain_week_resets',columns:['created_at','week_key'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_week_reset_cleanup_v1401 ON captain_week_resets(created_at,week_key)'}
+]);
 const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
+  {key:'session_timestamp_normalize',table:'sessions',sql:`UPDATE sessions SET expires_at=strftime('%Y-%m-%d %H:%M:%S',datetime(expires_at))
+    WHERE rowid IN (SELECT rowid FROM sessions WHERE instr(expires_at,'T')>0 AND datetime(expires_at) IS NOT NULL ORDER BY rowid LIMIT ?)`},
   {key:'inventory_receipts',table:'inventory_use_receipts',sql:`DELETE FROM inventory_use_receipts WHERE rowid IN (
     SELECT rowid FROM inventory_use_receipts WHERE
       ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-3 days')))
@@ -673,6 +710,13 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
     SELECT rowid FROM vehicle_draw_receipts WHERE
       ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-3 days')))
     ORDER BY updated_at LIMIT ?)`},
+  {key:'cube_drop_receipts',table:'cube_drop_receipts',sql:`DELETE FROM cube_drop_receipts WHERE rowid IN (
+    SELECT rowid FROM cube_drop_receipts WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-7 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'equipment_drop_receipts',table:'equipment_drop_receipts',sql:`DELETE FROM equipment_drop_receipts WHERE rowid IN (
+    SELECT rowid FROM equipment_drop_receipts WHERE UPPER(COALESCE(result,'')) NOT IN ('PENDING','RUNNING','PROCESSING','READY')
+      AND updated_at<datetime('now','-30 days') ORDER BY updated_at LIMIT ?)`},
   {key:'pve_auto_receipts',table:'pve_auto_runs',sql:`DELETE FROM pve_auto_runs WHERE rowid IN (
     SELECT rowid FROM pve_auto_runs WHERE status IN ('COMPLETED','FAILED','CANCELLED') AND updated_at<datetime('now','-14 days')
     ORDER BY updated_at LIMIT ?)`},
@@ -692,12 +736,69 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
         'grade',grade,'rarity',grade,'image',COALESCE((SELECT image_url FROM cards WHERE id=result_card_id),'')))
     WHERE rowid IN (SELECT rowid FROM high_grade_reroll_usage_v2 WHERE used_at<datetime('now','-30 days')
       AND LENGTH(COALESCE(response_json,''))>1024 ORDER BY used_at LIMIT ?)`},
+  {key:'runtime_commands',table:'user_runtime_commands',sql:`DELETE FROM user_runtime_commands WHERE id IN (
+    SELECT id FROM user_runtime_commands WHERE
+      (datetime(expires_at)<datetime('now','-7 days') OR (acknowledged_at IS NOT NULL AND datetime(acknowledged_at)<datetime('now','-7 days')))
+    ORDER BY id LIMIT ?)`},
+  {key:'weekly_premium_attempts',table:'premium_cube_weekly_attempt_receipts',sql:`DELETE FROM premium_cube_weekly_attempt_receipts WHERE rowid IN (
+    SELECT rowid FROM premium_cube_weekly_attempt_receipts WHERE outcome IN ('WON','LOST','BLOCKED')
+      AND updated_at<datetime('now','-90 days') ORDER BY updated_at LIMIT ?)`},
+  {key:'attendance_details',table:'attendance_logs',requires:['user_attendance_summary_v1401'],sql:`DELETE FROM attendance_logs WHERE rowid IN (
+    SELECT a.rowid FROM attendance_logs a JOIN user_attendance_summary_v1401 s ON s.user_id=a.user_id
+    WHERE a.attendance_date<date('now','-180 days') AND a.attendance_date<>s.last_attendance_date
+    ORDER BY a.attendance_date,a.user_id LIMIT ?)`},
   {key:'inventory_logs',table:'inventory_logs',sql:`DELETE FROM inventory_logs WHERE id IN (
     SELECT id FROM inventory_logs WHERE created_at<datetime('now','-90 days') ORDER BY id LIMIT ?)`},
   {key:'magic_crystal_logs',table:'magic_crystal_logs',sql:`DELETE FROM magic_crystal_logs WHERE id IN (
     SELECT id FROM magic_crystal_logs WHERE created_at<datetime('now','-30 days') ORDER BY id LIMIT ?)`},
+  {key:'battle_logs',table:'battle_logs',sql:`DELETE FROM battle_logs WHERE id IN (
+    SELECT id FROM battle_logs WHERE created_at<datetime('now','-30 days') ORDER BY id LIMIT ?)`},
+  {key:'pvp_history',table:'pvp_match_history',sql:`DELETE FROM pvp_match_history WHERE id IN (
+    SELECT id FROM pvp_match_history WHERE created_at<datetime('now','-90 days') ORDER BY id LIMIT ?)`},
+  {key:'coin_logs',table:'coin_logs',sql:`DELETE FROM coin_logs WHERE id IN (
+    SELECT id FROM coin_logs WHERE created_at<datetime('now','-180 days') ORDER BY id LIMIT ?)`},
+  {key:'shard_logs',table:'shard_logs',sql:`DELETE FROM shard_logs WHERE id IN (
+    SELECT id FROM shard_logs WHERE created_at<datetime('now','-180 days') ORDER BY id LIMIT ?)`},
+  {key:'draw_logs',table:'draw_logs',sql:`DELETE FROM draw_logs WHERE id IN (
+    SELECT id FROM draw_logs WHERE created_at<datetime('now','-365 days') ORDER BY id LIMIT ?)`},
   {key:'tower_history',table:'tower_clear_history',sql:`DELETE FROM tower_clear_history WHERE id IN (
     SELECT id FROM tower_clear_history WHERE created_at<datetime('now','-90 days') ORDER BY id LIMIT ?)`},
+  {key:'raid_damage_logs',table:'raid_damage_logs',requires:['raid_instances'],sql:`DELETE FROM raid_damage_logs WHERE id IN (
+    SELECT d.id FROM raid_damage_logs d WHERE d.created_at<datetime('now','-30 days')
+      AND NOT EXISTS (SELECT 1 FROM raid_instances r WHERE r.id=d.instance_id AND r.status IN ('LOBBY','OPEN','RUNNING','BATTLE','SETTLING'))
+    ORDER BY d.id LIMIT ?)`},
+  {key:'raid_reward_snapshots',table:'raid_reward_snapshots',requires:['raid_participants'],sql:`DELETE FROM raid_reward_snapshots WHERE instance_id IN (
+    SELECT s.instance_id FROM raid_reward_snapshots s WHERE NOT EXISTS (
+      SELECT 1 FROM raid_participants p WHERE p.instance_id=s.instance_id AND COALESCE(p.reward_claimed,0)=0
+    ) AND s.instance_id IN (SELECT instance_id FROM raid_participants GROUP BY instance_id HAVING MAX(updated_at)<datetime('now','-180 days'))
+    ORDER BY s.instance_id LIMIT ?)`},
+  {key:'raid_daily_entry_uses',table:'raid_daily_entry_uses',sql:`DELETE FROM raid_daily_entry_uses WHERE id IN (
+    SELECT id FROM raid_daily_entry_uses WHERE created_at<datetime('now','-90 days') ORDER BY id LIMIT ?)`},
+  {key:'raid_daily_entry_restores',table:'raid_daily_entry_restores',sql:`DELETE FROM raid_daily_entry_restores WHERE rowid IN (
+    SELECT rowid FROM raid_daily_entry_restores WHERE created_at<datetime('now','-90 days') ORDER BY created_at LIMIT ?)`},
+  {key:'rift_runs',table:'pve_rift_runs',sql:`DELETE FROM pve_rift_runs WHERE rowid IN (
+    SELECT rowid FROM pve_rift_runs WHERE status IN ('CLAIMED','FAILED','CANCELLED','ABANDONED')
+      AND updated_at<datetime('now','-90 days') ORDER BY updated_at LIMIT ?)`},
+  {key:'rift_weekly',table:'pve_rift_weekly',sql:`DELETE FROM pve_rift_weekly WHERE rowid IN (
+    SELECT rowid FROM pve_rift_weekly WHERE updated_at<datetime('now','-180 days') ORDER BY updated_at LIMIT ?)`},
+  {key:'limited_acquisition_audit',table:'limited_acquisition_audit',sql:`DELETE FROM limited_acquisition_audit WHERE id IN (
+    SELECT id FROM limited_acquisition_audit WHERE status NOT IN ('PENDING','STOCK_RESERVED')
+      AND NOT (COALESCE(stock_reserved,0)=1 AND COALESCE(card_granted,0)=0)
+      AND updated_at<datetime('now','-365 days') ORDER BY id LIMIT ?)`},
+  {key:'card_evolution_logs',table:'card_evolution_logs',sql:`DELETE FROM card_evolution_logs WHERE id IN (
+    SELECT id FROM card_evolution_logs WHERE created_at<datetime('now','-365 days') ORDER BY id LIMIT ?)`},
+  {key:'captain_team_name_logs',table:'captain_team_name_logs',sql:`DELETE FROM captain_team_name_logs WHERE id IN (
+    SELECT id FROM captain_team_name_logs WHERE created_at<datetime('now','-365 days') ORDER BY id LIMIT ?)`},
+  {key:'captain_cooldown_reset_events',table:'captain_cooldown_reset_events',sql:`DELETE FROM captain_cooldown_reset_events WHERE request_id IN (
+    SELECT request_id FROM captain_cooldown_reset_events WHERE created_at<datetime('now','-365 days') ORDER BY created_at LIMIT ?)`},
+  {key:'captain_round_reset_events',table:'captain_round_reset_events',sql:`DELETE FROM captain_round_reset_events WHERE request_id IN (
+    SELECT request_id FROM captain_round_reset_events WHERE created_at<datetime('now','-730 days') ORDER BY created_at LIMIT ?)`},
+  {key:'captain_week_resets',table:'captain_week_resets',sql:`DELETE FROM captain_week_resets WHERE week_key IN (
+    SELECT week_key FROM captain_week_resets WHERE created_at<datetime('now','-730 days') ORDER BY created_at LIMIT ?)`},
+  {key:'hidden_message_compact',table:'user_messages',sql:`UPDATE user_messages SET body='[보관 기간이 지난 메시지 본문은 정리되었습니다.]',coupon_code=NULL
+    WHERE id IN (SELECT m.id FROM user_messages m LEFT JOIN user_message_rewards r ON r.message_id=m.id AND r.user_id=m.user_id
+      WHERE m.hidden_at<datetime('now','-180 days') AND (r.id IS NULL OR r.claimed_at IS NOT NULL)
+        AND (LENGTH(COALESCE(m.body,''))>96 OR m.coupon_code IS NOT NULL) ORDER BY m.id LIMIT ?)`},
   {key:'admin_log_compact',table:'admin_logs',sql:`UPDATE admin_logs SET
       before_data=CASE WHEN before_data IS NULL THEN NULL ELSE json_object('compacted',1,'originalBytes',LENGTH(before_data)) END,
       after_data=CASE WHEN after_data IS NULL THEN NULL ELSE json_object('compacted',1,'originalBytes',LENGTH(after_data)) END
@@ -709,15 +810,33 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
     ORDER BY updated_at LIMIT ?)`}
 ]);
 function autoMaintenanceHash(value){let h=2166136261;for(const ch of String(value||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
-async function runBoundedStorageMaintenance(env){
-  const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_lease_v1400',?,CURRENT_TIMESTAMP)
+async function runBoundedStorageIndexMaintenance(env){
+  const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_index_lease_v1401',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
     WHERE app_meta.updated_at<datetime('now','-5 minutes')`).bind(String(Date.now())).run();
   if(!Number(lease?.meta?.changes||0))return {skipped:true};
-  const cursorRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='storage_auto_maintenance_cursor_v1400'").first();
+  const cursorRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='storage_auto_index_cursor_v1401'").first();
+  const cursor=Math.max(0,Math.floor(Number(cursorRow?.value||0)))%AUTO_STORAGE_INDEX_TASKS.length,task=AUTO_STORAGE_INDEX_TASKS[cursor];
+  let installed=false,errorText='';
+  try{
+    const existing=await existingTableSet(env,[task.table]);
+    if(existing.has(task.table)){
+      const columns=new Set(await tableColumnNames(env,task.table)),missing=task.columns.filter(column=>!columns.has(column));
+      if(!missing.length){await env.DB.prepare(task.sql).run();installed=true}else errorText=`MISSING_COLUMN:${missing.join(',')}`;
+    }else errorText=`MISSING_TABLE:${task.table}`;
+  }catch(error){errorText=String(error?.message||error||'INDEX_FAILED').slice(0,300);console.warn(`bounded storage index failed: ${task.key}`,error)}
+  await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_index_cursor_v1401',?,CURRENT_TIMESTAMP)
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String((cursor+1)%AUTO_STORAGE_INDEX_TASKS.length)).run();
+  return {skipped:false,task:task.key,installed,error:errorText||undefined};
+}
+async function runBoundedStorageMaintenance(env){
+  const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_lease_v1401',?,CURRENT_TIMESTAMP)
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
+    WHERE app_meta.updated_at<datetime('now','-5 minutes')`).bind(String(Date.now())).run();
+  if(!Number(lease?.meta?.changes||0))return {skipped:true};
+  const cursorRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='storage_auto_maintenance_cursor_v1401'").first();
   const cursor=Math.max(0,Math.floor(Number(cursorRow?.value||0)))%AUTO_STORAGE_MAINTENANCE_TASKS.length;
-  const task=AUTO_STORAGE_MAINTENANCE_TASKS[cursor];
-  const requiredTables=[task.table,...(task.requires||[])];
+  const task=AUTO_STORAGE_MAINTENANCE_TASKS[cursor],requiredTables=[task.table,...(task.requires||[])];
   let changed=0,taskError='';
   try{
     const existing=await existingTableSet(env,requiredTables);
@@ -726,13 +845,14 @@ async function runBoundedStorageMaintenance(env){
       changed=Number(result?.meta?.changes||0);
     }else taskError=`MISSING_TABLE:${requiredTables.filter(name=>!existing.has(name)).join(',')}`;
   }catch(error){taskError=String(error?.message||error||'MAINTENANCE_FAILED').slice(0,300);console.warn(`bounded storage task failed: ${task.key}`,error)}
-  await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_cursor_v1400',?,CURRENT_TIMESTAMP)
+  await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_cursor_v1401',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String((cursor+1)%AUTO_STORAGE_MAINTENANCE_TASKS.length)).run();
   return {skipped:false,task:task.key,changed,error:taskError||undefined};
 }
 export function scheduleBoundedStorageMaintenance(context,env,seed=''){
   if(autoMaintenanceHash(seed)%AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD!==0)return;
-  const job=runBoundedStorageMaintenance(env).catch(error=>console.warn('bounded storage maintenance failed',error));
+  const job=(async()=>{await runBoundedStorageIndexMaintenance(env);return runBoundedStorageMaintenance(env)})()
+    .catch(error=>console.warn('bounded storage maintenance failed',error));
   if(typeof context?.waitUntil==='function')context.waitUntil(job);
 }
 

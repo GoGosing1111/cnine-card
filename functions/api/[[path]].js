@@ -1080,6 +1080,42 @@ async function ensureCouponPermanentRewardUpgrade(env){
   })().catch(error=>{couponPermanentRewardUpgradePromise=null;throw error});
   return couponPermanentRewardUpgradePromise;
 }
+let attendanceSummaryV1401ReadyPromise=null;
+async function ensureAttendanceSummaryV1401(env){
+  if(attendanceSummaryV1401ReadyPromise)return attendanceSummaryV1401ReadyPromise;
+  attendanceSummaryV1401ReadyPromise=(async()=>{
+    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1401_attendance_summary'").first();
+    if(done?.value==='1')return true;
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_attendance_summary_v1401 (
+        user_id INTEGER PRIMARY KEY,
+        total_days INTEGER NOT NULL DEFAULT 0,
+        last_attendance_date TEXT,
+        streak_day INTEGER NOT NULL DEFAULT 0,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_attendance_summary_last_v1401 ON user_attendance_summary_v1401(last_attendance_date,user_id)'),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1401_attendance_summary','1',CURRENT_TIMESTAMP)")
+    ]);
+    return true;
+  })().catch(error=>{attendanceSummaryV1401ReadyPromise=null;throw error});
+  return attendanceSummaryV1401ReadyPromise;
+}
+async function attendanceSummaryV1401(env,userId){
+  await ensureAttendanceSummaryV1401(env);
+  let row=await env.DB.prepare('SELECT total_days,last_attendance_date,streak_day FROM user_attendance_summary_v1401 WHERE user_id=?').bind(userId).first();
+  if(row)return {totalDays:Number(row.total_days||0),lastClaimDate:row.last_attendance_date||null,streak:Number(row.streak_day||0)};
+  const legacy=await env.DB.batch([
+    env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(userId),
+    env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(userId)
+  ]);
+  const latest=legacy?.[0]?.results?.[0]||null,totalDays=Number(legacy?.[1]?.results?.[0]?.count||0);
+  await env.DB.prepare(`INSERT OR IGNORE INTO user_attendance_summary_v1401(user_id,total_days,last_attendance_date,streak_day,updated_at)
+    VALUES(?,?,?,?,CURRENT_TIMESTAMP)`).bind(userId,totalDays,latest?.attendance_date||null,Number(latest?.streak_day||0)).run();
+  row=await env.DB.prepare('SELECT total_days,last_attendance_date,streak_day FROM user_attendance_summary_v1401 WHERE user_id=?').bind(userId).first();
+  return {totalDays:Number(row?.total_days||totalDays),lastClaimDate:row?.last_attendance_date||latest?.attendance_date||null,streak:Number(row?.streak_day||latest?.streak_day||0)};
+}
+
 let runtimeUpgradeGatePromise=null;
 async function ensureRuntimeUpgrades(env){
   if(runtimeUpgradeGatePromise)return runtimeUpgradeGatePromise;
@@ -1087,6 +1123,7 @@ async function ensureRuntimeUpgrades(env){
     // 신규 성능 인덱스만 먼저 빠르게 설치한 뒤, 과거 마이그레이션은 기존 마커가 없는 DB에서만 검사한다.
     await ensureD1HotpathIndexes(env);
     await ensureEquipmentFoundation(env);
+    await ensureAttendanceSummaryV1401(env);
     const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes')").all();
     const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
     if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'&&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1')return true;
@@ -2394,33 +2431,47 @@ async function seedDatabase(env){
     }
   }
 }
-async function authenticate(request,env){
+const requestAuthenticationCacheV1401=new WeakMap();
+function sqlUtcTimestampV1401(ms=Date.now()){return new Date(ms).toISOString().replace('T',' ').slice(0,19)}
+function utcTimestampMsV1401(value){
+  const raw=String(value||'').trim();if(!raw)return NaN;
+  const normalized=/[zZ]|[+-]\d\d:?\d\d$/.test(raw)?raw:raw.replace(' ','T')+'Z';
+  return Date.parse(normalized);
+}
+async function authenticateUncachedV1401(request,env){
   const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
-  if(!raw) return null;
+  if(!raw)return null;
   const tokenHash=await hash(raw);
   const user=await env.DB.prepare(`SELECT u.*,s.expires_at AS session_expires_at FROM sessions s JOIN users u ON u.id=s.user_id
-    WHERE s.token_hash=? AND s.expires_at>datetime('now') AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).bind(tokenHash).first();
+    WHERE s.token_hash=? AND datetime(s.expires_at)>datetime('now') AND u.status='ACTIVE'
+      AND (u.banned_until IS NULL OR datetime(u.banned_until)<=datetime('now'))`).bind(tokenHash).first();
   if(!user)return null;
-  const expiresMs=Date.parse(String(user.session_expires_at||'').replace(' ','T')+'Z');
+  const expiresMs=utcTimestampMsV1401(user.session_expires_at);
   if(Number.isFinite(expiresMs)&&expiresMs-Date.now()<=7*24*60*60*1000){
-    const extended=new Date(Date.now()+30*24*60*60*1000).toISOString();
-    await env.DB.prepare('UPDATE sessions SET expires_at=? WHERE token_hash=?').bind(extended,tokenHash).run();
+    const extended=sqlUtcTimestampV1401(Date.now()+30*24*60*60*1000);
+    await env.DB.prepare('UPDATE sessions SET expires_at=? WHERE token_hash=? AND datetime(expires_at)>datetime(\'now\')').bind(extended,tokenHash).run();
     user.session_expires_at=extended;
   }
   return user;
 }
+async function authenticate(request,env){
+  if(requestAuthenticationCacheV1401.has(request))return requestAuthenticationCacheV1401.get(request);
+  const promise=authenticateUncachedV1401(request,env).catch(error=>{requestAuthenticationCacheV1401.delete(request);throw error});
+  requestAuthenticationCacheV1401.set(request,promise);
+  return promise;
+}
 async function makeSession(env,userId){
   const raw=createToken();
   const tokenHash=await hash(raw);
-  const expiresAt=new Date(Date.now()+1000*60*60*24*30).toISOString();
+  const expiresAt=sqlUtcTimestampV1401(Date.now()+1000*60*60*24*30);
   // 게임/CMS/다른 기기의 세션을 서로 강제 종료하지 않는다.
-  // 만료 세션만 정리하고 새 세션을 추가해 관리자 CMS가 반복 로그아웃되는 문제를 방지한다.
-  await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND expires_at<=datetime('now')").bind(userId).run();
+  // ISO/SQLite 시간이 혼용된 과거 세션도 datetime()으로 정확하게 판정한다.
+  await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND datetime(expires_at)<=datetime('now')").bind(userId).run();
   await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(tokenHash,userId,expiresAt).run();
   // 비정상적으로 누적되는 것을 막기 위해 계정당 최신 20개 세션만 유지한다.
   await env.DB.prepare(`DELETE FROM sessions
     WHERE user_id=? AND token_hash NOT IN (
-      SELECT token_hash FROM sessions WHERE user_id=? ORDER BY expires_at DESC, rowid DESC LIMIT 20
+      SELECT token_hash FROM sessions WHERE user_id=? ORDER BY datetime(expires_at) DESC,rowid DESC LIMIT 20
     )`).bind(userId,userId).run();
   return raw;
 }
@@ -2449,10 +2500,9 @@ async function activePackCatalogRows(env){
 }
 
 async function profile(env,user){
-  const [owned,attendance,totalAttendance,recent,attendanceConfig,breakthroughSettings,weeklyPremiumCube,masterStarRow,maHighBreakthrough]=await Promise.all([
+  const [owned,attendance,recent,attendanceConfig,breakthroughSettings,weeklyPremiumCube,masterStarRow,maHighBreakthrough]=await Promise.all([
     env.DB.prepare("SELECT uc.card_id,uc.quantity,uc.first_obtained_at,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(user.id).all(),
-    env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first(),
-    env.DB.prepare('SELECT COUNT(*) count FROM attendance_logs WHERE user_id=?').bind(user.id).first(),
+    attendanceSummaryV1401(env,user.id),
     env.DB.prepare(`SELECT d.card_id AS cardId,d.is_new,c.title,c.rarity,d.created_at AS at FROM draw_logs d JOIN cards_effective_v1210 c ON c.id=d.card_id WHERE d.user_id=? ORDER BY d.id DESC LIMIT 30`).bind(user.id).all(),
     attendanceSettings(env),
     breakthroughConfig(env),
@@ -2465,7 +2515,7 @@ async function profile(env,user){
     quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
-    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,masterStars:Number(masterStarRow?.quantity||0),maHighBreakthrough,weeklyPremiumCube};
+    attendance:{lastClaimDate:attendance?.lastClaimDate||null,totalDays:Number(attendance?.totalDays||0),streak:Number(attendance?.streak||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,masterStars:Number(masterStarRow?.quantity||0),maHighBreakthrough,weeklyPremiumCube};
 }
 function drawResponseProfileFromRows(user,ownedRows=[],masterStarRow=null){
   const rows=ownedRows||[];
@@ -3018,7 +3068,7 @@ export async function onRequest(context){
       const user=await authenticate(request,env);
       if(!user)return json({error:'로그인이 필요합니다.'},401);
       if(request.method==='GET'){
-        const row=await env.DB.prepare(`SELECT id,command_type,payload_json,created_at,expires_at FROM user_runtime_commands WHERE user_id=? AND expires_at>datetime('now') ORDER BY id DESC LIMIT 1`).bind(user.id).first();
+        const row=await env.DB.prepare(`SELECT id,command_type,payload_json,created_at,expires_at FROM user_runtime_commands WHERE user_id=? AND datetime(expires_at)>datetime('now') ORDER BY id DESC LIMIT 1`).bind(user.id).first();
         if(!row)return json({command:null,serverNow:new Date().toISOString()});
         let payload={};try{payload=JSON.parse(row.payload_json||'{}')}catch{}
         return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},serverNow:new Date().toISOString()});
@@ -3039,7 +3089,7 @@ export async function onRequest(context){
       const privateKeyHash=await hash(privateKey);
       const ipHash=await requestIpHash(request,env);
       const existingIp=await env.DB.prepare('SELECT user_id FROM account_ip_registrations WHERE ip_hash=?').bind(ipHash).first();
-      const ipException=await env.DB.prepare("SELECT ip_hash FROM account_ip_exceptions WHERE ip_hash=? AND (expires_at IS NULL OR expires_at>datetime('now'))").bind(ipHash).first();
+      const ipException=await env.DB.prepare("SELECT ip_hash FROM account_ip_exceptions WHERE ip_hash=? AND (expires_at IS NULL OR datetime(expires_at)>datetime('now'))").bind(ipHash).first();
       if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 숲켓몬 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
       try{
         const coinSetting=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_user_coin'").first();
@@ -3170,15 +3220,25 @@ export async function onRequest(context){
     }
     if(path==='attendance/claim'&&request.method==='POST'){
       const user=await authenticate(request,env);
-      if(!user) return json({error:'로그인이 필요합니다.'},401);
+      if(!user)return json({error:'로그인이 필요합니다.'},401);
       const cfg=await attendanceSettings(env);if(!cfg.enabled)return json({error:'현재 출석체크가 중지되어 있습니다.'},503);
-      const date=kstDate(),last=await env.DB.prepare('SELECT attendance_date,COALESCE(streak_day,1) AS streak_day FROM attendance_logs WHERE user_id=? ORDER BY attendance_date DESC LIMIT 1').bind(user.id).first();
-      const streak=last?.attendance_date===previousKstDate(date)?(Number(last.streak_day||1)%7)+1:1,reward=Number(cfg.rewards[streak-1]||0);
-      try{await env.DB.prepare('INSERT INTO attendance_logs(user_id,attendance_date,reward_coin,streak_day) VALUES(?,?,?,?)').bind(user.id,date,reward,streak).run()}
-      catch{return json({error:'오늘 접속 보상을 이미 받았습니다.'},409)}
-      await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();
+      const date=kstDate(),summary=await attendanceSummaryV1401(env,user.id);
+      const streak=summary.lastClaimDate===previousKstDate(date)?(Number(summary.streak||1)%7)+1:1,reward=Number(cfg.rewards[streak-1]||0);
+      try{
+        await env.DB.batch([
+          env.DB.prepare('INSERT INTO attendance_logs(user_id,attendance_date,reward_coin,streak_day) VALUES(?,?,?,?)').bind(user.id,date,reward,streak),
+          env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
+          env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'ATTENDANCE' FROM users WHERE id=?").bind(reward,user.id),
+          env.DB.prepare(`INSERT INTO user_attendance_summary_v1401(user_id,total_days,last_attendance_date,streak_day,updated_at)
+            VALUES(?,?,?, ?,CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id) DO UPDATE SET total_days=user_attendance_summary_v1401.total_days+1,
+              last_attendance_date=excluded.last_attendance_date,streak_day=excluded.streak_day,updated_at=CURRENT_TIMESTAMP`).bind(user.id,Math.max(1,Number(summary.totalDays||0)+1),date,streak)
+        ]);
+      }catch(error){
+        if(/unique|constraint/i.test(String(error?.message||error)))return json({error:'오늘 접속 보상을 이미 받았습니다.'},409);
+        throw error;
+      }
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'ATTENDANCE')").bind(user.id,reward,updated.coin).run();
       return json({reward,streak,user:await profile(env,updated)});
     }
     if(path==='draw/status'&&request.method==='GET'){
@@ -4026,7 +4086,7 @@ export async function onRequest(context){
       const battleCount=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1)));if(battleCount<1)return json({error:'전투 횟수가 부족합니다.',code:'NO_BATTLE_ENERGY',energy:energyBefore},429);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
       const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)})),uniqueBattle=await cardUniqueDeckState(env,user,cards,'PVE'),lockUntil=new Date(Date.now()+120000).toISOString().replace('T',' ').slice(0,19);
-      await env.DB.prepare("INSERT INTO pve_auto_locks(user_id,request_id,expires_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,expires_at=excluded.expires_at,updated_at=CURRENT_TIMESTAMP WHERE pve_auto_locks.expires_at<=datetime('now')").bind(user.id,requestId,lockUntil).run();
+      await env.DB.prepare("INSERT INTO pve_auto_locks(user_id,request_id,expires_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,expires_at=excluded.expires_at,updated_at=CURRENT_TIMESTAMP WHERE datetime(pve_auto_locks.expires_at)<=datetime('now')").bind(user.id,requestId,lockUntil).run();
       const lock=await env.DB.prepare('SELECT request_id FROM pve_auto_locks WHERE user_id=?').bind(user.id).first();if(lock?.request_id!==requestId)return json({error:'이미 다른 창에서 자동사냥이 진행 중입니다.',code:'AUTO_HUNT_LOCKED'},409);
       await env.DB.prepare("INSERT INTO pve_auto_runs(request_id,user_id,monster_id,status) VALUES(?,?,?,'RUNNING')").bind(requestId,user.id,monsterId).run();
       try{
@@ -5229,8 +5289,8 @@ export async function onRequest(context){
       else if(action==='SHARDS'){const amount=Number(p.amount);if(!Number.isInteger(amount)||amount===0)return json({error:'변경할 카드 조각 수량을 입력하세요.'},400);const current=Number(before.card_shards||0);if(current+amount<0)return json({error:'보유 카드 조각보다 많이 회수할 수 없습니다.'},400);await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(amount,userId).run();const balance=current+amount;await env.DB.prepare('INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,?)').bind(userId,amount,balance,String(p.reason||'관리자 조정').slice(0,100)).run();}
       else if(action==='INVENTORY'){const itemCode=String(p.itemCode||'').trim().toUpperCase(),amount=Number(p.amount);if(!Number.isInteger(amount)||amount<1||amount>9999)return json({error:'지급할 아이템 수량은 1~9,999개로 입력하세요.'},400);const item=await env.DB.prepare('SELECT code,name FROM inventory_items WHERE code=? AND is_active=1').bind(itemCode).first();if(!item)return json({error:'지급 가능한 인벤토리 아이템이 아닙니다.'},400);await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(?,?,?,?) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,itemCode,amount,amount).run();const inventory=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,itemCode).first();await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id) VALUES(?,?,?,?,?,'ADMIN_GRANT',?,?)").bind(userId,itemCode,amount,Number(inventory?.quantity||0),String(p.reason||'관리자 아이템 지급').slice(0,100),String(admin.id),admin.id).run();}
       else if(action==='CARDS_RESET')await env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId).run();
-      else if(action==='ATTENDANCE_RESET')await env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId).run();
-      else if(action==='ACCOUNT_RESET')await env.DB.batch([env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM draw_logs WHERE user_id=?').bind(userId),env.DB.prepare('UPDATE users SET coin=5000,card_shards=0 WHERE id=?').bind(userId)]);
+      else if(action==='ATTENDANCE_RESET')await env.DB.batch([env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM user_attendance_summary_v1401 WHERE user_id=?').bind(userId)]);
+      else if(action==='ACCOUNT_RESET')await env.DB.batch([env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM user_attendance_summary_v1401 WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM draw_logs WHERE user_id=?').bind(userId),env.DB.prepare('UPDATE users SET coin=5000,card_shards=0 WHERE id=?').bind(userId)]);
       else if(action==='BAN'){const days=String(p.days||'1'),until=days==='PERMANENT'?'9999-12-31 23:59:59':new Date(Date.now()+Number(days)*86400000).toISOString().replace('T',' ').slice(0,19);await env.DB.batch([env.DB.prepare("UPDATE users SET status='BANNED',banned_until=?,ban_reason=? WHERE id=?").bind(until,String(p.reason||'').slice(0,200),userId),env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(userId)]);}
       else if(action==='UNBAN')await env.DB.prepare("UPDATE users SET status='ACTIVE',banned_until=NULL,ban_reason=NULL WHERE id=?").bind(userId).run();
       else if(action==='FORCE_MAIN'){
