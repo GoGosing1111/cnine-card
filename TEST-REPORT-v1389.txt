@@ -1,0 +1,15 @@
+CNINE CARD v1389 검사 보고
+
+실행:
+- functions/api/[[path]].js node --check
+- 패치 내 전체 JS node --check
+- VERIFIED_REWARD_TYPES 정적 재검색
+- coupon_redemptions 대상 무조건/대량 UPDATE 제거 확인
+- idx_coupon_redemptions_operation 운영 런타임 생성 제거 확인
+- 쿠폰 관련 경로 선행 스키마 보장 확인
+- ZIP 무결성 검사
+- SHA-256 실제 계산
+
+검증 범위:
+- 정적 코드 및 로컬 SQLite 수준
+- 원격 Cloudflare D1 및 실제 Pages 배포는 실행하지 않음

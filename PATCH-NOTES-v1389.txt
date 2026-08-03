@@ -1,0 +1,22 @@
+CNINE CARD v1389 - coupon runtime migration timeout fix
+
+기준:
+- 사용자가 첨부한 최신 전체 프로젝트 ZIP
+- v1388 이동수단 뽑기 누적 변경 포함
+
+원인:
+- v1384 쿠폰 마이그레이션이 일반 API 요청의 ensureUpgrades 체인에서 실행됨.
+- 마커가 없는 경우 coupon_redemptions 전체 이력 UPDATE와 operation_key 부분 UNIQUE INDEX 생성을 같은 D1 batch에서 수행함.
+- 대형 이력 테이블에서 타임아웃/실패하면 마커 기록도 롤백되어 다음 Worker 요청에서 동일 작업이 반복될 수 있음.
+- CMS와 인벤토리가 같은 Pages Function/D1을 사용하므로 쿠폰과 무관한 요청도 업그레이드 게이트에서 지연됨.
+
+수정:
+- v1384 쿠폰 스키마 보장을 ensureCouponPermanentRewardUpgrade로 분리.
+- 기존 coupon_redemptions 전체 UPDATE 제거.
+- 운영 요청 중 idx_coupon_redemptions_operation 생성 제거.
+- 과거 사용 이력은 기존 reward_coin 값과 현재 조회 호환 로직으로 보존.
+- 소량인 coupons 마스터 데이터만 보정한 뒤 마커를 기록.
+- 쿠폰 관련 경로에서만 쿠폰 스키마 보장을 선행 실행.
+- 기존 전역 업그레이드 게이트와 누락 스키마 복구 체인은 유지.
+
+DB 삭제/초기화/기존 이력 변경 없음.

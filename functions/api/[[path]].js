@@ -1058,6 +1058,28 @@ async function ensureD1HotpathIndexes(env){
   })().catch(error=>{d1HotpathUpgradePromise=null;throw error});
   return d1HotpathUpgradePromise;
 }
+let couponPermanentRewardUpgradePromise=null;
+async function ensureCouponPermanentRewardUpgrade(env){
+  if(couponPermanentRewardUpgradePromise)return couponPermanentRewardUpgradePromise;
+  couponPermanentRewardUpgradePromise=(async()=>{
+    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1384_permanent_multi_reward_coupons'").first();
+    if(done?.value==='1')return true;
+    if(!await tableExists(env,'coupons')||!await tableExists(env,'coupon_redemptions'))return true;
+    if(!await columnExists(env,'coupons','reward_type'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN reward_type TEXT NOT NULL DEFAULT 'COIN'").run();
+    if(!await columnExists(env,'coupons','reward_amount'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN reward_amount INTEGER NOT NULL DEFAULT 0").run();
+    if(!await columnExists(env,'coupon_redemptions','reward_type'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN reward_type TEXT NOT NULL DEFAULT 'COIN'").run();
+    if(!await columnExists(env,'coupon_redemptions','reward_amount'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN reward_amount INTEGER NOT NULL DEFAULT 0").run();
+    if(!await columnExists(env,'coupon_redemptions','operation_key'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN operation_key TEXT").run();
+    // 기존 사용 이력 전체 UPDATE와 신규 UNIQUE INDEX 생성은 일반 요청 타임아웃 원인이 될 수 있어 실행하지 않는다.
+    // 과거 이력은 조회 시 COALESCE(reward_amount,reward_coin) 호환으로 보존하고, 쿠폰 마스터만 소량 보정한다.
+    await env.DB.batch([
+      env.DB.prepare("UPDATE coupons SET reward_type=CASE WHEN COALESCE(TRIM(reward_type),'')='' THEN 'COIN' ELSE reward_type END,reward_amount=CASE WHEN COALESCE(reward_amount,0)<=0 THEN COALESCE(reward_coin,0) ELSE reward_amount END,starts_at=NULL,ends_at=NULL WHERE COALESCE(reward_amount,0)<=0 OR starts_at IS NOT NULL OR ends_at IS NOT NULL"),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1384_permanent_multi_reward_coupons','1',CURRENT_TIMESTAMP)")
+    ]);
+    return true;
+  })().catch(error=>{couponPermanentRewardUpgradePromise=null;throw error});
+  return couponPermanentRewardUpgradePromise;
+}
 let runtimeUpgradeGatePromise=null;
 async function ensureRuntimeUpgrades(env){
   if(runtimeUpgradeGatePromise)return runtimeUpgradeGatePromise;
@@ -1396,20 +1418,7 @@ async function ensureUpgrades(env){
       if(!await columnExists(env,'coupons','deleted_by'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN deleted_by INTEGER").run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1062_coupon_bulk_delete','1',CURRENT_TIMESTAMP)").run();
     }
-    const permanentMultiRewardCouponDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1384_permanent_multi_reward_coupons'").first();
-    if(permanentMultiRewardCouponDone?.value!=='1'){
-      if(!await columnExists(env,'coupons','reward_type'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN reward_type TEXT NOT NULL DEFAULT 'COIN'").run();
-      if(!await columnExists(env,'coupons','reward_amount'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN reward_amount INTEGER NOT NULL DEFAULT 0").run();
-      if(!await columnExists(env,'coupon_redemptions','reward_type'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN reward_type TEXT NOT NULL DEFAULT 'COIN'").run();
-      if(!await columnExists(env,'coupon_redemptions','reward_amount'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN reward_amount INTEGER NOT NULL DEFAULT 0").run();
-      if(!await columnExists(env,'coupon_redemptions','operation_key'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN operation_key TEXT").run();
-      await env.DB.batch([
-        env.DB.prepare("UPDATE coupons SET reward_type='COIN',reward_amount=reward_coin,starts_at=NULL,ends_at=NULL WHERE COALESCE(reward_amount,0)=0"),
-        env.DB.prepare("UPDATE coupon_redemptions SET reward_type='COIN',reward_amount=reward_coin WHERE COALESCE(reward_amount,0)=0"),
-        env.DB.prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_coupon_redemptions_operation ON coupon_redemptions(operation_key) WHERE operation_key IS NOT NULL"),
-        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1384_permanent_multi_reward_coupons','1',CURRENT_TIMESTAMP)")
-      ]);
-    }
+    await ensureCouponPermanentRewardUpgrade(env);
     const monsterCategoryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1053_monster_categories'").first();
     if(monsterCategoryDone?.value!=='1'){
       const additions=[
@@ -2973,6 +2982,8 @@ export async function onRequest(context){
       ]);
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},highGradeItems:highGrade,equipmentItems:equipment,serverNow:new Date().toISOString()});
     }
+    const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
+    if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
     await ensureRuntimeUpgrades(env);
 
     const maintenance=await maintenanceSettings(env);
