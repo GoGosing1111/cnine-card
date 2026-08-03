@@ -165,13 +165,13 @@ function scheduleBurningEventWatch(delay=burningEventState.enabled?45000:60000){
 }
 async function refreshBurningEventState({forceFresh=false,rerender=true}={}){
   if(!API_MODE)return false;
-  const now=Date.now();if(!forceFresh&&now-burningEventLastRefreshAt<2500)return false;
+  const now=Date.now();if(!forceFresh&&now-burningEventLastRefreshAt<15000)return false;
   if(burningEventRefreshPromise)return burningEventRefreshPromise;
   burningEventLastRefreshAt=now;
   burningEventRefreshPromise=(async()=>{
     try{
       const path=forceFresh?'burning-event/status?fresh=1':'burning-event/status';
-      const d=await apiRequest(path,{}, {ttl:0,timeoutMs:7000}),next=d.burningEvent||{};
+      const d=await apiRequest(path,{}, {ttl:0,timeoutMs:7000,background:!forceFresh,retryTransient:false}),next=d.burningEvent||{};
       const changed=applyBurningEventState(next,{rerender});
       if(changed)try{writeStartupSnapshot({burningEvent:next})}catch(_){}
       return changed;
@@ -500,7 +500,7 @@ function renderShell(tab) {
   bindView(tab);
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
-  deferShellLoad(80,loadShellSummary);
+  deferShellLoad(8000+Math.floor(Math.random()*9000),loadShellSummary);
   if(API_MODE&&API_TOKEN)scheduleRuntimeCommandPoll(runtimeCommandPollDelay());
 }
 
@@ -518,7 +518,7 @@ async function loadShellSummary(){
   const inventoryCard=document.getElementById('inventorySummary');if(inventoryCard)inventoryCard.onclick=()=>renderShell('inventory');
   if(!API_MODE)return;
   try{
-    const d=await apiRequest('shell/summary',{}, {ttl:30000,timeoutMs:7000});
+    const d=await apiRequest('shell/summary',{}, {ttl:120000,timeoutMs:7000,background:true,retryTransient:false});
     const inventory=d.inventory||{},meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');
     if(meta)meta.textContent=Number(inventory.totalQuantity)>0?`보유 ${Number(inventory.totalQuantity).toLocaleString()}개 · ${Number(inventory.ownedTypes)}종`:'획득한 특별 보관품 없음';
     if(badge){badge.hidden=!Number(inventory.unseenTotal);badge.textContent=Number(inventory.unseenTotal)>99?'99+':`NEW ${Number(inventory.unseenTotal||0)}`}
@@ -580,7 +580,7 @@ function supplyBoxShopMarkup(config=null){
 }
 async function loadSupplyBoxShop(){
   const root=document.getElementById('equipmentSupplyShop');if(!root||!API_MODE)return;
-  try{const config=await apiRequest('equipment/supply-box/config?fresh=1',{}, {ttl:0});root.outerHTML=supplyBoxShopMarkup(config);document.querySelectorAll('[data-supply-buy]').forEach(button=>button.onclick=()=>purchaseSupplyBoxes(Number(button.dataset.supplyBuy),button));}
+  try{const config=await apiRequest('equipment/supply-box/config',{}, {ttl:120000,timeoutMs:7000,background:true,retryTransient:false});root.outerHTML=supplyBoxShopMarkup(config);document.querySelectorAll('[data-supply-buy]').forEach(button=>button.onclick=()=>purchaseSupplyBoxes(Number(button.dataset.supplyBuy),button));}
   catch(error){root.innerHTML='<div class="equipment-supply-error"><b>보급상자 판매 정보를 불러오지 못했습니다.</b><button type="button" id="supplyShopRetry">다시 확인</button></div>';document.getElementById('supplyShopRetry')?.addEventListener('click',loadSupplyBoxShop)}
 }
 async function purchaseSupplyBoxes(count,button){
@@ -1661,7 +1661,7 @@ function openAutoDrawSetup(packId,defaultCount=20){
   const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
   const prefs=loadAutoDrawPrefs(),count=[1,10,20].includes(Number(defaultCount))?Number(defaultCount):Number(prefs.count||20),modal=document.getElementById('modal');
   modal.className='modal show auto-draw-setup-modal';
-  modal.innerHTML=`<div class="modal-panel auto-draw-setup-panel"><button type="button" class="icon-close auto-draw-setup-close" id="closeAutoDrawSetup">×</button><p class="eyebrow">OFFICIAL AUTO DRAW</p><h2>자동 뽑기 설정</h2><p class="auto-draw-setup-copy"><b>${escapeHtml(pack.name)}</b>을 같은 조건으로 순차 개봉합니다. 연출 간소화·정지 조건 없음에서는 최대 5회가 서버 한 요청으로 묶여 처리됩니다.</p><input type="hidden" id="autoDrawPackId" value="${escapeHtml(pack.id)}"><div class="auto-draw-form"><label><span>한 번에 개봉</span><select id="autoDrawCount"><option value="1" ${count===1?'selected':''}>1장</option><option value="10" ${count===10?'selected':''}>10장</option><option value="20" ${count===20?'selected':''}>20장</option></select></label><label><span>반복 횟수</span><div class="auto-draw-number"><input id="autoDrawRuns" type="number" min="1" max="500" step="1" value="${Math.max(1,Math.min(500,Number(prefs.runs||10)))}"><small>최대 500회</small></div></label><label><span>다음 개봉 간격</span><select id="autoDrawDelay"><option value="4000" ${Number(prefs.delayMs)===4000?'selected':''}>4초</option><option value="6000" ${Number(prefs.delayMs)===6000?'selected':''}>6초</option><option value="10000" ${Number(prefs.delayMs)===10000?'selected':''}>10초</option></select></label><label><span>획득 시 자동 정지</span><select id="autoDrawStopGrade"><option value="NONE" ${prefs.stopGrade==='NONE'?'selected':''}>끝까지 진행</option><option value="SSR" ${prefs.stopGrade==='SSR'?'selected':''}>SSR 이상</option><option value="MA" ${prefs.stopGrade==='MA'?'selected':''}>MA 이상</option><option value="LIMITED" ${prefs.stopGrade==='LIMITED'?'selected':''}>LIMITED 이상</option><option value="FUR" ${prefs.stopGrade==='FUR'?'selected':''}>FUR</option></select></label><label class="auto-draw-check"><input id="autoDrawSimplified" type="checkbox" ${prefs.simplified!==false?'checked':''}><span><b>연출 간소화</b><small>팩 개봉·특별 연출을 생략하고 결과만 잠시 표시합니다.</small></span></label></div><div class="auto-draw-estimate" id="autoDrawEstimate"></div><div class="auto-draw-safety"><b>자동 뽑기 안전 규칙</b><span>병렬 요청 없음 · 최대 5회 서버 묶음 · 요청 영수증 유지 · D1 혼잡 회로 차단 · 요청 시점 자동 분산</span></div><div class="auto-draw-setup-actions"><button type="button" class="btn secondary" id="cancelAutoDrawSetup">취소</button><button type="button" class="btn" id="startAutoDraw">자동 뽑기 시작</button></div></div>`;
+  modal.innerHTML=`<div class="modal-panel auto-draw-setup-panel"><button type="button" class="icon-close auto-draw-setup-close" id="closeAutoDrawSetup">×</button><p class="eyebrow">OFFICIAL AUTO DRAW</p><h2>자동 뽑기 설정</h2><p class="auto-draw-setup-copy"><b>${escapeHtml(pack.name)}</b>을 같은 조건으로 순차 개봉합니다. 연출 간소화·정지 조건 없음에서는 최대 5회가 서버 한 요청으로 묶여 처리됩니다.</p><input type="hidden" id="autoDrawPackId" value="${escapeHtml(pack.id)}"><div class="auto-draw-form"><label><span>한 번에 개봉</span><select id="autoDrawCount"><option value="1" ${count===1?'selected':''}>1장</option><option value="10" ${count===10?'selected':''}>10장</option><option value="20" ${count===20?'selected':''}>20장</option></select></label><label><span>반복 횟수</span><div class="auto-draw-number"><input id="autoDrawRuns" type="number" min="1" max="500" step="1" value="${Math.max(1,Math.min(500,Number(prefs.runs||10)))}"><small>최대 500회</small></div></label><label><span>다음 개봉 간격</span><select id="autoDrawDelay"><option value="4000" ${Number(prefs.delayMs)===4000?'selected':''}>4초</option><option value="6000" ${Number(prefs.delayMs)===6000?'selected':''}>6초</option><option value="10000" ${Number(prefs.delayMs)===10000?'selected':''}>10초</option></select></label><label><span>획득 시 자동 정지</span><select id="autoDrawStopGrade"><option value="NONE" ${prefs.stopGrade==='NONE'?'selected':''}>끝까지 진행</option><option value="SSR" ${prefs.stopGrade==='SSR'?'selected':''}>SSR 이상</option><option value="MA" ${prefs.stopGrade==='MA'?'selected':''}>MA 이상</option><option value="LIMITED" ${prefs.stopGrade==='LIMITED'?'selected':''}>LIMITED 이상</option><option value="FUR" ${prefs.stopGrade==='FUR'?'selected':''}>FUR</option></select></label><label class="auto-draw-check"><input id="autoDrawSimplified" type="checkbox" ${prefs.simplified!==false?'checked':''}><span><b>연출 간소화</b><small>팩 개봉·특별 연출을 생략하고 결과만 잠시 표시합니다.</small></span></label></div><div class="auto-draw-estimate" id="autoDrawEstimate"></div><div class="auto-draw-safety"><b>자동 뽑기 안전 규칙</b><span>병렬 요청 없음 · 최대 5회 서버 묶음 · 요청 영수증 유지 · D1 혼잡 회로 차단 · 버닝 시간대 자동 속도 분산</span></div><div class="auto-draw-setup-actions"><button type="button" class="btn secondary" id="cancelAutoDrawSetup">취소</button><button type="button" class="btn" id="startAutoDraw">자동 뽑기 시작</button></div></div>`;
   const close=()=>{modal.className='modal';modal.innerHTML=''};
   document.getElementById('closeAutoDrawSetup').onclick=document.getElementById('cancelAutoDrawSetup').onclick=close;
   ['autoDrawCount','autoDrawRuns'].forEach(id=>document.getElementById(id)?.addEventListener('input',autoDrawSetupEstimate));
@@ -1671,6 +1671,12 @@ function openAutoDrawSetup(packId,defaultCount=20){
   };
   autoDrawSetupEstimate();
 }
+function autoDrawLoadProfileV1407(){
+  const mode=burningMode();
+  if(mode==='HYPER')return {mode,floorMs:15000,initialMin:4000,initialRange:6000,jitterMin:.45,jitterRange:.55,label:'하이퍼 버닝 서버 보호'};
+  if(mode==='BURNING')return {mode,floorMs:10000,initialMin:2000,initialRange:5000,jitterMin:.40,jitterRange:.50,label:'버닝 서버 보호'};
+  return {mode:'NONE',floorMs:5000,initialMin:900,initialRange:3200,jitterMin:.35,jitterRange:.40,label:'요청 분산'};
+}
 function startOfficialAutoDraw(packId,prefs){
   if(autoDrawState.active||drawRequestInFlight)return alert('현재 카드 개봉 요청을 처리 중입니다.');
   const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
@@ -1678,8 +1684,8 @@ function startOfficialAutoDraw(packId,prefs){
   const count=[1,10,20].includes(Number(prefs.count))?Number(prefs.count):20,runs=Math.max(1,Math.min(500,Number(prefs.runs||1))),cost=Number(pack.price||0)*count;
   if(Number(loadUser()?.coin||0)<cost){releaseAutoDrawLock();return alert(`코인이 부족합니다.\n${count}장 개봉에는 ${Number(cost).toLocaleString()}코인이 필요합니다.`);}
   Object.assign(autoDrawState,{active:true,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:'',transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,busyStrikes:0,receiptArchiveQueue:[]});
-  const initialDelay=700+Math.floor(Math.random()*2800);
-  updateAutoDrawDock(`동시 요청 분산 대기 ${(initialDelay/1000).toFixed(1)}초`);
+  const loadProfile=autoDrawLoadProfileV1407(),initialDelay=loadProfile.initialMin+Math.floor(Math.random()*loadProfile.initialRange);
+  updateAutoDrawDock(`${loadProfile.label} · 시작까지 ${(initialDelay/1000).toFixed(1)}초`);
   autoDrawState.timer=setTimeout(()=>{autoDrawState.timer=null;runOfficialAutoDrawNext()},initialDelay);
 }
 function clearAutoDrawTimer(){if(autoDrawState.timer){clearTimeout(autoDrawState.timer);autoDrawState.timer=null}}
@@ -1729,12 +1735,13 @@ function renderAutoDrawProcessing(pack,count,batchRuns=1){
 function scheduleOfficialAutoDrawNext(){
   if(!autoDrawState.active)return;
   clearAutoDrawTimer();
-  const baseDelay=Math.max(4000,Number(autoDrawState.prefs?.delayMs||4000));
+  const loadProfile=autoDrawLoadProfileV1407();
+  const baseDelay=Math.max(loadProfile.floorMs,Number(autoDrawState.prefs?.delayMs||4000));
   const adaptiveDelay=Math.max(0,Number(autoDrawState.adaptiveDelayMs||0));
   const protectionBreak=autoDrawState.completedRuns>0&&autoDrawState.completedRuns%50===0;
-  const jitter=Math.floor(baseDelay*(0.25+Math.random()*0.35));
-  const delay=(protectionBreak?Math.max(baseDelay,adaptiveDelay,20000):Math.max(baseDelay,adaptiveDelay))+jitter;
-  const label=protectionBreak?`서버 보호 휴식 ${(delay/1000).toFixed(0)}초`:adaptiveDelay>baseDelay?`혼잡 완화 대기 ${(delay/1000).toFixed(0)}초`:`다음 개봉까지 ${(delay/1000).toFixed(1)}초`;
+  const jitter=Math.floor(baseDelay*(loadProfile.jitterMin+Math.random()*loadProfile.jitterRange));
+  const delay=(protectionBreak?Math.max(baseDelay,adaptiveDelay,25000):Math.max(baseDelay,adaptiveDelay))+jitter;
+  const label=protectionBreak?`서버 보호 휴식 ${(delay/1000).toFixed(0)}초`:adaptiveDelay>baseDelay?`혼잡 완화 대기 ${(delay/1000).toFixed(0)}초`:`${loadProfile.label} · 다음 요청 ${(delay/1000).toFixed(1)}초`;
   updateAutoDrawDock(label);
   autoDrawState.timer=setTimeout(()=>{autoDrawState.timer=null;runOfficialAutoDrawNext()},delay);
 }
@@ -1795,7 +1802,7 @@ async function runOfficialAutoDrawNext(){
 }
 
 function bindView(tab) {
-  if(tab==='buy')loadSupplyBoxShop();
+  if(tab==='buy')setTimeout(()=>{if(runtimeCommandContext==='buy')loadSupplyBoxShop()},5000+Math.floor(Math.random()*7000));
   if(tab==='inventory')loadInventory();
   if(tab==='character'&&typeof window.bindCharacterView==='function')window.bindCharacterView();
   if(tab==='evolution'&&typeof window.bindEvolutionView==='function')window.bindEvolutionView();
@@ -2178,8 +2185,9 @@ function showAccountPanel() {
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
 let playerSessionRecoveryPromiseV1401=null,apiReconnectTimerV1401=null,apiReconnectBusyV1401=false,apiReconnectAttemptV1401=0;
+let apiBackgroundBackoffUntilV1407=0,apiBackgroundBusyStrikesV1407=0;
 const API_RECONNECT_DELAYS_V1401=[5000,10000,20000,30000];
-const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':1000,'shell/summary':30000,'recent-high-grade':30000,'recent-equipment':30000};
+const API_CACHE_TTL={'cards':600000,'packs':300000,'pvp/config':30000,'shell/summary':120000,'recent-high-grade':120000,'recent-equipment':120000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
 const STARTUP_REQUEST_TIMEOUT=10000;
@@ -2230,6 +2238,25 @@ async function refreshStartupCatalog(runId,cardTask,packTask){
   if(Object.keys(cachePatch).length)writeStartupSnapshot(cachePatch);
   if(changed)refreshBuyShellAfterStartup(runId);
 }
+function scheduleDeferredCatalogRefreshV1407(runId){
+  const delay=60000+Math.floor(Math.random()*90000);
+  setTimeout(async()=>{
+    if(runId!==startupRunId||!API_MODE||document.hidden||autoDrawState?.active)return;
+    const result=await settled(apiRequest('cards',{}, {timeoutMs:10000,ttl:0,background:true,retryTransient:false}));
+    if(runId!==startupRunId||!result.ok||!Array.isArray(result.value?.cards)||!result.value.cards.length)return;
+    const before=readStartupSnapshot()||{};viewerCatalogWasRefreshed=true;cards=result.value.cards.map(normalizeClientCard);writeStartupSnapshot({cards:result.value.cards});
+    if(JSON.stringify(before.cards||[])!==JSON.stringify(result.value.cards))refreshBuyShellAfterStartup(runId);
+  },delay);
+}
+async function fetchStartupBootstrapV1407({includePacks=false}={}){
+  const data=await apiRequest(`bootstrap?packs=${includePacks?'1':'0'}`,{}, {ttl:0,timeoutMs:9000,skipAuthRecovery:true,retryTransient:false,critical:true});
+  API_MODE=true;
+  if(data?.burningEvent)applyBurningEventState(data.burningEvent,{announce:false});
+  if(Array.isArray(data?.packs)&&data.packs.length){applyServerPacks(data.packs);writeStartupSnapshot({packs:data.packs,burningEvent:data.burningEvent||{}});}
+  if(data?.user){const current=loadUser();if(current)saveUser(mergeApiUserSummary(data.user,current));}
+  return data||{};
+}
+
 async function verifyStartupSession({strict=false}={}){
   if(API_TOKEN){
     try{
@@ -2240,20 +2267,20 @@ async function verifyStartupSession({strict=false}={}){
       return true;
     }
     catch(error){
-      if(Number(error?.status)===401){clearPlayerToken();return recoverPlayerSession()}
+      if(Number(error?.status)===401){clearPlayerToken();return recoverPlayerSession({refreshCatalog:false,reason:'startup-401'})}
       console.warn('유저 인증 확인 일시 실패 - 기존 로그인 정보 유지:',error);return strict?false:Boolean(loadUser());
     }
   }
-  return recoverPlayerSession();
+  return recoverPlayerSession({refreshCatalog:false,reason:'startup-no-token'});
 }
 async function loadStartupOptionalFeatures(runId){
-  await new Promise(resolve=>setTimeout(resolve,12000));
+  await new Promise(resolve=>setTimeout(resolve,30000+Math.floor(Math.random()*30000)));
   if(runId!==startupRunId||!API_MODE||!API_TOKEN)return;
   if(collectionSnapshotLooksIncomplete(loadUser()))await syncCollectionFromServer({force:true,rerender:runtimeCommandContext==='dex'});
   const previousPvp=pvpFeatureEnabled,previousMagic=Boolean(magicSystemState.visible);
   const [pvpResult,magicResult]=await Promise.all([
-    settled(apiRequest('pvp/config',{}, {timeoutMs:5000})),
-    settled(apiRequest('magic/status',{}, {timeoutMs:5000,ttl:0}))
+    settled(apiRequest('pvp/config',{}, {timeoutMs:5000,background:true,retryTransient:false})),
+    settled(apiRequest('magic/status',{}, {timeoutMs:5000,ttl:0,background:true,retryTransient:false}))
   ]);
   if(runId!==startupRunId)return;
   if(pvpResult.ok)pvpFeatureEnabled=Boolean(pvpResult.value?.settings?.enabled||pvpResult.value?.bypass);
@@ -2292,7 +2319,8 @@ function scheduleApiReconnectV1401(reason='connection',delayOverride=null){
   if(API_MODE)return stopApiReconnectV1401();
   if(apiReconnectBusyV1401)return;
   if(apiReconnectTimerV1401)return;
-  const index=Math.min(apiReconnectAttemptV1401,API_RECONNECT_DELAYS_V1401.length-1),delay=delayOverride===null?API_RECONNECT_DELAYS_V1401[index]:Math.max(0,Number(delayOverride)||0);
+  const index=Math.min(apiReconnectAttemptV1401,API_RECONNECT_DELAYS_V1401.length-1),baseDelay=delayOverride===null?API_RECONNECT_DELAYS_V1401[index]:Math.max(0,Number(delayOverride)||0);
+  const delay=baseDelay<=0?0:Math.floor(baseDelay*(.80+Math.random()*.45));
   apiReconnectTimerV1401=setTimeout(()=>{apiReconnectTimerV1401=null;void runApiReconnectV1401(reason)},delay);
 }
 async function runApiReconnectV1401(reason='connection'){
@@ -2301,14 +2329,15 @@ async function runApiReconnectV1401(reason='connection'){
   if(document.hidden||navigator.onLine===false){apiReconnectAttemptV1401=Math.min(apiReconnectAttemptV1401+1,API_RECONNECT_DELAYS_V1401.length-1);return scheduleApiReconnectV1401(reason)}
   apiReconnectBusyV1401=true;
   try{
-    const service=await detectApi();
+    const service=await fetchStartupBootstrapV1407({includePacks:false});
     if(!API_MODE)throw new Error('API_OFFLINE');
     if(service?.maintenance?.active&&!service.bypass){stopApiReconnectV1401();renderMaintenance(service.maintenance,service);return}
-    const authenticated=await verifyStartupSession({strict:true});
+    let authenticated=Boolean(service?.authenticated&&service?.user);
+    if(!authenticated&&loadUser())authenticated=await recoverPlayerSession({refreshCatalog:false,reason:'api-reconnect'});
     if(loadUser()&&!authenticated)throw new Error('SESSION_RECOVERY_PENDING');
     stopApiReconnectV1401();
     if(authenticated){
-      void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
+      scheduleBurningEventWatch();
       startRuntimeCommandPoll();
       refreshBuyShellAfterStartup(startupRunId);
     }else if(!loadUser())renderLogin();
@@ -2482,8 +2511,10 @@ async function apiRequest(path, options={}, config={}) {
   if(isGet&&config.replaceInflight===true)API_INFLIGHT.delete(cleanPath);
   else if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
   const timeoutMs=Math.max(1000,Number(config.timeoutMs??(isGet?15000:30000))||15000);
+  if(isGet&&config.background===true&&Date.now()<apiBackgroundBackoffUntilV1407){const error=new Error('서버 혼잡 완화 대기 중입니다.');error.code='CLIENT_BACKGROUND_BACKOFF';error.retryable=true;throw error;}
   const task=(async()=>{
     let authRetried=false,transientRetried=false;
+    const allowTransientRetry=config.retryTransient!==false&&config.background!==true;
     for(;;){
       let response;
       try{
@@ -2494,7 +2525,8 @@ async function apiRequest(path, options={}, config={}) {
         },timeoutMs,`서버 요청 (${cleanPath})`);
       }catch(error){
         const externallyAborted=Boolean(options.signal?.aborted);
-        if(isGet&&!transientRetried&&!externallyAborted){transientRetried=true;await new Promise(resolve=>setTimeout(resolve,apiRetryDelayV1401()));continue}
+        if(isGet&&config.background===true&&!externallyAborted){apiBackgroundBusyStrikesV1407++;apiBackgroundBackoffUntilV1407=Date.now()+Math.min(60000,5000*Math.pow(1.6,Math.min(5,apiBackgroundBusyStrikesV1407)));}
+        if(isGet&&allowTransientRetry&&!transientRetried&&!externallyAborted){transientRetried=true;await new Promise(resolve=>setTimeout(resolve,apiRetryDelayV1401()));continue}
         throw error;
       }
       const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
@@ -2508,11 +2540,12 @@ async function apiRequest(path, options={}, config={}) {
         const recovered=await recoverPlayerSession({refreshCatalog:false,reason:'HTTP_401'});
         if(recovered){clearApiCache();continue}
       }
-      if(isGet&&!transientRetried&&apiTransientRetryStatusV1401(response.status)){
+      if(apiTransientRetryStatusV1401(response.status)||Number(response.status)===503){apiBackgroundBusyStrikesV1407++;apiBackgroundBackoffUntilV1407=Date.now()+Math.min(60000,5000*Math.pow(1.6,Math.min(5,apiBackgroundBusyStrikesV1407)));}
+      if(isGet&&allowTransientRetry&&!transientRetried&&apiTransientRetryStatusV1401(response.status)){
         transientRetried=true;await new Promise(resolve=>setTimeout(resolve,apiRetryDelayV1401(response)));continue;
       }
       if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;}
-      API_MODE=true;apiReconnectAttemptV1401=0;
+      API_MODE=true;apiReconnectAttemptV1401=0;apiBackgroundBusyStrikesV1407=Math.max(0,apiBackgroundBusyStrikesV1407-1);if(!apiBackgroundBusyStrikesV1407)apiBackgroundBackoffUntilV1407=0;
       if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
       if(!isGet&&cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
       return data;
@@ -2605,7 +2638,7 @@ async function recoverPlayerSession({refreshCatalog=true,reason='startup'}={}){
     const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
     if(!privateKey)return false;
     try{
-      const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})},{timeoutMs:10000,skipAuthRecovery:true});
+      const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey,lightweight:true})},{timeoutMs:10000,skipAuthRecovery:true});
       persistPlayerToken(d.token);API_MODE=true;apiReconnectAttemptV1401=0;
       saveUser(apiUserToLocal(d.user,privateKey));
       if(refreshCatalog)await refreshCardCatalogForCurrentViewer();
@@ -2624,79 +2657,46 @@ async function init(){
   viewerCatalogWasRefreshed=false;
   const runId=++startupRunId;
   if(startupWatchdogTimer)clearTimeout(startupWatchdogTimer);
-  API_INFLIGHT.clear();migrateLegacyUser();renderLoading();let authenticated=false,completed=false;
-  const snapshot=readStartupSnapshot(),snapshotAge=snapshot?Date.now()-Number(snapshot.savedAt||0):Infinity;
+  API_INFLIGHT.clear();migrateLegacyUser();let authenticated=false,completed=false;
+  const snapshot=readStartupSnapshot();
   const hasCatalogSnapshot=Boolean(Array.isArray(snapshot?.cards)&&snapshot.cards.length&&Array.isArray(snapshot?.packs)&&snapshot.packs.length);
-  const staticCardTask=hasCatalogSnapshot?Promise.resolve([]):loadStaticCardsFallback();
+  const existingUser=loadUser();
   if(hasCatalogSnapshot)applyStartupSnapshot(snapshot);
+  if(hasCatalogSnapshot&&existingUser){API_MODE=false;renderShell('buy');}else renderLoading();
+  const staticCardTask=hasCatalogSnapshot?Promise.resolve([]):loadStaticCardsFallback();
   startupWatchdogTimer=setTimeout(()=>{
     if(runId!==startupRunId||completed)return;
     startupRunId++;API_MODE=false;API_INFLIGHT.clear();
-    renderStartupRecovery('서버 응답이 오래 지연되어 자동으로 로딩을 중단했습니다.');
-  },24000);
-
-  let cardTask=null,packTask=null,packPending=false;
+    if(hasCatalogSnapshot&&loadUser()){renderShell('buy');apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-cache',5000);}
+    else renderStartupRecovery('서버 응답이 오래 지연되어 캐시 화면으로 전환했습니다. 자동 재연결을 계속 시도합니다.');
+  },18000);
   try{
-    // 점검 여부를 먼저 확인한 뒤 카드/팩/세션을 병렬 조회한다.
-    // 일반 접속은 직렬 대기를 줄이고, 점검 중에는 불필요한 DB 요청을 만들지 않는다.
-    const service=await detectApi();
+    const bootstrap=await fetchStartupBootstrapV1407({includePacks:!hasCatalogSnapshot});
     if(runId!==startupRunId)return;
-    if(!API_MODE)throw new Error('API_OFFLINE');
-    if(service?.maintenance?.active&&!service.bypass){completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;renderMaintenance(service.maintenance,service);return;}
-
-    if(!hasCatalogSnapshot){
-      cardTask=settled(apiRequest('cards',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT}));
-      packTask=settled(apiRequest('packs',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT}));
-    }else{
-      const refreshDelay=snapshotAge>STARTUP_SNAPSHOT_REFRESH_AGE?3000:30000;
-      setTimeout(()=>{if(runId!==startupRunId||!API_MODE)return;const c=settled(apiRequest('cards',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT,ttl:0})),p=settled(apiRequest('packs',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT,ttl:0}));void refreshStartupCatalog(runId,c,p)},refreshDelay);
-    }
-    const authTask=settled(verifyStartupSession());
-    const authResult=await authTask;
-    if(runId!==startupRunId)return;
-    if(authResult.ok)authenticated=Boolean(authResult.value);
-    else{console.warn('시작 세션 확인 실패:',authResult.error);authenticated=Boolean(loadUser())}
-
+    if(bootstrap?.maintenance?.active&&!bootstrap.bypass){completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;renderMaintenance(bootstrap.maintenance,bootstrap);return;}
+    authenticated=Boolean(bootstrap?.authenticated&&bootstrap?.user);
+    if(!authenticated&&loadUser())authenticated=await recoverPlayerSession({refreshCatalog:false,reason:'startup-bootstrap'});
     if(!hasCatalogSnapshot){
       const staticCards=await staticCardTask;
-      let cachePatch={};
-      if(Array.isArray(staticCards)&&staticCards.length&&!viewerCatalogWasRefreshed){cards=staticCards.map(normalizeClientCard);cachePatch.cards=staticCards;packPending=true;}
+      if(Array.isArray(staticCards)&&staticCards.length){cards=staticCards.map(normalizeClientCard);writeStartupSnapshot({cards:staticCards});}
       else{
-        const cardResult=await cardTask;if(runId!==startupRunId)return;
-        if(!cardResult.ok||!Array.isArray(cardResult.value?.cards))throw cardResult.error||new Error('카드 데이터를 불러오지 못했습니다.');
-        if(!viewerCatalogWasRefreshed)cards=cardResult.value.cards.map(normalizeClientCard);cachePatch=viewerCatalogWasRefreshed?{}:{cards:cardResult.value.cards};
+        const cardResult=await apiRequest('cards',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT,retryTransient:false});
+        if(!Array.isArray(cardResult?.cards)||!cardResult.cards.length)throw new Error('카드 데이터를 불러오지 못했습니다.');
+        cards=cardResult.cards.map(normalizeClientCard);writeStartupSnapshot({cards:cardResult.cards});
       }
-      const packResult=await Promise.race([packTask,new Promise(resolve=>setTimeout(()=>resolve({pending:true}),350))]);
-      if(packResult?.pending)packPending=true;
-      else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{}}
-      else console.warn('카드팩 설정 조회 실패 - 기본 설정으로 계속합니다:',packResult.error);
-      writeStartupSnapshot(cachePatch);
+      if(!Array.isArray(bootstrap?.packs)||!bootstrap.packs.length){const packResult=await apiRequest('packs',{}, {timeoutMs:STARTUP_REQUEST_TIMEOUT,retryTransient:false});applyServerPacks(packResult.packs||[]);applyBurningEventState(packResult.burningEvent||{}, {announce:false});writeStartupSnapshot({packs:packResult.packs||[],burningEvent:packResult.burningEvent||{}});}
     }
   }catch(error){
-    if(error?.message!=='API_OFFLINE')console.error('초기 연결 실패:',error);
-    API_MODE=false;API_INFLIGHT.clear();
-    if(runId!==startupRunId)return;
-    completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;
-    // 직전 정상 카탈로그와 로그인 정보가 있으면 서버 지연만으로 전체 UI를 닫지 않는다.
-    // 실제 쓰기 기능은 API_MODE=false 상태에서 계속 차단하고, 한 번만 백그라운드 재연결을 시도한다.
-    if(hasCatalogSnapshot&&loadUser()){
-      renderShell('buy');
-      apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-cache',5000);
-      return;
-    }
+    console.error('초기 통합 연결 실패:',error);API_MODE=false;API_INFLIGHT.clear();
+    if(runId!==startupRunId)return;completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;
+    if(hasCatalogSnapshot&&loadUser()){renderShell('buy');apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-cache',5000);return;}
     renderStartupRecovery(error?.timeout?'서버 연결 시간이 초과되었습니다. 자동 재연결을 계속 시도합니다.':'서버 연결을 확인할 수 없습니다. 자동 재연결을 계속 시도합니다.');
-    apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-recovery',5000);
-    return;
+    apiReconnectAttemptV1401=0;scheduleApiReconnectV1401('startup-recovery',5000);return;
   }
   if(runId!==startupRunId)return;
-  completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
-  stopApiReconnectV1401();
-  if(authenticated)renderShell('buy');else renderLogin();
-  if(authenticated)void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
-
-  // 캐시 사용 또는 팩 설정 지연 시 최신 카탈로그는 화면 표시 이후 반영한다.
-  if((hasCatalogSnapshot||packPending)&&cardTask&&packTask)void refreshStartupCatalog(runId,cardTask,packTask);
-  if(authenticated)void loadStartupOptionalFeatures(runId);
+  completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}stopApiReconnectV1401();
+  if(authenticated){renderShell('buy');scheduleBurningEventWatch();scheduleDeferredCatalogRefreshV1407(runId);void loadStartupOptionalFeatures(runId);}
+  else renderLogin();
 }
 function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="CNINE"><p class="eyebrow">CNINE COLLECTION GAME</p><h1>숲켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);await refreshCardCatalogForCurrentViewer();renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));await refreshCardCatalogForCurrentViewer();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
@@ -2785,7 +2785,7 @@ function writePendingDraw(row){try{sessionStorage.setItem(PENDING_DRAW_STORAGE_K
 function clearPendingDraw(requestId=''){try{const row=readPendingDraw();if(!requestId||String(row?.requestId||'')===String(requestId))sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY)}catch(_){}}
 function isDrawStorageBusy(error){
   const message=String(error?.message||error?.error||'').toLowerCase();
-  return error?.code==='D1_OVERLOADED'
+  return ['D1_OVERLOADED','DRAW_ADMISSION_BUSY'].includes(String(error?.code||''))
     || message.includes('d1 db is overloaded')
     || message.includes('requests queued for too long')
     || message.includes('database is locked')
@@ -2826,7 +2826,7 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
     },
     body:JSON.stringify({packId,count,requestId,autoDraw:autoRun||serverBatch,batchMode:serverBatch?'SERVER_BATCH':'SINGLE',batchRuns:Math.max(1,Math.min(5,Number(batchRuns)||1)),acknowledgedRequestIds:Array.isArray(acknowledgedRequestIds)?acknowledgedRequestIds.slice(0,10):[]})
   };
-  const maxAttempts=autoRun||serverBatch?5:3;
+  const maxAttempts=3;
   let lastError=null,shouldPost=true;
   for(let attempt=0;attempt<maxAttempts;attempt++){
     if(shouldPost){
@@ -2922,6 +2922,13 @@ function drawIntegrityCanonical(response){
     }))
   });
 }
+function hydrateDrawTransportV1407(response){
+  if(!response||String(response.transport||'')!=='COMPACT_BATCH_V1407')return response;
+  const catalog=new Map();
+  for(const card of cards||[])if(card?.id)catalog.set(String(card.id),card);
+  for(const card of response.cardCatalog||[])if(card?.id)catalog.set(String(card.id),normalizeClientCard(card));
+  return {...response,results:(response.results||[]).map(item=>{const compact=item?.card||{},full=catalog.get(String(compact.id||''))||{};return {...item,card:{...full,...compact}};})};
+}
 function validateDrawResponse(response,{requestId,packId,count,runSize=count,batchRuns=1}){
   if(!response||typeof response!=='object')throw new Error('카드 개봉 응답이 비어 있습니다.');
   if(String(response.requestId||'')!==String(requestId))throw new Error('현재 개봉 요청과 다른 응답이 도착해 결과 표시를 중단했습니다.');
@@ -2983,6 +2990,7 @@ openPack=async function(packId,count,cost,options={}){
     }else{
       d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,batchRuns:1,acknowledgedRequestIds:archiveIds}));
     }
+    d=hydrateDrawTransportV1407(d);
     const responseBatchRuns=Math.max(1,Number(d?.batchRuns||batchRuns||1)),responseRunSize=Math.max(1,Number(d?.runSize||count)),totalCount=responseBatchRuns*responseRunSize;
     const verifiedResults=validateDrawResponse(d,{requestId,packId,count:totalCount,runSize:responseRunSize,batchRuns:responseBatchRuns});
     clearPendingDraw(requestId);
@@ -3298,6 +3306,6 @@ battleScreenObserver.observe(app,{subtree:true,childList:true,attributes:true,at
 syncBattleScreenLock();
 
 window.addEventListener('storage',event=>{if(event.key!==BURNING_EVENT_SYNC_KEY||document.hidden)return;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
-window.addEventListener('focus',()=>{if(!loadUser())return;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){stopRaidTimer();stopBurningEventWatch();return;}const raid=document.getElementById('pveRaidView');if(raid&&!raid.hidden)loadRaidView();if(loadUser())void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
+window.addEventListener('focus',()=>{if(!loadUser())return;void refreshBurningEventState({forceFresh:false,rerender:true}).finally(()=>scheduleBurningEventWatch())});
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopRaidTimer();stopBurningEventWatch();return;}const raid=document.getElementById('pveRaidView');if(raid&&!raid.hidden)loadRaidView();if(loadUser())void refreshBurningEventState({forceFresh:false,rerender:true}).finally(()=>scheduleBurningEventWatch())});
 init();
