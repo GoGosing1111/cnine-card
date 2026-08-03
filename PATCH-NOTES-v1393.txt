@@ -1,0 +1,15 @@
+CNINE CARD v1393 - 이동수단 뽑기권 인벤토리 이미지/CMS 표시 수정
+
+1. CMS 이동수단 뽑기 설정 마운트 대상 ID 수정
+- 잘못된 vehicleCmsPanelV1353 -> 실제 equipmentVehicleAdminV1353
+- 이동수단 관리 패널 바로 아래에 설정/확률/수동 지급 UI 표시
+
+2. 인벤토리 이동수단 뽑기권 이미지 강제 렌더링
+- DB의 구형 SOOP image_url과 무관하게 assets/items/vehicle-draw-ticket-v1391.png 사용
+- ?v=1393 쿼리로 브라우저/CDN 캐시 우회
+
+3. index/admin 정적 파일 캐시 버전 갱신
+- app.js v1393
+- vehicle draw user/admin JS/CSS v1393
+
+4. v1392까지의 누적 변경 포함
