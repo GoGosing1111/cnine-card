@@ -33,64 +33,88 @@ function seedOf(text){let h=2166136261;for(const c of String(text)){h^=c.charCod
 function damageFor(power,requestId,cfg){const variance=clampInt(cfg.damageVariancePercent,0,40,10),spread=variance*2+1,jitter=(seedOf(requestId)%spread)-variance;const raw=Math.sqrt(Math.max(1,Number(power)||1))*Number(cfg.damageScale||6)*(1+jitter/100);return clampInt(Math.round(raw),Number(cfg.minDamage||100),Number(cfg.maxDamage||5000),Number(cfg.minDamage||100))}
 async function tableExists(env,name){const row=await env.DB.prepare("SELECT 1 ok FROM sqlite_master WHERE type='table' AND name=?").bind(name).first();return Boolean(row)}
 async function batchChunks(env,statements,size=50){for(let i=0;i<statements.length;i+=size)await env.DB.batch(statements.slice(i,i+size))}
+async function tableColumns(env,name){const rows=(await env.DB.prepare(`PRAGMA table_info(${name})`).all()).results||[];return new Set(rows.map(row=>String(row.name||'')))}
+async function addColumnIfMissing(env,table,column,definition){const columns=await tableColumns(env,table);if(columns.has(column))return false;await env.DB.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();return true}
 
 async function ensureFoundation(env){
   if(foundationReady)return;
   await env.DB.prepare(`CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
   const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1402_territory_frontline_v3'").first();
-  if(marker){foundationReady=true;return}
-  const sql=[
-    `CREATE TABLE IF NOT EXISTS territory_war_v3_rounds(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,status TEXT NOT NULL DEFAULT 'RECRUITING',recruitment_ends_at TEXT,
-      starts_at TEXT,ends_at TEXT,current_front_index INTEGER NOT NULL DEFAULT 4,current_front_id INTEGER,
-      a_total_damage INTEGER NOT NULL DEFAULT 0,b_total_damage INTEGER NOT NULL DEFAULT 0,
-      a_front_wins INTEGER NOT NULL DEFAULT 0,b_front_wins INTEGER NOT NULL DEFAULT 0,
-      winner_side TEXT,version INTEGER NOT NULL DEFAULT 1,formed_at TEXT,settled_at TEXT,
-      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
-    `CREATE TABLE IF NOT EXISTS territory_war_v3_users(
-      round_id INTEGER NOT NULL,user_id INTEGER NOT NULL,deck_power INTEGER NOT NULL DEFAULT 0,deck_snapshot TEXT NOT NULL DEFAULT '[]',
-      side TEXT,status TEXT NOT NULL DEFAULT 'WAITING',energy INTEGER NOT NULL DEFAULT 10,last_recharged_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      attacks INTEGER NOT NULL DEFAULT 0,damage INTEGER NOT NULL DEFAULT 0,front_finishes INTEGER NOT NULL DEFAULT 0,
-      registered_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY(round_id,user_id))`,
-    `CREATE TABLE IF NOT EXISTS territory_war_v3_fronts(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,round_id INTEGER NOT NULL,sequence INTEGER NOT NULL,node_index INTEGER NOT NULL,
-      node_code TEXT NOT NULL,node_name TEXT NOT NULL,node_type TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PREPARING',
-      a_hp INTEGER NOT NULL,b_hp INTEGER NOT NULL,a_max_hp INTEGER NOT NULL,b_max_hp INTEGER NOT NULL,
-      winner_side TEXT,version INTEGER NOT NULL DEFAULT 1,started_at TEXT,resolved_at TEXT,
-      created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      UNIQUE(round_id,sequence))`,
-    `CREATE TABLE IF NOT EXISTS territory_war_v3_actions(
-      id INTEGER PRIMARY KEY AUTOINCREMENT,request_id TEXT NOT NULL UNIQUE,round_id INTEGER,front_id INTEGER,user_id INTEGER NOT NULL,
-      side TEXT,status TEXT NOT NULL DEFAULT 'PENDING',damage INTEGER NOT NULL DEFAULT 0,energy_spent INTEGER NOT NULL DEFAULT 0,
-      result_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
-    `CREATE TABLE IF NOT EXISTS territory_war_v3_front_results(
-      round_id INTEGER NOT NULL,sequence INTEGER NOT NULL,front_id INTEGER NOT NULL,node_index INTEGER NOT NULL,node_code TEXT NOT NULL,
-      winner_side TEXT NOT NULL,a_damage INTEGER NOT NULL DEFAULT 0,b_damage INTEGER NOT NULL DEFAULT 0,
-      a_hp_left INTEGER NOT NULL DEFAULT 0,b_hp_left INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-      PRIMARY KEY(round_id,sequence))`,
-    `CREATE TABLE IF NOT EXISTS territory_war_v3_rewards(
-      round_id INTEGER NOT NULL,user_id INTEGER NOT NULL,side TEXT,result TEXT NOT NULL,coin INTEGER NOT NULL DEFAULT 0,
-      shards INTEGER NOT NULL DEFAULT 0,damage INTEGER NOT NULL DEFAULT 0,attacks INTEGER NOT NULL DEFAULT 0,
-      claimed_at TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(round_id,user_id))`,
-    `CREATE TABLE IF NOT EXISTS territory_war_v3_admin_operations(
-      operation_key TEXT PRIMARY KEY,action TEXT NOT NULL,round_id INTEGER,admin_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',
-      response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
-    `CREATE INDEX IF NOT EXISTS idx_twv3_round_status ON territory_war_v3_rounds(status,id DESC)`,
-    `CREATE INDEX IF NOT EXISTS idx_twv3_users_side ON territory_war_v3_users(round_id,side,damage DESC)`,
-    `CREATE INDEX IF NOT EXISTS idx_twv3_users_user ON territory_war_v3_users(user_id,round_id DESC)`,
-    `CREATE INDEX IF NOT EXISTS idx_twv3_front_active ON territory_war_v3_fronts(round_id,status,id DESC)`,
-    `CREATE INDEX IF NOT EXISTS idx_twv3_actions_cleanup ON territory_war_v3_actions(status,updated_at,id)`,
-    `CREATE INDEX IF NOT EXISTS idx_twv3_actions_round ON territory_war_v3_actions(round_id,id DESC)`,
-    `CREATE INDEX IF NOT EXISTS idx_twv3_rewards_user ON territory_war_v3_rewards(user_id,claimed_at,round_id DESC)`,
-    `CREATE INDEX IF NOT EXISTS idx_twv3_admin_cleanup ON territory_war_v3_admin_operations(status,updated_at)`
-  ];
-  await batchChunks(env,sql.map(s=>env.DB.prepare(s)));
-  const old=await env.DB.prepare("SELECT value FROM app_meta WHERE key='territory_war_settings_v1'").first();
-  const migrated={...DEFAULTS,...safeJson(old?.value,{})};
-  await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(migrated)).run();
-  if(await tableExists(env,'territory_war_rounds'))await env.DB.prepare("UPDATE territory_war_rounds SET status='DISABLED',updated_at=CURRENT_TIMESTAMP WHERE status IN ('RECRUITING','PREPARING','ACTIVE')").run();
-  await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1402_territory_frontline_v3','1',CURRENT_TIMESTAMP)").run();
+  if(!marker){
+    const sql=[
+      `CREATE TABLE IF NOT EXISTS territory_war_v3_rounds(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,status TEXT NOT NULL DEFAULT 'RECRUITING',recruitment_ends_at TEXT,
+        starts_at TEXT,ends_at TEXT,current_front_index INTEGER NOT NULL DEFAULT 4,current_front_id INTEGER,
+        a_total_damage INTEGER NOT NULL DEFAULT 0,b_total_damage INTEGER NOT NULL DEFAULT 0,
+        a_front_wins INTEGER NOT NULL DEFAULT 0,b_front_wins INTEGER NOT NULL DEFAULT 0,
+        winner_side TEXT,version INTEGER NOT NULL DEFAULT 1,formed_at TEXT,settled_at TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+      `CREATE TABLE IF NOT EXISTS territory_war_v3_users(
+        round_id INTEGER NOT NULL,user_id INTEGER NOT NULL,deck_power INTEGER NOT NULL DEFAULT 0,deck_snapshot TEXT NOT NULL DEFAULT '[]',
+        side TEXT,status TEXT NOT NULL DEFAULT 'WAITING',energy INTEGER NOT NULL DEFAULT 10,last_recharged_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        attacks INTEGER NOT NULL DEFAULT 0,damage INTEGER NOT NULL DEFAULT 0,front_finishes INTEGER NOT NULL DEFAULT 0,
+        defenses INTEGER NOT NULL DEFAULT 0,defense_wins INTEGER NOT NULL DEFAULT 0,defense_losses INTEGER NOT NULL DEFAULT 0,
+        registered_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(round_id,user_id))`,
+      `CREATE TABLE IF NOT EXISTS territory_war_v3_fronts(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,round_id INTEGER NOT NULL,sequence INTEGER NOT NULL,node_index INTEGER NOT NULL,
+        node_code TEXT NOT NULL,node_name TEXT NOT NULL,node_type TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PREPARING',
+        a_hp INTEGER NOT NULL,b_hp INTEGER NOT NULL,a_max_hp INTEGER NOT NULL,b_max_hp INTEGER NOT NULL,
+        winner_side TEXT,version INTEGER NOT NULL DEFAULT 1,started_at TEXT,resolved_at TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(round_id,sequence))`,
+      `CREATE TABLE IF NOT EXISTS territory_war_v3_actions(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,request_id TEXT NOT NULL UNIQUE,round_id INTEGER,front_id INTEGER,user_id INTEGER NOT NULL,
+        opponent_user_id INTEGER,contributor_user_id INTEGER,side TEXT,winner_side TEXT,target_side TEXT,battle_seed INTEGER,
+        status TEXT NOT NULL DEFAULT 'PENDING',damage INTEGER NOT NULL DEFAULT 0,energy_spent INTEGER NOT NULL DEFAULT 0,
+        result_json TEXT,battle_meta_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+      `CREATE TABLE IF NOT EXISTS territory_war_v3_front_results(
+        round_id INTEGER NOT NULL,sequence INTEGER NOT NULL,front_id INTEGER NOT NULL,node_index INTEGER NOT NULL,node_code TEXT NOT NULL,
+        winner_side TEXT NOT NULL,a_damage INTEGER NOT NULL DEFAULT 0,b_damage INTEGER NOT NULL DEFAULT 0,
+        a_hp_left INTEGER NOT NULL DEFAULT 0,b_hp_left INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(round_id,sequence))`,
+      `CREATE TABLE IF NOT EXISTS territory_war_v3_rewards(
+        round_id INTEGER NOT NULL,user_id INTEGER NOT NULL,side TEXT,result TEXT NOT NULL,coin INTEGER NOT NULL DEFAULT 0,
+        shards INTEGER NOT NULL DEFAULT 0,damage INTEGER NOT NULL DEFAULT 0,attacks INTEGER NOT NULL DEFAULT 0,
+        claimed_at TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(round_id,user_id))`,
+      `CREATE TABLE IF NOT EXISTS territory_war_v3_admin_operations(
+        operation_key TEXT PRIMARY KEY,action TEXT NOT NULL,round_id INTEGER,admin_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',
+        response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_round_status ON territory_war_v3_rounds(status,id DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_users_side ON territory_war_v3_users(round_id,side,damage DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_users_user ON territory_war_v3_users(user_id,round_id DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_users_match ON territory_war_v3_users(round_id,side,status,defenses,deck_power,user_id)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_front_active ON territory_war_v3_fronts(round_id,status,id DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_actions_cleanup ON territory_war_v3_actions(status,updated_at,id)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_actions_round ON territory_war_v3_actions(round_id,id DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_actions_opponent ON territory_war_v3_actions(round_id,opponent_user_id,id DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_rewards_user ON territory_war_v3_rewards(user_id,claimed_at,round_id DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_admin_cleanup ON territory_war_v3_admin_operations(status,updated_at)`
+    ];
+    await batchChunks(env,sql.map(statement=>env.DB.prepare(statement)));
+    const old=await env.DB.prepare("SELECT value FROM app_meta WHERE key='territory_war_settings_v1'").first();
+    const migrated={...DEFAULTS,...safeJson(old?.value,{})};
+    await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(migrated)).run();
+    if(await tableExists(env,'territory_war_rounds'))await env.DB.prepare("UPDATE territory_war_rounds SET status='DISABLED',updated_at=CURRENT_TIMESTAMP WHERE status IN ('RECRUITING','PREPARING','ACTIVE')").run();
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1402_territory_frontline_v3','1',CURRENT_TIMESTAMP)").run();
+  }
+  const battleMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1404_territory_battle_v2'").first();
+  if(!battleMarker){
+    await addColumnIfMissing(env,'territory_war_v3_users','defenses','INTEGER NOT NULL DEFAULT 0');
+    await addColumnIfMissing(env,'territory_war_v3_users','defense_wins','INTEGER NOT NULL DEFAULT 0');
+    await addColumnIfMissing(env,'territory_war_v3_users','defense_losses','INTEGER NOT NULL DEFAULT 0');
+    await addColumnIfMissing(env,'territory_war_v3_actions','opponent_user_id','INTEGER');
+    await addColumnIfMissing(env,'territory_war_v3_actions','contributor_user_id','INTEGER');
+    await addColumnIfMissing(env,'territory_war_v3_actions','winner_side','TEXT');
+    await addColumnIfMissing(env,'territory_war_v3_actions','target_side','TEXT');
+    await addColumnIfMissing(env,'territory_war_v3_actions','battle_seed','INTEGER');
+    await addColumnIfMissing(env,'territory_war_v3_actions','battle_meta_json','TEXT');
+    await env.DB.batch([
+      env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_twv3_users_match ON territory_war_v3_users(round_id,side,status,defenses,deck_power,user_id)`),
+      env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_twv3_actions_opponent ON territory_war_v3_actions(round_id,opponent_user_id,id DESC)`)
+    ]);
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1404_territory_battle_v2','1',CURRENT_TIMESTAMP)").run();
+  }
   foundationReady=true;
 }
 
@@ -98,6 +122,33 @@ async function settings(env){const row=await env.DB.prepare("SELECT value FROM a
 async function latestRound(env){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds ORDER BY id DESC LIMIT 1').first()}
 async function roundById(env,id){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds WHERE id=?').bind(id).first()}
 async function activeFront(env,round){if(!round?.current_front_id)return null;return env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE id=?').bind(round.current_front_id).first()}
+
+function snapshotIds(value){const items=safeJson(value,[]);return Array.isArray(items)?items.map(item=>String(item&&typeof item==='object'?(item.id??item.card_id??''):item)).filter(Boolean).slice(0,5):[]}
+async function participantDeck(env,deps,row,battle){const ids=snapshotIds(row?.deck_snapshot);let cards=ids.length===5&&typeof deps.pvpDeckSnapshotByIds==='function'?await deps.pvpDeckSnapshotByIds(env,row.user_id,ids):[];if(cards.length!==5)cards=await deps.pvpDeckSnapshot(env,row.user_id);return cards.map(card=>({...card,id:String(card.id),power:deps.cardBattlePower(card,card.breakthrough_level,battle)}))}
+async function sideBalance(env,roundId){const row=await env.DB.prepare(`SELECT SUM(CASE WHEN side='A' THEN 1 ELSE 0 END) a_count,SUM(CASE WHEN side='B' THEN 1 ELSE 0 END) b_count,SUM(CASE WHEN side='A' THEN deck_power ELSE 0 END) a_power,SUM(CASE WHEN side='B' THEN deck_power ELSE 0 END) b_power FROM territory_war_v3_users WHERE round_id=? AND side IN ('A','B')`).bind(roundId).first();return{aCount:Number(row?.a_count||0),bCount:Number(row?.b_count||0),aPower:Number(row?.a_power||0),bPower:Number(row?.b_power||0)}}
+function balancedSide(balance,power=0){if(balance.aPower<balance.bPower)return'A';if(balance.bPower<balance.aPower)return'B';if(balance.aCount<balance.bCount)return'A';if(balance.bCount<balance.aCount)return'B';return Number(power||0)%2===0?'A':'B'}
+async function selectBattleOpponent(env,roundId,mine,requestId){const enemy=mine.side==='A'?'B':'A',rows=(await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND w.user_id<>? ORDER BY w.defenses ASC,ABS(w.deck_power-?) ASC,w.user_id LIMIT 8`).bind(roundId,enemy,mine.user_id,Number(mine.deck_power||0)).all()).results||[];if(!rows.length)return null;return rows[seedOf(`${requestId}:MATCH`)%Math.min(3,rows.length)]}
+function resultHpPercent(battleV2,side){const resultEvent=[...(battleV2?.result?.timeline||[])].reverse().find(event=>event.type==='RESULT');return Number(side==='A'?resultEvent?.teamAHpPercent:resultEvent?.teamBHpPercent)||0}
+async function simulateTerritoryBattle(env,deps,attackerUser,mine,opponent,requestId,seedOverride=null){
+  const battle=await deps.battleSettings(env),[attackerCards,defenderCards]=await Promise.all([participantDeck(env,deps,mine,battle),participantDeck(env,deps,opponent,battle)]);
+  if(attackerCards.length!==5)throw new Error('등록한 PVP 덱 5장을 불러오지 못했습니다. 참가 신청을 다시 해주세요.');
+  if(defenderCards.length!==5)throw new Error('상대 진영의 PVP 덱이 완성되지 않아 매칭할 수 없습니다.');
+  const defenderUser={id:Number(opponent.user_id),nickname:String(opponent.nickname||'상대 참가자'),role:String(opponent.role||'USER')};
+  const uniquePromise=typeof deps.cardUniqueDeckStates==='function'?deps.cardUniqueDeckStates(env,[{user:attackerUser,cards:attackerCards},{user:defenderUser,cards:defenderCards}],'PVP'):Promise.resolve([{enabled:false,cards:attackerCards},{enabled:false,cards:defenderCards}]);
+  const bonusA=typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,attackerUser.id):Promise.resolve({pvp:0}),bonusB=typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,defenderUser.id):Promise.resolve({pvp:0});
+  const idsA=attackerCards.map(card=>String(card.id)),idsB=defenderCards.map(card=>String(card.id));
+  const synergyA=typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,attackerUser,idsA,'PVP',{forceOwnerTest:String(attackerUser.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
+  const synergyB=typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,defenderUser,idsB,'PVP',{forceOwnerTest:String(defenderUser.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
+  const [uniqueStates,aBonus,bBonus,aSynergy,bSynergy]=await Promise.all([uniquePromise,bonusA,bonusB,synergyA,synergyB]);
+  const [aUnique,dUnique]=uniqueStates,aMap=new Map((aUnique?.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null])),dMap=new Map((dUnique?.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null]));
+  const aMultiplier=1+Number(aSynergy?.totals?.attackPercent||0)/100,dMultiplier=1+Number(bSynergy?.totals?.attackPercent||0)/100;
+  const attackerEngineCards=attackerCards.map(card=>({...card,power:Math.max(1,Math.floor(Number(card.power||0)*aMultiplier)),uniqueAbility:aMap.get(String(card.id))||card.uniqueAbility||null}));
+  const defenderEngineCards=defenderCards.map(card=>({...card,power:Math.max(1,Math.floor(Number(card.power||0)*dMultiplier)),uniqueAbility:dMap.get(String(card.id))||card.uniqueAbility||null}));
+  const battleSeed=seedOverride==null?seedOf(`${mine.round_id}:${requestId}:TWV3_BATTLE_V2`):Number(seedOverride)>>>0;
+  const battleV2=deps.createPvpBattleV2({attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),seed:battleSeed});
+  return{battleV2,battleSeed,attackerCards,defenderCards,attackerPower:Number(battleV2.teams?.A?.summary?.power||mine.deck_power||0),defenderPower:Number(battleV2.teams?.B?.summary?.power||opponent.deck_power||0),opponent:{id:Number(opponent.user_id),nickname:defenderUser.nickname,side:String(opponent.side||''),deckPower:Number(opponent.deck_power||0)}};
+}
+async function hydrateBattleReplay(env,deps,user,action,result){if(!action?.opponent_user_id||!action?.round_id||!action?.battle_seed)return result;try{const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(action.round_id,action.user_id).first(),opponent=await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.user_id=?`).bind(action.round_id,action.opponent_user_id).first();if(!mine||!opponent)return result;const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,action.request_id,action.battle_seed);return{...result,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,replayedBattle:true}}catch(error){console.warn('territory battle replay hydration failed',error);return result}}
 
 async function acquireLock(env,name,ttlMs=120000){
   const key=`territory_war_v3_lock_${name}`,token=crypto.randomUUID(),now=Date.now();
@@ -234,8 +285,9 @@ async function publicState(env,userId,includeAdmin=false){
   let mine=null;if(mineRow){const e=rechargeEnergy(mineRow,cfg);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
   const ranking=(await env.DB.prepare(`SELECT w.user_id,w.side,w.damage,w.attacks,w.front_finishes,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side IN ('A','B') ORDER BY w.damage DESC,w.attacks DESC,w.user_id LIMIT 20`).bind(round.id).all()).results||[];
   const recentResults=(await env.DB.prepare('SELECT * FROM territory_war_v3_front_results WHERE round_id=? ORDER BY sequence DESC LIMIT 10').bind(round.id).all()).results||[];
-  const recentActions=(await env.DB.prepare(`SELECT a.side,a.damage,a.created_at,u.nickname FROM territory_war_v3_actions a JOIN users u ON u.id=a.user_id WHERE a.round_id=? AND a.status='COMPLETED' AND a.damage>0 ORDER BY a.id DESC LIMIT ?`).bind(round.id,clampInt(cfg.recentActionLimit,5,50,20)).all()).results||[];
-  const state={mode,settings:cfg,round,front,nodes:NODES,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine,ranking,recentResults,recentActions,reward:await rewardForUser(env,userId),serverNow:iso(),version:Number(round.version||0)};
+  const recentActions=(await env.DB.prepare(`SELECT a.side,a.winner_side,a.target_side,a.damage,a.created_at,au.nickname attacker_nickname,ou.nickname opponent_nickname,cu.nickname contributor_nickname FROM territory_war_v3_actions a JOIN users au ON au.id=a.user_id LEFT JOIN users ou ON ou.id=a.opponent_user_id LEFT JOIN users cu ON cu.id=COALESCE(a.contributor_user_id,a.user_id) WHERE a.round_id=? AND a.status='COMPLETED' AND a.damage>0 ORDER BY a.id DESC LIMIT ?`).bind(round.id,clampInt(cfg.recentActionLimit,5,50,20)).all()).results||[];
+  const canRegister=!mine&&(round.status==='RECRUITING'||round.status==='PREPARING'||(mode==='TEST'&&round.status==='ACTIVE')),canCancel=Boolean(mine&&round.status==='RECRUITING');
+  const state={mode,settings:cfg,round,front,nodes:NODES,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine,registration:{canRegister,canCancel},ranking,recentResults,recentActions,reward:await rewardForUser(env,userId),serverNow:iso(),version:Number(round.version||0)};
   if(includeAdmin)state.adminUsers=(await env.DB.prepare(`SELECT w.*,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY CASE w.side WHEN 'A' THEN 1 WHEN 'B' THEN 2 ELSE 3 END,w.damage DESC,w.deck_power DESC`).bind(round.id).all()).results||[];
   return state;
 }
@@ -256,25 +308,36 @@ async function completeAppliedAction(env,action,cfg){
 
 async function handleAttack(env,deps,user,cfg,body){
   const requestId=validRequestId(body.requestId);if(!requestId)return deps.json({error:'공격 요청 ID가 올바르지 않습니다.'},400);
-  const reservation=await reserveAction(env,requestId,user.id);if(reservation.conflict)return deps.json({error:'다른 사용자의 요청 ID입니다.'},409);if(reservation.pending)return deps.json({error:'동일한 공격 요청을 처리 중입니다.',retryable:true},409);if(reservation.completed)return deps.json({ok:true,replayed:true,result:safeJson(reservation.row.result_json,{}),state:await publicState(env,user.id)});if(reservation.applied){const recoveryLock=await acquireLock(env,`front_${reservation.row.front_id}`,120000);if(!recoveryLock.ok)return deps.json({error:'적용된 공격 결과를 복구 중입니다. 같은 요청으로 다시 시도하세요.',retryable:true},409);try{const result=await completeAppliedAction(env,reservation.row,cfg);return deps.json({ok:true,replayed:true,result,state:await publicState(env,user.id)})}finally{await releaseLock(env,recoveryLock)}}
-  let round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE'){await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message='ROUND_NOT_ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(requestId).run();return deps.json({error:'현재 공격 가능한 영토전 회차가 아닙니다.'},409)}let front=await activeFront(env,round);if(!front||front.status!=='ACTIVE'){await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message='FRONT_NOT_ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(requestId).run();return deps.json({error:'현재 교전지가 준비되지 않았습니다.'},409)}
-  const lock=await acquireLock(env,`front_${front.id}`,120000);if(!lock.ok)return deps.json({error:'다른 공격을 처리 중입니다. 같은 요청으로 다시 시도하세요.',retryable:true},409);
+  const reservation=await reserveAction(env,requestId,user.id);
+  if(reservation.conflict)return deps.json({error:'다른 사용자의 요청 ID입니다.'},409);
+  if(reservation.pending)return deps.json({error:'동일한 전투 요청을 처리 중입니다.',retryable:true},409);
+  if(reservation.completed){const compact=safeJson(reservation.row.result_json,{}),result=await hydrateBattleReplay(env,deps,user,reservation.row,compact);return deps.json({ok:true,replayed:true,result,state:await publicState(env,user.id)})}
+  if(reservation.applied){const recoveryLock=await acquireLock(env,`front_${reservation.row.front_id}`,120000);if(!recoveryLock.ok)return deps.json({error:'적용된 전투 결과를 복구 중입니다. 같은 요청으로 다시 시도하세요.',retryable:true},409);try{const compact=await completeAppliedAction(env,reservation.row,cfg),result=await hydrateBattleReplay(env,deps,user,reservation.row,compact);return deps.json({ok:true,replayed:true,result,state:await publicState(env,user.id)})}finally{await releaseLock(env,recoveryLock)}}
+  let round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE'){await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message='ROUND_NOT_ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(requestId).run();return deps.json({error:'현재 전투 가능한 영토전 회차가 아닙니다.'},409)}
+  let front=await activeFront(env,round);if(!front||front.status!=='ACTIVE'){await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message='FRONT_NOT_ACTIVE',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(requestId).run();return deps.json({error:'현재 교전지가 준비되지 않았습니다.'},409)}
+  const lock=await acquireLock(env,`front_${front.id}`,120000);if(!lock.ok)return deps.json({error:'다른 전투를 처리 중입니다. 같은 요청으로 다시 시도하세요.',retryable:true},409);
   try{
-    let action=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(action?.status==='COMPLETED')return deps.json({ok:true,replayed:true,result:safeJson(action.result_json,{}),state:await publicState(env,user.id)});if(action?.status==='APPLIED'){const result=await completeAppliedAction(env,action,cfg);return deps.json({ok:true,replayed:true,result,state:await publicState(env,user.id)})}
+    let action=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();
+    if(action?.status==='COMPLETED'){const compact=safeJson(action.result_json,{}),result=await hydrateBattleReplay(env,deps,user,action,compact);return deps.json({ok:true,replayed:true,result,state:await publicState(env,user.id)})}
+    if(action?.status==='APPLIED'){const compact=await completeAppliedAction(env,action,cfg),result=await hydrateBattleReplay(env,deps,user,action,compact);return deps.json({ok:true,replayed:true,result,state:await publicState(env,user.id)})}
     round=await roundById(env,round.id);front=await activeFront(env,round);if(!round||round.status!=='ACTIVE'||!front||front.status!=='ACTIVE')throw new Error('교전 상태가 변경되었습니다. 전장을 새로고침하세요.');
     const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!mine||!['A','B'].includes(String(mine.side||'')))throw new Error('현재 회차 참가자가 아닙니다.');
     const energy=rechargeEnergy(mine,cfg),cost=clampInt(cfg.attackEnergyCost,1,20,1);if(energy.energy<cost)throw new Error('행동력이 부족합니다.');
-    const planned=damageFor(mine.deck_power,requestId,cfg),targetHp=mine.side==='A'?Number(front.b_hp):Number(front.a_hp),actual=Math.max(0,Math.min(targetHp,planned));if(actual<=0)throw new Error('이미 종료된 교전입니다.');
-    const afterHp=Math.max(0,targetHp-actual),result={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,side:mine.side,damage:actual,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:afterHp};
-    const frontSql=mine.side==='A'?"UPDATE territory_war_v3_fronts SET b_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'":"UPDATE territory_war_v3_fronts SET a_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'";
+    const opponent=await selectBattleOpponent(env,round.id,mine,requestId);if(!opponent)throw new Error('상대 진영 참가자가 없어 V2 전투를 시작할 수 없습니다.');
+    const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,requestId),attackerWon=simulation.battleV2?.result?.winner==='A',winnerSide=attackerWon?String(mine.side):String(opponent.side),targetSide=winnerSide==='A'?'B':'A',contributorId=attackerWon?Number(user.id):Number(opponent.user_id),winnerPower=attackerWon?simulation.attackerPower:simulation.defenderPower;
+    const planned=damageFor(winnerPower,`${requestId}:${winnerSide}:SIEGE`,cfg),targetHp=targetSide==='A'?Number(front.a_hp):Number(front.b_hp),actual=Math.max(0,Math.min(targetHp,planned));if(actual<=0)throw new Error('이미 종료된 교전입니다.');
+    const afterHp=Math.max(0,targetHp-actual),winnerHpPercent=resultHpPercent(simulation.battleV2,attackerWon?'A':'B'),compact={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:actual,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:afterHp,battleSeed:simulation.battleSeed,winnerHpPercent};
+    const frontSql=targetSide==='A'?"UPDATE territory_war_v3_fronts SET a_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'":"UPDATE territory_war_v3_fronts SET b_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'";
+    const meta={engine:'BATTLE_ENGINE_V2_PVP',seed:simulation.battleSeed,opponentUserId:Number(opponent.user_id),winnerSide,targetSide,attackerWon,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,winnerHpPercent};
     await env.DB.batch([
-      env.DB.prepare("UPDATE territory_war_v3_users SET energy=?,last_recharged_at=?,attacks=attacks+1,damage=damage+?,front_finishes=front_finishes+?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(energy.energy-cost,energy.lastRechargedAt,actual,afterHp<=0?1:0,round.id,user.id),
+      env.DB.prepare("UPDATE territory_war_v3_users SET energy=?,last_recharged_at=?,attacks=attacks+1,damage=damage+?,front_finishes=front_finishes+?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(energy.energy-cost,energy.lastRechargedAt,attackerWon?actual:0,attackerWon&&afterHp<=0?1:0,round.id,user.id),
+      env.DB.prepare("UPDATE territory_war_v3_users SET defenses=defenses+1,defense_wins=defense_wins+?,defense_losses=defense_losses+?,damage=damage+?,front_finishes=front_finishes+?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(attackerWon?0:1,attackerWon?1:0,attackerWon?0:actual,!attackerWon&&afterHp<=0?1:0,round.id,opponent.user_id),
       env.DB.prepare(frontSql).bind(afterHp,front.id),
-      env.DB.prepare(`UPDATE territory_war_v3_rounds SET a_total_damage=a_total_damage+?,b_total_damage=b_total_damage+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(mine.side==='A'?actual:0,mine.side==='B'?actual:0,round.id),
-      env.DB.prepare("UPDATE territory_war_v3_actions SET round_id=?,front_id=?,side=?,status='APPLIED',damage=?,energy_spent=?,result_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(round.id,front.id,mine.side,actual,cost,JSON.stringify(result),requestId)
+      env.DB.prepare(`UPDATE territory_war_v3_rounds SET a_total_damage=a_total_damage+?,b_total_damage=b_total_damage+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(winnerSide==='A'?actual:0,winnerSide==='B'?actual:0,round.id),
+      env.DB.prepare("UPDATE territory_war_v3_actions SET round_id=?,front_id=?,opponent_user_id=?,contributor_user_id=?,side=?,winner_side=?,target_side=?,battle_seed=?,status='APPLIED',damage=?,energy_spent=?,result_json=?,battle_meta_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(round.id,front.id,opponent.user_id,contributorId,mine.side,winnerSide,targetSide,simulation.battleSeed,actual,cost,JSON.stringify(compact),JSON.stringify(meta),requestId)
     ]);
-    action=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();const completed=await completeAppliedAction(env,action,cfg);return deps.json({ok:true,result:completed,state:await publicState(env,user.id)});
-  }catch(error){const row=await env.DB.prepare('SELECT status FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(row?.status==='PENDING')await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(String(error.message||error).slice(0,300),requestId).run();return deps.json({error:error.message||'공격 처리에 실패했습니다.'},409)}finally{await releaseLock(env,lock)}
+    action=await env.DB.prepare('SELECT * FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();const completed=await completeAppliedAction(env,action,cfg),result={...completed,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,battleEngine:{active:true,version:'V2',mode:'TERRITORY_WAR_V3'}};return deps.json({ok:true,result,state:await publicState(env,user.id)});
+  }catch(error){const row=await env.DB.prepare('SELECT status FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(row?.status==='PENDING')await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(String(error.message||error).slice(0,300),requestId).run();return deps.json({error:error.message||'영토전 V2 전투 처리에 실패했습니다.'},409)}finally{await releaseLock(env,lock)}
 }
 
 async function claimV3(env,deps,user){
@@ -314,8 +377,10 @@ export async function handleTerritoryWar({path,request,env,deps}){
   if(path==='territory-war/state'&&request.method==='GET')return deps.json(await publicState(env,user.id));
   if(path==='territory-war/state-lite'&&request.method==='GET')return deps.json(await realtimeState(env,user.id));
   if(path==='territory-war/register'&&request.method==='POST'){
-    if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING')return deps.json({error:'현재 참가 모집 기간이 아닙니다.'},409);const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),power=deck.reduce((sum,card)=>sum+deps.cardBattlePower(card,card.breakthrough_level,bs),0);await env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_power,deck_snapshot,status,energy,last_recharged_at) VALUES(?,?,?,?, 'WAITING',?,CURRENT_TIMESTAMP)
-      ON CONFLICT(round_id,user_id) DO UPDATE SET deck_power=excluded.deck_power,deck_snapshot=excluded.deck_snapshot,status='WAITING',energy=excluded.energy,last_recharged_at=CURRENT_TIMESTAMP,registered_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP`).bind(round.id,user.id,power,JSON.stringify(deck.map(x=>x.id)),Number(cfg.energyMax||10)).run();return deps.json({ok:true,state:await publicState(env,user.id)});
+    const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg),canJoin=round&&(round.status==='RECRUITING'||round.status==='PREPARING'||(mode==='TEST'&&round.status==='ACTIVE'));if(!canJoin)return deps.json({error:'현재 회차에는 참가할 수 없습니다.'},409);
+    const existing=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(existing)return deps.json({ok:true,alreadyRegistered:true,state:await publicState(env,user.id)});
+    const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),power=deck.reduce((sum,card)=>sum+deps.cardBattlePower(card,card.breakthrough_level,bs),0),late=round.status!=='RECRUITING',side=late?balancedSide(await sideBalance(env,round.id),power):null,status=late?'ACTIVE':'WAITING';
+    await env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_power,deck_snapshot,side,status,energy,last_recharged_at) VALUES(?,?,?,?,?,?,?,CURRENT_TIMESTAMP)`).bind(round.id,user.id,power,JSON.stringify(deck.map(card=>String(card.id))),side,status,Number(cfg.energyMax||10)).run();return deps.json({ok:true,lateJoined:late,side,state:await publicState(env,user.id)});
   }
   if(path==='territory-war/unregister'&&request.method==='POST'){const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 중에만 참가 신청을 취소할 수 있습니다.'},409);await env.DB.prepare('DELETE FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).run();return deps.json({ok:true,state:await publicState(env,user.id)})}
   if(path==='territory-war/attack'&&request.method==='POST')return handleAttack(env,deps,user,cfg,await deps.readBody(request));

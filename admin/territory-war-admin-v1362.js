@@ -7,7 +7,7 @@
   function mount(){
     const root=document.getElementById('territoryWarAdminRoot');if(!root||document.getElementById('territoryWarAdminV1402'))return;
     root.innerHTML='';const box=document.createElement('section');box.id='territoryWarAdminV1402';box.className='panel';box.innerHTML=`
-      <div class="maintenanceHead"><div><small>TERRITORY WAR V3 · FRONTLINE SIEGE</small><h2>영토전 전선 공성 관리</h2><p>소대·이동·다중 영토 전투를 제거하고, 하나의 교전지에서 양 팀 공성 HP를 겨루는 방식입니다.</p></div><button id="tw3Reload" class="ghost">새로고침</button></div>
+      <div class="maintenanceHead"><div><small>TERRITORY WAR V3 · BATTLE ENGINE V2</small><h2>영토전 전선 공성 관리</h2><p>A·B 진영 참가자를 매칭해 V2 전투를 실행하고, 승리 진영이 상대 공성 HP를 감소시킵니다.</p></div><button id="tw3Reload" class="ghost">새로고침</button></div>
       <div class="formgrid">
         <label class="field"><span>운영 모드</span><select id="tw3Mode"><option>OFF</option><option>TEST</option><option>ON</option></select></label>
         <label class="field"><span>모집 시간(시간)</span><input id="tw3Recruit" type="number" min="1"></label>
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="panel" style="margin-top:14px">
-        <div class="maintenanceHead"><div><small>DAMAGE MODEL</small><h3>개인 공성 피해</h3><p>등록 PVP 덱 전투력의 제곱근에 피해 계수를 적용하여 고전투력 독점을 완화합니다.</p></div></div>
+        <div class="maintenanceHead"><div><small>V2 SIEGE DAMAGE</small><h3>V2 승리 공성 피해</h3><p>참가자끼리 V2 전투를 진행한 뒤 승리한 덱 전투력의 제곱근에 피해 계수를 적용합니다. 패배 진영의 공성 HP가 감소합니다.</p></div></div>
         <div class="formgrid">
           <label class="field"><span>피해 계수</span><input id="tw3DamageScale" type="number" min="0.1" step="0.1"></label>
           <label class="field"><span>최소 1회 피해</span><input id="tw3MinDamage" type="number" min="1"></label>

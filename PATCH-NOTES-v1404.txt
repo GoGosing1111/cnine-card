@@ -1,0 +1,39 @@
+CNINE CARD v1404 - 영토전 V3 참가/전투엔진 V2 연결 누적 패치
+
+기준
+- 사용자가 첨부한 최신 전체본 cnine-card(38).zip
+- v1400~v1403 누적 변경을 포함한 패치
+- 기존 D1 테이블·컬럼·운영 데이터 삭제/초기화/재생성 없음
+
+수정 원인
+1. 회차 편성 후 PREPARING 상태에서는 참가 API가 닫혀, 참여 버튼을 눌러도 현재 회차 참가자로 반영되지 않는 문제
+2. 영토전 공격이 실제 카드 전투 없이 전투력 수치로 공성 피해를 직접 계산하던 문제
+
+v1404 변경
+- 모집 중뿐 아니라 준비 중에도 현재 회차 참가 가능
+- TEST 모드에서는 ACTIVE 진행 중에도 늦은 참가 가능
+- 늦은 참가자는 양 팀 인원·등록 전투력을 비교해 즉시 A/B 진영 배정
+- 같은 계정의 중복 참가 요청은 기존 참가 상태를 반환하며 행동력·기여도를 초기화하지 않음
+- 공격 시 상대 진영 참가자를 서버에서 실제 매칭
+- 양쪽의 등록 PVP 덱 5장, 돌파, 카드 고유효과, 덱 시너지, 캐릭터 장비 PVP 보정을 사용
+- 기존 Battle Engine V2 createPvpBattleV2로 실제 전투 판정
+- 공격자 승리 시 공격 진영이 상대 공성 HP를 감소
+- 방어자 승리 시 방어 진영이 공격 진영 공성 HP를 감소
+- 승리한 참가자에게 공성 피해·기여도 반영
+- 공격자 행동력 1회 차감 및 방어전/방어 승패 통계 기록
+- V2 전투 화면과 결과 화면을 사용자 영토전 UI에 연결
+- 전투 재생 중 상태 폴링 일시 정지, 종료 후 즉시 재조회
+- 최근 공성 공격을 최근 V2 교전 기록으로 변경
+- 동일 requestId 재시도 시 행동력·공성 피해·전선 이동 중복 반영 방지
+- 응답 유실 시 저장된 seed와 참가자 정보로 같은 V2 전투를 재구성
+- 거대한 V2 타임라인은 D1에 저장하지 않고 compact metadata만 저장
+
+안전한 D1 추가 구조
+- territory_war_v3_users: defenses, defense_wins, defense_losses
+- territory_war_v3_actions: opponent_user_id, contributor_user_id, winner_side, target_side, battle_seed, battle_meta_json
+- 인덱스: idx_twv3_users_match, idx_twv3_actions_opponent
+- 마커: safe_runtime_upgrade_v1404_territory_battle_v2
+
+적용 방법
+- 최신 프로젝트 루트에 이 ZIP의 폴더 구조를 유지한 채 덮어쓰기
+- 전체 프로젝트/이미지 리소스는 포함하지 않음
