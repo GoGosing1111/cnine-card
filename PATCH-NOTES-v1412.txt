@@ -1,0 +1,13 @@
+CNINE CARD v1412 - Burning duplicate shard multiplier disabled
+
+Apply over v1411.
+
+Changes:
+- Burning and Hyper Burning duplicate-card shard multiplier is forced to 1x on the server.
+- Existing DB values above 1 are ignored.
+- Duplicate cards still grant the normal base shard reward.
+- New cards still grant no duplicate shards.
+- Removed duplicate shard multiplier controls from CMS.
+- Removed duplicate shard multiplier text from the user burning banner.
+- Card pack and equipment box discounts remain disabled from v1411.
+- No DB schema or data mutation.

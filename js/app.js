@@ -4,7 +4,7 @@ const LEGACY_STORAGE_KEYS = ['cnine_card_user_v08', 'cnine_card_user'];
 const TEST_COIN = 5000;
 let cards = [];
 let selectedPackId = 'basic';
-let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:2,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
+let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
 let magicSystemState={visible:false,enabled:false,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
 const magicUiState={deckType:'PVE',selectedSlot:1};
 
@@ -77,12 +77,12 @@ function applyServerPacks(rows = []) {
 const BURNING_EVENT_SYNC_KEY='cnine:burning-event-sync-v1310';
 let burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null;
 function burningEventFingerprint(state={}){
-  return JSON.stringify([String(state.mode||'NONE'),String(state.theme||''),state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.updatedAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),Number(state.duplicateShardMultiplier||0),Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
+  return JSON.stringify([String(state.mode||'NONE'),String(state.theme||''),state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.updatedAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),1,Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
 }
 function burningMode(){return burningEventState.enabled?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
 function burningBenefitText(){
-  const pve=Number(burningEventState.pve?.maxEnergy||0),pvp=Number(burningEventState.pvp?.maxEnergy||0),minutes=Number(burningEventState.pve?.rechargeMinutes||0),shards=Number(burningEventState.duplicateShardMultiplier||1),coins=Number(burningEventState.battleRewardMultiplier||1);
-  return `PVE ${pve}회 · PVP ${pvp}회 / ${minutes}분 충전 · 중복 카드 조각 ${shards}배 · 코인 보상 ${coins}배`;
+  const pve=Number(burningEventState.pve?.maxEnergy||0),pvp=Number(burningEventState.pvp?.maxEnergy||0),minutes=Number(burningEventState.pve?.rechargeMinutes||0),coins=Number(burningEventState.battleRewardMultiplier||1);
+  return `PVE ${pve}회 · PVP ${pvp}회 / ${minutes}분 충전 · 코인 보상 ${coins}배`;
 }
 function burningEventStripMarkup(){
   if(!burningEventState.enabled)return '';

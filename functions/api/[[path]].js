@@ -393,14 +393,14 @@ const BURNING_EVENT_META_KEY='burning_event_settings_v1';
 const HYPER_BURNING_EVENT_META_KEY='hyper_burning_event_settings_v1310';
 const BURNING_EVENT_CACHE_MS=1000;
 let burningEventCache=null;
-function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:1.5};}
-function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:2,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:2.5};}
+function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:1.5};}
+function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:2.5};}
 function cleanBurningEventSettings(raw={},mode='BURNING'){
   const hyper=String(mode||raw.mode||'BURNING').toUpperCase()==='HYPER',b=hyper?defaultHyperBurningEventSettings():defaultBurningEventSettings();
   const num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));
   let title=String(raw.title||b.title).trim().slice(0,80)||b.title;
   if(title.includes('\uC528\uCF13\uBAAC'))title=title.replaceAll('\uC528\uCF13\uBAAC','숲켓몬');
-  return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:num(raw.duplicateShardMultiplier,b.duplicateShardMultiplier,1,10),packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};
+  return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};
 }
 function activeBurningEvent(pair={}){
   const normal=cleanBurningEventSettings(pair.normal||{},'BURNING'),hyper=cleanBurningEventSettings(pair.hyper||{},'HYPER');
@@ -429,7 +429,7 @@ async function burningEventPair(env,{fresh=false}={}){
   }
 }
 async function burningEventSettings(env,{fresh=false}={}){return (await burningEventPair(env,{fresh})).active;}
-function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:settings.duplicateShardMultiplier,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier};}
+function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier};}
 function applyBurningPveSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
 function applyBurningPvpSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pvpMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
 function burningDiscountPrice(price,burning){return Math.max(0,Math.floor(Number(price)||0));}
@@ -3449,7 +3449,7 @@ export async function onRequest(context){
           }
           ownedMap.set(cardId,quantityAfter);
           expectedAfterByCard.set(cardId,quantityAfter);
-          const shardGained=isNew?0:Math.floor(Number(SHARD_REWARD[card.grade]||0)*(burning.enabled?Number(burning.duplicateShardMultiplier||2):1));
+          const shardGained=isNew?0:Math.floor(Number(SHARD_REWARD[card.grade]||0));
           const masterStarGained=!isNew&&String(card.grade||'').toUpperCase()==='MA'?1:0;
           shardTotal+=shardGained;
           masterStarTotal+=masterStarGained;
