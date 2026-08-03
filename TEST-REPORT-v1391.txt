@@ -1,0 +1,14 @@
+CNINE CARD v1391 검사 보고
+
+실행:
+- 업로드 이미지 리사이즈 및 PNG 저장 확인
+- 신규 이미지 크기 512 x 701 확인
+- functions/_vehicle_draw.js node --check
+- 패치 내 전체 JS node --check
+- 신규 마이그레이션 마커 및 강제 UPDATE 정적 검색
+- ZIP 무결성 검사
+
+미실행:
+- Cloudflare 원격 D1
+- Pages 실제 배포
+- 운영 브라우저 캐시/CDN 반영 확인

@@ -2,8 +2,8 @@
 const TICKET_CODE='VEHICLE_DRAW_TICKET';
 const SETTINGS_KEY='vehicle_draw_settings_v1388';
 const UPGRADE_KEY='safe_runtime_upgrade_v1388_vehicle_draw';
-const IMAGE_UPGRADE_KEY='safe_runtime_upgrade_v1390_vehicle_draw_ticket_image';
-const DEFAULT_TICKET_IMAGE='assets/items/vehicle-draw-ticket.png';
+const IMAGE_UPGRADE_KEY='safe_runtime_upgrade_v1391_vehicle_draw_ticket_image_force';
+const DEFAULT_TICKET_IMAGE='assets/items/vehicle-draw-ticket-v1391.png';
 const DEFAULTS={enabled:true,ticketName:'이동수단 뽑기권',ticketImage:DEFAULT_TICKET_IMAGE,drawTitle:'VEHICLE ACQUISITION',drawCopy:'새로운 이동수단을 획득합니다.',masterStarChance:1,masterStarMin:1,masterStarMax:1};
 let readyPromise=null;
 let imageUpgradePromise=null;
@@ -42,14 +42,14 @@ async function ensureTicketImageUpgrade(env){
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(IMAGE_UPGRADE_KEY).first();
     if(marker?.value==='1')return true;
     const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first();
-    const raw=parse(row?.value,{}),current=text(raw.ticketImage||'',500);
-    const shouldReplace=!current||current==='assets/ui/cninelogo.png';
-    const statements=[];
-    if(shouldReplace){
-      const next={...DEFAULTS,...raw,ticketImage:DEFAULT_TICKET_IMAGE};
-      statements.push(env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(SETTINGS_KEY,JSON.stringify(next)));
-      statements.push(env.DB.prepare("UPDATE inventory_items SET image_url=?,updated_at=CURRENT_TIMESTAMP WHERE code=? AND (image_url IS NULL OR image_url='' OR image_url='assets/ui/cninelogo.png')").bind(DEFAULT_TICKET_IMAGE,TICKET_CODE));
-    }
+    const raw=parse(row?.value,{});
+    // v1391: 기존 CMS 저장값 및 구형 이미지 캐시와 무관하게 신규 파일명으로 1회 강제 교체한다.
+    // 이후 관리자가 CMS에서 저장하는 값은 정상적으로 다시 반영된다.
+    const next={...DEFAULTS,...raw,ticketImage:DEFAULT_TICKET_IMAGE};
+    const statements=[
+      env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(SETTINGS_KEY,JSON.stringify(next)),
+      env.DB.prepare('UPDATE inventory_items SET name=?,image_url=?,updated_at=CURRENT_TIMESTAMP WHERE code=?').bind(next.ticketName||DEFAULTS.ticketName,DEFAULT_TICKET_IMAGE,TICKET_CODE)
+    ];
     statements.push(env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(IMAGE_UPGRADE_KEY,'1'));
     await env.DB.batch(statements);return true;
   })().catch(error=>{imageUpgradePromise=null;throw error});

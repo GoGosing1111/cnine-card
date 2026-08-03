@@ -1,0 +1,10 @@
+CNINE CARD v1391 - 이동수단 뽑기권 인벤토리 이미지 강제 반영
+
+- 업로드 원본 이미지를 512px 폭으로 비율 유지 리사이즈
+- 신규 캐시 우회 파일명 assets/items/vehicle-draw-ticket-v1391.png 사용
+- safe_runtime_upgrade_v1391_vehicle_draw_ticket_image_force 마커 추가
+- 기존 app_meta 이동수단 뽑기권 이미지 저장값을 신규 경로로 1회 교체
+- inventory_items의 VEHICLE_DRAW_TICKET image_url을 신규 경로로 1회 강제 교체
+- 버닝/하이퍼 버닝 상태와 관계없이 동일 인벤토리 아이템 이미지 사용
+- 이후 CMS에서 별도 이미지 저장 시 해당 값은 정상 반영
+- 상점 및 기존 카드팩/큐브 연출 변경 없음
