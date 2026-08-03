@@ -1,0 +1,12 @@
+CNINE CARD v1392 - RAID STATUS TIMEOUT FIX
+
+원인
+1. raid/status 반복 조회도 전역 런타임 업그레이드 게이트를 통과해 다른 미완료 마이그레이션/D1 잠금의 영향을 받음.
+2. 상태 조회 한 번마다 활성 레이드 방 전체를 refreshRaidForOwner로 순회하여 방 수만큼 조회·쓰기·정산 작업이 발생함.
+
+수정
+- raid/status는 전체 ensureRuntimeUpgrades 대신 경량 ensureD1HotpathIndexes만 확인.
+- 활성 방 전체 갱신 제거.
+- 시작/종료 시각이 지난 상태 전환 대상만 조회하고 요청당 최대 2개를 순차 처리.
+- 카드/PVP/레이드 연출과 보상 규칙은 변경하지 않음.
+- v1391까지의 누적 변경 포함.

@@ -2984,7 +2984,11 @@ export async function onRequest(context){
     }
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
     if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
-    await ensureRuntimeUpgrades(env);
+    // raid/status는 화면의 반복 조회 경로다. 매 조회마다 전체 런타임 마이그레이션 게이트를 기다리면
+    // 다른 기능의 미완료 업그레이드나 D1 잠금 때문에 레이드 화면까지 함께 타임아웃될 수 있다.
+    // 레이드 스키마는 기존 안전 업그레이드에서 설치되므로 상태 조회에서는 경량 인덱스 확인만 수행한다.
+    if(path==='raid/status')await ensureD1HotpathIndexes(env);
+    else await ensureRuntimeUpgrades(env);
 
     const maintenance=await maintenanceSettings(env);
     const maintenanceExempt=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='me'||path==='service/status'||path==='user/runtime-command'||path==='health'||path.startsWith('setup/');
@@ -3640,8 +3644,15 @@ export async function onRequest(context){
       const [cfg,uniqueCfg]=await Promise.all([raidSettings(env),cardUniqueSettings(env)]),owner=isRaidOwner(user),ownerTestMode=isRaidOwnerTest(user,cfg),uniqueVisible=cardUniqueVisibleTo(user,uniqueCfg),schedule=raidScheduleState(cfg,user),entryDateKey=String(schedule.entryDateKey||kstDateKey()),configuredSlots=Array.isArray(cfg.timeSlots)?cfg.timeSlots:[];
       const [todayEntryCount,slotEntries]=await Promise.all([raidDailyEntryCount(env,user.id,entryDateKey),raidSlotEntryCountsV1296(env,user.id,entryDateKey,configuredSlots)]),dailyEntryLimit=Math.max(1,Number(cfg.dailyEntries||1)),dailyEntry={count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),dateKey:entryDateKey,unlimited:ownerTestMode},scheduleSlot=schedule.currentSlot||null,scheduleSlotId=String(scheduleSlot?.id||''),slotEntry=scheduleSlotId&&scheduleSlotId!=='ALWAYS'?(slotEntries.find(row=>String(row.id)===scheduleSlotId)||{id:scheduleSlotId,label:String(scheduleSlot?.label||scheduleSlotId),count:0,limit:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),remaining:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),unlimited:ownerTestMode}):{id:scheduleSlotId||'DAILY',label:String(scheduleSlot?.label||'오늘 합계'),count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),unlimited:ownerTestMode},slotEntryUsed=Boolean(scheduleSlotId&&scheduleSlotId!=='ALWAYS'&&Number(slotEntry.count||0)>=Number(slotEntry.limit||1));
       if(cfg.ownerOnlyTest&&!owner)return json({error:'현재 레이드는 OWNER 테스트 전용입니다.'},403);
-      const activeBefore=(await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id").all()).results;
-      await Promise.all(activeBefore.map(room=>refreshRaidForOwner(env,room,cfg)));
+      // 상태 조회마다 활성 방 전체를 갱신하면 방 수만큼 SELECT/UPDATE/정산 쿼리가 발생한다.
+      // 실제 상태 전환 시각이 지난 방만 한 요청당 최대 2개 처리해 D1 잠금과 타임아웃을 제한한다.
+      const transitionDue=(await env.DB.prepare(`SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate
+        FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id
+        WHERE (ri.status='LOBBY' AND ri.starts_at IS NOT NULL AND datetime(ri.starts_at)<=datetime('now'))
+           OR (ri.status='BATTLE' AND ri.ends_at IS NOT NULL AND datetime(ri.ends_at)<=datetime('now'))
+        ORDER BY CASE WHEN ri.status='BATTLE' THEN 0 ELSE 1 END,ri.id
+        LIMIT 2`).all()).results;
+      for(const room of transitionDue)await refreshRaidForOwner(env,room,cfg);
       const roomRows=(await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,(SELECT COUNT(*) FROM raid_participants rp2 WHERE rp2.instance_id=ri.id AND COALESCE(rp2.is_active,1)=1) AS participantCount,rb.name AS bossName,rb.image_url AS bossImage,rb.max_hp AS maxHp,COALESCE(x.slot_id,'LEGACY') AS slotId FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id LEFT JOIN raid_instance_v1293 x ON x.instance_id=ri.id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 10").all()).results;
       const rooms=roomRows.map((room,i)=>{const slot=(cfg.timeSlots||[]).find(x=>String(x.id)===String(room.slotId)),activeSlotId=String(schedule.currentSlot?.id||'');const slotOpen=owner||room.slotId==='LEGACY'||room.slotId==='ALWAYS'||(activeSlotId&&activeSlotId===String(room.slotId));return {...room,slotLabel:slot?.label||room.slotId,roomNumber:roomRows.length-i,joinable:slotOpen&&room.status==='LOBBY'&&Date.parse(room.startsAt)>Date.now()&&Number(room.participantCount)<Number(cfg.maxParticipants||30)}});
       const requestedId=Math.max(0,Number(new URL(request.url).searchParams.get('instanceId')||0));

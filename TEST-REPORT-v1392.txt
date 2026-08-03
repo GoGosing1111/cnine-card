@@ -1,0 +1,10 @@
+검사 완료
+- functions/api/[[path]].js node --check: PASS
+- raid/status 전역 ensureRuntimeUpgrades 직접 호출 제외 확인: PASS
+- 활성 레이드 전체 refresh 제거 및 transition 대상 LIMIT 2 확인: PASS
+- ZIP 무결성 검사: 생성 후 수행
+
+미실행
+- Cloudflare 원격 D1 테스트
+- Pages 실제 배포
+- 운영 브라우저 네트워크 응답시간 측정
