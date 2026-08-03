@@ -3,10 +3,13 @@ const TICKET_CODE='VEHICLE_DRAW_TICKET';
 const SETTINGS_KEY='vehicle_draw_settings_v1388';
 const UPGRADE_KEY='safe_runtime_upgrade_v1388_vehicle_draw';
 const IMAGE_UPGRADE_KEY='safe_runtime_upgrade_v1391_vehicle_draw_ticket_image_force';
+const SHOP_UPGRADE_KEY='safe_runtime_upgrade_v1420_vehicle_draw_shop';
+const SHOP_PRICE=5000;
 const DEFAULT_TICKET_IMAGE='assets/items/vehicle-draw-ticket-v1391.png';
 const DEFAULTS={enabled:true,ticketName:'이동수단 뽑기권',ticketImage:DEFAULT_TICKET_IMAGE,drawTitle:'VEHICLE ACQUISITION',drawCopy:'새로운 이동수단을 획득합니다.',masterStarChance:1,masterStarMin:1,masterStarMax:1};
 let readyPromise=null;
 let imageUpgradePromise=null;
+let shopUpgradePromise=null;
 const text=(v,n=300)=>String(v??'').trim().slice(0,n);
 const int=(v,min=0,max=100000000)=>Math.max(min,Math.min(max,Math.floor(Number(v)||0)));
 const rate=v=>Math.max(0,Math.min(100,Number.isFinite(Number(v))?Number(v):0));
@@ -55,11 +58,49 @@ async function ensureTicketImageUpgrade(env){
   })().catch(error=>{imageUpgradePromise=null;throw error});
   return imageUpgradePromise;
 }
+async function ensureShop(env){
+  if(shopUpgradePromise)return shopUpgradePromise;
+  shopUpgradePromise=(async()=>{
+    const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SHOP_UPGRADE_KEY).first();
+    if(marker?.value==='1')return true;
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS vehicle_draw_purchase_receipts (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,count INTEGER NOT NULL,total_price INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_vehicle_draw_purchase_receipts_user ON vehicle_draw_purchase_receipts(user_id,created_at DESC)'),
+      env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(SHOP_UPGRADE_KEY,'1')
+    ]);
+    return true;
+  })().catch(error=>{shopUpgradePromise=null;throw error});
+  return shopUpgradePromise;
+}
 async function settings(env){await ensure(env);await ensureTicketImageUpgrade(env);const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first();return cleanSettings(parse(row?.value,DEFAULTS))}
 async function payload(env){const s=await settings(env),rows=await env.DB.prepare('SELECT id,code,name,rarity,image_url,description,is_active,is_public,draw_enabled,draw_weight,duplicate_shards,sort_order FROM character_garage_items ORDER BY sort_order,id').all();return {settings:s,ticketCode:TICKET_CODE,vehicles:(rows.results||[]).map(r=>({id:Number(r.id),code:r.code,name:r.name,rarity:r.rarity,image:r.image_url||'',description:r.description||'',isActive:r.is_active!==0,isPublic:r.is_public!==0,drawEnabled:r.draw_enabled!==0,drawWeight:Number(r.draw_weight||0),duplicateShards:Number(r.duplicate_shards||0),sortOrder:Number(r.sort_order||0)}))}}
 function pick(rows){const total=rows.reduce((s,r)=>s+Number(r.draw_weight||0),0);let roll=Math.random()*total;for(const row of rows){roll-=Number(row.draw_weight||0);if(roll<0)return row}return rows[rows.length-1]}
 export async function handleVehicleDraw({path,request,env,deps}){const {authenticate,readBody,json}=deps;await ensure(env);
- if(path==='vehicle-draw/config'&&request.method==='GET'){const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const p=await payload(env),balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,TICKET_CODE).first();return json({...p,ticketQuantity:Number(balance?.quantity||0)})}
+ if(path==='vehicle-draw/config'&&request.method==='GET'){const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const p=await payload(env),balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,TICKET_CODE).first();return json({...p,ticketQuantity:Number(balance?.quantity||0),shop:{enabled:p.settings.enabled,unitPrice:SHOP_PRICE}})}
+ if(path==='vehicle-draw/purchase'&&request.method==='POST'){
+  const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+  await ensureShop(env);
+  const b=await readBody(request),count=int(b.count,0,10),requestId=text(b.requestId,120);
+  if(![1,10].includes(count))return json({error:'구매 수량은 1개 또는 10개만 가능합니다.'},400);
+  if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
+  const existing=await env.DB.prepare('SELECT status,response_json FROM vehicle_draw_purchase_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+  if(existing?.status==='COMPLETED'&&existing.response_json)return json(parse(existing.response_json,{}));
+  if(existing)return json({error:'같은 구매 요청을 처리 중입니다.'},409);
+  const s=await settings(env);if(!s.enabled)return json({error:'현재 이동수단 뽑기가 중지되어 있습니다.'},503);
+  const totalPrice=SHOP_PRICE*count;
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO vehicle_draw_purchase_receipts(request_id,user_id,count,total_price,status) SELECT ?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)`).bind(requestId,user.id,count,totalPrice,user.id,totalPrice),
+    env.DB.prepare(`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND EXISTS(SELECT 1 FROM vehicle_draw_purchase_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(totalPrice,user.id,totalPrice,requestId,user.id),
+    env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM vehicle_draw_purchase_receipts WHERE request_id=? AND user_id=? AND status='PENDING') ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+excluded.quantity,unseen_quantity=unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,TICKET_CODE,count,count,requestId,user.id),
+    env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,-?,coin,'이동수단 뽑기권 구매' FROM users WHERE id=? AND EXISTS(SELECT 1 FROM vehicle_draw_purchase_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(user.id,totalPrice,user.id,requestId,user.id),
+    env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'SHOP_PURCHASE','VEHICLE_DRAW_SHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM vehicle_draw_purchase_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(user.id,TICKET_CODE,count,requestId,user.id,TICKET_CODE,requestId,user.id),
+    env.DB.prepare(`UPDATE vehicle_draw_purchase_receipts SET status='COMPLETED',response_json=json_object('ok',json('true'),'count',count,'totalPrice',total_price,'coin',(SELECT coin FROM users WHERE id=?),'ticketQuantity',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(user.id,user.id,TICKET_CODE,requestId,user.id)
+  ]);
+  const receipt=await env.DB.prepare('SELECT status,response_json FROM vehicle_draw_purchase_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+  if(!receipt)return json({error:'코인이 부족합니다.'},409);
+  if(receipt.status!=='COMPLETED'||!receipt.response_json)return json({error:'이동수단 뽑기권 구매 처리에 실패했습니다.'},500);
+  return json(parse(receipt.response_json,{}));
+ }
  if(path==='vehicle-draw/open'&&request.method==='POST'){
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
   const b=await readBody(request),requestId=text(b.requestId,120);if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);

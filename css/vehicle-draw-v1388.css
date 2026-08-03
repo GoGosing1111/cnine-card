@@ -7,3 +7,5 @@
 .vehicle-result-actions-v1396 .btn{width:100%}
 .vehicle-result-actions-v1396 .btn.secondary{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#eaf5ff}
 @media(max-width:640px){.vehicle-draw-close-v1396{width:40px;height:40px;font-size:27px}.vehicle-result-actions-v1396{grid-template-columns:1fr}}
+.vehicle-result-actions-v1396{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:640px){.vehicle-result-actions-v1396{grid-template-columns:1fr}}

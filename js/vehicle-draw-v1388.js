@@ -68,11 +68,13 @@
               <div class="vehicle-result-rewards-v1388">${r.duplicate?`<span>중복 환산 <b>카드 조각 +${Number(r.shardsGained||0).toLocaleString()}</b></span>`:'<span>차고지 등록 <b>신규 획득</b></span>'}${Number(r.masterStarsGained||0)>0?`<span>보너스 <b>마스터의 별 +${Number(r.masterStarsGained).toLocaleString()}</b></span>`:''}</div>
               <div class="vehicle-result-actions-v1396">
                 <button type="button" class="btn secondary" id="vehicleResultCloseButtonV1396">닫기</button>
+                <button type="button" class="btn" id="vehicleResultAgainV1420" ${Number(r.ticketQuantity||0)>0?'':'disabled'}>한 번 더 뽑기 (${Number(r.ticketQuantity||0).toLocaleString()}개)</button>
                 <button type="button" class="btn" id="vehicleResultDoneV1388">인벤토리로 돌아가기</button>
               </div>
             </div>`;
           document.getElementById('vehicleResultCloseV1396')?.addEventListener('click',close);
           document.getElementById('vehicleResultCloseButtonV1396')?.addEventListener('click',close);
+          document.getElementById('vehicleResultAgainV1420')?.addEventListener('click',()=>{const remaining=Number(r.ticketQuantity||0);close();if(remaining>0)open(remaining)});
           document.getElementById('vehicleResultDoneV1388')?.addEventListener('click',()=>{close();renderShell('inventory')});
         }catch(e){
           if(closed)return;
