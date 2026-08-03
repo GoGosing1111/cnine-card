@@ -2364,7 +2364,7 @@ async function loadMessages(){
         const card=b.closest('.user-message');if(card){card.classList.add('message-removing');setTimeout(()=>renderShell('messages'),220)}else renderShell('messages');
       }catch(err){b.disabled=false;alert(err.message)}
     });
-    box.querySelectorAll('[data-use-coupon]').forEach(b=>b.onclick=async e=>{e.stopPropagation();const code=b.dataset.useCoupon;try{const d=await apiRequest('coupon/redeem',{method:'POST',body:JSON.stringify({code})});saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${Number(d.rewardCoin).toLocaleString()}코인을 받았습니다.`);renderShell('messages')}catch(err){alert(err.message)}});
+    box.querySelectorAll('[data-use-coupon]').forEach(b=>b.onclick=async e=>{e.stopPropagation();const code=b.dataset.useCoupon;try{const d=await apiRequest('coupon/redeem',{method:'POST',body:JSON.stringify({code})});saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${d.message||`${Number(d.rewardAmount||d.rewardCoin||0).toLocaleString()} ${d.rewardLabel||'보상'}을 받았습니다.`}`);renderShell('messages')}catch(err){alert(err.message)}});
     box.querySelectorAll('[data-hide-message]').forEach(b=>b.onclick=async e=>{e.stopPropagation();if(!confirm('이 메시지를 받은 편지함에서 삭제할까요?\n쿠폰을 사용하지 않았더라도 메시지는 사라집니다.'))return;b.disabled=true;try{await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(b.dataset.hideMessage),action:'HIDE'})});const card=b.closest('.user-message');if(card){card.classList.add('message-removing');setTimeout(()=>{card.remove();if(!box.querySelector('.user-message'))box.innerHTML='<div class="empty-recent">도착한 메시지가 없습니다.</div>'},220)}else loadMessages()}catch(err){b.disabled=false;alert(err.message)}})
   }catch(e){box.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
@@ -2582,7 +2582,7 @@ async function redeemCoupon(){
   if(!API_MODE)return alert('현재 쿠폰을 사용할 수 없습니다. 잠시 후 다시 시도해주세요.');
   const code=document.getElementById('couponCode')?.value.trim();
   if(!code)return alert('쿠폰 코드를 입력하세요.');
-  try{const d=await apiRequest('coupon/redeem',{method:'POST',body:JSON.stringify({code})});saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${Number(d.rewardCoin).toLocaleString()}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}
+  try{const d=await apiRequest('coupon/redeem',{method:'POST',body:JSON.stringify({code})});saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${d.message||`${Number(d.rewardAmount||d.rewardCoin||0).toLocaleString()} ${d.rewardLabel||'보상'}을 받았습니다.`}`);renderShell('attendance')}catch(e){alert(e.message)}
 }
 
 const localOpenPack=openPack;

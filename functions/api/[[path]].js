@@ -120,7 +120,7 @@ async function adminDashboardSnapshot(env,{fresh=false}={}){
     env.DB.prepare("SELECT COUNT(*) count FROM draw_logs WHERE created_at>=datetime('now','-1 day')"),
     env.DB.prepare('SELECT COALESCE(SUM(coin),0) total FROM users'),
     env.DB.prepare("SELECT COUNT(*) count FROM users WHERE status!='ACTIVE' OR (banned_until IS NOT NULL AND banned_until>datetime('now'))"),
-    env.DB.prepare("SELECT COUNT(*) count FROM coupons WHERE is_active=1 AND (starts_at IS NULL OR starts_at<=datetime('now')) AND (ends_at IS NULL OR ends_at>=datetime('now'))"),
+    env.DB.prepare("SELECT COUNT(*) count FROM coupons WHERE is_active=1 AND deleted_at IS NULL"),
     env.DB.prepare("SELECT SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END) urOwned,SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END) ssrOwned FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE COALESCE(uc.quantity,0)>0")
   ]);
   const value={users:Number(rows[0]?.results?.[0]?.count||0),usersToday:Number(rows[1]?.results?.[0]?.count||0),cards:Number(rows[2]?.results?.[0]?.count||0),draws24h:Number(rows[3]?.results?.[0]?.count||0),totalCoin:Number(rows[4]?.results?.[0]?.total||0),banned:Number(rows[5]?.results?.[0]?.count||0),coupons:Number(rows[6]?.results?.[0]?.count||0),urOwned:Number(rows[7]?.results?.[0]?.urOwned||0),ssrOwned:Number(rows[7]?.results?.[0]?.ssrOwned||0)};
@@ -1395,6 +1395,20 @@ async function ensureUpgrades(env){
       if(!await columnExists(env,'coupons','deleted_by'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN deleted_by INTEGER").run();
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1062_coupon_bulk_delete','1',CURRENT_TIMESTAMP)").run();
     }
+    const permanentMultiRewardCouponDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1384_permanent_multi_reward_coupons'").first();
+    if(permanentMultiRewardCouponDone?.value!=='1'){
+      if(!await columnExists(env,'coupons','reward_type'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN reward_type TEXT NOT NULL DEFAULT 'COIN'").run();
+      if(!await columnExists(env,'coupons','reward_amount'))await env.DB.prepare("ALTER TABLE coupons ADD COLUMN reward_amount INTEGER NOT NULL DEFAULT 0").run();
+      if(!await columnExists(env,'coupon_redemptions','reward_type'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN reward_type TEXT NOT NULL DEFAULT 'COIN'").run();
+      if(!await columnExists(env,'coupon_redemptions','reward_amount'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN reward_amount INTEGER NOT NULL DEFAULT 0").run();
+      if(!await columnExists(env,'coupon_redemptions','operation_key'))await env.DB.prepare("ALTER TABLE coupon_redemptions ADD COLUMN operation_key TEXT").run();
+      await env.DB.batch([
+        env.DB.prepare("UPDATE coupons SET reward_type='COIN',reward_amount=reward_coin,starts_at=NULL,ends_at=NULL WHERE COALESCE(reward_amount,0)=0"),
+        env.DB.prepare("UPDATE coupon_redemptions SET reward_type='COIN',reward_amount=reward_coin WHERE COALESCE(reward_amount,0)=0"),
+        env.DB.prepare("CREATE UNIQUE INDEX IF NOT EXISTS idx_coupon_redemptions_operation ON coupon_redemptions(operation_key) WHERE operation_key IS NOT NULL"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1384_permanent_multi_reward_coupons','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const monsterCategoryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1053_monster_categories'").first();
     if(monsterCategoryDone?.value!=='1'){
       const additions=[
@@ -1899,8 +1913,8 @@ async function ensureUpgrades(env){
     }
 
     const statements=[
-      `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, deleted_at TEXT, deleted_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
-      `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
+      `CREATE TABLE IF NOT EXISTS coupons (id INTEGER PRIMARY KEY AUTOINCREMENT, code TEXT NOT NULL UNIQUE, reward_coin INTEGER NOT NULL DEFAULT 0, reward_type TEXT NOT NULL DEFAULT 'COIN', reward_amount INTEGER NOT NULL DEFAULT 0, starts_at TEXT, ends_at TEXT, max_uses INTEGER NOT NULL DEFAULT 1, used_count INTEGER NOT NULL DEFAULT 0, is_active INTEGER NOT NULL DEFAULT 1, created_by INTEGER, deleted_at TEXT, deleted_by INTEGER, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
+      `CREATE TABLE IF NOT EXISTS coupon_redemptions (coupon_id INTEGER NOT NULL, user_id INTEGER NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 0, reward_type TEXT NOT NULL DEFAULT 'COIN', reward_amount INTEGER NOT NULL DEFAULT 0, operation_key TEXT, redeemed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY(coupon_id,user_id))`,
       `CREATE INDEX IF NOT EXISTS idx_coupon_code ON coupons(code)`,
       `CREATE INDEX IF NOT EXISTS idx_admin_logs_created ON admin_logs(created_at)`,
       `CREATE TABLE IF NOT EXISTS shard_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, change_amount INTEGER NOT NULL, balance_after INTEGER NOT NULL, reason TEXT NOT NULL, card_id TEXT, created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
@@ -4683,21 +4697,41 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const code=String(payload.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40);
       if(!code) return json({error:'쿠폰 코드를 입력하세요.'},400);
-      const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=? AND is_active=1
-        AND (starts_at IS NULL OR starts_at<=datetime('now')) AND (ends_at IS NULL OR ends_at>=datetime('now'))`).bind(code).first();
-      if(!coupon) return json({error:'존재하지 않거나 사용 기간이 끝난 쿠폰입니다.'},404);
-      if(coupon.used_count>=coupon.max_uses) return json({error:'쿠폰 사용 한도가 모두 소진되었습니다.'},409);
+      const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=? AND is_active=1 AND deleted_at IS NULL`).bind(code).first();
+      if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
+      if(Number(coupon.used_count)>=Number(coupon.max_uses)) return json({error:'쿠폰 사용 한도가 모두 소진되었습니다.'},409);
       const used=await env.DB.prepare('SELECT 1 FROM coupon_redemptions WHERE coupon_id=? AND user_id=?').bind(coupon.id,user.id).first();
       if(used) return json({error:'이미 사용한 쿠폰입니다.'},409);
-      const nextCoin=user.coin+coupon.reward_coin;
-      await env.DB.batch([
-        env.DB.prepare('INSERT INTO coupon_redemptions(coupon_id,user_id,reward_coin) VALUES(?,?,?)').bind(coupon.id,user.id,coupon.reward_coin),
-        env.DB.prepare('UPDATE coupons SET used_count=used_count+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND used_count<max_uses').bind(coupon.id),
-        env.DB.prepare('UPDATE users SET coin=? WHERE id=?').bind(nextCoin,user.id),
-        env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'COUPON')").bind(user.id,coupon.reward_coin,nextCoin)
-      ]);
+      const rewardType=String(coupon.reward_type||'COIN').toUpperCase();
+      const rewardAmount=Math.max(1,Math.floor(Number(coupon.reward_amount||coupon.reward_coin||0)));
+      const rewardSpec=VERIFIED_REWARD_TYPES[rewardType];
+      if(!rewardSpec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX'].includes(rewardType))return json({error:'쿠폰 보상 설정이 올바르지 않습니다.'},500);
+      const operationKey=`COUPON:${coupon.id}:${user.id}:${crypto.randomUUID()}`;
+      const receiptExists=`EXISTS(SELECT 1 FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?)`;
+      const statements=[
+        env.DB.prepare(`INSERT INTO coupon_redemptions(coupon_id,user_id,reward_coin,reward_type,reward_amount,operation_key) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM coupons WHERE id=? AND is_active=1 AND deleted_at IS NULL AND used_count<max_uses)`).bind(coupon.id,user.id,rewardType==='COIN'?rewardAmount:0,rewardType,rewardAmount,operationKey,coupon.id),
+        env.DB.prepare(`UPDATE coupons SET used_count=used_count+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND is_active=1 AND deleted_at IS NULL AND used_count<max_uses AND ${receiptExists}`).bind(coupon.id,coupon.id,user.id,operationKey)
+      ];
+      if(rewardType==='COIN'){
+        statements.push(
+          env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${receiptExists}`).bind(rewardAmount,user.id,coupon.id,user.id,operationKey),
+          env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'COUPON' FROM users WHERE id=? AND ${receiptExists}`).bind(user.id,rewardAmount,user.id,coupon.id,user.id,operationKey)
+        );
+      }else{
+        statements.push(
+          env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${receiptExists} ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,rewardType,rewardAmount,rewardAmount,coupon.id,user.id,operationKey),
+          env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'COUPON','COUPON',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${receiptExists}`).bind(user.id,rewardType,rewardAmount,String(coupon.id),user.id,rewardType,coupon.id,user.id,operationKey)
+        );
+      }
+      try{await env.DB.batch(statements)}catch(error){
+        const message=String(error?.message||'');
+        if(/UNIQUE|constraint/i.test(message))return json({error:'이미 사용한 쿠폰입니다.'},409);
+        throw error;
+      }
+      const receipt=await env.DB.prepare('SELECT reward_type,reward_amount FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?').bind(coupon.id,user.id,operationKey).first();
+      if(!receipt)return json({error:'쿠폰 사용 한도가 모두 소진되었거나 쿠폰이 중지되었습니다.'},409);
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({ok:true,rewardCoin:coupon.reward_coin,user:await profile(env,updated)});
+      return json({ok:true,rewardType,rewardAmount,rewardLabel:rewardSpec.label,rewardCoin:rewardType==='COIN'?rewardAmount:0,message:`${rewardSpec.label} ${rewardAmount.toLocaleString()}개를 받았습니다.`,user:await profile(env,updated)});
     }
 
     if(path==='admin/daily-quests'){
@@ -4983,16 +5017,17 @@ export async function onRequest(context){
       const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[]});}
       if(request.method==='POST'){
-        const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),reward=Number(p.rewardCoin),max=Number(p.maxUses);
+        const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=VERIFIED_REWARD_TYPES[rewardType];
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
-        if(!Number.isInteger(reward)||reward<1||reward>10000000)return json({error:'보상 코인을 확인하세요.'},400);
+        if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
+        if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
         const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? LIMIT 1').bind(code).first();
         if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
         try{
           await env.DB.batch([
-            env.DB.prepare('INSERT INTO coupons(code,reward_coin,starts_at,ends_at,max_uses,created_by) VALUES(?,?,?,?,?,?)').bind(code,reward,p.startsAt||null,p.endsAt||null,max,admin.id),
-            env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'COUPON_CREATE','COUPON',code,null,JSON.stringify({code,reward,max}))
+            env.DB.prepare(`INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,starts_at,ends_at,max_uses,created_by) VALUES(?,?,?,?,NULL,NULL,?,?)`).bind(code,rewardType==='COIN'?rewardAmount:0,rewardType,rewardAmount,max,admin.id),
+            env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'COUPON_CREATE','COUPON',code,null,JSON.stringify({code,rewardType,rewardAmount,max,permanent:true}))
           ]);
           const coupon=await env.DB.prepare('SELECT * FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
           return json({ok:true,coupon},201);
@@ -5005,7 +5040,8 @@ export async function onRequest(context){
       }
       if(request.method==='PATCH'){
         const p=await readBody(request),before=await env.DB.prepare('SELECT * FROM coupons WHERE id=? AND deleted_at IS NULL').bind(Number(p.id)).first();if(!before)return json({error:'쿠폰이 없습니다.'},404);
-        await env.DB.prepare('UPDATE coupons SET is_active=?,ends_at=COALESCE(?,ends_at),max_uses=COALESCE(?,max_uses),updated_at=CURRENT_TIMESTAMP WHERE id=? AND deleted_at IS NULL').bind(p.isActive===false?0:1,p.endsAt||null,p.maxUses?Number(p.maxUses):null,before.id).run();
+        const maxUses=p.maxUses==null?null:Number(p.maxUses);if(maxUses!==null&&(!Number.isInteger(maxUses)||maxUses<Math.max(1,Number(before.used_count||0))||maxUses>1000000))return json({error:'총 사용 한도를 확인하세요. 이미 사용된 횟수보다 작게 설정할 수 없습니다.'},400);
+        await env.DB.prepare('UPDATE coupons SET is_active=?,starts_at=NULL,ends_at=NULL,max_uses=COALESCE(?,max_uses),updated_at=CURRENT_TIMESTAMP WHERE id=? AND deleted_at IS NULL').bind(p.isActive===false?0:1,maxUses,before.id).run();
         const after=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(before.id).first();await writeAdminLog(env,admin,'COUPON_UPDATE','COUPON',before.id,before,after);return json({ok:true,coupon:after});
       }
       if(request.method==='DELETE'){

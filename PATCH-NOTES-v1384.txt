@@ -1,0 +1,11 @@
+v1384 coupon permanent multi reward
+
+- CMS coupon expiration start/end inputs removed.
+- Coupons remain valid until disabled or soft-deleted.
+- Deleted coupons are rejected by coupon/redeem immediately.
+- Coupon rewards selectable: COIN, MASTER_STAR, PREMIUM_CUBE, EQUIPMENT_SUPPLY_BOX.
+- Reward amount and total max uses remain configurable.
+- Existing coupons migrate to permanent COIN coupons using reward_coin.
+- Existing coupon redemption history is preserved.
+- Reward grant uses a per-redemption operation key and D1 batch; duplicate account redemption is blocked by existing composite primary key.
+- User coupon success message shows the actual reward type and amount.
