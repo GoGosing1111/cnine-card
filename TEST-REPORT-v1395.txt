@@ -1,0 +1,14 @@
+CNINE CARD v1395 검사 결과
+
+통과
+- functions/api/[[path]].js node --check
+- functions/_vehicle_draw.js node --check
+- 이동수단 4개 API 경로가 전역 ensureRuntimeUpgrades 분기에서 제외되는지 정적 확인
+- handleVehicleDraw의 ensureEquipmentFoundation 중복 호출 제거 확인
+- 전용 ensure(env) 호출 유지 확인
+- ZIP 무결성 검사
+
+미실행
+- Cloudflare Pages 실제 배포
+- 원격 D1 응답시간 측정
+- 운영 CMS 브라우저 실측

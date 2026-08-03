@@ -2987,7 +2987,11 @@ export async function onRequest(context){
     // raid/status는 화면의 반복 조회 경로다. 매 조회마다 전체 런타임 마이그레이션 게이트를 기다리면
     // 다른 기능의 미완료 업그레이드나 D1 잠금 때문에 레이드 화면까지 함께 타임아웃될 수 있다.
     // 레이드 스키마는 기존 안전 업그레이드에서 설치되므로 상태 조회에서는 경량 인덱스 확인만 수행한다.
+    const vehicleDrawPath=path==='vehicle-draw/config'||path==='vehicle-draw/open'||path==='admin/vehicle-draw/settings'||path==='admin/vehicle-draw/grant';
     if(path==='raid/status')await ensureD1HotpathIndexes(env);
+    // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
+    // 전역 런타임 업그레이드와 장비 전체 foundation을 중복 실행하면 CMS 설정 조회가 타임아웃될 수 있다.
+    else if(vehicleDrawPath){ /* handled by _vehicle_draw.js lightweight ensure */ }
     else await ensureRuntimeUpgrades(env);
 
     const maintenance=await maintenanceSettings(env);

@@ -1,0 +1,12 @@
+CNINE CARD v1395 - 이동수단 뽑기 CMS 설정 타임아웃 수정
+
+원인
+- admin/vehicle-draw/settings 요청이 이동수단 전용 처리 전에 전역 ensureRuntimeUpgrades() 전체 체인을 기다림.
+- handleVehicleDraw() 진입 후 ensureEquipmentFoundation()을 다시 실행해 장비 기반 스키마 확인이 중복됨.
+- CMS 설정 조회처럼 작은 읽기 요청도 두 개의 공통 마이그레이션 게이트를 통과해 D1 지연 시 관리자 요청 제한시간을 초과할 수 있었음.
+
+수정
+- vehicle-draw/config, vehicle-draw/open, admin/vehicle-draw/settings, admin/vehicle-draw/grant를 전역 런타임 업그레이드 대상에서 분리.
+- 이동수단 라우터의 전용 ensure()만 실행해 필요한 3개 컬럼, 영수증 테이블, 설정 및 인벤토리 마스터만 확인.
+- handleVehicleDraw()에서 중복 ensureEquipmentFoundation() 호출 제거.
+- 기존 이동수단, 장비, 쿠폰, 레이드 및 보상 규칙은 변경하지 않음.
