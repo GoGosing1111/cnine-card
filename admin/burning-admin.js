@@ -1,7 +1,9 @@
 (()=>{
   const $=selector=>document.querySelector(selector);
   const SYNC_KEY='cnine:burning-event-sync-v1310';
-  let loadSequence=0,saveSequence=0,saveLocked=false;
+  let loadSequence=0,saveSequence=0,saveLocked=false,lastLoadedAt=0,loadPromise=null;
+  const CACHE_MS=30000;
+  const settingsVisible=()=>{const view=document.getElementById('view-settings');return Boolean(view&&!view.hidden&&!document.getElementById('cms')?.hidden)};
   const controllerByKind=new Map();
   async function request(path,opt={},kind='load'){
     controllerByKind.get(kind)?.abort();
@@ -36,13 +38,17 @@
     return '';
   }
   function setSaveUi(hyper,text,error=false,busy=false){const id=hyper?'#hyperBurningSaveState':'#burningSaveState',button=$(hyper?'#saveHyperBurningEventBtn':'#saveBurningEventBtn');if($(id)){$(id).textContent=text;$(id).classList.toggle('error',error);$(id).classList.toggle('saved',!error&&!busy)}if(button){button.disabled=busy;button.textContent=busy?'저장 확인 중...':hyper?'하이퍼 버닝 설정 저장':'기존 버닝 설정 저장'}}
-  async function load(){
+  async function load(force=false){
+    if(!settingsVisible())return;
+    if(!force&&lastLoadedAt&&Date.now()-lastLoadedAt<CACHE_MS)return;
+    if(loadPromise)return loadPromise;
     const seq=++loadSequence;
-    try{
+    loadPromise=(async()=>{try{
       const [normal,hyper]=await Promise.all([request('admin/burning-event',{},'load-normal'),request('admin/hyper-burning-event',{},'load-hyper')]);
       if(seq!==loadSequence||saveLocked)return;
-      const activeMode=hyper.activeMode||normal.activeMode||'NONE';setState('burning',normal.settings||{},activeMode);setState('hyperBurning',hyper.settings||{},activeMode);setSaveUi(false,'서버 저장값과 동기화되었습니다.');setSaveUi(true,'서버 저장값과 동기화되었습니다.');
-    }catch(error){if(error.name==='AbortError')return;setSaveUi(false,error.message,true);setSaveUi(true,error.message,true)}
+      const activeMode=hyper.activeMode||normal.activeMode||'NONE';setState('burning',normal.settings||{},activeMode);setState('hyperBurning',hyper.settings||{},activeMode);setSaveUi(false,'서버 저장값과 동기화되었습니다.');setSaveUi(true,'서버 저장값과 동기화되었습니다.');lastLoadedAt=Date.now();
+    }catch(error){if(error.name==='AbortError')return;setSaveUi(false,error.message,true);setSaveUi(true,error.message,true)}finally{loadPromise=null}})();
+    return loadPromise;
   }
   async function save(hyper){
     if(saveLocked)return;
@@ -55,11 +61,11 @@
       const activeMode=data.activeMode||'NONE';
       if(hyper){setState('hyperBurning',data.settings||{},activeMode);if(data.otherSettings)setState('burning',data.otherSettings,activeMode)}
       else{setState('burning',data.settings||{},activeMode);if(data.otherSettings)setState('hyperBurning',data.otherSettings,activeMode)}
-      setSaveUi(hyper,'저장 완료 · 서버 재조회 값까지 일치했습니다.');
+      lastLoadedAt=Date.now();setSaveUi(hyper,'저장 완료 · 서버 재조회 값까지 일치했습니다.');
       try{localStorage.setItem(SYNC_KEY,JSON.stringify({at:Date.now(),mode:activeMode,generation:Number(data.activeEvent?.generation||0)}))}catch{}
       alert(data.activated?`${hyper?'하이퍼 버닝':'기존 버닝'}이 발동되었습니다.`:`${hyper?'하이퍼 버닝':'기존 버닝'} 설정이 저장되었습니다.`);
     }catch(error){if(error.name!=='AbortError'){setSaveUi(hyper,error.message,true);alert(error.message)}}
     finally{saveLocked=false;const button=$(hyper?'#saveHyperBurningEventBtn':'#saveBurningEventBtn');if(button){button.disabled=false;button.textContent=hyper?'하이퍼 버닝 설정 저장':'기존 버닝 설정 저장'}}
   }
-  document.addEventListener('DOMContentLoaded',()=>{if(!$('#burningEnabled'))return;load();$('#saveBurningEventBtn')?.addEventListener('click',()=>save(false));$('#saveHyperBurningEventBtn')?.addEventListener('click',()=>save(true))});
+  document.addEventListener('DOMContentLoaded',()=>{if(!$('#burningEnabled'))return;$('#saveBurningEventBtn')?.addEventListener('click',()=>save(false));$('#saveHyperBurningEventBtn')?.addEventListener('click',()=>save(true));const view=document.getElementById('view-settings');if(view)new MutationObserver(()=>{if(settingsVisible())void load(false)}).observe(view,{attributes:true,attributeFilter:['hidden']});if(settingsVisible())void load(false)});
 })();

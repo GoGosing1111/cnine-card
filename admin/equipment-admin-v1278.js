@@ -98,7 +98,15 @@
     }
   }
   function scrollEditor(){render();root()?.scrollIntoView({behavior:'smooth',block:'start'})}
-  async function refresh(payload=null){state.data=payload||await request('admin/equipment-system');render()}
+  async function sharedEquipmentPayload(payload=null){
+    if(payload){window.__cnineEquipmentAdminPayload=payload;window.__cnineEquipmentAdminLoadedAt=Date.now();window.dispatchEvent(new CustomEvent('cnine:equipment-admin-payload',{detail:payload}));return payload}
+    const cached=window.__cnineEquipmentAdminPayload,loadedAt=Number(window.__cnineEquipmentAdminLoadedAt||0);
+    if(cached&&Date.now()-loadedAt<30000)return cached;
+    if(window.__cnineEquipmentAdminPromise)return window.__cnineEquipmentAdminPromise;
+    const promise=request('admin/equipment-system').then(data=>{window.__cnineEquipmentAdminPayload=data;window.__cnineEquipmentAdminLoadedAt=Date.now();window.dispatchEvent(new CustomEvent('cnine:equipment-admin-payload',{detail:data}));return data}).finally(()=>{if(window.__cnineEquipmentAdminPromise===promise)window.__cnineEquipmentAdminPromise=null});
+    window.__cnineEquipmentAdminPromise=promise;return promise;
+  }
+  async function refresh(payload=null){state.data=await sharedEquipmentPayload(payload);render()}
   async function saveItem(){const button=q('#eqItemSave');button.disabled=true;try{const result=await request('admin/equipment-item',{method:state.editingItem?.id?'PATCH':'POST',body:JSON.stringify({id:state.editingItem?.id||0,code:q('#eqItemCode').value,name:q('#eqItemName').value,slot:q('#eqItemSlot').value,subtype:q('#eqItemSubtype').value,rarity:q('#eqItemRarity').value,totalPower:q('#eqItemPower').value,image:q('#eqItemImage').value,description:q('#eqItemDescription').value,sortOrder:q('#eqItemSort').value,isActive:q('#eqItemActive').value==='1',isPublic:q('#eqItemPublic').value==='1',supplyEnabled:state.editingItem?.supplyEnabled!==false,supplyWeight:Number(state.editingItem?.supplyWeight||1)})});await refresh(result);state.editingItem=null;render();if(result.slotChanged)alert(`장비 부위를 변경했습니다.\n기존 장착 ${Number(result.autoUnequipped||0).toLocaleString()}건은 충돌 방지를 위해 자동 해제했습니다.`)}catch(e){alert(e.message);button.disabled=false}}
   async function saveTitle(){let config;try{config=JSON.parse(q('#eqTitleConfig').value||'{}')}catch{return alert('조건 JSON 형식을 확인하세요.')}const button=q('#eqTitleSave');button.disabled=true;try{await refresh(await request('admin/title-item',{method:state.editingTitle?.id?'PATCH':'POST',body:JSON.stringify({id:state.editingTitle?.id||0,code:q('#eqTitleCode').value,name:q('#eqTitleName').value,badgeText:q('#eqTitleBadge').value,pvePower:q('#eqTitlePower').value,unlockType:q('#eqTitleUnlock').value,unlockConfig:config,stylePreset:q('#eqTitleStylePreset').value,description:q('#eqTitleDescription').value,image:q('#eqTitleImage').value,sortOrder:q('#eqTitleSort').value,isActive:q('#eqTitleActive').value==='1',isPublic:q('#eqTitlePublic').value==='1'})}));state.editingTitle=null;render()}catch(e){alert(e.message);button.disabled=false}}
   function updateSupplyRateTotal(){const total=Number(q('#supplyRateEquipment')?.value||0)+Number(q('#supplyRateShards')?.value||0)+Number(q('#supplyRateCoins')?.value||0),box=q('#supplyRateTotal');if(box){box.textContent=`합계 ${total.toFixed(2)}%`;box.classList.toggle('invalid',Math.abs(total-100)>.0001)}}

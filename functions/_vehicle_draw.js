@@ -107,7 +107,6 @@ export async function handleVehicleDraw({path,request,env,deps}){const {authenti
   const receipt=await env.DB.prepare('SELECT status,response_json FROM vehicle_draw_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
   if(!receipt)return json({error:'이동수단 뽑기권이 부족합니다.'},409);
   if(receipt.status!=='COMPLETED'||!receipt.response_json)return json({error:'이동수단 뽑기 처리에 실패했습니다.'},500);
-  if(Math.random()<.02)env.DB.prepare(`DELETE FROM vehicle_draw_receipts WHERE request_id IN (SELECT request_id FROM vehicle_draw_receipts WHERE created_at<datetime('now','-7 days') ORDER BY created_at LIMIT 100)`).run().catch(()=>{});
   return json(parse(receipt.response_json,{}));
  }
  if(path==='admin/vehicle-draw/settings'&&request.method==='GET'){const user=await authenticate(request,env);if(!admin(user))return json({error:'관리자 권한이 필요합니다.'},403);return json(await payload(env))}

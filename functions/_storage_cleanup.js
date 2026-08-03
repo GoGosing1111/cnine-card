@@ -530,6 +530,21 @@ const SAFE_LOG_CLEANUP_SPECS = Object.freeze({
     table:'pvp_match_history',label:'오래된 PVP 전투 기록',retentionDefault:14,
     whereSql:'1=1',reasonColumn:false,
     description:'보존 기간이 지난 PVP 상세 전투 이력만 정리합니다. 점수·승패·랭킹 프로필은 유지됩니다.'
+  },
+  INVENTORY_HISTORY:{
+    table:'inventory_logs',label:'오래된 인벤토리 변동 기록',retentionDefault:90,
+    whereSql:'1=1',reasonColumn:false,
+    description:'현재 인벤토리 수량과 별도인 오래된 변동 감사 기록만 정리합니다. 실제 보유 아이템은 cnine_user_inventory에 유지됩니다.'
+  },
+  MAGIC_CRYSTAL_HISTORY:{
+    table:'magic_crystal_logs',label:'오래된 마법 결정 변동 기록',retentionDefault:30,
+    whereSql:'1=1',reasonColumn:false,
+    description:'일일 제한 계산에 필요하지 않은 오래된 마법 결정 감사 기록만 정리합니다. 현재 잔액은 users.magic_crystals에 유지됩니다.'
+  },
+  TOWER_HISTORY:{
+    table:'tower_clear_history',label:'오래된 무한의탑 상세 기록',retentionDefault:90,
+    whereSql:'1=1',reasonColumn:false,
+    description:'시즌 진행도와 랭킹 원본은 유지하고, 오래된 층별 결과 상세 기록만 정리합니다.'
   }
 });
 const SAFE_LOG_SCAN_BATCH = 10000;
@@ -623,6 +638,102 @@ async function deleteExpiredSessionsBatch(env,raw={}){
     SELECT token_hash FROM sessions WHERE expires_at<datetime('now',?) ORDER BY expires_at ASC LIMIT ?
   )`).bind(`-${options.sessionRetentionDays} days`,options.scanBatch).run();
   return {deletedRows:Number(result?.meta?.changes||0),retentionDays:options.sessionRetentionDays};
+}
+
+
+// v1400: hot paths must not keep full response payloads and audit rows forever.
+// One sampled request rotates through one tiny task. Active PENDING/RUNNING/READY rows are protected; only stale terminal rows or oversized completed payloads are touched.
+const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=64;
+const AUTO_STORAGE_MAINTENANCE_BATCH=50;
+const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
+  {key:'inventory_receipts',table:'inventory_use_receipts',sql:`DELETE FROM inventory_use_receipts WHERE rowid IN (
+    SELECT rowid FROM inventory_use_receipts WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-3 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'rift_receipts',table:'pve_rift_action_receipts',requires:['pve_rift_runs'],sql:`DELETE FROM pve_rift_action_receipts WHERE rowid IN (
+    SELECT x.rowid FROM pve_rift_action_receipts x WHERE
+      ((x.status='COMPLETED' AND x.updated_at<datetime('now','-14 days')) OR (x.status IN ('FAILED','CANCELLED') AND x.updated_at<datetime('now','-3 days')))
+      AND NOT EXISTS (SELECT 1 FROM pve_rift_runs r WHERE r.run_id=x.run_id AND r.status IN ('ACTIVE','CLAIMING','COMPLETED_PENDING'))
+    ORDER BY x.updated_at LIMIT ?)`},
+  {key:'raid_receipts',table:'raid_reward_receipts',requires:['raid_participants'],sql:`DELETE FROM raid_reward_receipts WHERE rowid IN (
+    SELECT rr.rowid FROM raid_reward_receipts rr WHERE
+      ((rr.status='COMPLETED' AND rr.updated_at<datetime('now','-14 days') AND EXISTS (
+          SELECT 1 FROM raid_participants rp WHERE rp.instance_id=rr.instance_id AND rp.user_id=rr.user_id AND COALESCE(rp.reward_claimed,0)=1
+        )) OR (rr.status IN ('FAILED','CANCELLED','RETRYABLE') AND rr.updated_at<datetime('now','-7 days')))
+    ORDER BY rr.updated_at LIMIT ?)`},
+  {key:'magic_draw_receipts',table:'magic_card_draw_receipts',sql:`DELETE FROM magic_card_draw_receipts WHERE rowid IN (
+    SELECT rowid FROM magic_card_draw_receipts WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-3 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'limited_grant_receipts',table:'limited_manual_grant_receipts',sql:`DELETE FROM limited_manual_grant_receipts WHERE rowid IN (
+    SELECT rowid FROM limited_manual_grant_receipts WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-7 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'vehicle_receipts',table:'vehicle_draw_receipts',sql:`DELETE FROM vehicle_draw_receipts WHERE rowid IN (
+    SELECT rowid FROM vehicle_draw_receipts WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-3 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'pve_auto_receipts',table:'pve_auto_runs',sql:`DELETE FROM pve_auto_runs WHERE rowid IN (
+    SELECT rowid FROM pve_auto_runs WHERE status IN ('COMPLETED','FAILED','CANCELLED') AND updated_at<datetime('now','-14 days')
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'magic_reward_failed',table:'magic_crystal_reward_receipts',sql:`DELETE FROM magic_crystal_reward_receipts WHERE rowid IN (
+    SELECT rowid FROM magic_crystal_reward_receipts WHERE status IN ('FAILED','RETRYABLE')
+      AND updated_at<datetime('now','-7 days') ORDER BY updated_at LIMIT ?)`},
+  {key:'magic_reward_compact',table:'magic_crystal_reward_receipts',sql:`UPDATE magic_crystal_reward_receipts SET
+      response_json=json_object('source',source,'referenceId',reference_id,'awarded',granted_amount>0,'amount',granted_amount,
+        'balance',NULL,'roll',roll_value,'chance',configured_chance,'dailyLimit',0,'dailyEarned',granted_amount,'limited',0,'compacted',1),
+      error_message=NULL
+    WHERE rowid IN (SELECT rowid FROM magic_crystal_reward_receipts WHERE status='COMPLETED'
+      AND updated_at<datetime('now','-14 days') AND LENGTH(COALESCE(response_json,''))>512 ORDER BY updated_at LIMIT ?)`},
+  {key:'reroll_usage_compact',table:'high_grade_reroll_usage_v2',requires:['cards'],sql:`UPDATE high_grade_reroll_usage_v2 SET response_json=json_object(
+      'ok',1,'grade',grade,'usageNo',usage_no,'usedCount',usage_no,'limit',2,'sourceCardId',source_card_id,
+      'resultCardId',result_card_id,'breakthroughLevel',breakthrough_level,'remaining',MAX(0,2-usage_no),'compacted',1,
+      'card',json_object('id',result_card_id,'title',COALESCE((SELECT title FROM cards WHERE id=result_card_id),''),
+        'grade',grade,'rarity',grade,'image',COALESCE((SELECT image_url FROM cards WHERE id=result_card_id),'')))
+    WHERE rowid IN (SELECT rowid FROM high_grade_reroll_usage_v2 WHERE used_at<datetime('now','-30 days')
+      AND LENGTH(COALESCE(response_json,''))>1024 ORDER BY used_at LIMIT ?)`},
+  {key:'inventory_logs',table:'inventory_logs',sql:`DELETE FROM inventory_logs WHERE id IN (
+    SELECT id FROM inventory_logs WHERE created_at<datetime('now','-90 days') ORDER BY id LIMIT ?)`},
+  {key:'magic_crystal_logs',table:'magic_crystal_logs',sql:`DELETE FROM magic_crystal_logs WHERE id IN (
+    SELECT id FROM magic_crystal_logs WHERE created_at<datetime('now','-30 days') ORDER BY id LIMIT ?)`},
+  {key:'tower_history',table:'tower_clear_history',sql:`DELETE FROM tower_clear_history WHERE id IN (
+    SELECT id FROM tower_clear_history WHERE created_at<datetime('now','-90 days') ORDER BY id LIMIT ?)`},
+  {key:'admin_log_compact',table:'admin_logs',sql:`UPDATE admin_logs SET
+      before_data=CASE WHEN before_data IS NULL THEN NULL ELSE json_object('compacted',1,'originalBytes',LENGTH(before_data)) END,
+      after_data=CASE WHEN after_data IS NULL THEN NULL ELSE json_object('compacted',1,'originalBytes',LENGTH(after_data)) END
+    WHERE id IN (SELECT id FROM admin_logs WHERE created_at<datetime('now','-180 days')
+      AND LENGTH(COALESCE(before_data,''))+LENGTH(COALESCE(after_data,''))>2048 ORDER BY id LIMIT ?)`},
+  {key:'territory_admin_operations',table:'territory_war_admin_operations',sql:`DELETE FROM territory_war_admin_operations WHERE rowid IN (
+    SELECT rowid FROM territory_war_admin_operations WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-30 days')) OR (status='FAILED' AND updated_at<datetime('now','-7 days')))
+    ORDER BY updated_at LIMIT ?)`}
+]);
+function autoMaintenanceHash(value){let h=2166136261;for(const ch of String(value||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+async function runBoundedStorageMaintenance(env){
+  const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_lease_v1400',?,CURRENT_TIMESTAMP)
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
+    WHERE app_meta.updated_at<datetime('now','-5 minutes')`).bind(String(Date.now())).run();
+  if(!Number(lease?.meta?.changes||0))return {skipped:true};
+  const cursorRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='storage_auto_maintenance_cursor_v1400'").first();
+  const cursor=Math.max(0,Math.floor(Number(cursorRow?.value||0)))%AUTO_STORAGE_MAINTENANCE_TASKS.length;
+  const task=AUTO_STORAGE_MAINTENANCE_TASKS[cursor];
+  const requiredTables=[task.table,...(task.requires||[])];
+  let changed=0,taskError='';
+  try{
+    const existing=await existingTableSet(env,requiredTables);
+    if(requiredTables.every(name=>existing.has(name))){
+      const result=await env.DB.prepare(task.sql).bind(AUTO_STORAGE_MAINTENANCE_BATCH).run();
+      changed=Number(result?.meta?.changes||0);
+    }else taskError=`MISSING_TABLE:${requiredTables.filter(name=>!existing.has(name)).join(',')}`;
+  }catch(error){taskError=String(error?.message||error||'MAINTENANCE_FAILED').slice(0,300);console.warn(`bounded storage task failed: ${task.key}`,error)}
+  await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_cursor_v1400',?,CURRENT_TIMESTAMP)
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String((cursor+1)%AUTO_STORAGE_MAINTENANCE_TASKS.length)).run();
+  return {skipped:false,task:task.key,changed,error:taskError||undefined};
+}
+export function scheduleBoundedStorageMaintenance(context,env,seed=''){
+  if(autoMaintenanceHash(seed)%AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD!==0)return;
+  const job=runBoundedStorageMaintenance(env).catch(error=>console.warn('bounded storage maintenance failed',error));
+  if(typeof context?.waitUntil==='function')context.waitUntil(job);
 }
 
 export async function handleStorageCleanup({request,env,path,requirePermission,writeAdminLog,readBody,json}){

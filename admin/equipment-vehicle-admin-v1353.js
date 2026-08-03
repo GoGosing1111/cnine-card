@@ -3,7 +3,9 @@
   const ROOT_ID='equipmentAdminRoot';
   const PANEL_ID='equipmentVehicleAdminV1353';
   const rarityLabels={NORMAL:'일반',MAGIC:'고급',RARE:'희귀',EPIC:'영웅',LEGENDARY:'전설',MYTHIC:'신화'};
-  const state={payload:null,editingId:0,selectedUser:null,searchTimer:0,busy:false};
+  const state={payload:null,editingId:0,selectedUser:null,searchTimer:0,busy:false,loadedAt:0,loadPromise:null};
+  const CACHE_MS=30000;
+  const viewVisible=()=>{const view=document.getElementById('view-equipment');return Boolean(view&&!view.hidden&&!document.getElementById('cms')?.hidden)};
   const escValue=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const n=value=>Math.max(0,Math.floor(Number(value)||0));
   const apiCall=(path,opt={})=>typeof api==='function'?api(path,opt):Promise.reject(new Error('CMS API를 찾을 수 없습니다.'));
@@ -20,13 +22,24 @@
     root.prepend(panel);
     panel.addEventListener('click',onClick);
     panel.addEventListener('input',onInput);
-    load();
+    if(viewVisible())void load(false);
   }
 
-  async function load(){
+  async function load(force=false){
+    if(!viewVisible())return;
+    if(!force&&state.payload&&Date.now()-state.loadedAt<CACHE_MS)return;
+    if(state.loadPromise)return state.loadPromise;
     const body=byId('vehicleCmsBodyV1353');if(body)body.innerHTML='<div class="vehicleCmsLoadingV1353">이동수단 정보를 불러오는 중입니다.</div>';
-    try{state.payload=await apiCall('admin/equipment-system');render()}
+    state.loadPromise=(async()=>{try{
+      const shared=window.__cnineEquipmentAdminPromise;
+      const cached=window.__cnineEquipmentAdminPayload,sharedLoadedAt=Number(window.__cnineEquipmentAdminLoadedAt||0);
+      if(!force&&cached&&Date.now()-sharedLoadedAt<CACHE_MS)state.payload=cached;
+      else if(!force&&shared)state.payload=await shared;
+      else{state.payload=await apiCall('admin/equipment-system');window.__cnineEquipmentAdminPayload=state.payload;window.__cnineEquipmentAdminLoadedAt=Date.now();window.dispatchEvent(new CustomEvent('cnine:equipment-admin-payload',{detail:state.payload}))}
+      state.loadedAt=Date.now();render()
+    }
     catch(error){if(body)body.innerHTML=`<div class="vehicleCmsErrorV1353">${escValue(error.message||'이동수단 정보를 불러오지 못했습니다.')}</div>`}
+    finally{state.loadPromise=null}})();return state.loadPromise;
   }
 
   function render(){
@@ -109,7 +122,7 @@
 
   function onClick(event){
     const target=event.target.closest('button');if(!target)return;
-    if(target.id==='vehicleReloadBtnV1353')return load();
+    if(target.id==='vehicleReloadBtnV1353')return load(true);
     if(target.id==='vehicleSaveBtnV1353')return saveVehicle();
     if(target.matches('[data-vehicle-new]')){state.editingId=0;render();return}
     if(target.matches('[data-vehicle-delete]'))return deleteVehicle();
@@ -127,8 +140,10 @@
     }
   }
 
+  window.addEventListener('cnine:equipment-admin-payload',event=>{if(!event.detail||state.loadPromise)return;state.payload=event.detail;state.loadedAt=Date.now();if(viewVisible())render()});
   document.addEventListener('DOMContentLoaded',()=>{
     mount();
-    const observer=new MutationObserver(()=>mount());observer.observe(document.body,{childList:true,subtree:true});
+    const observer=new MutationObserver(()=>{mount();if(viewVisible())void load(false)});observer.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
+    if(viewVisible())void load(false);
   });
 })();

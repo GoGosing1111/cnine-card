@@ -158,10 +158,10 @@ function showBurningActivationNotice(){
   };
 }
 function stopBurningEventWatch(){if(burningEventWatchTimer){clearTimeout(burningEventWatchTimer);burningEventWatchTimer=null}}
-function scheduleBurningEventWatch(delay=burningEventState.enabled?10000:60000){
+function scheduleBurningEventWatch(delay=burningEventState.enabled?45000:60000){
   stopBurningEventWatch();
   if(!API_MODE||!loadUser()||document.hidden)return;
-  burningEventWatchTimer=setTimeout(async()=>{await refreshBurningEventState({rerender:true});scheduleBurningEventWatch()},Math.max(3000,Number(delay)||10000));
+  burningEventWatchTimer=setTimeout(async()=>{await refreshBurningEventState({rerender:true});scheduleBurningEventWatch()},Math.max(15000,Number(delay)||45000));
 }
 async function refreshBurningEventState({forceFresh=false,rerender=true}={}){
   if(!API_MODE)return false;
@@ -1380,7 +1380,7 @@ async function claimRiftReward(){const button=document.getElementById('riftClaim
 async function abandonRift(silent=false,capturedRunId='',button=null){const runId=String(capturedRunId||riftState.data?.run?.runId||'');if(!runId){if(!silent){await loadRiftView();alert('진행 중인 원정 정보를 다시 불러왔습니다. 원정 포기를 다시 시도해주세요.')}return}if(!silent&&!confirm('현재 원정을 포기할까요?\n누적한 임시 보상과 원정 강화가 모두 사라집니다.'))return;if(button)button.disabled=true;try{await apiRequest('rift/abandon',{method:'POST',body:JSON.stringify({runId})});riftState.data={...(riftState.data||{}),run:null};if(!silent)await loadRiftView()}catch(e){if(!silent)alert(e.message);if(button?.isConnected)button.disabled=false}}
 
 
-let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,lastHpUniqueKey:'',claimRetryTimer:null,claimInFlight:false,loadSeq:0,uiEpoch:0,claimToken:0};
+let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,lastHpUniqueKey:'',claimRetryTimer:null,claimInFlight:false,loadSeq:0,uiEpoch:0,claimToken:0,statusController:null};
 function stopRaidTimer(){if(raidState.timer){clearTimeout(raidState.timer);raidState.timer=null}}
 function stopRaidResultAdvanceTimer(){if(raidState.resultAdvanceTimer){clearTimeout(raidState.resultAdvanceTimer);raidState.resultAdvanceTimer=null}}
 function stopRaidClaimRetryTimer(){if(raidState.claimRetryTimer){clearTimeout(raidState.claimRetryTimer);raidState.claimRetryTimer=null}}
@@ -1389,6 +1389,7 @@ function invalidateRaidUiState({clearSelection=false,stopClaimRetry=false}={}){
   raidState.uiEpoch++;
   raidState.claimToken++;
   raidState.claimInFlight=false;
+  if(raidState.statusController){raidState.statusController.abort();raidState.statusController=null;}
   stopRaidTimer();
   stopRaidResultAdvanceTimer();
   if(stopClaimRetry)stopRaidClaimRetryTimer();
@@ -1438,19 +1439,23 @@ function switchPveMode(mode){
 }
 async function loadRaidView(){
   const box=document.getElementById('pveRaidView');if(!box||box.hidden||document.hidden)return;
+  if(raidState.statusController)raidState.statusController.abort();
+  const controller=new AbortController();raidState.statusController=controller;
   const requestSeq=++raidState.loadSeq,requestedRoomId=Math.max(0,Number(raidState.selectedRoomId||0));
   try{
-    const params=new URLSearchParams();if(requestedRoomId)params.set('instanceId',String(requestedRoomId));params.set('_request',`${Date.now()}-${requestSeq}`);
-    const d=await apiRequest(`raid/status?${params.toString()}`,{}, {ttl:0});
-    if(requestSeq!==raidState.loadSeq||!box.isConnected||box.hidden||document.hidden)return;
+    const params=new URLSearchParams();if(requestedRoomId)params.set('instanceId',String(requestedRoomId));
+    const path=`raid/status${params.size?`?${params.toString()}`:''}`;
+    const d=await apiRequest(path,{signal:controller.signal},{ttl:0,replaceInflight:true});
+    if(controller.signal.aborted||requestSeq!==raidState.loadSeq||!box.isConnected||box.hidden||document.hidden)return;
     const currentId=Math.max(0,Number(d?.current?.id||0));
     if(currentId)raidState.selectedRoomId=currentId;
     else if(requestedRoomId&&Number(raidState.selectedRoomId||0)!==requestedRoomId)return;
     raidState.data=d;renderRaidView(d);scheduleRaidPoll(d);
   }catch(e){
+    if(e?.name==='AbortError'||controller.signal.aborted)return;
     if(requestSeq!==raidState.loadSeq||!box.isConnected||box.hidden||document.hidden)return;
     stopRaidTimer();box.innerHTML=`<section class="raid-empty"><h2>월드 레이드</h2><p>${escapeHtml(e.message)}</p></section>`;
-  }
+  }finally{if(raidState.statusController===controller)raidState.statusController=null;}
 }
 function nextRaidOpenAtFromSettings(settings,nowMs=Date.now()){
   const s=settings||{};
@@ -1588,7 +1593,7 @@ async function claimRaidReward(attempt=0,claimContext=null){
       return;
     }
     if(e?.settlementPending&&attempt<12){
-      const wait=Math.max(1500,Math.min(5000,Number(e.retryAfterMs||2500)));
+      const wait=Math.max(1500,Math.min(30000,Number(e.retryAfterMs||Math.round(2000*Math.pow(1.45,attempt)))));
       if(btn&&btn.isConnected){btn.disabled=true;btn.textContent=`정산 복구 확인 중... (${attempt+1})`;}
       retryScheduled=true;
       raidState.claimRetryTimer=setTimeout(()=>{
@@ -2388,7 +2393,8 @@ async function apiRequest(path, options={}, config={}) {
   const cleanPath=apiCacheKey(path),method=String(options.method||'GET').toUpperCase(),isGet=method==='GET';
   const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now();
   if(isGet&&ttl>0){const cached=API_GET_CACHE.get(cleanPath);if(cached&&cached.expiresAt>now)return cached.data;}
-  if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
+  if(isGet&&config.replaceInflight===true)API_INFLIGHT.delete(cleanPath);
+  else if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
   const timeoutMs=Math.max(1000,Number(config.timeoutMs??(isGet?15000:30000))||15000);
   const task=(async()=>{
     const response=await fetchWithTimeout(`/api/${cleanPath}`,{

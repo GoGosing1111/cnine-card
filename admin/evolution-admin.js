@@ -11,10 +11,15 @@
     return `${num(row.coin_cost)}코인 · 카드조각 ${num(row.shard_cost)}개 · ${num(row.attempt_no)}회차${row.is_pity?' · 천장':''}`;
   }
 
-  async function load(){
+  const CACHE_MS=30000;let lastLoadedAt=0,loadPromise=null;
+  const viewVisible=()=>{const view=document.getElementById('view-cards');return Boolean(view&&!view.hidden&&!document.getElementById('cms')?.hidden)};
+  async function load(force=false){
+    if(!viewVisible())return;
+    if(!force&&lastLoadedAt&&Date.now()-lastLoadedAt<CACHE_MS)return;
+    if(loadPromise)return loadPromise;
     const state=document.getElementById('evolutionCmsState');
     if(!state)return;
-    try{
+    loadPromise=(async()=>{try{
       const data=await api('admin/evolution/settings');
       const settings=data.settings||{};
       document.getElementById('evolutionEnabled').value=settings.enabled?'ON':'OFF';
@@ -30,14 +35,15 @@
       document.getElementById('evolutionPrestigeDurationMs').value=Number(settings.prestigeSuccessDurationMs||3200);
       document.getElementById('evolutionPrestigeVolumePercent').value=Number(settings.prestigeSuccessVolumePercent??70);
       state.textContent=settings.enabled?'운영 중':'중지';
-      state.className='statusPill '+(settings.enabled?'on':'off');
+      state.className='statusPill '+(settings.enabled?'on':'off');lastLoadedAt=Date.now();
 
       const logs=document.getElementById('evolutionCmsLogs');
       logs.innerHTML=data.logs?.length?data.logs.map(row=>`<div class="evolutionCmsLog ${row.is_success?'success':''}"><div><b>${esc(row.nickname)}</b><span>${esc(row.source_title)} · ${typeLabel(row.evolution_type)}</span></div><strong>${row.is_success?`성공 · ${esc(row.reward_title||'결과 미확인')}${row.reward_duplicate?' (중복)':''}`:'실패'}</strong><small>${logMeta(row)} · ${new Date(row.created_at+'Z').toLocaleString()}</small></div>`).join(''):'<div class="muted">아직 진화 기록이 없습니다.</div>';
     }catch(error){
       state.textContent=error.message;
       state.className='statusPill off';
-    }
+    }finally{loadPromise=null}})();
+    return loadPromise;
   }
 
   function mount(){
@@ -75,13 +81,13 @@
       try{
         await api('admin/evolution/settings',{method:'PATCH',body:JSON.stringify(payload)});
         alert('진화 설정이 저장되었습니다.');
-        load();
+        load(true);
       }catch(error){alert(error.message)}
     };
-    document.getElementById('refreshEvolutionLogs').onclick=load;
-    load();
+    document.getElementById('refreshEvolutionLogs').onclick=()=>load(true);
+    if(viewVisible())void load(false);
   }
 
-  new MutationObserver(mount).observe(document.documentElement,{childList:true,subtree:true});
-  mount();
+  new MutationObserver(()=>{mount();if(viewVisible())void load(false)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
+  mount();if(viewVisible())void load(false);
 })();
