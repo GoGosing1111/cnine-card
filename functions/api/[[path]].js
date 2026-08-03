@@ -84,6 +84,18 @@ let adminDashboardBurstCache=null;
 const ADMIN_DASHBOARD_BURST_CACHE_MS=15000;
 const DRAW_RECEIPT_CLEANUP_SAMPLE_MOD=64;
 const DRAW_RECEIPT_CLEANUP_BATCH=250;
+// v1405: Cloudflare D1 keeps a conservative per-statement bind-variable ceiling.
+// A 100-card server batch can contain close to 100 unique card IDs, so every dynamic
+// IN/VALUES statement is split below the ceiling while the final D1 batch remains atomic.
+const DRAW_D1_SAFE_IN_CHUNK=80;
+const DRAW_D1_SAFE_GRANT_CHUNK=25; // 3 bind variables per user_cards VALUES row = 75.
+function drawSqlChunks(values,size){
+  const rows=Array.isArray(values)?values:[];
+  const chunkSize=Math.max(1,Math.floor(Number(size)||1));
+  const chunks=[];
+  for(let offset=0;offset<rows.length;offset+=chunkSize)chunks.push(rows.slice(offset,offset+chunkSize));
+  return chunks;
+}
 function stableSmallHash(value){let h=2166136261;for(const ch of String(value||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 async function boundedDrawReceiptCleanup(env,{limit=DRAW_RECEIPT_CLEANUP_BATCH,force=false}={}){
   limit=Math.max(25,Math.min(1000,Math.floor(Number(limit)||DRAW_RECEIPT_CLEANUP_BATCH)));
@@ -3293,9 +3305,13 @@ export async function onRequest(context){
       const hydrateDrawReceipt=async stored=>{
         if(!stored||typeof stored!=='object')return stored;
         const ids=[...new Set((stored.results||[]).map(item=>String(item?.card?.id||'')).filter(Boolean))];
+        const cardRowPromise=ids.length
+          ?env.DB.batch(drawSqlChunks(ids,DRAW_D1_SAFE_IN_CHUNK).map(chunk=>env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${chunk.map(()=>'?').join(',')})`).bind(...chunk)))
+            .then(batchRows=>({results:batchRows.flatMap(row=>row?.results||[])}))
+          :Promise.resolve({results:[]});
         const [latestUser,cardRows,fxByGrade]=await Promise.all([
           env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
-          ids.length?env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all():Promise.resolve({results:[]}),
+          cardRowPromise,
           cardAcquisitionEffectsByGrade(env)
         ]);
         if(!latestUser)return stored;
@@ -3464,9 +3480,10 @@ export async function onRequest(context){
         const validateActiveCards=async selected=>{
           const ids=[...new Set(selected.map(card=>String(card?.id||'')).filter(Boolean))];
           if(!ids.length||selected.some(card=>!card?.id))throw new Error('카드 추첨 결과 검증에 실패했습니다. 다시 시도하세요.');
-          const rows=(await env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-            WHERE c.id IN (${ids.map(()=>'?').join(',')}) AND c.is_active=1
-              AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...ids).all()).results;
+          const queryRows=await env.DB.batch(drawSqlChunks(ids,DRAW_D1_SAFE_IN_CHUNK).map(chunk=>env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
+            WHERE c.id IN (${chunk.map(()=>'?').join(',')}) AND c.is_active=1
+              AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...chunk)));
+          const rows=queryRows.flatMap(row=>row?.results||[]);
           const active=new Set((rows||[]).map(row=>String(row.id)));
           const inactive=ids.filter(id=>!active.has(id));
           if(inactive.length){
@@ -3496,19 +3513,24 @@ export async function onRequest(context){
           if(soldOutAudit.length)await env.DB.batch(soldOutAudit);
         }
         const uniqueIds=[...new Set(cards.map(card=>String(card.id)))];
+        const uniqueIdChunks=drawSqlChunks(uniqueIds,DRAW_D1_SAFE_IN_CHUNK);
+        const validationStatements=[
+          ...uniqueIdChunks.map(chunk=>env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
+            WHERE c.id IN (${chunk.map(()=>'?').join(',')}) AND c.is_active=1
+              AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...chunk)),
+          ...uniqueIdChunks.map(chunk=>env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (${chunk.map(()=>'?').join(',')})`).bind(user.id,...chunk))
+        ];
         const [validationRows,acquisitionFxByGrade]=await Promise.all([
-          env.DB.batch([
-            env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-              WHERE c.id IN (${uniqueIds.map(()=>'?').join(',')}) AND c.is_active=1
-                AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...uniqueIds),
-            env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (${uniqueIds.map(()=>'?').join(',')})`).bind(user.id,...uniqueIds)
-          ]),
+          env.DB.batch(validationStatements),
           cardAcquisitionEffectsByGrade(env)
         ]);
-        const activeIds=new Set((validationRows[0]?.results||[]).map(row=>String(row.id)));
+        const validationSplit=uniqueIdChunks.length;
+        const activeRows=validationRows.slice(0,validationSplit).flatMap(row=>row?.results||[]);
+        const ownedRows=validationRows.slice(validationSplit).flatMap(row=>row?.results||[]);
+        const activeIds=new Set(activeRows.map(row=>String(row.id)));
         const inactiveIds=uniqueIds.filter(id=>!activeIds.has(id));
         if(inactiveIds.length){drawContextCache.delete(String(pack.id));throw new Error('CMS에서 비활성화되거나 비공개된 카드가 추첨 후보에 포함되어 개봉을 중단했습니다. 다시 시도하세요.');}
-        const ownedSelectedRows={results:validationRows[1]?.results||[]};
+        const ownedSelectedRows={results:ownedRows};
         const beforeProfile=drawResponseProfileFromRows(fresh,ownedSelectedRows.results||[],masterStarRow);
         const ownedMap=new Map(Object.entries(beforeProfile.quantities||{}).map(([cardId,quantity])=>[String(cardId),Number(quantity||0)]));
         const masterStarBefore=Number(beforeProfile.masterStars||0);
@@ -3541,10 +3563,14 @@ export async function onRequest(context){
         // 20장 자동 뽑기에서 카드별 로그가 최대 20행씩 누적되던 구조를 제거해 D1 쓰기와 용량 증가를 제한한다.
         const grantRows=[...cardGrantCounts.entries()];
         if(grantRows.length){
-          const placeholders=grantRows.map(()=>'(?,?,?)').join(','),binds=[];
-          for(const [cardId,grantCount] of grantRows)binds.push(user.id,cardId,grantCount);
-          statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES ${placeholders}
-            ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(...binds));
+          // Keep every statement below D1's variable ceiling. The chunked UPSERTs still
+          // execute inside the same final env.DB.batch, preserving all-or-nothing grants.
+          for(const grantChunk of drawSqlChunks(grantRows,DRAW_D1_SAFE_GRANT_CHUNK)){
+            const placeholders=grantChunk.map(()=>'(?,?,?)').join(','),binds=[];
+            for(const [cardId,grantCount] of grantChunk)binds.push(user.id,cardId,grantCount);
+            statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES ${placeholders}
+              ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(...binds));
+          }
         }
 
         const duplicateMaCount=results.filter(item=>item.duplicate&&String(item.card?.grade||'').toUpperCase()==='MA').length;

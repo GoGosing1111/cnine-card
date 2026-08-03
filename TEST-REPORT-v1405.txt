@@ -1,0 +1,30 @@
+CNINE CARD v1405 TEST REPORT
+
+1. 오류 재현
+- SQLite 변수 한도를 100으로 제한한 메모리 DB에서 기존 보유 카드 조회를 실행
+- user_id 1개 + card_id 100개 = 101개
+- too many SQL variables 오류 재현: PASS
+
+2. 분할 조회
+- 100개 고유 카드 ID를 80개 + 20개로 분할
+- 활성 카드 조회 최대 변수: 80
+- 보유 카드 조회 최대 변수: 81
+- 100개 카드 전체 조회: PASS
+
+3. 분할 지급
+- user_cards UPSERT를 25종씩 4문장으로 분할
+- 문장당 최대 변수: 75
+- 100종 카드 지급 및 최종 수량 합계 검증: PASS
+
+4. 원자 배치 구조 정적 검사
+- 분할 UPSERT가 최종 statements 배열에 추가됨
+- 카드/코인/조각/마스터의 별/영수증과 동일한 env.DB.batch에서 실행됨
+- 기존 지급 순서 및 증명 데이터 유지: PASS
+
+5. 문법 검사
+- 누적 패치 내부 모든 JavaScript 파일 node --check: PASS
+
+6. 변경 범위
+- 실제 코드 수정 파일: functions/api/[[path]].js
+- 신규 문서: PATCH-NOTES-v1405.txt, TEST-REPORT-v1405.txt
+- 전투, 영토전, 카드 확률, UI 파일 변경 없음
