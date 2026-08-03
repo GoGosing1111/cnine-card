@@ -172,10 +172,11 @@ function showBurningActivationNotice(){
   };
 }
 function stopBurningEventWatch(){if(burningEventWatchTimer){clearTimeout(burningEventWatchTimer);burningEventWatchTimer=null}}
-function scheduleBurningEventWatch(delay=burningEventState.enabled?10000:15000){
+function pollJitter(delay,ratio=.2){const base=Math.max(1000,Number(delay)||1000),spread=base*Math.max(0,Math.min(.5,Number(ratio)||0));return Math.round(base-spread+Math.random()*spread*2)}
+function scheduleBurningEventWatch(delay=burningEventState.enabled?15000:30000){
   stopBurningEventWatch();
   if(!API_MODE||!loadUser()||document.hidden)return;
-  burningEventWatchTimer=setTimeout(async()=>{await refreshBurningEventState({rerender:true});scheduleBurningEventWatch()},Math.max(5000,Number(delay)||10000));
+  burningEventWatchTimer=setTimeout(async()=>{await refreshBurningEventState({rerender:true});scheduleBurningEventWatch()},pollJitter(Math.max(10000,Number(delay)||15000)));
 }
 async function refreshBurningEventState({forceFresh=false,rerender=true}={}){
   if(!API_MODE)return false;
@@ -2151,7 +2152,9 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-const API_CACHE_TTL={'cards':300000,'packs':300000,'pvp/config':1000,'shell/summary':30000,'recent-high-grade':30000,'recent-equipment':30000};
+// Player-owned state must not be cached. Mutation responses are authoritative and
+// a later read must never resurrect an older balance or inventory summary.
+const API_CACHE_TTL={'cards':5000,'packs':5000,'pvp/config':1000,'recent-high-grade':5000,'recent-equipment':5000};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
 const STARTUP_REQUEST_TIMEOUT=10000;
@@ -2259,7 +2262,7 @@ function renderStartupRecovery(message='서버 연결이 지연되고 있습니�
   if(retry)retry.onclick=()=>{API_INFLIGHT.clear();clearApiCache();void init()};
   if(reset)reset.onclick=()=>{clearPlayerToken();API_INFLIGHT.clear();clearApiCache();void init()};
 }
-function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?4000:8000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
+function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?5000:10000;raidState.timer=setTimeout(()=>loadRaidView(),pollJitter(delay,.18))}
 
 const RETIREMENT_REROLL_META={
   MA_REROLL_TICKET:{title:'MA 재뽑기권',grade:'MA',theme:'ma'},
@@ -2713,7 +2716,7 @@ async function waitForDrawRecovery(ms,label='서버 혼잡 복구 대기'){
   }
 }
 async function drawReceiptStatus(requestId){
-  return apiRequest(`draw/status?requestId=${encodeURIComponent(requestId)}`,{}, {ttl:0,timeoutMs:10000});
+  return apiRequest(`draw/status?requestId=${encodeURIComponent(requestId)}`,{}, {ttl:0,timeoutMs:5000});
 }
 async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{autoRun=false,acknowledgedRequestIds=[]}={}){
   const options={
@@ -2730,7 +2733,9 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
     if(shouldPost){
       const started=Date.now();
       try{
-        const result=await apiRequest('draw',options,{timeoutMs:autoRun?60000:45000});
+        // Switch to the idempotent receipt recovery path quickly instead of leaving
+        // the draw UI apparently frozen behind one long network request.
+        const result=await apiRequest('draw',options,{timeoutMs:autoRun?20000:12000});
         if(autoRun)autoDrawState.lastRequestMs=Date.now()-started;
         return result;
       }catch(error){
@@ -2771,7 +2776,7 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
       throw error;
     }
     if(state==='COMPLETED'){
-      try{return await apiRequest('draw',options,{timeoutMs:30000})}
+      try{return await apiRequest('draw',options,{timeoutMs:15000})}
       catch(error){lastError=error;shouldPost=true;continue}
     }
     shouldPost=state==='NOT_FOUND'||state==='RETRYABLE';

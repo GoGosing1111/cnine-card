@@ -2430,7 +2430,9 @@ async function makeSession(env,userId){
   return raw;
 }
 
-const CARD_CATALOG_CACHE_MS=60000,PACK_CATALOG_CACHE_MS=60000,UNIQUE_ROWS_CACHE_MS=30000;
+// These caches are isolate-local burst protection only. Keep the freshness window short
+// because CMS updates can land on a different Worker isolate.
+const CARD_CATALOG_CACHE_MS=5000,PACK_CATALOG_CACHE_MS=5000,UNIQUE_ROWS_CACHE_MS=5000;
 const CARD_CATALOG_SELECT=`SELECT c.id,c.title,m.name,m.sort_order AS memberSortOrder,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,c.card_status AS retirementStatus,c.power_type AS powerType,c.base_power AS basePower,CASE WHEN fx.card_id IS NULL THEN 0 ELSE 1 END AS acquisitionFxConfigured,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 1 ELSE COALESCE(fx.enabled,0) END AS acquisitionFxEnabled,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN '/assets/effects/L2CARD.mp4' ELSE COALESCE(fx.media_url,'') END AS acquisitionMediaUrl,COALESCE(fx.audio_url,'') AS acquisitionAudioUrl,COALESCE(fx.skip_allowed,1) AS acquisitionSkipAllowed,CASE WHEN fx.card_id IS NULL AND UPPER(c.rarity)='LIMITED' THEN 10000 ELSE COALESCE(fx.duration_ms,8000) END AS acquisitionDurationMs FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id LEFT JOIN card_acquisition_effects fx ON fx.card_id=('__GRADE_' || UPPER(c.rarity) || '__')`;
 async function publicCardCatalogRows(env){
   const now=Date.now();if(cardCatalogCache&&cardCatalogCache.expiresAt>now)return cardCatalogCache.promise;
@@ -2994,10 +2996,18 @@ export async function onRequest(context){
     // 다른 기능의 미완료 업그레이드나 D1 잠금 때문에 레이드 화면까지 함께 타임아웃될 수 있다.
     // 레이드 스키마는 기존 안전 업그레이드에서 설치되므로 상태 조회에서는 경량 인덱스 확인만 수행한다.
     const vehicleDrawPath=path==='vehicle-draw/config'||path==='vehicle-draw/open'||path==='admin/vehicle-draw/settings'||path==='admin/vehicle-draw/grant';
+    // High-traffic routes must never wait for the legacy all-schema runtime gate.
+    // Route-local guards below still validate the small set of tables they mutate.
+    // Full migrations belong to deployment/setup, not the player request path.
+    const hotPathWithoutGlobalUpgrade=(path==='cards'&&request.method==='GET')
+      ||(path==='packs'&&request.method==='GET')
+      ||path==='burning-event/status'
+      ||path==='draw/status'
+      ||(path==='draw'&&request.method==='POST');
     if(path==='raid/status')await ensureD1HotpathIndexes(env);
     // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
     // 전역 런타임 업그레이드와 장비 전체 foundation을 중복 실행하면 CMS 설정 조회가 타임아웃될 수 있다.
-    else if(vehicleDrawPath){ /* handled by _vehicle_draw.js lightweight ensure */ }
+    else if(vehicleDrawPath||hotPathWithoutGlobalUpgrade){ /* route-local lightweight ensure */ }
     else await ensureRuntimeUpgrades(env);
 
     const maintenance=await maintenanceSettings(env);
