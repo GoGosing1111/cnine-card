@@ -920,6 +920,9 @@ async function premiumCubeWeeklyStatus(env,userId,settingsOverride=null){
   const row=await env.DB.prepare('SELECT current_rate,earned_count,attempt_count,last_attempt_key,last_attempt_won FROM premium_cube_weekly_state WHERE user_id=? AND week_key=?').bind(userId,weekKey).first();
   return {weekKey,currentRate:Math.max(settings.startRate,Math.min(settings.maxRate,Number(row?.current_rate??settings.startRate))),earnedCount:Math.max(0,Number(row?.earned_count||0)),weeklyLimit:settings.weeklyLimit,attemptCount:Math.max(0,Number(row?.attempt_count||0)),enabled:settings.enabled,settings,lastAttemptKey:String(row?.last_attempt_key||''),lastAttemptWon:Number(row?.last_attempt_won||0)===1};
 }
+function premiumCubeWeeklyStatusFromRow(row,settings,weekKey){
+  return {weekKey,currentRate:Math.max(settings.startRate,Math.min(settings.maxRate,Number(row?.current_rate??settings.startRate))),earnedCount:Math.max(0,Number(row?.earned_count||0)),weeklyLimit:settings.weeklyLimit,attemptCount:Math.max(0,Number(row?.attempt_count||0)),enabled:settings.enabled,settings,lastAttemptKey:String(row?.last_attempt_key||''),lastAttemptWon:Number(row?.last_attempt_won||0)===1};
+}
 async function weeklyPremiumAttemptReceipt(env,userId,weekKey,source,referenceId){
   return await env.DB.prepare(`SELECT outcome,granted,roll_rate,operation_key FROM premium_cube_weekly_attempt_receipts WHERE user_id=? AND week_key=? AND source=? AND reference_id=?`).bind(userId,weekKey,source,referenceId).first();
 }
@@ -930,13 +933,16 @@ function weeklyPremiumOperationKey(source,referenceId){
 async function rollWeeklyPremiumCube(env,userId,source,referenceId){
   source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();
   const settings=await weeklyPremiumCubeSettings(env),weekKey=premiumCubeWeekKey();
-  await env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_state(user_id,week_key,current_rate,earned_count,attempt_count,updated_at) VALUES(?,?,?,0,0,CURRENT_TIMESTAMP)`).bind(userId,weekKey,settings.startRate).run();
-  const priorReceipt=await weeklyPremiumAttemptReceipt(env,userId,weekKey,source,referenceId);
+  const preflight=await env.DB.batch([
+    env.DB.prepare(`INSERT OR IGNORE INTO premium_cube_weekly_state(user_id,week_key,current_rate,earned_count,attempt_count,updated_at) VALUES(?,?,?,0,0,CURRENT_TIMESTAMP)`).bind(userId,weekKey,settings.startRate),
+    env.DB.prepare(`SELECT s.current_rate,s.earned_count,s.attempt_count,s.last_attempt_key,s.last_attempt_won,r.outcome AS receipt_outcome,r.granted AS receipt_granted,r.operation_key AS receipt_operation_key FROM premium_cube_weekly_state s LEFT JOIN premium_cube_weekly_attempt_receipts r ON r.user_id=s.user_id AND r.week_key=s.week_key AND r.source=? AND r.reference_id=? WHERE s.user_id=? AND s.week_key=?`).bind(source,referenceId,userId,weekKey)
+  ]),snapshot=preflight[1]?.results?.[0]||null;
+  const priorReceipt=snapshot?.receipt_outcome?{outcome:snapshot.receipt_outcome,granted:snapshot.receipt_granted,operation_key:snapshot.receipt_operation_key}:null;
   if(priorReceipt){
-    const status=await premiumCubeWeeklyStatus(env,userId,settings),won=String(priorReceipt.outcome||'').toUpperCase()==='WON'&&Number(priorReceipt.granted||0)===1;
+    const status=premiumCubeWeeklyStatusFromRow(snapshot,settings,weekKey),won=String(priorReceipt.outcome||'').toUpperCase()==='WON'&&Number(priorReceipt.granted||0)===1;
     return {won,status,duplicate:true};
   }
-  const status=await premiumCubeWeeklyStatus(env,userId,settings);
+  const status=premiumCubeWeeklyStatusFromRow(snapshot,settings,weekKey);
   if(!source||!referenceId||!settings.enabled||status.earnedCount>=status.weeklyLimit)return {won:false,status,duplicate:false};
   const operationKey=weeklyPremiumOperationKey(source,referenceId),won=Math.random()*100<status.currentRate;
   if(won){
@@ -961,14 +967,13 @@ async function rollWeeklyPremiumCube(env,userId,source,referenceId){
   return {won:String(receipt?.outcome||'').toUpperCase()==='WON'&&Number(receipt?.granted||0)===1,status:fresh,duplicate:Boolean(receipt&&String(receipt.operation_key||'')!==operationKey)};
 }
 async function grantPremiumCubeInventory(env,userId,source,referenceId){
-  const prior=await env.DB.prepare("SELECT balance_after FROM inventory_logs WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='WEEKLY_PREMIUM_CUBE' AND reference_type=? AND reference_id=? ORDER BY id DESC LIMIT 1").bind(userId,source,referenceId).first();
+  const prior=await env.DB.prepare(`SELECT i.quantity AS balance,item.name,item.rarity,item.image_url FROM premium_cube_weekly_attempt_receipts r JOIN cnine_user_inventory i ON i.user_id=r.user_id AND i.item_code='PREMIUM_CUBE' LEFT JOIN inventory_items item ON item.code='PREMIUM_CUBE' WHERE r.user_id=? AND r.week_key=? AND r.source=? AND r.reference_id=? AND r.outcome='WON' AND r.granted=1`).bind(userId,premiumCubeWeekKey(),source,referenceId).first();
   if(!prior)return null;
-  const item=await env.DB.prepare("SELECT code,name,rarity,image_url FROM inventory_items WHERE code='PREMIUM_CUBE'").first();
-  return {itemCode:'PREMIUM_CUBE',name:item?.name||'프리미엄 큐브',rarity:item?.rarity||'PREMIUM',image:item?.image_url||'',quantity:1,balance:Number(prior.balance_after||0),source,weekly:true,reused:true};
+  return {itemCode:'PREMIUM_CUBE',name:prior.name||'프리미엄 큐브',rarity:prior.rarity||'PREMIUM',image:prior.image_url||'',quantity:1,balance:Number(prior.balance||0),source,weekly:true,reused:true};
 }
 async function grantWeeklyPremiumCube(env,userId,source,referenceId){
   source=String(source||'').toUpperCase();referenceId=String(referenceId||'').trim();
-  if(!['PVE','TOWER','PVP','CAPTAIN'].includes(source)||!referenceId)return null;
+  if(!['PVE','TOWER','PVP'].includes(source)||!referenceId)return null;
   const rolled=await rollWeeklyPremiumCube(env,userId,source,referenceId);
   const reward=rolled.won?await grantPremiumCubeInventory(env,userId,source,referenceId):null;
   if(reward)recentPremiumCubeCache=null;
@@ -1050,15 +1055,18 @@ let d1HotpathUpgradePromise=null;
 async function ensureD1HotpathIndexes(env){
   if(d1HotpathUpgradePromise)return d1HotpathUpgradePromise;
   d1HotpathUpgradePromise=(async()=>{
-    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1205_d1_hotpath_indexes'").first();
+    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1419_d1_hotpath_indexes'").first();
     if(done?.value==='1')return true;
     const statements=[];
     if(await tableExists(env,'user_cards'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_cards_last_obtained ON user_cards(last_obtained_at DESC,user_id,card_id)'));
-    if(await tableExists(env,'inventory_logs'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_inventory_logs_premium_feed ON inventory_logs(item_code,reason,reference_type,id DESC)'));
+    if(await tableExists(env,'inventory_logs')){
+      statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_inventory_logs_premium_feed ON inventory_logs(item_code,reason,reference_type,id DESC)'));
+      statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_inventory_logs_reward_reference ON inventory_logs(user_id,item_code,reason,reference_type,reference_id)'));
+    }
     if(await tableExists(env,'pvp_match_history'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_match_history_attacker_recent ON pvp_match_history(attacker_id,id DESC)'));
     if(await tableExists(env,'pvp_profiles'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_profiles_score_user ON pvp_profiles(season_score,user_id)'));
     if(await tableExists(env,'draw_request_receipts_v2'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'));
-    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1205_d1_hotpath_indexes','1',CURRENT_TIMESTAMP)"));
+    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1419_d1_hotpath_indexes','1',CURRENT_TIMESTAMP)"));
     await env.DB.batch(statements);return true;
   })().catch(error=>{d1HotpathUpgradePromise=null;throw error});
   return d1HotpathUpgradePromise;

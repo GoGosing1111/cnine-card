@@ -15,7 +15,7 @@
       panel.className='panel cubeSettings';
       base.insertAdjacentElement('afterend',panel);
     }
-    panel.innerHTML=`<div class="maintenanceHead"><div><small>WEEKLY PREMIUM CUBE</small><h2>프리미엄 큐브 주간 보장</h2><p>PVE·무한의탑·PVP·대장전 참여 완료 시 현재 확률로 판정하며, 실패 시 확률이 상승합니다.</p></div><button id="saveWeeklyPremiumCubeBtn" type="button">주간 보장 설정 저장</button></div>
+    panel.innerHTML=`<div class="maintenanceHead"><div><small>WEEKLY PREMIUM CUBE</small><h2>프리미엄 큐브 주간 보장</h2><p>PVE·무한의탑·PVP 참여 완료 시 현재 확률로 판정하며, 실패 시 확률이 상승합니다.</p></div><button id="saveWeeklyPremiumCubeBtn" type="button">주간 보장 설정 저장</button></div>
       <div class="formgrid">
         <label class="field"><span>기능 상태</span><select id="weeklyPremiumEnabled"><option value="1" ${d.enabled?'selected':''}>사용</option><option value="0" ${!d.enabled?'selected':''}>중지</option></select></label>
         <label class="field"><span>시작 확률 (%)</span><input id="weeklyPremiumStart" type="number" min="0.01" max="100" step="0.01" value="${h(d.startRate)}"></label>
