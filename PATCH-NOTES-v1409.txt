@@ -1,0 +1,22 @@
+CNINE CARD v1409 - 2026-08-04 optimization rollback
+
+Target:
+- Apply over currently deployed v1408.
+
+Rolled back completely:
+- v1407 startup/bootstrap consolidation
+- v1407 delayed/distributed background loading
+- v1407 reconnect jitter and draw admission throttling
+- v1407 draw response/client restoration changes
+- v1408 acquisition-feed dedicated API/cache/polling changes
+
+Preserved:
+- v1400~v1406 code state
+- Territory War V3/V2 battle functionality through v1406
+- Auto draw server batch and SQL-variable hotfix through v1405
+- Existing D1 schema and production data; no DB deletion/reset
+
+Files restored to exact v1406 versions:
+- functions/api/[[path]].js
+- js/app.js
+- index.html

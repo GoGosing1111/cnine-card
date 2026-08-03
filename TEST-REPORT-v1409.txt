@@ -1,0 +1,5 @@
+Verification:
+- Restored files byte-identical to v1406 cumulative patch.
+- JavaScript syntax checked with node --check.
+- ZIP integrity checked with unzip -t.
+- No SQL migration or production D1 mutation executed.
