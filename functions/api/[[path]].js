@@ -77,7 +77,8 @@ const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450,528,612,702];
 const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:1,rate:100,retirementShardRefund:0},{cost:1,rate:100,retirementShardRefund:0},{cost:1,rate:100,retirementShardRefund:0}]};
 let maMasterStarBreakthroughCache=null;
-let acquisitionFeedCacheV1408=null;
+let recentHighGradeCache=null;
+let recentEquipmentFeedCache=null;
 // v1361 burst protection: tiny in-isolate caches only. Authoritative writes remain uncached.
 let adminDashboardBurstCache=null;
 const ADMIN_DASHBOARD_BURST_CACHE_MS=15000;
@@ -88,8 +89,6 @@ const DRAW_RECEIPT_CLEANUP_BATCH=250;
 // IN/VALUES statement is split below the ceiling while the final D1 batch remains atomic.
 const DRAW_D1_SAFE_IN_CHUNK=80;
 const DRAW_D1_SAFE_GRANT_CHUNK=25; // 3 bind variables per user_cards VALUES row = 75.
-let activeDrawAdmissionWeightV1407=0;
-const DRAW_ADMISSION_WEIGHT_LIMIT_V1407=3;
 function drawSqlChunks(values,size){
   const rows=Array.isArray(values)?values:[];
   const chunkSize=Math.max(1,Math.floor(Number(size)||1));
@@ -2481,15 +2480,13 @@ async function makeSession(env,userId){
   const expiresAt=sqlUtcTimestampV1401(Date.now()+1000*60*60*24*30);
   // 게임/CMS/다른 기기의 세션을 서로 강제 종료하지 않는다.
   // ISO/SQLite 시간이 혼용된 과거 세션도 datetime()으로 정확하게 판정한다.
-  // 로그인 폭주 때 세션 정리·생성·상한 정리를 한 D1 batch로 합쳐 왕복 쓰기를 줄인다.
-  await env.DB.batch([
-    env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND datetime(expires_at)<=datetime('now')").bind(userId),
-    env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(tokenHash,userId,expiresAt),
-    env.DB.prepare(`DELETE FROM sessions
-      WHERE user_id=? AND token_hash NOT IN (
-        SELECT token_hash FROM sessions WHERE user_id=? ORDER BY datetime(expires_at) DESC,rowid DESC LIMIT 20
-      )`).bind(userId,userId)
-  ]);
+  await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND datetime(expires_at)<=datetime('now')").bind(userId).run();
+  await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(tokenHash,userId,expiresAt).run();
+  // 비정상적으로 누적되는 것을 막기 위해 계정당 최신 20개 세션만 유지한다.
+  await env.DB.prepare(`DELETE FROM sessions
+    WHERE user_id=? AND token_hash NOT IN (
+      SELECT token_hash FROM sessions WHERE user_id=? ORDER BY datetime(expires_at) DESC,rowid DESC LIMIT 20
+    )`).bind(userId,userId).run();
   return raw;
 }
 
@@ -2514,54 +2511,6 @@ async function activePackCatalogRows(env){
   const now=Date.now();if(packCatalogCache&&packCatalogCache.expiresAt>now)return packCatalogCache.promise;
   const promise=env.DB.prepare('SELECT * FROM card_packs WHERE is_active=1 ORDER BY sort_order,id').all().then(rows=>rows.results||[]).catch(error=>{if(packCatalogCache?.promise===promise)packCatalogCache=null;throw error});
   packCatalogCache={promise,expiresAt:now+PACK_CATALOG_CACHE_MS};return promise;
-}
-
-function lightweightUserSummaryV1407(user,masterStars=0){
-  return {profileScope:'SUMMARY',id:Number(user?.id||0),nickname:String(user?.nickname||''),coin:Number(user?.coin||0),cardShards:Number(user?.card_shards||0),magicCrystals:Number(user?.magic_crystals||0),masterStars:Number(masterStars||0),role:String(user?.role||'USER')};
-}
-
-async function startupBootstrapStateV1407(request,env,context){
-  const now=Date.now(),raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
-  const settingsFresh=Boolean(maintenanceSettingsCache?.expiresAt>now&&burningEventCache&&now-burningEventCache.at<BURNING_EVENT_CACHE_MS);
-  const statements=[];let authIndex=-1,settingsIndex=-1;
-  if(raw){
-    const tokenHash=await hash(raw);authIndex=statements.length;
-    statements.push(env.DB.prepare(`SELECT u.*,s.expires_at AS session_expires_at,COALESCE(inv.quantity,0) AS bootstrap_master_stars
-      FROM sessions s JOIN users u ON u.id=s.user_id
-      LEFT JOIN cnine_user_inventory inv ON inv.user_id=u.id AND inv.item_code='MASTER_STAR'
-      WHERE s.token_hash=? AND datetime(s.expires_at)>datetime('now') AND u.status='ACTIVE'
-        AND (u.banned_until IS NULL OR datetime(u.banned_until)<=datetime('now')) LIMIT 1`).bind(tokenHash));
-  }
-  if(!settingsFresh){
-    const keys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users',BURNING_EVENT_META_KEY,HYPER_BURNING_EVENT_META_KEY];
-    settingsIndex=statements.length;
-    statements.push(env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`).bind(...keys));
-  }
-  const rows=statements.length?await env.DB.batch(statements):[];
-  const user=authIndex>=0?(rows[authIndex]?.results?.[0]||null):null;
-  if(user){
-    const expiresMs=utcTimestampMsV1401(user.session_expires_at);
-    if(Number.isFinite(expiresMs)&&expiresMs-Date.now()<=7*24*60*60*1000){
-      const extended=sqlUtcTimestampV1401(Date.now()+30*24*60*60*1000),tokenHash=await hash(raw);
-      const extension=env.DB.prepare("UPDATE sessions SET expires_at=? WHERE token_hash=? AND datetime(expires_at)>datetime('now')").bind(extended,tokenHash).run().catch(error=>console.warn('bootstrap session extension failed',error));
-      if(typeof context?.waitUntil==='function')context.waitUntil(extension);else await extension;
-    }
-  }
-  if(settingsIndex>=0){
-    const values=Object.fromEntries((rows[settingsIndex]?.results||[]).map(row=>[row.key,row.value]));
-    const maintenance={
-      active:String(values.maintenance_mode||'0')==='1',title:values.maintenance_title||'숲켓몬 서버 점검 중',
-      message:values.maintenance_message||'안정적인 서비스 제공을 위해 점검을 진행하고 있습니다.',startAt:values.maintenance_start_at||'',
-      endAt:values.maintenance_end_at||'',testUsers:String(values.maintenance_test_users||'').split(',').map(x=>x.trim()).filter(Boolean)
-    };
-    maintenanceSettingsCache={value:maintenance,expiresAt:now+10000};
-    let normal=defaultBurningEventSettings(),hyper=defaultHyperBurningEventSettings();
-    if(values[BURNING_EVENT_META_KEY])try{normal=cleanBurningEventSettings(JSON.parse(values[BURNING_EVENT_META_KEY]),'BURNING')}catch{}
-    if(values[HYPER_BURNING_EVENT_META_KEY])try{hyper=cleanBurningEventSettings(JSON.parse(values[HYPER_BURNING_EVENT_META_KEY]),'HYPER')}catch{}
-    const value={normal,hyper,active:activeBurningEvent({normal,hyper})};burningEventCache={at:now,value};
-  }
-  const maintenance=maintenanceSettingsCache?.value||await maintenanceSettings(env),burningPair=burningEventCache?.value||await burningEventPair(env);
-  return {user,maintenance,burningPair};
 }
 
 async function profile(env,user){
@@ -2596,37 +2545,48 @@ function weightedPick(items,getWeight){
   for(const item of items){roll-=getWeight(item);if(roll<0)return item}
   return items.at(-1);
 }
-async function acquisitionFeedItemsV1408(env){
+async function recentHighGradeItems(env){
   const now=Date.now();
-  if(acquisitionFeedCacheV1408&&acquisitionFeedCacheV1408.expiresAt>now)return acquisitionFeedCacheV1408.promise;
-  // v1408: 고정 20,000행 선조회와 장비 foundation 실행을 제거한다.
-  // 이미 존재하는 최근 획득 인덱스를 역순으로 읽다가 필요한 20건을 찾는 즉시 멈춘다.
-  const promise=env.DB.batch([
-    env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,uc.last_obtained_at AS created_at
-      FROM user_cards uc INDEXED BY idx_user_cards_last_obtained
-      JOIN users u ON u.id=uc.user_id
-      JOIN cards_effective_v1210 c ON c.id=uc.card_id
-      WHERE uc.quantity>0 AND uc.last_obtained_at IS NOT NULL
-        AND c.rarity IN ('MA','LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
-      ORDER BY uc.last_obtained_at DESC LIMIT 20`),
-    env.DB.prepare(`SELECT u.nickname,e.name AS equipment_name,e.rarity,i.acquired_at AS created_at,i.source_type AS source
-      FROM user_equipment_instances i
-      JOIN users u ON u.id=i.user_id
-      JOIN character_equipment_items e ON e.id=i.equipment_id
-      WHERE UPPER(e.rarity)='MYTHIC' AND e.is_active=1 AND u.status='ACTIVE'
-      ORDER BY i.id DESC LIMIT 20`)
-  ])
-    .then(([cardRows,equipmentRows])=>({
-      highGradeItems:cardRows?.results||[],
-      equipmentItems:equipmentRows?.results||[]
-    }))
-    .catch(error=>{if(acquisitionFeedCacheV1408?.promise===promise)acquisitionFeedCacheV1408=null;throw error});
-  acquisitionFeedCacheV1408={promise,expiresAt:now+120000};
+  if(recentHighGradeCache&&recentHighGradeCache.expiresAt>now)return recentHighGradeCache.promise;
+  // datetime(column) 정렬은 인덱스를 무력화해 매 요청마다 user_cards 전체를 읽었다.
+  // 최근 갱신 20,000건만 인덱스로 선별한 뒤 고등급 20건을 추려 최악의 읽기량을 제한한다.
+  const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,recent.last_obtained_at AS created_at
+    FROM (
+      SELECT user_id,card_id,last_obtained_at
+      FROM user_cards INDEXED BY idx_user_cards_last_obtained
+      WHERE quantity>0 AND last_obtained_at IS NOT NULL
+      ORDER BY last_obtained_at DESC LIMIT 20000
+    ) recent
+    JOIN users u ON u.id=recent.user_id
+    JOIN cards_effective_v1210 c ON c.id=recent.card_id
+    WHERE c.rarity IN ('MA','LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
+    ORDER BY recent.last_obtained_at DESC LIMIT 20`).all()
+    .then(rows=>rows.results||[])
+    .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
+  recentHighGradeCache={promise,expiresAt:now+60000};
   return promise;
 }
-// Legacy endpoints share the same bounded result cache.
-async function recentHighGradeItems(env){return (await acquisitionFeedItemsV1408(env)).highGradeItems}
-async function recentMythicEquipmentItems(env){return (await acquisitionFeedItemsV1408(env)).equipmentItems}
+async function recentMythicEquipmentItems(env){
+  const now=Date.now();
+  if(recentEquipmentFeedCache&&recentEquipmentFeedCache.expiresAt>now)return recentEquipmentFeedCache.promise;
+  // 실시간 소식 때문에 장비 전체를 읽지 않도록 최근 획득 20,000건만 PK 역순으로 제한한 뒤 신화 장비를 추린다.
+  // 현재 장비 등급 체계에서 MYTHIC이 최고 등급이며, 신화 미만 장비는 메인 획득 소식에 노출하지 않는다.
+  const promise=ensureEquipmentFoundation(env)
+    .then(()=>env.DB.prepare(`SELECT u.nickname,e.name AS equipment_name,e.rarity,recent.acquired_at AS created_at,recent.source_type AS source
+      FROM (
+        SELECT id,user_id,equipment_id,source_type,acquired_at
+        FROM user_equipment_instances
+        ORDER BY id DESC LIMIT 20000
+      ) recent
+      JOIN users u ON u.id=recent.user_id
+      JOIN character_equipment_items e ON e.id=recent.equipment_id
+      WHERE UPPER(e.rarity)='MYTHIC' AND u.status='ACTIVE'
+      ORDER BY recent.id DESC LIMIT 20`).all())
+    .then(rows=>rows.results||[])
+    .catch(error=>{if(recentEquipmentFeedCache?.promise===promise)recentEquipmentFeedCache=null;throw error});
+  recentEquipmentFeedCache={promise,expiresAt:now+60000};
+  return promise;
+}
 let cardAcquisitionGradeFxCache=null;
 async function cardAcquisitionEffectsByGrade(env){
   const now=Date.now();if(cardAcquisitionGradeFxCache&&cardAcquisitionGradeFxCache.expiresAt>now)return cardAcquisitionGradeFxCache.value;
@@ -2725,7 +2685,7 @@ async function loadDrawContext(env,pack){
   const key=String(pack.id),now=Date.now(),cached=drawContextCache.get(key);
   if(cached&&cached.expiresAt>now)return cached.promise;
   const promise=queryDrawContext(env,pack).catch(error=>{if(drawContextCache.get(key)?.promise===promise)drawContextCache.delete(key);throw error});
-  drawContextCache.set(key,{promise,expiresAt:now+30000});
+  drawContextCache.set(key,{promise,expiresAt:now+15000});
   return promise;
 }
 function drawPoolFromContext(ctx,rarity){
@@ -3033,30 +2993,8 @@ export async function onRequest(context){
     }
 
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
-
-    // V1407: 시작 화면은 상태·세션·버닝·팩을 한 번에 조회한다.
-    // 새로고침 폭주가 service/status + me/summary + burning + packs로 증폭되지 않도록
-    // 전역 업그레이드 게이트보다 먼저 처리하며, 캐시가 있는 브라우저는 packs=0으로 팩 조회도 생략한다.
-    if(path==='bootstrap'&&request.method==='GET'){
-      const includePacks=url.searchParams.get('packs')==='1';
-      // 인증·점검·버닝 설정은 한 D1 batch 왕복으로 합친다. 팩 카탈로그는 60초 isolate 캐시를 재사용한다.
-      const [state,packs]=await Promise.all([startupBootstrapStateV1407(request,env,context),includePacks?activePackCatalogRows(env):Promise.resolve([])]);
-      const {maintenance,user,burningPair}=state,bypass=canMaintenanceBypass(user,maintenance),activeBurning=burningPair.active;
-      return json({
-        ok:true,authenticated:Boolean(user),maintenance,bypass,
-        user:user?lightweightUserSummaryV1407(user,user.bootstrap_master_stars):null,
-        burningEvent:burningPublicState(activeBurning),
-        packs:includePacks?packs.map(row=>{const originalPrice=Number(row.price||0),price=burningDiscountPrice(originalPrice,activeBurning);return {...row,price,originalPrice,burningDiscountPercent:activeBurning.enabled?activeBurning.packDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}}):undefined,
-        serverNow:new Date().toISOString(),protocol:'BOOTSTRAP_V1407_BATCHED'
-      });
-    }
-
-    const hotRequestV1407=path==='auth/login'||path==='auth/logout'||path==='cards'||path==='packs'||path==='draw'||path==='draw/status'||path==='burning-event/status'||path==='user/runtime-command'||path==='me/summary'||path==='shell/summary'||path==='acquisition-feed'||path==='raid/status'||path.startsWith('territory-war/');
-    // 정리 작업은 사용자 접속·뽑기·실시간 폴링 경로에서는 시작하지 않는다.
-    // 조용한 일반 요청에서만 기존 1/64 샘플링을 사용한다.
-    if(!hotRequestV1407)scheduleBoundedStorageMaintenance(context,env,`${request.method}:${path}:${request.headers.get('cf-ray')||request.headers.get('x-request-id')||Math.floor(Date.now()/60000)}`);
-    const prestigeRequiredV1407=path==='cards'||path==='draw'||path==='me'||path==='me/collection'||(!hotRequestV1407&&!path.startsWith('admin/auth/'));
-    if(prestigeRequiredV1407)await ensurePrestigeCardStorage(env);
+    scheduleBoundedStorageMaintenance(context,env,`${request.method}:${path}:${request.headers.get('cf-ray')||request.headers.get('x-request-id')||Math.floor(Date.now()/60000)}`);
+    await ensurePrestigeCardStorage(env);
 
     // 관리자 로그인은 일반 유저 profile() 생성과 런타임 업그레이드에 의존하지 않는다.
     // OWNER 계정의 카드/로그 데이터가 많아도 인증 자체가 지연되지 않도록 최소 정보만 반환한다.
@@ -3101,15 +3039,13 @@ export async function onRequest(context){
 
     if(path==='shell/summary'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      // v1408: 사용자별 인벤토리 요약과 전역 획득 소식을 분리한다.
-      // 한 사용자의 화면 갱신이 20,000행 카드/장비 스캔을 유발하지 않도록 이 경로는 단일 집계만 수행한다.
-      const inventory=await env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first();
-      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},serverNow:new Date().toISOString()});
-    }
-    if(path==='acquisition-feed'&&request.method==='GET'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const feed=await acquisitionFeedItemsV1408(env);
-      return json({...feed,serverNow:new Date().toISOString()});
+      // 이 경로는 전역 업그레이드 게이트보다 먼저 처리되므로 신규 인덱스를 선행 보장한다.
+      await ensureD1HotpathIndexes(env);
+      const [inventory,highGrade,equipment]=await Promise.all([
+        env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
+        recentHighGradeItems(env),recentMythicEquipmentItems(env)
+      ]);
+      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},highGradeItems:highGrade,equipmentItems:equipment,serverNow:new Date().toISOString()});
     }
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
     if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
@@ -3117,11 +3053,10 @@ export async function onRequest(context){
     // 다른 기능의 미완료 업그레이드나 D1 잠금 때문에 레이드 화면까지 함께 타임아웃될 수 있다.
     // 레이드 스키마는 기존 안전 업그레이드에서 설치되므로 상태 조회에서는 경량 인덱스 확인만 수행한다.
     const vehicleDrawPath=path==='vehicle-draw/config'||path==='vehicle-draw/open'||path==='admin/vehicle-draw/settings'||path==='admin/vehicle-draw/grant';
-    const runtimeGateBypassV1407=path==='auth/login'||path==='auth/logout'||path==='cards'||path==='packs'||path==='draw'||path==='draw/status'||path==='burning-event/status'||path==='user/runtime-command'||path==='acquisition-feed'||path.startsWith('territory-war/');
     if(path==='raid/status')await ensureD1HotpathIndexes(env);
-    // 이동수단과 접속/뽑기/실시간 핵심 경로는 각 라우터의 전용 안전 보장만 사용한다.
-    // 완료된 운영 DB에서 매 cold isolate마다 전체 마이그레이션 마커·장비 foundation을 기다리지 않는다.
-    else if(vehicleDrawPath||runtimeGateBypassV1407){ /* lightweight hot path */ }
+    // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
+    // 전역 런타임 업그레이드와 장비 전체 foundation을 중복 실행하면 CMS 설정 조회가 타임아웃될 수 있다.
+    else if(vehicleDrawPath){ /* handled by _vehicle_draw.js lightweight ensure */ }
     else await ensureRuntimeUpgrades(env);
 
     const maintenance=await maintenanceSettings(env);
@@ -3186,11 +3121,9 @@ export async function onRequest(context){
       const user=await env.DB.prepare("SELECT * FROM users WHERE private_key_hash=?").bind(privateKeyHash).first();
       if(!user) return json({error:'개인키가 올바르지 않습니다.'},401);
       if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
-      const currentMaintenance=await maintenanceSettings(env),lightweight=payload.lightweight===true;
-      if(!lightweight)await ensurePrestigeCardStorage(env);
-      const masterStarRow=lightweight?await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first():null;
+      const currentMaintenance=await maintenanceSettings(env);
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
-      return json({token:await makeSession(env,user.id),user:lightweight?lightweightUserSummaryV1407(user,masterStarRow?.quantity):await profile(env,user),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance),lightweight});
+      return json({token:await makeSession(env,user.id),user:await profile(env,user),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
     }
     if(path==='auth/logout'&&request.method==='POST'){
       const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
@@ -3289,7 +3222,7 @@ export async function onRequest(context){
         const response={ok:true,itemCode,isReroll,remaining:Number(remaining),card:responseCard,duplicate,shardGained,masterStarGained,user:await profile(env,updated),requestId};
         await env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
         if(limitedAuditEvent)await finishLimitedAcquisitionAudit(env,limitedAuditEvent.eventKey,{status:'COMPLETED',stockAfter:limitedAuditEvent.stockAfter,quantityAfter:limitedAuditEvent.quantityBefore+1,isDuplicate:duplicate,stockReserved:true,cardGranted:true});
-        acquisitionFeedCacheV1408=null;
+        recentHighGradeCache=null;
         return json(response);
       }catch(error){
         if(consumed){await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=?').bind(user.id,itemCode).run();}
@@ -3338,14 +3271,6 @@ export async function onRequest(context){
       return json({requestId,status,error:String(row.error_message||''),createdAt:row.created_at||null,updatedAt:row.updated_at||null});
     }
     if(path==='draw'&&request.method==='POST'){
-      // 인증 D1 조회 전부터 한 isolate의 카드뽑기 진입량을 제한한다.
-      // 서버 묶음/자동 뽑기는 weight 2, 수동 단일 뽑기는 weight 1로 취급한다.
-      const admissionWeight=String(request.headers.get('x-cnine-auto-draw')||'')==='1'?2:1;
-      if(activeDrawAdmissionWeightV1407+admissionWeight>DRAW_ADMISSION_WEIGHT_LIMIT_V1407){
-        return json({error:'카드뽑기 요청이 한꺼번에 몰려 순서를 분산하고 있습니다.',code:'DRAW_ADMISSION_BUSY',retryable:true,retryAfterMs:5000+Math.floor(Math.random()*7000),status:'NOT_STARTED'},503);
-      }
-      activeDrawAdmissionWeightV1407+=admissionWeight;
-      try{
       const user=await authenticate(request,env);
       if(!user) return json({error:'로그인이 필요합니다.'},401);
       const payload=await readBody(request);
@@ -3362,19 +3287,6 @@ export async function onRequest(context){
       // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
       // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
       const compactDrawCard=card=>({id:String(card?.id||''),title:String(card?.title||''),grade:String(card?.grade||card?.rarity||'').toUpperCase()});
-      // 100장 자동뽑기는 같은 카드 메타를 결과마다 반복하지 않고 고유 카탈로그 한 번만 전송한다.
-      const drawTransportPayloadV1407=response=>{
-        if(!response||typeof response!=='object'||Number(response.batchRuns||1)<=1)return response;
-        const catalog=new Map();
-        for(const item of response.results||[]){const card=item?.card;if(card?.id&&!catalog.has(String(card.id)))catalog.set(String(card.id),card);}
-        const sourceUser=response.user||{};
-        const compactUser=response.user?{
-          profileScope:'DRAW_PARTIAL',id:Number(sourceUser.id||user?.id||0),nickname:String(sourceUser.nickname||user?.nickname||''),
-          coin:Number(sourceUser.coin||0),cardShards:Number(sourceUser.cardShards??sourceUser.card_shards??0),masterStars:Number(sourceUser.masterStars||0),
-          magicCrystals:Number(sourceUser.magicCrystals??sourceUser.magic_crystals??0),role:String(sourceUser.role||user?.role||'USER')
-        }:null;
-        return {...response,user:compactUser,transport:'COMPACT_BATCH_V1407',cardCatalog:[...catalog.values()],results:(response.results||[]).map(item=>({...item,card:compactDrawCard(item?.card)}))};
-      };
       const compactDrawReceipt=response=>{
         if(!response||typeof response!=='object')return response;
         const compact={...response};delete compact.user;delete compact.burningEvent;
@@ -3406,7 +3318,7 @@ export async function onRequest(context){
         const cardMap=new Map((cardRows.results||[]).map(card=>[String(card.id),cardWithAcquisitionEffect(card,fxByGrade)]));
         const results=(stored.results||[]).map(item=>({...item,card:{...(cardMap.get(String(item?.card?.id||''))||{}),...(item.card||{})}}));
         const rows=results.map(item=>({card_id:String(item?.card?.id||''),quantity:Number(item?.quantityAfter||0),breakthrough_level:0})).filter(row=>row.card_id&&row.quantity>0);
-        return drawTransportPayloadV1407({...stored,results,user:drawResponseProfileFromRows(latestUser,rows,{quantity:Number(stored?.grantProof?.masterStarAfter||0)})});
+        return {...stored,results,user:drawResponseProfileFromRows(latestUser,rows,{quantity:Number(stored?.grantProof?.masterStarAfter||0)})};
       };
       const finalizeDrawPayload=draft=>{
         const proof=draft?.grantProof||{};
@@ -3733,9 +3645,9 @@ export async function onRequest(context){
         grantsCommitted=true;
 
         // LIMITED 감사 성공 기록도 위 원자 batch에 포함되어 별도 완료 UPDATE 왕복이 없다.
-        acquisitionFeedCacheV1408=null;
+        recentHighGradeCache=null;
         scheduleDrawReceiptCleanup(context,env,requestId);
-        return json(drawTransportPayloadV1407(response));
+        return json(response);
       }catch(error){
         const transient=isTransientD1Error(error);
         const rawMessage=String(error?.message||'카드 지급 검증에 실패했습니다. 코인과 카드 지급은 처리되지 않았습니다.').slice(0,300);
@@ -3780,9 +3692,6 @@ export async function onRequest(context){
           try{if(limitedAuditEvents.length)await env.DB.batch(limitedAuditEvents.map(event=>limitedAuditFinishStatement(env,event.eventKey,{status:'COMPLETED_WITH_WARNING',stockAfter:event.stockAfter,quantityAfter:event.quantityAfter,stockReserved:true,cardGranted:true,errorMessage:message})))}catch(auditError){console.error('limited draw completion warning audit batch failed',auditError)}
         }
         throw error;
-      }
-      }finally{
-        activeDrawAdmissionWeightV1407=Math.max(0,activeDrawAdmissionWeightV1407-admissionWeight);
       }
     }
 
@@ -4906,10 +4815,10 @@ export async function onRequest(context){
     }
 
     if(path==='recent-high-grade'){
-      return json({items:(await acquisitionFeedItemsV1408(env)).highGradeItems});
+      return json({items:await recentHighGradeItems(env)});
     }
     if(path==='recent-equipment'){
-      return json({items:(await acquisitionFeedItemsV1408(env)).equipmentItems});
+      return json({items:await recentMythicEquipmentItems(env)});
     }
     if(path==='ranking'){
       const settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
@@ -5906,7 +5815,7 @@ export async function onRequest(context){
             env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'LIMITED_MANUAL_GRANT','USER_CARD',`${userId}:${cardId}`,JSON.stringify({quantity:quantityBefore,stock:stockBefore}),JSON.stringify(adminAfter)),
             env.DB.prepare("UPDATE limited_manual_grant_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId)
           ]);
-          acquisitionFeedCacheV1408=null;
+          recentHighGradeCache=null;
           return json(response);
         }catch(error){
           if(stockReserved)await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(cardId).run();
