@@ -1,0 +1,47 @@
+CNINE CARD v1402 정적·SQLite 통합 검증 보고서
+
+PASS
+1. node --check
+- functions/_territory_war.js
+- functions/api/[[path]].js
+- functions/_storage_cleanup.js
+- functions/_data/schema.js
+- js/territory-war-v1362.js
+- admin/territory-war-admin-v1362.js
+
+2. 신규 D1 SCHEMA 전체 실행
+- SCHEMA 41개 문장 실행 성공
+- V3 테이블 7개 생성 확인
+- V3 인덱스 8개 생성 확인
+
+3. 전선 전투 통합
+- 중앙(index 4)에서 시작
+- A 진영 5회 거점 승리 후 B 본진(index 8) 함락
+- 각 승리마다 전선 +1 이동
+- B 승리 시 전선 -1 이동 확인
+- 최종 승리 회차 FINISHED 및 winner_side=A 확인
+
+4. 중복·응답 유실 복구
+- 같은 requestId 재전송 시 피해 중복 적용 없음
+- 행동력 중복 차감 없음
+- APPLIED 상태에서 재시도 시 다음 전선 1회만 생성
+- 본진 APPLIED 상태 재시도 시 정산 1회만 완료
+
+5. 정산·보상
+- 승리/패배/무승부·최소 공격 횟수 분기 확인
+- 누적 피해 추가 코인 계산 확인
+- 보상 수령 후 users 잔액 및 claimed_at 일치 확인
+
+6. 자동 정리
+- PENDING/APPLIED 공격 보호 확인
+- 완료 7일/실패 2일 공격만 삭제 확인
+- PENDING 관리자 작업 보호 확인
+- 미수령 보상 보호 및 365일 초과 수령 보상만 삭제 확인
+
+7. 모집 부하 방지
+- 모집 종료 후 최소 인원 미달 시 종료 시각 15분 연장
+- 3초 폴링마다 반복 편성 쿼리가 실행되지 않도록 확인
+
+주의
+- 실제 Cloudflare 운영 D1에는 접속하거나 데이터를 변경하지 않음
+- 배포 후 CMS에서 공성 HP·피해 계수·행동력 값을 운영 인원에 맞게 조정 필요

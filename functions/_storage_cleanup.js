@@ -42,7 +42,9 @@ const USER_DELETE_SPECS = [
   ['wago_daily_quest_claims',['user_id']],['wago_daily_quest_progress',['user_id']],
   ['wago_extension_reward_receipts',['user_id']],['user_runtime_commands',['user_id']],
   ['draw_request_receipts',['user_id']],['draw_request_receipts_v2',['user_id']],
-  ['draw_grant_assertions',['user_id']]
+  ['draw_grant_assertions',['user_id']],
+  ['territory_war_v3_users',['user_id']],['territory_war_v3_actions',['user_id']],
+  ['territory_war_v3_rewards',['user_id']]
 ];
 
 const ESTIMATE_SPECS = [
@@ -678,7 +680,10 @@ const AUTO_STORAGE_INDEX_TASKS=Object.freeze([
   {key:'captain_team_name_cleanup',table:'captain_team_name_logs',columns:['created_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_team_name_cleanup_v1401 ON captain_team_name_logs(created_at,id)'},
   {key:'captain_cooldown_cleanup',table:'captain_cooldown_reset_events',columns:['created_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_cooldown_cleanup_v1401 ON captain_cooldown_reset_events(created_at,request_id)'},
   {key:'captain_round_reset_cleanup',table:'captain_round_reset_events',columns:['created_at','request_id'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_round_reset_cleanup_v1401 ON captain_round_reset_events(created_at,request_id)'},
-  {key:'captain_week_reset_cleanup',table:'captain_week_resets',columns:['created_at','week_key'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_week_reset_cleanup_v1401 ON captain_week_resets(created_at,week_key)'}
+  {key:'captain_week_reset_cleanup',table:'captain_week_resets',columns:['created_at','week_key'],sql:'CREATE INDEX IF NOT EXISTS idx_captain_week_reset_cleanup_v1401 ON captain_week_resets(created_at,week_key)'},
+  {key:'twv3_actions_cleanup',table:'territory_war_v3_actions',columns:['status','updated_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_twv3_actions_cleanup_v1402 ON territory_war_v3_actions(status,updated_at,id)'},
+  {key:'twv3_rewards_cleanup',table:'territory_war_v3_rewards',columns:['claimed_at','created_at','round_id'],sql:'CREATE INDEX IF NOT EXISTS idx_twv3_rewards_cleanup_v1402 ON territory_war_v3_rewards(claimed_at,created_at,round_id)'},
+  {key:'twv3_admin_cleanup',table:'territory_war_v3_admin_operations',columns:['status','updated_at'],sql:'CREATE INDEX IF NOT EXISTS idx_twv3_admin_cleanup_v1402 ON territory_war_v3_admin_operations(status,updated_at)'}
 ]);
 const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
   {key:'session_timestamp_normalize',table:'sessions',sql:`UPDATE sessions SET expires_at=strftime('%Y-%m-%d %H:%M:%S',datetime(expires_at))
@@ -807,7 +812,18 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
   {key:'territory_admin_operations',table:'territory_war_admin_operations',sql:`DELETE FROM territory_war_admin_operations WHERE rowid IN (
     SELECT rowid FROM territory_war_admin_operations WHERE
       ((status='COMPLETED' AND updated_at<datetime('now','-30 days')) OR (status='FAILED' AND updated_at<datetime('now','-7 days')))
-    ORDER BY updated_at LIMIT ?)`}
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'twv3_actions',table:'territory_war_v3_actions',sql:`DELETE FROM territory_war_v3_actions WHERE id IN (
+    SELECT id FROM territory_war_v3_actions WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-7 days')) OR (status='FAILED' AND updated_at<datetime('now','-2 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'twv3_admin_operations',table:'territory_war_v3_admin_operations',sql:`DELETE FROM territory_war_v3_admin_operations WHERE rowid IN (
+    SELECT rowid FROM territory_war_v3_admin_operations WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-30 days')) OR (status='FAILED' AND updated_at<datetime('now','-7 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'twv3_claimed_rewards',table:'territory_war_v3_rewards',sql:`DELETE FROM territory_war_v3_rewards WHERE rowid IN (
+    SELECT rowid FROM territory_war_v3_rewards WHERE claimed_at IS NOT NULL AND claimed_at<datetime('now','-365 days')
+    ORDER BY claimed_at LIMIT ?)`}
 ]);
 function autoMaintenanceHash(value){let h=2166136261;for(const ch of String(value||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 async function runBoundedStorageIndexMaintenance(env){

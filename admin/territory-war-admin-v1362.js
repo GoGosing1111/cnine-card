@@ -1,56 +1,72 @@
 (()=>{
- const token=()=>localStorage.getItem('cnine_admin_token')||'';
- async function api(path,opt={}){const r=await fetch('/api/'+path,{...opt,headers:{'Content-Type':'application/json','Authorization':'Bearer '+token(),...(opt.headers||{})}});const d=await r.json().catch(()=>({}));if(!r.ok){const e=new Error(d.error||'요청 실패');Object.assign(e,d,{status:r.status});throw e}return d}
- const CACHE_MS=30000,pendingOperationKeys=new Map();let loadedAt=0,loadPromise=null,currentRoundId=0,actionBusy='';
- const viewVisible=()=>{const view=document.getElementById('view-territorywar');return Boolean(view&&!view.hidden&&!document.getElementById('cms')?.hidden)};
- const operationKey=action=>{let key=pendingOperationKeys.get(action);if(!key){key=`TW_${action}:${crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`}`;pendingOperationKeys.set(action,key)}return key};
- function mount(){const root=document.getElementById('territoryWarAdminRoot');if(!root||document.getElementById('territoryWarAdminV1378'))return;root.innerHTML='';const box=document.createElement('section');box.id='territoryWarAdminV1378';box.className='panel';box.innerHTML=`
- <div class="maintenanceHead"><div><small>TERRITORY WAR V1378</small><h2>영토전 운영 관리</h2><p>운영 모드 OFF 시 모집·편성·전투가 즉시 중지되며, TEST/ON 전환 시 새 모집 회차가 시작됩니다.</p></div><button id="twReload" class="ghost">새로고침</button></div>
- <div class="formgrid">
-  <label class="field"><span>운영 모드</span><select id="twMode"><option>OFF</option><option>TEST</option><option>ON</option></select></label>
-  <label class="field"><span>모집 시간(시간)</span><input id="twRecruit" type="number" min="1"></label>
-  <label class="field"><span>편성 공개·준비 시간(분)</span><input id="twPrep" type="number" min="0"></label>
-  <label class="field"><span>영토전 진행 시간(분)</span><input id="twRound" type="number" min="10"></label>
-  <label class="field"><span>개인 행동력 최대</span><input id="twEnergyMax" type="number" min="1"></label>
-  <label class="field"><span>개인 행동력 충전 간격(분)</span><input id="twEnergyMin" type="number" min="1"></label>
-  <label class="field"><span>일반 적 영토 점령 승점</span><input id="twNormalWins" type="number" min="1"></label>
-  <label class="field"><span>중앙 영토 점령 승점</span><input id="twCenterWins" type="number" min="1"></label>
-  <label class="field"><span>소대전 승리 점수</span><input id="twBattlePoint" type="number" min="0"></label>
-  <label class="field"><span>일반 영토 점령 점수</span><input id="twCapturePoint" type="number" min="0"></label>
-  <label class="field"><span>중앙 영토 점령 점수</span><input id="twCenterCapturePoint" type="number" min="0"></label>
-  <label class="field"><span>종료 시 일반 영토 점수</span><input id="twFinalNormal" type="number" min="0"></label>
-  <label class="field"><span>종료 시 중앙 영토 점수</span><input id="twFinalCenter" type="number" min="0"></label>
-  <label class="field"><span>종료 시 적 본진 인접 점수</span><input id="twFinalFrontier" type="number" min="0"></label>
-  <label class="field"><span>무방비 영토 점령 대기(초)</span><input id="twCaptureSec" type="number" min="5"></label>
-  <label class="field"><span>자동 지휘권 위임(분)</span><input id="twDelegate" type="number" min="1"></label>
-  <label class="field"><span>최근 전투 보관 건수</span><input id="twRecent" type="number" min="10" max="200"></label>
-  <label class="field"><span>회차 승리 진영 코인</span><input id="twWinner" type="number" min="0"></label>
-  <label class="field"><span>회차 패배 진영 코인</span><input id="twLoser" type="number" min="0"></label>
-  <label class="field"><span>회차 무승부 코인</span><input id="twDraw" type="number" min="0"></label>
-  <label class="field"><span>회차 참가 조각</span><input id="twShards" type="number" min="0"></label>
-  <label class="field"><span>공헌도 1점당 추가 코인</span><input id="twContributionCoin" type="number" min="0"></label>
-  <label class="field"><span>회차 보상 최소 실전 횟수</span><input id="twMinBattles" type="number" min="0"><small>승리+패배 합계 기준</small></label>
- </div>
- <div class="panel" style="margin-top:14px;border:1px solid #385a7d;background:linear-gradient(180deg,#0e1c2d,#09131f)">
-  <div class="maintenanceHead"><div><small>DUEL WIN REWARD</small><h3 style="margin:5px 0">개별 전투 1승 보상</h3><p>영토전 V2 1대1 전투에서 실제 승리한 유저에게 즉시 지급됩니다. 무방비 영토 점령은 제외됩니다.</p></div></div>
-  <div class="formgrid">
-   <label class="field"><span>1승당 코인</span><input id="twDuelCoin" type="number" min="0" step="1"><small>0으로 설정하면 코인을 지급하지 않습니다.</small></label>
-   <label class="field"><span>1승당 카드 조각</span><input id="twDuelShards" type="number" min="0" step="1"><small>0으로 설정하면 조각을 지급하지 않습니다.</small></label>
-   <label class="field"><span>일일 최대 보상 횟수</span><input id="twDuelLimit" type="number" min="0" step="1"><small>0이면 제한 없이 승리할 때마다 지급합니다.</small></label>
-  </div>
-  <div class="inlineNotice">코인과 조각은 서로 독립적으로 저장되며 둘 중 하나만 지급하도록 설정할 수 있습니다.</div>
- </div>
- <div class="bar" style="flex-wrap:wrap"><button id="twSave">전체 설정 저장</button><button id="twStart">모집 강제마감·편성</button><button id="twFinish" class="danger">회차 종료·신규 모집</button></div>
- <div id="twState" class="inlineNotice">불러오는 중...</div>
- <div class="panel" style="margin-top:14px"><h3>소대 지휘권 강제 지정</h3><div class="formgrid"><label class="field"><span>진영</span><select id="twCmdSide"><option>A</option><option>B</option></select></label><label class="field"><span>소대 번호</span><input id="twCmdSquad" type="number" min="1"></label><label class="field"><span>지휘 유저 ID</span><input id="twCmdUser" type="number" min="1"></label></div><button id="twCommander">지휘권 변경</button></div>`;root.appendChild(box);const q=id=>box.querySelector('#'+id);
- const ids={mode:'twMode',recruitmentHours:'twRecruit',preparationMinutes:'twPrep',roundMinutes:'twRound',energyMax:'twEnergyMax',energyMinutes:'twEnergyMin',normalCaptureWins:'twNormalWins',centerCaptureWins:'twCenterWins',battleWinPoints:'twBattlePoint',territoryCapturePoints:'twCapturePoint',centerCapturePoints:'twCenterCapturePoint',finalNormalPoints:'twFinalNormal',finalCenterPoints:'twFinalCenter',finalFrontierPoints:'twFinalFrontier',unguardedCaptureSeconds:'twCaptureSec',leaderDelegateMinutes:'twDelegate',recentBattleLimit:'twRecent',individualWinCoin:'twDuelCoin',individualWinShards:'twDuelShards',individualWinDailyLimit:'twDuelLimit',winnerCoin:'twWinner',loserCoin:'twLoser',drawCoin:'twDraw',participationShards:'twShards',contributionCoinPerPoint:'twContributionCoin',settlementMinBattles:'twMinBattles'};
- async function load(force=false){if(!viewVisible())return;if(!force&&loadedAt&&Date.now()-loadedAt<CACHE_MS)return;if(loadPromise)return loadPromise;q('twState').textContent='불러오는 중...';loadPromise=(async()=>{try{const d=await api('admin/territory-war/settings'),s=d.settings||{},r=d.state?.round||{};currentRoundId=Number(r.id||0);for(const[k,id]of Object.entries(ids))if(q(id))q(id).value=s[k]??'';const squads=d.state?.squads||[],orders=d.state?.orders||[];const off=String(s.mode||'OFF').toUpperCase()==='OFF';q('twState').textContent=off?'영토전 운영 중지 · 신규 모집/자동 편성/전투/점령이 모두 차단되었습니다.':`회차 #${r.id??'-'} · ${r.status||'-'} · 신청 ${(d.state?.registrations||[]).length}명 · 소대 ${squads.length}개 · 진행 작전 ${orders.length}개 · A ${r.a_score||0} : ${r.b_score||0} B`;q('twStart').disabled=off||Boolean(actionBusy);q('twFinish').disabled=off||Boolean(actionBusy);loadedAt=Date.now();}catch(e){q('twState').textContent=e.message}finally{loadPromise=null}})();return loadPromise}
- function setActionBusy(action=''){actionBusy=action;['twStart','twFinish','twSave','twCommander'].forEach(id=>{const b=q(id);if(b)b.disabled=Boolean(action)});const top=document.getElementById('twAdminTopReload');if(top)top.disabled=Boolean(action)}
- async function runOperation(action,path){if(actionBusy)return;const key=operationKey(action);setActionBusy(action);try{await api(path,{method:'POST',body:JSON.stringify({operationKey:key,roundId:currentRoundId||null})});pendingOperationKeys.delete(action);loadedAt=0;await load(true)}catch(e){alert(e.message)}finally{setActionBusy('')}}
-
- q('twReload').onclick=()=>load(true);const top=document.getElementById('twAdminTopReload');if(top)top.onclick=()=>load(true);q('twSave').onclick=async()=>{if(actionBusy)return;setActionBusy('SAVE');try{const body={};for(const[k,id]of Object.entries(ids))body[k]=q(id).value;await api('admin/territory-war/settings',{method:'POST',body:JSON.stringify(body)});loadedAt=0;await load(true);alert('영토전 설정 저장 완료')}catch(e){alert(e.message)}finally{setActionBusy('')}};
- q('twStart').onclick=async()=>{if(!confirm('모집을 마감하고 진영·소대를 편성합니까? 준비 시간 후 자동 시작됩니다.'))return;await runOperation('START','admin/territory-war/start')};
- q('twFinish').onclick=async()=>{if(!confirm('현재 ACTIVE 회차를 종료하고 신규 모집을 시작합니까?'))return;await runOperation('FINISH','admin/territory-war/finish')};
- q('twCommander').onclick=async()=>{if(actionBusy)return;setActionBusy('COMMANDER');try{await api('admin/territory-war/commander',{method:'POST',body:JSON.stringify({side:q('twCmdSide').value,squadNo:q('twCmdSquad').value,userId:q('twCmdUser').value})});loadedAt=0;await load(true);alert('지휘권 변경 완료')}catch(e){alert(e.message)}finally{setActionBusy('')}};if(viewVisible())void load(false);}
- new MutationObserver(()=>{mount();if(viewVisible())void load(false)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});addEventListener('load',()=>{mount();if(viewVisible())void load(false)});mount();if(viewVisible())void load(false);
+  const token=()=>localStorage.getItem('cnine_admin_token')||'';
+  async function api(path,options={}){const response=await fetch('/api/'+path,{...options,headers:{'content-type':'application/json','authorization':`Bearer ${token()}`,...(options.headers||{})}}),data=await response.json().catch(()=>({}));if(!response.ok){const error=new Error(data.error||'요청 실패');Object.assign(error,data,{status:response.status});throw error}return data}
+  const CACHE_MS=30000,pendingKeys=new Map();let loadedAt=0,loadPromise=null,currentRoundId=0,busy='',triggerLoad=()=>{};
+  const visible=()=>{const view=document.getElementById('view-territorywar');return Boolean(view&&!view.hidden&&!document.getElementById('cms')?.hidden)};
+  const opKey=action=>{let key=pendingKeys.get(action);if(!key){key=`TW3_${action}:${crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`}`;pendingKeys.set(action,key)}return key};
+  function mount(){
+    const root=document.getElementById('territoryWarAdminRoot');if(!root||document.getElementById('territoryWarAdminV1402'))return;
+    root.innerHTML='';const box=document.createElement('section');box.id='territoryWarAdminV1402';box.className='panel';box.innerHTML=`
+      <div class="maintenanceHead"><div><small>TERRITORY WAR V3 · FRONTLINE SIEGE</small><h2>영토전 전선 공성 관리</h2><p>소대·이동·다중 영토 전투를 제거하고, 하나의 교전지에서 양 팀 공성 HP를 겨루는 방식입니다.</p></div><button id="tw3Reload" class="ghost">새로고침</button></div>
+      <div class="formgrid">
+        <label class="field"><span>운영 모드</span><select id="tw3Mode"><option>OFF</option><option>TEST</option><option>ON</option></select></label>
+        <label class="field"><span>모집 시간(시간)</span><input id="tw3Recruit" type="number" min="1"></label>
+        <label class="field"><span>전투 준비 시간(분)</span><input id="tw3Prep" type="number" min="0"></label>
+        <label class="field"><span>회차 제한 시간(분)</span><input id="tw3Round" type="number" min="10"></label>
+        <label class="field"><span>최소 참가 인원</span><input id="tw3MinParticipants" type="number" min="2"></label>
+        <label class="field"><span>개인 행동력 최대</span><input id="tw3EnergyMax" type="number" min="1"></label>
+        <label class="field"><span>행동력 회복 간격(분)</span><input id="tw3EnergyMinutes" type="number" min="1"></label>
+        <label class="field"><span>공격 1회 행동력 비용</span><input id="tw3EnergyCost" type="number" min="1"></label>
+        <label class="field"><span>실시간 갱신 간격(초)</span><input id="tw3Poll" type="number" min="2" max="15"></label>
+      </div>
+      <div class="panel" style="margin-top:14px;border:1px solid #385a7d;background:linear-gradient(180deg,#0e1c2d,#09131f)">
+        <div class="maintenanceHead"><div><small>SIEGE HP</small><h3>거점별 공성 체력</h3><p>중앙 기본 HP에 거점 종류별 배수를 곱합니다. 양 팀은 현재 교전지에서 동일한 최대 HP로 시작합니다.</p></div></div>
+        <div class="formgrid">
+          <label class="field"><span>중앙 기본 공성 HP</span><input id="tw3BaseHp" type="number" min="1000"></label>
+          <label class="field"><span>전초기지 HP 배수</span><input id="tw3OutpostHp" type="number" min="1" step="0.1"></label>
+          <label class="field"><span>중간거점 HP 배수</span><input id="tw3MidHp" type="number" min="1" step="0.1"></label>
+          <label class="field"><span>최종관문 HP 배수</span><input id="tw3GateHp" type="number" min="1" step="0.1"></label>
+          <label class="field"><span>본진 HP 배수</span><input id="tw3HomeHp" type="number" min="1" step="0.1"></label>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <div class="maintenanceHead"><div><small>DAMAGE MODEL</small><h3>개인 공성 피해</h3><p>등록 PVP 덱 전투력의 제곱근에 피해 계수를 적용하여 고전투력 독점을 완화합니다.</p></div></div>
+        <div class="formgrid">
+          <label class="field"><span>피해 계수</span><input id="tw3DamageScale" type="number" min="0.1" step="0.1"></label>
+          <label class="field"><span>최소 1회 피해</span><input id="tw3MinDamage" type="number" min="1"></label>
+          <label class="field"><span>최대 1회 피해</span><input id="tw3MaxDamage" type="number" min="1"></label>
+          <label class="field"><span>피해 변동폭(±%)</span><input id="tw3Variance" type="number" min="0" max="40"></label>
+          <label class="field"><span>최근 공격 표시 수</span><input id="tw3Recent" type="number" min="5" max="50"></label>
+        </div>
+      </div>
+      <div class="panel" style="margin-top:14px">
+        <div class="maintenanceHead"><div><small>SETTLEMENT</small><h3>회차 정산 보상</h3></div></div>
+        <div class="formgrid">
+          <label class="field"><span>승리 진영 코인</span><input id="tw3Winner" type="number" min="0"></label>
+          <label class="field"><span>패배 진영 코인</span><input id="tw3Loser" type="number" min="0"></label>
+          <label class="field"><span>무승부 코인</span><input id="tw3Draw" type="number" min="0"></label>
+          <label class="field"><span>참가 카드 조각</span><input id="tw3Shards" type="number" min="0"></label>
+          <label class="field"><span>피해 1,000당 추가 코인</span><input id="tw3Contribution" type="number" min="0"></label>
+          <label class="field"><span>기여 추가 코인 상한</span><input id="tw3ContributionMax" type="number" min="0"></label>
+          <label class="field"><span>보상 최소 공격 횟수</span><input id="tw3MinAttacks" type="number" min="0"></label>
+        </div>
+      </div>
+      <div class="bar" style="flex-wrap:wrap;margin-top:14px"><button id="tw3Save">전체 설정 저장</button><button id="tw3Start">모집 강제마감·진영 편성</button><button id="tw3Finish" class="danger">현재 회차 강제 종료</button></div>
+      <div id="tw3State" class="inlineNotice">메뉴 진입 시 상태를 불러옵니다.</div>
+      <div id="tw3TeamSummary" class="panel" style="margin-top:14px"></div>`;
+    root.appendChild(box);const q=id=>box.querySelector('#'+id);
+    const fields={mode:'tw3Mode',recruitmentHours:'tw3Recruit',preparationMinutes:'tw3Prep',roundMinutes:'tw3Round',minParticipants:'tw3MinParticipants',energyMax:'tw3EnergyMax',energyMinutes:'tw3EnergyMinutes',attackEnergyCost:'tw3EnergyCost',realtimePollSeconds:'tw3Poll',baseSiegeHp:'tw3BaseHp',outpostHpMultiplier:'tw3OutpostHp',midHpMultiplier:'tw3MidHp',gateHpMultiplier:'tw3GateHp',homeHpMultiplier:'tw3HomeHp',damageScale:'tw3DamageScale',minDamage:'tw3MinDamage',maxDamage:'tw3MaxDamage',damageVariancePercent:'tw3Variance',recentActionLimit:'tw3Recent',winnerCoin:'tw3Winner',loserCoin:'tw3Loser',drawCoin:'tw3Draw',participationShards:'tw3Shards',contributionCoinPer1000Damage:'tw3Contribution',maxContributionCoin:'tw3ContributionMax',settlementMinAttacks:'tw3MinAttacks'};
+    function setBusy(action=''){busy=action;['tw3Save','tw3Start','tw3Finish','tw3Reload'].forEach(id=>{const button=q(id);if(button)button.disabled=Boolean(action)})}
+    function renderTeamSummary(state){const round=state?.round||{},front=state?.front||{},users=state?.adminUsers||[],a=users.filter(row=>row.side==='A'),b=users.filter(row=>row.side==='B');q('tw3TeamSummary').innerHTML=`<div class="maintenanceHead"><div><small>LIVE FRONT</small><h3>${front.node_name||'교전지 준비 중'}</h3><p>현재 전선 ${Number(round.current_front_index??4)+1}/9 · A ${Number(front.a_hp||0).toLocaleString()} / ${Number(front.a_max_hp||0).toLocaleString()} · B ${Number(front.b_hp||0).toLocaleString()} / ${Number(front.b_max_hp||0).toLocaleString()}</p></div></div><div class="formgrid"><div class="inlineNotice"><b>A 진영 ${a.length}명</b><span>총 전투력 ${a.reduce((sum,row)=>sum+Number(row.deck_power||0),0).toLocaleString()} · 누적 피해 ${Number(round.a_total_damage||0).toLocaleString()}</span></div><div class="inlineNotice"><b>B 진영 ${b.length}명</b><span>총 전투력 ${b.reduce((sum,row)=>sum+Number(row.deck_power||0),0).toLocaleString()} · 누적 피해 ${Number(round.b_total_damage||0).toLocaleString()}</span></div></div>`}
+    async function load(force=false){if(!visible())return;if(!force&&loadedAt&&Date.now()-loadedAt<CACHE_MS)return;if(loadPromise)return loadPromise;q('tw3State').textContent='불러오는 중...';loadPromise=(async()=>{try{const data=await api('admin/territory-war/settings'),settings=data.settings||{},state=data.state||{},round=state.round||{},front=state.front||{};currentRoundId=Number(round.id||0);for(const[key,id]of Object.entries(fields))if(q(id))q(id).value=settings[key]??'';q('tw3State').textContent=String(settings.mode||'OFF')==='OFF'?'영토전 운영 중지 · 신규 모집과 공성 공격이 차단되었습니다.':`회차 #${round.id||'-'} · ${round.status||'-'} · 참가 ${state.counts?.total||0}명 · 현재 전선 ${front.node_name||'-'} · A ${Number(front.a_hp||0).toLocaleString()} : ${Number(front.b_hp||0).toLocaleString()} B`;q('tw3Start').disabled=String(settings.mode||'OFF')==='OFF'||Boolean(busy);q('tw3Finish').disabled=String(settings.mode||'OFF')==='OFF'||Boolean(busy);renderTeamSummary(state);loadedAt=Date.now()}catch(error){q('tw3State').textContent=error.message}finally{loadPromise=null}})();return loadPromise}
+    triggerLoad=load;
+    async function operation(action,path){if(busy)return;setBusy(action);try{await api(path,{method:'POST',body:JSON.stringify({operationKey:opKey(action),roundId:currentRoundId||null})});pendingKeys.delete(action);loadedAt=0;await load(true)}catch(error){alert(error.message)}finally{setBusy('')}}
+    q('tw3Reload').onclick=()=>load(true);const topReload=document.getElementById('twAdminTopReload');if(topReload)topReload.onclick=()=>load(true);
+    q('tw3Save').onclick=async()=>{if(busy)return;setBusy('SAVE');try{const body={};for(const[key,id]of Object.entries(fields))body[key]=q(id).value;await api('admin/territory-war/settings',{method:'POST',body:JSON.stringify(body)});loadedAt=0;await load(true);alert('영토전 V3 설정 저장 완료')}catch(error){alert(error.message)}finally{setBusy('')}};
+    q('tw3Start').onclick=async()=>{if(!confirm('모집을 마감하고 A·B 진영을 자동 편성합니까?'))return;await operation('START','admin/territory-war/start')};
+    q('tw3Finish').onclick=async()=>{if(!confirm('현재 회차를 전선 위치와 공성 HP 기준으로 즉시 정산합니까?'))return;await operation('FINISH','admin/territory-war/finish')};
+    if(visible())void load(false);
+  }
+  new MutationObserver(()=>{mount();if(visible())void triggerLoad(false)}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
+  addEventListener('load',()=>{mount();if(visible())void triggerLoad(false)});mount();if(visible())void triggerLoad(false);
 })();
