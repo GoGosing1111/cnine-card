@@ -5013,6 +5013,38 @@ export async function onRequest(context){
       }
     }
 
+    if(path==='admin/coupon-create-permanent-v3'){
+      const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
+      const p=await readBody(request);
+      const code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40);
+      const rewardType=String(p.rewardType||'').trim().toUpperCase();
+      const rewardAmount=Number(p.rewardAmount);
+      const maxUses=Number(p.maxUses);
+      const rewardSpecs={COIN:{max:100000000,label:'코인'},MASTER_STAR:{max:1000000,label:'마스터의 별'},PREMIUM_CUBE:{max:100000,label:'프리미엄 큐브'},EQUIPMENT_SUPPLY_BOX:{max:100000,label:'장비 보급상자'}};
+      const spec=rewardSpecs[rewardType];
+      if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
+      if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
+      if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>spec.max)return json({error:`${spec.label} 지급 수량을 확인하세요.`},400);
+      if(!Number.isInteger(maxUses)||maxUses<1||maxUses>1000000)return json({error:'전체 최대 사용 횟수를 확인하세요.'},400);
+      const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? LIMIT 1').bind(code).first();
+      if(exists)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
+      try{
+        await env.DB.batch([
+          env.DB.prepare(`INSERT INTO coupons(code,reward_coin,reward_type,reward_amount,starts_at,ends_at,max_uses,is_active,created_by) VALUES(?,?,?,?,NULL,NULL,?,1,?)`).bind(code,rewardType==='COIN'?rewardAmount:0,rewardType,rewardAmount,maxUses,admin.id),
+          env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'COUPON_CREATE_V3','COUPON',code,null,JSON.stringify({code,rewardType,rewardAmount,maxUses,permanent:true}))
+        ]);
+        const coupon=await env.DB.prepare('SELECT * FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
+        if(!coupon)return json({error:'쿠폰 저장 후 조회에 실패했습니다.'},500);
+        return json({ok:true,coupon,rewardLabel:spec.label},201);
+      }catch(error){
+        const message=String(error?.message||'');
+        if(/UNIQUE|constraint|already exists/i.test(message))return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
+        console.error('coupon v3 create failed',message);
+        return json({error:'영구 쿠폰 저장 중 오류가 발생했습니다.'},500);
+      }
+    }
+
     if(path==='admin/coupons'||path==='admin/coupons-v2'){
       const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[]});}

@@ -1,0 +1,7 @@
+CNINE CARD v1386 coupon permanent reward hard fix
+
+- Replaces coupon create button DOM id so stale cached CMS scripts cannot bind the old coin-only handler.
+- Adds dedicated POST admin/coupon-create-permanent-v3 route.
+- Validates rewardType and rewardAmount independently for COIN, MASTER_STAR, PREMIUM_CUBE, EQUIPMENT_SUPPLY_BOX.
+- Equipment box coupons never inspect rewardCoin.
+- Keeps existing coupon list, activation, deletion and usage history.
