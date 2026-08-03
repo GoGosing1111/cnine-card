@@ -1414,7 +1414,7 @@ async function claimRiftReward(){const button=document.getElementById('riftClaim
 async function abandonRift(silent=false,capturedRunId='',button=null){const runId=String(capturedRunId||riftState.data?.run?.runId||'');if(!runId){if(!silent){await loadRiftView();alert('진행 중인 원정 정보를 다시 불러왔습니다. 원정 포기를 다시 시도해주세요.')}return}if(!silent&&!confirm('현재 원정을 포기할까요?\n누적한 임시 보상과 원정 강화가 모두 사라집니다.'))return;if(button)button.disabled=true;try{await apiRequest('rift/abandon',{method:'POST',body:JSON.stringify({runId})});riftState.data={...(riftState.data||{}),run:null};if(!silent)await loadRiftView()}catch(e){if(!silent)alert(e.message);if(button?.isConnected)button.disabled=false}}
 
 
-let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,lastHpUniqueKey:'',claimRetryTimer:null,claimInFlight:false,loadSeq:0,uiEpoch:0,claimToken:0,statusController:null};
+let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,lastHpUniqueKey:'',claimRetryTimer:null,claimInFlight:false,loadSeq:0,uiEpoch:0,claimToken:0,statusController:null,livePatchCount:0,renderedInstanceId:0,renderedParticipantOrder:''};
 function stopRaidTimer(){if(raidState.timer){clearTimeout(raidState.timer);raidState.timer=null}}
 function stopRaidResultAdvanceTimer(){if(raidState.resultAdvanceTimer){clearTimeout(raidState.resultAdvanceTimer);raidState.resultAdvanceTimer=null}}
 function stopRaidClaimRetryTimer(){if(raidState.claimRetryTimer){clearTimeout(raidState.claimRetryTimer);raidState.claimRetryTimer=null}}
@@ -1484,12 +1484,26 @@ async function loadRaidView(){
     const currentId=Math.max(0,Number(d?.current?.id||0));
     if(currentId)raidState.selectedRoomId=currentId;
     else if(requestedRoomId&&Number(raidState.selectedRoomId||0)!==requestedRoomId)return;
-    raidState.data=d;renderRaidView(d);scheduleRaidPoll(d);
+    raidState.data=d;if(!patchRaidLiveView(d))renderRaidView(d);scheduleRaidPoll(d);
   }catch(e){
     if(e?.name==='AbortError'||controller.signal.aborted)return;
     if(requestSeq!==raidState.loadSeq||!box.isConnected||box.hidden||document.hidden)return;
     stopRaidTimer();box.innerHTML=`<section class="raid-empty"><h2>월드 레이드</h2><p>${escapeHtml(e.message)}</p></section>`;
   }finally{if(raidState.statusController===controller)raidState.statusController=null;}
+}
+function patchRaidLiveView(d){
+  const c=d?.current,box=document.getElementById('pveRaidView'),stage=box?.querySelector('.raid-battle-stage.is-battle');
+  const participantOrder=(Array.isArray(d?.participants)?d.participants:[]).map(x=>Number(x.userId||0)).join(',');
+  if(!stage||String(c?.status||'').toUpperCase()!=='BATTLE'||Number(raidState.renderedInstanceId)!==Number(c?.id||0)||raidState.renderedParticipantOrder!==participantOrder)return false;
+  raidState.livePatchCount=(raidState.livePatchCount+1)%4;if(raidState.livePatchCount===0)return false;
+  const participants=Array.isArray(d.participants)?d.participants:[],me=d.me||participants.find(x=>Number(x.userId)===Number(loadUser()?.id)),seconds=Math.max(0,Math.ceil((Date.parse(c.endsAt)-Date.now())/1000));
+  stage.querySelectorAll('.raid-stage-timer,.raid-hud-center b').forEach(node=>node.textContent=`${seconds}s`);
+  const updateHp=(root,current,max)=>{if(!root)return;const pct=Math.max(0,Math.min(100,Number(current||0)/Math.max(1,Number(max||0))*100)),text=root.querySelector('.battle-hp-head span');if(text)text.textContent=`${Number(current||0).toLocaleString()} / ${Number(max||0).toLocaleString()} · ${Math.ceil(pct)}%`;root.querySelectorAll('.battle-hp-track u,.battle-hp-track i').forEach(node=>node.style.width=`${pct}%`);root.classList.toggle('hp-critical',pct>0&&pct<=25);root.classList.toggle('hp-ko',pct<=0)};
+  updateHp(stage.querySelector('.battle-hp-team'),me?.currentHp,me?.maxHp);updateHp(stage.querySelector('.battle-hp-enemy'),c.currentHp,c.maxHp);
+  const partyRows=box.querySelectorAll('.raid-participant-list article');participants.forEach((x,i)=>{const row=partyRows[i];if(!row)return;const pct=Math.max(0,Math.min(100,Number(x.currentHp||0)/Math.max(1,Number(x.maxHp||0))*100));row.classList.toggle('defeated',Boolean(x.isDefeated));const bar=row.querySelector('.raid-user-hp i');if(bar)bar.style.width=`${pct}%`;const labels=row.querySelectorAll('.public-name-stack>small');if(labels[1])labels[1].textContent=x.isDefeated?'전투 불능':`${Math.round(pct)}%`;const damage=row.querySelector(':scope>strong');if(damage)damage.textContent=`${Number(x.shownDamage||0).toLocaleString()} DMG`});
+  const rankRows=box.querySelectorAll('.raid-rank-row'),maxDamage=Math.max(1,Number(participants[0]?.shownDamage||1));participants.slice(0,rankRows.length).forEach((x,i)=>{const row=rankRows[i];row.classList.toggle('defeated',Boolean(x.isDefeated));const name=row.querySelector('.raid-rank-name>b');if(name)name.textContent=x.nickname||'';const bar=row.querySelector('.raid-rank-name>i');if(bar)bar.style.width=`${Math.max(2,Number(x.shownDamage||0)/maxDamage*100)}%`;const damage=row.querySelector(':scope>strong');if(damage)damage.textContent=Number(x.shownDamage||0).toLocaleString()});
+  const myDamage=box.querySelector('.raid-my-damage b'),myHp=box.querySelector('.raid-my-damage small');if(myDamage)myDamage.textContent=Number(me?.shownDamage||0).toLocaleString();if(myHp)myHp.textContent=me?`HP ${Math.round(Number(me.currentHp||0)/Math.max(1,Number(me.maxHp||0))*100)}%`:'레이드 미참가';
+  return true;
 }
 function nextRaidOpenAtFromSettings(settings,nowMs=Date.now()){
   const s=settings||{};
@@ -1520,6 +1534,7 @@ function raidEntryViewState(data,settings={}){
 function renderRaidView(d){
   const box=document.getElementById('pveRaidView');if(!box)return;
   const c=d.current,s=d.settings||{},schedule=d.schedule||{isOpen:true,canEnter:true};
+  raidState.renderedInstanceId=Number(c?.id||0);raidState.renderedParticipantOrder=(Array.isArray(d?.participants)?d.participants:[]).map(x=>Number(x.userId||0)).join(',');raidState.livePatchCount=0;
   if(!c&&(d.rooms||[]).length){
     const rooms=d.rooms||[],bosses=d.availableBosses||[],entryState=raidEntryViewState(d,s),used=Boolean(d.dailyEntryUsed);
     box.innerHTML=`<section class="raid-room-browser"><div class="panel-title"><div><p class="eyebrow">RAID ROOM LIST</p><h2>레이드 개설 방</h2><p>참가할 방을 선택하세요 · 동시 최대 10개</p></div><strong>${entryState.badge}</strong></div>${d.cancelledRaid?`<div class="raid-room-refund">최소 인원 미달로 이전 방이 종료되었습니다. 입장 횟수 복구${Number(d.cancelledRaid.refundCoin||0)>0?` · 개설 코인 ${Number(d.cancelledRaid.refundCoin).toLocaleString()} 환불`:''}</div>`:''}<div class="raid-room-grid">${rooms.map((room,i)=>{const remain=Math.max(0,Math.ceil((Date.parse(room.startsAt)-Date.now())/1000));return `<article class="raid-room-card ${room.joinable?'joinable':'locked'}">${room.bossImage?`<img src="${escapeHtml(room.bossImage)}" alt="">`:''}<div><small>ROOM ${String(room.roomNumber||i+1).padStart(2,'0')} · ${escapeHtml(room.status)}</small><h3>${escapeHtml(room.bossName)}</h3><p><b>${Number(room.participantCount||0)} / ${Number(s.maxParticipants||10)}</b> 참가 · 최소 ${Number(s.minParticipants||1)}명</p><span>${room.status==='LOBBY'?`대기 ${String(Math.floor(remain/60)).padStart(2,'0')}:${String(remain%60).padStart(2,'0')}`:'전투 진행 중'}</span><button class="btn raidRoomSelect" data-room-id="${Number(room.id)}" ${!room.joinable||used?'disabled':''}>${used?entryState.usedButton:room.joinable?'이 방 참가':'입장 불가'}</button></div></article>`}).join('')}</div>${bosses.length&&!used?`<div class="raid-room-create"><h3>새 레이드 방 개설</h3>${bosses.map(b=>`<button class="btn raidOpenBtn" data-boss-id="${b.id}" ${!schedule.canEnter?'disabled':''}>${escapeHtml(b.name)} · ${Number(b.openCost||0).toLocaleString()}코인</button>`).join('')}</div>`:''}</section>`;

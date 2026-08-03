@@ -1055,7 +1055,7 @@ let d1HotpathUpgradePromise=null;
 async function ensureD1HotpathIndexes(env){
   if(d1HotpathUpgradePromise)return d1HotpathUpgradePromise;
   d1HotpathUpgradePromise=(async()=>{
-    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1419_d1_hotpath_indexes'").first();
+    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1421_d1_hotpath_indexes'").first();
     if(done?.value==='1')return true;
     const statements=[];
     if(await tableExists(env,'user_cards'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_cards_last_obtained ON user_cards(last_obtained_at DESC,user_id,card_id)'));
@@ -1066,7 +1066,12 @@ async function ensureD1HotpathIndexes(env){
     if(await tableExists(env,'pvp_match_history'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_match_history_attacker_recent ON pvp_match_history(attacker_id,id DESC)'));
     if(await tableExists(env,'pvp_profiles'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_profiles_score_user ON pvp_profiles(season_score,user_id)'));
     if(await tableExists(env,'draw_request_receipts_v2'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'));
-    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1419_d1_hotpath_indexes','1',CURRENT_TIMESTAMP)"));
+    if(await tableExists(env,'raid_instances'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_instances_live_transition ON raid_instances(status,starts_at,ends_at,id)'));
+    if(await tableExists(env,'raid_participants')){
+      statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_participants_user_active ON raid_participants(user_id,is_active,instance_id)'));
+      statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_participants_live_rank ON raid_participants(instance_id,is_active,total_damage DESC,joined_at)'));
+    }
+    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1421_d1_hotpath_indexes','1',CURRENT_TIMESTAMP)"));
     await env.DB.batch(statements);return true;
   })().catch(error=>{d1HotpathUpgradePromise=null;throw error});
   return d1HotpathUpgradePromise;
