@@ -1,1 +1,50 @@
-.vehicleDrawCmsV1388{margin-top:20px}.vehicleDrawSettingsV1388{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.vehicleDrawSettingsV1388 label,.vehicleDrawGrantV1388 label{display:flex;flex-direction:column;gap:6px}.vehicleDrawSettingsV1388 .wide{grid-column:span 2}.vehicleDrawTotalV1388{margin:16px 0;padding:12px 16px;border-radius:10px;font-weight:700}.vehicleDrawTotalV1388.ok{background:#e8fff3;color:#087443}.vehicleDrawTotalV1388.bad{background:#fff0f0;color:#b42318}.vehicleDrawRowsV1388{display:grid;gap:8px}.vehicleDrawRowsV1388 article{display:grid;grid-template-columns:minmax(180px,1.6fr) 120px 130px 130px;gap:12px;align-items:center;padding:12px;border:1px solid #dce3ea;border-radius:12px;background:#fff}.vehicleDrawRowsV1388 article>div{display:flex;flex-direction:column}.vehicleDrawRowsV1388 small{color:#6b7785}.vehicleDrawRowsV1388 label{display:flex;gap:6px;align-items:center}.vehicleDrawRowsV1388 input[type=number]{width:100%}.vehicleDrawGrantV1388{margin-top:18px;padding:16px;border-radius:14px;background:#f5f8fb;display:grid;grid-template-columns:1fr 1.4fr 1fr auto;gap:12px;align-items:end}.vehicleDrawGrantV1388 #vdUserResults{position:absolute;z-index:20;background:white;border:1px solid #dce3ea;min-width:260px;box-shadow:0 12px 24px rgba(0,0,0,.12)}.vehicleDrawGrantV1388 #vdUserResults button{display:flex;width:100%;justify-content:space-between;padding:10px;border:0;background:white}.vehicleDrawGrantV1388 label{position:relative}@media(max-width:900px){.vehicleDrawSettingsV1388{grid-template-columns:1fr 1fr}.vehicleDrawRowsV1388 article{grid-template-columns:1fr 1fr}.vehicleDrawGrantV1388{grid-template-columns:1fr 1fr}}@media(max-width:600px){.vehicleDrawSettingsV1388,.vehicleDrawRowsV1388 article,.vehicleDrawGrantV1388{grid-template-columns:1fr}.vehicleDrawSettingsV1388 .wide{grid-column:auto}}
+/* V1394: Vehicle draw CMS high-contrast isolated theme */
+#vehicleDrawCmsV1388.vehicleDrawCmsV1388{
+  margin-top:20px!important;padding:20px!important;border:1px solid #274762!important;
+  border-radius:16px!important;background:#071525!important;color:#eaf5ff!important;
+  box-shadow:0 16px 38px rgba(0,0,0,.28)!important
+}
+#vehicleDrawCmsV1388 *{box-sizing:border-box}
+#vehicleDrawCmsV1388 .maintenanceHead{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:16px!important;margin-bottom:18px!important}
+#vehicleDrawCmsV1388 h2,#vehicleDrawCmsV1388 h3,#vehicleDrawCmsV1388 strong{color:#fff!important}
+#vehicleDrawCmsV1388 p,#vehicleDrawCmsV1388 small,#vehicleDrawCmsV1388 span,#vehicleDrawCmsV1388 label,#vehicleDrawCmsV1388 div{color:#c9dced}
+#vehicleDrawCmsV1388 .maintenanceHead small,#vehicleDrawCmsV1388 .vehicleDrawGrantV1388>div>small{color:#5fd6ff!important;font-weight:800!important;letter-spacing:.13em!important}
+#vehicleDrawCmsV1388 .maintenanceHead p{color:#9db5c8!important}
+#vehicleDrawCmsV1388 button{border:1px solid #2588bd!important;border-radius:10px!important;background:linear-gradient(135deg,#0ea5e9,#2563eb)!important;color:#fff!important;font-weight:800!important;cursor:pointer!important}
+#vehicleDrawCmsV1388 button:disabled{opacity:.5!important;cursor:not-allowed!important}
+.vehicleDrawSettingsV1388{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.vehicleDrawSettingsV1388 label,.vehicleDrawGrantV1388 label{display:flex;flex-direction:column;gap:7px;color:#b9cee0!important;font-weight:700!important}
+.vehicleDrawSettingsV1388 .wide{grid-column:span 2}
+#vehicleDrawCmsV1388 input:not([type=checkbox]),#vehicleDrawCmsV1388 select{
+  width:100%!important;min-height:42px!important;padding:9px 11px!important;border:1px solid #36546b!important;
+  border-radius:9px!important;background:#06111f!important;color:#f5fbff!important;outline:none!important
+}
+#vehicleDrawCmsV1388 input:not([type=checkbox]):focus,#vehicleDrawCmsV1388 select:focus{border-color:#38bdf8!important;box-shadow:0 0 0 3px rgba(56,189,248,.16)!important}
+#vehicleDrawCmsV1388 input::placeholder{color:#71879a!important}
+#vehicleDrawCmsV1388 input[type=checkbox]{width:18px!important;height:18px!important;accent-color:#18b8ff!important;flex:0 0 auto!important}
+.vehicleDrawTotalV1388{margin:16px 0;padding:12px 16px;border-radius:10px;font-weight:800!important;border:1px solid transparent!important}
+.vehicleDrawTotalV1388.ok{background:#083829!important;color:#66f0b0!important;border-color:#167c58!important}
+.vehicleDrawTotalV1388.ok *{color:#66f0b0!important}
+.vehicleDrawTotalV1388.bad{background:#3b171b!important;color:#ff918f!important;border-color:#8f3437!important}
+.vehicleDrawTotalV1388.bad *{color:#ff918f!important}
+.vehicleDrawRowsV1388{display:grid;gap:9px}
+#vehicleDrawCmsV1388 .vehicleDrawRowsV1388 article{
+  display:grid;grid-template-columns:minmax(180px,1.6fr) 120px 130px 130px;gap:12px;align-items:center;
+  padding:13px!important;border:1px solid #29445a!important;border-radius:12px!important;background:#0c2032!important;color:#eaf5ff!important
+}
+.vehicleDrawRowsV1388 article>div{display:flex;flex-direction:column;min-width:0}
+#vehicleDrawCmsV1388 .vehicleDrawRowsV1388 strong{color:#fff!important;font-size:14px!important}
+#vehicleDrawCmsV1388 .vehicleDrawRowsV1388 small{color:#8fa9bd!important}
+#vehicleDrawCmsV1388 .vehicleDrawRowsV1388 label{display:flex!important;flex-direction:row!important;gap:7px!important;align-items:center!important;color:#c9dced!important}
+#vehicleDrawCmsV1388 .vehicleDrawRowsV1388 label:has(input[type=number]){flex-direction:column!important;align-items:stretch!important}
+.vehicleDrawGrantV1388{margin-top:18px;padding:16px;border:1px solid #29485f!important;border-radius:14px;background:#0a1c2c!important;display:grid;grid-template-columns:1fr 1.4fr 1fr 140px auto;gap:12px;align-items:end}
+#vehicleDrawCmsV1388 #vdSelectedUser{min-height:42px!important;padding:10px 12px!important;border:1px dashed #3c617d!important;border-radius:9px!important;color:#9fb6c9!important;display:flex!important;gap:8px!important;align-items:center!important}
+.vehicleDrawGrantV1388 #vdUserResults{position:absolute;top:100%;left:0;z-index:100;background:#0b1c2b!important;border:1px solid #36546b!important;min-width:100%;max-height:240px;overflow:auto;box-shadow:0 12px 24px rgba(0,0,0,.4)}
+.vehicleDrawGrantV1388 #vdUserResults button{display:flex;width:100%;justify-content:space-between;padding:10px!important;border:0!important;border-bottom:1px solid #203b50!important;border-radius:0!important;background:#0b1c2b!important;color:#eaf5ff!important}
+.vehicleDrawGrantV1388 #vdUserResults button:hover{background:#12324a!important}
+.vehicleDrawGrantV1388 label{position:relative}
+.vehicleDrawCmsLoadingV1388,.vehicleDrawCmsErrorV1388,.vehicleDrawEmptyV1388{padding:18px!important;border-radius:10px!important;background:#0c2032!important;color:#d7e8f5!important}
+.vehicleDrawCmsErrorV1388{border:1px solid #8f3437!important;color:#ffaaa8!important}
+@media(max-width:1100px){.vehicleDrawGrantV1388{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.vehicleDrawSettingsV1388{grid-template-columns:1fr 1fr}.vehicleDrawRowsV1388 article{grid-template-columns:1fr 1fr}.vehicleDrawGrantV1388{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){#vehicleDrawCmsV1388.vehicleDrawCmsV1388{padding:13px!important}.vehicleDrawSettingsV1388,.vehicleDrawRowsV1388 article,.vehicleDrawGrantV1388{grid-template-columns:1fr!important}.vehicleDrawSettingsV1388 .wide{grid-column:auto}.maintenanceHead{flex-direction:column}.maintenanceHead button{width:100%}}
