@@ -1,0 +1,32 @@
+v1388 검사 결과
+
+PASS ZIP 기준본 무결성
+- cnine-card.zip testzip: 오류 없음
+- 압축 항목: 3,042개
+
+PASS JavaScript 구문검사
+- node --check functions/_vehicle_draw.js
+- node --check functions/api/[[path]].js
+- node --check js/vehicle-draw-v1388.js
+- node --check js/app.js
+- node --check admin/vehicle-draw-admin-v1388.js
+- node --check admin/equipment-vehicle-admin-v1353.js
+
+PASS 로컬 SQLite 지급 테스트
+- 최초 이동수단 획득: 보유 등록, 뽑기권 1개 차감
+- 중복 이동수단 획득: 카드 조각 환산
+- 마스터의 별 별도 보너스 지급
+- 뽑기권 부족 시 영수증/보상 미생성
+- JSON 응답의 boolean 및 잔액 값 확인
+
+PASS 정적 확인
+- 사용자/관리자 API 경로 연결 확인
+- 인벤토리 이동수단 분류 및 전용 연출 연결 확인
+- 상점 상품/구매 버튼 추가 없음
+- 기존 카드팩·큐브 연출 파일 수정 없음
+- v1387 VERIFIED_REWARD_TYPES 미정의 참조 없음(기준본 패치 노트 및 전체 검색 확인)
+
+미실행
+- Cloudflare 원격 D1 테스트 미실행
+- Cloudflare Pages 실제 배포/빌드 미실행
+- 실브라우저 데스크톱·모바일 시각 회귀 테스트 미실행

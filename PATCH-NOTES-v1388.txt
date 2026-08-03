@@ -1,0 +1,25 @@
+v1388 이동수단 전용 뽑기 시스템
+
+기준본
+- 사용자 첨부 최신 전체 프로젝트 ZIP: cnine-card.zip
+- 기존 이동수단 등록/보유/장착 구조(character_garage_items, user_garage_vehicles)를 재사용
+- 상점 상품 및 구매 버튼 추가 없음
+
+추가 기능
+- 이동수단 뽑기권 VEHICLE_DRAW_TICKET 인벤토리 항목
+- 이동수단 전용 서버 확률 뽑기 API
+- 신규 이동수단은 차고지 보유 목록에 등록
+- 중복 이동수단은 CMS 설정 카드 조각으로 자동 환산
+- 이동수단 결과와 별도로 마스터의 별 보너스 확률/수량 판정
+- request_id 기반 중복 개봉 차단 및 7일 초과 영수증 제한 정리
+- 뽑기권 차감, 신규/중복 판정, 조각/별 지급, 결과 영수증을 D1 batch로 원자 처리
+- 사용자 인벤토리 이동수단 필터와 독립 전용 뽑기/결과 연출
+- CMS 이동수단별 포함 여부, 개별 확률, 중복 조각 설정
+- CMS 뽑기 사용 여부, 뽑기권 이름/이미지, 연출 제목/문구, 별 보너스 확률/최소/최대 설정
+- CMS 닉네임 검색 후 이동수단 뽑기권 수동 지급
+
+안전한 DB 추가
+- character_garage_items: draw_enabled, draw_weight, duplicate_shards 컬럼(존재 여부 확인 후 추가)
+- vehicle_draw_receipts 신규 테이블 및 정리 인덱스
+- app_meta safe_runtime_upgrade_v1388_vehicle_draw 마커
+- 기존 테이블/컬럼/운영 데이터 삭제·이름 변경·초기화 없음
