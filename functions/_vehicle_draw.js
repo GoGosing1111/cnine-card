@@ -2,8 +2,11 @@
 const TICKET_CODE='VEHICLE_DRAW_TICKET';
 const SETTINGS_KEY='vehicle_draw_settings_v1388';
 const UPGRADE_KEY='safe_runtime_upgrade_v1388_vehicle_draw';
-const DEFAULTS={enabled:true,ticketName:'이동수단 뽑기권',ticketImage:'assets/ui/cninelogo.png',drawTitle:'VEHICLE ACQUISITION',drawCopy:'새로운 이동수단을 획득합니다.',masterStarChance:1,masterStarMin:1,masterStarMax:1};
+const IMAGE_UPGRADE_KEY='safe_runtime_upgrade_v1390_vehicle_draw_ticket_image';
+const DEFAULT_TICKET_IMAGE='assets/items/vehicle-draw-ticket.png';
+const DEFAULTS={enabled:true,ticketName:'이동수단 뽑기권',ticketImage:DEFAULT_TICKET_IMAGE,drawTitle:'VEHICLE ACQUISITION',drawCopy:'새로운 이동수단을 획득합니다.',masterStarChance:1,masterStarMin:1,masterStarMax:1};
 let readyPromise=null;
+let imageUpgradePromise=null;
 const text=(v,n=300)=>String(v??'').trim().slice(0,n);
 const int=(v,min=0,max=100000000)=>Math.max(min,Math.min(max,Math.floor(Number(v)||0)));
 const rate=v=>Math.max(0,Math.min(100,Number.isFinite(Number(v))?Number(v):0));
@@ -33,7 +36,26 @@ async function ensure(env){
   })().catch(error=>{readyPromise=null;throw error});
   return readyPromise;
 }
-async function settings(env){await ensure(env);const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first();return cleanSettings(parse(row?.value,DEFAULTS))}
+async function ensureTicketImageUpgrade(env){
+  if(imageUpgradePromise)return imageUpgradePromise;
+  imageUpgradePromise=(async()=>{
+    const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(IMAGE_UPGRADE_KEY).first();
+    if(marker?.value==='1')return true;
+    const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first();
+    const raw=parse(row?.value,{}),current=text(raw.ticketImage||'',500);
+    const shouldReplace=!current||current==='assets/ui/cninelogo.png';
+    const statements=[];
+    if(shouldReplace){
+      const next={...DEFAULTS,...raw,ticketImage:DEFAULT_TICKET_IMAGE};
+      statements.push(env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(SETTINGS_KEY,JSON.stringify(next)));
+      statements.push(env.DB.prepare("UPDATE inventory_items SET image_url=?,updated_at=CURRENT_TIMESTAMP WHERE code=? AND (image_url IS NULL OR image_url='' OR image_url='assets/ui/cninelogo.png')").bind(DEFAULT_TICKET_IMAGE,TICKET_CODE));
+    }
+    statements.push(env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(IMAGE_UPGRADE_KEY,'1'));
+    await env.DB.batch(statements);return true;
+  })().catch(error=>{imageUpgradePromise=null;throw error});
+  return imageUpgradePromise;
+}
+async function settings(env){await ensure(env);await ensureTicketImageUpgrade(env);const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(SETTINGS_KEY).first();return cleanSettings(parse(row?.value,DEFAULTS))}
 async function payload(env){const s=await settings(env),rows=await env.DB.prepare('SELECT id,code,name,rarity,image_url,description,is_active,is_public,draw_enabled,draw_weight,duplicate_shards,sort_order FROM character_garage_items ORDER BY sort_order,id').all();return {settings:s,ticketCode:TICKET_CODE,vehicles:(rows.results||[]).map(r=>({id:Number(r.id),code:r.code,name:r.name,rarity:r.rarity,image:r.image_url||'',description:r.description||'',isActive:r.is_active!==0,isPublic:r.is_public!==0,drawEnabled:r.draw_enabled!==0,drawWeight:Number(r.draw_weight||0),duplicateShards:Number(r.duplicate_shards||0),sortOrder:Number(r.sort_order||0)}))}}
 function pick(rows){const total=rows.reduce((s,r)=>s+Number(r.draw_weight||0),0);let roll=Math.random()*total;for(const row of rows){roll-=Number(row.draw_weight||0);if(roll<0)return row}return rows[rows.length-1]}
 export async function handleVehicleDraw({path,request,env,deps}){const {authenticate,readBody,json,ensureEquipmentFoundation}=deps;if(ensureEquipmentFoundation)await ensureEquipmentFoundation(env);await ensure(env);

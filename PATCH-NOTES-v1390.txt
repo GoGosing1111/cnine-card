@@ -1,0 +1,19 @@
+CNINE CARD v1390 - 이동수단 뽑기권 이미지 적용
+
+기준
+- v1389 쿠폰 런타임 타임아웃 수정 누적 패치 기준
+
+변경
+- 사용자 제공 이동수단 카드 이미지를 512x701 PNG로 최적화
+- assets/items/vehicle-draw-ticket.png 추가
+- 이동수단 뽑기권 기본 이미지 경로를 신규 이미지로 변경
+- 기존 운영 DB의 기본 CNINE 로고 경로만 신규 이미지로 1회 안전 교체
+- CMS에서 별도로 지정한 사용자 이미지 경로는 유지
+- inventory_items의 VEHICLE_DRAW_TICKET 이미지도 기존 기본 로고일 때만 교체
+- safe_runtime_upgrade_v1390_vehicle_draw_ticket_image 마커 추가
+
+미변경
+- 이동수단 뽑기 확률 및 보상 로직
+- 기존 카드팩/큐브 연출
+- 상점
+- 쿠폰 타임아웃 수정
