@@ -1,0 +1,6 @@
+v1387 쿠폰 사용자 사용 경로 전체 수정
+- coupon/redeem에서 미정의 VERIFIED_REWARD_TYPES 참조 제거
+- 공용 검증 함수 verifiedMessageRewardSpec()로 보상 종류 검증 통일
+- COIN / MASTER_STAR / PREMIUM_CUBE / EQUIPMENT_SUPPLY_BOX 사용자 지급 분기 유지
+- 관리자 구형 coupons POST 경로의 동일 미정의 참조도 함께 제거
+- 사용자 app.js의 다중 보상 결과 표시 경로 확인

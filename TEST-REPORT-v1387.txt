@@ -1,0 +1,8 @@
+PASS node --check functions/api/[[path]].js
+PASS node --check admin/admin-v1276.js
+PASS node --check js/app.js
+PASS grep: VERIFIED_REWARD_TYPES 미정의 참조 0건
+PASS coupon/redeem 공용 보상 검증 함수 연결
+PASS 관리자 구형 coupons POST 공용 보상 검증 함수 연결
+PASS 사용자 app.js rewardType/rewardAmount/rewardLabel 응답 처리 확인
+NOTE 실제 원격 D1 지급 및 Cloudflare Pages 빌드는 이 환경에서 실행하지 않음
