@@ -391,7 +391,7 @@ function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브�
 
 const BURNING_EVENT_META_KEY='burning_event_settings_v1';
 const HYPER_BURNING_EVENT_META_KEY='hyper_burning_event_settings_v1310';
-const BURNING_EVENT_CACHE_MS=1000;
+const BURNING_EVENT_CACHE_MS=10000;
 let burningEventCache=null;
 function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:2,packDiscountPercent:20,equipmentBoxDiscountPercent:0,battleRewardMultiplier:1.5};}
 function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:2,packDiscountPercent:30,equipmentBoxDiscountPercent:20,battleRewardMultiplier:2.5};}
@@ -3262,7 +3262,11 @@ export async function onRequest(context){
       if(!user) return json({error:'로그인이 필요합니다.'},401);
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
-      const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      const runSize=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      const batchRuns=payload.autoDraw===true&&String(payload.batchMode||'').toUpperCase()==='SERVER_BATCH'
+        ?Math.max(1,Math.min(5,Math.floor(Number(payload.batchRuns||1))))
+        :1;
+      const count=runSize*batchRuns;
       const acknowledgedRequestIds=payload.autoDraw===true&&Array.isArray(payload.acknowledgedRequestIds)
         ?[...new Set(payload.acknowledgedRequestIds.map(value=>String(value||'').trim().slice(0,100)).filter(value=>value&&value!==requestId))].slice(0,10)
         :[];
@@ -3278,7 +3282,8 @@ export async function onRequest(context){
           bonus:Number(response.critical.bonus||0),chance:Number(response.critical.chance||0)
         };
         compact.results=Array.isArray(response.results)?response.results.map((item,index)=>({
-          slot:Number(item?.slot??index),granted:item?.granted===true,grantVerified:item?.grantVerified===true,
+          slot:Number(item?.slot??index),runIndex:Number(item?.runIndex??Math.floor(Number(item?.slot??index)/runSize)),runSlot:Number(item?.runSlot??(Number(item?.slot??index)%runSize)),
+          granted:item?.granted===true,grantVerified:item?.grantVerified===true,
           quantityBefore:Number(item?.quantityBefore||0),quantityAfter:Number(item?.quantityAfter||0),duplicate:Boolean(item?.duplicate),
           shardGained:Number(item?.shardGained||0),masterStarGained:Number(item?.masterStarGained||0),card:compactDrawCard(item?.card)
         })):[];
@@ -3301,6 +3306,7 @@ export async function onRequest(context){
       const finalizeDrawPayload=draft=>{
         const proof=draft?.grantProof||{};
         if(String(proof.requestId||'')!==requestId||Number(proof.userId)!==Number(user.id))throw new Error('카드 지급 증명 정보가 현재 요청과 일치하지 않습니다.');
+        if(Number(proof.count||count)!==count||Number(proof.runSize||runSize)!==runSize||Number(proof.batchRuns||batchRuns)!==batchRuns)throw new Error('카드 지급 묶음 증명 정보가 현재 요청과 일치하지 않습니다.');
         const proofCards=Array.isArray(proof.cards)?proof.cards:[],cardIds=proofCards.map(row=>String(row?.cardId||'')).filter(Boolean);
         if(!cardIds.length||new Set(cardIds).size!==cardIds.length)throw new Error('카드 지급 증명에 중복되거나 비어 있는 카드가 있습니다.');
         const response={...draft};
@@ -3388,8 +3394,12 @@ export async function onRequest(context){
         ]);
         const pack=baseRows[0]?.results?.[0]||null,fresh=baseRows[1]?.results?.[0]||null,masterStarRow=baseRows[2]?.results?.[0]||null;
         const criticalEligible=criticalConfig.enabled===true;
-        const critical=criticalEligible&&Math.random()*100<criticalConfig.chance;
-        const criticalBonus=critical?criticalConfig.bonus:0;
+        const criticalRuns=Array.from({length:batchRuns},(_,index)=>{
+          const success=criticalEligible&&Math.random()*100<criticalConfig.chance;
+          return {index,eligible:criticalEligible,success,bonus:success?criticalConfig.bonus:0,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects};
+        });
+        const critical=criticalRuns[0]?.success===true;
+        const criticalBonus=Number(criticalRuns[0]?.bonus||0);
         if(!pack){
           await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',error_message='판매 중인 카드팩이 아닙니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(requestId,user.id).run();
           return json({error:'판매 중인 카드팩이 아닙니다.'},404);
@@ -3412,32 +3422,42 @@ export async function onRequest(context){
         const drawContext={...baseDrawContext,blockedFurIds:new Set((ownedFurRows?.results||[]).map(row=>String(row.card_id)))};
         const pityCountStart=userPityState.pityCount,furFirstStateStart=userPityState.fur;
         const furFirstEligibleAtStart=FUR_FIRST_PITY_PACKS.has(pack.id)&&liveFurFirstSettings.enabled&&!furFirstStateStart.everOwned&&!furFirstStateStart.completed;
-        const cards=[];let pityCount=pityCountStart,limitedDrawn=false,furFirstMissCount=furFirstStateStart.missCount,furFirstEligible=furFirstEligibleAtStart,furFirstCompleted=false;
-        for(let index=0;index<count;index++){
-          const pity=pityRateForDraw(livePitySettings,pack.id,pityCount);
-          const furPity=furFirstEligible?furFirstRateForDraw(liveFurFirstSettings,furFirstMissCount):{drawNo:furFirstMissCount+1,rate:null,hard:false};
-          const card=PITY_PACKS.has(pack.id)
-            ?(furFirstEligible
-              ?drawOneWithPityAndFurFromContext(drawContext,pack,pity.rate,furPity.rate,criticalBonus,!limitedDrawn)
-              :drawOneWithPityFromContext(drawContext,pack,pity.rate,criticalBonus,!limitedDrawn))
-            :drawOneFromContext(drawContext,pack,null,!limitedDrawn,criticalBonus);
-          if(!card?.id)throw new Error('카드 추첨 결과를 생성하지 못했습니다.');
-          cards.push(card);
-          const drawnGrade=String(card.grade||'').toUpperCase();
-          if(drawnGrade==='LIMITED')limitedDrawn=true;
-          if(furFirstEligible){
-            if(drawnGrade==='FUR'){furFirstCompleted=true;furFirstEligible=false;furFirstMissCount=0;}
-            else furFirstMissCount++;
+        const cards=[],criticalBonusBySlot=[],runMeta=[];
+        let pityCount=pityCountStart,furFirstMissCount=furFirstStateStart.missCount,furFirstEligible=furFirstEligibleAtStart,furFirstCompleted=false;
+        for(let runIndex=0;runIndex<batchRuns;runIndex++){
+          const runCards=[];
+          const runCritical=criticalRuns[runIndex]||criticalRuns[0]||{eligible:false,success:false,bonus:0,automatic:true,chance:0,effects:{}};
+          let limitedDrawn=false;
+          for(let index=0;index<runSize;index++){
+            const pity=pityRateForDraw(livePitySettings,pack.id,pityCount);
+            const furPity=furFirstEligible?furFirstRateForDraw(liveFurFirstSettings,furFirstMissCount):{drawNo:furFirstMissCount+1,rate:null,hard:false};
+            const card=PITY_PACKS.has(pack.id)
+              ?(furFirstEligible
+                ?drawOneWithPityAndFurFromContext(drawContext,pack,pity.rate,furPity.rate,runCritical.bonus,!limitedDrawn)
+                :drawOneWithPityFromContext(drawContext,pack,pity.rate,runCritical.bonus,!limitedDrawn))
+              :drawOneFromContext(drawContext,pack,null,!limitedDrawn,runCritical.bonus);
+            if(!card?.id)throw new Error('카드 추첨 결과를 생성하지 못했습니다.');
+            runCards.push(card);
+            const drawnGrade=String(card.grade||'').toUpperCase();
+            if(drawnGrade==='LIMITED')limitedDrawn=true;
+            if(furFirstEligible){
+              if(drawnGrade==='FUR'){furFirstCompleted=true;furFirstEligible=false;furFirstMissCount=0;}
+              else furFirstMissCount++;
+            }
+            pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;
           }
-          pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;
-        }
-        const guarantee=count===10?pack.guarantee_10:count===20?pack.guarantee_20:null;
-        if(guarantee&&!cards.some(card=>ORDER[card.grade]>=ORDER[guarantee])){
-          cards[cards.length-1]=drawOneFromContext(drawContext,pack,guarantee,true,criticalBonus);
-          if(PITY_PACKS.has(pack.id)&&ORDER[cards[cards.length-1].grade]>=ORDER.SSR)pityCount=0;
-        }
-        if(furFirstEligibleAtStart&&cards.some(card=>String(card?.grade||'').toUpperCase()==='FUR')){
-          furFirstCompleted=true;furFirstEligible=false;furFirstMissCount=0;
+          const guarantee=runSize===10?pack.guarantee_10:runSize===20?pack.guarantee_20:null;
+          if(guarantee&&!runCards.some(card=>ORDER[card.grade]>=ORDER[guarantee])){
+            runCards[runCards.length-1]=drawOneFromContext(drawContext,pack,guarantee,true,runCritical.bonus);
+            if(PITY_PACKS.has(pack.id)&&ORDER[runCards[runCards.length-1].grade]>=ORDER.SSR)pityCount=0;
+          }
+          if(furFirstEligibleAtStart&&runCards.some(card=>String(card?.grade||'').toUpperCase()==='FUR')){
+            furFirstCompleted=true;furFirstEligible=false;furFirstMissCount=0;
+          }
+          runCards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
+          const start=cards.length;
+          for(const card of runCards){cards.push(card);criticalBonusBySlot.push(Number(runCritical.bonus||0));}
+          runMeta.push({index:runIndex,start,count:runSize,critical:{eligible:runCritical.eligible===true,success:runCritical.success===true,bonus:Number(runCritical.bonus||0),chance:Number(runCritical.chance||0)}});
         }
 
         const validateActiveCards=async selected=>{
@@ -3454,8 +3474,7 @@ export async function onRequest(context){
           }
           return ids;
         };
-        // 최종 후보가 확정된 뒤 한 번만 활성 상태를 검증한다.
-        cards.sort((a,b)=>ORDER[b.grade]-ORDER[a.grade]);
+        // 최종 후보가 확정된 뒤 한 번만 활성 상태를 검증한다. 묶음 자동뽑기는 각 회차 내부 정렬을 유지한다.
         const groupId=crypto.randomUUID();
 
         // LIMITED 예약 UPDATE를 한 D1 batch로 묶어 네트워크 왕복을 카드 수와 무관하게 유지한다.
@@ -3467,7 +3486,7 @@ export async function onRequest(context){
           for(let n=0;n<limitedCandidates.length;n++){
             const row=limitedCandidates[n],reserved=Number(reserveResults[n]?.meta?.changes||0)===1;
             if(reserved){reservedCardIds.push(row.card.id);limitedAuditEvents.push({eventKey:row.eventKey,drawIndex:row.drawIndex,cardId:String(row.card.id),cardTitle:row.card.title,stockBefore:row.stockBefore,stockAfter:row.stockBefore+1});continue}
-            const replacement=drawOneFromContext(drawContext,pack,null,false,criticalBonus);
+            const replacement=drawOneFromContext(drawContext,pack,null,false,Number(criticalBonusBySlot[row.drawIndex]||0));
             if(!replacement?.id)throw new Error('한정 카드 품절 대체 결과를 생성하지 못했습니다.');
             cards[row.drawIndex]=replacement;
             const pending=limitedAuditUpsertStatement(env,{eventKey:row.eventKey,requestId,sourceType:'PACK',sourceId:pack.id,userId:user.id,userNickname:user.nickname,cardId:row.card.id,cardTitle:row.card.title,packId:pack.id,status:'SOLD_OUT_REPLACED',coinCost:cost,stockBefore:row.stockBefore,stockAfter:row.stockBefore,stockReserved:false,cardGranted:false,errorMessage:'동시 요청으로 한정 수량이 소진되어 일반 카드로 대체됨'});
@@ -3514,7 +3533,7 @@ export async function onRequest(context){
           masterStarTotal+=masterStarGained;
           cardGrantCounts.set(cardId,Number(cardGrantCounts.get(cardId)||0)+1);
           if(String(card.grade||'').toUpperCase()==='LIMITED')statements.push(env.DB.prepare('INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,?,?,?)').bind(groupId,user.id,pack.id,card.id,'LIMITED',drawIndex===0?cost:0,isNew?1:0));
-          results.push({slot:drawIndex,granted:false,grantVerified:false,quantityBefore,quantityAfter,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained,masterStarGained});
+          results.push({slot:drawIndex,runIndex:Math.floor(drawIndex/runSize),runSlot:drawIndex%runSize,granted:false,grantVerified:false,quantityBefore,quantityAfter,card:cardWithAcquisitionEffect(card,acquisitionFxByGrade),duplicate:!isNew,shardGained,masterStarGained});
         }
 
         // 카드 지급은 카드 ID별로 합치고, 중복 조각 감사 로그는 묶음 개봉당 1행만 남긴다.
@@ -3546,19 +3565,22 @@ export async function onRequest(context){
         }
 
         const grantProof={
-          version:1,requestId,userId:Number(user.id),packId:String(pack.id),count:Number(count),
+          version:2,requestId,userId:Number(user.id),packId:String(pack.id),count:Number(count),runSize:Number(runSize),batchRuns:Number(batchRuns),
           coinBefore:Number(fresh.coin||0),coinAfter:expectedCoin,
           shardsBefore:Number(fresh.card_shards||0),shardsAfter:expectedShards,
           masterStarBefore,masterStarAfter:expectedMasterStars,
           cards:[...expectedAfterByCard.entries()].map(([cardId,quantityAfter])=>({cardId,quantityAfter:Number(quantityAfter)}))
         };
+        const criticalSummary=batchRuns===1
+          ?criticalRuns[0]
+          :{eligible:criticalEligible,success:criticalRuns.some(row=>row.success===true),bonus:Math.max(0,...criticalRuns.map(row=>Number(row.bonus||0))),automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects};
         const draftResponse={
           results,user:nextProfile,
           pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,
           furFirstAssist:FUR_FIRST_PITY_PACKS.has(pack.id)?{sharedAcrossPacks:true,eligibleAtStart:furFirstEligibleAtStart,completed:furFirstCompleted||furFirstStateStart.everOwned||furFirstStateStart.completed,missCount:furFirstMissCount,nextDraw:furFirstMissCount+1,start:liveFurFirstSettings.start,hard:liveFurFirstSettings.hard}:null,
-          critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},
+          critical:criticalSummary,batchRuns,runSize,cost,runs:runMeta,
           requestId,grantProof,burningEvent:burningPublicState(burning),
-          drawProtocol:{version:3,status:'APPLIED',grantVerified:false,packId:String(pack.id),count:Number(count),integrity:''}
+          drawProtocol:{version:3,status:'APPLIED',grantVerified:false,packId:String(pack.id),count:Number(count),runSize:Number(runSize),batchRuns:Number(batchRuns),integrity:''}
         };
 
         statements.unshift(env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(cost,user.id,cost));
@@ -3635,7 +3657,7 @@ export async function onRequest(context){
             }catch(markError){retryStatus='PENDING';console.error('draw retryable receipt mark failed',markError)}
             return json({
               error:'카드 지급 서버가 일시적으로 혼잡합니다. 결제 요청 번호를 유지한 채 자동으로 다시 확인합니다.',
-              code:'D1_OVERLOADED',retryable:true,retryAfterMs:15000,requestId,status:retryStatus
+              code:'D1_OVERLOADED',retryable:true,retryAfterMs:15000+Math.floor(Math.random()*10000),requestId,status:retryStatus
             },503);
           }
           await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',cost=?,response_json=NULL,error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,message,requestId,user.id).run();
