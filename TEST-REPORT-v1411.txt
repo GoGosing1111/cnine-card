@@ -1,0 +1,8 @@
+- JavaScript syntax check: PASS
+- Server pack cost ignores burning discount: PASS
+- Equipment supply box discount forced to 0: PASS
+- Public burning state exposes both discounts as 0: PASS
+- Client pack price keeps original price: PASS
+- CMS discount inputs removed and save payload fixed at 0: PASS
+- Duplicate shard multiplier logic preserved: PASS
+- ZIP integrity: pending at build

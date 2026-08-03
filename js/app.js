@@ -4,7 +4,7 @@ const LEGACY_STORAGE_KEYS = ['cnine_card_user_v08', 'cnine_card_user'];
 const TEST_COIN = 5000;
 let cards = [];
 let selectedPackId = 'basic';
-let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:20,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:2,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
+let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:2,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
 let magicSystemState={visible:false,enabled:false,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
 const magicUiState={deckType:'PVE',selectedSlot:1};
 
@@ -81,8 +81,8 @@ function burningEventFingerprint(state={}){
 }
 function burningMode(){return burningEventState.enabled?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
 function burningBenefitText(){
-  const pve=Number(burningEventState.pve?.maxEnergy||0),pvp=Number(burningEventState.pvp?.maxEnergy||0),minutes=Number(burningEventState.pve?.rechargeMinutes||0),shards=Number(burningEventState.duplicateShardMultiplier||1),pack=Number(burningEventState.packDiscountPercent||0),box=Number(burningEventState.equipmentBoxDiscountPercent||0),coins=Number(burningEventState.battleRewardMultiplier||1);
-  return `PVE ${pve}회 · PVP ${pvp}회 / ${minutes}분 충전 · 중복 조각 ${shards}배 · 카드팩 ${pack}% 할인${box>0?` · 장비상자 ${box}% 할인`:''} · 코인 보상 ${coins}배`;
+  const pve=Number(burningEventState.pve?.maxEnergy||0),pvp=Number(burningEventState.pvp?.maxEnergy||0),minutes=Number(burningEventState.pve?.rechargeMinutes||0),shards=Number(burningEventState.duplicateShardMultiplier||1),coins=Number(burningEventState.battleRewardMultiplier||1);
+  return `PVE ${pve}회 · PVP ${pvp}회 / ${minutes}분 충전 · 중복 카드 조각 ${shards}배 · 코인 보상 ${coins}배`;
 }
 function burningEventStripMarkup(){
   if(!burningEventState.enabled)return '';
@@ -96,11 +96,11 @@ function syncBurningEventVisibleUi(){
 function applyBurningEventState(next={},options={}){
   const before=burningEventFingerprint(burningEventState),currentUpdated=Date.parse(String(burningEventState.updatedAt||burningEventState.activatedAt||''))||0,incomingUpdated=Date.parse(String(next.updatedAt||next.activatedAt||''))||0;
   if(currentUpdated&&(!incomingUpdated||incomingUpdated<currentUpdated)){
-    PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=burningEventState.enabled?Math.max(0,Math.min(90,Number(burningEventState.packDiscountPercent||0))):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
+    PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
     return false;
   }
   burningEventState={...burningEventState,...next};
-  PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=burningEventState.enabled?Math.max(0,Math.min(90,Number(burningEventState.packDiscountPercent||0))):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
+  PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
   const mode=burningMode(),normalActive=burningEventState.enabled===true&&mode==='BURNING',hyperActive=burningEventState.enabled===true&&mode==='HYPER';
   document.documentElement.classList.toggle('burning-event-active',normalActive);
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);

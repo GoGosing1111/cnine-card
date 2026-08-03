@@ -52,7 +52,7 @@ async function equipmentPromotionState(env,{fresh=false}={}){
       env.DB.prepare("SELECT value FROM app_meta WHERE key='hyper_burning_event_settings_v1310'")
     ]);
     const parse=row=>{try{return JSON.parse(row?.results?.[0]?.value||'{}')}catch{return {}}},normal=parse(normalResult),hyper=parse(hyperResult);
-    const active=hyper?.enabled===true?{mode:'HYPER',discount:cleanPromotionDiscount(hyper.equipmentBoxDiscountPercent??20)}:normal?.enabled===true?{mode:'BURNING',discount:cleanPromotionDiscount(normal.equipmentBoxDiscountPercent||0)}:{mode:'NONE',discount:0};
+    const active=hyper?.enabled===true?{mode:'HYPER',discount:0}:normal?.enabled===true?{mode:'BURNING',discount:0}:{mode:'NONE',discount:0};
     equipmentPromotionCache=active;equipmentPromotionCacheAt=now;return active;
   }catch(error){if(equipmentPromotionCache)return equipmentPromotionCache;throw error}
 }
