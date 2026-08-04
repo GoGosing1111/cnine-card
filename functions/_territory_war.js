@@ -57,6 +57,17 @@ async function repairWaterBuffaloSettlementV1443(env){
   statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(markerKey,JSON.stringify({roundId:Number(round.id),winnerSide:'B',winnerCoin:500000,loserCoin:100000,claimedBRecipients:claimedB.length,correctedAt:iso()})));
   await env.DB.batch(statements);
 }
+async function recoverWrongWinnerOverpaymentV1444(env){
+  const markerKey='safe_runtime_repair_v1444_wrong_winner_coin_recovery';
+  if(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(markerKey).first())return;
+  const repair=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_repair_v1443_water_buffalo_b_win_500k'").first(),repairInfo=safeJson(repair?.value,{}),roundId=Number(repairInfo.roundId||0);
+  if(!roundId)return;
+  const rows=(await env.DB.prepare("SELECT r.user_id,r.coin,u.coin balance FROM territory_war_v3_rewards r JOIN users u ON u.id=r.user_id WHERE r.round_id=? AND r.side<>'B' AND r.result<>'INELIGIBLE' AND r.claimed_at IS NOT NULL AND r.coin>100000").bind(roundId).all()).results||[],statements=[];let recoveredTotal=0,outstandingTotal=0;
+  for(const row of rows){const overpaid=Math.max(0,Number(row.coin||0)-100000),recovered=Math.min(Math.max(0,Number(row.balance||0)),overpaid),outstanding=Math.max(0,overpaid-recovered);recoveredTotal+=recovered;outstandingTotal+=outstanding;if(recovered>0){statements.push(env.DB.prepare('UPDATE users SET coin=MAX(0,coin-?) WHERE id=?').bind(recovered,row.user_id));statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'영토전 오정산 초과 보상 회수' FROM users WHERE id=?").bind(-recovered,row.user_id))}}
+  statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='LOSE',coin=100000 WHERE round_id=? AND side<>'B' AND result<>'INELIGIBLE' AND claimed_at IS NOT NULL").bind(roundId));
+  statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(markerKey,JSON.stringify({roundId,accounts:rows.length,recoveredTotal,outstandingTotal,recoveredAt:iso()})));
+  await env.DB.batch(statements);
+}
 
 async function ensureFoundation(env){
   if(foundationReady)return;
@@ -153,6 +164,7 @@ async function ensureFoundation(env){
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1442_territory_revisit_fatigue','1',CURRENT_TIMESTAMP)").run();
   }
   await repairWaterBuffaloSettlementV1443(env);
+  await recoverWrongWinnerOverpaymentV1444(env);
   foundationReady=true;
 }
 
