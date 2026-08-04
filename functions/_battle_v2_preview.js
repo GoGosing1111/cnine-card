@@ -122,6 +122,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     indomitableUsed: false,
     huntStacks: 0,
     pvpTakedownUsed: false,
+    speedUniqueSuppressed: false,
     frontlineAnnounced: false,
     actions: 0,
     damageDealt: 0,
@@ -153,12 +154,12 @@ function teamHpRatio(team) {
 }
 
 function hitResult(actor, target, random, multiplier = 1, counter = false) {
-  const dodgeChance = target.type === 'SPEED'
+  const dodgeChance = target.type === 'SPEED' && !target.speedUniqueSuppressed
     ? clamp(0.10 + Math.max(0, uniquePercent(target.uniqueAbility, 'speedPercent')) / 1000, 0.10, 0.24)
     : 0.02;
   if (!counter && random() < dodgeChance) return { dodge: true, damage: 0, critical: false, penetration: 0 };
 
-  const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' ? 0.03 : 0), 0.10, 0.25);
+  const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0), 0.10, 0.25);
   const critical = random() < criticalChance;
   const pveAttack = actor.type === 'ATTACK' && actor.battleMode === 'PVE';
   const penetration = actor.type === 'ATTACK'
@@ -263,6 +264,16 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
   const timeline = [];
   let clock = 0;
   let actionCount = 0;
+  const suppressSpeedUnique=(guardTeam,targetTeam)=>{
+    if(guardTeam.filter(card=>card.type==='DEFENSE').length<2)return;
+    for(const fighter of targetTeam.filter(card=>card.type==='SPEED')){
+      const speedPercent=Math.max(-90,Number(fighter.uniqueAbility?.speedPercent||0));
+      fighter.speed=Math.max(35,Math.round(fighter.speed/Math.max(0.1,1+speedPercent/100)));
+      fighter.gauge=0;fighter.speedUniqueSuppressed=true;
+      pushEvent(timeline,clock,'SPEED_UNIQUE_SUPPRESSED',{targetId:fighter.id,guardSide:guardTeam[0]?.side||'',label:'방어형 연계 · 속도 봉쇄'});
+    }
+  };
+  suppressSpeedUnique(a,b);suppressSpeedUnique(b,a);
   const healerRules = healerPenalty ? { A: healerPenaltyForTeam(a), B: healerPenaltyForTeam(b) } : { A: { healerCount: 0, reductionPercent: 0, multiplier: 1 }, B: { healerCount: 0, reductionPercent: 0, multiplier: 1 } };
   for (const fighter of a) fighter.teamHealerCount = healerRules.A.healerCount;
   for (const fighter of b) fighter.teamHealerCount = healerRules.B.healerCount;
@@ -370,7 +381,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
     const damageState = applyDamage(target, hit.damage);
     actor.damageDealt += damageState.hpDamage + damageState.absorbed;
 
-    if (actor.type === 'SPEED') {
+    if (actor.type === 'SPEED' && !actor.speedUniqueSuppressed) {
       target.gauge = Math.max(0, target.gauge - 18);
       if (random() < 0.28) actor.gauge = Math.min(95, actor.gauge + 35);
     }
