@@ -207,6 +207,14 @@ function uniqueEffectPhase(type='ATTACK'){
   if(type==='HP')return 'RECOVERY';
   return 'ATTACK';
 }
+function uniqueBattleRoleMultiplier(type='ATTACK',mode='PVE'){
+  const normalizedMode=String(mode||'PVE').trim().toUpperCase();
+  const isPve=normalizedMode==='PVE'||normalizedMode==='PVE_AUTO'||normalizedMode==='TOWER'||normalizedMode==='RAID'||normalizedMode==='RIFT'||normalizedMode==='SEAL';
+  const isPvp=normalizedMode==='PVP'||normalizedMode==='TERRITORY'||normalizedMode==='CAPTAIN';
+  if(type==='ATTACK')return isPve?1.15:(isPvp?1.05:1);
+  if(type==='DEFENSE')return isPve?1.25:(isPvp?1.15:1.1);
+  return 1;
+}
 export function resolveUniqueBattleRuntime(deckState={},options={}){
   const random=typeof options?.random==='function'?options.random:Math.random;
   const cards=Array.isArray(deckState?.cards)?deckState.cards:[];
@@ -226,7 +234,8 @@ export function resolveUniqueBattleRuntime(deckState={},options={}){
     const chance=Math.max(0,Math.min(100,Number(effect.triggerChance??100)));
     const roll=chance>=100?0:random()*100;
     const triggered=chance>=100||roll<chance;
-    const bonusPower=uniqueEffectActivationBonus(card,effect,type);
+    const roleMultiplier=uniqueBattleRoleMultiplier(type,mode);
+    const bonusPower=Math.max(0,Math.round(uniqueEffectActivationBonus(card,effect,type)*roleMultiplier));
     const baseEvent={
       cardId:String(card?.id||effect.cardId||''),
       cardTitle:String(card?.title||card?.card_title||''),
@@ -238,6 +247,7 @@ export function resolveUniqueBattleRuntime(deckState={},options={}){
       roll:Number(roll.toFixed(6)),
       triggered,
       magnitude:uniqueEffectMagnitude(effect,type),
+      roleMultiplier,
       bonusPower,
       summary:uniqueEffectSummary(type,bonusPower)
     };

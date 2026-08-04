@@ -60,12 +60,15 @@ export function distributeEquipment(cards = [], equipmentBonus = 0) {
   });
 }
 
-export function buildFighter(card, index, side, uniqueAbility = null) {
+export function buildFighter(card, index, side, uniqueAbility = null, battleMode = 'PVP') {
   const type = normalizeType(card, uniqueAbility);
   const profile = STAT_PROFILES[type];
   const power = Math.max(1, Number(card.effectivePower || card.power || 1));
-  const attackPct = uniquePercent(uniqueAbility, 'attackPercent');
-  const defensePct = uniquePercent(uniqueAbility, 'defensePercent');
+  const mode = String(battleMode || 'PVP').toUpperCase();
+  const attackRoleMultiplier = type === 'ATTACK' ? (mode === 'PVE' ? 1.15 : 1.05) : 1;
+  const defenseRoleMultiplier = type === 'DEFENSE' ? (mode === 'PVE' ? 1.15 : 1.10) : 1;
+  const attackPct = uniquePercent(uniqueAbility, 'attackPercent') * attackRoleMultiplier;
+  const defensePct = uniquePercent(uniqueAbility, 'defensePercent') * defenseRoleMultiplier;
   const hpPct = uniquePercent(uniqueAbility, 'hpPercent');
   const speedPct = uniquePercent(uniqueAbility, 'speedPercent');
 
@@ -73,7 +76,9 @@ export function buildFighter(card, index, side, uniqueAbility = null) {
   const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100)));
   const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)));
   const speed = Math.max(35, Math.round((70 + power * profile.speed * 0.10) * (1 + speedPct / 100)));
-  const startingShield = type === 'DEFENSE' ? Math.round(maxHp * clamp(0.18 + Math.max(0, defensePct) / 500, 0.18, 0.35)) : 0;
+  const shieldFloor = mode === 'PVE' ? 0.22 : 0.18;
+  const shieldCap = mode === 'PVE' ? 0.38 : 0.32;
+  const startingShield = type === 'DEFENSE' ? Math.round(maxHp * clamp(shieldFloor + Math.max(0, defensePct) / 500, shieldFloor, shieldCap)) : 0;
 
   return {
     id: `${side}:${index}:${String(card.id)}`,
@@ -91,6 +96,7 @@ export function buildFighter(card, index, side, uniqueAbility = null) {
     basePower: int(card.power, 0),
     equipmentShare: int(card.equipmentShare, 0),
     power: int(power, 0),
+    battleMode: mode,
     type,
     typeLabel: profile.label,
     uniqueAbility: uniqueAbility ? {
@@ -113,6 +119,8 @@ export function buildFighter(card, index, side, uniqueAbility = null) {
     alive: true,
     emergencyUsed: false,
     survivalUsed: false,
+    indomitableUsed: false,
+    huntStacks: 0,
     frontlineAnnounced: false,
     actions: 0,
     damageDealt: 0,
@@ -122,7 +130,7 @@ export function buildFighter(card, index, side, uniqueAbility = null) {
 
 export function publicFighter(fighter) {
   const {
-    emergencyUsed, survivalUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone,
+    emergencyUsed, survivalUsed, indomitableUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone,
     ...card
   } = fighter;
   return card;
@@ -151,11 +159,15 @@ function hitResult(actor, target, random, multiplier = 1, counter = false) {
 
   const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' ? 0.03 : 0), 0.10, 0.25);
   const critical = random() < criticalChance;
-  const penetration = actor.type === 'ATTACK' ? (random() < 0.35 ? 0.30 : 0.15) : 0.03;
+  const pveAttack = actor.type === 'ATTACK' && actor.battleMode === 'PVE';
+  const penetration = actor.type === 'ATTACK'
+    ? (pveAttack && target.isBoss ? 0.40 : pveAttack && target.isMonster ? 0.28 : (random() < 0.35 ? 0.30 : 0.15))
+    : 0.03;
   const effectiveDefense = Math.max(0, target.defense * (1 - penetration));
   const reduction = clamp(effectiveDefense / (effectiveDefense + 600), 0, 0.65);
   const variance = 0.95 + random() * 0.10;
-  const execute = actor.type === 'ATTACK' && target.hp / Math.max(1, target.maxHp) <= 0.25 ? 1.20 : 1;
+  const weakTarget = actor.type === 'ATTACK' && target.hp / Math.max(1, target.maxHp) <= 0.50;
+  const execute = weakTarget ? (actor.battleMode === 'PVE' ? 1.25 : 1.10) : 1;
   const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * (critical ? 1.50 : 1);
   const capped = Math.min(raw * (1 - reduction), target.maxHp * (counter ? 0.24 : 0.46));
   const damage = Math.max(1, Math.round(capped));
@@ -215,6 +227,14 @@ function maybeFrontlineBreak(team, side, timeline, clock) {
 
 function resolveKnockout(target, timeline, clock) {
   if (target.hp > 0 || !target.alive) return false;
+  if (target.type === 'DEFENSE' && !target.indomitableUsed) {
+    target.indomitableUsed = true;
+    target.hp = 1;
+    target.shield = Math.max(target.shield, Math.round(target.maxHp * (target.battleMode === 'PVE' ? 0.10 : 0.06)));
+    target.maxShield = Math.max(target.maxShield, target.shield);
+    pushEvent(timeline, clock, 'INDOMITABLE', { targetId: target.id, hpAfter: target.hp, shieldAfter: target.shield, label: '방어형 · 불굴' });
+    return false;
+  }
   if (target.type === 'HP' && Number(target.teamHealerCount || 0) < 2 && !target.survivalUsed) {
     target.survivalUsed = true;
     target.hp = Math.max(1, Math.round(target.maxHp * 0.12));
@@ -243,6 +263,20 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
   const healerRules = healerPenalty ? { A: healerPenaltyForTeam(a), B: healerPenaltyForTeam(b) } : { A: { healerCount: 0, reductionPercent: 0, multiplier: 1 }, B: { healerCount: 0, reductionPercent: 0, multiplier: 1 } };
   for (const fighter of a) fighter.teamHealerCount = healerRules.A.healerCount;
   for (const fighter of b) fighter.teamHealerCount = healerRules.B.healerCount;
+
+  for (const team of [a,b]) {
+    const guards=team.filter(card=>card.type==='DEFENSE');
+    const protectedIds=new Set();
+    for (const guard of guards) {
+      const target=[...team].filter(card=>card.id!==guard.id&&!protectedIds.has(card.id)).sort((x,y)=>x.maxHp-y.maxHp||x.slot-y.slot)[0];
+      if(!target)continue;
+      protectedIds.add(target.id);
+      const ratio=guard.battleMode==='PVE'?0.12:0.08;
+      const amount=Math.max(1,Math.round(target.maxHp*ratio));
+      target.shield+=amount;target.maxShield+=amount;
+      pushEvent(timeline,clock,'GUARD_PROTECT',{actorId:guard.id,targetId:target.id,amount,shieldAfter:target.shield,label:'방어형 · 수호 전환'});
+    }
+  }
 
   for (const fighter of [...a, ...b]) {
     fighter.gauge = clamp(Number(fighter.gauge || 0) + random() * 8, 0, 99);
@@ -314,7 +348,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
     const enemyTeam = actor.side === 'A' ? b : a;
     const pool = targetPool(enemyTeam);
     if (!pool.length) break;
-    const target = lowestRatioTarget(pool, random);
+    const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
+    const target = tauntGuard||lowestRatioTarget(pool, random);
     const hit = hitResult(actor, target, random);
 
     if (hit.dodge) {
@@ -353,13 +388,18 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
     });
 
     const knockedOut = resolveKnockout(target, timeline, clock);
+    if(actor.type==='ATTACK'&&actor.battleMode==='PVE'&&actor.actions>1&&actor.huntStacks<3){
+      actor.huntStacks+=1;actor.attack=Math.max(1,Math.round(actor.attack*1.06));
+      pushEvent(timeline,clock+0.0005,'HUNT_ACCELERATION',{actorId:actor.id,stacks:actor.huntStacks,attackAfter:actor.attack,label:'공격형 · 사냥 가속'});
+    }
     if (!knockedOut) maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
     maybeFrontlineBreak(enemyTeam, target.side, timeline, clock);
 
     if (!target.alive || target.hp <= 0) continue;
 
-    if (target.type === 'DEFENSE' && random() < 0.25) {
-      const counter = hitResult(target, actor, random, 0.55, true);
+    const barrierBroken=target.type==='DEFENSE'&&damageState.shieldBefore>0&&damageState.shieldAfter<=0;
+    if (target.type === 'DEFENSE' && (barrierBroken || random() < 0.25)) {
+      const counter = hitResult(target, actor, random, barrierBroken?0.72:0.55, true);
       if (!counter.dodge) {
         const counterState = applyDamage(actor, counter.damage);
         target.damageDealt += counterState.hpDamage + counterState.absorbed;
@@ -377,6 +417,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
         const actorDown = resolveKnockout(actor, timeline, clock + 0.001);
         if (!actorDown) maybeEmergencyHeal(actor, timeline, clock + 0.001, healerRules[actor.side].multiplier);
         maybeFrontlineBreak(actor.side === 'A' ? a : b, actor.side, timeline, clock + 0.001);
+        if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*0.90));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
   }
@@ -465,7 +506,7 @@ function forcePveMonsterSurvivalLoss(result = {}) {
 
 export function createPveBattleV2({ cards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0 } = {}) {
   const withBonus = distributeEquipment(cards, Math.max(0, Number(characterBonus || 0)));
-  const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null));
+  const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const teamB = [buildMonsterFighter(monster)];
   const simulated = simulateBattleV2Preview({
     teamA, teamB, seed, maxActions: 120,
@@ -505,8 +546,8 @@ function resolvePvpDraw(result, teamA, teamB) {
 export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1 } = {}) {
   const attackerWithEquipment = distributeEquipment(attackerCards, Math.max(0, Number(attackerEquipmentBonus || 0)));
   const defenderWithEquipment = distributeEquipment(defenderCards, Math.max(0, Number(defenderEquipmentBonus || 0)));
-  const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null));
-  const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null));
+  const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
+  const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
   const simulated = simulateBattleV2Preview({ teamA, teamB, seed, maxActions: 100, healerPenalty: true });
   const result = resolvePvpDraw(simulated, teamA, teamB);
   return {
