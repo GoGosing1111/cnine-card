@@ -15,6 +15,7 @@ const DEFAULTS=Object.freeze({
   energyMax:10,energyMinutes:10,attackEnergyCost:1,realtimePollSeconds:3,
   baseSiegeHp:500000,outpostHpMultiplier:1.1,midHpMultiplier:1.2,gateHpMultiplier:1.4,homeHpMultiplier:2,
   damageScale:6,minDamage:100,maxDamage:5000,damageVariancePercent:10,recentActionLimit:20,
+  individualBattleWinCoin:0,
   winnerCoin:5000,loserCoin:2000,drawCoin:3000,participationShards:50,
   contributionCoinPer1000Damage:10,maxContributionCoin:1000000,settlementMinAttacks:1
 });
@@ -369,8 +370,8 @@ async function handleAttack(env,deps,user,cfg,body){
     // V2 계산은 전선 잠금 밖에서 병렬 처리한다. D1 반영만 짧은 원자 배치로 직렬화된다.
     const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,requestId),attackerWon=simulation.battleV2?.result?.winner==='A',winnerSide=attackerWon?String(mine.side):String(opponent.side),targetSide=winnerSide==='A'?'B':'A',contributorId=attackerWon?Number(user.id):Number(opponent.user_id),winnerPower=attackerWon?simulation.attackerPower:simulation.defenderPower;
     const planned=damageFor(winnerPower,`${requestId}:${winnerSide}:SIEGE`,cfg),hpColumn=targetSide==='A'?'a_hp':'b_hp',targetHp=Number(front[hpColumn]||0);if(targetHp<=0)throw new Error('이미 종료된 교전입니다.');
-    const predictedActual=Math.max(0,Math.min(targetHp,planned)),predictedAfter=Math.max(0,targetHp-predictedActual),winnerHpPercent=resultHpPercent(simulation.battleV2,attackerWon?'A':'B');
-    const compact={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:predictedActual,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:predictedAfter,battleSeed:simulation.battleSeed,winnerHpPercent};
+    const predictedActual=Math.max(0,Math.min(targetHp,planned)),predictedAfter=Math.max(0,targetHp-predictedActual),winnerHpPercent=resultHpPercent(simulation.battleV2,attackerWon?'A':'B'),personalWinCoin=attackerWon?clampInt(cfg.individualBattleWinCoin,0,100000000,0):0;
+    const compact={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:predictedActual,personalWinCoin,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:predictedAfter,battleSeed:simulation.battleSeed,winnerHpPercent};
     const actualExpr=`MIN(?,COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),0))`,activeExpr=`EXISTS(SELECT 1 FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE' AND ${hpColumn}>0) AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='PENDING')`;
     const attackerDamage=attackerWon?actualExpr:'0',defenderDamage=attackerWon?'0':actualExpr,attackerFinish=attackerWon?`CASE WHEN ?>=COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),1) THEN 1 ELSE 0 END`:'0',defenderFinish=attackerWon?'0':`CASE WHEN ?>=COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),1) THEN 1 ELSE 0 END`;
     const attackerSql=`UPDATE territory_war_v3_users SET energy=?,last_recharged_at=?,attacks=attacks+1,damage=damage+${attackerDamage},front_finishes=front_finishes+${attackerFinish},updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND ${activeExpr}`;
@@ -389,6 +390,8 @@ async function handleAttack(env,deps,user,cfg,body){
       env.DB.prepare(attackerSql).bind(...attackerBinds),
       env.DB.prepare(defenderSql).bind(...defenderBinds),
       env.DB.prepare(roundSql).bind(...roundBinds),
+      env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ?>0 AND ${activeExpr}`).bind(personalWinCoin,user.id,personalWinCoin,front.id,requestId),
+      env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'영토전 개인 교전 승리' FROM users WHERE id=? AND ?>0 AND ${activeExpr}`).bind(user.id,personalWinCoin,user.id,personalWinCoin,front.id,requestId),
       env.DB.prepare(actionSql).bind(...actionBinds),
       env.DB.prepare(frontSql).bind(planned,front.id,requestId)
     ]);
@@ -428,6 +431,7 @@ function cleanSettings(body,current){return{
   energyMax:clampInt(body.energyMax,1,100,current.energyMax),energyMinutes:clampInt(body.energyMinutes,1,1440,current.energyMinutes),attackEnergyCost:clampInt(body.attackEnergyCost,1,20,current.attackEnergyCost),realtimePollSeconds:clampInt(body.realtimePollSeconds,2,15,current.realtimePollSeconds),
   baseSiegeHp:clampInt(body.baseSiegeHp,1000,1000000000,current.baseSiegeHp),outpostHpMultiplier:clamp(body.outpostHpMultiplier,1,10,current.outpostHpMultiplier),midHpMultiplier:clamp(body.midHpMultiplier,1,10,current.midHpMultiplier),gateHpMultiplier:clamp(body.gateHpMultiplier,1,10,current.gateHpMultiplier),homeHpMultiplier:clamp(body.homeHpMultiplier,1,20,current.homeHpMultiplier),
   damageScale:clamp(body.damageScale,.1,100,current.damageScale),minDamage:clampInt(body.minDamage,1,10000000,current.minDamage),maxDamage:clampInt(body.maxDamage,1,100000000,current.maxDamage),damageVariancePercent:clampInt(body.damageVariancePercent,0,40,current.damageVariancePercent),recentActionLimit:clampInt(body.recentActionLimit,5,50,current.recentActionLimit),
+  individualBattleWinCoin:clampInt(body.individualBattleWinCoin,0,100000000,current.individualBattleWinCoin),
   winnerCoin:clampInt(body.winnerCoin,0,100000000,current.winnerCoin),loserCoin:clampInt(body.loserCoin,0,100000000,current.loserCoin),drawCoin:clampInt(body.drawCoin,0,100000000,current.drawCoin),participationShards:clampInt(body.participationShards,0,1000000,current.participationShards),contributionCoinPer1000Damage:clampInt(body.contributionCoinPer1000Damage,0,1000000,current.contributionCoinPer1000Damage),maxContributionCoin:clampInt(body.maxContributionCoin,0,100000000,current.maxContributionCoin),settlementMinAttacks:clampInt(body.settlementMinAttacks,0,10000,current.settlementMinAttacks)
 }}
 
