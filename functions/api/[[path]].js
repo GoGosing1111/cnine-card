@@ -2717,6 +2717,7 @@ function pityRateForDraw(settings,packId,missCount){const cfg=settings?.[packId]
 
 const FUR_FIRST_PITY_META_KEY='fur_first_acquisition_settings_v1';
 const FUR_FIRST_PITY_PACKS=new Set(['premium','pickup']);
+const FUR_FIRST_PITY_TARGET_COUNT=2;
 function defaultFurFirstSettings(){return {enabled:true,start:50,hard:100,startRate:2,maxSoftRate:20};}
 function cleanFurFirstSettings(raw={}){
   const base=defaultFurFirstSettings(),num=(value,fallback,min,max)=>{const parsed=Number(value);return Math.max(min,Math.min(max,Number.isFinite(parsed)?parsed:fallback));};
@@ -2737,13 +2738,14 @@ async function furFirstSettings(env,{fresh=false}={}){
 async function furFirstPityState(env,userId){
   await ensureFurFirstPityV1291(env);
   const row=await env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId).first();
-  if(row?.completed_at)return {everOwned:true,completed:true,missCount:0,lastPackId:row.last_pack_id||null};
-  const everOwned=await env.DB.prepare(`SELECT 1 AS owned FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
-    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' LIMIT 1`).bind(userId).first();
-  if(everOwned)await env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,completed_at,created_at,updated_at)
-    VALUES(?,0,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
-    ON CONFLICT(user_id) DO UPDATE SET miss_count=0,completed_at=COALESCE(user_fur_first_pity.completed_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP`).bind(userId,row?.last_pack_id||null).run();
-  return {everOwned:Boolean(everOwned),completed:Boolean(everOwned),missCount:everOwned?0:Math.max(0,Number(row?.miss_count||0)),lastPackId:row?.last_pack_id||null};
+  const owned=await env.DB.prepare(`SELECT COUNT(DISTINCT uc.card_id) AS count FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
+    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0`).bind(userId).first();
+  const ownedCount=Math.max(0,Number(owned?.count||0)),completed=ownedCount>=FUR_FIRST_PITY_TARGET_COUNT;
+  if(Boolean(row?.completed_at)!==completed)await env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,completed_at,created_at,updated_at)
+    VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
+    ON CONFLICT(user_id) DO UPDATE SET miss_count=excluded.miss_count,completed_at=excluded.completed_at,updated_at=CURRENT_TIMESTAMP`)
+    .bind(userId,completed?0:Math.max(0,Number(row?.miss_count||0)),row?.last_pack_id||null,completed?new Date().toISOString():null).run();
+  return {everOwned:ownedCount>0,ownedCount,targetCount:FUR_FIRST_PITY_TARGET_COUNT,completed,missCount:completed?0:Math.max(0,Number(row?.miss_count||0)),lastPackId:row?.last_pack_id||null};
 }
 async function drawUserPityState(env,userId,packId){
   await ensureFurFirstPityV1291(env);
@@ -2752,18 +2754,12 @@ async function drawUserPityState(env,userId,packId){
     env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId)
   ]);
   const pityRow=pityResult?.results?.[0]||null,furRow=furResult?.results?.[0]||null;
-  let everOwned=Boolean(furRow?.completed_at);
-  if(!everOwned){
-    const owned=await env.DB.prepare(`SELECT 1 AS owned FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
-      WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' LIMIT 1`).bind(userId).first();
-    everOwned=Boolean(owned);
-    if(everOwned)await env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,completed_at,created_at,updated_at)
-      VALUES(?,0,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
-      ON CONFLICT(user_id) DO UPDATE SET miss_count=0,completed_at=COALESCE(user_fur_first_pity.completed_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP`).bind(userId,furRow?.last_pack_id||null).run();
-  }
+  const owned=await env.DB.prepare(`SELECT COUNT(DISTINCT uc.card_id) AS count FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
+    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0`).bind(userId).first();
+  const ownedCount=Math.max(0,Number(owned?.count||0)),completed=ownedCount>=FUR_FIRST_PITY_TARGET_COUNT;
   return {
     pityCount:PITY_PACKS.has(packId)?Math.max(0,Number(pityRow?.miss_count||0)):0,
-    fur:{everOwned,completed:Boolean(furRow?.completed_at),missCount:Math.max(0,Number(furRow?.miss_count||0)),lastPackId:furRow?.last_pack_id||null}
+    fur:{everOwned:ownedCount>0,ownedCount,targetCount:FUR_FIRST_PITY_TARGET_COUNT,completed,missCount:completed?0:Math.max(0,Number(furRow?.miss_count||0)),lastPackId:furRow?.last_pack_id||null}
   };
 }
 function furFirstRateForDraw(settings,missCount){
@@ -2786,7 +2782,7 @@ function drawOneWithPityAndFurFromContext(ctx,pack,ssrRate,furAssistRate,critica
   const furPool=drawPoolFromContext(ctx,'FUR'),forceFur=furAssistRate!==null&&Number(furAssistRate)>=100;
   if(forceFur){
     const fur=drawNormalFromContext(ctx,pack,'FUR');
-    if(!fur)throw new Error('FUR 최초 획득 확정 회차지만 이 팩에서 획득 가능한 FUR 카드가 없습니다. CMS 카드 공개 상태와 팩 카드 구성을 확인하세요.');
+    if(!fur)throw new Error('FUR 획득 보정 확정 회차지만 이 팩에서 획득 가능한 FUR 카드가 없습니다. CMS 카드 공개 상태와 팩 카드 구성을 확인하세요.');
     return fur;
   }
   if(allowLimited&&pack.id==='pickup'&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
@@ -3378,8 +3374,8 @@ export async function onRequest(context){
         ]);
         const drawContext={...baseDrawContext,blockedFurIds:new Set((ownedFurRows?.results||[]).map(row=>String(row.card_id)))};
         const pityCountStart=userPityState.pityCount,furFirstStateStart=userPityState.fur;
-        const furFirstEligibleAtStart=FUR_FIRST_PITY_PACKS.has(pack.id)&&liveFurFirstSettings.enabled&&!furFirstStateStart.everOwned&&!furFirstStateStart.completed;
-        const cards=[];let pityCount=pityCountStart,limitedDrawn=false,furFirstMissCount=furFirstStateStart.missCount,furFirstEligible=furFirstEligibleAtStart,furFirstCompleted=false;
+        const furFirstEligibleAtStart=FUR_FIRST_PITY_PACKS.has(pack.id)&&liveFurFirstSettings.enabled&&!furFirstStateStart.completed;
+        const cards=[];let pityCount=pityCountStart,limitedDrawn=false,furFirstMissCount=furFirstStateStart.missCount,furFirstOwnedCount=furFirstStateStart.ownedCount,furFirstEligible=furFirstEligibleAtStart,furFirstCompleted=false;
         for(let index=0;index<count;index++){
           const pity=pityRateForDraw(livePitySettings,pack.id,pityCount);
           const furPity=furFirstEligible?furFirstRateForDraw(liveFurFirstSettings,furFirstMissCount):{drawNo:furFirstMissCount+1,rate:null,hard:false};
@@ -3393,7 +3389,11 @@ export async function onRequest(context){
           const drawnGrade=String(card.grade||'').toUpperCase();
           if(drawnGrade==='LIMITED')limitedDrawn=true;
           if(furFirstEligible){
-            if(drawnGrade==='FUR'){furFirstCompleted=true;furFirstEligible=false;furFirstMissCount=0;}
+            if(drawnGrade==='FUR'){
+              furFirstOwnedCount++;
+              furFirstCompleted=furFirstOwnedCount>=FUR_FIRST_PITY_TARGET_COUNT;
+              furFirstEligible=!furFirstCompleted;furFirstMissCount=0;
+            }
             else furFirstMissCount++;
           }
           pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;
@@ -3403,8 +3403,12 @@ export async function onRequest(context){
           cards[cards.length-1]=drawOneFromContext(drawContext,pack,guarantee,true,criticalBonus);
           if(PITY_PACKS.has(pack.id)&&ORDER[cards[cards.length-1].grade]>=ORDER.SSR)pityCount=0;
         }
-        if(furFirstEligibleAtStart&&cards.some(card=>String(card?.grade||'').toUpperCase()==='FUR')){
-          furFirstCompleted=true;furFirstEligible=false;furFirstMissCount=0;
+        if(furFirstEligibleAtStart){
+          const drawnFurCount=new Set(cards.filter(card=>String(card?.grade||'').toUpperCase()==='FUR').map(card=>String(card.id))).size;
+          furFirstOwnedCount=Math.min(FUR_FIRST_PITY_TARGET_COUNT,furFirstStateStart.ownedCount+drawnFurCount);
+          furFirstCompleted=furFirstOwnedCount>=FUR_FIRST_PITY_TARGET_COUNT;
+          furFirstEligible=!furFirstCompleted;
+          if(drawnFurCount>0)furFirstMissCount=0;
         }
 
         const validateActiveCards=async selected=>{
@@ -3522,7 +3526,7 @@ export async function onRequest(context){
         const draftResponse={
           results,user:nextProfile,
           pity:PITY_PACKS.has(pack.id)?{packId:pack.id,missCount:pityCount,nextDraw:pityCount+1}:null,
-          furFirstAssist:FUR_FIRST_PITY_PACKS.has(pack.id)?{sharedAcrossPacks:true,eligibleAtStart:furFirstEligibleAtStart,completed:furFirstCompleted||furFirstStateStart.everOwned||furFirstStateStart.completed,missCount:furFirstMissCount,nextDraw:furFirstMissCount+1,start:liveFurFirstSettings.start,hard:liveFurFirstSettings.hard}:null,
+          furFirstAssist:FUR_FIRST_PITY_PACKS.has(pack.id)?{sharedAcrossPacks:true,eligibleAtStart:furFirstEligibleAtStart,completed:furFirstCompleted||furFirstStateStart.completed,ownedCount:furFirstOwnedCount,targetCount:FUR_FIRST_PITY_TARGET_COUNT,missCount:furFirstMissCount,nextDraw:furFirstMissCount+1,start:liveFurFirstSettings.start,hard:liveFurFirstSettings.hard}:null,
           critical:{eligible:criticalEligible,success:critical,bonus:criticalBonus,automatic:true,chance:criticalConfig.chance,effects:criticalConfig.effects},
           requestId,grantProof,burningEvent:burningPublicState(burning),
           drawProtocol:{version:3,status:'APPLIED',grantVerified:false,packId:String(pack.id),count:Number(count),integrity:''}
@@ -3537,7 +3541,7 @@ export async function onRequest(context){
             ON CONFLICT(user_id) DO UPDATE SET miss_count=0,last_pack_id=excluded.last_pack_id,completed_at=COALESCE(user_fur_first_pity.completed_at,CURRENT_TIMESTAMP),updated_at=CURRENT_TIMESTAMP`).bind(user.id,pack.id));
           else statements.unshift(env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,created_at,updated_at)
             VALUES(?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
-            ON CONFLICT(user_id) DO UPDATE SET miss_count=excluded.miss_count,last_pack_id=excluded.last_pack_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,Math.max(0,Math.floor(furFirstMissCount)),pack.id));
+            ON CONFLICT(user_id) DO UPDATE SET miss_count=excluded.miss_count,last_pack_id=excluded.last_pack_id,completed_at=NULL,updated_at=CURRENT_TIMESTAMP`).bind(user.id,Math.max(0,Math.floor(furFirstMissCount)),pack.id));
         }
         if(shardTotal>0)statements.unshift(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardTotal,user.id));
         if(masterStarTotal>0){
