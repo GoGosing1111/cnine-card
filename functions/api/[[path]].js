@@ -1261,7 +1261,7 @@ async function ensureUpgrades(env){
         env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
           VALUES('HIGH_GRADE_REROLL_TICKET','고등급 재뽑기권','HIGH GRADE REROLL TICKET','PRESTIGE·LIMITED·FUR 카드 1장을 같은 등급의 다른 고유효과 특성 카드로 재뽑습니다.','REROLL','SPECIAL','',109,1)
           ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
-        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('high_grade_reroll_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({enabled:true,prestigeEnabled:true,limitedEnabled:true,furEnabled:true})),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('high_grade_reroll_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({enabled:true,dexButtonEnabled:false,prestigeEnabled:true,limitedEnabled:true,furEnabled:true})),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1430_unlimited_limited_cards','1',CURRENT_TIMESTAMP)")
       ]);
     }
