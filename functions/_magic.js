@@ -1,5 +1,6 @@
 const MAGIC_RARITIES=['R','SR','SSR'];
-const MAGIC_DECK_TYPES=['PVE','PVP','CAPTAIN'];
+const MAGIC_DECK_TYPES=['PVE','PVP'];
+export const MAGIC_BATTLE_EFFECTS=['OPENING_ATTACK','GUARD_BARRIER','LIFE_AMPLIFY','CRISIS_HEAL','PUNISH_TRAP','ARCANE_COUNTER','FOLLOWUP_HASTE'];
 const UNIQUE_CARD_GRADES=['SSR','MA','LIMITED','PRESTIGE','FUR'];
 
 function defaultAcquisitionSettings(){
@@ -69,6 +70,23 @@ export async function magicSettings(env){
   const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='magic_card_settings_v1'").first();
   if(!row?.value)return defaultMagicSettings();
   try{return cleanMagicSettings(JSON.parse(row.value))}catch{return defaultMagicSettings()}
+}
+
+function normalizeMagicBattleEffect(row={}){
+  const raw=String(row.effect_type||row.effectType||'').trim().toUpperCase(),trigger=String(row.trigger_type||row.triggerType||'').trim().toUpperCase();
+  const aliases={ATTACK_BUFF:'OPENING_ATTACK',DEFENSE_BUFF:'GUARD_BARRIER',SHIELD:'GUARD_BARRIER',HP_BUFF:'LIFE_AMPLIFY',HEAL:'CRISIS_HEAL',TRAP:'PUNISH_TRAP',COUNTER:'ARCANE_COUNTER',SPEED_BUFF:'FOLLOWUP_HASTE',HASTE:'FOLLOWUP_HASTE'};
+  const effectType=MAGIC_BATTLE_EFFECTS.includes(raw)?raw:(aliases[raw]||aliases[trigger]||'');
+  return effectType?{id:Number(row.id||0),slotNo:integer(row.slot_no??row.slotNo,1,1,5),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R').toUpperCase(),imageUrl:String(row.image_url||row.imageUrl||''),effectType,effectValue:Math.max(0,Math.min(500,Number(row.effect_value??row.effectValue)||0)),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??row.triggerChance??100)||0)),maxActivations:integer(row.max_activations??row.maxActivations,1,1,99)}:null;
+}
+
+export async function magicBattleLoadout(env,user,deckType='PVE'){
+  const type=String(deckType||'PVE').trim().toUpperCase();
+  if(!user||!MAGIC_DECK_TYPES.includes(type))return {enabled:false,ownerTest:false,deckType:type,cards:[]};
+  const cfg=await magicSettings(env),visible=cfg.enabled===true||(cfg.ownerTestEnabled!==false&&isOwner(user));
+  if(!visible)return {enabled:false,ownerTest:false,deckType:type,cards:[]};
+  const scope=type==='PVP'?'scope_pvp':'scope_pve';
+  const rows=(await env.DB.prepare(`SELECT l.slot_no,mc.id,mc.code,mc.name,mc.rarity,mc.image_url,mc.effect_type,mc.trigger_type,mc.effect_value,mc.trigger_chance,mc.max_activations FROM magic_card_loadouts l JOIN magic_cards mc ON mc.id=l.magic_card_id WHERE l.user_id=? AND l.deck_type=? AND l.magic_card_id>0 AND mc.is_active=1 AND mc.${scope}=1 ORDER BY l.slot_no`).bind(user.id,type).all()).results||[];
+  return {enabled:true,ownerTest:cfg.enabled!==true&&isOwner(user),deckType:type,cards:rows.map(normalizeMagicBattleEffect).filter(Boolean)};
 }
 
 
@@ -459,8 +477,9 @@ export async function handleMagic({path,request,env,deps}){
     const body=await readBody(request),deckType=String(body.deckType||'').toUpperCase(),slotNo=integer(body.slotNo,0,1,5),magicCardId=body.magicCardId==null?null:integer(body.magicCardId,0,1,2147483647);
     if(!MAGIC_DECK_TYPES.includes(deckType)||!slotNo)return json({error:'장착 위치가 올바르지 않습니다.'},400);
     if(magicCardId===null){await env.DB.prepare(`INSERT INTO magic_card_loadouts(user_id,deck_type,slot_no,magic_card_id,updated_at) VALUES(?,?,?,0,CURRENT_TIMESTAMP) ON CONFLICT(user_id,deck_type,slot_no) DO UPDATE SET magic_card_id=0,updated_at=CURRENT_TIMESTAMP`).bind(user.id,deckType,slotNo).run();return json({ok:true,status:await userStatus(env,await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),cfg)});}
-    const owned=await env.DB.prepare(`SELECT umc.quantity,mc.is_active FROM user_magic_cards umc JOIN magic_cards mc ON mc.id=umc.magic_card_id WHERE umc.user_id=? AND umc.magic_card_id=?`).bind(user.id,magicCardId).first();
+    const owned=await env.DB.prepare(`SELECT umc.quantity,mc.is_active,mc.scope_pve,mc.scope_pvp FROM user_magic_cards umc JOIN magic_cards mc ON mc.id=umc.magic_card_id WHERE umc.user_id=? AND umc.magic_card_id=?`).bind(user.id,magicCardId).first();
     if(!owned||Number(owned.quantity||0)<=0||Number(owned.is_active||0)!==1)return json({error:'보유하지 않았거나 비활성화된 마법카드입니다.'},400);
+    if((deckType==='PVE'&&Number(owned.scope_pve||0)!==1)||(deckType==='PVP'&&Number(owned.scope_pvp||0)!==1))return json({error:`${deckType}에 적용할 수 없는 마법카드입니다.`},400);
     const used=await env.DB.prepare(`SELECT COUNT(*) count FROM magic_card_loadouts WHERE user_id=? AND deck_type=? AND magic_card_id=? AND slot_no<>?`).bind(user.id,deckType,magicCardId,slotNo).first();
     if(Number(used?.count||0)>=Number(owned.quantity||0))return json({error:'보유 수량보다 많이 장착할 수 없습니다.'},409);
     await env.DB.prepare(`INSERT INTO magic_card_loadouts(user_id,deck_type,slot_no,magic_card_id,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,deck_type,slot_no) DO UPDATE SET magic_card_id=excluded.magic_card_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,deckType,slotNo,magicCardId).run();
@@ -539,16 +558,17 @@ export async function handleMagic({path,request,env,deps}){
         return json({ok:true,settings:next,warning:warning||undefined});
       }
       if(action==='SAVE_MAGIC_CARD'){
-        const id=body.id?integer(body.id,0,1,2147483647):null,code=safeCode(body.code||body.name),name=String(body.name||'').trim().slice(0,60),rarity=String(body.rarity||'R').toUpperCase();
+        const id=body.id?integer(body.id,0,1,2147483647):null,code=safeCode(body.code||body.name),name=String(body.name||'').trim().slice(0,60),rarity=String(body.rarity||'R').toUpperCase(),effectType=String(body.effectType||'').toUpperCase();
         if(!name)return json({error:'마법카드 이름을 입력하세요.'},400);if(!code)return json({error:'마법카드 코드를 입력하세요.'},400);if(!MAGIC_RARITIES.includes(rarity))return json({error:'마법카드 등급은 R·SR·SSR만 사용할 수 있습니다.'},400);
-        const values=[code,name,rarity,String(body.imageUrl||'').trim().slice(0,500),String(body.description||'').trim().slice(0,300),String(body.effectType||'NONE').toUpperCase().slice(0,40),String(body.triggerType||'BATTLE_START').toUpperCase().slice(0,40),Number(body.effectValue||0),Math.min(100,Math.max(0,Number(body.triggerChance??100))),integer(body.maxActivations,1,1,99),Math.max(0.0001,Number(body.drawWeight||1)),body.scopes?.pve===false?0:1,body.scopes?.pvp===false?0:1,body.scopes?.captain===false?0:1,body.isActive===false?0:1,integer(body.sortOrder,0,0,100000)];
+        if(!MAGIC_BATTLE_EFFECTS.includes(effectType))return json({error:'확정된 마법카드 효과 7종 중 하나를 선택하세요.'},400);
+        const values=[code,name,rarity,String(body.imageUrl||'').trim().slice(0,500),String(body.description||'').trim().slice(0,300),effectType,String(body.triggerType||'BATTLE_START').toUpperCase().slice(0,40),Number(body.effectValue||0),Math.min(100,Math.max(0,Number(body.triggerChance??100))),integer(body.maxActivations,1,1,99),Math.max(0.0001,Number(body.drawWeight||1)),body.scopes?.pve===false?0:1,body.scopes?.pvp===false?0:1,0,body.isActive===false?0:1,integer(body.sortOrder,0,0,100000)];
         if(id)await env.DB.prepare(`UPDATE magic_cards SET code=?,name=?,rarity=?,image_url=?,description=?,effect_type=?,trigger_type=?,effect_value=?,trigger_chance=?,max_activations=?,draw_weight=?,scope_pve=?,scope_pvp=?,scope_captain=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...values,id).run();
         else await env.DB.prepare(`INSERT INTO magic_cards(code,name,rarity,image_url,description,effect_type,trigger_type,effect_value,trigger_chance,max_activations,draw_weight,scope_pve,scope_pvp,scope_captain,is_active,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...values).run();
         await writeAdminLog(env,admin,'MAGIC_CARD_SAVE','MAGIC_CARD',String(id||code),null,{code,name,rarity});
         return json({ok:true});
       }
       if(action==='TOGGLE_MAGIC_CARD'){
-        const id=integer(body.id,0,1,2147483647);await env.DB.prepare('UPDATE magic_cards SET is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(body.isActive===true?1:0,id).run();await writeAdminLog(env,admin,'MAGIC_CARD_TOGGLE','MAGIC_CARD',String(id),null,{isActive:body.isActive===true});return json({ok:true});
+        const id=integer(body.id,0,1,2147483647),active=body.isActive===true,statements=[env.DB.prepare('UPDATE magic_cards SET is_active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(active?1:0,id)];if(!active)statements.push(env.DB.prepare('DELETE FROM magic_card_loadouts WHERE magic_card_id=?').bind(id));await env.DB.batch(statements);await writeAdminLog(env,admin,'MAGIC_CARD_TOGGLE','MAGIC_CARD',String(id),null,{isActive:active});return json({ok:true});
       }
       if(action==='BATCH_SAVE_UNIQUE_ROWS'){
         const incoming=Array.isArray(body.items)?body.items:[],byId=new Map();

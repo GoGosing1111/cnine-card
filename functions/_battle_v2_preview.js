@@ -259,13 +259,26 @@ function resolveKnockout(target, timeline, clock) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxActions = 80, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, healerPenalty = false } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, healerPenalty = false } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
   const timeline = [];
   let clock = 0;
   let actionCount = 0;
+  const magicByFighter=new Map();
+  const registerMagic=(team,cards)=>{
+    for(const magic of (Array.isArray(cards)?cards:[])){
+      const fighter=team[Math.max(0,Number(magic.slotNo||1)-1)];if(!fighter)continue;
+      const state={...magic,activations:0},value=Math.max(0,Number(magic.effectValue||0));magicByFighter.set(fighter.id,state);
+      if(state.effectType==='OPENING_ATTACK')fighter.attack=Math.max(1,Math.round(fighter.attack*(1+value/100)));
+      if(state.effectType==='LIFE_AMPLIFY'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.maxHp+=gain;fighter.hp+=gain;}
+      if(state.effectType==='GUARD_BARRIER'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.shield+=gain;fighter.maxShield+=gain;}
+      if(['OPENING_ATTACK','LIFE_AMPLIFY','GUARD_BARRIER'].includes(state.effectType)){state.activations=1;pushEvent(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});}
+    }
+  };
+  registerMagic(a,magicA);registerMagic(b,magicB);
+  const activateMagic=(fighter,effectType)=>{const state=magicByFighter.get(fighter?.id);if(!state||state.effectType!==effectType||state.activations>=state.maxActivations||random()*100>=state.triggerChance)return null;state.activations+=1;return state;};
   const suppressSpeedUnique=(guardTeam,targetTeam)=>{
     if(guardTeam.filter(card=>card.type==='DEFENSE').length<2)return;
     for(const fighter of targetTeam.filter(card=>card.type==='SPEED')){
@@ -417,6 +430,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
       targetGaugeAfter: target.gauge
     });
 
+    const haste=activateMagic(actor,'FOLLOWUP_HASTE');
+    if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);pushEvent(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
+    const retaliate=(owner,effectType,offset,fromAttack=false)=>{const magic=activateMagic(owner,effectType);if(!magic||!actor.alive||!owner.alive)return;const amount=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100));const state=applyDamage(actor,amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',{actorId:owner.id,targetId:actor.id,magicCardId:magic.id,magicCode:magic.code,magicName:magic.name,effectType:magic.effectType,value:magic.effectValue,damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield,activation:magic.activations,maxActivations:magic.maxActivations,label:magic.name});resolveKnockout(actor,timeline,clock+offset+0.00001);};
+    retaliate(target,'PUNISH_TRAP',0.0002,false);retaliate(target,'ARCANE_COUNTER',0.0003,true);
+
     const knockedOut = resolveKnockout(target, timeline, clock);
     if(actor.type==='ATTACK'&&actor.battleMode==='PVE'&&actor.actions>1&&actor.huntStacks<3){
       actor.huntStacks+=1;actor.attack=Math.max(1,Math.round(actor.attack*1.06));
@@ -426,7 +444,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
       actor.pvpTakedownUsed=true;actor.gauge=Math.min(95,actor.gauge+45);
       pushEvent(timeline,clock+0.0006,'PVP_TAKEDOWN_CHASE',{actorId:actor.id,gaugeAfter:actor.gauge,label:'공격형 · 처치 추격'});
     }
-    if (!knockedOut) maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
+    if (!knockedOut) {
+      const crisis=target.hp/Math.max(1,target.maxHp)<=0.30?activateMagic(target,'CRISIS_HEAL'):null;
+      if(crisis){const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(crisis.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.0004,'MAGIC_CARD',{actorId:target.id,targetId:target.id,magicCardId:crisis.id,magicCode:crisis.code,magicName:crisis.name,effectType:crisis.effectType,value:crisis.effectValue,amount,hpAfter:target.hp,maxHp:target.maxHp,activation:crisis.activations,maxActivations:crisis.maxActivations,label:crisis.name});}
+      maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
+    }
     maybeFrontlineBreak(enemyTeam, target.side, timeline, clock);
 
     if (!target.alive || target.hp <= 0) continue;
@@ -539,12 +561,12 @@ function forcePveMonsterSurvivalLoss(result = {}) {
   return { ...result, winner: 'B', reason: 'MONSTER_SURVIVED', originalWinner: result.winner, originalReason: result.reason, timeline };
 }
 
-export function createPveBattleV2({ cards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0 } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0 } = {}) {
   const withBonus = distributeEquipment(cards, Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const teamB = [buildMonsterFighter(monster)];
   const simulated = simulateBattleV2Preview({
-    teamA, teamB, seed, maxActions: 120,
+    teamA, teamB, magicA:magicCards, seed, maxActions: 120,
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent,
     healerPenalty: true
@@ -578,12 +600,12 @@ function resolvePvpDraw(result, teamA, teamB) {
   return { ...result, winner, reason: 'POWER_TIEBREAK', originalReason: result.reason || 'ACTION_LIMIT', timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1 } = {}) {
+export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1 } = {}) {
   const attackerWithEquipment = distributeEquipment(attackerCards, Math.max(0, Number(attackerEquipmentBonus || 0)));
   const defenderWithEquipment = distributeEquipment(defenderCards, Math.max(0, Number(defenderEquipmentBonus || 0)));
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
-  const simulated = simulateBattleV2Preview({ teamA, teamB, seed, maxActions: 100, healerPenalty: true });
+  const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 100, healerPenalty: true });
   const result = resolvePvpDraw(simulated, teamA, teamB);
   return {
     schemaVersion: 2,

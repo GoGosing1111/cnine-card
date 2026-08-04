@@ -10,7 +10,7 @@
     return `/${url.replace(/^\/+/, '')}`;
   };
   const adminImage=(value,alt='')=>{const src=publicImageUrl(value);return src?`<img src="${h(src)}" alt="${h(alt)}" loading="lazy" decoding="async" onerror="this.onerror=null;this.remove();this.parentElement.classList.add('image-missing')">`:''};
-  const effectLabel=value=>({HEAL:'회복',ATTACK_BUFF:'공격 강화',DEFENSE_BUFF:'방어 강화',HP_BUFF:'최대 HP',TRAP:'함정',SHIELD:'보호막',COUNTER:'반격',OTHER:'기타',NONE:'효과 없음'})[String(value||'').toUpperCase()]||String(value||'기타');
+  const effectLabel=value=>({OPENING_ATTACK:'전투 개시 공격 강화',GUARD_BARRIER:'수호 결계',LIFE_AMPLIFY:'생명 증폭',CRISIS_HEAL:'위기 회복',PUNISH_TRAP:'응징 함정',ARCANE_COUNTER:'마력 반격',FOLLOWUP_HASTE:'속행 가속'})[String(value||'').toUpperCase()]||String(value||'미설정');
   const triggerLabel=value=>({BATTLE_START:'전투 시작',BEFORE_ATTACK:'공격 전',AFTER_ATTACK:'공격 후',BEFORE_HIT:'피격 전',AFTER_HIT:'피격 후',LOW_HP:'HP 조건',ON_KILL:'적 처치',ON_DEATH:'카드 사망',NEXT_OPPONENT:'새 상대 출전',PASSIVE:'상시 적용'})[String(value||'').toUpperCase()]||String(value||'상시 적용');
   const prevRenderIdentity=renderIdentity;
   renderIdentity=function(){
@@ -223,7 +223,7 @@
     bindUniqueRows();updateUniqueSelectionState();
   }
   function magicCardEditor(){
-    const x=magicAdmin.editingMagic||{rarity:'R',effectType:'HEAL',triggerType:'BATTLE_START',effectValue:0,triggerChance:100,maxActivations:1,drawWeight:1,scopes:{pve:true,pvp:true,captain:true},isActive:true,sortOrder:0};
+    const x=magicAdmin.editingMagic||{rarity:'R',effectType:'OPENING_ATTACK',triggerType:'BATTLE_START',effectValue:10,triggerChance:100,maxActivations:1,drawWeight:1,scopes:{pve:true,pvp:true},isActive:true,sortOrder:0};
     return `<section class="panel magicEditorPanel"><div class="maintenanceHead"><div><small>MAGIC CARD BUILDER</small><h2>${x.id?'마법카드 수정':'새 마법카드 등록'}</h2><p>회복·공격 강화·방어 강화·함정 등 기본 효과 데이터를 준비합니다.</p></div>${x.id?`<button id="magicCancelEdit" class="ghost">수정 취소</button>`:''}</div><div class="magicEditorGrid">
       <label><span>카드명</span><input id="magicCardName" value="${h(x.name||'')}" placeholder="예: 치유의 빛"></label><label><span>고유 코드</span><input id="magicCardCode" value="${h(x.code||'')}" placeholder="HEALING_LIGHT"></label><label><span>등급</span><select id="magicCardRarity">${['R','SR','SSR'].map(v=>`<option ${x.rarity===v?'selected':''}>${v}</option>`).join('')}</select></label><label><span>정렬 순서</span><input id="magicCardSort" type="number" value="${number(x.sortOrder)}"></label>
       <label class="wide"><span>이미지 경로 또는 URL</span><input id="magicCardImage" value="${h(x.imageUrl||'')}" placeholder="/assets/magic-cards/card.png"></label><label class="wide"><span>카드 설명</span><textarea id="magicCardDescription" rows="2">${h(x.description||'')}</textarea></label>
@@ -233,6 +233,7 @@
   }
   function magicCardRow(x){const image=adminImage(x.imageUrl,`${x.name} 마법카드 이미지`);return `<article class="magicAdminCard ${x.isActive?'':'off'}"><div class="magicAdminArt${image?'':' image-missing'}">${image}<span>✦</span></div><div><small>${h(x.rarity)} · ${h(x.code)}</small><h3>${h(x.name)}</h3><p>${h(x.description||'설명 없음')}</p><div class="magicAdminTags"><b>${h(effectLabel(x.effectType))}</b><b>${h(triggerLabel(x.triggerType))}</b><b>${number(x.triggerChance)}%</b><b>최대 ${number(x.maxActivations)}회</b></div></div><div class="magicAdminCardActions">${statusPill(x.isActive)}<button data-magic-edit="${x.id}">수정</button><button data-magic-toggle="${x.id}" data-active="${x.isActive?'0':'1'}" class="ghost">${x.isActive?'비활성':'활성화'}</button></div></article>`}
   function bindMagicAdmin(){
+    const effectSelect=$('#magicCardEffectType');if(effectSelect){const selected=magicAdmin.editingMagic?.effectType||'OPENING_ATTACK',effects=[['OPENING_ATTACK','전투 개시 공격 강화'],['GUARD_BARRIER','수호 결계'],['LIFE_AMPLIFY','생명 증폭'],['CRISIS_HEAL','위기 회복'],['PUNISH_TRAP','응징 함정'],['ARCANE_COUNTER','마력 반격'],['FOLLOWUP_HASTE','속행 가속']];effectSelect.innerHTML=effects.map(([value,label])=>`<option value="${value}" ${value===selected?'selected':''}>${label}</option>`).join('');}
     $('#magicSaveSettings').onclick=saveSettings;$('#magicSaveAcquisition').onclick=saveAcquisition;$('#magicSaveCard').onclick=saveMagicCard;$('#magicNewCard').onclick=()=>{magicAdmin.editingMagic=null;renderMagicAdmin()};
     $('#magicAddTowerRow')?.addEventListener('click',()=>{$('#magicTowerRows').insertAdjacentHTML('beforeend',floorRewardRow());bindRewardRemovers()});
     $('#magicAddRaidRank')?.addEventListener('click',()=>{$('#magicRaidRankRows').insertAdjacentHTML('beforeend',rankRewardRow('raid'));bindRewardRemovers()});
