@@ -39,6 +39,24 @@ async function tableExists(env,name){const row=await env.DB.prepare("SELECT 1 ok
 async function batchChunks(env,statements,size=50){for(let i=0;i<statements.length;i+=size)await env.DB.batch(statements.slice(i,i+size))}
 async function tableColumns(env,name){const rows=(await env.DB.prepare(`PRAGMA table_info(${name})`).all()).results||[];return new Set(rows.map(row=>String(row.name||'')))}
 async function addColumnIfMissing(env,table,column,definition){const columns=await tableColumns(env,table);if(columns.has(column))return false;await env.DB.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();return true}
+async function repairWaterBuffaloSettlementV1443(env){
+  const markerKey='safe_runtime_repair_v1443_water_buffalo_b_win_500k';
+  if(await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(markerKey).first())return;
+  const rawSettings=await env.DB.prepare("SELECT value FROM app_meta WHERE key='territory_war_settings_v3'").first(),cfg=safeJson(rawSettings?.value,{});
+  if(String(cfg.teamBName||'').trim()!=='물소파')return;
+  const round=await env.DB.prepare("SELECT * FROM territory_war_v3_rounds WHERE settled_at IS NOT NULL AND winner_side<>'B' AND datetime(settled_at)>=datetime('now','-7 days') ORDER BY id DESC LIMIT 1").first();
+  if(!round)return;
+  const claimedB=(await env.DB.prepare("SELECT user_id,coin FROM territory_war_v3_rewards WHERE round_id=? AND side='B' AND result<>'INELIGIBLE' AND claimed_at IS NOT NULL").bind(round.id).all()).results||[],statements=[];
+  statements.push(env.DB.prepare("UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key='territory_war_settings_v3'").bind(JSON.stringify({...cfg,winnerCoin:500000,loserCoin:100000})));
+  statements.push(env.DB.prepare("UPDATE territory_war_v3_rounds SET winner_side='B',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id));
+  statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='WIN',coin=500000 WHERE round_id=? AND side='B' AND result<>'INELIGIBLE' AND claimed_at IS NULL").bind(round.id));
+  statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='LOSE',coin=100000 WHERE round_id=? AND side<>'B' AND result<>'INELIGIBLE' AND claimed_at IS NULL").bind(round.id));
+  for(const row of claimedB){const difference=Math.max(0,500000-Number(row.coin||0));if(difference>0){statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(difference,row.user_id));statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'영토전 정산 정정 · 물소파 승리 차액' FROM users WHERE id=?").bind(difference,row.user_id))}}
+  statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='WIN',coin=500000 WHERE round_id=? AND side='B' AND result<>'INELIGIBLE' AND claimed_at IS NOT NULL").bind(round.id));
+  statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='LOSE' WHERE round_id=? AND side<>'B' AND result<>'INELIGIBLE' AND claimed_at IS NOT NULL").bind(round.id));
+  statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(markerKey,JSON.stringify({roundId:Number(round.id),winnerSide:'B',winnerCoin:500000,loserCoin:100000,claimedBRecipients:claimedB.length,correctedAt:iso()})));
+  await env.DB.batch(statements);
+}
 
 async function ensureFoundation(env){
   if(foundationReady)return;
@@ -134,6 +152,7 @@ async function ensureFoundation(env){
     await addColumnIfMissing(env,'territory_war_v3_fronts','revisit_count','INTEGER NOT NULL DEFAULT 0');
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1442_territory_revisit_fatigue','1',CURRENT_TIMESTAMP)").run();
   }
+  await repairWaterBuffaloSettlementV1443(env);
   foundationReady=true;
 }
 
@@ -494,7 +513,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);const body=await deps.readBody(request),key=validRequestId(body.operationKey);if(!key)return deps.json({error:'관리자 작업 키가 올바르지 않습니다.'},400);const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 중인 회차만 편성할 수 있습니다.'},409);const reserve=await reserveAdminOperation(env,key,'START',round.id,user.id);if(reserve.response)return deps.json(reserve.response);if(reserve.pending)return deps.json({error:'동일한 편성 작업을 처리 중입니다.'},409);if(reserve.conflict)return deps.json({error:'다른 작업에 사용된 관리자 작업 키입니다.'},409);try{const formed=await formRound(env,round,cfg);if(formed.status==='WAITING_MINIMUM')throw new Error(`최소 참가 인원 ${cfg.minParticipants}명이 필요합니다.`);if(!['PREPARING','ACTIVE'].includes(formed.status))throw new Error('회차 편성을 완료하지 못했습니다.');const response={ok:true,state:await publicState(env,user.id,true)};await completeAdmin(env,key,response);return deps.json(response)}catch(error){await failAdmin(env,key,error);return deps.json({error:error.message||'편성에 실패했습니다.'},409)}
   }
   if(path==='admin/territory-war/finish'&&request.method==='POST'){
-    if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);const body=await deps.readBody(request),key=validRequestId(body.operationKey);if(!key)return deps.json({error:'관리자 작업 키가 올바르지 않습니다.'},400);const round=await latestRound(env);if(!round||!['PREPARING','ACTIVE'].includes(round.status))return deps.json({error:'종료 가능한 회차가 없습니다.'},409);const reserve=await reserveAdminOperation(env,key,'FINISH',round.id,user.id);if(reserve.response)return deps.json(reserve.response);if(reserve.pending)return deps.json({error:'동일한 종료 작업을 처리 중입니다.'},409);if(reserve.conflict)return deps.json({error:'다른 작업에 사용된 관리자 작업 키입니다.'},409);try{const finished=await settleRound(env,round,cfg);if(!finished?.settled_at)throw new Error('회차 정산을 완료하지 못했습니다.');if(String(cfg.mode||'OFF').toUpperCase()!=='OFF')await createRound(env,cfg);const response={ok:true,winner:finished.winner_side,state:await publicState(env,user.id,true)};await completeAdmin(env,key,response);return deps.json(response)}catch(error){await failAdmin(env,key,error);return deps.json({error:error.message||'회차 종료에 실패했습니다.'},409)}
+    if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);const body=await deps.readBody(request),key=validRequestId(body.operationKey),forcedWinner=String(body.winnerSide||'').toUpperCase();if(!key)return deps.json({error:'관리자 작업 키가 올바르지 않습니다.'},400);if(!['A','B','DRAW'].includes(forcedWinner))return deps.json({error:'강제 종료할 승리 진영을 선택하세요.'},400);const round=await latestRound(env);if(!round||!['PREPARING','ACTIVE'].includes(round.status))return deps.json({error:'종료 가능한 회차가 없습니다.'},409);const reserve=await reserveAdminOperation(env,key,'FINISH',round.id,user.id);if(reserve.response)return deps.json(reserve.response);if(reserve.pending)return deps.json({error:'동일한 종료 작업을 처리 중입니다.'},409);if(reserve.conflict)return deps.json({error:'다른 작업에 사용된 관리자 작업 키입니다.'},409);try{const finished=await settleRound(env,round,cfg,forcedWinner);if(!finished?.settled_at)throw new Error('회차 정산을 완료하지 못했습니다.');if(String(cfg.mode||'OFF').toUpperCase()!=='OFF')await createRound(env,cfg);const response={ok:true,winner:finished.winner_side,state:await publicState(env,user.id,true)};await completeAdmin(env,key,response);return deps.json(response)}catch(error){await failAdmin(env,key,error);return deps.json({error:error.message||'회차 종료에 실패했습니다.'},409)}
   }
   return deps.json({error:'요청한 영토전 기능을 찾을 수 없습니다.'},404);
 }
