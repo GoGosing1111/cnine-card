@@ -4354,6 +4354,7 @@ export async function onRequest(context){
             AND u.status='ACTIVE'
             AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN')
             AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
+            AND CASE WHEN json_valid(d.card_ids) THEN json_array_length(d.card_ids) ELSE 0 END=5
             AND ABS(p.season_score-?)<=?
           ORDER BY ABS(p.season_score-?) ASC,p.season_score DESC
           LIMIT 50`).bind(user.id,mine.season_score,seasonRange,mine.season_score).all();
