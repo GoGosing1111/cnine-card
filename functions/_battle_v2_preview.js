@@ -123,6 +123,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     huntStacks: 0,
     pvpTakedownUsed: false,
     speedUniqueSuppressed: false,
+    defenseLineBreached: false,
     frontlineAnnounced: false,
     actions: 0,
     damageDealt: 0,
@@ -234,7 +235,8 @@ function resolveKnockout(target, timeline, clock) {
   if (target.type === 'DEFENSE' && !target.indomitableUsed) {
     target.indomitableUsed = true;
     target.hp = 1;
-    target.shield = Math.max(target.shield, Math.round(target.maxHp * (target.battleMode === 'PVE' ? 0.10 : 0.06)));
+    const indomitableShieldRatio=target.battleMode==='PVE'?0.10:(target.defenseLineBreached?0.03:0.06);
+    target.shield = Math.max(target.shield, Math.round(target.maxHp * indomitableShieldRatio));
     target.maxShield = Math.max(target.maxShield, target.shield);
     pushEvent(timeline, clock, 'INDOMITABLE', { targetId: target.id, hpAfter: target.hp, shieldAfter: target.shield, label: '방어형 · 불굴' });
     return false;
@@ -291,6 +293,18 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
       pushEvent(timeline,clock,'GUARD_PROTECT',{actorId:guard.id,targetId:target.id,amount,shieldAfter:target.shield,label:'방어형 · 수호 전환'});
     }
   }
+  const breachDefenseLine=(attackTeam,targetTeam)=>{
+    if(attackTeam.filter(card=>card.type==='ATTACK').length<2)return;
+    const defenseCount=targetTeam.filter(card=>card.type==='DEFENSE').length;
+    if(defenseCount<1)return;
+    for(const fighter of targetTeam){
+      fighter.defenseLineBreached=true;
+      fighter.shield=Math.max(0,Math.round(fighter.shield*0.55));
+      fighter.maxShield=Math.max(fighter.shield,Math.round(fighter.maxShield*0.55));
+    }
+    pushEvent(timeline,clock,'DEFENSE_LINE_BREACHED',{actorSide:attackTeam[0]?.side||'',targetSide:targetTeam[0]?.side||'',defenseCount,shieldReductionPercent:45,label:'공격형 연계 · 공성 돌파'});
+  };
+  breachDefenseLine(a,b);breachDefenseLine(b,a);
 
   for (const fighter of [...a, ...b]) {
     fighter.gauge = clamp(Number(fighter.gauge || 0) + random() * 8, 0, 99);
@@ -418,8 +432,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
     if (!target.alive || target.hp <= 0) continue;
 
     const barrierBroken=target.type==='DEFENSE'&&damageState.shieldBefore>0&&damageState.shieldAfter<=0;
-    if (target.type === 'DEFENSE' && (barrierBroken || random() < 0.25)) {
-      const counter = hitResult(target, actor, random, barrierBroken?0.72:0.55, true);
+    const defenseCounterChance=target.defenseLineBreached?0.12:0.25;
+    if (target.type === 'DEFENSE' && (barrierBroken || random() < defenseCounterChance)) {
+      const counter = hitResult(target, actor, random, barrierBroken?(target.defenseLineBreached?0.60:0.72):(target.defenseLineBreached?0.45:0.55), true);
       if (!counter.dodge) {
         const counterState = applyDamage(actor, counter.damage);
         target.damageDealt += counterState.hpDamage + counterState.absorbed;
@@ -437,7 +452,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
         const actorDown = resolveKnockout(actor, timeline, clock + 0.001);
         if (!actorDown) maybeEmergencyHeal(actor, timeline, clock + 0.001, healerRules[actor.side].multiplier);
         maybeFrontlineBreak(actor.side === 'A' ? a : b, actor.side, timeline, clock + 0.001);
-        if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*0.90));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
+        if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
     }
   }
