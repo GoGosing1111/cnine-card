@@ -11,7 +11,7 @@ const NODES=Object.freeze([
 ]);
 
 const DEFAULTS=Object.freeze({
-  mode:'OFF',battleName:'',recruitmentHours:5,preparationMinutes:10,roundMinutes:180,minParticipants:6,
+  mode:'OFF',battleName:'',teamAName:'A 진영',teamBName:'B 진영',recruitmentHours:5,preparationMinutes:10,roundMinutes:180,minParticipants:6,
   energyMax:10,energyMinutes:10,attackEnergyCost:1,realtimePollSeconds:3,
   baseSiegeHp:500000,outpostHpMultiplier:1.1,midHpMultiplier:1.2,gateHpMultiplier:1.4,homeHpMultiplier:2,
   damageScale:6,minDamage:100,maxDamage:5000,damageVariancePercent:10,recentActionLimit:20,
@@ -24,6 +24,7 @@ let foundationReady=false;
 let settingsCacheValue=null,settingsCacheExpiresAt=0;
 const participantDeckCache=new Map();
 function safeJson(value,fallback={}){try{return JSON.parse(value||'')}catch{return fallback}}
+function cleanLabel(value,fallback,max=20){return String(value??fallback??'').replace(/[<>&"'`]/g,'').replace(/\s+/g,' ').trim().slice(0,max)||fallback}
 function clamp(value,min,max,fallback=min){const n=Number(value);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback}
 function clampInt(value,min,max,fallback=min){return Math.round(clamp(value,min,max,fallback))}
 function iso(ms=Date.now()){return new Date(ms).toISOString()}
@@ -451,6 +452,7 @@ function cleanSettings(body,current){return{
   ...current,
   mode:['OFF','TEST','ON'].includes(String(body.mode||'').toUpperCase())?String(body.mode).toUpperCase():current.mode,
   battleName:String(body.battleName??current.battleName??'').trim().slice(0,40),
+  teamAName:cleanLabel(body.teamAName??current.teamAName,'A 진영',20),teamBName:cleanLabel(body.teamBName??current.teamBName,'B 진영',20),
   recruitmentHours:clampInt(body.recruitmentHours,1,168,current.recruitmentHours),preparationMinutes:clampInt(body.preparationMinutes,0,1440,current.preparationMinutes),roundMinutes:clampInt(body.roundMinutes,10,10080,current.roundMinutes),minParticipants:clampInt(body.minParticipants,2,10000,current.minParticipants),
   energyMax:clampInt(body.energyMax,1,100,current.energyMax),energyMinutes:clampInt(body.energyMinutes,1,1440,current.energyMinutes),attackEnergyCost:clampInt(body.attackEnergyCost,1,20,current.attackEnergyCost),realtimePollSeconds:clampInt(body.realtimePollSeconds,2,15,current.realtimePollSeconds),
   baseSiegeHp:clampInt(body.baseSiegeHp,1000,1000000000,current.baseSiegeHp),outpostHpMultiplier:clamp(body.outpostHpMultiplier,1,10,current.outpostHpMultiplier),midHpMultiplier:clamp(body.midHpMultiplier,1,10,current.midHpMultiplier),gateHpMultiplier:clamp(body.gateHpMultiplier,1,10,current.gateHpMultiplier),homeHpMultiplier:clamp(body.homeHpMultiplier,1,20,current.homeHpMultiplier),
