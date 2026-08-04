@@ -4755,8 +4755,12 @@ export async function onRequest(context){
       const payload=await readBody(request);
       const code=String(payload.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40);
       if(!code) return json({error:'쿠폰 코드를 입력하세요.'},400);
-      const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=? AND is_active=1 AND deleted_at IS NULL`).bind(code).first();
+      const coupon=await env.DB.prepare(`SELECT * FROM coupons WHERE code=?`).bind(code).first();
       if(!coupon) return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
+      const requestedKey=String(payload.operationKey||'').trim(),operationKey=/^[A-Za-z0-9:_-]{8,120}$/.test(requestedKey)?requestedKey:`COUPON:${coupon.id}:${user.id}:${crypto.randomUUID()}`;
+      const priorReceipt=await env.DB.prepare('SELECT reward_type,reward_amount FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?').bind(coupon.id,user.id,operationKey).first();
+      if(priorReceipt){const priorType=String(priorReceipt.reward_type||'COIN').toUpperCase(),priorAmount=Number(priorReceipt.reward_amount||0),priorSpec=verifiedMessageRewardSpec(priorType),updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,replayed:true,rewardType:priorType,rewardAmount:priorAmount,rewardLabel:priorSpec?.label||'쿠폰 보상',rewardCoin:priorType==='COIN'?priorAmount:0,message:`${priorSpec?.label||'쿠폰 보상'} ${priorAmount.toLocaleString()}개를 받았습니다.`,user:await profile(env,updated)})}
+      if(Number(coupon.is_active)!==1||coupon.deleted_at)return json({error:'존재하지 않거나 삭제된 쿠폰입니다.'},404);
       if(Number(coupon.used_count)>=Number(coupon.max_uses)) return json({error:'쿠폰 사용 한도가 모두 소진되었습니다.'},409);
       const used=await env.DB.prepare('SELECT 1 FROM coupon_redemptions WHERE coupon_id=? AND user_id=?').bind(coupon.id,user.id).first();
       if(used) return json({error:'이미 사용한 쿠폰입니다.'},409);
@@ -4764,7 +4768,6 @@ export async function onRequest(context){
       const rewardAmount=Math.max(1,Math.floor(Number(coupon.reward_amount||coupon.reward_coin||0)));
       const rewardSpec=verifiedMessageRewardSpec(rewardType);
       if(!rewardSpec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX'].includes(rewardType))return json({error:'쿠폰 보상 설정이 올바르지 않습니다.'},500);
-      const operationKey=`COUPON:${coupon.id}:${user.id}:${crypto.randomUUID()}`;
       const receiptExists=`EXISTS(SELECT 1 FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?)`;
       const statements=[
         env.DB.prepare(`INSERT INTO coupon_redemptions(coupon_id,user_id,reward_coin,reward_type,reward_amount,operation_key) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM coupons WHERE id=? AND is_active=1 AND deleted_at IS NULL AND used_count<max_uses)`).bind(coupon.id,user.id,rewardType==='COIN'?rewardAmount:0,rewardType,rewardAmount,operationKey,coupon.id),
@@ -4783,8 +4786,8 @@ export async function onRequest(context){
       }
       try{await env.DB.batch(statements)}catch(error){
         const message=String(error?.message||'');
-        if(/UNIQUE|constraint/i.test(message))return json({error:'이미 사용한 쿠폰입니다.'},409);
-        throw error;
+        if(/UNIQUE|constraint/i.test(message)){const same=await env.DB.prepare('SELECT 1 FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?').bind(coupon.id,user.id,operationKey).first();if(!same)return json({error:'이미 사용한 쿠폰입니다.'},409)}
+        else throw error;
       }
       const receipt=await env.DB.prepare('SELECT reward_type,reward_amount FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?').bind(coupon.id,user.id,operationKey).first();
       if(!receipt)return json({error:'쿠폰 사용 한도가 모두 소진되었거나 쿠폰이 중지되었습니다.'},409);
