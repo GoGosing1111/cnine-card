@@ -6,7 +6,7 @@ const CARD_RARITIES=['FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const img=v=>/^https?:\/\//i.test(v)?v:'/'+String(v||'').replace(/^\//,'');
 const adminGetInflight=new Map(),adminGetCache=new Map();
-function adminApiBase(){const configured=String(globalThis.CNINE_ADMIN_API_BASE||localStorage.getItem('cnine_admin_api_base')||'').trim();return configured?configured.replace(/\/?$/,'/'):'../api/'}
+function adminApiBase(){const configured=String(globalThis.SOOP_ADMIN_API_BASE||localStorage.getItem('cnine_admin_api_base')||'').trim();return configured?configured.replace(/\/?$/,'/'):'../api/'}
 async function api(path,opt={}){
   const method=String(opt.method||'GET').toUpperCase(),cacheable=method==='GET'&&opt.cacheBust!==true,cacheKey=`${path}|${token}`;
   const now=Date.now(),cached=adminGetCache.get(cacheKey);

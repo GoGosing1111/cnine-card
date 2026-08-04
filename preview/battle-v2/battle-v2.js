@@ -147,9 +147,9 @@
       ${uniqueBadgeHtml(card)}
       <div class="card-holo"></div><div class="breakthrough-effect"></div>
       <div class="card-inner">
-        <div class="card-header"><span>${escapeHtml(grade)}</span><b>CNINE</b></div>
+        <div class="card-header"><span>${escapeHtml(grade)}</span><b>SOOP</b></div>
         <div class="card-art"><img src="${assetUrl(card.image)}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%" onerror="window.battleV2ImageFallback(this)"></div>
-        <div class="card-footer"><div><small>${escapeHtml(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="CNINE"></div>
+        <div class="card-footer"><div><small>${escapeHtml(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
       </div>
     </div>`;
   }

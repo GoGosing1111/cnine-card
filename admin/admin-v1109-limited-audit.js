@@ -1,4 +1,4 @@
-/* CNINE LIMITED ACQUISITION AUDIT · v1109 */
+/* SOOP LIMITED ACQUISITION AUDIT · v1109 */
 (()=>{
   const rootId='view-limitedaudit';
   const statusLabels={

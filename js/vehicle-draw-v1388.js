@@ -34,7 +34,7 @@
       modal.innerHTML=`<div class="modal-panel vehicle-draw-panel-v1388">
         <button type="button" class="vehicle-draw-close-v1396" id="vehicleDrawCloseV1388" aria-label="이동수단 뽑기 닫기">×</button>
         <header><small>${esc(s.drawTitle||'VEHICLE ACQUISITION')}</small><h2>이동수단 뽑기</h2><p>${esc(s.drawCopy||'새로운 이동수단을 획득합니다.')}</p></header>
-        <div class="vehicle-draw-stage-v1388"><span class="ring a"></span><span class="ring b"></span><div class="vehicle-draw-ticket-v1388">${s.ticketImage?`<img src="${esc(s.ticketImage)}" alt="">`:'<b>CNINE</b>'}<em>VEHICLE DRAW</em></div></div>
+        <div class="vehicle-draw-stage-v1388"><span class="ring a"></span><span class="ring b"></span><div class="vehicle-draw-ticket-v1388">${s.ticketImage?`<img src="${esc(s.ticketImage)}" alt="">`:'<b>SOOP</b>'}<em>VEHICLE DRAW</em></div></div>
         <div class="vehicle-draw-meta-v1388"><span>보유 뽑기권 <b>${Number(d.ticketQuantity||owned).toLocaleString()}개</b></span><span>등록 풀 <b>${pool.length}종</b></span></div>
         <div class="vehicle-draw-bonus-v1388"><b>MASTER STAR BONUS</b><span>이동수단 결과와 별도로 ${Number(s.masterStarChance||0)}% 확률 판정</span></div>
         <button type="button" class="btn vehicle-draw-confirm-v1388" id="vehicleDrawConfirmV1388" ${Number(d.ticketQuantity||0)>0&&pool.length?'':'disabled'}>${Number(d.ticketQuantity||0)>0?(pool.length?'1회 뽑기':'뽑기 풀 준비 중'):'뽑기권 없음'}</button>

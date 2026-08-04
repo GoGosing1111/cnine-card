@@ -340,7 +340,7 @@
     stage.className = 'modal-panel battle-stage pvp-battle-stage captain-v4-pvp-stage intro';
     stage.innerHTML = `
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
-      <div class="battle-topline"><span>CNINE 대장전 · PVP 연전</span><b id="battlePhase">라운드 ${roundNumber} 출전</b></div>
+      <div class="battle-topline"><span>SOOP 대장전 · PVP 연전</span><b id="battlePhase">라운드 ${roundNumber} 출전</b></div>
       <div class="captain-v3-battle-lineups captain-v4-lineups">
         ${lineupStrip(data.attackerTeam, data.attackerLineup, state.attackerDown, left.userId, 'attacker')}
         ${lineupStrip(data.defenderTeam, data.defenderLineup, state.defenderDown, right.userId, 'defender')}
