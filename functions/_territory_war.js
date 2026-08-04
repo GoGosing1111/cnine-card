@@ -63,7 +63,7 @@ async function ensureFoundation(env){
       `CREATE TABLE IF NOT EXISTS territory_war_v3_fronts(
         id INTEGER PRIMARY KEY AUTOINCREMENT,round_id INTEGER NOT NULL,sequence INTEGER NOT NULL,node_index INTEGER NOT NULL,
         node_code TEXT NOT NULL,node_name TEXT NOT NULL,node_type TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PREPARING',
-        a_hp INTEGER NOT NULL,b_hp INTEGER NOT NULL,a_max_hp INTEGER NOT NULL,b_max_hp INTEGER NOT NULL,
+        a_hp INTEGER NOT NULL,b_hp INTEGER NOT NULL,a_max_hp INTEGER NOT NULL,b_max_hp INTEGER NOT NULL,revisit_count INTEGER NOT NULL DEFAULT 0,
         winner_side TEXT,version INTEGER NOT NULL DEFAULT 1,started_at TEXT,resolved_at TEXT,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         UNIQUE(round_id,sequence))`,
@@ -128,6 +128,11 @@ async function ensureFoundation(env){
   if(!rewardAuditMarker){
     await addColumnIfMissing(env,'territory_war_v3_rewards','required_attacks','INTEGER NOT NULL DEFAULT 0');
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1432_territory_reward_attack_audit','1',CURRENT_TIMESTAMP)").run();
+  }
+  const revisitMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1442_territory_revisit_fatigue'").first();
+  if(!revisitMarker){
+    await addColumnIfMissing(env,'territory_war_v3_fronts','revisit_count','INTEGER NOT NULL DEFAULT 0');
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1442_territory_revisit_fatigue','1',CURRENT_TIMESTAMP)").run();
   }
   foundationReady=true;
 }
@@ -205,9 +210,9 @@ async function createRound(env,cfg){
 }
 
 async function createFront(env,roundId,sequence,nodeIndex,status,cfg){
-  const node=nodeAt(nodeIndex),hp=maxHpForNode(node,cfg),started=status==='ACTIVE'?iso():null;
-  await env.DB.prepare(`INSERT OR IGNORE INTO territory_war_v3_fronts(round_id,sequence,node_index,node_code,node_name,node_type,status,a_hp,b_hp,a_max_hp,b_max_hp,started_at)
-    VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(roundId,sequence,node.index,node.code,node.name,node.type,status,hp,hp,hp,hp,started).run();
+  const node=nodeAt(nodeIndex),prior=await env.DB.prepare('SELECT COUNT(*) cnt FROM territory_war_v3_fronts WHERE round_id=? AND node_index=?').bind(roundId,node.index).first(),revisitCount=Math.max(0,Number(prior?.cnt||0)),fatiguePercent=Math.min(45,revisitCount*15),hp=Math.max(1,Math.round(maxHpForNode(node,cfg)*(1-fatiguePercent/100))),started=status==='ACTIVE'?iso():null;
+  await env.DB.prepare(`INSERT OR IGNORE INTO territory_war_v3_fronts(round_id,sequence,node_index,node_code,node_name,node_type,status,a_hp,b_hp,a_max_hp,b_max_hp,revisit_count,started_at)
+    VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(roundId,sequence,node.index,node.code,node.name,node.type,status,hp,hp,hp,hp,revisitCount,started).run();
   return env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE round_id=? AND sequence=?').bind(roundId,sequence).first();
 }
 
@@ -394,9 +399,9 @@ async function handleAttack(env,deps,user,cfg,body){
 
     // V2 계산은 전선 잠금 밖에서 병렬 처리한다. D1 반영만 짧은 원자 배치로 직렬화된다.
     const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,requestId),attackerWon=simulation.battleV2?.result?.winner==='A',winnerSide=attackerWon?String(mine.side):String(opponent.side),targetSide=winnerSide==='A'?'B':'A',contributorId=attackerWon?Number(user.id):Number(opponent.user_id),winnerPower=attackerWon?simulation.attackerPower:simulation.defenderPower;
-    const planned=damageFor(winnerPower,`${requestId}:${winnerSide}:SIEGE`,cfg),hpColumn=targetSide==='A'?'a_hp':'b_hp',targetHp=Number(front[hpColumn]||0);if(targetHp<=0)throw new Error('이미 종료된 교전입니다.');
+    const revisitCount=Math.max(0,Number(front.revisit_count||0)),siegeAccelerationPercent=Math.min(30,revisitCount*10),planned=Math.max(1,Math.round(damageFor(winnerPower,`${requestId}:${winnerSide}:SIEGE`,cfg)*(1+siegeAccelerationPercent/100))),hpColumn=targetSide==='A'?'a_hp':'b_hp',targetHp=Number(front[hpColumn]||0);if(targetHp<=0)throw new Error('이미 종료된 교전입니다.');
     const predictedActual=Math.max(0,Math.min(targetHp,planned)),predictedAfter=Math.max(0,targetHp-predictedActual),winnerHpPercent=resultHpPercent(simulation.battleV2,attackerWon?'A':'B'),personalWinCoin=attackerWon?clampInt(cfg.individualBattleWinCoin,0,100000000,0):0;
-    const compact={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:predictedActual,personalWinCoin,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:predictedAfter,battleSeed:simulation.battleSeed,winnerHpPercent};
+    const compact={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,revisitCount,siegeAccelerationPercent,side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:predictedActual,personalWinCoin,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:predictedAfter,battleSeed:simulation.battleSeed,winnerHpPercent};
     const actualExpr=`MIN(?,COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),0))`,activeExpr=`EXISTS(SELECT 1 FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE' AND ${hpColumn}>0) AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='PENDING')`;
     const attackerDamage=attackerWon?actualExpr:'0',defenderDamage=attackerWon?'0':actualExpr,attackerFinish=attackerWon?`CASE WHEN ?>=COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),1) THEN 1 ELSE 0 END`:'0',defenderFinish=attackerWon?'0':`CASE WHEN ?>=COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),1) THEN 1 ELSE 0 END`;
     const attackerSql=`UPDATE territory_war_v3_users SET energy=?,last_recharged_at=?,attacks=attacks+1,damage=damage+${attackerDamage},front_finishes=front_finishes+${attackerFinish},updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND ${activeExpr}`;
