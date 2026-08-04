@@ -121,6 +121,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     survivalUsed: false,
     indomitableUsed: false,
     huntStacks: 0,
+    pvpTakedownUsed: false,
     frontlineAnnounced: false,
     actions: 0,
     damageDealt: 0,
@@ -130,7 +131,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
 
 export function publicFighter(fighter) {
   const {
-    emergencyUsed, survivalUsed, indomitableUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone,
+    emergencyUsed, survivalUsed, indomitableUsed, pvpTakedownUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone,
     ...card
   } = fighter;
   return card;
@@ -168,10 +169,12 @@ function hitResult(actor, target, random, multiplier = 1, counter = false) {
   const variance = 0.95 + random() * 0.10;
   const weakTarget = actor.type === 'ATTACK' && target.hp / Math.max(1, target.maxHp) <= 0.50;
   const execute = weakTarget ? (actor.battleMode === 'PVE' ? 1.25 : 1.10) : 1;
-  const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * (critical ? 1.50 : 1);
+  const pvpOpeningPressure = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && actor.actions === 1 ? 1.12 : 1;
+  const pvpShieldBreaker = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && target.shield > 0 ? 1.15 : 1;
+  const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1);
   const capped = Math.min(raw * (1 - reduction), target.maxHp * (counter ? 0.24 : 0.46));
   const damage = Math.max(1, Math.round(capped));
-  return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1 };
+  return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1 };
 }
 
 function applyDamage(target, incoming) {
@@ -380,6 +383,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
       critical: hit.critical,
       penetration: hit.penetration,
       execute: hit.execute === true,
+      openingPressure: hit.openingPressure === true,
+      shieldBreaker: hit.shieldBreaker === true,
       targetHpAfter: target.hp,
       targetMaxHp: target.maxHp,
       targetShieldAfter: target.shield,
@@ -391,6 +396,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], seed = 1, maxA
     if(actor.type==='ATTACK'&&actor.battleMode==='PVE'&&actor.actions>1&&actor.huntStacks<3){
       actor.huntStacks+=1;actor.attack=Math.max(1,Math.round(actor.attack*1.06));
       pushEvent(timeline,clock+0.0005,'HUNT_ACCELERATION',{actorId:actor.id,stacks:actor.huntStacks,attackAfter:actor.attack,label:'공격형 · 사냥 가속'});
+    }
+    if(knockedOut&&actor.type==='ATTACK'&&actor.battleMode==='PVP'&&!actor.pvpTakedownUsed){
+      actor.pvpTakedownUsed=true;actor.gauge=Math.min(95,actor.gauge+45);
+      pushEvent(timeline,clock+0.0006,'PVP_TAKEDOWN_CHASE',{actorId:actor.id,gaugeAfter:actor.gauge,label:'공격형 · 처치 추격'});
     }
     if (!knockedOut) maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
     maybeFrontlineBreak(enemyTeam, target.side, timeline, clock);
