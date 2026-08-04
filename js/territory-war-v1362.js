@@ -20,6 +20,7 @@
   function percent(value,max){return Math.max(0,Math.min(100,Math.round(Number(value||0)/Math.max(1,Number(max||1))*1000)/10))}
 
   function injectEntry(){
+    const mobile=document.querySelector('[data-mobile-territory-war]');if(mobile&&!mobile.dataset.territoryBound){mobile.dataset.territoryBound='1';mobile.onclick=()=>{const layer=document.getElementById('mobileNavSheetLayer');layer?.classList.remove('open');if(layer)layer.hidden=true;document.body.classList.remove('mobile-menu-open');open()}}
     if(document.querySelector('[data-territory-war-entry]'))return;
     const target=document.querySelector('[data-tab="pvp"]')?.parentElement||document.querySelector('.top-nav,.main-nav,.mode-tabs');if(!target)return;
     const button=document.createElement('button');button.type='button';button.dataset.territoryWarEntry='1';button.className='territory-war-entry';button.innerHTML='<span>영토전</span><b>SIEGE</b>';button.onclick=open;target.appendChild(button);

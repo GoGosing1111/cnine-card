@@ -375,8 +375,8 @@ function mobileNavigationHtml(tab){
       <header><div><small>BATTLE CONTENTS</small><h2>전투 콘텐츠</h2><p>진입할 전투를 선택하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="battle"><i>⚔</i><span><b>PVE</b><small>몬스터 토벌 · 월드레이드 · 무한의탑</small></span><em>입장</em></button>
-        ${pvpFeatureEnabled?`<button type="button" data-mobile-tab="pvp"><i>◇</i><span><b>PVP</b><small>일반 비동기 대전</small></span><em>입장</em></button>
-        <button type="button" data-mobile-captain><i>♛</i><span><b>대장전</b><small>3:3 팀 승자 연전</small></span><em>입장</em></button>`:''}
+        ${pvpFeatureEnabled?'<button type="button" data-mobile-tab="pvp"><i>◇</i><span><b>PVP</b><small>일반 비동기 대전</small></span><em>입장</em></button>':''}
+        <button type="button" data-mobile-territory-war><i>♜</i><span><b>영토전</b><small>실시간 진영 공성전</small></span><em>입장</em></button>
       </div>
     </section>
     <section class="mobile-nav-sheet" data-mobile-sheet="more" aria-label="더보기 메뉴">
@@ -433,7 +433,6 @@ function bindMobileNavigation(){
   layer.querySelectorAll('[data-mobile-switch-sheet]').forEach(button=>button.onclick=()=>open(button.dataset.mobileSwitchSheet));
   document.querySelectorAll('[data-mobile-tab]').forEach(button=>button.onclick=()=>{close();renderShell(button.dataset.mobileTab)});
   layer.querySelector('[data-mobile-account]')?.addEventListener('click',()=>{close();document.getElementById('playerAccountBtn')?.click()});
-  layer.querySelector('[data-mobile-captain]')?.addEventListener('click',()=>{close();openCaptainFromMobile()});
 }
 
 
