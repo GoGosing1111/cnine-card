@@ -1258,6 +1258,7 @@ async function ensureUpgrades(env){
     if(unlimitedLimitedDone?.value!=='1'){
       await env.DB.batch([
         env.DB.prepare("UPDATE cards SET limited_total=NULL,issued_count=0 WHERE UPPER(COALESCE(rarity_override,rarity))='LIMITED'"),
+        env.DB.prepare("UPDATE inventory_items SET description='MA 또는 LIMITED 등급 카드를 중복으로 획득할 때마다 1개씩 지급되는 특별 재화입니다.',updated_at=CURRENT_TIMESTAMP WHERE code='MASTER_STAR'"),
         env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
           VALUES('HIGH_GRADE_REROLL_TICKET','고등급 재뽑기권','HIGH GRADE REROLL TICKET','PRESTIGE·LIMITED·FUR 카드 1장을 같은 등급의 다른 고유효과 특성 카드로 재뽑습니다.','REROLL','SPECIAL','',109,1)
           ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
@@ -1276,7 +1277,7 @@ async function ensureUpgrades(env){
     const masterStarDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1119_master_star'").first();
     if(masterStarDone?.value!=='1'){
       await env.DB.batch([
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MASTER_STAR','마스터의 별','MASTER STAR','MA 등급 카드를 중복으로 획득할 때마다 1개씩 지급되는 특별 재화입니다.','MATERIAL','MA','',5,1)"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MASTER_STAR','마스터의 별','MASTER STAR','MA 또는 LIMITED 등급 카드를 중복으로 획득할 때마다 1개씩 지급되는 특별 재화입니다.','MATERIAL','MA','',5,1)"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1119_master_star','1',CURRENT_TIMESTAMP)")
       ]);
     }
@@ -3171,7 +3172,7 @@ export async function onRequest(context){
           reservedLimited=true;
           limitedAuditEvent={eventKey:`inventory:${requestId}:${card.id}`,stockBefore,stockAfter:stockBefore+1};
         }
-        const owned=await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?').bind(user.id,card.id).first(),duplicate=Number(owned?.quantity||0)>0,shardGained=duplicate?Number(SHARD_REWARD[card.grade]||0):0,masterStarGained=duplicate&&String(card.grade||'').toUpperCase()==='MA'?1:0,masterStarBefore=masterStarGained?Number((await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first())?.quantity||0):0;
+        const owned=await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=?').bind(user.id,card.id).first(),duplicate=Number(owned?.quantity||0)>0,shardGained=duplicate?Number(SHARD_REWARD[card.grade]||0):0,masterStarGained=duplicate&&['MA','LIMITED'].includes(String(card.grade||'').toUpperCase())?1:0,masterStarBefore=masterStarGained?Number((await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first())?.quantity||0):0;
         if(limitedAuditEvent){
           limitedAuditEvent.quantityBefore=Math.max(0,Number(owned?.quantity||0));
           await beginLimitedAcquisitionAudit(env,{eventKey:limitedAuditEvent.eventKey,requestId,drawGroupId:requestId,sourceType:'INVENTORY',sourceId:itemCode,userId:user.id,userNickname:user.nickname,cardId:card.id,cardTitle:card.title,packId:itemCode,status:'STOCK_RESERVED',coinCost:0,stockBefore:limitedAuditEvent.stockBefore,stockAfter:limitedAuditEvent.stockAfter,quantityBefore:limitedAuditEvent.quantityBefore,isDuplicate:duplicate,stockReserved:true,cardGranted:false});
@@ -3185,7 +3186,7 @@ export async function onRequest(context){
         if(shardGained>0)statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardGained,user.id));
         if(masterStarGained){
           statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'MASTER_STAR',1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id));
-          statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',1,?,'MA_DUPLICATE','INVENTORY_USE',?)").bind(user.id,masterStarBefore+1,requestId));
+          statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',1,?,?,'INVENTORY_USE',?)").bind(user.id,masterStarBefore+1,String(card.grade||'').toUpperCase()==='LIMITED'?'LIMITED_DUPLICATE':'MA_DUPLICATE',requestId));
         }
         await env.DB.batch(statements);
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
@@ -3493,7 +3494,7 @@ export async function onRequest(context){
           ownedMap.set(cardId,quantityAfter);
           expectedAfterByCard.set(cardId,quantityAfter);
           const shardGained=isNew?0:Math.floor(Number(SHARD_REWARD[card.grade]||0));
-          const masterStarGained=!isNew&&String(card.grade||'').toUpperCase()==='MA'?1:0;
+          const masterStarGained=!isNew&&['MA','LIMITED'].includes(String(card.grade||'').toUpperCase())?1:0;
           shardTotal+=shardGained;
           masterStarTotal+=masterStarGained;
           cardGrantCounts.set(cardId,Number(cardGrantCounts.get(cardId)||0)+1);
@@ -3511,9 +3512,9 @@ export async function onRequest(context){
             ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(...binds));
         }
 
-        const duplicateMaCount=results.filter(item=>item.duplicate&&String(item.card?.grade||'').toUpperCase()==='MA').length;
-        if(masterStarTotal!==duplicateMaCount||results.some(item=>item.duplicate&&String(item.card?.grade||'').toUpperCase()==='MA'&&Number(item.masterStarGained)!==1)){
-          throw new Error('MA 중복 마스터의 별 지급 계산이 일치하지 않아 개봉을 중단했습니다.');
+        const duplicateMasterStarCount=results.filter(item=>item.duplicate&&['MA','LIMITED'].includes(String(item.card?.grade||'').toUpperCase())).length;
+        if(masterStarTotal!==duplicateMasterStarCount||results.some(item=>item.duplicate&&['MA','LIMITED'].includes(String(item.card?.grade||'').toUpperCase())&&Number(item.masterStarGained)!==1)){
+          throw new Error('MA·LIMITED 중복 마스터의 별 지급 계산이 일치하지 않아 개봉을 중단했습니다.');
         }
 
         const expectedCoin=Number(fresh.coin||0)-cost;
@@ -3562,7 +3563,7 @@ export async function onRequest(context){
             VALUES(?,'MASTER_STAR',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
             ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,
               unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,masterStarTotal,masterStarTotal));
-          statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'MA_DUPLICATE','PACK_DRAW',?)").bind(user.id,masterStarTotal,expectedMasterStars,groupId));
+          statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'HIGH_GRADE_DUPLICATE','PACK_DRAW',?)").bind(user.id,masterStarTotal,expectedMasterStars,groupId));
         }
         if(shardTotal>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'DUPLICATE',NULL)").bind(user.id,shardTotal,expectedShards));
         statements.push(env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PACK_DRAW')").bind(user.id,-cost,expectedCoin));

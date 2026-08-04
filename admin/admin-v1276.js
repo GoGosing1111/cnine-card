@@ -388,3 +388,7 @@ const applySavedCardToStateV1031=applySavedCardToState;
 applySavedCardToState=payload=>{applySavedCardToStateV1031(payload);const current=state.cards.find(x=>String(x.id)===String(payload.id));if(current&&payload.updateVisibility){current.is_active=payload.isActive?1:0;current.cardStatus=payload.isActive?'PUBLIC':'INACTIVE'}};
 
 // v9.4.2 card management cache bust
+
+// v1431: 유저관리 수동 지급 목록에 고등급 재뽑기권을 고정 노출한다.
+function ensureHighGradeRerollGrantOption(){const select=$('#inventoryItemCode');if(!select||select.querySelector('option[value="HIGH_GRADE_REROLL_TICKET"]'))return;const option=document.createElement('option');option.value='HIGH_GRADE_REROLL_TICKET';option.textContent='고등급 재뽑기권 · PRESTIGE/LIMITED/FUR';select.append(option);const block=$('#inventoryGrantBlock');if(block){const title=block.querySelector('h3'),button=$('#inventoryGrantBtn');if(title)title.textContent='인벤토리 아이템 지급';if(button)button.textContent='선택 아이템 지급'}}
+new MutationObserver(ensureHighGradeRerollGrantOption).observe(document.documentElement,{childList:true,subtree:true});
