@@ -78,7 +78,7 @@ async function ensureFoundation(env){
         PRIMARY KEY(round_id,sequence))`,
       `CREATE TABLE IF NOT EXISTS territory_war_v3_rewards(
         round_id INTEGER NOT NULL,user_id INTEGER NOT NULL,side TEXT,result TEXT NOT NULL,coin INTEGER NOT NULL DEFAULT 0,
-        shards INTEGER NOT NULL DEFAULT 0,damage INTEGER NOT NULL DEFAULT 0,attacks INTEGER NOT NULL DEFAULT 0,
+        shards INTEGER NOT NULL DEFAULT 0,damage INTEGER NOT NULL DEFAULT 0,attacks INTEGER NOT NULL DEFAULT 0,required_attacks INTEGER NOT NULL DEFAULT 0,
         claimed_at TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(round_id,user_id))`,
       `CREATE TABLE IF NOT EXISTS territory_war_v3_admin_operations(
         operation_key TEXT PRIMARY KEY,action TEXT NOT NULL,round_id INTEGER,admin_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',
@@ -122,6 +122,11 @@ async function ensureFoundation(env){
   if(!nameMarker){
     await addColumnIfMissing(env,'territory_war_v3_rounds','battle_name',"TEXT NOT NULL DEFAULT ''");
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1428_territory_battle_name','1',CURRENT_TIMESTAMP)").run();
+  }
+  const rewardAuditMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1432_territory_reward_attack_audit'").first();
+  if(!rewardAuditMarker){
+    await addColumnIfMissing(env,'territory_war_v3_rewards','required_attacks','INTEGER NOT NULL DEFAULT 0');
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1432_territory_reward_attack_audit','1',CURRENT_TIMESTAMP)").run();
   }
   foundationReady=true;
 }
@@ -249,8 +254,8 @@ function timeWinner(round,front){
 }
 
 async function generateRewards(env,round,cfg){
-  const rows=(await env.DB.prepare('SELECT user_id,side,damage,attacks FROM territory_war_v3_users WHERE round_id=?').bind(round.id).all()).results||[],statements=[];
-  for(const item of rows){const eligible=Number(item.attacks||0)>=Number(cfg.settlementMinAttacks||1),winner=String(round.winner_side||'DRAW'),result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE';let coin=0,shards=0;if(eligible){coin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);coin+=Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(Number(item.damage||0)/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}statements.push(env.DB.prepare(`INSERT OR IGNORE INTO territory_war_v3_rewards(round_id,user_id,side,result,coin,shards,damage,attacks) VALUES(?,?,?,?,?,?,?,?)`).bind(round.id,item.user_id,item.side||'',result,coin,shards,Number(item.damage||0),Number(item.attacks||0)))}
+  const rows=(await env.DB.prepare(`SELECT u.user_id,u.side,u.damage,MAX(u.attacks,(SELECT COUNT(*) FROM territory_war_v3_actions a WHERE a.round_id=u.round_id AND a.user_id=u.user_id AND a.status IN ('APPLIED','COMPLETED'))) attacks FROM territory_war_v3_users u WHERE u.round_id=?`).bind(round.id).all()).results||[],statements=[],required=Math.max(0,Number(cfg.settlementMinAttacks??1));
+  for(const item of rows){const eligible=Number(item.attacks||0)>=required,winner=String(round.winner_side||'DRAW'),result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE';let coin=0,shards=0;if(eligible){coin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);coin+=Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(Number(item.damage||0)/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}statements.push(env.DB.prepare(`INSERT INTO territory_war_v3_rewards(round_id,user_id,side,result,coin,shards,damage,attacks,required_attacks) VALUES(?,?,?,?,?,?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET side=excluded.side,result=excluded.result,coin=excluded.coin,shards=excluded.shards,damage=excluded.damage,attacks=excluded.attacks,required_attacks=excluded.required_attacks WHERE territory_war_v3_rewards.claimed_at IS NULL`).bind(round.id,item.user_id,item.side||'',result,coin,shards,Number(item.damage||0),Number(item.attacks||0),required))}
   await batchChunks(env,statements);
 }
 
@@ -310,7 +315,12 @@ function rechargeEnergy(row,cfg){
 }
 
 async function rewardForUser(env,userId){
-  const v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.user_id=? AND r.claimed_at IS NULL ORDER BY r.round_id DESC LIMIT 1').bind(userId).first();if(v3)return{...v3,version:'V3'};
+  let v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.user_id=? AND r.claimed_at IS NULL ORDER BY r.round_id DESC LIMIT 1').bind(userId).first();
+  if(v3&&v3.result==='INELIGIBLE'){
+    const source=await env.DB.prepare(`SELECT u.side,u.damage,MAX(u.attacks,(SELECT COUNT(*) FROM territory_war_v3_actions a WHERE a.round_id=u.round_id AND a.user_id=u.user_id AND a.status IN ('APPLIED','COMPLETED'))) attacks FROM territory_war_v3_users u WHERE u.round_id=? AND u.user_id=?`).bind(v3.round_id,userId).first(),cfg=await settings(env),required=Math.max(0,Number(v3.required_attacks)>0?Number(v3.required_attacks):Number(cfg.settlementMinAttacks??1));
+    if(source){const attacks=Number(source.attacks||0),damage=Number(source.damage||0),eligible=attacks>=required;let result='INELIGIBLE',coin=0,shards=0;if(eligible){const round=await roundById(env,v3.round_id),winner=String(round?.winner_side||'DRAW');result=winner==='DRAW'?'DRAW':source.side===winner?'WIN':'LOSE';coin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);coin+=Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(damage/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}await env.DB.prepare(`UPDATE territory_war_v3_rewards SET side=?,result=?,coin=?,shards=?,damage=?,attacks=?,required_attacks=? WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(source.side||'',result,coin,shards,damage,attacks,required,v3.round_id,userId).run();v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=?').bind(v3.round_id,userId).first()}
+  }
+  if(v3)return{...v3,version:'V3'};
   if(await tableExists(env,'territory_war_rewards')){const old=await env.DB.prepare('SELECT * FROM territory_war_rewards WHERE user_id=? AND claimed_at IS NULL ORDER BY round_id DESC LIMIT 1').bind(userId).first();if(old)return{...old,version:'LEGACY'}}
   return null;
 }
