@@ -11,7 +11,7 @@ const NODES=Object.freeze([
 ]);
 
 const DEFAULTS=Object.freeze({
-  mode:'OFF',recruitmentHours:5,preparationMinutes:10,roundMinutes:180,minParticipants:6,
+  mode:'OFF',battleName:'',recruitmentHours:5,preparationMinutes:10,roundMinutes:180,minParticipants:6,
   energyMax:10,energyMinutes:10,attackEnergyCost:1,realtimePollSeconds:3,
   baseSiegeHp:500000,outpostHpMultiplier:1.1,midHpMultiplier:1.2,gateHpMultiplier:1.4,homeHpMultiplier:2,
   damageScale:6,minDamage:100,maxDamage:5000,damageVariancePercent:10,recentActionLimit:20,
@@ -45,7 +45,7 @@ async function ensureFoundation(env){
   if(!marker){
     const sql=[
       `CREATE TABLE IF NOT EXISTS territory_war_v3_rounds(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,status TEXT NOT NULL DEFAULT 'RECRUITING',recruitment_ends_at TEXT,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,status TEXT NOT NULL DEFAULT 'RECRUITING',battle_name TEXT NOT NULL DEFAULT '',recruitment_ends_at TEXT,
         starts_at TEXT,ends_at TEXT,current_front_index INTEGER NOT NULL DEFAULT 4,current_front_id INTEGER,
         a_total_damage INTEGER NOT NULL DEFAULT 0,b_total_damage INTEGER NOT NULL DEFAULT 0,
         a_front_wins INTEGER NOT NULL DEFAULT 0,b_front_wins INTEGER NOT NULL DEFAULT 0,
@@ -117,6 +117,11 @@ async function ensureFoundation(env){
     ]);
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1404_territory_battle_v2','1',CURRENT_TIMESTAMP)").run();
   }
+  const nameMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1428_territory_battle_name'").first();
+  if(!nameMarker){
+    await addColumnIfMissing(env,'territory_war_v3_rounds','battle_name',"TEXT NOT NULL DEFAULT ''");
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1428_territory_battle_name','1',CURRENT_TIMESTAMP)").run();
+  }
   foundationReady=true;
 }
 
@@ -187,7 +192,7 @@ async function createRound(env,cfg){
   try{
     const live=await env.DB.prepare("SELECT id FROM territory_war_v3_rounds WHERE status IN ('RECRUITING','PREPARING','ACTIVE') ORDER BY id DESC LIMIT 1").first();if(live)return Number(live.id);
     const end=iso(Date.now()+Number(cfg.recruitmentHours||5)*3600000);
-    const result=await env.DB.prepare("INSERT INTO territory_war_v3_rounds(status,recruitment_ends_at,current_front_index) VALUES('RECRUITING',?,4)").bind(end).run();
+    const result=await env.DB.prepare("INSERT INTO territory_war_v3_rounds(status,battle_name,recruitment_ends_at,current_front_index) VALUES('RECRUITING',?,?,4)").bind(String(cfg.battleName||'').trim().slice(0,40),end).run();
     return Number(result.meta.last_row_id);
   }finally{await releaseLock(env,lock)}
 }
@@ -290,7 +295,7 @@ function rechargeEnergy(row,cfg){
 }
 
 async function rewardForUser(env,userId){
-  const v3=await env.DB.prepare('SELECT * FROM territory_war_v3_rewards WHERE user_id=? AND claimed_at IS NULL ORDER BY round_id DESC LIMIT 1').bind(userId).first();if(v3)return{...v3,version:'V3'};
+  const v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.user_id=? AND r.claimed_at IS NULL ORDER BY r.round_id DESC LIMIT 1').bind(userId).first();if(v3)return{...v3,version:'V3'};
   if(await tableExists(env,'territory_war_rewards')){const old=await env.DB.prepare('SELECT * FROM territory_war_rewards WHERE user_id=? AND claimed_at IS NULL ORDER BY round_id DESC LIMIT 1').bind(userId).first();if(old)return{...old,version:'LEGACY'}}
   return null;
 }
@@ -418,6 +423,7 @@ async function failAdmin(env,key,error){await env.DB.prepare("UPDATE territory_w
 function cleanSettings(body,current){return{
   ...current,
   mode:['OFF','TEST','ON'].includes(String(body.mode||'').toUpperCase())?String(body.mode).toUpperCase():current.mode,
+  battleName:String(body.battleName??current.battleName??'').trim().slice(0,40),
   recruitmentHours:clampInt(body.recruitmentHours,1,168,current.recruitmentHours),preparationMinutes:clampInt(body.preparationMinutes,0,1440,current.preparationMinutes),roundMinutes:clampInt(body.roundMinutes,10,10080,current.roundMinutes),minParticipants:clampInt(body.minParticipants,2,10000,current.minParticipants),
   energyMax:clampInt(body.energyMax,1,100,current.energyMax),energyMinutes:clampInt(body.energyMinutes,1,1440,current.energyMinutes),attackEnergyCost:clampInt(body.attackEnergyCost,1,20,current.attackEnergyCost),realtimePollSeconds:clampInt(body.realtimePollSeconds,2,15,current.realtimePollSeconds),
   baseSiegeHp:clampInt(body.baseSiegeHp,1000,1000000000,current.baseSiegeHp),outpostHpMultiplier:clamp(body.outpostHpMultiplier,1,10,current.outpostHpMultiplier),midHpMultiplier:clamp(body.midHpMultiplier,1,10,current.midHpMultiplier),gateHpMultiplier:clamp(body.gateHpMultiplier,1,10,current.gateHpMultiplier),homeHpMultiplier:clamp(body.homeHpMultiplier,1,20,current.homeHpMultiplier),
@@ -446,7 +452,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
     if(request.method==='POST'){
       const next=cleanSettings(await deps.readBody(request),cfg);if(Number(next.maxDamage)<Number(next.minDamage))next.maxDamage=next.minDamage;
       await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateSettingsCache();
-      const round=await latestRound(env);if(next.mode==='OFF'&&round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='DISABLED',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id).run();if(next.mode!=='OFF'&&(!round||['FINISHED','DISABLED'].includes(round.status)))await createRound(env,next);return deps.json({ok:true,settings:next,state:await publicState(env,user.id,true)});
+      const round=await latestRound(env);if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();if(next.mode==='OFF'&&round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='DISABLED',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id).run();if(next.mode!=='OFF'&&(!round||['FINISHED','DISABLED'].includes(round.status)))await createRound(env,next);return deps.json({ok:true,settings:next,state:await publicState(env,user.id,true)});
     }
   }
   if(path==='admin/territory-war/start'&&request.method==='POST'){
