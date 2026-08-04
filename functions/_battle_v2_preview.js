@@ -274,7 +274,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       if(state.effectType==='OPENING_ATTACK')fighter.attack=Math.max(1,Math.round(fighter.attack*(1+value/100)));
       if(state.effectType==='LIFE_AMPLIFY'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.maxHp+=gain;fighter.hp+=gain;}
       if(state.effectType==='GUARD_BARRIER'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.shield+=gain;fighter.maxShield+=gain;}
-      if(['OPENING_ATTACK','LIFE_AMPLIFY','GUARD_BARRIER'].includes(state.effectType)){state.activations=1;pushEvent(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});}
+      if(['OPENING_ATTACK','LIFE_AMPLIFY','GUARD_BARRIER'].includes(state.effectType)){state.activations=1;pushEvent(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,magicImageUrl:state.imageUrl,magicRarity:state.rarity,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});}
     }
   };
   registerMagic(a,magicA);registerMagic(b,magicB);
@@ -431,8 +431,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     });
 
     const haste=activateMagic(actor,'FOLLOWUP_HASTE');
-    if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);pushEvent(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
-    const retaliate=(owner,effectType,offset,fromAttack=false)=>{const magic=activateMagic(owner,effectType);if(!magic||!actor.alive||!owner.alive)return;const amount=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100));const state=applyDamage(actor,amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',{actorId:owner.id,targetId:actor.id,magicCardId:magic.id,magicCode:magic.code,magicName:magic.name,effectType:magic.effectType,value:magic.effectValue,damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield,activation:magic.activations,maxActivations:magic.maxActivations,label:magic.name});resolveKnockout(actor,timeline,clock+offset+0.00001);};
+    if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);pushEvent(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,magicImageUrl:haste.imageUrl,magicRarity:haste.rarity,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
+    const retaliate=(owner,effectType,offset,fromAttack=false)=>{const magic=activateMagic(owner,effectType);if(!magic||!actor.alive||!owner.alive)return;const amount=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100));const state=applyDamage(actor,amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',{actorId:owner.id,targetId:actor.id,magicCardId:magic.id,magicCode:magic.code,magicName:magic.name,magicImageUrl:magic.imageUrl,magicRarity:magic.rarity,effectType:magic.effectType,value:magic.effectValue,damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield,activation:magic.activations,maxActivations:magic.maxActivations,label:magic.name});resolveKnockout(actor,timeline,clock+offset+0.00001);};
     retaliate(target,'PUNISH_TRAP',0.0002,false);retaliate(target,'ARCANE_COUNTER',0.0003,true);
 
     const knockedOut = resolveKnockout(target, timeline, clock);
@@ -446,7 +446,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if (!knockedOut) {
       const crisis=target.hp/Math.max(1,target.maxHp)<=0.30?activateMagic(target,'CRISIS_HEAL'):null;
-      if(crisis){const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(crisis.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.0004,'MAGIC_CARD',{actorId:target.id,targetId:target.id,magicCardId:crisis.id,magicCode:crisis.code,magicName:crisis.name,effectType:crisis.effectType,value:crisis.effectValue,amount,hpAfter:target.hp,maxHp:target.maxHp,activation:crisis.activations,maxActivations:crisis.maxActivations,label:crisis.name});}
+      if(crisis){const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(crisis.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.0004,'MAGIC_CARD',{actorId:target.id,targetId:target.id,magicCardId:crisis.id,magicCode:crisis.code,magicName:crisis.name,magicImageUrl:crisis.imageUrl,magicRarity:crisis.rarity,effectType:crisis.effectType,value:crisis.effectValue,amount,hpAfter:target.hp,maxHp:target.maxHp,activation:crisis.activations,maxActivations:crisis.maxActivations,label:crisis.name});}
       maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
     }
     maybeFrontlineBreak(enemyTeam, target.side, timeline, clock);
