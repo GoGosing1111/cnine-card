@@ -177,7 +177,8 @@ const VERIFIED_MESSAGE_REWARD_TYPES={
   SHARDS:{label:'카드 조각',icon:'🧩',inventory:false,max:100000000,messageType:'SHARD_REWARD'},
   MASTER_STAR:{label:'마스터의 별',icon:'⭐',inventory:true,max:100000,messageType:'ITEM_REWARD'},
   PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎',inventory:true,max:100000,messageType:'ITEM_REWARD'},
-  EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'}
+  EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦',inventory:true,max:100000,messageType:'ITEM_REWARD'},
+  HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️',inventory:true,max:100000,messageType:'ITEM_REWARD'}
 };
 function verifiedMessageRewardSpec(value){const type=String(value||'').trim().toUpperCase();return VERIFIED_MESSAGE_REWARD_TYPES[type]?{type,...VERIFIED_MESSAGE_REWARD_TYPES[type]}:null}
 let verifiedRewardMessageV1276ReadyPromise=null;
@@ -1252,6 +1253,17 @@ async function ensureUpgrades(env){
         await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) SELECT user_id,item_code,MAX(0,quantity),${hasUnseen?'MAX(0,unseen_quantity)':'0'} FROM user_inventory WHERE item_code IS NOT NULL ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=MAX(cnine_user_inventory.quantity,excluded.quantity),unseen_quantity=MAX(cnine_user_inventory.unseen_quantity,excluded.unseen_quantity),updated_at=CURRENT_TIMESTAMP`).run();
       }
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1026_cnine_inventory','1',CURRENT_TIMESTAMP)").run();
+    }
+    const unlimitedLimitedDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1430_unlimited_limited_cards'").first();
+    if(unlimitedLimitedDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare("UPDATE cards SET limited_total=NULL,issued_count=0 WHERE UPPER(COALESCE(rarity_override,rarity))='LIMITED'"),
+        env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active)
+          VALUES('HIGH_GRADE_REROLL_TICKET','고등급 재뽑기권','HIGH GRADE REROLL TICKET','PRESTIGE·LIMITED·FUR 카드 1장을 같은 등급의 다른 고유효과 특성 카드로 재뽑습니다.','REROLL','SPECIAL','',109,1)
+          ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('high_grade_reroll_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({enabled:true,prestigeEnabled:true,limitedEnabled:true,furEnabled:true})),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1430_unlimited_limited_cards','1',CURRENT_TIMESTAMP)")
+      ]);
     }
     const magicCardPackDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1136_magic_card_pack'").first();
     if(magicCardPackDone?.value!=='1'){
@@ -2566,7 +2578,7 @@ function cardWithAcquisitionEffect(card,settings){
 async function drawLimitedCard(env){
   const pool=randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
+    WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id='pickup')
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id='pickup' AND p1.card_id=c.id))`).all()).results);
   return weightedPick(pool,row=>Number(row.draw_weight)||0)||null;
@@ -2616,7 +2628,7 @@ async function queryDrawContext(env,pack){
   ];
   if(pack.id==='pickup')statements.push(env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-    WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0 AND c.limited_total IS NOT NULL AND c.issued_count<c.limited_total
+    WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
         OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id));
   const batch=await env.DB.batch(statements);
@@ -4702,7 +4714,7 @@ export async function onRequest(context){
       const body=await readBody(request);
       const requestedType=path==='admin/verified-coin-message-send'?'COIN':String(body.rewardType||'COIN').trim().toUpperCase();
       const spec=verifiedMessageRewardSpec(requestedType);
-      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
+      if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET'].includes(requestedType))return json({error:'지원하지 않는 인증자 메시지 보상입니다.'},400);
       const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
       if(!Number.isFinite(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위로 입력하세요.`},400);
       const rewardAmount=Math.floor(rawAmount);
@@ -4771,7 +4783,7 @@ export async function onRequest(context){
       const rewardType=String(coupon.reward_type||'COIN').toUpperCase();
       const rewardAmount=Math.max(1,Math.floor(Number(coupon.reward_amount||coupon.reward_coin||0)));
       const rewardSpec=verifiedMessageRewardSpec(rewardType);
-      if(!rewardSpec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX'].includes(rewardType))return json({error:'쿠폰 보상 설정이 올바르지 않습니다.'},500);
+      if(!rewardSpec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET'].includes(rewardType))return json({error:'쿠폰 보상 설정이 올바르지 않습니다.'},500);
       const receiptExists=`EXISTS(SELECT 1 FROM coupon_redemptions WHERE coupon_id=? AND user_id=? AND operation_key=?)`;
       const statements=[
         env.DB.prepare(`INSERT INTO coupon_redemptions(coupon_id,user_id,reward_coin,reward_type,reward_amount,operation_key) SELECT ?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM coupons WHERE id=? AND is_active=1 AND deleted_at IS NULL AND used_count<max_uses)`).bind(coupon.id,user.id,rewardType==='COIN'?rewardAmount:0,rewardType,rewardAmount,operationKey,coupon.id),
@@ -5086,7 +5098,7 @@ export async function onRequest(context){
       const rewardType=String(p.rewardType||'').trim().toUpperCase();
       const rewardAmount=Number(p.rewardAmount);
       const maxUses=Number(p.maxUses);
-      const rewardSpecs={COIN:{max:100000000,label:'코인'},MASTER_STAR:{max:1000000,label:'마스터의 별'},PREMIUM_CUBE:{max:100000,label:'프리미엄 큐브'},EQUIPMENT_SUPPLY_BOX:{max:100000,label:'장비 보급상자'}};
+      const rewardSpecs={COIN:{max:100000000,label:'코인'},MASTER_STAR:{max:1000000,label:'마스터의 별'},PREMIUM_CUBE:{max:100000,label:'프리미엄 큐브'},EQUIPMENT_SUPPLY_BOX:{max:100000,label:'장비 보급상자'},HIGH_GRADE_REROLL_TICKET:{max:100000,label:'고등급 재뽑기권'}};
       const spec=rewardSpecs[rewardType];
       if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
       if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
@@ -5116,7 +5128,7 @@ export async function onRequest(context){
       if(request.method==='POST'){
         const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=verifiedMessageRewardSpec(rewardType);
         if(!/^[A-Z0-9_-]{4,40}$/.test(code))return json({error:'쿠폰 코드는 영문 대문자·숫자·_·- 조합 4~40자로 입력하세요.'},400);
-        if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
+        if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
         const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? LIMIT 1').bind(code).first();
@@ -5828,20 +5840,14 @@ export async function onRequest(context){
         const batchDate=String(payload.batchDate||'').trim().slice(0,10)||null;
         let drawWeight=Math.max(0,Math.min(100000,Number(payload.drawWeight??1)||0));
         if(grade==='PRESTIGE') drawWeight=0;
-        const rawLimit=payload.limitedTotal;
-        let limitedTotal=rawLimit===null||rawLimit===undefined||rawLimit===''?null:Math.max(0,Math.floor(Number(rawLimit)));
+        let limitedTotal=null;
         const issuedCount=Math.max(0,Math.floor(Number(payload.issuedCount??0)||0));
-        // LIMITED가 아닌 카드로 이동하면 기존 한정 수량 속성을 함께 해제한다.
-        // 반대로 LIMITED는 반드시 유효한 한정 수량을 가져야 한다.
-        if(grade!=='LIMITED') limitedTotal=null;
-        if(grade==='LIMITED'&&(limitedTotal===null||limitedTotal<1)) throw new Error('LIMITED 등급은 1장 이상의 한정 수량이 필요합니다.');
         if(!title) throw new Error('카드명을 입력하세요.');
         if(!image) throw new Error('이미지 경로 또는 URL을 입력하세요.');
         if(!Number.isInteger(memberId)||memberId<1) throw new Error('멤버를 선택하세요.');
         if(!RARITIES.includes(grade)) throw new Error('올바르지 않은 카드 등급입니다.');
         const member=await env.DB.prepare('SELECT id FROM members WHERE id=?').bind(memberId).first();
         if(!member) throw new Error('존재하지 않는 멤버입니다.');
-        if(limitedTotal!==null&&limitedTotal<issuedCount) throw new Error('한정 수량은 이미 발급된 수량보다 작게 설정할 수 없습니다.');
         const supportsPowerType=['SSR','MA','LIMITED','PRESTIGE','FUR'].includes(grade);
         let powerType=payload.powerType===null||payload.powerType===undefined||payload.powerType===''?null:String(payload.powerType).toUpperCase();
         let basePower=payload.basePower===null||payload.basePower===undefined||payload.basePower===''?null:Math.max(0,Math.floor(Number(payload.basePower)||0));

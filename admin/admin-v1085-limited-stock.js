@@ -2,6 +2,9 @@
 (() => {
   'use strict';
 
+  // 리미티드 카드는 서버 재고 제한을 사용하지 않는다.
+  return;
+
   const qs = (selector, root = document) => root.querySelector(selector);
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'

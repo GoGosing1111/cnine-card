@@ -2341,6 +2341,7 @@ async function loadInventory(){
 async function openInventoryPack(itemCode,ownedQuantity=0){
   if(itemCode==='EQUIPMENT_SUPPLY_BOX')return openEquipmentSupplyBox(ownedQuantity);
   if(itemCode==='VEHICLE_DRAW_TICKET'&&window.VehicleDrawV1388)return window.VehicleDrawV1388.open(ownedQuantity);
+  if(itemCode==='HIGH_GRADE_REROLL_TICKET'&&window.HighGradeReroll)return window.HighGradeReroll.open();
   const reroll=RETIREMENT_REROLL_META[itemCode]||null;
   const cubeItems={NORMAL_CUBE:{title:'일반 큐브',image:'assets/ui/packs/normal-cube.png?v=1218-soop-cube-premium',range:'C · U · R · SR',theme:'normal'},ADVANCED_CUBE:{title:'고급 큐브',image:'assets/ui/packs/advanced-cube.png?v=1218-soop-cube-premium',range:'HR · UR · SSR',theme:'advanced'},PREMIUM_CUBE:{title:'프리미엄 큐브',image:'assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium',range:'MA · FUR · LIMITED',theme:'premium'},GUARANTEED_MA_PACK:{title:'MA 확정 큐브',image:'assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium',range:'MA 확정',theme:'ma'},GUARANTEED_LIMITED_PACK:{title:'리미티드 확정 큐브',image:'assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium',range:'LIMITED 확정',theme:'limited'}};
   const meta=reroll?{...reroll,range:`${reroll.grade} 활성 카드`,kind:'reroll'}:{...(cubeItems[itemCode]||cubeItems.NORMAL_CUBE),kind:'cube'},modal=document.getElementById('modal');
