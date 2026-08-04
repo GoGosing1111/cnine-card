@@ -1,8 +1,9 @@
-const DEFAULT_SETTINGS={enabled:true,prestigeEnabled:true,limitedEnabled:true,furEnabled:true};
+const DROP_CONTENTS=['PVE','PVP','RAID','RIFT','TOWER','TERRITORY','SEAL','DAILY_QUEST','ATTENDANCE','WAGO','MINERAL','VEHICLE','EQUIPMENT','CARD_DRAW'];
+const DEFAULT_SETTINGS={enabled:true,prestigeEnabled:true,limitedEnabled:true,furEnabled:true,dropRates:Object.fromEntries(DROP_CONTENTS.map(code=>[code,0]))};
 const ALLOWED_GRADES=new Set(['PRESTIGE','LIMITED','FUR']);
 const TICKET_CODE='HIGH_GRADE_REROLL_TICKET';
 const safeJson=(value,fallback={})=>{try{return JSON.parse(value)}catch{return fallback}};
-const cleanSettings=value=>({enabled:value?.enabled!==false,prestigeEnabled:value?.prestigeEnabled!==false,limitedEnabled:value?.limitedEnabled!==false,furEnabled:value?.furEnabled!==false});
+const cleanSettings=value=>({enabled:value?.enabled!==false,prestigeEnabled:value?.prestigeEnabled!==false,limitedEnabled:value?.limitedEnabled!==false,furEnabled:value?.furEnabled!==false,dropRates:Object.fromEntries(DROP_CONTENTS.map(code=>[code,Math.max(0,Math.min(100,Number(value?.dropRates?.[code]||0)))]))});
 async function settings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='high_grade_reroll_settings_v1'").first();return cleanSettings({...DEFAULT_SETTINGS,...safeJson(row?.value||'{}',{})});}
 async function ensureColumn(env,table,column,definition){const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();if(!(rows.results||[]).some(row=>String(row.name)===column))await env.DB.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();}
 let foundationReadyPromise=null;
@@ -13,12 +14,18 @@ export async function ensureHighGradeRerollFoundation(env){
   await ensureColumn(env,'cards','reroll_result_enabled','INTEGER NOT NULL DEFAULT 1');
   await env.DB.batch([
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS high_grade_reroll_ticket_receipts (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,grade TEXT NOT NULL,source_card_id TEXT NOT NULL,result_card_id TEXT NOT NULL,response_json TEXT NOT NULL,used_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS high_grade_reroll_drop_receipts (user_id INTEGER NOT NULL,content_code TEXT NOT NULL,reference_id TEXT NOT NULL,won INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,content_code,reference_id))`),
     env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('HIGH_GRADE_REROLL_TICKET','고등급 재뽑기권','HIGH GRADE REROLL TICKET','PRESTIGE·LIMITED·FUR 카드 1장을 같은 등급의 다른 고유효과 특성 카드로 재뽑습니다.','REROLL','SPECIAL','',109,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
     env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('high_grade_reroll_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING").bind(JSON.stringify(DEFAULT_SETTINGS))
   ]);
   return true;
   })().catch(error=>{foundationReadyPromise=null;throw error});
   return foundationReadyPromise;
+}
+export async function grantHighGradeRerollDrop(env,{userId,content,referenceId}){
+  const code=String(content||'').toUpperCase(),ref=String(referenceId||'').trim().slice(0,160);if(!userId||!DROP_CONTENTS.includes(code)||!ref)return null;await ensureHighGradeRerollFoundation(env);const cfg=await settings(env),rate=Math.max(0,Math.min(100,Number(cfg.dropRates?.[code]||0)));if(rate<=0)return null;
+  const won=Math.random()*100<rate?1:0,inserted=await env.DB.prepare('INSERT OR IGNORE INTO high_grade_reroll_drop_receipts(user_id,content_code,reference_id,won) VALUES(?,?,?,?)').bind(userId,code,ref,won).run();if(!inserted.meta.changes)return null;if(!won)return {won:false,content:code,rate};
+  await env.DB.batch([env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,TICKET_CODE),env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,1,quantity,'CONTENT_DROP',?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(userId,TICKET_CODE,code,ref,userId,TICKET_CODE)]);return {won:true,content:code,rate,itemCode:TICKET_CODE,quantity:1};
 }
 function dominantRole(row){const stats=[['ATTACK',Number(row.attack_percent||0)],['DEFENSE',Number(row.defense_percent||0)],['SPEED',Number(row.speed_percent||0)],['HEALER',Number(row.hp_percent||0)]];const max=Math.max(...stats.map(item=>item[1]));return max>0?(stats.find(item=>item[1]===max)?.[0]||'NONE'):'NONE';}
 function roleLabel(role){return {ATTACK:'공격형',DEFENSE:'방어형',SPEED:'속도형',HEALER:'회복형',NONE:'기본형'}[role]||role;}
