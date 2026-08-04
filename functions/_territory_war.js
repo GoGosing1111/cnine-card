@@ -205,14 +205,28 @@ async function createFront(env,roundId,sequence,nodeIndex,status,cfg){
   return env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE round_id=? AND sequence=?').bind(roundId,sequence).first();
 }
 
+function balancedSideAssignments(users){
+  let aPower=0,bPower=0,aCount=0,bCount=0;const assignments=[];
+  const place=(item,side)=>{assignments.push({item,side});if(side==='A'){aPower+=Number(item.deck_power||0);aCount++}else{bPower+=Number(item.deck_power||0);bCount++}};
+  for(let i=0;i<users.length;i+=2){
+    const high=users[i],low=users[i+1];
+    if(!low){const side=aPower<bPower?'A':bPower<aPower?'B':aCount<=bCount?'A':'B';place(high,side);continue}
+    const highToA=Math.abs((aPower+Number(high.deck_power||0))-(bPower+Number(low.deck_power||0)));
+    const highToB=Math.abs((aPower+Number(low.deck_power||0))-(bPower+Number(high.deck_power||0)));
+    const highSide=highToA<highToB?'A':highToB<highToA?'B':aPower<=bPower?'A':'B';
+    place(high,highSide);place(low,highSide==='A'?'B':'A');
+  }
+  return{assignments,aPower,bPower,aCount,bCount};
+}
+
 async function formRound(env,round,cfg){
   const lock=await acquireLock(env,`form_${round.id}`,120000);if(!lock.ok)return{status:'BUSY'};
   try{
     const fresh=await roundById(env,round.id);if(!fresh||fresh.status!=='RECRUITING')return{status:fresh?.status||'MISSING'};
     const users=(await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? ORDER BY deck_power DESC,registered_at,user_id').bind(round.id).all()).results||[];
     if(users.length<Number(cfg.minParticipants||6))return{status:'WAITING_MINIMUM',count:users.length};
-    let aPower=0,bPower=0,aCount=0,bCount=0;const statements=[];
-    for(const item of users){let side;if(aPower<bPower)side='A';else if(bPower<aPower)side='B';else if(aCount<bCount)side='A';else if(bCount<aCount)side='B';else side=(aCount+bCount)%2===0?'A':'B';if(side==='A'){aPower+=Number(item.deck_power||0);aCount++}else{bPower+=Number(item.deck_power||0);bCount++}statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),round.id,item.user_id))}
+    const balanced=balancedSideAssignments(users),{aPower,bPower,aCount,bCount}=balanced,statements=[];
+    for(const {item,side} of balanced.assignments)statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),round.id,item.user_id));
     await batchChunks(env,statements);
     const prep=Math.max(0,Number(cfg.preparationMinutes||0)),starts=iso(Date.now()+prep*60000),ends=iso(Date.now()+(prep+Number(cfg.roundMinutes||180))*60000),front=await createFront(env,round.id,1,4,prep>0?'PREPARING':'ACTIVE',cfg);
     await env.DB.prepare(`UPDATE territory_war_v3_rounds SET status=?,formed_at=CURRENT_TIMESTAMP,starts_at=?,ends_at=?,current_front_index=4,current_front_id=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'`).bind(prep>0?'PREPARING':'ACTIVE',starts,ends,front.id,round.id).run();
