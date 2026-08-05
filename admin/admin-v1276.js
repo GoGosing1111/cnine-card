@@ -402,3 +402,6 @@ function removeRetiredCubeAdminUi(){
 }
 new MutationObserver(removeRetiredCubeAdminUi).observe(document.documentElement,{childList:true,subtree:true});
 removeRetiredCubeAdminUi();
+
+// V1485: dedicated Black Miracle Pack CMS is kept in its own maintainable module.
+{const script=document.createElement('script');script.src='black-miracle-pack-admin-v1485.js?v=1485';document.head.append(script)}

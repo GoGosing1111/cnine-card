@@ -2058,7 +2058,7 @@ export async function handleCaptain({ path, request, env, deps }) {
         console.error('captain weekly premium cube failed', cubeError);
       }
       if(attackerWon){
-        try{response.equipmentReward=await deps.grantEquipmentDrop(env,{userId:user.id,sourceType:'CAPTAIN',sourceId:'*',requestId})}
+        try{response.equipmentReward=await deps.grantEquipmentDrop(env,{userId:user.id,sourceType:'CAPTAIN',sourceId:'*',requestId});response.blackMiracleReward=await deps.rollBlackMiracleDrop(env,{userId:user.id,source:'CAPTAIN',referenceId:requestId})}
         catch(equipmentError){console.error('captain equipment drop failed',equipmentError)}
       }
       response.energy = await energy(env, user.id, week, config);

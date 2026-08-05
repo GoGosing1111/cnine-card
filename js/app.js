@@ -550,7 +550,7 @@ function summaryBar(user) {
   return `<section class="summary-bar">
     <div class="summary-card login-summary"><span class="summary-label">내 계정</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div>
     <div class="summary-card currency-summary"><span class="summary-label">보유 재화</span><div class="currency-list"><div class="currency-row coin"><i>◇</i><span>코인</span><b>${coin}</b></div><div class="currency-row shard"><i>✣</i><span>카드 조각</span><b>${shards}</b></div><div class="currency-row crystal"><i>✦</i><span>마법 결정</span><b>${crystals}</b></div></div></div>
-    ${magicSystemState.visible?`<button type="button" class="summary-card magic-summary" id="magicSummary"><i class="magic-summary-icon" aria-hidden="true">✦</i><span class="magic-summary-copy"><small class="summary-label">마법카드</small><b>연구소 입장</b><em>장착 · 소환 · 보유 카드</em></span><strong aria-hidden="true">›</strong></button>`:`<div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>`}
+    ${magicSystemState.visible?`<button type="button" class="summary-card magic-summary" id="magicSummary"><i class="magic-summary-icon" aria-hidden="true">✦</i><span class="magic-summary-copy"><b>연구소 입장</b></span></button>`:`<div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>`}
     <button type="button" class="summary-card inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><small class="summary-label">보관함</small><b>인벤토리</b><em id="inventorySummaryMeta">보유 내역 확인</em></span><strong id="inventorySummaryBadge" hidden>NEW</strong></button>
   </section>${runtimeCommandContext==='buy'?acquisitionFeedsHtml():''}`;
 }
@@ -2387,6 +2387,7 @@ async function loadInventory(){
   }
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
+  if(itemCode==='BLACK_MIRACLE_PACK')return openBlackMiraclePack();
   if(itemCode==='EQUIPMENT_SUPPLY_BOX')return openEquipmentSupplyBox(ownedQuantity);
   if(itemCode==='VEHICLE_DRAW_TICKET'&&window.VehicleDrawV1388)return window.VehicleDrawV1388.open(ownedQuantity);
   if(itemCode==='HIGH_GRADE_REROLL_TICKET'&&window.HighGradeReroll)return window.HighGradeReroll.open();
@@ -2412,6 +2413,14 @@ async function openInventoryPack(itemCode,ownedQuantity=0){
       document.getElementById('inventoryResultConfirm').onclick=()=>{modal.className='modal';modal.innerHTML='';renderShell('inventory')};
     }catch(e){panel.classList.remove('opening');btn.disabled=false;btn.textContent=reroll?'재뽑기 실행':'큐브 해제';alert(e.message)}
   };
+}
+
+async function openBlackMiraclePack(){
+  const modal=document.getElementById('modal');
+  modal.className='modal show black-miracle-modal';
+  modal.innerHTML=`<div class="modal-panel black-miracle-panel"><button type="button" class="icon-close" id="blackMiracleClose">×</button><div class="black-miracle-copy"><small>MYTHIC JACKPOT</small><h2>블랙 미라클 팩</h2><p>단 하나의 결과가 전장을 뒤집습니다.</p></div><div class="black-miracle-stage"><i></i><img src="assets/ui/packs/black-miracle-pack-v1485-384.jpg?v=1485" srcset="assets/ui/packs/black-miracle-pack-v1485-384.jpg?v=1485 384w, assets/ui/packs/black-miracle-pack-v1485-768.jpg?v=1485 768w" sizes="min(52vw,280px)" alt="블랙 미라클 팩"></div><div class="black-miracle-pool"><span>신화 장비</span><span>신화 이동수단</span><span>마스터의 별 대량</span><span>100만 코인</span></div><button class="btn" id="blackMiracleOpen">팩 개봉</button></div>`;
+  const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('blackMiracleClose').onclick=close;
+  document.getElementById('blackMiracleOpen').onclick=async()=>{const button=document.getElementById('blackMiracleOpen'),panel=modal.querySelector('.black-miracle-panel');button.disabled=true;button.textContent='기적을 확인하는 중';panel.classList.add('opening');try{const requestId=globalThis.crypto?.randomUUID?.()||String(Date.now()),d=await apiRequest('inventory/use',{method:'POST',body:JSON.stringify({itemCode:'BLACK_MIRACLE_PACK',requestId})});clearApiCache('inventory');clearApiCache('shell/summary');if(d.user)saveUser(apiUserToLocal(d.user));await new Promise(r=>setTimeout(r,900));const reward=d.reward||{},item=reward.item||{};panel.classList.remove('opening');panel.classList.add('revealed');panel.innerHTML=`<div class="black-miracle-result"><small>JACKPOT RESULT</small><h2>${escapeHtml(reward.label||'보상 획득')}</h2>${item.image?`<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name||reward.label)}">`:'<div class="black-miracle-reward-symbol">✦</div>'}<b>${escapeHtml(item.name||reward.label||'보상')}</b>${reward.amount?`<strong>+${Number(reward.amount).toLocaleString()}</strong>`:''}<button class="btn" id="blackMiracleDone">확인</button></div>`;document.getElementById('blackMiracleDone').onclick=()=>{close();renderShell('inventory')}}catch(e){panel.classList.remove('opening');button.disabled=false;button.textContent='팩 개봉';alert(e.message)}};
 }
 
 async function openEquipmentSupplyBox(ownedQuantity=0){
