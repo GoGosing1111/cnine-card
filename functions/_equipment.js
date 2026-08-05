@@ -246,6 +246,36 @@ export async function ensureEquipmentFoundation(env){
       ]);
     }
 
+    const primeRecallMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1488_prime_equipment_recall'").first();
+    if(primeRecallMarker?.value!=='1'){
+      await env.DB.batch([
+        // 신규 프라임 장비는 보급상자 확률표가 확정되기 전까지 드랍 풀에서 제외한다.
+        env.DB.prepare(`UPDATE character_equipment_items
+          SET supply_enabled=0,supply_weight=0,updated_at=CURRENT_TIMESTAMP
+          WHERE UPPER(COALESCE(code,'')) LIKE 'PRIME%'
+             OR REPLACE(COALESCE(name,''),' ','') LIKE '프라임%'`),
+        // OWNER 외 계정이 장착 중인 프라임 장비부터 안전하게 해제한다.
+        env.DB.prepare(`DELETE FROM user_equipment_loadout
+          WHERE instance_id IN (
+            SELECT x.id FROM user_equipment_instances x
+            JOIN character_equipment_items i ON i.id=x.equipment_id
+            JOIN users u ON u.id=x.user_id
+            WHERE UPPER(COALESCE(u.role,'USER'))<>'OWNER'
+              AND (UPPER(COALESCE(i.code,'')) LIKE 'PRIME%' OR REPLACE(COALESCE(i.name,''),' ','') LIKE '프라임%')
+          )`),
+        // OWNER 보유분은 유지하고 그 외 모든 프라임 장비 인스턴스를 회수한다.
+        env.DB.prepare(`DELETE FROM user_equipment_instances
+          WHERE id IN (
+            SELECT x.id FROM user_equipment_instances x
+            JOIN character_equipment_items i ON i.id=x.equipment_id
+            JOIN users u ON u.id=x.user_id
+            WHERE UPPER(COALESCE(u.role,'USER'))<>'OWNER'
+              AND (UPPER(COALESCE(i.code,'')) LIKE 'PRIME%' OR REPLACE(COALESCE(i.name,''),' ','') LIKE '프라임%')
+          )`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1488_prime_equipment_recall','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+
     const markerV1338=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1338_garage_system'").first();
     if(markerV1338?.value!=='1'){
       await env.DB.batch([
@@ -638,8 +668,10 @@ export async function handleEquipment({path,request,env,deps}){
       autoUnequipped=Number(row?.count||0);
     }
 
-    const supplyEnabled=b.supplyEnabled===undefined?(current?current.supply_enabled!==0:true):cleanBool(b.supplyEnabled,true);
-    const supplyWeight=b.supplyWeight===undefined?(current?cleanWeight(current.supply_weight,1):1):cleanWeight(b.supplyWeight,1);
+    // 장비 등록/수정 화면에서는 보급상자 풀을 변경하지 않는다.
+    // 신규 장비는 반드시 별도 "보급상자 설정"에서 확률을 지정해야만 포함된다.
+    const supplyEnabled=current?current.supply_enabled!==0:false;
+    const supplyWeight=current?cleanWeight(current.supply_weight,0):0;
     const power=itemPower(b.totalPower),isActive=cleanBool(b.isActive),isPublic=cleanBool(b.isPublic);
     const args=[code,name,slot,subtype,normalizeEquipmentRarity(b.rarity),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,isActive?1:0,isPublic?1:0,cleanInt(b.sortOrder,0,100000),supplyEnabled?1:0,supplyWeight];
 
