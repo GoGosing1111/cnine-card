@@ -489,36 +489,41 @@ export async function handleMagic({path,request,env,deps}){
   if(path==='magic/draw'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     const cfg=await magicSettings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);if(!cfg.drawEnabled)return json({error:'마법카드 뽑기가 아직 개방되지 않았습니다.'},503);
-    const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120);if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
+    const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),count=Number(body.count)===10?10:1,totalCost=cfg.drawCost*count;if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
     let existing=await env.DB.prepare('SELECT user_id,status,response_json FROM magic_card_draw_receipts WHERE request_id=?').bind(requestId).first();
     if(existing&&Number(existing.user_id)!==Number(user.id))return json({error:'이미 사용된 요청 ID입니다.'},409);
     if(existing?.status==='COMPLETED'&&existing.response_json){try{return json(JSON.parse(existing.response_json))}catch{}}
     if(existing?.status==='PENDING')return json({error:'이미 처리 중인 뽑기입니다.'},409);
     if(!existing){
-      await env.DB.prepare(`INSERT OR IGNORE INTO magic_card_draw_receipts(request_id,user_id,status,cost,created_at,updated_at) VALUES(?,?,'PENDING',?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(requestId,user.id,cfg.drawCost).run();
+      await env.DB.prepare(`INSERT OR IGNORE INTO magic_card_draw_receipts(request_id,user_id,status,cost,created_at,updated_at) VALUES(?,?,'PENDING',?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(requestId,user.id,totalCost).run();
       existing=await env.DB.prepare('SELECT user_id,status,response_json FROM magic_card_draw_receipts WHERE request_id=?').bind(requestId).first();
       if(!existing||Number(existing.user_id)!==Number(user.id))return json({error:'뽑기 요청을 등록하지 못했습니다.'},409);
     }else{
-      await env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='PENDING',cost=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cfg.drawCost,requestId,user.id).run();
+      await env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='PENDING',cost=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(totalCost,requestId,user.id).run();
     }
     let deducted=false,rewardCommitted=false;
     try{
       const pool=(await env.DB.prepare(`SELECT * FROM magic_cards WHERE is_active=1 AND draw_weight>0 ORDER BY sort_order,id`).all()).results;if(!pool.length)throw new Error('활성화된 마법카드가 없습니다.');
-      const spend=await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals-? WHERE id=? AND magic_crystals>=?').bind(cfg.drawCost,user.id,cfg.drawCost).run();
-      if(Number(spend.meta?.changes||0)!==1){const e=new Error(`마법 결정이 부족합니다. (${cfg.drawCost.toLocaleString()}개 필요)`);e.status=400;throw e}deducted=true;
-      const picked=randomPick(pool),owned=await env.DB.prepare('SELECT quantity FROM user_magic_cards WHERE user_id=? AND magic_card_id=?').bind(user.id,picked.id).first(),duplicate=Number(owned?.quantity||0)>0,refund=duplicate?integer(cfg.duplicateRefund?.[String(picked.rarity||'R')],0):0;
+      const spend=await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals-? WHERE id=? AND magic_crystals>=?').bind(totalCost,user.id,totalCost).run();
+      if(Number(spend.meta?.changes||0)!==1){const e=new Error(`마법 결정이 부족합니다. (${totalCost.toLocaleString()}개 필요)`);e.status=400;throw e}deducted=true;
+      const ownedRows=(await env.DB.prepare('SELECT magic_card_id,quantity FROM user_magic_cards WHERE user_id=? AND quantity>0').bind(user.id).all()).results||[],owned=new Map(ownedRows.map(row=>[Number(row.magic_card_id),Number(row.quantity||0)])),results=[],newCards=[];let totalRefund=0;
+      for(let index=0;index<count;index++){
+        const picked=randomPick(pool),ownedQuantity=Number(owned.get(Number(picked.id))||0),duplicate=ownedQuantity>0,refund=duplicate?integer(cfg.duplicateRefund?.[String(picked.rarity||'R')],0):0;
+        if(!duplicate){owned.set(Number(picked.id),1);newCards.push(picked)}
+        totalRefund+=refund;results.push({card:cardPayload({...picked,quantity:duplicate?ownedQuantity:1}),duplicate,refund,index});
+      }
       const spentUser=await env.DB.prepare('SELECT magic_crystals FROM users WHERE id=?').bind(user.id).first();if(!spentUser)throw new Error('유저 정보를 찾을 수 없습니다.');
-      const finalBalance=Number(spentUser.magic_crystals||0)+refund;
-      const result={ok:true,card:cardPayload({...picked,quantity:duplicate?Number(owned.quantity||0):1}),duplicate,refund,magicCrystals:finalBalance};
+      const finalBalance=Number(spentUser.magic_crystals||0)+totalRefund,duplicateCount=results.filter(row=>row.duplicate).length;
+      const result={ok:true,count,results,totalCost,totalRefund,newCount:count-duplicateCount,duplicateCount,magicCrystals:finalBalance,...(count===1?{card:results[0].card,duplicate:results[0].duplicate,refund:results[0].refund}:{})};
       const statements=[];
-      if(!duplicate)statements.push(env.DB.prepare(`INSERT INTO user_magic_cards(user_id,magic_card_id,quantity,first_obtained_at,updated_at) VALUES(?,?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,magic_card_id) DO UPDATE SET quantity=user_magic_cards.quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,picked.id));
-      if(refund>0)statements.push(env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(refund,user.id));
-      statements.push(env.DB.prepare(`INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)`).bind(user.id,-cfg.drawCost+refund,finalBalance,duplicate?'마법카드 중복 환급':'마법카드 뽑기','MAGIC_DRAW',requestId));
+      for(const picked of newCards)statements.push(env.DB.prepare(`INSERT INTO user_magic_cards(user_id,magic_card_id,quantity,first_obtained_at,updated_at) VALUES(?,?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,magic_card_id) DO UPDATE SET quantity=user_magic_cards.quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,picked.id));
+      if(totalRefund>0)statements.push(env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(totalRefund,user.id));
+      statements.push(env.DB.prepare(`INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)`).bind(user.id,-totalCost+totalRefund,finalBalance,duplicateCount?`마법카드 ${count}회 뽑기 · 중복 ${duplicateCount}장 환급`:`마법카드 ${count}회 뽑기`,'MAGIC_DRAW',requestId));
       statements.push(env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(JSON.stringify(result),requestId,user.id));
       await env.DB.batch(statements);rewardCommitted=true;
       return json(result);
     }catch(error){
-      if(deducted&&!rewardCommitted)await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(cfg.drawCost,user.id).run();
+      if(deducted&&!rewardCommitted)await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(totalCost,user.id).run();
       if(!rewardCommitted)await env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(String(error.message||error).slice(0,300),requestId,user.id).run();
       return json({error:String(error.message||error)},Number(error.status||500));
     }
