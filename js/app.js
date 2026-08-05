@@ -120,7 +120,7 @@ function applyBurningEventState(next={},options={}){
   }
   burningEventState={...burningEventState,...next};
   PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
-  const mode=burningMode(),shopActive=runtimeCommandContext==='buy',normalActive=shopActive&&burningEventState.enabled===true&&mode==='BURNING',hyperActive=shopActive&&burningEventState.enabled===true&&mode==='HYPER';
+  const mode=burningMode(),normalActive=burningEventState.enabled===true&&mode==='BURNING',hyperActive=burningEventState.enabled===true&&mode==='HYPER';
   document.documentElement.classList.toggle('burning-event-active',normalActive);
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
   const changed=before!==burningEventFingerprint(burningEventState);
@@ -489,9 +489,9 @@ function renderShell(tab) {
   document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
   runtimeCommandContext=tab;
-  const burningShopActive=tab==='buy'&&burningEventState.enabled===true,burningPageMode=burningMode();
-  document.documentElement.classList.toggle('burning-event-active',burningShopActive&&burningPageMode==='BURNING');
-  document.documentElement.classList.toggle('hyper-burning-event-active',burningShopActive&&burningPageMode==='HYPER');
+  const burningPageActive=burningEventState.enabled===true,burningPageMode=burningMode();
+  document.documentElement.classList.toggle('burning-event-active',burningPageActive&&burningPageMode==='BURNING');
+  document.documentElement.classList.toggle('hyper-burning-event-active',burningPageActive&&burningPageMode==='HYPER');
   if(tab!=='buy'){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open')}
   const user = loadUser();
   if (!user) return renderLogin();
