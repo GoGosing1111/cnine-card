@@ -1,0 +1,114 @@
+/* V1487 pixel-registered equipment overlay.
+   All geometry is measured against equipment-screen-frame-v1269.png (941x1672).
+   Keep this file after every legacy equipment stylesheet. */
+.image-frame-ui-v1249{
+  container-type:inline-size;
+}
+.frame-slot-v1249{
+  box-sizing:border-box!important;
+  overflow:visible!important;
+}
+
+/* Complete slot bounds: label + image frame + name plate. */
+.frame-slot-v1249.slot-weapon{
+  left:5.10%!important;top:18.54%!important;width:20.30%!important;height:16.09%!important;
+}
+.frame-slot-v1249.slot-accessory{
+  left:5.10%!important;top:38.16%!important;width:20.30%!important;height:16.99%!important;
+}
+.frame-slot-v1249.slot-top{
+  left:73.54%!important;top:13.22%!important;width:19.98%!important;height:16.03%!important;
+}
+.frame-slot-v1249.slot-bottom{
+  left:73.54%!important;top:29.55%!important;width:19.98%!important;height:16.09%!important;
+}
+.frame-slot-v1249.slot-shoes{
+  left:73.54%!important;top:46.05%!important;width:19.98%!important;height:14.65%!important;
+}
+
+/* Slot artwork is registered to the inner square printed in the frame. */
+.frame-slot-v1249 .frame-slot-image-v1249{
+  box-sizing:border-box!important;
+  display:grid!important;
+  place-items:center!important;
+  overflow:hidden!important;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+.frame-slot-v1249.slot-weapon .frame-slot-image-v1249{
+  left:6.81%!important;top:17.10%!important;width:86.39%!important;height:61.71%!important;aspect-ratio:auto!important;
+}
+.frame-slot-v1249.slot-accessory .frame-slot-image-v1249{
+  left:6.81%!important;top:19.72%!important;width:86.39%!important;height:60.56%!important;aspect-ratio:auto!important;
+}
+.frame-slot-v1249.slot-top .frame-slot-image-v1249{
+  left:7.45%!important;top:21.27%!important;width:85.11%!important;height:57.84%!important;aspect-ratio:auto!important;
+}
+.frame-slot-v1249.slot-bottom .frame-slot-image-v1249{
+  left:7.45%!important;top:22.30%!important;width:85.11%!important;height:56.88%!important;aspect-ratio:auto!important;
+}
+.frame-slot-v1249.slot-shoes .frame-slot-image-v1249{
+  left:7.45%!important;top:22.04%!important;width:85.11%!important;height:54.69%!important;aspect-ratio:auto!important;
+}
+.frame-slot-v1249 .frame-slot-image-v1249 img{
+  position:static!important;
+  display:block!important;
+  width:100%!important;height:100%!important;
+  max-width:100%!important;max-height:100%!important;
+  object-fit:contain!important;object-position:50% 50%!important;
+  margin:0!important;padding:4%!important;box-sizing:border-box!important;
+  transform:none!important;
+}
+
+/* Every name plate now covers the exact plate printed into the background. */
+.frame-slot-v1249 .frame-slot-desc-mask-v1249{
+  left:.52%!important;top:80.30%!important;width:99.48%!important;height:19.33%!important;
+  box-sizing:border-box!important;margin:0!important;padding:0 6%!important;
+  border:0!important;border-radius:0!important;background:rgba(2,8,16,.92)!important;
+  display:flex!important;align-items:center!important;justify-content:center!important;
+  font-size:clamp(8px,1.42vw,11px)!important;line-height:1!important;
+}
+.frame-slot-v1249.slot-accessory .frame-slot-desc-mask-v1249{
+  top:81.34%!important;height:18.31%!important;
+}
+.frame-slot-v1249.slot-top .frame-slot-desc-mask-v1249,
+.frame-slot-v1249.slot-bottom .frame-slot-desc-mask-v1249{
+  left:.53%!important;top:80.22%!important;width:99.47%!important;height:19.78%!important;
+}
+.frame-slot-v1249.slot-shoes .frame-slot-desc-mask-v1249{
+  left:.53%!important;top:77.96%!important;width:99.47%!important;height:21.63%!important;
+}
+
+/* Remove controls share the image-frame corner rather than a page coordinate. */
+.frame-slot-v1249 .frame-slot-remove-v1249{
+  right:-1.5%!important;top:14.0%!important;width:15.2%!important;height:auto!important;aspect-ratio:1!important;
+  display:grid!important;place-items:center!important;padding:0!important;line-height:1!important;
+  font-size:clamp(10px,2.1vw,16px)!important;
+}
+.frame-slot-v1249.slot-accessory .frame-slot-remove-v1249{top:16.7%!important}
+.frame-slot-v1249.slot-top .frame-slot-remove-v1249{top:18.2%!important}
+.frame-slot-v1249.slot-bottom .frame-slot-remove-v1249{top:19.2%!important}
+.frame-slot-v1249.slot-shoes .frame-slot-remove-v1249{top:18.8%!important}
+
+/* Exact printed power-panel rectangles and shared typography baseline. */
+.frame-stat-box-v1249{
+  top:61.90%!important;height:6.94%!important;width:43.57%!important;
+  grid-template-rows:35% 65%!important;
+  display:grid!important;align-items:center!important;justify-items:center!important;
+  overflow:hidden!important;
+}
+.frame-stat-box-v1249.pve{left:5.10%!important}
+.frame-stat-box-v1249.pvp{left:49.52%!important}
+.frame-stat-box-v1249 small{
+  align-self:end!important;font-size:clamp(10px,2.05vw,17px)!important;line-height:1!important;
+}
+.frame-stat-box-v1249 b{
+  align-self:start!important;font-size:clamp(23px,4.72vw,38px)!important;line-height:1!important;
+}
+
+@media(max-width:560px){
+  .frame-slot-v1249 .frame-slot-desc-mask-v1249{font-size:clamp(7px,2.15vw,10px)!important}
+  .frame-stat-box-v1249 small{font-size:clamp(9px,2.7vw,14px)!important}
+  .frame-stat-box-v1249 b{font-size:clamp(21px,6vw,34px)!important}
+}
