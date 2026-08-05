@@ -534,8 +534,12 @@ function renderShell(tab) {
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
   deferShellLoad(80,loadShellSummary);
+  deferShellLoad(120,loadHallOfFame);
   if(API_MODE&&API_TOKEN)scheduleRuntimeCommandPoll(runtimeCommandPollDelay());
 }
+
+function hallOfFameHtml(){return `<section class="soop-hall-of-fame feed-hall-of-fame" id="soopHallOfFame" aria-label="숲카라 명예의 전당"><span class="soop-hall-cup" aria-hidden="true">🏆</span><small id="soopHallTitle">숲카라 명예의 전당</small><b id="soopHallName">🏆 남수단 🏆</b></section>`}
+async function loadHallOfFame(){const hall=document.getElementById('soopHallOfFame');if(!hall)return;if(!API_MODE)return;try{clearApiCache('hall-of-fame');const data=await apiRequest('hall-of-fame',{}, {ttl:0,replaceInflight:true});if(data.enabled===false){hall.hidden=true;return}hall.hidden=false;const title=document.getElementById('soopHallTitle'),name=document.getElementById('soopHallName');if(title)title.textContent=String(data.title||'숲카라 명예의 전당');if(name)name.textContent=String(data.name||'🏆 남수단 🏆')}catch(error){console.warn('명예의 전당 조회 실패:',error)}}
 
 function summaryBar(user) {
   const coin=Number(user.coin||0).toLocaleString(),shards=Number(user.cardShards||0).toLocaleString(),crystals=Number(user.magicCrystals??magicSystemState.magicCrystals??0).toLocaleString();
@@ -544,8 +548,10 @@ function summaryBar(user) {
     <div class="summary-card currency-summary"><span class="summary-label">보유 재화</span><div class="currency-list"><div class="currency-row coin"><i>◇</i><span>코인</span><b>${coin}</b></div><div class="currency-row shard"><i>✣</i><span>카드 조각</span><b>${shards}</b></div><div class="currency-row crystal"><i>✦</i><span>마법 결정</span><b>${crystals}</b></div></div></div>
     <div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>
     <button type="button" class="summary-card inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><small class="summary-label">보관함</small><b>인벤토리</b><em id="inventorySummaryMeta">보유 내역 확인</em></span><strong id="inventorySummaryBadge" hidden>NEW</strong></button>
-  </section><section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">MA 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 MA 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed equipment-feed" aria-live="polite"><span class="high-grade-label equipment-feed-label">신화 장비 획득 소식</span><div class="high-grade-viewport"><div id="equipmentAcquisitionTrack" class="high-grade-track equipment-feed-track"><span class="high-grade-empty">최근 신화 장비 획득 기록을 불러오는 중...</span></div></div></section>`;
+  </section>${hallOfFameHtml()}<section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">MA 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 MA 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed equipment-feed" aria-live="polite"><span class="high-grade-label equipment-feed-label">신화 장비 획득 소식</span><div class="high-grade-viewport"><div id="equipmentAcquisitionTrack" class="high-grade-track equipment-feed-track"><span class="high-grade-empty">최근 신화 장비 획득 기록을 불러오는 중...</span></div></div></section>`;
 }
+
+window.addEventListener('storage',event=>{if(event.key==='cnine_hall_of_fame_refresh'){clearApiCache('hall-of-fame');loadHallOfFame()}});
 
 async function loadShellSummary(){
   const inventoryCard=document.getElementById('inventorySummary');if(inventoryCard)inventoryCard.onclick=()=>renderShell('inventory');
