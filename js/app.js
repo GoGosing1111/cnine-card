@@ -12,7 +12,8 @@ const TEST_COIN = 5000;
 let cards = [];
 let selectedPackId = 'basic';
 let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
-let magicSystemState={visible:false,enabled:false,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
+// 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.
+let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
 const magicUiState={deckType:'PVE',selectedSlot:1};
 
 const gradeOrder = { FUR: 11, PRESTIGE: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
@@ -1291,10 +1292,10 @@ function renderMagicSystem(){
 async function loadMagicView(){
   const root=document.getElementById('magicSystemRoot');if(!root)return;
   if(!API_MODE){root.innerHTML='<div class="magic-closed-panel"><b>서버 연결 필요</b><span>마법카드는 서버 연결 상태에서만 이용할 수 있습니다.</span></div>';return;}
-  try{magicSystemState=await apiRequest('magic/status',{}, {ttl:0});const user=loadUser();if(user){user.magicCrystals=Number(magicSystemState.magicCrystals||0);saveUser(user)}const hero=document.getElementById('magicBalanceHero');if(hero)hero.textContent=`✦ ${Number(magicSystemState.magicCrystals||0).toLocaleString()}`;renderMagicSystem()}catch(e){root.innerHTML=`<div class="magic-closed-panel"><b>마법카드 정보를 불러오지 못했습니다.</b><span>${escapeHtml(e.message)}</span></div>`}
+  try{magicSystemState={...await apiRequest('magic/status',{}, {ttl:0}),visible:true};const user=loadUser();if(user){user.magicCrystals=Number(magicSystemState.magicCrystals||0);saveUser(user)}const hero=document.getElementById('magicBalanceHero');if(hero)hero.textContent=`✦ ${Number(magicSystemState.magicCrystals||0).toLocaleString()}`;renderMagicSystem()}catch(e){root.innerHTML=`<div class="magic-closed-panel"><b>마법카드 정보를 불러오지 못했습니다.</b><span>${escapeHtml(e.message)}</span></div>`}
 }
 async function equipMagicCard(magicCardId){
-  try{const d=await apiRequest('magic/equip',{method:'POST',body:JSON.stringify({deckType:magicUiState.deckType,slotNo:magicUiState.selectedSlot,magicCardId})});magicSystemState=d.status;renderMagicSystem()}catch(e){alert(e.message)}
+  try{const d=await apiRequest('magic/equip',{method:'POST',body:JSON.stringify({deckType:magicUiState.deckType,slotNo:magicUiState.selectedSlot,magicCardId})});magicSystemState={...d.status,visible:true};renderMagicSystem()}catch(e){alert(e.message)}
 }
 function showMagicDrawResults(data){return new Promise(resolve=>{const rows=Array.isArray(data.results)&&data.results.length?data.results:[{card:data.card,duplicate:data.duplicate,refund:data.refund}],overlay=document.createElement('div');overlay.className=`magic-draw-reveal count-${rows.length}`;overlay.innerHTML=`<div class="magic-draw-reveal-backdrop"></div><section><header><small>ARCANE SUMMON RESULT</small><h2>마법카드 ${rows.length}장 소환</h2><p>신규 ${Number(data.newCount??rows.filter(row=>!row.duplicate).length)}장 · 중복 ${Number(data.duplicateCount??rows.filter(row=>row.duplicate).length)}장 · 환급 ✦ ${Number(data.totalRefund??data.refund??0).toLocaleString()}</p></header><div class="magic-draw-reveal-grid">${rows.map((row,index)=>`<article class="rarity-${escapeHtml(row.card?.rarity||'R')} ${row.duplicate?'duplicate':'new'}" style="--reveal-index:${index}">${magicImage(row.card||{})}<span>${row.duplicate?'중복 환급':'NEW'}</span><b>${escapeHtml(row.card?.name||'마법카드')}</b><small>${escapeHtml(row.card?.rarity||'')} ${row.duplicate?`· ✦ ${Number(row.refund||0).toLocaleString()}`:''}</small></article>`).join('')}</div><button type="button">확인</button></section>`;const close=()=>{overlay.classList.add('closing');setTimeout(()=>{overlay.remove();resolve()},180)};overlay.querySelector('button').onclick=close;overlay.querySelector('.magic-draw-reveal-backdrop').onclick=close;document.body.appendChild(overlay);requestAnimationFrame(()=>overlay.classList.add('show'))})}
 async function drawMagicCard(count=1){
@@ -2314,7 +2315,7 @@ async function loadStartupOptionalFeatures(runId){
   if(pvpResult.ok)pvpFeatureEnabled=Boolean(pvpResult.value?.settings?.enabled||pvpResult.value?.bypass);
   else console.warn('PvP 설정 조회 실패 - 로그인은 유지합니다:',pvpResult.error);
   if(magicResult.ok){
-    magicSystemState=magicResult.value;
+    magicSystemState={...magicResult.value,visible:true};
     const current=loadUser();if(current){current.magicCrystals=Number(magicSystemState.magicCrystals||0);saveUser(current)}
     const crystal=document.querySelector('.currency-row.crystal b');if(crystal)crystal.textContent=Number(magicSystemState.magicCrystals||0).toLocaleString();
   }else console.warn('마법카드 설정 조회 실패 - 기존 화면으로 계속합니다:',magicResult.error);
