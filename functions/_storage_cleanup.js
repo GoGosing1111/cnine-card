@@ -653,6 +653,15 @@ const AUTO_STORAGE_INDEX_TASKS=Object.freeze([
   {key:'twv3_admin_cleanup',table:'territory_war_v3_admin_operations',columns:['status','updated_at'],sql:'CREATE INDEX IF NOT EXISTS idx_twv3_admin_cleanup_v1402 ON territory_war_v3_admin_operations(status,updated_at)'}
 ]);
 const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
+  // Ephemeral authentication/runtime rows have no value after their grace period.
+  {key:'expired_sessions',table:'sessions',sql:`DELETE FROM sessions WHERE token_hash IN (
+    SELECT token_hash FROM sessions WHERE expires_at<datetime('now','-7 days') ORDER BY expires_at LIMIT ?)`},
+  {key:'runtime_commands',table:'user_runtime_commands',sql:`DELETE FROM user_runtime_commands WHERE id IN (
+    SELECT id FROM user_runtime_commands WHERE expires_at<datetime('now','-3 days') ORDER BY expires_at LIMIT ?)`},
+  {key:'pve_auto_locks',table:'pve_auto_locks',sql:`DELETE FROM pve_auto_locks WHERE user_id IN (
+    SELECT user_id FROM pve_auto_locks WHERE expires_at<datetime('now','-1 day') ORDER BY expires_at LIMIT ?)`},
+  {key:'expired_ip_exceptions',table:'account_ip_exceptions',sql:`DELETE FROM account_ip_exceptions WHERE ip_hash IN (
+    SELECT ip_hash FROM account_ip_exceptions WHERE expires_at IS NOT NULL AND expires_at<datetime('now','-7 days') ORDER BY expires_at LIMIT ?)`},
   {key:'inventory_receipts',table:'inventory_use_receipts',sql:`DELETE FROM inventory_use_receipts WHERE rowid IN (
     SELECT rowid FROM inventory_use_receipts WHERE
       ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-3 days')))
@@ -680,6 +689,26 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
     SELECT rowid FROM vehicle_draw_receipts WHERE
       ((status='COMPLETED' AND updated_at<datetime('now','-14 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-3 days')))
     ORDER BY updated_at LIMIT ?)`},
+  {key:'vehicle_purchase_receipts',table:'vehicle_draw_purchase_receipts',sql:`DELETE FROM vehicle_draw_purchase_receipts WHERE rowid IN (
+    SELECT rowid FROM vehicle_draw_purchase_receipts WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-30 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-7 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'equipment_drop_receipts',table:'equipment_drop_receipts',sql:`DELETE FROM equipment_drop_receipts WHERE rowid IN (
+    SELECT rowid FROM equipment_drop_receipts WHERE
+      ((result NOT IN ('PENDING','RUNNING') AND updated_at<datetime('now','-30 days')) OR (result IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-7 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'cube_drop_receipts',table:'cube_drop_receipts',sql:`DELETE FROM cube_drop_receipts WHERE rowid IN (
+    SELECT rowid FROM cube_drop_receipts WHERE
+      ((status='COMPLETED' AND updated_at<datetime('now','-30 days')) OR (status IN ('FAILED','CANCELLED') AND updated_at<datetime('now','-7 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'seal_action_receipts',table:'seal_battle_action_receipts',sql:`DELETE FROM seal_battle_action_receipts WHERE id IN (
+    SELECT id FROM seal_battle_action_receipts WHERE
+      ((status='DONE' AND updated_at<datetime('now','-30 days')) OR (status='FAILED' AND updated_at<datetime('now','-7 days')))
+    ORDER BY updated_at LIMIT ?)`},
+  {key:'reroll_ticket_receipts',table:'high_grade_reroll_ticket_receipts',sql:`DELETE FROM high_grade_reroll_ticket_receipts WHERE rowid IN (
+    SELECT rowid FROM high_grade_reroll_ticket_receipts WHERE used_at<datetime('now','-90 days') ORDER BY used_at LIMIT ?)`},
+  {key:'reroll_drop_receipts',table:'high_grade_reroll_drop_receipts',sql:`DELETE FROM high_grade_reroll_drop_receipts WHERE rowid IN (
+    SELECT rowid FROM high_grade_reroll_drop_receipts WHERE created_at<datetime('now','-90 days') ORDER BY created_at LIMIT ?)`},
   {key:'pve_auto_receipts',table:'pve_auto_runs',sql:`DELETE FROM pve_auto_runs WHERE rowid IN (
     SELECT rowid FROM pve_auto_runs WHERE status IN ('COMPLETED','FAILED','CANCELLED') AND updated_at<datetime('now','-14 days')
     ORDER BY updated_at LIMIT ?)`},
