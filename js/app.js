@@ -1265,7 +1265,7 @@ function magicImage(card){const url=String(card?.imageUrl||'').trim();return `<d
 const magicRenewedEffectLabel=value=>({OPENING_ATTACK:'전투 개시 공격 강화',GUARD_BARRIER:'수호 결계',LIFE_AMPLIFY:'생명 증폭',CRISIS_HEAL:'위기 회복',PUNISH_TRAP:'응징 함정',ARCANE_COUNTER:'마력 반격',FOLLOWUP_HASTE:'속행 가속'})[String(value||'').toUpperCase()]||String(value||'미설정');
 function decorateMagicRenewal(root,d,cards,equipped){
   root.classList.add('magic-renewal-v2');
-  root.querySelectorAll('.magic-deck-tabs button').forEach(button=>{const pvp=button.dataset.magicDeck==='PVP';button.innerHTML=`<i>${pvp?'⚔':'✦'}</i><span><small>${pvp?'ARENA LOADOUT':'ADVENTURE LOADOUT'}</small><b>${pvp?'PVP 전투 덱':'PVE 전투 덱'}</b></span><em>${button.classList.contains('active')?'ACTIVE':'SELECT'}</em>`});
+  root.querySelectorAll('.magic-deck-tabs button').forEach(button=>{const pvp=button.dataset.magicDeck==='PVP';button.innerHTML=`<i aria-hidden="true">${pvp?'⚔':'✦'}</i><b>${pvp?'PVP 덱':'PVE 덱'}</b>`});
   const loadout=root.querySelector('.magic-loadout-panel'),head=loadout?.querySelector('.magic-section-head');
   if(head)head.insertAdjacentHTML('afterend',`<div class="magic-loadout-status"><span><i></i> ARCANE LINK ONLINE</span><b>${equipped.size}<small>/ 5 SYNC</small></b></div>`);
   root.querySelectorAll('.magic-slot').forEach(slot=>{const filled=slot.classList.contains('filled');slot.dataset.slotState=filled?'linked':'empty';slot.insertAdjacentHTML('beforeend',`<span class="magic-slot-corners" aria-hidden="true"></span><span class="magic-slot-state">${filled?'LINKED':'EMPTY'}</span>`)});
