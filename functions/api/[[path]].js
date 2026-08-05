@@ -505,7 +505,8 @@ function raidSlotsOverlap(a,b){return raidSlotRanges(a).some(x=>raidSlotRanges(b
 // 카드 메타데이터와 돌파 수치를 고정 크기 조각으로 조회한다. 실시간 조회 결과는 짧게 메모리 캐시하며 DB에는 저장하지 않는다.
 const RAID_CARD_LOOKUP_CHUNK_V1311=40;
 const RAID_PARTICIPANT_LOOKUP_CHUNK_V1311=6;
-const RAID_DISPLAY_CACHE_TTL_V1311=8000;
+// Registered raid decks are immutable for the lifetime of the room.
+const RAID_DISPLAY_CACHE_TTL_V1311=60000;
 const RAID_DISPLAY_CACHE_MAX_V1311=16;
 const raidDisplayDataCacheV1311=new Map();
 function raidChunkV1311(values,size){const rows=Array.isArray(values)?values:[],out=[],step=Math.max(1,Math.floor(Number(size)||1));for(let i=0;i<rows.length;i+=step)out.push(rows.slice(i,i+step));return out;}
@@ -619,16 +620,6 @@ async function refreshRaidForOwner(env,instance,cfg){
       await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,snapshot.bossHp,instance.id).run();
       await finalizeRaidV1293(env,instance.id,snapshot);
       instance.status='ENDED';instance.ends_at=finishedAt;instance.current_hp=snapshot.bossHp;
-    }else{
-      // V1311: 모든 참가자의 status 조회가 같은 HP를 반복 저장하지 않도록 5초 체크포인트만 허용한다.
-      // 전투 화면의 현재 HP는 결정론적 snapshot으로 계산되므로 DB 쓰기를 생략해도 표시와 판정은 동일하다.
-      const storedHp=Math.max(0,Number(instance.current_hp||0));
-      if(storedHp!==Number(snapshot.bossHp||0)){
-        const checkpoint=await env.DB.prepare(`UPDATE raid_instances SET current_hp=?,updated_at=CURRENT_TIMESTAMP
-          WHERE id=? AND status='BATTLE' AND COALESCE(current_hp,-1)<>?
-            AND (updated_at IS NULL OR datetime(updated_at)<=datetime('now','-5 seconds'))`).bind(snapshot.bossHp,instance.id,snapshot.bossHp).run();
-        if(Number(checkpoint?.meta?.changes||0)>0)instance.current_hp=snapshot.bossHp;
-      }
     }
   }
   return instance;
@@ -637,7 +628,10 @@ async function refreshRaidForOwner(env,instance,cfg){
 async function ensureRaidFinalizedV1293(env,instanceId,fallbackCfg,nowMs=Date.now()){
   const instance=await env.DB.prepare(`SELECT ri.*,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.id=? LIMIT 1`).bind(Number(instanceId)).first();
   if(!instance)return null;
-  const cfg=await raidInstanceSettingsV1293(env,instance.id,fallbackCfg),rows=(await env.DB.prepare('SELECT user_id AS userId,total_power AS totalPower,total_damage AS totalDamage FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(instance.id).all()).results||[];
+  const cfg=await raidInstanceSettingsV1293(env,instance.id,fallbackCfg);
+  const finalized=await env.DB.prepare('SELECT 1 AS ok FROM raid_participant_v1293 WHERE instance_id=? LIMIT 1').bind(instance.id).first();
+  if(finalized)return {instance,cfg,snapshot:null,alreadyFinalized:true};
+  const rows=(await env.DB.prepare('SELECT user_id AS userId,total_power AS totalPower,total_damage AS totalDamage FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(instance.id).all()).results||[];
   const snapshot=raidCombatSnapshot(rows,instance,cfg,nowMs);
   await finalizeRaidV1293(env,instance.id,snapshot);
   return {instance,cfg,snapshot};
@@ -685,6 +679,19 @@ async function raidDailyEntryCount(env,userId,dateKey=kstDateKey()){
     env.DB.prepare('SELECT COUNT(*) count FROM raid_daily_entry_restores WHERE user_id=? AND entry_date=?').bind(userId,dateKey).first()
   ]);
   return Math.max(0,Number(legacy?.count||0)+Number(uses?.count||0)-Number(restores?.count||0));
+}
+const RAID_ENTRY_STATUS_CACHE_TTL=10000;
+const RAID_ENTRY_STATUS_CACHE_MAX=128;
+const raidEntryStatusCache=new Map();
+async function raidEntryStatusCounts(env,userId,dateKey,slots){
+  const slotSignature=(Array.isArray(slots)?slots:[]).map(x=>`${x?.id||x}:${x?.entriesPerSlot||1}`).join('|');
+  const key=`${Number(userId)}:${String(dateKey)}:${slotSignature}`,now=Date.now(),cached=raidEntryStatusCache.get(key);
+  if(cached&&cached.expiresAt>now)return cached.value;
+  const [todayEntryCount,slotEntries]=await Promise.all([raidDailyEntryCount(env,userId,dateKey),raidSlotEntryCountsV1296(env,userId,dateKey,slots)]),value={todayEntryCount,slotEntries};
+  raidEntryStatusCache.set(key,{value,expiresAt:now+RAID_ENTRY_STATUS_CACHE_TTL});
+  for(const [cacheKey,row] of raidEntryStatusCache)if(row.expiresAt<=now)raidEntryStatusCache.delete(cacheKey);
+  while(raidEntryStatusCache.size>RAID_ENTRY_STATUS_CACHE_MAX)raidEntryStatusCache.delete(raidEntryStatusCache.keys().next().value);
+  return value;
 }
 async function raidDeckPower(env,userId,cardIds,mode='RAID'){
   let ids=[...new Set((cardIds||await pveDeckCards(env,userId)).map(String))];
@@ -3694,7 +3701,7 @@ export async function onRequest(context){
     if(path==='raid/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await publicEquippedTitleMap(env,[]);
       const [cfg,uniqueCfg]=await Promise.all([raidSettings(env),cardUniqueSettings(env)]),owner=isRaidOwner(user),ownerTestMode=isRaidOwnerTest(user,cfg),uniqueVisible=cardUniqueVisibleTo(user,uniqueCfg),schedule=raidScheduleState(cfg,user),entryDateKey=String(schedule.entryDateKey||kstDateKey()),configuredSlots=Array.isArray(cfg.timeSlots)?cfg.timeSlots:[];
-      const [todayEntryCount,slotEntries]=await Promise.all([raidDailyEntryCount(env,user.id,entryDateKey),raidSlotEntryCountsV1296(env,user.id,entryDateKey,configuredSlots)]),dailyEntryLimit=Math.max(1,Number(cfg.dailyEntries||1)),dailyEntry={count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),dateKey:entryDateKey,unlimited:ownerTestMode},scheduleSlot=schedule.currentSlot||null,scheduleSlotId=String(scheduleSlot?.id||''),slotEntry=scheduleSlotId&&scheduleSlotId!=='ALWAYS'?(slotEntries.find(row=>String(row.id)===scheduleSlotId)||{id:scheduleSlotId,label:String(scheduleSlot?.label||scheduleSlotId),count:0,limit:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),remaining:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),unlimited:ownerTestMode}):{id:scheduleSlotId||'DAILY',label:String(scheduleSlot?.label||'오늘 합계'),count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),unlimited:ownerTestMode},slotEntryUsed=Boolean(scheduleSlotId&&scheduleSlotId!=='ALWAYS'&&Number(slotEntry.count||0)>=Number(slotEntry.limit||1));
+      const {todayEntryCount,slotEntries}=await raidEntryStatusCounts(env,user.id,entryDateKey,configuredSlots),dailyEntryLimit=Math.max(1,Number(cfg.dailyEntries||1)),dailyEntry={count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),dateKey:entryDateKey,unlimited:ownerTestMode},scheduleSlot=schedule.currentSlot||null,scheduleSlotId=String(scheduleSlot?.id||''),slotEntry=scheduleSlotId&&scheduleSlotId!=='ALWAYS'?(slotEntries.find(row=>String(row.id)===scheduleSlotId)||{id:scheduleSlotId,label:String(scheduleSlot?.label||scheduleSlotId),count:0,limit:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),remaining:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),unlimited:ownerTestMode}):{id:scheduleSlotId||'DAILY',label:String(scheduleSlot?.label||'오늘 합계'),count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),unlimited:ownerTestMode},slotEntryUsed=Boolean(scheduleSlotId&&scheduleSlotId!=='ALWAYS'&&Number(slotEntry.count||0)>=Number(slotEntry.limit||1));
       if(cfg.ownerOnlyTest&&!owner)return json({error:'현재 레이드는 OWNER 테스트 전용입니다.'},403);
       // 상태 조회마다 활성 방 전체를 갱신하면 방 수만큼 SELECT/UPDATE/정산 쿼리가 발생한다.
       // 실제 상태 전환 시각이 지난 방만 한 요청당 최대 2개 처리해 D1 잠금과 타임아웃을 제한한다.
@@ -3794,8 +3801,9 @@ export async function onRequest(context){
       }
       let claimableReward=null;
       if(current.status==='ENDED'&&me&&Number(me.rewardClaimed||0)!==1){
-        await finalizeRaidV1293(env,current.id,combat);
-        const rewardCfg=await raidRewardSnapshot(env,current.id,instanceCfg,true),finalState=await raidFinalParticipantV1293(env,current.id,user.id),finalDamage=Math.max(0,Number((finalState?.finalDamage??me.shownDamage)||0)),finalRank=Math.max(0,Number((finalState?.finalRank??me.rank)||0)),cleared=Number(hp||0)<=0;
+        let finalState=await raidFinalParticipantV1293(env,current.id,user.id);
+        if(!finalState){await finalizeRaidV1293(env,current.id,combat);finalState=await raidFinalParticipantV1293(env,current.id,user.id)}
+        const rewardCfg=await raidRewardSnapshot(env,current.id,instanceCfg,true),finalDamage=Math.max(0,Number((finalState?.finalDamage??me.shownDamage)||0)),finalRank=Math.max(0,Number((finalState?.finalRank??me.rank)||0)),cleared=Number(hp||0)<=0;
         const fixedPlan=await ensureRaidUserRewardPlanV1293(env,{instanceId:current.id,userId:user.id,cfg:instanceCfg,totalDamage:finalDamage,finalRank,cleared}),rewardDisplay=raidRewardDisplayV1293(fixedPlan.plan);
         const rewardCoin=Math.max(0,Number(rewardDisplay.coin||0)),rewardShards=Math.max(0,Number(rewardDisplay.shards||0)),rankMagicCrystals=Math.max(0,Number(magicRewardForRank(rewardCfg.rankMagicRewards,finalRank)||0)),rewardMagicCrystals=Math.max(0,Number(rewardCfg.participationMagicCrystals||0)+rankMagicCrystals);
         // V1308: PENDING/COMPLETED 영수증의 updated_at은 정산 잠금 시작 시각이다.
