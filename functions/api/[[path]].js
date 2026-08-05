@@ -3117,6 +3117,10 @@ export async function onRequest(context){
       const user=await authenticate(request,env);
       return user?json({user:await profile(env,user)}):json({error:'로그인이 필요합니다.'},401);
     }
+    if(path==='hall-of-fame'&&request.method==='GET'){
+      const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('hall_of_fame_enabled','hall_of_fame_title','hall_of_fame_name')").all(),values=Object.fromEntries((rows.results||[]).map(row=>[row.key,row.value]));
+      return json({enabled:String(values.hall_of_fame_enabled??'1')!=='0',title:String(values.hall_of_fame_title||'숲카라 명예의 전당').slice(0,40),name:String(values.hall_of_fame_name||'🏆 남수단 🏆').slice(0,80)});
+    }
     if(path==='cards'){
       const viewer=await authenticate(request,env);
       const uniqueCfg=await cardUniqueSettings(env),uniqueVisible=Boolean(viewer&&uniqueCfg.userDetailEnabled!==false&&cardUniqueVisibleTo(viewer,uniqueCfg));
@@ -5083,21 +5087,21 @@ export async function onRequest(context){
     if(path==='admin/settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){
-        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
+        const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','hall_of_fame_enabled','hall_of_fame_title','hall_of_fame_name','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
         return json({settings:Object.fromEntries(rows.results.map(x=>[x.key,x.value])),attendance:await attendanceSettings(env),cubes:await cubeSettings(env),cubeDrops:await cubeDropSettings(env),cubeBoost:await cubeBoostSettings(env),weeklyPremiumCube:await weeklyPremiumCubeSettings(env),role:admin.role});
       }
       if(request.method==='POST'){
         const payload=await readBody(request);
         const maintenanceKeys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users'];
         const criticalKeys=['critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects'];
-        const ownerKeys=['site_notice','new_user_coin'];
+        const ownerKeys=['site_notice','new_user_coin','hall_of_fame_enabled','hall_of_fame_title','hall_of_fame_name'];
         if(payload.weeklyPremiumCube){const beforeWeekly=await weeklyPremiumCubeSettings(env),candidate=cleanWeeklyPremiumCubeSettings(payload.weeklyPremiumCube);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('weekly_premium_cube_settings_v1129',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(candidate)).run();weeklyPremiumCubeSettingsCache=null;await writeAdminLog(env,admin,'WEEKLY_PREMIUM_CUBE_SETTINGS_UPDATE','SETTINGS','weekly_premium_cube_settings_v1129',beforeWeekly,candidate);}
         if(payload.cubeDrops){const beforeDrops=await cubeDropSettings(env),candidate=cleanCubeDropSettings(payload.cubeDrops),pveTotal=cubeDropTotal(candidate,'PVE'),pvpTotal=cubeDropTotal(candidate,'PVP');if(pveTotal>100.0001)return json({error:`PVE 활성 큐브 확률 합계가 100%를 초과합니다. 현재 ${pveTotal.toFixed(2)}%입니다.`},400);if(pvpTotal>100.0001)return json({error:`PVP 활성 큐브 확률 합계가 100%를 초과합니다. 현재 ${pvpTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('cube_drop_settings_v1072',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(candidate)).run();await writeAdminLog(env,admin,'CUBE_DROP_SETTINGS_UPDATE','SETTINGS','cube_drop_settings_v1072',beforeDrops,candidate);}
         if(payload.cubeBoost){const beforeBoost=await cubeBoostSettings(env),candidate=cleanCubeBoostSettings(payload.cubeBoost);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('cube_drop_boost_settings_v1072',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(candidate)).run();await writeAdminLog(env,admin,'CUBE_DROP_BOOST_SETTINGS_UPDATE','SETTINGS','cube_drop_boost_settings_v1072',beforeBoost,candidate);}
         if(payload.cubes){const beforeCubes=await cubeSettings(env),candidate={};for(const code of CUBE_CODES){candidate[code]={};for(const grade of Object.keys(defaultCubeSettings()[code]))candidate[code][grade]=Math.max(0,Math.min(100,Number(payload.cubes?.[code]?.[grade])||0));const total=Object.values(candidate[code]).reduce((a,b)=>a+b,0);if(Math.abs(total-100)>.001)return json({error:`${code} 등급 확률 합계가 100%여야 합니다. 현재 ${total.toFixed(2)}%입니다.`},400);}await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('inventory_cube_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(candidate)).run();await writeAdminLog(env,admin,'CUBE_SETTINGS_UPDATE','SETTINGS','inventory_cubes',beforeCubes,candidate);}
         if(payload.attendance){const beforeAttendance=await attendanceSettings(env),cleanAttendance=cleanAttendanceSettings(payload.attendance);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('attendance_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(cleanAttendance)).run();await writeAdminLog(env,admin,'ATTENDANCE_SETTINGS_UPDATE','SETTINGS','attendance',beforeAttendance,cleanAttendance);}
-        if(admin.role!=='OWNER'&&ownerKeys.some(key=>key in payload)) return json({error:'신규 가입 코인과 서비스 공지는 OWNER만 변경할 수 있습니다.'},403);
-        const beforeRows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
+        if(admin.role!=='OWNER'&&ownerKeys.some(key=>key in payload)) return json({error:'OWNER 전용 서비스 설정입니다.'},403);
+        const beforeRows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('site_notice','hall_of_fame_enabled','hall_of_fame_title','hall_of_fame_name','maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users','new_user_coin','critical_enabled','critical_min_taps','critical_chance','critical_bonus','critical_effects')").all();
         const before=Object.fromEntries(beforeRows.results.map(x=>[x.key,x.value]));
         for(const key of [...maintenanceKeys,...criticalKeys,...ownerKeys]) if(key in payload) await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(key,String(payload[key]??'')).run();
         if(criticalKeys.some(key=>key in payload))criticalSettingsCache=null;
