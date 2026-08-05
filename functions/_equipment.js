@@ -235,6 +235,17 @@ export async function ensureEquipmentFoundation(env){
       ]);
     }
 
+    const mythicUniqueMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1473_mythic_equipment_unique'").first();
+    if(mythicUniqueMarker?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_user_equipment_mythic_unique BEFORE INSERT ON user_equipment_instances
+          WHEN UPPER(COALESCE((SELECT rarity FROM character_equipment_items WHERE id=NEW.equipment_id),'')) IN ('MYTH','MYTHIC')
+           AND EXISTS(SELECT 1 FROM user_equipment_instances WHERE user_id=NEW.user_id AND equipment_id=NEW.equipment_id)
+          BEGIN SELECT RAISE(ABORT,'MYTHIC_EQUIPMENT_DUPLICATE'); END`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1473_mythic_equipment_unique','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+
     const markerV1338=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1338_garage_system'").first();
     if(markerV1338?.value!=='1'){
       await env.DB.batch([
@@ -687,7 +698,7 @@ export async function handleEquipment({path,request,env,deps}){
     return json({error:'개별 장비 드랍 설정은 종료되었습니다. 보급상자 설정에서 통합 관리하세요.',code:'LEGACY_EQUIPMENT_DROP_DISABLED'},410);
   }
   if(path==='admin/equipment-grant'&&request.method==='POST'){
-    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),userId=cleanInt(b.userId,1,2147483647),equipmentId=cleanInt(b.equipmentId,1,2147483647),quantity=cleanInt(b.quantity||1,1,100),[targetUser,targetItem]=await Promise.all([env.DB.prepare('SELECT id FROM users WHERE id=?').bind(userId).first(),env.DB.prepare('SELECT id FROM character_equipment_items WHERE id=? AND is_active=1').bind(equipmentId).first()]);if(!targetUser)return json({error:'지급 대상 유저를 찾을 수 없습니다.'},404);if(!targetItem)return json({error:'지급할 활성 장비를 찾을 수 없습니다.'},404);const statements=[];for(let i=0;i<quantity;i++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'ADMIN',?,? FROM character_equipment_items WHERE id=?`).bind(userId,String(admin.id),`ADMIN-${admin.id}-${Date.now()}-${i}`,equipmentId));await env.DB.batch(statements);return json({ok:true,quantity});
+    const admin=await authenticate(request,env);if(!isAdmin(admin))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),userId=cleanInt(b.userId,1,2147483647),equipmentId=cleanInt(b.equipmentId,1,2147483647),quantity=cleanInt(b.quantity||1,1,100),[targetUser,targetItem,owned]=await Promise.all([env.DB.prepare('SELECT id FROM users WHERE id=?').bind(userId).first(),env.DB.prepare('SELECT id,rarity FROM character_equipment_items WHERE id=? AND is_active=1').bind(equipmentId).first(),env.DB.prepare('SELECT 1 FROM user_equipment_instances WHERE user_id=? AND equipment_id=?').bind(userId,equipmentId).first()]);if(!targetUser)return json({error:'지급 대상 유저를 찾을 수 없습니다.'},404);if(!targetItem)return json({error:'지급할 활성 장비를 찾을 수 없습니다.'},404);if(normalizeEquipmentRarity(targetItem.rarity)==='MYTHIC'&&(owned||quantity>1))return json({error:'신화 장비는 같은 장비를 중복 지급할 수 없습니다.'},409);const statements=[];for(let i=0;i<quantity;i++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'ADMIN',?,? FROM character_equipment_items WHERE id=?`).bind(userId,String(admin.id),`ADMIN-${admin.id}-${Date.now()}-${i}`,equipmentId));await env.DB.batch(statements);return json({ok:true,quantity});
   }
 
   if(path==='admin/garage-item'&&['POST','PATCH'].includes(request.method)){
