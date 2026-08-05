@@ -341,6 +341,16 @@ async function lifecycle(env,cfg){
     const formed=await formRound(env,round,cfg);if(formed.status==='WAITING_MINIMUM'){await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(iso(Date.now()+15*60000),round.id).run();return roundById(env,round.id)}round=await roundById(env,round.id);
   }
   if(round.status==='PREPARING'&&sqlMs(round.starts_at)<=Date.now())round=await activateRound(env,round);
+  if(round.status==='ACTIVE'&&round.current_front_id){
+    const front=await activeFront(env,round),needsAdvance=front&&(front.status==='RESOLVED'||Number(front.a_hp)<=0||Number(front.b_hp)<=0);
+    if(needsAdvance){
+      const lock=await acquireLock(env,`resolve_${front.id}`,15000);
+      if(lock.ok){
+        try{await resolveFront(env,round,front,cfg)}finally{await releaseLock(env,lock)}
+      }
+      round=await roundById(env,round.id);
+    }
+  }
   if(round.status==='ACTIVE'&&sqlMs(round.ends_at)<=Date.now())round=await settleRound(env,round,cfg);
   return round;
 }
