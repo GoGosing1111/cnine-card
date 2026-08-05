@@ -4934,10 +4934,20 @@ export async function onRequest(context){
     if(path==='admin/pvp-settlement'){
       const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'PvP 정산 권한이 없습니다.'},403);
       const settings=await pvpSettings(env),seasonKey=pvpSeasonKey(settings);
-      const rankedRows=await env.DB.prepare(`SELECT u.id AS user_id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname`).all();
-      const tierClaims=await env.DB.prepare('SELECT user_id FROM pvp_reward_claims WHERE season_name=?').bind(settings.seasonName).all(),rankClaims=await env.DB.prepare('SELECT user_id FROM pvp_rank_reward_claims WHERE season_name=?').bind(settings.seasonName).all(),tierClaimed=new Set(tierClaims.results.map(x=>Number(x.user_id))),rankClaimed=new Set(rankClaims.results.map(x=>Number(x.user_id)));
-      const preview=rankedRows.results.map((x,i)=>{const row={...x,final_rank:i+1},r=pvpSettlementRewardFor(row,settings,tierClaimed.has(Number(x.user_id)),rankClaimed.has(Number(x.user_id)));return {...row,tier:r.tier,rewardCoin:r.tierCoin+r.rankCoin,rewardShards:r.tierShards+r.rankShards}});
       const existing=await env.DB.prepare('SELECT * FROM pvp_season_settlements WHERE season_key=?').bind(seasonKey).first();
+      // Only build the expensive live ranking while creating a snapshot or serving a preview.
+      // Message delivery and finalization use the persisted snapshot instead.
+      const needsPreview=request.method==='GET'||!existing||existing.status==='PREPARING'||existing.status==='FAILED';
+      let preview=[];
+      if(needsPreview){
+        const [rankedRows,tierClaims,rankClaims]=await Promise.all([
+          env.DB.prepare(`SELECT u.id AS user_id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname`).all(),
+          env.DB.prepare('SELECT user_id FROM pvp_reward_claims WHERE season_name=?').bind(settings.seasonName).all(),
+          env.DB.prepare('SELECT user_id FROM pvp_rank_reward_claims WHERE season_name=?').bind(settings.seasonName).all()
+        ]);
+        const tierClaimed=new Set(tierClaims.results.map(x=>Number(x.user_id))),rankClaimed=new Set(rankClaims.results.map(x=>Number(x.user_id)));
+        preview=rankedRows.results.map((x,i)=>{const row={...x,final_rank:i+1},r=pvpSettlementRewardFor(row,settings,tierClaimed.has(Number(x.user_id)),rankClaimed.has(Number(x.user_id)));return {...row,tier:r.tier,rewardCoin:r.tierCoin+r.rankCoin,rewardShards:r.tierShards+r.rankShards}});
+      }
       if(request.method==='GET')return json({settings,existing:existing||null,preview:preview.slice(0,100),summary:{participants:preview.length,rewardUsers:preview.filter(x=>x.rewardCoin>0||x.rewardShards>0).length,rewardCoin:preview.reduce((a,x)=>a+x.rewardCoin,0),rewardShards:preview.reduce((a,x)=>a+x.rewardShards,0)}});
       if(request.method==='POST'){
         const body=await readBody(request),confirmName=String(body.confirmSeasonName||'').trim();
@@ -4969,7 +4979,7 @@ export async function onRequest(context){
             await env.DB.prepare("UPDATE pvp_season_settlements SET status='MESSAGES_READY',reward_user_count=?,message_count=?,error_message=NULL WHERE id=?").bind(Number(rewardUsers?.count||0),Number(sent?.count||0),sid).run();status='MESSAGES_READY';
           }
           if(status==='MESSAGES_READY'){
-            const initialScore=Number(settings.initialScore||1000);const reset=await env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=?,wins=0,losses=0,updated_at=CURRENT_TIMESTAMP').bind(initialScore,initialScore).run();await env.DB.prepare("UPDATE pvp_season_settlements SET status='COMPLETED',completed_at=CURRENT_TIMESTAMP,error_message=NULL WHERE id=?").bind(sid).run();const doneRow=await env.DB.prepare('SELECT * FROM pvp_season_settlements WHERE id=?').bind(sid).first();await writeAdminLog(env,admin,'PVP_SEASON_SETTLEMENT','PVP_SEASON',settings.seasonName,null,{settlementId:sid,participants:preview.length,messages:Number(doneRow?.message_count||0),resetProfiles:Number(reset.meta?.changes||0)});return json({ok:true,done:true,status:'COMPLETED',settlementId:sid,participants:preview.length,messages:Number(doneRow?.message_count||0),resetProfiles:Number(reset.meta?.changes||0)});
+            const initialScore=Number(settings.initialScore||1000);const reset=await env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=?,wins=0,losses=0,updated_at=CURRENT_TIMESTAMP').bind(initialScore,initialScore).run();await env.DB.prepare("UPDATE pvp_season_settlements SET status='COMPLETED',completed_at=CURRENT_TIMESTAMP,error_message=NULL WHERE id=?").bind(sid).run();const doneRow=await env.DB.prepare('SELECT * FROM pvp_season_settlements WHERE id=?').bind(sid).first(),participants=Number(doneRow?.participant_count||0);await writeAdminLog(env,admin,'PVP_SEASON_SETTLEMENT','PVP_SEASON',settings.seasonName,null,{settlementId:sid,participants,messages:Number(doneRow?.message_count||0),resetProfiles:Number(reset.meta?.changes||0)});return json({ok:true,done:true,status:'COMPLETED',settlementId:sid,participants,messages:Number(doneRow?.message_count||0),resetProfiles:Number(reset.meta?.changes||0)});
           }
           return json({ok:true,done:false,status,settlementId:sid});
         }catch(error){await env.DB.prepare("UPDATE pvp_season_settlements SET status=CASE WHEN status='MESSAGES_READY' THEN status ELSE 'FAILED' END,error_message=? WHERE id=?").bind(String(error?.message||error).slice(0,500),sid).run();return json({error:`정산이 중단되었습니다: ${String(error?.message||error)}`},500)}
