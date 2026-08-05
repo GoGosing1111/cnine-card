@@ -27,6 +27,7 @@ const DEFAULTS=Object.freeze({
 
 let foundationReady=false;
 let settingsCacheValue=null,settingsCacheExpiresAt=0;
+let publicStateSharedCache=null;
 const participantDeckCache=new Map();
 function safeJson(value,fallback={}){try{return JSON.parse(value||'')}catch{return fallback}}
 function cleanLabel(value,fallback,max=20){return String(value??fallback??'').replace(/[<>&"'`]/g,'').replace(/\s+/g,' ').trim().slice(0,max)||fallback}
@@ -189,6 +190,14 @@ async function ensureFoundation(env){
       env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_twv3_notices_round ON territory_war_v3_notices(round_id,id DESC)`)
     ]);
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1465_territory_comeback_systems','1',CURRENT_TIMESTAMP)").run();
+  }
+  const loadIndexMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1471_territory_load_indexes'").first();
+  if(!loadIndexMarker){
+    await env.DB.batch([
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_twv3_users_rank ON territory_war_v3_users(round_id,damage DESC,attacks DESC,user_id)'),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_twv3_actions_feed ON territory_war_v3_actions(round_id,status,id DESC)'),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1471_territory_load_indexes','1',CURRENT_TIMESTAMP)")
+    ]);
   }
   await repairWaterBuffaloSettlementV1443(env);
   await recoverWrongWinnerOverpaymentV1444(env);
@@ -417,8 +426,8 @@ async function rewardForUser(env,userId){
   return null;
 }
 
-async function counterState(env,round,mine){
-  const max=Math.max(100,Number((await settings(env)).counterGaugeMax||1000)),side=String(mine?.side||''),votes=(await env.DB.prepare(`SELECT side,operation,COUNT(*) votes FROM territory_war_v3_operation_votes WHERE round_id=? GROUP BY side,operation`).bind(round.id).all()).results||[],participants=(await env.DB.prepare(`SELECT side,COUNT(*) count FROM territory_war_v3_users WHERE round_id=? AND side IN ('A','B') GROUP BY side`).bind(round.id).all()).results||[],countMap=Object.fromEntries(participants.map(row=>[row.side,Number(row.count||0)])),myVote=side?await env.DB.prepare('SELECT operation FROM territory_war_v3_operation_votes WHERE round_id=? AND user_id=?').bind(round.id,mine.user_id).first():null;
+async function counterState(env,round,mine,shared=null){
+  const max=Math.max(100,Number((await settings(env)).counterGaugeMax||1000)),side=String(mine?.side||''),votes=shared?.votes||(await env.DB.prepare(`SELECT side,operation,COUNT(*) votes FROM territory_war_v3_operation_votes WHERE round_id=? GROUP BY side,operation`).bind(round.id).all()).results||[],participants=shared?.participants||(await env.DB.prepare(`SELECT side,COUNT(*) count FROM territory_war_v3_users WHERE round_id=? AND side IN ('A','B') GROUP BY side`).bind(round.id).all()).results||[],countMap=Object.fromEntries(participants.map(row=>[row.side,Number(row.count||0)])),myVote=side?await env.DB.prepare('SELECT operation FROM territory_war_v3_operation_votes WHERE round_id=? AND user_id=?').bind(round.id,mine.user_id).first():null;
   const team=s=>({side:s,gauge:Math.min(max,Number(round?.[sideField(s,'counter_gauge')]||0)),max,percent:Math.min(100,Math.round(Number(round?.[sideField(s,'counter_gauge')]||0)/max*100)),ready:Number(round?.[sideField(s,'counter_gauge')]||0)>=max,operation:activeOperation(round,s),participants:countMap[s]||0,requiredVotes:Math.max(1,Math.floor((countMap[s]||0)/2)+1),votes:Object.fromEntries(votes.filter(v=>v.side===s).map(v=>[v.operation,Number(v.votes||0)]))});
   return{A:team('A'),B:team('B'),mineSide:side,myVote:myVote?.operation||'',operations:OPERATIONS};
 }
@@ -435,17 +444,32 @@ async function voteOperation(env,deps,user,cfg,body){
   const lock=await acquireLock(env,`counter_vote_${round.id}_${mine.side}`,30000);if(!lock.ok)return deps.json({error:'작전 투표를 집계 중입니다.'},409);try{await env.DB.prepare(`INSERT INTO territory_war_v3_operation_votes(round_id,user_id,side,operation) VALUES(?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET operation=excluded.operation,side=excluded.side,updated_at=CURRENT_TIMESTAMP`).bind(round.id,user.id,mine.side,operation).run();const counts=await env.DB.prepare(`SELECT SUM(CASE WHEN operation=? THEN 1 ELSE 0 END) votes,(SELECT COUNT(*) FROM territory_war_v3_users WHERE round_id=? AND side=? AND status='ACTIVE') participants FROM territory_war_v3_operation_votes WHERE round_id=? AND side=?`).bind(operation,round.id,mine.side,round.id,mine.side).first(),required=Math.max(1,Math.floor(Number(counts?.participants||0)/2)+1);if(Number(counts?.votes||0)>=required)await activateOperation(env,await roundById(env,round.id),mine,operation,cfg);return deps.json({ok:true,activated:Number(counts?.votes||0)>=required,state:await publicState(env,user.id)})}finally{await releaseLock(env,lock)}
 }
 
+async function sharedPublicState(env,round,cfg){
+  const key=String(round.id),now=Date.now();
+  if(publicStateSharedCache?.key===key&&publicStateSharedCache.expiresAt>now)return publicStateSharedCache.promise;
+  const promise=Promise.all([
+    activeFront(env,round),
+    env.DB.prepare("SELECT COUNT(*) total,SUM(CASE WHEN side='A' THEN 1 ELSE 0 END) a_count,SUM(CASE WHEN side='B' THEN 1 ELSE 0 END) b_count,SUM(CASE WHEN side='A' THEN deck_power ELSE 0 END) a_power,SUM(CASE WHEN side='B' THEN deck_power ELSE 0 END) b_power FROM territory_war_v3_users WHERE round_id=?").bind(round.id).first(),
+    env.DB.prepare(`SELECT w.user_id,w.side,w.damage,w.attacks,w.front_finishes,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side IN ('A','B') ORDER BY w.damage DESC,w.attacks DESC,w.user_id LIMIT 20`).bind(round.id).all(),
+    env.DB.prepare('SELECT * FROM territory_war_v3_front_results WHERE round_id=? ORDER BY sequence DESC LIMIT 10').bind(round.id).all(),
+    env.DB.prepare(`SELECT a.side,a.winner_side,a.target_side,a.damage,a.counter_gained,a.ace_target,a.created_at,au.nickname attacker_nickname,ou.nickname opponent_nickname,cu.nickname contributor_nickname FROM territory_war_v3_actions a JOIN users au ON au.id=a.user_id LEFT JOIN users ou ON ou.id=a.opponent_user_id LEFT JOIN users cu ON cu.id=COALESCE(a.contributor_user_id,a.user_id) WHERE a.round_id=? AND a.status='COMPLETED' AND a.damage>0 ORDER BY a.id DESC LIMIT ?`).bind(round.id,clampInt(cfg.recentActionLimit,5,50,20)).all(),
+    env.DB.prepare('SELECT * FROM territory_war_v3_notices WHERE round_id=? ORDER BY id DESC LIMIT 1').bind(round.id).first(),
+    env.DB.prepare(`SELECT side,operation,COUNT(*) votes FROM territory_war_v3_operation_votes WHERE round_id=? GROUP BY side,operation`).bind(round.id).all(),
+    env.DB.prepare(`SELECT side,COUNT(*) count FROM territory_war_v3_users WHERE round_id=? AND side IN ('A','B') GROUP BY side`).bind(round.id).all()
+  ]).then(([front,counts,ranking,recentResults,recentActions,notice,votes,participants])=>({front,counts:counts||{},ranking:ranking.results||[],recentResults:recentResults.results||[],recentActions:recentActions.results||[],notice,votes:votes.results||[],participants:participants.results||[]}));
+  publicStateSharedCache={key,expiresAt:now+1200,promise};
+  try{return await promise}catch(error){if(publicStateSharedCache?.promise===promise)publicStateSharedCache=null;throw error}
+}
+
 async function publicState(env,userId,includeAdmin=false){
   const cfg=await settings(env),round=await lifecycle(env,cfg),mode=String(cfg.mode||'OFF').toUpperCase();
   if(!round)return{mode,settings:cfg,round:null,nodes:NODES,reward:await rewardForUser(env,userId),serverNow:iso()};
-  const front=await activeFront(env,round),mineRow=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first(),counts=(await env.DB.prepare("SELECT COUNT(*) total,SUM(CASE WHEN side='A' THEN 1 ELSE 0 END) a_count,SUM(CASE WHEN side='B' THEN 1 ELSE 0 END) b_count,SUM(CASE WHEN side='A' THEN deck_power ELSE 0 END) a_power,SUM(CASE WHEN side='B' THEN deck_power ELSE 0 END) b_power FROM territory_war_v3_users WHERE round_id=?").bind(round.id).first())||{};
+  const [shared,mineRow,reward]=await Promise.all([sharedPublicState(env,round,cfg),env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first(),rewardForUser(env,userId)]),front=shared.front,counts=shared.counts;
   let mine=null;if(mineRow){const e=rechargeEnergy(mineRow,cfg,front);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
-  const ranking=(await env.DB.prepare(`SELECT w.user_id,w.side,w.damage,w.attacks,w.front_finishes,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side IN ('A','B') ORDER BY w.damage DESC,w.attacks DESC,w.user_id LIMIT 20`).bind(round.id).all()).results||[];
-  const recentResults=(await env.DB.prepare('SELECT * FROM territory_war_v3_front_results WHERE round_id=? ORDER BY sequence DESC LIMIT 10').bind(round.id).all()).results||[];
-  const recentActions=(await env.DB.prepare(`SELECT a.side,a.winner_side,a.target_side,a.damage,a.counter_gained,a.ace_target,a.created_at,au.nickname attacker_nickname,ou.nickname opponent_nickname,cu.nickname contributor_nickname FROM territory_war_v3_actions a JOIN users au ON au.id=a.user_id LEFT JOIN users ou ON ou.id=a.opponent_user_id LEFT JOIN users cu ON cu.id=COALESCE(a.contributor_user_id,a.user_id) WHERE a.round_id=? AND a.status='COMPLETED' AND a.damage>0 ORDER BY a.id DESC LIMIT ?`).bind(round.id,clampInt(cfg.recentActionLimit,5,50,20)).all()).results||[];
+  const ranking=shared.ranking,recentResults=shared.recentResults,recentActions=shared.recentActions;
   const canRegister=!mine&&round.status==='RECRUITING',canCancel=Boolean(mine&&round.status==='RECRUITING');
-  const ace=ranking.find(row=>row.side===(Number(round.current_front_index||4)>=4?'A':'B'))||null,notice=await env.DB.prepare('SELECT * FROM territory_war_v3_notices WHERE round_id=? ORDER BY id DESC LIMIT 1').bind(round.id).first();
-  const state={mode,settings:cfg,round,front,nodes:NODES,comeback:comebackState(round),fatigue:fatigueState(round,front),lastDefense:front?.last_defense_side?{active:true,side:front.last_defense_side,deadline:front.last_defense_deadline,hpBonusPercent:Number(cfg.lastDefenseHpBonusPercent||35)}:{active:false},counter:await counterState(env,round,mineRow),ace,notice:notice?{...notice,payload:safeJson(notice.payload_json,{})}:null,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine,registration:{canRegister,canCancel},ranking,recentResults,recentActions,reward:await rewardForUser(env,userId),serverNow:iso(),version:Number(round.version||0)};
+  const ace=ranking.find(row=>row.side===(Number(round.current_front_index||4)>=4?'A':'B'))||null,notice=shared.notice;
+  const state={mode,settings:cfg,round,front,nodes:NODES,comeback:comebackState(round),fatigue:fatigueState(round,front),lastDefense:front?.last_defense_side?{active:true,side:front.last_defense_side,deadline:front.last_defense_deadline,hpBonusPercent:Number(cfg.lastDefenseHpBonusPercent||35)}:{active:false},counter:await counterState(env,round,mineRow,shared),ace,notice:notice?{...notice,payload:safeJson(notice.payload_json,{})}:null,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine,registration:{canRegister,canCancel},ranking,recentResults,recentActions,reward,serverNow:iso(),version:Number(round.version||0)};
   if(includeAdmin)state.adminUsers=(await env.DB.prepare(`SELECT w.*,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY CASE w.side WHEN 'A' THEN 1 WHEN 'B' THEN 2 ELSE 3 END,w.damage DESC,w.deck_power DESC`).bind(round.id).all()).results||[];
   return state;
 }

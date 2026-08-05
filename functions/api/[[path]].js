@@ -2907,6 +2907,11 @@ async function maintenanceSettings(env,{fresh=false}={}){
     throw error;
   }
 }
+async function maintenanceGateSettings(env){
+  const mode=await env.DB.prepare("SELECT value FROM app_meta WHERE key='maintenance_mode'").first();
+  if(String(mode?.value||'0')!=='1')return{active:false,title:'',message:'',startAt:'',endAt:'',testUsers:[]};
+  return maintenanceSettings(env,{fresh:true});
+}
 function isAdminRole(user){return Boolean(user&&['OWNER','ADMIN'].includes(user.role))}
 function canMaintenanceBypass(user,maintenance){return Boolean(isAdminRole(user)||(user&&maintenance?.testUsers?.includes(user.nickname)))}
 
@@ -2929,7 +2934,7 @@ export async function onRequest(context){
     // 시작 화면 상태 확인은 대장전·진화 등 하위 라우터보다 먼저 처리한다.
     // 로그인 전 요청이 불필요한 시스템 핸들러를 거치며 지연되지 않도록 한다.
     if(path==='service/status'){
-      const maintenance=await maintenanceSettings(env,{fresh:true});
+      const maintenance=await maintenanceGateSettings(env);
       // 정상 운영 중에는 세션 인증까지 수행하지 않는다. 시작 화면은 점검 여부만 필요하며,
       // 이 경로를 무인증 1회 조회로 유지해 동시 접속 폭주가 sessions/users 조회로 번지는 것을 막는다.
       if(!maintenance.active)return json({maintenance,bypass:false,role:null,user:null,lightweight:true});
@@ -2970,7 +2975,7 @@ export async function onRequest(context){
     // never create a grace window after the operator enables maintenance.
     const maintenanceExemptEarly=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='service/status'||path==='health'||path.startsWith('setup/');
     if(!maintenanceExemptEarly){
-      const maintenance=await maintenanceSettings(env,{fresh:true});
+      const maintenance=await maintenanceGateSettings(env);
       if(maintenance.active){
         const current=await authenticate(request,env);
         if(!canMaintenanceBypass(current,maintenance))return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
@@ -3107,7 +3112,7 @@ export async function onRequest(context){
       const user=await env.DB.prepare("SELECT * FROM users WHERE private_key_hash=?").bind(privateKeyHash).first();
       if(!user) return json({error:'개인키가 올바르지 않습니다.'},401);
       if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
-      const currentMaintenance=await maintenanceSettings(env,{fresh:true});
+      const currentMaintenance=await maintenanceGateSettings(env);
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
       return json({token:await makeSession(env,user.id),user:await profile(env,user),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
     }
