@@ -202,6 +202,21 @@ async function ensureFoundation(env){
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1472_territory_operation_once','1',CURRENT_TIMESTAMP)")
     ]);
   }
+  const lastDefenseUseMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1473_territory_last_defense_once'").first();
+  if(!lastDefenseUseMarker){
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS territory_war_v3_last_defense_uses(
+        round_id INTEGER NOT NULL,side TEXT NOT NULL,front_id INTEGER,activated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(round_id,side)
+      )`),
+      env.DB.prepare(`INSERT OR IGNORE INTO territory_war_v3_last_defense_uses(round_id,side,front_id,activated_at)
+        SELECT round_id,last_defense_side,id,COALESCE(started_at,created_at,CURRENT_TIMESTAMP)
+        FROM territory_war_v3_fronts
+        WHERE last_defense_side IN ('A','B')
+        ORDER BY sequence ASC`),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1473_territory_last_defense_once','1',CURRENT_TIMESTAMP)")
+    ]);
+  }
   const loadIndexMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1471_territory_load_indexes'").first();
   if(!loadIndexMarker){
     await env.DB.batch([
@@ -300,12 +315,19 @@ async function createRound(env,cfg){
 }
 
 async function createFront(env,roundId,sequence,nodeIndex,status,cfg){
-  const node=nodeAt(nodeIndex),round=await roundById(env,roundId),prior=await env.DB.prepare('SELECT COUNT(*) cnt FROM territory_war_v3_fronts WHERE round_id=? AND node_index=?').bind(roundId,node.index).first(),revisitCount=Math.max(0,Number(prior?.cnt||0)),revisitFatigue=Math.min(45,revisitCount*15),baseHp=Math.max(1,Math.round(maxHpForNode(node,cfg)*(1-revisitFatigue/100))),defenseSide=lastDefenseSide(node.index),leadingSide=Number(round?.a_capture_streak||0)>0?'A':Number(round?.b_capture_streak||0)>0?'B':null,captureStreak=leadingSide?Number(round?.[sideField(leadingSide,'capture_streak')]||0):0,leaderFatigue=Math.min(Number(cfg.fatigueMaxPercent||30),captureStreak*Number(cfg.fatiguePerCapturePercent||10));
+  const node=nodeAt(nodeIndex),round=await roundById(env,roundId),prior=await env.DB.prepare('SELECT COUNT(*) cnt FROM territory_war_v3_fronts WHERE round_id=? AND node_index=?').bind(roundId,node.index).first(),revisitCount=Math.max(0,Number(prior?.cnt||0)),revisitFatigue=Math.min(45,revisitCount*15),baseHp=Math.max(1,Math.round(maxHpForNode(node,cfg)*(1-revisitFatigue/100))),candidateDefenseSide=lastDefenseSide(node.index),leadingSide=Number(round?.a_capture_streak||0)>0?'A':Number(round?.b_capture_streak||0)>0?'B':null,captureStreak=leadingSide?Number(round?.[sideField(leadingSide,'capture_streak')]||0):0,leaderFatigue=Math.min(Number(cfg.fatigueMaxPercent||30),captureStreak*Number(cfg.fatiguePerCapturePercent||10));
+  let defenseSide=null;
+  if(candidateDefenseSide){
+    const reserved=await env.DB.prepare('INSERT OR IGNORE INTO territory_war_v3_last_defense_uses(round_id,side) VALUES(?,?)').bind(roundId,candidateDefenseSide).run();
+    if(Number(reserved?.meta?.changes||0)>0)defenseSide=candidateDefenseSide;
+  }
   let aHp=baseHp,bHp=baseHp;if(defenseSide==='A')aHp=Math.round(aHp*(1+Number(cfg.lastDefenseHpBonusPercent||35)/100));if(defenseSide==='B')bHp=Math.round(bHp*(1+Number(cfg.lastDefenseHpBonusPercent||35)/100));if(leadingSide==='A')aHp=Math.round(aHp*(1-leaderFatigue/100));if(leadingSide==='B')bHp=Math.round(bHp*(1-leaderFatigue/100));
   const started=status==='ACTIVE'?iso():null,deadline=defenseSide?iso((status==='ACTIVE'?Date.now():sqlMs(round?.starts_at)||Date.now())+Number(cfg.lastDefenseHoldMinutes||15)*60000):null;
   await env.DB.prepare(`INSERT OR IGNORE INTO territory_war_v3_fronts(round_id,sequence,node_index,node_code,node_name,node_type,status,a_hp,b_hp,a_max_hp,b_max_hp,revisit_count,started_at,last_defense_side,last_defense_deadline,fatigued_side,fatigue_percent)
     VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(roundId,sequence,node.index,node.code,node.name,node.type,status,aHp,bHp,aHp,bHp,revisitCount,started,defenseSide,deadline,leadingSide,leaderFatigue).run();
-  return env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE round_id=? AND sequence=?').bind(roundId,sequence).first();
+  const front=await env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE round_id=? AND sequence=?').bind(roundId,sequence).first();
+  if(defenseSide&&front?.id)await env.DB.prepare('UPDATE territory_war_v3_last_defense_uses SET front_id=? WHERE round_id=? AND side=? AND front_id IS NULL').bind(front.id,roundId,defenseSide).run();
+  return front;
 }
 
 function balancedSideAssignments(users){
