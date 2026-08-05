@@ -3915,7 +3915,7 @@ export async function onRequest(context){
       }
       if(receipt?.status==='PENDING'){
         const pendingAt=Date.parse(receipt.updatedAt||receipt.createdAt||0),pendingAgeMs=Number.isFinite(pendingAt)?Math.max(0,Date.now()-pendingAt):Number.MAX_SAFE_INTEGER;
-        if(pendingAgeMs<45000)return json({error:'레이드 보상을 정산 중입니다. 잠시 후 자동으로 다시 확인합니다.',settlementPending:true,retryAfterMs:Math.max(1500,45000-pendingAgeMs)},409);
+        if(pendingAgeMs<10000)return json({error:'레이드 보상을 정산 중입니다. 잠시 후 자동으로 다시 확인합니다.',settlementPending:true,retryAfterMs:Math.max(1500,10000-pendingAgeMs)},409);
         const latestParticipant=await env.DB.prepare('SELECT reward_claimed AS rewardClaimed FROM raid_participants WHERE id=? LIMIT 1').bind(row.id).first();
         if(Number(latestParticipant?.rewardClaimed||0)===1){
           const updatedUser=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
@@ -3952,7 +3952,7 @@ export async function onRequest(context){
         const duplicate=await env.DB.prepare('SELECT status,response_json,created_at AS createdAt,updated_at AS updatedAt FROM raid_reward_receipts WHERE instance_id=? AND user_id=?').bind(row.instance_id,user.id).first();
         if(duplicate?.status==='COMPLETED'&&duplicate.response_json){try{return json(JSON.parse(duplicate.response_json))}catch{}}
         const duplicateAt=Date.parse(duplicate?.updatedAt||duplicate?.createdAt||0),duplicateAgeMs=Number.isFinite(duplicateAt)?Math.max(0,Date.now()-duplicateAt):0;
-        return json({error:'레이드 보상을 정산 중입니다. 잠시 후 자동으로 다시 확인합니다.',settlementPending:true,retryAfterMs:Math.max(1500,45000-duplicateAgeMs)},409);
+        return json({error:'레이드 보상을 정산 중입니다. 잠시 후 자동으로 다시 확인합니다.',settlementPending:true,retryAfterMs:Math.max(1500,10000-duplicateAgeMs)},409);
       }
 
       const lockedReceipt=await env.DB.prepare("SELECT reward_coin AS rewardCoin,reward_shards AS rewardShards,COALESCE(reward_magic_crystals,0) AS rewardMagicCrystals FROM raid_reward_receipts WHERE instance_id=? AND user_id=? AND status='PENDING'").bind(row.instance_id,user.id).first();

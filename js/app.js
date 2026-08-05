@@ -1597,9 +1597,12 @@ function renderRaidView(d){
     const rankMagicCrystals=reward?Math.max(0,Number(reward.rankMagicCrystals||0)):0;
     const participationCoin=reward?Math.max(0,Number(reward.participationCoin||0)):0;
     const clearCoin=reward?Math.max(0,Number(reward.clearCoin||0)):0;
+    // raid/claim can create the authoritative reward plan on demand. Keep the
+    // button usable even when the status preview is delayed under D1 load.
     const rewardReady=Boolean(me&&reward&&reward.source==='SERVER_CONFIRMED');
+    const claimEnabled=Boolean(me&&!me.rewardClaimed);
     box.innerHTML=`<section class="raid-result-screen ${clear?'clear':c.result==='FAILED'?'failed':'timeout'}"><div class="raid-result-glow"></div><p class="eyebrow">RAID RESULT DETAIL</p><span class="raid-result-state">${clear?'클리어 성공':c.result==='FAILED'?'레이드 실패':'시간 초과'}</span><h1>${resultText}</h1><h2>${escapeHtml(c.bossName)}</h2><div class="raid-result-stats"><div><span>MY DAMAGE</span><b>${Number(me?.shownDamage||0).toLocaleString()}</b></div><div><span>FINAL RANK</span><b>${rank?rank+'위':'-'}</b></div><div><span>SURVIVAL</span><b>${me?(me.isDefeated?'K.O':'생존'):'-'}</b></div></div>${me?`<div class="raid-reward-stage"><article><div class="raid-reward-icon">◇</div><span>코인</span><b>${rewardReady?'+'+rewardCoin.toLocaleString():'확인 중'}</b></article><article><div class="raid-reward-icon">✦</div><span>카드 조각</span><b>${rewardReady?'+'+rewardShards.toLocaleString():'확인 중'}</b></article><article class="magic"><div class="raid-reward-icon">✧</div><span>마법 결정</span><b>${rewardReady?'+'+rewardMagicCrystals.toLocaleString():'확인 중'}</b></article></div>${rewardReady?`<p class="raid-reward-breakdown">참가 ${participationCoin.toLocaleString()} 코인${clear?` + 클리어 ${clearCoin.toLocaleString()} 코인`:''} = 총 ${rewardCoin.toLocaleString()} 코인${rewardMagicCrystals>0?` · 마법 결정 참가 ${participationMagicCrystals.toLocaleString()}${rankMagicCrystals>0?` + ${rank||'-'}위 ${rankMagicCrystals.toLocaleString()}`:''}`:''}</p>`:''}<button class="btn raid-claim-btn" id="raidClaim" ${!rewardReady||me.rewardClaimed?'disabled':''}>${me.rewardClaimed?'보상 수령 완료':rewardReady?'보상 받기':'서버 보상 확인 중'}</button><p class="raid-result-note">${clear?'클리어 보상과 참가 보상이 함께 지급됩니다.':'클리어 보상은 지급되지 않으며 참가 보상만 지급됩니다.'}</p>`:'<p class="raid-result-note">레이드 참가 기록이 없습니다.</p>'}</section>`;
-    const claim=document.getElementById('raidClaim');if(claim&&!claim.disabled)claim.onclick=claimRaidReward;stopRaidTimer();return;
+    const claim=document.getElementById('raidClaim');if(claim){claim.disabled=!claimEnabled;claim.textContent=me?.rewardClaimed?'보상 수령 완료':'보상 받기';if(!claim.disabled)claim.onclick=claimRaidReward}stopRaidTimer();return;
   }
   const active=participants.filter(x=>!x.isDefeated),attacker=active.length?active[(Number(c.attackTicks||0)+Math.floor(Date.now()/Math.max(400,Number(s.attackIntervalMs||800))))%active.length]:null;
   const attackCard=attacker?.cards?.length?attacker.cards[(Number(c.attackTicks||0)+Math.floor(Date.now()/Math.max(400,Number(s.attackIntervalMs||800))))%attacker.cards.length]:null;
@@ -2319,7 +2322,7 @@ function renderStartupRecovery(message='서버 연결이 지연되고 있습니�
 // Raid is synchronized content: use a fixed cadence so clients observe the same
 // server state window. The next poll is scheduled only after the current request
 // finishes, therefore requests cannot overlap even at the faster battle cadence.
-function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?2000:5000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
+function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?4000:8000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
 
 const RETIREMENT_REROLL_META={
   MA_REROLL_TICKET:{title:'MA 재뽑기권',grade:'MA',theme:'ma'},
