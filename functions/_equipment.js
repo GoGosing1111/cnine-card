@@ -249,6 +249,31 @@ export async function ensureEquipmentFoundation(env){
     const primeRecallMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1488_prime_equipment_recall'").first();
     if(primeRecallMarker?.value!=='1'){
       await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS prime_equipment_recall_audit_v1488(
+          instance_id INTEGER PRIMARY KEY,
+          user_id INTEGER NOT NULL,
+          equipment_id INTEGER NOT NULL,
+          equipment_code TEXT NOT NULL DEFAULT '',
+          equipment_name TEXT NOT NULL DEFAULT '',
+          source_type TEXT NOT NULL DEFAULT '',
+          source_id TEXT NOT NULL DEFAULT '',
+          request_id TEXT,
+          was_equipped INTEGER NOT NULL DEFAULT 0,
+          acquired_at TEXT,
+          recalled_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`),
+        // 삭제 전에 대상과 획득 경로를 남겨 운영 확인 및 필요 시 복구가 가능하게 한다.
+        env.DB.prepare(`INSERT OR IGNORE INTO prime_equipment_recall_audit_v1488(
+            instance_id,user_id,equipment_id,equipment_code,equipment_name,source_type,source_id,request_id,was_equipped,acquired_at
+          )
+          SELECT x.id,x.user_id,x.equipment_id,i.code,i.name,x.source_type,x.source_id,x.request_id,
+            CASE WHEN l.instance_id IS NULL THEN 0 ELSE 1 END,x.acquired_at
+          FROM user_equipment_instances x
+          JOIN character_equipment_items i ON i.id=x.equipment_id
+          JOIN users u ON u.id=x.user_id
+          LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id
+          WHERE UPPER(COALESCE(u.role,'USER'))<>'OWNER'
+            AND (UPPER(COALESCE(i.code,'')) LIKE 'PRIME%' OR REPLACE(COALESCE(i.name,''),' ','') LIKE '프라임%')`),
         // 신규 프라임 장비는 보급상자 확률표가 확정되기 전까지 드랍 풀에서 제외한다.
         env.DB.prepare(`UPDATE character_equipment_items
           SET supply_enabled=0,supply_weight=0,updated_at=CURRENT_TIMESTAMP
