@@ -2535,7 +2535,7 @@ async function recentHighGradeItems(env){
     ) recent
     JOIN users u ON u.id=recent.user_id
     JOIN cards_effective_v1210 c ON c.id=recent.card_id
-    WHERE c.rarity IN ('MA','LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
+    WHERE c.rarity IN ('LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
     ORDER BY recent.last_obtained_at DESC LIMIT 20`).all()
     .then(rows=>rows.results||[])
     .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
@@ -3029,9 +3029,10 @@ export async function onRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       // 이 경로는 전역 업그레이드 게이트보다 먼저 처리되므로 신규 인덱스를 선행 보장한다.
       await ensureD1HotpathIndexes(env);
+      const includeFeeds=url.searchParams.get('feeds')==='1';
       const [inventory,highGrade,equipment]=await Promise.all([
         env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
-        recentHighGradeItems(env),recentMythicEquipmentItems(env)
+        includeFeeds?recentHighGradeItems(env):Promise.resolve([]),includeFeeds?recentMythicEquipmentItems(env):Promise.resolve([])
       ]);
       return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},highGradeItems:highGrade,equipmentItems:equipment,serverNow:new Date().toISOString()});
     }

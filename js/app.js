@@ -100,7 +100,7 @@ function ensureBurningEventStripVisible(){
   const page=document.querySelector('.page');
   if(!page)return;
   const existing=page.querySelector('.burning-event-strip');
-  if(!burningEventState.enabled){existing?.remove();return;}
+  if(!burningEventState.enabled||runtimeCommandContext!=='buy'){existing?.remove();return;}
   const markup=burningEventStripMarkup();
   if(!markup)return;
   const holder=document.createElement('div');holder.innerHTML=markup;const next=holder.firstElementChild;if(!next)return;
@@ -120,7 +120,7 @@ function applyBurningEventState(next={},options={}){
   }
   burningEventState={...burningEventState,...next};
   PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
-  const mode=burningMode(),normalActive=burningEventState.enabled===true&&mode==='BURNING',hyperActive=burningEventState.enabled===true&&mode==='HYPER';
+  const mode=burningMode(),shopActive=runtimeCommandContext==='buy',normalActive=shopActive&&burningEventState.enabled===true&&mode==='BURNING',hyperActive=shopActive&&burningEventState.enabled===true&&mode==='HYPER';
   document.documentElement.classList.toggle('burning-event-active',normalActive);
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
   const changed=before!==burningEventFingerprint(burningEventState);
@@ -129,7 +129,7 @@ function applyBurningEventState(next={},options={}){
   queueMicrotask(ensureBurningEventStripVisible);
   const activationToken=String(burningEventState.activatedAt||burningEventState.updatedAt||'').replace(/[^0-9TZ:+.-]/g,'').slice(0,48);
   const key=`cnine:burning-announced-v1414:${mode}:${Number(burningEventState.generation||0)}:${activationToken}`;
-  if(options.announce!==false&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
+  if(options.announce!==false&&runtimeCommandContext==='buy'&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
     localStorage.setItem(key,'1');
     setTimeout(()=>{if(burningEventState.enabled)showBurningActivationNotice()},300);
   }
@@ -137,7 +137,7 @@ function applyBurningEventState(next={},options={}){
   return changed;
 }
 function showBurningActivationNotice(){
-  if(!burningEventState.enabled)return;
+  if(!burningEventState.enabled||runtimeCommandContext!=='buy')return;
   const previous=document.getElementById('burningActivationNotice');
   if(previous){try{previous.__burningCleanup?.()}catch(_){}previous.remove()}
   const hyper=burningMode()==='HYPER';
@@ -489,6 +489,10 @@ function renderShell(tab) {
   document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
   runtimeCommandContext=tab;
+  const burningShopActive=tab==='buy'&&burningEventState.enabled===true,burningPageMode=burningMode();
+  document.documentElement.classList.toggle('burning-event-active',burningShopActive&&burningPageMode==='BURNING');
+  document.documentElement.classList.toggle('hyper-burning-event-active',burningShopActive&&burningPageMode==='HYPER');
+  if(tab!=='buy'){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open')}
   const user = loadUser();
   if (!user) return renderLogin();
   const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
@@ -533,12 +537,13 @@ function renderShell(tab) {
   bindView(tab);
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
-  deferShellLoad(80,loadShellSummary);
-  deferShellLoad(120,loadHallOfFame);
+  deferShellLoad(80,()=>loadShellSummary(tab==='buy'));
+  if(tab==='buy')deferShellLoad(120,loadHallOfFame);
   if(API_MODE&&API_TOKEN)scheduleRuntimeCommandPoll(runtimeCommandPollDelay());
 }
 
 function hallOfFameHtml(){return `<section class="soop-hall-of-fame feed-hall-of-fame" id="soopHallOfFame" aria-label="숲카라 명예의 전당"><span class="soop-hall-cup" aria-hidden="true">🏆</span><small id="soopHallTitle">숲카라 명예의 전당</small><b id="soopHallName">🏆 남수단 🏆</b></section>`}
+function acquisitionFeedsHtml(){return `${hallOfFameHtml()}<section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">LIMITED 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 LIMITED 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed equipment-feed" aria-live="polite"><span class="high-grade-label equipment-feed-label">신화 장비 획득 소식</span><div class="high-grade-viewport"><div id="equipmentAcquisitionTrack" class="high-grade-track equipment-feed-track"><span class="high-grade-empty">최근 신화 장비 획득 기록을 불러오는 중...</span></div></div></section>`}
 async function loadHallOfFame(){const hall=document.getElementById('soopHallOfFame');if(!hall)return;if(!API_MODE)return;try{clearApiCache('hall-of-fame');const data=await apiRequest('hall-of-fame',{}, {ttl:0,replaceInflight:true});if(data.enabled===false){hall.hidden=true;return}hall.hidden=false;const title=document.getElementById('soopHallTitle'),name=document.getElementById('soopHallName');if(title)title.textContent=String(data.title||'숲카라 명예의 전당');if(name)name.textContent=String(data.name||'🏆 남수단 🏆')}catch(error){console.warn('명예의 전당 조회 실패:',error)}}
 
 function summaryBar(user) {
@@ -548,21 +553,21 @@ function summaryBar(user) {
     <div class="summary-card currency-summary"><span class="summary-label">보유 재화</span><div class="currency-list"><div class="currency-row coin"><i>◇</i><span>코인</span><b>${coin}</b></div><div class="currency-row shard"><i>✣</i><span>카드 조각</span><b>${shards}</b></div><div class="currency-row crystal"><i>✦</i><span>마법 결정</span><b>${crystals}</b></div></div></div>
     <div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>
     <button type="button" class="summary-card inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><small class="summary-label">보관함</small><b>인벤토리</b><em id="inventorySummaryMeta">보유 내역 확인</em></span><strong id="inventorySummaryBadge" hidden>NEW</strong></button>
-  </section>${hallOfFameHtml()}<section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">MA 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 MA 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed equipment-feed" aria-live="polite"><span class="high-grade-label equipment-feed-label">신화 장비 획득 소식</span><div class="high-grade-viewport"><div id="equipmentAcquisitionTrack" class="high-grade-track equipment-feed-track"><span class="high-grade-empty">최근 신화 장비 획득 기록을 불러오는 중...</span></div></div></section>`;
+  </section>${runtimeCommandContext==='buy'?acquisitionFeedsHtml():''}`;
 }
 
 window.addEventListener('storage',event=>{if(event.key==='cnine_hall_of_fame_refresh'){clearApiCache('hall-of-fame');loadHallOfFame()}});
 
-async function loadShellSummary(){
+async function loadShellSummary(includeAcquisitionFeeds=false){
   const inventoryCard=document.getElementById('inventorySummary');if(inventoryCard)inventoryCard.onclick=()=>renderShell('inventory');
   if(!API_MODE)return;
   try{
-    const d=await apiRequest('shell/summary',{}, {ttl:30000,timeoutMs:7000});
+    const d=await apiRequest(`shell/summary${includeAcquisitionFeeds?'?feeds=1':''}`,{}, {ttl:30000,timeoutMs:7000});
     const inventory=d.inventory||{},meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');
     if(meta)meta.textContent=Number(inventory.totalQuantity)>0?`보유 ${Number(inventory.totalQuantity).toLocaleString()}개 · ${Number(inventory.ownedTypes)}종`:'획득한 특별 보관품 없음';
     if(badge){badge.hidden=!Number(inventory.unseenTotal);badge.textContent=Number(inventory.unseenTotal)>99?'99+':`NEW ${Number(inventory.unseenTotal||0)}`}
     const highTrack=document.getElementById('highGradeTrack'),highItems=Array.isArray(d.highGradeItems)?d.highGradeItems:[];
-    if(highTrack){if(!highItems.length)highTrack.innerHTML='<span class="high-grade-empty">아직 MA 등급 이상 획득 기록이 없습니다.</span>';else{const messages=highItems.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');highTrack.innerHTML=messages+messages;highTrack.classList.toggle('static',highItems.length===1)}}
+    if(highTrack){if(!highItems.length)highTrack.innerHTML='<span class="high-grade-empty">아직 LIMITED 등급 이상 획득 기록이 없습니다.</span>';else{const messages=highItems.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');highTrack.innerHTML=messages+messages;highTrack.classList.toggle('static',highItems.length===1)}}
     const equipmentTrack=document.getElementById('equipmentAcquisitionTrack'),equipmentItems=Array.isArray(d.equipmentItems)?d.equipmentItems:[];
     if(equipmentTrack){if(!equipmentItems.length)equipmentTrack.innerHTML='<span class="high-grade-empty">아직 신화 등급 장비 획득 기록이 없습니다.</span>';else{const messages=equipmentItems.map(item=>`<span class="high-grade-item equipment-feed-item rarity-mythic"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.equipment_name)} [신화]</strong> 장비를 획득했습니다.<em>${escapeHtml(equipmentFeedSourceLabel(item.source))}</em></span>`).join('');equipmentTrack.innerHTML=messages+messages;equipmentTrack.classList.toggle('static',equipmentItems.length===1)}}
   }catch(error){console.warn('공통 화면 요약 조회 실패:',error)}
@@ -577,7 +582,7 @@ async function loadRecentHighGradeFeed(){
   try{
     const data=await apiRequest('recent-high-grade');
     const items=Array.isArray(data.items)?data.items:[];
-    if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 MA 등급 이상 획득 기록이 없습니다.</span>';return;}
+    if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 LIMITED 등급 이상 획득 기록이 없습니다.</span>';return;}
     const messages=items.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');
     track.innerHTML=messages+messages;
     track.classList.toggle('static',items.length===1);
