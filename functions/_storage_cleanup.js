@@ -514,22 +514,22 @@ async function deleteCaptainCleanupBatch(env,raw={}){
 
 const SAFE_LOG_CLEANUP_SPECS = Object.freeze({
   SHARD_DUPLICATE:{
-    table:'shard_logs',label:'중복 카드 조각 로그',retentionDefault:3,
+    table:'shard_logs',label:'중복 카드 조각 로그',retentionDefault:1,
     whereSql:"reason='DUPLICATE'",reasonColumn:true,
     description:'카드팩 중복 획득으로 생성된 조각 감사 로그만 정리합니다. 현재 카드 조각 잔액은 users.card_shards에 유지됩니다.'
   },
   COIN_PACK_DRAW:{
-    table:'coin_logs',label:'카드팩 코인 사용 로그',retentionDefault:14,
+    table:'coin_logs',label:'카드팩 코인 사용 로그',retentionDefault:1,
     whereSql:"reason='PACK_DRAW'",reasonColumn:true,
     description:'오래된 카드팩 코인 사용 이력만 정리합니다. 현재 코인 잔액은 users.coin에 유지됩니다.'
   },
   BATTLE_HISTORY:{
-    table:'battle_logs',label:'오래된 PVE 전투 로그',retentionDefault:7,
+    table:'battle_logs',label:'오래된 PVE 전투 로그',retentionDefault:1,
     whereSql:'1=1',reasonColumn:false,
     description:'오래된 PVE 결과 기록만 정리합니다. 에너지·보상·덱·진행 데이터는 건드리지 않습니다.'
   },
   PVP_HISTORY:{
-    table:'pvp_match_history',label:'오래된 PVP 전투 기록',retentionDefault:14,
+    table:'pvp_match_history',label:'오래된 PVP 전투 기록',retentionDefault:3,
     whereSql:'1=1',reasonColumn:false,
     description:'보존 기간이 지난 PVP 상세 전투 이력만 정리합니다. 점수·승패·랭킹 프로필은 유지됩니다.'
   },
@@ -559,14 +559,14 @@ function cleanSafeCleanupOptions(raw={}){
   return {
     logType,
     table:spec.table,
-    retentionDays:clampInt(raw.retentionDays,spec.retentionDefault,2,3650),
+    retentionDays:clampInt(raw.retentionDays,spec.retentionDefault,1,3650),
     targetRows:clampInt(raw.targetRows,250000,10000,SAFE_LOG_MAX_TARGET),
     scanBatch:clampInt(raw.scanBatch,SAFE_LOG_SCAN_BATCH,1000,SAFE_LOG_SCAN_BATCH),
     sessionRetentionDays:clampInt(raw.sessionRetentionDays,7,1,3650),
     cleanupExpiredSessions:bool(raw.cleanupExpiredSessions,true)
   };
 }
-function safeLogCursorKey(logType,retentionDays){return `storage_safe_log_cursor_${String(logType||'').toLowerCase()}_${Math.max(2,Number(retentionDays||0))}d`}
+function safeLogCursorKey(logType,retentionDays){return `storage_safe_log_cursor_${String(logType||'').toLowerCase()}_${Math.max(1,Number(retentionDays||0))}d`}
 async function safeLogCursor(env,logType,retentionDays){
   try{
     const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(safeLogCursorKey(logType,retentionDays)).first();
@@ -647,6 +647,13 @@ async function deleteExpiredSessionsBatch(env,raw={}){
 // One sampled request rotates through one tiny task. Active PENDING/RUNNING/READY rows are protected; only stale terminal rows or oversized completed payloads are touched.
 const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=64;
 const AUTO_STORAGE_MAINTENANCE_BATCH=50;
+const AUTO_HIGH_VOLUME_SCAN_BATCH=10000;
+const AUTO_HIGH_VOLUME_TASKS=Object.freeze([
+  {key:'shard_duplicate',table:'shard_logs',retentionDays:1,extraWhere:"reason='DUPLICATE'"},
+  {key:'coin_pack_draw',table:'coin_logs',retentionDays:1,extraWhere:"reason='PACK_DRAW'"},
+  {key:'battle_history',table:'battle_logs',retentionDays:1,extraWhere:'1=1'},
+  {key:'pvp_history',table:'pvp_match_history',retentionDays:3,extraWhere:'1=1'}
+]);
 const AUTO_STORAGE_INDEX_TASKS=Object.freeze([
   {key:'twv3_actions_cleanup',table:'territory_war_v3_actions',columns:['status','updated_at','id'],sql:'CREATE INDEX IF NOT EXISTS idx_twv3_actions_cleanup_v1402 ON territory_war_v3_actions(status,updated_at,id)'},
   {key:'twv3_rewards_cleanup',table:'territory_war_v3_rewards',columns:['claimed_at','created_at','round_id'],sql:'CREATE INDEX IF NOT EXISTS idx_twv3_rewards_cleanup_v1402 ON territory_war_v3_rewards(claimed_at,created_at,round_id)'},
@@ -756,6 +763,35 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
     ORDER BY claimed_at LIMIT ?)`}
 ]);
 function autoMaintenanceHash(value){let h=2166136261;for(const ch of String(value||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+async function runHighVolumeLogMaintenance(env){
+  const rotationRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='storage_high_volume_rotation_v1430'").first();
+  const rotation=Math.max(0,Math.floor(Number(rotationRow?.value||0)))%AUTO_HIGH_VOLUME_TASKS.length;
+  const task=AUTO_HIGH_VOLUME_TASKS[rotation],cursorKey=`storage_high_volume_cursor_v1430_${task.key}`;
+  const existing=await existingTableSet(env,[task.table,'app_meta']);
+  if(!existing.has(task.table))return {skipped:true,task:task.key,error:`MISSING_TABLE:${task.table}`};
+  const cursorRow=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(cursorKey).first();
+  const cursor=Math.max(0,Math.floor(Number(cursorRow?.value||0)));
+  const boundary=await env.DB.prepare(`SELECT id FROM ${task.table} WHERE id>? ORDER BY id LIMIT 1 OFFSET ?`)
+    .bind(cursor,AUTO_HIGH_VOLUME_SCAN_BATCH-1).first();
+  let endId=Number(boundary?.id||0),cycleComplete=false;
+  if(!endId){
+    const last=await env.DB.prepare(`SELECT MAX(id) id FROM ${task.table} WHERE id>?`).bind(cursor).first();
+    endId=Number(last?.id||0);cycleComplete=true;
+  }
+  let deleted=0;
+  if(endId>cursor){
+    const result=await env.DB.prepare(`DELETE FROM ${task.table} WHERE id>? AND id<=? AND (${task.extraWhere}) AND created_at<datetime('now',?)`)
+      .bind(cursor,endId,`-${task.retentionDays} days`).run();
+    deleted=Number(result?.meta?.changes||0);
+  }
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(cursorKey,String(cycleComplete?0:endId)),
+    env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_high_volume_rotation_v1430',?,CURRENT_TIMESTAMP)
+      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String((rotation+1)%AUTO_HIGH_VOLUME_TASKS.length))
+  ]);
+  return {skipped:false,task:task.key,scanned:endId>cursor?AUTO_HIGH_VOLUME_SCAN_BATCH:0,deleted,cycleComplete};
+}
 async function runBoundedStorageMaintenance(env){
   const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_lease_v1400',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
@@ -775,7 +811,9 @@ async function runBoundedStorageMaintenance(env){
   }catch(error){taskError=String(error?.message||error||'MAINTENANCE_FAILED').slice(0,300);console.warn(`bounded storage task failed: ${task.key}`,error)}
   await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_cursor_v1400',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String((cursor+1)%AUTO_STORAGE_MAINTENANCE_TASKS.length)).run();
-  return {skipped:false,task:task.key,changed,error:taskError||undefined};
+  let highVolume=null;
+  try{highVolume=await runHighVolumeLogMaintenance(env)}catch(error){console.warn('high volume storage cleanup failed',error);highVolume={error:String(error?.message||error).slice(0,300)}}
+  return {skipped:false,task:task.key,changed,error:taskError||undefined,highVolume};
 }
 export function scheduleBoundedStorageMaintenance(context,env,seed=''){
   if(autoMaintenanceHash(seed)%AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD!==0)return;
