@@ -11,7 +11,7 @@ const NODES=Object.freeze([
 ]);
 
 const DEFAULTS=Object.freeze({
-  mode:'OFF',battleName:'',teamAName:'A 진영',teamBName:'B 진영',recruitmentHours:5,preparationMinutes:10,roundMinutes:180,minParticipants:6,
+  mode:'OFF',battleName:'',teamAName:'A 진영',teamBName:'B 진영',recruitmentHours:3,preparationMinutes:10,roundMinutes:180,minParticipants:6,
   energyMax:10,energyMinutes:10,attackEnergyCost:1,realtimePollSeconds:3,
   baseSiegeHp:500000,outpostHpMultiplier:1.1,midHpMultiplier:1.2,gateHpMultiplier:1.4,homeHpMultiplier:2,
   damageScale:6,minDamage:100,maxDamage:5000,damageVariancePercent:10,recentActionLimit:20,
@@ -234,7 +234,7 @@ async function createRound(env,cfg){
   const lock=await acquireLock(env,'round_create',60000);if(!lock.ok){const live=await env.DB.prepare("SELECT id FROM territory_war_v3_rounds WHERE status IN ('RECRUITING','PREPARING','ACTIVE') ORDER BY id DESC LIMIT 1").first();if(live)return Number(live.id);throw new Error('신규 영토전 회차 생성이 진행 중입니다.')}
   try{
     const live=await env.DB.prepare("SELECT id FROM territory_war_v3_rounds WHERE status IN ('RECRUITING','PREPARING','ACTIVE') ORDER BY id DESC LIMIT 1").first();if(live)return Number(live.id);
-    const end=iso(Date.now()+Number(cfg.recruitmentHours||5)*3600000);
+    const end=iso(Date.now()+Number(cfg.recruitmentHours||3)*3600000);
     const result=await env.DB.prepare("INSERT INTO territory_war_v3_rounds(status,battle_name,recruitment_ends_at,current_front_index) VALUES('RECRUITING',?,?,4)").bind(String(cfg.battleName||'').trim().slice(0,40),end).run();
     return Number(result.meta.last_row_id);
   }finally{await releaseLock(env,lock)}
@@ -518,8 +518,16 @@ export async function handleTerritoryWar({path,request,env,deps}){
     if(request.method==='POST'){
       const next=cleanSettings(await deps.readBody(request),cfg);if(Number(next.maxDamage)<Number(next.minDamage))next.maxDamage=next.minDamage;
       await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateSettingsCache();
-      const round=await latestRound(env);if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();if(next.mode==='OFF'&&round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='DISABLED',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id).run();if(next.mode!=='OFF'&&(!round||['FINISHED','DISABLED'].includes(round.status)))await createRound(env,next);return deps.json({ok:true,settings:next,state:await publicState(env,user.id,true)});
+      const round=await latestRound(env);if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();if(next.mode==='OFF'&&round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='DISABLED',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id).run();if(next.mode!=='OFF'&&(!round||['FINISHED','DISABLED'].includes(round.status)))await createRound(env,next);else if(cfg.mode==='OFF'&&next.mode!=='OFF'&&round?.status==='RECRUITING')await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(iso(Date.now()+Number(next.recruitmentHours||3)*3600000),round.id).run();return deps.json({ok:true,settings:next,state:await publicState(env,user.id,true)});
     }
+  }
+  if(path==='admin/territory-war/reset-recruitment'&&request.method==='POST'){
+    if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
+    if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전을 먼저 ON 또는 TEST로 전환하세요.'},409);
+    const round=await latestRound(env);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 시간을 초기화할 수 있는 모집 회차가 없습니다.'},409);
+    const recruitmentEndsAt=iso(Date.now()+Number(cfg.recruitmentHours||3)*3600000);
+    await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(recruitmentEndsAt,round.id).run();
+    return deps.json({ok:true,recruitmentEndsAt,state:await publicState(env,user.id,true)});
   }
   if(path==='admin/territory-war/start'&&request.method==='POST'){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);const body=await deps.readBody(request),key=validRequestId(body.operationKey);if(!key)return deps.json({error:'관리자 작업 키가 올바르지 않습니다.'},400);const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 중인 회차만 편성할 수 있습니다.'},409);const reserve=await reserveAdminOperation(env,key,'START',round.id,user.id);if(reserve.response)return deps.json(reserve.response);if(reserve.pending)return deps.json({error:'동일한 편성 작업을 처리 중입니다.'},409);if(reserve.conflict)return deps.json({error:'다른 작업에 사용된 관리자 작업 키입니다.'},409);try{const formed=await formRound(env,round,cfg);if(formed.status==='WAITING_MINIMUM')throw new Error(`최소 참가 인원 ${cfg.minParticipants}명이 필요합니다.`);if(!['PREPARING','ACTIVE'].includes(formed.status))throw new Error('회차 편성을 완료하지 못했습니다.');const response={ok:true,state:await publicState(env,user.id,true)};await completeAdmin(env,key,response);return deps.json(response)}catch(error){await failAdmin(env,key,error);return deps.json({error:error.message||'편성에 실패했습니다.'},409)}
