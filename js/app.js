@@ -357,7 +357,6 @@ function renderMainNavigation(tab){
     {id:'buy',label:'카드팩'},
     {id:'dex',label:'도감'},
     {id:'battle',label:'전투',tab:group==='battle'?tab:'battle'},
-    ...(magicSystemState.visible?[{id:'magic',label:'마법카드'}]:[]),
     {id:'character',label:'장비·칭호'},
     {id:'rewards',label:'보상',tab:group==='rewards'?tab:'attendance'},
     {id:'rank',label:'랭킹'},
@@ -513,7 +512,6 @@ function renderShell(tab) {
         ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>비동기 대전·대장전</span><b>PVP</b></button>':''}
       </div>
     </div>
-    ${magicSystemState.visible?`<button class="main-nav-item magic-nav-item ${tab==='magic'?'active':''}" type="button" data-tab="magic"><span class="main-nav-icon">✦</span><b>마법카드</b></button>`:''}
     <button class="main-nav-item ${tab==='character'?'active':''}" type="button" data-tab="character"><span class="main-nav-icon">⚔</span><b>장비·칭호</b></button>
     <div class="main-nav-group ${rewardActive?'active':''}" data-nav-group="reward">
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◆</span><b>보상</b><i>⌄</i></button>
@@ -551,7 +549,7 @@ function summaryBar(user) {
   return `<section class="summary-bar">
     <div class="summary-card login-summary"><span class="summary-label">내 계정</span><div class="login-summary-row"><i class="login-dot"></i><b>${escapeHtml(user.nickname)}</b><button id="playerAccountBtn" type="button">내 정보</button></div></div>
     <div class="summary-card currency-summary"><span class="summary-label">보유 재화</span><div class="currency-list"><div class="currency-row coin"><i>◇</i><span>코인</span><b>${coin}</b></div><div class="currency-row shard"><i>✣</i><span>카드 조각</span><b>${shards}</b></div><div class="currency-row crystal"><i>✦</i><span>마법 결정</span><b>${crystals}</b></div></div></div>
-    <div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>
+    ${magicSystemState.visible?`<button type="button" class="summary-card magic-summary" id="magicSummary"><i class="magic-summary-icon" aria-hidden="true">✦</i><span class="magic-summary-copy"><small class="summary-label">마법카드</small><b>연구소 입장</b><em>장착 · 소환 · 보유 카드</em></span><strong aria-hidden="true">›</strong></button>`:`<div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>`}
     <button type="button" class="summary-card inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><small class="summary-label">보관함</small><b>인벤토리</b><em id="inventorySummaryMeta">보유 내역 확인</em></span><strong id="inventorySummaryBadge" hidden>NEW</strong></button>
   </section>${runtimeCommandContext==='buy'?acquisitionFeedsHtml():''}`;
 }
@@ -560,6 +558,7 @@ window.addEventListener('storage',event=>{if(event.key==='cnine_hall_of_fame_ref
 
 async function loadShellSummary(includeAcquisitionFeeds=false){
   const inventoryCard=document.getElementById('inventorySummary');if(inventoryCard)inventoryCard.onclick=()=>renderShell('inventory');
+  const magicCard=document.getElementById('magicSummary');if(magicCard)magicCard.onclick=()=>renderShell('magic');
   if(!API_MODE)return;
   try{
     const d=await apiRequest(`shell/summary${includeAcquisitionFeeds?'?feeds=1':''}`,{}, {ttl:30000,timeoutMs:7000});
