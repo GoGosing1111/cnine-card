@@ -2929,7 +2929,7 @@ export async function onRequest(context){
     // 시작 화면 상태 확인은 대장전·진화 등 하위 라우터보다 먼저 처리한다.
     // 로그인 전 요청이 불필요한 시스템 핸들러를 거치며 지연되지 않도록 한다.
     if(path==='service/status'){
-      const maintenance=await maintenanceSettings(env);
+      const maintenance=await maintenanceSettings(env,{fresh:true});
       // 정상 운영 중에는 세션 인증까지 수행하지 않는다. 시작 화면은 점검 여부만 필요하며,
       // 이 경로를 무인증 1회 조회로 유지해 동시 접속 폭주가 sessions/users 조회로 번지는 것을 막는다.
       if(!maintenance.active)return json({maintenance,bypass:false,role:null,user:null,lightweight:true});
@@ -2965,6 +2965,17 @@ export async function onRequest(context){
     }
 
     if(!await initialized(env)) return json({error:'데이터베이스 초기화가 필요합니다. /setup/에서 설치를 완료하세요.'},503);
+    // V1470: maintenance is a hard server gate. Read D1 fresh before any player route,
+    // migration, cached summary, or mutation can run. Per-isolate memory caches must
+    // never create a grace window after the operator enables maintenance.
+    const maintenanceExemptEarly=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='service/status'||path==='health'||path.startsWith('setup/');
+    if(!maintenanceExemptEarly){
+      const maintenance=await maintenanceSettings(env,{fresh:true});
+      if(maintenance.active){
+        const current=await authenticate(request,env);
+        if(!canMaintenanceBypass(current,maintenance))return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
+      }
+    }
     scheduleBoundedStorageMaintenance(context,env,`${request.method}:${path}:${request.headers.get('cf-ray')||request.headers.get('x-request-id')||Math.floor(Date.now()/60000)}`);
     await ensurePrestigeCardStorage(env);
 
@@ -3039,12 +3050,7 @@ export async function onRequest(context){
     else if(vehicleDrawPath||hotPathWithoutGlobalUpgrade){ /* route-local lightweight ensure */ }
     else await ensureRuntimeUpgrades(env);
 
-    const maintenance=await maintenanceSettings(env);
-    const maintenanceExempt=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='me'||path==='service/status'||path==='user/runtime-command'||path==='health'||path.startsWith('setup/');
-    if(maintenance.active&&!maintenanceExempt){
-      const current=await authenticate(request,env);
-      if(!canMaintenanceBypass(current,maintenance)) return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
-    }
+    // Maintenance was already checked against a fresh D1 value before route work.
 
     // 하위 시스템 라우터도 업그레이드 확인과 점검 차단을 통과한 뒤 실행한다.
     // 대장전·진화 요청이 점검 모드를 우회하거나 준비되지 않은 DB 구조를 먼저 참조하지 않도록 한다.
@@ -3101,7 +3107,7 @@ export async function onRequest(context){
       const user=await env.DB.prepare("SELECT * FROM users WHERE private_key_hash=?").bind(privateKeyHash).first();
       if(!user) return json({error:'개인키가 올바르지 않습니다.'},401);
       if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
-      const currentMaintenance=await maintenanceSettings(env);
+      const currentMaintenance=await maintenanceSettings(env,{fresh:true});
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
       return json({token:await makeSession(env,user.id),user:await profile(env,user),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
     }

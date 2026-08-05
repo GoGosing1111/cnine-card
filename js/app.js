@@ -2492,7 +2492,13 @@ async function apiRequest(path, options={}, config={}) {
       if(contentType.includes('application/json')){try{data=JSON.parse(text)}catch{throw new Error('서버 JSON 응답 형식이 올바르지 않습니다.')}}
       else{if(response.ok&&config.allowEmpty)return {};throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.');}
     }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
-    if(!response.ok){const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;}
+    if(!response.ok){
+      if(String(data.code||'').toUpperCase()==='MAINTENANCE'||(response.status===503&&data.maintenance?.active)){
+        API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
+        renderMaintenance(data.maintenance||{},data);
+      }
+      const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;
+    }
     if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
     if(!isGet&&cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
     return data;
@@ -2503,7 +2509,7 @@ async function apiRequest(path, options={}, config={}) {
 const RUNTIME_COMMAND_TAB_KEY='cnine_runtime_command_last_id_v1091';
 function runtimeCommandStorageKey(){const user=loadUser();return `${RUNTIME_COMMAND_TAB_KEY}:${Number(user?.serverUserId||0)||String(user?.nickname||'guest')}`}
 let runtimeCommandTimer=null,runtimeCommandBusy=false,runtimeCommandContext='buy';
-function runtimeCommandPollDelay(){if(document.hidden)return 300000;const modalOpen=Boolean(document.querySelector('#modal.show'));return runtimeCommandContext==='battle'||runtimeCommandContext==='pvp'||modalOpen?15000:120000}
+function runtimeCommandPollDelay(){if(document.hidden)return 15000;return 3000}
 function stopRuntimeCommandPoll(){if(runtimeCommandTimer){clearTimeout(runtimeCommandTimer);runtimeCommandTimer=null}}
 function scheduleRuntimeCommandPoll(delay=runtimeCommandPollDelay()){stopRuntimeCommandPoll();if(!API_MODE||!API_TOKEN||!loadUser())return;runtimeCommandTimer=setTimeout(pollRuntimeCommand,Math.max(1000,Number(delay)||runtimeCommandPollDelay()))}
 function forceMainScreenByOperator(command={}){
@@ -2526,6 +2532,10 @@ async function pollRuntimeCommand(){
   if(!API_MODE||!API_TOKEN||!loadUser())return stopRuntimeCommandPoll();
   runtimeCommandBusy=true;let keepPolling=true;
   try{
+    const service=await fetchServiceStatus();
+    if(service?.maintenance?.active&&!service.bypass){
+      API_GET_CACHE.clear();API_INFLIGHT.clear();keepPolling=false;stopRuntimeCommandPoll();renderMaintenance(service.maintenance,service);return;
+    }
     const data=await apiRequest('user/runtime-command',{}, {ttl:0});
     const command=data?.command,last=Number(sessionStorage.getItem(runtimeCommandStorageKey())||0);
     if(command&&Number(command.id)>last&&String(command.type||'').toUpperCase()==='FORCE_MAIN')forceMainScreenByOperator(command);
@@ -2535,6 +2545,9 @@ async function pollRuntimeCommand(){
   }finally{runtimeCommandBusy=false;if(keepPolling)scheduleRuntimeCommandPoll(runtimeCommandPollDelay())}
 }
 function startRuntimeCommandPoll(){if(!API_MODE||!API_TOKEN||!loadUser())return;stopRuntimeCommandPoll();void pollRuntimeCommand()}
+window.addEventListener('storage',event=>{if(event.key!=='cnine_maintenance_refresh')return;API_GET_CACHE.clear();API_INFLIGHT.clear();void fetchServiceStatus().then(service=>{if(service?.maintenance?.active&&!service.bypass){stopRuntimeCommandPoll();renderMaintenance(service.maintenance,service)}else if(loadUser())renderShell('buy')}).catch(()=>{})});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&API_MODE&&API_TOKEN&&loadUser())void pollRuntimeCommand()});
+window.addEventListener('focus',()=>{if(API_MODE&&API_TOKEN&&loadUser())void pollRuntimeCommand()});
 
 async function detectApi(){
   try{
