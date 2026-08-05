@@ -9,3 +9,19 @@ function total(){const n=[...document.querySelectorAll('[data-bmp-reward] input:
 async function save(){const settings={enabled:document.querySelector('#bmpEnabled').value==='1',name:document.querySelector('#bmpName').value,fallbackMasterStars:Number(document.querySelector('#bmpFallback').value),sources:{},rewards:{}};document.querySelectorAll('[data-bmp-source]').forEach(row=>{const [enabled,rate,quantity]=row.querySelectorAll('select,input');settings.sources[row.dataset.bmpSource]={enabled:enabled.value==='1',rate:Number(rate.value),quantity:Number(quantity.value)}});document.querySelectorAll('[data-bmp-reward]').forEach(row=>{const inputs=row.querySelectorAll('input'),x={rate:Number(inputs[0].value)};if(inputs.length>1){x.min=Number(inputs[1].value);x.max=Number(inputs[2].value)}settings.rewards[row.dataset.bmpReward]=x});try{await request('PATCH',{settings});alert('블랙 미라클 팩 설정을 저장했습니다.');await load()}catch(e){alert(e.message)}}
 new MutationObserver(mount).observe(document.documentElement,{childList:true,subtree:true});mount();
 })();
+
+// V1486: expose the pack controls as a first-class CMS menu instead of burying
+// them at the bottom of the global settings screen.
+(()=>{
+  function promoteBlackMiracleCms(){
+    const nav=document.querySelector('#nav'),settingsButton=nav?.querySelector('[data-view="settings"]');
+    if(nav&&!nav.querySelector('[data-view="blackmiracle"]')){
+      const button=document.createElement('button');button.dataset.view='blackmiracle';button.innerHTML='블랙 미라클 팩 <span class="buildBadge">NEW</span>';nav.insertBefore(button,settingsButton||null);
+      button.onclick=()=>{document.querySelectorAll('.view').forEach(view=>view.hidden=view.id!=='view-blackmiracle');document.querySelectorAll('#nav button').forEach(item=>item.classList.toggle('active',item===button))};
+    }
+    let view=document.querySelector('#view-blackmiracle');
+    if(!view){view=document.createElement('section');view.className='view';view.id='view-blackmiracle';view.hidden=true;view.innerHTML='<div class="sectionIntro"><div><small>MYTHIC JACKPOT CONTROL</small><h2>블랙 미라클 팩 관리 <span class="buildBadge">NEW</span></h2><p>콘텐츠별 드랍 위치와 확률, 팩 내부 보상 구성을 관리합니다.</p></div></div><div id="blackMiracleAdminRoot"></div>';document.querySelector('main')?.append(view)}
+    const panel=document.querySelector('#blackMiracleAdmin'),root=document.querySelector('#blackMiracleAdminRoot');if(panel&&root&&panel.parentElement!==root)root.append(panel);
+  }
+  new MutationObserver(promoteBlackMiracleCms).observe(document.documentElement,{childList:true,subtree:true});promoteBlackMiracleCms();
+})();
