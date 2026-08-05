@@ -177,6 +177,12 @@ function invalidateSettingsCache(){settingsCacheValue=null;settingsCacheExpiresA
 async function latestRound(env){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds ORDER BY id DESC LIMIT 1').first()}
 async function roundById(env,id){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds WHERE id=?').bind(id).first()}
 async function activeFront(env,round){if(!round?.current_front_id)return null;return env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE id=?').bind(round.current_front_id).first()}
+function comebackState(round){
+  const index=Math.max(0,Math.min(8,Number(round?.current_front_index??4))),distance=Math.abs(index-4);
+  if(!distance)return{active:false,tier:0,losingSide:null,morale:0,damageBonusPercent:0,defeatSiegePercent:20,title:'전선 균형'};
+  const tier=Math.min(4,distance),losingSide=index>4?'B':'A',titles=['','전열 재정비','저항선 구축','결사항전','최후의 반격'];
+  return{active:true,tier,losingSide,morale:tier*25,damageBonusPercent:tier*8,defeatSiegePercent:20+tier*3,title:titles[tier],frontIndex:index};
+}
 
 function snapshotIds(value){const items=safeJson(value,[]);return Array.isArray(items)?items.map(item=>String(item&&typeof item==='object'?(item.id??item.card_id??''):item)).filter(Boolean).slice(0,5):[]}
 async function participantDeck(env,deps,row,battle){
@@ -381,7 +387,7 @@ async function publicState(env,userId,includeAdmin=false){
   const recentResults=(await env.DB.prepare('SELECT * FROM territory_war_v3_front_results WHERE round_id=? ORDER BY sequence DESC LIMIT 10').bind(round.id).all()).results||[];
   const recentActions=(await env.DB.prepare(`SELECT a.side,a.winner_side,a.target_side,a.damage,a.created_at,au.nickname attacker_nickname,ou.nickname opponent_nickname,cu.nickname contributor_nickname FROM territory_war_v3_actions a JOIN users au ON au.id=a.user_id LEFT JOIN users ou ON ou.id=a.opponent_user_id LEFT JOIN users cu ON cu.id=COALESCE(a.contributor_user_id,a.user_id) WHERE a.round_id=? AND a.status='COMPLETED' AND a.damage>0 ORDER BY a.id DESC LIMIT ?`).bind(round.id,clampInt(cfg.recentActionLimit,5,50,20)).all()).results||[];
   const canRegister=!mine&&round.status==='RECRUITING',canCancel=Boolean(mine&&round.status==='RECRUITING');
-  const state={mode,settings:cfg,round,front,nodes:NODES,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine,registration:{canRegister,canCancel},ranking,recentResults,recentActions,reward:await rewardForUser(env,userId),serverNow:iso(),version:Number(round.version||0)};
+  const state={mode,settings:cfg,round,front,nodes:NODES,comeback:comebackState(round),counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine,registration:{canRegister,canCancel},ranking,recentResults,recentActions,reward:await rewardForUser(env,userId),serverNow:iso(),version:Number(round.version||0)};
   if(includeAdmin)state.adminUsers=(await env.DB.prepare(`SELECT w.*,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY CASE w.side WHEN 'A' THEN 1 WHEN 'B' THEN 2 ELSE 3 END,w.damage DESC,w.deck_power DESC`).bind(round.id).all()).results||[];
   return state;
 }
@@ -395,7 +401,7 @@ async function realtimeState(env,userId){
   }else{
     const mineRow=await env.DB.prepare('SELECT side,energy,last_recharged_at,attacks,damage,defenses FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first();if(mineRow){const e=rechargeEnergy(mineRow,cfg);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
   }
-  return{round,front,mine,version:Number(round.version||0),serverNow:iso()};
+  return{round,front,mine,comeback:comebackState(round),version:Number(round.version||0),serverNow:iso()};
 }
 
 async function reserveAction(env,requestId,userId){
@@ -439,16 +445,16 @@ async function handleAttack(env,deps,user,cfg,body){
     const opponent=await selectBattleOpponent(env,round.id,mine,requestId);if(!opponent)throw new Error('상대 진영 참가자가 없어 교전을 시작할 수 없습니다.');
 
     // V2 계산은 전선 잠금 밖에서 병렬 처리한다. D1 반영만 짧은 원자 배치로 직렬화된다.
-    const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,requestId),attackerWon=simulation.battleV2?.result?.winner==='A',winnerSide=attackerWon?String(mine.side):String(opponent.side),siegeSide=String(mine.side),targetSide=siegeSide==='A'?'B':'A',contributorId=Number(user.id),siegeDamageRate=attackerWon?1:.2;
-    const revisitCount=Math.max(0,Number(front.revisit_count||0)),siegeAccelerationPercent=Math.min(30,revisitCount*10),planned=Math.max(1,Math.round(damageFor(simulation.attackerPower,`${requestId}:${siegeSide}:SIEGE`,cfg)*siegeDamageRate*(1+siegeAccelerationPercent/100))),hpColumn=targetSide==='A'?'a_hp':'b_hp',targetHp=Number(front[hpColumn]||0);if(targetHp<=0)throw new Error('이미 종료된 교전입니다.');
+    const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,requestId),attackerWon=simulation.battleV2?.result?.winner==='A',winnerSide=attackerWon?String(mine.side):String(opponent.side),siegeSide=String(mine.side),targetSide=siegeSide==='A'?'B':'A',contributorId=Number(user.id),comeback=comebackState(round),comebackActive=comeback.active&&comeback.losingSide===siegeSide,siegeDamageRate=attackerWon?1:(comebackActive?comeback.defeatSiegePercent/100:.2),comebackMultiplier=comebackActive?1+comeback.damageBonusPercent/100:1;
+    const revisitCount=Math.max(0,Number(front.revisit_count||0)),siegeAccelerationPercent=Math.min(30,revisitCount*10),planned=Math.max(1,Math.round(damageFor(simulation.attackerPower,`${requestId}:${siegeSide}:SIEGE`,cfg)*siegeDamageRate*(1+siegeAccelerationPercent/100)*comebackMultiplier)),hpColumn=targetSide==='A'?'a_hp':'b_hp',targetHp=Number(front[hpColumn]||0);if(targetHp<=0)throw new Error('이미 종료된 교전입니다.');
     const predictedActual=Math.max(0,Math.min(targetHp,planned)),predictedAfter=Math.max(0,targetHp-predictedActual),winnerHpPercent=resultHpPercent(simulation.battleV2,attackerWon?'A':'B'),personalWinCoin=attackerWon?clampInt(cfg.individualBattleWinCoin,0,100000000,0):0;
-    const compact={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,revisitCount,siegeAccelerationPercent,siegeDamagePercent:Math.round(siegeDamageRate*100),side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:predictedActual,personalWinCoin,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:predictedAfter,battleSeed:simulation.battleSeed,winnerHpPercent};
+    const compact={requestId,roundId:round.id,frontId:front.id,nodeIndex:front.node_index,nodeCode:front.node_code,nodeName:front.node_name,revisitCount,siegeAccelerationPercent,siegeDamagePercent:Math.round(siegeDamageRate*100),comebackActive,comebackTier:comebackActive?comeback.tier:0,comebackTitle:comebackActive?comeback.title:'',comebackDamageBonusPercent:comebackActive?comeback.damageBonusPercent:0,side:mine.side,opponentSide:opponent.side,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),attackerWon,winnerSide,targetSide,contributorUserId:contributorId,damage:predictedActual,personalWinCoin,energySpent:cost,energyAfter:energy.energy-cost,targetHpBefore:targetHp,targetHpAfter:predictedAfter,battleSeed:simulation.battleSeed,winnerHpPercent};
     const actualExpr=`MIN(?,COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),0))`,activeExpr=`EXISTS(SELECT 1 FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE' AND ${hpColumn}>0) AND EXISTS(SELECT 1 FROM territory_war_v3_actions WHERE request_id=? AND status='PENDING')`;
     const attackerDamage=actualExpr,defenderDamage='0',attackerFinish=`CASE WHEN ?>=COALESCE((SELECT ${hpColumn} FROM territory_war_v3_fronts WHERE id=? AND status='ACTIVE'),1) THEN 1 ELSE 0 END`,defenderFinish='0';
     const attackerSql=`UPDATE territory_war_v3_users SET energy=?,last_recharged_at=?,attacks=attacks+1,damage=damage+${attackerDamage},front_finishes=front_finishes+${attackerFinish},updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND ${activeExpr}`;
     const defenderSql=`UPDATE territory_war_v3_users SET defenses=defenses+1,defense_wins=defense_wins+?,defense_losses=defense_losses+?,damage=damage+${defenderDamage},front_finishes=front_finishes+${defenderFinish},updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND ${activeExpr}`;
     const roundSql=`UPDATE territory_war_v3_rounds SET a_total_damage=a_total_damage+${siegeSide==='A'?actualExpr:'0'},b_total_damage=b_total_damage+${siegeSide==='B'?actualExpr:'0'},version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND ${activeExpr}`;
-    const meta={engine:'BATTLE_ENGINE_V2_PVP',seed:simulation.battleSeed,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),winnerSide,targetSide,attackerWon,siegeDamagePercent:Math.round(siegeDamageRate*100),attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,winnerHpPercent};
+    const meta={engine:'BATTLE_ENGINE_V2_PVP',seed:simulation.battleSeed,opponentUserId:Number(opponent.user_id),opponentNickname:String(opponent.nickname||'상대 참가자'),winnerSide,targetSide,attackerWon,siegeDamagePercent:Math.round(siegeDamageRate*100),comebackActive,comebackTier:comebackActive?comeback.tier:0,comebackDamageBonusPercent:comebackActive?comeback.damageBonusPercent:0,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,winnerHpPercent};
 
     const attackerBinds=[energy.energy-cost,energy.lastRechargedAt,planned,front.id,planned,front.id,round.id,user.id,front.id,requestId];
     const defenderBinds=[attackerWon?0:1,attackerWon?1:0,round.id,opponent.user_id,front.id,requestId];
