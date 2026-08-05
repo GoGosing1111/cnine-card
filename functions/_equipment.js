@@ -301,6 +301,66 @@ export async function ensureEquipmentFoundation(env){
       ]);
     }
 
+    const infinityRecallMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1489_infinity_weapon_recall'").first();
+    if(infinityRecallMarker?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS infinity_weapon_recall_audit_v1489(
+          instance_id INTEGER PRIMARY KEY,
+          user_id INTEGER NOT NULL,
+          equipment_id INTEGER NOT NULL,
+          equipment_code TEXT NOT NULL DEFAULT '',
+          equipment_name TEXT NOT NULL DEFAULT '',
+          source_type TEXT NOT NULL DEFAULT '',
+          source_id TEXT NOT NULL DEFAULT '',
+          request_id TEXT,
+          was_equipped INTEGER NOT NULL DEFAULT 0,
+          acquired_at TEXT,
+          recalled_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )`),
+        env.DB.prepare(`INSERT OR IGNORE INTO infinity_weapon_recall_audit_v1489(
+            instance_id,user_id,equipment_id,equipment_code,equipment_name,source_type,source_id,request_id,was_equipped,acquired_at
+          )
+          SELECT x.id,x.user_id,x.equipment_id,i.code,i.name,x.source_type,x.source_id,x.request_id,
+            CASE WHEN l.instance_id IS NULL THEN 0 ELSE 1 END,x.acquired_at
+          FROM user_equipment_instances x
+          JOIN character_equipment_items i ON i.id=x.equipment_id
+          JOIN users u ON u.id=x.user_id
+          LEFT JOIN user_equipment_loadout l ON l.instance_id=x.id
+          WHERE UPPER(COALESCE(u.role,'USER'))<>'OWNER'
+            AND (
+              UPPER(REPLACE(COALESCE(i.code,''),' ','')) LIKE 'INFINITY%'
+              OR UPPER(REPLACE(COALESCE(i.name,''),' ','')) IN ('인피니티AK','인피니티M200','INFINITYAK','INFINITYM200')
+            )`),
+        env.DB.prepare(`UPDATE character_equipment_items
+          SET supply_enabled=0,supply_weight=0,updated_at=CURRENT_TIMESTAMP
+          WHERE UPPER(REPLACE(COALESCE(code,''),' ','')) LIKE 'INFINITY%'
+             OR UPPER(REPLACE(COALESCE(name,''),' ','')) IN ('인피니티AK','인피니티M200','INFINITYAK','INFINITYM200')`),
+        env.DB.prepare(`DELETE FROM user_equipment_loadout
+          WHERE instance_id IN (
+            SELECT x.id FROM user_equipment_instances x
+            JOIN character_equipment_items i ON i.id=x.equipment_id
+            JOIN users u ON u.id=x.user_id
+            WHERE UPPER(COALESCE(u.role,'USER'))<>'OWNER'
+              AND (
+                UPPER(REPLACE(COALESCE(i.code,''),' ','')) LIKE 'INFINITY%'
+                OR UPPER(REPLACE(COALESCE(i.name,''),' ','')) IN ('인피니티AK','인피니티M200','INFINITYAK','INFINITYM200')
+              )
+          )`),
+        env.DB.prepare(`DELETE FROM user_equipment_instances
+          WHERE id IN (
+            SELECT x.id FROM user_equipment_instances x
+            JOIN character_equipment_items i ON i.id=x.equipment_id
+            JOIN users u ON u.id=x.user_id
+            WHERE UPPER(COALESCE(u.role,'USER'))<>'OWNER'
+              AND (
+                UPPER(REPLACE(COALESCE(i.code,''),' ','')) LIKE 'INFINITY%'
+                OR UPPER(REPLACE(COALESCE(i.name,''),' ','')) IN ('인피니티AK','인피니티M200','INFINITYAK','INFINITYM200')
+              )
+          )`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1489_infinity_weapon_recall','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+
     const markerV1338=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1338_garage_system'").first();
     if(markerV1338?.value!=='1'){
       await env.DB.batch([
