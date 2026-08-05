@@ -201,8 +201,8 @@ export async function ensureEquipmentFoundation(env){
         env.DB.prepare(`CREATE TABLE IF NOT EXISTS inventory_logs (id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,item_code TEXT NOT NULL,change_amount INTEGER NOT NULL,balance_after INTEGER NOT NULL,reason TEXT NOT NULL DEFAULT '',reference_type TEXT,reference_id TEXT,admin_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
         env.DB.prepare(`CREATE TABLE IF NOT EXISTS inventory_use_receipts (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,item_code TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`)
       ];
-      if(!itemColumns.has('supply_enabled'))statements.push(env.DB.prepare("ALTER TABLE character_equipment_items ADD COLUMN supply_enabled INTEGER NOT NULL DEFAULT 1"));
-      if(!itemColumns.has('supply_weight'))statements.push(env.DB.prepare("ALTER TABLE character_equipment_items ADD COLUMN supply_weight REAL NOT NULL DEFAULT 1"));
+      if(!itemColumns.has('supply_enabled'))statements.push(env.DB.prepare("ALTER TABLE character_equipment_items ADD COLUMN supply_enabled INTEGER NOT NULL DEFAULT 0"));
+      if(!itemColumns.has('supply_weight'))statements.push(env.DB.prepare("ALTER TABLE character_equipment_items ADD COLUMN supply_weight REAL NOT NULL DEFAULT 0"));
       statements.push(env.DB.prepare(`CREATE TABLE IF NOT EXISTS equipment_supply_drop_grants (
         user_id INTEGER NOT NULL,
         source_type TEXT NOT NULL,
@@ -358,6 +358,23 @@ export async function ensureEquipmentFoundation(env){
               )
           )`),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1489_infinity_weapon_recall','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+
+    const newEquipmentQuarantineMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1490_new_equipment_drop_quarantine'").first();
+    if(newEquipmentQuarantineMarker?.value!=='1'){
+      await env.DB.batch([
+        // CMS·스크립트·직접 INSERT 등 등록 경로와 무관하게 신규 장비는 드랍 풀에서 시작하지 않는다.
+        // 실제 포함은 보급상자 설정 저장 API의 UPDATE를 통해서만 가능하다.
+        env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_new_equipment_drop_quarantine_v1490
+          AFTER INSERT ON character_equipment_items
+          FOR EACH ROW
+          BEGIN
+            UPDATE character_equipment_items
+            SET supply_enabled=0,supply_weight=0,updated_at=CURRENT_TIMESTAMP
+            WHERE id=NEW.id;
+          END`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1490_new_equipment_drop_quarantine','1',CURRENT_TIMESTAMP)")
       ]);
     }
 

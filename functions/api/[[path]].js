@@ -357,8 +357,7 @@ async function ensureFurFirstPityV1291(env){
   if(furFirstPityV1291ReadyPromise)return furFirstPityV1291ReadyPromise;
   furFirstPityV1291ReadyPromise=(async()=>{
     const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1291_fur_first_pity'").first();
-    if(marker?.value==='1')return true;
-    await env.DB.batch([
+    if(marker?.value!=='1')await env.DB.batch([
       env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_fur_first_pity (
         user_id INTEGER PRIMARY KEY,
         miss_count INTEGER NOT NULL DEFAULT 0,
@@ -370,6 +369,28 @@ async function ensureFurFirstPityV1291(env){
       env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('fur_first_acquisition_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(defaultFurFirstSettings())),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1291_fur_first_pity','1',CURRENT_TIMESTAMP)")
     ]);
+    // v1417: 과거 비공개/퇴역 FUR까지 보유 수에 포함되어 보정이 잘못 종료된 계정을 복구한다.
+    // 실제 FUR 추첨 풀과 동일하게 활성·공개 카드 및 활성 멤버만 보유 수로 인정한다.
+    const repairMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1417_fur_first_active_pool_repair'").first();
+    if(repairMarker?.value!=='1'){
+      const settingsRow=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FUR_FIRST_PITY_META_KEY).first();
+      let hard=defaultFurFirstSettings().hard;
+      try{hard=cleanFurFirstSettings(JSON.parse(settingsRow?.value||'{}')).hard}catch{}
+      await env.DB.batch([
+        env.DB.prepare(`UPDATE user_fur_first_pity
+          SET miss_count=MAX(COALESCE(miss_count,0),?),completed_at=NULL,updated_at=CURRENT_TIMESTAMP
+          WHERE completed_at IS NOT NULL AND (
+            SELECT COUNT(DISTINCT uc.card_id)
+            FROM user_cards uc
+            JOIN cards_effective_v1210 c ON c.id=uc.card_id
+            JOIN members m ON m.id=c.member_id
+            WHERE uc.user_id=user_fur_first_pity.user_id
+              AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
+              AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1
+          )<?`).bind(Math.max(0,hard-1),FUR_FIRST_PITY_TARGET_COUNT),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1417_fur_first_active_pool_repair','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     return true;
   })().catch(error=>{furFirstPityV1291ReadyPromise=null;throw error});
   return furFirstPityV1291ReadyPromise;
@@ -2759,8 +2780,12 @@ async function furFirstSettings(env,{fresh=false}={}){
 async function furFirstPityState(env,userId){
   await ensureFurFirstPityV1291(env);
   const row=await env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId).first();
-  const owned=await env.DB.prepare(`SELECT COUNT(DISTINCT uc.card_id) AS count FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
-    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0`).bind(userId).first();
+  const owned=await env.DB.prepare(`SELECT COUNT(DISTINCT uc.card_id) AS count
+    FROM user_cards uc
+    JOIN cards_effective_v1210 c ON c.id=uc.card_id
+    JOIN members m ON m.id=c.member_id
+    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
+      AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(userId).first();
   const ownedCount=Math.max(0,Number(owned?.count||0)),completed=ownedCount>=FUR_FIRST_PITY_TARGET_COUNT;
   if(Boolean(row?.completed_at)!==completed)await env.DB.prepare(`INSERT INTO user_fur_first_pity(user_id,miss_count,last_pack_id,completed_at,created_at,updated_at)
     VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
@@ -2775,8 +2800,12 @@ async function drawUserPityState(env,userId,packId){
     env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId)
   ]);
   const pityRow=pityResult?.results?.[0]||null,furRow=furResult?.results?.[0]||null;
-  const owned=await env.DB.prepare(`SELECT COUNT(DISTINCT uc.card_id) AS count FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
-    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0`).bind(userId).first();
+  const owned=await env.DB.prepare(`SELECT COUNT(DISTINCT uc.card_id) AS count
+    FROM user_cards uc
+    JOIN cards_effective_v1210 c ON c.id=uc.card_id
+    JOIN members m ON m.id=c.member_id
+    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
+      AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(userId).first();
   const ownedCount=Math.max(0,Number(owned?.count||0)),completed=ownedCount>=FUR_FIRST_PITY_TARGET_COUNT;
   return {
     pityCount:PITY_PACKS.has(packId)?Math.max(0,Number(pityRow?.miss_count||0)):0,
