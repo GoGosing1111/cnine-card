@@ -195,8 +195,6 @@
 
   function rankTierCard(tier = {}, index = 0) {
     const rewardFields = [
-      ['normalCube', '일반 큐브', 'NORMAL'],
-      ['advancedCube', '고급 큐브', 'ADVANCED'],
       ['premiumCube', '프리미엄 큐브', 'PREMIUM'],
       ['equipmentBox', '장비 보급상자', 'EQUIPMENT'],
       ['coin', '코인', 'COIN']

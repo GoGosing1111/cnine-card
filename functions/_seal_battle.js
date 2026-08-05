@@ -25,9 +25,9 @@ const DEFAULT_SETTINGS = {
     enabled: false,
     rewardOnFailure: true,
     tiers: [
-      { startRank: 1, endRank: 1, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 },
-      { startRank: 2, endRank: 3, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 },
-      { startRank: 4, endRank: 10, coin: 0, normalCube: 0, advancedCube: 0, premiumCube: 0, equipmentBox: 0 }
+      { startRank: 1, endRank: 1, coin: 0, premiumCube: 0, equipmentBox: 0 },
+      { startRank: 2, endRank: 3, coin: 0, premiumCube: 0, equipmentBox: 0 },
+      { startRank: 4, endRank: 10, coin: 0, premiumCube: 0, equipmentBox: 0 }
     ]
   },
   receiptRetentionDays: 14,
@@ -59,8 +59,6 @@ function cleanDate(value) {
 }
 
 const RANK_REWARD_CODES = {
-  normalCube: 'NORMAL_CUBE',
-  advancedCube: 'ADVANCED_CUBE',
   premiumCube: 'PREMIUM_CUBE',
   equipmentBox: 'EQUIPMENT_SUPPLY_BOX'
 };
@@ -72,8 +70,6 @@ function cleanRankRewardTier(raw = {}, index = 0) {
     startRank,
     endRank,
     coin: clampInt(raw.coin, 0, 0, 1000000000),
-    normalCube: clampInt(raw.normalCube, 0, 0, 1000000),
-    advancedCube: clampInt(raw.advancedCube, 0, 0, 1000000),
     premiumCube: clampInt(raw.premiumCube, 0, 0, 1000000),
     equipmentBox: clampInt(raw.equipmentBox, 0, 0, 1000000)
   };
@@ -90,8 +86,7 @@ function cleanRankRewards(raw = {}) {
 }
 
 function rankRewardValue(tier = {}) {
-  return Number(tier.coin || 0) + Number(tier.normalCube || 0) + Number(tier.advancedCube || 0)
-    + Number(tier.premiumCube || 0) + Number(tier.equipmentBox || 0);
+  return Number(tier.coin || 0) + Number(tier.premiumCube || 0) + Number(tier.equipmentBox || 0);
 }
 
 function validateRankRewards(rankRewards) {
@@ -334,8 +329,6 @@ async function ensureFoundation(env, deps = {}) {
       await env.DB.batch([
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('seal_battle_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(migrated)),
         env.DB.prepare(`UPDATE seal_battle_user_progress SET total_contribution=attack_contribution+guard_contribution+purify_contribution,last_contribution_at=CASE WHEN COALESCE(last_contribution_at,'')='' THEN updated_at ELSE last_contribution_at END WHERE total_contribution<>(attack_contribution+guard_contribution+purify_contribution) OR COALESCE(last_contribution_at,'')=''`),
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('NORMAL_CUBE','일반 큐브','STANDARD REWARD CUBE','몬스터 사냥과 이벤트에서 획득하는 C~SR 등급 보상 큐브입니다.','CUBE','NORMAL','assets/ui/packs/normal-cube.png',10,1)"),
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('ADVANCED_CUBE','고급 큐브','ADVANCED REWARD CUBE','HR~SSR 등급 카드가 등장하는 고급 보상 큐브입니다.','CUBE','ADVANCED','assets/ui/packs/advanced-cube.png',20,1)"),
         env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('PREMIUM_CUBE','프리미엄 큐브','PREMIUM REWARD CUBE','MA·FUR·LIMITED 등급 카드가 등장하는 최고급 보상 큐브입니다.','CUBE','PREMIUM','assets/ui/packs/premium-cube.png',30,1)"),
         env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('EQUIPMENT_SUPPLY_BOX','장비 보급상자','EQUIPMENT SUPPLY BOX','장비·카드 조각·코인 중 하나를 획득합니다.','SUPPLY_BOX','HIGH','assets/ui/packs/supply-high.jpeg',35,1)"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1288_seal_rank_rewards','1',CURRENT_TIMESTAMP)")
@@ -516,8 +509,6 @@ async function eventStats(env, eventId) {
 function publicRankReward(reward = {}) {
   return {
     coin: Math.max(0, Number(reward.coin || 0)),
-    normalCube: Math.max(0, Number(reward.normalCube || 0)),
-    advancedCube: Math.max(0, Number(reward.advancedCube || 0)),
     premiumCube: Math.max(0, Number(reward.premiumCube || 0)),
     equipmentBox: Math.max(0, Number(reward.equipmentBox || 0))
   };

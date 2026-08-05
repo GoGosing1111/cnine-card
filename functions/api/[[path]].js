@@ -886,7 +886,7 @@ function defaultAttendanceSettings(){return {enabled:true,rewards:[1000,1200,140
 function cleanAttendanceSettings(raw={}){const base=defaultAttendanceSettings();const rewards=Array.from({length:7},(_,i)=>Math.max(0,Math.min(10000000,Math.floor(Number(raw.rewards?.[i]??base.rewards[i])||0))));return {enabled:raw.enabled!==false,rewards};}
 async function readAttendanceSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='attendance_settings_v1'").first();if(!row?.value)return defaultAttendanceSettings();try{return cleanAttendanceSettings(JSON.parse(row.value))}catch{return defaultAttendanceSettings()}}
 async function attendanceSettings(env){return cachedRuntimeSetting('attendance',30000,()=>readAttendanceSettings(env))}
-const CUBE_CODES=['NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE'];
+const CUBE_CODES=['PREMIUM_CUBE'];
 const RETIREMENT_REROLL_TICKETS={
   MA:{code:'MA_REROLL_TICKET',name:'MA 재뽑기권'},
   LIMITED:{code:'LIMITED_REROLL_TICKET',name:'리미티드 재뽑기권'},
@@ -894,11 +894,11 @@ const RETIREMENT_REROLL_TICKETS={
   FUR:{code:'FUR_REROLL_TICKET',name:'FUR 재뽑기권'}
 };
 const RETIREMENT_REROLL_CODES=Object.values(RETIREMENT_REROLL_TICKETS).map(item=>item.code);
-function defaultCubeSettings(){return {NORMAL_CUBE:{C:45,U:30,R:18,SR:7},ADVANCED_CUBE:{HR:55,UR:30,SSR:15},PREMIUM_CUBE:{MA:70,FUR:20,LIMITED:10}};}
+function defaultCubeSettings(){return {PREMIUM_CUBE:{MA:70,FUR:20,LIMITED:10}};}
 function cleanCubeSettings(raw={}){const base=defaultCubeSettings(),out={};for(const code of CUBE_CODES){out[code]={};for(const grade of Object.keys(base[code]))out[code][grade]=Math.max(0,Math.min(100,Number(raw?.[code]?.[grade]??base[code][grade])||0));const total=Object.values(out[code]).reduce((a,b)=>a+b,0);if(Math.abs(total-100)>.001)out[code]=base[code];}return out;}
 async function readCubeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='inventory_cube_settings_v1'").first();try{return cleanCubeSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeSettings()}}
 async function cubeSettings(env){return cachedRuntimeSetting('cube',30000,()=>readCubeSettings(env))}
-function defaultCubeDropSettings(){return {NORMAL_CUBE:{pveEnabled:true,pveRate:10,pvpEnabled:false,pvpRate:0},ADVANCED_CUBE:{pveEnabled:true,pveRate:3,pvpEnabled:true,pvpRate:5},PREMIUM_CUBE:{pveEnabled:true,pveRate:1,pvpEnabled:true,pvpRate:1}};}
+function defaultCubeDropSettings(){return {PREMIUM_CUBE:{pveEnabled:true,pveRate:1,pvpEnabled:true,pvpRate:1}};}
 function cleanCubeDropSettings(raw={}){const base=defaultCubeDropSettings(),out={};for(const code of CUBE_CODES){out[code]={pveEnabled:raw?.[code]?.pveEnabled!==false,pveRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pveRate??base[code].pveRate)||0)),pvpEnabled:raw?.[code]?.pvpEnabled===true,pvpRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pvpRate??base[code].pvpRate)||0))};}return out;}
 async function readCubeDropSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cube_drop_settings_v1072'").first();try{return cleanCubeDropSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeDropSettings()}}
 async function cubeDropSettings(env){return cachedRuntimeSetting('cube-drop',10000,()=>readCubeDropSettings(env))}
@@ -998,16 +998,8 @@ async function grantBattleCube(env,userId,source,referenceId,allowStandard=true)
     return {itemCode:prior.item_code,name:item?.name||prior.item_code,rarity:item?.rarity||'',image:item?.image_url||'',quantity:1,balance:Number(prior.balance_after||0),source,reused:true};
   }
   if(weekly.duplicate||!allowStandard)return null;
-  const settings=await cubeDropSettings(env),key=source.toLowerCase(),rates={};
-  for(const code of ['NORMAL_CUBE','ADVANCED_CUBE'])rates[code]=settings[code]?.[`${key}Enabled`]===true?Number(settings[code]?.[`${key}Rate`]||0):0;
-  const roll=Math.random()*100;let wonCode=null,cursor=0;
-  for(const code of ['NORMAL_CUBE','ADVANCED_CUBE']){cursor+=rates[code];if(roll<cursor){wonCode=code;break}}
-  if(!wonCode)return null;
-  await env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(userId,wonCode).run();
-  const item=await env.DB.prepare('SELECT code,name,rarity,image_url FROM inventory_items WHERE code=?').bind(wonCode).first(),balance=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,wonCode).first();
-  const reward={itemCode:wonCode,name:item?.name||wonCode,rarity:item?.rarity||'',image:item?.image_url||'',quantity:1,balance:Number(balance?.quantity||1),source};
-  await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,1,?,'BATTLE_CUBE_DROP',?,?)").bind(userId,wonCode,reward.balance,source,referenceId).run();
-  return reward;
+  // 일반·고급 큐브는 V1482에서 완전히 은퇴했다. 주간 프리미엄 큐브 외 전투 큐브 드랍은 없다.
+  return null;
 }
 
 async function readTowerSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tower_settings_v1'").first();if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
@@ -1276,9 +1268,19 @@ async function ensureUpgrades(env){
     const magicCardPackDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1136_magic_card_pack'").first();
     if(magicCardPackDone?.value!=='1'){
       await env.DB.batch([
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MAGIC_CARD_PACK','마법카드 팩','MAGIC CARD PACK','마법카드 연구소에서 사용하는 마법카드 팩입니다.','PACK','SPECIAL','assets/cards/magiccard.png',40,1)"),
-        env.DB.prepare("UPDATE inventory_items SET name='마법카드 팩',subtitle='MAGIC CARD PACK',description='마법카드 연구소에서 사용하는 마법카드 팩입니다.',category='PACK',rarity='SPECIAL',image_url='assets/cards/magiccard.png',sort_order=40,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
+        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('MAGIC_CARD_PACK','마법카드 팩','MAGIC CARD PACK','마법카드 연구소에서 사용하는 마법카드 팩입니다.','PACK','SPECIAL','assets/cards/magic-card-pack-v2-768.jpg',40,1)"),
+        env.DB.prepare("UPDATE inventory_items SET name='마법카드 팩',subtitle='MAGIC CARD PACK',description='마법카드 연구소에서 사용하는 마법카드 팩입니다.',category='PACK',rarity='SPECIAL',image_url='assets/cards/magic-card-pack-v2-768.jpg',sort_order=40,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1136_magic_card_pack','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+    const retiredStandardCubesDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1482_retire_standard_cubes'").first();
+    if(retiredStandardCubesDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare("UPDATE inventory_items SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE code IN ('NORMAL_CUBE','ADVANCED_CUBE')"),
+        env.DB.prepare("UPDATE inventory_items SET image_url='assets/cards/magic-card-pack-v2-768.jpg',updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
+        env.DB.prepare("DELETE FROM cnine_user_inventory WHERE item_code IN ('NORMAL_CUBE','ADVANCED_CUBE')"),
+        env.DB.prepare("DELETE FROM inventory_logs WHERE item_code IN ('NORMAL_CUBE','ADVANCED_CUBE')"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1482_retire_standard_cubes','1',CURRENT_TIMESTAMP)")
       ]);
     }
     const masterStarDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1119_master_star'").first();
@@ -1399,8 +1401,6 @@ async function ensureUpgrades(env){
     const cubeDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1025_inventory_cubes'").first();
     if(cubeDone?.value!=='1'){
       await env.DB.batch([
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('NORMAL_CUBE','일반 큐브','STANDARD REWARD CUBE','몬스터 사냥과 이벤트에서 획득하는 C~SR 등급 보상 큐브입니다.','CUBE','NORMAL','assets/ui/packs/normal-cube.png',10,1)"),
-        env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('ADVANCED_CUBE','고급 큐브','ADVANCED REWARD CUBE','HR~SSR 등급 카드가 등장하는 고급 보상 큐브입니다.','CUBE','ADVANCED','assets/ui/packs/advanced-cube.png',20,1)"),
         env.DB.prepare("INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('PREMIUM_CUBE','프리미엄 큐브','PREMIUM REWARD CUBE','MA·FUR·LIMITED 등급 카드가 등장하는 최고급 보상 큐브입니다.','CUBE','PREMIUM','assets/ui/packs/premium-cube.png',30,1)"),
         env.DB.prepare("UPDATE inventory_items SET name='리미티드 확정 큐브',subtitle='LEGACY LIMITED CUBE',description='기존 지급분을 보존한 리미티드 확정 보상 큐브입니다.',category='CUBE',image_url='assets/ui/packs/premium-cube.png',sort_order=90 WHERE code='GUARANTEED_LIMITED_PACK'"),
         env.DB.prepare("UPDATE inventory_items SET name='MA 확정 큐브',subtitle='LEGACY MA CUBE',description='기존 지급분을 보존한 MA 확정 보상 큐브입니다.',category='CUBE',image_url='assets/ui/packs/premium-cube.png',sort_order=91 WHERE code='GUARANTEED_MA_PACK'"),

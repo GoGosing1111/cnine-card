@@ -1,6 +1,6 @@
 (()=>{
   'use strict';
-  const TYPES=[['COIN','코인'],['CARD_SHARD','카드 조각'],['NORMAL_CUBE','일반 큐브'],['ADVANCED_CUBE','고급 큐브'],['PREMIUM_CUBE','프리미엄 큐브'],['EQUIPMENT_SUPPLY_BOX','장비 보급상자'],['MAGIC_CARD_PACK','마법카드 팩'],['MASTER_STAR','마스터의 별']];
+  const TYPES=[['COIN','코인'],['CARD_SHARD','카드 조각'],['PREMIUM_CUBE','프리미엄 큐브'],['EQUIPMENT_SUPPLY_BOX','장비 보급상자'],['MAGIC_CARD_PACK','마법카드 팩'],['MASTER_STAR','마스터의 별']];
   const legacyLoad=typeof loadRaidAdmin==='function'?loadRaidAdmin:null,legacyDraft=typeof raidSettingsDraft==='function'?raidSettingsDraft:null;
   const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)],n=v=>Math.max(0,Number(v)||0),escape=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   function bundleMap(items){const out={};for(const x of Array.isArray(items)?items:[])out[String(x.type||'')]=Number(x.amount||0);return out}

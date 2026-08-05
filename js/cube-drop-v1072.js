@@ -2,7 +2,7 @@
   const queue=[]; let running=false;
   const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   async function play(reward){
-    const code=String(reward.itemCode||'NORMAL_CUBE'),tier=code==='PREMIUM_CUBE'?'premium':code==='ADVANCED_CUBE'?'advanced':'normal';
+    const code=String(reward.itemCode||'PREMIUM_CUBE'),tier='premium';
     const el=document.createElement('div'); el.className=`cube-drop-cinematic ${tier}`;
     el.innerHTML=`<div class="cube-drop-space"><i class="cube-drop-wave w1"></i><i class="cube-drop-wave w2"></i><div class="cube-drop-particles"></div><div class="cube-drop-object"><span></span><img src="${esc(reward.image||'')}" alt="${esc(reward.name)}"></div><div class="cube-drop-copy"><small>${esc(reward.source)} BATTLE REWARD</small><h2>큐브 획득</h2><strong>${esc(reward.name)} × ${Number(reward.quantity||1)}</strong><p>인벤토리에 보관되었습니다 · 보유 ${Number(reward.balance||0).toLocaleString()}개</p></div></div>`;
     document.body.appendChild(el); requestAnimationFrame(()=>el.classList.add('show'));

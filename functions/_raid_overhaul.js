@@ -1,18 +1,18 @@
-const ITEM_TYPES=['NORMAL_CUBE','ADVANCED_CUBE','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','MAGIC_CARD_PACK','MASTER_STAR'];
+const ITEM_TYPES=['PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','MAGIC_CARD_PACK','MASTER_STAR'];
 const ALL_REWARD_TYPES=['COIN','CARD_SHARD',...ITEM_TYPES];
-const ITEM_LABELS={NORMAL_CUBE:'일반 큐브',ADVANCED_CUBE:'고급 큐브',PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',MAGIC_CARD_PACK:'마법카드 팩',MASTER_STAR:'마스터의 별'};
+const ITEM_LABELS={PREMIUM_CUBE:'프리미엄 큐브',EQUIPMENT_SUPPLY_BOX:'장비 보급상자',MAGIC_CARD_PACK:'마법카드 팩',MASTER_STAR:'마스터의 별'};
 const DEFAULT_REWARDS={
   participation:[{type:'COIN',amount:100}],
   clear:[{type:'COIN',amount:300},{type:'CARD_SHARD',amount:20}],
   damageMilestones:[
-    {damage:100000,rewards:[{type:'NORMAL_CUBE',amount:1}]},
-    {damage:500000,rewards:[{type:'ADVANCED_CUBE',amount:1}]},
+    {damage:100000,rewards:[{type:'MAGIC_CARD_PACK',amount:1}]},
+    {damage:500000,rewards:[{type:'EQUIPMENT_SUPPLY_BOX',amount:1}]},
     {damage:1000000,rewards:[{type:'EQUIPMENT_SUPPLY_BOX',amount:1}]}
   ],
   rankRewards:[
     {from:1,to:1,rewards:[{type:'PREMIUM_CUBE',amount:1},{type:'EQUIPMENT_SUPPLY_BOX',amount:2}]},
-    {from:2,to:3,rewards:[{type:'ADVANCED_CUBE',amount:2},{type:'EQUIPMENT_SUPPLY_BOX',amount:1}]},
-    {from:4,to:10,rewards:[{type:'ADVANCED_CUBE',amount:1}]}
+    {from:2,to:3,rewards:[{type:'MAGIC_CARD_PACK',amount:2},{type:'EQUIPMENT_SUPPLY_BOX',amount:1}]},
+    {from:4,to:10,rewards:[{type:'MAGIC_CARD_PACK',amount:1}]}
   ],
   rareDrops:[
     {type:'PREMIUM_CUBE',amount:1,chance:1},
