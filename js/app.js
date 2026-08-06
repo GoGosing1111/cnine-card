@@ -2233,6 +2233,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
+let PLAYER_STATE_MUTATION_EPOCH=0;
 // Player-owned state must not be cached. Mutation responses are authoritative and
 // a later read must never resurrect an older balance or inventory summary.
 const API_CACHE_TTL={'cards':5000,'packs':5000,'pvp/config':1000,'recent-high-grade':5000,'recent-equipment':5000};
@@ -2502,7 +2503,7 @@ async function openWagoVerification(){
 
 async function apiRequest(path, options={}, config={}) {
   const cleanPath=apiCacheKey(path),method=String(options.method||'GET').toUpperCase(),isGet=method==='GET';
-  const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now();
+  const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now(),requestEpoch=PLAYER_STATE_MUTATION_EPOCH;
   if(isGet&&ttl>0){const cached=API_GET_CACHE.get(cleanPath);if(cached&&cached.expiresAt>now)return cached.data;}
   if(isGet&&config.replaceInflight===true)API_INFLIGHT.delete(cleanPath);
   else if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
@@ -2526,8 +2527,12 @@ async function apiRequest(path, options={}, config={}) {
       }
       const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;
     }
-    if(isGet&&ttl>0)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
-    if(!isGet&&cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
+    if(isGet&&ttl>0&&requestEpoch===PLAYER_STATE_MUTATION_EPOCH)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
+    if(!isGet){
+      PLAYER_STATE_MUTATION_EPOCH++;
+      for(const path of ['me','me/summary','me/collection']){clearApiCache(path);API_INFLIGHT.delete(path)}
+      if(cleanPath.startsWith('pvp/'))clearApiCache('pvp/config');
+    }
     return data;
   })();
   if(isGet)API_INFLIGHT.set(cleanPath,task);
@@ -2614,7 +2619,8 @@ function collectionSnapshotLooksIncomplete(user=loadUser()||{}){if(user.collecti
 async function syncCollectionFromServer({force=false,rerender=false}={}){
   if(!API_MODE||!API_TOKEN)return false;
   const now=Date.now();if(!force&&now-collectionSyncAt<30000)return false;if(collectionSyncPromise)return collectionSyncPromise;
-  collectionSyncPromise=(async()=>{const data=await apiRequest('me/collection',{}, {ttl:force?0:30000,timeoutMs:10000}),collection=data?.collection||{},current=loadUser();if(!current||!Array.isArray(collection.owned))return false;const beforeIds=[...ownedIds(current)].sort().join(','),next={...current,collectionRepairR6:true,owned:collection.owned.map(String),quantities:Object.fromEntries(Object.entries(collection.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs:Object.fromEntries(Object.entries(collection.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]))};saveUser(next);collectionSyncAt=Date.now();const changed=beforeIds!==[...ownedIds(next)].sort().join(',');if(changed&&rerender&&runtimeCommandContext==='dex')renderShell('dex');return changed;})().catch(error=>{console.warn('서버 도감 동기화 실패:',error);return false}).finally(()=>{collectionSyncPromise=null});
+  const syncEpoch=PLAYER_STATE_MUTATION_EPOCH;
+  collectionSyncPromise=(async()=>{const data=await apiRequest('me/collection',{}, {ttl:force?0:30000,timeoutMs:10000});if(syncEpoch!==PLAYER_STATE_MUTATION_EPOCH)return false;const collection=data?.collection||{},current=loadUser();if(!current||!Array.isArray(collection.owned))return false;const beforeIds=[...ownedIds(current)].sort().join(','),next={...current,collectionRepairR6:true,owned:collection.owned.map(String),quantities:Object.fromEntries(Object.entries(collection.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs:Object.fromEntries(Object.entries(collection.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]))};saveUser(next);collectionSyncAt=Date.now();const changed=beforeIds!==[...ownedIds(next)].sort().join(',');if(changed&&rerender&&runtimeCommandContext==='dex')renderShell('dex');return changed;})().catch(error=>{console.warn('서버 도감 동기화 실패:',error);return false}).finally(()=>{collectionSyncPromise=null});
   return collectionSyncPromise;
 }
 async function recoverPlayerSession(){
