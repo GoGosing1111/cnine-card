@@ -802,7 +802,7 @@ function normalizeBattleEngineSettings(raw={}){
   const mode=String(raw?.mode??'V2_OWNER').trim().toUpperCase();
   return {mode:['LEGACY','V2_OWNER','V2_PUBLIC'].includes(mode)?mode:'LEGACY',playbackSpeed:1.6};
 }
-function defaultBattleSettings(){return {enabled:true,deckSize:5,engine:normalizeBattleEngineSettings(),powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL.gif',durationMs:3000,coefficientPercent:500}]};}
+function defaultBattleSettings(){return {enabled:true,deckSize:5,engine:normalizeBattleEngineSettings(),powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL-v1497.webp',durationMs:3000,coefficientPercent:500}]};}
 function cleanBattleSettingsPayload(x={},base=defaultBattleSettings()){
   return {enabled:x.enabled!==false,deckSize:5,engine:normalizeBattleEngineSettings(x.engine||base.engine),powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:base.ultimateRules).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};
 }
@@ -891,7 +891,7 @@ async function maMasterStarBreakthroughConfig(env){const now=Date.now();if(maMas
 function defaultBreakthroughPity(){return {enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};}
 function cleanBreakthroughPity(raw={}){const base=defaultBreakthroughPity();return {enabled:raw.enabled!==false,grade:'SSR',thresholds:Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Math.floor(Number(raw.thresholds?.[i]??base.thresholds[i])||base.thresholds[i]))))};}
 async function breakthroughPity(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_pity_ssr_v1'").first();try{return cleanBreakthroughPity(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughPity()}}
-function defaultBreakthroughCinematic(){return {enabled:true,minLevel:10,grades:[...BREAKTHROUGH_GRADES],title:'강화 각성',mediaUrl:'/assets/effects/SKILL.gif',soundUrl:'',durationMs:5000,volumePercent:100,skipAllowed:true};}
+function defaultBreakthroughCinematic(){return {enabled:true,minLevel:10,grades:[...BREAKTHROUGH_GRADES],title:'강화 각성',mediaUrl:'/assets/effects/SKILL-v1497.webp',soundUrl:'',durationMs:5000,volumePercent:100,skipAllowed:true};}
 function cleanBreakthroughCinematic(raw={}){const base=defaultBreakthroughCinematic(),allowed=new Set(BREAKTHROUGH_GRADES),grades=(Array.isArray(raw.grades)?raw.grades:base.grades).map(x=>String(x||'').toUpperCase()).filter(x=>allowed.has(x));return {enabled:raw.enabled!==false,minLevel:Math.max(1,Math.min(13,Math.floor(Number(raw.minLevel??base.minLevel)||base.minLevel))),grades:[...new Set(grades.length?grades:base.grades)],title:String(raw.title||base.title).trim().slice(0,60)||base.title,mediaUrl:String(raw.mediaUrl||base.mediaUrl).trim().replace(/\\/g,'/').slice(0,500)||base.mediaUrl,soundUrl:String(raw.soundUrl||'').trim().replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(raw.durationMs??base.durationMs)||base.durationMs))),volumePercent:Math.max(0,Math.min(100,Number(raw.volumePercent??base.volumePercent))),skipAllowed:raw.skipAllowed!==false};}
 async function breakthroughCinematicConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_cinematic_v1'").first();try{return cleanBreakthroughCinematic(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughCinematic()}}
 async function breakthroughCinematicFor(env,{success=false,grade='',level=0,cardId='',cardTitle=''}){if(!success)return null;const cfg=await breakthroughCinematicConfig(env),normalizedGrade=String(grade||'').toUpperCase(),nextLevel=Math.max(0,Number(level||0));if(!cfg.enabled||nextLevel<cfg.minLevel||!cfg.grades.includes(normalizedGrade))return null;return {...cfg,grade:normalizedGrade,level:nextLevel,cardId:String(cardId||''),cardTitle:String(cardTitle||'')};}
@@ -2959,7 +2959,7 @@ async function requirePermission(request,env,permission){
   return row?.is_allowed?user:null;
 }
 
-export async function onRequest(context){
+async function handleRequest(context){
   const {request,env}=context;
   const url=new URL(request.url);
   const path=url.pathname.replace(/^\/api\/?/,'');
@@ -3018,7 +3018,11 @@ export async function onRequest(context){
       }
     }
     scheduleBoundedStorageMaintenance(context,env,`${request.method}:${path}:${request.headers.get('cf-ray')||request.headers.get('x-request-id')||Math.floor(Date.now()/60000)}`);
-    await ensurePrestigeCardStorage(env);
+    // Startup/session endpoints do not read the effective card view. Do not make
+    // their cold response wait on a schema marker that only card routes need.
+    const prestigeStorageDeferred=path==='auth/login'||path==='auth/logout'||path==='me/summary'||path==='user/runtime-command'||path==='burning-event/status';
+    if(prestigeStorageDeferred)context.waitUntil(ensurePrestigeCardStorage(env).catch(error=>console.error('prestige storage background check failed',error)));
+    else await ensurePrestigeCardStorage(env);
 
     // 관리자 로그인은 일반 유저 profile() 생성과 런타임 업그레이드에 의존하지 않는다.
     // OWNER 계정의 카드/로그 데이터가 많아도 인증 자체가 지연되지 않도록 최소 정보만 반환한다.
@@ -6116,4 +6120,16 @@ export async function onRequest(context){
     },503);
     return json({error:error.message||'서버 오류가 발생했습니다.'},500);
   }
+}
+
+export async function onRequest(context){
+  const startedAt=Date.now(),request=context.request,url=new URL(request.url);
+  const response=await handleRequest(context);
+  const durationMs=Math.max(0,Date.now()-startedAt),headers=new Headers(response.headers);
+  headers.set('server-timing',`app;dur=${durationMs}`);
+  headers.set('x-cnine-response-ms',String(durationMs));
+  if(durationMs>=1000||stableSmallHash(`${request.method}:${url.pathname}:${request.headers.get('cf-ray')||''}`)%128===0){
+    console.log(JSON.stringify({type:'api_timing',method:request.method,path:url.pathname,status:response.status,durationMs,ray:request.headers.get('cf-ray')||''}));
+  }
+  return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
 }

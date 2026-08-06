@@ -450,7 +450,7 @@ function bindMobileNavigation(){
   document.querySelectorAll('[data-mobile-open-sheet]').forEach(button=>button.onclick=()=>open(button.dataset.mobileOpenSheet));
   layer.querySelectorAll('[data-mobile-sheet-close]').forEach(button=>button.onclick=close);
   layer.querySelectorAll('[data-mobile-switch-sheet]').forEach(button=>button.onclick=()=>open(button.dataset.mobileSwitchSheet));
-  document.querySelectorAll('[data-mobile-tab]').forEach(button=>button.onclick=()=>{close();renderShell(button.dataset.mobileTab)});
+  document.querySelectorAll('[data-mobile-tab]').forEach(button=>button.onclick=()=>{const next=button.dataset.mobileTab;close();if(next!==runtimeCommandContext)renderShell(next)});
   layer.querySelector('[data-mobile-account]')?.addEventListener('click',()=>{close();document.getElementById('playerAccountBtn')?.click()});
 }
 
@@ -529,7 +529,7 @@ function renderShell(tab) {
   const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a>');bindFullscreenPlayLink(header);
   const syncNavOpenState=()=>header?.classList.toggle('nav-menu-open',Boolean(document.querySelector('.main-nav-group.open')));
   const closeNavGroups=(except=null)=>{document.querySelectorAll('.main-nav-group.open').forEach(group=>{if(group!==except){group.classList.remove('open');group.querySelector('.main-nav-trigger')?.setAttribute('aria-expanded','false')}});syncNavOpenState()};
-  document.querySelectorAll('.main-nav [data-tab]').forEach(button=>button.onclick=()=>{closeNavGroups();renderShell(button.dataset.tab)});
+  document.querySelectorAll('.main-nav [data-tab]').forEach(button=>button.onclick=()=>{const next=button.dataset.tab;closeNavGroups();if(next!==runtimeCommandContext)renderShell(next)});
   document.querySelectorAll('.main-nav-trigger').forEach(button=>button.onclick=event=>{event.stopPropagation();const group=button.closest('.main-nav-group'),willOpen=!group.classList.contains('open');closeNavGroups(group);group.classList.toggle('open',willOpen);button.setAttribute('aria-expanded',String(willOpen));syncNavOpenState()});
   document.addEventListener('click',event=>{if(!event.target.closest('.main-nav'))closeNavGroups()},{once:true});
   bindMobileNavigation();
@@ -995,7 +995,7 @@ function battleTriggerLowHpUniqueFx(stage,target='team'){
   });
 }
 function battleFighterHtml(card,index,enemy=false){const lv=Number(card?.breakthroughLevel??card?.breakthrough_level??loadUser()?.breakthroughs?.[card?.id]??0),dominant=uniqueAbilityDominant(card),type=dominant?.key||'',value=Number(dominant?.value||0);return `<div class="battle-card-fighter${type?` unique-card-fx-host unique-fx-${type}`:''}" ${enemy?`data-enemy-fighter="${index}"`:`data-fighter="${index}"`} ${type?`data-unique-fx="${type}" data-unique-value="${value}"`:''} style="--i:${index}"><div class="fighter-aura"></div>${combatCardHtml(card,'battle-fighter-card',lv)}</div>`}
-function normalizeUltimateMediaPath(path){const v=String(path||'/assets/effects/SKILL.gif').trim().replace(/\\/g,'/');if(!v)return '/assets/effects/SKILL.gif';return /^(https?:)?\/\//i.test(v)||v.startsWith('/')?v:`/${v.replace(/^\.\//,'')}`}
+function normalizeUltimateMediaPath(path){const v=String(path||'/assets/effects/SKILL-v1497.webp').trim().replace(/\\/g,'/');if(!v)return '/assets/effects/SKILL-v1497.webp';if(v==='/assets/effects/SKILL.gif'||v==='assets/effects/SKILL.gif')return '/assets/effects/SKILL-v1497.webp';return /^(https?:)?\/\//i.test(v)||v.startsWith('/')?v:`/${v.replace(/^\.\//,'')}`}
 function applyUltimateViewport(stage,overlay){
   if(!stage||!overlay)return ()=>{};
   const update=()=>{

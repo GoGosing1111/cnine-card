@@ -184,7 +184,7 @@
     const visible=rows.filter(row=>state.garageFilter==='ALL'||String(row.rarity||'').toUpperCase()===state.garageFilter);
     const ownedCount=rows.filter(row=>row.owned).length;
     return `<div class="garage-screen-v1347 ${vehicle?'has-vehicle':'no-vehicle'} ${vehicle?rarityClass(rarity):''}">
-      <img class="garage-frame-art-v1347" src="assets/ui/garage/garage-frame-v1350-no-title.png?v=1350" alt="" aria-hidden="true">
+      <img class="garage-frame-art-v1347" src="assets/ui/garage/garage-frame-v1350-no-title-v1497.webp" alt="" aria-hidden="true">
       <div class="garage-live-layer-v1347">
         <button type="button" class="frame-tab-hit-v1249 equipment" data-character-tab="equipment" aria-label="장비"></button>
         <button type="button" class="frame-tab-hit-v1249 title" data-character-tab="title" aria-label="칭호"></button>
