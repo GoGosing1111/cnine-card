@@ -2959,6 +2959,17 @@ async function requirePermission(request,env,permission){
   return row?.is_allowed?user:null;
 }
 
+async function releaseDeletedCouponCode(env,code,adminId){
+  const deleted=await env.DB.prepare('SELECT id,code,deleted_at FROM coupons WHERE code=? LIMIT 1').bind(code).first();
+  if(!deleted||!deleted.deleted_at)return {released:false};
+  const archivedCode=`__DELETED_${Number(deleted.id)}_${Date.now()}_${code}`;
+  const result=await env.DB.prepare('UPDATE coupons SET code=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND deleted_at IS NOT NULL AND code=?').bind(archivedCode,deleted.id,code).run();
+  if(Number(result?.meta?.changes||0)!==1)throw new Error('DELETED_COUPON_CODE_RELEASE_FAILED');
+  await env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)')
+    .bind(adminId,'COUPON_CODE_RELEASE','COUPON',deleted.id,JSON.stringify({code,deletedAt:deleted.deleted_at}),JSON.stringify({archivedCode,reusableCode:code})).run();
+  return {released:true,archivedCode};
+}
+
 async function handleRequest(context){
   const {request,env}=context;
   const url=new URL(request.url);
@@ -5190,7 +5201,8 @@ async function handleRequest(context){
       if(!spec)return json({error:'선택한 쿠폰 보상 종류가 올바르지 않습니다.'},400);
       if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>spec.max)return json({error:`${spec.label} 지급 수량을 확인하세요.`},400);
       if(!Number.isInteger(maxUses)||maxUses<1||maxUses>1000000)return json({error:'전체 최대 사용 횟수를 확인하세요.'},400);
-      const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? LIMIT 1').bind(code).first();
+      await releaseDeletedCouponCode(env,code,admin.id);
+      const exists=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
       if(exists)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
       try{
         await env.DB.batch([
@@ -5217,7 +5229,8 @@ async function handleRequest(context){
         if(!spec||!['COIN','MASTER_STAR','PREMIUM_CUBE','EQUIPMENT_SUPPLY_BOX','HIGH_GRADE_REROLL_TICKET'].includes(rewardType))return json({error:'쿠폰 보상 종류를 확인하세요.'},400);
         if(!Number.isInteger(rewardAmount)||rewardAmount<1||rewardAmount>Number(spec.max||10000000))return json({error:'쿠폰 보상 수량을 확인하세요.'},400);
         if(!Number.isInteger(max)||max<1||max>1000000)return json({error:'총 사용 한도를 확인하세요.'},400);
-        const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? LIMIT 1').bind(code).first();
+        await releaseDeletedCouponCode(env,code,admin.id);
+        const before=await env.DB.prepare('SELECT id FROM coupons WHERE code=? AND deleted_at IS NULL LIMIT 1').bind(code).first();
         if(before)return json({error:'이미 존재하는 쿠폰 코드입니다.'},409);
         try{
           await env.DB.batch([
