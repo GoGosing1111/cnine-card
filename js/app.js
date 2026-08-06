@@ -1721,8 +1721,8 @@ const autoDrawState={
   transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]
 };
 function loadAutoDrawPrefs(){
-  const defaults={count:20,runs:10,delayMs:4000,simplified:true,stopGrade:'NONE'};
-  try{return {...defaults,...JSON.parse(localStorage.getItem(AUTO_DRAW_PREFS_KEY)||'{}')}}catch(_){return defaults}
+  const defaults={count:20,runs:10,delayMs:6000,simplified:true,stopGrade:'NONE'};
+  try{const saved={...defaults,...JSON.parse(localStorage.getItem(AUTO_DRAW_PREFS_KEY)||'{}')};saved.delayMs=Math.max(6000,Number(saved.delayMs||6000));return saved}catch(_){return defaults}
 }
 function saveAutoDrawPrefs(prefs){try{localStorage.setItem(AUTO_DRAW_PREFS_KEY,JSON.stringify(prefs))}catch(_){}}
 function readAutoDrawLock(){try{return JSON.parse(localStorage.getItem(AUTO_DRAW_LOCK_KEY)||'null')}catch(_){return null}}
@@ -1822,7 +1822,9 @@ function renderAutoDrawProcessing(pack,count){
 function scheduleOfficialAutoDrawNext(){
   if(!autoDrawState.active)return;
   clearAutoDrawTimer();
-  const baseDelay=Math.max(4000,Number(autoDrawState.prefs?.delayMs||4000));
+  // D1은 쓰기가 직렬화되므로 다수 자동 뽑기가 4초 경계에 맞물리지 않게 최소 간격과 지터를 둔다.
+  const configuredDelay=Math.max(6000,Number(autoDrawState.prefs?.delayMs||6000));
+  const baseDelay=randomizedPollDelay(configuredDelay,Math.min(1500,configuredDelay*0.2));
   const adaptiveDelay=Math.max(0,Number(autoDrawState.adaptiveDelayMs||0));
   const protectionBreak=autoDrawState.completedRuns>0&&autoDrawState.completedRuns%50===0;
   const delay=protectionBreak?Math.max(baseDelay,adaptiveDelay,20000):Math.max(baseDelay,adaptiveDelay);
@@ -2344,10 +2346,18 @@ function renderStartupRecovery(message='서버 연결이 지연되고 있습니�
   if(retry)retry.onclick=()=>{API_INFLIGHT.clear();clearApiCache();void init()};
   if(reset)reset.onclick=()=>{clearPlayerToken();API_INFLIGHT.clear();clearApiCache();void init()};
 }
-// Raid is synchronized content: use a fixed cadence so clients observe the same
-// server state window. The next poll is scheduled only after the current request
-// finishes, therefore requests cannot overlap even at the faster battle cadence.
-function scheduleRaidPoll(data){stopRaidTimer();if(document.hidden)return;const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;const delay=state==='BATTLE'||state==='RUNNING'?4000:8000;raidState.timer=setTimeout(()=>loadRaidView(),delay)}
+// Raid is synchronized content, but clients must not hit D1 on the same boundary.
+// Schedule only after completion and add jitter so requests neither overlap nor stampede.
+function randomizedPollDelay(base,jitter){return Math.max(1000,Math.round(Number(base||0)+(Math.random()*2-1)*Number(jitter||0)))}
+function scheduleRaidPoll(data){
+  stopRaidTimer();if(document.hidden)return;
+  const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;
+  const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;
+  // 여러 브라우저가 같은 초에 raid/status의 참가자·장비·보상 쿼리를 동시에 실행하지 않게 분산한다.
+  // 전투 애니메이션은 로컬 타이머로 계속 진행되므로 7초 갱신으로도 표시 품질은 유지된다.
+  const delay=state==='BATTLE'||state==='RUNNING'?randomizedPollDelay(7000,1200):randomizedPollDelay(12000,2200);
+  raidState.timer=setTimeout(()=>loadRaidView(),delay);
+}
 
 const RETIREMENT_REROLL_META={
   MA_REROLL_TICKET:{title:'MA 재뽑기권',grade:'MA',theme:'ma'},
@@ -2541,7 +2551,7 @@ async function apiRequest(path, options={}, config={}) {
 const RUNTIME_COMMAND_TAB_KEY='cnine_runtime_command_last_id_v1091';
 function runtimeCommandStorageKey(){const user=loadUser();return `${RUNTIME_COMMAND_TAB_KEY}:${Number(user?.serverUserId||0)||String(user?.nickname||'guest')}`}
 let runtimeCommandTimer=null,runtimeCommandBusy=false,runtimeCommandContext='buy';
-function runtimeCommandPollDelay(){if(document.hidden)return 15000;return 3000}
+function runtimeCommandPollDelay(){return document.hidden?randomizedPollDelay(45000,5000):randomizedPollDelay(15000,2500)}
 function stopRuntimeCommandPoll(){if(runtimeCommandTimer){clearTimeout(runtimeCommandTimer);runtimeCommandTimer=null}}
 function scheduleRuntimeCommandPoll(delay=runtimeCommandPollDelay()){stopRuntimeCommandPoll();if(!API_MODE||!API_TOKEN||!loadUser())return;runtimeCommandTimer=setTimeout(pollRuntimeCommand,Math.max(1000,Number(delay)||runtimeCommandPollDelay()))}
 function forceMainScreenByOperator(command={}){
@@ -2564,10 +2574,8 @@ async function pollRuntimeCommand(){
   if(!API_MODE||!API_TOKEN||!loadUser())return stopRuntimeCommandPoll();
   runtimeCommandBusy=true;let keepPolling=true;
   try{
-    const service=await fetchServiceStatus();
-    if(service?.maintenance?.active&&!service.bypass){
-      API_GET_CACHE.clear();API_INFLIGHT.clear();keepPolling=false;stopRuntimeCommandPoll();renderMaintenance(service.maintenance,service);return;
-    }
+    // user/runtime-command 자체가 서버의 강제 점검 게이트를 통과한다. 같은 주기마다
+    // service/status까지 중복 호출하던 구조를 제거해 로그인 유저당 요청을 절반으로 줄인다.
     const data=await apiRequest('user/runtime-command',{}, {ttl:0});
     const command=data?.command,last=Number(sessionStorage.getItem(runtimeCommandStorageKey())||0);
     if(command&&Number(command.id)>last&&String(command.type||'').toUpperCase()==='FORCE_MAIN')forceMainScreenByOperator(command);
