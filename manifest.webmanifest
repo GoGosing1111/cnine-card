@@ -1,0 +1,30 @@
+{
+  "id": "/",
+  "name": "숲켓몬 카드뽑기",
+  "short_name": "숲켓몬",
+  "description": "SOOP 카드 수집 게임",
+  "lang": "ko-KR",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone"],
+  "orientation": "any",
+  "background_color": "#020817",
+  "theme_color": "#061b42",
+  "icons": [
+    {
+      "src": "/assets/ui/pwa-icon.svg",
+      "sizes": "192x192 512x512 any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/ui/pwa-icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["games", "entertainment"],
+  "prefer_related_applications": false
+}
