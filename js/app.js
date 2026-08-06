@@ -543,7 +543,7 @@ function renderShell(tab) {
 
 function hallOfFameHtml(){return `<section class="soop-hall-of-fame feed-hall-of-fame" id="soopHallOfFame" aria-label="숲카라 명예의 전당"><span class="soop-hall-cup" aria-hidden="true">🏆</span><small id="soopHallTitle">숲카라 명예의 전당</small><b id="soopHallName">🏆 남수단 🏆</b></section>`}
 function acquisitionFeedsHtml(){return `${hallOfFameHtml()}<section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">LIMITED 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 LIMITED 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed equipment-feed" aria-live="polite"><span class="high-grade-label equipment-feed-label">신화 장비 획득 소식</span><div class="high-grade-viewport"><div id="equipmentAcquisitionTrack" class="high-grade-track equipment-feed-track"><span class="high-grade-empty">최근 신화 장비 획득 기록을 불러오는 중...</span></div></div></section>`}
-async function loadHallOfFame(){const hall=document.getElementById('soopHallOfFame');if(!hall)return;if(!API_MODE)return;try{clearApiCache('hall-of-fame');const data=await apiRequest('hall-of-fame',{}, {ttl:0,replaceInflight:true});if(data.enabled===false){hall.hidden=true;return}hall.hidden=false;const title=document.getElementById('soopHallTitle'),name=document.getElementById('soopHallName');if(title)title.textContent=String(data.title||'숲카라 명예의 전당');if(name)name.textContent=String(data.name||'🏆 남수단 🏆')}catch(error){console.warn('명예의 전당 조회 실패:',error)}}
+async function loadHallOfFame(){const hall=document.getElementById('soopHallOfFame');if(!hall)return;if(!API_MODE)return;try{const data=await apiRequest('hall-of-fame',{}, {ttl:30000});if(data.enabled===false){hall.hidden=true;return}hall.hidden=false;const title=document.getElementById('soopHallTitle'),name=document.getElementById('soopHallName');if(title)title.textContent=String(data.title||'숲카라 명예의 전당');if(name)name.textContent=String(data.name||'🏆 남수단 🏆')}catch(error){console.warn('명예의 전당 조회 실패:',error)}}
 
 function summaryBar(user) {
   const coin=Number(user.coin||0).toLocaleString(),shards=Number(user.cardShards||0).toLocaleString(),crystals=Number(user.magicCrystals??magicSystemState.magicCrystals??0).toLocaleString();
@@ -2029,7 +2029,9 @@ function cardHtml(card, owned, classes='', user=loadUser()) {
   const dexCard=/dex-card-display/.test(String(classes));
   const iconCard=deckCard||dexCard;
   const topBadges=iconCard?`<div class="deck-card-top-badges">${deckAbilityIconHtml(card,classes)}${level>0?`<div class="breakthrough-badge">★${level}</div>`:''}</div>`:(level>0?`<div class="breakthrough-badge">★${level}</div>`:'');
-  return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art"><img loading="lazy" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></article>`;
+  const revealCard=/(?:result-card|special-reveal-card-ui)/.test(String(classes));
+  const imageLoading=revealCard?'eager':'lazy',fetchPriority=revealCard?'high':'auto';
+  return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art"><img loading="${imageLoading}" fetchpriority="${fetchPriority}" decoding="async" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></article>`;
 }
 
 function showDetail(id,initialTab='auto') {
@@ -2587,8 +2589,6 @@ async function pollRuntimeCommand(){
 }
 function startRuntimeCommandPoll(){if(!API_MODE||!API_TOKEN||!loadUser())return;stopRuntimeCommandPoll();void pollRuntimeCommand()}
 window.addEventListener('storage',event=>{if(event.key!=='cnine_maintenance_refresh')return;API_GET_CACHE.clear();API_INFLIGHT.clear();void fetchServiceStatus().then(service=>{if(service?.maintenance?.active&&!service.bypass){stopRuntimeCommandPoll();renderMaintenance(service.maintenance,service)}else if(loadUser())renderShell('buy')}).catch(()=>{})});
-document.addEventListener('visibilitychange',()=>{if(!document.hidden&&API_MODE&&API_TOKEN&&loadUser())void pollRuntimeCommand()});
-window.addEventListener('focus',()=>{if(API_MODE&&API_TOKEN&&loadUser())void pollRuntimeCommand()});
 
 async function detectApi(){
   try{
@@ -2763,6 +2763,7 @@ function openingMarkup(pack,count){
   return `<div class="modal-panel draw-stage opening-panel critical-opening-stage"><p class="eyebrow">PACK OPENING</p><h2>${escapeHtml(pack.name)} · ${count}장</h2><div class="pack-open pack-opening auto-opening" id="criticalTapZone">${packArt(pack)}<div class="tear-line"></div><div class="flash"></div></div><p class="message opening-message" id="openingMessage">카드팩을 자동 개봉하고 있습니다...</p><div class="tap-progress auto-progress"><i id="tapProgress"></i></div><small class="tap-rule">크리티컬은 일정 확률로 발동됩니다.</small></div>`;
 }
 async function runCriticalOpening(pack,count,requestDraw){
+  const openingStartedAt=performance.now();
   const modal=document.getElementById('modal');
   modal.className='modal show opening-modal';
   modal.innerHTML=openingMarkup(pack,count);
@@ -2796,7 +2797,6 @@ async function runCriticalOpening(pack,count,requestDraw){
   }
 
   if(progress)progress.style.width='100%';
-  await new Promise(r=>setTimeout(r,100));
 
   if(data.critical?.success){
     showCriticalBurst(stage,data.critical.bonus);
@@ -2805,9 +2805,30 @@ async function runCriticalOpening(pack,count,requestDraw){
   }else{
     if(zone)zone.classList.add('tearing');
     message.textContent=data.critical?.eligible?'일반 개봉! 크리티컬은 발생하지 않았습니다.':'일반 개봉!';
-    await new Promise(r=>setTimeout(r,350));
+    const remaining=Math.max(0,350-(performance.now()-openingStartedAt));
+    if(remaining>0)await new Promise(r=>setTimeout(r,remaining));
   }
   return data;
+}
+
+function preloadDrawResultImages(results=[]){
+  const sources=[...new Set(results.map(item=>String(item?.card?.image||'').trim()).filter(Boolean))];
+  if(!sources.length)return Promise.resolve();
+  return Promise.allSettled(sources.map(src=>new Promise(resolve=>{
+    const image=new Image();
+    image.decoding='async';
+    image.fetchPriority='high';
+    let settled=false;
+    const timeout=setTimeout(()=>finish(),4000);
+    const finish=()=>{if(settled)return;settled=true;clearTimeout(timeout);resolve()};
+    image.onload=()=>{
+      if(typeof image.decode==='function')image.decode().catch(()=>{}).finally(finish);
+      else finish();
+    };
+    image.onerror=finish;
+    image.src=src;
+    if(image.complete&&image.naturalWidth>0)image.onload();
+  })));
 }
 
 let drawRequestInFlight=false;
@@ -3017,6 +3038,7 @@ openPack=async function(packId,count,cost,options={}){
       d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,acknowledgedRequestIds:archiveIds}));
     }
     const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
+    void preloadDrawResultImages(verifiedResults);
     clearPendingDraw(requestId);
     if(autoRun){
       if(archiveIds.length){const archived=new Set(archiveIds);autoDrawState.receiptArchiveQueue=autoDrawState.receiptArchiveQueue.filter(id=>!archived.has(id));}
@@ -3328,6 +3350,33 @@ legacyBrandObserver.observe(document.body,{subtree:true,childList:true,character
 replaceLegacyBrandInDom(document.body);
 
 window.addEventListener('storage',event=>{if(event.key!==BURNING_EVENT_SYNC_KEY||document.hidden)return;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
-window.addEventListener('focus',()=>{if(!loadUser())return;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
-document.addEventListener('visibilitychange',()=>{if(document.hidden){stopRaidTimer();stopBurningEventWatch();return;}const raid=document.getElementById('pveRaidView');if(raid&&!raid.hidden)loadRaidView();if(loadUser())void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch())});
+let foregroundRefreshTimer=null,foregroundRefreshBusy=false,foregroundRefreshQueued=false;
+function setBackgroundActivityState(){document.documentElement.classList.toggle('app-backgrounded',document.hidden)}
+function scheduleForegroundRefresh(){
+  if(document.hidden||!loadUser())return;
+  clearTimeout(foregroundRefreshTimer);
+  foregroundRefreshTimer=setTimeout(async()=>{
+    if(foregroundRefreshBusy){foregroundRefreshQueued=true;return}
+    foregroundRefreshBusy=true;
+    try{
+      const tasks=[];
+      if(API_MODE&&API_TOKEN)tasks.push(pollRuntimeCommand());
+      tasks.push(refreshBurningEventState({forceFresh:true,rerender:true}));
+      const raid=document.getElementById('pveRaidView');
+      if(raid&&!raid.hidden)tasks.push(loadRaidView());
+      await Promise.allSettled(tasks);
+    }finally{
+      foregroundRefreshBusy=false;
+      scheduleBurningEventWatch();
+      if(foregroundRefreshQueued){foregroundRefreshQueued=false;scheduleForegroundRefresh()}
+    }
+  },250);
+}
+window.addEventListener('focus',scheduleForegroundRefresh);
+document.addEventListener('visibilitychange',()=>{
+  setBackgroundActivityState();
+  if(document.hidden){clearTimeout(foregroundRefreshTimer);stopRaidTimer();stopBurningEventWatch();return}
+  scheduleForegroundRefresh();
+});
+setBackgroundActivityState();
 init();
