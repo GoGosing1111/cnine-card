@@ -1306,7 +1306,7 @@ async function drawMagicCard(count=1){
 
 function attendanceView(user) {
   const claimable = canClaimAttendance(user),a=user.attendance||{},cfg=a.settings||{enabled:true,rewards:[1000,1200,1400,1600,1800,2000,3000]},nextDay=((Number(a.streak||0)%7)+1),reward=Number(cfg.rewards?.[nextDay-1]||1000);
-  return `${summaryBar(user)}<section class="attendance-panel"><div class="attendance-glow"></div><div class="attendance-copy"><p class="eyebrow">DAILY LOGIN REWARD</p><h2>연속 출석 보상</h2><p>하루라도 빠지면 1일차로 초기화되며, 7일 달성 후 다시 1일차부터 반복됩니다.</p><div class="attendance-stats"><span>누적 출석 <b>${a.totalDays||0}일</b></span><span>현재 연속 <b>${a.streak||0}일</b></span><span>오늘 상태 <b>${claimable?'수령 가능':'수령 완료'}</b></span></div><button class="btn attendance-claim" id="claimAttendance" ${(claimable&&cfg.enabled!==false)?'':'disabled'}>${cfg.enabled===false?'출석체크 중지됨':claimable?`${reward.toLocaleString()}코인 받기`:'오늘 보상 수령 완료'}</button></div><div class="attendance-reward"><span>DAY ${nextDay}</span><strong>◈ ${reward.toLocaleString()}</strong><small>COIN REWARD</small></div></section><section class="coupon-panel"><div><p class="eyebrow">COUPON REWARD</p><h2>쿠폰 코드 입력</h2><p>관리자가 발급한 쿠폰 코드를 입력하면 보상이 즉시 지급됩니다.</p></div><div class="coupon-form"><input id="couponCode" maxlength="40" placeholder="쿠폰 코드"><button class="btn" id="redeemCoupon">쿠폰 사용</button></div></section>`;
+  return `${summaryBar(user)}<section class="attendance-panel"><div class="attendance-glow"></div><div class="attendance-copy"><p class="eyebrow">DAILY LOGIN REWARD</p><h2>연속 출석 보상</h2><p>하루라도 빠지면 1일차로 초기화되며, 7일 달성 후 다시 1일차부터 반복됩니다.</p><div class="attendance-stats"><span>누적 출석 <b>${a.totalDays||0}일</b></span><span>현재 연속 <b>${a.streak||0}일</b></span><span>오늘 상태 <b>${claimable?'수령 가능':'수령 완료'}</b></span></div><button class="btn attendance-claim" id="claimAttendance" ${(claimable&&cfg.enabled!==false)?'':'disabled'}>${cfg.enabled===false?'출석체크 중지됨':claimable?`${reward.toLocaleString()}코인 받기`:'오늘 보상 수령 완료'}</button></div><div class="attendance-reward"><span>DAY ${nextDay}</span><strong>◈ ${reward.toLocaleString()}</strong><small>COIN REWARD</small></div></section><section class="coupon-panel"><div><p class="eyebrow">COUPON REWARD</p><h2>쿠폰 코드 입력</h2><p>관리자가 발급한 쿠폰 코드를 입력하면 보상이 즉시 지급됩니다.</p></div><form class="coupon-form" id="couponForm"><input id="couponCode" name="couponCode" type="text" maxlength="40" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="done" placeholder="쿠폰 코드"><button type="submit" class="btn" id="redeemCoupon">쿠폰 사용</button></form></section>`;
 }
 
 function tierEmblem(tier,size='normal'){
@@ -1868,7 +1868,8 @@ function bindView(tab) {
   const goDex=document.getElementById('goDex'); if(goDex)goDex.onclick=()=>renderShell('dex');
   const claim = document.getElementById('claimAttendance');
   if (claim) claim.onclick = claimAttendance;
-  const couponBtn=document.getElementById('redeemCoupon'); if(couponBtn) couponBtn.onclick=redeemCoupon;
+  const couponForm=document.getElementById('couponForm');
+  if(couponForm)couponForm.addEventListener('submit',event=>{event.preventDefault();void redeemCoupon()});
   if(tab==='rank'){document.querySelectorAll('[data-rank-mode]').forEach(b=>b.onclick=()=>loadRankHub(b.dataset.rankMode));loadRankHub('pvp');}
   if(tab==='battle'){document.querySelectorAll('.pve-mode-btn').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
   if(tab==='pvp') loadPvpView();
@@ -2725,6 +2726,7 @@ function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 const couponRedeemKeys=new Map();
+let couponRedeemInFlight=false;
 function couponOperationKey(code){let key=couponRedeemKeys.get(code);if(!key){key=`COUPON_CLIENT:${globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`}`;couponRedeemKeys.set(code,key)}return key}
 function couponNetworkError(error){return !Number(error?.status)&&(error?.code==='REQUEST_TIMEOUT'||/failed to fetch|networkerror|network request failed|load failed/i.test(String(error?.message||''))||error instanceof TypeError)}
 async function redeemCouponApi(code){
@@ -2736,8 +2738,8 @@ async function redeemCoupon(){
   if(!API_MODE)return alert('현재 쿠폰을 사용할 수 없습니다. 잠시 후 다시 시도해주세요.');
   const input=document.getElementById('couponCode'),button=document.getElementById('redeemCoupon'),code=input?.value.trim();
   if(!code)return alert('쿠폰 코드를 입력하세요.');
-  if(button?.disabled)return;if(button){button.disabled=true;button.textContent='지급 확인 중...'}
-  try{const d=await redeemCouponApi(code);saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${d.message||`${Number(d.rewardAmount||d.rewardCoin||0).toLocaleString()} ${d.rewardLabel||'보상'}을 받았습니다.`}`);renderShell('attendance')}catch(e){alert(e.message)}finally{if(button?.isConnected){button.disabled=false;button.textContent='쿠폰 사용'}}
+  if(couponRedeemInFlight)return;couponRedeemInFlight=true;if(button){button.disabled=true;button.textContent='지급 확인 중...'}
+  try{input?.blur();const d=await redeemCouponApi(code);saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${d.message||`${Number(d.rewardAmount||d.rewardCoin||0).toLocaleString()} ${d.rewardLabel||'보상'}을 받았습니다.`}`);renderShell('attendance')}catch(e){alert(e.message)}finally{couponRedeemInFlight=false;if(button?.isConnected){button.disabled=false;button.textContent='쿠폰 사용'}}
 }
 
 const localOpenPack=openPack;
