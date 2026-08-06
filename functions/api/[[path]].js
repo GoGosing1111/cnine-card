@@ -3081,11 +3081,12 @@ async function handleRequest(context){
       // 이 경로는 전역 업그레이드 게이트보다 먼저 처리되므로 신규 인덱스를 선행 보장한다.
       await ensureD1HotpathIndexes(env);
       const includeFeeds=url.searchParams.get('feeds')==='1';
-      const [inventory,highGrade,equipment]=await Promise.all([
+      const [inventory,messages,highGrade,equipment]=await Promise.all([
         env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
+        env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id).first(),
         includeFeeds?recentHighGradeItems(env):Promise.resolve([]),includeFeeds?recentMythicEquipmentItems(env):Promise.resolve([])
       ]);
-      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},highGradeItems:highGrade,equipmentItems:equipment,serverNow:new Date().toISOString()});
+      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},highGradeItems:highGrade,equipmentItems:equipment,serverNow:new Date().toISOString()});
     }
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
     if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
@@ -3127,10 +3128,14 @@ async function handleRequest(context){
       const user=await authenticate(request,env);
       if(!user)return json({error:'로그인이 필요합니다.'},401);
       if(request.method==='GET'){
-        const row=await env.DB.prepare(`SELECT id,command_type,payload_json,created_at,expires_at FROM user_runtime_commands WHERE user_id=? AND expires_at>datetime('now') ORDER BY id DESC LIMIT 1`).bind(user.id).first();
-        if(!row)return json({command:null,serverNow:new Date().toISOString()});
+        const [commandResult,messageResult]=await env.DB.batch([
+          env.DB.prepare(`SELECT id,command_type,payload_json,created_at,expires_at FROM user_runtime_commands WHERE user_id=? AND expires_at>datetime('now') ORDER BY id DESC LIMIT 1`).bind(user.id),
+          env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id)
+        ]);
+        const row=commandResult?.results?.[0]||null,unreadMessages=Number(messageResult?.results?.[0]?.unread||0);
+        if(!row)return json({command:null,unreadMessages,serverNow:new Date().toISOString()});
         let payload={};try{payload=JSON.parse(row.payload_json||'{}')}catch{}
-        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},serverNow:new Date().toISOString()});
+        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,serverNow:new Date().toISOString()});
       }
       if(request.method==='POST'){
         const body=await readBody(request),commandId=Math.floor(Number(body.commandId||0));

@@ -2485,6 +2485,8 @@ div{
 .inventory-summary-copy em{margin-top:5px;color:#aeb8da;font-size:11px;font-style:normal;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .inventory-bag-icon{flex:0 0 auto}
 .inventory-summary>strong{position:absolute;top:10px;right:10px;border-radius:999px;padding:4px 7px;background:#8d64ff;color:#fff;font-size:9px}
+.message-new-badge{position:absolute;z-index:4;top:5px;right:5px;margin:0!important;padding:3px 6px;border-radius:999px;background:linear-gradient(135deg,#ff4f88,#8d64ff);color:#fff!important;font-size:8px!important;font-weight:1000!important;line-height:1.2;letter-spacing:0;white-space:nowrap;box-shadow:0 0 14px rgba(255,79,136,.45)}
+.message-new-badge[hidden]{display:none!important}.main-nav-dropdown button,.mobile-reward-hub-button,.mobile-sheet-action-list button,.mobile-bottom-item{position:relative}
 
 /* 카드팩 화면은 선택과 개봉에 집중하고 중복 대시보드는 노출하지 않는다. */
 .game-hero{margin-bottom:0}

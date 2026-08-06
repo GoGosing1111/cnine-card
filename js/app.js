@@ -370,6 +370,10 @@ function renderMainNavigation(tab){
 }
 
 
+let messageUnreadCount=0;
+function messageBadgeMarkup(){return `<strong class="message-new-badge" data-message-new-badge ${messageUnreadCount?'':'hidden'}>${messageUnreadCount>99?'99+':`NEW ${messageUnreadCount}`}</strong>`}
+function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(count)||0);document.querySelectorAll('[data-message-new-badge]').forEach(badge=>{badge.hidden=!messageUnreadCount;badge.textContent=messageUnreadCount>99?'99+':`NEW ${messageUnreadCount}`})}
+
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);
   const moreActive=['attendance','dailyquest','messages','rank','mineral','inventory','character'].includes(tab);
@@ -379,7 +383,7 @@ function mobileNavigationHtml(tab){
     <button class="mobile-bottom-item ${group==='dex'?'active':''}" type="button" data-mobile-open-sheet="collection"><span>◇</span><b>도감</b></button>
     <button class="mobile-bottom-item mobile-bottom-primary ${group==='battle'?'active':''}" type="button" data-mobile-open-sheet="battle"><span>⚔</span><b>전투</b></button>
     ${magicButton}
-    <button class="mobile-bottom-item ${moreActive?'active':''}" type="button" data-mobile-open-sheet="more"><span>•••</span><b>더보기</b></button>
+    <button class="mobile-bottom-item ${moreActive?'active':''}" type="button" data-mobile-open-sheet="more"><span>•••</span><b>더보기</b>${messageBadgeMarkup()}</button>
   </nav>
   <div class="mobile-nav-sheet-layer" id="mobileNavSheetLayer" hidden>
     <button type="button" class="mobile-nav-sheet-backdrop" data-mobile-sheet-close aria-label="메뉴 닫기"></button>
@@ -400,7 +404,7 @@ function mobileNavigationHtml(tab){
     </section>
     <section class="mobile-nav-sheet" data-mobile-sheet="more" aria-label="더보기 메뉴">
       <header><div><small>MORE MENU</small><h2>더보기</h2><p>보상과 편의 기능을 모았습니다.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
-      <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>◆</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em></button>
+      <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>◆</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em>${messageBadgeMarkup()}</button>
       <div class="mobile-more-grid">
         <button type="button" data-mobile-tab="rank"><i>♛</i><b>랭킹</b></button>
         <button type="button" data-mobile-tab="mineral"><i>⬡</i><b>교환소</b></button>
@@ -414,7 +418,7 @@ function mobileNavigationHtml(tab){
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="attendance"><i>◈</i><span><b>접속 보상</b><small>매일 접속하고 보상 받기</small></span><em>확인</em></button>
         <button type="button" data-mobile-tab="dailyquest"><i>✓</i><span><b>일일 퀘스트</b><small>오늘의 플레이 목표</small></span><em>확인</em></button>
-        <button type="button" data-mobile-tab="messages"><i>✉</i><span><b>메시지함</b><small>운영 메시지와 지급 내역</small></span><em>확인</em></button>
+        <button type="button" data-mobile-tab="messages"><i>✉</i><span><b>메시지함</b><small>운영 메시지와 지급 내역</small></span><em>확인</em>${messageBadgeMarkup()}</button>
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
     </section>
@@ -515,11 +519,11 @@ function renderShell(tab) {
     </div>
     <button class="main-nav-item ${tab==='character'?'active':''}" type="button" data-tab="character"><span class="main-nav-icon">⚔</span><b>장비·칭호</b></button>
     <div class="main-nav-group ${rewardActive?'active':''}" data-nav-group="reward">
-      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◆</span><b>보상</b><i>⌄</i></button>
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◆</span><b>보상</b><i>⌄</i>${messageBadgeMarkup()}</button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="attendance"><span>접속 보상·쿠폰 입력</span><b>접속 보상</b></button>
         <button type="button" data-tab="dailyquest"><span>오늘의 플레이 목표</span><b>일일 퀘스트</b></button>
-        <button type="button" data-tab="messages"><span>운영 메시지</span><b>메시지함</b></button>
+        <button type="button" data-tab="messages"><span>운영 메시지</span><b>메시지함</b>${messageBadgeMarkup()}</button>
       </div>
     </div>
     <button class="main-nav-item ${tab==='rank'?'active':''}" type="button" data-tab="rank"><span class="main-nav-icon">♛</span><b>랭킹</b></button>
@@ -564,6 +568,7 @@ async function loadShellSummary(includeAcquisitionFeeds=false){
   try{
     const d=await apiRequest(`shell/summary${includeAcquisitionFeeds?'?feeds=1':''}`,{}, {ttl:30000,timeoutMs:7000});
     const inventory=d.inventory||{},meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');
+    updateMessageNewBadges(d.messages?.unread||0);
     if(meta)meta.textContent=Number(inventory.totalQuantity)>0?`보유 ${Number(inventory.totalQuantity).toLocaleString()}개 · ${Number(inventory.ownedTypes)}종`:'획득한 특별 보관품 없음';
     if(badge){badge.hidden=!Number(inventory.unseenTotal);badge.textContent=Number(inventory.unseenTotal)>99?'99+':`NEW ${Number(inventory.unseenTotal||0)}`}
     const highTrack=document.getElementById('highGradeTrack'),highItems=Array.isArray(d.highGradeItems)?d.highGradeItems:[];
@@ -2486,11 +2491,12 @@ async function loadMessages(){
   const box=document.getElementById('messageList');if(!box)return;
   try{
     const d=await apiRequest('messages');
+    updateMessageNewBadges(d.unread||0);
     box.innerHTML=d.messages.length?d.messages.map(m=>{
       const rewardType=String(m.reward_type||'').toUpperCase(),rewardMeta=MESSAGE_REWARD_META[rewardType],messageReward=Boolean(rewardMeta)&&Number(m.reward_amount)>0;
       return `<article class="user-message ${m.is_read?'read':'unread'} ${m.needs_recovery?'reward-recovery':''}" data-id="${m.id}">${m.needs_recovery?'<span class="message-recovery-label">지급 누락 감지</span>':`<button type="button" class="message-delete" data-hide-message="${m.id}" aria-label="메시지 삭제">삭제</button>`}<div><span>${messageReward?'보상 메시지':escapeHtml(m.message_type)}</span><h3>${escapeHtml(m.title)}</h3><p>${escapeHtml(m.body)}</p>${messageReward?`<div class="message-reward"><strong>${rewardMeta.icon} ${Number(m.reward_amount).toLocaleString()} ${rewardMeta.label}</strong><button type="button" data-claim-message="${m.id}" ${m.claimed_at&&!m.needs_recovery?'disabled':''}>${m.needs_recovery?'지급 재확인':(m.claimed_at?'수령 완료':'보상 받기')}</button></div>`:''}${m.coupon_code?`<div class="message-coupon"><code>${escapeHtml(m.coupon_code)}</code><button type="button" data-use-coupon="${escapeHtml(m.coupon_code)}">쿠폰 사용</button></div>`:''}<small>${escapeHtml(String(m.created_at||'').replace('T',' ').slice(0,16))}</small></div></article>`;
     }).join(''):'<div class="empty-recent">도착한 메시지가 없습니다.</div>';
-    box.querySelectorAll('.user-message').forEach(x=>x.onclick=async()=>{if(!x.classList.contains('unread'))return;await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(x.dataset.id)})});x.classList.remove('unread');x.classList.add('read')});
+    box.querySelectorAll('.user-message').forEach(x=>x.onclick=async()=>{if(!x.classList.contains('unread'))return;await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(x.dataset.id)})});x.classList.remove('unread');x.classList.add('read');clearApiCache('shell/summary');updateMessageNewBadges(messageUnreadCount-1)});
     box.querySelectorAll('[data-claim-message]').forEach(b=>b.onclick=async e=>{
       e.stopPropagation();b.disabled=true;
       try{
@@ -2503,11 +2509,11 @@ async function loadMessages(){
         else if(d.rewardType==='SHARDS')detail=`\n현재 카드 조각: ${Number(nextUser.cardShards||0).toLocaleString()}개`;
         else detail=`\n현재 보유 수량: ${Number((d.inventoryBalanceAfter??d.balanceAfter) || 0).toLocaleString()}개`;
         alert(`${d.recovered?'이전 실패 지급을 복구했습니다.\n':''}${meta.label} ${Number(d.rewardAmount).toLocaleString()}개를 수령했습니다.${detail}`);
-        const card=b.closest('.user-message');if(card){card.classList.add('message-removing');setTimeout(()=>renderShell('messages'),220)}else renderShell('messages');
+        const card=b.closest('.user-message');if(card?.classList.contains('unread'))updateMessageNewBadges(messageUnreadCount-1);if(card){card.classList.add('message-removing');setTimeout(()=>renderShell('messages'),220)}else renderShell('messages');
       }catch(err){b.disabled=false;alert(err.message)}
     });
     box.querySelectorAll('[data-use-coupon]').forEach(b=>b.onclick=async e=>{e.stopPropagation();const code=b.dataset.useCoupon;try{const d=await redeemCouponApi(code);saveUser(apiUserToLocal(d.user));alert(`쿠폰 사용 완료! ${d.message||`${Number(d.rewardAmount||d.rewardCoin||0).toLocaleString()} ${d.rewardLabel||'보상'}을 받았습니다.`}`);renderShell('messages')}catch(err){alert(err.message)}});
-    box.querySelectorAll('[data-hide-message]').forEach(b=>b.onclick=async e=>{e.stopPropagation();if(!confirm('이 메시지를 받은 편지함에서 삭제할까요?\n쿠폰을 사용하지 않았더라도 메시지는 사라집니다.'))return;b.disabled=true;try{await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(b.dataset.hideMessage),action:'HIDE'})});const card=b.closest('.user-message');if(card){card.classList.add('message-removing');setTimeout(()=>{card.remove();if(!box.querySelector('.user-message'))box.innerHTML='<div class="empty-recent">도착한 메시지가 없습니다.</div>'},220)}else loadMessages()}catch(err){b.disabled=false;alert(err.message)}})
+    box.querySelectorAll('[data-hide-message]').forEach(b=>b.onclick=async e=>{e.stopPropagation();if(!confirm('이 메시지를 받은 편지함에서 삭제할까요?\n쿠폰을 사용하지 않았더라도 메시지는 사라집니다.'))return;b.disabled=true;try{await apiRequest('messages',{method:'PATCH',body:JSON.stringify({id:Number(b.dataset.hideMessage),action:'HIDE'})});const card=b.closest('.user-message');if(card?.classList.contains('unread'))updateMessageNewBadges(messageUnreadCount-1);clearApiCache('shell/summary');if(card){card.classList.add('message-removing');setTimeout(()=>{card.remove();if(!box.querySelector('.user-message'))box.innerHTML='<div class="empty-recent">도착한 메시지가 없습니다.</div>'},220)}else loadMessages()}catch(err){b.disabled=false;alert(err.message)}})
   }catch(e){box.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
 
@@ -2590,6 +2596,7 @@ async function pollRuntimeCommand(){
     // user/runtime-command 자체가 서버의 강제 점검 게이트를 통과한다. 같은 주기마다
     // service/status까지 중복 호출하던 구조를 제거해 로그인 유저당 요청을 절반으로 줄인다.
     const data=await apiRequest('user/runtime-command',{}, {ttl:0});
+    updateMessageNewBadges(data?.unreadMessages||0);
     const command=data?.command,last=Number(sessionStorage.getItem(runtimeCommandStorageKey())||0);
     if(command&&Number(command.id)>last&&String(command.type||'').toUpperCase()==='FORCE_MAIN')forceMainScreenByOperator(command);
   }catch(error){
