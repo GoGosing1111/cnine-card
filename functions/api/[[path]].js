@@ -2454,7 +2454,10 @@ async function seedDatabase(env){
     }
   }
 }
+const requestAuthenticationCache=new WeakMap();
 async function authenticate(request,env){
+  if(requestAuthenticationCache.has(request))return requestAuthenticationCache.get(request);
+  const authentication=(async()=>{
   const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
   if(!raw) return null;
   const tokenHash=await hash(raw);
@@ -2468,6 +2471,9 @@ async function authenticate(request,env){
     user.session_expires_at=extended;
   }
   return user;
+  })();
+  requestAuthenticationCache.set(request,authentication);
+  return authentication;
 }
 async function makeSession(env,userId){
   const raw=createToken();
@@ -3084,7 +3090,7 @@ export async function onRequest(context){
     // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
     // 전역 런타임 업그레이드와 장비 전체 foundation을 중복 실행하면 CMS 설정 조회가 타임아웃될 수 있다.
     else if(vehicleDrawPath||hotPathWithoutGlobalUpgrade){ /* route-local lightweight ensure */ }
-    else await ensureRuntimeUpgrades(env);
+    else context.waitUntil(ensureRuntimeUpgrades(env).catch(error=>console.error('runtime upgrade background check failed',error)));
 
     // Maintenance was already checked against a fresh D1 value before route work.
 

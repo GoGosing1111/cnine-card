@@ -2,7 +2,7 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[char]));
-  const api = (path, options = {}) => window.apiRequest(path, options, { ttl: 0 });
+  const api = (path, options = {}) => window.apiRequest(path, options);
   const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
   let lastStatus = null;
   let energyTimer = null;

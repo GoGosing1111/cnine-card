@@ -624,7 +624,7 @@ function supplyBoxShopMarkup(config=null){
 }
 async function loadSupplyBoxShop(){
   const root=document.getElementById('equipmentSupplyShop');if(!root||!API_MODE)return;
-  try{const config=await apiRequest('equipment/supply-box/config?fresh=1',{}, {ttl:0});root.outerHTML=supplyBoxShopMarkup(config);document.querySelectorAll('[data-supply-buy]').forEach(button=>button.onclick=()=>purchaseSupplyBoxes(Number(button.dataset.supplyBuy),button));}
+  try{const config=await apiRequest('equipment/supply-box/config?fresh=1');root.outerHTML=supplyBoxShopMarkup(config);document.querySelectorAll('[data-supply-buy]').forEach(button=>button.onclick=()=>purchaseSupplyBoxes(Number(button.dataset.supplyBuy),button));}
   catch(error){root.innerHTML='<div class="equipment-supply-error"><b>보급상자 판매 정보를 불러오지 못했습니다.</b><button type="button" id="supplyShopRetry">다시 확인</button></div>';document.getElementById('supplyShopRetry')?.addEventListener('click',loadSupplyBoxShop)}
 }
 async function purchaseSupplyBoxes(count,button){
@@ -643,7 +643,7 @@ function vehicleDrawShopMarkup(config=null){
 }
 async function loadVehicleDrawShop(){
   const root=document.getElementById('vehicleDrawTicketShop');if(!root||!API_MODE)return;
-  try{const config=await apiRequest('vehicle-draw/config',{}, {ttl:0});root.outerHTML=vehicleDrawShopMarkup(config);document.querySelectorAll('[data-vehicle-ticket-buy]').forEach(button=>button.onclick=()=>purchaseVehicleDrawTickets(Number(button.dataset.vehicleTicketBuy),button));document.querySelector('[data-vehicle-draw-open]')?.addEventListener('click',()=>window.VehicleDrawV1388?.open(Number(config.ticketQuantity||0)));}
+  try{const config=await apiRequest('vehicle-draw/config');root.outerHTML=vehicleDrawShopMarkup(config);document.querySelectorAll('[data-vehicle-ticket-buy]').forEach(button=>button.onclick=()=>purchaseVehicleDrawTickets(Number(button.dataset.vehicleTicketBuy),button));document.querySelector('[data-vehicle-draw-open]')?.addEventListener('click',()=>window.VehicleDrawV1388?.open(Number(config.ticketQuantity||0)));}
   catch(error){root.innerHTML='<div class="equipment-supply-error"><b>이동수단 뽑기팩 판매 정보를 불러오지 못했습니다.</b><button type="button" id="vehicleShopRetry">다시 확인</button></div>';document.getElementById('vehicleShopRetry')?.addEventListener('click',loadVehicleDrawShop)}
 }
 async function purchaseVehicleDrawTickets(count,button){
@@ -816,7 +816,7 @@ function bindPveDeckFilters(owned,user=loadUser()){
 }
 async function loadBattleView(){
   if(!API_MODE){document.getElementById('battleCards').innerHTML='<div class="empty-recent">현재 전투 콘텐츠를 이용할 수 없습니다. 잠시 후 다시 시도해주세요.</div>';return;}
-  try{const d=await apiRequest('battle/config',{}, {ttl:0});const owned=ownedIds(loadUser()),savedDeck=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5),monsters=d.monsters||[],lastMonsterId=getLastPveMonsterId(),selectedMonster=monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(monsters[0]?.id||null);battleState={config:d.settings,battleEngine:d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.6},monsters,selectedMonster,deck:savedDeck,characterBonus:d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now(),restoreMonsterCursor:true};renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();}catch(e){document.getElementById('battleCards').innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`;}
+  try{const d=await apiRequest('battle/config');const owned=ownedIds(loadUser()),savedDeck=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5),monsters=d.monsters||[],lastMonsterId=getLastPveMonsterId(),selectedMonster=monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(monsters[0]?.id||null);battleState={config:d.settings,battleEngine:d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.6},monsters,selectedMonster,deck:savedDeck,characterBonus:d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now(),restoreMonsterCursor:true};renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();}catch(e){document.getElementById('battleCards').innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`;}
 }
 
 const PVE_MONSTER_TABS=['NORMAL','HARD','HELL'];
@@ -1292,7 +1292,7 @@ function renderMagicSystem(){
 async function loadMagicView(){
   const root=document.getElementById('magicSystemRoot');if(!root)return;
   if(!API_MODE){root.innerHTML='<div class="magic-closed-panel"><b>서버 연결 필요</b><span>마법카드는 서버 연결 상태에서만 이용할 수 있습니다.</span></div>';return;}
-  try{magicSystemState={...await apiRequest('magic/status',{}, {ttl:0}),visible:true};const user=loadUser();if(user){user.magicCrystals=Number(magicSystemState.magicCrystals||0);saveUser(user)}const hero=document.getElementById('magicBalanceHero');if(hero)hero.textContent=`✦ ${Number(magicSystemState.magicCrystals||0).toLocaleString()}`;renderMagicSystem()}catch(e){root.innerHTML=`<div class="magic-closed-panel"><b>마법카드 정보를 불러오지 못했습니다.</b><span>${escapeHtml(e.message)}</span></div>`}
+  try{magicSystemState={...await apiRequest('magic/status'),visible:true};const user=loadUser();if(user){user.magicCrystals=Number(magicSystemState.magicCrystals||0);saveUser(user)}const hero=document.getElementById('magicBalanceHero');if(hero)hero.textContent=`✦ ${Number(magicSystemState.magicCrystals||0).toLocaleString()}`;renderMagicSystem()}catch(e){root.innerHTML=`<div class="magic-closed-panel"><b>마법카드 정보를 불러오지 못했습니다.</b><span>${escapeHtml(e.message)}</span></div>`}
 }
 async function equipMagicCard(magicCardId){
   try{const d=await apiRequest('magic/equip',{method:'POST',body:JSON.stringify({deckType:magicUiState.deckType,slotNo:magicUiState.selectedSlot,magicCardId})});magicSystemState={...d.status,visible:true};renderMagicSystem()}catch(e){alert(e.message)}
@@ -2241,7 +2241,17 @@ const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
 let PLAYER_STATE_MUTATION_EPOCH=0;
 // Player-owned state must not be cached. Mutation responses are authoritative and
 // a later read must never resurrect an older balance or inventory summary.
-const API_CACHE_TTL={'cards':5000,'packs':5000,'pvp/config':1000,'recent-high-grade':5000,'recent-equipment':5000};
+// Collapse rapid view re-entry without serving pre-mutation player state.
+// Every cached response is tied to PLAYER_STATE_MUTATION_EPOCH below, so a
+// successful POST/PATCH/PUT/DELETE invalidates it immediately.
+const API_CACHE_TTL={
+  'cards':5000,'packs':5000,'pvp/config':1500,
+  'battle/config':1500,'magic/status':1500,'inventory':1500,
+  'equipment/supply-box/config?fresh=1':1500,'vehicle-draw/config':1500,
+  'messages':1500,'wago-verification/status':1500,
+  'pvp/opponents':1500,'pvp/history':1500,'pvp/ranking':1500,
+  'recent-high-grade':5000,'recent-equipment':5000
+};
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
 const STARTUP_REQUEST_TIMEOUT=10000;
@@ -2385,7 +2395,7 @@ function renderInventoryItems(items,filter='ALL'){
 async function loadInventory(){
   const grid=document.getElementById('inventoryGrid');if(!grid)return;
   try{
-    const d=await apiRequest('inventory',{}, {ttl:0}),items=Array.isArray(d.items)?d.items:[],summary=document.getElementById('inventoryOwnedSummary'),rerollFilter=document.getElementById('inventoryRerollFilter'),toolbar=document.getElementById('inventoryToolbar');
+    const d=await apiRequest('inventory'),items=Array.isArray(d.items)?d.items:[],summary=document.getElementById('inventoryOwnedSummary'),rerollFilter=document.getElementById('inventoryRerollFilter'),toolbar=document.getElementById('inventoryToolbar');
     if(summary)summary.textContent=`보유 아이템 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`;
     const hasReroll=items.some(item=>item.category==='REROLL'&&Number(item.quantity)>0);
     if(rerollFilter)rerollFilter.hidden=!hasReroll;
@@ -2517,7 +2527,7 @@ async function openWagoVerification(){
 async function apiRequest(path, options={}, config={}) {
   const cleanPath=apiCacheKey(path),method=String(options.method||'GET').toUpperCase(),isGet=method==='GET';
   const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now(),requestEpoch=PLAYER_STATE_MUTATION_EPOCH;
-  if(isGet&&ttl>0){const cached=API_GET_CACHE.get(cleanPath);if(cached&&cached.expiresAt>now)return cached.data;}
+  if(isGet&&ttl>0){const cached=API_GET_CACHE.get(cleanPath);if(cached&&cached.epoch===requestEpoch&&cached.expiresAt>now)return cached.data;}
   if(isGet&&config.replaceInflight===true)API_INFLIGHT.delete(cleanPath);
   else if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
   const timeoutMs=Math.max(1000,Number(config.timeoutMs??(isGet?15000:30000))||15000);
@@ -2540,7 +2550,7 @@ async function apiRequest(path, options={}, config={}) {
       }
       const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;
     }
-    if(isGet&&ttl>0&&requestEpoch===PLAYER_STATE_MUTATION_EPOCH)API_GET_CACHE.set(cleanPath,{data,expiresAt:Date.now()+ttl});
+    if(isGet&&ttl>0&&requestEpoch===PLAYER_STATE_MUTATION_EPOCH)API_GET_CACHE.set(cleanPath,{data,epoch:requestEpoch,expiresAt:Date.now()+ttl});
     if(!isGet){
       PLAYER_STATE_MUTATION_EPOCH++;
       for(const path of ['me','me/summary','me/collection']){clearApiCache(path);API_INFLIGHT.delete(path)}
