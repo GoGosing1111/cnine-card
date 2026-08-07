@@ -5379,6 +5379,27 @@ async function handleRequest(context){
       return json({error:'지원하지 않는 요청입니다.'},405);
     }
 
+    if(path==='admin/users/master-star'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
+      const payload=await readBody(request),userId=Number(payload.userId),amount=Number(payload.amount),reason=String(payload.reason||'관리자 마스터의 별 조정').trim().slice(0,100);
+      if(!Number.isInteger(userId)||userId<1)return json({error:'대상 유저를 다시 선택하세요.'},400);
+      if(!Number.isInteger(amount)||amount===0||Math.abs(amount)>1000000)return json({error:'마스터의 별 수량은 -1,000,000~1,000,000 범위의 0이 아닌 정수로 입력하세요.'},400);
+      if(!reason)return json({error:'처리 사유를 입력하세요.'},400);
+      const target=await env.DB.prepare('SELECT id,nickname,role FROM users WHERE id=?').bind(userId).first();
+      if(!target)return json({error:'유저를 찾을 수 없습니다.'},404);
+      if(target.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정은 수정할 수 없습니다.'},403);
+      await env.DB.prepare("INSERT OR IGNORE INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'MASTER_STAR',0,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)").bind(userId).run();
+      const beforeRow=await env.DB.prepare("SELECT quantity,unseen_quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId).first(),beforeBalance=Math.max(0,Number(beforeRow?.quantity||0));
+      const changed=await env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity+?,unseen_quantity=CASE WHEN ?>0 THEN unseen_quantity+? ELSE MIN(unseen_quantity,quantity+?) END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity+?>=0").bind(amount,amount,Math.max(0,amount),amount,userId,amount).run();
+      if(!Number(changed.meta?.changes||0))return json({error:`보유 마스터의 별 ${beforeBalance.toLocaleString()}개보다 많이 회수할 수 없습니다.`},409);
+      const balanceRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId).first(),balance=Math.max(0,Number(balanceRow?.quantity||0));
+      await env.DB.batch([
+        env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id) VALUES(?,'MASTER_STAR',?,?,?,'ADMIN_ADJUST',?,?)").bind(userId,amount,balance,reason,String(admin.id),admin.id),
+        env.DB.prepare("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,'MASTER_STAR_ADJUST','USER',?,?,?)").bind(admin.id,String(userId),JSON.stringify({nickname:target.nickname,balance:beforeBalance}),JSON.stringify({nickname:target.nickname,balance,amount,reason}))
+      ]);
+      return json({ok:true,user:{id:target.id,nickname:target.nickname},amount,balance});
+    }
+
     if(path==='admin/users/action'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE'); if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
       const p=await readBody(request),userId=Number(p.userId),action=String(p.action||'');
