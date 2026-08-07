@@ -16,7 +16,7 @@
   function mount(){
     if(typeof runtimeCommandContext==='undefined'||runtimeCommandContext!=='buy')return;
     const page=document.querySelector('.page'),summary=page?.querySelector('.summary-bar');if(!page||!summary)return;
-    let root=document.getElementById('chiefMainRoot');if(!root){root=document.createElement('div');root.id='chiefMainRoot';summary.insertAdjacentElement('afterend',root)}const nextMarkup=markup();if(root.innerHTML!==nextMarkup)root.innerHTML=nextMarkup;
+    let root=document.getElementById('chiefMainRoot');if(!root){root=document.createElement('div');root.id='chiefMainRoot';summary.insertAdjacentElement('afterend',root)}root.innerHTML=markup();
     const strip=page.querySelector(':scope > .burning-event-strip');if(strip){let dock=page.querySelector('.chief-event-dock');if(!dock){dock=document.createElement('div');dock.className='chief-event-dock';const nav=page.querySelector('.main-nav');(nav||summary).insertAdjacentElement('afterend',dock)}dock.replaceChildren(strip)}
     root.querySelectorAll('[data-chief-power]').forEach(button=>button.onclick=()=>activate(button.dataset.chiefPower,button));
   }
