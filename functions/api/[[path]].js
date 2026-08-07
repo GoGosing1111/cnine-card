@@ -11,12 +11,13 @@ import { handleVehicleDraw } from '../_vehicle_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
 import { handleSiege } from '../_siege.js';
+import { handleChief,chiefDiscountState } from '../_chief.js';
 import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 
-const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,LIMITED:3000,PRESTIGE:3100,FUR:5000};
-const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11};
+const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,LIMITED:3000,PRESTIGE:3100,FUR:5000,ZENITH:8000};
+const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11,ZENITH:12};
 function drawIntegrityHash(input=''){
   let hash=0x811c9dc5;
   const text=String(input);
@@ -62,21 +63,21 @@ function drawIntegrityCanonical(response){
     }))
   });
 }
-const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR'];
-const DRAW_RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'];
+const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'];
+const DRAW_RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR','ZENITH','LIMITED'];
 // V1272: 특정 멤버/카드는 일반 카드팩 뽑기 결과에서 완전히 제외한다.
 // DB의 공개/활성/확률 설정은 유지하되 실제 후보 풀에서 이중 차단하여 CMS 설정 실수에도 지급되지 않는다.
 const RANDOM_DRAW_EXCLUDED_KEYWORDS=['철구'];
 function normalizedRandomCardText(card={}){return `${card?.name||''} ${card?.title||''}`.normalize('NFKC').replace(/\s+/g,'')}
 function isRandomDrawExcluded(card={}){const text=normalizedRandomCardText(card);return RANDOM_DRAW_EXCLUDED_KEYWORDS.some(keyword=>text.includes(String(keyword).normalize('NFKC').replace(/\s+/g,'')))}
 function randomDrawPool(rows=[]){return (Array.isArray(rows)?rows:[]).filter(card=>!isRandomDrawExcluded(card))}
-const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,LIMITED:180,PRESTIGE:220,FUR:250};
+const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,LIMITED:180,PRESTIGE:220,FUR:250,ZENITH:400};
 const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
 const BREAKTHROUGH_RATE=[100,100,100,80,65,50,35,25,15,8];
-const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR'];
+const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'];
 const breakthroughMaxLevel=()=>10;
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
-const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,LIMITED:2800,PRESTIGE:3100,FUR:3200};
+const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,LIMITED:2800,PRESTIGE:3100,FUR:3200,ZENITH:4000};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450,528,612,702];
 const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:true,steps:[{cost:1,rate:85,retirementShardRefund:3000},{cost:3,rate:50,retirementShardRefund:4000},{cost:5,rate:25,retirementShardRefund:5000}]};
 const LIMITED_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:true,steps:[{cost:5,rate:50,retirementShardRefund:3000},{cost:10,rate:30,retirementShardRefund:4000},{cost:15,rate:20,retirementShardRefund:5000}]};
@@ -472,7 +473,7 @@ function cleanBurningEventSettings(raw={},mode='BURNING'){
   const num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));
   let title=String(raw.title||b.title).trim().slice(0,80)||b.title;
   if(title.includes('\uC528\uCF13\uBAAC'))title=title.replaceAll('\uC528\uCF13\uBAAC','숲켓몬');
-  return {...b,enabled:raw.enabled===true,generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};
+  return {...b,enabled:raw.enabled===true&&(!raw.endsAt||Date.parse(raw.endsAt)>Date.now()),generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,endsAt:raw.endsAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,10)};
 }
 function activeBurningEvent(pair={}){
   const normal=cleanBurningEventSettings(pair.normal||{},'BURNING'),hyper=cleanBurningEventSettings(pair.hyper||{},'HYPER');
@@ -864,7 +865,7 @@ function battleEngineState(settings,user){const engine=normalizeBattleEngineSett
 const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{CUSTOM:3100},FUR:{FIXED:3200}};
 function cardPowerBase(card,settings){const grade=String(card.rarity||card.grade||'').trim().toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]);if(grade==='PRESTIGE'&&Number.isFinite(gradePower))return Math.max(0,gradePower);const saved=Number(card.base_power??card.basePower);return Number.isFinite(saved)&&saved>0?saved:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)}
 function cardBattlePower(card,level,settings){const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),lv=Math.max(0,Math.min(13,Number(level)||0)),base=cardPowerBase(card,settings),pct=Number(settings.breakthroughBonus[lv]||0),power=Math.floor(base*(1+pct/100));if(grade!=='LIMITED'||lv<11)return power;const prestigeBase=Math.max(0,Number(settings?.powerByGrade?.PRESTIGE||0)),prestigePct=Number(settings?.breakthroughBonus?.[10]||0),prestige10=Math.floor(prestigeBase*(1+prestigePct/100));if(prestige10<=0)return power;const limited10=Math.floor(base*(1+Number(settings?.breakthroughBonus?.[10]||0)/100)),stepCap=Math.floor(limited10+Math.max(0,prestige10-limited10)*(lv-10)/3);return Math.min(power,prestige10,stepCap);}
-const ULTIMATE_GRADE_PRIORITY={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10,PRESTIGE:11};
+const ULTIMATE_GRADE_PRIORITY={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10,PRESTIGE:11,ZENITH:12};
 function ultimateGradePriority(grade){return Number(ULTIMATE_GRADE_PRIORITY[String(grade||'').trim().toUpperCase()]||0)}
 function selectActivatedUltimate(settings,cards,random=Math.random){
   const eligible=(settings.ultimateRules||[]).map(u=>{
@@ -3189,6 +3190,7 @@ async function handleRequest(context){
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies}});if(territoryWarResponse)return territoryWarResponse;
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses}});if(siegeResponse)return siegeResponse;
+    const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(chiefResponse)return chiefResponse;
 
     if(path==='user/runtime-command'){
       const user=await authenticate(request,env);
@@ -3270,8 +3272,8 @@ async function handleRequest(context){
       return json({cards:rows.map(({memberSortOrder,...card})=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const [rows,burning]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env)]);
-      return json({packs:rows.map(row=>{const originalPrice=Number(row.price||0),price=burningDiscountPrice(originalPrice,burning);return {...row,price,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}}),burningEvent:burningPublicState(burning)});
+      const [rows,burning,chiefDiscount]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),chiefDiscountState(env)]);
+      return json({packs:rows.map(row=>{const originalPrice=Number(row.price||0),discount=chiefDiscount.active?Number(chiefDiscount.percent||25):0,price=Math.floor(originalPrice*(100-discount)/100);return {...row,price,originalPrice,burningDiscountPercent:discount,allowed:JSON.parse(row.allowed_rarities)}}),burningEvent:burningPublicState(burning),chiefDiscount});
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -3524,8 +3526,8 @@ async function handleRequest(context){
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
       try{
-        const [criticalConfig,burning,baseRows]=await Promise.all([
-          criticalSettings(env),burningEventSettings(env),
+        const [criticalConfig,burning,chiefDiscount,baseRows]=await Promise.all([
+          criticalSettings(env),burningEventSettings(env),chiefDiscountState(env),
           env.DB.batch([
             env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId),
             env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id),
@@ -3541,7 +3543,7 @@ async function handleRequest(context){
           return json({error:'판매 중인 카드팩이 아닙니다.'},404);
         }
         if(!fresh)throw new Error('유저 정보를 확인하지 못했습니다.');
-        cost=burningDiscountPrice(pack.price,burning)*count;
+        cost=Math.floor(Number(pack.price||0)*(100-(chiefDiscount.active?Number(chiefDiscount.percent||25):0))/100)*count;
         if(Number(fresh.coin||0)<cost){
           await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',cost=?,error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,requestId,user.id).run();
           return json({error:'코인이 부족합니다.'},400);
@@ -6079,7 +6081,7 @@ async function handleRequest(context){
         if(!RARITIES.includes(grade)) throw new Error('올바르지 않은 카드 등급입니다.');
         const member=await env.DB.prepare('SELECT id FROM members WHERE id=?').bind(memberId).first();
         if(!member) throw new Error('존재하지 않는 멤버입니다.');
-        const supportsPowerType=['SSR','MA','LIMITED','PRESTIGE','FUR'].includes(grade);
+        const supportsPowerType=['SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'].includes(grade);
         let powerType=payload.powerType===null||payload.powerType===undefined||payload.powerType===''?null:String(payload.powerType).toUpperCase();
         let basePower=payload.basePower===null||payload.basePower===undefined||payload.basePower===''?null:Math.max(0,Math.floor(Number(payload.basePower)||0));
         if(!supportsPowerType){powerType=null;basePower=null}
@@ -6087,13 +6089,13 @@ async function handleRequest(context){
           powerType='CUSTOM';
           basePower=Math.max(1,Math.min(100000000,Math.floor(Number(basePower||3100))));
         }
-        else if(grade==='FUR'){powerType='FIXED';basePower=3200}
+        else if(['FUR','ZENITH'].includes(grade)){powerType='FIXED';basePower=grade==='ZENITH'?4000:3200}
         else if(powerType!==null){
           if(!['NORMAL','HIGH','TOP'].includes(powerType)) throw new Error('올바르지 않은 전투력 유형입니다.');
           basePower=CARD_POWER_TYPES[grade][powerType];
         }else basePower=null;
-        const storageGrade=grade==='PRESTIGE'?'FUR':grade;
-        const rarityOverride=grade==='PRESTIGE'?'PRESTIGE':null;
+        const storageGrade=['PRESTIGE','ZENITH'].includes(grade)?'FUR':grade;
+        const rarityOverride=['PRESTIGE','ZENITH'].includes(grade)?grade:null;
         return {title,grade,storageGrade,rarityOverride,image,memberId,focusX,focusY,isActive,cardStatus,batchName,batchDate,drawWeight,limitedTotal,issuedCount,powerType,basePower};
       };
       const nextCardId=()=>`CN-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;

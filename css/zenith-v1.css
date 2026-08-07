@@ -1,0 +1,5 @@
+.card-frame.grade-ZENITH { position:relative; isolation:isolate; overflow:visible; filter:drop-shadow(0 0 8px rgba(91,226,255,.48)) drop-shadow(0 0 16px rgba(119,84,255,.3)); }
+.card-frame.grade-ZENITH .card-inner { position:relative; z-index:1; border-color:rgba(154,238,255,.7); background:linear-gradient(155deg,#080b26,#11154a 48%,#07091d); }
+.card-frame.grade-ZENITH > .zenith-card-frame { position:absolute; z-index:20; inset:0; width:100%; height:100%; object-fit:fill; pointer-events:none; user-select:none; }
+.card-frame.grade-ZENITH:hover > .zenith-card-frame { filter:brightness(1.08) drop-shadow(0 0 7px rgba(103,233,255,.65)); }
+.grade-ZENITH .grade-badge,.grade-ZENITH .card-grade { color:#dffcff; border-color:rgba(145,239,255,.62); background:linear-gradient(135deg,rgba(26,35,108,.94),rgba(80,29,137,.94)); text-shadow:0 0 8px #52ddff; }
