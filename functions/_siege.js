@@ -20,7 +20,7 @@ const DEFAULTS = {
       startMinute: 0,
       monsterName: "흑철 송곳니 바르그",
       monsterImage: "/assets/siege/phase-1-outer.webp",
-      powerPercent: 105,
+      battlePower: 21000,
       isBoss: false,
     },
     {
@@ -31,7 +31,7 @@ const DEFAULTS = {
       startMinute: 60,
       monsterName: "성문 파괴거인 골가스",
       monsterImage: "/assets/siege/phase-2-gate.webp",
-      powerPercent: 125,
+      battlePower: 25000,
       isBoss: true,
     },
     {
@@ -42,7 +42,7 @@ const DEFAULTS = {
       startMinute: 120,
       monsterName: "잿불 첨탑의 마도사",
       monsterImage: "/assets/siege/phase-3-inner.webp",
-      powerPercent: 150,
+      battlePower: 30000,
       isBoss: true,
     },
     {
@@ -53,7 +53,7 @@ const DEFAULTS = {
       startMinute: 240,
       monsterName: "월식의 왕실 수호자",
       monsterImage: "/assets/siege/phase-4-guard.webp",
-      powerPercent: 180,
+      battlePower: 36000,
       isBoss: true,
     },
     {
@@ -64,7 +64,7 @@ const DEFAULTS = {
       startMinute: 300,
       monsterName: "심연의 월식 성주",
       monsterImage: "/assets/siege/phase-5-lord.webp",
-      powerPercent: 220,
+      battlePower: 44000,
       isBoss: true,
     },
   ],
@@ -95,7 +95,7 @@ const cleanSettings = (raw) => {
         .trim()
         .slice(0, 80),
       hp: clamp(x.hp, 1000, 2000000000, base.hp),
-      powerPercent: clamp(x.powerPercent, 80, 500, base.powerPercent),
+      battlePower: clamp(x.battlePower, 1, 2000000000, base.battlePower),
       startMinute: base.startMinute,
     };
   });
@@ -380,10 +380,7 @@ export async function handleSiege({ path, request, env, deps }) {
     const playerPower =
         deck.reduce((sum, card) => sum + Number(card.power || 0), 0) +
         Number(characterBonus?.pve || 0),
-      monsterPower = Math.max(
-        1,
-        Math.floor((playerPower * Number(phase.powerPercent || 100)) / 100),
-      ),
+      monsterPower = Math.max(1, Math.floor(Number(phase.battlePower || 1))),
       monster = {
         id: `SIEGE-${phase.key}`,
         name: phase.monsterName,

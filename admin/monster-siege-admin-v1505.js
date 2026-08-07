@@ -55,7 +55,7 @@
       root = $("#msaRoot");
     root.innerHTML = `<div class="maintenanceHead"><div><small>CASTLE OPERATION CONTROL</small><h2>${event ? `${event.name} · 진행 중` : "공성전 대기"}</h2><p>${event ? `종료 ${event.endsAt} · 누적 피해 ${Number(event.totalDamage || 0).toLocaleString()}` : "설정을 저장한 뒤 수동 시작할 수 있습니다."}</p></div></div>
       <h3>운영·보상 설정</h3><div class="formgrid"><label class="field"><span>운영 모드</span><select id="msaMode"><option ${cfg.mode === "OFF" ? "selected" : ""}>OFF</option><option ${cfg.mode === "TEST" ? "selected" : ""}>TEST</option><option ${cfg.mode === "ON" ? "selected" : ""}>ON</option></select></label><label class="field"><span>공성전 이름</span><input id="msaName" value="${cfg.name}"></label><label class="field"><span>진행 시간</span><input value="6시간" disabled></label><label class="field"><span>공격 재사용(초)</span><input id="msaCooldown" type="number" min="2" value="${cfg.attackCooldownSeconds}"></label><label class="field"><span>1판 승리 코인</span><input id="msaWinCoin" type="number" min="0" value="${cfg.perBattleWinCoin}"></label><label class="field"><span>1판 승리 카드 조각</span><input id="msaWinShards" type="number" min="0" value="${cfg.perBattleWinShards}"></label><label class="field"><span>최소 정산 공격 횟수</span><input id="msaMin" type="number" min="1" value="${cfg.minAttacks}"></label><label class="field"><span>최종 성공 보상 코인</span><input id="msaCoin" type="number" min="0" value="${cfg.rewardCoin}"></label><label class="field"><span>최종 성공 보상 카드 조각</span><input id="msaShards" type="number" min="0" value="${cfg.rewardShards}"></label></div>
-      <h3>공략 단계 · 몬스터 전투력</h3><div class="formgrid">${cfg.phases.map((p, i) => `<label class="field"><span>${i + 1}. ${p.monsterName}</span><input class="msaPhasePower" data-i="${i}" type="number" min="80" max="500" value="${p.powerPercent}"><small>${p.name} · 내 PVE 전투력의 ${p.powerPercent}%</small></label>`).join("")}</div>
+      <h3>공략 단계 · 몬스터 고정 전투력</h3><div class="formgrid">${cfg.phases.map((p, i) => `<label class="field"><span>${i + 1}. ${p.monsterName}</span><input class="msaPhasePower" data-i="${i}" type="number" min="1" max="2000000000" value="${p.battlePower}"><small>${p.name} · 모든 유저에게 동일한 고정 전투력</small></label>`).join("")}</div>
       <h3>전선 HP · 전선 피해</h3><div class="formgrid"><label class="field"><span>승리 시 전선 HP 감소(%)</span><input id="msaVictoryDamage" type="number" min="26" max="100" value="${cfg.victoryDamagePercent}"></label><label class="field"><span>패배 시 전선 HP 감소</span><input value="25% 고정" disabled></label>${cfg.phases.map((p, i) => `<label class="field"><span>${i + 1}. ${p.name} HP</span><input class="msaPhaseHp" data-i="${i}" type="number" min="1000" value="${p.hp}"><small>몬스터 전투력과 별개인 공동 전선 체력</small></label>`).join("")}</div>
       <div class="bar"><button id="msaSave">설정 저장</button><button id="msaStart" ${event ? "disabled" : ""}>6시간 공성전 시작</button><button id="msaSuccess" class="warn" ${event ? "" : "disabled"}>성공 종료</button><button id="msaFail" class="danger" ${event ? "" : "disabled"}>실패 종료</button></div>`;
     $("#msaSave").onclick = save;
@@ -70,7 +70,7 @@
     const phases = last.settings.phases.map((p, i) => ({
         ...p,
         hp: Number(document.querySelector(`.msaPhaseHp[data-i="${i}"]`).value),
-        powerPercent: Number(
+        battlePower: Number(
           document.querySelector(`.msaPhasePower[data-i="${i}"]`).value,
         ),
       })),
