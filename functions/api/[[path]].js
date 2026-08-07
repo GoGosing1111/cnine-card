@@ -72,7 +72,10 @@ function randomDrawPool(rows=[]){return (Array.isArray(rows)?rows:[]).filter(car
 const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,LIMITED:180,PRESTIGE:220,FUR:250};
 const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
 const BREAKTHROUGH_RATE=[100,100,100,80,65,50,35,25,15,8];
+const LIMITED_BREAKTHROUGH_COST=[...BREAKTHROUGH_COST,3000,3800,4800];
+const LIMITED_BREAKTHROUGH_RATE=[...BREAKTHROUGH_RATE,5,3,1];
 const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR'];
+const breakthroughMaxLevel=grade=>String(grade||'').trim().toUpperCase()==='LIMITED'?13:10;
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
 const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,LIMITED:2800,PRESTIGE:3100,FUR:3200};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450,528,612,702];
@@ -884,8 +887,8 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
 }
 
 
-function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRADES.map(g=>[g,BREAKTHROUGH_COST.map((cost,i)=>({cost,rate:BREAKTHROUGH_RATE[i]}))]));}
-async function breakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<10;i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
+function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRADES.map(g=>{const costs=g==='LIMITED'?LIMITED_BREAKTHROUGH_COST:BREAKTHROUGH_COST,rates=g==='LIMITED'?LIMITED_BREAKTHROUGH_RATE:BREAKTHROUGH_RATE;return [g,costs.map((cost,i)=>({cost,rate:rates[i]}))]}));}
+async function breakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<breakthroughMaxLevel(g);i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
 function cleanMaMasterStarBreakthrough(raw={}){const base=MA_MASTER_STAR_BREAKTHROUGH_DEFAULT;return {enabled:raw.enabled===true,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999,Math.floor(Number(x.cost)||fallback.cost))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||0)))}})}}
 async function maMasterStarBreakthroughConfig(env){const now=Date.now();if(maMasterStarBreakthroughCache&&maMasterStarBreakthroughCache.expiresAt>now)return maMasterStarBreakthroughCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='ma_master_star_breakthrough_v1'").first();let value=cleanMaMasterStarBreakthrough();if(row?.value){try{value=cleanMaMasterStarBreakthrough(JSON.parse(row.value))}catch{}}maMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
 function defaultBreakthroughPity(){return {enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};}
@@ -3731,7 +3734,7 @@ async function handleRequest(context){
       if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
       const grade=String(owned.rarity||'').trim().toUpperCase();
       if((ORDER[grade]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
-      const level=Number(owned.breakthrough_level||0),isMaHigh=grade==='MA'&&level>=10,maxLevel=grade==='MA'?13:10;
+      const level=Number(owned.breakthrough_level||0),isMaHigh=grade==='MA'&&level>=10,maxLevel=(grade==='MA'||grade==='LIMITED')?13:10;
       if(level>=maxLevel) return json({error:'이미 최대 강화 단계입니다.'},409);
       const failCount=Math.max(0,Number(owned.breakthrough_fail_count||0));
       if(isMaHigh){
@@ -5081,8 +5084,9 @@ async function handleRequest(context){
         if(!incoming||typeof incoming!=='object')return json({error:'돌파 설정값이 없습니다.'},400);
         const clean=defaultBreakthroughConfig();
         for(const grade of BREAKTHROUGH_GRADES){
-          if(!Array.isArray(incoming[grade])||incoming[grade].length!==10)return json({error:`${grade} 등급은 10단계 설정이 필요합니다.`},400);
-          for(let i=0;i<10;i++){
+          const maxLevel=breakthroughMaxLevel(grade);
+          if(!Array.isArray(incoming[grade])||incoming[grade].length!==maxLevel)return json({error:`${grade} 등급은 ${maxLevel}단계 설정이 필요합니다.`},400);
+          for(let i=0;i<maxLevel;i++){
             const cost=Number(incoming[grade][i]?.cost),rate=Number(incoming[grade][i]?.rate);
             if(!Number.isInteger(cost)||cost<1||cost>10000000)return json({error:`${grade} ★${i}→★${i+1} 조각 비용을 확인하세요.`},400);
             if(!Number.isFinite(rate)||rate<0||rate>100)return json({error:`${grade} ★${i}→★${i+1} 성공 확률은 0~100%입니다.`},400);
