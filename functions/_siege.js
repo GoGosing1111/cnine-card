@@ -1,4 +1,6 @@
 const KEY = "monster_siege_settings_v1";
+const SIEGE_ENERGY_MAX = 5;
+const SIEGE_ENERGY_RECHARGE_SECONDS = 300;
 const DEFAULTS = {
   mode: "TEST",
   name: "심연의 황혼 성채",
@@ -148,7 +150,7 @@ async function ensure(env) {
         `CREATE TABLE IF NOT EXISTS monster_siege_events(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',phase_index INTEGER NOT NULL DEFAULT 0,phase_hp INTEGER NOT NULL,phase_max_hp INTEGER NOT NULL,total_damage INTEGER NOT NULL DEFAULT 0,starts_at TEXT NOT NULL,ends_at TEXT NOT NULL,version INTEGER NOT NULL DEFAULT 1,completed_at TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
       ),
       env.DB.prepare(
-        `CREATE TABLE IF NOT EXISTS monster_siege_users(event_id INTEGER NOT NULL,user_id INTEGER NOT NULL,deck_snapshot TEXT NOT NULL DEFAULT '[]',deck_power INTEGER NOT NULL DEFAULT 0,attacks INTEGER NOT NULL DEFAULT 0,damage INTEGER NOT NULL DEFAULT 0,last_attack_at TEXT,joined_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(event_id,user_id))`,
+        `CREATE TABLE IF NOT EXISTS monster_siege_users(event_id INTEGER NOT NULL,user_id INTEGER NOT NULL,deck_snapshot TEXT NOT NULL DEFAULT '[]',deck_power INTEGER NOT NULL DEFAULT 0,attacks INTEGER NOT NULL DEFAULT 0,damage INTEGER NOT NULL DEFAULT 0,energy INTEGER NOT NULL DEFAULT 5,energy_updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,last_attack_at TEXT,joined_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(event_id,user_id))`,
       ),
       env.DB.prepare(
         `CREATE TABLE IF NOT EXISTS monster_siege_actions(request_id TEXT PRIMARY KEY,event_id INTEGER NOT NULL,user_id INTEGER NOT NULL,phase_index INTEGER NOT NULL,damage INTEGER NOT NULL DEFAULT 0,result_json TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
@@ -182,6 +184,14 @@ async function ensure(env) {
     } catch (error) {
       if (!/duplicate column/i.test(String(error?.message || error))) throw error;
     }
+    for (const sql of [
+      "ALTER TABLE monster_siege_users ADD COLUMN energy INTEGER NOT NULL DEFAULT 5",
+      "ALTER TABLE monster_siege_users ADD COLUMN energy_updated_at TEXT",
+    ]) {
+      try { await env.DB.prepare(sql).run(); }
+      catch (error) { if (!/duplicate column/i.test(String(error?.message || error))) throw error; }
+    }
+    await env.DB.prepare("UPDATE monster_siege_users SET energy=MIN(5,MAX(0,COALESCE(energy,5))),energy_updated_at=COALESCE(energy_updated_at,updated_at,joined_at,CURRENT_TIMESTAMP) WHERE energy_updated_at IS NULL OR energy IS NULL OR energy<0 OR energy>5").run();
   })().catch((error) => {
     ensurePromise = null;
     throw error;
@@ -295,6 +305,31 @@ function publicPhase(cfg, event) {
     ),
   };
 }
+function siegeEnergySnapshot(row, now = Date.now()) {
+  const stored = Math.max(0, Math.min(SIEGE_ENERGY_MAX, Number(row?.energy ?? SIEGE_ENERGY_MAX)));
+  const rawUpdated = row?.energy_updated_at || row?.updated_at || row?.joined_at;
+  const updatedMs = rawUpdated ? Date.parse(String(rawUpdated).endsWith("Z") ? rawUpdated : `${rawUpdated}Z`) : now;
+  const intervalMs = SIEGE_ENERGY_RECHARGE_SECONDS * 1000;
+  const gained = stored >= SIEGE_ENERGY_MAX ? 0 : Math.max(0, Math.floor((now - updatedMs) / intervalMs));
+  const energy = Math.min(SIEGE_ENERGY_MAX, stored + gained);
+  const anchorMs = gained > 0 ? updatedMs + gained * intervalMs : updatedMs;
+  return {
+    energy,
+    maxEnergy: SIEGE_ENERGY_MAX,
+    rechargeSeconds: SIEGE_ENERGY_RECHARGE_SECONDS,
+    nextRechargeAt: energy >= SIEGE_ENERGY_MAX ? null : new Date(anchorMs + intervalMs).toISOString(),
+    anchorAt: new Date(energy >= SIEGE_ENERGY_MAX ? now : anchorMs).toISOString().replace("T", " ").replace("Z", ""),
+    gained,
+  };
+}
+async function refreshSiegeEnergy(env, eventId, userId, row) {
+  const snapshot = siegeEnergySnapshot(row);
+  if (snapshot.gained > 0 || Number(row?.energy ?? SIEGE_ENERGY_MAX) !== snapshot.energy || !row?.energy_updated_at) {
+    await env.DB.prepare("UPDATE monster_siege_users SET energy=?,energy_updated_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=?")
+      .bind(snapshot.energy, snapshot.anchorAt, eventId, userId).run();
+  }
+  return snapshot;
+}
 async function state(env, user, cfg, event) {
   const rallyEndsAt = event?.rally_ends_at || event?.starts_at || null,
     rallyOpen = Boolean(event && Date.parse(`${rallyEndsAt}Z`) > Date.now()),
@@ -319,6 +354,7 @@ async function state(env, user, cfg, event) {
     )
       .bind(user.id)
       .first();
+  const energy = mine ? await refreshSiegeEnergy(env, event.id, user.id, mine) : null;
   return {
     settings: cfg,
     event: event
@@ -343,6 +379,10 @@ async function state(env, user, cfg, event) {
           attacks: Number(mine.attacks || 0),
           damage: Number(mine.damage || 0),
           lastAttackAt: mine.last_attack_at,
+          energy: energy.energy,
+          maxEnergy: energy.maxEnergy,
+          rechargeSeconds: energy.rechargeSeconds,
+          nextRechargeAt: energy.nextRechargeAt,
         }
       : null,
     ranking,
@@ -421,6 +461,7 @@ export async function handleSiege({ path, request, env, deps }) {
       .bind(requestId, user.id)
       .first();
     if (previous?.result_json) return json(jsonSafe(previous.result_json, {}));
+    if (previous) return json({ error: "동일한 공성 공격 요청을 처리 중입니다." }, 409);
     const event = await activeEvent(env, cfg, { create: false });
     if (!event) return json({ error: "진행 중인 공성전이 없습니다." }, 409);
     const rallyEndsAt = event.rally_ends_at || event.starts_at;
@@ -458,6 +499,9 @@ export async function handleSiege({ path, request, env, deps }) {
         { error: "참가한 PVE 덱 5장을 확인할 수 없습니다. 다시 참가하세요." },
         409,
       );
+    const refreshedEnergy = await refreshSiegeEnergy(env, event.id, user.id, mine);
+    if (refreshedEnergy.energy < 1)
+      return json({ error: "공성전 출전 횟수가 부족합니다. 5분마다 1회 충전됩니다.", energy: refreshedEnergy }, 429);
     const playerPower =
         deck.reduce((sum, card) => sum + Number(card.power || 0), 0) +
         Number(characterBonus?.pve || 0),
@@ -502,10 +546,22 @@ export async function handleSiege({ path, request, env, deps }) {
       else nextIndex++;
     }
     const nextPhase = cfg.phases[nextIndex];
+    const actionReserved = await env.DB.prepare(
+      "INSERT OR IGNORE INTO monster_siege_actions(request_id,event_id,user_id,phase_index,damage) VALUES(?,?,?,?,0)",
+    ).bind(requestId, event.id, user.id, event.phase_index).run();
+    if (!Number(actionReserved.meta?.changes || 0))
+      return json({ error: "동일한 공성 공격 요청을 처리 중입니다." }, 409);
+    const energySpent = await env.DB.prepare(
+      "UPDATE monster_siege_users SET energy=energy-1,energy_updated_at=CASE WHEN energy>=? THEN CURRENT_TIMESTAMP ELSE energy_updated_at END,updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND energy>0",
+    ).bind(SIEGE_ENERGY_MAX, event.id, user.id).run();
+    if (!Number(energySpent.meta?.changes || 0)) {
+      await env.DB.prepare("DELETE FROM monster_siege_actions WHERE request_id=? AND user_id=? AND result_json IS NULL").bind(requestId, user.id).run();
+      return json({ error: "공성전 출전 횟수가 부족합니다. 5분마다 1회 충전됩니다." }, 429);
+    }
     const statements = [
       env.DB.prepare(
-        "INSERT INTO monster_siege_actions(request_id,event_id,user_id,phase_index,damage) VALUES(?,?,?,?,?)",
-      ).bind(requestId, event.id, user.id, event.phase_index, damage),
+        "UPDATE monster_siege_actions SET damage=? WHERE request_id=? AND event_id=? AND user_id=?",
+      ).bind(damage, requestId, event.id, user.id),
       env.DB.prepare(
         "UPDATE monster_siege_users SET attacks=attacks+1,damage=damage+?,last_attack_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=?",
       ).bind(damage, event.id, user.id),
@@ -575,7 +631,15 @@ export async function handleSiege({ path, request, env, deps }) {
           "UPDATE monster_siege_events SET phase_hp=MAX(0,phase_hp-?),total_damage=total_damage+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
         ).bind(damage, damage, event.id),
       );
-    await env.DB.batch(statements);
+    try {
+      await env.DB.batch(statements);
+    } catch (error) {
+      await env.DB.batch([
+        env.DB.prepare("UPDATE monster_siege_users SET energy=MIN(?,energy+1),updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=?").bind(SIEGE_ENERGY_MAX, event.id, user.id),
+        env.DB.prepare("DELETE FROM monster_siege_actions WHERE request_id=? AND user_id=? AND result_json IS NULL").bind(requestId, user.id),
+      ]).catch(() => {});
+      throw error;
+    }
     if (cleared) await settle(env, event, cfg, "CLEARED");
     const current = await env.DB.prepare(
         "SELECT * FROM monster_siege_events WHERE id=?",
