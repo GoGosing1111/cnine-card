@@ -1,9 +1,0 @@
-.gradeBadge.grade-ZENITH,.cmsGrade.ZENITH { color:#e4fdff; border:1px solid rgba(139,238,255,.8); background:linear-gradient(135deg,#172866,#542684); box-shadow:0 0 12px rgba(87,224,255,.48); }
-.adminCard.zenithAdminCard .cardThumbWrap { overflow:visible; aspect-ratio:2/3; background:#070a1d; }
-.adminCard.zenithAdminCard .cardThumbWrap > img:not(.zenithAdminFrame) { width:100%; height:100%; object-fit:cover; }
-.zenithAdminFrame { position:absolute; z-index:3; inset:0; width:100%!important; height:100%!important; object-fit:fill!important; border-radius:0!important; pointer-events:none; filter:drop-shadow(0 0 8px rgba(84,225,255,.5)); }
-.cmsNewCardGrid article.cmsZenithCard { overflow:visible; border-color:rgba(110,226,255,.55); box-shadow:0 0 18px rgba(86,105,255,.25); }
-.cmsZenithVisual { position:relative; isolation:isolate; width:100%; aspect-ratio:2/3; background:#070a1d; }
-.cmsNewCardGrid .cmsZenithVisual > img:not(.cmsZenithFrame) { position:absolute; z-index:0; inset:8.8% 9.8%; width:80.4%; height:83.4%; aspect-ratio:auto; object-fit:cover; border-radius:8%; }
-.cmsNewCardGrid .cmsZenithFrame { position:absolute; z-index:2; inset:0; width:100%; height:100%; aspect-ratio:auto; object-fit:fill; border-radius:0; pointer-events:none; filter:drop-shadow(0 0 7px rgba(84,225,255,.55)); }
-.cmsZenithCard > .cmsGrade { z-index:4; }

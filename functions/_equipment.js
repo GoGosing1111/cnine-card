@@ -47,13 +47,12 @@ function cleanPromotionDiscount(value){const n=Number(value);return Math.max(0,M
 async function equipmentPromotionState(env,{fresh=false}={}){
   const now=Date.now();if(!fresh&&equipmentPromotionCache&&now-equipmentPromotionCacheAt<5000)return equipmentPromotionCache;
   try{
-    const [normalResult,hyperResult,chiefResult]=await env.DB.batch([
+    const [normalResult,hyperResult]=await env.DB.batch([
       env.DB.prepare("SELECT value FROM app_meta WHERE key='burning_event_settings_v1'"),
-      env.DB.prepare("SELECT value FROM app_meta WHERE key='hyper_burning_event_settings_v1310'"),
-      env.DB.prepare("SELECT value FROM app_meta WHERE key='chief_discount_event_v1'")
+      env.DB.prepare("SELECT value FROM app_meta WHERE key='hyper_burning_event_settings_v1310'")
     ]);
-    const parse=row=>{try{return JSON.parse(row?.results?.[0]?.value||'{}')}catch{return {}}},normal=parse(normalResult),hyper=parse(hyperResult),chief=parse(chiefResult),chiefActive=Date.parse(String(chief.endsAt||''))>now;
-    const active=chiefActive?{mode:'CHIEF',discount:25,endsAt:chief.endsAt,chiefNickname:chief.chiefNickname||''}:hyper?.enabled===true?{mode:'HYPER',discount:0}:normal?.enabled===true?{mode:'BURNING',discount:0}:{mode:'NONE',discount:0};
+    const parse=row=>{try{return JSON.parse(row?.results?.[0]?.value||'{}')}catch{return {}}},normal=parse(normalResult),hyper=parse(hyperResult);
+    const active=hyper?.enabled===true?{mode:'HYPER',discount:0}:normal?.enabled===true?{mode:'BURNING',discount:0}:{mode:'NONE',discount:0};
     equipmentPromotionCache=active;equipmentPromotionCacheAt=now;return active;
   }catch(error){if(equipmentPromotionCache)return equipmentPromotionCache;throw error}
 }
