@@ -3,6 +3,7 @@ const DEFAULTS = {
   mode: "TEST",
   name: "심연의 황혼 성채",
   durationMinutes: 360,
+  rallyMinutes: 30,
   attackCooldownSeconds: 10,
   siegeDamagePercent: 100,
   defeatContributionPercent: 25,
@@ -123,6 +124,7 @@ const cleanSettings = (raw) => {
       .trim()
       .slice(0, 50),
     durationMinutes: clamp(raw?.durationMinutes, 30, 10080, 360),
+    rallyMinutes: clamp(raw?.rallyMinutes, 1, 1440, 30),
     attackCooldownSeconds: clamp(raw?.attackCooldownSeconds, 2, 300, 10),
     siegeDamagePercent: clamp(raw?.siegeDamagePercent, 1, 1000, 100),
     defeatContributionPercent: clamp(raw?.defeatContributionPercent, 0, 100, 25),
@@ -173,6 +175,13 @@ async function ensure(env) {
     } catch (error) {
       if (!/duplicate column/i.test(String(error?.message || error))) throw error;
     }
+    try {
+      await env.DB.prepare(
+        "ALTER TABLE monster_siege_events ADD COLUMN rally_ends_at TEXT",
+      ).run();
+    } catch (error) {
+      if (!/duplicate column/i.test(String(error?.message || error))) throw error;
+    }
   })().catch((error) => {
     ensurePromise = null;
     throw error;
@@ -214,11 +223,12 @@ async function territoryBenchmark(env) {
 }
 async function createEvent(env, cfg) {
   const first = cfg.phases[0],
-    end = `+${cfg.durationMinutes} minutes`;
+    rallyEnd = `+${cfg.rallyMinutes} minutes`,
+    end = `+${cfg.rallyMinutes + cfg.durationMinutes} minutes`;
   const result = await env.DB.prepare(
-    "INSERT INTO monster_siege_events(name,status,phase_index,phase_hp,phase_max_hp,starts_at,ends_at) VALUES(?,'ACTIVE',0,?,?,CURRENT_TIMESTAMP,datetime('now',?))",
+    "INSERT INTO monster_siege_events(name,status,phase_index,phase_hp,phase_max_hp,starts_at,rally_ends_at,ends_at) VALUES(?,'ACTIVE',0,?,?,CURRENT_TIMESTAMP,datetime('now',?),datetime('now',?))",
   )
-    .bind(cfg.name, first.hp, first.hp, end)
+    .bind(cfg.name, first.hp, first.hp, rallyEnd, end)
     .run();
   return env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?")
     .bind(result.meta.last_row_id)
@@ -286,7 +296,9 @@ function publicPhase(cfg, event) {
   };
 }
 async function state(env, user, cfg, event) {
-  const mine = event
+  const rallyEndsAt = event?.rally_ends_at || event?.starts_at || null,
+    rallyOpen = Boolean(event && Date.parse(`${rallyEndsAt}Z`) > Date.now()),
+    mine = event
       ? await env.DB.prepare(
           "SELECT * FROM monster_siege_users WHERE event_id=? AND user_id=?",
         )
@@ -315,6 +327,9 @@ async function state(env, user, cfg, event) {
           name: event.name,
           status: event.status,
           startsAt: event.starts_at,
+          rallyEndsAt,
+          rallyOpen,
+          stage: rallyOpen ? "RALLY" : "BATTLE",
           endsAt: event.ends_at,
           totalDamage: Number(event.total_damage || 0),
           phaseIndex: Number(event.phase_index || 0),
@@ -373,6 +388,9 @@ export async function handleSiege({ path, request, env, deps }) {
     const event = await activeEvent(env, cfg, { create: false });
     if (!event)
       return json({ error: "CMS에서 공성전을 먼저 시작하세요." }, 409);
+    const rallyEndsAt = event.rally_ends_at || event.starts_at;
+    if (Date.parse(`${rallyEndsAt}Z`) <= Date.now())
+      return json({ error: "집결 시간이 종료되어 더 이상 공성전에 참여할 수 없습니다." }, 409);
     const deck = await pveDeckSnapshot(env, user.id);
     if (deck.length !== 5)
       return json({ error: "PVE 덱 5장을 먼저 저장하세요." }, 400);
@@ -382,11 +400,13 @@ export async function handleSiege({ path, request, env, deps }) {
           sum + cardBattlePower(card, card.breakthrough_level, battleCfg),
         0,
       );
-    await env.DB.prepare(
-      "INSERT INTO monster_siege_users(event_id,user_id,deck_snapshot,deck_power) VALUES(?,?,?,?) ON CONFLICT(event_id,user_id) DO UPDATE SET deck_snapshot=excluded.deck_snapshot,deck_power=excluded.deck_power,updated_at=CURRENT_TIMESTAMP",
+    const joined = await env.DB.prepare(
+      "INSERT INTO monster_siege_users(event_id,user_id,deck_snapshot,deck_power) SELECT ?,?,?,? WHERE EXISTS(SELECT 1 FROM monster_siege_events WHERE id=? AND status='ACTIVE' AND datetime(COALESCE(rally_ends_at,starts_at))>CURRENT_TIMESTAMP) ON CONFLICT(event_id,user_id) DO UPDATE SET deck_snapshot=excluded.deck_snapshot,deck_power=excluded.deck_power,updated_at=CURRENT_TIMESTAMP",
     )
-      .bind(event.id, user.id, JSON.stringify(deck), power)
+      .bind(event.id, user.id, JSON.stringify(deck), power, event.id)
       .run();
+    if (!Number(joined.meta?.changes || 0))
+      return json({ error: "집결 시간이 종료되어 더 이상 공성전에 참여할 수 없습니다." }, 409);
     return json(await state(env, user, cfg, event));
   }
   if (path === "siege/attack" && request.method === "POST") {
@@ -403,6 +423,9 @@ export async function handleSiege({ path, request, env, deps }) {
     if (previous?.result_json) return json(jsonSafe(previous.result_json, {}));
     const event = await activeEvent(env, cfg, { create: false });
     if (!event) return json({ error: "진행 중인 공성전이 없습니다." }, 409);
+    const rallyEndsAt = event.rally_ends_at || event.starts_at;
+    if (Date.parse(`${rallyEndsAt}Z`) > Date.now())
+      return json({ error: "현재 집결 중입니다. 집결 시간이 끝난 뒤 공격할 수 있습니다." }, 409);
     const mine = await env.DB.prepare(
       "SELECT * FROM monster_siege_users WHERE event_id=? AND user_id=?",
     )
@@ -679,9 +702,9 @@ export async function handleSiege({ path, request, env, deps }) {
           Math.max(0, Math.min(4, Number(running.phase_index || 0)))
         ].hp;
         await env.DB.prepare(
-          "UPDATE monster_siege_events SET ends_at=datetime(starts_at,?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+          "UPDATE monster_siege_events SET rally_ends_at=datetime(starts_at,?),ends_at=datetime(starts_at,?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
         )
-          .bind(`+${next.durationMinutes} minutes`, phaseHp, phaseHp, running.id)
+          .bind(`+${next.rallyMinutes} minutes`, `+${next.rallyMinutes + next.durationMinutes} minutes`, phaseHp, phaseHp, running.id)
           .run();
       }
       return json({ ok: true, settings: next });

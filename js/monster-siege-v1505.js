@@ -90,7 +90,8 @@
     const cfg = data.settings,
       event = data.event,
       phase = data.phase,
-      mine = data.mine;
+      mine = data.mine,
+      rallyOpen = event?.rallyOpen === true;
     if (!event) {
       overlay.innerHTML = `<main class="ms-shell ms-empty"><button data-ms-close>×</button><div class="ms-moon"></div><h1>몬스터 공성전</h1><p>현재 진행 중인 공성전이 없습니다.</p>${reward()}</main>`;
       bind();
@@ -98,6 +99,21 @@
     }
     const pct = Math.max(0, Math.min(100, Number(phase.percent || 0)));
     overlay.innerHTML = `<main class="ms-shell phase-${String(phase.key).toLowerCase()}"><header class="ms-top"><div><small>SOOPKETMON ALLIANCE SIEGE · ${(Number(cfg.durationMinutes || 0) / 60).toFixed(1)} HOURS</small><h1>${esc(event.name)}</h1><p>${esc(phase.subtitle)}</p></div><div class="ms-clock"><span>공성 종료까지</span><b data-ms-clock>${clock(event.endsAt)}</b></div><button data-ms-close>×</button></header>${phaseTrack()}${reward()}<section class="ms-war-layout"><aside class="ms-orders"><header><small>SIEGE OPERATION</small><h3>연합 작전 현황</h3></header><article><i>⚔</i><span><b>총공격</b><small>모든 유저가 하나의 성채를 공격합니다.</small></span></article><article><i>◈</i><span><b>공성 병기</b><small>단계가 전환될 때마다 전장이 변화합니다.</small></span></article><article><i>✦</i><span><b>전선 기여</b><small>승패와 전투력에 따라 실제 피해가 누적됩니다.</small></span></article><div class="ms-my"><small>MY CONTRIBUTION</small><b>${fmt(mine?.damage || 0)}</b><span>${fmt(mine?.attacks || 0)}회 공격 · PVE 전투력 ${fmt(mine?.deckPower || 0)}</span></div></aside><section class="ms-battlefield"><div class="ms-art" aria-hidden="true"></div><div class="ms-sky"><i></i><i></i><i></i></div><div class="ms-target"><small>PHASE ${Number(phase.index) + 1} · ${esc(phase.key)}</small><h2>${esc(phase.name)}</h2><strong>${fmt(phase.hp)} <em>/ ${fmt(phase.maxHp)}</em></strong><div><i style="width:${pct}%"></i></div><span>${pct.toFixed(1)}%</span></div><button class="ms-attack" data-ms-${mine ? "attack" : "join"} ${busy ? "disabled" : ""}><span>${mine ? "공성 공격" : "공성전 참가"}</span><small>${mine ? "저장된 PVE 덱으로 성채 공격" : "PVE 덱 5장 필요"}</small></button></section>${ranking()}</section></main>`;
+    const actionButton = overlay.querySelector(".ms-attack");
+    const clockLabel = overlay.querySelector(".ms-clock span");
+    const clockValue = overlay.querySelector("[data-ms-clock]");
+    if (clockLabel) clockLabel.textContent = rallyOpen ? "집결 종료까지" : "공성 종료까지";
+    if (clockValue) clockValue.textContent = clock(rallyOpen ? event.rallyEndsAt : event.endsAt);
+    if (actionButton && rallyOpen && mine) {
+      actionButton.disabled = true;
+      actionButton.querySelector("span").textContent = "집결 완료";
+      actionButton.querySelector("small").textContent = "집결 종료 후 공격할 수 있습니다.";
+    } else if (actionButton && !rallyOpen && !mine) {
+      actionButton.disabled = true;
+      actionButton.querySelector("span").textContent = "참여 마감";
+      actionButton.querySelector("small").textContent = "집결 시간이 종료되었습니다.";
+      actionButton.removeAttribute("data-ms-join");
+    }
     bind();
   }
   function bind() {
@@ -250,7 +266,11 @@
       await load();
       timer = setInterval(() => {
         const el = overlay?.querySelector("[data-ms-clock]");
-        if (el && data?.event) el.textContent = clock(data.event.endsAt);
+        if (el && data?.event) {
+          const rallyOpen = data.event.rallyOpen === true && Date.parse(data.event.rallyEndsAt || "") > Date.now();
+          el.textContent = clock(rallyOpen ? data.event.rallyEndsAt : data.event.endsAt);
+          if (data.event.rallyOpen === true && !rallyOpen) load().catch(() => {});
+        }
       }, 1000);
     } catch (e) {
       overlay.innerHTML = `<main class="ms-shell ms-empty"><button data-ms-close>×</button><h1>공성전 진입 실패</h1><p>${esc(e.message)}</p></main>`;

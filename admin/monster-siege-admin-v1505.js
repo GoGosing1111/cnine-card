@@ -78,6 +78,13 @@
       <h3>공략 단계 · 몬스터 고정 전투력</h3><div class="formgrid">${cfg.phases.map((p, i) => `<label class="field"><span>${i + 1}. ${p.monsterName}</span><input class="msaPhasePower" data-i="${i}" type="number" min="1" max="2000000000" value="${p.battlePower}"><small>${p.name} · 모든 유저에게 동일한 고정 전투력</small></label>`).join("")}</div>
       <h3>전선 HP · 영토전형 기여 피해</h3><div class="formgrid"><label class="field"><span>승리 기여 배율(%)</span><input id="msaSiegeDamage" type="number" min="1" max="1000" value="${cfg.siegeDamagePercent}"><small>유저 PVE 전투력 × 배율이 승리 전선 피해</small></label><label class="field"><span>패배 기여율(%)</span><input id="msaDefeatContribution" type="number" min="0" max="100" value="${cfg.defeatContributionPercent}"><small>승리 예정 피해의 일부만 전선에 기여</small></label><label class="field"><span>예상 평균 PVE 전투력</span><input id="msaExpectedPower" type="number" min="1" value="${cfg.expectedPlayerPower}"><small>예상 판수 계산 전용이며 실제 승패에는 미사용</small></label>${cfg.phases.map((p, i) => `<label class="field"><span>${i + 1}. ${p.name} HP</span><input class="msaPhaseHp" data-i="${i}" type="number" min="1000" value="${p.hp}"><small>예상 승리 ${Math.ceil(p.hp / expectedHit).toLocaleString()}판 · 패배만이면 ${Math.ceil(p.hp / Math.max(1, Math.floor((expectedHit * cfg.defeatContributionPercent) / 100))).toLocaleString()}판</small></label>`).join("")}</div>
       <div class="bar"><button id="msaSave">설정 저장</button><button id="msaStart" ${event ? "disabled" : ""}>${(cfg.durationMinutes / 60).toFixed(1)}시간 공성전 시작</button><button id="msaSuccess" class="warn" ${event ? "" : "disabled"}>성공 종료</button><button id="msaFail" class="danger" ${event ? "" : "disabled"}>실패 종료</button></div>`;
+    const durationInput = $("#msaDuration");
+    if (durationInput && !$("#msaRally")) {
+      const rallyField = document.createElement("label");
+      rallyField.className = "field";
+      rallyField.innerHTML = `<span>집결 시간(분)</span><input id="msaRally" type="number" min="1" max="1440" value="${cfg.rallyMinutes}"><small>종료 후 신규 참여 차단 · 이후 전투 시작</small>`;
+      durationInput.closest("label")?.before(rallyField);
+    }
     $("#msaSave").onclick = save;
     $("#msaStart").onclick = () => operate("start");
     $("#msaSuccess").onclick = () => operate("finish", { success: true });
@@ -98,6 +105,7 @@
         ...last.settings,
         mode: $("#msaMode").value,
         name: $("#msaName").value,
+        rallyMinutes: Number($("#msaRally").value),
         durationMinutes: Number($("#msaDuration").value),
         attackCooldownSeconds: Number($("#msaCooldown").value),
         siegeDamagePercent: Number($("#msaSiegeDamage").value),
