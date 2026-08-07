@@ -16,7 +16,9 @@
     data = null,
     timer = null,
     busy = false,
-    viewportCleanup = null;
+    viewportCleanup = null,
+    serverOffset = 0,
+    lastServerNow = "";
   const api = (path, options = {}) =>
     globalThis.apiRequest(path, options, {
       ttl: 0,
@@ -24,14 +26,27 @@
       replaceInflight: true,
     });
   const requestId = () => `SIEGE:${crypto?.randomUUID?.() || Date.now()}`;
+  function serverTimestamp(value) {
+    const raw = String(value || "").trim();
+    if (!raw) return NaN;
+    return Date.parse(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(raw) ? `${raw.replace(" ", "T")}Z` : raw);
+  }
+  function serverClockNow() { return Date.now() + serverOffset; }
+  function syncServerClock(payload) {
+    const stamp = String(payload?.serverNow || "");
+    if (!stamp || stamp === lastServerNow) return;
+    const parsed = serverTimestamp(stamp);
+    if (Number.isFinite(parsed)) serverOffset = parsed - Date.now();
+    lastServerNow = stamp;
+  }
   function clock(value) {
-    const ms = Date.parse(value || "") - Date.now();
+    const ms = serverTimestamp(value) - serverClockNow();
     if (ms <= 0) return "00:00:00";
     const s = Math.floor(ms / 1000);
     return `${String(Math.floor(s / 3600)).padStart(2, "0")}:${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}`;
   }
   function rechargeClock(value) {
-    const ms = Date.parse(value || "") - Date.now();
+    const ms = serverTimestamp(value) - serverClockNow();
     if (ms <= 0) return "충전 확인 중";
     const seconds = Math.ceil(ms / 1000);
     return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
@@ -110,6 +125,7 @@
   }
   function render() {
     if (!overlay || !data) return;
+    syncServerClock(data);
     const cfg = data.settings,
       event = data.event,
       phase = data.phase,
@@ -124,10 +140,14 @@
     overlay.innerHTML = `<main class="ms-shell phase-${String(phase.key).toLowerCase()}"><header class="ms-top"><div><small>SOOPKETMON ALLIANCE SIEGE · ${(Number(cfg.durationMinutes || 0) / 60).toFixed(1)} HOURS</small><h1>${esc(event.name)}</h1><p>${esc(phase.subtitle)}</p></div><div class="ms-clock"><span>공성 종료까지</span><b data-ms-clock>${clock(event.endsAt)}</b></div><button data-ms-close>×</button></header>${phaseTrack()}${reward()}<section class="ms-war-layout"><aside class="ms-orders"><header><small>SIEGE OPERATION</small><h3>연합 작전 현황</h3></header><article><i>⚔</i><span><b>총공격</b><small>모든 유저가 하나의 성채를 공격합니다.</small></span></article><article><i>◈</i><span><b>공성 병기</b><small>단계가 전환될 때마다 전장이 변화합니다.</small></span></article><article><i>✦</i><span><b>전선 기여</b><small>승패와 전투력에 따라 실제 피해가 누적됩니다.</small></span></article><div class="ms-my"><small>MY CONTRIBUTION</small><b>${fmt(mine?.damage || 0)}</b><span>${fmt(mine?.attacks || 0)}회 공격 · PVE 전투력 ${fmt(mine?.deckPower || 0)}</span></div></aside><section class="ms-battlefield"><div class="ms-art" aria-hidden="true"></div><div class="ms-sky"><i></i><i></i><i></i></div><div class="ms-target"><small>PHASE ${Number(phase.index) + 1} · ${esc(phase.key)}</small><h2>${esc(phase.name)}</h2><strong>${fmt(phase.hp)} <em>/ ${fmt(phase.maxHp)}</em></strong><div><i style="width:${pct}%"></i></div><span>${pct.toFixed(1)}%</span></div><button class="ms-attack" data-ms-${mine ? "attack" : "join"} ${busy ? "disabled" : ""}><span>${mine ? "공성 공격" : "공성전 참가"}</span><small>${mine ? "저장된 PVE 덱으로 성채 공격" : "PVE 덱 5장 필요"}</small></button></section>${ranking()}</section></main>`;
     const actionButton = overlay.querySelector(".ms-attack");
     const targetPanel = overlay.querySelector(".ms-target");
+    const phaseTrackNode = overlay.querySelector(".ms-phase-track");
     const clockLabel = overlay.querySelector(".ms-clock span");
     const clockValue = overlay.querySelector("[data-ms-clock]");
     if (clockLabel) clockLabel.textContent = rallyOpen ? "집결 종료까지" : "공성 종료까지";
     if (clockValue) clockValue.textContent = clock(rallyOpen ? event.rallyEndsAt : event.endsAt);
+    if (rallyOpen && phaseTrackNode) {
+      phaseTrackNode.insertAdjacentHTML("afterend", `<section class="ms-rally-status"><div><i></i><span><small>FORMATION REGISTRATION</small><b>${mine ? "집결 신청 완료" : "공성 부대 편성 중"}</b></span></div><strong data-ms-rally-clock>${clock(event.rallyEndsAt)}</strong><p>${mine ? "편성이 등록되었습니다. 집결 종료 후 공격 버튼이 활성화됩니다." : "남은 시간 안에 참가해야 공성 전투에 출전할 수 있습니다."}</p></section>`);
+    }
     if (mine && targetPanel) {
       const energy = Math.max(0, Number(mine.energy || 0));
       const maxEnergy = Math.max(1, Number(mine.maxEnergy || 5));
@@ -302,15 +322,17 @@
       timer = setInterval(() => {
         const el = overlay?.querySelector("[data-ms-clock]");
         if (el && data?.event) {
-          const rallyOpen = data.event.rallyOpen === true && Date.parse(data.event.rallyEndsAt || "") > Date.now();
+          const rallyOpen = data.event.rallyOpen === true && serverTimestamp(data.event.rallyEndsAt) > serverClockNow();
           el.textContent = clock(rallyOpen ? data.event.rallyEndsAt : data.event.endsAt);
+          const rallyClock = overlay?.querySelector("[data-ms-rally-clock]");
+          if (rallyClock) rallyClock.textContent = clock(data.event.rallyEndsAt);
           if (data.event.rallyOpen === true && !rallyOpen) load().catch(() => {});
         }
         const energyTimer = overlay?.querySelector("[data-ms-energy-timer]");
         if (energyTimer && data?.mine) {
           const energy = Number(data.mine.energy || 0), max = Number(data.mine.maxEnergy || 5);
           if (energy >= max) energyTimer.textContent = "충전 완료";
-          else if (Date.parse(data.mine.nextRechargeAt || "") <= Date.now()) load().catch(() => {});
+          else if (serverTimestamp(data.mine.nextRechargeAt) <= serverClockNow()) load().catch(() => {});
           else energyTimer.textContent = `다음 충전 ${rechargeClock(data.mine.nextRechargeAt)}`;
         }
       }, 1000);
