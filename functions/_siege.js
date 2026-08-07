@@ -759,17 +759,22 @@ export async function handleSiege({ path, request, env, deps }) {
         .bind(KEY, JSON.stringify(next))
         .run();
       const running = await env.DB.prepare(
-        "SELECT id,phase_index FROM monster_siege_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1",
+        "SELECT id,phase_index,rally_ends_at FROM monster_siege_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1",
       ).first();
       if (running) {
         const phaseHp = next.phases[
           Math.max(0, Math.min(4, Number(running.phase_index || 0)))
         ].hp;
-        await env.DB.prepare(
-          "UPDATE monster_siege_events SET rally_ends_at=datetime(starts_at,?),ends_at=datetime(starts_at,?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
-        )
-          .bind(`+${next.rallyMinutes} minutes`, `+${next.rallyMinutes + next.durationMinutes} minutes`, phaseHp, phaseHp, running.id)
-          .run();
+        const rallyOpen = Date.parse(`${running.rally_ends_at || ""}Z`) > Date.now();
+        if (rallyOpen) {
+          await env.DB.prepare(
+            "UPDATE monster_siege_events SET rally_ends_at=datetime('now',?),ends_at=datetime('now',?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+          ).bind(`+${next.rallyMinutes} minutes`, `+${next.rallyMinutes + next.durationMinutes} minutes`, phaseHp, phaseHp, running.id).run();
+        } else {
+          await env.DB.prepare(
+            "UPDATE monster_siege_events SET ends_at=datetime('now',?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+          ).bind(`+${next.durationMinutes} minutes`, phaseHp, phaseHp, running.id).run();
+        }
       }
       return json({ ok: true, settings: next });
     }
@@ -779,6 +784,17 @@ export async function handleSiege({ path, request, env, deps }) {
     if (existing)
       return json({ error: "이미 진행 중인 공성전이 있습니다." }, 409);
     return json({ ok: true, event: await createEvent(env, cfg) });
+  }
+  if (path === "admin/siege/begin-battle" && request.method === "POST") {
+    const event = await activeEvent(env, cfg, { create: false });
+    if (!event) return json({ error: "진행 중인 공성전 편성대기가 없습니다." }, 404);
+    const rallyEndsAt = event.rally_ends_at || event.starts_at;
+    if (Date.parse(`${rallyEndsAt}Z`) <= Date.now())
+      return json({ error: "이미 공성 전투가 시작되었습니다." }, 409);
+    await env.DB.prepare(
+      "UPDATE monster_siege_events SET rally_ends_at=CURRENT_TIMESTAMP,ends_at=datetime('now',?),version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+    ).bind(`+${cfg.durationMinutes} minutes`, event.id).run();
+    return json({ ok: true, stage: "BATTLE" });
   }
   if (path === "admin/siege/finish" && request.method === "POST") {
     const event = await activeEvent(env, cfg, { create: false });

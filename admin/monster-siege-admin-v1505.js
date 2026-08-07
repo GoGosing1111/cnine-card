@@ -85,8 +85,27 @@
       rallyField.innerHTML = `<span>집결 시간(분)</span><input id="msaRally" type="number" min="1" max="1440" value="${cfg.rallyMinutes}"><small>종료 후 신규 참여 차단 · 이후 전투 시작</small>`;
       durationInput.closest("label")?.before(rallyField);
     }
+    const stage = !event ? "IDLE" : event.stage === "RALLY" ? "RALLY" : "BATTLE";
+    const bar = $("#msaStart")?.closest(".bar"), startButton = $("#msaStart"), successButton = $("#msaSuccess"), failButton = $("#msaFail");
+    if (startButton) { startButton.textContent = `편성대기 시작 · ${Number(cfg.rallyMinutes)}분`; startButton.hidden = stage !== "IDLE"; startButton.disabled = stage !== "IDLE"; }
+    if (bar && !$("#msaBeginBattle")) {
+      const beginButton = document.createElement("button");
+      beginButton.id = "msaBeginBattle"; beginButton.className = "warn"; beginButton.textContent = "편성 마감 · 즉시 전투 시작";
+      startButton?.after(beginButton);
+    }
+    if ($("#msaBeginBattle")) $("#msaBeginBattle").hidden = stage !== "RALLY";
+    if (successButton) successButton.hidden = stage !== "BATTLE";
+    if (failButton) failButton.hidden = stage !== "BATTLE";
+    const head = root.querySelector(".maintenanceHead div");
+    if (head && event) {
+      const status = document.createElement("div");
+      status.className = `inlineNotice ${stage === "RALLY" ? "warn" : "ok"}`;
+      status.textContent = stage === "RALLY" ? `현재 편성대기 중 · 참가 마감 ${event.rallyEndsAt}` : `현재 공성 전투 중 · 종료 예정 ${event.endsAt}`;
+      head.appendChild(status);
+    }
     $("#msaSave").onclick = save;
     $("#msaStart").onclick = () => operate("start");
+    $("#msaBeginBattle").onclick = () => operate("begin-battle");
     $("#msaSuccess").onclick = () => operate("finish", { success: true });
     $("#msaFail").onclick = () => operate("finish", { success: false });
   }
@@ -128,14 +147,12 @@
     alert("공성전 설정이 저장되었습니다.");
   }
   async function operate(action, body = {}) {
-    if (
-      !confirm(
-        action === "start"
-          ? `${(last.settings.durationMinutes / 60).toFixed(1)}시간 공성전을 지금 시작할까요?`
-          : "현재 공성전을 즉시 정산할까요?",
-      )
-    )
-      return;
+    const message = action === "start"
+      ? `${Number(last.settings.rallyMinutes)}분 편성대기를 지금 시작할까요?`
+      : action === "begin-battle"
+        ? "편성을 마감하고 지금부터 공성 전투를 시작할까요?"
+        : "현재 공성전을 즉시 정산할까요?";
+    if (!confirm(message)) return;
     await api(`admin/siege/${action}`, {
       method: "POST",
       body: JSON.stringify(body),

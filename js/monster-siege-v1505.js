@@ -89,7 +89,24 @@
   function reward() {
     const r = data.reward;
     if (!r) return "";
-    return `<section class="ms-reward"><div><small>SIEGE SETTLEMENT</small><h3>공성전 보상 도착</h3><span>코인 ${fmt(r.coin)} · 카드 조각 ${fmt(r.shards)}${r.items?.length ? ` · ${r.items.map((item) => `${esc(item.code)} ×${fmt(item.quantity)}`).join(" · ")}` : ""}</span></div><button data-ms-claim>보상 수령</button></section>`;
+    const items = [
+      Number(r.coin) > 0 ? { icon: "◈", name: "코인", amount: r.coin } : null,
+      Number(r.shards) > 0 ? { icon: "◆", name: "카드 조각", amount: r.shards } : null,
+      ...(r.items || []).map((item) => ({ icon: "✦", name: item.code === "VEHICLE_DRAW_TICKET" ? "이동수단 뽑기권" : item.code, amount: item.quantity })),
+    ].filter(Boolean);
+    return `<section class="ms-reward ms-reward-final"><div class="ms-reward-seal"><i></i><b>VICTORY</b></div><div class="ms-reward-copy"><small>SIEGE FINAL SETTLEMENT</small><h3>연합 공성 보상</h3><p>전선 기여 기록이 확인되었습니다. 아래 보상을 인벤토리로 수령하세요.</p><div class="ms-reward-items">${items.map((item) => `<article><i>${item.icon}</i><span>${esc(item.name)}</span><b>× ${fmt(item.amount)}</b></article>`).join("")}</div></div><button data-ms-claim><span>보상 수령</span><small>인벤토리에 즉시 지급</small></button></section>`;
+  }
+  function showClaimReceipt(out) {
+    const items = [
+      Number(out.coin) > 0 ? ["코인", out.coin] : null,
+      Number(out.shards) > 0 ? ["카드 조각", out.shards] : null,
+      ...(out.items || []).map((item) => [item.code === "VEHICLE_DRAW_TICKET" ? "이동수단 뽑기권" : item.code, item.quantity]),
+    ].filter(Boolean);
+    const receipt = document.createElement("div");
+    receipt.className = "ms-claim-receipt";
+    receipt.innerHTML = `<section><div class="ms-claim-burst"><i></i><b>✓</b></div><small>REWARD ACQUIRED</small><h2>공성 보상 수령 완료</h2><p>보상이 인벤토리에 안전하게 지급되었습니다.</p><div>${items.map(([name, amount]) => `<article><span>${esc(name)}</span><b>+${fmt(amount)}</b></article>`).join("")}</div><button type="button">확인</button></section>`;
+    overlay.appendChild(receipt);
+    receipt.querySelector("button").onclick = () => receipt.remove();
   }
   function render() {
     if (!overlay || !data) return;
@@ -258,10 +275,8 @@
     busy = true;
     try {
       const out = await api("siege/claim", { method: "POST", body: "{}" });
-      alert(
-        `코인 ${fmt(out.coin)} · 카드 조각 ${fmt(out.shards)}${out.items?.length ? ` · ${out.items.map((item) => `${item.code} ×${fmt(item.quantity)}`).join(" · ")}` : ""} 수령 완료`,
-      );
       await load();
+      showClaimReceipt(out);
     } catch (e) {
       alert(e.message);
     } finally {
