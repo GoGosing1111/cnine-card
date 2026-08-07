@@ -10,6 +10,7 @@ import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedT
 import { handleVehicleDraw } from '../_vehicle_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
+import { handleSiege } from '../_siege.js';
 import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
@@ -3134,6 +3135,7 @@ async function handleRequest(context){
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies}});if(territoryWarResponse)return territoryWarResponse;
+    const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,battleSettings,cardBattlePower}});if(siegeResponse)return siegeResponse;
 
     if(path==='user/runtime-command'){
       const user=await authenticate(request,env);
