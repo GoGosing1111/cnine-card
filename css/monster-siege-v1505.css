@@ -23,3 +23,16 @@
 .siege-v2-win-reward{display:grid;gap:4px;margin:6px 0;padding:11px 18px;border:1px solid #ffd47a55;border-radius:12px;background:#7c4c151f}
 .siege-v2-win-reward small{color:#ffd88f}
 .siege-v2-win-reward b{font-size:18px;color:#fff0b8}
+
+/* v1511: PC/PWA siege uses the full stage instead of inheriting the legacy 3-column arena. */
+.siege-v2-battle-modal .layout-desktop .battle-v2-arena{display:block!important;min-height:clamp(780px,calc(100dvh - 48px),980px)!important;padding:64px clamp(20px,3vw,48px) 22px!important}
+.siege-v2-battle-modal .layout-desktop .focus-battle{width:100%!important;min-height:690px!important;grid-template-rows:minmax(78px,auto) minmax(520px,1fr) minmax(90px,auto)!important;gap:12px!important}
+.siege-v2-battle-modal .layout-desktop .focus-duel{width:100%;min-height:520px!important;grid-template-columns:minmax(280px,1fr) minmax(150px,.34fr) minmax(280px,1fr)!important;gap:clamp(20px,4vw,72px)!important;padding:12px clamp(12px,3vw,48px)!important}
+.siege-v2-battle-modal .layout-desktop .focus-slot .battle-card-v2{width:clamp(270px,22vw,320px)!important;height:480px!important}
+.siege-v2-battle-modal .layout-desktop .focus-slot .battle-v2-frame-shell{height:408px!important}
+.siege-v2-battle-modal .layout-desktop .focus-slot .battle-v2-card-frame.card-frame{width:clamp(248px,20vw,294px)!important;height:408px!important}
+.siege-v2-battle-modal .layout-desktop .focus-slot .hp-stack{width:min(304px,24vw)!important}
+.siege-v2-battle-modal .layout-desktop .focus-roster{width:min(1240px,calc(100% - 40px));justify-self:center;align-self:center;min-height:84px!important;padding:9px 12px!important}
+.siege-v2-battle-modal .layout-desktop .focus-roster-b:has(.focus-mini-card:only-child){grid-template-columns:minmax(260px,420px);justify-content:center}
+.siege-v2-battle-modal .layout-desktop .focus-mini-card{height:68px!important}
+@media(max-height:900px) and (min-width:761px){.siege-v2-battle-modal .layout-desktop .battle-v2-arena{min-height:720px!important;padding-top:56px!important}.siege-v2-battle-modal .layout-desktop .focus-battle{min-height:630px!important;grid-template-rows:72px minmax(470px,1fr) 78px!important}.siege-v2-battle-modal .layout-desktop .focus-duel{min-height:470px!important}.siege-v2-battle-modal .layout-desktop .focus-slot .battle-card-v2{width:270px!important;height:430px!important}.siege-v2-battle-modal .layout-desktop .focus-slot .battle-v2-frame-shell{height:360px!important}.siege-v2-battle-modal .layout-desktop .focus-slot .battle-v2-card-frame.card-frame{width:248px!important;height:360px!important}}
