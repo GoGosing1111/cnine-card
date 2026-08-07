@@ -18,7 +18,8 @@
     busy = false,
     viewportCleanup = null,
     serverOffset = 0,
-    lastServerNow = "";
+    lastServerNow = "",
+    lastRallyPollAt = 0;
   const api = (path, options = {}) =>
     globalThis.apiRequest(path, options, {
       ttl: 0,
@@ -327,6 +328,10 @@
           const rallyClock = overlay?.querySelector("[data-ms-rally-clock]");
           if (rallyClock) rallyClock.textContent = clock(data.event.rallyEndsAt);
           if (data.event.rallyOpen === true && !rallyOpen) load().catch(() => {});
+          else if (rallyOpen && !busy && Date.now() - lastRallyPollAt >= 5000) {
+            lastRallyPollAt = Date.now();
+            load().catch(() => {});
+          }
         }
         const energyTimer = overlay?.querySelector("[data-ms-energy-timer]");
         if (energyTimer && data?.mine) {
