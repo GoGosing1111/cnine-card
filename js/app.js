@@ -16,10 +16,10 @@ let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,update
 let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
 const magicUiState={deckType:'PVE',selectedSlot:1};
 
-const gradeOrder = { FUR: 11, PRESTIGE: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
-const gradeScore = { LIMITED: 3000, FUR: 5000, MA: 1500, SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
+const gradeOrder = { ZENITH:12, FUR: 11, PRESTIGE: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
+const gradeScore = { ZENITH:8000, LIMITED: 3000, FUR: 5000, MA: 1500, SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
 const baseRates = { FUR: 0, MA: 0, SSR: 1, UR: 4, HR: 7, SR: 13, R: 20, U: 25, C: 30 };
-const shardReward = { LIMITED:180, FUR:250, MA:120, SSR:60, UR:30, HR:15, SR:8, R:4, U:2, C:1 };
+const shardReward = { ZENITH:400, LIMITED:180, FUR:250, MA:120, SSR:60, UR:30, HR:15, SR:8, R:4, U:2, C:1 };
 const breakthroughCosts = [50,100,200,350,550,800,1100,1450,1850,2300,3000,3800,4800];
 const breakthroughRates = [100,100,100,80,65,50,35,25,15,8,5,3,1];
 const breakthroughMinGrade = 'SR';
@@ -48,7 +48,7 @@ let PACKS = [
 ];
 
 function packRangeFromAllowed(allowed = []) {
-  const ordered = ['C','U','R','SR','HR','UR','SSR','MA','FUR'];
+  const ordered = ['C','U','R','SR','HR','UR','SSR','MA','FUR','ZENITH'];
   const normal = ordered.filter(g => allowed.includes(g));
   if (!normal.length) return allowed.includes('LIMITED') ? 'LIMITED' : '-';
   const base = normal.length === 1 ? normal[0] : `${normal[0]} ~ ${normal.at(-1)}`;
@@ -2066,7 +2066,8 @@ function cardHtml(card, owned, classes='', user=loadUser()) {
   const topBadges=iconCard?`<div class="deck-card-top-badges">${deckAbilityIconHtml(card,classes)}${level>0?`<div class="breakthrough-badge">★${level}</div>`:''}</div>`:(level>0?`<div class="breakthrough-badge">★${level}</div>`:'');
   const revealCard=/(?:result-card|special-reveal-card-ui)/.test(String(classes));
   const imageLoading=revealCard?'eager':'lazy',fetchPriority=revealCard?'high':'auto';
-  return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art"><img loading="${imageLoading}" fetchpriority="${fetchPriority}" decoding="async" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></article>`;
+  const zenithFrame=String(card.grade||'').toUpperCase()==='ZENITH'?'<img class="zenith-card-frame" src="assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">':'';
+  return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art"><img loading="${imageLoading}" fetchpriority="${fetchPriority}" decoding="async" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div>${zenithFrame}</article>`;
 }
 
 function showDetail(id,initialTab='auto') {
