@@ -4,12 +4,15 @@ const DEFAULTS = {
   name: "심연의 황혼 성채",
   durationMinutes: 360,
   attackCooldownSeconds: 10,
-  victoryDamagePercent: 40,
-  defeatDamagePercent: 25,
+  siegeDamagePercent: 100,
+  defeatContributionPercent: 25,
+  expectedPlayerPower: 20000,
   perBattleWinCoin: 3000,
   perBattleWinShards: 30,
+  perBattleWinItems: [],
   rewardCoin: 50000,
   rewardShards: 500,
+  finalRewardItems: [],
   minAttacks: 1,
   phases: [
     {
@@ -82,6 +85,19 @@ const clamp = (value, min, max, fallback = min) => {
     ? Math.max(min, Math.min(max, Math.floor(n)))
     : fallback;
 };
+const cleanRewardItems = (items) => {
+  const merged = new Map();
+  for (const item of Array.isArray(items) ? items.slice(0, 10) : []) {
+    const code = String(item?.code || item?.itemCode || "")
+      .trim()
+      .toUpperCase()
+      .replace(/[^A-Z0-9_-]/g, "")
+      .slice(0, 80);
+    const quantity = clamp(item?.quantity, 1, 100000, 1);
+    if (code) merged.set(code, Math.min(100000, (merged.get(code) || 0) + quantity));
+  }
+  return [...merged].map(([code, quantity]) => ({ code, quantity }));
+};
 const cleanSettings = (raw) => {
   const phases = Array.from({ length: 5 }, (_, i) => {
     const base = DEFAULTS.phases[i],
@@ -106,14 +122,17 @@ const cleanSettings = (raw) => {
     name: String(raw?.name || DEFAULTS.name)
       .trim()
       .slice(0, 50),
-    durationMinutes: 360,
+    durationMinutes: clamp(raw?.durationMinutes, 30, 10080, 360),
     attackCooldownSeconds: clamp(raw?.attackCooldownSeconds, 2, 300, 10),
-    victoryDamagePercent: clamp(raw?.victoryDamagePercent, 26, 100, 40),
-    defeatDamagePercent: 25,
+    siegeDamagePercent: clamp(raw?.siegeDamagePercent, 1, 1000, 100),
+    defeatContributionPercent: clamp(raw?.defeatContributionPercent, 0, 100, 25),
+    expectedPlayerPower: clamp(raw?.expectedPlayerPower, 1, 2000000000, 20000),
     perBattleWinCoin: clamp(raw?.perBattleWinCoin, 0, 100000000, 3000),
     perBattleWinShards: clamp(raw?.perBattleWinShards, 0, 100000000, 30),
+    perBattleWinItems: cleanRewardItems(raw?.perBattleWinItems),
     rewardCoin: clamp(raw?.rewardCoin, 0, 100000000, 50000),
     rewardShards: clamp(raw?.rewardShards, 0, 100000000, 500),
+    finalRewardItems: cleanRewardItems(raw?.finalRewardItems),
     minAttacks: clamp(raw?.minAttacks, 1, 1000, 1),
     phases,
   };
@@ -147,6 +166,13 @@ async function ensure(env) {
     )
       .bind(KEY, JSON.stringify(DEFAULTS))
       .run();
+    try {
+      await env.DB.prepare(
+        "ALTER TABLE monster_siege_rewards ADD COLUMN items_json TEXT NOT NULL DEFAULT '[]'",
+      ).run();
+    } catch (error) {
+      if (!/duplicate column/i.test(String(error?.message || error))) throw error;
+    }
   })().catch((error) => {
     ensurePromise = null;
     throw error;
@@ -159,6 +185,32 @@ async function settings(env) {
     .bind(KEY)
     .first();
   return cleanSettings(jsonSafe(row?.value, {}));
+}
+async function territoryBenchmark(env) {
+  try {
+    const rows = (
+      await env.DB.prepare(
+        `SELECT r.id,COUNT(u.user_id) participants,COALESCE(SUM(u.attacks),0) attacks,ROUND(MAX(0,(julianday(COALESCE(r.settled_at,r.ends_at,r.updated_at))-julianday(COALESCE(r.starts_at,r.created_at)))*24),1) hours
+         FROM territory_war_v3_rounds r LEFT JOIN territory_war_v3_users u ON u.round_id=r.id
+         WHERE r.status IN ('FINISHED','COMPLETED') GROUP BY r.id ORDER BY r.id DESC LIMIT 5`,
+      ).all()
+    ).results || [];
+    if (!rows.length) return { rounds: 0, averageParticipants: 0, averageAttacks: 0, averageHours: 0 };
+    const average = (key) =>
+      Math.round(
+        (rows.reduce((sum, row) => sum + Number(row[key] || 0), 0) /
+          rows.length) *
+          10,
+      ) / 10;
+    return {
+      rounds: rows.length,
+      averageParticipants: average("participants"),
+      averageAttacks: average("attacks"),
+      averageHours: average("hours"),
+    };
+  } catch {
+    return { rounds: 0, averageParticipants: 0, averageAttacks: 0, averageHours: 0 };
+  }
 }
 async function createEvent(env, cfg) {
   const first = cfg.phases[0],
@@ -187,11 +239,12 @@ async function settle(env, event, cfg, status) {
     const eligible = Number(row.attacks) >= cfg.minAttacks,
       ratio = success ? 1 : 0.35,
       coin = eligible ? Math.floor(cfg.rewardCoin * ratio) : 0,
-      shards = eligible ? Math.floor(cfg.rewardShards * ratio) : 0;
+      shards = eligible ? Math.floor(cfg.rewardShards * ratio) : 0,
+      items = eligible && success ? cfg.finalRewardItems : [];
     statements.push(
       env.DB.prepare(
-        "INSERT OR IGNORE INTO monster_siege_rewards(event_id,user_id,coin,shards) VALUES(?,?,?,?)",
-      ).bind(event.id, row.user_id, coin, shards),
+        "INSERT OR IGNORE INTO monster_siege_rewards(event_id,user_id,coin,shards,items_json) VALUES(?,?,?,?,?)",
+      ).bind(event.id, row.user_id, coin, shards, JSON.stringify(items)),
     );
   }
   statements.push(
@@ -278,7 +331,12 @@ async function state(env, user, cfg, event) {
         }
       : null,
     ranking,
-    reward: reward || null,
+    reward: reward
+      ? {
+          ...reward,
+          items: cleanRewardItems(jsonSafe(reward.items_json, [])),
+        }
+      : null,
     serverNow: new Date().toISOString(),
   };
 }
@@ -314,7 +372,7 @@ export async function handleSiege({ path, request, env, deps }) {
       return json({ error: "공성전이 중지되어 있습니다." }, 409);
     const event = await activeEvent(env, cfg, { create: false });
     if (!event)
-      return json({ error: "CMS에서 6시간 공성전을 먼저 시작하세요." }, 409);
+      return json({ error: "CMS에서 공성전을 먼저 시작하세요." }, 409);
     const deck = await pveDeckSnapshot(env, user.id);
     if (deck.length !== 5)
       return json({ error: "PVE 덱 5장을 먼저 저장하세요." }, 400);
@@ -399,19 +457,19 @@ export async function handleSiege({ path, request, env, deps }) {
         seed,
       }),
       result = battleV2.result.winner === "A" ? "WIN" : "LOSE",
-      damagePercent =
-        result === "WIN" ? cfg.victoryDamagePercent : cfg.defeatDamagePercent,
-      raw = Math.max(
+      baseContribution = Math.max(
         1,
-        Math.floor(
-          (Number(event.phase_max_hp || phase.hp) * damagePercent) / 100,
-        ),
+        Math.floor((playerPower * cfg.siegeDamagePercent) / 100),
       ),
+      contributionPercent =
+        result === "WIN" ? 100 : cfg.defeatContributionPercent,
+      raw = Math.max(1, Math.floor((baseContribution * contributionPercent) / 100)),
       damage = Math.min(raw, Number(event.phase_hp || 0)),
       nextHp = Math.max(0, Number(event.phase_hp || 0) - damage),
       winReward = {
         coin: result === "WIN" ? cfg.perBattleWinCoin : 0,
         shards: result === "WIN" ? cfg.perBattleWinShards : 0,
+        items: result === "WIN" ? cfg.perBattleWinItems : [],
       };
     let nextIndex = Number(event.phase_index || 0),
       cleared = false;
@@ -428,7 +486,10 @@ export async function handleSiege({ path, request, env, deps }) {
         "UPDATE monster_siege_users SET attacks=attacks+1,damage=damage+?,last_attack_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=?",
       ).bind(damage, event.id, user.id),
     ];
-    if (result === "WIN" && (winReward.coin > 0 || winReward.shards > 0)) {
+    if (
+      result === "WIN" &&
+      (winReward.coin > 0 || winReward.shards > 0 || winReward.items.length)
+    ) {
       statements.push(
         env.DB.prepare(
           "UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?",
@@ -454,6 +515,23 @@ export async function handleSiege({ path, request, env, deps }) {
             user.id,
           ),
         );
+      for (const item of winReward.items) {
+        statements.push(
+          env.DB.prepare(
+            "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP",
+          ).bind(user.id, item.code, item.quantity, item.quantity),
+          env.DB.prepare(
+            "INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'MONSTER_SIEGE_BATTLE_WIN','MONSTER_SIEGE',? FROM cnine_user_inventory WHERE user_id=? AND item_code=?",
+          ).bind(
+            user.id,
+            item.code,
+            item.quantity,
+            requestId,
+            user.id,
+            item.code,
+          ),
+        );
+      }
     }
     if (cleared)
       statements.push(
@@ -484,7 +562,8 @@ export async function handleSiege({ path, request, env, deps }) {
         ok: true,
         result,
         damage,
-        damagePercent,
+        contributionPercent,
+        baseContribution,
         winReward,
         playerPower,
         monsterPower,
@@ -519,33 +598,91 @@ export async function handleSiege({ path, request, env, deps }) {
       .bind(user.id)
       .first();
     if (!reward) return json({ error: "수령할 공성전 보상이 없습니다." }, 404);
-    const results = await env.DB.batch([
+    const rewardItems = cleanRewardItems(jsonSafe(reward.items_json, []));
+    const statements = [
       env.DB.prepare(
         "UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND EXISTS (SELECT 1 FROM monster_siege_rewards WHERE event_id=? AND user_id=? AND claimed_at IS NULL)",
       ).bind(reward.coin, reward.shards, user.id, reward.event_id, user.id),
       env.DB.prepare(
+        "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'MONSTER_SIEGE_FINAL_REWARD' FROM users WHERE id=? AND EXISTS (SELECT 1 FROM monster_siege_rewards WHERE event_id=? AND user_id=? AND claimed_at IS NULL) AND ?>0",
+      ).bind(reward.coin, user.id, reward.event_id, user.id, reward.coin),
+      env.DB.prepare(
+        "INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT id,?,card_shards,'MONSTER_SIEGE_FINAL_REWARD',NULL FROM users WHERE id=? AND EXISTS (SELECT 1 FROM monster_siege_rewards WHERE event_id=? AND user_id=? AND claimed_at IS NULL) AND ?>0",
+      ).bind(reward.shards, user.id, reward.event_id, user.id, reward.shards),
+    ];
+    for (const item of rewardItems) {
+      statements.push(
+        env.DB.prepare(
+          "INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS (SELECT 1 FROM monster_siege_rewards WHERE event_id=? AND user_id=? AND claimed_at IS NULL) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP",
+        ).bind(user.id, item.code, item.quantity, item.quantity, reward.event_id, user.id),
+        env.DB.prepare(
+          "INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'MONSTER_SIEGE_FINAL_REWARD','MONSTER_SIEGE',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND EXISTS (SELECT 1 FROM monster_siege_rewards WHERE event_id=? AND user_id=? AND claimed_at IS NULL)",
+        ).bind(user.id, item.code, item.quantity, String(reward.event_id), user.id, item.code, reward.event_id, user.id),
+      );
+    }
+    statements.push(
+      env.DB.prepare(
         "UPDATE monster_siege_rewards SET claimed_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND claimed_at IS NULL",
       ).bind(reward.event_id, user.id),
-    ]);
+    );
+    const results = await env.DB.batch(statements);
     if (
       !Number(results[0]?.meta?.changes || 0) ||
-      !Number(results[1]?.meta?.changes || 0)
+      !Number(results[results.length - 1]?.meta?.changes || 0)
     )
       return json({ error: "이미 수령한 보상입니다." }, 409);
-    return json({ ok: true, coin: reward.coin, shards: reward.shards });
+    return json({ ok: true, coin: reward.coin, shards: reward.shards, items: rewardItems });
   }
   if (path === "admin/siege/settings") {
     if (request.method === "GET") {
       const event = await activeEvent(env, cfg, { create: false });
-      return json({ settings: cfg, state: await state(env, user, cfg, event) });
+      return json({
+        settings: cfg,
+        state: await state(env, user, cfg, event),
+        territoryBenchmark: await territoryBenchmark(env),
+      });
     }
     if (request.method === "POST") {
       const next = cleanSettings(await readBody(request));
+      const itemCodes = [
+        ...next.perBattleWinItems,
+        ...next.finalRewardItems,
+      ].map((item) => item.code);
+      if (itemCodes.length) {
+        const uniqueCodes = [...new Set(itemCodes)];
+        const found = (
+          await env.DB.prepare(
+            `SELECT code FROM inventory_items WHERE code IN (${uniqueCodes.map(() => "?").join(",")}) AND is_active=1`,
+          )
+            .bind(...uniqueCodes)
+            .all()
+        ).results || [];
+        const foundCodes = new Set(found.map((row) => String(row.code)));
+        const invalid = uniqueCodes.filter((code) => !foundCodes.has(code));
+        if (invalid.length)
+          return json(
+            { error: `사용할 수 없는 아이템 코드입니다: ${invalid.join(", ")}` },
+            400,
+          );
+      }
       await env.DB.prepare(
         "INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)",
       )
         .bind(KEY, JSON.stringify(next))
         .run();
+      const running = await env.DB.prepare(
+        "SELECT id,phase_index FROM monster_siege_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1",
+      ).first();
+      if (running) {
+        const phaseHp = next.phases[
+          Math.max(0, Math.min(4, Number(running.phase_index || 0)))
+        ].hp;
+        await env.DB.prepare(
+          "UPDATE monster_siege_events SET ends_at=datetime(starts_at,?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+        )
+          .bind(`+${next.durationMinutes} minutes`, phaseHp, phaseHp, running.id)
+          .run();
+      }
       return json({ ok: true, settings: next });
     }
   }
