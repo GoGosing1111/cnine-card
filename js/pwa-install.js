@@ -2,6 +2,7 @@
   if(!('serviceWorker' in navigator))return;
   let installPrompt=null;
   const installed=()=>window.matchMedia?.('(display-mode: standalone)')?.matches===true;
+  const lockPortrait=()=>{if(installed()&&screen.orientation?.lock)screen.orientation.lock('portrait-primary').catch(()=>{})};
   const appleMobile=/iPhone|iPad|iPod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
   const removeButton=()=>document.getElementById('pwaInstallButton')?.remove();
   const closeGuide=()=>document.getElementById('pwaInstallGuide')?.remove();
@@ -28,7 +29,7 @@
     document.body.appendChild(button);
   };
   window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;renderButton()});
-  window.addEventListener('appinstalled',()=>{installPrompt=null;removeButton();closeGuide()});
+  window.addEventListener('appinstalled',()=>{installPrompt=null;removeButton();closeGuide();lockPortrait()});
   new MutationObserver(renderButton).observe(document.body,{childList:true,subtree:true});
-  window.addEventListener('load',()=>{renderButton();navigator.serviceWorker.register('/service-worker.js',{scope:'/'}).catch(error=>console.warn('PWA service worker registration failed',error))},{once:true});
+  window.addEventListener('load',()=>{renderButton();lockPortrait();navigator.serviceWorker.register('/service-worker.js',{scope:'/'}).catch(error=>console.warn('PWA service worker registration failed',error))},{once:true});
 })();
