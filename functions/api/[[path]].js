@@ -145,58 +145,50 @@ let cardCatalogCache=null,cardUniqueRowsCache=null,packCatalogCache=null;
 function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null}
 let drawReceiptV2ReadyPromise=null;
 let furFirstPityV1291ReadyPromise=null;
-let drawAutomationGuardReadyPromise=null;
+let drawBrowserLeaseReadyPromise=null;
+const DRAW_BROWSER_LEASE_MS=15000;
 
-const DRAW_GUARD_MIN_INTERVAL_MS=4000;
-const DRAW_GUARD_SHORT_WINDOW_MS=60000;
-const DRAW_GUARD_SHORT_MAX=10;
-const DRAW_GUARD_LONG_WINDOW_MS=3600000;
-const DRAW_GUARD_LONG_MAX=60;
-
-async function ensureDrawAutomationGuard(env){
-  if(drawAutomationGuardReadyPromise)return drawAutomationGuardReadyPromise;
-  drawAutomationGuardReadyPromise=env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_automation_guard_v1303 (
-    user_id INTEGER PRIMARY KEY,
-    last_request_at_ms INTEGER NOT NULL DEFAULT 0,
-    short_window_started_at_ms INTEGER NOT NULL DEFAULT 0,
-    short_request_count INTEGER NOT NULL DEFAULT 0,
-    long_window_started_at_ms INTEGER NOT NULL DEFAULT 0,
-    long_request_count INTEGER NOT NULL DEFAULT 0,
-    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
-  )`).run().then(()=>true).catch(error=>{drawAutomationGuardReadyPromise=null;throw error});
-  return drawAutomationGuardReadyPromise;
+async function ensureDrawBrowserLease(env){
+  if(drawBrowserLeaseReadyPromise)return drawBrowserLeaseReadyPromise;
+  drawBrowserLeaseReadyPromise=env.DB.batch([
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_browser_lease_v1480 (
+      user_id INTEGER PRIMARY KEY,browser_id TEXT NOT NULL,lease_until_ms INTEGER NOT NULL DEFAULT 0,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`),
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_active_lock_v1480 (
+      user_id INTEGER PRIMARY KEY,request_id TEXT NOT NULL,lease_until_ms INTEGER NOT NULL DEFAULT 0,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`),
+    env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_draw_active_lock_release_v1480
+      AFTER UPDATE OF status ON draw_request_receipts_v2 WHEN NEW.status<>'PENDING'
+      BEGIN DELETE FROM draw_active_lock_v1480 WHERE user_id=NEW.user_id AND request_id=NEW.request_id; END`),
+    env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_draw_active_lock_delete_v1480
+      AFTER DELETE ON draw_request_receipts_v2
+      BEGIN DELETE FROM draw_active_lock_v1480 WHERE user_id=OLD.user_id AND request_id=OLD.request_id; END`)
+  ]).then(()=>true).catch(error=>{drawBrowserLeaseReadyPromise=null;throw error});
+  return drawBrowserLeaseReadyPromise;
 }
 
-async function claimDrawAutomationGuard(env,userId){
-  const now=Date.now();
-  const result=await env.DB.prepare(`INSERT INTO draw_automation_guard_v1303(
-      user_id,last_request_at_ms,short_window_started_at_ms,short_request_count,long_window_started_at_ms,long_request_count,updated_at
-    ) VALUES(?,?,?,1,?,1,CURRENT_TIMESTAMP)
-    ON CONFLICT(user_id) DO UPDATE SET
-      last_request_at_ms=excluded.last_request_at_ms,
-      short_window_started_at_ms=CASE WHEN ?-short_window_started_at_ms>=? THEN ? ELSE short_window_started_at_ms END,
-      short_request_count=CASE WHEN ?-short_window_started_at_ms>=? THEN 1 ELSE short_request_count+1 END,
-      long_window_started_at_ms=CASE WHEN ?-long_window_started_at_ms>=? THEN ? ELSE long_window_started_at_ms END,
-      long_request_count=CASE WHEN ?-long_window_started_at_ms>=? THEN 1 ELSE long_request_count+1 END,
-      updated_at=CURRENT_TIMESTAMP
-    WHERE last_request_at_ms<=?-?
-      AND (CASE WHEN ?-short_window_started_at_ms>=? THEN 0 ELSE short_request_count END)<?
-      AND (CASE WHEN ?-long_window_started_at_ms>=? THEN 0 ELSE long_request_count END)<?`)
-    .bind(userId,now,now,now,
-      now,DRAW_GUARD_SHORT_WINDOW_MS,now,now,DRAW_GUARD_SHORT_WINDOW_MS,
-      now,DRAW_GUARD_LONG_WINDOW_MS,now,now,DRAW_GUARD_LONG_WINDOW_MS,
-      now,DRAW_GUARD_MIN_INTERVAL_MS,
-      now,DRAW_GUARD_SHORT_WINDOW_MS,DRAW_GUARD_SHORT_MAX,
-      now,DRAW_GUARD_LONG_WINDOW_MS,DRAW_GUARD_LONG_MAX).run();
+async function claimDrawActiveLock(env,userId,requestId){
+  const now=Date.now(),leaseUntil=now+120000;
+  const result=await env.DB.prepare(`INSERT INTO draw_active_lock_v1480(user_id,request_id,lease_until_ms,updated_at)
+    VALUES(?,?,?,CURRENT_TIMESTAMP)
+    ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP
+    WHERE draw_active_lock_v1480.request_id=excluded.request_id OR draw_active_lock_v1480.lease_until_ms<=?`)
+    .bind(userId,requestId,leaseUntil,now).run();
+  return Number(result?.meta?.changes||0)===1;
+}
+
+async function claimDrawBrowserLease(env,userId,browserId){
+  const now=Date.now(),leaseUntil=now+DRAW_BROWSER_LEASE_MS;
+  const result=await env.DB.prepare(`INSERT INTO draw_browser_lease_v1480(user_id,browser_id,lease_until_ms,updated_at)
+    VALUES(?,?,?,CURRENT_TIMESTAMP)
+    ON CONFLICT(user_id) DO UPDATE SET browser_id=excluded.browser_id,lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP
+    WHERE draw_browser_lease_v1480.browser_id=excluded.browser_id OR draw_browser_lease_v1480.lease_until_ms<=?`)
+    .bind(userId,browserId,leaseUntil,now).run();
   if(Number(result?.meta?.changes||0)===1)return {allowed:true,retryAfterMs:0};
-  const state=await env.DB.prepare(`SELECT last_request_at_ms,short_window_started_at_ms,short_request_count,long_window_started_at_ms,long_request_count
-    FROM draw_automation_guard_v1303 WHERE user_id=?`).bind(userId).first();
-  const intervalWait=Math.max(0,Number(state?.last_request_at_ms||0)+DRAW_GUARD_MIN_INTERVAL_MS-now);
-  const shortWait=Number(state?.short_request_count||0)>=DRAW_GUARD_SHORT_MAX
-    ?Math.max(0,Number(state?.short_window_started_at_ms||0)+DRAW_GUARD_SHORT_WINDOW_MS-now):0;
-  const longWait=Number(state?.long_request_count||0)>=DRAW_GUARD_LONG_MAX
-    ?Math.max(0,Number(state?.long_window_started_at_ms||0)+DRAW_GUARD_LONG_WINDOW_MS-now):0;
-  return {allowed:false,retryAfterMs:Math.max(1000,intervalWait,shortWait,longWait)};
+  const state=await env.DB.prepare('SELECT lease_until_ms FROM draw_browser_lease_v1480 WHERE user_id=?').bind(userId).first();
+  return {allowed:false,retryAfterMs:Math.max(1000,Number(state?.lease_until_ms||0)-now)};
 }
 
 let messageRewardClaimV1222ReadyPromise=null;
@@ -957,7 +949,7 @@ function defaultBreakthroughCinematic(){return {enabled:true,minLevel:10,grades:
 function cleanBreakthroughCinematic(raw={}){const base=defaultBreakthroughCinematic(),allowed=new Set(BREAKTHROUGH_GRADES),grades=(Array.isArray(raw.grades)?raw.grades:base.grades).map(x=>String(x||'').toUpperCase()).filter(x=>allowed.has(x));return {enabled:raw.enabled!==false,minLevel:Math.max(1,Math.min(13,Math.floor(Number(raw.minLevel??base.minLevel)||base.minLevel))),grades:[...new Set(grades.length?grades:base.grades)],title:String(raw.title||base.title).trim().slice(0,60)||base.title,mediaUrl:String(raw.mediaUrl||base.mediaUrl).trim().replace(/\\/g,'/').slice(0,500)||base.mediaUrl,soundUrl:String(raw.soundUrl||'').trim().replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(raw.durationMs??base.durationMs)||base.durationMs))),volumePercent:Math.max(0,Math.min(100,Number(raw.volumePercent??base.volumePercent))),skipAllowed:raw.skipAllowed!==false};}
 async function breakthroughCinematicConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_cinematic_v1'").first();try{return cleanBreakthroughCinematic(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughCinematic()}}
 async function breakthroughCinematicFor(env,{success=false,grade='',level=0,cardId='',cardTitle=''}){if(!success)return null;const cfg=await breakthroughCinematicConfig(env),normalizedGrade=String(grade||'').toUpperCase(),nextLevel=Math.max(0,Number(level||0));if(!cfg.enabled||nextLevel<cfg.minLevel||!cfg.grades.includes(normalizedGrade))return null;return {...cfg,grade:normalizedGrade,level:nextLevel,cardId:String(cardId||''),cardTitle:String(cardTitle||'')};}
-const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type','access-control-max-age':'86400'};
+const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type,x-cnine-draw-receipt,x-cnine-auto-draw,x-cnine-draw-client','access-control-max-age':'86400'};
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store',...CORS_HEADERS,...headers}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
@@ -3392,13 +3384,23 @@ async function handleRequest(context){
     if(path==='draw'&&request.method==='POST'){
       const user=await authenticate(request,env);
       if(!user) return json({error:'로그인이 필요합니다.'},401);
+      const requestOrigin=String(request.headers.get('origin')||'');
+      const fetchSite=String(request.headers.get('sec-fetch-site')||'').toLowerCase();
+      if((requestOrigin&&requestOrigin!==new URL(request.url).origin)||fetchSite==='cross-site'){
+        return json({error:'외부 사이트에서는 뽑기를 실행할 수 없습니다.',code:'DRAW_EXTERNAL_REQUEST_BLOCKED'},403);
+      }
+      const browserId=String(request.headers.get('x-cnine-draw-client')||'').trim();
+      if(!/^[a-zA-Z0-9_-]{16,100}$/.test(browserId)){
+        return json({error:'정상 게임 화면에서 다시 시도해주세요.',code:'DRAW_CLIENT_REQUIRED'},403);
+      }
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
       const acknowledgedRequestIds=payload.autoDraw===true&&Array.isArray(payload.acknowledgedRequestIds)
         ?[...new Set(payload.acknowledgedRequestIds.map(value=>String(value||'').trim().slice(0,100)).filter(value=>value&&value!==requestId))].slice(0,10)
         :[];
-      await Promise.all([ensureDrawReceiptV2(env),ensureFurFirstPityV1291(env),ensureDrawAutomationGuard(env)]);let drawReceiptTable='draw_request_receipts_v2';
+      await ensureDrawReceiptV2(env);
+      await Promise.all([ensureFurFirstPityV1291(env),ensureDrawBrowserLease(env)]);let drawReceiptTable='draw_request_receipts_v2';
       // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
       // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
       const compactDrawCard=card=>({id:String(card?.id||''),title:String(card?.title||''),grade:String(card?.grade||card?.rarity||'').toUpperCase()});
@@ -3496,15 +3498,20 @@ async function handleRequest(context){
         if(!receiptAlreadyClaimed)return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',code:'DRAW_PENDING',retryable:true,retryAfterMs:5000,requestId,status:'PENDING',updatedAt:prior.updated_at||null},409);
       }
       if(!receiptAlreadyClaimed){
-        const guard=await claimDrawAutomationGuard(env,user.id);
-        if(!guard.allowed)return json({
-          error:'뽑기 요청이 너무 빠릅니다. 잠시 기다린 뒤 다시 시도해주세요.',
-          code:'DRAW_RATE_LIMITED',retryable:true,retryAfterMs:guard.retryAfterMs,requestId
-        },429,{'Retry-After':String(Math.max(1,Math.ceil(guard.retryAfterMs/1000)))});
+        const lease=await claimDrawBrowserLease(env,user.id,browserId);
+        if(!lease.allowed)return json({
+          error:'이 계정은 다른 브라우저에서 뽑기를 실행 중입니다.',
+          code:'DRAW_OTHER_BROWSER_ACTIVE',retryable:true,retryAfterMs:lease.retryAfterMs,requestId
+        },409,{'Retry-After':String(Math.max(1,Math.ceil(lease.retryAfterMs/1000)))});
+        if(!await claimDrawActiveLock(env,user.id,requestId))return json({
+          error:'이 계정의 다른 뽑기 요청을 처리 중입니다.',
+          code:'DRAW_ALREADY_IN_PROGRESS',retryable:true,retryAfterMs:1000,requestId
+        },409,{'Retry-After':'1'});
       }
       drawReceiptTable='draw_request_receipts_v2';
       const claimed=receiptAlreadyClaimed?{meta:{changes:1}}:await env.DB.prepare(`INSERT OR IGNORE INTO ${drawReceiptTable}(request_id,user_id,pack_id,draw_count,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,String(payload.packId||''),count).run();
       if(!claimed.meta.changes){
+        await env.DB.prepare('DELETE FROM draw_active_lock_v1480 WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();
         const duplicate=await env.DB.prepare('SELECT status,response_json,error_message,updated_at FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
         if(duplicate?.status==='COMPLETED'&&duplicate.response_json){
           try{return json(await hydrateDrawReceipt(JSON.parse(duplicate.response_json)))}

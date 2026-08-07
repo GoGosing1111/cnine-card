@@ -1740,6 +1740,16 @@ async function joinRaid(){
 const AUTO_DRAW_PREFS_KEY='cnine_official_auto_draw_v1305';
 const AUTO_DRAW_LOCK_KEY='cnine_official_auto_draw_lock_v1305';
 const AUTO_DRAW_TAB_ID=globalThis.crypto?.randomUUID?.()||`tab-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+const DRAW_BROWSER_ID_KEY='cnine_draw_browser_id_v1480';
+function drawBrowserId(){
+  let value='';
+  try{value=String(localStorage.getItem(DRAW_BROWSER_ID_KEY)||'')}catch(_){}
+  if(!/^[a-zA-Z0-9_-]{16,100}$/.test(value)){
+    value=String(globalThis.crypto?.randomUUID?.()||`draw-${Date.now()}-${Math.random().toString(36).slice(2)}`).replace(/[^a-zA-Z0-9_-]/g,'');
+    try{localStorage.setItem(DRAW_BROWSER_ID_KEY,value)}catch(_){}
+  }
+  return value;
+}
 const autoDrawState={
   active:false,stopRequested:false,packId:'',count:20,targetRuns:0,completedRuns:0,totalCards:0,spentCoins:0,
   startedAt:0,timer:null,lockTimer:null,gradeCounts:{},highGradeHits:[],prefs:null,lastStatus:'',finishDetail:'',
@@ -2913,7 +2923,8 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
     method:'POST',
     headers:{
       'x-cnine-draw-receipt':Number(receiptVersion)===2?'v2':'legacy',
-      'x-cnine-auto-draw':autoRun?'1':'0'
+      'x-cnine-auto-draw':autoRun?'1':'0',
+      'x-cnine-draw-client':drawBrowserId()
     },
     body:JSON.stringify({packId,count,requestId,autoDraw:autoRun,acknowledgedRequestIds:Array.isArray(acknowledgedRequestIds)?acknowledgedRequestIds.slice(0,10):[]})
   };
