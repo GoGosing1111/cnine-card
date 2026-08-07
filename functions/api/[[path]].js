@@ -6062,7 +6062,7 @@ async function handleRequest(context){
       const normalizeCard=async payload=>{
         const title=String(payload.title||'').trim().slice(0,80);
         const grade=String(payload.grade||'C').toUpperCase();
-        const image=String(payload.image||'').trim().slice(0,500);
+        const image=String(payload.image||'').trim().replace(/\\/g,'/').slice(0,500);
         const memberId=Number(payload.memberId);
         const focusX=Math.max(0,Math.min(100,Number(payload.focusX??50)));
         const focusY=Math.max(0,Math.min(100,Number(payload.focusY??50)));
