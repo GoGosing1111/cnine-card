@@ -363,4 +363,7 @@
   window.playPvpBattleV2Live = async options => {
     const renderer=createRenderer({...options,mode:'PVP'});options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(320);renderer.showResult();
   };
+  window.playSiegeBattleV2Live = async options => {
+    const renderer=createRenderer({...options,mode:'PVE'});options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(320);renderer.showResult();return renderer;
+  };
 })();

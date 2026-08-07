@@ -3136,7 +3136,7 @@ async function handleRequest(context){
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies}});if(territoryWarResponse)return territoryWarResponse;
-    const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower}});if(siegeResponse)return siegeResponse;
+    const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses}});if(siegeResponse)return siegeResponse;
 
     if(path==='user/runtime-command'){
       const user=await authenticate(request,env);
