@@ -145,6 +145,59 @@ let cardCatalogCache=null,cardUniqueRowsCache=null,packCatalogCache=null;
 function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null}
 let drawReceiptV2ReadyPromise=null;
 let furFirstPityV1291ReadyPromise=null;
+let drawAutomationGuardReadyPromise=null;
+
+const DRAW_GUARD_MIN_INTERVAL_MS=4000;
+const DRAW_GUARD_SHORT_WINDOW_MS=60000;
+const DRAW_GUARD_SHORT_MAX=10;
+const DRAW_GUARD_LONG_WINDOW_MS=3600000;
+const DRAW_GUARD_LONG_MAX=60;
+
+async function ensureDrawAutomationGuard(env){
+  if(drawAutomationGuardReadyPromise)return drawAutomationGuardReadyPromise;
+  drawAutomationGuardReadyPromise=env.DB.prepare(`CREATE TABLE IF NOT EXISTS draw_automation_guard_v1303 (
+    user_id INTEGER PRIMARY KEY,
+    last_request_at_ms INTEGER NOT NULL DEFAULT 0,
+    short_window_started_at_ms INTEGER NOT NULL DEFAULT 0,
+    short_request_count INTEGER NOT NULL DEFAULT 0,
+    long_window_started_at_ms INTEGER NOT NULL DEFAULT 0,
+    long_request_count INTEGER NOT NULL DEFAULT 0,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`).run().then(()=>true).catch(error=>{drawAutomationGuardReadyPromise=null;throw error});
+  return drawAutomationGuardReadyPromise;
+}
+
+async function claimDrawAutomationGuard(env,userId){
+  const now=Date.now();
+  const result=await env.DB.prepare(`INSERT INTO draw_automation_guard_v1303(
+      user_id,last_request_at_ms,short_window_started_at_ms,short_request_count,long_window_started_at_ms,long_request_count,updated_at
+    ) VALUES(?,?,?,1,?,1,CURRENT_TIMESTAMP)
+    ON CONFLICT(user_id) DO UPDATE SET
+      last_request_at_ms=excluded.last_request_at_ms,
+      short_window_started_at_ms=CASE WHEN ?-short_window_started_at_ms>=? THEN ? ELSE short_window_started_at_ms END,
+      short_request_count=CASE WHEN ?-short_window_started_at_ms>=? THEN 1 ELSE short_request_count+1 END,
+      long_window_started_at_ms=CASE WHEN ?-long_window_started_at_ms>=? THEN ? ELSE long_window_started_at_ms END,
+      long_request_count=CASE WHEN ?-long_window_started_at_ms>=? THEN 1 ELSE long_request_count+1 END,
+      updated_at=CURRENT_TIMESTAMP
+    WHERE last_request_at_ms<=?-?
+      AND (CASE WHEN ?-short_window_started_at_ms>=? THEN 0 ELSE short_request_count END)<?
+      AND (CASE WHEN ?-long_window_started_at_ms>=? THEN 0 ELSE long_request_count END)<?`)
+    .bind(userId,now,now,now,
+      now,DRAW_GUARD_SHORT_WINDOW_MS,now,now,DRAW_GUARD_SHORT_WINDOW_MS,
+      now,DRAW_GUARD_LONG_WINDOW_MS,now,now,DRAW_GUARD_LONG_WINDOW_MS,
+      now,DRAW_GUARD_MIN_INTERVAL_MS,
+      now,DRAW_GUARD_SHORT_WINDOW_MS,DRAW_GUARD_SHORT_MAX,
+      now,DRAW_GUARD_LONG_WINDOW_MS,DRAW_GUARD_LONG_MAX).run();
+  if(Number(result?.meta?.changes||0)===1)return {allowed:true,retryAfterMs:0};
+  const state=await env.DB.prepare(`SELECT last_request_at_ms,short_window_started_at_ms,short_request_count,long_window_started_at_ms,long_request_count
+    FROM draw_automation_guard_v1303 WHERE user_id=?`).bind(userId).first();
+  const intervalWait=Math.max(0,Number(state?.last_request_at_ms||0)+DRAW_GUARD_MIN_INTERVAL_MS-now);
+  const shortWait=Number(state?.short_request_count||0)>=DRAW_GUARD_SHORT_MAX
+    ?Math.max(0,Number(state?.short_window_started_at_ms||0)+DRAW_GUARD_SHORT_WINDOW_MS-now):0;
+  const longWait=Number(state?.long_request_count||0)>=DRAW_GUARD_LONG_MAX
+    ?Math.max(0,Number(state?.long_window_started_at_ms||0)+DRAW_GUARD_LONG_WINDOW_MS-now):0;
+  return {allowed:false,retryAfterMs:Math.max(1000,intervalWait,shortWait,longWait)};
+}
 
 let messageRewardClaimV1222ReadyPromise=null;
 async function ensureMessageRewardClaimV1222(env){
@@ -905,7 +958,7 @@ function cleanBreakthroughCinematic(raw={}){const base=defaultBreakthroughCinema
 async function breakthroughCinematicConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_cinematic_v1'").first();try{return cleanBreakthroughCinematic(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughCinematic()}}
 async function breakthroughCinematicFor(env,{success=false,grade='',level=0,cardId='',cardTitle=''}){if(!success)return null;const cfg=await breakthroughCinematicConfig(env),normalizedGrade=String(grade||'').toUpperCase(),nextLevel=Math.max(0,Number(level||0));if(!cfg.enabled||nextLevel<cfg.minLevel||!cfg.grades.includes(normalizedGrade))return null;return {...cfg,grade:normalizedGrade,level:nextLevel,cardId:String(cardId||''),cardTitle:String(cardTitle||'')};}
 const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type','access-control-max-age':'86400'};
-const json=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store',...CORS_HEADERS}});
+const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store',...CORS_HEADERS,...headers}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
 const hex=buffer=>[...new Uint8Array(buffer)].map(value=>value.toString(16).padStart(2,'0')).join('');
@@ -3345,7 +3398,7 @@ async function handleRequest(context){
       const acknowledgedRequestIds=payload.autoDraw===true&&Array.isArray(payload.acknowledgedRequestIds)
         ?[...new Set(payload.acknowledgedRequestIds.map(value=>String(value||'').trim().slice(0,100)).filter(value=>value&&value!==requestId))].slice(0,10)
         :[];
-      await Promise.all([ensureDrawReceiptV2(env),ensureFurFirstPityV1291(env)]);let drawReceiptTable='draw_request_receipts_v2';
+      await Promise.all([ensureDrawReceiptV2(env),ensureFurFirstPityV1291(env),ensureDrawAutomationGuard(env)]);let drawReceiptTable='draw_request_receipts_v2';
       // D1 용량 보호: 영수증에는 전체 유저 도감/설정 스냅샷을 저장하지 않는다.
       // 실제 응답은 그대로 반환하고, 중복 요청 시에는 최신 profile을 다시 붙여 반환한다.
       const compactDrawCard=card=>({id:String(card?.id||''),title:String(card?.title||''),grade:String(card?.grade||card?.rarity||'').toUpperCase()});
@@ -3441,6 +3494,13 @@ async function handleRequest(context){
         const updatedAtMs=Date.parse(String(prior.updated_at||'').replace(' ','T')+'Z'),stale=Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000;
         if(stale&&drawReceiptTable==='draw_request_receipts_v2')receiptAlreadyClaimed=await reclaimStalePendingDraw(prior.updated_at);
         if(!receiptAlreadyClaimed)return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',code:'DRAW_PENDING',retryable:true,retryAfterMs:5000,requestId,status:'PENDING',updatedAt:prior.updated_at||null},409);
+      }
+      if(!receiptAlreadyClaimed){
+        const guard=await claimDrawAutomationGuard(env,user.id);
+        if(!guard.allowed)return json({
+          error:'뽑기 요청이 너무 빠릅니다. 잠시 기다린 뒤 다시 시도해주세요.',
+          code:'DRAW_RATE_LIMITED',retryable:true,retryAfterMs:guard.retryAfterMs,requestId
+        },429,{'Retry-After':String(Math.max(1,Math.ceil(guard.retryAfterMs/1000)))});
       }
       drawReceiptTable='draw_request_receipts_v2';
       const claimed=receiptAlreadyClaimed?{meta:{changes:1}}:await env.DB.prepare(`INSERT OR IGNORE INTO ${drawReceiptTable}(request_id,user_id,pack_id,draw_count,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,String(payload.packId||''),count).run();
