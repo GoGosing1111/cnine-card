@@ -99,22 +99,32 @@
             <p>지정 즉시 새 7일 임기가 시작되고 첫 선출 팝업이 전체 유저에게 공개됩니다.</p>
             <label class="field">
               <span>족장 유저 선택</span>
-              <input id="chiefUserSearch" list="chiefUserList" placeholder="닉네임 또는 유저 ID">
-              <datalist id="chiefUserList">${users.map(user => `<option value="${esc(user.nickname)} · #${user.id}"></option>`).join('')}</datalist>
+              <input id="chiefUserSearch" autocomplete="off" placeholder="닉네임·유저 ID·OWNER 검색">
+              <input id="chiefSelectedUserId" type="hidden">
             </label>
-            <button type="button" id="chiefAppointBtn">7일 임기 족장으로 임명</button>
+            <div id="chiefUserResults" class="chief-user-results"></div>
+            <div id="chiefSelectedUser" class="chief-selected-user">족장 후보를 선택하세요.</div>
+            <button type="button" id="chiefAppointBtn" disabled>7일 임기 족장으로 임명</button>
           </div>
         </div>`;
+      bindUserSearch(users);
       $('#chiefAppointBtn').onclick = () => appoint(users);
     } catch (error) {
       root.innerHTML = `<div class="inlineNotice error">${esc(error.message)}</div>`;
     }
   }
 
+  function bindUserSearch(users) {
+    const input=$('#chiefUserSearch'),results=$('#chiefUserResults'),selected=$('#chiefSelectedUser'),hidden=$('#chiefSelectedUserId'),button=$('#chiefAppointBtn');
+    const normalized=users.map(user=>({...user,id:Number(user.id),role:String(user.role||'USER').toUpperCase(),search:`${user.nickname} ${user.id} #${user.id} ${user.role||'USER'}`.toLocaleLowerCase('ko-KR')}));
+    const choose=user=>{hidden.value=String(user.id);input.value=user.nickname;selected.innerHTML=`<b>${esc(user.nickname)}</b><span>#${user.id} · ${esc(user.role)}${user.role==='OWNER'?' · 테스트 가능':''}</span>`;button.disabled=false;results.hidden=true};
+    const render=()=>{const query=input.value.trim().toLocaleLowerCase('ko-KR');hidden.value='';button.disabled=true;selected.textContent='족장 후보를 선택하세요.';const matches=normalized.filter(user=>!query||user.search.includes(query)).slice(0,50);results.innerHTML=matches.length?matches.map(user=>`<button type="button" class="chief-user-result" data-chief-user-id="${user.id}"><span><b>${esc(user.nickname)}</b><small>#${user.id}</small></span><em class="role-${esc(user.role)}">${esc(user.role)}${user.role==='OWNER'?' · TEST':''}</em></button>`).join(''):'<div class="chief-user-empty">검색 결과가 없습니다.</div>';results.hidden=false;results.querySelectorAll('[data-chief-user-id]').forEach(row=>row.onclick=()=>choose(normalized.find(user=>user.id===Number(row.dataset.chiefUserId))))};
+    input.addEventListener('input',render);input.addEventListener('focus',render);render();
+  }
+
   async function appoint(users) {
-    const value = $('#chiefUserSearch')?.value || '';
-    const user = users.find(item => value === `${item.nickname} · #${item.id}`)
-      || users.find(item => String(item.id) === value.trim() || item.nickname === value.trim());
+    const selectedId=Number($('#chiefSelectedUserId')?.value||0);
+    const user = users.find(item => Number(item.id)===selectedId);
     if (!user) return alert('목록에서 유저를 선택하세요.');
     if (!confirm(`${user.nickname} 님을 지금부터 7일간 족장으로 임명할까요?`)) return;
     const button = $('#chiefAppointBtn');

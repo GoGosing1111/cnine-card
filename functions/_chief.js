@@ -92,9 +92,9 @@ export async function handleChief({path,request,env,deps}){
   }
   if(path==='admin/chief'){
     const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 필요합니다.'},403);
-    if(request.method==='GET'){const a=await appointment(env);const users=(await env.DB.prepare("SELECT id,nickname FROM users WHERE status='ACTIVE' AND COALESCE(role,'USER')='USER' ORDER BY nickname LIMIT 500").all()).results||[];return json({chief:publicState(a,await usage(env,a),null),users})}
+    if(request.method==='GET'){const a=await appointment(env);const users=(await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER') ORDER BY CASE WHEN COALESCE(role,'USER')='OWNER' THEN 0 ELSE 1 END,nickname,id LIMIT 2000").all()).results||[];return json({chief:publicState(a,await usage(env,a),null),users})}
     if(request.method==='POST'){
-      const body=await readBody(request),target=await env.DB.prepare("SELECT id,nickname FROM users WHERE id=? AND status='ACTIVE'").bind(Number(body.userId)).first();if(!target)return json({error:'선출할 활성 유저를 찾을 수 없습니다.'},404);
+      const body=await readBody(request),target=await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE id=? AND status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER')").bind(Number(body.userId)).first();if(!target)return json({error:'선출 가능한 활성 USER 또는 OWNER를 찾을 수 없습니다.'},404);
       const now=new Date(),next={id:crypto.randomUUID(),userId:Number(target.id),nickname:target.nickname,source:'와이고수 투표',startsAt:now.toISOString(),endsAt:new Date(now.getTime()+7*DAY_MS).toISOString(),inaugurationVersion:Date.now(),appointedBy:Number(admin.id)};
       const before=await appointment(env);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(CHIEF_META_KEY,JSON.stringify(next)).run();await writeAdminLog(env,admin,'CHIEF_APPOINT','USER',String(target.id),before,next);return json({ok:true,chief:publicState({...next,active:true},await usage(env,next),null)})
     }
