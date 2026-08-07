@@ -1,6 +1,15 @@
 const MAGIC_RARITIES=['R','SR','SSR'];
 const MAGIC_DECK_TYPES=['PVE','PVP'];
 export const MAGIC_BATTLE_EFFECTS=['OPENING_ATTACK','GUARD_BARRIER','LIFE_AMPLIFY','CRISIS_HEAL','PUNISH_TRAP','ARCANE_COUNTER','FOLLOWUP_HASTE'];
+const MAGIC_EFFECT_IMAGES={
+  OPENING_ATTACK:'assets/ui/magic-cards/opening-attack-768-v1500.webp',
+  GUARD_BARRIER:'assets/ui/magic-cards/guard-barrier-768-v1500.webp',
+  LIFE_AMPLIFY:'assets/ui/magic-cards/life-amplify-768-v1500.webp',
+  CRISIS_HEAL:'assets/ui/magic-cards/crisis-heal-768-v1500.webp',
+  PUNISH_TRAP:'assets/ui/magic-cards/punish-trap-768-v1500.webp',
+  ARCANE_COUNTER:'assets/ui/magic-cards/arcane-counter-768-v1500.webp',
+  FOLLOWUP_HASTE:'assets/ui/magic-cards/followup-haste-768-v1500.webp'
+};
 const UNIQUE_CARD_GRADES=['SSR','MA','LIMITED','PRESTIGE','FUR'];
 
 function defaultAcquisitionSettings(){
@@ -76,7 +85,7 @@ function normalizeMagicBattleEffect(row={}){
   const raw=String(row.effect_type||row.effectType||'').trim().toUpperCase(),trigger=String(row.trigger_type||row.triggerType||'').trim().toUpperCase();
   const aliases={ATTACK_BUFF:'OPENING_ATTACK',DEFENSE_BUFF:'GUARD_BARRIER',SHIELD:'GUARD_BARRIER',HP_BUFF:'LIFE_AMPLIFY',HEAL:'CRISIS_HEAL',TRAP:'PUNISH_TRAP',COUNTER:'ARCANE_COUNTER',SPEED_BUFF:'FOLLOWUP_HASTE',HASTE:'FOLLOWUP_HASTE'};
   const effectType=MAGIC_BATTLE_EFFECTS.includes(raw)?raw:(aliases[raw]||aliases[trigger]||'');
-  return effectType?{id:Number(row.id||0),slotNo:integer(row.slot_no??row.slotNo,1,1,5),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R').toUpperCase(),imageUrl:String(row.image_url||row.imageUrl||''),effectType,effectValue:Math.max(0,Math.min(500,Number(row.effect_value??row.effectValue)||0)),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??row.triggerChance??100)||0)),maxActivations:integer(row.max_activations??row.maxActivations,1,1,99)}:null;
+  return effectType?{id:Number(row.id||0),slotNo:integer(row.slot_no??row.slotNo,1,1,5),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R').toUpperCase(),imageUrl:String(row.image_url||row.imageUrl||MAGIC_EFFECT_IMAGES[effectType]||''),effectType,effectValue:Math.max(0,Math.min(500,Number(row.effect_value??row.effectValue)||0)),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??row.triggerChance??100)||0)),maxActivations:integer(row.max_activations??row.maxActivations,1,1,99)}:null;
 }
 
 export async function magicBattleLoadout(env,user,deckType='PVE'){
@@ -411,9 +420,10 @@ function randomPick(rows){
   return rows.at(-1);
 }
 function cardPayload(row){
+  const effectType=String(row.effect_type||'NONE').toUpperCase();
   return {
     id:Number(row.id),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R'),
-    imageUrl:publicImageUrl(row.image_url),description:String(row.description||''),effectType:String(row.effect_type||'NONE'),
+    imageUrl:publicImageUrl(row.image_url||MAGIC_EFFECT_IMAGES[effectType]||''),description:String(row.description||''),effectType,
     triggerType:String(row.trigger_type||'BATTLE_START'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance||100),
     maxActivations:Number(row.max_activations||1),drawWeight:Number(row.draw_weight||1),
     scopes:{pve:row.scope_pve!==0,pvp:row.scope_pvp!==0,captain:row.scope_captain!==0},

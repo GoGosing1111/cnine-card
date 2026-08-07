@@ -1266,7 +1266,7 @@ function magicView(user){
 function magicDeckName(type){return type==='PVP'?'PVP 덱':'PVE 덱'}
 function magicEffectLabel(value){return ({HEAL:'회복',ATTACK_BUFF:'공격 강화',DEFENSE_BUFF:'방어 강화',HP_BUFF:'최대 HP',TRAP:'함정',SHIELD:'보호막',COUNTER:'반격',OTHER:'기타',NONE:'효과 없음'})[String(value||'').toUpperCase()]||String(value||'기타')}
 function magicTriggerLabel(value){return ({BATTLE_START:'전투 시작',BEFORE_ATTACK:'공격 전',AFTER_ATTACK:'공격 후',BEFORE_HIT:'피격 전',AFTER_HIT:'피격 후',LOW_HP:'HP 조건',ON_KILL:'적 처치',ON_DEATH:'카드 사망',NEXT_OPPONENT:'새 상대 출전',PASSIVE:'상시 적용'})[String(value||'').toUpperCase()]||String(value||'상시 적용')}
-function magicImage(card){const url=String(card?.imageUrl||'').trim();return `<div class="magic-card-art ${url?'':'empty'}">${url?`<img src="${escapeHtml(url)}" alt="${escapeHtml(card.name)}" onerror="this.remove();this.parentElement.classList.add('empty')">`:''}<span>✦</span></div>`}
+function magicImage(card){const url=String(card?.imageUrl||'').trim(),small=url.replace('-768-v1500.webp','-384-v1500.webp');return `<div class="magic-card-art ${url?'':'empty'}">${url?`<img src="${escapeHtml(small)}" srcset="${escapeHtml(small)} 384w, ${escapeHtml(url)} 768w" sizes="(max-width:720px) 42vw, 220px" width="768" height="1152" loading="lazy" decoding="async" alt="${escapeHtml(card.name)}" onerror="this.remove();this.parentElement.classList.add('empty')">`:''}<span>✦</span></div>`}
 const magicRenewedEffectLabel=value=>({OPENING_ATTACK:'전투 개시 공격 강화',GUARD_BARRIER:'수호 결계',LIFE_AMPLIFY:'생명 증폭',CRISIS_HEAL:'위기 회복',PUNISH_TRAP:'응징 함정',ARCANE_COUNTER:'마력 반격',FOLLOWUP_HASTE:'속행 가속'})[String(value||'').toUpperCase()]||String(value||'미설정');
 function decorateMagicRenewal(root,d,cards,equipped){
   root.classList.add('magic-renewal-v2');
