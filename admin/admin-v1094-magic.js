@@ -86,6 +86,10 @@
           <label><span>OWNER 테스트</span><select id="magicOwnerTest"><option value="1" ${cfg.ownerTestEnabled!==false?'selected':''}>허용</option><option value="0" ${cfg.ownerTestEnabled===false?'selected':''}>차단</option></select></label>
           <label><span>마법카드 뽑기</span><select id="magicDrawEnabled"><option value="0" ${!cfg.drawEnabled?'selected':''}>준비 중</option><option value="1" ${cfg.drawEnabled?'selected':''}>사용</option></select></label>
           <label><span>1회 마법 결정 비용</span><input id="magicDrawCost" type="number" min="0" value="${number(cfg.drawCost)}"></label>
+          <label><span>1회 코인 비용</span><input id="magicDrawCoinCost" type="number" min="0" value="${number(cfg.drawCoinCost)}"></label>
+          <label class="wide"><span>+1~+7 카드조각 비용</span><input id="magicEnhanceShardCosts" value="${h((cfg.enhancement?.shardCosts||[]).join(','))}" placeholder="100,200,350,550,800,1100,1500"></label>
+          <label class="wide"><span>+1~+7 강화 성공률 (%)</span><input id="magicEnhanceSuccessRates" value="${h((cfg.enhancement?.successRates||[]).join(','))}" placeholder="100,90,80,70,60,50,40"></label>
+          <label class="wide"><span>0~+7 발동 확률 보너스 (%p)</span><input id="magicEnhanceTriggerBonuses" value="${h((cfg.enhancement?.triggerBonuses||[]).join(','))}" placeholder="0,3,6,10,15,21,28,36"></label>
           <label><span>R 중복 환급</span><input id="magicRefundR" type="number" min="0" value="${number(cfg.duplicateRefund?.R)}"></label>
           <label><span>SR 중복 환급</span><input id="magicRefundSR" type="number" min="0" value="${number(cfg.duplicateRefund?.SR)}"></label>
           <label><span>SSR 중복 환급</span><input id="magicRefundSSR" type="number" min="0" value="${number(cfg.duplicateRefund?.SSR)}"></label>
@@ -268,7 +272,8 @@
     const enabled=$('#magicEnabled').value==='1';
     if(enabled&&!confirm('마법카드 시스템을 일반 유저에게 공개할까요?\n아직 전투 효과 적용은 2차 단계입니다.'))return;
     const settings={
-      enabled,ownerTestEnabled:$('#magicOwnerTest').value==='1',drawEnabled:$('#magicDrawEnabled').value==='1',drawCost:number($('#magicDrawCost').value),
+      enabled,ownerTestEnabled:$('#magicOwnerTest').value==='1',drawEnabled:$('#magicDrawEnabled').value==='1',drawCost:number($('#magicDrawCost').value),drawCoinCost:number($('#magicDrawCoinCost').value),
+      enhancement:{shardCosts:$('#magicEnhanceShardCosts').value.split(',').map(number),successRates:$('#magicEnhanceSuccessRates').value.split(',').map(number),triggerBonuses:$('#magicEnhanceTriggerBonuses').value.split(',').map(number)},
       duplicateRefund:{R:number($('#magicRefundR').value),SR:number($('#magicRefundSR').value),SSR:number($('#magicRefundSSR').value)},
       acquisitionNotice:$('#magicAcquisitionNotice').value,
       acquisition:collectAcquisition()

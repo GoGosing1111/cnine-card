@@ -41,7 +41,9 @@ export function defaultMagicSettings(){
     ownerTestEnabled:true,
     drawEnabled:false,
     drawCost:100,
+    drawCoinCost:1000,
     duplicateRefund:{R:5,SR:20,SSR:80},
+    enhancement:{maxLevel:7,shardCosts:[100,200,350,550,800,1100,1500],successRates:[100,90,80,70,60,50,40],triggerBonuses:[0,3,6,10,15,21,28,36]},
     acquisition:defaultAcquisitionSettings(),
     acquisitionNotice:'마법 결정은 인게임 플레이를 통해서만 획득할 수 있습니다.',
     version:2
@@ -59,10 +61,17 @@ export function cleanMagicSettings(raw={}){
     ownerTestEnabled:raw.ownerTestEnabled!==false,
     drawEnabled:raw.drawEnabled===true,
     drawCost:integer(raw.drawCost,base.drawCost,0,100000000),
+    drawCoinCost:integer(raw.drawCoinCost,base.drawCoinCost,0,100000000),
     duplicateRefund:{
       R:integer(raw.duplicateRefund?.R,base.duplicateRefund.R,0,100000000),
       SR:integer(raw.duplicateRefund?.SR,base.duplicateRefund.SR,0,100000000),
       SSR:integer(raw.duplicateRefund?.SSR,base.duplicateRefund.SSR,0,100000000)
+    },
+    enhancement:{
+      maxLevel:7,
+      shardCosts:Array.from({length:7},(_,i)=>integer(raw.enhancement?.shardCosts?.[i],base.enhancement.shardCosts[i],0,100000000)),
+      successRates:Array.from({length:7},(_,i)=>Math.max(0,Math.min(100,Number(raw.enhancement?.successRates?.[i]??base.enhancement.successRates[i])))),
+      triggerBonuses:Array.from({length:8},(_,i)=>Math.max(0,Math.min(100,Number(raw.enhancement?.triggerBonuses?.[i]??base.enhancement.triggerBonuses[i]))))
     },
     acquisition:{
       tower:{enabled:tower.enabled===true,floorRewards:cleanFloorRewards(tower.floorRewards)},
@@ -85,7 +94,8 @@ function normalizeMagicBattleEffect(row={}){
   const raw=String(row.effect_type||row.effectType||'').trim().toUpperCase(),trigger=String(row.trigger_type||row.triggerType||'').trim().toUpperCase();
   const aliases={ATTACK_BUFF:'OPENING_ATTACK',DEFENSE_BUFF:'GUARD_BARRIER',SHIELD:'GUARD_BARRIER',HP_BUFF:'LIFE_AMPLIFY',HEAL:'CRISIS_HEAL',TRAP:'PUNISH_TRAP',COUNTER:'ARCANE_COUNTER',SPEED_BUFF:'FOLLOWUP_HASTE',HASTE:'FOLLOWUP_HASTE'};
   const effectType=MAGIC_BATTLE_EFFECTS.includes(raw)?raw:(aliases[raw]||aliases[trigger]||'');
-  return effectType?{id:Number(row.id||0),slotNo:integer(row.slot_no??row.slotNo,1,1,5),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R').toUpperCase(),imageUrl:String(row.image_url||row.imageUrl||MAGIC_EFFECT_IMAGES[effectType]||''),effectType,effectValue:Math.max(0,Math.min(500,Number(row.effect_value??row.effectValue)||0)),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??row.triggerChance??100)||0)),maxActivations:integer(row.max_activations??row.maxActivations,1,1,99)}:null;
+  const level=integer(row.enhancement_level??row.enhancementLevel,0,0,7),bonus=Math.max(0,Number(row.trigger_bonus??row.triggerBonus)||0);
+  return effectType?{id:Number(row.id||0),slotNo:integer(row.slot_no??row.slotNo,1,1,5),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R').toUpperCase(),imageUrl:String(row.image_url||row.imageUrl||MAGIC_EFFECT_IMAGES[effectType]||''),effectType,effectValue:Math.max(0,Math.min(500,Number(row.effect_value??row.effectValue)||0)),triggerChance:Math.max(0,Math.min(100,(Number(row.trigger_chance??row.triggerChance??100)||0)+bonus)),enhancementLevel:level,maxActivations:integer(row.max_activations??row.maxActivations,1,1,99)}:null;
 }
 
 export async function magicBattleLoadout(env,user,deckType='PVE'){
@@ -94,7 +104,10 @@ export async function magicBattleLoadout(env,user,deckType='PVE'){
   const cfg=await magicSettings(env),visible=cfg.enabled===true||(cfg.ownerTestEnabled!==false&&isOwner(user));
   if(!visible)return {enabled:false,ownerTest:false,deckType:type,cards:[]};
   const scope=type==='PVP'?'scope_pvp':'scope_pve';
-  const rows=(await env.DB.prepare(`SELECT l.slot_no,mc.id,mc.code,mc.name,mc.rarity,mc.image_url,mc.effect_type,mc.trigger_type,mc.effect_value,mc.trigger_chance,mc.max_activations FROM magic_card_loadouts l JOIN magic_cards mc ON mc.id=l.magic_card_id WHERE l.user_id=? AND l.deck_type=? AND l.magic_card_id>0 AND mc.is_active=1 AND mc.${scope}=1 ORDER BY l.slot_no`).bind(user.id,type).all()).results||[];
+  const rows=(await env.DB.prepare(`SELECT l.slot_no,mc.id,mc.code,mc.name,mc.rarity,mc.image_url,mc.effect_type,mc.trigger_type,mc.effect_value,mc.trigger_chance,mc.max_activations,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_card_loadouts l JOIN magic_cards mc ON mc.id=l.magic_card_id JOIN user_magic_cards umc ON umc.user_id=l.user_id AND umc.magic_card_id=mc.id WHERE l.user_id=? AND l.deck_type=? AND l.magic_card_id>0 AND mc.is_active=1 AND mc.${scope}=1 ORDER BY l.slot_no`).bind(user.id,type).all()).results||[];
+  const bonus=magicSettings(env).then(cfg=>cfg.enhancement.triggerBonuses);
+  const bonuses=await bonus;
+  rows.forEach(row=>{row.trigger_bonus=bonuses[integer(row.enhancement_level,0,0,7)]||0});
   return {enabled:true,ownerTest:cfg.enabled!==true&&isOwner(user),deckType:type,cards:rows.map(normalizeMagicBattleEffect).filter(Boolean)};
 }
 
@@ -419,15 +432,16 @@ function randomPick(rows){
   for(const row of rows){roll-=Math.max(0.0001,Number(row.draw_weight||1));if(roll<=0)return row}
   return rows.at(-1);
 }
-function cardPayload(row){
+function cardPayload(row,cfg=defaultMagicSettings()){
   const effectType=String(row.effect_type||'NONE').toUpperCase();
+  const enhancementLevel=integer(row.enhancement_level??row.enhancementLevel,0,0,7),triggerBonus=Number(cfg.enhancement?.triggerBonuses?.[enhancementLevel]||0);
   return {
     id:Number(row.id),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R'),
     imageUrl:publicImageUrl(row.image_url||MAGIC_EFFECT_IMAGES[effectType]||''),description:String(row.description||''),effectType,
-    triggerType:String(row.trigger_type||'BATTLE_START'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance||100),
+    triggerType:String(row.trigger_type||'BATTLE_START'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance??100),effectiveTriggerChance:Math.min(100,Number(row.trigger_chance??100)+triggerBonus),enhancementLevel,
     maxActivations:Number(row.max_activations||1),drawWeight:Number(row.draw_weight||1),
     scopes:{pve:row.scope_pve!==0,pvp:row.scope_pvp!==0,captain:row.scope_captain!==0},
-    isActive:row.is_active!==0,sortOrder:Number(row.sort_order||0),quantity:Number(row.quantity||0)
+    isActive:row.is_active!==0,sortOrder:Number(row.sort_order||0),quantity:Number(row.quantity||0),materialQuantity:Math.max(0,Number(row.quantity||0)-1)
   };
 }
 async function userStatus(env,user,cfg){
@@ -435,13 +449,13 @@ async function userStatus(env,user,cfg){
   const balance=Number(user.magic_crystals||0);
   if(!accessible)return {visible:false,enabled:false,ownerTest:false,magicCrystals:balance,settings:{enabled:false,drawEnabled:false}};
   const [cards,loadouts]=await Promise.all([
-    env.DB.prepare(`SELECT mc.*,COALESCE(umc.quantity,0) quantity FROM magic_cards mc LEFT JOIN user_magic_cards umc ON umc.magic_card_id=mc.id AND umc.user_id=? WHERE mc.is_active=1 ORDER BY mc.sort_order,mc.id`).bind(user.id).all(),
+    env.DB.prepare(`SELECT mc.*,COALESCE(umc.quantity,0) quantity,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_cards mc LEFT JOIN user_magic_cards umc ON umc.magic_card_id=mc.id AND umc.user_id=? WHERE mc.is_active=1 ORDER BY mc.sort_order,mc.id`).bind(user.id).all(),
     env.DB.prepare(`SELECT deck_type,slot_no,magic_card_id FROM magic_card_loadouts WHERE user_id=? AND magic_card_id>0 ORDER BY deck_type,slot_no`).bind(user.id).all()
   ]);
   return {
-    visible:true,enabled:cfg.enabled,ownerTest:!cfg.enabled&&cfg.ownerTestEnabled&&isOwner(user),magicCrystals:balance,
-    settings:{drawEnabled:cfg.drawEnabled,drawCost:cfg.drawCost,duplicateRefund:cfg.duplicateRefund,acquisitionNotice:cfg.acquisitionNotice},
-    cards:cards.results.map(cardPayload),
+    visible:true,enabled:cfg.enabled,ownerTest:!cfg.enabled&&cfg.ownerTestEnabled&&isOwner(user),magicCrystals:balance,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),
+    settings:{drawEnabled:cfg.drawEnabled,drawCost:cfg.drawCost,drawCoinCost:cfg.drawCoinCost,duplicateRefund:cfg.duplicateRefund,enhancement:cfg.enhancement,acquisitionNotice:cfg.acquisitionNotice},
+    cards:cards.results.map(row=>cardPayload(row,cfg)),
     loadouts:loadouts.results.map(x=>({deckType:String(x.deck_type),slotNo:Number(x.slot_no),magicCardId:Number(x.magic_card_id)}))
   };
 }
@@ -463,7 +477,7 @@ async function adminData(env){
   return {
     settings:cfg,
     uniqueEffectSettings:await cardUniqueSettings(env),
-    cards:cards.results.map(cardPayload),
+    cards:cards.results.map(row=>cardPayload(row,cfg)),
     uniqueEffects:effects.results.map(x=>({
       cardId:String(x.card_id),title:String(x.title||''),grade:String(x.rarity||''),memberName:String(x.member_name||''),imageUrl:publicImageUrl(x.image_url),
       attackPercent:Number(x.attack_percent||0),defensePercent:Number(x.defense_percent||0),hpPercent:Number(x.hp_percent||0),speedPercent:Number(x.speed_percent||0),
@@ -491,49 +505,79 @@ export async function handleMagic({path,request,env,deps}){
     if(!owned||Number(owned.quantity||0)<=0||Number(owned.is_active||0)!==1)return json({error:'보유하지 않았거나 비활성화된 마법카드입니다.'},400);
     if((deckType==='PVE'&&Number(owned.scope_pve||0)!==1)||(deckType==='PVP'&&Number(owned.scope_pvp||0)!==1))return json({error:`${deckType}에 적용할 수 없는 마법카드입니다.`},400);
     const used=await env.DB.prepare(`SELECT COUNT(*) count FROM magic_card_loadouts WHERE user_id=? AND deck_type=? AND magic_card_id=? AND slot_no<>?`).bind(user.id,deckType,magicCardId,slotNo).first();
-    if(Number(used?.count||0)>=Number(owned.quantity||0))return json({error:'보유 수량보다 많이 장착할 수 없습니다.'},409);
+    if(Number(used?.count||0)>0)return json({error:'같은 마법카드는 한 덱에 한 장만 장착할 수 있습니다.'},409);
     await env.DB.prepare(`INSERT INTO magic_card_loadouts(user_id,deck_type,slot_no,magic_card_id,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,deck_type,slot_no) DO UPDATE SET magic_card_id=excluded.magic_card_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,deckType,slotNo,magicCardId).run();
     const fresh=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
     return json({ok:true,status:await userStatus(env,fresh,cfg)});
   }
+  if(path==='magic/enhance'&&request.method==='POST'){
+    const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+    const cfg=await magicSettings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);
+    const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),magicCardId=integer(body.magicCardId,0,1,2147483647);if(!requestId||!magicCardId)return json({error:'강화 요청 정보가 올바르지 않습니다.'},400);
+    let receipt=await env.DB.prepare('SELECT user_id,status,response_json FROM magic_card_enhance_receipts WHERE request_id=?').bind(requestId).first();
+    if(receipt&&Number(receipt.user_id)!==Number(user.id))return json({error:'이미 사용된 요청 ID입니다.'},409);
+    if(receipt?.status==='COMPLETED'&&receipt.response_json){try{return json(JSON.parse(receipt.response_json))}catch{}}
+    if(receipt?.status==='PENDING')return json({error:'이미 처리 중인 강화입니다.'},409);
+    await env.DB.prepare(`INSERT INTO magic_card_enhance_receipts(request_id,user_id,magic_card_id,status,created_at,updated_at) VALUES(?,?,?,'PENDING',CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(request_id) DO UPDATE SET status='PENDING',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE user_id=excluded.user_id`).bind(requestId,user.id,magicCardId).run();
+    let materialReserved=false,shardsDeducted=false,enhancementCommitted=false,beforeLevel=0,shardCost=0;
+    try{
+      const owned=await env.DB.prepare(`SELECT umc.quantity,COALESCE(umc.enhancement_level,0) enhancement_level,mc.name FROM user_magic_cards umc JOIN magic_cards mc ON mc.id=umc.magic_card_id WHERE umc.user_id=? AND umc.magic_card_id=? AND mc.is_active=1`).bind(user.id,magicCardId).first();
+      if(!owned||Number(owned.quantity||0)<2){const e=new Error('강화 재료로 사용할 동일한 0강 카드가 1장 더 필요합니다.');e.status=400;throw e}
+      beforeLevel=integer(owned.enhancement_level,0,0,7);if(beforeLevel>=7){const e=new Error('이미 최고 강화 단계입니다.');e.status=400;throw e}
+      shardCost=integer(cfg.enhancement.shardCosts[beforeLevel],0);const successRate=Number(cfg.enhancement.successRates[beforeLevel]||0),balance=await env.DB.prepare('SELECT card_shards FROM users WHERE id=?').bind(user.id).first();
+      if(Number(balance?.card_shards||0)<shardCost){const e=new Error(`카드 조각이 부족합니다. (${shardCost.toLocaleString()}개 필요)`);e.status=400;throw e}
+      const reserve=await env.DB.prepare('UPDATE user_magic_cards SET quantity=quantity-1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND magic_card_id=? AND quantity>=2 AND enhancement_level=?').bind(user.id,magicCardId,beforeLevel).run();
+      if(Number(reserve.meta?.changes||0)!==1){const e=new Error('다른 강화 요청이 먼저 처리됐습니다. 보유 수량을 다시 확인해주세요.');e.status=409;throw e}materialReserved=true;
+      const spend=await env.DB.prepare('UPDATE users SET card_shards=card_shards-? WHERE id=? AND card_shards>=?').bind(shardCost,user.id,shardCost).run();
+      if(Number(spend.meta?.changes||0)!==1){const e=new Error('카드 조각 잔액이 변경됐습니다. 다시 시도해주세요.');e.status=409;throw e}shardsDeducted=true;
+      const success=Math.random()*100<successRate,afterLevel=success?beforeLevel+1:beforeLevel,shardsAfter=Number(balance.card_shards)-shardCost,quantityAfter=Number(owned.quantity)-1;
+      const result={ok:true,success,magicCardId,name:String(owned.name||''),beforeLevel,afterLevel,successRate,shardCost,quantityAfter,materialConsumed:1,cardShards:shardsAfter,effectiveTriggerBonus:Number(cfg.enhancement.triggerBonuses[afterLevel]||0)};
+      const statements=[
+        env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'마법카드 강화',?)").bind(user.id,-shardCost,shardsAfter,String(magicCardId)),
+        env.DB.prepare("UPDATE magic_card_enhance_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(result),requestId,user.id)
+      ];if(success)statements.unshift(env.DB.prepare('UPDATE user_magic_cards SET enhancement_level=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND magic_card_id=? AND enhancement_level=?').bind(afterLevel,user.id,magicCardId,beforeLevel));await env.DB.batch(statements);enhancementCommitted=true;
+      return json({...result,status:await userStatus(env,await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),cfg)});
+    }catch(error){if(!enhancementCommitted&&shardsDeducted)await env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardCost,user.id).run();if(!enhancementCommitted&&materialReserved)await env.DB.prepare('UPDATE user_magic_cards SET quantity=quantity+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND magic_card_id=? AND enhancement_level=?').bind(user.id,magicCardId,beforeLevel).run();await env.DB.prepare("UPDATE magic_card_enhance_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(String(error.message||error).slice(0,300),requestId,user.id).run();return json({error:String(error.message||error)},Number(error.status||500))}
+  }
   if(path==='magic/draw'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     const cfg=await magicSettings(env);if(!visibleTo(user,cfg))return json({error:'마법카드 시스템이 아직 공개되지 않았습니다.'},403);if(!cfg.drawEnabled)return json({error:'마법카드 뽑기가 아직 개방되지 않았습니다.'},503);
-    const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),count=Number(body.count)===10?10:1,totalCost=cfg.drawCost*count;if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
+    const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,120),count=Number(body.count)===10?10:1,totalCost=cfg.drawCost*count,totalCoinCost=cfg.drawCoinCost*count;if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
     let existing=await env.DB.prepare('SELECT user_id,status,response_json FROM magic_card_draw_receipts WHERE request_id=?').bind(requestId).first();
     if(existing&&Number(existing.user_id)!==Number(user.id))return json({error:'이미 사용된 요청 ID입니다.'},409);
     if(existing?.status==='COMPLETED'&&existing.response_json){try{return json(JSON.parse(existing.response_json))}catch{}}
     if(existing?.status==='PENDING')return json({error:'이미 처리 중인 뽑기입니다.'},409);
     if(!existing){
-      await env.DB.prepare(`INSERT OR IGNORE INTO magic_card_draw_receipts(request_id,user_id,status,cost,created_at,updated_at) VALUES(?,?,'PENDING',?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(requestId,user.id,totalCost).run();
+      await env.DB.prepare(`INSERT OR IGNORE INTO magic_card_draw_receipts(request_id,user_id,status,cost,coin_cost,created_at,updated_at) VALUES(?,?,'PENDING',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)`).bind(requestId,user.id,totalCost,totalCoinCost).run();
       existing=await env.DB.prepare('SELECT user_id,status,response_json FROM magic_card_draw_receipts WHERE request_id=?').bind(requestId).first();
       if(!existing||Number(existing.user_id)!==Number(user.id))return json({error:'뽑기 요청을 등록하지 못했습니다.'},409);
     }else{
-      await env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='PENDING',cost=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(totalCost,requestId,user.id).run();
+      await env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='PENDING',cost=?,coin_cost=?,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(totalCost,totalCoinCost,requestId,user.id).run();
     }
     let deducted=false,rewardCommitted=false;
     try{
       const pool=(await env.DB.prepare(`SELECT * FROM magic_cards WHERE is_active=1 AND draw_weight>0 ORDER BY sort_order,id`).all()).results;if(!pool.length)throw new Error('활성화된 마법카드가 없습니다.');
-      const spend=await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals-? WHERE id=? AND magic_crystals>=?').bind(totalCost,user.id,totalCost).run();
-      if(Number(spend.meta?.changes||0)!==1){const e=new Error(`마법 결정이 부족합니다. (${totalCost.toLocaleString()}개 필요)`);e.status=400;throw e}deducted=true;
-      const ownedRows=(await env.DB.prepare('SELECT magic_card_id,quantity FROM user_magic_cards WHERE user_id=? AND quantity>0').bind(user.id).all()).results||[],owned=new Map(ownedRows.map(row=>[Number(row.magic_card_id),Number(row.quantity||0)])),results=[],newCards=[];let totalRefund=0;
+      const spend=await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals-?,coin=coin-? WHERE id=? AND magic_crystals>=? AND coin>=?').bind(totalCost,totalCoinCost,user.id,totalCost,totalCoinCost).run();
+      if(Number(spend.meta?.changes||0)!==1){const fresh=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),missing=[];if(Number(fresh?.coin||0)<totalCoinCost)missing.push(`코인 ${totalCoinCost.toLocaleString()}`);if(Number(fresh?.magic_crystals||0)<totalCost)missing.push(`마법 결정 ${totalCost.toLocaleString()}`);const e=new Error(`${missing.join('과 ')}이 부족합니다.`);e.status=400;throw e}deducted=true;
+      const ownedRows=(await env.DB.prepare('SELECT magic_card_id,quantity,enhancement_level FROM user_magic_cards WHERE user_id=? AND quantity>0').bind(user.id).all()).results||[],owned=new Map(ownedRows.map(row=>[Number(row.magic_card_id),Number(row.quantity||0)])),results=[],pickedCards=[];let totalRefund=0;
       for(let index=0;index<count;index++){
         const picked=randomPick(pool),ownedQuantity=Number(owned.get(Number(picked.id))||0),duplicate=ownedQuantity>0,refund=duplicate?integer(cfg.duplicateRefund?.[String(picked.rarity||'R')],0):0;
-        if(!duplicate){owned.set(Number(picked.id),1);newCards.push(picked)}
-        totalRefund+=refund;results.push({card:cardPayload({...picked,quantity:duplicate?ownedQuantity:1}),duplicate,refund,index});
+        owned.set(Number(picked.id),ownedQuantity+1);pickedCards.push(picked);
+        totalRefund+=refund;results.push({card:cardPayload({...picked,quantity:ownedQuantity+1},cfg),duplicate,refund,index});
       }
-      const spentUser=await env.DB.prepare('SELECT magic_crystals FROM users WHERE id=?').bind(user.id).first();if(!spentUser)throw new Error('유저 정보를 찾을 수 없습니다.');
+      const spentUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first();if(!spentUser)throw new Error('유저 정보를 찾을 수 없습니다.');
       const finalBalance=Number(spentUser.magic_crystals||0)+totalRefund,duplicateCount=results.filter(row=>row.duplicate).length;
-      const result={ok:true,count,results,totalCost,totalRefund,newCount:count-duplicateCount,duplicateCount,magicCrystals:finalBalance,...(count===1?{card:results[0].card,duplicate:results[0].duplicate,refund:results[0].refund}:{})};
+      const result={ok:true,count,results,totalCost,totalCoinCost,totalRefund,newCount:count-duplicateCount,duplicateCount,magicCrystals:finalBalance,coin:Number(spentUser.coin||0),...(count===1?{card:results[0].card,duplicate:results[0].duplicate,refund:results[0].refund}:{})};
       const statements=[];
-      for(const picked of newCards)statements.push(env.DB.prepare(`INSERT INTO user_magic_cards(user_id,magic_card_id,quantity,first_obtained_at,updated_at) VALUES(?,?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,magic_card_id) DO UPDATE SET quantity=user_magic_cards.quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,picked.id));
+      for(const picked of pickedCards)statements.push(env.DB.prepare(`INSERT INTO user_magic_cards(user_id,magic_card_id,quantity,enhancement_level,first_obtained_at,updated_at) VALUES(?,?,1,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,magic_card_id) DO UPDATE SET quantity=user_magic_cards.quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,picked.id));
       if(totalRefund>0)statements.push(env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(totalRefund,user.id));
       statements.push(env.DB.prepare(`INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,?)`).bind(user.id,-totalCost+totalRefund,finalBalance,duplicateCount?`마법카드 ${count}회 뽑기 · 중복 ${duplicateCount}장 환급`:`마법카드 ${count}회 뽑기`,'MAGIC_DRAW',requestId));
+      if(totalCoinCost>0)statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'마법카드 뽑기')`).bind(user.id,-totalCoinCost,Number(spentUser.coin||0)));
       statements.push(env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(JSON.stringify(result),requestId,user.id));
       await env.DB.batch(statements);rewardCommitted=true;
       return json(result);
     }catch(error){
-      if(deducted&&!rewardCommitted)await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(totalCost,user.id).run();
+      if(deducted&&!rewardCommitted)await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+?,coin=coin+? WHERE id=?').bind(totalCost,totalCoinCost,user.id).run();
       if(!rewardCommitted)await env.DB.prepare(`UPDATE magic_card_draw_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(String(error.message||error).slice(0,300),requestId,user.id).run();
       return json({error:String(error.message||error)},Number(error.status||500));
     }

@@ -271,10 +271,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     for(const magic of (Array.isArray(cards)?cards:[])){
       const fighter=team[Math.max(0,Number(magic.slotNo||1)-1)];if(!fighter)continue;
       const state={...magic,activations:0},value=Math.max(0,Number(magic.effectValue||0));magicByFighter.set(fighter.id,state);
-      if(state.effectType==='OPENING_ATTACK')fighter.attack=Math.max(1,Math.round(fighter.attack*(1+value/100)));
-      if(state.effectType==='LIFE_AMPLIFY'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.maxHp+=gain;fighter.hp+=gain;}
-      if(state.effectType==='GUARD_BARRIER'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.shield+=gain;fighter.maxShield+=gain;}
-      if(['OPENING_ATTACK','LIFE_AMPLIFY','GUARD_BARRIER'].includes(state.effectType)){state.activations=1;pushEvent(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,magicImageUrl:state.imageUrl,magicRarity:state.rarity,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});}
+      if(['OPENING_ATTACK','LIFE_AMPLIFY','GUARD_BARRIER'].includes(state.effectType)&&state.maxActivations>0&&random()*100<Number(state.triggerChance||0)){
+        if(state.effectType==='OPENING_ATTACK')fighter.attack=Math.max(1,Math.round(fighter.attack*(1+value/100)));
+        if(state.effectType==='LIFE_AMPLIFY'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.maxHp+=gain;fighter.hp+=gain;}
+        if(state.effectType==='GUARD_BARRIER'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.shield+=gain;fighter.maxShield+=gain;}
+        state.activations=1;pushEvent(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,magicImageUrl:state.imageUrl,magicRarity:state.rarity,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});
+      }
     }
   };
   registerMagic(a,magicA);registerMagic(b,magicB);

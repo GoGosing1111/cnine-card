@@ -1176,6 +1176,16 @@ async function ensureUpgrades(env){
         env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1094_magic_card_foundation','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value='1',updated_at=CURRENT_TIMESTAMP")
       ]);
     }
+    const magicEnhancementDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1501_magic_enhancement'").first();
+    if(magicEnhancementDone?.value!=='1'){
+      if(!await columnExists(env,'user_magic_cards','enhancement_level'))await env.DB.prepare('ALTER TABLE user_magic_cards ADD COLUMN enhancement_level INTEGER NOT NULL DEFAULT 0').run();
+      if(!await columnExists(env,'magic_card_draw_receipts','coin_cost'))await env.DB.prepare('ALTER TABLE magic_card_draw_receipts ADD COLUMN coin_cost INTEGER NOT NULL DEFAULT 0').run();
+      await env.DB.batch([
+        env.DB.prepare(`CREATE TABLE IF NOT EXISTS magic_card_enhance_receipts (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,magic_card_id INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_magic_enhance_receipts_user ON magic_card_enhance_receipts(user_id,created_at DESC)'),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1501_magic_enhancement','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const magicAcquisitionDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1102_magic_crystal_acquisition'").first();
     if(magicAcquisitionDone?.value!=='1'){
       await ensureMagicRewardFoundation(env);
