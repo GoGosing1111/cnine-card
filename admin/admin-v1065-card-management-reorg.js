@@ -25,7 +25,8 @@
     const pity=d.pity&&typeof d.pity==='object'?d.pity:{enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};
     if(!Array.isArray(pity.thresholds)) pity.thresholds=Array(10).fill(5);
     pity.thresholds=Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Number(pity.thresholds[i]||5))));
-    const maHigh=d.maHigh&&typeof d.maHigh==='object'?d.maHigh:{enabled:false,steps:Array.from({length:3},()=>({cost:1,rate:100,retirementShardRefund:0}))};if(!Array.isArray(maHigh.steps))maHigh.steps=[];maHigh.steps=Array.from({length:3},(_,i)=>({cost:Math.max(1,Number(maHigh.steps[i]?.cost||1)),rate:Math.max(0,Math.min(100,Number(maHigh.steps[i]?.rate??100))),retirementShardRefund:Math.max(0,Number(maHigh.steps[i]?.retirementShardRefund||0))}));return {...d,grades,config,pity,maHigh};
+    const normalizeHigh=(raw,fallback)=>{const high=raw&&typeof raw==='object'?raw:fallback;if(!Array.isArray(high.steps))high.steps=[];high.steps=Array.from({length:3},(_,i)=>({cost:Math.max(1,Number(high.steps[i]?.cost||fallback.steps[i].cost)),rate:Math.max(0,Math.min(100,Number(high.steps[i]?.rate??fallback.steps[i].rate))),retirementShardRefund:Math.max(0,Number(high.steps[i]?.retirementShardRefund||fallback.steps[i].retirementShardRefund||0))}));return high};
+    const maHigh=normalizeHigh(d.maHigh,{enabled:true,steps:[{cost:1,rate:85,retirementShardRefund:3000},{cost:3,rate:50,retirementShardRefund:4000},{cost:5,rate:25,retirementShardRefund:5000}]}),limitedHigh=normalizeHigh(d.limitedHigh,{enabled:true,steps:[{cost:5,rate:50,retirementShardRefund:3000},{cost:10,rate:30,retirementShardRefund:4000},{cost:15,rate:20,retirementShardRefund:5000}]});return {...d,grades,config,pity,maHigh,limitedHigh};
   }
   async function load(){
     const d=await api('admin/breakthrough-settings');data=normalizeData(d);render();
@@ -38,7 +39,7 @@
     tabs.dataset.grade=current;
     tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{tabs.dataset.grade=b.dataset.grade;render()});
     $('#enhancementRows').innerHTML=(data.config[current]||[]).map((r,i)=>`<div class="enhancementRow"><div><small>STEP ${i+1}</small><b>★${i} → ★${i+1}</b></div><label><span>카드 조각 비용</span><input data-kind="cost" data-index="${i}" type="number" min="1" max="10000000" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label></div>`).join('');
-    const highPanel=$('#maHighEnhancementPanel');if(highPanel){const masterStarGrade=['MA','LIMITED'].includes(current);highPanel.hidden=!masterStarGrade;$('#maHighEnabled').checked=data.maHigh?.enabled===true;$('#maHighEnhancementRows').innerHTML=data.maHigh.steps.map((r,i)=>`<div class="enhancementRow maHighEnhancementRow"><div><small>${current} MASTER STAR STEP ${i+1}</small><b>★${10+i} → ★${11+i}</b></div><label><span>마스터의 별 비용</span><input data-ma-high-kind="cost" data-index="${i}" type="number" min="1" max="9999" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-ma-high-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label><label><span>퇴사 환급 카드 조각</span><input data-ma-high-kind="retirementShardRefund" data-index="${i}" type="number" min="0" max="10000000" value="${Number(r.retirementShardRefund||0)}"></label></div>`).join('')}
+    const highPanel=$('#maHighEnhancementPanel');if(highPanel){const masterStarGrade=['MA','LIMITED'].includes(current),high=current==='LIMITED'?data.limitedHigh:data.maHigh;highPanel.hidden=!masterStarGrade;$('#maHighEnabled').checked=high?.enabled===true;$('#maHighEnhancementRows').innerHTML=high.steps.map((r,i)=>`<div class="enhancementRow maHighEnhancementRow"><div><small>${current} MASTER STAR STEP ${i+1}</small><b>★${10+i} → ★${11+i}</b></div><label><span>마스터의 별 비용</span><input data-ma-high-kind="cost" data-index="${i}" type="number" min="1" max="9999" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-ma-high-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label><label><span>퇴사 환급 카드 조각</span><input data-ma-high-kind="retirementShardRefund" data-index="${i}" type="number" min="0" max="10000000" value="${Number(r.retirementShardRefund||0)}"></label></div>`).join('')}
     if(highPanel&&!highPanel.hidden){const title=highPanel.querySelector('h3'),description=highPanel.querySelector('.maintenanceHead p');if(title)title.textContent=`${current} +10 → +13 고급 강화`;if(description)description.textContent='+10 이후 세 단계는 카드 조각 대신 마스터의 별을 사용합니다.'}
     $('#ssrPityEnabled').checked=data.pity?.enabled!==false;
     $('#ssrPityRows').innerHTML=Array.from({length:10},(_,i)=>`<div class="enhancementRow pityRow"><div><small>SSR STEP ${i+1}</small><b>★${i} → ★${i+1}</b></div><label><span>연속 실패 횟수</span><input data-pity-index="${i}" type="number" min="1" max="100" value="${Number(data.pity?.thresholds?.[i]||5)}"></label><em>${Number(data.pity?.thresholds?.[i]||5)}회 실패 후 다음 시도 확정</em></div>`).join('');
@@ -46,10 +47,10 @@
   async function save(){
     const grade=$('#enhancementGradeTabs').dataset.grade||'SR';
     $('#enhancementRows').querySelectorAll('input').forEach(input=>{data.config[grade][Number(input.dataset.index)][input.dataset.kind]=Number(input.value)});
-    $('#maHighEnhancementRows')?.querySelectorAll('input').forEach(input=>{data.maHigh.steps[Number(input.dataset.index)][input.dataset.maHighKind]=Number(input.value)});
-    data.maHigh.enabled=$('#maHighEnabled')?.checked===true;
+    const high=grade==='LIMITED'?data.limitedHigh:data.maHigh;$('#maHighEnhancementRows')?.querySelectorAll('input').forEach(input=>{high.steps[Number(input.dataset.index)][input.dataset.maHighKind]=Number(input.value)});
+    high.enabled=$('#maHighEnabled')?.checked===true;
     const pity={enabled:$('#ssrPityEnabled').checked,grade:'SSR',thresholds:Array.from($('#ssrPityRows').querySelectorAll('[data-pity-index]')).map(x=>Number(x.value))};
-    const d=await api('admin/breakthrough-settings',{method:'PATCH',body:JSON.stringify({config:data.config,pity,maHigh:data.maHigh})});data=normalizeData(d);alert('돌파·강화 설정을 저장했습니다.');render();
+    const d=await api('admin/breakthrough-settings',{method:'PATCH',body:JSON.stringify({config:data.config,pity,maHigh:data.maHigh,limitedHigh:data.limitedHigh})});data=normalizeData(d);alert('돌파·강화 설정을 저장했습니다.');render();
   }
 
   function collapseEvolutionLogs(){
