@@ -455,6 +455,7 @@ export async function handleSiege({ path, request, env, deps }) {
         characterBonus: Number(characterBonus?.pve || 0),
         monster,
         seed,
+        singleHealerBonus: battleCfg?.engine?.singleHealerBonus,
       }),
       result = battleV2.result.winner === "A" ? "WIN" : "LOSE",
       baseContribution = Math.max(

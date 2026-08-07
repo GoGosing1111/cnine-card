@@ -206,6 +206,18 @@ function healerPenaltyForTeam(team = []) {
   return { healerCount, reductionPercent, multiplier: 1 - reductionPercent / 100 };
 }
 
+function normalizeSingleHealerBonus(raw = {}) {
+  return {
+    enabled: raw?.enabled !== false,
+    teamHpPercent: clamp(raw?.teamHpPercent ?? 8, 0, 50),
+    healPercent: clamp(raw?.healPercent ?? 10, 0, 50),
+    crisisThresholdPercent: clamp(raw?.crisisThresholdPercent ?? 40, 1, 99),
+    crisisHealPercent: clamp(raw?.crisisHealPercent ?? 16, 0, 80),
+    pvpMaxActivations: Math.round(clamp(raw?.pvpMaxActivations ?? 4, 0, 20)),
+    pveMaxActivations: Math.round(clamp(raw?.pveMaxActivations ?? 6, 0, 30)),
+  };
+}
+
 function maybeEmergencyHeal(target, timeline, clock, healMultiplier = 1) {
   if (!target.alive || target.hp <= 0 || target.type !== 'HP' || target.emergencyUsed) return;
   if (target.hp / target.maxHp > 0.30) return;
@@ -259,7 +271,7 @@ function resolveKnockout(target, timeline, clock) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, healerPenalty = false } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, healerPenalty = false, singleHealerBonus = {} } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
@@ -294,6 +306,33 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const healerRules = healerPenalty ? { A: healerPenaltyForTeam(a), B: healerPenaltyForTeam(b) } : { A: { healerCount: 0, reductionPercent: 0, multiplier: 1 }, B: { healerCount: 0, reductionPercent: 0, multiplier: 1 } };
   for (const fighter of a) fighter.teamHealerCount = healerRules.A.healerCount;
   for (const fighter of b) fighter.teamHealerCount = healerRules.B.healerCount;
+  const singleHealer = normalizeSingleHealerBonus(singleHealerBonus);
+  if (singleHealer.enabled) {
+    for (const team of [a, b]) {
+      const healers = team.filter((card) => card.type === 'HP');
+      if (healers.length !== 1) continue;
+      const healer = healers[0];
+      healer.singleHealerActive = true;
+      healer.singleHealerUses = 0;
+      healer.singleHealerMaxUses = healer.battleMode === 'PVE'
+        ? singleHealer.pveMaxActivations
+        : singleHealer.pvpMaxActivations;
+      const targets = [];
+      for (const target of team) {
+        const amount = Math.max(0, Math.round(target.maxHp * singleHealer.teamHpPercent / 100));
+        target.maxHp += amount;
+        target.hp += amount;
+        targets.push({ targetId: target.id, amount, hpAfter: target.hp, maxHp: target.maxHp });
+      }
+      pushEvent(timeline, clock, 'SINGLE_HEALER_AURA', {
+        actorId: healer.id,
+        side: healer.side,
+        teamHpPercent: singleHealer.teamHpPercent,
+        targets,
+        label: '단일 힐러 · 생명 연결',
+      });
+    }
+  }
 
   for (const team of [a,b]) {
     const guards=team.filter(card=>card.type==='DEFENSE');
@@ -386,6 +425,32 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       actor.hp += amount;
       actor.healingDone += amount;
       pushEvent(timeline, clock, 'REGEN', { targetId: actor.id, amount, hpAfter: actor.hp, maxHp: actor.maxHp, label: '생명형 · 지속 회복' });
+    }
+
+    if (actor.singleHealerActive && actor.singleHealerUses < actor.singleHealerMaxUses) {
+      const allyTeam = actor.side === 'A' ? a : b;
+      const target = alive(allyTeam)
+        .filter((card) => card.hp < card.maxHp)
+        .sort((x, y) => x.hp / x.maxHp - y.hp / y.maxHp || x.slot - y.slot)[0];
+      if (target) {
+        const crisis = target.hp / Math.max(1, target.maxHp) <= singleHealer.crisisThresholdPercent / 100;
+        const percent = crisis ? singleHealer.crisisHealPercent : singleHealer.healPercent;
+        const amount = Math.min(target.maxHp - target.hp, Math.max(1, Math.round(target.maxHp * percent / 100)));
+        target.hp += amount;
+        actor.healingDone += amount;
+        actor.singleHealerUses += 1;
+        pushEvent(timeline, clock, 'TEAM_HEAL', {
+          actorId: actor.id,
+          targetId: target.id,
+          amount,
+          hpAfter: target.hp,
+          maxHp: target.maxHp,
+          crisis,
+          activation: actor.singleHealerUses,
+          maxActivations: actor.singleHealerMaxUses,
+          label: crisis ? '생명 연결 · 위기 회복' : '생명 연결 · 아군 회복',
+        });
+      }
     }
 
     const enemyTeam = actor.side === 'A' ? b : a;
@@ -563,7 +628,7 @@ function forcePveMonsterSurvivalLoss(result = {}) {
   return { ...result, winner: 'B', reason: 'MONSTER_SURVIVED', originalWinner: result.winner, originalReason: result.reason, timeline };
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0 } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, singleHealerBonus = {} } = {}) {
   const withBonus = distributeEquipment(cards, Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const teamB = [buildMonsterFighter(monster)];
@@ -571,7 +636,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     teamA, teamB, magicA:magicCards, seed, maxActions: 120,
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent,
-    healerPenalty: true
+    healerPenalty: true,
+    singleHealerBonus
   });
   // PVE는 제한 행동까지 몬스터가 살아 있으면 잔여 HP 비율과 무관하게 실패한다.
   const result = forcePveMonsterSurvivalLoss(simulated);
@@ -580,7 +646,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.6,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 120, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 120, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
@@ -602,12 +668,12 @@ function resolvePvpDraw(result, teamA, teamB) {
   return { ...result, winner, reason: 'POWER_TIEBREAK', originalReason: result.reason || 'ACTION_LIMIT', timeline: patchedTimeline };
 }
 
-export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1 } = {}) {
+export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1, singleHealerBonus = {} } = {}) {
   const attackerWithEquipment = distributeEquipment(attackerCards, Math.max(0, Number(attackerEquipmentBonus || 0)));
   const defenderWithEquipment = distributeEquipment(defenderCards, Math.max(0, Number(defenderEquipmentBonus || 0)));
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
-  const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 100, healerPenalty: true });
+  const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 100, healerPenalty: true, singleHealerBonus });
   const result = resolvePvpDraw(simulated, teamA, teamB);
   return {
     schemaVersion: 2,
@@ -622,6 +688,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       drawRule: 'POWER_THEN_ATTACKER',
       healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 },
       healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED',
+      singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus),
       dbTimelineWrites: 0
     },
     teams: {

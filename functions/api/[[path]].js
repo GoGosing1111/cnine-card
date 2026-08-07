@@ -803,7 +803,8 @@ async function riftReceiptFail(env,requestId,message){await env.DB.prepare("UPDA
 
 function normalizeBattleEngineSettings(raw={}){
   const mode=String(raw?.mode??'V2_OWNER').trim().toUpperCase();
-  return {mode:['LEGACY','V2_OWNER','V2_PUBLIC'].includes(mode)?mode:'LEGACY',playbackSpeed:1.6};
+  const healer=raw?.singleHealerBonus||{};
+  return {mode:['LEGACY','V2_OWNER','V2_PUBLIC'].includes(mode)?mode:'LEGACY',playbackSpeed:1.6,singleHealerBonus:{enabled:healer.enabled!==false,teamHpPercent:Math.max(0,Math.min(50,Number(healer.teamHpPercent??8))),healPercent:Math.max(0,Math.min(50,Number(healer.healPercent??10))),crisisThresholdPercent:Math.max(1,Math.min(99,Number(healer.crisisThresholdPercent??40))),crisisHealPercent:Math.max(0,Math.min(80,Number(healer.crisisHealPercent??16))),pvpMaxActivations:Math.max(0,Math.min(20,Math.floor(Number(healer.pvpMaxActivations??4)))),pveMaxActivations:Math.max(0,Math.min(30,Math.floor(Number(healer.pveMaxActivations??6))))}};
 }
 function defaultBattleSettings(){return {enabled:true,deckSize:5,engine:normalizeBattleEngineSettings(),powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL-v1497.webp',durationMs:3000,coefficientPercent:500}]};}
 function cleanBattleSettingsPayload(x={},base=defaultBattleSettings()){
@@ -4224,7 +4225,7 @@ async function handleRequest(context){
       if(engineState.active){
         const seed=parseInt(drawIntegrityHash(`${user.id}:${monster.id}:${requestId}`),16)>>>0;
         const engineCards=battleCards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:card.uniqueAbility||null}));
-        battleV2=createPveBattleV2({cards:engineCards,magicCards:magicLoadout.cards,characterBonus:Number(characterBonus.pve||0),monster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0});
+        battleV2=createPveBattleV2({cards:engineCards,magicCards:magicLoadout.cards,characterBonus:Number(characterBonus.pve||0),monster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
       const reward=result==='WIN'?burningRewardAmount(monster.reward_coin,burning):0;
@@ -4507,7 +4508,7 @@ async function handleRequest(context){
         const seed=parseInt(drawIntegrityHash(`${user.id}:${defenderId}:${requestId}:PVP_V2`),16)>>>0;
         const attackerEngineCards=aCards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:aUniqueById.get(String(card.id))||card.uniqueAbility||null}));
         const defenderEngineCards=dCards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:dUniqueById.get(String(card.id))||card.uniqueAbility||null}));
-        battleV2=createPvpBattleV2({attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed});
+        battleV2=createPvpBattleV2({attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed,singleHealerBonus:engineState.singleHealerBonus});
       }
       const attackerWin=engineState.active?battleV2.result.winner==='A':legacyAPower>=legacyDPower;
       const aPower=engineState.active?Number(battleV2.teams.A.summary.power||legacyAPower):legacyAPower,dPower=engineState.active?Number(battleV2.teams.B.summary.power||legacyDPower):legacyDPower;
@@ -5125,6 +5126,19 @@ async function handleRequest(context){
       if(request.method==='POST'&&payload.action==='END'){const id=Number(payload.instanceId);if(!id)return json({error:'진행 중 레이드가 없습니다.'},400);const cfg=await raidSettings(env);await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(id).run();await ensureRaidFinalizedV1293(env,id,cfg);await writeAdminLog(env,admin,'RAID_FORCE_END','RAID_INSTANCE',String(id),null,null);return json({ok:true});}
     }
 
+    if(path==='admin/battle/single-healer'){
+      const admin=await requirePermission(request,env,'CARD_EDIT');if(!admin)return json({error:'전투 관리 권한이 없습니다.'},403);
+      const before=await battleSettings(env);
+      if(request.method==='GET')return json({singleHealerBonus:before.engine?.singleHealerBonus});
+      if(request.method==='PATCH'){
+        const payload=await readBody(request),clean=cleanBattleSettingsPayload({...before,engine:{...before.engine,singleHealerBonus:payload.singleHealerBonus||{}}},defaultBattleSettings());
+        await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();
+        runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
+        await writeAdminLog(env,admin,'SINGLE_HEALER_BALANCE_UPDATE','SETTINGS','battle_single_healer',before.engine?.singleHealerBonus,saved.engine?.singleHealerBonus);
+        return json({ok:true,singleHealerBonus:saved.engine?.singleHealerBonus});
+      }
+      return json({error:'지원하지 않는 요청입니다.'},405);
+    }
     if(path==='admin/battle'){
       const admin=await requirePermission(request,env,'CARD_EDIT'); if(!admin)return json({error:'전투 관리 권한이 없습니다.'},403);
       if(request.method==='GET'){
@@ -5132,6 +5146,10 @@ async function handleRequest(context){
         return json({settings:await battleSettings(env),monsters:monsters.results});
       }
       const payload=await readBody(request);
+      if(request.method==='PATCH'&&payload.settings&&!payload.settings.engine?.singleHealerBonus){
+        const currentBattle=await battleSettings(env);
+        payload.settings.engine={...(payload.settings.engine||{}),singleHealerBonus:currentBattle.engine?.singleHealerBonus};
+      }
       if(request.method==='PATCH'&&Array.isArray(payload.ultimateRules)){
         const before=await battleSettings(env);
         const ultimateRules=payload.ultimateRules.slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:String(u?.requiredGrade||'SSR').toUpperCase(),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}));
