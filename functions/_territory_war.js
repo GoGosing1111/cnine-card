@@ -12,7 +12,7 @@ const NODES=Object.freeze([
 
 const DEFAULTS=Object.freeze({
   mode:'OFF',battleName:'',teamAName:'A 진영',teamBName:'B 진영',recruitmentHours:3,preparationMinutes:10,roundMinutes:180,minParticipants:6,
-  energyMax:10,energyMinutes:10,attackEnergyCost:1,realtimePollSeconds:3,
+  energyMax:10,energyMinutes:10,attackEnergyCost:1,realtimePollSeconds:12,
   baseSiegeHp:500000,outpostHpMultiplier:1.1,midHpMultiplier:1.2,gateHpMultiplier:1.4,homeHpMultiplier:2,
   damageScale:6,minDamage:100,maxDamage:5000,damageVariancePercent:10,recentActionLimit:20,
   individualBattleWinCoin:0,
@@ -523,7 +523,7 @@ async function sharedPublicState(env,round,cfg){
     env.DB.prepare(`SELECT side,COUNT(*) count FROM territory_war_v3_users WHERE round_id=? AND side IN ('A','B') AND status='ACTIVE' GROUP BY side`).bind(round.id).all(),
     env.DB.prepare('SELECT side,operation FROM territory_war_v3_operation_uses WHERE round_id=?').bind(round.id).all()
   ]).then(([front,counts,ranking,recentResults,recentActions,notice,votes,participants,operationUses])=>({front,counts:counts||{},ranking:ranking.results||[],recentResults:recentResults.results||[],recentActions:recentActions.results||[],notice,votes:votes.results||[],participants:participants.results||[],operationUses:operationUses.results||[]}));
-  publicStateSharedCache={key,expiresAt:now+1200,promise};
+  publicStateSharedCache={key,expiresAt:now+8000,promise};
   try{return await promise}catch(error){if(publicStateSharedCache?.promise===promise)publicStateSharedCache=null;throw error}
 }
 
@@ -585,6 +585,11 @@ async function handleAttack(env,deps,user,cfg,body){
   if(reservation.conflict)return deps.json({error:'다른 사용자의 요청 ID입니다.'},409);
   if(reservation.pending)return deps.json({ok:true,pending:true,requestId,retryAfterMs:300});
   if(reservation.completed||reservation.applied)return completedBattleResponse(env,deps,user,reservation.row,cfg,true);
+  const attackLock=await acquireLock(env,`attack_user_${user.id}`,30000);
+  if(!attackLock.ok){
+    await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind('동일 계정의 다른 공격을 처리 중입니다.',requestId).run();
+    return deps.json({error:'동일 계정의 다른 공격을 처리 중입니다. 잠시 후 다시 시도해 주세요.',retryable:true},409);
+  }
   try{
     const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')throw new Error('현재 전투 가능한 영토전 회차가 아닙니다.');
     const front=await activeFront(env,round);if(!front||front.status!=='ACTIVE')throw new Error('현재 교전지가 준비되지 않았습니다.');
@@ -629,7 +634,7 @@ async function handleAttack(env,deps,user,cfg,body){
     const actual=Number(action.damage||0),stored={...safeJson(action.result_json,compact),damage:actual,targetHpAfter:Math.max(0,Number(safeJson(action.result_json,compact).targetHpBefore||targetHp)-actual)};await env.DB.prepare("UPDATE territory_war_v3_actions SET result_json=? WHERE request_id=? AND status='APPLIED'").bind(JSON.stringify(stored),requestId).run();action={...action,result_json:JSON.stringify(stored)};
     const completed=await completeAppliedAction(env,action,cfg),result={...completed,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,battleEngine:{active:true,version:'V2',mode:'TERRITORY_WAR_V3'}};
     return deps.json({ok:true,result,state:await realtimeState(env,user.id)});
-  }catch(error){const row=await env.DB.prepare('SELECT status FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(row?.status==='PENDING')await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(String(error.message||error).slice(0,300),requestId).run();return deps.json({error:error.message||'영토전 교전 처리에 실패했습니다.',retryable:/변경|처리/.test(String(error.message||''))},409)}
+  }catch(error){const row=await env.DB.prepare('SELECT status FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(row?.status==='PENDING')await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(String(error.message||error).slice(0,300),requestId).run();return deps.json({error:error.message||'영토전 교전 처리에 실패했습니다.',retryable:/변경|처리/.test(String(error.message||''))},409)}finally{await releaseLock(env,attackLock)}
 }
 
 async function claimV3(env,deps,user){
