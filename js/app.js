@@ -1030,9 +1030,13 @@ function normalizeUltimateMediaPath(path){const v=String(path||'/assets/effects/
 function applyUltimateViewport(stage,overlay){
   if(!stage||!overlay)return ()=>{};
   const update=()=>{
-    const rect=stage.getBoundingClientRect();
-    const w=Math.max(240,Math.round(rect.width||window.innerWidth||1280));
-    const h=Math.max(320,Math.round(rect.height||window.innerHeight||720));
+    const viewport=window.visualViewport;
+    const w=Math.max(240,Math.round(viewport?.width||window.innerWidth||document.documentElement.clientWidth||1280));
+    const h=Math.max(320,Math.round(viewport?.height||window.innerHeight||document.documentElement.clientHeight||720));
+    overlay.style.left=`${Math.round(viewport?.offsetLeft||0)}px`;
+    overlay.style.top=`${Math.round(viewport?.offsetTop||0)}px`;
+    overlay.style.width=`${w}px`;
+    overlay.style.height=`${h}px`;
     overlay.style.setProperty('--ultimate-host-w',`${w}px`);
     overlay.style.setProperty('--ultimate-host-h',`${h}px`);
     overlay.classList.toggle('ultimate-host-narrow',w<=900);
@@ -1042,12 +1046,11 @@ function applyUltimateViewport(stage,overlay){
   };
   update();
   let ro=null;
-  const mobileHost=matchMedia('(max-width: 800px), (pointer: coarse)').matches;
-  if(!mobileHost&&typeof ResizeObserver==='function'){ro=new ResizeObserver(update);ro.observe(stage)}
-  if(!mobileHost){window.addEventListener('resize',update,{passive:true});window.addEventListener('orientationchange',update,{passive:true});}
-  return ()=>{ro?.disconnect();if(!mobileHost){window.removeEventListener('resize',update);window.removeEventListener('orientationchange',update)}};
+  if(typeof ResizeObserver==='function'){ro=new ResizeObserver(update);ro.observe(stage)}
+  window.addEventListener('resize',update,{passive:true});window.addEventListener('orientationchange',update,{passive:true});window.visualViewport?.addEventListener('resize',update,{passive:true});window.visualViewport?.addEventListener('scroll',update,{passive:true});
+  return ()=>{ro?.disconnect();window.removeEventListener('resize',update);window.removeEventListener('orientationchange',update);window.visualViewport?.removeEventListener('resize',update);window.visualViewport?.removeEventListener('scroll',update)};
 }
-async function playBattleUltimate(stage,ultimate,bonusDamage){if(!stage||!ultimate)return;const duration=Math.max(500,Math.min(30000,Number(ultimate.durationMs||3000))),playbackRate=Math.max(.5,Math.min(3,Number(ultimate.playbackRate||1))),src=normalizeUltimateMediaPath(ultimate.mediaUrl);const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);const overlay=document.createElement('div');overlay.className='battle-ultimate-overlay';overlay.innerHTML=`<div class="battle-ultimate-flash"></div><div class="battle-ultimate-title"><small>ULTIMATE SKILL</small><strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong><span>궁극기 타격 ${Number(bonusDamage||0).toLocaleString()}</span></div><div class="battle-ultimate-media">${isVideo?`<video src="${escapeHtml(src)}" playsinline webkit-playsinline preload="metadata" disablepictureinpicture></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}</div></div>`;stage.appendChild(overlay);const releaseUltimateViewport=applyUltimateViewport(stage,overlay);stage.classList.add('ultimate-playing');battleTone(520,.28,'sawtooth',.08);if(navigator.vibrate)navigator.vibrate([60,30,100]);await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);overlay.classList.add('closing');setTimeout(()=>{releaseUltimateViewport();overlay.remove();stage.classList.remove('ultimate-playing');resolve()},220)};const timer=setTimeout(finish,duration);const media=overlay.querySelector('video');if(media){media.muted=!battleSoundEnabled();media.volume=1;media.playbackRate=playbackRate;media.addEventListener('ended',finish,{once:true});media.addEventListener('error',()=>setTimeout(finish,800),{once:true});const playback=media.play();if(playback&&typeof playback.catch==='function')playback.catch(()=>{media.muted=true;media.play().catch(()=>{})})}const img=overlay.querySelector('img');if(img)img.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true})})}
+async function playBattleUltimate(stage,ultimate,bonusDamage){if(!stage||!ultimate)return;const duration=Math.max(500,Math.min(30000,Number(ultimate.durationMs||3000))),playbackRate=Math.max(.5,Math.min(3,Number(ultimate.playbackRate||1))),src=normalizeUltimateMediaPath(ultimate.mediaUrl);const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);const overlay=document.createElement('div');overlay.className='battle-ultimate-overlay';overlay.innerHTML=`<div class="battle-ultimate-flash"></div><div class="battle-ultimate-title"><small>ULTIMATE SKILL</small><strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong><span>궁극기 타격 ${Number(bonusDamage||0).toLocaleString()}</span></div><div class="battle-ultimate-media">${isVideo?`<video src="${escapeHtml(src)}" playsinline webkit-playsinline preload="metadata" disablepictureinpicture></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}</div></div>`;document.body.appendChild(overlay);const releaseUltimateViewport=applyUltimateViewport(stage,overlay);stage.classList.add('ultimate-playing');battleTone(520,.28,'sawtooth',.08);if(navigator.vibrate)navigator.vibrate([60,30,100]);await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);overlay.classList.add('closing');setTimeout(()=>{releaseUltimateViewport();overlay.remove();stage.classList.remove('ultimate-playing');resolve()},220)};const timer=setTimeout(finish,duration);const media=overlay.querySelector('video');if(media){media.muted=!battleSoundEnabled();media.volume=1;media.playbackRate=playbackRate;media.addEventListener('ended',finish,{once:true});media.addEventListener('error',()=>setTimeout(finish,800),{once:true});const playback=media.play();if(playback&&typeof playback.catch==='function')playback.catch(()=>{media.muted=true;media.play().catch(()=>{})})}const img=overlay.querySelector('img');if(img)img.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true})})}
 
 async function playBossBattleUltimate(stage,phase,ult){
   if(!stage||!ult)return {teamHpLoss:0,penalty:0};
@@ -1071,7 +1074,7 @@ async function playBossBattleUltimate(stage,phase,ult){
       <strong>${escapeHtml(ult.name||'ULTIMATE')}</strong>
       ${ult.description?`<span>${escapeHtml(ult.description)}</span>`:''}
     </div>`;
-  stage.appendChild(overlay);
+  document.body.appendChild(overlay);
   const releaseUltimateViewport=applyUltimateViewport(stage,overlay);
   stage.classList.add('boss-ultimate-fullscreen','ultimate-playing');
   if(phase)phase.textContent=ult.warningText||'BOSS ULTIMATE';

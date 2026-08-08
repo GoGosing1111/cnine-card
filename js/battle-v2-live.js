@@ -104,10 +104,11 @@
 
   function isEmbedded() { try { return window.self !== window.top; } catch { return true; } }
   function resolveLayout() {
-    const width = Number(window.innerWidth || document.documentElement.clientWidth || 0);
-    const height = Number(window.innerHeight || document.documentElement.clientHeight || 0);
+    const viewport=window.visualViewport;
+    const width = Number(viewport?.width || window.innerWidth || document.documentElement.clientWidth || 0);
+    const height = Number(viewport?.height || window.innerHeight || document.documentElement.clientHeight || 0);
     if (width <= 760) return width > height ? 'mobile-landscape' : 'mobile-portrait';
-    if (document.fullscreenElement && width >= 1100) return 'desktop';
+    if (width >= 1080) return 'desktop';
     if (isEmbedded()) return 'wago';
     return 'desktop';
   }
@@ -304,7 +305,7 @@
     }
 
     state.activeAId=String(firstLiving('A')?.id||'');state.activeBId=String(firstLiving('B')?.id||'');
-    const onResize=()=>applyLayout(); window.__battleV2LiveCleanup?.(); window.__battleV2LiveCleanup=()=>window.removeEventListener('resize',onResize);window.addEventListener('resize',onResize,{passive:true});
+    const onResize=()=>applyLayout(); window.__battleV2LiveCleanup?.(); window.__battleV2LiveCleanup=()=>{window.removeEventListener('resize',onResize);window.visualViewport?.removeEventListener('resize',onResize)};window.addEventListener('resize',onResize,{passive:true});window.visualViewport?.addEventListener('resize',onResize,{passive:true});
     applyLayout(true);syncFocusStage();renderOrder(0);setMessage('TACTICAL BATTLE','READY','HP·공격·방어·속도와 고유효과 전투 준비 완료');
 
     return {

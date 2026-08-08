@@ -3817,6 +3817,7 @@ body.burning-notice-open .fullscreen-play-link{
   max-width:100%;
   max-height:100%;
   contain:layout paint;
+  z-index:2147481000!important;
 }
 .battle-ultimate-media,
 .boss-ultimate-overlay-media{
@@ -3845,9 +3846,10 @@ body.burning-notice-open .fullscreen-play-link{
   background:#000;
 }
 .boss-ultimate-overlay{
-  position:absolute;
+  position:fixed;
   inset:0;
 }
+.battle-ultimate-overlay{position:fixed}
 .battle-v2-live-shell .battle-ultimate-overlay,
 .battle-v2-live-shell .boss-ultimate-overlay{
   border-radius:inherit;
