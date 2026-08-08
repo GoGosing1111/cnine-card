@@ -2598,6 +2598,12 @@ async function openWagoVerification(){
   }catch(e){panel.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
 
+const PLAYER_CLIENT_ID_KEY='cnine_player_client_id_v1552';
+function playerClientId(){
+  let value='';try{value=localStorage.getItem(PLAYER_CLIENT_ID_KEY)||''}catch(_){}
+  if(!/^[a-zA-Z0-9:_-]{12,120}$/.test(value)){value=globalThis.crypto?.randomUUID?.()||`client-${Date.now()}-${Math.random().toString(36).slice(2)}`;try{localStorage.setItem(PLAYER_CLIENT_ID_KEY,value)}catch(_){}}
+  return value;
+}
 async function apiRequest(path, options={}, config={}) {
   const cleanPath=apiCacheKey(path),method=String(options.method||'GET').toUpperCase(),isGet=method==='GET';
   const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now(),requestEpoch=PLAYER_STATE_MUTATION_EPOCH;
@@ -2610,7 +2616,7 @@ async function apiRequest(path, options={}, config={}) {
     const response=await fetchWithTimeout(`/api/${cleanPath}`,{
       cache:isGet&&ttl>0?'default':'no-store',
       ...options,
-      headers:{'content-type':'application/json','authorization':requestToken?`Bearer ${requestToken}`:'',...(options.headers||{})}
+      headers:{'content-type':'application/json','authorization':requestToken?`Bearer ${requestToken}`:'','x-cnine-client-id':playerClientId(),...(options.headers||{})}
     },timeoutMs,`서버 요청 (${cleanPath})`);
     const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
     let data={};

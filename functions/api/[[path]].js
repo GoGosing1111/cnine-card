@@ -2548,7 +2548,22 @@ async function authenticate(request,env){
   requestAuthenticationCache.set(request,authentication);
   return authentication;
 }
-async function makeSession(env,userId){
+let singleClientSessionSchemaPromise=null;
+async function ensureSingleClientSessionSchema(env){
+  if(singleClientSessionSchemaPromise)return singleClientSessionSchemaPromise;
+  singleClientSessionSchemaPromise=(async()=>{
+    const columns=await env.DB.prepare('PRAGMA table_info(sessions)').all();
+    if(!(columns.results||[]).some(row=>String(row.name)==='client_id')){
+      try{await env.DB.prepare("ALTER TABLE sessions ADD COLUMN client_id TEXT NOT NULL DEFAULT ''").run()}
+      catch(error){if(!/duplicate column/i.test(String(error?.message||error)))throw error}
+    }
+    return true;
+  })().catch(error=>{singleClientSessionSchemaPromise=null;throw error});
+  return singleClientSessionSchemaPromise;
+}
+async function makeSession(env,userId,requestedClientId=''){
+  await ensureSingleClientSessionSchema(env);
+  const clientId=String(requestedClientId||'').trim().replace(/[^a-zA-Z0-9:_-]/g,'').slice(0,120);
   const raw=createToken();
   const tokenHash=await hash(raw);
   const expiresAt=new Date(Date.now()+1000*60*60*24*30).toISOString();
@@ -2557,10 +2572,10 @@ async function makeSession(env,userId){
   await env.DB.prepare(`CREATE TABLE IF NOT EXISTS revoked_player_sessions_v1533(
     token_hash TEXT PRIMARY KEY,user_id INTEGER NOT NULL,reason TEXT NOT NULL,revoked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
   )`).run();
-  await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(tokenHash,userId,expiresAt).run();
+  await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at,client_id) VALUES(?,?,?,?)').bind(tokenHash,userId,expiresAt,clientId).run();
   if(operator)await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND expires_at<=datetime('now')").bind(userId).run();
   else{
-    await env.DB.prepare("INSERT OR REPLACE INTO revoked_player_sessions_v1533(token_hash,user_id,reason,revoked_at) SELECT token_hash,user_id,'MULTI_CLIENT_REPLACED',CURRENT_TIMESTAMP FROM sessions WHERE user_id=? AND token_hash<>?").bind(userId,tokenHash).run();
+    await env.DB.prepare("INSERT OR REPLACE INTO revoked_player_sessions_v1533(token_hash,user_id,reason,revoked_at) SELECT token_hash,user_id,CASE WHEN client_id='' OR (?<>'' AND client_id=?) THEN 'SAME_CLIENT_REFRESHED' ELSE 'MULTI_CLIENT_REPLACED' END,CURRENT_TIMESTAMP FROM sessions WHERE user_id=? AND token_hash<>?").bind(clientId,clientId,userId,tokenHash).run();
     await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(userId,tokenHash).run();
     await env.DB.prepare("DELETE FROM revoked_player_sessions_v1533 WHERE revoked_at<datetime('now','-7 days')").run();
   }
@@ -3272,7 +3287,7 @@ async function handleRequest(context){
         const result=await env.DB.prepare('INSERT INTO users(nickname,private_key_hash,coin) VALUES(?,?,?)').bind(nickname,privateKeyHash,newUserCoin).run();
         await env.DB.prepare('INSERT INTO account_ip_registrations(user_id,ip_hash) VALUES(?,?)').bind(result.meta.last_row_id,ipHash).run();
         const user=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(result.meta.last_row_id).first();
-        return json({token:await makeSession(env,user.id),privateKey,user:await profile(env,user)},201);
+        return json({token:await makeSession(env,user.id,payload.clientId||request.headers.get('x-cnine-client-id')),privateKey,user:await profile(env,user)},201);
       }catch(error){return json({error:String(error?.message||'').includes('account_ip')?'해당 네트워크에서는 이미 계정이 생성되었습니다.':'이미 사용 중인 닉네임입니다.'},409)}
     }
     if(path==='auth/login'&&request.method==='POST'){
@@ -3283,7 +3298,7 @@ async function handleRequest(context){
       if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
       const currentMaintenance=await maintenanceGateSettings(env);
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
-      return json({token:await makeSession(env,user.id),user:await profile(env,user),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
+      return json({token:await makeSession(env,user.id,payload.clientId||request.headers.get('x-cnine-client-id')),user:await profile(env,user),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
     }
     if(path==='auth/logout'&&request.method==='POST'){
       const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
