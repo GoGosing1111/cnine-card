@@ -530,6 +530,7 @@ async function sharedPublicState(env,round,cfg){
 async function publicState(env,userId,includeAdmin=false){
   const cfg=await settings(env),round=await lifecycle(env,cfg),mode=String(cfg.mode||'OFF').toUpperCase();
   if(!round)return{mode,settings:cfg,round:null,nodes:NODES,reward:await rewardForUser(env,userId),serverNow:iso()};
+  await recoverAppliedForUser(env,userId,cfg);
   const [shared,mineRow,reward]=await Promise.all([sharedPublicState(env,round,cfg),env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first(),rewardForUser(env,userId)]),front=shared.front,counts=shared.counts;
   let mine=null;if(mineRow){const e=rechargeEnergy(mineRow,cfg,front);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
   const ranking=shared.ranking,recentResults=shared.recentResults,recentActions=shared.recentActions;
@@ -542,6 +543,7 @@ async function publicState(env,userId,includeAdmin=false){
 
 async function realtimeState(env,userId){
   const cfg=await settings(env),round=await lifecycle(env,cfg);if(!round)return{round:null,serverNow:iso()};
+  await recoverAppliedForUser(env,userId,cfg);
   let front=null,mine=null;
   if(round.current_front_id){
     const row=await env.DB.prepare(`SELECT f.*,m.side m_side,m.energy m_energy,m.last_recharged_at m_last_recharged_at,m.attacks m_attacks,m.damage m_damage,m.defenses m_defenses FROM territory_war_v3_fronts f LEFT JOIN territory_war_v3_users m ON m.round_id=f.round_id AND m.user_id=? WHERE f.id=?`).bind(userId,round.current_front_id).first();
@@ -635,6 +637,13 @@ async function handleAttack(env,deps,user,cfg,body){
     const completed=await completeAppliedAction(env,action,cfg),result={...completed,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,battleEngine:{active:true,version:'V2',mode:'TERRITORY_WAR_V3'}};
     return deps.json({ok:true,result,state:await realtimeState(env,user.id)});
   }catch(error){const row=await env.DB.prepare('SELECT status FROM territory_war_v3_actions WHERE request_id=?').bind(requestId).first();if(row?.status==='PENDING')await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind(String(error.message||error).slice(0,300),requestId).run();return deps.json({error:error.message||'영토전 교전 처리에 실패했습니다.',retryable:/변경|처리/.test(String(error.message||''))},409)}finally{await releaseLock(env,attackLock)}
+}
+
+async function recoverAppliedForUser(env,userId,cfg){
+  const rows=await env.DB.prepare("SELECT * FROM territory_war_v3_actions WHERE user_id=? AND status='APPLIED' ORDER BY id LIMIT 3").bind(userId).all();
+  for(const action of rows.results||[]){
+    try{await completeAppliedAction(env,action,cfg)}catch(error){console.error('territory applied action recovery failed',{userId,requestId:action.request_id,error:String(error?.message||error)})}
+  }
 }
 
 async function claimV3(env,deps,user){
