@@ -2554,9 +2554,16 @@ async function makeSession(env,userId){
   const expiresAt=new Date(Date.now()+1000*60*60*24*30).toISOString();
   const account=await env.DB.prepare('SELECT role FROM users WHERE id=?').bind(userId).first();
   const operator=['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(String(account?.role||'USER').toUpperCase());
+  await env.DB.prepare(`CREATE TABLE IF NOT EXISTS revoked_player_sessions_v1533(
+    token_hash TEXT PRIMARY KEY,user_id INTEGER NOT NULL,reason TEXT NOT NULL,revoked_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`).run();
   await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(tokenHash,userId,expiresAt).run();
   if(operator)await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND expires_at<=datetime('now')").bind(userId).run();
-  else await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(userId,tokenHash).run();
+  else{
+    await env.DB.prepare("INSERT OR REPLACE INTO revoked_player_sessions_v1533(token_hash,user_id,reason,revoked_at) SELECT token_hash,user_id,'MULTI_CLIENT_REPLACED',CURRENT_TIMESTAMP FROM sessions WHERE user_id=? AND token_hash<>?").bind(userId,tokenHash).run();
+    await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(userId,tokenHash).run();
+    await env.DB.prepare("DELETE FROM revoked_player_sessions_v1533 WHERE revoked_at<datetime('now','-7 days')").run();
+  }
   return raw;
 }
 
@@ -6323,6 +6330,15 @@ export async function onRequest(context){
     }
   }
   try{if(!response)response=await handleRequest(context)}finally{await releaseUserMutationLock(context.env,mutationLock)}
+  if(response.status===401){
+    const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
+    if(raw){
+      try{
+        const tokenHash=await hash(raw),revoked=await context.env.DB.prepare("SELECT reason FROM revoked_player_sessions_v1533 WHERE token_hash=? AND reason='MULTI_CLIENT_REPLACED'").bind(tokenHash).first();
+        if(revoked)response=json({error:'다른 클라이언트에서 로그인되어 현재 접속이 종료되었습니다. 숲켓몬은 계정당 1개의 클라이언트만 이용할 수 있습니다.',code:'MULTI_CLIENT_BLOCKED',sessionEnded:true},401);
+      }catch(_){}
+    }
+  }
   const durationMs=Math.max(0,Date.now()-startedAt),headers=new Headers(response.headers);
   headers.set('server-timing',`app;dur=${durationMs}`);
   headers.set('x-cnine-response-ms',String(durationMs));

@@ -2302,6 +2302,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
+let MULTI_CLIENT_TERMINATING=false;
 let PLAYER_STATE_MUTATION_EPOCH=0;
 // Player-owned state must not be cached. Mutation responses are authoritative and
 // a later read must never resurrect an older balance or inventory summary.
@@ -2613,6 +2614,11 @@ async function apiRequest(path, options={}, config={}) {
       if(String(data.code||'').toUpperCase()==='MAINTENANCE'||(response.status===503&&data.maintenance?.active)){
         API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
         renderMaintenance(data.maintenance||{},data);
+      }
+      if(String(data.code||'').toUpperCase()==='MULTI_CLIENT_BLOCKED'&&!MULTI_CLIENT_TERMINATING){
+        MULTI_CLIENT_TERMINATING=true;API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
+        alert('다중 클라이언트 접속이 감지되었습니다.\n\n숲켓몬은 계정당 1개의 클라이언트만 이용할 수 있습니다.\n다른 클라이언트에서 로그인되어 현재 접속을 종료합니다.');
+        clearPlayerLogin();window.location.replace('/');
       }
       const error=new Error(data.error||'서버 요청 실패');Object.assign(error,data,{status:response.status,path:cleanPath});throw error;
     }
