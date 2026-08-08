@@ -2168,7 +2168,10 @@ async function inspectWagoComment(settings,verification){
     replyBlock=page.html.slice(Math.max(0,pos-radius),Math.min(page.html.length,pos+radius));
   }
 
-  const dropdown=/show_nick_dropdown\(\$\(this\),\s*['"](\d+)['"]\s*,\s*['"](\d+)['"]/i.exec(replyBlock);
+  // Ygosu changed the handler from show_nick_dropdown($(this), ...) to
+  // YG_COMMON.show_nick_dropdown(this, ...). Accept both forms so recent
+  // comments can still be mapped to their member number.
+  const dropdown=/(?:YG_COMMON\.)?show_nick_dropdown\(\s*(?:\$\(\s*this\s*\)|this)\s*,\s*['"](\d+)['"]\s*,\s*['"](\d+)['"]/i.exec(replyBlock);
   let memberNo=dropdown?String(dropdown[2]||'').replace(/\D/g,''):'';
   if(!memberNo){
     const fallbacks=[
