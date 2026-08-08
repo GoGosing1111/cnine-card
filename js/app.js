@@ -2056,6 +2056,7 @@ function deckAbilityIconHtml(card,classes=''){
   return `<span class="deck-ability-icon ${type.typeClass} ${card?.uniqueAbility?.ownerTest?'owner-test':''}" aria-label="${escapeHtml(type.typeLabel)}"><i>${icon}</i></span>`;
 }
 
+let drawResultRenderCount=0;
 function cardHtml(card, owned, classes='', user=loadUser()) {
   const uniqueBadge=uniqueAbilityBadgeHtml(card,classes);
   if(!owned)return `<article class="card-frame locked ${classes}" data-id="${card.id}"><div class="card-inner"><div class="card-art"><span class="missing">?</span></div><div class="card-footer"><div class="card-title-row"><div class="card-title">미획득 카드</div>${uniqueBadge}</div></div></div></article>`;
@@ -2068,7 +2069,8 @@ function cardHtml(card, owned, classes='', user=loadUser()) {
   const iconCard=deckCard||dexCard;
   const topBadges=iconCard?`<div class="deck-card-top-badges">${deckAbilityIconHtml(card,classes)}${level>0?`<div class="breakthrough-badge">★${level}</div>`:''}</div>`:(level>0?`<div class="breakthrough-badge">★${level}</div>`:'');
   const revealCard=/(?:result-card|special-reveal-card-ui)/.test(String(classes));
-  const imageLoading=revealCard?'eager':'lazy',fetchPriority=revealCard?'high':'auto';
+  const bulkResultCard=/result-card/.test(String(classes))&&drawResultRenderCount>=100;
+  const imageLoading=revealCard&&!bulkResultCard?'eager':'lazy',fetchPriority=revealCard&&!bulkResultCard?'high':bulkResultCard?'low':'auto';
   const zenithFrame=String(card.grade||'').toUpperCase()==='ZENITH'?'<img class="zenith-card-frame" src="assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">':'';
   return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art"><img loading="${imageLoading}" fetchpriority="${fetchPriority}" decoding="async" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div>${zenithFrame}</article>`;
 }
@@ -2862,8 +2864,8 @@ async function runCriticalOpening(pack,count,requestDraw){
   return data;
 }
 
-function preloadDrawResultImages(results=[]){
-  const sources=[...new Set(results.map(item=>String(item?.card?.image||'').trim()).filter(Boolean))];
+function preloadDrawResultImages(results=[],limit=Infinity){
+  const sources=[...new Set(results.map(item=>String(item?.card?.image||'').trim()).filter(Boolean))].slice(0,Math.max(0,Number(limit)||0));
   if(!sources.length)return Promise.resolve();
   return Promise.allSettled(sources.map(src=>new Promise(resolve=>{
     const image=new Image();
@@ -3090,7 +3092,7 @@ openPack=async function(packId,count,cost,options={}){
       d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,acknowledgedRequestIds:archiveIds}));
     }
     const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
-    void preloadDrawResultImages(verifiedResults);
+    void preloadDrawResultImages(verifiedResults,count>=100?12:Infinity);
     clearPendingDraw(requestId);
     if(autoRun){
       if(archiveIds.length){const archived=new Set(archiveIds);autoDrawState.receiptArchiveQueue=autoDrawState.receiptArchiveQueue.filter(id=>!archived.has(id));}
@@ -3197,12 +3199,14 @@ async function renderDrawResults(pack,count,cost,results,user,critical,options={
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active),special=getTopSpecialResult(results);
   if(special&&(!autoRun||autoDrawState.prefs?.simplified===false))await showSpecialCardReveal(special,user);
   const modal=document.getElementById('modal');
+  drawResultRenderCount=Number(count);
   modal.className=`modal show results-modal ${autoRun?'auto-draw-results-modal':''}`;
   const badge=critical?.success?`<div class="critical-result-badge">CRITICAL BONUS +${Number(critical.bonus||0).toFixed(0)}%</div>`:'';
   const shardTotal=results.reduce((sum,item)=>sum+Number(item?.shardGained||0),0),masterStarTotal=results.reduce((sum,item)=>sum+Number(item?.masterStarGained||0),0);
   const rewardSummary=(shardTotal||masterStarTotal)?`<div class="draw-reward-summary">${masterStarTotal?`<b>★ 마스터의 별 +${masterStarTotal}</b>`:''}${shardTotal?`<span>카드 조각 +${Number(shardTotal).toLocaleString()}</span>`:''}</div>`:'';
   const actions=autoRun?`<div class="auto-draw-result-strip"><div><small>AUTO DRAW RUNNING</small><b>${autoDrawState.completedRuns+1} / ${autoDrawState.targetRuns}회차 결과</b><span>${autoDrawStopLabel(autoDrawState.prefs?.stopGrade||'NONE')}</span></div><button type="button" id="autoDrawStopInResult">현재 결과까지 받고 중지</button></div>`:`<div class="result-actions result-actions-top manual-draw-actions"><button class="btn" id="drawAgain">같은 팩 다시 뽑기</button><button class="btn auto-draw-result-start" id="startAutoDrawFromResult">자동 뽑기</button><button class="btn secondary" id="confirmResult">확인</button></div>`;
   modal.innerHTML=`<div class="modal-panel multi-result-panel ${critical?.success?'critical-result-panel':''}">${badge}<div class="result-head"><div><p class="eyebrow">PACK RESULT</p><h2>${escapeHtml(pack.name)} · ${count}장 획득</h2></div><button class="icon-close" id="closeResult">×</button></div>${rewardSummary}${actions}<div class="result-grid count-${count}">${results.map(({card,duplicate,shardGained=0,masterStarGained=0})=>`<div class="result-item"><span class="result-label ${duplicate?'dupe':'new'} ${masterStarGained?'master-star-dupe':''}">${duplicate?(masterStarGained?`<b>마스터의 별 +${masterStarGained}</b><small>카드 조각 +${shardGained}</small>`:`카드 조각 +${shardGained}`):'NEW'}</span>${cardHtml(card,true,'result-card',user)}</div>`).join('')}</div></div>`;
+  drawResultRenderCount=0;
   document.querySelectorAll('.result-card').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
   if(autoRun){
     document.getElementById('closeResult').onclick=requestStopAutoDraw;
