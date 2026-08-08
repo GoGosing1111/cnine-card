@@ -941,3 +941,31 @@
   .battle-v2-live-shell.mobile-low-fx video{transform:translateZ(0);will-change:auto;object-fit:cover;}
   .battle-v2-live-shell.mobile-low-fx .damage-number{animation-duration:.42s!important;text-shadow:none!important;}
 }
+
+/* v1550: PC PVP stage must use the full resized viewport.
+   The center message is hidden in PVP, so do not reserve its old grid column. */
+.pvp-battle-modal .battle-v2-live-shell.layout-desktop{
+  width:100%;
+  max-width:none;
+}
+.pvp-battle-modal .layout-desktop .focus-duel{
+  grid-template-areas:"a b";
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  width:100%;
+  gap:clamp(40px,7vw,140px);
+  padding-inline:clamp(28px,6vw,120px);
+}
+.pvp-battle-modal .layout-desktop .focus-slot .battle-card-v2{
+  width:clamp(320px,24vw,460px);
+  height:clamp(500px,36vw,690px);
+}
+.pvp-battle-modal .layout-desktop .focus-slot .battle-v2-frame-shell{
+  height:clamp(430px,31vw,590px);
+}
+.pvp-battle-modal .layout-desktop .focus-slot .battle-v2-card-frame.card-frame{
+  width:clamp(304px,22vw,420px);
+  height:clamp(430px,31vw,590px);
+}
+.pvp-battle-modal .layout-desktop .focus-slot .hp-stack{
+  width:clamp(320px,23vw,440px);
+}
