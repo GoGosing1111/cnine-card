@@ -7,7 +7,7 @@
   const subtypeLabels={MODERN_SWORD:'현대식 칼',AXE:'도끼',PISTOL:'권총',RIFLE:'라이플',TOP:'상의',BOTTOM:'하의',SHOES:'신발',DUAL_DISK:'듀얼디스크'};
   const rarityLabels={NORMAL:'일반',MAGIC:'고급',RARE:'희귀',EPIC:'영웅',LEGENDARY:'전설',MYTHIC:'신화'};
   const garageFilters=['ALL','MYTHIC','LEGENDARY','EPIC','RARE','MAGIC','NORMAL'];
-  const titleStyleLabels={DEFAULT:'기본',FOREST:'숲',FLAME:'화염',FROST:'서리',STORM:'폭풍',SHADOW:'그림자',GOLD:'황금',RAINBOW:'무지개',VOID:'심연'};
+  const titleStyleLabels={DEFAULT:'기본',FOREST:'숲',FLAME:'화염',FROST:'서리',STORM:'폭풍',SHADOW:'그림자',GOLD:'황금',RAINBOW:'무지개',VOID:'심연',CRIMSON:'진홍'};
   const unlockLabels={MANUAL:'운영 지급',COLLECTION_COUNT:'도감',GRADE_COUNT:'등급 도감',MEMBER_COMPLETE:'멤버 도감',CARD_SET:'카드 세트',CONTENT_CLEAR:'콘텐츠'};
   const esc=v=>typeof escapeHtml==='function'?escapeHtml(String(v??'')):String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
   const num=v=>Number(v||0).toLocaleString();
@@ -155,7 +155,7 @@
       <section class="title-current-v1350 ${titleClass(equippedTitle?.stylePreset)}">
         <div class="title-current-copy-v1350">
           <small>현재 장착 효과</small>
-          <strong>${equippedTitle?'칭호 장착 중':'장착된 칭호 없음'}</strong>
+          <strong>${equippedTitle?`[${esc(titleText(equippedTitle))}]`:'장착된 칭호 없음'}</strong>
           <span>${equippedTitle?'장착된 칭호의 전투력 보너스가 모든 전투에 적용됩니다.':'보유 칭호에서 하나를 선택해 장착하세요.'}</span>
         </div>
         <b>전체 전투 +${num(equippedTitle?.pvePower||state.data?.bonuses?.titlePve||0)}</b>

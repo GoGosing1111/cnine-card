@@ -127,3 +127,4 @@
   .supply-pool-info{grid-template-columns:42px minmax(0,1fr)!important}
   .supply-equipment-pool .supply-pool-info img,.supply-pool-placeholder{width:42px!important;height:42px!important}
 }
+.title-preview-badge.title-style-crimson span{color:#ff566b!important;text-shadow:0 0 10px rgba(255,30,61,.72),0 0 22px rgba(178,0,25,.45)!important}

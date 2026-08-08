@@ -7,7 +7,7 @@ const EQUIPMENT_RARITY_ALIASES={COMMON:'NORMAL',UNCOMMON:'MAGIC',ADVANCED:'MAGIC
 const GARAGE_RARITIES=[...EQUIPMENT_RARITIES];
 const SOURCE_TYPES=['PVE','PVE_AUTO','TOWER','RAID','RIFT','PVP','CAPTAIN'];
 const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMPLETE','CARD_SET','CONTENT_CLEAR'];
-const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID'];
+const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID','CRIMSON'];
 const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
 const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
 const SUPPLY_BOX_MAX_OPEN=10;
@@ -414,6 +414,15 @@ export async function ensureEquipmentFoundation(env){
         env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_garage_items_public ON character_garage_items(is_active,is_public,sort_order,id)'),
         env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_garage_user ON user_garage_vehicles(user_id,acquired_at DESC,garage_id)'),
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1338_garage_system','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+    const markerV1533=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1533_territory_commander_title'").first();
+    if(markerV1533?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,style_preset,is_active,is_public,sort_order)
+          VALUES('TITLE_TERRITORY_COMMANDER','공대장','영토전의 영웅','공대장','',0,'MANUAL','{}','CRIMSON',1,1,70)
+          ON CONFLICT(code) DO UPDATE SET name='공대장',description='영토전의 영웅',badge_text='공대장',unlock_type='MANUAL',unlock_config_json='{}',style_preset='CRIMSON',is_active=1,is_public=1,sort_order=70,updated_at=CURRENT_TIMESTAMP`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1533_territory_commander_title','1',CURRENT_TIMESTAMP)")
       ]);
     }
     return true;
