@@ -5641,7 +5641,7 @@ async function handleRequest(context){
       }
       if(request.method==='PATCH'){
         const body=await readBody(request),pairBefore=await burningEventPair(env,{fresh:true}),before=isHyper?pairBefore.hyper:pairBefore.normal,otherBefore=isHyper?pairBefore.normal:pairBefore.hyper;
-        const requested=cleanBurningEventSettings({...before,...(body.settings||body)},mode),turningOn=before.enabled!==true&&requested.enabled===true,changedAt=new Date().toISOString(),shouldDisableOther=requested.enabled===true&&otherBefore.enabled===true;
+        const payload=body.settings||body,requested=cleanBurningEventSettings({...before,...payload,...(payload.enabled===true&&!Object.prototype.hasOwnProperty.call(payload,'endsAt')?{endsAt:null}:{})},mode),turningOn=before.enabled!==true&&requested.enabled===true,changedAt=new Date().toISOString(),shouldDisableOther=requested.enabled===true&&otherBefore.enabled===true;
         const next=cleanBurningEventSettings({...requested,generation:turningOn?Number(before.generation||0)+1:Number(before.generation||0),activatedAt:turningOn?changedAt:before.activatedAt,updatedAt:changedAt},mode);
         const otherNext=shouldDisableOther?cleanBurningEventSettings({...otherBefore,enabled:false,updatedAt:changedAt},isHyper?'BURNING':'HYPER'):otherBefore;
         const statements=[env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(metaKey,JSON.stringify(next))];
