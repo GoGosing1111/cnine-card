@@ -9,7 +9,7 @@
     if(!response.ok){const error=new Error(data.error||'요청 실패');Object.assign(error,data,{status:response.status});throw error}return data;
   }
 
-  let modal=null,state=null,pollTimer=null,pollController=null,busy=false,pendingAttackId='',lastFrontId=0,lastRoundStatus='',battleModal=null,pollFailureCount=0,lastFullLoadedAt=0,serverOffsetMs=0,truceExpiryRefresh=false,truceWatchTimer=null,truceWatchBusy=false;
+  let modal=null,state=null,pollTimer=null,pollController=null,busy=false,pendingAttackId='',lastFrontId=0,lastRoundStatus='',battleModal=null,pollFailureCount=0,lastFullLoadedAt=0,serverOffsetMs=0,truceExpiryRefresh=false;
   function makeId(prefix='TW3'){return `${prefix}:${globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`}`}
   function remaining(value){const ms=Date.parse(value||'')-(Date.now()+serverOffsetMs);if(!Number.isFinite(ms))return'-';if(ms<=0)return'00:00:00';const sec=Math.ceil(ms/1000),h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
   function statusText(round){if(!round)return'대기';if(round.status==='RECRUITING')return'참가 모집';if(round.status==='PREPARING')return'전투 준비';if(round.status==='ACTIVE')return'공성 진행';if(round.status==='FINISHED')return'회차 종료';return'운영 중지'}
@@ -89,9 +89,6 @@
   async function claim(){if(busy)return;const button=modal?.querySelector('[data-tw3-claim]'),label=button?.innerHTML;if(button)button.innerHTML='<span>수령 처리 중</span><small>잠시만 기다려 주세요</small>';setBusy(true);try{const data=await api('territory-war/claim',{method:'POST',body:'{}'},{replaceInflight:true,timeoutMs:30000});state=data.state;render();showToast(`코인 ${fmt(data.coin)} · 카드 조각 ${fmt(data.shards)}${Number(data.premiumCubes||0)>0?` · 프리미엄 큐브 ${fmt(data.premiumCubes)}개`:''} 수령 완료`,'resolve')}catch(error){if(button&&label)button.innerHTML=label;alert(error.message)}finally{setBusy(false)}}
   function showToast(text,type='hit'){const toast=document.createElement('div');toast.className=`tw3-toast ${type}`;toast.textContent=text;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),250)},2300)}
 
-  function scheduleTruceWatch(delay=document.hidden?30000:5000){clearTimeout(truceWatchTimer);truceWatchTimer=setTimeout(watchTruce,Math.max(2000,delay))}
-  async function watchTruce(){if(truceWatchBusy||modal||!token())return scheduleTruceWatch();truceWatchBusy=true;try{const requestStartedAt=Date.now(),data=await api('territory-war/truce-status',{},{replaceInflight:true,timeoutMs:8000}),responseAt=Date.now(),serverAt=Date.parse(data.serverNow||'');if(Number.isFinite(serverAt))serverOffsetMs=serverAt-Math.round((requestStartedAt+responseAt)/2);if(data.truce?.active){state={round:{id:Number(data.roundId||0)},truce:data.truce,serverNow:data.serverNow};showTruceBriefing()}}catch(error){if(Number(error?.status)!==401)console.warn('territory truce watch failed',error)}finally{truceWatchBusy=false;scheduleTruceWatch()}}
-
-  document.addEventListener('visibilitychange',()=>{if(modal){if(!document.hidden)loadFull(true);else schedulePoll()}if(!document.hidden)watchTruce();else scheduleTruceWatch()});
-  new MutationObserver(injectEntry).observe(document.documentElement,{childList:true,subtree:true});addEventListener('load',()=>{injectEntry();setTimeout(watchTruce,1200)});injectEntry();scheduleTruceWatch(1500);globalThis.openTerritoryWar=open;
+  document.addEventListener('visibilitychange',()=>{if(modal){if(!document.hidden)loadFull(true);else schedulePoll()}});
+  new MutationObserver(injectEntry).observe(document.documentElement,{childList:true,subtree:true});addEventListener('load',injectEntry);injectEntry();globalThis.openTerritoryWar=open;
 })();
