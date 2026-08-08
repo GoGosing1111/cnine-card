@@ -21,15 +21,15 @@
   }
   function actionStatus(message,error=false){let el=document.getElementById('chiefActionStatus');if(!el){const consolePanel=document.querySelector('#chiefMainRoot .chief-console');if(!consolePanel)return;el=document.createElement('p');el.id='chiefActionStatus';el.className='chief-action-status';el.setAttribute('role','status');el.setAttribute('aria-live','polite');consolePanel.appendChild(el)}el.textContent=message||'';el.classList.toggle('error',error)}
   async function activate(type,button){
-    const names={HYPER:'하이퍼 버닝 1시간',BURNING:'숲켓몬 버닝 3시간',DISCOUNT:'카드·장비 25% 할인 5시간',TOWER_RESET:'모든 유저의 무한의 탑 진행도 초기화'};
+    const names={HYPER:'하이퍼 버닝 1시간',BURNING:'숲켓몬 버닝 3시간',DISCOUNT:'카드·장비·이동수단 25% 할인 5시간',TOWER_RESET:'모든 유저의 무한의 탑 진행도 초기화'};
     if(button.dataset.chiefUsed==='1'){actionStatus(`${names[type]} 권한은 이미 사용했습니다.`,true);alert(`${names[type]} 권한은 이미 사용했습니다.`);return}
     if(!confirm(`${names[type]} 권한을 지금 발동할까요?\n발동 후에는 사용 횟수를 되돌릴 수 없습니다.`))return;
     if(button.dataset.chiefBusy==='1')return;button.dataset.chiefBusy='1';button.disabled=true;actionStatus(`${names[type]} 발동 요청을 처리하고 있습니다.`);
     try{
-      await apiRequest('chief/activate',{method:'POST',body:JSON.stringify({type})});
+      const activated=await apiRequest('chief/activate',{method:'POST',body:JSON.stringify({type})});
       actionStatus(`${names[type]} 권한이 발동되었습니다.`);alert(`${names[type]} 권한이 발동되었습니다.`);
-      if(typeof clearApiCache==='function'){clearApiCache('packs');clearApiCache('equipment/supply-box/config')}
-      try{if(type==='DISCOUNT'){const packs=await apiRequest('packs',{}, {ttl:0});if(typeof applyServerPacks==='function')applyServerPacks(packs.packs||[])}await load(true);mount();if((type==='HYPER'||type==='BURNING')&&typeof refreshBurningEventState==='function')await refreshBurningEventState({forceFresh:true,rerender:true});if(typeof renderShell==='function')renderShell('buy')}catch(refreshError){console.warn('족장 권한 발동 후 화면 갱신 실패:',refreshError)}
+      if(typeof clearApiCache==='function'){clearApiCache('packs');clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1');clearApiCache('vehicle-draw/config')}
+      try{if(type==='DISCOUNT'){if(typeof applyChiefDiscountState==='function')applyChiefDiscountState(activated.discount||{});const packs=await apiRequest('packs',{}, {ttl:0});if(typeof applyServerPacks==='function')applyServerPacks(packs.packs||[])}await load(true);mount();if(typeof refreshBurningEventState==='function')await refreshBurningEventState({forceFresh:true,rerender:true});if(typeof renderShell==='function')renderShell('buy')}catch(refreshError){console.warn('족장 권한 발동 후 화면 갱신 실패:',refreshError)}
     }catch(e){actionStatus(e.message||'권한 발동에 실패했습니다.',true);alert(e.message||'권한 발동에 실패했습니다.');button.disabled=false;delete button.dataset.chiefBusy}
   }
   function popup(){

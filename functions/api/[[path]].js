@@ -3193,7 +3193,7 @@ async function handleRequest(context){
     const battleV2PreviewResponse=await handleBattleV2Preview({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckStates,userEquipmentBonuses}});if(battleV2PreviewResponse)return battleV2PreviewResponse;
 
     const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
-    const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
+    const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,chiefDiscountState}});if(vehicleDrawResponse)return vehicleDrawResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies}});if(territoryWarResponse)return territoryWarResponse;
@@ -5595,8 +5595,8 @@ async function handleRequest(context){
 
     if(path==='burning-event/status'){
       const forceFresh=new URL(request.url).searchParams.get('fresh')==='1';
-      const pair=await burningEventPair(env,{fresh:forceFresh});
-      return json({burningEvent:burningPublicState(pair.active),serverNow:new Date().toISOString()});
+      const [pair,chiefDiscount]=await Promise.all([burningEventPair(env,{fresh:forceFresh}),chiefDiscountState(env)]);
+      return json({burningEvent:burningPublicState(pair.active),chiefDiscount,serverNow:new Date().toISOString()});
     }
     if(path==='admin/burning-event'||path==='admin/hyper-burning-event'){
       const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 없습니다.'},403);
