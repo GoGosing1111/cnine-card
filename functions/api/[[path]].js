@@ -2133,6 +2133,11 @@ function parseYgosuPostUrl(raw){
   const host=url.hostname.toLowerCase();
   if(host!=='ygosu.com'&&host!=='www.ygosu.com')return {ok:false,error:'인증 게시글은 ygosu.com 주소만 사용할 수 있습니다.'};
   url.protocol='https:';
+  // comment_idx pins Ygosu to the page containing that old comment. Once the
+  // thread grows, newly posted verification comments are omitted entirely.
+  // Verification must always inspect the post's current default comment page.
+  url.search='';
+  url.hash='';
   return {ok:true,url:url.toString()};
 }
 async function fetchWagoHtml(url,label){
