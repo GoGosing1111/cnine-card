@@ -285,10 +285,10 @@ async function addNotice(env,roundId,type,side,title,message,payload={}){await e
 function massAssaultPreview(round,front,cfg,used=null){
   if(!round||round.status!=='ACTIVE'||!front||front.status!=='ACTIVE')return{available:false,reason:'현재 진행 중인 전선이 없습니다.',used:Boolean(used)};
   if(used)return{available:false,reason:'이번 회차의 인해전술은 이미 발동했습니다.',used:true,...used};
-  const aRate=Number(front.a_hp||0)/Math.max(1,Number(front.a_max_hp||1)),bRate=Number(front.b_hp||0)/Math.max(1,Number(front.b_max_hp||1));
-  if(Math.abs(aRate-bRate)<.000001)return{available:false,reason:'현재 양 진영의 공성 HP 비율이 같아 열세 진영이 없습니다.',used:false};
-  const side=aRate<bRate?'A':'B',targetSide=side==='A'?'B':'A',targetHp=Number(targetSide==='A'?front.a_hp:front.b_hp),targetMax=Number(targetSide==='A'?front.a_max_hp:front.b_max_hp),damage=Math.max(0,Math.min(Math.max(1,Math.round(targetMax*.12)),targetHp-1));
-  return{available:damage>0,used:false,side,targetSide,damage,targetHp,hpAfter:targetHp-damage,teamName:configuredTeamLabel(cfg,side),targetName:configuredTeamLabel(cfg,targetSide),percent:12};
+  const frontIndex=Math.max(0,Math.min(8,Number(round.current_front_index??front.node_index??4)));
+  if(frontIndex===4)return{available:false,reason:'현재 전선이 중앙 교전지라 밀리고 있는 진영이 없습니다.',used:false,frontIndex};
+  const side=frontIndex<4?'A':'B',targetSide=side==='A'?'B':'A',targetHp=Number(targetSide==='A'?front.a_hp:front.b_hp),targetMax=Number(targetSide==='A'?front.a_max_hp:front.b_max_hp),damage=Math.max(0,Math.min(Math.max(1,Math.round(targetMax*.12)),targetHp-1));
+  return{available:damage>0,used:false,side,targetSide,frontIndex,frontDepth:Math.abs(frontIndex-4),damage,targetHp,hpAfter:targetHp-damage,teamName:configuredTeamLabel(cfg,side),targetName:configuredTeamLabel(cfg,targetSide),percent:12};
 }
 async function executeMassAssault(env,deps,user,cfg,operationKey){
   const round=await lifecycle(env,cfg),front=await activeFront(env,round);if(!round||!front)return deps.json({error:'현재 진행 중인 영토전 전선이 없습니다.'},409);const lock=await acquireLock(env,`mass_assault_${round.id}`,60000);if(!lock.ok)return deps.json({error:'인해전술 발동 요청을 처리 중입니다.'},409);
