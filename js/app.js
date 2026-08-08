@@ -668,7 +668,7 @@ async function purchaseVehicleDrawTickets(count,button){
 function showSupplyNotice(message,error=false){const old=document.querySelector('.supply-action-toast');if(old)old.remove();const toast=document.createElement('div');toast.className=`supply-action-toast${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2600:1500)}
 function buyView(user) {
   const pack = getPack(selectedPackId),weekly=user.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2};
-  return `${summaryBar(user)}${burningEventStripMarkup()}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>10연속 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot" data-pack-id="${pack.id}" data-count="10" data-cost="${pack.price*10}"><small>10 CARDS · ${pack.guarantee10}+</small>${(pack.price*10).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}${vehicleDrawShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
+  return `${summaryBar(user)}${burningEventStripMarkup()}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}${vehicleDrawShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
 }
 
 function recentCards(user) {
@@ -1790,9 +1790,11 @@ function openAutoDrawSetup(packId,defaultCount=20){
   const pending=readPendingDraw();
   if(pending){alert('확인되지 않은 카드 개봉 요청이 있습니다. 먼저 이전 결과를 복구합니다.');openPack(String(pending.packId),Number(pending.count),0);return;}
   const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
-  const prefs=loadAutoDrawPrefs(),count=[1,10,20].includes(Number(defaultCount))?Number(defaultCount):Number(prefs.count||20),modal=document.getElementById('modal');
+  const prefs=loadAutoDrawPrefs(),count=[1,20,100].includes(Number(defaultCount))?Number(defaultCount):([1,20,100].includes(Number(prefs.count))?Number(prefs.count):20),modal=document.getElementById('modal');
   modal.className='modal show auto-draw-setup-modal';
   modal.innerHTML=`<div class="modal-panel auto-draw-setup-panel"><button type="button" class="icon-close auto-draw-setup-close" id="closeAutoDrawSetup">×</button><p class="eyebrow">OFFICIAL AUTO DRAW</p><h2>자동 뽑기 설정</h2><p class="auto-draw-setup-copy"><b>${escapeHtml(pack.name)}</b>을 같은 조건으로 순차 개봉합니다. 서버 요청은 한 번에 하나씩만 처리됩니다.</p><input type="hidden" id="autoDrawPackId" value="${escapeHtml(pack.id)}"><div class="auto-draw-form"><label><span>한 번에 개봉</span><select id="autoDrawCount"><option value="1" ${count===1?'selected':''}>1장</option><option value="10" ${count===10?'selected':''}>10장</option><option value="20" ${count===20?'selected':''}>20장</option></select></label><label><span>반복 횟수</span><div class="auto-draw-number"><input id="autoDrawRuns" type="number" min="1" max="500" step="1" value="${Math.max(1,Math.min(500,Number(prefs.runs||10)))}"><small>최대 500회</small></div></label><label><span>다음 개봉 간격</span><select id="autoDrawDelay"><option value="4000" ${Number(prefs.delayMs)===4000?'selected':''}>4초</option><option value="6000" ${Number(prefs.delayMs)===6000?'selected':''}>6초</option><option value="10000" ${Number(prefs.delayMs)===10000?'selected':''}>10초</option></select></label><label><span>획득 시 자동 정지</span><select id="autoDrawStopGrade"><option value="NONE" ${prefs.stopGrade==='NONE'?'selected':''}>끝까지 진행</option><option value="SSR" ${prefs.stopGrade==='SSR'?'selected':''}>SSR 이상</option><option value="MA" ${prefs.stopGrade==='MA'?'selected':''}>MA 이상</option><option value="LIMITED" ${prefs.stopGrade==='LIMITED'?'selected':''}>LIMITED 이상</option><option value="FUR" ${prefs.stopGrade==='FUR'?'selected':''}>FUR</option></select></label><label class="auto-draw-check"><input id="autoDrawSimplified" type="checkbox" ${prefs.simplified!==false?'checked':''}><span><b>연출 간소화</b><small>팩 개봉·특별 연출을 생략하고 결과만 잠시 표시합니다.</small></span></label></div><div class="auto-draw-estimate" id="autoDrawEstimate"></div><div class="auto-draw-safety"><b>자동 뽑기 안전 규칙</b><span>병렬 요청 없음 · 요청 영수증 유지 · D1 혼잡 시 동일 요청 자동 복구 · 50회마다 짧은 보호 휴식</span></div><div class="auto-draw-setup-actions"><button type="button" class="btn secondary" id="cancelAutoDrawSetup">취소</button><button type="button" class="btn" id="startAutoDraw">자동 뽑기 시작</button></div></div>`;
+  const countSelect=document.getElementById('autoDrawCount'),legacyTenOption=countSelect?.querySelector('option[value="10"]');
+  if(legacyTenOption){legacyTenOption.value='100';legacyTenOption.textContent='100장';countSelect.value=String(count)}
   const close=()=>{modal.className='modal';modal.innerHTML=''};
   document.getElementById('closeAutoDrawSetup').onclick=document.getElementById('cancelAutoDrawSetup').onclick=close;
   ['autoDrawCount','autoDrawRuns'].forEach(id=>document.getElementById(id)?.addEventListener('input',autoDrawSetupEstimate));
@@ -1806,7 +1808,7 @@ function startOfficialAutoDraw(packId,prefs){
   if(autoDrawState.active||drawRequestInFlight)return alert('현재 카드 개봉 요청을 처리 중입니다.');
   const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
   if(!acquireAutoDrawLock())return alert('다른 탭에서 자동 뽑기가 진행 중입니다.\n중복 요청 방지를 위해 한 탭에서만 사용할 수 있습니다.');
-  const count=[1,10,20].includes(Number(prefs.count))?Number(prefs.count):20,runs=Math.max(1,Math.min(500,Number(prefs.runs||1))),cost=Number(pack.price||0)*count;
+  const count=[1,20,100].includes(Number(prefs.count))?Number(prefs.count):20,runs=Math.max(1,Math.min(500,Number(prefs.runs||1))),cost=Number(pack.price||0)*count;
   if(Number(loadUser()?.coin||0)<cost){releaseAutoDrawLock();return alert(`코인이 부족합니다.\n${count}장 개봉에는 ${Number(cost).toLocaleString()}코인이 필요합니다.`);}
   Object.assign(autoDrawState,{active:true,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:'',transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]});
   renderAutoDrawDock();runOfficialAutoDrawNext();
@@ -1934,7 +1936,8 @@ function claimAttendance() {
 function makeDraws(pack, count) {
   const result=[];
   for(let i=0;i<count;i++) result.push(pickCard(pack));
-  const guarantee = count === 10 ? pack.guarantee10 : count === 20 ? pack.guarantee20 : null;
+  if(count===100){for(let start=0;start<100;start+=10){const block=result.slice(start,start+10);if(!block.some(c=>gradeOrder[c.grade]>=gradeOrder[pack.guarantee10]))result[start+9]=pickCard(pack,pack.guarantee10)}}
+  const guarantee = count === 20 ? pack.guarantee20 : null;
   if (guarantee && !result.some(c => gradeOrder[c.grade] >= gradeOrder[guarantee])) result[result.length-1] = pickCard(pack, guarantee);
   return result.sort((a,b)=>gradeOrder[b.grade]-gradeOrder[a.grade]);
 }
@@ -2937,7 +2940,7 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
       try{
         // Switch to the idempotent receipt recovery path quickly instead of leaving
         // the draw UI apparently frozen behind one long network request.
-        const result=await apiRequest('draw',options,{timeoutMs:autoRun?20000:12000});
+        const result=await apiRequest('draw',options,{timeoutMs:Number(count)===100?(autoRun?45000:35000):(autoRun?20000:12000)});
         if(autoRun)autoDrawState.lastRequestMs=Date.now()-started;
         return result;
       }catch(error){
@@ -2978,7 +2981,7 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
       throw error;
     }
     if(state==='COMPLETED'){
-      try{return await apiRequest('draw',options,{timeoutMs:15000})}
+      try{return await apiRequest('draw',options,{timeoutMs:Number(count)===100?35000:15000})}
       catch(error){lastError=error;shouldPost=true;continue}
     }
     shouldPost=state==='NOT_FOUND'||state==='RETRYABLE';

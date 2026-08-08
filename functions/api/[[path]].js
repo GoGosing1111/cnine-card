@@ -3397,7 +3397,7 @@ async function handleRequest(context){
       }
       const payload=await readBody(request);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
-      const count=[1,10,20].includes(Number(payload.count))?Number(payload.count):1;
+      const count=[1,20,100].includes(Number(payload.count))?Number(payload.count):1;
       const acknowledgedRequestIds=payload.autoDraw===true&&Array.isArray(payload.acknowledgedRequestIds)
         ?[...new Set(payload.acknowledgedRequestIds.map(value=>String(value||'').trim().slice(0,100)).filter(value=>value&&value!==requestId))].slice(0,10)
         :[];
@@ -3564,11 +3564,16 @@ async function handleRequest(context){
         for(let index=0;index<count;index++){
           const pity=pityRateForDraw(livePitySettings,pack.id,pityCount);
           const furPity=furFirstEligible?furFirstRateForDraw(liveFurFirstSettings,furFirstMissCount):{drawNo:furFirstMissCount+1,rate:null,hard:false};
-          const card=PITY_PACKS.has(pack.id)
-            ?(furFirstEligible
-              ?drawOneWithPityAndFurFromContext(drawContext,pack,pity.rate,furPity.rate,criticalBonus,!limitedDrawn)
-              :drawOneWithPityFromContext(drawContext,pack,pity.rate,criticalBonus,!limitedDrawn))
-            :drawOneFromContext(drawContext,pack,null,!limitedDrawn,criticalBonus);
+          const hundredBlockStart=Math.floor(index/10)*10;
+          const hundredGuarantee=count===100&&index%10===9?pack.guarantee_10:null;
+          const mustApplyHundredGuarantee=Boolean(hundredGuarantee&&!cards.slice(hundredBlockStart).some(existing=>ORDER[existing.grade]>=ORDER[hundredGuarantee]));
+          const card=mustApplyHundredGuarantee
+            ?drawOneFromContext(drawContext,pack,hundredGuarantee,!limitedDrawn,criticalBonus)
+            :PITY_PACKS.has(pack.id)
+              ?(furFirstEligible
+                ?drawOneWithPityAndFurFromContext(drawContext,pack,pity.rate,furPity.rate,criticalBonus,!limitedDrawn)
+                :drawOneWithPityFromContext(drawContext,pack,pity.rate,criticalBonus,!limitedDrawn))
+              :drawOneFromContext(drawContext,pack,null,!limitedDrawn,criticalBonus);
           if(!card?.id)throw new Error('카드 추첨 결과를 생성하지 못했습니다.');
           cards.push(card);
           const drawnGrade=String(card.grade||'').toUpperCase();
@@ -3583,7 +3588,7 @@ async function handleRequest(context){
           }
           pityCount=ORDER[card.grade]>=ORDER.SSR?0:pityCount+1;
         }
-        const guarantee=count===10?pack.guarantee_10:count===20?pack.guarantee_20:null;
+        const guarantee=count===20?pack.guarantee_20:null;
         if(guarantee&&!cards.some(card=>ORDER[card.grade]>=ORDER[guarantee])){
           cards[cards.length-1]=drawOneFromContext(drawContext,pack,guarantee,true,criticalBonus);
           if(PITY_PACKS.has(pack.id)&&ORDER[cards[cards.length-1].grade]>=ORDER.SSR)pityCount=0;
