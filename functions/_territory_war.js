@@ -585,7 +585,7 @@ async function handleAttack(env,deps,user,cfg,body){
   if(reservation.conflict)return deps.json({error:'다른 사용자의 요청 ID입니다.'},409);
   if(reservation.pending)return deps.json({ok:true,pending:true,requestId,retryAfterMs:300});
   if(reservation.completed||reservation.applied)return completedBattleResponse(env,deps,user,reservation.row,cfg,true);
-  const attackLock=await acquireLock(env,`attack_user_${user.id}`,30000);
+  const attackLock=await acquireLock(env,`attack_user_${user.id}`,180000);
   if(!attackLock.ok){
     await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind('동일 계정의 다른 공격을 처리 중입니다.',requestId).run();
     return deps.json({error:'동일 계정의 다른 공격을 처리 중입니다. 잠시 후 다시 시도해 주세요.',retryable:true},409);
