@@ -12,7 +12,8 @@
 .public-title-badge.title-style-gold{color:#ffd86e;border-color:rgba(255,205,88,.42);text-shadow:0 0 10px rgba(255,205,88,.45)}
 .public-title-badge.title-style-rainbow{color:#fff;border-color:rgba(199,160,255,.38);background:linear-gradient(90deg,rgba(255,100,145,.18),rgba(255,211,103,.15),rgba(86,224,191,.15),rgba(92,176,255,.17),rgba(190,121,255,.17));text-shadow:0 0 9px rgba(255,255,255,.28)}
 .public-title-badge.title-style-void{color:#a7dfff;border-color:rgba(119,91,255,.42);text-shadow:0 0 10px rgba(118,82,255,.62),0 0 18px rgba(76,197,255,.28)}
-.public-title-badge.title-style-crimson{color:#ff6477;border-color:rgba(255,47,72,.5);background:rgba(38,2,10,.9);box-shadow:0 0 14px rgba(220,0,35,.22);text-shadow:0 0 10px rgba(255,34,64,.75)}
+.public-title-badge.title-style-crimson,.public-title-badge.title-style-crimson *{color:#ff0000!important;-webkit-text-fill-color:#ff0000!important;background-image:none!important;border-color:rgba(255,24,47,.55);box-shadow:0 0 14px rgba(255,0,0,.24);text-shadow:0 0 3px #fff2,0 0 9px #ff0000,0 0 18px #a80000!important}
+.public-title-badge.title-style-crimson::after{content:'★★★★';margin-left:4px;color:#ff263d;-webkit-text-fill-color:#ff263d;font-size:.68em;letter-spacing:-1px;line-height:1;text-shadow:0 0 6px #ff0000}
 .pvp-op-head .public-name-stack,.pvp-rank-row .public-name-stack,.pvp-history-row .public-name-stack{min-width:0}
 .battle-hp-head b:has(.public-title-badge),.raid-my-public-title,.captain-hud-public-name{display:flex;flex-wrap:wrap;align-items:center;gap:5px;min-width:0}
 .battle-hp-head b .public-title-badge,.raid-my-public-title .public-title-badge,.captain-hud-public-name .public-title-badge{margin:0;max-width:150px}

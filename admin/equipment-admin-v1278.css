@@ -127,4 +127,5 @@
   .supply-pool-info{grid-template-columns:42px minmax(0,1fr)!important}
   .supply-equipment-pool .supply-pool-info img,.supply-pool-placeholder{width:42px!important;height:42px!important}
 }
-.title-preview-badge.title-style-crimson span{color:#ff566b!important;text-shadow:0 0 10px rgba(255,30,61,.72),0 0 22px rgba(178,0,25,.45)!important}
+.title-preview-badge.title-style-crimson span{color:#ff0000!important;-webkit-text-fill-color:#ff0000!important;background-image:none!important;text-shadow:0 0 3px #fff2,0 0 10px #ff0000,0 0 24px #b00000!important}
+.title-preview-badge.title-style-crimson span::after{content:' ★★★★';color:#ff263d;-webkit-text-fill-color:#ff263d;font-size:.6em;letter-spacing:-1px;vertical-align:middle;text-shadow:0 0 6px #ff0000}

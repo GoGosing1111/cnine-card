@@ -74,8 +74,9 @@
 .title-card-badge-v1350{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:12px;background:radial-gradient(circle,rgba(0,133,255,.17),transparent 70%)}
 .title-card-badge-v1350 span{font-size:clamp(15px,2vw,22px);font-weight:1000;color:#eef8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
 .title-card-v1350.title-style-rainbow .title-card-badge-v1350 span{display:inline-block;background:linear-gradient(90deg,#ff8cac,#ffd77b,#7ef0c5,#80c2ff,#d495ff);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#fff;animation:titleShimmerRainbow 2.3s linear infinite}
-.title-style-crimson span,.title-current-v1350.title-style-crimson strong{color:#ff566b!important;text-shadow:0 0 10px rgba(255,30,61,.72),0 0 22px rgba(178,0,25,.45)!important}
+.title-style-crimson,.title-style-crimson span,.title-style-crimson strong,.title-current-v1350.title-style-crimson strong{color:#ff0000!important;-webkit-text-fill-color:#ff0000!important;background-image:none!important;text-shadow:0 0 3px #fff2,0 0 10px #ff0000,0 0 24px #b00000!important}
 .title-card-v1350.title-style-crimson{border-color:rgba(255,55,79,.5);box-shadow:inset 0 0 24px rgba(184,0,30,.14)}
+.title-card-v1350.title-style-crimson .title-card-badge-v1350 span::after,.title-current-v1350.title-style-crimson strong::after{content:' ★★★★';color:#ff263d;-webkit-text-fill-color:#ff263d;font-size:.56em;letter-spacing:-1px;vertical-align:middle;text-shadow:0 0 6px #ff0000}
 .title-card-v1350>small{color:#93aec4;font-size:clamp(9px,1.05vw,12px)}
 .title-card-v1350>b{color:#48e9ed;font-size:clamp(13px,1.55vw,17px)}
 .title-card-v1350>button{height:34px;border-radius:10px;border:1px solid rgba(70,197,255,.45);background:linear-gradient(180deg,#0b67a7,#07385f);color:#fff;font-weight:1000;cursor:pointer}
