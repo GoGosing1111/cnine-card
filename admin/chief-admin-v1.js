@@ -8,7 +8,7 @@
 
   async function api(path, options = {}) {
     const token = localStorage.getItem('cnine_admin_token') || sessionStorage.getItem('cnine_admin_token') || '';
-    const response = await fetch(`../api/${path}?_=${Date.now()}`, {
+    const response = await fetch(`../api/${path}${path.includes('?')?'&':'?'}_=${Date.now()}`, {
       ...options,
       cache: 'no-store',
       headers: {
@@ -116,9 +116,13 @@
 
   function bindUserSearch(users) {
     const input=$('#chiefUserSearch'),results=$('#chiefUserResults'),selected=$('#chiefSelectedUser'),hidden=$('#chiefSelectedUserId'),button=$('#chiefAppointBtn');
-    const normalized=users.map(user=>({...user,id:Number(user.id),role:String(user.role||'USER').toUpperCase(),search:`${user.nickname} ${user.id} #${user.id} ${user.role||'USER'}`.toLocaleLowerCase('ko-KR')}));
+    let requestSeq=0,timer=0;
+    const normalize=user=>({...user,id:Number(user.id),role:String(user.role||'USER').toUpperCase(),search:`${user.nickname} ${user.id} #${user.id} ${user.role||'USER'}`.toLocaleLowerCase('ko-KR')});
+    const normalized=users.map(normalize);
     const choose=user=>{hidden.value=String(user.id);input.value=user.nickname;selected.innerHTML=`<b>${esc(user.nickname)}</b><span>#${user.id} · ${esc(user.role)}${user.role==='OWNER'?' · 테스트 가능':''}</span>`;button.disabled=false;results.hidden=true};
-    const render=()=>{const query=input.value.trim().toLocaleLowerCase('ko-KR');hidden.value='';button.disabled=true;selected.textContent='족장 후보를 선택하세요.';const matches=normalized.filter(user=>!query||user.search.includes(query)).slice(0,50);results.innerHTML=matches.length?matches.map(user=>`<button type="button" class="chief-user-result" data-chief-user-id="${user.id}"><span><b>${esc(user.nickname)}</b><small>#${user.id}</small></span><em class="role-${esc(user.role)}">${esc(user.role)}${user.role==='OWNER'?' · TEST':''}</em></button>`).join(''):'<div class="chief-user-empty">검색 결과가 없습니다.</div>';results.hidden=false;results.querySelectorAll('[data-chief-user-id]').forEach(row=>row.onclick=()=>choose(normalized.find(user=>user.id===Number(row.dataset.chiefUserId))))};
+    const draw=matches=>{results.innerHTML=matches.length?matches.map(user=>`<button type="button" class="chief-user-result" data-chief-user-id="${user.id}"><span><b>${esc(user.nickname)}</b><small>#${user.id}</small></span><em class="role-${esc(user.role)}">${esc(user.role)}${user.role==='OWNER'?' · TEST':''}</em></button>`).join(''):'<div class="chief-user-empty">검색 결과가 없습니다.</div>';results.hidden=false;results.querySelectorAll('[data-chief-user-id]').forEach(row=>row.onclick=()=>choose(normalized.find(user=>user.id===Number(row.dataset.chiefUserId))))};
+    const remote=async(query,seq)=>{try{const data=await api(`admin/chief?q=${encodeURIComponent(query)}`);if(seq!==requestSeq||input.value.trim()!==query)return;const matches=(data.users||[]).map(normalize);for(const user of matches){const index=normalized.findIndex(item=>item.id===user.id);if(index>=0)normalized[index]=user;else normalized.push(user)}draw(matches)}catch(error){if(seq===requestSeq)results.innerHTML=`<div class="chief-user-empty">${esc(error.message)}</div>`}};
+    const render=()=>{const raw=input.value.trim(),query=raw.toLocaleLowerCase('ko-KR');hidden.value='';button.disabled=true;selected.textContent='족장 후보를 선택하세요.';draw(normalized.filter(user=>!query||user.search.includes(query)).slice(0,50));clearTimeout(timer);const seq=++requestSeq;if(raw)timer=setTimeout(()=>remote(raw,seq),180)};
     input.addEventListener('input',render);input.addEventListener('focus',render);render();
   }
 

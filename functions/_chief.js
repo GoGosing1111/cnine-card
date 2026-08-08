@@ -92,7 +92,13 @@ export async function handleChief({path,request,env,deps}){
   }
   if(path==='admin/chief'){
     const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 필요합니다.'},403);
-    if(request.method==='GET'){const a=await appointment(env);const users=(await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER') ORDER BY CASE WHEN COALESCE(role,'USER')='OWNER' THEN 0 ELSE 1 END,nickname,id LIMIT 2000").all()).results||[];return json({chief:publicState(a,await usage(env,a),null),users})}
+    if(request.method==='GET'){
+      const a=await appointment(env),query=String(new URL(request.url).searchParams.get('q')||'').trim().slice(0,40);
+      const users=query
+        ?(await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER') AND (nickname LIKE ? ESCAPE '\\' COLLATE NOCASE OR CAST(id AS TEXT)=? OR COALESCE(role,'USER')=?) ORDER BY CASE WHEN nickname=? THEN 0 WHEN CAST(id AS TEXT)=? THEN 0 WHEN COALESCE(role,'USER')='OWNER' THEN 1 ELSE 2 END,nickname,id LIMIT 50").bind(`%${query.replace(/([%_\\])/g,'\\$1')}%`,query,query.toUpperCase(),query,query).all()).results||[]
+        :(await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER') ORDER BY CASE WHEN COALESCE(role,'USER')='OWNER' THEN 0 ELSE 1 END,id DESC LIMIT 100").all()).results||[];
+      return json({chief:publicState(a,await usage(env,a),null),users,query});
+    }
     if(request.method==='POST'){
       const body=await readBody(request),target=await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE id=? AND status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER')").bind(Number(body.userId)).first();if(!target)return json({error:'선출 가능한 활성 USER 또는 OWNER를 찾을 수 없습니다.'},404);
       const now=new Date(),next={id:crypto.randomUUID(),userId:Number(target.id),nickname:target.nickname,source:'와이고수 투표',startsAt:now.toISOString(),endsAt:new Date(now.getTime()+7*DAY_MS).toISOString(),inaugurationVersion:Date.now(),appointedBy:Number(admin.id)};
