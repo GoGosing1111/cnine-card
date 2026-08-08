@@ -2698,7 +2698,7 @@ async function drawLimitedCard(env){
 }
 async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
   // 리미티드팩의 한정판 확률은 일반 등급 100% 합계와 별도로 먼저 판정한다.
-  if(allowLimited&&pack.id==='pickup'&&!minimum){
+  if(allowLimited&&LIMITED_DRAW_PACKS.has(pack.id)&&!minimum){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
     const limitedRate=Math.max(0,Math.min(100,Number(limitedRateRow?.rate)||0));
     if(limitedRate>0&&Math.random()*100<limitedRate){
@@ -2739,7 +2739,7 @@ async function queryDrawContext(env,pack){
         AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
           OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id)
   ];
-  if(pack.id==='pickup')statements.push(env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
+  if(LIMITED_DRAW_PACKS.has(pack.id))statements.push(env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
     WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity='LIMITED' AND c.draw_weight>0
       AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
@@ -2747,7 +2747,7 @@ async function queryDrawContext(env,pack){
   const batch=await env.DB.batch(statements);
   const rateRows=batch[0]?.results||[];
   const normalCards=randomDrawPool(batch[1]?.results||[]);
-  const limitedCards=pack.id==='pickup'?randomDrawPool(batch[2]?.results||[]):[];
+  const limitedCards=LIMITED_DRAW_PACKS.has(pack.id)?randomDrawPool(batch[2]?.results||[]):[];
   const poolsByGrade=new Map();
   for(const card of normalCards){
     const grade=String(card.grade||'');
@@ -2782,7 +2782,7 @@ function drawNormalFromContext(ctx,pack,rarity){
   return picked;
 }
 function drawOneFromContext(ctx,pack,minimum=null,allowLimited=true,criticalBonus=0){
-  if(allowLimited&&pack.id==='pickup'&&!minimum&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+  if(allowLimited&&LIMITED_DRAW_PACKS.has(pack.id)&&!minimum&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
     const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
     if(limitedCard)return limitedCard;
   }
@@ -2800,7 +2800,7 @@ function drawOneFromContext(ctx,pack,minimum=null,allowLimited=true,criticalBonu
   throw new Error('현재 뽑을 수 있는 일반 카드가 없습니다. 카드 및 확률 설정을 확인하세요.');
 }
 function drawOneWithPityFromContext(ctx,pack,ssrRate,criticalBonus=0,allowLimited=true){
-  if(allowLimited&&pack.id==='pickup'&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+  if(allowLimited&&LIMITED_DRAW_PACKS.has(pack.id)&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
     const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
     if(limitedCard)return limitedCard;
   }
@@ -2823,6 +2823,7 @@ function drawOneWithPityFromContext(ctx,pack,ssrRate,criticalBonus=0,allowLimite
 }
 
 
+const LIMITED_DRAW_PACKS=new Set(['pickup','ultimate']);
 const PITY_PACKS=new Set(['premium','pickup']);
 const DEFAULT_PITY_RATES={61:10,62:15,63:20,64:25,65:30,66:35,67:40,68:45,69:50,70:100};
 function defaultPitySettings(){return {premium:{enabled:true,start:61,hard:70,rates:{...DEFAULT_PITY_RATES}},pickup:{enabled:true,start:61,hard:70,rates:{...DEFAULT_PITY_RATES}}};}
@@ -2918,7 +2919,7 @@ function drawOneWithPityAndFurFromContext(ctx,pack,ssrRate,furAssistRate,critica
     if(!fur)throw new Error('FUR 획득 보정 확정 회차지만 이 팩에서 획득 가능한 FUR 카드가 없습니다. CMS 카드 공개 상태와 팩 카드 구성을 확인하세요.');
     return fur;
   }
-  if(allowLimited&&pack.id==='pickup'&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
+  if(allowLimited&&LIMITED_DRAW_PACKS.has(pack.id)&&ctx.limitedRate>0&&Math.random()*100<ctx.limitedRate){
     const limitedCard=weightedPick(ctx.limitedCards,row=>Number(row.draw_weight)||0);
     if(limitedCard)return limitedCard;
   }
@@ -2948,7 +2949,7 @@ function drawOneWithPityAndFurFromContext(ctx,pack,ssrRate,furAssistRate,critica
 }
 async function drawNormalCardByRarity(env,pack,rarity){const pool=randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results);return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
 async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
-  if(pack.id==='pickup'){
+  if(LIMITED_DRAW_PACKS.has(pack.id)){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
     const limitedRate=Math.max(0,Math.min(100,Number(limitedRateRow?.rate)||0));
     if(limitedRate>0&&Math.random()*100<limitedRate){const limitedCard=await drawLimitedCard(env);if(limitedCard)return limitedCard;}
@@ -5720,10 +5721,10 @@ async function handleRequest(context){
           const rate=Number(rates[rarity])||0; if(rate<0||rate>100) return json({error:'확률은 0~100 사이여야 합니다.'},400);
           await env.DB.prepare('INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,?)').bind(packId,rarity,rate).run();
         }
-        const limitedRate=packId==='pickup'?(Number(rates.LIMITED)||0):0;
+        const limitedRate=LIMITED_DRAW_PACKS.has(packId)?(Number(rates.LIMITED)||0):0;
         if(limitedRate<0||limitedRate>100) return json({error:'한정판 별도 확률은 0~100 사이여야 합니다.'},400);
         await env.DB.prepare('INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES(?,?,?)').bind(packId,'LIMITED',limitedRate).run();
-        const allowed=normalRarities.filter(r=>(Number(rates[r])||0)>0); if(packId==='pickup') allowed.push('LIMITED');
+        const allowed=normalRarities.filter(r=>(Number(rates[r])||0)>0); if(LIMITED_DRAW_PACKS.has(packId)) allowed.push('LIMITED');
         await env.DB.prepare('UPDATE card_packs SET allowed_rarities=? WHERE id=?').bind(JSON.stringify(allowed),packId).run();packCatalogCache=null;
         await writeAdminLog(env,admin,'PACK_RATE_UPDATE','CARD_PACK',packId,null,{...rates,LIMITED:limitedRate});
         return json({ok:true,total,limitedRate});

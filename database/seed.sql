@@ -417,6 +417,7 @@ INSERT OR REPLACE INTO card_packs(id,name,subtitle,description,theme,price,allow
 INSERT OR REPLACE INTO card_packs(id,name,subtitle,description,theme,price,allowed_rarities,guarantee_10,guarantee_20,pickup_member_id,pickup_multiplier,is_active,sort_order) VALUES('advanced','고급 카드팩','ADVANCED PACK','커먼을 제외한 U 이상 카드팩','advanced',25,'["U", "R", "SR", "HR", "UR", "SSR", "MA", "FUR"]','SR','HR',NULL,1,1,416);
 INSERT OR REPLACE INTO card_packs(id,name,subtitle,description,theme,price,allowed_rarities,guarantee_10,guarantee_20,pickup_member_id,pickup_multiplier,is_active,sort_order) VALUES('premium','프리미엄 카드팩','PREMIUM PACK','R 이상만 등장하는 고급 수집팩','premium',60,'["R", "SR", "HR", "UR", "SSR", "MA", "FUR"]','HR','UR',NULL,1,1,417);
 INSERT OR REPLACE INTO card_packs(id,name,subtitle,description,theme,price,allowed_rarities,guarantee_10,guarantee_20,pickup_member_id,pickup_multiplier,is_active,sort_order) VALUES('pickup','리미티드팩','LIMITED PACK','별도 확률로 서버 한정판 카드가 등장하는 특별 카드팩','pickup',30,'["C", "U", "R", "SR", "HR", "UR", "SSR", "MA", "FUR", "LIMITED"]','R','SR',NULL,1,1,418);
+INSERT OR REPLACE INTO card_packs(id,name,subtitle,description,theme,price,allowed_rarities,guarantee_10,guarantee_20,pickup_member_id,pickup_multiplier,is_active,sort_order) VALUES('ultimate','얼티메이트 카드팩','ULTIMATE PACK','비싼 만큼 상위 등급 확률이 크게 상승한 최고급 카드팩','ultimate',300,'["R", "SR", "HR", "UR", "SSR", "MA", "FUR", "LIMITED"]','HR','UR',NULL,1,1,419);
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('basic','C',30);
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('basic','U',25);
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('basic','R',20);
@@ -445,6 +446,16 @@ INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','SR'
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','HR',7);
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','UR',4);
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('pickup','SSR',1);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','C',0);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','U',0);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','R',24.647);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','SR',27);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','HR',25);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','UR',18);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','SSR',5);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','MA',0.35);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','FUR',0.003);
+INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('ultimate','LIMITED',0.03);
 COMMIT;
 -- v8.3 separate limited-pack probability
 INSERT OR REPLACE INTO card_pack_rates(pack_id,rarity,rate) VALUES('basic','MA',0);
