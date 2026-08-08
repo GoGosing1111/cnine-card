@@ -189,3 +189,32 @@
   position:relative!important;
   overflow:hidden!important;
 }
+
+/* V1538: the equipment artwork contains a baked [GOAT] label. Keep the live
+   title on its own layer and fully mask that label for every title preset. */
+.image-frame-ui-v1249.tab-equipment-v1348 .frame-title-v1249{
+  box-sizing:border-box!important;
+  padding:0 8%!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  background:linear-gradient(180deg,#0d141f 0%,#04080f 100%)!important;
+  -webkit-background-clip:border-box!important;
+  background-clip:border-box!important;
+  box-shadow:inset 0 1px 0 rgba(255,205,107,.42)!important;
+  white-space:nowrap!important;
+}
+.image-frame-ui-v1249.tab-equipment-v1348 .frame-title-v1249>span{
+  display:block;
+  max-width:100%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  line-height:1.1;
+}
+.image-frame-ui-v1249.tab-equipment-v1348 .frame-title-v1249.title-style-rainbow>span{
+  background:linear-gradient(90deg,#ff8fa7,#ffd66d,#6fe3c2,#78bfff,#d392ff);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent!important;
+}
