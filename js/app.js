@@ -2241,6 +2241,10 @@ async function breakthroughCard(cardId){
   if(!rule)return alert('강화 설정을 찾을 수 없습니다.');
   if(balance<Number(rule.cost)){alert(`${materialName}이 부족합니다. (보유 ${balance.toLocaleString()}개 / 필요 ${Number(rule.cost).toLocaleString()}개)`);showDetail(normalizedCardId,'info');return;}
   if(!confirm(`${materialName} ${Number(rule.cost).toLocaleString()}개를 사용해 ★${level+1} 강화를 시도하시겠습니까?\n성공 확률: ${rule.rate}%\n실패해도 단계는 유지되며 재료는 소모됩니다.`))return;
+  if(!API_MODE){
+    alert('서버 연결이 확인되지 않아 강화를 진행하지 않았습니다. 새로고침 후 다시 시도해주세요.');
+    return;
+  }
   try{
     if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId:normalizedCardId})});saveUser(apiUserToLocal(d.user));if(d.success&&d.cinematic)await playBreakthroughCinematic(d.cinematic,card,d.level);alert(d.success?`강화 성공! ★${d.level}${d.guaranteed?'\nSSR 천장 확정 성공':''}`:`강화 실패\n단계는 ★${d.level}로 유지됩니다.${d.pity?.enabled?`\nSSR 천장: ${d.pity.failCount}/${d.pity.threshold}회 실패`:''}`);showDetail(normalizedCardId);}
     else{const actualCost=Number(rule.cost);if(isMaHigh)user.masterStars-=actualCost;else user.cardShards-=actualCost;const success=Math.random()*100<Number(rule.rate);if(success)user.breakthroughs[cardId]=level+1;saveUser(user);alert(success?`강화 성공! ★${level+1}`:`강화 실패\n단계는 ★${level}로 유지됩니다.`);showDetail(normalizedCardId);}
