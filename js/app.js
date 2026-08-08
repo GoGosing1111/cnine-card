@@ -1810,7 +1810,7 @@ function openAutoDrawSetup(packId,defaultCount=20){
   if(autoDrawState.active)return alert('자동 뽑기가 이미 진행 중입니다.');
   if(drawRequestInFlight)return alert('현재 카드 개봉 요청이 끝난 뒤 다시 시도해주세요.');
   const pending=readPendingDraw();
-  if(pending){alert('확인되지 않은 카드 개봉 요청이 있습니다. 먼저 이전 결과를 복구합니다.');openPack(String(pending.packId),Number(pending.count),0);return;}
+  if(pending){showSupplyNotice('이전 카드 개봉 결과를 자동으로 확인합니다.');openPack(String(pending.packId),Number(pending.count),0);return;}
   const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
   const prefs=loadAutoDrawPrefs(),count=[1,20,100].includes(Number(defaultCount))?Number(defaultCount):([1,20,100].includes(Number(prefs.count))?Number(prefs.count):20),modal=document.getElementById('modal');
   modal.className='modal show auto-draw-setup-modal';
@@ -3138,7 +3138,7 @@ openPack=async function(packId,count,cost,options={}){
     const message=pending
       ?`${storageBusy?'저장 서버 혼잡이 오래 지속되어 자동 뽑기를 안전하게 멈췄습니다.':'카드 지급 결과 확인이 지연되고 있습니다.'}\n같은 요청 번호를 보존했으며 다시 시작할 때 새로 결제하지 않고 이전 결과부터 확인합니다.`
       :(e.message||'카드 개봉 중 오류가 발생했습니다.');
-    if(autoRun)finishOfficialAutoDraw(pending?(storageBusy?'서버 혼잡으로 안전 중지':'카드 지급 확인 지연으로 중지'):'자동 뽑기 오류',message);else alert(message);
+    if(autoRun)finishOfficialAutoDraw(pending?(storageBusy?'서버 혼잡으로 안전 중지':'카드 지급 확인 지연으로 중지'):'자동 뽑기 오류',message);else if(pending)showSupplyNotice(storageBusy?'서버 혼잡으로 이전 결과를 계속 보관합니다. 잠시 후 다시 확인해주세요.':'이전 카드 지급 결과를 확인 중입니다. 잠시 후 다시 확인해주세요.',true);else alert(message);
     return false;
   }finally{
     if(activeDrawRequestId===requestId)activeDrawRequestId='';
