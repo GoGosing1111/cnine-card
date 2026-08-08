@@ -3425,7 +3425,7 @@ async function handleRequest(context){
         const ids=[...new Set((stored.results||[]).map(item=>String(item?.card?.id||'')).filter(Boolean))];
         const [latestUser,cardRows,fxByGrade]=await Promise.all([
           env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
-          ids.length?env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all():Promise.resolve({results:[]}),
+          ids.length?env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE CAST(c.id AS TEXT) IN (SELECT CAST(value AS TEXT) FROM json_each(?))`).bind(JSON.stringify(ids)).all():Promise.resolve({results:[]}),
           cardAcquisitionEffectsByGrade(env)
         ]);
         if(!latestUser)return stored;
@@ -3605,8 +3605,8 @@ async function handleRequest(context){
           const ids=[...new Set(selected.map(card=>String(card?.id||'')).filter(Boolean))];
           if(!ids.length||selected.some(card=>!card?.id))throw new Error('카드 추첨 결과 검증에 실패했습니다. 다시 시도하세요.');
           const rows=(await env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-            WHERE c.id IN (${ids.map(()=>'?').join(',')}) AND c.is_active=1
-              AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...ids).all()).results;
+            WHERE CAST(c.id AS TEXT) IN (SELECT CAST(value AS TEXT) FROM json_each(?)) AND c.is_active=1
+              AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(JSON.stringify(ids)).all()).results;
           const active=new Set((rows||[]).map(row=>String(row.id)));
           const inactive=ids.filter(id=>!active.has(id));
           if(inactive.length){
@@ -3637,12 +3637,13 @@ async function handleRequest(context){
           if(soldOutAudit.length)await env.DB.batch(soldOutAudit);
         }
         const uniqueIds=[...new Set(cards.map(card=>String(card.id)))];
+        const uniqueIdsJson=JSON.stringify(uniqueIds);
         const [validationRows,acquisitionFxByGrade]=await Promise.all([
           env.DB.batch([
             env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-              WHERE c.id IN (${uniqueIds.map(()=>'?').join(',')}) AND c.is_active=1
-                AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(...uniqueIds),
-            env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (${uniqueIds.map(()=>'?').join(',')})`).bind(user.id,...uniqueIds)
+              WHERE CAST(c.id AS TEXT) IN (SELECT CAST(value AS TEXT) FROM json_each(?)) AND c.is_active=1
+                AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(uniqueIdsJson),
+            env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND CAST(card_id AS TEXT) IN (SELECT CAST(value AS TEXT) FROM json_each(?))`).bind(user.id,uniqueIdsJson)
           ]),
           cardAcquisitionEffectsByGrade(env)
         ]);
@@ -3682,10 +3683,12 @@ async function handleRequest(context){
         // 20장 자동 뽑기에서 카드별 로그가 최대 20행씩 누적되던 구조를 제거해 D1 쓰기와 용량 증가를 제한한다.
         const grantRows=[...cardGrantCounts.entries()];
         if(grantRows.length){
-          const placeholders=grantRows.map(()=>'(?,?,?)').join(','),binds=[];
-          for(const [cardId,grantCount] of grantRows)binds.push(user.id,cardId,grantCount);
-          statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES ${placeholders}
-            ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(...binds));
+          for(let offset=0;offset<grantRows.length;offset+=30){
+            const chunk=grantRows.slice(offset,offset+30),placeholders=chunk.map(()=>'(?,?,?)').join(','),binds=[];
+            for(const [cardId,grantCount] of chunk)binds.push(user.id,cardId,grantCount);
+            statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES ${placeholders}
+              ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(...binds));
+          }
         }
 
         const duplicateMasterStarCount=results.filter(item=>item.duplicate&&['MA','LIMITED'].includes(String(item.card?.grade||'').toUpperCase())).length;
