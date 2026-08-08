@@ -2552,15 +2552,11 @@ async function makeSession(env,userId){
   const raw=createToken();
   const tokenHash=await hash(raw);
   const expiresAt=new Date(Date.now()+1000*60*60*24*30).toISOString();
-  // 게임/CMS/다른 기기의 세션을 서로 강제 종료하지 않는다.
-  // 만료 세션만 정리하고 새 세션을 추가해 관리자 CMS가 반복 로그아웃되는 문제를 방지한다.
-  await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND expires_at<=datetime('now')").bind(userId).run();
+  const account=await env.DB.prepare('SELECT role FROM users WHERE id=?').bind(userId).first();
+  const operator=['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(String(account?.role||'USER').toUpperCase());
   await env.DB.prepare('INSERT INTO sessions(token_hash,user_id,expires_at) VALUES(?,?,?)').bind(tokenHash,userId,expiresAt).run();
-  // 비정상적으로 누적되는 것을 막기 위해 계정당 최신 20개 세션만 유지한다.
-  await env.DB.prepare(`DELETE FROM sessions
-    WHERE user_id=? AND token_hash NOT IN (
-      SELECT token_hash FROM sessions WHERE user_id=? ORDER BY expires_at DESC, rowid DESC LIMIT 20
-    )`).bind(userId,userId).run();
+  if(operator)await env.DB.prepare("DELETE FROM sessions WHERE user_id=? AND expires_at<=datetime('now')").bind(userId).run();
+  else await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(userId,tokenHash).run();
   return raw;
 }
 
