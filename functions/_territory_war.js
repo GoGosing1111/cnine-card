@@ -238,6 +238,13 @@ async function ensureFoundation(env){
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1475_territory_participation_cube_reward','1',CURRENT_TIMESTAMP)")
     ]);
   }
+  const massAssaultMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1535_territory_mass_assault'").first();
+  if(!massAssaultMarker){
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS territory_war_v3_mass_assaults(round_id INTEGER PRIMARY KEY,front_id INTEGER NOT NULL,side TEXT NOT NULL,target_side TEXT NOT NULL,damage INTEGER NOT NULL,hp_before INTEGER NOT NULL,hp_after INTEGER NOT NULL,admin_id INTEGER NOT NULL,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1535_territory_mass_assault','1',CURRENT_TIMESTAMP)")
+    ]);
+  }
   const loadIndexMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1471_territory_load_indexes'").first();
   if(!loadIndexMarker){
     await env.DB.batch([
@@ -275,6 +282,20 @@ function configuredTeamLabel(cfg,side){const name=String(side==='A'?cfg?.teamANa
 function activeOperation(round,side){const code=String(round?.[sideField(side,'operation')]||''),endsAt=round?.[sideField(side,'operation_ends_at')]||null,active=Boolean(code&&sqlMs(endsAt)>Date.now());return{code:active?code:'',name:active?OPERATIONS[code]?.name||code:'',endsAt:active?endsAt:null,active}}
 function fatigueState(round,front,cfg=DEFAULTS){const side=String(front?.fatigued_side||''),percent=Math.max(0,Number(front?.fatigue_percent||0)),damagePenaltyPercent=Math.round(percent*Number(balanceRules(round,cfg).fatigueDamageRatio||0));return{active:Boolean(side&&percent),side,percent,damagePenaltyPercent,captureStreak:side?Number(round?.[sideField(side,'capture_streak')]||0):0}}
 async function addNotice(env,roundId,type,side,title,message,payload={}){await env.DB.prepare('INSERT INTO territory_war_v3_notices(round_id,type,side,title,message,payload_json) VALUES(?,?,?,?,?,?)').bind(roundId,type,side||null,title,message,JSON.stringify(payload)).run()}
+function massAssaultPreview(round,front,cfg,used=null){
+  if(!round||round.status!=='ACTIVE'||!front||front.status!=='ACTIVE')return{available:false,reason:'현재 진행 중인 전선이 없습니다.',used:Boolean(used)};
+  if(used)return{available:false,reason:'이번 회차의 인해전술은 이미 발동했습니다.',used:true,...used};
+  const aRate=Number(front.a_hp||0)/Math.max(1,Number(front.a_max_hp||1)),bRate=Number(front.b_hp||0)/Math.max(1,Number(front.b_max_hp||1));
+  if(Math.abs(aRate-bRate)<.000001)return{available:false,reason:'현재 양 진영의 공성 HP 비율이 같아 열세 진영이 없습니다.',used:false};
+  const side=aRate<bRate?'A':'B',targetSide=side==='A'?'B':'A',targetHp=Number(targetSide==='A'?front.a_hp:front.b_hp),targetMax=Number(targetSide==='A'?front.a_max_hp:front.b_max_hp),damage=Math.max(0,Math.min(Math.max(1,Math.round(targetMax*.12)),targetHp-1));
+  return{available:damage>0,used:false,side,targetSide,damage,targetHp,hpAfter:targetHp-damage,teamName:configuredTeamLabel(cfg,side),targetName:configuredTeamLabel(cfg,targetSide),percent:12};
+}
+async function executeMassAssault(env,deps,user,cfg,operationKey){
+  const round=await lifecycle(env,cfg),front=await activeFront(env,round);if(!round||!front)return deps.json({error:'현재 진행 중인 영토전 전선이 없습니다.'},409);const lock=await acquireLock(env,`mass_assault_${round.id}`,60000);if(!lock.ok)return deps.json({error:'인해전술 발동 요청을 처리 중입니다.'},409);
+  try{const used=await env.DB.prepare('SELECT * FROM territory_war_v3_mass_assaults WHERE round_id=?').bind(round.id).first(),preview=massAssaultPreview(round,front,cfg,used);if(!preview.available)return deps.json({error:preview.reason||'인해전술을 발동할 수 없습니다.',massAssault:preview},409);const reserve=await reserveAdminOperation(env,operationKey,'MASS_ASSAULT',round.id,user.id);if(reserve.response)return deps.json(reserve.response);if(reserve.pending)return deps.json({error:'동일한 인해전술 요청을 처리 중입니다.'},409);if(reserve.conflict)return deps.json({error:'다른 작업에서 사용한 요청 키입니다.'},409);
+    const hpColumn=preview.targetSide==='A'?'a_hp':'b_hp',damageColumn=preview.side==='A'?'a_total_damage':'b_total_damage';await env.DB.batch([env.DB.prepare(`UPDATE territory_war_v3_fronts SET ${hpColumn}=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE' AND ${hpColumn}=?`).bind(preview.hpAfter,front.id,preview.targetHp),env.DB.prepare(`UPDATE territory_war_v3_rounds SET ${damageColumn}=${damageColumn}+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'`).bind(preview.damage,round.id),env.DB.prepare('INSERT INTO territory_war_v3_mass_assaults(round_id,front_id,side,target_side,damage,hp_before,hp_after,admin_id) VALUES(?,?,?,?,?,?,?,?)').bind(round.id,front.id,preview.side,preview.targetSide,preview.damage,preview.targetHp,preview.hpAfter,user.id)]);
+    await addNotice(env,round.id,'MASS_ASSAULT',preview.side,'인해전술 선포',`${preview.teamName}을 지원하는 대규모 증원군이 투입되어 ${preview.targetName} 공성 HP에 ${preview.damage.toLocaleString()} 피해를 입혔습니다.`,{operation:'MASS_ASSAULT',frontId:front.id,targetSide:preview.targetSide,damage:preview.damage,hpBefore:preview.targetHp,hpAfter:preview.hpAfter,image:'assets/ui/territory-war/mass-assault-v1.png'});publicStateSharedCache=null;const response={ok:true,massAssault:{...preview,roundId:round.id,frontId:front.id},state:await publicState(env,user.id,true)};await completeAdmin(env,operationKey,response);if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'TERRITORY_MASS_ASSAULT','TERRITORY_WAR_ROUND',String(round.id),null,response.massAssault);return deps.json(response);
+  }catch(error){await failAdmin(env,operationKey,error);return deps.json({error:error.message||'인해전술 발동에 실패했습니다.'},409)}finally{await releaseLock(env,lock)}}
 
 function snapshotIds(value){const items=safeJson(value,[]);return Array.isArray(items)?items.map(item=>String(item&&typeof item==='object'?(item.id??item.card_id??''):item)).filter(Boolean).slice(0,5):[]}
 async function participantDeck(env,deps,row,battle){
@@ -704,12 +725,15 @@ export async function handleTerritoryWar({path,request,env,deps}){
   if(path==='territory-war/claim'&&request.method==='POST')return claimV3(env,deps,user);
   if(path==='admin/territory-war/settings'){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
-    if(request.method==='GET')return deps.json({settings:cfg,state:await publicState(env,user.id,true)});
+    if(request.method==='GET'){const state=await publicState(env,user.id,true),used=state.round?await env.DB.prepare('SELECT * FROM territory_war_v3_mass_assaults WHERE round_id=?').bind(state.round.id).first():null;return deps.json({settings:cfg,state,massAssault:massAssaultPreview(state.round,state.front,cfg,used),isOwner:String(user.role||'').toUpperCase()==='OWNER'});}
     if(request.method==='POST'){
       const next=cleanSettings(await deps.readBody(request),cfg);if(Number(next.maxDamage)<Number(next.minDamage))next.maxDamage=next.minDamage;
       await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateSettingsCache();
       const round=await latestRound(env);if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();if(next.mode==='OFF'&&round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='DISABLED',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id).run();if(next.mode!=='OFF'&&(!round||['FINISHED','DISABLED'].includes(round.status)))await createRound(env,next);else if(cfg.mode==='OFF'&&next.mode!=='OFF'&&round?.status==='RECRUITING')await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(iso(Date.now()+Number(next.recruitmentHours||3)*3600000),round.id).run();return deps.json({ok:true,settings:next,state:await publicState(env,user.id,true)});
     }
+  }
+  if(path==='admin/territory-war/mass-assault'&&request.method==='POST'){
+    if(String(user.role||'').toUpperCase()!=='OWNER')return deps.json({error:'인해전술은 OWNER만 발동할 수 있습니다.'},403);const body=await deps.readBody(request),key=validRequestId(body.operationKey);if(!key)return deps.json({error:'유효한 작전 요청 키가 필요합니다.'},400);return executeMassAssault(env,deps,user,cfg,key);
   }
   if(path==='admin/territory-war/reset-recruitment'&&request.method==='POST'){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
