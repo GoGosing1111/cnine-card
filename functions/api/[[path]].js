@@ -3044,6 +3044,37 @@ async function releaseDeletedCouponCode(env,code,adminId){
   return {released:true,archivedCode};
 }
 
+const SERIALIZED_GAME_ACTIONS=new Set([
+  'attendance/claim','card/breakthrough','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave','draw',
+  'pvp/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
+  'wago-daily-quest/claim','vehicle-draw/open','vehicle-draw/purchase','equipment/supply-box/open',
+  'equipment/supply-box/purchase','high-grade-reroll/execute','mineral-exchange/request','chief/activate'
+]);
+const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/'];
+let userMutationLockReadyPromise=null;
+function serializedGameAction(path,method){
+  if(String(method).toUpperCase()!=='POST'||String(path).startsWith('admin/'))return false;
+  return SERIALIZED_GAME_ACTIONS.has(path)||SERIALIZED_GAME_PREFIXES.some(prefix=>String(path).startsWith(prefix));
+}
+async function ensureUserMutationLock(env){
+  if(!userMutationLockReadyPromise)userMutationLockReadyPromise=env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_mutation_locks_v1520(
+    user_id INTEGER PRIMARY KEY,token TEXT NOT NULL,action_path TEXT NOT NULL,lease_until_ms INTEGER NOT NULL,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+  )`).run().then(()=>true).catch(error=>{userMutationLockReadyPromise=null;throw error});
+  return userMutationLockReadyPromise;
+}
+async function acquireUserMutationLock(env,userId,path){
+  await ensureUserMutationLock(env);const now=Date.now(),token=crypto.randomUUID(),leaseUntil=now+180000;
+  const result=await env.DB.prepare(`INSERT INTO user_mutation_locks_v1520(user_id,token,action_path,lease_until_ms,updated_at)
+    VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET token=excluded.token,action_path=excluded.action_path,
+    lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP WHERE user_mutation_locks_v1520.lease_until_ms<=?`)
+    .bind(userId,token,String(path).slice(0,100),leaseUntil,now).run();
+  return Number(result?.meta?.changes||0)===1?{userId,token}:null;
+}
+async function releaseUserMutationLock(env,lock){
+  if(lock)await env.DB.prepare('DELETE FROM user_mutation_locks_v1520 WHERE user_id=? AND token=?').bind(lock.userId,lock.token).run();
+}
+
 async function handleRequest(context){
   const {request,env}=context;
   const url=new URL(request.url);
@@ -6287,7 +6318,15 @@ async function handleRequest(context){
 
 export async function onRequest(context){
   const startedAt=Date.now(),request=context.request,url=new URL(request.url);
-  const response=await handleRequest(context);
+  const actionPath=url.pathname.replace(/^\/api\/?/,'');let mutationLock=null,response;
+  if(serializedGameAction(actionPath,request.method)){
+    const user=await authenticate(request,context.env);
+    if(user){
+      mutationLock=await acquireUserMutationLock(context.env,user.id,actionPath);
+      if(!mutationLock)response=json({error:'같은 계정의 다른 게임 요청을 처리 중입니다. 잠시 후 다시 시도해 주세요.',code:'USER_ACTION_IN_PROGRESS',retryable:true,retryAfterMs:800},409);
+    }
+  }
+  try{if(!response)response=await handleRequest(context)}finally{await releaseUserMutationLock(context.env,mutationLock)}
   const durationMs=Math.max(0,Date.now()-startedAt),headers=new Headers(response.headers);
   headers.set('server-timing',`app;dur=${durationMs}`);
   headers.set('x-cnine-response-ms',String(durationMs));
