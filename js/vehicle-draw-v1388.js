@@ -1,91 +1,25 @@
-/* V1396 VEHICLE DRAW UI - result close controls */
+/* V1548 VEHICLE DRAW - 1 / 10 DRAW */
 (()=>{
-  const esc=v=>typeof escapeHtml==='function'
-    ? escapeHtml(String(v??''))
-    : String(v??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const rarity={NORMAL:'일반',MAGIC:'고급',RARE:'희귀',EPIC:'영웅',LEGENDARY:'전설',MYTHIC:'신화'};
-
-  async function open(owned=0,autoDraw=false){
-    const modal=document.getElementById('modal');
-    if(!modal)return;
-
-    let closed=false;
-    const close=()=>{
-      if(closed)return;
-      closed=true;
-      document.removeEventListener('keydown',onKeyDown);
-      modal.removeEventListener('click',onBackdropClick);
-      modal.className='modal';
-      modal.innerHTML='';
-    };
-    const onKeyDown=e=>{if(e.key==='Escape')close()};
-    const onBackdropClick=e=>{if(e.target===modal)close()};
-    document.addEventListener('keydown',onKeyDown);
-    modal.addEventListener('click',onBackdropClick);
-
-    modal.className='modal show vehicle-draw-modal-v1388';
-    modal.innerHTML='<div class="modal-panel vehicle-draw-panel-v1388"><div class="vehicle-draw-loading-v1388"><i></i><b>이동수단 시스템 연결 중</b><span>뽑기 설정을 확인하고 있습니다.</span></div></div>';
-
-    try{
-      const d=await apiRequest('vehicle-draw/config',{}, {ttl:0});
-      if(closed)return;
-      const s=d.settings||{};
-      const pool=(d.vehicles||[]).filter(x=>x.drawEnabled&&x.isActive&&x.isPublic);
-      modal.innerHTML=`<div class="modal-panel vehicle-draw-panel-v1388">
-        <button type="button" class="vehicle-draw-close-v1396" id="vehicleDrawCloseV1388" aria-label="이동수단 뽑기 닫기">×</button>
-        <header><small>${esc(s.drawTitle||'VEHICLE ACQUISITION')}</small><h2>이동수단 뽑기</h2><p>${esc(s.drawCopy||'새로운 이동수단을 획득합니다.')}</p></header>
-        <div class="vehicle-draw-stage-v1388"><span class="ring a"></span><span class="ring b"></span><div class="vehicle-draw-ticket-v1388">${s.ticketImage?`<img src="${esc(s.ticketImage)}" alt="">`:'<b>SOOP</b>'}<em>VEHICLE DRAW</em></div></div>
-        <div class="vehicle-draw-meta-v1388"><span>보유 뽑기권 <b>${Number(d.ticketQuantity||owned).toLocaleString()}개</b></span><span>등록 풀 <b>${pool.length}종</b></span></div>
-        <div class="vehicle-draw-bonus-v1388"><b>MASTER STAR BONUS</b><span>이동수단 결과와 별도로 ${Number(s.masterStarChance||0)}% 확률 판정</span></div>
-        <button type="button" class="btn vehicle-draw-confirm-v1388" id="vehicleDrawConfirmV1388" ${Number(d.ticketQuantity||0)>0&&pool.length?'':'disabled'}>${Number(d.ticketQuantity||0)>0?(pool.length?'1회 뽑기':'뽑기 풀 준비 중'):'뽑기권 없음'}</button>
-      </div>`;
-      document.getElementById('vehicleDrawCloseV1388')?.addEventListener('click',close);
-
-      const btn=document.getElementById('vehicleDrawConfirmV1388');
-      if(btn)btn.onclick=async()=>{
-        const panel=modal.querySelector('.vehicle-draw-panel-v1388');
-        const requestId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        btn.disabled=true;
-        btn.textContent='이동수단 호출 중';
-        panel.classList.add('opening');
-        try{
-          const r=await apiRequest('vehicle-draw/open',{method:'POST',body:JSON.stringify({requestId})});
-          clearApiCache('inventory');
-          clearApiCache('character');
-          clearApiCache('shell/summary');
-          await new Promise(x=>setTimeout(x,1200));
-          if(closed||!panel.isConnected)return;
-          panel.classList.remove('opening');
-          panel.classList.add('revealed');
-          panel.innerHTML=`
-            <div class="vehicle-result-v1424 rarity-${esc(String(r.vehicle.rarity||'NORMAL').toLowerCase())}">
-              <div class="vehicle-result-grid-v1424" aria-hidden="true"></div>
-              <header class="vehicle-result-head-v1424"><div><div class="vehicle-result-state-v1424"><i></i><span>${esc(r.duplicate?'DUPLICATE CONVERTED':'NEW VEHICLE ACQUIRED')}</span></div><h2>${esc(r.vehicle.name)}<small>VEHICLE · ${esc(String(r.vehicle.rarity||'NORMAL'))} CLASS</small></h2></div><button type="button" class="vehicle-draw-close-v1396" id="vehicleResultCloseV1396" aria-label="이동수단 결과 닫기">×</button></header>
-              <div class="vehicle-result-stage-v1424">${r.vehicle.image?`<img src="${esc(r.vehicle.image)}" alt="${esc(r.vehicle.name)}">`:'<b>NO IMAGE</b>'}<span class="vehicle-result-rarity-v1424">${esc(String(r.vehicle.rarity||'NORMAL'))} · ${esc(rarity[r.vehicle.rarity]||r.vehicle.rarity)}</span><span class="vehicle-result-index-v1424">GARAGE VEHICLE</span><div class="vehicle-result-scan-v1424" aria-hidden="true"></div></div>
-              <div class="vehicle-result-info-v1424"><div class="vehicle-result-copy-v1424"><p>${esc(r.duplicate?'이미 보유한 이동수단이 보상으로 자동 변환되었습니다.':r.vehicle.description||'새로운 이동수단이 차고지에 등록되었습니다.')}</p><div class="vehicle-result-rewards-v1424">${r.duplicate?`<span>중복 변환 <b>카드 조각 +${Number(r.shardsGained||0).toLocaleString()}</b></span>`:'<span>차고지 <b>신규 등록 완료</b></span>'}${Number(r.masterStarsGained||0)>0?`<span>보너스 <b>마스터의 별 +${Number(r.masterStarsGained).toLocaleString()}</b></span>`:''}</div></div><div class="vehicle-result-ticket-v1424"><span>보유 뽑기권</span><b>${Number(r.ticketQuantity||0).toLocaleString()}개</b></div></div>
-              <div class="vehicle-result-actions-v1396"><button type="button" class="btn secondary" id="vehicleResultCloseButtonV1396">닫기</button><button type="button" class="btn" id="vehicleResultAgainV1420" ${Number(r.ticketQuantity||0)>0?'':'disabled'}>한 번 더 뽑기<small>즉시 다음 획득 연출 시작</small></button><button type="button" class="btn secondary" id="vehicleResultDoneV1388">인벤토리</button></div>
-            </div>`;
-          const resultImage=panel.querySelector('.vehicle-result-stage-v1424>img');
-          if(resultImage){const fitImage=()=>{const width=Number(resultImage.naturalWidth||0),height=Number(resultImage.naturalHeight||0),ratio=height>0?width/height:1;resultImage.classList.remove('is-portrait','is-square','is-landscape');resultImage.classList.add(ratio<.82?'is-portrait':ratio>1.22?'is-landscape':'is-square')};if(resultImage.complete)fitImage();else resultImage.addEventListener('load',fitImage,{once:true})}
-          document.getElementById('vehicleResultCloseV1396')?.addEventListener('click',close);
-          document.getElementById('vehicleResultCloseButtonV1396')?.addEventListener('click',close);
-          document.getElementById('vehicleResultAgainV1420')?.addEventListener('click',()=>{const remaining=Number(r.ticketQuantity||0);close();if(remaining>0)open(remaining,true)});
-          document.getElementById('vehicleResultDoneV1388')?.addEventListener('click',()=>{close();renderShell('inventory')});
-        }catch(e){
-          if(closed)return;
-          panel.classList.remove('opening');
-          btn.disabled=false;
-          btn.textContent='1회 뽑기';
-          alert(e.message);
-        }
-      };
-      if(autoDraw&&btn&&!btn.disabled)requestAnimationFrame(()=>btn.click());
-    }catch(e){
-      if(closed)return;
-      modal.innerHTML=`<div class="modal-panel vehicle-draw-panel-v1388"><button type="button" class="vehicle-draw-close-v1396" id="vehicleDrawErrorTopCloseV1396" aria-label="닫기">×</button><div class="vehicle-draw-error-v1388"><b>이동수단 뽑기를 열 수 없습니다.</b><span>${esc(e.message)}</span><button type="button" class="btn" id="vehicleDrawErrorCloseV1388">닫기</button></div></div>`;
-      document.getElementById('vehicleDrawErrorTopCloseV1396')?.addEventListener('click',close);
-      document.getElementById('vehicleDrawErrorCloseV1388')?.addEventListener('click',close);
-    }
-  }
-  window.VehicleDrawV1388={open};
+ const esc=v=>typeof escapeHtml==='function'?escapeHtml(String(v??'')):String(v??'').replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[c]));
+ const uuid=()=>globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;
+ const clear=()=>['inventory','character','shell/summary'].forEach(clearApiCache);
+ async function open(owned=0,autoDraw=false,autoCount=1){
+  const modal=document.getElementById('modal');if(!modal)return;let closed=false;
+  const close=()=>{if(closed)return;closed=true;document.removeEventListener('keydown',key);modal.removeEventListener('click',back);modal.className='modal';modal.innerHTML=''};
+  const key=e=>{if(e.key==='Escape')close()},back=e=>{if(e.target===modal)close()};document.addEventListener('keydown',key);modal.addEventListener('click',back);
+  modal.className='modal show vehicle-draw-modal-v1388';modal.innerHTML='<div class="modal-panel vehicle-draw-panel-v1388"><div class="vehicle-draw-loading-v1388"><i></i><b>차량 호출 시스템 연결 중</b><span>뽑기 설정을 확인하고 있습니다.</span></div></div>';
+  try{
+   const d=await apiRequest('vehicle-draw/config',{}, {ttl:0});if(closed)return;const s=d.settings||{},tickets=Number(d.ticketQuantity||owned),pool=(d.vehicles||[]).filter(x=>x.drawEnabled&&x.isActive&&x.isPublic);
+   modal.innerHTML=`<div class="modal-panel vehicle-draw-panel-v1388"><button class="vehicle-draw-close-v1396" id="vehicleDrawClose" aria-label="닫기">×</button><header><small>${esc(s.drawTitle||'VEHICLE ACQUISITION')}</small><h2>이동수단 뽑기</h2><p>${esc(s.drawCopy||'새로운 이동수단을 획득합니다.')}</p></header><div class="vehicle-draw-stage-v1388"><span class="ring a"></span><span class="ring b"></span><div class="vehicle-draw-ticket-v1388">${s.ticketImage?`<img src="${esc(s.ticketImage)}" alt="">`:'<b>SOOP</b>'}<em>VEHICLE DRAW</em></div></div><div class="vehicle-draw-meta-v1388"><span>보유 뽑기권 <b>${tickets.toLocaleString()}장</b></span><span>등록 차량 <b>${pool.length}종</b></span></div><div class="vehicle-draw-bonus-v1388"><b>MASTER STAR BONUS</b><span>각 획득마다 ${Number(s.masterStarChance||0)}% 확률로 별도 판정</span></div><div class="vehicle-draw-actions-v1548"><button class="btn secondary" data-count="1" ${tickets>=1&&pool.length?'':'disabled'}><b>1회 뽑기</b><small>뽑기권 1장</small></button><button class="btn vehicle-draw-ten-v1548" data-count="10" ${tickets>=10&&pool.length?'':'disabled'}><i>10</i><b>10회 뽑기</b><small>${tickets>=10?'뽑기권 10장 · 일괄 개봉':`뽑기권 ${Math.max(0,10-tickets)}장 부족`}</small></button></div></div>`;
+   document.getElementById('vehicleDrawClose')?.addEventListener('click',close);const panel=modal.querySelector('.vehicle-draw-panel-v1388');
+   const draw=async count=>{panel.querySelectorAll('button').forEach(x=>x.disabled=true);panel.classList.add('opening');try{const r=await apiRequest('vehicle-draw/open',{method:'POST',body:JSON.stringify({requestId:uuid(),count})});clear();await new Promise(x=>setTimeout(x,count===10?1500:1100));if(closed||!panel.isConnected)return;renderResult(panel,r,close)}catch(e){panel.classList.remove('opening');panel.querySelectorAll('[data-count]').forEach(x=>x.disabled=tickets<Number(x.dataset.count));alert(e.message)}};
+   panel.querySelectorAll('[data-count]').forEach(btn=>btn.addEventListener('click',()=>draw(Number(btn.dataset.count))));if(autoDraw){const btn=panel.querySelector(`[data-count="${autoCount}"]`);if(btn&&!btn.disabled)requestAnimationFrame(()=>btn.click())}
+  }catch(e){if(!closed)modal.innerHTML=`<div class="modal-panel vehicle-draw-panel-v1388"><div class="vehicle-draw-error-v1388"><b>이동수단 뽑기를 열 수 없습니다.</b><span>${esc(e.message)}</span><button class="btn" id="vehicleDrawErrorClose">닫기</button></div></div>`,document.getElementById('vehicleDrawErrorClose')?.addEventListener('click',close)}
+ }
+ function renderResult(panel,r,close){const list=Array.isArray(r.results)?r.results:[r],multi=list.length>1,totalShards=list.reduce((n,x)=>n+Number(x.shardsGained||0),0),totalStars=list.reduce((n,x)=>n+Number(x.masterStarsGained||0),0),newCount=list.filter(x=>!x.duplicate).length;
+  panel.classList.remove('opening');panel.classList.add('revealed',multi?'multi-result-v1548':'single-result-v1548');panel.innerHTML=`<div class="vehicle-results-v1548"><header><div><small>${multi?'10 DRAW COMPLETE':'VEHICLE ACQUIRED'}</small><h2>${multi?'차량 10회 획득 결과':esc(list[0].vehicle.name)}</h2></div><button class="vehicle-draw-close-v1396" id="vehicleResultClose" aria-label="닫기">×</button></header>${multi?`<div class="vehicle-result-summary-v1548"><span>신규 <b>${newCount}</b></span><span>중복 <b>${list.length-newCount}</b></span><span>카드 조각 <b>+${totalShards.toLocaleString()}</b></span><span>마스터의 별 <b>+${totalStars.toLocaleString()}</b></span></div>`:''}<div class="vehicle-result-grid-v1548">${list.map((x,i)=>`<article class="vehicle-result-card-v1548 rarity-${esc(String(x.vehicle.rarity||'NORMAL').toLowerCase())}" style="--order:${i}"><div class="vehicle-result-image-v1548">${x.vehicle.image?`<img src="${esc(x.vehicle.image)}" alt="${esc(x.vehicle.name)}">`:'<b>NO IMAGE</b>'}<em>${x.duplicate?'DUPLICATE':'NEW'}</em></div><div><small>${esc(x.vehicle.rarity||'NORMAL')}</small><strong>${esc(x.vehicle.name)}</strong>${x.duplicate?`<span>조각 +${Number(x.shardsGained||0).toLocaleString()}</span>`:'<span>차고지 신규 등록</span>'}${Number(x.masterStarsGained||0)>0?`<mark>★ +${Number(x.masterStarsGained).toLocaleString()}</mark>`:''}</div></article>`).join('')}</div><footer><span>남은 뽑기권 <b>${Number(r.ticketQuantity||0).toLocaleString()}장</b></span><div><button class="btn secondary" id="vehicleResultDone">보관함</button><button class="btn" id="vehicleAgain1" ${Number(r.ticketQuantity||0)>=1?'':'disabled'}>1회 다시</button><button class="btn vehicle-draw-ten-v1548" id="vehicleAgain10" ${Number(r.ticketQuantity||0)>=10?'':'disabled'}>10회 다시</button></div></footer></div>`;
+  panel.querySelectorAll('.vehicle-result-image-v1548 img').forEach(img=>{const fit=()=>{const ratio=(img.naturalWidth||1)/(img.naturalHeight||1);img.classList.add(ratio<.82?'portrait':ratio>1.22?'landscape':'square')};img.complete?fit():img.addEventListener('load',fit,{once:true})});
+  document.getElementById('vehicleResultClose')?.addEventListener('click',close);document.getElementById('vehicleResultDone')?.addEventListener('click',()=>{close();renderShell('inventory')});document.getElementById('vehicleAgain1')?.addEventListener('click',()=>{const n=Number(r.ticketQuantity||0);close();open(n,true,1)});document.getElementById('vehicleAgain10')?.addEventListener('click',()=>{const n=Number(r.ticketQuantity||0);close();open(n,true,10)})
+ }
+ window.VehicleDrawV1388={open};
 })();
