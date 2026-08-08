@@ -2302,7 +2302,7 @@ function showAccountPanel() {
 // ===== V1.4 D1 API bridge: API가 없으면 기존 LocalStorage 모드로 자동 전환 =====
 let API_MODE=false, API_TOKEN=localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||'';
 const API_GET_CACHE=new Map(),API_INFLIGHT=new Map();
-let MULTI_CLIENT_TERMINATING=false;
+let MULTI_CLIENT_TERMINATING=false,MULTI_CLIENT_LAST_TOKEN='',MULTI_CLIENT_LAST_AT=0,MULTI_CLIENT_STRIKES=0;
 let PLAYER_STATE_MUTATION_EPOCH=0;
 // Player-owned state must not be cached. Mutation responses are authoritative and
 // a later read must never resurrect an older balance or inventory summary.
@@ -2599,10 +2599,11 @@ async function apiRequest(path, options={}, config={}) {
   else if(isGet&&API_INFLIGHT.has(cleanPath))return API_INFLIGHT.get(cleanPath);
   const timeoutMs=Math.max(1000,Number(config.timeoutMs??(isGet?15000:30000))||15000);
   const task=(async()=>{
+    const requestToken=API_TOKEN;
     const response=await fetchWithTimeout(`/api/${cleanPath}`,{
       cache:isGet&&ttl>0?'default':'no-store',
       ...options,
-      headers:{'content-type':'application/json','authorization':API_TOKEN?`Bearer ${API_TOKEN}`:'',...(options.headers||{})}
+      headers:{'content-type':'application/json','authorization':requestToken?`Bearer ${requestToken}`:'',...(options.headers||{})}
     },timeoutMs,`서버 요청 (${cleanPath})`);
     const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
     let data={};
@@ -2615,7 +2616,9 @@ async function apiRequest(path, options={}, config={}) {
         API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
         renderMaintenance(data.maintenance||{},data);
       }
-      if(String(data.code||'').toUpperCase()==='MULTI_CLIENT_BLOCKED'&&!MULTI_CLIENT_TERMINATING){
+      const multiBlocked=String(data.code||'').toUpperCase()==='MULTI_CLIENT_BLOCKED'&&requestToken&&requestToken===API_TOKEN;
+      if(multiBlocked){const elapsed=Date.now()-MULTI_CLIENT_LAST_AT,same=MULTI_CLIENT_LAST_TOKEN===requestToken;if(!same||elapsed>=10000){MULTI_CLIENT_STRIKES=1;MULTI_CLIENT_LAST_TOKEN=requestToken;MULTI_CLIENT_LAST_AT=Date.now()}else if(elapsed>=1000){MULTI_CLIENT_STRIKES++;MULTI_CLIENT_LAST_AT=Date.now()}}
+      if(multiBlocked&&MULTI_CLIENT_STRIKES>=3&&!playerSessionRecoveryPromise&&!MULTI_CLIENT_TERMINATING){
         MULTI_CLIENT_TERMINATING=true;API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
         alert('다중 클라이언트 접속이 감지되었습니다.\n\n숲켓몬은 계정당 1개의 클라이언트만 이용할 수 있습니다.\n다른 클라이언트에서 로그인되어 현재 접속을 종료합니다.');
         clearPlayerLogin();window.location.replace('/');
@@ -2715,7 +2718,9 @@ async function syncCollectionFromServer({force=false,rerender=false}={}){
   collectionSyncPromise=(async()=>{const data=await apiRequest('me/collection',{}, {ttl:force?0:30000,timeoutMs:10000});if(syncEpoch!==PLAYER_STATE_MUTATION_EPOCH)return false;const collection=data?.collection||{},current=loadUser();if(!current||!Array.isArray(collection.owned))return false;const beforeIds=[...ownedIds(current)].sort().join(','),next={...current,collectionRepairR6:true,owned:collection.owned.map(String),quantities:Object.fromEntries(Object.entries(collection.quantities||{}).map(([id,value])=>[String(id),Number(value||0)])),breakthroughs:Object.fromEntries(Object.entries(collection.breakthroughs||{}).map(([id,value])=>[String(id),Number(value||0)]))};saveUser(next);collectionSyncAt=Date.now();const changed=beforeIds!==[...ownedIds(next)].sort().join(',');if(changed&&rerender&&runtimeCommandContext==='dex')renderShell('dex');return changed;})().catch(error=>{console.warn('서버 도감 동기화 실패:',error);return false}).finally(()=>{collectionSyncPromise=null});
   return collectionSyncPromise;
 }
-async function recoverPlayerSession(){
+let playerSessionRecoveryPromise=null;
+function recoverPlayerSession(){if(playerSessionRecoveryPromise)return playerSessionRecoveryPromise;playerSessionRecoveryPromise=recoverPlayerSessionOnce().finally(()=>{playerSessionRecoveryPromise=null});return playerSessionRecoveryPromise}
+async function recoverPlayerSessionOnce(){
   const saved=loadUser(),privateKey=String(saved?.key||'').trim().toUpperCase();
   if(!privateKey)return false;
   try{
