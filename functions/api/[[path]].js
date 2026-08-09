@@ -10,6 +10,7 @@ import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedT
 import { handleVehicleDraw } from '../_vehicle_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
+import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
 import { handleChief,chiefDiscountState } from '../_chief.js';
 import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
@@ -3069,7 +3070,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   'wago-daily-quest/claim','vehicle-draw/open','vehicle-draw/purchase','equipment/supply-box/open',
   'equipment/supply-box/purchase','high-grade-reroll/execute','mineral-exchange/request','chief/activate'
 ]);
-const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/'];
+const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','auction/'];
 let userMutationLockReadyPromise=null;
 function serializedGameAction(path,method){
   if(String(method).toUpperCase()!=='POST'||String(path).startsWith('admin/'))return false;
@@ -3246,6 +3247,7 @@ async function handleRequest(context){
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,chiefDiscountState}});if(vehicleDrawResponse)return vehicleDrawResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
+    const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies}});if(territoryWarResponse)return territoryWarResponse;
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses}});if(siegeResponse)return siegeResponse;
     const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(chiefResponse)return chiefResponse;

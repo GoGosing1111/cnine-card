@@ -368,11 +368,11 @@ function renderCreated(user) {
 
 function navGroupForTab(tab){
   if(['battle','pvp'].includes(tab))return 'battle';
-  if(['attendance','dailyquest','messages'].includes(tab))return 'rewards';
+  if(['attendance','dailyquest','messages','mineral'].includes(tab))return 'rewards';
   if(tab==='magic')return 'magic';
   if(tab==='character')return 'character';
   if(tab==='rank')return 'rank';
-  if(tab==='mineral')return 'mineral';
+  if(tab==='auction')return 'auction';
   if(['dex','evolution'].includes(tab))return 'dex';
   return 'buy';
 }
@@ -386,11 +386,11 @@ function renderMainNavigation(tab){
     {id:'character',label:'장비·칭호'},
     {id:'rewards',label:'보상',tab:group==='rewards'?tab:'attendance'},
     {id:'rank',label:'랭킹'},
-    {id:'mineral',label:'교환소'}
+    {id:'auction',label:'경매장'}
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
   if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}</nav>`;
-  if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button></nav>`;
+  if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
   return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
 }
 
@@ -401,7 +401,7 @@ function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(coun
 
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);
-  const moreActive=['attendance','dailyquest','messages','rank','mineral','inventory','character'].includes(tab);
+  const moreActive=['attendance','dailyquest','messages','rank','auction','mineral','inventory','character'].includes(tab);
   const magicButton=magicSystemState.visible?`<button class="mobile-bottom-item ${tab==='magic'?'active':''}" type="button" data-mobile-tab="magic"><span>✦</span><b>마법카드</b></button>`:'';
   return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
     <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드팩</b></button>
@@ -432,7 +432,7 @@ function mobileNavigationHtml(tab){
       <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>◆</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em>${messageBadgeMarkup()}</button>
       <div class="mobile-more-grid">
         <button type="button" data-mobile-tab="rank"><i>♛</i><b>랭킹</b></button>
-        <button type="button" data-mobile-tab="mineral"><i>⬡</i><b>교환소</b></button>
+        <button type="button" data-mobile-tab="auction"><i>◈</i><b>경매장</b></button>
         <button type="button" data-mobile-tab="inventory"><i>▱</i><b>인벤토리</b></button>
         <button type="button" data-mobile-tab="character"><i>⚔</i><b>장비·칭호</b></button>
         <button type="button" data-mobile-account><i>●</i><b>내 정보</b></button>
@@ -444,6 +444,7 @@ function mobileNavigationHtml(tab){
         <button type="button" data-mobile-tab="attendance"><i>◈</i><span><b>접속 보상</b><small>매일 접속하고 보상 받기</small></span><em>확인</em></button>
         <button type="button" data-mobile-tab="dailyquest"><i>✓</i><span><b>일일 퀘스트</b><small>오늘의 플레이 목표</small></span><em>확인</em></button>
         <button type="button" data-mobile-tab="messages"><i>✉</i><span><b>메시지함</b><small>운영 메시지와 지급 내역</small></span><em>확인</em>${messageBadgeMarkup()}</button>
+        <button type="button" data-mobile-tab="mineral"><i>⬡</i><span><b>교환소</b><small>미네랄 기부 교환 신청</small></span><em>열기</em></button>
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
     </section>
@@ -524,8 +525,8 @@ function renderShell(tab) {
   if(tab!=='buy'){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open')}
   const user = loadUser();
   if (!user) return renderLogin();
-  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, mineral: mineralExchangeView, inventory: inventoryView };
-  const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages'].includes(tab),collectionActive=['dex','evolution'].includes(tab);
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, auction:(...args)=>(typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):''), mineral: mineralExchangeView, inventory: inventoryView };
+  const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
     <div class="main-nav-group ${collectionActive?'active':''}" data-nav-group="collection">
@@ -549,10 +550,11 @@ function renderShell(tab) {
         <button type="button" data-tab="attendance"><span>접속 보상·쿠폰 입력</span><b>접속 보상</b></button>
         <button type="button" data-tab="dailyquest"><span>오늘의 플레이 목표</span><b>일일 퀘스트</b></button>
         <button type="button" data-tab="messages"><span>운영 메시지</span><b>메시지함</b>${messageBadgeMarkup()}</button>
+        <button type="button" data-tab="mineral"><span>미네랄 기부 교환 신청</span><b>교환소</b></button>
       </div>
     </div>
     <button class="main-nav-item ${tab==='rank'?'active':''}" type="button" data-tab="rank"><span class="main-nav-icon">♛</span><b>랭킹</b></button>
-    <button class="main-nav-item ${tab==='mineral'?'active':''}" type="button" data-tab="mineral"><span class="main-nav-icon">⬡</span><b>교환소</b></button>
+    <button class="main-nav-item ${tab==='auction'?'active':''}" type="button" data-tab="auction"><span class="main-nav-icon">◈</span><b>경매장</b></button>
   </nav>`;
   app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="SOOP"><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}</header>${mobileNavigationHtml(tab)}${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
   const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a>');bindFullscreenPlayLink(header);
@@ -1937,6 +1939,7 @@ function bindView(tab) {
   if(tab==='battle'){document.querySelectorAll('.pve-mode-btn').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
   if(tab==='pvp') loadPvpView();
   if(tab==='mineral') loadMineralExchange();
+  if(tab==='auction'&&typeof window.bindAuctionHouseView==='function')window.bindAuctionHouseView();
   if(tab==='dex') {
     syncCollectionFromServer({rerender:true});
     document.querySelectorAll('.dex-fold-button').forEach(h=>h.onclick=()=>h.closest('.dex-section').classList.toggle('collapsed'));
