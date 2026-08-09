@@ -2,6 +2,7 @@ CREATE TABLE IF NOT EXISTS auctions_v1553 (id INTEGER PRIMARY KEY AUTOINCREMENT,
 CREATE TABLE IF NOT EXISTS auction_bidders_v1553 (auction_id INTEGER NOT NULL,user_id INTEGER NOT NULL,total_bid INTEGER NOT NULL DEFAULT 0,last_bid_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,refunded_at TEXT,PRIMARY KEY(auction_id,user_id));
 CREATE TABLE IF NOT EXISTS auction_bid_receipts_v1553 (request_id TEXT PRIMARY KEY,auction_id INTEGER NOT NULL,user_id INTEGER NOT NULL,amount INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE IF NOT EXISTS auction_locks_v1553 (auction_id INTEGER PRIMARY KEY,token TEXT NOT NULL,expires_ms INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS auction_bgm_rules_v1554 (id INTEGER PRIMARY KEY AUTOINCREMENT,auction_id INTEGER NOT NULL,min_bid INTEGER NOT NULL DEFAULT 0,max_bid INTEGER NOT NULL DEFAULT 0,bgm_url TEXT NOT NULL,bgm_duration INTEGER NOT NULL DEFAULT 40,sort_order INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
 CREATE TRIGGER IF NOT EXISTS trg_auctions_v1553_normalize_dates AFTER INSERT ON auctions_v1553 BEGIN UPDATE auctions_v1553 SET starts_at=datetime(NEW.starts_at),ends_at=datetime(NEW.ends_at) WHERE id=NEW.id; END;
 CREATE INDEX IF NOT EXISTS idx_auctions_v1553_status_end ON auctions_v1553(status,ends_at);
 CREATE INDEX IF NOT EXISTS idx_auction_bidders_v1553_rank ON auction_bidders_v1553(auction_id,total_bid DESC,last_bid_at ASC);
