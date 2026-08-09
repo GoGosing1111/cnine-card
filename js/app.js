@@ -518,6 +518,7 @@ function renderShell(tab) {
   const renderSeq=++shellRenderSeq;
   document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
+  if(tab!=='auction'&&typeof window.stopAuctionHouseView==='function')window.stopAuctionHouseView();
   runtimeCommandContext=tab;
   const burningPageActive=burningEventState.enabled===true,burningPageMode=burningMode();
   document.documentElement.classList.toggle('burning-event-active',burningPageActive&&burningPageMode==='BURNING');
