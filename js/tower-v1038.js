@@ -1,4 +1,5 @@
 (()=>{
+  const mediaPath=(value)=>String(value||'').trim().replace(/\\/g,'/');
   const AUTO_KEY='cnine:tower:autoProgress:v1';
   const S={data:null,busy:false,enabled:true,ensureBusy:false,ensureTimer:null,lastConfigAt:0,autoEnabled:loadAuto(),autoRunning:false,autoTimer:null};
   const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -75,7 +76,7 @@
     <section class="tower-main-grid">
       <div class="tower-floor-card ${f.isBoss?'boss-floor':''}">
         <div class="tower-floor-number"><span>${f.isBoss?'BOSS FLOOR':'FLOOR'}</span><b>${Number(f.floorNo||1)}</b></div>
-        <div class="tower-monster-visual">${f.monsterImage?`<img src="${esc(f.monsterImage)}" alt="">`:'<div class="tower-monster-placeholder">👹</div>'}<i></i></div>
+        <div class="tower-monster-visual">${f.monsterImage?`<img src="${esc(mediaPath(f.monsterImage))}" alt="">`:'<div class="tower-monster-placeholder">👹</div>'}<i></i></div>
         <div class="tower-floor-info"><p>${f.isBoss?'강력한 층주가 기다리고 있습니다':'탑의 수문장이 길을 막고 있습니다'}</p><h3>${esc(f.monsterName||'탑의 수문장')}</h3><div><span>권장 전투력</span><b>${Number(f.monsterPower||0).toLocaleString()}</b></div><div><span>클리어 보상</span><b>◈ ${Number(f.rewardCoin||0).toLocaleString()}</b></div></div>
         <div class="tower-action-panel">
           <label class="tower-auto-option" for="towerAutoProgress"><input type="checkbox" id="towerAutoProgress" ${S.autoEnabled?'checked':''}><span class="tower-auto-switch"><i></i></span><span class="tower-auto-copy"><b>자동진행</b><small>승리하면 다음 층을 자동으로 도전합니다.</small></span></label>
@@ -95,7 +96,7 @@
   }
   function syncTowerStartCopy(){const btn=document.getElementById('towerStart'),copy=btn?.querySelector('i');if(copy)copy.textContent=S.autoEnabled?'자동 등반 시작':'도전 시작'}
   function towerBattleMarkup(f,deckCards,previewPower){
-    const monster={name:f.monsterName||'탑의 수문장',image:f.monsterImage||'',battlePower:Number(f.monsterPower||0),isBoss:Boolean(f.isBoss)};
+    const monster={name:f.monsterName||'탑의 수문장',image:mediaPath(f.monsterImage),battlePower:Number(f.monsterPower||0),isBoss:Boolean(f.isBoss)};
     return `<div class="modal-panel battle-stage intro tower-pve-battle-stage ${monster.isBoss?'tower-boss-stage':''}">
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
       <div class="tower-floor-intro"><small>${monster.isBoss?'WARNING · BOSS FLOOR':'INFINITE TOWER'}</small><strong>${Number(f.floorNo||1)} FLOOR</strong><span>${esc(monster.name)}</span></div>
