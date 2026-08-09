@@ -31,5 +31,7 @@
   window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;renderButton()});
   window.addEventListener('appinstalled',()=>{installPrompt=null;removeButton();closeGuide();lockPortrait()});
   new MutationObserver(renderButton).observe(document.body,{childList:true,subtree:true});
-  window.addEventListener('load',()=>{renderButton();lockPortrait();navigator.serviceWorker.register('/service-worker.js',{scope:'/'}).catch(error=>console.warn('PWA service worker registration failed',error))},{once:true});
+  let reloadingForWorker=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloadingForWorker)return;reloadingForWorker=true;location.reload()});
+  window.addEventListener('load',async()=>{renderButton();lockPortrait();try{const registration=await navigator.serviceWorker.register('/service-worker.js',{scope:'/',updateViaCache:'none'});await registration.update();setInterval(()=>registration.update().catch(()=>{}),5*60*1000)}catch(error){console.warn('PWA service worker registration failed',error)}},{once:true});
 })();

@@ -1,4 +1,4 @@
-const CACHE_NAME='soop-card-static-v1560';
+const CACHE_NAME='soop-card-static-v1561';
 const OFFLINE_URL='/offline.html';
 const CORE=[OFFLINE_URL,'/manifest.webmanifest','/assets/ui/pwa-icon.svg','/assets/ui/pwa-icon-maskable.svg'];
 
@@ -12,6 +12,8 @@ self.addEventListener('activate',event=>{
     const names=await caches.keys();
     await Promise.all(names.filter(name=>name.startsWith('soop-card-static-')&&name!==CACHE_NAME).map(name=>caches.delete(name)));
     await self.clients.claim();
+    const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+    await Promise.all(clients.map(client=>client.navigate(client.url).catch(()=>null)));
   })());
 });
 
