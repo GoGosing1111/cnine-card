@@ -8,6 +8,25 @@
   document.readyState==='loading'?document.addEventListener('DOMContentLoaded',mount):mount();
 })();
 
+// BGM thresholds are shared by the whole auction house. The lot selector is
+// retained exclusively for force-close operations.
+(()=>{
+  const applySharedBgmLabels=()=>{
+    const root=document.getElementById('view-auction');
+    if(!root)return;
+    const save=root.querySelector('#aucSaveBgmRules');
+    const load=root.querySelector('#aucRuleLoad');
+    const heading=root.querySelector('.auction-operation-v1554 h2');
+    if(save&&save.textContent!=='전체 경매 공용 BGM 저장')save.textContent='전체 경매 공용 BGM 저장';
+    if(load&&load.textContent!=='공용 BGM 불러오기')load.textContent='공용 BGM 불러오기';
+    if(heading&&heading.textContent!=='경매장 운영 · 공용 BGM')heading.textContent='경매장 운영 · 공용 BGM';
+    const select=root.querySelector('#aucRuleAuction');
+    if(select&&!select.dataset.sharedBgmNote){select.dataset.sharedBgmNote='1';select.title='경매 선택은 강제 종료에만 사용됩니다. BGM 설정은 모든 경매에 공용 적용됩니다.';select.insertAdjacentHTML('beforebegin','<strong class="auction-shared-bgm-label">BGM은 전체 경매 공용</strong>')}
+  };
+  new MutationObserver(applySharedBgmLabels).observe(document.documentElement,{childList:true,subtree:true});
+  applySharedBgmLabels();
+})();
+
 // v1555: 신화 이동수단 출품과 구간별 BGM 음량(0~100%) 지원.
 (()=>{
   const api=async(path,options={})=>{const response=await fetch('/api/'+path,{credentials:'include',headers:{'content-type':'application/json',...(options.headers||{})},...options});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'요청 처리에 실패했습니다.');return data};
