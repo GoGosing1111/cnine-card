@@ -672,6 +672,8 @@ async function refreshRaidForOwner(env,instance,cfg){
     const ownerParticipantPresent=participants.some(row=>String(row.user_role||'').trim().toUpperCase()==='OWNER');
     const effectiveMinParticipants=ownerParticipantPresent?1:Number(cfg.minParticipants||1);
     if(participants.length>=effectiveMinParticipants){
+      const transitioned=await env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='LOBBY'").bind(Math.max(0,Number(instance.max_hp||0)),participants.length,instance.id).run();
+      if(Number(transitioned?.meta?.changes||0)!==1)return env.DB.prepare('SELECT * FROM raid_instances WHERE id=?').bind(instance.id).first();
       for(const row of participants){
         if(Number(row.total_damage||0)>0)continue;
         const attacks=Math.max(1,Math.floor(Number(cfg.battleSeconds||120)*1000/Math.max(200,Number(cfg.attackIntervalMs||800))));
@@ -679,10 +681,10 @@ async function refreshRaidForOwner(env,instance,cfg){
         const damage=Math.max(1,Math.floor(Number(row.total_power||0)*Number(cfg.damageMultiplier||1)*attacks*critFactor/10));
         await env.DB.prepare('UPDATE raid_participants SET total_damage=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(damage,row.id).run();
       }
-      await env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(Math.max(0,Number(instance.max_hp||0)),participants.length,instance.id).run();
       instance.status='BATTLE';instance.current_hp=Math.max(0,Number(instance.max_hp||0));instance.participant_count=participants.length;
     }else{
-      await cancelRaidForInsufficientPlayers(env,instance,participants);
+      const cancelled=await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='LOBBY'").bind(instance.id).run();
+      if(Number(cancelled?.meta?.changes||0)===1)await cancelRaidForInsufficientPlayers(env,instance,participants);
       instance.status='ENDED';instance.ends_at=new Date().toISOString();
     }
   }
@@ -691,8 +693,8 @@ async function refreshRaidForOwner(env,instance,cfg){
     const snapshot=raidCombatSnapshot(rows,instance,cfg,now);
     if(snapshot.allDefeated||snapshot.cleared||now>=endMs){
       const finishedAt=new Date(startMs+snapshot.elapsedMs).toISOString();
-      await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,snapshot.bossHp,instance.id).run();
-      await finalizeRaidV1293(env,instance.id,snapshot);
+      const ended=await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,snapshot.bossHp,instance.id).run();
+      if(Number(ended?.meta?.changes||0)===1)await finalizeRaidV1293(env,instance.id,snapshot);
       instance.status='ENDED';instance.ends_at=finishedAt;instance.current_hp=snapshot.bossHp;
     }
   }
@@ -3084,7 +3086,7 @@ async function ensureUserMutationLock(env){
   return userMutationLockReadyPromise;
 }
 async function acquireUserMutationLock(env,userId,path){
-  await ensureUserMutationLock(env);const now=Date.now(),token=crypto.randomUUID(),leaseUntil=now+180000;
+  await ensureUserMutationLock(env);const now=Date.now(),token=crypto.randomUUID(),leaseMs=String(path).startsWith('raid/')?20000:60000,leaseUntil=now+leaseMs;
   const result=await env.DB.prepare(`INSERT INTO user_mutation_locks_v1520(user_id,token,action_path,lease_until_ms,updated_at)
     VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET token=excluded.token,action_path=excluded.action_path,
     lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP WHERE user_mutation_locks_v1520.lease_until_ms<=?`)
@@ -4013,8 +4015,8 @@ async function handleRequest(context){
       const allDefeated=combat.allDefeated,cleared=combat.cleared;
       if(current.status==='BATTLE'&&(allDefeated||cleared||now>=endMs)){
         const finishedAt=new Date(startMs+combat.elapsedMs).toISOString();
-        await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,hp,current.id).run();
-        await finalizeRaidV1293(env,current.id,combat);
+        const ended=await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=?,current_hp=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='BATTLE'").bind(finishedAt,hp,current.id).run();
+        if(Number(ended?.meta?.changes||0)===1)await finalizeRaidV1293(env,current.id,combat);
         current.status='ENDED';current.ends_at=finishedAt;current.current_hp=hp;
       }
       const result=allDefeated?'FAILED':cleared?'CLEAR':'TIMEOUT';
@@ -4034,7 +4036,13 @@ async function handleRequest(context){
       let claimableReward=null;
       if(current.status==='ENDED'&&me&&Number(me.rewardClaimed||0)!==1){
         let finalState=await raidFinalParticipantV1293(env,current.id,user.id);
-        if(!finalState){await finalizeRaidV1293(env,current.id,combat);finalState=await raidFinalParticipantV1293(env,current.id,user.id)}
+        if(!finalState){
+          const recovery=await env.DB.prepare("UPDATE raid_instances SET updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ENDED' AND datetime(updated_at)<=datetime('now','-5 seconds')").bind(current.id).run();
+          if(Number(recovery?.meta?.changes||0)===1){await finalizeRaidV1293(env,current.id,combat);finalState=await raidFinalParticipantV1293(env,current.id,user.id)}
+        }
+        if(!finalState){
+          return json({settings:cfg,schedule,dailyEntryUsed:entryUsedForCurrent,dailyEntry,slotEntry:instanceSlotEntry,slotEntries,rooms,current:{id:current.id,status:'ENDED',startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress:1,result,attackTicks,enraged:false,slotId:instanceSlot},participants:enriched,me,claimableReward:null,settlementPending:true,serverNow:new Date().toISOString()});
+        }
         const rewardCfg=await raidRewardSnapshot(env,current.id,instanceCfg,true),finalDamage=Math.max(0,Number((finalState?.finalDamage??me.shownDamage)||0)),finalRank=Math.max(0,Number((finalState?.finalRank??me.rank)||0)),cleared=Number(hp||0)<=0;
         const fixedPlan=await ensureRaidUserRewardPlanV1293(env,{instanceId:current.id,userId:user.id,cfg:instanceCfg,totalDamage:finalDamage,finalRank,cleared}),rewardDisplay=raidRewardDisplayV1293(fixedPlan.plan);
         const rewardCoin=Math.max(0,Number(rewardDisplay.coin||0)),rewardShards=Math.max(0,Number(rewardDisplay.shards||0)),rankMagicCrystals=Math.max(0,Number(magicRewardForRank(rewardCfg.rankMagicRewards,finalRank)||0)),rewardMagicCrystals=Math.max(0,Number(rewardCfg.participationMagicCrystals||0)+rankMagicCrystals);

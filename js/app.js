@@ -2442,10 +2442,10 @@ function randomizedPollDelay(base,jitter){return Math.max(1000,Math.round(Number
 function scheduleRaidPoll(data){
   stopRaidTimer();if(document.hidden)return;
   const view=document.getElementById('pveRaidView');if(!view||view.hidden)return;
-  const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED')return;
+  const state=String(data?.current?.status||data?.current?.state||'').toUpperCase();if(state==='ENDED'&&!data?.settlementPending)return;
   // 여러 브라우저가 같은 초에 raid/status의 참가자·장비·보상 쿼리를 동시에 실행하지 않게 분산한다.
   // 전투 애니메이션은 로컬 타이머로 계속 진행되므로 7초 갱신으로도 표시 품질은 유지된다.
-  const delay=state==='BATTLE'||state==='RUNNING'?randomizedPollDelay(7000,1200):randomizedPollDelay(12000,2200);
+  const delay=data?.settlementPending?randomizedPollDelay(1400,250):(state==='BATTLE'||state==='RUNNING'?randomizedPollDelay(7000,1200):randomizedPollDelay(12000,2200));
   raidState.timer=setTimeout(()=>loadRaidView(),delay);
 }
 
