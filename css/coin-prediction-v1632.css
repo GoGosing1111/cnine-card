@@ -1,0 +1,176 @@
+.cp-hero {
+  padding-bottom: 72px;
+}
+
+.cp-rule-strip {
+  display: none !important;
+}
+
+.cp-rule-note {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  max-width: 1100px;
+  margin: 14px auto 0;
+  padding: 6px 8px;
+  color: #7e8da2;
+  font-size: 10px;
+  line-height: 1.4;
+  opacity: .86;
+}
+
+.cp-rule-note button {
+  border: 0;
+  border-bottom: 1px solid #9e895d;
+  background: transparent;
+  color: #bba56f;
+  padding: 2px 0;
+  font-size: 10px;
+  font-weight: 900;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cp-option-block {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #33445b66;
+  border-radius: 17px;
+  background: #07101dc7;
+}
+
+.cp-option-block > .cp-option {
+  width: 100%;
+  border: 0;
+  border-radius: 15px;
+  background: #0a1423;
+}
+
+.cp-option-block > .cp-option.selected,
+.cp-option-block > .cp-option.is-winner {
+  border: 1px solid #ffd77d;
+}
+
+.cp-bettors {
+  border-top: 1px solid #71829a29;
+  background: #050c17bb;
+}
+
+.cp-bettors summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  color: #91a2b9;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+
+.cp-bettors summary::-webkit-details-marker {
+  display: none;
+}
+
+.cp-bettors summary::before {
+  content: "+";
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #61748e;
+  border-radius: 50%;
+  color: #d9e5f4;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.cp-bettors[open] summary::before {
+  content: "−";
+}
+
+.cp-bettors summary span {
+  flex: 1;
+}
+
+.cp-bettors summary b {
+  color: #d9bd79;
+}
+
+.cp-bettor-list {
+  max-height: 220px;
+  overflow: auto;
+  padding: 0 12px 10px;
+}
+
+.cp-bettor-list p {
+  margin: 0;
+  padding: 12px;
+  color: #6f8199;
+  text-align: center;
+  font-size: 11px;
+}
+
+.cp-bettor-row {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 5px;
+  border-top: 1px solid #ffffff0a;
+  font-size: 11px;
+}
+
+.cp-bettor-row i {
+  color: #63758e;
+  font-style: normal;
+  font-size: 9px;
+}
+
+.cp-bettor-row b {
+  overflow: hidden;
+  color: #dfe8f4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cp-bettor-row em {
+  color: #f0cb78;
+  font-style: normal;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .cp-hero {
+    padding-bottom: 62px;
+  }
+
+  .cp-rule-note {
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    padding: 5px 4px;
+    text-align: center;
+    font-size: 9px;
+  }
+
+  .cp-rule-note button {
+    font-size: 9px;
+  }
+
+  .cp-bettor-list {
+    max-height: 180px;
+  }
+
+  .cp-bettor-row {
+    grid-template-columns: 20px minmax(0, 1fr) auto;
+    padding: 8px 2px;
+  }
+
+  .cp-bettor-row em {
+    font-size: 10px;
+  }
+}
