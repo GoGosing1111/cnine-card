@@ -392,7 +392,7 @@
 .cp-event-head h2 {
   margin: 12px 0 9px;
   color: #fff;
-  font-size: clamp(27px, 3.3vw, 44px);
+  font-size: clamp(24px, 2.65vw, 36px);
   font-weight: 950;
   letter-spacing: -.055em;
   line-height: 1.08;
@@ -679,8 +679,10 @@
 
 .cp-option-copy small {
   margin-top: 7px !important;
-  color: #8ea1b8 !important;
-  font-size: 10px;
+  color: #bdcadb !important;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: -.01em;
 }
 
 .cp-option-meter {
@@ -779,14 +781,8 @@
 }
 
 .cp-my-bet::after {
-  content: "LOCKED";
-  position: absolute;
-  right: 12px;
-  bottom: -3px;
-  color: #fff06;
-  font: 950 27px/1 sans-serif;
-  letter-spacing: .06em;
-  pointer-events: none;
+  content: none;
+  display: none;
 }
 
 .cp-my-bet span {
@@ -925,7 +921,7 @@
   }
 
   .cp-event-head h2 {
-    font-size: 28px;
+    font-size: 25px;
   }
 
   .cp-event-head p {
@@ -995,7 +991,7 @@
   }
 
   .cp-option-copy small {
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .cp-option > em {
