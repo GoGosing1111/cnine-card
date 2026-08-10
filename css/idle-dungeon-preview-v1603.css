@@ -1,0 +1,32 @@
+:root { --storybook-font: "Arial Rounded MT Bold", "NanumSquareRound", Pretendard, "Noto Sans KR", sans-serif; }
+html, body { font-family: var(--storybook-font); }
+.scene { background-image: url('../assets/ui/idle-dungeon/enchanted-expedition-bg-v3.png?v=1') !important; background-position: center 48% !important; }
+.scene::before { background: linear-gradient(180deg,rgba(17,32,78,.30),rgba(22,36,83,.03) 45%,rgba(9,17,43,.72) 86%,#07112a),linear-gradient(90deg,rgba(11,23,60,.38),transparent 25% 75%,rgba(13,24,60,.38)) !important; }
+.top { margin: 10px 12px 0; padding: 11px 14px 20px; border: 1px solid #d9eaff55; border-radius: 22px; background: linear-gradient(145deg,#172b5be8,#27336bd0 60%,#43346fc9) !important; box-shadow: 0 7px 0 #08163399,0 15px 34px #03081988,inset 0 1px #fff5; }
+.crest { border: 2px solid #fff0bb; background: radial-gradient(circle at 35% 30%,#fff9cb 0 16%,#ffb9dc 19% 42%,#6f6cce 45% 70%,#26305d 73%); color:#50376a; box-shadow:0 4px 0 #1b2858,0 0 24px #ffc9e999; }
+.brand small,.center small,.boss-title small { color:#c6d9ff; font-weight:900; }
+.brand b,.center strong,.boss-title b,.floor-head b { font-family:var(--storybook-font); text-shadow:0 2px 0 #111b43,0 0 12px #b6d9ff66; }
+.glass-btn { min-width:48px; border:2px solid #bcd8ff77 !important; border-radius:15px !important; background:linear-gradient(#334d82,#1b2a55) !important; box-shadow:0 4px 0 #0e1938,0 8px 16px #02081766,inset 0 1px #fff5 !important; font-weight:900; }
+.glass-btn:hover { transform:translateY(-1px); filter:brightness(1.12); }
+.glass-btn.active { color:#513565 !important; border-color:#fff0b5 !important; background:linear-gradient(145deg,#fff3a7,#ffb8dc 58%,#a5d8ff) !important; }
+.route { top:100px; filter:drop-shadow(0 3px 3px #071126); }
+.boss-hud { top:132px !important; padding:11px 17px !important; border:2px solid #d8e8ff66 !important; border-radius:20px !important; background:linear-gradient(145deg,#152758e8,#29275ecf) !important; box-shadow:0 5px 0 #08163099,0 12px 28px #02081788,inset 0 1px #fff4; }
+.hp-shell { height:17px; border:2px solid #fff0c477; background:#111937; }
+.hp-fill { background:linear-gradient(90deg,#ff6e91,#ff8f83 55%,#ffd66e); box-shadow:0 0 16px #ff7d9c99,inset 0 2px #fff6; }
+.portrait { border-radius:22px 22px 17px 17px !important; clip-path:none !important; border-width:3px !important; background:#15244c; box-shadow:0 5px 0 #0c1735,0 11px 22px #02081799,0 0 20px #a9dcff66 !important; }
+.fighter[data-rarity]::before { border-radius:10px !important; font-family:var(--storybook-font) !important; background:linear-gradient(#354b7b,#1d2a52) !important; }
+.fighter-name { padding:3px 7px; border-radius:10px; background:#11204bd1; border:1px solid #dbe9ff33; font-family:var(--storybook-font); font-weight:900; }
+.role { border-radius:12px !important; clip-path:none !important; border:2px solid #dcecff55 !important; }
+.loot,.offline,.combat-log { border:2px solid #d8eaff44 !important; border-radius:17px !important; background:linear-gradient(145deg,#152755dc,#25275bd4) !important; box-shadow:0 5px 0 #08152e88,0 12px 25px #02081777; }
+.loot h3 { color:#ffe6a1; }.loot-row b { color:#fff0ad; }
+.skill-callout { border-radius:18px; border:2px solid #bfeaff55; background:linear-gradient(90deg,transparent,#213866ef 16% 84%,transparent); }
+.skill-callout b,.damage,.wave-label b { font-family:var(--storybook-font); }
+.damage { color:#fff3a8; -webkit-text-stroke:2px #7b3d76; text-shadow:0 5px 0 #8b4774,0 0 22px #ffcf80; }
+.damage.crit { color:#fff; -webkit-text-stroke:2px #d53f76; text-shadow:0 6px 0 #a82e63,0 0 30px #ff8fcb; }
+.bottom { margin:0 10px 10px; left:0; right:0; height:108px; padding:13px 16px; border:2px solid #cce3ff4d; border-radius:24px; background:linear-gradient(145deg,#152858ed,#292860e8) !important; box-shadow:0 6px 0 #07142f,0 18px 35px #020817aa,inset 0 1px #fff4; }
+.floor-track { height:11px; border:2px solid #c9dcff44; background:#0b1737; }.floor-track i { background:linear-gradient(90deg,#73e5c0,#9dd9ff 48%,#ffe793); }
+.skill { border:3px solid #9dcfff77; background:#14254e; box-shadow:0 5px 0 #07142e,0 9px 18px #02081788 !important; }.skill.ready { border-color:#fff09e; box-shadow:0 5px 0 #372b54,0 0 24px #ffc9dcaa !important; }
+.action { border:2px solid #bad7ff66; border-radius:15px; background:linear-gradient(#334d82,#1b2a55); box-shadow:0 4px 0 #0c1735,inset 0 1px #fff4; font-weight:900; }.action.gold { background:linear-gradient(145deg,#fff2a2,#ffb2d8 58%,#a5d9ff) !important; color:#503461 !important; border-color:#fff3bd !important; }
+.reward-panel { border:3px solid #ffebae88 !important; border-radius:30px !important; background:linear-gradient(145deg,#25366c,#57366f) !important; box-shadow:0 8px 0 #161c44,0 25px 80px #020817dd,0 0 45px #ffc6e155 !important; }
+.reward-item { border:2px solid #dce7ff44; border-radius:17px; background:#142653cc; }
+@media(max-width:760px){.top{margin:6px 6px 0;padding:8px 9px 17px}.route{top:72px}.boss-hud{top:101px!important}.bottom{margin:0 5px 5px;height:124px}.controls{padding-left:50px}.glass-btn{min-width:40px;padding:0 9px}}

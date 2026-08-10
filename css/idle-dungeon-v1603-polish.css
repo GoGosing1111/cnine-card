@@ -1,0 +1,16 @@
+/* Parent bridge: the close control must never cover preview controls. */
+.idle-preview-exit {
+  left: 14px !important;
+  right: auto !important;
+  top: 76px !important;
+  width: 42px !important;
+  height: 42px !important;
+  border: 2px solid #d8ebff99 !important;
+  border-radius: 50% !important;
+  background: linear-gradient(145deg, #34558fef, #17234cef) !important;
+  box-shadow: 0 5px 0 #0b1635, 0 10px 24px #020817aa, inset 0 1px #fff7 !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+}
+.idle-preview-exit:hover { transform: translateY(-1px); filter: brightness(1.12); }
+@media (max-width: 760px) { .idle-preview-exit { left: 8px !important; top: 68px !important; } }
