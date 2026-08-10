@@ -1969,6 +1969,38 @@ body::-webkit-scrollbar-thumb:hover{
 .dex-card-display .card-title-row>.card-title{
   max-width:100%!important;
 }
+.dex-card-display .dex-fur-quantity{
+  position:absolute;
+  z-index:31;
+  left:50%;
+  bottom:61px;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  min-height:24px;
+  padding:3px 9px;
+  transform:translateX(-50%);
+  border:1px solid rgba(255,231,154,.9);
+  border-radius:999px;
+  background:linear-gradient(135deg,rgba(29,16,5,.96),rgba(89,50,12,.94));
+  box-shadow:0 5px 13px rgba(0,0,0,.58),0 0 14px rgba(255,196,82,.28),inset 0 1px rgba(255,255,255,.22);
+  color:#fff3bd;
+  white-space:nowrap;
+  pointer-events:none;
+}
+.dex-card-display .dex-fur-quantity small{
+  color:#e8bd64;
+  font-size:7px;
+  font-weight:900;
+  letter-spacing:.7px;
+}
+.dex-card-display .dex-fur-quantity b{
+  color:#fff8dc;
+  font-size:10px;
+  font-weight:1000;
+  line-height:1;
+  text-shadow:0 0 8px rgba(255,206,101,.58);
+}
 @media(max-width:800px){
   .dex-card-display .deck-card-top-badges{top:5px;right:5px;gap:2px}
   .dex-card-display .deck-ability-icon{flex-basis:21px;width:21px;height:21px;border-radius:6px}
@@ -1977,6 +2009,9 @@ body::-webkit-scrollbar-thumb:hover{
   .dex-card-display[class*="breakthrough-"] .deck-card-top-badges>.breakthrough-badge{
     min-width:34px!important;height:21px!important;padding:0 5px!important;font-size:8px!important
   }
+  .dex-card-display .dex-fur-quantity{bottom:50px;min-height:20px;gap:3px;padding:2px 6px}
+  .dex-card-display .dex-fur-quantity small{font-size:6px;letter-spacing:.3px}
+  .dex-card-display .dex-fur-quantity b{font-size:8px}
 }
 
 /* V1191: 차원의 균열 원정 */
