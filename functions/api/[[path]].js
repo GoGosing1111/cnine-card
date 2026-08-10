@@ -3081,13 +3081,24 @@ async function releaseDeletedCouponCode(env,code,adminId){
 }
 
 const SERIALIZED_GAME_ACTIONS=new Set([
-  'attendance/claim','card/breakthrough','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave','draw',
+  'attendance/claim','card/breakthrough','card/breakthrough/auto','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave','draw',
   'pvp/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
   'wago-daily-quest/claim','vehicle-draw/open','vehicle-draw/purchase','equipment/supply-box/open',
   'equipment/supply-box/purchase','high-grade-reroll/execute','mineral-exchange/request','chief/activate'
 ]);
 const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','auction/'];
 let userMutationLockReadyPromise=null;
+let breakthroughAutoReceiptReadyPromise=null;
+async function ensureBreakthroughAutoReceipts(env){
+  if(!breakthroughAutoReceiptReadyPromise)breakthroughAutoReceiptReadyPromise=env.DB.batch([
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS breakthrough_auto_receipts_v1616(
+      request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,card_id TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',
+      response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`),
+    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_breakthrough_auto_receipts_user ON breakthrough_auto_receipts_v1616(user_id,created_at DESC)')
+  ]).then(()=>true).catch(error=>{breakthroughAutoReceiptReadyPromise=null;throw error});
+  return breakthroughAutoReceiptReadyPromise;
+}
 function serializedGameAction(path,method){
   if(String(method).toUpperCase()!=='POST'||String(path).startsWith('admin/'))return false;
   return SERIALIZED_GAME_ACTIONS.has(path)||SERIALIZED_GAME_PREFIXES.some(prefix=>String(path).startsWith(prefix));
@@ -3898,6 +3909,79 @@ async function handleRequest(context){
         }
         throw error;
       }
+    }
+
+    if(path==='card/breakthrough/auto'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const payload=await readBody(request),cardId=String(payload.cardId||'').trim(),requestId=String(payload.requestId||'').trim(),maxAttempts=Math.max(1,Math.min(50,Math.floor(Number(payload.maxAttempts)||50)));
+      if(!cardId)return json({error:'강화할 카드를 선택하세요.'},400);
+      if(!/^[A-Za-z0-9_-]{8,120}$/.test(requestId))return json({error:'자동 강화 요청 번호가 올바르지 않습니다.'},400);
+      await ensureBreakthroughAutoReceipts(env);
+      await env.DB.prepare("INSERT OR IGNORE INTO breakthrough_auto_receipts_v1616(request_id,user_id,card_id,status) VALUES(?,?,?,'PENDING')").bind(requestId,user.id,cardId).run();
+      const receipt=await env.DB.prepare('SELECT user_id AS userId,card_id AS cardId,status,response_json AS responseJson FROM breakthrough_auto_receipts_v1616 WHERE request_id=?').bind(requestId).first();
+      if(Number(receipt?.userId)!==Number(user.id)||String(receipt?.cardId)!==cardId)return json({error:'이미 다른 자동 강화 요청에 사용된 요청 번호입니다.'},409);
+      if(receipt?.status==='COMPLETED'){
+        if(!receipt.responseJson)return json({error:'완료된 자동 강화 결과를 불러오지 못했습니다.',code:'BREAKTHROUGH_AUTO_RECEIPT_CORRUPT'},500);
+        try{return json(JSON.parse(receipt.responseJson))}catch{return json({error:'완료된 자동 강화 결과 형식이 올바르지 않습니다.',code:'BREAKTHROUGH_AUTO_RECEIPT_CORRUPT'},500)}
+      }
+      if(receipt?.status==='FAILED')return json({error:'이 자동 강화 요청은 안전하게 취소되었습니다. 카드 상태를 새로고침한 뒤 다시 시도해 주세요.',code:'BREAKTHROUGH_AUTO_FAILED',retryable:false},409);
+      const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,COALESCE(uc.breakthrough_fail_count,0) AS breakthrough_fail_count,c.rarity,c.title FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
+      if(!owned)return json({error:'보유한 카드만 강화할 수 있습니다.'},404);
+      const grade=String(owned.rarity||'').trim().toUpperCase();
+      if((ORDER[grade]||0)<BREAKTHROUGH_MIN_ORDER)return json({error:'SR 등급 이상 카드만 강화할 수 있습니다.'},400);
+      const [config,pity,high,balances]=await Promise.all([
+        breakthroughConfig(env),breakthroughPity(env),
+        grade==='LIMITED'?limitedMasterStarBreakthroughConfig(env):grade==='MA'?maMasterStarBreakthroughConfig(env):Promise.resolve(null),
+        env.DB.prepare("SELECT u.card_shards AS cardShards,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=u.id AND item_code='MASTER_STAR'),0) AS masterStars FROM users u WHERE u.id=?").bind(user.id).first()
+      ]);
+      const initial={level:Math.max(0,Number(owned.breakthrough_level||0)),failCount:Math.max(0,Number(owned.breakthrough_fail_count||0)),shards:Math.max(0,Number(balances?.cardShards||0)),stars:Math.max(0,Number(balances?.masterStars||0))};
+      let level=initial.level,failCount=initial.failCount,shards=initial.shards,stars=initial.stars,attempts=0,successes=0,failures=0,shardSpent=0,starSpent=0,highestSuccessLevel=0,stopReason='CHUNK_LIMIT',stopMessage='다음 자동 강화 묶음을 준비합니다.';
+      const maxLevel=['MA','LIMITED'].includes(grade)?13:10;
+      while(attempts<maxAttempts){
+        if(level>=maxLevel){stopReason='MAX_LEVEL';stopMessage='최대 강화 단계에 도달했습니다.';break}
+        const highStep=['MA','LIMITED'].includes(grade)&&level>=10;
+        if(highStep&&high?.enabled!==true){stopReason='HIGH_ENHANCEMENT_DISABLED';stopMessage=`${grade} 고급 강화가 현재 중지되어 있습니다.`;break}
+        const rule=highStep?high?.steps?.[level-10]:config?.[grade]?.[level];
+        if(!rule){stopReason='RULE_MISSING';stopMessage='현재 단계의 강화 설정을 찾을 수 없습니다.';break}
+        const cost=Math.max(1,Math.floor(Number(rule.cost)||0)),rate=Math.max(0,Math.min(100,Number(rule.rate)||0));
+        if(highStep&&stars<cost){stopReason='MATERIAL_EXHAUSTED';stopMessage='마스터의 별이 부족해 자동 강화를 종료했습니다.';break}
+        if(!highStep&&shards<cost){stopReason='MATERIAL_EXHAUSTED';stopMessage='카드 조각이 부족해 자동 강화를 종료했습니다.';break}
+        const threshold=Math.max(1,Number(pity.thresholds?.[level]||5)),guaranteed=grade==='SSR'&&pity.enabled&&failCount>=threshold,success=guaranteed||Math.random()*100<rate;
+        if(highStep){stars-=cost;starSpent+=cost}else{shards-=cost;shardSpent+=cost}
+        attempts++;
+        if(success){level++;failCount=0;successes++;highestSuccessLevel=Math.max(highestSuccessLevel,level)}else{failCount++;failures++}
+      }
+      if(attempts===maxAttempts&&level>=maxLevel){stopReason='MAX_LEVEL';stopMessage='최대 강화 단계에 도달했습니다.'}
+      const canContinue=stopReason==='CHUNK_LIMIT';
+      const partialUser={profileScope:'BREAKTHROUGH_PARTIAL',id:user.id,nickname:user.nickname,role:user.role,coin:Number(user.coin||0),cardShards:shards,masterStars:stars,magicCrystals:Number(user.magic_crystals||0),breakthroughs:{[cardId]:level}};
+      const cinematic=highestSuccessLevel>0?await breakthroughCinematicFor(env,{success:true,grade,level:highestSuccessLevel,cardId,cardTitle:owned.title}):null;
+      const response={ok:true,requestId,cardId,grade,attempts,successes,failures,spent:{cardShards:shardSpent,masterStars:starSpent},level,failCount,maxLevel,canContinue,stopReason,stopMessage,cinematic,user:partialUser};
+      if(attempts===0){
+        const completed=await env.DB.prepare("UPDATE breakthrough_auto_receipts_v1616 SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(response),requestId,user.id).run();
+        if(Number(completed?.meta?.changes||0)!==1)return json({error:'자동 강화 결과를 안전하게 확정하지 못했습니다. 새로고침 후 다시 시도해 주세요.',code:'BREAKTHROUGH_AUTO_STATE_CONFLICT'},409);
+        return json(response);
+      }
+      const marker=-(3000000000+Math.floor(Math.random()*900000000)),statements=[];
+      statements.push(env.DB.prepare(`UPDATE user_cards SET breakthrough_fail_count=? WHERE user_id=? AND card_id=? AND breakthrough_level=? AND COALESCE(breakthrough_fail_count,0)=? AND COALESCE(quantity,0)>0 AND EXISTS(SELECT 1 FROM users WHERE id=? AND card_shards=?)${starSpent>0?" AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?)":''}`).bind(marker,user.id,cardId,initial.level,initial.failCount,user.id,initial.shards,...(starSpent>0?[user.id,initial.stars]:[])));
+      if(shardSpent>0)statements.push(env.DB.prepare('UPDATE users SET card_shards=? WHERE id=? AND card_shards=? AND EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND breakthrough_fail_count=?)').bind(shards,user.id,initial.shards,user.id,cardId,marker));
+      if(starSpent>0)statements.push(env.DB.prepare("UPDATE cnine_user_inventory SET quantity=?,unseen_quantity=MIN(unseen_quantity,?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=? AND EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND breakthrough_fail_count=?)").bind(stars,stars,user.id,initial.stars,user.id,cardId,marker));
+      const balanceGuard=`EXISTS(SELECT 1 FROM users WHERE id=? AND card_shards=?)${starSpent>0?" AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?)":''}`;
+      statements.push(env.DB.prepare(`UPDATE user_cards SET breakthrough_level=?,breakthrough_fail_count=? WHERE user_id=? AND card_id=? AND breakthrough_level=? AND breakthrough_fail_count=? AND ${balanceGuard}`).bind(level,failCount,user.id,cardId,initial.level,marker,user.id,shards,...(starSpent>0?[user.id,stars]:[])));
+      const receiptIndex=statements.length;
+      statements.push(env.DB.prepare(`UPDATE breakthrough_auto_receipts_v1616 SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING' AND EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND breakthrough_level=? AND breakthrough_fail_count=?) AND ${balanceGuard}`).bind(JSON.stringify(response),requestId,user.id,user.id,cardId,level,failCount,user.id,shards,...(starSpent>0?[user.id,stars]:[])));
+      if(shardSpent>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM breakthrough_auto_receipts_v1616 WHERE request_id=? AND user_id=? AND status='COMPLETED')").bind(user.id,-shardSpent,shards,'BREAKTHROUGH_AUTO',cardId,requestId,user.id));
+      if(starSpent>0)statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH_AUTO',? WHERE EXISTS(SELECT 1 FROM breakthrough_auto_receipts_v1616 WHERE request_id=? AND user_id=? AND status='COMPLETED')").bind(user.id,-starSpent,stars,`${grade}_HIGH_BREAKTHROUGH_AUTO`,cardId,requestId,user.id));
+      const results=await env.DB.batch(statements);
+      if(Number(results[receiptIndex]?.meta?.changes||0)!==1){
+        await env.DB.batch([
+          env.DB.prepare('UPDATE users SET card_shards=? WHERE id=? AND card_shards=?').bind(initial.shards,user.id,shards),
+          ...(starSpent>0?[env.DB.prepare("UPDATE cnine_user_inventory SET quantity=?,unseen_quantity=MIN(unseen_quantity,?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity=?").bind(initial.stars,initial.stars,user.id,stars)]:[]),
+          env.DB.prepare('UPDATE user_cards SET breakthrough_level=?,breakthrough_fail_count=? WHERE user_id=? AND card_id=? AND breakthrough_level IN (?,?) AND breakthrough_fail_count IN (?,?)').bind(initial.level,initial.failCount,user.id,cardId,initial.level,level,marker,failCount),
+          env.DB.prepare("UPDATE breakthrough_auto_receipts_v1616 SET status='FAILED',response_json=NULL,error_message='STATE_CONFLICT',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(requestId,user.id)
+        ]);
+        return json({error:'강화 상태가 변경되어 자동 강화를 중단했습니다. 최신 상태를 다시 확인해주세요.'},409);
+      }
+      return json(response);
     }
 
     if(path==='card/breakthrough'&&request.method==='POST'){

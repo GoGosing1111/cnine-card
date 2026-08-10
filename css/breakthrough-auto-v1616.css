@@ -1,0 +1,7 @@
+.breakthrough-auto-control{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;margin-top:10px;padding:11px 12px;border:1px solid rgba(106,232,255,.28);border-radius:12px;background:linear-gradient(135deg,rgba(15,56,91,.78),rgba(39,26,76,.78));cursor:pointer;user-select:none;transition:border-color .2s,box-shadow .2s,transform .2s}
+.breakthrough-auto-control:hover{transform:translateY(-1px);border-color:rgba(255,221,116,.55)}
+.breakthrough-auto-control input{width:19px;height:19px;margin:0;accent-color:#7fe9ff}
+.breakthrough-auto-control span{display:grid;gap:2px}.breakthrough-auto-control b{color:#fff;font-size:13px}.breakthrough-auto-control small{color:#9cb7cf;font-size:10px;line-height:1.35}
+.breakthrough-auto-control em{min-width:42px;padding:5px 7px;border-radius:999px;background:rgba(4,14,29,.65);color:#79eaff;font-size:9px;font-style:normal;text-align:center;white-space:nowrap}
+.breakthrough-btn.auto-running{opacity:.62;filter:saturate(.65)}
+@media(max-width:620px){.breakthrough-auto-control{grid-template-columns:auto 1fr;padding:12px}.breakthrough-auto-control em{grid-column:2;justify-self:start}}
