@@ -264,6 +264,12 @@ async function ensureFoundation(env){
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1471_territory_load_indexes','1',CURRENT_TIMESTAMP)")
     ]);
   }
+  const recruitmentSyncMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_repair_v1629_territory_recruitment_hours'").first();
+  if(!recruitmentSyncMarker){
+    const raw=await env.DB.prepare("SELECT value FROM app_meta WHERE key='territory_war_settings_v3'").first(),configured={...DEFAULTS,...safeJson(raw?.value,{})},round=await env.DB.prepare("SELECT id,created_at FROM territory_war_v3_rounds WHERE status='RECRUITING' ORDER BY id DESC LIMIT 1").first(),statements=[];
+    if(round){const createdAt=sqlMs(round.created_at),endsAt=iso((Number.isFinite(createdAt)?createdAt:Date.now())+clampInt(configured.recruitmentHours,1,168,DEFAULTS.recruitmentHours)*3600000);statements.push(env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(endsAt,round.id))}
+    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_repair_v1629_territory_recruitment_hours','1',CURRENT_TIMESTAMP)"));await env.DB.batch(statements);
+  }
   await repairWaterBuffaloSettlementV1443(env);
   await recoverWrongWinnerOverpaymentV1444(env);
   foundationReady=true;
@@ -762,7 +768,15 @@ export async function handleTerritoryWar({path,request,env,deps}){
     if(request.method==='POST'){
       const next=cleanSettings(await deps.readBody(request),cfg);if(Number(next.maxDamage)<Number(next.minDamage))next.maxDamage=next.minDamage;
       await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateSettingsCache();
-      const round=await latestRound(env);if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();if(next.mode==='OFF'&&round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='DISABLED',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id).run();if(next.mode!=='OFF'&&(!round||['FINISHED','DISABLED'].includes(round.status)))await createRound(env,next);else if(cfg.mode==='OFF'&&next.mode!=='OFF'&&round?.status==='RECRUITING')await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(iso(Date.now()+Number(next.recruitmentHours||3)*3600000),round.id).run();return deps.json({ok:true,settings:next,state:await publicState(env,user.id,true)});
+      const round=await latestRound(env);
+      if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();
+      if(round?.status==='RECRUITING'){
+        const createdAt=sqlMs(round.created_at),recruitmentEndsAt=iso((Number.isFinite(createdAt)?createdAt:Date.now())+Number(next.recruitmentHours||3)*3600000);
+        await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(recruitmentEndsAt,round.id).run();
+      }
+      if(next.mode==='OFF'&&round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='DISABLED',version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(round.id).run();
+      if(next.mode!=='OFF'&&(!round||['FINISHED','DISABLED'].includes(round.status)))await createRound(env,next);
+      publicStateSharedCache=null;return deps.json({ok:true,settings:next,state:await publicState(env,user.id,true)});
     }
   }
   if(path==='admin/territory-war/mass-assault'&&request.method==='POST'){
