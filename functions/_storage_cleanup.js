@@ -645,9 +645,9 @@ async function deleteExpiredSessionsBatch(env,raw={}){
 
 // v1400: hot paths must not keep full response payloads and audit rows forever.
 // One sampled request rotates through one tiny task. Active PENDING/RUNNING/READY rows are protected; only stale terminal rows or oversized completed payloads are touched.
-const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=64;
-const AUTO_STORAGE_MAINTENANCE_BATCH=50;
-const AUTO_HIGH_VOLUME_SCAN_BATCH=10000;
+const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=16;
+const AUTO_STORAGE_MAINTENANCE_BATCH=500;
+const AUTO_HIGH_VOLUME_SCAN_BATCH=25000;
 const AUTO_HIGH_VOLUME_TASKS=Object.freeze([
   {key:'shard_duplicate',table:'shard_logs',retentionDays:1,extraWhere:"reason='DUPLICATE'"},
   {key:'coin_pack_draw',table:'coin_logs',retentionDays:1,extraWhere:"reason='PACK_DRAW'"},
@@ -795,7 +795,7 @@ async function runHighVolumeLogMaintenance(env){
 async function runBoundedStorageMaintenance(env){
   const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_lease_v1400',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
-    WHERE app_meta.updated_at<datetime('now','-5 minutes')`).bind(String(Date.now())).run();
+    WHERE app_meta.updated_at<datetime('now','-1 minute')`).bind(String(Date.now())).run();
   if(!Number(lease?.meta?.changes||0))return {skipped:true};
   const cursorRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='storage_auto_maintenance_cursor_v1400'").first();
   const cursor=Math.max(0,Math.floor(Number(cursorRow?.value||0)))%AUTO_STORAGE_MAINTENANCE_TASKS.length;

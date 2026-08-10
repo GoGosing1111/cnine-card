@@ -90,23 +90,26 @@ let recentEquipmentFeedCache=null;
 // v1361 burst protection: tiny in-isolate caches only. Authoritative writes remain uncached.
 let adminDashboardBurstCache=null;
 const ADMIN_DASHBOARD_BURST_CACHE_MS=15000;
-const DRAW_RECEIPT_CLEANUP_SAMPLE_MOD=64;
-const DRAW_RECEIPT_CLEANUP_BATCH=250;
+// Draw receipts contain the full result payload and are the dominant D1 storage user.
+// Keep enough time for a lost response to be recovered, then drain them faster than
+// the draw endpoint can create them. A shared lease still limits this to one worker.
+const DRAW_RECEIPT_CLEANUP_SAMPLE_MOD=8;
+const DRAW_RECEIPT_CLEANUP_BATCH=5000;
 function stableSmallHash(value){let h=2166136261;for(const ch of String(value||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 async function boundedDrawReceiptCleanup(env,{limit=DRAW_RECEIPT_CLEANUP_BATCH,force=false}={}){
-  limit=Math.max(25,Math.min(1000,Math.floor(Number(limit)||DRAW_RECEIPT_CLEANUP_BATCH)));
+  limit=Math.max(25,Math.min(5000,Math.floor(Number(limit)||DRAW_RECEIPT_CLEANUP_BATCH)));
   await ensureDrawReceiptV2(env);
   // One shared lease prevents every hot draw request from running cleanup.
   const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('draw_receipt_cleanup_lease_v1361',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
-    WHERE app_meta.updated_at<datetime('now','-5 minutes')`).bind(String(Date.now())).run();
+    WHERE app_meta.updated_at<datetime('now','-1 minute')`).bind(String(Date.now())).run();
   if(!force&&!Number(lease?.meta?.changes||0))return {skipped:true,deleted:0};
   const statements=[
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
-      SELECT request_id FROM draw_request_receipts_v2 WHERE status='ARCHIVED' AND updated_at<datetime('now','-1 day') ORDER BY updated_at LIMIT ?
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status='ARCHIVED' AND updated_at<datetime('now','-1 hour') ORDER BY updated_at LIMIT ?
     )`).bind(limit),
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
-      SELECT request_id FROM draw_request_receipts_v2 WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-3 days') ORDER BY updated_at LIMIT ?
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-1 day') ORDER BY updated_at LIMIT ?
     )`).bind(limit),
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
       SELECT request_id FROM draw_request_receipts_v2 WHERE status='RETRYABLE' AND updated_at<datetime('now','-7 days') ORDER BY updated_at LIMIT ?
