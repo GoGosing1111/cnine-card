@@ -744,7 +744,7 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
   if (ownDeck.length !== 5) return deps.json({ error: '전투엔진 V2 프리뷰를 시작하려면 PvP 덱 5장을 먼저 편성하세요.' }, 400);
 
   let opponentUser = opponent;
-  let opponentDeck = opponent ? await deps.pvpDeckSnapshot(env, opponent.id) : [];
+  let opponentDeck = opponent ? await deps.pvpDeckSnapshot(env, opponent.id, true) : [];
   let mirror = false;
   if (opponentDeck.length !== 5) {
     mirror = true;
