@@ -12,7 +12,39 @@
   function view(){return `<section class="cp-shell"><div class="cp-hero"><div><small>SOOPKETMON · COIN PREDICTION</small><h1>코인 승부예측</h1><p>게임 속 승부를 예측하고 적중자들과 코인 풀을 나눕니다.</p></div><aside><span>MY COIN</span><b id="cpWallet">—</b><small>수수료 10% · 최소 10만 · 최대 300만</small></aside></div><div id="cpEvents" class="cp-events"><div class="cp-loading">승부예측 현황을 불러오는 중...</div></div><div class="cp-rule-note"><span>숲켓몬 코인은 현금·환전 가치가 없는 게임 내 가상 재화입니다.</span><button data-cp-terms>이용 규정</button></div></section>`}
   async function load(){try{state=await api('coin-prediction/state',{}, {replaceInflight:true});render()}catch(e){const root=document.getElementById('cpEvents');if(root)root.innerHTML=`<div class="cp-empty">${esc(e.message)}</div>`}}
   function render(){const root=document.getElementById('cpEvents');if(!root||!state)return;const opened=new Set([...root.querySelectorAll('[data-cp-bettors][open]')].map(x=>x.dataset.cpBettors));const wallet=document.getElementById('cpWallet');if(wallet)wallet.textContent=`${fmt(state.walletCoin)} COIN`;root.innerHTML=state.settings?.enabled===false?'<div class="cp-empty"><b>OPERATION PAUSED</b><span>현재 승부예측 참여가 일시 중지되었습니다.</span></div>':state.events?.length?state.events.map(card).join(''):'<div class="cp-empty"><b>NEXT PREDICTION</b><span>현재 진행 중인 승부예측이 없습니다.</span></div>';root.querySelectorAll('[data-cp-bettors]').forEach(x=>{if(opened.has(x.dataset.cpBettors))x.open=true});bindCards()}
-  function bindCards(){document.querySelectorAll('.cp-event').forEach(el=>{let option=Number(el.querySelector('.cp-option.selected')?.dataset.cpOption||0);const input=el.querySelector('input'),submit=el.querySelector('.cp-submit'),current=Number(el.dataset.cpCurrent||0),max=3000000;el.querySelectorAll('.cp-option:not(:disabled)').forEach(b=>b.onclick=()=>{option=Number(b.dataset.cpOption);el.querySelectorAll('.cp-option').forEach(x=>x.classList.toggle('selected',x===b));if(submit)submit.disabled=!Number(input?.value)});el.querySelectorAll('[data-cp-quick]').forEach(b=>b.onclick=()=>{input.value=Math.min(Number(b.dataset.cpQuick),max-current);if(option)submit.disabled=false});input?.addEventListener('input',()=>{if(submit)submit.disabled=!option||!Number(input.value)});submit?.addEventListener('click',async b=>{const amount=Number(input.value);if(!option)return alert('예측 항목을 선택하세요.');if(amount<100000||amount+current>max)return alert(`최소 10만 코인이며 이벤트 누적 최대는 300만 코인입니다.\n현재 참여: ${fmt(current)}코인`);if(!termsAccepted&&!await showTerms(true))return;if(!confirm(`${fmt(amount)}코인을 ${current?'추가로 ':''}참여할까요?\n최초 선택 항목은 변경하거나 취소할 수 없습니다.`))return;if(busy)return;busy=true;b.currentTarget.disabled=true;try{const result=await betRequest({eventId:Number(b.currentTarget.dataset.cpSubmit),optionId:option,amount,requestId:crypto.randomUUID()});if(result.state){state=result.state;render()}else await load()}catch(e){alert(e.message)}finally{busy=false}})})}
+  function bindCards(){
+    document.querySelectorAll('.cp-event').forEach(el=>{
+      let option=Number(el.querySelector('.cp-option.selected')?.dataset.cpOption||0);
+      const input=el.querySelector('input'),submit=el.querySelector('.cp-submit'),current=Number(el.dataset.cpCurrent||0),max=3000000;
+      el.querySelectorAll('.cp-option:not(:disabled)').forEach(button=>button.onclick=()=>{
+        option=Number(button.dataset.cpOption);
+        el.querySelectorAll('.cp-option').forEach(x=>x.classList.toggle('selected',x===button));
+        if(submit)submit.disabled=!Number(input?.value);
+      });
+      el.querySelectorAll('[data-cp-quick]').forEach(button=>button.onclick=()=>{
+        input.value=Math.min(Number(button.dataset.cpQuick),max-current);
+        if(option)submit.disabled=false;
+      });
+      input?.addEventListener('input',()=>{if(submit)submit.disabled=!option||!Number(input.value)});
+      submit?.addEventListener('click',async event=>{
+        if(busy)return;
+        const button=event.currentTarget,eventId=Number(button.dataset.cpSubmit),amount=Number(input.value);
+        if(!option)return alert('예측 항목을 선택하세요.');
+        if(amount<100000||amount+current>max)return alert(`최소 10만 코인이며 이벤트 누적 최대는 300만 코인입니다.\n현재 참여: ${fmt(current)}코인`);
+        if(!termsAccepted&&!await showTerms(true))return;
+        if(!confirm(`${fmt(amount)}코인을 ${current?'추가로 ':''}참여할까요?\n최초 선택 항목은 변경하거나 취소할 수 없습니다.`))return;
+        busy=true;
+        button.disabled=true;
+        try{
+          const result=await betRequest({eventId,optionId:option,amount,requestId:crypto.randomUUID()});
+          if(result.state){state=result.state;render()}else await load();
+        }catch(e){alert(e.message)}finally{
+          busy=false;
+          if(button.isConnected)button.disabled=false;
+        }
+      });
+    });
+  }
   function showTerms(confirmMode=false){return new Promise(resolve=>{const modal=document.getElementById('modal');if(!modal)return resolve(false);modal.className='modal show cp-terms-modal';modal.innerHTML=`<section><button class="cp-terms-x">×</button><small>SOOPKETMON POLICY</small><h2>${esc(state?.terms?.title||'코인 승부예측 이용 규정')}</h2><div>${(state?.terms?.items||[]).map((x,i)=>`<p><b>${String(i+1).padStart(2,'0')}</b><span>${esc(x)}</span></p>`).join('')}</div><label><input type="checkbox"> 위 내용을 확인했으며 숲켓몬 코인에 현금·환전 가치가 없음을 이해했습니다.</label><button class="cp-terms-ok" ${confirmMode?'disabled':''}>${confirmMode?'동의하고 계속':'확인'}</button></section>`;const close=v=>{modal.className='modal';modal.innerHTML='';resolve(v)};modal.querySelector('.cp-terms-x').onclick=()=>close(false);const check=modal.querySelector('input'),ok=modal.querySelector('.cp-terms-ok');check.onchange=()=>ok.disabled=confirmMode&&!check.checked;ok.onclick=()=>{if(check.checked)termsAccepted=true;close(!confirmMode||check.checked)}})}
   function bind(){document.querySelector('[data-cp-terms]')?.addEventListener('click',()=>showTerms(false));load();clearInterval(timer);clearInterval(pollTimer);timer=setInterval(()=>{document.querySelectorAll('[data-cp-end]').forEach(x=>{const b=x.querySelector('b'),end=Date.parse(x.dataset.cpEnd||'');if(b&&Number.isFinite(end))b.textContent=formatTime(end-Date.now())})},1000);pollTimer=setInterval(()=>{if(!document.hidden&&!busy&&!document.querySelector('.cp-shell input:focus')&&!document.querySelector('.cp-terms-modal'))load()},Math.max(5,Number(state?.settings?.pollSeconds||10))*1000)}
   window.coinPredictionView=view;window.bindCoinPredictionView=bind;window.stopCoinPredictionView=()=>{clearInterval(timer);clearInterval(pollTimer)};
