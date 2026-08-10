@@ -40,26 +40,19 @@ function setBusy(btn,busy,text='처리 중...'){if(!btn)return;btn.disabled=busy
 async function login(){const btn=$('#loginBtn'),key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('admin/auth/login',{method:'POST',body:JSON.stringify({privateKey:key})}),role=String(d.user?.role||'').toUpperCase();if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(role))throw Error('관리자 권한이 없는 계정입니다.');if(!d.token)throw Error('관리자 로그인 정보를 발급받지 못했습니다.');token=d.token;localStorage.setItem('cnine_admin_token',token);sessionStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message||'관리자 로그인 중 오류가 발생했습니다.')}finally{setBusy(btn,false)}}
 function setAuthScreen(isAuthenticated){document.body.classList.toggle('auth-active',isAuthenticated);document.body.classList.toggle('auth-guest',!isAuthenticated);$('#login').hidden=isAuthenticated;$('#cms').hidden=!isAuthenticated}
 let cmsBootInFlight=false;
-function setCmsConnectionNotice(message='',isError=false){
-  let notice=$('#cmsConnectionNotice');
-  if(!notice){notice=document.createElement('div');notice.id='cmsConnectionNotice';notice.style.cssText='position:sticky;top:8px;z-index:99999;margin:8px 16px;padding:11px 14px;border:1px solid #54d7ee66;border-radius:12px;background:#071725ee;color:#dffaff;box-shadow:0 10px 28px #0008;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:12px';$('#cms')?.prepend(notice)}
-  if(!notice)return;
-  notice.hidden=!message;
-  notice.style.borderColor=isError?'#ff7d8a88':'#54d7ee66';
-  notice.style.color=isError?'#ffe4e8':'#dffaff';
-  notice.innerHTML=message?`<span>${esc(message)}</span>${isError?'<button type="button" id="cmsConnectionRetry" style="border:1px solid #ff9ba5;border-radius:9px;background:#35121b;color:#fff;padding:7px 12px;font-weight:800">다시 연결</button>':''}`:'';
-  notice.querySelector('#cmsConnectionRetry')?.addEventListener('click',boot,{once:true});
-}
 async function boot(){
   if(cmsBootInFlight)return;
   cmsBootInFlight=true;
-  if(token){setAuthScreen(true);setCmsConnectionNotice('CMS 서버 연결을 확인하는 중입니다. 화면과 메뉴는 그대로 이용할 수 있습니다.');}
+  if(token){
+    setAuthScreen(false);
+    const loginNotice=$('#login .muted');
+    if(loginNotice)loginNotice.textContent='저장된 관리자 세션과 CMS 서버 연결을 확인하는 중입니다.';
+  }
   try{
     const d=await api('admin/dashboard',{timeoutMs:8000,cacheBust:true});
     state.role=d.role;
     state.admin=d.admin||{nickname:'관리자',role:d.role};
     setAuthScreen(true);
-    setCmsConnectionNotice('');
     renderIdentity();
     show('dashboard',d);
   }catch(e){
@@ -75,9 +68,11 @@ async function boot(){
       setTimeout(()=>$('#key')?.focus(),0);
     }else{
       // 네트워크 지연, Cloudflare 오류, 권한별 403은 세션 만료가 아니다.
-      // 저장된 토큰과 CMS 화면을 그대로 유지해 가짜 로그아웃처럼 보이지 않게 한다.
-      setAuthScreen(Boolean(token));
-      setCmsConnectionNotice(`대시보드 연결이 지연되고 있습니다. 로그인은 유지되며 다른 CMS 메뉴는 이용할 수 있습니다. · ${e.message}`,true);
+      // 전체 CMS 모듈을 먼저 노출하면 초기화 요청이 겹칠 수 있으므로 가벼운 재연결 화면을 유지한다.
+      setAuthScreen(false);
+      const loginNotice=$('#login .muted');
+      if(loginNotice)loginNotice.innerHTML=`CMS 연결이 지연되고 있습니다. 저장된 세션은 유지됩니다.<br><small>${esc(e.message)}</small><br><button type="button" id="cmsLoginRetry" style="margin-top:10px">다시 연결</button>`;
+      $('#cmsLoginRetry')?.addEventListener('click',boot,{once:true});
     }
   }finally{cmsBootInFlight=false}
 }
