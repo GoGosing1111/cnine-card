@@ -17,5 +17,8 @@
 .idle-preview-exit::before { content: "← 원정 현황"; font-size: 13px; letter-spacing: -.02em; }
 .idle-preview-bridge.show { position: fixed !important; inset: 0 !important; z-index: 2147483647 !important; width: 100vw !important; height: 100dvh !important; border-radius: 0 !important; isolation: isolate !important; background:#030817 !important; transform:none !important; }
 .idle-preview-bridge.show iframe { width: 100vw !important; height: 100dvh !important; }
+body.idle-battle-open { overflow: hidden !important; }
+body.idle-battle-open > :not(.idle-preview-bridge):not(script):not(style) { visibility: hidden !important; pointer-events: none !important; }
+body.idle-battle-open > .idle-preview-bridge { visibility: visible !important; pointer-events: auto !important; }
 .idle-preview-exit:hover { transform: translateY(-1px); filter: brightness(1.12); }
 @media (max-width: 760px) { .idle-preview-exit { left: 8px !important; top: 68px !important; width: 102px !important; } }
