@@ -35,3 +35,7 @@ html, body { font-family: var(--storybook-font); }
 [data-idle-effect="MINIMAL"] .skill-slash,[data-idle-effect="MINIMAL"] .impact-ring,[data-idle-effect="MINIMAL"] .particle,[data-idle-effect="MINIMAL"] .boss-target{display:none!important}
 [data-idle-effect="MINIMAL"] .scene.impact,[data-idle-effect="MINIMAL"] .screen-shake{animation:none!important}
 [data-idle-effect="MINIMAL"] .damage{font-size:clamp(22px,2.4vw,38px);-webkit-text-stroke:0;text-shadow:0 2px 8px #000}
+.fighter.unique-ability-active{z-index:40!important;animation:uniqueAbilityPulse .9s ease-out!important}
+.fighter.unique-ability-active .portrait{border-color:#fff6ac!important;box-shadow:0 0 0 4px #594b93,0 0 38px #ffde78,0 0 70px #c889ff!important}
+.fighter.unique-ability-active::after{content:attr(data-unique-name)!important;display:block!important;position:absolute!important;left:50%!important;bottom:-30px!important;transform:translateX(-50%)!important;padding:5px 10px!important;border:2px solid #ffe9a8!important;border-radius:12px!important;background:linear-gradient(145deg,#5d3d91,#29346e)!important;color:#fff7c7!important;font:900 10px/1 var(--storybook-font)!important;white-space:nowrap!important;box-shadow:0 5px 0 #171a42,0 0 25px #e6a8ff!important}
+@keyframes uniqueAbilityPulse{0%{transform:scale(.88);filter:brightness(1)}35%{transform:translateY(-12px) scale(1.13);filter:brightness(1.7)}100%{transform:none;filter:none}}
