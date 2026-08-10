@@ -1,4 +1,4 @@
-const CACHE_NAME='soop-card-static-v1593';
+const CACHE_NAME='soop-card-static-v1594';
 const OFFLINE_URL='/offline.html';
 const CORE=[OFFLINE_URL,'/manifest.webmanifest','/assets/ui/pwa-icon.svg','/assets/ui/pwa-icon-maskable.svg'];
 

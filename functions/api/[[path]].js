@@ -3086,7 +3086,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   'wago-daily-quest/claim','vehicle-draw/open','vehicle-draw/purchase','equipment/supply-box/open',
   'equipment/supply-box/purchase','high-grade-reroll/execute','mineral-exchange/request','chief/activate'
 ]);
-const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','auction/'];
+const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','auction/','idle-dungeon/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
 async function ensureBreakthroughAutoReceipts(env){
