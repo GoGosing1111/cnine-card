@@ -5591,6 +5591,28 @@ async function handleRequest(context){
       return json({ok:true,user:{id:target.id,nickname:target.nickname},amount,balance});
     }
 
+    if(path==='admin/users/magic-crystal'&&request.method==='POST'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
+      const payload=await readBody(request),userId=Number(payload.userId),amount=Number(payload.amount),reason=String(payload.reason||'관리자 마법 결정 조정').trim().slice(0,100);
+      if(!Number.isInteger(userId)||userId<1)return json({error:'대상 유저를 다시 선택하세요.'},400);
+      if(!Number.isInteger(amount)||amount===0||Math.abs(amount)>1000000)return json({error:'마법 결정 수량은 -1,000,000~1,000,000 범위의 0이 아닌 정수로 입력하세요.'},400);
+      if(!reason)return json({error:'처리 사유를 입력하세요.'},400);
+      const target=await env.DB.prepare('SELECT id,nickname,role,COALESCE(magic_crystals,0) AS magic_crystals FROM users WHERE id=?').bind(userId).first();
+      if(!target)return json({error:'유저를 찾을 수 없습니다.'},404);
+      if(target.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정은 수정할 수 없습니다.'},403);
+      const beforeBalance=Math.max(0,Number(target.magic_crystals||0)),balance=beforeBalance+amount;
+      if(balance<0)return json({error:`보유 마법 결정 ${beforeBalance.toLocaleString()}개보다 많이 회수할 수 없습니다.`},409);
+      const changed=await env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=? AND magic_crystals+?>=0').bind(amount,userId,amount).run();
+      if(!Number(changed.meta?.changes||0))return json({error:'마법 결정 잔액 변경에 실패했습니다. 새로고침 후 다시 시도하세요.'},409);
+      await env.DB.batch([
+        env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,'ADMIN_ADJUST',?)").bind(userId,amount,balance,reason,String(admin.id)),
+        env.DB.prepare("INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,'MAGIC_CRYSTAL_ADJUST','USER',?,?,?)").bind(admin.id,String(userId),JSON.stringify({nickname:target.nickname,balance:beforeBalance}),JSON.stringify({nickname:target.nickname,balance,amount,reason}))
+      ]);
+      const verified=await env.DB.prepare('SELECT magic_crystals AS balance FROM users WHERE id=?').bind(userId).first();
+      if(Number(verified?.balance)!==balance)return json({error:'마법 결정 지급 후 잔액 검증에 실패했습니다.'},500);
+      return json({ok:true,user:{id:target.id,nickname:target.nickname},amount,balance});
+    }
+
     if(path==='admin/users/action'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE'); if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
       const p=await readBody(request),userId=Number(p.userId),action=String(p.action||'');
@@ -5647,7 +5669,7 @@ async function handleRequest(context){
       if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
       const q=(url.searchParams.get('q')||'').trim().slice(0,30),verification=String(url.searchParams.get('verification')||'ALL').toUpperCase();
       const filters=[],binds=[];if(q){filters.push('u.nickname LIKE ?');binds.push(`%${q}%`);}if(verification==='VERIFIED')filters.push("w.status='VERIFIED'");else if(verification==='PENDING')filters.push("w.status IN ('PENDING','REVIEW')");else if(verification==='UNVERIFIED')filters.push("(w.id IS NULL OR w.status NOT IN ('VERIFIED','PENDING','REVIEW'))");
-      const sql=`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count,COALESCE(SUM(CASE WHEN c.rarity='LIMITED' THEN 1 ELSE 0 END),0) AS limited_count,COALESCE(SUM(CASE WHEN c.rarity='PRESTIGE' THEN 1 ELSE 0 END),0) AS prestige_count,COALESCE(SUM(CASE WHEN c.rarity='FUR' THEN 1 ELSE 0 END),0) AS fur_count
+      const sql=`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,u.magic_crystals,(SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count,COALESCE(SUM(CASE WHEN c.rarity='LIMITED' THEN 1 ELSE 0 END),0) AS limited_count,COALESCE(SUM(CASE WHEN c.rarity='PRESTIGE' THEN 1 ELSE 0 END),0) AS prestige_count,COALESCE(SUM(CASE WHEN c.rarity='FUR' THEN 1 ELSE 0 END),0) AS fur_count
         FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id ${filters.length?'WHERE '+filters.join(' AND '):''}
         GROUP BY u.id ORDER BY ${q?'u.nickname ASC':'u.created_at DESC'} LIMIT 100`;
       const stmt=env.DB.prepare(sql);const rows=binds.length?await stmt.bind(...binds).all():await stmt.all();
