@@ -48,12 +48,13 @@ if(!window.__SOOP_CMS_MUTATION_GUARD__){
 if(!window.__SOOP_CMS_BOOT_ALERT_GUARD__){
   window.__SOOP_CMS_BOOT_ALERT_GUARD__=true;
   window.__SOOP_CMS_BOOTING__=false;
+  window.__SOOP_CMS_LOGIN_ACTIVE__=false;
   window.__SOOP_CMS_BOOT_ALERTS__=[];
   const nativeAlert=window.alert.bind(window);
   window.alert=message=>{
-    if(window.__SOOP_CMS_BOOTING__){
+    if(!window.__SOOP_CMS_AUTH_READY__&&!window.__SOOP_CMS_LOGIN_ACTIVE__){
       window.__SOOP_CMS_BOOT_ALERTS__.push(String(message??''));
-      console.warn('[CMS] Suppressed blocking startup dialog.');
+      console.warn('[CMS] Suppressed unauthenticated module dialog.');
       return;
     }
     return nativeAlert(message);
@@ -97,7 +98,7 @@ async function api(path,opt={}){
 }
 
 function setBusy(btn,busy,text='처리 중...'){if(!btn)return;btn.disabled=busy;if(!btn.dataset.label)btn.dataset.label=btn.textContent;btn.textContent=busy?text:btn.dataset.label}
-async function login(){const btn=$('#loginBtn'),key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');setBusy(btn,true,'로그인 확인 중...');try{const d=await api('admin/auth/login',{method:'POST',body:JSON.stringify({privateKey:key})}),role=String(d.user?.role||'').toUpperCase();if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(role))throw Error('관리자 권한이 없는 계정입니다.');if(!d.token)throw Error('관리자 로그인 정보를 발급받지 못했습니다.');token=d.token;localStorage.setItem('cnine_admin_token',token);sessionStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message||'관리자 로그인 중 오류가 발생했습니다.')}finally{setBusy(btn,false)}}
+async function login(){const btn=$('#loginBtn'),key=$('#key').value.trim();if(!key)return alert('관리자 개인키를 입력하세요.');window.__SOOP_CMS_LOGIN_ACTIVE__=true;setBusy(btn,true,'로그인 확인 중...');try{const d=await api('admin/auth/login',{method:'POST',body:JSON.stringify({privateKey:key})}),role=String(d.user?.role||'').toUpperCase();if(!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(role))throw Error('관리자 권한이 없는 계정입니다.');if(!d.token)throw Error('관리자 로그인 정보를 발급받지 못했습니다.');token=d.token;localStorage.setItem('cnine_admin_token',token);sessionStorage.setItem('cnine_admin_token',token);$('#key').value='';await boot()}catch(e){alert(e.message||'관리자 로그인 중 오류가 발생했습니다.')}finally{window.__SOOP_CMS_LOGIN_ACTIVE__=false;setBusy(btn,false)}}
 function setAuthScreen(isAuthenticated){document.body.classList.toggle('auth-active',isAuthenticated);document.body.classList.toggle('auth-guest',!isAuthenticated);$('#login').hidden=isAuthenticated;$('#cms').hidden=!isAuthenticated}
 let cmsBootInFlight=false;
 async function boot(){
