@@ -322,7 +322,7 @@ async function sideBalance(env,roundId){const row=await env.DB.prepare(`SELECT S
 function balancedSide(balance,power=0){if(balance.aPower<balance.bPower)return'A';if(balance.bPower<balance.aPower)return'B';if(balance.aCount<balance.bCount)return'A';if(balance.bCount<balance.aCount)return'B';return Number(power||0)%2===0?'A':'B'}
 async function selectBattleOpponent(env,roundId,mine,requestId){
   const enemy=mine.side==='A'?'B':'A',seed=seedOf(`${requestId}:MATCH`),power=Math.max(1,Number(mine.deck_power||0));
-  return env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND w.user_id<>? ORDER BY CASE WHEN w.deck_power BETWEEN ? AND ? THEN 0 ELSE 1 END,(((w.user_id * 1103515245) + ?) & 2147483647),ABS(w.deck_power-?),w.user_id LIMIT 1`).bind(roundId,enemy,mine.user_id,Math.floor(power*.7),Math.ceil(power*1.3),seed,power).first();
+  return env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.side=? AND w.status='ACTIVE' AND w.user_id<>? ORDER BY CASE WHEN w.deck_power BETWEEN ? AND ? THEN 0 ELSE 1 END,w.defenses ASC,ABS(w.deck_power-?) ASC,(((w.user_id * 1103515245) + ?) & 2147483647),w.user_id LIMIT 1`).bind(roundId,enemy,mine.user_id,Math.floor(power*.7),Math.ceil(power*1.3),power,seed).first();
 }
 function resultHpPercent(battleV2,side){const resultEvent=[...(battleV2?.result?.timeline||[])].reverse().find(event=>event.type==='RESULT');return Number(side==='A'?resultEvent?.teamAHpPercent:resultEvent?.teamBHpPercent)||0}
 async function simulateTerritoryBattle(env,deps,attackerUser,mine,opponent,requestId,seedOverride=null){
@@ -397,6 +397,22 @@ function balancedSideAssignments(users){
     const highToB=Math.abs((aPower+Number(low.deck_power||0))-(bPower+Number(high.deck_power||0)));
     const highSide=highToA<highToB?'A':highToB<highToA?'B':aPower<=bPower?'A':'B';
     place(high,highSide);place(low,highSide==='A'?'B':'A');
+  }
+  // Keep the headcount fixed, then exchange one member from each side whenever
+  // the swap strictly reduces the total deck-power gap. This closes the residual
+  // imbalance left by the fast pair-wise assignment without making formation costly.
+  let improved=true,passes=0;
+  while(improved&&passes++<Math.min(50,Math.max(1,users.length))){
+    improved=false;let best=null,bestGap=Math.abs(aPower-bPower);
+    for(let ai=0;ai<assignments.length;ai++){
+      if(assignments[ai].side!=='A')continue;
+      for(let bi=0;bi<assignments.length;bi++){
+        if(assignments[bi].side!=='B')continue;
+        const ap=Number(assignments[ai].item.deck_power||0),bp=Number(assignments[bi].item.deck_power||0),nextA=aPower-ap+bp,nextB=bPower-bp+ap,gap=Math.abs(nextA-nextB);
+        if(gap<bestGap){bestGap=gap;best={ai,bi,nextA,nextB}}
+      }
+    }
+    if(best){assignments[best.ai].side='B';assignments[best.bi].side='A';aPower=best.nextA;bPower=best.nextB;improved=true}
   }
   return{assignments,aPower,bPower,aCount,bCount};
 }
