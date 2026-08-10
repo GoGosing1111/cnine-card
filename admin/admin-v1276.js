@@ -49,8 +49,15 @@ async function boot(){
     show('dashboard',d);
   }catch(e){
     if(e.status===401){
+      token='';
+      localStorage.removeItem('cnine_admin_token');
+      sessionStorage.removeItem('cnine_admin_token');
+      adminGetCache.clear();
+      adminGetInflight.clear();
       setAuthScreen(false);
-      alert('관리자 세션이 실제로 만료되었습니다. 다시 로그인해주세요.');
+      const notice=$('#login .muted');
+      if(notice)notice.textContent='관리자 세션이 만료되었습니다. 개인키로 다시 로그인해주세요.';
+      setTimeout(()=>$('#key')?.focus(),0);
     }else{
       // 네트워크 지연, Cloudflare 오류, 권한별 403은 세션 만료가 아니다.
       // 저장된 토큰과 CMS 화면을 그대로 유지해 가짜 로그아웃처럼 보이지 않게 한다.
