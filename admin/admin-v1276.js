@@ -1,4 +1,45 @@
 /* SOOP CARD MANAGER v9.4.4 HARD REPLACE */
+// The CMS has many legacy enhancement modules watching the same large DOM.
+// Coalesce their mutation callbacks so one module's render cannot starve the
+// main thread by synchronously waking every other observer in a microtask loop.
+if(!window.__SOOP_CMS_MUTATION_GUARD__){
+  window.__SOOP_CMS_MUTATION_GUARD__=true;
+  const NativeMutationObserver=window.MutationObserver;
+  const pendingObservers=new Set();
+  window.MutationObserver=class CmsMutationObserver extends NativeMutationObserver{
+    constructor(callback){
+      let instance=null,scheduled=false,pending=[];
+      super(records=>{
+        pending.push(...records);
+        if(scheduled)return;
+        scheduled=true;
+        setTimeout(()=>{
+          scheduled=false;
+          const batch=pending.splice(0,pending.length);
+          try{callback.call(instance,batch,instance)}catch(error){setTimeout(()=>{throw error},0)}
+        },250);
+      });
+      instance=this;
+    }
+    observe(target,options){
+      this.__cmsPendingObservation={target,options};
+      if(window.__SOOP_CMS_AUTH_READY__)return super.observe(target,options);
+      pendingObservers.add(this);
+    }
+    disconnect(){pendingObservers.delete(this);this.__cmsPendingObservation=null;return super.disconnect()}
+    __cmsActivate(){
+      const pending=this.__cmsPendingObservation;
+      if(!pending)return;
+      pendingObservers.delete(this);
+      super.observe(pending.target,pending.options);
+    }
+  };
+  window.__SOOP_CMS_ACTIVATE_OBSERVERS__=()=>{
+    window.__SOOP_CMS_AUTH_READY__=true;
+    for(const observer of [...pendingObservers])observer.__cmsActivate();
+    pendingObservers.clear();
+  };
+}
 let token=localStorage.getItem('cnine_admin_token')||sessionStorage.getItem('cnine_admin_token')||'';
 let state={userVerificationFilter:'ALL',cardManageView:'MEMBERS',cardMemberFilter:'',cards:[],members:[],users:[],role:'',admin:null,view:'dashboard',rateData:null,packData:null,selectedPackId:'basic',breakthroughData:null,breakthroughGrade:'SR',breakthroughCinematic:null,battleData:null,dirtyCardIds:new Set(),raidData:null,tierData:null};
 const RARITIES=['ZENITH','FUR','LIMITED','MA','SSR','UR','HR','SR','R','U','C'];
@@ -52,6 +93,7 @@ async function boot(){
     const d=await api('admin/dashboard',{timeoutMs:8000,cacheBust:true});
     state.role=d.role;
     state.admin=d.admin||{nickname:'관리자',role:d.role};
+    window.__SOOP_CMS_ACTIVATE_OBSERVERS__?.();
     setAuthScreen(true);
     renderIdentity();
     show('dashboard',d);
