@@ -662,6 +662,20 @@ async function cancelRaidForInsufficientPlayers(env,instance,participants){
 
 function raidCombatSnapshot(participants,instance,cfg,nowMs=Date.now()){return raidCombatSnapshotV1293(participants,instance,cfg,nowMs);}
 
+function raidProjectedDamage(totalPower,cfg){
+  const attacks=Math.max(1,Math.floor(Number(cfg.battleSeconds||120)*1000/Math.max(200,Number(cfg.attackIntervalMs||800))));
+  const critFactor=cfg.criticalEnabled?1+(Number(cfg.criticalChance||0)/100)*(Math.max(1,Number(cfg.criticalMultiplier||1))-1):1;
+  return Math.max(1,Math.floor(Math.max(0,Number(totalPower||0))*Number(cfg.damageMultiplier||1)*attacks*critFactor/10));
+}
+
+async function repairRaidZeroDamage(env,instanceId,cfg,participants=null){
+  const rows=Array.isArray(participants)?participants:(await env.DB.prepare('SELECT id,total_power FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1 AND COALESCE(total_damage,0)<=0').bind(Number(instanceId)).all()).results||[];
+  const zeroRows=rows.filter(row=>Number(row.total_damage??row.totalDamage??0)<=0);
+  if(!zeroRows.length)return 0;
+  const results=await env.DB.batch(zeroRows.map(row=>env.DB.prepare('UPDATE raid_participants SET total_damage=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND COALESCE(total_damage,0)<=0').bind(raidProjectedDamage(row.total_power??row.totalPower,cfg),row.id)));
+  return results.reduce((sum,result)=>sum+Number(result?.meta?.changes||0),0);
+}
+
 async function refreshRaidForOwner(env,instance,cfg){
   if(!instance)return null;
   cfg=await raidInstanceSettingsV1293(env,instance.id,cfg);
@@ -673,15 +687,12 @@ async function refreshRaidForOwner(env,instance,cfg){
     const ownerParticipantPresent=participants.some(row=>String(row.user_role||'').trim().toUpperCase()==='OWNER');
     const effectiveMinParticipants=ownerParticipantPresent?1:Number(cfg.minParticipants||1);
     if(participants.length>=effectiveMinParticipants){
-      const transitioned=await env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='LOBBY'").bind(Math.max(0,Number(instance.max_hp||0)),participants.length,instance.id).run();
+      const startWrites=participants.filter(row=>Number(row.total_damage||0)<=0).map(row=>env.DB.prepare('UPDATE raid_participants SET total_damage=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND COALESCE(total_damage,0)<=0').bind(raidProjectedDamage(row.total_power,cfg),row.id));
+      startWrites.push(env.DB.prepare("UPDATE raid_instances SET status='BATTLE',current_hp=?,participant_count=?,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='LOBBY'").bind(Math.max(0,Number(instance.max_hp||0)),participants.length,instance.id));
+      // D1 batch는 한 트랜잭션으로 커밋된다. 참가자 피해량이 모두 준비되기 전에는
+      // BATTLE 상태가 외부 조회에 노출되지 않도록 상태 전환을 마지막 문장에 둔다.
+      const startResults=await env.DB.batch(startWrites),transitioned=startResults[startResults.length-1];
       if(Number(transitioned?.meta?.changes||0)!==1)return env.DB.prepare('SELECT * FROM raid_instances WHERE id=?').bind(instance.id).first();
-      for(const row of participants){
-        if(Number(row.total_damage||0)>0)continue;
-        const attacks=Math.max(1,Math.floor(Number(cfg.battleSeconds||120)*1000/Math.max(200,Number(cfg.attackIntervalMs||800))));
-        const critFactor=cfg.criticalEnabled?1+(Number(cfg.criticalChance||0)/100)*(Math.max(1,Number(cfg.criticalMultiplier||1))-1):1;
-        const damage=Math.max(1,Math.floor(Number(row.total_power||0)*Number(cfg.damageMultiplier||1)*attacks*critFactor/10));
-        await env.DB.prepare('UPDATE raid_participants SET total_damage=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(damage,row.id).run();
-      }
       instance.status='BATTLE';instance.current_hp=Math.max(0,Number(instance.max_hp||0));instance.participant_count=participants.length;
     }else{
       const cancelled=await env.DB.prepare("UPDATE raid_instances SET status='ENDED',ends_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='LOBBY'").bind(instance.id).run();
@@ -690,6 +701,7 @@ async function refreshRaidForOwner(env,instance,cfg){
     }
   }
   if(instance.status==='BATTLE'&&endMs){
+    await repairRaidZeroDamage(env,instance.id,cfg);
     const rows=(await env.DB.prepare('SELECT user_id AS userId,total_power AS totalPower,total_damage AS totalDamage FROM raid_participants WHERE instance_id=? AND COALESCE(is_active,1)=1').bind(instance.id).all()).results;
     const snapshot=raidCombatSnapshot(rows,instance,cfg,now);
     if(snapshot.allDefeated||snapshot.cleared||now>=endMs){
@@ -4004,6 +4016,8 @@ async function handleRequest(context){
           return json({settings:cfg,schedule,current:null,rooms,participants:[],me:null,dailyEntryUsed:ownerTestMode?false:(todayEntryCount>=dailyEntryLimit||slotEntryUsed),dailyEntry,slotEntry,slotEntries,serverNow:new Date().toISOString(),lastRaid:{id:current.id,rewardClaimed:true,receiptStatus:settlement.receiptStatus,rewardStatus:settlement.rewardStatus}});
         }
       }
+      const instanceCfg=await raidInstanceSettingsV1293(env,current.id,cfg);
+      if(current.status==='BATTLE')await repairRaidZeroDamage(env,current.id,instanceCfg);
       const rows=await env.DB.prepare(`SELECT rp.user_id AS userId,u.nickname,rp.deck_cards AS deckCards,rp.total_power AS totalPower,rp.total_damage AS totalDamage,rp.reward_claimed AS rewardClaimed,rp.joined_at AS joinedAt,
         t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset
         FROM raid_participants rp
@@ -4016,7 +4030,7 @@ async function handleRequest(context){
       let cardMap={},breakthroughMap={};
       try{({cardMap,breakthroughMap}=await raidParticipantDisplayDataV1311(env,{instanceId:current.id,participants,uniqueVisible,uniqueCfg}));}
       catch(displayError){console.error('raid participant card display lookup failed',{instanceId:Number(current.id),participantCount:participants.length,message:String(displayError?.message||displayError)});}
-      const instanceCfg=await raidInstanceSettingsV1293(env,current.id,cfg),instanceSlot=await raidInstanceSlotV1293(env,current.id),instanceSlotCfg=(instanceCfg.timeSlots||[]).find(row=>String(row.id)===String(instanceSlot))||null,instanceSlotEntry=instanceSlot&&instanceSlot!=='ALWAYS'&&instanceSlot!=='LEGACY'?(slotEntries.find(row=>String(row.id)===String(instanceSlot))||{id:String(instanceSlot),label:String(instanceSlotCfg?.label||instanceSlot),count:0,limit:Math.max(1,Number(instanceSlotCfg?.entriesPerSlot||1)),remaining:Math.max(1,Number(instanceSlotCfg?.entriesPerSlot||1)),unlimited:ownerTestMode}):slotEntry,instanceSlotUsed=Boolean(instanceSlot&&instanceSlot!=='ALWAYS'&&instanceSlot!=='LEGACY'&&Number(instanceSlotEntry.count||0)>=Number(instanceSlotEntry.limit||1)),entryUsedForCurrent=ownerTestMode?false:(todayEntryCount>=dailyEntryLimit||instanceSlotUsed);
+      const instanceSlot=await raidInstanceSlotV1293(env,current.id),instanceSlotCfg=(instanceCfg.timeSlots||[]).find(row=>String(row.id)===String(instanceSlot))||null,instanceSlotEntry=instanceSlot&&instanceSlot!=='ALWAYS'&&instanceSlot!=='LEGACY'?(slotEntries.find(row=>String(row.id)===String(instanceSlot))||{id:String(instanceSlot),label:String(instanceSlotCfg?.label||instanceSlot),count:0,limit:Math.max(1,Number(instanceSlotCfg?.entriesPerSlot||1)),remaining:Math.max(1,Number(instanceSlotCfg?.entriesPerSlot||1)),unlimited:ownerTestMode}):slotEntry,instanceSlotUsed=Boolean(instanceSlot&&instanceSlot!=='ALWAYS'&&instanceSlot!=='LEGACY'&&Number(instanceSlotEntry.count||0)>=Number(instanceSlotEntry.limit||1)),entryUsedForCurrent=ownerTestMode?false:(todayEntryCount>=dailyEntryLimit||instanceSlotUsed);
       const startMs=Date.parse(current.starts_at||0),endMs=Date.parse(current.ends_at||0),now=Date.now();
       const combat=raidCombatSnapshot(participants,current,instanceCfg,now);
       const progress=current.status==='LOBBY'
