@@ -15,6 +15,7 @@ import { handleSiege } from '../_siege.js';
 import { handleChief,chiefDiscountState } from '../_chief.js';
 import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { handleIdleDungeon } from '../_idle_dungeon.js';
+import { handleCoinPrediction } from '../_coin_prediction.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 
@@ -3277,6 +3278,7 @@ async function handleRequest(context){
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,chiefDiscountState}});if(vehicleDrawResponse)return vehicleDrawResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
+    const coinPredictionResponse=await handleCoinPrediction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(coinPredictionResponse)return coinPredictionResponse;
     const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies}});if(territoryWarResponse)return territoryWarResponse;
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses}});if(siegeResponse)return siegeResponse;

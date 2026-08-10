@@ -372,6 +372,7 @@ function navGroupForTab(tab){
   if(tab==='magic')return 'magic';
   if(tab==='character')return 'character';
   if(tab==='rank')return 'rank';
+  if(tab==='prediction')return 'prediction';
   if(tab==='auction')return 'auction';
   if(['dex','evolution'].includes(tab))return 'dex';
   return 'buy';
@@ -386,6 +387,7 @@ function renderMainNavigation(tab){
     {id:'character',label:'장비·칭호'},
     {id:'rewards',label:'보상',tab:group==='rewards'?tab:'attendance'},
     {id:'rank',label:'랭킹'},
+    {id:'prediction',label:'승부예측'},
     {id:'auction',label:'경매장'}
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
@@ -401,7 +403,7 @@ function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(coun
 
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);
-  const moreActive=['attendance','dailyquest','messages','rank','auction','mineral','inventory','character'].includes(tab);
+  const moreActive=['attendance','dailyquest','messages','rank','prediction','auction','mineral','inventory','character'].includes(tab);
   const magicButton=magicSystemState.visible?`<button class="mobile-bottom-item ${tab==='magic'?'active':''}" type="button" data-mobile-tab="magic"><span>✦</span><b>마법카드</b></button>`:'';
   return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
     <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드팩</b></button>
@@ -432,6 +434,7 @@ function mobileNavigationHtml(tab){
       <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>◆</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em>${messageBadgeMarkup()}</button>
       <div class="mobile-more-grid">
         <button type="button" data-mobile-tab="rank"><i>♛</i><b>랭킹</b></button>
+        <button type="button" data-mobile-tab="prediction"><i>◉</i><b>승부예측</b></button>
         <button type="button" data-mobile-tab="auction"><i>◈</i><b>경매장</b></button>
         <button type="button" data-mobile-tab="inventory"><i>▱</i><b>인벤토리</b></button>
         <button type="button" data-mobile-tab="character"><i>⚔</i><b>장비·칭호</b></button>
@@ -519,6 +522,7 @@ function renderShell(tab) {
   document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
   if(tab!=='auction'&&typeof window.stopAuctionHouseView==='function')window.stopAuctionHouseView();
+  if(tab!=='prediction'&&typeof window.stopCoinPredictionView==='function')window.stopCoinPredictionView();
   runtimeCommandContext=tab;
   const burningPageActive=burningEventState.enabled===true,burningPageMode=burningMode();
   document.documentElement.classList.toggle('burning-event-active',burningPageActive&&burningPageMode==='BURNING');
@@ -526,7 +530,7 @@ function renderShell(tab) {
   if(tab!=='buy'){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open')}
   const user = loadUser();
   if (!user) return renderLogin();
-  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, auction:(...args)=>(typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):''), mineral: mineralExchangeView, inventory: inventoryView };
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):''), auction:(...args)=>(typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):''), mineral: mineralExchangeView, inventory: inventoryView };
   const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
@@ -555,6 +559,7 @@ function renderShell(tab) {
       </div>
     </div>
     <button class="main-nav-item ${tab==='rank'?'active':''}" type="button" data-tab="rank"><span class="main-nav-icon">♛</span><b>랭킹</b></button>
+    <button class="main-nav-item ${tab==='prediction'?'active':''}" type="button" data-tab="prediction"><span class="main-nav-icon">◉</span><b>승부예측</b></button>
     <button class="main-nav-item ${tab==='auction'?'active':''}" type="button" data-tab="auction"><span class="main-nav-icon">◈</span><b>경매장</b></button>
   </nav>`;
   app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="SOOP"><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}</header>${mobileNavigationHtml(tab)}${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
@@ -1941,6 +1946,7 @@ function bindView(tab) {
   if(tab==='pvp') loadPvpView();
   if(tab==='mineral') loadMineralExchange();
   if(tab==='auction'&&typeof window.bindAuctionHouseView==='function')window.bindAuctionHouseView();
+  if(tab==='prediction'&&typeof window.bindCoinPredictionView==='function')window.bindCoinPredictionView();
   if(tab==='dex') {
     syncCollectionFromServer({rerender:true});
     document.querySelectorAll('.dex-fold-button').forEach(h=>h.onclick=()=>h.closest('.dex-section').classList.toggle('collapsed'));
