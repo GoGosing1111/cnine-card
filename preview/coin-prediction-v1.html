@@ -7,7 +7,7 @@
   <title>숲켓몬 코인 승부예측 UI Preview</title>
   <link rel="stylesheet" href="../css/style.css?v=1631-coin-prediction">
   <link rel="stylesheet" href="../css/coin-prediction-v1.css?v=4-bettor-ledger">
-  <link rel="stylesheet" href="../css/coin-prediction-v1632.css?v=1">
+  <link rel="stylesheet" href="../css/coin-prediction-v1632.css?v=1643-premium-timer">
   <style>
     body{margin:0;background:#02050c}.page{max-width:1440px;margin:auto;padding:20px}.preview-tag{position:fixed;z-index:20;right:20px;bottom:20px;padding:8px 12px;border:1px solid #61dff677;border-radius:999px;background:#061422e8;color:#72e5f8;font:800 11px sans-serif;letter-spacing:.12em}
   </style>
@@ -23,12 +23,19 @@
         <article class="cp-event is-open">
           <div class="cp-event-cover"><img src="../assets/ui/coin-prediction/arena-v1.png" alt=""></div>
           <div class="cp-event-head">
-            <div><small>참여 중 · 5명 참여</small><h2>영토전 최종 승리 진영</h2><p>마지막 관문을 점령할 진영을 예측하세요.</p></div>
-            <div class="cp-clock"><b>05:42:19</b><span>총 풀 2,900,000 COIN</span></div>
+            <div class="cp-event-copy">
+              <div class="cp-event-kicker"><span class="cp-live-dot"></span><small>참여 중</small><span>5명 참여</span></div>
+              <h2>영토전 최종 승리 진영</h2><p>마지막 관문을 점령할 진영을 예측하세요.</p>
+              <div class="cp-event-meta"><span>10% FEE</span><span>100,000 MIN</span><span>3,000,000 MAX</span></div>
+            </div>
+            <div class="cp-clock" style="--cp-ring-offset:92">
+              <div class="cp-clock-ring"><svg viewBox="0 0 112 112" aria-hidden="true"><circle class="cp-clock-track" cx="56" cy="56" r="48"></circle><circle class="cp-clock-progress" cx="56" cy="56" r="48"></circle></svg><div class="cp-clock-face"><small>CLOSES IN</small><b>05:42:19</b><em>KST LIVE</em></div></div>
+              <div class="cp-pool-readout"><small>LIVE COIN POOL</small><strong>2,900,000</strong><span>COIN · 5 PLAYERS</span></div>
+            </div>
           </div>
           <div class="cp-options">
-            <div class="cp-option-block">
-              <button class="cp-option selected"><i>01</i><span><b>부먹파 승리</b><small>3명 · 1,900,000코인</small></span><em>예상 1.37배</em></button>
+            <div class="cp-option-block" style="--cp-share:65.5%">
+              <button class="cp-option selected"><i class="cp-option-index">01</i><span class="cp-option-copy"><b>부먹파 승리</b><small>3명 · 1,900,000코인</small><span class="cp-option-meter"><i></i></span></span><em><small>EXPECTED</small>예상 1.37배</em></button>
               <details class="cp-bettors" open>
                 <summary><span>참여자별 베팅 현황</span><b>3명</b></summary>
                 <div class="cp-bettor-list">
@@ -38,8 +45,8 @@
                 </div>
               </details>
             </div>
-            <div class="cp-option-block">
-              <button class="cp-option"><i>02</i><span><b>찍먹파 승리</b><small>2명 · 1,000,000코인</small></span><em>예상 2.61배</em></button>
+            <div class="cp-option-block" style="--cp-share:34.5%">
+              <button class="cp-option"><i class="cp-option-index">02</i><span class="cp-option-copy"><b>찍먹파 승리</b><small>2명 · 1,000,000코인</small><span class="cp-option-meter"><i></i></span></span><em><small>EXPECTED</small>예상 2.61배</em></button>
               <details class="cp-bettors">
                 <summary><span>참여자별 베팅 현황</span><b>2명</b></summary>
                 <div class="cp-bettor-list">
