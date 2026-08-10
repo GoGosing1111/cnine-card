@@ -30,3 +30,8 @@ html, body { font-family: var(--storybook-font); }
 .reward-panel { border:3px solid #ffebae88 !important; border-radius:30px !important; background:linear-gradient(145deg,#25366c,#57366f) !important; box-shadow:0 8px 0 #161c44,0 25px 80px #020817dd,0 0 45px #ffc6e155 !important; }
 .reward-item { border:2px solid #dce7ff44; border-radius:17px; background:#142653cc; }
 @media(max-width:760px){.top{margin:6px 6px 0;padding:8px 9px 17px}.route{top:72px}.boss-hud{top:101px!important}.bottom{margin:0 5px 5px;height:124px}.controls{padding-left:50px}.glass-btn{min-width:40px;padding:0 9px}}
+[data-idle-effect="CLASSIC"] .scene::before{filter:saturate(.72) contrast(1.08)}
+[data-idle-effect="CLASSIC"] .damage{-webkit-text-stroke:1px #7b3d31;text-shadow:0 3px #802d2d,0 0 18px #ff815d}
+[data-idle-effect="MINIMAL"] .skill-slash,[data-idle-effect="MINIMAL"] .impact-ring,[data-idle-effect="MINIMAL"] .particle,[data-idle-effect="MINIMAL"] .boss-target{display:none!important}
+[data-idle-effect="MINIMAL"] .scene.impact,[data-idle-effect="MINIMAL"] .screen-shake{animation:none!important}
+[data-idle-effect="MINIMAL"] .damage{font-size:clamp(22px,2.4vw,38px);-webkit-text-stroke:0;text-shadow:0 2px 8px #000}
