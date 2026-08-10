@@ -3,8 +3,8 @@
   display: block !important;
   left: 18px !important;
   right: auto !important;
-  top: auto !important;
-  bottom: 132px !important;
+  top: 112px !important;
+  bottom: auto !important;
   width: 112px !important;
   height: 42px !important;
   border: 2px solid #d8ebff99 !important;
@@ -22,4 +22,4 @@ body.idle-battle-open { overflow: hidden !important; }
 body.idle-battle-open > :not(.idle-preview-bridge):not(script):not(style) { visibility: hidden !important; pointer-events: none !important; }
 body.idle-battle-open > .idle-preview-bridge { visibility: visible !important; pointer-events: auto !important; }
 .idle-preview-exit:hover { transform: translateY(-1px); filter: brightness(1.12); }
-@media (max-width: 760px) { .idle-preview-exit { left: 8px !important; top: auto !important; bottom: 142px !important; width: 102px !important; } }
+@media (max-width: 760px) { .idle-preview-exit { left: 8px !important; top: 106px !important; bottom: auto !important; width: 102px !important; } }
