@@ -40,6 +40,25 @@ if(!window.__SOOP_CMS_MUTATION_GUARD__){
     pendingObservers.clear();
   };
 }
+// A stale administrator session used to let legacy modules open a blocking
+// alert while the dashboard session check was still running. In browsers a
+// JavaScript alert suspends the whole page, which made the CMS look frozen.
+// Keep those boot-time notices non-blocking; normal login and CMS alerts still
+// use the native dialog after boot has finished.
+if(!window.__SOOP_CMS_BOOT_ALERT_GUARD__){
+  window.__SOOP_CMS_BOOT_ALERT_GUARD__=true;
+  window.__SOOP_CMS_BOOTING__=false;
+  window.__SOOP_CMS_BOOT_ALERTS__=[];
+  const nativeAlert=window.alert.bind(window);
+  window.alert=message=>{
+    if(window.__SOOP_CMS_BOOTING__){
+      window.__SOOP_CMS_BOOT_ALERTS__.push(String(message??''));
+      console.warn('[CMS] Suppressed blocking startup dialog.');
+      return;
+    }
+    return nativeAlert(message);
+  };
+}
 let token=localStorage.getItem('cnine_admin_token')||sessionStorage.getItem('cnine_admin_token')||'';
 let state={userVerificationFilter:'ALL',cardManageView:'MEMBERS',cardMemberFilter:'',cards:[],members:[],users:[],role:'',admin:null,view:'dashboard',rateData:null,packData:null,selectedPackId:'basic',breakthroughData:null,breakthroughGrade:'SR',breakthroughCinematic:null,battleData:null,dirtyCardIds:new Set(),raidData:null,tierData:null};
 const RARITIES=['ZENITH','FUR','LIMITED','MA','SSR','UR','HR','SR','R','U','C'];
@@ -84,6 +103,8 @@ let cmsBootInFlight=false;
 async function boot(){
   if(cmsBootInFlight)return;
   cmsBootInFlight=true;
+  window.__SOOP_CMS_BOOTING__=true;
+  window.__SOOP_CMS_BOOT_ALERTS__.length=0;
   if(token){
     setAuthScreen(false);
     const loginNotice=$('#login .muted');
@@ -116,7 +137,10 @@ async function boot(){
       if(loginNotice)loginNotice.innerHTML=`CMS 연결이 지연되고 있습니다. 저장된 세션은 유지됩니다.<br><small>${esc(e.message)}</small><br><button type="button" id="cmsLoginRetry" style="margin-top:10px">다시 연결</button>`;
       $('#cmsLoginRetry')?.addEventListener('click',boot,{once:true});
     }
-  }finally{cmsBootInFlight=false}
+  }finally{
+    window.__SOOP_CMS_BOOTING__=false;
+    cmsBootInFlight=false;
+  }
 }
 async function loadWagoAdmin(){const d=await api('admin/wago-verifications');$('#wagoVerifyEnabled').value=d.settings.enabled===false?'0':'1';$('#wagoCodeMinutes').value=d.settings.codeMinutes||20;$('#wagoPostUrl').value=d.settings.postUrl||'';const box=$('#wagoVerificationList');const label={PENDING:'댓글 대기',REVIEW:'승인 검토',VERIFIED:'인증 완료',REJECTED:'거절'};box.innerHTML=d.verifications.length?d.verifications.map(v=>`<div class="row"><span><b>${esc(v.game_nickname)}</b><small>${esc(v.wago_nickname)} · #${esc(v.wago_member_no)}</small></span><span>${label[v.status]||esc(v.status)}<small>${fmt(v.issued_at)}</small></span><span><code>${esc(v.verification_code)}</code><small>${esc(v.review_note||'')}</small></span><span>${v.status!=='VERIFIED'?`<button data-wago-action="APPROVE" data-id="${v.id}">승인</button><button data-wago-action="REJECT" data-id="${v.id}" class="danger">거절</button>`:`<button data-wago-action="RESET" data-id="${v.id}" class="ghost">재인증</button>`}</span></div>`).join(''):'<div class="muted">인증 요청이 없습니다.</div>';box.querySelectorAll('[data-wago-action]').forEach(b=>b.onclick=()=>reviewWago(Number(b.dataset.id),b.dataset.wagoAction))}
 async function saveWagoSettings(){await api('admin/wago-verifications',{method:'PATCH',body:JSON.stringify({settings:{enabled:$('#wagoVerifyEnabled').value==='1',codeMinutes:Number($('#wagoCodeMinutes').value),postUrl:$('#wagoPostUrl').value.trim()}})});alert('와고 인증 설정이 저장되었습니다.');loadWagoAdmin()}
