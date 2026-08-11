@@ -350,11 +350,9 @@ function navGroupForTab(tab){
   if(['battle','pvp'].includes(tab))return 'battle';
   if(['attendance','dailyquest','messages','mineral'].includes(tab))return 'rewards';
   if(tab==='magic')return 'magic';
-  if(tab==='character')return 'character';
-  if(tab==='workshop')return 'workshop';
+  if(['character','workshop'].includes(tab))return 'character';
   if(tab==='rank')return 'rank';
-  if(tab==='prediction')return 'prediction';
-  if(tab==='auction')return 'auction';
+  if(['prediction','auction'].includes(tab))return 'market';
   if(['dex','evolution'].includes(tab))return 'dex';
   return 'buy';
 }
@@ -365,15 +363,15 @@ function renderMainNavigation(tab){
     {id:'buy',label:'카드팩'},
     {id:'dex',label:'도감'},
     {id:'battle',label:'전투',tab:group==='battle'?tab:'battle'},
-    {id:'character',label:'장비·칭호'},
-    {id:'workshop',label:'제작소'},
+    {id:'character',label:'장비·제작',tab:group==='character'?tab:'character'},
     {id:'rewards',label:'보상',tab:group==='rewards'?tab:'attendance'},
     {id:'rank',label:'랭킹'},
-    {id:'prediction',label:'승부예측'},
-    {id:'auction',label:'경매장'}
+    {id:'market',label:'승부·경매',tab:group==='market'?tab:'prediction'}
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
   if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP</button>`:''}</nav>`;
+  if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button></nav>`;
+  if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
   if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
   return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
 }
@@ -416,13 +414,27 @@ function mobileNavigationHtml(tab){
       <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>◆</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em>${messageBadgeMarkup()}</button>
       <div class="mobile-more-grid">
         <button type="button" data-mobile-tab="rank"><i>♛</i><b>랭킹</b></button>
-        <button type="button" data-mobile-tab="prediction"><i>◉</i><b>승부예측</b></button>
-        <button type="button" data-mobile-tab="auction"><i>◈</i><b>경매장</b></button>
+        <button type="button" data-mobile-switch-sheet="market"><i>◉</i><b>승부·경매</b></button>
         <button type="button" data-mobile-tab="inventory"><i>▱</i><b>인벤토리</b></button>
-        <button type="button" data-mobile-tab="character"><i>⚔</i><b>장비·칭호</b></button>
-        <button type="button" data-mobile-tab="workshop"><i>⚙</i><b>제작소</b></button>
+        <button type="button" data-mobile-switch-sheet="character"><i>⚙</i><b>장비·제작</b></button>
         <button type="button" data-mobile-account><i>●</i><b>내 정보</b></button>
       </div>
+    </section>
+    <section class="mobile-nav-sheet" data-mobile-sheet="character" aria-label="장비와 제작 메뉴">
+      <header><div><small>GEAR & WORKSHOP</small><h2>장비·제작</h2><p>장비를 관리하거나 제작소로 이동하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+      <div class="mobile-sheet-action-list">
+        <button type="button" data-mobile-tab="character"><i>⚔</i><span><b>장비·칭호</b><small>장비·칭호·이동수단 관리</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="workshop"><i>⚙</i><span><b>제작소</b><small>차량 조립 · 차후 장비 합성</small></span><em>입장</em></button>
+      </div>
+      <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
+    </section>
+    <section class="mobile-nav-sheet" data-mobile-sheet="market" aria-label="승부예측과 경매장 메뉴">
+      <header><div><small>PREDICTION & AUCTION</small><h2>승부·경매</h2><p>코인 승부예측 또는 실시간 경매장에 입장하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+      <div class="mobile-sheet-action-list">
+        <button type="button" data-mobile-tab="prediction"><i>◉</i><span><b>승부예측</b><small>게임 속 승부를 코인으로 예측</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="auction"><i>◈</i><span><b>경매장</b><small>실시간 입찰과 낙찰</small></span><em>입장</em></button>
+      </div>
+      <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
     </section>
     <section class="mobile-nav-sheet" data-mobile-sheet="rewards" aria-label="보상 허브">
       <header><div><small>REWARD HUB</small><h2>보상 허브</h2><p>받을 수 있는 보상을 확인하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
@@ -514,7 +526,7 @@ function renderShell(tab) {
   const user = loadUser();
   if (!user) return renderLogin();
   const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), workshop:(...args)=>(typeof window.workshopView==='function'?window.workshopView(...args):'<section class="workshop-v1668"><div id="workshopRootV1668" class="workshop-root-v1668"><div class="workshop-loading-v1668"><span></span><b>제작소를 준비하는 중</b></div></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):''), auction:(...args)=>(typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):''), mineral: mineralExchangeView, inventory: inventoryView };
-  const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab);
+  const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop'].includes(tab),marketActive=['prediction','auction'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
     <div class="main-nav-group ${collectionActive?'active':''}" data-nav-group="collection">
@@ -531,8 +543,13 @@ function renderShell(tab) {
         ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>비동기 대전·대장전</span><b>PVP</b></button>':''}
       </div>
     </div>
-    <button class="main-nav-item ${tab==='character'?'active':''}" type="button" data-tab="character"><span class="main-nav-icon">⚔</span><b>장비·칭호</b></button>
-    <button class="main-nav-item ${tab==='workshop'?'active':''}" type="button" data-tab="workshop"><span class="main-nav-icon">⚙</span><b>제작소</b></button>
+    <div class="main-nav-group ${characterActive?'active':''}" data-nav-group="character">
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">⚙</span><b>장비·제작</b><i>⌄</i></button>
+      <div class="main-nav-dropdown" role="menu">
+        <button type="button" data-tab="character"><span>장비·칭호·이동수단 관리</span><b>장비·칭호</b></button>
+        <button type="button" data-tab="workshop"><span>차량 조립·차후 장비 합성</span><b>제작소</b></button>
+      </div>
+    </div>
     <div class="main-nav-group ${rewardActive?'active':''}" data-nav-group="reward">
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◆</span><b>보상</b><i>⌄</i>${messageBadgeMarkup()}</button>
       <div class="main-nav-dropdown" role="menu">
@@ -543,8 +560,13 @@ function renderShell(tab) {
       </div>
     </div>
     <button class="main-nav-item ${tab==='rank'?'active':''}" type="button" data-tab="rank"><span class="main-nav-icon">♛</span><b>랭킹</b></button>
-    <button class="main-nav-item ${tab==='prediction'?'active':''}" type="button" data-tab="prediction"><span class="main-nav-icon">◉</span><b>승부예측</b></button>
-    <button class="main-nav-item ${tab==='auction'?'active':''}" type="button" data-tab="auction"><span class="main-nav-icon">◈</span><b>경매장</b></button>
+    <div class="main-nav-group ${marketActive?'active':''}" data-nav-group="market">
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◉</span><b>승부·경매</b><i>⌄</i></button>
+      <div class="main-nav-dropdown" role="menu">
+        <button type="button" data-tab="prediction"><span>게임 결과 코인 예측</span><b>승부예측</b></button>
+        <button type="button" data-tab="auction"><span>실시간 입찰·낙찰</span><b>경매장</b></button>
+      </div>
+    </div>
   </nav>`;
   app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="SOOP"><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}</header>${mobileNavigationHtml(tab)}${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
   const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a>');bindFullscreenPlayLink(header);

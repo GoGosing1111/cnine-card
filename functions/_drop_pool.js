@@ -6,6 +6,7 @@ const LEDGER_TABLE='unified_drop_ledger_v1667';
 const REWARD_TYPES=new Set(['COIN','CARD_SHARDS','MAGIC_CRYSTAL','MASTER_STAR','INVENTORY_ITEM']);
 const ROLL_MODES=new Set(['INDEPENDENT','WEIGHTED_ONE']);
 let foundationPromise=null;
+const bindingCache=new Map();
 
 const int=(value,min=0,max=Number.MAX_SAFE_INTEGER,fallback=min)=>{const n=Math.floor(Number(value));return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
 const num=(value,min=0,max=100,fallback=min)=>{const n=Number(value);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
@@ -94,6 +95,15 @@ async function applyDailyLimits(env,userId,rewards){
 function normalizedRewardType(reward){return reward.rewardType==='MASTER_STAR'?'INVENTORY_ITEM':reward.rewardType}
 function normalizedRewardRef(reward){return reward.rewardType==='MASTER_STAR'?'MASTER_STAR':reward.rewardRef}
 
+async function matchingPools(env,source,trigger,sid,role){
+  const key=`${source}:${trigger}:${sid}:${String(role).toUpperCase()}`,now=Date.now(),cached=bindingCache.get(key);
+  if(cached&&cached.expiresAt>now)return cached.pools;
+  const rows=await env.DB.prepare(`SELECT b.priority,p.* FROM ${BINDING_TABLE} b JOIN ${POOL_TABLE} p ON p.id=b.pool_id WHERE b.source_type=? AND b.trigger_type=? AND b.is_enabled=1 AND p.is_enabled=1 AND (b.source_id=? OR b.source_id='*') ORDER BY CASE WHEN b.source_id=? THEN 0 ELSE 1 END,b.priority DESC,p.id`).bind(source,trigger,sid,sid).all();
+  const pools=(rows.results||[]).filter(pool=>Number(pool.owner_test_only)===0||String(role).toUpperCase()==='OWNER');
+  bindingCache.set(key,{pools,expiresAt:now+5000});
+  return pools;
+}
+
 async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
   const user=await env.DB.prepare('SELECT coin,card_shards,magic_crystals FROM users WHERE id=?').bind(userId).first();
   if(!user)throw new Error('드랍 보상을 지급할 유저를 찾을 수 없습니다.');
@@ -118,6 +128,9 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
   await ensureUnifiedDropPoolFoundation(env);
   const uid=int(userId,1),rid=text(requestId,120),source=code(sourceType),sid=text(sourceId||'*',120)||'*',trigger=code(triggerType);
   if(!uid||!rid||!source||!trigger)throw new Error('통합 드랍 판정 식별값이 부족합니다.');
+  const pools=await matchingPools(env,source,trigger,sid,role);
+  // 연결된 운영 풀이 없을 때는 영수증을 만들지 않는다. 일반 전투마다 빈 영수증이 쌓이는 것을 원천 차단한다.
+  if(!pools.length)return {ok:true,requestId:rid,sourceType:source,sourceId:sid,triggerType:trigger,pools:[],rewards:[],balances:null,skipped:'NO_ACTIVE_BINDING'};
   const prior=await env.DB.prepare(`SELECT status,result_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(rid,uid).first();
   if(prior?.status==='COMPLETED')return {...parse(prior.result_json,{rewards:[]}),replayed:true};
   if(prior?.status==='PENDING')throw new Error('같은 드랍 요청을 처리 중입니다.');
@@ -126,8 +139,6 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
   else reserved=await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,source_type,source_id,trigger_type,status) VALUES(?,?,?,?,?,'PENDING')`).bind(rid,uid,source,sid,trigger).run();
   if(!reserved.meta?.changes)throw new Error('같은 드랍 요청을 처리 중입니다.');
   try{
-    const rows=await env.DB.prepare(`SELECT b.priority,p.* FROM ${BINDING_TABLE} b JOIN ${POOL_TABLE} p ON p.id=b.pool_id WHERE b.source_type=? AND b.trigger_type=? AND b.is_enabled=1 AND p.is_enabled=1 AND (b.source_id=? OR b.source_id='*') ORDER BY CASE WHEN b.source_id=? THEN 0 ELSE 1 END,b.priority DESC,p.id`).bind(source,trigger,sid,sid).all();
-    const pools=(rows.results||[]).filter(pool=>Number(pool.owner_test_only)===0||String(role).toUpperCase()==='OWNER');
     let rewards=[];
     for(const pool of pools){const entries=await env.DB.prepare(`SELECT * FROM ${ENTRY_TABLE} WHERE pool_id=? AND is_enabled=1 ORDER BY sort_order,id`).bind(pool.id).all();rewards.push(...rollPool(pool,entries.results||[],context))}
     rewards=await applyDailyLimits(env,uid,rewards);
@@ -170,19 +181,19 @@ export async function handleDropPool({path,request,env,deps}){
     const raw=body.pool||{},id=int(raw.id,0),poolCode=code(raw.code),name=text(raw.name,80),mode=code(raw.rollMode||raw.roll_mode),entries=(Array.isArray(raw.entries)?raw.entries:[]).slice(0,100).map(cleanEntry);
     if(!poolCode||!name)return deps.json({error:'드랍풀 코드와 이름을 입력하세요.'},400);
     if(!ROLL_MODES.has(mode))return deps.json({error:'드랍 판정 방식을 확인하세요.'},400);
-    if(!entries.length)return deps.json({error:'드랍 보상을 하나 이상 등록하세요.'},400);
+    if(!entries.length&&raw.isEnabled!==false)return deps.json({error:'운영 사용 드랍풀에는 보상을 하나 이상 등록하세요.'},400);
     for(const entry of entries)if(entry.rewardType==='INVENTORY_ITEM'||entry.rewardType==='MASTER_STAR'){const item=await env.DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(entry.rewardRef).first();if(!item)return deps.json({error:`등록되지 않은 인벤토리 아이템입니다: ${entry.rewardRef}`},400)}
     let poolId=id,before=null;
     if(id){before=await env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE id=?`).bind(id).first();if(!before)return deps.json({error:'수정할 드랍풀을 찾을 수 없습니다.'},404);await env.DB.prepare(`UPDATE ${POOL_TABLE} SET code=?,name=?,description=?,roll_mode=?,rolls=?,no_drop_weight=?,is_enabled=?,owner_test_only=?,config_version=config_version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(poolCode,name,text(raw.description,400),mode,int(raw.rolls,1,100,1),num(raw.noDropWeight??raw.no_drop_weight,0,100000000,0),raw.isEnabled===false?0:1,raw.ownerTestOnly?1:0,id).run()}
     else{const created=await env.DB.prepare(`INSERT INTO ${POOL_TABLE}(code,name,description,roll_mode,rolls,no_drop_weight,is_enabled,owner_test_only) VALUES(?,?,?,?,?,?,?,?)`).bind(poolCode,name,text(raw.description,400),mode,int(raw.rolls,1,100,1),num(raw.noDropWeight??raw.no_drop_weight,0,100000000,0),raw.isEnabled===false?0:1,raw.ownerTestOnly?1:0).run();poolId=Number(created.meta?.last_row_id||0)}
     const statements=[env.DB.prepare(`DELETE FROM ${ENTRY_TABLE} WHERE pool_id=?`).bind(poolId)];
     for(const entry of entries)statements.push(env.DB.prepare(`INSERT INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,chance_percent,weight,min_quantity,max_quantity,daily_limit,conditions_json,sort_order,is_enabled) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(poolId,entry.rewardType,entry.rewardRef,entry.rewardName,entry.chancePercent,entry.weight,entry.minQuantity,entry.maxQuantity,entry.dailyLimit,entry.conditionsJson,entry.sortOrder,entry.isEnabled?1:0));
-    await env.DB.batch(statements);if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'UNIFIED_DROP_POOL_SAVE','DROP_POOL',String(poolId),before,{code:poolCode,name,mode,entries:entries.length});return deps.json({ok:true,poolId,snapshot:await adminSnapshot(env)});
+    await env.DB.batch(statements);bindingCache.clear();if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'UNIFIED_DROP_POOL_SAVE','DROP_POOL',String(poolId),before,{code:poolCode,name,mode,entries:entries.length});return deps.json({ok:true,poolId,snapshot:await adminSnapshot(env)});
   }
   if(action==='SAVE_BINDINGS'){
     const bindings=(Array.isArray(body.bindings)?body.bindings:[]).slice(0,200).map((raw,index)=>({sourceType:code(raw.sourceType||raw.source_type),sourceId:text(raw.sourceId||raw.source_id||'*',120)||'*',triggerType:code(raw.triggerType||raw.trigger_type||'WIN'),poolId:int(raw.poolId||raw.pool_id,1),priority:int(raw.priority,-100000,100000,index),isEnabled:raw.isEnabled!==false&&Number(raw.is_enabled)!==0}));
     for(const binding of bindings){if(!binding.sourceType||!binding.triggerType)return deps.json({error:'콘텐츠와 지급 조건을 입력하세요.'},400);if(!await env.DB.prepare(`SELECT id FROM ${POOL_TABLE} WHERE id=?`).bind(binding.poolId).first())return deps.json({error:`드랍풀 #${binding.poolId}을 찾을 수 없습니다.`},400)}
-    const statements=[env.DB.prepare(`DELETE FROM ${BINDING_TABLE}`)];for(const binding of bindings)statements.push(env.DB.prepare(`INSERT INTO ${BINDING_TABLE}(source_type,source_id,trigger_type,pool_id,priority,is_enabled) VALUES(?,?,?,?,?,?)`).bind(binding.sourceType,binding.sourceId,binding.triggerType,binding.poolId,binding.priority,binding.isEnabled?1:0));await env.DB.batch(statements);if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'UNIFIED_DROP_BINDINGS_SAVE','DROP_BINDING','ALL',null,{count:bindings.length});return deps.json({ok:true,snapshot:await adminSnapshot(env)});
+    const statements=[env.DB.prepare(`DELETE FROM ${BINDING_TABLE}`)];for(const binding of bindings)statements.push(env.DB.prepare(`INSERT INTO ${BINDING_TABLE}(source_type,source_id,trigger_type,pool_id,priority,is_enabled) VALUES(?,?,?,?,?,?)`).bind(binding.sourceType,binding.sourceId,binding.triggerType,binding.poolId,binding.priority,binding.isEnabled?1:0));await env.DB.batch(statements);bindingCache.clear();if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'UNIFIED_DROP_BINDINGS_SAVE','DROP_BINDING','ALL',null,{count:bindings.length});return deps.json({ok:true,snapshot:await adminSnapshot(env)});
   }
   if(action==='SIMULATE'){
     const poolId=int(body.poolId,1),iterations=int(body.iterations,100,100000,10000),pool=await env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE id=?`).bind(poolId).first();if(!pool)return deps.json({error:'시뮬레이션할 드랍풀을 찾을 수 없습니다.'},404);const rows=await env.DB.prepare(`SELECT * FROM ${ENTRY_TABLE} WHERE pool_id=? AND is_enabled=1 ORDER BY sort_order,id`).bind(poolId).all(),counts=new Map(),random=Math.random;let empty=0,totalRewards=0;for(let i=0;i<iterations;i++){const rolled=rollPool(pool,rows.results||[],body.context||{},random);if(!rolled.length)empty++;for(const reward of rolled){const key=String(reward.entryId),prior=counts.get(key)||{entryId:reward.entryId,rewardName:reward.rewardName,rewardType:reward.rewardType,rewardRef:reward.rewardRef,hits:0,quantity:0};prior.hits++;prior.quantity+=reward.quantity;counts.set(key,prior);totalRewards++}}return deps.json({ok:true,iterations,empty,emptyRate:Number((empty/iterations*100).toFixed(4)),averageRewards:Number((totalRewards/iterations).toFixed(6)),results:[...counts.values()].map(row=>({...row,hitRate:Number((row.hits/iterations*100).toFixed(4)),averageQuantity:Number((row.quantity/iterations).toFixed(6))}))});
