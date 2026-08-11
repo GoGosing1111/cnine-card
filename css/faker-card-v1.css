@@ -95,10 +95,10 @@
 .card-frame.faker-championship-card>.faker-t1-mark{
   position:absolute;
   z-index:28;
-  top:9.2%;
-  left:40.75%;
-  width:18.5%;
-  height:6.2%;
+  top:11.2%;
+  left:39%;
+  width:22%;
+  height:7.6%;
   object-fit:contain;
   pointer-events:none;
   user-select:none;
