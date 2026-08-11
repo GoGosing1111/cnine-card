@@ -2,7 +2,7 @@
   const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
   const fmt=v=>Number(v||0).toLocaleString('ko-KR');let state=null,timer=0,pollTimer=0,busy=false,termsAccepted=false;
   const api=(p,o={},c={})=>window.apiRequest(p,o,c);
-  const eventStatus=e=>e.status==='OPEN'?'참여 중':e.status==='CLOSED'?'결과 대기':e.status==='SETTLED'?'정산 완료':'무효·환불';
+  const eventStatus=e=>e.status==='OPEN'?'참여 중':e.status==='CLOSED'?'진행 중':e.status==='SETTLED'?'정산 완료':'무효·환불';
   function predicted(e,o){const pool=Number(e.total_pool||0),mine=Number(o.total_bet||0);if(!pool||!mine)return'집계 중';return `예상 ${(pool*.9/mine).toFixed(2)}배`}
   function timeParts(ms){const seconds=Math.max(0,Math.ceil(ms/1000));return{hours:String(Math.floor(seconds/3600)).padStart(2,'0'),minutes:String(Math.floor(seconds%3600/60)).padStart(2,'0'),seconds:String(seconds%60).padStart(2,'0')}}
   function clockMetrics(e,remain){const end=Date.parse(e.closes_at||''),start=Date.parse(e.created_at||''),total=Number.isFinite(start)&&Number.isFinite(end)&&end>start?end-start:Math.max(remain,1),ratio=Math.max(0,Math.min(1,remain/total));return{ratio,offset:(301.593*(1-ratio)).toFixed(2),level:remain<=300000?'is-critical':remain<=3600000?'is-warning':''}}
