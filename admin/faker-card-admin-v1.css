@@ -1,8 +1,8 @@
-.adminCard.fakerAdminCard .cardThumbWrap{overflow:visible;aspect-ratio:2/3;background:#070304;box-shadow:0 0 18px rgba(255,37,50,.26)}
-.adminCard.fakerAdminCard .cardThumbWrap>img:not(.fakerAdminFrame):not(.zenithAdminFrame){width:100%;height:100%;object-fit:cover}
+.adminCard.fakerAdminCard .cardThumbWrap{overflow:visible;aspect-ratio:2/3;background:transparent;box-shadow:0 0 18px rgba(255,37,50,.26)}
+.adminCard.fakerAdminCard .cardThumbWrap>img:not(.fakerAdminFrame):not(.zenithAdminFrame){position:absolute;z-index:1;inset:14% 20.1% 17.2%;width:59.8%;height:68.8%;object-fit:cover;border-radius:3%;clip-path:polygon(2.5% 0,97.5% 0,100% 2.5%,100% 96.5%,96.5% 100%,3.5% 100%,0 96.5%,0 2.5%)}
 .fakerAdminFrame{position:absolute;z-index:5;inset:0;width:100%!important;height:100%!important;object-fit:fill!important;border-radius:0!important;pointer-events:none;filter:drop-shadow(0 0 7px rgba(255,40,52,.56)) drop-shadow(0 0 8px rgba(218,159,61,.26))}
 .cmsNewCardGrid article.cmsFakerCard{overflow:visible;border-color:rgba(255,64,72,.62);box-shadow:0 0 22px rgba(255,38,50,.24),0 0 12px rgba(233,179,73,.18)}
-.cmsFakerVisual{position:relative;isolation:isolate;width:100%;aspect-ratio:2/3;background:#070304}
-.cmsNewCardGrid .cmsFakerVisual>img:not(.cmsFakerFrame){position:absolute;z-index:0;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover;border-radius:5%}
+.cmsFakerVisual{position:relative;isolation:isolate;width:100%;aspect-ratio:2/3;background:transparent}
+.cmsNewCardGrid .cmsFakerVisual>img:not(.cmsFakerFrame){position:absolute;z-index:0;inset:14% 20.1% 17.2%;width:59.8%;height:68.8%;aspect-ratio:auto;object-fit:cover;border-radius:3%;clip-path:polygon(2.5% 0,97.5% 0,100% 2.5%,100% 96.5%,96.5% 100%,3.5% 100%,0 96.5%,0 2.5%)}
 .cmsNewCardGrid .cmsFakerFrame{position:absolute;z-index:3;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:fill;border-radius:0;pointer-events:none;filter:drop-shadow(0 0 7px rgba(255,40,52,.58)) drop-shadow(0 0 8px rgba(218,159,61,.28))}
 .cmsFakerCard>.cmsGrade{z-index:5;color:#ffe3a0!important;border-color:rgba(244,191,84,.7)!important;background:linear-gradient(135deg,#1a0809,#7b0713)!important;box-shadow:0 0 10px rgba(255,43,54,.42)!important}
