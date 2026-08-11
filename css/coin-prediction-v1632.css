@@ -1076,3 +1076,132 @@
     transition: none !important;
   }
 }
+
+/* v1659 — KST daily prediction champion */
+.cp-daily-champion {
+  position: relative;
+  flex: 0 1 310px;
+  min-width: 260px;
+  padding: 15px 18px 14px;
+  border: 1px solid #7288a459;
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 90% 0, #ffe09b24, transparent 38%),
+    linear-gradient(145deg, #111827e8, #070b14ed);
+  box-shadow: 0 18px 45px #0008, inset 0 1px #fff2, inset 0 0 30px #758ba414;
+  isolation: isolate;
+}
+
+.cp-daily-champion::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 20%, #fff1 48%, transparent 72%);
+  translate: -120% 0;
+  animation: cp-champion-sheen 6s ease-in-out infinite;
+}
+
+.cp-daily-champion.has-winner {
+  border-color: #f5cf746e;
+  box-shadow: 0 18px 48px #0009, 0 0 30px #e2b7541f, inset 0 1px #fff3, inset 0 0 32px #e3b65017;
+}
+
+.cp-champion-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #9cadc2;
+  font-size: 8px;
+  font-weight: 950;
+  letter-spacing: .16em;
+}
+
+.cp-champion-label i {
+  color: #f6cf73;
+  font-size: 13px;
+  font-style: normal;
+  filter: drop-shadow(0 0 8px #e7b64c88);
+}
+
+.cp-champion-main {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  min-width: 0;
+  margin-top: 7px;
+}
+
+.cp-champion-main small {
+  flex: 0 0 auto;
+  color: #e7c573;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.cp-champion-main b {
+  min-width: 0;
+  overflow: hidden;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 950;
+  letter-spacing: -.035em;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 18px #000;
+  white-space: nowrap;
+}
+
+.cp-daily-champion > strong {
+  display: block;
+  margin-top: 3px;
+  color: #ffe08d;
+  font-size: clamp(20px, 2vw, 27px);
+  font-weight: 1000;
+  letter-spacing: -.04em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+  text-shadow: 0 0 22px #e8b84642;
+  white-space: nowrap;
+}
+
+.cp-daily-champion > strong small {
+  color: #bda66e;
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+
+.cp-daily-champion > strong.is-empty {
+  color: #8798ae;
+  font-size: 17px;
+  text-shadow: none;
+}
+
+.cp-daily-champion > em {
+  display: block;
+  margin-top: 7px;
+  color: #8799b0;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 750;
+}
+
+@keyframes cp-champion-sheen {
+  0%, 64% { translate: -120% 0; }
+  82%, 100% { translate: 120% 0; }
+}
+
+@media (max-width: 1120px) {
+  .cp-hero { flex-wrap: wrap; }
+  .cp-daily-champion { order: 3; flex-basis: 100%; }
+}
+
+@media (max-width: 720px) {
+  .cp-hero { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .cp-daily-champion { order: initial; min-width: 0; width: 100%; padding: 13px 15px; }
+  .cp-daily-champion > strong { font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cp-daily-champion::before { animation: none !important; }
+}
