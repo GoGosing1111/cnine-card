@@ -98,7 +98,7 @@
       </section>
       ${acquisitionPanel(cfg)}
       ${magicCardEditor()}
-      <section class="panel"><div class="maintenanceHead"><div><small>REGISTERED MAGIC CARDS</small><h2>등록된 마법카드</h2><p>삭제하지 않고 비활성화 방식으로 운영합니다.</p></div><button id="magicNewCard" class="ghost">새 마법카드</button></div><div class="magicCardAdminGrid">${(d.cards||[]).map(magicCardRow).join('')||'<div class="magicAdminEmpty">등록된 마법카드가 없습니다.</div>'}</div></section>`;
+      <section class="panel"><div class="maintenanceHead"><div><small>REGISTERED MAGIC CARDS</small><h2>등록된 마법카드</h2><p>삭제하지 않고 비활성화 방식으로 운영합니다.</p></div><div class="magicAdminHeadActions"><a class="ghost magicLivePreviewLink" href="/preview/battle-v2/" target="_blank" rel="noopener">실전 V2 프리뷰</a><button id="magicNewCard" class="ghost">새 마법카드</button></div></div><div class="magicCardAdminGrid">${(d.cards||[]).map(magicCardRow).join('')||'<div class="magicAdminEmpty">등록된 마법카드가 없습니다.</div>'}</div></section>`;
     bindMagicAdmin();
   }
   function uniqueToast(message,type='ok'){

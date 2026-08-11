@@ -3,99 +3,39 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#07111f">
-  <title>숲켓몬 전투엔진 V2 프리뷰</title>
-  <link rel="stylesheet" href="/css/card.css?v=1314">
-  <link rel="stylesheet" href="/css/card-unique-battle-fx-v1174.css?v=1314">
-  <link rel="stylesheet" href="./battle-v2.css?v=1314">
+  <meta name="theme-color" content="#030811">
+  <title>마법카드 V2 · 실전 전투 프리뷰</title>
+  <link rel="stylesheet" href="/css/style.css?v=1662-magic-v2-live-preview">
+  <link rel="stylesheet" href="/css/card.css?v=1662-magic-v2-live-preview">
+  <link rel="stylesheet" href="/css/card-unique-battle-fx-v1174.css?v=1662-magic-v2-live-preview">
+  <link rel="stylesheet" href="/css/faker-card-v1.css?v=1662-magic-v2-live-preview">
+  <link rel="stylesheet" href="/css/battle-v2-live.css?v=1662-magic-v2-live-preview">
+  <link rel="stylesheet" href="./live-preview.css?v=1662-magic-v2-live-preview">
 </head>
-<body>
-  <main id="battleV2App" class="battle-v2-shell layout-desktop">
-    <header class="battle-v2-header">
-      <div>
-        <p>SOOPKETMON · IMPLEMENTATION PREVIEW</p>
-        <h1>전투엔진 V2</h1>
-        <span>동일한 서버 타임라인을 PC·와고·모바일 화면에 맞춰 끊김 없이 표현합니다.</span>
-      </div>
-      <div class="battle-v2-badges">
-        <b>DB WRITE 0</b><b>HP POWER SCALE</b><b>RESPONSIVE TIMELINE</b>
-      </div>
-    </header>
-
-    <section id="battleV2Status" class="battle-v2-status">전투 데이터를 불러오는 중...</section>
-
-    <section class="battle-v2-scoreboard">
-      <article class="team-summary team-a" id="teamSummaryA"></article>
-      <div class="battle-v2-center-mark"><span>ENGINE V2</span><strong>VS</strong><small id="battleSeed">SEED -</small></div>
-      <article class="team-summary team-b" id="teamSummaryB"></article>
-    </section>
-
-    <section class="battle-v2-controls">
-      <button type="button" id="battleV2Play" class="primary">전투 시작</button>
-      <button type="button" id="battleV2Replay">다시 재생</button>
-      <button type="button" id="battleV2Reroll">새 전투 계산</button>
-      <label class="layout-control">화면 표현
-        <select id="battleV2Layout">
-          <option value="auto" selected>자동 감지</option>
-          <option value="desktop">PC 전체 전장</option>
-          <option value="wago">와고 집중 전투</option>
-          <option value="mobile-portrait">모바일 세로</option>
-          <option value="mobile-landscape">모바일 가로</option>
+<body class="battle-v2-preview-page">
+  <aside class="live-preview-console" aria-label="마법카드 V2 프리뷰 조작부">
+    <button class="live-preview-console-toggle" type="button" aria-expanded="true" aria-controls="livePreviewConsoleBody">
+      <span><i></i> LIVE V2</span><b>마법카드 프리뷰</b>
+    </button>
+    <div id="livePreviewConsoleBody" class="live-preview-console-body">
+      <p>본게임과 동일한 전투 계산·카드 프레임·마법 연출 렌더러를 사용합니다.</p>
+      <label>마법카드 구성
+        <select id="magicPreviewMode">
+          <option value="EXAMPLES" selected>CMS 예시 7종 전체</option>
+          <option value="LOADOUT">내 실제 PVP 장착 덱</option>
         </select>
       </label>
-      <label>재생 속도
-        <select id="battleV2Speed" disabled aria-label="재생 속도 1.6배 고정">
-          <option value="1.6" selected>1.6배 고정</option>
-        </select>
-      </label>
-      <button type="button" id="battleV2Fullscreen" class="fullscreen-button">전체화면</button>
-      <button type="button" id="battleV2OpenWindow">독립 화면</button>
-      <a href="/" class="back-main">메인으로</a>
-    </section>
-
-    <div class="battle-v2-layout-note">
-      <b id="battleV2LayoutBadge">PC 전체 전장</b>
-      <span id="battleV2LayoutDetail">10장 전체 배치 · 카드 프레임과 모든 이펙트 유지</span>
+      <div class="live-preview-actions">
+        <button id="magicPreviewReplay" type="button">같은 전투 다시 보기</button>
+        <button id="magicPreviewReroll" type="button">새 전투 계산</button>
+      </div>
+      <div id="magicPreviewStatus" class="live-preview-status">전투 데이터를 준비하고 있습니다.</div>
+      <div id="magicPreviewCards" class="live-preview-card-strip"></div>
+      <a href="/admin/" class="live-preview-admin-link">CMS로 돌아가기</a>
     </div>
-
-    <section id="battleV2Arena" class="battle-v2-arena" aria-live="polite">
-      <div class="arena-glow"></div>
-      <div class="action-order" id="battleV2Order"></div>
-      <div class="team-field team-field-a" id="teamFieldA"></div>
-      <div class="battle-v2-message desktop-message" id="battleV2Message"><small>TACTICAL BATTLE</small><strong>READY</strong><span>전열과 후열을 배치하는 중</span></div>
-      <div class="team-field team-field-b" id="teamFieldB"></div>
-
-      <div class="focus-battle" id="battleV2Focus" aria-hidden="true">
-        <div class="focus-roster focus-roster-b" id="focusRosterB"></div>
-        <div class="focus-duel">
-          <div class="focus-slot focus-slot-a" id="focusSlotA"></div>
-          <div class="battle-v2-message focus-message" id="battleV2FocusMessage"><small>TACTICAL BATTLE</small><strong>READY</strong><span>현재 행동 카드를 집중 표시합니다.</span></div>
-          <div class="focus-slot focus-slot-b" id="focusSlotB"></div>
-        </div>
-        <div class="focus-roster focus-roster-a" id="focusRosterA"></div>
-      </div>
-
-      <div id="battleV2Fx" class="battle-v2-fx"></div>
-    </section>
-
-    <section class="battle-v2-lower">
-      <article class="battle-v2-log">
-        <header><div><small>LIVE TIMELINE</small><h2>전투 기록</h2></div><span id="battleV2Progress">0 / 0</span></header>
-        <div id="battleV2LogList"></div>
-      </article>
-      <article class="battle-v2-explain">
-        <small>V2 RULES</small>
-        <h2>이번 검증 범위</h2>
-        <ul>
-          <li><b>공격형</b><span>방어 관통·처형·치명타</span></li>
-          <li><b>방어형</b><span>시작 방벽·피해 감소·반격</span></li>
-          <li><b>생명형</b><span>지속 회복·긴급 회복·1회 생존</span></li>
-          <li><b>속도형</b><span>선행 게이지·회피·행동 지연</span></li>
-        </ul>
-        <p>화면 모드나 방향을 바꿔도 서버에 전투를 다시 요청하지 않으며 현재 행동 번호와 HP·방벽·게이지 상태를 그대로 유지합니다.</p>
-      </article>
-    </section>
-  </main>
-  <script src="./battle-v2.js?v=1315-fixed-1-6"></script>
+  </aside>
+  <div id="battleV2PreviewModal" aria-live="polite"></div>
+  <script src="/js/battle-v2-live.js?v=1662-magic-v2-live-preview"></script>
+  <script src="./live-preview.js?v=1662-magic-v2-live-preview"></script>
 </body>
 </html>
