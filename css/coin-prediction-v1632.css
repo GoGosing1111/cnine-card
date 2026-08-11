@@ -1108,6 +1108,31 @@
   box-shadow: 0 18px 48px #0009, 0 0 30px #e2b7541f, inset 0 1px #fff3, inset 0 0 32px #e3b65017;
 }
 
+.cp-hero aside.owner-unlimited {
+  border-color: #73e8ff80;
+  background: linear-gradient(145deg, #102434ed, #070b14ed);
+  box-shadow: 0 18px 42px #0008, 0 0 30px #51dff01c, inset 0 1px #fff2, inset 0 0 28px #58dff51c;
+}
+
+.cp-hero aside.owner-unlimited::before {
+  content: "★";
+  border-color: #69dff69a;
+  background: #1bbbd328;
+  color: #81ecff;
+  box-shadow: 0 0 24px #4ee4ff42;
+}
+
+.cp-hero aside.owner-unlimited #cpBetLimit,
+.cp-event-meta .owner-unlimited {
+  color: #70e7fa;
+}
+
+.cp-event-meta .owner-unlimited {
+  border-color: #64e3f75c;
+  background: #0c42504a;
+  box-shadow: inset 0 0 14px #51dff018;
+}
+
 .cp-champion-label {
   display: flex;
   align-items: center;
