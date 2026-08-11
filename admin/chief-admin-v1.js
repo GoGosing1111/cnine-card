@@ -87,9 +87,9 @@
               <h3>${chief.active ? esc(chief.nickname) : '공석'}</h3>
               <p>${chief.active ? `${new Date(chief.endsAt).toLocaleString('ko-KR')}까지 · ${Math.ceil(chief.remainingMs / 3600000)}시간 남음` : '현재 부임 중인 족장이 없습니다.'}</p>
               ${chief.active ? `<div class="chief-admin-usage">
-                <span>오늘 버닝 ${chief.usage.burningToday}/1</span>
+                <span>오늘 버닝 ${chief.usage.burningToday}/2</span>
                 <span>오늘 하이퍼 ${chief.usage.hyperToday}/1</span>
-                <span>탑 초기화 ${chief.usage.towerResetUsed ? '사용' : '미사용'}</span>
+                <span>탑 초기화 ${chief.usage.towerResetCount||0}/2</span>
               </div>` : ''}
             </div>
           </div>

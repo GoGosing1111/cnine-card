@@ -31,16 +31,17 @@ async function appointment(env){
   return {...raw,userId:Number(raw.userId),nickname:user?.nickname||raw.nickname||'',startsAt,endsAt,active:Boolean(user&&user.status==='ACTIVE'&&now>=Date.parse(startsAt)&&now<Date.parse(endsAt))};
 }
 async function usage(env,a){
-  if(!a.id)return {burningToday:0,hyperToday:0,towerResetUsed:false};
+  if(!a.id)return {burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false};
   const [daily,total]=await env.DB.batch([
     env.DB.prepare('SELECT power_type,COUNT(*) count FROM chief_power_uses WHERE appointment_id=? AND period_key=? GROUP BY power_type').bind(a.id,kstDate()),
     env.DB.prepare("SELECT COUNT(*) count FROM chief_power_uses WHERE appointment_id=? AND power_type='TOWER_RESET'").bind(a.id)
   ]),d=Object.fromEntries((daily.results||[]).map(x=>[x.power_type,Number(x.count||0)]));
-  return {burningToday:d.BURNING||0,hyperToday:d.HYPER||0,towerResetUsed:Number(total.results?.[0]?.count||0)>0};
+  const towerResetCount=Number(total.results?.[0]?.count||0);
+  return {burningToday:d.BURNING||0,hyperToday:d.HYPER||0,towerResetCount,towerResetUsed:towerResetCount>=2};
 }
 function publicState(a,u,viewerId){
   const remaining=Math.max(0,Date.parse(a.endsAt||0)-Date.now());
-  return {active:a.active===true,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',source:'와이고수 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:a.active===true&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetUsed:false},limits:{burningHours:3,hyperHours:1,towerResetsPerTerm:1}};
+  return {active:a.active===true,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',source:'와이고수 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:a.active===true&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningHours:3,burningUsesPerDay:2,hyperHours:1,towerResetsPerTerm:2}};
 }
 async function activateBurning(env,a,type){
   const hyper=type==='HYPER',durationHours=hyper?1:3,key=hyper?HYPER_KEY:BURNING_KEY,other=hyper?BURNING_KEY:HYPER_KEY,now=new Date(),endsAt=new Date(now.getTime()+durationHours*3600000).toISOString();
@@ -52,10 +53,10 @@ async function activateBurning(env,a,type){
 }
 async function activate(env,a,user,type){
   const u=await usage(env,a),now=new Date(),period=type==='TOWER_RESET'?String(a.id):kstDate(now);
-  if(type==='BURNING'&&u.burningToday>=1)throw new Error('오늘의 버닝 선포 권한을 이미 사용했습니다.');
+  if(type==='BURNING'&&u.burningToday>=2)throw new Error('오늘의 버닝 선포 2회를 모두 사용했습니다.');
   if(type==='HYPER'&&u.hyperToday>=1)throw new Error('오늘의 하이퍼 버닝 선포 권한을 이미 사용했습니다.');
-  if(type==='TOWER_RESET'&&u.towerResetUsed)throw new Error('이번 임기의 무한의 탑 초기화 권한을 이미 사용했습니다.');
-  const slot=1;
+  if(type==='TOWER_RESET'&&u.towerResetCount>=2)throw new Error('이번 임기의 무한의 탑 초기화 2회를 모두 사용했습니다.');
+  const slot=type==='BURNING'?u.burningToday+1:type==='TOWER_RESET'?u.towerResetCount+1:1;
   const reserved=await env.DB.prepare('INSERT OR IGNORE INTO chief_power_uses(appointment_id,user_id,power_type,period_key,use_slot,starts_at,details_json) VALUES(?,?,?,?,?,?,?)').bind(a.id,user.id,type,period,slot,now.toISOString(),JSON.stringify({status:'PENDING'})).run();
   if(!Number(reserved.meta?.changes||0))throw new Error('동일한 족장 권한이 이미 처리되었거나 사용되었습니다.');
   try{

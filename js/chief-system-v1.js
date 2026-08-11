@@ -10,13 +10,20 @@
   function powerButton(type,label,sub,used){return `<button type="button" class="chief-power${used?' is-used':''}" data-chief-power="${type}" data-chief-used="${used?'1':'0'}" aria-disabled="${used?'true':'false'}"><span>${label}</span><small>${used?sub+' · 사용 완료':sub}</small></button>`}
   function markup(){
     const c=state?.chief;if(!c?.active)return `<section class="chief-main-card vacant"><div><small>FOREST COUNCIL</small><h2>족장 선출 대기</h2><p>와이고수 투표 결과에 따라 CMS에서 차기 족장을 임명합니다.</p></div></section>`;
-    const u=c.usage||{};
+    const u={...(c.usage||{})};
+    const actualBurningToday=Number(u.burningToday||0),actualTowerResets=Number(u.towerResetCount||0);
+    if(actualBurningToday===1)u.burningToday=0;
+    u.towerResetUsed=actualTowerResets>=2;
     return `<section class="chief-main-card${c.isChief?' is-chief':''}"><div class="chief-art"><img src="assets/chief-council-election-v1.png" alt="대의회에서 족장이 선출되는 장면"><i></i></div><div class="chief-copy"><small>THE ELECTED CHIEF · 와이고수 투표 선출</small><h2><em>제${c.inaugurationVersion?' '+String(c.inaugurationVersion).slice(-3):''}대 족장</em> ${esc(c.nickname)}</h2><p>숲켓몬 대의회의 뜻을 받들어 7일간 부족을 이끕니다.</p><div class="chief-term"><span><b>${remaining(c.remainingMs)}</b> 남음</span><time>${new Date(c.endsAt).toLocaleString('ko-KR')}까지</time></div></div>${c.isChief?`<div class="chief-console"><header><span>족장 권한</span><small>모든 제한은 서버에서 검증됩니다</small></header><div class="chief-power-grid">${powerButton('HYPER','하이퍼 버닝','오늘 1시간',u.hyperToday>=1)}${powerButton('BURNING','숲켓몬 버닝','오늘 3시간',u.burningToday>=1)}${powerButton('TOWER_RESET','무한의 탑 초기화','임기 중 1회',u.towerResetUsed)}</div></div>`:`<div class="chief-public-powers"><span>매일 버닝 선포</span><span>임기 1회 탑 초기화</span></div>`}</section>`;
   }
   function mount(){
     if(typeof runtimeCommandContext==='undefined'||runtimeCommandContext!=='buy')return;
     const page=document.querySelector('.page'),summary=page?.querySelector('.summary-bar');if(!page||!summary)return;
     let root=document.getElementById('chiefMainRoot');if(!root){root=document.createElement('div');root.id='chiefMainRoot';summary.insertAdjacentElement('afterend',root)}const nextMarkup=markup();if(root.innerHTML!==nextMarkup)root.innerHTML=nextMarkup;
+    const u=state?.chief?.usage||{},burning=root.querySelector('[data-chief-power="BURNING"]'),tower=root.querySelector('[data-chief-power="TOWER_RESET"]');
+    if(burning)burning.querySelector('small').textContent=`오늘 ${Number(u.burningToday||0)}/2회 · 3시간${Number(u.burningToday||0)>=2?' · 사용 완료':''}`;
+    if(tower)tower.querySelector('small').textContent=`임기 중 ${Number(u.towerResetCount||0)}/2회${Number(u.towerResetCount||0)>=2?' · 사용 완료':''}`;
+    const publicPowers=root.querySelectorAll('.chief-public-powers span');if(publicPowers[0])publicPowers[0].textContent='매일 버닝 2회';if(publicPowers[1])publicPowers[1].textContent='임기 2회 탑 초기화';
     const strip=page.querySelector(':scope > .burning-event-strip');if(strip){let dock=page.querySelector('.chief-event-dock');if(!dock){dock=document.createElement('div');dock.className='chief-event-dock';const nav=page.querySelector('.main-nav');(nav||summary).insertAdjacentElement('afterend',dock)}dock.replaceChildren(strip)}
   }
   function actionStatus(message,error=false){let el=document.getElementById('chiefActionStatus');if(!el){const consolePanel=document.querySelector('#chiefMainRoot .chief-console');if(!consolePanel)return;el=document.createElement('p');el.id='chiefActionStatus';el.className='chief-action-status';el.setAttribute('role','status');el.setAttribute('aria-live','polite');consolePanel.appendChild(el)}el.textContent=message||'';el.classList.toggle('error',error)}
