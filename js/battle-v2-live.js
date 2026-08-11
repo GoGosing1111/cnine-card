@@ -11,7 +11,14 @@
     CRISIS_HEAL:{ kind:'hp', label:'위기 회복', target:'ally' },
     PUNISH_TRAP:{ kind:'attack', label:'응징 함정', target:'enemy' },
     ARCANE_COUNTER:{ kind:'defense', label:'비전 반격', target:'enemy' },
-    FOLLOWUP_HASTE:{ kind:'speed', label:'연계 가속', target:'ally' }
+    FOLLOWUP_HASTE:{ kind:'speed', label:'연계 가속', target:'ally' },
+    ARCANE_SEAL:{ kind:'defense', label:'마법 봉인', target:'enemy' },
+    DOOM_MARK:{ kind:'attack', label:'파멸 낙인', target:'enemy' },
+    SHIELD_SIPHON:{ kind:'defense', label:'보호막 강탈', target:'enemy' },
+    TIME_DISTORTION:{ kind:'speed', label:'시간 왜곡', target:'enemy' },
+    PHOENIX_REVIVE:{ kind:'hp', label:'불사조 부활', target:'ally' },
+    PURIFY_LIGHT:{ kind:'hp', label:'성광 정화', target:'ally' },
+    CHAIN_ECHO:{ kind:'attack', label:'연쇄 잔영', target:'enemy' }
   });
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[ch]));
   const number = value => Math.max(0, Math.round(Number(value || 0))).toLocaleString();
@@ -263,7 +270,7 @@
     function startMagicWebGL(canvas,targetNode,kind,effectType){
       if(!canvas||MOBILE_LOW_FX)return()=>{};
       const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true});if(!gl)return()=>{};
-      const palette={attack:[.72,.22,1],defense:[.2,.82,1],hp:[.22,1,.58],speed:[1,.82,.2]},modes={OPENING_ATTACK:0,GUARD_BARRIER:1,LIFE_AMPLIFY:2,CRISIS_HEAL:3,PUNISH_TRAP:4,ARCANE_COUNTER:5,FOLLOWUP_HASTE:6},color=palette[kind]||palette.attack,mode=modes[String(effectType||'').toUpperCase()]??0,started=performance.now();let frame=0,dead=false;
+      const palette={attack:[.72,.22,1],defense:[.2,.82,1],hp:[.22,1,.58],speed:[1,.82,.2]},modes={OPENING_ATTACK:0,GUARD_BARRIER:1,LIFE_AMPLIFY:2,CRISIS_HEAL:3,PUNISH_TRAP:4,ARCANE_COUNTER:5,FOLLOWUP_HASTE:6,ARCANE_SEAL:4,DOOM_MARK:0,SHIELD_SIPHON:5,TIME_DISTORTION:6,PHOENIX_REVIVE:2,PURIFY_LIGHT:3,CHAIN_ECHO:0},color=palette[kind]||palette.attack,mode=modes[String(effectType||'').toUpperCase()]??0,started=performance.now();let frame=0,dead=false;
       const shader=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s)||'magic shader');return s;};
       const program=(vs,fs)=>{const p=gl.createProgram();gl.attachShader(p,shader(gl.VERTEX_SHADER,vs));gl.attachShader(p,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p)||'magic program');return p;};
       let field,particles;
@@ -293,19 +300,24 @@
       renderOrder(state.cursor);
       // V1319: 판정·타임라인은 그대로 유지하고 후반부 재생 시간만 단계적으로 압축한다.
       const base = state.cursor >= 80 ? 260 : state.cursor >= 40 ? 330 : 420;
+      if(event.type==='MAGIC_SEAL_BLOCK'){
+        const targetId=event.targetId||event.actorId;focusTarget(targetId);const node=fighterNode(targetId);pulse(node,'is-shield',760);burstFx(node,'defense',true);damageNumber(node,'MAGIC BLOCK','shield');setMessage('ARCANE SEAL','마법 발동 봉인',event.magicName||'다음 마법이 봉인되었습니다.');await sleep(base*.8);return;
+      }
       if(event.type==='MAGIC_CARD'){
-        const kind={OPENING_ATTACK:'attack',GUARD_BARRIER:'defense',LIFE_AMPLIFY:'hp',CRISIS_HEAL:'hp',PUNISH_TRAP:'attack',ARCANE_COUNTER:'defense',FOLLOWUP_HASTE:'speed'}[event.effectType]||'attack',targetId=event.targetId||event.actorId;
+        const kind=MAGIC_EFFECT_RESOURCES[String(event.effectType||'').toUpperCase()]?.kind||'attack',targetId=event.targetId||event.actorId;
         focusTarget(targetId);await playMagicCardSummon(event,kind);
-        const target=updateCard(targetId,{hp:event.hpAfter??event.targetHpAfter,shield:event.targetShieldAfter,gauge:event.gaugeAfter}),actorNode=fighterNode(event.actorId),targetNode=fighterNode(targetId);
+        const target=updateCard(targetId,{hp:event.hpAfter??event.targetHpAfter,shield:event.targetShieldAfter,gauge:event.gaugeAfter}),actor=event.actorShieldAfter==null?null:updateCard(event.actorId,{shield:event.actorShieldAfter}),actorNode=fighterNode(event.actorId),targetNode=fighterNode(targetId);
+        if(event.revived)targetNode?.classList.remove('is-ko');
         arena.classList.remove('magic-field-attack','magic-field-defense','magic-field-hp','magic-field-speed');void arena.offsetWidth;arena.classList.add(`magic-field-${kind}`);setTimeout(()=>arena.classList.remove(`magic-field-${kind}`),1100);
         triggerFx(actorNode,kind,kind==='defense'?'defense':kind==='hp'?'low-hp':'attack');pulse(actorNode,'is-acting',900);
         if(event.damage||event.absorbed){burstFx(targetNode,kind,true);damageNumber(targetNode,`-${number(Number(event.damage||0)+Number(event.absorbed||0))}`,'critical');}
         else if(event.amount){burstFx(targetNode,'hp');damageNumber(targetNode,`+${number(event.amount)}`,'heal');}
+        else if(event.shieldStolen){burstFx(actorNode,'defense',true);damageNumber(actorNode,`SHIELD +${number(event.shieldStolen)}`,'shield');}
         else burstFx(targetNode||actorNode,kind,true);
         setMessage('MAGIC RELEASE',event.magicName||event.magicCode||'마법카드',`${target?.title||''} · 전장 효과 발동`);await sleep(base*1.35);return;
       }
       if (event.type === 'START_EFFECT') { focusTarget(event.targetId); const target=updateCard(event.targetId,{shield:event.shieldAfter});const node=fighterNode(event.targetId);triggerFx(node,'defense','defense');pulse(node,'is-shield',800);damageNumber(node,`SHIELD +${number(event.amount)}`,'shield');setMessage('UNIQUE DEFENSE','선봉 방벽',`${target?.title||''} · 피해 흡수 ${number(event.amount)}`);await sleep(base*.95);return; }
-      if (event.type === 'MAGIC_CARD') { const kind={OPENING_ATTACK:'attack',GUARD_BARRIER:'defense',LIFE_AMPLIFY:'hp',CRISIS_HEAL:'hp',PUNISH_TRAP:'attack',ARCANE_COUNTER:'defense',FOLLOWUP_HASTE:'speed'}[event.effectType]||'attack';const targetId=event.targetId||event.actorId;focusTarget(targetId);const target=updateCard(targetId,{hp:event.hpAfter??event.targetHpAfter,shield:event.targetShieldAfter,gauge:event.gaugeAfter});const actorNode=fighterNode(event.actorId),targetNode=fighterNode(targetId);triggerFx(actorNode,kind,kind==='defense'?'defense':kind==='hp'?'low-hp':'attack');pulse(actorNode,'is-acting',900);if(event.damage||event.absorbed){impactFx(actorNode,targetNode,kind,'MAGIC');burstFx(targetNode,kind,true);damageNumber(targetNode,`-${number(Number(event.damage||0)+Number(event.absorbed||0))}`,'critical');}else if(event.amount){burstFx(targetNode,'hp');damageNumber(targetNode,`+${number(event.amount)}`,'heal');}else damageNumber(actorNode,`MAGIC +${number(event.value)}%`,kind==='defense'?'shield':'heal');setMessage('MAGIC CARD',event.magicName||event.magicCode||'마법카드',`${target?.title||''} · ${event.activation||1}/${event.maxActivations||1}회 발동`);await sleep(base*.95);return; }
+      if (event.type === 'MAGIC_CARD') { const kind=MAGIC_EFFECT_RESOURCES[String(event.effectType||'').toUpperCase()]?.kind||'attack';const targetId=event.targetId||event.actorId;focusTarget(targetId);const target=updateCard(targetId,{hp:event.hpAfter??event.targetHpAfter,shield:event.targetShieldAfter,gauge:event.gaugeAfter});const actorNode=fighterNode(event.actorId),targetNode=fighterNode(targetId);triggerFx(actorNode,kind,kind==='defense'?'defense':kind==='hp'?'low-hp':'attack');pulse(actorNode,'is-acting',900);if(event.damage||event.absorbed){impactFx(actorNode,targetNode,kind,'MAGIC');burstFx(targetNode,kind,true);damageNumber(targetNode,`-${number(Number(event.damage||0)+Number(event.absorbed||0))}`,'critical');}else if(event.amount){burstFx(targetNode,'hp');damageNumber(targetNode,`+${number(event.amount)}`,'heal');}else damageNumber(actorNode,`MAGIC +${number(event.value)}%`,kind==='defense'?'shield':'heal');setMessage('MAGIC CARD',event.magicName||event.magicCode||'마법카드',`${target?.title||''} · ${event.activation||1}/${event.maxActivations||1}회 발동`);await sleep(base*.95);return; }
       if (event.type === 'PVE_ULTIMATE') { const target=fighterState(event.targetId);focusTarget(event.targetId);if (playUltimateCinematics && data.activatedUltimate && mode==='PVE') { const ult={...data.activatedUltimate,playbackRate:PLAYBACK_SPEED,durationMs:Math.max(500,Math.round(Number(data.activatedUltimate.durationMs||3000)/PLAYBACK_SPEED))};try{await playBattleUltimate(root,ult,event.damage||data.ultimateDamage)}catch{}}const visualHp=(mode==='PVE'&&data.result!=='WIN'&&target?.side==='B')?Math.max(1,Number(event.targetHpAfter||0)):event.targetHpAfter;updateCard(event.targetId,{hp:visualHp,shield:event.targetShieldAfter});const node=fighterNode(event.targetId);impactFx(fighterNode(state.activeAId),node,'attack','ULTIMATE');burstFx(node,'attack',true);damageNumber(node,`-${number(Number(event.damage||0)+Number(event.absorbed||0))}`,'critical');setMessage('ULTIMATE','ULTIMATE HIT',target?.title||'MONSTER');await sleep(Math.max(420, base));return; }
       if (event.type === 'BOSS_ULTIMATE') { if(playUltimateCinematics&&data.bossUltimate&&mode==='PVE'){const ult={...data.bossUltimate,playbackRate:PLAYBACK_SPEED,durationMs:Math.max(500,Math.round(Number(data.bossUltimate.durationMs||2400)/PLAYBACK_SPEED))};try{await playBossBattleUltimate(root,preservedPhase,ult)}catch{}}for(const hit of event.hits||[])updateCard(hit.targetId,{hp:hit.targetHpAfter,shield:hit.targetShieldAfter});setMessage('BOSS ULTIMATE','광역 공격',`${(event.hits||[]).length}명 타격`);await sleep(Math.max(440, base));return; }
       if (event.type === 'SINGLE_HEALER_AURA') { for(const item of event.targets||[])updateCard(item.targetId,{hp:item.hpAfter,maxHp:item.maxHp});focusTarget(event.actorId);const node=fighterNode(event.actorId);triggerFx(node,'hp','low-hp');pulse(node,'is-heal',900);setMessage('LIFE LINK','단일 힐러 생명 연결',`아군 전체 최대 HP +${number(event.teamHpPercent)}%`);await sleep(base*.9);return; }

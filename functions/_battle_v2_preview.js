@@ -13,7 +13,14 @@ const MAGIC_V2_PREVIEW_EXAMPLES = [
   { code:'V2_CRISIS_HEAL', name:'긴급 치유의 빛', rarity:'SSR', imageUrl:'assets/ui/magic-cards/crisis-heal-768-v1500.webp', effectType:'CRISIS_HEAL', effectValue:28, triggerChance:100, maxActivations:2 },
   { code:'V2_FOLLOWUP_HASTE', name:'질풍의 연계', rarity:'SR', imageUrl:'assets/ui/magic-cards/followup-haste-768-v1500.webp', effectType:'FOLLOWUP_HASTE', effectValue:22, triggerChance:100, maxActivations:2 },
   { code:'V2_PUNISH_TRAP', name:'응징의 마법진', rarity:'SR', imageUrl:'assets/ui/magic-cards/punish-trap-768-v1500.webp', effectType:'PUNISH_TRAP', effectValue:14, triggerChance:100, maxActivations:2 },
-  { code:'V2_ARCANE_COUNTER', name:'비전 반격', rarity:'SSR', imageUrl:'assets/ui/magic-cards/arcane-counter-768-v1500.webp', effectType:'ARCANE_COUNTER', effectValue:16, triggerChance:100, maxActivations:2 }
+  { code:'V2_ARCANE_COUNTER', name:'비전 반격', rarity:'SSR', imageUrl:'assets/ui/magic-cards/arcane-counter-768-v1500.webp', effectType:'ARCANE_COUNTER', effectValue:16, triggerChance:100, maxActivations:2 },
+  { code:'V2_ARCANE_SEAL', name:'봉인의 칙령', rarity:'SSR', imageUrl:'assets/ui/magic-cards/arcane-seal-768-v1665.webp', effectType:'ARCANE_SEAL', effectValue:1, triggerChance:100, maxActivations:2 },
+  { code:'V2_DOOM_MARK', name:'파멸의 낙인', rarity:'SSR', imageUrl:'assets/ui/magic-cards/doom-mark-768-v1665.webp', effectType:'DOOM_MARK', effectValue:18, triggerChance:100, maxActivations:3 },
+  { code:'V2_SHIELD_SIPHON', name:'강탈의 성배', rarity:'SR', imageUrl:'assets/ui/magic-cards/shield-siphon-768-v1665.webp', effectType:'SHIELD_SIPHON', effectValue:60, triggerChance:100, maxActivations:2 },
+  { code:'V2_TIME_DISTORTION', name:'시간의 족쇄', rarity:'SSR', imageUrl:'assets/ui/magic-cards/time-distortion-768-v1665.webp', effectType:'TIME_DISTORTION', effectValue:30, triggerChance:100, maxActivations:2 },
+  { code:'V2_PHOENIX_REVIVE', name:'불사조의 계약', rarity:'SSR', imageUrl:'assets/ui/magic-cards/phoenix-revive-768-v1665.webp', effectType:'PHOENIX_REVIVE', effectValue:22, triggerChance:100, maxActivations:1 },
+  { code:'V2_PURIFY_LIGHT', name:'정화의 성광', rarity:'SR', imageUrl:'assets/ui/magic-cards/purify-light-768-v1665.webp', effectType:'PURIFY_LIGHT', effectValue:12, triggerChance:100, maxActivations:2 },
+  { code:'V2_CHAIN_ECHO', name:'연쇄의 잔영', rarity:'SSR', imageUrl:'assets/ui/magic-cards/chain-echo-768-v1665.webp', effectType:'CHAIN_ECHO', effectValue:45, triggerChance:100, maxActivations:2 }
 ];
 
 async function magicV2PreviewExamples(env) {
@@ -36,7 +43,7 @@ async function magicV2PreviewExamples(env) {
       imageUrl: String(row?.image_url || fallback.imageUrl),
       effectType: String(row?.effect_type || fallback.effectType).toUpperCase(),
       effectValue: Number(row?.effect_value ?? fallback.effectValue),
-      triggerChance: Number(row?.trigger_chance ?? fallback.triggerChance),
+      triggerChance: Number(fallback.triggerChance),
       maxActivations: Math.max(1, Number(row?.max_activations ?? fallback.maxActivations)),
       registered: Boolean(row?.id)
     };
@@ -279,7 +286,7 @@ function maybeFrontlineBreak(team, side, timeline, clock) {
   pushEvent(timeline, clock, 'FRONTLINE_BREAK', { side, label: side === 'A' ? '아군 전열 붕괴' : '적군 전열 붕괴' });
 }
 
-function resolveKnockout(target, timeline, clock) {
+function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   if (target.hp > 0 || !target.alive) return false;
   if (target.type === 'DEFENSE' && !target.indomitableUsed) {
     target.indomitableUsed = true;
@@ -301,6 +308,7 @@ function resolveKnockout(target, timeline, clock) {
     });
     return false;
   }
+  if (typeof onBeforeKnockout === 'function' && onBeforeKnockout(target, clock) === true) return false;
   target.alive = false;
   target.hp = 0;
   target.gauge = 0;
@@ -329,7 +337,28 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   };
   registerMagic(a,magicA);registerMagic(b,magicB);
-  const activateMagic=(fighter,effectType)=>{const state=magicByFighter.get(fighter?.id);if(!state||state.effectType!==effectType||state.activations>=state.maxActivations||random()*100>=state.triggerChance)return null;state.activations+=1;return state;};
+  const activateMagic=(fighter,effectType)=>{
+    const state=magicByFighter.get(fighter?.id);
+    if(!state||state.effectType!==effectType||state.activations>=state.maxActivations)return null;
+    if(Number(fighter.magicSealCharges||0)>0&&effectType!=='PURIFY_LIGHT'){
+      fighter.magicSealCharges=Math.max(0,Number(fighter.magicSealCharges||0)-1);
+      pushEvent(timeline,clock+0.00001,'MAGIC_SEAL_BLOCK',{actorId:fighter.magicSealSourceId||'',targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,effectType:state.effectType,label:'봉인의 칙령 · 발동 봉인'});
+      if(fighter.magicSealCharges<=0)fighter.magicSealSourceId='';
+      return null;
+    }
+    if(random()*100>=state.triggerChance)return null;
+    state.activations+=1;
+    return state;
+  };
+  const magicEvent=(magic,actor,target,extra={})=>({actorId:actor.id,targetId:target.id,magicCardId:magic.id,magicCode:magic.code,magicName:magic.name,magicImageUrl:magic.imageUrl,magicRarity:magic.rarity,effectType:magic.effectType,value:magic.effectValue,activation:magic.activations,maxActivations:magic.maxActivations,label:magic.name,...extra});
+  const reviveFromMagic=(target,eventClock)=>{
+    const magic=activateMagic(target,'PHOENIX_REVIVE');
+    if(!magic)return false;
+    const amount=Math.max(1,Math.round(target.maxHp*Math.min(100,Number(magic.effectValue||0))/100));
+    target.hp=Math.min(target.maxHp,amount);target.alive=true;
+    pushEvent(timeline,eventClock+0.000001,'MAGIC_CARD',magicEvent(magic,target,target,{amount,hpAfter:target.hp,maxHp:target.maxHp,revived:true}));
+    return true;
+  };
   const suppressSpeedUnique=(guardTeam,targetTeam)=>{
     if(guardTeam.filter(card=>card.type==='DEFENSE').length<2)return;
     for(const fighter of targetTeam.filter(card=>card.type==='SPEED')){
@@ -422,7 +451,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       targetMaxHp: target.maxHp,
       targetShieldAfter: target.shield
     });
-    resolveKnockout(target, timeline, clock + 0.0002);
+    resolveKnockout(target, timeline, clock + 0.0002, reviveFromMagic);
   }
 
   const bossOpeningPercent = clamp(openingBossUltimatePercent, 0, 100);
@@ -442,7 +471,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       });
     }
     pushEvent(timeline, clock + 0.0003, 'BOSS_ULTIMATE', { damagePercent: bossOpeningPercent, hits });
-    for (const target of damagedTargets) resolveKnockout(target, timeline, clock + 0.0004);
+    for (const target of damagedTargets) resolveKnockout(target, timeline, clock + 0.0004, reviveFromMagic);
     maybeFrontlineBreak(a, 'A', timeline, clock + 0.0005);
   }
 
@@ -534,12 +563,38 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       targetGaugeAfter: target.gauge
     });
 
+    if(target.hp>0){
+      const seal=activateMagic(actor,'ARCANE_SEAL');
+      if(seal){target.magicSealCharges=Math.max(1,Math.round(Number(seal.effectValue||1)));target.magicSealSourceId=actor.id;pushEvent(timeline,clock+0.00005,'MAGIC_CARD',magicEvent(seal,actor,target,{sealCharges:target.magicSealCharges,targetHpAfter:target.hp,targetShieldAfter:target.shield}));}
+
+      const mark=activateMagic(actor,'DOOM_MARK');
+      if(mark){
+        target.doomMarks=Math.min(3,Number(target.doomMarks||0)+1);
+        let markDamage=0,markAbsorbed=0,detonated=false;
+        if(target.doomMarks>=3){const markState=applyDamage(target,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(mark.effectValue||0))/100)));markDamage=markState.hpDamage;markAbsorbed=markState.absorbed;target.doomMarks=0;detonated=true;actor.damageDealt+=markDamage+markAbsorbed;}
+        pushEvent(timeline,clock+0.00006,'MAGIC_CARD',magicEvent(mark,actor,target,{markStacks:target.doomMarks,detonated,damage:markDamage,absorbed:markAbsorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));
+      }
+
+      if(target.hp>0&&target.shield>0){const siphon=activateMagic(actor,'SHIELD_SIPHON');if(siphon){const amount=Math.max(1,Math.min(target.shield,Math.round(target.shield*Math.min(100,Number(siphon.effectValue||0))/100)));target.shield-=amount;actor.shield+=amount;actor.maxShield=Math.max(actor.maxShield,actor.shield);pushEvent(timeline,clock+0.00007,'MAGIC_CARD',magicEvent(siphon,actor,target,{shieldStolen:amount,targetShieldAfter:target.shield,actorShieldAfter:actor.shield,targetHpAfter:target.hp}));}}
+
+      const distort=target.hp>0?activateMagic(actor,'TIME_DISTORTION'):null;
+      if(distort){const amount=Math.min(95,Math.max(0,Number(distort.effectValue||0))),before=target.gauge;target.gauge=Math.max(0,target.gauge-amount);target.timeDistortionStacks=Math.min(3,Number(target.timeDistortionStacks||0)+1);pushEvent(timeline,clock+0.00008,'MAGIC_CARD',magicEvent(distort,actor,target,{gaugeLoss:before-target.gauge,gaugeAfter:target.gauge,targetHpAfter:target.hp}));}
+
+      const echo=target.hp>0?activateMagic(actor,'CHAIN_ECHO'):null;
+      if(echo){const baseDamage=damageState.hpDamage+damageState.absorbed,echoState=applyDamage(target,Math.max(1,Math.round(baseDamage*Math.min(200,Number(echo.effectValue||0))/100)));actor.damageDealt+=echoState.hpDamage+echoState.absorbed;pushEvent(timeline,clock+0.00009,'MAGIC_CARD',magicEvent(echo,actor,target,{damage:echoState.hpDamage,absorbed:echoState.absorbed,echoDamage:echoState.hpDamage+echoState.absorbed,targetHpAfter:target.hp,targetMaxHp:target.maxHp,targetShieldAfter:target.shield}));}
+
+      if(target.hp>0&&(Number(target.magicSealCharges||0)>0||Number(target.doomMarks||0)>0||Number(target.timeDistortionStacks||0)>0)){
+        const purify=activateMagic(target,'PURIFY_LIGHT');
+        if(purify){const cleared={seal:Number(target.magicSealCharges||0),marks:Number(target.doomMarks||0),distortion:Number(target.timeDistortionStacks||0)};target.magicSealCharges=0;target.magicSealSourceId='';target.doomMarks=0;target.timeDistortionStacks=0;const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(purify.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.000095,'MAGIC_CARD',magicEvent(purify,target,target,{amount,cleared,hpAfter:target.hp,maxHp:target.maxHp}));}
+      }
+    }
+
     const haste=activateMagic(actor,'FOLLOWUP_HASTE');
     if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);pushEvent(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,magicImageUrl:haste.imageUrl,magicRarity:haste.rarity,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
-    const retaliate=(owner,effectType,offset,fromAttack=false)=>{const magic=activateMagic(owner,effectType);if(!magic||!actor.alive||!owner.alive)return;const amount=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100));const state=applyDamage(actor,amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',{actorId:owner.id,targetId:actor.id,magicCardId:magic.id,magicCode:magic.code,magicName:magic.name,magicImageUrl:magic.imageUrl,magicRarity:magic.rarity,effectType:magic.effectType,value:magic.effectValue,damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield,activation:magic.activations,maxActivations:magic.maxActivations,label:magic.name});resolveKnockout(actor,timeline,clock+offset+0.00001);};
+    const retaliate=(owner,effectType,offset,fromAttack=false)=>{const magic=activateMagic(owner,effectType);if(!magic||!actor.alive||!owner.alive)return;const amount=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100));const state=applyDamage(actor,amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',magicEvent(magic,owner,actor,{damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield}));resolveKnockout(actor,timeline,clock+offset+0.00001,reviveFromMagic);};
     retaliate(target,'PUNISH_TRAP',0.0002,false);retaliate(target,'ARCANE_COUNTER',0.0003,true);
 
-    const knockedOut = resolveKnockout(target, timeline, clock);
+    const knockedOut = resolveKnockout(target, timeline, clock, reviveFromMagic);
     if(actor.type==='ATTACK'&&actor.battleMode==='PVE'&&actor.actions>1&&actor.huntStacks<3){
       actor.huntStacks+=1;actor.attack=Math.max(1,Math.round(actor.attack*1.06));
       pushEvent(timeline,clock+0.0005,'HUNT_ACCELERATION',{actorId:actor.id,stacks:actor.huntStacks,attackAfter:actor.attack,label:'공격형 · 사냥 가속'});
@@ -575,7 +630,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           targetShieldAfter: actor.shield,
           label: '방어형 · 반격'
         });
-        const actorDown = resolveKnockout(actor, timeline, clock + 0.001);
+        const actorDown = resolveKnockout(actor, timeline, clock + 0.001, reviveFromMagic);
         if (!actorDown) maybeEmergencyHeal(actor, timeline, clock + 0.001, healerRules[actor.side].multiplier);
         maybeFrontlineBreak(actor.side === 'A' ? a : b, actor.side, timeline, clock + 0.001);
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
