@@ -368,6 +368,16 @@
   letter-spacing: .16em;
 }
 
+.cp-status-detail {
+  margin-left: 6px;
+  color: #8192a8;
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 750;
+  letter-spacing: -.02em;
+  white-space: nowrap;
+}
+
 .cp-event-kicker > span:last-child::before {
   content: "·";
   margin-right: 9px;
