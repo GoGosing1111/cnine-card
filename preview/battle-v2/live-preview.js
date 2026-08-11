@@ -9,7 +9,9 @@
   const token=()=>localStorage.getItem('cnine_card_api_token')||sessionStorage.getItem('cnine_card_api_token')||localStorage.getItem('cnine_admin_token')||sessionStorage.getItem('cnine_admin_token')||'';
   const setBusy=value=>{busy=value;replay.disabled=value;reroll.disabled=value;mode.disabled=value};
   const setStatus=(text,type='')=>{status.textContent=text;status.className=`live-preview-status${type?` is-${type}`:''}`};
-  const allMagic=data=>[...(data?.magicPreview?.teamA||[]),...(data?.magicPreview?.teamB||[])];
+  const allMagic=data=>data?.magicPreview?.mode==='EXAMPLES'&&Array.isArray(data?.magicPreview?.registeredExamples)&&data.magicPreview.registeredExamples.length
+    ? data.magicPreview.registeredExamples
+    : [...(data?.magicPreview?.teamA||[]),...(data?.magicPreview?.teamB||[])];
   function renderMagic(data){
     const list=allMagic(data);cards.innerHTML=list.map((card,index)=>`<button type="button" class="live-preview-magic-card" data-magic-effect-index="${index}" title="${esc(card.name)} · ${esc(labels[card.effectType]||card.effectType)} 발동 이펙트 보기"><img src="${esc(asset(card.imageUrl))}" alt="${esc(card.name)}"><span>${esc(labels[card.effectType]||card.effectType)}</span>${card.registered===false?'':`<em title="CMS 등록됨"></em>`}</button>`).join('');
   }
