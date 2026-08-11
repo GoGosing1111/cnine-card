@@ -4,6 +4,15 @@
   const PLAYBACK_SPEED = 1.6;
   const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
   const MOBILE_LOW_FX = matchMedia('(max-width: 800px), (pointer: coarse)').matches;
+  const MAGIC_EFFECT_RESOURCES = Object.freeze({
+    OPENING_ATTACK:{ kind:'attack', label:'선봉 공격', target:'enemy' },
+    GUARD_BARRIER:{ kind:'defense', label:'수호 결계', target:'ally' },
+    LIFE_AMPLIFY:{ kind:'hp', label:'생명 증폭', target:'ally' },
+    CRISIS_HEAL:{ kind:'hp', label:'위기 회복', target:'ally' },
+    PUNISH_TRAP:{ kind:'attack', label:'응징 함정', target:'enemy' },
+    ARCANE_COUNTER:{ kind:'defense', label:'비전 반격', target:'enemy' },
+    FOLLOWUP_HASTE:{ kind:'speed', label:'연계 가속', target:'ally' }
+  });
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[ch]));
   const number = value => Math.max(0, Math.round(Number(value || 0))).toLocaleString();
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(24, Math.round(Number(ms || 0) / PLAYBACK_SPEED))));
@@ -272,11 +281,12 @@
     }
 
     async function playMagicCardSummon(event,kind){
-      const effect=String(event.effectType||'').toLowerCase().replace(/_/g,'-'),rarity=String(event.magicRarity||'R').toUpperCase().replace(/[^A-Z]/g,''),overlay=document.createElement('div');
-      overlay.className=`magic-card-cinematic magic-kind-${kind} magic-effect-${effect} magic-rarity-${rarity}`;
-      overlay.innerHTML=`<div class="magic-cinematic-dim"></div><canvas class="magic-gl-layer" aria-hidden="true"></canvas><div class="magic-cinematic-runes"><i></i><i></i><i></i></div><div class="magic-unique-stage" aria-hidden="true">${'<i></i>'.repeat(12)}<b></b></div><div class="magic-target-seal"><i>ᚱ</i><i>ᛉ</i><i>ᚨ</i><i>ᛟ</i><b></b></div><div class="magic-cinematic-card"><div class="magic-cinematic-frame"><div class="magic-cinematic-art">${event.magicImageUrl?`<img src="${assetUrl(event.magicImageUrl)}" alt="${esc(event.magicName||'마법카드')}" onerror="this.remove()">`:'<b>✦</b>'}</div><small>${esc(rarity)} · MAGIC CARD</small><strong>${esc(event.magicName||event.magicCode||'마법카드')}</strong></div></div><div class="magic-cinematic-release"><i></i><i></i><i></i><b>${esc(event.magicName||'MAGIC')}</b></div>`;
+      const effectType=String(event.effectType||'').toUpperCase(),resource=MAGIC_EFFECT_RESOURCES[effectType],effect=effectType.toLowerCase().replace(/_/g,'-'),rarity=String(event.magicRarity||'R').toUpperCase().replace(/[^A-Z]/g,''),signature=Boolean(resource),overlay=document.createElement('div');
+      kind=resource?.kind||kind;
+      overlay.className=`magic-card-cinematic magic-kind-${kind} magic-effect-${effect} magic-rarity-${rarity} ${signature?'magic-signature-resource':'magic-generic-resource'}`;
+      overlay.innerHTML=`<div class="magic-cinematic-dim"></div>${signature?'':`<canvas class="magic-gl-layer" aria-hidden="true"></canvas><div class="magic-cinematic-runes"><i></i><i></i><i></i></div><div class="magic-target-seal"><i>ᚱ</i><i>ᛉ</i><i>ᚨ</i><i>ᛟ</i><b></b></div>`}<div class="magic-unique-stage" aria-hidden="true">${'<i></i>'.repeat(12)}<b></b></div><div class="magic-cinematic-card"><div class="magic-cinematic-frame"><div class="magic-cinematic-art">${event.magicImageUrl?`<img src="${assetUrl(event.magicImageUrl)}" alt="${esc(event.magicName||'마법카드')}" onerror="this.remove()">`:'<b>✦</b>'}</div><small>${esc(rarity)} · MAGIC CARD</small><strong>${esc(event.magicName||event.magicCode||'마법카드')}</strong></div></div>${signature?'':`<div class="magic-cinematic-release"><i></i><i></i><i></i><b>${esc(event.magicName||'MAGIC')}</b></div>`}`;
       arena.appendChild(overlay);void overlay.offsetWidth;overlay.classList.add('is-playing');setMessage('MAGIC CARD',event.magicName||event.magicCode||'마법카드','마력이 전장에 전개됩니다.');
-      await sleep(1120);const targetNode=fighterNode(event.targetId||event.actorId),targetPoint=magicPointFor(targetNode,overlay);overlay.style.setProperty('--magic-target-x',`${targetPoint.x}px`);overlay.style.setProperty('--magic-target-y',`${targetPoint.y}px`);overlay.classList.add('is-releasing');const stopGL=startMagicWebGL(overlay.querySelector('.magic-gl-layer'),targetNode,kind,event.effectType);await sleep(1900);stopGL();overlay.remove();
+      await sleep(1120);const targetNode=fighterNode(event.targetId||event.actorId),targetPoint=magicPointFor(targetNode,overlay);overlay.style.setProperty('--magic-target-x',`${targetPoint.x}px`);overlay.style.setProperty('--magic-target-y',`${targetPoint.y}px`);overlay.classList.add('is-releasing');const stopGL=signature?()=>{}:startMagicWebGL(overlay.querySelector('.magic-gl-layer'),targetNode,kind,effectType);await sleep(1900);stopGL();overlay.remove();
     }
 
     async function eventPlay(event) {
@@ -313,6 +323,18 @@
 
     return {
       async play() { const timeline=v2.result?.timeline||[];for(let i=0;i<timeline.length;i++){if(!document.documentElement.contains(root))break;state.cursor=i;await eventPlay(timeline[i]);} },
+      async previewMagicEffect(card={}) {
+        if(state.magicPreviewing||!document.documentElement.contains(root))return false;
+        const effectType=String(card.effectType||'').toUpperCase(),resource=MAGIC_EFFECT_RESOURCES[effectType];if(!resource)return false;
+        const actor=firstLiving('A'),target=resource.target==='enemy'?firstLiving('B'):actor;if(!actor||!target)return false;
+        state.magicPreviewing=true;
+        try{
+          focusTarget(target.id);
+          await playMagicCardSummon({actorId:actor.id,targetId:target.id,effectType,magicName:card.name||resource.label,magicCode:card.code||effectType,magicImageUrl:card.imageUrl||card.image_url||'',magicRarity:card.rarity||'SR'},resource.kind);
+          setMessage('MAGIC EFFECT RESOURCE',card.name||resource.label,`${resource.label} · 실전 V2 발동 이펙트`);
+          return true;
+        } finally { state.magicPreviewing=false; }
+      },
       showResult() { preservedMsg?.classList.add('is-visible'); },
       destroy() { window.__battleV2LiveCleanup?.(); }
     };

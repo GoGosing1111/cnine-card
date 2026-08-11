@@ -11,7 +11,7 @@
   const setStatus=(text,type='')=>{status.textContent=text;status.className=`live-preview-status${type?` is-${type}`:''}`};
   const allMagic=data=>[...(data?.magicPreview?.teamA||[]),...(data?.magicPreview?.teamB||[])];
   function renderMagic(data){
-    const list=allMagic(data);cards.innerHTML=list.map(card=>`<div class="live-preview-magic-card" title="${esc(card.name)} · ${esc(labels[card.effectType]||card.effectType)}"><img src="${esc(asset(card.imageUrl))}" alt="${esc(card.name)}"><span>${esc(labels[card.effectType]||card.effectType)}</span>${card.registered===false?'':`<em title="CMS 등록됨"></em>`}</div>`).join('');
+    const list=allMagic(data);cards.innerHTML=list.map((card,index)=>`<button type="button" class="live-preview-magic-card" data-magic-effect-index="${index}" title="${esc(card.name)} · ${esc(labels[card.effectType]||card.effectType)} 발동 이펙트 보기"><img src="${esc(asset(card.imageUrl))}" alt="${esc(card.name)}"><span>${esc(labels[card.effectType]||card.effectType)}</span>${card.registered===false?'':`<em title="CMS 등록됨"></em>`}</button>`).join('');
   }
   function resultText(data){
     const result=data?.result||{},winner=result.winner==='A'?'승리':result.winner==='B'?'패배':'무승부',magicCount=(result.timeline||[]).filter(event=>event.type==='MAGIC_CARD').length;
@@ -39,6 +39,7 @@
     finally{setBusy(false)}
   }
   replay.addEventListener('click',async()=>{if(!payload||busy)return;setBusy(true);setStatus('같은 결과를 실전 렌더러로 다시 재생합니다.');try{await play(payload);setStatus('같은 전투 재생 완료','ok')}catch(error){setStatus(String(error.message||error),'error')}finally{setBusy(false)}});
+  cards.addEventListener('click',async event=>{const button=event.target.closest('[data-magic-effect-index]');if(!button||busy||!payload)return;const card=allMagic(payload)[Number(button.dataset.magicEffectIndex)],renderer=modal.__battleV2Renderer;if(!card||!renderer?.previewMagicEffect)return;setBusy(true);button.classList.add('is-playing');setStatus(`${card.name} · 이전 발동 이펙트 리소스 재생 중`);try{await renderer.previewMagicEffect(card);setStatus(`${card.name} · 실전 V2 발동 이펙트 확인 완료`,'ok')}catch(error){setStatus(String(error.message||error),'error')}finally{button.classList.remove('is-playing');setBusy(false)}});
   reroll.addEventListener('click',()=>calculate(Date.now()));mode.addEventListener('change',()=>calculate(Date.now()));
   $('.live-preview-console-toggle').addEventListener('click',event=>{const collapsed=consoleBox.classList.toggle('is-collapsed');event.currentTarget.setAttribute('aria-expanded',String(!collapsed))});
   calculate(lastSeed);
