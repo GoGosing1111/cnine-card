@@ -89,7 +89,6 @@
               ${chief.active ? `<div class="chief-admin-usage">
                 <span>오늘 버닝 ${chief.usage.burningToday}/1</span>
                 <span>오늘 하이퍼 ${chief.usage.hyperToday}/1</span>
-                <span>주간 할인 ${chief.usage.discountThisWeek}/2</span>
                 <span>탑 초기화 ${chief.usage.towerResetUsed ? '사용' : '미사용'}</span>
               </div>` : ''}
             </div>

@@ -12,7 +12,6 @@ const TEST_COIN = 5000;
 let cards = [];
 let selectedPackId = 'basic';
 let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
-let chiefDiscountEventState={active:false,percent:0,startsAt:null,endsAt:null,chiefNickname:''};
 // 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.
 let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
 const magicUiState={deckType:'PVE',selectedSlot:1};
@@ -71,9 +70,9 @@ function applyServerPacks(rows = []) {
       theme: row.theme || 'basic',
       description: row.description || '',
       range: packRangeFromAllowed(allowed),
-      price: Math.max(0, Number(row.price) || 0),
+      price: Math.max(0, Number(row.originalPrice??row.price) || 0),
       originalPrice: Math.max(0, Number(row.originalPrice??row.price) || 0),
-      burningDiscountPercent:Number(row.burningDiscountPercent||0),
+      burningDiscountPercent:0,
       allowed,
       guarantee10: row.guarantee10 || row.guarantee_10 || 'R',
       guarantee20: row.guarantee20 || row.guarantee_20 || 'SR',
@@ -88,17 +87,6 @@ const BURNING_EVENT_SYNC_KEY='cnine:burning-event-sync-v1310';
 let burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null;
 function burningEventFingerprint(state={}){
   return JSON.stringify([String(state.mode||'NONE'),String(state.theme||''),state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.updatedAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),1,Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
-}
-function applyChiefDiscountState(next={},options={}){
-  const end=Date.parse(String(next.endsAt||'')),active=next.active===true&&Number.isFinite(end)&&end>Date.now(),percent=active?Math.max(0,Math.min(100,Number(next.percent||25))):0;
-  const before=JSON.stringify(chiefDiscountEventState),normalized={active,percent,startsAt:next.startsAt||null,endsAt:active?next.endsAt||null:null,chiefNickname:String(next.chiefNickname||'')};
-  chiefDiscountEventState=normalized;
-  PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0);return {...pack,originalPrice:original,price:Math.floor(original*(100-percent)/100),burningDiscountPercent:percent}});
-  const changed=before!==JSON.stringify(normalized);
-  if(changed){clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1');clearApiCache('vehicle-draw/config')}
-  const token=String(normalized.startsAt||'').replace(/[^0-9TZ:+.-]/g,'').slice(0,48),key=`cnine:chief-discount-announced-v1:${token}`;
-  if(options.announce!==false&&active&&runtimeCommandContext==='buy'&&token&&!localStorage.getItem(key)){localStorage.setItem(key,'1');setTimeout(()=>showChiefDiscountActivationNotice(normalized),300)}
-  return changed;
 }
 function burningMode(){return burningEventState.enabled?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
 function burningBenefitText(){
@@ -129,11 +117,11 @@ function syncBurningEventVisibleUi(){
 function applyBurningEventState(next={},options={}){
   const before=burningEventFingerprint(burningEventState),currentUpdated=Date.parse(String(burningEventState.updatedAt||burningEventState.activatedAt||''))||0,incomingUpdated=Date.parse(String(next.updatedAt||next.activatedAt||''))||0;
   if(currentUpdated&&(!incomingUpdated||incomingUpdated<currentUpdated)){
-    PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=chiefDiscountEventState.active?Number(chiefDiscountEventState.percent||25):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
+    PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0);return {...pack,originalPrice:original,price:original,burningDiscountPercent:0}});
     return false;
   }
   burningEventState={...burningEventState,...next};
-  PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0),discount=chiefDiscountEventState.active?Number(chiefDiscountEventState.percent||25):0;return {...pack,originalPrice:original,price:Math.floor(original*(100-discount)/100),burningDiscountPercent:discount}});
+  PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0);return {...pack,originalPrice:original,price:original,burningDiscountPercent:0}});
   const mode=burningMode(),normalActive=burningEventState.enabled===true&&mode==='BURNING',hyperActive=burningEventState.enabled===true&&mode==='HYPER';
   document.documentElement.classList.toggle('burning-event-active',normalActive);
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
@@ -192,14 +180,6 @@ function showBurningActivationNotice(){
     close();
   };
 }
-function showChiefDiscountActivationNotice(discount=chiefDiscountEventState){
-  if(!discount.active||runtimeCommandContext!=='buy')return;
-  document.getElementById('chiefDiscountActivationNotice')?.remove();
-  const el=document.createElement('div');el.id='chiefDiscountActivationNotice';el.className='burning-activation-notice chief-discount-notice';
-  el.innerHTML=`<div class="burning-notice-flames"><i></i><i></i><i></i><i></i></div><div class="burning-notice-panel" role="dialog" aria-modal="true" aria-labelledby="chiefDiscountNoticeTitle"><small>CHIEF SPECIAL ORDER</small><h2 id="chiefDiscountNoticeTitle">족장 ${escapeHtml(discount.chiefNickname||'')}의 통합 할인 선포</h2><p>카드팩 · 장비 보급상자 · 이동수단 뽑기권<br><b>${Number(discount.percent||25)}% 할인</b>이 5시간 동안 적용됩니다.</p><button type="button">할인 상점 확인</button></div>`;
-  const close=()=>{el.classList.remove('show');document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open');setTimeout(()=>el.remove(),260)};
-  document.documentElement.classList.add('burning-notice-open');document.body.classList.add('burning-notice-open');document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'));el.querySelector('button').onclick=close;
-}
 function stopBurningEventWatch(){if(burningEventWatchTimer){clearTimeout(burningEventWatchTimer);burningEventWatchTimer=null}}
 function pollJitter(delay,ratio=.2){const base=Math.max(1000,Number(delay)||1000),spread=base*Math.max(0,Math.min(.5,Number(ratio)||0));return Math.round(base-spread+Math.random()*spread*2)}
 function scheduleBurningEventWatch(delay=burningEventState.enabled?15000:30000){
@@ -216,7 +196,6 @@ async function refreshBurningEventState({forceFresh=false,rerender=true}={}){
     try{
       const path=forceFresh?'burning-event/status?fresh=1':'burning-event/status';
       const d=await apiRequest(path,{}, {ttl:0,timeoutMs:7000}),next=d.burningEvent||{};
-      applyChiefDiscountState(d.chiefDiscount||{});
       const changed=applyBurningEventState(next,{rerender});
       if(changed)try{writeStartupSnapshot({burningEvent:next})}catch(_){}
       return changed;
@@ -2367,7 +2346,6 @@ function writeStartupSnapshot(patch={}){
 }
 function applyStartupSnapshot(snapshot){
   if(Array.isArray(snapshot?.cards)&&snapshot.cards.length)cards=snapshot.cards.map(normalizeClientCard);
-  if(snapshot?.chiefDiscount&&typeof snapshot.chiefDiscount==='object')applyChiefDiscountState(snapshot.chiefDiscount,{announce:false});
   if(Array.isArray(snapshot?.packs)&&snapshot.packs.length)applyServerPacks(snapshot.packs);
   if(snapshot?.burningEvent&&typeof snapshot.burningEvent==='object')applyBurningEventState(snapshot.burningEvent,{announce:false});
 }
@@ -2387,7 +2365,7 @@ async function refreshStartupCatalog(runId,cardTask,packTask){
   }else if(!viewerCatalogWasRefreshed&&!cards.length)console.warn('카드 데이터 백그라운드 갱신 실패:',cardResult.error);
   if(packResult.ok&&Array.isArray(packResult.value?.packs)&&packResult.value.packs.length){
     changed=changed||JSON.stringify(before.packs||[])!==JSON.stringify(packResult.value.packs);
-    applyChiefDiscountState(packResult.value.chiefDiscount||{});applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{};cachePatch.chiefDiscount=packResult.value.chiefDiscount||{};
+    applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{};
   }else if(packResult.error)console.warn('카드팩 설정 백그라운드 갱신 실패:',packResult.error);
   if(Object.keys(cachePatch).length)writeStartupSnapshot(cachePatch);
   if(changed)refreshBuyShellAfterStartup(runId);
@@ -2815,7 +2793,7 @@ async function init(){
       }
       const packResult=await Promise.race([packTask,new Promise(resolve=>setTimeout(()=>resolve({pending:true}),350))]);
       if(packResult?.pending)packPending=true;
-      else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyChiefDiscountState(packResult.value.chiefDiscount||{});applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{};cachePatch.chiefDiscount=packResult.value.chiefDiscount||{}}
+      else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{}}
       else console.warn('카드팩 설정 조회 실패 - 기본 설정으로 계속합니다:',packResult.error);
       writeStartupSnapshot(cachePatch);
     }

@@ -12,7 +12,7 @@ import { handleHighGradeReroll,grantHighGradeRerollDrop } from '../_high_grade_r
 import { handleTerritoryWar } from '../_territory_war.js';
 import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
-import { handleChief,chiefDiscountState } from '../_chief.js';
+import { handleChief } from '../_chief.js';
 import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { handleIdleDungeon } from '../_idle_dungeon.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
@@ -3275,7 +3275,7 @@ async function handleRequest(context){
     const battleV2PreviewResponse=await handleBattleV2Preview({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckStates,userEquipmentBonuses}});if(battleV2PreviewResponse)return battleV2PreviewResponse;
 
     const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
-    const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation,chiefDiscountState}});if(vehicleDrawResponse)return vehicleDrawResponse;
+    const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
     const coinPredictionResponse=await handleCoinPrediction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(coinPredictionResponse)return coinPredictionResponse;
@@ -3365,8 +3365,8 @@ async function handleRequest(context){
       return json({cards:rows.map(({memberSortOrder,...card})=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const [rows,burning,chiefDiscount]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),chiefDiscountState(env)]);
-      return json({packs:rows.map(row=>{const originalPrice=Number(row.price||0),discount=chiefDiscount.active?Number(chiefDiscount.percent||25):0,price=Math.floor(originalPrice*(100-discount)/100);return {...row,price,originalPrice,burningDiscountPercent:discount,allowed:JSON.parse(row.allowed_rarities)}}),burningEvent:burningPublicState(burning),chiefDiscount});
+      const [rows,burning]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env)]);
+      return json({packs:rows.map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}}),burningEvent:burningPublicState(burning)});
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -3619,8 +3619,8 @@ async function handleRequest(context){
       }
       let grantsCommitted=false,cost=0,reservedCardIds=[],limitedAuditEvents=[];
       try{
-        const [criticalConfig,burning,chiefDiscount,baseRows]=await Promise.all([
-          criticalSettings(env),burningEventSettings(env),chiefDiscountState(env),
+        const [criticalConfig,burning,baseRows]=await Promise.all([
+          criticalSettings(env),burningEventSettings(env),
           env.DB.batch([
             env.DB.prepare('SELECT * FROM card_packs WHERE id=? AND is_active=1').bind(payload.packId),
             env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id),
@@ -3636,7 +3636,7 @@ async function handleRequest(context){
           return json({error:'판매 중인 카드팩이 아닙니다.'},404);
         }
         if(!fresh)throw new Error('유저 정보를 확인하지 못했습니다.');
-        cost=Math.floor(Number(pack.price||0)*(100-(chiefDiscount.active?Number(chiefDiscount.percent||25):0))/100)*count;
+        cost=Number(pack.price||0)*count;
         if(Number(fresh.coin||0)<cost){
           await env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='FAILED',cost=?,error_message='코인이 부족합니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,requestId,user.id).run();
           return json({error:'코인이 부족합니다.'},400);
@@ -5806,8 +5806,8 @@ async function handleRequest(context){
 
     if(path==='burning-event/status'){
       const forceFresh=new URL(request.url).searchParams.get('fresh')==='1';
-      const [pair,chiefDiscount]=await Promise.all([burningEventPair(env,{fresh:forceFresh}),chiefDiscountState(env)]);
-      return json({burningEvent:burningPublicState(pair.active),chiefDiscount,serverNow:new Date().toISOString()});
+      const pair=await burningEventPair(env,{fresh:forceFresh});
+      return json({burningEvent:burningPublicState(pair.active),serverNow:new Date().toISOString()});
     }
     if(path==='admin/burning-event'||path==='admin/hyper-burning-event'){
       const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 없습니다.'},403);
