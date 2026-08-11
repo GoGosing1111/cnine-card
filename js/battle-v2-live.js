@@ -2,6 +2,7 @@
   'use strict';
 
   const PLAYBACK_SPEED = 1.6;
+  const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
   const MOBILE_LOW_FX = matchMedia('(max-width: 800px), (pointer: coarse)').matches;
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, ch => ({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[ch]));
   const number = value => Math.max(0, Math.round(Number(value || 0))).toLocaleString();
@@ -59,7 +60,8 @@
     const grade = String(card.grade || 'C').toUpperCase().replace(/[^A-Z0-9_-]/g, '');
     const level = Math.max(0, Math.min(13, Number(card.breakthroughLevel || 0)));
     const breakthroughClass = level > 0 ? ` breakthrough-${level}` : '';
-    return `<div class="card-frame grade-${grade}${breakthroughClass} battle-v2-card-frame">
+    const isFakerChampionship = String(card.cardId || card.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
+    return `<div class="card-frame grade-${grade}${breakthroughClass}${isFakerChampionship ? ' faker-championship-card' : ''} battle-v2-card-frame">
       ${level > 0 ? `<div class="breakthrough-badge">★${level}</div>` : ''}
       ${uniqueBadgeHtml(card)}
       <div class="card-holo"></div><div class="breakthrough-effect"></div>
@@ -68,6 +70,7 @@
         <div class="card-art"><img src="${assetUrl(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX ?? 50)}% ${Number(card.focusY ?? 50)}%" onerror="window.battleV2ImageFallback(this)"></div>
         <div class="card-footer"><div><small>${esc(card.memberName || '')}</small><div class="card-title-row"><div class="card-title">${esc(card.title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
       </div>
+      ${isFakerChampionship ? '<img class="faker-championship-frame" src="/assets/ui/card-frames/faker-championship-frame-v1.png" alt="" aria-hidden="true">' : ''}
     </div>`;
   }
 

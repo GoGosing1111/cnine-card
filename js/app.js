@@ -18,6 +18,7 @@ let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,
 const magicUiState={deckType:'PVE',selectedSlot:1};
 
 const gradeOrder = { ZENITH:12, FUR: 11, PRESTIGE: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
+const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
 const gradeScore = { ZENITH:8000, LIMITED: 3000, FUR: 5000, MA: 1500, SSR: 500, UR: 200, HR: 100, SR: 50, R: 20, U: 5, C: 1 };
 const baseRates = { FUR: 0, MA: 0, SSR: 1, UR: 4, HR: 7, SR: 13, R: 20, U: 25, C: 30 };
 const shardReward = { ZENITH:400, LIMITED:180, FUR:250, MA:120, SSR:60, UR:30, HR:15, SR:8, R:4, U:2, C:1 };
@@ -2096,6 +2097,7 @@ let drawResultRenderCount=0;
 function cardHtml(card, owned, classes='', user=loadUser()) {
   const uniqueBadge=uniqueAbilityBadgeHtml(card,classes);
   const normalizedGrade=String(card.grade||'').toUpperCase();
+  const isFakerChampionship=String(card.id||'')===FAKER_CHAMPIONSHIP_CARD_ID;
   const dexCard=/dex-card-display/.test(String(classes));
   const rawQuantity=Number(user?.quantities?.[String(card.id)]??0);
   const ownedQuantity=Math.max(owned?1:0,Number.isFinite(rawQuantity)?Math.floor(rawQuantity):0);
@@ -2112,7 +2114,8 @@ function cardHtml(card, owned, classes='', user=loadUser()) {
   const bulkResultCard=/result-card/.test(String(classes))&&drawResultRenderCount>=100;
   const imageLoading=revealCard&&!bulkResultCard?'eager':'lazy',fetchPriority=revealCard&&!bulkResultCard?'high':bulkResultCard?'low':'auto';
   const zenithFrame=normalizedGrade==='ZENITH'?'<img class="zenith-card-frame" src="assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">':'';
-  return `<article class="card-frame grade-${card.grade}${breakthrough} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}${furQuantity}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art"><img loading="${imageLoading}" fetchpriority="${fetchPriority}" decoding="async" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div>${zenithFrame}</article>`;
+  const fakerFrame=isFakerChampionship?'<img class="faker-championship-frame" src="assets/ui/card-frames/faker-championship-frame-v1.png" alt="" aria-hidden="true">':'';
+  return `<article class="card-frame grade-${card.grade}${breakthrough}${isFakerChampionship?' faker-championship-card':''} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}${furQuantity}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art"><img loading="${imageLoading}" fetchpriority="${fetchPriority}" decoding="async" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div>${zenithFrame}${fakerFrame}</article>`;
 }
 
 function showDetail(id,initialTab='auto') {
