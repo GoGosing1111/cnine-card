@@ -1,6 +1,6 @@
 const MAGIC_RARITIES=['R','SR','SSR'];
 const MAGIC_DECK_TYPES=['PVE','PVP'];
-export const MAGIC_BATTLE_EFFECTS=['OPENING_ATTACK','GUARD_BARRIER','LIFE_AMPLIFY','CRISIS_HEAL','PUNISH_TRAP','ARCANE_COUNTER','FOLLOWUP_HASTE'];
+export const MAGIC_BATTLE_EFFECTS=['OPENING_ATTACK','GUARD_BARRIER','LIFE_AMPLIFY','CRISIS_HEAL','PUNISH_TRAP','ARCANE_COUNTER','FOLLOWUP_HASTE','ARCANE_SEAL','DOOM_MARK','SHIELD_SIPHON','TIME_DISTORTION','PHOENIX_REVIVE','PURIFY_LIGHT','CHAIN_ECHO'];
 const MAGIC_EFFECT_IMAGES={
   OPENING_ATTACK:'assets/ui/magic-cards/opening-attack-768-v1500.webp',
   GUARD_BARRIER:'assets/ui/magic-cards/guard-barrier-768-v1500.webp',
@@ -8,7 +8,14 @@ const MAGIC_EFFECT_IMAGES={
   CRISIS_HEAL:'assets/ui/magic-cards/crisis-heal-768-v1500.webp',
   PUNISH_TRAP:'assets/ui/magic-cards/punish-trap-768-v1500.webp',
   ARCANE_COUNTER:'assets/ui/magic-cards/arcane-counter-768-v1500.webp',
-  FOLLOWUP_HASTE:'assets/ui/magic-cards/followup-haste-768-v1500.webp'
+  FOLLOWUP_HASTE:'assets/ui/magic-cards/followup-haste-768-v1500.webp',
+  ARCANE_SEAL:'assets/ui/magic-cards/arcane-seal-768-v1665.webp',
+  DOOM_MARK:'assets/ui/magic-cards/doom-mark-768-v1665.webp',
+  SHIELD_SIPHON:'assets/ui/magic-cards/shield-siphon-768-v1665.webp',
+  TIME_DISTORTION:'assets/ui/magic-cards/time-distortion-768-v1665.webp',
+  PHOENIX_REVIVE:'assets/ui/magic-cards/phoenix-revive-768-v1665.webp',
+  PURIFY_LIGHT:'assets/ui/magic-cards/purify-light-768-v1665.webp',
+  CHAIN_ECHO:'assets/ui/magic-cards/chain-echo-768-v1665.webp'
 };
 const UNIQUE_CARD_GRADES=['SSR','MA','LIMITED','PRESTIGE','FUR'];
 
@@ -43,7 +50,7 @@ export function defaultMagicSettings(){
     drawCost:100,
     drawCoinCost:1000,
     duplicateRefund:{R:5,SR:20,SSR:80},
-    enhancement:{maxLevel:7,shardCosts:[100,200,350,550,800,1100,1500],successRates:[100,90,80,70,60,50,40],triggerBonuses:[0,3,6,10,15,21,28,36]},
+    enhancement:{maxLevel:9,shardCosts:[100,200,350,550,800,1100,1500,2000,2800],successRates:[100,90,80,70,60,50,40,30,20],triggerRates:[0,5,10,15,20,25,30,35,40,50]},
     acquisition:defaultAcquisitionSettings(),
     acquisitionNotice:'마법 결정은 인게임 플레이를 통해서만 획득할 수 있습니다.',
     version:2
@@ -68,10 +75,10 @@ export function cleanMagicSettings(raw={}){
       SSR:integer(raw.duplicateRefund?.SSR,base.duplicateRefund.SSR,0,100000000)
     },
     enhancement:{
-      maxLevel:7,
-      shardCosts:Array.from({length:7},(_,i)=>integer(raw.enhancement?.shardCosts?.[i],base.enhancement.shardCosts[i],0,100000000)),
-      successRates:Array.from({length:7},(_,i)=>Math.max(0,Math.min(100,Number(raw.enhancement?.successRates?.[i]??base.enhancement.successRates[i])))),
-      triggerBonuses:Array.from({length:8},(_,i)=>Math.max(0,Math.min(100,Number(raw.enhancement?.triggerBonuses?.[i]??base.enhancement.triggerBonuses[i]))))
+      maxLevel:9,
+      shardCosts:Array.from({length:9},(_,i)=>integer(raw.enhancement?.shardCosts?.[i],base.enhancement.shardCosts[i],0,100000000)),
+      successRates:Array.from({length:9},(_,i)=>Math.max(0,Math.min(100,Number(raw.enhancement?.successRates?.[i]??base.enhancement.successRates[i])))),
+      triggerRates:Array.from({length:10},(_,i)=>Math.max(0,Math.min(100,Number(raw.enhancement?.triggerRates?.[i]??base.enhancement.triggerRates[i]))))
     },
     acquisition:{
       tower:{enabled:tower.enabled===true,floorRewards:cleanFloorRewards(tower.floorRewards)},
@@ -92,10 +99,10 @@ export async function magicSettings(env){
 
 function normalizeMagicBattleEffect(row={}){
   const raw=String(row.effect_type||row.effectType||'').trim().toUpperCase(),trigger=String(row.trigger_type||row.triggerType||'').trim().toUpperCase();
-  const aliases={ATTACK_BUFF:'OPENING_ATTACK',DEFENSE_BUFF:'GUARD_BARRIER',SHIELD:'GUARD_BARRIER',HP_BUFF:'LIFE_AMPLIFY',HEAL:'CRISIS_HEAL',TRAP:'PUNISH_TRAP',COUNTER:'ARCANE_COUNTER',SPEED_BUFF:'FOLLOWUP_HASTE',HASTE:'FOLLOWUP_HASTE'};
+  const aliases={ATTACK_BUFF:'OPENING_ATTACK',DEFENSE_BUFF:'GUARD_BARRIER',SHIELD:'GUARD_BARRIER',HP_BUFF:'LIFE_AMPLIFY',HEAL:'CRISIS_HEAL',TRAP:'PUNISH_TRAP',COUNTER:'ARCANE_COUNTER',SPEED_BUFF:'FOLLOWUP_HASTE',HASTE:'FOLLOWUP_HASTE',SEAL:'ARCANE_SEAL',MARK:'DOOM_MARK',SHIELD_STEAL:'SHIELD_SIPHON',GAUGE_DOWN:'TIME_DISTORTION',REVIVE:'PHOENIX_REVIVE',CLEANSE:'PURIFY_LIGHT',FOLLOWUP:'CHAIN_ECHO'};
   const effectType=MAGIC_BATTLE_EFFECTS.includes(raw)?raw:(aliases[raw]||aliases[trigger]||'');
-  const level=integer(row.enhancement_level??row.enhancementLevel,0,0,7),bonus=Math.max(0,Number(row.trigger_bonus??row.triggerBonus)||0);
-  return effectType?{id:Number(row.id||0),slotNo:integer(row.slot_no??row.slotNo,1,1,5),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R').toUpperCase(),imageUrl:String(row.image_url||row.imageUrl||MAGIC_EFFECT_IMAGES[effectType]||''),effectType,effectValue:Math.max(0,Math.min(500,Number(row.effect_value??row.effectValue)||0)),triggerChance:Math.max(0,Math.min(100,(Number(row.trigger_chance??row.triggerChance??100)||0)+bonus)),enhancementLevel:level,maxActivations:integer(row.max_activations??row.maxActivations,1,1,99)}:null;
+  const level=integer(row.enhancement_level??row.enhancementLevel,0,0,9);
+  return effectType?{id:Number(row.id||0),slotNo:integer(row.slot_no??row.slotNo,1,1,5),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R').toUpperCase(),imageUrl:String(row.image_url||row.imageUrl||MAGIC_EFFECT_IMAGES[effectType]||''),effectType,effectValue:Math.max(0,Math.min(500,Number(row.effect_value??row.effectValue)||0)),triggerChance:Math.max(0,Math.min(100,Number(row.effective_trigger_chance??row.effectiveTriggerChance??row.trigger_chance??row.triggerChance??0)||0)),enhancementLevel:level,maxActivations:integer(row.max_activations??row.maxActivations,1,1,99)}:null;
 }
 
 export async function magicBattleLoadout(env,user,deckType='PVE'){
@@ -105,9 +112,8 @@ export async function magicBattleLoadout(env,user,deckType='PVE'){
   if(!visible)return {enabled:false,ownerTest:false,deckType:type,cards:[]};
   const scope=type==='PVP'?'scope_pvp':'scope_pve';
   const rows=(await env.DB.prepare(`SELECT l.slot_no,mc.id,mc.code,mc.name,mc.rarity,mc.image_url,mc.effect_type,mc.trigger_type,mc.effect_value,mc.trigger_chance,mc.max_activations,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_card_loadouts l JOIN magic_cards mc ON mc.id=l.magic_card_id JOIN user_magic_cards umc ON umc.user_id=l.user_id AND umc.magic_card_id=mc.id WHERE l.user_id=? AND l.deck_type=? AND l.magic_card_id>0 AND mc.is_active=1 AND mc.${scope}=1 ORDER BY l.slot_no`).bind(user.id,type).all()).results||[];
-  const bonus=magicSettings(env).then(cfg=>cfg.enhancement.triggerBonuses);
-  const bonuses=await bonus;
-  rows.forEach(row=>{row.trigger_bonus=bonuses[integer(row.enhancement_level,0,0,7)]||0});
+  const triggerRates=cfg.enhancement.triggerRates;
+  rows.forEach(row=>{row.effective_trigger_chance=triggerRates[integer(row.enhancement_level,0,0,9)]||0});
   return {enabled:true,ownerTest:cfg.enabled!==true&&isOwner(user),deckType:type,cards:rows.map(normalizeMagicBattleEffect).filter(Boolean)};
 }
 
@@ -434,11 +440,11 @@ function randomPick(rows){
 }
 function cardPayload(row,cfg=defaultMagicSettings()){
   const effectType=String(row.effect_type||'NONE').toUpperCase();
-  const enhancementLevel=integer(row.enhancement_level??row.enhancementLevel,0,0,7),triggerBonus=Number(cfg.enhancement?.triggerBonuses?.[enhancementLevel]||0);
+  const enhancementLevel=integer(row.enhancement_level??row.enhancementLevel,0,0,9),effectiveTriggerChance=Number(cfg.enhancement?.triggerRates?.[enhancementLevel]||0);
   return {
     id:Number(row.id),code:String(row.code||''),name:String(row.name||''),rarity:String(row.rarity||'R'),
     imageUrl:publicImageUrl(row.image_url||MAGIC_EFFECT_IMAGES[effectType]||''),description:String(row.description||''),effectType,
-    triggerType:String(row.trigger_type||'BATTLE_START'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance??100),effectiveTriggerChance:Math.min(100,Number(row.trigger_chance??100)+triggerBonus),enhancementLevel,
+    triggerType:String(row.trigger_type||'BATTLE_START'),effectValue:Number(row.effect_value||0),triggerChance:Number(row.trigger_chance??0),effectiveTriggerChance:Math.max(0,Math.min(100,effectiveTriggerChance)),enhancementLevel,
     maxActivations:Number(row.max_activations||1),drawWeight:Number(row.draw_weight||1),
     scopes:{pve:row.scope_pve!==0,pvp:row.scope_pvp!==0,captain:row.scope_captain!==0},
     isActive:row.is_active!==0,sortOrder:Number(row.sort_order||0),quantity:Number(row.quantity||0),materialQuantity:Math.max(0,Number(row.quantity||0)-1)
@@ -523,7 +529,7 @@ export async function handleMagic({path,request,env,deps}){
     try{
       const owned=await env.DB.prepare(`SELECT umc.quantity,COALESCE(umc.enhancement_level,0) enhancement_level,mc.name FROM user_magic_cards umc JOIN magic_cards mc ON mc.id=umc.magic_card_id WHERE umc.user_id=? AND umc.magic_card_id=? AND mc.is_active=1`).bind(user.id,magicCardId).first();
       if(!owned||Number(owned.quantity||0)<2){const e=new Error('강화 재료로 사용할 동일한 0강 카드가 1장 더 필요합니다.');e.status=400;throw e}
-      beforeLevel=integer(owned.enhancement_level,0,0,7);if(beforeLevel>=7){const e=new Error('이미 최고 강화 단계입니다.');e.status=400;throw e}
+      beforeLevel=integer(owned.enhancement_level,0,0,9);if(beforeLevel>=9){const e=new Error('이미 최고 강화 단계입니다.');e.status=400;throw e}
       shardCost=integer(cfg.enhancement.shardCosts[beforeLevel],0);const successRate=Number(cfg.enhancement.successRates[beforeLevel]||0),balance=await env.DB.prepare('SELECT card_shards FROM users WHERE id=?').bind(user.id).first();
       if(Number(balance?.card_shards||0)<shardCost){const e=new Error(`카드 조각이 부족합니다. (${shardCost.toLocaleString()}개 필요)`);e.status=400;throw e}
       const reserve=await env.DB.prepare('UPDATE user_magic_cards SET quantity=quantity-1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND magic_card_id=? AND quantity>=2 AND enhancement_level=?').bind(user.id,magicCardId,beforeLevel).run();
@@ -531,7 +537,7 @@ export async function handleMagic({path,request,env,deps}){
       const spend=await env.DB.prepare('UPDATE users SET card_shards=card_shards-? WHERE id=? AND card_shards>=?').bind(shardCost,user.id,shardCost).run();
       if(Number(spend.meta?.changes||0)!==1){const e=new Error('카드 조각 잔액이 변경됐습니다. 다시 시도해주세요.');e.status=409;throw e}shardsDeducted=true;
       const success=Math.random()*100<successRate,afterLevel=success?beforeLevel+1:beforeLevel,shardsAfter=Number(balance.card_shards)-shardCost,quantityAfter=Number(owned.quantity)-1;
-      const result={ok:true,success,magicCardId,name:String(owned.name||''),beforeLevel,afterLevel,successRate,shardCost,quantityAfter,materialConsumed:1,cardShards:shardsAfter,effectiveTriggerBonus:Number(cfg.enhancement.triggerBonuses[afterLevel]||0)};
+      const result={ok:true,success,magicCardId,name:String(owned.name||''),beforeLevel,afterLevel,successRate,shardCost,quantityAfter,materialConsumed:1,cardShards:shardsAfter,effectiveTriggerChance:Number(cfg.enhancement.triggerRates[afterLevel]||0)};
       const statements=[
         env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'마법카드 강화',?)").bind(user.id,-shardCost,shardsAfter,String(magicCardId)),
         env.DB.prepare("UPDATE magic_card_enhance_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(result),requestId,user.id)
@@ -619,7 +625,7 @@ export async function handleMagic({path,request,env,deps}){
       if(action==='SAVE_MAGIC_CARD'){
         const id=body.id?integer(body.id,0,1,2147483647):null,code=safeCode(body.code||body.name),name=String(body.name||'').trim().slice(0,60),rarity=String(body.rarity||'R').toUpperCase(),effectType=String(body.effectType||'').toUpperCase();
         if(!name)return json({error:'마법카드 이름을 입력하세요.'},400);if(!code)return json({error:'마법카드 코드를 입력하세요.'},400);if(!MAGIC_RARITIES.includes(rarity))return json({error:'마법카드 등급은 R·SR·SSR만 사용할 수 있습니다.'},400);
-        if(!MAGIC_BATTLE_EFFECTS.includes(effectType))return json({error:'확정된 마법카드 효과 7종 중 하나를 선택하세요.'},400);
+        if(!MAGIC_BATTLE_EFFECTS.includes(effectType))return json({error:'확정된 마법카드 효과 14종 중 하나를 선택하세요.'},400);
         const values=[code,name,rarity,String(body.imageUrl||'').trim().slice(0,500),String(body.description||'').trim().slice(0,300),effectType,String(body.triggerType||'BATTLE_START').toUpperCase().slice(0,40),Number(body.effectValue||0),Math.min(100,Math.max(0,Number(body.triggerChance??100))),integer(body.maxActivations,1,1,99),Math.max(0.0001,Number(body.drawWeight||1)),body.scopes?.pve===false?0:1,body.scopes?.pvp===false?0:1,0,body.isActive===false?0:1,integer(body.sortOrder,0,0,100000)];
         if(id)await env.DB.prepare(`UPDATE magic_cards SET code=?,name=?,rarity=?,image_url=?,description=?,effect_type=?,trigger_type=?,effect_value=?,trigger_chance=?,max_activations=?,draw_weight=?,scope_pve=?,scope_pvp=?,scope_captain=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...values,id).run();
         else await env.DB.prepare(`INSERT INTO magic_cards(code,name,rarity,image_url,description,effect_type,trigger_type,effect_value,trigger_chance,max_activations,draw_weight,scope_pve,scope_pvp,scope_captain,is_active,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...values).run();

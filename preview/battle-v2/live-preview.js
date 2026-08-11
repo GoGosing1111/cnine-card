@@ -2,7 +2,7 @@
   'use strict';
   const $=selector=>document.querySelector(selector);
   const modal=$('#battleV2PreviewModal'),consoleBox=$('.live-preview-console'),status=$('#magicPreviewStatus'),cards=$('#magicPreviewCards'),mode=$('#magicPreviewMode'),replay=$('#magicPreviewReplay'),reroll=$('#magicPreviewReroll');
-  const labels={OPENING_ATTACK:'선봉 공격',GUARD_BARRIER:'수호 결계',LIFE_AMPLIFY:'생명 증폭',CRISIS_HEAL:'위기 회복',PUNISH_TRAP:'응징 함정',ARCANE_COUNTER:'비전 반격',FOLLOWUP_HASTE:'연계 가속'};
+  const labels={OPENING_ATTACK:'선봉 공격',GUARD_BARRIER:'수호 결계',LIFE_AMPLIFY:'생명 증폭',CRISIS_HEAL:'위기 회복',PUNISH_TRAP:'응징 함정',ARCANE_COUNTER:'비전 반격',FOLLOWUP_HASTE:'연계 가속',ARCANE_SEAL:'마법 봉인',DOOM_MARK:'파멸 낙인',SHIELD_SIPHON:'보호막 강탈',TIME_DISTORTION:'시간 왜곡',PHOENIX_REVIVE:'불사조 부활',PURIFY_LIGHT:'성광 정화',CHAIN_ECHO:'연쇄 잔영'};
   let payload=null,runId=0,busy=false,lastSeed=Date.now();
   const esc=value=>String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const asset=value=>{const raw=String(value||'').trim().replaceAll('\\','/');return /^(?:https?:|data:|blob:)/i.test(raw)?raw:`/${raw.replace(/^\/+/, '')}`};
@@ -34,7 +34,7 @@
   }
   async function calculate(seed=Date.now()){
     if(busy)return;setBusy(true);setStatus('실제 전투 덱과 마법카드를 계산하고 있습니다.');
-    try{lastSeed=seed;payload=await fetchBattle(seed);renderMagic(payload);setStatus(`${payload.magicPreview?.mode==='LOADOUT'?'내 장착 덱':'CMS 예시 7종'} · ${allMagic(payload).length}장 · 서버 계산 완료`,'ok');await play(payload)}
+    try{lastSeed=seed;payload=await fetchBattle(seed);renderMagic(payload);setStatus(`${payload.magicPreview?.mode==='LOADOUT'?'내 장착 덱':'CMS 예시 14종'} · ${allMagic(payload).length}장 · 서버 계산 완료`,'ok');await play(payload)}
     catch(error){console.error(error);setStatus(String(error.message||error),'error');modal.innerHTML=''}
     finally{setBusy(false)}
   }
