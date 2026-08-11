@@ -6,6 +6,43 @@ const STAT_PROFILES = {
   NONE:    { hp: 0.40, attack: 0.28, defense: 0.18, speed: 0.14, label: '균형형' }
 };
 
+const MAGIC_V2_PREVIEW_EXAMPLES = [
+  { code:'V2_OPENING_ATTACK', name:'선봉의 마력검', rarity:'SSR', imageUrl:'assets/ui/magic-cards/opening-attack-768-v1500.webp', effectType:'OPENING_ATTACK', effectValue:18, triggerChance:100, maxActivations:1 },
+  { code:'V2_GUARD_BARRIER', name:'성역의 수호결계', rarity:'SSR', imageUrl:'assets/ui/magic-cards/guard-barrier-768-v1500.webp', effectType:'GUARD_BARRIER', effectValue:20, triggerChance:100, maxActivations:1 },
+  { code:'V2_LIFE_AMPLIFY', name:'생명의 근원', rarity:'SR', imageUrl:'assets/ui/magic-cards/life-amplify-768-v1500.webp', effectType:'LIFE_AMPLIFY', effectValue:16, triggerChance:100, maxActivations:1 },
+  { code:'V2_CRISIS_HEAL', name:'긴급 치유의 빛', rarity:'SSR', imageUrl:'assets/ui/magic-cards/crisis-heal-768-v1500.webp', effectType:'CRISIS_HEAL', effectValue:28, triggerChance:100, maxActivations:2 },
+  { code:'V2_FOLLOWUP_HASTE', name:'질풍의 연계', rarity:'SR', imageUrl:'assets/ui/magic-cards/followup-haste-768-v1500.webp', effectType:'FOLLOWUP_HASTE', effectValue:22, triggerChance:100, maxActivations:2 },
+  { code:'V2_PUNISH_TRAP', name:'응징의 마법진', rarity:'SR', imageUrl:'assets/ui/magic-cards/punish-trap-768-v1500.webp', effectType:'PUNISH_TRAP', effectValue:14, triggerChance:100, maxActivations:2 },
+  { code:'V2_ARCANE_COUNTER', name:'비전 반격', rarity:'SSR', imageUrl:'assets/ui/magic-cards/arcane-counter-768-v1500.webp', effectType:'ARCANE_COUNTER', effectValue:16, triggerChance:100, maxActivations:2 }
+];
+
+async function magicV2PreviewExamples(env) {
+  const codes = MAGIC_V2_PREVIEW_EXAMPLES.map(card => card.code);
+  const placeholders = codes.map(() => '?').join(',');
+  let rows = [];
+  try {
+    rows = (await env.DB.prepare(`SELECT id,code,name,rarity,image_url,effect_type,effect_value,trigger_chance,max_activations FROM magic_cards WHERE code IN (${placeholders})`).bind(...codes).all()).results || [];
+  } catch (error) {
+    console.warn('magic V2 preview examples unavailable', error);
+  }
+  const byCode = new Map(rows.map(row => [String(row.code), row]));
+  return MAGIC_V2_PREVIEW_EXAMPLES.map((fallback, index) => {
+    const row = byCode.get(fallback.code);
+    return {
+      ...fallback,
+      id: Number(row?.id || -(index + 1)),
+      name: String(row?.name || fallback.name),
+      rarity: String(row?.rarity || fallback.rarity).toUpperCase(),
+      imageUrl: String(row?.image_url || fallback.imageUrl),
+      effectType: String(row?.effect_type || fallback.effectType).toUpperCase(),
+      effectValue: Number(row?.effect_value ?? fallback.effectValue),
+      triggerChance: Number(row?.trigger_chance ?? fallback.triggerChance),
+      maxActivations: Math.max(1, Number(row?.max_activations ?? fallback.maxActivations)),
+      registered: Boolean(row?.id)
+    };
+  });
+}
+
 function clamp(value, min, max) {
   const n = Number(value);
   return Math.max(min, Math.min(max, Number.isFinite(n) ? n : min));
@@ -735,6 +772,7 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
   const url = new URL(request.url);
   const requestedOpponentId = Math.max(0, Math.floor(Number(url.searchParams.get('opponentId') || 0)));
   const nonce = String(url.searchParams.get('seed') || Date.now()).slice(0, 80);
+  const magicMode = String(url.searchParams.get('magicMode') || 'EXAMPLES').trim().toUpperCase() === 'LOADOUT' ? 'LOADOUT' : 'EXAMPLES';
   const [settings, ownDeck, opponent] = await Promise.all([
     deps.battleSettings(env),
     deps.pvpDeckSnapshot(env, user.id),
@@ -772,8 +810,26 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
   const enemyWithEquipment = distributeEquipment(enemyCards, Number(enemyBonus?.pvp || 0));
   const teamA = ownWithEquipment.map((card, index) => buildFighter(card, index, 'A', ownUniqueMap.get(String(card.id))));
   const teamB = enemyWithEquipment.map((card, index) => buildFighter(card, index, 'B', enemyUniqueMap.get(String(card.id))));
+  let magicA = [];
+  let magicB = [];
+  let registeredExamples = [];
+  if (magicMode === 'LOADOUT') {
+    const previewOpponent = { ...opponentUser, role: 'OWNER' };
+    const [ownMagic, enemyMagic] = await Promise.all([
+      deps.magicBattleLoadout(env, { ...user, role: 'OWNER' }, 'PVP'),
+      mirror
+        ? deps.magicBattleLoadout(env, { ...user, role: 'OWNER' }, 'PVP')
+        : deps.magicBattleLoadout(env, previewOpponent, 'PVP')
+    ]);
+    magicA = Array.isArray(ownMagic?.cards) ? ownMagic.cards : [];
+    magicB = Array.isArray(enemyMagic?.cards) ? enemyMagic.cards : [];
+  } else {
+    registeredExamples = await magicV2PreviewExamples(env);
+    magicA = registeredExamples.slice(0, 5).map((card, index) => ({ ...card, slotNo: index + 1 }));
+    magicB = registeredExamples.slice(5).map((card, index) => ({ ...card, slotNo: index + 1 }));
+  }
   const seed = hashSeed(`${user.id}:${opponentUser.id}:${nonce}`);
-  const simulation = simulateBattleV2Preview({ teamA, teamB, seed, healerPenalty: true });
+  const simulation = simulateBattleV2Preview({ teamA, teamB, magicA, magicB, seed, healerPenalty: true });
 
   return deps.json({
     preview: true,
@@ -793,6 +849,13 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
     },
     player: { id: Number(user.id), nickname: String(user.nickname || 'PLAYER') },
     opponent: { id: Number(opponentUser.id), nickname: String(opponentUser.nickname || 'OPPONENT'), mirror },
+    magicPreview: {
+      mode: magicMode,
+      teamA: magicA,
+      teamB: magicB,
+      registeredExamples,
+      effectTypes: [...new Set([...magicA, ...magicB].map(card => String(card.effectType || '')).filter(Boolean))]
+    },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
