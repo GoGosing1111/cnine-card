@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>숲켓몬 제작소 V1668</title>
+  <link rel="stylesheet" href="../css/style.css?v=1668-workshop-nav">
+  <link rel="stylesheet" href="../css/workshop-v1668.css?v=1668-workshop">
+  <style>html,body{margin:0;min-height:100%;background:#050a12}.page{width:100%;max-width:none;margin:0;padding:0;border:0;background:transparent}</style>
+</head>
+<body><main class="page"><div id="previewApp"></div><div id="modal" class="modal"></div></main>
+<script>
+  const mockState={wallet:{coin:79338124,masterStars:286},inventory:{
+    VEHICLE_PART_TIRE:{name:'고성능 타이어',image_url:'../assets/ui/workshop/vehicle-part-tire-v1668.png',quantity:30},
+    VEHICLE_PART_FRAME:{name:'강화 프레임',image_url:'../assets/ui/workshop/vehicle-part-frame-v1668.png',quantity:16},
+    VEHICLE_PART_ENGINE:{name:'고출력 엔진',image_url:'../assets/ui/workshop/vehicle-part-engine-v1668.png',quantity:8}
+  },categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:false}],recipes:[
+    {id:1,code:'WORKSHOP_GOLD_MATIZ',category:'VEHICLE',name:'황금마티즈 조립',description:'폐차장에서 회수한 기본 부품으로 완성하는 입문 차량입니다.',output_type:'VEHICLE',output_name:'황금마티즈',output_image:'../assets/tire/10.jpeg',output_rarity:'MAGIC',output_pve:100,output_pvp:50,payment_mode:'COIN_OR_MASTER_STAR',coin_cost:500000,master_star_cost:2,success_rate:100,is_featured:1,owned:false,materials:[{item_code:'VEHICLE_PART_TIRE',item_name:'고성능 타이어',image_url:'../assets/ui/workshop/vehicle-part-tire-v1668.png',quantity:4},{item_code:'VEHICLE_PART_FRAME',item_name:'강화 프레임',image_url:'../assets/ui/workshop/vehicle-part-frame-v1668.png',quantity:2},{item_code:'VEHICLE_PART_ENGINE',item_name:'고출력 엔진',image_url:'../assets/ui/workshop/vehicle-part-engine-v1668.png',quantity:1}]},
+    {id:2,code:'WORKSHOP_SIEGE_TANK',category:'VEHICLE',name:'틀타 시즈탱크 조립',description:'강화 차체와 고출력 엔진을 사용하는 중급 전투 차량입니다.',output_type:'VEHICLE',output_name:'틀타 시즈탱크',output_image:'../assets/tire/7.png',output_rarity:'EPIC',output_pve:500,output_pvp:200,payment_mode:'COIN_OR_MASTER_STAR',coin_cost:2000000,master_star_cost:6,success_rate:100,is_featured:0,owned:false,materials:[{item_code:'VEHICLE_PART_TIRE',item_name:'고성능 타이어',image_url:'../assets/ui/workshop/vehicle-part-tire-v1668.png',quantity:8},{item_code:'VEHICLE_PART_FRAME',item_name:'강화 프레임',image_url:'../assets/ui/workshop/vehicle-part-frame-v1668.png',quantity:4},{item_code:'VEHICLE_PART_ENGINE',item_name:'고출력 엔진',image_url:'../assets/ui/workshop/vehicle-part-engine-v1668.png',quantity:2}]},
+    {id:3,code:'WORKSHOP_SKI1000C',category:'VEHICLE',name:'SKI1000C 조립',description:'정밀 부품을 대량 투입해 완성하는 상급 제작 차량입니다.',output_type:'VEHICLE',output_name:'SKI1000C',output_image:'../assets/tire/6.png',output_rarity:'LEGENDARY',output_pve:1000,output_pvp:500,payment_mode:'COIN_OR_MASTER_STAR',coin_cost:6000000,master_star_cost:18,success_rate:100,is_featured:0,owned:false,materials:[{item_code:'VEHICLE_PART_TIRE',item_name:'고성능 타이어',image_url:'../assets/ui/workshop/vehicle-part-tire-v1668.png',quantity:14},{item_code:'VEHICLE_PART_FRAME',item_name:'강화 프레임',image_url:'../assets/ui/workshop/vehicle-part-frame-v1668.png',quantity:8},{item_code:'VEHICLE_PART_ENGINE',item_name:'고출력 엔진',image_url:'../assets/ui/workshop/vehicle-part-engine-v1668.png',quantity:5}]}
+  ]};
+  window.escapeHtml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+  window.apiRequest=async path=>path==='workshop'?structuredClone(mockState):Promise.reject(new Error('프리뷰에서는 실제 제작을 실행하지 않습니다.'));
+</script>
+<script src="../js/workshop-v1668.js?v=1668-workshop"></script>
+<script>previewApp.innerHTML=window.workshopView();window.bindWorkshopView();</script>
+</body>
+</html>
