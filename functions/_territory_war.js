@@ -18,6 +18,9 @@ const DEFAULTS=Object.freeze({
   individualBattleWinCoin:0,
   winnerCoin:5000,loserCoin:2000,drawCoin:3000,participationShards:50,
   contributionCoinPer1000Damage:10,maxContributionCoin:1000000,settlementMinAttacks:1,
+  attackRewardStarterPercent:25,attackRewardTier1Attacks:10,attackRewardTier1Percent:50,
+  attackRewardTier2Attacks:30,attackRewardTier2Percent:80,attackRewardTier3Attacks:60,attackRewardTier3Percent:100,
+  attackRewardTier4Attacks:100,attackRewardTier4Percent:125,
   siegeSnapshotLimit:12,siegeSnapshotAttackThreshold:200,siegeSnapshotBonusCoin:500000,
   siegeParticipationCubeThreshold:100,siegeParticipationCubeQuantity:10
   ,lastDefenseHpBonusPercent:35,lastDefenseHoldMinutes:15,lastDefenseEnergyMinutes:5,
@@ -256,6 +259,16 @@ async function ensureFoundation(env){
   if(!loadoutSnapshotMarker){await addColumnIfMissing(env,'territory_war_v3_users','loadout_bonus_json','TEXT');await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1538_territory_loadout_snapshot','1',CURRENT_TIMESTAMP)").run()}
   const truceDurationMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1539_territory_truce_duration'").first();
   if(!truceDurationMarker){await addColumnIfMissing(env,'territory_war_v3_rounds','truce_duration_minutes','INTEGER');await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1539_territory_truce_duration','1',CURRENT_TIMESTAMP)").run()}
+  const participationBalanceMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1647_territory_participation_balance'").first();
+  if(!participationBalanceMarker){
+    for(const [column,definition] of [
+      ['balance_previous_round_id','INTEGER'],['balance_previous_side','TEXT'],['balance_previous_result','TEXT'],['balance_previous_attacks','INTEGER NOT NULL DEFAULT 0']
+    ])await addColumnIfMissing(env,'territory_war_v3_users',column,definition);
+    for(const [column,definition] of [
+      ['base_result_coin','INTEGER NOT NULL DEFAULT 0'],['attack_reward_percent','INTEGER NOT NULL DEFAULT 0'],['attack_adjusted_coin','INTEGER NOT NULL DEFAULT 0']
+    ])await addColumnIfMissing(env,'territory_war_v3_rewards',column,definition);
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1647_territory_participation_balance','1',CURRENT_TIMESTAMP)").run();
+  }
   const loadIndexMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1471_territory_load_indexes'").first();
   if(!loadIndexMarker){
     await env.DB.batch([
@@ -399,34 +412,32 @@ async function createFront(env,roundId,sequence,nodeIndex,status,cfg){
   return front;
 }
 
+function historyResult(item){return ['WIN','LOSE','DRAW'].includes(String(item?.balance_previous_result||''))?String(item.balance_previous_result):'NEW'}
+function historyAttacks(item){return Math.max(0,Math.min(300,Number(item?.balance_previous_attacks||0)))}
+function formationCost(metrics,totals){
+  const powerGap=Math.abs(metrics.aPower-metrics.bPower)/Math.max(1,totals.power),activityGap=Math.abs(metrics.aActivity-metrics.bActivity)/Math.max(1,totals.activity),winnerGap=Math.abs(metrics.aWinners-metrics.bWinners)/Math.max(1,totals.winners),loserGap=Math.abs(metrics.aLosers-metrics.bLosers)/Math.max(1,totals.losers);
+  return Math.abs(metrics.aCount-metrics.bCount)*1000+powerGap*120+activityGap*100+winnerGap*80+loserGap*50+metrics.repeatedSides/Math.max(1,totals.history)*4;
+}
 function balancedSideAssignments(users){
-  let aPower=0,bPower=0,aCount=0,bCount=0;const assignments=[];
-  const place=(item,side)=>{assignments.push({item,side});if(side==='A'){aPower+=Number(item.deck_power||0);aCount++}else{bPower+=Number(item.deck_power||0);bCount++}};
-  for(let i=0;i<users.length;i+=2){
-    const high=users[i],low=users[i+1];
-    if(!low){const side=aPower<bPower?'A':bPower<aPower?'B':aCount<=bCount?'A':'B';place(high,side);continue}
-    const highToA=Math.abs((aPower+Number(high.deck_power||0))-(bPower+Number(low.deck_power||0)));
-    const highToB=Math.abs((aPower+Number(low.deck_power||0))-(bPower+Number(high.deck_power||0)));
-    const highSide=highToA<highToB?'A':highToB<highToA?'B':aPower<=bPower?'A':'B';
-    place(high,highSide);place(low,highSide==='A'?'B':'A');
-  }
-  // Keep the headcount fixed, then exchange one member from each side whenever
-  // the swap strictly reduces the total deck-power gap. This closes the residual
-  // imbalance left by the fast pair-wise assignment without making formation costly.
-  let improved=true,passes=0;
-  while(improved&&passes++<Math.min(50,Math.max(1,users.length))){
-    improved=false;let best=null,bestGap=Math.abs(aPower-bPower);
-    for(let ai=0;ai<assignments.length;ai++){
-      if(assignments[ai].side!=='A')continue;
-      for(let bi=0;bi<assignments.length;bi++){
-        if(assignments[bi].side!=='B')continue;
-        const ap=Number(assignments[ai].item.deck_power||0),bp=Number(assignments[bi].item.deck_power||0),nextA=aPower-ap+bp,nextB=bPower-bp+ap,gap=Math.abs(nextA-nextB);
-        if(gap<bestGap){bestGap=gap;best={ai,bi,nextA,nextB}}
-      }
-    }
-    if(best){assignments[best.ai].side='B';assignments[best.bi].side='A';aPower=best.nextA;bPower=best.nextB;improved=true}
-  }
-  return{assignments,aPower,bPower,aCount,bCount};
+  const totals={power:users.reduce((sum,item)=>sum+Number(item.deck_power||0),0),activity:users.reduce((sum,item)=>sum+historyAttacks(item),0),winners:users.filter(item=>historyResult(item)==='WIN').length,losers:users.filter(item=>historyResult(item)==='LOSE').length,history:users.filter(item=>historyResult(item)!=='NEW').length};
+  const metrics={aPower:0,bPower:0,aActivity:0,bActivity:0,aWinners:0,bWinners:0,aLosers:0,bLosers:0,aCount:0,bCount:0,repeatedSides:0},assignments=[],capacityA=Math.ceil(users.length/2),capacityB=Math.ceil(users.length/2);
+  const projected=(entries)=>{const next={...metrics};for(const {item,side} of entries){const prefix=side==='A'?'a':'b',result=historyResult(item);next[`${prefix}Power`]+=Number(item.deck_power||0);next[`${prefix}Activity`]+=historyAttacks(item);next[`${prefix}Count`]++;if(result==='WIN')next[`${prefix}Winners`]++;if(result==='LOSE')next[`${prefix}Losers`]++;if(String(item.balance_previous_side||'')===side)next.repeatedSides++}return next};
+  const canPlace=entries=>entries.every(({side},index)=>{const before=entries.slice(0,index).filter(entry=>entry.side===side).length;return side==='A'?metrics.aCount+before<capacityA:metrics.bCount+before<capacityB});
+  const place=(item,side)=>{assignments.push({item,side});Object.assign(metrics,projected([{item,side}]))};
+  const choose=(options)=>options.filter(canPlace).map(entries=>({entries,cost:formationCost(projected(entries),totals)})).sort((a,b)=>a.cost-b.cost||String(a.entries.map(entry=>`${entry.side}:${entry.item.user_id}`).join('|')).localeCompare(String(b.entries.map(entry=>`${entry.side}:${entry.item.user_id}`).join('|'))))[0]?.entries||options[0];
+  const cohorts=['WIN','LOSE','DRAW','NEW'].map(result=>users.filter(item=>historyResult(item)===result).sort((a,b)=>historyAttacks(b)-historyAttacks(a)||Number(b.deck_power||0)-Number(a.deck_power||0)||Number(a.user_id)-Number(b.user_id)));
+  for(const cohort of cohorts){for(let index=0;index<cohort.length;index+=2){const first=cohort[index],second=cohort[index+1];if(second){for(const entry of choose([[{item:first,side:'A'},{item:second,side:'B'}],[{item:first,side:'B'},{item:second,side:'A'}]]))place(entry.item,entry.side)}else{const options=['A','B'].map(side=>[{item:first,side}]);for(const entry of choose(options))place(entry.item,entry.side)}}}
+  // Keep historical winners/losers crossed while reducing residual power and
+  // activity gaps. Swaps are restricted to the same prior-result cohort so a
+  // power-only optimization cannot cluster last round's active winners again.
+  if(assignments.length<=400){let improved=true,passes=0;while(improved&&passes++<12){improved=false;let best=null,bestCost=formationCost(metrics,totals);for(let ai=0;ai<assignments.length;ai++){if(assignments[ai].side!=='A')continue;for(let bi=0;bi<assignments.length;bi++){if(assignments[bi].side!=='B'||historyResult(assignments[ai].item)!==historyResult(assignments[bi].item))continue;const left=assignments[ai].item,right=assignments[bi].item,leftPower=Number(left.deck_power||0),rightPower=Number(right.deck_power||0),leftActivity=historyAttacks(left),rightActivity=historyAttacks(right),next={...metrics,aPower:metrics.aPower-leftPower+rightPower,bPower:metrics.bPower-rightPower+leftPower,aActivity:metrics.aActivity-leftActivity+rightActivity,bActivity:metrics.bActivity-rightActivity+leftActivity},beforeRepeat=Number(String(left.balance_previous_side||'')==='A')+Number(String(right.balance_previous_side||'')==='B'),afterRepeat=Number(String(left.balance_previous_side||'')==='B')+Number(String(right.balance_previous_side||'')==='A');next.repeatedSides+=afterRepeat-beforeRepeat;const cost=formationCost(next,totals);if(cost+1e-9<bestCost){bestCost=cost;best={ai,bi,next}}}}if(best){assignments[best.ai].side='B';assignments[best.bi].side='A';Object.assign(metrics,best.next);improved=true}}}
+  return{assignments,...metrics};
+}
+
+async function previousRoundHistory(env,roundId){
+  const previous=await env.DB.prepare("SELECT id,winner_side FROM territory_war_v3_rounds WHERE id<? AND settled_at IS NOT NULL ORDER BY id DESC LIMIT 1").bind(roundId).first();if(!previous)return{roundId:null,users:new Map()};
+  const rows=(await env.DB.prepare(`WITH action_counts AS (SELECT user_id,COUNT(*) attacks FROM territory_war_v3_actions WHERE round_id=? AND status IN ('APPLIED','COMPLETED') GROUP BY user_id) SELECT u.user_id,u.side,MAX(u.attacks,COALESCE(ac.attacks,0)) attacks FROM territory_war_v3_users u LEFT JOIN action_counts ac ON ac.user_id=u.user_id WHERE u.round_id=?`).bind(previous.id,previous.id).all()).results||[],winner=String(previous.winner_side||'DRAW'),mapped=new Map();
+  for(const row of rows)mapped.set(Number(row.user_id),{roundId:Number(previous.id),side:String(row.side||''),result:winner==='DRAW'?'DRAW':String(row.side||'')===winner?'WIN':'LOSE',attacks:Number(row.attacks||0)});return{roundId:Number(previous.id),users:mapped};
 }
 
 async function formRound(env,round,cfg){
@@ -435,12 +446,12 @@ async function formRound(env,round,cfg){
     const fresh=await roundById(env,round.id);if(!fresh||fresh.status!=='RECRUITING')return{status:fresh?.status||'MISSING'};
     const users=(await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? ORDER BY deck_power DESC,registered_at,user_id').bind(round.id).all()).results||[];
     if(users.length<Number(cfg.minParticipants||6))return{status:'WAITING_MINIMUM',count:users.length};
-    const balanced=balancedSideAssignments(users),{aPower,bPower,aCount,bCount}=balanced,statements=[];
-    for(const {item,side} of balanced.assignments)statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),round.id,item.user_id));
+    const history=await previousRoundHistory(env,round.id),candidates=users.map(item=>{const prior=history.users.get(Number(item.user_id));return{...item,balance_previous_round_id:prior?.roundId||null,balance_previous_side:prior?.side||null,balance_previous_result:prior?.result||'NEW',balance_previous_attacks:prior?.attacks||0}}),balanced=balancedSideAssignments(candidates),{aPower,bPower,aCount,bCount}=balanced,statements=[];
+    for(const {item,side} of balanced.assignments)statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,balance_previous_round_id=?,balance_previous_side=?,balance_previous_result=?,balance_previous_attacks=?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),item.balance_previous_round_id,item.balance_previous_side,item.balance_previous_result,Number(item.balance_previous_attacks||0),round.id,item.user_id));
     await batchChunks(env,statements);
     const prep=Math.max(0,Number(cfg.preparationMinutes||0)),starts=iso(Date.now()+prep*60000),ends=iso(Date.now()+(prep+Number(cfg.roundMinutes||180))*60000),front=await createFront(env,round.id,1,4,prep>0?'PREPARING':'ACTIVE',cfg);
     await env.DB.prepare(`UPDATE territory_war_v3_rounds SET status=?,formed_at=CURRENT_TIMESTAMP,starts_at=?,ends_at=?,current_front_index=4,current_front_id=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'`).bind(prep>0?'PREPARING':'ACTIVE',starts,ends,front.id,round.id).run();
-    return{status:prep>0?'PREPARING':'ACTIVE',aCount,bCount,aPower,bPower};
+    return{status:prep>0?'PREPARING':'ACTIVE',aCount,bCount,aPower,bPower,previousRoundId:history.roundId,aActivity:balanced.aActivity,bActivity:balanced.bActivity,aPreviousWinners:balanced.aWinners,bPreviousWinners:balanced.bWinners};
   }finally{await releaseLock(env,lock)}
 }
 
@@ -458,6 +469,15 @@ function timeWinner(round,front){
   if(Number(round.a_total_damage||0)>Number(round.b_total_damage||0))return'A';if(Number(round.b_total_damage||0)>Number(round.a_total_damage||0))return'B';return'DRAW';
 }
 
+function attackRewardPercent(attacks,cfg=DEFAULTS){
+  const count=Math.max(0,Number(attacks||0)),tiers=[
+    [Number(cfg.attackRewardTier1Attacks??10),Number(cfg.attackRewardTier1Percent??50)],
+    [Number(cfg.attackRewardTier2Attacks??30),Number(cfg.attackRewardTier2Percent??80)],
+    [Number(cfg.attackRewardTier3Attacks??60),Number(cfg.attackRewardTier3Percent??100)],
+    [Number(cfg.attackRewardTier4Attacks??100),Number(cfg.attackRewardTier4Percent??125)]
+  ].sort((a,b)=>a[0]-b[0]);let percent=Number(cfg.attackRewardStarterPercent??25);for(const [threshold,tierPercent] of tiers)if(count>=threshold)percent=tierPercent;return clampInt(percent,0,300,25);
+}
+
 async function generateRewards(env,round,cfg){
   const rows=(await env.DB.prepare(`WITH action_counts AS (
     SELECT user_id,COUNT(*) attacks FROM territory_war_v3_actions
@@ -466,7 +486,7 @@ async function generateRewards(env,round,cfg){
     MAX(u.attacks,COALESCE(ac.attacks,0)) attacks
     FROM territory_war_v3_users u LEFT JOIN action_counts ac ON ac.user_id=u.user_id
     WHERE u.round_id=? ORDER BY u.damage DESC,attacks DESC,u.user_id`).bind(round.id,round.id).all()).results||[],statements=[],required=Math.max(0,Number(cfg.settlementMinAttacks??1)),snapshotLimit=Math.max(1,Number(cfg.siegeSnapshotLimit||12)),snapshotThreshold=Math.max(0,Number(cfg.siegeSnapshotAttackThreshold??200)),snapshotReward=Math.max(0,Number(cfg.siegeSnapshotBonusCoin??500000)),cubeThreshold=Math.max(0,Number(cfg.siegeParticipationCubeThreshold??100)),cubeReward=Math.max(0,Number(cfg.siegeParticipationCubeQuantity??10));
-  for(const [rank,item] of rows.entries()){const attacks=Number(item.attacks||0),eligible=attacks>=required,winner=String(round.winner_side||'DRAW'),result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE',inSnapshot=rank<snapshotLimit;let coin=0,shards=0,counterBonus=0,aceBonus=0,lastDefenseBonus=0,comebackBonus=0,siegeSnapshotBonus=0,premiumCubeQuantity=0;if(eligible){coin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);coin+=Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(Number(item.damage||0)/1000)*Number(cfg.contributionCoinPer1000Damage||0));counterBonus=Number(item.counter_contribution||0)*Number(cfg.counterContributionCoinPerPoint||5);aceBonus=Number(item.ace_defeats||0)*Number(cfg.aceDefeatCoin||10000);lastDefenseBonus=Number(item.last_defense_successes||0)*Number(cfg.lastDefenseCoin||5000);comebackBonus=Number(item.comeback_participations||0)*Number(cfg.comebackParticipationCoin||300);siegeSnapshotBonus=inSnapshot&&attacks>snapshotThreshold?snapshotReward:0;premiumCubeQuantity=attacks>=cubeThreshold?cubeReward:0;coin+=counterBonus+aceBonus+lastDefenseBonus+comebackBonus+siegeSnapshotBonus;shards=Number(cfg.participationShards||0)}statements.push(env.DB.prepare(`INSERT INTO territory_war_v3_rewards(round_id,user_id,side,result,coin,shards,damage,attacks,required_attacks,counter_bonus_coin,ace_bonus_coin,last_defense_bonus_coin,comeback_bonus_coin,siege_snapshot_bonus_coin,premium_cube_quantity) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET side=excluded.side,result=excluded.result,coin=excluded.coin,shards=excluded.shards,damage=excluded.damage,attacks=excluded.attacks,required_attacks=excluded.required_attacks,counter_bonus_coin=excluded.counter_bonus_coin,ace_bonus_coin=excluded.ace_bonus_coin,last_defense_bonus_coin=excluded.last_defense_bonus_coin,comeback_bonus_coin=excluded.comeback_bonus_coin,siege_snapshot_bonus_coin=excluded.siege_snapshot_bonus_coin,premium_cube_quantity=excluded.premium_cube_quantity WHERE territory_war_v3_rewards.claimed_at IS NULL`).bind(round.id,item.user_id,item.side||'',result,coin,shards,Number(item.damage||0),attacks,required,counterBonus,aceBonus,lastDefenseBonus,comebackBonus,siegeSnapshotBonus,premiumCubeQuantity))}
+  for(const [rank,item] of rows.entries()){const attacks=Number(item.attacks||0),eligible=attacks>=required,winner=String(round.winner_side||'DRAW'),result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE',inSnapshot=rank<snapshotLimit;let coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0,counterBonus=0,aceBonus=0,lastDefenseBonus=0,comebackBonus=0,siegeSnapshotBonus=0,premiumCubeQuantity=0;if(eligible){baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(Number(item.damage||0)/1000)*Number(cfg.contributionCoinPer1000Damage||0));counterBonus=Number(item.counter_contribution||0)*Number(cfg.counterContributionCoinPerPoint||5);aceBonus=Number(item.ace_defeats||0)*Number(cfg.aceDefeatCoin||10000);lastDefenseBonus=Number(item.last_defense_successes||0)*Number(cfg.lastDefenseCoin||5000);comebackBonus=Number(item.comeback_participations||0)*Number(cfg.comebackParticipationCoin||300);siegeSnapshotBonus=inSnapshot&&attacks>snapshotThreshold?snapshotReward:0;premiumCubeQuantity=attacks>=cubeThreshold?cubeReward:0;coin+=counterBonus+aceBonus+lastDefenseBonus+comebackBonus+siegeSnapshotBonus;shards=Number(cfg.participationShards||0)}statements.push(env.DB.prepare(`INSERT INTO territory_war_v3_rewards(round_id,user_id,side,result,coin,shards,damage,attacks,required_attacks,base_result_coin,attack_reward_percent,attack_adjusted_coin,counter_bonus_coin,ace_bonus_coin,last_defense_bonus_coin,comeback_bonus_coin,siege_snapshot_bonus_coin,premium_cube_quantity) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET side=excluded.side,result=excluded.result,coin=excluded.coin,shards=excluded.shards,damage=excluded.damage,attacks=excluded.attacks,required_attacks=excluded.required_attacks,base_result_coin=excluded.base_result_coin,attack_reward_percent=excluded.attack_reward_percent,attack_adjusted_coin=excluded.attack_adjusted_coin,counter_bonus_coin=excluded.counter_bonus_coin,ace_bonus_coin=excluded.ace_bonus_coin,last_defense_bonus_coin=excluded.last_defense_bonus_coin,comeback_bonus_coin=excluded.comeback_bonus_coin,siege_snapshot_bonus_coin=excluded.siege_snapshot_bonus_coin,premium_cube_quantity=excluded.premium_cube_quantity WHERE territory_war_v3_rewards.claimed_at IS NULL`).bind(round.id,item.user_id,item.side||'',result,coin,shards,Number(item.damage||0),attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,counterBonus,aceBonus,lastDefenseBonus,comebackBonus,siegeSnapshotBonus,premiumCubeQuantity))}
   await batchChunks(env,statements);
 }
 
@@ -543,7 +563,7 @@ async function rewardForUser(env,userId){
   let v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.user_id=? AND r.claimed_at IS NULL ORDER BY r.round_id DESC LIMIT 1').bind(userId).first();
   if(v3&&v3.result==='INELIGIBLE'){
     const source=await env.DB.prepare(`SELECT u.side,u.damage,MAX(u.attacks,(SELECT COUNT(*) FROM territory_war_v3_actions a WHERE a.round_id=u.round_id AND a.user_id=u.user_id AND a.status IN ('APPLIED','COMPLETED'))) attacks FROM territory_war_v3_users u WHERE u.round_id=? AND u.user_id=?`).bind(v3.round_id,userId).first(),cfg=await settings(env),required=Math.max(0,Number(v3.required_attacks)>0?Number(v3.required_attacks):Number(cfg.settlementMinAttacks??1));
-    if(source){const attacks=Number(source.attacks||0),damage=Number(source.damage||0),eligible=attacks>=required;let result='INELIGIBLE',coin=0,shards=0;if(eligible){const round=await roundById(env,v3.round_id),winner=String(round?.winner_side||'DRAW');result=winner==='DRAW'?'DRAW':source.side===winner?'WIN':'LOSE';coin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);coin+=Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(damage/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}await env.DB.prepare(`UPDATE territory_war_v3_rewards SET side=?,result=?,coin=?,shards=?,damage=?,attacks=?,required_attacks=? WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(source.side||'',result,coin,shards,damage,attacks,required,v3.round_id,userId).run();v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=?').bind(v3.round_id,userId).first()}
+    if(source){const attacks=Number(source.attacks||0),damage=Number(source.damage||0),eligible=attacks>=required;let result='INELIGIBLE',coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0;if(eligible){const round=await roundById(env,v3.round_id),winner=String(round?.winner_side||'DRAW');result=winner==='DRAW'?'DRAW':source.side===winner?'WIN':'LOSE';baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(damage/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}await env.DB.prepare(`UPDATE territory_war_v3_rewards SET side=?,result=?,coin=?,shards=?,damage=?,attacks=?,required_attacks=?,base_result_coin=?,attack_reward_percent=?,attack_adjusted_coin=? WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(source.side||'',result,coin,shards,damage,attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,v3.round_id,userId).run();v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=?').bind(v3.round_id,userId).first()}
   }
   if(v3)return{...v3,version:'V3'};
   if(await tableExists(env,'territory_war_rewards')){const old=await env.DB.prepare('SELECT * FROM territory_war_rewards WHERE user_id=? AND claimed_at IS NULL ORDER BY round_id DESC LIMIT 1').bind(userId).first();if(old)return{...old,version:'LEGACY'}}
@@ -743,6 +763,7 @@ function cleanSettings(body,current){return{
   damageScale:clamp(body.damageScale,.1,100,current.damageScale),minDamage:clampInt(body.minDamage,1,10000000,current.minDamage),maxDamage:clampInt(body.maxDamage,1,100000000,current.maxDamage),damageVariancePercent:clampInt(body.damageVariancePercent,0,40,current.damageVariancePercent),recentActionLimit:clampInt(body.recentActionLimit,5,50,current.recentActionLimit),
   individualBattleWinCoin:clampInt(body.individualBattleWinCoin,0,100000000,current.individualBattleWinCoin),
   winnerCoin:clampInt(body.winnerCoin,0,100000000,current.winnerCoin),loserCoin:clampInt(body.loserCoin,0,100000000,current.loserCoin),drawCoin:clampInt(body.drawCoin,0,100000000,current.drawCoin),participationShards:clampInt(body.participationShards,0,1000000,current.participationShards),contributionCoinPer1000Damage:clampInt(body.contributionCoinPer1000Damage,0,1000000,current.contributionCoinPer1000Damage),maxContributionCoin:clampInt(body.maxContributionCoin,0,100000000,current.maxContributionCoin),settlementMinAttacks:clampInt(body.settlementMinAttacks,0,10000,current.settlementMinAttacks),
+  attackRewardStarterPercent:clampInt(body.attackRewardStarterPercent,0,300,current.attackRewardStarterPercent??25),attackRewardTier1Attacks:clampInt(body.attackRewardTier1Attacks,1,1000000,current.attackRewardTier1Attacks??10),attackRewardTier1Percent:clampInt(body.attackRewardTier1Percent,0,300,current.attackRewardTier1Percent??50),attackRewardTier2Attacks:clampInt(body.attackRewardTier2Attacks,1,1000000,current.attackRewardTier2Attacks??30),attackRewardTier2Percent:clampInt(body.attackRewardTier2Percent,0,300,current.attackRewardTier2Percent??80),attackRewardTier3Attacks:clampInt(body.attackRewardTier3Attacks,1,1000000,current.attackRewardTier3Attacks??60),attackRewardTier3Percent:clampInt(body.attackRewardTier3Percent,0,300,current.attackRewardTier3Percent??100),attackRewardTier4Attacks:clampInt(body.attackRewardTier4Attacks,1,1000000,current.attackRewardTier4Attacks??100),attackRewardTier4Percent:clampInt(body.attackRewardTier4Percent,0,300,current.attackRewardTier4Percent??125),
   siegeSnapshotLimit:clampInt(body.siegeSnapshotLimit,1,20,current.siegeSnapshotLimit??12),siegeSnapshotAttackThreshold:clampInt(body.siegeSnapshotAttackThreshold,0,1000000,current.siegeSnapshotAttackThreshold??200),siegeSnapshotBonusCoin:clampInt(body.siegeSnapshotBonusCoin,0,100000000,current.siegeSnapshotBonusCoin??500000),
   siegeParticipationCubeThreshold:clampInt(body.siegeParticipationCubeThreshold,1,1000000,current.siegeParticipationCubeThreshold??100),siegeParticipationCubeQuantity:clampInt(body.siegeParticipationCubeQuantity,0,1000000,current.siegeParticipationCubeQuantity??10)
 }}
@@ -772,7 +793,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
     if(request.method==='GET'){const state=await publicState(env,user.id,true),used=state.round?await env.DB.prepare('SELECT * FROM territory_war_v3_mass_assaults WHERE round_id=?').bind(state.round.id).first():null;return deps.json({settings:cfg,state,massAssault:massAssaultPreview(state.round,state.front,cfg,used),isOwner:String(user.role||'').toUpperCase()==='OWNER'});}
     if(request.method==='POST'){
-      const next=cleanSettings(await deps.readBody(request),cfg);if(Number(next.maxDamage)<Number(next.minDamage))next.maxDamage=next.minDamage;
+      const next=cleanSettings(await deps.readBody(request),cfg);if(Number(next.maxDamage)<Number(next.minDamage))next.maxDamage=next.minDamage;next.attackRewardTier2Attacks=Math.max(Number(next.attackRewardTier1Attacks)+1,Number(next.attackRewardTier2Attacks));next.attackRewardTier3Attacks=Math.max(Number(next.attackRewardTier2Attacks)+1,Number(next.attackRewardTier3Attacks));next.attackRewardTier4Attacks=Math.max(Number(next.attackRewardTier3Attacks)+1,Number(next.attackRewardTier4Attacks));
       await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateSettingsCache();
       const round=await latestRound(env);
       if(round&&['RECRUITING','PREPARING','ACTIVE'].includes(round.status))await env.DB.prepare("UPDATE territory_war_v3_rounds SET battle_name=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(next.battleName,round.id).run();
