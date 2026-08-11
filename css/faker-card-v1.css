@@ -1,17 +1,17 @@
 .card-frame.faker-championship-card{
   --faker-red:#ff243c;
-  --faker-gold:#f2c568;
-  --faker-art-top:14.8%;
-  --faker-art-side:20.1%;
-  --faker-art-bottom:17.4%;
+  --faker-white:#f7f8fb;
+  --faker-art-top:17.3%;
+  --faker-art-side:17.1%;
+  --faker-art-bottom:17.6%;
   position:relative;
   isolation:isolate;
   overflow:visible;
   padding:0;
   border-radius:16px;
   background:transparent!important;
-  box-shadow:0 18px 46px rgba(0,0,0,.58),0 0 18px rgba(255,31,50,.34),0 0 34px rgba(213,151,43,.2);
-  filter:drop-shadow(0 0 5px rgba(255,45,57,.55));
+  box-shadow:0 18px 46px rgba(0,0,0,.64),0 0 20px rgba(226,1,45,.42),0 0 38px rgba(255,255,255,.09);
+  filter:drop-shadow(0 0 6px rgba(226,1,45,.66));
 }
 .card-frame.faker-championship-card:after{box-shadow:none}
 .card-frame.faker-championship-card .card-inner{
@@ -45,22 +45,22 @@
 .card-frame.faker-championship-card .card-header{
   position:absolute;
   z-index:26;
-  top:13.5%;
-  left:16%;
+  top:18.1%;
+  left:18.3%;
   width:auto;
   height:auto;
   padding:3px 7px;
-  border:1px solid rgba(245,194,98,.72);
+  border:1px solid rgba(255,255,255,.72);
   border-radius:999px;
-  background:linear-gradient(135deg,rgba(16,7,7,.94),rgba(106,7,16,.9));
-  box-shadow:0 3px 10px rgba(0,0,0,.55),0 0 9px rgba(255,44,55,.34);
+  background:linear-gradient(135deg,rgba(7,7,9,.96),rgba(128,0,25,.93));
+  box-shadow:0 3px 10px rgba(0,0,0,.62),0 0 10px rgba(226,1,45,.5);
 }
 .card-frame.faker-championship-card .card-header span{
-  color:#fff0c1;
-  font-family:Georgia,"Times New Roman",serif;
+  color:#fff;
+  font-family:Arial Black,Pretendard,sans-serif;
   font-size:clamp(7px,.72em,12px);
   letter-spacing:.08em;
-  text-shadow:0 0 8px rgba(255,55,55,.85);
+  text-shadow:0 0 8px rgba(226,1,45,.95);
 }
 .card-frame.faker-championship-card .card-header b{display:none}
 .card-frame.faker-championship-card .card-footer{
@@ -83,28 +83,68 @@
 .card-frame.faker-championship-card>.faker-championship-frame{
   position:absolute;
   z-index:24;
-  top:-3.2%;
+  top:0;
   left:0;
   width:100%;
-  height:106.4%;
+  height:100%;
   object-fit:fill;
   pointer-events:none;
   user-select:none;
   animation:fakerChampionshipPulse 3.4s ease-in-out infinite;
 }
+.card-frame.faker-championship-card>.faker-t1-mark{
+  position:absolute;
+  z-index:28;
+  top:6.2%;
+  left:37%;
+  width:26%;
+  height:9.6%;
+  object-fit:contain;
+  pointer-events:none;
+  user-select:none;
+  filter:brightness(1.12) drop-shadow(0 0 3px rgba(255,255,255,.8)) drop-shadow(0 0 10px rgba(226,1,45,.92));
+}
+.card-frame.faker-championship-card>.faker-signature-mark{
+  position:absolute;
+  z-index:29;
+  left:23%;
+  bottom:5.5%;
+  width:54%;
+  height:8.8%;
+  object-fit:contain;
+  pointer-events:none;
+  user-select:none;
+  filter:brightness(1.2) drop-shadow(0 0 1px rgba(255,255,255,.9)) drop-shadow(0 0 8px rgba(226,1,45,.82));
+}
+.card-frame.faker-championship-card>.faker-t1-subtitle{
+  position:absolute;
+  z-index:30;
+  left:20%;
+  right:20%;
+  bottom:4.3%;
+  color:#fff;
+  font-family:Arial Black,Pretendard,sans-serif;
+  font-size:clamp(4px,.48em,8px);
+  font-weight:1000;
+  line-height:1;
+  letter-spacing:.08em;
+  text-align:center;
+  text-shadow:0 0 6px #e2012d,0 1px 2px #000;
+  pointer-events:none;
+}
 .card-frame.faker-championship-card .breakthrough-badge,
 .card-frame.faker-championship-card .deck-card-top-badges,
 .card-frame.faker-championship-card .limited-badge,
 .card-frame.faker-championship-card .dex-fur-quantity{z-index:34!important}
-.card-frame.faker-championship-card .breakthrough-badge{top:13%!important;right:15%!important}
+.card-frame.faker-championship-card .breakthrough-badge{top:18%!important;right:18%!important}
 .card-frame.faker-championship-card:hover>.faker-championship-frame{
-  filter:brightness(1.1) drop-shadow(0 0 7px rgba(255,42,52,.68)) drop-shadow(0 0 9px rgba(239,183,75,.38));
+  filter:brightness(1.12) drop-shadow(0 0 9px rgba(226,1,45,.82)) drop-shadow(0 0 7px rgba(255,255,255,.34));
 }
 .card-frame.faker-championship-card.small .card-header{padding:2px 5px}
 .card-frame.faker-championship-card.small .card-title-row>.card-unique-badge{top:19%!important;padding:3px 5px!important}
 .battle-v2-card-frame.faker-championship-card .card-unique-badge{z-index:35!important;top:20%!important;right:16%!important;left:auto!important;max-width:68%!important}
 @keyframes fakerChampionshipPulse{
-  0%,100%{filter:brightness(1) drop-shadow(0 0 4px rgba(255,35,48,.42))}
-  50%{filter:brightness(1.07) drop-shadow(0 0 9px rgba(255,35,48,.7)) drop-shadow(0 0 10px rgba(239,182,74,.35))}
+  0%,100%{filter:brightness(1) drop-shadow(0 0 5px rgba(226,1,45,.5))}
+  50%{filter:brightness(1.08) drop-shadow(0 0 11px rgba(226,1,45,.88)) drop-shadow(0 0 8px rgba(255,255,255,.26))}
 }
 @media (prefers-reduced-motion:reduce){.card-frame.faker-championship-card>.faker-championship-frame{animation:none}}
