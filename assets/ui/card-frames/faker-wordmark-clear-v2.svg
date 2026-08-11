@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 220" role="img" aria-labelledby="title desc">
+  <title id="title">FAKER</title>
+  <desc id="desc">Faker championship card wordmark</desc>
+  <defs>
+    <linearGradient id="fakerRed" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff5d72"/>
+      <stop offset="0.48" stop-color="#f20b38"/>
+      <stop offset="1" stop-color="#bd001f"/>
+    </linearGradient>
+    <filter id="fakerGlow" x="-30%" y="-60%" width="160%" height="220%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feFlood flood-color="#e2012d" flood-opacity="0.9" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="glow"/>
+      <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <g filter="url(#fakerGlow)" transform="skewX(-9)">
+    <text x="480" y="158" text-anchor="middle" fill="url(#fakerRed)" stroke="#fff1df" stroke-opacity="0.42" stroke-width="2.5" paint-order="stroke fill" font-family="Arial Black, Impact, sans-serif" font-size="166" font-weight="900" letter-spacing="10">FAKER</text>
+    <path d="M132 196 C330 177 635 178 830 193" fill="none" stroke="url(#fakerRed)" stroke-width="12" stroke-linecap="round"/>
+  </g>
+</svg>
