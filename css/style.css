@@ -3953,3 +3953,16 @@ body.burning-notice-open .fullscreen-play-link{
 .pack-choice-ultimate strong,.pack-choice-ultimate em{color:#f5ce75;text-shadow:0 0 14px rgba(235,184,70,.35)}
 .pack-theme-ultimate .hero-copy .eyebrow,.pack-theme-ultimate .hero-copy h2 em{color:#f3ca70!important;text-shadow:0 0 25px rgba(226,169,53,.48)}
 .pack-theme-ultimate .pack-product-image{filter:drop-shadow(0 22px 24px rgba(0,0,0,.55)) drop-shadow(0 0 30px rgba(222,169,59,.34))}
+
+/* v1670 grouped navigation: keep long group labels readable on embedded desktop widths */
+@media(min-width:768px){
+  .header .main-nav{grid-template-columns:minmax(72px,.88fr) minmax(72px,.88fr) minmax(72px,.88fr) minmax(112px,1.18fr) minmax(72px,.88fr) minmax(72px,.88fr) minmax(116px,1.22fr)}
+  .main-nav-group[data-nav-group="character"] .main-nav-trigger,
+  .main-nav-group[data-nav-group="market"] .main-nav-trigger{gap:4px;padding-inline:5px}
+  .main-nav-group[data-nav-group="character"] .main-nav-trigger>b,
+  .main-nav-group[data-nav-group="market"] .main-nav-trigger>b{overflow:visible;text-overflow:clip;font-size:13px;letter-spacing:-.06em}
+  .main-nav-group[data-nav-group="character"] .main-nav-icon,
+  .main-nav-group[data-nav-group="market"] .main-nav-icon{flex:0 0 auto;font-size:13px}
+  .main-nav-group[data-nav-group="character"] .main-nav-trigger>i,
+  .main-nav-group[data-nav-group="market"] .main-nav-trigger>i{flex:0 0 auto;margin-left:-1px;font-size:11px}
+}
