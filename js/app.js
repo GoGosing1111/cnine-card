@@ -351,6 +351,7 @@ function navGroupForTab(tab){
   if(['attendance','dailyquest','messages','mineral'].includes(tab))return 'rewards';
   if(tab==='magic')return 'magic';
   if(tab==='character')return 'character';
+  if(tab==='workshop')return 'workshop';
   if(tab==='rank')return 'rank';
   if(tab==='prediction')return 'prediction';
   if(tab==='auction')return 'auction';
@@ -365,6 +366,7 @@ function renderMainNavigation(tab){
     {id:'dex',label:'도감'},
     {id:'battle',label:'전투',tab:group==='battle'?tab:'battle'},
     {id:'character',label:'장비·칭호'},
+    {id:'workshop',label:'제작소'},
     {id:'rewards',label:'보상',tab:group==='rewards'?tab:'attendance'},
     {id:'rank',label:'랭킹'},
     {id:'prediction',label:'승부예측'},
@@ -383,7 +385,7 @@ function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(coun
 
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);
-  const moreActive=['attendance','dailyquest','messages','rank','prediction','auction','mineral','inventory','character'].includes(tab);
+  const moreActive=['attendance','dailyquest','messages','rank','prediction','auction','mineral','inventory','character','workshop'].includes(tab);
   const magicButton=magicSystemState.visible?`<button class="mobile-bottom-item ${tab==='magic'?'active':''}" type="button" data-mobile-tab="magic"><span>✦</span><b>마법카드</b></button>`:'';
   return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
     <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드팩</b></button>
@@ -418,6 +420,7 @@ function mobileNavigationHtml(tab){
         <button type="button" data-mobile-tab="auction"><i>◈</i><b>경매장</b></button>
         <button type="button" data-mobile-tab="inventory"><i>▱</i><b>인벤토리</b></button>
         <button type="button" data-mobile-tab="character"><i>⚔</i><b>장비·칭호</b></button>
+        <button type="button" data-mobile-tab="workshop"><i>⚙</i><b>제작소</b></button>
         <button type="button" data-mobile-account><i>●</i><b>내 정보</b></button>
       </div>
     </section>
@@ -510,7 +513,7 @@ function renderShell(tab) {
   if(tab!=='buy'){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open')}
   const user = loadUser();
   if (!user) return renderLogin();
-  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):''), auction:(...args)=>(typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):''), mineral: mineralExchangeView, inventory: inventoryView };
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), workshop:(...args)=>(typeof window.workshopView==='function'?window.workshopView(...args):'<section class="workshop-v1668"><div id="workshopRootV1668" class="workshop-root-v1668"><div class="workshop-loading-v1668"><span></span><b>제작소를 준비하는 중</b></div></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):''), auction:(...args)=>(typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):''), mineral: mineralExchangeView, inventory: inventoryView };
   const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
@@ -529,6 +532,7 @@ function renderShell(tab) {
       </div>
     </div>
     <button class="main-nav-item ${tab==='character'?'active':''}" type="button" data-tab="character"><span class="main-nav-icon">⚔</span><b>장비·칭호</b></button>
+    <button class="main-nav-item ${tab==='workshop'?'active':''}" type="button" data-tab="workshop"><span class="main-nav-icon">⚙</span><b>제작소</b></button>
     <div class="main-nav-group ${rewardActive?'active':''}" data-nav-group="reward">
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◆</span><b>보상</b><i>⌄</i>${messageBadgeMarkup()}</button>
       <div class="main-nav-dropdown" role="menu">
@@ -1907,6 +1911,7 @@ function bindView(tab) {
   if(tab==='buy'){loadSupplyBoxShop();loadVehicleDrawShop();}
   if(tab==='inventory')loadInventory();
   if(tab==='character'&&typeof window.bindCharacterView==='function')window.bindCharacterView();
+  if(tab==='workshop'&&typeof window.bindWorkshopView==='function')window.bindWorkshopView();
   if(tab==='evolution'&&typeof window.bindEvolutionView==='function')window.bindEvolutionView();
   if(tab==='magic')loadMagicView();
   if(tab==='messages'){document.getElementById('openWagoVerify')?.addEventListener('click',openWagoVerification);loadMessages();}
