@@ -880,11 +880,23 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
     magicB = Array.isArray(enemyMagic?.cards) ? enemyMagic.cards : [];
   } else {
     registeredExamples = await magicV2PreviewExamples(env);
-    magicA = registeredExamples.slice(0, 5).map((card, index) => ({ ...card, slotNo: index + 1 }));
-    magicB = registeredExamples.slice(5).map((card, index) => ({ ...card, slotNo: index + 1 }));
+    // Keep the full CMS example catalogue available to the preview controls,
+    // but only inject one card per side into the automatic sample battle.
+    // Playing every 100%-trigger example serially made the initial preview look
+    // like an endless loading screen.
+    magicA = registeredExamples.slice(0, 1).map((card, index) => ({ ...card, slotNo: index + 1 }));
+    magicB = registeredExamples.slice(1, 2).map((card, index) => ({ ...card, slotNo: index + 1 }));
   }
   const seed = hashSeed(`${user.id}:${opponentUser.id}:${nonce}`);
-  const simulation = simulateBattleV2Preview({ teamA, teamB, magicA, magicB, seed, healerPenalty: true });
+  const simulation = simulateBattleV2Preview({
+    teamA,
+    teamB,
+    magicA,
+    magicB,
+    seed,
+    healerPenalty: true,
+    maxActions: magicMode === 'EXAMPLES' ? 12 : 80
+  });
 
   return deps.json({
     preview: true,
@@ -909,7 +921,7 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
       teamA: magicA,
       teamB: magicB,
       registeredExamples,
-      effectTypes: [...new Set([...magicA, ...magicB].map(card => String(card.effectType || '')).filter(Boolean))]
+      effectTypes: [...new Set((magicMode === 'EXAMPLES' ? registeredExamples : [...magicA, ...magicB]).map(card => String(card.effectType || '')).filter(Boolean))]
     },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
