@@ -517,18 +517,253 @@ function applyBurningPvpSettings(settings,burning){if(!burning?.enabled)return s
 function burningDiscountPrice(price,burning){return Math.max(0,Math.floor(Number(price)||0));}
 function burningRewardAmount(amount,burning){const base=Math.max(0,Math.floor(Number(amount)||0));return burning?.enabled?Math.max(0,Math.floor(base*Number(burning.battleRewardMultiplier||1))):base;}
 
-function defaultPvpSettings(){return {enabled:true,status:'ACTIVE',seasonTitle:'ASYNC PVP SEASON',seasonName:'시즌 1',seasonDescription:'저장한 PvP 덱으로 비동기 대전을 진행합니다.',startsAt:null,endsAt:null,initialScore:1000,winScore:24,loseScore:16,matchCardRange:15,matchSeasonRange:300,historyLimit:100,winCoin:50,loseCoin:25,scoreBalance:{enabled:true,equalRange:10,weakerWinMid:80,weakerWinHigh:60,weakerWinExtreme:40,strongerWinMid:110,strongerWinHigh:125,strongerWinExtreme:140,strongerLossMid:90,strongerLossHigh:75,strongerLossExtreme:60,weakerLossMid:110,weakerLossHigh:125,weakerLossExtreme:140,minChange:1,maxChange:999},energy:{enabled:true,maxEnergy:5,rechargeMinutes:30,costPerBattle:1,adminUnlimited:true,testUnlimited:true},rewardClaimMode:'SEASON_END',tierRewardsEnabled:true,rankRewardsEnabled:true,tiers:[{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false,rewardCoin:500,rewardShards:0},{id:'silver',name:'실버',min:1100,color:'#c9d4e3',aura:false,rewardCoin:1000,rewardShards:20},{id:'gold',name:'골드',min:1250,color:'#ffd15c',aura:false,rewardCoin:2000,rewardShards:50},{id:'platinum',name:'플래티넘',min:1450,color:'#5ff0df',aura:true,rewardCoin:4000,rewardShards:100},{id:'diamond',name:'다이아',min:1700,color:'#69cfff',aura:true,rewardCoin:7000,rewardShards:180},{id:'master',name:'마스터',min:2050,color:'#bd7cff',aura:true,rewardCoin:12000,rewardShards:300},{id:'grandmaster',name:'그랜드마스터',min:2500,color:'#ff6f91',aura:true,rewardCoin:20000,rewardShards:500}],rankRewards:[{from:1,to:1,rewardCoin:30000,rewardShards:700},{from:2,to:3,rewardCoin:20000,rewardShards:500},{from:4,to:10,rewardCoin:12000,rewardShards:300},{from:11,to:50,rewardCoin:5000,rewardShards:120}]};}
-function cleanPvpSettings(raw={}){const base=defaultPvpSettings(),num=(v,d,min=0,max=100000000)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):d));const tiers=(Array.isArray(raw.tiers)?raw.tiers:base.tiers).map((t,i)=>({id:String(t.id||base.tiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.tiers[i]?.name||'티어').slice(0,20),min:num(t.min,base.tiers[i]?.min||0),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.tiers[i]?.color||'#7ceeff',aura:t.aura!==false,rewardCoin:num(t.rewardCoin,base.tiers[i]?.rewardCoin||0),rewardShards:num(t.rewardShards,base.tiers[i]?.rewardShards||0)})).sort((a,b)=>a.min-b.min);const rankRewards=(Array.isArray(raw.rankRewards)?raw.rankRewards:base.rankRewards).slice(0,20).map((r,i)=>{const from=num(r.from,base.rankRewards[i]?.from||1,1,100000),to=num(r.to,base.rankRewards[i]?.to||from,1,100000);return {from:Math.min(from,to),to:Math.max(from,to),rewardCoin:num(r.rewardCoin,base.rankRewards[i]?.rewardCoin||0),rewardShards:num(r.rewardShards,base.rankRewards[i]?.rewardShards||0)}}).sort((a,b)=>a.from-b.from);return {...base,enabled:raw.enabled!==false,status:String(raw.status||base.status).slice(0,60),seasonTitle:String(raw.seasonTitle||base.seasonTitle).slice(0,80),seasonName:String(raw.seasonName||base.seasonName).slice(0,40),seasonDescription:String(raw.seasonDescription||base.seasonDescription).slice(0,240),startsAt:raw.startsAt||null,endsAt:raw.endsAt||null,initialScore:num(raw.initialScore,base.initialScore,0,1000000),winScore:num(raw.winScore,base.winScore,0,100000),loseScore:num(raw.loseScore,base.loseScore,0,100000),matchCardRange:num(raw.matchCardRange,base.matchCardRange,1,100),matchSeasonRange:num(raw.matchSeasonRange,base.matchSeasonRange,0,100000),historyLimit:num(raw.historyLimit,base.historyLimit,10,500),winCoin:num(raw.winCoin,base.winCoin,0,10000000),loseCoin:num(raw.loseCoin,base.loseCoin,0,10000000),scoreBalance:{enabled:raw.scoreBalance?.enabled!==false,equalRange:num(raw.scoreBalance?.equalRange,base.scoreBalance.equalRange,0,100),weakerWinMid:num(raw.scoreBalance?.weakerWinMid,base.scoreBalance.weakerWinMid,0,500),weakerWinHigh:num(raw.scoreBalance?.weakerWinHigh,base.scoreBalance.weakerWinHigh,0,500),weakerWinExtreme:num(raw.scoreBalance?.weakerWinExtreme,base.scoreBalance.weakerWinExtreme,0,500),strongerWinMid:num(raw.scoreBalance?.strongerWinMid,base.scoreBalance.strongerWinMid,0,500),strongerWinHigh:num(raw.scoreBalance?.strongerWinHigh,base.scoreBalance.strongerWinHigh,0,500),strongerWinExtreme:num(raw.scoreBalance?.strongerWinExtreme,base.scoreBalance.strongerWinExtreme,0,500),strongerLossMid:num(raw.scoreBalance?.strongerLossMid,base.scoreBalance.strongerLossMid,0,500),strongerLossHigh:num(raw.scoreBalance?.strongerLossHigh,base.scoreBalance.strongerLossHigh,0,500),strongerLossExtreme:num(raw.scoreBalance?.strongerLossExtreme,base.scoreBalance.strongerLossExtreme,0,500),weakerLossMid:num(raw.scoreBalance?.weakerLossMid,base.scoreBalance.weakerLossMid,0,500),weakerLossHigh:num(raw.scoreBalance?.weakerLossHigh,base.scoreBalance.weakerLossHigh,0,500),weakerLossExtreme:num(raw.scoreBalance?.weakerLossExtreme,base.scoreBalance.weakerLossExtreme,0,500),minChange:num(raw.scoreBalance?.minChange,base.scoreBalance.minChange,0,100000),maxChange:num(raw.scoreBalance?.maxChange,base.scoreBalance.maxChange,1,100000)},energy:{enabled:raw.energy?.enabled!==false,maxEnergy:num(raw.energy?.maxEnergy,base.energy.maxEnergy,1,999),rechargeMinutes:num(raw.energy?.rechargeMinutes,base.energy.rechargeMinutes,1,1440),costPerBattle:num(raw.energy?.costPerBattle,base.energy.costPerBattle,1,99),adminUnlimited:raw.energy?.adminUnlimited!==false,testUnlimited:raw.energy?.testUnlimited!==false},rewardClaimMode:['IMMEDIATE','SEASON_END'].includes(raw.rewardClaimMode)?raw.rewardClaimMode:base.rewardClaimMode,tierRewardsEnabled:raw.tierRewardsEnabled!==false,rankRewardsEnabled:raw.rankRewardsEnabled!==false,tiers,rankRewards};}
+function defaultPvpSettings(){return {enabled:true,status:'진행 중',competitionName:'랭크전',seasonTitle:'SOOPKETMON RANKED',seasonName:'시즌 9',seasonDescription:'티어와 편성 전투력을 기준으로 상대가 자동 배정되는 랭크전입니다.',startsAt:null,endsAt:null,automaticSeasons:true,seasonDurationDays:5,matchingMode:'AUTO',initialScore:1000,winScore:24,loseScore:16,matchCardRange:15,matchSeasonRange:300,historyLimit:100,winCoin:50,loseCoin:25,scoreBalance:{enabled:true,equalRange:10,weakerWinMid:80,weakerWinHigh:60,weakerWinExtreme:40,strongerWinMid:110,strongerWinHigh:125,strongerWinExtreme:140,strongerLossMid:90,strongerLossHigh:75,strongerLossExtreme:60,weakerLossMid:110,weakerLossHigh:125,weakerLossExtreme:140,minChange:1,maxChange:999},energy:{enabled:true,maxEnergy:5,rechargeMinutes:30,costPerBattle:1,adminUnlimited:true,testUnlimited:true},rewardClaimMode:'SEASON_END',tierRewardsEnabled:true,rankRewardsEnabled:true,tiers:[{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false,rewardCoin:500,rewardShards:0},{id:'silver',name:'실버',min:1100,color:'#c9d4e3',aura:false,rewardCoin:1000,rewardShards:20},{id:'gold',name:'골드',min:1250,color:'#ffd15c',aura:false,rewardCoin:2000,rewardShards:50},{id:'platinum',name:'플래티넘',min:1450,color:'#5ff0df',aura:true,rewardCoin:4000,rewardShards:100},{id:'diamond',name:'다이아',min:1700,color:'#69cfff',aura:true,rewardCoin:7000,rewardShards:180},{id:'master',name:'마스터',min:2050,color:'#bd7cff',aura:true,rewardCoin:12000,rewardShards:300},{id:'grandmaster',name:'그랜드마스터',min:2500,color:'#ff6f91',aura:true,rewardCoin:20000,rewardShards:500}],rankRewards:[{from:1,to:1,rewardCoin:30000,rewardShards:700},{from:2,to:3,rewardCoin:20000,rewardShards:500},{from:4,to:10,rewardCoin:12000,rewardShards:300},{from:11,to:50,rewardCoin:5000,rewardShards:120}]};}
+function cleanPvpSettings(raw={}){const base=defaultPvpSettings(),num=(v,d,min=0,max=100000000)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):d));const tiers=(Array.isArray(raw.tiers)?raw.tiers:base.tiers).map((t,i)=>({id:String(t.id||base.tiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.tiers[i]?.name||'티어').slice(0,20),min:num(t.min,base.tiers[i]?.min||0),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.tiers[i]?.color||'#7ceeff',aura:t.aura!==false,rewardCoin:num(t.rewardCoin,base.tiers[i]?.rewardCoin||0),rewardShards:num(t.rewardShards,base.tiers[i]?.rewardShards||0)})).sort((a,b)=>a.min-b.min);const rankRewards=(Array.isArray(raw.rankRewards)?raw.rankRewards:base.rankRewards).slice(0,20).map((r,i)=>{const from=num(r.from,base.rankRewards[i]?.from||1,1,100000),to=num(r.to,base.rankRewards[i]?.to||from,1,100000);return {from:Math.min(from,to),to:Math.max(from,to),rewardCoin:num(r.rewardCoin,base.rankRewards[i]?.rewardCoin||0),rewardShards:num(r.rewardShards,base.rankRewards[i]?.rewardShards||0)}}).sort((a,b)=>a.from-b.from);return {...base,enabled:raw.enabled!==false,status:String(raw.status||base.status).slice(0,60),competitionName:String(raw.competitionName||base.competitionName).slice(0,30),seasonTitle:String(raw.seasonTitle||base.seasonTitle).slice(0,80),seasonName:String(raw.seasonName||base.seasonName).slice(0,40),seasonDescription:String(raw.seasonDescription||base.seasonDescription).slice(0,240),startsAt:raw.startsAt||null,endsAt:raw.endsAt||null,automaticSeasons:raw.automaticSeasons!==false,seasonDurationDays:num(raw.seasonDurationDays,base.seasonDurationDays,1,30),matchingMode:'AUTO',initialScore:num(raw.initialScore,base.initialScore,0,1000000),winScore:num(raw.winScore,base.winScore,0,100000),loseScore:num(raw.loseScore,base.loseScore,0,100000),matchCardRange:num(raw.matchCardRange,base.matchCardRange,1,100),matchSeasonRange:num(raw.matchSeasonRange,base.matchSeasonRange,0,100000),historyLimit:num(raw.historyLimit,base.historyLimit,10,500),winCoin:num(raw.winCoin,base.winCoin,0,10000000),loseCoin:num(raw.loseCoin,base.loseCoin,0,10000000),scoreBalance:{enabled:raw.scoreBalance?.enabled!==false,equalRange:num(raw.scoreBalance?.equalRange,base.scoreBalance.equalRange,0,100),weakerWinMid:num(raw.scoreBalance?.weakerWinMid,base.scoreBalance.weakerWinMid,0,500),weakerWinHigh:num(raw.scoreBalance?.weakerWinHigh,base.scoreBalance.weakerWinHigh,0,500),weakerWinExtreme:num(raw.scoreBalance?.weakerWinExtreme,base.scoreBalance.weakerWinExtreme,0,500),strongerWinMid:num(raw.scoreBalance?.strongerWinMid,base.scoreBalance.strongerWinMid,0,500),strongerWinHigh:num(raw.scoreBalance?.strongerWinHigh,base.scoreBalance.strongerWinHigh,0,500),strongerWinExtreme:num(raw.scoreBalance?.strongerWinExtreme,base.scoreBalance.strongerWinExtreme,0,500),strongerLossMid:num(raw.scoreBalance?.strongerLossMid,base.scoreBalance.strongerLossMid,0,500),strongerLossHigh:num(raw.scoreBalance?.strongerLossHigh,base.scoreBalance.strongerLossHigh,0,500),strongerLossExtreme:num(raw.scoreBalance?.strongerLossExtreme,base.scoreBalance.strongerLossExtreme,0,500),weakerLossMid:num(raw.scoreBalance?.weakerLossMid,base.scoreBalance.weakerLossMid,0,500),weakerLossHigh:num(raw.scoreBalance?.weakerLossHigh,base.scoreBalance.weakerLossHigh,0,500),weakerLossExtreme:num(raw.scoreBalance?.weakerLossExtreme,base.scoreBalance.weakerLossExtreme,0,500),minChange:num(raw.scoreBalance?.minChange,base.scoreBalance.minChange,0,100000),maxChange:num(raw.scoreBalance?.maxChange,base.scoreBalance.maxChange,1,100000)},energy:{enabled:raw.energy?.enabled!==false,maxEnergy:num(raw.energy?.maxEnergy,base.energy.maxEnergy,1,999),rechargeMinutes:num(raw.energy?.rechargeMinutes,base.energy.rechargeMinutes,1,1440),costPerBattle:num(raw.energy?.costPerBattle,base.energy.costPerBattle,1,99),adminUnlimited:raw.energy?.adminUnlimited!==false,testUnlimited:raw.energy?.testUnlimited!==false},rewardClaimMode:['IMMEDIATE','SEASON_END'].includes(raw.rewardClaimMode)?raw.rewardClaimMode:base.rewardClaimMode,tierRewardsEnabled:raw.tierRewardsEnabled!==false,rankRewardsEnabled:raw.rankRewardsEnabled!==false,tiers,rankRewards};}
 async function readPvpSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
 async function pvpSettings(env){return cachedRuntimeSetting('pvp',10000,()=>readPvpSettings(env))}
 function pvpSeasonKey(settings){return [String(settings?.seasonName||'').trim(),String(settings?.startsAt||''),String(settings?.endsAt||'')].join('|').slice(0,220)}
 async function completedPvpSettlement(env,settings){const key=pvpSeasonKey(settings);if(!key)return null;return env.DB.prepare("SELECT id,status,completed_at FROM pvp_season_settlements WHERE season_key=? AND status='COMPLETED'").bind(key).first()}
 function pvpSettlementRewardFor(rankRow,settings,tierClaimed,rankClaimed){const tier=resolveTier(Number(rankRow.highest_score||0),settings.tiers||[]),rankReward=(settings.rankRewards||[]).find(x=>Number(rankRow.final_rank)>=Number(x.from)&&Number(rankRow.final_rank)<=Number(x.to));return {tier,tierCoin:settings.tierRewardsEnabled&&!tierClaimed?Number(tier.rewardCoin||0):0,tierShards:settings.tierRewardsEnabled&&!tierClaimed?Number(tier.rewardShards||0):0,rankCoin:settings.rankRewardsEnabled&&!rankClaimed?Number(rankReward?.rewardCoin||0):0,rankShards:settings.rankRewardsEnabled&&!rankClaimed?Number(rankReward?.rewardShards||0):0}}
 
+const PVP_RANKED_TITLE_CODES={grandmaster:'TITLE_RANKED_GAMBLER',master:'TITLE_RANKED_DUELIST'};
+let rankedPvpFoundationPromise=null;
+let rankedPvpMaintenanceAt=0;
+async function ensureRankedPvpFoundation(env){
+  if(!rankedPvpFoundationPromise)rankedPvpFoundationPromise=(async()=>{
+    await ensureEquipmentFoundation(env);
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_ranked_match_tickets_v1671(
+        token TEXT PRIMARY KEY,attacker_id INTEGER NOT NULL,defender_id INTEGER NOT NULL,season_key TEXT NOT NULL,
+        attacker_score INTEGER NOT NULL,defender_score INTEGER NOT NULL,attacker_power INTEGER NOT NULL DEFAULT 0,
+        defender_power INTEGER NOT NULL DEFAULT 0,expires_at TEXT NOT NULL,used_at TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_ranked_ticket_attacker ON pvp_ranked_match_tickets_v1671(attacker_id,created_at DESC)'),
+      env.DB.prepare('CREATE UNIQUE INDEX IF NOT EXISTS idx_pvp_ranked_ticket_active ON pvp_ranked_match_tickets_v1671(attacker_id,season_key) WHERE used_at IS NULL'),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_season_title_grants_v1671(
+        settlement_id INTEGER NOT NULL,user_id INTEGER NOT NULL,title_id INTEGER NOT NULL,season_key TEXT NOT NULL,
+        expires_at TEXT NOT NULL,granted_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,revoked_at TEXT,
+        PRIMARY KEY(settlement_id,user_id,title_id)
+      )`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_season_title_active ON pvp_season_title_grants_v1671(user_id,expires_at,revoked_at)'),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_season_lifecycle_lock_v1671(
+        lock_key TEXT PRIMARY KEY,token TEXT NOT NULL,lease_until_ms INTEGER NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_season_settlements (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,season_key TEXT NOT NULL UNIQUE,season_name TEXT NOT NULL,season_title TEXT NOT NULL DEFAULT '',
+        status TEXT NOT NULL DEFAULT 'PREPARING',initial_score INTEGER NOT NULL DEFAULT 1000,participant_count INTEGER NOT NULL DEFAULT 0,
+        reward_user_count INTEGER NOT NULL DEFAULT 0,message_count INTEGER NOT NULL DEFAULT 0,created_by INTEGER NOT NULL DEFAULT 0,
+        started_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,completed_at TEXT,error_message TEXT
+      )`),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_season_settlement_ranks (
+        settlement_id INTEGER NOT NULL,user_id INTEGER NOT NULL,nickname TEXT NOT NULL,final_rank INTEGER NOT NULL,
+        season_score INTEGER NOT NULL,highest_score INTEGER NOT NULL,wins INTEGER NOT NULL,losses INTEGER NOT NULL,
+        tier_id TEXT NOT NULL,tier_name TEXT NOT NULL,reward_coin INTEGER NOT NULL DEFAULT 0,reward_shards INTEGER NOT NULL DEFAULT 0,
+        PRIMARY KEY(settlement_id,user_id)
+      )`),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_season_settlement_deliveries (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,settlement_id INTEGER NOT NULL,user_id INTEGER NOT NULL,reward_type TEXT NOT NULL,
+        reward_amount INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'RESERVED',message_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(settlement_id,user_id,reward_type)
+      )`)
+    ]);
+    await env.DB.batch([
+      env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,is_active,is_public,sort_order,style_preset,updated_at)
+        VALUES('TITLE_RANKED_GAMBLER','승부사','랭크전 시즌에서 그랜드마스터를 달성한 유저에게 다음 시즌 동안 지급됩니다.','승부사','',0,'MANUAL','{}',1,1,44,'GOLD',CURRENT_TIMESTAMP)
+        ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP`),
+      env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,is_active,is_public,sort_order,style_preset,updated_at)
+        VALUES('TITLE_RANKED_DUELIST','결투가','랭크전 시즌에서 마스터를 달성한 유저에게 다음 시즌 동안 지급됩니다.','결투가','',0,'MANUAL','{}',1,1,45,'VOID',CURRENT_TIMESTAMP)
+        ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP`)
+    ]);
+    return true;
+  })().catch(error=>{rankedPvpFoundationPromise=null;throw error});
+  return rankedPvpFoundationPromise;
+}
+async function cleanupRankedPvpMaintenance(env){
+  const now=Date.now();if(now-rankedPvpMaintenanceAt<300000)return;
+  await env.DB.batch([
+    env.DB.prepare(`DELETE FROM user_title_loadout WHERE EXISTS(
+      SELECT 1 FROM user_character_titles u
+      WHERE u.user_id=user_title_loadout.user_id AND u.title_id=user_title_loadout.title_id
+        AND u.expires_at IS NOT NULL AND u.expires_at<=CURRENT_TIMESTAMP
+    )`),
+    env.DB.prepare('DELETE FROM user_character_titles WHERE expires_at IS NOT NULL AND expires_at<=CURRENT_TIMESTAMP'),
+    env.DB.prepare("DELETE FROM pvp_ranked_match_tickets_v1671 WHERE expires_at<datetime('now','-1 day')")
+  ]);
+  rankedPvpMaintenanceAt=now;
+}
+function pvpSeasonNumber(name){const found=String(name||'').match(/(\d+)/);return Math.max(0,Number(found?.[1]||0))}
+function pvpSqlUtc(ms){return new Date(ms).toISOString().replace('T',' ').slice(0,19)}
+function nextPvpSeasonSettings(settings){const now=Date.now(),durationDays=Number(settings.seasonDurationDays||5),nextNo=Math.max(9,pvpSeasonNumber(settings.seasonName)+1);return cleanPvpSettings({...settings,enabled:true,status:'진행 중',competitionName:'랭크전',seasonTitle:'SOOPKETMON RANKED',seasonName:`시즌 ${nextNo}`,seasonDescription:'티어와 편성 전투력을 기준으로 상대가 자동 배정되는 랭크전입니다.',startsAt:pvpSqlUtc(now),endsAt:pvpSqlUtc(now+durationDays*86400000),automaticSeasons:true,seasonDurationDays:durationDays,matchingMode:'AUTO'})}
+async function persistPvpSettings(env,settings){await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(settings)).run();runtimeSettingsCache.delete('pvp')}
+async function acquirePvpLifecycleLock(env){const token=crypto.randomUUID(),now=Date.now(),result=await env.DB.prepare(`INSERT INTO pvp_season_lifecycle_lock_v1671(lock_key,token,lease_until_ms,updated_at)
+  VALUES('GLOBAL',?,?,CURRENT_TIMESTAMP) ON CONFLICT(lock_key) DO UPDATE SET token=excluded.token,lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP
+  WHERE pvp_season_lifecycle_lock_v1671.lease_until_ms<=?`).bind(token,now+25000,now).run();return Number(result?.meta?.changes||0)===1?token:null}
+async function releasePvpLifecycleLock(env,token){if(token)await env.DB.prepare("DELETE FROM pvp_season_lifecycle_lock_v1671 WHERE lock_key='GLOBAL' AND token=?").bind(token).run()}
+async function pvpSettlementPreviewRows(env,settings){
+  const [rankedRows,tierClaims,rankClaims]=await Promise.all([
+    env.DB.prepare(`SELECT u.id AS user_id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses FROM pvp_profiles p JOIN users u ON u.id=p.user_id
+      WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
+      ORDER BY p.season_score DESC,p.wins DESC,u.nickname`).all(),
+    env.DB.prepare('SELECT user_id FROM pvp_reward_claims WHERE season_name=?').bind(settings.seasonName).all(),
+    env.DB.prepare('SELECT user_id FROM pvp_rank_reward_claims WHERE season_name=?').bind(settings.seasonName).all()
+  ]);
+  const tierClaimed=new Set((tierClaims.results||[]).map(x=>Number(x.user_id))),rankClaimed=new Set((rankClaims.results||[]).map(x=>Number(x.user_id)));
+  return (rankedRows.results||[]).map((x,index)=>{const row={...x,final_rank:index+1},reward=pvpSettlementRewardFor(row,settings,tierClaimed.has(Number(x.user_id)),rankClaimed.has(Number(x.user_id)));return {...row,tier:reward.tier,rewardCoin:reward.tierCoin+reward.rankCoin,rewardShards:reward.tierShards+reward.rankShards}});
+}
+async function deliverAutomaticPvpRewards(env,settlementId,settings){
+  const rows=await env.DB.prepare(`SELECT r.* FROM pvp_season_settlement_ranks r WHERE r.settlement_id=? AND
+    ((r.reward_coin>0 AND NOT EXISTS(SELECT 1 FROM pvp_season_settlement_deliveries d WHERE d.settlement_id=r.settlement_id AND d.user_id=r.user_id AND d.reward_type='COIN' AND d.status='SENT')) OR
+     (r.reward_shards>0 AND NOT EXISTS(SELECT 1 FROM pvp_season_settlement_deliveries d WHERE d.settlement_id=r.settlement_id AND d.user_id=r.user_id AND d.reward_type='SHARDS' AND d.status='SENT')))
+    ORDER BY r.final_rank LIMIT 15`).bind(settlementId).all();
+  for(const row of rows.results||[])for(const [rewardType,amount] of [['COIN',Number(row.reward_coin||0)],['SHARDS',Number(row.reward_shards||0)]]){
+    if(amount<=0)continue;
+    await env.DB.prepare("INSERT OR IGNORE INTO pvp_season_settlement_deliveries(settlement_id,user_id,reward_type,reward_amount,status) VALUES(?,?,?,?,'RESERVED')").bind(settlementId,row.user_id,rewardType,amount).run();
+    const delivery=await env.DB.prepare('SELECT * FROM pvp_season_settlement_deliveries WHERE settlement_id=? AND user_id=? AND reward_type=?').bind(settlementId,row.user_id,rewardType).first();
+    if(!delivery||delivery.status==='SENT')continue;
+    const unit=rewardType==='COIN'?'코인':'카드조각',seasonTitle=rewardType==='COIN'?(row.tier_id==='grandmaster'?'승부사':row.tier_id==='master'?'결투가':''):'',title=`${settings.seasonName} 랭크전 정산 보상`,body=`${settings.seasonName} 최종 ${row.final_rank}위 (${row.tier_name}) 정산 보상입니다.\n\n${unit} ${amount.toLocaleString()}개${seasonTitle?`\n기간제 칭호 '${seasonTitle}' (다음 시즌 정산까지 5일간 활성)`:''}\n\n아래 보상 수령 버튼을 눌러주세요.`;
+    const inserted=await env.DB.prepare("INSERT INTO user_messages(user_id,sender_type,title,body,message_type) VALUES(?,'SYSTEM',?,?,'PVP_SEASON_REWARD')").bind(row.user_id,title,body).run(),messageId=Number(inserted.meta?.last_row_id||0);
+    if(!messageId)throw new Error(`랭크전 보상 메시지 생성 실패: ${row.nickname}`);
+    await env.DB.batch([env.DB.prepare("UPDATE pvp_season_settlement_deliveries SET message_id=?,status='SENT',updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RESERVED'").bind(messageId,delivery.id),env.DB.prepare('INSERT OR IGNORE INTO user_message_rewards(message_id,user_id,reward_type,reward_amount) VALUES(?,?,?,?)').bind(messageId,row.user_id,rewardType,amount)]);
+  }
+  const pending=await env.DB.prepare(`SELECT COUNT(*) count FROM pvp_season_settlement_ranks r WHERE r.settlement_id=? AND
+    ((r.reward_coin>0 AND NOT EXISTS(SELECT 1 FROM pvp_season_settlement_deliveries d WHERE d.settlement_id=r.settlement_id AND d.user_id=r.user_id AND d.reward_type='COIN' AND d.status='SENT')) OR
+     (r.reward_shards>0 AND NOT EXISTS(SELECT 1 FROM pvp_season_settlement_deliveries d WHERE d.settlement_id=r.settlement_id AND d.user_id=r.user_id AND d.reward_type='SHARDS' AND d.status='SENT')))` ).bind(settlementId).first();
+  return Number(pending?.count||0);
+}
+async function advancePvpSeasonLifecycle(env){
+  await ensureRankedPvpFoundation(env);
+
+
+  let settings=await readPvpSettings(env);let endMs=settings.endsAt?utcMs(settings.endsAt):0;
+  if(settings.automaticSeasons&&settings.enabled!==false&&!endMs){const now=Date.now();settings=cleanPvpSettings({...settings,startsAt:settings.startsAt||pvpSqlUtc(now),endsAt:pvpSqlUtc(now+Number(settings.seasonDurationDays||5)*86400000)});await persistPvpSettings(env,settings);endMs=utcMs(settings.endsAt)}
+  const due=settings.automaticSeasons&&(pvpSeasonNumber(settings.seasonName)===8||(endMs>0&&endMs<=Date.now()));
+  if(!due)return {settings,settling:false};
+  const token=await acquirePvpLifecycleLock(env);if(!token)return {settings:{...settings,enabled:false,status:'정산 중'},settling:true};
+  try{
+    const seasonKey=pvpSeasonKey(settings);let settlement=await env.DB.prepare('SELECT * FROM pvp_season_settlements WHERE season_key=?').bind(seasonKey).first();
+    if(!settlement){
+      const preview=await pvpSettlementPreviewRows(env,settings);
+      await env.DB.batch([
+        env.DB.prepare("INSERT INTO pvp_season_settlements(season_key,season_name,season_title,status,initial_score,participant_count,created_by) VALUES(?,?,?,'PREPARING',?,?,0)").bind(seasonKey,settings.seasonName,settings.seasonTitle||'',Number(settings.initialScore||1000),preview.length),
+        env.DB.prepare("DELETE FROM user_title_loadout WHERE EXISTS(SELECT 1 FROM user_character_titles u WHERE u.user_id=user_title_loadout.user_id AND u.title_id=user_title_loadout.title_id AND u.source_type='PVP_SEASON_RANKED')"),
+        env.DB.prepare("DELETE FROM user_character_titles WHERE source_type='PVP_SEASON_RANKED'"),
+        env.DB.prepare("UPDATE pvp_season_title_grants_v1671 SET revoked_at=CURRENT_TIMESTAMP WHERE revoked_at IS NULL")
+      ]);
+      settlement=await env.DB.prepare('SELECT * FROM pvp_season_settlements WHERE season_key=?').bind(seasonKey).first();
+    }
+    const sid=Number(settlement.id);let status=String(settlement.status||'PREPARING');
+    if(status==='COMPLETED'){
+      const next=nextPvpSeasonSettings(settings);await persistPvpSettings(env,next);return {settings:next,settling:false,startedNewSeason:true,completedSeason:settlement.season_name};
+    }
+    if(status==='FAILED'){await env.DB.prepare("UPDATE pvp_season_settlements SET status='PREPARING',error_message=NULL WHERE id=?").bind(sid).run();status='PREPARING'}
+    if(status==='PREPARING'){
+      const preview=await pvpSettlementPreviewRows(env,settings),have=await env.DB.prepare('SELECT COUNT(*) count FROM pvp_season_settlement_ranks WHERE settlement_id=?').bind(sid).first(),offset=Number(have?.count||0),chunk=preview.slice(offset,offset+80);
+      if(chunk.length)await env.DB.batch(chunk.map(row=>env.DB.prepare(`INSERT OR IGNORE INTO pvp_season_settlement_ranks(settlement_id,user_id,nickname,final_rank,season_score,highest_score,wins,losses,tier_id,tier_name,reward_coin,reward_shards) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(sid,row.user_id,row.nickname,row.final_rank,row.season_score,row.highest_score,row.wins,row.losses,row.tier?.id||'',row.tier?.name||'',row.rewardCoin,row.rewardShards)));
+      if(offset+chunk.length<preview.length)return {settings:{...settings,enabled:false,status:'정산 중'},settling:true,phase:'SNAPSHOT'};
+      await env.DB.prepare("UPDATE pvp_season_settlements SET status='SNAPSHOTTED',participant_count=? WHERE id=?").bind(preview.length,sid).run();status='SNAPSHOTTED';
+    }
+    if(status==='SNAPSHOTTED'){
+      const pending=await deliverAutomaticPvpRewards(env,sid,settings);if(pending>0)return {settings:{...settings,enabled:false,status:'정산 중'},settling:true,phase:'REWARDS'};
+      const [rewardUsers,messages]=await Promise.all([env.DB.prepare("SELECT COUNT(DISTINCT user_id) count FROM pvp_season_settlement_deliveries WHERE settlement_id=? AND status='SENT'").bind(sid).first(),env.DB.prepare("SELECT COUNT(*) count FROM pvp_season_settlement_deliveries WHERE settlement_id=? AND status='SENT'").bind(sid).first()]);
+      await env.DB.prepare("UPDATE pvp_season_settlements SET status='MESSAGES_READY',reward_user_count=?,message_count=? WHERE id=?").bind(Number(rewardUsers?.count||0),Number(messages?.count||0),sid).run();status='MESSAGES_READY';
+    }
+    if(status==='MESSAGES_READY'){
+      const expiresAt=pvpSqlUtc(Date.now()+Number(settings.seasonDurationDays||5)*86400000);
+      await env.DB.batch([
+        env.DB.prepare(`INSERT OR IGNORE INTO pvp_season_title_grants_v1671(settlement_id,user_id,title_id,season_key,expires_at)
+          SELECT r.settlement_id,r.user_id,t.id,?,? FROM pvp_season_settlement_ranks r JOIN character_titles t ON t.code=CASE r.tier_id WHEN 'grandmaster' THEN ? WHEN 'master' THEN ? ELSE '' END
+          WHERE r.settlement_id=? AND r.tier_id IN ('grandmaster','master')`).bind(seasonKey,expiresAt,PVP_RANKED_TITLE_CODES.grandmaster,PVP_RANKED_TITLE_CODES.master,sid),
+        env.DB.prepare(`INSERT OR IGNORE INTO user_character_titles(user_id,title_id,source_type,source_id,expires_at)
+          SELECT user_id,title_id,'PVP_SEASON_RANKED',CAST(settlement_id AS TEXT),expires_at FROM pvp_season_title_grants_v1671 WHERE settlement_id=?`).bind(sid),
+        env.DB.prepare("UPDATE pvp_season_settlements SET status='TITLES_READY' WHERE id=?").bind(sid)
+      ]);status='TITLES_READY';
+    }
+    if(status==='TITLES_READY'){
+      const next=nextPvpSeasonSettings(settings);
+      await env.DB.batch([
+        env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=?,wins=0,losses=0,updated_at=CURRENT_TIMESTAMP').bind(Number(settings.initialScore||1000),Number(settings.initialScore||1000)),
+        env.DB.prepare("UPDATE pvp_season_settlements SET status='COMPLETED',completed_at=CURRENT_TIMESTAMP,error_message=NULL WHERE id=?").bind(sid),
+        env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next))
+      ]);
+      runtimeSettingsCache.delete('pvp');settings=next;return {settings,settling:false,startedNewSeason:true,completedSeason:settlement.season_name};
+    }
+    return {settings:{...settings,enabled:false,status:'정산 중'},settling:true};
+  }catch(error){console.error('automatic ranked season lifecycle failed',error);return {settings:{...settings,enabled:false,status:'정산 오류'},settling:true,error:String(error?.message||error)}}finally{await releasePvpLifecycleLock(env,token)}
+}
+
 function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=settings.scoreBalance||{},safeBase=Math.max(0,Number(base||0));if(cfg.enabled===false||!myCard||!opponentCard)return {change:safeBase,multiplier:100,diffPercent:0,label:'기본 점수'};const diff=(Number(opponentCard)-Number(myCard))/Math.max(1,Number(myCard))*100,abs=Math.abs(diff),eq=Number(cfg.equalRange??10);let multiplier=100,label='비슷한 체급';if(abs>eq){const band=abs<20?'Mid':abs<30?'High':'Extreme';if(isWin){if(diff<0){multiplier=Number(cfg['weakerWin'+band]??100);label='낮은 체급 승리 패널티'}else{multiplier=Number(cfg['strongerWin'+band]??100);label='상위 체급 승리 보너스'}}else{if(diff>0){multiplier=Number(cfg['strongerLoss'+band]??100);label='상위 체급 패배 완화'}else{multiplier=Number(cfg['weakerLoss'+band]??100);label='낮은 체급 패배 패널티'}}}const min=Math.max(0,Number(cfg.minChange??1)),max=Math.max(min,Number(cfg.maxChange??999));return {change:Math.max(min,Math.min(max,Math.round(safeBase*multiplier/100))),multiplier,diffPercent:Math.round(diff*10)/10,label}}
 
 function pvpSeasonScoreAdjustment(isWin,myScore,opponentScore){const diff=Number(opponentScore||0)-Number(myScore||0);let change,label;if(diff>=500){change=isWin?36:6;label=isWin?'상위 점수 상대 승리 보너스':'상위 점수 상대 패배 완화'}else if(diff>=200){change=isWin?30:10;label=isWin?'강한 상대 승리 보너스':'강한 상대 패배 완화'}else if(diff<=-500){change=isWin?12:24;label=isWin?'낮은 점수 상대 승리 조정':'낮은 점수 상대 패배 패널티'}else if(diff<=-200){change=isWin?18:20;label=isWin?'낮은 상대 승리 조정':'낮은 상대 패배 패널티'}else{change=isWin?24:16;label='비슷한 시즌 점수'}return {change,scoreDiff:diff,label}}
 async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare("SELECT c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
+function pvpTierIndex(score,tiers=[]){const resolved=resolveTier(Number(score||0),tiers);return Math.max(0,(tiers||[]).findIndex(tier=>tier.id===resolved.id))}
+async function pvpFormationPower(env,userId,battle,{defense=false}={}){
+  const [deck,bonus]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId)]);
+  if(deck.length!==5)return {power:0,deckReady:false};
+  return {power:Math.max(1,deck.reduce((sum,card)=>sum+cardBattlePower(card,Number(card.breakthrough_level||0),battle),0)+Number(bonus.pvp||0)),deckReady:true};
+}
+async function pvpDefenseFormationPowers(env,userIds,battle){
+  const ids=[...new Set((userIds||[]).map(Number).filter(Boolean))];if(!ids.length)return new Map();const marks=ids.map(()=>'?').join(',');
+  const [cardRows,equipmentRows,garageRows,titleRows]=await Promise.all([
+    env.DB.prepare(`SELECT d.user_id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM pvp_decks d JOIN json_each(d.card_ids) j
+      JOIN user_cards uc ON uc.user_id=d.user_id AND CAST(uc.card_id AS TEXT)=CAST(j.value AS TEXT) AND COALESCE(uc.quantity,0)>0
+      JOIN cards_effective_v1210 c ON CAST(c.id AS TEXT)=CAST(j.value AS TEXT) WHERE d.user_id IN (${marks})`).bind(...ids).all(),
+    env.DB.prepare(`SELECT l.user_id,COALESCE(SUM(i.pvp_power),0) power FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1 WHERE l.user_id IN (${marks}) GROUP BY l.user_id`).bind(...ids).all(),
+    env.DB.prepare(`SELECT l.user_id,COALESCE(g.pvp_power,0) power FROM user_garage_loadout l JOIN user_garage_vehicles v ON v.user_id=l.user_id AND v.garage_id=l.garage_id JOIN character_garage_items g ON g.id=l.garage_id AND g.is_active=1 WHERE l.user_id IN (${marks})`).bind(...ids).all(),
+    env.DB.prepare(`SELECT l.user_id,COALESCE(t.pve_power,0) power FROM user_title_loadout l JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 WHERE l.user_id IN (${marks})`).bind(...ids).all()
+  ]);
+  const result=new Map(ids.map(id=>[id,{power:0,count:0}]));for(const row of cardRows.results||[]){const state=result.get(Number(row.user_id));if(state){state.power+=cardBattlePower(row,Number(row.breakthrough_level||0),battle);state.count++}}
+  for(const rows of [equipmentRows.results||[],garageRows.results||[],titleRows.results||[]])for(const row of rows){const state=result.get(Number(row.user_id));if(state)state.power+=Number(row.power||0)}
+  return new Map([...result].map(([id,state])=>[id,{power:Math.max(0,Math.floor(state.power)),deckReady:state.count===5}]));
+}
+async function createRankedMatchTicket(env,user,settings){
+  await ensureRankedPvpFoundation(env);
+  const mine=await ensurePvpProfile(env,user,settings),battle=await battleSettings(env),myFormation=await pvpFormationPower(env,user.id,battle);
+  if(!myFormation.deckReady){const error=new Error('먼저 랭크전 덱 5장을 저장하세요.');error.status=400;throw error}
+  await env.DB.prepare(`DELETE FROM pvp_ranked_match_tickets_v1671 WHERE attacker_id=? AND season_key=? AND used_at IS NULL AND
+    (expires_at<=CURRENT_TIMESTAMP OR NOT EXISTS(SELECT 1 FROM users u WHERE u.id=pvp_ranked_match_tickets_v1671.defender_id AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))))`).bind(user.id,pvpSeasonKey(settings)).run();
+  const existing=await env.DB.prepare(`SELECT t.*,u.nickname,p.wins,p.losses FROM pvp_ranked_match_tickets_v1671 t
+    JOIN users u ON u.id=t.defender_id JOIN pvp_profiles p ON p.user_id=t.defender_id
+    WHERE t.attacker_id=? AND t.season_key=? AND t.used_at IS NULL AND t.expires_at>CURRENT_TIMESTAMP
+      AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
+    ORDER BY t.created_at DESC LIMIT 1`).bind(user.id,pvpSeasonKey(settings)).first();
+  if(existing){
+    const titleMap=await publicEquippedTitleMap(env,[existing.defender_id]),scoreDiff=Math.abs(Number(existing.defender_score)-Number(existing.attacker_score)),powerDiff=Math.abs(Number(existing.defender_power)-Number(existing.attacker_power))/Math.max(1,Number(existing.attacker_power))*100;
+    return {token:existing.token,expiresAt:existing.expires_at,reused:true,opponent:{id:Number(existing.defender_id),nickname:existing.nickname,season_score:Number(existing.defender_score),wins:Number(existing.wins||0),losses:Number(existing.losses||0),title:titleMap[String(existing.defender_id)]||null,tier:resolveTier(Number(existing.defender_score),settings.tiers),expectedWin:pvpSeasonScoreAdjustment(true,existing.attacker_score,existing.defender_score).change,expectedLoss:pvpSeasonScoreAdjustment(false,existing.attacker_score,existing.defender_score).change,balance:{tierDistance:Math.abs(pvpTierIndex(existing.defender_score,settings.tiers)-pvpTierIndex(existing.attacker_score,settings.tiers)),scoreDifference:scoreDiff,powerDifferencePercent:Math.round(powerDiff*10)/10}}};
+  }
+  const recentRows=await env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 4').bind(user.id).all(),recentIds=new Set((recentRows.results||[]).map(row=>Number(row.defender_id))),blockedOpponentId=recentRows.results?.length>=2&&Number(recentRows.results[0].defender_id)===Number(recentRows.results[1].defender_id)?Number(recentRows.results[0].defender_id):0;
+  const searchRange=1000000,candidates=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses
+    FROM users u JOIN pvp_profiles p ON p.user_id=u.id JOIN pvp_decks d ON d.user_id=u.id
+    WHERE u.id<>? AND u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN')
+      AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
+      AND CASE WHEN json_valid(d.card_ids) THEN json_array_length(d.card_ids) ELSE 0 END=5
+      AND ABS(p.season_score-?)<=?
+    ORDER BY ABS(p.season_score-?) ASC,p.updated_at DESC LIMIT 64`).bind(user.id,mine.season_score,searchRange,mine.season_score).all();
+  if(!(candidates.results||[]).length){const error=new Error('현재 매칭 가능한 랭크전 상대가 없습니다. 잠시 후 다시 시도하세요.');error.status=409;throw error}
+  const formationMap=await pvpDefenseFormationPowers(env,(candidates.results||[]).map(candidate=>candidate.id),battle),evaluated=[];
+  for(const candidate of (candidates.results||[])){
+    if(Number(candidate.id)===blockedOpponentId)continue;
+    const formation=formationMap.get(Number(candidate.id));if(!formation?.deckReady)continue;
+    const scoreDiff=Math.abs(Number(candidate.season_score)-Number(mine.season_score)),powerDiff=Math.abs(formation.power-myFormation.power)/Math.max(1,myFormation.power)*100,tierDistance=Math.abs(pvpTierIndex(candidate.season_score,settings.tiers)-pvpTierIndex(mine.season_score,settings.tiers));
+    evaluated.push({...candidate,power:formation.power,scoreDiff,powerDiff,tierDistance,recent:recentIds.has(Number(candidate.id)),matchWeight:tierDistance*100000+scoreDiff*80+powerDiff*120+(recentIds.has(Number(candidate.id))?250000:0)+(Number(candidate.id)%97)/100});
+  }
+  evaluated.sort((a,b)=>a.matchWeight-b.matchWeight);
+  const preferred=evaluated.filter(row=>row.tierDistance===0&&row.powerDiff<=Number(settings.matchCardRange||15)&&!row.recent),selected=preferred[0]||evaluated.find(row=>!row.recent)||evaluated[0];
+  if(!selected){const error=new Error('균형 조건에 맞는 상대를 찾지 못했습니다. 잠시 후 다시 시도하세요.');error.status=409;throw error}
+  const token=crypto.randomUUID(),expiresAt=pvpSqlUtc(Date.now()+90000);
+  const inserted=await env.DB.prepare(`INSERT OR IGNORE INTO pvp_ranked_match_tickets_v1671(token,attacker_id,defender_id,season_key,attacker_score,defender_score,attacker_power,defender_power,expires_at)
+    VALUES(?,?,?,?,?,?,?,?,?)`).bind(token,user.id,selected.id,pvpSeasonKey(settings),mine.season_score,selected.season_score,myFormation.power,selected.power,expiresAt).run();
+  if(Number(inserted?.meta?.changes||0)!==1)return createRankedMatchTicket(env,user,settings);
+  const titleMap=await publicEquippedTitleMap(env,[selected.id]),winPreview=pvpSeasonScoreAdjustment(true,mine.season_score,selected.season_score),lossPreview=pvpSeasonScoreAdjustment(false,mine.season_score,selected.season_score);
+  return {token,expiresAt,opponent:{id:Number(selected.id),nickname:selected.nickname,season_score:Number(selected.season_score),wins:Number(selected.wins||0),losses:Number(selected.losses||0),title:titleMap[String(selected.id)]||null,tier:resolveTier(Number(selected.season_score),settings.tiers),expectedWin:winPreview.change,expectedLoss:lossPreview.change,balance:{tierDistance:selected.tierDistance,scoreDifference:selected.scoreDiff,powerDifferencePercent:Math.round(selected.powerDiff*10)/10}}};
+}
+async function claimRankedMatchTicket(env,userId,token,settings){
+  await ensureRankedPvpFoundation(env);const cleanToken=String(token||'').trim();if(!cleanToken){const error=new Error('랭크전 자동 매칭을 먼저 진행하세요.');error.status=400;throw error}
+  const ticket=await env.DB.prepare(`SELECT * FROM pvp_ranked_match_tickets_v1671 WHERE token=? AND attacker_id=? AND season_key=? AND used_at IS NULL AND expires_at>CURRENT_TIMESTAMP`).bind(cleanToken,userId,pvpSeasonKey(settings)).first();
+  if(!ticket){const error=new Error('매칭권이 만료되었거나 이미 사용되었습니다. 다시 매칭하세요.');error.status=409;throw error}
+  const claimed=await env.DB.prepare('UPDATE pvp_ranked_match_tickets_v1671 SET used_at=CURRENT_TIMESTAMP WHERE token=? AND attacker_id=? AND used_at IS NULL AND expires_at>CURRENT_TIMESTAMP').bind(cleanToken,userId).run();
+  if(Number(claimed?.meta?.changes||0)!==1){const error=new Error('동일한 매칭이 이미 처리되었습니다. 새로 매칭하세요.');error.status=409;throw error}
+  return ticket;
+}
 async function ensurePvpProfile(env,user,settings){let row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first();if(!row){await env.DB.prepare('INSERT OR IGNORE INTO pvp_profiles(user_id,season_score,highest_score,wins,losses,updated_at) VALUES(?,?,?,?,?,CURRENT_TIMESTAMP)').bind(user.id,settings.initialScore,settings.initialScore,0,0).run();row=await env.DB.prepare('SELECT * FROM pvp_profiles WHERE user_id=?').bind(user.id).first()}return row}
 async function pvpDeckCards(env,userId,defense=false){let row=null;if(!defense){try{row=await env.DB.prepare('SELECT p.card_ids FROM pvp_active_presets a JOIN pvp_deck_presets p ON p.user_id=a.user_id AND p.preset_no=a.preset_no WHERE a.user_id=?').bind(userId).first()}catch{row=null}}if(!row)row=await env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
 async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId).first();if(!row)return [];try{return JSON.parse(row.card_ids||'[]')}catch{return []}}
@@ -565,10 +800,10 @@ async function pvpEnergyState(env,user,settings){
 }
 async function consumePvpEnergy(env,user,settings){
   const state=await pvpEnergyState(env,user,settings);if(state.unlimited)return state;
-  if(state.energy<state.costPerBattle){const e=new Error(`PvP 전투 횟수가 부족합니다. ${Number(state.rechargeMinutes||30)}분마다 1회 충전됩니다.`);e.code='NO_PVP_ENERGY';e.energy=state;throw e;}
+  if(state.energy<state.costPerBattle){const e=new Error(`랭크전 횟수가 부족합니다. ${Number(state.rechargeMinutes||30)}분마다 1회 충전됩니다.`);e.code='NO_PVP_ENERGY';e.energy=state;throw e;}
   const nowSql=sqlUtcNow();
   const result=await env.DB.prepare('UPDATE user_pvp_energy SET energy=energy-?,last_recharged_at=CASE WHEN energy>=? THEN ? ELSE last_recharged_at END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND energy>=?').bind(state.costPerBattle,state.maxEnergy,nowSql,user.id,state.costPerBattle).run();
-  if(!result.meta.changes){const e=new Error('PvP 전투 횟수가 부족합니다.');e.code='NO_PVP_ENERGY';e.energy=await pvpEnergyState(env,user,settings);throw e;}
+  if(!result.meta.changes){const e=new Error('랭크전 횟수가 부족합니다.');e.code='NO_PVP_ENERGY';e.energy=await pvpEnergyState(env,user,settings);throw e;}
   return pvpEnergyState(env,user,settings);
 }
 
@@ -3089,7 +3324,7 @@ async function releaseDeletedCouponCode(env,code,adminId){
 
 const SERIALIZED_GAME_ACTIONS=new Set([
   'attendance/claim','card/breakthrough','card/breakthrough/auto','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave','draw',
-  'pvp/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
+  'pvp/match','pvp/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
   'wago-daily-quest/claim','vehicle-draw/open','vehicle-draw/purchase','equipment/supply-box/open',
   'equipment/supply-box/purchase','high-grade-reroll/execute','mineral-exchange/request','chief/activate'
 ]);
@@ -4117,7 +4352,7 @@ async function handleRequest(context){
         FROM raid_participants rp
         JOIN users u ON u.id=rp.user_id
         LEFT JOIN user_title_loadout tl ON tl.user_id=u.id
-        LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id
+        LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id AND (ut.expires_at IS NULL OR ut.expires_at>CURRENT_TIMESTAMP)
         LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1
         WHERE rp.instance_id=? AND COALESCE(rp.is_active,1)=1 ORDER BY rp.total_damage DESC,rp.joined_at`).bind(current.id).all();
       const participants=rows.results.map((r,i)=>({...r,rank:i+1,title:r.titleId?{id:Number(r.titleId),name:r.titleName,badgeText:r.titleBadgeText||r.titleName,stylePreset:String(r.titleStylePreset||'DEFAULT').toUpperCase()}:null,deckCards:(()=>{try{return raidDisplayDeckIdsV1311(JSON.parse(r.deckCards||'[]'))}catch{return []}})()}));
@@ -4693,82 +4928,57 @@ async function handleRequest(context){
 
     if(path==='pvp/config'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensureRankedPvpFoundation(env);
+      await cleanupRankedPvpMaintenance(env);
+      const lifecycle=await advancePvpSeasonLifecycle(env);
+      if(lifecycle.settling&&typeof context.waitUntil==='function')context.waitUntil((async()=>{for(let i=0;i<8;i++){const next=await advancePvpSeasonLifecycle(env);if(!next.settling)break}})());
       await env.DB.batch([
         env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_deck_presets (user_id INTEGER NOT NULL,preset_no INTEGER NOT NULL,card_ids TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,preset_no))'),
         env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_active_presets (user_id INTEGER PRIMARY KEY,preset_no INTEGER NOT NULL DEFAULT 1,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)')
       ]);
       await env.DB.prepare("INSERT OR IGNORE INTO pvp_deck_presets(user_id,preset_no,card_ids) SELECT user_id,1,card_ids FROM pvp_decks WHERE user_id=?").bind(user.id).run();
       await env.DB.prepare('UPDATE pvp_decks SET card_ids=(SELECT card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no=1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM pvp_deck_presets WHERE user_id=? AND preset_no=1)').bind(user.id,user.id,user.id).run();
-      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(await pvpSettings(env),burning),[profile,deck,score,titleMap,characterBonus,energy,battle]=await Promise.all([ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),userCardScore(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env)]);
+      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning),[profile,deck,score,titleMap,characterBonus,energy,battle]=await Promise.all([ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),userCardScore(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env)]);
       const [presetRows,activeRow]=await Promise.all([env.DB.prepare('SELECT preset_no,card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no BETWEEN 1 AND 3 ORDER BY preset_no').bind(user.id).all(),env.DB.prepare('SELECT preset_no FROM pvp_active_presets WHERE user_id=?').bind(user.id).first()]);
       const presets={1:[],2:[],3:[]};for(const row of presetRows.results||[]){try{presets[Number(row.preset_no)]=JSON.parse(row.card_ids||'[]')}catch{presets[Number(row.preset_no)]=[]}}
-      return json({settings,battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...profile,tier:resolveTier(Number(profile.season_score),settings.tiers)},title:titleMap[String(user.id)]||null,deck,presets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),cardScore:score,characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
+      return json({settings,lifecycle:{settling:lifecycle.settling===true,phase:lifecycle.phase||null,startedNewSeason:lifecycle.startedNewSeason===true,completedSeason:lifecycle.completedSeason||null},battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...profile,tier:resolveTier(Number(profile.season_score),settings.tiers),highestTier:resolveTier(Number(profile.highest_score),settings.tiers)},title:titleMap[String(user.id)]||null,deck,presets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),cardScore:score,characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
     }
     if(path==='pvp/deck'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const body=await readBody(request),presetNo=Math.max(1,Math.min(3,Number(body.presetNo||1))),ids=[...new Set((body.cardIds||[]).map(String))];if(ids.length!==5)return json({error:'PvP 덱은 보유 카드 5장으로 편성해야 합니다.'},400);
+      const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const body=await readBody(request),presetNo=Math.max(1,Math.min(3,Number(body.presetNo||1))),ids=[...new Set((body.cardIds||[]).map(String))];if(ids.length!==5)return json({error:'랭크전 덱은 보유 카드 5장으로 편성해야 합니다.'},400);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT card_id FROM user_cards WHERE user_id=? AND COALESCE(quantity,0)>0 AND card_id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
-      try{await validateDeckGradeLimits(env,ids,'PvP 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
+      try{await validateDeckGradeLimits(env,ids,'랭크전 덱')}catch(error){return json({error:error.message,code:error.code,grade:error.grade,count:error.count,limit:error.limit},400)}
       await env.DB.batch([env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_deck_presets (user_id INTEGER NOT NULL,preset_no INTEGER NOT NULL,card_ids TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,preset_no))'),env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_active_presets (user_id INTEGER PRIMARY KEY,preset_no INTEGER NOT NULL DEFAULT 1,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)')]);
       const writes=[env.DB.prepare('INSERT INTO pvp_deck_presets(user_id,preset_no,card_ids,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,preset_no) DO UPDATE SET card_ids=excluded.card_ids,updated_at=CURRENT_TIMESTAMP').bind(user.id,presetNo,JSON.stringify(ids)),env.DB.prepare('INSERT INTO pvp_active_presets(user_id,preset_no,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET preset_no=excluded.preset_no,updated_at=CURRENT_TIMESTAMP').bind(user.id,presetNo)];if(presetNo===1)writes.push(env.DB.prepare('INSERT INTO pvp_decks(user_id,card_ids,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET card_ids=excluded.card_ids,updated_at=CURRENT_TIMESTAMP').bind(user.id,JSON.stringify(ids)));await env.DB.batch(writes);return json({ok:true,deck:ids,presetNo,defensePreset:1,prestigeLimit:PRESTIGE_DECK_LIMIT,furLimit:FUR_DECK_LIMIT});
     }
     if(path==='pvp/opponents'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await publicEquippedTitleMap(env,[]);
-      const [settings,recent]=await Promise.all([
-        pvpSettings(env),
-        env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 2').bind(user.id).all()
-      ]);
-      if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);
-      const mine=await ensurePvpProfile(env,user,settings);
-      const blockedOpponentId=recent.results.length===2&&Number(recent.results[0].defender_id)===Number(recent.results[1].defender_id)?Number(recent.results[0].defender_id):0;
-      const ranges=[200,400,700,1200],out=[],seen=new Set();
-      for(const seasonRange of ranges){
-        const users=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.wins,p.losses,p.highest_score,
-          t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset
-          FROM users u
-          JOIN pvp_profiles p ON p.user_id=u.id
-          JOIN pvp_decks d ON d.user_id=u.id
-          LEFT JOIN user_title_loadout tl ON tl.user_id=u.id
-          LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id
-          LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1
-          WHERE u.id<>?
-            AND u.status='ACTIVE'
-            AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN')
-            AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
-            AND CASE WHEN json_valid(d.card_ids) THEN json_array_length(d.card_ids) ELSE 0 END=5
-            AND ABS(p.season_score-?)<=?
-          ORDER BY ABS(p.season_score-?) ASC,p.season_score DESC
-          LIMIT 50`).bind(user.id,mine.season_score,seasonRange,mine.season_score).all();
-        for(const x of users.results){
-          const id=Number(x.id);
-          if(seen.has(id)||id===blockedOpponentId)continue;
-          seen.add(id);
-          const scoreDiff=Number(x.season_score)-Number(mine.season_score);
-          const winPreview=pvpSeasonScoreAdjustment(true,mine.season_score,x.season_score);
-          const lossPreview=pvpSeasonScoreAdjustment(false,mine.season_score,x.season_score);
-          const title=x.titleId?{id:Number(x.titleId),name:x.titleName,badgeText:x.titleBadgeText||x.titleName,stylePreset:String(x.titleStylePreset||'DEFAULT').toUpperCase()}:null;
-          out.push({...x,title,scoreDiff,expectedWin:winPreview.change,expectedLoss:lossPreview.change,tier:resolveTier(Number(x.season_score),settings.tiers)});
-          if(out.length>=6)break;
-        }
-        if(out.length>=6)break;
-      }
-      out.sort((a,b)=>Math.abs(Number(a.scoreDiff))-Math.abs(Number(b.scoreDiff))||Number(b.season_score)-Number(a.season_score));
-      return json({opponents:out.slice(0,6),blockedOpponentId:blockedOpponentId||null,matchRanges:ranges});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      return json({matchingMode:'AUTO',opponents:[],message:'랭크전은 상대를 선택하지 않습니다. 티어와 편성 전투력을 기준으로 서버가 자동 배정합니다.'});
+    }
+    if(path==='pvp/match'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const lifecycle=await advancePvpSeasonLifecycle(env),burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning);
+      if(lifecycle.settling)return json({error:'현재 시즌 정산 중입니다. 새 시즌이 자동 시작되면 매칭할 수 있습니다.',code:'PVP_SEASON_SETTLING',retryable:true,retryAfterMs:1500},409);
+      if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);
+      const energy=await pvpEnergyState(env,user,settings);if(!energy.unlimited&&energy.energy<energy.costPerBattle)return json({error:'랭크전 전투 횟수가 부족합니다.',energy},409);
+      try{return json({ok:true,matchingMode:'AUTO',...(await createRankedMatchTicket(env,user,settings))})}catch(error){return json({error:error.message||'랭크전 매칭에 실패했습니다.'},Number(error.status||500))}
     }
     if(path==='pvp/fight'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),requestId=String(body.requestId||crypto.randomUUID()),defenderId=Number(body.opponentId);if(!defenderId||defenderId===user.id)return json({error:'올바른 상대를 선택하세요.'},400);
-      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(await pvpSettings(env),burning);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 시즌이 중지되어 있습니다.'},503);
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const body=await readBody(request),requestId=String(body.requestId||crypto.randomUUID());
+      const lifecycle=await advancePvpSeasonLifecycle(env),burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning);if(lifecycle.settling)return json({error:'현재 시즌 정산 중입니다.',code:'PVP_SEASON_SETTLING'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);
+      let rankedTicket;try{rankedTicket=await claimRankedMatchTicket(env,user.id,body.matchToken,settings)}catch(error){return json({error:error.message||'랭크전 매칭 확인에 실패했습니다.'},Number(error.status||500))}const defenderId=Number(rankedTicket.defender_id);if(!defenderId||defenderId===user.id)return json({error:'자동 배정된 상대가 올바르지 않습니다.'},400);
       const recent=await env.DB.prepare('SELECT defender_id FROM pvp_match_history WHERE attacker_id=? ORDER BY id DESC LIMIT 2').bind(user.id).all();
       if(recent.results.length===2&&Number(recent.results[0].defender_id)===defenderId&&Number(recent.results[1].defender_id)===defenderId)return json({error:'같은 상대와는 연속 3회 이상 대전할 수 없습니다. 다른 상대와 1회 대전한 뒤 다시 도전하세요.',code:'PVP_REPEAT_OPPONENT_LIMIT'},409);
       const attacker=await ensurePvpProfile(env,user,settings),defUser=await env.DB.prepare("SELECT * FROM users WHERE id=? AND status='ACTIVE' AND (banned_until IS NULL OR banned_until<=datetime('now'))").bind(defenderId).first();if(!defUser)return json({error:'상대를 찾을 수 없습니다.'},404);const defender=await ensurePvpProfile(env,defUser,settings);
+      if(Number(attacker.season_score)!==Number(rankedTicket.attacker_score)||Number(defender.season_score)!==Number(rankedTicket.defender_score))return json({error:'매칭 후 시즌 점수가 변경되었습니다. 현재 점수 기준으로 다시 매칭해주세요.',code:'PVP_MATCH_SCORE_CHANGED'},409);
       const [aDeck,dDeck,battle,titleMap]=await Promise.all([pvpDeckSnapshot(env,user.id),pvpDeckSnapshot(env,defenderId,true),battleSettings(env),publicEquippedTitleMap(env,[user.id,defenderId])]);
-      if(aDeck.length!==5)return json({error:'먼저 PvP 덱 편성을 완료하세요.'},400);
-      if(dDeck.length!==5)return json({error:'상대의 PvP 덱이 완성되지 않았습니다.'},409);
+      if(aDeck.length!==5)return json({error:'먼저 랭크전 덱 편성을 완료하세요.'},400);
+      if(dDeck.length!==5)return json({error:'상대의 랭크전 덱이 완성되지 않았습니다.'},409);
       const aPrestigeCount=aDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='PRESTIGE').length,dPrestigeCount=dDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='PRESTIGE').length,aFurCount=aDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='FUR').length,dFurCount=dDeck.filter(card=>String(card.rarity||card.grade||'').toUpperCase()==='FUR').length;
-      if(aFurCount>FUR_DECK_LIMIT)return json({error:`PvP 덱에는 FUR 카드를 최대 ${FUR_DECK_LIMIT}장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.`,code:'FUR_DECK_LIMIT',furCount:aFurCount,limit:FUR_DECK_LIMIT},409);
-      if(dFurCount>FUR_DECK_LIMIT)return json({error:'상대의 PvP 덱이 FUR 편성 제한을 초과해 대전할 수 없습니다.',code:'OPPONENT_FUR_DECK_LIMIT'},409);
-      if(aPrestigeCount>PRESTIGE_DECK_LIMIT)return json({error:`PvP 덱에는 PRESTIGE 카드를 최대 ${PRESTIGE_DECK_LIMIT}장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.`,code:'PRESTIGE_DECK_LIMIT',prestigeCount:aPrestigeCount,limit:PRESTIGE_DECK_LIMIT},409);
-      if(dPrestigeCount>PRESTIGE_DECK_LIMIT)return json({error:'상대의 PvP 덱이 PRESTIGE 편성 제한을 초과해 대전할 수 없습니다.',code:'OPPONENT_PRESTIGE_DECK_LIMIT'},409);
+      if(aFurCount>FUR_DECK_LIMIT)return json({error:`랭크전 덱에는 FUR 카드를 최대 ${FUR_DECK_LIMIT}장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.`,code:'FUR_DECK_LIMIT',furCount:aFurCount,limit:FUR_DECK_LIMIT},409);
+      if(dFurCount>FUR_DECK_LIMIT)return json({error:'상대의 랭크전 덱이 FUR 편성 제한을 초과해 대전할 수 없습니다.',code:'OPPONENT_FUR_DECK_LIMIT'},409);
+      if(aPrestigeCount>PRESTIGE_DECK_LIMIT)return json({error:`랭크전 덱에는 PRESTIGE 카드를 최대 ${PRESTIGE_DECK_LIMIT}장까지만 편성할 수 있습니다. 덱을 다시 저장해주세요.`,code:'PRESTIGE_DECK_LIMIT',prestigeCount:aPrestigeCount,limit:PRESTIGE_DECK_LIMIT},409);
+      if(dPrestigeCount>PRESTIGE_DECK_LIMIT)return json({error:'상대의 랭크전 덱이 PRESTIGE 편성 제한을 초과해 대전할 수 없습니다.',code:'OPPONENT_PRESTIGE_DECK_LIMIT'},409);
       const defUserRole=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(defenderId).first(),aIds=aDeck.map(c=>String(c.id)),dIds=dDeck.map(c=>String(c.id));
       const aCards=aDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)})),dCards=dDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)}));
       const [aSyn,dSyn,uniqueStates,aCharacterBonus,dCharacterBonus,aMagic,dMagic]=await Promise.all([
@@ -4785,6 +4995,8 @@ async function handleRequest(context){
       const aUniqueRuntime=aUnique.enabled?resolveUniqueBattleRuntime(aUnique,{mode:'PVP',opponentPower:dBase}):null,dUniqueRuntime=dUnique.enabled?resolveUniqueBattleRuntime(dUnique,{mode:'PVP',opponentPower:aBase}):null;
       const aSynergyMultiplier=1+Number(aSyn.totals.attackPercent||0)/100,dSynergyMultiplier=1+Number(dSyn.totals.attackPercent||0)/100;
       const aCardPower=Math.max(0,Math.floor(Number(aUniqueRuntime?.effectivePower||aBase)*aSynergyMultiplier)),dCardPower=Math.max(0,Math.floor(Number(dUniqueRuntime?.effectivePower||dBase)*dSynergyMultiplier)),legacyAPower=aCardPower+Number(aCharacterBonus.pvp||0),legacyDPower=dCardPower+Number(dCharacterBonus.pvp||0);
+      const currentMatchAPower=Math.max(1,aCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(aCharacterBonus.pvp||0)),currentMatchDPower=Math.max(1,dCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(dCharacterBonus.pvp||0));
+      if(currentMatchAPower!==Number(rankedTicket.attacker_power)||currentMatchDPower!==Number(rankedTicket.defender_power))return json({error:'매칭 후 덱·장비·칭호 정보가 변경되었습니다. 새로 매칭해주세요.',code:'PVP_MATCH_FORMATION_CHANGED'},409);
       const engineState=battleEngineState(battle,user),aUniqueById=new Map((aUnique.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null])),dUniqueById=new Map((dUnique.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null]));
       let battleV2=null;
       if(engineState.active){
@@ -4816,16 +5028,16 @@ async function handleRequest(context){
       return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cubeReward,weeklyPremiumCube,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,attackerCharacterBonus:aCharacterBonus,defenderCharacterBonus:dCharacterBonus,attackerCardPower:aCardPower,defenderCardPower:dCardPower,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,attackerTitle:titleMap[String(user.id)]||null,defenderTitle:titleMap[String(defenderId)]||null,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:uniqueBattleResponsePayload(aUnique,aUniqueRuntime),defender:uniqueBattleResponsePayload(dUnique,dUniqueRuntime)},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT id,attacker_id,defender_id,attacker_name,defender_name,attacker_power,defender_power,winner_id,attacker_score_before,attacker_score_after,defender_score_before,defender_score_after,score_change,created_at FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();const opponentIds=[...new Set((rows.results||[]).map(r=>Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id)).filter(Boolean))],titleMap=await publicEquippedTitleMap(env,opponentIds);return json({history:rows.results.map(r=>{const opponentId=Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id);return {...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,opponentTitle:titleMap[String(opponentId)]||null,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}})});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT id,attacker_id,defender_id,attacker_name,defender_name,attacker_power,defender_power,winner_id,attacker_score_before,attacker_score_after,defender_score_before,defender_score_after,score_change,created_at FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();const opponentIds=[...new Set((rows.results||[]).map(r=>Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id)).filter(Boolean))],titleMap=await publicEquippedTitleMap(env,opponentIds);return json({history:rows.results.map(r=>{const opponentId=Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id);return {...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,opponentTitle:titleMap[String(opponentId)]||null,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}})});
     }
     if(path==='pvp/ranking'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await publicEquippedTitleMap(env,[]);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses,t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset FROM pvp_profiles p JOIN users u ON u.id=p.user_id LEFT JOIN user_title_loadout tl ON tl.user_id=u.id LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1 WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname LIMIT 100`).all();const ranking=rows.results.map((x,i)=>({...x,title:x.titleId?{id:Number(x.titleId),name:x.titleName,badgeText:x.titleBadgeText||x.titleName,stylePreset:String(x.titleStylePreset||'DEFAULT').toUpperCase()}:null,rank:i+1,tier:resolveTier(Number(x.season_score),settings.tiers)}));return json({settings,ranking,me:ranking.find(x=>Number(x.id)===Number(user.id))||null});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await publicEquippedTitleMap(env,[]);const lifecycle=await advancePvpSeasonLifecycle(env),settings=lifecycle.settings;if(lifecycle.settling)return json({error:'현재 랭크전 시즌 정산 중입니다. 새 시즌이 자동으로 시작되면 랭킹이 열립니다.',code:'PVP_SEASON_SETTLING',retryable:true,retryAfterMs:1500},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.highest_score,p.wins,p.losses,t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset FROM pvp_profiles p JOIN users u ON u.id=p.user_id LEFT JOIN user_title_loadout tl ON tl.user_id=u.id LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id AND (ut.expires_at IS NULL OR ut.expires_at>CURRENT_TIMESTAMP) LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1 WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname LIMIT 100`).all();const ranking=rows.results.map((x,i)=>({...x,title:x.titleId?{id:Number(x.titleId),name:x.titleName,badgeText:x.titleBadgeText||x.titleName,stylePreset:String(x.titleStylePreset||'DEFAULT').toUpperCase()}:null,rank:i+1,tier:resolveTier(Number(x.season_score),settings.tiers)}));return json({settings,ranking,me:ranking.find(x=>Number(x.id)===Number(user.id))||null});
     }
     if(path==='pvp/reward/claim'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 PvP 콘텐츠가 중지되어 있습니다.'},503);if(!settings.tierRewardsEnabled)return json({error:'티어 달성 보상이 중지되어 있습니다.'},503);if(settings.rewardClaimMode==='SEASON_END'&&settings.endsAt&&new Date(settings.endsAt).getTime()>Date.now()&&!isAdminRole(user))return json({error:'시즌 종료 후 보상을 받을 수 있습니다.'},409);const p=await ensurePvpProfile(env,user,settings),tier=resolveTier(Number(p.highest_score),settings.tiers),rewardCoin=Number(tier.rewardCoin||0),rewardShards=Number(tier.rewardShards||0),exists=await env.DB.prepare('SELECT 1 FROM pvp_reward_claims WHERE user_id=? AND season_name=? AND tier_id=?').bind(user.id,settings.seasonName,tier.id).first();if(exists)return json({error:'이미 수령한 시즌 티어 보상입니다.'},409);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_reward_claims(user_id,season_name,tier_id,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,tier.id,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?").bind(rewardCoin,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,? FROM users WHERE id=?").bind(rewardShards,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,tier,reward:rewardCoin,rewardCoin,rewardShards,user:await profile(env,updated)});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);if(!settings.tierRewardsEnabled)return json({error:'티어 달성 보상이 중지되어 있습니다.'},503);if(settings.rewardClaimMode==='SEASON_END'&&settings.endsAt&&utcMs(settings.endsAt)>Date.now()&&!isAdminRole(user))return json({error:'시즌 종료 후 보상을 받을 수 있습니다.'},409);const p=await ensurePvpProfile(env,user,settings),tier=resolveTier(Number(p.highest_score),settings.tiers),rewardCoin=Number(tier.rewardCoin||0),rewardShards=Number(tier.rewardShards||0),exists=await env.DB.prepare('SELECT 1 FROM pvp_reward_claims WHERE user_id=? AND season_name=? AND tier_id=?').bind(user.id,settings.seasonName,tier.id).first();if(exists)return json({error:'이미 수령한 시즌 티어 보상입니다.'},409);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_reward_claims(user_id,season_name,tier_id,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,tier.id,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?").bind(rewardCoin,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) SELECT id,?,card_shards,? FROM users WHERE id=?").bind(rewardShards,`PVP ${settings.seasonName} ${tier.name} 티어 보상`,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,tier,reward:rewardCoin,rewardCoin,rewardShards,user:await profile(env,updated)});
     }
     if(path==='pvp/rank-reward/claim'&&request.method==='POST'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);if(isAdminRole(user))return json({error:'운영 계정은 시즌 랭킹 및 랭킹 보상 대상에서 제외됩니다.'},403);const settings=await pvpSettings(env);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.rankRewardsEnabled)return json({error:'시즌 랭킹 보상이 중지되어 있습니다.'},503);const seasonEndMs=settings.endsAt?utcMs(settings.endsAt):0;if(!seasonEndMs||seasonEndMs>Date.now())return json({error:'최종 랭킹 보상은 시즌 종료 후에만 받을 수 있습니다.'},409);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.wins FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname`).all(),rank=rows.results.findIndex(x=>Number(x.id)===Number(user.id))+1;if(!rank)return json({error:'시즌 랭킹 기록이 없습니다.'},404);const reward=(settings.rankRewards||[]).find(x=>rank>=Number(x.from)&&rank<=Number(x.to));if(!reward)return json({error:'현재 순위에 해당하는 랭킹 보상이 없습니다.'},404);const exists=await env.DB.prepare('SELECT 1 FROM pvp_rank_reward_claims WHERE user_id=? AND season_name=?').bind(user.id,settings.seasonName).first();if(exists)return json({error:'이미 수령한 시즌 랭킹 보상입니다.'},409);const rewardCoin=Number(reward.rewardCoin||0),rewardShards=Number(reward.rewardShards||0);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_rank_reward_claims(user_id,season_name,final_rank,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,rank,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rank,rewardCoin,rewardShards,user:await profile(env,updated)});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);if(isAdminRole(user))return json({error:'운영 계정은 시즌 랭킹 및 랭킹 보상 대상에서 제외됩니다.'},403);const settings=await pvpSettings(env);if(settings.automaticSeasons!==false)return json({error:'랭크전 시즌 보상은 정산 후 메시지함으로 자동 지급됩니다.'},409);const settled=await completedPvpSettlement(env,settings);if(settled)return json({error:'시즌 정산 보상은 메시지함에서 수령하세요.'},409);if(!settings.rankRewardsEnabled)return json({error:'시즌 랭킹 보상이 중지되어 있습니다.'},503);const seasonEndMs=settings.endsAt?utcMs(settings.endsAt):0;if(!seasonEndMs||seasonEndMs>Date.now())return json({error:'최종 랭킹 보상은 시즌 종료 후에만 받을 수 있습니다.'},409);const rows=await env.DB.prepare(`SELECT u.id,u.nickname,p.season_score,p.wins FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname`).all(),rank=rows.results.findIndex(x=>Number(x.id)===Number(user.id))+1;if(!rank)return json({error:'시즌 랭킹 기록이 없습니다.'},404);const reward=(settings.rankRewards||[]).find(x=>rank>=Number(x.from)&&rank<=Number(x.to));if(!reward)return json({error:'현재 순위에 해당하는 랭킹 보상이 없습니다.'},404);const exists=await env.DB.prepare('SELECT 1 FROM pvp_rank_reward_claims WHERE user_id=? AND season_name=?').bind(user.id,settings.seasonName).first();if(exists)return json({error:'이미 수령한 시즌 랭킹 보상입니다.'},409);const rewardCoin=Number(reward.rewardCoin||0),rewardShards=Number(reward.rewardShards||0);await env.DB.batch([env.DB.prepare('INSERT INTO pvp_rank_reward_claims(user_id,season_name,final_rank,reward_coin,reward_shards) VALUES(?,?,?,?,?)').bind(user.id,settings.seasonName,rank,rewardCoin,rewardShards),env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(rewardCoin,rewardShards,user.id)]);const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();return json({ok:true,rank,rewardCoin,rewardShards,user:await profile(env,updated)});
     }
 
     if(path==='mineral-exchange/config'){
@@ -5265,6 +5477,8 @@ async function handleRequest(context){
     if(path==='admin/tiers'){
       const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'티어 관리 권한이 없습니다.'},403);
       if(request.method==='GET'){
+        const lifecycle=await advancePvpSeasonLifecycle(env);
+        if(lifecycle.settling&&typeof context.waitUntil==='function')context.waitUntil((async()=>{for(let i=0;i<8;i++){const next=await advancePvpSeasonLifecycle(env);if(!next.settling)break}})());
         // 관리자 화면은 저장 직후 이전 런타임 캐시가 보이면 안 된다.
         const settings=await readTierSettings(env),battle=await battleSettings(env),livePvp=await readPvpSettings(env);settings.pvp={...settings.pvp,...livePvp};
         const rows=await env.DB.prepare(`SELECT u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).all();
@@ -5272,7 +5486,7 @@ async function handleRequest(context){
         const pvpRows=await env.DB.prepare(`SELECT u.nickname,p.season_score,p.highest_score,p.wins,p.losses FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname LIMIT 100`).all();
         const pvpStats=await env.DB.prepare(`SELECT COUNT(*) AS profiles,COALESCE(SUM(wins+losses),0)/2 AS matches,COALESCE(MAX(season_score),0) AS top_score FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).first();
         const settlement=await env.DB.prepare('SELECT id,season_key,season_name,status,participant_count,reward_user_count,message_count,started_at,completed_at,error_message FROM pvp_season_settlements WHERE season_key=? ORDER BY id DESC LIMIT 1').bind(pvpSeasonKey(livePvp)).first();
-        return json({settings,ranking:[...map.values()].sort((a,b)=>b.score-a.score).slice(0,100),pvpRanking:pvpRows.results.map((x,i)=>({...x,rank:i+1,tier:resolveTier(Number(x.season_score),livePvp.tiers)})),pvpStats,pvpSettlement:settlement||null});
+        return json({settings,ranking:[...map.values()].sort((a,b)=>b.score-a.score).slice(0,100),pvpRanking:pvpRows.results.map((x,i)=>({...x,rank:i+1,tier:resolveTier(Number(x.season_score),livePvp.tiers)})),pvpStats,pvpSettlement:settlement||null,pvpLifecycle:lifecycle});
       }
       if(request.method==='PATCH'||request.method==='POST'){
         const payload=await readBody(request),before={tiers:await readTierSettings(env),pvp:await readPvpSettings(env)},base=defaultTierSettings();

@@ -808,7 +808,7 @@ async function team(env, id, includeDeck = false) {
     JOIN users u ON u.id=m.user_id
     LEFT JOIN pvp_profiles p ON p.user_id=m.user_id
     LEFT JOIN user_title_loadout tl ON tl.user_id=u.id
-    LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id
+    LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id AND (ut.expires_at IS NULL OR ut.expires_at>CURRENT_TIMESTAMP)
     LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1
     WHERE m.team_id=?
     ORDER BY m.position
