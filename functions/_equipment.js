@@ -191,6 +191,11 @@ export async function ensureEquipmentFoundation(env){
       statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1232_character_title_styles','1',CURRENT_TIMESTAMP)"));
       await env.DB.batch(statements);
     }
+    const titleOwnershipInfo=await env.DB.prepare('PRAGMA table_info(user_character_titles)').all();
+    if(!(titleOwnershipInfo.results||[]).some(column=>String(column.name||'').toLowerCase()==='expires_at')){
+      try{await env.DB.prepare('ALTER TABLE user_character_titles ADD COLUMN expires_at TEXT').run()}
+      catch(error){if(!String(error?.message||error).toLowerCase().includes('duplicate column'))throw error}
+    }
     const markerV1247=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1247_equipment_supply_box'").first();
     if(markerV1247?.value!=='1'){
       const itemTableInfo=await env.DB.prepare('PRAGMA table_info(character_equipment_items)').all();
@@ -439,7 +444,7 @@ export async function supplyBoxSettings(env,{fresh=false}={}){
 function publicSupplyBoxConfig(settings,promotion={mode:'NONE',discount:0}){return {enabled:settings.enabled,shopEnabled:settings.shopEnabled,...supplyShopPricing(settings,promotion),maxOpen:SUPPLY_BOX_MAX_OPEN,itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,rewardRates:settings.rewardRates}}
 function publicItem(row){return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),supplyEnabled:row.supply_enabled!==0,supplyWeight:Number(row.supply_weight??1)}}
 function publicGarageItem(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,rarity:normalizeGarageRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),acquiredAt:row.acquired_at||null}}
-function publicTitle(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig:parseJson(row.unlock_config_json,{}),stylePreset:normalizeTitleStylePreset(row.style_preset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null}}
+function publicTitle(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig:parseJson(row.unlock_config_json,{}),stylePreset:normalizeTitleStylePreset(row.style_preset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null,expiresAt:row.expires_at||null}}
 
 export async function publicEquippedTitleMap(env,userIds=[]){
   await ensureEquipmentFoundation(env);
@@ -448,7 +453,7 @@ export async function publicEquippedTitleMap(env,userIds=[]){
   const marks=ids.map(()=>'?').join(',');
   const rows=await env.DB.prepare(`SELECT l.user_id AS user_id,t.id,t.code,t.name,t.badge_text,t.style_preset,t.image_url
     FROM user_title_loadout l
-    JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id
+    JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP)
     JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 AND t.is_public=1
     WHERE l.user_id IN (${marks})`).bind(...ids).all();
   return Object.fromEntries((rows.results||[]).map(row=>[String(row.user_id),{id:Number(row.id),code:row.code,name:row.name,badgeText:row.badge_text||row.name,stylePreset:normalizeTitleStylePreset(row.style_preset),image:row.image_url||''}]));
@@ -521,7 +526,7 @@ export async function userEquipmentBonuses(env,userId){
     ),equipped_title AS (
       SELECT COALESCE(t.pve_power,0) AS title_pve,t.id AS title_id,t.name AS title_name,t.style_preset AS title_style_preset
       FROM user_title_loadout l
-      JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id
+      JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP)
       JOIN character_titles t ON t.id=l.title_id AND t.is_active=1
       WHERE l.user_id=? LIMIT 1
     )
@@ -574,8 +579,8 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false}={}){
   const [instances,loadoutRows,titleRows,titleLoadout,garageRows,garageLoadout,bonuses]=await Promise.all([
     env.DB.prepare(`SELECT x.id AS instance_id,x.source_type,x.source_id,x.acquired_at,i.* FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.user_id=? ${admin?'':"AND i.is_active=1 AND i.is_public=1"} ORDER BY i.slot,i.sort_order,x.acquired_at DESC,x.id DESC`).bind(userId).all(),
     env.DB.prepare('SELECT slot,instance_id FROM user_equipment_loadout WHERE user_id=?').bind(userId).all(),
-    env.DB.prepare(`SELECT t.*,u.unlocked_at,CASE WHEN u.title_id IS NULL THEN 0 ELSE 1 END AS owned FROM character_titles t LEFT JOIN user_character_titles u ON u.title_id=t.id AND u.user_id=? WHERE ${admin?'1=1':'t.is_active=1 AND t.is_public=1'} ORDER BY t.sort_order,t.id`).bind(userId).all(),
-    env.DB.prepare('SELECT title_id FROM user_title_loadout WHERE user_id=?').bind(userId).first(),
+    env.DB.prepare(`SELECT t.*,u.unlocked_at,u.expires_at,CASE WHEN u.title_id IS NULL THEN 0 ELSE 1 END AS owned FROM character_titles t LEFT JOIN user_character_titles u ON u.title_id=t.id AND u.user_id=? AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) WHERE ${admin?'1=1':'t.is_active=1 AND t.is_public=1'} ORDER BY t.sort_order,t.id`).bind(userId).all(),
+    env.DB.prepare('SELECT l.title_id FROM user_title_loadout l JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) WHERE l.user_id=?').bind(userId).first(),
     env.DB.prepare(`SELECT g.*,u.acquired_at,CASE WHEN u.garage_id IS NULL THEN 0 ELSE 1 END AS owned FROM character_garage_items g LEFT JOIN user_garage_vehicles u ON u.garage_id=g.id AND u.user_id=? WHERE ${admin?'1=1':'g.is_active=1 AND g.is_public=1'} ORDER BY g.sort_order,g.id`).bind(userId).all(),
     env.DB.prepare('SELECT garage_id FROM user_garage_loadout WHERE user_id=?').bind(userId).first(),
     userEquipmentBonuses(env,userId)
@@ -623,7 +628,7 @@ export async function handleEquipment({path,request,env,deps}){
   if(path==='character/title/equip'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
     const body=await readBody(request),titleId=cleanInt(body.titleId,1,2147483647);
-    const owned=await env.DB.prepare(`SELECT t.id FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id WHERE u.user_id=? AND t.id=? AND t.is_active=1`).bind(user.id,titleId).first();
+    const owned=await env.DB.prepare(`SELECT t.id FROM user_character_titles u JOIN character_titles t ON t.id=u.title_id WHERE u.user_id=? AND t.id=? AND t.is_active=1 AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP)`).bind(user.id,titleId).first();
     if(!owned)return json({error:'보유하지 않은 칭호입니다.'},404);
     await env.DB.prepare(`INSERT INTO user_title_loadout(user_id,title_id,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET title_id=excluded.title_id,updated_at=CURRENT_TIMESTAMP`).bind(user.id,titleId).run();
     return json({ok:true,equippedTitleId:titleId,bonuses:await userEquipmentBonuses(env,user.id)});
