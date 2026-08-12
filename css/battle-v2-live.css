@@ -973,6 +973,15 @@
   gap:clamp(40px,7vw,140px);
   padding-inline:clamp(28px,6vw,120px);
 }
+.pvp-battle-modal .layout-desktop .focus-battle{
+  /* The legacy PVP arena still owns two grid tracks. The focused V2 stage is
+     the only visible grid item, so it must span both tracks or the entire
+     battle (rosters, fighters and their FX anchor) is confined to the left. */
+  grid-column:1 / -1;
+  width:100%;
+  min-width:0;
+  margin-inline:auto;
+}
 .pvp-battle-modal .layout-desktop .focus-slot .battle-card-v2{
   width:clamp(320px,24vw,460px);
   height:clamp(500px,36vw,690px);
