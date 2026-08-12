@@ -6,6 +6,8 @@ const client=read('js/workshop-v1676.js');
 const css=read('css/workshop-v1676.css');
 const admin=read('admin/workshop-synthesis-v1677.js');
 const migration=read('database/migrations/0072_v1677_equipment_synthesis_recipes.sql');
+const migration1678=read('database/migrations/0073_v1678_synthesis_rate_scrapyard_rewards.sql');
+const scrapyard=read('functions/_scrapyard.js');
 const preview=read('preview/equipment-synthesis-v1677.html');
 const assert=(name,condition)=>{if(!condition)throw new Error(`FAIL: ${name}`);console.log(`PASS: ${name}`)};
 
@@ -17,9 +19,15 @@ assert('atomic guard before deletion',server.includes('verified=1')&&server.incl
 assert('default valkyrie lineage',migration.includes("i.name='발키리 슈트'")&&migration.includes("o.name='프라임 배틀슈트'"));
 assert('default odin lineage',migration.includes("i.name='오딘 AK'")&&migration.includes("o.name='인피니티 AK'"));
 assert('cms recipe editor',admin.includes('SAVE_SYNTHESIS_RECIPE')&&admin.includes('inputEquipmentId')&&admin.includes('outputEquipmentId'));
+assert('cms synthesis probability',admin.includes('ws77RecipeRate')&&server.includes('success_rate'));
+assert('failed synthesis consumes inputs only',server.includes('...(success?[')&&server.includes('success?1:0'));
+assert('schema upgrade for rate and outcome',migration1678.includes('success_rate')&&migration1678.includes('success INTEGER'));
+assert('scrapyard clear coin guaranteed',scrapyard.includes("rewardName:'클리어 코인'")&&scrapyard.includes("'SCRAPYARD_CLEAR'"));
+assert('scrapyard parts only one full-clear roll',scrapyard.includes('if(battle.success)drop=')&&!scrapyard.includes('rollsMultiplier:battle.wavesCleared'));
 assert('badge clipped inside frame',css.includes('.ws76-forge-ring figure{overflow:hidden;isolation:isolate}'));
 assert('3 to 1 cannot wrap',css.includes('white-space:nowrap'));
 assert('cinematic chamber asset wired',css.includes('equipment-fusion-chamber-v1677.png'));
-assert('charge and slide reveal',client.includes('REVEAL AUTHORIZED')&&client.includes('--slide')&&client.includes('--open'));
+assert('charge and slide reveal',client.includes('RESULT SEALED')&&client.includes('--slide')&&client.includes('--open'));
+assert('inventory-first synthesis UI',client.includes('ws78-material-picker')&&client.includes('ws78-fusion-board'));
 assert('preview uses real lineage',preview.includes('발키리 슈트')&&preview.includes('프라임 배틀슈트'));
 console.log('V1677 validation complete.');

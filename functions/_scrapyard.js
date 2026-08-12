@@ -9,9 +9,9 @@ let foundationPromise=null,settingsCache=null;
 const DEFAULT_SETTINGS={
   mode:'ON',dailyRuns:10,
   difficulties:[
-    {id:'OUTER',name:'외곽 폐차장',waves:5,requiredPowerStart:70000,requiredPowerEnd:180000,accent:'#58ddff'},
-    {id:'CORE',name:'압축 설비 구역',waves:6,requiredPowerStart:170000,requiredPowerEnd:390000,accent:'#ffb85c'},
-    {id:'FURNACE',name:'용광로 심부',waves:7,requiredPowerStart:360000,requiredPowerEnd:760000,accent:'#ff596f'}
+    {id:'OUTER',name:'외곽 폐차장',waves:5,requiredPowerStart:70000,requiredPowerEnd:180000,clearCoin:100000,accent:'#58ddff'},
+    {id:'CORE',name:'압축 설비 구역',waves:6,requiredPowerStart:170000,requiredPowerEnd:390000,clearCoin:200000,accent:'#ffb85c'},
+    {id:'FURNACE',name:'용광로 심부',waves:7,requiredPowerStart:360000,requiredPowerEnd:760000,clearCoin:400000,accent:'#ff596f'}
   ]
 };
 
@@ -31,7 +31,7 @@ function hashUnit(seed){let h=2166136261;for(const ch of String(seed||'')){h^=ch
 function cleanSettings(raw={}){
   const base=DEFAULT_SETTINGS,mode=MODE_SET.has(String(raw.mode||'').toUpperCase())?String(raw.mode).toUpperCase():base.mode;
   const input=Array.isArray(raw.difficulties)?raw.difficulties:base.difficulties;
-  const difficulties=base.difficulties.map((fallback,index)=>{const row=input[index]||fallback,start=integer(row.requiredPowerStart,1000,1000000000,fallback.requiredPowerStart),end=integer(row.requiredPowerEnd,start,1000000000,fallback.requiredPowerEnd);return{id:fallback.id,name:text(row.name,40)||fallback.name,waves:integer(row.waves,3,10,fallback.waves),requiredPowerStart:start,requiredPowerEnd:end,accent:/^#[0-9a-f]{6}$/i.test(String(row.accent||''))?String(row.accent):fallback.accent}});
+  const difficulties=base.difficulties.map((fallback,index)=>{const row=input[index]||fallback,start=integer(row.requiredPowerStart,1000,1000000000,fallback.requiredPowerStart),end=integer(row.requiredPowerEnd,start,1000000000,fallback.requiredPowerEnd);return{id:fallback.id,name:text(row.name,40)||fallback.name,waves:integer(row.waves,3,10,fallback.waves),requiredPowerStart:start,requiredPowerEnd:end,clearCoin:integer(row.clearCoin,0,100000000,fallback.clearCoin),accent:/^#[0-9a-f]{6}$/i.test(String(row.accent||''))?String(row.accent):fallback.accent}});
   return {mode,dailyRuns:integer(raw.dailyRuns,1,100,base.dailyRuns),difficulties};
 }
 
@@ -95,12 +95,15 @@ async function run(env,user,body,deps){
     :await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,difficulty,status) VALUES(?,?,?,'PENDING')`).bind(requestId,user.id,difficulty.id).run();if(!reserved.meta?.changes)throw new Error('같은 폐차장 원정을 처리 중입니다.');
   try{
     const [deck,pool]=await Promise.all([deps.raidDeckPower(env,user.id,null,'PVE'),monsterPool(env)]),battle=buildBattle({requestId,difficulty,deck,pool});
-    let drop={rewards:[]};if(battle.wavesCleared>0)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'WAVE_CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:battle.success,rollsMultiplier:battle.wavesCleared},role:user.role});
-    const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),...battle,rewards:drop.rewards||[],balances:drop.balances||null};
-    await env.DB.batch([
+    let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'WAVE_CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});
+    const clearCoin=battle.success?Number(difficulty.clearCoin||0):0,currentBalance=clearCoin>0?await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first():null;
+    const guaranteed=clearCoin>0?[{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}]:[],rewards=[...guaranteed,...(drop.rewards||[])];
+    const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(currentBalance?{coin:Number(currentBalance.coin||0)+clearCoin}:{})}};
+    const statements=[
+      ...(clearCoin>0?[env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(clearCoin,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'SCRAPYARD_CLEAR' FROM users WHERE id=?").bind(clearCoin,user.id)]:[]),
       env.DB.prepare(`INSERT INTO ${RUN_TABLE}(request_id,user_id,difficulty,deck_power,waves_total,waves_cleared,success,rewards_json) VALUES(?,?,?,?,?,?,?,?)`).bind(requestId,user.id,difficulty.id,response.deckPower,difficulty.waves,battle.wavesCleared,battle.success?1:0,JSON.stringify(response.rewards)),
       env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(response),requestId,user.id)
-    ]);
+    ];await env.DB.batch(statements);
     return response;
   }catch(error){await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(text(error?.message||error,400),requestId,user.id).run().catch(()=>null);throw error}
 }

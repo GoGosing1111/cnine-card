@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>장비 계보 합성 V1677</title>
-  <link rel="stylesheet" href="../css/workshop-v1676.css?v=1677-lineage-badge-reveal">
+  <link rel="stylesheet" href="../css/workshop-v1676.css?v=1678-synthesis-rate-random-parts">
   <style>html,body{margin:0;min-height:100%;background:#050b12;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif}button{font:inherit;cursor:pointer}.modal{display:none}.modal.show{display:grid;position:fixed;inset:0;place-items:center}</style>
 </head>
 <body>
@@ -13,13 +13,13 @@
     window.confirm=()=>true;window.alert=message=>console.log(message);
     const input={id:22,name:'발키리 슈트',slot:'TOP',rarity:'MYTHIC',image_url:'assets/new myth/23.jpeg',pve_power:4500,pvp_power:500};
     const output={id:27,name:'프라임 배틀슈트',slot:'TOP',rarity:'MYTHIC',image_url:'assets/items/A1.jpeg',pve_power:9000,pvp_power:1000};
-    const recipe={recipe_id:1,code:'SYNTH_VALKYRIE_SUIT_PRIME',recipe_name:'발키리 슈트 계보',description:'발키리 슈트 3개를 프라임 배틀슈트 1개로 합성합니다.',input_equipment_id:22,output_equipment_id:27,input_quantity:3,quantity:4,...input,output_name:output.name,output_slot:output.slot,output_rarity:output.rarity,output_image:output.image_url,output_pve_power:output.pve_power,output_pvp_power:output.pvp_power};
+    const recipe={recipe_id:1,code:'SYNTH_VALKYRIE_SUIT_PRIME',recipe_name:'발키리 슈트 계보',description:'발키리 슈트 3개를 프라임 배틀슈트 1개로 합성합니다.',input_equipment_id:22,output_equipment_id:27,input_quantity:3,success_rate:65,quantity:4,...input,output_name:output.name,output_slot:output.slot,output_rarity:output.rarity,output_image:output.image_url,output_pve_power:output.pve_power,output_pvp_power:output.pvp_power};
     const parts={VEHICLE_PART_TIRE:{name:'강화 타이어',image_url:'assets/ui/workshop/vehicle-part-tire-v1668.png',quantity:18},VEHICLE_PART_FRAME:{name:'합금 프레임',image_url:'assets/ui/workshop/vehicle-part-frame-v1668.png',quantity:9},VEHICLE_PART_ENGINE:{name:'고출력 엔진',image_url:'assets/ui/workshop/vehicle-part-engine-v1668.png',quantity:4}};
     let workshop={wallet:{coin:78793162,masterStars:286},inventory:parts,recipes:[],synthesis:[recipe]};
     const scrap={deckPower:438200,deckCards:[],parts:Object.values(parts),best:{},access:{allowed:true,usedRuns:0,dailyRuns:10,remainingRuns:10},settings:{difficulties:[]}};
-    window.apiRequest=async(path,options)=>{if(path==='workshop/synthesis'){workshop={...workshop,synthesis:[{...recipe,quantity:1}]};return {state:workshop,recipeId:1,recipeName:recipe.recipe_name,input:{equipmentId:22,name:input.name,image:input.image_url,rarity:input.rarity,quantity:3},output:{equipmentId:27,name:output.name,image:output.image_url,rarity:output.rarity,slot:output.slot,pvePower:output.pve_power,pvpPower:output.pvp_power}}}return path==='workshop'?workshop:scrap};
+    window.apiRequest=async(path,options)=>{if(path==='workshop/synthesis'){workshop={...workshop,synthesis:[{...recipe,quantity:1}]};return {state:workshop,recipeId:1,recipeName:recipe.recipe_name,success:!new URLSearchParams(location.search).has('fail'),successRate:recipe.success_rate,input:{equipmentId:22,name:input.name,image:input.image_url,rarity:input.rarity,quantity:3},output:{equipmentId:27,name:output.name,image:output.image_url,rarity:output.rarity,slot:output.slot,pvePower:output.pve_power,pvpPower:output.pvp_power}}}return path==='workshop'?workshop:scrap};
   </script>
-  <script src="../js/workshop-v1676.js?v=1677-lineage-badge-reveal"></script>
+  <script src="../js/workshop-v1676.js?v=1678-synthesis-rate-random-parts"></script>
   <script>
     stage.innerHTML=workshopView();bindWorkshopView().then(()=>{document.querySelector('[data-ws-section="SYNTHESIS"]')?.click();if(new URLSearchParams(location.search).has('reveal'))setTimeout(()=>document.getElementById('wsSynthStart')?.click(),250)});
   </script>
