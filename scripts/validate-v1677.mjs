@@ -20,14 +20,18 @@ assert('default valkyrie lineage',migration.includes("i.name='발키리 슈트'"
 assert('default odin lineage',migration.includes("i.name='오딘 AK'")&&migration.includes("o.name='인피니티 AK'"));
 assert('cms recipe editor',admin.includes('SAVE_SYNTHESIS_RECIPE')&&admin.includes('inputEquipmentId')&&admin.includes('outputEquipmentId'));
 assert('cms synthesis probability',admin.includes('ws77RecipeRate')&&server.includes('success_rate'));
+assert('runtime synthesis reads persisted probability',server.includes('r.input_quantity,r.success_rate,r.is_active'));
+assert('cms synthesis save verifies probability',server.includes('Math.abs(Number(persisted.success_rate)-successRate)'));
 assert('failed synthesis consumes inputs only',server.includes('...(success?[')&&server.includes('success?1:0'));
 assert('schema upgrade for rate and outcome',migration1678.includes('success_rate')&&migration1678.includes('success INTEGER'));
 assert('scrapyard clear coin guaranteed',scrapyard.includes("rewardName:'클리어 코인'")&&scrapyard.includes("'SCRAPYARD_CLEAR'"));
 assert('scrapyard parts only one full-clear roll',scrapyard.includes('if(battle.success)drop=')&&!scrapyard.includes('rollsMultiplier:battle.wavesCleared'));
+assert('scrapyard cms exposes drop weights',scrapyard.includes('dropSettings:await dropSettings(env)')&&scrapyard.includes('saveDropSettings'));
 assert('badge clipped inside frame',css.includes('.ws76-forge-ring figure{overflow:hidden;isolation:isolate}'));
 assert('3 to 1 cannot wrap',css.includes('white-space:nowrap'));
 assert('cinematic chamber asset wired',css.includes('equipment-fusion-chamber-v1677.png'));
 assert('charge and slide reveal',client.includes('RESULT SEALED')&&client.includes('--slide')&&client.includes('--open'));
+assert('success result card centers in chamber',css.includes('.ws77-reveal.succeeded .ws77-output')&&css.includes('transform:translate(-50%,-50%) scale(1.06)'));
 assert('inventory-first synthesis UI',client.includes('ws78-material-picker')&&client.includes('ws78-fusion-board'));
 assert('preview uses real lineage',preview.includes('발키리 슈트')&&preview.includes('프라임 배틀슈트'));
 console.log('V1677 validation complete.');

@@ -8,6 +8,8 @@ const ROLL_MODES=new Set(['INDEPENDENT','WEIGHTED_ONE']);
 let foundationPromise=null;
 const bindingCache=new Map();
 
+export function invalidateUnifiedDropPoolCache(){bindingCache.clear()}
+
 const int=(value,min=0,max=Number.MAX_SAFE_INTEGER,fallback=min)=>{const n=Math.floor(Number(value));return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
 const num=(value,min=0,max=100,fallback=min)=>{const n=Number(value);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
 const text=(value,max=160)=>String(value??'').trim().slice(0,max);

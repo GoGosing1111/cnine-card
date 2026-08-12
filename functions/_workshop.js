@@ -101,7 +101,7 @@ async function recipeRows(env,{admin=false}={}){
 
 async function synthesisRecipeRows(env,user,{admin=false}={}){
   const visibility=admin?'1=1':`r.is_active=1 AND r.is_public=1 AND input.is_public=1 AND output.is_public=1 AND (r.owner_test_only=0 OR ?='OWNER')`;
-  const statement=env.DB.prepare(`SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.is_active,r.is_public,r.owner_test_only,r.sort_order,
+  const statement=env.DB.prepare(`SELECT r.id recipe_id,r.code,r.name recipe_name,r.description,r.input_equipment_id,r.output_equipment_id,r.input_quantity,r.success_rate,r.is_active,r.is_public,r.owner_test_only,r.sort_order,
     input.name,input.slot,input.rarity,replace(input.image_url,char(92),'/') image_url,input.pve_power,input.pvp_power,
     output.name output_name,output.slot output_slot,output.rarity output_rarity,replace(output.image_url,char(92),'/') output_image,output.pve_power output_pve_power,output.pvp_power output_pvp_power,
     COALESCE(owned.quantity,0) quantity
@@ -244,6 +244,8 @@ async function saveSynthesisRecipe(env,admin,raw,deps){
   const [input,output]=await env.DB.batch([env.DB.prepare('SELECT id,slot FROM character_equipment_items WHERE id=? AND is_active=1').bind(inputEquipmentId),env.DB.prepare('SELECT id,slot FROM character_equipment_items WHERE id=? AND is_active=1').bind(outputEquipmentId)]);if(!input.results?.[0]||!output.results?.[0])throw new Error('입력 또는 결과 장비를 찾을 수 없습니다.');if(input.results[0].slot!==output.results[0].slot)throw new Error('입력 장비와 결과 장비의 슬롯이 같아야 합니다.');
   const successRate=num(raw.successRate??raw.success_rate,0,100,100),values=[recipeCode,name,description,inputEquipmentId,outputEquipmentId,3,successRate,raw.isActive===false||Number(raw.isActive)===0||Number(raw.is_active)===0?0:1,raw.isPublic===false||Number(raw.isPublic)===0||Number(raw.is_public)===0?0:1,bool(raw.ownerTestOnly??raw.owner_test_only)?1:0,int(raw.sortOrder??raw.sort_order,-100000,100000,0)];let recipeId=id,before=null;
   if(id){before=await env.DB.prepare(`SELECT * FROM ${SYNTH_RECIPE_TABLE} WHERE id=?`).bind(id).first();if(!before)throw new Error('수정할 합성 레시피를 찾을 수 없습니다.');await env.DB.prepare(`UPDATE ${SYNTH_RECIPE_TABLE} SET code=?,name=?,description=?,input_equipment_id=?,output_equipment_id=?,input_quantity=?,success_rate=?,is_active=?,is_public=?,owner_test_only=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...values,id).run()}else{const created=await env.DB.prepare(`INSERT INTO ${SYNTH_RECIPE_TABLE}(code,name,description,input_equipment_id,output_equipment_id,input_quantity,success_rate,is_active,is_public,owner_test_only,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?)`).bind(...values).run();recipeId=Number(created.meta?.last_row_id||0)}
+  const persisted=await env.DB.prepare(`SELECT success_rate FROM ${SYNTH_RECIPE_TABLE} WHERE id=?`).bind(recipeId).first();
+  if(!persisted||Math.abs(Number(persisted.success_rate)-successRate)>.0001)throw new Error('합성 확률 저장값 검증에 실패했습니다. 다시 저장해 주세요.');
   if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'EQUIPMENT_SYNTHESIS_RECIPE_SAVE','SYNTHESIS_RECIPE',String(recipeId),before,{code:recipeCode,name,inputEquipmentId,outputEquipmentId,inputQuantity:3,successRate});return recipeId;
 }
 

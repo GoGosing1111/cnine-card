@@ -1,8 +1,13 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
+import { ensureUnifiedDropPoolFoundation, invalidateUnifiedDropPoolCache } from './_drop_pool.js';
 
 const META_KEY='scrapyard_settings_v1676';
 const RECEIPT_TABLE='scrapyard_run_receipts_v1676';
 const RUN_TABLE='scrapyard_runs_v1676';
+const DROP_POOL_TABLE='unified_drop_pools_v1667';
+const DROP_ENTRY_TABLE='unified_drop_entries_v1667';
+const DROP_POOL_CODE='SCRAPYARD_PARTS';
+const DROP_REFS=['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'];
 const MODE_SET=new Set(['OFF','TEST','ON']);
 let foundationPromise=null,settingsCache=null;
 
@@ -52,6 +57,28 @@ async function ensureFoundation(env){
   return foundationPromise;
 }
 async function settings(env,{fresh=false}={}){if(!fresh&&settingsCache?.expiresAt>Date.now())return settingsCache.value;const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(META_KEY).first(),value=cleanSettings(parse(row?.value,DEFAULT_SETTINGS));settingsCache={value,expiresAt:Date.now()+15000};return value}
+async function dropSettings(env){
+  const pool=await env.DB.prepare(`SELECT id,code,name,no_drop_weight,roll_mode,rolls,config_version,updated_at FROM ${DROP_POOL_TABLE} WHERE code=?`).bind(DROP_POOL_CODE).first();
+  if(!pool)throw new Error('폐차장 차량 부품 드랍풀을 찾을 수 없습니다.');
+  const rows=await env.DB.prepare(`SELECT e.id,e.reward_ref,e.reward_name,e.weight,e.min_quantity,e.max_quantity,e.is_enabled,i.name item_name,replace(i.image_url,char(92),'/') image_url FROM ${DROP_ENTRY_TABLE} e LEFT JOIN inventory_items i ON i.code=e.reward_ref WHERE e.pool_id=? AND e.reward_ref IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') ORDER BY e.sort_order,e.id`).bind(pool.id).all();
+  const entries=(rows.results||[]).map(row=>({...row,id:Number(row.id),weight:Number(row.weight||0),minQuantity:Number(row.min_quantity||1),maxQuantity:Number(row.max_quantity||1),isEnabled:Number(row.is_enabled)!==0}));
+  const total=Math.max(0,Number(pool.no_drop_weight||0))+entries.filter(row=>row.isEnabled).reduce((sum,row)=>sum+Math.max(0,row.weight),0);
+  return {poolId:Number(pool.id),code:pool.code,name:pool.name,rollMode:pool.roll_mode,rolls:Number(pool.rolls||1),noDropWeight:Number(pool.no_drop_weight||0),configVersion:Number(pool.config_version||1),updatedAt:pool.updated_at,totalWeight:total,noDropRate:total>0?Number((Number(pool.no_drop_weight||0)/total*100).toFixed(4)):0,entries:entries.map(row=>({...row,rate:total>0&&row.isEnabled?Number((row.weight/total*100).toFixed(4)):0}))};
+}
+function cleanDropSettings(raw={},current){
+  const byRef=new Map((Array.isArray(raw.entries)?raw.entries:[]).map(row=>[code(row.rewardRef??row.reward_ref),row]));
+  const entries=current.entries.map(existing=>{const input=byRef.get(existing.reward_ref)||{};return {rewardRef:existing.reward_ref,weight:clamp(input.weight,0,100000000,existing.weight),minQuantity:integer(input.minQuantity??input.min_quantity,1,100,existing.minQuantity),maxQuantity:integer(input.maxQuantity??input.max_quantity,1,100,existing.maxQuantity),isEnabled:input.isEnabled===false||Number(input.is_enabled)===0?false:true}});
+  for(const row of entries)if(row.maxQuantity<row.minQuantity)row.maxQuantity=row.minQuantity;
+  return {noDropWeight:clamp(raw.noDropWeight??raw.no_drop_weight,0,100000000,current.noDropWeight),entries};
+}
+async function saveDropSettings(env,raw){
+  const before=await dropSettings(env),next=cleanDropSettings(raw,before),statements=[env.DB.prepare(`UPDATE ${DROP_POOL_TABLE} SET no_drop_weight=?,roll_mode='WEIGHTED_ONE',rolls=1,config_version=config_version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(next.noDropWeight,before.poolId)];
+  for(const row of next.entries)statements.push(env.DB.prepare(`UPDATE ${DROP_ENTRY_TABLE} SET weight=?,min_quantity=?,max_quantity=?,is_enabled=?,updated_at=CURRENT_TIMESTAMP WHERE pool_id=? AND reward_ref=?`).bind(row.weight,row.minQuantity,row.maxQuantity,row.isEnabled?1:0,before.poolId,row.rewardRef));
+  await env.DB.batch(statements);invalidateUnifiedDropPoolCache();const saved=await dropSettings(env);
+  if(Math.abs(saved.noDropWeight-next.noDropWeight)>.0001)throw new Error('폐차장 미획득 가중치 저장 검증에 실패했습니다.');
+  for(const row of next.entries){const persisted=saved.entries.find(item=>item.reward_ref===row.rewardRef);if(!persisted||Math.abs(persisted.weight-row.weight)>.0001||persisted.minQuantity!==row.minQuantity||persisted.maxQuantity!==row.maxQuantity)throw new Error(`폐차장 드랍률 저장 검증에 실패했습니다: ${row.rewardRef}`)}
+  return {before,saved};
+}
 function publicDeck(deck){return (deck?.cards||[]).slice(0,5).map(card=>({id:String(card.id),title:card.title,rarity:card.rarity||card.grade||'C',image:card.image||'',power:Number(card.power||0)}))}
 
 async function status(env,user,raidDeckPower){
@@ -115,8 +142,9 @@ export async function handleScrapyard({path,request,env,deps}){
   if(path==='scrapyard/run'&&request.method==='POST')try{return deps.json(await run(env,user,await deps.readBody(request),deps))}catch(error){return deps.json({error:error.message||'폐차장 원정을 시작하지 못했습니다.'},409)}
   if(path==='admin/scrapyard'){
     if(!isAdmin(user))return deps.json({error:'폐차장 관리 권한이 필요합니다.'},403);
-    if(request.method==='GET')return deps.json({settings:await settings(env,{fresh:true}),recentRuns:(await env.DB.prepare(`SELECT r.*,u.nickname FROM ${RUN_TABLE} r LEFT JOIN users u ON u.id=r.user_id ORDER BY r.id DESC LIMIT 50`).all()).results||[]});
-    if(request.method==='POST'){const body=await deps.readBody(request),next=cleanSettings(body.settings||body);await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(META_KEY,JSON.stringify(next)).run();settingsCache=null;await deps.writeAdminLog?.(env,user,'SCRAPYARD_SETTINGS_SAVE','SETTINGS',META_KEY,null,next);return deps.json({ok:true,settings:next})}
+    await ensureUnifiedDropPoolFoundation(env);
+    if(request.method==='GET')return deps.json({settings:await settings(env,{fresh:true}),dropSettings:await dropSettings(env),recentRuns:(await env.DB.prepare(`SELECT r.*,u.nickname FROM ${RUN_TABLE} r LEFT JOIN users u ON u.id=r.user_id ORDER BY r.id DESC LIMIT 50`).all()).results||[]});
+    if(request.method==='POST'){const body=await deps.readBody(request),next=cleanSettings(body.settings||body);await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(META_KEY,JSON.stringify(next)).run();settingsCache=null;let dropResult=null;if(body.dropSettings)dropResult=await saveDropSettings(env,body.dropSettings);await deps.writeAdminLog?.(env,user,'SCRAPYARD_SETTINGS_SAVE','SETTINGS',META_KEY,{settings:null,dropSettings:dropResult?.before||null},{settings:next,dropSettings:dropResult?.saved||null});return deps.json({ok:true,settings:next,dropSettings:dropResult?.saved||await dropSettings(env)})}
   }
   return deps.json({error:'지원하지 않는 폐차장 요청입니다.'},405);
 }
