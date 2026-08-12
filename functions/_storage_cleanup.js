@@ -727,7 +727,7 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
     SELECT rowid FROM pve_auto_runs WHERE status IN ('COMPLETED','FAILED','CANCELLED') AND updated_at<datetime('now','-14 days')
     ORDER BY updated_at LIMIT ?)`},
   {key:'magic_reward_failed',table:'magic_crystal_reward_receipts',sql:`DELETE FROM magic_crystal_reward_receipts WHERE rowid IN (
-    SELECT rowid FROM magic_crystal_reward_receipts WHERE status IN ('FAILED','RETRYABLE')
+    SELECT rowid FROM magic_crystal_reward_receipts WHERE status IN ('FAILED','RETRYABLE','PENDING')
       AND updated_at<datetime('now','-7 days') ORDER BY updated_at LIMIT ?)`},
   // The receipt only exists to make a recent reward retry idempotent. Keeping
   // compacted terminal rows forever grew this table past 900k rows and made
