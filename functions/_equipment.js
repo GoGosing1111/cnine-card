@@ -717,14 +717,15 @@ export async function handleEquipment({path,request,env,deps}){
         const roll=Math.random()*100,eqLimit=settings.rewardRates.equipment,shardLimit=eqLimit+settings.rewardRates.shards;
         if(roll<eqLimit&&availableEquipment.length){
           const picked=weightedPick(availableEquipment.map(row=>({...row,weight:row.supply_weight}))),item=publicItem(picked);
-          if(ownedEquipmentIds.has(Number(item.id))&&normalizeEquipmentRarity(item.rarity)!=='MYTHIC'){
+          const alreadyOwned=ownedEquipmentIds.has(Number(item.id));
+          if(alreadyOwned&&normalizeEquipmentRarity(item.rarity)!=='MYTHIC'){
             const amount=deterministicInt(`${requestId}:DUPLICATE_SHARD:${index}`,settings.shards.min,settings.shards.max);
             shardGained+=amount;
             results.push({type:'DUPLICATE_SHARDS',amount,duplicateItem:{id:item.id,name:item.name,image:item.image,rarity:item.rarity}});
           }else{
             ownedEquipmentIds.add(Number(item.id));
             equipmentRewards.push({index,item});
-            results.push({type:'EQUIPMENT',item});
+            results.push({type:alreadyOwned?'EQUIPMENT_DUPLICATE':'EQUIPMENT',item,isDuplicate:alreadyOwned});
           }
         }else if(roll<shardLimit){const amount=deterministicInt(`${requestId}:SHARD:${index}`,settings.shards.min,settings.shards.max);shardGained+=amount;results.push({type:'SHARDS',amount});}
         else{const amount=deterministicInt(`${requestId}:COIN:${index}`,settings.coins.min,settings.coins.max);coinGained+=amount;results.push({type:'COINS',amount});}
