@@ -2677,7 +2677,9 @@ async function apiRequest(path, options={}, config={}) {
 const RUNTIME_COMMAND_TAB_KEY='cnine_runtime_command_last_id_v1091';
 function runtimeCommandStorageKey(){const user=loadUser();return `${RUNTIME_COMMAND_TAB_KEY}:${Number(user?.serverUserId||0)||String(user?.nickname||'guest')}`}
 let runtimeCommandTimer=null,runtimeCommandBusy=false,runtimeCommandContext='buy';
-function runtimeCommandPollDelay(){return document.hidden?randomizedPollDelay(45000,5000):randomizedPollDelay(15000,2500)}
+// Runtime commands are not battle synchronization. A 15-second global poll
+// caused the auth/settings/unread queries to dominate normal traffic.
+function runtimeCommandPollDelay(){return document.hidden?randomizedPollDelay(180000,15000):randomizedPollDelay(45000,6000)}
 function stopRuntimeCommandPoll(){if(runtimeCommandTimer){clearTimeout(runtimeCommandTimer);runtimeCommandTimer=null}}
 function scheduleRuntimeCommandPoll(delay=runtimeCommandPollDelay()){stopRuntimeCommandPoll();if(!API_MODE||!API_TOKEN||!loadUser())return;runtimeCommandTimer=setTimeout(pollRuntimeCommand,Math.max(1000,Number(delay)||runtimeCommandPollDelay()))}
 function forceMainScreenByOperator(command={}){

@@ -649,7 +649,10 @@ async function deleteExpiredSessionsBatch(env,raw={}){
 // A sampled job still uses the DB lease below, but it now runs rarely and in
 // small bounded chunks; the OWNER cleanup screen remains available for bulk
 // maintenance when the server is quiet.
-const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=1024;
+// At production traffic levels 1/1024 still generated over 100k lease writes a
+// day. One bounded pass every ten minutes is enough to prevent growth; the
+// OWNER cleanup endpoint remains available for deliberate bulk work.
+const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=16384;
 const AUTO_STORAGE_MAINTENANCE_BATCH=100;
 const AUTO_HIGH_VOLUME_SCAN_BATCH=2000;
 const AUTO_HIGH_VOLUME_TASKS=Object.freeze([
@@ -799,7 +802,7 @@ async function runHighVolumeLogMaintenance(env){
 async function runBoundedStorageMaintenance(env){
   const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_lease_v1400',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
-    WHERE app_meta.updated_at<datetime('now','-1 minute')`).bind(String(Date.now())).run();
+    WHERE app_meta.updated_at<datetime('now','-10 minutes')`).bind(String(Date.now())).run();
   if(!Number(lease?.meta?.changes||0))return {skipped:true};
   const cursorRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='storage_auto_maintenance_cursor_v1400'").first();
   const cursor=Math.max(0,Math.floor(Number(cursorRow?.value||0)))%AUTO_STORAGE_MAINTENANCE_TASKS.length;

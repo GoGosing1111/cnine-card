@@ -704,9 +704,19 @@ async function pvpFormationPower(env,userId,battle,{defense=false}={}){
 async function pvpDefenseFormationPowers(env,userIds,battle){
   const ids=[...new Set((userIds||[]).map(Number).filter(Boolean))];if(!ids.length)return new Map();const marks=ids.map(()=>'?').join(',');
   const [cardRows,equipmentRows,garageRows,titleRows]=await Promise.all([
-    env.DB.prepare(`SELECT d.user_id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM pvp_decks d JOIN json_each(d.card_ids) j
-      JOIN user_cards uc ON uc.user_id=d.user_id AND CAST(uc.card_id AS TEXT)=CAST(j.value AS TEXT) AND COALESCE(uc.quantity,0)>0
-      JOIN cards_effective_v1210 c ON CAST(c.id AS TEXT)=CAST(j.value AS TEXT) WHERE d.user_id IN (${marks})`).bind(...ids).all(),
+    // Keep the five JSON deck ids as the outer loop. The previous implicit JOIN
+    // order scanned every owned card (and, in practice, the effective card view)
+    // for every candidate, producing tens of millions of reads per matchmaking
+    // request. CROSS JOIN fixes the loop order and the composite user_cards PK
+    // resolves each of the five cards directly.
+    env.DB.prepare(`SELECT d.user_id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level
+      FROM pvp_decks d
+      CROSS JOIN json_each(d.card_ids) j
+      CROSS JOIN cards_effective_v1210 c
+      CROSS JOIN user_cards uc
+      WHERE d.user_id IN (${marks})
+        AND c.id=CAST(j.value AS TEXT)
+        AND uc.user_id=d.user_id AND uc.card_id=c.id AND uc.quantity>0`).bind(...ids).all(),
     env.DB.prepare(`SELECT l.user_id,COALESCE(SUM(i.pvp_power),0) power FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1 WHERE l.user_id IN (${marks}) GROUP BY l.user_id`).bind(...ids).all(),
     env.DB.prepare(`SELECT l.user_id,COALESCE(g.pvp_power,0) power FROM user_garage_loadout l JOIN user_garage_vehicles v ON v.user_id=l.user_id AND v.garage_id=l.garage_id JOIN character_garage_items g ON g.id=l.garage_id AND g.is_active=1 WHERE l.user_id IN (${marks})`).bind(...ids).all(),
     env.DB.prepare(`SELECT l.user_id,COALESCE(t.pve_power,0) power FROM user_title_loadout l JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 WHERE l.user_id IN (${marks})`).bind(...ids).all()
@@ -794,7 +804,10 @@ async function pvpEnergyState(env,user,settings){
   let energy=Math.max(0,Math.min(cfg.maxEnergy,Number(row.energy||0))),last=utcMs(row.last_recharged_at);
   const burningActivated=Date.parse(String(settings.__burningActivatedAt||''));if(Number.isFinite(burningActivated)&&last<burningActivated){energy=cfg.maxEnergy;last=now;}
   if(energy<cfg.maxEnergy){const interval=cfg.rechargeMinutes*60000,gained=Math.floor((now-last)/interval);if(gained>0){energy=Math.min(cfg.maxEnergy,energy+gained);last=energy>=cfg.maxEnergy?now:last+gained*interval;}}
-  await env.DB.prepare('UPDATE user_pvp_energy SET energy=?,last_recharged_at=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(energy,new Date(last).toISOString().replace('T',' ').slice(0,19),user.id).run();
+  const nextLastSql=new Date(last).toISOString().replace('T',' ').slice(0,19);
+  if(energy!==Number(row.energy||0)||nextLastSql!==String(row.last_recharged_at||'')){
+    await env.DB.prepare('UPDATE user_pvp_energy SET energy=?,last_recharged_at=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND (energy<>? OR last_recharged_at<>?)').bind(energy,nextLastSql,user.id,energy,nextLastSql).run();
+  }
   const nextRechargeAt=energy>=cfg.maxEnergy?null:new Date(last+cfg.rechargeMinutes*60000).toISOString();
   return {enabled:true,unlimited:false,energy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,nextRechargeAt};
 }
@@ -1152,7 +1165,10 @@ async function battleEnergyState(env,user,settings){
   const burningActivated=Date.parse(String(settings.__burningActivatedAt||''));if(Number.isFinite(burningActivated)&&last<burningActivated){energy=cfg.maxEnergy;last=now;resetDate=today;}
   if(resetDate!==today){energy=Math.min(cfg.maxEnergy,cfg.dailyRestore);last=now;resetDate=today;}
   if(energy<cfg.maxEnergy){const interval=cfg.rechargeMinutes*60000,gained=Math.floor((now-last)/interval);if(gained>0){energy=Math.min(cfg.maxEnergy,energy+gained);last=energy>=cfg.maxEnergy?now:last+gained*interval;}}
-  await env.DB.prepare('UPDATE user_battle_energy SET energy=?,last_recharged_at=?,last_daily_reset_date=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(energy,new Date(last).toISOString().replace('T',' ').slice(0,19),resetDate,user.id).run();
+  const nextLastSql=new Date(last).toISOString().replace('T',' ').slice(0,19);
+  if(energy!==Number(row.energy||0)||nextLastSql!==String(row.last_recharged_at||'')||resetDate!==String(row.last_daily_reset_date||'')){
+    await env.DB.prepare('UPDATE user_battle_energy SET energy=?,last_recharged_at=?,last_daily_reset_date=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND (energy<>? OR last_recharged_at<>? OR last_daily_reset_date<>?)').bind(energy,nextLastSql,resetDate,user.id,energy,nextLastSql,resetDate).run();
+  }
   const nextRechargeAt=energy>=cfg.maxEnergy?null:new Date(last+cfg.rechargeMinutes*60000).toISOString();
   return {enabled:true,unlimited:false,energy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,nextRechargeAt,dailyResetAt:`${today} 00:00 KST`};
 }
@@ -1387,6 +1403,7 @@ async function ensureWagoDailyPostProgressTable(env){
 }
 let upgradePromise=null;
 let d1HotpathUpgradePromise=null;
+let d1StabilityUpgradePromise=null;
 async function ensureD1HotpathIndexes(env){
   if(d1HotpathUpgradePromise)return d1HotpathUpgradePromise;
   d1HotpathUpgradePromise=(async()=>{
@@ -1410,6 +1427,20 @@ async function ensureD1HotpathIndexes(env){
     await env.DB.batch(statements);return true;
   })().catch(error=>{d1HotpathUpgradePromise=null;throw error});
   return d1HotpathUpgradePromise;
+}
+async function ensureD1StabilityIndexes(env){
+  if(d1StabilityUpgradePromise)return d1StabilityUpgradePromise;
+  d1StabilityUpgradePromise=(async()=>{
+    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1674_d1_stability_indexes'").first();
+    if(done?.value==='1')return true;
+    const statements=[];
+    if(await tableExists(env,'tower_clear_history'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_tower_history_power_desc_v1674 ON tower_clear_history(player_power DESC) WHERE player_power>0'));
+    if(await tableExists(env,'raid_participants'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_participants_power_desc_v1674 ON raid_participants(total_power DESC) WHERE total_power>0'));
+    if(await tableExists(env,'revoked_player_sessions_v1533'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_revoked_sessions_time_v1674 ON revoked_player_sessions_v1533(revoked_at)'));
+    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1674_d1_stability_indexes','1',CURRENT_TIMESTAMP)"));
+    await env.DB.batch(statements);return true;
+  })().catch(error=>{d1StabilityUpgradePromise=null;throw error});
+  return d1StabilityUpgradePromise;
 }
 let couponPermanentRewardUpgradePromise=null;
 async function ensureCouponPermanentRewardUpgrade(env){
@@ -2807,6 +2838,7 @@ async function authenticate(request,env){
   return authentication;
 }
 let singleClientSessionSchemaPromise=null;
+let revokedSessionCleanupAt=0;
 async function ensureSingleClientSessionSchema(env){
   if(singleClientSessionSchemaPromise)return singleClientSessionSchemaPromise;
   singleClientSessionSchemaPromise=(async()=>{
@@ -2835,7 +2867,15 @@ async function makeSession(env,userId,requestedClientId=''){
   else{
     await env.DB.prepare("INSERT OR REPLACE INTO revoked_player_sessions_v1533(token_hash,user_id,reason,revoked_at) SELECT token_hash,user_id,CASE WHEN client_id='' OR (?<>'' AND client_id=?) THEN 'SAME_CLIENT_REFRESHED' ELSE 'MULTI_CLIENT_REPLACED' END,CURRENT_TIMESTAMP FROM sessions WHERE user_id=? AND token_hash<>?").bind(clientId,clientId,userId,tokenHash).run();
     await env.DB.prepare('DELETE FROM sessions WHERE user_id=? AND token_hash<>?').bind(userId,tokenHash).run();
-    await env.DB.prepare("DELETE FROM revoked_player_sessions_v1533 WHERE revoked_at<datetime('now','-7 days')").run();
+    // Session replacement must stay synchronous; global retention cleanup does
+    // not. Limit it to once per isolate/hour and let the indexed predicate do a
+    // bounded delete instead of scanning the entire revocation table on login.
+    if(Date.now()>=revokedSessionCleanupAt){
+      revokedSessionCleanupAt=Date.now()+3600000;
+      await env.DB.prepare(`DELETE FROM revoked_player_sessions_v1533 WHERE token_hash IN (
+        SELECT token_hash FROM revoked_player_sessions_v1533 WHERE revoked_at<datetime('now','-7 days') ORDER BY revoked_at LIMIT 500
+      )`).run().catch(error=>{revokedSessionCleanupAt=0;console.warn('revoked session cleanup failed',error)});
+    }
   }
   return raw;
 }
@@ -3491,11 +3531,14 @@ async function handleRequest(context){
       ||path==='burning-event/status'
       ||path==='draw/status'
       ||(path==='draw'&&request.method==='POST');
-    if(path==='raid/status')await ensureD1HotpathIndexes(env);
+    if(path==='raid/status')await Promise.all([ensureD1HotpathIndexes(env),ensureD1StabilityIndexes(env)]);
     // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
     // 전역 런타임 업그레이드와 장비 전체 foundation을 중복 실행하면 CMS 설정 조회가 타임아웃될 수 있다.
     else if(vehicleDrawPath||hotPathWithoutGlobalUpgrade){ /* route-local lightweight ensure */ }
-    else context.waitUntil(ensureRuntimeUpgrades(env).catch(error=>console.error('runtime upgrade background check failed',error)));
+    else context.waitUntil(Promise.all([
+      ensureRuntimeUpgrades(env).catch(error=>console.error('runtime upgrade background check failed',error)),
+      ensureD1StabilityIndexes(env).catch(error=>console.error('D1 stability index upgrade failed',error))
+    ]));
 
     // Maintenance was already checked against a fresh D1 value before route work.
 
@@ -4091,8 +4134,11 @@ async function handleRequest(context){
         // 자동 뽑기에서 이미 화면 표시가 끝난 이전 영수증 10개는 결과 JSON만 비워 장기 용량 증가를 제한한다.
         // 다음 뽑기가 성공적으로 커밋될 때만 함께 정리하므로 현재 지급 복구 가능성은 유지된다.
         if(acknowledgedRequestIds.length){
-          statements.push(env.DB.prepare(`UPDATE draw_request_receipts_v2 SET status='ARCHIVED',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP
-            WHERE user_id=? AND status='COMPLETED' AND request_id IN (${acknowledgedRequestIds.map(()=>'?').join(',')})`).bind(user.id,...acknowledgedRequestIds));
+          // request_id is the receipt PK. Force that lookup so acknowledging at
+          // most ten prior results never scans every receipt for this user/status.
+          statements.push(env.DB.prepare(`UPDATE draw_request_receipts_v2 INDEXED BY sqlite_autoindex_draw_request_receipts_v2_1
+            SET status='ARCHIVED',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP
+            WHERE request_id IN (${acknowledgedRequestIds.map(()=>'?').join(',')}) AND user_id=? AND status='COMPLETED'`).bind(...acknowledgedRequestIds,user.id));
         }
         // 카드·코인·조각·영수증 COMPLETED를 같은 D1 batch에 넣어 APPLIED/PENDING 고착 구간을 제거한다.
         statements.push(env.DB.prepare(`UPDATE ${drawReceiptTable} SET status='COMPLETED',cost=?,response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?`).bind(cost,JSON.stringify(compactDrawReceipt(response)),requestId,user.id));

@@ -4,7 +4,7 @@
   const remaining=ms=>{ms=Math.max(0,Number(ms)||0);const d=Math.floor(ms/86400000),h=Math.floor(ms%86400000/3600000),m=Math.floor(ms%3600000/60000);return d?`${d}일 ${h}시간`:`${h}시간 ${m}분`};
   async function load(fresh=false){
     if(typeof API_MODE==='undefined'||!API_MODE||typeof loadUser!=='function'||!loadUser())return null;
-    if(loading)return loading;if(!fresh&&state&&Date.now()-lastFetch<15000)return state;
+    if(loading)return loading;if(!fresh&&state&&Date.now()-lastFetch<45000)return state;
     lastFetch=Date.now();loading=apiRequest('chief/status',{}, {ttl:0,timeoutMs:7000}).then(d=>state=d).catch(()=>state).finally(()=>loading=null);return loading;
   }
   function powerButton(type,label,sub,used){return `<button type="button" class="chief-power${used?' is-used':''}" data-chief-power="${type}" data-chief-used="${used?'1':'0'}" aria-disabled="${used?'true':'false'}"><span>${label}</span><small>${used?sub+' · 사용 완료':sub}</small></button>`}
@@ -45,5 +45,5 @@
   const boot=()=>{document.addEventListener('click',onPowerClick);observer.observe(document.getElementById('app')||document.body,{childList:true,subtree:true});setTimeout(sync,500)};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});
-  setInterval(()=>{if(typeof runtimeCommandContext!=='undefined'&&runtimeCommandContext==='buy')sync()},30000);
+  setInterval(()=>{if(!document.hidden&&typeof runtimeCommandContext!=='undefined'&&runtimeCommandContext==='buy')sync()},60000);
 })();

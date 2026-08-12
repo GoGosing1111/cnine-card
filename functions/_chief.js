@@ -4,15 +4,17 @@ const HYPER_KEY='hyper_burning_event_settings_v1310';
 const DISCOUNT_REMOVAL_MARKER='safe_runtime_upgrade_v1657_chief_discount_removed';
 const DAY_MS=86400000;
 let discountRemovalPromise=null;
+let foundationPromise=null;
 
 const parse=(value,fallback={})=>{try{const parsed=typeof value==='string'?JSON.parse(value):value;return parsed&&typeof parsed==='object'&&!Array.isArray(parsed)?parsed:fallback}catch{return fallback}};
 const iso=value=>{const ms=Date.parse(String(value||''));return Number.isFinite(ms)?new Date(ms).toISOString():null};
 const kstDate=(date=new Date())=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(date);
 async function ensure(env){
-  await env.DB.batch([
+  if(!foundationPromise)foundationPromise=env.DB.batch([
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS chief_power_uses(id INTEGER PRIMARY KEY AUTOINCREMENT,appointment_id TEXT NOT NULL,user_id INTEGER NOT NULL,power_type TEXT NOT NULL,period_key TEXT NOT NULL,use_slot INTEGER NOT NULL DEFAULT 1,starts_at TEXT NOT NULL,ends_at TEXT,details_json TEXT NOT NULL DEFAULT '{}',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(appointment_id,power_type,period_key,use_slot))`),
     env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_chief_power_uses_lookup ON chief_power_uses(appointment_id,power_type,period_key,created_at)`)
-  ]);
+  ]).then(()=>true).catch(error=>{foundationPromise=null;throw error});
+  await foundationPromise;
   if(!discountRemovalPromise)discountRemovalPromise=(async()=>{
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(DISCOUNT_REMOVAL_MARKER).first();
     if(marker?.value==='1')return;
