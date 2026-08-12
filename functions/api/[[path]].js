@@ -6028,9 +6028,31 @@ async function handleRequest(context){
       if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
       const q=(url.searchParams.get('q')||'').trim().slice(0,30),verification=String(url.searchParams.get('verification')||'ALL').toUpperCase();
       const filters=[],binds=[];if(q){filters.push('u.nickname LIKE ?');binds.push(`%${q}%`);}if(verification==='VERIFIED')filters.push("w.status='VERIFIED'");else if(verification==='PENDING')filters.push("w.status IN ('PENDING','REVIEW')");else if(verification==='UNVERIFIED')filters.push("(w.id IS NULL OR w.status NOT IN ('VERIFIED','PENDING','REVIEW'))");
-      const sql=`SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,u.magic_crystals,(SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars,COUNT(uc.card_id) AS card_count,COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count,COALESCE(SUM(CASE WHEN c.rarity='LIMITED' THEN 1 ELSE 0 END),0) AS limited_count,COALESCE(SUM(CASE WHEN c.rarity='PRESTIGE' THEN 1 ELSE 0 END),0) AS prestige_count,COALESCE(SUM(CASE WHEN c.rarity='FUR' THEN 1 ELSE 0 END),0) AS fur_count
-        FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id ${filters.length?'WHERE '+filters.join(' AND '):''}
-        GROUP BY u.id ORDER BY ${q?'u.nickname ASC':'u.created_at DESC'} LIMIT 100`;
+      // Select the 100 visible users first, then aggregate cards for only those
+      // users. The previous join grouped the entire user_cards table before the
+      // LIMIT and read roughly 600k rows for every CMS refresh.
+      const selectedOrder=q?'u.nickname ASC':'u.created_at DESC',resultOrder=q?'su.nickname ASC':'su.created_at DESC';
+      const sql=`WITH selected_users AS MATERIALIZED (
+          SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,
+            w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,u.magic_crystals,
+            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars
+          FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id ${filters.length?'WHERE '+filters.join(' AND '):''}
+          ORDER BY ${selectedOrder} LIMIT 100
+        ), card_stats AS (
+          SELECT uc.user_id,COUNT(uc.card_id) AS card_count,
+            COALESCE(SUM(CASE WHEN c.rarity='UR' THEN 1 ELSE 0 END),0) AS ur_count,
+            COALESCE(SUM(CASE WHEN c.rarity='SSR' THEN 1 ELSE 0 END),0) AS ssr_count,
+            COALESCE(SUM(CASE WHEN c.rarity='LIMITED' THEN 1 ELSE 0 END),0) AS limited_count,
+            COALESCE(SUM(CASE WHEN c.rarity='PRESTIGE' THEN 1 ELSE 0 END),0) AS prestige_count,
+            COALESCE(SUM(CASE WHEN c.rarity='FUR' THEN 1 ELSE 0 END),0) AS fur_count
+          FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id
+          WHERE COALESCE(uc.quantity,0)>0 AND uc.user_id IN (SELECT id FROM selected_users)
+          GROUP BY uc.user_id
+        )
+        SELECT su.*,COALESCE(cs.card_count,0) AS card_count,COALESCE(cs.ur_count,0) AS ur_count,
+          COALESCE(cs.ssr_count,0) AS ssr_count,COALESCE(cs.limited_count,0) AS limited_count,
+          COALESCE(cs.prestige_count,0) AS prestige_count,COALESCE(cs.fur_count,0) AS fur_count
+        FROM selected_users su LEFT JOIN card_stats cs ON cs.user_id=su.id ORDER BY ${resultOrder}`;
       const stmt=env.DB.prepare(sql);const rows=binds.length?await stmt.bind(...binds).all():await stmt.all();
       return json({users:rows.results,role:admin.role,verification});
     }

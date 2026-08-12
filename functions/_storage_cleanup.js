@@ -729,12 +729,12 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
   {key:'magic_reward_failed',table:'magic_crystal_reward_receipts',sql:`DELETE FROM magic_crystal_reward_receipts WHERE rowid IN (
     SELECT rowid FROM magic_crystal_reward_receipts WHERE status IN ('FAILED','RETRYABLE')
       AND updated_at<datetime('now','-7 days') ORDER BY updated_at LIMIT ?)`},
-  {key:'magic_reward_compact',table:'magic_crystal_reward_receipts',sql:`UPDATE magic_crystal_reward_receipts SET
-      response_json=json_object('source',source,'referenceId',reference_id,'awarded',granted_amount>0,'amount',granted_amount,
-        'balance',NULL,'roll',roll_value,'chance',configured_chance,'dailyLimit',0,'dailyEarned',granted_amount,'limited',0,'compacted',1),
-      error_message=NULL
-    WHERE rowid IN (SELECT rowid FROM magic_crystal_reward_receipts WHERE status='COMPLETED'
-      AND updated_at<datetime('now','-14 days') AND LENGTH(COALESCE(response_json,''))>512 ORDER BY updated_at LIMIT ?)`},
+  // The receipt only exists to make a recent reward retry idempotent. Keeping
+  // compacted terminal rows forever grew this table past 900k rows and made
+  // every later maintenance pass progressively more expensive.
+  {key:'magic_reward_completed',table:'magic_crystal_reward_receipts',sql:`DELETE FROM magic_crystal_reward_receipts WHERE rowid IN (
+    SELECT rowid FROM magic_crystal_reward_receipts INDEXED BY idx_magic_reward_receipts_cleanup_v1401
+    WHERE status='COMPLETED' AND updated_at<datetime('now','-14 days') ORDER BY updated_at LIMIT ?)`},
   {key:'reroll_usage_compact',table:'high_grade_reroll_usage_v2',requires:['cards'],sql:`UPDATE high_grade_reroll_usage_v2 SET response_json=json_object(
       'ok',1,'grade',grade,'usageNo',usage_no,'usedCount',usage_no,'limit',2,'sourceCardId',source_card_id,
       'resultCardId',result_card_id,'breakthroughLevel',breakthrough_level,'remaining',MAX(0,2-usage_no),'compacted',1,
@@ -799,6 +799,15 @@ async function runHighVolumeLogMaintenance(env){
   ]);
   return {skipped:false,task:task.key,scanned:endId>cursor?AUTO_HIGH_VOLUME_SCAN_BATCH:0,deleted,cycleComplete};
 }
+async function runMagicRewardReceiptMaintenance(env){
+  const existing=await existingTableSet(env,['magic_crystal_reward_receipts']);
+  if(!existing.has('magic_crystal_reward_receipts'))return {skipped:true};
+  const result=await env.DB.prepare(`DELETE FROM magic_crystal_reward_receipts WHERE rowid IN (
+    SELECT rowid FROM magic_crystal_reward_receipts INDEXED BY idx_magic_reward_receipts_cleanup_v1401
+    WHERE status='COMPLETED' AND updated_at<datetime('now','-14 days') ORDER BY updated_at LIMIT 1000
+  )`).run();
+  return {skipped:false,deleted:Number(result?.meta?.changes||0)};
+}
 async function runBoundedStorageMaintenance(env){
   const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_lease_v1400',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
@@ -820,7 +829,9 @@ async function runBoundedStorageMaintenance(env){
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String((cursor+1)%AUTO_STORAGE_MAINTENANCE_TASKS.length)).run();
   let highVolume=null;
   try{highVolume=await runHighVolumeLogMaintenance(env)}catch(error){console.warn('high volume storage cleanup failed',error);highVolume={error:String(error?.message||error).slice(0,300)}}
-  return {skipped:false,task:task.key,changed,error:taskError||undefined,highVolume};
+  let magicRewards=null;
+  try{magicRewards=await runMagicRewardReceiptMaintenance(env)}catch(error){console.warn('magic reward receipt cleanup failed',error);magicRewards={error:String(error?.message||error).slice(0,300)}}
+  return {skipped:false,task:task.key,changed,error:taskError||undefined,highVolume,magicRewards};
 }
 export function scheduleBoundedStorageMaintenance(context,env,seed=''){
   if(autoMaintenanceHash(seed)%AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD!==0)return;
