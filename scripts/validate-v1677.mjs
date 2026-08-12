@@ -1,0 +1,25 @@
+import fs from 'node:fs';
+
+const read=path=>fs.readFileSync(new URL(`../${path}`,import.meta.url),'utf8');
+const server=read('functions/_workshop.js');
+const client=read('js/workshop-v1676.js');
+const css=read('css/workshop-v1676.css');
+const admin=read('admin/workshop-synthesis-v1677.js');
+const migration=read('database/migrations/0072_v1677_equipment_synthesis_recipes.sql');
+const preview=read('preview/equipment-synthesis-v1677.html');
+const assert=(name,condition)=>{if(!condition)throw new Error(`FAIL: ${name}`);console.log(`PASS: ${name}`)};
+
+assert('explicit recipe table',server.includes('equipment_synthesis_recipes_v1677'));
+assert('client sends recipe id',client.includes('recipeId:recipe.recipe_id'));
+assert('server resolves exact output',server.includes('recipe.output_equipment_id'));
+assert('exact three input instances',server.includes('LIMIT 3')&&server.includes('length!==required'));
+assert('atomic guard before deletion',server.includes('verified=1')&&server.includes('DELETE FROM user_equipment_instances'));
+assert('default valkyrie lineage',migration.includes("i.name='발키리 슈트'")&&migration.includes("o.name='프라임 배틀슈트'"));
+assert('default odin lineage',migration.includes("i.name='오딘 AK'")&&migration.includes("o.name='인피니티 AK'"));
+assert('cms recipe editor',admin.includes('SAVE_SYNTHESIS_RECIPE')&&admin.includes('inputEquipmentId')&&admin.includes('outputEquipmentId'));
+assert('badge clipped inside frame',css.includes('.ws76-forge-ring figure{overflow:hidden;isolation:isolate}'));
+assert('3 to 1 cannot wrap',css.includes('white-space:nowrap'));
+assert('cinematic chamber asset wired',css.includes('equipment-fusion-chamber-v1677.png'));
+assert('charge and slide reveal',client.includes('REVEAL AUTHORIZED')&&client.includes('--slide')&&client.includes('--open'));
+assert('preview uses real lineage',preview.includes('발키리 슈트')&&preview.includes('프라임 배틀슈트'));
+console.log('V1677 validation complete.');
