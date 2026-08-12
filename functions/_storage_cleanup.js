@@ -645,9 +645,13 @@ async function deleteExpiredSessionsBatch(env,raw={}){
 
 // v1400: hot paths must not keep full response payloads and audit rows forever.
 // One sampled request rotates through one tiny task. Active PENDING/RUNNING/READY rows are protected; only stale terminal rows or oversized completed payloads are touched.
-const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=16;
-const AUTO_STORAGE_MAINTENANCE_BATCH=500;
-const AUTO_HIGH_VOLUME_SCAN_BATCH=25000;
+// Never let request traffic turn maintenance into foreground database load.
+// A sampled job still uses the DB lease below, but it now runs rarely and in
+// small bounded chunks; the OWNER cleanup screen remains available for bulk
+// maintenance when the server is quiet.
+const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=1024;
+const AUTO_STORAGE_MAINTENANCE_BATCH=100;
+const AUTO_HIGH_VOLUME_SCAN_BATCH=2000;
 const AUTO_HIGH_VOLUME_TASKS=Object.freeze([
   {key:'shard_duplicate',table:'shard_logs',retentionDays:1,extraWhere:"reason='DUPLICATE'"},
   {key:'coin_pack_draw',table:'coin_logs',retentionDays:1,extraWhere:"reason='PACK_DRAW'"},

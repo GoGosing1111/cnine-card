@@ -591,9 +591,9 @@ async function voteOperation(env,deps,user,cfg,body){
 }
 
 async function sharedPublicState(env,round,cfg){
-  // Include the round version so an administrative deadline/status change is
-  // visible immediately instead of serving the previous recruitment state.
-  const key=`${round.id}:${Number(round.version||0)}`,now=Date.now();
+  // Administrative phase/deadline/front changes invalidate this cache, while
+  // every attack's version bump does not fan out the expensive shared reads.
+  const key=`${round.id}:${round.status}:${round.recruitment_ends_at||''}:${round.current_front_id||0}`,now=Date.now();
   if(publicStateSharedCache?.key===key&&publicStateSharedCache.expiresAt>now)return publicStateSharedCache.promise;
   const promise=Promise.all([
     activeFront(env,round),
@@ -613,6 +613,16 @@ async function sharedPublicState(env,round,cfg){
 async function publicState(env,userId,includeAdmin=false){
   const cfg=await settings(env),round=await lifecycle(env,cfg),mode=String(cfg.mode||'OFF').toUpperCase();
   if(!round)return{mode,settings:cfg,round:null,nodes:NODES,reward:await rewardForUser(env,userId),serverNow:iso()};
+  if(round.status==='RECRUITING'){
+    const [counts={},mine,reward]=await Promise.all([
+      env.DB.prepare("SELECT COUNT(*) total,SUM(CASE WHEN side='A' THEN 1 ELSE 0 END) a_count,SUM(CASE WHEN side='B' THEN 1 ELSE 0 END) b_count,SUM(CASE WHEN side='A' THEN deck_power ELSE 0 END) a_power,SUM(CASE WHEN side='B' THEN deck_power ELSE 0 END) b_power FROM territory_war_v3_users WHERE round_id=?").bind(round.id).first(),
+      env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first(),
+      rewardForUser(env,userId)
+    ]);
+    const state={mode,settings:cfg,round,front:null,nodes:NODES,truce:{active:false,endsAt:null,minutes:15,canRefresh:false},comeback:{active:false},fatigue:{active:false},lastDefense:{active:false},counter:null,ace:null,notice:null,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0),aPower:Number(counts.a_power||0),bPower:Number(counts.b_power||0)},mine:mine||null,registration:{canRegister:!mine,canCancel:Boolean(mine)},ranking:[],recentResults:[],recentActions:[],reward,serverNow:iso(),version:Number(round.version||0)};
+    if(includeAdmin)state.adminUsers=(await env.DB.prepare(`SELECT w.*,u.nickname FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY CASE w.side WHEN 'A' THEN 1 WHEN 'B' THEN 2 ELSE 3 END,w.deck_power DESC`).bind(round.id).all()).results||[];
+    return state;
+  }
   await recoverAppliedForUser(env,userId,cfg);
   const [shared,mineRow,reward]=await Promise.all([sharedPublicState(env,round,cfg),env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first(),rewardForUser(env,userId)]),front=shared.front,counts=shared.counts;
   let mine=null;if(mineRow){const e=rechargeEnergy(mineRow,cfg,front);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
@@ -626,6 +636,13 @@ async function publicState(env,userId,includeAdmin=false){
 
 async function realtimeState(env,userId){
   const cfg=await settings(env),round=await lifecycle(env,cfg);if(!round)return{round:null,serverNow:iso()};
+  if(round.status==='RECRUITING'){
+    const [counts={},mine]=await Promise.all([
+      env.DB.prepare("SELECT COUNT(*) total,SUM(CASE WHEN side='A' THEN 1 ELSE 0 END) a_count,SUM(CASE WHEN side='B' THEN 1 ELSE 0 END) b_count FROM territory_war_v3_users WHERE round_id=?").bind(round.id).first(),
+      env.DB.prepare('SELECT side,status FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first()
+    ]);
+    return{round,front:null,mine:mine||null,counts:{total:Number(counts.total||0),A:Number(counts.a_count||0),B:Number(counts.b_count||0)},version:Number(round.version||0),serverNow:iso()};
+  }
   await recoverAppliedForUser(env,userId,cfg);
   let front=null,mine=null;
   if(round.current_front_id){
