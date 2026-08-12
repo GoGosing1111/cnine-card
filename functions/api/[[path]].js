@@ -91,6 +91,7 @@ let maMasterStarBreakthroughCache=null;
 let limitedMasterStarBreakthroughCache=null;
 let recentHighGradeCache=null;
 let recentEquipmentFeedCache=null;
+let collectionRankingCache=null;
 // v1361 burst protection: tiny in-isolate caches only. Authoritative writes remain uncached.
 let adminDashboardBurstCache=null;
 const ADMIN_DASHBOARD_BURST_CACHE_MS=15000;
@@ -5410,11 +5411,17 @@ async function handleRequest(context){
     }
     if(path==='ranking'){
       const viewer=await authenticate(request,env),settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
-      const rows=await env.DB.prepare(`SELECT u.id,u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level,COUNT(uc.card_id) OVER(PARTITION BY u.id) AS card_count
-        FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id
-        WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY u.id`).all();
-      const map=new Map();for(const r of rows.results){if(!map.has(r.id))map.set(r.id,{id:Number(r.id),nickname:r.nickname,score:0,card_count:0,max_breakthrough:0});const x=map.get(r.id);if(r.rarity){x.score+=cardBattlePower(r,Number(r.breakthrough_level||0),settings);x.card_count++;x.max_breakthrough=Math.max(x.max_breakthrough,Number(r.breakthrough_level||0));}}
-      const allRanking=[...map.values()].sort((a,b)=>b.score-a.score||b.card_count-a.card_count||a.nickname.localeCompare(b.nickname,'ko')).map((x,i)=>({...x,rank:i+1,tier:resolveTier(x.score,tiers)})),ranking=allRanking.slice(0,100),me=viewer?allRanking.find(x=>Number(x.id)===Number(viewer.id))||null:null;
+      const now=Date.now();let allRanking=collectionRankingCache?.expiresAt>now?collectionRankingCache.value:null;
+      if(!allRanking){
+        const rows=await env.DB.prepare(`SELECT u.id,u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level,COUNT(uc.card_id) AS card_count
+          FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id
+          WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
+          GROUP BY u.id,u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level ORDER BY u.id`).all();
+        const map=new Map();for(const r of rows.results){if(!map.has(r.id))map.set(r.id,{id:Number(r.id),nickname:r.nickname,score:0,card_count:0,max_breakthrough:0});const x=map.get(r.id);if(r.rarity){x.score+=cardBattlePower(r,Number(r.breakthrough_level||0),settings)*Number(r.card_count||0);x.card_count+=Number(r.card_count||0);x.max_breakthrough=Math.max(x.max_breakthrough,Number(r.breakthrough_level||0));}}
+        allRanking=[...map.values()].sort((a,b)=>b.score-a.score||b.card_count-a.card_count||a.nickname.localeCompare(b.nickname,'ko')).map((x,i)=>({...x,rank:i+1,tier:resolveTier(x.score,tiers)}));
+        collectionRankingCache={value:allRanking,expiresAt:now+300000};
+      }
+      const ranking=allRanking.slice(0,100),me=viewer?allRanking.find(x=>Number(x.id)===Number(viewer.id))||null:null;
       return json({ranking,tiers,me});
     }
 
