@@ -13,7 +13,7 @@
     ? data.magicPreview.registeredExamples
     : [...(data?.magicPreview?.teamA||[]),...(data?.magicPreview?.teamB||[])];
   function renderMagic(data){
-    const list=allMagic(data);cards.innerHTML=list.map((card,index)=>`<button type="button" class="live-preview-magic-card" data-magic-effect-index="${index}" title="${esc(card.name)} · ${esc(labels[card.effectType]||card.effectType)} 발동 이펙트 보기"><img src="${esc(asset(card.imageUrl))}" alt="${esc(card.name)}"><span>${esc(labels[card.effectType]||card.effectType)}</span>${card.registered===false?'':`<em title="CMS 등록됨"></em>`}</button>`).join('');
+    const list=allMagic(data);cards.innerHTML=list.map((card,index)=>`<button type="button" class="live-preview-magic-card" data-magic-effect-index="${index}" title="${esc(card.name)} · 강화 +${Number(card.enhancementLevel||0)} · ${esc(labels[card.effectType]||card.effectType)} 발동 이펙트 보기"><img src="${esc(asset(card.imageUrl))}" alt="${esc(card.name)}"><span>+${Number(card.enhancementLevel||0)} · ${esc(labels[card.effectType]||card.effectType)}</span>${card.registered===false?'':`<em title="CMS 등록됨"></em>`}</button>`).join('');
   }
   function resultText(data){
     const result=data?.result||{},winner=result.winner==='A'?'승리':result.winner==='B'?'패배':'무승부',magicCount=(result.timeline||[]).filter(event=>event.type==='MAGIC_CARD').length;

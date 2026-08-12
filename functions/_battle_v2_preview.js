@@ -7,20 +7,20 @@ const STAT_PROFILES = {
 };
 
 const MAGIC_V2_PREVIEW_EXAMPLES = [
-  { code:'V2_OPENING_ATTACK', name:'선봉의 마력검', rarity:'SSR', imageUrl:'assets/ui/magic-cards/opening-attack-768-v1500.webp', effectType:'OPENING_ATTACK', effectValue:18, triggerChance:100, maxActivations:1 },
-  { code:'V2_GUARD_BARRIER', name:'성역의 수호결계', rarity:'SSR', imageUrl:'assets/ui/magic-cards/guard-barrier-768-v1500.webp', effectType:'GUARD_BARRIER', effectValue:20, triggerChance:100, maxActivations:1 },
-  { code:'V2_LIFE_AMPLIFY', name:'생명의 근원', rarity:'SR', imageUrl:'assets/ui/magic-cards/life-amplify-768-v1500.webp', effectType:'LIFE_AMPLIFY', effectValue:16, triggerChance:100, maxActivations:1 },
-  { code:'V2_CRISIS_HEAL', name:'긴급 치유의 빛', rarity:'SSR', imageUrl:'assets/ui/magic-cards/crisis-heal-768-v1500.webp', effectType:'CRISIS_HEAL', effectValue:28, triggerChance:100, maxActivations:2 },
-  { code:'V2_FOLLOWUP_HASTE', name:'질풍의 연계', rarity:'SR', imageUrl:'assets/ui/magic-cards/followup-haste-768-v1500.webp', effectType:'FOLLOWUP_HASTE', effectValue:22, triggerChance:100, maxActivations:2 },
-  { code:'V2_PUNISH_TRAP', name:'응징의 마법진', rarity:'SR', imageUrl:'assets/ui/magic-cards/punish-trap-768-v1500.webp', effectType:'PUNISH_TRAP', effectValue:14, triggerChance:100, maxActivations:2 },
-  { code:'V2_ARCANE_COUNTER', name:'비전 반격', rarity:'SSR', imageUrl:'assets/ui/magic-cards/arcane-counter-768-v1500.webp', effectType:'ARCANE_COUNTER', effectValue:16, triggerChance:100, maxActivations:2 },
-  { code:'V2_ARCANE_SEAL', name:'봉인의 칙령', rarity:'SSR', imageUrl:'assets/ui/magic-cards/arcane-seal-768-v1665.webp', effectType:'ARCANE_SEAL', effectValue:1, triggerChance:100, maxActivations:2 },
-  { code:'V2_DOOM_MARK', name:'파멸의 낙인', rarity:'SSR', imageUrl:'assets/ui/magic-cards/doom-mark-768-v1665.webp', effectType:'DOOM_MARK', effectValue:18, triggerChance:100, maxActivations:3 },
-  { code:'V2_SHIELD_SIPHON', name:'강탈의 성배', rarity:'SR', imageUrl:'assets/ui/magic-cards/shield-siphon-768-v1665.webp', effectType:'SHIELD_SIPHON', effectValue:60, triggerChance:100, maxActivations:2 },
-  { code:'V2_TIME_DISTORTION', name:'시간의 족쇄', rarity:'SSR', imageUrl:'assets/ui/magic-cards/time-distortion-768-v1665.webp', effectType:'TIME_DISTORTION', effectValue:30, triggerChance:100, maxActivations:2 },
-  { code:'V2_PHOENIX_REVIVE', name:'불사조의 계약', rarity:'SSR', imageUrl:'assets/ui/magic-cards/phoenix-revive-768-v1665.webp', effectType:'PHOENIX_REVIVE', effectValue:22, triggerChance:100, maxActivations:1 },
-  { code:'V2_PURIFY_LIGHT', name:'정화의 성광', rarity:'SR', imageUrl:'assets/ui/magic-cards/purify-light-768-v1665.webp', effectType:'PURIFY_LIGHT', effectValue:12, triggerChance:100, maxActivations:2 },
-  { code:'V2_CHAIN_ECHO', name:'연쇄의 잔영', rarity:'SSR', imageUrl:'assets/ui/magic-cards/chain-echo-768-v1665.webp', effectType:'CHAIN_ECHO', effectValue:45, triggerChance:100, maxActivations:2 }
+  { code:'V2_OPENING_ATTACK', name:'선봉의 마력검', enhancementLevel:3, imageUrl:'assets/ui/magic-cards/opening-attack-768-v1500.webp', effectType:'OPENING_ATTACK', effectValue:18, triggerChance:15, maxActivations:1 },
+  { code:'V2_GUARD_BARRIER', name:'성역의 수호결계', enhancementLevel:5, imageUrl:'assets/ui/magic-cards/guard-barrier-768-v1500.webp', effectType:'GUARD_BARRIER', effectValue:20, triggerChance:25, maxActivations:1 },
+  { code:'V2_LIFE_AMPLIFY', name:'생명의 근원', enhancementLevel:4, imageUrl:'assets/ui/magic-cards/life-amplify-768-v1500.webp', effectType:'LIFE_AMPLIFY', effectValue:16, triggerChance:20, maxActivations:1 },
+  { code:'V2_CRISIS_HEAL', name:'긴급 치유의 빛', enhancementLevel:6, imageUrl:'assets/ui/magic-cards/crisis-heal-768-v1500.webp', effectType:'CRISIS_HEAL', effectValue:28, triggerChance:30, maxActivations:2 },
+  { code:'V2_FOLLOWUP_HASTE', name:'질풍의 연계', enhancementLevel:7, imageUrl:'assets/ui/magic-cards/followup-haste-768-v1500.webp', effectType:'FOLLOWUP_HASTE', effectValue:22, triggerChance:35, maxActivations:2 },
+  { code:'V2_PUNISH_TRAP', name:'응징의 마법진', enhancementLevel:3, imageUrl:'assets/ui/magic-cards/punish-trap-768-v1500.webp', effectType:'PUNISH_TRAP', effectValue:14, triggerChance:15, maxActivations:2 },
+  { code:'V2_ARCANE_COUNTER', name:'비전 반격', enhancementLevel:5, imageUrl:'assets/ui/magic-cards/arcane-counter-768-v1500.webp', effectType:'ARCANE_COUNTER', effectValue:16, triggerChance:25, maxActivations:2 },
+  { code:'V2_ARCANE_SEAL', name:'봉인의 칙령', enhancementLevel:6, imageUrl:'assets/ui/magic-cards/arcane-seal-768-v1665.webp', effectType:'ARCANE_SEAL', effectValue:1, triggerChance:30, maxActivations:2 },
+  { code:'V2_DOOM_MARK', name:'파멸의 낙인', enhancementLevel:7, imageUrl:'assets/ui/magic-cards/doom-mark-768-v1665.webp', effectType:'DOOM_MARK', effectValue:18, triggerChance:35, maxActivations:3 },
+  { code:'V2_SHIELD_SIPHON', name:'강탈의 성배', enhancementLevel:4, imageUrl:'assets/ui/magic-cards/shield-siphon-768-v1665.webp', effectType:'SHIELD_SIPHON', effectValue:60, triggerChance:20, maxActivations:2 },
+  { code:'V2_TIME_DISTORTION', name:'시간의 족쇄', enhancementLevel:8, imageUrl:'assets/ui/magic-cards/time-distortion-768-v1665.webp', effectType:'TIME_DISTORTION', effectValue:30, triggerChance:40, maxActivations:2 },
+  { code:'V2_PHOENIX_REVIVE', name:'불사조의 계약', enhancementLevel:9, imageUrl:'assets/ui/magic-cards/phoenix-revive-768-v1665.webp', effectType:'PHOENIX_REVIVE', effectValue:22, triggerChance:50, maxActivations:1 },
+  { code:'V2_PURIFY_LIGHT', name:'정화의 성광', enhancementLevel:5, imageUrl:'assets/ui/magic-cards/purify-light-768-v1665.webp', effectType:'PURIFY_LIGHT', effectValue:12, triggerChance:25, maxActivations:2 },
+  { code:'V2_CHAIN_ECHO', name:'연쇄의 잔영', enhancementLevel:7, imageUrl:'assets/ui/magic-cards/chain-echo-768-v1665.webp', effectType:'CHAIN_ECHO', effectValue:45, triggerChance:35, maxActivations:2 }
 ];
 
 async function magicV2PreviewExamples(env) {
@@ -28,7 +28,7 @@ async function magicV2PreviewExamples(env) {
   const placeholders = codes.map(() => '?').join(',');
   let rows = [];
   try {
-    rows = (await env.DB.prepare(`SELECT id,code,name,rarity,image_url,effect_type,effect_value,trigger_chance,max_activations FROM magic_cards WHERE code IN (${placeholders})`).bind(...codes).all()).results || [];
+    rows = (await env.DB.prepare(`SELECT id,code,name,image_url,effect_type,effect_value,max_activations FROM magic_cards WHERE code IN (${placeholders})`).bind(...codes).all()).results || [];
   } catch (error) {
     console.warn('magic V2 preview examples unavailable', error);
   }
@@ -39,7 +39,7 @@ async function magicV2PreviewExamples(env) {
       ...fallback,
       id: Number(row?.id || -(index + 1)),
       name: String(row?.name || fallback.name),
-      rarity: String(row?.rarity || fallback.rarity).toUpperCase(),
+      enhancementLevel: Number(fallback.enhancementLevel||0),
       imageUrl: String(row?.image_url || fallback.imageUrl),
       effectType: String(row?.effect_type || fallback.effectType).toUpperCase(),
       effectValue: Number(row?.effect_value ?? fallback.effectValue),
@@ -332,7 +332,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if(state.effectType==='OPENING_ATTACK')fighter.attack=Math.max(1,Math.round(fighter.attack*(1+value/100)));
         if(state.effectType==='LIFE_AMPLIFY'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.maxHp+=gain;fighter.hp+=gain;}
         if(state.effectType==='GUARD_BARRIER'){const gain=Math.max(1,Math.round(fighter.maxHp*value/100));fighter.shield+=gain;fighter.maxShield+=gain;}
-        state.activations=1;pushEvent(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,magicImageUrl:state.imageUrl,magicRarity:state.rarity,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});
+        state.activations=1;pushEvent(timeline,clock,'MAGIC_CARD',{actorId:fighter.id,targetId:fighter.id,magicCardId:state.id,magicCode:state.code,magicName:state.name,magicImageUrl:state.imageUrl,magicEnhancementLevel:state.enhancementLevel,effectType:state.effectType,value,activation:1,maxActivations:state.maxActivations,label:state.name});
       }
     }
   };
@@ -350,7 +350,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     state.activations+=1;
     return state;
   };
-  const magicEvent=(magic,actor,target,extra={})=>({actorId:actor.id,targetId:target.id,magicCardId:magic.id,magicCode:magic.code,magicName:magic.name,magicImageUrl:magic.imageUrl,magicRarity:magic.rarity,effectType:magic.effectType,value:magic.effectValue,activation:magic.activations,maxActivations:magic.maxActivations,label:magic.name,...extra});
+  const magicEvent=(magic,actor,target,extra={})=>({actorId:actor.id,targetId:target.id,magicCardId:magic.id,magicCode:magic.code,magicName:magic.name,magicImageUrl:magic.imageUrl,magicEnhancementLevel:magic.enhancementLevel,effectType:magic.effectType,value:magic.effectValue,activation:magic.activations,maxActivations:magic.maxActivations,label:magic.name,...extra});
   const reviveFromMagic=(target,eventClock)=>{
     const magic=activateMagic(target,'PHOENIX_REVIVE');
     if(!magic)return false;
@@ -590,7 +590,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
 
     const haste=activateMagic(actor,'FOLLOWUP_HASTE');
-    if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);pushEvent(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,magicImageUrl:haste.imageUrl,magicRarity:haste.rarity,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
+    if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);pushEvent(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,magicImageUrl:haste.imageUrl,magicEnhancementLevel:haste.enhancementLevel,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
     const retaliate=(owner,effectType,offset,fromAttack=false)=>{const magic=activateMagic(owner,effectType);if(!magic||!actor.alive||!owner.alive)return;const amount=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100));const state=applyDamage(actor,amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',magicEvent(magic,owner,actor,{damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield}));resolveKnockout(actor,timeline,clock+offset+0.00001,reviveFromMagic);};
     retaliate(target,'PUNISH_TRAP',0.0002,false);retaliate(target,'ARCANE_COUNTER',0.0003,true);
 
@@ -605,7 +605,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     if (!knockedOut) {
       const crisis=target.hp/Math.max(1,target.maxHp)<=0.30?activateMagic(target,'CRISIS_HEAL'):null;
-      if(crisis){const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(crisis.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.0004,'MAGIC_CARD',{actorId:target.id,targetId:target.id,magicCardId:crisis.id,magicCode:crisis.code,magicName:crisis.name,magicImageUrl:crisis.imageUrl,magicRarity:crisis.rarity,effectType:crisis.effectType,value:crisis.effectValue,amount,hpAfter:target.hp,maxHp:target.maxHp,activation:crisis.activations,maxActivations:crisis.maxActivations,label:crisis.name});}
+      if(crisis){const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(crisis.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.0004,'MAGIC_CARD',{actorId:target.id,targetId:target.id,magicCardId:crisis.id,magicCode:crisis.code,magicName:crisis.name,magicImageUrl:crisis.imageUrl,magicEnhancementLevel:crisis.enhancementLevel,effectType:crisis.effectType,value:crisis.effectValue,amount,hpAfter:target.hp,maxHp:target.maxHp,activation:crisis.activations,maxActivations:crisis.maxActivations,label:crisis.name});}
       maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
     }
     maybeFrontlineBreak(enemyTeam, target.side, timeline, clock);
