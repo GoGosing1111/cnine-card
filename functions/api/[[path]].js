@@ -1440,6 +1440,7 @@ async function ensureD1StabilityIndexes(env){
     if(await tableExists(env,'tower_clear_history'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_tower_history_power_desc_v1674 ON tower_clear_history(player_power DESC) WHERE player_power>0'));
     if(await tableExists(env,'raid_participants'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_participants_power_desc_v1674 ON raid_participants(total_power DESC) WHERE total_power>0'));
     if(await tableExists(env,'revoked_player_sessions_v1533'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_revoked_sessions_time_v1674 ON revoked_player_sessions_v1533(revoked_at)'));
+    if(await tableExists(env,'user_equipment_instances'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_equipment_instances_recent_v1674 ON user_equipment_instances(id DESC,user_id,equipment_id,source_type,acquired_at)'));
     statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1674_d1_stability_indexes','1',CURRENT_TIMESTAMP)"));
     await env.DB.batch(statements);return true;
   })().catch(error=>{d1StabilityUpgradePromise=null;throw error});
@@ -2967,7 +2968,7 @@ async function recentMythicEquipmentItems(env){
     .then(()=>env.DB.prepare(`SELECT u.nickname,e.name AS equipment_name,e.rarity,recent.acquired_at AS created_at,recent.source_type AS source
       FROM (
         SELECT id,user_id,equipment_id,source_type,acquired_at
-        FROM user_equipment_instances
+        FROM user_equipment_instances INDEXED BY idx_user_equipment_instances_recent_v1674
         ORDER BY id DESC LIMIT 20000
       ) recent
       JOIN users u ON u.id=recent.user_id
@@ -2976,7 +2977,7 @@ async function recentMythicEquipmentItems(env){
       ORDER BY recent.id DESC LIMIT 20`).all())
     .then(rows=>rows.results||[])
     .catch(error=>{if(recentEquipmentFeedCache?.promise===promise)recentEquipmentFeedCache=null;throw error});
-  recentEquipmentFeedCache={promise,expiresAt:now+60000};
+  recentEquipmentFeedCache={promise,expiresAt:now+300000};
   return promise;
 }
 let cardAcquisitionGradeFxCache=null;
