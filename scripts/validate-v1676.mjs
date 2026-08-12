@@ -10,6 +10,7 @@ const scrapyard=read('functions/_scrapyard.js');
 const workshop=read('functions/_workshop.js');
 const equipment=read('functions/_equipment.js');
 const miracle=read('functions/_black_miracle_pack.js');
+const auction=read('functions/_auction.js');
 const ui=read('js/workshop-v1676.js');
 const migration=read('database/migrations/0071_v1676_scrapyard_synthesis.sql');
 
@@ -25,6 +26,7 @@ assert('신화 합성 중복 결과 허용',workshop.includes("rarity==='MYTHIC'
 assert('신화 중복 트리거 재생성 제거',!equipment.includes('MYTHIC_EQUIPMENT_DUPLICATE'));
 assert('신화 보급상자 중복 지급',equipment.includes("&&normalizeEquipmentRarity(item.rarity)!=='MYTHIC'"));
 assert('블랙 미라클 신화 중복 지급',!miracle.includes('NOT EXISTS(SELECT 1 FROM user_equipment_instances'));
+assert('경매 신화 장비 중복 낙찰 허용',auction.includes("if(a.item_type==='EQUIPMENT')return false"));
 assert('밀어서 결과 확인',ui.includes('role="slider"')&&ui.includes("pct>=92")&&ui.includes("classList.add('revealed')"));
 assert('특수문자 이미지 경로 보호',ui.includes("replace(/#/g,'%23')"));
 assert('마이그레이션 트리거 해제',migration.includes('DROP TRIGGER IF EXISTS trg_user_equipment_mythic_unique'));
