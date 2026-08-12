@@ -137,6 +137,7 @@ async function ensureFoundation(env){
       `CREATE INDEX IF NOT EXISTS idx_twv3_front_active ON territory_war_v3_fronts(round_id,status,id DESC)`,
       `CREATE INDEX IF NOT EXISTS idx_twv3_actions_cleanup ON territory_war_v3_actions(status,updated_at,id)`,
       `CREATE INDEX IF NOT EXISTS idx_twv3_actions_round ON territory_war_v3_actions(round_id,id DESC)`,
+      `CREATE INDEX IF NOT EXISTS idx_twv3_actions_user_status ON territory_war_v3_actions(round_id,user_id,status)`,
       `CREATE INDEX IF NOT EXISTS idx_twv3_actions_opponent ON territory_war_v3_actions(round_id,opponent_user_id,id DESC)`,
       `CREATE INDEX IF NOT EXISTS idx_twv3_rewards_user ON territory_war_v3_rewards(user_id,claimed_at,round_id DESC)`,
       `CREATE INDEX IF NOT EXISTS idx_twv3_admin_cleanup ON territory_war_v3_admin_operations(status,updated_at)`
@@ -275,6 +276,13 @@ async function ensureFoundation(env){
       env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_twv3_users_rank ON territory_war_v3_users(round_id,damage DESC,attacks DESC,user_id)'),
       env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_twv3_actions_feed ON territory_war_v3_actions(round_id,status,id DESC)'),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1471_territory_load_indexes','1',CURRENT_TIMESTAMP)")
+    ]);
+  }
+  const userActionIndexMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1674_territory_user_action_index'").first();
+  if(!userActionIndexMarker){
+    await env.DB.batch([
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_twv3_actions_user_status ON territory_war_v3_actions(round_id,user_id,status)'),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1674_territory_user_action_index','1',CURRENT_TIMESTAMP)")
     ]);
   }
   const recruitmentSyncMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_repair_v1629_territory_recruitment_hours'").first();
@@ -562,7 +570,7 @@ function rechargeEnergy(row,cfg,front=null){
 async function rewardForUser(env,userId){
   let v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.user_id=? AND r.claimed_at IS NULL ORDER BY r.round_id DESC LIMIT 1').bind(userId).first();
   if(v3&&v3.result==='INELIGIBLE'){
-    const source=await env.DB.prepare(`SELECT u.side,u.damage,MAX(u.attacks,(SELECT COUNT(*) FROM territory_war_v3_actions a WHERE a.round_id=u.round_id AND a.user_id=u.user_id AND a.status IN ('APPLIED','COMPLETED'))) attacks FROM territory_war_v3_users u WHERE u.round_id=? AND u.user_id=?`).bind(v3.round_id,userId).first(),cfg=await settings(env),required=Math.max(0,Number(v3.required_attacks)>0?Number(v3.required_attacks):Number(cfg.settlementMinAttacks??1));
+    const source=await env.DB.prepare(`SELECT side,damage,attacks FROM territory_war_v3_users WHERE round_id=? AND user_id=?`).bind(v3.round_id,userId).first(),cfg=await settings(env),required=Math.max(0,Number(v3.required_attacks)>0?Number(v3.required_attacks):Number(cfg.settlementMinAttacks??1));
     if(source){const attacks=Number(source.attacks||0),damage=Number(source.damage||0),eligible=attacks>=required;let result='INELIGIBLE',coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0;if(eligible){const round=await roundById(env,v3.round_id),winner=String(round?.winner_side||'DRAW');result=winner==='DRAW'?'DRAW':source.side===winner?'WIN':'LOSE';baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(damage/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}await env.DB.prepare(`UPDATE territory_war_v3_rewards SET side=?,result=?,coin=?,shards=?,damage=?,attacks=?,required_attacks=?,base_result_coin=?,attack_reward_percent=?,attack_adjusted_coin=? WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(source.side||'',result,coin,shards,damage,attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,v3.round_id,userId).run();v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=?').bind(v3.round_id,userId).first()}
   }
   if(v3)return{...v3,version:'V3'};

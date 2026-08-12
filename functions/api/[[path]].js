@@ -2902,22 +2902,17 @@ function weightedPick(items,getWeight){
 async function recentHighGradeItems(env){
   const now=Date.now();
   if(recentHighGradeCache&&recentHighGradeCache.expiresAt>now)return recentHighGradeCache.promise;
-  // datetime(column) 정렬은 인덱스를 무력화해 매 요청마다 user_cards 전체를 읽었다.
-  // 최근 갱신 20,000건만 인덱스로 선별한 뒤 고등급 20건을 추려 최악의 읽기량을 제한한다.
-  const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,c.rarity,recent.last_obtained_at AS created_at
-    FROM (
-      SELECT user_id,card_id,last_obtained_at
-      FROM user_cards INDEXED BY idx_user_cards_last_obtained
-      WHERE quantity>0 AND last_obtained_at IS NOT NULL
-      ORDER BY last_obtained_at DESC LIMIT 20000
-    ) recent
-    JOIN users u ON u.id=recent.user_id
-    JOIN cards_effective_v1210 c ON c.id=recent.card_id
-    WHERE c.rarity IN ('LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
-    ORDER BY recent.last_obtained_at DESC LIMIT 20`).all()
+  // The acquisition ticker is event history, not current ownership. Draw logs
+  // already have a compact rarity/id index and avoid scanning ~300k user_cards.
+  const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,d.rarity,d.created_at
+    FROM draw_logs d NOT INDEXED
+    JOIN users u ON u.id=d.user_id
+    JOIN cards_effective_v1210 c ON c.id=d.card_id
+    WHERE d.rarity IN ('LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
+    ORDER BY d.id DESC LIMIT 20`).all()
     .then(rows=>rows.results||[])
     .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
-  recentHighGradeCache={promise,expiresAt:now+60000};
+  recentHighGradeCache={promise,expiresAt:now+300000};
   return promise;
 }
 async function recentMythicEquipmentItems(env){
