@@ -37,7 +37,7 @@ export async function ensureUnifiedDropPoolFoundation(env){
       env.DB.prepare(`INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('VEHICLE_PART_TIRE','고성능 타이어','SCRAPYARD PART','폐차장 던전에서 획득하는 차량 제작용 타이어입니다.','VEHICLE_PART','RARE','assets/ui/scrapyard/vehicle-part-tire-v1667.svg',166701,1)`),
       env.DB.prepare(`INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('VEHICLE_PART_FRAME','강화 차체 프레임','SCRAPYARD PART','폐차장 던전에서 획득하는 차량 제작용 차체 프레임입니다.','VEHICLE_PART','EPIC','assets/ui/scrapyard/vehicle-part-frame-v1667.svg',166702,1)`),
       env.DB.prepare(`INSERT OR IGNORE INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('VEHICLE_PART_ENGINE','고출력 엔진','SCRAPYARD PART','폐차장 던전에서 획득하는 차량 제작용 엔진입니다.','VEHICLE_PART','LEGENDARY','assets/ui/scrapyard/vehicle-part-engine-v1667.svg',166703,1)`),
-      env.DB.prepare(`INSERT OR IGNORE INTO ${POOL_TABLE}(code,name,description,roll_mode,rolls,no_drop_weight,is_enabled,owner_test_only,config_version) VALUES('SCRAPYARD_PARTS','폐차장 차량 부품','폐차장 웨이브·보스가 공용으로 사용하는 차량 제작 부품 풀입니다.','WEIGHTED_ONE',1,50,1,1,1)`)
+      env.DB.prepare(`INSERT OR IGNORE INTO ${POOL_TABLE}(code,name,description,roll_mode,rolls,no_drop_weight,is_enabled,owner_test_only,config_version) VALUES('SCRAPYARD_PARTS','폐차장 차량 부품','폐차장 웨이브·보스가 공용으로 사용하는 차량 제작 부품 풀입니다.','WEIGHTED_ONE',1,50,1,0,1)`)
     ]);
     const pool=await env.DB.prepare(`SELECT id FROM ${POOL_TABLE} WHERE code='SCRAPYARD_PARTS'`).first();
     if(pool?.id)await env.DB.batch([
@@ -65,7 +65,10 @@ function conditionMatches(entry,context={}){
 function rollPool(pool,entries,context={},random=randomUnit){
   const enabled=entries.filter(entry=>Number(entry.is_enabled)!==0&&conditionMatches(entry,context));
   const rewards=[];
-  for(let roll=0;roll<int(pool.rolls,1,100,1);roll++){
+  // 콘텐츠가 여러 웨이브를 한 서버 요청으로 정산할 수 있게 배수만 확장한다.
+  // 폐차장 UI는 각 웨이브를 재생하지만 D1 영수증/지급은 한 번만 기록한다.
+  const totalRolls=Math.min(100,int(pool.rolls,1,100,1)*int(context.rollsMultiplier,1,10,1));
+  for(let roll=0;roll<totalRolls;roll++){
     if(String(pool.roll_mode)==='WEIGHTED_ONE'){
       const total=enabled.reduce((sum,entry)=>sum+Math.max(0,Number(entry.weight||0)),0)+Math.max(0,Number(pool.no_drop_weight||0));
       if(total<=0)continue;

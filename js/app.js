@@ -424,7 +424,7 @@ function mobileNavigationHtml(tab){
       <header><div><small>GEAR & WORKSHOP</small><h2>장비·제작</h2><p>장비를 관리하거나 제작소로 이동하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="character"><i>⚔</i><span><b>장비·칭호</b><small>장비·칭호·이동수단 관리</small></span><em>입장</em></button>
-        <button type="button" data-mobile-tab="workshop"><i>⚙</i><span><b>제작소</b><small>차량 조립 · 차후 장비 합성</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="workshop"><i>⚙</i><span><b>제작소</b><small>폐차장 · 제작 · 합성</small></span><em>입장</em></button>
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
     </section>
@@ -547,7 +547,7 @@ function renderShell(tab) {
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">⚙</span><b>장비·제작</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="character"><span>장비·칭호·이동수단 관리</span><b>장비·칭호</b></button>
-        <button type="button" data-tab="workshop"><span>차량 조립·차후 장비 합성</span><b>제작소</b></button>
+        <button type="button" data-tab="workshop"><span>폐차장·제작·합성</span><b>제작소</b></button>
       </div>
     </div>
     <div class="main-nav-group ${rewardActive?'active':''}" data-nav-group="reward">
