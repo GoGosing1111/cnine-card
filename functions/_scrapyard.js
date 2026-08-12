@@ -8,6 +8,8 @@ const DROP_POOL_TABLE='unified_drop_pools_v1667';
 const DROP_ENTRY_TABLE='unified_drop_entries_v1667';
 const DROP_POOL_CODE='SCRAPYARD_PARTS';
 const DROP_REFS=['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'];
+const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
+const TICKET_RESERVATION_TABLE='scrapyard_ticket_reservations_v1680';
 const MODE_SET=new Set(['OFF','TEST','ON']);
 let foundationPromise=null,settingsCache=null;
 
@@ -41,19 +43,36 @@ function cleanSettings(raw={}){
 }
 
 const FOUNDATION_SQL=[
-  `CREATE TABLE IF NOT EXISTS ${RECEIPT_TABLE}(request_id TEXT NOT NULL,user_id INTEGER NOT NULL,difficulty TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(request_id,user_id))`,
+  `CREATE TABLE IF NOT EXISTS ${RECEIPT_TABLE}(request_id TEXT NOT NULL,user_id INTEGER NOT NULL,difficulty TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',ticket_consumed INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(request_id,user_id))`,
   `CREATE TABLE IF NOT EXISTS ${RUN_TABLE}(id INTEGER PRIMARY KEY AUTOINCREMENT,request_id TEXT NOT NULL,user_id INTEGER NOT NULL,difficulty TEXT NOT NULL,deck_power INTEGER NOT NULL DEFAULT 0,waves_total INTEGER NOT NULL DEFAULT 0,waves_cleared INTEGER NOT NULL DEFAULT 0,success INTEGER NOT NULL DEFAULT 0,rewards_json TEXT NOT NULL DEFAULT '[]',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(request_id,user_id))`,
+  `CREATE TABLE IF NOT EXISTS ${TICKET_RESERVATION_TABLE}(request_id TEXT NOT NULL,user_id INTEGER NOT NULL,item_code TEXT NOT NULL DEFAULT '${ENTRY_TICKET_CODE}',status TEXT NOT NULL DEFAULT 'RESERVED',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(request_id,user_id))`,
   `CREATE INDEX IF NOT EXISTS idx_scrapyard_runs_user_day_v1676 ON ${RUN_TABLE}(user_id,created_at DESC)`,
   `CREATE INDEX IF NOT EXISTS idx_scrapyard_receipts_created_v1676 ON ${RECEIPT_TABLE}(created_at)`
 ];
 
 async function ensureFoundation(env){
   if(foundationPromise)return foundationPromise;
-  foundationPromise=(async()=>{await ensureEquipmentFoundation(env);const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1676_scrapyard'").first();if(marker?.value==='1')return true;for(const sql of FOUNDATION_SQL)await env.DB.prepare(sql).run();await env.DB.batch([
-    env.DB.prepare(`DELETE FROM ${RECEIPT_TABLE} WHERE status<>'COMPLETED' AND created_at<datetime('now','-1 day')`),
-    env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(META_KEY,JSON.stringify(DEFAULT_SETTINGS)),
-    env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1676_scrapyard','1',CURRENT_TIMESTAMP)")
-  ]);return true})().catch(error=>{foundationPromise=null;throw error});
+  foundationPromise=(async()=>{
+    await ensureEquipmentFoundation(env);
+    const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1676_scrapyard'").first();
+    if(marker?.value!=='1'){
+      for(const sql of FOUNDATION_SQL)await env.DB.prepare(sql).run();
+      await env.DB.batch([
+        env.DB.prepare(`DELETE FROM ${RECEIPT_TABLE} WHERE status<>'COMPLETED' AND created_at<datetime('now','-1 day')`),
+        env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(META_KEY,JSON.stringify(DEFAULT_SETTINGS)),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1676_scrapyard','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
+    const ticketMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1680_scrapyard_ticket'").first();
+    if(ticketMarker?.value!=='1'){
+      await ensureUnifiedDropPoolFoundation(env);
+      const columns=await env.DB.prepare(`PRAGMA table_info(${RECEIPT_TABLE})`).all();
+      if(!(columns.results||[]).some(row=>row.name==='ticket_consumed'))await env.DB.prepare(`ALTER TABLE ${RECEIPT_TABLE} ADD COLUMN ticket_consumed INTEGER NOT NULL DEFAULT 0`).run();
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS ${TICKET_RESERVATION_TABLE}(request_id TEXT NOT NULL,user_id INTEGER NOT NULL,item_code TEXT NOT NULL DEFAULT '${ENTRY_TICKET_CODE}',status TEXT NOT NULL DEFAULT 'RESERVED',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(request_id,user_id))`).run();
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1680_scrapyard_ticket','1',CURRENT_TIMESTAMP)").run();
+    }
+    return true;
+  })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
 }
 async function settings(env,{fresh=false}={}){if(!fresh&&settingsCache?.expiresAt>Date.now())return settingsCache.value;const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(META_KEY).first(),value=cleanSettings(parse(row?.value,DEFAULT_SETTINGS));settingsCache={value,expiresAt:Date.now()+15000};return value}
@@ -83,13 +102,15 @@ function publicDeck(deck){return (deck?.cards||[]).slice(0,5).map(card=>({id:Str
 
 async function status(env,user,raidDeckPower){
   const cfg=await settings(env),deck=await raidDeckPower(env,user.id,null,'PVE'),day=kstDayRange();
-  const [runs,parts,best]=await env.DB.batch([
+  const [runs,parts,best,ticket]=await env.DB.batch([
     env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end),
     env.DB.prepare("SELECT i.code,i.name,i.image_url,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=i.code WHERE i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') ORDER BY i.sort_order,i.code").bind(user.id),
-    env.DB.prepare(`SELECT difficulty,MAX(waves_cleared) best_waves FROM ${RUN_TABLE} WHERE user_id=? GROUP BY difficulty`).bind(user.id)
+    env.DB.prepare(`SELECT difficulty,MAX(waves_cleared) best_waves FROM ${RUN_TABLE} WHERE user_id=? GROUP BY difficulty`).bind(user.id),
+    env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,replace(i.image_url,char(92),'/') image_url,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=i.code WHERE i.code=?`).bind(user.id,ENTRY_TICKET_CODE)
   ]);
   const used=Number(runs.results?.[0]?.count||0),bestMap=Object.fromEntries((best.results||[]).map(row=>[row.difficulty,Number(row.best_waves||0)]));
-  return {serverNow:new Date().toISOString(),settings:cfg,access:{allowed:cfg.mode==='ON'||cfg.mode==='TEST'&&isOwner(user),mode:cfg.mode,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used)},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
+  const ticketItem={...(ticket.results?.[0]||{}),code:ENTRY_TICKET_CODE,quantity:Number(ticket.results?.[0]?.quantity||0)};
+  return {serverNow:new Date().toISOString(),settings:cfg,access:{allowed:cfg.mode==='ON'||cfg.mode==='TEST'&&isOwner(user),mode:cfg.mode,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:true,ticketQuantity:ticketItem.quantity,canEnterWithTicket:ticketItem.quantity>0},ticket:ticketItem,deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
 }
 
 async function monsterPool(env){
@@ -109,30 +130,69 @@ function buildBattle({requestId,difficulty,deck,pool}){
   return {waves,wavesCleared:cleared,success:cleared===difficulty.waves,remainingPartyHp:partyHp};
 }
 
+async function reserveEntryTicket(env,userId,requestId){
+  const statements=[
+    env.DB.prepare(`DELETE FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='REFUNDED'`).bind(requestId,userId),
+    env.DB.prepare(`INSERT OR IGNORE INTO ${TICKET_RESERVATION_TABLE}(request_id,user_id,item_code,status) SELECT ?,?,?,'RESERVED' WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=1)`).bind(requestId,userId,ENTRY_TICKET_CODE,userId,ENTRY_TICKET_CODE),
+    env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=1 AND EXISTS(SELECT 1 FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='RESERVED')`).bind(userId,ENTRY_TICKET_CODE,requestId,userId),
+    env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET ticket_consumed=1,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING' AND EXISTS(SELECT 1 FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='RESERVED')`).bind(requestId,userId,requestId,userId),
+    env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-1,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),'폐차장 입장','SCRAPYARD_ENTRY',? WHERE EXISTS(SELECT 1 FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='RESERVED')`).bind(userId,ENTRY_TICKET_CODE,userId,ENTRY_TICKET_CODE,requestId,requestId,userId)
+  ];
+  await env.DB.batch(statements);
+  const receipt=await env.DB.prepare(`SELECT ticket_consumed FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,userId).first();
+  if(Number(receipt?.ticket_consumed)!==1)throw new Error('폐차장 출입 허가증이 부족합니다. 입장권 1장이 필요합니다.');
+  const row=await env.DB.prepare(`SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?`).bind(userId,ENTRY_TICKET_CODE).first();
+  return Math.max(0,Number(row?.quantity||0));
+}
+
+async function refundEntryTicket(env,userId,requestId,error){
+  const message=text(error?.message||error,400);
+  await env.DB.batch([
+    env.DB.prepare(`UPDATE ${TICKET_RESERVATION_TABLE} SET status='REFUNDING',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`).bind(requestId,userId),
+    env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT user_id,item_code,1,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='REFUNDING' ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(requestId,userId),
+    env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,1,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),'폐차장 입장 실패 환불','SCRAPYARD_REFUND',? WHERE EXISTS(SELECT 1 FROM ${TICKET_RESERVATION_TABLE} WHERE request_id=? AND user_id=? AND status='REFUNDING')`).bind(userId,ENTRY_TICKET_CODE,userId,ENTRY_TICKET_CODE,requestId,requestId,userId),
+    env.DB.prepare(`UPDATE ${TICKET_RESERVATION_TABLE} SET status='REFUNDED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='REFUNDING'`).bind(requestId,userId),
+    env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',ticket_consumed=0,error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(message,requestId,userId)
+  ]);
+}
+
+async function recoverStaleEntryTickets(env,userId){
+  const rows=await env.DB.prepare(`SELECT r.request_id FROM ${TICKET_RESERVATION_TABLE} r JOIN ${RECEIPT_TABLE} x ON x.request_id=r.request_id AND x.user_id=r.user_id WHERE r.user_id=? AND r.status='RESERVED' AND x.status='PENDING' AND r.updated_at<datetime('now','-5 minutes') ORDER BY r.updated_at LIMIT 3`).bind(userId).all();
+  for(const row of rows.results||[])await refundEntryTicket(env,userId,row.request_id,'폐차장 처리 중단 자동 복구');
+}
+
 async function run(env,user,body,deps){
   const requestId=text(body.requestId,120),difficultyId=code(body.difficulty);if(!requestId)throw new Error('원정 요청번호가 없습니다.');
-  const prior=await env.DB.prepare(`SELECT status,response_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
+  await recoverStaleEntryTickets(env,user.id);
+  const prior=await env.DB.prepare(`SELECT status,ticket_consumed,response_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
   if(prior?.status==='COMPLETED')return {...parse(prior.response_json,{ok:true}),replayed:true};
   if(prior?.status==='PENDING')throw new Error('같은 폐차장 원정을 처리 중입니다.');
   const cfg=await settings(env),difficulty=cfg.difficulties.find(row=>row.id===difficultyId);if(!difficulty)throw new Error('폐차장 난이도를 선택하세요.');
   if(cfg.mode==='OFF'||cfg.mode==='TEST'&&!isOwner(user))throw new Error('현재 폐차장 입장이 잠겨 있습니다.');
-  const day=kstDayRange(),used=await env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end).first();if(Number(used?.count||0)>=cfg.dailyRuns&&!isOwner(user))throw new Error(`오늘 폐차장 입장 ${cfg.dailyRuns}회를 모두 사용했습니다.`);
+  const day=kstDayRange(),[usedResult,ticketResult]=await env.DB.batch([
+    env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end),
+    env.DB.prepare(`SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?`).bind(user.id,ENTRY_TICKET_CODE)
+  ]),used=usedResult.results?.[0],ticketBefore=Number(ticketResult.results?.[0]?.quantity||0);
+  if(Number(used?.count||0)>=cfg.dailyRuns&&!isOwner(user))throw new Error(`오늘 폐차장 입장 ${cfg.dailyRuns}회를 모두 사용했습니다.`);
+  if(ticketBefore<1)throw new Error('폐차장 출입 허가증이 부족합니다. 입장권 1장이 필요합니다.');
   const reserved=prior?.status==='FAILED'
-    ?await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET difficulty=?,status='PENDING',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='FAILED'`).bind(difficulty.id,requestId,user.id).run()
+    ?await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET difficulty=?,status='PENDING',ticket_consumed=0,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='FAILED'`).bind(difficulty.id,requestId,user.id).run()
     :await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,difficulty,status) VALUES(?,?,?,'PENDING')`).bind(requestId,user.id,difficulty.id).run();if(!reserved.meta?.changes)throw new Error('같은 폐차장 원정을 처리 중입니다.');
   try{
+    const ticketRemaining=await reserveEntryTicket(env,user.id,requestId);
     const [deck,pool]=await Promise.all([deps.raidDeckPower(env,user.id,null,'PVE'),monsterPool(env)]),battle=buildBattle({requestId,difficulty,deck,pool});
     let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'WAVE_CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});
     const clearCoin=battle.success?Number(difficulty.clearCoin||0):0,currentBalance=clearCoin>0?await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first():null;
     const guaranteed=clearCoin>0?[{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}]:[],rewards=[...guaranteed,...(drop.rewards||[])];
-    const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(currentBalance?{coin:Number(currentBalance.coin||0)+clearCoin}:{})}};
+    const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},entryTicket:{code:ENTRY_TICKET_CODE,consumed:1,remaining:ticketRemaining},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(currentBalance?{coin:Number(currentBalance.coin||0)+clearCoin}:{})}};
     const statements=[
       ...(clearCoin>0?[env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(clearCoin,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'SCRAPYARD_CLEAR' FROM users WHERE id=?").bind(clearCoin,user.id)]:[]),
       env.DB.prepare(`INSERT INTO ${RUN_TABLE}(request_id,user_id,difficulty,deck_power,waves_total,waves_cleared,success,rewards_json) VALUES(?,?,?,?,?,?,?,?)`).bind(requestId,user.id,difficulty.id,response.deckPower,difficulty.waves,battle.wavesCleared,battle.success?1:0,JSON.stringify(response.rewards)),
+      env.DB.prepare(`UPDATE ${TICKET_RESERVATION_TABLE} SET status='CONSUMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`).bind(requestId,user.id),
       env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(response),requestId,user.id)
     ];await env.DB.batch(statements);
     return response;
-  }catch(error){await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(text(error?.message||error,400),requestId,user.id).run().catch(()=>null);throw error}
+  }catch(error){await refundEntryTicket(env,user.id,requestId,error).catch(()=>null);throw error}
 }
 
 export async function handleScrapyard({path,request,env,deps}){
