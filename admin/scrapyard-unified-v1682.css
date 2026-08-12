@@ -1,0 +1,24 @@
+.scrap-admin-drop-link {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin-top: 15px;
+  padding: 22px 24px;
+  border: 1px solid #4a3b68;
+  border-radius: 20px;
+  background: radial-gradient(circle at 92% 0, #5d2c7133, transparent 34%), linear-gradient(145deg, #081421, #160f19);
+}
+.scrap-admin-drop-link > div { min-width: 0; margin-right: auto; }
+.scrap-admin-drop-link small { color: #77e5ff; font-weight: 900; letter-spacing: .14em; }
+.scrap-admin-drop-link h2 { margin: 5px 0; }
+.scrap-admin-drop-link p { margin: 0; color: #8fa9bc; }
+.scrap-admin-drop-link button { flex: 0 0 auto; padding: 12px 18px; border: 1px solid #62deff; border-radius: 11px; background: linear-gradient(105deg, #123f58, #63314d); font-weight: 900; }
+.scrap-admin-release-lock { display: flex; gap: 9px; margin-top: 12px; padding: 9px 11px; border: 1px solid #745c2d; border-radius: 10px; background: #2c210f; }
+.scrap-admin-release-lock b { color: #ffd36f; white-space: nowrap; }
+.scrap-admin-release-lock span { color: #d1bd91; font-size: 12px; }
+@media (max-width: 700px) {
+  .scrap-admin-drop-link { align-items: stretch; flex-direction: column; }
+  .scrap-admin-drop-link button { width: 100%; }
+}
+.drop-binding-row-v1667.fixed-scrapyard { border-color: #785831; background: rgba(57, 38, 15, .28); }
+.drop-binding-row-v1667.fixed-scrapyard > em { align-self: center; color: #ffd079; font-size: 10px; font-style: normal; font-weight: 900; white-space: nowrap; }

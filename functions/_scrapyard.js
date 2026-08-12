@@ -1,16 +1,14 @@
 import { ensureEquipmentFoundation } from './_equipment.js';
-import { ensureUnifiedDropPoolFoundation, invalidateUnifiedDropPoolCache } from './_drop_pool.js';
+import { ensureUnifiedDropPoolFoundation } from './_drop_pool.js';
 
 const META_KEY='scrapyard_settings_v1676';
 const RECEIPT_TABLE='scrapyard_run_receipts_v1676';
 const RUN_TABLE='scrapyard_runs_v1676';
-const DROP_POOL_TABLE='unified_drop_pools_v1667';
-const DROP_ENTRY_TABLE='unified_drop_entries_v1667';
-const DROP_POOL_CODE='SCRAPYARD_PARTS';
-const DROP_REFS=['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'];
 const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
 const TICKET_RESERVATION_TABLE='scrapyard_ticket_reservations_v1680';
 const MODE_SET=new Set(['OFF','TEST','ON']);
+// 폐차장 정식 공개 전에는 CMS 값과 무관하게 OWNER 테스트만 허용한다.
+const PUBLIC_RELEASE_ENABLED=false;
 let foundationPromise=null,settingsCache=null;
 
 const DEFAULT_SETTINGS={
@@ -76,32 +74,10 @@ async function ensureFoundation(env){
   return foundationPromise;
 }
 async function settings(env,{fresh=false}={}){if(!fresh&&settingsCache?.expiresAt>Date.now())return settingsCache.value;const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(META_KEY).first(),value=cleanSettings(parse(row?.value,DEFAULT_SETTINGS));settingsCache={value,expiresAt:Date.now()+15000};return value}
-async function dropSettings(env){
-  const pool=await env.DB.prepare(`SELECT id,code,name,no_drop_weight,roll_mode,rolls,config_version,updated_at FROM ${DROP_POOL_TABLE} WHERE code=?`).bind(DROP_POOL_CODE).first();
-  if(!pool)throw new Error('폐차장 차량 부품 드랍풀을 찾을 수 없습니다.');
-  const rows=await env.DB.prepare(`SELECT e.id,e.reward_ref,e.reward_name,e.weight,e.min_quantity,e.max_quantity,e.is_enabled,i.name item_name,replace(i.image_url,char(92),'/') image_url FROM ${DROP_ENTRY_TABLE} e LEFT JOIN inventory_items i ON i.code=e.reward_ref WHERE e.pool_id=? AND e.reward_ref IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') ORDER BY e.sort_order,e.id`).bind(pool.id).all();
-  const entries=(rows.results||[]).map(row=>({...row,id:Number(row.id),weight:Number(row.weight||0),minQuantity:Number(row.min_quantity||1),maxQuantity:Number(row.max_quantity||1),isEnabled:Number(row.is_enabled)!==0}));
-  const total=Math.max(0,Number(pool.no_drop_weight||0))+entries.filter(row=>row.isEnabled).reduce((sum,row)=>sum+Math.max(0,row.weight),0);
-  return {poolId:Number(pool.id),code:pool.code,name:pool.name,rollMode:pool.roll_mode,rolls:Number(pool.rolls||1),noDropWeight:Number(pool.no_drop_weight||0),configVersion:Number(pool.config_version||1),updatedAt:pool.updated_at,totalWeight:total,noDropRate:total>0?Number((Number(pool.no_drop_weight||0)/total*100).toFixed(4)):0,entries:entries.map(row=>({...row,rate:total>0&&row.isEnabled?Number((row.weight/total*100).toFixed(4)):0}))};
-}
-function cleanDropSettings(raw={},current){
-  const byRef=new Map((Array.isArray(raw.entries)?raw.entries:[]).map(row=>[code(row.rewardRef??row.reward_ref),row]));
-  const entries=current.entries.map(existing=>{const input=byRef.get(existing.reward_ref)||{};return {rewardRef:existing.reward_ref,weight:clamp(input.weight,0,100000000,existing.weight),minQuantity:integer(input.minQuantity??input.min_quantity,1,100,existing.minQuantity),maxQuantity:integer(input.maxQuantity??input.max_quantity,1,100,existing.maxQuantity),isEnabled:input.isEnabled===false||Number(input.is_enabled)===0?false:true}});
-  for(const row of entries)if(row.maxQuantity<row.minQuantity)row.maxQuantity=row.minQuantity;
-  return {noDropWeight:clamp(raw.noDropWeight??raw.no_drop_weight,0,100000000,current.noDropWeight),entries};
-}
-async function saveDropSettings(env,raw){
-  const before=await dropSettings(env),next=cleanDropSettings(raw,before),statements=[env.DB.prepare(`UPDATE ${DROP_POOL_TABLE} SET no_drop_weight=?,roll_mode='WEIGHTED_ONE',rolls=1,config_version=config_version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(next.noDropWeight,before.poolId)];
-  for(const row of next.entries)statements.push(env.DB.prepare(`UPDATE ${DROP_ENTRY_TABLE} SET weight=?,min_quantity=?,max_quantity=?,is_enabled=?,updated_at=CURRENT_TIMESTAMP WHERE pool_id=? AND reward_ref=?`).bind(row.weight,row.minQuantity,row.maxQuantity,row.isEnabled?1:0,before.poolId,row.rewardRef));
-  await env.DB.batch(statements);invalidateUnifiedDropPoolCache();const saved=await dropSettings(env);
-  if(Math.abs(saved.noDropWeight-next.noDropWeight)>.0001)throw new Error('폐차장 미획득 가중치 저장 검증에 실패했습니다.');
-  for(const row of next.entries){const persisted=saved.entries.find(item=>item.reward_ref===row.rewardRef);if(!persisted||Math.abs(persisted.weight-row.weight)>.0001||persisted.minQuantity!==row.minQuantity||persisted.maxQuantity!==row.maxQuantity)throw new Error(`폐차장 드랍률 저장 검증에 실패했습니다: ${row.rewardRef}`)}
-  return {before,saved};
-}
 function publicDeck(deck){return (deck?.cards||[]).slice(0,5).map(card=>({id:String(card.id),title:card.title,rarity:card.rarity||card.grade||'C',image:card.image||'',power:Number(card.power||0)}))}
 
 async function status(env,user,raidDeckPower){
-  const cfg=await settings(env),deck=await raidDeckPower(env,user.id,null,'PVE'),day=kstDayRange();
+  const cfg=await settings(env,{fresh:true}),deck=await raidDeckPower(env,user.id,null,'PVE'),day=kstDayRange();
   const [runs,parts,best,ticket]=await env.DB.batch([
     env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end),
     env.DB.prepare("SELECT i.code,i.name,i.image_url,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=i.code WHERE i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') ORDER BY i.sort_order,i.code").bind(user.id),
@@ -110,7 +86,8 @@ async function status(env,user,raidDeckPower){
   ]);
   const used=Number(runs.results?.[0]?.count||0),bestMap=Object.fromEntries((best.results||[]).map(row=>[row.difficulty,Number(row.best_waves||0)]));
   const ticketItem={...(ticket.results?.[0]||{}),code:ENTRY_TICKET_CODE,quantity:Number(ticket.results?.[0]?.quantity||0)};
-  return {serverNow:new Date().toISOString(),settings:cfg,access:{allowed:cfg.mode==='ON'||cfg.mode==='TEST'&&isOwner(user),mode:cfg.mode,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:true,ticketQuantity:ticketItem.quantity,canEnterWithTicket:ticketItem.quantity>0},ticket:ticketItem,deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
+  const effectiveMode=cfg.mode==='OFF'?'OFF':PUBLIC_RELEASE_ENABLED?cfg.mode:'TEST',allowed=effectiveMode!=='OFF'&&(isOwner(user)||PUBLIC_RELEASE_ENABLED&&cfg.mode==='ON');
+  return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:PUBLIC_RELEASE_ENABLED,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:true,ticketQuantity:ticketItem.quantity,canEnterWithTicket:ticketItem.quantity>0},ticket:ticketItem,deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
 }
 
 async function monsterPool(env){
@@ -167,7 +144,8 @@ async function run(env,user,body,deps){
   const prior=await env.DB.prepare(`SELECT status,ticket_consumed,response_json,error_message FROM ${RECEIPT_TABLE} WHERE request_id=? AND user_id=?`).bind(requestId,user.id).first();
   if(prior?.status==='COMPLETED')return {...parse(prior.response_json,{ok:true}),replayed:true};
   if(prior?.status==='PENDING')throw new Error('같은 폐차장 원정을 처리 중입니다.');
-  const cfg=await settings(env),difficulty=cfg.difficulties.find(row=>row.id===difficultyId);if(!difficulty)throw new Error('폐차장 난이도를 선택하세요.');
+  const cfg=await settings(env,{fresh:true}),difficulty=cfg.difficulties.find(row=>row.id===difficultyId);if(!difficulty)throw new Error('폐차장 난이도를 선택하세요.');
+  if(!PUBLIC_RELEASE_ENABLED&&!isOwner(user))throw new Error('폐차장은 현재 OWNER 테스트 중입니다. 일반 유저 입장은 잠겨 있습니다.');
   if(cfg.mode==='OFF'||cfg.mode==='TEST'&&!isOwner(user))throw new Error('현재 폐차장 입장이 잠겨 있습니다.');
   const day=kstDayRange(),[usedResult,ticketResult]=await env.DB.batch([
     env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end),
@@ -181,7 +159,7 @@ async function run(env,user,body,deps){
   try{
     const ticketRemaining=await reserveEntryTicket(env,user.id,requestId);
     const [deck,pool]=await Promise.all([deps.raidDeckPower(env,user.id,null,'PVE'),monsterPool(env)]),battle=buildBattle({requestId,difficulty,deck,pool});
-    let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'WAVE_CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});
+    let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});
     const clearCoin=battle.success?Number(difficulty.clearCoin||0):0,currentBalance=clearCoin>0?await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first():null;
     const guaranteed=clearCoin>0?[{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}]:[],rewards=[...guaranteed,...(drop.rewards||[])];
     const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},entryTicket:{code:ENTRY_TICKET_CODE,consumed:1,remaining:ticketRemaining},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(currentBalance?{coin:Number(currentBalance.coin||0)+clearCoin}:{})}};
@@ -203,8 +181,8 @@ export async function handleScrapyard({path,request,env,deps}){
   if(path==='admin/scrapyard'){
     if(!isAdmin(user))return deps.json({error:'폐차장 관리 권한이 필요합니다.'},403);
     await ensureUnifiedDropPoolFoundation(env);
-    if(request.method==='GET')return deps.json({settings:await settings(env,{fresh:true}),dropSettings:await dropSettings(env),recentRuns:(await env.DB.prepare(`SELECT r.*,u.nickname FROM ${RUN_TABLE} r LEFT JOIN users u ON u.id=r.user_id ORDER BY r.id DESC LIMIT 50`).all()).results||[]});
-    if(request.method==='POST'){const body=await deps.readBody(request),next=cleanSettings(body.settings||body);await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(META_KEY,JSON.stringify(next)).run();settingsCache=null;let dropResult=null;if(body.dropSettings)dropResult=await saveDropSettings(env,body.dropSettings);await deps.writeAdminLog?.(env,user,'SCRAPYARD_SETTINGS_SAVE','SETTINGS',META_KEY,{settings:null,dropSettings:dropResult?.before||null},{settings:next,dropSettings:dropResult?.saved||null});return deps.json({ok:true,settings:next,dropSettings:dropResult?.saved||await dropSettings(env)})}
+    if(request.method==='GET')return deps.json({settings:await settings(env,{fresh:true}),recentRuns:(await env.DB.prepare(`SELECT r.*,u.nickname FROM ${RUN_TABLE} r LEFT JOIN users u ON u.id=r.user_id ORDER BY r.id DESC LIMIT 50`).all()).results||[]});
+    if(request.method==='POST'){const body=await deps.readBody(request),next=cleanSettings(body.settings||body);await env.DB.prepare('INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)').bind(META_KEY,JSON.stringify(next)).run();settingsCache=null;await deps.writeAdminLog?.(env,user,'SCRAPYARD_SETTINGS_SAVE','SETTINGS',META_KEY,null,{settings:next});return deps.json({ok:true,settings:next})}
   }
   return deps.json({error:'지원하지 않는 폐차장 요청입니다.'},405);
 }
