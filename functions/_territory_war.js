@@ -591,7 +591,9 @@ async function voteOperation(env,deps,user,cfg,body){
 }
 
 async function sharedPublicState(env,round,cfg){
-  const key=String(round.id),now=Date.now();
+  // Include the round version so an administrative deadline/status change is
+  // visible immediately instead of serving the previous recruitment state.
+  const key=`${round.id}:${Number(round.version||0)}`,now=Date.now();
   if(publicStateSharedCache?.key===key&&publicStateSharedCache.expiresAt>now)return publicStateSharedCache.promise;
   const promise=Promise.all([
     activeFront(env,round),
@@ -817,8 +819,12 @@ export async function handleTerritoryWar({path,request,env,deps}){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
     if(String(cfg.mode||'OFF').toUpperCase()==='OFF')return deps.json({error:'영토전을 먼저 ON 또는 TEST로 전환하세요.'},409);
     const round=await latestRound(env);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 시간을 초기화할 수 있는 모집 회차가 없습니다.'},409);
-    const recruitmentEndsAt=iso(Date.now()+Number(cfg.recruitmentHours||3)*3600000);
+    const body=await deps.readBody(request),requestedEndsAt=sqlMs(body.recruitmentEndsAt),rawDuration=Number(body.durationMinutes),durationMinutes=Number.isFinite(rawDuration)&&rawDuration>0?clampInt(rawDuration,1,10080):0;
+    const recruitmentEndsAt=Number.isFinite(requestedEndsAt)&&requestedEndsAt>Date.now()
+      ?iso(requestedEndsAt)
+      :iso(Date.now()+(durationMinutes||Number(cfg.recruitmentHours||3)*60)*60000);
     await env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(recruitmentEndsAt,round.id).run();
+    publicStateSharedCache=null;
     return deps.json({ok:true,recruitmentEndsAt,state:await publicState(env,user.id,true)});
   }
   if(path==='admin/territory-war/start'&&request.method==='POST'){
