@@ -1343,7 +1343,10 @@ async function grantBattleCube(env,userId,source,referenceId,allowStandard=true)
   if(!['PVE','PVP'].includes(source)||!referenceId)return null;
   const weekly=await rollWeeklyPremiumCube(env,userId,source,referenceId);
   if(weekly.won){const reward=await grantPremiumCubeInventory(env,userId,source,referenceId);if(reward)recentPremiumCubeCache=null;return reward;}
-  const prior=await env.DB.prepare("SELECT item_code,balance_after FROM inventory_logs WHERE user_id=? AND reason='BATTLE_CUBE_DROP' AND reference_type=? AND reference_id=? ORDER BY id DESC LIMIT 1").bind(userId,source,referenceId).first();
+  // BATTLE_CUBE_DROP currently has one supported item. Supplying the item key
+  // lets idx_inventory_logs_reward_reference resolve the receipt directly;
+  // without it D1 scanned the user's entire inventory history on every battle.
+  const prior=await env.DB.prepare("SELECT item_code,balance_after FROM inventory_logs INDEXED BY idx_inventory_logs_reward_reference WHERE user_id=? AND item_code='PREMIUM_CUBE' AND reason='BATTLE_CUBE_DROP' AND reference_type=? AND reference_id=? ORDER BY id DESC LIMIT 1").bind(userId,source,referenceId).first();
   if(prior){
     const item=await env.DB.prepare('SELECT code,name,rarity,image_url FROM inventory_items WHERE code=?').bind(prior.item_code).first();
     return {itemCode:prior.item_code,name:item?.name||prior.item_code,rarity:item?.rarity||'',image:item?.image_url||'',quantity:1,balance:Number(prior.balance_after||0),source,reused:true};
@@ -3186,20 +3189,26 @@ async function furFirstPityState(env,userId){
     .bind(userId,completed?0:Math.max(0,Number(row?.miss_count||0)),row?.last_pack_id||null,completed?new Date().toISOString():null).run();
   return {everOwned:ownedCount>0,ownedCount,targetCount:FUR_FIRST_PITY_TARGET_COUNT,completed,missCount:completed?0:Math.max(0,Number(row?.miss_count||0)),lastPackId:row?.last_pack_id||null};
 }
-async function drawUserPityState(env,userId,packId){
+async function drawUserPityState(env,userId,packId,ownedFurRowsPromise=null){
   await ensureFurFirstPityV1291(env);
-  const [pityResult,furResult]=await env.DB.batch([
-    env.DB.prepare('SELECT miss_count FROM user_pack_pity WHERE user_id=? AND pack_id=?').bind(userId,packId),
-    env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId)
+  const [pityBatch,ownedSource]=await Promise.all([
+    env.DB.batch([
+      env.DB.prepare('SELECT miss_count FROM user_pack_pity WHERE user_id=? AND pack_id=?').bind(userId,packId),
+      env.DB.prepare('SELECT miss_count,last_pack_id,completed_at FROM user_fur_first_pity WHERE user_id=?').bind(userId)
+    ]),
+    ownedFurRowsPromise||env.DB.prepare(`SELECT COUNT(DISTINCT uc.card_id) AS count
+      FROM user_cards uc
+      JOIN cards_effective_v1210 c ON c.id=uc.card_id
+      JOIN members m ON m.id=c.member_id
+      WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
+        AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(userId).first()
   ]);
+  const [pityResult,furResult]=pityBatch;
   const pityRow=pityResult?.results?.[0]||null,furRow=furResult?.results?.[0]||null;
-  const owned=await env.DB.prepare(`SELECT COUNT(DISTINCT uc.card_id) AS count
-    FROM user_cards uc
-    JOIN cards_effective_v1210 c ON c.id=uc.card_id
-    JOIN members m ON m.id=c.member_id
-    WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
-      AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(userId).first();
-  const ownedCount=Math.max(0,Number(owned?.count||0)),completed=ownedCount>=FUR_FIRST_PITY_TARGET_COUNT;
+  const ownedCount=ownedFurRowsPromise
+    ?new Set((ownedSource?.results||[]).map(row=>String(row.card_id))).size
+    :Math.max(0,Number(ownedSource?.count||0));
+  const completed=ownedCount>=FUR_FIRST_PITY_TARGET_COUNT;
   return {
     pityCount:PITY_PACKS.has(packId)?Math.max(0,Number(pityRow?.miss_count||0)):0,
     fur:{everOwned:ownedCount>0,ownedCount,targetCount:FUR_FIRST_PITY_TARGET_COUNT,completed,missCount:completed?0:Math.max(0,Number(furRow?.miss_count||0)),lastPackId:furRow?.last_pack_id||null}
@@ -3920,16 +3929,17 @@ async function handleRequest(context){
           return json({error:'코인이 부족합니다.'},400);
         }
 
+        const ownedFurRowsPromise=env.DB.prepare(`SELECT uc.card_id FROM user_cards uc
+          JOIN cards_effective_v1210 c ON c.id=uc.card_id
+          JOIN members m ON m.id=c.member_id
+          WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
+            AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(user.id).all();
         const [baseDrawContext,livePitySettings,liveFurFirstSettings,userPityState,ownedFurRows]=await Promise.all([
           loadDrawContext(env,pack),
           pitySettings(env),
           furFirstSettings(env),
-          drawUserPityState(env,user.id,pack.id),
-          env.DB.prepare(`SELECT uc.card_id FROM user_cards uc
-            JOIN cards_effective_v1210 c ON c.id=uc.card_id
-            JOIN members m ON m.id=c.member_id
-            WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
-              AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(user.id).all()
+          drawUserPityState(env,user.id,pack.id,ownedFurRowsPromise),
+          ownedFurRowsPromise
         ]);
         const ownedFurIdsAtStart=new Set((ownedFurRows?.results||[]).map(row=>String(row.card_id)));
         const drawContext={...baseDrawContext,knownFurIds:new Set(ownedFurIdsAtStart)};
