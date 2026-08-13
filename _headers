@@ -29,10 +29,13 @@
   Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 
 /css/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
 /js/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+
+/service-worker.js
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
 /data/*
   Cache-Control: public, max-age=300, stale-while-revalidate=60
