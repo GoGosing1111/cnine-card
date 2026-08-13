@@ -19,6 +19,7 @@ import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop } from '../_workshop.js';
 import { handleScrapyard } from '../_scrapyard.js';
+import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
@@ -4250,7 +4251,7 @@ async function handleRequest(context){
         const cost=Math.max(1,Math.floor(Number(rule.cost)||0)),rate=Math.max(0,Math.min(100,Number(rule.rate)||0));
         if(masterStarStep&&stars<cost){stopReason='MATERIAL_EXHAUSTED';stopMessage='마스터의 별이 부족해 자동 강화를 종료했습니다.';break}
         if(!masterStarStep&&shards<cost){stopReason='MATERIAL_EXHAUSTED';stopMessage='카드 조각이 부족해 자동 강화를 종료했습니다.';break}
-        const threshold=Math.max(1,Number(pity.thresholds?.[level]||5)),guaranteed=grade==='SSR'&&pity.enabled&&failCount>=threshold,success=guaranteed||Math.random()*100<rate;
+        const pityRule=breakthroughPityRule(grade,level,pity),threshold=pityRule.threshold,guaranteed=pityRule.enabled&&failCount>=threshold,success=guaranteed||Math.random()*100<rate;
         if(masterStarStep){stars-=cost;starSpent+=cost}else{shards-=cost;shardSpent+=cost}
         attempts++;
         if(success){level++;failCount=0;successes++;highestSuccessLevel=Math.max(highestSuccessLevel,level)}else{failCount++;failures++}
@@ -4259,7 +4260,7 @@ async function handleRequest(context){
       const canContinue=stopReason==='CHUNK_LIMIT';
       const partialUser={profileScope:'BREAKTHROUGH_PARTIAL',id:user.id,nickname:user.nickname,role:user.role,coin:Number(user.coin||0),cardShards:shards,masterStars:stars,magicCrystals:Number(user.magic_crystals||0),breakthroughs:{[cardId]:level}};
       const cinematic=highestSuccessLevel>0?await breakthroughCinematicFor(env,{success:true,grade,level:highestSuccessLevel,cardId,cardTitle:owned.title}):null;
-      const response={ok:true,requestId,cardId,grade,attempts,successes,failures,spent:{cardShards:shardSpent,masterStars:starSpent},level,failCount,maxLevel,canContinue,stopReason,stopMessage,cinematic,user:partialUser};
+      const finalPityRule=breakthroughPityRule(grade,level,pity),response={ok:true,requestId,cardId,grade,attempts,successes,failures,spent:{cardShards:shardSpent,masterStars:starSpent},level,failCount,maxLevel,canContinue,stopReason,stopMessage,pity:{...finalPityRule,failCount,nextGuaranteed:finalPityRule.enabled&&failCount>=finalPityRule.threshold},cinematic,user:partialUser};
       if(attempts===0){
         const completed=await env.DB.prepare("UPDATE breakthrough_auto_receipts_v1616 SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(response),requestId,user.id).run();
         if(Number(completed?.meta?.changes||0)!==1)return json({error:'자동 강화 결과를 안전하게 확정하지 못했습니다. 새로고침 후 다시 시도해 주세요.',code:'BREAKTHROUGH_AUTO_STATE_CONFLICT'},409);
@@ -4313,7 +4314,8 @@ async function handleRequest(context){
         if(!rule)return json({error:`${grade} 강화 설정을 찾을 수 없습니다.`},500);
         const cost=Number(rule.cost),rate=Number(rule.rate),starRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),starBefore=Math.max(0,Number(starRow?.quantity||0));
         if(starBefore<cost)return json({error:`마스터의 별이 부족합니다. (${cost}개 필요)`},400);
-        const success=Math.random()*100<rate,starAfter=starBefore-cost,nextFailCount=success?0:failCount+1;
+        const pity=await breakthroughPity(env),pityRule=breakthroughPityRule(grade,level,pity),guaranteed=pityRule.enabled&&failCount>=pityRule.threshold;
+        const success=guaranteed||Math.random()*100<rate,starAfter=starBefore-cost,nextFailCount=success?0:failCount+1;
         // D1 batch 안에서 임시 음수 마커를 사용해 별 차감과 카드 상태 변경을 순차적으로 연결한다.
         // 앞 단계가 0건이면 뒤 단계도 반드시 0건이 되어, stale 요청이 별 차감 없이 강화만 진행되는 것을 막는다.
         const inventoryMarker=-(1000000000+Math.floor(Math.random()*900000000)),cardMarker=-(2000000000+Math.floor(Math.random()*900000000));
@@ -4336,7 +4338,7 @@ async function handleRequest(context){
         }
         try{await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH',?)").bind(user.id,-cost,starAfter,success?`${grade}_BREAKTHROUGH_SUCCESS`:`${grade}_BREAKTHROUGH_FAIL`,cardId).run()}catch(logError){console.error(`${grade} master-star breakthrough inventory log failed`,logError)}
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-        const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'MASTER_STAR',masterStarsAfter:starAfter,level:finalLevel,guaranteed:false,pity:{enabled:false,failCount:nextFailCount,threshold:null,nextGuaranteed:false},cinematic,user:await profile(env,updated)});
+        const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'MASTER_STAR',masterStarsAfter:starAfter,level:finalLevel,guaranteed,pity:{...pityRule,failCount:nextFailCount,nextGuaranteed:!success&&pityRule.enabled&&nextFailCount>=pityRule.threshold},cinematic,user:await profile(env,updated)});
       }
       const config=await breakthroughConfig(env),rule=config[grade]?.[level];
       if(!rule) return json({error:'돌파 설정을 찾을 수 없습니다.'},500);
@@ -4345,14 +4347,14 @@ async function handleRequest(context){
       if(Number(fresh.card_shards||0)<cost) return json({error:`카드 조각이 부족합니다. (${cost}개 필요)`},400);
       const spent=await env.DB.prepare('UPDATE users SET card_shards=card_shards-? WHERE id=? AND card_shards>=?').bind(cost,user.id,cost).run();
       if(!spent.meta.changes) return json({error:'카드 조각이 부족합니다.'},400);
-      const pity=await breakthroughPity(env),threshold=Math.max(1,Number(pity.thresholds?.[level]||5));
-      const guaranteed=grade==='SSR'&&pity.enabled&&failCount>=threshold;
+      const pity=await breakthroughPity(env),pityRule=breakthroughPityRule(grade,level,pity),threshold=pityRule.threshold;
+      const guaranteed=pityRule.enabled&&failCount>=threshold;
       const success=guaranteed||Math.random()*100<rate;
       if(success) await env.DB.prepare('UPDATE user_cards SET breakthrough_level=breakthrough_level+1,breakthrough_fail_count=0 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
       else await env.DB.prepare('UPDATE user_cards SET breakthrough_fail_count=breakthrough_fail_count+1 WHERE user_id=? AND card_id=?').bind(user.id,cardId).run();
       const nextFailCount=success?0:failCount+1,updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       await env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-cost,updated.card_shards,success?(guaranteed?'BREAKTHROUGH_PITY_SUCCESS':'BREAKTHROUGH_SUCCESS'):'BREAKTHROUGH_FAIL',cardId).run();
-      const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'CARD_SHARD',level:finalLevel,guaranteed,pity:{enabled:grade==='SSR'&&pity.enabled,failCount:nextFailCount,threshold,nextGuaranteed:!success&&nextFailCount>=threshold},cinematic,user:await profile(env,updated)});
+      const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'CARD_SHARD',level:finalLevel,guaranteed,pity:{...pityRule,failCount:nextFailCount,nextGuaranteed:!success&&pityRule.enabled&&nextFailCount>=threshold},cinematic,user:await profile(env,updated)});
     }
 
     if(path==='raid/status'){

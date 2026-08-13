@@ -2269,7 +2269,7 @@ async function breakthroughCard(cardId){
     return;
   }
   try{
-    if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId:normalizedCardId})});saveUser(apiUserToLocal(d.user));if(d.success&&d.cinematic)await playBreakthroughCinematic(d.cinematic,card,d.level);alert(d.success?`강화 성공! ★${d.level}${d.guaranteed?'\nSSR 천장 확정 성공':''}`:`강화 실패\n단계는 ★${d.level}로 유지됩니다.${d.pity?.enabled?`\nSSR 천장: ${d.pity.failCount}/${d.pity.threshold}회 실패`:''}`);showDetail(normalizedCardId,'info');}
+    if(API_MODE){const d=await apiRequest('card/breakthrough',{method:'POST',body:JSON.stringify({cardId:normalizedCardId})});saveUser(apiUserToLocal(d.user));if(d.success&&d.cinematic)await playBreakthroughCinematic(d.cinematic,card,d.level);const pityName=d.pity?.grade==='ZENITH'?'제니스':d.pity?.grade||'';alert(d.success?`강화 성공! ★${d.level}${d.guaranteed?`\n${pityName} 천장 확정 성공`:''}`:`강화 실패\n단계는 ★${d.level}로 유지됩니다.${d.pity?.enabled?`\n${pityName} 천장: ${d.pity.failCount}/${d.pity.threshold}회 실패`:''}`);showDetail(normalizedCardId,'info');}
     else{const actualCost=Number(rule.cost);if(usesMasterStars)user.masterStars-=actualCost;else user.cardShards-=actualCost;const success=Math.random()*100<Number(rule.rate);if(success)user.breakthroughs[cardId]=level+1;saveUser(user);alert(success?`강화 성공! ★${level+1}`:`강화 실패\n단계는 ★${level}로 유지됩니다.`);showDetail(normalizedCardId,'info');}
   }catch(e){alert(e.message)}
 }
