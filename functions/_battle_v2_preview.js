@@ -316,7 +316,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, healerPenalty = false, singleHealerBonus = {} } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, healerPenalty = false, singleHealerBonus = {} } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
@@ -475,9 +475,12 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     maybeFrontlineBreak(a, 'A', timeline, clock + 0.0005);
   }
 
-  while (alive(a).length && alive(b).length && actionCount < maxActions) {
+  const durationLimit = Math.max(0, Number(maxDuration || 0));
+  let durationStopped = false;
+  while (alive(a).length && alive(b).length && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
     const actors = [...alive(a), ...alive(b)];
     const dt = Math.min(...actors.map(card => (100 - card.gauge) / Math.max(1, card.speed)));
+    if (durationLimit && clock + Math.max(0.001, dt) > durationLimit) { durationStopped = true; break; }
     clock += Math.max(0.001, dt);
     for (const card of actors) card.gauge = clamp(card.gauge + card.speed * dt, 0, 130);
     const ready = actors.filter(card => card.gauge >= 99.999).sort((x, y) => y.gauge - x.gauge || y.speed - x.speed || x.slot - y.slot);
@@ -643,7 +646,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const winner = alive(a).length && !alive(b).length ? 'A'
     : alive(b).length && !alive(a).length ? 'B'
       : aRatio === bRatio ? 'DRAW' : (aRatio > bRatio ? 'A' : 'B');
-  const reason = actionCount >= maxActions && alive(a).length && alive(b).length ? 'ACTION_LIMIT' : 'ELIMINATION';
+  const timedOut = durationStopped || (durationLimit > 0 && clock >= durationLimit);
+  const reason = timedOut && alive(a).length && alive(b).length ? 'TIME_LIMIT' : actionCount >= maxActions && alive(a).length && alive(b).length ? 'ACTION_LIMIT' : 'ELIMINATION';
   pushEvent(timeline, clock + 0.01, 'RESULT', {
     winner,
     reason,
@@ -711,7 +715,7 @@ export function buildMonsterFighter(monster = {}) {
 }
 
 function forcePveMonsterSurvivalLoss(result = {}) {
-  if (result.reason !== 'ACTION_LIMIT') return result;
+  if (!['ACTION_LIMIT','TIME_LIMIT'].includes(result.reason)) return result;
   const monsterAlive = (result.final?.B || []).some(card => Number(card.hp || 0) > 0);
   if (!monsterAlive) return result;
   const timeline = (result.timeline || []).map(event => event.type === 'RESULT'
@@ -725,7 +729,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const teamB = [buildMonsterFighter(monster)];
   const simulated = simulateBattleV2Preview({
-    teamA, teamB, magicA:magicCards, seed, maxActions: 120,
+    teamA, teamB, magicA:magicCards, seed, maxActions: 2000, maxDuration: 4.0,
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent,
     healerPenalty: true,
@@ -738,7 +742,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.6,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 120, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
