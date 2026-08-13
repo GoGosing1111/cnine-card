@@ -4243,14 +4243,15 @@ async function handleRequest(context){
       while(attempts<maxAttempts){
         if(level>=maxLevel){stopReason='MAX_LEVEL';stopMessage='최대 강화 단계에 도달했습니다.';break}
         const highStep=['MA','LIMITED'].includes(grade)&&level>=10;
+        const masterStarStep=grade==='ZENITH'||highStep;
         if(highStep&&high?.enabled!==true){stopReason='HIGH_ENHANCEMENT_DISABLED';stopMessage=`${grade} 고급 강화가 현재 중지되어 있습니다.`;break}
         const rule=highStep?high?.steps?.[level-10]:config?.[grade]?.[level];
         if(!rule){stopReason='RULE_MISSING';stopMessage='현재 단계의 강화 설정을 찾을 수 없습니다.';break}
         const cost=Math.max(1,Math.floor(Number(rule.cost)||0)),rate=Math.max(0,Math.min(100,Number(rule.rate)||0));
-        if(highStep&&stars<cost){stopReason='MATERIAL_EXHAUSTED';stopMessage='마스터의 별이 부족해 자동 강화를 종료했습니다.';break}
-        if(!highStep&&shards<cost){stopReason='MATERIAL_EXHAUSTED';stopMessage='카드 조각이 부족해 자동 강화를 종료했습니다.';break}
+        if(masterStarStep&&stars<cost){stopReason='MATERIAL_EXHAUSTED';stopMessage='마스터의 별이 부족해 자동 강화를 종료했습니다.';break}
+        if(!masterStarStep&&shards<cost){stopReason='MATERIAL_EXHAUSTED';stopMessage='카드 조각이 부족해 자동 강화를 종료했습니다.';break}
         const threshold=Math.max(1,Number(pity.thresholds?.[level]||5)),guaranteed=grade==='SSR'&&pity.enabled&&failCount>=threshold,success=guaranteed||Math.random()*100<rate;
-        if(highStep){stars-=cost;starSpent+=cost}else{shards-=cost;shardSpent+=cost}
+        if(masterStarStep){stars-=cost;starSpent+=cost}else{shards-=cost;shardSpent+=cost}
         attempts++;
         if(success){level++;failCount=0;successes++;highestSuccessLevel=Math.max(highestSuccessLevel,level)}else{failCount++;failures++}
       }
@@ -4273,7 +4274,7 @@ async function handleRequest(context){
       const receiptIndex=statements.length;
       statements.push(env.DB.prepare(`UPDATE breakthrough_auto_receipts_v1616 SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING' AND EXISTS(SELECT 1 FROM user_cards WHERE user_id=? AND card_id=? AND breakthrough_level=? AND breakthrough_fail_count=?) AND ${balanceGuard}`).bind(JSON.stringify(response),requestId,user.id,user.id,cardId,level,failCount,user.id,shards,...(starSpent>0?[user.id,stars]:[])));
       if(shardSpent>0)statements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM breakthrough_auto_receipts_v1616 WHERE request_id=? AND user_id=? AND status='COMPLETED')").bind(user.id,-shardSpent,shards,'BREAKTHROUGH_AUTO',cardId,requestId,user.id));
-      if(starSpent>0)statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH_AUTO',? WHERE EXISTS(SELECT 1 FROM breakthrough_auto_receipts_v1616 WHERE request_id=? AND user_id=? AND status='COMPLETED')").bind(user.id,-starSpent,stars,`${grade}_HIGH_BREAKTHROUGH_AUTO`,cardId,requestId,user.id));
+      if(starSpent>0)statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH_AUTO',? WHERE EXISTS(SELECT 1 FROM breakthrough_auto_receipts_v1616 WHERE request_id=? AND user_id=? AND status='COMPLETED')").bind(user.id,-starSpent,stars,grade==='ZENITH'?'ZENITH_BREAKTHROUGH_AUTO':`${grade}_HIGH_BREAKTHROUGH_AUTO`,cardId,requestId,user.id));
       const results=await env.DB.batch(statements);
       if(Number(results[receiptIndex]?.meta?.changes||0)!==1){
         await env.DB.batch([
@@ -4296,13 +4297,20 @@ async function handleRequest(context){
       if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
       const grade=String(owned.rarity||'').trim().toUpperCase();
       if((ORDER[grade]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
-      const level=Number(owned.breakthrough_level||0),isMasterStarHigh=['MA','LIMITED'].includes(grade)&&level>=10,maxLevel=['MA','LIMITED'].includes(grade)?13:10;
+      const level=Number(owned.breakthrough_level||0),isMasterStarHigh=['MA','LIMITED'].includes(grade)&&level>=10,usesMasterStars=grade==='ZENITH'||isMasterStarHigh,maxLevel=['MA','LIMITED'].includes(grade)?13:10;
       if(level>=maxLevel) return json({error:'이미 최대 강화 단계입니다.'},409);
       const failCount=Math.max(0,Number(owned.breakthrough_fail_count||0));
-      if(isMasterStarHigh){
-        const high=grade==='LIMITED'?await limitedMasterStarBreakthroughConfig(env):await maMasterStarBreakthroughConfig(env);
-        if(!high.enabled)return json({error:`${grade} +11~+13 강화가 아직 운영 준비 중입니다.`},409);
-        const rule=high.steps[level-10];if(!rule)return json({error:`${grade} 고급 강화 설정을 찾을 수 없습니다.`},500);
+      if(usesMasterStars){
+        let rule=null;
+        if(isMasterStarHigh){
+          const high=grade==='LIMITED'?await limitedMasterStarBreakthroughConfig(env):await maMasterStarBreakthroughConfig(env);
+          if(!high.enabled)return json({error:`${grade} +11~+13 강화가 아직 운영 준비 중입니다.`},409);
+          rule=high.steps[level-10];
+        }else{
+          const config=await breakthroughConfig(env);
+          rule=config[grade]?.[level];
+        }
+        if(!rule)return json({error:`${grade} 강화 설정을 찾을 수 없습니다.`},500);
         const cost=Number(rule.cost),rate=Number(rule.rate),starRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),starBefore=Math.max(0,Number(starRow?.quantity||0));
         if(starBefore<cost)return json({error:`마스터의 별이 부족합니다. (${cost}개 필요)`},400);
         const success=Math.random()*100<rate,starAfter=starBefore-cost,nextFailCount=success?0:failCount+1;
@@ -4326,7 +4334,7 @@ async function handleRequest(context){
           ]);
           return json({error:'강화 상태가 변경되어 요청을 처리하지 못했습니다. 새로고침 후 다시 시도하세요.'},409);
         }
-        try{await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH',?)").bind(user.id,-cost,starAfter,success?`${grade}_HIGH_BREAKTHROUGH_SUCCESS`:`${grade}_HIGH_BREAKTHROUGH_FAIL`,cardId).run()}catch(logError){console.error(`${grade} high breakthrough inventory log failed`,logError)}
+        try{await env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH',?)").bind(user.id,-cost,starAfter,success?`${grade}_BREAKTHROUGH_SUCCESS`:`${grade}_BREAKTHROUGH_FAIL`,cardId).run()}catch(logError){console.error(`${grade} master-star breakthrough inventory log failed`,logError)}
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
         const finalLevel=success?level+1:level,cinematic=await breakthroughCinematicFor(env,{success,grade,level:finalLevel,cardId,cardTitle:owned.title});return json({ok:true,success,cost,rate,material:'MASTER_STAR',masterStarsAfter:starAfter,level:finalLevel,guaranteed:false,pity:{enabled:false,failCount:nextFailCount,threshold:null,nextGuaranteed:false},cinematic,user:await profile(env,updated)});
       }

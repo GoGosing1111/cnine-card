@@ -5,6 +5,8 @@
   let data = null;
 
   function ensureView(){
+    const legacyGrade=$('#breakthroughGrade');
+    if(legacyGrade&&![...legacyGrade.options].some(option=>option.value==='ZENITH'))legacyGrade.insertAdjacentHTML('beforeend','<option>ZENITH</option>');
     const nav=$('#nav');
     if(nav && !nav.querySelector('[data-view="enhancement"]')){
       const btn=document.createElement('button');btn.dataset.view='enhancement';btn.innerHTML='돌파·강화 관리 <span class="buildBadge">NEW</span>';
@@ -19,7 +21,7 @@
   }
 
   function normalizeData(d={}){
-    const fallbackGrades=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR'];
+    const fallbackGrades=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'];
     const grades=Array.isArray(d.grades)&&d.grades.length?d.grades:fallbackGrades;
     const config=d.config&&typeof d.config==='object'?d.config:{};
     const pity=d.pity&&typeof d.pity==='object'?d.pity:{enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};
@@ -38,7 +40,8 @@
     tabs.innerHTML=data.grades.map(g=>`<button type="button" class="${g===current?'active':''}" data-grade="${g}">${g}</button>`).join('');
     tabs.dataset.grade=current;
     tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{tabs.dataset.grade=b.dataset.grade;render()});
-    $('#enhancementRows').innerHTML=(data.config[current]||[]).map((r,i)=>`<div class="enhancementRow"><div><small>STEP ${i+1}</small><b>★${i} → ★${i+1}</b></div><label><span>카드 조각 비용</span><input data-kind="cost" data-index="${i}" type="number" min="1" max="10000000" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label></div>`).join('');
+    const materialLabel=current==='ZENITH'?'마스터의 별 비용':'카드 조각 비용';
+    $('#enhancementRows').innerHTML=(data.config[current]||[]).map((r,i)=>`<div class="enhancementRow"><div><small>STEP ${i+1}</small><b>★${i} → ★${i+1}</b></div><label><span>${materialLabel}</span><input data-kind="cost" data-index="${i}" type="number" min="1" max="10000000" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label></div>`).join('');
     const highPanel=$('#maHighEnhancementPanel');if(highPanel){const masterStarGrade=['MA','LIMITED'].includes(current),high=current==='LIMITED'?data.limitedHigh:data.maHigh;highPanel.hidden=!masterStarGrade;$('#maHighEnabled').checked=high?.enabled===true;$('#maHighEnhancementRows').innerHTML=high.steps.map((r,i)=>`<div class="enhancementRow maHighEnhancementRow"><div><small>${current} MASTER STAR STEP ${i+1}</small><b>★${10+i} → ★${11+i}</b></div><label><span>마스터의 별 비용</span><input data-ma-high-kind="cost" data-index="${i}" type="number" min="1" max="9999" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-ma-high-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label><label><span>퇴사 환급 카드 조각</span><input data-ma-high-kind="retirementShardRefund" data-index="${i}" type="number" min="0" max="10000000" value="${Number(r.retirementShardRefund||0)}"></label></div>`).join('')}
     if(highPanel&&!highPanel.hidden){const title=highPanel.querySelector('h3'),description=highPanel.querySelector('.maintenanceHead p');if(title)title.textContent=`${current} +10 → +13 고급 강화`;if(description)description.textContent='+10 이후 세 단계는 카드 조각 대신 마스터의 별을 사용합니다.'}
     $('#ssrPityEnabled').checked=data.pity?.enabled!==false;
