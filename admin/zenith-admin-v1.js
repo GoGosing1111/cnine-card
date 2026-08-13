@@ -10,7 +10,7 @@
     if(breakthrough&&![...breakthrough.options].some(o=>o.value==='ZENITH'))breakthrough.add(new Option('ZENITH','ZENITH'));
     const battleGrid=document.querySelector('#battleGradePower');
     if(battleGrid&&battleGrid.children.length&&!battleGrid.querySelector('[data-grade="ZENITH"]')){
-      const label=document.createElement('label');label.className='field';label.innerHTML='<span>ZENITH 기본 전투력</span><input class="battleGradeInput" data-grade="ZENITH" type="number" min="0" value="4000">';battleGrid.append(label);
+      const label=document.createElement('label');label.className='field';label.innerHTML='<span>ZENITH 기본 전투력</span><input class="battleGradeInput" data-grade="ZENITH" type="number" min="0" value="5500">';battleGrid.append(label);
     }
   }
   function enhanceCardEditor(card){
@@ -20,7 +20,7 @@
     if(isZenith&&thumb&&!frame){frame=document.createElement('img');frame.className='zenithAdminFrame';frame.src=FRAME;frame.alt='';frame.setAttribute('aria-hidden','true');thumb.append(frame)}
     else if(!isZenith)frame?.remove();
     let field=card.querySelector('.cardPowerTypeField');
-    if(isZenith&&!field){field=document.createElement('label');field.className='field cardPowerTypeField zenithPowerField';field.innerHTML='<span>전투력 유형</span><select class="powerType" disabled><option value="FIXED" selected>기본형 · 4,000</option></select><small class="powerPreview">기본 전투력 4,000</small>';card.querySelector('.weight')?.closest('.row')?.before(field)}
+    if(isZenith&&!field){field=document.createElement('label');field.className='field cardPowerTypeField zenithPowerField';field.innerHTML='<span>전투력 유형</span><select class="powerType" disabled><option value="FIXED" selected>기본형 · 5,500</option></select><small class="powerPreview">기본 전투력 5,500</small>';card.querySelector('.weight')?.closest('.row')?.before(field)}
     else if(!isZenith&&field?.classList.contains('zenithPowerField'))field.remove();
   }
   function enhancePackCard(article){

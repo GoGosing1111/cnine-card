@@ -84,7 +84,7 @@ const BREAKTHROUGH_RATE=[100,100,100,80,65,50,35,25,15,8];
 const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'];
 const breakthroughMaxLevel=()=>10;
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
-const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,LIMITED:2800,PRESTIGE:3100,FUR:3200,ZENITH:4000};
+const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,LIMITED:2800,PRESTIGE:3100,FUR:3200,ZENITH:5500};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450,528,612,702];
 const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:true,steps:[{cost:1,rate:85,retirementShardRefund:3000},{cost:3,rate:50,retirementShardRefund:4000},{cost:5,rate:25,retirementShardRefund:5000}]};
 const LIMITED_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:true,steps:[{cost:5,rate:50,retirementShardRefund:3000},{cost:10,rate:30,retirementShardRefund:4000},{cost:15,rate:20,retirementShardRefund:5000}]};
@@ -1138,7 +1138,7 @@ async function readBattleSettings(env){const row=await env.DB.prepare("SELECT va
 async function battleSettings(env){return cachedRuntimeSetting('battle',1000,()=>readBattleSettings(env))}
 function battleEngineState(settings,user){const engine=normalizeBattleEngineSettings(settings?.engine);const owner=String(user?.role||'').trim().toUpperCase()==='OWNER';const active=engine.mode==='V2_PUBLIC'||(engine.mode==='V2_OWNER'&&owner);return {...engine,active,version:active?'V2':'LEGACY',ownerTest:engine.mode==='V2_OWNER'};}
 const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{CUSTOM:3100},FUR:{FIXED:3200}};
-function cardPowerBase(card,settings){const grade=String(card.rarity||card.grade||'').trim().toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]);if(grade==='PRESTIGE'&&Number.isFinite(gradePower))return Math.max(0,gradePower);const saved=Number(card.base_power??card.basePower);return Number.isFinite(saved)&&saved>0?saved:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)}
+function cardPowerBase(card,settings){const grade=String(card.rarity||card.grade||'').trim().toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]);if(['PRESTIGE','ZENITH'].includes(grade)&&Number.isFinite(gradePower))return Math.max(0,gradePower);const saved=Number(card.base_power??card.basePower);return Number.isFinite(saved)&&saved>0?saved:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)}
 function cardBattlePower(card,level,settings){const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),lv=Math.max(0,Math.min(13,Number(level)||0)),base=cardPowerBase(card,settings),pct=Number(settings.breakthroughBonus[lv]||0),power=Math.floor(base*(1+pct/100));if(grade!=='LIMITED'||lv<11)return power;const prestigeBase=Math.max(0,Number(settings?.powerByGrade?.PRESTIGE||0)),prestigePct=Number(settings?.breakthroughBonus?.[10]||0),prestige10=Math.floor(prestigeBase*(1+prestigePct/100));if(prestige10<=0)return power;const limited10=Math.floor(base*(1+Number(settings?.breakthroughBonus?.[10]||0)/100)),stepCap=Math.floor(limited10+Math.max(0,prestige10-limited10)*(lv-10)/3);return Math.min(power,prestige10,stepCap);}
 const ULTIMATE_GRADE_PRIORITY={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10,PRESTIGE:11,ZENITH:12};
 function ultimateGradePriority(grade){return Number(ULTIMATE_GRADE_PRIORITY[String(grade||'').trim().toUpperCase()]||0)}
@@ -6631,7 +6631,7 @@ async function handleRequest(context){
           powerType='CUSTOM';
           basePower=Math.max(1,Math.min(100000000,Math.floor(Number(basePower||3100))));
         }
-        else if(['FUR','ZENITH'].includes(grade)){powerType='FIXED';basePower=grade==='ZENITH'?4000:3200}
+        else if(['FUR','ZENITH'].includes(grade)){powerType='FIXED';basePower=grade==='ZENITH'?5500:3200}
         else if(powerType!==null){
           if(!['NORMAL','HIGH','TOP'].includes(powerType)) throw new Error('올바르지 않은 전투력 유형입니다.');
           basePower=CARD_POWER_TYPES[grade][powerType];
