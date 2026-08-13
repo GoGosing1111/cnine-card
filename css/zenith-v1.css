@@ -2,8 +2,20 @@
 .card-frame.grade-ZENITH[class*="breakthrough-"] { position:relative; isolation:isolate; overflow:visible; padding:0!important; border:0!important; background:transparent!important; box-shadow:none!important; animation:none!important; filter:drop-shadow(0 0 8px rgba(91,226,255,.48)) drop-shadow(0 0 16px rgba(119,84,255,.3)); }
 .card-frame.grade-ZENITH:after { box-shadow:none!important; opacity:0!important; }
 .card-frame.grade-ZENITH .card-inner,
-.card-frame.grade-ZENITH[class*="breakthrough-"] .card-inner { position:relative; z-index:1; border:0!important; background:transparent!important; box-shadow:none!important; }
-.card-frame.grade-ZENITH .card-art { border-color:transparent; box-shadow:none; }
+.card-frame.grade-ZENITH[class*="breakthrough-"] .card-inner { position:absolute; z-index:1; inset:0; display:block; padding:0!important; border:0!important; border-radius:0; background:transparent!important; box-shadow:none!important; overflow:visible; }
+.card-frame.grade-ZENITH { aspect-ratio:2/3; }
+.card-frame.grade-ZENITH .card-art { position:absolute; z-index:1; top:8.8%; left:9.8%; width:80.4%; height:83.4%; min-height:0; border:0; border-radius:8%; background:#060918; box-shadow:none; clip-path:inset(0 round 8%); }
+.card-frame.grade-ZENITH .card-art img { width:100%; height:100%; object-fit:cover; }
+.card-frame.grade-ZENITH .card-header { position:absolute; z-index:6; top:12.4%; left:12.8%; right:12.8%; height:auto; padding:0; align-items:flex-start; }
+.card-frame.grade-ZENITH .card-header span { line-height:1; }
+.card-frame.grade-ZENITH .card-header b { display:none; }
+.card-frame.grade-ZENITH .card-footer { position:absolute; z-index:5; left:10%; right:10%; bottom:8.4%; min-height:17%; padding:9% 3% 2%; align-items:flex-end; background:linear-gradient(180deg,transparent,rgba(3,6,24,.88)); }
+.card-frame.grade-ZENITH .card-footer small { color:#b8f5ff; }
+.card-frame.grade-ZENITH .card-mini-logo { display:none; }
+.card-frame.grade-ZENITH > .breakthrough-badge,
+.card-frame.grade-ZENITH[class*="breakthrough-"] > .breakthrough-badge { z-index:30; top:11.7%; right:11.8%; left:auto; }
+.card-frame.grade-ZENITH .deck-card-top-badges { z-index:30; top:11.7%; right:11.8%; left:auto; }
+.card-frame.grade-ZENITH .deck-card-top-badges > .breakthrough-badge { position:relative; inset:auto; }
 .card-frame.grade-ZENITH .breakthrough-effect { display:none!important; }
 .card-frame.grade-ZENITH > .zenith-card-frame { position:absolute; z-index:20; inset:0; width:100%; height:100%; object-fit:fill; pointer-events:none; user-select:none; }
 .card-frame.grade-ZENITH:hover > .zenith-card-frame { filter:brightness(1.08) drop-shadow(0 0 7px rgba(103,233,255,.65)); }
