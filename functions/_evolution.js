@@ -1,8 +1,10 @@
 const LEGACY_DEFAULTS={enabled:true,coinCost:50000,shardCost:1500,successRate:10,pityAttempts:10};
 const PRESTIGE_DEFAULTS={maToPrestigeMasterStarCost:1,maToPrestigeSuccessRate:100,maToPrestigePityAttempts:10,prestigeSuccessMediaUrl:'',prestigeSuccessSoundUrl:'',prestigeSuccessDurationMs:3200,prestigeSuccessVolumePercent:70};
+const ZENITH_POLICY={masterStarCost:30,coinCost:5000000,successRate:25};
 const EVOLUTION_TYPES={
   SSR_TO_MA:{sourceGrade:'SSR',targetGrade:'MA',minBreakthrough:10,label:'SSR → MA',mode:'LEGACY_ATTEMPT'},
-  MA_TO_PRESTIGE:{sourceGrade:'MA',targetGrade:'PRESTIGE',minBreakthrough:13,label:'MA +13 → PRESTIGE',mode:'MASTER_STAR'}
+  MA_TO_PRESTIGE:{sourceGrade:'MA',targetGrade:'PRESTIGE',minBreakthrough:13,label:'MA +13 → PRESTIGE',mode:'MASTER_STAR'},
+  LIMITED_TO_ZENITH:{sourceGrade:'LIMITED',targetGrade:'ZENITH',minBreakthrough:13,label:'LIMITED +13 → ZENITH',mode:'ZENITH_ASCENSION'}
 };
 
 const clampInt=(value,fallback,min=0,max=999999)=>{const n=Number(value);return Number.isFinite(n)?Math.min(max,Math.max(min,Math.floor(n))):fallback};
@@ -53,41 +55,48 @@ function buildPrestigeSuccessEffect(settings={}){return {name:'PRESTIGE EVOLUTIO
 async function state(env,userId,cardId){return await env.DB.prepare('SELECT * FROM card_evolution_progress WHERE user_id=? AND source_card_id=?').bind(userId,cardId).first()||{failed_attempts:0,total_attempts:0,is_success:0,reward_card_id:null}}
 function randomPercent(){try{const values=new Uint32Array(1);crypto.getRandomValues(values);return values[0]/4294967296*100}catch{return Math.random()*100}}
 function pickRandom(items){if(!items.length)return null;try{const values=new Uint32Array(1);crypto.getRandomValues(values);return items[values[0]%items.length]}catch{return items[Math.floor(Math.random()*items.length)]}}
-function baseCandidate(row,rule){return {id:String(row.id),title:row.title,name:row.name,grade:row.grade,image:row.image,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50),breakthroughLevel:Number(row.breakthrough_level||0),quantity:Number(row.quantity||0),basePower:Number(row.base_power||0),powerType:String(row.power_type||'')}}
+function baseCandidate(row,rule){return {id:String(row.id),memberId:Number(row.member_id||0),title:row.title,name:row.name,grade:row.grade,image:row.image,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50),breakthroughLevel:Number(row.breakthrough_level||0),quantity:Number(row.quantity||0),basePower:Number(row.base_power||0),powerType:String(row.power_type||'')}}
 function candidatePayload(row,rule,pveDeck,pvpDeck,progressMap){
   const card=baseCandidate(row,rule),inPve=pveDeck.has(card.id),inPvp=pvpDeck.has(card.id);let blockedReason='';
   if(card.breakthroughLevel<rule.minBreakthrough)blockedReason=`${rule.sourceGrade} +${rule.minBreakthrough} 강화가 필요합니다.`;
-  if(rule.mode==='MASTER_STAR'&&!blockedReason&&inPve)blockedReason='현재 PVE 덱에 편성된 카드입니다.';
-  if(rule.mode==='MASTER_STAR'&&!blockedReason&&inPvp)blockedReason='현재 PVP 덱에 편성된 카드입니다.';
+  if(['MASTER_STAR','ZENITH_ASCENSION'].includes(rule.mode)&&!blockedReason&&inPve)blockedReason='현재 PVE 덱에 편성된 카드입니다.';
+  if(['MASTER_STAR','ZENITH_ASCENSION'].includes(rule.mode)&&!blockedReason&&inPvp)blockedReason='현재 PVP 덱에 편성된 카드입니다.';
   const progress=progressMap.get(card.id)||{};
   return {...card,inPve,inPvp,eligible:!blockedReason,blockedReason,progress:{failedAttempts:Number(progress.failed_attempts||0),totalAttempts:Number(progress.total_attempts||0),success:Boolean(progress.is_success),rewardCardId:progress.reward_card_id||null}};
 }
 async function overview(env,userId,settings){
   const results=await env.DB.batch([
     env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(userId),
-    env.DB.prepare(`SELECT uc.card_id AS id,uc.quantity,uc.breakthrough_level,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type,c.base_power,m.name FROM user_cards uc JOIN cards c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity IN ('SSR','MA') ORDER BY CASE c.rarity WHEN 'MA' THEN 2 ELSE 1 END DESC,uc.breakthrough_level DESC,m.sort_order,c.title`).bind(userId),
+    env.DB.prepare(`SELECT uc.card_id AS id,uc.quantity,uc.breakthrough_level,c.member_id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type,c.base_power,m.name FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity IN ('SSR','MA','LIMITED') ORDER BY CASE c.rarity WHEN 'LIMITED' THEN 3 WHEN 'MA' THEN 2 ELSE 1 END DESC,uc.breakthrough_level DESC,m.sort_order,c.title`).bind(userId),
     env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='MA' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY m.sort_order,c.title`),
     env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,CASE WHEN EXISTS(SELECT 1 FROM user_cards owned_uc WHERE owned_uc.user_id=? AND owned_uc.card_id=c.id AND COALESCE(owned_uc.quantity,0)>0) THEN 1 ELSE 0 END AS owned FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='PRESTIGE' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.limited_total IS NULL ORDER BY m.sort_order,c.title`).bind(userId),
+    env.DB.prepare(`SELECT c.id,c.member_id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='ZENITH' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' ORDER BY m.sort_order,c.title`),
     env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId),
     env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId),
+    env.DB.prepare('SELECT card_ids FROM pvp_deck_presets WHERE user_id=?').bind(userId),
     env.DB.prepare('SELECT source_card_id,failed_attempts,total_attempts,is_success,reward_card_id FROM card_evolution_progress WHERE user_id=?').bind(userId),
     env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(userId)
   ]);
-  const masterStars=Number(firstRow(results[0])?.quantity||0),owned=resultRows(results[1]),pveDeck=parseDeck(firstRow(results[4])),pvpDeck=parseDeck(firstRow(results[5])),progressMap=new Map(resultRows(results[6]).map(row=>[String(row.source_card_id),row])),resources=firstRow(results[7])||{};
-  const ssrRule=EVOLUTION_TYPES.SSR_TO_MA,prestigeRule=EVOLUTION_TYPES.MA_TO_PRESTIGE;
+  const masterStars=Number(firstRow(results[0])?.quantity||0),owned=resultRows(results[1]),pveDeck=parseDeck(firstRow(results[5])),pvpDeck=parseDeck(firstRow(results[6]));
+  for(const preset of resultRows(results[7]))for(const id of parseDeck(preset))pvpDeck.add(id);
+  const progressMap=new Map(resultRows(results[8]).map(row=>[String(row.source_card_id),row])),resources=firstRow(results[9])||{};
+  const ssrRule=EVOLUTION_TYPES.SSR_TO_MA,prestigeRule=EVOLUTION_TYPES.MA_TO_PRESTIGE,zenithRule=EVOLUTION_TYPES.LIMITED_TO_ZENITH;
   const ssrCandidates=owned.filter(row=>String(row.grade).toUpperCase()==='SSR').map(row=>candidatePayload(row,ssrRule,pveDeck,pvpDeck,progressMap));
   const prestigeCandidates=owned.filter(row=>String(row.grade).toUpperCase()==='MA').map(row=>candidatePayload(row,prestigeRule,pveDeck,pvpDeck,progressMap));
   const prestigeFullPool=evolutionResultPool(resultRows(results[3]));
   const prestigeAvailablePool=prestigeFullPool.filter(row=>Number(row.owned||0)!==1).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)}));
+  const zenithPool=resultRows(results[4]).map(row=>({...row,memberId:Number(row.member_id||0),focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)}));
+  const zenithCandidates=owned.filter(row=>String(row.grade).toUpperCase()==='LIMITED').map(row=>candidatePayload(row,zenithRule,pveDeck,pvpDeck,progressMap));
   return {
     settings,masterStars,userResources:{coin:Number(resources.coin||0),cardShards:Number(resources.card_shards||0)},
     types:{
       SSR_TO_MA:{...ssrRule,type:'SSR_TO_MA',candidates:ssrCandidates,resultPool:evolutionResultPool(resultRows(results[2])).map(row=>({...row,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50)})),eligibleCount:ssrCandidates.filter(card=>card.eligible).length,coinCost:settings.coinCost,shardCost:settings.shardCost,successRate:settings.successRate,pityAttempts:settings.pityAttempts},
-      MA_TO_PRESTIGE:{...prestigeRule,type:'MA_TO_PRESTIGE',candidates:prestigeCandidates,resultPool:prestigeAvailablePool,totalResultCount:prestigeFullPool.length,ownedResultCount:prestigeFullPool.length-prestigeAvailablePool.length,duplicateProtection:true,resultPoolExhausted:prestigeFullPool.length>0&&prestigeAvailablePool.length===0,eligibleCount:prestigeCandidates.filter(card=>card.eligible).length,masterStarCost:settings.maToPrestigeMasterStarCost,successRate:settings.maToPrestigeSuccessRate,pityAttempts:settings.maToPrestigePityAttempts,successEffect:buildPrestigeSuccessEffect(settings)}
+      MA_TO_PRESTIGE:{...prestigeRule,type:'MA_TO_PRESTIGE',candidates:prestigeCandidates,resultPool:prestigeAvailablePool,totalResultCount:prestigeFullPool.length,ownedResultCount:prestigeFullPool.length-prestigeAvailablePool.length,duplicateProtection:true,resultPoolExhausted:prestigeFullPool.length>0&&prestigeAvailablePool.length===0,eligibleCount:prestigeCandidates.filter(card=>card.eligible).length,masterStarCost:settings.maToPrestigeMasterStarCost,successRate:settings.maToPrestigeSuccessRate,pityAttempts:settings.maToPrestigePityAttempts,successEffect:buildPrestigeSuccessEffect(settings)},
+      LIMITED_TO_ZENITH:{...zenithRule,type:'LIMITED_TO_ZENITH',candidates:zenithCandidates,resultPool:zenithPool,eligibleCount:zenithCandidates.filter(card=>card.eligible).length,masterStarCost:ZENITH_POLICY.masterStarCost,coinCost:ZENITH_POLICY.coinCost,successRate:ZENITH_POLICY.successRate,pityAttempts:0}
     }
   };
 }
-async function cardInCurrentDeck(env,userId,cardId){const rows=await env.DB.batch([env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId),env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId)]);if(parseDeck(firstRow(rows[0])).has(String(cardId)))return '현재 PVE 덱에 편성된 카드입니다.';if(parseDeck(firstRow(rows[1])).has(String(cardId)))return '현재 PVP 덱에 편성된 카드입니다.';return ''}
+async function cardInCurrentDeck(env,userId,cardId){const rows=await env.DB.batch([env.DB.prepare('SELECT card_ids FROM pve_decks WHERE user_id=?').bind(userId),env.DB.prepare('SELECT card_ids FROM pvp_decks WHERE user_id=?').bind(userId),env.DB.prepare('SELECT card_ids FROM pvp_deck_presets WHERE user_id=?').bind(userId)]);if(parseDeck(firstRow(rows[0])).has(String(cardId)))return '현재 PVE 덱에 편성된 카드입니다.';if(parseDeck(firstRow(rows[1])).has(String(cardId))||resultRows(rows[2]).some(row=>parseDeck(row).has(String(cardId))))return '현재 PVP 덱 프리셋에 편성된 카드입니다.';return ''}
 
 async function legacyAttempt({env,deps,user,cardId,settings}){
   const owned=await env.DB.prepare(`SELECT uc.breakthrough_level,uc.quantity,c.rarity,c.title FROM user_cards uc JOIN cards c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
@@ -169,6 +178,49 @@ async function prestigeAttempt({env,deps,user,cardId,requestId,settings}){
   return deps.json({ok:true,success,isPity,attemptNo,pityAttempts,successRate,evolutionType:'MA_TO_PRESTIGE',sourceConsumed:success,source:{id:cardId,title:source.title,grade:source.grade,breakthroughLevel:Number(source.breakthrough_level||0)},reward:reward?{...reward,focusX:Number(reward.focusX??50),focusY:Number(reward.focusY??50)}:null,duplicate,rewardShards,masterStarGained:0,masterStarCost,masterStarsAfter:Number(starAfter?.quantity||0),successEffect:success?buildPrestigeSuccessEffect(settings):null,user:await deps.profile(env,updated),progress:await state(env,user.id,cardId)});
 }
 
+async function zenithAttempt({env,deps,user,cardId,requestId,settings}){
+  if(!settings.enabled)return deps.json({error:'현재 카드 진화가 중지되어 있습니다.'},503);
+  if(!/^[A-Za-z0-9._:-]{8,120}$/.test(requestId))return deps.json({error:'진화 요청 ID가 올바르지 않습니다.'},400);
+  const prior=await env.DB.prepare('SELECT id FROM card_evolution_logs WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+  if(prior)return deps.json({error:'이미 처리된 진화 요청입니다.',code:'EVOLUTION_DUPLICATE_REQUEST'},409);
+  const source=await env.DB.prepare(`SELECT uc.quantity,uc.breakthrough_level,c.id,c.member_id,c.title,c.rarity AS grade FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,cardId).first();
+  if(!source)return deps.json({error:'보유한 카드가 아닙니다.'},404);
+  if(String(source.grade).toUpperCase()!=='LIMITED'||Number(source.breakthrough_level||0)<13)return deps.json({error:'LIMITED +13 강화 카드만 ZENITH로 진화할 수 있습니다.'},400);
+  const deckReason=await cardInCurrentDeck(env,user.id,cardId);if(deckReason)return deps.json({error:deckReason},409);
+  const pool=(await env.DB.prepare(`SELECT c.id,c.member_id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.rarity='ZENITH' AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' ORDER BY c.id`).all()).results||[];
+  if(!pool.length)return deps.json({error:'공개 ZENITH 결과 카드가 없습니다. 진화 재료는 소모되지 않았습니다.',code:'ZENITH_RESULT_NOT_CONFIGURED'},409);
+  const reward=pickRandom(pool),masterStarCost=ZENITH_POLICY.masterStarCost,coinCost=ZENITH_POLICY.coinCost,successRate=ZENITH_POLICY.successRate;
+  const [wallet,starRow]=await Promise.all([env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first(),env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()]);
+  const coinBefore=Number(wallet?.coin||0),masterStarBefore=Number(starRow?.quantity||0);
+  if(coinBefore<coinCost||masterStarBefore<masterStarCost){const missing=[];if(coinBefore<coinCost)missing.push(`${(coinCost-coinBefore).toLocaleString()}코인`);if(masterStarBefore<masterStarCost)missing.push(`마스터의 별 ${masterStarCost-masterStarBefore}개`);return deps.json({error:`진화 재료가 부족합니다. (${missing.join(' / ')} 부족)`},400)}
+  const [progress,ownedReward]=await Promise.all([state(env,user.id,cardId),env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=? AND COALESCE(quantity,0)>0').bind(user.id,reward.id).first()]);
+  const attemptNo=Number(progress.total_attempts||0)+1,success=randomPercent()<successRate,duplicate=Boolean(ownedReward),guardId=`${user.id}:${requestId}`;
+  const guardStatement=success
+    ?env.DB.prepare(`INSERT INTO card_evolution_atomic_guard(guard_id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity='LIMITED' AND COALESCE(uc.breakthrough_level,0)>=13) AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?) AND EXISTS(SELECT 1 FROM cards_effective_v1210 z WHERE z.id=? AND z.rarity='ZENITH' AND z.is_active=1 AND COALESCE(z.card_status,'PUBLIC')='PUBLIC') THEN 1 ELSE 0 END`).bind(guardId,user.id,cardId,user.id,coinCost,user.id,masterStarCost,reward.id)
+    :env.DB.prepare(`INSERT INTO card_evolution_atomic_guard(guard_id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity='LIMITED' AND COALESCE(uc.breakthrough_level,0)>=13) AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?) THEN 1 ELSE 0 END`).bind(guardId,user.id,cardId,user.id,coinCost,user.id,masterStarCost);
+  const statements=[
+    guardStatement,
+    env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(coinCost,user.id,coinCost),
+    env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?").bind(masterStarCost,masterStarCost,user.id,masterStarCost)
+  ];
+  if(success){
+    statements.push(
+      env.DB.prepare('UPDATE user_cards SET quantity=quantity-1,breakthrough_level=CASE WHEN quantity=1 THEN 0 ELSE breakthrough_level END,last_obtained_at=CURRENT_TIMESTAMP WHERE user_id=? AND card_id=? AND quantity>0').bind(user.id,cardId),
+      env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,first_obtained_at,last_obtained_at) VALUES(?,?,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+1,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,reward.id),
+      env.DB.prepare(`INSERT INTO card_evolution_progress(user_id,source_card_id,failed_attempts,total_attempts,is_success,reward_card_id,completed_at,updated_at) VALUES(?,?,0,1,1,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source_card_id) DO UPDATE SET failed_attempts=0,total_attempts=card_evolution_progress.total_attempts+1,is_success=1,reward_card_id=excluded.reward_card_id,completed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP`).bind(user.id,cardId,reward.id)
+    );
+  }else statements.push(env.DB.prepare(`INSERT INTO card_evolution_progress(user_id,source_card_id,failed_attempts,total_attempts,is_success,reward_card_id,completed_at,updated_at) VALUES(?,?,1,1,0,NULL,NULL,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source_card_id) DO UPDATE SET failed_attempts=card_evolution_progress.failed_attempts+1,total_attempts=card_evolution_progress.total_attempts+1,is_success=0,reward_card_id=NULL,completed_at=NULL,updated_at=CURRENT_TIMESTAMP`).bind(user.id,cardId));
+  statements.push(
+    env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,-?,coin,'ZENITH_EVOLUTION' FROM users WHERE id=?").bind(user.id,coinCost,user.id),
+    env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',-?,quantity,'ZENITH_EVOLUTION','EVOLUTION',? FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id,masterStarCost,requestId,user.id),
+    env.DB.prepare(`INSERT INTO card_evolution_logs(user_id,source_card_id,attempt_no,coin_cost,shard_cost,success_rate,is_pity,is_success,reward_card_id,reward_duplicate,reward_shards,evolution_type,master_star_cost,request_id,source_consumed) VALUES(?,?,?, ?,0, ?,0, ?,?,?,0,'LIMITED_TO_ZENITH',?,?,?)`).bind(user.id,cardId,attemptNo,coinCost,successRate,success?1:0,success?reward.id:null,success&&duplicate?1:0,masterStarCost,requestId,success?1:0),
+    env.DB.prepare('DELETE FROM card_evolution_atomic_guard WHERE guard_id=?').bind(guardId)
+  );
+  try{await env.DB.batch(statements)}catch(error){const message=String(error?.message||error||'');if(/request_id|UNIQUE/i.test(message))return deps.json({error:'이미 처리된 진화 요청입니다.',code:'EVOLUTION_DUPLICATE_REQUEST'},409);if(/CHECK constraint|verified/i.test(message))return deps.json({error:'카드 또는 진화 재료 상태가 변경되었습니다. 재료는 소모되지 않았습니다.',code:'EVOLUTION_STATE_CHANGED'},409);throw error}
+  const [updated,starAfter]=await Promise.all([env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()]);
+  return deps.json({ok:true,success,isPity:false,attemptNo,pityAttempts:0,successRate,evolutionType:'LIMITED_TO_ZENITH',sourceConsumed:success,source:{id:cardId,title:source.title,grade:source.grade,breakthroughLevel:Number(source.breakthrough_level||0)},reward:success?{...reward,focusX:Number(reward.focusX??50),focusY:Number(reward.focusY??50)}:null,duplicate:success&&duplicate,rewardShards:0,masterStarGained:0,masterStarCost,coinCost,masterStarsAfter:Number(starAfter?.quantity||0),user:await deps.profile(env,updated),progress:await state(env,user.id,cardId)});
+}
+
 export async function handleEvolution({path,request,env,deps}){
   if(!path.startsWith('evolution/')&&!path.startsWith('admin/evolution'))return null;
   await upgrade(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
@@ -196,7 +248,8 @@ export async function handleEvolution({path,request,env,deps}){
   if(path==='evolution/attempt'&&request.method==='POST'){
     const body=await deps.readBody(request),type=normalizeType(body.evolutionType),cardId=String(body.cardId||'').trim();if(!cardId)return deps.json({error:'진화할 카드를 선택하세요.'},400);
     if(type==='SSR_TO_MA')return legacyAttempt({env,deps,user,cardId,settings});
-    return prestigeAttempt({env,deps,user,cardId,requestId:String(body.requestId||'').trim(),settings});
+    if(type==='MA_TO_PRESTIGE')return prestigeAttempt({env,deps,user,cardId,requestId:String(body.requestId||'').trim(),settings});
+    return zenithAttempt({env,deps,user,cardId,requestId:String(body.requestId||'').trim(),settings});
   }
   return deps.json({error:'진화 API를 찾을 수 없습니다.'},404);
 }
