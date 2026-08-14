@@ -35,6 +35,6 @@ assert.match(battle,/class="ws76-monster battle-enemy-card"/);
 assert.match(battle,/ws98-card-hp/);
 assert.match(css,/\.ws98-battle \.unique-stage-fx/);
 assert.match(index,/scrapyard-battle-v1698\.css\?v=1698-scrapyard-pve-fx/);
-assert.match(index,/scrapyard-battle-v1698\.js\?v=1698-scrapyard-pve-fx/);
+assert.match(index,/scrapyard-battle-v1698\.js\?v=1703-fast-entry/);
 
 console.log('Scrapyard v1698: dedicated enemies, PVE unique runtime, shared effect playback, card HP UI and cache wiring verified');

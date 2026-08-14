@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
   const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-  const preload=src=>new Promise(resolve=>{if(!src)return resolve();const image=new Image(),done=()=>resolve();image.onload=done;image.onerror=done;image.src=src;if(image.complete)resolve();setTimeout(done,7000)});
+  const preload=src=>new Promise(resolve=>{if(!src)return resolve();const image=new Image();let settled=false;const done=()=>{if(settled)return;settled=true;resolve()};image.onload=done;image.onerror=done;image.src=src;if(image.complete)done();setTimeout(done,1800)});
   window.playScrapyardBattleV1698=async(result,helpers={})=>{
     const modal=document.getElementById('modal');if(!modal)return;
     const esc=helpers.esc||String,fmt=helpers.fmt||(value=>Number(value||0).toLocaleString('ko-KR')),asset=helpers.asset||(value=>String(value||'')),normalizeImages=helpers.normalizeImages||(()=>{}),showResult=helpers.showResult;

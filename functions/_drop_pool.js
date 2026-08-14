@@ -123,13 +123,12 @@ function rollPool(pool,entries,context={},random=randomUnit){
 }
 
 async function applyDailyLimits(env,userId,rewards){
+  const limitedIds=[...new Set(rewards.filter(reward=>Number(reward.dailyLimit||0)>0).map(reward=>Number(reward.entryId)).filter(Boolean))],usedByEntry=new Map();
+  if(limitedIds.length){const marks=limitedIds.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT entry_id,COALESCE(SUM(quantity),0) amount FROM ${LEDGER_TABLE} WHERE user_id=? AND entry_id IN (${marks}) AND date(created_at,'+9 hours')=date('now','+9 hours') GROUP BY entry_id`).bind(userId,...limitedIds).all();for(const row of rows.results||[])usedByEntry.set(Number(row.entry_id),Number(row.amount||0))}
   const result=[];
   for(const reward of rewards){
     let amount=Math.max(0,Number(reward.quantity||0));
-    if(reward.dailyLimit>0){
-      const row=await env.DB.prepare(`SELECT COALESCE(SUM(quantity),0) amount FROM ${LEDGER_TABLE} WHERE user_id=? AND entry_id=? AND date(created_at,'+9 hours')=date('now','+9 hours')`).bind(userId,reward.entryId).first();
-      amount=Math.min(amount,Math.max(0,reward.dailyLimit-Number(row?.amount||0)));
-    }
+    if(reward.dailyLimit>0)amount=Math.min(amount,Math.max(0,reward.dailyLimit-Number(usedByEntry.get(Number(reward.entryId))||0)));
     if(amount>0)result.push({...reward,quantity:amount});
   }
   return result;
@@ -163,7 +162,7 @@ async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
   let coin=Number(user.coin||0),shards=Number(user.card_shards||0),crystals=Number(user.magic_crystals||0);
   const inventoryRefs=[...new Set([...aggregates.values()].filter(x=>x.type==='INVENTORY_ITEM').map(x=>x.ref))];
   const inventoryBalances=new Map();
-  for(const ref of inventoryRefs){const item=await env.DB.prepare('SELECT code,name,is_active FROM inventory_items WHERE code=?').bind(ref).first();if(!item||Number(item.is_active)===0)throw new Error(`지급 가능한 인벤토리 아이템이 아닙니다: ${ref}`);const row=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,ref).first();inventoryBalances.set(ref,Number(row?.quantity||0))}
+  if(inventoryRefs.length){const marks=inventoryRefs.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT i.code,i.name,i.is_active,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=i.code WHERE i.code IN (${marks})`).bind(userId,...inventoryRefs).all(),byCode=new Map((rows.results||[]).map(row=>[String(row.code),row]));for(const ref of inventoryRefs){const item=byCode.get(String(ref));if(!item||Number(item.is_active)===0)throw new Error(`지급 가능한 인벤토리 아이템이 아닙니다: ${ref}`);inventoryBalances.set(ref,Number(item.quantity||0))}}
   const statements=[];
   for(const item of aggregates.values()){
     if(item.type==='COIN'){coin+=item.quantity;statements.push(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(item.quantity,userId),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'UNIFIED_DROP_POOL')").bind(userId,item.quantity,coin));continue}

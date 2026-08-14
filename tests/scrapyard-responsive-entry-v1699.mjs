@@ -15,7 +15,7 @@ assert.match(workshop,/Promise\.all\(\[api\('scrapyard\/status'\),api\('workshop
 assert.match(workshop,/if\(version!==scrapSyncVersion\)return/,'an older background refresh must not overwrite a newer run');
 assert.doesNotMatch(workshop,/scrap=await api\('scrapyard\/status'\);state=await api\('workshop'\)/,'sequential post-run refresh must not return');
 assert.match(css,/button\.is-starting:disabled/);
-assert.match(index,/workshop-v1676\.js\?v=1699-scrapyard-response/);
-assert.match(worker,/soop-card-static-v1699/);
+assert.match(index,/workshop-v1676\.js\?v=1703-fast-entry/);
+assert.match(worker,/soop-card-static-v1703/);
 
 console.log('Scrapyard v1699: immediate start feedback, optimistic unlock and parallel background refresh verified');
