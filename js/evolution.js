@@ -61,14 +61,14 @@
     </div>`;
   }
 
-  function zenithCore(type,masterStars){
-    const starCost=Number(type?.masterStarCost||0),coinCost=Number(type?.coinCost||0),resources=state.data?.userResources||{},enoughStars=masterStars>=starCost,enoughCoin=Number(resources.coin||0)>=coinCost;
+  function zenithCore(type,masterStars,card){
+    const starCost=Number(type?.masterStarCost||0),coinCost=Number(type?.coinCost||0),resources=state.data?.userResources||{},enoughStars=masterStars>=starCost,enoughCoin=Number(resources.coin||0)>=coinCost,progress=card?.progress||{},pityAttempts=Math.max(1,Number(type?.pityAttempts||7)),failedAttempts=Number(progress.failedAttempts||0),pityNext=failedAttempts+1>=pityAttempts;
     return `<div class="evolution-slot core prestige zenith">
       <span>02 · ZENITH CORE</span>
       <div class="evolution-core-visual"><i class="core-ring one"></i><i class="core-ring two"></i>${starIcon('evolution-core-star')}<b>ZENITH ASCENSION</b><small>${esc(type?.label||'')}</small></div>
       <div class="evolution-material-row"><div>${starIcon('evolution-material-icon')}<span><small>필요 재료</small><b>마스터의 별 ${num(starCost)}개</b></span></div><em class="${enoughStars?'enough':'shortage'}">보유 ${num(masterStars)}개</em></div>
       <div class="evolution-material-row zenith-coin"><div><span class="evolution-coin-icon">◈</span><span><small>필요 코인</small><b>${num(coinCost)} 코인</b></span></div><em class="${enoughCoin?'enough':'shortage'}">보유 ${num(resources.coin)}코인</em></div>
-      <div class="evolution-legacy-rate"><span>성공 확률 ${Number(type?.successRate||0)}%</span><small>실패 시 재료만 소모 · 천장 없음</small></div>
+      <div class="evolution-legacy-rate"><span>${pityNext?'다음 도전 천장 확정':`성공 확률 ${Number(type?.successRate||0)}%`}</span><small>실패 ${num(failedAttempts)}회 / 7번째 도전 확정</small></div>
     </div>`;
   }
 
@@ -88,7 +88,7 @@
     const type=current(),card=selected(),masterStars=Number(state.data.masterStars||0),resources=state.data.userResources||{},hasPool=Boolean(type?.resultPool?.length),enabled=state.data.settings?.enabled!==false;
     const enoughMaterial=isZenith()?masterStars>=Number(type?.masterStarCost||0)&&Number(resources.coin||0)>=Number(type?.coinCost||0):isPrestige()?masterStars>=Number(type?.masterStarCost||0):Number(resources.coin||0)>=Number(type?.coinCost||0)&&Number(resources.cardShards||0)>=Number(type?.shardCost||0);
     const canAttempt=enabled&&card?.eligible&&enoughMaterial&&hasPool&&!state.pending,candidates=type?.candidates||[];
-    const warning=isZenith()?'<div><i>!</i><span><b>ZENITH 진화 주의사항</b><small>도전마다 마스터의 별 30개와 5,000,000코인이 소모됩니다. 성공 확률은 25%이며 천장은 없습니다.</small></span></div><p>실패 시 LIMITED +13 카드와 강화 수치는 유지됩니다. 성공 시 원본 1장이 소모되고 공개 ZENITH 카드 1장이 지급됩니다. ZENITH는 덱당 1장만 편성할 수 있습니다.</p>':isPrestige()
+    const warning=isZenith()?'<div><i>!</i><span><b>ZENITH 진화 주의사항</b><small>도전마다 마스터의 별 30개와 5,000,000코인이 소모됩니다. 성공 확률은 25%이며 7번째 도전은 확정 성공입니다.</small></span></div><p>실패 시 LIMITED +13 카드와 강화 수치는 유지됩니다. 성공 시 원본 1장이 소모되고 공개 ZENITH 카드 1장이 지급됩니다. ZENITH는 덱당 1장만 편성할 수 있습니다.</p>':isPrestige()
       ?'<div><i>!</i><span><b>PRESTIGE 진화 주의사항</b><small>매 도전마다 마스터의 별이 소모됩니다. 실패 시 MA +13 카드와 강화 수치는 유지되며, 성공 시에만 원본 카드가 소모됩니다.</small></span></div><p>성공 결과는 미보유 PRESTIGE 카드에서만 결정됩니다. 전부 보유 중이면 도전이 차단되고 재료도 소모되지 않습니다.</p>'
       :'<div><i>!</i><span><b>SSR 진화 주의사항</b><small>기존 방식과 동일합니다. 실패 시 코인과 카드조각만 소모되고 SSR 카드와 +10 강화는 유지됩니다.</small></span></div><p>성공한 경우에만 SSR 카드가 소모되고 랜덤 MA 카드가 지급됩니다.</p>';
     root.innerHTML=`
@@ -101,7 +101,7 @@
       <section class="evolution-layout">
         <aside class="evolution-picker"><header><div><p class="eyebrow">SELECT MATERIAL</p><h3>진화 대상 카드</h3></div><span>${num(type?.eligibleCount||0)}장 가능</span></header><div class="evolution-candidate-list">${candidates.length?candidates.map(candidateCard).join(''):`<div class="evolution-candidate-empty"><b>보유한 ${esc(type?.sourceGrade||'')} 카드가 없습니다.</b><small>진화 조건을 충족한 카드가 이곳에 표시됩니다.</small></div>`}</div></aside>
         <div class="evolution-main">
-          <div class="evolution-process-grid">${selectedPanel(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${isZenith()?zenithCore(type,masterStars):isPrestige()?prestigeCore(type,masterStars,card):legacyCore(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${resultPanel(type)}</div>
+          <div class="evolution-process-grid">${selectedPanel(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${isZenith()?zenithCore(type,masterStars,card):isPrestige()?prestigeCore(type,masterStars,card):legacyCore(type,card)}<div class="evolution-flow-arrow"><i></i><b>→</b></div>${resultPanel(type)}</div>
           <div class="evolution-warning-panel">${warning}</div>
           <button type="button" class="evolution-submit ${isPrestige()?'prestige':''} ${isZenith()?'zenith':''}" id="evolutionSubmit" ${canAttempt?'':'disabled'}>${state.pending?'진화 처리 중...':card?`${esc(card.title)} 진화 도전`:'진화할 카드 선택'}</button>
           ${card&&!enoughMaterial?`<small class="evolution-submit-help">${isZenith()?`필요 재료: 마스터의 별 ${num(type.masterStarCost)}개 + ${num(type.coinCost)}코인`:isPrestige()?`마스터의 별이 ${num(Number(type.masterStarCost||0)-masterStars)}개 부족합니다.`:`진화 재료가 부족합니다. (${num(type.coinCost)}코인 / 카드조각 ${num(type.shardCost)}개)`}</small>`:''}
@@ -124,7 +124,7 @@
     const material=isZenith()?`마스터의 별 ${num(type.masterStarCost)}개 · ${num(type.coinCost)}코인`:isPrestige()?`마스터의 별 ${num(type.masterStarCost)}개`:`${num(type.coinCost)}코인 · 카드조각 ${num(type.shardCost)}개`;
     const warning=isZenith()?'실패하면 재료만 소모되고 LIMITED +13 카드는 유지됩니다. 성공 시 원본 1장이 소모되고 공개 ZENITH 카드 1장이 지급됩니다.':isPrestige()?'실패하면 마스터의 별만 소모되고 MA +13 카드는 유지됩니다. 성공 시에는 중복되지 않는 PRESTIGE 카드가 지급되고 원본 카드가 소모됩니다.':'실패하면 코인과 카드조각만 소모되며 SSR 카드와 +10 강화는 유지됩니다.';
     modal.className='modal show evolution-confirm-modal';
-    modal.innerHTML=`<div class="modal-panel evolution-confirm-panel"><button type="button" class="icon-close" id="evolutionConfirmClose">×</button><p class="eyebrow">FINAL CONFIRMATION</p><h2>진화에 도전하시겠습니까?</h2><div class="evolution-confirm-card"><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><span><small>${esc(card.grade)} +${Number(card.breakthroughLevel||0)}</small><b>${esc(card.title)}</b><em>${material}</em></span></div><div class="evolution-confirm-warning"><b>${warning}</b><span>${isZenith()?'성공 확률 25% · 천장 없음 · ZENITH 덱 편성은 1장 제한입니다.':isPrestige()?'결과는 현재 미보유 PRESTIGE 카드 중에서 결정됩니다.':`결과는 랜덤 ${esc(type.targetGrade)} 카드로 결정됩니다.`}</span></div><div class="evolution-confirm-actions"><button type="button" class="btn secondary" id="evolutionConfirmCancel">취소</button><button type="button" class="btn evolution-confirm-submit" id="evolutionConfirmSubmit" disabled>진화 확정 (1)</button></div></div>`;
+    modal.innerHTML=`<div class="modal-panel evolution-confirm-panel"><button type="button" class="icon-close" id="evolutionConfirmClose">×</button><p class="eyebrow">FINAL CONFIRMATION</p><h2>진화에 도전하시겠습니까?</h2><div class="evolution-confirm-card"><img src="${esc(card.image)}" alt="${esc(card.title)}" style="object-position:${Number(card.focusX||50)}% ${Number(card.focusY||50)}%"><span><small>${esc(card.grade)} +${Number(card.breakthroughLevel||0)}</small><b>${esc(card.title)}</b><em>${material}</em></span></div><div class="evolution-confirm-warning"><b>${warning}</b><span>${isZenith()?'성공 확률 25% · 7번째 도전 확정 · ZENITH 덱 편성은 1장 제한입니다.':isPrestige()?'결과는 현재 미보유 PRESTIGE 카드 중에서 결정됩니다.':`결과는 랜덤 ${esc(type.targetGrade)} 카드로 결정됩니다.`}</span></div><div class="evolution-confirm-actions"><button type="button" class="btn secondary" id="evolutionConfirmCancel">취소</button><button type="button" class="btn evolution-confirm-submit" id="evolutionConfirmSubmit" disabled>진화 확정 (1)</button></div></div>`;
     const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('evolutionConfirmClose').onclick=close;document.getElementById('evolutionConfirmCancel').onclick=close;const submit=document.getElementById('evolutionConfirmSubmit');setTimeout(()=>{if(submit?.isConnected){submit.disabled=false;submit.textContent='진화 도전'}},1000);submit.onclick=()=>attempt(card,type);
   }
 
@@ -192,7 +192,7 @@
   async function showResult(result){
     const modal=document.getElementById('modal');
     if(!result.success){
-      const prestige=result.evolutionType===TYPE_PRESTIGE,zenith=result.evolutionType===TYPE_ZENITH,nextPity=!zenith&&Number(result.progress?.failedAttempts||0)+1>=Number(result.pityAttempts||1);
+      const prestige=result.evolutionType===TYPE_PRESTIGE,zenith=result.evolutionType===TYPE_ZENITH,nextPity=Number(result.progress?.failedAttempts||0)+1>=Number(result.pityAttempts||1);
       modal.className='modal show evolution-error-modal';
       modal.innerHTML=`<div class="modal-panel evolution-error-panel"><i>×</i><p class="eyebrow">EVOLUTION FAILED</p><h2>${num(result.attemptNo)}번째 진화 도전 실패</h2><span>${zenith?'마스터의 별 30개와 5,000,000코인이 소모되었습니다.':prestige?'마스터의 별이 소모되었습니다.':'코인과 카드조각이 소모되었습니다.'}</span><small>${zenith?'LIMITED +13 카드와 강화 수치는 그대로 유지됩니다.':prestige?'MA +13 카드와 강화 수치는 그대로 유지됩니다.':'SSR 카드와 +10 강화는 그대로 유지됩니다.'}${nextPity?' 다음 도전은 천장 확정입니다.':''}</small><button type="button" class="btn" id="evolutionFailureClose">확인</button></div>`;
       document.getElementById('evolutionFailureClose').onclick=()=>{state.pending=false;modal.className='modal';modal.innerHTML='';renderShell('evolution')};return;
