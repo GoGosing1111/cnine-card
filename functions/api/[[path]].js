@@ -1481,9 +1481,9 @@ async function ensureRuntimeUpgrades(env){
     // 신규 성능 인덱스만 먼저 빠르게 설치한 뒤, 과거 마이그레이션은 기존 마커가 없는 DB에서만 검사한다.
     await ensureD1HotpathIndexes(env);
     await ensureEquipmentFoundation(env);
-    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes')").all();
+    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes','safe_runtime_upgrade_v1693_nightmare_clone')").all();
     const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
-    if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'&&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1')return true;
+    if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'&&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1'&&markerMap.safe_runtime_upgrade_v1693_nightmare_clone==='1')return true;
     await ensureUpgrades(env);
     return true;
   })().catch(error=>{runtimeUpgradeGatePromise=null;throw error});
