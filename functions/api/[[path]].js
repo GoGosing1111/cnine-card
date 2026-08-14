@@ -6225,7 +6225,8 @@ async function handleRequest(context){
       const sql=`WITH selected_users AS MATERIALIZED (
           SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,
             w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,u.magic_crystals,
-            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars
+            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars,
+            (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='SCRAPYARD_ENTRY_TICKET') AS scrapyard_tickets
           FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id ${filters.length?'WHERE '+filters.join(' AND '):''}
           ORDER BY ${selectedOrder} LIMIT 100
         ), card_stats AS (
