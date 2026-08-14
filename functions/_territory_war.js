@@ -33,10 +33,12 @@ const DEFAULTS=Object.freeze({
 
 // 11회차는 기존 규칙으로 판정 종료하고, 완화 규칙은 12회차부터 적용한다.
 const BALANCE_REWORK_FROM_ROUND_ID=12;
+const FORMATION_HISTORY_ROUNDS=5;
 const LEGACY_BALANCE=Object.freeze({fatiguePerCapturePercent:10,fatigueMaxPercent:30,fatigueDamageRatio:.4,comebackDamagePerTierPercent:8,defeatSiegeDamagePercent:20,antiPingPongRevisitThreshold:Number.MAX_SAFE_INTEGER});
 function balanceRules(round,cfg){return Number(round?.id||0)>=BALANCE_REWORK_FROM_ROUND_ID?cfg:LEGACY_BALANCE}
 
 let foundationReady=false;
+let territoryRuntimeDeps=null;
 let settingsCacheValue=null,settingsCacheExpiresAt=0;
 let publicStateSharedCache=null;
 const participantDeckCache=new Map();
@@ -270,6 +272,16 @@ async function ensureFoundation(env){
     ])await addColumnIfMissing(env,'territory_war_v3_rewards',column,definition);
     await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1647_territory_participation_balance','1',CURRENT_TIMESTAMP)").run();
   }
+  const comprehensiveBalanceMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1702_territory_comprehensive_balance'").first();
+  if(!comprehensiveBalanceMarker){
+    for(const [column,definition] of [
+      ['formation_power','INTEGER NOT NULL DEFAULT 0'],['formation_breakdown_json',"TEXT NOT NULL DEFAULT '{}'"],
+      ['balance_history_rounds','INTEGER NOT NULL DEFAULT 0'],['balance_history_active_rounds','INTEGER NOT NULL DEFAULT 0'],['balance_history_participation_weight','INTEGER NOT NULL DEFAULT 0'],
+      ['balance_history_weighted_attacks','INTEGER NOT NULL DEFAULT 0'],['balance_history_win_weight','INTEGER NOT NULL DEFAULT 0'],
+      ['balance_history_loss_weight','INTEGER NOT NULL DEFAULT 0']
+    ])await addColumnIfMissing(env,'territory_war_v3_users',column,definition);
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1702_territory_comprehensive_balance','1',CURRENT_TIMESTAMP)").run();
+  }
   const loadIndexMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1471_territory_load_indexes'").first();
   if(!loadIndexMarker){
     await env.DB.batch([
@@ -343,6 +355,45 @@ async function executeMassAssault(env,deps,user,cfg,operationKey){
   }catch(error){await failAdmin(env,operationKey,error);return deps.json({error:error.message||'인해전술 발동에 실패했습니다.'},409)}finally{await releaseLock(env,lock)}}
 
 function snapshotIds(value){const items=safeJson(value,[]);return Array.isArray(items)?items.map(item=>String(item&&typeof item==='object'?(item.id??item.card_id??''):item)).filter(Boolean).slice(0,5):[]}
+const MAGIC_FORMATION_WEIGHTS=Object.freeze({OPENING_ATTACK:1,GUARD_BARRIER:1,LIFE_AMPLIFY:1,CRISIS_HEAL:.9,PUNISH_TRAP:1,ARCANE_COUNTER:1.1,FOLLOWUP_HASTE:1,ARCANE_SEAL:.9,DOOM_MARK:1.05,SHIELD_SIPHON:1,TIME_DISTORTION:.9,PHOENIX_REVIVE:1.25,PURIFY_LIGHT:.75,CHAIN_ECHO:1.05});
+function magicFormationPercent(cards=[]){
+  const total=(Array.isArray(cards)?cards:[]).reduce((sum,card)=>{const chance=clamp(Number(card?.triggerChance||0),0,100,0)/100,value=clamp(Number(card?.effectValue||0),0,500,0),activations=clampInt(card?.maxActivations,1,3,1),weight=Number(MAGIC_FORMATION_WEIGHTS[String(card?.effectType||'').toUpperCase()]||.8);return sum+chance*value*Math.sqrt(activations)*weight},0);
+  return Number(Math.min(45,total).toFixed(3));
+}
+function buildFormationSnapshot({cards=[],uniqueState=null,synergy=null,loadoutBonus=null,magicLoadout=null,fallbackPower=0}={}){
+  const rawCardPower=Math.max(0,cards.reduce((sum,card)=>sum+Number(card?.power||0),0)),deckComplete=cards.length===5,cardBasePower=deckComplete?rawCardPower:Math.max(rawCardPower,Number(fallbackPower||0)),uniqueEffectPower=Math.max(0,deckComplete?Number(uniqueState?.power??cardBasePower):cardBasePower),synergyAttackPercent=clamp(Number(synergy?.totals?.attackPercent||0),-90,300,0),deckSynergyPower=Math.max(0,Math.round(uniqueEffectPower*(1+synergyAttackPercent/100))),equipment=loadoutBonus&&typeof loadoutBonus==='object'?loadoutBonus:{pvp:0},characterPower=Math.max(0,Number(equipment.pvp||0)),magicCards=Array.isArray(magicLoadout?.cards)?magicLoadout.cards:[],magicPercent=magicFormationPercent(magicCards),preMagicPower=deckSynergyPower+characterPower,magicPower=Math.max(0,Math.round(preMagicPower*magicPercent/100)),formationPower=Math.max(1,preMagicPower+magicPower);
+  const breakdown={version:2,deckComplete,cardBasePower,uniqueEffectPower,uniqueEffectBonus:uniqueEffectPower-cardBasePower,synergyAttackPercent,deckSynergyPower,deckSynergyBonus:deckSynergyPower-uniqueEffectPower,equipmentPower:Number(equipment.equipmentPvp||0),vehiclePower:Number(equipment.garagePvp||0),titlePower:Number(equipment.titlePvp||0),characterPower,magicCardCount:magicCards.length,magicExpectedPercent:magicPercent,magicPower,formationPower};
+  return {formationPower,breakdown,loadoutBonus:{...equipment,magicEnabled:magicLoadout?.enabled===true,magicCards,formation:breakdown}};
+}
+async function singleFormationSnapshot(env,deps,user,deck,battle){
+  const cards=(Array.isArray(deck)?deck:[]).map(card=>({...card,id:String(card.id),power:deps.cardBattlePower(card,card.breakthrough_level,battle)})),ids=cards.map(card=>String(card.id));
+  const uniquePromise=typeof deps.cardUniqueDeckStates==='function'?deps.cardUniqueDeckStates(env,[{user,cards}],'PVP'):Promise.resolve([{power:cards.reduce((sum,card)=>sum+Number(card.power||0),0)}]);
+  const synergyPromise=typeof deps.evaluateDeckSynergiesBatch==='function'?deps.evaluateDeckSynergiesBatch(env,[{user,deckIds:ids}],'PVP').then(rows=>rows[0]):typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,user,ids,'PVP',{forceOwnerTest:String(user?.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
+  const magicPromise=typeof deps.magicBattleLoadouts==='function'?deps.magicBattleLoadouts(env,[user],'PVP').then(rows=>rows[0]):typeof deps.magicBattleLoadout==='function'?deps.magicBattleLoadout(env,user,'PVP'):Promise.resolve({enabled:false,cards:[]});
+  const [loadoutBonus,uniqueStates,synergy,magicLoadout]=await Promise.all([typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,user.id):Promise.resolve({pvp:0}),uniquePromise,synergyPromise,magicPromise]);
+  return buildFormationSnapshot({cards,uniqueState:uniqueStates[0],synergy,loadoutBonus,magicLoadout});
+}
+async function formationDecks(env,deps,users,battle){
+  const byKey=new Map();if(!users.length)return new Map();
+  // Keep the five snapshotted ids as the outer loop. This avoids both a large
+  // IN list and a full owned-card scan when a round has hundreds of applicants.
+  const rows=(await env.DB.prepare(`SELECT w.user_id,c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM territory_war_v3_users w CROSS JOIN json_each(CASE WHEN json_valid(w.deck_snapshot) THEN w.deck_snapshot ELSE '[]' END) j CROSS JOIN cards_effective_v1210 c CROSS JOIN user_cards uc JOIN members m ON m.id=c.member_id WHERE w.round_id=? AND c.id=CAST(j.value AS TEXT) AND uc.user_id=w.user_id AND uc.card_id=c.id AND COALESCE(uc.quantity,0)>0`).bind(Number(users[0].round_id||0)).all()).results||[];
+  for(const card of rows)byKey.set(`${Number(card.user_id)}:${String(card.id)}`,card);
+  const result=new Map();
+  for(const row of users){const cards=snapshotIds(row.deck_snapshot).map(id=>byKey.get(`${Number(row.user_id)}:${id}`)).filter(Boolean).map(card=>({...card,id:String(card.id),power:deps.cardBattlePower(card,card.breakthrough_level,battle)}));result.set(Number(row.user_id),cards)}
+  return result;
+}
+async function refreshFormationSnapshots(env,deps,roundId,users,battle){
+  const deckMap=await formationDecks(env,deps,users,battle),entries=users.map(row=>({user:{id:Number(row.user_id),nickname:String(row.nickname||''),role:String(row.role||'USER')},cards:deckMap.get(Number(row.user_id))||[]}));
+  const uniqueStates=typeof deps.cardUniqueDeckStates==='function'?await deps.cardUniqueDeckStates(env,entries,'PVP'):entries.map(entry=>({power:entry.cards.reduce((sum,card)=>sum+Number(card.power||0),0)}));
+  const synergyEntries=entries.map(entry=>({user:entry.user,deckIds:entry.cards.map(card=>String(card.id))})),synergies=typeof deps.evaluateDeckSynergiesBatch==='function'?await deps.evaluateDeckSynergiesBatch(env,synergyEntries,'PVP'):await Promise.all(synergyEntries.map(entry=>typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,entry.user,entry.deckIds,'PVP',{forceOwnerTest:String(entry.user.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}})));
+  const missingMagicUsers=[],storedMagic=new Map();
+  for(const row of users){const saved=safeJson(row.loadout_bonus_json,{pvp:0});if(Array.isArray(saved.magicCards))storedMagic.set(Number(row.user_id),{enabled:saved.magicEnabled===true,cards:saved.magicCards});else missingMagicUsers.push({id:Number(row.user_id),nickname:String(row.nickname||''),role:String(row.role||'USER')})}
+  if(missingMagicUsers.length){const loads=typeof deps.magicBattleLoadouts==='function'?await deps.magicBattleLoadouts(env,missingMagicUsers,'PVP'):await Promise.all(missingMagicUsers.map(user=>typeof deps.magicBattleLoadout==='function'?deps.magicBattleLoadout(env,user,'PVP'):Promise.resolve({enabled:false,cards:[]})));missingMagicUsers.forEach((user,index)=>storedMagic.set(Number(user.id),loads[index]))}
+  const statements=[],refreshed=[];
+  users.forEach((row,index)=>{const cards=entries[index].cards,loadoutBonus=safeJson(row.loadout_bonus_json,{pvp:0}),snapshot=buildFormationSnapshot({cards,uniqueState:uniqueStates[index],synergy:synergies[index],loadoutBonus,magicLoadout:storedMagic.get(Number(row.user_id)),fallbackPower:Number(row.deck_power||0)});refreshed.push({...row,deck_power:snapshot.formationPower,formation_power:snapshot.formationPower,formation_breakdown_json:JSON.stringify(snapshot.breakdown),loadout_bonus_json:JSON.stringify(snapshot.loadoutBonus)});statements.push(env.DB.prepare('UPDATE territory_war_v3_users SET deck_power=?,formation_power=?,formation_breakdown_json=?,loadout_bonus_json=?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?').bind(snapshot.formationPower,snapshot.formationPower,JSON.stringify(snapshot.breakdown),JSON.stringify(snapshot.loadoutBonus),roundId,row.user_id))});
+  await batchChunks(env,statements,40);return refreshed;
+}
 async function participantDeck(env,deps,row,battle){
   const ids=snapshotIds(row?.deck_snapshot),key=`${row?.round_id||0}:${row?.user_id||0}:${ids.join(',')}`,cached=participantDeckCache.get(key);
   if(cached&&Date.now()<cached.expiresAt)return cached.cards.map(card=>({...card}));
@@ -365,16 +416,17 @@ async function simulateTerritoryBattle(env,deps,attackerUser,mine,opponent,reque
   const defenderUser={id:Number(opponent.user_id),nickname:String(opponent.nickname||'상대 참가자'),role:String(opponent.role||'USER')};
   const uniquePromise=typeof deps.cardUniqueDeckStates==='function'?deps.cardUniqueDeckStates(env,[{user:attackerUser,cards:attackerCards},{user:defenderUser,cards:defenderCards}],'PVP'):Promise.resolve([{enabled:false,cards:attackerCards},{enabled:false,cards:defenderCards}]);
   const storedBonusA=safeJson(mine?.loadout_bonus_json,null),storedBonusB=safeJson(opponent?.loadout_bonus_json,null),bonusA=storedBonusA?Promise.resolve(storedBonusA):typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,attackerUser.id):Promise.resolve({pvp:0}),bonusB=storedBonusB?Promise.resolve(storedBonusB):typeof deps.userEquipmentBonuses==='function'?deps.userEquipmentBonuses(env,defenderUser.id):Promise.resolve({pvp:0});
+  const magicA=Array.isArray(storedBonusA?.magicCards)?Promise.resolve({enabled:storedBonusA.magicEnabled===true,cards:storedBonusA.magicCards}):typeof deps.magicBattleLoadout==='function'?deps.magicBattleLoadout(env,attackerUser,'PVP'):Promise.resolve({enabled:false,cards:[]}),magicB=Array.isArray(storedBonusB?.magicCards)?Promise.resolve({enabled:storedBonusB.magicEnabled===true,cards:storedBonusB.magicCards}):typeof deps.magicBattleLoadout==='function'?deps.magicBattleLoadout(env,defenderUser,'PVP'):Promise.resolve({enabled:false,cards:[]});
   const idsA=attackerCards.map(card=>String(card.id)),idsB=defenderCards.map(card=>String(card.id));
   const synergyA=typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,attackerUser,idsA,'PVP',{forceOwnerTest:String(attackerUser.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
   const synergyB=typeof deps.evaluateDeckSynergies==='function'?deps.evaluateDeckSynergies(env,defenderUser,idsB,'PVP',{forceOwnerTest:String(defenderUser.role||'').toUpperCase()==='OWNER'}):Promise.resolve({totals:{attackPercent:0}});
-  const [uniqueStates,aBonus,bBonus,aSynergy,bSynergy]=await Promise.all([uniquePromise,bonusA,bonusB,synergyA,synergyB]);
+  const [uniqueStates,aBonus,bBonus,aSynergy,bSynergy,aMagic,bMagic]=await Promise.all([uniquePromise,bonusA,bonusB,synergyA,synergyB,magicA,magicB]);
   const [aUnique,dUnique]=uniqueStates,aMap=new Map((aUnique?.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null])),dMap=new Map((dUnique?.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null]));
   const aMultiplier=1+Number(aSynergy?.totals?.attackPercent||0)/100,dMultiplier=1+Number(bSynergy?.totals?.attackPercent||0)/100;
   const attackerEngineCards=attackerCards.map(card=>({...card,power:Math.max(1,Math.floor(Number(card.power||0)*aMultiplier)),uniqueAbility:aMap.get(String(card.id))||card.uniqueAbility||null}));
   const defenderEngineCards=defenderCards.map(card=>({...card,power:Math.max(1,Math.floor(Number(card.power||0)*dMultiplier)),uniqueAbility:dMap.get(String(card.id))||card.uniqueAbility||null}));
   const battleSeed=seedOverride==null?seedOf(`${mine.round_id}:${requestId}:TWV3_BATTLE_V2`):Number(seedOverride)>>>0;
-  const battleV2=deps.createPvpBattleV2({attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),seed:battleSeed,singleHealerBonus:battle?.engine?.singleHealerBonus});
+  const battleV2=deps.createPvpBattleV2({attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic?.cards||[],defenderMagicCards:bMagic?.cards||[],attackerEquipmentBonus:Number(aBonus?.pvp||0),defenderEquipmentBonus:Number(bBonus?.pvp||0),seed:battleSeed,singleHealerBonus:battle?.engine?.singleHealerBonus});
   return{battleV2,battleSeed,attackerCards,defenderCards,attackerPower:Number(battleV2.teams?.A?.summary?.power||mine.deck_power||0),defenderPower:Number(battleV2.teams?.B?.summary?.power||opponent.deck_power||0),opponent:{id:Number(opponent.user_id),nickname:defenderUser.nickname,side:String(opponent.side||''),deckPower:Number(opponent.deck_power||0)}};
 }
 async function hydrateBattleReplay(env,deps,user,action,result){if(!action?.opponent_user_id||!action?.round_id||!action?.battle_seed)return result;try{const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(action.round_id,action.user_id).first(),opponent=await env.DB.prepare(`SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? AND w.user_id=?`).bind(action.round_id,action.opponent_user_id).first();if(!mine||!opponent)return result;const simulation=await simulateTerritoryBattle(env,deps,user,mine,opponent,action.request_id,action.battle_seed);return{...result,battleV2:simulation.battleV2,opponent:simulation.opponent,attackerPower:simulation.attackerPower,defenderPower:simulation.defenderPower,replayedBattle:true}}catch(error){console.warn('territory battle replay hydration failed',error);return result}}
@@ -421,45 +473,62 @@ async function createFront(env,roundId,sequence,nodeIndex,status,cfg){
 }
 
 function historyResult(item){return ['WIN','LOSE','DRAW'].includes(String(item?.balance_previous_result||''))?String(item.balance_previous_result):'NEW'}
-function historyAttacks(item){return Math.max(0,Math.min(300,Number(item?.balance_previous_attacks||0)))}
+function formationPower(item){return Math.max(0,Number(item?.formation_power||item?.deck_power||0))}
+function historyAttacks(item){return Math.max(0,Number(item?.balance_history_weighted_attacks??item?.balance_previous_attacks??0))}
+function historyParticipation(item){return Math.max(0,Number(item?.balance_history_participation_weight||item?.balance_history_active_rounds||0))}
+function historyWins(item){return Math.max(0,Number(item?.balance_history_win_weight||0))}
+function historyLosses(item){return Math.max(0,Number(item?.balance_history_loss_weight||0))}
 function formationCost(metrics,totals){
-  const powerGap=Math.abs(metrics.aPower-metrics.bPower)/Math.max(1,totals.power),activityGap=Math.abs(metrics.aActivity-metrics.bActivity)/Math.max(1,totals.activity),winnerGap=Math.abs(metrics.aWinners-metrics.bWinners)/Math.max(1,totals.winners),loserGap=Math.abs(metrics.aLosers-metrics.bLosers)/Math.max(1,totals.losers);
-  return Math.abs(metrics.aCount-metrics.bCount)*1000+powerGap*120+activityGap*100+winnerGap*80+loserGap*50+metrics.repeatedSides/Math.max(1,totals.history)*4;
+  const powerGap=Math.abs(metrics.aPower-metrics.bPower)/Math.max(1,totals.power),activityGap=Math.abs(metrics.aActivity-metrics.bActivity)/Math.max(1,totals.activity),participationGap=Math.abs(metrics.aParticipation-metrics.bParticipation)/Math.max(1,totals.participation),winnerGap=Math.abs(metrics.aWinners-metrics.bWinners)/Math.max(1,totals.winners),loserGap=Math.abs(metrics.aLosers-metrics.bLosers)/Math.max(1,totals.losers);
+  return Math.abs(metrics.aCount-metrics.bCount)*1000+powerGap*360+activityGap*180+participationGap*120+winnerGap*90+loserGap*70+metrics.repeatedSides/Math.max(1,totals.history)*3;
 }
 function balancedSideAssignments(users){
-  const totals={power:users.reduce((sum,item)=>sum+Number(item.deck_power||0),0),activity:users.reduce((sum,item)=>sum+historyAttacks(item),0),winners:users.filter(item=>historyResult(item)==='WIN').length,losers:users.filter(item=>historyResult(item)==='LOSE').length,history:users.filter(item=>historyResult(item)!=='NEW').length};
-  const metrics={aPower:0,bPower:0,aActivity:0,bActivity:0,aWinners:0,bWinners:0,aLosers:0,bLosers:0,aCount:0,bCount:0,repeatedSides:0},assignments=[],capacityA=Math.ceil(users.length/2),capacityB=Math.ceil(users.length/2);
-  const projected=(entries)=>{const next={...metrics};for(const {item,side} of entries){const prefix=side==='A'?'a':'b',result=historyResult(item);next[`${prefix}Power`]+=Number(item.deck_power||0);next[`${prefix}Activity`]+=historyAttacks(item);next[`${prefix}Count`]++;if(result==='WIN')next[`${prefix}Winners`]++;if(result==='LOSE')next[`${prefix}Losers`]++;if(String(item.balance_previous_side||'')===side)next.repeatedSides++}return next};
+  const totals={power:users.reduce((sum,item)=>sum+formationPower(item),0),activity:users.reduce((sum,item)=>sum+historyAttacks(item),0),participation:users.reduce((sum,item)=>sum+historyParticipation(item),0),winners:users.reduce((sum,item)=>sum+historyWins(item),0),losers:users.reduce((sum,item)=>sum+historyLosses(item),0),history:users.filter(item=>historyResult(item)!=='NEW').length};
+  const metrics={aPower:0,bPower:0,aActivity:0,bActivity:0,aParticipation:0,bParticipation:0,aWinners:0,bWinners:0,aLosers:0,bLosers:0,aCount:0,bCount:0,repeatedSides:0},assignments=[],capacityA=Math.ceil(users.length/2),capacityB=Math.ceil(users.length/2);
+  const projected=(entries)=>{const next={...metrics};for(const {item,side} of entries){const prefix=side==='A'?'a':'b';next[`${prefix}Power`]+=formationPower(item);next[`${prefix}Activity`]+=historyAttacks(item);next[`${prefix}Participation`]+=historyParticipation(item);next[`${prefix}Winners`]+=historyWins(item);next[`${prefix}Losers`]+=historyLosses(item);next[`${prefix}Count`]++;if(String(item.balance_previous_side||'')===side)next.repeatedSides++}return next};
   const canPlace=entries=>entries.every(({side},index)=>{const before=entries.slice(0,index).filter(entry=>entry.side===side).length;return side==='A'?metrics.aCount+before<capacityA:metrics.bCount+before<capacityB});
   const place=(item,side)=>{assignments.push({item,side});Object.assign(metrics,projected([{item,side}]))};
   const choose=(options)=>options.filter(canPlace).map(entries=>({entries,cost:formationCost(projected(entries),totals)})).sort((a,b)=>a.cost-b.cost||String(a.entries.map(entry=>`${entry.side}:${entry.item.user_id}`).join('|')).localeCompare(String(b.entries.map(entry=>`${entry.side}:${entry.item.user_id}`).join('|'))))[0]?.entries||options[0];
-  const cohorts=['WIN','LOSE','DRAW','NEW'].map(result=>users.filter(item=>historyResult(item)===result).sort((a,b)=>historyAttacks(b)-historyAttacks(a)||Number(b.deck_power||0)-Number(a.deck_power||0)||Number(a.user_id)-Number(b.user_id)));
+  const cohorts=['WIN','LOSE','DRAW','NEW'].map(result=>users.filter(item=>historyResult(item)===result).sort((a,b)=>historyParticipation(b)-historyParticipation(a)||historyAttacks(b)-historyAttacks(a)||formationPower(b)-formationPower(a)||Number(a.user_id)-Number(b.user_id)));
   for(const cohort of cohorts){for(let index=0;index<cohort.length;index+=2){const first=cohort[index],second=cohort[index+1];if(second){for(const entry of choose([[{item:first,side:'A'},{item:second,side:'B'}],[{item:first,side:'B'},{item:second,side:'A'}]]))place(entry.item,entry.side)}else{const options=['A','B'].map(side=>[{item:first,side}]);for(const entry of choose(options))place(entry.item,entry.side)}}}
-  // Keep historical winners/losers crossed while reducing residual power and
-  // activity gaps. Swaps are restricted to the same prior-result cohort so a
-  // power-only optimization cannot cluster last round's active winners again.
-  if(assignments.length<=400){let improved=true,passes=0;while(improved&&passes++<12){improved=false;let best=null,bestCost=formationCost(metrics,totals);for(let ai=0;ai<assignments.length;ai++){if(assignments[ai].side!=='A')continue;for(let bi=0;bi<assignments.length;bi++){if(assignments[bi].side!=='B'||historyResult(assignments[ai].item)!==historyResult(assignments[bi].item))continue;const left=assignments[ai].item,right=assignments[bi].item,leftPower=Number(left.deck_power||0),rightPower=Number(right.deck_power||0),leftActivity=historyAttacks(left),rightActivity=historyAttacks(right),next={...metrics,aPower:metrics.aPower-leftPower+rightPower,bPower:metrics.bPower-rightPower+leftPower,aActivity:metrics.aActivity-leftActivity+rightActivity,bActivity:metrics.bActivity-rightActivity+leftActivity},beforeRepeat=Number(String(left.balance_previous_side||'')==='A')+Number(String(right.balance_previous_side||'')==='B'),afterRepeat=Number(String(left.balance_previous_side||'')==='B')+Number(String(right.balance_previous_side||'')==='A');next.repeatedSides+=afterRepeat-beforeRepeat;const cost=formationCost(next,totals);if(cost+1e-9<bestCost){bestCost=cost;best={ai,bi,next}}}}if(best){assignments[best.ai].side='B';assignments[best.bi].side='A';Object.assign(metrics,best.next);improved=true}}}
+  // Start from crossed recent results, then allow any opposite-side swap when
+  // the combined five-round power/activity/participation cost is improved.
+  if(assignments.length<=400){let improved=true,passes=0;while(improved&&passes++<18){improved=false;let best=null,bestCost=formationCost(metrics,totals);for(let ai=0;ai<assignments.length;ai++){if(assignments[ai].side!=='A')continue;for(let bi=0;bi<assignments.length;bi++){if(assignments[bi].side!=='B')continue;const left=assignments[ai].item,right=assignments[bi].item,next={...metrics};for(const [key,getter] of [['Power',formationPower],['Activity',historyAttacks],['Participation',historyParticipation],['Winners',historyWins],['Losers',historyLosses]]){const leftValue=getter(left),rightValue=getter(right);next[`a${key}`]=metrics[`a${key}`]-leftValue+rightValue;next[`b${key}`]=metrics[`b${key}`]-rightValue+leftValue}const beforeRepeat=Number(String(left.balance_previous_side||'')==='A')+Number(String(right.balance_previous_side||'')==='B'),afterRepeat=Number(String(left.balance_previous_side||'')==='B')+Number(String(right.balance_previous_side||'')==='A');next.repeatedSides+=afterRepeat-beforeRepeat;const cost=formationCost(next,totals);if(cost+1e-9<bestCost){bestCost=cost;best={ai,bi,next}}}}if(best){assignments[best.ai].side='B';assignments[best.bi].side='A';Object.assign(metrics,best.next);improved=true}}}
   return{assignments,...metrics};
 }
 
-async function previousRoundHistory(env,roundId){
-  const previous=await env.DB.prepare("SELECT id,winner_side FROM territory_war_v3_rounds WHERE id<? AND settled_at IS NOT NULL ORDER BY id DESC LIMIT 1").bind(roundId).first();if(!previous)return{roundId:null,users:new Map()};
-  const rows=(await env.DB.prepare(`WITH action_counts AS (SELECT user_id,COUNT(*) attacks FROM territory_war_v3_actions WHERE round_id=? AND status IN ('APPLIED','COMPLETED') GROUP BY user_id) SELECT u.user_id,u.side,MAX(u.attacks,COALESCE(ac.attacks,0)) attacks FROM territory_war_v3_users u LEFT JOIN action_counts ac ON ac.user_id=u.user_id WHERE u.round_id=?`).bind(previous.id,previous.id).all()).results||[],winner=String(previous.winner_side||'DRAW'),mapped=new Map();
-  for(const row of rows)mapped.set(Number(row.user_id),{roundId:Number(previous.id),side:String(row.side||''),result:winner==='DRAW'?'DRAW':String(row.side||'')===winner?'WIN':'LOSE',attacks:Number(row.attacks||0)});return{roundId:Number(previous.id),users:mapped};
+async function recentRoundHistory(env,roundId,limit=FORMATION_HISTORY_ROUNDS){
+  const rounds=(await env.DB.prepare("SELECT id,winner_side FROM territory_war_v3_rounds WHERE id<? AND settled_at IS NOT NULL ORDER BY id DESC LIMIT ?").bind(roundId,limit).all()).results||[];if(!rounds.length)return{roundId:null,roundIds:[],users:new Map(),totalWeight:0};
+  const ids=rounds.map(row=>Number(row.id)),marks=ids.map(()=>'?').join(','),rows=(await env.DB.prepare(`WITH action_counts AS (SELECT round_id,user_id,COUNT(*) attacks FROM territory_war_v3_actions WHERE round_id IN (${marks}) AND status IN ('APPLIED','COMPLETED') GROUP BY round_id,user_id) SELECT u.round_id,u.user_id,u.side,MAX(u.attacks,COALESCE(ac.attacks,0)) attacks FROM territory_war_v3_users u LEFT JOIN action_counts ac ON ac.round_id=u.round_id AND ac.user_id=u.user_id WHERE u.round_id IN (${marks})`).bind(...ids,...ids).all()).results||[],roundMap=new Map(rounds.map((row,index)=>[Number(row.id),{winner:String(row.winner_side||'DRAW'),weight:rounds.length-index,index}])),mapped=new Map(),totalWeight=rounds.reduce((sum,_,index)=>sum+rounds.length-index,0);
+  rows.sort((a,b)=>Number(b.round_id)-Number(a.round_id));
+  for(const row of rows){
+    const userId=Number(row.user_id),roundInfo=roundMap.get(Number(row.round_id));
+    if(!roundInfo)continue;
+    const attacks=Math.max(0,Math.min(300,Number(row.attacks||0))),side=String(row.side||'');
+    const result=roundInfo.winner==='DRAW'?'DRAW':(side===roundInfo.winner?'WIN':'LOSE');
+    const entry=mapped.get(userId)||{rounds:0,activeRounds:0,participationWeight:0,weightedAttacks:0,winWeight:0,lossWeight:0,latestRoundId:null,latestSide:null,latestResult:'NEW',latestAttacks:0};
+    entry.rounds++;entry.weightedAttacks+=attacks*roundInfo.weight;
+    if(attacks>0){entry.activeRounds++;entry.participationWeight+=roundInfo.weight}
+    if(result==='WIN')entry.winWeight+=roundInfo.weight;if(result==='LOSE')entry.lossWeight+=roundInfo.weight;
+    if(entry.latestRoundId==null){entry.latestRoundId=Number(row.round_id);entry.latestSide=side;entry.latestResult=result;entry.latestAttacks=attacks}
+    mapped.set(userId,entry);
+  }
+  return{roundId:ids[0],roundIds:ids,users:mapped,totalWeight};
 }
 
-async function formRound(env,round,cfg){
+async function formRound(env,round,cfg,deps=territoryRuntimeDeps){
   const lock=await acquireLock(env,`form_${round.id}`,120000);if(!lock.ok)return{status:'BUSY'};
   try{
     const fresh=await roundById(env,round.id);if(!fresh||fresh.status!=='RECRUITING')return{status:fresh?.status||'MISSING'};
-    const users=(await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? ORDER BY deck_power DESC,registered_at,user_id').bind(round.id).all()).results||[];
+    let users=(await env.DB.prepare('SELECT w.*,u.nickname,u.role FROM territory_war_v3_users w JOIN users u ON u.id=w.user_id WHERE w.round_id=? ORDER BY w.deck_power DESC,w.registered_at,w.user_id').bind(round.id).all()).results||[];
     if(users.length<Number(cfg.minParticipants||6))return{status:'WAITING_MINIMUM',count:users.length};
-    const history=await previousRoundHistory(env,round.id),candidates=users.map(item=>{const prior=history.users.get(Number(item.user_id));return{...item,balance_previous_round_id:prior?.roundId||null,balance_previous_side:prior?.side||null,balance_previous_result:prior?.result||'NEW',balance_previous_attacks:prior?.attacks||0}}),balanced=balancedSideAssignments(candidates),{aPower,bPower,aCount,bCount}=balanced,statements=[];
-    for(const {item,side} of balanced.assignments)statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,balance_previous_round_id=?,balance_previous_side=?,balance_previous_result=?,balance_previous_attacks=?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),item.balance_previous_round_id,item.balance_previous_side,item.balance_previous_result,Number(item.balance_previous_attacks||0),round.id,item.user_id));
+    if(deps?.battleSettings&&deps?.cardBattlePower){const battle=await deps.battleSettings(env);users=await refreshFormationSnapshots(env,deps,round.id,users,battle)}
+    const history=await recentRoundHistory(env,round.id),candidates=users.map(item=>{const prior=history.users.get(Number(item.user_id));return{...item,balance_previous_round_id:prior?.latestRoundId||null,balance_previous_side:prior?.latestSide||null,balance_previous_result:prior?.latestResult||'NEW',balance_previous_attacks:prior?.latestAttacks||0,balance_history_rounds:prior?.rounds||0,balance_history_active_rounds:prior?.activeRounds||0,balance_history_participation_weight:prior?.participationWeight||0,balance_history_weighted_attacks:prior?.weightedAttacks||0,balance_history_win_weight:prior?.winWeight||0,balance_history_loss_weight:prior?.lossWeight||0}}),balanced=balancedSideAssignments(candidates),{aPower,bPower,aCount,bCount}=balanced,statements=[];
+    for(const {item,side} of balanced.assignments)statements.push(env.DB.prepare("UPDATE territory_war_v3_users SET side=?,status='ACTIVE',energy=?,last_recharged_at=CURRENT_TIMESTAMP,balance_previous_round_id=?,balance_previous_side=?,balance_previous_result=?,balance_previous_attacks=?,balance_history_rounds=?,balance_history_active_rounds=?,balance_history_participation_weight=?,balance_history_weighted_attacks=?,balance_history_win_weight=?,balance_history_loss_weight=?,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?").bind(side,Number(cfg.energyMax||10),item.balance_previous_round_id,item.balance_previous_side,item.balance_previous_result,Number(item.balance_previous_attacks||0),Number(item.balance_history_rounds||0),Number(item.balance_history_active_rounds||0),Number(item.balance_history_participation_weight||0),Number(item.balance_history_weighted_attacks||0),Number(item.balance_history_win_weight||0),Number(item.balance_history_loss_weight||0),round.id,item.user_id));
     await batchChunks(env,statements);
     const prep=Math.max(0,Number(cfg.preparationMinutes||0)),starts=iso(Date.now()+prep*60000),ends=iso(Date.now()+(prep+Number(cfg.roundMinutes||180))*60000),front=await createFront(env,round.id,1,4,prep>0?'PREPARING':'ACTIVE',cfg);
     await env.DB.prepare(`UPDATE territory_war_v3_rounds SET status=?,formed_at=CURRENT_TIMESTAMP,starts_at=?,ends_at=?,current_front_index=4,current_front_id=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'`).bind(prep>0?'PREPARING':'ACTIVE',starts,ends,front.id,round.id).run();
-    return{status:prep>0?'PREPARING':'ACTIVE',aCount,bCount,aPower,bPower,previousRoundId:history.roundId,aActivity:balanced.aActivity,bActivity:balanced.bActivity,aPreviousWinners:balanced.aWinners,bPreviousWinners:balanced.bWinners};
+    return{status:prep>0?'PREPARING':'ACTIVE',aCount,bCount,aPower,bPower,historyRoundIds:history.roundIds,aActivity:balanced.aActivity,bActivity:balanced.bActivity,aParticipation:balanced.aParticipation,bParticipation:balanced.bParticipation,aRecentWinWeight:balanced.aWinners,bRecentWinWeight:balanced.bWinners};
   }finally{await releaseLock(env,lock)}
 }
 
@@ -797,7 +866,7 @@ function cleanSettings(body,current){return{
 
 export async function handleTerritoryWar({path,request,env,deps}){
   if(!String(path).startsWith('territory-war')&&!String(path).startsWith('admin/territory-war'))return null;
-  await ensureFoundation(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);const admin=deps.isAdminRole(user),cfg=await settings(env);
+  territoryRuntimeDeps=deps;await ensureFoundation(env);const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);const admin=deps.isAdminRole(user),cfg=await settings(env);
   if(path==='territory-war/truce-status'&&request.method==='GET'){const round=await env.DB.prepare("SELECT id,status,truce_ends_at,truce_duration_minutes FROM territory_war_v3_rounds WHERE status IN ('PREPARING','ACTIVE') ORDER BY id DESC LIMIT 1").first();return deps.json({roundId:Number(round?.id||0),truce:truceState(round),serverNow:iso()})}
   if(path==='territory-war/state'&&request.method==='GET')return deps.json(await publicState(env,user.id));
   if(path==='territory-war/state-lite'&&request.method==='GET')return deps.json(await realtimeState(env,user.id));
@@ -805,13 +874,13 @@ export async function handleTerritoryWar({path,request,env,deps}){
   if(path==='territory-war/register'&&request.method==='POST'){
     const mode=String(cfg.mode||'OFF').toUpperCase();if(mode==='OFF')return deps.json({error:'영토전 운영이 중지되었습니다.'},409);const round=await lifecycle(env,cfg),canJoin=round&&round.status==='RECRUITING';if(!canJoin)return deps.json({error:'참가 모집이 종료되어 현재 회차에는 입장할 수 없습니다.'},409);
     const existing=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(existing)return deps.json({ok:true,alreadyRegistered:true,state:await publicState(env,user.id)});
-    const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),power=deck.reduce((sum,card)=>sum+deps.cardBattlePower(card,card.breakthrough_level,bs),0),loadoutBonus=typeof deps.userEquipmentBonuses==='function'?await deps.userEquipmentBonuses(env,user.id):{pvp:0};
-    await env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_power,deck_snapshot,loadout_bonus_json,side,status,energy,last_recharged_at) VALUES(?,?,?,?,?,NULL,'WAITING',?,CURRENT_TIMESTAMP)`).bind(round.id,user.id,power,JSON.stringify(deck.map(card=>String(card.id))),JSON.stringify(loadoutBonus||{pvp:0}),Number(cfg.energyMax||10)).run();return deps.json({ok:true,lateJoined:false,side:null,state:await publicState(env,user.id)});
+    const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),snapshot=await singleFormationSnapshot(env,deps,user,deck,bs),power=snapshot.formationPower;
+    await env.DB.prepare(`INSERT INTO territory_war_v3_users(round_id,user_id,deck_power,formation_power,formation_breakdown_json,deck_snapshot,loadout_bonus_json,side,status,energy,last_recharged_at) VALUES(?,?,?,?,?,?,?,NULL,'WAITING',?,CURRENT_TIMESTAMP)`).bind(round.id,user.id,power,power,JSON.stringify(snapshot.breakdown),JSON.stringify(deck.map(card=>String(card.id))),JSON.stringify(snapshot.loadoutBonus),Number(cfg.energyMax||10)).run();return deps.json({ok:true,lateJoined:false,side:null,state:await publicState(env,user.id)});
   }
   if(path==='territory-war/unregister'&&request.method==='POST'){const round=await lifecycle(env,cfg);if(!round||round.status!=='RECRUITING')return deps.json({error:'모집 중에만 참가 신청을 취소할 수 있습니다.'},409);await env.DB.prepare('DELETE FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).run();return deps.json({ok:true,state:await publicState(env,user.id)})}
   if(path==='territory-war/refresh-loadout'&&request.method==='POST'){
     const round=await lifecycle(env,cfg);if(!round||!truceState(round).active)return deps.json({error:'전투 준비 최신화는 임시 휴전 중에만 가능합니다.'},409);const mine=await env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,user.id).first();if(!mine||!['A','B'].includes(String(mine.side||'')))return deps.json({error:'현재 회차 참가자만 최신화할 수 있습니다.'},403);
-    const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),power=deck.reduce((sum,card)=>sum+deps.cardBattlePower(card,card.breakthrough_level,bs),0),loadoutBonus=typeof deps.userEquipmentBonuses==='function'?await deps.userEquipmentBonuses(env,user.id):{pvp:0};await env.DB.prepare('UPDATE territory_war_v3_users SET deck_snapshot=?,deck_power=?,loadout_bonus_json=?,loadout_refreshed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?').bind(JSON.stringify(deck.map(card=>String(card.id))),power,JSON.stringify(loadoutBonus||{pvp:0}),round.id,user.id).run();for(const key of participantDeckCache.keys())if(key.startsWith(`${round.id}:${user.id}:`))participantDeckCache.delete(key);publicStateSharedCache=null;return deps.json({ok:true,deckPower:power,state:await publicState(env,user.id)});
+    const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'PVP 덱 5장을 먼저 편성하세요.'},400);const bs=await deps.battleSettings(env),snapshot=await singleFormationSnapshot(env,deps,user,deck,bs),power=snapshot.formationPower;await env.DB.prepare('UPDATE territory_war_v3_users SET deck_snapshot=?,deck_power=?,formation_power=?,formation_breakdown_json=?,loadout_bonus_json=?,loadout_refreshed_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=?').bind(JSON.stringify(deck.map(card=>String(card.id))),power,power,JSON.stringify(snapshot.breakdown),JSON.stringify(snapshot.loadoutBonus),round.id,user.id).run();for(const key of participantDeckCache.keys())if(key.startsWith(`${round.id}:${user.id}:`))participantDeckCache.delete(key);publicStateSharedCache=null;return deps.json({ok:true,deckPower:power,formationBreakdown:snapshot.breakdown,state:await publicState(env,user.id)});
   }
   if(path==='territory-war/attack'&&request.method==='POST')return handleAttack(env,deps,user,cfg,await deps.readBody(request));
   if(path==='territory-war/vote-operation'&&request.method==='POST')return voteOperation(env,deps,user,cfg,await deps.readBody(request));
@@ -860,3 +929,5 @@ export async function handleTerritoryWar({path,request,env,deps}){
   }
   return deps.json({error:'요청한 영토전 기능을 찾을 수 없습니다.'},404);
 }
+
+export {balancedSideAssignments,buildFormationSnapshot,magicFormationPercent};

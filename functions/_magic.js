@@ -107,16 +107,25 @@ function normalizeMagicBattleEffect(row={}){
   return effectType?{id:Number(row.id||0),slotNo:integer(row.slot_no??row.slotNo,1,1,5),code:String(row.code||''),name:String(row.name||''),imageUrl:String(row.image_url||row.imageUrl||MAGIC_EFFECT_IMAGES[effectType]||''),effectType,effectValue:Math.max(0,Math.min(500,Number(row.effect_value??row.effectValue)||0)),triggerChance:Math.max(0,Math.min(100,Number(row.effective_trigger_chance??row.effectiveTriggerChance??row.trigger_chance??row.triggerChance??0)||0)),enhancementLevel:level,maxActivations:integer(row.max_activations??row.maxActivations,1,1,99)}:null;
 }
 
+export async function magicBattleLoadouts(env,users=[],deckType='PVE'){
+  const type=String(deckType||'PVE').trim().toUpperCase(),list=(Array.isArray(users)?users:[]).filter(Boolean);
+  if(!list.length||!MAGIC_DECK_TYPES.includes(type))return list.map(()=>({enabled:false,ownerTest:false,deckType:type,cards:[]}));
+  const cfg=await magicSettings(env),visible=list.filter(user=>cfg.enabled===true||(cfg.ownerTestEnabled!==false&&isOwner(user)));
+  if(!visible.length)return list.map(()=>({enabled:false,ownerTest:false,deckType:type,cards:[]}));
+  const scope=type==='PVP'?'scope_pvp':'scope_pve',rows=[];
+  for(let offset=0;offset<visible.length;offset+=75){
+    const chunk=visible.slice(offset,offset+75),marks=chunk.map(()=>'?').join(',');
+    const result=await env.DB.prepare(`SELECT l.user_id,l.slot_no,mc.id,mc.code,mc.name,mc.image_url,mc.effect_type,mc.trigger_type,mc.effect_value,mc.trigger_chance,mc.max_activations,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_card_loadouts l JOIN magic_cards mc ON mc.id=l.magic_card_id JOIN user_magic_cards umc ON umc.user_id=l.user_id AND umc.magic_card_id=mc.id WHERE l.user_id IN (${marks}) AND l.deck_type=? AND l.magic_card_id>0 AND mc.is_active=1 AND mc.${scope}=1 ORDER BY l.user_id,l.slot_no`).bind(...chunk.map(user=>user.id),type).all();
+    rows.push(...(result.results||[]));
+  }
+  const triggerRates=cfg.enhancement.triggerRates,byUser=new Map();
+  for(const row of rows){row.effective_trigger_chance=triggerRates[integer(row.enhancement_level,0,0,9)]||0;const key=Number(row.user_id),cards=byUser.get(key)||[];const normalized=normalizeMagicBattleEffect(row);if(normalized)cards.push(normalized);byUser.set(key,cards)}
+  return list.map(user=>{const enabled=cfg.enabled===true||(cfg.ownerTestEnabled!==false&&isOwner(user));return {enabled,ownerTest:enabled&&cfg.enabled!==true&&isOwner(user),deckType:type,cards:enabled?(byUser.get(Number(user.id))||[]):[]}});
+}
+
 export async function magicBattleLoadout(env,user,deckType='PVE'){
-  const type=String(deckType||'PVE').trim().toUpperCase();
-  if(!user||!MAGIC_DECK_TYPES.includes(type))return {enabled:false,ownerTest:false,deckType:type,cards:[]};
-  const cfg=await magicSettings(env),visible=cfg.enabled===true||(cfg.ownerTestEnabled!==false&&isOwner(user));
-  if(!visible)return {enabled:false,ownerTest:false,deckType:type,cards:[]};
-  const scope=type==='PVP'?'scope_pvp':'scope_pve';
-  const rows=(await env.DB.prepare(`SELECT l.slot_no,mc.id,mc.code,mc.name,mc.image_url,mc.effect_type,mc.trigger_type,mc.effect_value,mc.trigger_chance,mc.max_activations,COALESCE(umc.enhancement_level,0) enhancement_level FROM magic_card_loadouts l JOIN magic_cards mc ON mc.id=l.magic_card_id JOIN user_magic_cards umc ON umc.user_id=l.user_id AND umc.magic_card_id=mc.id WHERE l.user_id=? AND l.deck_type=? AND l.magic_card_id>0 AND mc.is_active=1 AND mc.${scope}=1 ORDER BY l.slot_no`).bind(user.id,type).all()).results||[];
-  const triggerRates=cfg.enhancement.triggerRates;
-  rows.forEach(row=>{row.effective_trigger_chance=triggerRates[integer(row.enhancement_level,0,0,9)]||0});
-  return {enabled:true,ownerTest:cfg.enabled!==true&&isOwner(user),deckType:type,cards:rows.map(normalizeMagicBattleEffect).filter(Boolean)};
+  if(!user)return {enabled:false,ownerTest:false,deckType:String(deckType||'PVE').trim().toUpperCase(),cards:[]};
+  return (await magicBattleLoadouts(env,[user],deckType))[0];
 }
 
 
@@ -204,11 +213,13 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
   const ids=[...new Set(visibleEntries.flatMap(entry=>entry.cards.map(card=>String(card?.id??card?.card_id??'')).filter(Boolean)))];
   const effectMap=new Map();
   if(ids.length){
-    const marks=ids.map(()=>'?').join(','),scopeColumn=uniqueScopeColumn(scope);
-    const rows=(await env.DB.prepare(`SELECT card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations FROM card_unique_effects WHERE is_active=1 AND ${scopeColumn}=1 AND card_id IN (${marks})`).bind(...ids).all()).results||[];
-    for(const row of rows){
-      const effect=withDominantUniqueStat({cardId:String(row.card_id),attackPercent:uniqueStat(row.attack_percent),defensePercent:uniqueStat(row.defense_percent),hpPercent:uniqueStat(row.hp_percent),speedPercent:uniqueStat(row.speed_percent,300),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??100)||0)),maxActivations:Math.max(1,Math.floor(Number(row.max_activations||1)))});
-      effectMap.set(effect.cardId,effect);
+    const scopeColumn=uniqueScopeColumn(scope);
+    for(let offset=0;offset<ids.length;offset+=75){
+      const chunk=ids.slice(offset,offset+75),marks=chunk.map(()=>'?').join(','),rows=(await env.DB.prepare(`SELECT card_id,attack_percent,defense_percent,hp_percent,speed_percent,effect_name,effect_description,effect_type,trigger_type,effect_value,trigger_chance,max_activations FROM card_unique_effects WHERE is_active=1 AND ${scopeColumn}=1 AND card_id IN (${marks})`).bind(...chunk).all()).results||[];
+      for(const row of rows){
+        const effect=withDominantUniqueStat({cardId:String(row.card_id),attackPercent:uniqueStat(row.attack_percent),defensePercent:uniqueStat(row.defense_percent),hpPercent:uniqueStat(row.hp_percent),speedPercent:uniqueStat(row.speed_percent,300),effectName:String(row.effect_name||''),effectDescription:String(row.effect_description||''),effectType:String(row.effect_type||'NONE'),triggerType:String(row.trigger_type||'PASSIVE'),effectValue:Number(row.effect_value||0),triggerChance:Math.max(0,Math.min(100,Number(row.trigger_chance??100)||0)),maxActivations:Math.max(1,Math.floor(Number(row.max_activations||1)))});
+        effectMap.set(effect.cardId,effect);
+      }
     }
   }
   return list.map(entry=>buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap));
