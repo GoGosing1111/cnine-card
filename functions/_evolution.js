@@ -3,7 +3,6 @@ const PRESTIGE_DEFAULTS={maToPrestigeMasterStarCost:1,maToPrestigeSuccessRate:10
 export const ZENITH_EVOLUTION_PITY_ATTEMPTS=7;
 const ZENITH_POLICY={masterStarCost:30,coinCost:5000000,successRate:25,pityAttempts:ZENITH_EVOLUTION_PITY_ATTEMPTS};
 const ZENITH_PITY_UPGRADE_KEY='safe_runtime_upgrade_v1718_zenith_evolution_pity';
-const TEMP_ZENITH_REPORT_HASH='4ab002393724fa231d0af93ddb616c1e38fd830a7815c34bf0d725031872ebc1';
 const EVOLUTION_TYPES={
   SSR_TO_MA:{sourceGrade:'SSR',targetGrade:'MA',minBreakthrough:10,label:'SSR → MA',mode:'LEGACY_ATTEMPT'},
   MA_TO_PRESTIGE:{sourceGrade:'MA',targetGrade:'PRESTIGE',minBreakthrough:13,label:'MA +13 → PRESTIGE',mode:'MASTER_STAR'},
@@ -82,7 +81,6 @@ async function state(env,userId,cardId){return await env.DB.prepare('SELECT * FR
 function randomPercent(){try{const values=new Uint32Array(1);crypto.getRandomValues(values);return values[0]/4294967296*100}catch{return Math.random()*100}}
 function pickRandom(items){if(!items.length)return null;try{const values=new Uint32Array(1);crypto.getRandomValues(values);return items[values[0]%items.length]}catch{return items[Math.floor(Math.random()*items.length)]}}
 export function zenithEvolutionPityState(failedAttempts=0){const failed=Math.max(0,Number(failedAttempts||0)),nextAttempt=failed+1;return {pityAttempts:ZENITH_EVOLUTION_PITY_ATTEMPTS,nextAttempt,isPity:nextAttempt>=ZENITH_EVOLUTION_PITY_ATTEMPTS}}
-async function sha256Hex(value){const digest=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(String(value||'')));return Array.from(new Uint8Array(digest),byte=>byte.toString(16).padStart(2,'0')).join('')}
 function baseCandidate(row,rule){return {id:String(row.id),memberId:Number(row.member_id||0),title:row.title,name:row.name,grade:row.grade,image:row.image,focusX:Number(row.focusX??50),focusY:Number(row.focusY??50),breakthroughLevel:Number(row.breakthrough_level||0),quantity:Number(row.quantity||0),basePower:Number(row.base_power||0),powerType:String(row.power_type||'')}}
 function candidatePayload(row,rule,pveDeck,pvpDeck,progressMap){
   const card=baseCandidate(row,rule),inPve=pveDeck.has(card.id),inPvp=pvpDeck.has(card.id);let blockedReason='';
@@ -252,11 +250,6 @@ async function zenithAttempt({env,deps,user,cardId,requestId,settings}){
 export async function handleEvolution({path,request,env,deps}){
   if(!path.startsWith('evolution/')&&!path.startsWith('admin/evolution'))return null;
   await upgrade(env);
-  if(path==='evolution/internal/v1718-compensation-report'&&request.method==='POST'){
-    const body=await deps.readBody(request);if(await sha256Hex(body.token)!==TEMP_ZENITH_REPORT_HASH)return deps.json({error:'찾을 수 없습니다.'},404);
-    const report=await env.DB.prepare(`SELECT z.user_id,u.nickname,z.source_card_id,source.title source_title,z.failed_attempts,z.reward_card_id,reward.title reward_title,z.source_quantity_before,z.compensated_at FROM zenith_evolution_pity_compensations_v1718 z JOIN users u ON u.id=z.user_id JOIN cards_effective_v1210 source ON source.id=z.source_card_id JOIN cards_effective_v1210 reward ON reward.id=z.reward_card_id WHERE z.applied=1 ORDER BY z.compensated_at,z.user_id`).all();
-    return deps.json({count:(report.results||[]).length,accounts:report.results||[]});
-  }
   const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
   if(path==='admin/evolution/settings'){
     if(!deps.isAdminRole(user))return deps.json({error:'OWNER 또는 ADMIN 권한이 필요합니다.'},403);
