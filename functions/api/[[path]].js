@@ -1551,6 +1551,40 @@ async function ensureInactiveMonsterPurgeUpgrade(env){
   return inactiveMonsterPurgeUpgradePromise;
 }
 let nightmareProgressionUpgradePromise=null;
+async function rebalanceNightmareProgression(env,settingsOverride=null){
+  // Prefer HELL Nika. The strongest live HELL boss is a safe fallback for a
+  // database restored from a backup made before Nika was registered.
+  const anchor=await env.DB.prepare(`SELECT id,name,battle_power,reward_coin,COALESCE(pve_display_order,sort_order,0) AS display_order,COALESCE(sort_order,0) AS sort_order
+    FROM battle_monsters WHERE is_active=1 AND UPPER(COALESCE(pve_tab,''))='HELL'
+    ORDER BY CASE WHEN name LIKE '%니카%' THEN 0 ELSE 1 END,battle_power DESC,id DESC LIMIT 1`).first();
+  const rows=(await env.DB.prepare(`SELECT id,name FROM battle_monsters
+    WHERE is_active=1 AND UPPER(COALESCE(pve_tab,''))='NIGHTMARE' ORDER BY id`).all()).results||[];
+  if(!anchor||!rows.length)return {updated:0,anchor:anchor||null};
+  let nightmareSettings=settingsOverride?normalizeNightmareSettings(settingsOverride):normalizeNightmareSettings();
+  if(!settingsOverride){
+    try{
+      const stored=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_nightmare_settings_v1'").first();
+      if(stored?.value)nightmareSettings=normalizeNightmareSettings(JSON.parse(stored.value));
+    }catch{}
+  }
+  const plan=nightmareProgressionPlan({
+    anchorPower:anchor.battle_power,
+    anchorReward:anchor.reward_coin,
+    anchorDisplayOrder:anchor.display_order,
+    anchorSortOrder:anchor.sort_order,
+    settings:nightmareSettings
+  });
+  const byKey=new Map(plan.map(item=>[item.key,item]));
+  const statements=[];
+  for(const row of rows){
+    const item=byKey.get(nightmareProgressionKey(row.name));
+    if(!item)continue;
+    statements.push(env.DB.prepare(`UPDATE battle_monsters SET battle_power=?,reward_coin=?,pve_display_order=?,sort_order=?,pve_enabled=1,monster_category='BOSS',updated_at=CURRENT_TIMESTAMP
+      WHERE id=? AND is_active=1 AND UPPER(COALESCE(pve_tab,''))='NIGHTMARE'`).bind(item.battlePower,item.rewardCoin,item.pveDisplayOrder,item.sortOrder,row.id));
+  }
+  if(statements.length)await env.DB.batch(statements);
+  return {updated:statements.length,anchor,plan};
+}
 async function ensureNightmareProgressionUpgrade(env){
   if(nightmareProgressionUpgradePromise)return nightmareProgressionUpgradePromise;
   nightmareProgressionUpgradePromise=(async()=>{
@@ -1558,39 +1592,8 @@ async function ensureNightmareProgressionUpgrade(env){
     const done=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(marker).first();
     if(done?.value==='1')return true;
     if(!await tableExists(env,'battle_monsters')||!await columnExists(env,'battle_monsters','pve_tab'))return true;
-    // Prefer HELL Nika. The strongest live HELL boss is a safe fallback for a
-    // database restored from a backup made before Nika was registered.
-    const anchor=await env.DB.prepare(`SELECT id,name,battle_power,reward_coin,COALESCE(pve_display_order,sort_order,0) AS display_order,COALESCE(sort_order,0) AS sort_order
-      FROM battle_monsters WHERE is_active=1 AND UPPER(COALESCE(pve_tab,''))='HELL'
-      ORDER BY CASE WHEN name LIKE '%니카%' THEN 0 ELSE 1 END,battle_power DESC,id DESC LIMIT 1`).first();
-    const rows=(await env.DB.prepare(`SELECT id,name FROM battle_monsters
-      WHERE is_active=1 AND UPPER(COALESCE(pve_tab,''))='NIGHTMARE' ORDER BY id`).all()).results||[];
-    if(!anchor||!rows.length){
-      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)").bind(marker).run();
-      return true;
-    }
-    let nightmareSettings=normalizeNightmareSettings();
-    try{
-      const stored=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_nightmare_settings_v1'").first();
-      if(stored?.value)nightmareSettings=normalizeNightmareSettings(JSON.parse(stored.value));
-    }catch{}
-    const plan=nightmareProgressionPlan({
-      anchorPower:anchor.battle_power,
-      anchorReward:anchor.reward_coin,
-      anchorDisplayOrder:anchor.display_order,
-      anchorSortOrder:anchor.sort_order,
-      settings:nightmareSettings
-    });
-    const byKey=new Map(plan.map(item=>[item.key,item]));
-    const statements=[];
-    for(const row of rows){
-      const item=byKey.get(nightmareProgressionKey(row.name));
-      if(!item)continue;
-      statements.push(env.DB.prepare(`UPDATE battle_monsters SET battle_power=?,reward_coin=?,pve_display_order=?,sort_order=?,pve_enabled=1,monster_category='BOSS',updated_at=CURRENT_TIMESTAMP
-        WHERE id=? AND is_active=1 AND UPPER(COALESCE(pve_tab,''))='NIGHTMARE'`).bind(item.battlePower,item.rewardCoin,item.pveDisplayOrder,item.sortOrder,row.id));
-    }
-    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)").bind(marker));
-    await env.DB.batch(statements);
+    await rebalanceNightmareProgression(env);
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)").bind(marker).run();
     return true;
   })().catch(error=>{nightmareProgressionUpgradePromise=null;throw error});
   return nightmareProgressionUpgradePromise;
@@ -5883,6 +5886,7 @@ async function handleRequest(context){
         runtimeSettingsCache.delete('battle');
         const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
         if(JSON.stringify(saved.nightmare)!==JSON.stringify(nightmare))return json({error:'나이트메어 설정 저장 검증에 실패했습니다.',code:'NIGHTMARE_SETTINGS_VERIFY_FAILED'},500);
+        await rebalanceNightmareProgression(env,saved.nightmare);
         await writeAdminLog(env,admin,'NIGHTMARE_SETTINGS_UPDATE','SETTINGS','battle_nightmare',before.nightmare,saved.nightmare);
         return json({ok:true,settings:saved,nightmare:saved.nightmare});
       }

@@ -35,5 +35,6 @@ assert.match(apiSource,/safe_runtime_upgrade_v1696_nightmare_after_hell_nika/);
 assert.match(apiSource,/CASE WHEN name LIKE '%니카%' THEN 0 ELSE 1 END,battle_power DESC/);
 assert.match(apiSource,/nightmareProgressionPlan\(\{/);
 assert.match(apiSource,/SET battle_power=\?,reward_coin=\?,pve_display_order=\?,sort_order=\?/);
+assert.match(apiSource,/NIGHTMARE_SETTINGS_VERIFY_FAILED[\s\S]{0,200}rebalanceNightmareProgression\(env,saved\.nightmare\)/,'CMS multiplier changes must preserve the HELL-to-NIGHTMARE curve');
 
 console.log('PVE Nightmare v1696: HELL Nika anchored power, reward and ordering progression verified');
