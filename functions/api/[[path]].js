@@ -1794,6 +1794,13 @@ async function ensureUpgrades(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1136_magic_card_pack','1',CURRENT_TIMESTAMP)")
       ]);
     }
+    const mixedMagicCardPackDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1701_mixed_magic_card_pack'").first();
+    if(mixedMagicCardPackDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare("UPDATE inventory_items SET name='마법카드팩',subtitle='ARCANA MIXED PACK',description='마법카드·마법 결정·카드 조각 중 하나를 획득합니다. 동일 마법카드는 강화 재료로 누적됩니다.',category='PACK',rarity='SPECIAL',image_url='assets/cards/magic-card-pack-v2-768.jpg',sort_order=40,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='MAGIC_CARD_PACK'"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1701_mixed_magic_card_pack','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const retiredStandardCubesDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1482_retire_standard_cubes'").first();
     if(retiredStandardCubesDone?.value!=='1'){
       await env.DB.batch([

@@ -87,6 +87,11 @@
           <label><span>마법카드 뽑기</span><select id="magicDrawEnabled"><option value="0" ${!cfg.drawEnabled?'selected':''}>준비 중</option><option value="1" ${cfg.drawEnabled?'selected':''}>사용</option></select></label>
           <label><span>1회 마법 결정 비용</span><input id="magicDrawCost" type="number" min="0" value="${number(cfg.drawCost)}"></label>
           <label><span>1회 코인 비용</span><input id="magicDrawCoinCost" type="number" min="0" value="${number(cfg.drawCoinCost)}"></label>
+          <label><span>팩 · 마법카드 비중</span><input id="magicPackCardWeight" type="number" min="0" value="${number(cfg.packRewards?.magicCardWeight??50)}"></label>
+          <label><span>팩 · 마법 결정 비중</span><input id="magicPackCrystalWeight" type="number" min="0" value="${number(cfg.packRewards?.magicCrystalWeight??30)}"></label>
+          <label><span>팩 · 카드 조각 비중</span><input id="magicPackShardWeight" type="number" min="0" value="${number(cfg.packRewards?.cardShardWeight??20)}"></label>
+          <label class="wide"><span>팩 · 마법 결정 수량 범위</span><div class="magicRangeInputs"><input id="magicPackCrystalMin" type="number" min="1" value="${number(cfg.packRewards?.magicCrystalMin??50)}"><i>~</i><input id="magicPackCrystalMax" type="number" min="1" value="${number(cfg.packRewards?.magicCrystalMax??120)}"></div></label>
+          <label class="wide"><span>팩 · 카드 조각 수량 범위</span><div class="magicRangeInputs"><input id="magicPackShardMin" type="number" min="1" value="${number(cfg.packRewards?.cardShardMin??200)}"><i>~</i><input id="magicPackShardMax" type="number" min="1" value="${number(cfg.packRewards?.cardShardMax??500)}"></div></label>
           <label class="wide"><span>+1~+9 카드조각 비용</span><input id="magicEnhanceShardCosts" value="${h((cfg.enhancement?.shardCosts||[]).join(','))}" placeholder="100,200,350,550,800,1100,1500,2000,2800"></label>
           <label class="wide"><span>+1~+9 강화 성공률 (%)</span><input id="magicEnhanceSuccessRates" value="${h((cfg.enhancement?.successRates||[]).join(','))}" placeholder="100,90,80,70,60,50,40,30,20"></label>
           <label class="wide"><span>강화 단계별 실제 발동률 (0강~+9)</span><input id="magicEnhanceTriggerRates" value="${h((cfg.enhancement?.triggerRates||[]).join(','))}" placeholder="0,5,10,15,20,25,30,35,40,50"><small>마법카드는 등급 없이 강화 단계에 따라 이 수치가 그대로 전투 발동률이 됩니다.</small></label>
@@ -271,6 +276,7 @@
     if(enabled&&!confirm('마법카드 시스템을 일반 유저에게 공개할까요?\n아직 전투 효과 적용은 2차 단계입니다.'))return;
     const settings={
       enabled,ownerTestEnabled:$('#magicOwnerTest').value==='1',drawEnabled:$('#magicDrawEnabled').value==='1',drawCost:number($('#magicDrawCost').value),drawCoinCost:number($('#magicDrawCoinCost').value),
+      packRewards:{magicCardWeight:number($('#magicPackCardWeight').value),magicCrystalWeight:number($('#magicPackCrystalWeight').value),cardShardWeight:number($('#magicPackShardWeight').value),magicCrystalMin:number($('#magicPackCrystalMin').value),magicCrystalMax:number($('#magicPackCrystalMax').value),cardShardMin:number($('#magicPackShardMin').value),cardShardMax:number($('#magicPackShardMax').value)},
       enhancement:{shardCosts:$('#magicEnhanceShardCosts').value.split(',').map(number),successRates:$('#magicEnhanceSuccessRates').value.split(',').map(number),triggerRates:$('#magicEnhanceTriggerRates').value.split(',').map(number)},
       duplicateRefund:number($('#magicDuplicateRefund').value),
       acquisitionNotice:$('#magicAcquisitionNotice').value,
