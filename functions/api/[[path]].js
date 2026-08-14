@@ -21,7 +21,7 @@ import { handleWorkshop } from '../_workshop.js';
 import { handleScrapyard } from '../_scrapyard.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
-import { normalizeNightmareSettings,pveDifficultyRuntime } from '../_pve_nightmare.js';
+import { normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
@@ -1550,6 +1550,51 @@ async function ensureInactiveMonsterPurgeUpgrade(env){
   })().catch(error=>{inactiveMonsterPurgeUpgradePromise=null;throw error});
   return inactiveMonsterPurgeUpgradePromise;
 }
+let nightmareProgressionUpgradePromise=null;
+async function ensureNightmareProgressionUpgrade(env){
+  if(nightmareProgressionUpgradePromise)return nightmareProgressionUpgradePromise;
+  nightmareProgressionUpgradePromise=(async()=>{
+    const marker='safe_runtime_upgrade_v1696_nightmare_after_hell_nika';
+    const done=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(marker).first();
+    if(done?.value==='1')return true;
+    if(!await tableExists(env,'battle_monsters')||!await columnExists(env,'battle_monsters','pve_tab'))return true;
+    // Prefer HELL Nika. The strongest live HELL boss is a safe fallback for a
+    // database restored from a backup made before Nika was registered.
+    const anchor=await env.DB.prepare(`SELECT id,name,battle_power,reward_coin,COALESCE(pve_display_order,sort_order,0) AS display_order,COALESCE(sort_order,0) AS sort_order
+      FROM battle_monsters WHERE is_active=1 AND UPPER(COALESCE(pve_tab,''))='HELL'
+      ORDER BY CASE WHEN name LIKE '%니카%' THEN 0 ELSE 1 END,battle_power DESC,id DESC LIMIT 1`).first();
+    const rows=(await env.DB.prepare(`SELECT id,name FROM battle_monsters
+      WHERE is_active=1 AND UPPER(COALESCE(pve_tab,''))='NIGHTMARE' ORDER BY id`).all()).results||[];
+    if(!anchor||!rows.length){
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)").bind(marker).run();
+      return true;
+    }
+    let nightmareSettings=normalizeNightmareSettings();
+    try{
+      const stored=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_nightmare_settings_v1'").first();
+      if(stored?.value)nightmareSettings=normalizeNightmareSettings(JSON.parse(stored.value));
+    }catch{}
+    const plan=nightmareProgressionPlan({
+      anchorPower:anchor.battle_power,
+      anchorReward:anchor.reward_coin,
+      anchorDisplayOrder:anchor.display_order,
+      anchorSortOrder:anchor.sort_order,
+      settings:nightmareSettings
+    });
+    const byKey=new Map(plan.map(item=>[item.key,item]));
+    const statements=[];
+    for(const row of rows){
+      const item=byKey.get(nightmareProgressionKey(row.name));
+      if(!item)continue;
+      statements.push(env.DB.prepare(`UPDATE battle_monsters SET battle_power=?,reward_coin=?,pve_display_order=?,sort_order=?,pve_enabled=1,monster_category='BOSS',updated_at=CURRENT_TIMESTAMP
+        WHERE id=? AND is_active=1 AND UPPER(COALESCE(pve_tab,''))='NIGHTMARE'`).bind(item.battlePower,item.rewardCoin,item.pveDisplayOrder,item.sortOrder,row.id));
+    }
+    statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,'1',CURRENT_TIMESTAMP)").bind(marker));
+    await env.DB.batch(statements);
+    return true;
+  })().catch(error=>{nightmareProgressionUpgradePromise=null;throw error});
+  return nightmareProgressionUpgradePromise;
+}
 async function deleteBattleMonster(env,id){
   const statements=[];
   if(await tableExists(env,'tower_floor_ranges'))statements.push(env.DB.prepare('DELETE FROM tower_floor_ranges WHERE monster_id=?').bind(id));
@@ -1564,11 +1609,12 @@ async function ensureRuntimeUpgrades(env){
     // 신규 성능 인덱스만 먼저 빠르게 설치한 뒤, 과거 마이그레이션은 기존 마커가 없는 DB에서만 검사한다.
     await ensureD1HotpathIndexes(env);
     await ensureEquipmentFoundation(env);
-    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes','safe_runtime_upgrade_v1693_nightmare_clone','safe_runtime_upgrade_v1694_nightmare_pair_dedup','safe_runtime_upgrade_v1695_purge_inactive_monsters')").all();
+    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes','safe_runtime_upgrade_v1693_nightmare_clone','safe_runtime_upgrade_v1694_nightmare_pair_dedup','safe_runtime_upgrade_v1695_purge_inactive_monsters','safe_runtime_upgrade_v1696_nightmare_after_hell_nika')").all();
     const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
     if(markerMap.safe_runtime_upgrade_v1693_nightmare_clone!=='1')await ensureNightmareHellCloneUpgrade(env);
     if(markerMap.safe_runtime_upgrade_v1694_nightmare_pair_dedup!=='1')await ensureNightmarePairDedupUpgrade(env);
     if(markerMap.safe_runtime_upgrade_v1695_purge_inactive_monsters!=='1')await ensureInactiveMonsterPurgeUpgrade(env);
+    if(markerMap.safe_runtime_upgrade_v1696_nightmare_after_hell_nika!=='1')await ensureNightmareProgressionUpgrade(env);
     if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'&&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1')return true;
     await ensureUpgrades(env);
     return true;
@@ -1955,6 +2001,7 @@ async function ensureUpgrades(env){
     await ensureNightmareHellCloneUpgrade(env);
     await ensureNightmarePairDedupUpgrade(env);
     await ensureInactiveMonsterPurgeUpgrade(env);
+    await ensureNightmareProgressionUpgrade(env);
     const inventoryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1023_inventory'").first();
     if(inventoryDone?.value!=='1'){
       for(const q of [
