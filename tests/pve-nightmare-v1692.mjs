@@ -31,7 +31,11 @@ assert.match(apiSource,/safe_runtime_upgrade_v1693_nightmare_clone/,'a correctiv
 assert.match(apiSource,/safe_runtime_upgrade_v1205_d1_hotpath_indexes','safe_runtime_upgrade_v1693_nightmare_clone'/,'the lightweight runtime gate must check the corrective migration marker');
 assert.match(apiSource,/safe_runtime_upgrade_v1694_nightmare_pair_dedup/,'a race-safe duplicate cleanup migration must exist');
 assert.match(apiSource,/idx_battle_monsters_active_nightmare_pair_v1694/,'active HELL and NIGHTMARE rows must have a uniqueness guard');
-assert.match(apiSource,/SET is_active=0[\s\S]*id NOT IN \(SELECT MIN\(id\)/,'duplicate rows must be preserved but removed from live lists');
+assert.match(apiSource,/safe_runtime_upgrade_v1695_purge_inactive_monsters/,'inactive CMS monster rows must have a one-time purge');
+assert.match(apiSource,/DELETE FROM battle_monsters WHERE is_active=0/,'inactive monster rows must be physically deleted');
+assert.match(apiSource,/FROM battle_monsters WHERE is_active=1 ORDER BY COALESCE\(pve_display_order/,'the CMS monster list must only return live rows');
+assert.match(apiSource,/async function deleteBattleMonster[\s\S]{0,700}DELETE FROM battle_monsters WHERE id=\?/,'future CMS deletion must physically remove the monster');
+assert.match(apiSource,/request\.method==='DELETE'[\s\S]{0,300}deleteBattleMonster\(env,id\)/,'the CMS DELETE route must use the hard-delete helper');
 assert.match(apiSource,/SET pve_tab='HELL'.*UPPER\(COALESCE\(pve_tab,''\)\)='NIGHTMARE'/s,'the original HELL monster must be restored');
 assert.match(apiSource,/SELECT src\.name[\s\S]*'NIGHTMARE'[\s\S]*FROM battle_monsters src/,'Nightmare must be created as a separate monster row');
 assert.doesNotMatch(apiSource,/safe_runtime_upgrade_v1692_nightmare_pve[\s\S]{0,500}UPDATE battle_monsters SET pve_tab='NIGHTMARE'/,'the original HELL row must never be moved again');
