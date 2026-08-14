@@ -316,7 +316,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, healerPenalty = false, singleHealerBonus = {} } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {} } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
@@ -454,7 +454,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     resolveKnockout(target, timeline, clock + 0.0002, reviveFromMagic);
   }
 
-  const bossOpeningPercent = clamp(openingBossUltimatePercent, 0, 100);
+  const bossOpeningCap = clamp(bossUltimateCapPercent, 100, 500);
+  const bossOpeningPercent = clamp(openingBossUltimatePercent, 0, bossOpeningCap);
   if (bossOpeningPercent > 0 && alive(a).length && alive(b).length) {
     const hits = [];
     const damagedTargets = [...alive(a)];
@@ -686,6 +687,10 @@ export function teamSummary(cards = []) {
 export function buildMonsterFighter(monster = {}) {
   const power = Math.max(1, Number(monster.battle_power ?? monster.battlePower ?? monster.power ?? 1));
   const isBoss = Number(monster.is_boss ?? monster.isBoss ?? 0) === 1 || monster.isBoss === true;
+  const difficultyHpPercent = clamp(Number(monster.pve_hp_percent ?? 100), 100, 1000);
+  const difficultyAttackPercent = clamp(Number(monster.pve_attack_percent ?? 100), 100, 1000);
+  const difficultyDefensePercent = clamp(Number(monster.pve_defense_percent ?? 100), 100, 1000);
+  const difficultySpeedPercent = clamp(Number(monster.pve_speed_percent ?? 100), 100, 300);
   // V1319: 몬스터의 위협성은 유지하되 방어 누적으로 전투가 과도하게 길어지지 않도록 재조정한다.
   // DB 전투력은 그대로 두고 V2 환산 단계의 PVE 전용 배수만 변경한다.
   const hpBuffPercent = isBoss ? 10 : 5;
@@ -694,10 +699,10 @@ export function buildMonsterFighter(monster = {}) {
   const baseHp = Math.max(500, Math.round(power * (isBoss ? 4.6 : 4.0)));
   const baseAttack = Math.max(20, Math.round(power * (isBoss ? 0.205 : 0.175)));
   const baseDefense = Math.max(1, Math.round(power * (isBoss ? 0.105 : 0.082)));
-  const maxHp = Math.max(500, Math.round(baseHp * (1 + hpBuffPercent / 100)));
-  const attack = Math.max(20, Math.round(baseAttack * (1 + attackBuffPercent / 100)));
-  const defense = Math.max(1, Math.round(baseDefense * (1 + defenseBuffPercent / 100)));
-  const speed = Math.max(55, Math.round(isBoss ? 104 : 92));
+  const maxHp = Math.max(500, Math.round(baseHp * (1 + hpBuffPercent / 100) * difficultyHpPercent / 100));
+  const attack = Math.max(20, Math.round(baseAttack * (1 + attackBuffPercent / 100) * difficultyAttackPercent / 100));
+  const defense = Math.max(1, Math.round(baseDefense * (1 + defenseBuffPercent / 100) * difficultyDefensePercent / 100));
+  const speed = Math.max(55, Math.round((isBoss ? 104 : 92) * difficultySpeedPercent / 100));
   return {
     id: `B:0:MONSTER:${String(monster.id || 0)}`,
     cardId: `MONSTER:${String(monster.id || 0)}`,
@@ -708,7 +713,7 @@ export function buildMonsterFighter(monster = {}) {
     basePower: Math.round(power), equipmentShare: 0, power: Math.round(power),
     type: 'NONE', typeLabel: isBoss ? '보스' : '몬스터', uniqueAbility: null,
     maxHp, hp: maxHp, attack, defense, speed, shield: 0, maxShield: 0, gauge: isBoss ? 12 : 4,
-    pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent },
+    pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent, difficultyHpPercent, difficultyAttackPercent, difficultyDefensePercent, difficultySpeedPercent },
     alive: true, emergencyUsed: false, survivalUsed: false, frontlineAnnounced: false,
     actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss
   };
@@ -724,7 +729,7 @@ function forcePveMonsterSurvivalLoss(result = {}) {
   return { ...result, winner: 'B', reason: 'MONSTER_SURVIVED', originalWinner: result.winner, originalReason: result.reason, timeline };
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, singleHealerBonus = {} } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {} } = {}) {
   const withBonus = distributeEquipment(cards, Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const teamB = [buildMonsterFighter(monster)];
@@ -732,6 +737,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     teamA, teamB, magicA:magicCards, seed, maxActions: 2000, maxDuration: 4.0,
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent,
+    bossUltimateCapPercent,
     healerPenalty: true,
     singleHealerBonus
   });
@@ -742,7 +748,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.6,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
