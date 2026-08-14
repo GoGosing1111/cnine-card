@@ -9,6 +9,20 @@ const TICKET_RESERVATION_TABLE='scrapyard_ticket_reservations_v1680';
 const MODE_SET=new Set(['OFF','TEST','ON']);
 // 폐차장 정식 공개 전에는 CMS 값과 무관하게 OWNER 테스트만 허용한다.
 const PUBLIC_RELEASE_ENABLED=false;
+const SCRAPYARD_ENEMIES={
+  OUTER:{
+    normal:[{id:'SCRAP_OUTER_GEARJAW',name:'기어죠 스캐빈저',image:'assets/ui/scrapyard/monsters/gearjaw-scavenger-v1698.webp'}],
+    boss:[{id:'SCRAP_OUTER_BREAKER',name:'고철군주 브레이커',image:'assets/ui/scrapyard/monsters/wrecklord-breaker-v1698.webp'}]
+  },
+  CORE:{
+    normal:[{id:'SCRAP_CORE_POLARITY',name:'극성 회수기',image:'assets/ui/scrapyard/monsters/polarity-reclaimer-v1698.webp'}],
+    boss:[{id:'SCRAP_CORE_ATLAS',name:'유압거신 아틀라스',image:'assets/ui/scrapyard/monsters/hydraulic-titan-atlas-v1698.webp'}]
+  },
+  FURNACE:{
+    normal:[{id:'SCRAP_FURNACE_RAVAGER',name:'신더트랙 라바저',image:'assets/ui/scrapyard/monsters/cindertrack-ravager-v1698.webp'}],
+    boss:[{id:'SCRAP_FURNACE_MOLOCH',name:'용광로 군주 몰로크',image:'assets/ui/scrapyard/monsters/furnace-sovereign-moloch-v1698.webp'}]
+  }
+};
 let foundationPromise=null,settingsCache=null;
 
 const DEFAULT_SETTINGS={
@@ -74,7 +88,7 @@ async function ensureFoundation(env){
   return foundationPromise;
 }
 async function settings(env,{fresh=false}={}){if(!fresh&&settingsCache?.expiresAt>Date.now())return settingsCache.value;const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(META_KEY).first(),value=cleanSettings(parse(row?.value,DEFAULT_SETTINGS));settingsCache={value,expiresAt:Date.now()+15000};return value}
-function publicDeck(deck){return (deck?.cards||[]).slice(0,5).map(card=>({id:String(card.id),title:card.title,rarity:card.rarity||card.grade||'C',image:card.image||'',power:Number(card.power||0)}))}
+function publicDeck(deck){return (deck?.cards||[]).slice(0,5).map(card=>({id:String(card.id),title:card.title,rarity:card.rarity||card.grade||'C',grade:card.rarity||card.grade||'C',image:card.image||card.image_url||'',power:Number(card.power||0),powerType:card.powerType||card.power_type||'',breakthroughLevel:Number(card.breakthroughLevel??card.breakthrough_level??0),focusX:Number(card.focusX??card.focus_x??50),focusY:Number(card.focusY??card.focus_y??50),uniqueAbility:card.uniqueAbility||null}))}
 
 async function status(env,user,raidDeckPower){
   const cfg=await settings(env,{fresh:true}),deck=await raidDeckPower(env,user.id,null,'PVE'),day=kstDayRange();
@@ -90,19 +104,15 @@ async function status(env,user,raidDeckPower){
   return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:PUBLIC_RELEASE_ENABLED,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:true,ticketQuantity:ticketItem.quantity,canEnterWithTicket:ticketItem.quantity>0},ticket:ticketItem,deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
 }
 
-async function monsterPool(env){
-  const rows=await env.DB.prepare(`SELECT id,name,replace(image_url,char(92),'/') image,battle_power power,is_boss FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 ORDER BY COALESCE(is_boss,0),COALESCE(pve_display_order,sort_order,0),id LIMIT 80`).all();
-  return rows.results||[];
-}
-function buildBattle({requestId,difficulty,deck,pool}){
-  const waves=[],normal=pool.filter(row=>!Number(row.is_boss)),bosses=pool.filter(row=>Number(row.is_boss));let partyHp=100,cleared=0;
+function buildBattle({requestId,difficulty,deck}){
+  const waves=[],enemySet=SCRAPYARD_ENEMIES[difficulty.id]||SCRAPYARD_ENEMIES.OUTER,normal=enemySet.normal,bosses=enemySet.boss;let partyHp=100,cleared=0;
   for(let index=0;index<difficulty.waves;index++){
-    const boss=index===difficulty.waves-1,candidates=boss&&bosses.length?bosses:normal.length?normal:pool,monster=candidates[Math.floor(hashUnit(`${requestId}:MONSTER:${index}`)*Math.max(1,candidates.length))]||{};
+    const boss=index===difficulty.waves-1,candidates=boss?bosses:normal,monster=candidates[Math.floor(hashUnit(`${requestId}:MONSTER:${index}`)*Math.max(1,candidates.length))]||{};
     const progress=index/Math.max(1,difficulty.waves-1),required=Math.round(difficulty.requiredPowerStart+(difficulty.requiredPowerEnd-difficulty.requiredPowerStart)*Math.pow(progress,1.22))*(boss ? 1.08 : 1),ratio=Number(deck.power||0)/Math.max(1,required),enemyMaxHp=Math.max(1000,Math.round(required*(boss ? 3.1 : 2.25))),turns=[],enemyDamage=Math.max(1,Math.round(required*(boss ? .19 : .13))),baseHit=Math.max(1,Math.round(Number(deck.power||0)*(.34+hashUnit(`${requestId}:HIT:${index}`)*.11)));let enemyHp=enemyMaxHp;
     for(let turn=0;turn<12&&enemyHp>0&&partyHp>0;turn++){
       const card=deck.cards[turn%Math.max(1,deck.cards.length)]||{},crit=hashUnit(`${requestId}:${index}:${turn}:CRIT`)<.18,damage=Math.max(1,Math.round(baseHit*(crit ? 1.65 : 1)*(boss ? .92 : 1)));enemyHp=Math.max(0,enemyHp-damage);turns.push({turn:turn+1,cardIndex:turn%5,damage,critical:crit,enemyHp});if(enemyHp<=0)break;const received=Math.max(1,Math.round(enemyDamage/Math.max(1,Number(deck.power||1))*(17+index*1.8)));partyHp=Math.max(0,partyHp-received);turns[turns.length-1].counterDamage=received;turns[turns.length-1].partyHp=partyHp;
     }
-    const won=enemyHp<=0&&partyHp>0;if(won)cleared++;waves.push({wave:index+1,boss,requiredPower:required,powerRatio:Number(ratio.toFixed(3)),monster:{id:Number(monster.id||0),name:monster.name||(boss?'폐차장 파쇄왕':'고철 포식자'),image:monster.image||'',maxHp:enemyMaxHp},turns,won,partyHp});if(!won)break;
+    const won=enemyHp<=0&&partyHp>0;if(won)cleared++;waves.push({wave:index+1,boss,requiredPower:required,powerRatio:Number(ratio.toFixed(3)),monster:{id:String(monster.id||''),name:monster.name||(boss?'폐차장 파쇄왕':'고철 포식자'),image:monster.image||'',maxHp:enemyMaxHp},turns,won,partyHp});if(!won)break;
   }
   return {waves,wavesCleared:cleared,success:cleared===difficulty.waves,remainingPartyHp:partyHp};
 }
@@ -158,11 +168,17 @@ async function run(env,user,body,deps){
     :await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,difficulty,status) VALUES(?,?,?,'PENDING')`).bind(requestId,user.id,difficulty.id).run();if(!reserved.meta?.changes)throw new Error('같은 폐차장 원정을 처리 중입니다.');
   try{
     const ticketRemaining=await reserveEntryTicket(env,user.id,requestId);
-    const [deck,pool]=await Promise.all([deps.raidDeckPower(env,user.id,null,'PVE'),monsterPool(env)]),battle=buildBattle({requestId,difficulty,deck,pool});
+    const deck=await deps.raidDeckPower(env,user.id,null,'PVE');
+    let uniqueRoll=0;
+    const uniqueRuntime=deck.unique?.enabled&&typeof deps.resolveUniqueBattleRuntime==='function'
+      ?deps.resolveUniqueBattleRuntime(deck.unique,{mode:'PVE',basePower:Number(deck.power||0),opponentPower:Math.round(Number(difficulty.requiredPowerEnd||0)*1.08),random:()=>hashUnit(`${requestId}:UNIQUE:${uniqueRoll++}`)})
+      :null;
+    const effectivePower=Math.max(0,Number(uniqueRuntime?.effectivePower??deck.power??0));
+    const battleDeck={...deck,power:effectivePower},battle=buildBattle({requestId,difficulty,deck:battleDeck});
     let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});
     const clearCoin=battle.success?Number(difficulty.clearCoin||0):0,currentBalance=clearCoin>0?await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first():null;
     const guaranteed=clearCoin>0?[{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}]:[],rewards=[...guaranteed,...(drop.rewards||[])];
-    const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},entryTicket:{code:ENTRY_TICKET_CODE,consumed:1,remaining:ticketRemaining},deckPower:Number(deck.power||0),deckCards:publicDeck(deck),...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(currentBalance?{coin:Number(currentBalance.coin||0)+clearCoin}:{})}};
+    const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},entryTicket:{code:ENTRY_TICKET_CODE,consumed:1,remaining:ticketRemaining},baseDeckPower:Number(deck.power||0),deckPower:effectivePower,deckCards:publicDeck(deck),uniqueAbility:typeof deps.uniqueBattleResponsePayload==='function'?deps.uniqueBattleResponsePayload(deck.unique,uniqueRuntime):null,...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(currentBalance?{coin:Number(currentBalance.coin||0)+clearCoin}:{})}};
     const statements=[
       ...(clearCoin>0?[env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(clearCoin,user.id),env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'SCRAPYARD_CLEAR' FROM users WHERE id=?").bind(clearCoin,user.id)]:[]),
       env.DB.prepare(`INSERT INTO ${RUN_TABLE}(request_id,user_id,difficulty,deck_power,waves_total,waves_cleared,success,rewards_json) VALUES(?,?,?,?,?,?,?,?)`).bind(requestId,user.id,difficulty.id,response.deckPower,difficulty.waves,battle.wavesCleared,battle.success?1:0,JSON.stringify(response.rewards)),

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>폐차장 PVE 전투 프리뷰</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/card.css">
+  <link rel="stylesheet" href="../css/animation.css">
+  <link rel="stylesheet" href="../css/card-unique-battle-fx-v1174.css">
+  <link rel="stylesheet" href="../css/workshop-v1676.css">
+  <link rel="stylesheet" href="../css/scrapyard-battle-v1698.css">
+  <style>
+    html,body{min-height:100%;margin:0;background:#02060c}#app{display:none!important}
+    #modal{position:fixed;inset:0;display:grid;place-items:center;z-index:1}
+  </style>
+</head>
+<body>
+  <div id="app"></div><div id="modal" class="modal"></div>
+  <script src="../js/app.js"></script>
+  <script src="../js/scrapyard-battle-v1698.js"></script>
+  <script>
+    addEventListener('load',()=>{
+      const cards=[
+        ['preview-1','오쪼은','PRESTIGE','../assets/cards/123.jpg','ATTACK'],
+        ['preview-2','류하','LIMITED','../assets/cards/123132.jpg','SPEED'],
+        ['preview-3','서수길','UR','../assets/cards/chul911.jpg','DEFENSE'],
+        ['preview-4','감스트','FUR','../assets/cards/GGG1.jpg','HP'],
+        ['preview-5','유화','ZENITH','../assets/cards/dani1.jpg','ATTACK']
+      ].map(([id,title,rarity,image,type],index)=>({id,title,rarity,grade:rarity,image,power:43000+index*3700,powerType:type,breakthroughLevel:10+index%4,focusX:50,focusY:50,uniqueAbility:{dominantType:type,effectName:`${title} 고유효과`}}));
+      const turns=Array.from({length:16},(_,index)=>({cardIndex:index%5,damage:25500+index*2700,critical:index%4===2,enemyHp:Math.max(0,420000-(index+1)*29000),counterDamage:index%3===1?4100+index*110:0,partyHp:Math.max(12,100-index*4.8)}));
+      window.playScrapyardBattleV1698({
+        baseDeckPower:231942,deckPower:266733,deckCards:cards,
+        difficulty:{id:'FURNACE',name:'용광로 심층',waves:3},
+        uniqueAbility:{battleEffects:{events:[
+          {type:'ATTACK',cardId:'preview-1',cardTitle:'오쪼은',label:'공격형',summary:'추가 공격력 발동'},
+          {type:'SPEED',cardId:'preview-2',cardTitle:'류하',label:'속도형',summary:'연속 공격 발동'},
+          {type:'DEFENSE',cardId:'preview-3',cardTitle:'서수길',label:'방어형',summary:'피해 경감 발동'}
+        ]}},
+        waves:[
+          {wave:1,boss:false,won:true,monster:{name:'신더트랙 라바저',image:'../assets/ui/scrapyard/monsters/cindertrack-ravager-v1698.webp',maxHp:420000},turns},
+          {wave:2,boss:false,won:true,monster:{name:'신더트랙 라바저',image:'../assets/ui/scrapyard/monsters/cindertrack-ravager-v1698.webp',maxHp:420000},turns},
+          {wave:3,boss:true,won:true,monster:{name:'용광로 군주 몰로크',image:'../assets/ui/scrapyard/monsters/furnace-sovereign-moloch-v1698.webp',maxHp:420000},turns}
+        ]
+      },{asset:value=>String(value||''),esc:value=>String(value||''),fmt:value=>Number(value||0).toLocaleString('ko-KR'),normalizeImages:()=>{},showResult:()=>{}});
+    });
+  </script>
+</body>
+</html>

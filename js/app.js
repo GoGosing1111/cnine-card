@@ -2089,6 +2089,7 @@ async function playUniqueBattleEventSequence(stage,phase,msg,uniquePayload,cards
     await battleSleep(type==='HP'?620:460);
   }
 }
+window.SoopBattleFxV1698={fighterHtml:battleFighterHtml,playUnique:playUniqueBattleEventSequence,triggerUnique:battleTriggerUniqueFx,burst:battleBurst};
 
 function deckAbilityIconHtml(card,classes=''){
   if(!/(?:pve-deck-card-display|pvp-card-display|dex-card-display|rift-start-card|rift-card-display)/.test(String(classes)))return '';
