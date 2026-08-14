@@ -1499,6 +1499,38 @@ async function ensureNightmareHellCloneUpgrade(env){
   })().catch(error=>{nightmareHellCloneUpgradePromise=null;throw error});
   return nightmareHellCloneUpgradePromise;
 }
+let nightmarePairDedupUpgradePromise=null;
+async function ensureNightmarePairDedupUpgrade(env){
+  if(nightmarePairDedupUpgradePromise)return nightmarePairDedupUpgradePromise;
+  nightmarePairDedupUpgradePromise=(async()=>{
+    const done=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1694_nightmare_pair_dedup'").first();
+    if(done?.value==='1')return true;
+    if(!await columnExists(env,'battle_monsters','pve_tab')){
+      await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1694_nightmare_pair_dedup','1',CURRENT_TIMESTAMP)").run();
+      return true;
+    }
+    const names="name LIKE '%조로%' OR name LIKE '%사스케%' OR name LIKE '%이타치%' OR name LIKE '%젠이츠%' OR name LIKE '%코쥬로%' OR name LIKE '%쿄쥬로%' OR name LIKE '%슌스이%' OR name LIKE '%암부%' OR name LIKE '%셋쇼마루%' OR name LIKE '%루피%'";
+    const srcNames=names.replaceAll('name','src.name');
+    await env.DB.batch([
+      // Preserve duplicate rows for battle-log references, but remove them from every live monster list.
+      env.DB.prepare(`UPDATE battle_monsters SET is_active=0,updated_at=CURRENT_TIMESTAMP
+        WHERE is_active=1 AND UPPER(COALESCE(pve_tab,'')) IN ('HELL','NIGHTMARE') AND (${names})
+          AND id NOT IN (SELECT MIN(id) FROM battle_monsters WHERE is_active=1 AND UPPER(COALESCE(pve_tab,'')) IN ('HELL','NIGHTMARE') AND (${names}) GROUP BY name,COALESCE(image_url,''),UPPER(COALESCE(pve_tab,'')))`),
+      env.DB.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_battle_monsters_active_nightmare_pair_v1694 ON battle_monsters(name,image_url,pve_tab) WHERE is_active=1 AND UPPER(COALESCE(pve_tab,'')) IN ('HELL','NIGHTMARE') AND (${names})`),
+      env.DB.prepare(`INSERT OR IGNORE INTO battle_monsters(name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order,ultimate_enabled,ultimate_name,ultimate_description,ultimate_trigger,ultimate_chance,ultimate_damage_percent,ultimate_max_uses,ultimate_target,ultimate_theme,ultimate_warning_text,ultimate_shake,ultimate_zoom,ultimate_media_url,ultimate_sound_url,ultimate_duration_ms,ultimate_volume_percent,ultimate_force_cast,ultimate_pve_damage_percent,ultimate_tower_damage_percent,monster_category,pve_tab,pve_display_order,pve_enabled,tower_enabled,tower_only,created_at,updated_at)
+        SELECT src.name,src.image_url,src.battle_power,src.reward_coin,src.is_boss,1,src.sort_order,src.ultimate_enabled,src.ultimate_name,src.ultimate_description,src.ultimate_trigger,src.ultimate_chance,src.ultimate_damage_percent,src.ultimate_max_uses,src.ultimate_target,src.ultimate_theme,src.ultimate_warning_text,src.ultimate_shake,src.ultimate_zoom,src.ultimate_media_url,src.ultimate_sound_url,src.ultimate_duration_ms,src.ultimate_volume_percent,src.ultimate_force_cast,src.ultimate_pve_damage_percent,src.ultimate_tower_damage_percent,src.monster_category,'HELL',src.pve_display_order,1,src.tower_enabled,src.tower_only,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
+        FROM battle_monsters src WHERE src.is_active=1 AND UPPER(COALESCE(src.pve_tab,''))='NIGHTMARE' AND (${srcNames})
+          AND NOT EXISTS(SELECT 1 FROM battle_monsters h WHERE h.is_active=1 AND UPPER(COALESCE(h.pve_tab,''))='HELL' AND h.name=src.name AND COALESCE(h.image_url,'')=COALESCE(src.image_url,''))`),
+      env.DB.prepare(`INSERT OR IGNORE INTO battle_monsters(name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order,ultimate_enabled,ultimate_name,ultimate_description,ultimate_trigger,ultimate_chance,ultimate_damage_percent,ultimate_max_uses,ultimate_target,ultimate_theme,ultimate_warning_text,ultimate_shake,ultimate_zoom,ultimate_media_url,ultimate_sound_url,ultimate_duration_ms,ultimate_volume_percent,ultimate_force_cast,ultimate_pve_damage_percent,ultimate_tower_damage_percent,monster_category,pve_tab,pve_display_order,pve_enabled,tower_enabled,tower_only,created_at,updated_at)
+        SELECT src.name,src.image_url,src.battle_power,src.reward_coin,1,1,src.sort_order,src.ultimate_enabled,src.ultimate_name,src.ultimate_description,src.ultimate_trigger,src.ultimate_chance,src.ultimate_damage_percent,src.ultimate_max_uses,src.ultimate_target,src.ultimate_theme,src.ultimate_warning_text,src.ultimate_shake,src.ultimate_zoom,src.ultimate_media_url,src.ultimate_sound_url,src.ultimate_duration_ms,src.ultimate_volume_percent,src.ultimate_force_cast,src.ultimate_pve_damage_percent,src.ultimate_tower_damage_percent,'BOSS','NIGHTMARE',src.pve_display_order,1,0,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
+        FROM battle_monsters src WHERE src.is_active=1 AND UPPER(COALESCE(src.pve_tab,''))='HELL' AND (${srcNames})
+          AND NOT EXISTS(SELECT 1 FROM battle_monsters n WHERE n.is_active=1 AND UPPER(COALESCE(n.pve_tab,''))='NIGHTMARE' AND n.name=src.name AND COALESCE(n.image_url,'')=COALESCE(src.image_url,''))`),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1694_nightmare_pair_dedup','1',CURRENT_TIMESTAMP)")
+    ]);
+    return true;
+  })().catch(error=>{nightmarePairDedupUpgradePromise=null;throw error});
+  return nightmarePairDedupUpgradePromise;
+}
 let runtimeUpgradeGatePromise=null;
 async function ensureRuntimeUpgrades(env){
   if(runtimeUpgradeGatePromise)return runtimeUpgradeGatePromise;
@@ -1506,9 +1538,10 @@ async function ensureRuntimeUpgrades(env){
     // 신규 성능 인덱스만 먼저 빠르게 설치한 뒤, 과거 마이그레이션은 기존 마커가 없는 DB에서만 검사한다.
     await ensureD1HotpathIndexes(env);
     await ensureEquipmentFoundation(env);
-    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes','safe_runtime_upgrade_v1693_nightmare_clone')").all();
+    const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes','safe_runtime_upgrade_v1693_nightmare_clone','safe_runtime_upgrade_v1694_nightmare_pair_dedup')").all();
     const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
     if(markerMap.safe_runtime_upgrade_v1693_nightmare_clone!=='1')await ensureNightmareHellCloneUpgrade(env);
+    if(markerMap.safe_runtime_upgrade_v1694_nightmare_pair_dedup!=='1')await ensureNightmarePairDedupUpgrade(env);
     if(markerMap.safe_runtime_upgrade_v1144_stability_gate==='1'&&markerMap.safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts==='1'&&markerMap.safe_runtime_upgrade_v1191_rift_expedition==='1'&&markerMap.safe_runtime_upgrade_v1205_d1_hotpath_indexes==='1')return true;
     await ensureUpgrades(env);
     return true;
@@ -1893,6 +1926,7 @@ async function ensureUpgrades(env){
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1692_nightmare_pve','1',CURRENT_TIMESTAMP)").run();
     }
     await ensureNightmareHellCloneUpgrade(env);
+    await ensureNightmarePairDedupUpgrade(env);
     const inventoryDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1023_inventory'").first();
     if(inventoryDone?.value!=='1'){
       for(const q of [

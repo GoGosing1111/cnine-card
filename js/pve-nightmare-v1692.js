@@ -11,7 +11,7 @@
     spotlight.classList.toggle('nightmare-target',active);
     let badge=spotlight.querySelector('.nightmare-target-emblem');
     if(active&&!badge){
-      badge=document.createElement('div');badge.className='nightmare-target-emblem';badge.innerHTML='<i aria-hidden="true"></i><span><small>PVE EXCLUSIVE</small><b>NIGHTMARE</b><em>보스 궁극기 피해 제한 해제</em></span>';spotlight.append(badge);
+      badge=document.createElement('div');badge.className='nightmare-target-emblem';badge.innerHTML='<i aria-hidden="true"></i><span><small>PVE EXCLUSIVE</small><b>NIGHTMARE</b></span>';spotlight.append(badge);
     }else if(!active&&badge)badge.remove();
   }
   function decorateBattle(){
