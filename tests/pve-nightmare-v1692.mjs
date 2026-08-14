@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { normalizeNightmareSettings,pveDifficultyRuntime } from '../functions/_pve_nightmare.js';
 import { simulateBattleV2Preview } from '../functions/_battle_v2_preview.js';
 
@@ -25,4 +26,10 @@ const unlocked=simulateBattleV2Preview({teamA:[fighter('A','A1')],teamB:[fighter
 assert.equal(unlocked.timeline.find(event=>event.type==='BOSS_ULTIMATE')?.damagePercent,300,'Nightmare must accept the CMS value above 100%');
 assert.equal(unlocked.final.A[0].hp,0);
 
-console.log('PVE Nightmare: server profile, reward multiplier, legacy isolation and ultimate unlock verified');
+const apiSource=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
+assert.match(apiSource,/safe_runtime_upgrade_v1693_nightmare_clone/,'a corrective clone migration must exist');
+assert.match(apiSource,/SET pve_tab='HELL'.*UPPER\(COALESCE\(pve_tab,''\)\)='NIGHTMARE'/s,'the original HELL monster must be restored');
+assert.match(apiSource,/SELECT src\.name[\s\S]*'NIGHTMARE'[\s\S]*FROM battle_monsters src/,'Nightmare must be created as a separate monster row');
+assert.doesNotMatch(apiSource,/safe_runtime_upgrade_v1692_nightmare_pve[\s\S]{0,500}UPDATE battle_monsters SET pve_tab='NIGHTMARE'/,'the original HELL row must never be moved again');
+
+console.log('PVE Nightmare: profile, reward, legacy isolation, ultimate unlock and HELL-preserving clone migration verified');
