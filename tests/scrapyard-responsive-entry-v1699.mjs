@@ -16,6 +16,6 @@ assert.match(workshop,/if\(version!==scrapSyncVersion\)return/,'an older backgro
 assert.doesNotMatch(workshop,/scrap=await api\('scrapyard\/status'\);state=await api\('workshop'\)/,'sequential post-run refresh must not return');
 assert.match(css,/button\.is-starting:disabled/);
 assert.match(index,/workshop-v1676\.js\?v=1703-fast-entry/);
-assert.match(worker,/soop-card-static-v1718/);
+assert.match(worker,/soop-card-static-v1720/);
 
 console.log('Scrapyard v1699: immediate start feedback, optimistic unlock and parallel background refresh verified');
