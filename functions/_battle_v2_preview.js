@@ -595,7 +595,14 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     const haste=activateMagic(actor,'FOLLOWUP_HASTE');
     if(haste){const gain=clamp(Number(haste.effectValue||0),0,95);actor.gauge=Math.min(95,actor.gauge+gain);pushEvent(timeline,clock+0.0001,'MAGIC_CARD',{actorId:actor.id,targetId:actor.id,magicCardId:haste.id,magicCode:haste.code,magicName:haste.name,magicImageUrl:haste.imageUrl,magicEnhancementLevel:haste.enhancementLevel,effectType:haste.effectType,value:gain,gaugeAfter:actor.gauge,activation:haste.activations,maxActivations:haste.maxActivations,label:haste.name});}
-    const retaliate=(owner,effectType,offset,fromAttack=false)=>{const magic=activateMagic(owner,effectType);if(!magic||!actor.alive||!owner.alive)return;const amount=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100));const state=applyDamage(actor,amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',magicEvent(magic,owner,actor,{damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield}));resolveKnockout(actor,timeline,clock+offset+0.00001,reviveFromMagic);};
+    const capHasteRetaliation=(amount)=>{
+      const requested=Math.max(0,Number(amount||0));
+      if(!haste)return {amount:requested,prevented:0};
+      const nonlethalCap=Math.max(0,Number(actor.shield||0)+Math.max(0,Number(actor.hp||0)-1));
+      const applied=Math.min(requested,nonlethalCap);
+      return {amount:applied,prevented:Math.max(0,requested-applied)};
+    };
+    const retaliate=(owner,effectType,offset,fromAttack=false)=>{if(!actor.alive||!owner.alive||owner.hp<=0)return;const magic=activateMagic(owner,effectType);if(!magic)return;const requested=Math.max(1,Math.round((fromAttack?owner.attack:owner.maxHp)*Math.min(fromAttack?500:100,Number(magic.effectValue||0))/100)),guard=capHasteRetaliation(requested);const state=applyDamage(actor,guard.amount);pushEvent(timeline,clock+offset,'MAGIC_CARD',magicEvent(magic,owner,actor,{damage:state.hpDamage,absorbed:state.absorbed,targetHpAfter:actor.hp,targetMaxHp:actor.maxHp,targetShieldAfter:actor.shield,hasteRetaliationGuard:Boolean(haste),preventedDamage:guard.prevented}));resolveKnockout(actor,timeline,clock+offset+0.00001,reviveFromMagic);};
     retaliate(target,'PUNISH_TRAP',0.0002,false);retaliate(target,'ARCANE_COUNTER',0.0003,true);
 
     const knockedOut = resolveKnockout(target, timeline, clock, reviveFromMagic);
@@ -621,7 +628,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (target.type === 'DEFENSE' && (barrierBroken || random() < defenseCounterChance)) {
       const counter = hitResult(target, actor, random, barrierBroken?(target.defenseLineBreached?0.60:0.72):(target.defenseLineBreached?0.45:0.55), true);
       if (!counter.dodge) {
-        const counterState = applyDamage(actor, counter.damage);
+        const counterGuard = capHasteRetaliation(counter.damage);
+        const counterState = applyDamage(actor, counterGuard.amount);
         target.damageDealt += counterState.hpDamage + counterState.absorbed;
         pushEvent(timeline, clock + 0.001, 'COUNTER', {
           actorId: target.id,
@@ -632,6 +640,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           targetHpAfter: actor.hp,
           targetMaxHp: actor.maxHp,
           targetShieldAfter: actor.shield,
+          hasteRetaliationGuard: Boolean(haste),
+          preventedDamage: counterGuard.prevented,
           label: '방어형 · 반격'
         });
         const actorDown = resolveKnockout(actor, timeline, clock + 0.001, reviveFromMagic);

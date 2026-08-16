@@ -16,6 +16,9 @@
 .scrap-admin-release-lock { display: flex; gap: 9px; margin-top: 12px; padding: 9px 11px; border: 1px solid #745c2d; border-radius: 10px; background: #2c210f; }
 .scrap-admin-release-lock b { color: #ffd36f; white-space: nowrap; }
 .scrap-admin-release-lock span { color: #d1bd91; font-size: 12px; }
+.scrap-admin-release-lock.public-ready { border-color: #2f7d6c; background: #0d2925; }
+.scrap-admin-release-lock.public-ready b { color: #77e6c2; }
+.scrap-admin-release-lock.public-ready span { color: #a9d7c9; }
 @media (max-width: 700px) {
   .scrap-admin-drop-link { align-items: stretch; flex-direction: column; }
   .scrap-admin-drop-link button { width: 100%; }

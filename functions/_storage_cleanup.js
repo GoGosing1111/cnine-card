@@ -759,11 +759,12 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
     ORDER BY updated_at LIMIT ?)`},
   {key:'twv3_actions',table:'territory_war_v3_actions',sql:`DELETE FROM territory_war_v3_actions WHERE id IN (
     SELECT id FROM territory_war_v3_actions WHERE
-      ((status='COMPLETED' AND updated_at<datetime('now','-7 days')) OR (status='FAILED' AND updated_at<datetime('now','-2 days')))
+      ((status='COMPLETED' AND updated_at<datetime('now','-1 day') AND round_id IN (SELECT id FROM territory_war_v3_rounds WHERE status IN ('FINISHED','DISABLED')))
+       OR (status='FAILED' AND updated_at<datetime('now','-1 hour')))
     ORDER BY updated_at LIMIT ?)`},
   {key:'twv3_admin_operations',table:'territory_war_v3_admin_operations',sql:`DELETE FROM territory_war_v3_admin_operations WHERE rowid IN (
     SELECT rowid FROM territory_war_v3_admin_operations WHERE
-      ((status='COMPLETED' AND updated_at<datetime('now','-30 days')) OR (status='FAILED' AND updated_at<datetime('now','-7 days')))
+      (status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-1 hour'))
     ORDER BY updated_at LIMIT ?)`},
   {key:'twv3_claimed_rewards',table:'territory_war_v3_rewards',sql:`DELETE FROM territory_war_v3_rewards WHERE rowid IN (
     SELECT rowid FROM territory_war_v3_rewards WHERE claimed_at IS NOT NULL AND claimed_at<datetime('now','-365 days')

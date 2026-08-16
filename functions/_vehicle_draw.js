@@ -80,8 +80,8 @@ export async function handleVehicleDraw({path,request,env,deps}){const {authenti
  if(path==='vehicle-draw/purchase'&&request.method==='POST'){
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
   await ensureShop(env);
-  const b=await readBody(request),count=int(b.count,0,10),requestId=text(b.requestId,120);
-  if(![1,10].includes(count))return json({error:'구매 수량은 1개 또는 10개만 가능합니다.'},400);
+  const b=await readBody(request),count=int(b.count,0,100),requestId=text(b.requestId,120);
+  if(![1,10,100].includes(count))return json({error:'구매 수량은 1개, 10개 또는 100개만 가능합니다.'},400);
   if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
   const existing=await env.DB.prepare('SELECT status,response_json FROM vehicle_draw_purchase_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
   if(existing?.status==='COMPLETED'&&existing.response_json)return json(parse(existing.response_json,{}));
@@ -155,9 +155,9 @@ export async function handleVehicleDraw({path,request,env,deps}){const {authenti
  if(path==='admin/vehicle-draw/grant'&&request.method==='POST'){const user=await authenticate(request,env);if(!admin(user))return json({error:'관리자 권한이 필요합니다.'},403);const b=await readBody(request),userId=int(b.userId,1,2147483647),quantity=int(b.quantity,1,100000),requestId=text(b.requestId,120);if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);const target=await env.DB.prepare('SELECT id FROM users WHERE id=?').bind(userId).first();if(!target)return json({error:'지급 대상 유저를 찾을 수 없습니다.'},404);const ref=`ADMIN:${user.id}:${requestId}`;const exists=await env.DB.prepare("SELECT 1 FROM inventory_logs WHERE reference_type='VEHICLE_DRAW_ADMIN' AND reference_id=?").bind(ref).first();if(exists)return json({error:'이미 처리된 지급 요청입니다.'},409);await env.DB.batch([env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?, ?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+excluded.quantity,unseen_quantity=unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,TICKET_CODE,quantity,quantity),env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id,admin_id) SELECT ?,?,?,quantity,'ADMIN_GRANT','VEHICLE_DRAW_ADMIN',?,? FROM cnine_user_inventory WHERE user_id=? AND item_code=?").bind(userId,TICKET_CODE,quantity,ref,user.id,userId,TICKET_CODE)]);const row=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,TICKET_CODE).first();return json({ok:true,quantity:Number(row?.quantity||0)})}
  if(path==='vehicle-draw/open'&&request.method==='POST'){
   const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-  const b=await readBody(request),requestId=text(b.requestId,120),count=int(b.count??1,1,10);
+  const b=await readBody(request),requestId=text(b.requestId,120),count=int(b.count??1,1,100);
   if(!requestId)return json({error:'요청 ID가 필요합니다.'},400);
-  if(![1,10].includes(count))return json({error:'차량 뽑기는 1회 또는 10회만 가능합니다.'},400);
+  if(![1,10,100].includes(count))return json({error:'차량 뽑기는 1회, 10회 또는 100회만 가능합니다.'},400);
   const existing=await env.DB.prepare('SELECT status,response_json FROM vehicle_draw_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
   if(existing?.status==='COMPLETED'&&existing.response_json){const cached=parse(existing.response_json,{});const balances=await env.DB.prepare(`SELECT COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0) ticketQuantity,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'),0) masterStarQuantity,COALESCE((SELECT card_shards FROM users WHERE id=?),0) cardShards`).bind(user.id,TICKET_CODE,user.id,user.id).first();return json({...cached,...balances})}
   if(existing)return json({error:'같은 차량 뽑기 요청을 처리 중입니다.'},409);

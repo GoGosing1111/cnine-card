@@ -6,9 +6,8 @@ const RECEIPT_TABLE='scrapyard_run_receipts_v1676';
 const RUN_TABLE='scrapyard_runs_v1676';
 const ENTRY_TICKET_CODE='SCRAPYARD_ENTRY_TICKET';
 const TICKET_RESERVATION_TABLE='scrapyard_ticket_reservations_v1680';
+const DROP_RECEIPT_TABLE='unified_drop_receipts_v1667';
 const MODE_SET=new Set(['OFF','TEST','ON']);
-// 폐차장 정식 공개 전에는 CMS 값과 무관하게 OWNER 테스트만 허용한다.
-const PUBLIC_RELEASE_ENABLED=false;
 const SCRAPYARD_ENEMIES={
   OUTER:{
     normal:[{id:'SCRAP_OUTER_GEARJAW',name:'기어죠 스캐빈저',image:'assets/ui/scrapyard/monsters/gearjaw-scavenger-v1698.webp'}],
@@ -27,7 +26,7 @@ let foundationPromise=null,settingsCache=null;
 const staleRecoveryAt=new Map();
 
 const DEFAULT_SETTINGS={
-  mode:'ON',dailyRuns:10,
+  mode:'OFF',dailyRuns:10,
   difficulties:[
     {id:'OUTER',name:'외곽 폐차장',waves:5,requiredPowerStart:70000,requiredPowerEnd:180000,clearCoin:100000,accent:'#58ddff'},
     {id:'CORE',name:'압축 설비 구역',waves:6,requiredPowerStart:170000,requiredPowerEnd:390000,clearCoin:200000,accent:'#ffb85c'},
@@ -41,6 +40,7 @@ const text=(value,max=120)=>String(value??'').trim().slice(0,max);
 const code=value=>text(value,40).toUpperCase().replace(/[^A-Z0-9_:-]/g,'_');
 const parse=(value,fallback)=>{try{return JSON.parse(value)}catch{return fallback}};
 const isOwner=user=>String(user?.role||'').toUpperCase()==='OWNER';
+const canAccess=(mode,user)=>mode==='ON'||mode==='TEST'&&isOwner(user);
 const isAdmin=user=>['OWNER','ADMIN'].includes(String(user?.role||'').toUpperCase());
 function kstDayRange(now=Date.now()){
   const shifted=new Date(now+9*60*60*1000);
@@ -100,8 +100,8 @@ async function status(env,user,raidDeckPower){
   ]),[cfg,deck,statusRows]=await Promise.all([settings(env),raidDeckPower(env,user.id,null,'PVE'),statusReads]),[runs,parts,best,ticket]=statusRows;
   const used=Number(runs.results?.[0]?.count||0),bestMap=Object.fromEntries((best.results||[]).map(row=>[row.difficulty,Number(row.best_waves||0)]));
   const ticketItem={...(ticket.results?.[0]||{}),code:ENTRY_TICKET_CODE,quantity:Number(ticket.results?.[0]?.quantity||0)};
-  const effectiveMode=cfg.mode==='OFF'?'OFF':PUBLIC_RELEASE_ENABLED?cfg.mode:'TEST',allowed=effectiveMode!=='OFF'&&(isOwner(user)||PUBLIC_RELEASE_ENABLED&&cfg.mode==='ON');
-  return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:PUBLIC_RELEASE_ENABLED,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:true,ticketQuantity:ticketItem.quantity,canEnterWithTicket:ticketItem.quantity>0},ticket:ticketItem,deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
+  const effectiveMode=cfg.mode,allowed=canAccess(effectiveMode,user);
+  return {serverNow:new Date().toISOString(),settings:{...cfg,mode:effectiveMode},access:{allowed,mode:effectiveMode,configuredMode:cfg.mode,publicReleaseEnabled:true,dailyRuns:cfg.dailyRuns,usedRuns:used,remainingRuns:Math.max(0,cfg.dailyRuns-used),ticketRequired:true,ticketQuantity:ticketItem.quantity,canEnterWithTicket:ticketItem.quantity>0},ticket:ticketItem,deckPower:Number(deck.power||0),deckCards:publicDeck(deck),parts:(parts.results||[]).map(row=>({...row,quantity:Number(row.quantity||0)})),best:bestMap};
 }
 
 function buildBattle({requestId,difficulty,deck}){
@@ -145,7 +145,7 @@ async function refundEntryTicket(env,userId,requestId,error){
 async function recoverStaleEntryTickets(env,userId){
   const now=Date.now(),last=Number(staleRecoveryAt.get(Number(userId))||0);if(now-last<60000)return;staleRecoveryAt.set(Number(userId),now);
   if(staleRecoveryAt.size>256)for(const [id,checkedAt] of staleRecoveryAt)if(now-checkedAt>60000)staleRecoveryAt.delete(id);
-  const rows=await env.DB.prepare(`SELECT r.request_id FROM ${TICKET_RESERVATION_TABLE} r JOIN ${RECEIPT_TABLE} x ON x.request_id=r.request_id AND x.user_id=r.user_id WHERE r.user_id=? AND r.status='RESERVED' AND x.status='PENDING' AND r.updated_at<datetime('now','-5 minutes') ORDER BY r.updated_at LIMIT 3`).bind(userId).all();
+  const rows=await env.DB.prepare(`SELECT r.request_id FROM ${TICKET_RESERVATION_TABLE} r JOIN ${RECEIPT_TABLE} x ON x.request_id=r.request_id AND x.user_id=r.user_id WHERE r.user_id=? AND r.status='RESERVED' AND x.status='PENDING' AND r.updated_at<datetime('now','-5 minutes') AND NOT EXISTS(SELECT 1 FROM ${DROP_RECEIPT_TABLE} d WHERE d.request_id=('SCRAPYARD:'||r.request_id) AND d.user_id=r.user_id AND d.status='COMPLETED') ORDER BY r.updated_at LIMIT 3`).bind(userId).all();
   for(const row of rows.results||[])await refundEntryTicket(env,userId,row.request_id,'폐차장 처리 중단 자동 복구');
 }
 
@@ -159,8 +159,7 @@ async function run(env,user,body,deps){
   if(prior?.status==='COMPLETED')return {...parse(prior.response_json,{ok:true}),replayed:true};
   if(prior?.status==='PENDING')throw new Error('같은 폐차장 원정을 처리 중입니다.');
   const difficulty=cfg.difficulties.find(row=>row.id===difficultyId);if(!difficulty)throw new Error('폐차장 난이도를 선택하세요.');
-  if(!PUBLIC_RELEASE_ENABLED&&!isOwner(user))throw new Error('폐차장은 현재 OWNER 테스트 중입니다. 일반 유저 입장은 잠겨 있습니다.');
-  if(cfg.mode==='OFF'||cfg.mode==='TEST'&&!isOwner(user))throw new Error('현재 폐차장 입장이 잠겨 있습니다.');
+  if(!canAccess(cfg.mode,user))throw new Error('현재 폐차장 입장이 잠겨 있습니다.');
   const day=kstDayRange(),[usedResult,ticketResult]=await env.DB.batch([
     env.DB.prepare(`SELECT COUNT(*) count FROM ${RUN_TABLE} WHERE user_id=? AND created_at>=? AND created_at<?`).bind(user.id,day.start,day.end),
     env.DB.prepare(`SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?`).bind(user.id,ENTRY_TICKET_CODE)
@@ -170,6 +169,7 @@ async function run(env,user,body,deps){
   const reserved=prior?.status==='FAILED'
     ?await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET difficulty=?,status='PENDING',ticket_consumed=0,response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='FAILED'`).bind(difficulty.id,requestId,user.id).run()
     :await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,difficulty,status) VALUES(?,?,?,'PENDING')`).bind(requestId,user.id,difficulty.id).run();if(!reserved.meta?.changes)throw new Error('같은 폐차장 원정을 처리 중입니다.');
+  let dropCommitted=false;
   try{
     const [ticketRemaining,deck]=await Promise.all([reserveEntryTicket(env,user.id,requestId),deps.raidDeckPower(env,user.id,null,'PVE')]);
     let uniqueRoll=0;
@@ -178,7 +178,7 @@ async function run(env,user,body,deps){
       :null;
     const effectivePower=Math.max(0,Number(uniqueRuntime?.effectivePower??deck.power??0));
     const battleDeck={...deck,power:effectivePower},battle=buildBattle({requestId,difficulty,deck:battleDeck});
-    let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});
+    let drop={rewards:[]};if(battle.success)drop=await deps.resolveUnifiedDrops(env,{userId:user.id,requestId:`SCRAPYARD:${requestId}`,sourceType:'SCRAPYARD',sourceId:difficulty.id,triggerType:'CLEAR',context:{difficulty:cfg.difficulties.findIndex(row=>row.id===difficulty.id)+1,wave:battle.wavesCleared,boss:true},role:user.role});dropCommitted=(drop.rewards||[]).length>0;
     const clearCoin=battle.success?Number(difficulty.clearCoin||0):0,dropCoinBalance=Number(drop.balances?.coin),coinBeforeClear=Number.isFinite(dropCoinBalance)?dropCoinBalance:Number(user.coin||0);
     const guaranteed=clearCoin>0?[{rewardType:'COIN',rewardRef:'COIN',rewardName:'클리어 코인',quantity:clearCoin,guaranteed:true}]:[],rewards=[...guaranteed,...(drop.rewards||[])];
     const response={ok:true,requestId,difficulty:{id:difficulty.id,name:difficulty.name,accent:difficulty.accent,waves:difficulty.waves,clearCoin:Number(difficulty.clearCoin||0)},entryTicket:{code:ENTRY_TICKET_CODE,consumed:1,remaining:ticketRemaining},baseDeckPower:Number(deck.power||0),deckPower:effectivePower,deckCards:publicDeck(deck),uniqueAbility:typeof deps.uniqueBattleResponsePayload==='function'?deps.uniqueBattleResponsePayload(deck.unique,uniqueRuntime):null,...battle,rewards,partDropped:(drop.rewards||[]).length>0,balances:{...(drop.balances||{}),...(clearCoin>0?{coin:coinBeforeClear+clearCoin}:{})}};
@@ -189,7 +189,12 @@ async function run(env,user,body,deps){
       env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(response),requestId,user.id)
     ];await env.DB.batch(statements);
     return response;
-  }catch(error){await refundEntryTicket(env,user.id,requestId,error).catch(()=>null);throw error}
+  }catch(error){
+    if(!dropCommitted){const committed=await env.DB.prepare(`SELECT 1 ok FROM ${DROP_RECEIPT_TABLE} WHERE request_id=? AND user_id=? AND status='COMPLETED'`).bind(`SCRAPYARD:${requestId}`,user.id).first().catch(()=>null);dropCommitted=Boolean(committed?.ok)}
+    if(dropCommitted)await env.DB.prepare(`UPDATE ${TICKET_RESERVATION_TABLE} SET status='CONSUMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='RESERVED'`).bind(requestId,user.id).run().catch(()=>null);
+    else await refundEntryTicket(env,user.id,requestId,error).catch(()=>null);
+    throw error
+  }
 }
 
 export async function handleScrapyard({path,request,env,deps}){

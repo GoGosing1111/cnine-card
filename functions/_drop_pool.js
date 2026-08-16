@@ -10,6 +10,7 @@ const SCRAPYARD_DIFFICULTIES=[
   ['CORE','SCRAPYARD_PARTS_CORE','폐차장 · 압축 설비 부품'],
   ['FURNACE','SCRAPYARD_PARTS_FURNACE','폐차장 · 용광로 부품']
 ];
+const SCRAPYARD_POOL_CODES=new Set(SCRAPYARD_DIFFICULTIES.map(([,poolCode])=>poolCode));
 let foundationPromise=null;
 const bindingCache=new Map();
 const entryCache=new Map();
@@ -40,26 +41,38 @@ const FOUNDATION_SQL=[
 
 async function ensureScrapyardDifficultyPools(env){
   const marker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1682_scrapyard_difficulty_drop_pools'").first();
-  if(marker?.value==='1')return;
-  const source=await env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE code='SCRAPYARD_PARTS'`).first();
-  for(const [difficulty,poolCode,poolName] of SCRAPYARD_DIFFICULTIES){
-    await env.DB.prepare(`INSERT OR IGNORE INTO ${POOL_TABLE}(code,name,description,roll_mode,rolls,no_drop_weight,is_enabled,owner_test_only,config_version) VALUES(?,?,?,'WEIGHTED_ONE',1,?,1,0,1)`).bind(poolCode,poolName,`${difficulty} 난이도 완주 시 차량 부품을 한 번 판정합니다.`,Number(source?.no_drop_weight??50)).run();
-    const target=await env.DB.prepare(`SELECT id FROM ${POOL_TABLE} WHERE code=?`).bind(poolCode).first();
-    if(!target?.id)continue;
-    if(source?.id)await env.DB.prepare(`INSERT OR IGNORE INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,chance_percent,weight,min_quantity,max_quantity,daily_limit,conditions_json,sort_order,is_enabled) SELECT ?,reward_type,reward_ref,reward_name,chance_percent,weight,min_quantity,max_quantity,daily_limit,conditions_json,sort_order,is_enabled FROM ${ENTRY_TABLE} WHERE pool_id=?`).bind(target.id,source.id).run();
-    else await env.DB.batch([
-      env.DB.prepare(`INSERT OR IGNORE INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,weight,min_quantity,max_quantity,sort_order,is_enabled) VALUES(?,'INVENTORY_ITEM','VEHICLE_PART_TIRE','고성능 타이어',60,1,2,10,1)`).bind(target.id),
-      env.DB.prepare(`INSERT OR IGNORE INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,weight,min_quantity,max_quantity,sort_order,is_enabled) VALUES(?,'INVENTORY_ITEM','VEHICLE_PART_FRAME','강화 차체 프레임',28,1,1,20,1)`).bind(target.id),
-      env.DB.prepare(`INSERT OR IGNORE INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,weight,min_quantity,max_quantity,sort_order,is_enabled) VALUES(?,'INVENTORY_ITEM','VEHICLE_PART_ENGINE','고출력 엔진',12,1,1,30,1)`).bind(target.id)
+  if(marker?.value!=='1'){
+    const source=await env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE code='SCRAPYARD_PARTS'`).first();
+    for(const [difficulty,poolCode,poolName] of SCRAPYARD_DIFFICULTIES){
+      await env.DB.prepare(`INSERT OR IGNORE INTO ${POOL_TABLE}(code,name,description,roll_mode,rolls,no_drop_weight,is_enabled,owner_test_only,config_version) VALUES(?,?,?,'INDEPENDENT',1,0,1,0,1)`).bind(poolCode,poolName,`${difficulty} 난이도 완주 시 각 보상을 독립 확률로 한 번 판정합니다.`).run();
+      const target=await env.DB.prepare(`SELECT id FROM ${POOL_TABLE} WHERE code=?`).bind(poolCode).first();
+      if(!target?.id)continue;
+      if(source?.id)await env.DB.prepare(`INSERT OR IGNORE INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,chance_percent,weight,min_quantity,max_quantity,daily_limit,conditions_json,sort_order,is_enabled) SELECT ?,reward_type,reward_ref,reward_name,chance_percent,0,min_quantity,max_quantity,daily_limit,conditions_json,sort_order,is_enabled FROM ${ENTRY_TABLE} WHERE pool_id=?`).bind(target.id,source.id).run();
+      else await env.DB.batch([
+        env.DB.prepare(`INSERT OR IGNORE INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,chance_percent,weight,min_quantity,max_quantity,sort_order,is_enabled) VALUES(?,'INVENTORY_ITEM','VEHICLE_PART_TIRE','고성능 타이어',10,0,1,2,10,1)`).bind(target.id),
+        env.DB.prepare(`INSERT OR IGNORE INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,chance_percent,weight,min_quantity,max_quantity,sort_order,is_enabled) VALUES(?,'INVENTORY_ITEM','VEHICLE_PART_FRAME','강화 차체 프레임',5,0,1,1,20,1)`).bind(target.id),
+        env.DB.prepare(`INSERT OR IGNORE INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,chance_percent,weight,min_quantity,max_quantity,sort_order,is_enabled) VALUES(?,'INVENTORY_ITEM','VEHICLE_PART_ENGINE','고출력 엔진',3,0,1,1,30,1)`).bind(target.id)
+      ]);
+      await env.DB.prepare(`INSERT OR IGNORE INTO ${BINDING_TABLE}(source_type,source_id,trigger_type,pool_id,priority,is_enabled) VALUES('SCRAPYARD',?,'CLEAR',?,100,1)`).bind(difficulty,target.id).run();
+    }
+    await env.DB.batch([
+      env.DB.prepare(`UPDATE ${BINDING_TABLE} SET is_enabled=0 WHERE source_type='SCRAPYARD' AND source_id='*'`),
+      env.DB.prepare(`UPDATE ${POOL_TABLE} SET is_enabled=0,updated_at=CURRENT_TIMESTAMP WHERE code='SCRAPYARD_PARTS'`),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1682_scrapyard_difficulty_drop_pools','1',CURRENT_TIMESTAMP)")
     ]);
-    await env.DB.prepare(`INSERT OR IGNORE INTO ${BINDING_TABLE}(source_type,source_id,trigger_type,pool_id,priority,is_enabled) VALUES('SCRAPYARD',?,'CLEAR',?,100,1)`).bind(difficulty,target.id).run();
+    invalidateUnifiedDropPoolCache();
   }
-  await env.DB.batch([
-    env.DB.prepare(`UPDATE ${BINDING_TABLE} SET is_enabled=0 WHERE source_type='SCRAPYARD' AND source_id='*'`),
-    env.DB.prepare(`UPDATE ${POOL_TABLE} SET is_enabled=0,updated_at=CURRENT_TIMESTAMP WHERE code='SCRAPYARD_PARTS'`),
-    env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1682_scrapyard_difficulty_drop_pools','1',CURRENT_TIMESTAMP)")
-  ]);
-  invalidateUnifiedDropPoolCache();
+  const independentMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1722_scrapyard_independent_drop_rates'").first();
+  if(independentMarker?.value!=='1'){
+    const fixedPoolCount=await env.DB.prepare(`SELECT COUNT(*) count FROM ${POOL_TABLE} WHERE code IN ('SCRAPYARD_PARTS_OUTER','SCRAPYARD_PARTS_CORE','SCRAPYARD_PARTS_FURNACE')`).first();
+    if(Number(fixedPoolCount?.count||0)!==SCRAPYARD_DIFFICULTIES.length)throw new Error('폐차장 난이도별 드랍풀 구성이 완전하지 않습니다.');
+    await env.DB.batch([
+      env.DB.prepare(`UPDATE ${POOL_TABLE} SET roll_mode='INDEPENDENT',rolls=1,no_drop_weight=0,config_version=config_version+1,updated_at=CURRENT_TIMESTAMP WHERE code IN ('SCRAPYARD_PARTS_OUTER','SCRAPYARD_PARTS_CORE','SCRAPYARD_PARTS_FURNACE') AND (roll_mode<>'INDEPENDENT' OR rolls<>1 OR no_drop_weight<>0)`),
+      env.DB.prepare(`UPDATE ${ENTRY_TABLE} SET weight=0,updated_at=CURRENT_TIMESTAMP WHERE pool_id IN (SELECT id FROM ${POOL_TABLE} WHERE code IN ('SCRAPYARD_PARTS_OUTER','SCRAPYARD_PARTS_CORE','SCRAPYARD_PARTS_FURNACE')) AND weight<>0`),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1722_scrapyard_independent_drop_rates','1',CURRENT_TIMESTAMP)")
+    ]);
+    invalidateUnifiedDropPoolCache();
+  }
 }
 
 export async function ensureUnifiedDropPoolFoundation(env){
@@ -185,7 +198,12 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
   if(prior?.status==='COMPLETED')return {...parse(prior.result_json,{rewards:[]}),replayed:true};
   if(prior?.status==='PENDING')throw new Error('같은 드랍 요청을 처리 중입니다.');
   let rewards=[];
-  for(const pool of pools){const entries=await poolEntries(env,pool);rewards.push(...rollPool(pool,entries,context,seededRandom(`${uid}:${rid}:${pool.id}:${pool.config_version}`)))}
+  for(const pool of pools){
+    const entries=await poolEntries(env,pool),fixedScrapyard=source==='SCRAPYARD'&&SCRAPYARD_POOL_CODES.has(String(pool.code||''));
+    const effectivePool=fixedScrapyard?{...pool,roll_mode:'INDEPENDENT',rolls:1,no_drop_weight:0}:pool,effectiveContext=fixedScrapyard?{...context,rollsMultiplier:1}:context;
+    const random=seededRandom(`${uid}:${rid}:${pool.id}:${pool.config_version}`);
+    rewards.push(...rollPool(effectivePool,entries,effectiveContext,random));
+  }
   rewards=await applyDailyLimits(env,uid,rewards);
   // 미획득까지 영수증으로 쓰면 자동 PVE에서 D1이 불필요하게 팽창한다. 요청별 결정론적 난수로 재시도 결과를 고정하고 미획득은 무기록 반환한다.
   if(!rewards.length)return {ok:true,requestId:rid,sourceType:source,sourceId:sid,triggerType:trigger,pools:pools.map(x=>({id:Number(x.id),code:x.code,name:x.name,version:Number(x.config_version)})),rewards:[],balances:null,skipped:'NO_REWARD'};
@@ -230,14 +248,18 @@ export async function handleDropPool({path,request,env,deps}){
   if(request.method!=='POST')return deps.json({error:'지원하지 않는 요청입니다.'},405);
   const body=await deps.readBody(request),action=code(body.action);
   if(action==='SAVE_POOL'){
-    const raw=body.pool||{},id=int(raw.id,0),poolCode=code(raw.code),name=text(raw.name,80),mode=code(raw.rollMode||raw.roll_mode),entries=(Array.isArray(raw.entries)?raw.entries:[]).slice(0,100).map(cleanEntry);
+    const raw=body.pool||{},id=int(raw.id,0),poolCode=code(raw.code),name=text(raw.name,80);let before=null;
     if(!poolCode||!name)return deps.json({error:'드랍풀 코드와 이름을 입력하세요.'},400);
+    if(id){before=await env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE id=?`).bind(id).first();if(!before)return deps.json({error:'수정할 드랍풀을 찾을 수 없습니다.'},404)}
+    const fixedScrapyard=SCRAPYARD_POOL_CODES.has(poolCode)||SCRAPYARD_POOL_CODES.has(String(before?.code||''));
+    if(fixedScrapyard&&before&&poolCode!==String(before.code))return deps.json({error:'폐차장 난이도 고정 풀 코드는 변경할 수 없습니다.'},400);
+    const mode=fixedScrapyard?'INDEPENDENT':code(raw.rollMode||raw.roll_mode),rolls=fixedScrapyard?1:int(raw.rolls,1,100,1),noDropWeight=fixedScrapyard?0:num(raw.noDropWeight??raw.no_drop_weight,0,100000000,0),entries=(Array.isArray(raw.entries)?raw.entries:[]).slice(0,100).map(cleanEntry).map(entry=>fixedScrapyard?{...entry,weight:0}:entry);
     if(!ROLL_MODES.has(mode))return deps.json({error:'드랍 판정 방식을 확인하세요.'},400);
     if(!entries.length&&raw.isEnabled!==false)return deps.json({error:'운영 사용 드랍풀에는 보상을 하나 이상 등록하세요.'},400);
     for(const entry of entries)if(entry.rewardType==='INVENTORY_ITEM'||entry.rewardType==='MASTER_STAR'){const item=await env.DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(entry.rewardRef).first();if(!item)return deps.json({error:`등록되지 않은 인벤토리 아이템입니다: ${entry.rewardRef}`},400)}
-    let poolId=id,before=null;
-    if(id){before=await env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE id=?`).bind(id).first();if(!before)return deps.json({error:'수정할 드랍풀을 찾을 수 없습니다.'},404);await env.DB.prepare(`UPDATE ${POOL_TABLE} SET code=?,name=?,description=?,roll_mode=?,rolls=?,no_drop_weight=?,is_enabled=?,owner_test_only=?,config_version=config_version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(poolCode,name,text(raw.description,400),mode,int(raw.rolls,1,100,1),num(raw.noDropWeight??raw.no_drop_weight,0,100000000,0),raw.isEnabled===false?0:1,raw.ownerTestOnly?1:0,id).run()}
-    else{const created=await env.DB.prepare(`INSERT INTO ${POOL_TABLE}(code,name,description,roll_mode,rolls,no_drop_weight,is_enabled,owner_test_only) VALUES(?,?,?,?,?,?,?,?)`).bind(poolCode,name,text(raw.description,400),mode,int(raw.rolls,1,100,1),num(raw.noDropWeight??raw.no_drop_weight,0,100000000,0),raw.isEnabled===false?0:1,raw.ownerTestOnly?1:0).run();poolId=Number(created.meta?.last_row_id||0)}
+    let poolId=id;
+    if(id)await env.DB.prepare(`UPDATE ${POOL_TABLE} SET code=?,name=?,description=?,roll_mode=?,rolls=?,no_drop_weight=?,is_enabled=?,owner_test_only=?,config_version=config_version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(poolCode,name,text(raw.description,400),mode,rolls,noDropWeight,raw.isEnabled===false?0:1,raw.ownerTestOnly?1:0,id).run();
+    else{const created=await env.DB.prepare(`INSERT INTO ${POOL_TABLE}(code,name,description,roll_mode,rolls,no_drop_weight,is_enabled,owner_test_only) VALUES(?,?,?,?,?,?,?,?)`).bind(poolCode,name,text(raw.description,400),mode,rolls,noDropWeight,raw.isEnabled===false?0:1,raw.ownerTestOnly?1:0).run();poolId=Number(created.meta?.last_row_id||0)}
     const statements=[env.DB.prepare(`DELETE FROM ${ENTRY_TABLE} WHERE pool_id=?`).bind(poolId)];
     for(const entry of entries)statements.push(env.DB.prepare(`INSERT INTO ${ENTRY_TABLE}(pool_id,reward_type,reward_ref,reward_name,chance_percent,weight,min_quantity,max_quantity,daily_limit,conditions_json,sort_order,is_enabled) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`).bind(poolId,entry.rewardType,entry.rewardRef,entry.rewardName,entry.chancePercent,entry.weight,entry.minQuantity,entry.maxQuantity,entry.dailyLimit,entry.conditionsJson,entry.sortOrder,entry.isEnabled?1:0));
     await env.DB.batch(statements);invalidateUnifiedDropPoolCache();if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'UNIFIED_DROP_POOL_SAVE','DROP_POOL',String(poolId),before,{code:poolCode,name,mode,entries:entries.length});return deps.json({ok:true,poolId,snapshot:await adminSnapshot(env)});

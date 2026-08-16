@@ -10,7 +10,7 @@ const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMP
 const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID','CRIMSON'];
 const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
 const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
-const SUPPLY_BOX_MAX_OPEN=10;
+const SUPPLY_BOX_MAX_OPEN=100;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
 const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1,quantity:1},PVE_AUTO:{enabled:true,rate:.05,quantity:1},TOWER:{enabled:true,rate:.2,quantity:1},RAID:{enabled:true,rate:1,quantity:1},RIFT:{enabled:true,rate:.5,quantity:1},PVP:{enabled:true,rate:.2,quantity:1},CAPTAIN:{enabled:true,rate:.3,quantity:1}}};
@@ -734,7 +734,11 @@ export async function handleEquipment({path,request,env,deps}){
       const response={ok:true,itemCode:SUPPLY_BOX_CODE,count,remaining,results,coinGained,shardGained,coin:newCoin,cardShards:newShards,requestId};
       const statements=[];
       if(coinGained||shardGained)statements.push(env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(coinGained,shardGained,user.id));
-      for(const reward of equipmentRewards)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) VALUES(?,?,?,?,?)`).bind(user.id,reward.item.id,'SUPPLY_BOX',requestId,`SUPPLY:${requestId}:${reward.index}`));
+      for(let offset=0;offset<equipmentRewards.length;offset+=20){
+        const chunk=equipmentRewards.slice(offset,offset+20),values=chunk.map(()=>'(?,?,?,?,?)').join(','),bindings=[];
+        for(const reward of chunk)bindings.push(user.id,reward.item.id,'SUPPLY_BOX',requestId,`SUPPLY:${requestId}:${reward.index}`);
+        statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) VALUES ${values}`).bind(...bindings));
+      }
       statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,'SUPPLY_OPEN',?)").bind(user.id,SUPPLY_BOX_CODE,-count,remaining,'장비 보급상자 개방',requestId));
       statements.push(env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id));
       await env.DB.batch(statements);

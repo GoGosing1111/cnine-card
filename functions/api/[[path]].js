@@ -115,13 +115,13 @@ async function boundedDrawReceiptCleanup(env,{limit=DRAW_RECEIPT_CLEANUP_BATCH,f
   if(!force&&!Number(lease?.meta?.changes||0))return {skipped:true,deleted:0};
   const statements=[
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
-      SELECT request_id FROM draw_request_receipts_v2 WHERE status='ARCHIVED' AND updated_at<datetime('now','-1 hour') ORDER BY updated_at LIMIT ?
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status='ARCHIVED' AND updated_at<datetime('now','-5 minutes') ORDER BY updated_at LIMIT ?
     )`).bind(limit),
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
-      SELECT request_id FROM draw_request_receipts_v2 WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-1 day') ORDER BY updated_at LIMIT ?
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-15 minutes') ORDER BY updated_at LIMIT ?
     )`).bind(limit),
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
-      SELECT request_id FROM draw_request_receipts_v2 WHERE status='RETRYABLE' AND updated_at<datetime('now','-7 days') ORDER BY updated_at LIMIT ?
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status='RETRYABLE' AND updated_at<datetime('now','-1 hour') ORDER BY updated_at LIMIT ?
     )`).bind(limit)
   ];
   const results=await env.DB.batch(statements);
@@ -409,7 +409,7 @@ async function ensureDrawReceiptV2(env){
         status TEXT NOT NULL DEFAULT 'PENDING',cost INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup_v1723 ON draw_request_receipts_v2(status,updated_at,request_id)'),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1168_r7_draw_receipts','1',CURRENT_TIMESTAMP)")
     ]);
     return true;
@@ -699,7 +699,7 @@ async function advancePvpSeasonLifecycle(env){
 function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=settings.scoreBalance||{},safeBase=Math.max(0,Number(base||0));if(cfg.enabled===false||!myCard||!opponentCard)return {change:safeBase,multiplier:100,diffPercent:0,label:'기본 점수'};const diff=(Number(opponentCard)-Number(myCard))/Math.max(1,Number(myCard))*100,abs=Math.abs(diff),eq=Number(cfg.equalRange??10);let multiplier=100,label='비슷한 체급';if(abs>eq){const band=abs<20?'Mid':abs<30?'High':'Extreme';if(isWin){if(diff<0){multiplier=Number(cfg['weakerWin'+band]??100);label='낮은 체급 승리 패널티'}else{multiplier=Number(cfg['strongerWin'+band]??100);label='상위 체급 승리 보너스'}}else{if(diff>0){multiplier=Number(cfg['strongerLoss'+band]??100);label='상위 체급 패배 완화'}else{multiplier=Number(cfg['weakerLoss'+band]??100);label='낮은 체급 패배 패널티'}}}const min=Math.max(0,Number(cfg.minChange??1)),max=Math.max(min,Number(cfg.maxChange??999));return {change:Math.max(min,Math.min(max,Math.round(safeBase*multiplier/100))),multiplier,diffPercent:Math.round(diff*10)/10,label}}
 
 function pvpSeasonScoreAdjustment(isWin,myScore,opponentScore){const diff=Number(opponentScore||0)-Number(myScore||0);let change,label;if(diff>=500){change=isWin?36:6;label=isWin?'상위 점수 상대 승리 보너스':'상위 점수 상대 패배 완화'}else if(diff>=200){change=isWin?30:10;label=isWin?'강한 상대 승리 보너스':'강한 상대 패배 완화'}else if(diff<=-500){change=isWin?12:24;label=isWin?'낮은 점수 상대 승리 조정':'낮은 점수 상대 패배 패널티'}else if(diff<=-200){change=isWin?18:20;label=isWin?'낮은 상대 승리 조정':'낮은 상대 패배 패널티'}else{change=isWin?24:16;label='비슷한 시즌 점수'}return {change,scoreDiff:diff,label}}
-async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare("SELECT c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
+async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare("SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
 function pvpTierIndex(score,tiers=[]){const resolved=resolveTier(Number(score||0),tiers);return Math.max(0,(tiers||[]).findIndex(tier=>tier.id===resolved.id))}
 async function pvpFormationPower(env,userId,battle,{defense=false}={}){
   const [deck,bonus]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId)]);
@@ -714,7 +714,7 @@ async function pvpDefenseFormationPowers(env,userIds,battle){
     // for every candidate, producing tens of millions of reads per matchmaking
     // request. CROSS JOIN fixes the loop order and the composite user_cards PK
     // resolves each of the five cards directly.
-    env.DB.prepare(`SELECT d.user_id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level
+    env.DB.prepare(`SELECT d.user_id,c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level
       FROM pvp_decks d
       CROSS JOIN json_each(d.card_ids) j
       CROSS JOIN cards_effective_v1210 c
@@ -1159,8 +1159,10 @@ async function readBattleSettings(env){
 async function battleSettings(env){return cachedRuntimeSetting('battle',1000,()=>readBattleSettings(env))}
 function battleEngineState(settings,user){const engine=normalizeBattleEngineSettings(settings?.engine);const owner=String(user?.role||'').trim().toUpperCase()==='OWNER';const active=engine.mode==='V2_PUBLIC'||(engine.mode==='V2_OWNER'&&owner);return {...engine,active,version:active?'V2':'LEGACY',ownerTest:engine.mode==='V2_OWNER'};}
 const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{CUSTOM:3100},FUR:{FIXED:3200}};
+const FAKER_CHAMPIONSHIP_CARD_ID='CN-0B48C6FF8F9B4AC5';
+const FAKER_FLAT_POWER_BONUS=3000;
 function cardPowerBase(card,settings){const grade=String(card.rarity||card.grade||'').trim().toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]);if(['PRESTIGE','ZENITH'].includes(grade)&&Number.isFinite(gradePower))return Math.max(0,gradePower);const saved=Number(card.base_power??card.basePower);return Number.isFinite(saved)&&saved>0?saved:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)}
-function cardBattlePower(card,level,settings){const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),lv=Math.max(0,Math.min(13,Number(level)||0)),base=cardPowerBase(card,settings),pct=Number(settings.breakthroughBonus[lv]||0),power=Math.floor(base*(1+pct/100));if(grade!=='LIMITED'||lv<11)return power;const prestigeBase=Math.max(0,Number(settings?.powerByGrade?.PRESTIGE||0)),prestigePct=Number(settings?.breakthroughBonus?.[10]||0),prestige10=Math.floor(prestigeBase*(1+prestigePct/100));if(prestige10<=0)return power;const limited10=Math.floor(base*(1+Number(settings?.breakthroughBonus?.[10]||0)/100)),stepCap=Math.floor(limited10+Math.max(0,prestige10-limited10)*(lv-10)/3);return Math.min(power,prestige10,stepCap);}
+function cardBattlePower(card,level,settings){const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),cardId=String(card?.id??card?.card_id??'').trim().toUpperCase(),lv=Math.max(0,Math.min(13,Number(level)||0)),base=cardPowerBase(card,settings),pct=Number(settings.breakthroughBonus[lv]||0),power=Math.floor(base*(1+pct/100)),specialBonus=grade==='FUR'&&cardId===FAKER_CHAMPIONSHIP_CARD_ID?FAKER_FLAT_POWER_BONUS:0;if(grade!=='LIMITED'||lv<11)return power+specialBonus;const prestigeBase=Math.max(0,Number(settings?.powerByGrade?.PRESTIGE||0)),prestigePct=Number(settings?.breakthroughBonus?.[10]||0),prestige10=Math.floor(prestigeBase*(1+prestigePct/100));if(prestige10<=0)return power+specialBonus;const limited10=Math.floor(base*(1+Number(settings?.breakthroughBonus?.[10]||0)/100)),stepCap=Math.floor(limited10+Math.max(0,prestige10-limited10)*(lv-10)/3);return Math.min(power,prestige10,stepCap)+specialBonus;}
 function sqlUtcNow(){return new Date().toISOString().replace('T',' ').slice(0,19)}
 function utcMs(value){if(!value)return Date.now();const t=Date.parse(String(value).replace(' ','T')+'Z');return Number.isFinite(t)?t:Date.now()}
 async function battleEnergyState(env,user,settings){
@@ -1437,7 +1439,7 @@ async function ensureD1HotpathIndexes(env){
     }
     if(await tableExists(env,'pvp_match_history'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_match_history_attacker_recent ON pvp_match_history(attacker_id,id DESC)'));
     if(await tableExists(env,'pvp_profiles'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_profiles_score_user ON pvp_profiles(season_score,user_id)'));
-    if(await tableExists(env,'draw_request_receipts_v2'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'));
+    if(await tableExists(env,'draw_request_receipts_v2'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup_v1723 ON draw_request_receipts_v2(status,updated_at,request_id)'));
     if(await tableExists(env,'raid_instances'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_instances_live_transition ON raid_instances(status,starts_at,ends_at,id)'));
     if(await tableExists(env,'raid_participants')){
       statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_participants_user_active ON raid_participants(user_id,is_active,instance_id)'));
@@ -3707,6 +3709,7 @@ async function handleRequest(context){
       ||(path==='packs'&&request.method==='GET')
       ||path==='burning-event/status'
       ||path==='draw/status'
+      ||path==='draw/ack'
       ||(path==='draw'&&request.method==='POST');
     if(path==='raid/status')await Promise.all([ensureD1HotpathIndexes(env),ensureD1StabilityIndexes(env)]);
     // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
@@ -3827,11 +3830,11 @@ async function handleRequest(context){
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
-          CASE WHEN i.code='BLACK_MIRACLE_PACK' THEN COALESCE((SELECT json_extract(value,'$.enabled') FROM app_meta WHERE key='black_miracle_pack_settings_v1485'),1) ELSE 1 END AS usable
+          CASE WHEN i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN COALESCE((SELECT json_extract(value,'$.enabled') FROM app_meta WHERE key='black_miracle_pack_settings_v1485'),1) ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
         WHERE i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
         ORDER BY i.sort_order,i.code`).bind(user.id).all();
-      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
+      const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
     if(path==='inventory/seen'&&request.method==='POST'){
@@ -3932,6 +3935,21 @@ async function handleRequest(context){
         if(Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000)status='RETRYABLE';
       }
       return json({requestId,status,error:String(row.error_message||''),createdAt:row.created_at||null,updatedAt:row.updated_at||null});
+    }
+    if(path==='draw/ack'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,100);
+      if(!requestId)return json({error:'카드 개봉 요청번호가 필요합니다.'},400);
+      await ensureDrawReceiptV2(env);
+      const result=await env.DB.prepare(`UPDATE draw_request_receipts_v2
+        SET status='ARCHIVED',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP
+        WHERE request_id=? AND user_id=? AND status='COMPLETED'`).bind(requestId,user.id).run();
+      if(Number(result?.meta?.changes||0)>0)return json({ok:true,requestId,status:'ARCHIVED'});
+      const row=await env.DB.prepare('SELECT status FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      if(!row)return json({ok:true,requestId,status:'NOT_FOUND'});
+      const status=String(row.status||'').toUpperCase();
+      if(status==='ARCHIVED')return json({ok:true,requestId,status});
+      return json({ok:false,requestId,status,error:'아직 결과 확인 처리할 수 없는 카드 개봉 요청입니다.'},409);
     }
     if(path==='draw'&&request.method==='POST'){
       const user=await authenticate(request,env);
@@ -5599,11 +5617,11 @@ async function handleRequest(context){
       const viewer=await authenticate(request,env),settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
       const now=Date.now();let allRanking=collectionRankingCache?.expiresAt>now?collectionRankingCache.value:null;
       if(!allRanking){
-        const rows=await env.DB.prepare(`SELECT u.id,u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level,COUNT(uc.card_id) AS card_count
+        const rows=await env.DB.prepare(`SELECT u.id,u.nickname,c.id AS card_id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level,COUNT(uc.card_id) AS card_count
           FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id
           WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
-          GROUP BY u.id,u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level ORDER BY u.id`).all();
-        const map=new Map();for(const r of rows.results){if(!map.has(r.id))map.set(r.id,{id:Number(r.id),nickname:r.nickname,score:0,card_count:0,max_breakthrough:0});const x=map.get(r.id);if(r.rarity){x.score+=cardBattlePower(r,Number(r.breakthrough_level||0),settings)*Number(r.card_count||0);x.card_count+=Number(r.card_count||0);x.max_breakthrough=Math.max(x.max_breakthrough,Number(r.breakthrough_level||0));}}
+          GROUP BY u.id,u.nickname,c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level ORDER BY u.id`).all();
+        const map=new Map();for(const r of rows.results){if(!map.has(r.id))map.set(r.id,{id:Number(r.id),nickname:r.nickname,score:0,card_count:0,max_breakthrough:0});const x=map.get(r.id);if(r.rarity){x.score+=cardBattlePower({...r,id:r.card_id},Number(r.breakthrough_level||0),settings)*Number(r.card_count||0);x.card_count+=Number(r.card_count||0);x.max_breakthrough=Math.max(x.max_breakthrough,Number(r.breakthrough_level||0));}}
         allRanking=[...map.values()].sort((a,b)=>b.score-a.score||b.card_count-a.card_count||a.nickname.localeCompare(b.nickname,'ko')).map((x,i)=>({...x,rank:i+1,tier:resolveTier(x.score,tiers)}));
         collectionRankingCache={value:allRanking,expiresAt:now+300000};
       }
@@ -5726,7 +5744,7 @@ async function handleRequest(context){
         if(lifecycle.settling&&typeof context.waitUntil==='function')context.waitUntil((async()=>{for(let i=0;i<8;i++){const next=await advancePvpSeasonLifecycle(env);if(!next.settling)break}})());
         // 관리자 화면은 저장 직후 이전 런타임 캐시가 보이면 안 된다.
         const settings=await readTierSettings(env),battle=await battleSettings(env),livePvp=await readPvpSettings(env);settings.pvp={...settings.pvp,...livePvp};
-        const rows=await env.DB.prepare(`SELECT u.nickname,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).all();
+        const rows=await env.DB.prepare(`SELECT u.nickname,c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).all();
         const map=new Map();for(const r of rows.results){if(!map.has(r.nickname))map.set(r.nickname,{nickname:r.nickname,score:0});if(r.rarity)map.get(r.nickname).score+=cardBattlePower(r,Number(r.breakthrough_level||0),battle)}
         const pvpRows=await env.DB.prepare(`SELECT u.nickname,p.season_score,p.highest_score,p.wins,p.losses FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now')) ORDER BY p.season_score DESC,p.wins DESC,u.nickname LIMIT 100`).all();
         const pvpStats=await env.DB.prepare(`SELECT COUNT(*) AS profiles,COALESCE(SUM(wins+losses),0)/2 AS matches,COALESCE(MAX(season_score),0) AS top_score FROM pvp_profiles p JOIN users u ON u.id=p.user_id WHERE u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).first();
