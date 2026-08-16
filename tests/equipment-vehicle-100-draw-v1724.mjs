@@ -18,6 +18,6 @@ assert.match(app,/Math\.min\(100,Number\(ownedQuantity\)/);
 assert.match(vehicleUi,/data-count="100"/);
 assert.match(vehicleUi,/vehicleAgain100/);
 assert.match(vehicleUi,/count>=100\?\[\.\.\.list\.reduce/);
-assert.match(index,/v=1724-equipment-vehicle-hundred/);
-assert.match(worker,/soop-card-static-v1724/);
+assert.match(index,/v=1725-workshop-parts-locked/);
+assert.match(worker,/soop-card-static-v1725/);
 console.log('equipment/vehicle 100 draw checks passed');
