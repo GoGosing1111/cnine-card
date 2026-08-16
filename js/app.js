@@ -3024,6 +3024,15 @@ async function waitForDrawRecovery(ms,label='서버 혼잡 복구 대기'){
 async function drawReceiptStatus(requestId){
   return apiRequest(`draw/status?requestId=${encodeURIComponent(requestId)}`,{}, {ttl:0,timeoutMs:5000});
 }
+async function acknowledgeDrawReceipt(requestId){
+  if(!requestId)return;
+  try{
+    await apiRequest('draw/ack',{method:'POST',body:JSON.stringify({requestId})},{ttl:0,timeoutMs:5000});
+  }catch(error){
+    // 결과 전달은 이미 끝났다. 확인 요청 실패가 개봉 결과를 가리거나 재결제를 유발하면 안 된다.
+    console.warn('draw receipt acknowledgement deferred',error);
+  }
+}
 async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{autoRun=false,acknowledgedRequestIds=[]}={}){
   const options={
     method:'POST',
@@ -3206,6 +3215,7 @@ openPack=async function(packId,count,cost,options={}){
     next.history=[...(next.history||[]),...verifiedResults.map(item=>({cardId:String(item.card.id),at:obtainedAt,duplicate:Boolean(item.duplicate),title:item.card.title,grade:item.card.grade}))].slice(-30);
     saveUser(next);
     await renderDrawResults(pack,count,pack.price*count,verifiedResults,next,d.critical,{autoRun});
+    void acknowledgeDrawReceipt(requestId);
     return true;
   }catch(e){
     resetDrawPresentationState();

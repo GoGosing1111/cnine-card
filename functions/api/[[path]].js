@@ -115,13 +115,13 @@ async function boundedDrawReceiptCleanup(env,{limit=DRAW_RECEIPT_CLEANUP_BATCH,f
   if(!force&&!Number(lease?.meta?.changes||0))return {skipped:true,deleted:0};
   const statements=[
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
-      SELECT request_id FROM draw_request_receipts_v2 WHERE status='ARCHIVED' AND updated_at<datetime('now','-1 hour') ORDER BY updated_at LIMIT ?
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status='ARCHIVED' AND updated_at<datetime('now','-5 minutes') ORDER BY updated_at LIMIT ?
     )`).bind(limit),
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
-      SELECT request_id FROM draw_request_receipts_v2 WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-1 day') ORDER BY updated_at LIMIT ?
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-15 minutes') ORDER BY updated_at LIMIT ?
     )`).bind(limit),
     env.DB.prepare(`DELETE FROM draw_request_receipts_v2 WHERE request_id IN (
-      SELECT request_id FROM draw_request_receipts_v2 WHERE status='RETRYABLE' AND updated_at<datetime('now','-7 days') ORDER BY updated_at LIMIT ?
+      SELECT request_id FROM draw_request_receipts_v2 WHERE status='RETRYABLE' AND updated_at<datetime('now','-1 hour') ORDER BY updated_at LIMIT ?
     )`).bind(limit)
   ];
   const results=await env.DB.batch(statements);
@@ -409,7 +409,7 @@ async function ensureDrawReceiptV2(env){
         status TEXT NOT NULL DEFAULT 'PENDING',cost INTEGER NOT NULL DEFAULT 0,response_json TEXT,error_message TEXT,
         created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
       )`),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup_v1723 ON draw_request_receipts_v2(status,updated_at,request_id)'),
       env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1168_r7_draw_receipts','1',CURRENT_TIMESTAMP)")
     ]);
     return true;
@@ -1439,7 +1439,7 @@ async function ensureD1HotpathIndexes(env){
     }
     if(await tableExists(env,'pvp_match_history'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_match_history_attacker_recent ON pvp_match_history(attacker_id,id DESC)'));
     if(await tableExists(env,'pvp_profiles'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_profiles_score_user ON pvp_profiles(season_score,user_id)'));
-    if(await tableExists(env,'draw_request_receipts_v2'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup ON draw_request_receipts_v2(status,created_at,request_id)'));
+    if(await tableExists(env,'draw_request_receipts_v2'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_draw_receipts_v2_cleanup_v1723 ON draw_request_receipts_v2(status,updated_at,request_id)'));
     if(await tableExists(env,'raid_instances'))statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_instances_live_transition ON raid_instances(status,starts_at,ends_at,id)'));
     if(await tableExists(env,'raid_participants')){
       statements.push(env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_raid_participants_user_active ON raid_participants(user_id,is_active,instance_id)'));
@@ -3709,6 +3709,7 @@ async function handleRequest(context){
       ||(path==='packs'&&request.method==='GET')
       ||path==='burning-event/status'
       ||path==='draw/status'
+      ||path==='draw/ack'
       ||(path==='draw'&&request.method==='POST');
     if(path==='raid/status')await Promise.all([ensureD1HotpathIndexes(env),ensureD1StabilityIndexes(env)]);
     // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
@@ -3934,6 +3935,21 @@ async function handleRequest(context){
         if(Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000)status='RETRYABLE';
       }
       return json({requestId,status,error:String(row.error_message||''),createdAt:row.created_at||null,updatedAt:row.updated_at||null});
+    }
+    if(path==='draw/ack'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const body=await readBody(request),requestId=String(body.requestId||'').trim().slice(0,100);
+      if(!requestId)return json({error:'카드 개봉 요청번호가 필요합니다.'},400);
+      await ensureDrawReceiptV2(env);
+      const result=await env.DB.prepare(`UPDATE draw_request_receipts_v2
+        SET status='ARCHIVED',response_json=NULL,error_message=NULL,updated_at=CURRENT_TIMESTAMP
+        WHERE request_id=? AND user_id=? AND status='COMPLETED'`).bind(requestId,user.id).run();
+      if(Number(result?.meta?.changes||0)>0)return json({ok:true,requestId,status:'ARCHIVED'});
+      const row=await env.DB.prepare('SELECT status FROM draw_request_receipts_v2 WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      if(!row)return json({ok:true,requestId,status:'NOT_FOUND'});
+      const status=String(row.status||'').toUpperCase();
+      if(status==='ARCHIVED')return json({ok:true,requestId,status});
+      return json({ok:false,requestId,status,error:'아직 결과 확인 처리할 수 없는 카드 개봉 요청입니다.'},409);
     }
     if(path==='draw'&&request.method==='POST'){
       const user=await authenticate(request,env);
