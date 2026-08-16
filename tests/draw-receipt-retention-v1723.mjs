@@ -14,6 +14,6 @@ assert.match(api,/status IN \('COMPLETED','FAILED'\) AND updated_at<datetime\('n
 assert.match(api,/status='RETRYABLE' AND updated_at<datetime\('now','-1 hour'\)/);
 assert.doesNotMatch(api,/DELETE FROM draw_request_receipts_v2[^`]*status='PENDING'/s);
 assert.match(app,/await renderDrawResults[\s\S]*void acknowledgeDrawReceipt\(requestId\)/);
-assert.match(index,/js\/app\.js\?v=1723-draw-receipt-ack/);
+assert.match(index,/js\/app\.js\?v=1724-equipment-vehicle-hundred/);
 
 console.log('draw receipt retention v1723 checks passed');
