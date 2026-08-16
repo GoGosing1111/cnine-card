@@ -460,12 +460,22 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const hits = [];
     const damagedTargets = [...alive(a)];
     for (const target of damagedTargets) {
-      const amount = Math.max(1, Math.round(target.maxHp * bossOpeningPercent / 100));
+      // PVE character equipment/vehicle/title power is distributed into each
+      // fighter. A max-HP percentage hit must not grow by the same amount or
+      // that support power provides zero survivability against boss ultimates.
+      const basePower = Math.max(1, Number(target.basePower || target.power || 1));
+      const effectivePower = Math.max(basePower, Number(target.power || basePower));
+      const supportMitigationPercent = clamp((effectivePower - basePower) / effectivePower * 100, 0, 90);
+      const effectiveDamagePercent = bossOpeningPercent * (1 - supportMitigationPercent / 100);
+      const amount = Math.max(1, Math.round(target.maxHp * effectiveDamagePercent / 100));
       const damageState = applyDamage(target, amount);
       hits.push({
         targetId: target.id,
         damage: damageState.hpDamage,
         absorbed: damageState.absorbed,
+        configuredDamagePercent: bossOpeningPercent,
+        effectiveDamagePercent: Number(effectiveDamagePercent.toFixed(3)),
+        supportMitigationPercent: Number(supportMitigationPercent.toFixed(3)),
         targetHpAfter: target.hp,
         targetMaxHp: target.maxHp,
         targetShieldAfter: target.shield
