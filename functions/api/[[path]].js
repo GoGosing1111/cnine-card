@@ -3520,9 +3520,28 @@ function canMaintenanceBypass(user,maintenance){return Boolean(isAdminRole(user)
 async function requirePermission(request,env,permission){
   const user=await authenticate(request,env);
   if(!user||!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(user.role)) return null;
-  if(['OWNER','ADMIN'].includes(user.role)) return user;
+  if(user.role==='OWNER') return user;
+  if(user.role==='ADMIN'){
+    const access=await adminPermissionProfile(env,user);
+    return !access.restricted||access.permissions.includes(permission)?user:null;
+  }
   const row=await env.DB.prepare('SELECT is_allowed FROM admin_permissions WHERE admin_user_id=? AND permission_key=?').bind(user.id,permission).first();
   return row?.is_allowed?user:null;
+}
+
+async function adminPermissionProfile(env,user){
+  if(!user||String(user.role||'').toUpperCase()!=='ADMIN')return {restricted:false,permissions:[]};
+  const rows=await env.DB.prepare('SELECT permission_key,is_allowed FROM admin_permissions WHERE admin_user_id=? ORDER BY permission_key').bind(user.id).all();
+  const configured=Array.isArray(rows.results)&&rows.results.length>0;
+  return {restricted:configured,permissions:configured?rows.results.filter(row=>Number(row.is_allowed)===1).map(row=>String(row.permission_key)):[]};
+}
+
+function restrictedAdminPathAllowed(path,access){
+  if(!access?.restricted)return true;
+  if(path==='admin/dashboard')return true;
+  if((access.permissions.includes('COUPON_ISSUE')||access.permissions.includes('COUPON_MANAGE'))&&['admin/coupons','admin/coupons-v2','admin/coupon-create-permanent-v3'].includes(path))return true;
+  if(access.permissions.includes('COIN_PREDICTION_MANAGE')&&String(path).startsWith('admin/coin-prediction/'))return true;
+  return false;
 }
 
 async function releaseDeletedCouponCode(env,code,adminId){
@@ -3659,7 +3678,15 @@ async function handleRequest(context){
       }
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(admin.id).run();
       const token=await makeSession(env,admin.id);
-      return json({token,user:{id:admin.id,nickname:admin.nickname,role},admin:{id:admin.id,nickname:admin.nickname,role,last_login_at:new Date().toISOString()}});
+      const access=await adminPermissionProfile(env,{...admin,role});
+      return json({token,user:{id:admin.id,nickname:admin.nickname,role},admin:{id:admin.id,nickname:admin.nickname,role,last_login_at:new Date().toISOString(),restrictedPermissions:access.restricted,permissions:access.permissions}});
+    }
+
+    if(path.startsWith('admin/')){
+      const operator=await authenticate(request,env);
+      if(!operator)return json({error:'관리자 로그인이 필요합니다.'},401);
+      const access=await adminPermissionProfile(env,operator);
+      if(!restrictedAdminPathAllowed(path,access))return json({error:'이 계정은 승부예측 및 쿠폰 발급만 사용할 수 있습니다.',code:'ADMIN_PERMISSION_RESTRICTED'},403);
     }
 
     if(path==='me/summary'){
@@ -3734,7 +3761,7 @@ async function handleRequest(context){
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
     const rerollResponse=await handleHighGradeReroll({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(rerollResponse)return rerollResponse;
-    const coinPredictionResponse=await handleCoinPrediction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(coinPredictionResponse)return coinPredictionResponse;
+    const coinPredictionResponse=await handleCoinPrediction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,requirePermission,writeAdminLog}});if(coinPredictionResponse)return coinPredictionResponse;
     const dropPoolResponse=await handleDropPool({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(dropPoolResponse)return dropPoolResponse;
     const workshopResponse=await handleWorkshop({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(workshopResponse)return workshopResponse;
     const scrapyardResponse=await handleScrapyard({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,raidDeckPower,resolveUnifiedDrops,resolveUniqueBattleRuntime,uniqueBattleResponsePayload}});if(scrapyardResponse)return scrapyardResponse;
@@ -5706,11 +5733,13 @@ async function handleRequest(context){
     }
 
     if(path==='admin/dashboard'){
-      const admin=await requirePermission(request,env,'DASHBOARD');
-      if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
+      const admin=await authenticate(request,env);if(!admin||!['OWNER','ADMIN','CARD_MANAGER','EVENT_MANAGER','SUPPORT'].includes(admin.role))return json({error:'관리자 권한이 없습니다.'},403);
+      const access=await adminPermissionProfile(env,admin);
+      if(access.restricted)return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at,restrictedPermissions:true,permissions:access.permissions},stats:{users:0,usersToday:0,draws24h:0,cards:0,totalCoin:0,banned:0,coupons:0,urOwned:0,ssrOwned:0},restricted:true});
+      if(!await requirePermission(request,env,'DASHBOARD'))return json({error:'관리자 권한이 없습니다.'},403);
       const fresh=url.searchParams.get('fresh')==='1';
       const stats=await adminDashboardSnapshot(env,{fresh});
-      return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at},stats,cache:{ttlMs:ADMIN_DASHBOARD_BURST_CACHE_MS,fresh}});
+      return json({role:admin.role,admin:{id:admin.id,nickname:admin.nickname,role:admin.role,last_login_at:admin.last_login_at,restrictedPermissions:false,permissions:[]},stats,cache:{ttlMs:ADMIN_DASHBOARD_BURST_CACHE_MS,fresh}});
     }
 
     if(path==='admin/draw-performance'){
@@ -6002,7 +6031,7 @@ async function handleRequest(context){
     }
 
     if(path==='admin/coupon-create-permanent-v3'){
-      const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      const admin=await requirePermission(request,env,'COUPON_MANAGE')||await requirePermission(request,env,'COUPON_ISSUE'); if(!admin)return json({error:'쿠폰 발급 권한이 없습니다.'},403);
       if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
       const p=await readBody(request);
       const code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40);
@@ -6035,7 +6064,8 @@ async function handleRequest(context){
     }
 
     if(path==='admin/coupons'||path==='admin/coupons-v2'){
-      const admin=await requirePermission(request,env,'COUPON_MANAGE'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      const manager=await requirePermission(request,env,'COUPON_MANAGE'),issuer=manager||await requirePermission(request,env,'COUPON_ISSUE'),admin=issuer;
+      if(!admin)return json({error:'쿠폰 발급 권한이 없습니다.'},403);
       if(request.method==='GET'){const rows=await env.DB.prepare('SELECT * FROM coupons WHERE deleted_at IS NULL ORDER BY id DESC LIMIT 300').all();return json({coupons:rows.results||[]});}
       if(request.method==='POST'){
         const p=await readBody(request),code=String(p.code||'').trim().toUpperCase().replace(/\s+/g,'').slice(0,40),rewardType=String(p.rewardType||'COIN').toUpperCase(),rewardAmount=Number(p.rewardAmount),max=Number(p.maxUses),spec=verifiedMessageRewardSpec(rewardType);
@@ -6061,12 +6091,14 @@ async function handleRequest(context){
         }
       }
       if(request.method==='PATCH'){
+        if(!manager)return json({error:'쿠폰 수정 권한이 없습니다.'},403);
         const p=await readBody(request),before=await env.DB.prepare('SELECT * FROM coupons WHERE id=? AND deleted_at IS NULL').bind(Number(p.id)).first();if(!before)return json({error:'쿠폰이 없습니다.'},404);
         const maxUses=p.maxUses==null?null:Number(p.maxUses);if(maxUses!==null&&(!Number.isInteger(maxUses)||maxUses<Math.max(1,Number(before.used_count||0))||maxUses>1000000))return json({error:'총 사용 한도를 확인하세요. 이미 사용된 횟수보다 작게 설정할 수 없습니다.'},400);
         await env.DB.prepare('UPDATE coupons SET is_active=?,starts_at=NULL,ends_at=NULL,max_uses=COALESCE(?,max_uses),updated_at=CURRENT_TIMESTAMP WHERE id=? AND deleted_at IS NULL').bind(p.isActive===false?0:1,maxUses,before.id).run();
         const after=await env.DB.prepare('SELECT * FROM coupons WHERE id=?').bind(before.id).first();await writeAdminLog(env,admin,'COUPON_UPDATE','COUPON',before.id,before,after);return json({ok:true,coupon:after});
       }
       if(request.method==='DELETE'){
+        if(!manager)return json({error:'쿠폰 삭제 권한이 없습니다.'},403);
         const p=await readBody(request),ids=[...new Set((Array.isArray(p.ids)?p.ids:[]).map(Number).filter(x=>Number.isInteger(x)&&x>0))].slice(0,5000);
         if(!ids.length)return json({error:'삭제할 쿠폰을 선택하세요.'},400);
 
