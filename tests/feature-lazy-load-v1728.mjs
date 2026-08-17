@@ -24,7 +24,7 @@ assert.match(app,/preloadBattleEntryAssets\(deckCards,monster\)/);
 assert.match(app,/preloadBattleEntryAssets\(mine,target\)/);
 assert.match(app,/routeWaitsForFeature/);
 assert.match(runtimeCss,/\.route-feature-loader/);
-assert.match(worker,/soop-card-shell-v1729/);
+assert.match(worker,/soop-card-shell-v1730/);
 
 const deferredBytes=[
   'css/battle-v2-live.css','js/battle-v2-live.js',
