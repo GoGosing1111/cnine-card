@@ -31,7 +31,8 @@
   window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();installPrompt=event;renderButton()});
   window.addEventListener('appinstalled',()=>{installPrompt=null;removeButton();closeGuide();lockPortrait()});
   new MutationObserver(renderButton).observe(document.body,{childList:true,subtree:true});
-  let reloadingForWorker=false;
-  navigator.serviceWorker.addEventListener('controllerchange',()=>{if(reloadingForWorker)return;reloadingForWorker=true;location.reload()});
+  // 새 Worker가 활성화되어도 진행 중인 전투·개봉 화면을 강제로 새로고침하지 않는다.
+  // 새 앱 셸은 다음 일반 새로고침/재실행 때 적용되고 콘텐츠 캐시는 그대로 보존된다.
+  navigator.serviceWorker.addEventListener('controllerchange',()=>window.dispatchEvent(new CustomEvent('cnine:pwa-controller-updated')));
   window.addEventListener('load',async()=>{renderButton();lockPortrait();try{const registration=await navigator.serviceWorker.register('/service-worker.js',{scope:'/',updateViaCache:'none'});await registration.update();setInterval(()=>registration.update().catch(()=>{}),5*60*1000)}catch(error){console.warn('PWA service worker registration failed',error)}},{once:true});
 })();

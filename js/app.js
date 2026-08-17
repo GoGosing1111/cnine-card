@@ -510,8 +510,48 @@ function bindFullscreenPlayLink(header){
   },{capture:true});
 }
 
-let shellRenderSeq=0;
+let shellRenderSeq=0,shellRouteStart=null,shellRouteEnd=null;
+function locateShellRouteMarkers(){
+  if(shellRouteStart?.isConnected&&shellRouteEnd?.isConnected)return true;
+  shellRouteStart=null;shellRouteEnd=null;
+  const page=document.querySelector('main.page[data-cnine-shell="1"]');if(!page)return false;
+  const walker=document.createTreeWalker(page,NodeFilter.SHOW_COMMENT);
+  while(walker.nextNode()){
+    if(walker.currentNode.data==='cnine-route-start')shellRouteStart=walker.currentNode;
+    if(walker.currentNode.data==='cnine-route-end')shellRouteEnd=walker.currentNode;
+  }
+  return Boolean(shellRouteStart&&shellRouteEnd);
+}
+function replaceShellRoute(html){
+  if(!locateShellRouteMarkers())return false;
+  const range=document.createRange();
+  range.setStartAfter(shellRouteStart);range.setEndBefore(shellRouteEnd);range.deleteContents();
+  const template=document.createElement('template');template.innerHTML=html;
+  shellRouteEnd.parentNode.insertBefore(template.content,shellRouteEnd);
+  return true;
+}
+function cleanupShellRoute(fromTab,toTab){
+  try{window.dispatchEvent(new CustomEvent('cnine:route-will-change',{detail:{from:fromTab||'',to:toTab||''}}))}catch(_){}
+  try{document.querySelectorAll('video,audio').forEach(media=>{if(!media.paused)media.pause()})}catch(_){}
+  try{window.__battleV2LiveCleanup?.()}catch(_){}
+  const modal=document.getElementById('modal');
+  if(modal){try{modal.__battleV2Renderer?.destroy?.()}catch(_){}modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML=''}
+}
+function bindPersistentDesktopNavigation(header){
+  if(!header||header.dataset.cnineNavBound==='1')return;
+  header.dataset.cnineNavBound='1';
+  const syncOpenState=()=>header.classList.toggle('nav-menu-open',Boolean(header.querySelector('.main-nav-group.open')));
+  const closeGroups=(except=null)=>{header.querySelectorAll('.main-nav-group.open').forEach(group=>{if(group!==except){group.classList.remove('open');group.querySelector('.main-nav-trigger')?.setAttribute('aria-expanded','false')}});syncOpenState()};
+  header.addEventListener('click',event=>{
+    const tabButton=event.target.closest('.main-nav [data-tab]');
+    if(tabButton){closeGroups();const next=tabButton.dataset.tab;if(next&&next!==runtimeCommandContext)renderShell(next);return}
+    const trigger=event.target.closest('.main-nav-trigger');if(!trigger)return;
+    event.stopPropagation();const group=trigger.closest('.main-nav-group'),willOpen=!group.classList.contains('open');closeGroups(group);group.classList.toggle('open',willOpen);trigger.setAttribute('aria-expanded',String(willOpen));syncOpenState();
+  });
+  document.addEventListener('click',event=>{if(!event.target.closest('.main-nav'))closeGroups()});
+}
 function renderShell(tab) {
+  const renderStarted=performance.now(),previousTab=runtimeCommandContext;
   // V1298: 화면을 떠난 뒤 도착한 레이드 상태 응답/결과 타이머가 새 화면을 다시 덮지 못하게 먼저 무효화한다.
   try{invalidateRaidUiState({clearSelection:true,stopClaimRetry:true})}catch(_){}
   const renderSeq=++shellRenderSeq;
@@ -569,15 +609,22 @@ function renderShell(tab) {
       </div>
     </div>
   </nav>`;
-  app.innerHTML = `<main class="page"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="SOOP"><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}</header>${mobileNavigationHtml(tab)}${(views[tab]||buyView)(user)}</main><div id="modal" class="modal"></div>`;
-  const header=document.querySelector('.header');header?.insertAdjacentHTML('beforeend','<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a>');bindFullscreenPlayLink(header);
-  const syncNavOpenState=()=>header?.classList.toggle('nav-menu-open',Boolean(document.querySelector('.main-nav-group.open')));
-  const closeNavGroups=(except=null)=>{document.querySelectorAll('.main-nav-group.open').forEach(group=>{if(group!==except){group.classList.remove('open');group.querySelector('.main-nav-trigger')?.setAttribute('aria-expanded','false')}});syncNavOpenState()};
-  document.querySelectorAll('.main-nav [data-tab]').forEach(button=>button.onclick=()=>{const next=button.dataset.tab;closeNavGroups();if(next!==runtimeCommandContext)renderShell(next)});
-  document.querySelectorAll('.main-nav-trigger').forEach(button=>button.onclick=event=>{event.stopPropagation();const group=button.closest('.main-nav-group'),willOpen=!group.classList.contains('open');closeNavGroups(group);group.classList.toggle('open',willOpen);button.setAttribute('aria-expanded',String(willOpen));syncNavOpenState()});
-  document.addEventListener('click',event=>{if(!event.target.closest('.main-nav'))closeNavGroups()},{once:true});
+  const routeHtml=`${mobileNavigationHtml(tab)}${(views[tab]||buyView)(user)}`;
+  const existingShell=locateShellRouteMarkers();
+  if(existingShell){
+    cleanupShellRoute(previousTab,tab);
+    const currentNav=document.querySelector('main.page[data-cnine-shell="1"] .main-nav');
+    if(currentNav){const template=document.createElement('template');template.innerHTML=navHtml;currentNav.replaceWith(template.content.firstElementChild)}
+    replaceShellRoute(routeHtml);
+  }else{
+    app.innerHTML = `<main class="page" data-cnine-shell="1"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="SOOP"><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a></header><!--cnine-route-start-->${routeHtml}<!--cnine-route-end--></main><div id="modal" class="modal"></div>`;
+    shellRouteStart=null;shellRouteEnd=null;locateShellRouteMarkers();
+  }
+  const header=document.querySelector('main.page[data-cnine-shell="1"] .header');
+  bindPersistentDesktopNavigation(header);if(header?.dataset.fullscreenBound!=='1'){header.dataset.fullscreenBound='1';bindFullscreenPlayLink(header)}
   bindMobileNavigation();
   bindView(tab);
+  try{performance.measure('cnine-route-render',{start:renderStarted,end:performance.now(),detail:{tab,partial:existingShell}})}catch(_){}
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
   deferShellLoad(80,()=>loadShellSummary(tab==='buy'));
@@ -738,7 +785,14 @@ function dexView(user) {
 }
 function dexSection(item,owned,index=0,prefs=loadDexPrefs(),user=loadUser()) {
   const {name,list,got}=item,favorite=(prefs.favoriteMembers||[]).includes(name);
-  return `<section class="dex-section ${index>1?'collapsed':''} ${favorite?'favorite-member':''}" data-member="${escapeHtml(name)}" data-total="${list.length}" data-owned="${got}"><div class="dex-section-head"><button type="button" class="dex-fold-button"><span><i class="fold-icon">⌄</i><strong>${escapeHtml(name)}</strong><small>COLLECTION ALBUM</small></span><b>${got} / ${list.length}</b></button><button type="button" class="dex-member-favorite ${favorite?'active':''}" data-favorite-member="${escapeHtml(name)}" aria-label="${escapeHtml(name)} 즐겨찾기" aria-pressed="${favorite?'true':'false'}">★</button></div><div class="album-grid">${list.map(c=>cardHtml(c,owned.has(c.id),'small dex-card-display',user)).join('')}</div></section>`;
+  const lazy=index>1;
+  return `<section class="dex-section ${lazy?'collapsed':''} ${favorite?'favorite-member':''}" data-member="${escapeHtml(name)}" data-total="${list.length}" data-owned="${got}" data-dex-materialized="${lazy?'0':'1'}"><div class="dex-section-head"><button type="button" class="dex-fold-button"><span><i class="fold-icon">⌄</i><strong>${escapeHtml(name)}</strong><small>COLLECTION ALBUM</small></span><b>${got} / ${list.length}</b></button><button type="button" class="dex-member-favorite ${favorite?'active':''}" data-favorite-member="${escapeHtml(name)}" aria-label="${escapeHtml(name)} 즐겨찾기" aria-pressed="${favorite?'true':'false'}">★</button></div><div class="album-grid">${lazy?'':list.map(c=>cardHtml(c,owned.has(c.id),'small dex-card-display',user)).join('')}</div></section>`;
+}
+function materializeDexSection(section,user=loadUser()){
+  if(!section||section.dataset.dexMaterialized==='1')return;
+  const owned=ownedIds(user),member=section.dataset.member||'',grid=section.querySelector('.album-grid');if(!grid)return;
+  grid.innerHTML=cards.filter(card=>card.name===member).map(card=>cardHtml(card,owned.has(card.id),'small dex-card-display',user)).join('');
+  section.dataset.dexMaterialized='1';window.CNineRuntime?.observe?.(section);
 }
 
 
@@ -1957,12 +2011,12 @@ function bindView(tab) {
   if(tab==='prediction'&&typeof window.bindCoinPredictionView==='function')window.bindCoinPredictionView();
   if(tab==='dex') {
     syncCollectionFromServer({rerender:true});
-    document.querySelectorAll('.dex-fold-button').forEach(h=>h.onclick=()=>h.closest('.dex-section').classList.toggle('collapsed'));
-    document.querySelectorAll('.card-frame').forEach(c=>c.onclick=()=>showDetail(c.dataset.id));
+    document.querySelectorAll('.dex-fold-button').forEach(h=>h.onclick=()=>{const section=h.closest('.dex-section'),opening=section?.classList.contains('collapsed');if(opening)materializeDexSection(section);section?.classList.toggle('collapsed')});
+    const dexSections=document.getElementById('dexSections');if(dexSections)dexSections.onclick=event=>{const card=event.target.closest('.card-frame');if(card)showDetail(card.dataset.id)};
     const search=document.getElementById('dexSearch'),filter=document.getElementById('gradeFilter'),sort=document.getElementById('dexSort'),favoriteOnly=document.getElementById('favoriteMemberOnly');
-    const apply=()=>{const prefs=loadDexPrefs(),q=search.value.trim().toLowerCase(),g=filter.value;document.querySelectorAll('.dex-section').forEach(section=>{let visible=0;section.querySelectorAll('.card-frame').forEach(el=>{const c=cards.find(x=>x.id===el.dataset.id),show=(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q))&&(!g||c.grade===g);el.style.display=show?'':'none';if(show)visible++});const favoriteMatch=!prefs.favoriteOnly||section.classList.contains('favorite-member');section.style.display=visible&&favoriteMatch?'':'none';if(q||g)section.classList.remove('collapsed')});prefs.search=search.value;prefs.grade=g;saveDexPrefs(prefs)};
+    const apply=()=>{const prefs=loadDexPrefs(),q=search.value.trim().toLowerCase(),g=filter.value;document.querySelectorAll('.dex-section').forEach(section=>{const member=section.dataset.member||'',matches=cards.filter(c=>c.name===member&&(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q))&&(!g||c.grade===g));if((q||g)&&matches.length)materializeDexSection(section);if(section.dataset.dexMaterialized==='1')section.querySelectorAll('.card-frame').forEach(el=>{const c=cards.find(x=>x.id===el.dataset.id),show=Boolean(c&&(!q||c.title.toLowerCase().includes(q)||c.name.toLowerCase().includes(q))&&(!g||c.grade===g));el.style.display=show?'':'none'});const favoriteMatch=!prefs.favoriteOnly||section.classList.contains('favorite-member');section.style.display=matches.length&&favoriteMatch?'':'none';if(q||g)section.classList.remove('collapsed')});prefs.search=search.value;prefs.grade=g;saveDexPrefs(prefs)};
     document.querySelectorAll('.dex-member-favorite').forEach(button=>button.onclick=e=>{e.stopPropagation();const prefs=loadDexPrefs(),name=button.dataset.favoriteMember,list=new Set(prefs.favoriteMembers||[]);list.has(name)?list.delete(name):list.add(name);prefs.favoriteMembers=[...list];saveDexPrefs(prefs);renderShell('dex')});
-    search.oninput=apply;filter.onchange=apply;sort.onchange=()=>{const prefs=loadDexPrefs();prefs.sort=sort.value;saveDexPrefs(prefs);renderShell('dex')};favoriteOnly.onclick=()=>{const prefs=loadDexPrefs();prefs.favoriteOnly=!prefs.favoriteOnly;saveDexPrefs(prefs);renderShell('dex')};const uniqueLegend=document.querySelector('[data-scroll-unique]');if(uniqueLegend)uniqueLegend.onclick=()=>{const first=document.querySelector('.dex-card-display .deck-ability-icon, .card-unique-badge');if(first){first.closest('.dex-section')?.classList.remove('collapsed');first.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>first.classList.add('pulse'),300);setTimeout(()=>first.classList.remove('pulse'),1700)}};apply();
+    search.oninput=apply;filter.onchange=apply;sort.onchange=()=>{const prefs=loadDexPrefs();prefs.sort=sort.value;saveDexPrefs(prefs);renderShell('dex')};favoriteOnly.onclick=()=>{const prefs=loadDexPrefs();prefs.favoriteOnly=!prefs.favoriteOnly;saveDexPrefs(prefs);renderShell('dex')};const uniqueLegend=document.querySelector('[data-scroll-unique]');if(uniqueLegend)uniqueLegend.onclick=()=>{let first=document.querySelector('.dex-card-display .deck-ability-icon, .card-unique-badge');if(!first){const uniqueCard=cards.find(card=>card.uniqueAbility),section=[...document.querySelectorAll('.dex-section')].find(node=>node.dataset.member===uniqueCard?.name);materializeDexSection(section);first=[...section?.querySelectorAll('.card-frame')||[]].find(node=>node.dataset.id===uniqueCard?.id)?.querySelector('.deck-ability-icon, .card-unique-badge')}if(first){first.closest('.dex-section')?.classList.remove('collapsed');first.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>first.classList.add('pulse'),300);setTimeout(()=>first.classList.remove('pulse'),1700)}};apply();
   }
 }
 

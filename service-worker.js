@@ -1,42 +1,112 @@
-const CACHE_NAME='soop-card-static-v1726';
+const SHELL_CACHE='soop-card-shell-v1727';
+const CONTENT_CACHE='soop-card-content-v1';
 const OFFLINE_URL='/offline.html';
-const CORE=[OFFLINE_URL,'/manifest.webmanifest','/assets/ui/pwa-icon.svg','/assets/ui/pwa-icon-maskable.svg'];
+const APP_SHELL_URL='/index.html';
+const SHELL_CORE=[
+  OFFLINE_URL,
+  APP_SHELL_URL,
+  '/manifest.webmanifest',
+  '/assets/ui/pwa-icon.svg',
+  '/assets/ui/pwa-icon-maskable.svg'
+];
+const CONTENT_CACHE_LIMIT=320;
+let contentWritesUntilTrim=24;
 
 self.addEventListener('install',event=>{
-  event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE)));
+  event.waitUntil(caches.open(SHELL_CACHE).then(cache=>cache.addAll(SHELL_CORE)));
   self.skipWaiting();
 });
 
 self.addEventListener('activate',event=>{
   event.waitUntil((async()=>{
     const names=await caches.keys();
-    await Promise.all(names.filter(name=>name.startsWith('soop-card-static-')&&name!==CACHE_NAME).map(name=>caches.delete(name)));
+    await Promise.all(names.filter(name=>
+      name.startsWith('soop-card-static-')||
+      (name.startsWith('soop-card-shell-')&&name!==SHELL_CACHE)
+    ).map(name=>caches.delete(name)));
     await self.clients.claim();
-    const clients=await self.clients.matchAll({type:'window',includeUncontrolled:true});
-    await Promise.all(clients.map(client=>client.navigate(client.url).catch(()=>null)));
   })());
 });
 
-function isCacheableStatic(request,url){
-  if(request.method!=='GET'||url.origin!==self.location.origin)return false;
-  if(url.pathname.startsWith('/api/'))return false;
-  if(CORE.includes(url.pathname))return true;
-  return ['script','style','image','font'].includes(request.destination);
+function sameOriginGet(request,url){
+  return request.method==='GET'&&url.origin===self.location.origin&&!url.pathname.startsWith('/api/');
+}
+
+function isVersioned(url){
+  return url.searchParams.has('v')||/-v\d+(?:[.-]|$)/i.test(url.pathname);
+}
+
+async function trimCache(cacheName,maxEntries){
+  const cache=await caches.open(cacheName),keys=await cache.keys();
+  if(keys.length<=maxEntries)return;
+  await Promise.all(keys.slice(0,keys.length-maxEntries).map(key=>cache.delete(key)));
+}
+
+async function cacheFirst(request,cacheName){
+  const cache=await caches.open(cacheName),cached=await cache.match(request);
+  if(cached)return cached;
+  const response=await fetch(request);
+  if(response.ok)await cache.put(request,response.clone());
+  return response;
+}
+
+function staleWhileRevalidate(event,request,cacheName){
+  const update=(async()=>{
+    const cache=await caches.open(cacheName),response=await fetch(request);
+    if(response.ok){
+      await cache.put(request,response.clone());
+      contentWritesUntilTrim--;
+      if(contentWritesUntilTrim<=0){contentWritesUntilTrim=24;await trimCache(cacheName,CONTENT_CACHE_LIMIT)}
+    }
+    return response;
+  })().catch(()=>null);
+  event.waitUntil(update);
+  return caches.open(cacheName).then(cache=>cache.match(request)).then(async cached=>cached||(await update)||Response.error());
+}
+
+async function networkFirst(request,cacheName,fallback=null){
+  const cache=await caches.open(cacheName);
+  try{
+    const response=await fetch(request,{cache:'no-cache'});
+    if(response.ok)await cache.put(request,response.clone());
+    return response;
+  }catch(_){
+    return (await cache.match(request))||(fallback?await caches.match(fallback):null)||Response.error();
+  }
 }
 
 self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url);
-  if(url.origin===self.location.origin&&url.pathname.startsWith('/api/'))return;
+  if(!sameOriginGet(request,url))return;
+
   if(request.mode==='navigate'){
-    event.respondWith(fetch(request,{cache:'no-store'}).catch(()=>caches.match(OFFLINE_URL)));
+    event.respondWith((async()=>{
+      try{
+        const response=await fetch(request,{cache:'no-store'});
+        if(response.ok){
+          const cache=await caches.open(SHELL_CACHE);
+          await cache.put(APP_SHELL_URL,response.clone());
+        }
+        return response;
+      }catch(_){
+        return (await caches.match(APP_SHELL_URL))||(await caches.match(OFFLINE_URL))||Response.error();
+      }
+    })());
     return;
   }
-  if(!isCacheableStatic(request,url))return;
-  event.respondWith((async()=>{
-    const network=fetch(request,{cache:'no-cache'}).then(async response=>{
-      if(response.ok){const cache=await caches.open(CACHE_NAME);await cache.put(request,response.clone())}
-      return response;
-    }).catch(()=>null);
-    return (await network)||(await caches.match(request))||Response.error();
-  })());
+
+  if(['script','style','font','worker'].includes(request.destination)){
+    event.respondWith(isVersioned(url)?cacheFirst(request,SHELL_CACHE):networkFirst(request,SHELL_CACHE));
+    return;
+  }
+
+  if(request.destination==='image'){
+    event.respondWith(staleWhileRevalidate(event,request,CONTENT_CACHE));
+    return;
+  }
+
+  // Range 응답을 Cache Storage에 넣으면 긴 음원·영상 탐색이 깨질 수 있다.
+  if(['audio','video'].includes(request.destination)&&!request.headers.has('range')){
+    event.respondWith(staleWhileRevalidate(event,request,CONTENT_CACHE));
+  }
 });
