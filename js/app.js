@@ -479,7 +479,7 @@ function bindMobileNavigation(){
   document.querySelectorAll('[data-mobile-open-sheet]').forEach(button=>button.onclick=()=>open(button.dataset.mobileOpenSheet));
   layer.querySelectorAll('[data-mobile-sheet-close]').forEach(button=>button.onclick=close);
   layer.querySelectorAll('[data-mobile-switch-sheet]').forEach(button=>button.onclick=()=>open(button.dataset.mobileSwitchSheet));
-  document.querySelectorAll('[data-mobile-tab]').forEach(button=>button.onclick=()=>{const next=button.dataset.mobileTab;close();if(next!==runtimeCommandContext)renderShell(next)});
+  document.querySelectorAll('[data-mobile-tab]').forEach(button=>button.onclick=()=>{const next=button.dataset.mobileTab;warmFeatureForTab(next);close();if(next!==runtimeCommandContext)renderShell(next)});
   layer.querySelector('[data-mobile-account]')?.addEventListener('click',()=>{close();document.getElementById('playerAccountBtn')?.click()});
 }
 
@@ -509,6 +509,61 @@ function bindFullscreenPlayLink(header){
     if(navigated){event.preventDefault();event.stopPropagation()}
   },{capture:true});
 }
+
+const FEATURE_RESOURCE_MANIFEST={
+  auction:{
+    styles:['css/auction-house-v1553.css?v=1591-settlement-result'],
+    scripts:['js/auction-house-v1553.js?v=1674-load-shed'],
+    ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
+  },
+  prediction:{
+    styles:['css/coin-prediction-v1.css?v=4-bettor-ledger','css/coin-prediction-v1632.css?v=1660-owner-unlimited'],
+    scripts:['js/coin-prediction-v1.js?v=1719-user-max-30m'],
+    ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
+  },
+  battleV2:{
+    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup'],
+    scripts:['js/battle-v2-live.js?v=1727-offscreen-webgl-cleanup'],
+    ready:()=>typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
+  }
+};
+const featureResourcePromises=new Map(),gameImagePreloads=new Map();
+function loadFeatureStyle(href){
+  const existing=[...document.querySelectorAll('link[rel="stylesheet"]')].find(link=>link.getAttribute('href')===href);
+  if(existing)return Promise.resolve();
+  return new Promise((resolve,reject)=>{const link=document.createElement('link');link.rel='stylesheet';link.href=href;link.dataset.cnineFeatureStyle='1';link.onload=()=>resolve();link.onerror=()=>{link.remove();reject(new Error(`스타일 리소스를 불러오지 못했습니다: ${href}`))};document.head.appendChild(link)});
+}
+function loadFeatureScript(src){
+  const existing=[...document.scripts].find(script=>script.getAttribute('src')===src);
+  if(existing?.dataset.loaded==='1')return Promise.resolve();
+  if(existing)return new Promise((resolve,reject)=>{existing.addEventListener('load',()=>resolve(),{once:true});existing.addEventListener('error',()=>reject(new Error(`스크립트 리소스를 불러오지 못했습니다: ${src}`)),{once:true})});
+  return new Promise((resolve,reject)=>{const script=document.createElement('script');script.src=src;script.dataset.cnineFeatureScript='1';script.onload=()=>{script.dataset.loaded='1';resolve()};script.onerror=()=>{script.remove();reject(new Error(`스크립트 리소스를 불러오지 못했습니다: ${src}`))};document.body.appendChild(script)});
+}
+function ensureFeatureResources(key){
+  const manifest=FEATURE_RESOURCE_MANIFEST[key];if(!manifest)return Promise.reject(new Error(`알 수 없는 기능 리소스입니다: ${key}`));
+  if(manifest.ready())return Promise.resolve();
+  if(featureResourcePromises.has(key))return featureResourcePromises.get(key);
+  const request=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(async()=>{for(const src of manifest.scripts||[])await loadFeatureScript(src);if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
+  featureResourcePromises.set(key,request);return request;
+}
+function featureKeyForTab(tab){return tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
+function warmFeatureForTab(tab){const key=featureKeyForTab(tab);if(!key)return;ensureFeatureResources(key).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error))}
+function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
+function featureRouteErrorHtml(tab,message){return `<section class="route-feature-loader is-error"><b>${escapeHtml(message||'화면을 불러오지 못했습니다.')}</b><button type="button" class="btn" data-feature-retry="${escapeHtml(tab)}">다시 시도</button></section>`}
+function preloadGameImage(url){
+  const source=String(url||'').trim();if(!source)return Promise.resolve(false);if(gameImagePreloads.has(source))return gameImagePreloads.get(source);
+  const request=new Promise(resolve=>{const image=new Image();image.decoding='async';image.onload=()=>resolve(true);image.onerror=()=>resolve(false);image.src=source});gameImagePreloads.set(source,request);return request;
+}
+function battleAssetUrl(value){
+  let raw=String(value||'').trim();if(!raw)return '';if(/^(?:data:|blob:)/i.test(raw))return raw;
+  raw=raw.replaceAll('\\','/').replaceAll('#','%23');
+  const encodePart=part=>{if(!part)return '';try{return encodeURIComponent(decodeURIComponent(part))}catch(_){return encodeURIComponent(part)}};
+  if(/^https?:\/\//i.test(raw)){try{const url=new URL(raw);url.pathname=url.pathname.split('/').map(encodePart).join('/');return url.href}catch(_){return raw}}
+  const queryAt=raw.indexOf('?'),query=queryAt>=0?raw.slice(queryAt):'';let path=queryAt>=0?raw.slice(0,queryAt):raw;
+  path=path.replace(/^(?:\.\.\/)+/,'').replace(/^\.\//,'').replace(/^\/+/,'');return `/${path.split('/').map(encodePart).join('/')}${query}`;
+}
+function preloadBattleEntryAssets(deck=[],enemy=null){const urls=(deck||[]).map(card=>battleAssetUrl(card?.image||card?.image_url)).filter(Boolean);const enemyUrl=battleAssetUrl(enemy?.image||enemy?.image_url);if(enemyUrl)urls.push(enemyUrl);return Promise.all([...new Set(urls)].map(preloadGameImage))}
+window.ensureFeatureResources=ensureFeatureResources;
 
 let shellRenderSeq=0,shellRouteStart=null,shellRouteEnd=null;
 function locateShellRouteMarkers(){
@@ -544,10 +599,12 @@ function bindPersistentDesktopNavigation(header){
   const closeGroups=(except=null)=>{header.querySelectorAll('.main-nav-group.open').forEach(group=>{if(group!==except){group.classList.remove('open');group.querySelector('.main-nav-trigger')?.setAttribute('aria-expanded','false')}});syncOpenState()};
   header.addEventListener('click',event=>{
     const tabButton=event.target.closest('.main-nav [data-tab]');
-    if(tabButton){closeGroups();const next=tabButton.dataset.tab;if(next&&next!==runtimeCommandContext)renderShell(next);return}
+    if(tabButton){closeGroups();const next=tabButton.dataset.tab;warmFeatureForTab(next);if(next&&next!==runtimeCommandContext)renderShell(next);return}
     const trigger=event.target.closest('.main-nav-trigger');if(!trigger)return;
     event.stopPropagation();const group=trigger.closest('.main-nav-group'),willOpen=!group.classList.contains('open');closeGroups(group);group.classList.toggle('open',willOpen);trigger.setAttribute('aria-expanded',String(willOpen));syncOpenState();
   });
+  const warmFromEvent=event=>{const button=event.target.closest?.('.main-nav [data-tab]');if(button)warmFeatureForTab(button.dataset.tab)};
+  header.addEventListener('pointerover',warmFromEvent,{passive:true});header.addEventListener('focusin',warmFromEvent);
   document.addEventListener('click',event=>{if(!event.target.closest('.main-nav'))closeGroups()});
 }
 function renderShell(tab) {
@@ -566,7 +623,8 @@ function renderShell(tab) {
   if(tab!=='buy'){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open')}
   const user = loadUser();
   if (!user) return renderLogin();
-  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), workshop:(...args)=>(typeof window.workshopView==='function'?window.workshopView(...args):'<section class="workshop-v1668"><div id="workshopRootV1668" class="workshop-root-v1668"><div class="workshop-loading-v1668"><span></span><b>제작소를 준비하는 중</b></div></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):''), auction:(...args)=>(typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):''), mineral: mineralExchangeView, inventory: inventoryView };
+  const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), workshop:(...args)=>(typeof window.workshopView==='function'?window.workshopView(...args):'<section class="workshop-v1668"><div id="workshopRootV1668" class="workshop-root-v1668"><div class="workshop-loading-v1668"><span></span><b>제작소를 준비하는 중</b></div></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
   const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop'].includes(tab),marketActive=['prediction','auction'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
@@ -623,7 +681,15 @@ function renderShell(tab) {
   const header=document.querySelector('main.page[data-cnine-shell="1"] .header');
   bindPersistentDesktopNavigation(header);if(header?.dataset.fullscreenBound!=='1'){header.dataset.fullscreenBound='1';bindFullscreenPlayLink(header)}
   bindMobileNavigation();
-  bindView(tab);
+  const routeWaitsForFeature=['auction','prediction'].includes(tab)&&!routeFeatureReady;
+  if(routeWaitsForFeature){
+    ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab)}).catch(error=>{
+      if(renderSeq!==shellRenderSeq||runtimeCommandContext!==tab)return;
+      replaceShellRoute(`${mobileNavigationHtml(tab)}${featureRouteErrorHtml(tab,error.message)}`);bindMobileNavigation();
+      const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab)};
+    });
+  }else bindView(tab);
+  if(['battle','pvp'].includes(tab))warmFeatureForTab(tab);
   try{performance.measure('cnine-route-render',{start:renderStarted,end:performance.now(),detail:{tab,partial:existingShell}})}catch(_){}
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
@@ -1202,7 +1268,12 @@ async function startBattle(){
   saveLastPveMonsterId(battleState.selectedMonster);
   const user=loadUser();let deckCards=battleState.deck.map(id=>cards.find(x=>String(x.id)===String(id))).filter(Boolean);
   const previewCardPower=deckCards.reduce((sum,c)=>sum+battleCardPower(c,user,battleState.config),0),previewPower=previewCardPower+Number(battleState.characterBonus?.pve||0);
-  if(v2Playback&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'){
+  if(v2Playback){
+    modal.className='modal show battle-modal';modal.innerHTML='<div class="modal-panel battle-stage"><div class="route-feature-loader battle-resource-loader"><span></span><b>전투엔진을 준비하는 중...</b><small>카드와 몬스터 리소스를 미리 불러오고 있습니다.</small></div></div>';
+    await Promise.all([ensureFeatureResources('battleV2'),preloadBattleEntryAssets(deckCards,monster)]);
+    if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready())throw new Error('전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.');
+  }
+  if(v2Playback){
     const live=window.prepareBattleV2LiveLoading({modal,mode:'PVE',playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER',autoText:battleState.autoRunning?`자동전투 ${Number(battleState.autoSummary?.battles||0)+1}회차 · 서버 전투 계산 중`:'실제 덱·장비·고유효과를 기준으로 서버 전투를 계산하고 있습니다.'});
     const stage=live.stage,phase=live.phase;msg=live.msg;ensureBattleSoundButton(stage);phase.textContent='SERVER BATTLE CALCULATION';
     const d=await apiRequest('battle/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,monsterId:battleState.selectedMonster,cardIds:battleState.deck,autoBattle:Boolean(battleState.autoRunning)})});
@@ -3520,7 +3591,12 @@ async function fightPvp(id,matchToken){
   let mine=pvpState.deck.map(cid=>cards.find(c=>c.id===cid)).filter(Boolean);
   if(mine.length!==5)return alert('먼저 랭크전 덱 5장을 저장하세요.');
   const pvpPreviewCardPower=mine.reduce((sum,card)=>sum+battleCardPower(card,loadUser(),pvpState.config||battleState.config),0),pvpPreviewPower=pvpPreviewCardPower+Number(pvpState.characterBonus?.pvp||0);
-  if(pvpState.battleEngine?.active&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPvpBattleV2Live==='function')return fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken});
+  if(pvpState.battleEngine?.active){
+    const resourceModal=document.getElementById('modal');if(resourceModal){resourceModal.className='modal show battle-modal pvp-battle-modal';resourceModal.innerHTML='<div class="modal-panel battle-stage"><div class="route-feature-loader battle-resource-loader"><span></span><b>랭크전 전투엔진을 준비하는 중...</b><small>필요한 카드 리소스를 미리 불러오고 있습니다.</small></div></div>'}
+    try{await Promise.all([ensureFeatureResources('battleV2'),preloadBattleEntryAssets(mine,target)])}catch(error){if(resourceModal){resourceModal.className='modal';resourceModal.innerHTML=''}throw error}
+    if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready()){if(resourceModal){resourceModal.className='modal';resourceModal.innerHTML=''}throw new Error('랭크전 전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.')}
+    return fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken});
+  }
   const normalizeBattleCard=x=>({...x,id:String(x?.id||x?.card_id||''),title:x?.title||x?.card_title||'상대 카드',name:x?.name||'',grade:String(x?.rarity||x?.grade||'C').toUpperCase(),rarity:String(x?.rarity||x?.grade||'C').toUpperCase(),image:x?.image||x?.image_url||'',image_url:x?.image_url||x?.image||'',focusX:Number(x?.focusX??x?.focus_x??50),focusY:Number(x?.focusY??x?.focus_y??50),powerType:x?.powerType||x?.power_type||'',breakthroughLevel:Number(x?.breakthroughLevel??x?.breakthrough_level??0),uniqueAbility:x?.uniqueAbility||null});
   const modal=document.getElementById('modal');modal.className='modal show battle-modal pvp-battle-modal';
   modal.innerHTML=`<div class="modal-panel battle-stage pvp-battle-stage intro"><div class="battle-backdrop"></div><div class="battle-fx-layer"></div><div class="battle-topline"><span>SOOPKETMON RANKED</span><b id="battlePhase">MATCH FOUND</b></div><div class="battle-hud"><div class="battle-hp battle-hp-team"><div class="battle-hp-head"><b>${publicTitleBadgeHtml(pvpState.myTitle)}MY RANKED DECK</b><span data-hp-text="team">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="team"></u><i data-hp-fill="team"></i><em>K.O.</em></div><small>편성 전투력 ${pvpPreviewPower.toLocaleString()} · 시즌 ${Number(pvpState.profile?.season_score||0).toLocaleString()}점</small></div><div class="battle-hp battle-hp-enemy"><div class="battle-hp-head"><b>${publicTitleBadgeHtml(target?.title)}${escapeHtml(target?.nickname||'OPPONENT')}</b><span data-hp-text="enemy">100 / 100 · 100%</span></div><div class="battle-hp-track"><u data-hp-trail="enemy"></u><i data-hp-fill="enemy"></i><em>K.O.</em></div><small>시즌 ${Number(target?.season_score||0).toLocaleString()}점</small></div></div><div class="battle-arena pvp-arena"><div class="battle-side player-side"><div class="battle-team">${mine.map((c,i)=>battleFighterHtml(c,i)).join('')}</div><small>MY TEAM</small></div><div class="battle-center"><strong class="battle-vs-mark">VS</strong><span id="battleCountdown"></span></div><div class="battle-side enemy-side"><div id="pvpEnemyTeam" class="battle-team enemy-team pvp-enemy-loading">상대 덱 불러오는 중...</div><small>${publicTitleBadgeHtml(target?.title)}${escapeHtml(target?.nickname||'OPPONENT')}</small></div></div><div class="battle-impact"><i></i><i></i><i></i></div><div id="battleMessage" class="battle-message"><span>자동 배정된 상대와 랭크전 진행 중</span></div></div>`;

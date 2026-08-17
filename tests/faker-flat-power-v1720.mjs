@@ -17,7 +17,7 @@ assert.match(api,/SELECT c\.id,c\.rarity,c\.power_type,c\.base_power,uc\.breakth
 assert.match(api,/SELECT d\.user_id,c\.id,c\.rarity,c\.power_type,c\.base_power,uc\.breakthrough_level/);
 assert.match(api,/c\.id AS card_id,c\.rarity/);
 assert.match(api,/SELECT u\.nickname,c\.id,c\.rarity/);
-assert.match(index,/js\/app\.js\?v=1727-partial-shell-render/);
+assert.match(index,/js\/app\.js\?v=1728-feature-lazy-load/);
 
 const flat=(base,percent,isFaker)=>Math.floor(base*(1+percent/100))+(isFaker?3000:0);
 assert.equal(flat(3200,0,true),6200);
