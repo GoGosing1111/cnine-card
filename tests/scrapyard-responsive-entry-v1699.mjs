@@ -18,6 +18,6 @@ assert.doesNotMatch(workshop,/scrap=await api\('scrapyard\/status'\);state=await
 assert.match(css,/button\.is-starting:disabled/);
 assert.doesNotMatch(index,/workshop-v1676\.js/);
 assert.match(app,/js\/workshop-v1676\.js\?v=1703-fast-entry/);
-assert.match(worker,/soop-card-shell-v1730/);
+assert.match(worker,/soop-card-shell-v1731/);
 
 console.log('Scrapyard v1699: immediate start feedback, optimistic unlock and parallel background refresh verified');

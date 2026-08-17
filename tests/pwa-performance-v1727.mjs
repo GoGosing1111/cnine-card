@@ -5,7 +5,7 @@ const [index,app,runtime,worker,pwa,battle,css]=[
   'index.html','js/app.js','js/runtime-performance-v1727.js','service-worker.js','js/pwa-install.js','js/battle-v2-live.js','css/runtime-performance-v1727.css'
 ].map(read);
 
-assert.match(worker,/const SHELL_CACHE='soop-card-shell-v1730'/);
+assert.match(worker,/const SHELL_CACHE='soop-card-shell-v1731'/);
 assert.match(worker,/const CONTENT_CACHE='soop-card-content-v1'/);
 assert.match(worker,/request\.headers\.has\('range'\)/);
 assert.match(worker,/CONTENT_CACHE_LIMIT=320/);

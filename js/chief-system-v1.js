@@ -43,7 +43,7 @@
   let mountQueued=false;
   const observer=new MutationObserver(()=>{if(typeof runtimeCommandContext!=='undefined'&&runtimeCommandContext==='buy'&&!mountQueued){mountQueued=true;requestAnimationFrame(()=>{mountQueued=false;mount()})}});
   const onPowerClick=event=>{const button=event.target.closest?.('[data-chief-power]');if(!button||!document.getElementById('chiefMainRoot')?.contains(button))return;event.preventDefault();activate(button.dataset.chiefPower,button)};
-  const boot=()=>{document.addEventListener('click',onPowerClick);observer.observe(document.getElementById('app')||document.body,{childList:true,subtree:true});setTimeout(sync,500)};
+  const boot=()=>{document.addEventListener('click',onPowerClick);observer.observe(document.getElementById('app')||document.body,{childList:true,subtree:true});sync();setTimeout(sync,500)};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot,{once:true});else boot();
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});
   setInterval(()=>{if(!document.hidden&&typeof runtimeCommandContext!=='undefined'&&runtimeCommandContext==='buy')sync()},60000);
