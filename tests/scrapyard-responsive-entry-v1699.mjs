@@ -5,6 +5,7 @@ const root=new URL('../',import.meta.url);
 const workshop=readFileSync(new URL('js/workshop-v1676.js',root),'utf8');
 const css=readFileSync(new URL('css/workshop-v1676.css',root),'utf8');
 const index=readFileSync(new URL('index.html',root),'utf8');
+const app=readFileSync(new URL('js/app.js',root),'utf8');
 const worker=readFileSync(new URL('service-worker.js',root),'utf8');
 
 assert.match(workshop,/activeScrapRun=''/);
@@ -15,7 +16,8 @@ assert.match(workshop,/Promise\.all\(\[api\('scrapyard\/status'\),api\('workshop
 assert.match(workshop,/if\(version!==scrapSyncVersion\)return/,'an older background refresh must not overwrite a newer run');
 assert.doesNotMatch(workshop,/scrap=await api\('scrapyard\/status'\);state=await api\('workshop'\)/,'sequential post-run refresh must not return');
 assert.match(css,/button\.is-starting:disabled/);
-assert.match(index,/workshop-v1676\.js\?v=1703-fast-entry/);
-assert.match(worker,/soop-card-shell-v1728/);
+assert.doesNotMatch(index,/workshop-v1676\.js/);
+assert.match(app,/js\/workshop-v1676\.js\?v=1703-fast-entry/);
+assert.match(worker,/soop-card-shell-v1729/);
 
 console.log('Scrapyard v1699: immediate start feedback, optimistic unlock and parallel background refresh verified');

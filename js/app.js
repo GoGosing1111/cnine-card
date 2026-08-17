@@ -229,7 +229,7 @@ async function init() {
 }
 
 function renderLoading() {
-  app.innerHTML = `<div class="loading-screen"><div class="loading-orbit"></div><img src="assets/ui/cninelogo.png" class="loading-logo" alt="SOOP"><strong>숲켓몬 카드뽑기</strong><div class="loading-bar"><i></i></div></div>`;
+  app.innerHTML = `<div class="loading-screen"><div class="loading-orbit"></div>${responsiveLogoImage('loading-logo')}<strong>숲켓몬 카드뽑기</strong><div class="loading-bar"><i></i></div></div>`;
 }
 
 function generateKey() {
@@ -511,6 +511,21 @@ function bindFullscreenPlayLink(header){
 }
 
 const FEATURE_RESOURCE_MANIFEST={
+  character:{
+    styles:['css/equipment-v1264.css?v=1497-load-control','css/equipment-character-v1269.css?v=1497-load-control','css/equipment-alignment-v1487.css?v=1487-pixel-register','css/garage-v1339.css?v=1339-gemini-reference-redesign','css/garage-v1341.css?v=1538-all-title-cover-goat'],
+    scripts:['js/equipment-v1274.js?v=1538-title-layer-split'],
+    ready:()=>typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
+  },
+  workshop:{
+    styles:['css/workshop-v1676.css?v=1699-scrapyard-response','css/scrapyard-battle-v1698.css?v=1720-monster-card-compact'],
+    scripts:['js/workshop-v1676.js?v=1703-fast-entry','js/scrapyard-battle-v1698.js?v=1703-fast-entry'],
+    ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'&&typeof window.playScrapyardBattleV1698==='function'
+  },
+  dexTools:{
+    styles:['css/high-grade-reroll-v1354.css?v=1433-ticket-cache-reset'],
+    scripts:['js/high-grade-reroll-v1354.js?v=1615-fur-duplicate-count'],
+    ready:()=>typeof window.HighGradeReroll?.injectButton==='function'
+  },
   auction:{
     styles:['css/auction-house-v1553.css?v=1591-settlement-result'],
     scripts:['js/auction-house-v1553.js?v=1674-load-shed'],
@@ -546,9 +561,9 @@ function ensureFeatureResources(key){
   const request=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(async()=>{for(const src of manifest.scripts||[])await loadFeatureScript(src);if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
   featureResourcePromises.set(key,request);return request;
 }
-function featureKeyForTab(tab){return tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
+function featureKeyForTab(tab){return tab==='character'?'character':tab==='workshop'?'workshop':tab==='dex'?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
 function warmFeatureForTab(tab){const key=featureKeyForTab(tab);if(!key)return;ensureFeatureResources(key).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error))}
-function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
+function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':tab==='character'?'장비·칭호':tab==='workshop'?'제작소':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
 function featureRouteErrorHtml(tab,message){return `<section class="route-feature-loader is-error"><b>${escapeHtml(message||'화면을 불러오지 못했습니다.')}</b><button type="button" class="btn" data-feature-retry="${escapeHtml(tab)}">다시 시도</button></section>`}
 function preloadGameImage(url){
   const source=String(url||'').trim();if(!source)return Promise.resolve(false);if(gameImagePreloads.has(source))return gameImagePreloads.get(source);
@@ -624,7 +639,7 @@ function renderShell(tab) {
   const user = loadUser();
   if (!user) return renderLogin();
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
-  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(typeof window.characterView==='function'?window.characterView(...args):'<section id="characterSystemRoot" class="character-system-root-v1249"><div class="frame-loading-v1249"><span></span><b>장비·칭호 화면을 준비하는 중...</b></div></section>'), workshop:(...args)=>(typeof window.workshopView==='function'?window.workshopView(...args):'<section class="workshop-v1668"><div id="workshopRootV1668" class="workshop-root-v1668"><div class="workshop-loading-v1668"><span></span><b>제작소를 준비하는 중</b></div></div></section>'), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
   const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop'].includes(tab),marketActive=['prediction','auction'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
@@ -675,13 +690,13 @@ function renderShell(tab) {
     if(currentNav){const template=document.createElement('template');template.innerHTML=navHtml;currentNav.replaceWith(template.content.firstElementChild)}
     replaceShellRoute(routeHtml);
   }else{
-    app.innerHTML = `<main class="page" data-cnine-shell="1"><div class="ambient-lines"></div><header class="header"><div class="brand"><img class="brand-logo" src="assets/ui/cninelogo.png" alt="SOOP"><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a></header><!--cnine-route-start-->${routeHtml}<!--cnine-route-end--></main><div id="modal" class="modal"></div>`;
+    app.innerHTML = `<main class="page" data-cnine-shell="1"><div class="ambient-lines"></div><header class="header"><div class="brand">${responsiveLogoImage('brand-logo')}<div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a></header><!--cnine-route-start-->${routeHtml}<!--cnine-route-end--></main><div id="modal" class="modal"></div>`;
     shellRouteStart=null;shellRouteEnd=null;locateShellRouteMarkers();
   }
   const header=document.querySelector('main.page[data-cnine-shell="1"] .header');
   bindPersistentDesktopNavigation(header);if(header?.dataset.fullscreenBound!=='1'){header.dataset.fullscreenBound='1';bindFullscreenPlayLink(header)}
   bindMobileNavigation();
-  const routeWaitsForFeature=['auction','prediction'].includes(tab)&&!routeFeatureReady;
+  const routeWaitsForFeature=['auction','prediction','character','workshop'].includes(tab)&&!routeFeatureReady;
   if(routeWaitsForFeature){
     ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab)}).catch(error=>{
       if(renderSeq!==shellRenderSeq||runtimeCommandContext!==tab)return;
@@ -689,7 +704,7 @@ function renderShell(tab) {
       const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab)};
     });
   }else bindView(tab);
-  if(['battle','pvp'].includes(tab))warmFeatureForTab(tab);
+  if(['battle','pvp','dex'].includes(tab))warmFeatureForTab(tab);
   try{performance.measure('cnine-route-render',{start:renderStarted,end:performance.now(),detail:{tab,partial:existingShell}})}catch(_){}
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
@@ -770,9 +785,17 @@ function packImagePath(pack) {
   const files = { basic: 'standard-pack.png', advanced: 'advanced-pack.png', premium: 'premium-pack.png', pickup: 'limited-pack.png', ultimate: 'ultimate-pack.png' };
   return `assets/ui/packs/${files[pack.id] || files[pack.theme] || files.basic}?v=1544-ultimate-pack`;
 }
+function responsiveLogoImage(classes='',loading='eager'){
+  const base='/assets/responsive/ui/cninelogo';
+  return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-240.avif 240w, ${base}-480.avif 480w" sizes="240px"><source type="image/webp" srcset="${base}-240.webp 240w, ${base}-480.webp 480w" sizes="240px"><img src="assets/ui/cninelogo.png" class="${classes}" alt="SOOP" loading="${loading}" decoding="async" fetchpriority="${loading==='eager'?'high':'auto'}"></picture>`;
+}
+function packResponsiveImage(pack,{classes='',hero=false}={}){
+  const names={basic:'standard-pack',advanced:'advanced-pack',premium:'premium-pack',pickup:'limited-pack',ultimate:'ultimate-pack'},name=names[pack.id]||names[pack.theme]||names.basic,base=`/assets/responsive/ui/${name}`,sizes=hero?'(max-width:760px) 72vw, 390px':'(max-width:760px) 34vw, 150px',loading=hero?'eager':'lazy',priority=hero?'high':'low';
+  return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-160.avif 160w, ${base}-320.avif 320w" sizes="${sizes}"><source type="image/webp" srcset="${base}-160.webp 160w, ${base}-320.webp 320w" sizes="${sizes}"><img src="${packImagePath(pack)}" class="${classes}" alt="${escapeHtml(pack.name)}" loading="${loading}" decoding="async" fetchpriority="${priority}"></picture>`;
+}
 
 function packSelector() {
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}"><img src="${packImagePath(pack)}" alt="${escapeHtml(pack.name)}"><i></i></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.originalPrice>pack.price?`<s>${pack.originalPrice}</s> <b>${pack.price}코인</b>`:`${pack.price}코인`}</em></button>`).join('')}</div></section>`;
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.originalPrice>pack.price?`<s>${pack.originalPrice}</s> <b>${pack.price}코인</b>`:`${pack.price}코인`}</em></button>`).join('')}</div></section>`;
 }
 
 function supplyBoxShopMarkup(config=null){
@@ -828,7 +851,7 @@ function recentCards(user) {
 }
 
 function packArt(pack) {
-  return `<div class="pack-envelope pack-image-envelope ${pack.theme}"><img src="${packImagePath(pack)}" class="pack-product-image" alt="${escapeHtml(pack.name)}"><div class="pack-image-gloss"></div></div>`;
+  return `<div class="pack-envelope pack-image-envelope ${pack.theme}">${packResponsiveImage(pack,{classes:'pack-product-image',hero:true})}<div class="pack-image-gloss"></div></div>`;
 }
 
 const DEX_PREF_KEY='cnine:dexPreferences:v1';
@@ -946,6 +969,57 @@ function pveDeckCardMini(card,user=loadUser()){
 function pveDeckGradeGroups(list=[]){
   return [...new Set(list.map(card=>card.grade))].map(grade=>({grade,cards:list.filter(card=>card.grade===grade)}));
 }
+const VIRTUAL_CARD_CHUNK_SIZE=18;
+const virtualCardLists=new WeakMap();
+const activeVirtualCardLists=new Map();
+function virtualCardChunkRows(groups=[]){
+  const chunks=[];
+  groups.forEach(group=>{for(let start=0;start<group.cards.length;start+=VIRTUAL_CARD_CHUNK_SIZE)chunks.push({grade:group.grade,cards:group.cards.slice(start,start+VIRTUAL_CARD_CHUNK_SIZE),first:start===0});});
+  return chunks;
+}
+function virtualCardColumns(root){
+  const width=Math.max(280,root?.clientWidth||720);
+  if(width<=480)return 2;if(width<=980)return 3;
+  return Math.max(2,Math.floor((width+10)/178));
+}
+function virtualCardChunkHeight(root,chunk){
+  const width=Math.max(280,root?.clientWidth||720),columns=virtualCardColumns(root),cardWidth=Math.max(118,(width-(columns-1)*10-8)/columns),rows=Math.ceil(chunk.cards.length/columns);
+  return Math.ceil((chunk.first?48:8)+rows*(cardWidth*1.58+10)+10);
+}
+function mountVirtualCardGroups(root,groups,{kind='pve',renderCard,onPick,scrollTop}={}){
+  if(!root)return;
+  activeVirtualCardLists.get(kind)?.destroy?.();
+  virtualCardLists.get(root)?.destroy?.();
+  const chunks=virtualCardChunkRows(groups),previousScroll=Math.max(0,Number(scrollTop??root.scrollTop??0));
+  if(!chunks.length){root.innerHTML='<div class="empty-recent deck-filter-empty"><b>조건에 맞는 카드가 없습니다.</b><span>검색어나 필터를 변경해보세요.</span></div>';return;}
+  const prefix=kind==='pvp'?'pvp':'pve';
+  root.innerHTML=chunks.map((chunk,index)=>`<section class="${prefix}-grade-group pvp-grade-group grade-${String(chunk.grade).toLowerCase()} virtual-card-chunk ${chunk.first?'':'virtual-card-continuation'}" data-virtual-card-chunk="${index}" style="height:${virtualCardChunkHeight(root,chunk)}px">${chunk.first?`<div class="${prefix}-grade-title pvp-grade-title"><b>${escapeHtml(chunk.grade)}</b><span>${groups.find(group=>group.grade===chunk.grade)?.cards.length||chunk.cards.length}장</span></div>`:''}<div class="virtual-card-placeholder" aria-hidden="true"></div></section>`).join('');
+  const nodes=[...root.querySelectorAll('[data-virtual-card-chunk]')],state={observer:null,resizeObserver:null,unregister:null,destroyed:false,destroy(){if(this.destroyed)return;this.destroyed=true;this.observer?.disconnect();this.resizeObserver?.disconnect();this.unregister?.();if(activeVirtualCardLists.get(kind)===this)activeVirtualCardLists.delete(kind);}};
+  virtualCardLists.set(root,state);
+  activeVirtualCardLists.set(kind,state);
+  const gridClass=kind==='pvp'?'pvp-grade-grid':'pve-grade-grid pvp-grade-grid';
+  const materialize=node=>{
+    if(state.destroyed||node.dataset.virtualMaterialized==='1')return;
+    const index=Number(node.dataset.virtualCardChunk),chunk=chunks[index];if(!chunk)return;
+    const title=node.querySelector(':scope > .pvp-grade-title')?.outerHTML||'';
+    node.style.height='auto';node.innerHTML=`${title}<div class="${gridClass}">${chunk.cards.map(renderCard).join('')}</div>`;node.dataset.virtualMaterialized='1';
+    requestAnimationFrame(()=>{if(!node.isConnected||state.destroyed)return;node.dataset.virtualMeasured=String(Math.ceil(node.getBoundingClientRect().height));window.CNineRuntime?.observe?.(node)});
+  };
+  const unmaterialize=node=>{
+    if(state.destroyed||node.dataset.virtualMaterialized!=='1'||node.contains(document.activeElement))return;
+    const index=Number(node.dataset.virtualCardChunk),chunk=chunks[index];if(!chunk)return;
+    const measured=Math.max(1,Number(node.dataset.virtualMeasured)||Math.ceil(node.getBoundingClientRect().height)||virtualCardChunkHeight(root,chunk)),title=node.querySelector(':scope > .pvp-grade-title')?.outerHTML||'';
+    node.style.height=`${measured}px`;node.innerHTML=`${title}<div class="virtual-card-placeholder" aria-hidden="true"></div>`;node.dataset.virtualMaterialized='0';
+  };
+  nodes.slice(0,2).forEach(materialize);
+  const overflow=getComputedStyle(root).overflowY,scrollRoot=/(?:auto|scroll)/.test(overflow)?root:null;
+  if('IntersectionObserver'in window){state.observer=new IntersectionObserver(entries=>entries.forEach(entry=>{entry.target.dataset.virtualVisible=entry.isIntersecting?'1':'0';if(entry.isIntersecting)materialize(entry.target);else if(entry.target.dataset.virtualMaterialized==='1'){const idle=window.requestIdleCallback||((callback)=>setTimeout(callback,80));idle(()=>{if(entry.target.dataset.virtualVisible==='0')unmaterialize(entry.target)},{timeout:350})}}),{root:scrollRoot,rootMargin:'900px 0px'});nodes.forEach(node=>state.observer.observe(node));}
+  else nodes.forEach(materialize);
+  if('ResizeObserver'in window){state.resizeObserver=new ResizeObserver(()=>nodes.forEach((node,index)=>{if(node.dataset.virtualMaterialized!=='1')node.style.height=`${virtualCardChunkHeight(root,chunks[index])}px`}));state.resizeObserver.observe(root);}
+  root.onclick=event=>{const button=event.target.closest(kind==='pvp'?'[data-cid]':'[data-pick]');if(button&&root.contains(button))onPick?.(button)};
+  root.scrollTop=previousScroll;
+  state.unregister=window.CNineRuntime?.registerCleanup?.(()=>state.destroy())||null;
+}
 const PVE_DECK_FILTER_KEY='cnine_pve_deck_filter_v1';
 function loadPveDeckFilter(){try{return {query:'',grade:'ALL',type:'ALL',sort:'POWER_DESC',...JSON.parse(localStorage.getItem(PVE_DECK_FILTER_KEY)||'{}')}}catch{return {query:'',grade:'ALL',type:'ALL',sort:'POWER_DESC'}}}
 function savePveDeckFilter(filter){try{localStorage.setItem(PVE_DECK_FILTER_KEY,JSON.stringify(filter))}catch(_){}}
@@ -968,16 +1042,16 @@ function filterDeckCards(list=[],filter={},user=loadUser(),settings=battleState.
 function renderPveDeckCardList(owned,user=loadUser()){
   const root=document.getElementById('battleCards');if(!root)return;
   const filter=loadPveDeckFilter(),deckSet=new Set(battleState.deck),rows=filterDeckCards(owned,filter,user,battleState.config),groups=pveDeckGradeGroups(rows);
-  root.innerHTML=groups.map(group=>`<section class="pve-grade-group pvp-grade-group grade-${String(group.grade).toLowerCase()}"><div class="pve-grade-title pvp-grade-title"><b>${escapeHtml(group.grade)}</b><span>${group.cards.length}장</span></div><div class="pve-grade-grid pvp-grade-grid">${group.cards.map(card=>`<button type="button" class="pve-frame-pick pvp-pick ${deckSet.has(card.id)?'selected':''}" data-pick="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pveDeckCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`).join('')}</div></section>`).join('')||'<div class="empty-recent deck-filter-empty"><b>조건에 맞는 카드가 없습니다.</b><span>검색어나 필터를 변경해보세요.</span></div>';
+  mountVirtualCardGroups(root,groups,{kind:'pve',renderCard:card=>`<button type="button" class="pve-frame-pick pvp-pick ${deckSet.has(card.id)?'selected':''}" data-pick="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pveDeckCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`,onPick:button=>{if(battleState.deck.length>=5)return;const card=cards.find(item=>String(item.id)===String(button.dataset.pick));if(String(card?.grade||'').toUpperCase()==='ZENITH'&&battleState.deck.some(id=>String(cards.find(item=>String(item.id)===String(id))?.grade||'').toUpperCase()==='ZENITH'))return alert('제니스 카드는 덱에 1장만 편성할 수 있습니다.');const scrollTop=root.scrollTop;battleState.deck.push(button.dataset.pick);renderBattleBuilder();requestAnimationFrame(()=>{const next=document.getElementById('battleCards');if(next)next.scrollTop=scrollTop})}});
   const count=document.getElementById('pveDeckResultCount');if(count)count.textContent=`${rows.length}장`;
-  root.querySelectorAll('[data-pick]').forEach(button=>button.onclick=()=>{if(battleState.deck.length>=5)return;const card=cards.find(item=>String(item.id)===String(button.dataset.pick));if(String(card?.grade||'').toUpperCase()==='ZENITH'&&battleState.deck.some(id=>String(cards.find(item=>String(item.id)===String(id))?.grade||'').toUpperCase()==='ZENITH'))return alert('제니스 카드는 덱에 1장만 편성할 수 있습니다.');battleState.deck.push(button.dataset.pick);renderBattleBuilder()});
 }
 function bindPveDeckFilters(owned,user=loadUser()){
   const filter=loadPveDeckFilter(),search=document.getElementById('pveDeckSearch'),grade=document.getElementById('pveDeckGrade'),type=document.getElementById('pveDeckType'),sort=document.getElementById('pveDeckSort'),reset=document.getElementById('pveDeckFilterReset');
-  if(search){search.value=filter.query||'';search.oninput=()=>{filter.query=search.value;savePveDeckFilter(filter);renderPveDeckCardList(owned,user);search.focus();search.setSelectionRange(search.value.length,search.value.length)}}
-  if(grade){grade.value=filter.grade||'ALL';grade.onchange=()=>{filter.grade=grade.value;savePveDeckFilter(filter);renderPveDeckCardList(owned,user)}}
-  if(type){type.value=filter.type||'ALL';type.onchange=()=>{filter.type=type.value;savePveDeckFilter(filter);renderPveDeckCardList(owned,user)}}
-  if(sort){sort.value=filter.sort||'POWER_DESC';sort.onchange=()=>{filter.sort=sort.value;savePveDeckFilter(filter);renderPveDeckCardList(owned,user)}}
+  const resetScroll=()=>{const root=document.getElementById('battleCards');if(root)root.scrollTop=0};
+  if(search){search.value=filter.query||'';search.oninput=()=>{filter.query=search.value;savePveDeckFilter(filter);resetScroll();renderPveDeckCardList(owned,user);search.focus();search.setSelectionRange(search.value.length,search.value.length)}}
+  if(grade){grade.value=filter.grade||'ALL';grade.onchange=()=>{filter.grade=grade.value;savePveDeckFilter(filter);resetScroll();renderPveDeckCardList(owned,user)}}
+  if(type){type.value=filter.type||'ALL';type.onchange=()=>{filter.type=type.value;savePveDeckFilter(filter);resetScroll();renderPveDeckCardList(owned,user)}}
+  if(sort){sort.value=filter.sort||'POWER_DESC';sort.onchange=()=>{filter.sort=sort.value;savePveDeckFilter(filter);resetScroll();renderPveDeckCardList(owned,user)}}
   if(reset)reset.onclick=()=>{const next={query:'',grade:'ALL',type:'ALL',sort:'POWER_DESC'};savePveDeckFilter(next);bindPveDeckFilters(owned,user);renderPveDeckCardList(owned,user)};
 }
 async function loadBattleView(){
@@ -1026,6 +1100,7 @@ function renderBattleBuilder(){
     const clearDeck=document.getElementById('clearBattleDeck');if(clearDeck)clearDeck.onclick=resetBattleDeck;
   }else{
     if(deckRoot)deckRoot.innerHTML='';
+    activeVirtualCardLists.get('pve')?.destroy?.();
     if(cardRoot)cardRoot.innerHTML='';
     renderPveMonsterBrowser();
     const start=document.getElementById('battleStart'),noEnergy=battleState.energy&&!battleState.energy.unlimited&&battleState.energy.energy<battleState.energy.costPerBattle;
@@ -2227,6 +2302,13 @@ function deckAbilityIconHtml(card,classes=''){
 }
 
 let drawResultRenderCount=0;
+function responsiveCardImageMarkup(card,{enabled=false,loading='lazy',fetchPriority='auto'}={}){
+  const source=String(card?.image||'').trim(),normalized=source.replaceAll('\\','/').replace(/^\/+/, '').split('?',1)[0],base=enabled?window.CNineResponsiveCardImages?.[normalized]:'';
+  const image=`<img loading="${loading}" fetchpriority="${fetchPriority}" decoding="async" src="${escapeHtml(source)}" alt="${escapeHtml(card?.title||'카드')}" style="object-position:${Number(card?.focusX??50)}% ${Number(card?.focusY??50)}%">`;
+  if(!base)return image;
+  const sizes='(max-width:480px) 44vw, (max-width:980px) 30vw, 176px';
+  return `<picture class="responsive-card-picture"><source type="image/avif" srcset="${base}-192.avif 192w, ${base}-384.avif 384w" sizes="${sizes}"><source type="image/webp" srcset="${base}-192.webp 192w, ${base}-384.webp 384w" sizes="${sizes}">${image}</picture>`;
+}
 function cardHtml(card, owned, classes='', user=loadUser()) {
   const uniqueBadge=uniqueAbilityBadgeHtml(card,classes);
   const normalizedGrade=String(card.grade||'').toUpperCase();
@@ -2248,7 +2330,7 @@ function cardHtml(card, owned, classes='', user=loadUser()) {
   const imageLoading=revealCard&&!bulkResultCard?'eager':'lazy',fetchPriority=revealCard&&!bulkResultCard?'high':bulkResultCard?'low':'auto';
   const zenithFrame=normalizedGrade==='ZENITH'?'<img class="zenith-card-frame" src="assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">':'';
   const fakerFrame=isFakerChampionship?'<img class="faker-championship-frame" src="assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true"><img class="faker-t1-mark" src="assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1"><img class="faker-signature-mark" src="assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER"><span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>':'';
-  return `<article class="card-frame grade-${card.grade}${breakthrough}${isFakerChampionship?' faker-championship-card':''} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}${furQuantity}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art"><img loading="${imageLoading}" fetchpriority="${fetchPriority}" decoding="async" src="${card.image}" alt="${escapeHtml(card.title)}" style="object-position:${card.focusX}% ${card.focusY}%"></div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div>${zenithFrame}${fakerFrame}</article>`;
+  return `<article class="card-frame grade-${card.grade}${breakthrough}${isFakerChampionship?' faker-championship-card':''} ${classes}" data-id="${card.id}">${!deckCard&&limited?`<div class="limited-badge">한정판 ${remain}/${card.limitedTotal}</div>`:''}${topBadges}${furQuantity}<div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>${card.grade}${deckCard?'':powerTypeIndicatorHtml(card)}</span><b>SOOP</b></div><div class="card-art">${responsiveCardImageMarkup(card,{enabled:iconCard,loading:imageLoading,fetchPriority})}</div><div class="card-footer"><div><small>${escapeHtml(card.name)}</small><div class="card-title-row"><div class="card-title">${escapeHtml(card.title)}</div>${iconCard?'':uniqueBadge}</div></div><img src="assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP" loading="lazy" decoding="async"></div></div>${zenithFrame}${fakerFrame}</article>`;
 }
 
 function showDetail(id,initialTab='auto') {
@@ -3471,16 +3553,16 @@ function savePvpDeckFilter(filter){try{localStorage.setItem(PVP_DECK_FILTER_KEY,
 function renderPvpDeckCardList(list,user=loadUser()){
   const root=document.getElementById('pvpCardPicker');if(!root)return;
   const filter=loadPvpDeckFilter(),deckSet=new Set(pvpState.deck),rows=filterDeckCards(list,filter,user,pvpState.battleConfig||battleState.config),groups=pveDeckGradeGroups(rows);
-  root.innerHTML=groups.map(group=>`<section class="pvp-grade-group grade-${String(group.grade).toLowerCase()}"><div class="pvp-grade-title"><b>${escapeHtml(group.grade)}</b><span>${group.cards.length}장</span></div><div class="pvp-grade-grid">${group.cards.map(card=>`<button type="button" class="pvp-pick ${deckSet.has(card.id)?'selected':''}" data-cid="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pvpCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`).join('')}</div></section>`).join('')||'<div class="empty-recent deck-filter-empty"><b>조건에 맞는 카드가 없습니다.</b><span>검색어나 필터를 변경해보세요.</span></div>';
+  mountVirtualCardGroups(root,groups,{kind:'pvp',renderCard:card=>`<button type="button" class="pvp-pick ${deckSet.has(card.id)?'selected':''}" data-cid="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pvpCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`,onPick:async button=>{if(pvpState.deck.length>=5)return alert('랭크전 덱은 5장까지 편성할 수 있습니다.');const card=cards.find(item=>String(item.id)===String(button.dataset.cid));if(String(card?.grade||'').toUpperCase()==='ZENITH'&&pvpState.deck.some(id=>String(cards.find(item=>String(item.id)===String(id))?.grade||'').toUpperCase()==='ZENITH'))return alert('제니스 카드는 덱에 1장만 편성할 수 있습니다.');pvpState.deck.push(button.dataset.cid);await rerenderPvpDeckPreserveScroll()}});
   const count=document.getElementById('pvpDeckResultCount');if(count)count.textContent=`${rows.length}장`;
-  root.querySelectorAll('[data-cid]').forEach(button=>button.onclick=async()=>{if(pvpState.deck.length>=5)return alert('랭크전 덱은 5장까지 편성할 수 있습니다.');const card=cards.find(item=>String(item.id)===String(button.dataset.cid));if(String(card?.grade||'').toUpperCase()==='ZENITH'&&pvpState.deck.some(id=>String(cards.find(item=>String(item.id)===String(id))?.grade||'').toUpperCase()==='ZENITH'))return alert('제니스 카드는 덱에 1장만 편성할 수 있습니다.');pvpState.deck.push(button.dataset.cid);await rerenderPvpDeckPreserveScroll()});
 }
 function bindPvpDeckFilters(list,user=loadUser()){
   const filter=loadPvpDeckFilter(),search=document.getElementById('pvpDeckSearch'),grade=document.getElementById('pvpDeckGrade'),type=document.getElementById('pvpDeckType'),sort=document.getElementById('pvpDeckSort'),reset=document.getElementById('pvpDeckFilterReset');
-  if(search){search.value=filter.query||'';search.oninput=()=>{filter.query=search.value;savePvpDeckFilter(filter);renderPvpDeckCardList(list,user);search.focus();search.setSelectionRange(search.value.length,search.value.length)}}
-  if(grade){grade.value=filter.grade||'ALL';grade.onchange=()=>{filter.grade=grade.value;savePvpDeckFilter(filter);renderPvpDeckCardList(list,user)}}
-  if(type){type.value=filter.type||'ALL';type.onchange=()=>{filter.type=type.value;savePvpDeckFilter(filter);renderPvpDeckCardList(list,user)}}
-  if(sort){sort.value=filter.sort||'POWER_DESC';sort.onchange=()=>{filter.sort=sort.value;savePvpDeckFilter(filter);renderPvpDeckCardList(list,user)}}
+  const resetScroll=()=>{const root=document.getElementById('pvpCardPicker');if(root)root.scrollTop=0};
+  if(search){search.value=filter.query||'';search.oninput=()=>{filter.query=search.value;savePvpDeckFilter(filter);resetScroll();renderPvpDeckCardList(list,user);search.focus();search.setSelectionRange(search.value.length,search.value.length)}}
+  if(grade){grade.value=filter.grade||'ALL';grade.onchange=()=>{filter.grade=grade.value;savePvpDeckFilter(filter);resetScroll();renderPvpDeckCardList(list,user)}}
+  if(type){type.value=filter.type||'ALL';type.onchange=()=>{filter.type=type.value;savePvpDeckFilter(filter);resetScroll();renderPvpDeckCardList(list,user)}}
+  if(sort){sort.value=filter.sort||'POWER_DESC';sort.onchange=()=>{filter.sort=sort.value;savePvpDeckFilter(filter);resetScroll();renderPvpDeckCardList(list,user)}}
   if(reset)reset.onclick=()=>{const next={query:'',grade:'ALL',type:'ALL',sort:'POWER_DESC'};savePvpDeckFilter(next);bindPvpDeckFilters(list,user);renderPvpDeckCardList(list,user)};
 }
 function renderPvpDeckTab(box){

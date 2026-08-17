@@ -21,6 +21,6 @@ assert.match(vehicleUi,/count>=100\?\[\.\.\.list\.reduce/);
 assert.doesNotMatch(vehicleUi,/classList\.add\([^\n]*\?['"]hundred-result-v1724['"]:['"]['"]/);
 assert.match(vehicleUi,/classList\.toggle\('hundred-result-v1724',count>=100\)/);
 assert.match(index,/vehicle-draw-v1388\.js\?v=1726-result-class-fix/);
-assert.match(index,/v=1728-feature-lazy-load/);
-assert.match(worker,/soop-card-shell-v1728/);
+assert.match(index,/v=1729-virtual-card-lists/);
+assert.match(worker,/soop-card-shell-v1729/);
 console.log('equipment/vehicle 100 draw checks passed');

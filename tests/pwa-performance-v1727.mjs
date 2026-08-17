@@ -5,7 +5,7 @@ const [index,app,runtime,worker,pwa,battle,css]=[
   'index.html','js/app.js','js/runtime-performance-v1727.js','service-worker.js','js/pwa-install.js','js/battle-v2-live.js','css/runtime-performance-v1727.css'
 ].map(read);
 
-assert.match(worker,/const SHELL_CACHE='soop-card-shell-v1728'/);
+assert.match(worker,/const SHELL_CACHE='soop-card-shell-v1729'/);
 assert.match(worker,/const CONTENT_CACHE='soop-card-content-v1'/);
 assert.match(worker,/request\.headers\.has\('range'\)/);
 assert.match(worker,/CONTENT_CACHE_LIMIT=320/);
@@ -28,9 +28,10 @@ assert.match(css,/animation-play-state:paused!important/);
 
 assert.match(battle,/CNineRuntime\?\.registerCleanup/);
 assert.match(battle,/deleteProgram\(field\)/);
-assert.match(index,/runtime-performance-v1727\.css\?v=1728-feature-loader/);
+assert.match(index,/runtime-performance-v1727\.css\?v=1729-virtual-card-lists/);
 assert.match(index,/runtime-performance-v1727\.js\?v=1727-offscreen-lifecycle/);
-assert.match(index,/app\.js\?v=1728-feature-lazy-load/);
+assert.match(index,/responsive-card-images-v1729\.js\?v=1729-responsive-card-images/);
+assert.match(index,/app\.js\?v=1729-virtual-card-lists/);
 assert.doesNotMatch(index,/battle-v2-live\.js/);
 
 console.log('pwa performance v1727 checks passed');
