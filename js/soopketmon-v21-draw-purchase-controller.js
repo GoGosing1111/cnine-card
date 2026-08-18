@@ -6,7 +6,7 @@
 })(function createSoopketmonV21DrawPurchase(scope) {
   'use strict';
 
-  const VERSION = '21.5.0';
+  const VERSION = '21.5.1';
   const MAX_TOTAL = 10000;
   const SERVER_BATCH = 100;
   const RETRY_LIMIT = 3;

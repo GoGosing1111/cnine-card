@@ -1,7 +1,7 @@
 (function installSoopketmonV21LoginShopAdapter(global) {
   'use strict';
 
-  const VERSION = '21.3.2';
+  const VERSION = '21.3.3';
   const script = document.currentScript;
   const AUTH_MODE_KEY = 'soopketmon:v21:auth-mode';
   let scheduledFrame = 0;

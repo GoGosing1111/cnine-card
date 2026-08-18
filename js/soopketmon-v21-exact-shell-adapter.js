@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.1.1';
+  const VERSION = '21.6.2';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -106,7 +106,7 @@
       const link = document.createElement('link');
       link.id = id;
       link.rel = 'stylesheet';
-      link.href = `${cssHref(filename)}?v=21.4.2-mobile-touch`;
+      link.href = `${cssHref(filename)}?v=${VERSION}`;
       document.head.append(link);
     });
   }
@@ -196,12 +196,12 @@
     return `<section class="pc-lobby-scene" aria-label="숲켓몬 PC 메인 로비">
         <div class="pc-lobby-grid" aria-hidden="true"></div>
         <div class="pc-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
-        <button class="pc-main-character pc-chief-commander" type="button" data-v21-chief-info aria-label="족장 임기 현황 열기">${chiefPicture}</button>
+        <div class="pc-main-character pc-chief-commander" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
         <section class="pc-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}" data-chief-state="${chief.state}" aria-label="족장 임기 현황">
           <div class="pc-readout-index"><span>SOOPKETMON / CHIEF SYSTEM</span><b>${esc(chief.ordinal)}</b></div>
           <p>THE ELECTED CHIEF</p><h1><small>${esc(chief.title)}</small><strong>${esc(chief.nickname)}</strong></h1>
           <div class="pc-guide-line"><i></i><span></span></div><div class="pc-term-timer"><span>임기 종료까지</span><strong>${esc(chief.remaining)}</strong><small>족장 권한은 서버 정책으로 검증 · KST</small></div>
-          <button class="pc-chief-action ui-press" type="button" data-v21-chief-info>족장 임기 및 권한 안내 <i>→</i></button>
+          <div class="pc-chief-action" aria-hidden="true">족장 임기 현황 <i>LIVE</i></div>
         </section>
         <nav class="pc-main-navigation" aria-label="PC 주요 메뉴"><div class="pc-navigation-heading"><span>MAIN COMMAND</span><b>01 / LOBBY</b></div>
           ${pcCommand('buy', '카드 상점', '대량 구매 · 20/100/1000회')}${pcCommand('dex', '도감', '카드 수집 · 진화')}${pcCommand('battle', '전투', 'PVE · 특수전 · 레이드', true)}
@@ -212,8 +212,8 @@
         <div class="pc-news-ticker" aria-label="실시간 획득 소식"><b class="pc-ticker-label">LIVE DROP</b><div class="pc-ticker-window"><div id="highGradeTrack" class="pc-ticker-track high-grade-track"><span>최근 LIMITED 등급 이상 획득 기록을 불러오는 중...</span></div></div><time>KST</time></div>
       </section>
       <section class="mobile-command-lobby" aria-label="숲켓몬 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
-        <button class="mobile-chief-visual" type="button" data-v21-chief-info aria-label="족장 임기 현황 열기">${chiefPicture}</button>
-        <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE ELECTED CHIEF</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button type="button" data-v21-chief-info>임기 및 권한 안내 <em>→</em></button></section>
+        <div class="mobile-chief-visual" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
+        <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE ELECTED CHIEF</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><div class="mobile-chief-status" aria-hidden="true">족장 임기 현황 <em>LIVE</em></div></section>
         <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${mobileCommand('character', '장비·제작', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>
       </section>`;
   }
@@ -241,7 +241,7 @@
     page.classList.add('game-frame', 'v21-production-shell');
     page.dataset.v21Shell = VERSION;
     page.setAttribute('data-soopketmon-v21-shell', 'approved-v21');
-    page.querySelector('.ambient-lines')?.remove();
+    page.querySelectorAll('.ambient-lines,.light-pillars,.light-beams').forEach(node => node.remove());
     if (!page.querySelector(':scope > .world-backdrop')) page.insertAdjacentHTML('afterbegin', '<div class="world-backdrop" aria-hidden="true"></div><div class="world-vignette" aria-hidden="true"></div>');
     let header = page.querySelector(':scope > .header');
     if (!header) { header = document.createElement('header'); page.prepend(header); }
@@ -433,7 +433,6 @@
       if (event.target.closest('[data-v21-all]')) { event.preventDefault(); openAllOverlay(); return; }
       const group = event.target.closest('[data-v21-group]'); if (group) { event.preventDefault(); const item = GROUPS[group.dataset.v21Group]; if (item) openRouteOverlay(item.title, item.routes); return; }
       if (event.target.closest('[data-v21-profile]')) { event.preventDefault(); if (typeof global.showAccountPanel === 'function') global.showAccountPanel(); else openRouteOverlay('내 정보', ['inventory', 'messages']); return; }
-      if (event.target.closest('[data-v21-chief-info]')) { event.preventDefault(); openChiefOverlay(); return; }
       if (event.target.closest('[data-v21-chief-system]')) { event.preventDefault(); closeOverlay(); showChiefConsole = true; explicitNavigation = true; try { global.renderShell('buy'); } finally { explicitNavigation = false; } return; }
     });
   }
