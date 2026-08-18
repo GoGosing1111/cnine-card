@@ -68,7 +68,11 @@
     raid: { shell: 'battle', actions: [{ selector: '[data-pve-mode="raid"]' }] },
     siege: { global: 'openMonsterSiege', fallbackSelector: '[data-monster-siege-entry]' },
     seal: { shell: 'battle', actions: [{ selector: '[data-seal-battle-mode]' }] },
-    idle: { shell: 'battle', actions: [{ selector: '[data-pve-mode="idle"]' }] },
+    idle: {
+      shell: 'battle',
+      global: 'openIdleDungeon',
+      fallbackSelector: '[data-pve-mode="idle"]'
+    },
     tower: { shell: 'battle', actions: [{ selector: '[data-pve-mode="tower"]' }] },
 
     equipment: { shell: 'character', actions: [{ selector: '[data-character-tab="equipment"]' }] },
@@ -317,7 +321,7 @@
   }
 
   const api = Object.freeze({
-    version: '1.0.0',
+    version: '1.0.1',
     shellRoutes: SHELL_ROUTES,
     routeContract: ROUTE_CONTRACT,
     subtabContract: SUBTAB_CONTRACT,

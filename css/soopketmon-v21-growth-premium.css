@@ -85,6 +85,16 @@
   box-shadow: inset 3px 0 var(--v21-growth-lime), 0 0 18px rgba(184, 255, 73, .06);
 }
 
+/* Garage showcase: keep the selected vehicle as the focal point. The
+   collection below still owns equip/unequip controls. */
+[data-soopketmon-v21-shell="approved-v21"] #characterSystemRoot .garage-info-v1347 > .garage-unequip-v1347 {
+  display: none !important;
+}
+[data-soopketmon-v21-shell="approved-v21"] #characterSystemRoot .garage-stats-v1347 .stat b {
+  margin-top: 5px;
+  font-size: clamp(27px, 4.2vw, 48px);
+}
+
 [data-soopketmon-v21-shell="approved-v21"] #characterSystemRoot :is(.title-card-v1350, .garage-card-v1347) button:not([disabled]),
 [data-soopketmon-v21-shell="approved-v21"] #characterSystemRoot :is(.title-current-v1350, .garage-info-v1347) button {
   min-height: 44px;

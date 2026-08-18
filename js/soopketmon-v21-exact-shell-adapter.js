@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.6.2';
+  const VERSION = '21.7.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -121,6 +121,8 @@
         const count = match ? Number(match[0]) : 0;
         const next = count > 99 || (count === 99 && raw.includes('+')) ? '99+' : (count > 0 ? String(count) : '');
         if (raw !== next) badge.textContent = next;
+        badge.hidden = count < 1;
+        badge.setAttribute('aria-hidden', count < 1 ? 'true' : 'false');
       };
       new MutationObserver(normalize).observe(badge, { childList: true, characterData: true, subtree: true });
       normalize();
@@ -201,7 +203,7 @@
           <div class="pc-readout-index"><span>SOOPKETMON / CHIEF SYSTEM</span><b>${esc(chief.ordinal)}</b></div>
           <p>THE ELECTED CHIEF</p><h1><small>${esc(chief.title)}</small><strong>${esc(chief.nickname)}</strong></h1>
           <div class="pc-guide-line"><i></i><span></span></div><div class="pc-term-timer"><span>임기 종료까지</span><strong>${esc(chief.remaining)}</strong><small>족장 권한은 서버 정책으로 검증 · KST</small></div>
-          <div class="pc-chief-action" aria-hidden="true">족장 임기 현황 <i>LIVE</i></div>
+          <button class="pc-chief-action" type="button" data-v21-chief-info>족장 임기 현황 <i>LIVE</i></button>
         </section>
         <nav class="pc-main-navigation" aria-label="PC 주요 메뉴"><div class="pc-navigation-heading"><span>MAIN COMMAND</span><b>01 / LOBBY</b></div>
           ${pcCommand('buy', '카드 상점', '대량 구매 · 20/100/1000회')}${pcCommand('dex', '도감', '카드 수집 · 진화')}${pcCommand('battle', '전투', 'PVE · 특수전 · 레이드', true)}
@@ -213,7 +215,7 @@
       </section>
       <section class="mobile-command-lobby" aria-label="숲켓몬 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
         <div class="mobile-chief-visual" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
-        <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE ELECTED CHIEF</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><div class="mobile-chief-status" aria-hidden="true">족장 임기 현황 <em>LIVE</em></div></section>
+        <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE ELECTED CHIEF</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button class="mobile-chief-status" type="button" data-v21-chief-info>족장 임기 현황 <em>LIVE</em></button></section>
         <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${mobileCommand('character', '장비·제작', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>
       </section>`;
   }
@@ -262,7 +264,40 @@
     if (!dock) { dock = document.createElement('nav'); dock.className = 'bottom-dock'; dock.setAttribute('aria-label', '주요 메뉴'); page.append(dock); }
     dock.innerHTML = dockMarkup();
     bindMessageBadgeNormalizer(page);
+    bindBurningStripNormalizer(page);
+    normalizeBurningStrip(page);
     return { page, viewport, screen: viewport.querySelector('.screen'), ...findMarkers(page) };
+  }
+
+  function normalizeBurningStrip(page) {
+    if (!page || page.dataset.v21BurningNormalizing === '1') return;
+    const strips = [...page.querySelectorAll('.burning-event-strip')];
+    if (strips.length === 0) return;
+    page.dataset.v21BurningNormalizing = '1';
+    try {
+      const direct = strips.find(node => node.parentElement === page);
+      const canonical = direct || strips[strips.length - 1];
+      strips.forEach(node => { if (node !== canonical) node.remove(); });
+      if (canonical.parentElement !== page) page.prepend(canonical);
+      page.querySelectorAll('.chief-event-dock:empty').forEach(node => node.remove());
+    } finally {
+      delete page.dataset.v21BurningNormalizing;
+    }
+  }
+
+  function bindBurningStripNormalizer(page) {
+    if (!page || page.dataset.v21BurningNormalizer === '1') return;
+    page.dataset.v21BurningNormalizer = '1';
+    let scheduled = false;
+    const observer = new MutationObserver(records => {
+      const relevant = records.some(record => [...record.addedNodes, ...record.removedNodes].some(node =>
+        node?.nodeType === 1 && (node.matches?.('.burning-event-strip,.chief-event-dock') || node.querySelector?.('.burning-event-strip,.chief-event-dock'))
+      ));
+      if (!relevant || scheduled || page.dataset.v21BurningNormalizing === '1') return;
+      scheduled = true;
+      requestAnimationFrame(() => { scheduled = false; if (page.isConnected) normalizeBurningStrip(page); });
+    });
+    observer.observe(page, { childList: true, subtree: true });
   }
 
   function routeFamily(route) {
@@ -431,6 +466,7 @@
       const route = event.target.closest('[data-v21-route]'); if (route) { event.preventDefault(); void navigate(route.dataset.v21Route); return; }
       if (event.target.closest('[data-v21-home]')) { event.preventDefault(); void navigate('home'); return; }
       if (event.target.closest('[data-v21-all]')) { event.preventDefault(); openAllOverlay(); return; }
+      if (event.target.closest('[data-v21-chief-info]')) { event.preventDefault(); openChiefOverlay(); return; }
       const group = event.target.closest('[data-v21-group]'); if (group) { event.preventDefault(); const item = GROUPS[group.dataset.v21Group]; if (item) openRouteOverlay(item.title, item.routes); return; }
       if (event.target.closest('[data-v21-profile]')) { event.preventDefault(); if (typeof global.showAccountPanel === 'function') global.showAccountPanel(); else openRouteOverlay('내 정보', ['inventory', 'messages']); return; }
       if (event.target.closest('[data-v21-chief-system]')) { event.preventDefault(); closeOverlay(); showChiefConsole = true; explicitNavigation = true; try { global.renderShell('buy'); } finally { explicitNavigation = false; } return; }

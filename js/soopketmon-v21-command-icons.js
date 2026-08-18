@@ -1,7 +1,7 @@
 (function installSoopketmonV21CommandIcons(global) {
   'use strict';
 
-  const VERSION = '1.1.0';
+  const VERSION = '1.1.1';
   const SHELL_SELECTOR = '[data-soopketmon-v21-shell="approved-v21"]';
   const script = document.currentScript;
 
