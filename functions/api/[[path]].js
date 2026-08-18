@@ -2042,6 +2042,13 @@ async function ensureUpgrades(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1023_inventory','1',CURRENT_TIMESTAMP)")
       ]);
     }
+    const inventoryReceiptCleanupDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1739_inventory_receipt_cleanup'").first();
+    if(inventoryReceiptCleanupDone?.value!=='1'){
+      await env.DB.batch([
+        env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_inventory_receipts_cleanup_v1739 ON inventory_use_receipts(status,updated_at,request_id)'),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1739_inventory_receipt_cleanup','1',CURRENT_TIMESTAMP)")
+      ]);
+    }
     const towerDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1038_infinite_tower'").first();
     if(towerDone?.value!=='1'){
       await env.DB.batch([

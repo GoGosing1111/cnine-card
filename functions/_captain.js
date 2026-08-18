@@ -1427,7 +1427,7 @@ async function maybeCleanupCaptainStorage(env, historyId = 0, requestId = '') {
         WHERE request_id IN (
           SELECT request_id FROM captain_match_receipts_v3
           WHERE status IN ('DONE','FAILED')
-            AND updated_at<datetime('now','-7 days')
+            AND updated_at<datetime('now','-1 day')
           ORDER BY updated_at ASC
           LIMIT 200
         )
@@ -1436,7 +1436,7 @@ async function maybeCleanupCaptainStorage(env, historyId = 0, requestId = '') {
         DELETE FROM captain_match_history_v3
         WHERE id IN (
           SELECT id FROM captain_match_history_v3
-          WHERE created_at<datetime('now','-7 days')
+          WHERE created_at<datetime('now','-1 day')
           ORDER BY id ASC
           LIMIT 200
         )
