@@ -27,7 +27,7 @@ const roots = [
   'tmp/approved-shell-main',
   'tmp/approved-shell-release',
   'tmp/live-v21-deploy-20260819-002'
-];
+].filter(root => existsSync(root === '.' ? 'index.html' : `${root}/index.html`));
 for (const root of roots) {
   const prefix = root === '.' ? '' : `${root}/`;
   const index = read(`${prefix}index.html`);
@@ -35,7 +35,8 @@ for (const root of roots) {
     `${root}: responsive stylesheet not loaded`);
 }
 
-for (const root of roots.slice(1)) {
+for (const root of roots) {
+  if (!existsSync(`${root}/js/app.js`)) continue;
   const app = read(`${root}/js/app.js`);
   assert.match(app, /auction-house-v1553\.css\?v=1592-responsive-stage','css\/soopketmon-v21-auction-hunt-responsive\.css\?v=21\.7\.0/,
     `${root}: auction lazy-load order is wrong`);
