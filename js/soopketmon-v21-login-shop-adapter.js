@@ -1,7 +1,7 @@
 (function installSoopketmonV21LoginShopAdapter(global) {
   'use strict';
 
-  const VERSION = '21.3.4';
+  const VERSION = '21.3.5';
   const script = document.currentScript;
   const AUTH_MODE_KEY = 'soopketmon:v21:auth-mode';
   let scheduledFrame = 0;
@@ -188,7 +188,7 @@
     modeTabs.className = 'v21-auth-mode-tabs';
     modeTabs.setAttribute('role', 'tablist');
     modeTabs.setAttribute('aria-label', '접속 방식 선택');
-    modeTabs.innerHTML = '<button type="button" role="tab" data-v21-auth-mode="playdk"><span>RETURNING PLAYER</span><b>기존 계정 로그인</b></button><button type="button" role="tab" data-v21-auth-mode="nickname"><span>NEW PLAYER</span><b>와이고수 닉네임 등록</b></button>';
+    modeTabs.innerHTML = '<button type="button" role="tab" data-v21-auth-mode="playdk"><span>RETURNING PLAYER</span><b>기존 계정 로그인</b></button><button type="button" role="tab" data-v21-auth-mode="nickname"><span>NEW PLAYER</span><b>PLAY DK × 와이고수 닉네임 등록</b></button>';
 
     const panels = document.createElement('div');
     panels.className = 'v21-auth-panels';
@@ -243,7 +243,7 @@
     startButton.textContent = '닉네임으로 새 계정 만들기';
     startButton.classList.remove('secondary');
     startButton.classList.add('v21-auth-submit');
-    nicknamePanel.insertAdjacentHTML('afterbegin', '<div class="v21-auth-panel-head"><small>NEW PLAYER REGISTRATION</small><h2>와이고수 닉네임 등록</h2><p>와이고수 닉네임으로 새 숲켓몬 계정을 만들고 공통 개인키를 발급받습니다.</p></div>');
+    nicknamePanel.insertAdjacentHTML('afterbegin', '<div class="v21-auth-panel-head"><small>NEW PLAYER REGISTRATION</small><h2>PLAY DK × 와이고수 닉네임 등록</h2><p>두 서비스 이용자가 와이고수 닉네임으로 새 숲켓몬 계정을 만들고 공통 개인키를 발급받습니다.</p></div>');
     nicknamePanel.append(nicknameField, startButton);
     nicknamePanel.insertAdjacentHTML('beforeend', '<p class="v21-auth-contract-note">닉네임은 신규 계정 생성에 사용됩니다. 기존 이용자는 서비스 구분 없이 개인키 로그인을 이용해 주세요.</p>');
 
