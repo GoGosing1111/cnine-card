@@ -559,6 +559,12 @@ body:has(.v21-auth-screen) { min-width:0; overflow:hidden; background:var(--v21-
   max-height:var(--store-supply-max-block)!important;
   justify-self:center!important;
 }
+.v21-card-store #equipmentSupplyShop .equipment-supply-art img {
+  /* The source JPEG has more empty canvas on the left, so optical centering
+     needs a small counter-shift instead of centering the file rectangle. */
+  transform:translateX(-6%) scale(1.08)!important;
+  transform-origin:center!important;
+}
 .v21-card-store #vehicleDrawTicketShop .equipment-supply-art {
   width:var(--store-vehicle-max-inline)!important;
   height:var(--store-vehicle-max-block)!important;

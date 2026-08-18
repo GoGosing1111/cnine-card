@@ -94,6 +94,10 @@
   background:#b84b59;
   box-shadow:none;
 }
+.notification-dot[hidden],
+[data-v21-message-badge][hidden] {
+  display:none!important;
+}
 .bottom-dock {
   border-top:1px solid var(--ui-line);
   color:var(--ui-muted);
@@ -693,6 +697,7 @@
     color: #d8d7ce;
     background: rgba(11,15,16,.78);
     font-size: 11px;
+    cursor:pointer;
   }
   .pc-chief-action:hover { border-color: var(--ui-accent); box-shadow: inset 2px 0 var(--ui-accent); }
 
@@ -1082,6 +1087,9 @@
   .mobile-chief-readout > div i { width:5px; height:5px; border-radius:50%; background:var(--ui-accent); }
   .mobile-chief-readout > div b { color:#cbd8dc; font-size:12px; }
   .mobile-chief-status {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
     width:100%;
     min-height:44px;
     margin-top:10px;
@@ -1091,8 +1099,11 @@
     background:rgba(255,255,255,.035);
     font-size:12px;
     text-align:left;
+    cursor:pointer;
   }
-  .mobile-chief-status em { float:right; color:var(--ui-accent); font-style:normal; }
+  .mobile-chief-status em { margin-left:auto; color:var(--ui-accent); font-style:normal; }
+  .mobile-chief-status:hover,
+  .mobile-chief-status:focus-visible { border-color:var(--ui-accent); outline:none; box-shadow:inset 2px 0 var(--ui-accent); }
   .mobile-chief-readout.is-vacant { border-left-color:var(--ui-muted); }
   .mobile-command-nav {
     position:absolute;
