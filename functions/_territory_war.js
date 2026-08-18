@@ -26,6 +26,7 @@ const DEFAULTS=Object.freeze({
   ,lastDefenseHpBonusPercent:35,lastDefenseHoldMinutes:15,lastDefenseEnergyMinutes:5,
   counterGaugeMax:1000,counterParticipationPoints:18,counterDefeatPoints:12,counterStrongChallengePoints:20,counterDefensePoints:16,counterAceWinPoints:120,counterAceDamagePoints:35,
   operationDurationMinutes:10,assaultDamageBonusPercent:25,infiltrationHpPercent:12,regroupEnergy:3,ironWallHealPercent:20,ironWallDamageReductionPercent:25,
+  massAssaultDamagePercent:39,
   fatiguePerCapturePercent:5,fatigueMaxPercent:15,fatigueDamageRatio:0,
   comebackDamagePerTierPercent:4,defeatSiegeDamagePercent:0,antiPingPongRevisitThreshold:3,
   counterContributionCoinPerPoint:5,aceDefeatCoin:10000,lastDefenseCoin:5000,comebackParticipationCoin:300
@@ -344,8 +345,8 @@ function massAssaultPreview(round,front,cfg,used=null){
   if(used)return{available:false,reason:'이번 회차의 인해전술은 이미 발동했습니다.',used:true,...used};
   const frontIndex=Math.max(0,Math.min(8,Number(round.current_front_index??front.node_index??4)));
   if(frontIndex===4)return{available:false,reason:'현재 전선이 중앙 교전지라 밀리고 있는 진영이 없습니다.',used:false,frontIndex};
-  const side=frontIndex<4?'A':'B',targetSide=side==='A'?'B':'A',targetHp=Number(targetSide==='A'?front.a_hp:front.b_hp),targetMax=Number(targetSide==='A'?front.a_max_hp:front.b_max_hp),damage=Math.max(0,Math.min(Math.max(1,Math.round(targetMax*.12)),targetHp-1));
-  return{available:damage>0,used:false,side,targetSide,frontIndex,frontDepth:Math.abs(frontIndex-4),damage,targetHp,hpAfter:targetHp-damage,teamName:configuredTeamLabel(cfg,side),targetName:configuredTeamLabel(cfg,targetSide),percent:12};
+  const side=frontIndex<4?'A':'B',targetSide=side==='A'?'B':'A',targetHp=Number(targetSide==='A'?front.a_hp:front.b_hp),targetMax=Number(targetSide==='A'?front.a_max_hp:front.b_max_hp),percent=clampInt(cfg?.massAssaultDamagePercent,1,90,39),damage=Math.max(0,Math.min(Math.max(1,Math.round(targetMax*percent/100)),targetHp-1));
+  return{available:damage>0,used:false,side,targetSide,frontIndex,frontDepth:Math.abs(frontIndex-4),damage,targetHp,hpAfter:targetHp-damage,teamName:configuredTeamLabel(cfg,side),targetName:configuredTeamLabel(cfg,targetSide),percent};
 }
 async function executeMassAssault(env,deps,user,cfg,operationKey){
   const round=await lifecycle(env,cfg),front=await activeFront(env,round);if(!round||!front)return deps.json({error:'현재 진행 중인 영토전 전선이 없습니다.'},409);const lock=await acquireLock(env,`mass_assault_${round.id}`,60000);if(!lock.ok)return deps.json({error:'인해전술 발동 요청을 처리 중입니다.'},409);
@@ -861,7 +862,8 @@ function cleanSettings(body,current){return{
   winnerCoin:clampInt(body.winnerCoin,0,100000000,current.winnerCoin),loserCoin:clampInt(body.loserCoin,0,100000000,current.loserCoin),drawCoin:clampInt(body.drawCoin,0,100000000,current.drawCoin),participationShards:clampInt(body.participationShards,0,1000000,current.participationShards),contributionCoinPer1000Damage:clampInt(body.contributionCoinPer1000Damage,0,1000000,current.contributionCoinPer1000Damage),maxContributionCoin:clampInt(body.maxContributionCoin,0,100000000,current.maxContributionCoin),settlementMinAttacks:clampInt(body.settlementMinAttacks,0,10000,current.settlementMinAttacks),
   attackRewardStarterPercent:clampInt(body.attackRewardStarterPercent,0,300,current.attackRewardStarterPercent??25),attackRewardTier1Attacks:clampInt(body.attackRewardTier1Attacks,1,1000000,current.attackRewardTier1Attacks??10),attackRewardTier1Percent:clampInt(body.attackRewardTier1Percent,0,300,current.attackRewardTier1Percent??50),attackRewardTier2Attacks:clampInt(body.attackRewardTier2Attacks,1,1000000,current.attackRewardTier2Attacks??30),attackRewardTier2Percent:clampInt(body.attackRewardTier2Percent,0,300,current.attackRewardTier2Percent??80),attackRewardTier3Attacks:clampInt(body.attackRewardTier3Attacks,1,1000000,current.attackRewardTier3Attacks??60),attackRewardTier3Percent:clampInt(body.attackRewardTier3Percent,0,300,current.attackRewardTier3Percent??100),attackRewardTier4Attacks:clampInt(body.attackRewardTier4Attacks,1,1000000,current.attackRewardTier4Attacks??100),attackRewardTier4Percent:clampInt(body.attackRewardTier4Percent,0,300,current.attackRewardTier4Percent??125),
   siegeSnapshotLimit:clampInt(body.siegeSnapshotLimit,1,20,current.siegeSnapshotLimit??12),siegeSnapshotAttackThreshold:clampInt(body.siegeSnapshotAttackThreshold,0,1000000,current.siegeSnapshotAttackThreshold??200),siegeSnapshotBonusCoin:clampInt(body.siegeSnapshotBonusCoin,0,100000000,current.siegeSnapshotBonusCoin??500000),
-  siegeParticipationCubeThreshold:clampInt(body.siegeParticipationCubeThreshold,1,1000000,current.siegeParticipationCubeThreshold??100),siegeParticipationCubeQuantity:clampInt(body.siegeParticipationCubeQuantity,0,1000000,current.siegeParticipationCubeQuantity??10)
+  siegeParticipationCubeThreshold:clampInt(body.siegeParticipationCubeThreshold,1,1000000,current.siegeParticipationCubeThreshold??100),siegeParticipationCubeQuantity:clampInt(body.siegeParticipationCubeQuantity,0,1000000,current.siegeParticipationCubeQuantity??10),
+  massAssaultDamagePercent:clampInt(body.massAssaultDamagePercent,1,90,current.massAssaultDamagePercent??39)
 }}
 
 export async function handleTerritoryWar({path,request,env,deps}){
@@ -930,4 +932,4 @@ export async function handleTerritoryWar({path,request,env,deps}){
   return deps.json({error:'요청한 영토전 기능을 찾을 수 없습니다.'},404);
 }
 
-export {balancedSideAssignments,buildFormationSnapshot,magicFormationPercent};
+export {balancedSideAssignments,buildFormationSnapshot,magicFormationPercent,massAssaultPreview};

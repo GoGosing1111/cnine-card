@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1735';
+const SHELL_CACHE='soop-card-shell-v1736';
 const CONTENT_CACHE='soop-card-content-v1';
 const OFFLINE_URL='/offline.html';
 const APP_SHELL_URL='/index.html';
