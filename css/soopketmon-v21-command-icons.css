@@ -1,0 +1,214 @@
+/* Approved V21 command-symbol layer. No retired preview assets are used. */
+[data-soopketmon-v21-shell="approved-v21"] .v21-command-symbol,
+.v21-command-overlay .v21-command-symbol {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+@media (min-width: 760px) and (hover: hover) and (pointer: fine) {
+  [data-soopketmon-v21-shell="approved-v21"] .pc-nav-command {
+    grid-template-columns: 46px minmax(0, 1fr) 14px;
+    gap: 13px;
+  }
+
+  [data-soopketmon-v21-shell="approved-v21"] .pc-nav-icon {
+    width: 42px;
+    height: 42px;
+    padding: 8px;
+  }
+
+  [data-soopketmon-v21-shell="approved-v21"] .pc-nav-icon .v21-command-symbol {
+    stroke-width: 1.9;
+  }
+}
+
+/* Combat hierarchy: neutral family, cyan interaction, one lime PVE core. */
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command,
+.v21-command-overlay .v21-combat-command {
+  --v21-combat-lime: #b8ff49;
+  --v21-combat-cyan: #73d4e8;
+  position: relative;
+  isolation: isolate;
+  border-color: rgba(225, 236, 242, .12);
+  color: #d9e1e3;
+  background: linear-gradient(145deg, #111820, #0b1117);
+  box-shadow: none;
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command::after,
+.v21-command-overlay .v21-combat-command::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  right: 8px;
+  bottom: 7px;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid var(--v21-combat-cyan);
+  border-bottom: 1px solid var(--v21-combat-cyan);
+  opacity: .22;
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command > .pc-nav-icon,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command > .battle-orb,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command > span:first-child,
+.v21-command-overlay .v21-combat-command > span:first-child {
+  border-color: rgba(225, 236, 242, .16);
+  color: #8f9ea3;
+  background: rgba(255, 255, 255, .025);
+  filter: none;
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-core,
+.v21-command-overlay .v21-combat-core {
+  border-color: rgba(184, 255, 73, .36);
+  background: linear-gradient(110deg, rgba(184, 255, 73, .065), transparent 38%), linear-gradient(145deg, #142019, #0b1117);
+  box-shadow: inset 3px 0 var(--v21-combat-lime);
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-core > .pc-nav-icon,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-core > span:first-child,
+.v21-command-overlay .v21-combat-core > span:first-child {
+  border-color: rgba(184, 255, 73, .34);
+  color: #b8d88a;
+  background: rgba(184, 255, 73, .055);
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command:hover,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command:focus-visible,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command.active,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command[aria-current="true"],
+.v21-command-overlay .v21-combat-command:hover,
+.v21-command-overlay .v21-combat-command:focus-visible,
+.v21-command-overlay .v21-combat-command.active,
+.v21-command-overlay .v21-combat-command[aria-current="true"] {
+  border-color: rgba(115, 212, 232, .68);
+  color: #effbfd;
+  background: linear-gradient(110deg, rgba(115, 212, 232, .1), transparent 42%), #17232c;
+  outline: 0;
+  box-shadow: inset 2px 0 var(--v21-combat-cyan), 0 0 0 1px rgba(115, 212, 232, .12), 0 0 18px rgba(115, 212, 232, .08);
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command:is(:hover,:focus-visible,.active,[aria-current="true"]) > .pc-nav-icon,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command:is(:hover,:focus-visible,.active,[aria-current="true"]) > .battle-orb,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-command:is(:hover,:focus-visible,.active,[aria-current="true"]) > span:first-child,
+.v21-command-overlay .v21-combat-command:is(:hover,:focus-visible,.active,[aria-current="true"]) > span:first-child {
+  border-color: rgba(115, 212, 232, .52);
+  color: var(--v21-combat-cyan);
+  background: rgba(115, 212, 232, .07);
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-core:is(:hover,:focus-visible,.active,[aria-current="true"]),
+.v21-command-overlay .v21-combat-core:is(:hover,:focus-visible,.active,[aria-current="true"]) {
+  box-shadow: inset 3px 0 var(--v21-combat-lime), 0 0 0 1px rgba(115, 212, 232, .14), 0 0 18px rgba(115, 212, 232, .08);
+}
+
+/* Growth routes keep their unique silhouettes without a permanent color code. */
+.v21-command-overlay .v21-growth-command {
+  border-color: rgba(225, 236, 242, .12);
+  color: #d9e1e3;
+  background: #111820;
+  box-shadow: none;
+}
+
+.v21-command-overlay .v21-growth-command > span:first-child {
+  border-color: rgba(225, 236, 242, .16);
+  color: #8f9ea3;
+  background: rgba(255, 255, 255, .025);
+  filter: none;
+}
+
+.v21-command-overlay .v21-growth-command:is(:hover,:focus-visible,.active,[aria-current="true"]) {
+  border-color: rgba(115, 212, 232, .58);
+  background: #17232c;
+}
+
+.v21-command-overlay .v21-growth-command:is(:hover,:focus-visible,.active,[aria-current="true"]) > span:first-child {
+  border-color: rgba(115, 212, 232, .46);
+  color: #73d4e8;
+  background: rgba(115, 212, 232, .065);
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary {
+  overflow: hidden;
+  animation: v21-combat-border-pulse 2.8s ease-in-out infinite;
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: -50% auto -50% -28%;
+  width: 18%;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(220, 255, 191, .18), transparent);
+  transform: skewX(-19deg);
+  animation: v21-combat-sheen 3.7s cubic-bezier(.45, 0, .2, 1) infinite;
+}
+
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes v21-combat-border-pulse {
+  0%, 100% { box-shadow: inset 3px 0 #b8ff49, inset 0 0 24px rgba(115, 212, 232, .025), 0 0 0 rgba(184, 255, 73, 0); }
+  50% { box-shadow: inset 3px 0 #d5ff91, inset 0 0 30px rgba(115, 212, 232, .065), 0 0 17px rgba(184, 255, 73, .11); }
+}
+
+@keyframes v21-combat-sheen {
+  0%, 62% { left: -28%; opacity: 0; }
+  68% { opacity: .8; }
+  88% { left: 120%; opacity: 0; }
+  100% { left: 120%; opacity: 0; }
+}
+
+.v21-page-hidden [data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary,
+.v21-page-hidden [data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary::before,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary.v21-combat-offscreen,
+[data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary.v21-combat-offscreen::before {
+  animation-play-state: paused !important;
+}
+
+@media (max-width: 759px), (hover: none), (pointer: coarse) {
+  [data-soopketmon-v21-shell="approved-v21"] .mobile-command-button > span:first-child {
+    width: 42px;
+    height: 42px;
+    padding: 9px;
+  }
+
+  [data-soopketmon-v21-shell="approved-v21"] .dock-battle .battle-orb {
+    padding: 10px;
+  }
+
+  .v21-command-overlay .v21-combat-command {
+    box-shadow: none;
+  }
+
+  .v21-command-overlay .v21-combat-core {
+    box-shadow: inset 2px 0 var(--v21-combat-lime);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary,
+  [data-soopketmon-v21-shell="approved-v21"] .v21-combat-primary::before {
+    animation: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  [data-soopketmon-v21-shell="approved-v21"] .v21-combat-command,
+  .v21-command-overlay .v21-combat-command {
+    border: 2px solid Highlight;
+    box-shadow: none;
+  }
+}

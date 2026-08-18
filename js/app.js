@@ -1979,7 +1979,9 @@ async function joinRaid(){
 
 const AUTO_DRAW_PREFS_KEY='cnine_official_auto_draw_v1305';
 const AUTO_DRAW_LOCK_KEY='cnine_official_auto_draw_lock_v1305';
-const AUTO_DRAW_TAB_ID=globalThis.crypto?.randomUUID?.()||`tab-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+const AUTO_DRAW_TAB_STORAGE_KEY='cnine_official_auto_draw_tab_v1742';
+const AUTO_DRAW_LOCK_STALE_MS=2*60*1000;
+const AUTO_DRAW_TAB_ID=(()=>{let value='';try{value=String(sessionStorage.getItem(AUTO_DRAW_TAB_STORAGE_KEY)||'')}catch(_){}if(!value){value=globalThis.crypto?.randomUUID?.()||`tab-${Date.now()}-${Math.random().toString(36).slice(2)}`;try{sessionStorage.setItem(AUTO_DRAW_TAB_STORAGE_KEY,value)}catch(_){}}return value})();
 const DRAW_BROWSER_ID_KEY='cnine_draw_browser_id_v1480';
 function drawBrowserId(){
   let value='';
@@ -1991,8 +1993,8 @@ function drawBrowserId(){
   return value;
 }
 const autoDrawState={
-  active:false,stopRequested:false,packId:'',count:20,targetRuns:0,completedRuns:0,totalCards:0,spentCoins:0,
-  startedAt:0,timer:null,lockTimer:null,gradeCounts:{},highGradeHits:[],prefs:null,lastStatus:'',finishDetail:'',
+  active:false,startInFlight:false,stopRequested:false,packId:'',count:20,targetRuns:0,completedRuns:0,totalCards:0,spentCoins:0,
+  startedAt:0,timer:null,lockTimer:null,visibilityHandler:null,gradeCounts:{},highGradeHits:[],prefs:null,lastStatus:'',finishDetail:'',
   transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]
 };
 function loadAutoDrawPrefs(){
@@ -2003,18 +2005,27 @@ function saveAutoDrawPrefs(prefs){try{localStorage.setItem(AUTO_DRAW_PREFS_KEY,J
 function readAutoDrawLock(){try{return JSON.parse(localStorage.getItem(AUTO_DRAW_LOCK_KEY)||'null')}catch(_){return null}}
 function acquireAutoDrawLock(){
   const now=Date.now(),lock=readAutoDrawLock();
-  if(lock&&lock.tabId!==AUTO_DRAW_TAB_ID&&now-Number(lock.heartbeatAt||0)<20000)return false;
+  if(lock&&lock.tabId!==AUTO_DRAW_TAB_ID&&now-Number(lock.heartbeatAt||0)<AUTO_DRAW_LOCK_STALE_MS)return false;
   try{localStorage.setItem(AUTO_DRAW_LOCK_KEY,JSON.stringify({tabId:AUTO_DRAW_TAB_ID,heartbeatAt:now}));}catch(_){}
   clearInterval(autoDrawState.lockTimer);
-  autoDrawState.lockTimer=setInterval(()=>{if(!autoDrawState.active)return;try{localStorage.setItem(AUTO_DRAW_LOCK_KEY,JSON.stringify({tabId:AUTO_DRAW_TAB_ID,heartbeatAt:Date.now()}))}catch(_){}},5000);
+  autoDrawState.lockTimer=setInterval(()=>{if(!autoDrawState.active&&!autoDrawState.startInFlight&&!drawRequestInFlight)return;try{localStorage.setItem(AUTO_DRAW_LOCK_KEY,JSON.stringify({tabId:AUTO_DRAW_TAB_ID,heartbeatAt:Date.now()}))}catch(_){}},5000);
   return true;
 }
+function foreignAutoDrawLockActive(){const lock=readAutoDrawLock();return Boolean(lock&&lock.tabId!==AUTO_DRAW_TAB_ID&&Date.now()-Number(lock.heartbeatAt||0)<AUTO_DRAW_LOCK_STALE_MS)}
 function releaseAutoDrawLock(){
   if(autoDrawState.lockTimer){clearInterval(autoDrawState.lockTimer);autoDrawState.lockTimer=null}
   const lock=readAutoDrawLock();
   if(!lock||lock.tabId===AUTO_DRAW_TAB_ID){try{localStorage.removeItem(AUTO_DRAW_LOCK_KEY)}catch(_){}}
 }
-window.addEventListener('beforeunload',releaseAutoDrawLock);
+function preserveAutoDrawLeaseOnUnload(){
+  if(autoDrawState.active||autoDrawState.startInFlight||drawRequestInFlight){
+    const pending=readPendingDraw();if(pending)writePendingDraw({...pending,state:'IN_FLIGHT',updatedAt:Date.now()});
+    try{localStorage.setItem(AUTO_DRAW_LOCK_KEY,JSON.stringify({tabId:AUTO_DRAW_TAB_ID,heartbeatAt:Date.now()}))}catch(_){}
+    return;
+  }
+  releaseAutoDrawLock();
+}
+window.addEventListener('beforeunload',preserveAutoDrawLeaseOnUnload);
 
 function autoDrawStopLabel(grade){return grade==='SSR'?'SSR 이상':grade==='MA'?'MA 이상':grade==='LIMITED'?'LIMITED 이상':grade==='FUR'?'FUR':'정지 조건 없음'}
 function autoDrawFormatTime(ms){const sec=Math.max(0,Math.floor(ms/1000)),m=Math.floor(sec/60),s=sec%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
@@ -2045,16 +2056,40 @@ function openAutoDrawSetup(packId,defaultCount=20){
   };
   autoDrawSetupEstimate();
 }
-function startOfficialAutoDraw(packId,prefs){
-  if(autoDrawState.active||drawRequestInFlight)return alert('현재 카드 개봉 요청을 처리 중입니다.');
-  const pack=getPack(packId);if(!pack)return alert('카드팩 정보를 찾지 못했습니다.');
-  if(!acquireAutoDrawLock())return alert('다른 탭에서 자동 뽑기가 진행 중입니다.\n중복 요청 방지를 위해 한 탭에서만 사용할 수 있습니다.');
-  const count=[1,20,100].includes(Number(prefs.count))?Number(prefs.count):20,runs=Math.max(1,Math.min(500,Number(prefs.runs||1))),cost=Number(pack.price||0)*count;
-  if(Number(loadUser()?.coin||0)<cost){releaseAutoDrawLock();return alert(`코인이 부족합니다.\n${count}장 개봉에는 ${Number(cost).toLocaleString()}코인이 필요합니다.`);}
-  Object.assign(autoDrawState,{active:true,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:'',transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]});
-  renderAutoDrawDock();runOfficialAutoDrawNext();
+async function freshAutoDrawUserState(){
+  if(typeof clearApiCache==='function')clearApiCache('me');
+  const data=await apiRequest('me',{}, {ttl:0,timeoutMs:10000});
+  if(!data?.user)throw new Error('최신 계정 정보가 비어 있습니다.');
+  const next=apiUserToLocal(data.user);saveUser(next);return next;
 }
-function clearAutoDrawTimer(){if(autoDrawState.timer){clearTimeout(autoDrawState.timer);autoDrawState.timer=null}}
+async function startOfficialAutoDraw(packId,prefs){
+  if(autoDrawState.active||autoDrawState.startInFlight||drawRequestInFlight){alert('현재 카드 개봉 요청을 처리 중입니다.');return false}
+  const pack=getPack(packId);if(!pack){alert('카드팩 정보를 찾지 못했습니다.');return false}
+  const v21Bulk1000=String(prefs?.source||'')==='V21_BULK_1000';
+  if(v21Bulk1000){
+    if(foreignAutoDrawLockActive()){alert('다른 탭에서 카드 지급 영수증을 처리 중입니다.\n중복 구매 방지를 위해 해당 탭의 처리가 끝난 뒤 다시 시도해주세요.');return false}
+    const pending=readPendingDraw();
+    if(pending){
+      if(pending.recoveryBlocked){alert('이전 카드 지급 영수증이 장기 확인 상태입니다.\n중복 결제를 막기 위해 새 1000장 구매를 시작하지 않습니다. 운영자에게 영수증 확인을 요청해주세요.');return false}
+      showSupplyNotice('이전 카드 지급 영수증을 먼저 복구합니다. 복구 완료 후 1000장 구매를 다시 눌러주세요.',true);
+      void openPack(String(pending.packId),Number(pending.count),0,{preflightRecovery:true});
+      return false;
+    }
+  }
+  if(!acquireAutoDrawLock()){alert('다른 탭에서 자동 뽑기가 진행 중입니다.\n중복 요청 방지를 위해 한 탭에서만 사용할 수 있습니다.');return false}
+  autoDrawState.startInFlight=true;
+  const count=[1,20,100].includes(Number(prefs.count))?Number(prefs.count):20,runs=Math.max(1,Math.min(500,Number(prefs.runs||1))),cost=Number(pack.price||0)*count;
+  let balance=Math.max(0,Number(loadUser()?.coin||0));
+  if(v21Bulk1000){
+    try{balance=Math.max(0,Number((await freshAutoDrawUserState())?.coin||0))}
+    catch(error){console.warn('1000장 구매 전 최신 잔액 확인 실패:',error);releaseAutoDrawLock();autoDrawState.startInFlight=false;alert('최신 코인 잔액을 확인하지 못해 1000장 구매를 시작하지 않았습니다.\n서버 상태를 확인한 뒤 다시 시도해주세요.');return false}
+  }
+  const requiredCost=v21Bulk1000?cost*runs:cost,requiredCards=count*(v21Bulk1000?runs:1);
+  if(balance<requiredCost){releaseAutoDrawLock();autoDrawState.startInFlight=false;alert(`코인이 부족합니다.\n${Number(requiredCards).toLocaleString()}장 전체 구매에는 ${Number(requiredCost).toLocaleString()}코인이 필요합니다.\n현재 보유 ${Number(balance).toLocaleString()}코인`);return false}
+  Object.assign(autoDrawState,{active:true,startInFlight:false,stopRequested:false,packId:String(pack.id),count,targetRuns:runs,completedRuns:0,totalCards:0,spentCoins:0,startedAt:Date.now(),timer:null,visibilityHandler:null,gradeCounts:{},highGradeHits:[],prefs:{...prefs,count,runs},lastStatus:'자동 뽑기 시작',finishDetail:'',transientRetries:0,lastRequestMs:0,adaptiveDelayMs:0,receiptArchiveQueue:[]});
+  renderAutoDrawDock();void runOfficialAutoDrawNext();return true;
+}
+function clearAutoDrawTimer(){if(autoDrawState.timer){clearTimeout(autoDrawState.timer);autoDrawState.timer=null}if(autoDrawState.visibilityHandler){document.removeEventListener('visibilitychange',autoDrawState.visibilityHandler);autoDrawState.visibilityHandler=null}}
 function renderAutoDrawDock(){
   let dock=document.getElementById('autoDrawDock');
   if(!autoDrawState.active){dock?.remove();return}
@@ -2100,23 +2135,34 @@ function renderAutoDrawProcessing(pack,count){
 function scheduleOfficialAutoDrawNext(){
   if(!autoDrawState.active)return;
   clearAutoDrawTimer();
+  if(document.hidden){
+    updateAutoDrawDock('백그라운드 중지 · 화면 복귀 후 다음 배치 진행');
+    autoDrawState.visibilityHandler=()=>{if(document.hidden||!autoDrawState.active)return;clearAutoDrawTimer();scheduleOfficialAutoDrawNext()};
+    document.addEventListener('visibilitychange',autoDrawState.visibilityHandler);
+    return;
+  }
+  const v21Bulk1000=autoDrawState.prefs?.source==='V21_BULK_1000';
   // D1은 쓰기가 직렬화되므로 다수 자동 뽑기가 4초 경계에 맞물리지 않게 최소 간격과 지터를 둔다.
-  const configuredDelay=Math.max(6000,Number(autoDrawState.prefs?.delayMs||6000));
-  const baseDelay=randomizedPollDelay(configuredDelay,Math.min(1500,configuredDelay*0.2));
+  // V21 1000장은 영수증 기반 100장 직렬 큐이므로 정상 응답 사이에 인위적인 대기를 두지 않는다.
+  // 혼잡이 감지된 경우에만 adaptiveDelayMs가 그대로
+  // 우선하여 D1 backoff와 동일 요청 복구 계약을 보존한다.
+  const configuredDelay=v21Bulk1000?0:Math.max(6000,Number(autoDrawState.prefs?.delayMs||6000));
+  const baseDelay=v21Bulk1000?configuredDelay:randomizedPollDelay(configuredDelay,Math.min(1500,configuredDelay*0.2));
   const adaptiveDelay=Math.max(0,Number(autoDrawState.adaptiveDelayMs||0));
-  const protectionBreak=autoDrawState.completedRuns>0&&autoDrawState.completedRuns%50===0;
+  const protectionBreak=!v21Bulk1000&&autoDrawState.completedRuns>0&&autoDrawState.completedRuns%50===0;
   const delay=protectionBreak?Math.max(baseDelay,adaptiveDelay,20000):Math.max(baseDelay,adaptiveDelay);
-  const label=protectionBreak?`서버 보호 휴식 ${(delay/1000).toFixed(0)}초`:adaptiveDelay>baseDelay?`혼잡 완화 대기 ${(delay/1000).toFixed(0)}초`:`다음 개봉까지 ${(delay/1000).toFixed(1)}초`;
+  const label=protectionBreak?`서버 보호 휴식 ${(delay/1000).toFixed(0)}초`:adaptiveDelay>baseDelay?`혼잡 완화 대기 ${(delay/1000).toFixed(0)}초`:v21Bulk1000?'다음 100장 배치 준비':`다음 개봉까지 ${(delay/1000).toFixed(1)}초`;
   updateAutoDrawDock(label);
   autoDrawState.timer=setTimeout(()=>{autoDrawState.timer=null;runOfficialAutoDrawNext()},delay);
 }
 function handleOfficialAutoDrawBatch(results=[]){
   autoDrawState.transientRetries=0;
   autoDrawState.adaptiveDelayMs=Math.max(0,Math.floor(Number(autoDrawState.adaptiveDelayMs||0)*0.72)-1000);
+  const v21Bulk1000=autoDrawState.prefs?.source==='V21_BULK_1000',finishDelay=v21Bulk1000?0:null;
   collectAutoDrawBatch(results);const hit=autoDrawHitStopGrade(results);updateAutoDrawDock(`${autoDrawState.completedRuns}회차 지급 완료`);
-  if(autoDrawState.stopRequested){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('자동 뽑기 중지','현재 진행 중이던 개봉까지 정상 지급했습니다.'),700);return}
-  if(hit){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw(`${autoDrawStopLabel(autoDrawState.prefs.stopGrade)} 획득으로 정지`,`${hit.title||hit.name||'카드'} 획득`),900);return}
-  if(autoDrawState.completedRuns>=autoDrawState.targetRuns){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('설정한 자동 뽑기를 완료했습니다.'),900);return}
+  if(autoDrawState.stopRequested){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('자동 뽑기 중지','현재 진행 중이던 개봉까지 정상 지급했습니다.'),finishDelay??700);return}
+  if(hit){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw(`${autoDrawStopLabel(autoDrawState.prefs.stopGrade)} 획득으로 정지`,`${hit.title||hit.name||'카드'} 획득`),finishDelay??900);return}
+  if(autoDrawState.completedRuns>=autoDrawState.targetRuns){autoDrawState.timer=setTimeout(()=>finishOfficialAutoDraw('설정한 자동 뽑기를 완료했습니다.'),finishDelay??900);return}
   scheduleOfficialAutoDrawNext();
 }
 async function runOfficialAutoDrawNext(){
@@ -3198,9 +3244,20 @@ let drawRequestInFlight=false;
 let activeDrawRequestId='';
 const consumedDrawResponses=new Set();
 const PENDING_DRAW_STORAGE_KEY='cnine_pending_draw_v1168_r4';
-function readPendingDraw(){try{const row=JSON.parse(sessionStorage.getItem(PENDING_DRAW_STORAGE_KEY)||'null');if(!row||!row.requestId||Date.now()-Number(row.createdAt||0)>10*60*1000){sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY);return null}return row}catch(_){return null}}
-function writePendingDraw(row){try{sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(row))}catch(_){}}
-function clearPendingDraw(requestId=''){try{const row=readPendingDraw();if(!requestId||String(row?.requestId||'')===String(requestId))sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY)}catch(_){}}
+const PENDING_DRAW_AUTO_RECOVERY_MS=14*60*1000;
+function pendingDrawIdentity(){const user=loadUser(),userId=String(user?.serverUserId??user?.id??user?.nickname??'anonymous'),browserId=String(drawBrowserId()||'browser');return {userId,browserId,key:`${PENDING_DRAW_STORAGE_KEY}:${encodeURIComponent(userId)}:${encodeURIComponent(browserId)}`}}
+function normalizePendingDraw(row={}){const identity=pendingDrawIdentity();return {requestId:String(row.requestId||''),packId:String(row.packId||''),count:Number(row.count||0),receiptVersion:Number(row.receiptVersion||2),createdAt:Number(row.createdAt||Date.now()),updatedAt:Number(row.updatedAt||Date.now()),state:String(row.state||'PENDING'),userId:identity.userId,browserId:identity.browserId}}
+function readPendingDraw(){
+  try{
+    const identity=pendingDrawIdentity();
+    let row=JSON.parse(localStorage.getItem(identity.key)||'null');
+    if(!row){const legacy=JSON.parse(sessionStorage.getItem(PENDING_DRAW_STORAGE_KEY)||'null');if(legacy?.requestId&&(!legacy.userId||String(legacy.userId)===identity.userId)&&(!legacy.browserId||String(legacy.browserId)===identity.browserId)){row=normalizePendingDraw(legacy);localStorage.setItem(identity.key,JSON.stringify(row));sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(row))}}
+    if(!row?.requestId||String(row.userId||identity.userId)!==identity.userId||String(row.browserId||identity.browserId)!==identity.browserId)return null;
+    return {...row,recoveryBlocked:Date.now()-Number(row.createdAt||0)>PENDING_DRAW_AUTO_RECOVERY_MS};
+  }catch(_){return null}
+}
+function writePendingDraw(row){try{const next=normalizePendingDraw(row);if(!next.requestId)return;const identity=pendingDrawIdentity();localStorage.setItem(identity.key,JSON.stringify(next));sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(next))}catch(_){}}
+function clearPendingDraw(requestId=''){try{const identity=pendingDrawIdentity(),row=readPendingDraw();if(!requestId||String(row?.requestId||'')===String(requestId)){localStorage.removeItem(identity.key);sessionStorage.removeItem(PENDING_DRAW_STORAGE_KEY)}}catch(_){}}
 function isDrawStorageBusy(error){
   const message=String(error?.message||error?.error||'').toLowerCase();
   return error?.code==='D1_OVERLOADED'
@@ -3385,6 +3442,7 @@ function validateDrawResponse(response,{requestId,packId,count}){
 }
 openPack=async function(packId,count,cost,options={}){
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
+  const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';
   if(drawRequestInFlight){if(autoRun)return false;alert('카드 개봉 요청을 처리 중입니다.');return false}
   if(!API_MODE){
     resetDrawPresentationState();
@@ -3393,6 +3451,12 @@ openPack=async function(packId,count,cost,options={}){
     return false;
   }
   const previous=readPendingDraw();
+  if(previous?.recoveryBlocked){
+    resetDrawPresentationState();
+    const message='이전 카드 지급 영수증이 자동 복구 안전 시간을 초과했습니다.\n중복 결제를 막기 위해 영수증을 지우거나 새 요청을 전송하지 않았습니다. 운영자에게 확인을 요청해주세요.';
+    if(autoRun)finishOfficialAutoDraw('이전 카드 지급 확인 필요',message);else showSupplyNotice(message,true);
+    return false;
+  }
   if(previous){packId=String(previous.packId);count=Number(previous.count);}
   const pack=getPack(packId);
   if(!pack){if(autoRun)finishOfficialAutoDraw('자동 뽑기 오류','카드팩 정보를 찾지 못했습니다.');else alert('카드팩 정보를 찾지 못했습니다.');return false}
@@ -3411,7 +3475,7 @@ openPack=async function(packId,count,cost,options={}){
       d=await runCriticalOpening(pack,count,()=>requestDrawWithRecovery(packId,count,requestId,previous?Number(previous.receiptVersion||1):2,{autoRun,acknowledgedRequestIds:archiveIds}));
     }
     const verifiedResults=validateDrawResponse(d,{requestId,packId,count});
-    void preloadDrawResultImages(verifiedResults,count>=100?12:Infinity);
+    if(!v21Bulk1000)void preloadDrawResultImages(verifiedResults,count>=100?12:Infinity);
     clearPendingDraw(requestId);
     if(autoRun){
       if(archiveIds.length){const archived=new Set(archiveIds);autoDrawState.receiptArchiveQueue=autoDrawState.receiptArchiveQueue.filter(id=>!archived.has(id));}
@@ -3516,7 +3580,18 @@ async function showSpecialCardReveal(card,user){
 }
 async function renderDrawResults(pack,count,cost,results,user,critical,options={}){
   if(!Array.isArray(results)||results.length!==Number(count)||results.some((item,index)=>item?.granted!==true||Number(item?.slot)!==index||!item?.card?.id))throw new Error('서버에서 확정되지 않은 카드 결과는 표시할 수 없습니다.');
-  const autoRun=Boolean(options?.autoRun&&autoDrawState.active),special=getTopSpecialResult(results);
+  const autoRun=Boolean(options?.autoRun&&autoDrawState.active),v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';
+  if(v21Bulk1000){
+    const modal=document.getElementById('modal'),batch=autoDrawState.completedRuns+1,total=Math.max(1,Number(autoDrawState.targetRuns||10)),progress=Math.min(100,batch/total*100),duplicates=results.reduce((sum,item)=>sum+Number(Boolean(item?.duplicate)),0),shards=results.reduce((sum,item)=>sum+Number(item?.shardGained||0),0),stars=results.reduce((sum,item)=>sum+Number(item?.masterStarGained||0),0),grades={};
+    results.forEach(item=>{const grade=String(item?.card?.grade||'C').toUpperCase();grades[grade]=Number(grades[grade]||0)+1});
+    const gradeRows=Object.entries(grades).sort((a,b)=>Number(gradeOrder[b[0]]||0)-Number(gradeOrder[a[0]]||0));
+    modal.className='modal show auto-draw-processing-modal v21-bulk-result-modal';
+    modal.innerHTML=`<section class="v21-bulk-result-panel" role="status" aria-live="polite"><header><small>VERIFIED BULK DRAW</small><h2>${batch} / ${total} 배치 지급 완료</h2><p>100장 지급 영수증을 검증했습니다. 다음 배치는 중복 결제 없이 순차 진행됩니다.</p></header><div class="v21-bulk-result-progress"><span style="width:${progress.toFixed(2)}%"></span></div><div class="v21-bulk-result-stats"><span><small>누적 진행</small><b>${Number(batch*100).toLocaleString()} / 1,000</b></span><span><small>이번 배치 중복</small><b>${duplicates.toLocaleString()}장</b></span><span><small>카드 조각</small><b>+${shards.toLocaleString()}</b></span>${stars?`<span><small>마스터의 별</small><b>+${stars.toLocaleString()}</b></span>`:''}</div><div class="v21-bulk-result-grades">${gradeRows.map(([grade,value])=>`<span><b>${escapeHtml(grade)}</b>${Number(value).toLocaleString()}</span>`).join('')}</div><button type="button" id="v21BulkDrawStop">현재 지급까지 받고 중지</button></section>`;
+    document.getElementById('v21BulkDrawStop').onclick=requestStopAutoDraw;
+    handleOfficialAutoDrawBatch(results);
+    return;
+  }
+  const special=getTopSpecialResult(results);
   if(special&&(!autoRun||autoDrawState.prefs?.simplified===false))await showSpecialCardReveal(special,user);
   const modal=document.getElementById('modal');
   drawResultRenderCount=Number(count);
