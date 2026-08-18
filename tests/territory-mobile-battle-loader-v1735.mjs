@@ -8,6 +8,6 @@ assert.match(territory,/async function prepareTerritoryBattle\(\)/);
 assert.match(territory,/await globalThis\.ensureFeatureResources\('battleV2'\)/);
 assert.match(territory,/view=await prepareTerritoryBattle\(\)/);
 assert.match(territory,/영토전 전투엔진을 준비하는 중/);
-assert.match(index,/territory-war-v1362\.js\?v=1735-mobile-v2-loader/);
+assert.match(index,/territory-war-v1362\.js\?v=1737-round-equipment-reward/);
 
 console.log('territory mobile battle loader v1735: ok');

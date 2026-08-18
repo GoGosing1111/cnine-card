@@ -310,6 +310,18 @@ async function ensureFoundation(env){
     if(round){const endsAt=iso(Date.now()+clampInt(configured.recruitmentHours,1,168,DEFAULTS.recruitmentHours)*3600000);statements.push(env.DB.prepare("UPDATE territory_war_v3_rounds SET recruitment_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='RECRUITING'").bind(endsAt,round.id))}
     statements.push(env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_repair_v1630_territory_recruitment_from_now','1',CURRENT_TIMESTAMP)"));await env.DB.batch(statements);
   }
+  const roundEquipmentRewardMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1737_territory_round_equipment_rewards'").first();
+  if(!roundEquipmentRewardMarker){
+    await env.DB.batch([
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS territory_war_v3_round_equipment_rewards(
+        round_id INTEGER NOT NULL,equipment_id INTEGER NOT NULL,quantity INTEGER NOT NULL DEFAULT 1,
+        result_scope TEXT NOT NULL DEFAULT 'WIN',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(round_id,equipment_id,result_scope)
+      )`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_twv3_round_equipment_reward_round ON territory_war_v3_round_equipment_rewards(round_id,result_scope,equipment_id)'),
+      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1737_territory_round_equipment_rewards','1',CURRENT_TIMESTAMP)")
+    ]);
+  }
   await repairWaterBuffaloSettlementV1443(env);
   await recoverWrongWinnerOverpaymentV1444(env);
   foundationReady=true;
@@ -324,6 +336,15 @@ function invalidateSettingsCache(){settingsCacheValue=null;settingsCacheExpiresA
 async function latestRound(env){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds ORDER BY id DESC LIMIT 1').first()}
 async function roundById(env,id){return env.DB.prepare('SELECT * FROM territory_war_v3_rounds WHERE id=?').bind(id).first()}
 async function activeFront(env,round){if(!round?.current_front_id)return null;return env.DB.prepare('SELECT * FROM territory_war_v3_fronts WHERE id=?').bind(round.current_front_id).first()}
+async function roundEquipmentBonuses(env,roundId,resultScope='WIN'){
+  if(!Number(roundId)||String(resultScope||'').toUpperCase()!=='WIN')return[];
+  const rows=(await env.DB.prepare(`SELECT r.equipment_id,r.quantity,r.result_scope,i.code,i.name,i.rarity,i.slot,i.image_url
+    FROM territory_war_v3_round_equipment_rewards r
+    JOIN character_equipment_items i ON i.id=r.equipment_id
+    WHERE r.round_id=? AND r.result_scope='WIN' AND r.quantity>0
+    ORDER BY r.equipment_id`).bind(roundId).all()).results||[];
+  return rows.map(row=>({...row,quantity:Math.max(0,Number(row.quantity||0)),image_url:String(row.image_url||'').replace(/\\/g,'/')}));
+}
 function truceState(round){const endsAt=round?.truce_ends_at||null,active=Boolean(round?.status==='ACTIVE'&&sqlMs(endsAt)>Date.now()),minutes=clampInt(round?.truce_duration_minutes,1,360,15);return{active,endsAt:active?endsAt:null,minutes,canRefresh:active}}
 function comebackState(round,cfg=DEFAULTS,front=null){
   const rules=balanceRules(round,cfg),revisitThreshold=Math.max(1,Number(rules.antiPingPongRevisitThreshold||3));
@@ -643,8 +664,8 @@ async function rewardForUser(env,userId){
     const source=await env.DB.prepare(`SELECT side,damage,attacks FROM territory_war_v3_users WHERE round_id=? AND user_id=?`).bind(v3.round_id,userId).first(),cfg=await settings(env),required=Math.max(0,Number(v3.required_attacks)>0?Number(v3.required_attacks):Number(cfg.settlementMinAttacks??1));
     if(source){const attacks=Number(source.attacks||0),damage=Number(source.damage||0),eligible=attacks>=required;let result='INELIGIBLE',coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0;if(eligible){const round=await roundById(env,v3.round_id),winner=String(round?.winner_side||'DRAW');result=winner==='DRAW'?'DRAW':source.side===winner?'WIN':'LOSE';baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(damage/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}await env.DB.prepare(`UPDATE territory_war_v3_rewards SET side=?,result=?,coin=?,shards=?,damage=?,attacks=?,required_attacks=?,base_result_coin=?,attack_reward_percent=?,attack_adjusted_coin=? WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(source.side||'',result,coin,shards,damage,attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,v3.round_id,userId).run();v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=?').bind(v3.round_id,userId).first()}
   }
-  if(v3)return{...v3,version:'V3'};
-  if(await tableExists(env,'territory_war_rewards')){const old=await env.DB.prepare('SELECT * FROM territory_war_rewards WHERE user_id=? AND claimed_at IS NULL ORDER BY round_id DESC LIMIT 1').bind(userId).first();if(old)return{...old,version:'LEGACY'}}
+  if(v3)return{...v3,version:'V3',bonusEquipment:await roundEquipmentBonuses(env,v3.round_id,v3.result)};
+  if(await tableExists(env,'territory_war_rewards')){const old=await env.DB.prepare('SELECT * FROM territory_war_rewards WHERE user_id=? AND claimed_at IS NULL ORDER BY round_id DESC LIMIT 1').bind(userId).first();if(old)return{...old,version:'LEGACY',bonusEquipment:[]}}
   return null;
 }
 
@@ -828,7 +849,7 @@ async function claimV3(env,deps,user){
   const lock=await acquireLock(env,`claim_${user.id}`,60000);if(!lock.ok)return deps.json({error:'보상 수령을 처리 중입니다.'},409);
   try{
     const reward=await rewardForUser(env,user.id);if(!reward)return deps.json({error:'수령 가능한 보상이 없습니다.'},404);
-    const coin=Number(reward.coin||0),shards=Number(reward.shards||0),premiumCubes=reward.version==='V3'?Math.max(0,Number(reward.premium_cube_quantity||0)):0,table=reward.version==='V3'?'territory_war_v3_rewards':'territory_war_rewards',statements=[
+    const coin=Number(reward.coin||0),shards=Number(reward.shards||0),premiumCubes=reward.version==='V3'?Math.max(0,Number(reward.premium_cube_quantity||0)):0,bonusEquipment=reward.version==='V3'&&reward.result==='WIN'?(reward.bonusEquipment||[]):[],table=reward.version==='V3'?'territory_war_v3_rewards':'territory_war_rewards',statements=[
       env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(coin,shards,user.id,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,?,coin,'영토전 보상' FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,coin,user.id,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,?,card_shards,'영토전 보상',NULL FROM users WHERE id=? AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,shards,user.id,reward.round_id,user.id)
@@ -837,9 +858,15 @@ async function claimV3(env,deps,user){
       env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'PREMIUM_CUBE',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,premiumCubes,premiumCubes,reward.round_id,user.id),
       env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'PREMIUM_CUBE',?,quantity,'TERRITORY_WAR_ATTACK_REWARD','TERRITORY_WAR',? FROM cnine_user_inventory WHERE user_id=? AND item_code='PREMIUM_CUBE' AND EXISTS(SELECT 1 FROM ${table} WHERE round_id=? AND user_id=? AND claimed_at IS NULL)`).bind(user.id,premiumCubes,String(reward.round_id),user.id,reward.round_id,user.id)
     );
+    for(const item of bonusEquipment){
+      const equipmentId=Math.max(0,Number(item.equipment_id||0)),quantity=Math.min(100,Math.max(0,Number(item.quantity||0)));
+      for(let index=0;equipmentId&&index<quantity;index++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id)
+        SELECT ?,?,'TERRITORY_WAR',?,?
+        WHERE EXISTS(SELECT 1 FROM territory_war_v3_rewards WHERE round_id=? AND user_id=? AND claimed_at IS NULL AND result='WIN')`).bind(user.id,equipmentId,String(reward.round_id),`TW3-${reward.round_id}-${user.id}-${equipmentId}-${index+1}`,reward.round_id,user.id));
+    }
     statements.push(env.DB.prepare(`UPDATE ${table} SET claimed_at=CURRENT_TIMESTAMP WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(reward.round_id,user.id));
     const results=await env.DB.batch(statements),claimed=results?.[results.length-1];
-    if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);return deps.json({ok:true,coin,shards,premiumCubes,state:await publicState(env,user.id)});
+    if(!Number(claimed?.meta?.changes||0))return deps.json({error:'이미 수령한 보상입니다.'},409);return deps.json({ok:true,coin,shards,premiumCubes,bonusEquipment,state:await publicState(env,user.id)});
   }finally{await releaseLock(env,lock)}
 }
 
@@ -889,7 +916,7 @@ export async function handleTerritoryWar({path,request,env,deps}){
   if(path==='territory-war/claim'&&request.method==='POST')return claimV3(env,deps,user);
   if(path==='admin/territory-war/settings'){
     if(!admin)return deps.json({error:'관리자 권한이 필요합니다.'},403);
-    if(request.method==='GET'){const state=await publicState(env,user.id,true),used=state.round?await env.DB.prepare('SELECT * FROM territory_war_v3_mass_assaults WHERE round_id=?').bind(state.round.id).first():null;return deps.json({settings:cfg,state,massAssault:massAssaultPreview(state.round,state.front,cfg,used),isOwner:String(user.role||'').toUpperCase()==='OWNER'});}
+    if(request.method==='GET'){const state=await publicState(env,user.id,true),used=state.round?await env.DB.prepare('SELECT * FROM territory_war_v3_mass_assaults WHERE round_id=?').bind(state.round.id).first():null,roundBonusEquipment=state.round?await roundEquipmentBonuses(env,state.round.id,'WIN'):[];return deps.json({settings:cfg,state,massAssault:massAssaultPreview(state.round,state.front,cfg,used),roundBonusEquipment,isOwner:String(user.role||'').toUpperCase()==='OWNER'});}
     if(request.method==='POST'){
       const next=cleanSettings(await deps.readBody(request),cfg);if(Number(next.maxDamage)<Number(next.minDamage))next.maxDamage=next.minDamage;next.attackRewardTier2Attacks=Math.max(Number(next.attackRewardTier1Attacks)+1,Number(next.attackRewardTier2Attacks));next.attackRewardTier3Attacks=Math.max(Number(next.attackRewardTier2Attacks)+1,Number(next.attackRewardTier3Attacks));next.attackRewardTier4Attacks=Math.max(Number(next.attackRewardTier3Attacks)+1,Number(next.attackRewardTier4Attacks));
       await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('territory_war_settings_v3',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next)).run();invalidateSettingsCache();
