@@ -976,6 +976,48 @@
   .pc-news-ticker time { color:var(--ui-dim); }
 }
 
+/* Compact global burning status. The full event detail remains in Card Store. */
+@media (min-width:760px) and (hover:hover) and (pointer:fine) {
+  .game-frame[data-v21-shell] > .burning-event-strip,
+  .game-frame[data-v21-shell] > .page > .burning-event-strip {
+    position:absolute!important;
+    z-index:34!important;
+    top:82px!important;
+    left:50%!important;
+    width:min(430px,calc(100% - 660px))!important;
+    min-width:290px!important;
+    min-height:38px!important;
+    max-height:38px!important;
+    margin:0!important;
+    padding:0 14px!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:10px!important;
+    overflow:hidden!important;
+    border-radius:3px!important;
+    transform:translateX(-50%)!important;
+    text-align:center!important;
+    box-shadow:0 8px 24px rgba(0,0,0,.28)!important;
+  }
+  .game-frame[data-v21-shell] > .burning-event-strip b,
+  .game-frame[data-v21-shell] > .page > .burning-event-strip b {
+    flex:0 0 auto;
+    font-size:12px!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+  }
+  .game-frame[data-v21-shell] > .burning-event-strip span,
+  .game-frame[data-v21-shell] > .page > .burning-event-strip span {
+    min-width:0;
+    overflow:hidden!important;
+    font-size:10px!important;
+    line-height:1!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+}
+
 /* Mobile command lobby and readability contract. */
 @media (max-width:759px), (hover:none) and (pointer:coarse) {
   .game-frame[data-v21-shell] > .burning-event-strip,
@@ -986,22 +1028,26 @@
     left:max(8px,env(safe-area-inset-left))!important;
     right:max(8px,env(safe-area-inset-right))!important;
     width:auto!important;
-    min-height:48px!important;
-    max-height:54px!important;
+    min-height:44px!important;
+    max-height:44px!important;
     margin:0!important;
-    padding:7px 12px!important;
+    padding:6px 12px!important;
     display:grid!important;
     place-items:center!important;
+    align-content:center!important;
+    justify-items:center!important;
     gap:2px!important;
     overflow:hidden!important;
     border-radius:4px!important;
     text-align:center!important;
   }
-  .game-frame[data-v21-shell] > :is(.burning-event-strip,.page > .burning-event-strip) b { font-size:12px!important; line-height:1.25!important; }
-  .game-frame[data-v21-shell] > :is(.burning-event-strip,.page > .burning-event-strip) span { font-size:10px!important; line-height:1.25!important; }
+  .game-frame[data-v21-shell] > .burning-event-strip b,
+  .game-frame[data-v21-shell] > .page > .burning-event-strip b { width:100%!important; font-size:12px!important; line-height:1.2!important; text-align:center!important; white-space:nowrap!important; }
+  .game-frame[data-v21-shell] > .burning-event-strip span,
+  .game-frame[data-v21-shell] > .page > .burning-event-strip span { display:none!important; }
   .game-frame[data-v21-shell]:has(> .burning-event-strip) .screen-viewport,
   .game-frame[data-v21-shell]:has(> .page > .burning-event-strip) .screen-viewport {
-    inset-block-start:calc(136px + var(--safe-top))!important;
+    inset-block-start:calc(128px + var(--safe-top))!important;
   }
   .dock-item b { font-size:12px; }
   .detail-panel-head span,

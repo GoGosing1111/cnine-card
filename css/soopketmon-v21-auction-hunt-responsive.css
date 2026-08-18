@@ -1,0 +1,65 @@
+/* V21.7 — auction and monster-hunt responsive polish. */
+.auction-stage-v1553{grid-template-columns:minmax(210px,.82fr) minmax(320px,1.28fr) minmax(270px,.9fr);min-height:clamp(540px,calc(100dvh - 150px),680px);align-items:stretch}
+.auction-root-v1553{min-height:clamp(540px,calc(100dvh - 150px),680px)}
+.auction-lot-v1553{container-type:inline-size;display:flex;min-width:0;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.auction-item-v1553{flex:0 0 auto;width:100%;height:clamp(220px,29dvh,300px)}
+.auction-item-v1553 img{display:block;width:min(78%,360px);height:100%;max-width:100%;max-height:100%;object-fit:contain}
+.auction-lot-v1553 h2,.auction-lot-v1553 h3,.auction-lot-v1553 p,.auction-price-v1553{max-width:100%;box-sizing:border-box;overflow-wrap:anywhere}
+.auction-price-v1553{width:100%;padding-inline:8px}
+.auction-price-v1553 b{max-width:100%;font-size:clamp(30px,12cqi,58px);line-height:1.05;letter-spacing:-.045em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.auction-bidders-v1553,.auction-action-v1553{min-width:0;box-sizing:border-box}
+.auction-action-v1553 input,.auction-action-v1553 button{box-sizing:border-box;min-width:0}
+
+@media(max-width:1100px){
+  .auction-house-v1553{padding:14px}
+  .auction-stage-v1553{grid-template-columns:minmax(190px,.75fr) minmax(290px,1.2fr) minmax(240px,.85fr);gap:14px;padding:22px}
+  .auction-bidders-v1553,.auction-action-v1553{padding:16px}
+  .auction-item-v1553{height:240px}
+}
+
+@media(max-width:900px){
+  .auction-house-v1553{width:100%;max-width:none;padding:8px;box-sizing:border-box}
+  .auction-hero-v1553{align-items:center;padding:15px 16px;gap:12px}
+  .auction-heading-v1553 h2{font-size:clamp(28px,7vw,40px)}
+  .auction-stage-v1553{display:flex;min-height:0;flex-direction:column;gap:12px;padding:16px 12px 24px;background:linear-gradient(180deg,#02060bba,#02060b82 45%,#02060bea)}
+  .auction-lot-v1553{order:1;width:100%;padding:8px 0 14px;overflow:visible}
+  .auction-action-v1553{order:2;width:100%;min-height:0;gap:12px;padding:16px;background:linear-gradient(180deg,#07111bf2,#03070df7);backdrop-filter:none}
+  .auction-bidders-v1553{order:3;width:100%;min-height:0;padding:16px;background:linear-gradient(180deg,#07111bf2,#03070df7);backdrop-filter:none}
+  .auction-item-v1553{height:clamp(220px,58vw,330px)}
+  .auction-item-v1553 img{width:min(76vw,360px)}
+  .auction-lot-v1553 h3{font-size:clamp(18px,5vw,24px)}
+  .auction-lot-v1553 h2{font-size:clamp(24px,7vw,36px);line-height:1.12}
+  .auction-lot-v1553 p{min-height:0;margin:8px 0;padding:0 14px;line-height:1.5}
+  .auction-price-v1553{margin-top:10px}
+  .auction-price-v1553 b{font-size:clamp(32px,12cqi,48px)}
+  .auction-action-v1553 input{height:50px;font-size:16px}
+  .auction-quick-v1553 button,.auction-bid-button-v1553{min-height:48px}
+  .auction-bid-button-v1553{position:sticky;z-index:4;bottom:calc(8px + env(safe-area-inset-bottom));height:56px}
+  #pveHuntView.pve-view-hunt .pve-target-copy>.pve-target-start{position:sticky;z-index:24;bottom:calc(74px + env(safe-area-inset-bottom));width:100%;min-height:60px;font-size:17px}
+}
+
+@media(max-width:520px){
+  .auction-hero-v1553{align-items:stretch}
+  .auction-live-v1553{justify-content:center}
+  .auction-item-v1553{height:clamp(190px,58vw,250px)}
+  .auction-item-v1553 img{width:min(82vw,300px)}
+  .auction-lot-no-v1553{padding:6px 13px;font-size:12px}
+  .auction-price-v1553 b{font-size:clamp(30px,11.5cqi,42px)}
+  .auction-price-v1553 b small{display:block;margin-top:5px;font-size:12px;letter-spacing:.1em}
+  .auction-quick-v1553{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .auction-bidder-v1553{grid-template-columns:28px minmax(0,1fr) auto;padding:10px 8px}
+  .auction-bidder-v1553 strong{font-size:12px}
+}
+
+#pveHuntView.pve-view-hunt .pve-target-copy>.pve-target-tag{order:1}
+#pveHuntView.pve-view-hunt .pve-target-copy>h3{order:2}
+#pveHuntView.pve-view-hunt .pve-target-copy>.pve-target-start{order:3;min-height:58px;margin:2px 0 0;border:1px solid rgba(255,220,112,.65);font-size:17px;box-shadow:0 14px 32px rgba(0,0,0,.28),0 0 0 1px rgba(255,214,91,.08)}
+#pveHuntView.pve-view-hunt .pve-target-copy>.battle-auto-toggle{order:4;margin:0}
+#pveHuntView.pve-view-hunt .pve-target-copy>.pve-target-stats{order:5}
+#pveHuntView.pve-view-hunt .pve-target-copy>p{order:6}
+#pveHuntView.pve-view-hunt .pve-target-copy>.pve-v2-live-badge{order:7}
+@media(max-width:680px){
+  #pveHuntView.pve-view-hunt .pve-target-image{height:150px!important}
+  #pveHuntView.pve-view-hunt .pve-target-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #pveHuntView.pve-view-hunt .pve-target-panel{padding:14px}
+}
