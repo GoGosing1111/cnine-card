@@ -1,0 +1,1674 @@
+{
+  "schemaVersion": 2,
+  "manifestId": "project-v-zenith-battle-sd-v1",
+  "scope": "BATTLE_ENGINE_ONLY",
+  "rarity": "ZENITH",
+  "rosterSnapshot": {
+    "asOf": "2026-08-18",
+    "expectedCount": 21,
+    "identityKey": "cardId",
+    "source": "live D1 read-only roster lock"
+  },
+  "routingContract": {
+    "battleEngineOnly": true,
+    "battleArtField": "battleSprite",
+    "dexArtField": "sourceArt",
+    "deckArtField": "sourceArt",
+    "cardDetailArtField": "sourceArt",
+    "neverFallbackSourceArtInBattle": true,
+    "prohibitedConsumers": [
+      "DEX",
+      "DECK",
+      "CARD_PACK",
+      "INVENTORY",
+      "CARD_DETAIL"
+    ]
+  },
+  "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+  "assetContract": {
+    "format": "PNG",
+    "canvasMode": "RGBA_ALPHA_0",
+    "singleFullBodySprite": true,
+    "isometricThreeQuarter": true,
+    "footPivot": {
+      "x": 0.5,
+      "y": 1
+    },
+    "preserveSourceIdentity": true,
+    "alphaThreshold": 18,
+    "minimumSafeMarginPx": 48
+  },
+  "qaPolicy": {
+    "requireTransparentRgba": true,
+    "requireClearCanvasEdges": true,
+    "requireSafeMargin": true,
+    "requireSourceIdentityReview": true,
+    "checkerboardPixelsAreFailure": true,
+    "previewStages": [
+      "MAGENTA",
+      "DARK_STAGE"
+    ],
+    "previewActions": [
+      "IDLE",
+      "DASH",
+      "ATTACK"
+    ]
+  },
+  "visualApprovalRecord": {
+    "status": "APPROVED",
+    "approvedCount": 21,
+    "approvedAt": "2026-08-19",
+    "source": "USER_FINAL_APPROVAL"
+  },
+  "characters": [
+    {
+      "order": 1,
+      "cardId": "CN-519C181C18DF4B8E",
+      "member": "토마토",
+      "title": "토마토",
+      "sourceArt": "assets/cards/ZENITH/1.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-519c181c18df4b8e-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 260,
+          "y": 62,
+          "width": 795,
+          "height": 1231
+        },
+        "margins": {
+          "left": 260,
+          "top": 62,
+          "right": 258,
+          "bottom": 96
+        },
+        "safeMarginPx": 62,
+        "alphaPixels": {
+          "transparent": 1347367,
+          "opaque": 346,
+          "partial": 476044
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1313,
+        "height": 1389,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.500381,
+          0.930886
+        ],
+        "safeMarginPx": 62
+      },
+      "sha256": "9C436C2EC93500B96C155E426BE4CFC2CEB54B8A62859F686BE0E9A894B15291",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.avif",
+            "width": 384,
+            "height": 406
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-768.avif",
+            "width": 768,
+            "height": 812
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-384.webp",
+            "width": 384,
+            "height": 406
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-519c181c18df4b8e-sd-v1-768.webp",
+            "width": 768,
+            "height": 812
+          }
+        ]
+      }
+    },
+    {
+      "order": 2,
+      "cardId": "CN-BE9EB8304A744ECF",
+      "member": "박틸다",
+      "title": "박틸다",
+      "sourceArt": "assets/cards/ZENITH/10.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-be9eb8304a744ecf-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 213,
+          "y": 163,
+          "width": 1052,
+          "height": 1043
+        },
+        "margins": {
+          "left": 213,
+          "top": 163,
+          "right": 85,
+          "bottom": 144
+        },
+        "safeMarginPx": 85,
+        "alphaPixels": {
+          "transparent": 1465440,
+          "opaque": 357060,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.547037,
+          0.893333
+        ],
+        "safeMarginPx": 85
+      },
+      "sha256": "EA5E1FA7FD6240D564DF6E8D971286DE56EEB9EBE143373301E775D4CAD7B282",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-be9eb8304a744ecf-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-be9eb8304a744ecf-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-be9eb8304a744ecf-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-be9eb8304a744ecf-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 3,
+      "cardId": "CN-5330101EFDDA4222",
+      "member": "박세라",
+      "title": "박세라",
+      "sourceArt": "assets/cards/ZENITH/11.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-5330101efdda4222-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 213,
+          "y": 122,
+          "width": 977,
+          "height": 1008
+        },
+        "margins": {
+          "left": 213,
+          "top": 122,
+          "right": 64,
+          "bottom": 124
+        },
+        "safeMarginPx": 64,
+        "alphaPixels": {
+          "transparent": 1030333,
+          "opaque": 542183,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.559011,
+          0.901116
+        ],
+        "safeMarginPx": 64
+      },
+      "sha256": "E818E6936875D603A4E97A0D09BCD4C62374AC9A3F49CFA2886110A4E692EBE9",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-5330101efdda4222-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-5330101efdda4222-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-5330101efdda4222-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-5330101efdda4222-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 4,
+      "cardId": "CN-6B0D4B65D6F04355",
+      "member": "애순이",
+      "title": "애순이",
+      "sourceArt": "assets/cards/ZENITH/12.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-6b0d4b65d6f04355-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 76,
+          "y": 86,
+          "width": 1100,
+          "height": 1098
+        },
+        "margins": {
+          "left": 76,
+          "top": 86,
+          "right": 78,
+          "bottom": 70
+        },
+        "safeMarginPx": 70,
+        "alphaPixels": {
+          "transparent": 1130240,
+          "opaque": 442276,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.498804,
+          0.944179
+        ],
+        "safeMarginPx": 70
+      },
+      "sha256": "8E42231024BAC68C9BDD7D28C518A9ACB1B1A96AF863C5133FC03A580217D94D",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-6b0d4b65d6f04355-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-6b0d4b65d6f04355-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-6b0d4b65d6f04355-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-6b0d4b65d6f04355-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 5,
+      "cardId": "CN-F4C52E065FCC441D",
+      "member": "히댕",
+      "title": "히댕",
+      "sourceArt": "assets/cards/ZENITH/15.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-f4c52e065fcc441d-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 104,
+          "y": 77,
+          "width": 1074,
+          "height": 1100
+        },
+        "margins": {
+          "left": 104,
+          "top": 77,
+          "right": 76,
+          "bottom": 77
+        },
+        "safeMarginPx": 76,
+        "alphaPixels": {
+          "transparent": 1028248,
+          "opaque": 544268,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.510766,
+          0.938596
+        ],
+        "safeMarginPx": 76
+      },
+      "sha256": "EDFC3EB19CFFB40C2F6A3CB41953307899904F86D9EB3AA64193E128E3775E90",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-f4c52e065fcc441d-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-f4c52e065fcc441d-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-f4c52e065fcc441d-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-f4c52e065fcc441d-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 6,
+      "cardId": "CN-9F67D5944A8140A8",
+      "member": "유소나",
+      "title": "유소나",
+      "sourceArt": "assets/cards/ZENITH/16.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-9f67d5944a8140a8-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 198,
+          "y": 98,
+          "width": 847,
+          "height": 1059
+        },
+        "margins": {
+          "left": 198,
+          "top": 98,
+          "right": 209,
+          "bottom": 97
+        },
+        "safeMarginPx": 97,
+        "alphaPixels": {
+          "transparent": 1176264,
+          "opaque": 396252,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.495215,
+          0.922648
+        ],
+        "safeMarginPx": 97
+      },
+      "sha256": "90D7E3D132F06114D65547FB7804E0EFA03C0ED5F8ADAC3D6519DF113AC5655F",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-9f67d5944a8140a8-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-9f67d5944a8140a8-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-9f67d5944a8140a8-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-9f67d5944a8140a8-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 7,
+      "cardId": "CN-B111FA6D946248C9",
+      "member": "배그나",
+      "title": "배그나",
+      "sourceArt": "assets/cards/ZENITH/18.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-b111fa6d946248c9-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 217,
+          "y": 144,
+          "width": 941,
+          "height": 1004
+        },
+        "margins": {
+          "left": 217,
+          "top": 144,
+          "right": 96,
+          "bottom": 106
+        },
+        "safeMarginPx": 96,
+        "alphaPixels": {
+          "transparent": 1083207,
+          "opaque": 489309,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.547847,
+          0.91547
+        ],
+        "safeMarginPx": 96
+      },
+      "sha256": "82A14269C62F5BD1A36E7645D5440E05D88B4B4953E0B46D7D8DD44E3AFD55DA",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b111fa6d946248c9-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b111fa6d946248c9-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b111fa6d946248c9-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b111fa6d946248c9-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 8,
+      "cardId": "CN-2DA48F7E57304017",
+      "member": "박삐삐",
+      "title": "박삐삐",
+      "sourceArt": "assets/cards/ZENITH/19.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-2da48f7e57304017-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 158,
+          "y": 86,
+          "width": 950,
+          "height": 1093
+        },
+        "margins": {
+          "left": 158,
+          "top": 86,
+          "right": 146,
+          "bottom": 75
+        },
+        "safeMarginPx": 75,
+        "alphaPixels": {
+          "transparent": 1095644,
+          "opaque": 476872,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.504386,
+          0.940191
+        ],
+        "safeMarginPx": 75
+      },
+      "sha256": "250A115385BA85EF4E93FA2D44327354AE690DBA34A9EB7711B2D45D3944122B",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-2da48f7e57304017-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-2da48f7e57304017-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-2da48f7e57304017-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-2da48f7e57304017-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 9,
+      "cardId": "CN-D4726E03B2E14AA2",
+      "member": "고라니율",
+      "title": "고라니율",
+      "sourceArt": "assets/cards/ZENITH/2.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-d4726e03b2e14aa2-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 126,
+          "y": 100,
+          "width": 873,
+          "height": 1228
+        },
+        "margins": {
+          "left": 126,
+          "top": 100,
+          "right": 123,
+          "bottom": 74
+        },
+        "safeMarginPx": 74,
+        "alphaPixels": {
+          "transparent": 1096100,
+          "opaque": 476944,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1122,
+        "height": 1402,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.500891,
+          0.947218
+        ],
+        "safeMarginPx": 74
+      },
+      "sha256": "C6C924803FD0B22B6575FE2C7E46FBC6A0D6BF7A31A2B582BC68984D93C63599",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-d4726e03b2e14aa2-sd-v1-384.avif",
+            "width": 384,
+            "height": 480
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-d4726e03b2e14aa2-sd-v1-768.avif",
+            "width": 768,
+            "height": 960
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-d4726e03b2e14aa2-sd-v1-384.webp",
+            "width": 384,
+            "height": 480
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-d4726e03b2e14aa2-sd-v1-768.webp",
+            "width": 768,
+            "height": 960
+          }
+        ]
+      }
+    },
+    {
+      "order": 10,
+      "cardId": "CN-C2901530814B48AA",
+      "member": "민서율",
+      "title": "민서율",
+      "sourceArt": "assets/cards/ZENITH/3.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-c2901530814b48aa-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 164,
+          "y": 64,
+          "width": 906,
+          "height": 1512
+        },
+        "margins": {
+          "left": 164,
+          "top": 64,
+          "right": 50,
+          "bottom": 55
+        },
+        "safeMarginPx": 50,
+        "alphaPixels": {
+          "transparent": 1118071,
+          "opaque": 334,
+          "partial": 708315
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1120,
+        "height": 1631,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.550446,
+          0.966278
+        ],
+        "safeMarginPx": 50
+      },
+      "sha256": "FD3AC0D03D71177CD31A92098DA480A68C6BD4F649F2245E006CF14F51FE07A4",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c2901530814b48aa-sd-v1-384.avif",
+            "width": 384,
+            "height": 559
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c2901530814b48aa-sd-v1-768.avif",
+            "width": 768,
+            "height": 1118
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c2901530814b48aa-sd-v1-384.webp",
+            "width": 384,
+            "height": 559
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c2901530814b48aa-sd-v1-768.webp",
+            "width": 768,
+            "height": 1118
+          }
+        ]
+      }
+    },
+    {
+      "order": 11,
+      "cardId": "CN-98F767704E3C42F7",
+      "member": "지붕위소희",
+      "title": "지붕위소희",
+      "sourceArt": "assets/cards/ZENITH/4.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-98f767704e3c42f7-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 284,
+          "y": 115,
+          "width": 621,
+          "height": 1045
+        },
+        "margins": {
+          "left": 284,
+          "top": 115,
+          "right": 349,
+          "bottom": 94
+        },
+        "safeMarginPx": 94,
+        "alphaPixels": {
+          "transparent": 1256894,
+          "opaque": 315622,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.473684,
+          0.92504
+        ],
+        "safeMarginPx": 94
+      },
+      "sha256": "2FD59A3BDEDB58E7B2C746A005C391AC836AF0F1E4BDE6203DE6CB35F25170CB",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-98f767704e3c42f7-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-98f767704e3c42f7-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-98f767704e3c42f7-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-98f767704e3c42f7-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 12,
+      "cardId": "CN-864782C6CB6A4200",
+      "member": "류하",
+      "title": "류하",
+      "sourceArt": "assets/cards/ZENITH/5.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-864782c6cb6a4200-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 119,
+          "y": 95,
+          "width": 888,
+          "height": 1068
+        },
+        "margins": {
+          "left": 119,
+          "top": 95,
+          "right": 247,
+          "bottom": 91
+        },
+        "safeMarginPx": 91,
+        "alphaPixels": {
+          "transparent": 1147084,
+          "opaque": 425432,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.448565,
+          0.927432
+        ],
+        "safeMarginPx": 91
+      },
+      "sha256": "F6888AE737E06847B2346DBEF7AE3F682A488BD4DA9DEB8C713A1D7ABCB15ED2",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-864782c6cb6a4200-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-864782c6cb6a4200-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-864782c6cb6a4200-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-864782c6cb6a4200-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 13,
+      "cardId": "CN-B66A455F7BB24AC7",
+      "member": "도도희",
+      "title": "도도희",
+      "sourceArt": "assets/cards/ZENITH/6.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-b66a455f7bb24ac7-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 246,
+          "y": 92,
+          "width": 802,
+          "height": 1113
+        },
+        "margins": {
+          "left": 246,
+          "top": 92,
+          "right": 302,
+          "bottom": 145
+        },
+        "safeMarginPx": 92,
+        "alphaPixels": {
+          "transparent": 1496460,
+          "opaque": 326040,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.478889,
+          0.892593
+        ],
+        "safeMarginPx": 92
+      },
+      "sha256": "A425C99AFBD7842C02C504BA38DA759829631963CC5C42AB4661579012BAB137",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b66a455f7bb24ac7-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b66a455f7bb24ac7-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b66a455f7bb24ac7-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-b66a455f7bb24ac7-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 14,
+      "cardId": "CN-D84DF50E37F64A95",
+      "member": "임쥬아",
+      "title": "임쥬아",
+      "sourceArt": "assets/cards/ZENITH/8.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-d84df50e37f64a95-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 130,
+          "y": 189,
+          "width": 791,
+          "height": 869
+        },
+        "margins": {
+          "left": 130,
+          "top": 189,
+          "right": 333,
+          "bottom": 196
+        },
+        "safeMarginPx": 130,
+        "alphaPixels": {
+          "transparent": 1235479,
+          "opaque": 337037,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.41866,
+          0.8437
+        ],
+        "safeMarginPx": 130
+      },
+      "sha256": "9EF90D1E26C994C2EB1BCCCB45EF26ED7C35EB4D718DD0D8B86D41CEAF4B98EB",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-d84df50e37f64a95-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-d84df50e37f64a95-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-d84df50e37f64a95-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-d84df50e37f64a95-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 15,
+      "cardId": "CN-A78E3513D30349DA",
+      "member": "빵귤이",
+      "title": "빵귤이",
+      "sourceArt": "assets/cards/ZENITH/7778.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-a78e3513d30349da-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 199,
+          "y": 65,
+          "width": 1023,
+          "height": 1218
+        },
+        "margins": {
+          "left": 199,
+          "top": 65,
+          "right": 128,
+          "bottom": 67
+        },
+        "safeMarginPx": 65,
+        "alphaPixels": {
+          "transparent": 1223027,
+          "opaque": 599473,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.525926,
+          0.95037
+        ],
+        "safeMarginPx": 65
+      },
+      "sha256": "8B76BA86FF623CB3A4D3DA19889F510F20AD3A837EE52A048DB4E0E31DA8C09E",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-a78e3513d30349da-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-a78e3513d30349da-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-a78e3513d30349da-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-a78e3513d30349da-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 16,
+      "cardId": "CN-BCC2127067794E77",
+      "member": "남수댕",
+      "title": "댕무라사키",
+      "sourceArt": "assets/cards/ZENITH/dengmura7.png",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-bcc2127067794e77-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 90,
+          "y": 145,
+          "width": 1168,
+          "height": 1060
+        },
+        "margins": {
+          "left": 90,
+          "top": 145,
+          "right": 92,
+          "bottom": 145
+        },
+        "safeMarginPx": 90,
+        "alphaPixels": {
+          "transparent": 1217222,
+          "opaque": 605278,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.498889,
+          0.892593
+        ],
+        "safeMarginPx": 90
+      },
+      "sha256": "64422E5C95F9FAE58A5ED7B876AAC8377E895DDA2C4B4605724E75566523E5A0",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-bcc2127067794e77-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-bcc2127067794e77-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-bcc2127067794e77-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-bcc2127067794e77-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 17,
+      "cardId": "CN-C34437B5F12C4EDB",
+      "member": "디임",
+      "title": "디임",
+      "sourceArt": "assets/cards/ZENITH/20.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-c34437b5f12c4edb-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 287,
+          "y": 72,
+          "width": 770,
+          "height": 1146
+        },
+        "margins": {
+          "left": 287,
+          "top": 72,
+          "right": 293,
+          "bottom": 132
+        },
+        "safeMarginPx": 72,
+        "alphaPixels": {
+          "transparent": 1337643,
+          "opaque": 484857,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.497407,
+          0.902222
+        ],
+        "safeMarginPx": 72
+      },
+      "sha256": "E3E28F2B979D4E8ED4D982FC8C7609779928324541FEA27FCC52D7257DEEBAFB",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c34437b5f12c4edb-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c34437b5f12c4edb-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c34437b5f12c4edb-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c34437b5f12c4edb-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 18,
+      "cardId": "CN-C6EB6FF1D7D940A0",
+      "member": "지유나",
+      "title": "지유나",
+      "sourceArt": "assets/cards/ZENITH/21.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-c6eb6ff1d7d940a0-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 102,
+          "y": 136,
+          "width": 1065,
+          "height": 1007
+        },
+        "margins": {
+          "left": 102,
+          "top": 136,
+          "right": 87,
+          "bottom": 111
+        },
+        "safeMarginPx": 87,
+        "alphaPixels": {
+          "transparent": 1206776,
+          "opaque": 365740,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.505582,
+          0.911483
+        ],
+        "safeMarginPx": 87
+      },
+      "sha256": "966F1F71A59FC95E93E3BC3AA71ABF0949AEDD544978B1E1945C0F3D6277DB7C",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c6eb6ff1d7d940a0-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c6eb6ff1d7d940a0-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c6eb6ff1d7d940a0-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-c6eb6ff1d7d940a0-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 19,
+      "cardId": "CN-AC54A948BBDC40A0",
+      "member": "뮤니",
+      "title": "뮤니",
+      "sourceArt": "assets/cards/ZENITH/25.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-ac54a948bbdc40a0-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 91,
+          "y": 105,
+          "width": 1129,
+          "height": 1136
+        },
+        "margins": {
+          "left": 91,
+          "top": 105,
+          "right": 130,
+          "bottom": 109
+        },
+        "safeMarginPx": 91,
+        "alphaPixels": {
+          "transparent": 1135772,
+          "opaque": 686728,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.485185,
+          0.919259
+        ],
+        "safeMarginPx": 91
+      },
+      "sha256": "1A678F7A650450CA16F00E44C5067D9F1326B025232447C5E4D2C11CA879F0B8",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-ac54a948bbdc40a0-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-ac54a948bbdc40a0-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-ac54a948bbdc40a0-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-ac54a948bbdc40a0-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 20,
+      "cardId": "CN-BA51755F72C0475E",
+      "member": "졈니",
+      "title": "졈니",
+      "sourceArt": "assets/cards/ZENITH/26.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-ba51755f72c0475e-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 340,
+          "y": 74,
+          "width": 864,
+          "height": 1209
+        },
+        "margins": {
+          "left": 340,
+          "top": 74,
+          "right": 146,
+          "bottom": 67
+        },
+        "safeMarginPx": 67,
+        "alphaPixels": {
+          "transparent": 1391413,
+          "opaque": 431087,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.571481,
+          0.95037
+        ],
+        "safeMarginPx": 67
+      },
+      "sha256": "6FBFFC6E30526241BF4B4C4E9C8E164838451D6A16469A85B60B5678AF00AC13",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-ba51755f72c0475e-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-ba51755f72c0475e-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-ba51755f72c0475e-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-ba51755f72c0475e-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 21,
+      "cardId": "CN-8EA5637062014D9F",
+      "member": "쁠리",
+      "title": "쁠리",
+      "sourceArt": "assets/cards/ZENITH/V1.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-8ea5637062014d9f-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 223,
+          "y": 122,
+          "width": 715,
+          "height": 1050
+        },
+        "margins": {
+          "left": 223,
+          "top": 122,
+          "right": 316,
+          "bottom": 82
+        },
+        "safeMarginPx": 82,
+        "alphaPixels": {
+          "transparent": 1166618,
+          "opaque": 405898,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1254,
+        "height": 1254,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.46252,
+          0.934609
+        ],
+        "safeMarginPx": 82
+      },
+      "sha256": "82522E97DCC94FE6C9DC44E45D3D3DB778D24DB5EBAA8347BEDDB3C973C61FBE",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-8ea5637062014d9f-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-8ea5637062014d9f-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-8ea5637062014d9f-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-8ea5637062014d9f-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    }
+  ],
+  "technicalQaCompletedAt": "2026-08-18T23:00:00+09:00",
+  "responsiveContract": {
+    "formats": [
+      "AVIF",
+      "WebP",
+      "PNG"
+    ],
+    "widths": [
+      384,
+      768
+    ],
+    "selection": "choose smallest candidate at or above rendered CSS width x DPR; PNG remains lossless master"
+  }
+}
