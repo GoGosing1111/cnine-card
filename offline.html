@@ -1,2 +1,21 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#061b42"><title>숲켓몬 연결 확인</title><style>html,body{height:100%;margin:0}body{display:grid;place-items:center;padding:24px;box-sizing:border-box;background:radial-gradient(circle at top,#0b5592,#020817 60%);color:#edfaff;font-family:Arial,"Noto Sans KR",sans-serif;text-align:center}.box{max-width:480px;padding:36px;border:1px solid rgba(114,239,255,.35);border-radius:24px;background:rgba(3,17,38,.92);box-shadow:0 25px 80px rgba(0,0,0,.4)}h1{margin:8px 0 14px}p{color:#9cc8df;line-height:1.7}button{margin-top:14px;padding:14px 24px;border:0;border-radius:12px;background:linear-gradient(135deg,#00b8ff,#315cff);color:white;font-weight:900;cursor:pointer}</style></head><body><main class="box"><small>SOOP CARD COLLECTION</small><h1>서버 연결을 확인해주세요</h1><p>게임 데이터와 보상은 서버에서 확인해야 합니다.<br>인터넷 연결이 복구되면 다시 시도해주세요.</p><button onclick="location.reload()">다시 연결</button></main></body></html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080d13">
+  <title>숲켓몬 시스템 연결</title>
+  <style>
+    *{box-sizing:border-box}html,body{height:100%;margin:0}body{display:grid;place-items:center;padding:max(18px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));overflow:hidden;background:#070a0f;color:#edf3f5;font-family:Inter,"Pretendard","Noto Sans KR",Arial,sans-serif}.system-field{position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 24% 18%,rgba(47,154,177,.13),transparent 32%),linear-gradient(128deg,#05080c,#0b1219 56%,#071117)}.system-field::after{content:"";position:absolute;inset:0;opacity:.2;background:linear-gradient(90deg,transparent 49.8%,rgba(112,213,230,.18) 50%,transparent 50.2%),linear-gradient(0deg,transparent 49.8%,rgba(112,213,230,.12) 50%,transparent 50.2%);background-size:96px 96px}.panel{position:relative;width:min(660px,100%);padding:46px 48px 42px;border:1px solid rgba(122,202,216,.3);background:rgba(8,14,20,.97);box-shadow:0 28px 80px rgba(0,0,0,.45)}.panel::before{content:"";position:absolute;top:-1px;left:-1px;width:84px;height:3px;background:#70d5e6}.eyebrow{margin:0 0 18px;color:#70d5e6;font-size:11px;font-weight:800;letter-spacing:.22em}.state{display:grid;grid-template-columns:70px 1fr;gap:22px;align-items:center}.mark{display:grid;place-items:center;width:70px;height:70px;border:1px solid rgba(112,213,230,.38);background:#0d1820;color:#70d5e6;font-size:28px}.copy h1{margin:0;font-size:clamp(29px,5vw,48px);line-height:1.08;letter-spacing:-.05em}.copy p{margin:12px 0 0;color:#98a7b0;font-size:14px;line-height:1.65}.rule{height:1px;margin:30px 0 22px;background:linear-gradient(90deg,#70d5e6,rgba(112,213,230,.12) 58%,transparent)}.meta{display:flex;align-items:center;justify-content:space-between;gap:18px}.meta span{color:#7f9099;font-size:11px;letter-spacing:.12em}.meta button{min-width:148px;min-height:46px;padding:0 20px;border:1px solid rgba(112,213,230,.55);border-radius:0;background:#101a22;color:#edf3f5;font:700 13px inherit;cursor:pointer}.meta button:hover,.meta button:focus-visible{border-color:#70d5e6;background:#13242d;outline:none}.meta button:active{transform:translateY(1px)}@media(max-width:560px){.panel{padding:34px 26px}.state{grid-template-columns:1fr}.mark{width:56px;height:56px}.meta{align-items:stretch;flex-direction:column}.meta button{width:100%;min-height:48px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  </style>
+</head>
+<body>
+  <div class="system-field" aria-hidden="true"></div>
+  <main class="panel">
+    <p class="eyebrow">SOOPKETMON / CONNECTION CONTROL</p>
+    <section class="state"><div class="mark" aria-hidden="true">◇</div><div class="copy"><h1>운영 서버 연결 대기</h1><p>리뉴얼 인터페이스는 유지됩니다. 연결이 복구되면 최신 운영 데이터로 다시 진입합니다.</p></div></section>
+    <div class="rule"></div>
+    <div class="meta"><span>V21 PREMIUM COMMAND UI</span><button type="button" onclick="location.reload()">연결 다시 확인</button></div>
+  </main>
+</body>
+</html>

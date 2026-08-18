@@ -663,31 +663,44 @@ export async function handleEquipment({path,request,env,deps}){
   }
   if(path==='equipment/supply-box/purchase'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    const body=await readBody(request),count=cleanInt(body.count,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100),[settings,promotion]=await Promise.all([supplyBoxSettings(env),equipmentPromotionState(env,{fresh:true})]);
-    if(!settings.enabled||!settings.shopEnabled)return json({error:'현재 장비 보급상자 판매가 중지되어 있습니다.'},403);
+    const body=await readBody(request),count=cleanInt(body.count,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100);
     const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
     if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
-    if(prior)return json({error:'같은 구매 요청을 처리 중이거나 이미 종료했습니다.'},409);
+    if(prior)return json({error:'이전 구매 요청의 서버 반영 여부를 복구 확인해야 합니다.',code:'PENDING_RECOVERY_REQUIRED',requestId},409);
+    const [settings,promotion]=await Promise.all([supplyBoxSettings(env,{fresh:true}),equipmentPromotionState(env,{fresh:true})]);
+    if(!settings.enabled||!settings.shopEnabled)return json({error:'현재 장비 보급상자 판매가 중지되어 있습니다.'},403);
     const pricing=supplyShopPricing(settings,promotion),totalCost=pricing.shopPrice*count;
-    const receipt=await env.DB.prepare("INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status) VALUES(?,?,?,'PENDING')").bind(requestId,user.id,`${SUPPLY_BOX_CODE}_PURCHASE`).run();
-    if(!receipt.meta.changes)return json({error:'같은 구매 요청을 처리 중입니다.'},409);
-    let charged=false;
+    const quotedRaw=body.expectedUnitPrice,expectedUnitPrice=quotedRaw===undefined||quotedRaw===null?pricing.shopPrice:Number(quotedRaw);
+    if(!Number.isInteger(expectedUnitPrice)||expectedUnitPrice<0)return json({error:'구매 예상 단가가 올바르지 않습니다.',code:'INVALID_PRICE_QUOTE'},400);
+    if(expectedUnitPrice!==pricing.shopPrice)return json({error:'장비 보급상자 가격이 변경되었습니다. 새 가격을 확인한 뒤 다시 주문해 주세요.',code:'PRICE_CHANGED',expectedUnitPrice,currentUnitPrice:pricing.shopPrice},409);
     try{
-      const paid=await env.DB.prepare('UPDATE users SET coin=coin-? WHERE id=? AND coin>=?').bind(totalCost,user.id,totalCost).run();
-      if(!paid.meta.changes)throw new Error('코인이 부족합니다.');
-      charged=true;
-      const before=await env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,SUPPLY_BOX_CODE).first(),balance=Number(before?.quantity||0)+count,newCoin=Number(user.coin||0)-totalCost;
-      const response={ok:true,itemCode:SUPPLY_BOX_CODE,count,balance,spent:totalCost,coin:newCoin,requestId,shopPrice:pricing.shopPrice,originalShopPrice:pricing.originalShopPrice,promotionDiscountPercent:pricing.promotionDiscountPercent,promotionMode:pricing.promotionMode};
       await env.DB.batch([
-        env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,SUPPLY_BOX_CODE,count,count),
-        env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,'SUPPLY_SHOP',?)").bind(user.id,SUPPLY_BOX_CODE,count,balance,'장비 보급상자 구매',requestId),
-        env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id)
+        env.DB.prepare(`INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status)
+          SELECT ?,?,?,'PENDING'
+          WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)
+            AND COALESCE((SELECT CASE WHEN json_valid(value) THEN CAST(json_extract(value,'$.shopPrice') AS INTEGER) END FROM app_meta WHERE key='equipment_supply_box_settings_v1247'),?)=?`).bind(requestId,user.id,`${SUPPLY_BOX_CODE}_PURCHASE`,user.id,totalCost,DEFAULT_SUPPLY_BOX_SETTINGS.shopPrice,pricing.originalShopPrice),
+        env.DB.prepare(`UPDATE users SET coin=coin-? WHERE id=? AND coin>=?
+          AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(totalCost,user.id,totalCost,requestId,user.id),
+        env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+          SELECT ?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
+          WHERE EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')
+          ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,SUPPLY_BOX_CODE,count,count,requestId,user.id),
+        env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+          SELECT ?,?,?,quantity,?,'SUPPLY_SHOP',? FROM cnine_user_inventory
+          WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(user.id,SUPPLY_BOX_CODE,count,'장비 보급상자 구매',requestId,user.id,SUPPLY_BOX_CODE,requestId,user.id),
+        env.DB.prepare(`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=json_object(
+          'ok',json('true'),'itemCode',?,'count',?,'balance',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),
+          'spent',?,'coin',COALESCE((SELECT coin FROM users WHERE id=?),0),'requestId',?,'shopPrice',?,'originalShopPrice',?,
+          'promotionDiscountPercent',?,'promotionMode',?),updated_at=CURRENT_TIMESTAMP
+          WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(SUPPLY_BOX_CODE,count,user.id,SUPPLY_BOX_CODE,totalCost,user.id,requestId,pricing.shopPrice,pricing.originalShopPrice,pricing.promotionDiscountPercent,pricing.promotionMode,requestId,user.id)
       ]);
-      return json(response);
+      const receipt=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      if(receipt?.status==='COMPLETED'&&receipt.response_json)return json(JSON.parse(receipt.response_json));
+      const [latestSettings,latestPromotion]=await Promise.all([supplyBoxSettings(env,{fresh:true}),equipmentPromotionState(env,{fresh:true})]),latestPricing=supplyShopPricing(latestSettings,latestPromotion);
+      if(latestPricing.shopPrice!==expectedUnitPrice)return json({error:'장비 보급상자 가격이 변경되었습니다. 새 가격을 확인한 뒤 다시 주문해 주세요.',code:'PRICE_CHANGED',expectedUnitPrice,currentUnitPrice:latestPricing.shopPrice},409);
+      return json({error:'코인이 부족합니다.'},400);
     }catch(error){
-      if(charged)await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(totalCost,user.id).run();
-      await env.DB.prepare("UPDATE inventory_use_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(cleanText(error.message,300),requestId,user.id).run();
-      return json({error:error.message||'보급상자 구매에 실패했습니다.'},error.message==='코인이 부족합니다.'?400:500);
+      return json({error:error.message||'보급상자 구매에 실패했습니다.'},500);
     }
   }
   if(path==='equipment/supply-box/open'&&request.method==='POST'){
@@ -696,20 +709,14 @@ export async function handleEquipment({path,request,env,deps}){
     if(!settings.enabled)return json({error:'현재 장비 보급상자를 개방할 수 없습니다.'},403);
     const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
     if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
-    if(prior)return json({error:'같은 개방 요청을 처리 중이거나 이미 종료했습니다.'},409);
-    const receipt=await env.DB.prepare("INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status) VALUES(?,?,?,'PENDING')").bind(requestId,user.id,SUPPLY_BOX_CODE).run();
-    if(!receipt.meta.changes)return json({error:'같은 개방 요청을 처리 중입니다.'},409);
-    let consumed=false;
+    if(prior)return json({error:'이전 개방 요청의 서버 반영 여부를 복구 확인해야 합니다.',code:'PENDING_RECOVERY_REQUIRED',requestId},409);
     try{
-      const used=await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>=?').bind(count,count,user.id,SUPPLY_BOX_CODE,count).run();
-      if(!used.meta.changes)throw new Error(`보급상자가 ${count}개 이상 필요합니다.`);
-      consumed=true;
-      const [pool,userRow,remainingRow,ownedRows]=await Promise.all([
+      const [pool,stockRow,ownedRows]=await Promise.all([
         env.DB.prepare('SELECT * FROM character_equipment_items WHERE is_active=1 AND is_public=1 AND supply_enabled=1 AND supply_weight>0 ORDER BY sort_order,id').all(),
-        env.DB.prepare('SELECT coin,card_shards FROM users WHERE id=?').bind(user.id).first(),
         env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(user.id,SUPPLY_BOX_CODE).first(),
         env.DB.prepare('SELECT DISTINCT equipment_id FROM user_equipment_instances WHERE user_id=?').bind(user.id).all()
       ]);
+      if(Number(stockRow?.quantity||0)<count)return json({error:`보급상자가 ${count}개 이상 필요합니다.`},400);
       const ownedEquipmentIds=new Set((ownedRows.results||[]).map(row=>Number(row.equipment_id)));
       const availableEquipment=[...(pool.results||[])];
       const results=[],equipmentRewards=[];let coinGained=0,shardGained=0;
@@ -730,23 +737,42 @@ export async function handleEquipment({path,request,env,deps}){
         }else if(roll<shardLimit){const amount=deterministicInt(`${requestId}:SHARD:${index}`,settings.shards.min,settings.shards.max);shardGained+=amount;results.push({type:'SHARDS',amount});}
         else{const amount=deterministicInt(`${requestId}:COIN:${index}`,settings.coins.min,settings.coins.max);coinGained+=amount;results.push({type:'COINS',amount});}
       }
-      const remaining=Number(remainingRow?.quantity||0),newCoin=Number(userRow?.coin||0)+coinGained,newShards=Number(userRow?.card_shards||0)+shardGained;
-      const response={ok:true,itemCode:SUPPLY_BOX_CODE,count,remaining,results,coinGained,shardGained,coin:newCoin,cardShards:newShards,requestId};
-      const statements=[];
-      if(coinGained||shardGained)statements.push(env.DB.prepare('UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?').bind(coinGained,shardGained,user.id));
-      for(let offset=0;offset<equipmentRewards.length;offset+=20){
-        const chunk=equipmentRewards.slice(offset,offset+20),values=chunk.map(()=>'(?,?,?,?,?)').join(','),bindings=[];
-        for(const reward of chunk)bindings.push(user.id,reward.item.id,'SUPPLY_BOX',requestId,`SUPPLY:${requestId}:${reward.index}`);
-        statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) VALUES ${values}`).bind(...bindings));
+      const response={ok:true,itemCode:SUPPLY_BOX_CODE,count,remaining:0,results,coinGained,shardGained,coin:0,cardShards:0,requestId};
+      const statements=[
+        env.DB.prepare(`INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status)
+          SELECT ?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND quantity>=?)`).bind(requestId,user.id,SUPPLY_BOX_CODE,user.id,SUPPLY_BOX_CODE,count),
+        env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP
+          WHERE user_id=? AND item_code=? AND quantity>=?
+            AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(count,count,user.id,SUPPLY_BOX_CODE,count,requestId,user.id),
+        env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?
+          AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(coinGained,shardGained,user.id,requestId,user.id)
+      ];
+      for(let offset=0;offset<equipmentRewards.length;offset+=12){
+        const chunk=equipmentRewards.slice(offset,offset+12),bindings=[requestId,user.id];
+        const selects=chunk.map(reward=>{
+          bindings.push(user.id,reward.item.id,'SUPPLY_BOX',requestId,`SUPPLY:${requestId}:${reward.index}`);
+          return 'SELECT ?,?,?,?,? FROM receipt_guard';
+        }).join(' UNION ALL ');
+        statements.push(env.DB.prepare(`WITH receipt_guard AS (
+          SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING'
+        ) INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) ${selects}`).bind(...bindings));
       }
-      statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,'SUPPLY_OPEN',?)").bind(user.id,SUPPLY_BOX_CODE,-count,remaining,'장비 보급상자 개방',requestId));
-      statements.push(env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id));
+      statements.push(
+        env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+          SELECT ?,?,-?,quantity,?,'SUPPLY_OPEN',? FROM cnine_user_inventory
+          WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(user.id,SUPPLY_BOX_CODE,count,'장비 보급상자 개방',requestId,user.id,SUPPLY_BOX_CODE,requestId,user.id),
+        env.DB.prepare(`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=json_set(?,
+          '$.remaining',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),
+          '$.coin',COALESCE((SELECT coin FROM users WHERE id=?),0),
+          '$.cardShards',COALESCE((SELECT card_shards FROM users WHERE id=?),0)),updated_at=CURRENT_TIMESTAMP
+          WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(response),user.id,SUPPLY_BOX_CODE,user.id,user.id,requestId,user.id)
+      );
       await env.DB.batch(statements);
-      return json(response);
+      const receipt=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
+      if(receipt?.status==='COMPLETED'&&receipt.response_json)return json(JSON.parse(receipt.response_json));
+      return json({error:`보급상자가 ${count}개 이상 필요합니다.`},400);
     }catch(error){
-      if(consumed)await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=?').bind(count,user.id,SUPPLY_BOX_CODE).run();
-      await env.DB.prepare("UPDATE inventory_use_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(cleanText(error.message,300),requestId,user.id).run();
-      return json({error:error.message||'보급상자 개방에 실패했습니다.'},String(error.message||'').includes('필요합니다')?400:500);
+      return json({error:error.message||'보급상자 개방에 실패했습니다.'},500);
     }
   }
 

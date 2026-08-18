@@ -1,0 +1,529 @@
+/* Soopketmon V21 — equipment / vehicle bulk order controller */
+.v21-draw-purchase-control {
+  --draw-accent: #6fe7f2;
+  --draw-accent-soft: rgba(111, 231, 242, .14);
+  box-sizing: border-box;
+  width: 100%;
+  margin: 14px 0 12px;
+  padding: 16px;
+  border: 1px solid rgba(130, 151, 163, .26);
+  background:
+    linear-gradient(135deg, rgba(111, 231, 242, .075), transparent 42%),
+    rgba(9, 15, 20, .93);
+  color: #edf7fa;
+  font: 500 14px/1.45 Inter, Pretendard, "Noto Sans KR", sans-serif;
+  box-shadow: inset 3px 0 0 var(--draw-accent), 0 14px 35px rgba(0, 0, 0, .18);
+}
+
+[data-v21-draw-purchase="vehicle"] {
+  --draw-accent: #a8edc6;
+  --draw-accent-soft: rgba(168, 237, 198, .13);
+}
+
+.v21-draw-purchase-control,
+.v21-draw-purchase-control * {
+  box-sizing: border-box;
+}
+
+.v21-draw-purchase-head,
+.v21-draw-purchase-entry,
+.v21-draw-auto-toggle,
+.v21-draw-dock-head,
+.v21-draw-dock-values {
+  display: flex;
+  align-items: center;
+}
+
+.v21-draw-purchase-head {
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.v21-draw-purchase-head span {
+  display: grid;
+  gap: 2px;
+}
+
+.v21-draw-purchase-head small,
+.v21-draw-dock-head span,
+.v21-draw-result-panel header > small {
+  color: var(--draw-accent, #6fe7f2);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .15em;
+}
+
+.v21-draw-purchase-head b {
+  font-size: 16px;
+  letter-spacing: -.02em;
+}
+
+.v21-draw-purchase-head em {
+  color: #95a5ad;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.v21-draw-purchase-entry {
+  min-height: 50px;
+  border: 1px solid rgba(164, 186, 198, .28);
+  background: #070c10;
+}
+
+.v21-draw-purchase-entry > button {
+  flex: 0 0 50px;
+  width: 50px;
+  min-height: 50px;
+  border: 0;
+  background: rgba(255, 255, 255, .035);
+  color: #c7d3d9;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.v21-draw-purchase-entry > button:hover,
+.v21-draw-purchase-entry > button:focus-visible {
+  color: #081014;
+  background: var(--draw-accent);
+  outline: none;
+}
+
+.v21-draw-purchase-entry label {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: baseline;
+  justify-content: center;
+  min-width: 0;
+  border-inline: 1px solid rgba(164, 186, 198, .2);
+}
+
+.v21-draw-purchase-entry input {
+  width: min(12ch, 78%);
+  min-height: 50px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #f4fbfd;
+  font: 800 clamp(19px, 2.2vw, 26px)/1 Inter, Pretendard, sans-serif;
+  text-align: right;
+  appearance: textfield;
+}
+
+.v21-draw-purchase-entry input::-webkit-inner-spin-button,
+.v21-draw-purchase-entry input::-webkit-outer-spin-button {
+  appearance: none;
+}
+
+.v21-draw-purchase-entry label span {
+  padding-left: 7px;
+  color: #90a1aa;
+}
+
+.v21-draw-purchase-quick {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.v21-draw-purchase-quick button {
+  min-height: 44px;
+  padding: 0 5px;
+  border: 1px solid rgba(164, 186, 198, .19);
+  background: rgba(255, 255, 255, .025);
+  color: #9daeb6;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.v21-draw-purchase-quick button:hover,
+.v21-draw-purchase-quick button.active {
+  border-color: var(--draw-accent);
+  color: var(--draw-accent);
+  background: var(--draw-accent-soft);
+}
+
+.v21-draw-auto-toggle {
+  position: relative;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 0 11px;
+  margin-top: 11px;
+  padding: 11px 12px;
+  border: 1px solid rgba(164, 186, 198, .16);
+  background: rgba(255, 255, 255, .025);
+  cursor: pointer;
+}
+
+.v21-draw-auto-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.v21-draw-auto-toggle > span {
+  grid-row: 1 / 3;
+  align-self: center;
+  width: 42px;
+  height: 24px;
+  padding: 3px;
+  border: 1px solid #53626a;
+  border-radius: 20px;
+  background: #131c21;
+}
+
+.v21-draw-auto-toggle > span i {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #8b999f;
+  transition: transform .16s ease, background .16s ease;
+}
+
+.v21-draw-auto-toggle input:checked + span {
+  border-color: var(--draw-accent);
+}
+
+.v21-draw-auto-toggle input:checked + span i {
+  transform: translateX(18px);
+  background: var(--draw-accent);
+}
+
+.v21-draw-auto-toggle input:focus-visible + span {
+  outline: 2px solid var(--draw-accent);
+  outline-offset: 2px;
+}
+
+.v21-draw-auto-toggle b {
+  color: #e5eff3;
+  font-size: 13px;
+}
+
+.v21-draw-auto-toggle small {
+  color: #7f919a;
+  font-size: 11px;
+}
+
+.v21-draw-purchase-submit {
+  display: flex;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 9px;
+  padding: 0 14px;
+  border: 1px solid var(--draw-accent);
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  background: linear-gradient(100deg, var(--draw-accent-soft), rgba(8, 15, 19, .94) 55%);
+  color: #ecf9fa;
+  font: inherit;
+  cursor: pointer;
+}
+
+.v21-draw-purchase-submit:hover,
+.v21-draw-purchase-submit:focus-visible {
+  background: var(--draw-accent);
+  color: #071013;
+  outline: none;
+}
+
+.v21-draw-purchase-submit b {
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.v21-draw-purchase-control[data-busy="true"] {
+  opacity: .68;
+}
+
+.v21-draw-purchase-control button:disabled,
+.v21-draw-purchase-control input:disabled {
+  cursor: wait;
+}
+
+[data-v21-draw-inline-status] {
+  margin: 9px 0 0;
+  padding: 8px 10px;
+  color: #a4b6bd;
+  background: rgba(255, 255, 255, .035);
+  font-size: 12px;
+}
+
+[data-v21-draw-inline-status][data-state="error"] {
+  color: #ffc8bf;
+  border-left: 2px solid #ff7966;
+}
+
+.v21-draw-purchase-dock {
+  --draw-accent: #6fe7f2;
+  position: fixed;
+  z-index: 10040;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  width: min(390px, calc(100vw - 32px));
+  padding: 15px;
+  border: 1px solid rgba(111, 231, 242, .52);
+  background: #060b0f;
+  color: #ecf7fa;
+  box-shadow: 0 20px 65px rgba(0, 0, 0, .55), inset 3px 0 var(--draw-accent);
+  font: 500 13px/1.45 Inter, Pretendard, "Noto Sans KR", sans-serif;
+}
+
+.v21-draw-purchase-dock[data-kind="vehicle"] { --draw-accent: #a8edc6; }
+.v21-draw-purchase-dock[data-paused="true"] { border-style: dashed; }
+
+.v21-draw-dock-head {
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.v21-draw-dock-head span i {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-right: 5px;
+  border-radius: 50%;
+  background: var(--draw-accent);
+}
+
+.v21-draw-dock-progress {
+  height: 4px;
+  margin: 12px 0 9px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, .1);
+}
+
+.v21-draw-dock-progress span {
+  display: block;
+  height: 100%;
+  background: var(--draw-accent);
+  transition: width .2s linear;
+}
+
+.v21-draw-dock-values {
+  flex-wrap: wrap;
+  gap: 3px 12px;
+}
+
+.v21-draw-dock-values strong { font-size: 12px; }
+.v21-draw-dock-values small { flex-basis: 100%; color: #84979f; }
+
+.v21-draw-purchase-dock button {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 10px;
+  border: 1px solid rgba(255, 255, 255, .18);
+  background: rgba(255, 255, 255, .045);
+  color: #d9e5e8;
+  font: inherit;
+  cursor: pointer;
+}
+
+.v21-draw-flow-modal {
+  z-index: 10050;
+  display: grid !important;
+  place-items: center;
+  padding: 18px;
+  background: rgba(1, 5, 8, .96);
+}
+
+.v21-draw-confirm-overlay {
+  position: fixed;
+  z-index: 10060;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(1, 5, 8, .97);
+}
+
+.v21-draw-confirm-panel {
+  --draw-accent: #6fe7f2;
+  width: min(520px, 100%);
+  padding: clamp(20px, 4vw, 34px);
+  border: 1px solid rgba(111, 231, 242, .42);
+  background: linear-gradient(145deg, rgba(111, 231, 242, .08), transparent 37%), #081015;
+  color: #edf7f9;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, .7), inset 4px 0 var(--draw-accent);
+  font-family: Inter, Pretendard, "Noto Sans KR", sans-serif;
+}
+
+.v21-draw-confirm-panel[data-kind="vehicle"] { --draw-accent: #a8edc6; }
+.v21-draw-confirm-panel header small { color: var(--draw-accent); font-size: 10px; font-weight: 800; letter-spacing: .15em; }
+.v21-draw-confirm-panel h2 { margin: 5px 0 6px; font-size: clamp(23px, 5vw, 33px); letter-spacing: -.04em; }
+.v21-draw-confirm-panel header p { margin: 0; color: #8da0a8; }
+
+.v21-draw-confirm-panel dl {
+  margin: 18px 0;
+  border-top: 1px solid rgba(156, 179, 190, .17);
+}
+
+.v21-draw-confirm-panel dl div {
+  display: flex;
+  min-height: 42px;
+  padding: 8px 2px;
+  border-bottom: 1px solid rgba(156, 179, 190, .13);
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.v21-draw-confirm-panel dt { color: #84969e; font-size: 12px; }
+.v21-draw-confirm-panel dd { margin: 0; color: #edf7f9; font-size: 13px; font-weight: 750; text-align: right; }
+
+.v21-draw-confirm-actions {
+  display: grid;
+  grid-template-columns: .72fr 1.28fr;
+  gap: 8px;
+}
+
+.v21-draw-confirm-actions button {
+  min-height: 48px;
+  border: 1px solid rgba(164, 186, 198, .24);
+  background: rgba(255, 255, 255, .035);
+  color: #b7c5cb;
+  font: 750 13px/1 Inter, Pretendard, sans-serif;
+  cursor: pointer;
+}
+
+.v21-draw-confirm-actions [data-v21-confirm-start] {
+  border-color: var(--draw-accent);
+  background: var(--draw-accent);
+  color: #061014;
+}
+
+.v21-draw-confirm-actions button:focus-visible {
+  outline: 2px solid var(--draw-accent);
+  outline-offset: 2px;
+}
+
+.v21-draw-result-panel {
+  --draw-accent: #6fe7f2;
+  width: min(620px, 100%);
+  max-height: min(760px, calc(100dvh - 36px));
+  overflow: auto;
+  padding: clamp(20px, 4vw, 38px);
+  border: 1px solid rgba(111, 231, 242, .42);
+  background: linear-gradient(145deg, rgba(111, 231, 242, .08), transparent 34%), #081015;
+  color: #edf7f9;
+  box-shadow: 0 30px 100px rgba(0, 0, 0, .66), inset 4px 0 var(--draw-accent);
+  font-family: Inter, Pretendard, "Noto Sans KR", sans-serif;
+}
+
+.v21-draw-result-panel[data-kind="vehicle"] { --draw-accent: #a8edc6; }
+.v21-draw-result-panel[data-state="partial"] { --draw-accent: #ffac72; }
+
+.v21-draw-result-panel h2 {
+  margin: 5px 0 8px;
+  font-size: clamp(24px, 5vw, 37px);
+  letter-spacing: -.04em;
+}
+
+.v21-draw-result-panel header p { margin: 0; color: #91a2aa; line-height: 1.65; }
+
+.v21-draw-result-error {
+  margin-top: 15px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--draw-accent);
+  background: rgba(255, 255, 255, .04);
+  color: #ffd2c7;
+}
+
+.v21-draw-result-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 7px;
+  margin-top: 18px;
+}
+
+.v21-draw-result-stats span,
+.v21-draw-result-featured span {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+  padding: 11px;
+  border: 1px solid rgba(150, 174, 185, .17);
+  background: rgba(255, 255, 255, .025);
+}
+
+.v21-draw-result-stats small,
+.v21-draw-result-featured small { color: #7f929a; font-size: 10px; }
+.v21-draw-result-stats b { font-size: 17px; }
+
+.v21-draw-result-featured {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.v21-draw-result-featured b {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.v21-draw-result-panel > button {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 18px;
+  border: 1px solid var(--draw-accent);
+  background: var(--draw-accent);
+  color: #061014;
+  font: 800 14px/1 Inter, Pretendard, sans-serif;
+  cursor: pointer;
+}
+
+/* The enhanced controller replaces the legacy 1/10/100 controls. Author
+   button display rules must not override the native hidden attribute. */
+[data-v21-purchase-enhanced] .equipment-supply-actions > button[aria-hidden="true"],
+[data-v21-purchase-enhanced] .equipment-supply-actions > button[hidden],
+[data-v21-purchase-enhanced] .equipment-supply-actions > small {
+  display:none !important;
+}
+
+@media (max-width: 820px) {
+  .v21-draw-purchase-control { padding: 14px; }
+  .v21-draw-purchase-quick { grid-template-columns: repeat(3, 1fr); }
+  .v21-draw-purchase-quick button:nth-child(n + 4) { min-height: 44px; }
+}
+
+@media (min-width: 521px) and (max-width: 820px) {
+  .v21-card-store .equipment-supply-actions .v21-draw-purchase-control {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(250px,.86fr);
+    gap:9px 14px;
+    align-items:stretch;
+  }
+  .v21-card-store .v21-draw-purchase-head,
+  .v21-card-store .v21-draw-inline-status { grid-column:1 / -1; }
+  .v21-card-store .v21-draw-purchase-entry { grid-column:1; grid-row:2; }
+  .v21-card-store .v21-draw-purchase-quick { grid-column:1; grid-row:3; }
+  .v21-card-store .v21-draw-auto-toggle { grid-column:2; grid-row:2; }
+  .v21-card-store .v21-draw-purchase-submit { grid-column:2; grid-row:3; margin-top:7px; }
+}
+
+@media (max-width: 430px) {
+  .v21-draw-purchase-head { align-items: flex-start; }
+  .v21-draw-purchase-head em { max-width: 90px; text-align: right; }
+  .v21-draw-purchase-entry > button { flex-basis: 46px; width: 46px; }
+  .v21-draw-purchase-quick { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .v21-draw-purchase-quick button { padding: 0 2px; font-size: 10px; }
+  .v21-draw-auto-toggle { grid-template-columns: 42px 1fr; }
+  .v21-draw-purchase-submit { align-items: flex-start; flex-direction: column; justify-content: center; gap: 1px; }
+  .v21-draw-result-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v21-draw-purchase-control *,
+  .v21-draw-purchase-dock *,
+  .v21-draw-result-panel * {
+    animation: none !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
