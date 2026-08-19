@@ -2051,11 +2051,11 @@ async function ensureUpgrades(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1023_inventory','1',CURRENT_TIMESTAMP)")
       ]);
     }
-    const starlightArmorCoreDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1749_starlight_armor_core'").first();
+    const starlightArmorCoreDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1750_mystic_energy_name'").first();
     if(starlightArmorCoreDone?.value!=='1'){
       await env.DB.batch([
-        env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('STARLIGHT_ARMOR_CORE','성휘 갑주핵','STELLAR ARMOR CORE','성휘 장비 제작에 투입되는 고밀도 결정핵입니다. 직접 사용할 수 없는 제작 재료입니다.','MATERIAL','MYTHIC','assets/items/starlight-armor-core-v1749.png',174900,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
-        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1749_starlight_armor_core','1',CURRENT_TIMESTAMP)")
+        env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('STARLIGHT_ARMOR_CORE','미스틱 에너지','MYSTIC ENERGY','미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.','MATERIAL','MYTHIC','assets/items/starlight-armor-core-v1749.png',174900,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1750_mystic_energy_name','1',CURRENT_TIMESTAMP)")
       ]);
     }
     const inventoryReceiptCleanupDone=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1739_inventory_receipt_cleanup'").first();
