@@ -376,7 +376,6 @@
           if (modal) {
             modal.__projectVBattleVisibility = createVisibilityController(modal);
             modal.__projectVBattleImageObserver = observeBattleImages(modal);
-            await modal.__projectVBattleVisibility.waitUntilRunning();
           }
           return original.call(this, adapted);
         };

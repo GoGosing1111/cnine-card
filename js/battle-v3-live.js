@@ -4,8 +4,6 @@
   const root = window;
   const VERSION = '3.4.0-card-cutin-1-3x';
   const PLAYBACK_SPEED = 1.3;
-  // Keep the Pixi application alive between battles; only the payload changes.
-  const pixiSession = { mounted: false, canvas: null, host: null };
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(message)), Math.max(50, Number(ms || 0)));
@@ -151,7 +149,7 @@
     };
     const revealBattle = () => modal?.classList.remove('battle-v3-preparing');
     const assertFirstFrame = () => {
-      const canvas = pixiSession.canvas || host.querySelector('canvas');
+      const canvas = host.querySelector('canvas');
       if (!canvas || canvas.width < 2 || canvas.height < 2) throw new Error('V3 첫 프레임이 생성되지 않았습니다.');
       const context = canvas.getContext('webgl2') || canvas.getContext('webgl');
       if (!context || context.isContextLost?.()) throw new Error('WebGL 컨텍스트를 사용할 수 없습니다.');
@@ -159,13 +157,10 @@
     const init = async () => {
       const initialize = async () => {
         if (phase) phase.textContent = 'V3 RENDERER';
-        const sessionContext = pixiSession.canvas?.getContext('webgl2') || pixiSession.canvas?.getContext('webgl');
-        const canReuse = pixiSession.mounted && pixiSession.canvas && !sessionContext?.isContextLost?.();
-        if (canReuse) {
-          if (pixiSession.canvas.parentElement !== host) host.appendChild(pixiSession.canvas);
-          if (typeof root.ProjectVPixiBattle.resetSession === 'function') await root.ProjectVPixiBattle.resetSession(payload);
-          else await root.ProjectVPixiBattle.setBattlePayload(payload);
-        } else if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
+        // Each battle owns its host/canvas lifetime. Reusing a detached canvas
+        // can leave Pixi bound to the previous modal on the next battle.
+        try { root.ProjectVPixiBattle.destroy(); } catch {}
+        if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
           await root.ProjectVPixiBattle.mountForBattle(payload, host);
         } else {
           await root.ProjectVPixiBattle.mount(host);
@@ -174,9 +169,6 @@
         }
         await root.ProjectVPixiBattle.setBattlefield(mode);
         await root.ProjectVPixiBattle.setVisible(true);
-        pixiSession.canvas = host.querySelector('canvas') || pixiSession.canvas;
-        pixiSession.host = host;
-        pixiSession.mounted = Boolean(pixiSession.canvas);
         assertFirstFrame();
         stage.classList.add('is-v3-ready');
         revealBattle();
@@ -190,8 +182,8 @@
           return;
         } catch (error) {
           lastError = error;
-          // A payload retry must not discard a still-valid WebGL context.
-          try { await root.ProjectVPixiBattle.setVisible(false); } catch {}
+          try { root.ProjectVPixiBattle.destroy(); } catch {}
+          host.querySelectorAll('canvas').forEach(canvas => canvas.remove());
           if (attempt === 0) {
             if (phase) phase.textContent = 'V3 RENDER RETRY';
             if (status) status.textContent = 'WebGL 전장을 즉시 다시 구성하고 있습니다.';
@@ -264,9 +256,7 @@
       destroy() {
         if (destroyed) return;
         destroyed = true;
-        root.ProjectVPixiBattle.setVisible(false).catch?.(() => {});
-        // End the battle without destroying the shared WebGL context/canvas.
-        root.ProjectVPixiBattle.resetSession?.().catch?.(() => {});
+        try { root.ProjectVPixiBattle.destroy(); } catch {}
       }
     };
   }

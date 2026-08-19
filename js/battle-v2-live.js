@@ -4,7 +4,6 @@
   const PLAYBACK_SPEED = 1.3;
   // Static GPU resources are scoped to a context, so cache them per context.
   const MAGIC_WEBGL_CACHE = new WeakMap();
-  let magicWebGLCanvas = null;
   const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
   const MOBILE_LOW_FX = matchMedia('(max-width: 800px), (pointer: coarse)').matches;
   const MAGIC_EFFECT_RESOURCES = Object.freeze({
@@ -275,10 +274,6 @@
 
     function startMagicWebGL(canvas,targetNode,kind,effectType){
       if(!canvas||MOBILE_LOW_FX)return()=>{};
-      // The effect overlay is recreated every turn, but its GPU canvas is not.
-      // Moving the retained canvas keeps the same context and cache alive.
-      if(!magicWebGLCanvas) magicWebGLCanvas=canvas;
-      else if(canvas!==magicWebGLCanvas){canvas.replaceWith(magicWebGLCanvas);canvas=magicWebGLCanvas;}
       const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true});if(!gl)return()=>{};
       const palette={attack:[.72,.22,1],defense:[.2,.82,1],hp:[.22,1,.58],speed:[1,.82,.2]},modes={OPENING_ATTACK:0,GUARD_BARRIER:1,LIFE_AMPLIFY:2,CRISIS_HEAL:3,PUNISH_TRAP:4,ARCANE_COUNTER:5,FOLLOWUP_HASTE:6,ARCANE_SEAL:4,DOOM_MARK:0,SHIELD_SIPHON:5,TIME_DISTORTION:6,PHOENIX_REVIVE:2,PURIFY_LIGHT:3,CHAIN_ECHO:0},color=palette[kind]||palette.attack,mode=modes[String(effectType||'').toUpperCase()]??0,started=performance.now();let frame=0,dead=false;
       let resources=MAGIC_WEBGL_CACHE.get(gl);

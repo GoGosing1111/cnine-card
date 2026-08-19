@@ -567,7 +567,37 @@ function ensureFeatureResources(key){
   featureResourcePromises.set(key,request);return request;
 }
 function featureKeyForTab(tab){return tab==='character'?'character':tab==='workshop'?'workshop':tab==='dex'?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
-function warmFeatureForTab(tab){const key=featureKeyForTab(tab);if(!key)return;ensureFeatureResources(key).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error))}
+const BATTLE_PREWARMED_IMAGES = new Set();
+function prewarmBattleImage(url){
+  const source=String(url||'').trim();
+  if(!source||BATTLE_PREWARMED_IMAGES.has(source))return;
+  BATTLE_PREWARMED_IMAGES.add(source);
+  const image=new Image();
+  image.decoding='async';
+  image.src=source;
+}
+async function warmBattleArtAssets(){
+  const adapters=[window.ProjectVBattleArt,window.ProjectVMonsterBattleArt,window.ProjectVTierBattleArt].filter(Boolean);
+  await Promise.all(adapters.map(adapter=>Promise.resolve(adapter.ready?.()).catch(error=>console.warn('전투 아트 매니페스트 사전 로딩 실패:',error))));
+  const selectedMonster=(battleState.monsters||[]).find(monster=>Number(monster.id)===Number(battleState.selectedMonster));
+  const deck=(battleState.deck||[]).map(id=>cards.find(card=>String(card.id)===String(id))).filter(Boolean);
+  for(const card of deck){
+    const battleCard={...card,cardId:card.cardId||card.id};
+    const art=window.ProjectVBattleArt?.resolveForBattle?.(battleCard)||window.ProjectVTierBattleArt?.resolveForV3?.(battleCard);
+    prewarmBattleImage(art?.primaryUrl||card.imageBattle||card.battleImage||card.imageUrl||card.image_url||card.image);
+  }
+  if(selectedMonster){
+    const art=window.ProjectVMonsterBattleArt?.resolveForV3?.(selectedMonster,{mode:selectedMonster.mode||'HUNT'});
+    prewarmBattleImage(art?.primaryUrl||selectedMonster.imageBattle||selectedMonster.battleImage||selectedMonster.image);
+  }
+  prewarmBattleImage('/assets/effects/SKILL-v1497.webp');
+}
+function warmFeatureForTab(tab){
+  const key=featureKeyForTab(tab);if(!key)return;
+  const resources=ensureFeatureResources(key);
+  if(key==='battleV2')resources.then(()=>warmBattleArtAssets()).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
+  else resources.catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
+}
 function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':tab==='character'?'장비·칭호':tab==='workshop'?'제작소':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
 function featureRouteErrorHtml(tab,message){return `<section class="route-feature-loader is-error"><b>${escapeHtml(message||'화면을 불러오지 못했습니다.')}</b><button type="button" class="btn" data-feature-retry="${escapeHtml(tab)}">다시 시도</button></section>`}
 window.ensureFeatureResources=ensureFeatureResources;
@@ -950,6 +980,15 @@ let battleViewLoadSeq=0,battleViewRetryTimer=null;
 
 function stopBattleEnergyTimer(){if(battleState.energyTimer){clearInterval(battleState.energyTimer);battleState.energyTimer=null}}
 function battleEnergyText(ms){const sec=Math.max(0,Math.ceil(ms/1000)),m=Math.floor(sec/60),s=sec%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
+function requestPveFight(payload,config={}){
+  // A fast repeat click or a stale auto-battle timer must not create a second
+  // authoritative fight while the prior request is still settling.
+  if(battleState.fightRequest)return battleState.fightRequest;
+  const request=apiRequest('battle/fight',{method:'POST',body:JSON.stringify(payload)},config);
+  const settled=request.finally(()=>{if(battleState.fightRequest===settled)battleState.fightRequest=null});
+  battleState.fightRequest=settled;
+  return settled;
+}
 function renderBattleEnergy(){const e=battleState.energy,count=document.getElementById('battleEnergyCount'),fill=document.getElementById('battleEnergyFill'),timer=document.getElementById('battleEnergyTimer');if(!e||!count)return;count.textContent=e.unlimited?'∞ 무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent='무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent='충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+battleState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`다음 충전 ${battleEnergyText(remain)}`;}else timer.textContent='충전 대기';}const start=document.getElementById('battleStart');if(start){const noEnergy=!e.unlimited&&e.energy<e.costPerBattle,autoChecked=document.getElementById('battleAuto')?.checked;start.disabled=battleState.deck.length!==5||!battleState.selectedMonster||noEnergy;start.textContent=noEnergy?'전투 횟수 부족':autoChecked?'남은 횟수 자동전투':'전투 시작';}}
 function startBattleEnergyTimer(){stopBattleEnergyTimer();renderBattleEnergy();battleState.energyTimer=setInterval(()=>{if(!document.getElementById('battleEnergyCount'))return stopBattleEnergyTimer();const e=battleState.energy;if(e&&!e.unlimited&&e.nextRechargeAt&&Date.parse(e.nextRechargeAt)<=(Date.now()+battleState.serverOffset)){loadBattleEnergyOnly();return}renderBattleEnergy()},1000)}
 async function loadBattleEnergyOnly(){try{const d=await apiRequest('battle/config',{}, {ttl:0});battleState.energy=d.energy;battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startBattleEnergyTimer()}catch(_){renderBattleEnergy()}}
@@ -1062,6 +1101,9 @@ function setBattleReconnectStatus(message){
 }
 async function loadBattleView(){
   if(battleViewRetryTimer){clearTimeout(battleViewRetryTimer);battleViewRetryTimer=null}
+  // A fight response already contains the current energy/user state. Reuse the
+  // in-memory deck and target once when returning from that battle.
+  if(battleState.reuseBattleSnapshot&&(battleState.monsters||[]).length){battleState.reuseBattleSnapshot=false;renderBattleBuilder();startBattleEnergyTimer();return;}
   if(!API_MODE){const root=document.getElementById('battleCards');if(root)root.innerHTML='<div class="empty-recent">현재 전투 콘텐츠를 이용할 수 없습니다. 잠시 후 다시 시도해주세요.</div>';return;}
   const loadSeq=++battleViewLoadSeq,snapshotVisible=renderBattleSnapshot(),retryDelays=[0,260,680,1350];
   if(snapshotVisible)setBattleReconnectStatus('몬스터·출전 덱 최신 정보 동기화 중…');
@@ -1111,6 +1153,7 @@ function renderPveMonsterBrowser(){
 }
 
 function renderBattleBuilder(){
+  void warmBattleArtAssets().catch(error=>console.warn('전투 스프라이트 사전 로딩 실패:',error));
   const viewMode=getPveViewMode(),activeMobileTab=getMobilePveTab()||((battleState.deck?.length===5)?'monsters':'deck'),user=loadUser();
   const owned=cards.filter(card=>ownedIds(user).has(card.id)).sort((a,b)=>(gradeOrder[b.grade]||0)-(gradeOrder[a.grade]||0)||battleCardPower(b,user,battleState.config)-battleCardPower(a,user,battleState.config));
   const deckSet=new Set(battleState.deck),cardPower=battleState.deck.reduce((sum,id)=>{const card=cards.find(item=>item.id===id);return sum+(card?battleCardPower(card,user,battleState.config):0)},0),bonus=battleState.characterBonus||{},power=cardPower+Number(bonus.pve||0),isReady=battleState.deck.length===5;
@@ -1393,7 +1436,7 @@ async function startBattle(){
     // Resource loading and the deterministic server simulation are independent.
     // Start them together while the prebuilt battle shell is already visible.
     const battleResources=ensureFeatureResources('battleV2');
-    const fightRequest=apiRequest('battle/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,monsterId:battleState.selectedMonster,cardIds:battleState.deck,autoBattle:Boolean(battleState.autoRunning)})},{timeoutMs:20000});
+    const fightRequest=requestPveFight({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,monsterId:battleState.selectedMonster,cardIds:battleState.deck,autoBattle:Boolean(battleState.autoRunning)},{timeoutMs:20000});
     const [,d]=await Promise.all([battleResources,fightRequest]);
     if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready())throw new Error('전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.');
   
@@ -1405,6 +1448,7 @@ async function startBattle(){
       :window.prepareBattleV2LiveLoading({modal,mode:'PVE',playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER'});
     const stage=live.stage,phase=live.phase;msg=live.msg;ensureBattleSoundButton(stage);
     await window.playPveBattleV2Live({stage,phase,msg,modal,data:d,monster,playUltimateCinematics});
+    battleState.reuseBattleSnapshot=true;
     return;
   }
   modal.className=`modal show battle-modal${battleState.autoRunning?' auto-battle-modal':''}`;
@@ -1429,7 +1473,7 @@ async function startBattle(){
     stage.classList.add('cards-enter'); phase.textContent='TEAM DEPLOY'; await battleIntroSleep(900);
     stage.classList.add('enemy-enter'); phase.textContent=monster.isBoss?'BOSS APPEARS':'ENEMY APPEARS'; battleTone(monster.isBoss?52:105,.34,'square',.055); if(navigator.vibrate)navigator.vibrate(monster.isBoss?[100,50,150]:70); await battleIntroSleep(950);
     count.textContent='READY'; stage.classList.add('ready'); await battleIntroSleep(650); count.textContent='FIGHT'; battleTone(440,.18,'square',.075); stage.classList.add('fight'); await battleIntroSleep(520); count.textContent='';
-    const fightPromise=apiRequest('battle/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,monsterId:battleState.selectedMonster,cardIds:battleState.deck,autoBattle:Boolean(battleState.autoRunning)})});
+    const fightPromise=requestPveFight({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,monsterId:battleState.selectedMonster,cardIds:battleState.deck,autoBattle:Boolean(battleState.autoRunning)});
     const d=await fightPromise;
     if(Array.isArray(d.cards)&&d.cards.length===deckCards.length){deckCards=d.cards;const team=stage.querySelector('.player-side .battle-team');if(team)team.innerHTML=deckCards.map((card,index)=>battleFighterHtml(card,index)).join('');stage.classList.add('cards-enter')}
     const teamPowerLabel=stage.querySelector('.battle-hp-team small'),shownPower=Number(d.battleV2?.teams?.A?.summary?.power||d.playerPower||previewPower);if(teamPowerLabel)teamPowerLabel.textContent=`전투력 ${shownPower.toLocaleString()}`;
