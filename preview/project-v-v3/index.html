@@ -210,10 +210,11 @@
               <div class="pv-battlefield-switch" role="group" aria-label="전장 배경 선택">
                 <button class="is-active" type="button" data-battlefield="HUNT">몬스터 토벌</button>
                 <button type="button" data-battlefield="TOWER">무한의 탑</button>
+                <button type="button" data-battlefield="PVP">PVP 랭크전</button>
                 <button type="button" data-battlefield="RAID">월드 레이드</button>
                 <button type="button" data-battlefield="SIEGE">공성·봉인전</button>
               </div>
-              <div class="pv-battle-command"><button id="pvBattleAuto" type="button" class="is-active" aria-pressed="true">AUTO</button><button id="pvBattleUnique" type="button">고유효과 순차 시연</button><button class="pv-primary" id="pvBattleStart" type="button">전투 시작</button></div>
+              <div class="pv-battle-command"><button id="pvBattleAuto" type="button" class="is-active" aria-pressed="true">AUTO</button><button id="pvBattleUnique" type="button">고유효과 순차 시연</button><button id="pvBattleRetarget" type="button">타깃 전환 검증</button><button class="pv-primary" id="pvBattleStart" type="button">전투 시작</button></div>
             </div>
           </article>
 
@@ -260,6 +261,6 @@
       <div class="pv-toast" id="pvToast" role="status" aria-live="polite"></div>
     </section>
   </main>
-  <script src="project-v-client.js?v=41-multi-battlefields"></script>
+  <script src="project-v-client.js?v=42-webgl-impact-retarget"></script>
 </body>
 </html>

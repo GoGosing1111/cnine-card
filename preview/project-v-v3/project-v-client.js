@@ -33,7 +33,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=41-multi-battlefields';
+        script.src='project-v-pixi-battle.bundle.js?v=42-webgl-impact-retarget';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);
@@ -107,7 +107,7 @@
     await syncBattleRenderer(true);
     const mode=button.dataset.battlefield;
     await window.ProjectVPixiBattle?.setBattlefield(mode);
-    const labels={HUNT:'몬스터 토벌',TOWER:'무한의 탑',RAID:'월드 레이드',SIEGE:'공성·봉인전'};
+    const labels={HUNT:'몬스터 토벌',TOWER:'무한의 탑',PVP:'PVP 랭크전',RAID:'월드 레이드',SIEGE:'공성·봉인전'};
     notify(`${labels[mode]||mode} 전장으로 변경했습니다.`);
   }));
 

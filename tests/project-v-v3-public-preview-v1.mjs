@@ -22,7 +22,7 @@ const bundle = read('project-v-pixi-battle.bundle.js');
 
 assert.match(html, /project-v-command-studio-bg-v2\.png/);
 assert.doesNotMatch(html, /project-v-lobby-studio-v1|battle-art-adapter|tier-battle-art-adapter|unassigned-battle-fallback|monster-battle-art-adapter/);
-assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=41-multi-battlefields/);
+assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=42-webgl-impact-retarget/);
 
 for (const [mode, asset] of Object.entries({
   HUNT: 'v3-nightmare-forest-battlefield-v1.png',
@@ -34,6 +34,12 @@ for (const [mode, asset] of Object.entries({
   assert.match(bundle, new RegExp(asset.replaceAll('.', '\\.')));
   assert.ok(fs.statSync(path.join(root, 'assets', 'ui', 'project-v', 'battlefields', asset)).size > 0);
 }
+
+assert.match(html,/data-battlefield="PVP"/);
+assert.match(bundle,/coin-prediction\/arena-v1\.png/);
+assert.ok(fs.statSync(path.join(root,'assets','ui','coin-prediction','arena-v1.png')).size>0);
+assert.match(html,/id="pvBattleRetarget"/);
+assert.match(bundle,/assets\/fx\/slash_sheet\.json/);
 
 assert.ok(fs.statSync(path.join(preview, 'project-v-pixi-battle.bundle.js')).size > 700_000);
 assert.doesNotMatch(html, /project-v-pixi-battle\.bundle\.js/,
