@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.5.0-reentry-singleton';
+  const VERSION = '3.6.0-ultimate-duration-hud';
   const PLAYBACK_SPEED = 1.3;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message, options = {}) => new Promise(resolve => {
@@ -39,6 +39,11 @@
       playbackRate: Math.max(.5, Math.min(3, baseRate * PLAYBACK_SPEED)),
       durationMs: Math.max(320, Math.round(baseDuration / PLAYBACK_SPEED))
     };
+  };
+  const ultimateGuardMs = (ultimate, fallbackDuration = 3000) => {
+    void ultimate;
+    void fallbackDuration;
+    return 35000;
   };
 
   function battlefieldMode(mode, data = {}) {
@@ -277,7 +282,7 @@
                 const ultimate = acceleratedUltimate(payload.activatedUltimate, 3000);
                 await withTimeout(
                   root.playBattleUltimate(stage, ultimate, event.damage || payload?.ultimateDamage || payload?.bonusDamage || 0),
-                  2000,
+                  ultimateGuardMs(ultimate, 3000),
                   '유저 궁극기 연출이 지연되어 생략되었습니다.',
                   { fallback: false, onFailure: releaseBlockingLayers }
                 );
@@ -294,7 +299,7 @@
                 const ultimate = acceleratedUltimate(payload.bossUltimate, 2400);
                 await withTimeout(
                   root.playBossBattleUltimate(stage, phase, ultimate),
-                  2000,
+                  ultimateGuardMs(ultimate, 2400),
                   '보스 궁극기 연출이 지연되어 생략되었습니다.',
                   { fallback: false, onFailure: releaseBlockingLayers }
                 );
