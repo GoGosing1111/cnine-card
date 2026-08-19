@@ -1,5 +1,5 @@
-const SHELL_CACHE='soop-card-shell-v1771-media-integrity';
-const CONTENT_CACHE='soop-card-content-v2-media-integrity';
+const SHELL_CACHE='soop-card-shell-v1772-media-integrity';
+const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
 const SHELL_CORE=[
@@ -41,7 +41,11 @@ function validMediaResponse(request,response){
   if(!response?.ok)return false;
   const type=String(response.headers.get('content-type')||'').toLowerCase();
   if(type.includes('text/html'))return false;
-  if(request.destination==='image')return type.startsWith('image/');
+  if(request.destination==='image'){
+    if(type.startsWith('image/'))return true;
+    if(type.includes('application/octet-stream'))return /\.(?:avif|gif|jpe?g|jfif|png|svg|webp)$/i.test(new URL(request.url).pathname);
+    return false;
+  }
   if(request.destination==='video')return type.startsWith('video/')||type.includes('application/octet-stream');
   if(request.destination==='audio')return type.startsWith('audio/')||type.includes('application/octet-stream');
   return true;
