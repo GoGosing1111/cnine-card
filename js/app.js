@@ -685,7 +685,7 @@ function renderShell(tab) {
     if(currentNav){const template=document.createElement('template');template.innerHTML=navHtml;currentNav.replaceWith(template.content.firstElementChild)}
     replaceShellRoute(routeHtml);
   }else{
-    app.innerHTML = `<main class="page" data-cnine-shell="1"><div class="ambient-lines"></div><header class="header"><div class="brand">${responsiveLogoImage('brand-logo')}<button type="button" class="fullscreen-play-link" data-fullscreen-play aria-label="전체화면 모드" aria-pressed="false" title="전체화면 모드"><span>⛶</span><b>전체화면</b></button><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}</header><!--cnine-route-start-->${routeHtml}<!--cnine-route-end--></main><div id="modal" class="modal"></div>`;
+    app.innerHTML = `<main class="page" data-cnine-shell="1"><header class="header"><div class="brand">${responsiveLogoImage('brand-logo')}<button type="button" class="fullscreen-play-link" data-fullscreen-play aria-label="전체화면 모드" aria-pressed="false" title="전체화면 모드"><span>⛶</span><b>전체화면</b></button><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}</header><!--cnine-route-start-->${routeHtml}<!--cnine-route-end--></main><div id="modal" class="modal"></div>`;
     shellRouteStart=null;shellRouteEnd=null;locateShellRouteMarkers();
   }
   const header=document.querySelector('main.page[data-cnine-shell="1"] .header');

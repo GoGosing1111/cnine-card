@@ -66,23 +66,19 @@
   .pc-lobby-brand .v21-fullscreen-toggle{display:none}
 }
 
-/* Retired globally: the legacy diagonal two-column light treatment must not
-   reappear behind the collection, shop, or any other renewed route. */
-.game-frame[data-v21-shell] .ambient-lines,
-.game-frame[data-v21-shell] .light-pillars,
-.game-frame[data-v21-shell] .light-beams,
-.game-frame[data-soopketmon-v21-shell] .ambient-lines,
-.game-frame[data-soopketmon-v21-shell] .light-pillars,
-.game-frame[data-soopketmon-v21-shell] .light-beams,
-.game-frame[data-v21-shell] .dex-renewal-shell::before,
-.game-frame[data-soopketmon-v21-shell] .dex-renewal-shell::before {
+/* Permanently retired: the diagonal two-column light treatment is not part of
+   the renewed UI. Keep this global so route re-renders and stale markup cannot
+   make the beams visible again. */
+.ambient-lines,
+.light-pillars,
+.light-beams,
+.dex-renewal-shell::before {
   display:none!important;
   content:none!important;
   background:none!important;
   box-shadow:none!important;
 }
-.game-frame[data-v21-shell] > .world-backdrop,
-.game-frame[data-soopketmon-v21-shell] > .world-backdrop {
+body.soopketmon-v21-live .game-frame > .world-backdrop {
   background:#080c11!important;
   background-image:none!important;
   filter:none!important;

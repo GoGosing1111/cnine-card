@@ -16,11 +16,11 @@ for (const contract of [
   'inset-block-start:calc(128px + var(--safe-top))!important'
 ]) assert.ok(css.includes(contract), `missing burning status contract: ${contract}`);
 
-assert.match(adapter, /const VERSION = '21\.7\.0'/);
+assert.match(adapter, /const VERSION = '21\.7\.2'/);
 for (const root of ['tmp/approved-shell-release', 'tmp/live-v21-deploy-20260819-002']) {
   if (!existsSync(root)) continue;
   assert.equal(readFileSync(`${root}/css/soopketmon-v21-exact-luxury.css`, 'utf8'), css, `${root}: luxury css drift`);
-  assert.match(readFileSync(`${root}/js/soopketmon-v21-exact-shell-adapter.js`, 'utf8'), /const VERSION = '21\.7\.0'/);
+  assert.match(readFileSync(`${root}/js/soopketmon-v21-exact-shell-adapter.js`, 'utf8'), /const VERSION = '21\.7\.2'/);
 }
 
 console.log('v21 burning status responsive: OK');
