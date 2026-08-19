@@ -2,19 +2,24 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.5.0-ultimate-singleton';
+  const VERSION = '3.5.1-bulletproof';
   const PLAYBACK_SPEED = 1.3;
+  
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
-  const withTimeout = (promise, ms, message) => new Promise((resolve) => {
-    const timer = setTimeout(() => resolve(null), Math.max(50, Number(ms || 0)));
+  
+  // 에러를 정상적으로 던지는 타임아웃 래퍼 (무한 로딩 방지의 핵심)
+  const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(message)), Math.max(50, Number(ms || 0)));
     Promise.resolve(promise).then(
       value => { clearTimeout(timer); resolve(value); },
-      error => { clearTimeout(timer); resolve(null); }
+      error => { clearTimeout(timer); reject(error); }
     );
   });
+
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   })[char]);
+
   const nextPaint = () => new Promise(resolve => requestAnimationFrame(resolve));
 
   const acceleratedUltimate = (ultimate, fallbackDuration = 3000) => {
@@ -41,27 +46,31 @@
     if (!modal) throw new Error('V3 전투 모달을 준비하지 못했습니다.');
     const field = battlefieldMode(mode);
     modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' ? 'pvp-battle-modal' : ''}`;
-    modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
-      <header class="battle-v3-header">
-        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : '몬스터 토벌'}</strong></div>
-        <div class="battle-v3-versus"><span>${esc(playerName)}</span><i>VS</i><span>${esc(opponentName)}</span></div>
-        <b id="battlePhase">전장 연결</b>
-      </header>
-      <div class="battle-v3-canvas-host pv-pixi-battle" id="pvPixiBattle">
-        <div class="battle-v3-loader"><i></i><b>V3 WebGL 전장 구성 중</b><span>${esc(autoText || 'SD 전투 자산과 서버 타임라인을 동기화하고 있습니다.')}</span></div>
-      </div>
-      <div class="battle-v3-status pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">WebGL 전장 초기화 중</div>
-      <span id="towerBattleCountdown" hidden></span>
-      <div id="battleMessage" class="battle-message battle-v3-result"><span>V3 전투 준비 중...</span></div>
-      <div id="towerBattleMessage" class="battle-message battle-v3-result tower-v3-result" hidden><span>V3 전투 준비 중...</span></div>
-    </div>`;
+    
+    // 이중 렌더링 방지: 이미 DOM이 구성되어 있으면 덮어쓰지 않음
+    if (!modal.querySelector('.battle-v3-live-shell')) {
+        modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
+          <header class="battle-v3-header">
+            <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : '몬스터 토벌'}</strong></div>
+            <div class="battle-v3-versus"><span>${esc(playerName)}</span><i>VS</i><span>${esc(opponentName)}</span></div>
+            <b id="battlePhase">전장 연결</b>
+          </header>
+          <div class="battle-v3-canvas-host pv-pixi-battle" id="pvPixiBattle">
+            <div class="battle-v3-loader"><i></i><b>V3 WebGL 전장 구성 중</b><span>${esc(autoText || 'SD 전투 자산과 서버 타임라인을 동기화하고 있습니다.')}</span></div>
+          </div>
+          <div class="battle-v3-status pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">WebGL 전장 초기화 중</div>
+          <span id="towerBattleCountdown" hidden></span>
+          <div id="battleMessage" class="battle-message battle-v3-result"><span>V3 전투 준비 중...</span></div>
+          <div id="towerBattleMessage" class="battle-message battle-v3-result tower-v3-result" hidden><span>V3 전투 준비 중...</span></div>
+        </div>`;
+    }
     const stage = modal.querySelector('.battle-v3-live-shell');
     return {
       stage,
       phase: stage.querySelector('#battlePhase'),
       msg: stage.querySelector('#battleMessage'),
       towerMsg: stage.querySelector('#towerBattleMessage'),
-      host: stage.querySelector('#pvPixiBattle'),
+      host: stage.querySelector('#pvPixiBattle,.pv-pixi-battle'),
       mode: field
     };
   }
@@ -157,44 +166,24 @@
       removeLoader();
     };
 
-    const assertFirstFrame = () => {
-      const canvas = host.querySelector('canvas');
-      if (!canvas) return; // 캔버스가 없어도 무한 대기하지 않고 스킵
-    };
-
     const init = async () => {
       const initialize = async () => {
         if (phase) phase.textContent = 'V3 RENDERER';
 
-        // 핵심 수정: 2번째 판 무한 로딩 방지 (강력한 싱글톤 재활용 패턴)
-        if (!root.__V3_PIXI_MOUNTED) {
-            // 1번째 판: 최초 실행 시에만 엔진 마운트
-            if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
-                await root.ProjectVPixiBattle.mountForBattle(payload, host);
-            } else {
-                await root.ProjectVPixiBattle.mount(host);
-                await root.ProjectVPixiBattle.setBattlePayload(payload);
-            }
-            root.__V3_PIXI_MOUNTED = true;
-            root.__V3_PIXI_CANVAS = host.querySelector('canvas');
-        } else {
-            // 2번째 판 이후: 엔진 중복 실행 방지 & 캔버스만 새 모달로 이동
-            if (root.__V3_PIXI_CANVAS && root.__V3_PIXI_CANVAS.parentElement !== host) {
-                host.appendChild(root.__V3_PIXI_CANVAS);
-            }
-            // 상태만 초기화
-            if (typeof root.ProjectVPixiBattle.resetSession === 'function') {
-                await root.ProjectVPixiBattle.resetSession();
-            } else if (typeof root.ProjectVPixiBattle.resetState === 'function') {
-                await root.ProjectVPixiBattle.resetState();
-            }
-            await root.ProjectVPixiBattle.setBattlePayload(payload);
-        }
+        // 2번째 판 진입 시 WebGL 찌꺼기 완벽 해제
+        try { root.ProjectVPixiBattle.destroy(); } catch(e) {}
+        host.querySelectorAll('canvas').forEach(c => c.remove());
 
+        if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
+          await root.ProjectVPixiBattle.mountForBattle(payload, host);
+        } else {
+          await root.ProjectVPixiBattle.mount(host);
+          if (phase) phase.textContent = 'SERVER ASSET SYNC';
+          await root.ProjectVPixiBattle.setBattlePayload(payload);
+        }
         await root.ProjectVPixiBattle.setBattlefield(mode);
         await root.ProjectVPixiBattle.setVisible(true);
 
-        assertFirstFrame();
         stage.classList.add('is-v3-ready');
         revealBattle();
         if (phase) phase.textContent = 'V3 READY';
@@ -202,11 +191,10 @@
       };
 
       try {
-        // 비정상적인 무한 로딩을 방지하기 위해 통째로 5초 타임아웃 제한
-        await withTimeout(initialize(), 5000, 'Init timeout');
+        await withTimeout(initialize(), 8000, 'Init timeout');
       } catch (error) {
-        console.warn('V3 전장 초기화 오류(무시하고 진행):', error);
-        revealBattle();
+        console.warn('V3 전장 초기화 오류(강제 진행):', error);
+        revealBattle(); // 에러가 나더라도 무조건 스피너 제거
       }
     };
 
@@ -257,7 +245,7 @@
             await withTimeout(root.ProjectVPixiBattle.playEvents([event]), 1800, 'Event timeout');
           }
         } catch (error) {
-          console.error('V3 연출 중단:', error);
+          console.error('V3 연출 완료/중단:', error);
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
@@ -272,11 +260,17 @@
         if (destroyed) return;
         destroyed = true;
         try {
-            // 엔진 파괴 완전 차단. 안 보이게 숨기기만 합니다.
-            if (typeof root.ProjectVPixiBattle.setVisible === 'function') {
-                root.ProjectVPixiBattle.setVisible(false);
-            }
+            if (typeof root.ProjectVPixiBattle.setVisible === 'function') root.ProjectVPixiBattle.setVisible(false);
+            root.ProjectVPixiBattle.destroy();
         } catch(e) {}
+        
+        // VRAM 메모리 릭 방지를 위한 WebGL 강제 상실 처리
+        const canvas = host?.querySelector('canvas');
+        if (canvas) {
+          const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+          gl?.getExtension('WEBGL_lose_context')?.loseContext();
+          canvas.remove();
+        }
       }
     };
   }
