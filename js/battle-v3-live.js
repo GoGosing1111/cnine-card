@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.8.0-seal-crystal';
+  const VERSION = '3.9.0-async-raid';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -67,7 +67,7 @@
     modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
-        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'SEAL' ? '봉인전' : '몬스터 토벌'}</strong></div>
+        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'RAID' ? '월드 레이드 개인전' : field === 'SEAL' ? '봉인전' : '몬스터 토벌'}</strong></div>
         <div class="battle-v3-versus"><span>${esc(playerName)}</span><i>VS</i><span>${esc(opponentName)}</span></div>
         <b id="battlePhase">V3 LOADING</b>
       </header>
@@ -221,6 +221,64 @@
       battleV2: {
         teams: { A: { cards: allies }, B: { cards: [monster] } },
         result: { timeline, winner: win ? 'A' : 'B', actions: timeline.length }
+      }
+    };
+  }
+
+  function raidPayload({ data = {}, participant = {}, current = {} } = {}) {
+    const allies = (Array.isArray(participant.cards) ? participant.cards : []).slice(0, 5).map(normalizeTowerCard);
+    const bossId = String(current.bossId || current.id || 'WORLD');
+    const boss = {
+      id: bossId,
+      monsterId: bossId,
+      cardId: `MONSTER:RAID:${bossId}`,
+      name: current.bossName || 'WORLD RAID BOSS',
+      title: current.bossName || 'WORLD RAID BOSS',
+      image: current.bossImage || '',
+      image_url: current.bossImage || '',
+      grade: 'BOSS',
+      isBoss: true,
+      mode: 'RAID',
+      hp: 100,
+      maxHp: 100
+    };
+    const bossPct = Math.max(2, Math.min(100, Math.round(Number(current.currentHp || 0) / Math.max(1, Number(current.maxHp || 1)) * 100)));
+    const personalDamage = Math.max(1, Number(participant.shownDamage || participant.totalDamage || participant.totalPower || 1));
+    const steps = [10, 12, 14, 16, 18];
+    let enemyHp = Math.max(bossPct, 70), allyHp = 100;
+    const timeline = [];
+    allies.forEach((card, index) => {
+      const step = steps[index] || 12;
+      enemyHp = Math.max(bossPct, enemyHp - step);
+      timeline.push({
+        type: index === 2 || index === 4 ? 'SKILL' : 'TURN',
+        actorId: card.cardId,
+        targetId: boss.cardId,
+        damage: Math.max(1, Math.round(personalDamage * step / 70)),
+        targetHpAfter: enemyHp,
+        critical: index === 2 || index === 4,
+        label: '개인 공헌 타격'
+      });
+      if (index === 1 || index === 3) {
+        allyHp = Math.max(18, allyHp - 26);
+        timeline.push({
+          type: 'COUNTER', actorId: boss.cardId, targetId: card.cardId,
+          damage: Math.max(1, Math.round(Number(current.maxHp || 1000) * .0025)),
+          targetHpAfter: allyHp, label: '레이드 보스 반격'
+        });
+      }
+    });
+    timeline.push({ type: 'RESULT', winner: 'A', actions: timeline.length, label: '개인 전투 완료' });
+    return {
+      ...data,
+      mode: 'RAID',
+      battlefieldMode: 'RAID',
+      monster: boss,
+      raidParticipant: participant,
+      playUltimateCinematics: true,
+      battleV2: {
+        teams: { A: { cards: allies }, B: { cards: [boss] } },
+        result: { timeline, winner: 'A', actions: timeline.length }
       }
     };
   }
@@ -429,6 +487,15 @@
     return renderer;
   }
 
+  async function playRaid(options = {}) {
+    const data = raidPayload(options);
+    const renderer = await createRenderer({ ...options, data, mode: 'RAID' });
+    if (options.modal) options.modal.__battleV2Renderer = renderer;
+    const played = await renderer.play();
+    if (!played) throw new Error('V3 레이드 개인 전투가 완료되지 않았습니다.');
+    return renderer;
+  }
+
   root.ProjectVBattleV3Live = Object.freeze({
     version: VERSION,
     playbackSpeed: PLAYBACK_SPEED,
@@ -438,8 +505,11 @@
     playTower,
     towerPayload,
     playSeal,
-    sealPayload
+    sealPayload,
+    playRaid,
+    raidPayload
   });
   root.playTowerBattleV3Live = playTower;
   root.playSealBattleV3Live = playSeal;
+  root.playRaidBattleV3Live = playRaid;
 })();

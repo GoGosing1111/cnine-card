@@ -4724,7 +4724,10 @@ async function handleRequest(context){
         }
         claimableReward={instanceId:Number(current.id),coin:Math.max(0,Number(rewardReceipt?.rewardCoin??rewardCoin)),shards:Math.max(0,Number(rewardReceipt?.rewardShards??rewardShards)),magicCrystals:Math.max(0,Number(rewardReceipt?.rewardMagicCrystals??rewardMagicCrystals)),participationMagicCrystals:Number(rewardCfg.participationMagicCrystals||0),rankMagicCrystals,finalRank,finalDamage,cleared,inventoryRewards:rewardDisplay.inventoryRewards,entries:rewardDisplay.entries,rareDrops:rewardDisplay.rareDrops,source:'SERVER_CONFIRMED',snapshot:true,receiptStatus:String(rewardReceipt?.status||'READY')};
       }
-      const visibleParticipants=current.status==='LOBBY'?enriched.map((x,i)=>({anonymous:true,slot:i+1,nickname:`익명 참가자 ${String(i+1).padStart(2,'0')}`,cards:[],totalPower:0,shownDamage:0,isDefeated:false})):enriched;
+      // V1779: raid parties are public squads. Only already-public profile and
+      // immutable raid deck data are exposed; authentication/private keys are
+      // never part of this projection.
+      const visibleParticipants=enriched;
       return json({settings:cfg,schedule,dailyEntryUsed:entryUsedForCurrent,dailyEntry,slotEntry:instanceSlotEntry,slotEntries,rooms,current:{id:current.id,status:current.status,startsAt:current.starts_at,endsAt:current.ends_at,currentHp:hp,maxHp:Number(current.max_hp),participantCount:participants.length,bossName:current.boss_name,bossImage:current.boss_image,progress,result:current.status==='ENDED'?result:null,attackTicks,enraged,slotId:instanceSlot,phase:Number(combat.phase||1),phaseLabel:combat.phaseLabel||'',shieldHp:Number(combat.shieldHp||0),shieldMaxHp:Number(combat.shieldMaxHp||0),shieldBroken:combat.shieldBroken===true,breakProgress:Number(combat.breakProgress||0)},participants:visibleParticipants,me,claimableReward,serverNow:new Date().toISOString()});
     }
     if(path==='raid/open'&&request.method==='POST'){
