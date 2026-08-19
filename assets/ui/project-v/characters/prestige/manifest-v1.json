@@ -1,0 +1,20 @@
+{
+  "format": "PROJECT_V_TIER_BATTLE_SPRITE_MANIFEST_V1",
+  "schemaVersion": 1,
+  "scope": "BATTLE_ENGINE_ONLY",
+  "rarity": "PRESTIGE",
+  "characters": [
+    {"cardId":"CN-E074D2BF51F249BE","title":"아윤","member":"아윤","sourceArt":"assets/pre/11.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-ayoon-sd-v1.png","sha256":"209F84D4D0915E3011EBF7E74D18A8F7B9668E24849F6C67F42A3A3D7E321E38"},
+    {"cardId":"CN-A8A8700D38704DD5","title":"유별","member":"유별","sourceArt":"assets/pre/10.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-yubyeol-sd-v1.png","sha256":"DB927B9EF4883E1C8DE1638E5E244F9AEAF5FE43248824CF9E9051E2407A58EF"},
+    {"cardId":"CN-F9067B50E7B840A4","title":"오조은","member":"오조은","sourceArt":"assets/pre/12.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-ojoeun-sd-v1.png","sha256":"C379849DD6D0D6F0B0909A81C22FCC4AE26C1E621C7F06DCA0B2DB56463E80DE"},
+    {"cardId":"CN-E672E11A62894CDD","title":"이다니","member":"이다니","sourceArt":"assets/pre/15.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-idani-sd-v1.png","sha256":"18284227E1D1785572D5820D7EE15C66E97652BE25965C72504AF52F4C441007"},
+    {"cardId":"CN-BD8A24E268DC4439","title":"애순이","member":"애순이","sourceArt":"assets/pre/14.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-aesooni-sd-v1.png","sha256":"CA68243BC7151C17BD19DD1CBCEAF28CB79FD9507CC7A1E828BA7971043C2F65"},
+    {"cardId":"CN-F637792084614B5E","title":"남수댕","member":"남수댕","sourceArt":"assets/pre/2.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-namsudaeng-sd-v1.png","sha256":"7F5676C966152F5713327CE1DE9BDC66E92443322637D8A59A980C61D1247F95"},
+    {"cardId":"CN-78462FA3CB55498E","title":"연두","member":"연두","sourceArt":"assets/pre/6.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-yeondu-sd-v1.png","sha256":"683EF99958B1736670E09355CA16619159AFCF6B4F9A2E6828DD87ED5309A221"},
+    {"cardId":"CN-5C6E1B63A4FA4500","title":"채리","member":"채리","sourceArt":"assets/pre/3.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-chaeri-sd-v1.png","sha256":"D4BB052ECF9883E2BF6A4821C9A6DE63DC9F542E3E3721D23BF56FEC1A6AB2B2"},
+    {"cardId":"CN-58D889151FA84185","title":"졈니","member":"졈니","sourceArt":"assets/pre/5.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-jyeomni-sd-v1.png","sha256":"66FD77459C7D49AFD01A421A5CC02EC9813EED0387C115A812D3BA9237BB1941"},
+    {"cardId":"CN-B1440C2E9AB3480B","title":"이영호","member":"이영호","sourceArt":"assets/pre/7.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-lee-youngho-sd-v1.png","sha256":"416A0A4A30196892A1C91563C230434EAB5FFFB8EDE7DA7A7DEE688F6AE07239"},
+    {"cardId":"CN-FE742947CBD14B74","title":"김택용","member":"김택용","sourceArt":"assets/pre/8.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-kim-taekyong-sd-v1.png","sha256":"5BA5676FF27F1990ED9CBAC64C183B191B623FF8D84C621069529791F8DFF05B"},
+    {"cardId":"CN-837A1D004B3F49A2","title":"송채연","member":"송채연","sourceArt":"assets/pre/9.jpg","battleSprite":"assets/ui/project-v/characters/prestige/prestige-song-chaeyeon-sd-v1.png","sha256":"8F9ED143D3517565B628E8926DCCC15D7F52705EC2AF39AE45E352C2AFE394C9"}
+  ]
+}

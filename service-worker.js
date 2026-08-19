@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1756-no-light-beams';
+const SHELL_CACHE='soop-card-shell-v1761-project-v-v3-live';
 const CONTENT_CACHE='soop-card-content-v1';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

@@ -1,0 +1,34 @@
+{
+  "format": "PROJECT_V_UNASSIGNED_BATTLE_FALLBACK_MANIFEST_V1",
+  "schemaVersion": 1,
+  "scope": "BATTLE_ENGINE_ONLY",
+  "individualMappingsTakePriority": true,
+  "rules": {
+    "cardAndDexArtRemainOriginal": true,
+    "singleFullBodySprite": true,
+    "transparentRgba": true,
+    "noUiTextFrameOrBakedShadow": true
+  },
+  "fallbacks": {
+    "CARD": {
+      "battleSprite": "assets/ui/project-v/fallback/unassigned-card-unit-sd-v1.png",
+      "sha256": "6D592A363A0FC513D10A5AEB6FFEE4B33B2A013E1D2E0F01F96B60AD5ABE45DF",
+      "canvas": { "width": 1254, "height": 1254, "mode": "RGBA", "backgroundAlpha": 0 },
+      "footAnchor": [0.5, 0.94],
+      "scaleMultiplier": 1,
+      "qa": { "technicalPass": true, "visualApproval": true, "edgeClear": true }
+    },
+    "MONSTER": {
+      "battleSprite": "assets/ui/project-v/fallback/unassigned-monster-boss-sd-v1.png",
+      "sha256": "E00127F5EB1E65F70B7FD639079116EE550AAC332FA659E0BC137C207732BB8D",
+      "canvas": { "width": 1254, "height": 1254, "mode": "RGBA", "backgroundAlpha": 0 },
+      "footAnchor": [0.5, 0.94],
+      "scaleMultiplier": 1,
+      "qa": { "technicalPass": true, "visualApproval": true, "edgeClear": true }
+    },
+    "BOSS": {
+      "inherits": "MONSTER",
+      "scaleMultiplier": 1.18
+    }
+  }
+}

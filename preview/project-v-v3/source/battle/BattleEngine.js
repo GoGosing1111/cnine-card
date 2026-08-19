@@ -31,7 +31,9 @@ const ISO_FORMATIONS=Object.freeze({
   enemies:[
     {gridX:6,gridY:0,baseScale:.58},
     {gridX:6,gridY:2,baseScale:.64},
-    {gridX:4,gridY:2,baseScale:.58}
+    {gridX:4,gridY:2,baseScale:.58},
+    {gridX:4,gridY:0,baseScale:.56},
+    {gridX:4,gridY:4,baseScale:.57}
   ]
 });
 
@@ -537,7 +539,9 @@ export class BattleEngine{
       {id:'ALLY-05',name:'프로필찍는 봉준',team:TEAM.ALLY,texture:this.textures.bongArt,fullBodyTexture:this.textures.bongSprite,cutInTexture:this.textures.bongArt,accent:0x5bdcff,hp:100},
       {id:'ENEMY-01',name:'어둠 슬라임',team:TEAM.ENEMY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,fullBodyHeight:250,cutInTexture:this.textures.slimeSprite,accent:0xb267ff,spriteTint:0xcab0ff,hp:100},
       {id:'ENEMY-02',name:'심연 슬라임',team:TEAM.ENEMY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,fullBodyHeight:285,cutInTexture:this.textures.slimeSprite,accent:0xff496f,spriteTint:0xff83a2,hp:this.bossHp},
-      {id:'ENEMY-03',name:'왕관 슬라임',team:TEAM.ENEMY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,fullBodyHeight:245,cutInTexture:this.textures.slimeSprite,accent:0x53dfff,spriteTint:0x90eaff,hp:100}
+      {id:'ENEMY-03',name:'왕관 슬라임',team:TEAM.ENEMY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,fullBodyHeight:245,cutInTexture:this.textures.slimeSprite,accent:0x53dfff,spriteTint:0x90eaff,hp:100},
+      {id:'ENEMY-04',name:'결투 상대 4',team:TEAM.ENEMY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,fullBodyHeight:250,cutInTexture:this.textures.slimeSprite,accent:0xffa052,hp:100},
+      {id:'ENEMY-05',name:'결투 상대 5',team:TEAM.ENEMY,texture:this.textures.slimeSprite,fullBodyTexture:this.textures.slimeSprite,fullBodyHeight:250,cutInTexture:this.textures.slimeSprite,accent:0xd67cff,hp:100}
     ];
     this.characters=definitions.map(definition=>{
       const character=new BattleCharacter({...definition,x:0,y:0,scale:.55});
@@ -594,6 +598,10 @@ export class BattleEngine{
     this.activeFallbackArt=[];
 
     const allyCards=Array.isArray(payload?.battleV2?.teams?.A?.cards)?payload.battleV2.teams.A.cards:[];
+    this.allies.forEach((character,index)=>{
+      character.battleActive=allyCards.length?index<Math.min(allyCards.length,this.allies.length):true;
+      character.root.visible=character.battleActive;
+    });
     for(let index=0;index<Math.min(allyCards.length,this.allies.length);index+=1){
       const card=allyCards[index];
       const art=card?.projectVBattleArt
@@ -603,7 +611,9 @@ export class BattleEngine{
       if(!art?.primaryUrl)continue;
       const texture=await Assets.load(art.primaryUrl);
       const target=this.allies[index];
-      target.id=card?.cardId||card?.id||target.id;
+      target.id=card?.id||card?.cardId||target.id;
+      target.cardId=card?.cardId||card?.id||target.id;
+      target.serverMaxHp=Math.max(1,Number(card?.maxHp||card?.hp||100));
       target.texture=texture;
       target.useFullBodySprite(texture,260*(art.scaleMultiplier||1));
       const sourceArt=originalCardArtUrl(card,art);
@@ -619,6 +629,7 @@ export class BattleEngine{
     const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)
       ?payload.battleV2.teams.B.cards.filter(card=>!/^MONSTER:/i.test(String(card?.cardId||''))&&String(card?.grade||'').toUpperCase()!=='MONSTER')
       :[];
+    this.enemies.forEach(character=>{character.battleActive=false;character.root.visible=false});
     for(let index=0;index<Math.min(enemyCards.length,this.enemies.length);index+=1){
       const card=enemyCards[index];
       const art=card?.projectVBattleArt
@@ -628,7 +639,9 @@ export class BattleEngine{
       if(!art?.primaryUrl)continue;
       const texture=await Assets.load(art.primaryUrl);
       const target=this.enemies[index];
-      target.id=card?.cardId||card?.id||target.id;
+      target.id=card?.id||card?.cardId||target.id;
+      target.cardId=card?.cardId||card?.id||target.id;
+      target.serverMaxHp=Math.max(1,Number(card?.maxHp||card?.hp||100));
       target.texture=texture;
       target.useFullBodySprite(texture,260*(art.scaleMultiplier||1));
       const sourceArt=originalCardArtUrl(card,art);
@@ -639,6 +652,8 @@ export class BattleEngine{
       if(target.nameLabel)target.nameLabel.text=target.name;
       target.root.projectVBattleArt=art;
       target.isBoss=false;
+      target.battleActive=true;
+      target.root.visible=true;
       if(String(art.kind||'').startsWith('UNASSIGNED_'))this.activeFallbackArt.push(art);
     }
 
@@ -656,6 +671,12 @@ export class BattleEngine{
     const texture=await Assets.load(art.primaryUrl);
     const target=this.enemies[1]||this.enemies[0];
     if(!target)return null;
+    target.battleActive=true;
+    target.root.visible=true;
+    const monsterCard=payload?.battleV2?.teams?.B?.cards?.find?.(card=>/^MONSTER:/i.test(String(card?.cardId||''))||String(card?.grade||'').toUpperCase()==='MONSTER'||String(card?.grade||'').toUpperCase()==='BOSS')||payload?.battleV2?.teams?.B?.cards?.[0];
+    target.id=monsterCard?.id||monster?.cardId||monster?.id&&`MONSTER:${monster.id}`||monster?.monsterId&&`MONSTER:${monster.monsterId}`||target.id;
+    target.cardId=monsterCard?.cardId||monster?.cardId||target.id;
+    target.serverMaxHp=Math.max(1,Number(monsterCard?.maxHp||monsterCard?.hp||monster?.maxHp||monster?.hp||100));
     target.texture=texture;
     target.cutInTexture=texture;
     target.useFullBodySprite(texture,285*(art.scaleMultiplier||1));
@@ -855,13 +876,13 @@ export class BattleEngine{
   }
 
   isAlive(character){
-    return Boolean(character&&Number(character.hp)>0&&character.state!==CHARACTER_STATE.DEAD);
+    return Boolean(character&&character.battleActive!==false&&Number(character.hp)>0&&character.state!==CHARACTER_STATE.DEAD);
   }
 
   combatantById(value){
     const id=String(value?.id||value||'').trim();
     if(!id)return null;
-    return this.characters.find(character=>String(character.id)===id)||null;
+    return this.characters.find(character=>String(character.id)===id||String(character.cardId||'')===id||id.endsWith(`:${character.cardId||character.id}`))||null;
   }
 
   selectLiveTarget(attacker,preferred=null){
@@ -905,6 +926,13 @@ export class BattleEngine{
       this.selectLiveTarget(this.enemies.find(character=>this.isAlive(character))||this.enemies[0]);
     }
     return target;
+  }
+
+  eventHpPercent(target,value){
+    if(!hasFiniteNumber(value))return null;
+    const raw=Math.max(0,Number(value));
+    const maxHp=Math.max(1,Number(target?.serverMaxHp||100));
+    return clamp(maxHp>100||raw>100?raw/maxHp*100:raw,0,100);
   }
 
   syncBossHp(value){
@@ -958,9 +986,11 @@ export class BattleEngine{
   }
 
   deployCards(){
-    this.updateStatus('현재 덱 5명 대 슬라임 3마리 · 타일별 SD 진형 전개');
+    const activeAllies=this.allies.filter(character=>character.battleActive!==false).length;
+    const activeEnemies=this.enemies.filter(character=>character.battleActive!==false).length;
+    this.updateStatus(`PROJECT V V3 · ${activeAllies} 대 ${activeEnemies} SD 진형 전개`);
     return this.timeline(timeline=>{
-      this.characters.forEach((character,index)=>{
+      this.characters.filter(character=>character.battleActive!==false).forEach((character,index)=>{
         const root=character.root;
         const direction=character.team===TEAM.ALLY?-1:1;
         timeline.fromTo(root,
@@ -1053,9 +1083,10 @@ export class BattleEngine{
     },cleanup);
   }
 
-  async playTacticalSkill(index,{damage=386720,critical=true,label='전술 스킬',target=null,targetHp=null}={}){
-    const card=this.cards[index];
-    const actor=this.allies[index%this.allies.length];
+  async playTacticalSkill(index,{damage=386720,critical=true,label='전술 스킬',target=null,targetHp=null,attacker=null}={}){
+    const actor=attacker||this.allies[index%this.allies.length];
+    const actorIndex=Math.max(0,this.allies.indexOf(actor));
+    const card=this.cards[actorIndex%this.cards.length]||this.cards[0];
     const victim=this.selectLiveTarget(actor,target);
     if(!victim){this.updateStatus('스킬 대상이 없습니다.');return false}
     this.updateStatus(`${actor.name} · 기 모으기 → 초고속 돌격 → 히트스톱 타격`);
@@ -1083,16 +1114,51 @@ export class BattleEngine{
   async playEvents(events=[]){
     for(const event of events){
       if(!this.visible)break;
-      const actor=clamp(Number(event.actorIndex||0),0,this.cards.length-1);
+      const type=String(event?.type||'').toUpperCase();
+      const explicitActor=this.combatantById(event.actorId)||null;
+      const actor=explicitActor||clamp(Number(event.actorIndex||0),0,this.cards.length-1);
       const target=this.combatantById(event.targetId)||null;
-      const targetHp=hasFiniteNumber(event.targetHp)?Number(event.targetHp):hasFiniteNumber(event.bossHp)?Number(event.bossHp):null;
-      if(event.type==='DEPLOY')await this.deployCards();
-      else if(event.type==='ATTACK'){
-        await this.normalAttack(actor,{damage:Number(event.damage||0),critical:Boolean(event.critical),target,targetHp});
-      }else if(event.type==='SKILL'){
-        await this.playTacticalSkill(actor,{damage:Number(event.damage||0),critical:Boolean(event.critical),label:event.label||'전술 스킬',target,targetHp});
-      }else if(event.type==='COUNTER')await this.bossCounter(actor);
-      else if(event.type==='ULTIMATE')await this.playUltimate({target,targetHp});
+      const targetHp=hasFiniteNumber(event.targetHp)?Number(event.targetHp):null;
+      const rawTargetHp=hasFiniteNumber(event.targetHpAfter)?Number(event.targetHpAfter)
+        :hasFiniteNumber(event.hpAfter)?Number(event.hpAfter)
+        :targetHp!==null?targetHp
+        :hasFiniteNumber(event.bossHp)?Number(event.bossHp):null;
+      const resolvedTargetHp=this.eventHpPercent(target,rawTargetHp);
+      const damage=Number(event.damage||0)+Number(event.absorbed||0);
+      if(type==='DEPLOY')await this.deployCards();
+      else if(type==='ATTACK'||type==='TURN'){
+        if(event.dodge){await this.showBanner('회피 · 잔상 전개',0x62e9ff,'속도효과 발동');continue}
+        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp});
+      }else if(type==='SKILL'){
+        await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,attacker:explicitActor});
+      }else if(type==='COUNTER'){
+        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp});
+        else await this.bossCounter(Number(event.actorIndex||0));
+      }else if(type==='ULTIMATE'||type==='PVE_ULTIMATE'){
+        if(explicitActor)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:true,label:event.label||'궁극기',target,targetHp:resolvedTargetHp,attacker:explicitActor});
+        else await this.playUltimate({target,targetHp:resolvedTargetHp});
+      }else if(type==='BOSS_ULTIMATE'){
+        await this.showBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
+        for(const hit of event.hits||[]){
+          const hitTarget=this.combatantById(hit.targetId);
+          await this.normalAttack(0,{damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:Boolean(hit.critical),attacker:explicitActor||this.enemies.find(character=>this.isAlive(character)),target:hitTarget,targetHp:this.eventHpPercent(hitTarget,hit.targetHpAfter)});
+        }
+      }else if(type==='MAGIC_CARD'){
+        const label=event.magicName||event.magicCode||'마법카드';
+        if(damage>0)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label,target,targetHp:resolvedTargetHp,attacker:explicitActor});
+        else{
+          await this.showBanner(label,event.amount?0x6affb7:0xb57cff,event.amount?'회복효과 발동':'마법효과 발동');
+          if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+        }
+      }else if(['TEAM_HEAL','REGEN','EMERGENCY_HEAL','SURVIVE','SINGLE_HEALER_AURA'].includes(type)){
+        await this.showBanner(type==='TEAM_HEAL'?'아군 회복':type==='SURVIVE'?'불굴의 생존':'생명 회복',0x6affb7,'회복효과 발동');
+        if(type==='SINGLE_HEALER_AURA')for(const item of event.targets||[]){const itemTarget=this.combatantById(item.targetId);if(itemTarget&&hasFiniteNumber(item.hpAfter))this.syncTargetHp(itemTarget,this.eventHpPercent(itemTarget,item.hpAfter))}
+        else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+      }else if(type==='KO'){
+        if(target)this.syncTargetHp(target,0);
+      }else if(type==='RESULT'){
+        this.updateStatus(event.winner==='A'?'PROJECT V V3 · 승리':event.winner==='B'?'PROJECT V V3 · 패배':'PROJECT V V3 · 무승부');
+      }
     }
   }
 

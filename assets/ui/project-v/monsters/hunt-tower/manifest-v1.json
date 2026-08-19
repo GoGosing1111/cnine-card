@@ -1,0 +1,497 @@
+{
+  "format": "PROJECT_V_MONSTER_BATTLE_SPRITE_MANIFEST_V1",
+  "schemaVersion": 1,
+  "scope": "BATTLE_ENGINE_ONLY",
+  "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+  "approvalPreview": "/preview/project-v-monster-hunt-tower-sd-v1/",
+  "rules": {
+    "singleFullBodySprite": true,
+    "transparentRgba": true,
+    "isometricThreeQuarter": true,
+    "preserveLiveMonsterIdentity": true,
+    "noDetachedParts": true,
+    "noUiTextFrameOrBakedShadow": true,
+    "productionBindingBeforeApproval": false
+  },
+  "sprites": [
+    {
+      "monsterId": 1,
+      "mode": "HUNT",
+      "name": "귀여운 슬라임",
+      "sourceArt": "assets/cards/monster/sla2.jfif",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-001-cute-slime-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "C5514AED7DA3236920B46FECB82518EE8E7BE584CCD88ABAA48E3AB807D5A4FA"
+    },
+    {
+      "monsterId": 2,
+      "mode": "HUNT",
+      "name": "인방갤러",
+      "sourceArt": "assets/cards/bang1.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-002-streamboard-galler-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "2B1D680BCE615C50810E117F6C831EAD079612C8A9773C9F12763B0A6B0072AC"
+    },
+    {
+      "monsterId": 3,
+      "mode": "HUNT",
+      "name": "맥주눈깔구",
+      "sourceArt": "assets/cards/monster/chul9.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-003-beer-eye-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "DBDF4580C587C465B2BEBB72B4CAD7B0E55D3FD1FB06E6FFA0F6239232873720"
+    },
+    {
+      "monsterId": 4,
+      "mode": "HUNT",
+      "name": "해군대장 키자루",
+      "sourceArt": "assets/cards/monster/kizaru1.jfif",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-004-light-admiral-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "A1CCD40F409304739B2AE7145946823BCE6861471FC2C7B366FD03487AF0FA1B"
+    },
+    {
+      "monsterId": 5,
+      "mode": "HUNT",
+      "name": "경화수월",
+      "sourceArt": "assets/cards/monster71.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-005-kyokasuigetsu-frog-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "1368FA3E9805C88902CC338AA3D6E2ED99E0749C4698318C0156D0FD8993253F"
+    },
+    {
+      "monsterId": 6,
+      "mode": "HUNT",
+      "name": "해군대장 아오키지",
+      "sourceArt": "assets/cards/monster/aokizi1.png",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-006-ice-admiral-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "A61EFFBB9620B7FB971F6B60F21FCE6D4DE503B318A44700EB689AB21B8C1D44"
+    },
+    {
+      "monsterId": 7,
+      "mode": "HUNT",
+      "name": "해군대장 아카이누",
+      "sourceArt": "assets/cards/monster/akainu1.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-007-magma-admiral-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "2C819E55929D49E7861A1D68327817D1F03640DB95BCF3ADA0FA374C059BB5F9"
+    },
+    {
+      "monsterId": 8,
+      "mode": "HUNT",
+      "name": "빅물개",
+      "sourceArt": "assets/cards/15565.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-008-big-seal-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "359D8194AFA4E2CC9F8EFB38E1406C05DA929B95C1CE4254EBA763029C9B1356"
+    },
+    {
+      "monsterId": 9,
+      "mode": "HUNT",
+      "name": "와고악성아윤",
+      "sourceArt": "assets/cards/monster711.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-009-wago-ayun-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "137FFED166FC653F798011506879AC91AB98DEA38FC8051BB49B5EDC527348D4"
+    },
+    {
+      "monsterId": 10,
+      "mode": "HUNT",
+      "name": "흰수염",
+      "sourceArt": "assets/0717monster/white2.png",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-010-white-beard-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "B670D93AB874C45CD62AF7378640463A2C1044470F131C056B10121CC7F3799A"
+    },
+    {
+      "monsterId": 11,
+      "mode": "HUNT",
+      "name": "검은수염",
+      "sourceArt": "assets/0717monster/BLACK1.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-011-black-beard-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "5B496F5A0DBC9257D2FB902C4496FB0E9FD63152BD8EE41B12609877CDF18604"
+    },
+    {
+      "monsterId": 12,
+      "mode": "HUNT",
+      "name": "미호크",
+      "sourceArt": "assets/0717monster/hoke.png",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-012-hawkeye-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "D18B3C357F778D2FDF4FBD39F176545F8289FC56C363A56456D0F60C9587D862"
+    },
+    {
+      "monsterId": 13,
+      "mode": "HUNT",
+      "name": "샹크스",
+      "sourceArt": "assets/0717monster/c2006.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-013-red-haired-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "157C7D91EB7BC1D3B557E2AE584EDFA7F520F3B99CA6B8001612ED4F5F22F2A5"
+    },
+    {
+      "monsterId": 14,
+      "aliases": [
+        42
+      ],
+      "mode": "HUNT",
+      "name": "우치하 사스케",
+      "sourceArt": "assets/cards/top/12.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-014-lightning-rival-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "2AA62BF6737C7D7A0F8D839D2C2776145B6E806D8C3B01C8AD74EA6AF4F6C136"
+    },
+    {
+      "monsterId": 15,
+      "aliases": [
+        43
+      ],
+      "mode": "HUNT",
+      "name": "우치하 이타치",
+      "sourceArt": "assets/cards/top/13.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-015-crimson-eye-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "DA468C9D459374BCB5C512E1A0F90B6F1C1F3820BCE957B6BD380195663D8624"
+    },
+    {
+      "monsterId": 16,
+      "aliases": [
+        44
+      ],
+      "mode": "HUNT",
+      "name": "젠이츠",
+      "sourceArt": "assets/effects/zne.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-016-thunder-swordsman-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "ED231B9EF5DF7FEB2211949B35A254DB579635A7B2FCDB832FB0916C9EBDA5BB"
+    },
+    {
+      "monsterId": 25,
+      "aliases": [
+        45
+      ],
+      "mode": "HUNT",
+      "name": "조로",
+      "sourceArt": "assets/effects/ZORO1.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-025-green-swordsman-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "C7A5C5026B82B02737F8B9C903CCB48225BD80B3F848B2E171D29CE3DEE8E2BC"
+    },
+    {
+      "monsterId": 26,
+      "aliases": [
+        46
+      ],
+      "mode": "HUNT",
+      "name": "렌고쿠 코쥬로",
+      "sourceArt": "assets/tower/cc0457ef4abb426eda53051b533d1050.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-026-flame-pillar-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "924B9C27F6D6B015DAA6D9886FC620936066B5A6F8CA98B07BC67BA51DD65140"
+    },
+    {
+      "monsterId": 29,
+      "aliases": [
+        47
+      ],
+      "mode": "HUNT",
+      "name": "쿄라쿠 슌스이",
+      "sourceArt": "assets/effects/ko.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-029-flower-captain-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "78D0E38CC02A0386E3719419103B2A87EAB7AD008391C9C0B8B268E495AB62B0"
+    },
+    {
+      "monsterId": 30,
+      "aliases": [
+        48
+      ],
+      "mode": "HUNT",
+      "name": "이타치 암부",
+      "sourceArt": "assets/effects/ANBU.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-030-black-ops-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "07B80A3C8B4A332BEA7DF423EFCE9B7A9C4B7939E60D271DC7F3F6ADC750B96E"
+    },
+    {
+      "monsterId": 31,
+      "aliases": [
+        49
+      ],
+      "mode": "HUNT",
+      "name": "셋쇼마루",
+      "sourceArt": "assets/tower/SET.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-031-moon-demon-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "0608BC42C44F1E801CB8C80C0AEDE82E78715C2064FA769EB11553B09E773995"
+    },
+    {
+      "monsterId": 32,
+      "aliases": [
+        50
+      ],
+      "mode": "HUNT",
+      "name": "태양신 루피",
+      "sourceArt": "assets/effects/ro2.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-032-sun-god-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "E59236616409F98BFF12EBDA874B588C22B833E405E4A968090E7BEB0778A323"
+    },
+    {
+      "monsterId": 61,
+      "mode": "HUNT",
+      "name": "길가메시",
+      "sourceArt": "assets/tower/gg123.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-061-golden-king-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "B6920374BD5A7CD264F77BF021B7576035AD3E124D38AE96A6816EC8F011F552"
+    },
+    {
+      "monsterId": 62,
+      "mode": "HUNT",
+      "name": "오비토",
+      "sourceArt": "LIVE_DB:monsterId=62",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-062-obito-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "5670BE32B657A95119B04E81306B30C56019E9E39DB05DAF9FC94E78EF976E84"
+    },
+    {
+      "monsterId": 17,
+      "mode": "TOWER",
+      "floors": "1-9",
+      "name": "위장악성",
+      "sourceArt": "assets/tower/3.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-017-wijang-akseong-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "8B3DCE1B761D8C3310774E8D2BE12DD1B9452A131198573D930ED384D34E7969"
+    },
+    {
+      "monsterId": 18,
+      "mode": "TOWER",
+      "floors": "10",
+      "name": "이그리트",
+      "sourceArt": "assets/tower/5.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-018-igris-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "53DC1E2C7C20CA121F214F48DE191C07327AD9700ECC6ECD0E74D6BC57794360"
+    },
+    {
+      "monsterId": 19,
+      "mode": "TOWER",
+      "floors": "11-19",
+      "name": "뱀파이어",
+      "sourceArt": "assets/tower/1.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "B40107BE887A41A68751E485659CC564A48E02A9116FA94CEA67B30CA1B76F33"
+    },
+    {
+      "monsterId": 20,
+      "mode": "TOWER",
+      "floors": "20",
+      "name": "히츠가야 토시로",
+      "sourceArt": "assets/tower/8.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-020-ice-swordsman-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "CF3E04B55A9D7CE0180FDB0766DFA91AACD6B67C9A385A20F57EF7D9E4A4589B"
+    },
+    {
+      "monsterId": 21,
+      "mode": "TOWER",
+      "floors": "21-29",
+      "name": "타락한 성기사",
+      "sourceArt": "assets/tower/2.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "618D8755BDB3E192FF0C1DB4D88D8F90B90D81AC1748A3C9FDC8B275BEE0C962"
+    },
+    {
+      "monsterId": 22,
+      "mode": "TOWER",
+      "floors": "30",
+      "name": "우르키오라",
+      "sourceArt": "assets/tower/4.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-022-green-spirit-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "F3F0E04009254F269DBA7FC79B76862BCBB394A4D2BE2C1BCFCD9FDE45BDE05D"
+    },
+    {
+      "monsterId": 24,
+      "mode": "TOWER",
+      "floors": "31-39",
+      "name": "블러드 크로우",
+      "sourceArt": "assets/tower/tower111.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-024-blood-crow-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "E08A1BF90F5D54C6A8F44C254562E7C2A519E4046E704CB92AAFDF7FCC355B96"
+    },
+    {
+      "monsterId": 23,
+      "mode": "TOWER",
+      "floors": "40",
+      "name": "쿠치키 뱌쿠야",
+      "sourceArt": "assets/tower/7.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-023-petal-swordsman-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "676486006510EC582682DD8F8ED8D189F977B8F36DC9F45EB2E48C5CEFDEC3AE"
+    },
+    {
+      "monsterId": 27,
+      "mode": "TOWER",
+      "floors": "41-49",
+      "name": "달빛 악령",
+      "sourceArt": "assets/tower/98fb377d65ff92e9392cbd53d75169e8.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "A3CC49C8A7AE21B0E34A1CD6A6AB09E78AAD6F60F38DF07098C023AD3B48C7DD"
+    },
+    {
+      "monsterId": 28,
+      "mode": "TOWER",
+      "floors": "50",
+      "name": "아이젠 소스케",
+      "sourceArt": "assets/tower/10.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-028-violet-magus-boss-sd-v1.png",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "3D5D308F3B5D4A51AAC4E2C980EDDE8364135C492ED1488C89D2C3E19E49CBB7"
+    }
+  ]
+}

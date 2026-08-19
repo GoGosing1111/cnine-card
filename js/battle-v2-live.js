@@ -139,6 +139,9 @@
   }
 
   window.prepareBattleV2LiveLoading = ({ modal, mode = 'PVE', playerName = 'MEMBER TEAM', opponentName = 'OPPONENT', autoText = '' } = {}) => {
+    if (window.ProjectVBattleV3Live?.ready?.()) {
+      return window.ProjectVBattleV3Live.prepareLoading({ modal, mode, playerName, opponentName, autoText });
+    }
     if (!modal) throw new Error('전투 모달을 준비하지 못했습니다.');
     const layout = resolveLayout();
     modal.className = `modal show battle-modal ${mode === 'PVP' ? 'pvp-battle-modal' : ''}`;
@@ -378,7 +381,7 @@
       <div class="pvp-result-kicker">SOOPKETMON · PVE RESULT</div>
       <strong class="pvp-result-title">${win?'VICTORY':'DEFEAT'}</strong>
       <div class="pvp-result-power"><b>${number(playerPower)}</b><i>VS</i><b>${number(monsterPower)}</b></div>
-      <div class="pvp-result-meta"><span>ENGINE V2 · 1.6X</span>${actionMeta}${survivedMeta}</div>
+      <div class="pvp-result-meta"><span>PROJECT V V3 · PIXIJS</span>${actionMeta}${survivedMeta}</div>
       <div class="pvp-result-rewards">
         <div class="pvp-result-reward"><small>PVE COIN</small><b>${win?'+':''}${number(coinReward)}</b></div>
         ${magicReward>0?`<div class="pvp-result-reward"><small>MAGIC CRYSTAL</small><b>✦ +${number(magicReward)}</b></div>`:''}
@@ -403,12 +406,21 @@
   }
 
   window.playPveBattleV2Live = async options => {
-    const renderer=createRenderer({...options,mode:'PVE'});await renderer.play();await sleep(420);await finishPve({...options,renderer});
+    const renderer=window.ProjectVBattleV3Live?.ready?.()
+      ?await window.ProjectVBattleV3Live.createRenderer({...options,mode:'PVE'})
+      :createRenderer({...options,mode:'PVE'});
+    options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(window.ProjectVBattleV3Live?.ready?.()?120:420);await finishPve({...options,renderer});
   };
   window.playPvpBattleV2Live = async options => {
-    const renderer=createRenderer({...options,mode:'PVP'});options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(320);renderer.showResult();
+    const renderer=window.ProjectVBattleV3Live?.ready?.()
+      ?await window.ProjectVBattleV3Live.createRenderer({...options,mode:'PVP'})
+      :createRenderer({...options,mode:'PVP'});
+    options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(window.ProjectVBattleV3Live?.ready?.()?120:320);renderer.showResult();
   };
   window.playSiegeBattleV2Live = async options => {
-    const renderer=createRenderer({...options,mode:'PVE'});options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(320);renderer.showResult();return renderer;
+    const renderer=window.ProjectVBattleV3Live?.ready?.()
+      ?await window.ProjectVBattleV3Live.createRenderer({...options,mode:'SIEGE'})
+      :createRenderer({...options,mode:'PVE'});
+    options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(window.ProjectVBattleV3Live?.ready?.()?120:320);renderer.showResult();return renderer;
   };
 })();

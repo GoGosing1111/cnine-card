@@ -122,20 +122,31 @@
     clearAutoTimer();S.busy=true;S.autoRunning=Boolean(fromAuto||S.autoEnabled);
     const f=S.data.floor||{},modal=document.getElementById('modal'),deckCards=currentDeckCards();
     const previewPower=deckCards.reduce((sum,c)=>sum+(typeof battleCardPower==='function'?battleCardPower(c,loadUser(),battleState?.config):Number(c.basePower||0)),0)+Number(S.data?.characterBonus?.pve||battleState?.characterBonus?.pve||0);
-    modal.className='modal show battle-modal tower-battle-modal';modal.innerHTML=towerBattleMarkup(f,deckCards,previewPower);
-    const stage=modal.querySelector('.battle-stage'),phase=document.getElementById('towerBattlePhase'),count=document.getElementById('towerBattleCountdown'),msg=document.getElementById('towerBattleMessage');
+    let v3View=null;
+    try{
+      if(typeof ensureFeatureResources==='function')await ensureFeatureResources('battleV2');
+      if(window.ProjectVBattleV3Live?.ready?.())v3View=window.prepareBattleV2LiveLoading({modal,mode:'TOWER',playerName:'MEMBER TEAM',opponentName:f.monsterName||'TOWER MONSTER',autoText:S.autoRunning?'자동 등반 · 서버 판정 동기화':'무한의탑 서버 판정 동기화'});
+    }catch(error){console.warn('[PROJECT V V3] 무한의탑 렌더러 준비 실패, 안전 렌더러로 전환합니다.',error)}
+    if(!v3View){modal.className='modal show battle-modal tower-battle-modal';modal.innerHTML=towerBattleMarkup(f,deckCards,previewPower)}
+    const stage=v3View?.stage||modal.querySelector('.battle-stage'),phase=v3View?.phase||document.getElementById('towerBattlePhase'),count=document.getElementById('towerBattleCountdown'),msg=v3View?.towerMsg||document.getElementById('towerBattleMessage');
+    if(msg)msg.hidden=false;
     ensureBattleSoundButton(stage);
     try{
-      battleTone(f.isBoss?58:96,.2,'sawtooth',.045);await battleSleep(f.isBoss?1000:760);
-      stage.classList.add('cards-enter');phase.textContent='TEAM DEPLOY';await battleSleep(850);
-      stage.classList.add('enemy-enter');phase.textContent=f.isBoss?'BOSS APPEARS':'GUARDIAN APPEARS';battleSfx(f.isBoss?'warning':'swing');if(navigator.vibrate)navigator.vibrate(f.isBoss?[100,45,150]:60);await battleSleep(f.isBoss?1000:780);
-      count.textContent='READY';stage.classList.add('ready');await battleSleep(600);count.textContent='FIGHT';battleTone(440,.18,'square',.075);stage.classList.add('fight');await battleSleep(480);count.textContent='';
+      if(!v3View){
+        battleTone(f.isBoss?58:96,.2,'sawtooth',.045);await battleSleep(f.isBoss?1000:760);
+        stage.classList.add('cards-enter');phase.textContent='TEAM DEPLOY';await battleSleep(850);
+        stage.classList.add('enemy-enter');phase.textContent=f.isBoss?'BOSS APPEARS':'GUARDIAN APPEARS';battleSfx(f.isBoss?'warning':'swing');if(navigator.vibrate)navigator.vibrate(f.isBoss?[100,45,150]:60);await battleSleep(f.isBoss?1000:780);
+        count.textContent='READY';stage.classList.add('ready');await battleSleep(600);count.textContent='FIGHT';battleTone(440,.18,'square',.075);stage.classList.add('fight');await battleSleep(480);count.textContent='';
+      }
       const d=await apiRequest('tower/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`})}),win=d.result==='WIN';
+      let v3Renderer=null;
+      if(v3View){v3Renderer=await window.playTowerBattleV3Live({...v3View,modal,data:d,floor:f,cards:d.cards?.length?d.cards:deckCards});modal.__battleV2Renderer=v3Renderer}
       if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('무한의탑 큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
       if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('무한의탑 장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
       if(d.weeklyPremiumError)console.warn('무한의탑 프리미엄 큐브 처리 경고:',d.weeklyPremiumError);
       if(d.magicReward?.amount>0||d.weeklyPremiumCube){const current=loadUser();if(current){if(d.magicReward?.amount>0)current.magicCrystals=Number(d.magicReward.balance||current.magicCrystals||0);if(d.weeklyPremiumCube)current.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(current)}}
       const magicRewardText=d.magicReward?.amount>0?` · 마법 결정 ✦ ${Number(d.magicReward.amount).toLocaleString()}`:'';
+      if(!v3View){
       const teamPowerLabel=stage.querySelector('.battle-hp-team small'),enemyPowerLabel=stage.querySelector('.battle-hp-enemy small');if(teamPowerLabel)teamPowerLabel.textContent=`전투력 ${Number(d.playerPower||0).toLocaleString()}`;if(enemyPowerLabel)enemyPowerLabel.textContent=`${f.isBoss?'BOSS · ':''}전투력 ${Number(d.monsterPower||0).toLocaleString()}`;
       if(Array.isArray(d.cards)&&d.cards.length===5){const team=document.getElementById('towerBattleTeam');if(team)team.innerHTML=d.cards.map((c,i)=>battleFighterHtml(c,i)).join('')}
       const fighters=(d.cards?.length?d.cards:deckCards),enemySteps=win?[13,16,18,21,32]:[8,10,12,14,16],teamHits=win?[9,12]:[19,27,35];let enemyHp=100,teamHp=100;
@@ -156,7 +167,9 @@
       phase.textContent=win?'FINAL STRIKE':'TOWER GUARDIAN FINISH';stage.classList.add(win?'final-strike-v863':'final-fail-v863');
       if(win){battleSetHp(stage,'enemy',0);battleBurst(stage,'74%','43%',55);battleDamage(stage,'FLOOR CLEAR!','enemy',true);if(navigator.vibrate)navigator.vibrate([70,30,180])}
       else{battleSetHp(stage,'team',0);battleBurst(stage,'26%','43%',48);battleDamage(stage,'K.O.','player',true);if(navigator.vibrate)navigator.vibrate([160,50,160])}
-      await battleSleep(1000);stage.classList.add(win?'battle-win-v863':'battle-lose-v863');phase.textContent=win?`${Number(d.floorNo)}F CLEAR`:'CHALLENGE FAILED';battleSfx(win?'victory':'defeat');
+      await battleSleep(1000);
+      }
+      stage.classList.add(win?'battle-win-v863':'battle-lose-v863','is-result-visible');phase.textContent=win?`${Number(d.floorNo)}F CLEAR`:'CHALLENGE FAILED';if(!v3View)battleSfx(win?'victory':'defeat');v3Renderer?.showResult?.();
       if(win&&d.completed){
         stopAuto();saveAuto(false);msg.innerHTML=`<strong>최고층 등반 완료</strong><span>${Number(d.floorNo)}층까지 모두 클리어했습니다.${magicRewardText} 자동으로 1층으로 돌아가지 않습니다.</span><button type="button" class="tower-result-button" id="towerResultBtn">완료 화면 확인</button>`;document.getElementById('towerResultBtn').onclick=e=>{e.stopPropagation();closeBattleAndRefresh()};
       }else if(win&&S.autoRunning&&S.autoEnabled){
