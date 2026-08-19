@@ -3879,6 +3879,7 @@ async function handleRequest(context){
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'").run();
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
           CASE WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN COALESCE((SELECT json_extract(value,'$.enabled') FROM app_meta WHERE key='black_miracle_pack_settings_v1485'),1) ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
