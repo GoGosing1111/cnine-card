@@ -30,7 +30,7 @@ assert.match(fx,/0,0,0,1,0/,'white flash must preserve source alpha');
 assert.match(fx,/visual\.filters=\[\.\.\.previous,filter\]/,'white flash must preserve existing filters');
 assert.match(fx,/filter\.destroy\?\.\(\)/,'white flash filter must be released');
 
-assert.match(timeline,/triggerWhiteFlash\(target,\{durationMs:50\}\)/,'flash must fire at collision');
+assert.match(timeline,/triggerWhiteFlash\(target,\{durationMs:Math\.round\(50\/this\.playbackSpeed\)\}\)/,'flash must fire at collision on the accelerated combat clock');
 assert.match(fx,/display\.scale\.set\(\.3\)/,'FX must begin at 0.3 scale');
 assert.match(fx,/x:1\.5,y:1\.5,duration:burstDuration,ease:'expo\.out'/,'FX must burst to 1.5 with expo.out');
 assert.match(timeline,/applyWebGLBlendTree\(targetFx,'screen'\)/,'impact rings must use screen composition');

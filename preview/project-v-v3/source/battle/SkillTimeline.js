@@ -122,7 +122,7 @@ function makeCutIn({texture,width,height,title,subtitle,accent}){
 }
 
 export class SkillTimeline{
-  constructor({width,height,backgroundLayer,combatLayer,effectLayer,uiLayer,camera,pools,ticker=null,reducedMotion=false}){
+  constructor({width,height,backgroundLayer,combatLayer,effectLayer,uiLayer,camera,pools,ticker=null,playbackSpeed=1.6,reducedMotion=false}){
     this.width=width;
     this.height=height;
     this.backgroundLayer=backgroundLayer;
@@ -132,6 +132,7 @@ export class SkillTimeline{
     this.camera=camera;
     this.pools=pools;
     this.ticker=ticker;
+    this.playbackSpeed=Math.max(1,Number(playbackSpeed)||1.6);
     this.reducedMotion=reducedMotion;
     this.active=new Set();
   }
@@ -266,7 +267,7 @@ export class SkillTimeline{
       const timeline=gsap.timeline({paused:true,defaults:{overwrite:'auto'},onComplete:()=>settle(true)});
       const entry={timeline,settle};
       this.active.add(entry);
-      const speed=this.reducedMotion?6:1;
+      const speed=this.reducedMotion?6:this.playbackSpeed;
       timeline.timeScale(speed);
       const startHitStop=()=>{
         if(this.reducedMotion)return;
@@ -276,7 +277,7 @@ export class SkillTimeline{
           hitStopTimer=null;
           if(this.ticker)this.ticker.speed=normalTickerSpeed;
           if(this.active.has(entry))timeline.resume();
-        },100);
+        },Math.round(100/this.playbackSpeed));
       };
 
       // 0–200ms: vertical portrait cut-in plus a 15px rear/upward gather.
@@ -310,7 +311,7 @@ export class SkillTimeline{
         setState(target,CHARACTER_STATE.HIT);
         setTint(target,accent);
         whiteFlashHandle?.release();
-        whiteFlashHandle=triggerWhiteFlash(target,{durationMs:50});
+        whiteFlashHandle=triggerWhiteFlash(target,{durationMs:Math.round(50/this.playbackSpeed)});
         onImpact();
         if(slash instanceof AnimatedSprite)slash.gotoAndPlay(0);
       },[],.35);

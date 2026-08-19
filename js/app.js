@@ -532,15 +532,15 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   battleV2:{
-    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=3.0.1-cms-live'],
+    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=3.1.0-watchdog-1.6x'],
     scripts:[
       'js/battle-v2-live.js?v=3.0.0-v3-delegate',
       'js/project-v-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-monster-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=44-cms-payload-runtime',
-      'js/battle-v3-live.js?v=3.0.1-cms-live'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=45-watchdog-1.6x',
+      'js/battle-v3-live.js?v=3.1.0-watchdog-1.6x'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }

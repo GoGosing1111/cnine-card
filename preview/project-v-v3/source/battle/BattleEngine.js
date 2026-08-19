@@ -11,6 +11,7 @@ const MOBILE={width:1050,height:1500};
 const CARD={width:168,height:252,scale:.88};
 const BUNDLE='project-v-battle-v3';
 const ISO_GRID={columns:7,rows:6};
+const PLAYBACK_SPEED=1.6;
 const DEFAULT_BATTLEFIELD_MODE='HUNT';
 const BATTLEFIELD_ASSETS=Object.freeze({
   HUNT:'../../assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png',
@@ -265,6 +266,7 @@ export class BattleEngine{
       camera:this.camera,
       pools:this.pools,
       ticker:this.app.ticker,
+      playbackSpeed:PLAYBACK_SPEED,
       reducedMotion:this.reducedMotion
     });
 
@@ -967,7 +969,7 @@ export class BattleEngine{
       const entry={instance,settle};
       this.simpleTimelines.add(entry);
       build(instance);
-      if(this.reducedMotion)instance.timeScale(8);
+      instance.timeScale(this.reducedMotion?8:PLAYBACK_SPEED);
       instance.play(0);
     });
   }
@@ -1089,7 +1091,7 @@ export class BattleEngine{
         victim.setState(CHARACTER_STATE.HIT);
         victim.tint=0xffd4a0;
         whiteFlashHandle?.release();
-        whiteFlashHandle=triggerWhiteFlash(victim,{durationMs:50});
+        whiteFlashHandle=triggerWhiteFlash(victim,{durationMs:Math.round(50/PLAYBACK_SPEED)});
         if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
         onImpact(victim);
       },[],.2);
@@ -1214,7 +1216,7 @@ export class BattleEngine{
         let done=false;
         const finish=()=>{if(done)return;done=true;video.removeEventListener('ended',finish);resolve()};
         video.addEventListener('ended',finish,{once:true});
-        setTimeout(finish,2100);
+        setTimeout(finish,Math.round(2100/PLAYBACK_SPEED));
       });
       await video.play().catch(()=>{});
       await ended;

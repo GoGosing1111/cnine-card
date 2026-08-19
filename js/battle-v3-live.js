@@ -2,10 +2,13 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.0.1-cms-live';
+  const VERSION = '3.1.0-watchdog-1.6x';
+  const PLAYBACK_SPEED = 1.6;
+  const INIT_WATCHDOG_MS = 15000;
+  const EVENT_WATCHDOG_MS = 5000;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error(message)), Math.max(1000, Number(ms || 0)));
+    const timer = setTimeout(() => reject(new Error(message)), Math.max(50, Number(ms || 0)));
     Promise.resolve(promise).then(
       value => { clearTimeout(timer); resolve(value); },
       error => { clearTimeout(timer); reject(error); }
@@ -14,6 +17,17 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   })[char]);
+  const watchdogMs = (value, fallback) => Math.max(50, Number.isFinite(Number(value)) ? Number(value) : fallback);
+  const acceleratedUltimate = (ultimate, fallbackDuration = 3000) => {
+    const source = ultimate && typeof ultimate === 'object' ? ultimate : {};
+    const baseRate = Math.max(.5, Math.min(3, Number(source.playbackRate || 1)));
+    const baseDuration = Math.max(500, Math.min(30000, Number(source.durationMs || fallbackDuration)));
+    return {
+      ...source,
+      playbackRate: Math.max(.5, Math.min(3, baseRate * PLAYBACK_SPEED)),
+      durationMs: Math.max(320, Math.round(baseDuration / PLAYBACK_SPEED))
+    };
+  };
 
   function battlefieldMode(mode, data = {}) {
     const raw = String(data?.floor ? 'TOWER' : data?.battlefieldMode || data?.mode || mode || 'HUNT').toUpperCase();
@@ -122,77 +136,105 @@
     const status = stage.querySelector('#pvBattleStatus');
     const mode = battlefieldMode(options.mode, options.data);
     const playUltimateCinematics = options.playUltimateCinematics !== false;
+    const initWatchdogMs = watchdogMs(options.initWatchdogMs, INIT_WATCHDOG_MS);
+    const eventWatchdogMs = watchdogMs(options.eventWatchdogMs, EVENT_WATCHDOG_MS);
     let destroyed = false;
+    let rendererFailure = null;
     let payload = { ...(options.data || {}), mode, battlefieldMode: mode };
     if (options.monster) payload.monster = { ...options.monster, mode };
     if (options.floor) payload = towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] });
 
+    const releaseBlockingLayers = () => {
+      document.querySelectorAll('.battle-ultimate-overlay,.boss-ultimate-overlay').forEach(node => node.remove());
+      stage.classList.remove('ultimate-playing', 'boss-ultimate-fullscreen');
+      host.querySelector('.battle-v3-loader')?.remove();
+    };
+    const recoverRenderer = error => {
+      rendererFailure = error instanceof Error ? error : new Error(String(error || 'V3 렌더러 복구'));
+      try { root.ProjectVPixiBattle.destroy(); } catch {}
+      releaseBlockingLayers();
+      stage.classList.remove('is-v3-error');
+      stage.classList.add('is-v3-ready', 'is-v3-recovered');
+      if (phase) phase.textContent = 'RESULT RECOVERY';
+      if (status) status.textContent = '전투 판정 완료 · 결과 화면으로 복구했습니다.';
+      console.warn('[PROJECT V V3] renderer recovered:', rendererFailure.message);
+      return false;
+    };
     const init = async () => {
-      try {
+      const initialize = async () => {
         root.ProjectVPixiBattle.destroy();
         if (phase) phase.textContent = 'V3 RENDERER';
-        await withTimeout(root.ProjectVPixiBattle.mount(host), 20000, 'V3 WebGL 렌더러 준비 시간이 초과되었습니다.');
+        await root.ProjectVPixiBattle.mount(host);
         if (phase) phase.textContent = 'SERVER ASSET SYNC';
         // Live battles must receive the authoritative server payload before the
         // canvas becomes visible. This prevents preview cards/slimes from ever
         // reaching a production frame and guarantees a single DEPLOY event.
-        await withTimeout(root.ProjectVPixiBattle.setBattlePayload(payload), 30000, '서버 카드·몬스터 전투 자산 동기화 시간이 초과되었습니다.');
-        await withTimeout(root.ProjectVPixiBattle.setBattlefield(mode), 15000, '전장 배경을 불러오지 못했습니다.');
+        await root.ProjectVPixiBattle.setBattlePayload(payload);
+        await root.ProjectVPixiBattle.setBattlefield(mode);
         await root.ProjectVPixiBattle.setVisible(true);
         stage.classList.add('is-v3-ready');
         if (phase) phase.textContent = 'V3 READY';
         if (status) status.textContent = '서버 전투 데이터 동기화 완료';
-      } catch (error) {
-        stage.classList.add('is-v3-error');
-        if (phase) phase.textContent = 'V3 LOAD ERROR';
-        if (status) status.textContent = error?.message || '전투 화면을 준비하지 못했습니다.';
-        host.querySelector('.battle-v3-loader')?.classList.add('is-error');
-        throw error;
-      }
+      };
+      try {
+        await withTimeout(initialize(), initWatchdogMs, 'V3 전장 준비 제한 시간을 초과했습니다.');
+      } catch (error) { recoverRenderer(error); }
     };
 
     await init();
     return {
       async play() {
         if (destroyed) return false;
+        if (rendererFailure) return false;
         const timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
         if (phase) phase.textContent = 'V3 LIVE BATTLE';
-        await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]);
-        let playerUltimateShown = false;
-        let bossUltimateShown = false;
-        for (const sourceEvent of timeline) {
-          if (destroyed) return false;
-          const type = String(sourceEvent?.type || '').toUpperCase();
-          let event = { ...sourceEvent };
-          if (type === 'PVE_ULTIMATE') {
-            const sourceCard = payload?.ultimateSourceCard || null;
-            event = {
-              ...event,
-              actorId: event.actorId || sourceCard?.id || sourceCard?.cardId || '',
-              label: payload?.activatedUltimate?.name || event.label || '궁극기'
-            };
-            if (!playerUltimateShown && playUltimateCinematics && payload?.activatedUltimate && typeof root.playBattleUltimate === 'function') {
-              playerUltimateShown = true;
-              await root.playBattleUltimate(stage, payload.activatedUltimate, event.damage || payload?.ultimateDamage || payload?.bonusDamage || 0);
+        try {
+          await withTimeout(root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]), eventWatchdogMs, 'V3 전투 배치가 지연되었습니다.');
+          let playerUltimateShown = false;
+          let bossUltimateShown = false;
+          for (const sourceEvent of timeline) {
+            if (destroyed) return false;
+            const type = String(sourceEvent?.type || '').toUpperCase();
+            let event = { ...sourceEvent };
+            if (type === 'PVE_ULTIMATE') {
+              const sourceCard = payload?.ultimateSourceCard || null;
+              event = {
+                ...event,
+                actorId: event.actorId || sourceCard?.id || sourceCard?.cardId || '',
+                label: payload?.activatedUltimate?.name || event.label || '궁극기'
+              };
+              if (!playerUltimateShown && playUltimateCinematics && payload?.activatedUltimate && typeof root.playBattleUltimate === 'function') {
+                playerUltimateShown = true;
+                const ultimate = acceleratedUltimate(payload.activatedUltimate, 3000);
+                await withTimeout(root.playBattleUltimate(stage, ultimate, event.damage || payload?.ultimateDamage || payload?.bonusDamage || 0), Math.min(22000, ultimate.durationMs + 2500), '유저 궁극기 연출이 지연되었습니다.');
+              }
+            } else if (type === 'BOSS_ULTIMATE') {
+              const monsterCard = payload?.battleV2?.teams?.B?.cards?.find?.(card => /^MONSTER:/i.test(String(card?.cardId || '')) || ['MONSTER', 'BOSS'].includes(String(card?.grade || '').toUpperCase()));
+              event = {
+                ...event,
+                actorId: event.actorId || monsterCard?.id || monsterCard?.cardId || payload?.monster?.cardId || '',
+                label: payload?.bossUltimate?.name || event.label || '보스 궁극기'
+              };
+              if (!bossUltimateShown && playUltimateCinematics && payload?.bossUltimate && typeof root.playBossBattleUltimate === 'function') {
+                bossUltimateShown = true;
+                const ultimate = acceleratedUltimate(payload.bossUltimate, 2400);
+                await withTimeout(root.playBossBattleUltimate(stage, phase, ultimate), Math.min(22000, ultimate.durationMs + 2500), '보스 궁극기 연출이 지연되었습니다.');
+              }
             }
-          } else if (type === 'BOSS_ULTIMATE') {
-            const monsterCard = payload?.battleV2?.teams?.B?.cards?.find?.(card => /^MONSTER:/i.test(String(card?.cardId || '')) || ['MONSTER', 'BOSS'].includes(String(card?.grade || '').toUpperCase()));
-            event = {
-              ...event,
-              actorId: event.actorId || monsterCard?.id || monsterCard?.cardId || payload?.monster?.cardId || '',
-              label: payload?.bossUltimate?.name || event.label || '보스 궁극기'
-            };
-            if (!bossUltimateShown && playUltimateCinematics && payload?.bossUltimate && typeof root.playBossBattleUltimate === 'function') {
-              bossUltimateShown = true;
-              await root.playBossBattleUltimate(stage, phase, payload.bossUltimate);
-            }
+            await withTimeout(root.ProjectVPixiBattle.playEvents([event]), eventWatchdogMs, `${event.label || type || '전투'} 연출이 지연되었습니다.`);
           }
-          await root.ProjectVPixiBattle.playEvents([event]);
+        } catch (error) {
+          recoverRenderer(error);
+          return false;
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
       },
-      showResult() { stage.classList.add('is-result-visible'); },
+      showResult() {
+        releaseBlockingLayers();
+        stage.classList.add('is-v3-ready', 'is-result-visible');
+        stage.querySelectorAll('.battle-v3-result').forEach(node => node.classList.add('is-visible'));
+      },
       destroy() {
         if (destroyed) return;
         destroyed = true;
@@ -213,6 +255,7 @@
 
   root.ProjectVBattleV3Live = Object.freeze({
     version: VERSION,
+    playbackSpeed: PLAYBACK_SPEED,
     ready: () => Boolean(root.ProjectVPixiBattle),
     prepareLoading,
     createRenderer,
