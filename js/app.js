@@ -1390,14 +1390,19 @@ async function startBattle(){
   const previewCardPower=deckCards.reduce((sum,c)=>sum+battleCardPower(c,user,battleState.config),0),previewPower=previewCardPower+Number(battleState.characterBonus?.pve||0);
   if(v2Playback){
     earlyLive=prepareImmediateBattleV3Entry({modal,playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER'});msg=earlyLive?.msg||null;
-    await ensureFeatureResources('battleV2');
+    // Resource loading and the deterministic server simulation are independent.
+    // Start them together while the prebuilt battle shell is already visible.
+    const battleResources=ensureFeatureResources('battleV2');
+    const fightRequest=apiRequest('battle/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,monsterId:battleState.selectedMonster,cardIds:battleState.deck,autoBattle:Boolean(battleState.autoRunning)})},{timeoutMs:20000});
+    const [,d]=await Promise.all([battleResources,fightRequest]);
     if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready())throw new Error('전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.');
-  }
-  if(v2Playback){
+  
     if(earlyLive?.phase)earlyLive.phase.textContent='전투 계산';
-    const d=await apiRequest('battle/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,monsterId:battleState.selectedMonster,cardIds:battleState.deck,autoBattle:Boolean(battleState.autoRunning)})},{timeoutMs:20000});
     if(!d?.battleV2)throw new Error('PROJECT V V3 전투 응답을 받지 못했습니다. CMS 전투엔진 설정을 확인해주세요.');
-    const live=window.prepareBattleV2LiveLoading({modal,mode:'PVE',playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER'});
+    // Do not replace the prepainted V3 host: its canvas can be reused directly.
+    const live=window.ProjectVBattleV3Live?.ready?.()&&earlyLive
+      ?earlyLive
+      :window.prepareBattleV2LiveLoading({modal,mode:'PVE',playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER'});
     const stage=live.stage,phase=live.phase;msg=live.msg;ensureBattleSoundButton(stage);
     await window.playPveBattleV2Live({stage,phase,msg,modal,data:d,monster,playUltimateCinematics});
     return;
