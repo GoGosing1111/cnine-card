@@ -1,4 +1,4 @@
-import {Application, Assets, BlurFilter, Container, Graphics, Sprite, Text} from 'pixi.js';
+import {Application, Assets, BlurFilter, Container, Graphics, Sprite, Text, Texture} from 'pixi.js';
 import {gsap} from 'gsap';
 import {CameraController} from './CameraController.js';
 import {SkillTimeline} from './SkillTimeline.js';
@@ -234,9 +234,18 @@ export class BattleEngine{
     this.app.canvas.setAttribute('aria-hidden','true');
     target.appendChild(this.app.canvas);
 
-    Assets.addBundle(BUNDLE,ASSETS);
-    this.textures=await Assets.loadBundle(BUNDLE);
-    this.activeBattlefieldTexture=await this.loadBattlefieldTexture(this.activeBattlefieldMode);
+    const battlefieldTexturePromise=this.loadBattlefieldTexture(this.activeBattlefieldMode);
+    if(this.livePayload){
+      // Production battles must not download the 10MB preview roster before
+      // the authoritative server cards and monster are known. Empty textures
+      // keep the shared actor/card geometry intact until setBattlePayload()
+      // installs the live art below.
+      this.textures=Object.fromEntries(Object.keys(ASSETS).map(key=>[key,Texture.EMPTY]));
+    }else{
+      Assets.addBundle(BUNDLE,ASSETS);
+      this.textures=await Assets.loadBundle(BUNDLE);
+    }
+    this.activeBattlefieldTexture=await battlefieldTexturePromise;
 
     this.root=new Container();
     this.stage=new Container({sortableChildren:true,label:'BattleStage'});
@@ -595,31 +604,48 @@ export class BattleEngine{
     const tierAdapter=globalThis.ProjectVTierBattleArt;
     const fallback=globalThis.ProjectVUnassignedBattleFallback;
     if(!this.mounted&&!this.enemies.length)return null;
-    if(adapter)try{await adapter.ready()}catch(error){
-      console.warn('[Project V V3] monster SD manifest unavailable; fallback will be used.',error);
-    }
-    if(zenithAdapter)try{await zenithAdapter.ready()}catch(error){
-      console.warn('[Project V V3] ZENITH SD manifest unavailable; tier/fallback art will be used.',error);
-    }
-    if(tierAdapter)try{await tierAdapter.ready()}catch(error){
-      console.warn('[Project V V3] FUR/PRESTIGE SD manifests unavailable; fallback art will be used.',error);
-    }
-    if(fallback)try{await fallback.ready()}catch(error){
-      console.warn('[Project V V3] unassigned SD manifest unavailable; current art preserved.',error);
-    }
+    await Promise.allSettled([
+      adapter?.ready?.(),
+      zenithAdapter?.ready?.(),
+      tierAdapter?.ready?.(),
+      fallback?.ready?.()
+    ].filter(Boolean));
     this.activeFallbackArt=[];
 
     const allyCards=Array.isArray(payload?.battleV2?.teams?.A?.cards)?payload.battleV2.teams.A.cards:[];
+    const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)
+      ?payload.battleV2.teams.B.cards.filter(card=>!/^MONSTER:/i.test(String(card?.cardId||''))&&!['MONSTER','BOSS'].includes(String(card?.grade||'').toUpperCase()))
+      :[];
+    const resolveCardArt=(card,team)=>card?.projectVBattleArt
+      ||zenithAdapter?.resolveForBattle?.(card,{consumer:'BATTLE_ENGINE'})
+      ||tierAdapter?.resolveForV3?.(card)
+      ||fallback?.resolveForV3({kind:'CARD',team});
+    const allyArt=allyCards.map(card=>resolveCardArt(card,'ALLY'));
+    const enemyArt=enemyCards.map(card=>resolveCardArt(card,'ENEMY'));
+    const monster=this.monsterFromPayload(payload);
+    const specificMonsterArt=adapter?.resolveForV3(monster,{mode:monster?.mode})||monster?.projectVMonsterArt||null;
+    const monsterIsBoss=Boolean(monster?.isBoss||monster?.boss||specificMonsterArt?.isBoss);
+    const monsterArt=monster?(specificMonsterArt||fallback?.resolveForV3({kind:'MONSTER',team:'ENEMY',isBoss:monsterIsBoss})):null;
+    const preloadUrls=[];
+    const queueCardAssets=(cards,artList)=>cards.forEach((card,index)=>{
+      const art=artList[index];
+      if(art?.primaryUrl)preloadUrls.push(art.primaryUrl);
+      const sourceArt=originalCardArtUrl(card,art);
+      if(sourceArt)preloadUrls.push(sourceArt);
+    });
+    queueCardAssets(allyCards,allyArt);
+    queueCardAssets(enemyCards,enemyArt);
+    if(monsterArt?.primaryUrl)preloadUrls.push(monsterArt.primaryUrl);
+    // Pixi Assets de-duplicates identical URLs. Starting every live texture
+    // request together removes the previous card-by-card network waterfall.
+    await Promise.allSettled([...new Set(preloadUrls)].map(url=>Assets.load(url)));
     this.allies.forEach((character,index)=>{
       character.battleActive=allyCards.length?index<Math.min(allyCards.length,this.allies.length):true;
       character.root.visible=character.battleActive;
     });
     for(let index=0;index<Math.min(allyCards.length,this.allies.length);index+=1){
       const card=allyCards[index];
-      const art=card?.projectVBattleArt
-        ||zenithAdapter?.resolveForBattle?.(card,{consumer:'BATTLE_ENGINE'})
-        ||tierAdapter?.resolveForV3?.(card)
-        ||fallback?.resolveForV3({kind:'CARD',team:'ALLY'});
+      const art=allyArt[index];
       if(!art?.primaryUrl)continue;
       const texture=await Assets.load(art.primaryUrl);
       const target=this.allies[index];
@@ -638,16 +664,10 @@ export class BattleEngine{
       if(String(art.kind||'').startsWith('UNASSIGNED_'))this.activeFallbackArt.push(art);
     }
 
-    const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)
-      ?payload.battleV2.teams.B.cards.filter(card=>!/^MONSTER:/i.test(String(card?.cardId||''))&&String(card?.grade||'').toUpperCase()!=='MONSTER')
-      :[];
     this.enemies.forEach(character=>{character.battleActive=false;character.root.visible=false});
     for(let index=0;index<Math.min(enemyCards.length,this.enemies.length);index+=1){
       const card=enemyCards[index];
-      const art=card?.projectVBattleArt
-        ||zenithAdapter?.resolveForBattle?.(card,{consumer:'BATTLE_ENGINE'})
-        ||tierAdapter?.resolveForV3?.(card)
-        ||fallback?.resolveForV3({kind:'CARD',team:'ENEMY'});
+      const art=enemyArt[index];
       if(!art?.primaryUrl)continue;
       const texture=await Assets.load(art.primaryUrl);
       const target=this.enemies[index];
@@ -669,16 +689,14 @@ export class BattleEngine{
       if(String(art.kind||'').startsWith('UNASSIGNED_'))this.activeFallbackArt.push(art);
     }
 
-    const monster=this.monsterFromPayload(payload);
     if(!monster&&enemyCards.length){
       this.currentEnemyTarget=this.enemies.find(character=>this.isAlive(character))||this.enemies[0]||null;
       this.boss=this.currentEnemyTarget;
       this.bossHp=this.boss?.hp??0;
       return this.currentEnemyTarget?.root?.projectVBattleArt||null;
     }
-    const specificArt=adapter?.resolveForV3(monster,{mode:monster?.mode})||monster?.projectVMonsterArt||null;
-    const isBoss=Boolean(monster?.isBoss||monster?.boss||specificArt?.isBoss);
-    const art=specificArt||fallback?.resolveForV3({kind:'MONSTER',team:'ENEMY',isBoss});
+    const isBoss=monsterIsBoss;
+    const art=monsterArt;
     if(!art)return null;
     const texture=await Assets.load(art.primaryUrl);
     const target=this.enemies[1]||this.enemies[0];
@@ -965,7 +983,7 @@ export class BattleEngine{
         cleanup();
         resolve(value);
       };
-      const instance=gsap.timeline({paused:true,onComplete:()=>settle(true)});
+      const instance=gsap.timeline({paused:true,onComplete:()=>settle(true),onInterrupt:()=>settle(false)});
       const entry={instance,settle};
       this.simpleTimelines.add(entry);
       build(instance);

@@ -2,10 +2,8 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.2.0-hidden-boot-1.6x';
+  const VERSION = '3.3.0-first-frame-live-assets';
   const PLAYBACK_SPEED = 1.6;
-  const INIT_WATCHDOG_MS = 3000;
-  const EVENT_WATCHDOG_MS = 3500;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(message)), Math.max(50, Number(ms || 0)));
@@ -17,7 +15,7 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   })[char]);
-  const watchdogMs = (value, fallback) => Math.max(50, Number.isFinite(Number(value)) ? Number(value) : fallback);
+  const nextPaint = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
   const acceleratedUltimate = (ultimate, fallbackDuration = 3000) => {
     const source = ultimate && typeof ultimate === 'object' ? ultimate : {};
     const baseRate = Math.max(.5, Math.min(3, Number(source.playbackRate || 1)));
@@ -41,9 +39,8 @@
   function prepareLoading({ modal, mode = 'PVE', playerName = 'MEMBER TEAM', opponentName = 'OPPONENT', autoText = '' } = {}) {
     if (!modal) throw new Error('V3 전투 모달을 준비하지 못했습니다.');
     const field = battlefieldMode(mode);
-    // Mount Pixi invisibly over the current route. The modal is revealed only
-    // after the first authoritative server frame is ready, preventing a black
-    // loading battlefield from flashing in front of the player.
+    // Show the selected battlefield immediately. The lightweight loader stays
+    // over that scene only until Pixi commits its first authoritative frame.
     modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
@@ -140,10 +137,7 @@
     const mode = battlefieldMode(options.mode, options.data);
     const playUltimateCinematics = options.playUltimateCinematics !== false;
     const modal = options.modal || stage.closest?.('.modal') || null;
-    const initWatchdogMs = watchdogMs(options.initWatchdogMs, INIT_WATCHDOG_MS);
-    const eventWatchdogMs = watchdogMs(options.eventWatchdogMs, EVENT_WATCHDOG_MS);
     let destroyed = false;
-    let rendererFailure = null;
     let payload = { ...(options.data || {}), mode, battlefieldMode: mode };
     if (options.monster) payload.monster = { ...options.monster, mode };
     if (options.floor) payload = towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] });
@@ -154,48 +148,63 @@
       host.querySelector('.battle-v3-loader')?.remove();
     };
     const revealBattle = () => modal?.classList.remove('battle-v3-preparing');
-    const recoverRenderer = error => {
-      rendererFailure = error instanceof Error ? error : new Error(String(error || 'V3 렌더러 복구'));
-      try { root.ProjectVPixiBattle.destroy(); } catch {}
-      releaseBlockingLayers();
-      stage.classList.remove('is-v3-error');
-      stage.classList.add('is-v3-ready', 'is-v3-recovered');
-      if (phase) phase.textContent = 'RESULT RECOVERY';
-      if (status) status.textContent = '전투 판정 완료 · 결과 화면으로 복구했습니다.';
-      console.warn('[PROJECT V V3] renderer recovered:', rendererFailure.message);
-      return false;
+    const assertFirstFrame = async () => {
+      await nextPaint();
+      await nextPaint();
+      const canvas = host.querySelector('canvas');
+      if (!canvas || canvas.width < 2 || canvas.height < 2) throw new Error('V3 첫 프레임이 생성되지 않았습니다.');
+      const context = canvas.getContext('webgl2') || canvas.getContext('webgl');
+      if (!context || context.isContextLost?.()) throw new Error('WebGL 컨텍스트를 사용할 수 없습니다.');
     };
     const init = async () => {
       const initialize = async () => {
         root.ProjectVPixiBattle.destroy();
         if (phase) phase.textContent = 'V3 RENDERER';
-        await root.ProjectVPixiBattle.mount(host);
-        if (phase) phase.textContent = 'SERVER ASSET SYNC';
-        // Live battles must receive the authoritative server payload before the
-        // canvas becomes visible. This prevents preview cards/slimes from ever
-        // reaching a production frame and guarantees a single DEPLOY event.
-        await root.ProjectVPixiBattle.setBattlePayload(payload);
+        if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
+          await root.ProjectVPixiBattle.mountForBattle(payload, host);
+        } else {
+          await root.ProjectVPixiBattle.mount(host);
+          if (phase) phase.textContent = 'SERVER ASSET SYNC';
+          await root.ProjectVPixiBattle.setBattlePayload(payload);
+        }
         await root.ProjectVPixiBattle.setBattlefield(mode);
         await root.ProjectVPixiBattle.setVisible(true);
+        await assertFirstFrame();
         stage.classList.add('is-v3-ready');
         revealBattle();
         if (phase) phase.textContent = 'V3 READY';
         if (status) status.textContent = '서버 전투 데이터 동기화 완료';
       };
-      try {
-        await withTimeout(initialize(), initWatchdogMs, 'V3 전장 준비 제한 시간을 초과했습니다.');
-      } catch (error) { recoverRenderer(error); }
+      let lastError = null;
+      for (let attempt = 0; attempt < 2; attempt += 1) {
+        try {
+          await initialize();
+          return;
+        } catch (error) {
+          lastError = error;
+          try { root.ProjectVPixiBattle.destroy(); } catch {}
+          host.querySelectorAll('canvas').forEach(canvas => canvas.remove());
+          if (attempt === 0) {
+            if (phase) phase.textContent = 'V3 RENDER RETRY';
+            if (status) status.textContent = 'WebGL 전장을 즉시 다시 구성하고 있습니다.';
+            await nextPaint();
+          }
+        }
+      }
+      releaseBlockingLayers();
+      stage.classList.add('is-v3-error');
+      revealBattle();
+      throw lastError || new Error('V3 전장을 구성하지 못했습니다.');
     };
 
     await init();
     return {
       async play() {
         if (destroyed) return false;
-        if (rendererFailure) return false;
         const timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
         if (phase) phase.textContent = 'V3 LIVE BATTLE';
         try {
-          await withTimeout(root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]), eventWatchdogMs, 'V3 전투 배치가 지연되었습니다.');
+          await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]);
           let playerUltimateShown = false;
           let bossUltimateShown = false;
           for (const sourceEvent of timeline) {
@@ -227,11 +236,13 @@
                 await withTimeout(root.playBossBattleUltimate(stage, phase, ultimate), Math.min(22000, ultimate.durationMs + 2500), '보스 궁극기 연출이 지연되었습니다.');
               }
             }
-            await withTimeout(root.ProjectVPixiBattle.playEvents([event]), eventWatchdogMs, `${event.label || type || '전투'} 연출이 지연되었습니다.`);
+            await root.ProjectVPixiBattle.playEvents([event]);
           }
         } catch (error) {
-          recoverRenderer(error);
-          return false;
+          releaseBlockingLayers();
+          stage.classList.add('is-v3-error');
+          revealBattle();
+          throw new Error(`V3 전투 연출을 완료하지 못했습니다: ${error?.message || error}`);
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
@@ -255,7 +266,8 @@
     const data = towerPayload(options);
     const renderer = await createRenderer({ ...options, data, mode: 'TOWER' });
     options.modal.__battleV2Renderer = renderer;
-    await renderer.play();
+    const played = await renderer.play();
+    if (!played) throw new Error('V3 무한의 탑 전투가 완료되지 않았습니다.');
     await sleep(120);
     return renderer;
   }

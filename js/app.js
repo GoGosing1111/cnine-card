@@ -532,20 +532,20 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   battleV2:{
-    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=3.2.0-hidden-boot-1.6x'],
+    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=3.3.0-first-frame-live-assets'],
     scripts:[
-      'js/battle-v2-live.js?v=3.0.0-v3-delegate',
+      'js/battle-v2-live.js?v=3.0.1-v3-playback-required',
       'js/project-v-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-monster-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=45-watchdog-1.6x',
-      'js/battle-v3-live.js?v=3.2.0-hidden-boot-1.6x'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=46-live-assets-first-frame',
+      'js/battle-v3-live.js?v=3.3.0-first-frame-live-assets'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }
 };
-const featureResourcePromises=new Map(),gameImagePreloads=new Map();
+const featureResourcePromises=new Map();
 function loadFeatureStyle(href){
   const existing=[...document.querySelectorAll('link[rel="stylesheet"]')].find(link=>link.getAttribute('href')===href);
   if(existing)return Promise.resolve();
@@ -568,19 +568,6 @@ function featureKeyForTab(tab){return tab==='character'?'character':tab==='works
 function warmFeatureForTab(tab){const key=featureKeyForTab(tab);if(!key)return;ensureFeatureResources(key).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error))}
 function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':tab==='character'?'장비·칭호':tab==='workshop'?'제작소':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
 function featureRouteErrorHtml(tab,message){return `<section class="route-feature-loader is-error"><b>${escapeHtml(message||'화면을 불러오지 못했습니다.')}</b><button type="button" class="btn" data-feature-retry="${escapeHtml(tab)}">다시 시도</button></section>`}
-function preloadGameImage(url){
-  const source=String(url||'').trim();if(!source)return Promise.resolve(false);if(gameImagePreloads.has(source))return gameImagePreloads.get(source);
-  const request=new Promise(resolve=>{const image=new Image();image.decoding='async';image.onload=()=>resolve(true);image.onerror=()=>resolve(false);image.src=source});gameImagePreloads.set(source,request);return request;
-}
-function battleAssetUrl(value){
-  let raw=String(value||'').trim();if(!raw)return '';if(/^(?:data:|blob:)/i.test(raw))return raw;
-  raw=raw.replaceAll('\\','/').replaceAll('#','%23');
-  const encodePart=part=>{if(!part)return '';try{return encodeURIComponent(decodeURIComponent(part))}catch(_){return encodeURIComponent(part)}};
-  if(/^https?:\/\//i.test(raw)){try{const url=new URL(raw);url.pathname=url.pathname.split('/').map(encodePart).join('/');return url.href}catch(_){return raw}}
-  const queryAt=raw.indexOf('?'),query=queryAt>=0?raw.slice(queryAt):'';let path=queryAt>=0?raw.slice(0,queryAt):raw;
-  path=path.replace(/^(?:\.\.\/)+/,'').replace(/^\.\//,'').replace(/^\/+/,'');return `/${path.split('/').map(encodePart).join('/')}${query}`;
-}
-function preloadBattleEntryAssets(deck=[],enemy=null){const urls=(deck||[]).map(card=>battleAssetUrl(card?.image||card?.image_url)).filter(Boolean);const enemyUrl=battleAssetUrl(enemy?.image||enemy?.image_url);if(enemyUrl)urls.push(enemyUrl);return Promise.all([...new Set(urls)].map(preloadGameImage))}
 window.ensureFeatureResources=ensureFeatureResources;
 
 let shellRenderSeq=0,shellRouteStart=null,shellRouteEnd=null;
@@ -1355,7 +1342,7 @@ async function startBattle(){
   const user=loadUser();let deckCards=battleState.deck.map(id=>cards.find(x=>String(x.id)===String(id))).filter(Boolean);
   const previewCardPower=deckCards.reduce((sum,c)=>sum+battleCardPower(c,user,battleState.config),0),previewPower=previewCardPower+Number(battleState.characterBonus?.pve||0);
   if(v2Playback){
-    await Promise.all([ensureFeatureResources('battleV2'),preloadBattleEntryAssets(deckCards,monster)]);
+    await ensureFeatureResources('battleV2');
     if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready())throw new Error('전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.');
   }
   if(v2Playback){
@@ -3774,7 +3761,7 @@ async function fightPvp(id,matchToken){
   if(mine.length!==5)return alert('먼저 랭크전 덱 5장을 저장하세요.');
   const pvpPreviewCardPower=mine.reduce((sum,card)=>sum+battleCardPower(card,loadUser(),pvpState.config||battleState.config),0),pvpPreviewPower=pvpPreviewCardPower+Number(pvpState.characterBonus?.pvp||0);
   if(pvpState.battleEngine?.active){
-    await Promise.all([ensureFeatureResources('battleV2'),preloadBattleEntryAssets(mine,target)]);
+    await ensureFeatureResources('battleV2');
     if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready())throw new Error('랭크전 전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.');
     return fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken});
   }

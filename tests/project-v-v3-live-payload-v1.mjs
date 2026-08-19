@@ -11,22 +11,22 @@ const battleCss=fs.readFileSync(new URL('../css/battle-v3-live.css',import.meta.
 
 assert.equal(bridge.includes('/assets/effects/Anime.mp4'),false,'live bridge must never load preview ultimate media');
 assert.equal(bridge.includes('pvUltimateVideo'),false,'live bridge must not render the preview ultimate player');
-assert.match(bridge,/setBattlePayload\(payload\)[\s\S]*setBattlefield\(mode\)[\s\S]*setVisible\(true\)/,'server payload and battlefield must be ready before first visible frame');
+assert.match(bridge,/mountForBattle\(payload, host\)[\s\S]*setBattlefield\(mode\)[\s\S]*setVisible\(true\)[\s\S]*assertFirstFrame/,'server payload, battlefield and first WebGL frame must be ready before playback');
 assert.match(bridge,/payload\?\.activatedUltimate[\s\S]*playBattleUltimate/,'player ultimate must use server CMS configuration');
 assert.match(bridge,/payload\?\.bossUltimate[\s\S]*playBossBattleUltimate/,'boss ultimate must use server CMS configuration');
 assert.match(bridge,/ultimateSourceCard[\s\S]*actorId/,'player ultimate must resolve its configured source card');
 assert.match(bridge,/playerUltimateShown = false/,'player cinematic must be protected from repeated playback');
 assert.match(bridge,/bossUltimateShown = false/,'boss cinematic must be protected from repeated playback');
-assert.match(bridge,/withTimeout\(initialize\(\), initWatchdogMs/,'the complete renderer initialization needs a hard watchdog');
-assert.match(bridge,/withTimeout\(root\.ProjectVPixiBattle\.playEvents/,'every Pixi timeline event needs a hard watchdog');
+assert.doesNotMatch(bridge,/INIT_WATCHDOG_MS|EVENT_WATCHDOG_MS/,'cold mobile loading must not destroy a healthy renderer on an arbitrary deadline');
+assert.doesNotMatch(bridge,/recoverRenderer/,'renderer failure must never jump directly to the server result');
 assert.match(bridge,/const PLAYBACK_SPEED = 1\.6/,'the V3 runtime speed must be 1.6x');
-assert.match(bridge,/const INIT_WATCHDOG_MS = 3000/,'hidden V3 boot must fail open quickly');
-assert.match(bridge,/battle-v3-preparing/,'the battle modal must remain invisible until its first authoritative frame');
+assert.match(bridge,/for \(let attempt = 0; attempt < 2;/,'WebGL initialization must retry once after an explicit failure');
+assert.match(bridge,/battle-v3-preparing/,'the battlefield shell must identify its first-frame state');
 assert.match(bridge,/stage\.classList\.add\('is-v3-ready'\);[\s\S]*revealBattle\(\)/,'the modal may reveal only after the renderer is ready');
 assert.match(bridge,/durationMs: Math\.max\(320, Math\.round\(baseDuration \/ PLAYBACK_SPEED\)\)/,'CMS cinematics must use the same 1.6x clock');
 assert.doesNotMatch(battleCss,/:has\(canvas\) \.battle-v3-loader/,'a canvas alone must never hide the loader before assets are ready');
 assert.match(battleCss,/is-v3-ready \.battle-v3-loader/,'the loader may hide only after the renderer is ready');
-assert.match(battleCss,/\.battle-v3-modal\.battle-v3-preparing\{opacity:0!important;pointer-events:none!important/,'the booting renderer must stay visually hidden');
+assert.match(battleCss,/\.battle-v3-modal\.battle-v3-preparing\{opacity:1!important;pointer-events:auto!important/,'the selected battlefield must be visible while Pixi commits its first frame');
 
 assert.equal(engine.includes('FSM/타격 객체 풀 사용'),false,'internal engine implementation text must not reach players');
 assert.match(engine,/this\.livePayload=Boolean\(payload\?\.battleV2\)/,'engine must distinguish authoritative live payloads');
@@ -36,16 +36,19 @@ assert.match(engine,/if\(this\.livePayload&&this\.liveDeployed\)/,'live formatio
 assert.match(engine,/this\.cards\.filter\(card=>card\.visible&&card\.renderable\)/,'hidden preview cards must not animate into live PVP');
 assert.match(engine,/const liveActor=explicitActor\|\|\(this\.livePayload/,'live ultimates must not fall back to the preview-only actor');
 assert.match(engine,/instance\.timeScale\(this\.reducedMotion\?8:PLAYBACK_SPEED\)/,'all Pixi timelines must run at 1.6x');
+assert.match(engine,/this\.textures=Object\.fromEntries\(Object\.keys\(ASSETS\)/,'live battles must skip the preview asset bundle');
+assert.match(engine,/Promise\.allSettled\(\[\.\.\.new Set\(preloadUrls\)\]/,'live card and monster assets must load concurrently');
+assert.match(engine,/onInterrupt:\(\)=>settle\(false\)/,'interrupted GSAP timelines must settle instead of hanging');
 
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=45-watchdog-1\.6x/);
-assert.match(app,/battle-v3-live\.js\?v=3\.2\.0-hidden-boot-1\.6x/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=46-live-assets-first-frame/);
+assert.match(app,/battle-v3-live\.js\?v=3\.3\.0-first-frame-live-assets/);
 assert.equal(app.includes('battle-resource-loader'),false,'the renewed V3 flow must never show the old resource loading battlefield');
 assert.match(app,/const d=await apiRequest\('battle\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVE must calculate first and reveal only the ready V3 scene');
 assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=1765-battle-lock-retry/);
-assert.match(serviceWorker,/soop-card-shell-v1765-battle-lock-retry/);
+assert.match(index,/js\/app\.js\?v=1766-v3-first-frame/);
+assert.match(serviceWorker,/soop-card-shell-v1766-v3-first-frame/);
 
 const calls=[];
 const phase={textContent:''};
@@ -61,11 +64,13 @@ const stage={
   },
   querySelectorAll:()=>[]
 };
-const host={querySelector:()=>loader};
+const canvas={width:1600,height:820,getContext:()=>({isContextLost:()=>false})};
+const host={querySelector:selector=>selector==='canvas'?canvas:loader,querySelectorAll:()=>[]};
 const context={
   console,
   setTimeout,
   clearTimeout,
+  requestAnimationFrame:callback=>{callback(0);return 1},
   Promise,
   document:{querySelectorAll:()=>[]},
   window:null,
@@ -113,50 +118,5 @@ assert.equal(eventCalls[1][1][0].actorId,'CARD-CMS-01');
 assert.equal(eventCalls[1][1][0].label,'CMS USER ULTIMATE');
 assert.equal(eventCalls[3][1][0].actorId,'MONSTER:7');
 assert.equal(eventCalls[3][1][0].label,'CMS BOSS ULTIMATE');
-
-const recoveryClasses=new Set();
-const recoveryResult={classList:{add:value=>recoveryClasses.add(`result:${value}`)}};
-const recoveryLoader={remove:()=>recoveryClasses.add('loader-removed')};
-const recoveryStage={
-  classList:{add:(...values)=>values.forEach(value=>recoveryClasses.add(value)),remove:(...values)=>values.forEach(value=>recoveryClasses.delete(value))},
-  querySelector:selector=>selector==='#battlePhase'?{textContent:''}:selector==='#pvBattleStatus'?{textContent:''}:null,
-  querySelectorAll:selector=>selector==='.battle-v3-result'?[recoveryResult]:[]
-};
-context.ProjectVPixiBattle={
-  destroy:()=>{},
-  mount:()=>new Promise(()=>{}),
-  setBattlePayload:async()=>{},
-  setBattlefield:async()=>{},
-  setVisible:async()=>{},
-  playEvents:async()=>{}
-};
-const recovered=await runtime.createRenderer({stage:recoveryStage,host:{querySelector:()=>recoveryLoader},mode:'PVE',data:{battleV2:{result:{timeline:[]}}},initWatchdogMs:30});
-assert.equal(await recovered.play(),false,'a timed-out renderer must fail open instead of blocking the server result');
-recovered.showResult();
-assert.ok(recoveryClasses.has('is-v3-recovered'));
-assert.ok(recoveryClasses.has('is-result-visible'));
-assert.ok(recoveryClasses.has('result:is-visible'));
-assert.ok(recoveryClasses.has('loader-removed'));
-
-const eventRecoveryClasses=new Set();
-const eventRecoveryStage={
-  classList:{add:(...values)=>values.forEach(value=>eventRecoveryClasses.add(value)),remove:(...values)=>values.forEach(value=>eventRecoveryClasses.delete(value))},
-  querySelector:selector=>selector==='#battlePhase'?{textContent:''}:selector==='#pvBattleStatus'?{textContent:''}:null,
-  querySelectorAll:()=>[]
-};
-context.ProjectVPixiBattle={
-  destroy:()=>{},
-  mount:async()=>{},
-  setBattlePayload:async()=>{},
-  setBattlefield:async()=>{},
-  setVisible:async()=>{},
-  playEvents:()=>new Promise(()=>{})
-};
-const eventRecovered=await runtime.createRenderer({stage:eventRecoveryStage,host:{querySelector:()=>({remove:()=>eventRecoveryClasses.add('loader-removed')})},mode:'PVE',data:{battleV2:{result:{timeline:[]}}},eventWatchdogMs:30});
-assert.equal(await eventRecovered.play(),false,'a stalled event must fail open instead of leaving a black battle canvas');
-eventRecovered.showResult();
-assert.ok(eventRecoveryClasses.has('is-v3-recovered'));
-assert.ok(eventRecoveryClasses.has('is-result-visible'));
-assert.ok(eventRecoveryClasses.has('loader-removed'));
 
 console.log('project-v-v3 live payload contract: OK');

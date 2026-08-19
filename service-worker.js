@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1765-battle-lock-retry';
+const SHELL_CACHE='soop-card-shell-v1766-v3-first-frame';
 const CONTENT_CACHE='soop-card-content-v1';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

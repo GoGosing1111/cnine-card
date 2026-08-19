@@ -9,6 +9,18 @@ async function mount(target=document.getElementById('pvPixiBattle')){
   return engine;
 }
 
+async function mountForBattle(payload,target=document.getElementById('pvPixiBattle')){
+  destroy();
+  engine=new BattleEngine({host:target,battleData:payload});
+  try{
+    await engine.mount();
+    return engine;
+  }catch(error){
+    destroy();
+    throw error;
+  }
+}
+
 async function setVisible(next){
   if(!engine&&next)await mount();
   return engine?.setVisible(next);
@@ -48,7 +60,7 @@ function diagnostics(){
   return engine?.diagnostics()||{mounted:false};
 }
 
-const api={mount,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
+const api={mount,mountForBattle,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
+export {mount,mountForBattle,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};

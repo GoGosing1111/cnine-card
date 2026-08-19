@@ -13,6 +13,6 @@ assert.match(app,/USER_ACTION_IN_PROGRESS[\s\S]{0,500}retryCount<12/);
 assert.match(app,/return apiRequest\(path,options,\{\.\.\.config,userActionRetryCount:retryCount\+1\}\)/);
 assert.match(api,/fastBattleAction=\['battle\/fight','tower\/fight','pvp\/match','pvp\/fight'\]\.includes\(actionPath\)/);
 assert.match(api,/fastBattleAction\?8000:60000/);
-assert.match(index,/js\/app\.js\?v=1765-battle-lock-retry/);
-assert.match(worker,/soop-card-shell-v1765-battle-lock-retry/);
+assert.match(index,/js\/app\.js\?v=1766-v3-first-frame/);
+assert.match(worker,/soop-card-shell-v1766-v3-first-frame/);
 console.log('battle action lock retry contract: OK');

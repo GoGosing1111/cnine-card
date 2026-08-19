@@ -409,18 +409,18 @@
     const renderer=window.ProjectVBattleV3Live?.ready?.()
       ?await window.ProjectVBattleV3Live.createRenderer({...options,mode:'PVE'})
       :createRenderer({...options,mode:'PVE'});
-    options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(window.ProjectVBattleV3Live?.ready?.()?120:420);await finishPve({...options,renderer});
+    options.modal.__battleV2Renderer=renderer;const played=await renderer.play();if(played===false)throw new Error('V3 전투 연출이 완료되지 않았습니다.');await sleep(window.ProjectVBattleV3Live?.ready?.()?120:420);await finishPve({...options,renderer});
   };
   window.playPvpBattleV2Live = async options => {
     const renderer=window.ProjectVBattleV3Live?.ready?.()
       ?await window.ProjectVBattleV3Live.createRenderer({...options,mode:'PVP'})
       :createRenderer({...options,mode:'PVP'});
-    options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(window.ProjectVBattleV3Live?.ready?.()?120:320);renderer.showResult();
+    options.modal.__battleV2Renderer=renderer;const played=await renderer.play();if(played===false)throw new Error('V3 랭크전 연출이 완료되지 않았습니다.');await sleep(window.ProjectVBattleV3Live?.ready?.()?120:320);renderer.showResult();
   };
   window.playSiegeBattleV2Live = async options => {
     const renderer=window.ProjectVBattleV3Live?.ready?.()
       ?await window.ProjectVBattleV3Live.createRenderer({...options,mode:'SIEGE'})
       :createRenderer({...options,mode:'PVE'});
-    options.modal.__battleV2Renderer=renderer;await renderer.play();await sleep(window.ProjectVBattleV3Live?.ready?.()?120:320);renderer.showResult();return renderer;
+    options.modal.__battleV2Renderer=renderer;const played=await renderer.play();if(played===false)throw new Error('V3 공성전 연출이 완료되지 않았습니다.');await sleep(window.ProjectVBattleV3Live?.ready?.()?120:320);renderer.showResult();return renderer;
   };
 })();

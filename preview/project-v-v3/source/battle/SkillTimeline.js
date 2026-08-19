@@ -264,7 +264,7 @@ export class SkillTimeline{
         cleanup();
         resolve(value);
       };
-      const timeline=gsap.timeline({paused:true,defaults:{overwrite:'auto'},onComplete:()=>settle(true)});
+      const timeline=gsap.timeline({paused:true,defaults:{overwrite:'auto'},onComplete:()=>settle(true),onInterrupt:()=>settle(false)});
       const entry={timeline,settle};
       this.active.add(entry);
       const speed=this.reducedMotion?6:this.playbackSpeed;

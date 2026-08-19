@@ -20,11 +20,10 @@ assert.match(app,/featureResourcePromises\.delete\(key\)/);
 assert.match(app,/function warmFeatureForTab\(tab\)/);
 assert.match(app,/pointerover',warmFromEvent/);
 assert.match(app,/ensureFeatureResources\('battleV2'\)/);
-assert.match(app,/preloadBattleEntryAssets\(deckCards,monster\)/);
-assert.match(app,/preloadBattleEntryAssets\(mine,target\)/);
+assert.doesNotMatch(app,/preloadBattleEntryAssets/,'original card images must not block battle API startup');
 assert.match(app,/routeWaitsForFeature/);
 assert.match(runtimeCss,/\.route-feature-loader/);
-assert.match(worker,/soop-card-shell-v1731/);
+assert.match(worker,/soop-card-shell-v1766-v3-first-frame/);
 
 const deferredBytes=[
   'css/battle-v2-live.css','js/battle-v2-live.js',
