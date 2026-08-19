@@ -13,11 +13,12 @@
   let latest = null;
   let chargeTimer = null;
 
-  function source(value) {
-    const text = String(value || '').trim();
+  function source(value, version = '') {
+    let text = String(value || '').trim().replace(/\\/g, '/');
     if (!text) return '';
-    if (/^(?:https?:|data:|blob:|\/)/i.test(text)) return text;
-    return '/' + text.replace(/^\.\//, '');
+    if (!/^(?:https?:|data:|blob:|\/)/i.test(text)) text = '/' + text.replace(/^\.\//, '');
+    if (version && !/^(?:data:|blob:)/i.test(text)) text += `${text.includes('?') ? '&' : '?'}v=${encodeURIComponent(version)}`;
+    return text;
   }
 
   function requestId() {
@@ -158,7 +159,7 @@
 
     const event = data.event;
     const [badge, line] = statusLabel(data);
-    const bossImage = source(event.bossImage);
+    const bossImage = source(event.bossImage, event.updatedAt);
     const progress = data.progress || {};
     const clear = data.clearReward || {};
     const canClaim = clear.eligible && !clear.claimed && !clear.processing;
@@ -246,7 +247,7 @@
     const event = latest?.event || {};
     const role = event.roles?.[roleKey] || {};
     const previewCards = latest?.deck?.cards || [];
-    const bossImage = source(event.bossImage);
+    const bossImage = source(event.bossImage, event.updatedAt);
     modal.className = `modal show battle-modal seal-combat-modal role-${roleKey.toLowerCase()}`;
     modal.innerHTML = `<div class="modal-panel battle-stage seal-battle-stage intro">
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>

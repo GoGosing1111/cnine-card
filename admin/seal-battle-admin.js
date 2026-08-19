@@ -97,7 +97,7 @@
       </section>
 
       <section class="seal-admin-settings">
-        <header><div><small>다음 봉인전 기본 설정</small><h3>운영 및 목표 설정</h3><p>설정 저장 후 새 봉인전을 시작하면 현재 값이 이벤트에 고정 저장됩니다.</p></div><button type="button" id="sealAdminSave" class="primary">설정 저장</button></header>
+        <header><div><small>봉인전 기본 설정</small><h3>운영 및 목표 설정</h3><p>보스 이미지는 설정 저장 즉시 현재 진행 중인 봉인전에도 반영됩니다.</p></div><button type="button" id="sealAdminSave" class="primary">설정 저장</button></header>
         <div class="seal-admin-form-grid">
           <label><span>운영 모드</span><select id="sealMode"><option value="OFF">OFF · 중지</option><option value="TEST">TEST · 관리자만 참여</option><option value="ON">ON · 전체 공개</option></select></label>
           <label><span>콘텐츠명</span><input id="sealTitle" maxlength="60"></label>

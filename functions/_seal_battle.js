@@ -1273,6 +1273,8 @@ export async function handleSealBattle({ path, request, env, deps }) {
   if (path === 'admin/seal-battle/settings' && request.method === 'PATCH') {
     const body = await deps.readBody(request);
     const next = await saveSettings(env, body.settings || body);
+    await env.DB.prepare("UPDATE seal_battle_events SET boss_image=?,updated_at=CURRENT_TIMESTAMP WHERE status='ACTIVE'")
+      .bind(next.bossImage).run();
     if (typeof deps.writeAdminLog === 'function') {
       await deps.writeAdminLog(env, admin, 'SEAL_BATTLE_SETTINGS_UPDATE', 'SEAL_BATTLE', 'settings', settings, next);
     }
