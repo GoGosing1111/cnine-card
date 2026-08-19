@@ -1,5 +1,5 @@
-const SHELL_CACHE='soop-card-shell-v1770-v3-live-lifecycle-hotfix';
-const CONTENT_CACHE='soop-card-content-v1';
+const SHELL_CACHE='soop-card-shell-v1771-media-integrity';
+const CONTENT_CACHE='soop-card-content-v2-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
 const SHELL_CORE=[
@@ -22,7 +22,8 @@ self.addEventListener('activate',event=>{
     const names=await caches.keys();
     await Promise.all(names.filter(name=>
       name.startsWith('soop-card-static-')||
-      (name.startsWith('soop-card-shell-')&&name!==SHELL_CACHE)
+      (name.startsWith('soop-card-shell-')&&name!==SHELL_CACHE)||
+      (name.startsWith('soop-card-content-')&&name!==CONTENT_CACHE)
     ).map(name=>caches.delete(name)));
     await self.clients.claim();
   })());
@@ -34,6 +35,20 @@ function sameOriginGet(request,url){
 
 function isVersioned(url){
   return url.searchParams.has('v')||/-v\d+(?:[.-]|$)/i.test(url.pathname);
+}
+
+function validMediaResponse(request,response){
+  if(!response?.ok)return false;
+  const type=String(response.headers.get('content-type')||'').toLowerCase();
+  if(type.includes('text/html'))return false;
+  if(request.destination==='image')return type.startsWith('image/');
+  if(request.destination==='video')return type.startsWith('video/')||type.includes('application/octet-stream');
+  if(request.destination==='audio')return type.startsWith('audio/')||type.includes('application/octet-stream');
+  return true;
+}
+
+function invalidMediaResponse(){
+  return new Response('Asset not found',{status:404,headers:{'Content-Type':'text/plain; charset=utf-8','Cache-Control':'no-store'}});
 }
 
 async function trimCache(cacheName,maxEntries){
@@ -53,15 +68,22 @@ async function cacheFirst(request,cacheName){
 function staleWhileRevalidate(event,request,cacheName){
   const update=(async()=>{
     const cache=await caches.open(cacheName),response=await fetch(request);
-    if(response.ok){
+    if(validMediaResponse(request,response)){
       await cache.put(request,response.clone());
       contentWritesUntilTrim--;
       if(contentWritesUntilTrim<=0){contentWritesUntilTrim=24;await trimCache(cacheName,CONTENT_CACHE_LIMIT)}
+      return response;
     }
-    return response;
+    await cache.delete(request);
+    return invalidMediaResponse();
   })().catch(()=>null);
   event.waitUntil(update);
-  return caches.open(cacheName).then(cache=>cache.match(request)).then(async cached=>cached||(await update)||Response.error());
+  return caches.open(cacheName).then(async cache=>{
+    const cached=await cache.match(request);
+    if(cached&&validMediaResponse(request,cached))return cached;
+    if(cached)await cache.delete(request);
+    return (await update)||Response.error();
+  });
 }
 
 async function networkFirst(request,cacheName,fallback=null){
