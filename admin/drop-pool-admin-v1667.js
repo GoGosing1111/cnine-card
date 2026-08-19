@@ -5,8 +5,8 @@
   const api=async(body=null)=>{const response=await fetch('/api/admin/drop-pools',{method:body?'POST':'GET',credentials:'include',cache:'no-store',headers:{'content-type':'application/json',...(token()?{authorization:`Bearer ${token()}`}:{})},...(body?{body:JSON.stringify(body)}:{})}),data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||'통합 드랍풀 요청 처리에 실패했습니다.');return data};
   let state={pools:[],bindings:[],inventoryItems:[],recentLedger:[],rewardTypes:[],sourceTypes:[],triggerTypes:[]},selectedId=0,mounted=false,pendingBindingSource='';
   const q=id=>document.getElementById(id);
-  const SOURCE_LABELS={PVE:'일반 PVE',PVE_AUTO:'PVE 자동전투',PVP:'일반 PVP',TOWER:'무한의탑',RAID:'월드 레이드',RIFT:'균열 원정',CAPTAIN:'대장전',SIEGE:'몬스터 공성',IDLE_DUNGEON:'방치형 원정',SCRAPYARD:'폐차장'};
-  const SOURCE_DEFAULT_TRIGGER={PVE:'WIN',PVE_AUTO:'WIN',PVP:'WIN',TOWER:'CLEAR',RAID:'SETTLEMENT',RIFT:'CLEAR',CAPTAIN:'SETTLEMENT',SIEGE:'SETTLEMENT',IDLE_DUNGEON:'CLEAR',SCRAPYARD:'CLEAR'};
+  const SOURCE_LABELS={PVE:'일반 PVE',PVE_AUTO:'PVE 자동전투',PVE_NIGHTMARE:'나이트메어 PVE',PVE_NIGHTMARE_AUTO:'나이트메어 자동전투',PVP:'일반 PVP',TOWER:'무한의탑',RAID:'월드 레이드',RIFT:'균열 원정',CAPTAIN:'대장전',SIEGE:'몬스터 공성',IDLE_DUNGEON:'방치형 원정',SCRAPYARD:'폐차장'};
+  const SOURCE_DEFAULT_TRIGGER={PVE:'WIN',PVE_AUTO:'WIN',PVE_NIGHTMARE:'WIN',PVE_NIGHTMARE_AUTO:'WIN',PVP:'WIN',TOWER:'CLEAR',RAID:'SETTLEMENT',RIFT:'CLEAR',CAPTAIN:'SETTLEMENT',SIEGE:'SETTLEMENT',IDLE_DUNGEON:'CLEAR',SCRAPYARD:'CLEAR'};
   const SCRAPYARD_DIFFICULTIES=[
     {id:'OUTER',code:'SCRAPYARD_PARTS_OUTER',name:'외곽 폐차장',tag:'OUTER YARD'},
     {id:'CORE',code:'SCRAPYARD_PARTS_CORE',name:'압축 설비 구역',tag:'COMPRESSION CORE'},

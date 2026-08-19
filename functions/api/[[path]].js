@@ -25,6 +25,15 @@ import { normalizeNightmareSettings,nightmareProgressionKey,nightmareProgression
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
+async function safePveUnifiedDrop(env,payload){
+  const sourceType=String(payload.sourceType||'PVE').toUpperCase();
+  if(payload.isNightmare){
+    const nightmareSource=sourceType==='PVE_AUTO'?'PVE_NIGHTMARE_AUTO':'PVE_NIGHTMARE';
+    const dedicated=await safeUnifiedDrop(env,{...payload,sourceType:nightmareSource});
+    if(dedicated&&dedicated.skipped!=='NO_ACTIVE_BINDING')return dedicated;
+  }
+  return safeUnifiedDrop(env,{...payload,sourceType});
+}
 
 const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,LIMITED:3000,PRESTIGE:3100,FUR:5000,ZENITH:8000};
 const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11,ZENITH:12};
@@ -1224,7 +1233,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const bossPveDamagePercent=difficulty.bossUltimateUnlocked?difficulty.bossUltimateCapPercent:Math.max(0,Math.min(100,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0))),bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(uniquePlayerPower*bossPveDamagePercent/100)):0;
   const result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Math.max(0,Math.floor(difficulty.effectiveRewardCoin*Number(settings.__burningRewardMultiplier||1))):0;
   if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 자동사냥 승리 보상: ${monster.name}`,user.id).run();}
-  let cardReward=null,equipmentReward=null,blackMiracleReward=null,unifiedDrop=null;if(result==='WIN'){const dropRequestId=requestId||`${Date.now()}-${monster.id}`;if(settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:'PVE_AUTO',sourceId:String(monster.id),requestId:dropRequestId});blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:'PVE_AUTO',referenceId:dropRequestId});unifiedDrop=await safeUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${dropRequestId}`,sourceType:'PVE_AUTO',sourceId:String(monster.id),triggerType:'WIN',context:{boss:Boolean(monster.is_boss),difficulty:difficulty.difficulty},role:user.role});}
+  let cardReward=null,equipmentReward=null,blackMiracleReward=null,unifiedDrop=null;if(result==='WIN'){const dropRequestId=requestId||`${Date.now()}-${monster.id}`;if(settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:'PVE_AUTO',sourceId:String(monster.id),requestId:dropRequestId});blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:'PVE_AUTO',referenceId:dropRequestId});unifiedDrop=await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${dropRequestId}`,sourceType:'PVE_AUTO',sourceId:String(monster.id),triggerType:'WIN',context:{boss:Boolean(monster.is_boss),difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare});}
   await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),uniquePlayerPower,monsterPower,result,reward).run();
   return {result,reward,cardReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower:uniquePlayerPower,cardPower,characterBonus,monsterPower,difficulty:{...difficulty,engineMonster:undefined},bossUltimate:bossShouldCast?{damagePercent:bossPveDamagePercent,penalty:bossUltimatePenalty,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked}:null,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime)};
 }
@@ -5028,7 +5037,7 @@ async function handleRequest(context){
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
       const reward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0;
       if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id).run();}
-      let cardReward=null,equipmentReward=null,blackMiracleReward=null,unifiedDrop=null;if(result==='WIN'){if(settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}const rewardSource=payload.autoBattle===true?'PVE_AUTO':'PVE';equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId});blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId});unifiedDrop=await safeUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:rewardSource,sourceId:String(monster.id),triggerType:'WIN',context:{boss:bossIsBoss,difficulty:difficulty.difficulty},role:user.role});}
+      let cardReward=null,equipmentReward=null,blackMiracleReward=null,unifiedDrop=null;if(result==='WIN'){if(settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}const rewardSource=payload.autoBattle===true?'PVE_AUTO':'PVE';equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId});blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId});unifiedDrop=await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:rewardSource,sourceId:String(monster.id),triggerType:'WIN',context:{boss:bossIsBoss,difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare});}
       await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run();
       const cubeReward=await grantBattleCube(env,user.id,'PVE',requestId,result==='WIN'),pveMagic=(await magicSettings(env)).acquisition?.pve||{};
       const rerollTicketDrop=result==='WIN'?await grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:requestId}):null;
@@ -5948,17 +5957,17 @@ async function handleRequest(context){
         const currentBattle=await battleSettings(env);
         payload.settings.engine={...(payload.settings.engine||{}),singleHealerBonus:currentBattle.engine?.singleHealerBonus};
       }
-      if(request.method==='PATCH'&&payload.settings&&!payload.settings.nightmare){
+      if(request.method==='PATCH'&&payload.settings){
         const currentBattle=await battleSettings(env);
-        payload.settings.nightmare=currentBattle.nightmare;
+        if(!payload.settings.nightmare)payload.settings.nightmare=currentBattle.nightmare;
+        else if(!Object.prototype.hasOwnProperty.call(payload.settings.nightmare,'bossProfiles'))payload.settings.nightmare={...payload.settings.nightmare,bossProfiles:currentBattle.nightmare?.bossProfiles||{}};
       }
       if(request.method==='PATCH'&&payload.nightmare){
-        const before=await battleSettings(env),nightmare=normalizeNightmareSettings(payload.nightmare);
+        const before=await battleSettings(env),nightmarePayload=Object.prototype.hasOwnProperty.call(payload.nightmare,'bossProfiles')?payload.nightmare:{...payload.nightmare,bossProfiles:before.nightmare?.bossProfiles||{}},nightmare=normalizeNightmareSettings(nightmarePayload);
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_nightmare_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(nightmare)).run();
         runtimeSettingsCache.delete('battle');
         const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
         if(JSON.stringify(saved.nightmare)!==JSON.stringify(nightmare))return json({error:'나이트메어 설정 저장 검증에 실패했습니다.',code:'NIGHTMARE_SETTINGS_VERIFY_FAILED'},500);
-        await rebalanceNightmareProgression(env,saved.nightmare);
         await writeAdminLog(env,admin,'NIGHTMARE_SETTINGS_UPDATE','SETTINGS','battle_nightmare',before.nightmare,saved.nightmare);
         return json({ok:true,settings:saved,nightmare:saved.nightmare});
       }

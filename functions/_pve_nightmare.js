@@ -5,6 +5,27 @@ const clamp=(value,min,max,fallback=min)=>{
 
 export const PVE_NIGHTMARE='NIGHTMARE';
 
+function normalizeNightmareBossProfiles(raw={}){
+  const source=raw?.bossProfiles&&typeof raw.bossProfiles==='object'&&!Array.isArray(raw.bossProfiles)?raw.bossProfiles:{};
+  const profiles={};
+  for(const [rawId,value] of Object.entries(source).slice(0,300)){
+    const id=Math.floor(Number(rawId));
+    if(!Number.isInteger(id)||id<1||!value||typeof value!=='object')continue;
+    const profile={
+      battlePower:clamp(value.battlePower,1,1000000000,1),
+      rewardCoin:clamp(value.rewardCoin,0,1000000000,0),
+      hpPercent:clamp(value.hpPercent,100,1000,200),
+      attackPercent:clamp(value.attackPercent,100,1000,160),
+      defensePercent:clamp(value.defensePercent,100,1000,150),
+      speedPercent:clamp(value.speedPercent,100,300,120),
+      rewardPercent:clamp(value.rewardPercent,100,2000,250),
+      bossUltimateCapPercent:clamp(value.bossUltimateCapPercent,100,500,120)
+    };
+    profiles[String(id)]=profile;
+  }
+  return profiles;
+}
+
 // NIGHTMARE is a continuation of the final HELL boss, not a second copy of the
 // old HELL curve. Ratios describe the effective values players see after the
 // global NIGHTMARE multipliers are applied.
@@ -29,7 +50,8 @@ export function normalizeNightmareSettings(raw={}){
     speedPercent:clamp(raw.speedPercent??120,100,300,120),
     rewardPercent:clamp(raw.rewardPercent??250,100,2000,250),
     bossUltimateUnlocked:raw.bossUltimateUnlocked!==false,
-    bossUltimateCapPercent:clamp(raw.bossUltimateCapPercent??120,100,500,120)
+    bossUltimateCapPercent:clamp(raw.bossUltimateCapPercent??120,100,500,120),
+    bossProfiles:normalizeNightmareBossProfiles(raw)
   };
 }
 
@@ -83,17 +105,20 @@ export function monsterPveDifficulty(monster={}){
 
 export function pveDifficultyRuntime(settings={},monster={}){
   const difficulty=monsterPveDifficulty(monster),nightmare=normalizeNightmareSettings(settings.nightmare||{}),isNightmare=difficulty===PVE_NIGHTMARE;
-  const hpPercent=isNightmare?nightmare.hpPercent:100,attackPercent=isNightmare?nightmare.attackPercent:100,defensePercent=isNightmare?nightmare.defensePercent:100,speedPercent=isNightmare?nightmare.speedPercent:100;
-  const challengeMultiplier=isNightmare?nightmareChallengeMultiplier(nightmare):1;
-  const basePower=Math.max(1,Number(monster.battle_power??monster.battlePower??1)),baseReward=Math.max(0,Number(monster.reward_coin??monster.rewardCoin??0));
+  const monsterId=String(Math.floor(Number(monster.id)||0)),profile=isNightmare?nightmare.bossProfiles?.[monsterId]:null,tuning=profile?{...nightmare,...profile}:nightmare;
+  const hpPercent=isNightmare?tuning.hpPercent:100,attackPercent=isNightmare?tuning.attackPercent:100,defensePercent=isNightmare?tuning.defensePercent:100,speedPercent=isNightmare?tuning.speedPercent:100;
+  const challengeMultiplier=isNightmare?nightmareChallengeMultiplier(tuning):1;
+  const storedPower=Math.max(1,Number(monster.battle_power??monster.battlePower??1)),storedReward=Math.max(0,Number(monster.reward_coin??monster.rewardCoin??0));
+  const basePower=isNightmare&&profile?profile.battlePower:storedPower,baseReward=isNightmare&&profile?profile.rewardCoin:storedReward;
   return {
     difficulty,isNightmare,enabled:!isNightmare||nightmare.enabled,
     hpPercent,attackPercent,defensePercent,speedPercent,
-    rewardPercent:isNightmare?nightmare.rewardPercent:100,
-    bossUltimateCapPercent:isNightmare&&nightmare.bossUltimateUnlocked?nightmare.bossUltimateCapPercent:100,
+    rewardPercent:isNightmare?tuning.rewardPercent:100,
+    bossUltimateCapPercent:isNightmare&&nightmare.bossUltimateUnlocked?tuning.bossUltimateCapPercent:100,
     bossUltimateUnlocked:isNightmare&&nightmare.bossUltimateUnlocked,
+    profileSource:isNightmare&&profile?'BOSS':'GLOBAL',
     effectiveBattlePower:Math.max(1,Math.round(basePower*challengeMultiplier)),
-    effectiveRewardCoin:Math.max(0,Math.floor(baseReward*(isNightmare?nightmare.rewardPercent:100)/100)),
-    engineMonster:{...monster,pve_difficulty:difficulty,pve_hp_percent:hpPercent,pve_attack_percent:attackPercent,pve_defense_percent:defensePercent,pve_speed_percent:speedPercent}
+    effectiveRewardCoin:Math.max(0,Math.floor(baseReward*(isNightmare?tuning.rewardPercent:100)/100)),
+    engineMonster:{...monster,battle_power:basePower,battlePower:basePower,pve_difficulty:difficulty,pve_hp_percent:hpPercent,pve_attack_percent:attackPercent,pve_defense_percent:defensePercent,pve_speed_percent:speedPercent}
   };
 }
