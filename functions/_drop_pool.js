@@ -255,16 +255,17 @@ function cleanEntry(raw,index){
 
 async function adminSnapshot(env){
   await env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'").run();
-  const [pools,entries,bindings,items,vehicles,ledger]=await Promise.all([
+  const [pools,entries,bindings,items,vehicles,ledger,previewEquipment]=await Promise.all([
     env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE code<>'SCRAPYARD_PARTS' ORDER BY is_enabled DESC,name,id`).all(),
     env.DB.prepare(`SELECT * FROM ${ENTRY_TABLE} ORDER BY pool_id,sort_order,id`).all(),
     env.DB.prepare(`SELECT b.*,p.code pool_code,p.name pool_name FROM ${BINDING_TABLE} b JOIN ${POOL_TABLE} p ON p.id=b.pool_id WHERE p.code<>'SCRAPYARD_PARTS' ORDER BY b.source_type,b.priority DESC,b.id`).all(),
     env.DB.prepare("SELECT code,name,category,rarity,image_url FROM inventory_items WHERE is_active=1 ORDER BY category,sort_order,name").all(),
     env.DB.prepare("SELECT id,name,rarity,image_url FROM character_garage_items WHERE is_active=1 AND is_public=1 ORDER BY rarity,name,id").all(),
-    env.DB.prepare(`SELECT l.*,u.nickname,p.name pool_name FROM ${LEDGER_TABLE} l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN ${POOL_TABLE} p ON p.id=l.pool_id ORDER BY l.id DESC LIMIT 80`).all()
+    env.DB.prepare(`SELECT l.*,u.nickname,p.name pool_name FROM ${LEDGER_TABLE} l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN ${POOL_TABLE} p ON p.id=l.pool_id ORDER BY l.id DESC LIMIT 80`).all(),
+    env.DB.prepare("SELECT id,name,rarity,replace(image_url,char(92),'/') image_url FROM character_equipment_items WHERE UPPER(REPLACE(COALESCE(name,''),' ','')) IN ('인피니티AK','INFINITYAK') ORDER BY is_active DESC,id LIMIT 1").first()
   ]);
   const byPool=new Map();for(const row of entries.results||[]){if(!byPool.has(Number(row.pool_id)))byPool.set(Number(row.pool_id),[]);byPool.get(Number(row.pool_id)).push({...row,conditions:parse(row.conditions_json,{})})}
-  return {pools:(pools.results||[]).map(pool=>({...pool,entries:byPool.get(Number(pool.id))||[]})),bindings:bindings.results||[],inventoryItems:items.results||[],vehicles:vehicles.results||[],recentLedger:ledger.results||[],rewardTypes:[...REWARD_TYPES],rollModes:[...ROLL_MODES],sourceTypes:['PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVP','TOWER','RAID','RIFT','CAPTAIN','SIEGE','IDLE_DUNGEON','SCRAPYARD'],triggerTypes:['WIN','FIRST_CLEAR','CLEAR','WAVE_CLEAR','BOSS_CLEAR','SETTLEMENT']};
+  return {pools:(pools.results||[]).map(pool=>({...pool,entries:byPool.get(Number(pool.id))||[]})),bindings:bindings.results||[],inventoryItems:items.results||[],vehicles:vehicles.results||[],previewEquipment:previewEquipment||null,recentLedger:ledger.results||[],rewardTypes:[...REWARD_TYPES],rollModes:[...ROLL_MODES],sourceTypes:['PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVP','TOWER','RAID','RIFT','CAPTAIN','SIEGE','IDLE_DUNGEON','SCRAPYARD'],triggerTypes:['WIN','FIRST_CLEAR','CLEAR','WAVE_CLEAR','BOSS_CLEAR','SETTLEMENT']};
 }
 
 export async function handleDropPool({path,request,env,deps}){
