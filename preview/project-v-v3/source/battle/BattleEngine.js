@@ -184,6 +184,8 @@ export class BattleEngine{
     this.currentAllyTarget=null;
     this.lastTargetSwitch=null;
     this.battleData=battleData;
+    this.livePayload=Boolean(battleData?.battleV2);
+    this.liveDeployed=false;
     this.activeMonsterArt=null;
     this.activeFallbackArt=[];
     this.uniquePreviewIndex=0;
@@ -575,6 +577,14 @@ export class BattleEngine{
 
   async setBattlePayload(payload){
     this.battleData=payload;
+    this.livePayload=Boolean(payload?.battleV2);
+    this.liveDeployed=false;
+    this.cards.forEach(card=>{
+      card.visible=!this.livePayload;
+      card.renderable=!this.livePayload;
+      card.eventMode=this.livePayload?'none':'static';
+      if(this.livePayload)card.alpha=0;
+    });
     this.activeBattlefieldMode=battlefieldModeFromPayload(payload);
     this.activeBattlefieldAsset=BATTLEFIELD_ASSETS[this.activeBattlefieldMode];
     if(this.mounted)await this.setBattlefield(this.activeBattlefieldMode);
@@ -986,20 +996,35 @@ export class BattleEngine{
   }
 
   deployCards(){
+    if(this.livePayload&&this.liveDeployed)return Promise.resolve(true);
+    if(this.livePayload)this.liveDeployed=true;
     const activeAllies=this.allies.filter(character=>character.battleActive!==false).length;
     const activeEnemies=this.enemies.filter(character=>character.battleActive!==false).length;
-    this.updateStatus(`PROJECT V V3 · ${activeAllies} 대 ${activeEnemies} SD 진형 전개`);
+    this.updateStatus(this.livePayload?'전투 배치 완료 · 자동 전투 시작':`PROJECT V V3 · ${activeAllies} 대 ${activeEnemies} SD 진형 전개`);
     return this.timeline(timeline=>{
       this.characters.filter(character=>character.battleActive!==false).forEach((character,index)=>{
         const root=character.root;
-        const direction=character.team===TEAM.ALLY?-1:1;
-        timeline.fromTo(root,
-          {alpha:0,x:character.baseX+direction*90,y:character.baseY},
-          {alpha:1,x:character.baseX,y:character.baseY,duration:.34,ease:'back.out(1.4)'},
-          index*.045
-        );
+        if(this.livePayload){
+          timeline.fromTo(root,
+            {alpha:0,x:character.baseX,y:character.baseY+28},
+            {alpha:1,x:character.baseX,y:character.baseY,duration:.28,ease:'power3.out'},
+            index*.035
+          );
+          timeline.fromTo(root.scale,
+            {x:character.restScale*.86,y:character.restScale*.86},
+            {x:character.restScale,y:character.restScale,duration:.28,ease:'power3.out'},
+            index*.035
+          );
+        }else{
+          const direction=character.team===TEAM.ALLY?-1:1;
+          timeline.fromTo(root,
+            {alpha:0,x:character.baseX+direction*90,y:character.baseY},
+            {alpha:1,x:character.baseX,y:character.baseY,duration:.34,ease:'back.out(1.4)'},
+            index*.045
+          );
+        }
       });
-      this.cards.forEach((card,index)=>{
+      this.cards.filter(card=>card.visible&&card.renderable).forEach((card,index)=>{
         timeline.fromTo(card,{alpha:0,y:card.baseY+70,rotation:(index-2)*.025},{alpha:1,y:card.baseY,rotation:0,duration:.34,ease:'back.out(1.35)'},index*.065);
         timeline.fromTo(card.scale,{x:card.restScale*.78,y:card.restScale*.78},{x:card.restScale,y:card.restScale,duration:.34,ease:'power3.out'},index*.065);
       });
@@ -1044,7 +1069,7 @@ export class BattleEngine{
       skillEffect.release();
       impactFx.destroy({children:true});
     };
-    this.updateStatus(`${actor.name} 일반 공격 · FSM/타격 객체 풀 사용`);
+    this.updateStatus(`${actor.name} · ${critical?'치명타':'공격'}`);
     const vector={x:victimView.x-actor.baseX,y:victimView.y-actor.baseY};
     const distance=Math.max(1,Math.hypot(vector.x,vector.y));
     const advance=86;
@@ -1089,7 +1114,7 @@ export class BattleEngine{
     const card=this.cards[actorIndex%this.cards.length]||this.cards[0];
     const victim=this.selectLiveTarget(actor,target);
     if(!victim){this.updateStatus('스킬 대상이 없습니다.');return false}
-    this.updateStatus(`${actor.name} · 기 모으기 → 초고속 돌격 → 히트스톱 타격`);
+    this.updateStatus(`${actor.name} · ${label}`);
     const result=await this.skillTimeline.play({
       attacker:actor,
       target:victim,
@@ -1097,7 +1122,7 @@ export class BattleEngine{
       damage,
       critical,
       title:actor.name,
-      subtitle:card.data.ability,
+      subtitle:this.livePayload?label:card.data.ability,
       accent:actor.accent||card.data.color||0x7edcff,
       effectProfile:card.data.effectProfile,
       effectKind:card.data.effectKind,
@@ -1135,7 +1160,8 @@ export class BattleEngine{
         if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp});
         else await this.bossCounter(Number(event.actorIndex||0));
       }else if(type==='ULTIMATE'||type==='PVE_ULTIMATE'){
-        if(explicitActor)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:true,label:event.label||'궁극기',target,targetHp:resolvedTargetHp,attacker:explicitActor});
+        const liveActor=explicitActor||(this.livePayload?this.allies.find(character=>this.isAlive(character)):null);
+        if(liveActor)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:true,label:event.label||'궁극기',target,targetHp:resolvedTargetHp,attacker:liveActor});
         else await this.playUltimate({target,targetHp:resolvedTargetHp});
       }else if(type==='BOSS_ULTIMATE'){
         await this.showBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
@@ -1341,7 +1367,7 @@ export class BattleEngine{
     this.visible=this.requestedVisible&&!document.hidden;
     if(this.visible){
       this.app.start();
-      if(this.cards.every(card=>card.alpha===0))await this.deployCards();
+      if(!this.livePayload&&this.cards.every(card=>card.alpha===0))await this.deployCards();
     }else{
       this.cancelTimelines();
       this.app.stop();

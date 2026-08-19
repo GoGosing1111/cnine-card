@@ -2,8 +2,15 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.0.0-live';
+  const VERSION = '3.0.1-cms-live';
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
+  const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error(message)), Math.max(1000, Number(ms || 0)));
+    Promise.resolve(promise).then(
+      value => { clearTimeout(timer); resolve(value); },
+      error => { clearTimeout(timer); reject(error); }
+    );
+  });
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   })[char]);
@@ -31,7 +38,6 @@
         <div class="battle-v3-loader"><i></i><b>V3 WebGL 전장 구성 중</b><span>${esc(autoText || 'SD 전투 자산과 서버 타임라인을 동기화하고 있습니다.')}</span></div>
       </div>
       <div class="battle-v3-status pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">PixiJS 렌더러 준비 중</div>
-      <div class="pv-ultimate-layer" id="pvUltimateLayer" aria-hidden="true"><video id="pvUltimateVideo" src="/assets/effects/Anime.mp4" playsinline muted preload="metadata"></video><div><small>ORIGINAL CARD ART CUT-IN</small><strong>ULTIMATE</strong></div></div>
       <span id="towerBattleCountdown" hidden></span>
       <div id="battleMessage" class="battle-message battle-v3-result"><span>V3 전투 준비 중...</span></div>
       <div id="towerBattleMessage" class="battle-message battle-v3-result tower-v3-result" hidden><span>V3 전투 준비 중...</span></div>
@@ -115,20 +121,34 @@
     const phase = options.phase || stage.querySelector('#battlePhase');
     const status = stage.querySelector('#pvBattleStatus');
     const mode = battlefieldMode(options.mode, options.data);
+    const playUltimateCinematics = options.playUltimateCinematics !== false;
     let destroyed = false;
     let payload = { ...(options.data || {}), mode, battlefieldMode: mode };
     if (options.monster) payload.monster = { ...options.monster, mode };
     if (options.floor) payload = towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] });
 
     const init = async () => {
-      root.ProjectVPixiBattle.destroy();
-      await root.ProjectVPixiBattle.mount(host);
-      await root.ProjectVPixiBattle.setVisible(true);
-      await root.ProjectVPixiBattle.setBattlePayload(payload);
-      await root.ProjectVPixiBattle.setBattlefield(mode);
-      stage.classList.add('is-v3-ready');
-      if (phase) phase.textContent = 'V3 READY';
-      if (status) status.textContent = '서버 판정 동기화 완료 · WebGL 전투 재생 준비';
+      try {
+        root.ProjectVPixiBattle.destroy();
+        if (phase) phase.textContent = 'V3 RENDERER';
+        await withTimeout(root.ProjectVPixiBattle.mount(host), 20000, 'V3 WebGL 렌더러 준비 시간이 초과되었습니다.');
+        if (phase) phase.textContent = 'SERVER ASSET SYNC';
+        // Live battles must receive the authoritative server payload before the
+        // canvas becomes visible. This prevents preview cards/slimes from ever
+        // reaching a production frame and guarantees a single DEPLOY event.
+        await withTimeout(root.ProjectVPixiBattle.setBattlePayload(payload), 30000, '서버 카드·몬스터 전투 자산 동기화 시간이 초과되었습니다.');
+        await withTimeout(root.ProjectVPixiBattle.setBattlefield(mode), 15000, '전장 배경을 불러오지 못했습니다.');
+        await root.ProjectVPixiBattle.setVisible(true);
+        stage.classList.add('is-v3-ready');
+        if (phase) phase.textContent = 'V3 READY';
+        if (status) status.textContent = '서버 전투 데이터 동기화 완료';
+      } catch (error) {
+        stage.classList.add('is-v3-error');
+        if (phase) phase.textContent = 'V3 LOAD ERROR';
+        if (status) status.textContent = error?.message || '전투 화면을 준비하지 못했습니다.';
+        host.querySelector('.battle-v3-loader')?.classList.add('is-error');
+        throw error;
+      }
     };
 
     await init();
@@ -137,7 +157,38 @@
         if (destroyed) return false;
         const timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
         if (phase) phase.textContent = 'V3 LIVE BATTLE';
-        await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }, ...timeline]);
+        await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]);
+        let playerUltimateShown = false;
+        let bossUltimateShown = false;
+        for (const sourceEvent of timeline) {
+          if (destroyed) return false;
+          const type = String(sourceEvent?.type || '').toUpperCase();
+          let event = { ...sourceEvent };
+          if (type === 'PVE_ULTIMATE') {
+            const sourceCard = payload?.ultimateSourceCard || null;
+            event = {
+              ...event,
+              actorId: event.actorId || sourceCard?.id || sourceCard?.cardId || '',
+              label: payload?.activatedUltimate?.name || event.label || '궁극기'
+            };
+            if (!playerUltimateShown && playUltimateCinematics && payload?.activatedUltimate && typeof root.playBattleUltimate === 'function') {
+              playerUltimateShown = true;
+              await root.playBattleUltimate(stage, payload.activatedUltimate, event.damage || payload?.ultimateDamage || payload?.bonusDamage || 0);
+            }
+          } else if (type === 'BOSS_ULTIMATE') {
+            const monsterCard = payload?.battleV2?.teams?.B?.cards?.find?.(card => /^MONSTER:/i.test(String(card?.cardId || '')) || ['MONSTER', 'BOSS'].includes(String(card?.grade || '').toUpperCase()));
+            event = {
+              ...event,
+              actorId: event.actorId || monsterCard?.id || monsterCard?.cardId || payload?.monster?.cardId || '',
+              label: payload?.bossUltimate?.name || event.label || '보스 궁극기'
+            };
+            if (!bossUltimateShown && playUltimateCinematics && payload?.bossUltimate && typeof root.playBossBattleUltimate === 'function') {
+              bossUltimateShown = true;
+              await root.playBossBattleUltimate(stage, phase, payload.bossUltimate);
+            }
+          }
+          await root.ProjectVPixiBattle.playEvents([event]);
+        }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
       },
