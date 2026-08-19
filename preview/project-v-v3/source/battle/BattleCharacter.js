@@ -113,17 +113,17 @@ export class BattleCharacter{
 
     // HUD stays outside the mirrored rig so enemy labels never flip.
     this.hud=new Container({label:`HUD:${id}`});
-    this.hud.pivot.set(90,0);
+    this.hud.pivot.set(110,0);
     this.hud.position.set(0,-410);
     this.hud.zIndex=5;
     this.namePlate=new Graphics()
-      .roundRect(0,0,180,31,5)
+      .roundRect(0,0,220,40,6)
       .fill({color:0x05080d,alpha:.88})
       .stroke({width:1,color:accent,alpha:.55});
-    this.nameLabel=uiText(name,15,0xffffff,'900');
+    this.nameLabel=uiText(name,20,0xffffff,'900');
     this.nameLabel.anchor.set(.5);
-    this.nameLabel.position.set(90,15);
-    this.hpShell=new Graphics().roundRect(8,37,164,13,7).fill({color:0x020407,alpha:.94});
+    this.nameLabel.position.set(110,20);
+    this.hpShell=new Graphics().roundRect(10,47,200,14,7).fill({color:0x020407,alpha:.94});
     this.hpFill=new Graphics();
     this.hud.addChild(this.namePlate,this.nameLabel,this.hpShell,this.hpFill);
     this.root.addChild(this.hud);
@@ -286,7 +286,8 @@ export class BattleCharacter{
   updatePerspective(depth=0){
     this.perspectiveDepth=clamp(Number(depth)||0,0,1);
     this.root.perspectiveDepth=this.perspectiveDepth;
-    const hudScale=.9+this.perspectiveDepth*.1;
+    const perspectiveScale=.9+this.perspectiveDepth*.1;
+    const hudScale=perspectiveScale*(this.team===TEAM.ALLY?1.38:1);
     this.hud.position.set(0,-392-this.perspectiveDepth*20);
     this.hud.scale.set(hudScale);
     this.stateHalo.scale.set(.9+this.perspectiveDepth*.1);
@@ -295,9 +296,9 @@ export class BattleCharacter{
 
   setCompactHud(enabled=false){
     this.compactHud=Boolean(enabled);
-    this.namePlate.visible=!this.compactHud;
-    this.nameLabel.visible=!this.compactHud;
-    const hpOffsetY=this.compactHud?-37:0;
+    this.namePlate.visible=true;
+    this.nameLabel.visible=true;
+    const hpOffsetY=this.compactHud?3:0;
     this.hpShell.position.y=hpOffsetY;
     this.hpFill.position.y=hpOffsetY;
   }
@@ -322,7 +323,7 @@ export class BattleCharacter{
   renderHp(){
     this.hpFill.clear();
     const color=this.hp<30?0xff586b:this.hp<60?0xffbd45:0x58dfa0;
-    this.hpFill.roundRect(10,39,160*this.hp/100,9,5).fill(color);
+    this.hpFill.roundRect(12,50,196*this.hp/100,8,5).fill(color);
   }
 
   setAnimationAdapter(adapter){

@@ -10,7 +10,7 @@ async function mount(target=document.getElementById('pvPixiBattle')){
 }
 
 async function mountForBattle(payload,target=document.getElementById('pvPixiBattle')){
-  destroy();
+  if(engine)return resetSession(payload,target);
   engine=new BattleEngine({host:target,battleData:payload});
   try{
     await engine.mount();
@@ -19,6 +19,11 @@ async function mountForBattle(payload,target=document.getElementById('pvPixiBatt
     destroy();
     throw error;
   }
+}
+
+async function resetSession(payload,target=document.getElementById('pvPixiBattle')){
+  if(!engine)return mountForBattle(payload,target);
+  return engine.resetSession(payload,target);
 }
 
 async function setVisible(next){
@@ -60,7 +65,7 @@ function diagnostics(){
   return engine?.diagnostics()||{mounted:false};
 }
 
-const api={mount,mountForBattle,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
+const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,mountForBattle,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
+export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
