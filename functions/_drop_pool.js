@@ -3,7 +3,7 @@ const ENTRY_TABLE='unified_drop_entries_v1667';
 const BINDING_TABLE='unified_drop_bindings_v1667';
 const RECEIPT_TABLE='unified_drop_receipts_v1667';
 const LEDGER_TABLE='unified_drop_ledger_v1667';
-const REWARD_TYPES=new Set(['COIN','CARD_SHARDS','MAGIC_CRYSTAL','MASTER_STAR','INVENTORY_ITEM','VEHICLE']);
+const REWARD_TYPES=new Set(['COIN','CARD_SHARDS','MAGIC_CRYSTAL','MASTER_STAR','INVENTORY_ITEM','CARD','EQUIPMENT','VEHICLE']);
 const ROLL_MODES=new Set(['INDEPENDENT','WEIGHTED_ONE']);
 const SCRAPYARD_DIFFICULTIES=[
   ['OUTER','SCRAPYARD_PARTS_OUTER','폐차장 · 외곽 부품'],
@@ -174,9 +174,13 @@ async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
   for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),key=`${type}:${ref}`;aggregates.set(key,{type,ref,quantity:Number(aggregates.get(key)?.quantity||0)+Number(reward.quantity||0)})}
   let coin=Number(user.coin||0),shards=Number(user.card_shards||0),crystals=Number(user.magic_crystals||0);
   const inventoryRefs=[...new Set([...aggregates.values()].filter(x=>x.type==='INVENTORY_ITEM').map(x=>x.ref))];
+  const cardRefs=[...new Set([...aggregates.values()].filter(x=>x.type==='CARD').map(x=>String(x.ref)).filter(Boolean))];
+  const equipmentRefs=[...new Set([...aggregates.values()].filter(x=>x.type==='EQUIPMENT').map(x=>Number(x.ref)).filter(Boolean))];
   const vehicleRefs=[...new Set([...aggregates.values()].filter(x=>x.type==='VEHICLE').map(x=>Number(x.ref)).filter(Boolean))];
-  const inventoryBalances=new Map();
+  const inventoryBalances=new Map(),cardBalances=new Map(),equipmentBalances=new Map();
   if(inventoryRefs.length){const marks=inventoryRefs.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT i.code,i.name,i.is_active,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=i.code WHERE i.code IN (${marks})`).bind(userId,...inventoryRefs).all(),byCode=new Map((rows.results||[]).map(row=>[String(row.code),row]));for(const ref of inventoryRefs){const item=byCode.get(String(ref));if(!item||Number(item.is_active)===0)throw new Error(`지급 가능한 인벤토리 아이템이 아닙니다: ${ref}`);inventoryBalances.set(ref,Number(item.quantity||0))}}
+  if(cardRefs.length){const marks=cardRefs.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT CAST(c.id AS TEXT) id,COALESCE(uc.quantity,0) quantity FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id LEFT JOIN user_cards uc ON uc.user_id=? AND uc.card_id=c.id WHERE CAST(c.id AS TEXT) IN (${marks}) AND UPPER(c.rarity) IN ('ZENITH','FUR') AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC'`).bind(userId,...cardRefs).all(),byId=new Map((rows.results||[]).map(row=>[String(row.id),row]));for(const ref of cardRefs){const card=byId.get(String(ref));if(!card)throw new Error(`지급 가능한 ZENITH/FUR 카드가 아닙니다: ${ref}`);cardBalances.set(String(ref),Number(card.quantity||0))}}
+  if(equipmentRefs.length){const marks=equipmentRefs.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT i.id,COUNT(x.id) quantity FROM character_equipment_items i LEFT JOIN user_equipment_instances x ON x.user_id=? AND x.equipment_id=i.id WHERE i.id IN (${marks}) AND i.is_active=1 AND i.is_public=1 GROUP BY i.id`).bind(userId,...equipmentRefs).all(),byId=new Map((rows.results||[]).map(row=>[Number(row.id),row]));for(const ref of equipmentRefs){const item=byId.get(Number(ref));if(!item)throw new Error(`지급 가능한 장비가 아닙니다: ${ref}`);equipmentBalances.set(Number(ref),Number(item.quantity||0))}}
   if(vehicleRefs.length){const marks=vehicleRefs.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT id FROM character_garage_items WHERE id IN (${marks}) AND is_active=1 AND is_public=1`).bind(...vehicleRefs).all(),valid=new Set((rows.results||[]).map(row=>Number(row.id)));for(const ref of vehicleRefs)if(!valid.has(Number(ref)))throw new Error(`지급 가능한 이동수단이 아닙니다: ${ref}`)}
   const statements=[];
   for(const item of aggregates.values()){
@@ -184,16 +188,20 @@ async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
     if(item.type==='CARD_SHARDS'){shards+=item.quantity;statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(item.quantity,userId),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'UNIFIED_DROP_POOL')").bind(userId,item.quantity,shards));continue}
     if(item.type==='MAGIC_CRYSTAL'){crystals+=item.quantity;statements.push(env.DB.prepare('UPDATE users SET magic_crystals=magic_crystals+? WHERE id=?').bind(item.quantity,userId),env.DB.prepare("INSERT INTO magic_crystal_logs(user_id,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,'통합 드랍풀','UNIFIED_DROP',?)").bind(userId,item.quantity,crystals,requestId));continue}
     if(item.type==='INVENTORY_ITEM'){const after=Number(inventoryBalances.get(item.ref)||0)+item.quantity;inventoryBalances.set(item.ref,after);statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId,item.ref,item.quantity,item.quantity),env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,?,?,?,?,'UNIFIED_DROP',?)").bind(userId,item.ref,item.quantity,after,`통합 드랍풀 · ${sourceType}`,requestId))}
+    if(item.type==='CARD'){const ref=String(item.ref),after=Number(cardBalances.get(ref)||0)+item.quantity;cardBalances.set(ref,after);statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity) VALUES(?,?,?) ON CONFLICT(user_id,card_id) DO UPDATE SET quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(userId,ref,item.quantity))}
+    if(item.type==='EQUIPMENT'){const ref=Number(item.ref),before=Number(equipmentBalances.get(ref)||0);for(let index=0;index<item.quantity;index++)statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,id,'UNIFIED_DROP',?,? FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1`).bind(userId,requestId,`${requestId}:EQ:${ref}:${index}`,ref));equipmentBalances.set(ref,before+item.quantity)}
     if(item.type==='VEHICLE')statements.push(env.DB.prepare(`INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,id,'UNIFIED_DROP',? FROM character_garage_items WHERE id=? AND is_active=1 AND is_public=1`).bind(userId,requestId,Number(item.ref)));
   }
-  for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),balance=type==='COIN'?coin:type==='CARD_SHARDS'?shards:type==='MAGIC_CRYSTAL'?crystals:inventoryBalances.get(ref);statements.push(env.DB.prepare(`INSERT INTO ${LEDGER_TABLE}(request_id,user_id,pool_id,entry_id,source_type,source_id,reward_type,reward_ref,quantity,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(requestId,userId,reward.poolId,reward.entryId,sourceType,sourceId,reward.rewardType,reward.rewardRef,reward.quantity,balance??null))}
-  return {statements,balances:{coin,cardShards:shards,magicCrystals:crystals,inventory:Object.fromEntries(inventoryBalances)}};
+  for(const reward of rewards){const type=normalizedRewardType(reward),ref=normalizedRewardRef(reward),balance=type==='COIN'?coin:type==='CARD_SHARDS'?shards:type==='MAGIC_CRYSTAL'?crystals:type==='CARD'?cardBalances.get(String(ref)):type==='EQUIPMENT'?equipmentBalances.get(Number(ref)):inventoryBalances.get(ref);statements.push(env.DB.prepare(`INSERT INTO ${LEDGER_TABLE}(request_id,user_id,pool_id,entry_id,source_type,source_id,reward_type,reward_ref,quantity,balance_after) VALUES(?,?,?,?,?,?,?,?,?,?)`).bind(requestId,userId,reward.poolId,reward.entryId,sourceType,sourceId,reward.rewardType,reward.rewardRef,reward.quantity,balance??null))}
+  return {statements,balances:{coin,cardShards:shards,magicCrystals:crystals,inventory:Object.fromEntries(inventoryBalances),cards:Object.fromEntries(cardBalances),equipment:Object.fromEntries(equipmentBalances)}};
 }
 
 async function rewardPresentation(env,rewards,balances){
   const inventoryRefs=[...new Set(rewards.filter(reward=>['INVENTORY_ITEM','MASTER_STAR'].includes(String(reward.rewardType))).map(reward=>String(reward.rewardType)==='MASTER_STAR'?'MASTER_STAR':String(reward.rewardRef)).filter(Boolean))];
+  const cardRefs=[...new Set(rewards.filter(reward=>String(reward.rewardType)==='CARD').map(reward=>String(reward.rewardRef)).filter(Boolean))];
+  const equipmentRefs=[...new Set(rewards.filter(reward=>String(reward.rewardType)==='EQUIPMENT').map(reward=>Number(reward.rewardRef)).filter(Boolean))];
   const vehicleRefs=[...new Set(rewards.filter(reward=>String(reward.rewardType)==='VEHICLE').map(reward=>Number(reward.rewardRef)).filter(Boolean))];
-  const inventory=new Map(),vehicles=new Map();
+  const inventory=new Map(),cards=new Map(),equipment=new Map(),vehicles=new Map();
   if(inventoryRefs.length){
     const marks=inventoryRefs.map(()=>'?').join(',');
     const rows=await env.DB.prepare(`SELECT code,name,rarity,replace(image_url,char(92),'/') image FROM inventory_items WHERE code IN (${marks})`).bind(...inventoryRefs).all();
@@ -204,11 +212,22 @@ async function rewardPresentation(env,rewards,balances){
     const rows=await env.DB.prepare(`SELECT id,name,rarity,replace(image_url,char(92),'/') image FROM character_garage_items WHERE id IN (${marks})`).bind(...vehicleRefs).all();
     for(const row of rows.results||[])vehicles.set(Number(row.id),row);
   }
+  if(cardRefs.length){
+    const marks=cardRefs.map(()=>'?').join(',');
+    const rows=await env.DB.prepare(`SELECT CAST(c.id AS TEXT) id,c.title name,c.rarity,replace(c.image_url,char(92),'/') image,m.name memberName FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE CAST(c.id AS TEXT) IN (${marks})`).bind(...cardRefs).all();
+    for(const row of rows.results||[])cards.set(String(row.id),row);
+  }
+  if(equipmentRefs.length){
+    const marks=equipmentRefs.map(()=>'?').join(',');
+    const rows=await env.DB.prepare(`SELECT id,name,rarity,replace(image_url,char(92),'/') image FROM character_equipment_items WHERE id IN (${marks})`).bind(...equipmentRefs).all();
+    for(const row of rows.results||[])equipment.set(Number(row.id),row);
+  }
   const fixed={COIN:{name:'코인',rarity:'SPECIAL'},CARD_SHARDS:{name:'카드 조각',rarity:'SPECIAL'},MAGIC_CRYSTAL:{name:'마법 결정',rarity:'EPIC'}};
   return rewards.map(reward=>{
-    const type=String(reward.rewardType||''),ref=type==='MASTER_STAR'?'MASTER_STAR':String(reward.rewardRef||''),meta=type==='VEHICLE'?vehicles.get(Number(ref)):inventory.get(ref),fallback=fixed[type]||{};
-    const balance=type==='COIN'?balances.coin:type==='CARD_SHARDS'?balances.cardShards:type==='MAGIC_CRYSTAL'?balances.magicCrystals:balances.inventory?.[ref];
-    return {...reward,rewardRef:ref,displayName:meta?.name||reward.rewardName||fallback.name||ref||type,image:meta?.image||'',rarity:meta?.rarity||fallback.rarity||(type==='VEHICLE'?'MYTHIC':'SPECIAL'),balance:balance??null,destination:type==='VEHICLE'?'차고지':'인벤토리'};
+    const type=String(reward.rewardType||''),ref=type==='MASTER_STAR'?'MASTER_STAR':String(reward.rewardRef||''),meta=type==='VEHICLE'?vehicles.get(Number(ref)):type==='CARD'?cards.get(ref):type==='EQUIPMENT'?equipment.get(Number(ref)):inventory.get(ref),fallback=fixed[type]||{};
+    const balance=type==='COIN'?balances.coin:type==='CARD_SHARDS'?balances.cardShards:type==='MAGIC_CRYSTAL'?balances.magicCrystals:type==='CARD'?balances.cards?.[ref]:type==='EQUIPMENT'?balances.equipment?.[ref]:balances.inventory?.[ref];
+    const destination=type==='VEHICLE'?'차고지':type==='CARD'?'카드 보관함':type==='EQUIPMENT'?'장비 보관함':'인벤토리';
+    return {...reward,rewardRef:ref,displayName:meta?.name||reward.rewardName||fallback.name||ref||type,image:meta?.image||'',rarity:meta?.rarity||fallback.rarity||(type==='VEHICLE'?'MYTHIC':'SPECIAL'),balance:balance??null,destination};
   });
 }
 
@@ -246,26 +265,28 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
 }
 
 function cleanEntry(raw,index){
-  const rewardType=code(raw.rewardType||raw.reward_type),rewardRef=code(raw.rewardRef||raw.reward_ref,100);
+  const rewardType=code(raw.rewardType||raw.reward_type),rawRef=text(raw.rewardRef||raw.reward_ref,100),rewardRef=rewardType==='CARD'?rawRef:code(rawRef,100);
   if(!REWARD_TYPES.has(rewardType))throw new Error(`${index+1}번째 보상 종류가 올바르지 않습니다.`);
-  if(['MASTER_STAR','INVENTORY_ITEM'].includes(rewardType)&&!(rewardType==='MASTER_STAR'||rewardRef))throw new Error(`${index+1}번째 인벤토리 아이템 코드를 입력하세요.`);
-  const minQuantity=rewardType==='VEHICLE'?1:int(raw.minQuantity??raw.min_quantity,1,100000000,1),maxQuantity=rewardType==='VEHICLE'?1:int(raw.maxQuantity??raw.max_quantity,minQuantity,100000000,minQuantity);
+  if(['INVENTORY_ITEM','CARD','EQUIPMENT','VEHICLE'].includes(rewardType)&&!rewardRef)throw new Error(`${index+1}번째 지급 대상을 선택하세요.`);
+  const quantityLimit=rewardType==='EQUIPMENT'?100:100000000,minQuantity=rewardType==='VEHICLE'?1:int(raw.minQuantity??raw.min_quantity,1,quantityLimit,1),maxQuantity=rewardType==='VEHICLE'?1:int(raw.maxQuantity??raw.max_quantity,minQuantity,quantityLimit,minQuantity);
   return {rewardType,rewardRef:rewardType==='MASTER_STAR'?'MASTER_STAR':rewardRef,rewardName:text(raw.rewardName||raw.reward_name,80),chancePercent:num(raw.chancePercent??raw.chance_percent,0,100,0),weight:num(raw.weight,0,100000000,0),minQuantity,maxQuantity,dailyLimit:int(raw.dailyLimit??raw.daily_limit,0,100000000,0),conditionsJson:JSON.stringify(raw.conditions&&typeof raw.conditions==='object'?raw.conditions:parse(raw.conditionsJson||raw.conditions_json,{})),sortOrder:int(raw.sortOrder??raw.sort_order,-100000,100000,index*10),isEnabled:raw.isEnabled!==false&&Number(raw.is_enabled)!==0};
 }
 
 async function adminSnapshot(env){
   await env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'").run();
-  const [pools,entries,bindings,items,vehicles,ledger,previewEquipment]=await Promise.all([
+  const [pools,entries,bindings,items,vehicles,ledger,previewEquipment,dropCards,equipmentItems]=await Promise.all([
     env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE code<>'SCRAPYARD_PARTS' ORDER BY is_enabled DESC,name,id`).all(),
     env.DB.prepare(`SELECT * FROM ${ENTRY_TABLE} ORDER BY pool_id,sort_order,id`).all(),
     env.DB.prepare(`SELECT b.*,p.code pool_code,p.name pool_name FROM ${BINDING_TABLE} b JOIN ${POOL_TABLE} p ON p.id=b.pool_id WHERE p.code<>'SCRAPYARD_PARTS' ORDER BY b.source_type,b.priority DESC,b.id`).all(),
     env.DB.prepare("SELECT code,name,category,rarity,image_url FROM inventory_items WHERE is_active=1 ORDER BY category,sort_order,name").all(),
     env.DB.prepare("SELECT id,name,rarity,image_url FROM character_garage_items WHERE is_active=1 AND is_public=1 ORDER BY rarity,name,id").all(),
     env.DB.prepare(`SELECT l.*,u.nickname,p.name pool_name FROM ${LEDGER_TABLE} l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN ${POOL_TABLE} p ON p.id=l.pool_id ORDER BY l.id DESC LIMIT 80`).all(),
-    env.DB.prepare("SELECT id,name,rarity,replace(image_url,char(92),'/') image_url FROM character_equipment_items WHERE UPPER(REPLACE(COALESCE(name,''),' ','')) IN ('인피니티AK','INFINITYAK') ORDER BY is_active DESC,id LIMIT 1").first()
+    env.DB.prepare("SELECT id,name,rarity,replace(image_url,char(92),'/') image_url FROM character_equipment_items WHERE UPPER(REPLACE(COALESCE(name,''),' ','')) IN ('인피니티AK','INFINITYAK') ORDER BY is_active DESC,id LIMIT 1").first(),
+    env.DB.prepare(`SELECT CAST(c.id AS TEXT) id,c.title,m.name member_name,c.rarity,replace(c.image_url,char(92),'/') image_url FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE UPPER(c.rarity) IN ('ZENITH','FUR') AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' ORDER BY CASE UPPER(c.rarity) WHEN 'ZENITH' THEN 0 ELSE 1 END,m.sort_order,c.title`).all(),
+    env.DB.prepare("SELECT id,name,slot,subtype,rarity,replace(image_url,char(92),'/') image_url FROM character_equipment_items WHERE is_active=1 AND is_public=1 ORDER BY slot,sort_order,name,id").all()
   ]);
   const byPool=new Map();for(const row of entries.results||[]){if(!byPool.has(Number(row.pool_id)))byPool.set(Number(row.pool_id),[]);byPool.get(Number(row.pool_id)).push({...row,conditions:parse(row.conditions_json,{})})}
-  return {pools:(pools.results||[]).map(pool=>({...pool,entries:byPool.get(Number(pool.id))||[]})),bindings:bindings.results||[],inventoryItems:items.results||[],vehicles:vehicles.results||[],previewEquipment:previewEquipment||null,recentLedger:ledger.results||[],rewardTypes:[...REWARD_TYPES],rollModes:[...ROLL_MODES],sourceTypes:['PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVP','TOWER','RAID','RIFT','CAPTAIN','SIEGE','IDLE_DUNGEON','SCRAPYARD'],triggerTypes:['WIN','FIRST_CLEAR','CLEAR','WAVE_CLEAR','BOSS_CLEAR','SETTLEMENT']};
+  return {pools:(pools.results||[]).map(pool=>({...pool,entries:byPool.get(Number(pool.id))||[]})),bindings:bindings.results||[],inventoryItems:items.results||[],vehicles:vehicles.results||[],dropCards:dropCards.results||[],equipmentItems:equipmentItems.results||[],previewEquipment:previewEquipment||null,recentLedger:ledger.results||[],rewardTypes:[...REWARD_TYPES],rollModes:[...ROLL_MODES],sourceTypes:['PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVP','TOWER','RAID','RIFT','CAPTAIN','SIEGE','IDLE_DUNGEON','SCRAPYARD'],triggerTypes:['WIN','FIRST_CLEAR','CLEAR','WAVE_CLEAR','BOSS_CLEAR','SETTLEMENT']};
 }
 
 export async function handleDropPool({path,request,env,deps}){
@@ -286,6 +307,8 @@ export async function handleDropPool({path,request,env,deps}){
     if(!ROLL_MODES.has(mode))return deps.json({error:'드랍 판정 방식을 확인하세요.'},400);
     if(!entries.length&&raw.isEnabled!==false)return deps.json({error:'운영 사용 드랍풀에는 보상을 하나 이상 등록하세요.'},400);
     for(const entry of entries)if(entry.rewardType==='INVENTORY_ITEM'||entry.rewardType==='MASTER_STAR'){const item=await env.DB.prepare('SELECT code FROM inventory_items WHERE code=? AND is_active=1').bind(entry.rewardRef).first();if(!item)return deps.json({error:`등록되지 않은 인벤토리 아이템입니다: ${entry.rewardRef}`},400)}
+    for(const entry of entries)if(entry.rewardType==='CARD'){const card=await env.DB.prepare("SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE CAST(c.id AS TEXT)=? AND UPPER(c.rarity) IN ('ZENITH','FUR') AND c.is_active=1 AND m.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC'").bind(entry.rewardRef).first();if(!card)return deps.json({error:`등록되지 않은 ZENITH/FUR 카드입니다: ${entry.rewardRef}`},400)}
+    for(const entry of entries)if(entry.rewardType==='EQUIPMENT'){const item=await env.DB.prepare('SELECT id FROM character_equipment_items WHERE id=? AND is_active=1 AND is_public=1').bind(Number(entry.rewardRef)).first();if(!item)return deps.json({error:`등록되지 않은 공개 장비입니다: ${entry.rewardRef}`},400)}
     for(const entry of entries)if(entry.rewardType==='VEHICLE'){const vehicle=await env.DB.prepare('SELECT id FROM character_garage_items WHERE id=? AND is_active=1 AND is_public=1').bind(Number(entry.rewardRef)).first();if(!vehicle)return deps.json({error:`등록되지 않은 공개 이동수단입니다: ${entry.rewardRef}`},400)}
     let poolId=id;
     if(id)await env.DB.prepare(`UPDATE ${POOL_TABLE} SET code=?,name=?,description=?,roll_mode=?,rolls=?,no_drop_weight=?,is_enabled=?,owner_test_only=?,config_version=config_version+1,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(poolCode,name,text(raw.description,400),mode,rolls,noDropWeight,raw.isEnabled===false?0:1,raw.ownerTestOnly?1:0,id).run();
