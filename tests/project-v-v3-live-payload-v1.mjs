@@ -20,9 +20,13 @@ assert.match(bridge,/bossUltimateShown = false/,'boss cinematic must be protecte
 assert.match(bridge,/withTimeout\(initialize\(\), initWatchdogMs/,'the complete renderer initialization needs a hard watchdog');
 assert.match(bridge,/withTimeout\(root\.ProjectVPixiBattle\.playEvents/,'every Pixi timeline event needs a hard watchdog');
 assert.match(bridge,/const PLAYBACK_SPEED = 1\.6/,'the V3 runtime speed must be 1.6x');
+assert.match(bridge,/const INIT_WATCHDOG_MS = 3000/,'hidden V3 boot must fail open quickly');
+assert.match(bridge,/battle-v3-preparing/,'the battle modal must remain invisible until its first authoritative frame');
+assert.match(bridge,/stage\.classList\.add\('is-v3-ready'\);[\s\S]*revealBattle\(\)/,'the modal may reveal only after the renderer is ready');
 assert.match(bridge,/durationMs: Math\.max\(320, Math\.round\(baseDuration \/ PLAYBACK_SPEED\)\)/,'CMS cinematics must use the same 1.6x clock');
 assert.doesNotMatch(battleCss,/:has\(canvas\) \.battle-v3-loader/,'a canvas alone must never hide the loader before assets are ready');
 assert.match(battleCss,/is-v3-ready \.battle-v3-loader/,'the loader may hide only after the renderer is ready');
+assert.match(battleCss,/\.battle-v3-modal\.battle-v3-preparing\{opacity:0!important;pointer-events:none!important/,'the booting renderer must stay visually hidden');
 
 assert.equal(engine.includes('FSM/타격 객체 풀 사용'),false,'internal engine implementation text must not reach players');
 assert.match(engine,/this\.livePayload=Boolean\(payload\?\.battleV2\)/,'engine must distinguish authoritative live payloads');
@@ -34,16 +38,20 @@ assert.match(engine,/const liveActor=explicitActor\|\|\(this\.livePayload/,'live
 assert.match(engine,/instance\.timeScale\(this\.reducedMotion\?8:PLAYBACK_SPEED\)/,'all Pixi timelines must run at 1.6x');
 
 assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=45-watchdog-1\.6x/);
-assert.match(app,/battle-v3-live\.js\?v=3\.1\.0-watchdog-1\.6x/);
+assert.match(app,/battle-v3-live\.js\?v=3\.2\.0-hidden-boot-1\.6x/);
+assert.equal(app.includes('battle-resource-loader'),false,'the renewed V3 flow must never show the old resource loading battlefield');
+assert.match(app,/const d=await apiRequest\('battle\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVE must calculate first and reveal only the ready V3 scene');
+assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=1763-v3-watchdog-1\.6x/);
-assert.match(serviceWorker,/soop-card-shell-v1763-v3-watchdog-1\.6x/);
+assert.match(index,/js\/app\.js\?v=1764-v3-hidden-boot-1\.6x/);
+assert.match(serviceWorker,/soop-card-shell-v1764-v3-hidden-boot-1\.6x/);
 
 const calls=[];
 const phase={textContent:''};
 const status={textContent:''};
 const loader={remove:()=>calls.push(['loader-remove'])};
+const modal={classList:{remove:value=>calls.push(['modal-remove',value])}};
 const stage={
   classList:{add:(...values)=>calls.push(['stage-add',...values]),remove:(...values)=>calls.push(['stage-remove',...values])},
   querySelector(selector){
@@ -76,7 +84,7 @@ context.window=context;
 vm.runInNewContext(bridge,context,{filename:'battle-v3-live.js'});
 const runtime=context.ProjectVBattleV3Live;
 const renderer=await runtime.createRenderer({
-  stage,host,mode:'PVE',playUltimateCinematics:true,
+  stage,host,modal,mode:'PVE',playUltimateCinematics:true,
   data:{
     activatedUltimate:{name:'CMS USER ULTIMATE'},
     ultimateSourceCard:{id:'CARD-CMS-01'},
@@ -91,6 +99,8 @@ const renderer=await runtime.createRenderer({
 });
 await renderer.play();
 assert.deepEqual(calls.slice(0,5).map(call=>call[0]),['destroy','mount','payload','field','visible'],'live initialization order');
+assert.deepEqual(calls[5],['stage-add','is-v3-ready'],'ready class must be set before revealing the modal');
+assert.deepEqual(calls[6],['modal-remove','battle-v3-preparing'],'the modal must reveal only after its first authoritative frame');
 assert.equal(calls.filter(call=>call[0]==='player-cms').length,1,'CMS user ultimate must play once');
 assert.equal(calls.filter(call=>call[0]==='boss-cms').length,1,'CMS boss ultimate must play once');
 const playerUltimateCall=calls.find(call=>call[0]==='player-cms');

@@ -15,13 +15,13 @@ const engine=read('preview/project-v-v3/source/battle/BattleEngine.js');
 const index=read('index.html');
 
 for(const token of [
-  'css/battle-v3-live.css?v=3.1.0-watchdog-1.6x',
+  'css/battle-v3-live.css?v=3.2.0-hidden-boot-1.6x',
   'js/project-v-battle-art-adapter-v1.js?v=3.0.0-live',
   'js/project-v-tier-battle-art-adapter-v1.js?v=3.0.0-live',
   'js/project-v-monster-battle-art-adapter-v1.js?v=3.0.0-live',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
   'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=45-watchdog-1.6x',
-  'js/battle-v3-live.js?v=3.1.0-watchdog-1.6x'
+  'js/battle-v3-live.js?v=3.2.0-hidden-boot-1.6x'
 ])assert.ok(app.includes(token),`production feature manifest missing ${token}`);
 
 assert.match(app,/ready:\(\)=>Boolean\(window\.ProjectVBattleV3Live\?\.ready\?\.\(\)\)/);
@@ -37,7 +37,7 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/id\.endsWith\(`:\$\{character\.cardId\|\|character\.id\}`\)/);
-assert.ok(index.includes('js/app.js?v=1763-v3-watchdog-1.6x'));
+assert.ok(index.includes('js/app.js?v=1764-v3-hidden-boot-1.6x'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
 
 const bundle='preview/project-v-v3/project-v-pixi-battle.bundle.js';

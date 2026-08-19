@@ -2,10 +2,10 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.1.0-watchdog-1.6x';
+  const VERSION = '3.2.0-hidden-boot-1.6x';
   const PLAYBACK_SPEED = 1.6;
-  const INIT_WATCHDOG_MS = 15000;
-  const EVENT_WATCHDOG_MS = 5000;
+  const INIT_WATCHDOG_MS = 3000;
+  const EVENT_WATCHDOG_MS = 3500;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(message)), Math.max(50, Number(ms || 0)));
@@ -41,7 +41,10 @@
   function prepareLoading({ modal, mode = 'PVE', playerName = 'MEMBER TEAM', opponentName = 'OPPONENT', autoText = '' } = {}) {
     if (!modal) throw new Error('V3 전투 모달을 준비하지 못했습니다.');
     const field = battlefieldMode(mode);
-    modal.className = `modal show battle-modal battle-v3-modal ${field === 'PVP' ? 'pvp-battle-modal' : ''}`;
+    // Mount Pixi invisibly over the current route. The modal is revealed only
+    // after the first authoritative server frame is ready, preventing a black
+    // loading battlefield from flashing in front of the player.
+    modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
         <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : '몬스터 토벌'}</strong></div>
@@ -136,6 +139,7 @@
     const status = stage.querySelector('#pvBattleStatus');
     const mode = battlefieldMode(options.mode, options.data);
     const playUltimateCinematics = options.playUltimateCinematics !== false;
+    const modal = options.modal || stage.closest?.('.modal') || null;
     const initWatchdogMs = watchdogMs(options.initWatchdogMs, INIT_WATCHDOG_MS);
     const eventWatchdogMs = watchdogMs(options.eventWatchdogMs, EVENT_WATCHDOG_MS);
     let destroyed = false;
@@ -149,6 +153,7 @@
       stage.classList.remove('ultimate-playing', 'boss-ultimate-fullscreen');
       host.querySelector('.battle-v3-loader')?.remove();
     };
+    const revealBattle = () => modal?.classList.remove('battle-v3-preparing');
     const recoverRenderer = error => {
       rendererFailure = error instanceof Error ? error : new Error(String(error || 'V3 렌더러 복구'));
       try { root.ProjectVPixiBattle.destroy(); } catch {}
@@ -173,6 +178,7 @@
         await root.ProjectVPixiBattle.setBattlefield(mode);
         await root.ProjectVPixiBattle.setVisible(true);
         stage.classList.add('is-v3-ready');
+        revealBattle();
         if (phase) phase.textContent = 'V3 READY';
         if (status) status.textContent = '서버 전투 데이터 동기화 완료';
       };
@@ -234,6 +240,7 @@
         releaseBlockingLayers();
         stage.classList.add('is-v3-ready', 'is-result-visible');
         stage.querySelectorAll('.battle-v3-result').forEach(node => node.classList.add('is-visible'));
+        revealBattle();
       },
       destroy() {
         if (destroyed) return;

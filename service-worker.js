@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1763-v3-watchdog-1.6x';
+const SHELL_CACHE='soop-card-shell-v1764-v3-hidden-boot-1.6x';
 const CONTENT_CACHE='soop-card-content-v1';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

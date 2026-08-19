@@ -532,7 +532,7 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   battleV2:{
-    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=3.1.0-watchdog-1.6x'],
+    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=3.2.0-hidden-boot-1.6x'],
     scripts:[
       'js/battle-v2-live.js?v=3.0.0-v3-delegate',
       'js/project-v-battle-art-adapter-v1.js?v=3.0.0-live',
@@ -540,7 +540,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=45-watchdog-1.6x',
-      'js/battle-v3-live.js?v=3.1.0-watchdog-1.6x'
+      'js/battle-v3-live.js?v=3.2.0-hidden-boot-1.6x'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }
@@ -1345,6 +1345,8 @@ async function startBattle(){
   if((battleState.deck||[]).length!==5){alert('PvE 출전 카드 5장을 먼저 편성해주세요.');return;}
   const energy=battleState.energy;if(energy&&!energy.unlimited&&Number(energy.energy||0)<Math.max(1,Number(energy.costPerBattle||1))){renderBattleEnergy();alert('남은 전투 횟수가 부족합니다.');return;}
   battleState.fightStarting=true;
+  const entryButton=document.getElementById('battleStart'),entryButtonLabel=entryButton?.textContent||'전투 시작';
+  if(entryButton){entryButton.disabled=true;entryButton.textContent='전장 연결 중…'}
   let msg=null;
   try{
     const playUltimateCinematics=!battleState.autoRunning||Number(battleState.autoSummary?.battles||0)===0;
@@ -1353,15 +1355,14 @@ async function startBattle(){
   const user=loadUser();let deckCards=battleState.deck.map(id=>cards.find(x=>String(x.id)===String(id))).filter(Boolean);
   const previewCardPower=deckCards.reduce((sum,c)=>sum+battleCardPower(c,user,battleState.config),0),previewPower=previewCardPower+Number(battleState.characterBonus?.pve||0);
   if(v2Playback){
-    modal.className='modal show battle-modal';modal.innerHTML='<div class="modal-panel battle-stage"><div class="route-feature-loader battle-resource-loader"><span></span><b>전투엔진을 준비하는 중...</b><small>카드와 몬스터 리소스를 미리 불러오고 있습니다.</small></div></div>';
     await Promise.all([ensureFeatureResources('battleV2'),preloadBattleEntryAssets(deckCards,monster)]);
     if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready())throw new Error('전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.');
   }
   if(v2Playback){
-    const live=window.prepareBattleV2LiveLoading({modal,mode:'PVE',playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER',autoText:battleState.autoRunning?`자동전투 ${Number(battleState.autoSummary?.battles||0)+1}회차 · 서버 전투 계산 중`:'실제 덱·장비·고유효과를 기준으로 서버 전투를 계산하고 있습니다.'});
-    const stage=live.stage,phase=live.phase;msg=live.msg;ensureBattleSoundButton(stage);phase.textContent='SERVER BATTLE CALCULATION';
     const d=await apiRequest('battle/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,monsterId:battleState.selectedMonster,cardIds:battleState.deck,autoBattle:Boolean(battleState.autoRunning)})});
     if(!d?.battleV2)throw new Error('PROJECT V V3 전투 응답을 받지 못했습니다. CMS 전투엔진 설정을 확인해주세요.');
+    const live=window.prepareBattleV2LiveLoading({modal,mode:'PVE',playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER'});
+    const stage=live.stage,phase=live.phase;msg=live.msg;ensureBattleSoundButton(stage);
     await window.playPveBattleV2Live({stage,phase,msg,modal,data:d,monster,playUltimateCinematics});
     return;
   }
@@ -1510,7 +1511,7 @@ async function startBattle(){
     console.error('PVE 전투 시작 실패:',e);
     if(msg){msg.innerHTML=`<span>${escapeHtml(e.message||'전투를 시작하지 못했습니다.')}</span><em>화면을 눌러 돌아가기</em>`;modal.onclick=()=>renderShell('battle')}
     else{modal.className='modal';modal.innerHTML='';alert(e.message||'전투 화면을 준비하지 못했습니다.');renderShell('battle')}
-  }finally{battleState.fightStarting=false}
+  }finally{battleState.fightStarting=false;if(entryButton?.isConnected){entryButton.disabled=false;entryButton.textContent=entryButtonLabel}}
 }
 
 
@@ -3719,16 +3720,16 @@ function buildPvpV2ResultHtml(d,myWin,attackerPower,defenderPower,pvpV2Detail=''
 
 async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
   const modal=document.getElementById('modal'),user=loadUser();
-  const live=window.prepareBattleV2LiveLoading({modal,mode:'PVP',playerName:user?.nickname||'MY PVP TEAM',opponentName:target?.nickname||'OPPONENT',autoText:'상대 덱·장비 PVP 전투력·고유효과를 기준으로 서버 전투를 계산하고 있습니다.'});
-  const stage=live.stage,phase=live.phase,msg=live.msg;ensureBattleSoundButton(stage);
+  let stage=null,phase=null,msg=null;
   const close=()=>{modal.__battleV2Renderer?.destroy?.();modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';pvpState.tab='match';renderShell('pvp')};
   try{
-    phase.textContent='SERVER PVP CALCULATION';battleTone(90,.18,'sawtooth',.035);
     const d=await apiRequest('pvp/fight',{method:'POST',body:JSON.stringify({requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,matchToken})});
     if(!d?.battleV2)throw new Error('PROJECT V V3 전투 응답을 받지 못했습니다. CMS 전투엔진 설정을 확인해주세요.');
     d.opponent=d.opponent||target?.nickname||'OPPONENT';
     pvpState.myTitle=d.attackerTitle||pvpState.myTitle;if(target)target.title=d.defenderTitle||target.title;
     const myWin=d.result==='WIN';
+    const live=window.prepareBattleV2LiveLoading({modal,mode:'PVP',playerName:user?.nickname||'MY PVP TEAM',opponentName:target?.nickname||'OPPONENT'});
+    stage=live.stage;phase=live.phase;msg=live.msg;ensureBattleSoundButton(stage);
     await window.playPvpBattleV2Live({stage,phase,msg,modal,data:d});
     await battleSleep(Math.max(24,Math.round(620/1.6)));
     stage.classList.add(myWin?'battle-win-v863':'battle-lose-v863');phase.textContent=myWin?'PVP VICTORY':'PVP DEFEAT';battleSfx(myWin?'victory':'defeat');
@@ -3743,7 +3744,9 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
     pvpState.energy=d.energy||pvpState.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();
     setTimeout(()=>{modal.onclick=close;const confirmBtn=document.getElementById('pvpResultConfirm');if(confirmBtn)confirmBtn.onclick=e=>{e.stopPropagation();close()}},250);
   }catch(e){
-    if(e.energy)pvpState.energy=e.energy;phase.textContent='RANKED ERROR';msg.innerHTML=`<strong>ERROR</strong><span>${escapeHtml(e.message)}</span><button type="button" class="btn pvp-result-confirm" id="pvpErrorConfirm">랭크전 화면으로 돌아가기</button>`;msg.classList.add('is-visible');modal.onclick=close;const b=document.getElementById('pvpErrorConfirm');if(b)b.onclick=event=>{event.stopPropagation();close()};
+    if(e.energy)pvpState.energy=e.energy;
+    if(phase&&msg){phase.textContent='RANKED ERROR';msg.innerHTML=`<strong>ERROR</strong><span>${escapeHtml(e.message)}</span><button type="button" class="btn pvp-result-confirm" id="pvpErrorConfirm">랭크전 화면으로 돌아가기</button>`;msg.classList.add('is-visible');modal.classList.remove('battle-v3-preparing');modal.onclick=close;const b=document.getElementById('pvpErrorConfirm');if(b)b.onclick=event=>{event.stopPropagation();close()}}
+    else{modal.className='modal';modal.innerHTML='';alert(e.message||'랭크전 전투를 시작하지 못했습니다.');pvpState.tab='match';renderShell('pvp')}
   }
 }
 
@@ -3761,9 +3764,8 @@ async function fightPvp(id,matchToken){
   if(mine.length!==5)return alert('먼저 랭크전 덱 5장을 저장하세요.');
   const pvpPreviewCardPower=mine.reduce((sum,card)=>sum+battleCardPower(card,loadUser(),pvpState.config||battleState.config),0),pvpPreviewPower=pvpPreviewCardPower+Number(pvpState.characterBonus?.pvp||0);
   if(pvpState.battleEngine?.active){
-    const resourceModal=document.getElementById('modal');if(resourceModal){resourceModal.className='modal show battle-modal pvp-battle-modal';resourceModal.innerHTML='<div class="modal-panel battle-stage"><div class="route-feature-loader battle-resource-loader"><span></span><b>랭크전 전투엔진을 준비하는 중...</b><small>필요한 카드 리소스를 미리 불러오고 있습니다.</small></div></div>'}
-    try{await Promise.all([ensureFeatureResources('battleV2'),preloadBattleEntryAssets(mine,target)])}catch(error){if(resourceModal){resourceModal.className='modal';resourceModal.innerHTML=''}throw error}
-    if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready()){if(resourceModal){resourceModal.className='modal';resourceModal.innerHTML=''}throw new Error('랭크전 전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.')}
+    await Promise.all([ensureFeatureResources('battleV2'),preloadBattleEntryAssets(mine,target)]);
+    if(!FEATURE_RESOURCE_MANIFEST.battleV2.ready())throw new Error('랭크전 전투엔진 리소스를 불러오지 못했습니다. 다시 시도해주세요.');
     return fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken});
   }
   const normalizeBattleCard=x=>({...x,id:String(x?.id||x?.card_id||''),title:x?.title||x?.card_title||'상대 카드',name:x?.name||'',grade:String(x?.rarity||x?.grade||'C').toUpperCase(),rarity:String(x?.rarity||x?.grade||'C').toUpperCase(),image:x?.image||x?.image_url||'',image_url:x?.image_url||x?.image||'',focusX:Number(x?.focusX??x?.focus_x??50),focusY:Number(x?.focusY??x?.focus_y??50),powerType:x?.powerType||x?.power_type||'',breakthroughLevel:Number(x?.breakthroughLevel??x?.breakthrough_level??0),uniqueAbility:x?.uniqueAbility||null});
