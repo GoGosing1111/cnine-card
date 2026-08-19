@@ -4,7 +4,7 @@
   const root = typeof window !== 'undefined' ? window : globalThis;
   const MANIFEST_URLS = Object.freeze({
     FUR: '/assets/ui/project-v/characters/fur/manifest-v2.json?v=1-v3-map',
-    PRESTIGE: '/assets/ui/project-v/characters/prestige/manifest-v1.json?v=1-v3-map'
+    PRESTIGE: '/assets/ui/project-v/characters/prestige/manifest-v1.json?v=2-full-roster'
   });
   const PLAY_ENTRY_POINTS = Object.freeze(['playPveBattleV2Live', 'playPvpBattleV2Live', 'playSiegeBattleV2Live']);
   const clean = value => String(value ?? '').trim();

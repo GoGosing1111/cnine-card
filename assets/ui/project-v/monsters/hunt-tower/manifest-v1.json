@@ -360,13 +360,28 @@
       "sourceArt": "assets/tower/ascar.jpg",
       "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-063-solar-lion-king-boss-sd-v1.png",
       "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-063-solar-lion-king-boss-sd-v1-768.webp",
-      "battleSpriteWebpSha256": "5FC08D0A54D2050D36126602434A800251579CFD697BB2EF927744B3583B55E2",
+      "battleSpriteWebpSha256": "1CC9FA6E5AAA126BB5E5F91B82B803D8C17388F15DF875CFFCADC2A5A38C8038",
       "isBoss": true,
       "qa": {
         "technicalPass": true,
         "visualApproval": true
       },
-      "sha256": "BEAF0EEBB0BE19967860D366E0F7A1F7EC8F4BDC48B4C53D3E79223A0E397025"
+      "sha256": "38CE93E602EB3A6DBD9E5E7201FD1EA5533CDC0667113538856FF2256B056A2F"
+    },
+    {
+      "monsterId": 64,
+      "mode": "TOWER",
+      "name": "커맨더 크리그",
+      "sourceArt": "assets/tower/dad.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/tower-064-commander-krieg-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/tower-064-commander-krieg-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "D7249100B9AF9E53109E7ACA64FDD845FC8FD3D349A73A50CE3B051F4D1F83A1",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "031720C5C18F9C4ED2D57B345DC9B2CFE2A16B235186A533E85649F628056873"
     },
     {
       "monsterId": 67,

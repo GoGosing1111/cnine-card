@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>PROJECT V · PRESTIGE SD 전장 검수</title>
+  <link rel="stylesheet" href="./prestige-sd-battle.css?v=1">
+</head>
+<body>
+  <main class="preview-shell">
+    <header class="preview-hud">
+      <div class="brand"><i>V</i><span><small>PROJECT V · 전투 캐릭터 검수</small><b>PRESTIGE SD 전장</b></span></div>
+      <div class="progress"><span>완료 캐릭터</span><b id="rosterCount">0</b><em>/ 28</em></div>
+      <div class="controls">
+        <button type="button" id="pagePrev" aria-label="이전 캐릭터 묶음">이전</button>
+        <button type="button" id="pageNext" aria-label="다음 캐릭터 묶음">다음</button>
+        <button type="button" id="toggleGrid" aria-pressed="true">타일 가이드 ON</button>
+        <button type="button" id="toggleMotion" aria-pressed="true">대기 모션 ON</button>
+      </div>
+    </header>
+
+    <section class="battle-stage" id="battleStage" aria-label="프레스티지 SD 캐릭터 28명 전투 배치 미리보기">
+      <canvas id="battleCanvas"></canvas>
+      <div class="loading" id="loading"><i></i><b>SD 캐릭터 불러오는 중</b><span id="loadingCount">0 / 12</span></div>
+      <div class="selection" id="selection" aria-live="polite"><small>캐릭터를 선택하면 확대 표시됩니다</small><b>PRESTIGE SD 28인 전체 연결</b></div>
+    </section>
+
+    <footer class="preview-footer">
+      <span><i></i> 전경 처리 완료 RGBA</span>
+      <span><i></i> 캐릭터별 단일 전신 스프라이트</span>
+      <span><i></i> 타일당 1명 · 몬스터 미배치</span>
+      <b>원본 카드의 헤어 · 의상 · 소품을 기준으로 제작</b>
+    </footer>
+  </main>
+  <script src="./prestige-sd-battle.js?v=8-full-roster"></script>
+</body>
+</html>
