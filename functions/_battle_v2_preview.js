@@ -778,16 +778,39 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
 }
 
 
-function resolvePvpDraw(result, teamA, teamB) {
-  if (result?.winner !== 'DRAW') return result;
+export function resolvePvpOutcome(result, teamA, teamB) {
+  if (!result || !['ACTION_LIMIT', 'TIME_LIMIT'].includes(String(result.reason || '').toUpperCase())) return result;
+  const finalA = Array.isArray(result.final?.A) ? result.final.A : [];
+  const finalB = Array.isArray(result.final?.B) ? result.final.B : [];
+  const aliveA = finalA.filter(card => Number(card.hp || 0) > 0).length;
+  const aliveB = finalB.filter(card => Number(card.hp || 0) > 0).length;
+  const hpRatio = cards => {
+    const current = cards.reduce((sum, card) => sum + Math.max(0, Number(card.hp || 0)) + Math.max(0, Number(card.shield || 0)), 0);
+    const maximum = cards.reduce((sum, card) => sum + Math.max(0, Number(card.maxHp || 0)) + Math.max(0, Number(card.maxShield || 0)), 0);
+    return maximum > 0 ? current / maximum : 0;
+  };
+  const ratioA = hpRatio(finalA);
+  const ratioB = hpRatio(finalB);
   const sumA = teamSummary(teamA);
   const sumB = teamSummary(teamB);
-  // 기존 PvP의 동률 공격자 우선 규칙을 유지한다. 완전 동률이 아니면 편성 전투력이 높은 쪽이 승리한다.
-  const winner = sumA.power >= sumB.power ? 'A' : 'B';
+  let winner;
+  let reason;
+  if (aliveA !== aliveB) {
+    winner = aliveA > aliveB ? 'A' : 'B';
+    reason = 'SURVIVOR_COUNT';
+  } else if (ratioA !== ratioB) {
+    winner = ratioA > ratioB ? 'A' : 'B';
+    reason = 'HP_RATIO_TIEBREAK';
+  } else {
+    // 생존 수와 잔여 체력까지 같을 때만 편성 전투력, 완전 동률은 기존 공격자 우선 규칙을 사용한다.
+    winner = sumA.power >= sumB.power ? 'A' : 'B';
+    reason = 'POWER_TIEBREAK';
+  }
+  const originalReason = result.reason;
   const patchedTimeline = (result.timeline || []).map(event => event.type === 'RESULT'
-    ? { ...event, winner, reason: 'POWER_TIEBREAK', originalReason: event.reason || result.reason || 'ACTION_LIMIT' }
+    ? { ...event, winner, reason, originalReason, survivorCountA: aliveA, survivorCountB: aliveB, teamAHpPercent: Math.round(ratioA * 1000) / 10, teamBHpPercent: Math.round(ratioB * 1000) / 10 }
     : event);
-  return { ...result, winner, reason: 'POWER_TIEBREAK', originalReason: result.reason || 'ACTION_LIMIT', timeline: patchedTimeline };
+  return { ...result, winner, reason, originalReason, survivorCount: { A: aliveA, B: aliveB }, timeline: patchedTimeline };
 }
 
 export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1, singleHealerBonus = {} } = {}) {
@@ -796,7 +819,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
   const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 100, healerPenalty: true, singleHealerBonus });
-  const result = resolvePvpDraw(simulated, teamA, teamB);
+  const result = resolvePvpOutcome(simulated, teamA, teamB);
   return {
     schemaVersion: 2,
     engine: 'BATTLE_ENGINE_V2_PVP',
@@ -807,6 +830,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       formation: 'FRONT_2_BACK_3',
       actionMode: 'SPEED_GAUGE',
       damageCapPercent: 46,
+      timeoutRule: 'SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER',
       drawRule: 'POWER_THEN_ATTACKER',
       healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 },
       healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED',
