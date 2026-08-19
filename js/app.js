@@ -3307,7 +3307,7 @@ async function requestDrawWithRecovery(packId,count,requestId,receiptVersion=2,{
     },
     body:JSON.stringify({packId,count,requestId,autoDraw:autoRun,acknowledgedRequestIds:Array.isArray(acknowledgedRequestIds)?acknowledgedRequestIds.slice(0,10):[]})
   };
-  const maxAttempts=autoRun?8:3;
+  const maxAttempts=autoRun?20:12;
   let lastError=null,shouldPost=true;
   for(let attempt=0;attempt<maxAttempts;attempt++){
     if(shouldPost){

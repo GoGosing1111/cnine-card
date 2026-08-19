@@ -6,10 +6,10 @@
 })(function createSoopketmonV21DrawPurchase(scope) {
   'use strict';
 
-  const VERSION = '21.5.1';
+  const VERSION = '21.6.0';
   const MAX_TOTAL = 10000;
-  const SERVER_BATCH = 100;
-  const RETRY_LIMIT = 3;
+  const SERVER_BATCH = 500;
+  const BATCH_COOLDOWN_MS = 200;
   const LEDGER_SCHEMA = 1;
   const LEDGER_PREFIX = 'soopketmon:v21:draw-job:';
   const LEASE_PREFIX = 'soopketmon:v21:coin-spend-lease:';
@@ -418,7 +418,7 @@
   function visibilityLabel(job) {
     if (!job) return '';
     if (scope.document?.hidden) return '화면 복귀 시 안전하게 계속합니다.';
-    if (job.retrying) return `서버 처리 확인 중 · ${job.retrying}/${RETRY_LIMIT}`;
+    if (job.retrying) return `서버 혼잡 자동 대기 · ${job.retrying}회`;
     if (job.phase === 'open') return `${job.definition.noun} 자동 ${job.definition.action} 중`;
     return `${job.definition.noun} 구매 중`;
   }
@@ -451,7 +451,7 @@
 
   async function requestWithRetry(job, path, count, stableRequestId) {
     let lastError = null;
-    for (let attempt = 0; attempt < RETRY_LIMIT; attempt += 1) {
+    for (let attempt = 0; ; attempt += 1) {
       if (job.stopRequested && !job.currentBatch?.attempted) throw stoppedError();
       await waitUntilVisible(job);
       assertLeaseOwned(job);
@@ -471,13 +471,11 @@
       } catch (error) {
         lastError = error;
         if (!isRetryable(error)) throw error;
-        if (attempt >= RETRY_LIMIT - 1) {
-          error.ambiguous = true;
-          throw error;
-        }
         job.retrying = attempt + 1;
         renderJobDock(job);
-        await sleep(Math.min(4000, 600 * (2 ** attempt)));
+        const retryAfter = Math.max(0, Number(error?.retryAfterMs || error?.data?.retryAfterMs || 0));
+        const backoff = Math.min(15000, 800 * (2 ** Math.min(attempt, 4)));
+        await sleep(Math.max(retryAfter, backoff) + Math.floor(Math.random() * 250));
       }
     }
     throw lastError || new Error('요청을 완료하지 못했습니다.');
@@ -579,7 +577,7 @@
       const overlay = document.createElement('div');
       overlay.id = 'v21DrawOrderConfirm';
       overlay.className = 'v21-draw-confirm-overlay';
-      overlay.innerHTML = `<section class="v21-draw-confirm-panel" role="alertdialog" aria-modal="true" aria-labelledby="v21DrawConfirmTitle" data-kind="${plan.kind}"><header><small>FINAL ORDER CHECK</small><h2 id="v21DrawConfirmTitle">일괄 구매를 시작할까요?</h2><p>확인 전에는 서버 구매 요청이 전송되지 않습니다.</p></header><dl><div><dt>상품</dt><dd>${escapeHtml(plan.noun)}</dd></div><div><dt>총수량</dt><dd>${formatNumber(plan.total)}개</dd></div><div><dt>총비용</dt><dd>${formatNumber(plan.totalCost)} 코인</dd></div><div><dt>구매 요청</dt><dd>최대 100개씩 ${formatNumber(plan.purchaseBatches)}회</dd></div><div><dt>자동진행</dt><dd>${plan.auto ? `${escapeHtml(plan.action)} ON · ${formatNumber(plan.openBatches)}회` : 'OFF · 구매만 진행'}</dd></div></dl><div class="v21-draw-confirm-actions"><button type="button" data-v21-confirm-cancel>취소</button><button type="button" data-v21-confirm-start>${formatNumber(plan.total)}개 주문 시작</button></div></section>`;
+      overlay.innerHTML = `<section class="v21-draw-confirm-panel" role="alertdialog" aria-modal="true" aria-labelledby="v21DrawConfirmTitle" data-kind="${plan.kind}"><header><small>FINAL ORDER CHECK</small><h2 id="v21DrawConfirmTitle">일괄 구매를 시작할까요?</h2><p>확인 전에는 서버 구매 요청이 전송되지 않습니다.</p></header><dl><div><dt>상품</dt><dd>${escapeHtml(plan.noun)}</dd></div><div><dt>총수량</dt><dd>${formatNumber(plan.total)}개</dd></div><div><dt>총비용</dt><dd>${formatNumber(plan.totalCost)} 코인</dd></div><div><dt>구매 요청</dt><dd>최대 ${formatNumber(SERVER_BATCH)}개씩 ${formatNumber(plan.purchaseBatches)}회</dd></div><div><dt>자동진행</dt><dd>${plan.auto ? `${escapeHtml(plan.action)} ON · ${formatNumber(plan.openBatches)}회` : 'OFF · 구매만 진행'}</dd></div></dl><div class="v21-draw-confirm-actions"><button type="button" data-v21-confirm-cancel>취소</button><button type="button" data-v21-confirm-start>${formatNumber(plan.total)}개 주문 시작</button></div></section>`;
       const finish = accepted => {
         document.removeEventListener('keydown', onKeyDown);
         overlay.remove();
@@ -763,6 +761,8 @@
         error.terminal = true;
         throw error;
       }
+      const phaseCompleted=phase==='purchase'?job.purchased:job.opened;
+      if(phaseCompleted<targetCount)await sleep(BATCH_COOLDOWN_MS);
     }
     flushLocalState(job);
   }
@@ -996,7 +996,7 @@
 
   function controlMarkup(kind, definition, initial = 10) {
     const auto = readAuto(kind);
-    return `<div class="v21-draw-purchase-control" data-v21-draw-purchase="${kind}"><div class="v21-draw-purchase-head"><span><small>TOTAL ORDER</small><b>구매 수량 직접 입력</b></span><em>1 ~ ${formatNumber(MAX_TOTAL)}</em></div><div class="v21-draw-purchase-entry"><button type="button" data-v21-count-step="-1" aria-label="수량 1 감소">−</button><label><input type="number" inputmode="numeric" min="1" max="${MAX_TOTAL}" step="1" value="${initial}" aria-label="${escapeHtml(definition.noun)} 구매 수량"><span>개</span></label><button type="button" data-v21-count-step="1" aria-label="수량 1 증가">＋</button></div><div class="v21-draw-purchase-quick">${[1, 10, 100, 1000, 10000].map(value => `<button type="button" data-v21-count="${value}">${formatNumber(value)}</button>`).join('')}</div><label class="v21-draw-auto-toggle"><input type="checkbox" ${auto ? 'checked' : ''}><span aria-hidden="true"><i></i></span><b>구매 후 자동 ${escapeHtml(definition.action)}</b><small>100개 단위 서버 배치 · 화면이 숨겨지면 일시정지</small></label><button type="button" class="v21-draw-purchase-submit" data-v21-draw-submit><span>${formatNumber(initial)}개 구매${auto ? ` · 자동 ${escapeHtml(definition.action)}` : ''}</span><b data-v21-order-cost>금액 확인</b></button><p data-v21-draw-inline-status hidden></p></div>`;
+    return `<div class="v21-draw-purchase-control" data-v21-draw-purchase="${kind}"><div class="v21-draw-purchase-head"><span><small>TOTAL ORDER</small><b>구매 수량 직접 입력</b></span><em>1 ~ ${formatNumber(MAX_TOTAL)}</em></div><div class="v21-draw-purchase-entry"><button type="button" data-v21-count-step="-1" aria-label="수량 1 감소">−</button><label><input type="number" inputmode="numeric" min="1" max="${MAX_TOTAL}" step="1" value="${initial}" aria-label="${escapeHtml(definition.noun)} 구매 수량"><span>개</span></label><button type="button" data-v21-count-step="1" aria-label="수량 1 증가">＋</button></div><div class="v21-draw-purchase-quick">${[1, 10, 100, 1000, 10000].map(value => `<button type="button" data-v21-count="${value}">${formatNumber(value)}</button>`).join('')}</div><label class="v21-draw-auto-toggle"><input type="checkbox" ${auto ? 'checked' : ''}><span aria-hidden="true"><i></i></span><b>구매 후 자동 ${escapeHtml(definition.action)}</b><small>${formatNumber(SERVER_BATCH)}개 단위 서버 배치 · 화면이 숨겨지면 일시정지</small></label><button type="button" class="v21-draw-purchase-submit" data-v21-draw-submit><span>${formatNumber(initial)}개 구매${auto ? ` · 자동 ${escapeHtml(definition.action)}` : ''}</span><b data-v21-order-cost>금액 확인</b></button><p data-v21-draw-inline-status hidden></p></div>`;
   }
 
   function enhanceSection(kind) {

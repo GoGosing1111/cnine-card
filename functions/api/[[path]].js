@@ -3579,10 +3579,11 @@ async function releaseDeletedCouponCode(env,code,adminId){
 }
 
 const SERIALIZED_GAME_ACTIONS=new Set([
-  'attendance/claim','card/breakthrough','card/breakthrough/auto','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave','draw',
+  // Receipt-managed draw/shop routes already serialize their writes in atomic D1
+  // batches. A second lock only adds writes and rejects safe idempotent retries.
+  'attendance/claim','card/breakthrough','card/breakthrough/auto','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
   'pvp/match','pvp/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
-  'wago-daily-quest/claim','vehicle-draw/open','vehicle-draw/purchase','equipment/supply-box/open',
-  'equipment/supply-box/purchase','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','scrapyard/run'
+  'wago-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','scrapyard/run'
 ]);
 const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','auction/','idle-dungeon/'];
 let userMutationLockReadyPromise=null;
@@ -3752,6 +3753,7 @@ async function handleRequest(context){
     // 다른 기능의 미완료 업그레이드나 D1 잠금 때문에 레이드 화면까지 함께 타임아웃될 수 있다.
     // 레이드 스키마는 기존 안전 업그레이드에서 설치되므로 상태 조회에서는 경량 인덱스 확인만 수행한다.
     const vehicleDrawPath=path==='vehicle-draw/config'||path==='vehicle-draw/open'||path==='vehicle-draw/purchase'||path==='admin/vehicle-draw/settings'||path==='admin/vehicle-draw/grant';
+    const equipmentDrawPath=path==='equipment/supply-box/config'||path==='equipment/supply-box/open'||path==='equipment/supply-box/purchase';
     // High-traffic routes must never wait for the legacy all-schema runtime gate.
     // Route-local guards below still validate the small set of tables they mutate.
     // Full migrations belong to deployment/setup, not the player request path.
@@ -3764,7 +3766,7 @@ async function handleRequest(context){
     if(path==='raid/status')await Promise.all([ensureD1HotpathIndexes(env),ensureD1StabilityIndexes(env)]);
     // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
     // 전역 런타임 업그레이드와 장비 전체 foundation을 중복 실행하면 CMS 설정 조회가 타임아웃될 수 있다.
-    else if(vehicleDrawPath||hotPathWithoutGlobalUpgrade){ /* route-local lightweight ensure */ }
+    else if(vehicleDrawPath||equipmentDrawPath||hotPathWithoutGlobalUpgrade){ /* route-local lightweight ensure */ }
     else context.waitUntil(Promise.all([
       ensureRuntimeUpgrades(env).catch(error=>console.error('runtime upgrade background check failed',error)),
       ensureD1StabilityIndexes(env).catch(error=>console.error('D1 stability index upgrade failed',error))
@@ -7092,6 +7094,7 @@ export async function onRequest(context){
     }
   }
   const durationMs=Math.max(0,Date.now()-startedAt),headers=new Headers(response.headers);
+  if(durationMs>=2000)console.warn('SLOW_API_REQUEST',JSON.stringify({path:actionPath,method:request.method,status:response.status,durationMs}));
   headers.set('server-timing',`app;dur=${durationMs}`);
   headers.set('x-cnine-response-ms',String(durationMs));
   if(durationMs>=1000||stableSmallHash(`${request.method}:${url.pathname}:${request.headers.get('cf-ray')||''}`)%128===0){

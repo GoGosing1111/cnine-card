@@ -10,7 +10,7 @@ const TITLE_UNLOCK_TYPES=['MANUAL','COLLECTION_COUNT','GRADE_COUNT','MEMBER_COMP
 const TITLE_STYLE_PRESETS=['DEFAULT','FOREST','FLAME','FROST','STORM','SHADOW','GOLD','RAINBOW','VOID','CRIMSON'];
 const SUPPLY_BOX_CODE='EQUIPMENT_SUPPLY_BOX';
 const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
-const SUPPLY_BOX_MAX_OPEN=100;
+const SUPPLY_BOX_MAX_OPEN=500;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
 const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1,quantity:1},PVE_AUTO:{enabled:true,rate:.05,quantity:1},TOWER:{enabled:true,rate:.2,quantity:1},RAID:{enabled:true,rate:1,quantity:1},RIFT:{enabled:true,rate:.5,quantity:1},PVP:{enabled:true,rate:.2,quantity:1},CAPTAIN:{enabled:true,rate:.3,quantity:1}}};
@@ -663,7 +663,8 @@ export async function handleEquipment({path,request,env,deps}){
   }
   if(path==='equipment/supply-box/purchase'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    const body=await readBody(request),count=cleanInt(body.count,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100);
+    const body=await readBody(request),rawCount=Number(body.count),count=cleanInt(rawCount,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100);
+    if(!Number.isInteger(rawCount)||rawCount<1||rawCount>SUPPLY_BOX_MAX_OPEN)return json({error:`구매 수량은 1개 이상 ${SUPPLY_BOX_MAX_OPEN}개 이하여야 합니다.`},400);
     const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
     if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
     if(prior)return json({error:'이전 구매 요청의 서버 반영 여부를 복구 확인해야 합니다.',code:'PENDING_RECOVERY_REQUIRED',requestId},409);
@@ -705,7 +706,8 @@ export async function handleEquipment({path,request,env,deps}){
   }
   if(path==='equipment/supply-box/open'&&request.method==='POST'){
     const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-    const body=await readBody(request),count=cleanInt(body.count,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100),settings=await supplyBoxSettings(env);
+    const body=await readBody(request),rawCount=Number(body.count),count=cleanInt(rawCount,1,SUPPLY_BOX_MAX_OPEN),requestId=cleanText(body.requestId||crypto.randomUUID(),100),settings=await supplyBoxSettings(env);
+    if(!Number.isInteger(rawCount)||rawCount<1||rawCount>SUPPLY_BOX_MAX_OPEN)return json({error:`장비 보급상자는 1개 이상 ${SUPPLY_BOX_MAX_OPEN}개 이하로 개방할 수 있습니다.`},400);
     if(!settings.enabled)return json({error:'현재 장비 보급상자를 개방할 수 없습니다.'},403);
     const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
     if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
