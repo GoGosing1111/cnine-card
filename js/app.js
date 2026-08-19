@@ -488,26 +488,21 @@ const STANDALONE_GAME_URL='https://cnine-card.pages.dev/';
 function bindFullscreenPlayLink(header){
   const link=header?.querySelector('[data-fullscreen-play]');
   if(!link)return;
-  const mobileViewport=window.matchMedia?.('(max-width:820px)')?.matches===true||/Android|iPhone|iPad|iPod/i.test(String(navigator.userAgent||''));
-  let embedded=false;
-  try{embedded=window.self!==window.top}catch(_){embedded=true}
-  link.target=embedded||mobileViewport?'_top':'_blank';
-  link.addEventListener('click',event=>{
-    if(!(embedded||mobileViewport))return;
-    const url=link.href||STANDALONE_GAME_URL;
-    let navigated=false;
+  const fullscreenElement=()=>document.fullscreenElement||document.webkitFullscreenElement||null;
+  const sync=()=>{const active=Boolean(fullscreenElement());link.classList.toggle('active',active);link.setAttribute('aria-pressed',String(active));link.setAttribute('aria-label',active?'전체화면 해제':'전체화면 모드');link.title=active?'전체화면 해제':'전체화면 모드';link.innerHTML=active?'<span>×</span><b>전체화면 해제</b>':'<span>⛶</span><b>전체화면</b>'};
+  link.addEventListener('click',async()=>{
     try{
-      if(window.top&&window.top!==window){window.top.location.href=url;navigated=true}
-      else{window.location.href=url;navigated=true}
-    }catch(_){}
-    if(!navigated){
-      try{const opened=window.open(url,'_blank','noopener,noreferrer');navigated=Boolean(opened)}catch(_){}
+      if(fullscreenElement())await (document.exitFullscreen?.()||document.webkitExitFullscreen?.());
+      else await (document.documentElement.requestFullscreen?.({navigationUI:'hide'})||document.documentElement.webkitRequestFullscreen?.());
+    }catch(_){
+      let embedded=false;try{embedded=window.self!==window.top}catch(_error){embedded=true}
+      if(embedded){try{window.top.location.href=STANDALONE_GAME_URL}catch(_error){window.open(STANDALONE_GAME_URL,'_blank','noopener,noreferrer')}}
     }
-    if(!navigated){
-      try{window.location.assign(url);navigated=true}catch(_){}
-    }
-    if(navigated){event.preventDefault();event.stopPropagation()}
-  },{capture:true});
+    sync();
+  });
+  document.addEventListener('fullscreenchange',sync);
+  document.addEventListener('webkitfullscreenchange',sync);
+  sync();
 }
 
 const FEATURE_RESOURCE_MANIFEST={
@@ -690,7 +685,7 @@ function renderShell(tab) {
     if(currentNav){const template=document.createElement('template');template.innerHTML=navHtml;currentNav.replaceWith(template.content.firstElementChild)}
     replaceShellRoute(routeHtml);
   }else{
-    app.innerHTML = `<main class="page" data-cnine-shell="1"><div class="ambient-lines"></div><header class="header"><div class="brand">${responsiveLogoImage('brand-logo')}<div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}<a class="fullscreen-play-link" data-fullscreen-play href="https://cnine-card.pages.dev/" target="_top" rel="noopener noreferrer" aria-label="숲켓몬 큰 화면으로 열기" title="와고 화면에서 벗어나 크게 보기"><span>⛶</span><b>크게 보기</b></a></header><!--cnine-route-start-->${routeHtml}<!--cnine-route-end--></main><div id="modal" class="modal"></div>`;
+    app.innerHTML = `<main class="page" data-cnine-shell="1"><div class="ambient-lines"></div><header class="header"><div class="brand">${responsiveLogoImage('brand-logo')}<button type="button" class="fullscreen-play-link" data-fullscreen-play aria-label="전체화면 모드" aria-pressed="false" title="전체화면 모드"><span>⛶</span><b>전체화면</b></button><div><p class="eyebrow">SOOP CARD COLLECTION</p><h1>숲켓몬 카드뽑기</h1></div></div>${navHtml}</header><!--cnine-route-start-->${routeHtml}<!--cnine-route-end--></main><div id="modal" class="modal"></div>`;
     shellRouteStart=null;shellRouteEnd=null;locateShellRouteMarkers();
   }
   const header=document.querySelector('main.page[data-cnine-shell="1"] .header');
