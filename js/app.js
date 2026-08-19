@@ -3240,7 +3240,6 @@ let drawRequestInFlight=false;
 let activeDrawRequestId='';
 const consumedDrawResponses=new Set();
 const PENDING_DRAW_STORAGE_KEY='cnine_pending_draw_v1168_r4';
-const PENDING_DRAW_AUTO_RECOVERY_MS=14*60*1000;
 function pendingDrawIdentity(){const user=loadUser(),userId=String(user?.serverUserId??user?.id??user?.nickname??'anonymous'),browserId=String(drawBrowserId()||'browser');return {userId,browserId,key:`${PENDING_DRAW_STORAGE_KEY}:${encodeURIComponent(userId)}:${encodeURIComponent(browserId)}`}}
 function normalizePendingDraw(row={}){const identity=pendingDrawIdentity();return {requestId:String(row.requestId||''),packId:String(row.packId||''),count:Number(row.count||0),receiptVersion:Number(row.receiptVersion||2),createdAt:Number(row.createdAt||Date.now()),updatedAt:Number(row.updatedAt||Date.now()),state:String(row.state||'PENDING'),userId:identity.userId,browserId:identity.browserId}}
 function readPendingDraw(){
@@ -3249,7 +3248,9 @@ function readPendingDraw(){
     let row=JSON.parse(localStorage.getItem(identity.key)||'null');
     if(!row){const legacy=JSON.parse(sessionStorage.getItem(PENDING_DRAW_STORAGE_KEY)||'null');if(legacy?.requestId&&(!legacy.userId||String(legacy.userId)===identity.userId)&&(!legacy.browserId||String(legacy.browserId)===identity.browserId)){row=normalizePendingDraw(legacy);localStorage.setItem(identity.key,JSON.stringify(row));sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(row))}}
     if(!row?.requestId||String(row.userId||identity.userId)!==identity.userId||String(row.browserId||identity.browserId)!==identity.browserId)return null;
-    return {...row,recoveryBlocked:Date.now()-Number(row.createdAt||0)>PENDING_DRAW_AUTO_RECOVERY_MS};
+    // The server receipt is the source of truth for idempotency and stale-request
+    // recovery. Never strand a paid draw only because the browser receipt is old.
+    return {...row};
   }catch(_){return null}
 }
 function writePendingDraw(row){try{const next=normalizePendingDraw(row);if(!next.requestId)return;const identity=pendingDrawIdentity();localStorage.setItem(identity.key,JSON.stringify(next));sessionStorage.setItem(PENDING_DRAW_STORAGE_KEY,JSON.stringify(next))}catch(_){}}
