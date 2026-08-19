@@ -747,15 +747,17 @@ export async function handleEquipment({path,request,env,deps}){
         env.DB.prepare(`UPDATE users SET coin=coin+?,card_shards=card_shards+? WHERE id=?
           AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(coinGained,shardGained,user.id,requestId,user.id)
       ];
-      for(let offset=0;offset<equipmentRewards.length;offset+=12){
-        const chunk=equipmentRewards.slice(offset,offset+12),bindings=[requestId,user.id];
-        const selects=chunk.map(reward=>{
-          bindings.push(user.id,reward.item.id,'SUPPLY_BOX',requestId,`SUPPLY:${requestId}:${reward.index}`);
-          return 'SELECT ?,?,?,?,? FROM receipt_guard';
-        }).join(' UNION ALL ');
+      if(equipmentRewards.length){
+        const rewardRows=JSON.stringify(equipmentRewards.map(reward=>[Number(reward.item.id),Number(reward.index)]));
         statements.push(env.DB.prepare(`WITH receipt_guard AS (
           SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING'
-        ) INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) ${selects}`).bind(...bindings));
+        ),reward_rows AS (
+          SELECT CAST(json_extract(value,'$[0]') AS INTEGER) equipment_id,
+                 CAST(json_extract(value,'$[1]') AS INTEGER) reward_index
+          FROM json_each(?)
+        ) INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id)
+          SELECT ?,reward_rows.equipment_id,'SUPPLY_BOX',?,?||reward_rows.reward_index
+          FROM reward_rows CROSS JOIN receipt_guard`).bind(requestId,user.id,rewardRows,user.id,requestId,`SUPPLY:${requestId}:`));
       }
       statements.push(
         env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
