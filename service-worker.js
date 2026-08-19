@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1767-v3-card-cutin-1-3x';
+const SHELL_CACHE='soop-card-shell-v1768-v3-reentry-singleton';
 const CONTENT_CACHE='soop-card-content-v1';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
