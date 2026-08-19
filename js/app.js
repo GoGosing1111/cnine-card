@@ -2916,6 +2916,7 @@ async function openWagoVerification(){
 }
 
 const PLAYER_CLIENT_ID_KEY='cnine_player_client_id_v1552';
+const BATTLE_ACTION_LOCK_RETRY_PATHS=new Set(['battle/fight','tower/fight','pvp/match','pvp/fight']);
 function playerClientId(){
   let value='';try{value=localStorage.getItem(PLAYER_CLIENT_ID_KEY)||''}catch(_){}
   if(!/^[a-zA-Z0-9:_-]{12,120}$/.test(value)){value=globalThis.crypto?.randomUUID?.()||`client-${Date.now()}-${Math.random().toString(36).slice(2)}`;try{localStorage.setItem(PLAYER_CLIENT_ID_KEY,value)}catch(_){}}
@@ -2941,6 +2942,15 @@ async function apiRequest(path, options={}, config={}) {
       if(contentType.includes('application/json')){try{data=JSON.parse(text)}catch{throw new Error('서버 JSON 응답 형식이 올바르지 않습니다.')}}
       else{if(response.ok&&config.allowEmpty)return {};throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.');}
     }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
+    if(!response.ok&&String(data.code||'').toUpperCase()==='USER_ACTION_IN_PROGRESS'&&BATTLE_ACTION_LOCK_RETRY_PATHS.has(cleanPath)){
+      const retryCount=Math.max(0,Number(config.userActionRetryCount||0));
+      if(retryCount<12){
+        const retryAfter=Math.max(180,Math.min(850,Number(data.retryAfterMs||400)))+Math.floor(Math.random()*90);
+        await new Promise(resolve=>setTimeout(resolve,retryAfter));
+        return apiRequest(path,options,{...config,userActionRetryCount:retryCount+1});
+      }
+      data.error='전투 요청을 정리하지 못했습니다. 잠시 후 전투 버튼을 다시 눌러주세요.';
+    }
     if(!response.ok){
       if(String(data.code||'').toUpperCase()==='MAINTENANCE'||(response.status===503&&data.maintenance?.active)){
         API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();

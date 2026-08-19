@@ -44,8 +44,8 @@ assert.match(app,/const d=await apiRequest\('battle\/fight'[\s\S]*const live=win
 assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=1764-v3-hidden-boot-1\.6x/);
-assert.match(serviceWorker,/soop-card-shell-v1764-v3-hidden-boot-1\.6x/);
+assert.match(index,/js\/app\.js\?v=1765-battle-lock-retry/);
+assert.match(serviceWorker,/soop-card-shell-v1765-battle-lock-retry/);
 
 const calls=[];
 const phase={textContent:''};

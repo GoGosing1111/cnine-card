@@ -3610,11 +3610,11 @@ async function ensureUserMutationLock(env){
   return userMutationLockReadyPromise;
 }
 async function acquireUserMutationLock(env,userId,path){
-  await ensureUserMutationLock(env);const now=Date.now(),token=crypto.randomUUID(),leaseMs=String(path).startsWith('raid/')?20000:60000,leaseUntil=now+leaseMs;
+  await ensureUserMutationLock(env);const now=Date.now(),token=crypto.randomUUID(),actionPath=String(path),fastBattleAction=['battle/fight','tower/fight','pvp/match','pvp/fight'].includes(actionPath),leaseMs=actionPath.startsWith('raid/')?20000:(fastBattleAction?8000:60000),leaseUntil=now+leaseMs;
   const result=await env.DB.prepare(`INSERT INTO user_mutation_locks_v1520(user_id,token,action_path,lease_until_ms,updated_at)
     VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET token=excluded.token,action_path=excluded.action_path,
     lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP WHERE user_mutation_locks_v1520.lease_until_ms<=?`)
-    .bind(userId,token,String(path).slice(0,100),leaseUntil,now).run();
+    .bind(userId,token,actionPath.slice(0,100),leaseUntil,now).run();
   return Number(result?.meta?.changes||0)===1?{userId,token}:null;
 }
 async function releaseUserMutationLock(env,lock){
