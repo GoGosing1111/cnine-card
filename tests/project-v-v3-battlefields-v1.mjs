@@ -27,8 +27,8 @@ assert.match(engine,/loading:'LAZY_ACTIVE_SCENE_ONLY'/);
 assert.match(engine,/if\(payload\?\.floor\)return 'TOWER'/);
 assert.match(source,/setBattlefield/);
 assert.match(client,/ProjectVPixiBattle\?\.setBattlefield\(mode\)/);
-assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=46-live-assets-first-frame/);
-assert.match(html,/project-v-client\.js\?v=46-live-assets-first-frame/);
+assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=47-card-cutin-dash-1-3x/);
+assert.match(html,/project-v-client\.js\?v=47-card-cutin-dash-1-3x/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000,'rebuilt public Pixi bundle missing');
 
 console.log('project-v V3 multi-battlefield contract: OK');

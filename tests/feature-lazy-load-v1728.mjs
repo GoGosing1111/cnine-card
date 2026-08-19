@@ -23,7 +23,7 @@ assert.match(app,/ensureFeatureResources\('battleV2'\)/);
 assert.doesNotMatch(app,/preloadBattleEntryAssets/,'original card images must not block battle API startup');
 assert.match(app,/routeWaitsForFeature/);
 assert.match(runtimeCss,/\.route-feature-loader/);
-assert.match(worker,/soop-card-shell-v1766-v3-first-frame/);
+assert.match(worker,/soop-card-shell-v1767-v3-card-cutin-1-3x/);
 
 const deferredBytes=[
   'css/battle-v2-live.css','js/battle-v2-live.js',

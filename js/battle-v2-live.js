@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const PLAYBACK_SPEED = 1.6;
+  const PLAYBACK_SPEED = 1.3;
   const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
   const MOBILE_LOW_FX = matchMedia('(max-width: 800px), (pointer: coarse)').matches;
   const MAGIC_EFFECT_RESOURCES = Object.freeze({

@@ -766,7 +766,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   return {
     schemaVersion: 2,
     engine: 'BATTLE_ENGINE_V2',
-    playbackSpeed: 1.6,
+    playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
     rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
@@ -800,7 +800,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
   return {
     schemaVersion: 2,
     engine: 'BATTLE_ENGINE_V2_PVP',
-    playbackSpeed: 1.6,
+    playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
     rules: {
       hpMode: 'POWER_DISTRIBUTED',
@@ -931,7 +931,7 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
   return deps.json({
     preview: true,
     schemaVersion: 2,
-    playbackSpeed: 1.6,
+    playbackSpeed: 1.3,
     engine: 'BATTLE_ENGINE_V2_PREVIEW',
     persistence: 'NONE',
     seed,

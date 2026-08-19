@@ -2,8 +2,8 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.3.0-first-frame-live-assets';
-  const PLAYBACK_SPEED = 1.6;
+  const VERSION = '3.4.0-card-cutin-1-3x';
+  const PLAYBACK_SPEED = 1.3;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error(message)), Math.max(50, Number(ms || 0)));

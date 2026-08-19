@@ -22,7 +22,7 @@ const bundle = read('project-v-pixi-battle.bundle.js');
 
 assert.match(html, /project-v-command-studio-bg-v2\.png/);
 assert.doesNotMatch(html, /project-v-lobby-studio-v1|battle-art-adapter|tier-battle-art-adapter|unassigned-battle-fallback|monster-battle-art-adapter/);
-assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=46-live-assets-first-frame/);
+assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=47-card-cutin-dash-1-3x/);
 
 for (const [mode, asset] of Object.entries({
   HUNT: 'v3-nightmare-forest-battlefield-v1.png',

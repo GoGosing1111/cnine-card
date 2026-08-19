@@ -5,13 +5,13 @@ import {applyWebGLBlendTree, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 
-function setPortraitArt(sprite,width,height){
-  // Preserve the source aspect ratio. Generated SD sprites include transparent
-  // canvas padding, so allow a wider logical fit while clipping only padding.
-  const scale=Math.min((width*1.38)/sprite.texture.width,(height*.92)/sprite.texture.height);
+function setCardCutInArt(sprite,width,height){
+  // Tactical cut-ins show the original card art, not the battle SD sprite.
+  // Contain the complete card inside the panel so special frames are not cut.
+  const scale=Math.min((width*.96)/sprite.texture.width,(height*.96)/sprite.texture.height);
   sprite.anchor.set(.5);
   sprite.scale.set(scale);
-  sprite.position.set(width/2,height*.49);
+  sprite.position.set(width/2,height/2);
 }
 
 function label(text,size,color=0xffffff,weight='800'){
@@ -83,7 +83,7 @@ function makeCutIn({texture,width,height,title,subtitle,accent}){
   const artHost=new Container();
   artHost.position.set(7,panelY+7);
   const art=new Sprite(texture);
-  setPortraitArt(art,panelWidth-14,panelHeight-14);
+  setCardCutInArt(art,panelWidth-14,panelHeight-14);
   const mask=new Graphics()
     .poly([0,20,16,0,panelWidth-14,0,panelWidth-28,panelHeight-14,0,panelHeight-14])
     .fill(0xffffff);
@@ -122,7 +122,7 @@ function makeCutIn({texture,width,height,title,subtitle,accent}){
 }
 
 export class SkillTimeline{
-  constructor({width,height,backgroundLayer,combatLayer,effectLayer,uiLayer,camera,pools,ticker=null,playbackSpeed=1.6,reducedMotion=false}){
+  constructor({width,height,backgroundLayer,combatLayer,effectLayer,uiLayer,camera,pools,ticker=null,playbackSpeed=1.3,reducedMotion=false}){
     this.width=width;
     this.height=height;
     this.backgroundLayer=backgroundLayer;
@@ -132,7 +132,7 @@ export class SkillTimeline{
     this.camera=camera;
     this.pools=pools;
     this.ticker=ticker;
-    this.playbackSpeed=Math.max(1,Number(playbackSpeed)||1.6);
+    this.playbackSpeed=Math.max(1,Number(playbackSpeed)||1.3);
     this.reducedMotion=reducedMotion;
     this.active=new Set();
   }
@@ -280,7 +280,8 @@ export class SkillTimeline{
         },Math.round(100/this.playbackSpeed));
       };
 
-      // 0–200ms: vertical portrait cut-in plus a 15px rear/upward gather.
+      // Keep the original-card cut-in readable through the dash. At 1.3x this
+      // remains on screen for about 400ms instead of flashing by in one frame.
       timeline.call(()=>{
         attackerView.zIndex=1000;
         this.combatLayer.sortChildren();
@@ -288,8 +289,8 @@ export class SkillTimeline{
       timeline.to(this.backgroundLayer,{alpha:.4,duration:.12,ease:'power2.out'},0);
       enemyRoots.forEach(view=>timeline.to(view,{alpha:.4,duration:.12,ease:'power2.out'},0));
       timeline.to(cutIn,{x:cutInX,alpha:1,duration:.16,ease:'back.out(1.45)'},0);
-      timeline.to(cutIn,{x:cutInX+8,duration:.06,ease:'none'},.16);
-      timeline.to(cutIn,{x:this.width+80,alpha:0,duration:.12,ease:'power4.in'},.22);
+      timeline.to(cutIn,{x:cutInX+8,duration:.24,ease:'none'},.16);
+      timeline.to(cutIn,{x:this.width+80,alpha:0,duration:.12,ease:'power4.in'},.4);
       timeline.to(attackerView,{x:gatherPoint.x,y:gatherPoint.y,duration:.2,ease:'power2.inOut'},0);
       timeline.to(attackerView.scale,{x:origin.scale*1.04,y:origin.scale*.9,duration:.2,ease:'power2.inOut'},0);
 

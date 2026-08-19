@@ -19,11 +19,11 @@ assert.match(bridge,/playerUltimateShown = false/,'player cinematic must be prot
 assert.match(bridge,/bossUltimateShown = false/,'boss cinematic must be protected from repeated playback');
 assert.doesNotMatch(bridge,/INIT_WATCHDOG_MS|EVENT_WATCHDOG_MS/,'cold mobile loading must not destroy a healthy renderer on an arbitrary deadline');
 assert.doesNotMatch(bridge,/recoverRenderer/,'renderer failure must never jump directly to the server result');
-assert.match(bridge,/const PLAYBACK_SPEED = 1\.6/,'the V3 runtime speed must be 1.6x');
+assert.match(bridge,/const PLAYBACK_SPEED = 1\.3/,'the V3 runtime speed must be 1.3x');
 assert.match(bridge,/for \(let attempt = 0; attempt < 2;/,'WebGL initialization must retry once after an explicit failure');
 assert.match(bridge,/battle-v3-preparing/,'the battlefield shell must identify its first-frame state');
 assert.match(bridge,/stage\.classList\.add\('is-v3-ready'\);[\s\S]*revealBattle\(\)/,'the modal may reveal only after the renderer is ready');
-assert.match(bridge,/durationMs: Math\.max\(320, Math\.round\(baseDuration \/ PLAYBACK_SPEED\)\)/,'CMS cinematics must use the same 1.6x clock');
+assert.match(bridge,/durationMs: Math\.max\(320, Math\.round\(baseDuration \/ PLAYBACK_SPEED\)\)/,'CMS cinematics must use the same 1.3x clock');
 assert.doesNotMatch(battleCss,/:has\(canvas\) \.battle-v3-loader/,'a canvas alone must never hide the loader before assets are ready');
 assert.match(battleCss,/is-v3-ready \.battle-v3-loader/,'the loader may hide only after the renderer is ready');
 assert.match(battleCss,/\.battle-v3-modal\.battle-v3-preparing\{opacity:1!important;pointer-events:auto!important/,'the selected battlefield must be visible while Pixi commits its first frame');
@@ -35,20 +35,20 @@ assert.match(engine,/if\(!this\.livePayload&&this\.cards\.every/,'visibility mus
 assert.match(engine,/if\(this\.livePayload&&this\.liveDeployed\)/,'live formations must deploy exactly once');
 assert.match(engine,/this\.cards\.filter\(card=>card\.visible&&card\.renderable\)/,'hidden preview cards must not animate into live PVP');
 assert.match(engine,/const liveActor=explicitActor\|\|\(this\.livePayload/,'live ultimates must not fall back to the preview-only actor');
-assert.match(engine,/instance\.timeScale\(this\.reducedMotion\?8:PLAYBACK_SPEED\)/,'all Pixi timelines must run at 1.6x');
+assert.match(engine,/instance\.timeScale\(this\.reducedMotion\?8:PLAYBACK_SPEED\)/,'all Pixi timelines must run at 1.3x');
 assert.match(engine,/this\.textures=Object\.fromEntries\(Object\.keys\(ASSETS\)/,'live battles must skip the preview asset bundle');
 assert.match(engine,/Promise\.allSettled\(\[\.\.\.new Set\(preloadUrls\)\]/,'live card and monster assets must load concurrently');
 assert.match(engine,/onInterrupt:\(\)=>settle\(false\)/,'interrupted GSAP timelines must settle instead of hanging');
 
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=46-live-assets-first-frame/);
-assert.match(app,/battle-v3-live\.js\?v=3\.3\.0-first-frame-live-assets/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=47-card-cutin-dash-1-3x/);
+assert.match(app,/battle-v3-live\.js\?v=3\.4\.0-card-cutin-1-3x/);
 assert.equal(app.includes('battle-resource-loader'),false,'the renewed V3 flow must never show the old resource loading battlefield');
 assert.match(app,/const d=await apiRequest\('battle\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVE must calculate first and reveal only the ready V3 scene');
 assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=1766-v3-first-frame/);
-assert.match(serviceWorker,/soop-card-shell-v1766-v3-first-frame/);
+assert.match(index,/js\/app\.js\?v=1767-v3-card-cutin-1-3x/);
+assert.match(serviceWorker,/soop-card-shell-v1767-v3-card-cutin-1-3x/);
 
 const calls=[];
 const phase={textContent:''};
@@ -110,8 +110,8 @@ assert.equal(calls.filter(call=>call[0]==='player-cms').length,1,'CMS user ultim
 assert.equal(calls.filter(call=>call[0]==='boss-cms').length,1,'CMS boss ultimate must play once');
 const playerUltimateCall=calls.find(call=>call[0]==='player-cms');
 const bossUltimateCall=calls.find(call=>call[0]==='boss-cms');
-assert.deepEqual(playerUltimateCall.slice(1),['CMS USER ULTIMATE',777,1.6,1875],'CMS user ultimate must use the 1.6x clock');
-assert.deepEqual(bossUltimateCall.slice(1),['CMS BOSS ULTIMATE',1.6,1500],'CMS boss ultimate must use the 1.6x clock');
+assert.deepEqual(playerUltimateCall.slice(1),['CMS USER ULTIMATE',777,1.3,2308],'CMS user ultimate must use the 1.3x clock');
+assert.deepEqual(bossUltimateCall.slice(1),['CMS BOSS ULTIMATE',1.3,1846],'CMS boss ultimate must use the 1.3x clock');
 const eventCalls=calls.filter(call=>call[0]==='events');
 assert.equal(eventCalls.length,5,'deploy plus four server timeline events');
 assert.equal(eventCalls[1][1][0].actorId,'CARD-CMS-01');

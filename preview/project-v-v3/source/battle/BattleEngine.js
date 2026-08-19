@@ -11,7 +11,7 @@ const MOBILE={width:1050,height:1500};
 const CARD={width:168,height:252,scale:.88};
 const BUNDLE='project-v-battle-v3';
 const ISO_GRID={columns:7,rows:6};
-const PLAYBACK_SPEED=1.6;
+const PLAYBACK_SPEED=1.3;
 const DEFAULT_BATTLEFIELD_MODE='HUNT';
 const BATTLEFIELD_ASSETS=Object.freeze({
   HUNT:'../../assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png',
@@ -122,10 +122,13 @@ function assetKey(value){
 }
 
 function originalCardArtUrl(card,art){
-  const explicit=card?.originalCardArt||card?.sourceArt||card?.source_art||card?.imageOriginal||card?.cardImage||card?.image_url_original||art?.sourceArtUrl;
-  if(explicit)return rootAssetPath(explicit);
-  const image=card?.imageUrl||card?.image_url||card?.image;
-  return image&&assetKey(image)!==assetKey(art?.primaryUrl)?rootAssetPath(image):'';
+  // The manifest source art is authoritative for a tactical cut-in. Runtime
+  // adapters replace card.image with the SD battle sprite, so choosing image
+  // fields first can accidentally put that sprite inside the card cut-in.
+  const battleSpriteKey=assetKey(art?.primaryUrl);
+  const candidates=[art?.sourceArtUrl,card?.sourceArt,card?.source_art,card?.originalCardArt,card?.imageOriginal,card?.cardImage,card?.image_url_original,card?.imageUrl,card?.image_url,card?.image];
+  const source=candidates.find(value=>value&&assetKey(value)!==battleSpriteKey);
+  return source?rootAssetPath(source):'';
 }
 
 function textNode(text,size,color=0xffffff,weight='700',align='left'){
@@ -1092,18 +1095,20 @@ export class BattleEngine{
     this.updateStatus(`${actor.name} · ${critical?'치명타':'공격'}`);
     const vector={x:victimView.x-actor.baseX,y:victimView.y-actor.baseY};
     const distance=Math.max(1,Math.hypot(vector.x,vector.y));
-    const advance=86;
+    // Move all the way to the current target instead of nudging 86px from the
+    // origin. The old distance made individual server TURN events look static.
+    const stopDistance=isBossTarget?138:92;
     const attackPoint={
-      x:actor.baseX+vector.x/distance*advance,
-      y:actor.baseY+vector.y/distance*advance
+      x:victimView.x-vector.x/distance*stopDistance,
+      y:victimView.y-vector.y/distance*stopDistance
     };
     const attackScale=actor.getPerspectiveScale?.(attackPoint.y)??actor.restScale;
     return this.timeline(timeline=>{
       timeline.call(()=>actor.setState(CHARACTER_STATE.MOVE),[],0);
-      timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:.16,ease:'power3.out'});
-      timeline.to(actorView.scale,{x:attackScale*1.06,y:attackScale*1.06,duration:.16,ease:'power3.out'},0);
-      timeline.set(slash,{alpha:1},.13);
-      if(slash.blades)slash.blades.forEach((blade,bladeIndex)=>timeline.to(blade.scale,{x:1,duration:.1,ease:'power4.out'},.13+bladeIndex*.02));
+      timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:.22,ease:'power3.out'});
+      timeline.to(actorView.scale,{x:attackScale*1.06,y:attackScale*1.06,duration:.22,ease:'power3.out'},0);
+      timeline.set(slash,{alpha:1},.18);
+      if(slash.blades)slash.blades.forEach((blade,bladeIndex)=>timeline.to(blade.scale,{x:1,duration:.1,ease:'power4.out'},.18+bladeIndex*.02));
       timeline.call(()=>{
         actor.setState(CHARACTER_STATE.ATTACK);
         victim.setState(CHARACTER_STATE.HIT);
@@ -1112,15 +1117,15 @@ export class BattleEngine{
         whiteFlashHandle=triggerWhiteFlash(victim,{durationMs:Math.round(50/PLAYBACK_SPEED)});
         if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
         onImpact(victim);
-      },[],.2);
-      timeline.to(impactFx,{alpha:1,duration:.025,ease:'none'},.2);
-      timeline.to(impactFx.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.2);
-      timeline.to(impactFx,{alpha:0,duration:.14,ease:'power2.in'},isBossTarget?.37:.3);
-      timeline.to(slash.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.2);
-      skillEffect.play(timeline,{at:.2,duration:.2});
-      this.camera.addShake(timeline,{intensity:isBossTarget?(critical?26:20):20,duration:isBossTarget?.31:.22,rotation:isBossTarget?.008:.004,at:.2});
-      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-286},{alpha:1,y:victimView.y-316,duration:.18,ease:'back.out(2)'},.2);
-      timeline.fromTo(damageLabel.scale,{x:.55,y:.55},{x:1,y:1,duration:.2,ease:'back.out(2)'},.2);
+      },[],.25);
+      timeline.to(impactFx,{alpha:1,duration:.025,ease:'none'},.25);
+      timeline.to(impactFx.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.25);
+      timeline.to(impactFx,{alpha:0,duration:.14,ease:'power2.in'},isBossTarget?.42:.35);
+      timeline.to(slash.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.25);
+      skillEffect.play(timeline,{at:.25,duration:.2});
+      this.camera.addShake(timeline,{intensity:isBossTarget?(critical?26:20):20,duration:isBossTarget?.31:.22,rotation:isBossTarget?.008:.004,at:.25});
+      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-286},{alpha:1,y:victimView.y-316,duration:.18,ease:'back.out(2)'},.25);
+      timeline.fromTo(damageLabel.scale,{x:.55,y:.55},{x:1,y:1,duration:.2,ease:'back.out(2)'},.25);
       timeline.to(damageLabel,{alpha:0,y:victimView.y-346,duration:.25,ease:'power2.in'},.48);
       timeline.to(slash,{alpha:0,duration:.2},.38);
       timeline.to(actorView,{x:actor.baseX,y:actor.baseY,duration:.3,ease:'power3.inOut'},.43);
