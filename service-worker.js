@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1768-v3-reentry-singleton';
+soop-card-shell-v1769-v3-production-syntax-hotfixconst SHELL_CACHE='soop-card-shell-v1768-v3-reentry-singleton';
 const CONTENT_CACHE='soop-card-content-v1';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
