@@ -2,6 +2,9 @@
   'use strict';
 
   const PLAYBACK_SPEED = 1.3;
+  // Static GPU resources are scoped to a context, so cache them per context.
+  const MAGIC_WEBGL_CACHE = new WeakMap();
+  let magicWebGLCanvas = null;
   const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
   const MOBILE_LOW_FX = matchMedia('(max-width: 800px), (pointer: coarse)').matches;
   const MAGIC_EFFECT_RESOURCES = Object.freeze({
@@ -272,20 +275,26 @@
 
     function startMagicWebGL(canvas,targetNode,kind,effectType){
       if(!canvas||MOBILE_LOW_FX)return()=>{};
+      // The effect overlay is recreated every turn, but its GPU canvas is not.
+      // Moving the retained canvas keeps the same context and cache alive.
+      if(!magicWebGLCanvas) magicWebGLCanvas=canvas;
+      else if(canvas!==magicWebGLCanvas){canvas.replaceWith(magicWebGLCanvas);canvas=magicWebGLCanvas;}
       const gl=canvas.getContext('webgl',{alpha:true,antialias:false,premultipliedAlpha:true});if(!gl)return()=>{};
       const palette={attack:[.72,.22,1],defense:[.2,.82,1],hp:[.22,1,.58],speed:[1,.82,.2]},modes={OPENING_ATTACK:0,GUARD_BARRIER:1,LIFE_AMPLIFY:2,CRISIS_HEAL:3,PUNISH_TRAP:4,ARCANE_COUNTER:5,FOLLOWUP_HASTE:6,ARCANE_SEAL:4,DOOM_MARK:0,SHIELD_SIPHON:5,TIME_DISTORTION:6,PHOENIX_REVIVE:2,PURIFY_LIGHT:3,CHAIN_ECHO:0},color=palette[kind]||palette.attack,mode=modes[String(effectType||'').toUpperCase()]??0,started=performance.now();let frame=0,dead=false;
+      let resources=MAGIC_WEBGL_CACHE.get(gl);
       const shader=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s)||'magic shader');return s;};
       const program=(vs,fs)=>{const p=gl.createProgram();gl.attachShader(p,shader(gl.VERTEX_SHADER,vs));gl.attachShader(p,shader(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p)||'magic program');return p;};
-      let field,particles;
-      try{
-        field=program('attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}',`precision mediump float;uniform vec2 r,t;uniform float u,m;uniform vec3 c;void main(){vec2 q=(gl_FragCoord.xy-t)/min(r.x,r.y);float d=length(q),a=atan(q.y,q.x),open=smoothstep(.08,.34,u)*smoothstep(1.,.7,u);float sides=m<.5?3.:m<1.5?6.:m<2.5?5.:m<3.5?8.:m<4.5?4.:m<5.5?12.:10.;float glyph=cos(a*sides+m)*.016;float seal=exp(-95.*abs(d-.18-glyph))*open;float spiral=exp(-42.*abs(fract(d*(3.+mod(m,3.))-a*(.42+m*.09)-u*(1.4+m*.12))-.5))*(1.-smoothstep(.05,.43,d))*open;float spokes=pow(max(0.,cos(a*sides+u*3.)),18.)*exp(-8.*d)*open;float core=exp(-36.*d)*smoothstep(.48,.72,u)*smoothstep(1.,.82,u);float flash=exp(-18.*d)*smoothstep(.78,.83,u)*smoothstep(.96,.84,u);float alpha=(seal*.62+spiral*.2+spokes*.3+core*.55+flash)*smoothstep(.5,.3,d);gl_FragColor=vec4(mix(c,vec3(1.),flash+core*.28),alpha);}`);
-        particles=program(`attribute vec3 s;uniform vec2 r,t;uniform float u,m;varying float a;void main(){float phase=s.x*6.2831+u*(2.+s.z*2.);float collapse=smoothstep(.5,.82,u),radius=mix(.42,.07,collapse)*(.55+s.y*.55);vec2 orbit=vec2(cos(phase),sin(phase))*radius;orbit.y*=.72;if(m<.5){orbit.y-=mix(.35,0.,collapse)*(s.y+.2);}else if(m<1.5){float k=floor(s.x*6.)/6.*6.2831;orbit=vec2(cos(k),sin(k))*radius;}else if(m<2.5){orbit.y+=sin(phase*2.)*.08*(1.-collapse);}else if(m<3.5){orbit*=.72+.28*sin(phase*3.);orbit.y-=.08*(1.-collapse);}else if(m<4.5){float k=floor(s.x*4.)/4.*6.2831;orbit=vec2(cos(k),sin(k))*radius;}else if(m<5.5){orbit.x=abs(orbit.x)*(s.x>.5?1.:-1.);orbit.y*=1.3;}else{radius=mix(.45,.09,collapse)*(.65+s.y*.35);orbit=vec2(cos(phase+s.y*3.),sin(phase+s.y*3.))*radius;}vec2 pos=t+orbit*min(r.x,r.y),clip=pos/r*2.-1.;gl_Position=vec4(clip,0.,1.);gl_PointSize=(2.5+s.z*5.)*(1.+smoothstep(.7,.84,u)*1.8);a=smoothstep(.34,.48,u)*smoothstep(1.,.84,u);}`,`precision mediump float;uniform vec3 c;varying float a;void main(){float d=length(gl_PointCoord-.5),glow=smoothstep(.5,0.,d);gl_FragColor=vec4(mix(c,vec3(1.),glow*.6),glow*glow*a);}`);
-      }catch(error){console.warn('Magic WebGL fallback',error);return()=>{};}
-      const quad=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,quad);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
-      const seeds=new Float32Array(220*3);for(let i=0;i<seeds.length;i++)seeds[i]=Math.random();const cloud=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,cloud);gl.bufferData(gl.ARRAY_BUFFER,seeds,gl.STATIC_DRAW);
+      try{if(!resources){
+        const field=program('attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}',`precision mediump float;uniform vec2 r,t;uniform float u,m;uniform vec3 c;void main(){vec2 q=(gl_FragCoord.xy-t)/min(r.x,r.y);float d=length(q),a=atan(q.y,q.x),open=smoothstep(.08,.34,u)*smoothstep(1.,.7,u);float sides=m<.5?3.:m<1.5?6.:m<2.5?5.:m<3.5?8.:m<4.5?4.:m<5.5?12.:10.;float glyph=cos(a*sides+m)*.016;float seal=exp(-95.*abs(d-.18-glyph))*open;float spiral=exp(-42.*abs(fract(d*(3.+mod(m,3.))-a*(.42+m*.09)-u*(1.4+m*.12))-.5))*(1.-smoothstep(.05,.43,d))*open;float spokes=pow(max(0.,cos(a*sides+u*3.)),18.)*exp(-8.*d)*open;float core=exp(-36.*d)*smoothstep(.48,.72,u)*smoothstep(1.,.82,u);float flash=exp(-18.*d)*smoothstep(.78,.83,u)*smoothstep(.96,.84,u);float alpha=(seal*.62+spiral*.2+spokes*.3+core*.55+flash)*smoothstep(.5,.3,d);gl_FragColor=vec4(mix(c,vec3(1.),flash+core*.28),alpha);}`);
+        const particles=program(`attribute vec3 s;uniform vec2 r,t;uniform float u,m;varying float a;void main(){float phase=s.x*6.2831+u*(2.+s.z*2.);float collapse=smoothstep(.5,.82,u),radius=mix(.42,.07,collapse)*(.55+s.y*.55);vec2 orbit=vec2(cos(phase),sin(phase))*radius;orbit.y*=.72;if(m<.5){orbit.y-=mix(.35,0.,collapse)*(s.y+.2);}else if(m<1.5){float k=floor(s.x*6.)/6.*6.2831;orbit=vec2(cos(k),sin(k))*radius;}else if(m<2.5){orbit.y+=sin(phase*2.)*.08*(1.-collapse);}else if(m<3.5){orbit*=.72+.28*sin(phase*3.);orbit.y-=.08*(1.-collapse);}else if(m<4.5){float k=floor(s.x*4.)/4.*6.2831;orbit=vec2(cos(k),sin(k))*radius;}else if(m<5.5){orbit.x=abs(orbit.x)*(s.x>.5?1.:-1.);orbit.y*=1.3;}else{radius=mix(.45,.09,collapse)*(.65+s.y*.35);orbit=vec2(cos(phase+s.y*3.),sin(phase+s.y*3.))*radius;}vec2 pos=t+orbit*min(r.x,r.y),clip=pos/r*2.-1.;gl_Position=vec4(clip,0.,1.);gl_PointSize=(2.5+s.z*5.)*(1.+smoothstep(.7,.84,u)*1.8);a=smoothstep(.34,.48,u)*smoothstep(1.,.84,u);}`,`precision mediump float;uniform vec3 c;varying float a;void main(){float d=length(gl_PointCoord-.5),glow=smoothstep(.5,0.,d);gl_FragColor=vec4(mix(c,vec3(1.),glow*.6),glow*glow*a);}`);
+        const quad=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,quad);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+        const seeds=new Float32Array(220*3);for(let i=0;i<seeds.length;i++)seeds[i]=Math.random();const cloud=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,cloud);gl.bufferData(gl.ARRAY_BUFFER,seeds,gl.STATIC_DRAW);
+        resources={field,particles,quad,cloud};MAGIC_WEBGL_CACHE.set(gl,resources);
+      }}catch(error){console.warn('Magic WebGL fallback',error);return()=>{};}
+      const {field,particles,quad,cloud}=resources;
       const resize=()=>{const d=Math.min(1.5,devicePixelRatio||1),w=Math.max(1,Math.round(canvas.clientWidth*d)),h=Math.max(1,Math.round(canvas.clientHeight*d));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}return d;};
       let unregisterCleanup=()=>{};
-      const stop=()=>{if(dead)return;dead=true;cancelAnimationFrame(frame);canvas.removeEventListener('cnine:canvas-suspend',stop);try{gl.deleteBuffer(quad);gl.deleteBuffer(cloud);gl.deleteProgram(field);gl.deleteProgram(particles)}catch(_){}unregisterCleanup()};
+      const stop=()=>{if(dead)return;dead=true;cancelAnimationFrame(frame);canvas.removeEventListener('cnine:canvas-suspend',stop);unregisterCleanup()};
       canvas.addEventListener('cnine:canvas-suspend',stop,{once:true});
       unregisterCleanup=window.CNineRuntime?.registerCleanup?.(stop)||(()=>{});
       const draw=now=>{if(dead)return;const dpr=resize(),rect=canvas.getBoundingClientRect(),tr=targetNode?.getBoundingClientRect?.(),margin=Math.min(canvas.width,canvas.height)*.16,rawX=((tr?tr.left+tr.width/2:rect.left+rect.width*.7)-rect.left)*dpr,rawY=(rect.bottom-(tr?tr.top+tr.height/2:rect.top+rect.height*.45))*dpr,x=Math.max(margin,Math.min(canvas.width-margin,rawX)),y=Math.max(margin,Math.min(canvas.height-margin,rawY)),u=Math.min(1,(now-started)/1050);gl.viewport(0,0,canvas.width,canvas.height);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
