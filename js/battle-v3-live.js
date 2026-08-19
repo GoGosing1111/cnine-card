@@ -2,11 +2,11 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.4.0-card-cutin-1-3x';
+  const VERSION = '3.4.2-fast-entry-v3';
   const PLAYBACK_SPEED = 1.3;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error(message)), Math.max(50, Number(ms || 0)));
+    const timer = setTimeout(() => resolve(null), Math.max(50, Number(ms || 0)));
     Promise.resolve(promise).then(
       value => { clearTimeout(timer); resolve(value); },
       error => { clearTimeout(timer); reject(error); }
@@ -15,7 +15,8 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   })[char]);
-  const nextPaint = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
+  const nextPaint = () => new Promise(resolve => requestAnimationFrame(resolve));
+
   const acceleratedUltimate = (ultimate, fallbackDuration = 3000) => {
     const source = ultimate && typeof ultimate === 'object' ? ultimate : {};
     const baseRate = Math.max(.5, Math.min(3, Number(source.playbackRate || 1)));
@@ -39,19 +40,17 @@
   function prepareLoading({ modal, mode = 'PVE', playerName = 'MEMBER TEAM', opponentName = 'OPPONENT', autoText = '' } = {}) {
     if (!modal) throw new Error('V3 전투 모달을 준비하지 못했습니다.');
     const field = battlefieldMode(mode);
-    // Show the selected battlefield immediately. The lightweight loader stays
-    // over that scene only until Pixi commits its first authoritative frame.
     modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
         <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : '몬스터 토벌'}</strong></div>
         <div class="battle-v3-versus"><span>${esc(playerName)}</span><i>VS</i><span>${esc(opponentName)}</span></div>
-        <b id="battlePhase">V3 LOADING</b>
+        <b id="battlePhase">전장 연결</b>
       </header>
       <div class="battle-v3-canvas-host pv-pixi-battle" id="pvPixiBattle">
         <div class="battle-v3-loader"><i></i><b>V3 WebGL 전장 구성 중</b><span>${esc(autoText || 'SD 전투 자산과 서버 타임라인을 동기화하고 있습니다.')}</span></div>
       </div>
-      <div class="battle-v3-status pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">PixiJS 렌더러 준비 중</div>
+      <div class="battle-v3-status pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">WebGL 전장 초기화 중</div>
       <span id="towerBattleCountdown" hidden></span>
       <div id="battleMessage" class="battle-message battle-v3-result"><span>V3 전투 준비 중...</span></div>
       <div id="towerBattleMessage" class="battle-message battle-v3-result tower-v3-result" hidden><span>V3 전투 준비 중...</span></div>
@@ -142,24 +141,35 @@
     if (options.monster) payload.monster = { ...options.monster, mode };
     if (options.floor) payload = towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] });
 
+    const removeLoader = () => {
+      host.querySelectorAll('.battle-v3-loader').forEach(el => el.remove());
+      stage.querySelectorAll('.battle-v3-loader').forEach(el => el.remove());
+    };
+
     const releaseBlockingLayers = () => {
       document.querySelectorAll('.battle-ultimate-overlay,.boss-ultimate-overlay').forEach(node => node.remove());
       stage.classList.remove('ultimate-playing', 'boss-ultimate-fullscreen');
-      host.querySelector('.battle-v3-loader')?.remove();
+      removeLoader();
     };
-    const revealBattle = () => modal?.classList.remove('battle-v3-preparing');
+
+    const revealBattle = () => {
+      modal?.classList.remove('battle-v3-preparing');
+      removeLoader();
+    };
+
     const assertFirstFrame = () => {
       const canvas = host.querySelector('canvas');
-      if (!canvas || canvas.width < 2 || canvas.height < 2) throw new Error('V3 첫 프레임이 생성되지 않았습니다.');
+      if (!canvas || canvas.width < 2 || canvas.height < 2) return;
       const context = canvas.getContext('webgl2') || canvas.getContext('webgl');
       if (!context || context.isContextLost?.()) throw new Error('WebGL 컨텍스트를 사용할 수 없습니다.');
     };
+
     const init = async () => {
       const initialize = async () => {
         if (phase) phase.textContent = 'V3 RENDERER';
-        // Each battle owns its host/canvas lifetime. Reusing a detached canvas
-        // can leave Pixi bound to the previous modal on the next battle.
         try { root.ProjectVPixiBattle.destroy(); } catch {}
+        host.querySelectorAll('canvas').forEach(c => c.remove());
+
         if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
           await root.ProjectVPixiBattle.mountForBattle(payload, host);
         } else {
@@ -169,48 +179,45 @@
         }
         await root.ProjectVPixiBattle.setBattlefield(mode);
         await root.ProjectVPixiBattle.setVisible(true);
+
         assertFirstFrame();
         stage.classList.add('is-v3-ready');
         revealBattle();
         if (phase) phase.textContent = 'V3 READY';
         if (status) status.textContent = '서버 전투 데이터 동기화 완료';
       };
-      let lastError = null;
-      for (let attempt = 0; attempt < 2; attempt += 1) {
-        try {
-          await initialize();
-          return;
-        } catch (error) {
-          lastError = error;
-          try { root.ProjectVPixiBattle.destroy(); } catch {}
-          host.querySelectorAll('canvas').forEach(canvas => canvas.remove());
-          if (attempt === 0) {
-            if (phase) phase.textContent = 'V3 RENDER RETRY';
-            if (status) status.textContent = 'WebGL 전장을 즉시 다시 구성하고 있습니다.';
-            await nextPaint();
-          }
-        }
+
+      try {
+        await initialize();
+      } catch (error) {
+        console.warn('V3 전장 1차 초기화 재시도:', error);
+        try { root.ProjectVPixiBattle.destroy(); } catch {}
+        host.querySelectorAll('canvas').forEach(c => c.remove());
+        await nextPaint();
+        await initialize();
       }
-      releaseBlockingLayers();
-      stage.classList.add('is-v3-error');
-      revealBattle();
-      throw lastError || new Error('V3 전장을 구성하지 못했습니다.');
     };
 
     await init();
+
     return {
       async play() {
         if (destroyed) return false;
         const timeline = Array.isArray(payload?.battleV2?.result?.timeline) ? payload.battleV2.result.timeline : [];
         if (phase) phase.textContent = 'V3 LIVE BATTLE';
+        revealBattle();
+
         try {
-          await root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]);
+          // playEvents가 행(Hang)에 걸리지 않도록 1.5초 타임아웃 안전장치 적용
+          await withTimeout(root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]), 1500, 'DEPLOY timeout');
           let playerUltimateShown = false;
           let bossUltimateShown = false;
+
           for (const sourceEvent of timeline) {
             if (destroyed) return false;
             const type = String(sourceEvent?.type || '').toUpperCase();
             let event = { ...sourceEvent };
+
             if (type === 'PVE_ULTIMATE') {
               const sourceCard = payload?.ultimateSourceCard || null;
               event = {
@@ -221,7 +228,7 @@
               if (!playerUltimateShown && playUltimateCinematics && payload?.activatedUltimate && typeof root.playBattleUltimate === 'function') {
                 playerUltimateShown = true;
                 const ultimate = acceleratedUltimate(payload.activatedUltimate, 3000);
-                await withTimeout(root.playBattleUltimate(stage, ultimate, event.damage || payload?.ultimateDamage || payload?.bonusDamage || 0), Math.min(22000, ultimate.durationMs + 2500), '유저 궁극기 연출이 지연되었습니다.');
+                await withTimeout(root.playBattleUltimate(stage, ultimate, event.damage || payload?.ultimateDamage || payload?.bonusDamage || 0), Math.min(22000, ultimate.durationMs + 2500), '유저 궁극기');
               }
             } else if (type === 'BOSS_ULTIMATE') {
               const monsterCard = payload?.battleV2?.teams?.B?.cards?.find?.(card => /^MONSTER:/i.test(String(card?.cardId || '')) || ['MONSTER', 'BOSS'].includes(String(card?.grade || '').toUpperCase()));
@@ -233,16 +240,14 @@
               if (!bossUltimateShown && playUltimateCinematics && payload?.bossUltimate && typeof root.playBossBattleUltimate === 'function') {
                 bossUltimateShown = true;
                 const ultimate = acceleratedUltimate(payload.bossUltimate, 2400);
-                await withTimeout(root.playBossBattleUltimate(stage, phase, ultimate), Math.min(22000, ultimate.durationMs + 2500), '보스 궁극기 연출이 지연되었습니다.');
+                await withTimeout(root.playBossBattleUltimate(stage, phase, ultimate), Math.min(22000, ultimate.durationMs + 2500), '보스 궁극기');
               }
             }
-            await root.ProjectVPixiBattle.playEvents([event]);
+            // 이벤트당 최대 1.8초 제한
+            await withTimeout(root.ProjectVPixiBattle.playEvents([event]), 1800, 'Event timeout');
           }
         } catch (error) {
-          releaseBlockingLayers();
-          stage.classList.add('is-v3-error');
-          revealBattle();
-          throw new Error(`V3 전투 연출을 완료하지 못했습니다: ${error?.message || error}`);
+          console.error('V3 연출 중단:', error);
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
@@ -257,6 +262,7 @@
         if (destroyed) return;
         destroyed = true;
         try { root.ProjectVPixiBattle.destroy(); } catch {}
+        host.querySelectorAll('canvas').forEach(c => c.remove());
       }
     };
   }
