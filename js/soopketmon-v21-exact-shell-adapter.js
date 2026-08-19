@@ -197,7 +197,7 @@
     const chiefPicture = `<picture><source type="image/avif" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" sizes="(max-width:759px) 100vw, 55vw"><source type="image/webp" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.webp 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp 1024w" sizes="(max-width:759px) 100vw, 55vw"><img src="/assets/ui/chief/chief-supreme-commander-lobby-v1.png" width="1024" height="1536" alt="족장 직위를 상징하는 미래형 최고지휘관 공용 초상" fetchpriority="high" decoding="async"></picture>`;
     return `<section class="pc-lobby-scene" aria-label="숲켓몬 PC 메인 로비">
         <div class="pc-lobby-grid" aria-hidden="true"></div>
-        <div class="pc-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
+        <div class="pc-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></div>
         <div class="pc-main-character pc-chief-commander" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
         <section class="pc-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}" data-chief-state="${chief.state}" aria-label="족장 임기 현황">
           <div class="pc-readout-index"><span>SOOPKETMON / CHIEF SYSTEM</span><b>${esc(chief.ordinal)}</b></div>
@@ -216,7 +216,7 @@
       <section class="mobile-command-lobby" aria-label="숲켓몬 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
         <div class="mobile-chief-visual" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
         <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE ELECTED CHIEF</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button class="mobile-chief-status" type="button" data-v21-chief-info>족장 임기 현황 <em>LIVE</em></button></section>
-        <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${mobileCommand('character', '장비·제작', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>
+        <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${mobileCommand('character', '장비·제작', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>
       </section>`;
   }
 
@@ -455,6 +455,29 @@
     return Promise.resolve({ ok: true, shell: route });
   }
 
+  function syncFullscreenControls() {
+    const active = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+    document.querySelectorAll('[data-v21-fullscreen]').forEach(button => {
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+      button.setAttribute('aria-label', active ? '전체화면 해제' : '전체화면 모드');
+      const icon = button.querySelector('i'), label = button.querySelector('em');
+      if (icon) icon.textContent = active ? '×' : '⛶';
+      if (label) label.textContent = active ? '화면 해제' : '전체화면';
+    });
+  }
+
+  async function toggleFullscreen() {
+    try {
+      const active = document.fullscreenElement || document.webkitFullscreenElement;
+      if (active) await (document.exitFullscreen?.() || document.webkitExitFullscreen?.());
+      else await (document.documentElement.requestFullscreen?.({ navigationUI: 'hide' }) || document.documentElement.webkitRequestFullscreen?.());
+    } catch (_) {
+      try { if (global.top && global.top !== global) global.top.location.href = 'https://cnine-card.pages.dev/'; } catch (_error) { global.open('https://cnine-card.pages.dev/', '_blank', 'noopener,noreferrer'); }
+    }
+    syncFullscreenControls();
+  }
+
   function bindDelegation() {
     if (document.documentElement.dataset.v21ExactDelegation === '1') return;
     document.documentElement.dataset.v21ExactDelegation = '1';
@@ -462,6 +485,7 @@
     // owns legacy button[data-route]/data-mobile-tab controls, so the two
     // capture paths never compete for the same element.
     document.addEventListener('click', event => {
+      if (event.target.closest('[data-v21-fullscreen]')) { event.preventDefault(); void toggleFullscreen(); return; }
       const close = event.target.closest('[data-v21-close]'); if (close) { closeOverlay(); return; }
       const route = event.target.closest('[data-v21-route]'); if (route) { event.preventDefault(); void navigate(route.dataset.v21Route); return; }
       if (event.target.closest('[data-v21-home]')) { event.preventDefault(); void navigate('home'); return; }
@@ -471,6 +495,8 @@
       if (event.target.closest('[data-v21-profile]')) { event.preventDefault(); if (typeof global.showAccountPanel === 'function') global.showAccountPanel(); else openRouteOverlay('내 정보', ['inventory', 'messages']); return; }
       if (event.target.closest('[data-v21-chief-system]')) { event.preventDefault(); closeOverlay(); showChiefConsole = true; explicitNavigation = true; try { global.renderShell('buy'); } finally { explicitNavigation = false; } return; }
     });
+    document.addEventListener('fullscreenchange', syncFullscreenControls);
+    document.addEventListener('webkitfullscreenchange', syncFullscreenControls);
   }
 
   function wrapRenderShell() {

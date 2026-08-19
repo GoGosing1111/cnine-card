@@ -23,6 +23,49 @@
   --ui-normal: 180ms;
 }
 
+/* V21 visible fullscreen controls: actual PC/mobile lobby surfaces. */
+.pc-lobby-brand .v21-fullscreen-toggle {
+  position:absolute;
+  left:184px;
+  top:8px;
+  z-index:20;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  min-width:104px;
+  height:34px;
+  padding:0 12px;
+  border:1px solid rgba(115,212,232,.72);
+  border-radius:4px;
+  color:#dffaff;
+  background:rgba(7,18,24,.9);
+  box-shadow:0 0 0 1px rgba(115,212,232,.08),0 8px 24px rgba(0,0,0,.48),inset 3px 0 #73d4e8;
+  font-family:Inter,Pretendard,"Noto Sans KR",sans-serif;
+  cursor:pointer;
+  pointer-events:auto;
+}
+.v21-fullscreen-toggle i,.v21-fullscreen-toggle em{font-style:normal}.v21-fullscreen-toggle i{color:#73d4e8;font-size:17px}.v21-fullscreen-toggle em{font-size:11px;font-weight:850;letter-spacing:.04em}.v21-fullscreen-toggle:hover,.v21-fullscreen-toggle.active{border-color:#a7ffe9;color:#fff;background:#10322f;box-shadow:0 0 22px rgba(80,255,210,.2),inset 3px 0 #7fffd8}
+@media (max-width:759px), (hover:none) and (pointer:coarse) {
+  .mobile-command-nav header .v21-fullscreen-toggle{
+    position:relative;
+    z-index:12;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    height:24px;
+    margin-left:5px;
+    padding:0 8px;
+    border:1px solid rgba(115,212,232,.72);
+    border-radius:3px;
+    color:#dcfbff;
+    background:rgba(10,31,38,.94);
+    box-shadow:inset 2px 0 #73d4e8,0 0 12px rgba(115,212,232,.12);
+    cursor:pointer;
+  }
+  .mobile-command-nav header .v21-fullscreen-toggle i{font-size:13px}.mobile-command-nav header .v21-fullscreen-toggle em{font-size:9px;font-weight:850;white-space:nowrap}.mobile-command-nav header>b{margin-left:auto}
+  .pc-lobby-brand .v21-fullscreen-toggle{display:none}
+}
+
 /* Retired globally: the legacy diagonal two-column light treatment must not
    reappear behind the collection, shop, or any other renewed route. */
 .game-frame[data-v21-shell] .ambient-lines,
