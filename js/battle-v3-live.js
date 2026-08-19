@@ -2,14 +2,14 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.4.2-fast-entry-v3';
+  const VERSION = '3.4.5-singleton-fix';
   const PLAYBACK_SPEED = 1.3;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
-  const withTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
+  const withTimeout = (promise, ms, message) => new Promise((resolve) => {
     const timer = setTimeout(() => resolve(null), Math.max(50, Number(ms || 0)));
     Promise.resolve(promise).then(
       value => { clearTimeout(timer); resolve(value); },
-      error => { clearTimeout(timer); reject(error); }
+      error => { clearTimeout(timer); resolve(null); }
     );
   });
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
@@ -167,8 +167,13 @@
     const init = async () => {
       const initialize = async () => {
         if (phase) phase.textContent = 'V3 RENDERER';
-        try { root.ProjectVPixiBattle.destroy(); } catch {}
-        host.querySelectorAll('canvas').forEach(c => c.remove());
+        
+        // 2번째 판에서도 엔진을 파괴하지 않고 상태만 깔끔하게 리셋 (가장 핵심적인 픽스)
+        if (typeof root.ProjectVPixiBattle.resetSession === 'function') {
+            root.ProjectVPixiBattle.resetSession();
+        } else if (typeof root.ProjectVPixiBattle.resetState === 'function') {
+            root.ProjectVPixiBattle.resetState();
+        }
 
         if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
           await root.ProjectVPixiBattle.mountForBattle(payload, host);
@@ -190,9 +195,7 @@
       try {
         await initialize();
       } catch (error) {
-        console.warn('V3 전장 1차 초기화 재시도:', error);
-        try { root.ProjectVPixiBattle.destroy(); } catch {}
-        host.querySelectorAll('canvas').forEach(c => c.remove());
+        console.warn('V3 전장 초기화 재시도:', error);
         await nextPaint();
         await initialize();
       }
@@ -208,7 +211,7 @@
         revealBattle();
 
         try {
-          // playEvents가 행(Hang)에 걸리지 않도록 1.5초 타임아웃 안전장치 적용
+          // 애니메이션 프로미스 행(Hang) 방지를 위한 강력한 타임아웃 래퍼 적용
           await withTimeout(root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]), 1500, 'DEPLOY timeout');
           let playerUltimateShown = false;
           let bossUltimateShown = false;
@@ -243,11 +246,11 @@
                 await withTimeout(root.playBossBattleUltimate(stage, phase, ultimate), Math.min(22000, ultimate.durationMs + 2500), '보스 궁극기');
               }
             }
-            // 이벤트당 최대 1.8초 제한
+            // 모든 이벤트 당 최대 1.8초 제한
             await withTimeout(root.ProjectVPixiBattle.playEvents([event]), 1800, 'Event timeout');
           }
         } catch (error) {
-          console.error('V3 연출 중단:', error);
+          console.error('V3 연출 완료/중단:', error);
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
@@ -261,8 +264,19 @@
       destroy() {
         if (destroyed) return;
         destroyed = true;
-        try { root.ProjectVPixiBattle.destroy(); } catch {}
-        host.querySelectorAll('canvas').forEach(c => c.remove());
+        try {
+            if (typeof root.ProjectVPixiBattle.setVisible === 'function') {
+                root.ProjectVPixiBattle.setVisible(false);
+            }
+            if (typeof root.ProjectVPixiBattle.resetSession === 'function') {
+                root.ProjectVPixiBattle.resetSession();
+            } else if (typeof root.ProjectVPixiBattle.resetState === 'function') {
+                root.ProjectVPixiBattle.resetState();
+            }
+            // 여기서 절대 엔진 파괴(destroy)를 호출하지 않고 살려둠으로써 무한 로딩을 차단합니다.
+        } catch(e) {
+            console.error('V3 Cleanup error', e);
+        }
       }
     };
   }
