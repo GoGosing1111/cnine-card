@@ -2,7 +2,7 @@
   'use strict';
 
   const root = typeof window !== 'undefined' ? window : globalThis;
-  const MANIFEST_URL = '/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json?v=3-obito';
+  const MANIFEST_URL = '/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json?v=4-live-roster';
   const PLAY_ENTRY_POINTS = Object.freeze([
     'playPveBattleV2Live',
     'playTowerBattleV2Live',
@@ -96,8 +96,12 @@
       const allowReview = options.includeReview ?? includeReview;
       if (!allowReview && entry.qa?.visualApproval !== true) return null;
       const requestedMode = upper(options.mode || monster?.mode || '');
-      if (requestedMode && requestedMode !== upper(entry.mode)) return null;
-      const primaryUrl = assetUrl(entry.battleSprite, entry.sha256);
+      const supportedModes = new Set([upper(entry.mode), ...(entry.modes || []).map(upper)].filter(Boolean));
+      if (requestedMode && !supportedModes.has(requestedMode)) return null;
+      const pngFallbackUrl = assetUrl(entry.battleSprite, entry.sha256);
+      const primaryUrl = clean(entry.battleSpriteWebp)
+        ? assetUrl(entry.battleSpriteWebp, entry.battleSpriteWebpSha256 || entry.sha256)
+        : pngFallbackUrl;
       return Object.freeze({
         scope: 'BATTLE_ENGINE_ONLY',
         kind: 'MONSTER_SD',
@@ -108,7 +112,7 @@
         floors: clean(entry.floors),
         isBoss: Boolean(entry.isBoss),
         primaryUrl,
-        pngFallbackUrl: primaryUrl,
+        pngFallbackUrl,
         footAnchor: Object.freeze({ x: 0.5, y: 0.94 }),
         objectFit: 'contain',
         objectPosition: '50% 100%',

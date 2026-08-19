@@ -354,6 +354,69 @@
       "sha256": "5670BE32B657A95119B04E81306B30C56019E9E39DB05DAF9FC94E78EF976E84"
     },
     {
+      "monsterId": 63,
+      "mode": "HUNT",
+      "name": "에스카노르",
+      "sourceArt": "assets/tower/ascar.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-063-solar-lion-king-boss-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-063-solar-lion-king-boss-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "5FC08D0A54D2050D36126602434A800251579CFD697BB2EF927744B3583B55E2",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "BEAF0EEBB0BE19967860D366E0F7A1F7EC8F4BDC48B4C53D3E79223A0E397025"
+    },
+    {
+      "monsterId": 67,
+      "mode": "HUNT",
+      "modes": ["HUNT", "TOWER"],
+      "name": "나미카제 미나토",
+      "sourceArt": "assets/tower/nami2.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-067-yellow-flash-boss-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-067-yellow-flash-boss-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "8DB402375698C493410B69B48B6900EA27C32BD850D6F87980FB80763D5E2F5A",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "7012632F2E6BE275C22619C44F73115FF5EF9082C2A26634F1C906B141ED7C6E"
+    },
+    {
+      "monsterId": 68,
+      "mode": "HUNT",
+      "modes": ["HUNT", "TOWER"],
+      "name": "오메가-09",
+      "sourceArt": "assets/tower/badq.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-068-omega-09-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-068-omega-09-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "BE3276192AB8700442368C7854903466AB5CBEC022E9A3204639FE96C2425DBE",
+      "isBoss": false,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "E2A673BDFC47B2D847AAC1434C6BAE4EEFCBEE95B77BA245EA42174A571BF333"
+    },
+    {
+      "monsterId": 69,
+      "mode": "HUNT",
+      "modes": ["HUNT", "TOWER"],
+      "name": "쿠로사키 이치고",
+      "sourceArt": "assets/tower/curo.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-069-masked-soul-swordsman-boss-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-069-masked-soul-swordsman-boss-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "96BB9829783432894E0E7A405D40B53A02E100A7B37457BEDA6B42B3AA844699",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true
+      },
+      "sha256": "64628517DC660E0D108FBA9AB5DA1852CB058A8CA87E763B392F418AA664F463"
+    },
+    {
       "monsterId": 17,
       "mode": "TOWER",
       "floors": "1-9",

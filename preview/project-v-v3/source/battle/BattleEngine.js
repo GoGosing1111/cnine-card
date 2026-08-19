@@ -131,6 +131,14 @@ function originalCardArtUrl(card,art){
   return source?rootAssetPath(source):'';
 }
 
+async function loadBattleArtTexture(art){
+  try{return await Assets.load(art.primaryUrl)}catch(error){
+    if(!art?.pngFallbackUrl||art.pngFallbackUrl===art.primaryUrl)throw error;
+    console.warn('[Project V V3] optimized sprite decode failed; PNG fallback is used.',error);
+    return Assets.load(art.pngFallbackUrl);
+  }
+}
+
 function textNode(text,size,color=0xffffff,weight='700',align='left'){
   return new Text({text,style:{fontFamily:'Pretendard, SUIT, Arial, sans-serif',fontSize:size,fill:color,fontWeight:weight,align,letterSpacing:size>=14?.4:0}});
 }
@@ -650,13 +658,14 @@ export class BattleEngine{
       const card=allyCards[index];
       const art=allyArt[index];
       if(!art?.primaryUrl)continue;
-      const texture=await Assets.load(art.primaryUrl);
+      const texture=await loadBattleArtTexture(art);
       const target=this.allies[index];
       target.id=card?.id||card?.cardId||target.id;
       target.cardId=card?.cardId||card?.id||target.id;
       target.serverMaxHp=Math.max(1,Number(card?.maxHp||card?.hp||100));
       target.texture=texture;
       target.useFullBodySprite(texture,260*(art.scaleMultiplier||1));
+      target.setTint(0xffffff);
       const sourceArt=originalCardArtUrl(card,art);
       if(sourceArt)try{target.cutInTexture=await Assets.load(sourceArt)}catch(error){
         console.warn(`[Project V V3] ${card?.cardId||target.id} 원본 카드 컷인 로드 실패; 기존 원본을 유지합니다.`,error);
@@ -672,13 +681,14 @@ export class BattleEngine{
       const card=enemyCards[index];
       const art=enemyArt[index];
       if(!art?.primaryUrl)continue;
-      const texture=await Assets.load(art.primaryUrl);
+      const texture=await loadBattleArtTexture(art);
       const target=this.enemies[index];
       target.id=card?.id||card?.cardId||target.id;
       target.cardId=card?.cardId||card?.id||target.id;
       target.serverMaxHp=Math.max(1,Number(card?.maxHp||card?.hp||100));
       target.texture=texture;
       target.useFullBodySprite(texture,260*(art.scaleMultiplier||1));
+      target.setTint(0xffffff);
       const sourceArt=originalCardArtUrl(card,art);
       if(sourceArt)try{target.cutInTexture=await Assets.load(sourceArt)}catch(error){
         console.warn(`[Project V V3] PVP ${target.id} 원본 카드 컷인 로드 실패; 기존 원본을 유지합니다.`,error);
@@ -701,7 +711,7 @@ export class BattleEngine{
     const isBoss=monsterIsBoss;
     const art=monsterArt;
     if(!art)return null;
-    const texture=await Assets.load(art.primaryUrl);
+    const texture=await loadBattleArtTexture(art);
     const target=this.enemies[1]||this.enemies[0];
     if(!target)return null;
     target.battleActive=true;
@@ -713,6 +723,7 @@ export class BattleEngine{
     target.texture=texture;
     target.cutInTexture=texture;
     target.useFullBodySprite(texture,285*(art.scaleMultiplier||1));
+    target.setTint(0xffffff);
     target.name=monster?.name||art.name;
     if(target.nameLabel)target.nameLabel.text=target.name;
     target.root.projectVMonsterArt=art;
