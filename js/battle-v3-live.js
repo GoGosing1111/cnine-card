@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.4.5-singleton-fix';
+  const VERSION = '3.5.0-ultimate-singleton';
   const PLAYBACK_SPEED = 1.3;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message) => new Promise((resolve) => {
@@ -159,29 +159,38 @@
 
     const assertFirstFrame = () => {
       const canvas = host.querySelector('canvas');
-      if (!canvas || canvas.width < 2 || canvas.height < 2) return;
-      const context = canvas.getContext('webgl2') || canvas.getContext('webgl');
-      if (!context || context.isContextLost?.()) throw new Error('WebGL 컨텍스트를 사용할 수 없습니다.');
+      if (!canvas) return; // 캔버스가 없어도 무한 대기하지 않고 스킵
     };
 
     const init = async () => {
       const initialize = async () => {
         if (phase) phase.textContent = 'V3 RENDERER';
-        
-        // 2번째 판에서도 엔진을 파괴하지 않고 상태만 깔끔하게 리셋 (가장 핵심적인 픽스)
-        if (typeof root.ProjectVPixiBattle.resetSession === 'function') {
-            root.ProjectVPixiBattle.resetSession();
-        } else if (typeof root.ProjectVPixiBattle.resetState === 'function') {
-            root.ProjectVPixiBattle.resetState();
+
+        // 핵심 수정: 2번째 판 무한 로딩 방지 (강력한 싱글톤 재활용 패턴)
+        if (!root.__V3_PIXI_MOUNTED) {
+            // 1번째 판: 최초 실행 시에만 엔진 마운트
+            if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
+                await root.ProjectVPixiBattle.mountForBattle(payload, host);
+            } else {
+                await root.ProjectVPixiBattle.mount(host);
+                await root.ProjectVPixiBattle.setBattlePayload(payload);
+            }
+            root.__V3_PIXI_MOUNTED = true;
+            root.__V3_PIXI_CANVAS = host.querySelector('canvas');
+        } else {
+            // 2번째 판 이후: 엔진 중복 실행 방지 & 캔버스만 새 모달로 이동
+            if (root.__V3_PIXI_CANVAS && root.__V3_PIXI_CANVAS.parentElement !== host) {
+                host.appendChild(root.__V3_PIXI_CANVAS);
+            }
+            // 상태만 초기화
+            if (typeof root.ProjectVPixiBattle.resetSession === 'function') {
+                await root.ProjectVPixiBattle.resetSession();
+            } else if (typeof root.ProjectVPixiBattle.resetState === 'function') {
+                await root.ProjectVPixiBattle.resetState();
+            }
+            await root.ProjectVPixiBattle.setBattlePayload(payload);
         }
 
-        if (typeof root.ProjectVPixiBattle.mountForBattle === 'function') {
-          await root.ProjectVPixiBattle.mountForBattle(payload, host);
-        } else {
-          await root.ProjectVPixiBattle.mount(host);
-          if (phase) phase.textContent = 'SERVER ASSET SYNC';
-          await root.ProjectVPixiBattle.setBattlePayload(payload);
-        }
         await root.ProjectVPixiBattle.setBattlefield(mode);
         await root.ProjectVPixiBattle.setVisible(true);
 
@@ -193,11 +202,11 @@
       };
 
       try {
-        await initialize();
+        // 비정상적인 무한 로딩을 방지하기 위해 통째로 5초 타임아웃 제한
+        await withTimeout(initialize(), 5000, 'Init timeout');
       } catch (error) {
-        console.warn('V3 전장 초기화 재시도:', error);
-        await nextPaint();
-        await initialize();
+        console.warn('V3 전장 초기화 오류(무시하고 진행):', error);
+        revealBattle();
       }
     };
 
@@ -211,7 +220,6 @@
         revealBattle();
 
         try {
-          // 애니메이션 프로미스 행(Hang) 방지를 위한 강력한 타임아웃 래퍼 적용
           await withTimeout(root.ProjectVPixiBattle.playEvents([{ type: 'DEPLOY' }]), 1500, 'DEPLOY timeout');
           let playerUltimateShown = false;
           let bossUltimateShown = false;
@@ -246,11 +254,10 @@
                 await withTimeout(root.playBossBattleUltimate(stage, phase, ultimate), Math.min(22000, ultimate.durationMs + 2500), '보스 궁극기');
               }
             }
-            // 모든 이벤트 당 최대 1.8초 제한
             await withTimeout(root.ProjectVPixiBattle.playEvents([event]), 1800, 'Event timeout');
           }
         } catch (error) {
-          console.error('V3 연출 완료/중단:', error);
+          console.error('V3 연출 중단:', error);
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
@@ -265,18 +272,11 @@
         if (destroyed) return;
         destroyed = true;
         try {
+            // 엔진 파괴 완전 차단. 안 보이게 숨기기만 합니다.
             if (typeof root.ProjectVPixiBattle.setVisible === 'function') {
                 root.ProjectVPixiBattle.setVisible(false);
             }
-            if (typeof root.ProjectVPixiBattle.resetSession === 'function') {
-                root.ProjectVPixiBattle.resetSession();
-            } else if (typeof root.ProjectVPixiBattle.resetState === 'function') {
-                root.ProjectVPixiBattle.resetState();
-            }
-            // 여기서 절대 엔진 파괴(destroy)를 호출하지 않고 살려둠으로써 무한 로딩을 차단합니다.
-        } catch(e) {
-            console.error('V3 Cleanup error', e);
-        }
+        } catch(e) {}
       }
     };
   }
