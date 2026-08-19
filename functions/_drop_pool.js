@@ -190,6 +190,28 @@ async function grantRewards(env,{userId,requestId,sourceType,sourceId,rewards}){
   return {statements,balances:{coin,cardShards:shards,magicCrystals:crystals,inventory:Object.fromEntries(inventoryBalances)}};
 }
 
+async function rewardPresentation(env,rewards,balances){
+  const inventoryRefs=[...new Set(rewards.filter(reward=>['INVENTORY_ITEM','MASTER_STAR'].includes(String(reward.rewardType))).map(reward=>String(reward.rewardType)==='MASTER_STAR'?'MASTER_STAR':String(reward.rewardRef)).filter(Boolean))];
+  const vehicleRefs=[...new Set(rewards.filter(reward=>String(reward.rewardType)==='VEHICLE').map(reward=>Number(reward.rewardRef)).filter(Boolean))];
+  const inventory=new Map(),vehicles=new Map();
+  if(inventoryRefs.length){
+    const marks=inventoryRefs.map(()=>'?').join(',');
+    const rows=await env.DB.prepare(`SELECT code,name,rarity,replace(image_url,char(92),'/') image FROM inventory_items WHERE code IN (${marks})`).bind(...inventoryRefs).all();
+    for(const row of rows.results||[])inventory.set(String(row.code),row);
+  }
+  if(vehicleRefs.length){
+    const marks=vehicleRefs.map(()=>'?').join(',');
+    const rows=await env.DB.prepare(`SELECT id,name,rarity,replace(image_url,char(92),'/') image FROM character_garage_items WHERE id IN (${marks})`).bind(...vehicleRefs).all();
+    for(const row of rows.results||[])vehicles.set(Number(row.id),row);
+  }
+  const fixed={COIN:{name:'코인',rarity:'SPECIAL'},CARD_SHARDS:{name:'카드 조각',rarity:'SPECIAL'},MAGIC_CRYSTAL:{name:'마법 결정',rarity:'EPIC'}};
+  return rewards.map(reward=>{
+    const type=String(reward.rewardType||''),ref=type==='MASTER_STAR'?'MASTER_STAR':String(reward.rewardRef||''),meta=type==='VEHICLE'?vehicles.get(Number(ref)):inventory.get(ref),fallback=fixed[type]||{};
+    const balance=type==='COIN'?balances.coin:type==='CARD_SHARDS'?balances.cardShards:type==='MAGIC_CRYSTAL'?balances.magicCrystals:balances.inventory?.[ref];
+    return {...reward,rewardRef:ref,displayName:meta?.name||reward.rewardName||fallback.name||ref||type,image:meta?.image||'',rarity:meta?.rarity||fallback.rarity||(type==='VEHICLE'?'MYTHIC':'SPECIAL'),balance:balance??null,destination:type==='VEHICLE'?'차고지':'인벤토리'};
+  });
+}
+
 export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourceId='*',triggerType='WIN',context={},role='USER'}={}){
   await ensureUnifiedDropPoolFoundation(env);
   const uid=int(userId,1),rid=text(requestId,120),source=code(sourceType),sid=text(sourceId||'*',120)||'*',trigger=code(triggerType);
@@ -216,7 +238,8 @@ export async function resolveUnifiedDrops(env,{userId,requestId,sourceType,sourc
   if(!reserved.meta?.changes)throw new Error('같은 드랍 요청을 처리 중입니다.');
   try{
     const grant=await grantRewards(env,{userId:uid,requestId:rid,sourceType:source,sourceId:sid,rewards});
-    const response={ok:true,requestId:rid,sourceType:source,sourceId:sid,triggerType:trigger,pools:pools.map(x=>({id:Number(x.id),code:x.code,name:x.name,version:Number(x.config_version)})),rewards,balances:grant.balances};
+    const presentedRewards=await rewardPresentation(env,rewards,grant.balances);
+    const response={ok:true,requestId:rid,sourceType:source,sourceId:sid,triggerType:trigger,pools:pools.map(x=>({id:Number(x.id),code:x.code,name:x.name,version:Number(x.config_version)})),rewards:presentedRewards,balances:grant.balances};
     await env.DB.batch([...grant.statements,env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',result_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(JSON.stringify(response),rid,uid)]);
     return response;
   }catch(error){await env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'`).bind(String(error?.message||error).slice(0,500),rid,uid).run();throw error}

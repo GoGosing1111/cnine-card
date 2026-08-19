@@ -1482,6 +1482,7 @@ async function startBattle(){
     stage.classList.add(win?'battle-win-v863':'battle-lose-v863');phase.textContent=win?'MISSION CLEAR':'MISSION FAILED';battleSfx(win?'victory':'defeat');
     if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
+    if(d.unifiedDrop?.rewards?.length&&window.showUnifiedDropAcquisition){try{await window.showUnifiedDropAcquisition(d.unifiedDrop)}catch(dropFxError){console.warn('통합 드랍 획득 연출을 표시하지 못했습니다.',dropFxError)}}
     msg.innerHTML=win?`<strong>VICTORY</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-reward-pop"><small>REWARD</small><b>◈ ${d.reward.toLocaleString()}</b>${Number(d.magicReward?.amount||0)>0?`<div class="battle-magic-drop"><strong>✦ 마법 결정 +${Number(d.magicReward.amount).toLocaleString()}</strong><span>확률 드랍 성공</span></div>`:''}${d.cardReward?`<div class="battle-card-drop"><strong>${d.cardReward.card.grade} ${escapeHtml(d.cardReward.card.title)}</strong><span>${d.cardReward.duplicate?`중복 카드 · 조각 +${d.cardReward.shardGained}`:'신규 카드 획득!'}</span></div>`:''}</div><em>화면을 눌러 돌아가기</em>`:`<strong>DEFEAT</strong><span>전투력 ${d.playerPower.toLocaleString()} VS ${d.monsterPower.toLocaleString()}</span><div class="battle-defeat-tip">돌파 단계로 전투력을 높여보세요.</div><em>화면을 눌러 돌아가기</em>`;
     battleState.energy=d.energy||battleState.energy;battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();saveUser(apiUserToLocal(d.user));
     if(battleState.autoRunning){
@@ -3718,6 +3719,7 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
     stage.classList.add(myWin?'battle-win-v863':'battle-lose-v863');phase.textContent=myWin?'PVP VICTORY':'PVP DEFEAT';battleSfx(myWin?'victory':'defeat');
     if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
+    if(d.unifiedDrop?.rewards?.length&&window.showUnifiedDropAcquisition){try{await window.showUnifiedDropAcquisition(d.unifiedDrop)}catch(dropFxError){console.warn('통합 드랍 획득 연출을 표시하지 못했습니다.',dropFxError)}}
     const judged=['ACTION_LIMIT','POWER_TIEBREAK'].includes(String(d.battleV2?.result?.reason||''));
     const pvpV2Detail=` · 전투엔진 V2 1.6배${judged?` · ${Number(d.battleV2?.result?.actions||0)}행동 판정`:''}`;
     msg.innerHTML=buildPvpV2ResultHtml(d,myWin,d.attackerPower||pvpPreviewPower,d.defenderPower||0,pvpV2Detail);
@@ -3785,6 +3787,7 @@ async function fightPvp(id,matchToken){
     await pvpPause(950);stage.classList.add(myWin?'battle-win-v863':'battle-lose-v863');phase.textContent=myWin?'PVP VICTORY':'PVP DEFEAT';battleSfx(myWin?'victory':'defeat');
     if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
+    if(d.unifiedDrop?.rewards?.length&&window.showUnifiedDropAcquisition){try{await window.showUnifiedDropAcquisition(d.unifiedDrop)}catch(dropFxError){console.warn('통합 드랍 획득 연출을 표시하지 못했습니다.',dropFxError)}}
     const pvpV2Detail=useV2?` · 전투엔진 V2 1.6배${d.battleV2?.result?.reason==='ACTION_LIMIT'||d.battleV2?.result?.reason==='POWER_TIEBREAK'?` · ${Number(d.battleV2?.result?.actions||0)}행동 판정`:''}`:'';
     msg.innerHTML=buildPvpV2ResultHtml(d,myWin,d.attackerPower,d.defenderPower,pvpV2Detail);
     pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser){if(d.coinAfter!=null)savedPvpUser.coin=Number(d.coinAfter);if(d.magicCrystalsAfter!=null)savedPvpUser.magicCrystals=Number(d.magicCrystalsAfter);if(d.weeklyPremiumCube)savedPvpUser.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(savedPvpUser)}

@@ -365,6 +365,7 @@
     battleSfx(win ? 'victory' : 'defeat');
     if (data.cubeReward && window.showCubeDropAcquisition) { try { await window.showCubeDropAcquisition(data.cubeReward); } catch (error) { console.warn(error); } }
     if (data.equipmentReward && window.showEquipmentDropReward) { try { await window.showEquipmentDropReward(data.equipmentReward); } catch (error) { console.warn(error); } }
+    if (data.unifiedDrop?.rewards?.length && window.showUnifiedDropAcquisition) { try { await window.showUnifiedDropAcquisition(data.unifiedDrop); } catch (error) { console.warn(error); } }
     const playerPower = Number(data.battleV2?.teams?.A?.summary?.power || data.playerPower || 0);
     const monsterPower = Number(data.monsterPower || data.battleV2?.teams?.B?.summary?.power || 0);
     const coinReward = Math.max(0, Number(data.reward || 0));
