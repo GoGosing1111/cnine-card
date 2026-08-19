@@ -2,8 +2,11 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.7.0-session-reset';
+  const VERSION = '3.8.0-seal-crystal';
   const PLAYBACK_SPEED = 1.3;
+  const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
+  const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
+  const SEAL_ORB_PNG = '/assets/ui/project-v/monsters/seal-crystal-orb-sd-v1.png?v=550486A8E35C9935';
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message, options = {}) => new Promise(resolve => {
     let settled = false;
@@ -51,7 +54,8 @@
     if (/TOWER|INFINITE/.test(raw)) return 'TOWER';
     if (/PVP|RANK|ARENA/.test(raw)) return 'PVP';
     if (/RAID/.test(raw)) return 'RAID';
-    if (/SIEGE|SEAL|TERRITORY/.test(raw)) return 'SIEGE';
+    if (/SEAL/.test(raw)) return 'SEAL';
+    if (/SIEGE|TERRITORY/.test(raw)) return 'SIEGE';
     return 'HUNT';
   }
 
@@ -63,7 +67,7 @@
     modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
-        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : '몬스터 토벌'}</strong></div>
+        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'SEAL' ? '봉인전' : '몬스터 토벌'}</strong></div>
         <div class="battle-v3-versus"><span>${esc(playerName)}</span><i>VS</i><span>${esc(opponentName)}</span></div>
         <b id="battlePhase">V3 LOADING</b>
       </header>
@@ -139,6 +143,81 @@
       battlefieldMode: 'TOWER',
       floor,
       monster,
+      battleV2: {
+        teams: { A: { cards: allies }, B: { cards: [monster] } },
+        result: { timeline, winner: win ? 'A' : 'B', actions: timeline.length }
+      }
+    };
+  }
+
+  function sealPayload({ data = {}, roleKey = 'ATTACK', roleLabel = '파괴 봉인' } = {}) {
+    const allies = (Array.isArray(data.cards) ? data.cards : []).slice(0, 5).map(normalizeTowerCard);
+    const monster = {
+      id: SEAL_ORB_ID,
+      monsterId: SEAL_ORB_ID,
+      cardId: `MONSTER:${SEAL_ORB_ID}`,
+      name: '봉인 수정구',
+      title: '봉인 수정구',
+      image: SEAL_ORB_IMAGE,
+      image_url: SEAL_ORB_IMAGE,
+      grade: 'BOSS',
+      isBoss: true,
+      mode: 'SEAL',
+      hp: 100,
+      maxHp: 100,
+      projectVMonsterArt: {
+        scope: 'BATTLE_ENGINE_ONLY',
+        kind: 'SEAL_CRYSTAL_ORB_SD',
+        primaryUrl: SEAL_ORB_IMAGE,
+        pngFallbackUrl: SEAL_ORB_PNG,
+        footAnchor: { x: .5, y: .94 },
+        objectFit: 'contain',
+        objectPosition: '50% 100%',
+        scaleMultiplier: 1.04,
+        approved: true,
+        technicalPass: true
+      }
+    };
+    const win = String(data.result || '').toUpperCase() === 'WIN';
+    const steps = win ? [16, 18, 19, 21, 26] : [8, 10, 12, 14, 16];
+    let enemyHp = 100;
+    const timeline = [];
+    allies.forEach((card, index) => {
+      const damagePercent = steps[Math.min(index, steps.length - 1)];
+      enemyHp = Math.max(win && index === allies.length - 1 ? 0 : win ? 3 : 26, enemyHp - damagePercent);
+      timeline.push({
+        type: index === 2 || index === 4 ? 'SKILL' : 'TURN',
+        actorId: card.cardId,
+        targetId: monster.cardId,
+        damage: Math.max(1, Math.round(Number(data.totalBattleDamage || data.playerPower || 1000) * damagePercent / 100)),
+        targetHpAfter: enemyHp,
+        critical: index === 2 || index === 4,
+        label: `${roleLabel} 타격`
+      });
+      if (enemyHp > 0 && (win ? index === 1 || index === 3 : true)) {
+        const allyHp = win ? Math.max(24, 78 - index * 14) : 0;
+        timeline.push({
+          type: 'COUNTER',
+          actorId: monster.cardId,
+          targetId: card.cardId,
+          damage: Math.max(1, Math.round(Number(data.bossPower || 1000) * (win ? .13 : .24))),
+          targetHpAfter: allyHp,
+          critical: !win,
+          label: '봉인 역류'
+        });
+        if (!win) timeline.push({ type: 'KO', targetId: card.cardId });
+      }
+    });
+    if (win) timeline.push({ type: 'KO', targetId: monster.cardId });
+    timeline.push({ type: 'RESULT', winner: win ? 'A' : 'B', actions: timeline.length });
+    return {
+      ...data,
+      mode: 'SEAL',
+      battlefieldMode: 'SEAL',
+      roleKey,
+      roleLabel,
+      monster,
+      playUltimateCinematics: false,
       battleV2: {
         teams: { A: { cards: allies }, B: { cards: [monster] } },
         result: { timeline, winner: win ? 'A' : 'B', actions: timeline.length }
@@ -340,6 +419,16 @@
     return renderer;
   }
 
+  async function playSeal(options = {}) {
+    const data = sealPayload(options);
+    const renderer = await createRenderer({ ...options, data, mode: 'SEAL', playUltimateCinematics: false });
+    if (options.modal) options.modal.__battleV2Renderer = renderer;
+    const played = await renderer.play();
+    if (!played) throw new Error('V3 봉인전 전투가 완료되지 않았습니다.');
+    renderer.showResult();
+    return renderer;
+  }
+
   root.ProjectVBattleV3Live = Object.freeze({
     version: VERSION,
     playbackSpeed: PLAYBACK_SPEED,
@@ -347,7 +436,10 @@
     prepareLoading,
     createRenderer,
     playTower,
-    towerPayload
+    towerPayload,
+    playSeal,
+    sealPayload
   });
   root.playTowerBattleV3Live = playTower;
+  root.playSealBattleV3Live = playSeal;
 })();

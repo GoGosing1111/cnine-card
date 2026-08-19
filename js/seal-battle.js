@@ -4,6 +4,7 @@
     GUARD: { label: '수호 봉인', icon: '◆', description: '보스의 광역 공격을 억제합니다.' },
     PURIFY: { label: '정화 봉인', icon: '✦', description: '오염된 마력을 정화합니다.' }
   };
+  const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[char]));
@@ -159,7 +160,7 @@
 
     const event = data.event;
     const [badge, line] = statusLabel(data);
-    const bossImage = source(event.bossImage, event.updatedAt);
+    const bossImage = SEAL_ORB_IMAGE;
     const progress = data.progress || {};
     const clear = data.clearReward || {};
     const canClaim = clear.eligible && !clear.claimed && !clear.processing;
@@ -247,7 +248,7 @@
     const event = latest?.event || {};
     const role = event.roles?.[roleKey] || {};
     const previewCards = latest?.deck?.cards || [];
-    const bossImage = source(event.bossImage, event.updatedAt);
+    const bossImage = SEAL_ORB_IMAGE;
     modal.className = `modal show battle-modal seal-combat-modal role-${roleKey.toLowerCase()}`;
     modal.innerHTML = `<div class="modal-panel battle-stage seal-battle-stage intro">
       <div class="battle-backdrop"></div><div class="battle-fx-layer"></div>
@@ -393,49 +394,72 @@
     if (!confirm(`${meta.label} 보스와 전투합니다.\n도전 횟수 1회가 사용되며 ${rechargeMinutes}분마다 1회 충전됩니다. 패배해도 공헌도 ${defeatPercent}%가 반영됩니다. 궁극기는 사용할 수 없습니다.\n\n전투를 시작할까요?`)) return;
     loading = true;
     button.disabled = true;
-    const modal = sealCombatModal(roleKey);
-    const stage = modal?.querySelector('.battle-stage');
-    const phase = stage?.querySelector('#battlePhase');
-    const count = stage?.querySelector('#battleCountdown');
-    const message = stage?.querySelector('#battleMessage');
+    const modal = document.getElementById('modal');
+    if (!modal) {
+      loading = false;
+      button.disabled = false;
+      return;
+    }
+    modal.className = `modal show battle-modal seal-combat-modal role-${roleKey.toLowerCase()}`;
+    modal.innerHTML = `<div class="modal-panel seal-v3-preflight"><img src="${SEAL_ORB_IMAGE}" alt="봉인 수정구"><small>PROJECT V · SEAL BATTLE</small><b>봉인 수정구와 전장을 연결하고 있습니다.</b></div>`;
+    let renderer = null;
     try {
-      if (typeof globalThis.battleTone === 'function') globalThis.battleTone(80, .18, 'sawtooth', .04);
-      await battleSleepSafe(380);
-      stage?.classList.add('cards-enter');
-      if (phase) phase.textContent = 'PVE TEAM DEPLOY';
-      await battleSleepSafe(720);
-      stage?.classList.add('enemy-enter');
-      if (phase) phase.textContent = `${meta.label} BOSS APPEARS`;
-      await battleSleepSafe(760);
-      if (count) count.textContent = 'READY';
-      await battleSleepSafe(520);
-      if (count) count.textContent = 'FIGHT';
-      stage?.classList.add('fight');
+      const resourcePromise = typeof globalThis.ensureFeatureResources === 'function'
+        ? globalThis.ensureFeatureResources('battleV2')
+        : Promise.resolve();
       const fightPromise = api('seal-battle/participate', {
         method: 'POST',
         body: JSON.stringify({ requestId: requestId(), role: roleKey })
       });
-      await battleSleepSafe(420);
-      if (count) count.textContent = '';
-      if (message) message.innerHTML = `<span>${esc(role?.label || meta.label)} 보스와 전투 중...</span>`;
-      const result = await fightPromise;
+      const battleReady = Promise.all([resourcePromise, fightPromise]);
+      await resourcePromise;
+      if (!globalThis.ProjectVBattleV3Live?.ready?.() || typeof globalThis.playSealBattleV3Live !== 'function') {
+        throw new Error('V3 봉인전 렌더러를 불러오지 못했습니다. 다시 시도해 주세요.');
+      }
+      globalThis.ProjectVBattleV3Live.prepareLoading({
+        modal,
+        mode: 'SEAL',
+        playerName: '봉인 원정대',
+        opponentName: '봉인 수정구',
+        autoText: '봉인 수정구와 저장된 PvE 덱을 동기화하고 있습니다.'
+      });
+      const [, result] = await battleReady;
       updateBalances(result.balances);
       latest = result.state || latest;
       render(latest);
-      await animateSealCombat(modal, roleKey, result);
-    } catch (error) {
-      if (stage && message) {
-        phase.textContent = 'BATTLE ERROR';
-        message.innerHTML = `<strong>전투 처리 실패</strong><span>${esc(error.message)}</span><button type="button" class="seal-battle-return">봉인전으로 돌아가기</button>`;
-        message.querySelector('.seal-battle-return').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
-      } else {
-        if (modal) { modal.className = 'modal'; modal.innerHTML = ''; }
-        alert(error.message);
+      renderer = await globalThis.playSealBattleV3Live({
+        modal,
+        data: result,
+        roleKey,
+        roleLabel: role?.label || meta.label
+      });
+      const stage = modal.querySelector('.battle-v3-live-shell');
+      const phase = stage?.querySelector('#battlePhase');
+      const message = stage?.querySelector('#battleMessage');
+      const win = result.result === 'WIN';
+      if (phase) phase.textContent = win ? 'SEAL BATTLE VICTORY' : 'SEAL BATTLE DEFEAT';
+      if (message) {
+        const lossLine = win ? '전투 승리로 봉인 공헌도가 100% 반영되었습니다.' : `전투 패배지만 ${Number(result.defeatContributionPercent ?? latest?.event?.defeatContributionPercent ?? 10)}% 공헌도가 반영되었습니다.`;
+        message.innerHTML = `<strong>${win ? 'BATTLE VICTORY' : 'BATTLE DEFEAT'}</strong><span>${number(result.totalBattleDamage || result.playerPower)} VS ${number(result.bossPower)} · ${esc(lossLine)}</span><div class="battle-reward-pop"><small>${meta.label} 공헌</small><b>+${number(result.contribution)}</b><small>참여 보상</small><b>◈ ${number(result.reward?.coin)} · 조각 ${number(result.reward?.shards)}</b>${Number(result.bonusPercent || 0) > 0 ? `<em>부족 역할 지원 +${Number(result.bonusPercent)}%</em>` : ''}</div><button type="button" class="seal-battle-return">봉인전으로 돌아가기</button>`;
+        message.classList.add('is-visible');
+        message.querySelector('.seal-battle-return').onclick = event => {
+          event.stopPropagation();
+          renderer?.destroy?.();
+          modal.className = 'modal';
+          modal.innerHTML = '';
+        };
       }
-      loading = false;
+    } catch (error) {
+      renderer?.destroy?.();
+      modal.classList.remove('battle-v3-preparing');
+      modal.querySelectorAll('.battle-v3-loader').forEach(element => element.remove());
+      modal.className = 'modal show';
+      modal.innerHTML = `<div class="modal-panel seal-v3-error"><strong>봉인전 연결 실패</strong><span>${esc(error.message)}</span><button type="button">봉인전으로 돌아가기</button></div>`;
+      modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
       await load();
     } finally {
       loading = false;
+      if (button.isConnected) button.disabled = false;
     }
   }
 
