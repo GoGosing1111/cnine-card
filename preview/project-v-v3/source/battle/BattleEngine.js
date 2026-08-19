@@ -310,6 +310,82 @@ export class BattleEngine{
     return this;
   }
 
+  attachTo(target){
+    if(!target||!this.app?.canvas)return this;
+    this.host=target;
+    if(this.app.canvas.parentNode!==target)target.appendChild(this.app.canvas);
+    if('resizeTo' in this.app)this.app.resizeTo=target;
+    this.app.resize?.();
+    this.resize();
+    return this;
+  }
+
+  resetVisualSession({preserveTargets=false}={}){
+    // A battle renderer is intentionally reused to avoid repeatedly creating
+    // WebGL contexts. Everything below the renderer, however, is session data
+    // and must be reset before the next server timeline is accepted.
+    this.cancelTimelines();
+    this.playing=false;
+    this.liveDeployed=false;
+    if(!preserveTargets){
+      this.activeMonsterArt=null;
+      this.activeFallbackArt=[];
+      this.uniquePreviewIndex=0;
+      this.currentEnemyTarget=null;
+      this.currentAllyTarget=null;
+      this.boss=null;
+      this.bossHp=0;
+      this.lastTargetSwitch=null;
+    }
+    this.cards.forEach(card=>{
+      card.alpha=0;
+      card.visible=false;
+      card.renderable=false;
+      card.position.set(card.baseX,card.baseY);
+      card.scale.set(card.restScale);
+      card.rotation=0;
+      card.hpValue=100;
+      if(card.hp)this.setHp(card.hp,100,0x64e3a9);
+    });
+    this.characters.forEach(character=>{
+      character.root.alpha=0;
+      character.root.visible=false;
+      character.root.position.set(character.baseX,character.baseY);
+      character.root.scale.set(character.restScale);
+      character.root.tint=0xffffff;
+      character.root.filters=[];
+      character.setTint?.(0xffffff);
+      character.setState(CHARACTER_STATE.IDLE);
+      character.setHp(100);
+    });
+    if(this.uiLayer?.combo){
+      this.uiLayer.combo.alpha=0;
+      this.uiLayer.combo.text='';
+    }
+    if(this.uiLayer?.comboLabel)this.uiLayer.comboLabel.alpha=0;
+    this.updateStatus('PROJECT V V3 · 새 전투 세션 준비');
+    this.camera?.reset?.(true);
+  }
+
+  async resetSession(payload=this.battleData,target=null){
+    this.requestedVisible=false;
+    if(this.app){
+      this.visible=false;
+      this.app.stop();
+    }
+    this.resetVisualSession();
+    if(target)this.attachTo(target);
+    if(payload)await this.setBattlePayload(payload);
+    // setBattlePayload installs new identities, textures and active slots.
+    // Restore their transient HP/FSM/alpha state after asynchronous texture
+    // work so no first-battle KO/result state can leak into battle two.
+    this.resetVisualSession({preserveTargets:true});
+    this.characters.forEach(character=>{
+      character.root.visible=character.battleActive!==false;
+    });
+    return this;
+  }
+
   createBackground(){
     const definitions=[
       {label:'Sky',coefficient:.2,start:0,end:.42},

@@ -539,8 +539,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.0.0-live',
       'js/project-v-monster-battle-art-adapter-v1.js?v=4.0.0-live-roster',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=50-monster-natural-color',
-      'js/battle-v3-live.js?v=3.6.0-ultimate-duration-hud'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=51-session-reset',
+      'js/battle-v3-live.js?v=3.7.0-session-reset'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }

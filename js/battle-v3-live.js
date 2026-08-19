@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.6.0-ultimate-duration-hud';
+  const VERSION = '3.7.0-session-reset';
   const PLAYBACK_SPEED = 1.3;
   const sleep = ms => new Promise(resolve => setTimeout(resolve, Math.max(0, Number(ms || 0))));
   const withTimeout = (promise, ms, message, options = {}) => new Promise(resolve => {
