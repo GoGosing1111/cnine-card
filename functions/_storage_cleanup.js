@@ -650,8 +650,9 @@ async function deleteExpiredSessionsBatch(env,raw={}){
 // small bounded chunks; the OWNER cleanup screen remains available for bulk
 // maintenance when the server is quiet.
 // At production traffic levels 1/1024 still generated over 100k lease writes a
-// day. One bounded pass every ten minutes is enough to prevent growth; the
-// OWNER cleanup endpoint remains available for deliberate bulk work.
+// day. General maintenance stays on a ten-minute lease, while append-only audit
+// logs use their own one-minute lease so a slow receipt task cannot block them.
+// The OWNER cleanup endpoint remains available for deliberate bulk work.
 const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=16384;
 // v1739: production traffic creates receipts and combat audit rows much faster
 // than the old 100/2,000-row rotation could retire them.  Keep each statement
@@ -662,6 +663,7 @@ const AUTO_HIGH_VOLUME_SCAN_BATCH=50000;
 const AUTO_HIGH_VOLUME_TASKS=Object.freeze([
   {key:'shard_duplicate',table:'shard_logs',retentionDays:1,extraWhere:"reason='DUPLICATE'"},
   {key:'coin_pack_draw',table:'coin_logs',retentionDays:1,extraWhere:"reason='PACK_DRAW'"},
+  {key:'draw_history',table:'draw_logs',retentionDays:1,extraWhere:'1=1'},
   {key:'battle_history',table:'battle_logs',retentionDays:1,extraWhere:'1=1'},
   {key:'pvp_history',table:'pvp_match_history',retentionDays:1,extraWhere:'1=1'},
   {key:'raid_damage_history',table:'raid_damage_logs',requires:['raid_instances'],retentionDays:1,
@@ -836,6 +838,13 @@ async function runHighVolumeLogMaintenance(env){
   ]);
   return {skipped:false,task:task.key,scanned:endId>cursor?AUTO_HIGH_VOLUME_SCAN_BATCH:0,deleted,cycleComplete};
 }
+async function runLeasedHighVolumeLogMaintenance(env){
+  const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_high_volume_lease_v1800',?,CURRENT_TIMESTAMP)
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
+    WHERE app_meta.updated_at<datetime('now','-1 minute')`).bind(String(Date.now())).run();
+  if(!Number(lease?.meta?.changes||0))return {skipped:true};
+  return runHighVolumeLogMaintenance(env);
+}
 async function runMagicRewardReceiptMaintenance(env){
   const existing=await existingTableSet(env,['magic_crystal_reward_receipts']);
   if(!existing.has('magic_crystal_reward_receipts'))return {skipped:true};
@@ -875,17 +884,18 @@ async function runBoundedStorageMaintenance(env){
   }catch(error){taskError=String(error?.message||error||'MAINTENANCE_FAILED').slice(0,300);console.warn(`bounded storage task failed: ${task.key}`,error)}
   await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_cursor_v1400',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String((cursor+1)%AUTO_STORAGE_MAINTENANCE_TASKS.length)).run();
-  let highVolume=null;
-  try{highVolume=await runHighVolumeLogMaintenance(env)}catch(error){console.warn('high volume storage cleanup failed',error);highVolume={error:String(error?.message||error).slice(0,300)}}
   let magicRewards=null;
   try{magicRewards=await runMagicRewardReceiptMaintenance(env)}catch(error){console.warn('magic reward receipt cleanup failed',error);magicRewards={error:String(error?.message||error).slice(0,300)}}
   let inventoryReceipts=null;
   try{inventoryReceipts=await runInventoryReceiptMaintenance(env)}catch(error){console.warn('inventory receipt cleanup failed',error);inventoryReceipts={error:String(error?.message||error).slice(0,300)}}
-  return {skipped:false,task:task.key,changed,error:taskError||undefined,highVolume,magicRewards,inventoryReceipts};
+  return {skipped:false,task:task.key,changed,error:taskError||undefined,magicRewards,inventoryReceipts};
 }
 export function scheduleBoundedStorageMaintenance(context,env,seed=''){
   if(autoMaintenanceHash(seed)%AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD!==0)return;
-  const job=runBoundedStorageMaintenance(env).catch(error=>console.warn('bounded storage maintenance failed',error));
+  const job=(async()=>{
+    try{await runLeasedHighVolumeLogMaintenance(env)}catch(error){console.warn('high volume storage cleanup failed',error)}
+    try{await runBoundedStorageMaintenance(env)}catch(error){console.warn('bounded storage maintenance failed',error)}
+  })();
   if(typeof context?.waitUntil==='function')context.waitUntil(job);
 }
 
