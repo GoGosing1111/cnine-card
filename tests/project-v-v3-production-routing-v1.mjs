@@ -21,7 +21,7 @@ for(const token of [
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.0.0-krieg-escanor-fix',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
   'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=51-session-reset',
-  'js/battle-v3-live.js?v=3.7.0-session-reset'
+  'js/battle-v3-live.js?v=3.10.0-final-state-sync'
 ])assert.ok(app.includes(token),`production feature manifest missing ${token}`);
 
 assert.match(app,/ready:\(\)=>Boolean\(window\.ProjectVBattleV3Live\?\.ready\?\.\(\)\)/);
@@ -37,7 +37,7 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/id\.endsWith\(`:\$\{character\.cardId\|\|character\.id\}`\)/);
-assert.ok(index.includes('js/app.js?v=1776-prestige-krieg'));
+assert.ok(index.includes('js/app.js?v=1781-pvp-zenith-title'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
 
 const bundle='preview/project-v-v3/project-v-pixi-battle.bundle.js';

@@ -579,11 +579,20 @@ async function ensureRankedPvpFoundation(env){
         id INTEGER PRIMARY KEY AUTOINCREMENT,settlement_id INTEGER NOT NULL,user_id INTEGER NOT NULL,reward_type TEXT NOT NULL,
         reward_amount INTEGER NOT NULL,status TEXT NOT NULL DEFAULT 'RESERVED',message_id INTEGER,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,UNIQUE(settlement_id,user_id,reward_type)
-      )`)
+      )`),
+      env.DB.prepare(`CREATE TABLE IF NOT EXISTS pvp_battle_audits_v1781(
+        attacker_id INTEGER NOT NULL,request_id TEXT NOT NULL,defender_id INTEGER NOT NULL,winner_id INTEGER NOT NULL,
+        winner_side TEXT NOT NULL,result_reason TEXT NOT NULL DEFAULT '',original_reason TEXT NOT NULL DEFAULT '',battle_seed INTEGER NOT NULL DEFAULT 0,
+        attacker_survivors INTEGER NOT NULL DEFAULT 0,defender_survivors INTEGER NOT NULL DEFAULT 0,
+        attacker_hp_percent REAL NOT NULL DEFAULT 0,defender_hp_percent REAL NOT NULL DEFAULT 0,action_count INTEGER NOT NULL DEFAULT 0,
+        final_state_json TEXT NOT NULL DEFAULT '{}',created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(attacker_id,request_id)
+      )`),
+      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_pvp_battle_audits_users_v1781 ON pvp_battle_audits_v1781(attacker_id,defender_id,created_at DESC)')
     ]);
     await env.DB.batch([
       env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,is_active,is_public,sort_order,style_preset,updated_at)
-        VALUES('TITLE_RANKED_GAMBLER','승부사','랭크전 시즌에서 그랜드마스터를 달성한 유저에게 다음 시즌 동안 지급됩니다.','승부사','',0,'MANUAL','{}',1,1,44,'GOLD',CURRENT_TIMESTAMP)
+        VALUES('TITLE_RANKED_GAMBLER','승부사','랭크전 시즌에서 그랜드마스터를 달성한 유저에게 다음 시즌 동안 지급됩니다.','승부사','',0,'MANUAL','{}',1,1,44,'CRIMSON',CURRENT_TIMESTAMP)
         ON CONFLICT(code) DO UPDATE SET name=excluded.name,description=excluded.description,badge_text=excluded.badge_text,is_active=1,is_public=1,style_preset=excluded.style_preset,updated_at=CURRENT_TIMESTAMP`),
       env.DB.prepare(`INSERT INTO character_titles(code,name,description,badge_text,image_url,pve_power,unlock_type,unlock_config_json,is_active,is_public,sort_order,style_preset,updated_at)
         VALUES('TITLE_RANKED_DUELIST','결투가','랭크전 시즌에서 마스터를 달성한 유저에게 다음 시즌 동안 지급됩니다.','결투가','',0,'MANUAL','{}',1,1,45,'VOID',CURRENT_TIMESTAMP)
@@ -5372,9 +5381,9 @@ async function handleRequest(context){
       const currentMatchAPower=Math.max(1,aCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(aCharacterBonus.pvp||0)),currentMatchDPower=Math.max(1,dCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(dCharacterBonus.pvp||0));
       if(currentMatchAPower!==Number(rankedTicket.attacker_power)||currentMatchDPower!==Number(rankedTicket.defender_power))return json({error:'매칭 후 덱·장비·칭호 정보가 변경되었습니다. 새로 매칭해주세요.',code:'PVP_MATCH_FORMATION_CHANGED'},409);
       const engineState=battleEngineState(battle,user),aUniqueById=new Map((aUnique.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null])),dUniqueById=new Map((dUnique.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null]));
-      let battleV2=null;
+      let battleV2=null,battleSeed=0;
       if(engineState.active){
-        const seed=parseInt(drawIntegrityHash(`${user.id}:${defenderId}:${requestId}:PVP_V2`),16)>>>0;
+        const seed=parseInt(drawIntegrityHash(`${user.id}:${defenderId}:${requestId}:PVP_V2`),16)>>>0;battleSeed=seed;
         const attackerEngineCards=aCards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:aUniqueById.get(String(card.id))||card.uniqueAbility||null}));
         const defenderEngineCards=dCards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:dUniqueById.get(String(card.id))||card.uniqueAbility||null}));
         battleV2=createPvpBattleV2({attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed,singleHealerBonus:engineState.singleHealerBonus});
@@ -5386,12 +5395,22 @@ async function handleRequest(context){
       // PvP battle coin is an active-challenge reward. Only the authenticated attacker receives it.
       // The asynchronous defender never receives win/lose coins from being challenged.
       const attackerCoinReward=burningRewardAmount(attackerWin?settings.winCoin:settings.loseCoin,burning);
-      await env.DB.batch([
+      const auditResult=battleV2?.result||{},auditFinal=auditResult.final||{A:[],B:[]},auditSurvivors=auditResult.survivorCount||{A:(auditFinal.A||[]).filter(card=>Number(card.hp||0)>0).length,B:(auditFinal.B||[]).filter(card=>Number(card.hp||0)>0).length};
+      const auditHpPercent=side=>{const rows=Array.isArray(auditFinal?.[side])?auditFinal[side]:[],current=rows.reduce((sum,card)=>sum+Math.max(0,Number(card.hp||0))+Math.max(0,Number(card.shield||0)),0),maximum=rows.reduce((sum,card)=>sum+Math.max(0,Number(card.maxHp||0))+Math.max(0,Number(card.maxShield||0)),0);return maximum>0?Math.round(current/maximum*1000)/10:0};
+      const matchWrites=[
         env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=MAX(highest_score,?),wins=wins+?,losses=losses+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(aAfter,aAfter,attackerWin?1:0,attackerWin?0:1,user.id),
         env.DB.prepare('UPDATE pvp_profiles SET season_score=?,highest_score=MAX(highest_score,?),wins=wins+?,losses=losses+?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?').bind(dAfter,dAfter,attackerWin?0:1,attackerWin?1:0,defenderId),
         env.DB.prepare('INSERT INTO pvp_match_history(attacker_id,defender_id,attacker_name,defender_name,attacker_deck,defender_deck,attacker_card_score,defender_card_score,attacker_power,defender_power,winner_id,attacker_score_before,attacker_score_after,defender_score_before,defender_score_after,score_change) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(user.id,defenderId,user.nickname,defUser.nickname,JSON.stringify(aIds),JSON.stringify(dIds),aCard,dCard,aPower,dPower,winnerId,aBefore,aAfter,dBefore,dAfter,change),
         env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(attackerCoinReward,user.id)
-      ]);
+      ];
+      if(engineState.active)matchWrites.push(env.DB.prepare(`INSERT OR REPLACE INTO pvp_battle_audits_v1781(
+        attacker_id,request_id,defender_id,winner_id,winner_side,result_reason,original_reason,battle_seed,
+        attacker_survivors,defender_survivors,attacker_hp_percent,defender_hp_percent,action_count,final_state_json,created_at
+      ) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,CURRENT_TIMESTAMP)`).bind(
+        user.id,String(requestId).slice(0,128),defenderId,winnerId,String(auditResult.winner||''),String(auditResult.reason||''),String(auditResult.originalReason||''),battleSeed,
+        Number(auditSurvivors.A||0),Number(auditSurvivors.B||0),auditHpPercent('A'),auditHpPercent('B'),Number(auditResult.actions||0),JSON.stringify(auditFinal)
+      ));
+      await env.DB.batch(matchWrites);
       const coinUser=await env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first();
       if(attackerCoinReward>0)await env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'PVP_ATTACK_BATTLE')").bind(user.id,attackerCoinReward,coinUser.coin).run();
       const cubeReward=await grantBattleCube(env,user.id,'PVP',requestId,attackerWin);

@@ -779,9 +779,10 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
 
 
 export function resolvePvpOutcome(result, teamA, teamB) {
-  if (!result || !['ACTION_LIMIT', 'TIME_LIMIT'].includes(String(result.reason || '').toUpperCase())) return result;
+  if (!result) return result;
   const finalA = Array.isArray(result.final?.A) ? result.final.A : [];
   const finalB = Array.isArray(result.final?.B) ? result.final.B : [];
+  if (!finalA.length && !finalB.length) return result;
   const aliveA = finalA.filter(card => Number(card.hp || 0) > 0).length;
   const aliveB = finalB.filter(card => Number(card.hp || 0) > 0).length;
   const hpRatio = cards => {
@@ -793,9 +794,18 @@ export function resolvePvpOutcome(result, teamA, teamB) {
   const ratioB = hpRatio(finalB);
   const sumA = teamSummary(teamA);
   const sumB = teamSummary(teamB);
-  let winner;
-  let reason;
-  if (aliveA !== aliveB) {
+  const originalReason = String(result.reason || '').toUpperCase();
+  let winner = result.winner;
+  let reason = originalReason;
+  if (aliveA > 0 && aliveB === 0) {
+    winner = 'A';
+    reason = 'ELIMINATION';
+  } else if (aliveB > 0 && aliveA === 0) {
+    winner = 'B';
+    reason = 'ELIMINATION';
+  } else if (!['ACTION_LIMIT', 'TIME_LIMIT'].includes(originalReason)) {
+    return { ...result, survivorCount: { A: aliveA, B: aliveB } };
+  } else if (aliveA !== aliveB) {
     winner = aliveA > aliveB ? 'A' : 'B';
     reason = 'SURVIVOR_COUNT';
   } else if (ratioA !== ratioB) {
@@ -806,7 +816,6 @@ export function resolvePvpOutcome(result, teamA, teamB) {
     winner = sumA.power >= sumB.power ? 'A' : 'B';
     reason = 'POWER_TIEBREAK';
   }
-  const originalReason = result.reason;
   const patchedTimeline = (result.timeline || []).map(event => event.type === 'RESULT'
     ? { ...event, winner, reason, originalReason, survivorCountA: aliveA, survivorCountB: aliveB, teamAHpPercent: Math.round(ratioA * 1000) / 10, teamBHpPercent: Math.round(ratioB * 1000) / 10 }
     : event);

@@ -444,6 +444,11 @@
             }
             await safePlayEvents([event], `${event.label || type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
           }
+          const finalState = payload?.battleV2?.result?.final || {};
+          const knockoutEvents = ['A', 'B'].flatMap(side => (Array.isArray(finalState?.[side]) ? finalState[side] : []))
+            .filter(card => Number(card?.hp || 0) <= 0)
+            .map(card => ({ type: 'KO', targetId: card.id || card.cardId }));
+          if (knockoutEvents.length) await safePlayEvents(knockoutEvents, '서버 최종 생존 상태를 즉시 동기화했습니다.');
         } catch (error) {
           releaseBlockingLayers();
           stage.classList.add('is-v3-error');
