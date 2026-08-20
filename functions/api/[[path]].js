@@ -23,6 +23,7 @@ import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
 import { normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
+import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
 async function safePveUnifiedDrop(env,payload){
@@ -1634,6 +1635,7 @@ async function ensureRuntimeUpgrades(env){
     // 신규 성능 인덱스만 먼저 빠르게 설치한 뒤, 과거 마이그레이션은 기존 마커가 없는 DB에서만 검사한다.
     await ensureD1HotpathIndexes(env);
     await ensureEquipmentFoundation(env);
+    await ensureSecondVerificationFoundation(env);
     const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes','safe_runtime_upgrade_v1693_nightmare_clone','safe_runtime_upgrade_v1694_nightmare_pair_dedup','safe_runtime_upgrade_v1695_purge_inactive_monsters','safe_runtime_upgrade_v1696_nightmare_after_hell_nika')").all();
     const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
     if(markerMap.safe_runtime_upgrade_v1693_nightmare_clone!=='1')await ensureNightmareHellCloneUpgrade(env);
@@ -2612,6 +2614,65 @@ function requestIp(request){return String(request.headers.get('CF-Connecting-IP'
 async function requestIpHash(request,env){return hash(`${requestIp(request)}|${env.IP_HASH_SALT||'CNINE-IP-SALT-CHANGE-ME'}`)}
 async function wagoVerificationSettings(env){const base={enabled:true,postUrl:'',codeMinutes:20,checkCooldownSeconds:10};const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='wago_verification_settings_v1'").first();try{return {...base,...JSON.parse(row?.value||'{}')}}catch{return base}}
 function makeVerificationCode(){return `SOOP-${crypto.randomUUID().replaceAll('-','').slice(0,6).toUpperCase()}`}
+const PLAYDK_DEFAULT_BASE_URL='https://www.playdk.kr';
+let secondaryVerificationReadyPromise=null;
+function playdkConfigured(env){return Boolean(String(env.PLAYDK_ACCESS_KEY||'').trim()&&String(env.PLAYDK_SECRET_KEY||'').trim())}
+function playdkBaseUrl(env){const url=new URL(String(env.PLAYDK_BASE_URL||PLAYDK_DEFAULT_BASE_URL));if(url.protocol!=='https:'||!['playdk.kr','www.playdk.kr'].includes(url.hostname.toLowerCase()))throw new PlaydkApiError('PLAY DK 서버 주소 설정이 올바르지 않습니다.',{status:500});return url.origin}
+function playdkIdentityClient(env){return createPlaydkIdentityClient({baseUrl:playdkBaseUrl(env),accessKey:env.PLAYDK_ACCESS_KEY,secretKey:env.PLAYDK_SECRET_KEY,game:String(env.PLAYDK_GAME_CODE||'skm'),timeoutMs:8000})}
+function secondaryProviderConflict(provider){return json({error:`이미 ${provider==='WAGO'?'와이고수':'PLAY DK'} 2차 인증이 연결된 계정입니다. 한 계정에는 한 인증 서비스만 연결할 수 있습니다.`,code:'SECONDARY_PROVIDER_ALREADY_VERIFIED',provider},409)}
+function isSecondaryProviderConflict(error){const message=String(error?.message||error||'');return message.includes('SECONDARY_VERIFICATION_PROVIDER_CONFLICT')||message.includes('UNIQUE constraint failed')}
+async function ensureSecondVerificationFoundation(env){
+  if(secondaryVerificationReadyPromise)return secondaryVerificationReadyPromise;
+  secondaryVerificationReadyPromise=(async()=>{
+    await env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_second_verifications (
+      user_id INTEGER PRIMARY KEY,
+      provider TEXT NOT NULL CHECK(provider IN ('WAGO','PLAYDK')),
+      provider_user_id TEXT NOT NULL,
+      provider_name TEXT NOT NULL DEFAULT '',
+      verified_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+      UNIQUE(provider,provider_user_id)
+    )`).run();
+    await env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_second_verifications_provider ON user_second_verifications(provider,verified_at)').run();
+    if(await tableExists(env,'wago_verifications')){
+      await env.DB.prepare(`INSERT OR IGNORE INTO user_second_verifications(user_id,provider,provider_user_id,provider_name,verified_at,updated_at)
+        SELECT user_id,'WAGO',CASE WHEN TRIM(COALESCE(wago_member_no,''))<>'' THEN TRIM(wago_member_no) ELSE 'LEGACY:'||user_id END,
+          COALESCE(wago_nickname,''),COALESCE(verified_at,CURRENT_TIMESTAMP),CURRENT_TIMESTAMP
+        FROM wago_verifications WHERE status='VERIFIED'`).run();
+      await env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_wago_secondary_provider_guard_v1780
+        BEFORE UPDATE OF status ON wago_verifications FOR EACH ROW
+        WHEN NEW.status='VERIFIED' AND COALESCE(OLD.status,'')<>'VERIFIED'
+        BEGIN SELECT CASE WHEN EXISTS(SELECT 1 FROM user_second_verifications WHERE user_id=NEW.user_id AND provider<>'WAGO') THEN RAISE(ABORT,'SECONDARY_VERIFICATION_PROVIDER_CONFLICT') END; END`).run();
+      await env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_wago_secondary_provider_insert_guard_v1780
+        BEFORE INSERT ON wago_verifications FOR EACH ROW WHEN NEW.status='VERIFIED'
+        BEGIN SELECT CASE WHEN EXISTS(SELECT 1 FROM user_second_verifications WHERE user_id=NEW.user_id AND provider<>'WAGO') THEN RAISE(ABORT,'SECONDARY_VERIFICATION_PROVIDER_CONFLICT') END; END`).run();
+      await env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_wago_secondary_provider_claim_v1780
+        AFTER UPDATE OF status ON wago_verifications FOR EACH ROW
+        WHEN NEW.status='VERIFIED' AND COALESCE(OLD.status,'')<>'VERIFIED'
+        BEGIN INSERT INTO user_second_verifications(user_id,provider,provider_user_id,provider_name,verified_at,updated_at)
+          VALUES(NEW.user_id,'WAGO',CASE WHEN TRIM(COALESCE(NEW.wago_member_no,''))<>'' THEN TRIM(NEW.wago_member_no) ELSE 'LEGACY:'||NEW.user_id END,
+            COALESCE(NEW.wago_nickname,''),COALESCE(NEW.verified_at,CURRENT_TIMESTAMP),CURRENT_TIMESTAMP); END`).run();
+      await env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_wago_secondary_provider_insert_claim_v1780
+        AFTER INSERT ON wago_verifications FOR EACH ROW WHEN NEW.status='VERIFIED'
+        BEGIN INSERT INTO user_second_verifications(user_id,provider,provider_user_id,provider_name,verified_at,updated_at)
+          VALUES(NEW.user_id,'WAGO',CASE WHEN TRIM(COALESCE(NEW.wago_member_no,''))<>'' THEN TRIM(NEW.wago_member_no) ELSE 'LEGACY:'||NEW.user_id END,
+            COALESCE(NEW.wago_nickname,''),COALESCE(NEW.verified_at,CURRENT_TIMESTAMP),CURRENT_TIMESTAMP); END`).run();
+      await env.DB.prepare(`CREATE TRIGGER IF NOT EXISTS trg_wago_secondary_provider_release_v1780
+        AFTER UPDATE OF status ON wago_verifications FOR EACH ROW
+        WHEN OLD.status='VERIFIED' AND COALESCE(NEW.status,'')<>'VERIFIED'
+        BEGIN DELETE FROM user_second_verifications WHERE user_id=OLD.user_id AND provider='WAGO'; END`).run();
+    }
+    await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1780_secondary_verification','1',CURRENT_TIMESTAMP)").run();
+    schemaTableCache.add('user_second_verifications');
+    return true;
+  })().catch(error=>{secondaryVerificationReadyPromise=null;throw error});
+  return secondaryVerificationReadyPromise;
+}
+async function secondVerificationForUser(env,userId){
+  await ensureSecondVerificationFoundation(env);
+  return env.DB.prepare('SELECT provider,provider_user_id,provider_name,verified_at,updated_at FROM user_second_verifications WHERE user_id=?').bind(userId).first();
+}
 function htmlText(v){return String(v||'').replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/gi,' ').replace(/&amp;/gi,'&').replace(/\s+/g,' ').trim()}
 function parseYgosuPostUrl(raw){
   let url;try{url=new URL(String(raw||'').trim())}catch{return {ok:false,error:'CMS에 설정된 와고 인증 게시글 주소가 올바르지 않습니다.'}}
@@ -5374,13 +5435,68 @@ async function handleRequest(context){
       return json({ok:true,id:result.meta.last_row_id,coinAmount});
     }
 
+    if(path==='secondary-verification/status'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensureSecondVerificationFoundation(env);
+      const [verification,wago,settings]=await Promise.all([
+        secondVerificationForUser(env,user.id),
+        env.DB.prepare('SELECT wago_nickname,wago_member_no,status,verification_code,comment_url,profile_url,issued_at,expires_at,verified_at,review_note,last_checked_at FROM wago_verifications WHERE user_id=?').bind(user.id).first(),
+        wagoVerificationSettings(env)
+      ]);
+      return json({
+        verification:verification||null,
+        wago:wago||null,
+        settings:{enabled:settings.enabled,postUrl:settings.postUrl,codeMinutes:settings.codeMinutes},
+        playdk:{enabled:playdkConfigured(env),startUrl:`${playdkBaseUrl(env)}/api/v2/g/${encodeURIComponent(String(env.PLAYDK_GAME_CODE||'skm'))}`}
+      });
+    }
+    if(path==='secondary-verification/playdk'&&request.method==='POST'){
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensureSecondVerificationFoundation(env);
+      if(!playdkConfigured(env))return json({error:'PLAY DK 인증 서버 설정이 아직 완료되지 않았습니다.',code:'PLAYDK_NOT_CONFIGURED'},503);
+      const existing=await secondVerificationForUser(env,user.id);
+      if(existing?.provider==='WAGO')return secondaryProviderConflict('WAGO');
+      const verifiedWago=await env.DB.prepare("SELECT 1 FROM wago_verifications WHERE user_id=? AND status='VERIFIED'").bind(user.id).first();
+      if(verifiedWago)return secondaryProviderConflict('WAGO');
+      const body=await readBody(request),token=String(body.token||'').trim();
+      if(!token||token.length>2048)return json({error:'PLAY DK 인증 토큰이 올바르지 않습니다.',code:'PLAYDK_TOKEN_INVALID'},400);
+      let identity;
+      try{identity=await playdkIdentityClient(env).getUserInfo(token)}
+      catch(error){
+        if(error instanceof PlaydkApiError){
+          const expired=error.status===400||error.status===404;
+          console.warn('PLAY DK secondary verification failed',{status:error.status,path:error.path,expired});
+          return json({error:expired?'PLAY DK 인증 시간이 만료되었거나 이미 사용한 요청입니다. 인증 버튼을 다시 눌러주세요.':'PLAY DK 인증 서버에서 사용자 정보를 확인하지 못했습니다.',code:expired?'PLAYDK_TOKEN_EXPIRED':'PLAYDK_UPSTREAM_ERROR'},expired?401:502);
+        }
+        throw error;
+      }
+      if(existing?.provider==='PLAYDK'){
+        if(String(existing.provider_user_id)!==identity.uuid)return json({error:'이미 다른 PLAY DK 계정이 연결되어 있습니다. 관리자에게 연결 해제를 요청하세요.',code:'PLAYDK_ACCOUNT_MISMATCH'},409);
+        await env.DB.prepare("UPDATE user_second_verifications SET provider_name=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND provider='PLAYDK'").bind(identity.name,user.id).run();
+        return json({ok:true,verified:true,verification:{provider:'PLAYDK',providerName:identity.name,verifiedAt:existing.verified_at},duplicate:true});
+      }
+      const linked=await env.DB.prepare("SELECT user_id FROM user_second_verifications WHERE provider='PLAYDK' AND provider_user_id=?").bind(identity.uuid).first();
+      if(linked&&Number(linked.user_id)!==Number(user.id))return json({error:'이 PLAY DK 계정은 이미 다른 숲켓몬 계정에 인증되어 있습니다.',code:'PLAYDK_ALREADY_LINKED'},409);
+      try{
+        await env.DB.batch([
+          env.DB.prepare("INSERT INTO user_second_verifications(user_id,provider,provider_user_id,provider_name,verified_at,updated_at) VALUES(?,'PLAYDK',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)").bind(user.id,identity.uuid,identity.name),
+          env.DB.prepare("DELETE FROM wago_verifications WHERE user_id=? AND status<>'VERIFIED'").bind(user.id)
+        ]);
+      }catch(error){
+        if(isSecondaryProviderConflict(error))return json({error:'다른 2차 인증이 먼저 연결되었습니다. 상태를 새로 확인해주세요.',code:'SECONDARY_VERIFICATION_RACE'},409);
+        throw error;
+      }
+      return json({ok:true,verified:true,verification:{provider:'PLAYDK',providerName:identity.name}});
+    }
     if(path==='wago-verification/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const settings=await wagoVerificationSettings(env),row=await env.DB.prepare('SELECT wago_nickname,wago_member_no,status,verification_code,comment_url,profile_url,issued_at,expires_at,verified_at,review_note,last_checked_at FROM wago_verifications WHERE user_id=?').bind(user.id).first();
-      return json({settings:{enabled:settings.enabled,postUrl:settings.postUrl,codeMinutes:settings.codeMinutes},verification:row||null});
+      await ensureSecondVerificationFoundation(env);
+      const settings=await wagoVerificationSettings(env),row=await env.DB.prepare('SELECT wago_nickname,wago_member_no,status,verification_code,comment_url,profile_url,issued_at,expires_at,verified_at,review_note,last_checked_at FROM wago_verifications WHERE user_id=?').bind(user.id).first(),secondary=await secondVerificationForUser(env,user.id);
+      return json({settings:{enabled:settings.enabled,postUrl:settings.postUrl,codeMinutes:settings.codeMinutes},verification:row||null,secondary:secondary||null});
     }
     if(path==='wago-verification/request'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const secondary=await secondVerificationForUser(env,user.id);if(secondary?.provider==='PLAYDK')return secondaryProviderConflict('PLAYDK');
       const settings=await wagoVerificationSettings(env);if(!settings.enabled)return json({error:'현재 와고 인증이 중지되어 있습니다.'},503);
       const body=await readBody(request),nickname=String(body.wagoNickname||'').trim().slice(0,40),memberNo='';
       if(nickname.length<2)return json({error:'와고 닉네임을 정확히 입력하세요.'},400);
@@ -5392,6 +5508,7 @@ async function handleRequest(context){
     }
     if(path==='wago-verification/check'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const secondary=await secondVerificationForUser(env,user.id);if(secondary?.provider==='PLAYDK')return secondaryProviderConflict('PLAYDK');
       const settings=await wagoVerificationSettings(env),v=await env.DB.prepare('SELECT * FROM wago_verifications WHERE user_id=?').bind(user.id).first();if(!v)return json({error:'먼저 인증코드를 발급하세요.'},404);
       if(v.status==='VERIFIED')return json({ok:true,verified:true,verification:v});if(new Date(v.expires_at+'Z')<new Date())return json({error:'인증코드 유효시간이 만료되었습니다. 새 코드를 발급하세요.'},410);
       if(!settings.postUrl)return json({error:'현재 인증 게시글이 준비되지 않았습니다.'},503);
@@ -5399,7 +5516,8 @@ async function handleRequest(context){
       await env.DB.prepare("UPDATE wago_verifications SET comment_url=?,profile_url=NULL,last_checked_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(settings.postUrl,inspected.ok?inspected.notice:inspected.error,user.id).run();
       if(!inspected.ok)return json({error:inspected.error},409);
       const duplicate=await env.DB.prepare("SELECT user_id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND user_id<>?").bind(inspected.memberNo,user.id).first();if(duplicate)return json({error:'이미 다른 숲켓몬 계정에 인증된 회원번호입니다.'},409);
-      await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',wago_member_no=?,comment_url=?,profile_url=NULL,verified_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.memberNo,inspected.commentUrl,inspected.notice,user.id).run();
+      try{await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',wago_member_no=?,comment_url=?,profile_url=NULL,verified_at=CURRENT_TIMESTAMP,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?").bind(inspected.memberNo,inspected.commentUrl,inspected.notice,user.id).run()}
+      catch(error){if(isSecondaryProviderConflict(error))return json({error:'다른 2차 인증이 먼저 연결되었습니다. 상태를 새로 확인해주세요.',code:'SECONDARY_VERIFICATION_RACE'},409);throw error}
       return json({ok:true,verified:true,message:`댓글 작성자 회원번호 ${inspected.memberNo}번을 확인하여 자동 인증되었습니다.`});
     }
     if(path==='wago-daily-quest/status'){
@@ -5521,14 +5639,33 @@ async function handleRequest(context){
       return json({ok:true,rewardType,rewardAmount,rewardLabel:claimed.rewardLabel||rewardSpec.label,itemCode:claimed.itemCode||null,balanceBefore:claimed.balanceBefore,balanceAfter,inventoryBalanceAfter:rewardSpec.inventory?balanceAfter:null,coinAfter:Number(updated.coin||0),cardShardsAfter:Number(updated.card_shards||0),messageDeleted:true,recovered:allowClaimedRecovery===true,user:await profile(env,updated)});
     }
 
+    if(path==='admin/secondary-verifications'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      await ensureSecondVerificationFoundation(env);
+      if(request.method==='GET'){
+        const rows=await env.DB.prepare(`SELECT s.user_id,s.provider,s.provider_user_id,s.provider_name,s.verified_at,s.updated_at,u.nickname AS game_nickname,u.status AS user_status
+          FROM user_second_verifications s JOIN users u ON u.id=s.user_id ORDER BY s.verified_at DESC LIMIT 500`).all();
+        return json({verifications:rows.results||[]});
+      }
+      if(request.method==='DELETE'){
+        const body=await readBody(request),userId=Number(body.userId),reason=String(body.reason||'관리자 연결 해제').trim().slice(0,200);
+        if(!userId)return json({error:'대상 계정이 올바르지 않습니다.'},400);
+        const before=await env.DB.prepare('SELECT * FROM user_second_verifications WHERE user_id=?').bind(userId).first();if(!before)return json({error:'연결된 2차 인증이 없습니다.'},404);
+        if(before.provider==='WAGO')await env.DB.prepare("UPDATE wago_verifications SET status='PENDING',verified_at=NULL,reviewed_by=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND status='VERIFIED'").bind(admin.id,reason,userId).run();
+        else await env.DB.prepare("DELETE FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(userId).run();
+        await writeAdminLog(env,admin,'SECONDARY_VERIFICATION_UNLINK','USER',userId,before,{provider:before.provider,reason});
+        return json({ok:true,provider:before.provider});
+      }
+    }
     if(path==='admin/wago-verifications'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      await ensureSecondVerificationFoundation(env);
       if(request.method==='GET'){const settings=await wagoVerificationSettings(env),rows=await env.DB.prepare(`SELECT w.*,u.nickname AS game_nickname FROM wago_verifications w JOIN users u ON u.id=w.user_id ORDER BY CASE w.status WHEN 'REVIEW' THEN 0 WHEN 'PENDING' THEN 1 ELSE 2 END,w.id DESC LIMIT 500`).all();return json({settings,verifications:rows.results});}
       if(request.method==='PATCH'){
         const body=await readBody(request);
         if(body.settings){if(admin.role!=='OWNER')return json({error:'인증 설정 변경은 OWNER만 가능합니다.'},403);const before=await wagoVerificationSettings(env),next={...before,enabled:body.settings.enabled!==false,postUrl:String(body.settings.postUrl||'').trim().slice(0,500),codeMinutes:Math.max(5,Math.min(60,Number(body.settings.codeMinutes)||20)),checkCooldownSeconds:Math.max(5,Math.min(60,Number(body.settings.checkCooldownSeconds)||10))};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('wago_verification_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();await writeAdminLog(env,admin,'WAGO_SETTINGS','APP_META','wago_verification_settings_v1',before,next);return json({ok:true,settings:next});}
         const id=Number(body.id),action=String(body.action||'').toUpperCase();const before=await env.DB.prepare('SELECT * FROM wago_verifications WHERE id=?').bind(id).first();if(!before)return json({error:'인증 요청이 없습니다.'},404);
-        if(action==='APPROVE'){const dup=await env.DB.prepare("SELECT id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND id<>?").bind(before.wago_member_no,id).first();if(dup)return json({error:'이미 인증된 회원번호입니다.'},409);await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',verified_at=CURRENT_TIMESTAMP,reviewed_by=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(admin.id,String(body.note||'CMS 승인').slice(0,200),id).run();}
+        if(action==='APPROVE'){const dup=await env.DB.prepare("SELECT id FROM wago_verifications WHERE wago_member_no=? AND status='VERIFIED' AND id<>?").bind(before.wago_member_no,id).first();if(dup)return json({error:'이미 인증된 회원번호입니다.'},409);try{await env.DB.prepare("UPDATE wago_verifications SET status='VERIFIED',verified_at=CURRENT_TIMESTAMP,reviewed_by=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(admin.id,String(body.note||'CMS 승인').slice(0,200),id).run()}catch(error){if(isSecondaryProviderConflict(error))return json({error:'이 계정에는 이미 PLAY DK 2차 인증이 연결되어 있습니다.',code:'SECONDARY_PROVIDER_ALREADY_VERIFIED'},409);throw error}}
         else if(action==='REJECT')await env.DB.prepare("UPDATE wago_verifications SET status='REJECTED',reviewed_by=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(admin.id,String(body.note||'인증 정보 불일치').slice(0,200),id).run();
         else if(action==='RESET')await env.DB.prepare("UPDATE wago_verifications SET status='PENDING',verified_at=NULL,reviewed_by=?,review_note=?,updated_at=CURRENT_TIMESTAMP WHERE id=?").bind(admin.id,'재인증 요청',id).run();else return json({error:'올바르지 않은 처리입니다.'},400);
         await writeAdminLog(env,admin,`WAGO_${action}`,'WAGO_VERIFICATION',id,before,{action,note:body.note||''});return json({ok:true});
@@ -5626,6 +5763,7 @@ async function handleRequest(context){
     if((path==='admin/verified-reward-message-send'||path==='admin/verified-coin-message-send')&&request.method==='POST'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       await ensureVerifiedRewardMessageV1276(env);
+      await ensureSecondVerificationFoundation(env);
       const body=await readBody(request);
       const requestedType=path==='admin/verified-coin-message-send'?'COIN':String(body.rewardType||'COIN').trim().toUpperCase();
       const spec=verifiedMessageRewardSpec(requestedType);
@@ -5633,15 +5771,15 @@ async function handleRequest(context){
       const rawAmount=Number(String(body.rewardAmount??body.rewardCoin??'').replace(/,/g,'').trim());
       if(!Number.isFinite(rawAmount)||rawAmount<1||rawAmount>spec.max)return json({error:`지급 ${spec.label} 수량은 1~${spec.max.toLocaleString()} 범위로 입력하세요.`},400);
       const rewardAmount=Math.floor(rawAmount);
-      const title=String(body.title||`와고 2단계 인증 ${spec.label} 보상`).trim().slice(0,100);
-      const messageBody=String(body.body||`와고 2단계 인증 완료 보상으로 ${spec.label} ${rewardAmount.toLocaleString()}개 보상이 도착했습니다. 메시지에서 수령해 주세요.`).trim().slice(0,1000);
+      const title=String(body.title||`2차 인증 ${spec.label} 보상`).trim().slice(0,100);
+      const messageBody=String(body.body||`2차 인증 완료 보상으로 ${spec.label} ${rewardAmount.toLocaleString()}개 보상이 도착했습니다. 메시지에서 수령해 주세요.`).trim().slice(0,1000);
       const includeOwner=body.includeOwner===true,includeAdmin=body.includeAdmin===true;
       const campaignKey=String(body.requestId||globalThis.crypto?.randomUUID?.()||`verified-reward-${Date.now()}-${Math.random().toString(36).slice(2)}`).trim().slice(0,120);
       if(!campaignKey)return json({error:'발송 요청 식별자를 생성하지 못했습니다.'},500);
-      const recipientWhere=`UPPER(TRIM(COALESCE(w.status,'')))='VERIFIED' AND UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND (UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='OWNER') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='ADMIN'))`;
+      const recipientWhere=`UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND (UPPER(TRIM(COALESCE(u.role,'USER'))) NOT IN ('OWNER','ADMIN') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='OWNER') OR (?=1 AND UPPER(TRIM(COALESCE(u.role,'USER')))='ADMIN'))`;
       await env.DB.batch([
         env.DB.prepare(`INSERT OR IGNORE INTO user_messages(user_id,sender_type,title,body,message_type,campaign_key)
-          SELECT w.user_id,'ADMIN',?,?,?,? FROM wago_verifications w JOIN users u ON u.id=w.user_id WHERE ${recipientWhere}`)
+          SELECT s.user_id,'ADMIN',?,?,?,? FROM user_second_verifications s JOIN users u ON u.id=s.user_id WHERE ${recipientWhere}`)
           .bind(title,messageBody,spec.messageType,campaignKey,includeOwner?1:0,includeAdmin?1:0),
         env.DB.prepare(`INSERT OR IGNORE INTO user_message_rewards(message_id,user_id,reward_type,reward_amount)
           SELECT m.id,m.user_id,?,? FROM user_messages m WHERE m.campaign_key=?`)
@@ -6313,18 +6451,21 @@ async function handleRequest(context){
       const admin=await requirePermission(request,env,'USER_MANAGE');
       if(!admin) return json({error:'유저 관리 권한이 없습니다.'},403);
       if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
+      await ensureSecondVerificationFoundation(env);
       const q=(url.searchParams.get('q')||'').trim().slice(0,30),verification=String(url.searchParams.get('verification')||'ALL').toUpperCase();
-      const filters=[],binds=[];if(q){filters.push('u.nickname LIKE ?');binds.push(`%${q}%`);}if(verification==='VERIFIED')filters.push("w.status='VERIFIED'");else if(verification==='PENDING')filters.push("w.status IN ('PENDING','REVIEW')");else if(verification==='UNVERIFIED')filters.push("(w.id IS NULL OR w.status NOT IN ('VERIFIED','PENDING','REVIEW'))");
+      const filters=[],binds=[];if(q){filters.push('u.nickname LIKE ?');binds.push(`%${q}%`);}if(verification==='VERIFIED')filters.push('s.user_id IS NOT NULL');else if(verification==='PENDING')filters.push("s.user_id IS NULL AND w.status IN ('PENDING','REVIEW')");else if(verification==='UNVERIFIED')filters.push("s.user_id IS NULL AND (w.id IS NULL OR w.status NOT IN ('VERIFIED','PENDING','REVIEW'))");
       // Select the 100 visible users first, then aggregate cards for only those
       // users. The previous join grouped the entire user_cards table before the
       // LIMIT and read roughly 600k rows for every CMS refresh.
       const selectedOrder=q?'u.nickname ASC':'u.created_at DESC',resultOrder=q?'su.nickname ASC':'su.created_at DESC';
       const sql=`WITH selected_users AS MATERIALIZED (
           SELECT u.id,u.nickname,u.coin,u.card_shards,u.role,u.status,u.created_at,u.last_login_at,
-            w.status AS verification_status,w.wago_nickname,w.wago_member_no,w.verified_at,u.magic_crystals,
+            CASE WHEN s.user_id IS NOT NULL THEN 'VERIFIED' ELSE w.status END AS verification_status,
+            s.provider AS verification_provider,s.provider_name AS verification_name,s.provider_user_id AS verification_provider_user_id,
+            w.wago_nickname,w.wago_member_no,COALESCE(s.verified_at,w.verified_at) AS verified_at,u.magic_crystals,
             (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars,
             (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='SCRAPYARD_ENTRY_TICKET') AS scrapyard_tickets
-          FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id ${filters.length?'WHERE '+filters.join(' AND '):''}
+          FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN wago_verifications w ON w.user_id=u.id ${filters.length?'WHERE '+filters.join(' AND '):''}
           ORDER BY ${selectedOrder} LIMIT 100
         ), card_stats AS (
           SELECT uc.user_id,COUNT(uc.card_id) AS card_count,

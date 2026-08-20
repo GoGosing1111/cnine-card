@@ -1,4 +1,13 @@
 const app = document.getElementById('app');
+let pendingPlaydkVerificationToken='';
+try{
+  const startupUrl=new URL(location.href),token=String(startupUrl.searchParams.get('token')||'').trim();
+  if(token){
+    pendingPlaydkVerificationToken=token.slice(0,2048);
+    startupUrl.searchParams.delete('token');
+    history.replaceState(history.state,'',`${startupUrl.pathname}${startupUrl.search}${startupUrl.hash}`);
+  }
+}catch(_){pendingPlaydkVerificationToken=''}
 const legacyBrandPattern=/CNINE/gi;
 function replaceLegacyBrandInDom(root=document.body){
   if(!root)return;
@@ -2663,7 +2672,7 @@ const API_CACHE_TTL={
   'cards':5000,'packs':5000,'pvp/config':1500,
   'battle/config':1500,'magic/status':1500,'inventory':1500,
   'equipment/supply-box/config?fresh=1':1500,'vehicle-draw/config':1500,
-  'messages':1500,'wago-verification/status':1500,
+  'messages':1500,'wago-verification/status':1500,'secondary-verification/status':1500,
   'pvp/opponents':1500,'pvp/history':1500,'pvp/ranking':1500,
   'recent-high-grade':5000,'recent-equipment':5000
 };
@@ -2924,7 +2933,7 @@ async function openEquipmentSupplyBox(ownedQuantity=0,autoOpenCount=0){
   if(Number(autoOpenCount)>0)queueMicrotask(()=>document.getElementById('supplyOpenConfirm')?.click());
 }
 
-function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">SOOP MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><button class="btn secondary" id="openWagoVerify">와고 2단계 인증</button></div><div id="wagoVerifyPanel" class="wago-verify-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
+function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">SOOP MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><button class="btn secondary" id="openWagoVerify">2차 인증</button></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
 const MESSAGE_REWARD_META={COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'}};
 async function loadMessages(){
   const box=document.getElementById('messageList');if(!box)return;
@@ -2956,17 +2965,40 @@ async function loadMessages(){
   }catch(e){box.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
 
+function secondaryProviderLabel(provider){return provider==='PLAYDK'?'PLAY DK':'와이고수'}
 async function openWagoVerification(){
   const panel=document.getElementById('wagoVerifyPanel');if(!panel)return;
   panel.hidden=false;
   try{
-    const d=await apiRequest('wago-verification/status'),v=d.verification,s=d.settings;
-    const verified=v?.status==='VERIFIED';
-    panel.innerHTML=`<div class="verify-card"><h3>와고 닉네임 2단계 인증</h3>${v?`<div class="verify-status status-${String(v.status).toLowerCase()}"><b>${verified?'인증 완료':escapeHtml(v.status)}</b><span>${escapeHtml(v.wago_nickname)}${v.wago_member_no?` · 회원번호 ${escapeHtml(v.wago_member_no)}`:''}</span>${v.verification_code&&!verified?`<code>${escapeHtml(v.verification_code)}</code>`:''}</div>`:''}${verified?'<div class="verify-guide"><p>인증 댓글 작성자의 회원번호를 자동 확인한 계정입니다.</p></div>':`<div class="verify-form"><input id="verifyWagoName" placeholder="와고 닉네임" value="${escapeHtml(v?.wago_nickname||'')}"><button class="btn" id="issueVerifyCode">인증코드 발급</button></div><div class="verify-guide"><p>발급된 인증코드를 아래 지정 게시글에 댓글로 작성하세요. 댓글 주소나 프로필 주소를 따로 입력할 필요 없이 작성자 링크에서 회원번호를 자동 인식합니다.</p>${s.postUrl?`<a class="btn secondary" href="${escapeHtml(s.postUrl)}" target="_blank" rel="noopener">와고 인증 게시글 열기</a>`:'<b>현재 인증 게시글이 준비되지 않았습니다.</b>'}<button class="btn" id="checkVerifyComment" ${s.postUrl?'':'disabled'}>댓글 자동 인증 확인</button></div>`}</div>`;
-    if(verified)return;
+    const d=await apiRequest('secondary-verification/status',{}, {ttl:0}),v=d.wago,s=d.settings,current=d.verification;
+    if(current){
+      const provider=String(current.provider||'').toUpperCase(),name=String(current.provider_name||'');
+      panel.innerHTML=`<div class="verify-card secondary-verified-card"><p class="eyebrow">SECONDARY VERIFICATION</p><h3>${secondaryProviderLabel(provider)} 인증 완료</h3><div class="verify-status status-verified"><b>연결됨</b><span>${escapeHtml(name||'인증 계정')}</span></div><p>이 숲켓몬 계정은 ${secondaryProviderLabel(provider)} 인증으로 고정되어 있습니다. 다른 인증 서비스와 중복 연결할 수 없습니다.</p></div>`;
+      return;
+    }
+    const wagoPending=v&&v.status!=='VERIFIED';
+    panel.innerHTML=`<div class="secondary-provider-grid">
+      <section class="verify-card provider-card provider-wago"><p class="eyebrow">OPTION 01 / YGOSU</p><h3>와이고수 댓글 인증</h3><p>발급 코드를 지정 게시글 댓글로 남기면 작성자 회원번호를 확인합니다.</p>${wagoPending?`<div class="verify-status status-${String(v.status||'pending').toLowerCase()}"><b>${escapeHtml(v.status||'PENDING')}</b><span>${escapeHtml(v.wago_nickname||'')}</span>${v.verification_code?`<code>${escapeHtml(v.verification_code)}</code>`:''}</div>`:''}<div class="verify-form"><input id="verifyWagoName" placeholder="와이고수 닉네임" value="${escapeHtml(v?.wago_nickname||'')}"><button class="btn" id="issueVerifyCode">인증코드 발급</button></div><div class="verify-guide">${s.postUrl?`<a class="btn secondary" href="${escapeHtml(s.postUrl)}" target="_blank" rel="noopener">인증 게시글 열기</a>`:'<b>현재 인증 게시글이 준비되지 않았습니다.</b>'}<button class="btn" id="checkVerifyComment" ${s.postUrl&&wagoPending?'':'disabled'}>댓글 인증 확인</button></div></section>
+      <section class="verify-card provider-card provider-playdk"><p class="eyebrow">OPTION 02 / PLAY DK</p><h3>PLAY DK 계정 인증</h3><p>PLAY DK에 로그인된 브라우저에서 인증 버튼을 누르면 현재 숲켓몬 계정에 2차 인증만 연결됩니다.</p><button class="btn playdk-verify-button" id="startPlaydkVerify" ${d.playdk?.enabled?'':'disabled'}>PLAY DK에서 인증</button>${d.playdk?.enabled?'':'<small>현재 PLAY DK 인증 서버 설정을 준비 중입니다.</small>'}</section>
+    </div><p class="secondary-exclusive-note">한 숲켓몬 계정에는 와이고수 또는 PLAY DK 중 하나만 연결할 수 있습니다.</p>`;
     document.getElementById('issueVerifyCode').onclick=async()=>{try{const r=await apiRequest('wago-verification/request',{method:'POST',body:JSON.stringify({wagoNickname:document.getElementById('verifyWagoName').value})});alert(`인증코드: ${r.verificationCode}\n${r.expiresMinutes}분 안에 지정 게시글 댓글로 작성하세요.`);openWagoVerification()}catch(e){alert(e.message)}};
     document.getElementById('checkVerifyComment').onclick=async()=>{try{const r=await apiRequest('wago-verification/check',{method:'POST',body:'{}'});alert(r.message||'자동 인증이 완료되었습니다.');openWagoVerification()}catch(e){alert(e.message)}};
+    document.getElementById('startPlaydkVerify').onclick=()=>{try{const url=new URL(String(d.playdk?.startUrl||''));if(!['playdk.kr','www.playdk.kr'].includes(url.hostname.toLowerCase())||url.protocol!=='https:')throw new Error('PLAY DK 인증 주소가 올바르지 않습니다.');location.assign(url.toString())}catch(e){alert(e.message)}};
   }catch(e){panel.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
+}
+
+let playdkVerificationInFlight=false;
+async function completePendingPlaydkVerification(){
+  if(playdkVerificationInFlight||!pendingPlaydkVerificationToken||!API_MODE||!API_TOKEN||!loadUser())return false;
+  playdkVerificationInFlight=true;
+  const token=pendingPlaydkVerificationToken;pendingPlaydkVerificationToken='';
+  try{
+    const result=await apiRequest('secondary-verification/playdk',{method:'POST',body:JSON.stringify({token})},{timeoutMs:12000});
+    alert(`${result.verification?.providerName?`${result.verification.providerName} · `:''}PLAY DK 2차 인증이 완료되었습니다.`);
+    renderShell('messages');requestAnimationFrame(()=>openWagoVerification());
+    return true;
+  }catch(error){alert(error.message||'PLAY DK 2차 인증을 완료하지 못했습니다. 메시지함에서 다시 시도해주세요.');return false}
+  finally{playdkVerificationInFlight=false}
 }
 
 const PLAYER_CLIENT_ID_KEY='cnine_player_client_id_v1552';
@@ -3199,14 +3231,14 @@ async function init(){
   }
   if(runId!==startupRunId)return;
   completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
-  if(authenticated)renderShell('buy');else renderLogin();
+  if(authenticated){renderShell('buy');void completePendingPlaydkVerification()}else renderLogin();
   if(authenticated)void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
 
   // 캐시 사용 또는 팩 설정 지연 시 최신 카탈로그는 화면 표시 이후 반영한다.
   if((hasCatalogSnapshot||packPending)&&cardTask&&packTask)void refreshStartupCatalog(runId,cardTask,packTask);
   if(authenticated)void loadStartupOptionalFeatures(runId);
 }
-function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="SOOP"><p class="eyebrow">SOOP COLLECTION GAME</p><h1>숲켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="와이고수 닉네임을 입력하세요"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);await refreshCardCatalogForCurrentViewer();renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));await refreshCardCatalogForCurrentViewer();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else renderShell('buy')}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
+function renderLogin(){app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="SOOP"><p class="eyebrow">SOOP COLLECTION GAME</p><h1>숲켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="PLAY DK × 와이고수 닉네임 등록"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);await refreshCardCatalogForCurrentViewer();renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));await refreshCardCatalogForCurrentViewer();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else{renderShell('buy');void completePendingPlaydkVerification()}}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 const couponRedeemKeys=new Map();
