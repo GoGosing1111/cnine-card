@@ -19,14 +19,16 @@ assert.match(zenith, /\.dex-card-display\.grade-ZENITH \.dex-zenith-acquisition/
 
 assert.match(api, /TITLE_RANKED_GAMBLER[\s\S]{0,400}'CRIMSON'/);
 assert.match(api, /CREATE TABLE IF NOT EXISTS pvp_battle_audits_v1781/);
-assert.match(garage, /title-style-crimson[\s\S]*content:' ★★'/);
-assert.match(garage, /frame-title-v1249\.title-style-crimson::after\{content:'★★'/);
-assert.match(titles, /title-style-crimson::after\{content:'★★'/);
-assert.doesNotMatch(`${garage}\n${titles}`, /content:' ?★★★★'/);
+assert.match(garage, /title-style-crimson[\s\S]*content:' ★★★★'/);
+assert.match(garage, /title-code-title_ranked_gambler[\s\S]*content:' ★★'/);
+assert.match(garage, /frame-title-v1249\.title-style-crimson::after\{content:'★★★★'/);
+assert.match(garage, /frame-title-v1249\.title-code-title_ranked_gambler::after\{content:'★★'/);
+assert.match(titles, /title-style-crimson::after\{content:'★★★★'/);
+assert.match(titles, /title-code-title_ranked_gambler::after\{content:'★★'/);
 
-assert.match(index, /title-public-v1245\.css\?v=1781-crimson-two-stars/);
+assert.match(index, /title-public-v1245\.css\?v=1782-title-specific-stars/);
 assert.match(index, /zenith-v1\.css\?v=1781-duplicate-ledger/);
-assert.match(index, /app\.js\?v=1781-pvp-zenith-title/);
-assert.match(worker, /soop-card-shell-v1781-pvp-zenith-title/);
+assert.match(index, /app\.js\?v=1782-title-specific-stars/);
+assert.match(worker, /soop-card-shell-v1782-title-specific-stars/);
 
 console.log('ZENITH duplicate ledger and crimson two-star title contract: OK');

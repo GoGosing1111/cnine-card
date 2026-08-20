@@ -281,7 +281,7 @@ async function refreshCardCatalogForCurrentViewer(){
 function mergeClientCards(incoming=[]){for(const raw of incoming||[]){const card=normalizeClientCard(raw?.card||raw);if(!card.id)continue;const index=cards.findIndex(x=>String(x.id)===card.id);if(index>=0)cards[index]={...cards[index],...card};else cards.push(card);}}
 function progress(user) { return cards.length ? Math.round((ownedIds(user).size / cards.length) * 1000) / 10 : 0; }
 function escapeHtml(value = '') { return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
-function publicTitleBadgeHtml(title,{compact=true}={}){if(!title)return '';const style=String(title.stylePreset||'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g,'');const text=escapeHtml(title.badgeText||title.name||'');return text?`<span class="public-title-badge ${compact?'compact':''} title-style-${style}">[${text}]</span>`:'';}
+function publicTitleBadgeHtml(title,{compact=true}={}){if(!title)return '';const style=String(title.stylePreset||'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g,''),code=String(title.code||'').toLowerCase().replace(/[^a-z0-9_-]/g,'');const text=escapeHtml(title.badgeText||title.name||'');return text?`<span class="public-title-badge ${compact?'compact':''} title-style-${style}${code?` title-code-${code}`:''}">[${text}]</span>`:'';}
 function publicNameHtml(nickname,title,{tag='b',compact=true}={}){const safeTag=['b','strong','span','h3'].includes(tag)?tag:'b';return `<span class="public-name-stack">${publicTitleBadgeHtml(title,{compact})}<${safeTag}>${escapeHtml(nickname||'-')}</${safeTag}></span>`;}
 window.publicTitleBadgeHtml=publicTitleBadgeHtml;window.publicNameHtml=publicNameHtml;
 function powerTypeIndicator(card){const grade=String(card?.grade||card?.rarity||'').toUpperCase();if(grade==='FUR')return '';const type=String(card?.powerType||card?.power_type||'').toUpperCase();return type==='NORMAL'?'⚡':type==='HIGH'?'⚡⚡':type==='TOP'?'⚡⚡⚡':'';}
@@ -516,8 +516,8 @@ function bindFullscreenPlayLink(header){
 
 const FEATURE_RESOURCE_MANIFEST={
   character:{
-    styles:['css/equipment-v1264.css?v=1497-load-control','css/equipment-character-v1269.css?v=1497-load-control','css/equipment-alignment-v1487.css?v=1487-pixel-register','css/garage-v1339.css?v=1339-gemini-reference-redesign','css/garage-v1341.css?v=1781-crimson-two-stars'],
-    scripts:['js/equipment-v1274.js?v=1538-title-layer-split'],
+    styles:['css/equipment-v1264.css?v=1497-load-control','css/equipment-character-v1269.css?v=1497-load-control','css/equipment-alignment-v1487.css?v=1487-pixel-register','css/garage-v1339.css?v=1339-gemini-reference-redesign','css/garage-v1341.css?v=1782-title-specific-stars'],
+    scripts:['js/equipment-v1274.js?v=1782-title-specific-stars'],
     ready:()=>typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   workshop:{

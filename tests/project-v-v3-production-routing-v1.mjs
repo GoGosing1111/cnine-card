@@ -37,7 +37,7 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/id\.endsWith\(`:\$\{character\.cardId\|\|character\.id\}`\)/);
-assert.ok(index.includes('js/app.js?v=1781-pvp-zenith-title'));
+assert.ok(index.includes('js/app.js?v=1782-title-specific-stars'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
 
 const bundle='preview/project-v-v3/project-v-pixi-battle.bundle.js';

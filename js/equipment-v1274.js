@@ -17,6 +17,7 @@
   const rarityClass=v=>`rarity-${normRarity(v).toLowerCase()}`;
   const normTitle=v=>{const x=String(v||'DEFAULT').toUpperCase();return titleStyleLabels[x]?x:'DEFAULT'};
   const titleClass=v=>`title-style-${normTitle(v).toLowerCase()}`;
+  const titleCodeClass=row=>{const code=String(row?.code||'').toLowerCase().replace(/[^a-z0-9_-]/g,'');return code?`title-code-${code}`:''};
   const subtypeClass=item=>`subtype-${String(item?.subtype||'unknown').toLowerCase().replace(/_/g,'-')}`;
 
   function equipped(slot){
@@ -108,7 +109,7 @@
     const b=state.data?.bonuses||{},title=currentTitle();
     return `<div class="frame-equipment-layer-v1249">
       <div class="frame-nickname-v1249" data-dynamic-nickname>${esc(nicknameText())}</div>
-      <div class="frame-title-v1249 ${titleClass(title?.stylePreset)}" data-dynamic-title><span>[${esc(titleText(title))}]</span></div>
+      <div class="frame-title-v1249 ${titleClass(title?.stylePreset)} ${titleCodeClass(title)}" data-dynamic-title><span>[${esc(titleText(title))}]</span></div>
       ${slotOrder.map(slotOverlay).join('')}
       <div class="frame-stat-box-v1249 pve" data-dynamic-pve><small>PVE</small><b>+${num(b.pve)}</b></div>
       <div class="frame-stat-box-v1249 pvp" data-dynamic-pvp><small>PVP</small><b>+${num(b.pvp)}</b></div>
@@ -152,7 +153,7 @@
         <div><small>TITLE COLLECTION</small><h2>칭호 컬렉션</h2><p>획득한 칭호를 확인하고 하나를 장착할 수 있습니다.</p></div>
         <span>${ownedCount} / ${rows.length}</span>
       </div>
-      <section class="title-current-v1350 ${titleClass(equippedTitle?.stylePreset)}">
+      <section class="title-current-v1350 ${titleClass(equippedTitle?.stylePreset)} ${titleCodeClass(equippedTitle)}">
         <div class="title-current-copy-v1350">
           <small>현재 장착 효과</small>
           <strong>${equippedTitle?`[${esc(titleText(equippedTitle))}]`:'장착된 칭호 없음'}</strong>
@@ -166,7 +167,7 @@
         <div class="title-grid-v1350">
           ${rows.length?rows.map(row=>{
             const action=row.owned?(row.equipped?'<button type="button" disabled>장착 중</button>':`<button type="button" data-character-title-equip="${row.id}">장착</button>`):'<button type="button" disabled>미획득</button>';
-            return `<article class="title-card-v1350 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${titleClass(row.stylePreset)}">
+            return `<article class="title-card-v1350 ${row.owned?'owned':'locked'} ${row.equipped?'equipped':''} ${titleClass(row.stylePreset)} ${titleCodeClass(row)}">
               <div class="title-card-badge-v1350"><span>[${esc(row.badgeText||row.name)}]</span></div>
               <small>${esc(row.owned?(unlockLabels[row.unlockType]||row.unlockType):titleRequirement(row))}</small>
               <b>전체 전투 +${num(row.pvePower)}</b>
