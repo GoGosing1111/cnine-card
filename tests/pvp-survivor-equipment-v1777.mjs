@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { resolvePvpOutcome } from '../functions/_battle_v2_preview.js';
+import { resolvePvpOutcome, simulateBattleV2Preview } from '../functions/_battle_v2_preview.js';
 
 const fighter = (hp, maxHp = 100, shield = 0, maxShield = 0) => ({ hp, maxHp, shield, maxShield });
 const team = power => [{ power, basePower: power, equipmentShare: 0, maxHp: 100, attack: 10, defense: 10, speed: 100 }];
@@ -62,6 +62,32 @@ assert.match(app, /장비·칭호·차고 \+\$\{Number\(d\.attackerCharacterBonu
 
 const v3 = fs.readFileSync(new URL('../js/battle-v3-live.js', import.meta.url), 'utf8');
 assert.match(v3, /const finalState = payload\?\.battleV2\?\.result\?\.final/);
-assert.match(v3, /type: 'KO'/);
+assert.match(v3, /ProjectVPixiBattle\.syncFinalState\(finalState\)/);
+assert.match(v3, /ProjectVPixiBattle\.cancelActiveAnimations/);
+
+const engine = fs.readFileSync(new URL('../preview/project-v-v3/source/battle/BattleEngine.js', import.meta.url), 'utf8');
+const entry = fs.readFileSync(new URL('../preview/project-v-v3/source/project-v-pixi-battle.src.js', import.meta.url), 'utf8');
+assert.match(engine, /syncFinalState\(final=\{\}\)/);
+assert.match(engine, /character\.setState\(CHARACTER_STATE\.IDLE\);\s*character\.setHp\(percent\)/);
+assert.match(entry, /cancelActiveAnimations/);
+assert.match(entry, /syncFinalState/);
+
+const overtimeTeam = side => Array.from({ length: 5 }, (_, slot) => ({
+  id: `${side}:${slot}`, cardId: `${side}${slot}`, side, slot,
+  row: slot < 2 ? 'FRONT' : 'BACK', title: `${side}${slot}`, grade: 'FUR',
+  power: 100000, basePower: 100000, equipmentShare: 0,
+  type: slot === 0 ? 'HP' : 'DEFENSE', battleMode: 'PVP',
+  maxHp: 1000000, hp: 1000000, attack: 100, defense: 999999, speed: 100 + slot,
+  shield: 0, maxShield: 0, gauge: 0, alive: true,
+  emergencyUsed: false, survivalUsed: false, frontlineAnnounced: false,
+  actions: 0, damageDealt: 0, healingDone: 0, uniqueAbility: null
+}));
+const overtime = simulateBattleV2Preview({
+  teamA: overtimeTeam('A'), teamB: overtimeTeam('B'), seed: 2,
+  maxActions: 130, suddenDeathAfter: 100, healerPenalty: true
+});
+assert.equal(overtime.timeline.some(event => event.type === 'SUDDEN_DEATH'), true, 'a stalled 2:2-style battle must enter overtime');
+assert.equal(overtime.reason, 'ELIMINATION', 'overtime must finish by elimination instead of a survivor HP judgment');
+assert.ok(overtime.final.A.every(card => card.hp <= 0) || overtime.final.B.every(card => card.hp <= 0));
 
 console.log('pvp survivor and equipment contract: OK');

@@ -1090,6 +1090,60 @@ export class BattleEngine{
     this.playing=false;
   }
 
+  syncFinalState(final={}){
+    // Server combat is authoritative. A timed-out visual tween can otherwise
+    // leave a living fighter in DEAD/HIT state even though the result payload
+    // says it survived. Stop every in-flight animation before restoring the
+    // exact final HP/FSM state for both teams.
+    this.cancelTimelines();
+    const syncTeam=(rows,team)=>{
+      const list=Array.isArray(rows)?rows:[];
+      const claimed=new Set();
+      list.forEach((row,index)=>{
+        const identity=row?.id||row?.cardId||row?.card_id;
+        let character=this.combatantById(identity);
+        if(!character||!team.includes(character)||claimed.has(character))character=team[index]||null;
+        if(!character)return;
+        claimed.add(character);
+        const rowMaxHp=Math.max(0,Number(row?.maxHp||0));
+        const percent=rowMaxHp>0?clamp(Math.max(0,Number(row?.hp||0))/rowMaxHp*100,0,100):(this.eventHpPercent(character,row?.hp)??0);
+        character.battleActive=true;
+        character.root.visible=true;
+        character.root.renderable=true;
+        character.root.alpha=1;
+        character.root.position.set(character.baseX,character.baseY);
+        character.root.scale.set(character.restScale);
+        character.root.rotation=0;
+        character.root.tint=0xffffff;
+        character.root.filters=[];
+        character.setTint?.(0xffffff);
+        // DEAD -> IDLE is the only valid revive transition. Apply it before
+        // the positive HP value so the HUD and animation adapter agree.
+        character.setState(CHARACTER_STATE.IDLE);
+        character.setHp(percent);
+      });
+      team.forEach(character=>{
+        if(claimed.has(character))return;
+        character.battleActive=false;
+        character.root.visible=false;
+        character.root.renderable=false;
+        character.setState(CHARACTER_STATE.IDLE);
+        character.setHp(0);
+      });
+    };
+    syncTeam(final?.A,this.allies);
+    syncTeam(final?.B,this.enemies);
+    this.currentAllyTarget=this.allies.find(character=>this.isAlive(character))||null;
+    this.currentEnemyTarget=this.enemies.find(character=>this.isAlive(character))||null;
+    this.boss=this.currentEnemyTarget;
+    this.bossHp=this.currentEnemyTarget?.hp??0;
+    const aliveA=this.allies.filter(character=>this.isAlive(character)).length;
+    const aliveB=this.enemies.filter(character=>this.isAlive(character)).length;
+    this.updateStatus(`서버 최종 상태 동기화 · 생존 ${aliveA} : ${aliveB}`);
+    this.sortCombatDepth();
+    return {aliveA,aliveB};
+  }
+
   showBanner(name,color=0xffd43d,label='전술 스킬 발동'){
     const banner=this.uiLayer.banner;
     banner.nameText.text=name;

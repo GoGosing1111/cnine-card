@@ -61,11 +61,21 @@ async function verifyTargetSwitch(){
   return engine.verifyTargetSwitch();
 }
 
+function cancelActiveAnimations(){
+  engine?.cancelTimelines?.();
+  return true;
+}
+
+async function syncFinalState(final){
+  if(!engine)await mount();
+  return engine.syncFinalState(final);
+}
+
 function diagnostics(){
   return engine?.diagnostics()||{mounted:false};
 }
 
-const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
+const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,diagnostics,destroy};
+export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,cancelActiveAnimations,syncFinalState,diagnostics,destroy};

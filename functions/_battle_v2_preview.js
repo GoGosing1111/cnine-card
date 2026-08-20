@@ -316,7 +316,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {} } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {} } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
@@ -499,15 +499,19 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
     actionCount += 1;
+    const suddenDeath=Number(suddenDeathAfter||0)>0&&actionCount>Number(suddenDeathAfter||0);
+    if(suddenDeath&&actionCount===Number(suddenDeathAfter||0)+1){
+      pushEvent(timeline,clock,'SUDDEN_DEATH',{action:actionCount,label:'연장전 · 회복 봉쇄 · 공격 증폭'});
+    }
 
-    if (actor.type === 'HP' && actor.hp < actor.maxHp) {
+    if (!suddenDeath && actor.type === 'HP' && actor.hp < actor.maxHp) {
       const amount = Math.min(actor.maxHp - actor.hp, Math.max(1, Math.round(actor.maxHp * 0.04 * healerRules[actor.side].multiplier)));
       actor.hp += amount;
       actor.healingDone += amount;
       pushEvent(timeline, clock, 'REGEN', { targetId: actor.id, amount, hpAfter: actor.hp, maxHp: actor.maxHp, label: '생명형 · 지속 회복' });
     }
 
-    if (actor.singleHealerActive && actor.singleHealerUses < actor.singleHealerMaxUses) {
+    if (!suddenDeath && actor.singleHealerActive && actor.singleHealerUses < actor.singleHealerMaxUses) {
       const allyTeam = actor.side === 'A' ? a : b;
       const target = alive(allyTeam)
         .filter((card) => card.hp < card.maxHp)
@@ -539,6 +543,13 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const target = tauntGuard||lowestRatioTarget(pool, random);
     const hit = hitResult(actor, target, random);
+    if(suddenDeath){
+      hit.dodge=false;
+      const overtimeStep=Math.max(1,actionCount-Number(suddenDeathAfter||0));
+      const minimumPercent=Math.min(.9,.55+overtimeStep*.012);
+      hit.damage=Math.max(Number(hit.damage||0),Math.round(target.maxHp*minimumPercent+Math.max(0,target.shield)));
+      hit.suddenDeath=true;
+    }
 
     if (hit.dodge) {
       pushEvent(timeline, clock, 'TURN', {
@@ -570,6 +581,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       execute: hit.execute === true,
       openingPressure: hit.openingPressure === true,
       shieldBreaker: hit.shieldBreaker === true,
+      suddenDeath: hit.suddenDeath === true,
       targetHpAfter: target.hp,
       targetMaxHp: target.maxHp,
       targetShieldAfter: target.shield,
@@ -625,9 +637,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       pushEvent(timeline,clock+0.0006,'PVP_TAKEDOWN_CHASE',{actorId:actor.id,gaugeAfter:actor.gauge,label:'공격형 · 처치 추격'});
     }
     if (!knockedOut) {
-      const crisis=target.hp/Math.max(1,target.maxHp)<=0.30?activateMagic(target,'CRISIS_HEAL'):null;
+      const crisis=!suddenDeath&&target.hp/Math.max(1,target.maxHp)<=0.30?activateMagic(target,'CRISIS_HEAL'):null;
       if(crisis){const amount=Math.min(target.maxHp-target.hp,Math.max(1,Math.round(target.maxHp*Math.min(100,Number(crisis.effectValue||0))/100)));target.hp+=amount;target.healingDone+=amount;pushEvent(timeline,clock+0.0004,'MAGIC_CARD',{actorId:target.id,targetId:target.id,magicCardId:crisis.id,magicCode:crisis.code,magicName:crisis.name,magicImageUrl:crisis.imageUrl,magicEnhancementLevel:crisis.enhancementLevel,effectType:crisis.effectType,value:crisis.effectValue,amount,hpAfter:target.hp,maxHp:target.maxHp,activation:crisis.activations,maxActivations:crisis.maxActivations,label:crisis.name});}
-      maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
+      if(!suddenDeath)maybeEmergencyHeal(target, timeline, clock, healerRules[target.side].multiplier);
     }
     maybeFrontlineBreak(enemyTeam, target.side, timeline, clock);
 
@@ -636,7 +648,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     const barrierBroken=target.type==='DEFENSE'&&damageState.shieldBefore>0&&damageState.shieldAfter<=0;
     const defenseCounterChance=target.defenseLineBreached?0.12:0.25;
     if (target.type === 'DEFENSE' && (barrierBroken || random() < defenseCounterChance)) {
-      const counter = hitResult(target, actor, random, barrierBroken?(target.defenseLineBreached?0.60:0.72):(target.defenseLineBreached?0.45:0.55), true);
+        const counter = hitResult(target, actor, random, barrierBroken?(target.defenseLineBreached?0.60:0.72):(target.defenseLineBreached?0.45:0.55), true);
+        if(suddenDeath){counter.dodge=false;counter.damage=Math.max(Number(counter.damage||0),Math.round(actor.maxHp*.34+Math.max(0,actor.shield)));}
       if (!counter.dodge) {
         const counterGuard = capHasteRetaliation(counter.damage);
         const counterState = applyDamage(actor, counterGuard.amount);
@@ -655,7 +668,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           label: '방어형 · 반격'
         });
         const actorDown = resolveKnockout(actor, timeline, clock + 0.001, reviveFromMagic);
-        if (!actorDown) maybeEmergencyHeal(actor, timeline, clock + 0.001, healerRules[actor.side].multiplier);
+        if (!actorDown&&!suddenDeath) maybeEmergencyHeal(actor, timeline, clock + 0.001, healerRules[actor.side].multiplier);
         maybeFrontlineBreak(actor.side === 'A' ? a : b, actor.side, timeline, clock + 0.001);
         if(barrierBroken){actor.attack=Math.max(1,Math.round(actor.attack*(target.defenseLineBreached?0.95:0.90)));pushEvent(timeline,clock+0.0015,'GUARD_BREAK_DEBUFF',{actorId:target.id,targetId:actor.id,attackAfter:actor.attack,label:'방어형 · 방벽 파쇄 반격'});}
       }
@@ -827,7 +840,10 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
   const defenderWithEquipment = distributeEquipment(defenderCards, Math.max(0, Number(defenderEquipmentBonus || 0)));
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
-  const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 100, healerPenalty: true, singleHealerBonus });
+  // Normal combat keeps the established 100-action balance. If both teams
+  // still have survivors, a short no-heal, escalating-damage overtime runs
+  // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.
+  const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 130, suddenDeathAfter: 100, healerPenalty: true, singleHealerBonus });
   const result = resolvePvpOutcome(simulated, teamA, teamB);
   return {
     schemaVersion: 2,
@@ -839,6 +855,9 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       formation: 'FRONT_2_BACK_3',
       actionMode: 'SPEED_GAUGE',
       damageCapPercent: 46,
+      maxActions: 130,
+      suddenDeathAfter: 100,
+      suddenDeathRule: 'NO_HEAL_ESCALATING_DAMAGE_UNTIL_ELIMINATION',
       timeoutRule: 'SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER',
       drawRule: 'POWER_THEN_ATTACKER',
       healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 },

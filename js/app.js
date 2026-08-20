@@ -548,8 +548,8 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.1.0-prestige-full',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.0.0-krieg-escanor-fix',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=51-session-reset',
-      'js/battle-v3-live.js?v=3.10.0-final-state-sync'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=52-authoritative-final-sync',
+      'js/battle-v3-live.js?v=3.11.0-authoritative-final-sync'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }
@@ -3798,7 +3798,12 @@ function buildPvpV2ResultHtml(d,myWin,attackerPower,defenderPower,pvpV2Detail=''
   const adjustmentHtml=adjustmentLabel&&Number.isFinite(multiplier)?`<div class="pvp-result-adjustment"><span>${escapeHtml(adjustmentLabel)}</span><b>${multiplier>0?'+':''}${multiplier.toLocaleString(undefined,{maximumFractionDigits:1})}%</b></div>`:'';
   const reason=String(d?.battleV2?.result?.reason||'');
   const actions=pvpResultSafeNumber(d?.battleV2?.result?.actions,0);
-  const judged=['ACTION_LIMIT','POWER_TIEBREAK'].includes(reason)&&actions>0?`<span>${actions.toLocaleString()} ACTIONS</span>`:'';
+  const finalA=Array.isArray(d?.battleV2?.result?.final?.A)?d.battleV2.result.final.A:[],finalB=Array.isArray(d?.battleV2?.result?.final?.B)?d.battleV2.result.final.B:[];
+  const aliveCount=list=>list.filter(card=>Number(card?.hp||0)>0).length;
+  const hpPercent=list=>{const current=list.reduce((sum,card)=>sum+Math.max(0,Number(card?.hp||0))+Math.max(0,Number(card?.shield||0)),0),maximum=list.reduce((sum,card)=>sum+Math.max(0,Number(card?.maxHp||0))+Math.max(0,Number(card?.maxShield||0)),0);return maximum>0?current/maximum*100:0};
+  const aliveA=aliveCount(finalA),aliveB=aliveCount(finalB),hpA=hpPercent(finalA),hpB=hpPercent(finalB);
+  const reasonLabel={ELIMINATION:'전멸 승부',SURVIVOR_COUNT:'생존 수 판정',HP_RATIO_TIEBREAK:'잔여 HP 판정',POWER_TIEBREAK:'전투력 판정',ACTION_LIMIT:'행동 제한',TIME_LIMIT:'시간 제한'}[reason]||'';
+  const judged=`${actions>0?`<span>${actions.toLocaleString()} ACTIONS</span>`:''}${reasonLabel?`<span>${reasonLabel}</span>`:''}${finalA.length&&finalB.length?`<span>생존 ${aliveA}:${aliveB}</span><span>HP ${hpA.toFixed(1)}%:${hpB.toFixed(1)}%</span>`:''}`;
   return `<div class="pvp-v2-result ${myWin?'is-win':'is-loss'}">
     <div class="pvp-result-glow" aria-hidden="true"></div>
     <div class="pvp-result-kicker">SOOPKETMON · PVP RESULT</div>
@@ -3836,7 +3841,7 @@ async function fightPvpV2Live({id,target,mine,pvpPreviewPower,matchToken}){
     if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
     if(d.unifiedDrop?.rewards?.length&&window.showUnifiedDropAcquisition){try{await window.showUnifiedDropAcquisition(d.unifiedDrop)}catch(dropFxError){console.warn('통합 드랍 획득 연출을 표시하지 못했습니다.',dropFxError)}}
-    const judged=['ACTION_LIMIT','POWER_TIEBREAK'].includes(String(d.battleV2?.result?.reason||''));
+    const judged=['ACTION_LIMIT','TIME_LIMIT','SURVIVOR_COUNT','HP_RATIO_TIEBREAK','POWER_TIEBREAK'].includes(String(d.battleV2?.result?.reason||''));
     const pvpV2Detail=` · PROJECT V V3${judged?` · ${Number(d.battleV2?.result?.actions||0)}행동 판정`:''}`;
     msg.innerHTML=buildPvpV2ResultHtml(d,myWin,d.attackerPower||pvpPreviewPower,d.defenderPower||0,pvpV2Detail);
     msg.classList.add('is-visible');
@@ -3905,7 +3910,7 @@ async function fightPvp(id,matchToken){
     if(d.cubeReward&&window.showCubeDropAcquisition){try{await window.showCubeDropAcquisition(d.cubeReward)}catch(cubeFxError){console.warn('큐브 획득 연출을 표시하지 못했습니다.',cubeFxError)}}
     if(d.equipmentReward&&window.showEquipmentDropReward){try{await window.showEquipmentDropReward(d.equipmentReward)}catch(equipmentFxError){console.warn('장비 획득 연출을 표시하지 못했습니다.',equipmentFxError)}}
     if(d.unifiedDrop?.rewards?.length&&window.showUnifiedDropAcquisition){try{await window.showUnifiedDropAcquisition(d.unifiedDrop)}catch(dropFxError){console.warn('통합 드랍 획득 연출을 표시하지 못했습니다.',dropFxError)}}
-    const pvpV2Detail=useV2?` · PROJECT V V3${d.battleV2?.result?.reason==='ACTION_LIMIT'||d.battleV2?.result?.reason==='POWER_TIEBREAK'?` · ${Number(d.battleV2?.result?.actions||0)}행동 판정`:''}`:'';
+    const pvpV2Detail=useV2?` · PROJECT V V3${['ACTION_LIMIT','TIME_LIMIT','SURVIVOR_COUNT','HP_RATIO_TIEBREAK','POWER_TIEBREAK'].includes(String(d.battleV2?.result?.reason||''))?` · ${Number(d.battleV2?.result?.actions||0)}행동 판정`:''}`:'';
     msg.innerHTML=buildPvpV2ResultHtml(d,myWin,d.attackerPower,d.defenderPower,pvpV2Detail);
     pvpState.profile.season_score=d.scoreAfter;const savedPvpUser=loadUser();if(savedPvpUser){if(d.coinAfter!=null)savedPvpUser.coin=Number(d.coinAfter);if(d.magicCrystalsAfter!=null)savedPvpUser.magicCrystals=Number(d.magicCrystalsAfter);if(d.weeklyPremiumCube)savedPvpUser.weeklyPremiumCube=d.weeklyPremiumCube;saveUser(savedPvpUser)}
     pvpState.energy=d.energy||pvpState.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();

@@ -28,7 +28,7 @@ assert.match(titles, /title-code-title_ranked_gambler::after\{content:'★★'/)
 
 assert.match(index, /title-public-v1245\.css\?v=1782-title-specific-stars/);
 assert.match(index, /zenith-v1\.css\?v=1781-duplicate-ledger/);
-assert.match(index, /app\.js\?v=1782-title-specific-stars/);
-assert.match(worker, /soop-card-shell-v1782-title-specific-stars/);
+assert.match(index, /app\.js\?v=1783-pvp-authoritative-state/);
+assert.match(worker, /soop-card-shell-v1783-pvp-authoritative-state/);
 
 console.log('ZENITH duplicate ledger and crimson two-star title contract: OK');

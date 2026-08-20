@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.9.0-async-raid';
+  const VERSION = '3.11.0-authoritative-final-sync';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -306,6 +306,10 @@
     const recoverPlayback = async message => {
       releaseBlockingLayers();
       if (status) status.textContent = `${message} · 다음 연출로 계속 진행합니다.`;
+      // A timeout only settles the wrapper Promise. Explicitly kill the
+      // underlying GSAP/SkillTimeline as well so it cannot mutate battle two
+      // or race the following authoritative event.
+      try { root.ProjectVPixiBattle.cancelActiveAnimations?.(); } catch {}
       try { await root.ProjectVPixiBattle.setVisible(false); } catch {}
       try { await root.ProjectVPixiBattle.setVisible(true); } catch {}
     };
@@ -445,10 +449,19 @@
             await safePlayEvents([event], `${event.label || type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
           }
           const finalState = payload?.battleV2?.result?.final || {};
-          const knockoutEvents = ['A', 'B'].flatMap(side => (Array.isArray(finalState?.[side]) ? finalState[side] : []))
-            .filter(card => Number(card?.hp || 0) <= 0)
-            .map(card => ({ type: 'KO', targetId: card.id || card.cardId }));
-          if (knockoutEvents.length) await safePlayEvents(knockoutEvents, '서버 최종 생존 상태를 즉시 동기화했습니다.');
+          if (typeof root.ProjectVPixiBattle.syncFinalState === 'function') {
+            await withTimeout(
+              root.ProjectVPixiBattle.syncFinalState(finalState),
+              1200,
+              '서버 최종 생존 상태 동기화가 지연되었습니다.',
+              { fallback: false, onFailure: () => recoverPlayback('서버 최종 상태를 다시 연결했습니다.') }
+            );
+          } else {
+            const knockoutEvents = ['A', 'B'].flatMap(side => (Array.isArray(finalState?.[side]) ? finalState[side] : []))
+              .filter(card => Number(card?.hp || 0) <= 0)
+              .map(card => ({ type: 'KO', targetId: card.id || card.cardId }));
+            if (knockoutEvents.length) await safePlayEvents(knockoutEvents, '서버 최종 생존 상태를 즉시 동기화했습니다.');
+          }
         } catch (error) {
           releaseBlockingLayers();
           stage.classList.add('is-v3-error');
