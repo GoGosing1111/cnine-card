@@ -1,0 +1,80 @@
+PATCH-NOTES-v1792 : 요청당 D1 사용량 계측 + breakthroughConfig 캐시
+
+[왜 이번엔 계측인가]
+v1784~v1791 로 눈에 띄는 병목은 대부분 정리됐다.
+이번에 다음 대상을 찾으려고 읽기 경로를 훑었는데, 이미 잘 되어 있었다:
+
+  user/runtime-command  45초 간격(숨김 시 180초) + 지터, 배치 1회로 2문 조회
+  me/summary            추가 조회 1건뿐, 무거운 컬렉션은 me/collection 으로 분리됨
+  attendanceSettings    30초 캐시     maMasterStar/limitedMasterStar  5초 캐시
+  battle/fight          v1791 로 배치 1회까지 축소
+
+즉 "코드를 읽어 추정하는" 방식은 여기서 한계다.
+더 감으로 파면 프로덕션만 흔들 뿐이므로, 다음 판단을 데이터로 하도록 계측을 넣는다.
+
+
+[1] 요청당 D1 사용량 계측
+onRequest 의 세션 래퍼(v1790) 위에 계측 래퍼를 한 겹 더 씌운다.
+동작은 전혀 바꾸지 않는다. 카운터만 증가한다.
+
+  응답 헤더
+    server-timing: app;dur=123, d1;dur=45;desc="12q 3b"
+    x-cnine-d1-queries: 18
+    -> DevTools > Network > Timing 에서 라우트별로 바로 보인다.
+
+  로그(api_timing) 에 추가된 필드
+    d1Queries          단건 조회 수 (first/all/run)
+    d1Batches          batch 호출 수
+    d1BatchStatements  batch 안의 문장 수
+    d1Total            d1Queries + d1BatchStatements
+    d1Ms               D1 대기에 쓴 시간
+
+  로그 조건 확장
+    기존: durationMs>=1000 이거나 1/128 샘플링
+    추가: d1Total>=20
+    빠르지만 D1 을 많이 치는 라우트가 동시접속에서 먼저 무너지기 때문이다.
+
+구현 주의 (직접 손볼 때 반드시 읽을 것)
+  batch() 에 넘기는 statement 는 반드시 "진짜" D1 statement 여야 한다.
+  래퍼를 그대로 넘기면 실서버에서 터진다.
+  그래서 D1_RAW 심볼로 원본을 들고 다니다가 batch 직전에 언랩한다.
+  코드베이스가 쓰는 D1 API 는 prepare / batch / withSession 과
+  statement 의 first / all / run 뿐임을 전수 확인했고,
+  그 외 메서드는 Proxy 가 원본에 바인딩해 그대로 통과시킨다.
+
+
+[2] breakthroughConfig 캐시
+전 유저 공통 설정인데 유일하게 캐시가 없어서 profile() 호출마다 app_meta 를 쳤다.
+이웃 설정들과 같은 방식으로 맞춘다.
+  breakthroughConfig(env)      -> cachedRuntimeSetting('breakthroughConfig', 30초, ...)
+  readBreakthroughConfig(env)  -> 실제 조회 (분리)
+관리자가 돌파 설정을 저장하면 runtimeSettingsCache.delete('breakthroughConfig') 로
+즉시 무효화한다. (같은 자리에서 maMasterStar/limitedMasterStar 캐시도 비우고 있다)
+
+
+[검증] verify-1792 9종 통과
+  1 first/all/run 카운트, 원본 호출 그대로 전달
+  2 batch 에 원본 statement 로 언랩되어 전달됨  <- 핵심 안전장치
+  3 래퍼/원본이 섞인 배열도 안전 처리
+  4 bind 를 여러 번 체인해도 래핑/언랩 유지
+  5 prepare/batch 외 메서드는 원본에 바인딩되어 통과 (withSession 포함)
+  6 DB 가 없거나 prepare 가 없으면 계측하지 않고 그대로 반환
+  7 조회 실패 시 예외는 그대로 전파, 카운트/시간은 정상 기록
+  8 onRequest 배선 + 헤더/로그 노출 + 북마크는 원본 세션에서 읽음
+  9 breakthroughConfig 캐시 + 저장 시 즉시 무효화
+
+  회귀: v1784 / v1785 / v1787 / v1788 / v1790 / v1791 전부 재실행 통과
+
+
+[배포 후 할 일 — 이게 이번 작업의 본론]
+하루 이틀 트래픽을 쌓은 뒤 Workers 로그에서 api_timing 을 뽑아
+  - d1Total 상위 라우트
+  - d1Ms / durationMs 비율 (D1 대기가 지배적인지, 앱 로직이 지배적인지)
+를 보면 다음 최적화 대상이 추정이 아니라 데이터로 정해진다.
+
+지금까지 확인된 남은 후보:
+  - Worker 콜드스타트: functions/api/[[path]].js 857KB 단일 모듈.
+    _territory_war(147KB) / _captain(102KB) / _equipment(86KB) / _magic(73KB) 등
+    라우트 핸들러를 경로 가드 뒤에서 동적 import 하면 콜드스타트가 줄어든다.
+    (번들 검증이 가능한 환경에서 진행할 것)
+  - Pixi 번들 731KB 코어/이펙트 분할

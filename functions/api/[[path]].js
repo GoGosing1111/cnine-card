@@ -1262,7 +1262,10 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
 
 
 function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRADES.map(g=>[g,BREAKTHROUGH_COST.map((cost,i)=>({cost,rate:BREAKTHROUGH_RATE[i]}))]));}
-async function breakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<breakthroughMaxLevel(g);i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
+// V1792: 전 유저 공통 설정인데 유일하게 캐시가 없어서 profile() 호출마다 app_meta 를 쳤다.
+// 이웃 설정들(attendance 30초, masterStar 5초)과 같은 방식으로 맞춘다.
+async function breakthroughConfig(env){return cachedRuntimeSetting('breakthroughConfig',30000,()=>readBreakthroughConfig(env))}
+async function readBreakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<breakthroughMaxLevel(g);i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
 function cleanMaMasterStarBreakthrough(raw={}){const base=MA_MASTER_STAR_BREAKTHROUGH_DEFAULT;return {enabled:raw.enabled===true,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999,Math.floor(Number(x.cost)||fallback.cost))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||0)))}})}}
 async function maMasterStarBreakthroughConfig(env){const now=Date.now();if(maMasterStarBreakthroughCache&&maMasterStarBreakthroughCache.expiresAt>now)return maMasterStarBreakthroughCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='ma_master_star_breakthrough_v1'").first();let value=cleanMaMasterStarBreakthrough();if(row?.value){try{value=cleanMaMasterStarBreakthrough(JSON.parse(row.value))}catch{}}maMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
 function cleanLimitedMasterStarBreakthrough(raw={}){const base=LIMITED_MASTER_STAR_BREAKTHROUGH_DEFAULT;return {enabled:raw.enabled!==false,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999,Math.floor(Number(x.cost)||fallback.cost))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||fallback.retirementShardRefund)))}})}}
@@ -6266,6 +6269,7 @@ async function handleRequest(context){
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_cinematic_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(cinematic))
         ]);
         maMasterStarBreakthroughCache=null;limitedMasterStarBreakthroughCache=null;
+        runtimeSettingsCache.delete('breakthroughConfig'); // V1792: 돌파 설정도 캐시하므로 저장 즉시 무효화
         try{await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity,maHigh,limitedHigh,cinematic})}catch(logError){console.error('breakthrough settings admin log failed',logError)}
         return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity,maHigh,limitedHigh,cinematic});
       }
@@ -7438,6 +7442,53 @@ async function handleRequest(context){
 //   - 북마크가 없으면 'first-unconstrained' (첫 조회는 아무 복제본이나).
 //
 // 바인딩/런타임이 withSession 을 지원하지 않으면 기존 env.DB 를 그대로 쓴다.
+// V1792: 요청당 D1 사용량 계측.
+//
+// 지금까지는 "어디가 느린가"를 코드를 읽어 추정할 수밖에 없었다.
+// 이제 라우트별로 D1 왕복이 몇 번인지 응답 헤더와 로그에 남긴다.
+// 동작은 전혀 바꾸지 않는다 (카운터만 증가).
+//
+// 구현 주의:
+//   - batch() 에 넘기는 statement 는 반드시 "진짜" D1 statement 여야 한다.
+//     래퍼를 그대로 넘기면 실패하므로 D1_RAW 심볼로 원본을 꺼내 넘긴다.
+//   - 코드베이스가 쓰는 D1 API 는 prepare / batch / withSession 과
+//     statement 의 first / all / run 뿐임을 확인했지만,
+//     혹시 모를 다른 메서드는 Proxy 가 원본으로 그대로 넘긴다.
+const D1_RAW=Symbol('cnineRawD1Statement');
+function newD1Stats(){return {queries:0,batches:0,statements:0,ms:0}}
+function wrapD1Statement(raw,stats){
+  const timed=async run=>{
+    const startedAt=Date.now();
+    try{return await run()}finally{stats.ms+=Math.max(0,Date.now()-startedAt)}
+  };
+  return {
+    [D1_RAW]:raw,
+    bind:(...args)=>wrapD1Statement(raw.bind(...args),stats),
+    first:(...args)=>{stats.queries+=1;return timed(()=>raw.first(...args))},
+    all:(...args)=>{stats.queries+=1;return timed(()=>raw.all(...args))},
+    run:(...args)=>{stats.queries+=1;return timed(()=>raw.run(...args))},
+    raw:(...args)=>{stats.queries+=1;return timed(()=>raw.raw(...args))}
+  };
+}
+function instrumentD1(db,stats){
+  if(!db||typeof db.prepare!=='function')return db;
+  return new Proxy(db,{
+    get(target,prop){
+      if(prop===D1_RAW)return target;
+      if(prop==='prepare')return sql=>wrapD1Statement(target.prepare(sql),stats);
+      if(prop==='batch')return statements=>{
+        const list=Array.isArray(statements)?statements:[];
+        stats.batches+=1;stats.statements+=list.length;
+        const startedAt=Date.now();
+        return Promise.resolve(target.batch(list.map(statement=>statement&&statement[D1_RAW]?statement[D1_RAW]:statement)))
+          .finally(()=>{stats.ms+=Math.max(0,Date.now()-startedAt)});
+      };
+      const value=Reflect.get(target,prop,target);
+      return typeof value==='function'?value.bind(target):value;
+    }
+  });
+}
+
 const D1_BOOKMARK_HEADER='x-cnine-d1-bookmark';
 function startD1Session(env,request){
   if(typeof env?.DB?.withSession!=='function')return {db:env?.DB,session:null};
@@ -7459,7 +7510,10 @@ export async function onRequest(context){
   // 이 요청 동안에는 env.DB 가 곧 세션이다. context 도 같이 갈아끼워
   // handleRequest 내부의 모든 env.DB 사용처가 자동으로 세션을 쓰게 한다.
   const {db:sessionDb,session:d1Session}=startD1Session(context.env,request);
-  const env=sessionDb?{...context.env,DB:sessionDb}:context.env;
+  // V1792: 세션 위에 계측 래퍼를 한 겹 더 씌운다. getBookmark 는 원본 세션에서 읽는다.
+  const d1Stats=newD1Stats();
+  const instrumentedDb=instrumentD1(sessionDb||context.env?.DB,d1Stats);
+  const env=instrumentedDb?{...context.env,DB:instrumentedDb}:context.env;
   context={...context,env,waitUntil:typeof context.waitUntil==='function'?context.waitUntil.bind(context):undefined};
   if(serializedGameAction(actionPath,request.method)){
     // V1784: 세션 조회를 점검 게이트 조회와 같은 배치로 먼저 태워, 이후 authenticate()와
@@ -7490,8 +7544,10 @@ export async function onRequest(context){
   }
   const durationMs=Math.max(0,Date.now()-startedAt),headers=new Headers(response.headers);
   if(durationMs>=2000)console.warn('SLOW_API_REQUEST',JSON.stringify({path:actionPath,method:request.method,status:response.status,durationMs}));
-  headers.set('server-timing',`app;dur=${durationMs}`);
+  // V1792: D1 사용량을 응답에 노출한다. DevTools Network > Timing 에서 바로 보인다.
+  headers.set('server-timing',`app;dur=${durationMs}, d1;dur=${d1Stats.ms};desc="${d1Stats.queries}q ${d1Stats.batches}b"`);
   headers.set('x-cnine-response-ms',String(durationMs));
+  headers.set('x-cnine-d1-queries',String(d1Stats.queries+d1Stats.statements));
   // V1790: 이번 요청이 도달한 복제 시점을 클라이언트에 돌려준다.
   // 클라이언트가 다음 요청에 그대로 실어 보내면, 방금 쓴 내용을 반드시 볼 수 있다.
   if(d1Session){
@@ -7505,8 +7561,13 @@ export async function onRequest(context){
       }
     }catch(error){console.warn('D1 bookmark read failed',error)}
   }
-  if(durationMs>=1000||stableSmallHash(`${request.method}:${url.pathname}:${request.headers.get('cf-ray')||''}`)%128===0){
-    console.log(JSON.stringify({type:'api_timing',method:request.method,path:url.pathname,status:response.status,durationMs,ray:request.headers.get('cf-ray')||''}));
+  // V1792: 느린 요청뿐 아니라 "조회가 많은" 요청도 남긴다.
+  // 빠르지만 D1 을 많이 치는 라우트가 동시접속에서 먼저 무너지기 때문이다.
+  const d1Total=d1Stats.queries+d1Stats.statements;
+  if(durationMs>=1000||d1Total>=20||stableSmallHash(`${request.method}:${url.pathname}:${request.headers.get('cf-ray')||''}`)%128===0){
+    console.log(JSON.stringify({type:'api_timing',method:request.method,path:url.pathname,status:response.status,durationMs,
+      d1Queries:d1Stats.queries,d1Batches:d1Stats.batches,d1BatchStatements:d1Stats.statements,d1Total,d1Ms:d1Stats.ms,
+      ray:request.headers.get('cf-ray')||''}));
   }
   return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
 }
