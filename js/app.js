@@ -19,6 +19,9 @@ const STORAGE_KEY = 'cnine_card_user_v10';
 const LEGACY_STORAGE_KEYS = ['cnine_card_user_v08', 'cnine_card_user'];
 const TEST_COIN = 5000;
 let cards = [];
+// V1797: 다른 스크립트(전투 로스터 등)가 "도감에 보이는 그대로의 카드"를 찾아 쓸 수 있게 노출한다.
+// 전투 페이로드의 card.image 는 전투 아트 어댑터가 SD 스프라이트로 바꿔치기하므로 그대로 쓰면 안 된다.
+window.cnineCardCatalog = () => cards;
 let selectedPackId = 'basic';
 let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
 // 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.
@@ -549,7 +552,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.1.0-manifest-cache',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=53-reset-renderable',
-      'js/battle-v3-live.js?v=3.13.0-roster-verdict'
+      'js/battle-v3-live.js?v=3.14.0-roster-dex-art'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }
@@ -683,6 +686,42 @@ function bindPersistentDesktopNavigation(header){
   header.addEventListener('pointerover',warmFromEvent,{passive:true});header.addEventListener('focusin',warmFromEvent);
   document.addEventListener('click',event=>{if(!event.target.closest('.main-nav'))closeGroups()});
 }
+// V1797: 유저 화면에서 막아 둔 기능. 다시 열 때는 여기서 해당 항목만 지우면 된다.
+// 서버 신청 API 는 별개 스위치(관리자 대시보드 → 미네랄 교환 ON/OFF)로 막아야 하며,
+// 이미 접수된 신청의 관리자 승인·거절은 그 스위치와 무관하게 계속 동작한다.
+const BLOCKED_USER_TABS={
+  mineral:{title:'교환소 이용 불가',message:'현재는 이용이 불가능합니다.'}
+};
+function blockedTabNotice(tab){return BLOCKED_USER_TABS[String(tab||'')]||null}
+function showBlockedFeatureModal(notice){
+  if(!notice)return;
+  document.getElementById('featureBlockedModal')?.remove();
+  const modal=document.createElement('div');
+  modal.id='featureBlockedModal';
+  modal.className='modal show feature-blocked-modal';
+  modal.setAttribute('role','alertdialog');
+  modal.setAttribute('aria-modal','true');
+  modal.innerHTML=`<div class="modal-panel feature-blocked-panel">
+    <span class="feature-blocked-icon" aria-hidden="true">⛔</span>
+    <h2>${escapeHtml(notice.title)}</h2>
+    <p>${escapeHtml(notice.message)}</p>
+    <button type="button" class="btn" data-feature-blocked-close>확인</button>
+  </div>`;
+  const onKey=event=>{if(event.key==='Escape')close()};
+  const close=()=>{document.removeEventListener('keydown',onKey);modal.remove()};
+  modal.addEventListener('click',event=>{if(event.target===modal||event.target.closest('[data-feature-blocked-close]'))close()});
+  document.addEventListener('keydown',onKey);
+  document.body.appendChild(modal);
+  modal.querySelector('[data-feature-blocked-close]')?.focus();
+}
+// 누르기 전에도 막힌 메뉴라는 걸 알 수 있게 표시한다(문의를 줄이는 목적).
+function markBlockedTabButtons(){
+  document.querySelectorAll('[data-tab],[data-mobile-tab]').forEach(button=>{
+    const blocked=Boolean(blockedTabNotice(button.dataset.tab||button.dataset.mobileTab));
+    button.classList.toggle('is-tab-blocked',blocked);
+    if(blocked)button.setAttribute('aria-disabled','true');else button.removeAttribute('aria-disabled');
+  });
+}
 function renderShell(tab) {
   const renderStarted=performance.now(),previousTab=runtimeCommandContext;
   // V1298: 화면을 떠난 뒤 도착한 레이드 상태 응답/결과 타이머가 새 화면을 다시 덮지 못하게 먼저 무효화한다.
@@ -690,6 +729,15 @@ function renderShell(tab) {
   const renderSeq=++shellRenderSeq;
   document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
+  // V1797: 막아 둔 메뉴는 화면 자체를 그리지 않고 안내 팝업만 띄운다.
+  const blockedNotice=blockedTabNotice(tab);
+  if(blockedNotice){
+    showBlockedFeatureModal(blockedNotice);
+    // 보던 화면이 있으면 그대로 두고 팝업만 올린다.
+    if(previousTab&&previousTab!==tab)return;
+    // 첫 진입(딥링크 등)이라 그려진 화면이 없으면 빈 화면이 되지 않게 기본 탭으로 보낸다.
+    tab='buy';
+  }
   if(tab!=='auction'&&typeof window.stopAuctionHouseView==='function')window.stopAuctionHouseView();
   if(tab!=='prediction'&&typeof window.stopCoinPredictionView==='function')window.stopCoinPredictionView();
   runtimeCommandContext=tab;
@@ -757,6 +805,7 @@ function renderShell(tab) {
   const header=document.querySelector('main.page[data-cnine-shell="1"] .header');
   bindPersistentDesktopNavigation(header);if(header?.dataset.fullscreenBound!=='1'){header.dataset.fullscreenBound='1';bindFullscreenPlayLink(header)}
   bindMobileNavigation();
+  markBlockedTabButtons();
   const routeWaitsForFeature=['auction','prediction','character','workshop'].includes(tab)&&!routeFeatureReady;
   if(routeWaitsForFeature){
     ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab)}).catch(error=>{

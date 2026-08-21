@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.13.0-roster-verdict';
+  const VERSION = '3.14.0-roster-dex-art';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -111,6 +111,41 @@
   const typeKey = type => ({ ATTACK: 'attack', DEFENSE: 'defense', HP: 'hp', SPEED: 'speed' })[String(type || '').toUpperCase()] || '';
   const typeIcon = type => ({ ATTACK: '⚔', DEFENSE: '⬡', HP: '♥', SPEED: '↯', NONE: '◇' })[String(type || '').toUpperCase()] || '◇';
 
+  // V1797: 로스터에는 "도감에 보이는 카드 그림" 이 나와야 한다.
+  //
+  // 전투 아트 어댑터(project-v-*-battle-art-adapter-v1.js)가 렌더러에 넘어가기 전에
+  // battleV2.teams[*].cards[*].image 를 SD 배틀 스프라이트로 바꿔치기한다. Pixi 전장에는
+  // 그게 맞지만, 카드 프레임에 그대로 쓰면 도감 카드가 아니라 SD 캐릭터가 박힌다.
+  // 그래서 아래 순서로 원본을 되찾는다.
+  //   1) 클라이언트 카드 도감(window.cnineCardCatalog) — 도감 화면과 완전히 같은 그림
+  //   2) 어댑터가 남겨 둔 originalCardArt / imageUrl / image_url
+  //   3) 마지막에야 card.image (어댑터가 안 돈 경우엔 이게 원본이다)
+  let catalogCache = { source: null, map: null };
+  function cardCatalogMap() {
+    let list = null;
+    try { list = root.cnineCardCatalog?.(); } catch { list = null; }
+    if (!Array.isArray(list)) return null;
+    if (catalogCache.source === list && catalogCache.map) return catalogCache.map;
+    const map = new Map();
+    list.forEach(item => { const id = String(item?.id ?? '').trim(); if (id) map.set(id, item); });
+    catalogCache = { source: list, map };
+    return map;
+  }
+  function dexCardFor(card, catalog) {
+    if (!catalog) return null;
+    for (const key of rosterKeys(card)) { const found = catalog.get(key); if (found) return found; }
+    return null;
+  }
+  function rosterArt(card, dex) {
+    const source = dex?.image || card?.originalCardArt || card?.sourceArt
+      || card?.imageUrl || card?.image_url || card?.image || '';
+    return {
+      url: assetUrl(source),
+      focusX: Number(dex?.focusX ?? card?.focusX ?? 50),
+      focusY: Number(dex?.focusY ?? card?.focusY ?? 50)
+    };
+  }
+
   function rosterUniqueBadgeHtml(card) {
     const type = typeKey(card?.type);
     if (!type || !card?.uniqueAbility) return '';
@@ -121,11 +156,13 @@
   // 그대로 찍어내고, 크기만 CSS transform:scale 로 줄인다. 폭·높이를 따로
   // 지정하면 카드가 찌부되므로 비율에는 손대지 않는다.
   // 광택 레이어(.card-holo)만 뺐다 — 이미 no-light-beams 로 죽여 둔 요소다.
-  function rosterCardHtml(card, index) {
-    const grade = (String(card?.grade || card?.rarity || 'C').toUpperCase().replace(/[^A-Z0-9_-]/g, '') || 'C');
+  function rosterCardHtml(card, index, catalog) {
+    const dex = dexCardFor(card, catalog);
+    const art = rosterArt(card, dex);
+    const grade = (String(card?.grade || dex?.grade || card?.rarity || 'C').toUpperCase().replace(/[^A-Z0-9_-]/g, '') || 'C');
     const level = Math.max(0, Math.min(13, Number(card?.breakthroughLevel || 0)));
-    const title = String(card?.title || card?.name || `CARD ${index + 1}`);
-    const owner = String(card?.memberName || '');
+    const title = String(card?.title || dex?.title || card?.name || `CARD ${index + 1}`);
+    const owner = String(card?.memberName || dex?.memberName || '');
     const row = String(card?.row || '').toUpperCase();
     const key = rosterKeys(card)[0] || `slot-${index + 1}`;
     const isFaker = String(card?.cardId || card?.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
@@ -137,7 +174,7 @@
         <div class="breakthrough-effect"></div>
         <div class="card-inner">
           <div class="card-header"><span>${esc(grade)}</span><b>SOOP</b></div>
-          <div class="card-art"><img src="${esc(assetUrl(card?.image || card?.image_url))}" alt="${esc(title)}" loading="lazy" decoding="async" style="object-position:${Number(card?.focusX ?? 50)}% ${Number(card?.focusY ?? 50)}%" onerror="this.onerror=null;this.src='${FALLBACK_ART}'"></div>
+          <div class="card-art"><img src="${esc(art.url)}" alt="${esc(title)}" loading="lazy" decoding="async" data-v3-roster-art="1" style="object-position:${art.focusX}% ${art.focusY}%" onerror="this.onerror=null;this.src='${FALLBACK_ART}'"></div>
           <div class="card-footer"><div><small>${esc(owner)}</small><div class="card-title-row"><div class="card-title">${esc(title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
         </div>
         ${isFaker ? '<img class="faker-championship-frame" src="/assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true"><img class="faker-t1-mark" src="/assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1"><img class="faker-signature-mark" src="/assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER"><span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>' : ''}
@@ -153,6 +190,7 @@
     if (!roster) return 0;
     const teams = payload?.battleV2?.teams || {};
     const versus = mode === 'PVP';
+    const catalog = cardCatalogMap();
     const owners = [...stage.querySelectorAll('.battle-v3-versus span')].map(node => String(node.textContent || '').trim());
     let shown = 0;
     ['A', 'B'].forEach((side, index) => {
@@ -172,7 +210,7 @@
       const owner = section.querySelector('[data-v3-roster-owner]');
       if (label) label.textContent = side === 'A' ? (versus ? 'MY TEAM' : '출전 카드') : 'OPPONENT';
       if (owner) owner.textContent = owners[index] || '';
-      section.querySelector('[data-v3-roster-list]').innerHTML = cards.map(rosterCardHtml).join('');
+      section.querySelector('[data-v3-roster-list]').innerHTML = cards.map((entry, index) => rosterCardHtml(entry, index, catalog)).join('');
     });
     roster.hidden = shown === 0;
     stage.classList.toggle('is-roster-visible', shown > 0);

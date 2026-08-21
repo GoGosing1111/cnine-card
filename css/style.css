@@ -3988,3 +3988,13 @@ body.burning-notice-open .fullscreen-play-link{
 .inventory-item-workshop-material{--item-accent:#c779ff}
 .inventory-item-workshop-material .inventory-use:disabled{min-width:142px;opacity:1;color:#e8c9ff;border-color:rgba(199,121,255,.42);background:rgba(70,30,98,.72);filter:none}
 .inventory-item-workshop-material .inventory-pack-stage img{width:min(92%,210px)}
+
+/* V1797: 유저 화면에서 막아 둔 메뉴(교환소 등) 안내 팝업과 메뉴 표시 */
+.feature-blocked-modal{z-index:2147482000!important}
+.feature-blocked-panel{max-width:400px;padding:30px 26px 24px;text-align:center}
+.feature-blocked-panel .feature-blocked-icon{display:block;margin:0 auto 12px;font-size:38px;line-height:1}
+.feature-blocked-panel h2{margin:0;font-size:19px;font-weight:900;color:#eef8fb}
+.feature-blocked-panel p{margin:10px 0 0;color:#a9c6d4;font-size:14px;line-height:1.6;word-break:keep-all}
+.feature-blocked-panel .btn{width:100%;margin-top:22px}
+.is-tab-blocked{opacity:.52;filter:grayscale(.85)}
+.is-tab-blocked::after{content:"이용 불가";flex:none;margin-left:6px;padding:2px 6px;border-radius:999px;border:1px solid rgba(255,125,143,.5);background:rgba(255,125,143,.12);color:#ff9fae;font-size:9px;font-weight:900;letter-spacing:.02em;white-space:nowrap;vertical-align:middle}
