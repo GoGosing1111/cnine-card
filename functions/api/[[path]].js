@@ -1226,7 +1226,11 @@ function uniqueBattleResponsePayload(uniqueState,runtime=null){
   };
 }
 
-async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle=null,requestId=''){
+// V1785: options.collectBattleLog 이 주어지면 battle_logs INSERT 를 즉시 실행하지 않고
+// 호출자에게 statement 를 넘긴다. 자동사냥은 한 요청에서 최대 수십 회 반복되므로
+// 매회 왕복하던 감사 로그 쓰기를 마지막에 batch 1~2회로 묶을 수 있다.
+// 인자를 주지 않으면 종전과 동일하게 즉시 실행된다.
+async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle=null,requestId='',options={}){
   const difficulty=pveDifficultyRuntime(settings,monster);
   if(!difficulty.enabled){const error=new Error('현재 나이트메어 토벌은 중지되어 있습니다.');error.code='NIGHTMARE_DISABLED';throw error}
   const battleCards=uniqueBattle?.cards?.length?uniqueBattle.cards:cards;
@@ -1242,9 +1246,17 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const bossShouldCast=bossUltimateConfigured&&(bossForceCast||bossTrigger==='ALWAYS'||(bossTrigger==='ON_LOSS'&&preliminaryResult==='LOSE')||(bossTrigger==='CHANCE'&&bossChanceHit));
   const bossPveDamagePercent=difficulty.bossUltimateUnlocked?difficulty.bossUltimateCapPercent:Math.max(0,Math.min(100,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0))),bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(uniquePlayerPower*bossPveDamagePercent/100)):0;
   const result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Math.max(0,Math.floor(difficulty.effectiveRewardCoin*Number(settings.__burningRewardMultiplier||1))):0;
-  if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 자동사냥 승리 보상: ${monster.name}`,user.id).run();}
+  // V1785: 코인 지급 + 코인 로그를 D1 배치 1회로 묶는다(자동사냥 반복 횟수만큼 왕복이 줄어든다).
+  if(reward){
+    await env.DB.batch([
+      env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
+      env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 자동사냥 승리 보상: ${monster.name}`,user.id)
+    ]);
+  }
   let cardReward=null,equipmentReward=null,blackMiracleReward=null,unifiedDrop=null;if(result==='WIN'){const dropRequestId=requestId||`${Date.now()}-${monster.id}`;if(settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:'PVE_AUTO',sourceId:String(monster.id),requestId:dropRequestId});blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:'PVE_AUTO',referenceId:dropRequestId});unifiedDrop=await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${dropRequestId}`,sourceType:'PVE_AUTO',sourceId:String(monster.id),triggerType:'WIN',context:{boss:Boolean(monster.is_boss),difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare});}
-  await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),uniquePlayerPower,monsterPower,result,reward).run();
+  const autoBattleLogStatement=env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),uniquePlayerPower,monsterPower,result,reward);
+  if(typeof options.collectBattleLog==='function')options.collectBattleLog(autoBattleLogStatement);
+  else await autoBattleLogStatement.run();
   return {result,reward,cardReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower:uniquePlayerPower,cardPower,characterBonus,monsterPower,difficulty:{...difficulty,engineMonster:undefined},bossUltimate:bossShouldCast?{damagePercent:bossPveDamagePercent,penalty:bossUltimatePenalty,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked}:null,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime)};
 }
 
@@ -3763,6 +3775,13 @@ async function releaseUserMutationLock(env,lock){
 
 async function handleRequest(context){
   const {request,env}=context;
+  // V1785: 응답에 필요 없는 쓰기를 응답 지연 경로에서 빼기 위한 헬퍼.
+  // waitUntil 로 넘긴 작업은 응답 반환 이후에도 끝까지 실행된다.
+  const deferWrite=(label,work)=>{
+    const task=Promise.resolve().then(work).catch(error=>console.error(`deferred write failed: ${label}`,error));
+    if(typeof context.waitUntil==='function')context.waitUntil(task);
+    return task;
+  };
   const url=new URL(request.url);
   const path=url.pathname.replace(/^\/api\/?/,'');
   if(request.method==='OPTIONS') return new Response(null,{status:204,headers:CORS_HEADERS});
@@ -5134,15 +5153,24 @@ async function handleRequest(context){
       await env.DB.prepare("INSERT INTO pve_auto_runs(request_id,user_id,monster_id,status) VALUES(?,?,?,'RUNNING')").bind(requestId,user.id,monsterId).run();
       try{
         let battles=0,wins=0,losses=0,totalReward=0,energy=energyBefore;const cardRewards=[],cubeRewards=[],magicRewards=[],equipmentRewards=[],unifiedDrops=[];
+        // V1785: 자동사냥은 한 요청에서 최대 수십 회 반복된다. 매회 왕복하던 battle_logs INSERT 를
+        // 모아 두었다가 루프 종료 후 batch 로 한 번에, 그것도 응답 지연 경로 밖에서 쓴다.
+        const autoBattleLogs=[];
         const magicCfg=await magicSettings(env),pveMagic=magicCfg.acquisition?.pve||{};
         for(let i=0;i<battleCount;i++){
           try{energy=await consumeBattleEnergy(env,user,settings)}catch(e){if(e.code==='NO_BATTLE_ENERGY'){energy=e.energy;break}throw e}
-          const battleRef=`${requestId}:${i+1}`,one=await resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle,battleRef);battles++;totalReward+=Number(one.reward||0);
+          const battleRef=`${requestId}:${i+1}`,one=await resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle,battleRef,{collectBattleLog:statement=>autoBattleLogs.push(statement)});battles++;totalReward+=Number(one.reward||0);
           const cubeReward=await grantBattleCube(env,user.id,'PVE',battleRef,one.result==='WIN');if(cubeReward)cubeRewards.push(cubeReward);
           if(one.result==='WIN'){
             wins++;
             const magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:battleRef,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'});if(magicReward?.amount>0)magicRewards.push(magicReward);
           }else losses++;if(one.cardReward)cardRewards.push(one.cardReward);if(one.equipmentReward)equipmentRewards.push(one.equipmentReward);if(one.unifiedDrop?.rewards?.length)unifiedDrops.push(one.unifiedDrop);
+        }
+        // V1785: 모아둔 감사 로그를 50개씩 끊어 배치로 기록한다. 응답은 기다리지 않는다.
+        if(autoBattleLogs.length){
+          const chunks=[];
+          for(let index=0;index<autoBattleLogs.length;index+=50)chunks.push(autoBattleLogs.slice(index,index+50));
+          deferWrite('battle_logs:auto',async()=>{for(const chunk of chunks)await env.DB.batch(chunk)});
         }
         const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),response={ok:true,battles,wins,losses,totalReward,cardRewards,cubeRewards,magicRewards,equipmentRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,serverNow:new Date().toISOString(),user:await profile(env,updated)};
         await env.DB.prepare("UPDATE pve_auto_runs SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();
@@ -5173,7 +5201,9 @@ async function handleRequest(context){
       const uniqueEffectivePower=Math.max(0,Number(uniqueRuntime?.effectivePower||basePlayerPower));
       const activatedEntry=selectActivatedUltimate(settings,battleCards),activatedUltimate=activatedEntry?.rule||null,ultimateSourceCard=activatedEntry?.matchedCards?.[0]||null;
       const ultimateDamage=activatedUltimate&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedUltimate.coefficientPercent||0)/100)):0;
-      const [synergy,characterBonus,magicLoadout]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE')]);
+      // V1785: magicSettings 는 뒤쪽에서 직렬로 await 되던 런타임 설정 조회다.
+      // 어차피 이 시점에 필요한 다른 조회들과 독립적이므로 같은 Promise.all 에 합친다.
+      const [synergy,characterBonus,magicLoadout,pveMagicSettings]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE'),magicSettings(env)]);
       const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),cardPower=Math.max(0,Math.floor(uniqueEffectivePower*synergyMultiplier)),playerPower=cardPower+Number(characterBonus.pve||0);
       const totalBattleDamage=playerPower+ultimateDamage,preliminaryResult=totalBattleDamage>=monsterPower?'WIN':'LOSE';
       const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true,bossUltimateEnabled=Number(monster.ultimate_enabled||0)===1||monster.ultimate_enabled===true,bossUltimateConfigured=bossIsBoss&&bossUltimateEnabled;
@@ -5189,11 +5219,22 @@ async function handleRequest(context){
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
       const reward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0;
-      if(reward){await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();await env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id).run();}
+      // V1785: 코인 지급과 코인 로그를 D1 배치 1회로 묶는다.
+      // batch 는 암묵적 트랜잭션 안에서 순차 실행되므로 coin_logs 의 balance_after 는
+      // 앞선 UPDATE 가 반영된 값을 그대로 읽는다(기존 2회 왕복과 결과 동일).
+      if(reward){
+        await env.DB.batch([
+          env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
+          env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id)
+        ]);
+      }
       let cardReward=null,equipmentReward=null,blackMiracleReward=null,unifiedDrop=null;if(result==='WIN'){if(settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}const rewardSource=payload.autoBattle===true?'PVE_AUTO':'PVE';equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId});blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId});unifiedDrop=await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:rewardSource,sourceId:String(monster.id),triggerType:'WIN',context:{boss:bossIsBoss,difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare});}
-      await env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run();
-      const cubeReward=await grantBattleCube(env,user.id,'PVE',requestId,result==='WIN'),pveMagic=(await magicSettings(env)).acquisition?.pve||{};
-      const rerollTicketDrop=result==='WIN'?await grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:requestId}):null;
+      // V1785: battle_logs 는 감사 로그일 뿐 응답에서 읽지 않는다 → 응답 지연 경로에서 제외.
+      deferWrite('battle_logs',()=>env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run());
+      const cubeReward=await grantBattleCube(env,user.id,'PVE',requestId,result==='WIN'),pveMagic=pveMagicSettings.acquisition?.pve||{};
+      // V1785: 고등급 리롤 티켓 지급 결과는 응답에 포함되지 않는다(기존에도 변수만 만들고 쓰지 않았다).
+      // 지급 자체는 그대로 수행하되 응답을 기다리게 하지 않는다.
+      if(result==='WIN')deferWrite('highGradeRerollDrop',()=>grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:requestId}));
       const magicReward=result==='WIN'?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):null;
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
       return json({result,reward,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
@@ -5287,13 +5328,19 @@ async function handleRequest(context){
       let completed=false,nextFloor=floorNo;
       let magicReward=null,equipmentReward=null,blackMiracleReward=null;
       if(result==='WIN'){
-        reward=Number(floor.reward_coin||Math.max(100,floorNo*100));if(reward)await env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id).run();completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;await env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id).run();
+        reward=Number(floor.reward_coin||Math.max(100,floorNo*100));completed=floorNo>=maxFloor;nextFloor=completed?maxFloor+1:floorNo+1;
+        // V1785: 코인 지급과 층 진행도 갱신은 서로 독립적인 쓰기다. D1 배치 1회로 묶는다(왕복 2회 → 1회).
+        const towerClearWrites=[env.DB.prepare('UPDATE tower_user_progress SET current_floor=?,highest_floor=MAX(highest_floor,?),highest_reached_at=CASE WHEN ?>highest_floor THEN CURRENT_TIMESTAMP ELSE highest_reached_at END,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?').bind(nextFloor,floorNo,floorNo,season.id,user.id)];
+        if(reward)towerClearWrites.unshift(env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id));
+        await env.DB.batch(towerClearWrites);
         const magicCfg=await magicSettings(env),towerMagic=magicCfg.acquisition?.tower||{},magicAmount=magicRewardForTowerFloor(magicCfg,floorNo);
         magicReward=await resolveMagicCrystalReward(env,{userId:user.id,source:'TOWER_FIRST_CLEAR',referenceId:`${season.id}:${floorNo}`,enabled:towerMagic.enabled===true,chance:100,amount:magicAmount,dailyLimit:0,reason:`무한의탑 ${floorNo}층 최초 클리어`});
         equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:'TOWER',sourceId:String(floorNo),requestId:towerRequestId});
         blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:'TOWER',referenceId:towerRequestId});
       }
-      await env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run();
+      // V1785: tower_clear_history 는 API 전체에서 어디서도 다시 읽지 않는 기록용 테이블이다
+      // (읽는 곳이 생기면 이 deferWrite 를 되돌려야 한다). 응답 지연 경로에서 제외.
+      deferWrite('tower_clear_history',()=>env.DB.prepare('INSERT INTO tower_clear_history(season_id,user_id,floor_no,player_power,monster_power,result) VALUES(?,?,?,?,?,?)').bind(season.id,user.id,floorNo,playerPower,monsterPower,result).run());
       let weeklyPremium=null,weeklyPremiumError=null;
       try{weeklyPremium=await grantWeeklyPremiumCube(env,user.id,'TOWER',towerRequestId)}catch(cubeError){weeklyPremiumError=String(cubeError?.message||cubeError||'프리미엄 큐브 처리 실패');console.error('tower weekly premium cube failed',{userId:user.id,floorNo,requestId:towerRequestId,error:weeklyPremiumError})}
       const towerUniqueCardMap=new Map((deckInfo.unique?.cards||[]).map(card=>[String(card.id),card]));

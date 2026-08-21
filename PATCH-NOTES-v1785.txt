@@ -1,0 +1,127 @@
+PATCH-NOTES-v1785 : V3 전투 병목 2차 — 전투 핸들러 D1 왕복 축소 + 전투 자원 선로딩
+
+v1784 에 이어 남아 있던 과제 중 검증 가능한 항목을 적용했다.
+
+
+[1] battle/fight : 응답 지연 경로 정리
+  (1-a) 코인 지급 + coin_logs 기록을 env.DB.batch 1회로 통합
+        batch 는 암묵적 트랜잭션 안에서 순차 실행되므로
+        coin_logs.balance_after 는 앞선 UPDATE 가 반영된 값을 읽는다(결과 동일).
+        D1 왕복 2회 → 1회.
+
+  (1-b) magicSettings(env) 를 기존 Promise.all 로 이동
+        evaluateDeckSynergies / userEquipmentBonuses / magicBattleLoadout 과 함께 받는다.
+        뒤쪽에서 직렬로 await 하던 왕복 1회 제거.
+
+  (1-c) battle_logs INSERT 를 waitUntil 로 이동
+        응답에서 읽지 않는 감사 로그다. 쓰기는 그대로 수행된다.
+
+  (1-d) grantHighGradeRerollDrop 을 waitUntil 로 이동
+        기존 코드에서 rerollTicketDrop 변수에 담기만 하고 응답에 포함하지 않았다.
+        (= 순수한 지연만 발생시키고 있었다)
+        지급 자체는 유지하되 응답이 기다리지 않게 했다.
+        receipts 테이블의 INSERT OR IGNORE 로 중복 지급이 막혀 있어 지연 실행이 안전하다.
+
+
+[2] battle/auto (자동사냥) : 반복 횟수만큼 곱해지던 쓰기 정리
+    자동사냥은 남은 전투 횟수만큼(최대 수십 회) 한 요청에서 반복되므로
+    회차당 왕복이 그대로 배수로 늘어나던 구간이다.
+
+  (2-a) 회차별 코인 지급 + coin_logs 를 env.DB.batch 1회로 통합
+        왕복 2N회 → N회.
+
+  (2-b) 회차별 battle_logs INSERT 를 모았다가 루프 종료 후 50개씩 batch 로 기록
+        그마저도 waitUntil 로 넘겨 응답을 기다리게 하지 않는다.
+        왕복 N회 → 응답 경로에서 0회.
+        resolveAutoBattle 에 options.collectBattleLog 훅을 추가했고,
+        훅을 주지 않으면 종전과 동일하게 즉시 실행된다(하위호환).
+
+
+[3] tower/fight
+  (3-a) 코인 지급 + tower_user_progress 갱신을 env.DB.batch 1회로 통합 (왕복 2회 → 1회)
+  (3-b) tower_clear_history INSERT 를 waitUntil 로 이동
+        이 테이블은 API 전체에서 읽는 곳이 없다(기록 전용).
+        ⚠️ 나중에 랭킹 등으로 읽기 시작하면 이 deferWrite 를 되돌려야 한다.
+
+
+[4] 클라이언트 : 전투 진입 대기 제거
+  (4-a) 아트 매니페스트 4종의 fetch 옵션 cache:'no-cache' → 'default'
+        - js/project-v-battle-art-adapter-v1.js
+        - js/project-v-monster-battle-art-adapter-v1.js
+        - js/project-v-tier-battle-art-adapter-v1.js
+        - js/project-v-unassigned-battle-fallback-v1.js
+        매니페스트 URL 에 이미 ?v= 버전 키가 있고 /assets/* 는 max-age=86400 이다.
+        no-cache 는 전투 진입마다 재검증 왕복을 강제하고 있었다.
+
+  (4-b) V3 전투 번들 유휴 프리페치 추가 (js/app.js)
+        데스크톱은 nav 호버 시 warmFeatureForTab 으로 미리 받지만
+        모바일에는 호버가 없어 '전투' 탭을 누르는 순간
+        Pixi 번들 731KB + 어댑터 6개가 한꺼번에 내려온다.
+        부팅 후 requestIdleCallback 시점에 rel=prefetch 로 미리 받아둔다.
+        - prefetch 는 브라우저 우선순위가 가장 낮아 초기 렌더/로그인을 방해하지 않는다.
+        - navigator.connection.saveData 또는 2g 회선에서는 생략한다.
+
+
+[5] ?v= 버전 키 갱신 (v1784 의 immutable 캐시 정책 대응, 필수)
+    - index.html : js/app.js?v=1783-... → ?v=1785-battle-idle-prefetch
+    - js/app.js  : 어댑터 4종 ?v= 갱신 (…-manifest-cache)
+    - service-worker.js : SHELL_CACHE → soop-card-shell-v1785-battle-idle-prefetch
+
+
+[검증]
+  functions/api/[[path]].js 모듈 파싱 OK, 변경 JS 7종 node --check OK
+  v1784 검증 7종 재실행 통과 (게이트/세션 배치, 락 폴백, DO 상호배제 등)
+  v1785 검증 12종 통과
+    1  deferWrite: waitUntil 등록 + 실행 + 예외 격리
+    2  deferWrite: waitUntil 미지원 환경 폴백
+    3  미사용 rerollTicketDrop 변수 제거, 지급 로직은 보존
+    4  magicSettings 직렬 await → Promise.all 병합
+    5  감사 로그 INSERT 2건이 응답 지연 경로에서 제외됨
+    6  자동사냥: 회차별 coin 2회 쓰기 → batch 1회, battle_logs N회 → 지연 batch
+    7  tower_clear_history 는 여전히 write-only
+    8  코인 지급 + 진행도 갱신이 D1 batch 1회로 통합됨
+    9  env.DB.batch 블록 72개 모두 .run() 없이 statement 만 전달
+    10 아트 매니페스트 4종 모두 no-cache 재검증 제거
+    11 V3 번들 유휴 프리페치 추가 (저속/데이터절약 회선 제외)
+    12 변경된 정적 파일 ?v= + SW 캐시 이름 모두 갱신됨
+
+
+[의도적으로 적용하지 않은 것]
+
+  (A) 드랍 지급 3종(safeEquipmentDrop / rollBlackMiracleDrop / safePveUnifiedDrop) 병렬화
+      세 함수 모두 users, cnine_user_inventory, inventory_items, user_equipment_instances,
+      coin_logs 등 같은 테이블을 건드린다. D1 는 호출 간 트랜잭션이 없으므로
+      동시 실행 시 read-modify-write 유실이나 coin_logs.balance_after 순서 뒤바뀜이
+      발생할 수 있다. 아낄 수 있는 왕복(3~6회)에 비해 재화 정합성 위험이 커서 제외했다.
+
+  (B) consumeBattleEnergy 의 상태 재조회 제거
+      현재 state 조회 → UPDATE → state 재조회로 왕복 ~5회다.
+      후속 상태를 로컬에서 계산하면 2회를 줄일 수 있으나,
+      회복/일일리셋/버닝 규칙을 두 곳에 중복 구현하게 되어 표시 오류 위험이 있다.
+
+  (C) functions/api/[[path]].js 라우트별 동적 import 분할
+      _data/seed.js(70KB) 는 setup/init 과 ensureUpgrades 에서만 쓰이므로
+      동적 import 로 콜드스타트 파싱 비용을 줄일 수 있다.
+      다만 이 작업 환경에서 npm 레지스트리가 차단되어 esbuild 로
+      Cloudflare Pages 번들 산출물을 검증할 수 없었다.
+      검증 없이 모듈 그래프를 바꾸면 빌드 실패 시 API 전체가 내려가므로 보류한다.
+
+      적용하려면 순서대로:
+        1) import { MEMBERS, CARDS, PACKS, RATES } from '../_data/seed.js' 제거
+        2) seedDatabase / ensureUpgrades 안에서
+           const { CARDS, MEMBERS, PACKS, RATES } = await import('../_data/seed.js');
+        3) npx wrangler pages functions build --outdir=/tmp/pages-build 로 번들 성공 확인
+        4) npx wrangler pages dev 로 setup/status·battle/fight 스모크 테스트
+        5) 프리뷰 배포에서 먼저 확인 후 프로덕션
+
+  (D) 읽기 경로 D1 Sessions API(읽기 복제본) 도입
+      withSession 사용처가 여전히 0건이다. 읽기가 압도적으로 많은 워크로드라
+      가장 큰 여유가 여기서 나오지만, 라우트 전반의 읽기 경로를 손봐야 해서
+      별도 작업으로 분리한다.
+
+
+[배포 후 확인]
+  - Cloudflare Workers 로그에서 SLOW_API_REQUEST / api_timing 의 durationMs 분포
+  - USER_ACTION_IN_PROGRESS(409) 발생 빈도
+  - D1_OVERLOADED(503) 발생 빈도
+  - 전투 탭 진입 시 Pixi 번들이 prefetch 캐시에서 오는지 (DevTools Network → Size: prefetch cache)

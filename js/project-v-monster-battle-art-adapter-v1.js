@@ -75,7 +75,8 @@
       if (manifestValue) return manifestValue;
       if (!readyPromise) {
         if (typeof fetchImpl !== 'function') throw new Error('몬스터 manifest fetch를 사용할 수 없습니다.');
-        readyPromise = fetchImpl(manifestUrl, { cache: 'no-cache', credentials: 'same-origin' })
+        // V1785: ?v= 버전 키가 있으므로 재검증 강제(no-cache)는 불필요한 왕복이다.
+        readyPromise = fetchImpl(manifestUrl, { cache: 'default', credentials: 'same-origin' })
           .then(response => {
             if (!response?.ok) throw new Error(`몬스터 manifest HTTP ${response?.status || 0}`);
             return response.json();

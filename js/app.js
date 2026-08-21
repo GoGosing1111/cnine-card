@@ -544,10 +544,10 @@ const FEATURE_RESOURCE_MANIFEST={
     styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=3.4.0-card-cutin-1-3x'],
     scripts:[
       'js/battle-v2-live.js?v=3.1.0-card-cutin-1-3x',
-      'js/project-v-battle-art-adapter-v1.js?v=3.0.0-live',
-      'js/project-v-tier-battle-art-adapter-v1.js?v=3.1.0-prestige-full',
-      'js/project-v-monster-battle-art-adapter-v1.js?v=5.0.0-krieg-escanor-fix',
-      'js/project-v-unassigned-battle-fallback-v1.js?v=3.0.0-live',
+      'js/project-v-battle-art-adapter-v1.js?v=3.1.0-manifest-cache',
+      'js/project-v-tier-battle-art-adapter-v1.js?v=3.2.0-manifest-cache',
+      'js/project-v-monster-battle-art-adapter-v1.js?v=5.1.0-manifest-cache',
+      'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=52-authoritative-final-sync',
       'js/battle-v3-live.js?v=3.11.0-authoritative-final-sync'
     ],
@@ -601,6 +601,36 @@ async function warmBattleArtAssets(){
   }
   prewarmBattleImage('/assets/effects/SKILL-v1497.webp');
 }
+// V1785: 데스크톱은 nav 호버 시점에 warmFeatureForTab 으로 미리 받지만
+// 모바일에는 호버가 없어 '전투' 탭을 누르는 순간 V3 번들(731KB)+어댑터 6개가 한꺼번에 내려온다.
+// 유휴 시간에 rel=prefetch 로 미리 받아두면 실제 진입 때 네트워크 대기가 사라진다.
+// prefetch 는 브라우저 우선순위가 가장 낮아 초기 렌더/로그인 요청을 방해하지 않는다.
+let battleBundlePrefetchStarted=false;
+function prefetchBattleBundleWhenIdle(){
+  if(battleBundlePrefetchStarted)return;
+  const connection=navigator.connection||navigator.mozConnection||navigator.webkitConnection;
+  if(connection?.saveData)return;                                   // 데이터 절약 모드 존중
+  if(/(^|-)2g$/i.test(String(connection?.effectiveType||'')))return; // 저속 회선에서는 생략
+  battleBundlePrefetchStarted=true;
+  const idle=window.requestIdleCallback||(callback=>setTimeout(callback,2500));
+  idle(()=>{
+    const sources=[...(FEATURE_RESOURCE_MANIFEST.battleV2?.scripts||[]),...(FEATURE_RESOURCE_MANIFEST.battleV2?.styles||[])];
+    // href 에 ?v=... 가 들어 있어 속성 선택자로 조회하면 이스케이프가 까다롭다.
+    // 이미 붙인 prefetch 링크는 dataset 으로 모아 비교한다.
+    const already=new Set([...document.querySelectorAll('link[data-cnine-battle-prefetch="1"]')].map(node=>node.getAttribute('href')));
+    for(const src of sources){
+      if(already.has(src))continue;
+      if([...document.scripts].some(script=>script.getAttribute('src')===src))continue;
+      const link=document.createElement('link');
+      link.rel='prefetch';
+      link.as=src.includes('.css')?'style':'script';
+      link.href=src;
+      link.dataset.cnineBattlePrefetch='1';
+      document.head.appendChild(link);
+    }
+  },{timeout:8000});
+}
+window.prefetchBattleBundleWhenIdle=prefetchBattleBundleWhenIdle;
 function warmFeatureForTab(tab){
   const key=featureKeyForTab(tab);if(!key)return;
   const resources=ensureFeatureResources(key);
@@ -3975,3 +4005,5 @@ document.addEventListener('visibilitychange',()=>{
 });
 setBackgroundActivityState();
 init();
+// V1785: 첫 화면이 자리를 잡은 뒤 유휴 시간에 V3 전투 번들을 미리 받아둔다.
+prefetchBattleBundleWhenIdle();

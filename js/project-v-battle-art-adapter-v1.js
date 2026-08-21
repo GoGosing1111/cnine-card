@@ -205,7 +205,9 @@
       if (manifestValue) return manifestValue;
       if (!readyPromise) {
         if (typeof fetchImpl !== 'function') throw new Error('ZENITH manifest fetch를 사용할 수 없습니다.');
-        readyPromise = fetchImpl(manifestUrl, { cache: 'no-cache', credentials: 'same-origin' })
+        // V1785: 매니페스트 URL 은 ?v= 로 버전이 고정되고 /assets/* 는 max-age=86400 이다.
+        // no-cache 는 전투 진입마다 재검증 왕복을 강제하므로 default 로 되돌린다.
+        readyPromise = fetchImpl(manifestUrl, { cache: 'default', credentials: 'same-origin' })
           .then(response => {
             if (!response?.ok) throw new Error(`ZENITH manifest HTTP ${response?.status || 0}`);
             return response.json();
