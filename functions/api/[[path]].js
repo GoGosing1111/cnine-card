@@ -172,6 +172,18 @@ let drawReceiptV2ReadyPromise=null;
 let furFirstPityV1291ReadyPromise=null;
 let drawBrowserLeaseReadyPromise=null;
 const DRAW_BROWSER_LEASE_MS=15000;
+// V1795: 뽑기가 "안 된다" 는 문의의 원인이 되던 값 불일치를 상수로 묶는다.
+//
+// draw_active_lock_v1480 의 리스는 2분이다. 즉 2분이 지나면 그 요청을 처리하던
+// 워커는 이미 없다고 봐야 하고, 락도 자동으로 풀린다.
+// 그런데 PENDING 영수증을 회수하는 기준만 10분으로 따로 박혀 있었다.
+// 그 결과 2분~10분 구간에서는 "락은 풀렸는데 영수증이 계속 409(DRAW_PENDING)를
+// 내는" 상태가 되어, 유저는 8분 동안 아무것도 할 수 없었다.
+// 자동뽑기는 한 번 걸리면 세션 전체(최대 500회)가 멈춘다.
+//
+// 두 값을 같은 상수에서 파생시켜 다시 어긋날 수 없게 한다.
+const DRAW_ACTIVE_LOCK_LEASE_MS=120000;
+const DRAW_STALE_PENDING_MS=DRAW_ACTIVE_LOCK_LEASE_MS;
 
 async function ensureDrawBrowserLease(env){
   if(drawBrowserLeaseReadyPromise)return drawBrowserLeaseReadyPromise;
@@ -195,7 +207,7 @@ async function ensureDrawBrowserLease(env){
 }
 
 async function claimDrawActiveLock(env,userId,requestId){
-  const now=Date.now(),leaseUntil=now+120000;
+  const now=Date.now(),leaseUntil=now+DRAW_ACTIVE_LOCK_LEASE_MS;
   const result=await env.DB.prepare(`INSERT INTO draw_active_lock_v1480(user_id,request_id,lease_until_ms,updated_at)
     VALUES(?,?,?,CURRENT_TIMESTAMP)
     ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP
@@ -3235,8 +3247,12 @@ async function profile(env,user){
 // 카드인데 참조를 읽을 수 없으면 무엇이 바뀌었는지 알 수 없으므로
 // null 을 돌려 호출자가 기존 full profile() 로 안전하게 되돌아가게 한다.
 //
-// ⚠️ 카드를 지급하는 새 경로가 생기면 반드시 여기에 등록할 것.
-//    등록하지 않으면 새로 얻은 카드가 다음 전체 갱신 전까지 화면에 안 보인다.
+// V1794: 새 보상 타입이 추가돼도 조용히 틀리지 않도록 안전장치를 넣었다.
+// 아래 목록에 없는 보상 타입을 만나면 "카드를 지급했을 수도 있다" 고 보고
+// null 을 돌려 전체 프로필로 폴백한다.
+// 즉 등록을 잊어도 화면이 틀리는 대신 조금 느려질 뿐이다.
+// (_drop_pool.js 가 지급하는 카드 아닌 보상 타입 전부)
+const NON_CARD_DROP_REWARD_TYPES=new Set(['COIN','CARD_SHARDS','MAGIC_CRYSTAL','INVENTORY_ITEM','MASTER_STAR','EQUIPMENT','VEHICLE']);
 function grantedCardIdsFromBattle({cardRewards=[],unifiedDrops=[]}={}){
   const ids=new Set();
   for(const reward of cardRewards){
@@ -3246,10 +3262,15 @@ function grantedCardIdsFromBattle({cardRewards=[],unifiedDrops=[]}={}){
   for(const drop of unifiedDrops){
     const rewards=Array.isArray(drop?.rewards)?drop.rewards:[];
     for(const reward of rewards){
-      if(String(reward?.rewardType||'').toUpperCase()!=='CARD')continue;
-      const ref=reward?.rewardRef;
-      if(ref===undefined||ref===null||String(ref).trim()==='')return null;
-      ids.add(String(ref));
+      const type=String(reward?.rewardType||'').toUpperCase();
+      if(type==='CARD'){
+        const ref=reward?.rewardRef;
+        if(ref===undefined||ref===null||String(ref).trim()==='')return null;
+        ids.add(String(ref));
+        continue;
+      }
+      // 모르는 보상 타입 → 카드를 줬는지 알 수 없으므로 안전하게 전체 프로필
+      if(!NON_CARD_DROP_REWARD_TYPES.has(type))return null;
     }
   }
   return ids;
@@ -4208,7 +4229,7 @@ async function handleRequest(context){
       let status=String(row.status||'PENDING').toUpperCase();
       if(status==='PENDING'){
         const updatedAtMs=Date.parse(String(row.updated_at||'').replace(' ','T')+'Z');
-        if(Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000)status='RETRYABLE';
+        if(Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=DRAW_STALE_PENDING_MS)status='RETRYABLE';
       }
       return json({requestId,status,error:String(row.error_message||''),createdAt:row.created_at||null,updatedAt:row.updated_at||null});
     }
@@ -4339,7 +4360,7 @@ async function handleRequest(context){
         if(!receiptAlreadyClaimed)return json({error:'카드 개봉 복구 요청을 다른 처리기가 확인 중입니다.',code:'DRAW_RECOVERY_BUSY',retryable:true,retryAfterMs:5000,requestId,status:'PENDING'},409);
       }
       if(prior?.status==='PENDING'){
-        const updatedAtMs=Date.parse(String(prior.updated_at||'').replace(' ','T')+'Z'),stale=Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=600000;
+        const updatedAtMs=Date.parse(String(prior.updated_at||'').replace(' ','T')+'Z'),stale=Number.isFinite(updatedAtMs)&&Date.now()-updatedAtMs>=DRAW_STALE_PENDING_MS;
         if(stale&&drawReceiptTable==='draw_request_receipts_v2')receiptAlreadyClaimed=await reclaimStalePendingDraw(prior.updated_at);
         if(!receiptAlreadyClaimed)return json({error:'같은 카드 개봉 요청을 처리 중입니다. 잠시만 기다려주세요.',code:'DRAW_PENDING',retryable:true,retryAfterMs:5000,requestId,status:'PENDING',updatedAt:prior.updated_at||null},409);
       }

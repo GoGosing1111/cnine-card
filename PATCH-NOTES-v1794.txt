@@ -1,0 +1,58 @@
+PATCH-NOTES-v1794 : 전투 경량 프로필의 "등록 누락" 위험 제거
+
+[배경]
+v1791 에서 전투 응답을 경량 프로필(BATTLE_PARTIAL)로 바꾸면서
+지급된 카드 id 를 grantedCardIdsFromBattle() 이 직접 모으도록 했다.
+그때 이런 경고를 달아 두었다:
+
+  "카드를 지급하는 새 경로가 생기면 반드시 여기에 등록할 것.
+   등록하지 않으면 새로 얻은 카드가 다음 전체 갱신 전까지 화면에 안 보인다."
+
+주석에만 의존하는 안전장치는 언젠가 깨진다.
+누군가 통합드랍에 새 보상 타입을 추가하면서 이 함수를 못 보면
+카드를 줬는데 화면에 안 뜨는, 원인 찾기 어려운 버그가 난다.
+
+[수정]
+알려진 "카드가 아닌" 보상 타입을 목록으로 두고,
+목록에 없는 타입을 만나면 카드를 지급했을 가능성이 있다고 보고
+null 을 돌려 기존 profile() 로 폴백한다.
+
+  const NON_CARD_DROP_REWARD_TYPES = new Set([
+    'COIN','CARD_SHARDS','MAGIC_CRYSTAL','INVENTORY_ITEM',
+    'MASTER_STAR','EQUIPMENT','VEHICLE'
+  ]);
+
+목록은 _drop_pool.js 가 실제로 지급하는 타입을 전수 확인해서 만들었다
+(MASTER_STAR 는 normalizedRewardType 에서 INVENTORY_ITEM 으로 정규화되지만
+ rewardType 원본으로도 들어올 수 있어 함께 넣었다).
+
+[효과]
+등록을 잊어도 화면이 틀리는 대신 그 요청만 조금 느려진다.
+"조용히 잘못된 결과" 가 "눈에 띄지 않는 성능 손해" 로 바뀐 것이다.
+새 타입을 등록하면 다시 경량 경로를 탄다.
+
+[검증] verify-1791 에 9번 항목 추가, 전체 9종 통과
+  9 알려진 비카드 보상 7종은 그대로 통과 /
+    모르는 타입(CARD_PACK, TITLE, 빈값, 임의 문자열)이면 전체 프로필로 폴백
+  회귀: v1784 / v1785 / v1787 / v1788 / v1790 / v1792 / v1793 전부 통과
+
+[함께 정리한 내용 — 콜드스타트 작업 보류]
+Worker 콜드스타트(라우트 핸들러 동적 import) 를 검토했으나 이번엔 넣지 않았다.
+
+  후보 모듈 (순수 라우트 핸들러, 합 약 579KB):
+    _territory_war 143KB / _captain 98KB / _seal_battle 68KB / _evolution 48KB
+    _workshop 40KB / _auction 38KB / _siege 35KB / _vehicle_draw 28KB
+    _scrapyard 24KB / _idle_dungeon 23KB / _coin_prediction 22KB / _chief 12KB
+  전부 첫 줄에 명시적 경로 가드가 있어 호출부에서 그대로 복제할 수 있다.
+
+  보류 이유:
+    Wrangler 문서상 await import('./x.js') 는 기본적으로 엔트리포인트에
+    그대로 번들된다. 실제 지연 로드가 되려면 find_additional_modules 와
+    모듈 규칙 설정이 필요하다.
+    즉 코드만 바꾸면 효과가 0일 수 있는데, 이 작업 환경은 npm 이 막혀 있어
+    번들 산출물을 검증할 수 없다.
+    효과를 확인할 수 없는 변경을 프로덕션 API 에 넣지 않는다.
+
+  진행하려면 사장님 PC 에서:
+    npx wrangler pages functions build --outdir=./_build_check
+    로 산출물을 만들어 청크가 분리되는지 확인한 뒤 적용할 것.

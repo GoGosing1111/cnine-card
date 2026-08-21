@@ -653,7 +653,21 @@ async function deleteExpiredSessionsBatch(env,raw={}){
 // day. General maintenance stays on a ten-minute lease, while append-only audit
 // logs use their own one-minute lease so a slow receipt task cannot block them.
 // The OWNER cleanup endpoint remains available for deliberate bulk work.
-const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=16384;
+// V1795: 정리 처리량 상향.
+//
+// 기존 설정으로는 41개 태스크를 10분 리스로 "1회당 1개" 씩만 돌렸다.
+// 한 바퀴 = 41 × 10분 ≈ 6.8시간. 게다가 1/16384 샘플링이 먼저 걸려야 시작되므로
+// 초당 27요청 이상 꾸준히 들어오지 않으면 그 6.8시간조차 못 지킨다.
+// 뽑기가 많은 게임에서는 draw_logs / coin_logs / shard_logs 가 쌓이는 속도를
+// 절대 따라잡지 못한다. (실제로 D1 이 계속 커지고 느려진다는 제보로 확인)
+//
+// 부하 상한은 리스와 배치 크기가 잡고 있으므로 샘플링은 사실상 중복 방어다.
+// 샘플링을 낮추고 리스를 짧게, 1회에 여러 태스크를 처리하도록 바꾼다.
+//   한 바퀴 = ceil(41/3) × 3분 ≈ 42분  (기존 6.8시간 대비 약 10배)
+// 1회 부하는 여전히 "DELETE 3건 × 최대 5000행" 으로 묶여 있다.
+const AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD=512;
+const AUTO_STORAGE_MAINTENANCE_LEASE_MINUTES=3;
+const AUTO_STORAGE_MAINTENANCE_TASKS_PER_RUN=3;
 // v1739: production traffic creates receipts and combat audit rows much faster
 // than the old 100/2,000-row rotation could retire them.  Keep each statement
 // bounded, but give every ten-minute lease enough capacity to stay ahead of a
@@ -868,27 +882,37 @@ async function runInventoryReceiptMaintenance(env){
 async function runBoundedStorageMaintenance(env){
   const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_lease_v1400',?,CURRENT_TIMESTAMP)
     ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
-    WHERE app_meta.updated_at<datetime('now','-10 minutes')`).bind(String(Date.now())).run();
+    WHERE app_meta.updated_at<datetime('now','-${AUTO_STORAGE_MAINTENANCE_LEASE_MINUTES} minutes')`).bind(String(Date.now())).run();
   if(!Number(lease?.meta?.changes||0))return {skipped:true};
   const cursorRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='storage_auto_maintenance_cursor_v1400'").first();
-  const cursor=Math.max(0,Math.floor(Number(cursorRow?.value||0)))%AUTO_STORAGE_MAINTENANCE_TASKS.length;
-  const task=AUTO_STORAGE_MAINTENANCE_TASKS[cursor];
-  const requiredTables=[task.table,...(task.requires||[])];
-  let changed=0,taskError='';
-  try{
-    const existing=await existingTableSet(env,requiredTables);
-    if(requiredTables.every(name=>existing.has(name))){
-      const result=await env.DB.prepare(task.sql).bind(AUTO_STORAGE_MAINTENANCE_BATCH).run();
-      changed=Number(result?.meta?.changes||0);
-    }else taskError=`MISSING_TABLE:${requiredTables.filter(name=>!existing.has(name)).join(',')}`;
-  }catch(error){taskError=String(error?.message||error||'MAINTENANCE_FAILED').slice(0,300);console.warn(`bounded storage task failed: ${task.key}`,error)}
+  let cursor=Math.max(0,Math.floor(Number(cursorRow?.value||0)))%AUTO_STORAGE_MAINTENANCE_TASKS.length;
+  // V1795: 1회 1태스크로는 41개를 도는 데 너무 오래 걸린다. 리스 1회당 여러 태스크를 처리한다.
+  const runs=[];
+  const taskCount=Math.max(1,Math.min(AUTO_STORAGE_MAINTENANCE_TASKS_PER_RUN,AUTO_STORAGE_MAINTENANCE_TASKS.length));
+  for(let index=0;index<taskCount;index+=1){
+    const task=AUTO_STORAGE_MAINTENANCE_TASKS[cursor];
+    const requiredTables=[task.table,...(task.requires||[])];
+    let changed=0,taskError='';
+    try{
+      const existing=await existingTableSet(env,requiredTables);
+      if(requiredTables.every(name=>existing.has(name))){
+        const result=await env.DB.prepare(task.sql).bind(AUTO_STORAGE_MAINTENANCE_BATCH).run();
+        changed=Number(result?.meta?.changes||0);
+      }else taskError=`MISSING_TABLE:${requiredTables.filter(name=>!existing.has(name)).join(',')}`;
+    }catch(error){taskError=String(error?.message||error||'MAINTENANCE_FAILED').slice(0,300);console.warn(`bounded storage task failed: ${task.key}`,error)}
+    runs.push({task:task.key,changed,error:taskError||undefined});
+    cursor=(cursor+1)%AUTO_STORAGE_MAINTENANCE_TASKS.length;
+  }
+  const task={key:runs.map(run=>run.task).join(',')};
+  const changed=runs.reduce((sum,run)=>sum+Number(run.changed||0),0);
+  const taskError=runs.map(run=>run.error).filter(Boolean).join(' | ');
   await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES('storage_auto_maintenance_cursor_v1400',?,CURRENT_TIMESTAMP)
-    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String((cursor+1)%AUTO_STORAGE_MAINTENANCE_TASKS.length)).run();
+    ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(String(cursor)).run();
   let magicRewards=null;
   try{magicRewards=await runMagicRewardReceiptMaintenance(env)}catch(error){console.warn('magic reward receipt cleanup failed',error);magicRewards={error:String(error?.message||error).slice(0,300)}}
   let inventoryReceipts=null;
   try{inventoryReceipts=await runInventoryReceiptMaintenance(env)}catch(error){console.warn('inventory receipt cleanup failed',error);inventoryReceipts={error:String(error?.message||error).slice(0,300)}}
-  return {skipped:false,task:task.key,changed,error:taskError||undefined,magicRewards,inventoryReceipts};
+  return {skipped:false,task:task.key,changed,runs,error:taskError||undefined,magicRewards,inventoryReceipts};
 }
 export function scheduleBoundedStorageMaintenance(context,env,seed=''){
   if(autoMaintenanceHash(seed)%AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD!==0)return;
