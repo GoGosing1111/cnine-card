@@ -544,7 +544,7 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   battleV2:{
-    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=1796-roster-verdict'],
+    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=1798-roster-frame'],
     scripts:[
       'js/battle-v2-live.js?v=3.1.0-card-cutin-1-3x',
       'js/project-v-battle-art-adapter-v1.js?v=3.1.0-manifest-cache',
@@ -714,6 +714,21 @@ function showBlockedFeatureModal(notice){
   document.body.appendChild(modal);
   modal.querySelector('[data-feature-blocked-close]')?.focus();
 }
+// V21 셸 어댑터(soopketmon-v21-exact-shell-adapter.js)는 renderShell 을 감싸서
+//   const result = nativeRenderShell.apply(...);   // ← 우리가 여기서 안 그리고 빠져나온다
+//   currentRoute = requested;                      // ← 그래도 라우트는 'mineral' 로 덮인다
+//   scheduleEnhance(currentRoute);                 // ← 헤더만 "교환소" 로 다시 그린다
+// 이렇게 동작한다. 그래서 그냥 return 하면 "헤더는 교환소, 본문은 로비" 로 어긋나
+// 로비가 주저앉은 것처럼 보인다. 어댑터가 아직 알고 있는 직전 라우트(보통 home)로
+// 되돌려 준다. 어댑터가 라우트를 덮어쓴 뒤에 실행되어야 하므로 다음 태스크로 미룬다.
+function restoreShellRouteAfterBlock(){
+  const shell=window.SoopketmonV21ExactShell;
+  if(typeof shell?.navigate!=='function')return;      // 어댑터가 없으면 되돌릴 것도 없다
+  const restore=shell.currentRoute;
+  // 막아 둔 메뉴로 되돌리면 팝업이 무한히 다시 뜬다.
+  if(!restore||blockedTabNotice(restore))return void setTimeout(()=>{try{shell.navigate('home')?.catch?.(()=>{})}catch(_){}},0);
+  setTimeout(()=>{try{shell.navigate(restore)?.catch?.(()=>{})}catch(_){}},0);
+}
 // 누르기 전에도 막힌 메뉴라는 걸 알 수 있게 표시한다(문의를 줄이는 목적).
 function markBlockedTabButtons(){
   document.querySelectorAll('[data-tab],[data-mobile-tab]').forEach(button=>{
@@ -734,7 +749,7 @@ function renderShell(tab) {
   if(blockedNotice){
     showBlockedFeatureModal(blockedNotice);
     // 보던 화면이 있으면 그대로 두고 팝업만 올린다.
-    if(previousTab&&previousTab!==tab)return;
+    if(previousTab&&previousTab!==tab){restoreShellRouteAfterBlock();return}
     // 첫 진입(딥링크 등)이라 그려진 화면이 없으면 빈 화면이 되지 않게 기본 탭으로 보낸다.
     tab='buy';
   }
