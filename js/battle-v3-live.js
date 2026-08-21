@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.14.0-roster-dex-art';
+  const VERSION = '3.15.0-roster-geometry-guard';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -185,6 +185,75 @@
     </li>`;
   }
 
+  // V1800: 옛 CSS가 캐시에 남은 기기 대비 안전장치.
+  //
+  // 로스터 카드는 원본 .card-frame(180px 고정)을 transform:scale 로 줄여서 쓴다.
+  // 그 scale 값(--v3-card-s)이 battle-v3-live.css 에 있는데, 예전에 같은 ?v= 로
+  // 서로 다른 CSS 를 배포한 적이 있어(immutable 캐시) "새 JS + 옛 CSS" 기기가 생겼다.
+  // 그러면 scale 이 없어서 180px 카드가 그대로 그려지고 서로 겹쳐 화면이 무너진다.
+  // CSS 가 정상이면 이 함수는 아무것도 하지 않고, 값이 없을 때만 JS 가 직접 잡아준다.
+  const ROSTER_FRAME_WIDTH = 180;
+  const ROSTER_FRAME_RATIO = 2.82 / 2;
+  function fallbackCardWidth(versus) {
+    const width = Number(root.innerWidth || document.documentElement?.clientWidth || 0);
+    const landscape = Number(root.innerHeight || 0) > 0 && Number(root.innerHeight) <= 620 && width > Number(root.innerHeight);
+    if (landscape) return versus ? 54 : 62;
+    if (width <= 760) return versus ? 58 : 66;
+    if (width <= 1180) return versus ? 76 : 112;
+    return versus ? 96 : 112;
+  }
+  function ensureRosterGeometry(roster) {
+    if (!roster || roster.hidden) return false;
+    const declared = parseFloat(getComputedStyle(roster).getPropertyValue('--v3-card-s'));
+    if (Number.isFinite(declared) && declared > 0) return false;   // CSS 정상 — 손대지 않는다
+    const versus = roster.classList.contains('is-versus');
+    const cardWidth = fallbackCardWidth(versus);
+    const scale = cardWidth / ROSTER_FRAME_WIDTH;
+    console.warn('[PROJECT V V3] battle-v3-live.css 가 최신이 아닙니다. 로스터 크기를 코드에서 대신 잡습니다.');
+    roster.style.display = 'flex';
+    roster.style.flexWrap = 'nowrap';
+    if (versus) { roster.style.flexDirection = cardWidth <= 58 ? 'column' : 'row'; roster.style.justifyContent = 'space-between'; }
+    else roster.style.justifyContent = 'center';
+    roster.querySelectorAll('[data-v3-roster-list]').forEach(list => {
+      list.style.display = 'flex';
+      list.style.listStyle = 'none';
+      list.style.margin = '0';
+      list.style.padding = '0';
+      list.style.gap = '6px';
+    });
+    roster.querySelectorAll('.battle-v3-roster-card').forEach(card => {
+      card.style.display = 'flex';
+      card.style.flexDirection = 'column';
+      card.style.alignItems = 'center';
+      card.style.flex = '0 0 auto';
+      card.style.width = `${cardWidth}px`;
+    });
+    roster.querySelectorAll('.battle-v3-roster-slot').forEach(slot => {
+      slot.style.position = 'relative';
+      slot.style.display = 'block';
+      slot.style.width = `${cardWidth}px`;
+      slot.style.height = `${Math.round(ROSTER_FRAME_WIDTH * ROSTER_FRAME_RATIO * scale)}px`;
+    });
+    roster.querySelectorAll('.battle-v3-roster-frame').forEach(frame => {
+      frame.style.position = 'absolute';
+      frame.style.top = '0';
+      frame.style.left = '0';
+      frame.style.width = `${ROSTER_FRAME_WIDTH}px`;
+      frame.style.transformOrigin = 'top left';
+      // card.css 의 .card-frame 은 transition:.28s transform 을 갖고 있다.
+      // 끄지 않으면 축소가 0.28초 동안 애니메이션되며 그 사이 원본 크기로 보인다.
+      frame.style.transition = 'none';
+      frame.style.transform = `scale(${scale})`;
+    });
+    roster.querySelectorAll('.battle-v3-roster-row').forEach(row => {
+      row.style.fontSize = '9px';
+      row.style.fontWeight = '800';
+      row.style.color = '#8fa5b2';
+      row.style.whiteSpace = 'nowrap';
+    });
+    return true;
+  }
+
   function renderRoster(stage, payload, mode) {
     const roster = stage?.querySelector?.('[data-v3-roster]');
     if (!roster) return 0;
@@ -214,6 +283,7 @@
     });
     roster.hidden = shown === 0;
     stage.classList.toggle('is-roster-visible', shown > 0);
+    ensureRosterGeometry(roster);
     return shown;
   }
 

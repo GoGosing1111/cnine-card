@@ -316,7 +316,13 @@ export class BattleCharacter{
   setHp(value){
     this.hp=clamp(Number(value)||0,0,100);
     this.renderHp();
+    // V1800: setHp 가 단방향이라 한 번 DEAD 가 되면 HP 가 다시 올라도 DEAD 로 남았다.
+    // 서버는 불굴(INDOMITABLE)·불굴의 생존(SURVIVE)·불사조 부활로 HP 0 직후 다시
+    // 살려내는데, 클라이언트만 DEAD 로 굳어 버리니 isAlive() 가 false 가 되고
+    // selectLiveTarget() 이 서버가 지정한 대상을 버리고 엉뚱한 캐릭터를 때린다.
+    // 그러다 다음 이벤트로 HP 가 채워지면 "죽은 애가 되살아난 것"처럼 보였다.
     if(this.hp<=0)this.setState(CHARACTER_STATE.DEAD);
+    else if(this.state===CHARACTER_STATE.DEAD)this.setState(CHARACTER_STATE.IDLE);
     return this.hp;
   }
 

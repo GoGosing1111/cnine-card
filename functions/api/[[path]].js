@@ -2738,7 +2738,7 @@ async function inspectWagoComment(settings,verification){
   const upper=page.html.toUpperCase(),pos=upper.indexOf(code.toUpperCase());
   if(pos<0)return {ok:false,error:'인증 게시글 댓글에서 발급된 인증코드를 찾지 못했습니다. 댓글 작성 후 잠시 뒤 다시 확인하세요.'};
 
-  // 와고 댓글은 작성자 회원번호를 minilog 링크가 아니라
+  // 댓글 작성자 회원번호는 minilog 링크가 아니라
   // YG_COMMON.show_nick_dropdown($(this), '현재로그인회원', '댓글작성자회원', ...)의
   // 두 번째 숫자 인자로 노출한다. 인증코드가 들어간 정확한 댓글 <li>만 잘라서 확인한다.
   const commentMarker=page.html.lastIndexOf("<div class='comment'",pos);
@@ -2789,7 +2789,7 @@ async function wagoDailyQuestSettings(env){
 }
 function extractWagoMemberNoFromAuthorRow(block){
   const source=String(block||'');
-  // 와고 작성자 메뉴: show_nick_dropdown($(this), 현재로그인회원번호, 작성자회원번호, ...)
+  // 작성자 메뉴: show_nick_dropdown($(this), 현재로그인회원번호, 작성자회원번호, ...)
   const dropdown=/show_nick_dropdown\(\s*\$\(this\)\s*,\s*['"]\d+['"]\s*,\s*['"](\d+)['"]/i.exec(source);
   if(dropdown?.[1])return String(dropdown[1]).replace(/\D/g,'');
   const patterns=[
@@ -2853,7 +2853,7 @@ function parseWagoTodaySearchPosts(html,wagoNickname){
     if(!postId)continue;
     const block=nearestWagoSearchResultBlock(source,match.index);
     const text=htmlText(block).replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim();
-    // 와이고수 검색 결과에서 당일 게시글은 날짜 대신 HH:MM으로 표시된다.
+    // 검색 결과에서 당일 게시글은 날짜 대신 HH:MM으로 표시된다.
     if(!/(?:^|\s)(?:[01]?\d|2[0-3]):[0-5]\d(?:\s|$)/.test(text))continue;
     const opening=(/<(?:tr|li|article)\b[^>]*>/i.exec(block)||[''])[0];
     const rowClass=(/\bclass\s*=\s*["']([^"']*)["']/i.exec(opening)||[])[1]||'';

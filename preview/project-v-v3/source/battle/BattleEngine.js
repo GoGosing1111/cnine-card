@@ -1345,14 +1345,20 @@ export class BattleEngine{
           await this.showBanner(label,event.amount?0x6affb7:0xb57cff,event.amount?'회복효과 발동':'마법효과 발동');
           if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
         }
-      }else if(['TEAM_HEAL','REGEN','EMERGENCY_HEAL','SURVIVE','SINGLE_HEALER_AURA'].includes(type)){
-        await this.showBanner(type==='TEAM_HEAL'?'아군 회복':type==='SURVIVE'?'불굴의 생존':'생명 회복',0x6affb7,'회복효과 발동');
+      }else if(['TEAM_HEAL','REGEN','EMERGENCY_HEAL','SURVIVE','INDOMITABLE','SINGLE_HEALER_AURA'].includes(type)){
+        // V1800: INDOMITABLE(방어형 불굴)은 서버가 HP 를 0 에서 1 로 되돌리는 이벤트인데
+        // 여기서 빠져 있어 HP 표시가 0 에 멈췄고, 그 캐릭터가 죽은 것으로 취급됐다.
+        await this.showBanner(type==='TEAM_HEAL'?'아군 회복':type==='SURVIVE'?'불굴의 생존':type==='INDOMITABLE'?'방어형 · 불굴':'생명 회복',type==='INDOMITABLE'?0x69ddff:0x6affb7,type==='INDOMITABLE'?'방어효과 발동':'회복효과 발동');
         if(type==='SINGLE_HEALER_AURA')for(const item of event.targets||[]){const itemTarget=this.combatantById(item.targetId);if(itemTarget&&hasFiniteNumber(item.hpAfter))this.syncTargetHp(itemTarget,this.eventHpPercent(itemTarget,item.hpAfter))}
         else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
       }else if(type==='KO'){
         if(target)this.syncTargetHp(target,0);
       }else if(type==='RESULT'){
         this.updateStatus(event.winner==='A'?'PROJECT V V3 · 승리':event.winner==='B'?'PROJECT V V3 · 패배':'PROJECT V V3 · 무승부');
+      }else if(target&&hasFiniteNumber(resolvedTargetHp)){
+        // V1800: 서버가 새 이벤트 타입을 추가해도 HP 표시가 어긋나지 않도록 마지막에 동기화한다.
+        // (INDOMITABLE 누락 같은 사고가 다시 나도 최소한 생존 상태는 서버와 맞는다)
+        this.syncTargetHp(target,resolvedTargetHp);
       }
     }
   }
