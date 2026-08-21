@@ -1,0 +1,61 @@
+PATCH-NOTES-v1793 : 승부예측 이벤트당 배팅 한도 3,000만 -> 1억
+
+[변경]
+유저 1명이 한 이벤트에 넣을 수 있는 누적 배팅 한도를
+30,000,000 코인 -> 100,000,000 코인으로 올린다.
+
+[수정한 곳]
+  functions/_coin_prediction.js
+    USER_MAX_BET_PER_EVENT  30000000 -> 100000000
+    이용 규정 문구: "이벤트당 누적 최대 30,000,000코인" -> "100,000,000코인"
+
+  js/coin-prediction-v1.js
+    USER_MAX_BET_PER_EVENT  30000000 -> 100000000  (서버와 반드시 동일)
+    안내 문구 "최대 3,000만" -> "최대 1억" (3곳)
+    이벤트 배지 '30,000,000 MAX' -> `${fmt(USER_MAX_BET_PER_EVENT)} MAX`
+      상수에서 파생되도록 바꿔, 다음에 한도를 바꿔도 배지가 어긋나지 않는다.
+
+  admin/coin-prediction-admin-v1.js
+    "이벤트당 최대 30,000,000" -> "100,000,000"
+
+  preview/coin-prediction-v1.html, preview/project-v-v3/index.html
+    프리뷰 목업 표기 동기화
+
+[기존 데이터는 자동으로 따라온다]
+_coin_prediction.js 의 foundation() 에 이미 마이그레이션이 있다.
+저장된 설정값이 상수와 다르면
+  1) app_meta 의 coin_prediction_settings_v1 을 새 값으로 다시 쓰고
+  2) status IN ('DRAFT','OPEN') 인 이벤트의 max_bet 도 새 값으로 갱신한다.
+또 settings() 가 항상 상수로 강제하므로 CMS 에 옛 값이 남아 있어도 무시된다.
+=> 배포만 하면 진행 중인 이벤트까지 즉시 1억으로 올라간다. 수동 작업 불필요.
+
+[서버 검증]
+placeBet() 의 한도 검사는 Number(event.max_bet||s.maxBetPerEvent) 에서 파생되고
+에러 문구도 max.toLocaleString() 을 쓰므로 별도로 손댈 하드코딩이 없다.
+OWNER 계정의 무제한 모드(ownerUnlimited)는 종전과 동일하다.
+
+[건드리지 않은 것]
+functions/_idle_dungeon.js 의 DAILY_ACCOUNT_COIN_CAP=30000000 은
+아이들던전 일일 코인 획득 한도로, 승부예측과 무관하다. 그대로 두었다.
+
+[버전 갱신]
+  js/app.js        coin-prediction-v1.js?v=1793-user-max-100m
+  index.html       app.js?v=1793-prediction-max-100m
+  service-worker.js SHELL_CACHE -> soop-card-shell-v1793-prediction-max-100m
+  (admin/ 은 _headers 에서 no-store 라 버전 갱신 불필요)
+
+[검증] verify-1793 7종 통과
+  1 서버·클라 상수 모두 100,000,000 이며 일치 (어긋나면 유저가 거부당한다)
+  2 저장된 설정 + 진행 중 이벤트 max_bet 자동 마이그레이션 확인
+  3 배팅 검증/에러 문구가 설정값 파생 (하드코딩 없음)
+  4 서버 이용규정·유저·관리자·프리뷰에 옛 표기 잔존 없음
+  5 배지가 상수 파생으로 변경
+  6 아이들던전 3,000만 한도는 그대로
+  7 캐시 버전 갱신
+  회귀: v1784~v1792 스위트 전부 통과
+
+[배포 후 확인]
+  - 승부예측 화면 상단에 "최대 1억", 이벤트 배지에 "100,000,000 MAX"
+  - 이용 규정 팝업의 누적 한도 문구
+  - 실제로 3,000만 초과 배팅이 통과하는지
+  - 진행 중이던 이벤트에서도 1억까지 되는지 (마이그레이션 확인)
