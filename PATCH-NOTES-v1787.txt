@@ -1,0 +1,89 @@
+PATCH-NOTES-v1787 : 무한의탑 자동전투 2판째부터 몬스터·SD 캐릭터가 사라지던 버그 수정
+
+[증상]
+무한의탑에서 자동전투를 켜면 1판째는 정상, 2판째부터 전장 격자만 남고
+몬스터와 SD 캐릭터가 전부 보이지 않는다.
+화면 하단 상태 문구: "서버 최종 상태 동기화 · 생존 0 : 0"
+
+
+[원인]
+1. syncFinalState 는 "서버가 보낸 최종 생존 상태"를 화면에 강제로 덮어쓰는 함수다.
+   목록에 없는 캐릭터는 전멸한 것으로 보고 숨긴다.
+     BattleEngine.js syncFinalState() 의 team.forEach 분기:
+       character.battleActive=false;
+       character.root.visible=false;
+       character.root.renderable=false;
+       character.setHp(0);
+
+2. 그런데 TOWER / SEAL / RAID 는 서버 battleV2 를 쓰지 않는다.
+   js/battle-v3-live.js 의 towerPayload() / sealPayload() / raidPayload() 가
+   타임라인을 클라이언트에서 직접 합성하며, result 에 final 을 넣지 않는다.
+     result: { timeline, winner, actions }     ← final 없음
+   반면 PVE/PVP 는 서버가 final:{A:[...],B:[...]} 를 실어 보낸다.
+     (functions/_battle_v2_preview.js simulateBattleV2Preview 반환값)
+
+3. 그래서 무한의탑에서는 매 전투 끝에 syncFinalState({}) 가 호출됐고,
+   엔진이 "양 팀 생존 0명"으로 해석해 모든 캐릭터를 숨겼다.
+   화면의 "생존 0 : 0" 이 바로 그 결과다.
+
+4. 1판째에 증상이 안 보인 이유:
+   숨기는 시점이 전투 연출이 모두 끝난 직후라 결과창에 가려진다.
+
+5. 2판째부터 보인 이유:
+   BattleEngine.resetSession 은 root.visible 만 되돌리고
+   root.renderable 은 되돌리지 않는다.
+     this.characters.forEach(c=>{ c.root.visible = c.battleActive!==false });
+   Pixi 는 renderable=false 면 visible=true 여도 그리지 않는다.
+   따라서 한 번 renderable=false 가 된 캐릭터는 다음 판에도 계속 안 보인다.
+
+
+[수정]
+js/battle-v3-live.js — 서버가 실제로 final 을 보냈을 때만 동기화한다.
+
+  const hasServerFinalState = Array.isArray(finalState.A) || Array.isArray(finalState.B);
+  if (!hasServerFinalState) {
+    // TOWER/SEAL/RAID: 타임라인 연출의 마지막 상태가 곧 최종 상태다
+  } else if (...) { ...기존 동기화 로직 그대로... }
+
+- final 이 있는 PVE/PVP 경로는 동작이 전혀 바뀌지 않는다.
+- final 이 없는 모드에서는 애초에 동기화할 데이터가 없으므로 호출하지 않는 것이 맞다.
+- 이 파일은 번들에 포함되지 않고 그대로 로드되므로 번들 재빌드가 필요 없다.
+
+버전 갱신 (v1784 immutable 캐시 정책 대응, 필수)
+  - js/battle-v3-live.js VERSION → '3.12.0-final-state-guard'
+  - js/app.js  battle-v3-live.js?v=3.12.0-final-state-guard
+  - index.html app.js?v=1787-tower-auto-sprite-fix
+  - service-worker.js SHELL_CACHE → soop-card-shell-v1787-tower-auto-sprite-fix
+
+
+[검증] verify-1787 6종 통과
+  1 TOWER/SEAL/RAID payload 에 result.final 이 없음 (버그 전제 조건)
+  2 BattleEngine.js 의 실제 syncFinalState 로직을 그대로 실행 →
+    {} 입력 시 "생존 0 : 0" + 전원 visible=false, renderable=false 재현
+    (스크린샷의 문구와 정확히 일치)
+  3 서버 final 이 있으면 정상 동작 → PVE/PVP 경로 무영향
+  4 resetSession 이 renderable 을 복구하지 않음을 소스에서 확인
+  5 가드가 syncFinalState 호출 앞에 적용됨
+  6 ?v= / SW 캐시명 갱신 확인
+
+
+[남은 과제 — 번들 재빌드가 필요해 이번에 넣지 못함]
+BattleEngine.resetSession 이 root.renderable 을 복구하지 않는 것 자체는 그대로다.
+이번 수정으로 TOWER/SEAL/RAID 에서는 renderable=false 가 될 일이 없어졌지만,
+PVE 전투는 여전히 서버 final 로 syncFinalState 를 부르므로
+final 목록보다 엔진의 슬롯 수가 많으면 남는 슬롯이 renderable=false 로 남는다.
+(예: PVE 는 적이 몬스터 1기인데 엔진 enemies 슬롯은 더 많음 → 이후 PVP 진입 시 재현 가능)
+
+  수정 위치: preview/project-v-v3/source/battle/BattleEngine.js  resetSession()
+    this.characters.forEach(character=>{
+      character.root.visible=character.battleActive!==false;
+      character.root.renderable=character.battleActive!==false;   // ← 추가
+    });
+
+  적용하려면 번들 재빌드가 필요하다:
+    preview/project-v-v3/source/ → project-v-pixi-battle.bundle.js
+  (이 작업 환경은 npm 레지스트리가 차단되어 esbuild 실행 불가라 손대지 않았다.
+   소스와 번들이 어긋나면 더 위험하므로 소스도 그대로 두었다.)
+
+  재빌드 가능한 환경에서 위 한 줄을 넣고 번들을 다시 만든 뒤
+  bundle.js 의 ?v= 도 함께 올릴 것.

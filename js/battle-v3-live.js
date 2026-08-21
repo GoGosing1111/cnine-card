@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.11.0-authoritative-final-sync';
+  const VERSION = '3.12.0-final-state-guard';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -449,7 +449,26 @@
             await safePlayEvents([event], `${event.label || type || '전투'} 연출이 지연되어 다음 행동으로 이동했습니다.`);
           }
           const finalState = payload?.battleV2?.result?.final || {};
-          if (typeof root.ProjectVPixiBattle.syncFinalState === 'function') {
+          // V1787: 무한의탑 자동전투 2판째부터 몬스터·SD 캐릭터가 전부 사라지던 버그 수정.
+          //
+          // syncFinalState 는 "서버가 보낸 최종 생존 상태"를 화면에 강제로 덮어쓰는 함수다.
+          // 그런데 TOWER/SEAL/RAID 는 서버 battleV2 를 쓰지 않고 이 파일의
+          // towerPayload()/sealPayload()/raidPayload() 가 타임라인을 직접 합성하며,
+          // 이때 result 에 final 을 넣지 않는다. 그 상태로 syncFinalState({}) 를 부르면
+          // BattleEngine 이 "양 팀 생존 0명"으로 해석해서(화면 하단 '생존 0 : 0')
+          // 모든 캐릭터를 visible=false, renderable=false 로 만들어 버린다.
+          //
+          // 1판째는 전투가 끝난 직후라 결과창에 가려 티가 안 난다. 문제는 2판째다.
+          // BattleEngine.resetSession 은 root.visible 만 되돌리고 root.renderable 은
+          // 되돌리지 않기 때문에, 한 번 renderable=false 가 된 캐릭터는 다음 판에도
+          // 계속 보이지 않는다. 그래서 "첫판 정상, 2판째부터 안 보임" 이 된다.
+          //
+          // => 서버가 실제로 final 을 보낸 모드(PVE/PVP)에서만 동기화한다.
+          //    final 이 없는 모드는 타임라인 연출의 마지막 상태가 곧 최종 상태다.
+          const hasServerFinalState = Array.isArray(finalState.A) || Array.isArray(finalState.B);
+          if (!hasServerFinalState) {
+            if (status) status.textContent = '전투 연출 완료';
+          } else if (typeof root.ProjectVPixiBattle.syncFinalState === 'function') {
             await withTimeout(
               root.ProjectVPixiBattle.syncFinalState(finalState),
               1200,
