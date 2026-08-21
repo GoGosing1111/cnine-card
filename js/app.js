@@ -541,7 +541,7 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   battleV2:{
-    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=3.4.0-card-cutin-1-3x'],
+    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=1796-roster-verdict'],
     scripts:[
       'js/battle-v2-live.js?v=3.1.0-card-cutin-1-3x',
       'js/project-v-battle-art-adapter-v1.js?v=3.1.0-manifest-cache',
@@ -549,7 +549,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.1.0-manifest-cache',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=53-reset-renderable',
-      'js/battle-v3-live.js?v=3.12.0-final-state-guard'
+      'js/battle-v3-live.js?v=3.13.0-roster-verdict'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }
