@@ -381,7 +381,10 @@ export class BattleEngine{
     // work so no first-battle KO/result state can leak into battle two.
     this.resetVisualSession({preserveTargets:true});
     this.characters.forEach(character=>{
-      character.root.visible=character.battleActive!==false;
+      // V1788: visible 만 되돌리면 안 된다. syncFinalState 는 전멸 처리한 캐릭터에
+      // renderable=false 까지 걸어두는데, Pixi 는 renderable=false 면 visible=true 여도
+      // 그리지 않는다. 여기서 같이 복구하지 않으면 그 상태가 다음 전투로 그대로 전이된다.
+      character.root.visible=character.root.renderable=character.battleActive!==false;
     });
     return this;
   }
