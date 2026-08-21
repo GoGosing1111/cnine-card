@@ -1005,7 +1005,24 @@ export class BattleEngine{
   combatantById(value){
     const id=String(value?.id||value||'').trim();
     if(!id)return null;
-    return this.characters.find(character=>String(character.id)===id||String(character.cardId||'')===id||id.endsWith(`:${character.cardId||character.id}`))||null;
+    // V1801: PVP 미러전에서 상대 카드가 내 카드로 잘못 매칭되던 문제.
+    //
+    // 서버 전투원 id 는 "A:0:CN-XXXX" 처럼 진영·슬롯이 박혀 유일하다.
+    // 그런데 예전 구현은 세 조건을 OR 로 묶어 한 번에 find 했고, 마지막
+    // 접미사 조건 id.endsWith(`:${cardId}`) 이 배열 앞쪽(아군)에서 먼저 걸렸다.
+    // 양 팀이 같은 카드를 내면(인기 카드는 흔하다) 상대 전투원 id 로 조회해도
+    // 내 카드가 반환됐고, 그 결과 상대의 공격이 "내 카드가 적을 때리는" 연출로
+    // 재생되면서 화면에서는 내가 이기고 실제로는 지는 상황이 나왔다.
+    // => 유일성이 보장되는 순서로 단계를 나누고, 후보가 둘 이상이면 포기한다.
+    const exact=this.characters.find(character=>String(character.id)===id);
+    if(exact)return exact;
+    const byCardId=this.characters.filter(character=>String(character.cardId||'')===id);
+    if(byCardId.length===1)return byCardId[0];
+    const bySuffix=this.characters.filter(character=>{
+      const key=String(character.cardId||character.id||'');
+      return key&&id.endsWith(`:${key}`);
+    });
+    return bySuffix.length===1?bySuffix[0]:null;
   }
 
   selectLiveTarget(attacker,preferred=null){

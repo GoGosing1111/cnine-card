@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1800-knockout-recovery';
+const SHELL_CACHE='soop-card-shell-v1801-pvp-identity';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
