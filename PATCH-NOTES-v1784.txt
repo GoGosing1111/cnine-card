@@ -1,0 +1,85 @@
+PATCH-NOTES-v1784 : V3 전투 엔진 로딩/동시성 병목 1차 해소
+
+[배경]
+동시접속이 늘수록 전투 진입과 battle/fight 응답이 함께 느려지는 현상.
+원인 분석 결과 (1) 클라이언트 정적 리소스 캐시 전면 차단,
+(2) 모든 플레이어 요청의 점검 게이트 D1 읽기, (3) D1 기반 유저 뮤텍스의
+쓰기 경합 세 가지가 지배적이었다.
+
+
+[1] _headers : /js/* /css/* /preview/* 캐시 정책 교정
+  - 변경 전 : Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+  - 변경 후 : Cache-Control: public, max-age=31536000, immutable
+  - 근거    : index.html 과 app.js 의 FEATURE_RESOURCE_MANIFEST 가
+              모든 js/css 참조에 ?v= 를 붙이고 있어 URL 자체가 버전 키다.
+              no-store 는 브라우저 캐시와 Cloudflare 엣지 캐시를 모두 무력화해
+              app.js 509KB + CSS 25개 + Pixi 번들 731KB 를 접속마다 원본에서
+              다시 내려받게 만들고 있었다.
+  - 부수    : 4중으로 중복 정의돼 있던 /admin/* 블록을 1개로 정리.
+              /offline.html, /manifest.webmanifest 규칙 추가.
+
+  ⚠️ 운영 규칙 (필수)
+     js/ css/ preview/ 아래 파일을 수정하면 반드시 참조 URL 의 ?v= 를 올릴 것.
+     안 올리면 기존 접속자는 최대 1년간 옛 파일을 계속 사용한다.
+
+
+[2] functions/api/[[path]].js : 점검 게이트 + 세션 조회를 D1 배치 1회로 통합
+  - maintenanceGateSettings() 는 종전과 동일하게 매 요청 D1 원본을 읽는다.
+    (메모리 캐시를 두지 않음 → 점검 전환 지연 0 유지)
+  - 대신 같은 요청의 sessions/users 조회와 env.DB.batch() 로 묶었다.
+    인증된 요청 1건당 D1 왕복 2회 → 1회.
+  - authenticate() 는 배치가 미리 채운 세션 행을 재사용한다(requestSessionRowCache).
+  - 배치 실패 시 기존 단건 조회 2회로 자동 폴백.
+  - onRequest() 의 직렬화 액션(battle/fight, tower/fight, pvp/*, raid/* 등)은
+    락 획득 전에 이 배치를 먼저 태워 이후 게이트/인증이 추가 왕복을 쓰지 않게 했다.
+
+
+[3] functions/api/[[path]].js : 유저 뮤텍스 락
+  (3-a) 락 해제를 응답 경로에서 분리
+        releaseUserMutationLock 을 context.waitUntil 로 넘겼다.
+        전투 응답이 D1 쓰기 1회를 기다리지 않고 반환된다.
+        실패해도 lease(8~60초) 만료로 자동 회수된다.
+
+  (3-b) Durable Object 락 경로 추가 (선택 적용, 바인딩 없으면 자동 폴백)
+        env.USER_LOCK 바인딩이 있으면 D1 을 전혀 쓰지 않는다.
+        D1(SQLite)은 단일 라이터라 전투 1회마다 발생하던
+        락 INSERT + DELETE 두 번의 쓰기가 전체 유저의 쓰기 큐에 직렬로 쌓이고,
+        획득 실패 → 409 → 클라 재시도로 쓰기가 더 늘어나는 악순환이 있었다.
+        DO 는 idFromName('user:<id>') 로 유저별 단일 인스턴스가 보장되므로
+        메모리 변수만으로 완전한 상호배제가 되고 D1 쓰기는 0회다.
+
+        신규 파일:
+          workers/user-lock/src/index.js
+          workers/user-lock/wrangler.toml.example
+
+        적용 절차:
+          1) cd workers/user-lock && cp wrangler.toml.example wrangler.toml
+          2) npx wrangler deploy
+          3) Cloudflare Pages(cnine-card) → Settings → Functions →
+             Durable Object bindings 에 추가
+               Variable name : USER_LOCK
+               Durable Object: cnine-card-user-lock / UserMutationLock
+          4) 바인딩이 붙는 즉시 DO 락으로 전환된다. 코드 수정 불필요.
+             바인딩을 제거하면 기존 D1 락으로 자동 복귀한다.
+
+
+[검증]
+  - node --check / SourceTextModule 파싱 통과
+  - 목 D1 기반 단위 검증 7종 통과
+      1. 게이트+세션 배치 → D1 왕복 1회 (기존 2회)
+      2. authenticate 선행 호출 시에도 정확성 유지, 점검 전환 즉시 반영
+      3. 비인증 요청 → 단건 조회 1회, 불필요한 세션 조회 없음
+      4. 같은 요청 내 게이트 재호출 왕복 0회
+      5. USER_LOCK 미바인딩 → 기존 D1 락 그대로 (하위호환)
+      6. USER_LOCK 바인딩 → D1 왕복 0회 + 유저별 상호배제 정상
+      7. DO 장애 → D1 락 자동 폴백
+
+
+[남은 과제 (미적용)]
+  - battle/fight 후처리(보상/드랍/큐브/로그) waitUntil + env.DB.batch 통합
+    : 현재 1회 전투당 D1 왕복 30~60회, 대부분 직렬
+  - 읽기 경로 D1 Sessions API(읽기 복제본) 도입 : withSession 사용처 현재 0건
+  - functions/api/[[path]].js 854KB 단일 모듈 → 라우트별 동적 import 분할
+    (_data/seed.js 70KB 는 setup/init 전용인데 모든 요청 isolate 에 파싱됨)
+  - Pixi 번들 731KB 코어/이펙트 분할 + 로비 idle 프리페치
+  - project-v-*-battle-art-adapter 의 manifest fetch cache:'no-cache' 재검증 제거

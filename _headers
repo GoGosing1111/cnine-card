@@ -1,41 +1,47 @@
-/admin/*
-  Cache-Control: no-cache, no-store, must-revalidate
+# =============================================================
+# 관리자 콘솔: 절대 캐시하지 않는다 (기존 4중 중복 블록 → 1개로 정리)
+# =============================================================
 /admin
-  Cache-Control: no-cache, no-store, must-revalidate
-
+  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 /admin/
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
-/admin/index.html
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
-/admin/admin-v943.js
-  Cache-Control: no-store, max-age=0
-/admin/admin-v943.css
-  Cache-Control: no-store, max-age=0
-
 /admin/*
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
-/admin/admin-v9416.js
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
-/admin/admin-v9416.css
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
-
+# =============================================================
+# 앱 셸: 항상 재검증 (여기서 ?v= 버전이 결정되므로 캐시 금지)
+# =============================================================
 /
   Cache-Control: no-cache, must-revalidate, max-age=0
 /index.html
   Cache-Control: no-cache, must-revalidate, max-age=0
-
-/assets/*
-  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
-
-/css/*
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
-
-/js/*
-  Cache-Control: no-store, no-cache, must-revalidate, max-age=0
-
+/offline.html
+  Cache-Control: no-cache, must-revalidate, max-age=0
+/manifest.webmanifest
+  Cache-Control: no-cache, must-revalidate, max-age=0
 /service-worker.js
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
+# =============================================================
+# 정적 번들: index.html 과 app.js 의 FEATURE_RESOURCE_MANIFEST 가
+# 모든 참조에 ?v= 를 붙여 버전을 관리하므로 immutable 로 둔다.
+# (기존 no-store 는 app.js 509KB + CSS 25개를 매 접속마다 재다운로드시켰다)
+#
+#  ⚠️ 운영 규칙: js/ css/ preview/ 아래 파일을 수정하면
+#     반드시 참조 URL 의 ?v= 값을 함께 올려야 한다.
+#     안 올리면 기존 접속자는 옛 파일을 계속 사용한다.
+# =============================================================
+/js/*
+  Cache-Control: public, max-age=31536000, immutable
+/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/preview/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# =============================================================
+# 미디어 / 데이터
+# =============================================================
+/assets/*
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
 /data/*
   Cache-Control: public, max-age=300, stale-while-revalidate=60

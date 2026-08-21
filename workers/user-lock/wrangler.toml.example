@@ -1,0 +1,20 @@
+name = "cnine-card-user-lock"
+main = "src/index.js"
+compatibility_date = "2026-08-01"
+
+[[durable_objects.bindings]]
+name = "USER_LOCK"
+class_name = "UserMutationLock"
+
+# 상태를 저장소에 쓰지 않는(메모리 전용) DO 이므로 SQLite 백엔드로 생성한다.
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["UserMutationLock"]
+
+# 배포 후 Cloudflare Pages(cnine-card) → Settings → Functions →
+# Durable Object bindings 에 다음을 추가한다.
+#   Variable name : USER_LOCK
+#   Durable Object: cnine-card-user-lock / UserMutationLock
+#
+# 바인딩이 있으면 functions/api/[[path]].js 가 자동으로 DO 락을 사용하고,
+# 없으면 기존 D1 테이블(user_mutation_locks_v1520) 락으로 폴백한다.

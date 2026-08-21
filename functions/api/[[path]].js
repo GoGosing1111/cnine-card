@@ -3083,14 +3083,23 @@ async function seedDatabase(env){
   }
 }
 const requestAuthenticationCache=new WeakMap();
+// V1784: 세션 조회 SQL을 한 곳에 모아 점검 게이트 조회와 같은 D1 배치로 묶을 수 있게 한다.
+const SESSION_LOOKUP_SQL=`SELECT u.*,s.expires_at AS session_expires_at FROM sessions s JOIN users u ON u.id=s.user_id
+    WHERE s.token_hash=? AND s.expires_at>datetime('now') AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`;
+// 점검 게이트가 배치로 미리 읽어둔 세션 행. authenticate()는 이 값이 있으면 D1을 다시 치지 않는다.
+const requestSessionRowCache=new WeakMap();
+function bearerToken(request){return (request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'')}
+function primeSessionRow(request,tokenHash,user){
+  if(!requestSessionRowCache.has(request))requestSessionRowCache.set(request,{tokenHash,user:user||null});
+}
 async function authenticate(request,env){
   if(requestAuthenticationCache.has(request))return requestAuthenticationCache.get(request);
   const authentication=(async()=>{
-  const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
+  const raw=bearerToken(request);
   if(!raw) return null;
-  const tokenHash=await hash(raw);
-  const user=await env.DB.prepare(`SELECT u.*,s.expires_at AS session_expires_at FROM sessions s JOIN users u ON u.id=s.user_id
-    WHERE s.token_hash=? AND s.expires_at>datetime('now') AND u.status='ACTIVE' AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))`).bind(tokenHash).first();
+  const primed=requestSessionRowCache.get(request);
+  const tokenHash=primed?.tokenHash||await hash(raw);
+  const user=primed?primed.user:await env.DB.prepare(SESSION_LOOKUP_SQL).bind(tokenHash).first();
   if(!user)return null;
   const expiresMs=Date.parse(String(user.session_expires_at||'').replace(' ','T')+'Z');
   if(Number.isFinite(expiresMs)&&expiresMs-Date.now()<=7*24*60*60*1000){
@@ -3602,9 +3611,41 @@ async function maintenanceSettings(env,{fresh=false}={}){
     throw error;
   }
 }
-async function maintenanceGateSettings(env){
-  const mode=await env.DB.prepare("SELECT value FROM app_meta WHERE key='maintenance_mode'").first();
-  if(String(mode?.value||'0')!=='1')return{active:false,title:'',message:'',startAt:'',endAt:'',testUsers:[]};
+// V1784: 점검 게이트는 종전과 동일하게 "매 요청 D1 원본 읽기"를 유지한다(메모리 캐시 없음).
+// 다만 같은 요청의 세션 조회와 하나의 env.DB.batch()로 묶어 왕복 횟수만 줄인다.
+// 결과: 인증된 요청 1건당 D1 왕복 2회 → 1회. 점검 전환 지연(grace window)은 0 그대로.
+const requestMaintenanceModeCache=new WeakMap();
+function maintenanceModeStatement(env){return env.DB.prepare("SELECT value FROM app_meta WHERE key='maintenance_mode'")}
+async function requestMaintenanceMode(request,env){
+  if(requestMaintenanceModeCache.has(request))return requestMaintenanceModeCache.get(request);
+  const promise=(async()=>{
+    const raw=bearerToken(request);
+    // 토큰이 없거나 이미 세션을 읽은 요청이면 묶을 대상이 없으므로 단건 조회.
+    if(raw&&!requestAuthenticationCache.has(request)&&!requestSessionRowCache.has(request)){
+      try{
+        const tokenHash=await hash(raw);
+        const [modeResult,sessionResult]=await env.DB.batch([
+          maintenanceModeStatement(env),
+          env.DB.prepare(SESSION_LOOKUP_SQL).bind(tokenHash)
+        ]);
+        primeSessionRow(request,tokenHash,(sessionResult?.results||[])[0]||null);
+        return String((modeResult?.results||[])[0]?.value||'0');
+      }catch(error){
+        // 배치가 실패하면 세션은 프라이밍하지 않고(=authenticate가 스스로 조회) 단건 조회로 되돌린다.
+        console.warn('maintenance/session batch failed, falling back to single read',error);
+      }
+    }
+    const row=await maintenanceModeStatement(env).first();
+    return String(row?.value||'0');
+  })().catch(error=>{requestMaintenanceModeCache.delete(request);throw error});
+  requestMaintenanceModeCache.set(request,promise);
+  return promise;
+}
+async function maintenanceGateSettings(env,request=null){
+  const mode=request
+    ?await requestMaintenanceMode(request,env)
+    :String((await maintenanceModeStatement(env).first())?.value||'0');
+  if(mode!=='1')return{active:false,title:'',message:'',startAt:'',endAt:'',testUsers:[]};
   return maintenanceSettings(env,{fresh:true});
 }
 function isAdminRole(user){return Boolean(user&&['OWNER','ADMIN'].includes(user.role))}
@@ -3679,16 +3720,45 @@ async function ensureUserMutationLock(env){
   )`).run().then(()=>true).catch(error=>{userMutationLockReadyPromise=null;throw error});
   return userMutationLockReadyPromise;
 }
+function userMutationLeaseMs(actionPath){
+  const fastBattleAction=['battle/fight','tower/fight','pvp/match','pvp/fight'].includes(actionPath);
+  return actionPath.startsWith('raid/')?20000:(fastBattleAction?8000:60000);
+}
+// V1784: USER_LOCK Durable Object 바인딩이 있으면 D1을 전혀 건드리지 않는다.
+// D1(SQLite)은 단일 라이터라 전투 1회마다 발생하던 락 INSERT + DELETE 두 번의 쓰기가
+// 모든 유저의 쓰기 큐에 직렬로 쌓여, 동시접속 수에 비례해 지연이 커진다.
+// 바인딩이 없으면 기존 D1 경로로 그대로 동작한다(무설정 하위호환).
+async function durableUserLock(env,userId,action,body){
+  const namespace=env.USER_LOCK;
+  if(!namespace)return null;
+  try{
+    const stub=namespace.get(namespace.idFromName(`user:${userId}`));
+    const response=await stub.fetch(`https://user-lock/${action}`,{
+      method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)
+    });
+    if(!response.ok)return null;
+    return await response.json();
+  }catch(error){
+    console.warn('USER_LOCK durable object unavailable, falling back to D1',error);
+    return null;
+  }
+}
 async function acquireUserMutationLock(env,userId,path){
-  await ensureUserMutationLock(env);const now=Date.now(),token=crypto.randomUUID(),actionPath=String(path),fastBattleAction=['battle/fight','tower/fight','pvp/match','pvp/fight'].includes(actionPath),leaseMs=actionPath.startsWith('raid/')?20000:(fastBattleAction?8000:60000),leaseUntil=now+leaseMs;
+  const token=crypto.randomUUID(),actionPath=String(path).slice(0,100),leaseMs=userMutationLeaseMs(String(path));
+  const durable=await durableUserLock(env,userId,'acquire',{token,actionPath,leaseMs});
+  if(durable)return durable.acquired?{userId,token,durable:true}:null;
+  await ensureUserMutationLock(env);
+  const now=Date.now(),leaseUntil=now+leaseMs;
   const result=await env.DB.prepare(`INSERT INTO user_mutation_locks_v1520(user_id,token,action_path,lease_until_ms,updated_at)
     VALUES(?,?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET token=excluded.token,action_path=excluded.action_path,
     lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP WHERE user_mutation_locks_v1520.lease_until_ms<=?`)
-    .bind(userId,token,actionPath.slice(0,100),leaseUntil,now).run();
+    .bind(userId,token,actionPath,leaseUntil,now).run();
   return Number(result?.meta?.changes||0)===1?{userId,token}:null;
 }
 async function releaseUserMutationLock(env,lock){
-  if(lock)await env.DB.prepare('DELETE FROM user_mutation_locks_v1520 WHERE user_id=? AND token=?').bind(lock.userId,lock.token).run();
+  if(!lock)return;
+  if(lock.durable){await durableUserLock(env,lock.userId,'release',{token:lock.token});return}
+  await env.DB.prepare('DELETE FROM user_mutation_locks_v1520 WHERE user_id=? AND token=?').bind(lock.userId,lock.token).run();
 }
 
 async function handleRequest(context){
@@ -3702,7 +3772,7 @@ async function handleRequest(context){
     // 시작 화면 상태 확인은 대장전·진화 등 하위 라우터보다 먼저 처리한다.
     // 로그인 전 요청이 불필요한 시스템 핸들러를 거치며 지연되지 않도록 한다.
     if(path==='service/status'){
-      const maintenance=await maintenanceGateSettings(env);
+      const maintenance=await maintenanceGateSettings(env,request);
       // 정상 운영 중에는 세션 인증까지 수행하지 않는다. 시작 화면은 점검 여부만 필요하며,
       // 이 경로를 무인증 1회 조회로 유지해 동시 접속 폭주가 sessions/users 조회로 번지는 것을 막는다.
       if(!maintenance.active)return json({maintenance,bypass:false,role:null,user:null,lightweight:true});
@@ -3743,7 +3813,7 @@ async function handleRequest(context){
     // never create a grace window after the operator enables maintenance.
     const maintenanceExemptEarly=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='service/status'||path==='health'||path.startsWith('setup/');
     if(!maintenanceExemptEarly){
-      const maintenance=await maintenanceGateSettings(env);
+      const maintenance=await maintenanceGateSettings(env,request);
       if(maintenance.active){
         const current=await authenticate(request,env);
         if(!canMaintenanceBypass(current,maintenance))return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
@@ -7240,13 +7310,23 @@ export async function onRequest(context){
   const startedAt=Date.now(),request=context.request,url=new URL(request.url);
   const actionPath=url.pathname.replace(/^\/api\/?/,'');let mutationLock=null,response;
   if(serializedGameAction(actionPath,request.method)){
+    // V1784: 세션 조회를 점검 게이트 조회와 같은 배치로 먼저 태워, 이후 authenticate()와
+    // handleRequest()의 점검 게이트가 추가 D1 왕복 없이 캐시된 결과를 쓰게 한다.
+    try{await requestMaintenanceMode(request,context.env)}catch(_){}
     const user=await authenticate(request,context.env);
     if(user){
       mutationLock=await acquireUserMutationLock(context.env,user.id,actionPath);
       if(!mutationLock)response=json({error:'같은 계정의 다른 게임 요청을 처리 중입니다. 잠시 후 다시 시도해 주세요.',code:'USER_ACTION_IN_PROGRESS',retryable:true,retryAfterMs:800},409);
     }
   }
-  try{if(!response)response=await handleRequest(context)}finally{await releaseUserMutationLock(context.env,mutationLock)}
+  // V1784: 락 해제는 응답 지연 경로에서 뺀다. waitUntil 로 넘겨도 쓰기는 그대로 수행되며,
+  // 실패하더라도 lease(8~60초)가 만료되면 자동 회수된다.
+  try{if(!response)response=await handleRequest(context)}finally{
+    if(mutationLock){
+      const release=releaseUserMutationLock(context.env,mutationLock).catch(error=>console.warn('user mutation lock release failed',error));
+      if(typeof context.waitUntil==='function')context.waitUntil(release);else await release;
+    }
+  }
   if(response.status===401){
     const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
     if(raw){
