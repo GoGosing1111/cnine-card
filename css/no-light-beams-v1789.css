@@ -41,3 +41,35 @@
   content: none !important;
   background: none !important;
 }
+
+/* 3) 카드 홀로그램 광택 (.card-holo) — 실제 범인
+      ------------------------------------------------------------
+      정의: css/card.css
+        .card-holo{
+          position:absolute; inset:-60%;              <- 카드보다 220% 크게 퍼진다
+          background:linear-gradient(115deg,
+            transparent 38%, rgba(255,255,255,.36) 48%, transparent 58%);
+          transform:translateX(-45%) rotate(8deg);
+          mix-blend-mode:screen;
+        }
+
+      inset:-60% 때문에 180px 카드에서도 실제 렌더 크기가 559x723 까지 커진다.
+      카드가 여러 장 깔리면 이 대각 흰 띠들이 서로 겹쳐서
+      화면 전체를 가로지르는 빛기둥처럼 보인다. (DevTools 로 24개 확인)
+
+      이미 카드도감에서는 꺼져 있었다:
+        soopketmon-v21-exact-luxury.css:565
+          .dex-card-display .card-holo { display:none !important }
+      하지만 PVE 전투덱 편성 등 .dex-card-display 를 쓰지 않는 화면에는
+      그대로 남아 있었다. 화면별로 끄는 방식이라 계속 새어 나온 것이다.
+      → 전역으로 끈다.
+
+      ※ 되돌리려면 이 블록만 지우면 된다.
+      ※ 카드 안에 가두고 싶다면(빛기둥 대신 은은한 광택) 아래처럼 바꾼다:
+           .card-holo{ inset:0 !important; opacity:.12 !important; }
+         단, 이는 "빛기둥 금지" 지시와 어긋날 수 있으니 확인 후 적용할 것. */
+.card-holo {
+  display: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
