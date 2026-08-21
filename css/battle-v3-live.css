@@ -10,16 +10,41 @@
 @keyframes battleV3Spin{to{transform:rotate(1turn)}}
 @media(max-width:760px){.battle-v3-header{height:60px;grid-template-columns:1fr auto;padding:8px 12px}.battle-v3-header>div:first-child small{font-size:8px}.battle-v3-header strong{font-size:16px}.battle-v3-versus{display:none}.battle-v3-header>b{font-size:9px}.battle-v3-canvas-host{inset:60px 0 0}.battle-v3-status{left:10px;right:10px;bottom:10px;max-width:none;padding:8px 10px;font-size:10px}.battle-v3-loader span{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.battle-v3-loader i{animation:none}}
-.battle-v3-roster{position:absolute;z-index:15;left:0;right:0;bottom:0;box-sizing:border-box;display:flex;align-items:flex-end;gap:18px;padding:0 18px 14px;pointer-events:none}.battle-v3-roster[hidden]{display:none}.battle-v3-roster.is-solo{justify-content:center}.battle-v3-roster.is-versus{justify-content:space-between}
-.battle-v3-roster-side{display:flex;flex-direction:column;gap:6px;min-width:0}.battle-v3-roster-side[hidden]{display:none}.battle-v3-roster.is-versus>[data-v3-roster-side="B"]{align-items:flex-end}.battle-v3-roster-side>header{display:flex;align-items:baseline;gap:8px;padding:0 2px}.battle-v3-roster-side>header small{color:#66ddff;font-size:9px;font-weight:900;letter-spacing:.16em}.battle-v3-roster-side>header b{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#eef8fb;font-size:11px;font-weight:900}
-.battle-v3-roster-side>ol{display:flex;gap:7px;margin:0;padding:0;list-style:none}
-.battle-v3-roster .battle-v3-roster-card{--grade:#9aa4b2;position:relative;width:74px;box-sizing:border-box;display:flex;flex-direction:column;gap:3px;padding:4px 4px 5px;border:1px solid color-mix(in srgb,var(--grade) 62%,transparent);border-radius:9px;background:rgba(3,9,15,.82);box-shadow:0 6px 18px rgba(0,0,0,.42);animation:none;transition:opacity .18s,filter .18s}
-.battle-v3-roster-art{position:relative;display:block;aspect-ratio:3/4;border-radius:6px;overflow:hidden;background:radial-gradient(circle,#123f72,#020817)}.battle-v3-roster-art img{width:100%;height:100%;display:block;object-fit:cover}
-.battle-v3-roster-ko{position:absolute;inset:0;display:none;place-content:center;background:rgba(2,5,10,.62);color:#ff7d8f;font-size:13px;font-weight:1000;font-style:normal;letter-spacing:.1em}
-.battle-v3-roster-meta{display:flex;align-items:center;gap:3px;min-height:11px;line-height:1}.battle-v3-roster-meta b{color:var(--grade);font-size:8px;font-weight:1000;letter-spacing:.06em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.battle-v3-roster-meta i{color:#ffd76a;font-size:8px;font-style:normal;font-weight:900}.battle-v3-roster-meta em{margin-left:auto;color:#8fa5b2;font-size:8px;font-style:normal;font-weight:800}
-.battle-v3-roster-name{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#eef8fb;font-size:10px;font-weight:900;line-height:1.2}.battle-v3-roster-card small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8fa5b2;font-size:8px;font-weight:800}
-.battle-v3-roster .battle-v3-roster-card.is-ko{opacity:.42;filter:grayscale(1)}.battle-v3-roster-card.is-ko .battle-v3-roster-ko{display:grid}.battle-v3-roster .battle-v3-roster-card.is-alive{box-shadow:0 6px 18px rgba(0,0,0,.42),inset 0 0 0 1px rgba(123,255,176,.5)}
-.battle-v3-verdict{position:absolute;z-index:31;left:50%;bottom:18px;transform:translateX(-50%);margin:0;max-width:min(92%,760px);box-sizing:border-box;padding:7px 16px;border:1px solid rgba(104,224,255,.34);border-radius:999px;background:rgba(3,8,14,.92);color:#dbe8ed;font-size:12px;font-weight:900;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}.battle-v3-verdict[hidden]{display:none}.battle-v3-verdict.is-win{border-color:rgba(123,255,176,.5);color:#b6ff62}.battle-v3-verdict.is-lose{border-color:rgba(255,125,143,.5);color:#ff9fae}
+/* V1796 출전 카드 로스터 — 기존 카드 프레임(card.css .card-frame, 2:2.82)을 그대로 쓴다.
+   폭/높이를 새로 잡으면 카드가 찌부되므로, 원본 180px 프레임을 transform:scale 로
+   축소만 한다. --v3-card-w 와 --v3-card-s 는 항상 짝(w/180)으로 맞춰야 한다. */
+.battle-v3-dock{position:absolute;z-index:20;left:0;right:0;bottom:0;box-sizing:border-box;display:flex;flex-direction:column;align-items:center;gap:9px;padding:0 18px calc(12px + env(safe-area-inset-bottom,0px));pointer-events:none}
+.battle-v3-roster{--v3-card-w:112px;--v3-card-s:.6222;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:20px}.battle-v3-roster[hidden]{display:none}.battle-v3-roster.is-versus{--v3-card-w:96px;--v3-card-s:.5333;justify-content:space-between}
+.battle-v3-roster-side{display:flex;flex-direction:column;gap:5px;min-width:0}.battle-v3-roster-side[hidden]{display:none}.battle-v3-roster.is-versus>[data-v3-roster-side="B"]{align-items:flex-end}
+.battle-v3-roster-side>header{display:flex;align-items:baseline;gap:8px;padding:0 2px}.battle-v3-roster-side>header small{color:#66ddff;font-size:9px;font-weight:900;letter-spacing:.16em}.battle-v3-roster-side>header b{max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#eef8fb;font-size:11px;font-weight:900;text-shadow:0 2px 6px rgba(0,0,0,.9)}
+.battle-v3-roster-side>ol{display:flex;align-items:flex-end;gap:9px;margin:0;padding:0;list-style:none}
+/* 카드 한 칸: 축소된 프레임이 차지할 만큼만 자리를 잡는다(253.8px = 180 * 2.82/2). */
+.battle-v3-roster-card{display:flex;flex-direction:column;align-items:center;gap:4px;width:var(--v3-card-w);flex:0 0 auto;transition:opacity .18s,filter .18s}
+.battle-v3-roster-slot{position:relative;display:block;width:var(--v3-card-w);height:calc(253.8px * var(--v3-card-s))}
+.battle-v3-roster .battle-v3-roster-frame{position:absolute;top:0;left:0;width:180px;margin:0;transform:scale(var(--v3-card-s));transform-origin:top left;cursor:default;transition:none}
+.battle-v3-roster .battle-v3-roster-frame:hover{transform:scale(var(--v3-card-s));filter:none}
+.battle-v3-roster-row{color:#8fa5b2;font-size:9px;font-weight:800;letter-spacing:.05em;line-height:1;text-shadow:0 2px 6px rgba(0,0,0,.9);white-space:nowrap}
+.battle-v3-roster-ko{position:absolute;z-index:23;inset:0;display:none;place-content:center;border-radius:14px;background:rgba(2,5,10,.6);color:#ff7d8f;font-size:15px;font-style:normal;font-weight:1000;letter-spacing:.12em;text-shadow:0 2px 8px #000}
+.battle-v3-roster-card.is-ko{opacity:.5;filter:grayscale(.9)}.battle-v3-roster-card.is-ko .battle-v3-roster-ko{display:grid}
+.battle-v3-roster-card.is-alive .battle-v3-roster-slot::after{content:"";position:absolute;z-index:21;inset:-3px;border-radius:18px;border:1px solid rgba(123,255,176,.62);box-shadow:0 0 12px rgba(123,255,176,.28);pointer-events:none}
+.battle-v3-verdict{margin:0;max-width:min(94%,760px);box-sizing:border-box;padding:7px 16px;border:1px solid rgba(104,224,255,.34);border-radius:999px;background:rgba(3,8,14,.92);color:#dbe8ed;font-size:12px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.battle-v3-verdict[hidden]{display:none}.battle-v3-verdict.is-win{border-color:rgba(123,255,176,.5);color:#b6ff62}.battle-v3-verdict.is-lose{border-color:rgba(255,125,143,.5);color:#ff9fae}
+/* 결과창(.battle-message)은 bottom:34px 에 붙는다. 도크 실측 높이만큼 밀어 올린다. */
+/* style.css 의 @media(max-width:800px) 규칙이 결과창 bottom 을 !important 로 못박아
+   둬서, 여기서도 !important 로 덮어야 로스터 위로 올라간다(특이도는 이쪽이 높다). */
+.battle-v3-live-shell.is-roster-visible .battle-v3-result{bottom:calc(var(--v3-dock-h,0px) + 10px)!important}
 .battle-v3-live-shell.is-roster-visible .battle-v3-status{bottom:auto;top:84px;max-width:min(46%,560px)}
-.battle-v3-live-shell.is-roster-visible .battle-v3-verdict{bottom:186px}
-@media(max-width:760px){.battle-v3-roster{gap:8px;padding:0 8px 8px}.battle-v3-roster.is-versus{flex-direction:column;align-items:stretch;gap:6px}.battle-v3-roster.is-versus>[data-v3-roster-side="B"]{align-items:center}.battle-v3-roster.is-versus .battle-v3-roster-side{align-items:center}.battle-v3-live-shell[data-v3-field="PVP"].is-roster-visible .battle-v3-status{display:none}.battle-v3-live-shell[data-v3-field="PVP"].is-roster-visible .battle-v3-verdict{bottom:244px}.battle-v3-roster-side>header small{font-size:8px}.battle-v3-roster-side>header b{max-width:110px;font-size:9px}.battle-v3-roster-side>ol{gap:4px}.battle-v3-roster .battle-v3-roster-card{width:50px;padding:3px 3px 4px;border-radius:7px}.battle-v3-roster-name{font-size:8px}.battle-v3-roster-card small{display:none}.battle-v3-roster-meta em{display:none}.battle-v3-live-shell.is-roster-visible .battle-v3-status{top:66px;left:8px;right:8px;max-width:none}.battle-v3-verdict{font-size:10px;padding:5px 10px}.battle-v3-live-shell.is-roster-visible .battle-v3-verdict{bottom:130px}}
+@media(max-width:1180px){.battle-v3-roster.is-versus{--v3-card-w:76px;--v3-card-s:.4222;gap:10px}.battle-v3-roster.is-versus .battle-v3-roster-side>ol{gap:6px}}
+@media(max-width:760px){
+  .battle-v3-dock{gap:6px;padding:0 8px 8px}
+  .battle-v3-roster{--v3-card-w:66px;--v3-card-s:.3667;gap:8px}
+  /* 모바일 PVP 는 5+5 장을 좌우로 두면 화면 폭을 넘어 겹친다. 위아래로 쌓는다. */
+  .battle-v3-roster.is-versus{--v3-card-w:58px;--v3-card-s:.3222;flex-direction:column;align-items:center;gap:6px}
+  .battle-v3-roster.is-versus>[data-v3-roster-side="B"]{align-items:center}
+  .battle-v3-roster-side>ol{gap:5px}
+  .battle-v3-roster-side>header small{font-size:8px}.battle-v3-roster-side>header b{max-width:120px;font-size:9px}
+  .battle-v3-roster-row{font-size:8px}.battle-v3-roster-ko{font-size:11px;border-radius:9px}
+  .battle-v3-verdict{font-size:10px;padding:5px 11px}
+  .battle-v3-live-shell.is-roster-visible .battle-v3-status{top:66px;left:8px;right:8px;max-width:none}
+  .battle-v3-live-shell[data-v3-field="PVP"].is-roster-visible .battle-v3-status{display:none}
+}
+@media(max-height:620px) and (orientation:landscape){.battle-v3-dock{gap:6px;padding:0 12px calc(8px + env(safe-area-inset-bottom,0px))}.battle-v3-roster{--v3-card-w:62px;--v3-card-s:.3444;gap:10px}.battle-v3-roster.is-versus{--v3-card-w:54px;--v3-card-s:.3}.battle-v3-roster-side>header small{font-size:8px}.battle-v3-verdict{font-size:10px;padding:5px 11px}}

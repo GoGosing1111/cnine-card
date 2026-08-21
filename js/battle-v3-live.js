@@ -107,6 +107,20 @@
     .map(value => String(value ?? '').trim())
     .filter(Boolean);
 
+  const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
+  const typeKey = type => ({ ATTACK: 'attack', DEFENSE: 'defense', HP: 'hp', SPEED: 'speed' })[String(type || '').toUpperCase()] || '';
+  const typeIcon = type => ({ ATTACK: '⚔', DEFENSE: '⬡', HP: '♥', SPEED: '↯', NONE: '◇' })[String(type || '').toUpperCase()] || '◇';
+
+  function rosterUniqueBadgeHtml(card) {
+    const type = typeKey(card?.type);
+    if (!type || !card?.uniqueAbility) return '';
+    return `<span class="card-unique-badge unique-type-${type}"><i>${typeIcon(card.type)}</i><b>${esc(card.typeLabel || '')}</b><small>${esc(card.uniqueAbility.effectName || '')}</small></span>`;
+  }
+
+  // 카드 겉모습은 새로 만들지 않는다. card.css 의 .card-frame(2 : 2.82) 구조를
+  // 그대로 찍어내고, 크기만 CSS transform:scale 로 줄인다. 폭·높이를 따로
+  // 지정하면 카드가 찌부되므로 비율에는 손대지 않는다.
+  // 광택 레이어(.card-holo)만 뺐다 — 이미 no-light-beams 로 죽여 둔 요소다.
   function rosterCardHtml(card, index) {
     const grade = (String(card?.grade || card?.rarity || 'C').toUpperCase().replace(/[^A-Z0-9_-]/g, '') || 'C');
     const level = Math.max(0, Math.min(13, Number(card?.breakthroughLevel || 0)));
@@ -114,11 +128,23 @@
     const owner = String(card?.memberName || '');
     const row = String(card?.row || '').toUpperCase();
     const key = rosterKeys(card)[0] || `slot-${index + 1}`;
-    return `<li class="battle-v3-roster-card grade-${esc(grade)}" data-v3-roster-card="${esc(key)}" data-v3-roster-keys="${esc(rosterKeys(card).join('|'))}">
-      <span class="battle-v3-roster-art"><img src="${esc(assetUrl(card?.image || card?.image_url))}" alt="${esc(title)}" loading="lazy" decoding="async" style="object-position:${Number(card?.focusX ?? 50)}% ${Number(card?.focusY ?? 50)}%" onerror="this.onerror=null;this.src='${FALLBACK_ART}'"><i class="battle-v3-roster-ko" aria-hidden="true">KO</i></span>
-      <span class="battle-v3-roster-meta"><b>${esc(grade)}</b>${level > 0 ? `<i>★${level}</i>` : ''}${row ? `<em>${row === 'FRONT' ? '전열' : '후열'}</em>` : ''}</span>
-      <span class="battle-v3-roster-name">${esc(title)}</span>
-      ${owner && owner !== title ? `<small>${esc(owner)}</small>` : ''}
+    const isFaker = String(card?.cardId || card?.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
+    return `<li class="battle-v3-roster-card" data-v3-roster-card="${esc(key)}" data-v3-roster-keys="${esc(rosterKeys(card).join('|'))}">
+      <span class="battle-v3-roster-slot">
+      <div class="card-frame grade-${esc(grade)}${level > 0 ? ` breakthrough-${level}` : ''}${isFaker ? ' faker-championship-card' : ''} battle-v3-roster-frame">
+        ${level > 0 ? `<div class="breakthrough-badge">★${level}</div>` : ''}
+        ${rosterUniqueBadgeHtml(card)}
+        <div class="breakthrough-effect"></div>
+        <div class="card-inner">
+          <div class="card-header"><span>${esc(grade)}</span><b>SOOP</b></div>
+          <div class="card-art"><img src="${esc(assetUrl(card?.image || card?.image_url))}" alt="${esc(title)}" loading="lazy" decoding="async" style="object-position:${Number(card?.focusX ?? 50)}% ${Number(card?.focusY ?? 50)}%" onerror="this.onerror=null;this.src='${FALLBACK_ART}'"></div>
+          <div class="card-footer"><div><small>${esc(owner)}</small><div class="card-title-row"><div class="card-title">${esc(title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
+        </div>
+        ${isFaker ? '<img class="faker-championship-frame" src="/assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true"><img class="faker-t1-mark" src="/assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1"><img class="faker-signature-mark" src="/assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER"><span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>' : ''}
+      </div>
+      <i class="battle-v3-roster-ko" aria-hidden="true">KO</i>
+      </span>
+      ${row ? `<b class="battle-v3-roster-row">${row === 'FRONT' ? '전열' : '후열'}</b>` : ''}
     </li>`;
   }
 
@@ -198,6 +224,17 @@
     return `${verdict} · ${reason} · 생존 ${A} : ${B}`;
   }
 
+  // 결과창(.battle-message)은 bottom:34px 에 붙는 요소다. 로스터가 그 자리를
+  // 쓰게 됐으므로 도크 실제 높이를 재서 결과창·상태줄을 그만큼 위로 올린다.
+  // 해상도·모드별 매직넘버를 박지 않으려고 측정값을 CSS 변수로 넘긴다.
+  function syncDockMetrics(stage) {
+    const dock = stage?.querySelector?.('[data-v3-dock]');
+    if (!dock) return 0;
+    const height = Math.round(dock.getBoundingClientRect().height);
+    stage.style.setProperty('--v3-dock-h', `${height}px`);
+    return height;
+  }
+
   function showVerdict(stage, payload, mode) {
     const node = stage?.querySelector?.('[data-v3-verdict]');
     if (!node) return '';
@@ -207,6 +244,7 @@
     const winner = String(payload?.battleV2?.result?.winner || '').toUpperCase();
     node.classList.toggle('is-win', winner === 'A');
     node.classList.toggle('is-lose', winner === 'B');
+    syncDockMetrics(stage);
     return text;
   }
 
@@ -239,19 +277,21 @@
       <!-- V1796: SD 캐릭터만으로는 어떤 카드가 출전했는지 알 수 없다.
            PVE 계열은 하단 중앙에 내 출전 카드 한 줄,
            PVP 는 좌(나)/우(상대) 두 줄로 양쪽 출전 카드를 보여준다. -->
-      <div class="battle-v3-roster${field === 'PVP' ? ' is-versus' : ' is-solo'}" data-v3-roster hidden>
-        <section class="battle-v3-roster-side" data-v3-roster-side="A" hidden>
-          <header><small data-v3-roster-label>MY TEAM</small><b data-v3-roster-owner></b></header>
-          <ol data-v3-roster-list></ol>
-        </section>
-        <section class="battle-v3-roster-side" data-v3-roster-side="B" hidden>
-          <header><small data-v3-roster-label>OPPONENT</small><b data-v3-roster-owner></b></header>
-          <ol data-v3-roster-list></ol>
-        </section>
+      <div class="battle-v3-dock" data-v3-dock>
+        <!-- 서버가 확정한 승패 근거(전멸/생존 수/체력 비율/전투력)와 생존 수.
+             연출이 일부 생략돼도 이 줄만은 서버 값을 그대로 보여준다. -->
+        <p class="battle-v3-verdict" data-v3-verdict role="status" hidden></p>
+        <div class="battle-v3-roster${field === 'PVP' ? ' is-versus' : ' is-solo'}" data-v3-roster hidden>
+          <section class="battle-v3-roster-side" data-v3-roster-side="A" hidden>
+            <header><small data-v3-roster-label>MY TEAM</small><b data-v3-roster-owner></b></header>
+            <ol data-v3-roster-list></ol>
+          </section>
+          <section class="battle-v3-roster-side" data-v3-roster-side="B" hidden>
+            <header><small data-v3-roster-label>OPPONENT</small><b data-v3-roster-owner></b></header>
+            <ol data-v3-roster-list></ol>
+          </section>
+        </div>
       </div>
-      <!-- V1796: 서버가 확정한 승패 근거(전멸/생존 수/체력 비율/전투력)와 생존 수.
-           연출이 일부 생략돼도 이 줄만은 서버 값을 그대로 보여준다. -->
-      <p class="battle-v3-verdict" data-v3-verdict role="status" hidden></p>
       <span id="towerBattleCountdown" hidden></span>
       <div id="battleMessage" class="battle-message battle-v3-result"><span>V3 전투 준비 중...</span></div>
       <div id="towerBattleMessage" class="battle-message battle-v3-result tower-v3-result" hidden><span>V3 전투 준비 중...</span></div>
@@ -481,6 +521,14 @@
     renderRoster(stage, payload, mode);
     const verdictNode = stage.querySelector('[data-v3-verdict]');
     if (verdictNode) { verdictNode.textContent = ''; verdictNode.hidden = true; verdictNode.classList.remove('is-win', 'is-lose'); }
+    syncDockMetrics(stage);
+    // 카드 이미지 로딩·창 크기 변경으로 도크 높이가 달라지면 결과창 위치도 따라간다.
+    let dockObserver = null;
+    const dockNode = stage.querySelector('[data-v3-dock]');
+    if (dockNode && typeof ResizeObserver === 'function') {
+      dockObserver = new ResizeObserver(() => syncDockMetrics(stage));
+      dockObserver.observe(dockNode);
+    }
 
     const releaseBlockingLayers = () => {
       document.querySelectorAll('.battle-ultimate-overlay,.boss-ultimate-overlay').forEach(node => node.remove());
@@ -691,6 +739,8 @@
       destroy() {
         if (destroyed) return;
         destroyed = true;
+        try { dockObserver?.disconnect?.(); } catch {}
+        dockObserver = null;
         root.ProjectVPixiBattle.setVisible(false).catch?.(() => {});
       }
     };
