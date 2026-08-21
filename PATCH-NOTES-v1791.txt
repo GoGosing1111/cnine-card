@@ -1,0 +1,87 @@
+PATCH-NOTES-v1791 : 전투 응답 프로필 경량화 (profile() 다이어트)
+
+[배경]
+전투 응답 끝에서 profile() 을 호출한다. profile() 은 이런 일을 한다:
+  - 보유 카드 "전체" 스캔 (user_cards JOIN cards_effective_v1210)
+  - 뽑기 로그 30건 + 카드 조인
+  - 출석 2건, 출석 설정, 돌파 설정, 주간 프리미엄 큐브,
+    마스터스타, MA/LIMITED 고돌파 설정
+  총 10개 조회.
+
+그런데 전투 한 판이 실제로 바꾸는 것은
+  users 행(코인·파편·마법결정) / 마스터스타 수량 / 이번에 얻은 카드 몇 장
+뿐이다.
+
+카드 500장 보유 유저면 전투마다 500행을 다시 읽어 통째로 내려보내고 있었다.
+D1 은 읽은 행 수로 과금하므로 지연과 비용 양쪽 문제였다.
+자동사냥은 회차 수만큼 이 비용이 그대로 배수로 붙는다.
+
+
+[수정]
+
+1. grantedCardIdsFromBattle({cardRewards, unifiedDrops})
+   이번 전투에서 실제로 지급된 카드 id 를 모은다.
+   battle/fight 에서 user_cards 에 쓰는 경로는 두 곳뿐임을 확인했다:
+     - grantBattleCard()          -> cardReward.card.id
+     - _drop_pool.js 통합드랍     -> rewardType === 'CARD' 의 rewardRef
+   (블랙미라클은 MASTER_STAR·장비·차량만, 고등급 리롤 드랍은 티켓만 지급)
+
+   카드인데 참조를 읽을 수 없으면 null 을 돌려
+   호출자가 기존 profile() 로 안전하게 폴백한다.
+
+   ⚠️ 카드를 지급하는 새 경로가 생기면 반드시 이 함수에 등록할 것.
+      등록하지 않으면 새로 얻은 카드가 다음 전체 갱신 전까지 화면에 안 보인다.
+      (소스에도 같은 주석을 달아 두었다)
+
+2. battleResponseProfile(env, user, grantedCardIds)
+   갱신된 users 행 + 마스터스타 + 바뀐 카드만 D1 배치 1회로 읽는다.
+     SELECT * FROM users WHERE id=?
+     SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'
+     SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (...)
+   지급된 카드가 없으면 세 번째 문은 아예 넣지 않는다.
+   응답 scope 는 'BATTLE_PARTIAL'.
+
+3. battle/fight, battle/auto 배선
+   기존의 별도 `SELECT * FROM users` 조회도 배치에 흡수되어 사라졌다.
+
+
+[왜 안전한가]
+클라이언트 apiUserToLocal 은 profileScope 에 'PARTIAL' 이 들어 있으면
+  - owned / quantities / breakthroughs 를 기존 값과 "병합"
+  - 응답에 없는 항목(history, attendance, breakthroughConfig,
+    weeklyPremiumCube 등)은 기존 값을 그대로 유지
+한다. 이미 DRAW_PARTIAL / BREAKTHROUGH_PARTIAL 로 운영 중인 검증된 경로다.
+전투는 카드를 잃게 만들지 않으므로 병합(합집합) 방식이 정확하다.
+
+
+[효과]
+전투 1회당
+  조회 11개(users 1 + profile 10, 보유 카드 전체 스캔 포함)
+    -> D1 배치 1회 (문장 2~3개, 읽는 행은 지급된 카드 수만큼)
+자동사냥은 이 절감이 회차 수만큼 배수로 적용된다.
+
+
+[검증] verify-1791 8종 통과
+  1 전투 카드 + 통합드랍 CARD 보상만 수집 (COIN 등 제외, 대소문자 무시)
+  2 지급이 없으면 빈 집합 → 카드 조회 자체를 건너뜀
+  3 카드 참조를 읽을 수 없으면 null → 전체 프로필 폴백
+  4 users + 마스터스타 + 바뀐 카드를 배치 1회로 조회, scope=BATTLE_PARTIAL
+  5 지급 카드가 없으면 배치 2문
+  6 grantedCardIds 가 null 이면 기존 profile() 호출 (batch 미사용)
+  7 클라이언트 병합: 기존 컬렉션 보존 + 새 카드 반영 + 누락 필드 기존 값 유지
+  8 battle/fight · battle/auto 배선, 중복 users 조회 제거
+
+  회귀: v1784 / v1785 / v1787 / v1788 / v1790 스위트 전부 재실행 통과
+
+
+[배포 후 확인]
+  - 전투에서 카드가 드랍됐을 때 도감/보유 목록에 즉시 반영되는지 (가장 중요)
+  - 전투 후 코인·파편·마법결정·마스터스타가 정확한지
+  - 자동사냥 여러 판 돌린 뒤 얻은 카드가 전부 반영되는지
+  - 전투 직후 출석/돌파 설정 화면이 멀쩡한지 (기존 값 유지 확인)
+
+
+[남은 것]
+profile() 자체는 다른 18개 호출처에서 여전히 쓰인다.
+그중 출석 설정·돌파 설정·MA/LIMITED 고돌파 설정은 전 유저 공통 값이라
+메모리 캐시로 묶으면 추가 절감이 가능하다. (다음 후보)

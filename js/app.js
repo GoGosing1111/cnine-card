@@ -3039,6 +3039,22 @@ function playerClientId(){
   if(!/^[a-zA-Z0-9:_-]{12,120}$/.test(value)){value=globalThis.crypto?.randomUUID?.()||`client-${Date.now()}-${Math.random().toString(36).slice(2)}`;try{localStorage.setItem(PLAYER_CLIENT_ID_KEY,value)}catch(_){}}
   return value;
 }
+// V1790: D1 읽기 복제 북마크.
+// 서버가 응답에 "이번 요청이 도달한 복제 시점"을 실어 보내면 보관했다가
+// 다음 요청에 그대로 되돌려준다. 서버는 그 시점 이상으로 최신인 복제본에서만 읽으므로
+// 방금 쓴 결과(코인·카드·에너지)를 못 보는 일이 생기지 않는다.
+// 메모리에만 둔다 — 새로고침하면 초기화되는데, 그때는 서버가 프라이머리로 붙으므로 안전하다.
+const D1_BOOKMARK_HEADER='x-cnine-d1-bookmark';
+let D1_BOOKMARK='';
+function d1BookmarkHeader(){return D1_BOOKMARK?{[D1_BOOKMARK_HEADER]:D1_BOOKMARK}:{}}
+function rememberD1Bookmark(response){
+  try{
+    const next=response?.headers?.get?.(D1_BOOKMARK_HEADER);
+    if(next)D1_BOOKMARK=next;
+  }catch(_){}
+}
+window.__cnineD1Bookmark=()=>D1_BOOKMARK;
+
 async function apiRequest(path, options={}, config={}) {
   const cleanPath=apiCacheKey(path),method=String(options.method||'GET').toUpperCase(),isGet=method==='GET';
   const ttl=isGet?Number(config.ttl??API_CACHE_TTL[cleanPath]??0):0,now=Date.now(),requestEpoch=PLAYER_STATE_MUTATION_EPOCH;
@@ -3051,8 +3067,9 @@ async function apiRequest(path, options={}, config={}) {
     const response=await fetchWithTimeout(`/api/${cleanPath}`,{
       cache:isGet&&ttl>0?'default':'no-store',
       ...options,
-      headers:{'content-type':'application/json','authorization':requestToken?`Bearer ${requestToken}`:'','x-cnine-client-id':playerClientId(),...(options.headers||{})}
+      headers:{'content-type':'application/json','authorization':requestToken?`Bearer ${requestToken}`:'','x-cnine-client-id':playerClientId(),...d1BookmarkHeader(),...(options.headers||{})}
     },timeoutMs,`서버 요청 (${cleanPath})`);
+    rememberD1Bookmark(response);
     const contentType=(response.headers.get('content-type')||'').toLowerCase(),text=await response.text();
     let data={};
     if(text){

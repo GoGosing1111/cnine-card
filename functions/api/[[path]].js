@@ -1274,7 +1274,7 @@ function defaultBreakthroughCinematic(){return {enabled:true,minLevel:10,grades:
 function cleanBreakthroughCinematic(raw={}){const base=defaultBreakthroughCinematic(),allowed=new Set(BREAKTHROUGH_GRADES),grades=(Array.isArray(raw.grades)?raw.grades:base.grades).map(x=>String(x||'').toUpperCase()).filter(x=>allowed.has(x));return {enabled:raw.enabled!==false,minLevel:Math.max(1,Math.min(13,Math.floor(Number(raw.minLevel??base.minLevel)||base.minLevel))),grades:[...new Set(grades.length?grades:base.grades)],title:String(raw.title||base.title).trim().slice(0,60)||base.title,mediaUrl:String(raw.mediaUrl||base.mediaUrl).trim().replace(/\\/g,'/').slice(0,500)||base.mediaUrl,soundUrl:String(raw.soundUrl||'').trim().replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(raw.durationMs??base.durationMs)||base.durationMs))),volumePercent:Math.max(0,Math.min(100,Number(raw.volumePercent??base.volumePercent))),skipAllowed:raw.skipAllowed!==false};}
 async function breakthroughCinematicConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_cinematic_v1'").first();try{return cleanBreakthroughCinematic(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughCinematic()}}
 async function breakthroughCinematicFor(env,{success=false,grade='',level=0,cardId='',cardTitle=''}){if(!success)return null;const cfg=await breakthroughCinematicConfig(env),normalizedGrade=String(grade||'').toUpperCase(),nextLevel=Math.max(0,Number(level||0));if(!cfg.enabled||nextLevel<cfg.minLevel||!cfg.grades.includes(normalizedGrade))return null;return {...cfg,grade:normalizedGrade,level:nextLevel,cardId:String(cardId||''),cardTitle:String(cardTitle||'')};}
-const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type,x-cnine-draw-receipt,x-cnine-auto-draw,x-cnine-draw-client','access-control-max-age':'86400'};
+const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type,x-cnine-draw-receipt,x-cnine-auto-draw,x-cnine-draw-client,x-cnine-client-id,x-cnine-d1-bookmark','access-control-allow-credentials':'false','access-control-expose-headers':'x-cnine-response-ms,x-cnine-d1-bookmark','access-control-max-age':'86400'};
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store',...CORS_HEADERS,...headers}});
 const readBody=async request=>{try{return await request.json()}catch{return {}}};
 const bytes=value=>new TextEncoder().encode(value);
@@ -3212,6 +3212,67 @@ async function profile(env,user){
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
     attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,masterStars:Number(masterStarRow?.quantity||0),maHighBreakthrough,limitedHighBreakthrough,weeklyPremiumCube};
 }
+// V1791: 전투 응답용 경량 프로필.
+//
+// profile() 은 보유 카드 "전체" 스캔 + 뽑기 로그 30건 조인 + 출석/설정 등 10개 조회를 한다.
+// 그런데 전투 한 판이 실제로 바꾸는 것은
+//   users 행(코인·파편·마법결정) / 마스터스타 수량 / "이번에 얻은 카드 몇 장" 뿐이다.
+// 카드 500장 보유 유저면 전투마다 500행을 다시 읽어 통째로 내려보내고 있었다.
+// (D1 은 읽은 행 수로 과금하므로 지연과 비용 양쪽 문제)
+//
+// 클라이언트 apiUserToLocal 은 profileScope 에 'PARTIAL' 이 들어 있으면
+// owned/quantities/breakthroughs 를 기존 값과 병합하고,
+// 응답에 없는 항목(history/attendance/breakthroughConfig 등)은 기존 값을 유지한다.
+// 이미 DRAW_PARTIAL 로 검증된 경로다. 그대로 재사용한다.
+
+// 이번 전투에서 실제로 지급된 카드 id 를 모은다.
+// battle/fight 에서 user_cards 에 쓰는 경로는 두 곳뿐이다:
+//   1) grantBattleCard()      -> cardReward.card.id
+//   2) _drop_pool.js 통합드랍 -> rewardType === 'CARD' 의 rewardRef
+// 카드인데 참조를 읽을 수 없으면 무엇이 바뀌었는지 알 수 없으므로
+// null 을 돌려 호출자가 기존 full profile() 로 안전하게 되돌아가게 한다.
+//
+// ⚠️ 카드를 지급하는 새 경로가 생기면 반드시 여기에 등록할 것.
+//    등록하지 않으면 새로 얻은 카드가 다음 전체 갱신 전까지 화면에 안 보인다.
+function grantedCardIdsFromBattle({cardRewards=[],unifiedDrops=[]}={}){
+  const ids=new Set();
+  for(const reward of cardRewards){
+    const cardId=reward?.card?.id;
+    if(cardId!==undefined&&cardId!==null)ids.add(String(cardId));
+  }
+  for(const drop of unifiedDrops){
+    const rewards=Array.isArray(drop?.rewards)?drop.rewards:[];
+    for(const reward of rewards){
+      if(String(reward?.rewardType||'').toUpperCase()!=='CARD')continue;
+      const ref=reward?.rewardRef;
+      if(ref===undefined||ref===null||String(ref).trim()==='')return null;
+      ids.add(String(ref));
+    }
+  }
+  return ids;
+}
+
+// 갱신된 users 행 + 마스터스타 + 바뀐 카드만 D1 배치 1회로 읽어 경량 프로필을 만든다.
+// grantedCardIds 가 null 이면 기존 profile() 로 폴백한다.
+async function battleResponseProfile(env,user,grantedCardIds){
+  const userStatement=env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id);
+  if(grantedCardIds===null){
+    const updated=await userStatement.first();
+    return profile(env,updated||user);
+  }
+  const ids=[...grantedCardIds];
+  const statements=[
+    userStatement,
+    env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id)
+  ];
+  if(ids.length)statements.push(env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (${ids.map(()=>'?').join(',')})`).bind(user.id,...ids));
+  const results=await env.DB.batch(statements);
+  const updated=(results[0]?.results||[])[0]||user;
+  const masterStarRow=(results[1]?.results||[])[0]||null;
+  const ownedRows=ids.length?(results[2]?.results||[]):[];
+  return {...drawResponseProfileFromRows(updated,ownedRows,masterStarRow),profileScope:'BATTLE_PARTIAL'};
+}
+
 function drawResponseProfileFromRows(user,ownedRows=[],masterStarRow=null){
   const rows=ownedRows||[];
   return {profileScope:'DRAW_PARTIAL',id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role,
@@ -5172,7 +5233,9 @@ async function handleRequest(context){
           for(let index=0;index<autoBattleLogs.length;index+=50)chunks.push(autoBattleLogs.slice(index,index+50));
           deferWrite('battle_logs:auto',async()=>{for(const chunk of chunks)await env.DB.batch(chunk)});
         }
-        const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),response={ok:true,battles,wins,losses,totalReward,cardRewards,cubeRewards,magicRewards,equipmentRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,serverNow:new Date().toISOString(),user:await profile(env,updated)};
+        // V1791: 자동사냥은 회차 수만큼 반복되므로 프로필 비용이 그대로 배수로 붙는다.
+        // 이번 실행에서 지급된 카드만 모아 배치 1회로 읽는다.
+        const response={ok:true,battles,wins,losses,totalReward,cardRewards,cubeRewards,magicRewards,equipmentRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,serverNow:new Date().toISOString(),user:await battleResponseProfile(env,user,grantedCardIdsFromBattle({cardRewards,unifiedDrops}))};
         await env.DB.prepare("UPDATE pve_auto_runs SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();
         await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();return json(response);
       }catch(error){await env.DB.prepare("UPDATE pve_auto_runs SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(String(error?.message||error).slice(0,500),requestId).run();await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();throw error}
@@ -5236,8 +5299,13 @@ async function handleRequest(context){
       // 지급 자체는 그대로 수행하되 응답을 기다리게 하지 않는다.
       if(result==='WIN')deferWrite('highGradeRerollDrop',()=>grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:requestId}));
       const magicReward=result==='WIN'?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):null;
-      const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({result,reward,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:await profile(env,updated)});
+      // V1791: 전투가 바꾼 것만 배치 1회로 읽어 경량 프로필로 응답한다.
+      // (기존: users 조회 1회 + profile() 10개 조회 + 보유 카드 전체 스캔)
+      const battleProfile=await battleResponseProfile(env,user,grantedCardIdsFromBattle({
+        cardRewards:cardReward?[cardReward]:[],
+        unifiedDrops:unifiedDrop?[unifiedDrop]:[]
+      }));
+      return json({result,reward,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:battleProfile});
     }
 
 
@@ -7353,9 +7421,46 @@ async function handleRequest(context){
   }
 }
 
+// V1790: D1 읽기 복제(Sessions API).
+//
+// 세션 객체는 env.DB 와 동일한 prepare/batch 인터페이스를 가지므로,
+// 요청 시작 시 한 번 만들어 env.DB 자리에 끼워 넣으면
+// 기존 1,400여 개 쿼리를 한 줄도 고치지 않고 전부 복제본 경로를 타게 된다.
+// 쓰기는 Sessions API 가 알아서 프라이머리로 보낸다.
+//
+// 정합성 원칙:
+//   - 변경 요청(GET 이 아닌 것)은 'first-primary'.
+//     전투 에너지 차감·재화 검사처럼 "읽고 판단해서 쓰는" 흐름이 많아
+//     복제 지연이 끼면 이중 지급·이중 차감이 날 수 있다. 안전을 택한다.
+//   - 조회 요청은 클라이언트가 돌려준 북마크를 사용한다.
+//     북마크는 "최소 이만큼은 최신인 복제본" 을 보장하므로
+//     자기가 방금 쓴 결과를 못 보는 일(read-your-writes 위반)이 없다.
+//   - 북마크가 없으면 'first-unconstrained' (첫 조회는 아무 복제본이나).
+//
+// 바인딩/런타임이 withSession 을 지원하지 않으면 기존 env.DB 를 그대로 쓴다.
+const D1_BOOKMARK_HEADER='x-cnine-d1-bookmark';
+function startD1Session(env,request){
+  if(typeof env?.DB?.withSession!=='function')return {db:env?.DB,session:null};
+  const readOnly=String(request.method||'GET').toUpperCase()==='GET';
+  const bookmark=readOnly?String(request.headers.get(D1_BOOKMARK_HEADER)||'').trim():'';
+  const constraint=readOnly?(bookmark||'first-unconstrained'):'first-primary';
+  try{
+    const session=env.DB.withSession(constraint);
+    return {db:session,session};
+  }catch(error){
+    console.warn('D1 withSession unavailable, falling back to direct binding',error);
+    return {db:env.DB,session:null};
+  }
+}
+
 export async function onRequest(context){
   const startedAt=Date.now(),request=context.request,url=new URL(request.url);
   const actionPath=url.pathname.replace(/^\/api\/?/,'');let mutationLock=null,response;
+  // 이 요청 동안에는 env.DB 가 곧 세션이다. context 도 같이 갈아끼워
+  // handleRequest 내부의 모든 env.DB 사용처가 자동으로 세션을 쓰게 한다.
+  const {db:sessionDb,session:d1Session}=startD1Session(context.env,request);
+  const env=sessionDb?{...context.env,DB:sessionDb}:context.env;
+  context={...context,env,waitUntil:typeof context.waitUntil==='function'?context.waitUntil.bind(context):undefined};
   if(serializedGameAction(actionPath,request.method)){
     // V1784: 세션 조회를 점검 게이트 조회와 같은 배치로 먼저 태워, 이후 authenticate()와
     // handleRequest()의 점검 게이트가 추가 D1 왕복 없이 캐시된 결과를 쓰게 한다.
@@ -7387,6 +7492,19 @@ export async function onRequest(context){
   if(durationMs>=2000)console.warn('SLOW_API_REQUEST',JSON.stringify({path:actionPath,method:request.method,status:response.status,durationMs}));
   headers.set('server-timing',`app;dur=${durationMs}`);
   headers.set('x-cnine-response-ms',String(durationMs));
+  // V1790: 이번 요청이 도달한 복제 시점을 클라이언트에 돌려준다.
+  // 클라이언트가 다음 요청에 그대로 실어 보내면, 방금 쓴 내용을 반드시 볼 수 있다.
+  if(d1Session){
+    try{
+      const bookmark=d1Session.getBookmark?.();
+      if(bookmark){
+        headers.set(D1_BOOKMARK_HEADER,bookmark);
+        // 교차 출처로 붙는 경우에도 브라우저가 이 헤더를 읽을 수 있어야 한다.
+        const exposed=headers.get('access-control-expose-headers');
+        headers.set('access-control-expose-headers',exposed?`${exposed}, ${D1_BOOKMARK_HEADER}`:`${D1_BOOKMARK_HEADER}, x-cnine-response-ms`);
+      }
+    }catch(error){console.warn('D1 bookmark read failed',error)}
+  }
   if(durationMs>=1000||stableSmallHash(`${request.method}:${url.pathname}:${request.headers.get('cf-ray')||''}`)%128===0){
     console.log(JSON.stringify({type:'api_timing',method:request.method,path:url.pathname,status:response.status,durationMs,ray:request.headers.get('cf-ray')||''}));
   }
