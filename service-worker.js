@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1798-blocked-route-restore';
+const SHELL_CACHE='soop-card-shell-v1799-playdk-rebrand';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

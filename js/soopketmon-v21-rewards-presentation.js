@@ -120,7 +120,7 @@
     });
     const verifyName = center.querySelector('#verifyWagoName');
     if (verifyName) {
-      if (!verifyName.getAttribute('aria-label')) verifyName.setAttribute('aria-label', '와이고수 닉네임');
+      if (!verifyName.getAttribute('aria-label')) verifyName.setAttribute('aria-label', 'PLAY DK 닉네임');
       verifyName.setAttribute('autocomplete', 'username');
       verifyName.setAttribute('autocapitalize', 'off');
       verifyName.setAttribute('autocorrect', 'off');

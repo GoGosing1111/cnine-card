@@ -118,7 +118,7 @@
       const input = box.querySelector(type === 'register' ? '#nickname' : '#key');
       const value = String(input?.value || '').trim();
       if (!value) {
-        setAuthStatus(box, 'error', type === 'register' ? '와이고수 닉네임을 입력해 주세요.' : '숲켓몬 개인키를 입력해 주세요.');
+        setAuthStatus(box, 'error', type === 'register' ? 'PLAY DK 닉네임을 입력해 주세요.' : '숲켓몬 개인키를 입력해 주세요.');
         input?.focus();
         return;
       }
@@ -127,7 +127,7 @@
       box.dataset.authState = 'pending';
       const idleLabel = button.textContent;
       button.textContent = type === 'register' ? '계정 확인 중…' : '접속 확인 중…';
-      setAuthStatus(box, 'pending', type === 'register' ? '와이고수 닉네임으로 새 계정을 생성하고 있습니다.' : '기존 계정의 개인키를 안전하게 확인하고 있습니다.');
+      setAuthStatus(box, 'pending', type === 'register' ? 'PLAY DK 닉네임으로 새 계정을 생성하고 있습니다.' : '기존 계정의 개인키를 안전하게 확인하고 있습니다.');
 
       const nativeAlert = global.alert;
       let authError = '';
@@ -181,14 +181,14 @@
     const brandCopy = document.createElement('div');
     if (eyebrow) brandCopy.append(eyebrow);
     if (heading) brandCopy.append(heading);
-    brandCopy.insertAdjacentHTML('beforeend', '<p>PLAY DK × 와이고수 두 서비스 이용자를 위한 숲켓몬 공동 접속 화면입니다.</p>');
+    brandCopy.insertAdjacentHTML('beforeend', '<p>PLAY DK 이용자를 위한 숲켓몬 접속 화면입니다.</p>');
     brand.append(brandCopy);
 
     const modeTabs = document.createElement('div');
     modeTabs.className = 'v21-auth-mode-tabs';
     modeTabs.setAttribute('role', 'tablist');
     modeTabs.setAttribute('aria-label', '접속 방식 선택');
-    modeTabs.innerHTML = '<button type="button" role="tab" data-v21-auth-mode="playdk"><span>RETURNING PLAYER</span><b>기존 계정 로그인</b></button><button type="button" role="tab" data-v21-auth-mode="nickname"><span>NEW PLAYER</span><b>PLAY DK × 와이고수 닉네임 등록</b></button>';
+    modeTabs.innerHTML = '<button type="button" role="tab" data-v21-auth-mode="playdk"><span>RETURNING PLAYER</span><b>기존 계정 로그인</b></button><button type="button" role="tab" data-v21-auth-mode="nickname"><span>NEW PLAYER</span><b>PLAY DK 닉네임 등록</b></button>';
 
     const panels = document.createElement('div');
     panels.className = 'v21-auth-panels';
@@ -229,10 +229,10 @@
     playPanel.append(keyField, loginButton);
     if (help) playPanel.append(help);
 
-    nicknameField.querySelector('label')?.replaceChildren(document.createTextNode('와이고수 닉네임'));
+    nicknameField.querySelector('label')?.replaceChildren(document.createTextNode('PLAY DK 닉네임'));
     const nicknameInput = nicknameField.querySelector('#nickname');
     if (nicknameInput) {
-      nicknameInput.placeholder = '사용 중인 와이고수 닉네임';
+      nicknameInput.placeholder = '사용 중인 PLAY DK 닉네임';
       nicknameInput.autocomplete = 'username';
       nicknameInput.setAttribute('autocapitalize', 'off');
       nicknameInput.setAttribute('autocorrect', 'off');
@@ -243,7 +243,7 @@
     startButton.textContent = '닉네임으로 새 계정 만들기';
     startButton.classList.remove('secondary');
     startButton.classList.add('v21-auth-submit');
-    nicknamePanel.insertAdjacentHTML('afterbegin', '<div class="v21-auth-panel-head"><small>NEW PLAYER REGISTRATION</small><h2>PLAY DK × 와이고수 닉네임 등록</h2><p>두 서비스 이용자가 와이고수 닉네임으로 새 숲켓몬 계정을 만들고 공통 개인키를 발급받습니다.</p></div>');
+    nicknamePanel.insertAdjacentHTML('afterbegin', '<div class="v21-auth-panel-head"><small>NEW PLAYER REGISTRATION</small><h2>PLAY DK 닉네임 등록</h2><p>PLAY DK 닉네임으로 새 숲켓몬 계정을 만들고 개인키를 발급받습니다.</p></div>');
     nicknamePanel.append(nicknameField, startButton);
     nicknamePanel.insertAdjacentHTML('beforeend', '<p class="v21-auth-contract-note">닉네임은 신규 계정 생성에 사용됩니다. 기존 이용자는 서비스 구분 없이 개인키 로그인을 이용해 주세요.</p>');
 

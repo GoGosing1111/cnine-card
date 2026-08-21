@@ -1,4 +1,4 @@
-/* V1058 - 와고 인증 완료 유저 코인 메시지 입력값 보존 */
+/* V1058 - PLAY DK 인증 완료 유저 코인 메시지 입력값 보존 */
 (()=>{
   const MAX_REWARD=100000000;
   const parseReward=value=>{
@@ -25,8 +25,8 @@
       if(!rewardCoin){alert('1인당 지급 코인을 올바르게 입력하세요.');return;}
       rewardInput.value=String(rewardCoin);
 
-      const title=String(document.querySelector('#verifiedCoinTitle')?.value||'와고 2단계 인증 보상').trim();
-      const body=String(document.querySelector('#verifiedCoinBody')?.value||'와고 2단계 인증 완료 유저에게 지급되는 코인 보상입니다.').trim();
+      const title=String(document.querySelector('#verifiedCoinTitle')?.value||'PLAY DK 2단계 인증 보상').trim();
+      const body=String(document.querySelector('#verifiedCoinBody')?.value||'PLAY DK 2단계 인증 완료 유저에게 지급되는 코인 보상입니다.').trim();
       const includeOwner=document.querySelector('#verifiedCoinIncludeOwner')?.checked===true;
       const includeAdmin=document.querySelector('#verifiedCoinIncludeAdmin')?.checked===true;
       if(!confirm(`인증 완료 유저에게 1인당 ${rewardCoin.toLocaleString()}코인을 메시지로 발송할까요?`)) return;

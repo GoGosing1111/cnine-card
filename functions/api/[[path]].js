@@ -2655,7 +2655,7 @@ let secondaryVerificationReadyPromise=null;
 function playdkConfigured(env){return Boolean(String(env.PLAYDK_ACCESS_KEY||'').trim()&&String(env.PLAYDK_SECRET_KEY||'').trim())}
 function playdkBaseUrl(env){const url=new URL(String(env.PLAYDK_BASE_URL||PLAYDK_DEFAULT_BASE_URL));if(url.protocol!=='https:'||!['playdk.kr','www.playdk.kr'].includes(url.hostname.toLowerCase()))throw new PlaydkApiError('PLAY DK 서버 주소 설정이 올바르지 않습니다.',{status:500});return url.origin}
 function playdkIdentityClient(env){return createPlaydkIdentityClient({baseUrl:playdkBaseUrl(env),accessKey:env.PLAYDK_ACCESS_KEY,secretKey:env.PLAYDK_SECRET_KEY,game:String(env.PLAYDK_GAME_CODE||'skm'),timeoutMs:8000})}
-function secondaryProviderConflict(provider){return json({error:`이미 ${provider==='WAGO'?'와이고수':'PLAY DK'} 2차 인증이 연결된 계정입니다. 한 계정에는 한 인증 서비스만 연결할 수 있습니다.`,code:'SECONDARY_PROVIDER_ALREADY_VERIFIED',provider},409)}
+function secondaryProviderConflict(provider){return json({error:`이미 PLAY DK 2차 인증이 연결된 계정입니다. 한 계정에는 한 인증 서비스만 연결할 수 있습니다.`,code:'SECONDARY_PROVIDER_ALREADY_VERIFIED',provider},409)}
 function isSecondaryProviderConflict(error){const message=String(error?.message||error||'');return message.includes('SECONDARY_VERIFICATION_PROVIDER_CONFLICT')||message.includes('UNIQUE constraint failed')}
 async function ensureSecondVerificationFoundation(env){
   if(secondaryVerificationReadyPromise)return secondaryVerificationReadyPromise;
@@ -2711,7 +2711,7 @@ async function secondVerificationForUser(env,userId){
 }
 function htmlText(v){return String(v||'').replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/gi,' ').replace(/&amp;/gi,'&').replace(/\s+/g,' ').trim()}
 function parseYgosuPostUrl(raw){
-  let url;try{url=new URL(String(raw||'').trim())}catch{return {ok:false,error:'CMS에 설정된 와고 인증 게시글 주소가 올바르지 않습니다.'}}
+  let url;try{url=new URL(String(raw||'').trim())}catch{return {ok:false,error:'CMS에 설정된 인증 게시글 주소가 올바르지 않습니다.'}}
   const host=url.hostname.toLowerCase();
   if(host!=='ygosu.com'&&host!=='www.ygosu.com')return {ok:false,error:'인증 게시글은 ygosu.com 주소만 사용할 수 있습니다.'};
   url.protocol='https:';
@@ -2726,7 +2726,7 @@ async function fetchWagoHtml(url,label){
   let response;
   try{response=await fetch(url,{redirect:'follow',cache:'no-store',headers:{'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/150 Safari/537.36','Accept':'text/html,application/xhtml+xml','Accept-Language':'ko-KR,ko;q=0.9','Cache-Control':'no-cache, no-store, max-age=0','Pragma':'no-cache'}})}
   catch{return {ok:false,error:`${label} 페이지에 연결할 수 없습니다.`}}
-  if(!response.ok)return {ok:false,error:`${label} 페이지 확인 실패 (${response.status}). 와고가 외부 조회를 차단한 경우 잠시 후 다시 시도하세요.`};
+  if(!response.ok)return {ok:false,error:`${label} 페이지 확인 실패 (${response.status}). 외부 조회가 차단된 경우 잠시 후 다시 시도하세요.`};
   return {ok:true,html:await response.text(),finalUrl:response.url||url};
 }
 async function inspectWagoComment(settings,verification){
@@ -2775,7 +2775,7 @@ async function inspectWagoComment(settings,verification){
     const nickMatch=/<div class=['"]nick['"][^>]*>[\s\S]*?<a[^>]*show_nick_dropdown[\s\S]*?>([\s\S]*?)<\/a>/i.exec(replyBlock);
     const authorNickname=nickMatch?htmlText(nickMatch[1]).replace(/^\S+\s+/,'').trim():'';
     if(authorNickname&&authorNickname!==nickname)return {ok:false,error:`인증코드는 확인했지만 댓글 작성자 닉네임(${authorNickname})과 입력한 닉네임이 일치하지 않습니다.`};
-    if(!authorNickname&&!htmlText(replyBlock).includes(nickname))return {ok:false,error:'인증코드는 확인했지만 입력한 와고 닉네임과 댓글 작성자가 일치하지 않습니다.'};
+    if(!authorNickname&&!htmlText(replyBlock).includes(nickname))return {ok:false,error:'인증코드는 확인했지만 입력한 PLAY DK 닉네임과 댓글 작성자가 일치하지 않습니다.'};
   }
 
   return {ok:true,memberConfirmed:true,commentUrl:post.url,memberNo,notice:`댓글 인증코드와 작성자 회원번호(${memberNo})를 자동 확인하여 인증되었습니다.`};
@@ -2949,8 +2949,8 @@ function parseWagoTodayBoardRows(html){
 async function inspectWagoDailyPosts(settings,memberNo,wagoNickname,questDate=kstDate()){
   const wanted=String(memberNo||'').replace(/\D/g,''),wantedNick=String(wagoNickname||'').trim();
   const requestedKstDate=String(questDate||kstDate());
-  if(!wanted)return {ok:false,error:'인증된 와고 회원번호가 없습니다.'};
-  if(!wantedNick)return {ok:false,error:'2단계 인증에 저장된 와고 닉네임이 없습니다. 다시 인증해 주세요.'};
+  if(!wanted)return {ok:false,error:'인증된 회원번호가 없습니다.'};
+  if(!wantedNick)return {ok:false,error:'2단계 인증에 저장된 PLAY DK 닉네임이 없습니다. 다시 인증해 주세요.'};
   const base=parseYgosuPostUrl(settings.boardUrl||'https://ygosu.com/board/soop');if(!base.ok)return base;
   const found=new Set();
   const maxPages=Math.max(1,Math.min(20,Number(settings.maxPages)||10));
@@ -2971,7 +2971,7 @@ async function inspectWagoDailyPosts(settings,memberNo,wagoNickname,questDate=ks
     u.searchParams.set('_cnine_nocache',String(Date.now()+page));
     const result=await fetchWagoHtml(u.toString(),'SOOP 작성자 검색 결과');if(!result.ok)return result;
     scannedPages++;
-    if(looksLikeWagoBlockPage(result.html))return {ok:false,error:'와이고수에서 서버 조회를 차단했습니다. 잠시 후 다시 확인해 주세요.',code:'WAGO_EXTERNAL_BLOCKED'};
+    if(looksLikeWagoBlockPage(result.html))return {ok:false,error:'외부에서 서버 조회를 차단했습니다. 잠시 후 다시 확인해 주세요.',code:'WAGO_EXTERNAL_BLOCKED'};
     const ids=parseWagoTodaySearchPosts(result.html,wantedNick);
     lastPageCount=ids.length;
     const before=found.size;
@@ -5653,7 +5653,7 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const settings=await mineralExchangeSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 미네랄 교환 신청이 중지되어 있습니다.'},503);
       const body=await readBody(request),wagoNickname=String(body.wagoNickname||'').trim().slice(0,40),proofText=String(body.proofText||'').trim().slice(0,500),mineralAmount=Math.floor(Number(body.mineralAmount||0));
-      if(!wagoNickname)return json({error:'와이고수 닉네임을 입력하세요.'},400);if(wagoNickname.length<2)return json({error:'와이고수 닉네임을 정확히 입력하세요.'},400);
+      if(!wagoNickname)return json({error:'PLAY DK 닉네임을 입력하세요.'},400);if(wagoNickname.length<2)return json({error:'PLAY DK 닉네임을 정확히 입력하세요.'},400);
       if(!proofText)return json({error:'기부 완료 내용을 입력하세요.'},400);if(!Number.isSafeInteger(mineralAmount)||mineralAmount<=0)return json({error:'기부한 미네랄 수량을 정확히 입력하세요.'},400);
       const rawCoin=mineralAmount*Number(settings.payoutCoin)/Number(settings.baseMineral),coinAmount=Math.floor(rawCoin);
       if(!Number.isInteger(rawCoin)||coinAmount<=0||coinAmount%1000!==0)return json({error:'교환 신청은 1,000코인 단위로만 가능합니다.'},400);
@@ -5725,9 +5725,9 @@ async function handleRequest(context){
     if(path==='wago-verification/request'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       const secondary=await secondVerificationForUser(env,user.id);if(secondary?.provider==='PLAYDK')return secondaryProviderConflict('PLAYDK');
-      const settings=await wagoVerificationSettings(env);if(!settings.enabled)return json({error:'현재 와고 인증이 중지되어 있습니다.'},503);
+      const settings=await wagoVerificationSettings(env);if(!settings.enabled)return json({error:'현재 PLAY DK 인증이 중지되어 있습니다.'},503);
       const body=await readBody(request),nickname=String(body.wagoNickname||'').trim().slice(0,40),memberNo='';
-      if(nickname.length<2)return json({error:'와고 닉네임을 정확히 입력하세요.'},400);
+      if(nickname.length<2)return json({error:'PLAY DK 닉네임을 정확히 입력하세요.'},400);
       if(!settings.postUrl)return json({error:'현재 인증 게시글이 준비되지 않았습니다.'},503);
       const code=makeVerificationCode(),minutes=Math.max(5,Math.min(60,Number(settings.codeMinutes)||20));
       await env.DB.prepare(`INSERT INTO wago_verifications(user_id,wago_nickname,wago_member_no,verification_code,status,expires_at,issued_at,updated_at) VALUES(?,?,?,?, 'PENDING',datetime('now',?),CURRENT_TIMESTAMP,CURRENT_TIMESTAMP)
@@ -5764,7 +5764,7 @@ async function handleRequest(context){
       const settings=await wagoDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
       if(dailyQuestAdminExcluded(user,settings))return json({error:'운영 계정의 일일퀘스트 테스트가 중지되어 있습니다.'},403);
       const v=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
-      if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'와고 2단계 인증 완료 후 이용할 수 있습니다.'},403);
+      if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'PLAY DK 2단계 인증 완료 후 이용할 수 있습니다.'},403);
       const today=kstDate(),cooldown=Math.max(5,Number(settings.checkCooldownSeconds)||20);
       if(questType!=='POST')return json({error:'지원하지 않는 일일퀘스트입니다.'},400);
       if(settings.postEnabled===false)return json({error:'게시글 일일퀘스트가 중지되어 있습니다.'},503);
@@ -5784,7 +5784,7 @@ async function handleRequest(context){
       const settings=await wagoDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
       if(dailyQuestAdminExcluded(user,settings))return json({error:'운영 계정의 일일퀘스트 테스트가 중지되어 있습니다.'},403);
       const v=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
-      if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'와고 2단계 인증 완료 후 이용할 수 있습니다.'},403);
+      if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'PLAY DK 2단계 인증 완료 후 이용할 수 있습니다.'},403);
       const today=kstDate();
       if(questType!=='POST')return json({error:'지원하지 않는 일일퀘스트입니다.'},400);
       if(settings.postEnabled===false)return json({error:'게시글 일일퀘스트가 중지되어 있습니다.'},503);
@@ -5920,14 +5920,14 @@ async function handleRequest(context){
     if(path==='admin/wago-extension/resolve'&&request.method==='POST'){
       const admin=await requirePermission(request,env,'COIN_GRANT');if(!admin)return json({error:'코인 지급 권한이 없습니다.'},403);
       const body=await readBody(request),wagoNickname=normalizeWagoExtensionNickname(body.wagoNickname);
-      if(!wagoNickname)return json({error:'와고 닉네임을 확인할 수 없습니다.'},400);
+      if(!wagoNickname)return json({error:'PLAY DK 닉네임을 확인할 수 없습니다.'},400);
       const rows=await env.DB.prepare(`SELECT u.id,u.nickname,u.coin,u.status,w.wago_nickname,w.wago_member_no,w.verified_at
         FROM wago_verifications w JOIN users u ON u.id=w.user_id
         WHERE UPPER(TRIM(w.wago_nickname))=UPPER(TRIM(?)) AND UPPER(TRIM(w.status))='VERIFIED'
         ORDER BY w.verified_at DESC,w.id DESC LIMIT 3`).bind(wagoNickname).all();
       const matches=rows.results||[];
       if(!matches.length)return json({error:'2단계 인증 연결 기록이 없습니다.',code:'WAGO_NOT_VERIFIED',wagoNickname},404);
-      if(matches.length>1)return json({error:'동일 와고 닉네임에 인증 완료 계정이 여러 개 연결되어 있습니다. CMS에서 연결 기록을 정리하세요.',code:'WAGO_DUPLICATE_LINK',wagoNickname,matches:matches.map(x=>({gameNickname:x.nickname,wagoMemberNo:x.wago_member_no}))},409);
+      if(matches.length>1)return json({error:'동일 PLAY DK 닉네임에 인증 완료 계정이 여러 개 연결되어 있습니다. CMS에서 연결 기록을 정리하세요.',code:'WAGO_DUPLICATE_LINK',wagoNickname,matches:matches.map(x=>({gameNickname:x.nickname,wagoMemberNo:x.wago_member_no}))},409);
       const user=matches[0];
       if(String(user.status||'ACTIVE').toUpperCase()!=='ACTIVE')return json({error:'연결된 숲켓몬 계정이 이용 정지 상태입니다.',code:'TARGET_INACTIVE'},409);
       return json({ok:true,wagoNickname:user.wago_nickname,wagoMemberNo:user.wago_member_no,gameUser:{id:user.id,nickname:user.nickname,coin:Number(user.coin||0)},verifiedAt:user.verified_at});

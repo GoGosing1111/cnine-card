@@ -58,7 +58,7 @@
           <div>
             <small>FOREST GRAND COUNCIL</small>
             <h2>족장 선출·임기 관리</h2>
-            <p>와이고수 투표 결과를 반영해 7일 임기의 족장을 지정합니다.</p>
+            <p>PLAY DK 투표 결과를 반영해 7일 임기의 족장을 지정합니다.</p>
           </div>
           <button class="ghost" id="chiefAdminReload" type="button">새로고침</button>
         </div>
@@ -94,7 +94,7 @@
             </div>
           </div>
           <div class="chief-admin-appoint">
-            <h3>와이고수 투표 결과 반영</h3>
+            <h3>PLAY DK 투표 결과 반영</h3>
             <p>지정 즉시 새 7일 임기가 시작되고 첫 선출 팝업이 전체 유저에게 공개됩니다.</p>
             <label class="field chief-ordinal-field">
               <span>족장 대수</span>

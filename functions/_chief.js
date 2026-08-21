@@ -45,7 +45,7 @@ async function usage(env,a){
 function publicState(a,u,viewerId){
   const remaining=Math.max(0,Date.parse(a.endsAt||0)-Date.now());
   const active=a.active===true;
-  return {status:active?'ACTIVE':'VACANT',active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',ordinal:chiefOrdinal(a.ordinal),source:'와이고수 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningHours:3,burningUsesPerDay:2,hyperHours:1,towerResetsPerTerm:2}};
+  return {status:active?'ACTIVE':'VACANT',active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',ordinal:chiefOrdinal(a.ordinal),source:'PLAY DK 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningHours:3,burningUsesPerDay:2,hyperHours:1,towerResetsPerTerm:2}};
 }
 async function activateBurning(env,a,type){
   const hyper=type==='HYPER',durationHours=hyper?1:3,key=hyper?HYPER_KEY:BURNING_KEY,other=hyper?BURNING_KEY:HYPER_KEY,now=new Date(),endsAt=new Date(now.getTime()+durationHours*3600000).toISOString();
@@ -107,7 +107,7 @@ export async function handleChief({path,request,env,deps}){
     if(request.method==='POST'){
       const body=await readBody(request),ordinal=chiefOrdinal(body.ordinal);if(!ordinal)return json({error:'족장 대수는 1~9999 범위의 정수로 직접 입력해야 합니다.'},400);
       const target=await env.DB.prepare("SELECT id,nickname,COALESCE(role,'USER') role FROM users WHERE id=? AND status='ACTIVE' AND COALESCE(role,'USER') IN ('USER','OWNER')").bind(Number(body.userId)).first();if(!target)return json({error:'선출 가능한 활성 USER 또는 OWNER를 찾을 수 없습니다.'},404);
-      const now=new Date(),next={id:crypto.randomUUID(),userId:Number(target.id),nickname:target.nickname,ordinal,source:'와이고수 투표',startsAt:now.toISOString(),endsAt:new Date(now.getTime()+7*DAY_MS).toISOString(),inaugurationVersion:Date.now(),appointedBy:Number(admin.id)};
+      const now=new Date(),next={id:crypto.randomUUID(),userId:Number(target.id),nickname:target.nickname,ordinal,source:'PLAY DK 투표',startsAt:now.toISOString(),endsAt:new Date(now.getTime()+7*DAY_MS).toISOString(),inaugurationVersion:Date.now(),appointedBy:Number(admin.id)};
       const before=await appointment(env);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(CHIEF_META_KEY,JSON.stringify(next)).run();await writeAdminLog(env,admin,'CHIEF_APPOINT','USER',String(target.id),before,next);return json({ok:true,chief:publicState({...next,active:true},await usage(env,next),null)})
     }
   }
