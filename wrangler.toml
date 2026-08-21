@@ -8,3 +8,15 @@ pages_build_output_dir = "."
 binding = "DB"
 database_name = "cnine-card-db"
 database_id = "104552d7-33b6-4ddb-b2ed-36f37db95a72"
+
+# V1786: 유저별 게임 액션 직렬화 락(Durable Object).
+# functions/api/[[path]].js 가 env.USER_LOCK 이 있으면 DO 락을,
+# 없으면 기존 D1 테이블(user_mutation_locks_v1520) 락을 쓴다.
+#
+# script_name 은 Pages 프로젝트의 Wrangler 파일에서 DO 를 바인딩할 때 필수다.
+# (DO 클래스는 Pages 안에 만들 수 없고 별도 Worker 에 있어야 하기 때문)
+# workers/user-lock 을 먼저 배포해 두어야 한다: cd workers/user-lock && npx wrangler deploy
+[[durable_objects.bindings]]
+name = "USER_LOCK"
+class_name = "UserMutationLock"
+script_name = "cnine-card-user-lock"
