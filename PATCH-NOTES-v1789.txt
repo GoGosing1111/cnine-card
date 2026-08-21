@@ -1,0 +1,75 @@
+PATCH-NOTES-v1789 : 빛기둥(대각선 광선) 장식 차단을 정적 CSS 로 이전
+
+[배경]
+"카드 화면에 CSS 빛기둥 효과를 쓰지 말라"는 지시가 반복됐는데도 계속 되살아났다.
+원인을 찾다가 구조적 문제를 발견했다.
+
+차단 규칙 자체는 이미 있었다:
+  css/soopketmon-v21-exact-luxury.css:69
+    /* Permanently retired: the diagonal two-column light treatment ... */
+    .ambient-lines, .light-pillars, .light-beams, .dex-renewal-shell::before {
+      display:none!important; content:none!important;
+    }
+
+문제는 이 파일이 index.html 에 없다는 점이다.
+js/soopketmon-v21-exact-shell-adapter.js 의 ensureStyles() 가 런타임에 동적 주입한다.
+따라서
+  - 어댑터가 아직 실행되기 전
+  - 어댑터가 관여하지 않는 라우트
+에서는 차단이 걸리지 않아 장식이 그대로 새어 나온다.
+같은 어댑터 246줄이 .ambient-lines/.light-pillars/.light-beams 노드를 removeChild 하지만,
+그 이후 라우트가 다시 렌더되면 소용이 없다.
+
+
+[수정]
+새 파일: css/no-light-beams-v1789.css
+  index.html 이 "모든 스타일시트 뒤에" 정적으로 로드한다.
+  이제 어댑터 동작 여부·타이밍·라우트와 무관하게 항상 적용된다.
+
+  차단 대상:
+    .light-beams / .light-pillars / .light-beam / .light-pillar
+    .ambient-lines / .ambient-beams / .beam-layer / .hero-beams
+    .dex-renewal-shell::before / ::after
+  (display, content, background, opacity 를 모두 무력화)
+
+index.html
+  idle-dungeon-v1603-polish.css 다음 줄에 추가 — 반드시 마지막이어야 한다.
+
+
+[검증]
+  Chromium(Playwright)으로 index.html 의 실제 스타일시트 전체를 물린 상태에서
+  .light-beams / .light-pillars / .ambient-lines 노드를 넣고 계산 스타일 확인
+    → 셋 다 display:none, opacity:0
+
+
+[한계 — 반드시 읽을 것]
+이 패치는 "이름이 알려진 빛기둥 장식이 다시는 못 살아나게" 만드는 재발 방지책이다.
+스크린샷에 찍힌 그 대각선 줄기가 이 셀렉터들 중 하나라는 보장은 없다.
+
+특정 시도한 것과 결과:
+  - 로드되는 CSS 30개 전수 검색 (대각 linear-gradient / repeating-linear-gradient /
+    전면 오버레이 패턴) → 해당 화면에 맞는 규칙 없음
+  - js/*.js 인라인 스타일의 대각 그라디언트 → 카드·패널 단색 채우기뿐
+  - 배경 이미지 assets/ui/project-v/mobile/soopketmon-lobby-citadel-v1-720.webp 확인
+    → 아트에 그런 줄기 없음
+  - Chromium 으로 app.js 의 PVE 전투덱 마크업 + CSS 30개를 실제 렌더링
+    → 화면 5% 이상을 차지하는 대각 그라디언트 요소 0건
+
+즉 라이브 DOM 이 저장소에서 재구성 가능한 것과 다르다.
+(v21 셸 어댑터가 런타임에 마크업을 다시 그리는 것으로 보인다)
+
+확정하려면 해당 화면에서 F12 → Console 에 아래를 붙여넣고 결과를 확인한다:
+
+(()=>{const out=[],A=innerWidth*innerHeight;
+document.querySelectorAll('*').forEach(el=>{const r=el.getBoundingClientRect();
+ if(r.width*r.height<A*0.1)return;
+ ['','::before','::after'].forEach(p=>{const s=getComputedStyle(el,p||null);
+  const bg=s.backgroundImage||'';if(bg==='none')return;
+  if(p&&s.content==='none')return;
+  const diag=/gradient\(\s*-?\d{1,3}deg/.test(bg)&&!/\(\s*(0|90|180|270)deg/.test(bg);
+  if(!diag&&!/url\(/.test(bg))return;
+  out.push({sel:(el.id?'#'+el.id:el.tagName.toLowerCase())+(typeof el.className==='string'&&el.className?'.'+el.className.trim().split(/\s+/).slice(0,3).join('.'):'')+p,
+   size:Math.round(r.width)+'x'+Math.round(r.height),bg:bg.slice(0,90)});});});
+console.table(out);})()
+
+셀렉터가 나오면 no-light-beams-v1789.css 에 한 줄 추가하면 끝난다.

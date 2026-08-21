@@ -1,0 +1,43 @@
+/* ============================================================
+   v1789 · 빛기둥(대각선 광선) 장식 영구 차단
+   ------------------------------------------------------------
+   운영 지시 사항: 카드도감·PVE 전투덱 편성 등 카드가 주인공인 화면에
+   CSS 대각선 광선/빛기둥 장식을 넣지 않는다. (반복 지시)
+
+   왜 이 파일이 따로 있는가:
+     기존 차단 규칙은 css/soopketmon-v21-exact-luxury.css 안에 있었는데,
+     그 파일은 index.html 이 로드하지 않고
+     js/soopketmon-v21-exact-shell-adapter.js 의 ensureStyles() 가
+     런타임에 동적으로 주입한다. 따라서
+       - 어댑터가 아직 실행되지 않은 시점
+       - 어댑터가 관여하지 않는 라우트
+     에서는 차단이 걸리지 않아 장식이 다시 새어 나왔다.
+     그래서 index.html 이 "마지막에" 정적으로 로드하는 이 파일로 옮긴다.
+     이제 어댑터 동작 여부·타이밍과 무관하게 항상 적용된다.
+
+   주의: 이 파일은 index.html 의 스타일시트 중 가장 마지막에 와야 한다.
+   ============================================================ */
+
+/* 1) 장식 전용 노드 — 마크업이 다시 생겨도 그려지지 않게 한다.
+      (셸 어댑터가 removeChild 하지만, 이후 재렌더되면 소용없다) */
+.light-beams,
+.light-pillars,
+.light-beam,
+.light-pillar,
+.ambient-lines,
+.ambient-beams,
+.beam-layer,
+.hero-beams {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  opacity: 0 !important;
+}
+
+/* 2) 이미 "영구 폐기" 로 표시됐던 의사 요소 장식 */
+.dex-renewal-shell::before,
+.dex-renewal-shell::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
