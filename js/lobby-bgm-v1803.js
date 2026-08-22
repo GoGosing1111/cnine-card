@@ -169,21 +169,31 @@
     style.textContent = `
 .lobby-bgm-toggle{display:inline-flex;align-items:center;gap:6px;padding:6px 11px;border:1px solid rgba(160,200,255,.34);
   border-radius:999px;background:rgba(10,16,30,.62);color:#cfe2ff;font-size:11px;font-weight:700;letter-spacing:.04em;
-  line-height:1;cursor:pointer;backdrop-filter:blur(6px);transition:border-color .18s,color .18s,background .18s}
+  line-height:1;cursor:pointer;pointer-events:auto;backdrop-filter:blur(6px);transition:border-color .18s,color .18s,background .18s}
 .lobby-bgm-toggle:hover{border-color:rgba(160,200,255,.62);color:#eaf3ff;background:rgba(14,22,42,.78)}
 .lobby-bgm-toggle i{font-style:normal;font-size:13px;line-height:1}
 .lobby-bgm-toggle em{font-style:normal}
 .lobby-bgm-toggle.is-muted{color:#8b9ab4;border-color:rgba(120,140,170,.3)}
 .lobby-bgm-toggle.is-floating{position:fixed;z-index:60;right:14px;top:calc(14px + env(safe-area-inset-top,0px))}
-@media (max-width:759px){.lobby-bgm-toggle{padding:5px 9px;font-size:10px}.lobby-bgm-toggle em{display:none}}
+.pc-lobby-brand>.lobby-bgm-toggle{position:absolute;left:296px;top:8px;z-index:20;min-height:34px;white-space:nowrap}
+.mobile-lobby-brand>.lobby-bgm-toggle{justify-self:start;margin-top:5px;white-space:nowrap}
+@media (max-width:759px){.lobby-bgm-toggle{padding:5px 9px;font-size:10px}.mobile-lobby-brand>.lobby-bgm-toggle em{display:inline}}
 @media (prefers-reduced-motion: reduce){.lobby-bgm-toggle{transition:none}}`;
     document.head.appendChild(style);
   }
 
+  function visibleHost(selector) {
+    const node = document.querySelector(selector);
+    if (!node) return null;
+    const style = getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    return style.display !== 'none' && style.visibility !== 'hidden' && rect.width > 0 && rect.height > 0 ? node : null;
+  }
+
   function buttonHost() {
-    return document.querySelector('.pc-lobby-brand')
-      || document.querySelector('.mobile-command-nav header')
-      || document.querySelector('.mobile-lobby-brand')
+    return visibleHost('.pc-lobby-brand')
+      || visibleHost('.mobile-lobby-brand')
+      || visibleHost('.mobile-command-nav header')
       || document.body;
   }
 
