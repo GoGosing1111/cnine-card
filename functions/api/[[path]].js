@@ -5386,7 +5386,17 @@ async function handleRequest(context){
       const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true,bossUltimateEnabled=Number(monster.ultimate_enabled||0)===1||monster.ultimate_enabled===true,bossUltimateConfigured=bossIsBoss&&bossUltimateEnabled;
       const bossTrigger=String(monster.ultimate_trigger||'ON_LOSS').toUpperCase(),bossChance=Math.max(0,Math.min(100,Number(monster.ultimate_chance??100))),bossForceCast=Number(monster.ultimate_force_cast||0)===1||monster.ultimate_force_cast===true,bossChanceHit=bossChance>=100||Math.random()*100<bossChance;
       const bossShouldCast=bossUltimateConfigured&&(bossForceCast||bossTrigger==='ALWAYS'||(bossTrigger==='ON_LOSS'&&preliminaryResult==='LOSE')||(bossTrigger==='CHANCE'&&bossChanceHit));
-      const bossPveDamagePercent=difficulty.bossUltimateUnlocked?difficulty.bossUltimateCapPercent:Math.max(0,Math.min(100,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0))),bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(playerPower*bossPveDamagePercent/100)):0;
+      // V1803-fix: 수동 전투(대부분의 유저가 쓰는 경로)에도 V1802 자동사냥과 같은 수정을 넣는다.
+      //   기존: 나이트메어면 몬스터 설정을 무시하고 상한(150%) 을 "값" 으로 썼다.
+      //   V2 엔진의 보스 오프닝 궁극기는 최대HP 의 일정 %를 깎는데, 장비 보정을 빼면
+      //   실제 피해 = 카드 고유 전투력 × 감점률 이 된다. 감점률이 100% 를 넘으면
+      //     남는 체력 = 장비전투력 - 카드전투력×0.5
+      //   가 되어 "카드를 강화할수록 더 빨리 죽는" 역전이 생겼다.
+      //   (리미티드 13강 → FUR 11강 교체 시 원콤 제보의 실제 원인)
+      //   이제 상한은 상한으로만 쓰고 실제 감점률은 몬스터에 설정된 값을 따른다.
+      const bossUltimateCapPct=Math.max(0,Number(difficulty.bossUltimateCapPercent??100)||0);
+      const bossConfiguredPct=Math.max(0,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0)||0);
+      const bossPveDamagePercent=Math.min(bossUltimateCapPct,bossConfiguredPct),bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(playerPower*bossPveDamagePercent/100)):0;
       const bossUltimate=bossShouldCast?{name:String(monster.ultimate_name||'보스 궁극기'),description:String(monster.ultimate_description||''),warningText:String(monster.ultimate_warning_text||'BOSS ULTIMATE'),damagePercent:bossPveDamagePercent,forceCast:bossForceCast,target:String(monster.ultimate_target||'ALL'),theme:String(monster.ultimate_theme||'CRIMSON'),shake:Boolean(monster.ultimate_shake),zoom:Boolean(monster.ultimate_zoom),mediaUrl:String(monster.ultimate_media_url||''),soundUrl:String(monster.ultimate_sound_url||''),durationMs:Math.max(600,Math.min(25000,Number(monster.ultimate_duration_ms||2400))),volumePercent:Math.max(0,Math.min(100,Number(monster.ultimate_volume_percent??35))),penalty:bossUltimatePenalty,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked}:null;
       let battleV2=null,effectiveBattleDamage=Math.max(0,totalBattleDamage-bossUltimatePenalty),result;
       if(engineState.active){
