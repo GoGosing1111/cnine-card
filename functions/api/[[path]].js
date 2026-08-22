@@ -7842,10 +7842,15 @@ const D1_BOOKMARK_HEADER='x-cnine-d1-bookmark';
 // 나중에 복제본이 빨라지면 Pages 환경변수 D1_READ_MODE=replica 로 코드 수정 없이 되돌릴 수 있다.
 function startD1Session(env,request){
   if(typeof env?.DB?.withSession!=='function')return {db:env?.DB,session:null};
+  // V1803: 읽기를 전부 주 DB 로 강제하고 있었다(first-primary).
+  // 실측 결과 쿼리 1건짜리 요청이 104~395ms 다 — D1 엔진 실행은 0.19ms 이므로 전부 왕복 대기다.
+  // 쿼리가 24개인 raid/status 는 10.5초, battle/fight 는 20초를 넘겼다.
+  // 읽기는 가까운 복제본에서 받고, 방금 쓴 내용은 클라이언트가 돌려주는 북마크로 보장한다.
+  // 주 DB 로 되돌려야 하면 환경변수 D1_READ_MODE=primary 를 준다.
   const readOnly=String(request.method||'GET').toUpperCase()==='GET';
-  const replicaReads=String(env?.D1_READ_MODE||'').trim().toLowerCase()==='replica';
-  const bookmark=replicaReads&&readOnly?String(request.headers.get(D1_BOOKMARK_HEADER)||'').trim():'';
-  const constraint=replicaReads&&readOnly?(bookmark||'first-unconstrained'):'first-primary';
+  const forcePrimary=String(env?.D1_READ_MODE||'').trim().toLowerCase()==='primary';
+  const bookmark=readOnly&&!forcePrimary?String(request.headers.get(D1_BOOKMARK_HEADER)||'').trim():'';
+  const constraint=readOnly&&!forcePrimary?(bookmark||'first-unconstrained'):'first-primary';
   try{
     const session=env.DB.withSession(constraint);
     return {db:session,session};
