@@ -242,7 +242,19 @@ class PostgresD1Database {
     this.client = client;
     this.dialect = 'postgres';
     this.uniqueTargets = new Map();
+    // node-postgres Client는 한 연결에서 동시에 여러 query()를 실행하지
+    // 않는다. 기존 D1 코드의 Promise.all 패턴을 그대로 허용하되 실제
+    // PostgreSQL 작업은 요청 단위 FIFO로 직렬화한다.
+    this.operationTail = Promise.resolve();
     this.closed = false;
+  }
+
+  enqueue(operation) {
+    if (this.closed) return Promise.reject(new Error('PostgreSQL 연결이 이미 종료되었습니다.'));
+    const result = this.operationTail.then(operation);
+    // 한 작업의 실패가 뒤 작업까지 영구적으로 막지 않도록 tail만 복구한다.
+    this.operationTail = result.catch(() => undefined);
+    return result;
   }
 
   prepare(source) {
@@ -337,7 +349,11 @@ class PostgresD1Database {
     };
   }
 
-  async execute(statement) {
+  execute(statement) {
+    return this.enqueue(() => this.executeDirect(statement));
+  }
+
+  async executeDirect(statement) {
     if (!(statement instanceof PostgresD1Statement)) throw new TypeError('Postgres D1 statement가 아닙니다.');
     const source = stripTrailingSemicolon(statement.source);
     if (!source) return emptyResult();
@@ -360,23 +376,26 @@ class PostgresD1Database {
     return this.result(result.rows, result.rowCount, Date.now() - startedAt, aliases);
   }
 
-  async batch(statements) {
+  batch(statements) {
     const list = Array.isArray(statements) ? statements : [];
-    await this.client.query('BEGIN');
-    try {
-      const results = [];
-      for (const statement of list) results.push(await this.execute(statement));
-      await this.client.query('COMMIT');
-      return results;
-    } catch (error) {
-      try { await this.client.query('ROLLBACK'); } catch {}
-      throw error;
-    }
+    return this.enqueue(async () => {
+      await this.client.query('BEGIN');
+      try {
+        const results = [];
+        for (const statement of list) results.push(await this.executeDirect(statement));
+        await this.client.query('COMMIT');
+        return results;
+      } catch (error) {
+        try { await this.client.query('ROLLBACK'); } catch {}
+        throw error;
+      }
+    });
   }
 
   async close() {
     if (this.closed) return;
     this.closed = true;
+    await this.operationTail.catch(() => undefined);
     await this.client.end();
   }
 }

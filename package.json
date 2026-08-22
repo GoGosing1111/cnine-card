@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "test:postgres-compat": "node --test tests/postgres-d1-compat.test.mjs",
+    "test:postgres-routes": "node tests/postgres-route-smoke.mjs",
     "check:worker": "node --check functions/api/[[path]].js"
   },
   "dependencies": {
