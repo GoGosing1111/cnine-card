@@ -1664,6 +1664,27 @@ async function playBossBattleUltimate(stage,phase,ult){
 window.playBattleUltimate=playBattleUltimate;
 window.playBossBattleUltimate=playBossBattleUltimate;
 
+// V1803: 스피너가 얼마나, 왜 떠 있는지 화면에서 바로 보이게 한다.
+// 어느 구간이 느린지 F12 없이 판별할 수 있어야 다음 개선 지점을 정할 수 있다.
+function startBattleEntryTicker(root){
+  if(!root)return ()=>{};
+  const label=root.querySelector('.battle-v3-loader span');
+  const status=root.querySelector('.battle-v3-status');
+  const startedAt=performance.now();
+  let phase='서버 응답 대기';
+  const paint=()=>{
+    const seconds=((performance.now()-startedAt)/1000).toFixed(1);
+    if(label)label.textContent=`${phase} · ${seconds}초`;
+    if(status)status.textContent=`${phase} ${seconds}초`;
+  };
+  paint();
+  const timer=setInterval(paint,100);
+  return (nextPhase)=>{
+    if(nextPhase===false){clearInterval(timer);return Math.round(performance.now()-startedAt)}
+    phase=String(nextPhase||phase);paint();
+    return Math.round(performance.now()-startedAt);
+  };
+}
 function prepareImmediateBattleV3Entry({modal,mode='PVE',playerName='MEMBER TEAM',opponentName='MONSTER'}={}){
   if(!modal)return null;
   const pvp=String(mode).toUpperCase()==='PVP';
@@ -1697,7 +1718,23 @@ async function startBattle(){
     if(v2Playback){
       const earlyLive=prepareImmediateBattleV3Entry({modal,playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER'});
       msg=earlyLive?.msg||null;
+      const tick=startBattleEntryTicker(earlyLive?.stage||modal);
 
+      // V1803: WebGL 마운트는 서버 응답이 필요 없다(전장·셰이더·컨텍스트).
+      // 응답을 기다리는 동안 미리 올려두면 첫 전투에서 그만큼이 사라진다.
+      const warmPixi=(async()=>{
+        try{
+          await ensureFeatureResources('battleV2');
+          const pixi=window.ProjectVPixiBattle;
+          if(pixi&&!window.__V3_PIXI_MOUNTED&&typeof pixi.mount==='function'){
+            const host=document.querySelector('#pvPixiBattle,.battle-v3-canvas-host');
+            if(host){await pixi.mount(host);window.__V3_PIXI_MOUNTED=true;window.__V3_PIXI_CANVAS=host.querySelector('canvas')}
+          }
+        }catch(error){console.warn('전장 선마운트 실패(무시하고 진행):',error)}
+      })();
+      warmPixi.catch(()=>{});
+
+      const fightStartedAt=performance.now();
       const [_, d] = await Promise.all([
         ensureFeatureResources('battleV2'),
         apiRequest('battle/fight',{
@@ -1710,8 +1747,13 @@ async function startBattle(){
           })
         },{timeoutMs:20000})
       ]);
+      const fightMs=Math.round(performance.now()-fightStartedAt);
+      tick('전장 구성 중');
+      await warmPixi;
 
       if(!d?.battleV2)throw new Error('PROJECT V V3 전투 응답을 받지 못했습니다.');
+      const totalMs=tick(false);
+      console.info('[전투 진입]',JSON.stringify({서버응답ms:fightMs,전체ms:totalMs,연출까지ms:totalMs-fightMs}));
       const live=window.prepareBattleV2LiveLoading({modal,mode:'PVE',playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER'});
       const stage=live.stage,phase=live.phase;
       msg=live.msg;
