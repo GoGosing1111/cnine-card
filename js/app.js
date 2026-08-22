@@ -278,6 +278,28 @@ function tierFrameSource(grade,level){
   return String(TIER_FRAME_ASSETS[key]?.[Math.min(13,level)]||'').trim();
 }
 const HIGH_BREAKTHROUGH_BONUS_FALLBACK={FUR:[1400,1900,2500],ZENITH:[709,973,1275]};
+// V1802-fix: 서버가 폴링 응답으로 내려주는 고급 강화 설정을 저장값에 반영한다.
+// 이게 없으면 전체 프로필을 다시 받은 계정만 11강이 열려서 유저마다 화면이 달라진다.
+function applyHighBreakthroughConfig(incoming){
+  if(!incoming||typeof incoming!=='object')return false;
+  const user=loadUser();if(!user)return false;
+  let changed=false;
+  for(const [grade,key] of [['FUR','furHighBreakthrough'],['ZENITH','zenithHighBreakthrough']]){
+    const next=incoming[grade];
+    if(!next||typeof next!=='object')continue;
+    if(JSON.stringify(user[key]||null)===JSON.stringify(next))continue;
+    user[key]=next;changed=true;
+  }
+  if(!changed)return false;
+  saveUser(user);
+  // 카드 상세가 열려 있으면 즉시 다시 그려 "준비 중" 문구가 남지 않게 한다.
+  try{
+    const open=document.getElementById('breakthroughBtn')?.dataset.breakthroughCard
+      ||document.querySelector('.card-profile-modal .breakthrough-info')?.closest('.modal')?.querySelector('[data-id]')?.dataset.id;
+    if(open&&document.getElementById('modal')?.classList.contains('show'))showDetail(String(open),'info');
+  }catch(_){}
+  return true;
+}
 function highBreakthroughConfigForGrade(user,grade){
   const key=String(grade||'').trim().toUpperCase();
   if(key==='LIMITED')return user?.limitedHighBreakthrough||LIMITED_HIGH_ENHANCEMENT_FALLBACK;
@@ -3254,6 +3276,7 @@ async function pollRuntimeCommand(){
     // service/status까지 중복 호출하던 구조를 제거해 로그인 유저당 요청을 절반으로 줄인다.
     const data=await apiRequest('user/runtime-command',{}, {ttl:0});
     updateMessageNewBadges(data?.unreadMessages||0);
+    applyHighBreakthroughConfig(data?.highBreakthrough);
     const command=data?.command,last=Number(sessionStorage.getItem(runtimeCommandStorageKey())||0);
     if(command&&Number(command.id)>last&&String(command.type||'').toUpperCase()==='FORCE_MAIN')forceMainScreenByOperator(command);
   }catch(error){

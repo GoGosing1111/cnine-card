@@ -4083,9 +4083,14 @@ async function handleRequest(context){
           env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id)
         ]);
         const row=commandResult?.results?.[0]||null,unreadMessages=Number(messageResult?.results?.[0]?.unread||0);
-        if(!row)return json({command:null,unreadMessages,serverNow:new Date().toISOString()});
+        // V1802-fix: FUR/ZENITH 고급 강화 운영 여부를 여기에 함께 실어 보낸다.
+        // 전체 프로필을 다시 받는 계정만 설정이 갱신돼서, 같은 시점에 누구는 열리고 누구는 "준비 중" 으로 보였다.
+        // 이 응답은 45초마다 모든 접속자가 받으므로 재로그인 없이 전원이 맞춰진다. (설정은 30초 공유 캐시라 추가 조회는 거의 없다)
+        let highBreakthrough=null;
+        try{highBreakthrough=await highBreakthroughConfigs(env)}catch(error){console.error('runtime-command high breakthrough read failed',error)}
+        if(!row)return json({command:null,unreadMessages,highBreakthrough,serverNow:new Date().toISOString()});
         let payload={};try{payload=JSON.parse(row.payload_json||'{}')}catch{}
-        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,serverNow:new Date().toISOString()});
+        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,highBreakthrough,serverNow:new Date().toISOString()});
       }
       if(request.method==='POST'){
         const body=await readBody(request),commandId=Math.floor(Number(body.commandId||0));
