@@ -1254,6 +1254,42 @@ function isTransientBattleConfigError(error){
   const code=String(error?.code||'').toUpperCase(),message=String(error?.message||'').toLowerCase();
   return error?.timeout===true||[409,429,502,503,504].includes(Number(error?.status))||['D1_OVERLOADED','USER_ACTION_IN_PROGRESS'].includes(code)||message.includes('overloaded')||message.includes('database is locked')||message.includes('sqlite_busy');
 }
+// V1802-perf: 전투 화면 즉시 표시용 캐시.
+// 몬스터 목록·전투 설정은 전 유저 공통이고 자주 바뀌지 않으므로, 마지막 성공분을 그대로 재사용해 먼저 그린다.
+// 에너지처럼 시시각각 변하는 값은 서버 응답이 오면 덮어쓴다. 실제 전투 요청은 서버가 다시 검증하므로 안전하다.
+const BATTLE_VIEW_SNAPSHOT_MAX_AGE=12*60*60*1000;
+function saveBattleViewSnapshot(data,monsters,deck){
+  try{
+    writeStartupSnapshot({battleView:{
+      settings:data?.settings||null,
+      battleEngine:data?.battleEngine||null,
+      monsters:Array.isArray(monsters)?monsters:[],
+      deck:Array.isArray(deck)?deck:[],
+      characterBonus:data?.characterBonus||null,
+      energy:data?.energy||null,
+      savedAt:Date.now()
+    }});
+  }catch(error){console.warn('전투 화면 캐시 저장 실패:',error)}
+}
+function hydrateBattleViewFromSnapshot(){
+  try{
+    const cached=readStartupSnapshot()?.battleView;
+    if(!cached||!Array.isArray(cached.monsters)||!cached.monsters.length)return false;
+    if(Date.now()-Number(cached.savedAt||0)>BATTLE_VIEW_SNAPSHOT_MAX_AGE)return false;
+    const owned=ownedIds(loadUser());
+    const deck=(cached.deck||[]).map(String).filter(id=>owned.has(id)&&cards.some(c=>String(c.id)===id)).slice(0,5);
+    const lastMonsterId=getLastPveMonsterId();
+    const selectedMonster=cached.monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(cached.monsters[0]?.id??null);
+    battleState={...battleState,
+      config:cached.settings||battleState.config,
+      battleEngine:cached.battleEngine||battleState.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},
+      monsters:cached.monsters,selectedMonster,deck,
+      characterBonus:cached.characterBonus||battleState.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},
+      energy:cached.energy||battleState.energy||null,
+      restoreMonsterCursor:true,fromCache:true};
+    return true;
+  }catch(error){console.warn('전투 화면 캐시 복원 실패:',error);return false}
+}
 function renderBattleSnapshot(){
   if(!document.getElementById('battleCards')||!(battleState.monsters||[]).length)return false;
   renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();
@@ -1271,8 +1307,12 @@ async function loadBattleView(){
   if(!API_MODE){const root=document.getElementById('battleCards');if(root)root.innerHTML='<div class="empty-recent">현재 전투 콘텐츠를 이용할 수 없습니다. 잠시 후 다시 시도해주세요.</div>';return;}
   // V1802-perf: 서버가 밀릴 때 4연속 재시도는 그 순간 트래픽을 4배로 만들어 상황을 더 악화시켰다.
   // 시도를 3회로 줄이고 간격을 넉넉히 둔다. 타임아웃도 5초 → 12초로 올려, 느릴 뿐인 응답을 실패로 버리지 않는다.
+  // V1802-perf: 새로고침 직후엔 메모리에 아무것도 없어서, 서버가 답할 때까지(현재 1초 안팎) 화면이 비어 있었다.
+  // 마지막으로 성공한 구성을 저장해 두고 그걸로 먼저 그린 다음, 서버 응답이 오면 조용히 갱신한다.
+  if(!(battleState.monsters||[]).length)hydrateBattleViewFromSnapshot();
   const loadSeq=++battleViewLoadSeq,snapshotVisible=renderBattleSnapshot(),retryDelays=[0,700,2000];
-  if(snapshotVisible)setBattleReconnectStatus('몬스터·출전 덱 최신 정보 동기화 중…');
+  // 화면이 이미 그려져 있으면 조용히 갱신한다. 에너지 표시를 '동기화 중' 문구로 덮어쓰지 않는다.
+  if(snapshotVisible&&battleState.fromCache)battleState.fromCache=false;
   let lastError=null;
   for(let attempt=0;attempt<retryDelays.length;attempt+=1){
     if(loadSeq!==battleViewLoadSeq||runtimeCommandContext!=='battle')return;
@@ -1283,7 +1323,9 @@ async function loadBattleView(){
       const owned=ownedIds(loadUser()),savedDeck=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5),monsters=d.monsters||[],lastMonsterId=getLastPveMonsterId(),selectedMonster=monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(monsters[0]?.id||null);
       stopBattleEnergyTimer();battleViewRetryStreak=0;
       battleState={...battleState,config:d.settings,battleEngine:d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters,selectedMonster,deck:savedDeck,characterBonus:d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now(),restoreMonsterCursor:true};
-      renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();return;
+      renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();
+      saveBattleViewSnapshot(d,monsters,savedDeck);
+      return;
     }catch(error){
       lastError=error;
       if(!isTransientBattleConfigError(error))break;

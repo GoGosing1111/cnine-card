@@ -5245,7 +5245,10 @@ async function handleRequest(context){
       // 기존 구조는 인증 → 버닝 → 전투설정 → 몬스터 → (덱·장비·에너지) 로 4단계를 순차로 기다려
       // 왕복 횟수가 그대로 응답 시간이 됐다. 유저와 무관한 조회는 인증을 기다리지 않고 먼저 띄우고,
       // 서로 의존이 없는 것들은 한 번에 겹쳐서 단계 수를 줄인다.
-      const monstersPromise=env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all();
+      // V1802-perf: 몬스터 목록은 전 유저 공통이고 거의 바뀌지 않는데, 전투 화면에 들어올 때마다
+      // 매번 전체 조회를 돌고 있었다. 20초 공유 캐시로 대부분의 요청에서 이 왕복을 없앤다.
+      // (관리자가 몬스터를 수정하면 최대 20초 뒤 반영된다)
+      const monstersPromise=cachedRuntimeSetting('pveMonsterList',20000,()=>env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all());
       const burningPromise=burningEventSettings(env),settingsPromise=battleSettings(env),maintenancePromise=maintenanceSettings(env);
       // 인증 실패로 조기 반환될 때 미처리 거부(unhandled rejection)가 되지 않게 막아둔다. 뒤에서 await 하면 예외는 그대로 전달된다.
       for(const pending of [monstersPromise,burningPromise,settingsPromise,maintenancePromise])pending.catch(()=>{});
