@@ -247,15 +247,69 @@ async function adminDashboardSnapshot(env,{fresh=false}={}){
   adminDashboardBurstCache={value,expiresAt:now+ADMIN_DASHBOARD_BURST_CACHE_MS};
   return value;
 }
+// V1808 설정 스냅샷 --------------------------------------------------------
+// app_meta 단일키 조회가 코드 전역에 흩어져 있었다. 요청 하나가 점검여부·
+// 티어·확률·큐브·레이드 설정을 전부 따로 물어보는 구조라 쿼리 개수가 그대로
+// 늘어난다. D1 은 "한 번에 쿼리 하나"이므로 쿼리 개수가 곧 대기열 길이다.
+//   실측: 유저 0명일 때 50ms/쿼리 → 유저 몰릴 때 1,100ms/쿼리 (22배)
+// 필요한 설정 키를 한 번에 읽어 5초 담아 둔다. 기존 개별 캐시(10~60초)보다
+// 오히려 신선하다. 관리자가 설정을 바꾸면 최대 5초 뒤 반영된다.
+const META_SNAPSHOT_KEYS=[
+  'attendance_settings_v1',
+  'battle_nightmare_settings_v1',
+  'breakthrough_cinematic_v1',
+  'breakthrough_config',
+  'breakthrough_pity_ssr_v1',
+  'cube_drop_settings_v1072',
+  'fur_first_acquisition_settings_v1',
+  'inventory_cube_settings_v1',
+  'limited_master_star_breakthrough_v1',
+  'ma_master_star_breakthrough_v1',
+  'maintenance_end_at',
+  'maintenance_message',
+  'maintenance_mode',
+  'maintenance_start_at',
+  'maintenance_test_users',
+  'maintenance_title',
+  'mineral_exchange_settings_v1',
+  'new_user_coin',
+  'pack_pity_settings_v1',
+  'pack_preview_configs',
+  'pve_rift_settings_v1',
+  'pvp_settings_v1',
+  'raid_settings_v1',
+  'raid_user_open_bosses_v1',
+  'tier_settings_v1',
+  'tower_settings_v1',
+  'wago_daily_quest_settings_v1',
+  'wago_verification_settings_v1',
+  'weekly_premium_cube_settings_v1129'
+];
+let metaSnapshotCache=null;
+function metaSnapshot(env){
+  const now=Date.now();
+  if(metaSnapshotCache&&metaSnapshotCache.expiresAt>now)return metaSnapshotCache.promise;
+  const promise=env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${META_SNAPSHOT_KEYS.map(key=>"'"+key+"'").join(',')})`).all()
+    .then(rows=>{const map=new Map();for(const row of rows.results||[])map.set(String(row.key),row.value);return map})
+    .catch(error=>{if(metaSnapshotCache?.promise===promise)metaSnapshotCache=null;throw error});
+  metaSnapshotCache={promise,expiresAt:now+5000};
+  return promise;
+}
+async function metaValue(env,key){
+  // .first() 와 같은 모양으로 돌려준다. 없으면 null.
+  const map=await metaSnapshot(env);
+  return map.has(key)?{value:map.get(key)}:null;
+}
+function invalidateMetaSnapshot(){metaSnapshotCache=null}
 const runtimeSettingsCache=new Map();
 async function cachedRuntimeSetting(key,ttlMs,loader){
   const now=Date.now(),cached=runtimeSettingsCache.get(key);
   if(cached&&cached.expiresAt>now)return cached.promise;
-  const promise=Promise.resolve().then(loader).catch(error=>{if(runtimeSettingsCache.get(key)?.promise===promise)runtimeSettingsCache.delete(key);throw error});
+  const promise=Promise.resolve().then(loader).catch(error=>{if(runtimeSettingsCache.get(key)?.promise===promise)invalidateMetaSnapshot();runtimeSettingsCache.delete(key);throw error});
   runtimeSettingsCache.set(key,{promise,expiresAt:now+Math.max(1000,Number(ttlMs)||5000)});return promise;
 }
 let cardCatalogCache=null,cardUniqueRowsCache=null,packCatalogCache=null;
-function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null}
+function invalidateCatalogCaches(){cardCatalogCache=null;cardUniqueRowsCache=null;packCatalogCache=null;metaSnapshotCache=null}
 let drawReceiptV2ReadyPromise=null;
 let furFirstPityV1291ReadyPromise=null;
 let drawBrowserLeaseReadyPromise=null;
@@ -580,7 +634,7 @@ const SCORE_TIER_DEFAULT=[
   {id:'grandmaster',name:'그랜드마스터',min:500000,color:'#ff6f91',aura:true}
 ];
 function defaultTierSettings(){return {cardScoreTiers:SCORE_TIER_DEFAULT,pvp:{enabled:true,status:'ACTIVE',seasonName:'시즌 준비 중',startsAt:null,endsAt:null,tiers:SCORE_TIER_DEFAULT.map((x,i)=>({...x,min:i*500}))}}}
-async function readTierSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tier_settings_v1'").first();const base=defaultTierSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value),source=Array.isArray(x.cardScoreTiers)&&x.cardScoreTiers.length?x.cardScoreTiers:base.cardScoreTiers;const cleanTiers=source.map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.cardScoreTiers[i]?.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.cardScoreTiers[i]?.color||'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);return {cardScoreTiers:cleanTiers,pvp:{enabled:x.pvp?.enabled!==false,status:String(x.pvp?.status||'ACTIVE').slice(0,30),seasonName:String(x.pvp?.seasonName||'시즌 준비 중').slice(0,40),startsAt:x.pvp?.startsAt||null,endsAt:x.pvp?.endsAt||null,tiers:Array.isArray(x.pvp?.tiers)&&x.pvp.tiers.length?x.pvp.tiers:base.pvp.tiers}}}catch{return base}}
+async function readTierSettings(env){const row=await metaValue(env,'tier_settings_v1');const base=defaultTierSettings();if(!row?.value)return base;try{const x=JSON.parse(row.value),source=Array.isArray(x.cardScoreTiers)&&x.cardScoreTiers.length?x.cardScoreTiers:base.cardScoreTiers;const cleanTiers=source.map((t,i)=>({id:String(t.id||base.cardScoreTiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.cardScoreTiers[i]?.name||'티어').slice(0,20),min:Math.max(0,Math.floor(Number(t.min)||0)),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.cardScoreTiers[i]?.color||'#7ceeff',aura:t.aura!==false})).sort((a,b)=>a.min-b.min);return {cardScoreTiers:cleanTiers,pvp:{enabled:x.pvp?.enabled!==false,status:String(x.pvp?.status||'ACTIVE').slice(0,30),seasonName:String(x.pvp?.seasonName||'시즌 준비 중').slice(0,40),startsAt:x.pvp?.startsAt||null,endsAt:x.pvp?.endsAt||null,tiers:Array.isArray(x.pvp?.tiers)&&x.pvp.tiers.length?x.pvp.tiers:base.pvp.tiers}}}catch{return base}}
 async function tierSettings(env){return cachedRuntimeSetting('tier',30000,()=>readTierSettings(env))}
 function resolveTier(score,tiers){let current=tiers[0]||{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false};for(const t of tiers)if(score>=t.min)current=t;return current}
 
@@ -634,7 +688,7 @@ function burningRewardAmount(amount,burning){const base=Math.max(0,Math.floor(Nu
 
 function defaultPvpSettings(){return {enabled:true,status:'진행 중',competitionName:'랭크전',seasonTitle:'SOOPKETMON RANKED',seasonName:'시즌 9',seasonDescription:'티어와 편성 전투력을 기준으로 상대가 자동 배정되는 랭크전입니다.',startsAt:null,endsAt:null,automaticSeasons:true,seasonDurationDays:5,matchingMode:'AUTO',initialScore:1000,winScore:24,loseScore:16,matchCardRange:15,matchSeasonRange:300,historyLimit:100,winCoin:50,loseCoin:25,scoreBalance:{enabled:true,equalRange:10,weakerWinMid:80,weakerWinHigh:60,weakerWinExtreme:40,strongerWinMid:110,strongerWinHigh:125,strongerWinExtreme:140,strongerLossMid:90,strongerLossHigh:75,strongerLossExtreme:60,weakerLossMid:110,weakerLossHigh:125,weakerLossExtreme:140,minChange:1,maxChange:999},energy:{enabled:true,maxEnergy:5,rechargeMinutes:30,costPerBattle:1,adminUnlimited:true,testUnlimited:true},rewardClaimMode:'SEASON_END',tierRewardsEnabled:true,rankRewardsEnabled:true,tiers:[{id:'bronze',name:'브론즈',min:0,color:'#b87333',aura:false,rewardCoin:500,rewardShards:0},{id:'silver',name:'실버',min:1100,color:'#c9d4e3',aura:false,rewardCoin:1000,rewardShards:20},{id:'gold',name:'골드',min:1250,color:'#ffd15c',aura:false,rewardCoin:2000,rewardShards:50},{id:'platinum',name:'플래티넘',min:1450,color:'#5ff0df',aura:true,rewardCoin:4000,rewardShards:100},{id:'diamond',name:'다이아',min:1700,color:'#69cfff',aura:true,rewardCoin:7000,rewardShards:180},{id:'master',name:'마스터',min:2050,color:'#bd7cff',aura:true,rewardCoin:12000,rewardShards:300},{id:'grandmaster',name:'그랜드마스터',min:2500,color:'#ff6f91',aura:true,rewardCoin:20000,rewardShards:500}],rankRewards:[{from:1,to:1,rewardCoin:30000,rewardShards:700},{from:2,to:3,rewardCoin:20000,rewardShards:500},{from:4,to:10,rewardCoin:12000,rewardShards:300},{from:11,to:50,rewardCoin:5000,rewardShards:120}]};}
 function cleanPvpSettings(raw={}){const base=defaultPvpSettings(),num=(v,d,min=0,max=100000000)=>Math.min(max,Math.max(min,Number.isFinite(Number(v))?Math.floor(Number(v)):d));const tiers=(Array.isArray(raw.tiers)?raw.tiers:base.tiers).map((t,i)=>({id:String(t.id||base.tiers[i]?.id||('tier'+i)).replace(/[^a-z0-9_-]/gi,'').slice(0,30),name:String(t.name||base.tiers[i]?.name||'티어').slice(0,20),min:num(t.min,base.tiers[i]?.min||0),color:/^#[0-9a-f]{6}$/i.test(String(t.color||''))?String(t.color):base.tiers[i]?.color||'#7ceeff',aura:t.aura!==false,rewardCoin:num(t.rewardCoin,base.tiers[i]?.rewardCoin||0),rewardShards:num(t.rewardShards,base.tiers[i]?.rewardShards||0)})).sort((a,b)=>a.min-b.min);const rankRewards=(Array.isArray(raw.rankRewards)?raw.rankRewards:base.rankRewards).slice(0,20).map((r,i)=>{const from=num(r.from,base.rankRewards[i]?.from||1,1,100000),to=num(r.to,base.rankRewards[i]?.to||from,1,100000);return {from:Math.min(from,to),to:Math.max(from,to),rewardCoin:num(r.rewardCoin,base.rankRewards[i]?.rewardCoin||0),rewardShards:num(r.rewardShards,base.rankRewards[i]?.rewardShards||0)}}).sort((a,b)=>a.from-b.from);return {...base,enabled:raw.enabled!==false,status:String(raw.status||base.status).slice(0,60),competitionName:String(raw.competitionName||base.competitionName).slice(0,30),seasonTitle:String(raw.seasonTitle||base.seasonTitle).slice(0,80),seasonName:String(raw.seasonName||base.seasonName).slice(0,40),seasonDescription:String(raw.seasonDescription||base.seasonDescription).slice(0,240),startsAt:raw.startsAt||null,endsAt:raw.endsAt||null,automaticSeasons:raw.automaticSeasons!==false,seasonDurationDays:num(raw.seasonDurationDays,base.seasonDurationDays,1,30),matchingMode:'AUTO',initialScore:num(raw.initialScore,base.initialScore,0,1000000),winScore:num(raw.winScore,base.winScore,0,100000),loseScore:num(raw.loseScore,base.loseScore,0,100000),matchCardRange:num(raw.matchCardRange,base.matchCardRange,1,100),matchSeasonRange:num(raw.matchSeasonRange,base.matchSeasonRange,0,100000),historyLimit:num(raw.historyLimit,base.historyLimit,10,500),winCoin:num(raw.winCoin,base.winCoin,0,10000000),loseCoin:num(raw.loseCoin,base.loseCoin,0,10000000),scoreBalance:{enabled:raw.scoreBalance?.enabled!==false,equalRange:num(raw.scoreBalance?.equalRange,base.scoreBalance.equalRange,0,100),weakerWinMid:num(raw.scoreBalance?.weakerWinMid,base.scoreBalance.weakerWinMid,0,500),weakerWinHigh:num(raw.scoreBalance?.weakerWinHigh,base.scoreBalance.weakerWinHigh,0,500),weakerWinExtreme:num(raw.scoreBalance?.weakerWinExtreme,base.scoreBalance.weakerWinExtreme,0,500),strongerWinMid:num(raw.scoreBalance?.strongerWinMid,base.scoreBalance.strongerWinMid,0,500),strongerWinHigh:num(raw.scoreBalance?.strongerWinHigh,base.scoreBalance.strongerWinHigh,0,500),strongerWinExtreme:num(raw.scoreBalance?.strongerWinExtreme,base.scoreBalance.strongerWinExtreme,0,500),strongerLossMid:num(raw.scoreBalance?.strongerLossMid,base.scoreBalance.strongerLossMid,0,500),strongerLossHigh:num(raw.scoreBalance?.strongerLossHigh,base.scoreBalance.strongerLossHigh,0,500),strongerLossExtreme:num(raw.scoreBalance?.strongerLossExtreme,base.scoreBalance.strongerLossExtreme,0,500),weakerLossMid:num(raw.scoreBalance?.weakerLossMid,base.scoreBalance.weakerLossMid,0,500),weakerLossHigh:num(raw.scoreBalance?.weakerLossHigh,base.scoreBalance.weakerLossHigh,0,500),weakerLossExtreme:num(raw.scoreBalance?.weakerLossExtreme,base.scoreBalance.weakerLossExtreme,0,500),minChange:num(raw.scoreBalance?.minChange,base.scoreBalance.minChange,0,100000),maxChange:num(raw.scoreBalance?.maxChange,base.scoreBalance.maxChange,1,100000)},energy:{enabled:raw.energy?.enabled!==false,maxEnergy:num(raw.energy?.maxEnergy,base.energy.maxEnergy,1,999),rechargeMinutes:num(raw.energy?.rechargeMinutes,base.energy.rechargeMinutes,1,1440),costPerBattle:num(raw.energy?.costPerBattle,base.energy.costPerBattle,1,99),adminUnlimited:raw.energy?.adminUnlimited!==false,testUnlimited:raw.energy?.testUnlimited!==false},rewardClaimMode:['IMMEDIATE','SEASON_END'].includes(raw.rewardClaimMode)?raw.rewardClaimMode:base.rewardClaimMode,tierRewardsEnabled:raw.tierRewardsEnabled!==false,rankRewardsEnabled:raw.rankRewardsEnabled!==false,tiers,rankRewards};}
-async function readPvpSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pvp_settings_v1'").first();if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
+async function readPvpSettings(env){const row=await metaValue(env,'pvp_settings_v1');if(!row?.value)return defaultPvpSettings();try{return cleanPvpSettings(JSON.parse(row.value))}catch{return defaultPvpSettings()}}
 async function pvpSettings(env){return cachedRuntimeSetting('pvp',10000,()=>readPvpSettings(env))}
 function pvpSeasonKey(settings){return [String(settings?.seasonName||'').trim(),String(settings?.startsAt||''),String(settings?.endsAt||'')].join('|').slice(0,220)}
 async function completedPvpSettlement(env,settings){const key=pvpSeasonKey(settings);if(!key)return null;return env.DB.prepare("SELECT id,status,completed_at FROM pvp_season_settlements WHERE season_key=? AND status='COMPLETED'").bind(key).first()}
@@ -718,7 +772,7 @@ async function cleanupRankedPvpMaintenance(env){
 function pvpSeasonNumber(name){const found=String(name||'').match(/(\d+)/);return Math.max(0,Number(found?.[1]||0))}
 function pvpSqlUtc(ms){return new Date(ms).toISOString().replace('T',' ').slice(0,19)}
 function nextPvpSeasonSettings(settings){const now=Date.now(),durationDays=Number(settings.seasonDurationDays||5),nextNo=Math.max(9,pvpSeasonNumber(settings.seasonName)+1);return cleanPvpSettings({...settings,enabled:true,status:'진행 중',competitionName:'랭크전',seasonTitle:'SOOPKETMON RANKED',seasonName:`시즌 ${nextNo}`,seasonDescription:'티어와 편성 전투력을 기준으로 상대가 자동 배정되는 랭크전입니다.',startsAt:pvpSqlUtc(now),endsAt:pvpSqlUtc(now+durationDays*86400000),automaticSeasons:true,seasonDurationDays:durationDays,matchingMode:'AUTO'})}
-async function persistPvpSettings(env,settings){await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(settings)).run();runtimeSettingsCache.delete('pvp')}
+async function persistPvpSettings(env,settings){await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(settings)).run();invalidateMetaSnapshot();runtimeSettingsCache.delete('pvp')}
 async function acquirePvpLifecycleLock(env){const token=crypto.randomUUID(),now=Date.now(),result=await env.DB.prepare(`INSERT INTO pvp_season_lifecycle_lock_v1671(lock_key,token,lease_until_ms,updated_at)
   VALUES('GLOBAL',?,?,CURRENT_TIMESTAMP) ON CONFLICT(lock_key) DO UPDATE SET token=excluded.token,lease_until_ms=excluded.lease_until_ms,updated_at=CURRENT_TIMESTAMP
   WHERE pvp_season_lifecycle_lock_v1671.lease_until_ms<=?`).bind(token,now+25000,now).run();return Number(result?.meta?.changes||0)===1?token:null}
@@ -809,7 +863,7 @@ async function advancePvpSeasonLifecycle(env){
         env.DB.prepare("UPDATE pvp_season_settlements SET status='COMPLETED',completed_at=CURRENT_TIMESTAMP,error_message=NULL WHERE id=?").bind(sid),
         env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(next))
       ]);
-      runtimeSettingsCache.delete('pvp');settings=next;return {settings,settling:false,startedNewSeason:true,completedSeason:settlement.season_name};
+      invalidateMetaSnapshot();runtimeSettingsCache.delete('pvp');settings=next;return {settings,settling:false,startedNewSeason:true,completedSeason:settlement.season_name};
     }
     return {settings:{...settings,enabled:false,status:'정산 중'},settling:true};
   }catch(error){console.error('automatic ranked season lifecycle failed',error);return {settings:{...settings,enabled:false,status:'정산 오류'},settling:true,error:String(error?.message||error)}}finally{await releasePvpLifecycleLock(env,token)}
@@ -923,7 +977,7 @@ async function evaluateDeckSynergiesBatch(env,entries=[],scope='PVP'){
 
 function defaultMineralExchangeSettings(){return {enabled:true,baseMineral:100000000,payoutCoin:1000,dailyLimitCoin:3000,coinUnit:1000}}
 function cleanMineralExchangeSettings(raw={}){const b=defaultMineralExchangeSettings();return {enabled:raw.enabled!==false,baseMineral:Math.max(1,Math.floor(Number(raw.baseMineral||b.baseMineral))),payoutCoin:Math.max(1,Math.floor(Number(raw.payoutCoin||b.payoutCoin))),dailyLimitCoin:Math.max(1000,Math.floor(Number(raw.dailyLimitCoin||b.dailyLimitCoin)/1000)*1000),coinUnit:1000}}
-async function mineralExchangeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='mineral_exchange_settings_v1'").first();if(!row?.value)return defaultMineralExchangeSettings();try{return cleanMineralExchangeSettings(JSON.parse(row.value))}catch{return defaultMineralExchangeSettings()}}
+async function mineralExchangeSettings(env){const row=await metaValue(env,'mineral_exchange_settings_v1');if(!row?.value)return defaultMineralExchangeSettings();try{return cleanMineralExchangeSettings(JSON.parse(row.value))}catch{return defaultMineralExchangeSettings()}}
 function kstTodaySql(){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date())}
 async function pvpDeckSnapshot(env,userId,defense=false){const ids=await pvpDeckCards(env,userId,defense);if(!ids.length)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map(rows.results.map(x=>[String(x.id),x]));return ids.map(id=>map.get(String(id))).filter(Boolean)}
 async function pvpDeckSnapshotByIds(env,userId,requestedIds=[]){const ids=(Array.isArray(requestedIds)?requestedIds:[]).map(String).filter(Boolean).slice(0,5);if(ids.length!==5)return [];const marks=ids.map(()=>'?').join(',');const rows=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,c.focus_x,c.focus_y,m.name,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN members m ON m.id=c.member_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(userId,...ids).all();const map=new Map((rows.results||[]).map(card=>[String(card.id),card]));return ids.map(id=>map.get(String(id))).filter(Boolean)}
@@ -1117,7 +1171,7 @@ async function ensureRaidFinalizedV1293(env,instanceId,fallbackCfg,nowMs=Date.no
   return {instance,cfg,snapshot};
 }
 
-async function readRaidSettings(env){await ensureRaidOverhaulV1293(env);const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_settings_v1'").first();if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
+async function readRaidSettings(env){await ensureRaidOverhaulV1293(env);const row=await metaValue(env,'raid_settings_v1');if(!row?.value)return defaultRaidSettings();try{return cleanRaidSettings(JSON.parse(row.value))}catch{return defaultRaidSettings()}}
 async function raidSettings(env){return cachedRuntimeSetting('raid',5000,()=>readRaidSettings(env))}
 async function raidRewardSnapshot(env,instanceId,cfg,create=true){
   const magicCfg=await magicSettings(env),raidMagic=magicCfg.acquisition?.raid||{};
@@ -1150,7 +1204,7 @@ async function raidSettlementState(env,instanceId,userId,{repair=true}={}){
   }
   return {settled,rewardClaimed:settled?1:Number(row?.rewardClaimed||0),receiptStatus:String(row?.receiptStatus||''),rewardStatus:String(row?.rewardStatus||'')};
 }
-async function raidBossOpenPolicies(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='raid_user_open_bosses_v1'").first();if(!row?.value)return {};try{const raw=JSON.parse(row.value),out={};for(const [id,v] of Object.entries(raw||{})){out[String(Number(id))]={enabled:v?.enabled===true,cost:Math.max(0,Math.min(100000000,Math.floor(Number(v?.cost)||0)))}}return out}catch{return {}}}
+async function raidBossOpenPolicies(env){const row=await metaValue(env,'raid_user_open_bosses_v1');if(!row?.value)return {};try{const raw=JSON.parse(row.value),out={};for(const [id,v] of Object.entries(raw||{})){out[String(Number(id))]={enabled:v?.enabled===true,cost:Math.max(0,Math.min(100000000,Math.floor(Number(v?.cost)||0)))}}return out}catch{return {}}}
 function kstDateKey(now=Date.now()){return new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(now))}
 async function raidDailyEntryCount(env,userId,dateKey=kstDateKey()){
   const [legacy,uses,restores]=await Promise.all([
@@ -1196,7 +1250,7 @@ async function raidDeckPower(env,userId,cardIds,mode='RAID'){
 /* V1191: 차원의 균열 원정 */
 function defaultRiftSettings(){return {enabled:true,maxDifficulty:10,maxStages:7,weeklyRewardLimit:3,baseCoin:300,stageCoinIncrease:90,baseShards:4,baseCrystals:5,eventCrystalReward:20,riskCrystalReward:35,difficultyRewardPercent:Array.from({length:20},(_,i)=>(i+1)*100),difficultyCrystalBonus:Array.from({length:20},(_,i)=>i+1),nodeRewardPercent:{BATTLE:100,ELITE:160,BOSS:230,FINAL_BOSS:340},shardRewardPercent:{BATTLE:100,ELITE:150,BOSS:250,FINAL_BOSS:250},settingsVersion:2};}
 function cleanRiftSettings(value={}){const base=defaultRiftSettings(),x=value&&typeof value==='object'?value:{},integer=(v,f,min,max)=>Math.max(min,Math.min(max,Math.floor(Number.isFinite(Number(v))?Number(v):f))),percent=(v,f,min=0,max=10000)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):f)),difficultyRewardPercent=Array.from({length:20},(_,i)=>percent(x.difficultyRewardPercent?.[i],base.difficultyRewardPercent[i],0,10000)),difficultyCrystalBonus=Array.from({length:20},(_,i)=>integer(x.difficultyCrystalBonus?.[i],base.difficultyCrystalBonus[i],0,100000)),nodeKeys=['BATTLE','ELITE','BOSS','FINAL_BOSS'],nodeRewardPercent={},shardRewardPercent={};for(const key of nodeKeys){nodeRewardPercent[key]=percent(x.nodeRewardPercent?.[key],base.nodeRewardPercent[key],0,10000);shardRewardPercent[key]=percent(x.shardRewardPercent?.[key],base.shardRewardPercent[key],0,10000)}return {enabled:x.enabled!==false,maxDifficulty:integer(x.maxDifficulty,base.maxDifficulty,1,20),maxStages:7,weeklyRewardLimit:integer(x.weeklyRewardLimit,base.weeklyRewardLimit,1,20),baseCoin:integer(x.baseCoin,base.baseCoin,0,100000000),stageCoinIncrease:integer(x.stageCoinIncrease,base.stageCoinIncrease,0,10000000),baseShards:integer(x.baseShards,base.baseShards,0,1000000),baseCrystals:integer(x.baseCrystals,base.baseCrystals,0,1000000),eventCrystalReward:integer(x.eventCrystalReward,base.eventCrystalReward,0,1000000),riskCrystalReward:integer(x.riskCrystalReward,base.riskCrystalReward,0,1000000),difficultyRewardPercent,difficultyCrystalBonus,nodeRewardPercent,shardRewardPercent,settingsVersion:2};}
-async function riftSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pve_rift_settings_v1'").first();try{return cleanRiftSettings(JSON.parse(row?.value||'{}'))}catch{return defaultRiftSettings()}}
+async function riftSettings(env){const row=await metaValue(env,'pve_rift_settings_v1');try{return cleanRiftSettings(JSON.parse(row?.value||'{}'))}catch{return defaultRiftSettings()}}
 function riftJson(value,fallback){try{return JSON.parse(value||'')}catch{return fallback}}
 function riftBuffCatalog(){return [
   {key:'VANGUARD_SUPPORT',name:'선봉 지원',icon:'⚔',description:'출정 즉시 원정 전투력이 15% 증가합니다.',attackPercent:15,initialOnly:true},
@@ -1375,11 +1429,11 @@ function defaultBreakthroughConfig(){return Object.fromEntries(BREAKTHROUGH_GRAD
 // V1792: 전 유저 공통 설정인데 유일하게 캐시가 없어서 profile() 호출마다 app_meta 를 쳤다.
 // 이웃 설정들(attendance 30초, masterStar 5초)과 같은 방식으로 맞춘다.
 async function breakthroughConfig(env){return cachedRuntimeSetting('breakthroughConfig',30000,()=>readBreakthroughConfig(env))}
-async function readBreakthroughConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_config'").first();if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<breakthroughMaxLevel(g);i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
+async function readBreakthroughConfig(env){const row=await metaValue(env,'breakthrough_config');if(!row?.value)return defaultBreakthroughConfig();try{const parsed=JSON.parse(row.value),base=defaultBreakthroughConfig();for(const g of BREAKTHROUGH_GRADES)for(let i=0;i<breakthroughMaxLevel(g);i++){const x=parsed?.[g]?.[i]||{};base[g][i]={cost:Number.isInteger(Number(x.cost))&&Number(x.cost)>0?Number(x.cost):base[g][i].cost,rate:Number.isFinite(Number(x.rate))?Math.max(0,Math.min(100,Number(x.rate))):base[g][i].rate};}return base}catch{return defaultBreakthroughConfig()}}
 function cleanMaMasterStarBreakthrough(raw={}){const base=MA_MASTER_STAR_BREAKTHROUGH_DEFAULT;return {enabled:raw.enabled===true,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999,Math.floor(Number(x.cost)||fallback.cost))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||0)))}})}}
-async function maMasterStarBreakthroughConfig(env){const now=Date.now();if(maMasterStarBreakthroughCache&&maMasterStarBreakthroughCache.expiresAt>now)return maMasterStarBreakthroughCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='ma_master_star_breakthrough_v1'").first();let value=cleanMaMasterStarBreakthrough();if(row?.value){try{value=cleanMaMasterStarBreakthrough(JSON.parse(row.value))}catch{}}maMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
+async function maMasterStarBreakthroughConfig(env){const now=Date.now();if(maMasterStarBreakthroughCache&&maMasterStarBreakthroughCache.expiresAt>now)return maMasterStarBreakthroughCache.value;const row=await metaValue(env,'ma_master_star_breakthrough_v1');let value=cleanMaMasterStarBreakthrough();if(row?.value){try{value=cleanMaMasterStarBreakthrough(JSON.parse(row.value))}catch{}}maMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
 function cleanLimitedMasterStarBreakthrough(raw={}){const base=LIMITED_MASTER_STAR_BREAKTHROUGH_DEFAULT;return {enabled:raw.enabled!==false,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999,Math.floor(Number(x.cost)||fallback.cost))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||fallback.retirementShardRefund)))}})}}
-async function limitedMasterStarBreakthroughConfig(env){const now=Date.now();if(limitedMasterStarBreakthroughCache&&limitedMasterStarBreakthroughCache.expiresAt>now)return limitedMasterStarBreakthroughCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='limited_master_star_breakthrough_v1'").first();let value=cleanLimitedMasterStarBreakthrough();if(row?.value){try{value=cleanLimitedMasterStarBreakthrough(JSON.parse(row.value))}catch{}}limitedMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
+async function limitedMasterStarBreakthroughConfig(env){const now=Date.now();if(limitedMasterStarBreakthroughCache&&limitedMasterStarBreakthroughCache.expiresAt>now)return limitedMasterStarBreakthroughCache.value;const row=await metaValue(env,'limited_master_star_breakthrough_v1');let value=cleanLimitedMasterStarBreakthrough();if(row?.value){try{value=cleanLimitedMasterStarBreakthrough(JSON.parse(row.value))}catch{}}limitedMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
 function cleanHighBreakthroughSteps(raw,base){return {enabled:raw?.enabled===true,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999999,Math.floor(Number(x.cost)||fallback.cost))),duplicateCards:Math.max(0,Math.min(99,Math.floor(Number(x.duplicateCards??fallback.duplicateCards)||0))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),pityThreshold:Math.max(0,Math.min(999,Math.floor(Number(x.pityThreshold??fallback.pityThreshold)||0))),uniqueBoostPercent:Math.max(0,Math.min(1000,Math.floor(Number(x.uniqueBoostPercent??fallback.uniqueBoostPercent)||0))),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||fallback.retirementShardRefund||0)))}})}}
 function cleanFurMasterStarBreakthrough(raw={}){return cleanHighBreakthroughSteps(raw,FUR_MASTER_STAR_BREAKTHROUGH_DEFAULT)}
 function cleanZenithMasterStarBreakthrough(raw={}){return cleanHighBreakthroughSteps(raw,ZENITH_MASTER_STAR_BREAKTHROUGH_DEFAULT)}
@@ -1403,10 +1457,10 @@ function highBreakthroughStepPity(grade,level,rule,pity){const threshold=Math.ma
 function breakthroughBonusPercent(grade,lv,settings){const table=settings?.highBreakthroughBonus?.[String(grade||'').trim().toUpperCase()];if(lv>=11&&Array.isArray(table)){const value=Number(table[lv-11]);if(Number.isFinite(value)&&value>0)return value}return Number(settings?.breakthroughBonus?.[lv]||0)}
 function defaultBreakthroughPity(){return {enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};}
 function cleanBreakthroughPity(raw={}){const base=defaultBreakthroughPity();return {enabled:raw.enabled!==false,grade:'SSR',thresholds:Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Math.floor(Number(raw.thresholds?.[i]??base.thresholds[i])||base.thresholds[i]))))};}
-async function breakthroughPity(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_pity_ssr_v1'").first();try{return cleanBreakthroughPity(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughPity()}}
+async function breakthroughPity(env){const row=await metaValue(env,'breakthrough_pity_ssr_v1');try{return cleanBreakthroughPity(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughPity()}}
 function defaultBreakthroughCinematic(){return {enabled:true,minLevel:10,grades:[...BREAKTHROUGH_GRADES],title:'강화 각성',mediaUrl:'/assets/effects/SKILL-v1497.webp',soundUrl:'',durationMs:5000,volumePercent:100,skipAllowed:true};}
 function cleanBreakthroughCinematic(raw={}){const base=defaultBreakthroughCinematic(),allowed=new Set(BREAKTHROUGH_GRADES),grades=(Array.isArray(raw.grades)?raw.grades:base.grades).map(x=>String(x||'').toUpperCase()).filter(x=>allowed.has(x));return {enabled:raw.enabled!==false,minLevel:Math.max(1,Math.min(13,Math.floor(Number(raw.minLevel??base.minLevel)||base.minLevel))),grades:[...new Set(grades.length?grades:base.grades)],title:String(raw.title||base.title).trim().slice(0,60)||base.title,mediaUrl:String(raw.mediaUrl||base.mediaUrl).trim().replace(/\\/g,'/').slice(0,500)||base.mediaUrl,soundUrl:String(raw.soundUrl||'').trim().replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(raw.durationMs??base.durationMs)||base.durationMs))),volumePercent:Math.max(0,Math.min(100,Number(raw.volumePercent??base.volumePercent))),skipAllowed:raw.skipAllowed!==false};}
-async function breakthroughCinematicConfig(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='breakthrough_cinematic_v1'").first();try{return cleanBreakthroughCinematic(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughCinematic()}}
+async function breakthroughCinematicConfig(env){const row=await metaValue(env,'breakthrough_cinematic_v1');try{return cleanBreakthroughCinematic(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughCinematic()}}
 async function breakthroughCinematicFor(env,{success=false,grade='',level=0,cardId='',cardTitle=''}){if(!success)return null;const cfg=await breakthroughCinematicConfig(env),normalizedGrade=String(grade||'').toUpperCase(),nextLevel=Math.max(0,Number(level||0));if(!cfg.enabled||nextLevel<cfg.minLevel||!cfg.grades.includes(normalizedGrade))return null;return {...cfg,grade:normalizedGrade,level:nextLevel,cardId:String(cardId||''),cardTitle:String(cardTitle||'')};}
 const CORS_HEADERS={'access-control-allow-origin':'*','access-control-allow-methods':'GET,POST,PATCH,PUT,DELETE,OPTIONS','access-control-allow-headers':'authorization,content-type,x-cnine-draw-receipt,x-cnine-auto-draw,x-cnine-draw-client,x-cnine-client-id,x-cnine-d1-bookmark','access-control-allow-credentials':'false','access-control-expose-headers':'x-cnine-response-ms,x-cnine-d1-bookmark','access-control-max-age':'86400'};
 const json=(data,status=200,headers={})=>new Response(JSON.stringify(data),{status,headers:{'content-type':'application/json;charset=UTF-8','cache-control':'no-store',...CORS_HEADERS,...headers}});
@@ -1419,7 +1473,7 @@ const createPrivateKey=()=>{const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';const
 const kstDate=()=>new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Seoul',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
 function defaultAttendanceSettings(){return {enabled:true,rewards:[1000,1200,1400,1600,1800,2000,3000]};}
 function cleanAttendanceSettings(raw={}){const base=defaultAttendanceSettings();const rewards=Array.from({length:7},(_,i)=>Math.max(0,Math.min(10000000,Math.floor(Number(raw.rewards?.[i]??base.rewards[i])||0))));return {enabled:raw.enabled!==false,rewards};}
-async function readAttendanceSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='attendance_settings_v1'").first();if(!row?.value)return defaultAttendanceSettings();try{return cleanAttendanceSettings(JSON.parse(row.value))}catch{return defaultAttendanceSettings()}}
+async function readAttendanceSettings(env){const row=await metaValue(env,'attendance_settings_v1');if(!row?.value)return defaultAttendanceSettings();try{return cleanAttendanceSettings(JSON.parse(row.value))}catch{return defaultAttendanceSettings()}}
 async function attendanceSettings(env){return cachedRuntimeSetting('attendance',30000,()=>readAttendanceSettings(env))}
 const CUBE_CODES=['PREMIUM_CUBE'];
 const RETIREMENT_REROLL_TICKETS={
@@ -1431,11 +1485,11 @@ const RETIREMENT_REROLL_TICKETS={
 const RETIREMENT_REROLL_CODES=Object.values(RETIREMENT_REROLL_TICKETS).map(item=>item.code);
 function defaultCubeSettings(){return {PREMIUM_CUBE:{MA:70,FUR:20,LIMITED:10}};}
 function cleanCubeSettings(raw={}){const base=defaultCubeSettings(),out={};for(const code of CUBE_CODES){out[code]={};for(const grade of Object.keys(base[code]))out[code][grade]=Math.max(0,Math.min(100,Number(raw?.[code]?.[grade]??base[code][grade])||0));const total=Object.values(out[code]).reduce((a,b)=>a+b,0);if(Math.abs(total-100)>.001)out[code]=base[code];}return out;}
-async function readCubeSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='inventory_cube_settings_v1'").first();try{return cleanCubeSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeSettings()}}
+async function readCubeSettings(env){const row=await metaValue(env,'inventory_cube_settings_v1');try{return cleanCubeSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeSettings()}}
 async function cubeSettings(env){return cachedRuntimeSetting('cube',30000,()=>readCubeSettings(env))}
 function defaultCubeDropSettings(){return {PREMIUM_CUBE:{pveEnabled:true,pveRate:1,pvpEnabled:true,pvpRate:1}};}
 function cleanCubeDropSettings(raw={}){const base=defaultCubeDropSettings(),out={};for(const code of CUBE_CODES){out[code]={pveEnabled:raw?.[code]?.pveEnabled!==false,pveRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pveRate??base[code].pveRate)||0)),pvpEnabled:raw?.[code]?.pvpEnabled===true,pvpRate:Math.max(0,Math.min(100,Number(raw?.[code]?.pvpRate??base[code].pvpRate)||0))};}return out;}
-async function readCubeDropSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='cube_drop_settings_v1072'").first();try{return cleanCubeDropSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeDropSettings()}}
+async function readCubeDropSettings(env){const row=await metaValue(env,'cube_drop_settings_v1072');try{return cleanCubeDropSettings(JSON.parse(row?.value||'{}'))}catch{return defaultCubeDropSettings()}}
 async function cubeDropSettings(env){return cachedRuntimeSetting('cube-drop',10000,()=>readCubeDropSettings(env))}
 function cubeDropTotal(settings,source){const key=String(source).toLowerCase();return CUBE_CODES.reduce((sum,code)=>sum+(settings[code]?.[`${key}Enabled`]?Number(settings[code]?.[`${key}Rate`]||0):0),0)}
 function defaultCubeBoostSettings(){return {enabled:false,targetHighGradeCount:2,zeroCountMultiplier:1,oneCountMultiplier:1,pveEnabled:false,pvpEnabled:false,excludeAdmins:true,pityEnabled:false,pityStartWins:30,pityIncrementRate:0,pityMaxBonusRate:0};}
@@ -1447,7 +1501,7 @@ let weeklyPremiumCubeSettingsCache=null;
 async function weeklyPremiumCubeSettings(env){
   const now=Date.now();
   if(weeklyPremiumCubeSettingsCache&&weeklyPremiumCubeSettingsCache.expiresAt>now)return weeklyPremiumCubeSettingsCache.value;
-  const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='weekly_premium_cube_settings_v1129'").first();
+  const row=await metaValue(env,'weekly_premium_cube_settings_v1129');
   let value;try{value=cleanWeeklyPremiumCubeSettings(JSON.parse(row?.value||'{}'))}catch{value=defaultWeeklyPremiumCubeSettings()}
   weeklyPremiumCubeSettingsCache={value,expiresAt:now+10000};
   return value;
@@ -1540,7 +1594,7 @@ async function grantBattleCube(env,userId,source,referenceId,allowStandard=true)
   return null;
 }
 
-async function readTowerSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tower_settings_v1'").first();if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
+async function readTowerSettings(env){const row=await metaValue(env,'tower_settings_v1');if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
 async function towerSettings(env){return cachedRuntimeSetting('tower',10000,()=>readTowerSettings(env))}
 
 // ── V1803 · 메인 로비 BGM ──────────────────────────────────────────────
@@ -1806,7 +1860,7 @@ async function rebalanceNightmareProgression(env,settingsOverride=null){
   let nightmareSettings=settingsOverride?normalizeNightmareSettings(settingsOverride):normalizeNightmareSettings();
   if(!settingsOverride){
     try{
-      const stored=await env.DB.prepare("SELECT value FROM app_meta WHERE key='battle_nightmare_settings_v1'").first();
+      const stored=await metaValue(env,'battle_nightmare_settings_v1');
       if(stored?.value)nightmareSettings=normalizeNightmareSettings(JSON.parse(stored.value));
     }catch{}
   }
@@ -2568,7 +2622,7 @@ async function ensureUpgrades(env){
         `CREATE TABLE IF NOT EXISTS wago_daily_comment_claims (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id INTEGER NOT NULL, quest_date TEXT NOT NULL, reward_coin INTEGER NOT NULL DEFAULT 1250, comment_count INTEGER NOT NULL DEFAULT 0, claimed_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP, UNIQUE(user_id,quest_date))`,
         `CREATE INDEX IF NOT EXISTS idx_wago_daily_comment_claims_date ON wago_daily_comment_claims(quest_date,claimed_at)`
       ]) await env.DB.prepare(q).run();
-      const oldRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='wago_daily_quest_settings_v1'").first();
+      const oldRow=await metaValue(env,'wago_daily_quest_settings_v1');
       let oldSettings={};try{oldSettings=JSON.parse(oldRow?.value||'{}')}catch{}
       const nextSettings={enabled:true,boardUrl:'https://ygosu.com/board/soop',postEnabled:true,commentEnabled:true,requiredPosts:15,postRewardCoin:Number(oldSettings.rewardCoin||1200),rewardCoin:Number(oldSettings.rewardCoin||1200),requiredComments:20,commentRewardCoin:1250,maxPages:Number(oldSettings.maxPages||10),commentMaxPosts:100,checkCooldownSeconds:Number(oldSettings.checkCooldownSeconds||20),adminTestAllowed:true,...oldSettings};
       await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('wago_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(nextSettings)).run();
@@ -2832,7 +2886,7 @@ async function ensureUpgrades(env){
 }
 function requestIp(request){return String(request.headers.get('CF-Connecting-IP')||request.headers.get('x-forwarded-for')||'').split(',')[0].trim()||'unknown'}
 async function requestIpHash(request,env){return hash(`${requestIp(request)}|${env.IP_HASH_SALT||'CNINE-IP-SALT-CHANGE-ME'}`)}
-async function wagoVerificationSettings(env){const base={enabled:true,postUrl:'',codeMinutes:20,checkCooldownSeconds:10};const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='wago_verification_settings_v1'").first();try{return {...base,...JSON.parse(row?.value||'{}')}}catch{return base}}
+async function wagoVerificationSettings(env){const base={enabled:true,postUrl:'',codeMinutes:20,checkCooldownSeconds:10};const row=await metaValue(env,'wago_verification_settings_v1');try{return {...base,...JSON.parse(row?.value||'{}')}}catch{return base}}
 function makeVerificationCode(){return `SOOP-${crypto.randomUUID().replaceAll('-','').slice(0,6).toUpperCase()}`}
 const PLAYDK_DEFAULT_BASE_URL='https://www.playdk.kr';
 let secondaryVerificationReadyPromise=null;
@@ -2968,7 +3022,7 @@ async function inspectWagoComment(settings,verification){
 
 async function wagoDailyQuestSettings(env){
   const base={enabled:true,boardUrl:'https://ygosu.com/board/soop',postEnabled:true,commentEnabled:true,requiredPosts:15,postRewardCoin:1200,rewardCoin:1200,requiredComments:20,commentRewardCoin:1250,maxPages:10,commentMaxPosts:100,checkCooldownSeconds:20,adminTestAllowed:true};
-  const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='wago_daily_quest_settings_v1'").first();
+  const row=await metaValue(env,'wago_daily_quest_settings_v1');
   try{const v={...base,...JSON.parse(row?.value||'{}')};v.postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??1200);v.rewardCoin=v.postRewardCoin;return v}catch{return base}
 }
 function extractWagoMemberNoFromAuthorRow(block){
@@ -3748,7 +3802,7 @@ function cleanPityPackConfig(raw,base){
 }
 function cleanPitySettings(raw){const base=defaultPitySettings();return {premium:cleanPityPackConfig(raw?.premium,base.premium),pickup:cleanPityPackConfig(raw?.pickup,base.pickup)};}
 let pitySettingsCache=null;
-async function pitySettings(env,{fresh=false}={}){const now=Date.now();if(!fresh&&pitySettingsCache&&pitySettingsCache.expiresAt>now)return pitySettingsCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_pity_settings_v1'").first();let value;try{value=cleanPitySettings(JSON.parse(row?.value||'{}'))}catch{value=defaultPitySettings()}pitySettingsCache={value,expiresAt:now+30000};return value}
+async function pitySettings(env,{fresh=false}={}){const now=Date.now();if(!fresh&&pitySettingsCache&&pitySettingsCache.expiresAt>now)return pitySettingsCache.value;const row=await metaValue(env,'pack_pity_settings_v1');let value;try{value=cleanPitySettings(JSON.parse(row?.value||'{}'))}catch{value=defaultPitySettings()}pitySettingsCache={value,expiresAt:now+30000};return value}
 async function packPityCount(env,userId,packId){if(!PITY_PACKS.has(packId))return 0;const row=await env.DB.prepare('SELECT miss_count FROM user_pack_pity WHERE user_id=? AND pack_id=?').bind(userId,packId).first();return Math.max(0,Number(row?.miss_count||0));}
 async function savePackPity(env,userId,packId,count){if(!PITY_PACKS.has(packId))return;await env.DB.prepare(`INSERT INTO user_pack_pity(user_id,pack_id,miss_count,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,pack_id) DO UPDATE SET miss_count=excluded.miss_count,updated_at=CURRENT_TIMESTAMP`).bind(userId,packId,Math.max(0,Math.floor(count))).run();}
 function pityRateForDraw(settings,packId,missCount){const cfg=settings?.[packId];const drawNo=Number(missCount||0)+1;if(!cfg?.enabled)return {drawNo,rate:null};return {drawNo,rate:Number(cfg.rates?.[drawNo]??(drawNo>=cfg.hard?100:null))};}
@@ -3920,10 +3974,14 @@ let maintenanceSettingsCache=null;
 async function maintenanceSettings(env,{fresh=false}={}){
   const now=Date.now();
   if(!fresh&&maintenanceSettingsCache&&maintenanceSettingsCache.expiresAt>now)return maintenanceSettingsCache.value;
-  const keys=['maintenance_mode','maintenance_title','maintenance_message','maintenance_start_at','maintenance_end_at','maintenance_test_users'];
+  // V1808: 이 6개 키는 설정 스냅샷에 이미 들어 있다. 별도 조회를 없앤다.
+  //   기존 캐시가 10초였으므로 5초 스냅샷은 오히려 더 신선하다.
+  //   ※ 점검 게이트(requestMaintenanceMode)는 건드리지 않았다. 거기는
+  //     세션 조회와 한 배치로 묶여 있고 전환 지연 0을 유지해야 한다.
   try{
-    const rows=await env.DB.prepare(`SELECT key,value FROM app_meta WHERE key IN (${keys.map(()=>'?').join(',')})`).bind(...keys).all();
-    const values=Object.fromEntries(rows.results.map(row=>[row.key,row.value]));
+    if(fresh)invalidateMetaSnapshot();
+    const snapshot=await metaSnapshot(env);
+    const values=Object.fromEntries([...snapshot.entries()]);
     const value={
       active:String(values.maintenance_mode||'0')==='1',
       title:values.maintenance_title||'숲켓몬 서버 점검 중',
@@ -4339,7 +4397,7 @@ async function handleRequest(context){
       const ipException=await env.DB.prepare("SELECT ip_hash FROM account_ip_exceptions WHERE ip_hash=? AND (expires_at IS NULL OR expires_at>datetime('now'))").bind(ipHash).first();
       if(existingIp&&!ipException)return json({error:'해당 네트워크에서는 이미 숲켓몬 계정이 생성되었습니다. 계정 복구가 필요한 경우 관리자에게 문의해 주세요.',code:'IP_ACCOUNT_LIMIT'},409);
       try{
-        const coinSetting=await env.DB.prepare("SELECT value FROM app_meta WHERE key='new_user_coin'").first();
+        const coinSetting=await metaValue(env,'new_user_coin');
         const newUserCoin=Math.max(0,Number(coinSetting?.value||5000)||5000);
         const result=await env.DB.prepare('INSERT INTO users(nickname,private_key_hash,coin) VALUES(?,?,?)').bind(nickname,privateKeyHash,newUserCoin).run();
         await env.DB.prepare('INSERT INTO account_ip_registrations(user_id,ip_hash) VALUES(?,?)').bind(result.meta.last_row_id,ipHash).run();
@@ -6616,8 +6674,8 @@ async function handleRequest(context){
         if(livePvp.endsAt&&livePvp.startsAt&&new Date(livePvp.endsAt)<=new Date(livePvp.startsAt))return json({error:'시즌 종료일은 시작일보다 뒤여야 합니다.'},400);
         await env.DB.batch([env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('tier_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)),env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('pvp_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(livePvp))]);
         // 저장 성공 즉시 게임/관리자 공용 런타임 캐시를 폐기한다.
-        runtimeSettingsCache.delete('tier');
-        runtimeSettingsCache.delete('pvp');
+        invalidateMetaSnapshot();runtimeSettingsCache.delete('tier');
+        invalidateMetaSnapshot();runtimeSettingsCache.delete('pvp');
         const savedTiers=await readTierSettings(env),savedPvp=await readPvpSettings(env),saved={...savedTiers,pvp:{...savedTiers.pvp,...savedPvp}};
         await writeAdminLog(env,admin,'PVP_SEASON_SETTINGS_UPDATE','SETTINGS','pvp',before,saved);return json({ok:true,settings:saved});
       }
@@ -6708,7 +6766,7 @@ async function handleRequest(context){
         if(submittedTracks>0&&settings.tracks.length===0)return json({error:'재생 가능한 음원 주소가 없습니다. /assets/... 또는 https:// 주소만 사용할 수 있습니다.'},400);
         if(body?.enabled===true&&settings.tracks.length===0)return json({error:'곡을 한 개 이상 등록해야 켤 수 있습니다.'},400);
         await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(LOBBY_BGM_SETTINGS_KEY,JSON.stringify(settings)).run();
-        runtimeSettingsCache.delete('lobbyBgm');
+        invalidateMetaSnapshot();runtimeSettingsCache.delete('lobbyBgm');
         try{await writeAdminLog(env,admin,'LOBBY_BGM_UPDATE','SETTINGS','lobby_bgm',before,settings)}catch(logError){console.error('lobby bgm admin log failed',logError)}
         return json({ok:true,settings});
       }
@@ -6749,8 +6807,8 @@ async function handleRequest(context){
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('zenith_master_star_breakthrough_v1802',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(zenithHigh)),
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_cinematic_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(cinematic))
         ]);
-        maMasterStarBreakthroughCache=null;limitedMasterStarBreakthroughCache=null;runtimeSettingsCache.delete('highBreakthroughConfigs');
-        runtimeSettingsCache.delete('breakthroughConfig'); // V1792: 돌파 설정도 캐시하므로 저장 즉시 무효화
+        maMasterStarBreakthroughCache=null;limitedMasterStarBreakthroughCache=null;invalidateMetaSnapshot();runtimeSettingsCache.delete('highBreakthroughConfigs');
+        invalidateMetaSnapshot();runtimeSettingsCache.delete('breakthroughConfig'); // V1792: 돌파 설정도 캐시하므로 저장 즉시 무효화
         try{await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity,maHigh,limitedHigh,furHigh,zenithHigh,cinematic})}catch(logError){console.error('breakthrough settings admin log failed',logError)}
         return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity,maHigh,limitedHigh,furHigh,zenithHigh,cinematic});
       }
@@ -6765,7 +6823,7 @@ async function handleRequest(context){
         const [bosses,current,policies]=await Promise.all([env.DB.prepare('SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,is_active AS isActive,sort_order AS sortOrder,created_at AS createdAt,updated_at AS updatedAt FROM raid_bosses ORDER BY sort_order,id').all(),env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,ri.current_hp AS currentHp,ri.participant_count AS participantCount,rb.name AS bossName,rb.max_hp AS maxHp,COALESCE(x.slot_id,'LEGACY') AS slotId FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id LEFT JOIN raid_instance_v1293 x ON x.instance_id=ri.id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 1").first(),raidBossOpenPolicies(env)]);
         return json({settings:await raidSettings(env),bosses:bosses.results.map(b=>({...b,userOpenEnabled:Boolean(policies[String(b.id)]?.enabled),openCost:Number(policies[String(b.id)]?.cost||0)})),current:current||null});
       }
-      if(request.method==='PATCH'&&payload.settings){if(String(payload.settings.scheduleMode||'').toUpperCase()==='SCHEDULED'&&(!Array.isArray(payload.settings.openDays)||!payload.settings.openDays.length))return json({error:'레이드 개방 요일을 하나 이상 선택하세요.'},400);const before=await raidSettings(env),clean=cleanRaidSettings(payload.settings),activeSlots=(clean.timeSlots||[]).filter(x=>x.enabled);if(clean.minParticipants>clean.maxParticipants)return json({error:'최소 시작 인원은 최대 참가 인원보다 클 수 없습니다.'},400);if(activeSlots.some(x=>x.openTime===x.closeTime))return json({error:'사용 중인 레이드 타임의 개방·종료 시간을 서로 다르게 설정하세요.'},400);for(let i=0;i<activeSlots.length;i++)for(let j=i+1;j<activeSlots.length;j++)if(raidSlotsOverlap(activeSlots[i],activeSlots[j]))return json({error:`${activeSlots[i].label}와 ${activeSlots[j].label} 개방 시간이 겹칩니다.`},400);const rankBands=[...(clean.rewards?.rankRewards||[])].sort((a,b)=>a.from-b.from||a.to-b.to);for(let i=1;i<rankBands.length;i++)if(rankBands[i].from<=rankBands[i-1].to)return json({error:'최종 순위 보상 구간이 서로 겹칩니다.'},400);const milestoneValues=(clean.rewards?.damageMilestones||[]).map(x=>Number(x.damage));if(new Set(milestoneValues).size!==milestoneValues.length)return json({error:'누적 피해 보상 기준값이 중복되었습니다.'},400);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();runtimeSettingsCache.delete('raid');const saved=await readRaidSettings(env);if(JSON.stringify(saved)!==JSON.stringify(clean))return json({error:'레이드 설정 저장 후 검증값이 일치하지 않습니다. 다시 저장하지 말고 운영 로그를 확인해주세요.'},500);await writeAdminLog(env,admin,'RAID_SETTINGS_UPDATE','SETTINGS','raid',before,saved);return json({ok:true,settings:saved});}
+      if(request.method==='PATCH'&&payload.settings){if(String(payload.settings.scheduleMode||'').toUpperCase()==='SCHEDULED'&&(!Array.isArray(payload.settings.openDays)||!payload.settings.openDays.length))return json({error:'레이드 개방 요일을 하나 이상 선택하세요.'},400);const before=await raidSettings(env),clean=cleanRaidSettings(payload.settings),activeSlots=(clean.timeSlots||[]).filter(x=>x.enabled);if(clean.minParticipants>clean.maxParticipants)return json({error:'최소 시작 인원은 최대 참가 인원보다 클 수 없습니다.'},400);if(activeSlots.some(x=>x.openTime===x.closeTime))return json({error:'사용 중인 레이드 타임의 개방·종료 시간을 서로 다르게 설정하세요.'},400);for(let i=0;i<activeSlots.length;i++)for(let j=i+1;j<activeSlots.length;j++)if(raidSlotsOverlap(activeSlots[i],activeSlots[j]))return json({error:`${activeSlots[i].label}와 ${activeSlots[j].label} 개방 시간이 겹칩니다.`},400);const rankBands=[...(clean.rewards?.rankRewards||[])].sort((a,b)=>a.from-b.from||a.to-b.to);for(let i=1;i<rankBands.length;i++)if(rankBands[i].from<=rankBands[i-1].to)return json({error:'최종 순위 보상 구간이 서로 겹칩니다.'},400);const milestoneValues=(clean.rewards?.damageMilestones||[]).map(x=>Number(x.damage));if(new Set(milestoneValues).size!==milestoneValues.length)return json({error:'누적 피해 보상 기준값이 중복되었습니다.'},400);await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(clean)).run();invalidateMetaSnapshot();runtimeSettingsCache.delete('raid');const saved=await readRaidSettings(env);if(JSON.stringify(saved)!==JSON.stringify(clean))return json({error:'레이드 설정 저장 후 검증값이 일치하지 않습니다. 다시 저장하지 말고 운영 로그를 확인해주세요.'},500);await writeAdminLog(env,admin,'RAID_SETTINGS_UPDATE','SETTINGS','raid',before,saved);return json({ok:true,settings:saved});}
       if(request.method==='POST'&&payload.action==='CREATE_BOSS'){const name=String(payload.name||'').trim().slice(0,40),image=String(payload.image||'').trim().slice(0,500),maxHp=Math.max(1,Math.floor(Number(payload.maxHp)||1)),defenseRate=Math.max(0,Math.min(99,Number(payload.defenseRate)||0)),sortOrder=Math.floor(Number(payload.sortOrder)||0);if(!name)return json({error:'레이드 보스 이름을 입력하세요.'},400);const r=await env.DB.prepare('INSERT INTO raid_bosses(name,image_url,max_hp,defense_rate,is_active,sort_order) VALUES(?,?,?,?,?,?)').bind(name,image,maxHp,defenseRate,payload.isActive===false?0:1,sortOrder).run();const policies=await raidBossOpenPolicies(env);policies[String(r.meta.last_row_id)]={enabled:payload.userOpenEnabled===true,cost:Math.max(0,Math.floor(Number(payload.openCost)||0))};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_user_open_bosses_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(policies)).run();await writeAdminLog(env,admin,'RAID_BOSS_CREATE','RAID_BOSS',String(r.meta.last_row_id),null,{name,maxHp});return json({ok:true,id:r.meta.last_row_id},201);}
       if(request.method==='PATCH'&&payload.boss){const b=payload.boss,id=Number(b.id);if(!id)return json({error:'보스 ID가 필요합니다.'},400);await env.DB.prepare('UPDATE raid_bosses SET name=?,image_url=?,max_hp=?,defense_rate=?,is_active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(b.name||'').trim().slice(0,40),String(b.image||'').trim().slice(0,500),Math.max(1,Math.floor(Number(b.maxHp)||1)),Math.max(0,Math.min(99,Number(b.defenseRate)||0)),b.isActive===false?0:1,Math.floor(Number(b.sortOrder)||0),id).run();const policies=await raidBossOpenPolicies(env);policies[String(id)]={enabled:b.userOpenEnabled===true,cost:Math.max(0,Math.min(100000000,Math.floor(Number(b.openCost)||0)))};await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('raid_user_open_bosses_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(policies)).run();await writeAdminLog(env,admin,'RAID_BOSS_UPDATE','RAID_BOSS',String(id),null,b);return json({ok:true,boss:{...b,...policies[String(id)]}});}
       if(request.method==='POST'&&payload.action==='START'){const bossId=Number(payload.bossId),boss=await env.DB.prepare('SELECT * FROM raid_bosses WHERE id=? AND is_active=1').bind(bossId).first();if(!boss)return json({error:'활성 레이드 보스를 선택하세요.'},400);const active=await env.DB.prepare("SELECT COUNT(*) count FROM raid_instances WHERE status IN ('LOBBY','BATTLE')").first();if(Number(active?.count||0)>=10)return json({error:'동시에 개설 가능한 레이드 방 10개가 모두 사용 중입니다.'},409);const cfg=await raidSettings(env),schedule=raidScheduleState(cfg,admin);if(!schedule.isOpen)return json({error:'현재는 CMS에서 설정한 레이드 개방 시간이 아닙니다.',schedule},403);const startsAt=new Date(Date.now()+cfg.lobbySeconds*1000).toISOString(),endsAt=new Date(Date.now()+(cfg.lobbySeconds+cfg.battleSeconds)*1000).toISOString(),r=await env.DB.prepare("INSERT INTO raid_instances(boss_id,status,starts_at,ends_at,current_hp,participant_count) VALUES(?,'LOBBY',?,?,?,0)").bind(bossId,startsAt,endsAt,boss.max_hp).run();await snapshotRaidInstanceV1293(env,Number(r.meta.last_row_id),String(schedule.currentSlot?.id||'ADMIN'),cfg);await raidRewardSnapshot(env,Number(r.meta.last_row_id),cfg,true);await writeAdminLog(env,admin,'RAID_START','RAID_INSTANCE',String(r.meta.last_row_id),null,{bossId});return json({ok:true,id:r.meta.last_row_id});}
@@ -6779,7 +6837,7 @@ async function handleRequest(context){
       if(request.method==='PATCH'){
         const payload=await readBody(request),clean=cleanBattleSettingsPayload({...before,engine:{...before.engine,singleHealerBonus:payload.singleHealerBonus||{}}},defaultBattleSettings());
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();
-        runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
+        invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
         await writeAdminLog(env,admin,'SINGLE_HEALER_BALANCE_UPDATE','SETTINGS','battle_single_healer',before.engine?.singleHealerBonus,saved.engine?.singleHealerBonus);
         return json({ok:true,singleHealerBonus:saved.engine?.singleHealerBonus});
       }
@@ -6805,7 +6863,7 @@ async function handleRequest(context){
       if(request.method==='PATCH'&&payload.nightmare){
         const before=await battleSettings(env),nightmarePayload=Object.prototype.hasOwnProperty.call(payload.nightmare,'bossProfiles')?payload.nightmare:{...payload.nightmare,bossProfiles:before.nightmare?.bossProfiles||{}},nightmare=normalizeNightmareSettings(nightmarePayload);
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_nightmare_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(nightmare)).run();
-        runtimeSettingsCache.delete('battle');
+        invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');
         const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
         if(JSON.stringify(saved.nightmare)!==JSON.stringify(nightmare))return json({error:'나이트메어 설정 저장 검증에 실패했습니다.',code:'NIGHTMARE_SETTINGS_VERIFY_FAILED'},500);
         await writeAdminLog(env,admin,'NIGHTMARE_SETTINGS_UPDATE','SETTINGS','battle_nightmare',before.nightmare,saved.nightmare);
@@ -6816,13 +6874,13 @@ async function handleRequest(context){
         const ultimateRules=payload.ultimateRules.slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:normalizeUltimateRequiredGrade(u?.requiredGrade),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}));
         const clean={...before,ultimateRules};
         await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();
-        runtimeSettingsCache.delete('battle');
+        invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');
         const saved=await readBattleSettings(env);
         runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});
         await writeAdminLog(env,admin,'ULTIMATE_SETTINGS_UPDATE','SETTINGS','battle_ultimate',before.ultimateRules,saved.ultimateRules);
         return json({ok:true,settings:saved,ultimateRules:saved.ultimateRules});
       }
-      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings,clean=cleanBattleSettingsPayload(x,base);const gradeRateTotal=Object.values(clean.cardDrop.gradeRates).reduce((a,b)=>a+Number(b||0),0);if(Math.abs(gradeRateTotal-100)>0.001)return json({error:`카드 드롭 등급 확률 합계가 100%여야 합니다. 현재 ${gradeRateTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});if(JSON.stringify(saved)!==JSON.stringify(clean))return json({error:'전투 설정 저장 후 재조회 값이 일치하지 않습니다.',code:'BATTLE_SETTINGS_VERIFY_FAILED'},500);await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,saved);return json({ok:true,settings:saved});}
+      if(request.method==='PATCH'&&payload.settings){const before=await battleSettings(env),base=defaultBattleSettings(),x=payload.settings,clean=cleanBattleSettingsPayload(x,base);const gradeRateTotal=Object.values(clean.cardDrop.gradeRates).reduce((a,b)=>a+Number(b||0),0);if(Math.abs(gradeRateTotal-100)>0.001)return json({error:`카드 드롭 등급 확률 합계가 100%여야 합니다. 현재 ${gradeRateTotal.toFixed(2)}%입니다.`},400);await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('battle_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(JSON.stringify(clean)).run();invalidateMetaSnapshot();runtimeSettingsCache.delete('battle');const saved=await readBattleSettings(env);runtimeSettingsCache.set('battle',{promise:Promise.resolve(saved),expiresAt:Date.now()+1000});if(JSON.stringify(saved)!==JSON.stringify(clean))return json({error:'전투 설정 저장 후 재조회 값이 일치하지 않습니다.',code:'BATTLE_SETTINGS_VERIFY_FAILED'},500);await writeAdminLog(env,admin,'BATTLE_SETTINGS_UPDATE','SETTINGS','battle',before,saved);return json({ok:true,settings:saved});}
       if(request.method==='POST'){const name=String(payload.name||'').trim().slice(0,40),image=String(payload.image||'').trim().slice(0,500),power=Math.max(1,Math.floor(Number(payload.battlePower)||1)),reward=Math.max(0,Math.floor(Number(payload.rewardCoin)||0));if(!name)return json({error:'몬스터 이름을 입력하세요.'},400);const r=await env.DB.prepare('INSERT INTO battle_monsters(name,image_url,battle_power,reward_coin,is_boss,is_active,sort_order,ultimate_enabled,ultimate_name,ultimate_description,ultimate_trigger,ultimate_chance,ultimate_damage_percent,ultimate_max_uses,ultimate_target,ultimate_theme,ultimate_warning_text,ultimate_shake,ultimate_zoom,ultimate_media_url,ultimate_sound_url,ultimate_duration_ms,ultimate_volume_percent,ultimate_force_cast,ultimate_pve_damage_percent,ultimate_tower_damage_percent,monster_category,pve_tab,pve_display_order,pve_enabled,tower_enabled,tower_only) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(name,image,power,reward,payload.isBoss?1:0,1,Math.floor(Number(payload.sortOrder)||0),payload.ultimateEnabled?1:0,String(payload.ultimateName||'').slice(0,60),String(payload.ultimateDescription||'').slice(0,300),String(payload.ultimateTrigger||'ON_LOSS'),Math.max(0,Math.min(100,Number(payload.ultimateChance??100))),Math.max(0,Math.min(100,Number(payload.ultimateDamagePercent??15))),Math.max(1,Math.min(9,Number(payload.ultimateMaxUses||1))),String(payload.ultimateTarget||'ALL'),String(payload.ultimateTheme||'CRIMSON'),String(payload.ultimateWarningText||'BOSS ULTIMATE').slice(0,60),payload.ultimateShake===false?0:1,payload.ultimateZoom===false?0:1,String(payload.ultimateMediaUrl||'').trim().slice(0,500),String(payload.ultimateSoundUrl||'').trim().slice(0,500),Math.max(600,Math.min(25000,Math.floor(Number(payload.ultimateDurationMs)||2400))),Math.max(0,Math.min(100,Number(payload.ultimateVolumePercent??35))),payload.ultimateForceCast?1:0,Math.max(0,Math.min(100,Number(payload.ultimatePveDamagePercent??payload.ultimateDamagePercent??15))),Math.max(0,Math.min(100,Number(payload.ultimateTowerDamagePercent??payload.ultimateDamagePercent??15))),String(payload.category|| (payload.isBoss?'BOSS':'GENERAL')).toUpperCase(),String(payload.pveTab||(payload.isBoss?'HELL':'NORMAL')).toUpperCase(),Math.floor(Number(payload.displayOrder??payload.sortOrder)||0),payload.pveEnabled===false?0:1,payload.towerEnabled?1:0,payload.towerOnly?1:0).run();return json({ok:true,id:r.meta.last_row_id},201);}
       if(request.method==='PATCH'){const id=Number(payload.id);if(!id)return json({error:'몬스터 ID가 필요합니다.'},400);if(payload.isActive===false)return json({ok:true,deleted:await deleteBattleMonster(env,id)});await env.DB.prepare('UPDATE battle_monsters SET name=?,image_url=?,battle_power=?,reward_coin=?,is_boss=?,is_active=1,sort_order=?,ultimate_enabled=?,ultimate_name=?,ultimate_description=?,ultimate_trigger=?,ultimate_chance=?,ultimate_damage_percent=?,ultimate_max_uses=?,ultimate_target=?,ultimate_theme=?,ultimate_warning_text=?,ultimate_shake=?,ultimate_zoom=?,ultimate_media_url=?,ultimate_sound_url=?,ultimate_duration_ms=?,ultimate_volume_percent=?,ultimate_force_cast=?,ultimate_pve_damage_percent=?,ultimate_tower_damage_percent=?,monster_category=?,pve_tab=?,pve_display_order=?,pve_enabled=?,tower_enabled=?,tower_only=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(String(payload.name||'').trim().slice(0,40),String(payload.image||'').trim().slice(0,500),Math.max(1,Math.floor(Number(payload.battlePower)||1)),Math.max(0,Math.floor(Number(payload.rewardCoin)||0)),payload.isBoss?1:0,Math.floor(Number(payload.sortOrder)||0),payload.ultimateEnabled?1:0,String(payload.ultimateName||'').slice(0,60),String(payload.ultimateDescription||'').slice(0,300),String(payload.ultimateTrigger||'ON_LOSS'),Math.max(0,Math.min(100,Number(payload.ultimateChance??100))),Math.max(0,Math.min(100,Number(payload.ultimateDamagePercent??15))),Math.max(1,Math.min(9,Number(payload.ultimateMaxUses||1))),String(payload.ultimateTarget||'ALL'),String(payload.ultimateTheme||'CRIMSON'),String(payload.ultimateWarningText||'BOSS ULTIMATE').slice(0,60),payload.ultimateShake===false?0:1,payload.ultimateZoom===false?0:1,String(payload.ultimateMediaUrl||'').trim().slice(0,500),String(payload.ultimateSoundUrl||'').trim().slice(0,500),Math.max(600,Math.min(25000,Math.floor(Number(payload.ultimateDurationMs)||2400))),Math.max(0,Math.min(100,Number(payload.ultimateVolumePercent??35))),payload.ultimateForceCast?1:0,Math.max(0,Math.min(100,Number(payload.ultimatePveDamagePercent??payload.ultimateDamagePercent??15))),Math.max(0,Math.min(100,Number(payload.ultimateTowerDamagePercent??payload.ultimateDamagePercent??15))),String(payload.category||(payload.isBoss?'BOSS':'GENERAL')).toUpperCase(),String(payload.pveTab||(payload.isBoss?'HELL':'NORMAL')).toUpperCase(),Math.floor(Number(payload.displayOrder??payload.sortOrder)||0),payload.pveEnabled===false?0:1,payload.towerEnabled?1:0,payload.towerOnly?1:0,id).run();return json({ok:true});}
       if(request.method==='DELETE'){const id=Number(payload.id);if(!id)return json({error:'몬스터 ID가 필요합니다.'},400);return json({ok:true,deleted:await deleteBattleMonster(env,id)});}
@@ -7099,7 +7157,7 @@ async function handleRequest(context){
         if(newNickname===before.nickname)return json({error:'현재 닉네임과 동일합니다.'},400);
         const duplicate=await env.DB.prepare('SELECT id,nickname FROM users WHERE id<>? AND nickname=? COLLATE NOCASE LIMIT 1').bind(userId,newNickname).first();
         if(duplicate)return json({error:'이미 사용 중인 닉네임입니다.'},409);
-        const maintenanceRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='maintenance_test_users'").first();
+        const maintenanceRow=await metaValue(env,'maintenance_test_users');
         const maintenanceNames=String(maintenanceRow?.value||'').split(',').map(name=>name.trim()).filter(Boolean),maintenanceUpdated=maintenanceNames.some(name=>name===before.nickname);
         const nextMaintenanceNames=maintenanceUpdated?maintenanceNames.map(name=>name===before.nickname?newNickname:name).join(', '):String(maintenanceRow?.value||'');
         const afterData={...before,nickname:newNickname,nicknameChangeReason:reason,maintenanceTestUserUpdated:maintenanceUpdated};
@@ -7246,7 +7304,7 @@ async function handleRequest(context){
       if(!admin) return json({error:'카드팩 관리 권한이 없습니다.'},403);
       if(request.method==='GET'){
         const packs=await env.DB.prepare("SELECT * FROM card_packs WHERE id<>'summer-new' ORDER BY sort_order,id").all();
-        const cfgRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_preview_configs'").first();
+        const cfgRow=await metaValue(env,'pack_preview_configs');
         let previews={}; try{previews=JSON.parse(cfgRow?.value||'{}')}catch{}
         const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
         const furPoolCounts={};
@@ -7270,7 +7328,7 @@ async function handleRequest(context){
         await env.DB.prepare('UPDATE card_packs SET name=?,subtitle=?,description=?,theme=?,price=?,guarantee_10=?,guarantee_20=?,is_active=?,sort_order=? WHERE id=?')
           .bind(name,subtitle,description,theme,price,g10,g20,active,sort,id).run();
         packCatalogCache=null;drawContextCache.clear();
-        const cfgRow=await env.DB.prepare("SELECT value FROM app_meta WHERE key='pack_preview_configs'").first();
+        const cfgRow=await metaValue(env,'pack_preview_configs');
         let configs={}; try{configs=JSON.parse(cfgRow?.value||'{}')}catch{}
         const pc=payload.preview||{};
         configs[id]={badge:String(pc.badge||'').slice(0,24),headline:String(pc.headline||'').slice(0,80),showNewCards:pc.showNewCards!==false,showNames:pc.showNames!==false,showGrades:pc.showGrades!==false,columns:Math.max(2,Math.min(6,Number(pc.columns)||5)),cardIds:Array.isArray(pc.cardIds)?pc.cardIds.map(String).slice(0,30):[]};
