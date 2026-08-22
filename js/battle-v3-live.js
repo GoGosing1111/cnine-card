@@ -79,6 +79,43 @@
 
   // battle-v2-live.js 의 assetUrl 과 같은 규칙. 저기서 export 하지 않으므로
   // (그리고 V3 는 V2 렌더러 없이도 단독으로 떠야 하므로) 여기에도 둔다.
+  // V1803: WebGL 전장에 올라가는 스프라이트 URL 을 경량 변형으로 바꾼다.
+  // 로스터 카드 프레임은 assetUrl() 이 처리하지만, Pixi 전장은 번들이 payload 의
+  // image 값을 직접 읽으므로 넘기기 전에 한 번 갈아끼워야 한다.
+  // 어댑터가 넣어 준 SD 원본 PNG 는 장당 1.1~1.6MB 인데 화면에서는 184px 로 그려진다.
+  const SPRITE_URL_KEYS = ['image', 'imageBattle', 'battleImage', 'imageUrl', 'image_url', 'primaryUrl', 'pngFallbackUrl'];
+  function rewriteSpriteCard(card) {
+    const resolve = root.cnineBattleSpriteUrl;
+    if (typeof resolve !== 'function' || !card || typeof card !== 'object') return card;
+    let changed = false;
+    const next = { ...card };
+    for (const key of SPRITE_URL_KEYS) {
+      const value = next[key];
+      if (typeof value !== 'string' || !value) continue;
+      let mapped = value;
+      try { mapped = resolve(value) } catch { mapped = value }
+      if (mapped && mapped !== value) { next[key] = mapped; changed = true }
+    }
+    return changed ? next : card;
+  }
+  function rewriteBattleSpriteUrls(payload) {
+    if (typeof root.cnineBattleSpriteUrl !== 'function' || !payload || typeof payload !== 'object') return payload;
+    const out = { ...payload };
+    const teams = out.battleV2?.teams;
+    if (teams && typeof teams === 'object') {
+      const nextTeams = { ...teams };
+      for (const side of Object.keys(nextTeams)) {
+        const team = nextTeams[side];
+        if (!team || !Array.isArray(team.cards)) continue;
+        nextTeams[side] = { ...team, cards: team.cards.map(rewriteSpriteCard) };
+      }
+      out.battleV2 = { ...out.battleV2, teams: nextTeams };
+    }
+    if (Array.isArray(out.cards)) out.cards = out.cards.map(rewriteSpriteCard);
+    if (out.monster) out.monster = rewriteSpriteCard(out.monster);
+    return out;
+  }
+
   function assetUrl(value) {
     let raw = String(value || '').trim();
     if (!raw) return FALLBACK_ART;
@@ -623,9 +660,9 @@
     const playUltimateCinematics = options.playUltimateCinematics !== false;
     const modal = options.modal || stage.closest?.('.modal') || null;
     let destroyed = false;
-    let payload = { ...(options.data || {}), mode, battlefieldMode: mode };
+    let payload = rewriteBattleSpriteUrls({ ...(options.data || {}), mode, battlefieldMode: mode });
     if (options.monster) payload.monster = { ...options.monster, mode };
-    if (options.floor) payload = towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] });
+    if (options.floor) payload = rewriteBattleSpriteUrls(towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] }));
 
     // V1796: payload 가 확정된 직후 로스터를 그린다. 자동전투 2판째처럼
     // 셸을 다시 만들지 않는 경로에서도 매 판 새 카드로 덮어써야 하므로

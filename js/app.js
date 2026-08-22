@@ -613,7 +613,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.1.0-manifest-cache',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=55-pvp-identity',
-      'js/battle-v3-live.js?v=3.16.0-battle-sprite'
+      'js/battle-v3-live.js?v=3.17.0-sd-sprite'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }
@@ -664,6 +664,9 @@ function battleSpriteUrl(source,width){
   const raw=String(source||'').trim();
   if(!raw||/^(?:data:|blob:|https?:)/i.test(raw))return raw;
   const normalized=raw.replaceAll('\\','/').replace(/^\/+/,'').split('?',1)[0];
+  // Pixi 전장 SD 스프라이트는 경로 하나가 변형 하나에 직접 대응한다(768 webp 고정).
+  const sprite=window.CNineResponsiveBattleSprites?.[normalized];
+  if(sprite)return sprite;
   const base=window.CNineResponsiveCardImages?.[normalized];
   if(!base)return raw;                       // 변형이 없는 카드는 원본 그대로 (회귀 없음)
   const target=Number(width)>0?Number(width):battleSpriteWidth();
