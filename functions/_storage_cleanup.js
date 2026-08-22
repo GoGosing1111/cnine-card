@@ -784,8 +784,9 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
   {key:'captain_match_receipts',table:'captain_match_receipts_v3',sql:`DELETE FROM captain_match_receipts_v3 WHERE request_id IN (
     SELECT request_id FROM captain_match_receipts_v3 WHERE status IN ('DONE','FAILED','CANCELLED')
       AND updated_at<datetime('now','-1 day') ORDER BY updated_at LIMIT ?)`},
-  {key:'captain_match_history',table:'captain_match_history_v3',sql:`DELETE FROM captain_match_history_v3 WHERE id IN (
-    SELECT id FROM captain_match_history_v3 WHERE created_at<datetime('now','-1 day') ORDER BY id LIMIT ?)`},
+  {key:'captain_match_history',table:'captain_match_history_v3',probe:`SELECT 1 FROM captain_match_history_v3 WHERE created_at<datetime('now','-1 day') LIMIT 1`,
+    sql:`DELETE FROM captain_match_history_v3 WHERE id IN (
+    SELECT id FROM captain_match_history_v3 WHERE created_at<datetime('now','-1 day') ORDER BY created_at LIMIT ?)`},
   {key:'reroll_usage_compact',table:'high_grade_reroll_usage_v2',requires:['cards'],sql:`UPDATE high_grade_reroll_usage_v2 SET response_json=json_object(
       'ok',1,'grade',grade,'usageNo',usage_no,'usedCount',usage_no,'limit',2,'sourceCardId',source_card_id,
       'resultCardId',result_card_id,'breakthroughLevel',breakthrough_level,'remaining',MAX(0,2-usage_no),'compacted',1,
@@ -793,17 +794,21 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
         'grade',grade,'rarity',grade,'image',COALESCE((SELECT image_url FROM cards WHERE id=result_card_id),'')))
     WHERE rowid IN (SELECT rowid FROM high_grade_reroll_usage_v2 WHERE used_at<datetime('now','-30 days')
       AND LENGTH(COALESCE(response_json,''))>1024 ORDER BY used_at LIMIT ?)`},
-  {key:'inventory_logs',table:'inventory_logs',sql:`DELETE FROM inventory_logs WHERE id IN (
-    SELECT id FROM inventory_logs WHERE created_at<datetime('now','-90 days') ORDER BY id LIMIT ?)`},
-  {key:'magic_crystal_logs',table:'magic_crystal_logs',sql:`DELETE FROM magic_crystal_logs WHERE id IN (
-    SELECT id FROM magic_crystal_logs WHERE created_at<datetime('now','-30 days') ORDER BY id LIMIT ?)`},
-  {key:'tower_history',table:'tower_clear_history',sql:`DELETE FROM tower_clear_history WHERE id IN (
-    SELECT id FROM tower_clear_history WHERE created_at<datetime('now','-90 days') ORDER BY id LIMIT ?)`},
+  {key:'inventory_logs',table:'inventory_logs',probe:`SELECT 1 FROM inventory_logs WHERE created_at<datetime('now','-90 days') LIMIT 1`,
+    sql:`DELETE FROM inventory_logs WHERE id IN (
+    SELECT id FROM inventory_logs WHERE created_at<datetime('now','-90 days') ORDER BY created_at LIMIT ?)`},
+  {key:'magic_crystal_logs',table:'magic_crystal_logs',probe:`SELECT 1 FROM magic_crystal_logs WHERE created_at<datetime('now','-30 days') LIMIT 1`,
+    sql:`DELETE FROM magic_crystal_logs WHERE id IN (
+    SELECT id FROM magic_crystal_logs WHERE created_at<datetime('now','-30 days') ORDER BY created_at LIMIT ?)`},
+  {key:'tower_history',table:'tower_clear_history',probe:`SELECT 1 FROM tower_clear_history WHERE created_at<datetime('now','-90 days') LIMIT 1`,
+    sql:`DELETE FROM tower_clear_history WHERE id IN (
+    SELECT id FROM tower_clear_history WHERE created_at<datetime('now','-90 days') ORDER BY created_at LIMIT ?)`},
   {key:'admin_log_compact',table:'admin_logs',sql:`UPDATE admin_logs SET
       before_data=CASE WHEN before_data IS NULL THEN NULL ELSE json_object('compacted',1,'originalBytes',LENGTH(before_data)) END,
       after_data=CASE WHEN after_data IS NULL THEN NULL ELSE json_object('compacted',1,'originalBytes',LENGTH(after_data)) END
     WHERE id IN (SELECT id FROM admin_logs WHERE created_at<datetime('now','-180 days')
-      AND LENGTH(COALESCE(before_data,''))+LENGTH(COALESCE(after_data,''))>2048 ORDER BY id LIMIT ?)`},
+      AND LENGTH(COALESCE(before_data,''))+LENGTH(COALESCE(after_data,''))>2048 ORDER BY created_at LIMIT ?)`,
+    probe:`SELECT 1 FROM admin_logs WHERE created_at<datetime('now','-180 days') LIMIT 1`},
   {key:'territory_admin_operations',table:'territory_war_admin_operations',sql:`DELETE FROM territory_war_admin_operations WHERE rowid IN (
     SELECT rowid FROM territory_war_admin_operations WHERE
       ((status='COMPLETED' AND updated_at<datetime('now','-30 days')) OR (status='FAILED' AND updated_at<datetime('now','-7 days')))
@@ -892,15 +897,30 @@ async function runBoundedStorageMaintenance(env){
   for(let index=0;index<taskCount;index+=1){
     const task=AUTO_STORAGE_MAINTENANCE_TASKS[cursor];
     const requiredTables=[task.table,...(task.requires||[])];
-    let changed=0,taskError='';
+    let changed=0,taskError='',skipped=false;
     try{
       const existing=await existingTableSet(env,requiredTables);
       if(requiredTables.every(name=>existing.has(name))){
-        const result=await env.DB.prepare(task.sql).bind(AUTO_STORAGE_MAINTENANCE_BATCH).run();
-        changed=Number(result?.meta?.changes||0);
+        // V1803: 지울 행이 하나도 없을 때가 가장 비쌌다.
+        //   DELETE ... WHERE id IN (SELECT id ... WHERE created_at<? ORDER BY id LIMIT ?)
+        //   는 ORDER BY 가 id 라서 SQLite 가 created_at 인덱스를 버리고 PK 순서로 훑는다.
+        //   조건에 맞는 행이 없으면 LIMIT 을 채우지 못해 테이블 전체를 스캔한다.
+        //   실측: inventory_logs 365만 행 · 1회 12초 · 3시간 동안 D1 시간 2,479초를
+        //   먹으면서 삭제한 행은 0. 그동안 로그인 등 다른 요청이 밀렸다.
+        // 이제 ORDER BY 를 인덱스와 맞추고, 그 앞에 값싼 존재 확인을 한 번 둔다.
+        // probe 는 정렬이 없어 인덱스 탐색 1회로 끝난다.
+        let hasWork=true;
+        if(task.probe){
+          const found=await env.DB.prepare(task.probe).first();
+          hasWork=Boolean(found);
+        }
+        if(hasWork){
+          const result=await env.DB.prepare(task.sql).bind(AUTO_STORAGE_MAINTENANCE_BATCH).run();
+          changed=Number(result?.meta?.changes||0);
+        }else skipped=true;
       }else taskError=`MISSING_TABLE:${requiredTables.filter(name=>!existing.has(name)).join(',')}`;
     }catch(error){taskError=String(error?.message||error||'MAINTENANCE_FAILED').slice(0,300);console.warn(`bounded storage task failed: ${task.key}`,error)}
-    runs.push({task:task.key,changed,error:taskError||undefined});
+    runs.push({task:task.key,changed,skipped:skipped||undefined,error:taskError||undefined});
     cursor=(cursor+1)%AUTO_STORAGE_MAINTENANCE_TASKS.length;
   }
   const task={key:runs.map(run=>run.task).join(',')};
