@@ -22,18 +22,18 @@ const playdkRoute=api.slice(api.indexOf("path==='secondary-verification/playdk'"
 assert.doesNotMatch(playdkRoute,/makeSession|auth\/register|INSERT INTO users/);
 assert.match(app,/startupUrl\.searchParams\.delete\('token'\)/);
 assert.match(app,/secondary-verification\/playdk/);
-assert.match(app,/PLAY DK × 와이고수 닉네임 등록/);
-assert.match(app,/한 숲켓몬 계정에는 와이고수 또는 PLAY DK 중 하나만 연결/);
-assert.match(index,/secondary-verification-v1780\.css\?v=1780-playdk-secondary-verification/);
-assert.match(index,/app\.js\?v=1783-pvp-authoritative-state/);
-assert.match(worker,/soop-card-shell-v1783-pvp-authoritative-state/);
+assert.match(app,/PLAY DK 닉네임 등록/);
+assert.match(app,/한 숲켓몬 계정에는 하나의 2차 인증만 연결/);
+assert.match(index,/secondary-verification-v1780\.css\?v=1799-playdk-only/);
+assert.match(index,/app\.js\?v=1804-playdk-daily-bgm-mute/);
+assert.match(worker,/soop-card-shell-v1804-playdk-daily-bgm-mute/);
 assert.match(css,/@media \(max-width: 430px\)/);
 assert.match(css,/min-height: 44px/);
 assert.match(admin,/2차 인증 연결 현황/);
 assert.match(admin,/admin\/secondary-verifications/);
-assert.match(admin,/verification_provider==='PLAYDK'/);
-assert.match(admin,/\$\{provider\} 인증 완료/);
-assert.match(adminIndex,/admin-v1276\.js\?v=1780-playdk-secondary-verification/);
+assert.match(admin,/data-secondary-unlink/);
+assert.match(admin,/PLAY DK SECONDARY LINK/);
+assert.match(adminIndex,/admin-v1276\.js\?v=1804-playdk-daily/);
 
 const db=new DatabaseSync(':memory:');
 db.exec(`PRAGMA foreign_keys=ON;

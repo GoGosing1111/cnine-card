@@ -31,6 +31,7 @@
   let settings = readCachedSettings();
   let audio = null;
   let unlocked = false;
+  let unlockPromise = null;
   let pendingPlay = null;
   let active = false;
   let trackIndex = 0;
@@ -80,6 +81,7 @@
     audio = new Audio();
     audio.preload = 'auto';
     audio.playsInline = true;
+    audio.muted = isMuted();
     audio.setAttribute('playsinline', '');
     audio.setAttribute('webkit-playsinline', '');
     audio.addEventListener('ended', () => { consecutiveErrors = 0; advance() });
@@ -107,6 +109,7 @@
     const track = settings.tracks[trackIndex];
     if (!track?.url) return;
     const el = media();
+    el.muted = false;
     // 곡이 하나뿐이면 ended 를 기다리지 말고 태그 반복에 맡긴다(끊김이 없다).
     el.loop = total === 1 && settings.loopPlaylist !== false;
     el.volume = volume();
@@ -116,7 +119,7 @@
     }
     const started = el.play();
     if (started && typeof started.catch === 'function') {
-      started.catch(() => {
+      started.then(() => { unlocked = true; pendingPlay = null }).catch(() => {
         // 아직 사용자 조작이 없어 막힌 경우다. 다음 조작 때 이어서 재생한다.
         pendingPlay = () => play(trackIndex);
       });
@@ -133,21 +136,29 @@
   function unlock() {
     const el = media();
     if (unlocked) {
-      if (pendingPlay) { const run = pendingPlay; pendingPlay = null; run() }
-      return;
+      el.muted = isMuted();
+      if (!isMuted() && pendingPlay) { const run = pendingPlay; pendingPlay = null; run() }
+      return Promise.resolve(true);
     }
+    if (unlockPromise) return unlockPromise;
     const priorSrc = el.getAttribute('src') || '';
     const priorTime = el.currentTime || 0;
     el.setAttribute('src', SILENT);
+    // 무음 파일 자체에는 muted 를 걸지 않아 iOS가 현재 조작을 오디오 잠금 해제로 인정하게 한다.
+    el.muted = false;
     el.volume = 0.001;
-    Promise.resolve(el.play()).then(() => {
+    unlockPromise = Promise.resolve(el.play()).then(() => {
       unlocked = true;
       el.pause();
       if (priorSrc) { el.setAttribute('src', priorSrc); try { el.currentTime = priorTime } catch { /* 무시 */ } }
       el.volume = volume();
+      el.muted = isMuted();
+      if (isMuted()) { pendingPlay = null; return true }
       if (pendingPlay) { const run = pendingPlay; pendingPlay = null; run() }
-      else if (active && playable() && !isMuted()) play(trackIndex);
-    }).catch(() => { /* 여전히 막혀 있으면 다음 조작에서 다시 시도한다 */ });
+      else if (active && playable()) play(trackIndex);
+      return true;
+    }).catch(() => false).finally(() => { unlockPromise = null });
+    return unlockPromise;
   }
 
   // ── 음소거 버튼 ───────────────────────────────────────────
@@ -179,9 +190,10 @@
   function syncButton(button) {
     const off = isMuted();
     button.classList.toggle('is-muted', off);
-    button.setAttribute('aria-pressed', off ? 'false' : 'true');
+    button.setAttribute('aria-pressed', off ? 'true' : 'false');
     button.setAttribute('aria-label', off ? '로비 배경음 켜기' : '로비 배경음 끄기');
-    button.innerHTML = `<i>${off ? '🔇' : '🎵'}</i><em>${off ? '음악 꺼짐' : '음악'}</em>`;
+    button.title = off ? 'BGM 켜기' : 'BGM 음소거';
+    button.innerHTML = `<i>${off ? '🔇' : '🎵'}</i><em>${off ? 'BGM OFF' : 'BGM ON'}</em>`;
   }
 
   function mountButton() {
@@ -203,8 +215,14 @@
   function toggleMute() {
     const next = !isMuted();
     setMuted(next);
-    if (next) { if (audio) audio.pause() }
-    else { consecutiveErrors = 0; unlock(); play(trackIndex) }
+    const el = media();
+    el.muted = next;
+    if (next) { pendingPlay = null; el.pause() }
+    else {
+      consecutiveErrors = 0;
+      if (unlocked) play(trackIndex);
+      else { pendingPlay = () => play(trackIndex); unlock() }
+    }
     const button = document.getElementById(BUTTON_ID);
     if (button) syncButton(button);
   }

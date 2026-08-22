@@ -1937,15 +1937,15 @@ let rankHubMode='pvp';
 function dailyQuestView(user){
   return `${summaryBar(user)}<section class="daily-quest-hub daily-quest-v1072">
     <header class="daily-quest-head">
-      <div class="daily-head-copy"><p class="eyebrow">WAGOSU DAILY QUEST</p><h2>SOOP 게시판 일일퀘스트</h2><p>오늘 작성한 게시글을 확인하고 일일 보상을 획득하세요.</p></div>
+      <div class="daily-head-copy"><p class="eyebrow">PLAY DK DAILY QUEST</p><h2>PLAY DK 게시판 일일퀘스트</h2><p>오늘 PLAY DK에 작성한 게시글을 확인하고 일일 보상을 획득하세요.</p></div>
       <div class="daily-reset-chip"><span>DAILY RESET</span><strong>00:00 KST</strong></div>
     </header>
     <div class="daily-quest-grid daily-quest-grid-single">
       <article class="daily-quest-panel quest-post">
         <div class="daily-quest-copy">
           <div class="daily-mission-top"><span class="quest-kind"><i>✦</i> POST MISSION</span><span id="dailyQuestStateBadge" class="daily-state-badge is-loading">확인 중</span></div>
-          <h3 id="dailyQuestPostTitle">SOOP 게시글 설정 불러오는 중</h3>
-          <p class="daily-mission-desc">SOOP 게시판 일반글만 인정되며, PLAY DK 2단계 인증 계정의 작성자 검색 결과를 기준으로 집계합니다.</p>
+          <h3 id="dailyQuestPostTitle">PLAY DK 게시글 설정 불러오는 중</h3>
+          <p class="daily-mission-desc">PLAY DK 2단계 인증 계정의 게시글 API 집계를 기준으로 하며 삭제·블라인드 처리된 글은 자동 제외됩니다.</p>
           <div id="dailyQuestPostStatus" class="daily-quest-status"><span>작성글 확인 중...</span></div>
           <div class="daily-progress-wrap" aria-label="일일 퀘스트 진행률"><div class="daily-progress-meta"><span>오늘의 진행도</span><b id="dailyQuestProgressText">0%</b></div><div class="daily-progress-track"><span id="dailyQuestProgressFill"></span></div></div>
           <div class="daily-quest-actions"><button class="btn secondary daily-check-btn" id="dailyQuestPostCheck"><span>↻</span> 작성글 새로 확인</button><button class="btn daily-claim-btn" id="dailyQuestPostClaim" disabled>보상 정보 불러오는 중</button></div>
@@ -1959,17 +1959,17 @@ function dailyQuestView(user){
         </aside>
       </article>
     </div>
-    <footer class="daily-quest-note"><span>i</span><p>매일 00:00 KST 초기화 · SOOP 게시판 일반글만 인정 · 게시글 원문 회원번호 기준</p></footer>
+    <footer class="daily-quest-note"><span>i</span><p>매일 00:00 KST 초기화 · PLAY DK 계정 UUID 기준 · 삭제·블라인드 글 제외</p></footer>
   </section>`;
 }
 async function loadDailyQuest(){
   const postBox=document.getElementById('dailyQuestPostStatus');if(!postBox)return;
   const postCheck=document.getElementById('dailyQuestPostCheck'),postClaim=document.getElementById('dailyQuestPostClaim');
   try{
-    const d=await apiRequest('wago-daily-quest/status'),s=d.settings||{};
+    const d=await apiRequest('playdk-daily-quest/status'),s=d.settings||{};
     const postRequired=Number(s.requiredPosts||15),postReward=Number(s.postRewardCoin||s.rewardCoin||1200),postCount=Number(d.postCount||0);
     const postTitle=document.getElementById('dailyQuestPostTitle'),rewardRequired=document.getElementById('dailyQuestRewardRequired'),rewardCoin=document.getElementById('dailyQuestRewardCoin'),progressFill=document.getElementById('dailyQuestProgressFill'),progressText=document.getElementById('dailyQuestProgressText'),stateBadge=document.getElementById('dailyQuestStateBadge');
-    if(postTitle)postTitle.textContent=`SOOP 게시글 ${postRequired.toLocaleString()}개 작성`;
+    if(postTitle)postTitle.textContent=`PLAY DK 게시글 ${postRequired.toLocaleString()}개 작성`;
     if(rewardRequired)rewardRequired.textContent=postRequired.toLocaleString();
     if(rewardCoin)rewardCoin.textContent=postReward.toLocaleString();
     const blocked=!d.verified||d.excluded;
@@ -1987,11 +1987,11 @@ async function loadDailyQuest(){
 }
 async function checkDailyQuest(){
   const b=document.getElementById('dailyQuestPostCheck');if(b)b.disabled=true;
-  try{const d=await apiRequest('wago-daily-quest/check',{method:'POST',body:JSON.stringify({questType:'POST'})});alert(`오늘 SOOP 게시판 작성글 ${Number(d.postCount||0)}개를 확인했습니다.`);}catch(e){alert(e.message)}finally{loadDailyQuest()}
+  try{const d=await apiRequest('playdk-daily-quest/check',{method:'POST',body:JSON.stringify({questType:'POST'})});alert(`오늘 PLAY DK 게시판 작성글 ${Number(d.postCount||0)}개를 확인했습니다.`);}catch(e){alert(e.message)}finally{loadDailyQuest()}
 }
 async function claimDailyQuest(){
   const b=document.getElementById('dailyQuestPostClaim');if(b)b.disabled=true;
-  try{const d=await apiRequest('wago-daily-quest/claim',{method:'POST',body:JSON.stringify({questType:'POST'})});saveUser(apiUserToLocal(d.user));alert(`${Number(d.rewardCoin).toLocaleString()}코인을 받았습니다.`);renderShell('dailyquest')}catch(e){alert(e.message);loadDailyQuest()}
+  try{const d=await apiRequest('playdk-daily-quest/claim',{method:'POST',body:JSON.stringify({questType:'POST'})});saveUser(apiUserToLocal(d.user));alert(`${Number(d.rewardCoin).toLocaleString()}코인을 받았습니다.`);renderShell('dailyquest')}catch(e){alert(e.message);loadDailyQuest()}
 }
 
 function rankView(user) {
@@ -3299,6 +3299,7 @@ async function completePendingPlaydkVerification(){
   const token=pendingPlaydkVerificationToken;pendingPlaydkVerificationToken='';
   try{
     const result=await apiRequest('secondary-verification/playdk',{method:'POST',body:JSON.stringify({token})},{timeoutMs:12000});
+    if(result?.newlyVerified===false||result?.duplicate===true||result?.status==='ALREADY_VERIFIED')return true;
     alert(`${result.verification?.providerName?`${result.verification.providerName} · `:''}PLAY DK 2차 인증이 완료되었습니다.`);
     renderShell('messages');requestAnimationFrame(()=>openWagoVerification());
     return true;

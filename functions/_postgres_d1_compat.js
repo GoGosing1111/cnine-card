@@ -404,9 +404,19 @@ export async function createPostgresD1Compat(connectionString) {
   if (!connectionString) throw new Error('Hyperdrive PostgreSQL 연결 문자열이 없습니다.');
   const client = new Client({ connectionString, application_name: 'cnine-card-pages' });
   await client.connect();
-  await client.query("SET statement_timeout='20s'");
-  await client.query("SET lock_timeout='4s'");
-  await client.query("SET idle_in_transaction_session_timeout='20s'");
+  // V1809: 세션 설정 3개를 각각 보내면 요청마다 왕복이 3번 더 생긴다.
+  //   이 런타임은 요청 1건당 새로 연결하므로 그 비용이 매 요청에 그대로 붙는다.
+  //   실측(2026-08-23 새벽, 유저 없음): /api/health 는 쿼리가 0개인데도 250ms.
+  //   세미콜론으로 이어 붙이면 simple query 한 번으로 끝나 왕복 2회가 사라진다.
+  //   ※ 더 좋은 방법은 Neon 쪽에 기본값으로 박아 두고 이 줄을 아예 지우는 것이다.
+  //        ALTER DATABASE <db> SET statement_timeout='20s';
+  //        ALTER DATABASE <db> SET lock_timeout='4s';
+  //        ALTER DATABASE <db> SET idle_in_transaction_session_timeout='20s';
+  //      그러면 왕복이 3회 전부 사라진다.
+  await client.query(
+    "SET statement_timeout='20s'; " +
+    "SET lock_timeout='4s'; " +
+    "SET idle_in_transaction_session_timeout='20s'");
   const db = new PostgresD1Database(client);
   return { db, close: () => db.close() };
 }

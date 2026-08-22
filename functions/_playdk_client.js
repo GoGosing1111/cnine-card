@@ -12,6 +12,7 @@ export class PlaydkApiError extends Error {
     this.status = Number(detail.status || 0);
     this.path = String(detail.path || '');
     this.body = detail.body ?? null;
+    this.retryAfter = String(detail.retryAfter || '');
   }
 }
 
@@ -56,6 +57,47 @@ export function createPlaydkIdentityClient(options = {}) {
   const timeoutMs = Math.max(1_000, Math.min(15_000, Number(options.timeoutMs || 8_000)));
   if (!baseUrl || !accessKey || !secretKey) throw new PlaydkApiError('PLAY DK 서버 인증 설정이 없습니다.');
 
+  async function request(method, path, { query, body, failureMessage } = {}) {
+    const url = new URL(`${baseUrl}${path}`);
+    for (const [key, value] of Object.entries(query || {})) {
+      if (value !== undefined && value !== null) url.searchParams.set(key, String(value));
+    }
+    const headers = {
+      Authorization: await authHeader(accessKey, secretKey),
+      Accept: 'application/json',
+    };
+    if (body !== undefined) headers['Content-Type'] = 'application/json';
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    let response;
+    try {
+      response = await fetch(url, {
+        method,
+        headers,
+        body: body === undefined ? undefined : JSON.stringify(body),
+        signal: controller.signal,
+        cache: 'no-store',
+      });
+    } catch (error) {
+      throw new PlaydkApiError(
+        error?.name === 'AbortError' ? 'PLAY DK 서버 응답 시간이 초과되었습니다.' : 'PLAY DK 서버에 연결할 수 없습니다.',
+        { path },
+      );
+    } finally {
+      clearTimeout(timer);
+    }
+    const parsed = await readSmallResponse(response);
+    if (!response.ok) {
+      throw new PlaydkApiError(failureMessage || 'PLAY DK 요청을 처리하지 못했습니다.', {
+        status: response.status,
+        path,
+        body: parsed,
+        retryAfter: response.headers.get('retry-after') || '',
+      });
+    }
+    return parsed;
+  }
+
   return {
     gameStartUrl() {
       return `${baseUrl}/api/v2/g/${encodeURIComponent(game)}`;
@@ -63,38 +105,53 @@ export function createPlaydkIdentityClient(options = {}) {
     async getUserInfo(token) {
       const cleanToken = String(token || '').trim();
       if (!cleanToken || cleanToken.length > 2_048) throw new PlaydkApiError('PLAY DK 인증 토큰이 올바르지 않습니다.', { status: 400 });
-      const url = new URL(`${baseUrl}/api/v2/ext/game/user`);
-      url.searchParams.set('token', cleanToken);
-      const controller = new AbortController();
-      const timer = setTimeout(() => controller.abort(), timeoutMs);
-      let response;
-      try {
-        response = await fetch(url, {
-          method: 'GET',
-          headers: { Authorization: await authHeader(accessKey, secretKey), Accept: 'application/json' },
-          signal: controller.signal,
-          cache: 'no-store',
-        });
-      } catch (error) {
-        throw new PlaydkApiError(
-          error?.name === 'AbortError' ? 'PLAY DK 인증 서버 응답 시간이 초과되었습니다.' : 'PLAY DK 인증 서버에 연결할 수 없습니다.',
-          { path: '/api/v2/ext/game/user' },
-        );
-      } finally {
-        clearTimeout(timer);
-      }
-      const body = await readSmallResponse(response);
-      if (!response.ok) {
-        throw new PlaydkApiError('PLAY DK 인증 정보를 확인할 수 없습니다.', {
-          status: response.status,
-          path: '/api/v2/ext/game/user',
-          body,
-        });
-      }
+      const body = await request('GET', '/api/v2/ext/game/user', {
+        query: { token: cleanToken },
+        failureMessage: 'PLAY DK 인증 정보를 확인할 수 없습니다.',
+      });
       const uuid = String(body?.uuid || '').trim();
       const name = String(body?.name || '').trim();
       if (!uuid || uuid.length > 128) throw new PlaydkApiError('PLAY DK 사용자 식별 응답이 올바르지 않습니다.', { status: 502 });
       return { uuid, name: name.slice(0, 80) };
+    },
+    async getDailyPostCount(params = {}) {
+      const userUuid = String(params.userUuid || '').trim();
+      const questDate = String(params.questDate || '').trim();
+      const boardSlugs = [...new Set((Array.isArray(params.boardSlugs) ? params.boardSlugs : [])
+        .map(value => String(value || '').trim().toLowerCase())
+        .filter(Boolean))];
+      if (!userUuid || userUuid.length > 128) throw new PlaydkApiError('PLAY DK 사용자 식별값이 올바르지 않습니다.', { status: 400 });
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(questDate)) throw new PlaydkApiError('PLAY DK 퀘스트 날짜가 올바르지 않습니다.', { status: 400 });
+      if (!boardSlugs.length || boardSlugs.length > 10 || boardSlugs.some(slug => !/^[a-z0-9_-]{1,80}$/.test(slug))) {
+        throw new PlaydkApiError('PLAY DK 게시판 설정이 올바르지 않습니다.', { status: 400 });
+      }
+      const body = await request('POST', '/api/v2/ext/board/daily-post-count', {
+        body: { userUuid, questDate, boardSlugs },
+        failureMessage: 'PLAY DK 일일 게시글 수를 확인하지 못했습니다.',
+      });
+      const count = Number(body?.count);
+      if (!Number.isSafeInteger(count) || count < 0) throw new PlaydkApiError('PLAY DK 게시글 집계 응답이 올바르지 않습니다.', { status: 502 });
+      const posts = (Array.isArray(body?.posts) ? body.posts : []).slice(0, 500).map(post => ({
+        postId: String(post?.postId ?? '').slice(0, 80),
+        boardSlug: String(post?.boardSlug || '').trim().toLowerCase().slice(0, 80),
+        createdAt: String(post?.createdAt || '').slice(0, 80),
+      })).filter(post => post.postId && post.boardSlug);
+      const countsByBoardSlug = {};
+      for (const [slug, value] of Object.entries(body?.countsByBoardSlug || {})) {
+        const normalizedSlug = String(slug || '').trim().toLowerCase();
+        const normalizedCount = Number(value);
+        if (/^[a-z0-9_-]{1,80}$/.test(normalizedSlug) && Number.isSafeInteger(normalizedCount) && normalizedCount >= 0) countsByBoardSlug[normalizedSlug] = normalizedCount;
+      }
+      return {
+        userUuid: String(body?.userUuid || userUuid).slice(0, 128),
+        questDate: String(body?.questDate || questDate).slice(0, 10),
+        timezone: String(body?.timezone || 'Asia/Seoul').slice(0, 80),
+        boardSlugs: Array.isArray(body?.boardSlugs) ? body.boardSlugs.map(value => String(value || '').toLowerCase()).filter(Boolean).slice(0, 10) : boardSlugs,
+        count,
+        countsByBoardSlug,
+        posts,
+        postsTruncated: body?.postsTruncated === true,
+      };
     },
   };
 }

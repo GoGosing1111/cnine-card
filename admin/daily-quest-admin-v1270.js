@@ -21,10 +21,8 @@
         requiredPosts:readNumber('dqRequiredPosts','필요 게시글 수',1,200),
         postRewardCoin:reward,
         rewardCoin:reward,
-        maxPages:readNumber('dqPostMaxPages','확인 페이지 수',1,20),
         checkCooldownSeconds:readNumber('dqCooldown','확인 대기시간',5,300),
-        adminTestAllowed:document.getElementById('dqAdminTestAllowed')?.value==='1',
-        boardUrl:'https://ygosu.com/board/soop'
+        adminTestAllowed:document.getElementById('dqAdminTestAllowed')?.value==='1'
       };
       setBusy(btn,true,'저장 중...');
       await api('admin/daily-quests',{method:'PATCH',body:JSON.stringify({settings})});

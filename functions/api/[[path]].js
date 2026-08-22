@@ -3021,10 +3021,24 @@ async function inspectWagoComment(settings,verification){
 }
 
 
-async function wagoDailyQuestSettings(env){
-  const base={enabled:true,boardUrl:'https://ygosu.com/board/soop',postEnabled:true,commentEnabled:true,requiredPosts:15,postRewardCoin:1200,rewardCoin:1200,requiredComments:20,commentRewardCoin:1250,maxPages:10,commentMaxPosts:100,checkCooldownSeconds:20,adminTestAllowed:true};
-  const row=await metaValue(env,'wago_daily_quest_settings_v1');
-  try{const v={...base,...JSON.parse(row?.value||'{}')};v.postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??1200);v.rewardCoin=v.postRewardCoin;return v}catch{return base}
+function normalizePlaydkDailyBoardSlugs(value,fallback=['skm']){
+  const source=Array.isArray(value)?value:String(value||'').split(',');
+  const normalized=[...new Set(source.map(item=>String(item||'').trim().toLowerCase()).filter(slug=>/^[a-z0-9_-]{1,80}$/.test(slug)))].slice(0,10);
+  return normalized.length?normalized:[...fallback];
+}
+async function playdkDailyQuestSettings(env){
+  const configuredSlugs=normalizePlaydkDailyBoardSlugs(env.PLAYDK_DAILY_BOARD_SLUGS||'skm');
+  const base={enabled:true,postEnabled:true,commentEnabled:false,requiredPosts:15,postRewardCoin:1200,rewardCoin:1200,checkCooldownSeconds:20,adminTestAllowed:true,boardSlugs:configuredSlugs};
+  const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key IN ('playdk_daily_quest_settings_v1','wago_daily_quest_settings_v1') ORDER BY CASE key WHEN 'playdk_daily_quest_settings_v1' THEN 0 ELSE 1 END LIMIT 1").first();
+  try{
+    const v={...base,...JSON.parse(row?.value||'{}')};
+    v.postRewardCoin=Number(v.postRewardCoin??v.rewardCoin??1200);
+    v.rewardCoin=v.postRewardCoin;
+    v.commentEnabled=false;
+    v.boardSlugs=normalizePlaydkDailyBoardSlugs(v.boardSlugs,configuredSlugs);
+    delete v.boardUrl;delete v.maxPages;delete v.commentMaxPosts;delete v.requiredComments;delete v.commentRewardCoin;
+    return v;
+  }catch{return base}
 }
 function extractWagoMemberNoFromAuthorRow(block){
   const source=String(block||'');
@@ -3231,6 +3245,33 @@ async function inspectWagoDailyPosts(settings,memberNo,wagoNickname,questDate=ks
     scannedPages,
     lastPageCount
   };
+}
+
+async function inspectPlaydkDailyPosts(env,settings,verification,questDate=kstDate()){
+  const userUuid=String(verification?.provider_user_id||'').trim();
+  if(!userUuid)return {ok:false,status:403,code:'PLAYDK_VERIFICATION_REQUIRED',error:'PLAY DK 2단계 인증 완료 후 이용할 수 있습니다.'};
+  try{
+    const result=await playdkIdentityClient(env).getDailyPostCount({userUuid,questDate,boardSlugs:settings.boardSlugs});
+    if(kstDate()!==String(questDate))return {ok:false,status:409,code:'KST_DATE_ROLLOVER',error:'일일퀘스트 확인 중 날짜가 변경되었습니다. 새 날짜 기준으로 다시 확인해 주세요.'};
+    return {
+      ok:true,
+      postCount:Number(result.count||0),
+      posts:Array.isArray(result.posts)?result.posts:[],
+      postsTruncated:result.postsTruncated===true,
+      countsByBoardSlug:result.countsByBoardSlug||{},
+      boardSlugs:result.boardSlugs||settings.boardSlugs,
+      questDate:String(result.questDate||questDate),
+      verificationMode:'PLAYDK_UUID_API'
+    };
+  }catch(error){
+    if(!(error instanceof PlaydkApiError))throw error;
+    console.warn('PLAY DK daily quest lookup failed',{status:error.status,path:error.path,retryAfter:error.retryAfter||''});
+    if(error.status===400)return {ok:false,status:503,code:'PLAYDK_DAILY_QUEST_CONFIG_ERROR',error:'PLAY DK 일일퀘스트 게시판 설정을 확인하고 있습니다. 잠시 후 다시 시도해 주세요.'};
+    if(error.status===403)return {ok:false,status:503,code:'PLAYDK_BOARD_SCOPE_REQUIRED',error:'PLAY DK 게시글 조회 권한이 설정되지 않았습니다. 운영팀에 문의해 주세요.'};
+    if(error.status===404)return {ok:false,status:403,code:'PLAYDK_USER_UNAVAILABLE',error:'현재 PLAY DK 계정의 게시글을 조회할 수 없습니다. PLAY DK 인증 상태를 확인해 주세요.'};
+    if(error.status===503)return {ok:false,status:503,code:'PLAYDK_BOARD_UNAVAILABLE',retryAfter:error.retryAfter||'',error:'PLAY DK 게시글 집계 서버가 잠시 지연되고 있습니다. 잠시 후 다시 시도해 주세요.'};
+    return {ok:false,status:502,code:'PLAYDK_BOARD_UPSTREAM_ERROR',error:'PLAY DK 게시글 수를 확인하지 못했습니다. 잠시 후 다시 시도해 주세요.'};
+  }
 }
 
 function parseWagoTodayBoardPostIds(html){
@@ -4081,9 +4122,9 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   // batches. A second lock only adds writes and rejects safe idempotent retries.
   'attendance/claim','card/breakthrough','card/breakthrough/auto','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
   'pvp/match','pvp/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
-  'wago-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','scrapyard/run'
+  'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','scrapyard/run'
 ]);
-const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','auction/','idle-dungeon/'];
+const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/','idle-dungeon/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
 async function ensureBreakthroughAutoReceipts(env){
@@ -6118,7 +6159,7 @@ async function handleRequest(context){
       if(existing?.provider==='PLAYDK'){
         if(String(existing.provider_user_id)!==identity.uuid)return json({error:'이미 다른 PLAY DK 계정이 연결되어 있습니다. 관리자에게 연결 해제를 요청하세요.',code:'PLAYDK_ACCOUNT_MISMATCH'},409);
         await env.DB.prepare("UPDATE user_second_verifications SET provider_name=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND provider='PLAYDK'").bind(identity.name,user.id).run();
-        return json({ok:true,verified:true,verification:{provider:'PLAYDK',providerName:identity.name,verifiedAt:existing.verified_at},duplicate:true});
+        return json({ok:true,verified:true,status:'ALREADY_VERIFIED',newlyVerified:false,verification:{provider:'PLAYDK',providerName:identity.name,verifiedAt:existing.verified_at},duplicate:true});
       }
       const linked=await env.DB.prepare("SELECT user_id FROM user_second_verifications WHERE provider='PLAYDK' AND provider_user_id=?").bind(identity.uuid).first();
       if(linked&&Number(linked.user_id)!==Number(user.id))return json({error:'이 PLAY DK 계정은 이미 다른 숲켓몬 계정에 인증되어 있습니다.',code:'PLAYDK_ALREADY_LINKED'},409);
@@ -6131,7 +6172,7 @@ async function handleRequest(context){
         if(isSecondaryProviderConflict(error))return json({error:'다른 2차 인증이 먼저 연결되었습니다. 상태를 새로 확인해주세요.',code:'SECONDARY_VERIFICATION_RACE'},409);
         throw error;
       }
-      return json({ok:true,verified:true,verification:{provider:'PLAYDK',providerName:identity.name}});
+      return json({ok:true,verified:true,status:'VERIFIED',newlyVerified:true,verification:{provider:'PLAYDK',providerName:identity.name}});
     }
     if(path==='wago-verification/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -6165,63 +6206,62 @@ async function handleRequest(context){
       catch(error){if(isSecondaryProviderConflict(error))return json({error:'다른 2차 인증이 먼저 연결되었습니다. 상태를 새로 확인해주세요.',code:'SECONDARY_VERIFICATION_RACE'},409);throw error}
       return json({ok:true,verified:true,message:`댓글 작성자 회원번호 ${inspected.memberNo}번을 확인하여 자동 인증되었습니다.`});
     }
-    if(path==='wago-daily-quest/status'){
+    if(path==='playdk-daily-quest/status'||path==='wago-daily-quest/status'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      await ensureWagoDailyPostProgressTable(env);
-      const settings=await wagoDailyQuestSettings(env),today=kstDate();
-      const verification=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
+      await Promise.all([ensureWagoDailyPostProgressTable(env),ensureSecondVerificationFoundation(env)]);
+      const settings=await playdkDailyQuestSettings(env),today=kstDate();
+      const verification=await env.DB.prepare("SELECT provider_user_id,provider_name,verified_at FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id).first();
       const postProgress=await env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_post_progress_v2 WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
       const postClaim=await env.DB.prepare('SELECT reward_coin,post_count,claimed_at FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-      return json({settings:{enabled:settings.enabled,postEnabled:settings.postEnabled!==false,requiredPosts:Number(settings.requiredPosts||15),postRewardCoin:Number(settings.postRewardCoin||1200),rewardCoin:Number(settings.postRewardCoin||1200)},verified:verification?.status==='VERIFIED',wagoNickname:verification?.wago_nickname||'',wagoMemberNo:verification?.wago_member_no||'',verificationBasis:'MEMBER_NO',postCount:Number(postProgress?.post_count||0),postLastCheckedAt:postProgress?.last_checked_at||null,postClaimed:Boolean(postClaim),postClaim:postClaim||null,excluded:dailyQuestAdminExcluded(user,settings)});
+      return json({source:'PLAYDK',settings:{enabled:settings.enabled,postEnabled:settings.postEnabled!==false,requiredPosts:Number(settings.requiredPosts||15),postRewardCoin:Number(settings.postRewardCoin||1200),rewardCoin:Number(settings.postRewardCoin||1200),boardSlugs:settings.boardSlugs},verified:Boolean(verification),playdkName:verification?.provider_name||'',verificationBasis:'PLAYDK_UUID',postCount:Number(postProgress?.post_count||0),postLastCheckedAt:postProgress?.last_checked_at||null,postClaimed:Boolean(postClaim),postClaim:postClaim||null,excluded:dailyQuestAdminExcluded(user,settings)});
     }
-    if(path==='wago-daily-quest/check'&&request.method==='POST'){
+    if((path==='playdk-daily-quest/check'||path==='wago-daily-quest/check')&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      await ensureWagoDailyPostProgressTable(env);
+      await Promise.all([ensureWagoDailyPostProgressTable(env),ensureSecondVerificationFoundation(env)]);
       const body=await readBody(request),questType=String(body.questType||'POST').toUpperCase();
-      const settings=await wagoDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
+      const settings=await playdkDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
+      if(!playdkConfigured(env))return json({error:'PLAY DK 게시글 조회 서버 설정이 아직 완료되지 않았습니다.',code:'PLAYDK_NOT_CONFIGURED'},503);
       if(dailyQuestAdminExcluded(user,settings))return json({error:'운영 계정의 일일퀘스트 테스트가 중지되어 있습니다.'},403);
-      const v=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
-      if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'PLAY DK 2단계 인증 완료 후 이용할 수 있습니다.'},403);
+      const verification=await env.DB.prepare("SELECT provider_user_id,provider_name,verified_at FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id).first();
+      if(!verification?.provider_user_id)return json({error:'PLAY DK 2단계 인증 완료 후 이용할 수 있습니다.',code:'PLAYDK_VERIFICATION_REQUIRED'},403);
       const today=kstDate(),cooldown=Math.max(5,Number(settings.checkCooldownSeconds)||20);
       if(questType!=='POST')return json({error:'지원하지 않는 일일퀘스트입니다.'},400);
       if(settings.postEnabled===false)return json({error:'게시글 일일퀘스트가 중지되어 있습니다.'},503);
       const old=await env.DB.prepare('SELECT post_count,last_checked_at FROM wago_daily_post_progress_v2 WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-      if(old?.last_checked_at&&Date.now()-Date.parse(String(old.last_checked_at).replace(' ','T')+'Z')<cooldown*1000)return json({ok:true,questType:'POST',postCount:Number(old.post_count||0),requiredPosts:Number(settings.requiredPosts||15),rewardCoin:Number(settings.postRewardCoin||1200),cooldown:true});
-      const inspected=await inspectWagoDailyPosts(settings,v.wago_member_no,v.wago_nickname,today);if(!inspected.ok)return json({error:inspected.error},502);
-      const stablePostCount=Number(inspected.postCount||0);
-      const stablePostIds=[...new Set(inspected.postIds||[])];
+      if(old?.last_checked_at&&Date.now()-Date.parse(String(old.last_checked_at).replace(' ','T')+'Z')<cooldown*1000)return json({ok:true,source:'PLAYDK',questType:'POST',postCount:Number(old.post_count||0),requiredPosts:Number(settings.requiredPosts||15),rewardCoin:Number(settings.postRewardCoin||1200),cooldown:true});
+      const inspected=await inspectPlaydkDailyPosts(env,settings,verification,today);if(!inspected.ok)return json({error:inspected.error,code:inspected.code,retryAfter:inspected.retryAfter||undefined},inspected.status||502);
+      const stablePostCount=Number(inspected.postCount||0),stablePosts=Array.isArray(inspected.posts)?inspected.posts:[];
       await env.DB.prepare(`INSERT INTO wago_daily_post_progress_v2(user_id,quest_date,post_count,post_ids_json,last_checked_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP)
-        ON CONFLICT(user_id,quest_date) DO UPDATE SET post_count=excluded.post_count,post_ids_json=excluded.post_ids_json,last_checked_at=CURRENT_TIMESTAMP`).bind(user.id,today,stablePostCount,JSON.stringify(stablePostIds)).run();
-      return json({ok:true,questType:'POST',postCount:stablePostCount,requiredPosts:Number(settings.requiredPosts||15),rewardCoin:Number(settings.postRewardCoin||1200)});
+        ON CONFLICT(user_id,quest_date) DO UPDATE SET post_count=excluded.post_count,post_ids_json=excluded.post_ids_json,last_checked_at=CURRENT_TIMESTAMP`).bind(user.id,today,stablePostCount,JSON.stringify(stablePosts)).run();
+      return json({ok:true,source:'PLAYDK',questType:'POST',postCount:stablePostCount,requiredPosts:Number(settings.requiredPosts||15),rewardCoin:Number(settings.postRewardCoin||1200),postsTruncated:inspected.postsTruncated===true,countsByBoardSlug:inspected.countsByBoardSlug});
     }
-    if(path==='wago-daily-quest/claim'&&request.method==='POST'){
+    if((path==='playdk-daily-quest/claim'||path==='wago-daily-quest/claim')&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      await ensureWagoDailyPostProgressTable(env);
+      await Promise.all([ensureWagoDailyPostProgressTable(env),ensureSecondVerificationFoundation(env)]);
       const body=await readBody(request),questType=String(body.questType||'POST').toUpperCase();
-      const settings=await wagoDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
+      const settings=await playdkDailyQuestSettings(env);if(settings.enabled===false)return json({error:'현재 일일퀘스트가 중지되어 있습니다.'},503);
+      if(!playdkConfigured(env))return json({error:'PLAY DK 게시글 조회 서버 설정이 아직 완료되지 않았습니다.',code:'PLAYDK_NOT_CONFIGURED'},503);
       if(dailyQuestAdminExcluded(user,settings))return json({error:'운영 계정의 일일퀘스트 테스트가 중지되어 있습니다.'},403);
-      const v=await env.DB.prepare("SELECT status,wago_nickname,wago_member_no FROM wago_verifications WHERE user_id=?").bind(user.id).first();
-      if(v?.status!=='VERIFIED'||!v.wago_member_no)return json({error:'PLAY DK 2단계 인증 완료 후 이용할 수 있습니다.'},403);
+      const verification=await env.DB.prepare("SELECT provider_user_id,provider_name,verified_at FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id).first();
+      if(!verification?.provider_user_id)return json({error:'PLAY DK 2단계 인증 완료 후 이용할 수 있습니다.',code:'PLAYDK_VERIFICATION_REQUIRED'},403);
       const today=kstDate();
       if(questType!=='POST')return json({error:'지원하지 않는 일일퀘스트입니다.'},400);
       if(settings.postEnabled===false)return json({error:'게시글 일일퀘스트가 중지되어 있습니다.'},503);
       const already=await env.DB.prepare('SELECT id FROM wago_daily_quest_claims WHERE user_id=? AND quest_date=?').bind(user.id,today).first();if(already)return json({error:'오늘 게시글 퀘스트 보상은 이미 수령했습니다.'},409);
-      const oldPost=await env.DB.prepare('SELECT post_count,post_ids_json FROM wago_daily_post_progress_v2 WHERE user_id=? AND quest_date=?').bind(user.id,today).first();
-      const inspected=await inspectWagoDailyPosts(settings,v.wago_member_no,v.wago_nickname,today);if(!inspected.ok)return json({error:inspected.error},502);
-      const stablePostCount=Number(inspected.postCount||0);
-      const stablePostIds=[...new Set(inspected.postIds||[])];
+      const inspected=await inspectPlaydkDailyPosts(env,settings,verification,today);if(!inspected.ok)return json({error:inspected.error,code:inspected.code,retryAfter:inspected.retryAfter||undefined},inspected.status||502);
+      const stablePostCount=Number(inspected.postCount||0),stablePosts=Array.isArray(inspected.posts)?inspected.posts:[];
       const required=Math.max(1,Number(settings.requiredPosts)||15),reward=Math.max(0,Number(settings.postRewardCoin)||1200);
       await env.DB.prepare(`INSERT INTO wago_daily_post_progress_v2(user_id,quest_date,post_count,post_ids_json,last_checked_at) VALUES(?,?,?,?,CURRENT_TIMESTAMP)
-        ON CONFLICT(user_id,quest_date) DO UPDATE SET post_count=excluded.post_count,post_ids_json=excluded.post_ids_json,last_checked_at=CURRENT_TIMESTAMP`).bind(user.id,today,stablePostCount,JSON.stringify(stablePostIds)).run();
-      if(stablePostCount<required)return json({error:`오늘 SOOP 게시판 작성글이 ${stablePostCount}개입니다. ${required}개 작성 후 수령할 수 있습니다.`,postCount:stablePostCount,requiredPosts:required},409);
+        ON CONFLICT(user_id,quest_date) DO UPDATE SET post_count=excluded.post_count,post_ids_json=excluded.post_ids_json,last_checked_at=CURRENT_TIMESTAMP`).bind(user.id,today,stablePostCount,JSON.stringify(stablePosts)).run();
+      if(stablePostCount<required)return json({error:`오늘 PLAY DK 게시판 작성글이 ${stablePostCount}개입니다. ${required}개 작성 후 수령할 수 있습니다.`,postCount:stablePostCount,requiredPosts:required},409);
       const inserted=await env.DB.prepare('INSERT OR IGNORE INTO wago_daily_quest_claims(user_id,quest_date,reward_coin,post_count) VALUES(?,?,?,?)').bind(user.id,today,reward,stablePostCount).run();
       if(!inserted.meta.changes)return json({error:'오늘 게시글 퀘스트 보상은 이미 수령했습니다.'},409);
       await env.DB.batch([
         env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
-        env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin+?,'WAGO_DAILY_QUEST' FROM users WHERE id=?").bind(reward,reward,user.id)
+        env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'PLAYDK_DAILY_QUEST' FROM users WHERE id=?").bind(reward,user.id)
       ]);
       const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
-      return json({ok:true,questType:'POST',rewardCoin:reward,postCount:stablePostCount,user:await profile(env,updated)});
+      return json({ok:true,source:'PLAYDK',questType:'POST',rewardCoin:reward,postCount:stablePostCount,postsTruncated:inspected.postsTruncated===true,user:await profile(env,updated)});
     }
 
     if(path==='messages'){
@@ -6594,28 +6634,29 @@ async function handleRequest(context){
     if(path==='admin/daily-quests'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       if(request.method==='GET'){
-        const settings=await wagoDailyQuestSettings(env),today=kstDate();
+        await Promise.all([ensureWagoDailyPostProgressTable(env),ensureSecondVerificationFoundation(env)]);
+        const settings=await playdkDailyQuestSettings(env),today=kstDate();
         const statsRow=await env.DB.prepare(`SELECT
-          (SELECT COUNT(DISTINCT user_id) FROM wago_daily_quest_progress WHERE quest_date=?) AS participants,
-          (SELECT COUNT(*) FROM wago_daily_quest_progress WHERE quest_date=? AND post_count>=?) AS postCompleted,
+          (SELECT COUNT(DISTINCT user_id) FROM wago_daily_post_progress_v2 WHERE quest_date=?) AS participants,
+          (SELECT COUNT(*) FROM wago_daily_post_progress_v2 WHERE quest_date=? AND post_count>=?) AS postCompleted,
           (SELECT COUNT(*) FROM wago_daily_quest_claims WHERE quest_date=?) AS postClaims,
           (SELECT COALESCE(SUM(reward_coin),0) FROM wago_daily_quest_claims WHERE quest_date=?) AS postCoins`).bind(today,today,Number(settings.requiredPosts||15),today,today).first();
-        const users=await env.DB.prepare(`SELECT u.nickname,u.role,w.wago_nickname,w.wago_member_no,COALESCE(p.post_count,0) AS post_count,p.last_checked_at,pc.claimed_at AS post_claimed_at
-          FROM users u LEFT JOIN wago_verifications w ON w.user_id=u.id
-          LEFT JOIN wago_daily_quest_progress p ON p.user_id=u.id AND p.quest_date=?
+        const users=await env.DB.prepare(`SELECT u.nickname,u.role,s.provider_name AS playdk_name,s.provider_user_id AS playdk_uuid,COALESCE(p.post_count,0) AS post_count,p.last_checked_at,pc.claimed_at AS post_claimed_at
+          FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id AND s.provider='PLAYDK'
+          LEFT JOIN wago_daily_post_progress_v2 p ON p.user_id=u.id AND p.quest_date=?
           LEFT JOIN wago_daily_quest_claims pc ON pc.user_id=u.id AND pc.quest_date=?
           WHERE p.user_id IS NOT NULL OR pc.user_id IS NOT NULL
           ORDER BY COALESCE(p.last_checked_at,pc.claimed_at) DESC LIMIT 300`).bind(today,today).all();
         const claims=await env.DB.prepare(`SELECT u.nickname,'POST' AS quest_type,c.reward_coin,c.claimed_at FROM wago_daily_quest_claims c JOIN users u ON u.id=c.user_id ORDER BY c.claimed_at DESC LIMIT 200`).all();
-        return json({settings:{...settings,commentEnabled:false},stats:statsRow||{},users:users.results,claims:claims.results});
+        return json({source:'PLAYDK',settings:{...settings,commentEnabled:false},stats:statsRow||{},users:users.results,claims:claims.results});
       }
       if(request.method==='PATCH'){
         if(admin.role!=='OWNER')return json({error:'일일퀘스트 설정 변경은 OWNER만 가능합니다.'},403);
-        const body=await readBody(request),before=await wagoDailyQuestSettings(env),v=body.settings||{};
-        const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardUrl:'https://ygosu.com/board/soop',requiredPosts:Math.max(1,Math.min(200,Number(v.requiredPosts)||15)),postRewardCoin:Math.max(0,Math.floor(Number(v.postRewardCoin??v.rewardCoin)||1200)),maxPages:Math.max(1,Math.min(20,Number(v.maxPages)||10)),checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
+        const body=await readBody(request),before=await playdkDailyQuestSettings(env),v=body.settings||{};
+        const next={...before,enabled:v.enabled!==false,postEnabled:v.postEnabled!==false,commentEnabled:false,boardSlugs:normalizePlaydkDailyBoardSlugs(before.boardSlugs),requiredPosts:Math.max(1,Math.min(200,Number(v.requiredPosts)||15)),postRewardCoin:Math.max(0,Math.floor(Number(v.postRewardCoin??v.rewardCoin)||1200)),checkCooldownSeconds:Math.max(5,Math.min(300,Number(v.checkCooldownSeconds)||20)),adminTestAllowed:v.adminTestAllowed!==false};
         next.rewardCoin=next.postRewardCoin;
-        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('wago_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();
-        await writeAdminLog(env,admin,'DAILY_QUEST_SETTINGS','APP_META','wago_daily_quest_settings_v1',before,next);
+        await env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('playdk_daily_quest_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(next)).run();
+        await writeAdminLog(env,admin,'DAILY_QUEST_SETTINGS','APP_META','playdk_daily_quest_settings_v1',before,next);
         return json({ok:true,settings:next});
       }
     }
