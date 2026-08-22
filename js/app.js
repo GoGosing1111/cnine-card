@@ -649,14 +649,25 @@ function featureKeyForTab(tab){return tab==='character'?'character':tab==='works
 // 심지어 도감을 한 번이라도 봤다면 이미 브라우저 캐시에 있다.
 // 형식은 webp 로 고정한다. avif 가 4KB 더 작지만 지원 판별 코드가 필요하고,
 // 334KB → 13KB 앞에서 그 차이는 의미가 없다.
+// 화면에 필요한 최소 폭을 고른다. battle-v3-live 의 fallbackCardWidth 와 같은 기준이다.
+//   좁은 화면(<=760px) 카드 폭 66px, 그 외 최대 112px.
+// GPU 텍스처는 폭의 제곱으로 커진다 — 192 변형은 384 변형의 4분의 1 메모리다.
+// 저사양 기기가 대부분인 DPR 2 환경에서 이 차이가 크다.
+function battleSpriteWidth(){
+  const dpr=Math.min(3,Math.max(1,Number(window.devicePixelRatio)||1));
+  const viewport=Number(window.innerWidth||document.documentElement?.clientWidth||1280);
+  const cardCss=viewport<=760?66:112;
+  return cardCss*dpr<=192?192:384;
+}
 const BATTLE_SPRITE_WIDTH_DEFAULT=384;
-function battleSpriteUrl(source,width=BATTLE_SPRITE_WIDTH_DEFAULT){
+function battleSpriteUrl(source,width){
   const raw=String(source||'').trim();
   if(!raw||/^(?:data:|blob:|https?:)/i.test(raw))return raw;
   const normalized=raw.replaceAll('\\','/').replace(/^\/+/,'').split('?',1)[0];
   const base=window.CNineResponsiveCardImages?.[normalized];
   if(!base)return raw;                       // 변형이 없는 카드는 원본 그대로 (회귀 없음)
-  return `${base}-${Number(width)<=192?192:384}.webp`;
+  const target=Number(width)>0?Number(width):battleSpriteWidth();
+  return `${base}-${target<=192?192:384}.webp`;
 }
 window.cnineBattleSpriteUrl=battleSpriteUrl;
 
