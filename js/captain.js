@@ -114,8 +114,9 @@
     if (!title) return '';
     if (typeof window.publicTitleBadgeHtml === 'function') return window.publicTitleBadgeHtml(title, { compact });
     const style = String(title.stylePreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+    const font = String(title.fontPreset || 'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g, '');
     const text = esc(title.badgeText || title.name || '');
-    return text ? `<span class="public-title-badge ${compact ? 'compact' : ''} title-style-${style}">[${text}]</span>` : '';
+    return text ? `<span class="public-title-badge ${compact ? 'compact' : ''} title-style-${style} title-font-${font}">[${text}]</span>` : '';
   }
 
   function titledName(member, { tag = 'b', compact = true } = {}) {

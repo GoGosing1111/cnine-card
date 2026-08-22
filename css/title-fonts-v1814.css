@@ -1,0 +1,37 @@
+/* V1814 title font presets — shared by CMS previews and every public title badge. */
+.title-font-default,
+.title-font-default>span,
+.title-font-default>strong{font-family:"Noto Sans KR","Pretendard Variable","Malgun Gothic",sans-serif!important}
+.title-font-serif,
+.title-font-serif>span,
+.title-font-serif>strong{font-family:"Noto Serif KR","Batang",serif!important}
+.title-font-display,
+.title-font-display>span,
+.title-font-display>strong{font-family:"Black Han Sans","Arial Black",sans-serif!important;letter-spacing:-.035em!important}
+.title-font-arcade,
+.title-font-arcade>span,
+.title-font-arcade>strong{font-family:"Do Hyeon","Malgun Gothic",sans-serif!important;letter-spacing:-.015em!important}
+.title-font-rounded,
+.title-font-rounded>span,
+.title-font-rounded>strong{font-family:"Jua","Arial Rounded MT Bold","Malgun Gothic",sans-serif!important;letter-spacing:-.01em!important}
+.title-font-scifi,
+.title-font-scifi>span,
+.title-font-scifi>strong{font-family:"Gugi","Noto Sans KR","Malgun Gothic",sans-serif!important;letter-spacing:-.025em!important}
+.title-font-brush,
+.title-font-brush>span,
+.title-font-brush>strong{font-family:"East Sea Dokdo","Song Myung","Batang",serif!important;letter-spacing:0!important}
+.title-font-handwriting,
+.title-font-handwriting>span,
+.title-font-handwriting>strong{font-family:"Nanum Pen Script","Malgun Gothic",cursive!important;letter-spacing:0!important}
+.title-font-mono,
+.title-font-mono>span,
+.title-font-mono>strong{font-family:"Nanum Gothic Coding","D2Coding",Consolas,monospace!important;letter-spacing:-.035em!important}
+.title-font-classic,
+.title-font-classic>span,
+.title-font-classic>strong{font-family:"Song Myung","Noto Serif KR","Batang",serif!important;letter-spacing:-.025em!important;font-weight:800}
+
+@media(max-width:720px){
+  .title-font-display,.title-font-display>span,.title-font-display>strong,
+  .title-font-scifi,.title-font-scifi>span,.title-font-scifi>strong,
+  .title-font-mono,.title-font-mono>span,.title-font-mono>strong{letter-spacing:-.04em!important}
+}
