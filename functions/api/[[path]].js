@@ -1267,7 +1267,15 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true,bossUltimateEnabled=Number(monster.ultimate_enabled||0)===1||monster.ultimate_enabled===true,bossUltimateConfigured=bossIsBoss&&bossUltimateEnabled;
   const bossTrigger=String(monster.ultimate_trigger||'ON_LOSS').toUpperCase(),bossChance=Math.max(0,Math.min(100,Number(monster.ultimate_chance??100))),bossForceCast=Number(monster.ultimate_force_cast||0)===1||monster.ultimate_force_cast===true,bossChanceHit=bossChance>=100||Math.random()*100<bossChance;
   const bossShouldCast=bossUltimateConfigured&&(bossForceCast||bossTrigger==='ALWAYS'||(bossTrigger==='ON_LOSS'&&preliminaryResult==='LOSE')||(bossTrigger==='CHANCE'&&bossChanceHit));
-  const bossPveDamagePercent=difficulty.bossUltimateUnlocked?difficulty.bossUltimateCapPercent:Math.max(0,Math.min(100,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0))),bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(uniquePlayerPower*bossPveDamagePercent/100)):0;
+  // V1802-fix: bossUltimateCapPercent 는 이름 그대로 "상한" 인데, 나이트메어에서만 값 자체로 쓰이고 있었다.
+  // 그래서 몬스터에 15% 로 설정해 둬도 나이트메어에서는 120% 가 적용됐고,
+  // 궁극기 감점 = 전투력 × 1.2 가 되어 전투력이 높을수록 결과가 나빠지는 역전이 생겼다.
+  //   결과식: max(0, 전투력 + 궁극기딜 - 전투력×1.2) = max(0, 궁극기딜 - 전투력×0.2)
+  // 강화할수록 불리해지는 구조라 FUR 고강화 덱이 리미티드 덱보다 못 깨는 제보로 이어졌다.
+  // 이제 상한은 상한으로만 쓰고, 실제 감점률은 몬스터에 설정된 값을 따른다.
+  const bossUltimateCap=Math.max(0,Number(difficulty.bossUltimateCapPercent??100)||0);
+  const bossConfiguredDamagePercent=Math.max(0,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0)||0);
+  const bossPveDamagePercent=Math.min(bossUltimateCap,bossConfiguredDamagePercent),bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(uniquePlayerPower*bossPveDamagePercent/100)):0;
   const result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Math.max(0,Math.floor(difficulty.effectiveRewardCoin*Number(settings.__burningRewardMultiplier||1))):0;
   // V1785: 코인 지급 + 코인 로그를 D1 배치 1회로 묶는다(자동사냥 반복 횟수만큼 왕복이 줄어든다).
   if(reward){
