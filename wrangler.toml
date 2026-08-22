@@ -2,6 +2,26 @@ name = "cnine-card"
 compatibility_date = "2026-07-01"
 pages_build_output_dir = "."
 
+# V1802: Smart Placement — 워커를 D1 옆(싱가포르)에서 실행한다.
+#
+# Cloudflare API 로 확인한 사실:
+#   running_in_region = "APAC",  served_by_colo = "SIN"   → DB 는 싱가포르에 있다
+#   file_size = 4.98GB / 한도 10GB,  테이블 211개
+# 서울↔싱가포르는 왕복 60~70ms 다. D1 에는 한국 리전이 없어서 더 가깝게 못 옮긴다.
+# 즉 "쿼리 1회 = 60~70ms" 는 물리적 하한이고, 순차로 N번 하면 그대로 N배가 된다.
+#   raid/status  쿼리 36회 → 2.5초
+#   pvp/config   쿼리 15회 → 1.0초
+#
+# Smart Placement 를 켜면 워커가 싱가포르에서 돌아
+#   "유저→싱가포르 왕복 1회(약 70ms) + 쿼리 N회 × 2~3ms" 로 바뀐다.
+#
+# 주의
+#   · 정적 파일(이미지·JS·CSS)은 계속 유저와 가장 가까운 곳에서 나간다. 영향 없다.
+#   · Cloudflare 가 트래픽을 분석하므로 배포 후 최대 15분 뒤부터 적용된다.
+#   · 되돌리려면 아래 [placement] 두 줄만 지우고 재배포하면 된다.
+[placement]
+mode = "smart"
+
 # Git 연동 Pages에서는 Cloudflare 대시보드의 Bindings에서 DB를 연결합니다.
 # 로컬 wrangler 사용 시 아래 database_id를 실제 값으로 바꾸세요.
 [[d1_databases]]
