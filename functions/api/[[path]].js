@@ -1512,6 +1512,17 @@ async function ensureWagoDailyPostProgressTable(env){
 let upgradePromise=null;
 let d1HotpathUpgradePromise=null;
 let d1StabilityUpgradePromise=null;
+// V1802-perf: pvp/config 는 요청마다 CREATE TABLE 두 개를 실행하고 있었다.
+// 한 번 만들어지면 다시 만들 필요가 없으므로 다른 ensure* 들과 같은 방식으로 1회만 돌린다.
+let pvpPresetTablesPromise=null;
+function ensurePvpPresetTables(env){
+  if(pvpPresetTablesPromise)return pvpPresetTablesPromise;
+  pvpPresetTablesPromise=env.DB.batch([
+    env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_deck_presets (user_id INTEGER NOT NULL,preset_no INTEGER NOT NULL,card_ids TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,preset_no))'),
+    env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_active_presets (user_id INTEGER PRIMARY KEY,preset_no INTEGER NOT NULL DEFAULT 1,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)')
+  ]).catch(error=>{pvpPresetTablesPromise=null;throw error});
+  return pvpPresetTablesPromise;
+}
 async function ensureD1HotpathIndexes(env){
   if(d1HotpathUpgradePromise)return d1HotpathUpgradePromise;
   d1HotpathUpgradePromise=(async()=>{
@@ -4891,18 +4902,27 @@ async function handleRequest(context){
     }
 
     if(path==='raid/status'){
-      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);await publicEquippedTitleMap(env,[]);
-      const [cfg,uniqueCfg]=await Promise.all([raidSettings(env),cardUniqueSettings(env)]),owner=isRaidOwner(user),ownerTestMode=isRaidOwnerTest(user,cfg),uniqueVisible=cardUniqueVisibleTo(user,uniqueCfg),schedule=raidScheduleState(cfg,user),entryDateKey=String(schedule.entryDateKey||kstDateKey()),configuredSlots=Array.isArray(cfg.timeSlots)?cfg.timeSlots:[];
-      const {todayEntryCount,slotEntries}=await raidEntryStatusCounts(env,user.id,entryDateKey,configuredSlots),dailyEntryLimit=Math.max(1,Number(cfg.dailyEntries||1)),dailyEntry={count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),dateKey:entryDateKey,unlimited:ownerTestMode},scheduleSlot=schedule.currentSlot||null,scheduleSlotId=String(scheduleSlot?.id||''),slotEntry=scheduleSlotId&&scheduleSlotId!=='ALWAYS'?(slotEntries.find(row=>String(row.id)===scheduleSlotId)||{id:scheduleSlotId,label:String(scheduleSlot?.label||scheduleSlotId),count:0,limit:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),remaining:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),unlimited:ownerTestMode}):{id:scheduleSlotId||'DAILY',label:String(scheduleSlot?.label||'오늘 합계'),count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),unlimited:ownerTestMode},slotEntryUsed=Boolean(scheduleSlotId&&scheduleSlotId!=='ALWAYS'&&Number(slotEntry.count||0)>=Number(slotEntry.limit||1));
-      if(cfg.ownerOnlyTest&&!owner)return json({error:'현재 레이드는 OWNER 테스트 전용입니다.'},403);
-      // 상태 조회마다 활성 방 전체를 갱신하면 방 수만큼 SELECT/UPDATE/정산 쿼리가 발생한다.
-      // 실제 상태 전환 시각이 지난 방만 한 요청당 최대 2개 처리해 D1 잠금과 타임아웃을 제한한다.
-      const transitionDue=(await env.DB.prepare(`SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate
+      // V1802-perf: 이 경로는 조회 36회로 가장 무거웠다. D1 왕복 1회가 60~70ms(서울↔싱가포르) 이므로
+      // 순차로 기다린 단계 수가 그대로 응답 시간이 된다. 유저와 무관한 조회는 인증을 기다리지 않고 먼저 띄우고,
+      // 서로 의존이 없는 것들은 한 번에 겹친다. 정산 로직(refreshRaidForOwner)은 순서를 그대로 둔다.
+      const raidTitlePromise=publicEquippedTitleMap(env,[]);
+      const raidCfgPromise=raidSettings(env),raidUniqueCfgPromise=cardUniqueSettings(env);
+      const raidTransitionPromise=env.DB.prepare(`SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate
         FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id
         WHERE (ri.status='LOBBY' AND ri.starts_at IS NOT NULL AND datetime(ri.starts_at)<=datetime('now'))
            OR (ri.status='BATTLE' AND ri.ends_at IS NOT NULL AND datetime(ri.ends_at)<=datetime('now'))
         ORDER BY CASE WHEN ri.status='BATTLE' THEN 0 ELSE 1 END,ri.id
-        LIMIT 2`).all()).results;
+        LIMIT 2`).all();
+      // 인증 실패로 조기 반환될 때 미처리 거부가 되지 않게 막아둔다. 뒤에서 await 하면 예외는 그대로 전달된다.
+      for(const pending of [raidTitlePromise,raidCfgPromise,raidUniqueCfgPromise,raidTransitionPromise])pending.catch(()=>{});
+      const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const [,cfg,uniqueCfg,raidTransitionResult]=await Promise.all([raidTitlePromise,raidCfgPromise,raidUniqueCfgPromise,raidTransitionPromise]);
+      const owner=isRaidOwner(user),ownerTestMode=isRaidOwnerTest(user,cfg),uniqueVisible=cardUniqueVisibleTo(user,uniqueCfg),schedule=raidScheduleState(cfg,user),entryDateKey=String(schedule.entryDateKey||kstDateKey()),configuredSlots=Array.isArray(cfg.timeSlots)?cfg.timeSlots:[];
+      const {todayEntryCount,slotEntries}=await raidEntryStatusCounts(env,user.id,entryDateKey,configuredSlots),dailyEntryLimit=Math.max(1,Number(cfg.dailyEntries||1)),dailyEntry={count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),dateKey:entryDateKey,unlimited:ownerTestMode},scheduleSlot=schedule.currentSlot||null,scheduleSlotId=String(scheduleSlot?.id||''),slotEntry=scheduleSlotId&&scheduleSlotId!=='ALWAYS'?(slotEntries.find(row=>String(row.id)===scheduleSlotId)||{id:scheduleSlotId,label:String(scheduleSlot?.label||scheduleSlotId),count:0,limit:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),remaining:Math.max(1,Number(scheduleSlot?.entriesPerSlot||1)),unlimited:ownerTestMode}):{id:scheduleSlotId||'DAILY',label:String(scheduleSlot?.label||'오늘 합계'),count:todayEntryCount,limit:dailyEntryLimit,remaining:Math.max(0,dailyEntryLimit-todayEntryCount),unlimited:ownerTestMode},slotEntryUsed=Boolean(scheduleSlotId&&scheduleSlotId!=='ALWAYS'&&Number(slotEntry.count||0)>=Number(slotEntry.limit||1));
+      if(cfg.ownerOnlyTest&&!owner)return json({error:'현재 레이드는 OWNER 테스트 전용입니다.'},403);
+      // 상태 조회마다 활성 방 전체를 갱신하면 방 수만큼 SELECT/UPDATE/정산 쿼리가 발생한다.
+      // 실제 상태 전환 시각이 지난 방만 한 요청당 최대 2개 처리해 D1 잠금과 타임아웃을 제한한다.
+      const transitionDue=raidTransitionResult.results;
       for(const room of transitionDue)await refreshRaidForOwner(env,room,cfg);
       const roomRows=(await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,(SELECT COUNT(*) FROM raid_participants rp2 WHERE rp2.instance_id=ri.id AND COALESCE(rp2.is_active,1)=1) AS participantCount,rb.name AS bossName,rb.image_url AS bossImage,rb.max_hp AS maxHp,COALESCE(x.slot_id,'LEGACY') AS slotId FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id LEFT JOIN raid_instance_v1293 x ON x.instance_id=ri.id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 10").all()).results;
       const rooms=roomRows.map((room,i)=>{const slot=(cfg.timeSlots||[]).find(x=>String(x.id)===String(room.slotId)),activeSlotId=String(schedule.currentSlot?.id||'');const slotOpen=owner||room.slotId==='LEGACY'||room.slotId==='ALWAYS'||(activeSlotId&&activeSlotId===String(room.slotId));return {...room,slotLabel:slot?.label||room.slotId,roomNumber:roomRows.length-i,joinable:slotOpen&&room.status==='LOBBY'&&Date.parse(room.startsAt)>Date.now()&&Number(room.participantCount)<Number(cfg.maxParticipants||30)}});
@@ -5405,24 +5425,41 @@ async function handleRequest(context){
 
     if(path==='tower/config'&&request.method==='GET'){const settings=await towerSettings(env);return json(settings);}
     if(path==='tower/status'&&request.method==='GET'){
+      // V1803: 무한의탑 상태 조회는 왕복이 10회까지 늘어나 있었다.
+      //  · 설정/시즌은 유저와 무관하므로 인증 왕복과 겹쳐 먼저 띄운다.
+      //  · 진행도 생성·조회·최고층 계산은 D1 배치 1회로 묶는다(왕복 3 → 1).
+      //  · 장비 보너스·덱·랭킹은 같은 파동에서 병렬로 받는다.
+      const towerConfigPromise=towerSettings(env);
+      const towerSeasonPromise=env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
+      for(const pending of [towerConfigPromise,towerSeasonPromise])pending.catch(()=>{});
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const [towerConfig,characterBonus]=await Promise.all([towerSettings(env),userEquipmentBonuses(env,user.id)]);if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
-      const season=await env.DB.prepare("SELECT * FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
+      const [towerConfig,season]=await Promise.all([towerConfigPromise,towerSeasonPromise]);
+      if(!towerConfig.enabled&&!isAdminRole(user))return json({error:'현재 무한의탑이 운영 중지 상태입니다.',code:'TOWER_DISABLED'},503);
       if(!season)return json({active:false});
-      await env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id).run();
-      const progress=await env.DB.prepare('SELECT * FROM tower_user_progress WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();
-      const configuredMax=await env.DB.prepare('SELECT MAX(v) max_floor FROM (SELECT MAX(end_floor) v FROM tower_floor_ranges WHERE season_id=? AND is_active=1 UNION ALL SELECT MAX(floor_no) v FROM tower_floors WHERE season_id=? AND is_active=1)').bind(season.id,season.id).first();
+      const [towerProgressBatch,characterBonus,deck,towerRankingResult]=await Promise.all([
+        env.DB.batch([
+          env.DB.prepare('INSERT OR IGNORE INTO tower_user_progress(season_id,user_id,current_floor,highest_floor) VALUES(?,?,1,0)').bind(season.id,user.id),
+          env.DB.prepare('SELECT * FROM tower_user_progress WHERE season_id=? AND user_id=?').bind(season.id,user.id),
+          env.DB.prepare('SELECT MAX(v) max_floor FROM (SELECT MAX(end_floor) v FROM tower_floor_ranges WHERE season_id=? AND is_active=1 UNION ALL SELECT MAX(floor_no) v FROM tower_floors WHERE season_id=? AND is_active=1)').bind(season.id,season.id)
+        ]),
+        userEquipmentBonuses(env,user.id),
+        pveDeckCards(env,user.id),
+        env.DB.prepare('SELECT p.user_id,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN users u ON u.id=p.user_id WHERE p.season_id=? ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 50').bind(season.id).all()
+      ]);
+      const progress=towerProgressBatch[1]?.results?.[0]||{current_floor:1,highest_floor:0,highest_reached_at:null};
+      const configuredMax=towerProgressBatch[2]?.results?.[0]||null;
+      const ranking=towerRankingResult.results;
       const maxFloor=Math.max(0,Number(configuredMax?.max_floor||0));
-      if(maxFloor<1)return json({active:true,configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck:await pveDeckCards(env,user.id),characterBonus,ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
+      if(maxFloor<1)return json({active:true,configured:false,completed:false,maxFloor:0,tower:{id:season.id,name:'무한의탑',maxFloor:0},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor:0},progress:{currentFloor:1,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],message:'운영자가 무한의탑 층을 아직 설정하지 않았습니다.'});
       const completed=Number(progress.current_floor||1)>maxFloor||Number(progress.highest_floor||0)>=maxFloor;
       const floorNo=completed?maxFloor:Math.max(1,Math.min(maxFloor,Number(progress.current_floor||1)));
+      const towerRankPromise=env.DB.prepare('SELECT COUNT(*)+1 rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,\'9999\')<COALESCE(?,\'9999\')))').bind(season.id,Number(progress.highest_floor||0),Number(progress.highest_floor||0),progress.highest_reached_at).first();
+      towerRankPromise.catch(()=>{});
       let floor=completed?null:await env.DB.prepare(`SELECT r.*,bm.id monster_id,bm.name monster_name,bm.image_url monster_image,bm.battle_power base_power,bm.is_boss monster_is_boss FROM tower_floor_ranges r JOIN battle_monsters bm ON bm.id=r.monster_id WHERE r.season_id=? AND r.is_active=1 AND bm.is_active=1 AND COALESCE(bm.tower_enabled,0)=1 AND ?>=r.start_floor AND ?<=r.end_floor ORDER BY (r.end_floor-r.start_floor) ASC,r.id DESC LIMIT 1`).bind(season.id,floorNo,floorNo).first();if(!floor)floor=await env.DB.prepare('SELECT tf.*,tm.name monster_name,tm.image_url monster_image,tm.base_power,tm.is_boss monster_is_boss FROM tower_floors tf JOIN tower_monsters tm ON tm.id=tf.monster_id WHERE tf.season_id=? AND tf.floor_no=? AND tf.is_active=1').bind(season.id,floorNo).first();
-      if(!floor)return json({active:true,configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck:await pveDeckCards(env,user.id),characterBonus,ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
+      if(!floor)return json({active:true,configured:true,completed:false,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:0,completed:false},floor:null,deck,characterBonus,ranking:[],blocked:true,code:'TOWER_FLOOR_UNCONFIGURED',message:`${floorNo}층이 설정되지 않아 더 이상 진행할 수 없습니다.`});
       if(floor){floor.monster_image=String(floor.monster_image||'').trim().replace(/\\/g,'/');floor.monster_power=Number(floor.power_override||Math.floor(Number(floor.base_power||1000)*(1+Math.max(0,floorNo-1)*0.07)*(floorNo%10===0?1.35:1)));}
       const floorIsBoss=Boolean(floor)&&(Number(floor.is_boss||0)===1||Number(floor.monster_is_boss||0)===1||floorNo%10===0);
-      const deck=await pveDeckCards(env,user.id);
-      const rankRow=await env.DB.prepare('SELECT COUNT(*)+1 rank FROM tower_user_progress WHERE season_id=? AND (highest_floor>? OR (highest_floor=? AND COALESCE(highest_reached_at,\'9999\')<COALESCE(?,\'9999\')))').bind(season.id,Number(progress.highest_floor||0),Number(progress.highest_floor||0),progress.highest_reached_at).first();
-      const ranking=(await env.DB.prepare('SELECT p.user_id,u.nickname,p.highest_floor,p.highest_reached_at FROM tower_user_progress p JOIN users u ON u.id=p.user_id WHERE p.season_id=? ORDER BY p.highest_floor DESC,p.highest_reached_at ASC LIMIT 50').bind(season.id).all()).results;
+      const rankRow=await towerRankPromise;
       return json({active:true,completed,maxFloor,tower:{id:season.id,name:'무한의탑',maxFloor},season:{id:season.id,name:'무한의탑',startsAt:null,endsAt:null,maxFloor},progress:{currentFloor:floorNo,highestFloor:Number(progress.highest_floor||0),rank:Number(rankRow?.rank||1),completed},floor:floor?{floorNo,monsterId:floor.monster_id,monsterName:floor.monster_name,monsterImage:floor.monster_image,monsterPower:floor.monster_power,rewardCoin:Number(floor.reward_coin||0),isBoss:floorIsBoss}:null,deck,characterBonus,ranking});
     }
     if(path==='tower/fight'&&request.method==='POST'){
@@ -5587,17 +5624,20 @@ async function handleRequest(context){
 
 
     if(path==='pvp/config'){
+      // V1802-perf: 준비 단계를 순차로 기다리면 왕복 횟수가 그대로 응답 시간이 된다.
+      // 테이블 준비는 인증과 무관하므로 먼저 띄운다.
+      const pvpPresetTablesReady=ensurePvpPresetTables(env);pvpPresetTablesReady.catch(()=>{});
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       await ensureRankedPvpFoundation(env);
       await cleanupRankedPvpMaintenance(env);
       const lifecycle=await advancePvpSeasonLifecycle(env);
       if(lifecycle.settling&&typeof context.waitUntil==='function')context.waitUntil((async()=>{for(let i=0;i<8;i++){const next=await advancePvpSeasonLifecycle(env);if(!next.settling)break}})());
+      await pvpPresetTablesReady;
+      // 두 문장은 서로 순서를 지켜야 하지만 배치로 묶으면 왕복 1회로 끝난다.
       await env.DB.batch([
-        env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_deck_presets (user_id INTEGER NOT NULL,preset_no INTEGER NOT NULL,card_ids TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,preset_no))'),
-        env.DB.prepare('CREATE TABLE IF NOT EXISTS pvp_active_presets (user_id INTEGER PRIMARY KEY,preset_no INTEGER NOT NULL DEFAULT 1,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)')
+        env.DB.prepare("INSERT OR IGNORE INTO pvp_deck_presets(user_id,preset_no,card_ids) SELECT user_id,1,card_ids FROM pvp_decks WHERE user_id=?").bind(user.id),
+        env.DB.prepare('UPDATE pvp_decks SET card_ids=(SELECT card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no=1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM pvp_deck_presets WHERE user_id=? AND preset_no=1)').bind(user.id,user.id,user.id)
       ]);
-      await env.DB.prepare("INSERT OR IGNORE INTO pvp_deck_presets(user_id,preset_no,card_ids) SELECT user_id,1,card_ids FROM pvp_decks WHERE user_id=?").bind(user.id).run();
-      await env.DB.prepare('UPDATE pvp_decks SET card_ids=(SELECT card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no=1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM pvp_deck_presets WHERE user_id=? AND preset_no=1)').bind(user.id,user.id,user.id).run();
       const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning),[profile,deck,score,titleMap,characterBonus,energy,battle]=await Promise.all([ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),userCardScore(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env)]);
       const [presetRows,activeRow]=await Promise.all([env.DB.prepare('SELECT preset_no,card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no BETWEEN 1 AND 3 ORDER BY preset_no').bind(user.id).all(),env.DB.prepare('SELECT preset_no FROM pvp_active_presets WHERE user_id=?').bind(user.id).first()]);
       const presets={1:[],2:[],3:[]};for(const row of presetRows.results||[]){try{presets[Number(row.preset_no)]=JSON.parse(row.card_ids||'[]')}catch{presets[Number(row.preset_no)]=[]}}
