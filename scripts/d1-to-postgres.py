@@ -510,6 +510,12 @@ def extract_sqlite_schema_objects(text):
 
 
 def main():
+    # Windows PowerShell may expose legacy CP949 stdout even though both the
+    # source and generated SQL are UTF-8. A progress glyph must never abort a
+    # completed multi-gigabyte conversion.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8', errors='replace')
     ap = argparse.ArgumentParser(description='D1(SQLite) 덤프를 PostgreSQL 로 변환')
     ap.add_argument('input', help='wrangler d1 export 결과 .sql')
     ap.add_argument('-o', '--out', required=True, help='변환된 스키마 출력 경로')

@@ -55,6 +55,9 @@ test('live PostgreSQL compatibility adapter smoke test', { skip: !process.env.CN
     const jsonRows = await db.prepare('SELECT value FROM json_each(?)').bind('["a","b"]').all();
     assert.deepEqual(jsonRows.results.map(row => row.value), ['a', 'b']);
 
+    const updatePrivilege = await db.prepare("UPDATE app_meta SET value=value WHERE key='maintenance_mode'").run();
+    assert.equal(updatePrivilege.meta.changes, 1);
+
     await db.prepare('CREATE TEMP TABLE __d1_compat_probe(id integer primary key,value text unique)').run();
     const inserted = await db.prepare('INSERT OR IGNORE INTO __d1_compat_probe(id,value) VALUES(?,?)').bind(1, 'first').run();
     assert.equal(inserted.meta.changes, 1);

@@ -289,4 +289,17 @@ SELECT
   rarity_override
 FROM cards;
 
+-- 8) Hyperdrive runtime role. The Neon project owner performs the bulk load,
+-- while Pages connects with a least-privilege login role through Hyperdrive.
+GRANT USAGE ON SCHEMA public TO cnine_migrator;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO cnine_migrator;
+GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO cnine_migrator;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO cnine_migrator;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO cnine_migrator;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO cnine_migrator;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT EXECUTE ON FUNCTIONS TO cnine_migrator;
+
 COMMIT;

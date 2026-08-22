@@ -3,7 +3,7 @@
 """기존 Neon owner 연결로 전용 cnine DB와 마이그레이션 소유자를 준비한다.
 
 비밀번호/연결 문자열은 환경 변수로만 받고 출력하지 않는다. 기존 DB를 삭제하거나
-덮어쓰지 않으며, 동일 이름 DB의 소유자가 다르면 즉시 중단한다.
+덮어쓰지 않는 것이 기본이며, 명시적인 --reset-existing에서만 대상 DB를 재생성한다.
 """
 
 import argparse
@@ -16,6 +16,10 @@ def main():
     ap = argparse.ArgumentParser(description='Neon cnine 전용 DB bootstrap')
     ap.add_argument('--database', default='cnine')
     ap.add_argument('--role', default='cnine_migrator')
+    ap.add_argument(
+        '--reset-existing', action='store_true',
+        help='지정한 DB를 강제 종료·삭제 후 마이그레이션 role 소유로 재생성',
+    )
     args = ap.parse_args()
 
     owner_url = os.environ.get('CNINE_NEON_OWNER_URL')
@@ -33,6 +37,7 @@ def main():
 
     with psycopg.connect(owner_url, autocommit=True, connect_timeout=15) as conn:
         current_owner = conn.execute('SELECT current_user').fetchone()[0]
+        current_database = conn.execute('SELECT current_database()').fetchone()[0]
         role = conn.execute(
             'SELECT 1 FROM pg_roles WHERE rolname=%s', (args.role,)
         ).fetchone()
@@ -56,7 +61,28 @@ def main():
             'JOIN pg_roles r ON r.oid=d.datdba WHERE d.datname=%s',
             (args.database,),
         ).fetchone()
-        if database:
+        if args.reset_existing:
+            if args.database in {'postgres', 'template0', 'template1', current_database}:
+                raise RuntimeError(f'보호된/현재 접속 DB는 재생성할 수 없습니다: {args.database}')
+            if database:
+                if database[0] not in {args.role, current_owner}:
+                    raise RuntimeError(
+                        f'database={args.database} 기존 소유자={database[0]} '
+                        f'(예상 {current_owner} 또는 {args.role}); 삭제를 거부합니다.')
+                conn.execute(
+                    sql.SQL('DROP DATABASE {} WITH (FORCE)').format(
+                        sql.Identifier(args.database)
+                    )
+                )
+                print(f'database={args.database} reset_drop=true')
+            conn.execute(
+                sql.SQL('CREATE DATABASE {} OWNER {}').format(
+                    sql.Identifier(args.database), sql.Identifier(current_owner)
+                )
+            )
+            database = (current_owner,)
+            print(f'database={args.database} reset_create=true owner={current_owner}')
+        elif database:
             if database[0] not in {args.role, current_owner}:
                 raise RuntimeError(
                     f'database={args.database} 기존 소유자={database[0]} '
@@ -64,7 +90,9 @@ def main():
             print(f'database={args.database} existing=true owner={database[0]}')
         else:
             conn.execute(
-                sql.SQL('CREATE DATABASE {}').format(sql.Identifier(args.database))
+                sql.SQL('CREATE DATABASE {} OWNER {}').format(
+                    sql.Identifier(args.database), sql.Identifier(current_owner)
+                )
             )
             print(f'database={args.database} created=true owner={current_owner}')
 

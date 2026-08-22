@@ -261,6 +261,7 @@ def main():
     ap.add_argument('--copy-dir', required=True)
     ap.add_argument('--manifest', required=True)
     ap.add_argument('--post-data', required=True)
+    ap.add_argument('--runtime-compat', required=True)
     ap.add_argument('--business-objects', required=True)
     ap.add_argument('--fk-validate', required=True)
     ap.add_argument('--dry-run', action='store_true', help='로컬 산출물/SQL 파싱만 검증')
@@ -271,6 +272,7 @@ def main():
     sql_files = {
         'schema': args.schema,
         'post-data': args.post_data,
+        'runtime-compat': args.runtime_compat,
         'business': args.business_objects,
         'fk-validate': args.fk_validate,
     }
@@ -314,6 +316,7 @@ def main():
 
         for phase, path in (
             ('post-data', args.post_data),
+            ('runtime-compat', args.runtime_compat),
             ('business', args.business_objects),
             ('fk-validate', args.fk_validate),
         ):
