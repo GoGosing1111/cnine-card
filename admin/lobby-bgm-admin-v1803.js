@@ -25,6 +25,22 @@
     return d;
   }
 
+  // 서버 cleanLobbyBgmTrackUrl 과 같은 규칙. 공백·한글 파일명을 그대로 두면 요청이 깨진다.
+  function encodeTrackUrl(value) {
+    const raw = String(value || '').trim().replace(/\\/g, '/');
+    const encodePath = path => String(path || '').split('/').map(seg => {
+      if (!seg) return seg;
+      if (/%[0-9a-fA-F]{2}/.test(seg)) return seg;
+      try { return encodeURIComponent(decodeURIComponent(seg)) } catch { return encodeURIComponent(seg) }
+    }).join('/');
+    if (/^https:\/\//i.test(raw)) {
+      try { const u = new URL(raw); u.pathname = encodePath(u.pathname); return u.toString() } catch { return raw }
+    }
+    const absolute = raw.startsWith('/') ? raw : `/${raw}`;
+    const [pathPart, queryPart] = absolute.split(/([?#].*)$/);
+    return encodePath(pathPart) + (queryPart || '');
+  }
+
   let state = { enabled: false, volumePercent: 35, loopPlaylist: true, tracks: [] };
 
   function panel() {
@@ -59,7 +75,8 @@
       ? '<p style="color:#ff9b6b;font-weight:800">⚠ 곡이 없으면 켤 수 없습니다. 아래에서 한 개 이상 등록하세요.</p>' : '';
     box.innerHTML = `<div class="maintenanceHead"><div><small>MAIN LOBBY BGM</small><h2>메인 로비 배경음</h2>
         <p>로비 화면에서만 재생되고, 다른 화면으로 넘어가면 즉시 끊깁니다. 유저는 로비의 음악 버튼으로 끌 수 있고 그 선택은 기기에 기억됩니다.</p>
-        <p style="opacity:.75">저장하면 재배포 없이 최대 45초 안에 접속자 전원에게 반영됩니다. 음원 주소는 <b>/assets/...</b> 상대경로 또는 <b>https://</b> 만 허용합니다.</p>${warn}</div></div>
+        <p style="opacity:.75">저장하면 재배포 없이 최대 45초 안에 접속자 전원에게 반영됩니다. 음원 주소는 <b>/assets/...</b> 상대경로 또는 <b>https://</b> 만 허용합니다.</p>
+        <p style="opacity:.75">음원 파일 자체는 <b>git push → 배포가 끝난 뒤</b>에 재생됩니다. 공백·한글 파일명은 자동으로 인코딩되지만, <b>영문·숫자·하이픈</b> 이름을 권합니다. 용량 때문에 <b>.wav 보다 .mp3</b> 를 쓰세요(같은 곡이 10분의 1 이하).</p>${warn}</div></div>
       <div class="enhancementRows" style="margin-top:0">
         <div class="enhancementRow" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end">
           <div><small>운영 상태</small>
@@ -130,12 +147,23 @@
       if (!player) return;
       if (!track?.url) return alert('먼저 음원 주소를 입력하세요.');
       if (!player.paused && player.getAttribute('src') === track.url) { player.pause(); button.textContent = '▶'; return }
-      player.setAttribute('src', track.url);
+      const src = encodeTrackUrl(track.url);
+      player.setAttribute('src', src);
       player.volume = Math.max(0, Math.min(1, Number(state.volumePercent || 0) / 100));
       player.play().then(() => {
         box.querySelectorAll('[data-bgm-play]').forEach(other => { other.textContent = '▶' });
         button.textContent = '❚❚';
-      }).catch(() => alert('재생할 수 없는 주소입니다. 경로와 파일 형식을 확인하세요.'));
+      }).catch(async () => {
+        // 파일이 아직 배포되지 않은 경우와 형식 문제를 구분해서 알려준다.
+        let hint = '';
+        try {
+          const head = await fetch(src, { method: 'HEAD', cache: 'no-store' });
+          hint = head.ok
+            ? `파일은 있지만 브라우저가 재생하지 못했습니다. (Content-Type: ${head.headers.get('content-type') || '알 수 없음'})\n확장자가 .wav 라면 .mp3 로 변환해보세요.`
+            : `이 주소에 파일이 없습니다 (HTTP ${head.status}).\n아직 배포하지 않았다면 git push 후 배포가 끝난 뒤 다시 시도하세요.`;
+        } catch { hint = '주소에 접근할 수 없습니다. 배포 여부와 경로를 확인하세요.' }
+        alert(`재생할 수 없습니다.\n${src}\n\n${hint}`);
+      });
     }));
   }
 

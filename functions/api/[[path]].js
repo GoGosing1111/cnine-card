@@ -1470,12 +1470,28 @@ async function towerSettings(env){return cachedRuntimeSetting('tower',10000,()=>
 // 별도 요청을 만들지 않으려는 의도이므로 여기서 캐시를 넉넉히(60초) 잡는다.
 const LOBBY_BGM_SETTINGS_KEY='lobby_bgm_settings_v1803';
 const LOBBY_BGM_DEFAULT={enabled:false,volumePercent:35,loopPlaylist:true,tracks:[]};
+// 파일명에 공백·한글이 있으면 그대로는 요청이 깨진다. 경로 조각만 인코딩한다.
+// 이미 %XX 로 인코딩된 조각은 두 번 인코딩하지 않는다.
+function encodeLobbyBgmPath(path){
+  return String(path||'').split('/').map(segment=>{
+    if(!segment)return segment;
+    if(/%[0-9a-fA-F]{2}/.test(segment))return segment;
+    try{return encodeURIComponent(decodeURIComponent(segment))}catch{return encodeURIComponent(segment)}
+  }).join('/');
+}
 function cleanLobbyBgmTrackUrl(value){
   const raw=String(value||'').trim().replace(/\\/g,'/').slice(0,500);
   if(!raw)return '';
   // audio.src 로 들어가는 값이다. 상대경로와 https 만 허용한다.
-  if(/^https:\/\//i.test(raw))return raw;
-  if(/^\/[^/]/.test(raw)||/^assets\//i.test(raw))return raw.startsWith('/')?raw:`/${raw}`;
+  if(/^https:\/\//i.test(raw)){
+    try{const parsed=new URL(raw);parsed.pathname=encodeLobbyBgmPath(parsed.pathname);return parsed.toString()}
+    catch{return ''}
+  }
+  if(/^\/[^/]/.test(raw)||/^assets\//i.test(raw)){
+    const absolute=raw.startsWith('/')?raw:`/${raw}`;
+    const [pathPart,queryPart]=absolute.split(/([?#].*)$/);
+    return encodeLobbyBgmPath(pathPart)+(queryPart||'');
+  }
   return '';
 }
 function cleanLobbyBgmSettings(raw={}){
