@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 
 const server=await readFile(new URL('../functions/_territory_war.js',import.meta.url),'utf8');
-const client=await readFile(new URL('../js/territory-war-v1362.js',import.meta.url),'utf8');
+const client=await readFile(new URL('../js/territory-war-v1811.js',import.meta.url),'utf8');
 const admin=await readFile(new URL('../admin/territory-war-admin-v1362.js',import.meta.url),'utf8');
 const index=await readFile(new URL('../index.html',import.meta.url),'utf8');
 const serviceWorker=await readFile(new URL('../service-worker.js',import.meta.url),'utf8');
@@ -20,8 +20,8 @@ assert.match(client,/function rewardEquipmentHtml/);
 assert.match(client,/이번 회차 승리 추가 장비/);
 assert.match(client,/data\.bonusEquipment/);
 assert.match(admin,/승리 추가 장비 준비 완료/);
-assert.match(index,/territory-war-v1362\.js\?v=1737-round-equipment-reward/);
-assert.match(index,/territory-war-v1362\.css\?v=1737-round-equipment-reward/);
-assert.match(serviceWorker,/soop-card-shell-v1737/);
+assert.match(index,/territory-war-v1811\.js\?v=1811-grand-siege-command/);
+assert.match(index,/territory-war-v1811\.css\?v=1811-grand-siege-command/);
+assert.match(serviceWorker,/soop-card-shell-v1811-grand-siege-command/);
 
 console.log('territory round equipment reward v1737: ok');

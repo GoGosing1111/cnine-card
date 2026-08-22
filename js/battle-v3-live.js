@@ -299,7 +299,7 @@
     const roster = stage?.querySelector?.('[data-v3-roster]');
     if (!roster) return 0;
     const teams = payload?.battleV2?.teams || {};
-    const versus = mode === 'PVP';
+    const versus = mode === 'PVP' || mode === 'SIEGE';
     const catalog = cardCatalogMap();
     const owners = [...stage.querySelectorAll('.battle-v3-versus span')].map(node => String(node.textContent || '').trim());
     let shown = 0;
@@ -367,7 +367,7 @@
     if (winner !== 'A' && winner !== 'B') return '';
     const { A, B } = survivorCounts(result);
     const reason = VERDICT_REASON_TEXT[String(result.reason || '').toUpperCase()] || '판정 완료';
-    const verdict = mode === 'PVP'
+    const verdict = mode === 'PVP' || mode === 'SIEGE'
       ? (winner === 'A' ? '내 팀 승리' : '상대 팀 승리')
       : (winner === 'A' ? '승리' : '패배');
     return `${verdict} · ${reason} · 생존 ${A} : ${B}`;
@@ -412,10 +412,10 @@
     const field = battlefieldMode(mode);
     // Show the selected battlefield immediately. The lightweight loader stays
     // over that scene only until Pixi commits its first authoritative frame.
-    modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' ? 'pvp-battle-modal' : ''}`;
+    modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' || field === 'SIEGE' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
-        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'RAID' ? '월드 레이드 개인전' : field === 'SEAL' ? '봉인전' : '몬스터 토벌'}</strong></div>
+        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'SIEGE' ? '영토전 공성 교전' : field === 'RAID' ? '월드 레이드 개인전' : field === 'SEAL' ? '봉인전' : '몬스터 토벌'}</strong></div>
         <div class="battle-v3-versus"><span>${esc(playerName)}</span><i>VS</i><span>${esc(opponentName)}</span></div>
         <b id="battlePhase">V3 LOADING</b>
       </header>
@@ -430,7 +430,7 @@
         <!-- 서버가 확정한 승패 근거(전멸/생존 수/체력 비율/전투력)와 생존 수.
              연출이 일부 생략돼도 이 줄만은 서버 값을 그대로 보여준다. -->
         <p class="battle-v3-verdict" data-v3-verdict role="status" hidden></p>
-        <div class="battle-v3-roster${field === 'PVP' ? ' is-versus' : ' is-solo'}" data-v3-roster hidden>
+        <div class="battle-v3-roster${field === 'PVP' || field === 'SIEGE' ? ' is-versus' : ' is-solo'}" data-v3-roster hidden>
           <section class="battle-v3-roster-side" data-v3-roster-side="A" hidden>
             <header><small data-v3-roster-label>MY TEAM</small><b data-v3-roster-owner></b></header>
             <ol data-v3-roster-list></ol>
