@@ -143,6 +143,78 @@ async function boot(){
     cmsBootInFlight=false;
   }
 }
+// V1802: 와이고수 → PLAY DK 2차 인증 전환 패널. SQL 콘솔 없이 CMS 에서 처리한다.
+function wagoMigrationCsv(rows){
+  const head=['유저ID','게임닉네임','와이고수닉네임','와이고수회원번호','인증일시','계정상태','권한'];
+  const cell=v=>{const t=String(v??'');return /[",\n]/.test(t)?`"${t.replace(/"/g,'""')}"`:t};
+  const body=rows.map(r=>[r.user_id,r.game_nickname,r.wago_nickname,r.wago_member_no,r.verified_at,r.user_status,r.user_role].map(cell).join(','));
+  return '﻿'+[head.join(','),...body].join('\r\n');
+}
+function downloadWagoMigrationCsv(rows){
+  const blob=new Blob([wagoMigrationCsv(rows)],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  const stamp=new Date().toISOString().slice(0,10);
+  a.href=url;a.download=`와이고수-2차인증자-명단-${stamp}.csv`;document.body.appendChild(a);a.click();
+  a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function renderWagoMigrationPanel(anchorPanel){
+  let panel=$('#wagoMigrationPanel');
+  if(!panel){panel=document.createElement('div');panel.id='wagoMigrationPanel';panel.className='panel';anchorPanel.parentNode.insertBefore(panel,anchorPanel)}
+  let st;
+  try{st=(await api('admin/wago-migration')).status}
+  catch(error){panel.innerHTML=`<div class="maintenanceHead"><div><small>WAGO → PLAY DK MIGRATION</small><h2>2차 인증 전환</h2><p>상태를 불러오지 못했습니다: ${esc(error.message||'')}</p></div></div>`;return}
+  const canReset=st.isOwner&&st.snapshotCount>0&&st.wagoLinked>0;
+  const canRollback=st.isOwner&&st.snapshotCount>0&&st.wagoLinked===0;
+  const warn=!st.playdkConfigured
+    ?'<p style="color:#ff9b6b;font-weight:800">⚠ PLAY DK 인증 서버 키(PLAYDK_ACCESS_KEY / PLAYDK_SECRET_KEY)가 설정되어 있지 않습니다. 지금 해제하면 유저가 어느 쪽으로도 인증할 수 없습니다.</p>'
+    :(st.playdkLinked===0?'<p style="color:#ffd66e;font-weight:800">⚠ PLAY DK 로 인증에 성공한 계정이 아직 없습니다. 해제 전에 운영자 계정으로 한 번 인증해 확인하세요.</p>':'');
+  panel.innerHTML=`<div class="maintenanceHead"><div><small>WAGO → PLAY DK MIGRATION</small><h2>2차 인증 전환</h2>
+      <p>명단을 먼저 보존한 뒤 와이고수 인증을 일괄 해제합니다. 해제된 유저는 PLAY DK 로 다시 인증하면 됩니다.</p>${warn}</div></div>
+    <div class="enhancementRows" style="margin-top:0">
+      <div class="enhancementRow" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
+        <div><small>와이고수 연결</small><b>${st.wagoLinked.toLocaleString()}명</b></div>
+        <div><small>PLAY DK 연결</small><b>${st.playdkLinked.toLocaleString()}명</b></div>
+        <div><small>보존된 명단</small><b>${st.snapshotCount.toLocaleString()}명</b></div>
+        <div><small>보존 시각</small><b>${st.snapshotAt?esc(fmt(st.snapshotAt)):'-'}</b></div>
+        <div><small>PLAY DK 인증서버</small><b>${st.playdkConfigured?'설정 완료':'미설정'}</b></div>
+      </div>
+    </div>
+    <div class="cms-head-actions" style="justify-content:flex-start;gap:10px;margin-top:14px;flex-wrap:wrap">
+      <button type="button" id="wagoMigSnapshot"${st.snapshotCount>0?' class="ghost"':''}>1. 명단 보존${st.snapshotCount>0?' (완료)':''}</button>
+      <button type="button" id="wagoMigExport" class="ghost"${st.snapshotCount>0?'':' disabled'}>2. 명단 CSV 내려받기</button>
+      <button type="button" id="wagoMigReset"${canReset?'':' disabled'}>3. 와이고수 인증 일괄 해제</button>
+      ${canRollback?'<button type="button" id="wagoMigRollback" class="ghost">되돌리기</button>':''}
+    </div>
+    ${st.isOwner?'':'<p style="margin-top:10px;color:#9db5c8">일괄 해제와 되돌리기는 OWNER 권한이 필요합니다.</p>'}`;
+  $('#wagoMigSnapshot').onclick=async()=>{
+    if(!confirm('현재 와이고수 2차 인증자 명단을 서버에 보존합니다.\n이미 보존돼 있으면 덮어쓰지 않습니다.\n\n진행할까요?'))return;
+    const r=await api('admin/wago-migration',{method:'POST',body:JSON.stringify({action:'SNAPSHOT'})});
+    alert(r.message||'명단을 보존했습니다.');await loadWagoAdmin();
+  };
+  $('#wagoMigExport').onclick=async()=>{
+    const r=await api('admin/wago-migration',{method:'POST',body:JSON.stringify({action:'EXPORT'})});
+    if(!r.rows?.length){alert('보존된 명단이 비어 있습니다.');return}
+    downloadWagoMigrationCsv(r.rows);
+  };
+  const resetBtn=$('#wagoMigReset');
+  if(resetBtn)resetBtn.onclick=async()=>{
+    if(!st.playdkConfigured&&!confirm('PLAY DK 인증 서버 키가 설정되어 있지 않습니다.\n지금 해제하면 유저가 어느 쪽으로도 인증할 수 없습니다.\n\n그래도 계속할까요?'))return;
+    if(!confirm(`와이고수 2차 인증 ${st.wagoLinked.toLocaleString()}건을 모두 해제합니다.\n보존된 명단 ${st.snapshotCount.toLocaleString()}명은 그대로 남습니다.\n\n계속할까요?`))return;
+    const typed=prompt('되돌릴 수는 있지만 유저에게 즉시 반영됩니다.\n계속하려면 RESET 을 입력하세요.','');
+    if(typed===null)return;
+    if(typed.trim()!=='RESET'){alert('입력이 일치하지 않아 취소했습니다.');return}
+    const r=await api('admin/wago-migration',{method:'POST',body:JSON.stringify({action:'RESET',confirm:'RESET'})});
+    alert(r.message||'해제했습니다.');await loadWagoAdmin();
+  };
+  const rollbackBtn=$('#wagoMigRollback');
+  if(rollbackBtn)rollbackBtn.onclick=async()=>{
+    const typed=prompt('보존된 명단 기준으로 와이고수 인증을 복구합니다.\n그 사이 PLAY DK 로 인증한 계정은 건너뜁니다.\n계속하려면 ROLLBACK 을 입력하세요.','');
+    if(typed===null)return;
+    if(typed.trim()!=='ROLLBACK'){alert('입력이 일치하지 않아 취소했습니다.');return}
+    const r=await api('admin/wago-migration',{method:'POST',body:JSON.stringify({action:'ROLLBACK',confirm:'ROLLBACK'})});
+    alert(r.message||'복구했습니다.');await loadWagoAdmin();
+  };
+}
 async function loadWagoAdmin(){
   const [d,secondary]=await Promise.all([api('admin/wago-verifications'),api('admin/secondary-verifications')]);
   $('#wagoVerifyEnabled').value=d.settings.enabled===false?'0':'1';$('#wagoCodeMinutes').value=d.settings.codeMinutes||20;$('#wagoPostUrl').value=d.settings.postUrl||'';
@@ -150,6 +222,7 @@ async function loadWagoAdmin(){
   if(!linkedPanel){linkedPanel=document.createElement('div');linkedPanel.id='secondaryVerificationAdminPanel';linkedPanel.className='panel';requestPanel.parentNode.insertBefore(linkedPanel,requestPanel)}
   const linked=secondary.verifications||[];
   linkedPanel.innerHTML=`<div class="maintenanceHead"><div><small>WAGO · PLAY DK EXCLUSIVE LINK</small><h2>2차 인증 연결 현황</h2><p>계정당 하나의 인증 서비스만 연결됩니다. 잘못 연결된 경우에만 해제하세요.</p></div></div><div class="table">${linked.length?linked.map(v=>`<div class="row"><span><b>${esc(v.game_nickname)}</b><small>${esc(v.user_status)}</small></span><span><b>PLAY DK</b><small>${esc(v.provider_name||'')}</small></span><span><code>${esc(v.provider_user_id)}</code><small>${fmt(v.verified_at)}</small></span><span><button class="danger" data-secondary-unlink="${v.user_id}" data-provider="${esc(v.provider)}">연결 해제</button></span></div>`).join(''):'<div class="muted">연결된 2차 인증이 없습니다.</div>'}</div>`;
+  await renderWagoMigrationPanel(linkedPanel);
   linkedPanel.querySelectorAll('[data-secondary-unlink]').forEach(button=>button.onclick=async()=>{const provider='PLAY DK';if(!confirm(`${provider} 2차 인증 연결을 해제할까요?\n유저가 다시 인증하기 전까지 인증 전용 기능을 이용할 수 없습니다.`))return;const reason=prompt('해제 사유','관리자 연결 해제');if(reason===null)return;await api('admin/secondary-verifications',{method:'DELETE',body:JSON.stringify({userId:Number(button.dataset.secondaryUnlink),reason})});await loadWagoAdmin()});
   const label={PENDING:'댓글 대기',REVIEW:'승인 검토',VERIFIED:'인증 완료',REJECTED:'거절'};
   box.innerHTML=d.verifications.length?d.verifications.map(v=>`<div class="row"><span><b>${esc(v.game_nickname)}</b><small>${esc(v.wago_nickname)} · #${esc(v.wago_member_no)}</small></span><span>${label[v.status]||esc(v.status)}<small>${fmt(v.issued_at)}</small></span><span><code>${esc(v.verification_code)}</code><small>${esc(v.review_note||'')}</small></span><span>${v.status!=='VERIFIED'?`<button data-wago-action="APPROVE" data-id="${v.id}">승인</button><button data-wago-action="REJECT" data-id="${v.id}" class="danger">거절</button>`:`<button data-wago-action="RESET" data-id="${v.id}" class="ghost">재인증</button>`}</span></div>`).join(''):'<div class="muted">인증 요청이 없습니다.</div>';

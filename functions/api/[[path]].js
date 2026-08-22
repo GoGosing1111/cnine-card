@@ -5916,6 +5916,81 @@ async function handleRequest(context){
         return json({ok:true,provider:before.provider});
       }
     }
+    // V1802: 와이고수 → PLAY DK 2차 인증 전환. CMS 버튼으로 안전하게 처리한다.
+    // 명단 보존(SNAPSHOT) → 내려받기(EXPORT) → 일괄 해제(RESET) → 되돌리기(ROLLBACK).
+    // 해제는 게임의 개별 연결 해제와 같은 방식(wago_verifications 를 PENDING 으로)이라 트리거가 연결을 정리한다.
+    if(path==='admin/wago-migration'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      await ensureSecondVerificationFoundation(env);
+      await env.DB.prepare(`CREATE TABLE IF NOT EXISTS wago_verified_snapshot_v1802 (
+        user_id INTEGER PRIMARY KEY, game_nickname TEXT, user_status TEXT, user_role TEXT,
+        wago_member_no TEXT, wago_nickname TEXT, verified_at TEXT, wago_row_id INTEGER,
+        snapshot_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`).run();
+      const migrationStatus=async()=>{
+        const [snap,wago,playdk,verified]=await Promise.all([
+          env.DB.prepare('SELECT COUNT(*) AS c,MIN(snapshot_at) AS at FROM wago_verified_snapshot_v1802').first(),
+          env.DB.prepare("SELECT COUNT(*) AS c FROM user_second_verifications WHERE provider='WAGO'").first(),
+          env.DB.prepare("SELECT COUNT(*) AS c FROM user_second_verifications WHERE provider='PLAYDK'").first(),
+          env.DB.prepare("SELECT COUNT(*) AS c FROM wago_verifications WHERE status='VERIFIED'").first()
+        ]);
+        return {snapshotCount:Number(snap?.c||0),snapshotAt:snap?.at||null,wagoLinked:Number(wago?.c||0),
+          playdkLinked:Number(playdk?.c||0),wagoVerifiedRows:Number(verified?.c||0),
+          playdkConfigured:playdkConfigured(env),isOwner:String(admin.role||'').toUpperCase()==='OWNER'};
+      };
+      if(request.method==='GET')return json({ok:true,status:await migrationStatus()});
+      if(request.method!=='POST')return json({error:'지원하지 않는 요청입니다.'},405);
+      const body=await readBody(request),action=String(body.action||'').trim().toUpperCase();
+
+      if(action==='SNAPSHOT'){
+        const before=await migrationStatus();
+        if(before.snapshotCount>0)return json({ok:true,skipped:true,message:`이미 ${before.snapshotCount.toLocaleString()}명의 명단이 보존되어 있습니다. 덮어쓰지 않았습니다.`,status:before});
+        await env.DB.prepare(`INSERT OR IGNORE INTO wago_verified_snapshot_v1802(user_id,game_nickname,user_status,user_role,wago_member_no,wago_nickname,verified_at,wago_row_id)
+          SELECT s.user_id,u.nickname,u.status,u.role,s.provider_user_id,s.provider_name,s.verified_at,w.id
+          FROM user_second_verifications s JOIN users u ON u.id=s.user_id
+          LEFT JOIN wago_verifications w ON w.user_id=s.user_id AND w.status='VERIFIED'
+          WHERE s.provider='WAGO'`).run();
+        const after=await migrationStatus();
+        try{await writeAdminLog(env,admin,'WAGO_MIGRATION_SNAPSHOT','SETTINGS','wago_migration',before,after)}catch(logError){console.error('wago migration snapshot log failed',logError)}
+        return json({ok:true,status:after,message:`와이고수 인증자 ${after.snapshotCount.toLocaleString()}명의 명단을 보존했습니다.`});
+      }
+
+      if(action==='EXPORT'){
+        const rows=(await env.DB.prepare(`SELECT user_id,game_nickname,wago_nickname,wago_member_no,verified_at,user_status,user_role,snapshot_at
+          FROM wago_verified_snapshot_v1802 ORDER BY verified_at`).all()).results||[];
+        return json({ok:true,rows,status:await migrationStatus()});
+      }
+
+      if(action==='RESET'){
+        if(String(admin.role||'').toUpperCase()!=='OWNER')return json({error:'일괄 해제는 OWNER만 가능합니다.'},403);
+        if(String(body.confirm||'')!=='RESET')return json({error:'확인 문구가 일치하지 않습니다.',code:'CONFIRM_REQUIRED'},400);
+        const before=await migrationStatus();
+        if(before.snapshotCount<1)return json({error:'먼저 명단을 보존하세요. 스냅샷이 비어 있으면 해제할 수 없습니다.',code:'SNAPSHOT_REQUIRED'},409);
+        await env.DB.batch([
+          env.DB.prepare("UPDATE wago_verifications SET status='PENDING',verified_at=NULL,reviewed_by=?,review_note='PLAY DK 전환 · 와이고수 인증 일괄 해제 (v1802)',updated_at=CURRENT_TIMESTAMP WHERE status='VERIFIED'").bind(admin.id),
+          env.DB.prepare("DELETE FROM user_second_verifications WHERE provider='WAGO'")
+        ]);
+        const after=await migrationStatus();
+        try{await writeAdminLog(env,admin,'WAGO_MIGRATION_RESET','SETTINGS','wago_migration',before,after)}catch(logError){console.error('wago migration reset log failed',logError)}
+        return json({ok:true,status:after,message:`와이고수 2차 인증 ${before.wagoLinked.toLocaleString()}건을 해제했습니다. 보존된 명단 ${after.snapshotCount.toLocaleString()}명은 그대로입니다.`});
+      }
+
+      if(action==='ROLLBACK'){
+        if(String(admin.role||'').toUpperCase()!=='OWNER')return json({error:'되돌리기는 OWNER만 가능합니다.'},403);
+        if(String(body.confirm||'')!=='ROLLBACK')return json({error:'확인 문구가 일치하지 않습니다.',code:'CONFIRM_REQUIRED'},400);
+        const before=await migrationStatus();
+        if(before.snapshotCount<1)return json({error:'보존된 명단이 없어 되돌릴 수 없습니다.'},409);
+        await env.DB.prepare(`UPDATE wago_verifications SET status='VERIFIED',
+            verified_at=COALESCE((SELECT s.verified_at FROM wago_verified_snapshot_v1802 s WHERE s.user_id=wago_verifications.user_id),CURRENT_TIMESTAMP),
+            reviewed_by=?,review_note='v1802 전환 되돌리기',updated_at=CURRENT_TIMESTAMP
+          WHERE status='PENDING' AND user_id IN (SELECT user_id FROM wago_verified_snapshot_v1802)
+            AND user_id NOT IN (SELECT user_id FROM user_second_verifications WHERE provider='PLAYDK')`).bind(admin.id).run();
+        const after=await migrationStatus();
+        try{await writeAdminLog(env,admin,'WAGO_MIGRATION_ROLLBACK','SETTINGS','wago_migration',before,after)}catch(logError){console.error('wago migration rollback log failed',logError)}
+        return json({ok:true,status:after,message:`와이고수 2차 인증 ${after.wagoLinked.toLocaleString()}건을 복구했습니다. 그 사이 PLAY DK 로 인증한 계정은 건너뜁니다.`});
+      }
+
+      return json({error:'올바르지 않은 처리입니다.'},400);
+    }
     if(path==='admin/wago-verifications'){
       const admin=await requirePermission(request,env,'USER_MANAGE');if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
       await ensureSecondVerificationFoundation(env);
