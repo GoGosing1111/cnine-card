@@ -1463,6 +1463,44 @@ async function grantBattleCube(env,userId,source,referenceId,allowStandard=true)
 
 async function readTowerSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='tower_settings_v1'").first();if(!row?.value)return {enabled:true};try{const x=JSON.parse(row.value);return {enabled:x.enabled!==false}}catch{return {enabled:true}}}
 async function towerSettings(env){return cachedRuntimeSetting('tower',10000,()=>readTowerSettings(env))}
+
+// ── V1803 · 메인 로비 BGM ──────────────────────────────────────────────
+// 경매장 BGM 과 같은 사상: 음원은 CMS 가 단일 출처이고 코드에는 기본값만 둔다.
+// 이 설정은 user/runtime-command 응답에 함께 실려 45초마다 전원에게 퍼진다.
+// 별도 요청을 만들지 않으려는 의도이므로 여기서 캐시를 넉넉히(60초) 잡는다.
+const LOBBY_BGM_SETTINGS_KEY='lobby_bgm_settings_v1803';
+const LOBBY_BGM_DEFAULT={enabled:false,volumePercent:35,loopPlaylist:true,tracks:[]};
+function cleanLobbyBgmTrackUrl(value){
+  const raw=String(value||'').trim().replace(/\\/g,'/').slice(0,500);
+  if(!raw)return '';
+  // audio.src 로 들어가는 값이다. 상대경로와 https 만 허용한다.
+  if(/^https:\/\//i.test(raw))return raw;
+  if(/^\/[^/]/.test(raw)||/^assets\//i.test(raw))return raw.startsWith('/')?raw:`/${raw}`;
+  return '';
+}
+function cleanLobbyBgmSettings(raw={}){
+  const list=Array.isArray(raw?.tracks)?raw.tracks:[];
+  const tracks=[];
+  for(const item of list){
+    if(tracks.length>=20)break;
+    const url=cleanLobbyBgmTrackUrl(item?.url??item?.bgmUrl);
+    if(!url)continue;
+    tracks.push({title:String(item?.title||'').trim().slice(0,60)||`TRACK ${tracks.length+1}`,url});
+  }
+  return {
+    // 곡이 하나도 없으면 켜 둔 의미가 없다. 스스로 꺼진 상태로 정규화한다.
+    enabled:raw?.enabled===true&&tracks.length>0,
+    volumePercent:Math.max(0,Math.min(100,Math.round(Number(raw?.volumePercent??LOBBY_BGM_DEFAULT.volumePercent)||0))),
+    loopPlaylist:raw?.loopPlaylist!==false,
+    tracks
+  };
+}
+async function readLobbyBgmSettings(env){
+  const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(LOBBY_BGM_SETTINGS_KEY).first();
+  if(!row?.value)return cleanLobbyBgmSettings(LOBBY_BGM_DEFAULT);
+  try{return cleanLobbyBgmSettings(JSON.parse(row.value))}catch{return cleanLobbyBgmSettings(LOBBY_BGM_DEFAULT)}
+}
+async function lobbyBgmSettings(env){return cachedRuntimeSetting('lobbyBgm',60000,()=>readLobbyBgmSettings(env))}
 function previousKstDate(date){const d=new Date(`${date}T00:00:00+09:00`);d.setDate(d.getDate()-1);return new Date(d.getTime()+9*3600000).toISOString().slice(0,10);}
 
 const safeName=value=>(value||'').trim().slice(0,20);
@@ -4105,11 +4143,15 @@ async function handleRequest(context){
         // V1802-fix: FUR/ZENITH 고급 강화 운영 여부를 여기에 함께 실어 보낸다.
         // 전체 프로필을 다시 받는 계정만 설정이 갱신돼서, 같은 시점에 누구는 열리고 누구는 "준비 중" 으로 보였다.
         // 이 응답은 45초마다 모든 접속자가 받으므로 재로그인 없이 전원이 맞춰진다. (설정은 30초 공유 캐시라 추가 조회는 거의 없다)
-        let highBreakthrough=null;
-        try{highBreakthrough=await highBreakthroughConfigs(env)}catch(error){console.error('runtime-command high breakthrough read failed',error)}
-        if(!row)return json({command:null,unreadMessages,highBreakthrough,serverNow:new Date().toISOString()});
+        // V1803: 로비 BGM 설정도 같이 싣는다. 둘 다 캐시 히트면 추가 조회가 없고,
+        // 미스여도 병렬이라 왕복은 1회로 끝난다. 한쪽이 실패해도 다른 쪽은 살린다.
+        const [highBreakthrough,lobbyBgm]=await Promise.all([
+          highBreakthroughConfigs(env).catch(error=>{console.error('runtime-command high breakthrough read failed',error);return null}),
+          lobbyBgmSettings(env).catch(error=>{console.error('runtime-command lobby bgm read failed',error);return null})
+        ]);
+        if(!row)return json({command:null,unreadMessages,highBreakthrough,lobbyBgm,serverNow:new Date().toISOString()});
         let payload={};try{payload=JSON.parse(row.payload_json||'{}')}catch{}
-        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,highBreakthrough,serverNow:new Date().toISOString()});
+        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,highBreakthrough,lobbyBgm,serverNow:new Date().toISOString()});
       }
       if(request.method==='POST'){
         const body=await readBody(request),commandId=Math.floor(Number(body.commandId||0));
@@ -6468,6 +6510,25 @@ async function handleRequest(context){
         if(JSON.stringify(saved)!==JSON.stringify(cinematic))return json({error:'강화 성공 영상 연출 저장 검증에 실패했습니다.'},500);
         try{await writeAdminLog(env,admin,'BREAKTHROUGH_CINEMATIC_UPDATE','SETTINGS','breakthrough_cinematic',before,saved)}catch(logError){console.error('breakthrough cinematic admin log failed',logError)}
         return json({ok:true,cinematic:saved});
+      }
+      return json({error:'지원하지 않는 요청입니다.'},405);
+    }
+
+    // V1803 · 로비 BGM 운영 설정
+    if(path==='admin/lobby-bgm'){
+      const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
+      if(request.method==='GET')return json({settings:await lobbyBgmSettings(env)});
+      if(request.method==='PATCH'||request.method==='POST'){
+        const body=await readBody(request);
+        const before=await lobbyBgmSettings(env);
+        const settings=cleanLobbyBgmSettings(body?.settings||body);
+        const submittedTracks=Array.isArray(body?.settings?.tracks||body?.tracks)?(body?.settings?.tracks||body?.tracks).length:0;
+        if(submittedTracks>0&&settings.tracks.length===0)return json({error:'재생 가능한 음원 주소가 없습니다. /assets/... 또는 https:// 주소만 사용할 수 있습니다.'},400);
+        if(body?.enabled===true&&settings.tracks.length===0)return json({error:'곡을 한 개 이상 등록해야 켤 수 있습니다.'},400);
+        await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(LOBBY_BGM_SETTINGS_KEY,JSON.stringify(settings)).run();
+        runtimeSettingsCache.delete('lobbyBgm');
+        try{await writeAdminLog(env,admin,'LOBBY_BGM_UPDATE','SETTINGS','lobby_bgm',before,settings)}catch(logError){console.error('lobby bgm admin log failed',logError)}
+        return json({ok:true,settings});
       }
       return json({error:'지원하지 않는 요청입니다.'},405);
     }
