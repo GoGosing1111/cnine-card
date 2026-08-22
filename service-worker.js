@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1801-pvp-identity';
+const SHELL_CACHE='soop-card-shell-v1802-fur-tier';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -104,6 +104,12 @@ async function networkFirst(request,cacheName,fallback=null){
 self.addEventListener('fetch',event=>{
   const request=event.request,url=new URL(request.url);
   if(!sameOriginGet(request,url))return;
+
+  // V1802: 관리자 콘솔은 서비스워커가 절대 손대지 않는다.
+  // admin 스크립트는 파일명(-v1065-)과 ?v= 때문에 isVersioned() 가 참이 되어 cacheFirst 로 잡혔고,
+  // 서버가 /admin/* 에 no-store 를 줘도 워커 캐시의 옛 파일이 계속 나갔다.
+  // (CMS 를 고쳐 배포해도 운영자 화면이 그대로인 원인)
+  if(url.pathname==='/admin'||url.pathname.startsWith('/admin/'))return;
 
   if(request.mode==='navigate'){
     event.respondWith((async()=>{
