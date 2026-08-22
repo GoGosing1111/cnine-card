@@ -111,8 +111,7 @@ const FUR_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:100,dupli
 const ZENITH_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:2800,duplicateCards:0,rate:35,pityThreshold:3,uniqueBoostPercent:20,retirementShardRefund:6000},{cost:3400,duplicateCards:0,rate:25,pityThreshold:4,uniqueBoostPercent:40,retirementShardRefund:8000},{cost:4100,duplicateCards:0,rate:15,pityThreshold:6,uniqueBoostPercent:60,retirementShardRefund:10000}]};
 const HIGH_BREAKTHROUGH_GRADES=['MA','LIMITED','FUR','ZENITH'];
 const HIGH_BREAKTHROUGH_BONUS_DEFAULT={FUR:[1400,1900,2500],ZENITH:[709,973,1275]};
-let furMasterStarBreakthroughCache=null;
-let zenithMasterStarBreakthroughCache=null;
+
 let recentHighGradeCache=null;
 let recentEquipmentFeedCache=null;
 let collectionRankingCache=null;
@@ -1295,8 +1294,19 @@ async function limitedMasterStarBreakthroughConfig(env){const now=Date.now();if(
 function cleanHighBreakthroughSteps(raw,base){return {enabled:raw?.enabled===true,steps:Array.from({length:3},(_,i)=>{const x=raw?.steps?.[i]||{},fallback=base.steps[i];return {cost:Math.max(1,Math.min(9999999,Math.floor(Number(x.cost)||fallback.cost))),duplicateCards:Math.max(0,Math.min(99,Math.floor(Number(x.duplicateCards??fallback.duplicateCards)||0))),rate:Math.max(0,Math.min(100,Number.isFinite(Number(x.rate))?Number(x.rate):fallback.rate)),pityThreshold:Math.max(0,Math.min(999,Math.floor(Number(x.pityThreshold??fallback.pityThreshold)||0))),uniqueBoostPercent:Math.max(0,Math.min(1000,Math.floor(Number(x.uniqueBoostPercent??fallback.uniqueBoostPercent)||0))),retirementShardRefund:Math.max(0,Math.min(10000000,Math.floor(Number(x.retirementShardRefund)||fallback.retirementShardRefund||0)))}})}}
 function cleanFurMasterStarBreakthrough(raw={}){return cleanHighBreakthroughSteps(raw,FUR_MASTER_STAR_BREAKTHROUGH_DEFAULT)}
 function cleanZenithMasterStarBreakthrough(raw={}){return cleanHighBreakthroughSteps(raw,ZENITH_MASTER_STAR_BREAKTHROUGH_DEFAULT)}
-async function furMasterStarBreakthroughConfig(env){const now=Date.now();if(furMasterStarBreakthroughCache&&furMasterStarBreakthroughCache.expiresAt>now)return furMasterStarBreakthroughCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='fur_master_star_breakthrough_v1802'").first();let value=cleanFurMasterStarBreakthrough();if(row?.value){try{value=cleanFurMasterStarBreakthrough(JSON.parse(row.value))}catch{}}furMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
-async function zenithMasterStarBreakthroughConfig(env){const now=Date.now();if(zenithMasterStarBreakthroughCache&&zenithMasterStarBreakthroughCache.expiresAt>now)return zenithMasterStarBreakthroughCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='zenith_master_star_breakthrough_v1802'").first();let value=cleanZenithMasterStarBreakthrough();if(row?.value){try{value=cleanZenithMasterStarBreakthrough(JSON.parse(row.value))}catch{}}zenithMasterStarBreakthroughCache={value,expiresAt:now+5000};return value}
+// V1802-perf: profile() 는 FUR·ZENITH 설정을 둘 다 읽는다.
+// 각각 조회하면 프로필 응답마다 D1 왕복이 2회 늘어난다. 한 번에 읽어 30초 공유 캐시에 둔다.
+async function highBreakthroughConfigs(env){
+  return cachedRuntimeSetting('highBreakthroughConfigs',30000,async()=>{
+    let rows=[];
+    try{rows=(await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802')").all()).results||[]}catch(error){console.error('high breakthrough config read failed',error)}
+    const pick=key=>{const row=rows.find(item=>String(item?.key)===key);if(!row?.value)return {};try{return JSON.parse(row.value)||{}}catch{return {}}};
+    return {FUR:cleanFurMasterStarBreakthrough(pick('fur_master_star_breakthrough_v1802')),
+            ZENITH:cleanZenithMasterStarBreakthrough(pick('zenith_master_star_breakthrough_v1802'))};
+  });
+}
+async function furMasterStarBreakthroughConfig(env){return (await highBreakthroughConfigs(env)).FUR}
+async function zenithMasterStarBreakthroughConfig(env){return (await highBreakthroughConfigs(env)).ZENITH}
 function highBreakthroughConfigFor(env,grade){const g=String(grade||'').trim().toUpperCase();if(g==='LIMITED')return limitedMasterStarBreakthroughConfig(env);if(g==='MA')return maMasterStarBreakthroughConfig(env);if(g==='FUR')return furMasterStarBreakthroughConfig(env);if(g==='ZENITH')return zenithMasterStarBreakthroughConfig(env);return Promise.resolve(null)}
 // 고급 강화 단계는 자기 단계의 천장을 쓰고, 값이 0이면 기존 등급 천장 규칙으로 되돌아간다.
 function highBreakthroughStepPity(grade,level,rule,pity){const threshold=Math.max(0,Math.floor(Number(rule?.pityThreshold)||0));return threshold>0?{enabled:true,grade:String(grade||'').trim().toUpperCase(),threshold}:breakthroughPityRule(grade,level,pity)}
@@ -6402,7 +6412,7 @@ async function handleRequest(context){
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('zenith_master_star_breakthrough_v1802',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(zenithHigh)),
           env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('breakthrough_cinematic_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify(cinematic))
         ]);
-        maMasterStarBreakthroughCache=null;limitedMasterStarBreakthroughCache=null;furMasterStarBreakthroughCache=null;zenithMasterStarBreakthroughCache=null;
+        maMasterStarBreakthroughCache=null;limitedMasterStarBreakthroughCache=null;runtimeSettingsCache.delete('highBreakthroughConfigs');
         runtimeSettingsCache.delete('breakthroughConfig'); // V1792: 돌파 설정도 캐시하므로 저장 즉시 무효화
         try{await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity,maHigh,limitedHigh,furHigh,zenithHigh,cinematic})}catch(logError){console.error('breakthrough settings admin log failed',logError)}
         return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity,maHigh,limitedHigh,furHigh,zenithHigh,cinematic});
