@@ -318,13 +318,15 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {} } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {} } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
   const timeline = [];
   let clock = 0;
   let actionCount = 0;
+  // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
+  let playerStreak = 0;
   const magicByFighter=new Map();
   const registerMagic=(team,cards)=>{
     for(const magic of (Array.isArray(cards)?cards:[])){
@@ -497,7 +499,25 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     clock += Math.max(0.001, dt);
     for (const card of actors) card.gauge = clamp(card.gauge + card.speed * dt, 0, 130);
     const ready = actors.filter(card => card.gauge >= 99.999).sort((x, y) => y.gauge - x.gauge || y.speed - x.speed || x.slot - y.slot);
-    const actor = ready[0];
+    // V1813: 플레이어 속도는 전투력 비례로 자라는데(70+전투력×0.10) 몬스터는 92 고정이다.
+    //   그래서 고전투력 구간에서 몬스터가 순서를 거의 못 받는다 (실측 231턴 중 0~5회).
+    //   보스가 샌드백처럼 맞고만 있는 원인이라, 게이지와 무관하게
+    //   "플레이어가 N번 움직이면 몬스터가 한 번" 을 보장한다.
+    //   ⚠ 몬스터 행동이 늘어난 만큼 1회 피해는 낮춰 뒀다 (buildMonsterFighter 참고).
+    let actor = ready[0];
+    if (forcedMonsterEvery > 0) {
+      if (actor.side === 'A') {
+        playerStreak += 1;
+        if (playerStreak >= forcedMonsterEvery) {
+          const waiting = alive(b).filter(card => card.isMonster);
+          if (waiting.length) {
+            actor = waiting.sort((x, y) => y.gauge - x.gauge || x.slot - y.slot)[0];
+            actor.gauge = 100;
+          }
+        }
+      }
+      if (actor.isMonster) playerStreak = 0;
+    }
     actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
     actionCount += 1;
@@ -734,7 +754,11 @@ export function buildMonsterFighter(monster = {}) {
   // V1812: 플레이어와 같은 비율로 낮춘다 (4.6/4.0 → 2.53/2.20, ×0.55).
   //   한쪽만 건드리면 승패가 바뀐다.
   const baseHp = Math.max(500, Math.round(power * (isBoss ? 2.53 : 2.20)));
-  const baseAttack = Math.max(20, Math.round(power * (isBoss ? 0.205 : 0.175)));
+  // V1813: 강제 행동으로 몬스터 공격 횟수가 0~5회 → 10~15회로 늘었다.
+  //   기존 계수(0.205/0.175)를 그대로 두면 4개 덱 구성 전부 승률 0%·전원 사망이었다.
+  //   1회 피해를 낮춰 총 피해량을 맞춘다. 지금은 1대에 카드 최대HP의 약 36%,
+  //   즉 세 대면 카드 하나가 죽는다. 맞는 게 보이되 전멸하지는 않는 지점.
+  const baseAttack = Math.max(20, Math.round(power * (isBoss ? 0.0513 : 0.0438)));
   const baseDefense = Math.max(1, Math.round(power * (isBoss ? 0.105 : 0.082)));
   const maxHp = Math.max(500, Math.round(baseHp * (1 + hpBuffPercent / 100) * difficultyHpPercent / 100));
   const attack = Math.max(20, Math.round(baseAttack * (1 + attackBuffPercent / 100) * difficultyAttackPercent / 100));
@@ -772,6 +796,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const teamB = [buildMonsterFighter(monster)];
   const simulated = simulateBattleV2Preview({
     teamA, teamB, magicA:magicCards, seed, maxActions: 2000, maxDuration: 4.0,
+    // V1813: 플레이어 15회마다 몬스터 1회를 보장한다. PVP 는 끈 채로 둔다.
+    forcedMonsterEvery: 15,
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent,
     bossUltimateCapPercent,
@@ -785,7 +811,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', forcedMonsterEvery: 15, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
