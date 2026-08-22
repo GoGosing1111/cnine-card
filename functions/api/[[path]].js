@@ -7649,11 +7649,18 @@ function instrumentD1(db,stats){
 }
 
 const D1_BOOKMARK_HEADER='x-cnine-d1-bookmark';
+// V1802-perf: 이 배포 환경에서는 복제본 읽기가 주 노드보다 느리다. 실측(서울 ICN, 같은 라우트):
+//   POST(주 노드)          92ms  / 쿼리 1회
+//   GET(복제본 허용)      705ms  / 쿼리 3회  → 쿼리당 약 235ms
+//   GET(북마크로 시점 고정) 1068ms / 쿼리 3회  → 복제 따라잡기 대기가 더 붙는다
+// 그래서 기본값을 주 노드 읽기로 둔다. 주 노드는 항상 최신이라 북마크 없이도 읽기 일관성이 보장된다.
+// 나중에 복제본이 빨라지면 Pages 환경변수 D1_READ_MODE=replica 로 코드 수정 없이 되돌릴 수 있다.
 function startD1Session(env,request){
   if(typeof env?.DB?.withSession!=='function')return {db:env?.DB,session:null};
   const readOnly=String(request.method||'GET').toUpperCase()==='GET';
-  const bookmark=readOnly?String(request.headers.get(D1_BOOKMARK_HEADER)||'').trim():'';
-  const constraint=readOnly?(bookmark||'first-unconstrained'):'first-primary';
+  const replicaReads=String(env?.D1_READ_MODE||'').trim().toLowerCase()==='replica';
+  const bookmark=replicaReads&&readOnly?String(request.headers.get(D1_BOOKMARK_HEADER)||'').trim():'';
+  const constraint=replicaReads&&readOnly?(bookmark||'first-unconstrained'):'first-primary';
   try{
     const session=env.DB.withSession(constraint);
     return {db:session,session};
