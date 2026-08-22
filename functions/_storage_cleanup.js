@@ -938,6 +938,9 @@ async function runBoundedStorageMaintenance(env){
   return {skipped:false,task:task.key,changed,runs,error:taskError||undefined,magicRewards,inventoryReceipts};
 }
 export function scheduleBoundedStorageMaintenance(context,env,seed=''){
+  // PostgreSQL uses different physical tuple/cleanup semantics. The legacy D1
+  // jobs depend on SQLite rowid/PRAGMA behavior and must not run after cutover.
+  if(env?.DB?.dialect==='postgres')return;
   if(autoMaintenanceHash(seed)%AUTO_STORAGE_MAINTENANCE_SAMPLE_MOD!==0)return;
   const job=(async()=>{
     try{await runLeasedHighVolumeLogMaintenance(env)}catch(error){console.warn('high volume storage cleanup failed',error)}

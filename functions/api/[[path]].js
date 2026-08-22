@@ -24,6 +24,7 @@ import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ulti
 import { normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
+import { createPostgresD1Compat } from '../_postgres_d1_compat.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
 async function safePveUnifiedDrop(env,payload){
@@ -8057,7 +8058,7 @@ function startD1Session(env,request){
   }
 }
 
-export async function onRequest(context){
+async function handleRequestWithDatabase(context){
   const startedAt=Date.now(),request=context.request,url=new URL(request.url);
   const actionPath=url.pathname.replace(/^\/api\/?/,'');let mutationLock=null,response;
   // 이 요청 동안에는 env.DB 가 곧 세션이다. context 도 같이 갈아끼워
@@ -8134,4 +8135,52 @@ export async function onRequest(context){
       ray:request.headers.get('cf-ray')||''}));
   }
   return new Response(response.body,{status:response.status,statusText:response.statusText,headers});
+}
+
+// PostgreSQL cutover wrapper. The legacy D1 binding stays present solely as an
+// explicit rollback path; DB_BACKEND=postgres is required before Hyperdrive is
+// allowed to become authoritative.
+export async function onRequest(context){
+  const requestUrl=new URL(context.request.url);
+  const requestPath=requestUrl.pathname.replace(/^\/api\/?/,'');
+  const migrationFrozen=String(context.env?.DB_MIGRATION_FREEZE||'').trim()==='1';
+  const freezeExempt=context.request.method==='OPTIONS'||requestPath==='service/status'||requestPath==='health';
+  if(migrationFrozen&&!freezeExempt){
+    return new Response(JSON.stringify({
+      error:'데이터베이스 이전 작업으로 서버를 점검 중입니다.',
+      code:'DATABASE_MIGRATION_MAINTENANCE',
+      retryable:true
+    }),{status:503,headers:{'content-type':'application/json; charset=utf-8','cache-control':'no-store','retry-after':'60'}});
+  }
+  const usePostgres=String(context.env?.DB_BACKEND||'').trim().toLowerCase()==='postgres';
+  if(!usePostgres)return handleRequestWithDatabase(context);
+  const connectionString=context.env?.HYPERDRIVE?.connectionString;
+  if(!connectionString)throw new Error('DB_BACKEND=postgres이지만 HYPERDRIVE 바인딩이 없습니다.');
+
+  const runtime=await createPostgresD1Compat(connectionString);
+  const pending=[];
+  const originalWaitUntil=typeof context.waitUntil==='function'?context.waitUntil.bind(context):null;
+  const trackedWaitUntil=promise=>{
+    const tracked=Promise.resolve(promise);
+    pending.push(tracked);
+    if(originalWaitUntil)originalWaitUntil(tracked);
+    return tracked;
+  };
+  const postgresContext={
+    ...context,
+    env:{...context.env,DB:runtime.db,DB_DIALECT:'postgres'},
+    waitUntil:trackedWaitUntil
+  };
+  try{
+    const response=await handleRequestWithDatabase(postgresContext);
+    if(pending.length){
+      const shutdown=Promise.allSettled(pending).finally(()=>runtime.close());
+      if(originalWaitUntil)originalWaitUntil(shutdown);else await shutdown;
+    }else await runtime.close();
+    return response;
+  }catch(error){
+    await Promise.allSettled(pending);
+    await runtime.close().catch(()=>{});
+    throw error;
+  }
 }

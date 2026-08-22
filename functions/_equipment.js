@@ -689,7 +689,11 @@ export async function handleEquipment({path,request,env,deps}){
         env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
           SELECT ?,?,?,quantity,?,'SUPPLY_SHOP',? FROM cnine_user_inventory
           WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(user.id,SUPPLY_BOX_CODE,count,'장비 보급상자 구매',requestId,user.id,SUPPLY_BOX_CODE,requestId,user.id),
-        env.DB.prepare(`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=json_object(
+        env.DB.prepare(env.DB?.dialect==='postgres'?`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=(jsonb_build_object(
+          'ok',true,'itemCode',?,'count',?,'balance',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),
+          'spent',?,'coin',COALESCE((SELECT coin FROM users WHERE id=?),0),'requestId',?,'shopPrice',?,'originalShopPrice',?,
+          'promotionDiscountPercent',?,'promotionMode',?))::text,updated_at=CURRENT_TIMESTAMP
+          WHERE request_id=? AND user_id=? AND status='PENDING'`:`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=json_object(
           'ok',json('true'),'itemCode',?,'count',?,'balance',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),
           'spent',?,'coin',COALESCE((SELECT coin FROM users WHERE id=?),0),'requestId',?,'shopPrice',?,'originalShopPrice',?,
           'promotionDiscountPercent',?,'promotionMode',?),updated_at=CURRENT_TIMESTAMP
@@ -765,7 +769,11 @@ export async function handleEquipment({path,request,env,deps}){
         env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
           SELECT ?,?,-?,quantity,?,'SUPPLY_OPEN',? FROM cnine_user_inventory
           WHERE user_id=? AND item_code=? AND EXISTS(SELECT 1 FROM inventory_use_receipts WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(user.id,SUPPLY_BOX_CODE,count,'장비 보급상자 개방',requestId,user.id,SUPPLY_BOX_CODE,requestId,user.id),
-        env.DB.prepare(`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=json_set(?,
+        env.DB.prepare(env.DB?.dialect==='postgres'?`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=(
+          jsonb_set(jsonb_set(jsonb_set(?::jsonb,'{remaining}',to_jsonb(COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0)),true),
+          '{coin}',to_jsonb(COALESCE((SELECT coin FROM users WHERE id=?),0)),true),
+          '{cardShards}',to_jsonb(COALESCE((SELECT card_shards FROM users WHERE id=?),0)),true))::text,updated_at=CURRENT_TIMESTAMP
+          WHERE request_id=? AND user_id=? AND status='PENDING'`:`UPDATE inventory_use_receipts SET status='COMPLETED',response_json=json_set(?,
           '$.remaining',COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?),0),
           '$.coin',COALESCE((SELECT coin FROM users WHERE id=?),0),
           '$.cardShards',COALESCE((SELECT card_shards FROM users WHERE id=?),0)),updated_at=CURRENT_TIMESTAMP

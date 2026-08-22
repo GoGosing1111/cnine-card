@@ -1,6 +1,12 @@
 name = "cnine-card"
 compatibility_date = "2026-07-01"
+compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "."
+
+[vars]
+# Temporary hard write freeze while the final D1 snapshot is loaded into Neon.
+# Removed in the PostgreSQL cutover deployment.
+DB_MIGRATION_FREEZE = "1"
 
 # V1802: Smart Placement — 워커를 D1 옆(싱가포르)에서 실행한다.
 #
@@ -28,6 +34,12 @@ mode = "smart"
 binding = "DB"
 database_name = "cnine-card-db"
 database_id = "104552d7-33b6-4ddb-b2ed-36f37db95a72"
+
+# Neon PostgreSQL production pool. The application keeps using D1 until
+# DB_BACKEND=postgres is explicitly enabled after the deployment smoke test.
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "6286c0411e9e465b93dfe21ad3f55720"
 
 # V1786: 유저별 게임 액션 직렬화 락(Durable Object).
 # functions/api/[[path]].js 가 env.USER_LOCK 이 있으면 DO 락을,
