@@ -5406,23 +5406,38 @@ async function handleRequest(context){
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
       const reward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0;
-      // V1785: 코인 지급과 코인 로그를 D1 배치 1회로 묶는다.
-      // batch 는 암묵적 트랜잭션 안에서 순차 실행되므로 coin_logs 의 balance_after 는
-      // 앞선 UPDATE 가 반영된 값을 그대로 읽는다(기존 2회 왕복과 결과 동일).
-      if(reward){
-        await env.DB.batch([
+      // V1803: 승패는 여기서 이미 결정돼 있는데, 보상 6종을 순차로 처리하느라 응답이 그만큼 늦었다.
+      //   기존: 코인 → 카드드랍 → 장비 → 블랙미라클 → 통합드랍 → 큐브 → 마력결정  (7단 직렬)
+      //   각 드랍이 영수증(멱등성) 조회+쓰기를 끼고 있어 왕복 15~25회, 싱가포르 기준 1.5~3.4초.
+      //   → 전투 시작 시 "전투 화면 즉시 준비 중" 스피너가 그대로 그 시간만큼 떠 있었다.
+      //
+      // 서로 다른 테이블/아이템을 건드리고 전부 requestId 로 멱등 처리돼 있어 순서 의존이 없다.
+      // 재고 갱신은 모두 원자적 증가(quantity=quantity+…)라 동시에 들어가도 수량이 어긋나지 않는다.
+      // 다만 통합 드랍풀만은 운영자가 CMS 에서 아무 보상이나 넣을 수 있어(코인·조각·결정 포함)
+      // 다른 지급이 끝난 뒤 마지막에 단독으로 돌린다. 그래야 그쪽 로그의 balance_after 가 정확하다.
+      const rewardSource=payload.autoBattle===true?'PVE_AUTO':'PVE';
+      const pveMagic=pveMagicSettings.acquisition?.pve||{};
+      const cardDropRate=result==='WIN'&&settings.cardDrop?.enabled!==false?Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0))):0;
+      const cardDropHit=cardDropRate>0&&Math.random()*100<cardDropRate;
+      const [,cardReward,equipmentReward,blackMiracleReward,cubeReward,magicReward]=await Promise.all([
+        reward?env.DB.batch([
           env.DB.prepare('UPDATE users SET coin=coin+? WHERE id=?').bind(reward,user.id),
           env.DB.prepare('INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?').bind(reward,`PVE 승리 보상: ${monster.name}`,user.id)
-        ]);
-      }
-      let cardReward=null,equipmentReward=null,blackMiracleReward=null,unifiedDrop=null;if(result==='WIN'){if(settings.cardDrop?.enabled!==false){const cardRate=Math.max(0,Math.min(100,Number(settings.cardDrop?.defaultRate??0)));if(cardRate>0&&Math.random()*100<cardRate)cardReward=await grantBattleCard(env,user.id,settings);}const rewardSource=payload.autoBattle===true?'PVE_AUTO':'PVE';equipmentReward=await safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId});blackMiracleReward=await rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId});unifiedDrop=await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:rewardSource,sourceId:String(monster.id),triggerType:'WIN',context:{boss:bossIsBoss,difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare});}
+        ]):Promise.resolve(null),
+        cardDropHit?grantBattleCard(env,user.id,settings):Promise.resolve(null),
+        result==='WIN'?safeEquipmentDrop(env,{userId:user.id,sourceType:rewardSource,sourceId:String(monster.id),requestId}):Promise.resolve(null),
+        result==='WIN'?rollBlackMiracleDrop(env,{userId:user.id,source:rewardSource,referenceId:requestId}):Promise.resolve(null),
+        grantBattleCube(env,user.id,'PVE',requestId,result==='WIN'),
+        result==='WIN'?resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):Promise.resolve(null)
+      ]);
+      const unifiedDrop=result==='WIN'?await safePveUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:rewardSource,sourceId:String(monster.id),triggerType:'WIN',context:{boss:bossIsBoss,difficulty:difficulty.difficulty},role:user.role,isNightmare:difficulty.isNightmare}):null;
       // V1785: battle_logs 는 감사 로그일 뿐 응답에서 읽지 않는다 → 응답 지연 경로에서 제외.
       deferWrite('battle_logs',()=>env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),playerPower,monsterPower,result,reward).run());
-      const cubeReward=await grantBattleCube(env,user.id,'PVE',requestId,result==='WIN'),pveMagic=pveMagicSettings.acquisition?.pve||{};
+      // V1803: cubeReward / magicReward 는 위 Promise.all 에서 이미 받았다.
       // V1785: 고등급 리롤 티켓 지급 결과는 응답에 포함되지 않는다(기존에도 변수만 만들고 쓰지 않았다).
       // 지급 자체는 그대로 수행하되 응답을 기다리게 하지 않는다.
       if(result==='WIN')deferWrite('highGradeRerollDrop',()=>grantHighGradeRerollDrop(env,{userId:user.id,content:'PVE',referenceId:requestId}));
-      const magicReward=result==='WIN'?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVE_DROP',referenceId:requestId,enabled:pveMagic.enabled===true,chance:pveMagic.chance,amount:pveMagic.amount,dailyLimit:pveMagic.dailyLimit,reason:'일반 PVE 승리 확률 드랍'}):null;
+
       // V1791: 전투가 바꾼 것만 배치 1회로 읽어 경량 프로필로 응답한다.
       // (기존: users 조회 1회 + profile() 10개 조회 + 보유 카드 전체 스캔)
       const battleProfile=await battleResponseProfile(env,user,grantedCardIdsFromBattle({
