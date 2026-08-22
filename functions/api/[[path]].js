@@ -155,6 +155,42 @@ async function sharedAggregate(env,key,ttlMs,build){
   sharedAggregateMemory.set(key,{value:data,expiresAt:Date.now()+Math.min(ttlMs,30000)});
   return data;
 }
+// V1806 레이드 공유 상태 짧은 캐시 -------------------------------------
+// raid/status 는 참가자 전원이 1~2초 간격으로 폴링한다. 30명 방이면 같은
+// 조회가 초당 수십 번 반복된다. 그런데 방 목록과 참가자 목록은 누가 물어도
+// 결과가 같다. 유저별로 다른 건 me / 입장권 / 보상뿐이다.
+// 공용 부분만 1~2초 메모리에 담아 둔다. D1 쓰기는 발생하지 않는다.
+const raidSharedCache=new Map();
+function raidMemo(key,ttlMs,build){
+  const now=Date.now(),hit=raidSharedCache.get(key);
+  if(hit&&hit.expiresAt>now)return hit.promise;
+  const promise=Promise.resolve().then(build).catch(error=>{
+    if(raidSharedCache.get(key)?.promise===promise)raidSharedCache.delete(key);
+    throw error;
+  });
+  raidSharedCache.set(key,{promise,expiresAt:now+ttlMs});
+  if(raidSharedCache.size>200)for(const [k,v] of raidSharedCache)if(v.expiresAt<=now)raidSharedCache.delete(k);
+  return promise;
+}
+function raidRoomListRows(env){
+  return raidMemo('rooms',2000,async()=>{
+    const rows=await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,(SELECT COUNT(*) FROM raid_participants rp2 WHERE rp2.instance_id=ri.id AND COALESCE(rp2.is_active,1)=1) AS participantCount,rb.name AS bossName,rb.image_url AS bossImage,rb.max_hp AS maxHp,COALESCE(x.slot_id,'LEGACY') AS slotId FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id LEFT JOIN raid_instance_v1293 x ON x.instance_id=ri.id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 10").all();
+    return rows.results||[];
+  });
+}
+function raidParticipantRows(env,instanceId){
+  return raidMemo(`participants:${instanceId}`,1000,async()=>{
+    const rows=await env.DB.prepare(`SELECT rp.user_id AS userId,u.nickname,rp.deck_cards AS deckCards,rp.total_power AS totalPower,rp.total_damage AS totalDamage,rp.reward_claimed AS rewardClaimed,rp.joined_at AS joinedAt,
+        t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset
+        FROM raid_participants rp
+        JOIN users u ON u.id=rp.user_id
+        LEFT JOIN user_title_loadout tl ON tl.user_id=u.id
+        LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id AND (ut.expires_at IS NULL OR ut.expires_at>CURRENT_TIMESTAMP)
+        LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1
+        WHERE rp.instance_id=? AND COALESCE(rp.is_active,1)=1 ORDER BY rp.total_damage DESC,rp.joined_at`).bind(instanceId).all();
+    return rows.results||[];
+  });
+}
 let recentHighGradeCache=null;
 let recentEquipmentFeedCache=null;
 let collectionRankingCache=null;
@@ -5078,8 +5114,10 @@ async function handleRequest(context){
       // 실제 상태 전환 시각이 지난 방만 한 요청당 최대 2개 처리해 D1 잠금과 타임아웃을 제한한다.
       const transitionDue=raidTransitionResult.results;
       for(const room of transitionDue)await refreshRaidForOwner(env,room,cfg);
-      const roomRows=(await env.DB.prepare("SELECT ri.id,ri.status,ri.starts_at AS startsAt,ri.ends_at AS endsAt,(SELECT COUNT(*) FROM raid_participants rp2 WHERE rp2.instance_id=ri.id AND COALESCE(rp2.is_active,1)=1) AS participantCount,rb.name AS bossName,rb.image_url AS bossImage,rb.max_hp AS maxHp,COALESCE(x.slot_id,'LEGACY') AS slotId FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id LEFT JOIN raid_instance_v1293 x ON x.instance_id=ri.id WHERE ri.status IN ('LOBBY','BATTLE') ORDER BY ri.id DESC LIMIT 10").all()).results;
-      const rooms=roomRows.map((room,i)=>{const slot=(cfg.timeSlots||[]).find(x=>String(x.id)===String(room.slotId)),activeSlotId=String(schedule.currentSlot?.id||'');const slotOpen=owner||room.slotId==='LEGACY'||room.slotId==='ALWAYS'||(activeSlotId&&activeSlotId===String(room.slotId));return {...room,slotLabel:slot?.label||room.slotId,roomNumber:roomRows.length-i,joinable:slotOpen&&room.status==='LOBBY'&&Date.parse(room.startsAt)>Date.now()&&Number(room.participantCount)<Number(cfg.maxParticipants||30)}});
+      // V1806: 방 목록(모든 유저 공통)을 미리 띄워 두고, 내 참가 방을 찾는
+      // 조회와 겹친다. 목록 자체는 2초 캐시라 폴링이 몰려도 한 번만 나간다.
+      const roomRowsPromise=raidRoomListRows(env);
+      roomRowsPromise.catch(()=>{});
       const requestedId=Math.max(0,Number(new URL(request.url).searchParams.get('instanceId')||0));
       const activeParticipantSql="SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id JOIN raid_participants rp ON rp.instance_id=ri.id AND rp.user_id=? AND COALESCE(rp.is_active,1)=1 WHERE ri.status IN ('LOBBY','BATTLE')";
       let current=requestedId?await env.DB.prepare(`${activeParticipantSql} AND ri.id=? LIMIT 1`).bind(user.id,requestedId).first():null;
@@ -5106,6 +5144,8 @@ async function handleRequest(context){
       if(!current){current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id JOIN raid_participants rp ON rp.instance_id=ri.id AND rp.user_id=? AND COALESCE(rp.is_active,1)=1 WHERE ri.status='ENDED' AND COALESCE(rp.reward_claimed,0)=0 AND NOT EXISTS (SELECT 1 FROM raid_reward_receipts rr WHERE rr.instance_id=ri.id AND rr.user_id=rp.user_id AND UPPER(COALESCE(rr.status,''))='COMPLETED') AND NOT EXISTS (SELECT 1 FROM raid_user_reward_v1293 ur WHERE ur.instance_id=ri.id AND ur.user_id=rp.user_id AND UPPER(COALESCE(ur.status,''))='COMPLETED') AND NOT EXISTS (SELECT 1 FROM raid_room_cancellations rc WHERE rc.instance_id=ri.id AND rc.status='COMPLETED') ORDER BY ri.id DESC LIMIT 1").bind(user.id).first();}
       // 선택한 방이 전투로 전환된 순간에도 목록으로 되돌리지 않고 참가 여부 화면을 명확히 반환한다.
       if(!current&&requestedId)current=await env.DB.prepare("SELECT ri.*,rb.name AS boss_name,rb.image_url AS boss_image,rb.max_hp,rb.defense_rate FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id WHERE ri.id=? AND ri.status IN ('LOBBY','BATTLE') LIMIT 1").bind(requestedId).first();
+      const roomRows=await roomRowsPromise;
+      const rooms=roomRows.map((room,i)=>{const slot=(cfg.timeSlots||[]).find(x=>String(x.id)===String(room.slotId)),activeSlotId=String(schedule.currentSlot?.id||'');const slotOpen=owner||room.slotId==='LEGACY'||room.slotId==='ALWAYS'||(activeSlotId&&activeSlotId===String(room.slotId));return {...room,slotLabel:slot?.label||room.slotId,roomNumber:roomRows.length-i,joinable:slotOpen&&room.status==='LOBBY'&&Date.parse(room.startsAt)>Date.now()&&Number(room.participantCount)<Number(cfg.maxParticipants||30)}});
       if(!current){
         const policies=await raidBossOpenPolicies(env),bossRows=await env.DB.prepare('SELECT id,name,image_url AS image,max_hp AS maxHp,defense_rate AS defenseRate,sort_order AS sortOrder FROM raid_bosses WHERE is_active=1 ORDER BY sort_order,id').all(),slot=schedule.currentSlot||null,slotBossId=Number(slot?.bossId||0);
         const availableBosses=bossRows.results.filter(b=>(owner||policies[String(b.id)]?.enabled)&&(owner||slotBossId<=0||Number(b.id)===slotBossId)).map(b=>({...b,openCost:Number(policies[String(b.id)]?.cost||0),ownerTestVisible:ownerTestMode&&policies[String(b.id)]?.enabled!==true}));
@@ -5120,21 +5160,24 @@ async function handleRequest(context){
           return json({settings:cfg,schedule,current:null,rooms,participants:[],me:null,dailyEntryUsed:ownerTestMode?false:(todayEntryCount>=dailyEntryLimit||slotEntryUsed),dailyEntry,slotEntry,slotEntries,serverNow:new Date().toISOString(),lastRaid:{id:current.id,rewardClaimed:true,receiptStatus:settlement.receiptStatus,rewardStatus:settlement.rewardStatus}});
         }
       }
+      // V1806: 인스턴스 설정과 슬롯 조회는 서로 의존이 없다. 겹쳐서 왕복 1회를 줄인다.
+      const instanceSlotPromise=raidInstanceSlotV1293(env,current.id);
+      instanceSlotPromise.catch(()=>{});
       const instanceCfg=await raidInstanceSettingsV1293(env,current.id,cfg);
-      if(current.status==='BATTLE')await repairRaidZeroDamage(env,current.id,instanceCfg);
-      const rows=await env.DB.prepare(`SELECT rp.user_id AS userId,u.nickname,rp.deck_cards AS deckCards,rp.total_power AS totalPower,rp.total_damage AS totalDamage,rp.reward_claimed AS rewardClaimed,rp.joined_at AS joinedAt,
-        t.id AS titleId,t.name AS titleName,t.badge_text AS titleBadgeText,t.style_preset AS titleStylePreset
-        FROM raid_participants rp
-        JOIN users u ON u.id=rp.user_id
-        LEFT JOIN user_title_loadout tl ON tl.user_id=u.id
-        LEFT JOIN user_character_titles ut ON ut.user_id=u.id AND ut.title_id=tl.title_id AND (ut.expires_at IS NULL OR ut.expires_at>CURRENT_TIMESTAMP)
-        LEFT JOIN character_titles t ON t.id=tl.title_id AND ut.title_id IS NOT NULL AND t.is_active=1 AND t.is_public=1
-        WHERE rp.instance_id=? AND COALESCE(rp.is_active,1)=1 ORDER BY rp.total_damage DESC,rp.joined_at`).bind(current.id).all();
-      const participants=rows.results.map((r,i)=>({...r,rank:i+1,title:r.titleId?{id:Number(r.titleId),name:r.titleName,badgeText:r.titleBadgeText||r.titleName,stylePreset:String(r.titleStylePreset||'DEFAULT').toUpperCase()}:null,deckCards:(()=>{try{return raidDisplayDeckIdsV1311(JSON.parse(r.deckCards||'[]'))}catch{return []}})()}));
+      // V1806: 참가자 목록은 방 안의 모두에게 같은 결과다. 1초만 공유한다.
+      let participantRows=await raidParticipantRows(env,current.id);
+      // V1806: 0딜 복구는 폴링마다 SELECT 를 한 번 더 쏘고 있었다.
+      // 이미 읽어 둔 참가자 목록에 0딜이 실제로 있을 때만 복구를 돌린다.
+      if(current.status==='BATTLE'&&participantRows.some(row=>Number(row.totalDamage||0)<=0)){
+        await repairRaidZeroDamage(env,current.id,instanceCfg);
+        raidSharedCache.delete(`participants:${current.id}`);
+        participantRows=await raidParticipantRows(env,current.id);
+      }
+      const participants=participantRows.map((r,i)=>({...r,rank:i+1,title:r.titleId?{id:Number(r.titleId),name:r.titleName,badgeText:r.titleBadgeText||r.titleName,stylePreset:String(r.titleStylePreset||'DEFAULT').toUpperCase()}:null,deckCards:(()=>{try{return raidDisplayDeckIdsV1311(JSON.parse(r.deckCards||'[]'))}catch{return []}})()}));
       let cardMap={},breakthroughMap={};
       try{({cardMap,breakthroughMap}=await raidParticipantDisplayDataV1311(env,{instanceId:current.id,participants,uniqueVisible,uniqueCfg}));}
       catch(displayError){console.error('raid participant card display lookup failed',{instanceId:Number(current.id),participantCount:participants.length,message:String(displayError?.message||displayError)});}
-      const instanceSlot=await raidInstanceSlotV1293(env,current.id),instanceSlotCfg=(instanceCfg.timeSlots||[]).find(row=>String(row.id)===String(instanceSlot))||null,instanceSlotEntry=instanceSlot&&instanceSlot!=='ALWAYS'&&instanceSlot!=='LEGACY'?(slotEntries.find(row=>String(row.id)===String(instanceSlot))||{id:String(instanceSlot),label:String(instanceSlotCfg?.label||instanceSlot),count:0,limit:Math.max(1,Number(instanceSlotCfg?.entriesPerSlot||1)),remaining:Math.max(1,Number(instanceSlotCfg?.entriesPerSlot||1)),unlimited:ownerTestMode}):slotEntry,instanceSlotUsed=Boolean(instanceSlot&&instanceSlot!=='ALWAYS'&&instanceSlot!=='LEGACY'&&Number(instanceSlotEntry.count||0)>=Number(instanceSlotEntry.limit||1)),entryUsedForCurrent=ownerTestMode?false:(todayEntryCount>=dailyEntryLimit||instanceSlotUsed);
+      const instanceSlot=await instanceSlotPromise,instanceSlotCfg=(instanceCfg.timeSlots||[]).find(row=>String(row.id)===String(instanceSlot))||null,instanceSlotEntry=instanceSlot&&instanceSlot!=='ALWAYS'&&instanceSlot!=='LEGACY'?(slotEntries.find(row=>String(row.id)===String(instanceSlot))||{id:String(instanceSlot),label:String(instanceSlotCfg?.label||instanceSlot),count:0,limit:Math.max(1,Number(instanceSlotCfg?.entriesPerSlot||1)),remaining:Math.max(1,Number(instanceSlotCfg?.entriesPerSlot||1)),unlimited:ownerTestMode}):slotEntry,instanceSlotUsed=Boolean(instanceSlot&&instanceSlot!=='ALWAYS'&&instanceSlot!=='LEGACY'&&Number(instanceSlotEntry.count||0)>=Number(instanceSlotEntry.limit||1)),entryUsedForCurrent=ownerTestMode?false:(todayEntryCount>=dailyEntryLimit||instanceSlotUsed);
       const startMs=Date.parse(current.starts_at||0),endMs=Date.parse(current.ends_at||0),now=Date.now();
       const combat=raidCombatSnapshot(participants,current,instanceCfg,now);
       const progress=current.status==='LOBBY'
