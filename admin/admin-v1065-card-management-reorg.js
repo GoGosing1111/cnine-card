@@ -48,6 +48,29 @@
     if(grade==='ZENITH')return data.zenithHigh;
     return data.maHigh;
   }
+  // V1802-fix: 탭을 옮기면 render() 가 화면을 다시 그리므로, 옮기기 전에 지금 탭의 입력값을 data 에 담아둔다.
+  // 이게 없으면 FUR 를 체크하고 ZENITH 탭으로 넘어가는 순간 FUR 체크가 사라져 저장되지 않는다.
+  function collectCurrentTab(){
+    const grade=$('#enhancementGradeTabs')?.dataset.grade||'SR';
+    if(!data)return grade;
+    if(Array.isArray(data.config?.[grade]))
+      $('#enhancementRows')?.querySelectorAll('input').forEach(input=>{
+        const row=data.config[grade][Number(input.dataset.index)];
+        if(row&&input.dataset.kind)row[input.dataset.kind]=Number(input.value);
+      });
+    if(HIGH_GRADES.includes(grade)){
+      const high=highConfigFor(grade);
+      if(high){
+        $('#maHighEnhancementRows')?.querySelectorAll('input').forEach(input=>{
+          const step=high.steps[Number(input.dataset.index)];
+          if(step&&input.dataset.maHighKind)step[input.dataset.maHighKind]=Number(input.value);
+        });
+        const box=$('#maHighEnabled');
+        if(box&&!$('#maHighEnhancementPanel')?.hidden)high.enabled=box.checked===true;
+      }
+    }
+    return grade;
+  }
   async function load(){
     const d=await api('admin/breakthrough-settings');data=normalizeData(d);render();
   }
@@ -57,7 +80,7 @@
     const current=tabs?.dataset.grade||'SR';
     tabs.innerHTML=data.grades.map(g=>`<button type="button" class="${g===current?'active':''}" data-grade="${g}">${g}</button>`).join('');
     tabs.dataset.grade=current;
-    tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{tabs.dataset.grade=b.dataset.grade;render()});
+    tabs.querySelectorAll('button').forEach(b=>b.onclick=()=>{collectCurrentTab();tabs.dataset.grade=b.dataset.grade;render()});
     const materialLabel=current==='ZENITH'?'마스터의 별 비용':'카드 조각 비용';
     $('#enhancementRows').innerHTML=(data.config[current]||[]).map((r,i)=>`<div class="enhancementRow"><div><small>STEP ${i+1}</small><b>★${i} → ★${i+1}</b></div><label><span>${materialLabel}</span><input data-kind="cost" data-index="${i}" type="number" min="1" max="10000000" value="${Number(r.cost)}"></label><label><span>성공 확률 (%)</span><input data-kind="rate" data-index="${i}" type="number" min="0" max="100" step="0.01" value="${Number(r.rate)}"></label></div>`).join('');
     const highPanel=$('#maHighEnhancementPanel');if(highPanel){const masterStarGrade=HIGH_GRADES.includes(current),extended=EXTENDED_HIGH_GRADES.includes(current),high=highConfigFor(current);highPanel.hidden=!masterStarGrade;
@@ -74,15 +97,12 @@
     $('#ssrPityRows').innerHTML=Array.from({length:10},(_,i)=>`<div class="enhancementRow pityRow"><div><small>SSR STEP ${i+1}</small><b>★${i} → ★${i+1}</b></div><label><span>연속 실패 횟수</span><input data-pity-index="${i}" type="number" min="1" max="100" value="${Number(data.pity?.thresholds?.[i]||5)}"></label><em>${Number(data.pity?.thresholds?.[i]||5)}회 실패 후 다음 시도 확정</em></div>`).join('');
   }
   async function save(){
-    const grade=$('#enhancementGradeTabs').dataset.grade||'SR';
-    $('#enhancementRows').querySelectorAll('input').forEach(input=>{data.config[grade][Number(input.dataset.index)][input.dataset.kind]=Number(input.value)});
-    const high=highConfigFor(grade);
-    if(HIGH_GRADES.includes(grade)){
-      $('#maHighEnhancementRows')?.querySelectorAll('input').forEach(input=>{high.steps[Number(input.dataset.index)][input.dataset.maHighKind]=Number(input.value)});
-      high.enabled=$('#maHighEnabled')?.checked===true;
-    }
+    collectCurrentTab();
     const pity={enabled:$('#ssrPityEnabled').checked,grade:'SSR',thresholds:Array.from($('#ssrPityRows').querySelectorAll('[data-pity-index]')).map(x=>Number(x.value))};
-    const d=await api('admin/breakthrough-settings',{method:'PATCH',body:JSON.stringify({config:data.config,pity,maHigh:data.maHigh,limitedHigh:data.limitedHigh,furHigh:data.furHigh,zenithHigh:data.zenithHigh})});data=normalizeData(d);alert('돌파·강화 설정을 저장했습니다.');render();
+    const d=await api('admin/breakthrough-settings',{method:'PATCH',body:JSON.stringify({config:data.config,pity,maHigh:data.maHigh,limitedHigh:data.limitedHigh,furHigh:data.furHigh,zenithHigh:data.zenithHigh})});data=normalizeData(d);
+    const on=[['MA',data.maHigh],['LIMITED',data.limitedHigh],['FUR',data.furHigh],['ZENITH',data.zenithHigh]].filter(([,c])=>c?.enabled===true).map(([g])=>g);
+    alert(`돌파·강화 설정을 저장했습니다.\n\n+11~+13 고급 강화 운영 중: ${on.length?on.join(', '):'없음'}`);
+    render();
   }
 
   function collapseEvolutionLogs(){
