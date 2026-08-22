@@ -188,13 +188,55 @@ function normalizeUniqueCards(cards=[]){
     return {...card,id:String(card?.id??card?.card_id??`slot-${index}`),power:base,maxHp:base,baseBattlePower:base,uniqueAbility:null,uniqueDefensePercent:0,uniqueSpeedPercent:0};
   });
 }
-function buildCardUniqueDeckState(user,cards,cfg,effectMap){
+// V1802: FUR/ZENITH +11~+13 "고유효과 강화".
+// 돌파 단계별로 그 카드의 고유효과 수치를 통째로 끌어올린다.
+// 배율은 CMS(fur/zenith_master_star_breakthrough_v1802)의 uniqueBoostPercent 를 그대로 쓴다.
+// 해당 등급 고급 강화가 꺼져 있으면 0 이므로 배율 1(= 변화 없음)이 된다.
+const HIGH_UNIQUE_BOOST_FALLBACK={FUR:[30,60,100],ZENITH:[20,40,60]};
+let highUniqueBoostCache=null;
+async function highUniqueBoostTable(env){
+  const now=Date.now();
+  if(highUniqueBoostCache&&highUniqueBoostCache.expiresAt>now)return highUniqueBoostCache.value;
+  const value={FUR:[0,0,0],ZENITH:[0,0,0]};
+  try{
+    const rows=(await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802')").all()).results||[];
+    for(const row of rows){
+      const grade=String(row?.key||'').startsWith('fur_')?'FUR':'ZENITH';
+      let parsed=null;try{parsed=JSON.parse(row?.value||'{}')}catch{parsed=null}
+      if(parsed?.enabled!==true)continue;
+      value[grade]=[0,1,2].map(i=>{const raw=Number(parsed?.steps?.[i]?.uniqueBoostPercent);return Number.isFinite(raw)&&raw>0?Math.min(1000,raw):HIGH_UNIQUE_BOOST_FALLBACK[grade][i]});
+    }
+  }catch{}
+  highUniqueBoostCache={value,expiresAt:now+5000};
+  return value;
+}
+function uniqueBoostMultiplier(card,boostTable){
+  const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),table=boostTable?.[grade];
+  if(!Array.isArray(table))return 1;
+  const level=Math.max(0,Math.floor(Number(card?.breakthrough_level??card?.breakthroughLevel??0)||0));
+  if(level<11)return 1;
+  const percent=Number(table[Math.min(2,level-11)]||0);
+  return percent>0?1+percent/100:1;
+}
+function scaleUniqueEffect(effect,multiplier){
+  if(!effect||!(multiplier>1))return effect;
+  const scale=value=>Number(((Number(value)||0)*multiplier).toFixed(2));
+  return {...effect,
+    attackPercent:scale(effect.attackPercent),
+    defensePercent:scale(effect.defensePercent),
+    hpPercent:scale(effect.hpPercent),
+    speedPercent:scale(effect.speedPercent),
+    effectValue:Number(effect.effectValue)>0?scale(effect.effectValue):effect.effectValue,
+    dominantValue:Number(effect.dominantValue)>0?scale(effect.dominantValue):effect.dominantValue,
+    highBoostPercent:Math.round((multiplier-1)*100)};
+}
+function buildCardUniqueDeckState(user,cards,cfg,effectMap,boostTable=null){
   const normalized=normalizeUniqueCards(cards),basePower=normalized.reduce((sum,card)=>sum+Number(card.power||0),0),visible=cardUniqueVisibleTo(user,cfg),ownerTest=!cfg.enabled&&visible&&isOwner(user);
   if(!visible||!normalized.length)return {enabled:false,ownerTest:false,settings:cfg,basePower,power:basePower,attackPower:basePower,durabilityPower:basePower,speedPercent:0,cards:normalized,effects:[]};
   let attackPower=0,durabilityPower=0,speedWeight=0,speedBase=0;
   const appliedEffects=[];
   const appliedCards=normalized.map(card=>{
-    const effect=effectMap.get(String(card.id))||null,rawPower=Math.max(0,Number(card.power||0));
+    const baseEffect=effectMap.get(String(card.id))||null,effect=baseEffect?scaleUniqueEffect(baseEffect,uniqueBoostMultiplier(card,boostTable)):null,rawPower=Math.max(0,Number(card.power||0));
     if(!effect){attackPower+=rawPower;durabilityPower+=rawPower;speedBase+=rawPower;return card;}
     appliedEffects.push(effect);
     const attack=Math.max(0,Math.round(rawPower*(1+effect.attackPercent/100)));
@@ -222,7 +264,8 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
       }
     }
   }
-  return list.map(entry=>buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap));
+  const boostTable=await highUniqueBoostTable(env);
+  return list.map(entry=>buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap,boostTable));
 }
 export async function cardUniqueDeckState(env,user,cards=[],scope='PVE'){
   return (await cardUniqueDeckStates(env,[{user,cards}],scope))[0];

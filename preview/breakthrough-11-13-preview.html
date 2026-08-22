@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FUR · ZENITH 11~13강 표현 프리뷰</title>
+
+<!-- 실제 게임에서 쓰는 카드 CSS 를 그대로 불러온다. 프리뷰용으로 다시 만들지 않는다. -->
+<link rel="stylesheet" href="../css/card.css">
+<link rel="stylesheet" href="../css/zenith-v1.css">
+<link rel="stylesheet" href="../css/faker-card-v1.css">
+<link rel="stylesheet" href="../css/no-light-beams-v1789.css">
+
+<style>
+/* ===================================================================
+   FUR · ZENITH 11~13강 표현 — 방향 3가지 비교
+   공통 원칙: 기존 프레임 아트 위에 새 도형(테두리·링)을 얹지 않는다.
+             프레임은 이미 완성된 그림이라 선을 더 두르면 이중 테두리가 된다.
+   =================================================================== */
+@property --btHue{syntax:'<angle>';initial-value:0deg;inherits:false}
+
+/* ─── A안 : 외곽 오라만 강화 (카드 위에 아무것도 안 얹음) ─────────────── */
+.dir-A .card-frame[class*="breakthrough-"].bt-11{filter:drop-shadow(0 0 6px rgba(255,214,140,.75)) drop-shadow(0 0 20px rgba(255,170,70,.4))}
+.dir-A .card-frame[class*="breakthrough-"].bt-12{filter:drop-shadow(0 0 7px rgba(214,180,255,.85)) drop-shadow(0 0 24px rgba(150,110,255,.5)) drop-shadow(0 0 44px rgba(120,80,255,.28))}
+.dir-A .card-frame[class*="breakthrough-"].bt-13{filter:drop-shadow(0 0 8px rgba(255,244,200,.95)) drop-shadow(0 0 26px rgba(130,240,255,.55)) drop-shadow(0 0 52px rgba(255,120,220,.35));animation:btBreathe 3.4s ease-in-out infinite}
+@keyframes btBreathe{0%,100%{opacity:.93}50%{opacity:1}}
+
+/* ─── B안 : 프레임 아트 자체를 "격상" (밝기·채도만 올림) ───────────────── */
+.dir-B .card-frame[class*="breakthrough-"].bt-11{filter:drop-shadow(0 0 6px rgba(255,214,140,.7)) drop-shadow(0 0 18px rgba(255,170,70,.35))}
+.dir-B .card-frame[class*="breakthrough-"].bt-12{filter:drop-shadow(0 0 7px rgba(214,180,255,.8)) drop-shadow(0 0 22px rgba(150,110,255,.45))}
+.dir-B .card-frame[class*="breakthrough-"].bt-13{filter:drop-shadow(0 0 8px rgba(255,244,200,.9)) drop-shadow(0 0 26px rgba(130,240,255,.5))}
+.dir-B .bt-11 .zenith-card-frame,.dir-B .bt-11 .faker-championship-frame{filter:brightness(1.07) saturate(1.12)}
+.dir-B .bt-12 .zenith-card-frame,.dir-B .bt-12 .faker-championship-frame{filter:brightness(1.13) saturate(1.28) contrast(1.05)}
+.dir-B .bt-13 .zenith-card-frame,.dir-B .bt-13 .faker-championship-frame{filter:brightness(1.2) saturate(1.45) contrast(1.08) hue-rotate(var(--btHue));animation:btHueDrift 9s ease-in-out infinite}
+/* CSS 프레임(일반 FUR)은 테두리 그라디언트를 더 진하게 */
+.dir-B .card-frame.grade-FUR:not(.faker-championship-card).bt-11{filter:drop-shadow(0 0 6px rgba(255,214,140,.7)) saturate(1.12) brightness(1.05)}
+.dir-B .card-frame.grade-FUR:not(.faker-championship-card).bt-12{filter:drop-shadow(0 0 7px rgba(214,180,255,.8)) saturate(1.28) brightness(1.1)}
+.dir-B .card-frame.grade-FUR:not(.faker-championship-card).bt-13{filter:drop-shadow(0 0 8px rgba(255,244,200,.9)) saturate(1.45) brightness(1.15)}
+@keyframes btHueDrift{0%,100%{--btHue:-8deg}50%{--btHue:8deg}}
+
+/* ─── C안 : 카드 뒤 후광 (카드 자체는 완전히 그대로) ───────────────────── */
+.bt-halo{position:absolute;z-index:-1;inset:-13%;display:none;border-radius:22%;pointer-events:none;filter:blur(9px)}
+.dir-C .bt-11 .bt-halo{display:block;background:radial-gradient(closest-side,rgba(255,176,86,.85),rgba(255,140,50,.3) 62%,transparent 78%)}
+.dir-C .bt-12 .bt-halo{display:block;background:radial-gradient(closest-side,rgba(190,130,255,.9),rgba(120,80,255,.34) 62%,transparent 78%)}
+.dir-C .bt-13 .bt-halo{display:block;background:conic-gradient(from var(--btHue),rgba(255,232,150,.8),rgba(120,240,255,.7),rgba(255,120,220,.7),rgba(255,232,150,.8));animation:btHaloSpin 16s linear infinite}
+@keyframes btHaloSpin{to{--btHue:360deg}}
+
+@media (prefers-reduced-motion:reduce){.card-frame,.bt-halo,.zenith-card-frame,.faker-championship-frame{animation:none!important}}
+
+/* ─── D안 : 프레임 색조 전환 (형태·디테일 유지, 색만 확 바꿈) ──────────
+   T1 로고(.faker-t1-mark)는 브랜드 자산이라 색을 건드리지 않는다.
+   filter 를 카드 전체가 아니라 "프레임 이미지"에만 건다.
+   카드 사진은 원본 그대로 두고 테두리 그림만 등급색이 바뀐다. */
+.dir-D .card-frame[class*="breakthrough-"].bt-11{filter:drop-shadow(0 0 10px rgba(255,150,50,.75)) drop-shadow(0 0 26px rgba(255,110,30,.4))}
+.dir-D .card-frame[class*="breakthrough-"].bt-12{filter:drop-shadow(0 0 10px rgba(196,110,255,.8)) drop-shadow(0 0 28px rgba(140,70,255,.45))}
+.dir-D .card-frame[class*="breakthrough-"].bt-13{filter:drop-shadow(0 0 11px rgba(255,240,170,.9)) drop-shadow(0 0 30px rgba(120,240,255,.5)) drop-shadow(0 0 54px rgba(255,110,220,.35))}
+
+.dir-D .bt-11 .zenith-card-frame,.dir-D .bt-11 .faker-championship-frame{filter:hue-rotate(-125deg) saturate(1.75) brightness(1.12)}
+.dir-D .bt-12 .zenith-card-frame,.dir-D .bt-12 .faker-championship-frame{filter:hue-rotate(58deg) saturate(1.7) brightness(1.1)}
+.dir-D .bt-13 .zenith-card-frame,.dir-D .bt-13 .faker-championship-frame{filter:saturate(2) brightness(1.3) hue-rotate(var(--btHue));animation:btHueCycle 7s linear infinite}
+@keyframes btHueCycle{to{--btHue:360deg}}
+
+/* 일반 FUR 은 CSS 테두리라 프레임 그라디언트를 직접 갈아끼운다
+   (카드 전체에 filter 를 걸면 인물 사진까지 물들어 버린다) */
+.dir-D .card-frame.grade-FUR:not(.faker-championship-card).bt-11{background:conic-gradient(from 0deg,#ffe9b0,#ff7a2f,#ffb347,#fff3cf,#ffe9b0)!important}
+.dir-D .card-frame.grade-FUR:not(.faker-championship-card).bt-12{background:conic-gradient(from 0deg,#f0d8ff,#8a3bff,#c46bff,#ffe6ff,#f0d8ff)!important}
+.dir-D .card-frame.grade-FUR:not(.faker-championship-card).bt-13{background:conic-gradient(from var(--btHue),#fff2a8,#ff8a5b,#ff4fd8,#6ef7ff,#fff2a8)!important;animation:btHueCycle 5s linear infinite}
+
+/* ─── 일반 FUR 11강+ 전용 프레임 (PNG 없이 CSS 로 조립) ─────────────────
+   FUR 은 메이저 라인 최상위 카드인데 지금은 회전 그라디언트 테두리 한 겹뿐이다.
+   11강부터는 테두리를 두껍게 깔고 모서리 금속 장식과 안쪽 각인선을 더해
+   ZENITH·FAKER 처럼 "전용 프레임"으로 보이게 만든다.
+   장식은 이미지 프레임 카드(ZENITH·FAKER)에는 나오지 않는다. */
+.bt-orn{position:absolute;z-index:24;inset:0;display:none;pointer-events:none}
+.card-frame.grade-FUR:not(.faker-championship-card).bt-11 .bt-orn,
+.card-frame.grade-FUR:not(.faker-championship-card).bt-12 .bt-orn,
+.card-frame.grade-FUR:not(.faker-championship-card).bt-13 .bt-orn{display:block}
+
+/* 테두리를 두껍게 — 얇은 선 한 겹에서 프레임다운 두께로 */
+.dir-D .card-frame.grade-FUR:not(.faker-championship-card).bt-11,
+.dir-D .card-frame.grade-FUR:not(.faker-championship-card).bt-12,
+.dir-D .card-frame.grade-FUR:not(.faker-championship-card).bt-13{padding:8px;border-radius:20px}
+
+/* 안쪽 각인선 — 사진과 테두리 사이를 한 겹 더 나눈다 */
+.bt-orn i.edge{position:absolute;inset:4px;border-radius:13px;border:1px solid rgba(255,255,255,.34);
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.55),inset 0 0 16px rgba(0,0,0,.5)}
+
+/* 모서리 금속 장식 4개 */
+.bt-orn i.c1,.bt-orn i.c2,.bt-orn i.c3,.bt-orn i.c4{position:absolute;width:19px;height:19px}
+.bt-orn i.c1{top:2px;left:2px;border-top:2.5px solid;border-left:2.5px solid;border-top-left-radius:16px}
+.bt-orn i.c2{top:2px;right:2px;border-top:2.5px solid;border-right:2.5px solid;border-top-right-radius:16px}
+.bt-orn i.c3{bottom:2px;left:2px;border-bottom:2.5px solid;border-left:2.5px solid;border-bottom-left-radius:16px}
+.bt-orn i.c4{bottom:2px;right:2px;border-bottom:2.5px solid;border-right:2.5px solid;border-bottom-right-radius:16px}
+
+.bt-11 .bt-orn{color:#ffdca0}.bt-11 .bt-orn i.edge{border-color:rgba(255,214,140,.5)}
+.bt-12 .bt-orn{color:#e6c6ff}.bt-12 .bt-orn i.edge{border-color:rgba(214,180,255,.55)}
+.bt-13 .bt-orn{color:#fff6cf}.bt-13 .bt-orn i.edge{border-color:rgba(255,246,207,.6)}
+.bt-13 .bt-orn i.c1,.bt-13 .bt-orn i.c2,.bt-13 .bt-orn i.c3,.bt-13 .bt-orn i.c4{
+  box-shadow:0 0 9px rgba(255,240,180,.85);animation:btOrnGlow 2.6s ease-in-out infinite}
+@keyframes btOrnGlow{0%,100%{opacity:.68}50%{opacity:1}}
+
+/* ─── FUR 11~13강 전용 프레임 PNG 슬롯 ────────────────────────────────
+   ZENITH 와 완전히 같은 방식이다. 프레임 이미지를 얹고, 카드 내부 요소를
+   프레임 창 좌표에 맞춰 절대배치한다. 좌표는 규격 템플릿과 1:1로 일치한다.
+   아트가 준비되면 이 클래스만 붙이면 끝난다. */
+.card-frame.has-tier-frame{position:relative;isolation:isolate;overflow:visible;aspect-ratio:2/3;
+  padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;animation:none!important}
+.card-frame.has-tier-frame:after{box-shadow:none!important;opacity:0!important}
+.card-frame.has-tier-frame .card-inner{position:absolute;z-index:1;inset:0;display:block;padding:0!important;border:0!important;border-radius:0;background:transparent!important;box-shadow:none!important;overflow:visible}
+.card-frame.has-tier-frame .card-art{position:absolute;z-index:1;top:8.8%;left:9.8%;width:80.4%;height:83.4%;min-height:0;border:0;border-radius:8%;background:#060918;box-shadow:none;clip-path:inset(0 round 8%)}
+.card-frame.has-tier-frame .card-art img{width:100%;height:100%;object-fit:cover}
+.card-frame.has-tier-frame .card-header{position:absolute;z-index:6;top:12.4%;left:12.8%;right:12.8%;height:auto;padding:0;align-items:flex-start}
+.card-frame.has-tier-frame .card-header b{display:none}
+.card-frame.has-tier-frame .card-footer{position:absolute;z-index:5;left:10%;right:10%;bottom:8.4%;min-height:17%;padding:9% 3% 2%;align-items:flex-end;background:linear-gradient(180deg,transparent,rgba(3,6,24,.88))}
+.card-frame.has-tier-frame .card-mini-logo{display:none}
+.card-frame.has-tier-frame .breakthrough-effect{display:none!important}
+.card-frame.has-tier-frame>.breakthrough-badge{z-index:30;top:11.7%;right:11.8%;left:auto}
+.card-frame.has-tier-frame .bt-rank{top:20%;right:11.8%}
+.card-frame.has-tier-frame>.fur-tier-frame{position:absolute;z-index:20;inset:0;width:100%;height:100%;object-fit:fill;pointer-events:none;user-select:none}
+.card-frame.has-tier-frame .bt-orn{display:none!important}
+
+/* 카드 창(사진 영역) 안쪽 발광 — 프레임 창 모양을 그대로 따라간다 */
+.dir-D .bt-11 .card-art{box-shadow:inset 0 0 20px rgba(255,150,60,.6)}
+.dir-D .bt-12 .card-art{box-shadow:inset 0 0 20px rgba(180,110,255,.6)}
+.dir-D .bt-13 .card-art{box-shadow:inset 0 0 22px rgba(255,225,150,.55),inset 0 0 40px rgba(120,230,255,.35)}
+
+/* 마음에 들어하신 등급 배지를 단계가 올라갈수록 강조 */
+.dir-D .bt-rank{padding:3px 9px;font-size:9.5px;box-shadow:0 0 10px currentColor}
+.dir-D .bt-13 .bt-rank{animation:btBadgeGlow 1.9s ease-in-out infinite}
+@keyframes btBadgeGlow{0%,100%{box-shadow:0 0 8px currentColor}50%{box-shadow:0 0 18px currentColor,0 0 30px currentColor}}
+
+/* 등급 라벨 — 기존 돌파 배지와 같은 톤으로, 배지 바로 아래 한 줄 */
+.bt-rank{position:absolute;z-index:31;display:none;padding:2px 7px;border-radius:999px;
+  border:1px solid currentColor;background:rgba(4,8,16,.86);font-size:9px;font-weight:1000;letter-spacing:.08em;white-space:nowrap}
+body.label-on .bt-11 .bt-rank,body.label-on .bt-12 .bt-rank,body.label-on .bt-13 .bt-rank{display:block}
+.bt-11 .bt-rank{color:#ffc98a}.bt-12 .bt-rank{color:#d9b6ff}.bt-13 .bt-rank{color:#fff0b8}
+.card-frame.grade-ZENITH .bt-rank{top:20%;right:11.8%}
+.card-frame.faker-championship-card .bt-rank{top:25.5%;right:18%}
+.card-frame:not(.grade-ZENITH):not(.faker-championship-card) .bt-rank{top:34px;right:8px}
+
+/* ===== 아래는 프리뷰 페이지 전용 레이아웃 (게임에 안 들어갑니다) ===== */
+*{box-sizing:border-box}
+body{margin:0;padding:26px 20px 60px;background:#070b12;color:#e9f2f6;font-family:system-ui,-apple-system,"Malgun Gothic",sans-serif}
+h1{margin:0 0 6px;font-size:21px}
+.lead{margin:0 0 4px;color:#9fb3bf;font-size:13px;line-height:1.7}
+.toolbar{position:sticky;top:0;z-index:200;display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 26px;padding:12px;border:1px solid #1e2c39;border-radius:8px;background:rgba(9,14,22,.96);backdrop-filter:blur(6px)}
+.toolbar .filebtn{padding:8px 14px;border:1px dashed #3d6d8a;border-radius:6px;background:#0d1a26;color:#9beaff;font-size:13px;font-weight:700;cursor:pointer}
+.toolbar button{padding:8px 14px;border:1px solid #2b4256;border-radius:6px;background:#101a26;color:#cfe2ec;font-size:13px;font-weight:700;cursor:pointer}
+.toolbar button.on{border-color:#63d8ff;background:#122c3d;color:#9beaff}
+.toolbar span{align-self:center;margin-left:auto;color:#7d94a3;font-size:12px}
+section{margin:0 0 40px}
+section>h2{margin:0 0 4px;font-size:15px;color:#8fe6ff;letter-spacing:.04em}
+section>p{margin:0 0 16px;color:#8ea3b1;font-size:12.5px}
+.row{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-start}
+.cell{width:190px}
+.cell>b{display:block;margin:0 0 9px;color:#cfe2ec;font-size:12px;font-weight:800;text-align:center;letter-spacing:.05em}
+.cell>b em{display:block;margin-top:2px;color:#7d94a3;font-size:10.5px;font-style:normal;font-weight:600}
+body.hide-fx .bt-transcend{display:none}
+body.hide-fx .card-frame.bt-11,body.hide-fx .card-frame.bt-12,body.hide-fx .card-frame.bt-13{filter:none}
+body.hide-fx .card-frame.grade-ZENITH{filter:drop-shadow(0 0 8px rgba(91,226,255,.48)) drop-shadow(0 0 16px rgba(119,84,255,.3))}
+.note{margin:34px 0 0;padding:14px 16px;border-left:3px solid #63d8ff;background:#0c141d;color:#a9c1cf;font-size:12.5px;line-height:1.8}
+.note b{color:#e9f2f6}
+</style>
+</head>
+<body class="label-on">
+
+<h1>FUR · ZENITH 11~13강 표현 — 방향 3가지</h1>
+<p class="lead">실제 <code>card.css / zenith-v1.css / faker-card-v1.css</code> 와 실제 카드·프레임 PNG 를 그대로 씁니다.</p>
+<p class="lead"><b>앞서 보여드린 링·테두리 방식은 폐기했습니다.</b> 완성된 프레임 아트 위에 도형을 얹으면 이중 테두리가 되어 오히려 싸구려로 보입니다. 세 방향 모두 <b>프레임 그림에 도형을 추가하지 않습니다.</b></p>
+
+<div class="toolbar">
+  <button class="dirbtn on" data-dir="A">A · 외곽 오라만</button>
+  <button class="dirbtn" data-dir="B">B · 프레임 격상</button>
+  <button class="dirbtn" data-dir="C">C · 뒤쪽 후광</button>
+  <button class="dirbtn" data-dir="D">D · 프레임 색 전환</button>
+  <button id="btnLabel" class="on">등급 라벨</button>
+  <button id="btnBg">배경 밝게</button>
+  <label class="filebtn">11강 프레임 넣기<input type="file" accept="image/png" data-tier="11" hidden></label>
+  <label class="filebtn">12강<input type="file" accept="image/png" data-tier="12" hidden></label>
+  <label class="filebtn">13강<input type="file" accept="image/png" data-tier="13" hidden></label>
+  <button id="btnClearFrames">프레임 지우기</button>
+  <span id="dirDesc"></span>
+</div>
+
+<section>
+  <h2>ZENITH</h2>
+  <p id="descZenith"></p>
+  <div class="row" id="rowZenith"></div>
+</section>
+
+<section>
+  <h2>FAKER 챔피언십</h2>
+  <div class="row" id="rowFaker"></div>
+</section>
+
+<section>
+  <h2>일반 FUR (CSS 프레임)</h2>
+  <div class="row" id="rowFur"></div>
+</section>
+
+<div class="note">
+  <b>세 방향 차이</b><br>
+  <b>A · 외곽 오라만</b> — 카드에 아무것도 얹지 않고 바깥 발광의 색·범위만 단계별로 키웁니다. ZENITH 가 지금도 쓰는 방식이라 가장 자연스럽지만, 배경이 밝으면 잘 안 보입니다.<br>
+  <b>B · 프레임 격상</b> — 프레임 그림 자체의 밝기·채도를 올려 "같은 프레임인데 더 좋아 보이게" 만듭니다. 아트를 살리면서 티가 나지만, 원본 색감이 바뀌는 걸 싫어하실 수 있습니다.<br>
+  <b>C · 뒤쪽 후광</b> — 카드 뒤에 큰 광원을 깝니다. 카드 자체는 1픽셀도 안 건드립니다. 목록에서 눈에 확 띄지만 카드가 촘촘히 붙는 화면에서는 서로 번질 수 있습니다.<br><br>
+  <b>섞어도 됩니다.</b> 예를 들어 11·12강은 A, 13강만 C 처럼요. 마음에 드는 쪽을 말씀해 주시면 그 방향으로 다듬겠습니다.
+</div>
+
+<script>
+const CARDS = {
+  zenith: { art:'../assets/cards/ZENITH/V1.jpg', title:'쁠리', member:'ZENITH', grade:'ZENITH',
+            frame:'<img class="zenith-card-frame" src="../assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">', extra:'' },
+  faker:  { art:'../assets/cards/7777777.jpg', title:'FAKER', member:'T1', grade:'FUR', faker:true,
+            frame:'<img class="faker-championship-frame" src="../assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true">'
+                 +'<img class="faker-t1-mark" src="../assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1">'
+                 +'<img class="faker-signature-mark" src="../assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER">'
+                 +'<span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>', extra:'' },
+  fur:    { art:'../assets/NEWCARD/8.jpg', title:'프로필찍는 봉준', member:'봉준', grade:'FUR', frame:'', extra:'' }
+};
+const LEVELS = [
+  { lv:10, label:'10강', sub:'현재 그대로' },
+  { lv:11, label:'11강', sub:'MASTER' },
+  { lv:12, label:'12강', sub:'GRAND' },
+  { lv:13, label:'13강', sub:'TRANSCEND' }
+];
+
+function cardHtml(key, lv) {
+  const c = CARDS[key];
+  const btClass = lv >= 11 ? ` bt-${lv}` : '';
+  const RANK = { 11:'MASTER', 12:'GRAND', 13:'TRANSCEND' };
+  const overlay = lv >= 11
+    ? '<span class="bt-halo" aria-hidden="true"></span>'
+      + '<span class="bt-orn" aria-hidden="true"><i class="c1"></i><i class="c2"></i><i class="c3"></i><i class="c4"></i><i class="edge"></i></span>'
+      + `<span class="bt-rank">${RANK[lv]}</span>` : '';
+  return `<div class="card-frame grade-${c.grade} breakthrough-${lv}${c.faker ? ' faker-championship-card' : ''}${btClass}">
+    <div class="breakthrough-badge">★${lv}</div>
+    <div class="breakthrough-effect"></div>
+    <div class="card-inner">
+      <div class="card-header"><span>${c.grade}</span><b>SOOP</b></div>
+      <div class="card-art"><img src="${c.art}" alt="${c.title}"></div>
+      <div class="card-footer"><div><small>${c.member}</small><div class="card-title-row"><div class="card-title">${c.title}</div></div></div><img src="../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
+    </div>
+    ${c.frame}${overlay}
+  </div>`;
+}
+for (const [key, rowId] of [['zenith','rowZenith'],['faker','rowFaker'],['fur','rowFur']]) {
+  document.getElementById(rowId).innerHTML = LEVELS
+    .map(l => `<div class="cell"><b>${l.label}<em>${l.sub}</em></b>${cardHtml(key, l.lv)}</div>`).join('');
+}
+const DESC = {
+  A: '카드 위에 아무것도 얹지 않습니다 — 바깥 발광만 단계별로 커집니다',
+  B: '프레임 그림의 밝기·채도를 올려 같은 프레임을 격상시킵니다',
+  C: '카드 뒤에 광원을 깝니다 — 카드 자체는 그대로입니다',
+  D: '프레임 그림의 색을 단계별로 바꿉니다 — 사진은 원본 그대로'
+};
+function setDir(dir){
+  document.body.classList.remove('dir-A','dir-B','dir-C','dir-D');
+  document.body.classList.add('dir-' + dir);
+  document.querySelectorAll('.dirbtn').forEach(b => b.classList.toggle('on', b.dataset.dir === dir));
+  document.getElementById('dirDesc').textContent = DESC[dir];
+}
+document.querySelectorAll('.dirbtn').forEach(b => b.onclick = () => setDir(b.dataset.dir));
+
+// 프레임 아트를 배포 없이 바로 끼워보는 기능.
+// 고른 PNG 를 그 단계의 일반 FUR 카드에 ZENITH 와 같은 방식으로 얹는다.
+function applyTierFrame(tier, url){
+  document.querySelectorAll(`#rowFur .card-frame.bt-${tier}`).forEach(card => {
+    card.classList.add('has-tier-frame');
+    card.querySelector('.fur-tier-frame')?.remove();
+    const img = document.createElement('img');
+    img.className = 'fur-tier-frame'; img.src = url; img.alt = ''; img.setAttribute('aria-hidden','true');
+    card.appendChild(img);
+  });
+}
+document.querySelectorAll('input[type=file][data-tier]').forEach(input => {
+  input.onchange = () => {
+    const file = input.files?.[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => applyTierFrame(input.dataset.tier, reader.result);
+    reader.readAsDataURL(file);
+  };
+});
+document.getElementById('btnClearFrames').onclick = () => {
+  document.querySelectorAll('#rowFur .card-frame.has-tier-frame').forEach(card => {
+    card.classList.remove('has-tier-frame');
+    card.querySelector('.fur-tier-frame')?.remove();
+  });
+};
+setDir('D');
+document.getElementById('btnLabel').onclick = e => {
+  document.body.classList.toggle('label-on');
+  e.currentTarget.classList.toggle('on');
+};
+document.getElementById('btnBg').onclick = e => {
+  const light = document.body.style.background === 'rgb(233, 242, 246)';
+  document.body.style.background = light ? '#070b12' : '#e9f2f6';
+  e.currentTarget.classList.toggle('on');
+};
+</script>
+</body>
+</html>
