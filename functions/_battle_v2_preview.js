@@ -118,7 +118,14 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
 
   // V1812: 전투가 100~270턴까지 늘어져 한 판에 최대 2분 30초가 걸렸다.
   //   HP 를 양쪽 같은 비율로 낮춰 턴 수를 줄인다 (4.25 → 2.34, ×0.55).
-  const maxHp = Math.max(100, Math.round(power * profile.hp * 2.34 * (1 + hpPct / 100)));
+  // V1813-fix: HP 축소는 PVE 에서만 적용한다.
+  //   PVP 는 100행동에 연장전(회복 봉쇄·피해 증폭)이 걸리는 구조다. 전투가
+  //   짧아지면 연장전에 도달하지 못해 상성이 뒤집힌다. 실측: 실전형 미러의
+  //   연장전 발생률 98%→1%, 생명형 vs 방어형 승률 93%→56%.
+  //   랭크전·영토전은 경쟁 콘텐츠라 예고 없이 상성이 바뀌면 안 된다.
+  //   PVE 만 줄이면 PVP 는 승률·턴수·연장전 발생률이 전부 그대로다(편차 0%p).
+  const hpScale = mode === 'PVE' ? 2.34 : 4.25;
+  const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100)));
   const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100)));
   const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)));
   const speed = Math.max(35, Math.round((70 + power * profile.speed * 0.10) * (1 + speedPct / 100)));
