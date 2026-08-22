@@ -112,6 +112,49 @@ const ZENITH_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:2800,d
 const HIGH_BREAKTHROUGH_GRADES=['MA','LIMITED','FUR','ZENITH'];
 const HIGH_BREAKTHROUGH_BONUS_DEFAULT={FUR:[1400,1900,2500],ZENITH:[709,973,1275]};
 
+// V1805 공용 집계 캐시 -------------------------------------------------
+// 무거운 집계 3종(신화 장비 소식·고등급 획득 소식·컬렉션 랭킹)은 결과가
+// 전 유저 공통인데 캐시가 워커 인스턴스 메모리에만 있었다. 인스턴스가 늘면
+// 같은 집계가 그만큼 중복 실행된다. 실측(24시간):
+//   신화 장비 소식  11,949회 · 9.9억 행 읽음 (DB 전체 읽기의 25%)
+//   컬렉션 랭킹        385회 · 5.16억 행 · 1회 2.5초
+// app_meta 한 줄을 공용 캐시로 써서 모든 인스턴스가 결과를 나눠 쓴다.
+// 만료되면 리스를 잡은 인스턴스 하나만 다시 계산하고, 나머지는 직전 값을
+// 그대로 돌려준다. 소식/랭킹은 몇 초 늦어도 되는 데이터다.
+const sharedAggregateMemory=new Map();
+async function sharedAggregate(env,key,ttlMs,build){
+  const now=Date.now(),metaKey=`shared_agg_${key}_v1805`,leaseKey=`${metaKey}_lease`;
+  const hot=sharedAggregateMemory.get(key);
+  if(hot&&hot.expiresAt>now)return hot.value;
+  let cached=null;
+  try{
+    const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(metaKey).first();
+    if(row?.value){const parsed=JSON.parse(row.value);if(parsed&&parsed.data!==undefined)cached=parsed;}
+  }catch{}
+  if(cached&&Number(cached.at||0)+ttlMs>now){
+    sharedAggregateMemory.set(key,{value:cached.data,expiresAt:now+Math.min(ttlMs,30000)});
+    return cached.data;
+  }
+  let claimed=false;
+  try{
+    const lease=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP
+      WHERE app_meta.updated_at<datetime('now',?)`).bind(leaseKey,String(now),`-${Math.max(1,Math.round(ttlMs/1000))} seconds`).run();
+    claimed=Number(lease?.meta?.changes||0)>0;
+  }catch{}
+  if(!claimed&&cached){
+    sharedAggregateMemory.set(key,{value:cached.data,expiresAt:now+5000});
+    return cached.data;
+  }
+  const data=await build();
+  try{
+    await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`)
+      .bind(metaKey,JSON.stringify({at:Date.now(),data})).run();
+  }catch{}
+  sharedAggregateMemory.set(key,{value:data,expiresAt:Date.now()+Math.min(ttlMs,30000)});
+  return data;
+}
 let recentHighGradeCache=null;
 let recentEquipmentFeedCache=null;
 let collectionRankingCache=null;
@@ -3450,28 +3493,25 @@ function weightedPick(items,getWeight){
   return items.at(-1);
 }
 async function recentHighGradeItems(env){
-  const now=Date.now();
-  if(recentHighGradeCache&&recentHighGradeCache.expiresAt>now)return recentHighGradeCache.promise;
-  // The acquisition ticker is event history, not current ownership. Draw logs
-  // already have a compact rarity/id index and avoid scanning ~300k user_cards.
-  const promise=env.DB.prepare(`SELECT u.nickname,c.title AS card_title,d.rarity,d.created_at
-    FROM draw_logs d NOT INDEXED
-    JOIN users u ON u.id=d.user_id
-    JOIN cards_effective_v1210 c ON c.id=d.card_id
-    WHERE d.rarity IN ('LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
-    ORDER BY d.id DESC LIMIT 20`).all()
-    .then(rows=>rows.results||[])
-    .catch(error=>{if(recentHighGradeCache?.promise===promise)recentHighGradeCache=null;throw error});
-  recentHighGradeCache={promise,expiresAt:now+300000};
-  return promise;
+  // V1805: 인스턴스별 메모리 캐시 → app_meta 공용 캐시(60초)로 교체.
+  return sharedAggregate(env,'high_grade_feed',60000,async()=>{
+    const rows=await env.DB.prepare(`SELECT u.nickname,c.title AS card_title,d.rarity,d.created_at
+      FROM draw_logs d NOT INDEXED
+      JOIN users u ON u.id=d.user_id
+      JOIN cards_effective_v1210 c ON c.id=d.card_id
+      WHERE d.rarity IN ('LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
+      ORDER BY d.id DESC LIMIT 20`).all();
+    return rows.results||[];
+  });
 }
 async function recentMythicEquipmentItems(env){
-  const now=Date.now();
-  if(recentEquipmentFeedCache&&recentEquipmentFeedCache.expiresAt>now)return recentEquipmentFeedCache.promise;
-  // 실시간 소식 때문에 장비 전체를 읽지 않도록 최근 획득 20,000건만 PK 역순으로 제한한 뒤 신화 장비를 추린다.
-  // 현재 장비 등급 체계에서 MYTHIC이 최고 등급이며, 신화 미만 장비는 메인 획득 소식에 노출하지 않는다.
-  const promise=ensureEquipmentFoundation(env)
-    .then(()=>env.DB.prepare(`SELECT u.nickname,e.name AS equipment_name,e.rarity,recent.acquired_at AS created_at,recent.source_type AS source
+  // V1805: 이 쿼리 하나가 24시간 9.9억 행(DB 전체 읽기의 25%)을 읽고 있었다.
+  // 최근 20,000건을 훑어 신화 장비 20개를 추리는 구조는 그대로 두고,
+  // 인스턴스마다 돌던 것을 app_meta 공용 캐시(60초)로 묶어 전체에서 분당
+  // 1회만 실행되게 한다. "최근 획득 소식"은 최대 1분 늦게 갱신된다.
+  return sharedAggregate(env,'mythic_equipment_feed',60000,async()=>{
+    await ensureEquipmentFoundation(env);
+    const rows=await env.DB.prepare(`SELECT u.nickname,e.name AS equipment_name,e.rarity,recent.acquired_at AS created_at,recent.source_type AS source
       FROM (
         SELECT id,user_id,equipment_id,source_type,acquired_at
         FROM user_equipment_instances INDEXED BY idx_user_equipment_instances_recent_v1674
@@ -3480,11 +3520,9 @@ async function recentMythicEquipmentItems(env){
       JOIN users u ON u.id=recent.user_id
       JOIN character_equipment_items e ON e.id=recent.equipment_id
       WHERE UPPER(e.rarity)='MYTHIC' AND u.status='ACTIVE'
-      ORDER BY recent.id DESC LIMIT 20`).all())
-    .then(rows=>rows.results||[])
-    .catch(error=>{if(recentEquipmentFeedCache?.promise===promise)recentEquipmentFeedCache=null;throw error});
-  recentEquipmentFeedCache={promise,expiresAt:now+300000};
-  return promise;
+      ORDER BY recent.id DESC LIMIT 20`).all();
+    return rows.results||[];
+  });
 }
 let cardAcquisitionGradeFxCache=null;
 async function cardAcquisitionEffectsByGrade(env){
@@ -6363,17 +6401,18 @@ async function handleRequest(context){
     }
     if(path==='ranking'){
       const viewer=await authenticate(request,env),settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
-      const now=Date.now();let allRanking=collectionRankingCache?.expiresAt>now?collectionRankingCache.value:null;
-      if(!allRanking){
+      // V1805: 이 집계는 활성 유저 × 보유 카드 전체를 훑어 1회 2.5초, 5.16억 행을 읽는다.
+      // 인스턴스별 5분 캐시라 인스턴스 수만큼 중복 실행됐다. 공용 캐시(10분)로 묶는다.
+      const allRanking=await sharedAggregate(env,'collection_ranking',600000,async()=>{
         const rows=await env.DB.prepare(`SELECT u.id,u.nickname,c.id AS card_id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level,COUNT(uc.card_id) AS card_count
           FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id
           WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
           GROUP BY u.id,u.nickname,c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level ORDER BY u.id`).all();
         const map=new Map();for(const r of rows.results){if(!map.has(r.id))map.set(r.id,{id:Number(r.id),nickname:r.nickname,score:0,card_count:0,max_breakthrough:0});const x=map.get(r.id);if(r.rarity){x.score+=cardBattlePower({...r,id:r.card_id},Number(r.breakthrough_level||0),settings)*Number(r.card_count||0);x.card_count+=Number(r.card_count||0);x.max_breakthrough=Math.max(x.max_breakthrough,Number(r.breakthrough_level||0));}}
-        allRanking=[...map.values()].sort((a,b)=>b.score-a.score||b.card_count-a.card_count||a.nickname.localeCompare(b.nickname,'ko')).map((x,i)=>({...x,rank:i+1,tier:resolveTier(x.score,tiers)}));
-        collectionRankingCache={value:allRanking,expiresAt:now+300000};
-      }
-      const ranking=allRanking.slice(0,100),me=viewer?allRanking.find(x=>Number(x.id)===Number(viewer.id))||null:null;
+        return [...map.values()].sort((a,b)=>b.score-a.score||b.card_count-a.card_count||a.nickname.localeCompare(b.nickname,'ko')).map((x,i)=>({...x,rank:i+1,tier:resolveTier(x.score,tiers)}));
+      });
+      const list=Array.isArray(allRanking)?allRanking:[];
+      const ranking=list.slice(0,100),me=viewer?list.find(x=>Number(x.id)===Number(viewer.id))||null:null;
       return json({ranking,tiers,me});
     }
 
