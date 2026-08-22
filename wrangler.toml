@@ -4,9 +4,8 @@ compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "."
 
 [vars]
-# Temporary hard write freeze while the final D1 snapshot is loaded into Neon.
-# Kept for the first PostgreSQL canary deployment, then removed separately.
-DB_MIGRATION_FREEZE = "1"
+# Neon PostgreSQL is authoritative. Application maintenance remains controlled
+# independently by the app_meta maintenance setting.
 DB_BACKEND = "postgres"
 
 # V1802: Smart Placement — 워커를 D1 옆(싱가포르)에서 실행한다.
