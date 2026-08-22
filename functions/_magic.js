@@ -207,8 +207,18 @@ async function highUniqueBoostTable(env){
       value[grade]=[0,1,2].map(i=>{const raw=Number(parsed?.steps?.[i]?.uniqueBoostPercent);return Number.isFinite(raw)&&raw>0?Math.min(1000,raw):HIGH_UNIQUE_BOOST_FALLBACK[grade][i]});
     }
   }catch{}
-  highUniqueBoostCache={value,expiresAt:now+5000};
+  highUniqueBoostCache={value,expiresAt:now+60000};
   return value;
+}
+function hasHighTierCard(entries=[]){
+  for(const entry of entries){
+    for(const card of (entry?.cards||[])){
+      const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase();
+      if(grade!=='FUR'&&grade!=='ZENITH')continue;
+      if(Math.floor(Number(card?.breakthrough_level??card?.breakthroughLevel??0)||0)>=11)return true;
+    }
+  }
+  return false;
 }
 function uniqueBoostMultiplier(card,boostTable){
   const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),table=boostTable?.[grade];
@@ -264,7 +274,9 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
       }
     }
   }
-  const boostTable=await highUniqueBoostTable(env);
+  // V1802-fix: 고유효과 강화 배율은 11강 이상 FUR/ZENITH 가 편성에 있을 때만 의미가 있다.
+  // 무조건 조회하면 모든 전투(PVE·PVP·무한의탑·레이드·봉인전·점령전)마다 D1 왕복이 한 번씩 더 붙는다.
+  const boostTable=hasHighTierCard(visibleEntries)?await highUniqueBoostTable(env):null;
   return list.map(entry=>buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap,boostTable));
 }
 export async function cardUniqueDeckState(env,user,cards=[],scope='PVE'){
