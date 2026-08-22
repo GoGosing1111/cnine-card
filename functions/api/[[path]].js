@@ -1196,7 +1196,8 @@ async function readBattleSettings(env){
   try{if(values.get('battle_nightmare_settings_v1'))settings={...settings,nightmare:normalizeNightmareSettings(JSON.parse(values.get('battle_nightmare_settings_v1')))}}catch{}
   return settings;
 }
-async function battleSettings(env){return cachedRuntimeSetting('battle',1000,()=>readBattleSettings(env))}
+// V1802-perf: 1초 캐시는 사실상 매 요청마다 app_meta 를 다시 읽는다. 관리자 저장 시 즉시 무효화되므로 10초로 늘린다.
+async function battleSettings(env){return cachedRuntimeSetting('battle',10000,()=>readBattleSettings(env))}
 function battleEngineState(settings,user){const engine=normalizeBattleEngineSettings(settings?.engine);const owner=String(user?.role||'').trim().toUpperCase()==='OWNER';const active=engine.mode==='V2_PUBLIC'||(engine.mode==='V2_OWNER'&&owner);return {...engine,active,version:active?'V2':'LEGACY',ownerTest:engine.mode==='V2_OWNER'};}
 const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{CUSTOM:3100},FUR:{FIXED:3200}};
 const FAKER_CHAMPIONSHIP_CARD_ID='CN-0B48C6FF8F9B4AC5';
@@ -1205,9 +1206,10 @@ function cardPowerBase(card,settings){const grade=String(card.rarity||card.grade
 function cardBattlePower(card,level,settings){const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),cardId=String(card?.id??card?.card_id??'').trim().toUpperCase(),lv=Math.max(0,Math.min(13,Number(level)||0)),base=cardPowerBase(card,settings),pct=breakthroughBonusPercent(grade,lv,settings),power=Math.floor(base*(1+pct/100)),specialBonus=grade==='FUR'&&cardId===FAKER_CHAMPIONSHIP_CARD_ID?FAKER_FLAT_POWER_BONUS:0;if(grade!=='LIMITED'||lv<11)return power+specialBonus;const prestigeBase=Math.max(0,Number(settings?.powerByGrade?.PRESTIGE||0)),prestigePct=Number(settings?.breakthroughBonus?.[10]||0),prestige10=Math.floor(prestigeBase*(1+prestigePct/100));if(prestige10<=0)return power+specialBonus;const limited10=Math.floor(base*(1+Number(settings?.breakthroughBonus?.[10]||0)/100)),stepCap=Math.floor(limited10+Math.max(0,prestige10-limited10)*(lv-10)/3);return Math.min(power,prestige10,stepCap)+specialBonus;}
 function sqlUtcNow(){return new Date().toISOString().replace('T',' ').slice(0,19)}
 function utcMs(value){if(!value)return Date.now();const t=Date.parse(String(value).replace(' ','T')+'Z');return Number.isFinite(t)?t:Date.now()}
-async function battleEnergyState(env,user,settings){
+async function battleEnergyState(env,user,settings,maintenanceOverride=null){
   const cfg=settings.energy||defaultBattleSettings().energy;
-  const maintenance=await maintenanceSettings(env);
+  // 호출부가 이미 읽어둔 값이 있으면 재사용한다 (V1802-perf)
+  const maintenance=maintenanceOverride||await maintenanceSettings(env);
   const unlimited=!cfg.enabled||(cfg.adminUnlimited&&isAdminRole(user))||(cfg.testUnlimited&&maintenance.testUsers.includes(user.nickname));
   if(unlimited)return {enabled:cfg.enabled,unlimited:true,energy:cfg.maxEnergy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,nextRechargeAt:null,dailyResetAt:`${kstDate()} 00:00 KST`};
   const now=Date.now(),nowSql=sqlUtcNow(),today=kstDate();
@@ -5234,10 +5236,21 @@ async function handleRequest(context){
     }
 
     if(path==='battle/config'){
+      // V1802-perf: 이 배포 환경은 D1 왕복 1회에 100ms 넘게 붙는다.
+      // 기존 구조는 인증 → 버닝 → 전투설정 → 몬스터 → (덱·장비·에너지) 로 4단계를 순차로 기다려
+      // 왕복 횟수가 그대로 응답 시간이 됐다. 유저와 무관한 조회는 인증을 기다리지 않고 먼저 띄우고,
+      // 서로 의존이 없는 것들은 한 번에 겹쳐서 단계 수를 줄인다.
+      const monstersPromise=env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all();
+      const burningPromise=burningEventSettings(env),settingsPromise=battleSettings(env),maintenancePromise=maintenanceSettings(env);
+      // 인증 실패로 조기 반환될 때 미처리 거부(unhandled rejection)가 되지 않게 막아둔다. 뒤에서 await 하면 예외는 그대로 전달된다.
+      for(const pending of [monstersPromise,burningPromise,settingsPromise,maintenancePromise])pending.catch(()=>{});
       const user=await authenticate(request,env); if(!user) return json({error:'로그인이 필요합니다.'},401);
-      const burning=await burningEventSettings(env),settings=applyBurningPveSettings(await battleSettings(env),burning);
-      const monsters=await env.DB.prepare(`SELECT id,name,image_url AS image,battle_power AS battlePower,reward_coin AS rewardCoin,is_boss AS isBoss,COALESCE(monster_category,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS category,COALESCE(pve_tab,CASE WHEN is_boss=1 THEN 'BOSS' ELSE 'GENERAL' END) AS pveTab,COALESCE(pve_display_order,sort_order,0) AS displayOrder,COALESCE(pve_enabled,1) AS pveEnabled,COALESCE(tower_enabled,0) AS towerEnabled,COALESCE(tower_only,0) AS towerOnly FROM battle_monsters WHERE is_active=1 AND COALESCE(pve_enabled,1)=1 AND COALESCE(tower_only,0)=0 ORDER BY COALESCE(pve_display_order,sort_order,0),sort_order,id`).all();
-      const [deck,characterBonus,energy]=await Promise.all([pveDeckCards(env,user.id),userEquipmentBonuses(env,user.id),battleEnergyState(env,user,settings)]);
+      const [burning,baseBattleSettings,monsters,deck,characterBonus,maintenance]=await Promise.all([
+        burningPromise,settingsPromise,monstersPromise,
+        pveDeckCards(env,user.id),userEquipmentBonuses(env,user.id),maintenancePromise
+      ]);
+      const settings=applyBurningPveSettings(baseBattleSettings,burning);
+      const energy=await battleEnergyState(env,user,settings,maintenance);
       const publicMonsters=(monsters.results||[]).map(monster=>{
         const profile=pveDifficultyRuntime(settings,monster);
         return {...monster,pveTab:profile.difficulty,baseBattlePower:Number(monster.battlePower||0),battlePower:profile.effectiveBattlePower,baseRewardCoin:Number(monster.rewardCoin||0),rewardCoin:profile.effectiveRewardCoin,difficulty:profile.difficulty,nightmare:profile.isNightmare?{hpPercent:profile.hpPercent,attackPercent:profile.attackPercent,defensePercent:profile.defensePercent,speedPercent:profile.speedPercent,rewardPercent:profile.rewardPercent,bossUltimateCapPercent:profile.bossUltimateCapPercent,damageCapUnlocked:profile.bossUltimateUnlocked}:null,__enabled:profile.enabled};
