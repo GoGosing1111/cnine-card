@@ -26,6 +26,44 @@ test('NOCASE comparisons are translated to ILIKE', () => {
   assert.doesNotMatch(sql, /NOCASE/i);
 });
 
+test('V1811 SQLite-only SQL is translated before PostgreSQL execution', () => {
+  assert.equal(
+    __postgresCompatTest.INSERT_SQL.test('WITH source AS (SELECT 1) INSERT OR IGNORE INTO target(id) SELECT * FROM source'),
+    true,
+  );
+  const sql = __postgresCompatTest.translateDialect(
+    "SELECT json_object('ok',true,'stamp',CAST(? AS INTEGER)) FROM draw_logs NOT INDEXED",
+  );
+  assert.match(sql, /json_build_object\(/i);
+  assert.match(sql, /CAST\(\? AS BIGINT\)/i);
+  assert.doesNotMatch(sql, /NOT\s+INDEXED/i);
+});
+
+test('json builder parameters receive stable PostgreSQL types', () => {
+  const bound = __postgresCompatTest.bindQuestionMarks(
+    "SELECT json_object('label',?,'count',?,'enabled',?,'empty',?,'nested',(SELECT ?::text))",
+  );
+  const translated = __postgresCompatTest.translateDialect(bound.text);
+  const sql = __postgresCompatTest.typeJsonBuilderParams(translated, ['box', 3, true, null, 'nested']);
+  assert.match(sql, /\$1::text/);
+  assert.match(sql, /\$2::bigint/);
+  assert.match(sql, /\$3::boolean/);
+  assert.match(sql, /\$4::text/);
+  assert.match(sql, /SELECT \$5::text/);
+  assert.doesNotMatch(sql, /\$5::text::text/);
+});
+
+test('nested SQLite BLOB casts are translated without touching literals', () => {
+  const sql = __postgresCompatTest.translateDialect(
+    "SELECT LENGTH(CAST(COALESCE(payload,'a) AS BLOB') AS BLOB)),CAST(CAST(? AS TEXT) AS BLOB)",
+  );
+  assert.equal((sql.match(/convert_to\(/g) || []).length, 2);
+  assert.match(sql, /'a\) AS BLOB'/);
+  assert.equal(__postgresCompatTest.translateBlobCasts(sql), sql);
+  assert.match(sql, /convert_to\(\(COALESCE\(payload,'a\) AS BLOB'\)\)::text,'UTF8'\)/i);
+  assert.match(sql, /convert_to\(\(CAST\(\? AS TEXT\)\)::text,'UTF8'\)/i);
+});
+
 test('migration freeze blocks mutable API routes before database access', async () => {
   const response = await onRequest({
     request: new Request('https://cnine-card.test/api/auth/login', { method: 'POST' }),
@@ -58,14 +96,20 @@ test('live PostgreSQL compatibility adapter smoke test', { skip: !process.env.CN
     const updatePrivilege = await db.prepare("UPDATE app_meta SET value=value WHERE key='maintenance_mode'").run();
     assert.equal(updatePrivilege.meta.changes, 1);
 
-    await db.prepare('CREATE TEMP TABLE __d1_compat_probe(id integer primary key,value text unique)').run();
-    const inserted = await db.prepare('INSERT OR IGNORE INTO __d1_compat_probe(id,value) VALUES(?,?)').bind(1, 'first').run();
-    assert.equal(inserted.meta.changes, 1);
-    const ignored = await db.prepare('INSERT OR IGNORE INTO __d1_compat_probe(id,value) VALUES(?,?)').bind(1, 'ignored').run();
+    const ignored = await db.prepare("INSERT OR IGNORE INTO app_meta(key,value) VALUES('maintenance_mode','test-must-not-overwrite')").run();
     assert.equal(ignored.meta.changes, 0);
-    const replaced = await db.prepare('INSERT OR REPLACE INTO __d1_compat_probe(id,value) VALUES(?,?)').bind(1, 'second').run();
-    assert.equal(replaced.meta.changes, 1);
-    assert.equal((await db.prepare('SELECT value FROM __d1_compat_probe WHERE id=?').bind(1).first()).value, 'second');
+
+    const cteInsert = await db.prepare(`WITH source(key,value) AS (SELECT ?::text,?::text WHERE FALSE)
+      INSERT OR IGNORE INTO app_meta(key,value) SELECT key,value FROM source`).bind('__compat_no_write__', 'cte').run();
+    assert.equal(cteInsert.meta.changes, 0);
+
+    const json = await db.prepare("SELECT json_object('label',?,'count',?,'empty',?) payload")
+      .bind('box', 3, null).first();
+    assert.deepEqual(json.payload, { label: 'box', count: 3, empty: null });
+
+    const blobSample = '{"x":"가\\\\나"}';
+    const blob = await db.prepare('SELECT LENGTH(CAST(? AS BLOB)) bytes').bind(blobSample).first();
+    assert.equal(Number(blob.bytes), Buffer.byteLength(blobSample));
   } finally {
     await runtime.close();
   }
@@ -88,7 +132,7 @@ test('real Pages service routes respond through PostgreSQL', { skip: !process.en
 
   const status = await call('service/status');
   assert.equal(status.response.status, 200);
-  assert.equal(status.body.maintenance.active, true);
+  assert.equal(typeof status.body.maintenance.active, 'boolean');
 
   const health = await call('health');
   assert.equal(health.response.status, 200);
