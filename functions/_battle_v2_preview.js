@@ -116,7 +116,9 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   const hpPct = uniquePercent(uniqueAbility, 'hpPercent');
   const speedPct = uniquePercent(uniqueAbility, 'speedPercent');
 
-  const maxHp = Math.max(100, Math.round(power * profile.hp * 4.25 * (1 + hpPct / 100)));
+  // V1812: 전투가 100~270턴까지 늘어져 한 판에 최대 2분 30초가 걸렸다.
+  //   HP 를 양쪽 같은 비율로 낮춰 턴 수를 줄인다 (4.25 → 2.34, ×0.55).
+  const maxHp = Math.max(100, Math.round(power * profile.hp * 2.34 * (1 + hpPct / 100)));
   const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100)));
   const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)));
   const speed = Math.max(35, Math.round((70 + power * profile.speed * 0.10) * (1 + speedPct / 100)));
@@ -729,7 +731,9 @@ export function buildMonsterFighter(monster = {}) {
   const hpBuffPercent = isBoss ? 10 : 5;
   const attackBuffPercent = isBoss ? 40 : 30;
   const defenseBuffPercent = isBoss ? 18 : 10;
-  const baseHp = Math.max(500, Math.round(power * (isBoss ? 4.6 : 4.0)));
+  // V1812: 플레이어와 같은 비율로 낮춘다 (4.6/4.0 → 2.53/2.20, ×0.55).
+  //   한쪽만 건드리면 승패가 바뀐다.
+  const baseHp = Math.max(500, Math.round(power * (isBoss ? 2.53 : 2.20)));
   const baseAttack = Math.max(20, Math.round(power * (isBoss ? 0.205 : 0.175)));
   const baseDefense = Math.max(1, Math.round(power * (isBoss ? 0.105 : 0.082)));
   const maxHp = Math.max(500, Math.round(baseHp * (1 + hpBuffPercent / 100) * difficultyHpPercent / 100));

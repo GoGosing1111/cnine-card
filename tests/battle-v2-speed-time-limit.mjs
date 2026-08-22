@@ -19,7 +19,9 @@ const speedCard = (id, power) => ({
 });
 
 const common = [attackCard('P1', 25080), attackCard('P2', 25080), attackCard('L1', 22743), attackCard('L2', 22743)];
-const monster = { id: 31, name: 'TEST BOSS', battle_power: 250000, is_boss: 1 };
+// V1812 HP 축소 뒤 25만 구간은 두 덱 모두 100%로 포화된다.
+// 승급 카드의 속도/전투력 우위를 계속 구분할 수 있는 경계 구간을 사용한다.
+const monster = { id: 31, name: 'TEST BOSS', battle_power: 450000, is_boss: 1 };
 const options = {
   characterBonus: 40800,
   monster,

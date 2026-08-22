@@ -223,6 +223,10 @@ export class BattleEngine{
     this.motes=[];
     this.moteTicker=null;
     this.simpleTimelines=new Set();
+    // V1812: 전투가 길어질수록 뒷부분 재생을 빠르게 한다.
+    //   판정·타임라인은 그대로고 보여주는 속도만 바뀐다.
+    this.paceActions=0;
+    this.paceScale=1;
     this.reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.onVisibility=()=>this.setVisible(this.requestedVisible);
   }
@@ -1097,7 +1101,7 @@ export class BattleEngine{
       const entry={instance,settle};
       this.simpleTimelines.add(entry);
       build(instance);
-      instance.timeScale(this.reducedMotion?8:PLAYBACK_SPEED);
+      instance.timeScale(this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1));
       instance.play(0);
     });
   }
@@ -1322,10 +1326,20 @@ export class BattleEngine{
    * Portable renderer contract. The production API only needs to return this
    * ordered event list; combat results remain authoritative on the server.
    */
+  // V1812: 재생 배속 단계. DEPLOY 로 매 전투 시작마다 초기화된다.
+  //   40턴까지 원속도 → 80턴까지 1.28배 → 그 뒤 1.82배.
+  advancePace(type){
+    if(type==='DEPLOY'){this.paceActions=0;this.paceScale=1;return}
+    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER')return;
+    this.paceActions+=1;
+    this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
+  }
+
   async playEvents(events=[]){
     for(const event of events){
       if(!this.visible)break;
       const type=String(event?.type||'').toUpperCase();
+      this.advancePace(type);
       const explicitActor=this.combatantById(event.actorId)||null;
       const actor=explicitActor||clamp(Number(event.actorIndex||0),0,this.cards.length-1);
       const target=this.combatantById(event.targetId)||null;
