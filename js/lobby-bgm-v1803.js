@@ -123,6 +123,13 @@
     }
   }
 
+  function requestPlay(index) {
+    if (unlocked) { play(index); return }
+    pendingPlay = () => play(index);
+    // 이미 조작이 있었던 탭이라면 그냥 재생된다. 막히면 play() 가 다시 미뤄 둔다.
+    play(index);
+  }
+
   function unlock() {
     const el = media();
     if (unlocked) {
@@ -203,6 +210,21 @@
   }
 
   // ── 수명주기 ──────────────────────────────────────────────
+  // V21 어댑터는 로비를 그릴 때 내부적으로 renderShell('buy') 를 부른다.
+  // (exactRenderShell: requested==='home' 이면 nativeRenderShell(this,'buy'))
+  // 그래서 renderShell 의 tab 값으로는 로비인지 알 수 없다.
+  // 실제로 그려진 화면과 어댑터가 들고 있는 라우트를 함께 본다.
+  function inLobby() {
+    if (document.querySelector('.pc-lobby-scene, .mobile-command-lobby')) return true;
+    try { return String(window.SoopketmonV21ExactShell?.currentRoute || '') === 'home' } catch { return false }
+  }
+
+  function syncRoute() {
+    const lobby = inLobby();
+    if (lobby === active) { if (active) mountButton(); return }
+    if (lobby) start(); else stop();
+  }
+
   function start() {
     active = true;
     consecutiveErrors = 0;
@@ -211,8 +233,9 @@
     if (guardTimer) clearInterval(guardTimer);
     guardTimer = setInterval(mountButton, 2000);
     if (!playable() || isMuted()) return;
-    if (unlocked) play(trackIndex);
-    else pendingPlay = () => play(trackIndex);
+    // 잠금 상태를 미리 판단하지 않고 일단 시도한다.
+    // 막히면 play() 가 알아서 pendingPlay 로 미뤄 다음 조작에 이어 붙인다.
+    requestPlay(trackIndex);
   }
 
   function stop() {
@@ -248,14 +271,15 @@
     trackIndex = 0;
     mountButton();
     if (isMuted()) return;
-    if (unlocked) play(0);
-    else pendingPlay = () => play(0);
+    requestPlay(0);
   }
 
   // ── 이벤트 ────────────────────────────────────────────────
-  // 로비에 있는 동안의 첫 조작에서 오디오 잠금을 푼다.
+  // 앱 어디서든 첫 조작에 오디오 잠금을 풀어 둔다.
+  // 로비에 있을 때만 풀면, 로비 버튼을 누른 그 조작은 아직 로비가 아니라서 놓치고
+  // 로비에 도착한 뒤 아무 것도 누르지 않으면 영영 소리가 나지 않는다.
   ['pointerdown', 'touchend', 'keydown'].forEach(type => {
-    document.addEventListener(type, () => { if (active) unlock() }, { capture: true, passive: true });
+    document.addEventListener(type, () => { unlock() }, { capture: true, passive: true });
   });
   // 탭을 숨기면 소리를 멈추고, 돌아오면 로비일 때만 다시 잇는다.
   document.addEventListener('visibilitychange', () => {
@@ -263,9 +287,15 @@
     if (active && playable() && !isMuted()) play(trackIndex);
   });
 
+  // 화면 전환은 어댑터가 여러 경로로 일으킨다. 훅 하나에 의존하지 않고 스스로 확인한다.
+  setInterval(syncRoute, 1000);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', syncRoute, { once: true });
+  else syncRoute();
+
   window.lobbyBgm = {
-    start, stop, applySettings,
+    start, stop, syncRoute, applySettings,
     isMuted, toggleMute,
-    get settings() { return settings }
+    get settings() { return settings },
+    get active() { return active }
   };
 })();

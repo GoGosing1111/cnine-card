@@ -534,7 +534,7 @@ const SAFE_LOG_CLEANUP_SPECS = Object.freeze({
     description:'보존 기간이 지난 PVP 상세 전투 이력만 정리합니다. 점수·승패·랭킹 프로필은 유지됩니다.'
   },
   INVENTORY_HISTORY:{
-    table:'inventory_logs',label:'오래된 인벤토리 변동 기록',retentionDefault:90,
+    table:'inventory_logs',label:'오래된 인벤토리 변동 기록',retentionDefault:30,
     whereSql:'1=1',reasonColumn:false,
     description:'현재 인벤토리 수량과 별도인 오래된 변동 감사 기록만 정리합니다. 실제 보유 아이템은 cnine_user_inventory에 유지됩니다.'
   },
@@ -794,9 +794,12 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
         'grade',grade,'rarity',grade,'image',COALESCE((SELECT image_url FROM cards WHERE id=result_card_id),'')))
     WHERE rowid IN (SELECT rowid FROM high_grade_reroll_usage_v2 WHERE used_at<datetime('now','-30 days')
       AND LENGTH(COALESCE(response_json,''))>1024 ORDER BY used_at LIMIT ?)`},
-  {key:'inventory_logs',table:'inventory_logs',probe:`SELECT 1 FROM inventory_logs WHERE created_at<datetime('now','-90 days') LIMIT 1`,
+  // V1803: 90일 보존은 도달 불가였다. 하루 22.8만 행씩 늘어 90일이면 2,050만 행이고,
+  // 인덱스 4개까지 더하면 이 테이블만 5~6GB — DB 한도(10GB)를 먼저 넘긴다.
+  // 주간 프리미엄 큐브 중복지급 방지가 최근 7일치를 조회하므로 30일이면 여유 4배다.
+  {key:'inventory_logs',table:'inventory_logs',probe:`SELECT 1 FROM inventory_logs WHERE created_at<datetime('now','-30 days') LIMIT 1`,
     sql:`DELETE FROM inventory_logs WHERE id IN (
-    SELECT id FROM inventory_logs WHERE created_at<datetime('now','-90 days') ORDER BY created_at LIMIT ?)`},
+    SELECT id FROM inventory_logs WHERE created_at<datetime('now','-30 days') ORDER BY created_at LIMIT ?)`},
   {key:'magic_crystal_logs',table:'magic_crystal_logs',probe:`SELECT 1 FROM magic_crystal_logs WHERE created_at<datetime('now','-30 days') LIMIT 1`,
     sql:`DELETE FROM magic_crystal_logs WHERE id IN (
     SELECT id FROM magic_crystal_logs WHERE created_at<datetime('now','-30 days') ORDER BY created_at LIMIT ?)`},

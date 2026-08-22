@@ -15,7 +15,7 @@
   async function purgeSelected(){let ids=$$('.cleanupUserCheck:checked').map(x=>Number(x.value));if(!ids.length)return alert('삭제할 후보를 선택하세요.');const phrase=prompt(`선택한 ${ids.length}명의 계정과 연관 데이터를 영구 삭제합니다.\n최근 활동·유효 세션·LIMITED 이상·+8강 이상 보유 계정은 서버가 삭제 직전에 다시 차단합니다.\n\n계속하려면 휴면계정삭제 를 입력하세요.`,'');if(phrase!=='휴면계정삭제')return alert('삭제를 취소했습니다.');const btn=$('#cleanupDeleteBtn');busy(btn,true,'배치 삭제 중...');let done=0,total=ids.length;try{while(ids.length){const chunk=ids.splice(0,10),d=await request('admin/storage-cleanup/delete',{method:'POST',body:JSON.stringify({ids:chunk,criteria:lastCriteria||criteria(),confirmation:'휴면계정삭제'})});done+=Number(d.deletedUsers||0);chunk.forEach(id=>$(`.storageCandidate[data-id="${id}"]`)?.remove());const pct=Math.min(100,done/total*100);$('#cleanupProgressBar').style.width=pct+'%';$('#cleanupProgressText').textContent=`${done} / ${total}명 삭제 완료 · 현재 단계 ${Object.entries(d.changes||{}).filter(([,v])=>v).map(([k,v])=>`${k} ${v}`).slice(0,3).join(', ')}`}
       alert(`${done}명의 휴면·저활동 계정을 정리했습니다.\nDB 대시보드 용량 반영은 지연될 수 있으며 삭제된 페이지는 신규 데이터에 재사용됩니다.`);await loadSummary();
     }catch(e){alert(`정리 작업이 중단되었습니다. 완료된 배치는 유지됩니다.\n${e.message}`)}finally{busy(btn,false);updateSelected()}}
-  const safeDefaults={SHARD_DUPLICATE:3,COIN_PACK_DRAW:14,BATTLE_HISTORY:7,PVP_HISTORY:14,INVENTORY_HISTORY:90,MAGIC_CRYSTAL_HISTORY:30,TOWER_HISTORY:90};
+  const safeDefaults={SHARD_DUPLICATE:3,COIN_PACK_DRAW:14,BATTLE_HISTORY:7,PVP_HISTORY:14,INVENTORY_HISTORY:30,MAGIC_CRYSTAL_HISTORY:30,TOWER_HISTORY:90};
   function safeOpts(){
     const targetRows=Math.max(10000,Math.min(1000000,Number($('#cleanupSafeTarget').value)||250000));
     return {

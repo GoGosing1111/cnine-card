@@ -816,9 +816,6 @@ function renderShell(tab) {
   }
   if(tab!=='auction'&&typeof window.stopAuctionHouseView==='function')window.stopAuctionHouseView();
   if(tab!=='prediction'&&typeof window.stopCoinPredictionView==='function')window.stopCoinPredictionView();
-  // V1803: 로비 BGM 은 로비에서만 난다. 다른 화면으로 넘어가는 순간 끊는다.
-  // (재생 시작은 아래 로그인 확인을 통과한 뒤에 한다 — 로그인 화면에서 소리가 나면 안 된다)
-  if(tab!=='home'&&window.lobbyBgm){try{window.lobbyBgm.stop()}catch(_){}}
   runtimeCommandContext=tab;
   const burningPageActive=burningEventState.enabled===true,burningPageMode=burningMode();
   document.documentElement.classList.toggle('burning-event-active',burningPageActive&&burningPageMode==='BURNING');
@@ -826,7 +823,12 @@ function renderShell(tab) {
   if(tab!=='buy'){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open')}
   const user = loadUser();
   if (!user) return renderLogin();
-  if(tab==='home'&&window.lobbyBgm){try{window.lobbyBgm.start()}catch(_){}}
+  // V1803: 로비 BGM 은 로비에서만 난다.
+  // V21 어댑터가 renderShell 을 감싸고 있어서, 로비를 그릴 때 이 함수에 들어오는 tab 은
+  // 'home' 이 아니라 'buy' 다(exactRenderShell 이 requested==='home' 을 'buy' 로 바꿔 부른다).
+  // 그래서 tab 값으로 판단하지 않고, 어댑터가 화면을 다 그린 다음 프레임에
+  // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
+  if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
   const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
   const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop'].includes(tab),marketActive=['prediction','auction'].includes(tab);
