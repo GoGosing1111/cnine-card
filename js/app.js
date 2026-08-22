@@ -1833,6 +1833,8 @@ async function startBattle(){
     setTimeout(()=>{modal.onclick=()=>renderShell('battle')},450);
 
   }catch(e){
+    // V1803: 여기서 티커를 끄지 않아, 20초에 실패한 요청이 화면에서는 34초까지 도는 것처럼 보였다.
+    try{window.__battleEntryPhase?.(false)}catch(_){}
     battleState.autoRunning=false;
     console.error('PVE 전투 시작 실패:',e);
     modal.classList.remove('battle-v3-preparing');
