@@ -3620,6 +3620,22 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
 }
 
 
+// V1807 운영 중인 FUR 카드 id 목록 -------------------------------------
+// 뽑기마다 도는 "내 FUR 보유 확인"이 user_cards 를 통째로 훑은 뒤 cards 와
+// 조인해서 FUR만 걸러내고 있었다. 실측 24시간: 426,581회 · 3.65억 행 ·
+// 호출당 855행(= 그 유저 도감 전체). 그런데 운영 중인 FUR 카드는 14장뿐이다.
+// id 목록을 5분 캐시해 두고 (user_id,card_id) 기본키로 그 14개만 찍는다.
+let activeFurCardIdsCache=null;
+function activeFurCardIds(env){
+  const now=Date.now();
+  if(activeFurCardIdsCache&&activeFurCardIdsCache.expiresAt>now)return activeFurCardIdsCache.promise;
+  const promise=env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
+    WHERE UPPER(c.rarity)='FUR' AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).all()
+    .then(rows=>(rows.results||[]).map(row=>String(row.id)))
+    .catch(error=>{if(activeFurCardIdsCache?.promise===promise)activeFurCardIdsCache=null;throw error});
+  activeFurCardIdsCache={promise,expiresAt:now+300000};
+  return promise;
+}
 const drawContextCache=new Map();
 async function queryDrawContext(env,pack){
   const allowed=JSON.parse(pack.allowed_rarities).filter(rarity=>DRAW_RARITIES.includes(rarity)&&rarity!=='LIMITED');
@@ -3658,7 +3674,10 @@ async function loadDrawContext(env,pack){
   const key=String(pack.id),now=Date.now(),cached=drawContextCache.get(key);
   if(cached&&cached.expiresAt>now)return cached.promise;
   const promise=queryDrawContext(env,pack).catch(error=>{if(drawContextCache.get(key)?.promise===promise)drawContextCache.delete(key);throw error});
-  drawContextCache.set(key,{promise,expiresAt:now+15000});
+  // V1807: 카드 풀은 호출당 891행을 읽는데 24시간 138,807회 돌았다(1.24억 행).
+  //   내용이 바뀌는 건 관리자가 카드/팩을 수정할 때뿐이고 그때는 아래에서
+  //   drawContextCache.clear() 가 이미 불린다. 15초는 너무 짧았다.
+  drawContextCache.set(key,{promise,expiresAt:now+120000});
   return promise;
 }
 function drawPoolFromContext(ctx,rarity){
@@ -4538,7 +4557,7 @@ async function handleRequest(context){
         const ids=[...new Set((stored.results||[]).map(item=>String(item?.card?.id||'')).filter(Boolean))];
         const [latestUser,cardRows,fxByGrade]=await Promise.all([
           env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first(),
-          ids.length?env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE CAST(c.id AS TEXT) IN (SELECT CAST(value AS TEXT) FROM json_each(?))`).bind(JSON.stringify(ids)).all():Promise.resolve({results:[]}),
+          ids.length?env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id IN (SELECT value FROM json_each(?))`).bind(JSON.stringify(ids)).all():Promise.resolve({results:[]}),
           cardAcquisitionEffectsByGrade(env)
         ]);
         if(!latestUser)return stored;
@@ -4662,11 +4681,18 @@ async function handleRequest(context){
           return json({error:'코인이 부족합니다.'},400);
         }
 
-        const ownedFurRowsPromise=env.DB.prepare(`SELECT uc.card_id FROM user_cards uc
-          JOIN cards_effective_v1210 c ON c.id=uc.card_id
-          JOIN members m ON m.id=c.member_id
-          WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
-            AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(user.id).all();
+        // V1807: 855행 훑기 → FUR id 14개를 기본키로 직접 조회. 최대 14행.
+        //   FUR 카드가 90장을 넘어가면 D1 바인딩 한도(100개)에 걸리므로 옛 방식으로 되돌린다.
+        const ownedFurRowsPromise=activeFurCardIds(env).then(furIds=>{
+          if(!furIds.length)return {results:[]};
+          if(furIds.length>90)return env.DB.prepare(`SELECT uc.card_id FROM user_cards uc
+            JOIN cards_effective_v1210 c ON c.id=uc.card_id
+            JOIN members m ON m.id=c.member_id
+            WHERE uc.user_id=? AND UPPER(c.rarity)='FUR' AND COALESCE(uc.quantity,0)>0
+              AND c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(user.id).all();
+          return env.DB.prepare(`SELECT card_id FROM user_cards
+            WHERE user_id=? AND COALESCE(quantity,0)>0 AND card_id IN (${furIds.map(()=>'?').join(',')})`).bind(user.id,...furIds).all();
+        });
         const [baseDrawContext,livePitySettings,liveFurFirstSettings,userPityState,ownedFurRows]=await Promise.all([
           loadDrawContext(env,pack),
           pitySettings(env),
@@ -4732,7 +4758,7 @@ async function handleRequest(context){
           const ids=[...new Set(selected.map(card=>String(card?.id||'')).filter(Boolean))];
           if(!ids.length||selected.some(card=>!card?.id))throw new Error('카드 추첨 결과 검증에 실패했습니다. 다시 시도하세요.');
           const rows=(await env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-            WHERE CAST(c.id AS TEXT) IN (SELECT CAST(value AS TEXT) FROM json_each(?)) AND c.is_active=1
+            WHERE c.id IN (SELECT value FROM json_each(?)) AND c.is_active=1
               AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(JSON.stringify(ids)).all()).results;
           const active=new Set((rows||[]).map(row=>String(row.id)));
           const inactive=ids.filter(id=>!active.has(id));
@@ -4768,9 +4794,9 @@ async function handleRequest(context){
         const [validationRows,acquisitionFxByGrade]=await Promise.all([
           env.DB.batch([
             env.DB.prepare(`SELECT c.id FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-              WHERE CAST(c.id AS TEXT) IN (SELECT CAST(value AS TEXT) FROM json_each(?)) AND c.is_active=1
+              WHERE c.id IN (SELECT value FROM json_each(?)) AND c.is_active=1
                 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1`).bind(uniqueIdsJson),
-            env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND CAST(card_id AS TEXT) IN (SELECT CAST(value AS TEXT) FROM json_each(?))`).bind(user.id,uniqueIdsJson)
+            env.DB.prepare(`SELECT card_id,quantity,breakthrough_level FROM user_cards WHERE user_id=? AND card_id IN (SELECT value FROM json_each(?))`).bind(user.id,uniqueIdsJson)
           ]),
           cardAcquisitionEffectsByGrade(env)
         ]);
