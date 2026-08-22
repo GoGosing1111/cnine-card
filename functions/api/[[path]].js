@@ -3935,20 +3935,44 @@ function userMutationLeaseMs(actionPath){
 // D1(SQLite)은 단일 라이터라 전투 1회마다 발생하던 락 INSERT + DELETE 두 번의 쓰기가
 // 모든 유저의 쓰기 큐에 직렬로 쌓여, 동시접속 수에 비례해 지연이 커진다.
 // 바인딩이 없으면 기존 D1 경로로 그대로 동작한다(무설정 하위호환).
+// V1803: 이 호출에는 타임아웃이 없었다. Durable Object 가 응답하지 않으면
+// stub.fetch 가 그대로 매달리고, 이 함수는 요청 라우팅보다 먼저 돌기 때문에
+// 전투 요청 전체가 멈춘다. 클라이언트에는 "전투 화면 준비 중" 만 20초 넘게 떠 있었다.
+// (실측: 리소스 0.0초 완료 · 서버 27초 미응답)
+// 락은 어디까지나 중복 처리 방지 보조 장치다. 제때 답하지 않으면 D1 락으로 내려간다.
+const DURABLE_LOCK_TIMEOUT_MS=1200;
+// V1803: DO 가 죽어 있으면 매 요청이 1.2초씩 손해다.
+// 연속 2회 실패하면 이 워커 인스턴스에서는 더 시도하지 않고 바로 D1 락으로 간다.
+// 60초 뒤 한 번 다시 떠보고, 살아나면 정상 경로로 복귀한다.
+let durableLockFailures=0,durableLockDisabledUntil=0;
 async function durableUserLock(env,userId,action,body){
   const namespace=env.USER_LOCK;
   if(!namespace)return null;
+  if(durableLockDisabledUntil>Date.now())return null;
+  let timer=null;
   try{
     const stub=namespace.get(namespace.idFromName(`user:${userId}`));
-    const response=await stub.fetch(`https://user-lock/${action}`,{
+    const call=stub.fetch(`https://user-lock/${action}`,{
       method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)
     });
+    const timeout=new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('USER_LOCK_TIMEOUT')),DURABLE_LOCK_TIMEOUT_MS)});
+    const response=await Promise.race([call,timeout]);
+    // 늦게 오는 응답이 미처리 거부로 남지 않게 정리한다.
+    call.catch(()=>{});
+    durableLockFailures=0;
     if(!response.ok)return null;
     return await response.json();
   }catch(error){
-    console.warn('USER_LOCK durable object unavailable, falling back to D1',error);
+    durableLockFailures+=1;
+    if(durableLockFailures>=2){
+      durableLockDisabledUntil=Date.now()+60000;
+      durableLockFailures=0;
+      console.warn('USER_LOCK disabled for 60s after repeated failures — using D1 lock');
+    }
+    if(String(error?.message||'')==='USER_LOCK_TIMEOUT')console.warn('USER_LOCK durable object timed out, falling back to D1',{userId,action});
+    else console.warn('USER_LOCK durable object unavailable, falling back to D1',error);
     return null;
-  }
+  }finally{ if(timer)clearTimeout(timer) }
 }
 async function acquireUserMutationLock(env,userId,path){
   const token=crypto.randomUUID(),actionPath=String(path).slice(0,100),leaseMs=userMutationLeaseMs(String(path));
@@ -7848,8 +7872,19 @@ export async function onRequest(context){
     try{await requestMaintenanceMode(request,context.env)}catch(_){}
     const user=await authenticate(request,context.env);
     if(user){
-      mutationLock=await acquireUserMutationLock(context.env,user.id,actionPath);
-      if(!mutationLock)response=json({error:'같은 계정의 다른 게임 요청을 처리 중입니다. 잠시 후 다시 시도해 주세요.',code:'USER_ACTION_IN_PROGRESS',retryable:true,retryAfterMs:800},409);
+      // V1803: 락 획득이 오래 걸리면 락을 포기하고 진행한다.
+      // 이 단계는 라우팅보다 먼저라, 여기서 막히면 요청 자체가 통째로 멈춘다.
+      // 중복 처리는 requestId 영수증이 이미 막고 있으므로 락은 보조 수단이다.
+      let lockTimedOut=false;
+      const lockGuard=new Promise(resolve=>setTimeout(()=>{lockTimedOut=true;resolve('LOCK_GUARD_TIMEOUT')},2500));
+      const acquired=await Promise.race([acquireUserMutationLock(context.env,user.id,actionPath).catch(error=>{console.warn('user mutation lock acquire failed',error);return 'LOCK_ERROR'}),lockGuard]);
+      if(acquired==='LOCK_GUARD_TIMEOUT'||acquired==='LOCK_ERROR'){
+        console.warn('SLOW_USER_LOCK',JSON.stringify({path:actionPath,userId:user.id,reason:lockTimedOut?'TIMEOUT':'ERROR'}));
+        mutationLock=null;                       // 락 없이 진행 — 멈추는 것보다 낫다
+      }else{
+        mutationLock=acquired;
+        if(!mutationLock)response=json({error:'같은 계정의 다른 게임 요청을 처리 중입니다. 잠시 후 다시 시도해 주세요.',code:'USER_ACTION_IN_PROGRESS',retryable:true,retryAfterMs:400},409);
+      }
     }
   }
   // V1784: 락 해제는 응답 지연 경로에서 뺀다. waitUntil 로 넘겨도 쓰기는 그대로 수행되며,
