@@ -208,7 +208,7 @@ async function refreshBurningEventState({forceFresh=false,rerender=true}={}){
   burningEventRefreshPromise=(async()=>{
     try{
       const path=forceFresh?'burning-event/status?fresh=1':'burning-event/status';
-      const d=await apiRequest(path,{}, {ttl:0,timeoutMs:7000}),next=d.burningEvent||{};
+      const d=await apiRequest(path,{}, {ttl:0,timeoutMs:12000}),next=d.burningEvent||{};
       const changed=applyBurningEventState(next,{rerender});
       if(changed)try{writeStartupSnapshot({burningEvent:next})}catch(_){}
       return changed;
@@ -920,7 +920,7 @@ async function loadShellSummary(includeAcquisitionFeeds=false){
   const magicCard=document.getElementById('magicSummary');if(magicCard)magicCard.onclick=()=>renderShell('magic');
   if(!API_MODE)return;
   try{
-    const d=await apiRequest(`shell/summary${includeAcquisitionFeeds?'?feeds=1':''}`,{}, {ttl:30000,timeoutMs:7000});
+    const d=await apiRequest(`shell/summary${includeAcquisitionFeeds?'?feeds=1':''}`,{}, {ttl:30000,timeoutMs:12000});
     const inventory=d.inventory||{},meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');
     updateMessageNewBadges(d.messages?.unread||0);
     if(meta)meta.textContent=Number(inventory.totalQuantity)>0?`보유 ${Number(inventory.totalQuantity).toLocaleString()}개 · ${Number(inventory.ownedTypes)}종`:'획득한 특별 보관품 없음';
@@ -1140,7 +1140,7 @@ const LAST_PVE_MONSTER_KEY='cnine:lastPveMonsterId';
 function getLastPveMonsterId(){try{const value=Number(localStorage.getItem(LAST_PVE_MONSTER_KEY));return Number.isFinite(value)&&value>0?value:null}catch(_){return null}}
 function saveLastPveMonsterId(monsterId){try{const value=Number(monsterId);if(Number.isFinite(value)&&value>0)localStorage.setItem(LAST_PVE_MONSTER_KEY,String(value))}catch(_){}}
 let battleState={config:null,battleEngine:{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters:[],selectedMonster:null,deck:[],characterBonus:{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:null,energyTimer:null,serverOffset:0,restoreMonsterCursor:false};
-let battleViewLoadSeq=0,battleViewRetryTimer=null;
+let battleViewLoadSeq=0,battleViewRetryTimer=null,battleViewRetryStreak=0;
 
 function stopBattleEnergyTimer(){if(battleState.energyTimer){clearInterval(battleState.energyTimer);battleState.energyTimer=null}}
 function battleEnergyText(ms){const sec=Math.max(0,Math.ceil(ms/1000)),m=Math.floor(sec/60),s=sec%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
@@ -1269,17 +1269,19 @@ async function loadBattleView(){
   // in-memory deck and target once when returning from that battle.
   if(battleState.reuseBattleSnapshot&&(battleState.monsters||[]).length){battleState.reuseBattleSnapshot=false;renderBattleBuilder();startBattleEnergyTimer();return;}
   if(!API_MODE){const root=document.getElementById('battleCards');if(root)root.innerHTML='<div class="empty-recent">현재 전투 콘텐츠를 이용할 수 없습니다. 잠시 후 다시 시도해주세요.</div>';return;}
-  const loadSeq=++battleViewLoadSeq,snapshotVisible=renderBattleSnapshot(),retryDelays=[0,260,680,1350];
+  // V1802-perf: 서버가 밀릴 때 4연속 재시도는 그 순간 트래픽을 4배로 만들어 상황을 더 악화시켰다.
+  // 시도를 3회로 줄이고 간격을 넉넉히 둔다. 타임아웃도 5초 → 12초로 올려, 느릴 뿐인 응답을 실패로 버리지 않는다.
+  const loadSeq=++battleViewLoadSeq,snapshotVisible=renderBattleSnapshot(),retryDelays=[0,700,2000];
   if(snapshotVisible)setBattleReconnectStatus('몬스터·출전 덱 최신 정보 동기화 중…');
   let lastError=null;
   for(let attempt=0;attempt<retryDelays.length;attempt+=1){
     if(loadSeq!==battleViewLoadSeq||runtimeCommandContext!=='battle')return;
     if(retryDelays[attempt])await battleSleep(retryDelays[attempt]);
     try{
-      const d=await apiRequest('battle/config',{}, {ttl:0,timeoutMs:5000,replaceInflight:attempt>0});
+      const d=await apiRequest('battle/config',{}, {ttl:0,timeoutMs:12000,replaceInflight:attempt>0});
       if(loadSeq!==battleViewLoadSeq||runtimeCommandContext!=='battle')return;
       const owned=ownedIds(loadUser()),savedDeck=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5),monsters=d.monsters||[],lastMonsterId=getLastPveMonsterId(),selectedMonster=monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(monsters[0]?.id||null);
-      stopBattleEnergyTimer();
+      stopBattleEnergyTimer();battleViewRetryStreak=0;
       battleState={...battleState,config:d.settings,battleEngine:d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters,selectedMonster,deck:savedDeck,characterBonus:d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now(),restoreMonsterCursor:true};
       renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();return;
     }catch(error){
@@ -1291,7 +1293,13 @@ async function loadBattleView(){
   if(loadSeq!==battleViewLoadSeq||runtimeCommandContext!=='battle')return;
   if((battleState.monsters||[]).length){renderBattleSnapshot();setBattleReconnectStatus('기존 전투 정보를 표시 중 · 서버 자동 재연결 대기');}
   else setBattleReconnectStatus(lastError?.message||'전투 정보를 불러오지 못했습니다.');
-  if(isTransientBattleConfigError(lastError))battleViewRetryTimer=setTimeout(()=>{battleViewRetryTimer=null;if(runtimeCommandContext==='battle')void loadBattleView()},1800);
+  if(isTransientBattleConfigError(lastError)){
+    // 화면을 열어둔 유저 전원이 1.8초마다 다시 두드리면 서버가 회복할 틈이 없다.
+    // 실패가 이어질수록 간격을 3초 → 6 → 12 → 24 → 30초(상한)로 늘린다.
+    battleViewRetryStreak=Math.min(battleViewRetryStreak+1,5);
+    const backoff=Math.min(30000,3000*(2**(battleViewRetryStreak-1)))+Math.floor(Math.random()*600);
+    battleViewRetryTimer=setTimeout(()=>{battleViewRetryTimer=null;if(runtimeCommandContext==='battle')void loadBattleView()},backoff);
+  }
 }
 
 const PVE_MONSTER_TABS=['NORMAL','HARD','HELL','NIGHTMARE'];
@@ -2895,7 +2903,7 @@ async function refreshStartupCatalog(runId,cardTask,packTask){
 async function verifyStartupSession(){
   if(API_TOKEN){
     try{
-      const me=await apiRequest('me/summary',{}, {timeoutMs:6000,ttl:0});
+      const me=await apiRequest('me/summary',{}, {timeoutMs:12000,ttl:0});
       const current=loadUser();
       if(current)saveUser(mergeApiUserSummary(me.user,current));
       else{const full=await apiRequest('me',{}, {timeoutMs:10000,ttl:0});saveUser(apiUserToLocal(full.user));}
@@ -2914,8 +2922,8 @@ async function loadStartupOptionalFeatures(runId){
   if(collectionSnapshotLooksIncomplete(loadUser()))await syncCollectionFromServer({force:true,rerender:runtimeCommandContext==='dex'});
   const previousPvp=pvpFeatureEnabled,previousMagic=Boolean(magicSystemState.visible);
   const [pvpResult,magicResult]=await Promise.all([
-    settled(apiRequest('pvp/config',{}, {timeoutMs:5000})),
-    settled(apiRequest('magic/status',{}, {timeoutMs:5000,ttl:0}))
+    settled(apiRequest('pvp/config',{}, {timeoutMs:12000})),
+    settled(apiRequest('magic/status',{}, {timeoutMs:10000,ttl:0}))
   ]);
   if(runId!==startupRunId)return;
   if(pvpResult.ok)pvpFeatureEnabled=Boolean(pvpResult.value?.settings?.enabled||pvpResult.value?.bypass||pvpResult.value?.lifecycle?.settling);
