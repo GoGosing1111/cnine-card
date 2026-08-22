@@ -3224,6 +3224,27 @@ function bearerToken(request){return (request.headers.get('authorization')||'').
 function primeSessionRow(request,tokenHash,user){
   if(!requestSessionRowCache.has(request))requestSessionRowCache.set(request,{tokenHash,user:user||null});
 }
+// V1803: 세션 조회는 모든 요청이 무조건 한 번 친다. D1 왕복이 200~500ms 인 지금
+// 그것만으로 매 요청이 그만큼 늦어진다. 토큰별 조회 결과를 워커 인스턴스에 5초만 들고 있는다.
+//
+// 규칙 두 가지로 신선도를 지킨다.
+//   · 캐시를 "읽는" 건 GET 뿐이다. 쓰기는 코인·조각 잔액을 그대로 믿고 차감하므로 항상 최신을 읽는다.
+//   · 쓰기 요청이 들어오면 그 토큰의 캐시를 즉시 버린다. 구매 직후 GET 이 옛 잔액을 보지 않는다.
+const SESSION_CACHE_TTL_MS=5000;
+const SESSION_CACHE_MAX=500;
+const sessionUserCache=new Map();
+function cachedSessionUser(tokenHash){
+  const hit=sessionUserCache.get(tokenHash);
+  if(!hit)return null;
+  if(hit.expiresAt<=Date.now()){sessionUserCache.delete(tokenHash);return null}
+  return hit.user;
+}
+function rememberSessionUser(tokenHash,user){
+  if(!tokenHash||!user)return;
+  if(sessionUserCache.size>=SESSION_CACHE_MAX)sessionUserCache.clear();
+  sessionUserCache.set(tokenHash,{user,expiresAt:Date.now()+SESSION_CACHE_TTL_MS});
+}
+function forgetSessionUser(tokenHash){if(tokenHash)sessionUserCache.delete(tokenHash)}
 async function authenticate(request,env){
   if(requestAuthenticationCache.has(request))return requestAuthenticationCache.get(request);
   const authentication=(async()=>{
@@ -3231,13 +3252,23 @@ async function authenticate(request,env){
   if(!raw) return null;
   const primed=requestSessionRowCache.get(request);
   const tokenHash=primed?.tokenHash||await hash(raw);
-  const user=primed?primed.user:await env.DB.prepare(SESSION_LOOKUP_SQL).bind(tokenHash).first();
+  const readOnly=String(request.method||'GET').toUpperCase()==='GET';
+  if(!readOnly)forgetSessionUser(tokenHash);          // 쓰기가 지나가면 캐시는 버린다
+  let user=primed?primed.user:null,fromCache=false;
+  if(!user&&readOnly){
+    const hit=cachedSessionUser(tokenHash);
+    if(hit){user=hit;fromCache=true}
+  }
+  if(!user)user=await env.DB.prepare(SESSION_LOOKUP_SQL).bind(tokenHash).first();
   if(!user)return null;
-  const expiresMs=Date.parse(String(user.session_expires_at||'').replace(' ','T')+'Z');
-  if(Number.isFinite(expiresMs)&&expiresMs-Date.now()<=7*24*60*60*1000){
-    const extended=new Date(Date.now()+30*24*60*60*1000).toISOString();
-    await env.DB.prepare('UPDATE sessions SET expires_at=? WHERE token_hash=?').bind(extended,tokenHash).run();
-    user.session_expires_at=extended;
+  if(!fromCache){
+    const expiresMs=Date.parse(String(user.session_expires_at||'').replace(' ','T')+'Z');
+    if(Number.isFinite(expiresMs)&&expiresMs-Date.now()<=7*24*60*60*1000){
+      const extended=new Date(Date.now()+30*24*60*60*1000).toISOString();
+      await env.DB.prepare('UPDATE sessions SET expires_at=? WHERE token_hash=?').bind(extended,tokenHash).run();
+      user.session_expires_at=extended;
+    }
+    if(readOnly)rememberSessionUser(tokenHash,user);
   }
   return user;
   })();
