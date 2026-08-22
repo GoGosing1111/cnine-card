@@ -2,24 +2,6 @@ name = "cnine-card"
 compatibility_date = "2026-07-01"
 pages_build_output_dir = "."
 
-# V1802: Smart Placement — 워커를 "유저 근처" 가 아니라 "D1 근처" 에서 실행한다.
-#
-# 실측(서울 ICN 기준):
-#   브라우저 → Cloudflare 엣지        20ms   (네트워크는 정상)
-#   워커 → D1 조회 1회                137ms  (같은 지역이면 5~15ms 여야 한다)
-# D1 주 노드가 멀리 있어서, 쿼리를 순차로 N번 하면 137ms × N 이 그대로 응답 시간이 된다.
-# battle/config 는 쿼리 10회라 이것만으로 1.4초가 나온다.
-#
-# Smart Placement 를 켜면 워커가 DB 옆에서 돌기 때문에
-# "유저→DB지역 왕복 1회 + 쿼리 N회 × 수 ms" 로 바뀐다. DB 이전 없이 같은 효과를 낸다.
-#
-# 주의
-#   · 정적 파일(이미지·JS·CSS)은 그대로 유저와 가장 가까운 곳에서 나간다. 로딩 속도에 영향 없다.
-#   · Cloudflare 가 트래픽을 분석해 배치를 정하므로 배포 후 최대 15분 뒤부터 효과가 나타난다.
-#   · 되돌리려면 아래 [placement] 두 줄을 지우고 다시 배포하면 된다.
-[placement]
-mode = "smart"
-
 # Git 연동 Pages에서는 Cloudflare 대시보드의 Bindings에서 DB를 연결합니다.
 # 로컬 wrangler 사용 시 아래 database_id를 실제 값으로 바꾸세요.
 [[d1_databases]]
