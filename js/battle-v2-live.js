@@ -38,6 +38,10 @@
     let raw = String(value || '').trim();
     if (!raw) return '/assets/ui/cninelogo.png';
     if (/^(?:data:|blob:)/i.test(raw)) return raw;
+    // V1803: 카드 원본(평균 334KB)을 전투에서 그대로 받던 것을 도감과 같은 384px 변형(약 13KB)으로 돌린다.
+    // 전투 카드는 화면에서 58~112px 이라 화질 손실이 없고, 도감을 본 적 있으면 캐시에서 바로 나온다.
+    // 매핑이 없는 이미지(몬스터·이펙트·UI)는 그대로 통과한다.
+    try { const mapped = window.cnineBattleSpriteUrl?.(raw); if (mapped && mapped !== raw) raw = mapped; } catch (_) { /* 무시 */ }
     raw = raw.replace(/\\/g, '/').replace(/#/g, '%23');
     if (/^https?:\/\//i.test(raw)) {
       try {

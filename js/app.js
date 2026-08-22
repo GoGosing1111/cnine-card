@@ -607,13 +607,13 @@ const FEATURE_RESOURCE_MANIFEST={
   battleV2:{
     styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=1798-roster-frame'],
     scripts:[
-      'js/battle-v2-live.js?v=3.1.0-card-cutin-1-3x',
+      'js/battle-v2-live.js?v=3.2.0-battle-sprite',
       'js/project-v-battle-art-adapter-v1.js?v=3.1.0-manifest-cache',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.2.0-manifest-cache',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.1.0-manifest-cache',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=55-pvp-identity',
-      'js/battle-v3-live.js?v=3.15.0-roster-geometry-guard'
+      'js/battle-v3-live.js?v=3.16.0-battle-sprite'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'
   }
@@ -640,9 +640,30 @@ function ensureFeatureResources(key){
   featureResourcePromises.set(key,request);return request;
 }
 function featureKeyForTab(tab){return tab==='character'?'character':tab==='workshop'?'workshop':tab==='dex'?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
+// V1803: 전투 화면의 카드 스프라이트는 실제로 58~112 CSS px 로 그려진다(battle-v3-live 의 카드 폭).
+// 그런데 지금까지 도감 원본 이미지를 그대로 받고 있었다 — 평균 334KB, 가장 큰 것은 9.4MB.
+// 5장 덱이면 매 전투마다 약 1.7MB 다. 게다가 도감 화면은 384px 변형(평균 9~13KB)을 쓰기 때문에
+// URL 이 달라 캐시도 공유되지 않아, 전투에 들어갈 때마다 새로 받았다.
+//
+// 같은 384px 변형을 전투에서도 쓰면 1,668KB → 45KB 로 줄고 화질 손실은 없다(384 ≥ 112 × DPR3 = 336).
+// 심지어 도감을 한 번이라도 봤다면 이미 브라우저 캐시에 있다.
+// 형식은 webp 로 고정한다. avif 가 4KB 더 작지만 지원 판별 코드가 필요하고,
+// 334KB → 13KB 앞에서 그 차이는 의미가 없다.
+const BATTLE_SPRITE_WIDTH_DEFAULT=384;
+function battleSpriteUrl(source,width=BATTLE_SPRITE_WIDTH_DEFAULT){
+  const raw=String(source||'').trim();
+  if(!raw||/^(?:data:|blob:|https?:)/i.test(raw))return raw;
+  const normalized=raw.replaceAll('\\','/').replace(/^\/+/,'').split('?',1)[0];
+  const base=window.CNineResponsiveCardImages?.[normalized];
+  if(!base)return raw;                       // 변형이 없는 카드는 원본 그대로 (회귀 없음)
+  return `${base}-${Number(width)<=192?192:384}.webp`;
+}
+window.cnineBattleSpriteUrl=battleSpriteUrl;
+
 const BATTLE_PREWARMED_IMAGES = new Set();
 function prewarmBattleImage(url){
-  const source=String(url||'').trim();
+  // 렌더러가 실제로 쓸 URL 을 그대로 데워야 한다. 원본을 데우면 두 번 받게 된다.
+  const source=battleSpriteUrl(String(url||'').trim());
   if(!source||BATTLE_PREWARMED_IMAGES.has(source))return;
   BATTLE_PREWARMED_IMAGES.add(source);
   const image=new Image();

@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1803b-lobby-bgm-route';
+const SHELL_CACHE='soop-card-shell-v1803c-battle-sprite';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
