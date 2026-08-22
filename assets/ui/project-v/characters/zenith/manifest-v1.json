@@ -4,10 +4,10 @@
   "scope": "BATTLE_ENGINE_ONLY",
   "rarity": "ZENITH",
   "rosterSnapshot": {
-    "asOf": "2026-08-18",
-    "expectedCount": 21,
+    "asOf": "2026-08-23",
+    "expectedCount": 22,
     "identityKey": "cardId",
-    "source": "live D1 read-only roster lock"
+    "source": "live PostgreSQL read-only roster lock"
   },
   "routingContract": {
     "battleEngineOnly": true,
@@ -56,8 +56,8 @@
   },
   "visualApprovalRecord": {
     "status": "APPROVED",
-    "approvedCount": 21,
-    "approvedAt": "2026-08-19",
+    "approvedCount": 22,
+    "approvedAt": "2026-08-23",
     "source": "USER_FINAL_APPROVAL"
   },
   "characters": [
@@ -1651,6 +1651,82 @@
           },
           {
             "path": "assets/responsive/project-v/zenith/zenith-cn-8ea5637062014d9f-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
+    },
+    {
+      "order": 22,
+      "cardId": "CN-0505936A0CBB4E59",
+      "member": "남수댕",
+      "title": "구수댕",
+      "sourceArt": "assets/cards/남수댕/031.webp",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-0505936a0cbb4e59-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 261,
+          "y": 67,
+          "width": 828,
+          "height": 1215
+        },
+        "margins": {
+          "left": 261,
+          "top": 67,
+          "right": 261,
+          "bottom": 68
+        },
+        "safeMarginPx": 67,
+        "alphaPixels": {
+          "transparent": 1368235,
+          "opaque": 438989,
+          "partial": 15276
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.5,
+          0.94963
+        ],
+        "safeMarginPx": 67
+      },
+      "sha256": "FFD03C22343AB649881A69F5790057FA5268BED226D6DA45D2B11390B9F0E64D",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-0505936a0cbb4e59-sd-v1-768.webp",
             "width": 768,
             "height": 768
           }

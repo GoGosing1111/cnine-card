@@ -570,6 +570,28 @@
         "visualApproval": true
       },
       "sha256": "3D5D308F3B5D4A51AAC4E2C980EDDE8364135C492ED1488C89D2C3E19E49CBB7"
+    },
+    {
+      "monsterId": 70,
+      "mode": "HUNT",
+      "modes": [
+        "HUNT",
+        "NIGHTMARE"
+      ],
+      "name": "골 D. 로저",
+      "sourceArt": "assets/tower/goldd.jpg",
+      "battleSprite": "assets/ui/project-v/monsters/hunt-tower/hunt-070-pirate-king-boss-sd-v1.png",
+      "battleSpriteWebp": "assets/ui/project-v/monsters/hunt-tower/hunt-070-pirate-king-boss-sd-v1-768.webp",
+      "battleSpriteWebpSha256": "FEFDE4AB234979A28619DDAB3F5A59EE9FA704DBB21A2DD632B02DFCAE64EF4A",
+      "isBoss": true,
+      "qa": {
+        "technicalPass": true,
+        "visualApproval": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "safeMarginPx": 67
+      },
+      "sha256": "2DF123EB1D65EF688D8EE3EAB665EB6BFD70C4FF03D91F59B92674EC7514C6C9"
     }
   ]
 }

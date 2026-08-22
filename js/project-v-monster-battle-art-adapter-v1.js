@@ -2,7 +2,7 @@
   'use strict';
 
   const root = typeof window !== 'undefined' ? window : globalThis;
-  const MANIFEST_URL = '/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json?v=5-krieg-escanor-fix';
+  const MANIFEST_URL = '/assets/ui/project-v/monsters/hunt-tower/manifest-v1.json?v=6-gold-roger';
   const PLAY_ENTRY_POINTS = Object.freeze([
     'playPveBattleV2Live',
     'playTowerBattleV2Live',
