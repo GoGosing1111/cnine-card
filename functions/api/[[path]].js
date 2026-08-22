@@ -3925,8 +3925,11 @@ async function ensureUserMutationLock(env){
   return userMutationLockReadyPromise;
 }
 function userMutationLeaseMs(actionPath){
+  // V1803: 전투 요청의 리스가 8초였다. 락이 어떤 이유로든 고아가 되면
+  // 그 유저는 8초 동안 전투를 시작할 수 없고, 클라이언트는 그동안 재시도만 돈다.
+  // 전투 처리 자체는 실측 p50 0.1~0.4초라 3초면 충분히 넉넉하다.
   const fastBattleAction=['battle/fight','tower/fight','pvp/match','pvp/fight'].includes(actionPath);
-  return actionPath.startsWith('raid/')?20000:(fastBattleAction?8000:60000);
+  return actionPath.startsWith('raid/')?20000:(fastBattleAction?3000:60000);
 }
 // V1784: USER_LOCK Durable Object 바인딩이 있으면 D1을 전혀 건드리지 않는다.
 // D1(SQLite)은 단일 라이터라 전투 1회마다 발생하던 락 INSERT + DELETE 두 번의 쓰기가

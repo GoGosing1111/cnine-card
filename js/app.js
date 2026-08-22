@@ -1671,14 +1671,26 @@ function startBattleEntryTicker(root){
   const label=root.querySelector('.battle-v3-loader span');
   const status=root.querySelector('.battle-v3-status');
   const startedAt=performance.now();
-  let phase='서버 응답 대기';
+  let phase='전투 준비';
   const paint=()=>{
     const seconds=((performance.now()-startedAt)/1000).toFixed(1);
-    if(label)label.textContent=`${phase} · ${seconds}초`;
-    if(status)status.textContent=`${phase} ${seconds}초`;
+    let detail='';
+    try{ detail=typeof update.report==='function'?update.report():'' }catch(_){ detail='' }
+    const line=detail?`${phase} · ${seconds}초 — ${detail}`:`${phase} · ${seconds}초`;
+    if(label)label.textContent=line;
+    if(status)status.textContent=line;
   };
   paint();
   const timer=setInterval(paint,100);
+  const update=(nextPhase)=>{
+    if(nextPhase===false){clearInterval(timer);window.__battleEntryPhase=null;return Math.round(performance.now()-startedAt)}
+    phase=String(nextPhase||phase);paint();
+    return Math.round(performance.now()-startedAt);
+  };
+  window.__battleEntryPhase=update;
+  return update;
+}
+function unusedBattleTickerLegacy(){
   return (nextPhase)=>{
     if(nextPhase===false){clearInterval(timer);return Math.round(performance.now()-startedAt)}
     phase=String(nextPhase||phase);paint();
@@ -1720,40 +1732,33 @@ async function startBattle(){
       msg=earlyLive?.msg||null;
       const tick=startBattleEntryTicker(earlyLive?.stage||modal);
 
-      // V1803: WebGL 마운트는 서버 응답이 필요 없다(전장·셰이더·컨텍스트).
-      // 응답을 기다리는 동안 미리 올려두면 첫 전투에서 그만큼이 사라진다.
-      const warmPixi=(async()=>{
-        try{
-          await ensureFeatureResources('battleV2');
-          const pixi=window.ProjectVPixiBattle;
-          if(pixi&&!window.__V3_PIXI_MOUNTED&&typeof pixi.mount==='function'){
-            const host=document.querySelector('#pvPixiBattle,.battle-v3-canvas-host');
-            if(host){await pixi.mount(host);window.__V3_PIXI_MOUNTED=true;window.__V3_PIXI_CANVAS=host.querySelector('canvas')}
-          }
-        }catch(error){console.warn('전장 선마운트 실패(무시하고 진행):',error)}
-      })();
-      warmPixi.catch(()=>{});
-
-      const fightStartedAt=performance.now();
-      const [_, d] = await Promise.all([
-        ensureFeatureResources('battleV2'),
-        apiRequest('battle/fight',{
-          method:'POST',
-          body:JSON.stringify({
-            requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,
-            monsterId:battleState.selectedMonster,
-            cardIds:battleState.deck,
-            autoBattle:Boolean(battleState.autoRunning)
-          })
-        },{timeoutMs:20000})
-      ]);
-      const fightMs=Math.round(performance.now()-fightStartedAt);
+      // V1803: 두 대기를 각각 잰다. 예전에는 한 라벨에 묶여 있어서
+      // 리소스가 느린 건지 서버가 느린 건지 화면만 봐서는 구분할 수 없었다.
+      const startedAt=performance.now();
+      let resourceMs=null,fightMs=null;
+      const resourceTask=ensureFeatureResources('battleV2')
+        .then(value=>{resourceMs=Math.round(performance.now()-startedAt);tick();return value});
+      const fightTask=apiRequest('battle/fight',{
+        method:'POST',
+        body:JSON.stringify({
+          requestId:globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random()}`,
+          monsterId:battleState.selectedMonster,
+          cardIds:battleState.deck,
+          autoBattle:Boolean(battleState.autoRunning)
+        })
+      },{timeoutMs:20000}).then(value=>{fightMs=Math.round(performance.now()-startedAt);tick();return value});
+      tick.report=()=>{
+        const done=[];
+        done.push(resourceMs===null?'리소스…':`리소스 ${(resourceMs/1000).toFixed(1)}초✓`);
+        done.push(fightMs===null?'서버…':`서버 ${(fightMs/1000).toFixed(1)}초✓`);
+        return done.join(' · ');
+      };
+      const [_, d] = await Promise.all([resourceTask,fightTask]);
       tick('전장 구성 중');
-      await warmPixi;
 
       if(!d?.battleV2)throw new Error('PROJECT V V3 전투 응답을 받지 못했습니다.');
       const totalMs=tick(false);
-      console.info('[전투 진입]',JSON.stringify({서버응답ms:fightMs,전체ms:totalMs,연출까지ms:totalMs-fightMs}));
+      console.info('[전투 진입]',JSON.stringify({리소스ms:resourceMs,서버ms:fightMs,전체ms:totalMs}));
       const live=window.prepareBattleV2LiveLoading({modal,mode:'PVE',playerName:user?.nickname||'MEMBER TEAM',opponentName:monster.name||'MONSTER'});
       const stage=live.stage,phase=live.phase;
       msg=live.msg;
@@ -3344,9 +3349,12 @@ async function apiRequest(path, options={}, config={}) {
       else{if(response.ok&&config.allowEmpty)return {};throw new Error(response.ok?'서버가 잘못된 형식으로 응답했습니다.':'현재 서비스 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.');}
     }else if(!response.ok&&!config.allowEmpty)throw new Error('서버 요청에 실패했습니다.');
     if(!response.ok&&String(data.code||'').toUpperCase()==='USER_ACTION_IN_PROGRESS'&&BATTLE_ACTION_LOCK_RETRY_PATHS.has(cleanPath)){
+      // V1803: 재시도 12회 × (요청+대기) 는 최악 16초까지 갔다. 화면에는 스피너만 돌아
+      // 유저는 서버가 죽은 줄 안다. 총 대기를 3초 안쪽으로 묶고, 무슨 일인지 화면에 알린다.
       const retryCount=Math.max(0,Number(config.userActionRetryCount||0));
-      if(retryCount<12){
-        const retryAfter=Math.max(180,Math.min(850,Number(data.retryAfterMs||400)))+Math.floor(Math.random()*90);
+      if(retryCount<4){
+        const retryAfter=Math.max(150,Math.min(600,Number(data.retryAfterMs||300)))+Math.floor(Math.random()*80);
+        try{window.__battleEntryPhase?.(`이전 요청 정리 대기 · ${retryCount+1}/4`)}catch(_){}
         await new Promise(resolve=>setTimeout(resolve,retryAfter));
         return apiRequest(path,options,{...config,userActionRetryCount:retryCount+1});
       }
