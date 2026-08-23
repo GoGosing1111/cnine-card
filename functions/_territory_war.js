@@ -654,6 +654,8 @@ function attackRewardPercent(attacks,cfg=DEFAULTS){
   ].sort((a,b)=>a[0]-b[0]);let percent=Number(cfg.attackRewardStarterPercent??25);for(const [threshold,tierPercent] of tiers)if(count>=threshold)percent=tierPercent;return clampInt(percent,0,300,25);
 }
 
+const REWARD_COLUMNS='round_id,user_id,side,result,coin,shards,damage,attacks,required_attacks,base_result_coin,attack_reward_percent,attack_adjusted_coin,counter_bonus_coin,ace_bonus_coin,last_defense_bonus_coin,comeback_bonus_coin,siege_snapshot_bonus_coin,premium_cube_quantity';
+const REWARD_UPDATE='side=excluded.side,result=excluded.result,coin=excluded.coin,shards=excluded.shards,damage=excluded.damage,attacks=excluded.attacks,required_attacks=excluded.required_attacks,base_result_coin=excluded.base_result_coin,attack_reward_percent=excluded.attack_reward_percent,attack_adjusted_coin=excluded.attack_adjusted_coin,counter_bonus_coin=excluded.counter_bonus_coin,ace_bonus_coin=excluded.ace_bonus_coin,last_defense_bonus_coin=excluded.last_defense_bonus_coin,comeback_bonus_coin=excluded.comeback_bonus_coin,siege_snapshot_bonus_coin=excluded.siege_snapshot_bonus_coin,premium_cube_quantity=excluded.premium_cube_quantity';
 async function generateRewards(env,round,cfg){
   const rows=(await env.DB.prepare(`WITH action_counts AS (
     SELECT user_id,COUNT(*) attacks FROM territory_war_v3_actions
@@ -661,9 +663,30 @@ async function generateRewards(env,round,cfg){
   ) SELECT u.user_id,u.side,u.damage,u.counter_contribution,u.ace_defeats,u.last_defense_successes,u.comeback_participations,
     MAX(u.attacks,COALESCE(ac.attacks,0)) attacks
     FROM territory_war_v3_users u LEFT JOIN action_counts ac ON ac.user_id=u.user_id
-    WHERE u.round_id=? ORDER BY u.damage DESC,attacks DESC,u.user_id`).bind(round.id,round.id).all()).results||[],statements=[],required=Math.max(0,Number(cfg.settlementMinAttacks??1)),snapshotLimit=Math.max(1,Number(cfg.siegeSnapshotLimit||12)),snapshotThreshold=Math.max(0,Number(cfg.siegeSnapshotAttackThreshold??200)),snapshotReward=Math.max(0,Number(cfg.siegeSnapshotBonusCoin??500000)),cubeThreshold=Math.max(0,Number(cfg.siegeParticipationCubeThreshold??100)),cubeReward=Math.max(0,Number(cfg.siegeParticipationCubeQuantity??10));
-  for(const [rank,item] of rows.entries()){const attacks=Number(item.attacks||0),eligible=attacks>=required,winner=String(round.winner_side||'DRAW'),result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE',inSnapshot=rank<snapshotLimit;let coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0,counterBonus=0,aceBonus=0,lastDefenseBonus=0,comebackBonus=0,siegeSnapshotBonus=0,premiumCubeQuantity=0;if(eligible){baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(Number(item.damage||0)/1000)*Number(cfg.contributionCoinPer1000Damage||0));counterBonus=Number(item.counter_contribution||0)*Number(cfg.counterContributionCoinPerPoint||5);aceBonus=Number(item.ace_defeats||0)*Number(cfg.aceDefeatCoin||10000);lastDefenseBonus=Number(item.last_defense_successes||0)*Number(cfg.lastDefenseCoin||5000);comebackBonus=Number(item.comeback_participations||0)*Number(cfg.comebackParticipationCoin||300);siegeSnapshotBonus=inSnapshot&&attacks>snapshotThreshold?snapshotReward:0;premiumCubeQuantity=attacks>=cubeThreshold?cubeReward:0;coin+=counterBonus+aceBonus+lastDefenseBonus+comebackBonus+siegeSnapshotBonus;shards=Number(cfg.participationShards||0)}statements.push(env.DB.prepare(`INSERT INTO territory_war_v3_rewards(round_id,user_id,side,result,coin,shards,damage,attacks,required_attacks,base_result_coin,attack_reward_percent,attack_adjusted_coin,counter_bonus_coin,ace_bonus_coin,last_defense_bonus_coin,comeback_bonus_coin,siege_snapshot_bonus_coin,premium_cube_quantity) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET side=excluded.side,result=excluded.result,coin=excluded.coin,shards=excluded.shards,damage=excluded.damage,attacks=excluded.attacks,required_attacks=excluded.required_attacks,base_result_coin=excluded.base_result_coin,attack_reward_percent=excluded.attack_reward_percent,attack_adjusted_coin=excluded.attack_adjusted_coin,counter_bonus_coin=excluded.counter_bonus_coin,ace_bonus_coin=excluded.ace_bonus_coin,last_defense_bonus_coin=excluded.last_defense_bonus_coin,comeback_bonus_coin=excluded.comeback_bonus_coin,siege_snapshot_bonus_coin=excluded.siege_snapshot_bonus_coin,premium_cube_quantity=excluded.premium_cube_quantity WHERE territory_war_v3_rewards.claimed_at IS NULL`).bind(round.id,item.user_id,item.side||'',result,coin,shards,Number(item.damage||0),attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,counterBonus,aceBonus,lastDefenseBonus,comebackBonus,siegeSnapshotBonus,premiumCubeQuantity))}
-  await batchChunks(env,statements);
+    WHERE u.round_id=? ORDER BY u.damage DESC,attacks DESC,u.user_id`).bind(round.id,round.id).all()).results||[],required=Math.max(0,Number(cfg.settlementMinAttacks??1)),snapshotLimit=Math.max(1,Number(cfg.siegeSnapshotLimit||12)),snapshotThreshold=Math.max(0,Number(cfg.siegeSnapshotAttackThreshold??200)),snapshotReward=Math.max(0,Number(cfg.siegeSnapshotBonusCoin??500000)),cubeThreshold=Math.max(0,Number(cfg.siegeParticipationCubeThreshold??100)),cubeReward=Math.max(0,Number(cfg.siegeParticipationCubeQuantity??10)),payloads=[];
+  for(const [rank,item] of rows.entries()){
+    const attacks=Number(item.attacks||0),eligible=attacks>=required,winner=String(round.winner_side||'DRAW'),result=!eligible?'INELIGIBLE':winner==='DRAW'?'DRAW':item.side===winner?'WIN':'LOSE',inSnapshot=rank<snapshotLimit;
+    let coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0,counterBonus=0,aceBonus=0,lastDefenseBonus=0,comebackBonus=0,siegeSnapshotBonus=0,premiumCubeQuantity=0;
+    if(eligible){
+      baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);
+      attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);
+      coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(Number(item.damage||0)/1000)*Number(cfg.contributionCoinPer1000Damage||0));
+      counterBonus=Number(item.counter_contribution||0)*Number(cfg.counterContributionCoinPerPoint||5);aceBonus=Number(item.ace_defeats||0)*Number(cfg.aceDefeatCoin||10000);lastDefenseBonus=Number(item.last_defense_successes||0)*Number(cfg.lastDefenseCoin||5000);comebackBonus=Number(item.comeback_participations||0)*Number(cfg.comebackParticipationCoin||300);siegeSnapshotBonus=inSnapshot&&attacks>snapshotThreshold?snapshotReward:0;premiumCubeQuantity=attacks>=cubeThreshold?cubeReward:0;
+      coin+=counterBonus+aceBonus+lastDefenseBonus+comebackBonus+siegeSnapshotBonus;shards=Number(cfg.participationShards||0);
+    }
+    payloads.push([round.id,item.user_id,item.side||'',result,coin,shards,Number(item.damage||0),attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,counterBonus,aceBonus,lastDefenseBonus,comebackBonus,siegeSnapshotBonus,premiumCubeQuantity]);
+  }
+  if(!payloads.length)return 0;
+  if(env.DB.dialect==='postgres'){
+    // 한 회차 보상을 한 SQL 문으로 확정한다. 기존 50개 단위 트랜잭션은
+    // 두 번째 묶음에서 연결이 끊기면 앞 50명만 남는 부분 정산을 만들었다.
+    const tuple=`(${Array(18).fill('?').join(',')})`,sql=`INSERT INTO territory_war_v3_rewards(${REWARD_COLUMNS}) VALUES ${payloads.map(()=>tuple).join(',')} ON CONFLICT(round_id,user_id) DO UPDATE SET ${REWARD_UPDATE} WHERE territory_war_v3_rewards.claimed_at IS NULL RETURNING round_id`;
+    await env.DB.prepare(sql).bind(...payloads.flat()).run();
+  }else{
+    const statements=payloads.map(values=>env.DB.prepare(`INSERT INTO territory_war_v3_rewards(${REWARD_COLUMNS}) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(round_id,user_id) DO UPDATE SET ${REWARD_UPDATE} WHERE territory_war_v3_rewards.claimed_at IS NULL`).bind(...values));
+    await batchChunks(env,statements);
+  }
+  return payloads.length;
 }
 
 async function settleRound(env,round,cfg,forcedWinner=''){
@@ -672,8 +695,11 @@ async function settleRound(env,round,cfg,forcedWinner=''){
   try{
     let fresh=await roundById(env,round.id);if(!fresh||fresh.settled_at)return fresh;
     const front=await activeFront(env,fresh),winner=forcedWinner||timeWinner(fresh,front);
+    // 보상 생성이 완전히 끝난 뒤에만 회차를 종료한다. 중간 실패 시 settled_at이
+    // 비어 있으므로 다음 lifecycle 호출이 같은 UPSERT를 안전하게 재시도한다.
+    await generateRewards(env,{...fresh,winner_side:winner},cfg);
     const changed=await env.DB.prepare("UPDATE territory_war_v3_rounds SET status='FINISHED',winner_side=?,settled_at=CURRENT_TIMESTAMP,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND settled_at IS NULL").bind(winner,fresh.id).run();
-    if(Number(changed?.meta?.changes||0)){fresh=await roundById(env,fresh.id);await generateRewards(env,fresh,cfg)}
+    if(Number(changed?.meta?.changes||0))fresh=await roundById(env,fresh.id);
     return roundById(env,fresh.id);
   }finally{await releaseLock(env,lock)}
 }
@@ -736,10 +762,10 @@ function rechargeEnergy(row,cfg,front=null){
 }
 
 async function rewardForUser(env,userId){
-  let v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.user_id=? AND r.claimed_at IS NULL ORDER BY r.round_id DESC LIMIT 1').bind(userId).first();
+  let v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.user_id=? AND r.claimed_at IS NULL AND w.settled_at IS NOT NULL ORDER BY r.round_id DESC LIMIT 1').bind(userId).first();
   if(v3&&v3.result==='INELIGIBLE'){
     const source=await env.DB.prepare(`SELECT side,damage,attacks FROM territory_war_v3_users WHERE round_id=? AND user_id=?`).bind(v3.round_id,userId).first(),cfg=await settings(env),required=Math.max(0,Number(v3.required_attacks)>0?Number(v3.required_attacks):Number(cfg.settlementMinAttacks??1));
-    if(source){const attacks=Number(source.attacks||0),damage=Number(source.damage||0),eligible=attacks>=required;let result='INELIGIBLE',coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0;if(eligible){const round=await roundById(env,v3.round_id),winner=String(round?.winner_side||'DRAW');result=winner==='DRAW'?'DRAW':source.side===winner?'WIN':'LOSE';baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(damage/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}await env.DB.prepare(`UPDATE territory_war_v3_rewards SET side=?,result=?,coin=?,shards=?,damage=?,attacks=?,required_attacks=?,base_result_coin=?,attack_reward_percent=?,attack_adjusted_coin=? WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(source.side||'',result,coin,shards,damage,attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,v3.round_id,userId).run();v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r LEFT JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=?').bind(v3.round_id,userId).first()}
+    if(source){const attacks=Number(source.attacks||0),damage=Number(source.damage||0),eligible=attacks>=required;let result='INELIGIBLE',coin=0,shards=0,baseResultCoin=0,attackPercent=0,attackAdjustedCoin=0;if(eligible){const round=await roundById(env,v3.round_id),winner=String(round?.winner_side||'DRAW');result=winner==='DRAW'?'DRAW':source.side===winner?'WIN':'LOSE';baseResultCoin=result==='WIN'?Number(cfg.winnerCoin||0):result==='LOSE'?Number(cfg.loserCoin||0):Number(cfg.drawCoin||0);attackPercent=attackRewardPercent(attacks,cfg);attackAdjustedCoin=Math.floor(baseResultCoin*attackPercent/100);coin=attackAdjustedCoin+Math.min(Number(cfg.maxContributionCoin||1000000),Math.floor(damage/1000)*Number(cfg.contributionCoinPer1000Damage||0));shards=Number(cfg.participationShards||0)}await env.DB.prepare(`UPDATE territory_war_v3_rewards SET side=?,result=?,coin=?,shards=?,damage=?,attacks=?,required_attacks=?,base_result_coin=?,attack_reward_percent=?,attack_adjusted_coin=? WHERE round_id=? AND user_id=? AND claimed_at IS NULL`).bind(source.side||'',result,coin,shards,damage,attacks,required,baseResultCoin,attackPercent,attackAdjustedCoin,v3.round_id,userId).run();v3=await env.DB.prepare('SELECT r.*,w.battle_name FROM territory_war_v3_rewards r JOIN territory_war_v3_rounds w ON w.id=r.round_id WHERE r.round_id=? AND r.user_id=? AND w.settled_at IS NOT NULL').bind(v3.round_id,userId).first()}
   }
   if(v3)return{...v3,version:'V3',bonusEquipment:await roundEquipmentBonuses(env,v3.round_id,v3.result)};
   if(await tableExists(env,'territory_war_rewards')){const old=await env.DB.prepare('SELECT * FROM territory_war_rewards WHERE user_id=? AND claimed_at IS NULL ORDER BY round_id DESC LIMIT 1').bind(userId).first();if(old)return{...old,version:'LEGACY',bonusEquipment:[]}}
