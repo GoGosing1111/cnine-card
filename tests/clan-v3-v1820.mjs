@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {readFile,stat} from 'node:fs/promises';
 import {__clanTest} from '../functions/_clan.js';
 
 const [server,router,app,client,shell,html,css,postgresMigration]=await Promise.all([
@@ -13,6 +13,7 @@ const [server,router,app,client,shell,html,css,postgresMigration]=await Promise.
   readFile(new URL('../css/clan-v1.css',import.meta.url),'utf8'),
   readFile(new URL('../scripts/postgres-clan-v1820.sql',import.meta.url),'utf8')
 ]);
+const commandRoomAsset=await stat(new URL('../assets/ui/clan/clan-command-room-v1.webp',import.meta.url));
 
 test('클랜 정원과 스네이크 드래프트 순서가 고정된다',()=>{
   assert.equal(__clanTest.CLAN_MAX_MEMBERS,20);
@@ -58,6 +59,19 @@ test('V21 클랜 UI와 라이브 V3 계약이 연결된다',()=>{
   assert.match(server,/createPvpBattleV2/);
   assert.match(server,/PROJECT_V_V3/);
   assert.match(css,/@media\(max-width:760px\)/);
+});
+
+test('클랜 지휘실 장면과 모바일 리뉴얼 계약을 유지한다',()=>{
+  assert.match(client,/clan-hero-media/);
+  assert.match(client,/clan-season-lock/);
+  assert.match(client,/clan-lock-radar/);
+  assert.match(client,/OWNER CLEARANCE/);
+  assert.match(css,/clan-command-room-v1\.webp/);
+  assert.match(css,/@keyframes clanRadarSweep/);
+  assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
+  assert.match(html,/clan-v1\.css\?v=1821-command-room/);
+  assert.match(html,/clan-v1\.js\?v=1821-command-room/);
+  assert.ok(commandRoomAsset.size>10_000&&commandRoomAsset.size<80_000);
 });
 
 test('조회 로그를 만들지 않고 전투 영수증은 30일 한정 정리한다',()=>{
