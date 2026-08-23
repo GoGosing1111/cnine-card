@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='1830-owner-test';
+  const VERSION='1831-owner-tab';
   const bridge=()=>window.CNineEscortBridge;
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -76,10 +76,21 @@
 
   async function load(){data=await api('escort/status');render();return data;}
 
+  const localOwner=()=>String(bridge()?.loadUser?.()?.role||'').trim().toUpperCase()==='OWNER';
+  const revealTab=(tab,label='TEST')=>{tab.hidden=false;tab.querySelector('small')?.replaceChildren(document.createTextNode(label));};
+
   async function discover(){
-    const tab=document.getElementById('pveEscortTab');if(!tab||tab.dataset.escortDiscovery==='done'||discoveryPromise)return;
+    const tab=document.getElementById('pveEscortTab');if(!tab||['done','denied','off'].includes(tab.dataset.escortDiscovery)||discoveryPromise)return;
+    const owner=localOwner();if(owner)revealTab(tab,'TEST');
     tab.dataset.escortDiscovery='pending';
-    discoveryPromise=api('escort/status').then(result=>{data=result;tab.hidden=false;tab.dataset.escortDiscovery='done';tab.querySelector('small')?.replaceChildren(document.createTextNode(result.ownerTest?'TEST':'LIVE'));}).catch(error=>{tab.hidden=true;tab.dataset.escortDiscovery=error?.code==='ESCORT_OFF'?'off':'denied';}).finally(()=>{discoveryPromise=null});
+    discoveryPromise=api('escort/status').then(result=>{data=result;revealTab(tab,result.ownerTest?'TEST':'LIVE');tab.dataset.escortDiscovery='done';}).catch(error=>{
+      const code=String(error?.code||'').toUpperCase();
+      if(code==='ESCORT_OFF'){tab.hidden=true;tab.dataset.escortDiscovery='off';return}
+      if(!owner){tab.hidden=true;tab.dataset.escortDiscovery='denied';return}
+      // OWNER 테스트 탭은 일시적인 API/DB 오류로 사라지지 않는다. 진입 화면에서
+      // 원인을 표시하고 사용자가 직접 재시도할 수 있게 유지한다.
+      revealTab(tab,'TEST');tab.dataset.escortDiscovery='error';console.warn('[ESCORT] 상태 조회 실패',error);
+    }).finally(()=>{discoveryPromise=null});
     await discoveryPromise;
   }
 

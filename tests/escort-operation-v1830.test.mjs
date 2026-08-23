@@ -44,6 +44,8 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(app,/CNineEscortBridge/);
   assert.match(client,/ProjectVBattleV3Live\.createRenderer/);
   assert.match(client,/4–6 MIN MISSION/);
+  assert.match(client,/localOwner/);
+  assert.match(client,/OWNER 테스트 탭은 일시적인 API\/DB 오류로 사라지지 않는다/);
   assert.match(engine,/ESCORT:'.*escort-fortress-route-bg-v1\.webp/);
   assert.match(engine,/async setObjective/);
   assert.match(wrapper,/철벽 호송작전/);
@@ -51,8 +53,8 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1830-owner-test/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(index,/escort-operation-v1830\.js\?v=1830-owner-test/);
-  assert.match(sw,/soop-card-shell-v1830-escort-operation/);
+  assert.match(index,/escort-operation-v1830\.js\?v=1831-owner-tab/);
+  assert.match(sw,/soop-card-shell-v1831-escort-owner-tab/);
 });
 
 test('호송 이미지 리소스는 런타임 예산 안으로 압축됐다',async()=>{
