@@ -50,10 +50,10 @@ test('호송 몬스터는 게이지와 무관하게 차량을 선제 공격하�
 });
 
 test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async()=>{
-  const [handler,worker,app,client,engine,wrapper,admin,adminIndex,migration,cleanup,index,sw]=await Promise.all([
+  const [handler,worker,app,client,engine,wrapper,admin,adminIndex,migration,cleanup,index,sw,style]=await Promise.all([
     read('functions/_escort_operation.js'),read('functions/api/[[path]].js'),read('js/app.js'),read('js/escort-operation-v1830.js'),
     read('preview/project-v-v3/source/battle/BattleEngine.js'),read('js/battle-v3-live.js'),read('admin/escort-operation-admin-v1830.js'),
-    read('admin/index.html'),read('database/migrations/0084_v1830_escort_operation.sql'),read('functions/_storage_cleanup.js'),read('index.html'),read('service-worker.js')
+    read('admin/index.html'),read('database/migrations/0084_v1830_escort_operation.sql'),read('functions/_storage_cleanup.js'),read('index.html'),read('service-worker.js'),read('css/escort-operation-v1830.css')
   ]);
   assert.match(worker,/handleEscortOperation/);
   assert.match(worker,/'escort\/fight'/);
@@ -71,6 +71,7 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(client,/localOwner/);
   assert.match(client,/OWNER 테스트 탭은 일시적인 API\/DB 오류로 사라지지 않는다/);
   assert.match(client,/TACTICAL BUFFER/);
+  assert.match(client,/escort-v1833-tactic-grid/);
   assert.match(client,/tactic-field-repair-v1\.webp/);
   assert.match(engine,/ESCORT:'.*escort-fortress-route-bg-v1\.webp/);
   assert.match(engine,/async setObjective/);
@@ -81,8 +82,11 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1830-owner-test/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(index,/escort-operation-v1830\.js\?v=1832-objective-tactics/);
-  assert.match(sw,/soop-card-shell-v1832-escort-objective-tactics/);
+  assert.match(index,/escort-operation-v1830\.js\?v=1833-tactic-layout-safe/);
+  assert.match(index,/escort-operation-v1830\.css\?v=1833-tactic-layout-safe/);
+  assert.match(sw,/soop-card-shell-v1833-escort-tactic-layout-safe/);
+  assert.match(style,/#pveEscortView \.escort-v1833-tactic-card/);
+  assert.match(style,/grid-template-columns:34px minmax\(104px,136px\) minmax\(0,1fr\) 18px!important/);
 });
 
 test('호송 이미지 리소스는 런타임 예산 안으로 압축됐다',async()=>{

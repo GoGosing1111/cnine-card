@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='1832-objective-tactics';
+  const VERSION='1833-tactic-layout-safe';
   const bridge=()=>window.CNineEscortBridge;
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -47,7 +47,7 @@
     if(run?.phase!=='TACTIC')return '';
     const catalog=new Map((settings?.tactics||[]).map(tactic=>[String(tactic.key||'').toUpperCase(),tactic]));
     const choices=(run.choices||[]).map(choice=>({...choice,...(catalog.get(String(choice.key||'').toUpperCase())||{})}));
-    return `<section class="escort-tactic-panel"><header><div><small>ROUTE COMMAND / TACTICAL BUFFER</small><h3>다음 구간 전술 선택</h3></div><p>두 전술 중 하나만 적용됩니다. 효과 범위와 유지 시간을 확인하십시오.</p></header><div class="escort-tactic-grid">${choices.map((tactic,index)=>`<button type="button" class="escort-tactic-card is-${esc(String(tactic.key||'').toLowerCase())}" data-escort-action="tactic" data-tactic="${esc(tactic.key)}" data-escort-primary="${index===0?'1':'0'}" aria-label="${esc(`${tactic.name} 선택`)}"><span class="escort-tactic-number">0${index+1}</span><span class="escort-tactic-icon"><img src="${esc(imageUrl(tactic.icon||TACTIC_ICONS[String(tactic.key||'').toUpperCase()]))}?v=1832" alt="" width="256" height="256" decoding="async"></span><span class="escort-tactic-copy"><span class="escort-tactic-meta"><small>${esc(tactic.type)}</small><em>${esc(tactic.duration||'다음 1구간')}</em></span><b>${esc(tactic.name)}</b><p>${esc(tactic.description)}</p><u>전술 적용</u></span><i class="escort-tactic-arrow" aria-hidden="true"></i></button>`).join('')}</div></section>`;
+    return `<section class="escort-tactic-panel"><header><div><small>ROUTE COMMAND / TACTICAL BUFFER</small><h3>다음 구간 전술 선택</h3></div><p>두 전술 중 하나만 적용됩니다. 효과 범위와 유지 시간을 확인하십시오.</p></header><div class="escort-v1833-tactic-grid">${choices.map((tactic,index)=>`<button type="button" class="escort-v1833-tactic-card is-${esc(String(tactic.key||'').toLowerCase())}" data-escort-action="tactic" data-tactic="${esc(tactic.key)}" data-escort-primary="${index===0?'1':'0'}" aria-label="${esc(`${tactic.name} 선택`)}"><span class="escort-v1833-tactic-number">0${index+1}</span><div class="escort-v1833-tactic-icon"><img src="${esc(imageUrl(tactic.icon||TACTIC_ICONS[String(tactic.key||'').toUpperCase()]))}?v=1833" alt="" width="256" height="256" decoding="async"></div><div class="escort-v1833-tactic-copy"><div class="escort-v1833-tactic-meta"><small>${esc(tactic.type)}</small><em>${esc(tactic.duration||'다음 1구간')}</em></div><b>${esc(tactic.name)}</b><p>${esc(tactic.description)}</p><u>전술 적용</u></div><i class="escort-v1833-tactic-arrow" aria-hidden="true"></i></button>`).join('')}</div></section>`;
   }
 
   function actionMarkup(run,weekly,settings){
