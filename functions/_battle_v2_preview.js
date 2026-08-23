@@ -131,7 +131,11 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   const speed = Math.max(35, Math.round((70 + power * profile.speed * 0.10) * (1 + speedPct / 100)));
   const shieldFloor = mode === 'PVE' ? 0.22 : 0.18;
   const shieldCap = mode === 'PVE' ? 0.38 : 0.32;
-  const startingShield = type === 'DEFENSE' ? Math.round(maxHp * clamp(shieldFloor + Math.max(0, defensePct) / 500, shieldFloor, shieldCap)) : 0;
+  // V1830 호송작전은 구간 사이 카드 체력을 계승한다. 값이 없는 기존 PVE/PVP는
+  // 100%로 유지되므로 전투 밸런스와 판정에는 영향이 없다.
+  const startingHpPercent = clamp(card.startingHpPercent ?? card.hpPercent ?? 100, 0, 100);
+  const startingHp = startingHpPercent <= 0 ? 0 : Math.max(1, Math.round(maxHp * startingHpPercent / 100));
+  const startingShield = startingHp > 0 && type === 'DEFENSE' ? Math.round(maxHp * clamp(shieldFloor + Math.max(0, defensePct) / 500, shieldFloor, shieldCap)) : 0;
 
   return {
     id: `${side}:${index}:${String(card.id)}`,
@@ -162,14 +166,14 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
       dominantType: type
     } : null,
     maxHp,
-    hp: maxHp,
+    hp: startingHp,
     attack,
     defense,
     speed,
     shield: startingShield,
     maxShield: startingShield,
     gauge: type === 'SPEED' ? 30 : 0,
-    alive: true,
+    alive: startingHp > 0,
     emergencyUsed: false,
     survivalUsed: false,
     indomitableUsed: false,

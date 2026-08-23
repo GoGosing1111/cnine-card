@@ -19,6 +19,7 @@ const BATTLEFIELD_ASSETS=Object.freeze({
   TOWER:'../../assets/ui/project-v/battlefields/v3-infinite-tower-sanctum-v1.png',
   PVP:'../../assets/ui/coin-prediction/arena-v1.png',
   RAID:'../../assets/ui/project-v/battlefields/v3-world-raid-obsidian-citadel-v1.png',
+  ESCORT:'../../assets/ui/escort/escort-fortress-route-bg-v1.webp?v=1830',
   SIEGE:'../../assets/ui/project-v/battlefields/v3-siege-fortress-courtyard-v1.png'
 });
 const LEGACY_BATTLEFIELD='../../assets/ui/idle-dungeon/enchanted-card-battlefield-v4.webp';
@@ -110,6 +111,7 @@ function normalizeBattlefieldMode(value){
   if(/TOWER|INFINITE/.test(mode))return 'TOWER';
   if(/PVP|RANK|RANKED|ARENA/.test(mode))return 'PVP';
   if(/RAID|WORLD_BOSS|BOSS_RAID/.test(mode))return 'RAID';
+  if(/ESCORT|CONVOY|TRANSPORT/.test(mode))return 'ESCORT';
   if(/SIEGE|SEAL|TERRITORY|FORTRESS/.test(mode))return 'SIEGE';
   return DEFAULT_BATTLEFIELD_MODE;
 }
@@ -235,6 +237,8 @@ export class BattleEngine{
     this.isoFloorLayer=null;
     this.isoTiles=[];
     this.isoConfig=null;
+    this.objectiveSprite=null;
+    this.objectiveData=null;
     this.depthTicker=null;
     this.bottomShade=null;
     this.motes=[];
@@ -329,6 +333,9 @@ export class BattleEngine{
     document.addEventListener('visibilitychange',this.onVisibility);
     this.host.querySelector('.pv-pixi-loading')?.remove();
     this.mounted=true;
+    // 최초 마운트에서는 setBattlePayload()가 배우 생성 중 실행되어 mounted=false다.
+    // 호송 목표물은 Stage가 완성된 지금 한 번 더 연결해야 첫 판부터 표시된다.
+    if(this.battleData)await this.setObjective(this.battleData);
     this.app.stop();
     // All critical Pixi/character work is complete. Warm the compact combat
     // sprite outside mount() so first-frame readiness never awaits audio.
@@ -362,6 +369,7 @@ export class BattleEngine{
       this.boss=null;
       this.bossHp=0;
       this.lastTargetSwitch=null;
+      if(this.objectiveSprite)this.objectiveSprite.visible=false;
     }
     this.cards.forEach(card=>{
       card.alpha=0;
@@ -632,6 +640,42 @@ export class BattleEngine{
     };
     this.allies.forEach((character,index)=>apply(character,ISO_FORMATIONS.allies[index]));
     this.enemies.forEach((character,index)=>apply(character,ISO_FORMATIONS.enemies[index]));
+    this.layoutObjective();
+  }
+
+  layoutObjective(){
+    if(!this.objectiveSprite||!this.objectiveData)return;
+    const point=this.gridToScreen(2,5),targetHeight=this.mobile?152:178;
+    const textureHeight=Math.max(1,Number(this.objectiveSprite.texture?.height||1));
+    const scale=targetHeight/textureHeight;
+    this.objectiveSprite.position.set(point.x+(this.mobile?34:18),point.y+(this.mobile?25:18));
+    this.objectiveSprite.scale.set(scale);
+    this.objectiveSprite.depthSortY=this.objectiveSprite.y-2;
+  }
+
+  async setObjective(payload={}){
+    const objective=payload?.objective&&typeof payload.objective==='object'?payload.objective:null;
+    const source=rootAssetPath(objective?.image||objective?.imageUrl||'');
+    this.objectiveData=objective;
+    if(!source){if(this.objectiveSprite)this.objectiveSprite.visible=false;return null}
+    try{
+      const texture=await Assets.load(source);
+      if(!this.objectiveSprite){
+        this.objectiveSprite=new Sprite(texture);
+        this.objectiveSprite.label='EscortObjective';
+        this.objectiveSprite.anchor.set(.5,.88);
+        this.objectiveSprite.eventMode='none';
+        this.combatLayer.addChild(this.objectiveSprite);
+      }else this.objectiveSprite.texture=texture;
+      this.objectiveSprite.visible=true;
+      this.objectiveSprite.alpha=.9;
+      this.layoutObjective();
+      return this.objectiveSprite;
+    }catch(error){
+      console.warn('[Project V V3] 호송 목표 오브젝트 로드 실패',error);
+      if(this.objectiveSprite)this.objectiveSprite.visible=false;
+      return null;
+    }
   }
 
   sortCombatDepth(){
@@ -716,7 +760,7 @@ export class BattleEngine{
     });
     this.activeBattlefieldMode=battlefieldModeFromPayload(payload);
     this.activeBattlefieldAsset=BATTLEFIELD_ASSETS[this.activeBattlefieldMode];
-    if(this.mounted)await this.setBattlefield(this.activeBattlefieldMode);
+    if(this.mounted)await Promise.all([this.setBattlefield(this.activeBattlefieldMode),this.setObjective(payload)]);
     const adapter=globalThis.ProjectVMonsterBattleArt;
     const zenithAdapter=globalThis.ProjectVBattleArt;
     const tierAdapter=globalThis.ProjectVTierBattleArt;

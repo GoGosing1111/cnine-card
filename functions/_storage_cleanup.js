@@ -44,7 +44,9 @@ const USER_DELETE_SPECS = [
   ['draw_request_receipts',['user_id']],['draw_request_receipts_v2',['user_id']],
   ['draw_grant_assertions',['user_id']],
   ['territory_war_v3_users',['user_id']],['territory_war_v3_actions',['user_id']],
-  ['territory_war_v3_rewards',['user_id']]
+  ['territory_war_v3_rewards',['user_id']],
+  ['pve_escort_runs_v1830',['user_id']],['pve_escort_weekly_v1830',['user_id']],
+  ['pve_escort_action_receipts_v1830',['user_id']]
 ];
 
 const ESTIMATE_SPECS = [
@@ -707,6 +709,18 @@ const AUTO_STORAGE_MAINTENANCE_TASKS=Object.freeze([
       (x.status IN ('COMPLETED','FAILED','CANCELLED') AND x.updated_at<datetime('now','-1 day'))
       AND NOT EXISTS (SELECT 1 FROM pve_rift_runs r WHERE r.run_id=x.run_id AND r.status IN ('ACTIVE','CLAIMING','COMPLETED_PENDING'))
     ORDER BY x.updated_at LIMIT ?)`},
+  {key:'escort_receipts',table:'pve_escort_action_receipts_v1830',requires:['pve_escort_runs_v1830'],sql:`DELETE FROM pve_escort_action_receipts_v1830 WHERE request_id IN (
+    SELECT x.request_id FROM pve_escort_action_receipts_v1830 x WHERE x.status IN ('COMPLETED','FAILED','CANCELLED')
+      AND x.updated_at<datetime('now','-14 days')
+      AND NOT EXISTS (SELECT 1 FROM pve_escort_runs_v1830 r WHERE r.run_id=x.run_id AND r.status IN ('ACTIVE','CLAIMING','COMPLETED_PENDING'))
+    ORDER BY x.updated_at LIMIT ?)`},
+  {key:'escort_runs',table:'pve_escort_runs_v1830',requires:['pve_escort_action_receipts_v1830'],sql:`DELETE FROM pve_escort_runs_v1830 WHERE run_id IN (
+    SELECT r.run_id FROM pve_escort_runs_v1830 r WHERE r.status IN ('CLAIMED','FAILED','ABANDONED')
+      AND r.updated_at<datetime('now','-90 days')
+      AND NOT EXISTS (SELECT 1 FROM pve_escort_action_receipts_v1830 x WHERE x.run_id=r.run_id AND x.status='PENDING')
+    ORDER BY r.updated_at LIMIT ?)`},
+  {key:'escort_weekly',table:'pve_escort_weekly_v1830',sql:`DELETE FROM pve_escort_weekly_v1830 WHERE (user_id,week_key) IN (
+    SELECT user_id,week_key FROM pve_escort_weekly_v1830 WHERE updated_at<datetime('now','-180 days') ORDER BY updated_at LIMIT ?)`},
   {key:'raid_receipts',table:'raid_reward_receipts',requires:['raid_participants'],sql:`DELETE FROM raid_reward_receipts WHERE rowid IN (
     SELECT rr.rowid FROM raid_reward_receipts rr WHERE
       ((rr.status='COMPLETED' AND rr.updated_at<datetime('now','-1 day') AND EXISTS (

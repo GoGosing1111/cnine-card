@@ -16,6 +16,7 @@ import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
 import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { handleIdleDungeon } from '../_idle_dungeon.js';
+import { handleEscortOperation } from '../_escort_operation.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop } from '../_workshop.js';
@@ -4215,6 +4216,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   // Receipt-managed draw/shop routes already serialize their writes in atomic D1
   // batches. A second lock only adds writes and rejects safe idempotent retries.
   'attendance/claim','card/breakthrough','card/breakthrough/auto','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
+  'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
   'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
   'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','scrapyard/run'
 ]);
@@ -4249,7 +4251,7 @@ function userMutationLeaseMs(actionPath){
   // V1803: 전투 요청의 리스가 8초였다. 락이 어떤 이유로든 고아가 되면
   // 그 유저는 8초 동안 전투를 시작할 수 없고, 클라이언트는 그동안 재시도만 돈다.
   // 전투 처리 자체는 실측 p50 0.1~0.4초라 3초면 충분히 넉넉하다.
-  const fastBattleAction=['battle/fight','tower/fight','pvp/match','pvp/fight','clan/war/fight'].includes(actionPath);
+  const fastBattleAction=['battle/fight','tower/fight','escort/fight','pvp/match','pvp/fight','clan/war/fight'].includes(actionPath);
   return actionPath.startsWith('raid/')?20000:(fastBattleAction?3000:60000);
 }
 // V1784: USER_LOCK Durable Object 바인딩이 있으면 D1을 전혀 건드리지 않는다.
@@ -4493,6 +4495,7 @@ async function handleRequest(context){
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
     const clanResponse=await handleClan({path,request,env,deps:{authenticate,readBody,json,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,magicBattleLoadout}});if(clanResponse)return clanResponse;
     const siegeResponse=await handleSiege({path,request,env,deps:{authenticate,readBody,json,isAdminRole,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses}});if(siegeResponse)return siegeResponse;
+    const escortResponse=await handleEscortOperation({path,request,env,deps:{authenticate,readBody,json,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,magicBattleLoadout,writeAdminLog}});if(escortResponse)return escortResponse;
     const chiefResponse=await handleChief({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(chiefResponse)return chiefResponse;
     const idleDungeonResponse=await handleIdleDungeon({path,request,env,deps:{authenticate,readBody,json,isAdminRole,raidDeckPower}});if(idleDungeonResponse)return idleDungeonResponse;
 

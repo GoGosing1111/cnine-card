@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.15.0-roster-geometry-guard';
+  const VERSION = '3.19.0-escort-operation';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -402,6 +402,7 @@
     if (/TOWER|INFINITE/.test(raw)) return 'TOWER';
     if (/PVP|RANK|ARENA/.test(raw)) return 'PVP';
     if (/RAID/.test(raw)) return 'RAID';
+    if (/ESCORT|CONVOY|TRANSPORT/.test(raw)) return 'ESCORT';
     if (/SEAL/.test(raw)) return 'SEAL';
     if (/SIEGE|TERRITORY/.test(raw)) return 'SIEGE';
     return 'HUNT';
@@ -415,7 +416,7 @@
     modal.className = `modal show battle-modal battle-v3-modal battle-v3-preparing ${field === 'PVP' || field === 'SIEGE' ? 'pvp-battle-modal' : ''}`;
     modal.innerHTML = `<div class="modal-panel battle-stage battle-v3-live-shell" data-battle-v3-live="${VERSION}" data-v3-field="${field}">
       <header class="battle-v3-header">
-        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'SIEGE' ? '영토전 공성 교전' : field === 'RAID' ? '월드 레이드 개인전' : field === 'SEAL' ? '봉인전' : '몬스터 토벌'}</strong></div>
+        <div><small>PROJECT V · PIXIJS WEBGL</small><strong>${field === 'TOWER' ? '무한의 탑' : field === 'PVP' ? 'PVP 랭크전' : field === 'SIEGE' ? '영토전 공성 교전' : field === 'RAID' ? '월드 레이드 개인전' : field === 'SEAL' ? '봉인전' : field === 'ESCORT' ? '철벽 호송작전' : '몬스터 토벌'}</strong></div>
         <div class="battle-v3-versus"><span>${esc(playerName)}</span><i>VS</i><span>${esc(opponentName)}</span></div>
         <b id="battlePhase">V3 LOADING</b>
       </header>
