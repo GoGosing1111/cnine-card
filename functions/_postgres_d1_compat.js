@@ -680,6 +680,27 @@ class PostgresD1Database {
     });
   }
 
+  // 이관 후 누락된 relation을 복구하는 제한된 런타임 스키마 경로다.
+  // 호출부는 사용자 입력이 없는 고정 PostgreSQL DDL만 전달해야 한다.
+  execSchema(statements) {
+    const list = (Array.isArray(statements) ? statements : [statements])
+      .map(statement => String(statement || '').trim())
+      .filter(Boolean);
+    return this.enqueue(async () => {
+      await this.client.query('BEGIN');
+      try {
+        for (const statement of list) await this.client.query(statement);
+        await this.client.query('COMMIT');
+        this.tableColumnCache.clear();
+        this.uniqueTargets.clear();
+        return emptyResult();
+      } catch (error) {
+        try { await this.client.query('ROLLBACK'); } catch {}
+        throw error;
+      }
+    });
+  }
+
   async close() {
     if (this.closed) return;
     this.closed = true;
