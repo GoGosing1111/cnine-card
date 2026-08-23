@@ -64,12 +64,16 @@ let ensurePromise=null;
 function schemaStatements(env){
   const postgres=env.DB?.dialect==='postgres',userIdType=postgres?'BIGINT':'INTEGER';
   const nowDefault=postgres?"to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')":'CURRENT_TIMESTAMP';
+  // Pages 런타임 DB 역할은 기존 users 테이블 SELECT 권한만 있고 REFERENCES 권한은
+  // 없을 수 있다. PostgreSQL 자가 복구 테이블은 인증된 user_id만 받아 외부 FK를
+  // 생략하고, 권한 있는 정식 마이그레이션에서는 FK 계약을 그대로 적용한다.
+  const userForeignKey=postgres?'':',FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED';
   return [
-    `CREATE TABLE IF NOT EXISTS ${RUN_TABLE}(run_id TEXT PRIMARY KEY,user_id ${userIdType} NOT NULL,week_key TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',sector_index INTEGER NOT NULL DEFAULT 0,vehicle_hp INTEGER NOT NULL,vehicle_max_hp INTEGER NOT NULL,deck_snapshot TEXT NOT NULL,state_json TEXT NOT NULL DEFAULT '{}',version INTEGER NOT NULL DEFAULT 1,reward_coin BIGINT NOT NULL DEFAULT 0,reward_shards INTEGER NOT NULL DEFAULT 0,started_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault},completed_at TEXT,claimed_at TEXT,FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED)`,
+    `CREATE TABLE IF NOT EXISTS ${RUN_TABLE}(run_id TEXT PRIMARY KEY,user_id ${userIdType} NOT NULL,week_key TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',sector_index INTEGER NOT NULL DEFAULT 0,vehicle_hp INTEGER NOT NULL,vehicle_max_hp INTEGER NOT NULL,deck_snapshot TEXT NOT NULL,state_json TEXT NOT NULL DEFAULT '{}',version INTEGER NOT NULL DEFAULT 1,reward_coin BIGINT NOT NULL DEFAULT 0,reward_shards INTEGER NOT NULL DEFAULT 0,started_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault},completed_at TEXT,claimed_at TEXT${userForeignKey})`,
     `CREATE UNIQUE INDEX IF NOT EXISTS idx_pve_escort_active_user_v1830 ON ${RUN_TABLE}(user_id) WHERE status IN ('ACTIVE','COMPLETED_PENDING','CLAIMING')`,
     `CREATE INDEX IF NOT EXISTS idx_pve_escort_runs_user_v1830 ON ${RUN_TABLE}(user_id,started_at DESC)`,
-    `CREATE TABLE IF NOT EXISTS ${WEEKLY_TABLE}(user_id ${userIdType} NOT NULL,week_key TEXT NOT NULL,started_count INTEGER NOT NULL DEFAULT 0,completed_count INTEGER NOT NULL DEFAULT 0,reward_count INTEGER NOT NULL DEFAULT 0,best_vehicle_hp_percent INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT ${nowDefault},PRIMARY KEY(user_id,week_key),FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED)`,
-    `CREATE TABLE IF NOT EXISTS ${RECEIPT_TABLE}(request_id TEXT PRIMARY KEY,user_id ${userIdType} NOT NULL,run_id TEXT,action_type TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault},FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(run_id) REFERENCES ${RUN_TABLE}(run_id) DEFERRABLE INITIALLY DEFERRED)`,
+    `CREATE TABLE IF NOT EXISTS ${WEEKLY_TABLE}(user_id ${userIdType} NOT NULL,week_key TEXT NOT NULL,started_count INTEGER NOT NULL DEFAULT 0,completed_count INTEGER NOT NULL DEFAULT 0,reward_count INTEGER NOT NULL DEFAULT 0,best_vehicle_hp_percent INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT ${nowDefault},PRIMARY KEY(user_id,week_key)${userForeignKey})`,
+    `CREATE TABLE IF NOT EXISTS ${RECEIPT_TABLE}(request_id TEXT PRIMARY KEY,user_id ${userIdType} NOT NULL,run_id TEXT,action_type TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault}${userForeignKey},FOREIGN KEY(run_id) REFERENCES ${RUN_TABLE}(run_id) DEFERRABLE INITIALLY DEFERRED)`,
     `CREATE INDEX IF NOT EXISTS idx_pve_escort_receipts_user_v1830 ON ${RECEIPT_TABLE}(user_id,created_at DESC)`
   ];
 }
