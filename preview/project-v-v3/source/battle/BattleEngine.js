@@ -330,6 +330,9 @@ export class BattleEngine{
     this.host.querySelector('.pv-pixi-loading')?.remove();
     this.mounted=true;
     this.app.stop();
+    // All critical Pixi/character work is complete. Warm the compact combat
+    // sprite outside mount() so first-frame readiness never awaits audio.
+    this.audio?.schedulePreload?.(60);
     return this;
   }
 
@@ -1616,6 +1619,9 @@ export class BattleEngine{
     this.visible=this.requestedVisible&&!document.hidden;
     if(this.visible){
       this.app.start();
+      // Audio must not compete with Pixi/character assets during renderer
+      // construction. Start it only after the battlefield has become visible.
+      this.audio?.schedulePreload?.();
       if(!this.livePayload&&this.cards.every(card=>card.alpha===0))await this.deployCards();
     }else{
       this.cancelTimelines();
