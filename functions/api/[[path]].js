@@ -3325,6 +3325,17 @@ async function writeAdminLog(env,admin,action,targetType,targetId,before=null,af
     .bind(admin.id,action,targetType,String(targetId??''),before?JSON.stringify(before):null,after?JSON.stringify(after):null).run();
 }
 
+// CMS의 일반 관리자 기록에서는 이 운영 계정의 "유저 지급" 작업만 숨긴다.
+// OWNER 역할 전체를 예외 처리하지 않으며, 재화/인벤토리 원장과 지급 영수증은
+// 잔액 검증 및 중복 지급 방지를 위해 그대로 유지한다.
+const USER_GRANT_LOG_HIDDEN_NICKNAME='핑크빛유두';
+const USER_GRANT_ADMIN_ACTIONS=Object.freeze([
+  'COIN','COIN_GRANT','SHARDS','INVENTORY',
+  'MASTER_STAR_ADJUST','MAGIC_CRYSTAL_ADJUST',
+  'USER_CARD_MANUAL_GRANT','LIMITED_MANUAL_GRANT','LIMITED_MANUAL_GRANT_FAILED',
+  'WAGO_EXTENSION_COIN_MESSAGE_SEND','VERIFIED_REWARD_MESSAGE_SEND'
+]);
+
 function cleanLimitedAuditText(value,max=300){return String(value??'').trim().slice(0,max)}
 function limitedAuditUpsertStatement(env,data={}){
   const eventKey=cleanLimitedAuditText(data.eventKey||crypto.randomUUID(),180);
@@ -6691,7 +6702,10 @@ async function handleRequest(context){
 
     if(path==='admin/logs'){
       const admin=await requirePermission(request,env,'ADMIN_LOG'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      const rows=await env.DB.prepare(`SELECT l.*,u.nickname AS admin_nickname FROM admin_logs l LEFT JOIN users u ON u.id=l.admin_id ORDER BY l.id DESC LIMIT 300`).all();
+      const grantActionMarks=USER_GRANT_ADMIN_ACTIONS.map(()=>'?').join(',');
+      const rows=await env.DB.prepare(`SELECT l.*,u.nickname AS admin_nickname FROM admin_logs l LEFT JOIN users u ON u.id=l.admin_id
+        WHERE NOT (TRIM(COALESCE(u.nickname,''))=? AND UPPER(TRIM(COALESCE(l.action_type,''))) IN (${grantActionMarks}))
+        ORDER BY l.id DESC LIMIT 300`).bind(USER_GRANT_LOG_HIDDEN_NICKNAME,...USER_GRANT_ADMIN_ACTIONS).all();
       return json({logs:rows.results});
     }
 
