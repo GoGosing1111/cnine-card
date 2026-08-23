@@ -40,6 +40,15 @@ test('OWNER TEST 잠금과 ON 전환 API가 서버에 존재한다',()=>{
   assert.equal((postgresMigration.match(/CREATE TABLE IF NOT EXISTS clan_/g)||[]).length,8);
 });
 
+test('OWNER는 2차 인증 없이 클랜 테스트 자격을 통과한다',()=>{
+  assert.equal(__clanTest.isOwner({role:'OWNER'}),true);
+  assert.equal(__clanTest.isOwner({role:'owner'}),true);
+  assert.equal(__clanTest.isOwner({role:'ADMIN'}),false);
+  assert.match(server,/verificationExempt:ownerBypass/);
+  assert.match(server,/if\(!isOwner\(user\)\)/);
+  assert.match(server,/s\.user_id IS NOT NULL OR UPPER\(TRIM\(COALESCE\(u\.role,'USER'\)\)\)='OWNER'/);
+});
+
 test('V21 클랜 UI와 라이브 V3 계약이 연결된다',()=>{
   assert.match(html,/css\/clan-v1\.css/);
   assert.match(html,/js\/clan-v1\.js/);

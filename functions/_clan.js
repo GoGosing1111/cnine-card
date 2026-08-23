@@ -10,6 +10,7 @@ function safeJson(value,fallback={}){try{return JSON.parse(value||'')}catch{retu
 function clamp(value,min,max,fallback=min){const n=Number(value);return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback}
 function clampInt(value,min,max,fallback=min){return Math.round(clamp(value,min,max,fallback))}
 function cleanText(value,max=30){return String(value??'').replace(/[<>&"'`]/g,'').replace(/\s+/g,' ').trim().slice(0,max)}
+function isOwner(user){return String(user?.role||'').trim().toUpperCase()==='OWNER'}
 function validRequestId(value){const text=String(value||'').trim();return text.length>=8&&text.length<=120&&/^[A-Za-z0-9:_-]+$/.test(text)?text:''}
 function seedOf(text){let h=2166136261;for(const c of String(text)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function sqlMs(value){if(!value)return NaN;const text=String(value);return Date.parse(text.includes('T')?text:`${text.replace(' ','T')}Z`)}
@@ -188,13 +189,14 @@ async function advanceLifecycle(env,season){
 function publicSeason(season){return season?{id:Number(season.id),seasonNo:Number(season.season_no),phase:season.phase,maxMembers:Number(season.max_members||CLAN_MAX_MEMBERS),registrationEndsAt:season.registration_ends_at,draftEndsAt:season.draft_ends_at,startsAt:season.starts_at,endsAt:season.ends_at,nextPickDeadline:season.next_pick_deadline,draftPickCount:Number(season.draft_pick_count||0)}:null}
 function publicTeam(row){return row?{clanId:Number(row.clan_id),name:row.name,markKey:row.mark_key,primaryColor:row.primary_color,accentColor:row.accent_color,slogan:row.slogan||'',masterUserId:Number(row.master_user_id),masterNickname:row.master_nickname||'',memberCount:Number(row.member_count||0),score:Number(row.score||0),wins:Number(row.wins||0),losses:Number(row.losses||0),draftPosition:Number(row.draft_position||0)}:null}
 async function overview(env,user,season){
-  const [verifiedResult,membershipResult,teamsResult]=await env.DB.batch([
-    env.DB.prepare("SELECT provider_name,verified_at FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id),
+  const ownerBypass=isOwner(user),overviewStatements=[
     env.DB.prepare(`SELECT m.*,t.master_user_id,t.draft_position,t.score,t.wins,t.losses,o.name,o.mark_key,o.primary_color,o.accent_color,o.slogan
       FROM clan_members m JOIN clan_season_teams t ON t.season_id=m.season_id AND t.clan_id=m.clan_id JOIN clan_organizations o ON o.id=m.clan_id WHERE m.season_id=? AND m.user_id=?`).bind(season.id,user.id),
     env.DB.prepare(`SELECT t.*,o.name,o.mark_key,o.primary_color,o.accent_color,o.slogan,u.nickname master_nickname,(SELECT COUNT(*) FROM clan_members m WHERE m.season_id=t.season_id AND m.clan_id=t.clan_id) member_count
       FROM clan_season_teams t JOIN clan_organizations o ON o.id=t.clan_id JOIN users u ON u.id=t.master_user_id WHERE t.season_id=? ORDER BY t.score DESC,t.wins DESC,t.draft_position`).bind(season.id)
-  ]);
+  ];
+  if(!ownerBypass)overviewStatements.unshift(env.DB.prepare("SELECT provider_name,verified_at FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id));
+  const overviewResults=await env.DB.batch(overviewStatements),[verifiedResult,membershipResult,teamsResult]=ownerBypass?[null,...overviewResults]:overviewResults;
   const verified=verifiedResult?.results?.[0]||null,membership=membershipResult?.results?.[0]||null,teams=rows(teamsResult).map(publicTeam),mine=membership?publicTeam({...membership,master_nickname:teams.find(t=>t.clanId===Number(membership.clan_id))?.masterNickname,member_count:teams.find(t=>t.clanId===Number(membership.clan_id))?.memberCount}):null;
   let roster=[],candidates=[],war=null,opponents=[],registration=null,draft=null;
   if(membership){
@@ -208,12 +210,12 @@ async function overview(env,user,season){
       if(war){const enemyClan=Number(war.clan_a_id)===Number(membership.clan_id)?Number(war.clan_b_id):Number(war.clan_a_id);opponents=rows(await env.DB.prepare(`SELECT m.user_id,u.nickname,m.preferred_role,m.battle_wins,m.battle_losses FROM clan_members m JOIN users u ON u.id=m.user_id WHERE m.season_id=? AND m.clan_id=? ORDER BY m.battle_wins DESC,m.draft_pick_no LIMIT 20`).bind(season.id,enemyClan).all()).map(r=>({userId:Number(r.user_id),nickname:r.nickname,preferredRole:r.preferred_role,battleWins:Number(r.battle_wins),battleLosses:Number(r.battle_losses)}));war={id:Number(war.id),roundNo:Number(war.round_no),clanAId:Number(war.clan_a_id),clanBId:Number(war.clan_b_id),scoreA:Number(war.score_a),scoreB:Number(war.score_b),battleCount:Number(war.battle_count),startsAt:war.starts_at,endsAt:war.ends_at};}
     }
   }else registration=await env.DB.prepare('SELECT preferred_role,activity_window,status,registered_at FROM clan_draft_pool WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();
-  return{ok:true,season:publicSeason(season),verified:Boolean(verified),verificationName:verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,roster,draft,candidates,war,opponents,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:1.3},rules:{maxMembers:CLAN_MAX_MEMBERS,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,queryPolicy:'SNAPSHOT_NO_VIEW_LOGS'},serverNow:iso()};
+  return{ok:true,season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,roster,draft,candidates,war,opponents,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:1.3},rules:{maxMembers:CLAN_MAX_MEMBERS,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,queryPolicy:'SNAPSHOT_NO_VIEW_LOGS'},serverNow:iso()};
 }
 
 async function register(env,deps,user,season,body){
   if(season.phase!=='REGISTRATION')return deps.json({error:'현재는 클랜 시즌 참가 신청 기간이 아닙니다.'},409);
-  const verified=await env.DB.prepare("SELECT 1 ok FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id).first();if(!verified)return deps.json({error:'PLAY DK 2차 인증을 완료한 계정만 클랜 시즌에 참가할 수 있습니다.'},403);
+  if(!isOwner(user)){const verified=await env.DB.prepare("SELECT 1 ok FROM user_second_verifications WHERE user_id=? AND provider='PLAYDK'").bind(user.id).first();if(!verified)return deps.json({error:'PLAY DK 2차 인증을 완료한 계정만 클랜 시즌에 참가할 수 있습니다.'},403)}
   const deck=await deps.pvpDeckSnapshot(env,user.id);if(deck.length!==5)return deps.json({error:'클랜전은 V3 전투를 사용합니다. 랭크전 덱 5장을 먼저 편성하세요.'},400);
   const preferredRole=cleanRole(body.preferredRole),activityWindow=['MORNING','DAY','EVENING','NIGHT','FLEX'].includes(String(body.activityWindow||'').toUpperCase())?String(body.activityWindow).toUpperCase():'FLEX',existing=await env.DB.prepare('SELECT * FROM clan_draft_pool WHERE season_id=? AND user_id=?').bind(season.id,user.id).first(),deckJson=JSON.stringify(deck.map(card=>String(card.id)));
   if(existing&&existing.preferred_role===preferredRole&&existing.activity_window===activityWindow&&existing.deck_snapshot===deckJson)return deps.json({ok:true,unchanged:true,state:await overview(env,user,season)});
@@ -281,8 +283,11 @@ export async function handleClan({path,request,env,deps}){
   let season=await createSeason(env);season=await advanceLifecycle(env,season);
   if(path==='clan/admin/test-bootstrap'&&request.method==='POST'){
     if(!owner||settings.mode!=='TEST')return deps.json({error:'TEST 상태의 OWNER만 테스트 편성을 구성할 수 있습니다.'},403);if(season.phase!=='REGISTRATION')return deps.json({error:'참가 신청 단계에서만 테스트 풀을 구성할 수 있습니다.'},409);
-    const body=await deps.readBody(request),limit=clampInt(body.limit,4,40,20),eligible=rows(await env.DB.prepare("SELECT u.id,u.nickname,d.card_ids FROM user_second_verifications s JOIN users u ON u.id=s.user_id JOIN pvp_decks d ON d.user_id=u.id WHERE s.provider='PLAYDK' ORDER BY CASE WHEN u.id=? THEN 0 ELSE 1 END,u.last_login_at DESC,u.id LIMIT 100").bind(user.id).all()).filter(row=>{const ids=safeJson(row.card_ids,[]);return Array.isArray(ids)&&ids.length===5}).slice(0,limit);
-    if(eligible.length<4)return deps.json({error:'V3 테스트에 사용할 PLAY DK 인증·랭크전 덱 계정이 최소 4명 필요합니다.'},409);
+    const body=await deps.readBody(request),limit=clampInt(body.limit,4,40,20),eligible=rows(await env.DB.prepare(`SELECT u.id,u.nickname,d.card_ids FROM users u JOIN pvp_decks d ON d.user_id=u.id
+      LEFT JOIN user_second_verifications s ON s.user_id=u.id AND s.provider='PLAYDK'
+      WHERE UPPER(TRIM(COALESCE(u.status,'ACTIVE')))='ACTIVE' AND (s.user_id IS NOT NULL OR UPPER(TRIM(COALESCE(u.role,'USER')))='OWNER')
+      ORDER BY CASE WHEN u.id=? THEN 0 ELSE 1 END,u.last_login_at DESC,u.id LIMIT 100`).bind(user.id).all()).filter(row=>{const ids=safeJson(row.card_ids,[]);return Array.isArray(ids)&&ids.length===5}).slice(0,limit);
+    if(eligible.length<4)return deps.json({error:'V3 테스트에 사용할 PLAY DK 인증 또는 OWNER 면제·랭크전 덱 계정이 최소 4명 필요합니다.'},409);
     const statements=eligible.map(row=>env.DB.prepare("INSERT OR IGNORE INTO clan_draft_pool(season_id,user_id,candidate_key,preferred_role,activity_window,deck_snapshot,status) VALUES(?,?,?,?,?,?,'AVAILABLE')").bind(season.id,row.id,crypto.randomUUID(),CLAN_ROLES[Number(row.id)%CLAN_ROLES.length],['MORNING','DAY','EVENING','NIGHT','FLEX'][Number(row.id)%5],row.card_ids));await batchChunks(env,statements);season=await beginDraft(env,season,{forceMasterUserId:user.id});return deps.json({ok:true,seeded:eligible.length,state:await overview(env,user,season)});
   }
   if(path==='clan/admin/test-activate'&&request.method==='POST'){
@@ -299,4 +304,4 @@ export async function handleClan({path,request,env,deps}){
   return deps.json({error:'요청한 클랜 기능을 찾을 수 없습니다.'},404);
 }
 
-export const __clanTest={normalizeScores,currentDraftPosition,cleanRole,publicSeason,CLAN_MAX_MEMBERS,FOUNDATION_SQL};
+export const __clanTest={normalizeScores,currentDraftPosition,cleanRole,isOwner,publicSeason,CLAN_MAX_MEMBERS,FOUNDATION_SQL};
