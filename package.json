@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build:v3": "esbuild preview/project-v-v3/source/project-v-pixi-battle.src.js --bundle --minify --format=iife --outfile=preview/project-v-v3/project-v-pixi-battle.bundle.js",
     "test:postgres-compat": "node --test tests/postgres-d1-compat.test.mjs",
     "test:postgres-routes": "node tests/postgres-route-smoke.mjs",
     "check:worker": "node --check functions/api/[[path]].js"
@@ -11,6 +12,9 @@
     "pg": "^8.16.3"
   },
   "devDependencies": {
+    "esbuild": "^0.28.1",
+    "gsap": "^3.13.0",
+    "pixi.js": "^8.20.0",
     "wrangler": "^4.125.0"
   }
 }

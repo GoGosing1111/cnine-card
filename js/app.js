@@ -612,7 +612,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.2.0-manifest-cache',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=56-v1812-pace',
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=59-approved-role-fx-port',
       'js/battle-v3-live.js?v=3.18.0-siege-command'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'

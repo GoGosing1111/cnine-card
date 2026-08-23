@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>숲켓몬 LIVE V3 · 역할별 타격 FX</title>
+  <link rel="stylesheet" href="../../css/card.css?v=1805">
+  <link rel="stylesheet" href="../../css/battle-v3-live.css?v=1798-roster-frame">
+  <link rel="stylesheet" href="./style.css?v=2-approved-fx-port">
+</head>
+<body>
+  <main class="live-preview" aria-label="숲켓몬 운영 V3 전투 프리뷰">
+    <div id="liveBattleModal" class="modal show battle-modal battle-v3-modal"></div>
+    <aside class="live-preview-controls" aria-label="프리뷰 제어판">
+      <div>
+        <small>PRODUCTION CONTRACT · V3.15</small>
+        <strong>승인본 → LIVE V3 이식 검수</strong>
+        <span>승인된 크기·색·타이밍을 운영 Pixi 전투에서 역할별 단독 재생</span>
+      </div>
+      <nav class="role-preview-tabs" aria-label="역할 이펙트 선택">
+        <button type="button" class="is-active" data-role="ATTACK">공격형</button>
+        <button type="button" data-role="DEFENSE">방어형</button>
+        <button type="button" data-role="SPEED">속도형</button>
+        <button type="button" data-role="HP">HP형</button>
+      </nav>
+      <button id="playOnce" type="button">선택 효과 재생</button>
+      <button id="playTwice" type="button">2판 연속 재진입</button>
+      <output id="previewStatus">초기화 중</output>
+    </aside>
+  </main>
+  <script src="../../js/project-v-battle-art-adapter-v1.js?v=3.2.0-gusudaeng"></script>
+  <script src="../../js/project-v-tier-battle-art-adapter-v1.js?v=3.2.0-manifest-cache"></script>
+  <script src="../../js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger"></script>
+  <script src="../../js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache"></script>
+  <script src="../project-v-v3/project-v-pixi-battle.bundle.js?v=59-approved-role-fx-port"></script>
+  <script src="../../js/battle-v3-live.js?v=3.18.0-siege-command"></script>
+  <script src="./app.js?v=3-approved-fx-port"></script>
+</body>
+</html>

@@ -2,9 +2,10 @@ import {Application, Assets, BlurFilter, Container, Graphics, Sprite, Text, Text
 import {gsap} from 'gsap';
 import {CameraController} from './CameraController.js';
 import {SkillTimeline} from './SkillTimeline.js';
-import {createBattlePools} from './ObjectPool.js';
+import {BattleAudioMixer} from './BattleAudioMixer.js';
+import {configureDamageText, createBattlePools} from './ObjectPool.js';
 import {AVATAR_LAYER_ORDER, BattleCharacter, CHARACTER_STATE, TEAM} from './BattleCharacter.js';
-import {applyWebGLBlendTree, SkillEffectFX, triggerWhiteFlash} from './SkillEffectFX.js';
+import {applyWebGLBlendTree, normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -88,6 +89,21 @@ const ASSETS={
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const hasFiniteNumber=value=>value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value));
+
+function combatRoleFromCard(card){
+  return normalizeSkillEffectKind(card?.type||card?.powerType||card?.power_type||card?.effectKind||card?.uniqueAbility?.dominantType||card?.unique_ability?.dominant_type);
+}
+
+function assignCombatRole(character,card,{boss=false}={}){
+  if(!character)return character;
+  const kind=boss?normalizeSkillEffectKind(card?.type||'ATTACK'):combatRoleFromCard(card);
+  const profile=roleEffectProfile(kind);
+  character.effectKind=kind;
+  character.effectProfile=card?.effectProfile||card?.uniqueAbility?.effectProfile||({ATTACK:'CRIMSON_RIFT',DEFENSE:'GUARD_PULSE',SPEED:'WIND_CHAIN',HP:'MOON_BLOOM'}[kind]);
+  character.accent=Number(card?.accentColor)||profile.accent;
+  character.abilityLabel=card?.uniqueAbility?.effectName||card?.effectName||profile.label;
+  return character;
+}
 
 function normalizeBattlefieldMode(value){
   const mode=String(value||'').trim().toUpperCase().replace(/[\s-]+/g,'_');
@@ -185,6 +201,7 @@ export class BattleEngine{
     this.camera=null;
     this.skillTimeline=null;
     this.pools=null;
+    this.audio=null;
     this.textures=null;
     this.cards=[];
     this.characters=[];
@@ -281,6 +298,7 @@ export class BattleEngine{
 
     this.camera=new CameraController(this.stage,DESKTOP);
     this.pools=createBattlePools();
+    this.audio=new BattleAudioMixer();
     this.skillTimeline=new SkillTimeline({
       ...DESKTOP,
       backgroundLayer:this.backgroundLayer,
@@ -289,6 +307,7 @@ export class BattleEngine{
       uiLayer:this.uiLayer,
       camera:this.camera,
       pools:this.pools,
+      audio:this.audio,
       ticker:this.app.ticker,
       playbackSpeed:PLAYBACK_SPEED,
       reducedMotion:this.reducedMotion
@@ -657,6 +676,8 @@ export class BattleEngine{
     });
     this.allies=this.characters.filter(character=>character.team===TEAM.ALLY);
     this.enemies=this.characters.filter(character=>character.team===TEAM.ENEMY);
+    this.allies.forEach((character,index)=>assignCombatRole(character,CARD_DATA[index]));
+    this.enemies.forEach(character=>assignCombatRole(character,{type:'ATTACK'}));
     this.characters.forEach(character=>{
       character.root.alpha=0;
       this.combatLayer.addChild(character.root);
@@ -740,9 +761,10 @@ export class BattleEngine{
     for(let index=0;index<Math.min(allyCards.length,this.allies.length);index+=1){
       const card=allyCards[index];
       const art=allyArt[index];
+      const target=this.allies[index];
+      assignCombatRole(target,card);
       if(!art?.primaryUrl)continue;
       const texture=await loadBattleArtTexture(art);
-      const target=this.allies[index];
       target.id=card?.id||card?.cardId||target.id;
       target.cardId=card?.cardId||card?.id||target.id;
       target.serverMaxHp=Math.max(1,Number(card?.maxHp||card?.hp||100));
@@ -763,9 +785,10 @@ export class BattleEngine{
     for(let index=0;index<Math.min(enemyCards.length,this.enemies.length);index+=1){
       const card=enemyCards[index];
       const art=enemyArt[index];
+      const target=this.enemies[index];
+      assignCombatRole(target,card);
       if(!art?.primaryUrl)continue;
       const texture=await loadBattleArtTexture(art);
-      const target=this.enemies[index];
       target.id=card?.id||card?.cardId||target.id;
       target.cardId=card?.cardId||card?.id||target.id;
       target.serverMaxHp=Math.max(1,Number(card?.maxHp||card?.hp||100));
@@ -800,6 +823,7 @@ export class BattleEngine{
     target.battleActive=true;
     target.root.visible=true;
     const monsterCard=payload?.battleV2?.teams?.B?.cards?.find?.(card=>/^MONSTER:/i.test(String(card?.cardId||''))||String(card?.grade||'').toUpperCase()==='MONSTER'||String(card?.grade||'').toUpperCase()==='BOSS')||payload?.battleV2?.teams?.B?.cards?.[0];
+    assignCombatRole(target,monsterCard||monster,{boss:isBoss});
     target.id=monsterCard?.id||monster?.cardId||monster?.id&&`MONSTER:${monster.id}`||monster?.monsterId&&`MONSTER:${monster.monsterId}`||target.id;
     target.cardId=monsterCard?.cardId||monster?.cardId||target.id;
     target.serverMaxHp=Math.max(1,Number(monsterCard?.maxHp||monsterCard?.hp||monster?.maxHp||monster?.hp||100));
@@ -1219,7 +1243,7 @@ export class BattleEngine{
     });
   }
 
-  normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,onImpact=()=>{}}={}){
+  normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,healing=0,hitCount=1,onImpact=()=>{}}={}){
     const requestedActor=attacker||this.allies[index%this.allies.length];
     const actor=this.isAlive(requestedActor)?requestedActor:(requestedActor?.team===TEAM.ENEMY?this.enemies:this.allies).find(character=>this.isAlive(character));
     const victim=this.selectLiveTarget(actor,target);
@@ -1229,6 +1253,9 @@ export class BattleEngine{
     }
     const actorView=actor.root;
     const victimView=victim.root;
+    const roleKind=normalizeSkillEffectKind(actor.effectKind);
+    const roleProfile=roleEffectProfile(roleKind);
+    const useSlash=roleKind===SKILL_EFFECT_KIND.ATTACK;
     const slash=this.pools.slash.acquire();
     const damageLabel=this.pools.damage.acquire();
     const impact={x:victimView.x,y:victimView.y-176};
@@ -1237,13 +1264,19 @@ export class BattleEngine{
     impactFx.position.set(impact.x,impact.y+74);
     impactFx.alpha=0;
     impactFx.scale.set(.3);
-    impactFx.addChild(new Graphics().circle(0,0,isBossTarget?118:68).stroke({width:isBossTarget?13:7,color:isBossTarget?0xffcf70:0xff735f,alpha:.9}));
-    if(isBossTarget)impactFx.addChild(new Graphics().circle(0,0,166).stroke({width:6,color:0xffffff,alpha:.72}));
+    impactFx.addChild(new Graphics().circle(0,0,isBossTarget?118:68).stroke({width:isBossTarget?13:7,color:roleProfile.accent,alpha:.9}));
+    if(isBossTarget)impactFx.addChild(new Graphics().circle(0,0,166).stroke({width:6,color:roleProfile.secondary,alpha:.72}));
     applyWebGLBlendTree(impactFx,'screen');
     this.effectLayer.addChild(impactFx);
-    slash.position.set(impact.x,impact.y);slash.visible=true;slash.scale.set(.3);applyWebGLBlendTree(slash,'add');this.effectLayer.addChild(slash);
-    damageLabel.text=damage.toLocaleString('ko-KR');damageLabel.position.set(impact.x,victimView.y-280);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
-    const skillEffect=SkillEffectFX.create({kind:'ATTACK',x:impact.x,y:impact.y,accent:isBossTarget?0xffcf70:0x56e7ff}).attach(this.effectLayer);
+    const impactFlash=new Graphics().rect(0,0,this.width,this.height).fill({color:roleProfile.secondary,alpha:1});
+    impactFlash.alpha=0;impactFlash.blendMode='screen';this.uiLayer.addChild(impactFlash);
+    slash.position.set(impact.x,impact.y);slash.visible=useSlash;slash.scale.set(.3);applyWebGLBlendTree(slash,'add');this.effectLayer.addChild(slash);
+    configureDamageText(damageLabel,{kind:roleKind,damage,critical,healing,hitCount,compact:this.mobile});
+    damageLabel.position.set(impact.x,victimView.y-340);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
+    if(roleKind===SKILL_EFFECT_KIND.HP&&damageLabel.healLabel){
+      damageLabel.healLabel.position.set(actor.baseX-impact.x,actor.baseY-165-(victimView.y-340));
+    }
+    const skillEffect=SkillEffectFX.create({kind:roleKind,x:impact.x,y:impact.y,originX:actor.baseX,originY:actor.baseY-132,accent:roleProfile.accent}).attach(this.effectLayer);
     let whiteFlashHandle=null;
     const cleanup=()=>{
       this.pools.slash.release(slash);
@@ -1256,49 +1289,55 @@ export class BattleEngine{
       whiteFlashHandle?.release();
       skillEffect.release();
       impactFx.destroy({children:true});
+      impactFlash.destroy();
     };
-    this.updateStatus(`${actor.name} · ${critical?'치명타':'공격'}`);
+    this.updateStatus(`${actor.name} · ${roleProfile.label}${critical?' · 치명타':''}`);
     const vector={x:victimView.x-actor.baseX,y:victimView.y-actor.baseY};
     const distance=Math.max(1,Math.hypot(vector.x,vector.y));
     // Move all the way to the current target instead of nudging 86px from the
     // origin. The old distance made individual server TURN events look static.
-    const stopDistance=isBossTarget?138:92;
+    const stopByRole={ATTACK:isBossTarget?138:92,DEFENSE:isBossTarget?265:225,SPEED:isBossTarget?118:74,HP:isBossTarget?500:440};
+    const stopDistance=stopByRole[roleKind]||stopByRole.ATTACK;
     const attackPoint={
       x:victimView.x-vector.x/distance*stopDistance,
       y:victimView.y-vector.y/distance*stopDistance
     };
     const attackScale=actor.getPerspectiveScale?.(attackPoint.y)??actor.restScale;
     return this.timeline(timeline=>{
-      timeline.call(()=>actor.setState(CHARACTER_STATE.MOVE),[],0);
-      timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:.22,ease:'power3.out'});
-      timeline.to(actorView.scale,{x:attackScale*1.06,y:attackScale*1.06,duration:.22,ease:'power3.out'},0);
-      timeline.set(slash,{alpha:1},.18);
-      if(slash.blades)slash.blades.forEach((blade,bladeIndex)=>timeline.to(blade.scale,{x:1,duration:.1,ease:'power4.out'},.18+bladeIndex*.02));
+      const travelDuration=roleKind===SKILL_EFFECT_KIND.SPEED?.14:roleKind===SKILL_EFFECT_KIND.DEFENSE?.25:.22;
+      timeline.call(()=>{actor.setState(CHARACTER_STATE.MOVE);this.audio?.playCast(roleKind)},[],0);
+      timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:travelDuration,ease:roleKind===SKILL_EFFECT_KIND.SPEED?'power4.in':'power3.out'});
+      timeline.to(actorView.scale,{x:attackScale*(roleKind===SKILL_EFFECT_KIND.DEFENSE?1.11:1.06),y:attackScale*(roleKind===SKILL_EFFECT_KIND.SPEED?.96:1.06),duration:travelDuration,ease:'power3.out'},0);
+      if(useSlash)timeline.set(slash,{alpha:1},.18);
+      if(useSlash&&slash.blades)slash.blades.forEach((blade,bladeIndex)=>timeline.to(blade.scale,{x:1,duration:.1,ease:'power4.out'},.18+bladeIndex*.02));
       timeline.call(()=>{
         actor.setState(CHARACTER_STATE.ATTACK);
         victim.setState(CHARACTER_STATE.HIT);
         victim.tint=0xffd4a0;
         whiteFlashHandle?.release();
         whiteFlashHandle=triggerWhiteFlash(victim,{durationMs:Math.round(50/PLAYBACK_SPEED)});
+        this.audio?.playImpact(roleKind,{critical,boss:isBossTarget});
         if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
         onImpact(victim);
       },[],.25);
       timeline.to(impactFx,{alpha:1,duration:.025,ease:'none'},.25);
       timeline.to(impactFx.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.25);
       timeline.to(impactFx,{alpha:0,duration:.14,ease:'power2.in'},isBossTarget?.42:.35);
-      timeline.to(slash.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.25);
-      skillEffect.play(timeline,{at:.25,duration:.2});
-      this.camera.addShake(timeline,{intensity:isBossTarget?(critical?26:20):20,duration:isBossTarget?.31:.22,rotation:isBossTarget?.008:.004,at:.25});
-      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-286},{alpha:1,y:victimView.y-316,duration:.18,ease:'back.out(2)'},.25);
+      timeline.to(impactFlash,{alpha:roleKind===SKILL_EFFECT_KIND.ATTACK?.34:.2,duration:.025,ease:'none'},.25);
+      timeline.to(impactFlash,{alpha:0,duration:.09,ease:'power3.out'},.275);
+      if(useSlash)timeline.to(slash.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.25);
+      skillEffect.play(timeline,{at:.25,duration:.24});
+      this.camera.addShake(timeline,{intensity:(isBossTarget?1.22:1)*roleProfile.shake*(critical?1.12:1),duration:isBossTarget?.31:.22,rotation:roleKind===SKILL_EFFECT_KIND.DEFENSE?.004:.008,at:.25});
+      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-346},{alpha:1,y:victimView.y-376,duration:.18,ease:'back.out(2)'},.25);
       timeline.fromTo(damageLabel.scale,{x:.55,y:.55},{x:1,y:1,duration:.2,ease:'back.out(2)'},.25);
-      timeline.to(damageLabel,{alpha:0,y:victimView.y-346,duration:.25,ease:'power2.in'},.48);
-      timeline.to(slash,{alpha:0,duration:.2},.38);
+      timeline.to(damageLabel,{alpha:0,y:victimView.y-406,duration:.25,ease:'power2.in'},.48);
+      if(useSlash)timeline.to(slash,{alpha:0,duration:.2},.38);
       timeline.to(actorView,{x:actor.baseX,y:actor.baseY,duration:.3,ease:'power3.inOut'},.43);
       timeline.to(actorView.scale,{x:actor.restScale,y:actor.restScale,duration:.3,ease:'power3.inOut'},.43);
     },cleanup);
   }
 
-  async playTacticalSkill(index,{damage=386720,critical=true,label='전술 스킬',target=null,targetHp=null,attacker=null}={}){
+  async playTacticalSkill(index,{damage=386720,critical=true,label='전술 스킬',target=null,targetHp=null,attacker=null,healing=0,hitCount=1}={}){
     const actor=attacker||this.allies[index%this.allies.length];
     const actorIndex=Math.max(0,this.allies.indexOf(actor));
     const card=this.cards[actorIndex%this.cards.length]||this.cards[0];
@@ -1314,9 +1353,11 @@ export class BattleEngine{
       title:actor.name,
       subtitle:this.livePayload?label:card.data.ability,
       accent:actor.accent||card.data.color||0x7edcff,
-      effectProfile:card.data.effectProfile,
-      effectKind:card.data.effectKind,
+      effectProfile:actor.effectProfile||card.data.effectProfile,
+      effectKind:actor.effectKind||card.data.effectKind,
       targetClass:victim.isBoss?'BOSS':'MONSTER',
+      healing,
+      hitCount,
       onImpact:()=>this.syncTargetHp(victim,hasFiniteNumber(targetHp)?Number(targetHp):victim.hp-(critical?18:11))
     });
     return result;
@@ -1350,28 +1391,30 @@ export class BattleEngine{
         :hasFiniteNumber(event.bossHp)?Number(event.bossHp):null;
       const resolvedTargetHp=this.eventHpPercent(target,rawTargetHp);
       const damage=Number(event.damage||0)+Number(event.absorbed||0);
+      const healing=Math.max(0,Number(event.healing||event.healAmount||event.recoveredHp||0));
+      const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
       if(type==='DEPLOY')await this.deployCards();
       else if(type==='ATTACK'||type==='TURN'){
         if(event.dodge){await this.showBanner('회피 · 잔상 전개',0x62e9ff,'속도효과 발동');continue}
-        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp});
+        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount});
       }else if(type==='SKILL'){
-        await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,attacker:explicitActor});
+        await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
       }else if(type==='COUNTER'){
-        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp});
+        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount});
         else await this.bossCounter(Number(event.actorIndex||0));
       }else if(type==='ULTIMATE'||type==='PVE_ULTIMATE'){
         const liveActor=explicitActor||(this.livePayload?this.allies.find(character=>this.isAlive(character)):null);
-        if(liveActor)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:true,label:event.label||'궁극기',target,targetHp:resolvedTargetHp,attacker:liveActor});
+        if(liveActor)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:true,label:event.label||'궁극기',target,targetHp:resolvedTargetHp,attacker:liveActor,healing,hitCount});
         else await this.playUltimate({target,targetHp:resolvedTargetHp});
       }else if(type==='BOSS_ULTIMATE'){
         await this.showBanner(event.label||'보스 광역 공격',0xff5c6e,'BOSS ULTIMATE');
         for(const hit of event.hits||[]){
           const hitTarget=this.combatantById(hit.targetId);
-          await this.normalAttack(0,{damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:Boolean(hit.critical),attacker:explicitActor||this.enemies.find(character=>this.isAlive(character)),target:hitTarget,targetHp:this.eventHpPercent(hitTarget,hit.targetHpAfter)});
+          await this.normalAttack(0,{damage:Number(hit.damage||0)+Number(hit.absorbed||0),critical:Boolean(hit.critical),attacker:explicitActor||this.enemies.find(character=>this.isAlive(character)),target:hitTarget,targetHp:this.eventHpPercent(hitTarget,hit.targetHpAfter),healing:Number(hit.healing||0),hitCount:Number(hit.hitCount||1)});
         }
       }else if(type==='MAGIC_CARD'){
         const label=event.magicName||event.magicCode||'마법카드';
-        if(damage>0)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label,target,targetHp:resolvedTargetHp,attacker:explicitActor});
+        if(damage>0)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label,target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
         else{
           await this.showBanner(label,event.amount?0x6affb7:0xb57cff,event.amount?'회복효과 발동':'마법효과 발동');
           if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
@@ -1622,12 +1665,14 @@ export class BattleEngine{
       effectSystem:{
         renderer:'SkillEffectFX',
         layer:'EffectLayer',
-        mode:'PLACEHOLDER_WITH_ATLAS_SWAP',
-        kinds:['ATTACK','DEFENSE','SPEED','HEAL'],
+        mode:'ROLE_WEBGL_POOL_WITH_ATLAS_SWAP',
+        kinds:['ATTACK','DEFENSE','SPEED','HP'],
         blendModes:['add','screen'],
-        collisionAtMs:350,
+        damageTypography:'ROLE_AWARE_BITMAP_TEXT',
+        audio:this.audio?.diagnostics?.(),
+        collisionAtMs:[250,350],
         whiteFlashMs:50,
-        releaseAfterMs:200
+        releaseAfterMs:240
       },
       characterStates:this.characters.map(character=>({
         id:character.id,
@@ -1651,6 +1696,7 @@ export class BattleEngine{
     this.skillTimeline?.destroy();
     this.camera?.destroy();
     this.pools?.destroy();
+    this.audio?.destroy();
     this.app?.destroy(true,{children:true,texture:false});
     this.app=null;
     this.cards=[];

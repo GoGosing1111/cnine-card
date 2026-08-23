@@ -1,7 +1,8 @@
 import {AnimatedSprite, Container, Graphics, Sprite, Text} from 'pixi.js';
 import {gsap} from 'gsap';
 import {CHARACTER_STATE, TEAM} from './BattleCharacter.js';
-import {applyWebGLBlendTree, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
+import {configureDamageText} from './ObjectPool.js';
+import {applyWebGLBlendTree, normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 
@@ -122,7 +123,7 @@ function makeCutIn({texture,width,height,title,subtitle,accent}){
 }
 
 export class SkillTimeline{
-  constructor({width,height,backgroundLayer,combatLayer,effectLayer,uiLayer,camera,pools,ticker=null,playbackSpeed=1.3,reducedMotion=false}){
+  constructor({width,height,backgroundLayer,combatLayer,effectLayer,uiLayer,camera,pools,audio=null,ticker=null,playbackSpeed=1.3,reducedMotion=false}){
     this.width=width;
     this.height=height;
     this.backgroundLayer=backgroundLayer;
@@ -131,14 +132,18 @@ export class SkillTimeline{
     this.uiLayer=uiLayer;
     this.camera=camera;
     this.pools=pools;
+    this.audio=audio;
     this.ticker=ticker;
     this.playbackSpeed=Math.max(1,Number(playbackSpeed)||1.3);
     this.reducedMotion=reducedMotion;
     this.active=new Set();
   }
 
-  play({attacker,target,enemies=[],damage,title,subtitle='전술 스킬 발동',accent=0xffd31a,critical=true,effectProfile='TACTICAL',effectKind=SKILL_EFFECT_KIND.ATTACK,targetClass='MONSTER',onImpact=()=>{}}){
+  play({attacker,target,enemies=[],damage,title,subtitle='전술 스킬 발동',accent=0xffd31a,critical=true,effectProfile='TACTICAL',effectKind=SKILL_EFFECT_KIND.ATTACK,targetClass='MONSTER',healing=0,hitCount=1,onImpact=()=>{}}){
     this.cancelAll();
+    const roleKind=normalizeSkillEffectKind(effectKind);
+    const roleProfile=roleEffectProfile(roleKind);
+    const useSlash=roleKind===SKILL_EFFECT_KIND.ATTACK;
     const attackerView=attacker.root||attacker;
     const targetView=target.root||target;
     const origin={
@@ -171,16 +176,17 @@ export class SkillTimeline{
     const slash=this.pools.slash.acquire();
     slash.position.set(targetPoint.x,targetPoint.y);
     slash.alpha=0;
-    slash.visible=true;
+    slash.visible=useSlash;
     slash.scale.set(.3);
     applyWebGLBlendTree(slash,'add');
     this.effectLayer.addChild(slash);
 
     const damageLabel=this.pools.damage.acquire();
-    damageLabel.text=Number(damage||0).toLocaleString('ko-KR');
-    damageLabel.style.fill=critical?0xffef8a:0xffffff;
-    damageLabel.style.fontSize=critical?64:50;
-    damageLabel.position.set(targetPoint.x,targetView.y-300);
+    configureDamageText(damageLabel,{kind:roleKind,damage,critical,healing,hitCount,compact:this.height>this.width});
+    damageLabel.position.set(targetPoint.x,targetView.y-350);
+    if(roleKind===SKILL_EFFECT_KIND.HP&&damageLabel.healLabel){
+      damageLabel.healLabel.position.set(origin.x-targetPoint.x,origin.y-165-(targetView.y-350));
+    }
     damageLabel.alpha=0;
     damageLabel.visible=true;
     this.uiLayer.addChild(damageLabel);
@@ -212,9 +218,8 @@ export class SkillTimeline{
     applyWebGLBlendTree(targetFx,'screen');
     this.effectLayer.addChild(targetFx);
 
-    const supportEffect=[SKILL_EFFECT_KIND.DEFENSE,SKILL_EFFECT_KIND.HEAL].includes(String(effectKind).toUpperCase());
-    const effectPoint=supportEffect?{x:dashPoint.x,y:dashPoint.y-178}:targetPoint;
-    const skillEffect=SkillEffectFX.create({kind:effectKind,x:effectPoint.x,y:effectPoint.y,accent}).attach(this.effectLayer);
+    const effectPoint=targetPoint;
+    const skillEffect=SkillEffectFX.create({kind:roleKind,x:effectPoint.x,y:effectPoint.y,originX:origin.x,originY:origin.y-150,accent}).attach(this.effectLayer);
 
     const enemyRoots=enemies.map(enemy=>enemy.root||enemy).filter(Boolean);
     const enemyAlpha=enemyRoots.map(view=>view.alpha);
@@ -277,7 +282,7 @@ export class SkillTimeline{
           hitStopTimer=null;
           if(this.ticker)this.ticker.speed=normalTickerSpeed;
           if(this.active.has(entry))timeline.resume();
-        },Math.round(100/this.playbackSpeed));
+        },Math.round(roleProfile.hitStop/this.playbackSpeed));
       };
 
       // Keep the original-card cut-in readable through the dash. At 1.3x this
@@ -285,6 +290,7 @@ export class SkillTimeline{
       timeline.call(()=>{
         attackerView.zIndex=1000;
         this.combatLayer.sortChildren();
+        this.audio?.playCast(roleKind);
       },[],0);
       timeline.to(this.backgroundLayer,{alpha:.4,duration:.12,ease:'power2.out'},0);
       enemyRoots.forEach(view=>timeline.to(view,{alpha:.4,duration:.12,ease:'power2.out'},0));
@@ -313,14 +319,17 @@ export class SkillTimeline{
         setTint(target,accent);
         whiteFlashHandle?.release();
         whiteFlashHandle=triggerWhiteFlash(target,{durationMs:Math.round(50/this.playbackSpeed)});
+        this.audio?.playImpact(roleKind,{critical,boss:bossTarget});
         onImpact();
-        if(slash instanceof AnimatedSprite)slash.gotoAndPlay(0);
+        if(useSlash&&slash instanceof AnimatedSprite)slash.gotoAndPlay(0);
       },[],.35);
-      timeline.set(slash,{alpha:1,rotation:-.08},.35);
-      timeline.to(slash.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.35);
-      if(slash instanceof AnimatedSprite){
+      if(useSlash){
+        timeline.set(slash,{alpha:1,rotation:-.08},.35);
+        timeline.to(slash.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.35);
+      }
+      if(useSlash&&slash instanceof AnimatedSprite){
         timeline.to(slash,{alpha:0,duration:.08,ease:'power2.in'},.53);
-      }else{
+      }else if(useSlash){
         slash.blades.forEach(blade=>{
           timeline.to(blade.scale,{x:1,duration:.065,ease:'power4.out'},.35);
           timeline.to(blade,{alpha:0,duration:.14,ease:'power2.in'},.44);
@@ -349,7 +358,7 @@ export class SkillTimeline{
       timeline.to(targetFx,{alpha:0,duration:.14,ease:'power2.in'},.48);
       // Shared placeholder/atlas factory is synchronized to the 350ms collision.
       skillEffect.play(timeline,{at:.35,duration:.2});
-      this.camera.addShake(timeline,{intensity:bossTarget?28:20,duration:bossTarget?.32:.24,rotation:.01,at:.35});
+      this.camera.addShake(timeline,{intensity:bossTarget?roleProfile.shake*1.28:roleProfile.shake,duration:bossTarget?.32:.24,rotation:roleKind===SKILL_EFFECT_KIND.DEFENSE?.006:.01,at:.35});
       timeline.call(startHitStop,[],.355);
 
       // The intact sprite controller handles the 25px diagonal knockback.
@@ -358,9 +367,9 @@ export class SkillTimeline{
         timeline.to(targetView,{x:targetOrigin.x+knockback,y:targetOrigin.y-25,duration:.055,ease:'power4.out'},.35);
         timeline.to(targetView,{x:targetOrigin.x,y:targetOrigin.y,duration:.23,ease:'back.out(1.5)'},.405);
       }
-      timeline.fromTo(damageLabel,{alpha:0,y:targetView.y-282},{alpha:1,y:targetView.y-312,duration:.16,ease:'back.out(2.4)'},.35);
+      timeline.fromTo(damageLabel,{alpha:0,y:targetView.y-342},{alpha:1,y:targetView.y-372,duration:.16,ease:'back.out(2.4)'},.35);
       timeline.fromTo(damageLabel.scale,{x:.45,y:.45},{x:1.18,y:1.18,duration:.16,ease:'back.out(2.4)'},.35);
-      timeline.to(damageLabel,{y:targetView.y-342,alpha:0,scale:1,duration:.25,ease:'power2.in'},.51);
+      timeline.to(damageLabel,{y:targetView.y-402,alpha:0,scale:1,duration:.25,ease:'power2.in'},.51);
       timeline.call(()=>{
         setTint(target,targetOrigin.tint);
         setState(target,target.hp<=0?CHARACTER_STATE.DEAD:CHARACTER_STATE.IDLE);
