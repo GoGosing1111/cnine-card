@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#05090e">
+  <title>숲켓몬 영토전 통합 전장 · LIVE V1811 CONTRACT</title>
+  <link rel="stylesheet" href="./territory-war-v2.css?v=1">
+</head>
+<body>
+  <main class="tw4-app" id="territoryWarPreview">
+    <header class="tw4-topbar">
+      <div class="tw4-brand">
+        <button class="tw4-icon-button" type="button" aria-label="로비로 돌아가기" data-toast="승인 프리뷰에서는 로비 이동을 실행하지 않습니다.">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11.2 12 4l8 7.2v8.3h-5.2v-5.2H9.2v5.2H4z"/></svg>
+        </button>
+        <div>
+          <small>SOOPKETMON / GRAND SIEGE</small>
+          <h1>영토전 통합 전장</h1>
+        </div>
+      </div>
+
+      <div class="tw4-round-state" aria-label="영토전 진행 상황">
+        <span><i></i> LIVE</span>
+        <b>제26회 영토전</b>
+        <time>17:42:08</time>
+      </div>
+
+      <div class="tw4-top-actions">
+        <button type="button" data-drawer="ranking"><span>기여도</span><b>RANK</b></button>
+        <button type="button" data-drawer="report"><span>전황</span><b>LOG</b></button>
+        <button type="button" class="tw4-icon-button" aria-label="전황 새로고침" data-refresh>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 7V3l-2 2A8 8 0 1 0 20 11h-2.2A5.8 5.8 0 1 1 15.4 7L13 9.4h6z"/></svg>
+        </button>
+        <button type="button" class="tw4-close" aria-label="닫기" data-toast="승인 프리뷰 화면입니다.">×</button>
+      </div>
+    </header>
+
+    <section class="tw4-scoreboard" aria-label="진영 공성 체력">
+      <article class="side-a">
+        <div><small>청람 연합 · 76명</small><strong>8,240,500</strong></div>
+        <em><i style="width:68%"></i></em>
+      </article>
+      <div class="tw4-front-status">
+        <span>CURRENT FRONT</span>
+        <b>중앙 지휘 구역</b>
+        <small>5번째 전선 · 초접전 1.8%P</small>
+      </div>
+      <article class="side-b">
+        <div><small>진홍 군단 · 76명</small><strong>8,091,420</strong></div>
+        <em><i style="width:66.2%"></i></em>
+      </article>
+    </section>
+
+    <section class="tw4-workspace">
+      <aside class="tw4-rail tw4-command-rail" aria-label="전장 지휘 통신">
+        <header>
+          <small>FIELD COMMAND</small>
+          <h2>전장 지휘 통신</h2>
+          <span><i></i> LIVE</span>
+        </header>
+
+        <div class="tw4-commanders">
+          <article class="side-a is-mine">
+            <span>A</span><div><small>청람 지휘관</small><b>핑크빛유두</b><em>지휘 점수 184,920</em></div>
+          </article>
+          <article class="side-b">
+            <span>B</span><div><small>진홍 지휘관</small><b>붉은사령관</b><em>지휘 점수 178,440</em></div>
+          </article>
+        </div>
+
+        <div class="tw4-command-feed">
+          <article class="side-a"><i>A</i><div><b>핑크빛유두 <time>21:04</time></b><p>중앙 교량 유지. 다음 공격은 4구역으로 집중합니다.</p></div></article>
+          <article class="side-b"><i>B</i><div><b>붉은사령관 <time>21:03</time></b><p>동부 포대 방어 후 대포병 반격 준비.</p></div></article>
+          <article class="system"><i>!</i><div><b>전선 통제 <time>21:02</time></b><p>중앙 지휘 구역의 HP 차이가 2% 미만입니다.</p></div></article>
+        </div>
+
+        <form class="tw4-command-compose">
+          <label for="commandMessage">지휘관 전장 메시지</label>
+          <div><input id="commandMessage" maxlength="100" value="" placeholder="진영 전체에 작전 지시"><button type="submit">전송</button></div>
+          <small>기여도 1위 임시 지휘관에게만 전송 권한 부여</small>
+        </form>
+      </aside>
+
+      <section class="tw4-map-shell" aria-label="영토전 전략 지도">
+        <picture class="tw4-map-art" aria-hidden="true">
+          <source srcset="/assets/ui/territory-war/territory-command-map-v1824.avif" type="image/avif">
+          <img src="/assets/ui/territory-war/territory-command-map-v1824.webp" alt="">
+        </picture>
+        <div class="tw4-map-shade" aria-hidden="true"></div>
+
+        <div class="tw4-map-toolbar">
+          <div><span><i class="side-a"></i> 청람 점령</span><span><i class="contested"></i> 교전 중</span><span><i class="side-b"></i> 진홍 점령</span></div>
+          <b>TACTICAL LAYER 01</b>
+        </div>
+
+        <svg class="tw4-territory-layer" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="routeGradient" x1="0" x2="1"><stop offset="0" stop-color="#4ce3ff"/><stop offset=".5" stop-color="#f6d66d"/><stop offset="1" stop-color="#ff506c"/></linearGradient>
+            <filter id="routeGlow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <path class="tw4-control-zone zone-a" d="M0 35 332 18 482 150 580 360 480 600 255 880 0 900Z"/>
+          <path class="tw4-control-zone zone-b" d="M1600 30 1318 15 1165 165 1040 390 1135 640 1370 900 1600 900Z"/>
+          <path class="tw4-frontline" d="M791 72 744 170 821 251 754 344 832 438 762 534 824 625 773 721 824 838"/>
+          <path class="tw4-route-glow" d="M95 250 C210 250 222 390 350 350 S478 186 575 220 S648 430 790 378 S910 530 1010 442 S1110 205 1230 250 S1370 370 1502 194"/>
+          <path class="tw4-route" d="M95 250 C210 250 222 390 350 350 S478 186 575 220 S648 430 790 378 S910 530 1010 442 S1110 205 1230 250 S1370 370 1502 194"/>
+        </svg>
+
+        <div class="tw4-map-nodes" role="list" aria-label="전략 구역">
+          <button class="tw4-node side-a" style="--x:6%;--y:28%" data-node="0" role="listitem"><span>01</span><b>청람 본성</b><small>HOME BASE</small></button>
+          <button class="tw4-node side-a" style="--x:22%;--y:39%" data-node="1" role="listitem"><span>02</span><b>서부 참호선</b><small>DEFENSE</small></button>
+          <button class="tw4-node side-a" style="--x:35.5%;--y:24.5%" data-node="2" role="listitem"><span>03</span><b>철교 보급로</b><small>SUPPLY</small></button>
+          <button class="tw4-node side-a adjacent" style="--x:43%;--y:48%" data-node="3" role="listitem"><span>04</span><b>폐허 외곽</b><small>APPROACH</small></button>
+          <button class="tw4-node contested current selected" style="--x:50%;--y:42%" data-node="4" role="listitem"><span>05</span><b>중앙 지휘 구역</b><small>FRONT</small></button>
+          <button class="tw4-node side-b adjacent" style="--x:63.5%;--y:49%" data-node="5" role="listitem"><span>06</span><b>동부 교량</b><small>APPROACH</small></button>
+          <button class="tw4-node side-b" style="--x:71.5%;--y:27%" data-node="6" role="listitem"><span>07</span><b>붉은 포대</b><small>ARTILLERY</small></button>
+          <button class="tw4-node side-b" style="--x:82%;--y:40%" data-node="7" role="listitem"><span>08</span><b>산악 관문</b><small>DEFENSE</small></button>
+          <button class="tw4-node side-b" style="--x:94%;--y:22%" data-node="8" role="listitem"><span>09</span><b>진홍 본성</b><small>HOME BASE</small></button>
+        </div>
+
+        <div class="tw4-map-event">
+          <i></i><div><small>TACTICAL ALERT</small><b>대포병 반격 준비 완료</b></div><span>작전 투표 18 / 24</span>
+        </div>
+
+        <nav class="tw4-action-dock" aria-label="영토전 주요 행동">
+          <button class="tw4-dock-button" data-drawer="operations"><svg viewBox="0 0 24 24"><path d="m12 2 3 6 7 .8-5 4.7 1.4 6.8L12 17l-6.4 3.3L7 13.5 2 8.8 9 8z"/></svg><span><small>TACTICS</small><b>전술 작전</b></span><em>18/24</em></button>
+          <button class="tw4-attack-button" data-attack><span>PROJECT V V3</span><b>공성 교전 시작</b><small>행동력 1 · 진홍 군단 매칭</small></button>
+          <button class="tw4-dock-button" data-drawer="loadout"><svg viewBox="0 0 24 24"><path d="M5 4h14v4H5zm2 6h10v10H7z"/></svg><span><small>BATTLE GROUP</small><b>내 전투단</b></span><em>12 / 20</em></button>
+        </nav>
+      </section>
+
+      <aside class="tw4-rail tw4-detail-rail" aria-label="선택 구역 정보">
+        <header class="tw4-zone-heading">
+          <div><small>SELECTED SECTOR · <span data-zone-number>05</span></small><h2 data-zone-name>중앙 지휘 구역</h2></div>
+          <span class="contested" data-zone-state>교전 중</span>
+        </header>
+
+        <div class="tw4-zone-visual">
+          <span data-zone-code>COMMAND NEXUS</span>
+          <b data-zone-coordinate>N 37° 34′ / E 126° 58′</b>
+          <p data-zone-description>양 진영의 주요 보급로가 교차하는 핵심 지휘 구역. 이곳을 점령하면 다음 전선이 동쪽으로 이동합니다.</p>
+        </div>
+
+        <section class="tw4-hp-stack">
+          <article class="side-a"><div><small>청람 공성 HP</small><b>8,240,500</b></div><em><i style="width:68%"></i></em></article>
+          <article class="side-b"><div><small>진홍 공성 HP</small><b>8,091,420</b></div><em><i style="width:66.2%"></i></em></article>
+        </section>
+
+        <section class="tw4-my-unit">
+          <header><small>MY BATTLE GROUP</small><span>청람 연합</span></header>
+          <div><article><small>행동력</small><b>12 <em>/ 20</em></b></article><article><small>누적 피해</small><b>284,920</b></article><article><small>공격</small><b>47회</b></article><article><small>정산</small><b>100%</b></article></div>
+        </section>
+
+        <button class="tw4-brief-button" type="button" data-drawer="operations"><span><small>ACTIVE OPERATION</small><b>대포병 반격</b></span><em>18 / 24</em></button>
+      </aside>
+    </section>
+
+    <nav class="tw4-mobile-nav" aria-label="모바일 영토전 메뉴">
+      <button class="active" data-mobile-panel="map"><span>지도</span></button>
+      <button data-drawer="command"><span>지휘</span><i>3</i></button>
+      <button data-drawer="operations"><span>작전</span></button>
+      <button data-drawer="ranking"><span>기여도</span></button>
+    </nav>
+
+    <div class="tw4-drawer-layer" hidden>
+      <button class="tw4-drawer-backdrop" type="button" aria-label="패널 닫기" data-drawer-close></button>
+      <aside class="tw4-drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+        <header><div><small>TACTICAL CONSOLE</small><h2 id="drawerTitle">전술 작전</h2></div><button type="button" data-drawer-close>×</button></header>
+        <div class="tw4-drawer-content"></div>
+      </aside>
+    </div>
+
+    <div class="tw4-toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <template id="operationsTemplate">
+    <section class="tw4-operation-overview"><div><small>COUNTER GAUGE</small><b>전술 작전 투표</b><span>게이지 충전 완료 · 24표 달성 시 즉시 발동</span></div><strong>18 <small>/ 24</small></strong></section>
+    <div class="tw4-operation-meter"><i style="width:75%"></i></div>
+    <div class="tw4-operation-grid">
+      <button style="--art:url('/assets/ui/territory-war/carpet-bombing-v1811.webp')"><span>OFFENSE 01</span><b>융단폭격</b><small>적 공성 HP 직접 타격 · 대공 방어로 상쇄</small><em>7표</em></button>
+      <button style="--art:url('/assets/ui/territory-war/spg-barrage-v1811.webp')"><span>OFFENSE 02</span><b>자주포 포격</b><small>지속 공성 피해 · 반격 작전 게이지 상승</small><em>5표</em></button>
+      <button style="--art:url('/assets/ui/territory-war/air-defense-v1811.webp')"><span>DEFENSE 01</span><b>기동 대공망</b><small>융단폭격 피해 감소 · 방어 기여도 획득</small><em>2표</em></button>
+      <button class="selected" style="--art:url('/assets/ui/territory-war/counter-battery-v1811.webp')"><span>COUNTER 01</span><b>대포병 반격</b><small>적 포격 탐지 후 즉시 반격 피해</small><em>4표</em></button>
+    </div>
+  </template>
+
+  <template id="rankingTemplate">
+    <div class="tw4-ranking-list">
+      <article class="is-me"><b>01</b><i>A</i><span><strong>핑크빛유두</strong><small>임시 지휘관 · 공격 47회 · 방어 8승</small></span><em>184,920</em></article>
+      <article><b>02</b><i>B</i><span><strong>붉은사령관</strong><small>임시 지휘관 · 공격 43회 · 방어 10승</small></span><em>178,440</em></article>
+      <article><b>03</b><i>A</i><span><strong>청람돌격대</strong><small>전선 에이스 · 공격 39회</small></span><em>161,200</em></article>
+      <article><b>04</b><i>B</i><span><strong>동부수비대</strong><small>방어 특화 · 방어 14승</small></span><em>152,780</em></article>
+      <article><b>05</b><i>A</i><span><strong>철교지킴이</strong><small>공격 31회 · 방어 6승</small></span><em>139,510</em></article>
+    </div>
+  </template>
+
+  <template id="reportTemplate">
+    <div class="tw4-report-list">
+      <article><time>21:05:12</time><span class="side-a">청람 승리</span><b>핑크빛유두</b><p>공성 피해 48,200 · 중앙 지휘 구역 유지</p></article>
+      <article><time>21:04:44</time><span class="side-b">진홍 승리</span><b>붉은사령관</b><p>공성 피해 44,810 · 반격 게이지 +3</p></article>
+      <article><time>21:04:03</time><span class="system">작전 보고</span><b>기동 대공망</b><p>융단폭격 피해를 35% 경감했습니다.</p></article>
+      <article><time>21:03:28</time><span class="side-a">청람 승리</span><b>청람돌격대</b><p>공성 피해 39,720 · 3연승 사기 효과</p></article>
+    </div>
+  </template>
+
+  <template id="loadoutTemplate">
+    <section class="tw4-loadout-panel"><small>MY BATTLE GROUP</small><h3>청람 제1전투단</h3><p>현재 저장된 PVP 덱 5장과 장비·칭호가 PROJECT V V3 공성전에 사용됩니다.</p><div><span><small>덱 전투력</small><b>2,841,900</b></span><span><small>행동력</small><b>12 / 20</b></span><span><small>오늘 공격</small><b>47회</b></span></div><button type="button" data-toast="전투 준비 정보를 최신화했습니다.">전투 준비 최신화</button></section>
+  </template>
+
+  <script src="./territory-war-v2.js?v=1"></script>
+</body>
+</html>

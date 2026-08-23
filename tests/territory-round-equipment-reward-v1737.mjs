@@ -20,8 +20,8 @@ assert.match(client,/function rewardEquipmentHtml/);
 assert.match(client,/이번 회차 승리 추가 장비/);
 assert.match(client,/data\.bonusEquipment/);
 assert.match(admin,/승리 추가 장비 준비 완료/);
-assert.match(index,/territory-war-v1811\.js\?v=1811-grand-siege-command/);
-assert.match(index,/territory-war-v1811\.css\?v=1811-grand-siege-command/);
-assert.match(serviceWorker,/soop-card-shell-v1811-grand-siege-command/);
+assert.match(index,/territory-war-v1811\.js\?v=1824-approved-command-map/);
+assert.match(index,/territory-war-v1811\.css\?v=1824-territory-command-map/);
+assert.match(serviceWorker,/soop-card-shell-v1824-territory-command-map/);
 
 console.log('territory round equipment reward v1737: ok');

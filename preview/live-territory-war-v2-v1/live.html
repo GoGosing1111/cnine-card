@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>영토전 V1824 · 실제 라이브 렌더러 검증</title>
+  <link rel="stylesheet" href="/css/territory-war-v1811.css?v=1824-test3">
+  <link rel="stylesheet" href="/css/territory-war-v1824.css?v=1824-test3">
+</head>
+<body>
+  <script>
+    const now=Date.now(),iso=ms=>new Date(ms).toISOString();
+    const operations={
+      ASSAULT:{name:'총공세',icon:'01',category:'OFFENSE',summary:'공성 피해 +25%',description:'전선 전 병력을 결집해 10분간 공성 피해를 증폭합니다.',counter:'IRON_WALL',asset:'assets/ui/territory-war/siege-front-v1-v1497.webp'},
+      INFILTRATION:{name:'기습 침투',icon:'02',category:'OFFENSE',summary:'적 최대 HP 12% 교란',description:'특수부대가 적 방어망을 우회해 공성 HP를 즉시 감소시킵니다.',counter:'',asset:'assets/ui/territory-war/recruit-fortress-v1-v1497.webp'},
+      CARPET_BOMBING:{name:'융단폭격',icon:'03',category:'OFFENSE',summary:'적 최대 HP 10% 폭격',description:'전 폭격 편대를 투입해 적 전선에 광역 공습을 가합니다.',counter:'AIR_DEFENSE',asset:'assets/ui/territory-war/carpet-bombing-v1811.webp'},
+      SPG_BARRAGE:{name:'자주포 포격',icon:'04',category:'OFFENSE',summary:'공성 피해 +35%',description:'자주포대가 10분간 정밀 포격 지원을 제공합니다.',counter:'COUNTER_BATTERY',asset:'assets/ui/territory-war/spg-barrage-v1811.webp'},
+      IRON_WALL:{name:'철벽 방어',icon:'05',category:'DEFENSE',summary:'HP 20% 복구 · 피해 -25%',description:'손상된 성벽을 긴급 복구하고 방어선을 강화합니다.',counter:'ASSAULT',asset:'assets/ui/territory-war/recruit-fortress-v1-v1497.webp'},
+      AIR_DEFENSE:{name:'통합 대공망',icon:'06',category:'DEFENSE',summary:'피해 -12% · 폭격 75% 요격',description:'레이더와 요격 포대를 전개해 공습과 일반 공성 피해를 억제합니다.',counter:'CARPET_BOMBING',asset:'assets/ui/territory-war/air-defense-v1811.webp'},
+      COUNTER_BATTERY:{name:'대포병 반격',icon:'07',category:'COUNTER',summary:'포격 억제 · 방어 반격 충전',description:'적 포격 원점을 역추적해 자주포 효율을 낮추고 반격 게이지를 확보합니다.',counter:'SPG_BARRAGE',asset:'assets/ui/territory-war/counter-battery-v1811.webp'},
+      REGROUP:{name:'긴급 재편',icon:'08',category:'SUPPORT',summary:'전원 행동력 +3',description:'보급선과 부상 병력을 재정비해 진영 전체 행동력을 회복합니다.',counter:'',asset:'assets/ui/territory-war/truce-v1811.webp'}
+    };
+    const nodes=['A_BASE','A_OUTPOST','A_MID','A_GATE','CENTER','B_GATE','B_MID','B_OUTPOST','B_BASE'].map((code,index)=>({index,code,name:code,type:index===4?'CENTER':index===0||index===8?'HOME':'OUTPOST'}));
+    const fixture={mode:'LIVE',settings:{teamAName:'청람 연합',teamBName:'진홍 군단',energyMax:20,attackEnergyCost:1,realtimePollSeconds:60,settlementMinAttacks:1,attackRewardTier1Attacks:10,attackRewardTier1Percent:50,attackRewardTier2Attacks:30,attackRewardTier2Percent:80,attackRewardTier3Attacks:60,attackRewardTier3Percent:100,attackRewardTier4Attacks:100,attackRewardTier4Percent:125},round:{id:26,battle_name:'제26회 영토전',status:'ACTIVE',current_front_index:4,ends_at:iso(now+63800000)},front:{id:101,sequence:5,node_index:4,node_type:'CENTER',status:'ACTIVE',a_hp:8240500,a_max_hp:12000000,b_hp:8091420,b_max_hp:12000000,revisit_count:0},nodes,counts:{total:152,A:76,B:76,aPower:182000000,bPower:179000000},mine:{user_id:1,side:'A',nickname:'핑크빛유두',energy:12,deck_power:2841900,damage:284920,attacks:47,defenses:8},truce:{active:false,endsAt:null,minutes:15},comeback:{active:false},fatigue:{active:false},lastDefense:{active:false},notice:null,ace:{user_id:3},counter:{mineSide:'A',myVote:'COUNTER_BATTERY',operations,A:{side:'A',gauge:1000,max:1000,percent:100,ready:true,participants:76,requiredVotes:24,usedOperations:[],votes:{CARPET_BOMBING:7,SPG_BARRAGE:5,AIR_DEFENSE:2,COUNTER_BATTERY:4},operation:{active:false}},B:{side:'B',gauge:840,max:1000,percent:84,ready:false,participants:76,requiredVotes:24,usedOperations:[],votes:{},operation:{active:false}}},commanders:{mineSide:'A',canBroadcast:true,A:{user_id:1,nickname:'핑크빛유두',command_score:184920},B:{user_id:2,nickname:'붉은사령관',command_score:178440}},commandMessages:[{side:'A',nickname:'핑크빛유두',message:'중앙 교량 유지. 다음 공격은 4구역으로 집중합니다.',created_at:'2026-08-23 21:04:00'},{side:'B',nickname:'붉은사령관',message:'동부 포대 방어 후 대포병 반격 준비.',created_at:'2026-08-23 21:03:00'}],ranking:[{user_id:1,side:'A',nickname:'핑크빛유두',command_score:184920,damage:184920,attacks:47,defense_wins:8},{user_id:2,side:'B',nickname:'붉은사령관',command_score:178440,damage:178440,attacks:43,defense_wins:10},{user_id:3,side:'A',nickname:'청람돌격대',command_score:161200,damage:161200,attacks:39,defense_wins:5}],recentActions:[{winner_side:'A',attacker_nickname:'핑크빛유두',opponent_nickname:'붉은방패',contributor_nickname:'핑크빛유두',damage:48200,created_at:'2026-08-23 21:05:12'},{winner_side:'B',attacker_nickname:'붉은사령관',opponent_nickname:'청람돌격대',contributor_nickname:'붉은사령관',damage:44810,created_at:'2026-08-23 21:04:44'}],recentResults:[],reward:null,serverNow:iso(now),version:1};
+    window.apiRequest=async(path,options={})=>{
+      if(path==='territory-war/state'||path==='territory-war/state-lite')return structuredClone(fixture);
+      if(path==='territory-war/vote-operation'){fixture.counter.myVote=JSON.parse(options.body||'{}').operation;return{activated:false,state:structuredClone(fixture)}}
+      if(path==='territory-war/commander-message'){const message=JSON.parse(options.body||'{}').message;fixture.commandMessages.unshift({side:'A',nickname:'핑크빛유두',message,created_at:'2026-08-23 21:06:00'});return{state:structuredClone(fixture)}}
+      if(path==='territory-war/refresh-loadout')return{deckPower:fixture.mine.deck_power,state:structuredClone(fixture)};
+      throw new Error('실제 전투 API는 검증 페이지에서 호출하지 않습니다.');
+    };
+    addEventListener('load',()=>{const open=()=>typeof window.openTerritoryWar==='function'?window.openTerritoryWar():setTimeout(open,20);open()},{once:true});
+  </script>
+  <script src="/js/territory-war-v1811.js?v=1824-test3"></script>
+</body>
+</html>

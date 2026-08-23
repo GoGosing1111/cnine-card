@@ -16,11 +16,11 @@ assert.match(server,/territory-war\/commander-message/);
 assert.match(server,/counterBatteryGaugeBonus/);
 assert.match(server,/version:'V3',renderer:'PIXIJS',mode:'SIEGE'/);
 
-assert.match(client,/function commanderHtml/);
+assert.match(client,/function tw4CommanderHtml/);
 assert.match(client,/data-tw3-command-form/);
 assert.match(client,/mode:'SIEGE'/);
 assert.match(client,/playSiegeBattleV2Live/);
-assert.match(client,/tw3-theater-map/);
+assert.match(client,/tw4-map-shell/);
 assert.match(client,/territory-war-open/);
 assert.match(css,/GRAND SIEGE COMMAND/);
 assert.match(css,/grid-template-rows:repeat\(5,78px\)/);
@@ -31,7 +31,7 @@ assert.match(css,/siege-front-v1-v1497\.webp/);
 assert.match(renderer,/mode === 'PVP' \|\| mode === 'SIEGE'/);
 assert.match(app,/typeof window\.playSiegeBattleV2Live==='function'/);
 assert.match(index,/js\/app\.js\?v=1822-premium-cube-bulk/);
-assert.match(index,/territory-war-v1811\.js\?v=1823-territory-attack-dedup/);
+assert.match(index,/territory-war-v1811\.js\?v=1824-approved-command-map/);
 
 for(const name of ['carpet-bombing','spg-barrage','air-defense','counter-battery','mass-assault','truce']){
   const file=new URL(`../assets/ui/territory-war/${name}-v1811.webp`,import.meta.url);
