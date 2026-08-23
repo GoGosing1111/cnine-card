@@ -14,7 +14,12 @@ function validRequestId(value){const text=String(value||'').trim();return text.l
 function seedOf(text){let h=2166136261;for(const c of String(text)){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function sqlMs(value){if(!value)return NaN;const text=String(value);return Date.parse(text.includes('T')?text:`${text.replace(' ','T')}Z`)}
 function rows(result){return result?.results||[]}
-async function batchChunks(env,statements,size=40){for(let i=0;i<statements.length;i+=size)await env.DB.batch(statements.slice(i,i+size))}
+async function batchChunks(env,statements,size=40){
+  for(let i=0;i<statements.length;i+=size){
+    const chunk=statements.slice(i,i+size).map(statement=>typeof statement==='string'?env.DB.prepare(statement):statement);
+    await env.DB.batch(chunk);
+  }
+}
 
 const FOUNDATION_SQL=Object.freeze([
   `CREATE TABLE IF NOT EXISTS clan_seasons(
