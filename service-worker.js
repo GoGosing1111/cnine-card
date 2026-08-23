@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1818-v3-rpg-audio-fastload';
+const SHELL_CACHE='soop-card-shell-v1820-clan-v3-test';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

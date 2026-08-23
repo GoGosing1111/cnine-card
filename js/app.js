@@ -226,7 +226,7 @@ function migrateLegacyUser() {
   }
 }
 
-async function init() {
+async function legacyStaticInit() {
   migrateLegacyUser();
   renderLoading();
   try {
@@ -399,7 +399,7 @@ function pickCard(pack, guaranteed = null) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-function renderLogin() {
+function legacyRenderLogin() {
   app.innerHTML = `<div class="login-wrap"><div class="login-box game-panel"><img src="assets/ui/cninelogo.png" class="login-logo" alt="SOOP"><p class="eyebrow">SOOP COLLECTION GAME</p><h1>숲켓몬 카드뽑기</h1><p>씨나인 멤버들의 순간을 카드로 수집하세요.</p><div class="field"><label for="nickname">PLAY DK 닉네임</label><input id="nickname" maxlength="20" placeholder="닉네임을 입력하세요"></div><button class="btn" id="start">처음 시작하기</button><div class="login-divider"></div><div class="field"><label for="key">개인키 로그인</label><input id="key" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn secondary" id="login">개인키로 로그인</button><p class="login-help">개인키는 최초 생성과 로그인 화면에서만 사용됩니다.</p></div></div>`;
   document.getElementById('start').onclick = () => {
     const nickname = document.getElementById('nickname').value.trim();
@@ -420,8 +420,10 @@ function renderCreated(user) {
   document.getElementById('go').onclick = () => renderShell('buy');
 }
 
+const CLAN_FEATURE_MODE='TEST';
+function clanFeatureVisible(){return CLAN_FEATURE_MODE==='ON'||(CLAN_FEATURE_MODE==='TEST'&&String(loadUser()?.role||'').toUpperCase()==='OWNER')}
 function navGroupForTab(tab){
-  if(['battle','pvp'].includes(tab))return 'battle';
+  if(['battle','pvp','clan'].includes(tab))return 'battle';
   if(['attendance','dailyquest','messages','mineral'].includes(tab))return 'rewards';
   if(tab==='magic')return 'magic';
   if(['character','workshop'].includes(tab))return 'character';
@@ -443,7 +445,7 @@ function renderMainNavigation(tab){
     {id:'market',label:'승부·경매',tab:group==='market'?tab:'prediction'}
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
-  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">랭크전</button>`:''}</nav>`;
+  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">랭크전</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜 TEST</button>`:''}</nav>`;
   if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button></nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
   if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
@@ -480,6 +482,7 @@ function mobileNavigationHtml(tab){
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="battle"><i>⚔</i><span><b>PVE</b><small>몬스터 토벌 · 월드레이드 · 무한의탑</small></span><em>입장</em></button>
         ${pvpFeatureEnabled?'<button type="button" data-mobile-tab="pvp"><i>◇</i><span><b>랭크전</b><small>자동 균형 매칭</small></span><em>입장</em></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>⬡</i><span><b>클랜 TEST</b><small>블라인드 드래프트 · V3 클랜전</small></span><em>입장</em></button>':''}
         <button type="button" data-mobile-territory-war><i>♜</i><span><b>영토전</b><small>실시간 진영 공성전</small></span><em>입장</em></button>
       </div>
     </section>
@@ -840,6 +843,7 @@ function renderShell(tab) {
   const renderSeq=++shellRenderSeq;
   document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
+  if(tab==='clan'&&!clanFeatureVisible())tab='buy';
   // V1797: 막아 둔 메뉴는 화면 자체를 그리지 않고 안내 팝업만 띄운다.
   const blockedNotice=blockedTabNotice(tab);
   if(blockedNotice){
@@ -865,8 +869,8 @@ function renderShell(tab) {
   // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
-  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
-  const battleActive=['battle','pvp'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop'].includes(tab),marketActive=['prediction','auction'].includes(tab);
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
+  const battleActive=['battle','pvp','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop'].includes(tab),marketActive=['prediction','auction'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
     <div class="main-nav-group ${collectionActive?'active':''}" data-nav-group="collection">
@@ -881,6 +885,7 @@ function renderShell(tab) {
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="battle"><span>몬스터 토벌·레이드</span><b>PVE</b></button>
         ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>자동 균형 매칭</span><b>랭크전</b></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-tab="clan"><span>OWNER 사전 검증·V3 대전</span><b>클랜 TEST</b></button>':''}
       </div>
     </div>
     <div class="main-nav-group ${characterActive?'active':''}" data-nav-group="character">
@@ -931,7 +936,7 @@ function renderShell(tab) {
       const retry=document.querySelector(`[data-feature-retry="${tab}"]`);if(retry)retry.onclick=()=>{featureResourcePromises.delete(routeFeatureKey);renderShell(tab)};
     });
   }else bindView(tab);
-  if(['battle','pvp','dex'].includes(tab))warmFeatureForTab(tab);
+  if(['battle','pvp','clan','dex'].includes(tab))warmFeatureForTab(tab==='clan'?'pvp':tab);
   try{performance.measure('cnine-route-render',{start:renderStarted,end:performance.now(),detail:{tab,partial:existingShell}})}catch(_){}
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
@@ -2567,6 +2572,7 @@ function bindView(tab) {
   if(tab==='rank'){document.querySelectorAll('[data-rank-mode]').forEach(b=>b.onclick=()=>loadRankHub(b.dataset.rankMode));loadRankHub('pvp');}
   if(tab==='battle'){document.querySelectorAll('.pve-mode-btn').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
   if(tab==='pvp') loadPvpView();
+  if(tab==='clan'&&typeof window.ClanV1?.bind==='function')window.ClanV1.bind({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx});
   if(tab==='mineral') loadMineralExchange();
   if(tab==='auction'&&typeof window.bindAuctionHouseView==='function')window.bindAuctionHouseView();
   if(tab==='prediction'&&typeof window.bindCoinPredictionView==='function')window.bindCoinPredictionView();
@@ -2581,7 +2587,7 @@ function bindView(tab) {
   }
 }
 
-function claimAttendance() {
+function legacyClaimAttendance() {
   const user = loadUser();
   if (!canClaimAttendance(user)) return alert('오늘 접속 보상은 이미 받았습니다.');
   user.coin += 500;

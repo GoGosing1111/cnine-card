@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.7.2';
+  const VERSION = '21.8.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -37,7 +37,8 @@
     gift: '<path d="M3 9h18v12H3zM2 5h20v4H2zM12 5v16"/><path d="M12 5c-4 0-5-4-2-4 2 0 2 2 2 4Zm0 0c4 0 5-4 2-4-2 0-2 2-2 4Z"/>',
     rank: '<path d="M7 4h10v5c0 4-2 7-5 8-3-1-5-4-5-8Z"/><path d="M7 6H3v2c0 3 2 5 5 5M17 6h4v2c0 3-2 5-5 5M9 21h6M12 17v4"/>',
     auction: '<path d="m5 8 7-5 7 5-7 5ZM3 18h18v3H3zM6 11v7M12 13v5M18 11v7"/>',
-    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-5 3-8 8-8s8 3 8 8"/>'
+    user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-5 3-8 8-8s8 3 8 8"/>',
+    clan: '<path d="M12 2 20 6v6c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6Z"/><path d="m8 13 2.5 2.5L16 9"/>'
   });
 
   const ROUTES = Object.freeze({
@@ -47,6 +48,7 @@
     magic: ['마법카드', '카드·수집', 'magic'],
     battle: ['PVE 전투', '전투·경쟁', 'swords'],
     pvp: ['랭크전', '전투·경쟁', 'swords'],
+    clan: ['클랜', '전투·경쟁', 'clan'],
     character: ['장비·칭호', '성장·제작', 'forge'],
     workshop: ['제작소', '성장·제작', 'forge'],
     attendance: ['접속 보상', '보상·기록', 'gift'],
@@ -75,7 +77,7 @@
 
   const GROUPS = Object.freeze({
     collection: { title: '카드·수집', routes: ['buy', 'dex', 'evolution', 'magic'] },
-    combat: { title: '전투·경쟁', routes: ['battle', 'deck', 'hunt', 'raid', 'siege', 'seal', 'idle', 'tower', 'pvp', 'territory'] },
+    combat: { title: '전투·경쟁', routes: ['battle', 'deck', 'hunt', 'raid', 'siege', 'seal', 'idle', 'tower', 'pvp', 'clan', 'territory'] },
     growth: { title: '장비·제작', routes: ['character', 'equipment', 'title', 'garage', 'workshop', 'scrapyard', 'vehicle', 'fusion'] },
     rewards: { title: '보상', routes: ['attendance', 'dailyquest', 'messages', 'mineral'] },
     market: { title: '승부·경매', routes: ['prediction', 'auction', 'rank', 'inventory'] }
@@ -134,6 +136,7 @@
     try { user = typeof global.loadUser === 'function' ? global.loadUser() : null; } catch (_) {}
     return user || { nickname: '플레이어', coin: 0, cardShards: 0, magicCrystals: 0 };
   }
+  function clanTestVisible(){return String(userModel()?.role||'').toUpperCase()==='OWNER'}
 
   function headerMarkup() {
     const user = userModel();
@@ -205,8 +208,8 @@
           <div class="pc-guide-line"><i></i><span></span></div><div class="pc-term-timer"><span>임기 종료까지</span><strong>${esc(chief.remaining)}</strong><small>족장 권한은 서버 정책으로 검증 · KST</small></div>
           <button class="pc-chief-action" type="button" data-v21-chief-info>족장 임기 현황 <i>LIVE</i></button>
         </section>
-        <nav class="pc-main-navigation" aria-label="PC 주요 메뉴"><div class="pc-navigation-heading"><span>MAIN COMMAND</span><b>01 / LOBBY</b></div>
-          ${pcCommand('buy', '카드 상점', '대량 구매 · 20/100/1000회')}${pcCommand('dex', '도감', '카드 수집 · 진화')}${pcCommand('battle', '전투', 'PVE · 특수전 · 레이드', true)}
+        <nav class="pc-main-navigation${clanTestVisible()?' has-clan-test':''}" aria-label="PC 주요 메뉴"><div class="pc-navigation-heading"><span>MAIN COMMAND</span><b>01 / LOBBY</b></div>
+          ${pcCommand('buy', '카드 상점', '대량 구매 · 20/100/1000회')}${pcCommand('dex', '도감', '카드 수집 · 진화')}${pcCommand('battle', '전투', 'PVE · 특수전 · 레이드', true)}${clanTestVisible()?pcCommand('clan', '클랜 TEST', 'OWNER · 블라인드 드래프트 · V3', true):''}
           ${pcCommand('character', '장비·제작', '장비 · 칭호 · 차고지 · 제작소', false, 'growth')}${pcCommand('attendance', '보상', '출석 · 퀘스트 · 메시지')}${pcCommand('rank', '랭킹', '시즌 · 카드점수')}${pcCommand('prediction', '승부·경매', '승부예측 · 경매장')}
         </nav>
         <div class="pc-utility-rail" aria-label="빠른 메뉴"><button type="button" data-v21-route="magic">${svg('magic')}<span>마법</span></button><button type="button" data-v21-route="inventory">${svg('inventory')}<span>인벤</span></button><button type="button" data-v21-route="messages">${svg('mail')}<span>메시지</span><i data-message-new-badge data-v21-message-badge hidden></i></button><button type="button" data-v21-all>${svg('menu')}<span>전체</span></button></div>
@@ -216,7 +219,7 @@
       <section class="mobile-command-lobby" aria-label="숲켓몬 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
         <div class="mobile-chief-visual" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
         <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE ELECTED CHIEF</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button class="mobile-chief-status" type="button" data-v21-chief-info>족장 임기 현황 <em>LIVE</em></button></section>
-        <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${mobileCommand('character', '장비·제작', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>
+        <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${clanTestVisible()?mobileCommand('clan', '클랜 TEST', 'OWNER·V3 전쟁', true):''}${mobileCommand('character', '장비·제작', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>
       </section>`;
   }
 
@@ -302,14 +305,14 @@
 
   function routeFamily(route) {
     if (['buy', 'dex', 'evolution', 'magic'].includes(route)) return 'cards';
-    if (['battle', 'pvp'].includes(route)) return 'battle';
+    if (['battle', 'pvp', 'clan'].includes(route)) return 'battle';
     if (['character', 'workshop'].includes(route)) return 'growth';
     return 'all';
   }
 
   function inferNativeRoute(requested, screen) {
     const signatures = [
-      ['pvp', '#pvpContent, .pvp-cover'], ['battle', '#pveHuntView, #pveRaidView'],
+      ['clan', '#clanRoot, .clan-shell'], ['pvp', '#pvpContent, .pvp-cover'], ['battle', '#pveHuntView, #pveRaidView'],
       ['dex', '#dexSections, .dex-cover'], ['evolution', '#evolutionRoot, .evolution-system'],
       ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'],
       ['workshop', '#workshopRootV1676, .ws76, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
@@ -406,6 +409,7 @@
   }
 
   function routeButton(route) {
+    if(route==='clan'&&!clanTestVisible())return '';
     const item = ROUTES[route]; if (!item) return '';
     return `<button type="button" data-v21-route="${route}"><span>${svg(item[2])}</span><b>${esc(item[0])}</b><small>${esc(item[1])}</small></button>`;
   }

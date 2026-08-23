@@ -9,6 +9,6 @@ const index = readFileSync('index.html', 'utf8');
 assert.doesNotMatch(app, /<div class="ambient-lines"><\/div>/, 'app shell must not create the retired light columns');
 assert.match(adapter, /querySelectorAll\('\.ambient-lines,\.light-pillars,\.light-beams'\).*remove\(\)/, 'adapter must remove stale light-column markup');
 assert.match(css, /\.ambient-lines,[\s\S]*\.dex-renewal-shell::before[\s\S]*display:none!important;[\s\S]*content:none!important;/, 'all renewed routes must hard-disable beam decorations');
-assert.match(index, /21\.7\.2-no-light-beams/, 'adapter cache key must change with the beam removal');
+assert.match(index, /21\.8\.0-clan-v3/, 'adapter cache key must stay versioned after the beam removal and clan test integration');
 
 console.log('V21 no-light-beams contract: OK');
