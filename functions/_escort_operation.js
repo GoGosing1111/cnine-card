@@ -13,11 +13,11 @@ const DEFAULT_SECTORS=Object.freeze([
 ]);
 
 const TACTICS=Object.freeze({
-  REPAIR:{key:'REPAIR',name:'긴급 정비',type:'RECOVERY',description:'수송차 내구도를 즉시 20% 복구합니다.'},
-  BARRIER:{key:'BARRIER',name:'전개형 방벽',type:'DEFENSE',description:'다음 구간 수송차 피해를 45% 경감합니다.'},
-  AIRSTRIKE:{key:'AIRSTRIKE',name:'융단폭격',type:'ATTACK',description:'다음 구간 적 전투력을 15% 약화합니다.'},
-  OVERCHARGE:{key:'OVERCHARGE',name:'전술 과충전',type:'POWER',description:'다음 구간 아군 전투력을 12% 강화합니다.'},
-  JAMMING:{key:'JAMMING',name:'광역 교란',type:'CONTROL',description:'다음 구간 적 전투력과 차량 피해를 각각 8%, 15% 낮춥니다.'}
+  REPAIR:{key:'REPAIR',name:'긴급 현장정비',type:'FIELD REPAIR',duration:'즉시 적용',icon:'/assets/ui/escort/tactics/tactic-field-repair-v1.webp',description:'현재 호송차의 손상된 내구도를 즉시 복구합니다.'},
+  BARRIER:{key:'BARRIER',name:'전개형 방벽',type:'AEGIS BARRIER',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-aegis-barrier-v1.webp',description:'다음 구간 호송차가 받는 피해를 45% 경감합니다.'},
+  AIRSTRIKE:{key:'AIRSTRIKE',name:'융단폭격',type:'CARPET STRIKE',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-carpet-strike-v1.webp',description:'다음 구간 적 전투력을 15% 선제 약화합니다.'},
+  OVERCHARGE:{key:'OVERCHARGE',name:'전술 과충전',type:'CORE OVERDRIVE',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-core-overdrive-v1.webp',description:'다음 구간 아군 전투력을 12% 강화합니다.'},
+  JAMMING:{key:'JAMMING',name:'광역 교란',type:'SIGNAL JAMMER',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-signal-jammer-v1.webp',description:'다음 구간 적 전투력 8%, 호송차 피해 15%를 동시에 낮춥니다.'}
 });
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,Number(value)||0));
@@ -94,11 +94,15 @@ async function settings(env){
   return cleanEscortSettings(jsonSafe(row?.value,{}));
 }
 
-function visibleSettings(cfg){return {...cfg,tactics:Object.values(TACTICS)};}
+function tacticWithSettings(tactic,cfg){
+  if(tactic.key!=='REPAIR')return {...tactic};
+  return {...tactic,description:`현재 호송차의 손상된 내구도를 ${integer(cfg?.repairPercent,20,1,100)}% 즉시 복구합니다.`};
+}
+function visibleSettings(cfg){return {...cfg,tactics:Object.values(TACTICS).map(tactic=>tacticWithSettings(tactic,cfg))};}
 function parseRun(row){if(!row)return null;return {...row,state:jsonSafe(row.state_json,{}) ,deck:jsonSafe(row.deck_snapshot,[])};}
-function tacticChoices(runId,nextIndex){
+function tacticChoices(runId,nextIndex,cfg){
   const keys=Object.keys(TACTICS),seed=hashText(`${runId}:${nextIndex}`),first=seed%keys.length,second=(first+1+((seed>>>8)%(keys.length-1)))%keys.length;
-  return [TACTICS[keys[first]],TACTICS[keys[second]]];
+  return [TACTICS[keys[first]],TACTICS[keys[second]]].map(tactic=>tacticWithSettings(tactic,cfg));
 }
 
 function publicRun(row,cfg){
@@ -167,6 +171,31 @@ function nextCardHp(finalRows,previous,healPercent){
 
 function tacticEffect(key){return TACTICS[String(key||'').toUpperCase()]||null;}
 
+export function finalizeEscortObjectiveTimeline(battleV2,{hpBefore=0,maxHp=0,totalDamage=0,recovery=0}={}){
+  const timeline=Array.isArray(battleV2?.result?.timeline)?battleV2.result.timeline:[];
+  const strikes=timeline.filter(event=>String(event?.type||'').toUpperCase()==='ESCORT_OBJECTIVE_ATTACK');
+  const safeBefore=Math.max(0,Math.round(Number(hpBefore)||0)),safeMax=Math.max(1,Math.round(Number(maxHp)||safeBefore||1));
+  const budget=Math.min(safeBefore,Math.max(0,Math.round(Number(totalDamage)||0)));
+  let remaining=budget,currentHp=safeBefore;
+  strikes.forEach((event,index)=>{
+    const slotsLeft=strikes.length-index;
+    const damage=slotsLeft>0?Math.min(currentHp,Math.ceil(remaining/slotsLeft)):0;
+    const before=currentHp,after=Math.max(0,before-damage);
+    remaining=Math.max(0,remaining-damage);currentHp=after;
+    Object.assign(event,{targetId:'ESCORT_OBJECTIVE',targetSide:'OBJECTIVE',targetName:'장갑 수송차',damage,objectiveHpBefore:before,objectiveHpAfter:after,objectiveMaxHp:safeMax,priority:'ESCORT_VEHICLE'});
+  });
+  const recovered=Math.min(Math.max(0,safeMax-currentHp),Math.max(0,Math.round(Number(recovery)||0)));
+  if(recovered>0){
+    const resultIndex=timeline.findIndex(event=>String(event?.type||'').toUpperCase()==='RESULT');
+    const recoveryEvent={type:'ESCORT_OBJECTIVE_RECOVERY',targetId:'ESCORT_OBJECTIVE',targetSide:'OBJECTIVE',targetName:'장갑 수송차',amount:recovered,objectiveHpBefore:currentHp,objectiveHpAfter:currentHp+recovered,objectiveMaxHp:safeMax,label:'호송차 긴급 복구'};
+    if(resultIndex>=0)timeline.splice(resultIndex,0,recoveryEvent);else timeline.push(recoveryEvent);
+    currentHp+=recovered;
+  }
+  timeline.forEach((event,index)=>{event.seq=index+1});
+  battleV2.escortObjective={id:'ESCORT_OBJECTIVE',name:'장갑 수송차',hpBefore:safeBefore,hpAfter:currentHp,maxHp:safeMax,totalDamage:budget,recovery:recovered,strikeCount:strikes.length,targetPriority:'ABSOLUTE',ignoresInitiative:true};
+  return battleV2;
+}
+
 export async function handleEscortOperation({path,request,env,deps}){
   if(!path.startsWith('escort/')&&!path.startsWith('admin/escort/'))return null;
   const {authenticate,readBody,json,pveDeckSnapshot,battleSettings,cardBattlePower,createPveBattleV2,userEquipmentBonuses,cardUniqueDeckState,magicBattleLoadout,writeAdminLog}=deps;
@@ -221,13 +250,14 @@ export async function handleEscortOperation({path,request,env,deps}){
       const equipment=typeof userEquipmentBonuses==='function'?await userEquipmentBonuses(env,user.id):{pve:0},magic=typeof magicBattleLoadout==='function'?await magicBattleLoadout(env,user,'PVE'):{cards:[]};
       const enemyReduction=(pending?.key==='AIRSTRIKE'?.15:0)+(pending?.key==='JAMMING'?.08:0),enemyPower=Math.max(1000,Math.round(sector.enemyPower*(1-enemyReduction)));
       const monster={id:`ESCORT-${sector.key}`,name:sector.enemyName,image:sector.enemyImage,image_url:sector.enemyImage,battle_power:enemyPower,is_boss:sector.isBoss?1:0,isBoss:sector.isBoss,mode:'ESCORT',contentType:'ESCORT',projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'ESCORT_MONSTER_SD',primaryUrl:sector.enemyImage,pngFallbackUrl:sector.enemyImage,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:sector.isBoss?1.08:1,approved:true,technicalPass:true}};
-      const seed=hashText(`${run.run_id}:${run.sector_index}:${requestId}`),battleV2=createPveBattleV2({cards,magicCards:magic?.cards||[],characterBonus:Number(equipment?.pve||0),monster,seed,singleHealerBonus:battleCfg?.engine?.singleHealerBonus});
+      const seed=hashText(`${run.run_id}:${run.sector_index}:${requestId}`),battleV2=createPveBattleV2({cards,magicCards:magic?.cards||[],characterBonus:Number(equipment?.pve||0),monster,seed,singleHealerBonus:battleCfg?.engine?.singleHealerBonus,escortObjective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차'}});
       battleV2.mode='ESCORT';battleV2.contentType='ESCORT';battleV2.battlefieldMode='ESCORT';
       const won=String(battleV2?.result?.winner||'B').toUpperCase()==='A',baseDamage=Math.round(run.vehicle_max_hp*sector.hazardPercent/100),formationReduction=roles.DEFENSE*.07+(['DEPARTURE','AMBUSH'].includes(sector.key)?roles.SPEED*.05:0),tacticReduction=(pending?.key==='BARRIER'?.45:0)+(pending?.key==='JAMMING'?.15:0),damage=Math.max(0,Math.round(baseDamage*(won ? 0.58 : 1.35)*Math.max(.12,1-formationReduction-tacticReduction)));
       const hpHeal=won?roles.HP*4:0,nextHp=nextCardHp(battleV2?.result?.final?.A,cardHp,hpHeal),living=Object.values(nextHp).filter(value=>Number(value)>0).length;
-      let vehicleHp=Math.max(0,Number(run.vehicle_hp)-damage);if(won&&roles.HP)vehicleHp=Math.min(run.vehicle_max_hp,vehicleHp+Math.round(run.vehicle_max_hp*roles.HP*.015));if(won&&sector.key==='REPAIR')vehicleHp=Math.min(run.vehicle_max_hp,vehicleHp+Math.round(run.vehicle_max_hp*.10));
+      const vehicleHpAfterDamage=Math.max(0,Number(run.vehicle_hp)-damage);let vehicleHp=vehicleHpAfterDamage;if(won&&roles.HP)vehicleHp=Math.min(run.vehicle_max_hp,vehicleHp+Math.round(run.vehicle_max_hp*roles.HP*.015));if(won&&sector.key==='REPAIR')vehicleHp=Math.min(run.vehicle_max_hp,vehicleHp+Math.round(run.vehicle_max_hp*.10));
+      finalizeEscortObjectiveTimeline(battleV2,{hpBefore:run.vehicle_hp,maxHp:run.vehicle_max_hp,totalDamage:damage,recovery:vehicleHp-vehicleHpAfterDamage});
       const failed=!won||living===0||vehicleHp<=0,finalSector=run.sector_index>=cfg.sectors.length-1;
-      const choices=!failed&&!finalSector?tacticChoices(run.run_id,run.sector_index+1):[],phase=failed?'FAILED':finalSector?'COMPLETE':'TACTIC',status=failed?'FAILED':finalSector?'COMPLETED_PENDING':'ACTIVE';
+      const choices=!failed&&!finalSector?tacticChoices(run.run_id,run.sector_index+1,cfg):[],phase=failed?'FAILED':finalSector?'COMPLETE':'TACTIC',status=failed?'FAILED':finalSector?'COMPLETED_PENDING':'ACTIVE';
       const history=[...(Array.isArray(run.state.history)?run.state.history:[]),{sectorIndex:run.sector_index,sectorKey:sector.key,sectorName:sector.name,result:won?'WIN':'LOSE',vehicleDamage:damage,vehicleHp,aliveCards:living,tactic:run.state.pendingTactic||null}].slice(-5);
       const state={...run.state,phase,cardHp:nextHp,pendingTactic:null,choices,history};
       const rewardFactor=.6+.4*(vehicleHp/Math.max(1,run.vehicle_max_hp)),rewardCoin=finalSector&&won?Math.round(cfg.baseCoin*rewardFactor):0,rewardShards=finalSector&&won?Math.round(cfg.baseShards*rewardFactor):0;
@@ -235,7 +265,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       if(Number(updated?.meta?.changes||0)!==1)throw Object.assign(new Error('호송 상태가 갱신되었습니다. 현재 작전을 다시 불러오세요.'),{status:409});
       if(finalSector&&won)await env.DB.prepare(`INSERT INTO ${WEEKLY_TABLE}(user_id,week_key,completed_count,best_vehicle_hp_percent,updated_at) VALUES(?,?,1,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id,week_key) DO UPDATE SET completed_count=${WEEKLY_TABLE}.completed_count+1,best_vehicle_hp_percent=CASE WHEN ${WEEKLY_TABLE}.best_vehicle_hp_percent>=excluded.best_vehicle_hp_percent THEN ${WEEKLY_TABLE}.best_vehicle_hp_percent ELSE excluded.best_vehicle_hp_percent END,updated_at=CURRENT_TIMESTAMP`).bind(user.id,run.week_key,Math.round(vehicleHp/run.vehicle_max_hp*100)).run();
       const fresh=await env.DB.prepare(`SELECT * FROM ${RUN_TABLE} WHERE run_id=?`).bind(run.run_id).first(),sectorSummary={sectorIndex:run.sector_index,sectorName:sector.name,result:won?'WIN':'LOSE',vehicleDamage:damage,vehicleHp,aliveCards:living,roleBonuses:roles};
-      const response={ok:true,run:publicRun(fresh,cfg),sectorSummary,battleV2,monster,objective:{name:'ARMORED CARRIER',image:'/assets/ui/escort/escort-armored-carrier-v1.webp?v=1830',hp:vehicleHp,maxHp:run.vehicle_max_hp}};
+      const response={ok:true,run:publicRun(fresh,cfg),sectorSummary,battleV2,monster,objective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차',image:'/assets/ui/escort/escort-armored-carrier-v1.webp?v=1830',hp:Number(run.vehicle_hp),hpAfter:vehicleHp,maxHp:run.vehicle_max_hp,targetPriority:'ABSOLUTE'}};
       await completeReceipt(env,requestId,user.id,response);return json(response);
     }catch(error){if(requestId)await failReceipt(env,requestId,user.id,error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
   }
@@ -250,7 +280,7 @@ export async function handleEscortOperation({path,request,env,deps}){
       const state={...run.state,phase:'READY',pendingTactic:key==='REPAIR'?null:key,choices:[]};
       const changed=await env.DB.prepare(`UPDATE ${RUN_TABLE} SET sector_index=sector_index+1,vehicle_hp=?,state_json=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE run_id=? AND user_id=? AND status='ACTIVE' AND version=?`).bind(vehicleHp,JSON.stringify(state),run.run_id,user.id,run.version).run();
       if(Number(changed?.meta?.changes||0)!==1)throw Object.assign(new Error('전술 선택이 이미 처리되었습니다.'),{status:409});
-      const fresh=await env.DB.prepare(`SELECT * FROM ${RUN_TABLE} WHERE run_id=?`).bind(run.run_id).first(),response={ok:true,run:publicRun(fresh,cfg),selectedTactic:TACTICS[key]};await completeReceipt(env,requestId,user.id,response);return json(response);
+      const fresh=await env.DB.prepare(`SELECT * FROM ${RUN_TABLE} WHERE run_id=?`).bind(run.run_id).first(),response={ok:true,run:publicRun(fresh,cfg),selectedTactic:tacticWithSettings(TACTICS[key],cfg)};await completeReceipt(env,requestId,user.id,response);return json(response);
     }catch(error){if(requestId)await failReceipt(env,requestId,user.id,error);return json({error:cleanText(error?.message||error,300)},Number(error?.status||500));}
   }
 

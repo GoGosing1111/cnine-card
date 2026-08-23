@@ -329,7 +329,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   return true;
 }
 
-export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {} } = {}) {
+export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], magicB = [], seed = 1, maxActions = 80, maxDuration = 0, suddenDeathAfter = 0, forcedMonsterEvery = 0, openingPlayerUltimateDamage = 0, openingBossUltimatePercent = 0, bossUltimateCapPercent = 100, healerPenalty = false, singleHealerBonus = {}, escortObjective = null } = {}) {
   const random = seededRandom(seed);
   const a = teamA.map(card => ({ ...card }));
   const b = teamB.map(card => ({ ...card }));
@@ -338,6 +338,28 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let actionCount = 0;
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;
+  const escortMode=Boolean(escortObjective&&typeof escortObjective==='object');
+  const escortTarget={
+    id:String(escortObjective?.id||'ESCORT_OBJECTIVE'),
+    name:String(escortObjective?.name||'장갑 수송차')
+  };
+  let escortStrikeCount=0;
+  const pushEscortStrike=(actor,eventClock,forced=false)=>{
+    if(!actor)return;
+    escortStrikeCount+=1;
+    pushEvent(timeline,eventClock,'ESCORT_OBJECTIVE_ATTACK',{
+      actorId:actor.id,
+      actorSide:actor.side,
+      targetId:escortTarget.id,
+      targetSide:'OBJECTIVE',
+      targetName:escortTarget.name,
+      damage:0,
+      strikeIndex:escortStrikeCount,
+      forced:Boolean(forced),
+      ignoreInitiative:Boolean(forced),
+      label:forced?'호송차 선제 타격':'호송차 집중 공격'
+    });
+  };
   const magicByFighter=new Map();
   const registerMagic=(team,cards)=>{
     for(const magic of (Array.isArray(cards)?cards:[])){
@@ -454,6 +476,14 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   }
 
+  // Escort combat has one guaranteed hostile strike before any speed gauge,
+  // action-power or turn-order calculation. Every later monster turn uses the
+  // same objective route, so cards are never selected while the carrier lives.
+  if(escortMode){
+    const openingMonster=alive(b).find(card=>card.isMonster)||alive(b)[0];
+    if(openingMonster)pushEscortStrike(openingMonster,clock+0.00005,true);
+  }
+
   const openingUltimate = Math.max(0, Math.round(Number(openingPlayerUltimateDamage || 0)));
   if (openingUltimate > 0 && alive(b).length) {
     const target = alive(b)[0];
@@ -471,7 +501,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
   const bossOpeningCap = clamp(bossUltimateCapPercent, 100, 500);
   const bossOpeningPercent = clamp(openingBossUltimatePercent, 0, bossOpeningCap);
-  if (bossOpeningPercent > 0 && alive(a).length && alive(b).length) {
+  if (!escortMode && bossOpeningPercent > 0 && alive(a).length && alive(b).length) {
     const hits = [];
     const damagedTargets = [...alive(a)];
     for (const target of damagedTargets) {
@@ -568,6 +598,16 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           label: crisis ? '생명 연결 · 위기 회복' : '생명 연결 · 아군 회복',
         });
       }
+    }
+
+    // In escort mode the carrier is the authoritative hostile target. This
+    // branch intentionally runs before card target selection and dodge checks.
+    // Natural monster turns may add more strikes, but the opening forced strike
+    // above guarantees at least one attack even when speed/action gauges never
+    // give the monster a normal turn.
+    if(escortMode&&actor.isMonster){
+      pushEscortStrike(actor,clock,false);
+      continue;
     }
 
     const enemyTeam = actor.side === 'A' ? b : a;
@@ -801,7 +841,7 @@ function forcePveMonsterSurvivalLoss(result = {}) {
   return { ...result, winner: 'B', reason: 'MONSTER_SURVIVED', originalWinner: result.winner, originalReason: result.reason, timeline };
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {} } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null } = {}) {
   const withBonus = distributeEquipment(cards, Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const teamB = [buildMonsterFighter(monster)];
@@ -813,7 +853,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     openingBossUltimatePercent: bossUltimatePercent,
     bossUltimateCapPercent,
     healerPenalty: true,
-    singleHealerBonus
+    singleHealerBonus,
+    escortObjective
   });
   // PVE는 제한 행동까지 몬스터가 살아 있으면 잔여 HP 비율과 무관하게 실패한다.
   const result = forcePveMonsterSurvivalLoss(simulated);
@@ -822,7 +863,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: 'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', forcedMonsterEvery: 15, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', forcedMonsterEvery: 15, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }

@@ -1384,6 +1384,74 @@ export class BattleEngine{
     },cleanup);
   }
 
+  escortObjectiveAttack(event={}){
+    const actor=this.combatantById(event.actorId)||this.enemies.find(character=>this.isAlive(character));
+    const objective=this.objectiveSprite;
+    if(!actor||!objective||!objective.visible){
+      this.updateStatus('호송차 타격 대상을 구성하지 못했습니다.');
+      return Promise.resolve(false);
+    }
+    const actorView=actor.root;
+    const damage=Math.max(0,Number(event.damage||0));
+    const roleKind=normalizeSkillEffectKind(actor.effectKind||SKILL_EFFECT_KIND.ATTACK);
+    const roleProfile=roleEffectProfile(roleKind);
+    const impact={x:objective.x,y:objective.y-Math.max(34,objective.height*.38)};
+    const damageLabel=this.pools.damage.acquire();
+    configureDamageText(damageLabel,{kind:SKILL_EFFECT_KIND.ATTACK,damage,critical:false,healing:0,hitCount:1,compact:this.mobile});
+    damageLabel.position.set(impact.x,impact.y-92);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
+    const impactFx=new Container();
+    impactFx.position.set(impact.x,impact.y);impactFx.alpha=0;impactFx.scale.set(.25);
+    impactFx.addChild(new Graphics().circle(0,0,this.mobile?66:88).stroke({width:this.mobile?7:10,color:0xffa33e,alpha:.92}));
+    impactFx.addChild(new Graphics().poly([-112,18,-26,-10,78,-40,116,-18,28,12,-76,42]).fill({color:0xff6636,alpha:.58}));
+    applyWebGLBlendTree(impactFx,'add');this.effectLayer.addChild(impactFx);
+    const flash=new Graphics().rect(0,0,this.width,this.height).fill({color:0xff8a4b,alpha:1});
+    flash.alpha=0;flash.blendMode='screen';this.uiLayer.addChild(flash);
+    const skillEffect=SkillEffectFX.create({kind:SKILL_EFFECT_KIND.ATTACK,x:impact.x,y:impact.y,originX:actor.baseX,originY:actor.baseY-132,accent:0xff8248}).attach(this.effectLayer);
+    const vector={x:objective.x-actor.baseX,y:objective.y-actor.baseY};
+    const distance=Math.max(1,Math.hypot(vector.x,vector.y));
+    const stopDistance=this.mobile?128:176;
+    const attackPoint={x:objective.x-vector.x/distance*stopDistance,y:objective.y-vector.y/distance*stopDistance};
+    const attackScale=actor.getPerspectiveScale?.(attackPoint.y)??actor.restScale;
+    let whiteFlashHandle=null;
+    const cleanup=()=>{
+      this.pools.damage.release(damageLabel);
+      actorView.position.set(actor.baseX,actor.baseY);actorView.scale.set(actor.restScale);
+      actor.setState(CHARACTER_STATE.IDLE);objective.tint=0xffffff;
+      whiteFlashHandle?.release();skillEffect.release();impactFx.destroy({children:true});flash.destroy();
+    };
+    this.updateStatus(`${actor.name} · 호송차 강제 공격${event.forced?' · 선제 타격':''}`);
+    return this.timeline(timeline=>{
+      timeline.call(()=>{actor.setState(CHARACTER_STATE.MOVE);this.audio?.playCast(roleKind)},[],0);
+      timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:.24,ease:'power3.in'});
+      timeline.to(actorView.scale,{x:attackScale*1.08,y:attackScale*1.08,duration:.24,ease:'power3.in'},0);
+      timeline.call(()=>{
+        actor.setState(CHARACTER_STATE.ATTACK);objective.tint=0xffc19c;
+        whiteFlashHandle?.release();whiteFlashHandle=triggerWhiteFlash(objective,{durationMs:Math.round(60/PLAYBACK_SPEED)});
+        this.audio?.playImpact(SKILL_EFFECT_KIND.ATTACK,{critical:false,boss:true});
+        const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
+        this.objectiveData={...(this.objectiveData||{}),hp,hpAfter:hp,maxHp};
+        const hud=document.querySelector('.escort-v3-objective-hud');
+        if(hud){
+          const label=hud.querySelector('b'),bar=hud.querySelector('i u'),loss=hud.querySelector('span');
+          if(label)label.textContent=`장갑 수송차 ${Math.round(hp).toLocaleString()} / ${Math.round(maxHp).toLocaleString()}`;
+          if(bar)bar.style.width=`${clamp(hp/maxHp*100,0,100)}%`;
+          if(loss)loss.textContent=`직격 피해 -${Math.round(damage).toLocaleString()}`;
+        }
+      },[],.24);
+      timeline.to(impactFx,{alpha:1,duration:.025,ease:'none'},.24);
+      timeline.to(impactFx.scale,{x:1.5,y:1.5,duration:.12,ease:'expo.out'},.24);
+      timeline.to(impactFx,{alpha:0,duration:.18,ease:'power2.in'},.38);
+      timeline.to(flash,{alpha:.26,duration:.025,ease:'none'},.24);
+      timeline.to(flash,{alpha:0,duration:.1,ease:'power3.out'},.265);
+      skillEffect.play(timeline,{at:.24,duration:.28});
+      this.camera.addShake(timeline,{intensity:1.22,duration:.3,rotation:.009,at:.24});
+      timeline.fromTo(damageLabel,{alpha:0,y:impact.y-74},{alpha:1,y:impact.y-112,duration:.18,ease:'back.out(2)'},.24);
+      timeline.to(damageLabel,{alpha:0,y:impact.y-142,duration:.26,ease:'power2.in'},.48);
+      timeline.to(actorView,{x:actor.baseX,y:actor.baseY,duration:.32,ease:'power3.inOut'},.46);
+      timeline.to(actorView.scale,{x:actor.restScale,y:actor.restScale,duration:.32,ease:'power3.inOut'},.46);
+    },cleanup);
+  }
+
   async playTacticalSkill(index,{damage=386720,critical=true,label='전술 스킬',target=null,targetHp=null,attacker=null,healing=0,hitCount=1}={}){
     const actor=attacker||this.allies[index%this.allies.length];
     const actorIndex=Math.max(0,this.allies.indexOf(actor));
@@ -1418,7 +1486,7 @@ export class BattleEngine{
   //   40턴까지 원속도 → 80턴까지 1.28배 → 그 뒤 1.82배.
   advancePace(type){
     if(type==='DEPLOY'){this.paceActions=0;this.paceScale=1;return}
-    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER')return;
+    if(type!=='TURN'&&type!=='ATTACK'&&type!=='COUNTER'&&type!=='ESCORT_OBJECTIVE_ATTACK')return;
     this.paceActions+=1;
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
   }
@@ -1441,6 +1509,21 @@ export class BattleEngine{
       const healing=Math.max(0,Number(event.healing||event.healAmount||event.recoveredHp||0));
       const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
       if(type==='DEPLOY')await this.deployCards();
+      else if(type==='ESCORT_OBJECTIVE_ATTACK')await this.escortObjectiveAttack(event);
+      else if(type==='ESCORT_OBJECTIVE_RECOVERY'){
+        const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
+        this.objectiveData={...(this.objectiveData||{}),hp,hpAfter:hp,maxHp};
+        const hud=document.querySelector('.escort-v3-objective-hud');
+        if(hud){
+          const label=hud.querySelector('b'),bar=hud.querySelector('i u'),status=hud.querySelector('span');
+          if(label)label.textContent=`장갑 수송차 ${Math.round(hp).toLocaleString()} / ${Math.round(maxHp).toLocaleString()}`;
+          if(bar)bar.style.width=`${clamp(hp/maxHp*100,0,100)}%`;
+          if(status)status.textContent=`긴급 복구 +${Math.round(Number(event.amount||0)).toLocaleString()}`;
+        }
+        if(this.objectiveSprite)this.objectiveSprite.tint=0xaaffcf;
+        await this.showBanner(event.label||'호송차 긴급 복구',0x5ff0ae,'ESCORT RECOVERY');
+        if(this.objectiveSprite)this.objectiveSprite.tint=0xffffff;
+      }
       else if(type==='ATTACK'||type==='TURN'){
         if(event.dodge){await this.showBanner('회피 · 잔상 전개',0x62e9ff,'속도효과 발동');continue}
         await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount});

@@ -1,12 +1,19 @@
 (() => {
   'use strict';
-  const VERSION='1831-owner-tab';
+  const VERSION='1832-objective-tactics';
   const bridge=()=>window.CNineEscortBridge;
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const number=value=>Math.max(0,Number(value)||0);
   const percent=value=>Math.max(0,Math.min(100,Number(value)||0));
   const imageUrl=value=>{const raw=String(value||'').trim().replace(/\\/g,'/');if(!raw)return '/assets/ui/cninelogo.png';if(/^(?:data:|blob:|https?:\/\/|\/)/i.test(raw))return raw;return `/${raw.replace(/^\.\//,'')}`};
+  const TACTIC_ICONS=Object.freeze({
+    REPAIR:'/assets/ui/escort/tactics/tactic-field-repair-v1.webp',
+    BARRIER:'/assets/ui/escort/tactics/tactic-aegis-barrier-v1.webp',
+    AIRSTRIKE:'/assets/ui/escort/tactics/tactic-carpet-strike-v1.webp',
+    OVERCHARGE:'/assets/ui/escort/tactics/tactic-core-overdrive-v1.webp',
+    JAMMING:'/assets/ui/escort/tactics/tactic-signal-jammer-v1.webp'
+  });
   let data=null,busy=false,discoveryPromise=null;
 
   async function api(path,options={}){
@@ -36,9 +43,11 @@
     }).join('');
   }
 
-  function tacticMarkup(run){
+  function tacticMarkup(run,settings){
     if(run?.phase!=='TACTIC')return '';
-    return `<section class="escort-tactic-panel"><header><small>ROUTE COMMAND</small><h3>다음 구간 전술 선택</h3><p>선택한 전술은 다음 교전까지 유지됩니다. 긴급 정비는 즉시 적용됩니다.</p></header><div class="escort-tactic-grid">${(run.choices||[]).map((tactic,index)=>`<button type="button" data-escort-action="tactic" data-tactic="${esc(tactic.key)}" data-escort-primary="${index===0?'1':'0'}"><span>0${index+1}</span><div><small>${esc(tactic.type)}</small><b>${esc(tactic.name)}</b><p>${esc(tactic.description)}</p></div><i></i></button>`).join('')}</div></section>`;
+    const catalog=new Map((settings?.tactics||[]).map(tactic=>[String(tactic.key||'').toUpperCase(),tactic]));
+    const choices=(run.choices||[]).map(choice=>({...choice,...(catalog.get(String(choice.key||'').toUpperCase())||{})}));
+    return `<section class="escort-tactic-panel"><header><div><small>ROUTE COMMAND / TACTICAL BUFFER</small><h3>다음 구간 전술 선택</h3></div><p>두 전술 중 하나만 적용됩니다. 효과 범위와 유지 시간을 확인하십시오.</p></header><div class="escort-tactic-grid">${choices.map((tactic,index)=>`<button type="button" class="escort-tactic-card is-${esc(String(tactic.key||'').toLowerCase())}" data-escort-action="tactic" data-tactic="${esc(tactic.key)}" data-escort-primary="${index===0?'1':'0'}" aria-label="${esc(`${tactic.name} 선택`)}"><span class="escort-tactic-number">0${index+1}</span><span class="escort-tactic-icon"><img src="${esc(imageUrl(tactic.icon||TACTIC_ICONS[String(tactic.key||'').toUpperCase()]))}?v=1832" alt="" width="256" height="256" decoding="async"></span><span class="escort-tactic-copy"><span class="escort-tactic-meta"><small>${esc(tactic.type)}</small><em>${esc(tactic.duration||'다음 1구간')}</em></span><b>${esc(tactic.name)}</b><p>${esc(tactic.description)}</p><u>전술 적용</u></span><i class="escort-tactic-arrow" aria-hidden="true"></i></button>`).join('')}</div></section>`;
   }
 
   function actionMarkup(run,weekly,settings){
@@ -67,7 +76,7 @@
         </article>
         <article class="escort-roster-panel"><header><div><small>ESCORT DETAIL</small><h3>호위 편성</h3></div><span>${run?`${(run.deck||[]).filter(card=>number(card.hpPercent)>0).length} / 5 생존`:'PVE DECK'}</span></header>${run?`<ol class="escort-roster">${run.deck.map(cardMarkup).join('')}</ol>`:'<div class="escort-roster-empty"><i></i><b>PVE 덱을 확인한 뒤 출전합니다.</b><span>작전 시작 시 5장 편성을 한 번만 스냅샷으로 저장합니다.</span></div>'}</article>
       </section>
-      ${tacticMarkup(run)}
+      ${tacticMarkup(run,settings)}
       ${actionMarkup(run,weekly,settings)}
       <footer class="escort-foot"><span>구간 종료 시 진행 상황이 자동 저장됩니다.</span><button type="button" data-escort-action="reload">작전 정보 새로고침</button>${run&&['ACTIVE','COMPLETED_PENDING'].includes(run.status)?'<button type="button" data-escort-action="abandon" class="escort-abandon">작전 포기</button>':''}</footer>
     </main>`;
@@ -100,7 +109,7 @@
   async function abandon(){if(!confirm('현재 호송작전을 종료할까요? 진행 상황은 복구되지 않습니다.'))return;setBusy(true,'작전 정리 중');try{data=await api('escort/abandon',{method:'POST',body:'{}'});render()}finally{setBusy(false)}}
 
   function escortBattleHud(stage,response){
-    const summary=response.sectorSummary||{},run=response.run||{},hud=document.createElement('div');hud.className='escort-v3-objective-hud';hud.innerHTML=`<small>ESCORT OBJECTIVE</small><b>장갑 수송차 ${number(run.vehicleHp).toLocaleString()} / ${number(run.vehicleMaxHp).toLocaleString()}</b><i><u style="width:${percent(run.vehiclePercent)}%"></u></i><span>구간 피해 -${number(summary.vehicleDamage).toLocaleString()}</span>`;stage.appendChild(hud);
+    const summary=response.sectorSummary||{},objective=response.objective||{},maxHp=number(objective.maxHp||response.run?.vehicleMaxHp),startHp=number(objective.hp??response.run?.vehicleHp),hud=document.createElement('div');hud.className='escort-v3-objective-hud';hud.innerHTML=`<small>ESCORT OBJECTIVE · ABSOLUTE PRIORITY</small><b>장갑 수송차 ${startHp.toLocaleString()} / ${maxHp.toLocaleString()}</b><i><u style="width:${percent(startHp/Math.max(1,maxHp)*100)}%"></u></i><span>몬스터 선제 공격 대기</span>`;hud.dataset.finalDamage=String(number(summary.vehicleDamage));stage.appendChild(hud);
   }
 
   async function playBattle(response){

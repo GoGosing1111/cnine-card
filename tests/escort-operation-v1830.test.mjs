@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
-import {defaultEscortSettings,cleanEscortSettings} from '../functions/_escort_operation.js';
-import {buildFighter} from '../functions/_battle_v2_preview.js';
+import {defaultEscortSettings,cleanEscortSettings,finalizeEscortObjectiveTimeline} from '../functions/_escort_operation.js';
+import {buildFighter,createPveBattleV2} from '../functions/_battle_v2_preview.js';
 
 const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 
@@ -26,6 +26,29 @@ test('기존 전투는 100%, 호송전은 전달된 카드 체력에서 시작�
   assert.equal(knockedOut.alive,false);
 });
 
+test('호송 몬스터는 게이지와 무관하게 차량을 선제 공격하고 카드를 타격하지 않는다',()=>{
+  const cards=Array.from({length:5},(_,index)=>({id:`ESCORT-CARD-${index+1}`,title:`호위 카드 ${index+1}`,power:180000,power_type:'ATTACK'}));
+  const battle=createPveBattleV2({
+    cards,
+    monster:{id:'ESCORT-MONSTER',name:'호송 습격대',battle_power:190000,is_boss:0},
+    seed:1832,
+    escortObjective:{id:'ESCORT_OBJECTIVE',name:'장갑 수송차'}
+  });
+  const timeline=battle.result.timeline;
+  const strikes=timeline.filter(event=>event.type==='ESCORT_OBJECTIVE_ATTACK');
+  assert.ok(strikes.length>=1);
+  assert.equal(strikes[0].forced,true);
+  assert.equal(strikes[0].ignoreInitiative,true);
+  assert.ok(strikes.every(event=>event.targetId==='ESCORT_OBJECTIVE'));
+  assert.equal(timeline.some(event=>String(event.actorId||'').startsWith('B:')&&String(event.targetId||'').startsWith('A:')&&['TURN','ATTACK','SKILL','COUNTER','ULTIMATE','BOSS_ULTIMATE'].includes(event.type)),false);
+  assert.ok(battle.result.final.A.every(card=>card.hp===card.maxHp));
+
+  finalizeEscortObjectiveTimeline(battle,{hpBefore:10000,maxHp:10000,totalDamage:1234});
+  assert.equal(strikes.reduce((sum,event)=>sum+event.damage,0),1234);
+  assert.equal(strikes.at(-1).objectiveHpAfter,8766);
+  assert.equal(battle.escortObjective.targetPriority,'ABSOLUTE');
+});
+
 test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async()=>{
   const [handler,worker,app,client,engine,wrapper,admin,adminIndex,migration,cleanup,index,sw]=await Promise.all([
     read('functions/_escort_operation.js'),read('functions/api/[[path]].js'),read('js/app.js'),read('js/escort-operation-v1830.js'),
@@ -47,20 +70,26 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(client,/4–6 MIN MISSION/);
   assert.match(client,/localOwner/);
   assert.match(client,/OWNER 테스트 탭은 일시적인 API\/DB 오류로 사라지지 않는다/);
+  assert.match(client,/TACTICAL BUFFER/);
+  assert.match(client,/tactic-field-repair-v1\.webp/);
   assert.match(engine,/ESCORT:'.*escort-fortress-route-bg-v1\.webp/);
   assert.match(engine,/async setObjective/);
+  assert.match(engine,/escortObjectiveAttack\(event=/);
+  assert.match(handler,/finalizeEscortObjectiveTimeline/);
   assert.match(wrapper,/철벽 호송작전/);
   assert.match(admin,/admin\/escort\/settings/);
   assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1830-owner-test/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(index,/escort-operation-v1830\.js\?v=1831-owner-tab/);
-  assert.match(sw,/soop-card-shell-v1831-escort-owner-tab/);
+  assert.match(index,/escort-operation-v1830\.js\?v=1832-objective-tactics/);
+  assert.match(sw,/soop-card-shell-v1832-escort-objective-tactics/);
 });
 
 test('호송 이미지 리소스는 런타임 예산 안으로 압축됐다',async()=>{
   const background=await stat(new URL('../assets/ui/escort/escort-fortress-route-bg-v1.webp',import.meta.url));
   const vehicle=await stat(new URL('../assets/ui/escort/escort-armored-carrier-v1.webp',import.meta.url));
+  const tacticIcons=await Promise.all(['field-repair','aegis-barrier','carpet-strike','core-overdrive','signal-jammer'].map(name=>stat(new URL(`../assets/ui/escort/tactics/tactic-${name}-v1.webp`,import.meta.url))));
   assert.ok(background.size<180_000,`background ${background.size}`);
   assert.ok(vehicle.size<230_000,`vehicle ${vehicle.size}`);
+  tacticIcons.forEach(icon=>assert.ok(icon.size<50_000,`tactic icon ${icon.size}`));
 });
