@@ -879,7 +879,7 @@ async function handleAttack(env,deps,user,cfg,body){
   if(reservation.completed||reservation.applied)return completedBattleResponse(env,deps,user,reservation.row,cfg,true);
   let attackLock=await acquireLock(env,`attack_user_${user.id}`,180000);
   if(!attackLock.ok){
-    const inFlight=await env.DB.prepare("SELECT request_id,status FROM territory_war_v3_actions WHERE user_id=? AND request_id<>? AND status IN ('PENDING','APPLIED') ORDER BY id DESC LIMIT 1").bind(user.id,requestId).first();
+    const inFlight=await env.DB.prepare("SELECT request_id,status FROM territory_war_v3_actions WHERE user_id=? AND request_id<>? AND (status='APPLIED' OR (status='PENDING' AND datetime(updated_at)>=datetime('now','-3 minutes'))) ORDER BY id DESC LIMIT 1").bind(user.id,requestId).first();
     if(inFlight?.request_id){
       // 같은 계정의 중복 클릭/다른 탭 요청은 오류로 만들지 않고 먼저 시작된 교전 결과를 함께 기다린다.
       // 아직 아무 보상도 적용하지 않은 중복 영수증은 즉시 제거해 DB 누적도 막는다.

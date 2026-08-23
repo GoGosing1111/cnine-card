@@ -6,7 +6,7 @@ const client=await readFile(new URL('../js/territory-war-v1811.js',import.meta.u
 const api=await readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const index=await readFile(new URL('../index.html',import.meta.url),'utf8');
 
-assert.match(server,/status IN \('PENDING','APPLIED'\).*ORDER BY id DESC LIMIT 1/);
+assert.match(server,/status='APPLIED' OR \(status='PENDING' AND datetime\(updated_at\)>=datetime\('now','-3 minutes'\)\)/);
 assert.match(server,/duplicateSuppressed:true/);
 assert.match(server,/DELETE FROM territory_war_v3_actions WHERE request_id=\? AND user_id=\? AND status='PENDING'/);
 assert.match(server,/진행 중인 교전이 없는데 락만 남아 있으면 고아 락/);
