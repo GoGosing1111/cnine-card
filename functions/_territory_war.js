@@ -877,10 +877,22 @@ async function handleAttack(env,deps,user,cfg,body){
   if(reservation.conflict)return deps.json({error:'다른 사용자의 요청 ID입니다.'},409);
   if(reservation.pending)return deps.json({ok:true,pending:true,requestId,retryAfterMs:300});
   if(reservation.completed||reservation.applied)return completedBattleResponse(env,deps,user,reservation.row,cfg,true);
-  const attackLock=await acquireLock(env,`attack_user_${user.id}`,180000);
+  let attackLock=await acquireLock(env,`attack_user_${user.id}`,180000);
   if(!attackLock.ok){
-    await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind('동일 계정의 다른 공격을 처리 중입니다.',requestId).run();
-    return deps.json({error:'동일 계정의 다른 공격을 처리 중입니다. 잠시 후 다시 시도해 주세요.',retryable:true},409);
+    const inFlight=await env.DB.prepare("SELECT request_id,status FROM territory_war_v3_actions WHERE user_id=? AND request_id<>? AND status IN ('PENDING','APPLIED') ORDER BY id DESC LIMIT 1").bind(user.id,requestId).first();
+    if(inFlight?.request_id){
+      // 같은 계정의 중복 클릭/다른 탭 요청은 오류로 만들지 않고 먼저 시작된 교전 결과를 함께 기다린다.
+      // 아직 아무 보상도 적용하지 않은 중복 영수증은 즉시 제거해 DB 누적도 막는다.
+      await env.DB.prepare("DELETE FROM territory_war_v3_actions WHERE request_id=? AND user_id=? AND status='PENDING'").bind(requestId,user.id).run();
+      return deps.json({ok:true,pending:true,requestId:String(inFlight.request_id),retryAfterMs:300,duplicateSuppressed:true});
+    }
+    // 진행 중인 교전이 없는데 락만 남아 있으면 고아 락이다. 즉시 제거하고 한 번만 재획득한다.
+    await env.DB.prepare('DELETE FROM app_meta WHERE key=?').bind(`territory_war_v3_lock_attack_user_${user.id}`).run();
+    attackLock=await acquireLock(env,`attack_user_${user.id}`,180000);
+    if(!attackLock.ok){
+      await env.DB.prepare("UPDATE territory_war_v3_actions SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND status='PENDING'").bind('공격 잠금을 다시 확보하지 못했습니다.',requestId).run();
+      return deps.json({error:'교전 연결이 지연되고 있습니다. 잠시 후 다시 시도해 주세요.',code:'TERRITORY_ATTACK_LOCK_RETRY',retryable:true,retryAfterMs:500},409);
+    }
   }
   try{
     const round=await lifecycle(env,cfg);if(!round||round.status!=='ACTIVE')throw new Error('현재 전투 가능한 영토전 회차가 아닙니다.');if(truceState(round).active)throw new Error('임시 휴전 중에는 공격할 수 없습니다. PVP 덱과 장비·칭호를 최신화해 주세요.');

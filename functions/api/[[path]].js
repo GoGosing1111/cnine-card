@@ -4233,6 +4233,9 @@ async function ensureBreakthroughAutoReceipts(env){
 }
 function serializedGameAction(path,method){
   if(String(method).toUpperCase()!=='POST'||String(path).startsWith('admin/'))return false;
+  // 영토전 공격은 자체 requestId 영수증 + 사용자 공격 락으로 원자 처리한다.
+  // 전역 사용자 락을 한 겹 더 씌우면 정상 재시도가 USER_ACTION_IN_PROGRESS로 먼저 차단된다.
+  if(String(path)==='territory-war/attack')return false;
   return SERIALIZED_GAME_ACTIONS.has(path)||SERIALIZED_GAME_PREFIXES.some(prefix=>String(path).startsWith(prefix));
 }
 async function ensureUserMutationLock(env){
