@@ -150,9 +150,16 @@ async function legacyAttempt({env,deps,user,cardId,settings}){
       ...(rewardShards?[env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(rewardShards,user.id)]:[]),
       ...(masterStarGained?[env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'MASTER_STAR',1,1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+1,unseen_quantity=unseen_quantity+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id),env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',1,?,'MA_DUPLICATE','EVOLUTION',?)").bind(user.id,masterStarBefore+1,drawGroupId)]:[])
     ]);
-  }else await env.DB.prepare(`INSERT INTO card_evolution_progress(user_id,source_card_id,failed_attempts,total_attempts,is_success,updated_at) VALUES(?,?,1,1,0,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source_card_id) DO UPDATE SET failed_attempts=failed_attempts+1,total_attempts=total_attempts+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,cardId).run();
+  }
+  // V1814: 실패 시 진행도 증가를 로그와 같은 트랜잭션으로 옮긴다.
+  //   예전에는 진행도만 단독으로 먼저 올리고, 로그는 뒤쪽 배치에서 따로 썼다.
+  //   뒤쪽 배치가 실패하면 진행도는 이미 올라간 채로 로그만 없어져서
+  //   "첫 시도인데 10번째" 처럼 카운터가 실제 기록보다 커진다.
+  //   (Postgres 이관 직후 실제로 이 상태가 나왔다)
+  const failureProgressStatement=success?null:env.DB.prepare(`INSERT INTO card_evolution_progress(user_id,source_card_id,failed_attempts,total_attempts,is_success,updated_at) VALUES(?,?,1,1,0,CURRENT_TIMESTAMP) ON CONFLICT(user_id,source_card_id) DO UPDATE SET failed_attempts=card_evolution_progress.failed_attempts+1,total_attempts=card_evolution_progress.total_attempts+1,updated_at=CURRENT_TIMESTAMP`).bind(user.id,cardId);
   const updated=await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first();
   await env.DB.batch([
+    ...(failureProgressStatement?[failureProgressStatement]:[]),
     env.DB.prepare("INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) VALUES(?,?,?,'CARD_EVOLUTION')").bind(user.id,-settings.coinCost,updated.coin),
     env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'CARD_EVOLUTION',?)").bind(user.id,-settings.shardCost,updated.card_shards,cardId),
     env.DB.prepare('INSERT INTO card_evolution_logs(user_id,source_card_id,attempt_no,coin_cost,shard_cost,success_rate,is_pity,is_success,reward_card_id,reward_duplicate,reward_shards,evolution_type,master_star_cost,source_consumed,source_quantity_before,source_quantity_after) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?)').bind(user.id,cardId,attemptNo,settings.coinCost,settings.shardCost,settings.successRate,isPity?1:0,success?1:0,reward?.id||null,duplicate?1:0,rewardShards,'SSR_TO_MA',success?1:0,Number(owned.quantity||0),success?0:Number(owned.quantity||0))
@@ -219,7 +226,15 @@ async function zenithAttempt({env,deps,user,cardId,requestId,settings}){
   const [wallet,starRow]=await Promise.all([env.DB.prepare('SELECT coin FROM users WHERE id=?').bind(user.id).first(),env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first()]);
   const coinBefore=Number(wallet?.coin||0),masterStarBefore=Number(starRow?.quantity||0);
   if(coinBefore<coinCost||masterStarBefore<masterStarCost){const missing=[];if(coinBefore<coinCost)missing.push(`${(coinCost-coinBefore).toLocaleString()}코인`);if(masterStarBefore<masterStarCost)missing.push(`마스터의 별 ${masterStarCost-masterStarBefore}개`);return deps.json({error:`진화 재료가 부족합니다. (${missing.join(' / ')} 부족)`},400)}
-  const [progress,ownedReward]=await Promise.all([state(env,user.id,cardId),env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=? AND COALESCE(quantity,0)>0').bind(user.id,reward.id).first()]);
+  // V1814: 성공 이력이 남아 있으면 카운터를 되돌린 뒤 새로 센다.
+  //   ssrAttempt·prestigeAttempt 에는 있는 처리인데 여기만 빠져 있어서
+  //   ZENITH 만 total_attempts 가 평생 누적됐다. ("첫 시도인데 10번째" 의 원인 중 하나)
+  let zenithProgress=await state(env,user.id,cardId);
+  if(zenithProgress.is_success){
+    await env.DB.prepare('UPDATE card_evolution_progress SET failed_attempts=0,total_attempts=0,is_success=0,reward_card_id=NULL,completed_at=NULL,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND source_card_id=? AND is_success=1').bind(user.id,cardId).run();
+    zenithProgress=await state(env,user.id,cardId);
+  }
+  const [progress,ownedReward]=[zenithProgress,await env.DB.prepare('SELECT quantity FROM user_cards WHERE user_id=? AND card_id=? AND COALESCE(quantity,0)>0').bind(user.id,reward.id).first()];
   const pity=zenithEvolutionPityState(progress.failed_attempts),pityAttempts=pity.pityAttempts,attemptNo=Number(progress.total_attempts||0)+1,isPity=pity.isPity,success=isPity||randomPercent()<successRate,duplicate=Boolean(ownedReward),guardId=`${user.id}:${requestId}`;
   const guardStatement=success
     ?env.DB.prepare(`INSERT INTO card_evolution_atomic_guard(guard_id,verified) SELECT ?,CASE WHEN EXISTS(SELECT 1 FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0 AND c.rarity='LIMITED' AND COALESCE(uc.breakthrough_level,0)>=13) AND EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) AND EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?) AND EXISTS(SELECT 1 FROM cards_effective_v1210 z WHERE z.id=? AND z.rarity='ZENITH' AND z.is_active=1 AND COALESCE(z.card_status,'PUBLIC')='PUBLIC') THEN 1 ELSE 0 END`).bind(guardId,user.id,cardId,user.id,coinCost,user.id,masterStarCost,reward.id)
