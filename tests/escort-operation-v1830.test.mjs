@@ -35,6 +35,8 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(worker,/handleEscortOperation/);
   assert.match(worker,/'escort\/fight'/);
   assert.match(handler,/cfg\.mode==='TEST'&&!isOwner\(user\)/);
+  assert.match(handler,/env\.DB\.execSchema\(statements\)/);
+  assert.match(handler,/env\.DB\?\.dialect==='postgres'/);
   assert.match(handler,/response_json/);
   assert.match(handler,/WHERE \$\{RECEIPT_TABLE\}\.user_id=excluded\.user_id/);
   assert.doesNotMatch(handler,/INSERT INTO[^`'\n]*timeline/i);

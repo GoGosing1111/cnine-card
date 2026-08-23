@@ -61,15 +61,27 @@ export function cleanEscortSettings(raw={}){
 }
 
 let ensurePromise=null;
+function schemaStatements(env){
+  const postgres=env.DB?.dialect==='postgres',userIdType=postgres?'BIGINT':'INTEGER';
+  const nowDefault=postgres?"to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')":'CURRENT_TIMESTAMP';
+  return [
+    `CREATE TABLE IF NOT EXISTS ${RUN_TABLE}(run_id TEXT PRIMARY KEY,user_id ${userIdType} NOT NULL,week_key TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',sector_index INTEGER NOT NULL DEFAULT 0,vehicle_hp INTEGER NOT NULL,vehicle_max_hp INTEGER NOT NULL,deck_snapshot TEXT NOT NULL,state_json TEXT NOT NULL DEFAULT '{}',version INTEGER NOT NULL DEFAULT 1,reward_coin BIGINT NOT NULL DEFAULT 0,reward_shards INTEGER NOT NULL DEFAULT 0,started_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault},completed_at TEXT,claimed_at TEXT,FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED)`,
+    `CREATE UNIQUE INDEX IF NOT EXISTS idx_pve_escort_active_user_v1830 ON ${RUN_TABLE}(user_id) WHERE status IN ('ACTIVE','COMPLETED_PENDING','CLAIMING')`,
+    `CREATE INDEX IF NOT EXISTS idx_pve_escort_runs_user_v1830 ON ${RUN_TABLE}(user_id,started_at DESC)`,
+    `CREATE TABLE IF NOT EXISTS ${WEEKLY_TABLE}(user_id ${userIdType} NOT NULL,week_key TEXT NOT NULL,started_count INTEGER NOT NULL DEFAULT 0,completed_count INTEGER NOT NULL DEFAULT 0,reward_count INTEGER NOT NULL DEFAULT 0,best_vehicle_hp_percent INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT ${nowDefault},PRIMARY KEY(user_id,week_key),FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED)`,
+    `CREATE TABLE IF NOT EXISTS ${RECEIPT_TABLE}(request_id TEXT PRIMARY KEY,user_id ${userIdType} NOT NULL,run_id TEXT,action_type TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault},FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(run_id) REFERENCES ${RUN_TABLE}(run_id) DEFERRABLE INITIALLY DEFERRED)`,
+    `CREATE INDEX IF NOT EXISTS idx_pve_escort_receipts_user_v1830 ON ${RECEIPT_TABLE}(user_id,created_at DESC)`
+  ];
+}
 async function ensure(env){
-  if(!ensurePromise)ensurePromise=env.DB.batch([
-    env.DB.prepare(`CREATE TABLE IF NOT EXISTS ${RUN_TABLE}(run_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,week_key TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',sector_index INTEGER NOT NULL DEFAULT 0,vehicle_hp INTEGER NOT NULL,vehicle_max_hp INTEGER NOT NULL,deck_snapshot TEXT NOT NULL,state_json TEXT NOT NULL DEFAULT '{}',version INTEGER NOT NULL DEFAULT 1,reward_coin INTEGER NOT NULL DEFAULT 0,reward_shards INTEGER NOT NULL DEFAULT 0,started_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,completed_at TEXT,claimed_at TEXT,FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED)`),
-    env.DB.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS idx_pve_escort_active_user_v1830 ON ${RUN_TABLE}(user_id) WHERE status IN ('ACTIVE','COMPLETED_PENDING','CLAIMING')`),
-    env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_pve_escort_runs_user_v1830 ON ${RUN_TABLE}(user_id,started_at DESC)`),
-    env.DB.prepare(`CREATE TABLE IF NOT EXISTS ${WEEKLY_TABLE}(user_id INTEGER NOT NULL,week_key TEXT NOT NULL,started_count INTEGER NOT NULL DEFAULT 0,completed_count INTEGER NOT NULL DEFAULT 0,reward_count INTEGER NOT NULL DEFAULT 0,best_vehicle_hp_percent INTEGER NOT NULL DEFAULT 0,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,week_key),FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED)`),
-    env.DB.prepare(`CREATE TABLE IF NOT EXISTS ${RECEIPT_TABLE}(request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,run_id TEXT,action_type TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,FOREIGN KEY(user_id) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED,FOREIGN KEY(run_id) REFERENCES ${RUN_TABLE}(run_id) DEFERRABLE INITIALLY DEFERRED)`),
-    env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_pve_escort_receipts_user_v1830 ON ${RECEIPT_TABLE}(user_id,created_at DESC)`)
-  ]).then(()=>true).catch(error=>{ensurePromise=null;throw error});
+  if(!ensurePromise)ensurePromise=(async()=>{
+    const statements=schemaStatements(env);
+    // PostgreSQL 호환 계층은 일반 D1 batch() 안의 DDL을 안전상 실행하지 않는다.
+    // 신규 배포에서 relation이 빠졌을 때는 고정 DDL만 허용하는 execSchema()로 복구한다.
+    if(env.DB?.dialect==='postgres'&&typeof env.DB.execSchema==='function')await env.DB.execSchema(statements);
+    else await env.DB.batch(statements.map(sql=>env.DB.prepare(sql)));
+    return true;
+  })().catch(error=>{ensurePromise=null;throw error});
   return ensurePromise;
 }
 
