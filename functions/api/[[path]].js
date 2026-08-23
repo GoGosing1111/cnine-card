@@ -3688,6 +3688,88 @@ function cardWithAcquisitionEffect(card,settings){
   const grade=String(card?.grade||card?.rarity||'').toUpperCase();
   return {...card,...(settings?.[grade]||{})};
 }
+const PREMIUM_CUBE_OPEN_COUNTS=new Set([1,10,100]);
+async function openPremiumCubeBulk(env,user,{requestId,count}){
+  let consumed=false,auditsStarted=false,unseenConsumed=0;
+  const reservations=new Map(),auditEvents=[];
+  try{
+    const inventory=await env.DB.prepare("SELECT quantity,unseen_quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='PREMIUM_CUBE'").bind(user.id).first();
+    const quantityBefore=Math.max(0,Number(inventory?.quantity||0));
+    if(quantityBefore<count)throw new Error(`프리미엄 큐브가 ${count}개 필요합니다.`);
+    const unseenBefore=Math.max(0,Number(inventory?.unseen_quantity||0)),unseenAfter=Math.min(unseenBefore,quantityBefore-count),remaining=quantityBefore-count;
+    unseenConsumed=Math.max(0,unseenBefore-unseenAfter);
+    const used=await env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='PREMIUM_CUBE' AND quantity>=?").bind(count,count,user.id,count).run();
+    if(!Number(used?.meta?.changes||0))throw new Error(`프리미엄 큐브가 ${count}개 필요합니다.`);
+    consumed=true;
+
+    const configured=(await cubeSettings(env)).PREMIUM_CUBE||{},gradeRates=Object.entries(configured).filter(([,rate])=>Number(rate)>0).map(([grade,rate])=>({grade:String(grade).toUpperCase(),rate:Number(rate)}));
+    if(!gradeRates.length)throw new Error('프리미엄 큐브의 등급 확률이 설정되지 않았습니다.');
+    const placeholders=gradeRates.map(()=>'?').join(','),[poolRows,ownedRows,masterStarRow,effectSettings]=await Promise.all([
+      env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,c.power_type AS powerType,c.base_power AS basePower,c.limited_total AS limitedTotal,c.issued_count AS issuedCount,m.name
+        FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND c.rarity IN (${placeholders}) AND (c.limited_total IS NULL OR c.issued_count<c.limited_total) ORDER BY c.id`).bind(...gradeRates.map(entry=>entry.grade)).all(),
+      env.DB.prepare(`SELECT uc.card_id,uc.quantity,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND c.rarity IN (${placeholders})`).bind(user.id,...gradeRates.map(entry=>entry.grade)).all(),
+      env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),
+      cardAcquisitionEffectsByGrade(env)
+    ]);
+    const poolByGrade=new Map();
+    for(const card of poolRows.results||[]){const grade=String(card.grade||'').toUpperCase();if(!poolByGrade.has(grade))poolByGrade.set(grade,[]);poolByGrade.get(grade).push(card)}
+    const runningQuantities=new Map(),initialQuantities=new Map(),breakthroughs=new Map();
+    for(const row of ownedRows.results||[]){const key=String(row.card_id),quantity=Math.max(0,Number(row.quantity||0));runningQuantities.set(key,quantity);initialQuantities.set(key,quantity);breakthroughs.set(key,Math.max(0,Number(row.breakthrough_level||0)))}
+    const selectedStock=new Map(),cardTotals=new Map(),results=[];
+    let shardGained=0,masterStarGained=0;
+    for(let index=0;index<count;index++){
+      const availableGrades=gradeRates.map(entry=>({...entry,cards:(poolByGrade.get(entry.grade)||[]).filter(card=>card.limitedTotal===null||card.limitedTotal===undefined||Number(card.limitedTotal)-Number(card.issuedCount||0)-Number(selectedStock.get(String(card.id))||0)>0)})).filter(entry=>entry.cards.length);
+      const selectedGrade=weightedPick(availableGrades,entry=>entry.rate);
+      if(!selectedGrade)throw new Error('프리미엄 큐브에서 획득 가능한 카드가 부족합니다. CMS 카드 공개 상태와 한정 재고를 확인하세요.');
+      const card=selectedGrade.cards[Math.floor(Math.random()*selectedGrade.cards.length)],cardId=String(card.id),quantityBeforeCard=Number(runningQuantities.get(cardId)||0),duplicate=quantityBeforeCard>0,grade=String(card.grade||'').toUpperCase();
+      const itemShard=duplicate?Number(SHARD_REWARD[grade]||0):0,itemStar=duplicate&&['MA','LIMITED'].includes(grade)?1:0;
+      runningQuantities.set(cardId,quantityBeforeCard+1);cardTotals.set(cardId,{card,count:Number(cardTotals.get(cardId)?.count||0)+1});shardGained+=itemShard;masterStarGained+=itemStar;
+      if(card.limitedTotal!==null&&card.limitedTotal!==undefined)selectedStock.set(cardId,Number(selectedStock.get(cardId)||0)+1);
+      results.push({index,rawCard:card,duplicate,shardGained:itemShard,masterStarGained:itemStar,quantityBefore:quantityBeforeCard,quantityAfter:quantityBeforeCard+1});
+    }
+
+    for(const [cardId,reserveCount] of selectedStock){
+      const reserved=await env.DB.prepare("UPDATE cards SET issued_count=issued_count+? WHERE id=? AND is_active=1 AND COALESCE(card_status,'PUBLIC')='PUBLIC' AND issued_count+?<=limited_total").bind(reserveCount,cardId,reserveCount).run();
+      if(!Number(reserved?.meta?.changes||0))throw new Error('선택된 한정판 카드의 잔여 수량이 방금 소진되었습니다. 다시 시도하세요.');
+      reservations.set(cardId,reserveCount);
+    }
+    if(reservations.size){
+      const ids=[...reservations.keys()],rows=await env.DB.prepare(`SELECT id,issued_count FROM cards WHERE id IN (${ids.map(()=>'?').join(',')})`).bind(...ids).all(),reservedEnd=new Map((rows.results||[]).map(row=>[String(row.id),Number(row.issued_count||0)])),stockOffsets=new Map();
+      for(const result of results){
+        const cardId=String(result.rawCard.id);if(!reservations.has(cardId))continue;
+        const offset=Number(stockOffsets.get(cardId)||0),reserveCount=Number(reservations.get(cardId)||0),stockAfterReservation=Number(reservedEnd.get(cardId)||0),stockBefore=stockAfterReservation-reserveCount+offset;
+        stockOffsets.set(cardId,offset+1);
+        auditEvents.push({eventKey:`inventory:${requestId}:${result.index}:${cardId}`,requestId,drawGroupId:requestId,sourceType:'INVENTORY',sourceId:'PREMIUM_CUBE',userId:user.id,userNickname:user.nickname,cardId,cardTitle:result.rawCard.title,packId:'PREMIUM_CUBE',status:'STOCK_RESERVED',coinCost:0,stockBefore,stockAfter:stockBefore+1,quantityBefore:result.quantityBefore,isDuplicate:result.duplicate,stockReserved:true,cardGranted:false});
+      }
+      if(auditEvents.length){await env.DB.batch(auditEvents.map(event=>limitedAuditUpsertStatement(env,event).statement));auditsStarted=true}
+    }
+
+    for(const result of results){result.card=cardWithAcquisitionEffect(result.rawCard,effectSettings);delete result.rawCard}
+    const changedIds=[...cardTotals.keys()],masterStarBefore=Math.max(0,Number(masterStarRow?.quantity||0)),cardShardsAfter=Number(user.card_shards||0)+shardGained,masterStarsAfter=masterStarBefore+masterStarGained;
+    const partialUser={profileScope:'INVENTORY_PARTIAL',id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:cardShardsAfter,magicCrystals:Number(user.magic_crystals||0),role:user.role,masterStars:masterStarsAfter,owned:changedIds,quantities:Object.fromEntries(changedIds.map(id=>[id,Number(runningQuantities.get(id)||0)])),breakthroughs:Object.fromEntries(changedIds.map(id=>[id,Number(initialQuantities.get(id)||0)>0?Number(breakthroughs.get(id)||0):0]))};
+    const gradeCounts={};for(const result of results){const grade=String(result.card.grade||'').toUpperCase();gradeCounts[grade]=Number(gradeCounts[grade]||0)+1}
+    const response={ok:true,itemCode:'PREMIUM_CUBE',count,remaining,results,card:results[0].card,duplicate:results[0].duplicate,shardGained,masterStarGained,summary:{opened:count,newCards:results.filter(result=>!result.duplicate).length,duplicates:results.filter(result=>result.duplicate).length,gradeCounts},user:partialUser,requestId};
+    const statements=[];
+    for(const [cardId,entry] of cardTotals)statements.push(env.DB.prepare(`INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level) VALUES(?,?,?,0) ON CONFLICT(user_id,card_id) DO UPDATE SET breakthrough_level=CASE WHEN user_cards.quantity<=0 THEN 0 ELSE user_cards.breakthrough_level END,quantity=user_cards.quantity+excluded.quantity,last_obtained_at=CURRENT_TIMESTAMP`).bind(user.id,cardId,entry.count));
+    statements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'PREMIUM_CUBE',?,?,'CUBE_BULK_OPEN','INVENTORY_USE',?)").bind(user.id,-count,remaining,requestId));
+    for(const result of results)if(String(result.card.grade||'').toUpperCase()==='LIMITED')statements.push(env.DB.prepare("INSERT INTO draw_logs(draw_group_id,user_id,pack_id,card_id,rarity,coin_used,is_new) VALUES(?,?,?,?,'LIMITED',0,?)").bind(requestId,user.id,'PREMIUM_CUBE',result.card.id,result.duplicate?0:1));
+    if(shardGained>0)statements.push(env.DB.prepare('UPDATE users SET card_shards=card_shards+? WHERE id=?').bind(shardGained,user.id),env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,'INVENTORY_CUBE_BULK_DUPLICATE',NULL)").bind(user.id,shardGained,cardShardsAfter));
+    if(masterStarGained>0)statements.push(env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) VALUES(?,'MASTER_STAR',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP) ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=quantity+excluded.quantity,unseen_quantity=unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(user.id,masterStarGained,masterStarGained),env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,'HIGH_GRADE_DUPLICATE_BULK','INVENTORY_USE',?)").bind(user.id,masterStarGained,masterStarsAfter,requestId));
+    for(const event of auditEvents)statements.push(limitedAuditFinishStatement(env,event.eventKey,{status:'COMPLETED',stockAfter:event.stockAfter,quantityAfter:event.quantityBefore+1,isDuplicate:event.isDuplicate,stockReserved:true,cardGranted:true}));
+    statements.push(env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(response),requestId,user.id));
+    await env.DB.batch(statements);
+    recentHighGradeCache=null;
+    return response;
+  }catch(error){
+    const message=String(error?.message||'프리미엄 큐브 일괄 개방에 실패했습니다.').slice(0,300),rollback=[];
+    if(consumed)rollback.push(env.DB.prepare("UPDATE cnine_user_inventory SET quantity=quantity+?,unseen_quantity=MIN(quantity+?,unseen_quantity+?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='PREMIUM_CUBE'").bind(count,count,unseenConsumed,user.id));
+    for(const [cardId,reserveCount] of reservations)rollback.push(env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>=? THEN issued_count-? ELSE 0 END WHERE id=?').bind(reserveCount,reserveCount,cardId));
+    if(auditsStarted)for(const event of auditEvents)rollback.push(limitedAuditFinishStatement(env,event.eventKey,{status:'FAILED_ROLLED_BACK',stockAfter:event.stockBefore,quantityAfter:event.quantityBefore,isDuplicate:event.isDuplicate,stockReserved:false,cardGranted:false,errorMessage:message}));
+    rollback.push(env.DB.prepare("UPDATE inventory_use_receipts SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(message,requestId,user.id));
+    try{await env.DB.batch(rollback)}catch(rollbackError){console.error('프리미엄 큐브 일괄 개방 롤백 실패',rollbackError)}
+    throw new Error(message);
+  }
+}
 async function drawLimitedCard(env){
   const pool=randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
     FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
@@ -4521,15 +4603,18 @@ async function handleRequest(context){
     }
     if(path==='inventory/use'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100);
+      const body=await readBody(request),itemCode=String(body.itemCode||'').trim().toUpperCase(),requestId=String(body.requestId||crypto.randomUUID()).trim().slice(0,100),rawOpenCount=body.count===undefined?1:Number(body.count),openCount=Number.isInteger(rawOpenCount)?rawOpenCount:0;
       if(itemCode==='BLACK_MIRACLE_PACK'){try{return json({...await openBlackMiraclePack(env,{userId:user.id,requestId}),user:await profile(env,await env.DB.prepare('SELECT * FROM users WHERE id=?').bind(user.id).first())})}catch(error){return json({error:String(error?.message||'블랙 미라클 팩 개봉에 실패했습니다.')},409)}}
       const usableCodes=[...CUBE_CODES,'GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK',...RETIREMENT_REROLL_CODES];
       if(!usableCodes.includes(itemCode))return json({error:'현재 사용할 수 없는 인벤토리 아이템입니다.'},400);
+      if(itemCode==='PREMIUM_CUBE'&&!PREMIUM_CUBE_OPEN_COUNTS.has(openCount))return json({error:'프리미엄 큐브는 1개, 10개 또는 100개만 개방할 수 있습니다.'},400);
+      if(itemCode!=='PREMIUM_CUBE'&&openCount!==1)return json({error:'이 아이템은 한 번에 1개만 사용할 수 있습니다.'},400);
       const prior=await env.DB.prepare('SELECT status,response_json FROM inventory_use_receipts WHERE request_id=? AND user_id=?').bind(requestId,user.id).first();
       if(prior?.status==='COMPLETED'&&prior.response_json){try{return json(JSON.parse(prior.response_json))}catch{}}
       if(prior)return json({error:prior.status==='PENDING'?'같은 아이템 사용 요청을 처리 중입니다.':'이 요청은 이미 실패했습니다. 인벤토리를 새로고침한 뒤 다시 시도하세요.'},409);
       const receipt=await env.DB.prepare("INSERT OR IGNORE INTO inventory_use_receipts(request_id,user_id,item_code,status) VALUES(?,?,?,'PENDING')").bind(requestId,user.id,itemCode).run();
       if(!receipt.meta.changes)return json({error:'같은 아이템 사용 요청을 처리 중입니다.'},409);
+      if(itemCode==='PREMIUM_CUBE'&&openCount>1){try{return json(await openPremiumCubeBulk(env,user,{requestId,count:openCount}))}catch(error){return json({error:String(error?.message||'프리미엄 큐브 일괄 개방에 실패했습니다.')},409)}}
       let consumed=false,reservedLimited=false,card=null,limitedAuditEvent=null;
       try{
         const used=await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=MIN(unseen_quantity,quantity-1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity>0').bind(user.id,itemCode).run();
