@@ -1,0 +1,37 @@
+# 숲켓몬 프로젝트 고정 컨텍스트
+
+## PROJECT V와 용병 카드
+
+- PROJECT V는 별도 게임이 아니라 숲켓몬 내부의 용병·전투 캐릭터 및 전투 연출 체계다.
+- 숲켓몬 기존 멤버 카드는 방송 멤버 사진 기반 카드다. PROJECT V 용병 카드는 독자 캐릭터 일러스트 기반 신규 카드군이다. 둘을 혼동하거나 서로의 이미지를 작화 분석 표본으로 사용하지 않는다.
+- 사용자가 `용병 카드`, `용병 원화`, `PROJECT V 카드 작화`를 말하면 기존 `assets/cards`, `assets/NEWCARD`, `assets/pre`, `assets/cards/ZENITH`의 멤버 사진을 분석 대상으로 삼지 않는다.
+- 용병 카드 관련 작업 전에는 반드시 `docs/project-v-mercenary-card-art-standard.md`를 읽고 따른다.
+
+## 공식 작화 기준
+
+- 작화 명칭은 `하이엔드 캐릭터 중심 세미리얼 판타지 스플래시 아트`다.
+- 여성·현대화기 용병의 공식 최우선 앵커는 `assets/ui/project-v/art-references/female-style-anchor-amethyst-k2-officer-v1.png`다.
+- 최우선 여성 앵커의 원본 카드는 `assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png`이며 SHA-256은 `4B2F7D8F35E85E88B61AAAFFC3127817F61BFCA667075DEC64AEF4D1EC9B02CF`다.
+- 남성·중갑 기준은 `male-style-anchor-silver-paladin-v1.png`, 기존 여성 얼굴·총기 밀도 보조 기준은 `female-style-anchor-crimson-sniper-v1.png`다. 보조 기준은 여성 최우선 앵커의 작화·비율·구도 권한을 덮어쓰지 않는다.
+- 과거 V-001~V-012 시안 전체를 공식 작화 기준으로 취급하지 않는다.
+- 공식 앵커 파일은 수정, 덮어쓰기, 재압축하지 않는다.
+- 여성 최우선 앵커에서 작은 미형 얼굴, 약 8등신의 긴 실루엣, 전신·3/4 카드 스케일, 배경과 인물을 한 색광으로 묶는 회화적 채색, 재질별 반사 분리, 제복·무기·배경의 통일된 세계관 디자인을 고정한다.
+- 현실 화기 기반 무기는 원형 실루엣만 남긴 단순 전술 튜닝으로 끝내지 않는다. 총 전체에 연결되는 장갑 외피, 결정 코어, 장식 문법과 광원 체계를 적용해 완성형 게임 스킨으로 만든다.
+- 앵커의 자수정 팔레트와 천문 관측소 배경을 복제하지 않는다. 신규 용병마다 기존 로스터와 겹치지 않는 주색, 시간대와 배경 장소를 설계한다.
+- 망토, 리본, 허리 천과 코트 자락처럼 펄럭이는 장식은 캐릭터당 주 흐름 1~2개로 절제한다. 얼굴·손·무기·다리 실루엣을 가리거나 화면 전역을 여러 갈래로 뒤덮지 않는다.
+- 연속 여성 용병을 모두 노출형 흉부 장갑, 코르셋, 하이컷 하의와 허벅지 장비의 같은 골격으로 만들지 않는다. 현대복·전술복·정장 재단·마도복·경갑·중갑의 비중과 노출 위치를 바꾸고, 역할에 맞는 구조적 갑옷 덩어리를 배치한다.
+- 카드 원화 `sourceArt`와 전투 SD `battleSprite`를 구분한다. SD는 원화의 파생물이며 도감·덱·상점·상세·스킬 컷인에서 원화를 대체하지 않는다.
+- 신규 원화 최소 규격은 1024×1536 RGB PNG, 정확한 2:3이다. 원화 내부에 이름, 랭크, 시리얼, 로고, 워터마크, 카드 프레임과 UI를 넣지 않는다.
+
+## 리소스 탐색 주의
+
+- 2026-08-23 기준 용병 원화·SD·프리뷰는 `C:\Users\User\.codex\worktrees\1023\cnine-card`의 `codex/limited-zenith-evolution` 작업 트리에서 발견되었고 Git 미추적 상태였다.
+- 현재 작업 트리에서 용병 리소스가 보이지 않는다는 이유만으로 없다고 결론 내리지 않는다. `assets/ui/project-v/mercenaries`, `assets/ui/project-v/characters/mercenary`, `preview/mercenary-cards-*`와 활성 작업 트리를 확인한다.
+- 해당 리소스가 `main`으로 안전하게 통합되기 전에는 원본 작업 트리를 정리하거나 삭제하지 않는다.
+- 2026-08-24 이전에 생성한 미드나이트·에메랄드 K2 제복 용병 시안은 `output/rejected/project-v-mercenary-drafts/`의 폐기본이며 작화 기준이나 생성 입력으로 사용하지 않는다.
+
+## 승인 용병 카드 로스터
+
+- 2026-08-24 승인 카드 V-013~V-020의 단일 기준 데이터는 `assets/ui/project-v/mercenaries/mercenary-card-roster-approved-v1.json`이다.
+- 통합 카드 프리뷰는 `preview/mercenary-cards-approved-v1/index.html`이며 `assets/ui/card-frames/mercenary-contract-frame-premium-v2.png`를 별도 계층으로 사용한다.
+- V-013~V-020은 카드 원화만 승인된 상태다. 전투 SD는 모두 `PENDING`이므로 원화를 전투 스프라이트로 임시 사용하지 않는다.

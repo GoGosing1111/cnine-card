@@ -1,0 +1,24 @@
+.approved-intro{
+  border-color:rgba(188,157,255,.26);
+  background:linear-gradient(105deg,rgba(7,8,13,.97),rgba(23,18,34,.88) 48%,rgba(8,13,18,.95));
+}
+.approved-intro h2{
+  background:linear-gradient(180deg,#fff 0%,#e7d6ff 48%,#cdb57b 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.approved-intro .contract-status{border-left-color:#b88cff;background:rgba(184,140,255,.075)}
+.roster-approved{grid-template-columns:repeat(4,minmax(0,1fr));align-items:start;max-width:1460px;margin-inline:auto;row-gap:clamp(28px,3vw,46px)}
+.roster-approved .merc-card:nth-child(n){transform:none}
+.roster-approved .merc-card:hover,.roster-approved .merc-card:focus-visible{transform:translateY(-8px) scale(1.018)!important}
+.roster-approved .merc-card.selected{transform:translateY(-10px) scale(1.025)!important}
+.roster-approved .card-art{object-position:50% 50%}
+@media(max-width:1220px) and (min-width:701px){
+  .roster-approved{grid-template-columns:repeat(3,minmax(0,1fr));max-width:960px;gap:30px 25px}
+  .roster-approved .merc-card:last-child{grid-column:2}
+}
+@media(max-width:820px) and (min-width:701px){
+  .roster-approved{grid-template-columns:repeat(2,minmax(0,1fr));max-width:700px;gap:30px 42px}
+  .roster-approved .merc-card:last-child{grid-column:auto}
+}

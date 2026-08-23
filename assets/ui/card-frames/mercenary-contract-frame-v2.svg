@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" fill="none">
+  <defs>
+    <linearGradient id="edge" x1="42" y1="18" x2="986" y2="1518" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F3DDA7"/>
+      <stop offset=".13" stop-color="#75613E"/>
+      <stop offset=".3" stop-color="#20262D"/>
+      <stop offset=".51" stop-color="#D0B271"/>
+      <stop offset=".72" stop-color="#252B32"/>
+      <stop offset=".9" stop-color="#806940"/>
+      <stop offset="1" stop-color="#E8CB88"/>
+    </linearGradient>
+    <linearGradient id="rail" x1="39" y1="126" x2="88" y2="1378" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A0D11"/>
+      <stop offset=".45" stop-color="#353C43"/>
+      <stop offset="1" stop-color="#090B0E"/>
+    </linearGradient>
+    <linearGradient id="plate" x1="136" y1="1331" x2="889" y2="1506" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#05070A" stop-opacity=".96"/>
+      <stop offset=".48" stop-color="#161B21" stop-opacity=".94"/>
+      <stop offset="1" stop-color="#06080B" stop-opacity=".97"/>
+    </linearGradient>
+    <filter id="shadow" x="-12%" y="-10%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#000" flood-opacity=".7"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow)">
+    <path fill="url(#edge)" fill-rule="evenodd" d="M47 12H977L1012 47V1485L972 1524H52L12 1484V52L47 12Zm25 36L49 72v1391l24 24h878l25-24V70l-22-22H72Z"/>
+    <path fill="#07090C" fill-rule="evenodd" d="M69 42H955L982 69V1466L953 1494H71L42 1465V71L69 42Zm18 25L68 87v1362l19 19h850l19-19V86l-19-19H87Z"/>
+    <path d="M82 70h331l29-24h140l29 24h331" stroke="#B7995D" stroke-width="4" opacity=".82"/>
+    <path d="M82 1465h328l31 25h142l31-25h328" stroke="#B7995D" stroke-width="4" opacity=".82"/>
+  </g>
+
+  <path d="M55 156 80 119v1175l-25 38V156ZM969 156l-25-37v1175l25 38V156Z" fill="url(#rail)"/>
+  <path d="M78 190v1069M946 190v1069" stroke="#B79557" stroke-width="3" stroke-dasharray="92 22 8 22" opacity=".48"/>
+  <path d="m48 298 31-44 18 28-18 66-31-50ZM976 298l-31-44-18 28 18 66 31-50Z" fill="url(#edge)"/>
+  <path d="m48 1134 31-53 18 63-18 43-31-53ZM976 1134l-31-53-18 63 18 43 31-53Z" fill="url(#edge)"/>
+
+  <path d="M427 24h170l30 27-18 62-29 18H444l-29-18-18-62 30-27Z" fill="#080B0F" stroke="url(#edge)" stroke-width="5"/>
+  <path d="M451 50h122" stroke="#D4B46F" stroke-width="3" opacity=".8"/>
+  <path d="M449 105h126" stroke="#75613D" stroke-width="3" opacity=".8"/>
+
+  <path d="M120 1323h784l34 42-18 105-38 32H142l-38-32-18-105 34-42Z" fill="url(#plate)" stroke="url(#edge)" stroke-width="6"/>
+  <path d="M146 1348h732l23 29-13 73-22 19H158l-22-19-13-73 23-29Z" stroke="#78643E" stroke-width="3" opacity=".88"/>
+  <path d="m92 1365 52-43 24 25-34 29 12 91-40-13-14-89ZM932 1365l-52-43-24 25 34 29-12 91 40-13 14-89Z" fill="url(#edge)"/>
+  <path d="M302 1483h420" stroke="#B89859" stroke-width="3" opacity=".9"/>
+  <path d="m512 1471 13 12-13 13-13-13 13-12Z" fill="#07090C" stroke="#D0AD66" stroke-width="3"/>
+
+  <g fill="#D8BB78">
+    <circle cx="73" cy="126" r="4"/><circle cx="951" cy="126" r="4"/>
+    <circle cx="73" cy="1408" r="4"/><circle cx="951" cy="1408" r="4"/>
+  </g>
+</svg>

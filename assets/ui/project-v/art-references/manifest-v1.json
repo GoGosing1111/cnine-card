@@ -1,0 +1,67 @@
+{
+  "format": "PROJECT_V_ART_REFERENCE_MANIFEST_V1",
+  "version": 1,
+  "updatedAt": "2026-08-24",
+  "project": "SOOPKETMON",
+  "system": "PROJECT_V",
+  "cardArt": {
+    "approvedRoster": {
+      "path": "assets/ui/project-v/mercenaries/mercenary-card-roster-approved-v1.json",
+      "codeRange": "V-013..V-020",
+      "cardCount": 8,
+      "status": "APPROVED_SOURCE_ART",
+      "frame": "assets/ui/card-frames/mercenary-contract-frame-premium-v2.png",
+      "battleSpriteStatus": "PENDING"
+    },
+    "primaryFemaleAnchor": {
+      "id": "FEMALE_MERCENARY_CARD_PRIMARY",
+      "status": "APPROVED_PRIMARY_STYLE_ANCHOR",
+      "path": "assets/ui/project-v/art-references/female-style-anchor-amethyst-k2-officer-v1.png",
+      "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png",
+      "sha256": "4B2F7D8F35E85E88B61AAAFFC3127817F61BFCA667075DEC64AEF4D1EC9B02CF",
+      "approvedAt": "2026-08-24",
+      "scope": [
+        "FEMALE_MERCENARY",
+        "MODERN_FIREARM_MERCENARY",
+        "CARD_SOURCE_ART",
+        "SKILL_CUTIN_SOURCE_ART"
+      ]
+    },
+    "supportingAnchors": [
+      {
+        "id": "MALE_HEAVY_ARMOR_SUPPORT",
+        "path": "assets/ui/project-v/art-references/male-style-anchor-silver-paladin-v1.png",
+        "sha256": "D85161ECEDE0E85AFEA04EC8FC82D8F1101337945361BB15E11849528FC47FD0",
+        "availability": "STAGED_IN_CODEX_WORKTREE_1023"
+      },
+      {
+        "id": "FEMALE_FACE_WEAPON_DENSITY_SUPPORT",
+        "path": "assets/ui/project-v/art-references/female-style-anchor-crimson-sniper-v1.png",
+        "sha256": "4D943EBAA5833E415B8AD8017C41157D7DB8D5033A2D9EF77EF0E62C58691FA6",
+        "availability": "STAGED_IN_CODEX_WORKTREE_1023"
+      }
+    ],
+    "lockedStyle": [
+      "SMALL_REFINED_FACE",
+      "EIGHT_HEAD_LONG_SILHOUETTE",
+      "FULL_OR_THREE_QUARTER_CARD_SCALE",
+      "PAINTERLY_UNIFIED_COLOR_ATMOSPHERE",
+      "MATERIAL_SPECULAR_SEPARATION",
+      "OUTFIT_WEAPON_WORLD_INTEGRATION",
+      "FULL_WEAPON_FANTASY_SKIN",
+      "UNIQUE_PALETTE_AND_BACKGROUND_PER_CHARACTER",
+      "CONTROLLED_FLOWING_ACCENTS",
+      "DISTINCT_OUTFIT_ARCHETYPE_PER_CHARACTER",
+      "MODERN_TACTICAL_AND_STRUCTURAL_ARMOR_VARIATION"
+    ],
+    "prohibitedReferenceInputs": [
+      "output/rejected/project-v-mercenary-drafts/short-bob-k2-midnight-officer-mercenary-source-art-v1.png",
+      "output/rejected/project-v-mercenary-drafts/short-bob-k2-midnight-officer-mercenary-source-art-v2.png",
+      "output/rejected/project-v-mercenary-drafts/short-bob-k2-emerald-officer-mercenary-source-art-v1.png",
+      "output/rejected/project-v-mercenary-drafts/female-style-anchor-emerald-k2-officer-v1.png"
+    ]
+  },
+  "sdArt": {
+    "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png"
+  }
+}

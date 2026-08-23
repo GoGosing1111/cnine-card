@@ -1,0 +1,211 @@
+{
+  "format": "PROJECT_V_MERCENARY_CARD_ROSTER_V1",
+  "version": 1,
+  "updatedAt": "2026-08-24",
+  "status": "APPROVED_SOURCE_ART",
+  "codeRange": {
+    "start": "V-013",
+    "end": "V-020"
+  },
+  "cardComposition": {
+    "mode": "HTML_CSS_LAYERED",
+    "frame": "assets/ui/card-frames/mercenary-contract-frame-premium-v2.png",
+    "editableFrameSource": "assets/ui/card-frames/mercenary-contract-frame-v2.svg",
+    "sourceArtInsideFrame": true,
+    "battleSpritePolicy": "SEPARATE_ASSET_PENDING"
+  },
+  "cards": [
+    {
+      "code": "V-013",
+      "rank": "SSS",
+      "name": "라비에나",
+      "title": "자천의 지휘관",
+      "gender": "FEMALE",
+      "archetype": "MODERN_FIREARM_COMMANDER",
+      "role": "중거리 지휘",
+      "weapon": "성궤식 K2 · 아스트라",
+      "effect": {
+        "name": "천구 제압",
+        "description": "자수정 성궤로 표적을 고정해 연속 사격하고, 지휘 표식이 남은 적이 받는 치명타 피해를 증가시킵니다."
+      },
+      "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png",
+      "sourceArtSha256": "4B2F7D8F35E85E88B61AAAFFC3127817F61BFCA667075DEC64AEF4D1EC9B02CF",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING",
+      "accent": {
+        "hex": "#B78CFF",
+        "rgb": "183,140,255",
+        "soft": "#F1E6FF"
+      }
+    },
+    {
+      "code": "V-014",
+      "rank": "SS",
+      "name": "엘리시아",
+      "title": "폭풍익의 장교",
+      "gender": "FEMALE",
+      "archetype": "TEMPEST_RIFLE_OFFICER",
+      "role": "중거리 사격",
+      "weapon": "템페스트 K2",
+      "effect": {
+        "name": "낙뢰 탄막",
+        "description": "번개 코어를 과충전해 주 표적을 사격하고, 방출된 전류가 같은 열의 적에게 연쇄 피해를 가합니다."
+      },
+      "sourceArt": "assets/ui/project-v/mercenaries/tempest-wing-k2-officer-mercenary-source-art-v2.png",
+      "sourceArtSha256": "9AE85799FB9DD5B626DB7899CF9936F3F515B8200D6910AF26D8D1B9292C21D0",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING",
+      "accent": {
+        "hex": "#74C8FF",
+        "rgb": "116,200,255",
+        "soft": "#DFF5FF"
+      }
+    },
+    {
+      "code": "V-015",
+      "rank": "SS",
+      "name": "녹시아",
+      "title": "장미흔의 야행자",
+      "gender": "FEMALE",
+      "archetype": "URBAN_ASSASSIN",
+      "role": "전위 암살",
+      "weapon": "로즈문 쌍인",
+      "effect": {
+        "name": "무음 처형",
+        "description": "체력 비율이 가장 낮은 적에게 침투해 방어를 무시하는 연속 참격을 가하고, 처치 시 은신을 회복합니다."
+      },
+      "sourceArt": "assets/ui/project-v/mercenaries/female-assassin-urban-nightblade-mercenary-source-art-v1.png",
+      "sourceArtSha256": "EACC771B553D97A54302EE34BB78ACA4E0BC878772E8D30B9EF45A7BE123C758",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING",
+      "accent": {
+        "hex": "#ED8FC3",
+        "rgb": "237,143,195",
+        "soft": "#FFE3F3"
+      }
+    },
+    {
+      "code": "V-016",
+      "rank": "SSS",
+      "name": "솔레아",
+      "title": "일식의 마도관",
+      "gender": "FEMALE",
+      "archetype": "ECLIPSE_ARCANIST",
+      "role": "후열 마법",
+      "weapon": "흑일환",
+      "effect": {
+        "name": "개기일식",
+        "description": "전장을 일식 영역으로 덮어 적의 마법 저항과 명중률을 낮추고, 종료 시 축적된 태양열을 폭발시킵니다."
+      },
+      "sourceArt": "assets/ui/project-v/mercenaries/female-mage-eclipse-arcanist-mercenary-source-art-v1.png",
+      "sourceArtSha256": "A66687F3615510D491110143165567F5678F6E52DBAC95BD829D7202A903FF44",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING",
+      "accent": {
+        "hex": "#FF9C4A",
+        "rgb": "255,156,74",
+        "soft": "#FFE6CD"
+      }
+    },
+    {
+      "code": "V-017",
+      "rank": "SS",
+      "name": "마레나",
+      "title": "해벽의 검투사",
+      "gender": "FEMALE",
+      "archetype": "SWORD_SHIELD_VANGUARD",
+      "role": "전위 방어",
+      "weapon": "조해검 · 기계성순",
+      "effect": {
+        "name": "해벽 반격",
+        "description": "기계성순으로 아군이 받는 피해를 차단하고, 누적한 충격을 조해검의 파도 참격으로 되돌려줍니다."
+      },
+      "sourceArt": "assets/ui/project-v/mercenaries/female-swordshield-tide-bastion-mercenary-source-art-v1.png",
+      "sourceArtSha256": "CA4B0BDA7C9E1DAB17F0A070D7E56229124FB53AE73FD6525AD1AA0A2F7287BA",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING",
+      "accent": {
+        "hex": "#58D3D0",
+        "rgb": "88,211,208",
+        "soft": "#DAFFFD"
+      }
+    },
+    {
+      "code": "V-018",
+      "rank": "SSS",
+      "name": "미레시아",
+      "title": "거울결정의 현자",
+      "gender": "FEMALE",
+      "archetype": "STAFF_CONTROL_MAGE",
+      "role": "후열 지원",
+      "weapon": "장미궤도 지팡이",
+      "effect": {
+        "name": "결정 중력장",
+        "description": "결정 중력장을 펼쳐 적의 행동 속도를 낮추고, 부유한 소금결정으로 체력이 낮은 아군에게 보호막을 부여합니다."
+      },
+      "sourceArt": "assets/ui/project-v/mercenaries/female-staff-mage-mirror-salt-magister-mercenary-source-art-v1.png",
+      "sourceArtSha256": "57BE8823D08CBEDB226FE99C2D7DFA7F70493CA3370F44326EDCD1D3FFAB868E",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING",
+      "accent": {
+        "hex": "#E8A9C6",
+        "rgb": "232,169,198",
+        "soft": "#FFF0F7"
+      }
+    },
+    {
+      "code": "V-019",
+      "rank": "SSS",
+      "name": "아우렐리온",
+      "title": "천벌의 대천사",
+      "gender": "MALE",
+      "archetype": "SPEAR_ARCHANGEL",
+      "role": "전위 공격",
+      "weapon": "광휘의 심판창",
+      "effect": {
+        "name": "광익 강하",
+        "description": "광익을 전개해 적진으로 강하하고, 심판창으로 방어 효과를 관통한 뒤 전열 전체에 신성 피해를 가합니다."
+      },
+      "sourceArt": "assets/ui/project-v/mercenaries/male-spear-archangel-high-seraph-mercenary-source-art-v1.png",
+      "sourceArtSha256": "FC4B12FBD374BC8FDF5452A5579343007085FF158862C793E93E2BCB7AB8CA71",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING",
+      "accent": {
+        "hex": "#FFD88A",
+        "rgb": "255,216,138",
+        "soft": "#FFF4D7"
+      }
+    },
+    {
+      "code": "V-020",
+      "rank": "SS",
+      "name": "사요",
+      "title": "설영의 발도귀",
+      "gender": "FEMALE",
+      "archetype": "IAIJUTSU_ASSASSIN",
+      "role": "전위 암살",
+      "weapon": "동설",
+      "effect": {
+        "name": "무명일섬",
+        "description": "적이 행동을 시작하는 순간 발도해 피해를 무효화하고, 서리 검흔을 남기는 치명적인 반격을 가합니다."
+      },
+      "sourceArt": "assets/ui/project-v/mercenaries/female-katana-winter-iaijutsu-mercenary-source-art-v1.png",
+      "sourceArtSha256": "B69768D58364F4BBEEF991B8B7CC3BA77E62584DAB21229923071313BB207968",
+      "sourceArtStatus": "APPROVED_SOURCE_ART",
+      "battleSprite": null,
+      "battleSpriteStatus": "PENDING",
+      "accent": {
+        "hex": "#9FB7DF",
+        "rgb": "159,183,223",
+        "soft": "#E6EEFF"
+      }
+    }
+  ]
+}
