@@ -72,7 +72,7 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(client,/OWNER 테스트 탭은 일시적인 API\/DB 오류로 사라지지 않는다/);
   assert.match(client,/TACTICAL BUFFER/);
   assert.match(client,/escort-v1833-tactic-grid/);
-  assert.match(client,/tactic-field-repair-v1833\.webp/);
+  assert.match(client,/tactic-field-repair-v1835\.webp/);
   assert.match(engine,/ESCORT:'.*escort-fortress-route-bg-v1\.webp/);
   assert.match(engine,/async setObjective/);
   assert.match(engine,/escortObjectiveAttack\(event=/);
@@ -82,9 +82,9 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1830-owner-test/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(index,/escort-operation-v1830\.js\?v=1834-tactic-resource-safe/);
-  assert.match(index,/escort-operation-v1830\.css\?v=1834-tactic-resource-safe/);
-  assert.match(sw,/soop-card-shell-v1834-escort-tactic-resource-safe/);
+  assert.match(index,/escort-operation-v1830\.js\?v=1835-tactic-live-final/);
+  assert.match(index,/escort-operation-v1830\.css\?v=1835-tactic-live-final/);
+  assert.match(sw,/soop-card-shell-v1835-escort-tactic-live-final/);
   assert.match(style,/#pveEscortView \.escort-v1833-tactic-card/);
   assert.match(style,/grid-template-columns:34px minmax\(104px,136px\) minmax\(0,1fr\) 18px!important/);
 });
@@ -92,7 +92,7 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
 test('호송 이미지 리소스는 런타임 예산 안으로 압축됐다',async()=>{
   const background=await stat(new URL('../assets/ui/escort/escort-fortress-route-bg-v1.webp',import.meta.url));
   const vehicle=await stat(new URL('../assets/ui/escort/escort-armored-carrier-v1.webp',import.meta.url));
-  const tacticIcons=await Promise.all(['field-repair','aegis-barrier','carpet-strike','core-overdrive','signal-jammer'].map(name=>stat(new URL(`../assets/ui/escort/tactics/tactic-${name}-v1833.webp`,import.meta.url))));
+  const tacticIcons=await Promise.all(['field-repair','aegis-barrier','carpet-strike','core-overdrive','signal-jammer'].map(name=>stat(new URL(`../assets/ui/escort/tactics/tactic-${name}-v1835.webp`,import.meta.url))));
   assert.ok(background.size<180_000,`background ${background.size}`);
   assert.ok(vehicle.size<230_000,`vehicle ${vehicle.size}`);
   tacticIcons.forEach(icon=>assert.ok(icon.size<50_000,`tactic icon ${icon.size}`));

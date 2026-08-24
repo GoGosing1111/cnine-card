@@ -13,11 +13,11 @@ const DEFAULT_SECTORS=Object.freeze([
 ]);
 
 const TACTICS=Object.freeze({
-  REPAIR:{key:'REPAIR',name:'긴급 현장정비',type:'FIELD REPAIR',duration:'즉시 적용',icon:'/assets/ui/escort/tactics/tactic-field-repair-v1833.webp',description:'현재 호송차의 손상된 내구도를 즉시 복구합니다.'},
-  BARRIER:{key:'BARRIER',name:'전개형 방벽',type:'AEGIS BARRIER',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-aegis-barrier-v1833.webp',description:'다음 구간 호송차가 받는 피해를 45% 경감합니다.'},
-  AIRSTRIKE:{key:'AIRSTRIKE',name:'융단폭격',type:'CARPET STRIKE',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-carpet-strike-v1833.webp',description:'다음 구간 적 전투력을 15% 선제 약화합니다.'},
-  OVERCHARGE:{key:'OVERCHARGE',name:'전술 과충전',type:'CORE OVERDRIVE',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-core-overdrive-v1833.webp',description:'다음 구간 아군 전투력을 12% 강화합니다.'},
-  JAMMING:{key:'JAMMING',name:'광역 교란',type:'SIGNAL JAMMER',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-signal-jammer-v1833.webp',description:'다음 구간 적 전투력 8%, 호송차 피해 15%를 동시에 낮춥니다.'}
+  REPAIR:{key:'REPAIR',name:'긴급 현장정비',type:'FIELD REPAIR',duration:'즉시 적용',icon:'/assets/ui/escort/tactics/tactic-field-repair-v1835.webp',description:'현재 호송차의 손상된 내구도를 즉시 복구합니다.'},
+  BARRIER:{key:'BARRIER',name:'전개형 방벽',type:'AEGIS BARRIER',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-aegis-barrier-v1835.webp',description:'다음 구간 호송차가 받는 피해를 45% 경감합니다.'},
+  AIRSTRIKE:{key:'AIRSTRIKE',name:'융단폭격',type:'CARPET STRIKE',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-carpet-strike-v1835.webp',description:'다음 구간 적 전투력을 15% 선제 약화합니다.'},
+  OVERCHARGE:{key:'OVERCHARGE',name:'전술 과충전',type:'CORE OVERDRIVE',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-core-overdrive-v1835.webp',description:'다음 구간 아군 전투력을 12% 강화합니다.'},
+  JAMMING:{key:'JAMMING',name:'광역 교란',type:'SIGNAL JAMMER',duration:'다음 1구간',icon:'/assets/ui/escort/tactics/tactic-signal-jammer-v1835.webp',description:'다음 구간 적 전투력 8%, 호송차 피해 15%를 동시에 낮춥니다.'}
 });
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,Number(value)||0));
