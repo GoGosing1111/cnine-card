@@ -848,7 +848,11 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const simulated = simulateBattleV2Preview({
     teamA, teamB, magicA:magicCards, seed, maxActions: 2000, maxDuration: 4.0,
     // V1813: 플레이어 15회마다 몬스터 1회를 보장한다. PVP 는 끈 채로 둔다.
-    forcedMonsterEvery: 15,
+    // V1837: 호송작전만 주기를 15 → 4 로 줄인다. 차량이 자주 맞아야
+    //   호송이라는 긴장감이 생긴다. 이 값은 "몇 번 때리나" 만 정하고
+    //   실제 차량 피해량은 서버의 구간 공식이 따로 정하므로
+    //   난이도는 흔들리지 않는다. 다른 PVE 는 15 그대로다.
+    forcedMonsterEvery: escortObjective ? 4 : 15,
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent,
     bossUltimateCapPercent,
