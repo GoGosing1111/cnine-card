@@ -589,8 +589,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   workshop:{
-    styles:['css/workshop-v1676.css?v=1699-scrapyard-response','css/scrapyard-battle-v1698.css?v=1720-monster-card-compact'],
-    scripts:['js/workshop-v1676.js?v=1703-fast-entry','js/scrapyard-battle-v1698.js?v=1703-fast-entry'],
+    styles:['css/workshop-v1676.css?v=1849-workshop-result-state','css/scrapyard-battle-v1698.css?v=1720-monster-card-compact'],
+    scripts:['js/workshop-v1676.js?v=1849-workshop-result-state','js/scrapyard-battle-v1698.js?v=1703-fast-entry'],
     ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
