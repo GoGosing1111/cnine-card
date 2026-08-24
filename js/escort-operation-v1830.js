@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='1837-v3-objective-hud';
+  const VERSION='1840-sector-rewards';
   const bridge=()=>window.CNineEscortBridge;
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -14,6 +14,16 @@
     OVERCHARGE:'/assets/ui/escort/tactics/tactic-core-overdrive-v1835.webp',
     JAMMING:'/assets/ui/escort/tactics/tactic-signal-jammer-v1835.webp'
   });
+  // V1840: 보상이 '전체 클리어 일괄' 에서 '구간별 적립' 으로 바뀌었다.
+  //   구간을 통과할 때마다 쌓이고, 도중에 실패해도 쌓인 만큼은 수령한다.
+  const rewardText=reward=>{
+    const coin=number(reward?.coin),shards=number(reward?.shards),tickets=number(reward?.tickets);
+    const parts=[];
+    if(coin)parts.push(`코인 ${coin.toLocaleString()}`);
+    if(shards)parts.push(`카드 조각 ${shards.toLocaleString()}`);
+    if(tickets)parts.push(`폐차장 출입 허가증 ${tickets.toLocaleString()}장`);
+    return parts.length?parts.join(' · '):'없음';
+  };
   let data=null,busy=false,discoveryPromise=null;
 
   async function api(path,options={}){
@@ -44,7 +54,10 @@
     const active=Number(run?.sectorIndex||0),history=Array.isArray(run?.history)?run.history:[];
     return settings.sectors.map((sector,index)=>{
       const cleared=history.some(entry=>Number(entry.sectorIndex)===index&&entry.result==='WIN'),failed=history.some(entry=>Number(entry.sectorIndex)===index&&entry.result==='LOSE');
-      return `<li class="${cleared?'is-cleared':''} ${failed?'is-failed':''} ${run&&index===active?'is-active':''}"><span>${String(index+1).padStart(2,'0')}</span><i></i><div><small>${esc(sector.label)}</small><b>${esc(sector.name)}</b></div></li>`;
+      // V1840: 각 구간이 얼마짜리인지 눈에 보여야 '여기까지는 가자' 가 생긴다.
+      const ticket=number(sector.rewardTickets),coin=number(sector.rewardCoin);
+      const prize=`${coin?`${Math.round(coin/10000).toLocaleString()}만`:''}${ticket?`${coin?' · ':''}허가증 ${ticket}장`:''}`;
+      return `<li class="${cleared?'is-cleared':''} ${failed?'is-failed':''} ${run&&index===active?'is-active':''}"><span>${String(index+1).padStart(2,'0')}</span><i></i><div><small>${esc(sector.label)}</small><b>${esc(sector.name)}</b>${prize?`<em style="display:block;margin-top:4px;font-style:normal;font-size:11px;letter-spacing:.02em;opacity:${cleared?'1':'.72'};color:${cleared?'#7dffb2':'inherit'}">${cleared?'획득 ':'보상 '}${esc(prize)}</em>`:''}</div></li>`;
     }).join('');
   }
 
@@ -58,10 +71,15 @@
   function actionMarkup(run,weekly,settings){
     if(!run)return `<div class="escort-action-block"><div><small>WEEKLY DEPLOYMENT</small><b>${number(weekly.startedCount)} / ${number(settings.weeklyRunLimit)} 출전</b><span>완료 보상 ${number(weekly.rewardCount)} / ${number(settings.weeklyRewardLimit)}</span></div><button type="button" data-escort-action="start" data-escort-primary="1">호송작전 개시</button></div>`;
     if(run.status==='CLAIMING')return '<div class="escort-action-block is-wait"><div><small>REWARD PROCESSING</small><b>보상 지급 처리 중</b><span>중복 지급을 방지하고 있습니다. 잠시 후 작전 정보를 새로고침하세요.</span></div></div>';
-    if(run.status==='COMPLETED_PENDING'||run.phase==='COMPLETE')return `<div class="escort-action-block is-reward"><div><small>MISSION COMPLETE</small><b>수송차 생존 ${Math.round(run.vehiclePercent)}%</b><span>코인 ${number(run.reward?.coin).toLocaleString()} · 카드 조각 ${number(run.reward?.shards).toLocaleString()}</span></div><button type="button" data-escort-action="claim" data-escort-primary="1">작전 보상 수령</button></div>`;
-    if(run.status==='FAILED'||run.phase==='FAILED')return `<div class="escort-action-block is-failed"><div><small>MISSION FAILED</small><b>호송 작전 실패</b><span>작전을 정리한 뒤 새 경로에 재출전할 수 있습니다.</span></div><button type="button" data-escort-action="abandon" data-escort-primary="1">작전 기록 정리</button></div>`;
+    // V1840: 도중에 실패해도 통과한 구간의 보상은 남아 있다. 상태가
+    //   COMPLETED_PENDING 이면 완주든 중도 실패든 수령 화면을 띄운다.
+    if(run.status==='COMPLETED_PENDING'){
+      const done=run.phase!=='FAILED',cleared=number(run.clearedSectors);
+      return `<div class="escort-action-block ${done?'is-reward':'is-failed'}"><div><small>${done?'MISSION COMPLETE':'MISSION ABORTED'}</small><b>${done?`완주 · 수송차 생존 ${Math.round(run.vehiclePercent)}%`:`${cleared}구간 돌파 · 수송차 파괴`}</b><span>확보한 보상 — ${esc(rewardText(run.reward))}</span></div><button type="button" data-escort-action="claim" data-escort-primary="1">확보 보상 수령</button></div>`;
+    }
+    if(run.status==='FAILED'||run.phase==='FAILED')return `<div class="escort-action-block is-failed"><div><small>MISSION FAILED</small><b>호송 작전 실패</b><span>1구간도 통과하지 못해 확보한 보상이 없습니다.</span></div><button type="button" data-escort-action="abandon" data-escort-primary="1">작전 기록 정리</button></div>`;
     if(run.phase==='TACTIC')return '<div class="escort-action-block is-wait"><div><small>TACTICAL DECISION</small><b>전술 선택 대기</b><span>다음 구간으로 이동할 전술을 선택하십시오.</span></div></div>';
-    return `<div class="escort-action-block"><div><small>SECTOR ${Number(run.sectorIndex)+1} / 5</small><b>${esc(run.sector?.label||'구간 전투')}</b><span>${esc(run.pendingTactic?`${run.pendingTactic} 적용 · `:'')}카드 체력과 차량 내구도가 다음 구간으로 이어집니다.</span></div><button type="button" data-escort-action="fight" data-escort-primary="1">구간 전투 시작</button></div>`;
+    return `<div class="escort-action-block"><div><small>SECTOR ${Number(run.sectorIndex)+1} / 5</small><b>${esc(run.sector?.label||'구간 전투')}</b><span>${esc(run.pendingTactic?`${run.pendingTactic} 적용 · `:'')}통과 보상 ${esc(rewardText({coin:run.sector?.rewardCoin,shards:run.sector?.rewardShards,tickets:run.sector?.rewardTickets}))} · 확보분 ${esc(rewardText(run.reward))}</span></div><button type="button" data-escort-action="fight" data-escort-primary="1">구간 전투 시작</button></div>`;
   }
 
   function render(){
@@ -77,7 +95,7 @@
       <section class="escort-command-grid">
         <article class="escort-sector-panel">
           <header><div><small>CURRENT CONTACT</small><h3>${esc(run?sector.name:'작전 브리핑')}</h3></div><span>${run?`SECTOR ${Number(run.sectorIndex)+1}`:'READY'}</span></header>
-          ${run?`<div class="escort-enemy"><div class="escort-enemy-art"><img src="${esc(imageUrl(sector.enemyImage))}" alt=""></div><div><small>${esc(sector.label)}</small><h4>${esc(sector.enemyName)}</h4><p>${esc(sector.brief)}</p><dl><div><dt>적 전투력</dt><dd>${number(sector.enemyPower).toLocaleString()}</dd></div><div><dt>차량 위험도</dt><dd>${number(sector.hazardPercent)}%</dd></div></dl></div></div>`:`<div class="escort-briefing"><b>저장된 PVE 덱 5장으로 출전합니다.</b><p>카드가 입은 피해와 수송차 내구도는 다음 구간으로 이어지며, 매 구간 종료 후 두 가지 전술 중 하나를 선택합니다.</p><ul><li>공격형 · 방벽 및 보스 화력 증폭</li><li>방어형 · 수송차 피해 경감</li><li>속도형 · 매복·추격 피해 경감</li><li>HP형 · 생존 카드와 차량 회복</li></ul></div>`}
+          ${run?`<div class="escort-enemy"><div class="escort-enemy-art"><img src="${esc(imageUrl(sector.enemyImage))}" alt=""></div><div><small>${esc(sector.label)}</small><h4>${esc(sector.enemyName)}</h4><p>${esc(sector.brief)}</p><dl><div><dt>적 전투력</dt><dd>${number(sector.enemyPower).toLocaleString()}</dd></div><div><dt>차량 위험도</dt><dd>${number(sector.hazardPercent)}%</dd></div><div><dt>통과 보상</dt><dd>${esc(rewardText({coin:sector.rewardCoin,shards:sector.rewardShards,tickets:sector.rewardTickets}))}</dd></div></dl></div></div>`:`<div class="escort-briefing"><b>저장된 PVE 덱 5장으로 출전합니다.</b><p>카드가 입은 피해와 수송차 내구도는 다음 구간으로 이어지며, 매 구간 종료 후 두 가지 전술 중 하나를 선택합니다.</p><ul><li>공격형 · 방벽 및 보스 화력 증폭</li><li>방어형 · 수송차 피해 경감</li><li>속도형 · 매복·추격 피해 경감</li><li>HP형 · 생존 카드와 차량 회복</li></ul></div>`}
         </article>
         <article class="escort-roster-panel"><header><div><small>ESCORT DETAIL</small><h3>호위 편성</h3></div><span>${run?`${(run.deck||[]).filter(card=>number(card.hpPercent)>0).length} / 5 생존`:'PVE DECK'}</span></header>${run?`<ol class="escort-roster">${run.deck.map(cardMarkup).join('')}</ol>`:'<div class="escort-roster-empty"><i></i><b>PVE 덱을 확인한 뒤 출전합니다.</b><span>작전 시작 시 5장 편성을 한 번만 스냅샷으로 저장합니다.</span></div>'}</article>
       </section>
@@ -110,8 +128,12 @@
 
   async function start(){setBusy(true,'작전 편성 중');try{data=await api('escort/start',{method:'POST',body:JSON.stringify({requestId:requestId()})});render()}finally{setBusy(false)}}
   async function chooseTactic(key){setBusy(true,'전술 적용 중');try{const result=await api('escort/tactic',{method:'POST',body:JSON.stringify({requestId:requestId(),tactic:key})});data={...data,run:result.run};render()}finally{setBusy(false)}}
-  async function claim(){setBusy(true,'보상 지급 중');try{const result=await api('escort/claim',{method:'POST',body:JSON.stringify({requestId:requestId()})});const user=bridge()?.loadUser?.();if(user){user.coin=number(result.coinAfter);user.cardShards=number(result.cardShardsAfter);bridge()?.saveUser?.(user)}alert(`호송작전 보상: 코인 ${number(result.reward?.coin).toLocaleString()} · 카드 조각 ${number(result.reward?.shards).toLocaleString()}`);await load()}finally{setBusy(false)}}
-  async function abandon(){if(!confirm('현재 호송작전을 종료할까요? 진행 상황은 복구되지 않습니다.'))return;setBusy(true,'작전 정리 중');try{data=await api('escort/abandon',{method:'POST',body:'{}'});render()}finally{setBusy(false)}}
+  async function claim(){setBusy(true,'보상 지급 중');try{const result=await api('escort/claim',{method:'POST',body:JSON.stringify({requestId:requestId()})});const user=bridge()?.loadUser?.();if(user){user.coin=number(result.coinAfter);user.cardShards=number(result.cardShardsAfter);bridge()?.saveUser?.(user)}alert(`호송작전 보상 (${number(result.clearedSectors)}구간 확보)\n${rewardText(result.reward)}`);await load()}finally{setBusy(false)}}
+  async function abandon(){
+    // V1840: 포기하면 구간별로 쌓아둔 보상까지 같이 날아간다. 액수를 보여주고 묻는다.
+    const banked=data?.run?.reward,worth=number(banked?.coin)+number(banked?.shards)+number(banked?.tickets);
+    const message=worth?`확보한 보상(${rewardText(banked)})을 버리고 작전을 종료할까요?\n수령하지 않고 종료하면 되돌릴 수 없습니다.`:'현재 호송작전을 종료할까요? 진행 상황은 복구되지 않습니다.';
+    if(!confirm(message))return;setBusy(true,'작전 정리 중');try{data=await api('escort/abandon',{method:'POST',body:'{}'});render()}finally{setBusy(false)}}
 
   function escortBattleHud(stage,response){
     const summary=response.sectorSummary||{},objective=response.objective||{},maxHp=number(objective.maxHp||response.run?.vehicleMaxHp),startHp=number(objective.hp??response.run?.vehicleHp),hud=document.createElement('div');hud.className='escort-v3-objective-hud';hud.innerHTML=`<small>ESCORT OBJECTIVE · ABSOLUTE PRIORITY</small><b>장갑 수송차 ${startHp.toLocaleString()} / ${maxHp.toLocaleString()}</b><i><u style="width:${percent(startHp/Math.max(1,maxHp)*100)}%"></u></i><span>몬스터 선제 공격 대기</span>`;hud.dataset.finalDamage=String(number(summary.vehicleDamage));stage.appendChild(hud);
