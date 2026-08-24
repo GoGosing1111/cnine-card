@@ -50,10 +50,10 @@ test('호송 몬스터는 게이지와 무관하게 차량을 선제 공격하�
 });
 
 test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async()=>{
-  const [handler,worker,app,client,engine,wrapper,admin,adminIndex,migration,cleanup,index,sw,style]=await Promise.all([
+  const [handler,worker,app,client,engine,bundle,wrapper,admin,adminIndex,migration,cleanup,index,sw,style,headers]=await Promise.all([
     read('functions/_escort_operation.js'),read('functions/api/[[path]].js'),read('js/app.js'),read('js/escort-operation-v1830.js'),
-    read('preview/project-v-v3/source/battle/BattleEngine.js'),read('js/battle-v3-live.js'),read('admin/escort-operation-admin-v1830.js'),
-    read('admin/index.html'),read('database/migrations/0084_v1830_escort_operation.sql'),read('functions/_storage_cleanup.js'),read('index.html'),read('service-worker.js'),read('css/escort-operation-v1830.css')
+    read('preview/project-v-v3/source/battle/BattleEngine.js'),read('preview/project-v-v3/project-v-pixi-battle.bundle.js'),read('js/battle-v3-live.js'),read('admin/escort-operation-admin-v1830.js'),
+    read('admin/index.html'),read('database/migrations/0084_v1830_escort_operation.sql'),read('functions/_storage_cleanup.js'),read('index.html'),read('service-worker.js'),read('css/escort-operation-v1830.css'),read('_headers')
   ]);
   assert.match(worker,/handleEscortOperation/);
   assert.match(worker,/'escort\/fight'/);
@@ -73,18 +73,30 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(client,/TACTICAL BUFFER/);
   assert.match(client,/escort-v1833-tactic-grid/);
   assert.match(client,/tactic-field-repair-v1835\.webp/);
+  assert.match(client,/objectiveHud\?\.native/);
   assert.match(engine,/ESCORT:'.*escort-fortress-route-bg-v1\.webp/);
   assert.match(engine,/async setObjective/);
   assert.match(engine,/escortObjectiveAttack\(event=/);
+  assert.match(engine,/createObjectiveHud\(\)/);
+  assert.match(engine,/syncObjectiveHud\(\{hp,maxHp,status/);
+  assert.match(engine,/objectiveHud:\{\s*native:true/);
+  assert.match(bundle,/EscortObjectiveHud/);
+  assert.match(bundle,/DIRECT IMPACT/);
   assert.match(handler,/finalizeEscortObjectiveTimeline/);
   assert.match(wrapper,/철벽 호송작전/);
   assert.match(admin,/admin\/escort\/settings/);
   assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1830-owner-test/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(index,/escort-operation-v1830\.js\?v=1835-tactic-live-final/);
+  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=65-escort-hp-gauge/);
+  assert.match(app,/battle-v3-live\.js\?v=3\.20\.0-escort-hp-gauge/);
+  assert.match(index,/app\.js\?v=1837-escort-v3-hp-cachebreak/);
+  assert.match(index,/escort-operation-v1830\.js\?v=1837-v3-objective-hud/);
   assert.match(index,/escort-operation-v1830\.css\?v=1835-tactic-live-final/);
-  assert.match(sw,/soop-card-shell-v1835-escort-tactic-live-final/);
+  assert.match(sw,/soop-card-shell-v1837-escort-v3-hp-cache-contract/);
+  assert.match(sw,/\['script','style','worker'\]\.includes\(request\.destination\)[\s\S]*?networkFirst\(request,SHELL_CACHE\)/);
+  assert.doesNotMatch(headers,/\/(?:js|css|preview)\/\*[\s\S]{0,100}?immutable/);
+  assert.equal((headers.match(/Cache-Control: public, max-age=0, must-revalidate/g)||[]).length>=3,true);
   assert.match(style,/#pveEscortView \.escort-v1833-tactic-card/);
   assert.match(style,/grid-template-columns:34px minmax\(104px,136px\) minmax\(0,1fr\) 18px!important/);
 });

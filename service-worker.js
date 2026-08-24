@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1835-escort-tactic-live-final';
+const SHELL_CACHE='soop-card-shell-v1837-escort-v3-hp-cache-contract';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
@@ -127,7 +127,14 @@ self.addEventListener('fetch',event=>{
     return;
   }
 
-  if(['script','style','font','worker'].includes(request.destination)){
+  if(['script','style','worker'].includes(request.destination)){
+    // 파일명이 해시되지 않은 런타임 자산은 ?v= 누락 한 번으로 영구 고정되면 안 된다.
+    // 매 진입 시 ETag 재검증하고, 오프라인일 때만 마지막 정상본으로 폴백한다.
+    event.respondWith(networkFirst(request,SHELL_CACHE));
+    return;
+  }
+
+  if(request.destination==='font'){
     event.respondWith(isVersioned(url)?cacheFirst(request,SHELL_CACHE):networkFirst(request,SHELL_CACHE));
     return;
   }

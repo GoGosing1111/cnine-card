@@ -23,20 +23,19 @@
   Cache-Control: no-store, no-cache, must-revalidate, max-age=0
 
 # =============================================================
-# 정적 번들: index.html 과 app.js 의 FEATURE_RESOURCE_MANIFEST 가
-# 모든 참조에 ?v= 를 붙여 버전을 관리하므로 immutable 로 둔다.
-# (기존 no-store 는 app.js 509KB + CSS 25개를 매 접속마다 재다운로드시켰다)
+# 런타임 번들: 파일명이 콘텐츠 해시가 아니므로 immutable 을 사용하지 않는다.
+# ETag 재검증(304)으로 전송량은 아끼면서 새 배포는 즉시 확인한다.
 #
-#  ⚠️ 운영 규칙: js/ css/ preview/ 아래 파일을 수정하면
-#     반드시 참조 URL 의 ?v= 값을 함께 올려야 한다.
-#     안 올리면 기존 접속자는 옛 파일을 계속 사용한다.
+#  ⚠️ 운영 규칙: js/ css/ preview/ 아래 파일을 수정하면 참조 URL 의
+#     ?v= 값도 반드시 올린다. 서비스워커의 network-first 재검증은
+#     누락 시 영구 고정을 막는 2차 안전망이다.
 # =============================================================
 /js/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=0, must-revalidate
 /css/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=0, must-revalidate
 /preview/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=0, must-revalidate
 
 # =============================================================
 # 미디어 / 데이터

@@ -239,6 +239,7 @@ export class BattleEngine{
     this.isoConfig=null;
     this.objectiveSprite=null;
     this.objectiveData=null;
+    this.objectiveHud=null;
     this.depthTicker=null;
     this.bottomShade=null;
     this.motes=[];
@@ -370,6 +371,7 @@ export class BattleEngine{
       this.bossHp=0;
       this.lastTargetSwitch=null;
       if(this.objectiveSprite)this.objectiveSprite.visible=false;
+      if(this.objectiveHud)this.objectiveHud.visible=false;
     }
     this.cards.forEach(card=>{
       card.alpha=0;
@@ -653,10 +655,99 @@ export class BattleEngine{
     this.objectiveSprite.depthSortY=this.objectiveSprite.y-2;
   }
 
+  createObjectiveHud(){
+    if(this.objectiveHud)return this.objectiveHud;
+    const hud=new Container({label:'EscortObjectiveHud'});
+    hud.visible=false;
+    hud.zIndex=2400;
+
+    const glow=rectangle(420,96,0x22d8f1,.13,9);
+    glow.filters=[new BlurFilter({strength:18,quality:2})];
+    const panel=rectangle(420,96,0x020910,.93,7,{width:1,color:0x52e6ff,alpha:.42});
+    const edge=rectangle(4,96,0x42dff5,1,2);
+    const cap=new Graphics().moveTo(300,0).lineTo(420,0).lineTo(420,18).stroke({width:2,color:0x42dff5,alpha:.72});
+    const eyebrow=textNode('ESCORT OBJECTIVE · ABSOLUTE PRIORITY',10,0x6de8f5,'900');
+    eyebrow.position.set(18,12);
+    const value=textNode('장갑 수송차 0 / 0',18,0xf3f8fa,'900');
+    value.position.set(18,31);
+    const percentLabel=textNode('100%',14,0x75f1d0,'900','right');
+    percentLabel.anchor.set(1,0);percentLabel.position.set(400,34);
+    const track=rectangle(382,7,0x102733,1,4);
+    track.position.set(18,61);
+    const barGlow=rectangle(382,7,0x54e6cb,.45,4);
+    barGlow.position.set(18,61);barGlow.filters=[new BlurFilter({strength:8,quality:1})];
+    const fill=rectangle(382,7,0x54e6cb,1,4);
+    fill.position.set(18,61);
+    const status=textNode('MONSTER TARGET LOCK · FORCED ATTACK',10,0xffbd63,'800');
+    status.position.set(18,76);
+
+    hud.addChild(glow,panel,edge,cap,eyebrow,value,percentLabel,track,barGlow,fill,status);
+    hud.valueText=value;
+    hud.percentText=percentLabel;
+    hud.statusText=status;
+    hud.barFill=fill;
+    hud.barGlow=barGlow;
+    hud.glow=glow;
+    hud.hpRatio=1;
+    this.uiLayer.addChild(hud);
+    this.objectiveHud=hud;
+    this.layoutObjectiveHud();
+    return hud;
+  }
+
+  layoutObjectiveHud(){
+    if(!this.objectiveHud)return;
+    if(this.mobile){
+      this.objectiveHud.position.set(30,270);
+      this.objectiveHud.scale.set(1.48);
+    }else{
+      this.objectiveHud.position.set(30,112);
+      this.objectiveHud.scale.set(1);
+    }
+  }
+
+  syncObjectiveHud({hp,maxHp,status='',animate=true}={}){
+    const safeMax=Math.max(1,Number(maxHp||this.objectiveData?.maxHp||1));
+    const safeHp=clamp(Number(hp??this.objectiveData?.hp??safeMax)||0,0,safeMax);
+    const ratio=clamp(safeHp/safeMax,0,1);
+    const hud=this.objectiveHud||this.createObjectiveHud();
+    hud.visible=Boolean(this.objectiveData);
+    hud.valueText.text=`장갑 수송차 ${Math.round(safeHp).toLocaleString()} / ${Math.round(safeMax).toLocaleString()}`;
+    hud.percentText.text=`${Math.round(ratio*100)}%`;
+    hud.statusText.text=status||'MONSTER TARGET LOCK · FORCED ATTACK';
+    const danger=ratio<=.3,warning=!danger&&ratio<=.6;
+    hud.barFill.tint=hud.barGlow.tint=danger?0xff526b:warning?0xffbd4e:0xffffff;
+    hud.percentText.tint=danger?0xff7184:warning?0xffd06b:0xffffff;
+    hud.statusText.tint=status.includes('RECOVERY')?0x72ffc3:status.includes('IMPACT')?0xff7184:0xffffff;
+    gsap.killTweensOf(hud.barFill.scale);
+    gsap.killTweensOf(hud.barGlow.scale);
+    if(animate&&!this.reducedMotion){
+      gsap.to(hud.barFill.scale,{x:ratio,duration:.24/PLAYBACK_SPEED,ease:'power2.out'});
+      gsap.to(hud.barGlow.scale,{x:ratio,duration:.24/PLAYBACK_SPEED,ease:'power2.out'});
+    }else{
+      hud.barFill.scale.x=ratio;
+      hud.barGlow.scale.x=ratio;
+    }
+    hud.hpRatio=ratio;
+
+    // 혼합 캐시 상태의 구형 호송 셸도 같은 서버 수치로 보정한다.
+    const dom=this.host?.closest?.('.battle-v3-live-shell')?.querySelector?.('.escort-v3-objective-hud')||document.querySelector('.escort-v3-objective-hud');
+    if(dom){
+      const label=dom.querySelector('b'),bar=dom.querySelector('i u'),state=dom.querySelector('span');
+      if(label)label.textContent=`장갑 수송차 ${Math.round(safeHp).toLocaleString()} / ${Math.round(safeMax).toLocaleString()}`;
+      if(bar)bar.style.width=`${ratio*100}%`;
+      if(state&&status)state.textContent=status;
+    }
+    return {hp:safeHp,maxHp:safeMax,ratio};
+  }
+
   async setObjective(payload={}){
     const objective=payload?.objective&&typeof payload.objective==='object'?payload.objective:null;
     const source=rootAssetPath(objective?.image||objective?.imageUrl||'');
     this.objectiveData=objective;
+    if(objective){
+      this.syncObjectiveHud({hp:objective.hp??objective.hpBefore??objective.maxHp,maxHp:objective.maxHp,status:'MONSTER TARGET LOCK · FORCED ATTACK',animate:false});
+    }else if(this.objectiveHud)this.objectiveHud.visible=false;
     if(!source){if(this.objectiveSprite)this.objectiveSprite.visible=false;return null}
     try{
       const texture=await Assets.load(source);
@@ -1430,13 +1521,7 @@ export class BattleEngine{
         this.audio?.playImpact(SKILL_EFFECT_KIND.ATTACK,{critical:false,boss:true});
         const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
         this.objectiveData={...(this.objectiveData||{}),hp,hpAfter:hp,maxHp};
-        const hud=document.querySelector('.escort-v3-objective-hud');
-        if(hud){
-          const label=hud.querySelector('b'),bar=hud.querySelector('i u'),loss=hud.querySelector('span');
-          if(label)label.textContent=`장갑 수송차 ${Math.round(hp).toLocaleString()} / ${Math.round(maxHp).toLocaleString()}`;
-          if(bar)bar.style.width=`${clamp(hp/maxHp*100,0,100)}%`;
-          if(loss)loss.textContent=`직격 피해 -${Math.round(damage).toLocaleString()}`;
-        }
+        this.syncObjectiveHud({hp,maxHp,status:`DIRECT IMPACT · -${Math.round(damage).toLocaleString()}`,animate:true});
       },[],.24);
       timeline.to(impactFx,{alpha:1,duration:.025,ease:'none'},.24);
       timeline.to(impactFx.scale,{x:1.5,y:1.5,duration:.12,ease:'expo.out'},.24);
@@ -1513,13 +1598,7 @@ export class BattleEngine{
       else if(type==='ESCORT_OBJECTIVE_RECOVERY'){
         const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
         this.objectiveData={...(this.objectiveData||{}),hp,hpAfter:hp,maxHp};
-        const hud=document.querySelector('.escort-v3-objective-hud');
-        if(hud){
-          const label=hud.querySelector('b'),bar=hud.querySelector('i u'),status=hud.querySelector('span');
-          if(label)label.textContent=`장갑 수송차 ${Math.round(hp).toLocaleString()} / ${Math.round(maxHp).toLocaleString()}`;
-          if(bar)bar.style.width=`${clamp(hp/maxHp*100,0,100)}%`;
-          if(status)status.textContent=`긴급 복구 +${Math.round(Number(event.amount||0)).toLocaleString()}`;
-        }
+        this.syncObjectiveHud({hp,maxHp,status:`RECOVERY LINK · +${Math.round(Number(event.amount||0)).toLocaleString()}`,animate:true});
         if(this.objectiveSprite)this.objectiveSprite.tint=0xaaffcf;
         await this.showBanner(event.label||'호송차 긴급 복구',0x5ff0ae,'ESCORT RECOVERY');
         if(this.objectiveSprite)this.objectiveSprite.tint=0xffffff;
@@ -1732,6 +1811,7 @@ export class BattleEngine{
       this.uiLayer.banner.position.set(510,118);
       this.uiLayer.comboLabel.position.set(1030,96);this.uiLayer.combo.position.set(1030,105);
     }
+    this.layoutObjectiveHud();
     this.layoutCharacterGrid();
     this.sortCombatDepth();
     const scale=Math.min(viewportWidth/this.scene.width,viewportHeight/this.scene.height);
@@ -1771,6 +1851,13 @@ export class BattleEngine{
         asset:this.activeBattlefieldAsset,
         loading:'LAZY_ACTIVE_SCENE_ONLY',
         available:Object.keys(BATTLEFIELD_ASSETS)
+      },
+      objectiveHud:{
+        native:true,
+        visible:Boolean(this.objectiveHud?.visible),
+        hp:Number(this.objectiveData?.hp??this.objectiveData?.hpAfter??0),
+        maxHp:Number(this.objectiveData?.maxHp||0),
+        ratio:Number(this.objectiveHud?.hpRatio||0)
       },
       formation:{allies:this.allies.length,enemies:this.enemies.length},
       targetSelection:{

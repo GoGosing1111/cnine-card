@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='1835-tactic-live-final';
+  const VERSION='1837-v3-objective-hud';
   const bridge=()=>window.CNineEscortBridge;
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -117,9 +117,11 @@
     await bridge().ensureFeatureResources('battleV2');
     const live=window.ProjectVBattleV3Live?.prepareLoading?.({modal,mode:'ESCORT',playerName:user.nickname||'ESCORT TEAM',opponentName:response.monster?.name||'HOSTILE FORCE',autoText:'카드 체력·수송차 내구도·서버 전투 타임라인을 동기화합니다.'});
     if(!live)throw new Error('V3 호송 전장을 준비하지 못했습니다.');
-    escortBattleHud(live.stage,response);
     const payload={...response,mode:'ESCORT',battlefieldMode:'ESCORT',contentType:'ESCORT'};
     const renderer=await window.ProjectVBattleV3Live.createRenderer({...live,modal,data:payload,mode:'ESCORT',monster:response.monster});modal.__battleV2Renderer=renderer;
+    // V1837: HP 게이지는 Pixi UiLayer가 직접 그린다. 구형 번들이 섞인 캐시
+    // 상태에서만 DOM 게이지를 안전망으로 남기고, 정상 번들에서는 중복 출력하지 않는다.
+    if(!window.ProjectVPixiBattle?.diagnostics?.()?.objectiveHud?.native)escortBattleHud(live.stage,response);
     await renderer.play();
     const won=String(response.sectorSummary?.result||'LOSE')==='WIN',message=live.stage.querySelector('#battleMessage');
     if(message)message.innerHTML=`<strong>${won?'구간 돌파':'호송 저지'}</strong><span>${esc(response.sectorSummary?.sectorName||'구간 전투')} · 차량 피해 ${number(response.sectorSummary?.vehicleDamage).toLocaleString()} · 카드 ${number(response.sectorSummary?.aliveCards)}명 생존</span><button type="button" class="btn escort-v3-return">호송 지휘실로 돌아가기</button>`;
