@@ -23,7 +23,12 @@
 
   function setBusy(next,label='처리 중'){
     busy=Boolean(next);
-    document.querySelectorAll('#pveEscortView button[data-escort-action]').forEach(button=>{button.disabled=busy;button.dataset.defaultLabel||=(button.textContent||'');if(busy&&button.dataset.escortPrimary==='1')button.textContent=label;else if(!busy&&button.dataset.defaultLabel)button.textContent=button.dataset.defaultLabel});
+    document.querySelectorAll('#pveEscortView button[data-escort-action]').forEach(button=>{button.disabled=busy;// V1838: 내부에 요소가 있는 버튼(전술 카드)은 textContent 를 건드리면 안 된다.
+      //   textContent 대입은 자식 요소를 전부 지우고 텍스트 노드 하나로 바꾼다.
+      //   그래서 아이콘·제목·설명 DOM 이 통째로 사라지고 글자만 남았다.
+      //   (전술 카드가 한 글자씩 세로로 쏟아지던 진짜 원인. CSS 문제가 아니었다.)
+      if(button.children.length){button.classList.toggle('is-busy',busy);return}
+      button.dataset.defaultLabel||=(button.textContent||'');if(busy&&button.dataset.escortPrimary==='1')button.textContent=label;else if(!busy&&button.dataset.defaultLabel)button.textContent=button.dataset.defaultLabel});
   }
 
   function cardMarkup(card,index){
