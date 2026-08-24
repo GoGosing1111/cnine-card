@@ -31,13 +31,15 @@ const liveRoster=[
   ['CN-C6EB6FF1D7D940A0','지유나','지유나','assets/cards/ZENITH/21.jpg'],
   ['CN-AC54A948BBDC40A0','뮤니','뮤니','assets/cards/ZENITH/25.jpg'],
   ['CN-BA51755F72C0475E','졈니','졈니','assets/cards/ZENITH/26.jpg'],
-  ['CN-8EA5637062014D9F','쁠리','쁠리','assets/cards/ZENITH/V1.jpg']
+  ['CN-8EA5637062014D9F','쁠리','쁠리','assets/cards/ZENITH/V1.jpg'],
+  ['CN-0505936A0CBB4E59','남수댕','구수댕','assets/cards/남수댕/031.webp'],
+  ['CN-A5A786E91B314805','나무늘봉순','봉순','assets/cards/bongson2.jpg']
 ];
 
 assert.equal(manifest.schemaVersion,2,'ZENITH manifest schemaVersion은 2여야 합니다.');
 assert.equal(manifest.scope,'BATTLE_ENGINE_ONLY','ZENITH SD는 전투엔진 전용이어야 합니다.');
 assert.equal(manifest.rarity,'ZENITH');
-assert.equal(manifest.rosterSnapshot?.expectedCount,21);
+assert.equal(manifest.rosterSnapshot?.expectedCount,23);
 assert.equal(manifest.rosterSnapshot?.identityKey,'cardId');
 assert.equal(manifest.assetContract?.format,'PNG');
 assert.equal(manifest.assetContract?.canvasMode,'RGBA_ALPHA_0');
@@ -51,13 +53,13 @@ assert.equal(manifest.routingContract?.neverFallbackSourceArtInBattle,true);
 assert(manifest.routingContract?.prohibitedConsumers?.includes('DEX'));
 assert(manifest.routingContract?.prohibitedConsumers?.includes('DECK'));
 assert.equal(manifest.visualApprovalRecord?.status,'APPROVED');
-assert.equal(manifest.visualApprovalRecord?.approvedCount,21);
+assert.equal(manifest.visualApprovalRecord?.approvedCount,23);
 assert.equal(manifest.visualApprovalRecord?.source,'USER_FINAL_APPROVAL');
 
 assert.deepEqual(
   manifest.characters.map(entry=>[entry.cardId,entry.member,entry.title,entry.sourceArt]),
   liveRoster,
-  'manifest가 잠근 운영 ZENITH 21명과 일치하지 않습니다.'
+  'manifest가 잠근 운영 ZENITH 23명과 일치하지 않습니다.'
 );
 assert(!manifest.characters.some(entry=>entry.cardId==='CN-0AC1F17733A24BEB'),'비활성 다크도도희가 포함되면 안 됩니다.');
 
@@ -310,10 +312,14 @@ const collectTextFiles=async target=>{
 const productionTargets=['index.html','service-worker.js','js','functions','admin','css'];
 const productionFiles=(await Promise.all(productionTargets.map(collectTextFiles))).flat();
 const forbiddenRefs=[manifest.manifestId,'assets/ui/project-v/characters/zenith/','zenith-cn-'];
-const approvedBattleAdapter=resolve(rootPath,'js/project-v-battle-art-adapter-v1.js');
+const approvedBattleConsumers=new Set([
+  resolve(rootPath,'js/project-v-battle-art-adapter-v1.js'),
+  resolve(rootPath,'js/responsive-battle-sprites-v1815.js')
+]);
 for(const file of productionFiles){
-  // 이 파일만 BATTLE_ENGINE_ONLY manifest를 읽을 수 있다. 덱/도감/뽑기 렌더러는 계속 전면 금지한다.
-  if(file===approvedBattleAdapter)continue;
+  // 전투 어댑터와 전투 전용 반응형 맵만 BATTLE_ENGINE_ONLY 자산을 읽을 수 있다.
+  // 덱/도감/뽑기 렌더러는 계속 전면 금지한다.
+  if(approvedBattleConsumers.has(file))continue;
   const source=await readFile(file,'utf8');
   for(const needle of forbiddenRefs){
     assert(!source.includes(needle),`전투 전용 ZENITH SD가 운영 deck/dex 경로에 노출됐습니다: ${file.slice(rootPath.length)} (${needle})`);
@@ -322,12 +328,12 @@ for(const file of productionFiles){
 
 const previewHtml=await readFile(new URL('preview/project-v-zenith-sd-v1/index.html',rootUrl),'utf8');
 const previewJs=await readFile(new URL('preview/project-v-zenith-sd-v1/zenith-sd-battle.js',rootUrl),'utf8');
-assert.match(previewHtml,/v=4-all-visible/,'프리뷰 cache key가 전체 로스터 검수 버전이 아닙니다.');
-assert.match(previewHtml,/TECHNICAL PASS 21 \/ 21 · VISUAL APPROVAL PENDING/);
+assert.match(previewHtml,/v=5-bongsun/,'프리뷰 cache key가 전체 로스터 검수 버전이 아닙니다.');
+assert.match(previewHtml,/TECHNICAL PASS 23 \/ 23 · VISUAL APPROVAL PENDING/);
 assert.match(previewJs,/fetch\(MANIFEST_URL,\{cache:'no-store'\}\)/,'manifest를 동적으로 불러오지 않습니다.');
 assert.match(previewJs,/\?sha=\$\{actor\.sha256\.slice\(0,16\)\}/,'스프라이트 cache key가 콘텐츠 해시 기반이 아닙니다.');
 assert.match(previewJs,/for\(const format of \['avif','webp'\]\)/,'프리뷰가 AVIF/WebP 후보를 우선하지 않습니다.');
 assert.match(previewJs,/preferred\.push\(actor\.battleSprite\)/,'PNG master fallback이 없습니다.');
 assert.doesNotMatch(previewJs,/const roster=\[/,'프리뷰에 roster를 하드코딩하면 안 됩니다.');
 
-console.log('project-v ZENITH SD assets v1: 21/21 TECHNICAL_PASS + VISUAL_APPROVED, battle-only contract OK');
+console.log('project-v ZENITH SD assets v1: 23/23 TECHNICAL_PASS + VISUAL_APPROVED, battle-only contract OK');

@@ -4,8 +4,8 @@
   "scope": "BATTLE_ENGINE_ONLY",
   "rarity": "ZENITH",
   "rosterSnapshot": {
-    "asOf": "2026-08-23",
-    "expectedCount": 22,
+    "asOf": "2026-08-24",
+    "expectedCount": 23,
     "identityKey": "cardId",
     "source": "live PostgreSQL read-only roster lock"
   },
@@ -56,8 +56,8 @@
   },
   "visualApprovalRecord": {
     "status": "APPROVED",
-    "approvedCount": 22,
-    "approvedAt": "2026-08-23",
+    "approvedCount": 23,
+    "approvedAt": "2026-08-24",
     "source": "USER_FINAL_APPROVAL"
   },
   "characters": [
@@ -1683,9 +1683,9 @@
         },
         "safeMarginPx": 67,
         "alphaPixels": {
-          "transparent": 1368235,
+          "transparent": 1360285,
           "opaque": 438989,
-          "partial": 15276
+          "partial": 23226
         },
         "magentaStageReady": true,
         "darkStageReady": true,
@@ -1700,7 +1700,7 @@
       "placement": {
         "facing": "UP_RIGHT_3Q",
         "footAnchor": [
-          0.5,
+          0.49963,
           0.94963
         ],
         "safeMarginPx": 67
@@ -1732,9 +1732,85 @@
           }
         ]
       }
+    },
+    {
+      "order": 23,
+      "cardId": "CN-A5A786E91B314805",
+      "member": "나무늘봉순",
+      "title": "봉순",
+      "sourceArt": "assets/cards/bongson2.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-a5a786e91b314805-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 320,
+          "y": 78,
+          "width": 726,
+          "height": 1212
+        },
+        "margins": {
+          "left": 320,
+          "top": 78,
+          "right": 304,
+          "bottom": 60
+        },
+        "safeMarginPx": 60,
+        "alphaPixels": {
+          "transparent": 1347693,
+          "opaque": 454317,
+          "partial": 20490
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.505556,
+          0.955556
+        ],
+        "safeMarginPx": 60
+      },
+      "sha256": "6F1606E04010DD8A48028C0EC168C882DACF3D678988BD16DAF7C2AA050330F5",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-a5a786e91b314805-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-a5a786e91b314805-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-a5a786e91b314805-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-a5a786e91b314805-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
     }
   ],
-  "technicalQaCompletedAt": "2026-08-18T23:00:00+09:00",
+  "technicalQaCompletedAt": "2026-08-24T16:20:00+09:00",
   "responsiveContract": {
     "formats": [
       "AVIF",
