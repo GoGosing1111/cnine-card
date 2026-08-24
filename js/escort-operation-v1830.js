@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const VERSION='1833-tactic-layout-safe';
+  const VERSION='1834-tactic-resource-safe';
   const bridge=()=>window.CNineEscortBridge;
   const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const requestId=()=>globalThis.crypto?.randomUUID?.()||`escort-${Date.now()}-${Math.random().toString(36).slice(2)}`;
@@ -8,11 +8,11 @@
   const percent=value=>Math.max(0,Math.min(100,Number(value)||0));
   const imageUrl=value=>{const raw=String(value||'').trim().replace(/\\/g,'/');if(!raw)return '/assets/ui/cninelogo.png';if(/^(?:data:|blob:|https?:\/\/|\/)/i.test(raw))return raw;return `/${raw.replace(/^\.\//,'')}`};
   const TACTIC_ICONS=Object.freeze({
-    REPAIR:'/assets/ui/escort/tactics/tactic-field-repair-v1.webp',
-    BARRIER:'/assets/ui/escort/tactics/tactic-aegis-barrier-v1.webp',
-    AIRSTRIKE:'/assets/ui/escort/tactics/tactic-carpet-strike-v1.webp',
-    OVERCHARGE:'/assets/ui/escort/tactics/tactic-core-overdrive-v1.webp',
-    JAMMING:'/assets/ui/escort/tactics/tactic-signal-jammer-v1.webp'
+    REPAIR:'/assets/ui/escort/tactics/tactic-field-repair-v1833.webp',
+    BARRIER:'/assets/ui/escort/tactics/tactic-aegis-barrier-v1833.webp',
+    AIRSTRIKE:'/assets/ui/escort/tactics/tactic-carpet-strike-v1833.webp',
+    OVERCHARGE:'/assets/ui/escort/tactics/tactic-core-overdrive-v1833.webp',
+    JAMMING:'/assets/ui/escort/tactics/tactic-signal-jammer-v1833.webp'
   });
   let data=null,busy=false,discoveryPromise=null;
 
@@ -47,7 +47,7 @@
     if(run?.phase!=='TACTIC')return '';
     const catalog=new Map((settings?.tactics||[]).map(tactic=>[String(tactic.key||'').toUpperCase(),tactic]));
     const choices=(run.choices||[]).map(choice=>({...choice,...(catalog.get(String(choice.key||'').toUpperCase())||{})}));
-    return `<section class="escort-tactic-panel"><header><div><small>ROUTE COMMAND / TACTICAL BUFFER</small><h3>다음 구간 전술 선택</h3></div><p>두 전술 중 하나만 적용됩니다. 효과 범위와 유지 시간을 확인하십시오.</p></header><div class="escort-v1833-tactic-grid">${choices.map((tactic,index)=>`<button type="button" class="escort-v1833-tactic-card is-${esc(String(tactic.key||'').toLowerCase())}" data-escort-action="tactic" data-tactic="${esc(tactic.key)}" data-escort-primary="${index===0?'1':'0'}" aria-label="${esc(`${tactic.name} 선택`)}"><span class="escort-v1833-tactic-number">0${index+1}</span><div class="escort-v1833-tactic-icon"><img src="${esc(imageUrl(tactic.icon||TACTIC_ICONS[String(tactic.key||'').toUpperCase()]))}?v=1833" alt="" width="256" height="256" decoding="async"></div><div class="escort-v1833-tactic-copy"><div class="escort-v1833-tactic-meta"><small>${esc(tactic.type)}</small><em>${esc(tactic.duration||'다음 1구간')}</em></div><b>${esc(tactic.name)}</b><p>${esc(tactic.description)}</p><u>전술 적용</u></div><i class="escort-v1833-tactic-arrow" aria-hidden="true"></i></button>`).join('')}</div></section>`;
+    return `<section class="escort-tactic-panel"><header><div><small>ROUTE COMMAND / TACTICAL BUFFER</small><h3>다음 구간 전술 선택</h3></div><p>두 전술 중 하나만 적용됩니다. 효과 범위와 유지 시간을 확인하십시오.</p></header><div class="escort-v1833-tactic-grid">${choices.map((tactic,index)=>`<button type="button" class="escort-v1833-tactic-card is-${esc(String(tactic.key||'').toLowerCase())}" data-escort-action="tactic" data-tactic="${esc(tactic.key)}" data-escort-primary="${index===0?'1':'0'}" aria-label="${esc(`${tactic.name} 선택`)}"><span class="escort-v1833-tactic-number">0${index+1}</span><div class="escort-v1833-tactic-icon"><img src="${esc(imageUrl(TACTIC_ICONS[String(tactic.key||'').toUpperCase()]||tactic.icon))}?v=1834" alt="" width="256" height="256" decoding="async"></div><div class="escort-v1833-tactic-copy"><div class="escort-v1833-tactic-meta"><small>${esc(tactic.type)}</small><em>${esc(tactic.duration||'다음 1구간')}</em></div><b>${esc(tactic.name)}</b><p>${esc(tactic.description)}</p><u>전술 적용</u></div><i class="escort-v1833-tactic-arrow" aria-hidden="true"></i></button>`).join('')}</div></section>`;
   }
 
   function actionMarkup(run,weekly,settings){
