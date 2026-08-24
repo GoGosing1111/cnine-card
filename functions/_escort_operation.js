@@ -59,7 +59,7 @@ export function defaultEscortSettings(){
   //   구간별 보상 + 완주 보너스로 나눴다. 완주 시 총액은 종전과 같다
   //   (구간합 2,250,000 + 보너스 250,000 = 2,500,000 / 165 + 85 = 250).
   //   vehicleStrikeScale 은 난이도 다이얼 하나다. 올리면 차량이 빨리 터진다.
-  return {mode:'TEST',title:'철벽 호송작전',description:'5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.',vehicleMaxHp:10000,weeklyRunLimit:10,weeklyRewardLimit:3,clearBonusCoin:250000,clearBonusShards:85,vehicleStrikeScale:24,repairPercent:20,sectors:DEFAULT_SECTORS.map(cleanSector)};
+  return {mode:'TEST',title:'철벽 호송작전',description:'5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.',vehicleMaxHp:10000,weeklyRunLimit:10,weeklyRewardLimit:3,clearBonusCoin:250000,clearBonusShards:85,vehicleStrikeScale:36,repairPercent:20,sectors:DEFAULT_SECTORS.map(cleanSector)};
 }
 
 export function cleanEscortSettings(raw={}){
@@ -198,7 +198,17 @@ export function finalizeEscortObjectiveTimeline(battleV2,{hpBefore=0,maxHp=0,tot
   const timeline=Array.isArray(battleV2?.result?.timeline)?battleV2.result.timeline:[];
   const strikes=timeline.filter(event=>String(event?.type||'').toUpperCase()==='ESCORT_OBJECTIVE_ATTACK');
   const safeBefore=Math.max(0,Math.round(Number(hpBefore)||0)),safeMax=Math.max(1,Math.round(Number(maxHp)||safeBefore||1));
-  const budget=Math.min(safeBefore,Math.max(0,Math.round(Number(totalDamage)||0)));
+  // ── V1842 버그 수정: 차량이 빈사일 때 피해 숫자가 쪼그라들었다 ──────
+  //   종전에는 총 피해를 '남은 HP' 로 먼저 깎고(budget) 그걸 타격 횟수로
+  //   나눴다. 그래서 같은 전투인데 차량 HP 만 낮으면 숫자가 통째로 줄었다.
+  //     차량 10000 남음 → 126,1435,126,126,...   (총 7000 짜리 전투)
+  //     차량   400 남음 →   7,  82,  7,  8,...   ← 같은 전투인데 이 꼴
+  //   체력바가 큰 한 방에 터지는 게 아니라 야금야금 0 으로 기어갔다.
+  //   이제 타격 위력은 '실제 피해량' 그대로 계산하고, 남은 HP 를 넘는 만큼만
+  //   잘라낸다. 빈사면 첫 관통 포격에 그대로 터진다.
+  //   ※ 승패 판정은 원래부터 자르지 않은 damage 로 했으므로 난이도는 안 변한다.
+  const rawTotal=Math.max(0,Math.round(Number(totalDamage)||0));
+  const budget=Math.min(safeBefore,rawTotal);
   // ── V1841: 보스 타격을 '자주 조금' 에서 '가끔 크게' 로 ──────────────
   //   종전에는 총 피해를 타격 횟수로 똑같이 나눠 줬다. 그래서 보스 한 대가
   //   체력바의 2~3% 밖에 안 깎였고(실측: 정비 2.1% / 최종 3.3%), 총량을
@@ -212,23 +222,24 @@ export function finalizeEscortObjectiveTimeline(battleV2,{hpBefore=0,maxHp=0,tot
     for(let i=strikes.length-1;i>=0;i-=burstEvery)heavy.add(i);
   }
   const heavyCount=heavy.size,lightCount=strikes.length-heavyCount;
-  const heavyBudget=heavyCount?Math.round(budget*burstShare):0,lightBudget=budget-heavyBudget;
+  const heavyTotal=heavyCount?Math.round(rawTotal*burstShare):0,lightTotal=rawTotal-heavyTotal;
   const share=index=>heavy.has(index)
-    ?(heavyCount?heavyBudget/heavyCount:0)
-    :(lightCount?lightBudget/lightCount:0);
-  let currentHp=safeBefore,accumulated=0,dealt=0;
+    ?(heavyCount?heavyTotal/heavyCount:0)
+    :(lightCount?lightTotal/lightCount:0);
+  let currentHp=safeBefore,accumulated=0,planned=0;
   strikes.forEach((event,index)=>{
     accumulated+=share(index);
-    // 누적 반올림 — 조각들이 흩어져도 총합은 정확히 budget 이 된다.
-    const target=index===strikes.length-1?budget-dealt:Math.round(accumulated)-dealt;
-    const damage=Math.max(0,Math.min(currentHp,target));
+    // planned 는 '잘라내기 전' 누적치다. 누적 반올림이라 살아남으면 합이 정확히 rawTotal.
+    const rounded=Math.round(accumulated),power=rounded-planned;planned=rounded;
+    const damage=Math.max(0,Math.min(currentHp,power));   // 남은 HP 만큼만 실제로 들어간다
     const before=currentHp,after=Math.max(0,before-damage);
-    dealt+=damage;currentHp=after;
-    const isHeavy=heavy.has(index);
+    currentHp=after;
+    const isHeavy=heavy.has(index),down=before<=0;
     Object.assign(event,{targetId:'ESCORT_OBJECTIVE',targetSide:'OBJECTIVE',targetName:'장갑 수송차',damage,objectiveHpBefore:before,objectiveHpAfter:after,objectiveMaxHp:safeMax,priority:'ESCORT_VEHICLE',
-      objectiveStrikeKind:burstEvery>1?(isHeavy?'BARRAGE':'GRAZE'):'STRIKE',
-      objectiveStrikeLabel:burstEvery>1?(isHeavy?'관통 포격':'장갑 스침'):'차량 피격',
-      objectiveHeavy:isHeavy});
+      objectiveStrikePower:power,   // 잘리기 전 위력 (연출·로그용)
+      objectiveStrikeKind:down?'WRECK':burstEvery>1?(isHeavy?'BARRAGE':'GRAZE'):'STRIKE',
+      objectiveStrikeLabel:down?'잔해 타격':burstEvery>1?(isHeavy?'관통 포격':'장갑 스침'):'차량 피격',
+      objectiveHeavy:isHeavy&&!down,objectiveDown:down});
   });
   const recovered=Math.min(Math.max(0,safeMax-currentHp),Math.max(0,Math.round(Number(recovery)||0)));
   if(recovered>0){
