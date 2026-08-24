@@ -12,6 +12,6 @@ assert.match(server,/DELETE FROM territory_war_v3_actions WHERE request_id=\? AN
 assert.match(server,/진행 중인 교전이 없는데 락만 남아 있으면 고아 락/);
 assert.match(client,/pendingAttackId=String\(data\.requestId\|\|pendingAttackId\)/);
 assert.match(api,/if\(String\(path\)==='territory-war\/attack'\)return false/);
-assert.match(index,/territory-war-v1811\.js\?v=1824-approved-command-map/);
+assert.match(index,/territory-war-v1811\.js\?v=1846-territory-live-front/);
 
 console.log('territory attack dedup v1823: ok');
