@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1837-escort-v3-hp-cache-contract';
+const SHELL_CACHE='soop-card-shell-v1843-escort-public';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

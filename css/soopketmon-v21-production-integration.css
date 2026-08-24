@@ -574,15 +574,15 @@ body.soopketmon-v21-live .chief-election-body button:hover {
   .v21-command-grid,
   .v21-command-groups section > div { grid-template-columns: 1fr 1fr; }
   .v21-command-grid { padding: 12px; }
-  .v21-command-groups { gap: 14px; padding: 14px 12px 24px; }
+  .v21-command-groups { gap: 14px; min-width: 0; padding: 14px 12px max(24px, env(safe-area-inset-bottom)); overflow-x: hidden; }
   .v21-command-grid button,
-  .v21-command-groups button { min-height: 68px; grid-template-columns: 34px minmax(0, 1fr); gap: 2px 7px; padding: 9px; }
+  .v21-command-groups button { min-width: 0; min-height: 68px; grid-template-columns: 34px minmax(0, 1fr); gap: 2px 7px; padding: 9px; overflow: hidden; }
   .v21-command-grid button > span,
   .v21-command-groups button > span { width: 31px; height: 31px; padding: 6px; }
   .v21-command-grid button b,
-  .v21-command-groups button b { font-size: 12px; }
+  .v21-command-groups button b { min-width: 0; font-size: 12px; overflow-wrap: anywhere; }
   .v21-command-grid button small,
-  .v21-command-groups button small { font-size: 11px; }
+  .v21-command-groups button small { min-width: 0; font-size: 11px; overflow-wrap: anywhere; }
   .v21-chief-dialog-body { grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding: 14px; }
   .v21-chief-dialog-body img { max-height: 230px; }
   .v21-chief-dialog-body b { font-size: 16px; }

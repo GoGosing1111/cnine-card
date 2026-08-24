@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.8.0';
+  const VERSION = '21.9.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -62,6 +62,7 @@
     ,deck: ['덱 편성실', '전투·경쟁', 'cards']
     ,hunt: ['몬스터 토벌', '전투·경쟁', 'swords']
     ,raid: ['월드 레이드', '전투·경쟁', 'swords']
+    ,escort: ['호송작전', '전투·경쟁', 'swords']
     ,siege: ['몬스터 공성전', '전투·경쟁', 'swords']
     ,seal: ['봉인전', '전투·경쟁', 'magic']
     ,idle: ['방치형 원정', '전투·경쟁', 'swords']
@@ -77,7 +78,7 @@
 
   const GROUPS = Object.freeze({
     collection: { title: '카드·수집', routes: ['buy', 'dex', 'evolution', 'magic'] },
-    combat: { title: '전투·경쟁', routes: ['battle', 'deck', 'hunt', 'raid', 'siege', 'seal', 'idle', 'tower', 'pvp', 'clan', 'territory'] },
+    combat: { title: '전투·경쟁', routes: ['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'pvp', 'clan', 'territory'] },
     growth: { title: '장비·제작', routes: ['character', 'equipment', 'title', 'garage', 'workshop', 'scrapyard', 'vehicle', 'fusion'] },
     rewards: { title: '보상', routes: ['attendance', 'dailyquest', 'messages', 'mineral'] },
     market: { title: '승부·경매', routes: ['prediction', 'auction', 'rank', 'inventory'] }

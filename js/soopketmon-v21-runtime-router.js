@@ -66,6 +66,7 @@
       ]
     },
     raid: { shell: 'battle', actions: [{ selector: '[data-pve-mode="raid"]' }] },
+    escort: { shell: 'battle', actions: [{ selector: '[data-pve-mode="escort"]' }] },
     siege: { global: 'openMonsterSiege', fallbackSelector: '[data-monster-siege-entry]' },
     seal: { shell: 'battle', actions: [{ selector: '[data-seal-battle-mode]' }] },
     idle: {
@@ -128,7 +129,8 @@
         ]
       },
       '몬스터 토벌': ROUTE_CONTRACT.hunt,
-      '월드 레이드': ROUTE_CONTRACT.raid
+      '월드 레이드': ROUTE_CONTRACT.raid,
+      '호송작전': ROUTE_CONTRACT.escort
     }),
     pvp: Object.freeze({
       '자동 매칭': { shell: 'pvp', actions: [{ selector: '[data-pvp="match"]' }] },
@@ -321,7 +323,7 @@
   }
 
   const api = Object.freeze({
-    version: '1.0.1',
+    version: '1.1.0',
     shellRoutes: SHELL_ROUTES,
     routeContract: ROUTE_CONTRACT,
     subtabContract: SUBTAB_CONTRACT,

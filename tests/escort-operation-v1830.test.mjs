@@ -6,13 +6,13 @@ import {buildFighter,createPveBattleV2} from '../functions/_battle_v2_preview.js
 
 const read=path=>readFile(new URL(`../${path}`,import.meta.url),'utf8');
 
-test('호송작전은 5구간과 OWNER TEST를 기본 계약으로 사용한다',()=>{
+test('호송작전은 5구간 정식 공개를 기본 계약으로 사용한다',()=>{
   const settings=defaultEscortSettings();
-  assert.equal(settings.mode,'TEST');
+  assert.equal(settings.mode,'ON');
   assert.equal(settings.sectors.length,5);
   assert.deepEqual(settings.sectors.map(sector=>sector.key),['DEPARTURE','AMBUSH','BLOCKADE','REPAIR','FINAL_BOSS']);
   assert.equal(settings.sectors.at(-1).isBoss,true);
-  assert.equal(cleanEscortSettings({mode:'INVALID'}).mode,'TEST');
+  assert.equal(cleanEscortSettings({mode:'INVALID'}).mode,'ON');
 });
 
 test('기존 전투는 100%, 호송전은 전달된 카드 체력에서 시작한다',()=>{
@@ -50,14 +50,15 @@ test('호송 몬스터는 게이지와 무관하게 차량을 선제 공격하�
 });
 
 test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async()=>{
-  const [handler,worker,app,client,engine,bundle,wrapper,admin,adminIndex,migration,cleanup,index,sw,style,headers]=await Promise.all([
+  const [handler,worker,app,client,engine,bundle,wrapper,admin,adminIndex,migration,cleanup,index,sw,style,headers,router,adapter,integrationStyle]=await Promise.all([
     read('functions/_escort_operation.js'),read('functions/api/[[path]].js'),read('js/app.js'),read('js/escort-operation-v1830.js'),
     read('preview/project-v-v3/source/battle/BattleEngine.js'),read('preview/project-v-v3/project-v-pixi-battle.bundle.js'),read('js/battle-v3-live.js'),read('admin/escort-operation-admin-v1830.js'),
-    read('admin/index.html'),read('database/migrations/0084_v1830_escort_operation.sql'),read('functions/_storage_cleanup.js'),read('index.html'),read('service-worker.js'),read('css/escort-operation-v1830.css'),read('_headers')
+    read('admin/index.html'),read('database/migrations/0084_v1830_escort_operation.sql'),read('functions/_storage_cleanup.js'),read('index.html'),read('service-worker.js'),read('css/escort-operation-v1830.css'),read('_headers'),read('js/soopketmon-v21-runtime-router.js'),read('js/soopketmon-v21-exact-shell-adapter.js'),read('css/soopketmon-v21-production-integration.css')
   ]);
   assert.match(worker,/handleEscortOperation/);
   assert.match(worker,/'escort\/fight'/);
   assert.match(handler,/cfg\.mode==='TEST'&&!isOwner\(user\)/);
+  assert.match(handler,/mode:'ON'/);
   assert.match(handler,/env\.DB\.execSchema\(statements\)/);
   assert.match(handler,/env\.DB\?\.dialect==='postgres'/);
   assert.match(handler,/const userForeignKey=postgres\?'':/);
@@ -65,11 +66,14 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(handler,/WHERE \$\{RECEIPT_TABLE\}\.user_id=excluded\.user_id/);
   assert.doesNotMatch(handler,/INSERT INTO[^`'\n]*timeline/i);
   assert.match(app,/data-pve-mode="escort"/);
+  assert.doesNotMatch(app,/id="pveEscortTab"[^>]*hidden[^>]*>호송작전[^<]*<small>TEST/);
+  assert.match(app,/data-mobile-tab="escort"/);
+  assert.match(app,/data-v21-route="escort"/);
   assert.match(app,/CNineEscortBridge/);
   assert.match(client,/ProjectVBattleV3Live\.createRenderer/);
   assert.match(client,/4–6 MIN MISSION/);
-  assert.match(client,/localOwner/);
-  assert.match(client,/OWNER 테스트 탭은 일시적인 API\/DB 오류로 사라지지 않는다/);
+  assert.doesNotMatch(client,/localOwner/);
+  assert.match(client,/공개 콘텐츠 탭은 일시적인 API\/DB 오류로 사라지지 않는다/);
   assert.match(client,/TACTICAL BUFFER/);
   assert.match(client,/escort-v1833-tactic-grid/);
   assert.match(client,/tactic-field-repair-v1835\.webp/);
@@ -85,20 +89,27 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(handler,/finalizeEscortObjectiveTimeline/);
   assert.match(wrapper,/철벽 호송작전/);
   assert.match(admin,/admin\/escort\/settings/);
-  assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1830-owner-test/);
+  assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1843-public-launch/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=65-escort-hp-gauge/);
+  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=66-boss-barrage/);
   assert.match(app,/battle-v3-live\.js\?v=3\.20\.0-escort-hp-gauge/);
-  assert.match(index,/app\.js\?v=1837-escort-v3-hp-cachebreak/);
-  assert.match(index,/escort-operation-v1830\.js\?v=1837-v3-objective-hud/);
-  assert.match(index,/escort-operation-v1830\.css\?v=1835-tactic-live-final/);
-  assert.match(sw,/soop-card-shell-v1837-escort-v3-hp-cache-contract/);
+  assert.match(index,/app\.js\?v=1843-escort-public/);
+  assert.match(index,/escort-operation-v1830\.js\?v=1843-escort-public/);
+  assert.match(index,/escort-operation-v1830\.css\?v=1843-public-mobile/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.9\.0-escort-public/);
+  assert.match(index,/soopketmon-v21-runtime-router\.js\?v=1\.1\.0-escort-route/);
+  assert.match(sw,/soop-card-shell-v1843-escort-public/);
   assert.match(sw,/\['script','style','worker'\]\.includes\(request\.destination\)[\s\S]*?networkFirst\(request,SHELL_CACHE\)/);
   assert.doesNotMatch(headers,/\/(?:js|css|preview)\/\*[\s\S]{0,100}?immutable/);
   assert.equal((headers.match(/Cache-Control: public, max-age=0, must-revalidate/g)||[]).length>=3,true);
   assert.match(style,/#pveEscortView \.escort-v1833-tactic-card/);
   assert.match(style,/grid-template-columns:34px minmax\(104px,136px\) minmax\(0,1fr\) 18px!important/);
+  assert.match(style,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)!important/);
+  assert.match(router,/escort:\s*\{ shell: 'battle', actions: \[\{ selector: '\[data-pve-mode="escort"\]'/);
+  assert.match(adapter,/escort:\s*\['호송작전', '전투·경쟁', 'swords'\]/);
+  assert.match(adapter,/routes: \['battle', 'deck', 'hunt', 'raid', 'escort'/);
+  assert.match(integrationStyle,/padding: 14px 12px max\(24px, env\(safe-area-inset-bottom\)\)/);
 });
 
 test('호송 이미지 리소스는 런타임 예산 안으로 압축됐다',async()=>{

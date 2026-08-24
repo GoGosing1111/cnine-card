@@ -59,7 +59,7 @@ export function defaultEscortSettings(){
   //   구간별 보상 + 완주 보너스로 나눴다. 완주 시 총액은 종전과 같다
   //   (구간합 2,250,000 + 보너스 250,000 = 2,500,000 / 165 + 85 = 250).
   //   vehicleStrikeScale 은 난이도 다이얼 하나다. 올리면 차량이 빨리 터진다.
-  return {mode:'TEST',title:'철벽 호송작전',description:'5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.',vehicleMaxHp:10000,weeklyRunLimit:10,weeklyRewardLimit:3,clearBonusCoin:250000,clearBonusShards:85,vehicleStrikeScale:36,repairPercent:20,sectors:DEFAULT_SECTORS.map(cleanSector)};
+  return {mode:'ON',title:'철벽 호송작전',description:'5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.',vehicleMaxHp:10000,weeklyRunLimit:10,weeklyRewardLimit:3,clearBonusCoin:250000,clearBonusShards:85,vehicleStrikeScale:36,repairPercent:20,sectors:DEFAULT_SECTORS.map(cleanSector)};
 }
 
 export function cleanEscortSettings(raw={}){
