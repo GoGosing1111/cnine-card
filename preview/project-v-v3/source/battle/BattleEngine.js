@@ -1488,7 +1488,9 @@ export class BattleEngine{
     const roleProfile=roleEffectProfile(roleKind);
     const impact={x:objective.x,y:objective.y-Math.max(34,objective.height*.38)};
     const damageLabel=this.pools.damage.acquire();
-    configureDamageText(damageLabel,{kind:SKILL_EFFECT_KIND.ATTACK,damage,critical:false,healing:0,hitCount:1,compact:this.mobile});
+    // V1841: 보스 관통 포격은 크게 띄운다. 평타(장갑 스침)와 구분이 안 되면
+    //   총 피해를 아무리 올려도 화면에서는 "그대로" 로 보인다.
+    configureDamageText(damageLabel,{kind:SKILL_EFFECT_KIND.ATTACK,damage,critical:Boolean(event.objectiveHeavy),healing:0,hitCount:1,compact:this.mobile});
     damageLabel.position.set(impact.x,impact.y-92);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
     const impactFx=new Container();
     impactFx.position.set(impact.x,impact.y);impactFx.alpha=0;impactFx.scale.set(.25);
@@ -1510,7 +1512,7 @@ export class BattleEngine{
       actor.setState(CHARACTER_STATE.IDLE);objective.tint=0xffffff;
       whiteFlashHandle?.release();skillEffect.release();impactFx.destroy({children:true});flash.destroy();
     };
-    this.updateStatus(`${actor.name} · 호송차 강제 공격${event.forced?' · 선제 타격':''}`);
+    this.updateStatus(`${actor.name} · ${event.objectiveStrikeLabel||'호송차 강제 공격'}${event.forced?' · 선제 타격':''}`);
     return this.timeline(timeline=>{
       timeline.call(()=>{actor.setState(CHARACTER_STATE.MOVE);this.audio?.playCast(roleKind)},[],0);
       timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:.24,ease:'power3.in'});

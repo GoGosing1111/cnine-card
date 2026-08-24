@@ -14,7 +14,7 @@ const DEFAULT_SECTORS=Object.freeze([
   {key:'DEPARTURE',name:'호송 집결지',label:'출발지 편성',enemyName:'혈조 정찰대',enemyImage:'/assets/responsive/project-v/monsters/tower-024-blood-crow-sd-v1-768.webp',enemyPower:125000,hazardPercent:8,isBoss:false,brief:'저장된 PVE 덱을 고정하고 출발지를 기습한 정찰대를 제거합니다.',rewardCoin:150000,rewardShards:10,rewardTickets:1},
   {key:'AMBUSH',name:'야간 협곡',label:'일반 습격',enemyName:'타락한 방벽기사',enemyImage:'/assets/responsive/project-v/monsters/tower-021-fallen-paladin-sd-v1-768.webp',enemyPower:165000,hazardPercent:11,isBoss:false,brief:'협곡 양측에서 수송차를 노리는 습격대를 돌파하십시오.',rewardCoin:260000,rewardShards:18,rewardTickets:1},
   {key:'BLOCKADE',name:'포격 검문선',label:'도로 봉쇄·포격',enemyName:'커맨더 크리그',enemyImage:'/assets/responsive/project-v/monsters/tower-064-commander-krieg-sd-v1-768.webp',enemyPower:215000,hazardPercent:14,isBoss:false,brief:'자주포 사격을 지휘하는 봉쇄 부대를 무력화합니다.',rewardCoin:420000,rewardShards:30,rewardTickets:2},
-  {key:'REPAIR',name:'붕괴 정비기지',label:'정비 지점',enemyName:'보랏빛 공성술사',enemyImage:'/assets/responsive/project-v/monsters/tower-028-violet-magus-boss-sd-v1-768.webp',enemyPower:265000,hazardPercent:12,isBoss:true,brief:'정비 설비를 점거한 포격 지휘관을 제거하십시오.',rewardCoin:620000,rewardShards:45,rewardTickets:3},
+  {key:'REPAIR',name:'붕괴 정비기지',label:'정비 지점',enemyName:'보랏빛 공성술사',enemyImage:'/assets/responsive/project-v/monsters/tower-028-violet-magus-boss-sd-v1-768.webp',enemyPower:265000,hazardPercent:16,isBoss:true,brief:'정비 설비를 점거한 포격 지휘관을 제거하십시오.',rewardCoin:620000,rewardShards:45,rewardTickets:3},
   {key:'FINAL_BOSS',name:'철의 종착지',label:'추격대·최종 보스',enemyName:'오메가-09 추격형',enemyImage:'/assets/responsive/project-v/monsters/hunt-068-omega-09-sd-v1-768.webp',enemyPower:340000,hazardPercent:20,isBoss:true,brief:'마지막 추격 병기를 격파하고 호송차를 인계하십시오.',rewardCoin:800000,rewardShards:62,rewardTickets:4}
 ]);
 
@@ -59,7 +59,7 @@ export function defaultEscortSettings(){
   //   구간별 보상 + 완주 보너스로 나눴다. 완주 시 총액은 종전과 같다
   //   (구간합 2,250,000 + 보너스 250,000 = 2,500,000 / 165 + 85 = 250).
   //   vehicleStrikeScale 은 난이도 다이얼 하나다. 올리면 차량이 빨리 터진다.
-  return {mode:'TEST',title:'철벽 호송작전',description:'5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.',vehicleMaxHp:10000,weeklyRunLimit:10,weeklyRewardLimit:3,clearBonusCoin:250000,clearBonusShards:85,vehicleStrikeScale:25,repairPercent:20,sectors:DEFAULT_SECTORS.map(cleanSector)};
+  return {mode:'TEST',title:'철벽 호송작전',description:'5개 전선을 돌파해 장갑 수송차를 목적지까지 호위하십시오.',vehicleMaxHp:10000,weeklyRunLimit:10,weeklyRewardLimit:3,clearBonusCoin:250000,clearBonusShards:85,vehicleStrikeScale:24,repairPercent:20,sectors:DEFAULT_SECTORS.map(cleanSector)};
 }
 
 export function cleanEscortSettings(raw={}){
@@ -194,18 +194,41 @@ function nextCardHp(finalRows,previous,healPercent){
 
 function tacticEffect(key){return TACTICS[String(key||'').toUpperCase()]||null;}
 
-export function finalizeEscortObjectiveTimeline(battleV2,{hpBefore=0,maxHp=0,totalDamage=0,recovery=0}={}){
+export function finalizeEscortObjectiveTimeline(battleV2,{hpBefore=0,maxHp=0,totalDamage=0,recovery=0,burstEvery=1,burstShare=0}={}){
   const timeline=Array.isArray(battleV2?.result?.timeline)?battleV2.result.timeline:[];
   const strikes=timeline.filter(event=>String(event?.type||'').toUpperCase()==='ESCORT_OBJECTIVE_ATTACK');
   const safeBefore=Math.max(0,Math.round(Number(hpBefore)||0)),safeMax=Math.max(1,Math.round(Number(maxHp)||safeBefore||1));
   const budget=Math.min(safeBefore,Math.max(0,Math.round(Number(totalDamage)||0)));
-  let remaining=budget,currentHp=safeBefore;
+  // ── V1841: 보스 타격을 '자주 조금' 에서 '가끔 크게' 로 ──────────────
+  //   종전에는 총 피해를 타격 횟수로 똑같이 나눠 줬다. 그래서 보스 한 대가
+  //   체력바의 2~3% 밖에 안 깎였고(실측: 정비 2.1% / 최종 3.3%), 총량을
+  //   3~7배 올려도 화면에서는 "그대로" 로 보였다.
+  //   총 피해량은 한 자리도 안 바꾸고 분배만 바꾼다 → 난이도는 그대로,
+  //   보스는 몇 번에 걸쳐 크게 내리찍는다. (평타: 장갑 스침 / 포격: 관통)
+  const heavy=new Set();
+  if(burstEvery>1&&strikes.length){
+    // 마지막 타격이 반드시 포격이 되도록 뒤에서부터 잡는다. 차량이 터지는
+    // 순간이 큰 한 방이어야 "터졌다" 가 보인다.
+    for(let i=strikes.length-1;i>=0;i-=burstEvery)heavy.add(i);
+  }
+  const heavyCount=heavy.size,lightCount=strikes.length-heavyCount;
+  const heavyBudget=heavyCount?Math.round(budget*burstShare):0,lightBudget=budget-heavyBudget;
+  const share=index=>heavy.has(index)
+    ?(heavyCount?heavyBudget/heavyCount:0)
+    :(lightCount?lightBudget/lightCount:0);
+  let currentHp=safeBefore,accumulated=0,dealt=0;
   strikes.forEach((event,index)=>{
-    const slotsLeft=strikes.length-index;
-    const damage=slotsLeft>0?Math.min(currentHp,Math.ceil(remaining/slotsLeft)):0;
+    accumulated+=share(index);
+    // 누적 반올림 — 조각들이 흩어져도 총합은 정확히 budget 이 된다.
+    const target=index===strikes.length-1?budget-dealt:Math.round(accumulated)-dealt;
+    const damage=Math.max(0,Math.min(currentHp,target));
     const before=currentHp,after=Math.max(0,before-damage);
-    remaining=Math.max(0,remaining-damage);currentHp=after;
-    Object.assign(event,{targetId:'ESCORT_OBJECTIVE',targetSide:'OBJECTIVE',targetName:'장갑 수송차',damage,objectiveHpBefore:before,objectiveHpAfter:after,objectiveMaxHp:safeMax,priority:'ESCORT_VEHICLE'});
+    dealt+=damage;currentHp=after;
+    const isHeavy=heavy.has(index);
+    Object.assign(event,{targetId:'ESCORT_OBJECTIVE',targetSide:'OBJECTIVE',targetName:'장갑 수송차',damage,objectiveHpBefore:before,objectiveHpAfter:after,objectiveMaxHp:safeMax,priority:'ESCORT_VEHICLE',
+      objectiveStrikeKind:burstEvery>1?(isHeavy?'BARRAGE':'GRAZE'):'STRIKE',
+      objectiveStrikeLabel:burstEvery>1?(isHeavy?'관통 포격':'장갑 스침'):'차량 피격',
+      objectiveHeavy:isHeavy});
   });
   const recovered=Math.min(Math.max(0,safeMax-currentHp),Math.max(0,Math.round(Number(recovery)||0)));
   if(recovered>0){
@@ -301,7 +324,10 @@ export async function handleEscortOperation({path,request,env,deps}){
       let vehicleHp=vehicleHpAfterDamage;
       if(!vehicleDestroyed&&won&&roles.HP)vehicleHp=Math.min(run.vehicle_max_hp,vehicleHp+Math.round(run.vehicle_max_hp*roles.HP*.015));
       if(!vehicleDestroyed&&won&&sector.key==='REPAIR')vehicleHp=Math.min(run.vehicle_max_hp,vehicleHp+Math.round(run.vehicle_max_hp*.10));
-      finalizeEscortObjectiveTimeline(battleV2,{hpBefore:run.vehicle_hp,maxHp:run.vehicle_max_hp,totalDamage:damage,recovery:vehicleHp-vehicleHpAfterDamage});
+      // V1841: 보스 구간만 4타에 1번 '관통 포격' 으로 82% 를 몰아친다.
+      //   일반 구간은 종전대로 균등 — 잡몹은 갉아먹고 보스는 내리찍는 대비.
+      finalizeEscortObjectiveTimeline(battleV2,{hpBefore:run.vehicle_hp,maxHp:run.vehicle_max_hp,totalDamage:damage,recovery:vehicleHp-vehicleHpAfterDamage,
+        burstEvery:sector.isBoss?4:1,burstShare:sector.isBoss?0.82:0});
       const failed=!won||living===0||vehicleDestroyed,finalSector=run.sector_index>=cfg.sectors.length-1;
       // ── V1840 구간별 보상 ────────────────────────────────────────────
       //   이 구간을 '살아서 통과' 했을 때만 적립한다. 전투에서 이겨도 차량이
