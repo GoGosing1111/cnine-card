@@ -584,9 +584,9 @@ function bindFullscreenPlayLink(header){
 
 const FEATURE_RESOURCE_MANIFEST={
   character:{
-    styles:['css/equipment-v1264.css?v=1497-load-control','css/equipment-character-v1269.css?v=1497-load-control','css/equipment-alignment-v1487.css?v=1487-pixel-register','css/garage-v1339.css?v=1339-gemini-reference-redesign','css/garage-v1341.css?v=1782-title-specific-stars'],
-    scripts:['js/equipment-v1274.js?v=1814-title-font-presets'],
-    ready:()=>typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
+    styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=5-approved-live-contract'],
+    scripts:['js/equipment-v1274.js?v=1814-title-font-presets','js/character-loadout-v2.js?v=5-approved-live-contract','js/character-loadout-v2-live.js?v=1-approved-live-mount'],
+    ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   workshop:{
     styles:['css/workshop-v1676.css?v=1699-scrapyard-response','css/scrapyard-battle-v1698.css?v=1720-monster-card-compact'],
