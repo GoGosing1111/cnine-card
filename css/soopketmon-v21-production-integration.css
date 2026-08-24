@@ -593,3 +593,22 @@ body.soopketmon-v21-live .chief-election-body button:hover {
   .v21-production-shell .pc-ticker-track,
   .v21-production-shell .pc-main-character img { animation: none !important; }
 }
+
+@media (max-width: 360px) {
+  .v21-production-shell .v21-route-command-head {
+    grid-template-columns: 42px minmax(0, 1fr) 60px;
+    gap: 6px;
+    padding-inline: 7px;
+  }
+  .v21-production-shell .v21-route-command-head > button:last-child {
+    min-width: 60px;
+    padding-inline: 6px;
+    font-size: 11px;
+  }
+  .v21-command-groups section > div {
+    grid-template-columns: 1fr;
+  }
+  .v21-command-groups button {
+    min-height: 60px;
+  }
+}
