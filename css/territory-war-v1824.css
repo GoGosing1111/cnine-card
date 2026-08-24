@@ -385,11 +385,15 @@
 .tw4-loadout-panel { padding: 8px; }
 .tw4-loadout-panel h3 { margin: 7px 0 0; font-size: 27px; }
 .tw4-loadout-panel p { color: #859ba6; font-size: 11px; line-height: 1.65; }
-.tw4-loadout-panel > div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 18px; background: var(--line); }
-.tw4-loadout-panel > div span { padding: 15px; background: #07121a; }
+.tw4-loadout-panel > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; margin-top: 18px; background: var(--line); }
+.tw4-loadout-panel > div span { min-width: 0; padding: 15px; background: #07121a; }
 .tw4-loadout-panel > div small, .tw4-loadout-panel > div b { display: block; }
 .tw4-loadout-panel > div small { color: #637a86; font-size: 8px; }
-.tw4-loadout-panel > div b { margin-top: 5px; font-size: 14px; }
+.tw4-loadout-panel > div b { margin-top: 5px; font-size: 14px; white-space: nowrap; }
+.tw4-loadout-panel > div b em { margin-left: 4px; color: #6f8793; font-size: 9px; font-style: normal; font-weight: 800; }
+.tw4-loadout-panel > div .tw4-contribution-rank { background: linear-gradient(110deg, rgba(0, 222, 255, .13), #07121a 72%); box-shadow: inset 3px 0 0 var(--cyan); }
+.tw4-loadout-panel > div .tw4-contribution-rank small { color: #79dff0; }
+.tw4-loadout-panel > div .tw4-contribution-rank b { color: #f0fcff; text-shadow: 0 0 18px rgba(0, 222, 255, .26); }
 .tw4-loadout-panel > button { width: 100%; margin-top: 15px; padding: 15px; border: 1px solid #3196b6; border-radius: 0; background: #0c3b4a; font-weight: 900; cursor: pointer; }
 
 .tw4-toast { position: fixed; z-index: 200; left: 50%; bottom: 25px; max-width: calc(100% - 30px); padding: 12px 18px; border: 1px solid #3a7c96; background: rgba(5, 19, 27, .96); color: #ecf9ff; font-size: 11px; font-weight: 800; opacity: 0; transform: translate(-50%, 16px); transition: opacity .2s ease, transform .2s ease; pointer-events: none; box-shadow: 0 18px 50px rgba(0,0,0,.5); }
@@ -505,6 +509,10 @@
   .tw4-map-event > span { display: none; }
   .tw4-operation-grid { grid-template-columns: 1fr; }
   .tw4-operation-grid button { min-height: 130px; }
+  .tw4-loadout-panel > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 340px) {
   .tw4-loadout-panel > div { grid-template-columns: 1fr; }
 }
 

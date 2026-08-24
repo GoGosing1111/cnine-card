@@ -839,7 +839,14 @@ async function publicState(env,userId,includeAdmin=false){
     return state;
   }
   await recoverAppliedForUser(env,userId,cfg);
-  const [shared,mineRow,reward]=await Promise.all([sharedPublicState(env,round,cfg),env.DB.prepare('SELECT * FROM territory_war_v3_users WHERE round_id=? AND user_id=?').bind(round.id,userId).first(),rewardForUser(env,userId)]),front=shared.front,counts=shared.counts;
+  const [shared,mineRow,reward]=await Promise.all([sharedPublicState(env,round,cfg),env.DB.prepare(`SELECT ranked.* FROM (
+    SELECT w.*,
+      (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) command_score,
+      ROW_NUMBER() OVER (ORDER BY (w.damage+w.front_finishes*10000+w.defense_wins*2500+w.counter_contribution*25) DESC,w.attacks DESC,w.user_id) contribution_rank,
+      COUNT(*) OVER () contribution_total
+    FROM territory_war_v3_users w
+    WHERE w.round_id=? AND w.side IN ('A','B')
+  ) ranked WHERE ranked.user_id=?`).bind(round.id,userId).first(),rewardForUser(env,userId)]),front=shared.front,counts=shared.counts;
   let mine=null;if(mineRow){const e=rechargeEnergy(mineRow,cfg,front);mine={...mineRow,energy:e.energy,nextEnergyAt:e.nextEnergyAt}}
   const ranking=shared.ranking,recentResults=shared.recentResults,recentActions=shared.recentActions;
   const canRegister=!mine&&round.status==='RECRUITING',canCancel=Boolean(mine&&round.status==='RECRUITING');
