@@ -60,7 +60,7 @@
       assetBase: '../../',
       profile: { nickname: '핑크빛유두' },
       onOpenAvatarShop() {
-        window.location.href = '../live-avatar-shop-v1/?v=1-entry-contract&from=loadout';
+        window.location.href = '../live-avatar-shop-v1/?v=2-avatar-effects&from=loadout';
       }
     }
   );

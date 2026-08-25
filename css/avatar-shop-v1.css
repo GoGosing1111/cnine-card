@@ -79,7 +79,12 @@
 .avs1-hero-copy h1 { margin: 8px 0 4px; font-size: clamp(36px, 3.7vw, 66px); line-height: 1; letter-spacing: -.06em; }
 .avs1-hero-copy > p { margin: 0; color: #c5d0d3; font-size: 14px; }
 .avs1-hero-copy > div { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 17px; }
-.avs1-hero-copy > div > span:last-child { padding: 7px 9px; border: 1px solid rgba(218, 231, 234, .2); color: #a8b7bb; background: rgba(3, 6, 9, .72); font-size: 9px; font-weight: 800; }
+.avs1-effect-badge { display: inline-flex; align-items: center; gap: 7px; min-height: 31px; padding: 0 10px; border: 1px solid rgba(218, 231, 234, .28); color: #eef5f5; background: rgba(3, 6, 9, .84); font-size: 9px; font-weight: 900; }
+.avs1-effect-badge svg { width: 14px; fill: none; stroke: currentColor; stroke-width: 1.55; }
+.avs1-effect-badge.is-power { color: #ff8c83; }
+.avs1-effect-badge.is-scrapyard { color: #e8bb6d; }
+.avs1-effect-badge.is-raid { color: #9ba7ff; }
+.avs1-effect-badge.is-coin { color: #ffe08e; }
 .avs1-source-badge { display: inline-flex; align-items: center; gap: 7px; min-height: 31px; padding: 0 10px; border: 1px solid currentColor; background: rgba(3, 6, 9, .78); font-size: 9px; font-weight: 900; }
 .avs1-source-badge.is-coin { color: #efd184; }
 .avs1-source-badge.is-drop { color: #7bd5e6; }
@@ -94,6 +99,22 @@
 .avs1-dossier-copy small { color: var(--avatar-accent); font-size: 8px; font-weight: 900; letter-spacing: .18em; }
 .avs1-dossier-copy h2 { margin: 6px 0 8px; font-size: clamp(26px, 2.2vw, 40px); line-height: 1; letter-spacing: -.055em; }
 .avs1-dossier-copy p { max-width: 520px; margin: 0; color: #8fa0a6; font-size: 11px; line-height: 1.65; }
+.avs1-effect-module { margin-top: 13px; border: 1px solid rgba(164, 189, 200, .2); background: #080d12; }
+.avs1-effect-module header { min-height: 30px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 9px; border-bottom: 1px solid rgba(164, 189, 200, .13); }
+.avs1-effect-module header span { display: inline-flex; align-items: center; gap: 6px; color: var(--avatar-accent); font-size: 7px; font-weight: 900; letter-spacing: .12em; }
+.avs1-effect-module header b { color: #718289; font-size: 6px; letter-spacing: .1em; }
+.avs1-effect-module header svg { width: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.avs1-effect-module > div { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; padding: 10px; }
+.avs1-effect-module > div > span { min-width: 78px; padding-right: 11px; border-right: 1px solid rgba(164, 189, 200, .14); }
+.avs1-effect-module small { display: block; color: #89999e; font-size: 7px; letter-spacing: 0; }
+.avs1-effect-module strong { display: block; margin-top: 4px; color: #f1f6f6; font-size: 17px; line-height: 1; }
+.avs1-effect-module p { color: #8fa0a6; font-size: 8px; line-height: 1.5; }
+.avs1-effect-module footer { padding: 7px 9px; border-top: 1px solid rgba(164, 189, 200, .1); color: #687a81; font-size: 6px; font-weight: 800; }
+.avs1-effect-module.is-power { border-left: 3px solid #ff6e65; }
+.avs1-effect-module.is-scrapyard { border-left: 3px solid #d8a14d; }
+.avs1-effect-module.is-raid { border-left: 3px solid #8995ff; }
+.avs1-effect-module.is-coin { border-left: 3px solid #e2bf62; }
+.avs1-effect-module.is-neutral { border-left: 3px solid #718289; }
 .avs1-acquisition-ledger { min-width: 0; margin: 0; align-self: center; }
 .avs1-acquisition-ledger div { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(164, 189, 200, .12); }
 .avs1-acquisition-ledger dt { color: #72858c; font-size: 8px; }
@@ -244,7 +265,7 @@
   .avs1-hero-copy { left: 15px; right: 15px; bottom: 18px; padding-left: 12px; }
   .avs1-hero-copy h1 { font-size: clamp(36px, 12vw, 54px); }
   .avs1-hero-copy > p { font-size: 11px; }
-  .avs1-hero-copy > div > span:last-child { display: none; }
+  .avs1-effect-badge { min-height: 29px; font-size: 8px; }
   .avs1-console { padding: 7px; }
   .avs1-dossier { display: grid; grid-template-columns: 66px minmax(0, 1fr); gap: 10px; min-height: 0; padding: 12px; }
   .avs1-dossier-index { min-height: 112px; padding-right: 9px; }
@@ -252,6 +273,9 @@
   .avs1-dossier-index b { font-size: 17px; }
   .avs1-dossier-copy h2 { font-size: 27px; }
   .avs1-dossier-copy p { font-size: 9px; }
+  .avs1-effect-module > div { grid-template-columns: 1fr; gap: 7px; }
+  .avs1-effect-module > div > span { padding: 0 0 8px; border-right: 0; border-bottom: 1px solid rgba(164, 189, 200, .14); }
+  .avs1-effect-module p { font-size: 8px; }
   .avs1-acquisition-ledger { grid-column: 1 / -1; }
   .avs1-acquisition-ledger div { grid-template-columns: 80px 1fr; }
   .avs1-primary-action { grid-column: 1 / -1; min-height: 50px; }

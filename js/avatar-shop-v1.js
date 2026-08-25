@@ -17,12 +17,39 @@
   const sourceType = (item) => String(item?.acquisitionType || 'DROP').toUpperCase() === 'COIN' ? 'COIN' : 'DROP';
   const uid = () => globalThis.crypto?.randomUUID?.() || `avatar-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
+  function effectInfo(item) {
+    const effect = item?.effect || {};
+    const type = String(effect.type || 'NONE').toUpperCase();
+    const amount = Math.max(0, Math.floor(Number(effect.value) || 0));
+    if (type === 'SCRAPYARD_FREE_ENTRY') return {
+      type, tone: 'scrapyard', icon: 'scrapyard', label: '폐차장 무료 입장', value: '입장권 소모 0', summary: '폐차장 무료 입장',
+      detail: '장착 중에는 폐차장 출입 허가증을 소모하지 않습니다. 일일 입장 횟수 제한은 그대로 적용됩니다.'
+    };
+    if (type === 'RAID_EXTRA_ENTRY') {
+      const value = Math.max(1, Math.min(99, amount || 1));
+      return { type, tone: 'raid', icon: 'raid', label: '레이드 추가 횟수', value: `+${value}회`, summary: `레이드 입장 +${value}회`, detail: `장착 중에는 레이드 각 운영 슬롯의 입장 가능 횟수가 ${value}회 증가합니다.` };
+    }
+    if (type === 'COIN_GAIN_PERCENT') {
+      const value = Math.max(1, Math.min(20, amount || 1));
+      return { type, tone: 'coin', icon: 'coinGain', label: '코인 습득률', value: `+${value}%`, summary: `코인 습득률 +${value}%`, detail: `전투와 콘텐츠에서 직접 획득하는 코인이 ${value}% 증가합니다. 거래·환불·관리자 지급은 제외됩니다.` };
+    }
+    if (type === 'BATTLE_POWER_PERCENT') {
+      const value = Math.max(1, Math.min(100, amount || 1));
+      return { type, tone: 'power', icon: 'power', label: '전투력 상승', value: `+${value}%`, summary: `편성 전투력 +${value}%`, detail: `장착 중에는 모든 전투 콘텐츠의 최종 편성 전투력이 ${value}% 증가합니다.` };
+    }
+    return { type: 'NONE', tone: 'neutral', icon: 'wardrobe', label: '아바타 효과', value: '미설정', summary: '효과 정보 준비 중', detail: '서버에서 이 아바타의 장착 효과가 아직 설정되지 않았습니다.' };
+  }
+
   const icon = (name) => {
     const paths = {
       back: '<path d="M19 12H5m6-6-6 6 6 6"/>',
       wardrobe: '<path d="M6 3h12v18H6zM12 3v18M9 7h1m4 0h1"/>',
       coin: '<path d="M5 5h14v14H5zM9 9h6v6H9z"/>',
       drop: '<path d="M4 5h16v4L12 20 4 9V5Zm0 4h16M9 5l3 4 3-4"/>',
+      power: '<path d="m5 5 14 14M19 5 5 19M4 7l3-3 4 1M20 7l-3-3-4 1"/>',
+      scrapyard: '<path d="M4 14h16l-1-5-3-2H8L5 9l-1 5Zm3 0v4m10-4v4M8 11h8M9 7l1-3h4l1 3"/>',
+      raid: '<path d="M5 21V4m1 1h11l-2 4 2 4H6M9 17h7"/>',
+      coinGain: '<path d="M5 5h10v10H5zM8 8h4v4H8zM14 19l5-5m0 0v4m0-4h-4"/>',
       check: '<path d="m5 12 4 4L19 6"/>',
       lock: '<path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5z"/>',
       close: '<path d="M6 6l12 12M18 6 6 18"/>'
@@ -85,6 +112,20 @@
       return `<span class="avs1-source-badge is-drop">${icon('drop')} 드랍 전용</span>`;
     }
 
+    function effectBadge(item) {
+      const effect = effectInfo(item);
+      return `<span class="avs1-effect-badge is-${effect.tone}">${icon(effect.icon)} ${escapeHtml(effect.summary)}</span>`;
+    }
+
+    function effectModule(item) {
+      const effect = effectInfo(item);
+      return `<section class="avs1-effect-module is-${effect.tone}">
+        <header><span>${icon(effect.icon)} AVATAR EFFECT</span><b>${item?.equipped ? 'ACTIVE' : 'EQUIP TO ACTIVATE'}</b></header>
+        <div><span><small>${escapeHtml(effect.label)}</small><strong>${escapeHtml(effect.value)}</strong></span><p>${escapeHtml(effect.detail)}</p></div>
+        <footer>장착 아바타 1개만 적용 · 효과 중첩 불가</footer>
+      </section>`;
+    }
+
     function filteredItems() {
       const rows = [...(state.data?.avatars || [])];
       if (state.filter === 'OWNED') return rows.filter((item) => item.owned);
@@ -109,7 +150,7 @@
           <small>${escapeHtml(item?.callSign || 'AVATAR ARCHIVE')}</small>
           <h1>${escapeHtml(item?.name || '아바타')}</h1>
           <p>${escapeHtml(item?.role || '외형 전용 아바타')}</p>
-          <div>${sourceBadge(item)}<span>외형 전용 · 전투력 변동 없음</span></div>
+          <div>${sourceBadge(item)}${effectBadge(item)}</div>
         </div>
       </section>`;
     }
@@ -122,6 +163,7 @@
           <small>${escapeHtml(item?.callSign || '')}</small>
           <h2>${escapeHtml(item?.name || '')}</h2>
           <p>${escapeHtml(item?.description || '')}</p>
+          ${effectModule(item)}
         </div>
         <dl class="avs1-acquisition-ledger">
           <div><dt>획득 방식</dt><dd>${isCoin ? '코인 상점' : '콘텐츠 드랍'}</dd></div>
@@ -140,14 +182,14 @@
         ${picture(item, 'avs1-card-picture')}
         <span class="avs1-card-seq">${escapeHtml(item.serial || 'A-00')}</span>
         <span class="avs1-card-state">${item.equipped ? 'ACTIVE' : item.owned ? 'OWNED' : sourceType(item) === 'COIN' ? `${formatNumber(item.coinPrice)} C` : 'DROP'}</span>
-        <span class="avs1-card-copy"><small>${escapeHtml(item.callSign || '')}</small><strong>${escapeHtml(item.name)}</strong><em>${sourceType(item) === 'COIN' ? '코인 상점' : escapeHtml(item.sourceLabel || '콘텐츠 드랍')}</em></span>
+        <span class="avs1-card-copy"><small>${escapeHtml(item.callSign || '')}</small><strong>${escapeHtml(item.name)}</strong><em>${escapeHtml(effectInfo(item).summary)}</em></span>
       </button>`;
     }
 
     function archive() {
       const items = filteredItems();
       return `<div class="avs1-archive-head">
-          <div><small>WARDROBE INDEX</small><h2>아바타 컬렉션</h2><p>판매 아바타와 드랍 전용 아바타의 획득 경로를 분리해 표시합니다.</p></div>
+          <div><small>WARDROBE INDEX</small><h2>아바타 컬렉션</h2><p>획득 경로와 장착 효과를 확인할 수 있습니다. 효과는 현재 장착한 아바타 1개만 적용됩니다.</p></div>
           <span><b>${ownedCount()}</b> / ${state.data?.avatars?.length || 0} OWNED</span>
         </div>
         <nav class="avs1-filters" aria-label="아바타 획득 방식 필터">${FILTERS.map(([value, label]) => `<button type="button" class="${state.filter === value ? 'is-active' : ''}" data-avatar-filter="${value}">${label}</button>`).join('')}</nav>
@@ -156,12 +198,13 @@
 
     function confirm(item) {
       if (!item || state.confirmCode !== item.code) return '';
+      const effect = effectInfo(item);
       return `<div class="avs1-confirm-layer" role="presentation"><section class="avs1-confirm" role="dialog" aria-modal="true" aria-label="아바타 구매 확인">
         <header><small>COIN PURCHASE</small><button type="button" data-avatar-confirm-close aria-label="닫기">${icon('close')}</button></header>
         <div class="avs1-confirm-preview">${picture(item, 'avs1-confirm-picture', true)}</div>
         <h2>${escapeHtml(item.name)}</h2>
-        <p>아바타는 계정에 영구 귀속됩니다. 외형 전용이며 전투력에는 영향을 주지 않습니다.</p>
-        <dl><div><dt>구매 가격</dt><dd>${formatNumber(item.coinPrice)} COIN</dd></div><div><dt>구매 후 잔액</dt><dd>${formatNumber(Math.max(0, Number(state.data?.coin || 0) - Number(item.coinPrice || 0)))} COIN</dd></div></dl>
+        <p>아바타는 계정에 영구 귀속됩니다. 장착하면 고유 효과가 활성화되며 다른 아바타 효과와 중첩되지 않습니다.</p>
+        <dl><div><dt>장착 효과</dt><dd>${escapeHtml(effect.summary)}</dd></div><div><dt>구매 가격</dt><dd>${formatNumber(item.coinPrice)} COIN</dd></div><div><dt>구매 후 잔액</dt><dd>${formatNumber(Math.max(0, Number(state.data?.coin || 0) - Number(item.coinPrice || 0)))} COIN</dd></div></dl>
         <div class="avs1-confirm-actions"><button type="button" data-avatar-confirm-close>취소</button><button type="button" data-avatar-confirm-buy="${escapeHtml(item.code)}" ${Number(state.data?.coin || 0) < Number(item.coinPrice || 0) ? 'disabled' : ''}>구매 확정</button></div>
       </section></div>`;
     }
