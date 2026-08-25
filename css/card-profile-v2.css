@@ -1141,12 +1141,48 @@
 
 @media (max-width: 760px) {
   .card-profile-v2-modal {
+    position: fixed !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 0 !important;
+    max-width: none !important;
     align-items: flex-start;
     padding: 0;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-x: none;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y !important;
   }
 
   .card-profile-v2-modal .card-profile-v2 {
-    max-height: none;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    overflow: visible !important;
+    overscroll-behavior: auto;
+    touch-action: pan-y !important;
+  }
+
+  .card-profile-v2-modal .cpv2-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .card-profile-v2-modal .cpv2-layout,
+  .card-profile-v2-modal .cpv2-card-wing,
+  .card-profile-v2-modal .cpv2-card-stage,
+  .card-profile-v2-modal .cpv2-console,
+  .card-profile-v2-modal .cpv2-panel {
+    touch-action: pan-y !important;
   }
 
   .card-profile-v2 .cpv2-live-card {

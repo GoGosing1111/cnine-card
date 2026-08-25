@@ -4,12 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>LIVE CARD PROFILE V2</title>
-  <link rel="stylesheet" href="../../css/card-profile-v2.css?v=3-linear-archive-fit">
+  <link rel="stylesheet" href="../../css/style.css?v=1822-premium-cube-bulk">
+  <link rel="stylesheet" href="../../css/card-profile-v2.css?v=4-mobile-scroll">
   <style>
-    html,body{margin:0;min-height:100%;background:#02040a}body{display:grid;place-items:center;min-height:100vh;padding:14px}@media(max-width:760px){body{display:block;padding:0}}
+    html,body{margin:0;min-height:100%;background:#02040a}
   </style>
 </head>
 <body>
+  <div class="modal show detail-modal card-profile-modal card-profile-v2-modal">
   <main class="card-profile-v2" aria-label="카드 상세 프로필 개편 프리뷰">
     <header class="cpv2-topbar">
       <div class="cpv2-record">
@@ -88,6 +90,7 @@
       </section>
     </div>
   </main>
+  </div>
   <script>
     const tabs=[...document.querySelectorAll('[data-cpv2-tab]')];
     const panels=[...document.querySelectorAll('[data-cpv2-panel]')];
