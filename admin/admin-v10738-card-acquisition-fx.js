@@ -1,6 +1,6 @@
-/* v1209 LIMITED/PRESTIGE/FUR grade acquisition cutscene settings */
+/* v1851 LIMITED/PRESTIGE/FUR/SUPERSTAR grade acquisition cutscene settings */
 (() => {
-  const GRADES = ['LIMITED', 'PRESTIGE', 'FUR'];
+  const GRADES = ['LIMITED', 'PRESTIGE', 'FUR', 'SUPERSTAR'];
   const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   }[char]));
@@ -14,7 +14,7 @@
           <label class="acqFxSwitch"><input type="checkbox" data-field="enabled"><span>공통 연출 사용</span></label>
         </header>
         <div class="acqFxGrid">
-          <label class="acqFxWide"><span>영상 경로 (MP4 / WebM)</span><input data-field="mediaUrl" placeholder="${grade === 'LIMITED' ? '/assets/effects/L2CARD.mp4' : grade === 'PRESTIGE' ? '/assets/card-acquisition/prestige.mp4' : '/assets/card-acquisition/fur.mp4'}"></label>
+          <label class="acqFxWide"><span>영상 경로 (MP4 / WebM)</span><input data-field="mediaUrl" placeholder="${grade === 'LIMITED' ? '/assets/effects/L2CARD.mp4' : grade === 'PRESTIGE' ? '/assets/card-acquisition/prestige.mp4' : grade === 'FUR' ? '/assets/card-acquisition/fur.mp4' : '/assets/card-acquisition/superstar.mp4'}"></label>
           <label class="acqFxWide"><span>음향 경로 (선택)</span><input data-field="audioUrl" placeholder="/assets/card-acquisition/${grade.toLowerCase()}.mp3"></label>
           <label><span>최대 재생 시간</span><select data-field="durationMs"><option value="5000">5초</option><option value="8000">8초</option><option value="10000">10초</option><option value="15000">15초</option><option value="20000">20초</option><option value="30000">30초</option></select></label>
           <label class="acqFxSwitch"><input type="checkbox" data-field="skipAllowed" checked><span>건너뛰기 허용</span></label>
@@ -33,11 +33,11 @@
     panel.className = 'cardAcquisitionFxMain panel';
     panel.innerHTML = `
       <summary>
-        <span><b>LIMITED · PRESTIGE · FUR 획득 연출 관리</b><small>상위 등급별 공통 영상을 관리합니다.</small></span>
+        <span><b>LIMITED · PRESTIGE · FUR · SUPERSTAR 획득 연출 관리</b><small>상위 등급별 공통 영상을 관리합니다.</small></span>
         <em data-fx-summary>펼치기</em>
       </summary>
       <div class="cardAcquisitionFxMainBody">
-        <div class="acqFxIntro"><div><small>ACQUISITION CUTSCENE</small><h3>등급 공통 획득 컷신</h3><p>카드별 선택 없이 LIMITED, PRESTIGE, FUR 등급 전체에 각각 하나의 공통 영상을 적용합니다. PC·모바일 해상도에 자동 대응합니다.</p></div><span id="acqFxSaveState">설정 준비</span></div>
+        <div class="acqFxIntro"><div><small>ACQUISITION CUTSCENE</small><h3>등급 공통 획득 컷신</h3><p>카드별 선택 없이 LIMITED, PRESTIGE, FUR, SUPERSTAR 등급 전체에 각각 하나의 공통 영상을 적용합니다. PC·모바일 해상도에 자동 대응합니다.</p></div><span id="acqFxSaveState">설정 준비</span></div>
         <div class="acqFxGradeList">${GRADES.map(gradeBlock).join('')}</div>
       </div>`;
     if (anchor?.nextSibling) anchor.parentNode.insertBefore(panel, anchor.nextSibling);
@@ -90,7 +90,7 @@
         const block = panel.querySelector(`[data-acq-grade="${grade}"]`);
         if (block) applyBlock(block, configs[grade] || {});
       });
-      if (state) state.textContent = 'LIMITED / PRESTIGE / FUR 분리 설정';
+      if (state) state.textContent = 'LIMITED / PRESTIGE / FUR / SUPERSTAR 분리 설정';
     } catch (error) {
       if (state) state.textContent = '불러오기 실패';
       panel.querySelectorAll('[data-status]').forEach(box => box.textContent = error.message || '설정을 불러오지 못했습니다.');

@@ -1,7 +1,7 @@
-export const ULTIMATE_ALLOWED_GRADES=Object.freeze(['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH']);
+export const ULTIMATE_ALLOWED_GRADES=Object.freeze(['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH','SUPERSTAR']);
 
 const ULTIMATE_GRADE_PRIORITY=Object.freeze({
-  C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10,PRESTIGE:11,ZENITH:100
+  C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,FUR:10,PRESTIGE:11,ZENITH:100,SUPERSTAR:110
 });
 
 function normalizedGrade(value){

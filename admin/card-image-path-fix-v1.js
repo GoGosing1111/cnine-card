@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const normalize=value=>String(value||'').trim().replace(/\\/g,'/');
-  const isCardImage=image=>image.matches('.pendingCard > img,.cardThumbWrap > img:not(.zenithAdminFrame):not(.fakerAdminFrame):not(.fakerAdminT1Mark):not(.fakerAdminSignature),.previewCardPicker img,.cmsNewCardGrid img:not(.cmsZenithFrame):not(.cmsFakerFrame):not(.cmsFakerT1Mark):not(.cmsFakerSignature)');
+  const isCardImage=image=>image.matches('.pendingCardVisual > img[data-cms-asset],.cardThumbWrap > img:not(.zenithAdminFrame):not(.superstarAdminFrame):not(.fakerAdminFrame):not(.fakerAdminT1Mark):not(.fakerAdminSignature),.previewCardPicker img,.cmsNewCardGrid img:not(.cmsZenithFrame):not(.cmsFakerFrame):not(.cmsFakerT1Mark):not(.cmsFakerSignature)');
   function retry(image){
     if(!isCardImage(image)||image.dataset.cmsImageRetried==='1')return;
     image.dataset.cmsImageRetried='1';

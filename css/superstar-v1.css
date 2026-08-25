@@ -1,0 +1,108 @@
+/* SUPERSTAR: event-exclusive top rarity for sports stars. */
+.card-frame.grade-SUPERSTAR,
+.card-frame.grade-SUPERSTAR[class*="breakthrough-"] {
+  position: relative;
+  isolation: isolate;
+  overflow: visible;
+  aspect-ratio: 2 / 3;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  animation: none !important;
+  filter: drop-shadow(0 0 8px rgba(255, 228, 155, .48)) drop-shadow(0 0 18px rgba(66, 190, 255, .22));
+}
+.card-frame.grade-SUPERSTAR::after { box-shadow: none !important; opacity: 0 !important; }
+.card-frame.grade-SUPERSTAR .card-inner,
+.card-frame.grade-SUPERSTAR[class*="breakthrough-"] .card-inner {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.card-frame.grade-SUPERSTAR .card-art {
+  position: absolute;
+  z-index: 1;
+  top: 8.8%;
+  left: 9.8%;
+  width: 80.4%;
+  height: 83.4%;
+  min-height: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 8%;
+  clip-path: inset(0 round 8%);
+  background: #05070a;
+  box-shadow: none;
+}
+.card-frame.grade-SUPERSTAR .card-art img,
+.card-frame.grade-SUPERSTAR .card-art picture { width: 100%; height: 100%; object-fit: cover; }
+.card-frame.grade-SUPERSTAR .card-header {
+  position: absolute;
+  z-index: 26;
+  top: 12.4%;
+  left: 12.8%;
+  right: 12.8%;
+  height: auto;
+  padding: 0;
+  align-items: flex-start;
+  color: #fff8dc;
+  text-shadow: 0 1px 2px #000, 0 0 8px rgba(255, 221, 128, .72);
+}
+.card-frame.grade-SUPERSTAR .card-header span { line-height: 1; letter-spacing: .035em; }
+.card-frame.grade-SUPERSTAR .card-header b { display: none; }
+.card-frame.grade-SUPERSTAR .card-footer {
+  position: absolute;
+  z-index: 25;
+  left: 10%;
+  right: 10%;
+  bottom: 8.4%;
+  min-height: 17%;
+  padding: 9% 3% 2%;
+  align-items: flex-end;
+  background: linear-gradient(180deg, transparent, rgba(2, 4, 7, .94));
+}
+.card-frame.grade-SUPERSTAR .card-footer small { color: #ffe8a3; }
+.card-frame.grade-SUPERSTAR .card-title { color: #fff; text-shadow: 0 1px 2px #000, 0 0 7px rgba(255, 221, 135, .35); }
+.card-frame.grade-SUPERSTAR .card-mini-logo { display: none; }
+.card-frame.grade-SUPERSTAR > .breakthrough-badge,
+.card-frame.grade-SUPERSTAR[class*="breakthrough-"] > .breakthrough-badge,
+.card-frame.grade-SUPERSTAR .deck-card-top-badges {
+  z-index: 30;
+  top: 11.7%;
+  right: 11.8%;
+  left: auto;
+}
+.card-frame.grade-SUPERSTAR .deck-card-top-badges > .breakthrough-badge { position: relative; inset: auto; }
+.card-frame.grade-SUPERSTAR .breakthrough-effect { display: none !important; }
+.card-frame.grade-SUPERSTAR > .superstar-card-frame {
+  position: absolute;
+  z-index: 20;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+  user-select: none;
+}
+.card-frame.grade-SUPERSTAR:hover > .superstar-card-frame {
+  filter: brightness(1.06) drop-shadow(0 0 7px rgba(255, 223, 142, .66));
+}
+.grade-SUPERSTAR .grade-badge,
+.grade-SUPERSTAR .card-grade {
+  color: #fff8dc;
+  border-color: rgba(255, 224, 147, .76);
+  background: linear-gradient(135deg, rgba(8, 11, 18, .97), rgba(100, 74, 27, .95));
+  text-shadow: 0 0 8px rgba(255, 221, 130, .8);
+  box-shadow: 0 0 12px rgba(255, 210, 94, .22);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-frame.grade-SUPERSTAR:hover > .superstar-card-frame { filter: none; }
+}

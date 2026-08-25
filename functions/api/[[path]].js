@@ -39,8 +39,8 @@ async function safePveUnifiedDrop(env,payload){
   return safeUnifiedDrop(env,{...payload,sourceType});
 }
 
-const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,LIMITED:3000,PRESTIGE:3100,FUR:5000,ZENITH:8000};
-const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11,ZENITH:12};
+const SCORE={C:1,U:5,R:20,SR:50,HR:100,UR:200,SSR:500,MA:1500,LIMITED:3000,PRESTIGE:3100,FUR:5000,ZENITH:8000,SUPERSTAR:12000};
+const ORDER={C:1,U:2,R:3,SR:4,HR:5,UR:6,SSR:7,MA:8,LIMITED:9,PRESTIGE:10,FUR:11,ZENITH:12,SUPERSTAR:13};
 function drawIntegrityHash(input=''){
   let hash=0x811c9dc5;
   const text=String(input);
@@ -86,7 +86,7 @@ function drawIntegrityCanonical(response){
     }))
   });
 }
-const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'];
+const RARITIES=['C','U','R','SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH','SUPERSTAR'];
 const DRAW_RARITIES=['C','U','R','SR','HR','UR','SSR','MA','FUR','ZENITH','LIMITED'];
 // V1272: 특정 멤버/카드는 일반 카드팩 뽑기 결과에서 완전히 제외한다.
 // DB의 공개/활성/확률 설정은 유지하되 실제 후보 풀에서 이중 차단하여 CMS 설정 실수에도 지급되지 않는다.
@@ -94,13 +94,13 @@ const RANDOM_DRAW_EXCLUDED_KEYWORDS=['철구'];
 function normalizedRandomCardText(card={}){return `${card?.name||''} ${card?.title||''}`.normalize('NFKC').replace(/\s+/g,'')}
 function isRandomDrawExcluded(card={}){const text=normalizedRandomCardText(card);return RANDOM_DRAW_EXCLUDED_KEYWORDS.some(keyword=>text.includes(String(keyword).normalize('NFKC').replace(/\s+/g,'')))}
 function randomDrawPool(rows=[]){return (Array.isArray(rows)?rows:[]).filter(card=>!isRandomDrawExcluded(card))}
-const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,LIMITED:180,PRESTIGE:220,FUR:250,ZENITH:400};
+const SHARD_REWARD={C:1,U:2,R:4,SR:8,HR:15,UR:30,SSR:60,MA:120,LIMITED:180,PRESTIGE:220,FUR:250,ZENITH:400,SUPERSTAR:600};
 const BREAKTHROUGH_COST=[50,100,200,350,550,800,1100,1450,1850,2300];
 const BREAKTHROUGH_RATE=[100,100,100,80,65,50,35,25,15,8];
-const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'];
+const BREAKTHROUGH_GRADES=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH','SUPERSTAR'];
 const breakthroughMaxLevel=()=>10;
 const BREAKTHROUGH_MIN_ORDER=ORDER.SR;
-const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,LIMITED:2800,PRESTIGE:3100,FUR:3200,ZENITH:5500};
+const BATTLE_POWER_DEFAULT={C:100,U:160,R:250,SR:400,HR:620,UR:900,SSR:1300,MA:1850,LIMITED:2800,PRESTIGE:3100,FUR:3200,ZENITH:5500,SUPERSTAR:7000};
 const BATTLE_BREAKTHROUGH_DEFAULT=[0,18,42,72,108,150,198,252,312,378,450,528,612,702];
 const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:true,steps:[{cost:1,rate:85,retirementShardRefund:3000},{cost:3,rate:50,retirementShardRefund:4000},{cost:5,rate:25,retirementShardRefund:5000}]};
 const LIMITED_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:true,steps:[{cost:5,rate:50,retirementShardRefund:3000},{cost:10,rate:30,retirementShardRefund:4000},{cost:15,rate:20,retirementShardRefund:5000}]};
@@ -1335,10 +1335,10 @@ async function readBattleSettings(env){
 // V1802-perf: 1초 캐시는 사실상 매 요청마다 app_meta 를 다시 읽는다. 관리자 저장 시 즉시 무효화되므로 10초로 늘린다.
 async function battleSettings(env){return cachedRuntimeSetting('battle',10000,()=>readBattleSettings(env))}
 function battleEngineState(settings,user){const engine=normalizeBattleEngineSettings(settings?.engine);const owner=String(user?.role||'').trim().toUpperCase()==='OWNER';const active=engine.mode==='V2_PUBLIC'||(engine.mode==='V2_OWNER'&&owner);return {...engine,active,version:active?'V2':'LEGACY',ownerTest:engine.mode==='V2_OWNER'};}
-const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{CUSTOM:3100},FUR:{FIXED:3200}};
+const CARD_POWER_TYPES={SSR:{NORMAL:1300,HIGH:1375,TOP:1450},MA:{NORMAL:1850,HIGH:2050,TOP:2250},LIMITED:{NORMAL:2350,HIGH:2600,TOP:2850},PRESTIGE:{CUSTOM:3100},FUR:{FIXED:3200},ZENITH:{FIXED:5500},SUPERSTAR:{FIXED:7000}};
 const FAKER_CHAMPIONSHIP_CARD_ID='CN-0B48C6FF8F9B4AC5';
 const FAKER_FLAT_POWER_BONUS=3000;
-function cardPowerBase(card,settings){const grade=String(card.rarity||card.grade||'').trim().toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]);if(['PRESTIGE','ZENITH'].includes(grade)&&Number.isFinite(gradePower))return Math.max(0,gradePower);const saved=Number(card.base_power??card.basePower);return Number.isFinite(saved)&&saved>0?saved:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)}
+function cardPowerBase(card,settings){const grade=String(card.rarity||card.grade||'').trim().toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]);if(['PRESTIGE','ZENITH','SUPERSTAR'].includes(grade)&&Number.isFinite(gradePower))return Math.max(0,gradePower);const saved=Number(card.base_power??card.basePower);return Number.isFinite(saved)&&saved>0?saved:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)}
 function cardBattlePower(card,level,settings){const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase(),cardId=String(card?.id??card?.card_id??'').trim().toUpperCase(),lv=Math.max(0,Math.min(13,Number(level)||0)),base=cardPowerBase(card,settings),pct=breakthroughBonusPercent(grade,lv,settings),power=Math.floor(base*(1+pct/100)),specialBonus=grade==='FUR'&&cardId===FAKER_CHAMPIONSHIP_CARD_ID?FAKER_FLAT_POWER_BONUS:0;if(grade!=='LIMITED'||lv<11)return power+specialBonus;const prestigeBase=Math.max(0,Number(settings?.powerByGrade?.PRESTIGE||0)),prestigePct=Number(settings?.breakthroughBonus?.[10]||0),prestige10=Math.floor(prestigeBase*(1+prestigePct/100));if(prestige10<=0)return power+specialBonus;const limited10=Math.floor(base*(1+Number(settings?.breakthroughBonus?.[10]||0)/100)),stepCap=Math.floor(limited10+Math.max(0,prestige10-limited10)*(lv-10)/3);return Math.min(power,prestige10,stepCap)+specialBonus;}
 function sqlUtcNow(){return new Date().toISOString().replace('T',' ').slice(0,19)}
 function utcMs(value){if(!value)return Date.now();const t=Date.parse(String(value).replace(' ','T')+'Z');return Number.isFinite(t)?t:Date.now()}
@@ -3672,11 +3672,12 @@ async function recentMythicEquipmentItems(env){
 let cardAcquisitionGradeFxCache=null;
 async function cardAcquisitionEffectsByGrade(env){
   const now=Date.now();if(cardAcquisitionGradeFxCache&&cardAcquisitionGradeFxCache.expiresAt>now)return cardAcquisitionGradeFxCache.value;
-  const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url,audio_url,skip_allowed,duration_ms FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_PRESTIGE__','__GRADE_FUR__')`).all();
+  const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url,audio_url,skip_allowed,duration_ms FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_PRESTIGE__','__GRADE_FUR__','__GRADE_SUPERSTAR__')`).all();
   const settings={
     LIMITED:{acquisitionFxConfigured:0,acquisitionFxEnabled:1,acquisitionMediaUrl:'/assets/effects/L2CARD.mp4',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:10000},
     PRESTIGE:{acquisitionFxConfigured:0,acquisitionFxEnabled:0,acquisitionMediaUrl:'',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:8000},
-    FUR:{acquisitionFxConfigured:0,acquisitionFxEnabled:0,acquisitionMediaUrl:'',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:8000}
+    FUR:{acquisitionFxConfigured:0,acquisitionFxEnabled:0,acquisitionMediaUrl:'',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:8000},
+    SUPERSTAR:{acquisitionFxConfigured:0,acquisitionFxEnabled:0,acquisitionMediaUrl:'',acquisitionAudioUrl:'',acquisitionSkipAllowed:1,acquisitionDurationMs:8000}
   };
   for(const row of rows.results||[]){
     const grade=String(row.card_id||'').replace('__GRADE_','').replace('__','').toUpperCase();
@@ -3800,7 +3801,7 @@ async function drawOne(env,pack,minimum=null,allowLimited=true,criticalBonus=0){
     const selectedRarity=weightedPick(rates,row=>Number(row.rate)||0)?.rarity;
     const pool=randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
       FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-      WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL
+      WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND UPPER(c.rarity)<>'SUPERSTAR' AND c.draw_weight>0 AND c.limited_total IS NULL
         AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
           OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(selectedRarity,pack.id,pack.id).all()).results);
     if(!pool.length) continue;
@@ -3834,7 +3835,7 @@ async function queryDrawContext(env,pack){
     env.DB.prepare("SELECT rarity,rate FROM card_pack_rates WHERE pack_id=? AND rate>0").bind(pack.id),
     env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count
       FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
-      WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.draw_weight>0 AND c.limited_total IS NULL
+      WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND UPPER(c.rarity)<>'SUPERSTAR' AND c.draw_weight>0 AND c.limited_total IS NULL
         AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?)
           OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(pack.id,pack.id)
   ];
@@ -4056,7 +4057,7 @@ function drawOneWithPityAndFurFromContext(ctx,pack,ssrRate,furAssistRate,critica
   }
   throw new Error('FUR 보정 카드 추첨 후보를 생성하지 못했습니다. 카드팩 구성과 공개 카드를 확인하세요.');
 }
-async function drawNormalCardByRarity(env,pack,rarity){const pool=randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results);return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
+async function drawNormalCardByRarity(env,pack,rarity){const pool=randomDrawPool((await env.DB.prepare(`SELECT c.id,c.title,m.name,c.rarity AS grade,c.image_url AS image,c.focus_x AS focusX,c.focus_y AS focusY,m.id AS member_id,c.draw_weight,c.limited_total,c.issued_count FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.is_active=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND m.is_active=1 AND c.rarity=? AND UPPER(c.rarity)<>'SUPERSTAR' AND c.draw_weight>0 AND c.limited_total IS NULL AND (NOT EXISTS (SELECT 1 FROM card_pack_cards p0 WHERE p0.pack_id=?) OR EXISTS (SELECT 1 FROM card_pack_cards p1 WHERE p1.pack_id=? AND p1.card_id=c.id))`).bind(rarity,pack.id,pack.id).all()).results);return weightedPick(pool,row=>(Number(row.draw_weight)||0)*(pack.pickup_member_id&&row.member_id===pack.pickup_member_id?pack.pickup_multiplier:1))||null;}
 async function drawOneWithPity(env,pack,ssrRate,criticalBonus=0){
   if(LIMITED_DRAW_PACKS.has(pack.id)){
     const limitedRateRow=await env.DB.prepare("SELECT rate FROM card_pack_rates WHERE pack_id=? AND rarity='LIMITED'").bind(pack.id).first();
@@ -7455,7 +7456,7 @@ async function handleRequest(context){
         const packs=await env.DB.prepare("SELECT * FROM card_packs WHERE id<>'summer-new' ORDER BY sort_order,id").all();
         const cfgRow=await metaValue(env,'pack_preview_configs');
         let previews={}; try{previews=JSON.parse(cfgRow?.value||'{}')}catch{}
-        const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
+        const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') AND UPPER(c.rarity)<>'SUPERSTAR' ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
         const furPoolCounts={};
         await Promise.all((packs.results||[]).filter(pack=>FUR_FIRST_PITY_PACKS.has(String(pack.id))).map(async pack=>{const ctx=await loadDrawContext(env,pack);furPoolCounts[String(pack.id)]=(ctx.poolsByGrade.get('FUR')||[]).length;}));
         return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities||'[]')})),previews,cards:cards.results,pitySettings:await pitySettings(env),furFirstSettings:await furFirstSettings(env),furPoolCounts});
@@ -7715,8 +7716,8 @@ async function handleRequest(context){
       if(!admin) return json({error:'관리자 권한이 없습니다.'},403);
       const gradeKey=grade=>`__GRADE_${grade}__`;
       if(request.method==='GET'){
-        const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url AS mediaUrl,audio_url AS audioUrl,skip_allowed AS skipAllowed,duration_ms AS durationMs FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_PRESTIGE__','__GRADE_FUR__')`).all();
-        const settings={LIMITED:{enabled:1,mediaUrl:'/assets/effects/L2CARD.mp4',audioUrl:'',skipAllowed:1,durationMs:10000},PRESTIGE:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000},FUR:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000}};
+        const rows=await env.DB.prepare(`SELECT card_id,enabled,media_url AS mediaUrl,audio_url AS audioUrl,skip_allowed AS skipAllowed,duration_ms AS durationMs FROM card_acquisition_effects WHERE card_id IN ('__GRADE_LIMITED__','__GRADE_PRESTIGE__','__GRADE_FUR__','__GRADE_SUPERSTAR__')`).all();
+        const settings={LIMITED:{enabled:1,mediaUrl:'/assets/effects/L2CARD.mp4',audioUrl:'',skipAllowed:1,durationMs:10000},PRESTIGE:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000},FUR:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000},SUPERSTAR:{enabled:0,mediaUrl:'',audioUrl:'',skipAllowed:1,durationMs:8000}};
         for(const row of rows.results||[]){
           const grade=String(row.card_id||'').replace('__GRADE_','').replace('__','');
           if(settings[grade]) settings[grade]={enabled:Number(row.enabled||0),mediaUrl:row.mediaUrl||'',audioUrl:row.audioUrl||'',skipAllowed:Number(row.skipAllowed)!==0?1:0,durationMs:Number(row.durationMs||8000)};
@@ -7726,7 +7727,7 @@ async function handleRequest(context){
       if(request.method==='PATCH'){
         const payload=await readBody(request);
         const grade=String(payload.grade||'').toUpperCase();
-        if(!['LIMITED','PRESTIGE','FUR'].includes(grade)) return json({error:'LIMITED, PRESTIGE 또는 FUR 등급만 설정할 수 있습니다.'},400);
+        if(!['LIMITED','PRESTIGE','FUR','SUPERSTAR'].includes(grade)) return json({error:'LIMITED, PRESTIGE, FUR 또는 SUPERSTAR 등급만 설정할 수 있습니다.'},400);
         const enabled=payload.enabled?1:0;
         const mediaUrl=String(payload.mediaUrl||'').trim().slice(0,500);
         const audioUrl=String(payload.audioUrl||'').trim().slice(0,500);
@@ -7918,7 +7919,7 @@ async function handleRequest(context){
         const batchName=String(payload.batchName||'').trim().slice(0,100)||null;
         const batchDate=String(payload.batchDate||'').trim().slice(0,10)||null;
         let drawWeight=Math.max(0,Math.min(100000,Number(payload.drawWeight??1)||0));
-        if(grade==='PRESTIGE') drawWeight=0;
+        if(['PRESTIGE','SUPERSTAR'].includes(grade)) drawWeight=0;
         let limitedTotal=null;
         const issuedCount=Math.max(0,Math.floor(Number(payload.issuedCount??0)||0));
         if(!title) throw new Error('카드명을 입력하세요.');
@@ -7927,7 +7928,7 @@ async function handleRequest(context){
         if(!RARITIES.includes(grade)) throw new Error('올바르지 않은 카드 등급입니다.');
         const member=await env.DB.prepare('SELECT id FROM members WHERE id=?').bind(memberId).first();
         if(!member) throw new Error('존재하지 않는 멤버입니다.');
-        const supportsPowerType=['SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'].includes(grade);
+        const supportsPowerType=['SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH','SUPERSTAR'].includes(grade);
         let powerType=payload.powerType===null||payload.powerType===undefined||payload.powerType===''?null:String(payload.powerType).toUpperCase();
         let basePower=payload.basePower===null||payload.basePower===undefined||payload.basePower===''?null:Math.max(0,Math.floor(Number(payload.basePower)||0));
         if(!supportsPowerType){powerType=null;basePower=null}
@@ -7935,13 +7936,13 @@ async function handleRequest(context){
           powerType='CUSTOM';
           basePower=Math.max(1,Math.min(100000000,Math.floor(Number(basePower||3100))));
         }
-        else if(['FUR','ZENITH'].includes(grade)){powerType='FIXED';basePower=grade==='ZENITH'?5500:3200}
+        else if(['FUR','ZENITH','SUPERSTAR'].includes(grade)){powerType='FIXED';basePower=grade==='SUPERSTAR'?7000:grade==='ZENITH'?5500:3200}
         else if(powerType!==null){
           if(!['NORMAL','HIGH','TOP'].includes(powerType)) throw new Error('올바르지 않은 전투력 유형입니다.');
           basePower=CARD_POWER_TYPES[grade][powerType];
         }else basePower=null;
-        const storageGrade=['PRESTIGE','ZENITH'].includes(grade)?'FUR':grade;
-        const rarityOverride=['PRESTIGE','ZENITH'].includes(grade)?grade:null;
+        const storageGrade=['PRESTIGE','ZENITH','SUPERSTAR'].includes(grade)?'FUR':grade;
+        const rarityOverride=['PRESTIGE','ZENITH','SUPERSTAR'].includes(grade)?grade:null;
         return {title,grade,storageGrade,rarityOverride,image,memberId,focusX,focusY,isActive,cardStatus,batchName,batchDate,drawWeight,limitedTotal,issuedCount,powerType,basePower};
       };
       const nextCardId=()=>`CN-${crypto.randomUUID().replaceAll('-','').slice(0,16).toUpperCase()}`;

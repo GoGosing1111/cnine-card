@@ -1,0 +1,76 @@
+.gradeBadge.grade-SUPERSTAR,
+.cmsGrade.SUPERSTAR {
+  color: #fff8dd;
+  border: 1px solid rgba(255, 225, 148, .9);
+  background: linear-gradient(135deg, #080b12, #735222);
+  box-shadow: 0 0 13px rgba(255, 214, 104, .45), inset 0 0 0 1px rgba(255,255,255,.12);
+}
+
+.adminCard.superstarAdminCard .cardThumbWrap {
+  overflow: visible;
+  aspect-ratio: 2 / 3;
+  background: #05070a;
+  isolation: isolate;
+}
+.adminCard.superstarAdminCard .cardThumbWrap > img[data-cms-asset] {
+  position: absolute;
+  z-index: 1;
+  top: 8.8%;
+  left: 9.8%;
+  width: 80.4%;
+  height: 83.4%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  border-radius: 8%;
+  clip-path: inset(0 round 8%);
+}
+.superstarAdminFrame,
+.superstarPendingFrame {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  object-fit: fill !important;
+  border-radius: 0 !important;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(255, 220, 130, .48));
+}
+.adminCard.superstarAdminCard .cardStateBadge,
+.adminCard.superstarAdminCard .gradeBadge { z-index: 6; }
+
+.pendingCardVisual {
+  position: relative;
+  display: block !important;
+  padding: 0 !important;
+  width: 100%;
+  overflow: hidden;
+  background: #0a1019;
+}
+.pendingCardVisual > img[data-cms-asset] { width: 100%; display: block; object-fit: cover; }
+.pendingCard.superstarPendingCard { overflow: visible; border-color: rgba(255, 218, 122, .45); box-shadow: 0 0 18px rgba(255, 206, 82, .15); }
+.pendingCard.superstarPendingCard .pendingCardVisual { aspect-ratio: 2 / 3; overflow: visible; background: #05070a; isolation: isolate; }
+.pendingCard.superstarPendingCard .pendingCardVisual > img[data-cms-asset] {
+  position: absolute;
+  z-index: 1;
+  top: 8.8%;
+  left: 9.8%;
+  width: 80.4%;
+  height: 83.4%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  border-radius: 8%;
+  clip-path: inset(0 round 8%);
+}
+.pendingCard.superstarPendingCard .pendingCheck { z-index: 7; }
+
+.superstarPowerField {
+  border-color: rgba(255, 219, 124, .36) !important;
+  background: linear-gradient(135deg, rgba(255, 209, 92, .07), rgba(56, 161, 225, .05));
+}
+
+@media (max-width: 700px) {
+  .superstarAdminFrame,
+  .superstarPendingFrame { filter: drop-shadow(0 0 5px rgba(255, 220, 130, .42)); }
+}

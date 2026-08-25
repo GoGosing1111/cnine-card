@@ -27,7 +27,7 @@
   }
 
   function normalizeData(d={}){
-    const fallbackGrades=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH'];
+    const fallbackGrades=['SR','HR','UR','SSR','MA','LIMITED','PRESTIGE','FUR','ZENITH','SUPERSTAR'];
     const grades=Array.isArray(d.grades)&&d.grades.length?d.grades:fallbackGrades;
     const config=d.config&&typeof d.config==='object'?d.config:{};
     const pity=d.pity&&typeof d.pity==='object'?d.pity:{enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};
