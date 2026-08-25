@@ -1,0 +1,265 @@
+/* SOOPKETMON AVATAR ARCHIVE V1
+ * Shared production renderer. The live screen and preview use the same DOM,
+ * state transitions, request paths and responsive image contract.
+ */
+(() => {
+  'use strict';
+
+  const FILTERS = [
+    ['ALL', '전체'],
+    ['COIN', '코인 상점'],
+    ['DROP', '콘텐츠 드랍'],
+    ['OWNED', '보유 아바타']
+  ];
+
+  const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
+  const formatNumber = (value) => Math.max(0, Number(value) || 0).toLocaleString('ko-KR');
+  const sourceType = (item) => String(item?.acquisitionType || 'DROP').toUpperCase() === 'COIN' ? 'COIN' : 'DROP';
+  const uid = () => globalThis.crypto?.randomUUID?.() || `avatar-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+
+  const icon = (name) => {
+    const paths = {
+      back: '<path d="M19 12H5m6-6-6 6 6 6"/>',
+      wardrobe: '<path d="M6 3h12v18H6zM12 3v18M9 7h1m4 0h1"/>',
+      coin: '<path d="M5 5h14v14H5zM9 9h6v6H9z"/>',
+      drop: '<path d="M4 5h16v4L12 20 4 9V5Zm0 4h16M9 5l3 4 3-4"/>',
+      check: '<path d="m5 12 4 4L19 6"/>',
+      lock: '<path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5z"/>',
+      close: '<path d="M6 6l12 12M18 6 6 18"/>'
+    };
+    return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[name] || paths.wardrobe}</svg>`;
+  };
+
+  function create(root, options = {}) {
+    if (!root) throw new Error('아바타 상점을 표시할 영역이 없습니다.');
+
+    const state = {
+      data: null,
+      selectedCode: '',
+      filter: 'ALL',
+      busy: false,
+      confirmCode: '',
+      notice: null,
+      noticeTimer: 0
+    };
+
+    const request = options.request || ((path, init = {}) => {
+      if (typeof window.apiRequest !== 'function') return Promise.reject(new Error('API 연결을 찾을 수 없습니다.'));
+      return window.apiRequest(path, init);
+    });
+    const assetBase = String(options.assetBase || '');
+    const resolveAsset = (path) => {
+      const value = String(path || '').replace(/\\/g, '/');
+      if (!value || /^(?:https?:|data:|blob:|\/)/i.test(value)) return value;
+      return `${assetBase}${value.replace(/^\.\//, '')}`;
+    };
+    const currentItem = () => state.data?.avatars?.find((item) => item.code === state.selectedCode) || state.data?.avatars?.[0] || null;
+    const ownedCount = () => (state.data?.avatars || []).filter((item) => item.owned).length;
+
+    function showNotice(message, error = false) {
+      window.clearTimeout(state.noticeTimer);
+      state.notice = { message, error };
+      renderNotice();
+      state.noticeTimer = window.setTimeout(() => {
+        state.notice = null;
+        renderNotice();
+      }, error ? 3000 : 1800);
+    }
+
+    function renderNotice() {
+      const host = root.querySelector('[data-avatar-notice]');
+      if (!host) return;
+      host.textContent = state.notice?.message || '';
+      host.className = `avs1-notice${state.notice ? ' is-visible' : ''}${state.notice?.error ? ' is-error' : ''}`;
+    }
+
+    function picture(item, className, eager = false) {
+      if (!item?.lobbyImage) return '<div class="avs1-art-empty">ILLUSTRATION PENDING</div>';
+      const desktop = escapeHtml(resolveAsset(item.lobbyImage));
+      const mobile = escapeHtml(resolveAsset(item.lobbyMobileImage || item.lobbyImage));
+      return `<picture class="${className}"><source media="(max-width:720px)" srcset="${mobile}"><img src="${desktop}" alt="${escapeHtml(item.name)} 아바타 일러스트" loading="${eager ? 'eager' : 'lazy'}" decoding="async"></picture>`;
+    }
+
+    function sourceBadge(item) {
+      if (sourceType(item) === 'COIN') return `<span class="avs1-source-badge is-coin">${icon('coin')} 코인 판매</span>`;
+      return `<span class="avs1-source-badge is-drop">${icon('drop')} 드랍 전용</span>`;
+    }
+
+    function filteredItems() {
+      const rows = [...(state.data?.avatars || [])];
+      if (state.filter === 'OWNED') return rows.filter((item) => item.owned);
+      if (state.filter === 'COIN' || state.filter === 'DROP') return rows.filter((item) => sourceType(item) === state.filter);
+      return rows;
+    }
+
+    function actionMarkup(item) {
+      if (!item) return '';
+      if (item.equipped) return `<button type="button" class="avs1-primary-action is-equipped" disabled>${icon('check')} 현재 적용 중</button>`;
+      if (item.owned) return `<button type="button" class="avs1-primary-action" data-avatar-equip="${escapeHtml(item.code)}">이 아바타 적용</button>`;
+      if (sourceType(item) === 'COIN') return `<button type="button" class="avs1-primary-action is-purchase" data-avatar-buy="${escapeHtml(item.code)}"><span>${icon('coin')} 코인 구매</span><b>${formatNumber(item.coinPrice)}</b></button>`;
+      return `<button type="button" class="avs1-primary-action is-drop" disabled>${icon('lock')} 콘텐츠에서 획득</button>`;
+    }
+
+    function hero(item) {
+      return `<section class="avs1-hero" style="--avatar-accent:${escapeHtml(item?.accent || '#82c7d7')}">
+        ${picture(item, 'avs1-hero-picture', true)}
+        <div class="avs1-hero-shade" aria-hidden="true"></div>
+        <header class="avs1-hero-status"><span>SELECTED AVATAR</span><b>${item?.equipped ? 'ACTIVE' : item?.owned ? 'OWNED' : 'LOCKED'}</b></header>
+        <div class="avs1-hero-copy">
+          <small>${escapeHtml(item?.callSign || 'AVATAR ARCHIVE')}</small>
+          <h1>${escapeHtml(item?.name || '아바타')}</h1>
+          <p>${escapeHtml(item?.role || '외형 전용 아바타')}</p>
+          <div>${sourceBadge(item)}<span>외형 전용 · 전투력 변동 없음</span></div>
+        </div>
+      </section>`;
+    }
+
+    function dossier(item) {
+      const isCoin = sourceType(item) === 'COIN';
+      return `<section class="avs1-dossier" style="--avatar-accent:${escapeHtml(item?.accent || '#82c7d7')}">
+        <div class="avs1-dossier-index"><span>AVATAR DOSSIER</span><b>${escapeHtml(item?.serial || 'A-00')}</b></div>
+        <div class="avs1-dossier-copy">
+          <small>${escapeHtml(item?.callSign || '')}</small>
+          <h2>${escapeHtml(item?.name || '')}</h2>
+          <p>${escapeHtml(item?.description || '')}</p>
+        </div>
+        <dl class="avs1-acquisition-ledger">
+          <div><dt>획득 방식</dt><dd>${isCoin ? '코인 상점' : '콘텐츠 드랍'}</dd></div>
+          <div><dt>${isCoin ? '판매 가격' : '획득처'}</dt><dd>${isCoin ? `${formatNumber(item?.coinPrice)} COIN` : escapeHtml(item?.sourceLabel || '획득처 준비 중')}</dd></div>
+          <div><dt>보유 상태</dt><dd>${item?.owned ? '보유 중' : '미획득'}</dd></div>
+        </dl>
+        ${!isCoin ? `<p class="avs1-source-detail">${escapeHtml(item?.sourceDetail || '지정 콘텐츠의 보상 또는 드랍으로만 획득할 수 있습니다.')}</p>` : ''}
+        ${actionMarkup(item)}
+      </section>`;
+    }
+
+    function card(item) {
+      const selected = item.code === state.selectedCode;
+      const type = sourceType(item).toLowerCase();
+      return `<button type="button" class="avs1-card is-${type}${selected ? ' is-selected' : ''}${item.owned ? ' is-owned' : ''}${item.equipped ? ' is-equipped' : ''}" data-avatar-select="${escapeHtml(item.code)}" style="--avatar-accent:${escapeHtml(item.accent || '#82c7d7')}">
+        ${picture(item, 'avs1-card-picture')}
+        <span class="avs1-card-seq">${escapeHtml(item.serial || 'A-00')}</span>
+        <span class="avs1-card-state">${item.equipped ? 'ACTIVE' : item.owned ? 'OWNED' : sourceType(item) === 'COIN' ? `${formatNumber(item.coinPrice)} C` : 'DROP'}</span>
+        <span class="avs1-card-copy"><small>${escapeHtml(item.callSign || '')}</small><strong>${escapeHtml(item.name)}</strong><em>${sourceType(item) === 'COIN' ? '코인 상점' : escapeHtml(item.sourceLabel || '콘텐츠 드랍')}</em></span>
+      </button>`;
+    }
+
+    function archive() {
+      const items = filteredItems();
+      return `<div class="avs1-archive-head">
+          <div><small>WARDROBE INDEX</small><h2>아바타 컬렉션</h2><p>판매 아바타와 드랍 전용 아바타의 획득 경로를 분리해 표시합니다.</p></div>
+          <span><b>${ownedCount()}</b> / ${state.data?.avatars?.length || 0} OWNED</span>
+        </div>
+        <nav class="avs1-filters" aria-label="아바타 획득 방식 필터">${FILTERS.map(([value, label]) => `<button type="button" class="${state.filter === value ? 'is-active' : ''}" data-avatar-filter="${value}">${label}</button>`).join('')}</nav>
+        <div class="avs1-card-grid">${items.length ? items.map(card).join('') : '<div class="avs1-empty"><b>표시할 아바타가 없습니다.</b><span>다른 분류를 선택해 주세요.</span></div>'}</div>`;
+    }
+
+    function confirm(item) {
+      if (!item || state.confirmCode !== item.code) return '';
+      return `<div class="avs1-confirm-layer" role="presentation"><section class="avs1-confirm" role="dialog" aria-modal="true" aria-label="아바타 구매 확인">
+        <header><small>COIN PURCHASE</small><button type="button" data-avatar-confirm-close aria-label="닫기">${icon('close')}</button></header>
+        <div class="avs1-confirm-preview">${picture(item, 'avs1-confirm-picture', true)}</div>
+        <h2>${escapeHtml(item.name)}</h2>
+        <p>아바타는 계정에 영구 귀속됩니다. 외형 전용이며 전투력에는 영향을 주지 않습니다.</p>
+        <dl><div><dt>구매 가격</dt><dd>${formatNumber(item.coinPrice)} COIN</dd></div><div><dt>구매 후 잔액</dt><dd>${formatNumber(Math.max(0, Number(state.data?.coin || 0) - Number(item.coinPrice || 0)))} COIN</dd></div></dl>
+        <div class="avs1-confirm-actions"><button type="button" data-avatar-confirm-close>취소</button><button type="button" data-avatar-confirm-buy="${escapeHtml(item.code)}" ${Number(state.data?.coin || 0) < Number(item.coinPrice || 0) ? 'disabled' : ''}>구매 확정</button></div>
+      </section></div>`;
+    }
+
+    function shell() {
+      const item = currentItem();
+      const profile = state.data?.profile || options.profile || {};
+      return `<div class="avs1-shell">
+        <header class="avs1-command-header">
+          <button type="button" class="avs1-back" data-avatar-back aria-label="장비 화면으로 돌아가기">${icon('back')}</button>
+          <div class="avs1-brand"><span>${icon('wardrobe')}</span><div><small>SOOPKETMON / APPEARANCE SYSTEM</small><strong>아바타 아카이브</strong></div></div>
+          <div class="avs1-wallet"><small>${escapeHtml(profile.nickname || '플레이어')}</small><span>MY COIN</span><b>${formatNumber(state.data?.coin)} <em>COIN</em></b></div>
+        </header>
+        <main class="avs1-workspace">
+          ${hero(item)}
+          <section class="avs1-console">
+            ${dossier(item)}
+            <div class="avs1-archive">${archive()}</div>
+          </section>
+        </main>
+        ${confirm(item)}
+        <div class="avs1-notice" data-avatar-notice role="status" aria-live="polite"></div>
+      </div>`;
+    }
+
+    function render() {
+      root.innerHTML = shell();
+      renderNotice();
+    }
+
+    async function mutate(path, item, success) {
+      if (state.busy) return;
+      state.busy = true;
+      root.classList.add('is-busy');
+      try {
+        const response = await request(path, {
+          method: 'POST',
+          body: JSON.stringify({ avatarCode: item.code, requestId: uid() })
+        });
+        if (response?.coin !== undefined) state.data.coin = Number(response.coin || 0);
+        if (path === 'avatar/purchase') item.owned = true;
+        if (path === 'avatar/equip') state.data.avatars.forEach((row) => { row.equipped = row.code === item.code; });
+        state.confirmCode = '';
+        render();
+        showNotice(success);
+        options.onChange?.(structuredClone(state.data), response);
+      } catch (error) {
+        state.confirmCode = '';
+        render();
+        showNotice(error?.message || '요청을 처리하지 못했습니다.', true);
+      } finally {
+        state.busy = false;
+        root.classList.remove('is-busy');
+      }
+    }
+
+    function onClick(event) {
+      const button = event.target.closest('button');
+      if (!button || !root.contains(button)) return;
+      if (button.hasAttribute('data-avatar-back')) options.onBack?.();
+      else if (button.dataset.avatarSelect) { state.selectedCode = button.dataset.avatarSelect; state.confirmCode = ''; render(); }
+      else if (button.dataset.avatarFilter) { state.filter = button.dataset.avatarFilter; render(); }
+      else if (button.dataset.avatarBuy) { state.confirmCode = button.dataset.avatarBuy; render(); root.querySelector('[data-avatar-confirm-close]')?.focus(); }
+      else if (button.dataset.avatarConfirmBuy) {
+        const item = state.data.avatars.find((row) => row.code === button.dataset.avatarConfirmBuy);
+        if (item) mutate('avatar/purchase', item, `${item.name} 구매 완료`);
+      } else if (button.dataset.avatarEquip) {
+        const item = state.data.avatars.find((row) => row.code === button.dataset.avatarEquip);
+        if (item) mutate('avatar/equip', item, `${item.name} 적용 완료`);
+      } else if (button.hasAttribute('data-avatar-confirm-close')) { state.confirmCode = ''; render(); }
+    }
+
+    async function load() {
+      root.innerHTML = '<div class="avs1-loading"><span></span><strong>아바타 아카이브 연결 중</strong><small>판매 목록과 획득 경로를 불러옵니다.</small></div>';
+      try {
+        state.data = options.data ? structuredClone(options.data) : await request('avatar/catalog');
+        state.data.avatars = Array.isArray(state.data?.avatars) ? state.data.avatars : [];
+        state.selectedCode = state.data.avatars.find((item) => item.equipped)?.code || state.data.avatars.find((item) => item.owned)?.code || state.data.avatars[0]?.code || '';
+        render();
+      } catch (error) {
+        root.innerHTML = `<div class="avs1-load-error"><b>아바타 상점을 불러오지 못했습니다.</b><span>${escapeHtml(error?.message || '잠시 후 다시 시도해 주세요.')}</span><button type="button" data-avatar-retry>다시 시도</button></div>`;
+        root.querySelector('[data-avatar-retry]')?.addEventListener('click', load, { once: true });
+      }
+    }
+
+    root.addEventListener('click', onClick);
+    load();
+
+    return {
+      reload: load,
+      getState: () => structuredClone(state.data),
+      destroy() {
+        window.clearTimeout(state.noticeTimer);
+        root.removeEventListener('click', onClick);
+        root.innerHTML = '';
+      }
+    };
+  }
+
+  window.SoopketmonAvatarShopV1 = { create };
+})();

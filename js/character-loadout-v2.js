@@ -30,6 +30,7 @@
       equipment: '<path d="m5 4 14 16M19 4 5 20M4 7l2-3 4 1M20 7l-2-3-4 1"/>',
       title: '<path d="M7 4h10v4c0 3-2.2 5.5-5 6-2.8-.5-5-3-5-6V4Zm-3 1h3v3c0 2-1.2 3-3 3V5Zm16 0h-3v3c0 2 1.2 3 3 3V5ZM12 14v5m-4 1h8"/>',
       garage: '<path d="M4 15h16l-1-5-2-2H7l-2 2-1 5Zm2 0v3m12-3v3M8 12h8M7 8l1-3h8l1 3"/>',
+      avatar: '<path d="M8.5 8.5c.7-2.8 2-4.3 3.5-4.3s2.8 1.5 3.5 4.3l-1.2 3.2-2.3 1.6-2.3-1.6-1.2-3.2Z"/><path d="M5 21c.6-4.8 2.9-7.5 7-7.5s6.4 2.7 7 7.5M8 15.2l4 3.4 4-3.4"/>',
       filter: '<path d="M4 6h16M7 12h10M10 18h4"/>',
       power: '<path d="M13 2 5 13h6l-1 9 8-12h-6l1-8Z"/>',
       shield: '<path d="m12 3 7 3v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3Z"/>',
@@ -282,10 +283,13 @@
 
     function shell() {
       const activeTitle = equippedTitle();
+      const avatarEntry = typeof options.onOpenAvatarShop === 'function'
+        ? `<button type="button" class="clv2-avatar-entry" data-open-avatar-shop aria-label="아바타 컬렉션과 상점 열기">${icon('avatar')}<span>아바타</span><em>SHOP</em></button>`
+        : '';
       return `<div class="clv2-shell" data-active-tab="${state.tab}">
         <header class="clv2-command-header">
           <div class="clv2-brand-block"><span class="clv2-brand-mark">S</span><div><small>SOOPKETMON / GROWTH SYSTEM</small><strong>장비 시스템</strong></div></div>
-          <nav class="clv2-tabs" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}</nav>
+          <nav class="clv2-tabs${avatarEntry ? ' has-avatar-entry' : ''}" aria-label="캐릭터 성장 메뉴">${Object.entries(TAB_LABELS).map(([tab, label]) => `<button type="button" class="${state.tab === tab ? 'is-active' : ''}" data-tab="${tab}" aria-selected="${state.tab === tab}">${icon(tab)}<span>${label}</span></button>`).join('')}${avatarEntry}</nav>
           <div class="clv2-live-status"><span><i></i> LIVE DATA</span><b>${escapeHtml(profile.nickname || '플레이어')}</b><small class="${titleStyleClass(activeTitle?.stylePreset)}">[${escapeHtml(activeTitle?.badgeText || activeTitle?.name || '칭호 없음')}]</small></div>
         </header>
         <main class="clv2-content">${state.tab === 'equipment' ? equipmentView() : state.tab === 'title' ? titleView() : garageView()}</main>
@@ -393,7 +397,9 @@
     function onClick(event) {
       const target = event.target.closest('button');
       if (!target || !root.contains(target)) return;
-      if (target.dataset.tab) {
+      if (target.hasAttribute('data-open-avatar-shop')) {
+        options.onOpenAvatarShop?.();
+      } else if (target.dataset.tab) {
         state.tab = target.dataset.tab;
         const url = new URL(window.location.href);
         url.searchParams.set('tab', state.tab);

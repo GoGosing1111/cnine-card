@@ -109,6 +109,7 @@
   min-width: 0;
   border-inline: 1px solid rgba(140, 174, 199, .14);
 }
+.clv2-tabs.has-avatar-entry { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .clv2-tabs button {
   position: relative;
   display: flex;
@@ -141,6 +142,11 @@
 .clv2-tabs button.is-active::before { transform: scaleX(1); }
 .clv2-tabs svg { width: 20px; fill: none; stroke: currentColor; stroke-width: 1.6; }
 .clv2-tabs span { font-size: 16px; font-weight: 850; }
+.clv2-tabs .clv2-avatar-entry { color: #d7bd85; background: linear-gradient(180deg, rgba(101, 76, 35, .2), rgba(15, 18, 22, .88)); }
+.clv2-tabs .clv2-avatar-entry::after { content: ""; position: absolute; inset: 13px 11px; border: 1px solid rgba(225, 193, 124, .16); pointer-events: none; }
+.clv2-tabs .clv2-avatar-entry:hover,
+.clv2-tabs .clv2-avatar-entry:focus-visible { color: #fff1c8; background: linear-gradient(180deg, rgba(139, 101, 42, .3), rgba(17, 21, 26, .92)); outline: none; }
+.clv2-tabs .clv2-avatar-entry em { position: absolute; right: 9px; top: 8px; color: #d9b96f; font-size: 6px; font-style: normal; font-weight: 900; letter-spacing: .16em; }
 
 .clv2-live-status {
   display: grid;
@@ -749,6 +755,9 @@
   .clv2-tabs { min-height: 52px; }
   .clv2-tabs span { font-size: 13px; }
   .clv2-tabs svg { width: 18px; }
+  .clv2-tabs .clv2-avatar-entry { gap: 6px; }
+  .clv2-tabs .clv2-avatar-entry em { display: none; }
+  .clv2-tabs .clv2-avatar-entry::after { inset: 8px 5px; }
   .clv2-shell::after { top: 106px; }
   .clv2-content { padding: 7px; }
   /* Mobile opens on the actual loadout, then inventory, then the secondary stat sheet. */
