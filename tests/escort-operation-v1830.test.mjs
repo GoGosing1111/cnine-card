@@ -94,12 +94,14 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(cleanup,/escort_receipts/);
   assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=66-boss-barrage/);
   assert.match(app,/battle-v3-live\.js\?v=3\.20\.0-escort-hp-gauge/);
-  assert.match(index,/app\.js\?v=1844-escort-public-mobile/);
+  const appShellVersion=index.match(/app\.js\?v=([^"']+)/)?.[1];
+  const serviceWorkerShellVersion=sw.match(/soop-card-shell-v([^"']+)/)?.[1];
+  assert.ok(appShellVersion,'index.html app.js cache version is required');
+  assert.equal(serviceWorkerShellVersion,appShellVersion,'app.js and service worker shell cache versions must advance together');
   assert.match(index,/escort-operation-v1830\.js\?v=1844-escort-public-mobile/);
   assert.match(index,/escort-operation-v1830\.css\?v=1844-public-mobile-fit/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.9\.1-escort-mobile/);
   assert.match(index,/soopketmon-v21-runtime-router\.js\?v=1\.1\.0-escort-route/);
-  assert.match(sw,/soop-card-shell-v1844-escort-public-mobile/);
   assert.match(sw,/\['script','style','worker'\]\.includes\(request\.destination\)[\s\S]*?networkFirst\(request,SHELL_CACHE\)/);
   assert.doesNotMatch(headers,/\/(?:js|css|preview)\/\*[\s\S]{0,100}?immutable/);
   assert.equal((headers.match(/Cache-Control: public, max-age=0, must-revalidate/g)||[]).length>=3,true);

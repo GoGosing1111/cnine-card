@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>LIVE CARD PROFILE V2</title>
+  <link rel="stylesheet" href="../../css/card-profile-v2.css?v=3-linear-archive-fit">
+  <style>
+    html,body{margin:0;min-height:100%;background:#02040a}body{display:grid;place-items:center;min-height:100vh;padding:14px}@media(max-width:760px){body{display:block;padding:0}}
+  </style>
+</head>
+<body>
+  <main class="card-profile-v2" aria-label="카드 상세 프로필 개편 프리뷰">
+    <header class="cpv2-topbar">
+      <div class="cpv2-record">
+        <span class="cpv2-record-index">C-491</span>
+        <span class="cpv2-record-copy"><small>SOOPKETMON / CARD ARCHIVE</small><b>보유 카드 상세 · 성장 관리</b></span>
+      </div>
+      <span class="cpv2-grade"><small>CARD CLASS</small><b>ZENITH</b></span>
+      <button class="cpv2-close" type="button" aria-label="닫기">×</button>
+    </header>
+
+    <div class="cpv2-layout">
+      <aside class="cpv2-card-wing">
+        <div class="cpv2-card-stage">
+          <article class="cpv2-card" aria-label="봉순 제니스 카드, 강화 10단계">
+            <img class="cpv2-card-art" src="../../assets/cards/bongson.jpg" alt="봉순">
+            <span class="cpv2-card-shade"></span>
+            <img class="cpv2-card-frame" src="../../assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">
+            <b class="cpv2-card-grade">ZENITH</b>
+            <span class="cpv2-card-level">★10</span>
+            <span class="cpv2-card-copy"><small>나무늘봉순</small><b>봉순</b></span>
+          </article>
+        </div>
+        <div class="cpv2-card-readout">
+          <span><small>COMBAT PROFILE</small><b>방어형 · 고유 능력 활성</b></span>
+          <strong>5,500</strong>
+        </div>
+      </aside>
+
+      <section class="cpv2-console">
+        <header class="cpv2-identity">
+          <div><small>ZENITH / DEFENSE CORE</small><h1>봉순</h1><p>나무늘봉순 · 획득 1회 · 중복 0회</p></div>
+          <div class="cpv2-power"><span>BASE POWER</span><b>5,500</b></div>
+        </header>
+
+        <nav class="cpv2-tabs" role="tablist" aria-label="카드 상세 정보">
+          <button type="button" role="tab" aria-selected="true" data-cpv2-tab="ability"><span class="cpv2-tab-index">01</span>고유 능력</button>
+          <button type="button" role="tab" aria-selected="false" data-cpv2-tab="upgrade"><span class="cpv2-tab-index">02</span>성장 · 강화</button>
+        </nav>
+
+        <section class="cpv2-panel is-active" data-cpv2-panel="ability">
+          <div class="cpv2-ability-head">
+            <div><span class="cpv2-section-label">UNIQUE ABILITY / ACTIVE</span><h2>전개형 방벽</h2></div>
+            <strong>대표 효과 · 방어 +30%</strong>
+          </div>
+          <div class="cpv2-stat-grid">
+            <article class="cpv2-stat"><small>ATTACK</small><b>+7%</b><i>⚔</i><span class="cpv2-meter"><span style="width:23%"></span></span></article>
+            <article class="cpv2-stat is-core"><small>DEFENSE</small><b>+30%</b><i>▣</i><span class="cpv2-meter"><span style="width:100%"></span></span></article>
+            <article class="cpv2-stat"><small>SPEED</small><b>0%</b><i>ϟ</i><span class="cpv2-meter"><span style="width:0%"></span></span></article>
+            <article class="cpv2-stat"><small>HP</small><b>+9%</b><i>♥</i><span class="cpv2-meter"><span style="width:30%"></span></span></article>
+          </div>
+          <div class="cpv2-effect-copy"><span class="cpv2-section-label">ABILITY DESCRIPTION</span><p>전투 진입 시 방어 계열 효과를 우선 전개합니다. 공격·방어·속도·HP 수치는 실제 전투력 계산과 PROJECT V V3 전투에 반영됩니다.</p></div>
+          <div class="cpv2-scope"><span>적용 콘텐츠</span><b>PVE · 무한의 탑 · 레이드 · PVP · 대장전</b></div>
+        </section>
+
+        <section class="cpv2-panel" data-cpv2-panel="upgrade" hidden>
+          <header class="cpv2-upgrade-head">
+            <div class="cpv2-upgrade-title"><small>BREAKTHROUGH CONTROL</small><h2>제니스 고급 강화</h2></div>
+            <div class="cpv2-star-step"><span>★10</span><i></i><b>★11</b></div>
+          </header>
+
+          <div class="cpv2-material-grid">
+            <article class="cpv2-material"><small>MASTER STAR</small><b>158 / 100</b><em>재료 충족</em></article>
+            <article class="cpv2-material is-short"><small>DUPLICATE CARD</small><b>1 / 2장</b><em>같은 카드 1장 부족</em></article>
+            <article class="cpv2-material"><small>SUCCESS RATE</small><b>35%</b><em>실패 시 단계 유지</em></article>
+            <article class="cpv2-material"><small>GUARANTEE</small><b>0 / 2회</b><em>연속 실패 천장</em></article>
+          </div>
+
+          <button class="cpv2-upgrade-action" type="button" data-demo-upgrade disabled>
+            <span><small>마스터의 별 100개 · 중복 카드 1장 소모</small><b>★11 강화 시도</b></span>
+            <strong>재료 부족</strong>
+          </button>
+          <div class="cpv2-upgrade-note"><b>강화 조건 미충족</b><span>강화 대상 카드를 제외하고 같은 카드 1장이 더 필요합니다. 실패해도 설정된 재료는 소모됩니다.</span></div>
+          <div class="cpv2-auto-row"><i></i><span><b>연속 강화</b><small>중복 카드가 소모되는 ★11~★13 구간은 한 단계씩 수동으로 진행합니다.</small></span><em>사용 불가</em></div>
+          <p class="cpv2-demo-status" aria-live="polite"></p>
+        </section>
+      </section>
+    </div>
+  </main>
+  <script>
+    const tabs=[...document.querySelectorAll('[data-cpv2-tab]')];
+    const panels=[...document.querySelectorAll('[data-cpv2-panel]')];
+    tabs.forEach(button=>button.addEventListener('click',()=>{
+      const tab=button.dataset.cpv2Tab;
+      tabs.forEach(item=>item.setAttribute('aria-selected',String(item===button)));
+      panels.forEach(panel=>{const active=panel.dataset.cpv2Panel===tab;panel.classList.toggle('is-active',active);panel.hidden=!active});
+    }));
+    document.querySelector('.cpv2-close').addEventListener('click',()=>history.length>1?history.back():null);
+  </script>
+</body>
+</html>

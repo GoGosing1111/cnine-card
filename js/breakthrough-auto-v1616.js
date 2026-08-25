@@ -22,12 +22,17 @@
     const button=document.getElementById('breakthroughBtn');if(!button)return;
     const cardId=String(button.dataset.breakthroughCard||'');
     let control=document.getElementById('breakthroughAutoControl');
+    if(button.dataset.autoDisabled==='1'){
+      control?.remove();
+      button.disabled=button.dataset.clientShortage==='1';
+      return;
+    }
     if(!control){
       button.insertAdjacentHTML('afterend',`<label class="breakthrough-auto-control" id="breakthroughAutoControl"><input type="checkbox" id="breakthroughAutoCheck"><span><b>자동 강화</b><small>보유 재화 소진 또는 최대 단계까지</small></span><em id="breakthroughAutoStatus">대기</em></label>`);
       control=document.getElementById('breakthroughAutoControl');
     }
     const check=document.getElementById('breakthroughAutoCheck'),status=document.getElementById('breakthroughAutoStatus');
-    const active=state.running&&state.cardId===cardId,nextStatus=active?(state.stopRequested?'중지 요청':statusText()):'대기';check.checked=active;button.disabled=active;button.classList.toggle('auto-running',active);if(status.textContent!==nextStatus)status.textContent=nextStatus;
+    const active=state.running&&state.cardId===cardId,nextStatus=active?(state.stopRequested?'중지 요청':statusText()):'대기';check.checked=active;button.disabled=active||button.dataset.clientShortage==='1';button.classList.toggle('auto-running',active);if(status.textContent!==nextStatus)status.textContent=nextStatus;
     check.onchange=()=>{
       if(!check.checked){if(active)state.stopRequested=true;status.textContent=active?'중지 요청':'대기';return;}
       if(state.running){check.checked=state.cardId===cardId;return;}
