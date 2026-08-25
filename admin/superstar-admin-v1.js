@@ -62,12 +62,26 @@
     else if(!isSuperstar)frame?.remove();
   }
 
+  function enhancePackCard(article){
+    if(!article.querySelector('.cmsGrade.SUPERSTAR')||article.classList.contains('cmsSuperstarCard'))return;
+    const art=[...article.children].find(node=>node.tagName==='IMG');
+    if(!art)return;
+    const visual=document.createElement('div');
+    visual.className='cmsSuperstarVisual';
+    article.insertBefore(visual,art);
+    visual.append(art);
+    visual.append(frameImage('cmsSuperstarFrame'));
+    article.classList.add('cmsSuperstarCard');
+  }
+
   function enhance(root=document){
     ensureSuperstarOptions();
     if(root.matches?.('.adminCard'))enhanceCardEditor(root);
     root.querySelectorAll?.('.adminCard').forEach(enhanceCardEditor);
     if(root.matches?.('.pendingCard'))enhancePendingCard(root);
     root.querySelectorAll?.('.pendingCard').forEach(enhancePendingCard);
+    if(root.matches?.('.cmsNewCardGrid article'))enhancePackCard(root);
+    root.querySelectorAll?.('.cmsNewCardGrid article').forEach(enhancePackCard);
   }
 
   document.addEventListener('change',event=>{

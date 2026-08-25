@@ -7456,7 +7456,8 @@ async function handleRequest(context){
         const packs=await env.DB.prepare("SELECT * FROM card_packs WHERE id<>'summer-new' ORDER BY sort_order,id").all();
         const cfgRow=await metaValue(env,'pack_preview_configs');
         let previews={}; try{previews=JSON.parse(cfgRow?.value||'{}')}catch{}
-        const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') AND UPPER(c.rarity)<>'SUPERSTAR' ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
+        // CMS 캡처 미리보기는 실제 카드팩 후보 풀이 아니다. 이벤트 전용 SUPERSTAR도 선택할 수 있어야 한다.
+        const cards=await env.DB.prepare(`SELECT c.id,c.title,c.rarity AS grade,c.image_url AS image,c.card_status AS cardStatus,m.name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.card_status IN ('PENDING','PUBLIC') ORDER BY c.created_at DESC,c.id DESC LIMIT 120`).all();
         const furPoolCounts={};
         await Promise.all((packs.results||[]).filter(pack=>FUR_FIRST_PITY_PACKS.has(String(pack.id))).map(async pack=>{const ctx=await loadDrawContext(env,pack);furPoolCounts[String(pack.id)]=(ctx.poolsByGrade.get('FUR')||[]).length;}));
         return json({packs:packs.results.map(p=>({...p,allowed:JSON.parse(p.allowed_rarities||'[]')})),previews,cards:cards.results,pitySettings:await pitySettings(env),furFirstSettings:await furFirstSettings(env),furPoolCounts});

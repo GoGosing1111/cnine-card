@@ -65,6 +65,44 @@
 }
 .pendingCard.superstarPendingCard .pendingCheck { z-index: 7; }
 
+.cmsNewCardGrid article.cmsSuperstarCard {
+  overflow: visible;
+  border-color: rgba(255, 221, 137, .62);
+  box-shadow: 0 0 22px rgba(255, 206, 89, .22), 0 0 14px rgba(78, 203, 255, .12);
+}
+.cmsSuperstarVisual {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  background: #05070a;
+}
+.cmsNewCardGrid .cmsSuperstarVisual > img:not(.cmsSuperstarFrame) {
+  position: absolute;
+  z-index: 1;
+  top: 8.8%;
+  left: 9.8%;
+  width: 80.4%;
+  height: 83.4%;
+  aspect-ratio: auto;
+  object-fit: cover;
+  border-radius: 8%;
+  clip-path: inset(0 round 8%);
+}
+.cmsNewCardGrid .cmsSuperstarFrame {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: fill;
+  border-radius: 0;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(255, 220, 130, .52));
+}
+.cmsSuperstarCard > .cmsGrade { z-index: 5; }
+
 .superstarPowerField {
   border-color: rgba(255, 219, 124, .36) !important;
   background: linear-gradient(135deg, rgba(255, 209, 92, .07), rgba(56, 161, 225, .05));

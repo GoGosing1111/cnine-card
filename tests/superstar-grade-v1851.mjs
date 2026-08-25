@@ -14,12 +14,14 @@ test('SUPERSTAR uses the same championship frame in live cards and CMS previews'
   const adminCss=read('admin/superstar-admin-v1.css');
 
   assert.match(app,/normalizedGrade==='SUPERSTAR'\?'<img class="superstar-card-frame"/);
-  assert.match(adminHtml,/superstar-admin-v1\.css\?v=1-superstar-grade/);
-  assert.match(adminHtml,/superstar-admin-v1\.js\?v=1-superstar-grade/);
+  assert.match(adminHtml,/superstar-admin-v1\.css\?v=2-pack-preview/);
+  assert.match(adminHtml,/superstar-admin-v1\.js\?v=2-pack-preview/);
   assert.match(adminModule,/superstarAdminFrame/);
   assert.match(adminModule,/superstarPendingFrame/);
+  assert.match(adminModule,/cmsSuperstarFrame/);
   assert.match(adminCss,/\.adminCard\.superstarAdminCard/);
   assert.match(adminCss,/\.pendingCard\.superstarPendingCard/);
+  assert.match(adminCss,/\.cmsNewCardGrid article\.cmsSuperstarCard/);
 });
 
 test('SUPERSTAR remains event-exclusive and cannot enter normal card packs',()=>{
@@ -27,7 +29,8 @@ test('SUPERSTAR remains event-exclusive and cannot enter normal card packs',()=>
   const drawGrades=api.match(/const DRAW_RARITIES=\[([^\]]+)\]/)?.[1]||'';
 
   assert.doesNotMatch(drawGrades,/SUPERSTAR/);
-  assert.ok((api.match(/UPPER\(c\.rarity\)<>'SUPERSTAR'/g)||[]).length>=4);
+  assert.equal((api.match(/UPPER\(c\.rarity\)<>'SUPERSTAR'/g)||[]).length,3);
+  assert.match(api,/CMS 캡처 미리보기는 실제 카드팩 후보 풀이 아니다/);
   assert.match(api,/if\(\['PRESTIGE','SUPERSTAR'\]\.includes\(grade\)\) drawWeight=0/);
   assert.match(api,/const rarityOverride=\['PRESTIGE','ZENITH','SUPERSTAR'\]/);
 });
