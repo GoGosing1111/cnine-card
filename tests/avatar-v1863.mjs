@@ -5,8 +5,10 @@ import { readFile } from 'node:fs/promises';
 import { ensureAvatarFoundation, avatarFeatureAccess } from '../functions/_avatar.js';
 
 test('avatar foundation seeds ten hidden unsold records and defaults OFF', async () => {
-  const prepared=[];
+  const prepared=[],schema=[];
   const db={
+    dialect:'postgres',
+    async execSchema(statements){schema.push(...statements)},
     prepare(sql){
       const statement={sql:String(sql),values:[],bind(...values){this.values=values;return this},async first(){
         if(this.sql.includes('SELECT value FROM app_meta')&&this.values[0]==='safe_runtime_upgrade_v1863_avatar_catalog_v1')return null;
@@ -22,6 +24,9 @@ test('avatar foundation seeds ten hidden unsold records and defaults OFF', async
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
   assert.equal(seedStatements.length,10);
+  assert.equal(schema.length,7);
+  assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
+  assert.match(schema[1],/user_id BIGINT NOT NULL/);
   assert.ok(seedStatements.every(statement=>statement.sql.includes("'UNSET',NULL,'',''")));
   assert.ok(seedStatements.every(statement=>statement.sql.includes('?,?,0,0,0,?')));
   assert.deepEqual(access,{mode:'OFF',visible:false,ownerTest:false,shopEnabled:false,version:1});

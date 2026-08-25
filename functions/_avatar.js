@@ -44,30 +44,41 @@ function descriptionFor(seed){return `${seed.name}의 외형과 전용 로비 �
 
 async function batchChunks(env,statements,size=25){for(let i=0;i<statements.length;i+=size)await env.DB.batch(statements.slice(i,i+size))}
 
+function avatarSchemaStatements(env){
+  const postgres=env.DB?.dialect==='postgres';
+  const userIdType=postgres?'BIGINT':'INTEGER';
+  const nowDefault=postgres?"to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')":'CURRENT_TIMESTAMP';
+  return[
+    `CREATE TABLE IF NOT EXISTS avatar_catalog_v1(
+      code TEXT PRIMARY KEY,serial TEXT NOT NULL UNIQUE,name TEXT NOT NULL,call_sign TEXT NOT NULL DEFAULT '',role_label TEXT NOT NULL DEFAULT '',description TEXT NOT NULL DEFAULT '',
+      lobby_image TEXT NOT NULL DEFAULT '',lobby_mobile_image TEXT NOT NULL DEFAULT '',equipment_image TEXT NOT NULL DEFAULT '',accent TEXT NOT NULL DEFAULT '#82c7d7',
+      acquisition_type TEXT NOT NULL DEFAULT 'UNSET',coin_price BIGINT,source_label TEXT NOT NULL DEFAULT '',source_detail TEXT NOT NULL DEFAULT '',
+      effect_type TEXT NOT NULL,effect_value INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 0,is_public INTEGER NOT NULL DEFAULT 0,sale_enabled INTEGER NOT NULL DEFAULT 0,
+      sort_order INTEGER NOT NULL DEFAULT 0,version INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
+    `CREATE TABLE IF NOT EXISTS avatar_user_ownership_v1(
+      user_id ${userIdType} NOT NULL,avatar_code TEXT NOT NULL,source_type TEXT NOT NULL DEFAULT 'ADMIN',source_ref TEXT NOT NULL DEFAULT '',acquired_at TEXT NOT NULL DEFAULT ${nowDefault},
+      PRIMARY KEY(user_id,avatar_code))`,
+    `CREATE TABLE IF NOT EXISTS avatar_user_loadout_v1(
+      user_id ${userIdType} PRIMARY KEY,avatar_code TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
+    `CREATE TABLE IF NOT EXISTS avatar_purchase_receipts_v1(
+      request_id TEXT NOT NULL,user_id ${userIdType} NOT NULL,avatar_code TEXT NOT NULL,coin_spent BIGINT NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,
+      created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault},PRIMARY KEY(request_id,user_id))`,
+    'CREATE INDEX IF NOT EXISTS idx_avatar_ownership_user ON avatar_user_ownership_v1(user_id,acquired_at,avatar_code)',
+    'CREATE INDEX IF NOT EXISTS idx_avatar_receipts_cleanup ON avatar_purchase_receipts_v1(status,updated_at,request_id)',
+    'CREATE INDEX IF NOT EXISTS idx_avatar_catalog_public ON avatar_catalog_v1(is_active,is_public,sort_order,code)'
+  ];
+}
+
 export async function ensureAvatarFoundation(env){
   if(foundationPromise)return foundationPromise;
   foundationPromise=(async()=>{
     const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(FOUNDATION_KEY).first();
     if(marker?.value==='1')return;
-    await batchChunks(env,[
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS avatar_catalog_v1(
-        code TEXT PRIMARY KEY,serial TEXT NOT NULL UNIQUE,name TEXT NOT NULL,call_sign TEXT NOT NULL DEFAULT '',role_label TEXT NOT NULL DEFAULT '',description TEXT NOT NULL DEFAULT '',
-        lobby_image TEXT NOT NULL DEFAULT '',lobby_mobile_image TEXT NOT NULL DEFAULT '',equipment_image TEXT NOT NULL DEFAULT '',accent TEXT NOT NULL DEFAULT '#82c7d7',
-        acquisition_type TEXT NOT NULL DEFAULT 'UNSET',coin_price BIGINT,source_label TEXT NOT NULL DEFAULT '',source_detail TEXT NOT NULL DEFAULT '',
-        effect_type TEXT NOT NULL,effect_value INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 0,is_public INTEGER NOT NULL DEFAULT 0,sale_enabled INTEGER NOT NULL DEFAULT 0,
-        sort_order INTEGER NOT NULL DEFAULT 0,version INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS avatar_user_ownership_v1(
-        user_id INTEGER NOT NULL,avatar_code TEXT NOT NULL,source_type TEXT NOT NULL DEFAULT 'ADMIN',source_ref TEXT NOT NULL DEFAULT '',acquired_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY(user_id,avatar_code))`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS avatar_user_loadout_v1(
-        user_id INTEGER PRIMARY KEY,avatar_code TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
-      env.DB.prepare(`CREATE TABLE IF NOT EXISTS avatar_purchase_receipts_v1(
-        request_id TEXT NOT NULL,user_id INTEGER NOT NULL,avatar_code TEXT NOT NULL,coin_spent BIGINT NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'PENDING',response_json TEXT,error_message TEXT,
-        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(request_id,user_id))`),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_avatar_ownership_user ON avatar_user_ownership_v1(user_id,acquired_at,avatar_code)'),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_avatar_receipts_cleanup ON avatar_purchase_receipts_v1(status,updated_at,request_id)'),
-      env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_avatar_catalog_public ON avatar_catalog_v1(is_active,is_public,sort_order,code)')
-    ]);
+    const schema=avatarSchemaStatements(env);
+    // PostgreSQL 호환 계층은 일반 prepare()/batch()에서 DDL을 의도적으로
+    // 건너뛴다. 고정 문자열만 허용하는 execSchema() 경로로 실제 relation을 만든다.
+    if(env.DB?.dialect==='postgres'&&typeof env.DB.execSchema==='function')await env.DB.execSchema(schema);
+    else await batchChunks(env,schema.map(sql=>env.DB.prepare(sql)));
     const base='assets/ui/avatars-v1/lobby-v1/';
     await batchChunks(env,SEEDS.map(seed=>env.DB.prepare(`INSERT INTO avatar_catalog_v1(
       code,serial,name,call_sign,role_label,description,lobby_image,lobby_mobile_image,equipment_image,accent,acquisition_type,coin_price,source_label,source_detail,effect_type,effect_value,is_active,is_public,sale_enabled,sort_order
