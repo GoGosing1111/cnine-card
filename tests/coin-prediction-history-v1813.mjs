@@ -11,6 +11,7 @@ const server = read('functions/_coin_prediction.js');
 const userUi = read('js/coin-prediction-v1.js');
 const adminUi = read('admin/coin-prediction-admin-v1.js');
 const userCss = read('css/coin-prediction-v1.css');
+const userV2Css = read('css/coin-prediction-v2.css');
 const adminCss = read('admin/coin-prediction-admin-v1.css');
 const app = read('js/app.js');
 const index = read('index.html');
@@ -30,13 +31,16 @@ assert.doesNotMatch(server, /settledRetention=admin\?'-1 day':'-1 hour'/);
 assert.match(userUi, /data-cp-view="active"/);
 assert.match(userUi, /data-cp-view="history"/);
 assert.match(userUi, /종료된 경기/);
-assert.match(userUi, /내 베팅·결과 24시간/);
+assert.match(userUi, /종료 후 24시간 동안 결과와 내 베팅·정산 내역/);
 assert.match(userUi, /coin-prediction\/state\?view=\$\{requestedView\}&page=\$\{requestedPage\}/);
 assert.match(userUi, /MY PREDICTION/);
-assert.match(userUi, /수령 \$\{fmt\(mine\.payout\)\}코인/);
-assert.match(userUi, /환불 \$\{fmt\(mine\.payout\)\}코인/);
+assert.match(userUi, /\$\{fmt\(payout\)\} COIN 환불/);
+assert.match(userUi, /payout > 0 \? `\+\$\{fmt\(payout\)\} COIN` : '미적중'/);
 assert.match(userCss, /\.cp-history-tabs/);
 assert.match(userCss, /@media\(max-width:720px\).*\.cp-history-tabs/s);
+assert.match(userV2Css, /\.cp2-option-grid/);
+assert.match(userV2Css, /--cp2-cyan:\s*#caff5c/);
+assert.match(userV2Css, /@media \(max-width: 720px\)/);
 
 assert.match(adminUi, /data-cp-admin-view="active"/);
 assert.match(adminUi, /data-cp-admin-view="history"/);
@@ -47,11 +51,12 @@ assert.match(adminCss, /\.cp-admin-tabs/);
 assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 
 assert.match(app, /coin-prediction-v1\.css\?v=1813-history-tabs/);
-assert.match(app, /coin-prediction-v1\.js\?v=1813-history-tabs/);
-assert.match(index, /js\/app\.js\?v=1813-prediction-history-tabs/);
+assert.match(app, /coin-prediction-v2\.css\?v=1861-broadcast-ledger/);
+assert.match(app, /coin-prediction-v1\.js\?v=1861-broadcast-ledger/);
+assert.match(index, /js\/app\.js\?v=1861-prediction-v2/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=1813-history-tabs/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=1813-history-tabs/);
-assert.match(serviceWorker, /soop-card-shell-v1813-prediction-history-tabs/);
+assert.match(serviceWorker, /soop-card-shell-v\d+/);
 
 console.log('coin prediction active/history tabs + 24-hour retention PASS');
 

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>숲켓몬 승부예측 V2 · Live Contract Preview</title>
+  <link rel="stylesheet" href="../../css/style.css?v=1631-coin-prediction">
+  <link rel="stylesheet" href="../../css/coin-prediction-v1.css?v=1813-history-tabs">
+  <link rel="stylesheet" href="../../css/coin-prediction-v1632.css?v=1860-large-number-layout">
+  <link rel="stylesheet" href="../../css/coin-prediction-v2.css?v=1861-broadcast-ledger">
+  <style>
+    html,body{margin:0;min-height:100%;background:#01040a}body{padding:clamp(0px,1.4vw,18px)}.preview-page{width:min(1600px,100%);margin:auto}.preview-contract{position:fixed;z-index:50;right:14px;bottom:14px;padding:7px 10px;border:1px solid #caff5c55;background:#030b15e8;color:#caff5c;font:900 9px/1.2 system-ui,sans-serif;letter-spacing:.12em;backdrop-filter:blur(10px)}@media(max-width:720px){.preview-contract{display:none}}
+  </style>
+</head>
+<body>
+  <main id="previewRoot" class="preview-page"></main>
+  <div id="modal" class="modal"></div>
+  <div class="preview-contract">LIVE RENDERER · V1861</div>
+
+  <script>
+    (() => {
+      const now = Date.now();
+      const stamp = offsetMinutes => new Date(now + offsetMinutes * 60000).toISOString();
+      const bettors = entries => entries.map(([nickname, amount]) => ({ nickname, amount }));
+      const option = (id, label, count, total, entries = []) => ({ id, label, bet_count: count, total_bet: total, bettors: bettors(entries) });
+      const activeEvents = [
+        {
+          id: 2041, status: 'OPEN', created_at: stamp(-180), closes_at: stamp(342), title: '영토전 최종 승리 진영',
+          description: '마지막 관문을 점령하고 공성전의 최종 승리를 가져갈 진영을 예측하세요.', participant_count: 1284, total_pool: 12345678900,
+          myBet: { option_id: 101, amount: 1234567890, status: 'PENDING', payout: 0 }, result_option_id: null,
+          options: [
+            option(101, '변현재 장기전 승리', 742, 7222222222, [['핑크빛유두', 1000000000], ['족이타마', 500000000], ['채리♡', 400000000]]),
+            option(102, '김명운 역전 승리', 498, 4000000000, [['쥬버지', 700000000], ['나무늘봉순', 300000000]]),
+            option(103, '김민철 풀세트 접전 승리', 1, 100000, [['괴개굴', 100000]]),
+            option(104, '김정우 승리', 0, 0),
+            option(105, '지원금 특별 결과', 43, 1123356678, [['대규모베팅검증계정', 1000000000]])
+          ]
+        },
+        {
+          id: 2040, status: 'OPEN', created_at: stamp(-90), closes_at: stamp(78), title: '결승전 최종 우승자',
+          description: '오늘 결승 무대에서 마지막 세트를 가져갈 선수를 선택하세요.', participant_count: 684, total_pool: 2940550000, myBet: null, result_option_id: null,
+          options: [option(201, '변현재', 212, 910000000), option(202, '김명운', 185, 780000000), option(203, '김민철', 163, 720000000), option(204, '김정우', 124, 530550000)]
+        },
+        {
+          id: 2039, status: 'OPEN', created_at: stamp(-60), closes_at: stamp(24), title: '월드 레이드 제한 시간 내 토벌',
+          description: '마지막 페이즈를 포함해 제한 시간 안에 보스가 토벌될지 예측하세요.', participant_count: 391, total_pool: 1540000000, myBet: null, result_option_id: null,
+          options: [option(301, '10분 이내 토벌', 151, 740000000), option(302, '10분 초과 토벌', 193, 690000000), option(303, '토벌 실패', 47, 110000000)]
+        },
+        {
+          id: 2038, status: 'OPEN', created_at: stamp(-30), closes_at: stamp(725), title: '랭크전 시즌 11 최종 1위',
+          description: '시즌 마감 시점 최종 랭킹 1위를 기록할 유저를 선택하세요.', participant_count: 257, total_pool: 820000000, myBet: null, result_option_id: null,
+          options: [option(401, '대은수', 98, 310000000), option(402, '채리♡', 74, 240000000), option(403, '족이타마', 51, 170000000), option(404, '기타 후보', 34, 100000000)]
+        }
+      ];
+
+      const historyEvents = [
+        {
+          id: 2037, status: 'SETTLED', created_at: stamp(-420), closes_at: stamp(-120), title: '공성전 중앙 지휘 구역 점령팀',
+          description: '종료된 경기는 24시간 동안 결과와 내 베팅 내역을 확인할 수 있습니다.', participant_count: 803, total_pool: 6720000000,
+          myBet: { option_id: 502, amount: 50000000, status: 'SETTLED', payout: 124500000 }, result_option_id: 502,
+          options: [option(501, 'A팀 점령', 371, 2860000000), option(502, 'B팀 점령', 432, 3860000000)]
+        },
+        {
+          id: 2036, status: 'SETTLED', created_at: stamp(-500), closes_at: stamp(-180), title: '레이드 보스 최초 처치 파티',
+          description: '정산 결과와 선택 항목, 지급된 코인을 다시 확인할 수 있습니다.', participant_count: 518, total_pool: 4210000000,
+          myBet: { option_id: 601, amount: 10000000, status: 'SETTLED', payout: 0 }, result_option_id: 603,
+          options: [option(601, '1파티', 148, 980000000), option(602, '2파티', 170, 1210000000), option(603, '3파티', 200, 2020000000)]
+        },
+        {
+          id: 2035, status: 'REFUNDED', created_at: stamp(-600), closes_at: stamp(-240), title: '방송 경기 승리 선수 예측',
+          description: '경기 취소로 모든 참여 코인이 자동 환불된 기록입니다.', participant_count: 115, total_pool: 910000000,
+          myBet: { option_id: 701, amount: 3000000, status: 'REFUNDED', payout: 3000000 }, result_option_id: null,
+          options: [option(701, '선수 A', 62, 520000000), option(702, '선수 B', 53, 390000000)]
+        }
+      ];
+
+      const baseState = {
+        walletCoin: 4420607473,
+        settings: { enabled: true, ownerUnlimited: true, pollSeconds: 3600, todayChampion: { nickname: '핑크빛유두', netProfit: 825500000, hitCount: 4 } },
+        terms: { title: '코인 승부예측 이용 규정', items: ['숲켓몬 코인은 현금 및 환전 가치가 없습니다.', '확정한 최초 예측 항목은 변경하거나 취소할 수 없습니다.', '경기 무효 시 참여 코인은 자동 환불됩니다.'] }
+      };
+
+      window.apiRequest = async path => {
+        if (!String(path).startsWith('coin-prediction/state')) throw new Error('프리뷰에서는 조회 기능만 확인할 수 있습니다.');
+        const query = new URL(`http://preview.local/${path}`).searchParams;
+        const view = query.get('view') === 'history' ? 'history' : 'active';
+        const events = view === 'history' ? historyEvents : activeEvents;
+        return structuredClone({
+          ...baseState,
+          events,
+          navigation: { view, page: 1, totalPages: 1, counts: { active: activeEvents.length, history: historyEvents.length } }
+        });
+      };
+    })();
+  </script>
+  <script src="../../js/coin-prediction-v1.js?v=1861-broadcast-ledger"></script>
+  <script>
+    document.getElementById('previewRoot').innerHTML = window.coinPredictionView();
+    window.bindCoinPredictionView();
+    window.addEventListener('beforeunload', () => window.stopCoinPredictionView?.());
+  </script>
+</body>
+</html>
