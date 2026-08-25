@@ -606,8 +606,8 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.auctionHouseView==='function'&&typeof window.bindAuctionHouseView==='function'
   },
   prediction:{
-    styles:['css/coin-prediction-v1.css?v=1813-history-tabs','css/coin-prediction-v1632.css?v=1660-owner-unlimited'],
-    scripts:['js/coin-prediction-v1.js?v=1813-history-tabs'],
+    styles:['css/coin-prediction-v1.css?v=1813-history-tabs','css/coin-prediction-v1632.css?v=1860-large-number-layout'],
+    scripts:['js/coin-prediction-v1.js?v=1860-large-number-layout'],
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   battleV2:{
