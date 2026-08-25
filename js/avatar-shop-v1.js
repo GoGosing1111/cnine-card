@@ -108,8 +108,12 @@
     }
 
     function sourceBadge(item) {
-      if (sourceType(item) === 'COIN') return `<span class="avs1-source-badge is-coin">${icon('coin')} 코인 판매</span>`;
+      if (sourceType(item) === 'COIN') return `<span class="avs1-source-badge is-coin">${icon('coin')} ${coinSaleOpen(item) ? '코인 판매' : '판매 준비 중'}</span>`;
       return `<span class="avs1-source-badge is-drop">${icon('drop')} 드랍 전용</span>`;
+    }
+
+    function coinSaleOpen(item) {
+      return sourceType(item) === 'COIN' && item?.saleEnabled !== false && state.data?.access?.shopEnabled !== false && Number(item?.coinPrice || 0) > 0;
     }
 
     function effectBadge(item) {
@@ -137,7 +141,8 @@
       if (!item) return '';
       if (item.equipped) return `<button type="button" class="avs1-primary-action is-equipped" disabled>${icon('check')} 현재 적용 중</button>`;
       if (item.owned) return `<button type="button" class="avs1-primary-action" data-avatar-equip="${escapeHtml(item.code)}">이 아바타 적용</button>`;
-      if (sourceType(item) === 'COIN') return `<button type="button" class="avs1-primary-action is-purchase" data-avatar-buy="${escapeHtml(item.code)}"><span>${icon('coin')} 코인 구매</span><b>${formatNumber(item.coinPrice)}</b></button>`;
+      if (sourceType(item) === 'COIN' && coinSaleOpen(item)) return `<button type="button" class="avs1-primary-action is-purchase" data-avatar-buy="${escapeHtml(item.code)}"><span>${icon('coin')} 코인 구매</span><b>${formatNumber(item.coinPrice)}</b></button>`;
+      if (sourceType(item) === 'COIN') return `<button type="button" class="avs1-primary-action is-drop" disabled>${icon('lock')} 판매 준비 중</button>`;
       return `<button type="button" class="avs1-primary-action is-drop" disabled>${icon('lock')} 콘텐츠에서 획득</button>`;
     }
 

@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.9.1';
+  const VERSION = '21.10.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -50,6 +50,7 @@
     pvp: ['랭크전', '전투·경쟁', 'swords'],
     clan: ['클랜', '전투·경쟁', 'clan'],
     character: ['장비·칭호', '성장·제작', 'forge'],
+    avatar: ['아바타', '성장·제작', 'user'],
     workshop: ['제작소', '성장·제작', 'forge'],
     attendance: ['접속 보상', '보상·기록', 'gift'],
     dailyquest: ['일일 퀘스트', '보상·기록', 'gift'],
@@ -79,7 +80,7 @@
   const GROUPS = Object.freeze({
     collection: { title: '카드·수집', routes: ['buy', 'dex', 'evolution', 'magic'] },
     combat: { title: '전투·경쟁', routes: ['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'pvp', 'clan', 'territory'] },
-    growth: { title: '장비·제작', routes: ['character', 'equipment', 'title', 'garage', 'workshop', 'scrapyard', 'vehicle', 'fusion'] },
+    growth: { title: '장비·제작', routes: ['character', 'equipment', 'title', 'garage', 'avatar', 'workshop', 'scrapyard', 'vehicle', 'fusion'] },
     rewards: { title: '보상', routes: ['attendance', 'dailyquest', 'messages', 'mineral'] },
     market: { title: '승부·경매', routes: ['prediction', 'auction', 'rank', 'inventory'] }
   });
@@ -307,7 +308,7 @@
   function routeFamily(route) {
     if (['buy', 'dex', 'evolution', 'magic'].includes(route)) return 'cards';
     if (['battle', 'pvp', 'clan'].includes(route)) return 'battle';
-    if (['character', 'workshop'].includes(route)) return 'growth';
+    if (['character', 'avatar', 'workshop'].includes(route)) return 'growth';
     return 'all';
   }
 
@@ -315,7 +316,7 @@
     const signatures = [
       ['clan', '#clanRoot, .clan-shell'], ['pvp', '#pvpContent, .pvp-cover'], ['battle', '#pveHuntView, #pveRaidView'],
       ['dex', '#dexSections, .dex-cover'], ['evolution', '#evolutionRoot, .evolution-system'],
-      ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'],
+      ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'], ['avatar', '#avatarShopV1, .avatar-shop-v1-root'],
       ['workshop', '#workshopRootV1676, .ws76, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
       ['dailyquest', '#dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],
       ['rank', '#rankHubRoot, #serverRanking'], ['prediction', '#coinPredictionRoot, .coin-prediction-v1'],
@@ -411,6 +412,7 @@
 
   function routeButton(route) {
     if(route==='clan'&&!clanTestVisible())return '';
+    if(route==='avatar'&&global.avatarFeatureVisible?.()!==true)return '';
     const item = ROUTES[route]; if (!item) return '';
     return `<button type="button" data-v21-route="${route}"><span>${svg(item[2])}</span><b>${esc(item[0])}</b><small>${esc(item[1])}</small></button>`;
   }

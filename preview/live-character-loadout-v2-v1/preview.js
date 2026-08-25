@@ -10,6 +10,7 @@
   });
 
   const fixture = {
+    avatarFeature: { mode: 'TEST', visible: true, ownerTest: true, shopEnabled: true, version: 1 },
     slots: [
       { id: 'WEAPON', label: '무기' },
       { id: 'ACCESSORY', label: '장신구' },

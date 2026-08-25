@@ -283,7 +283,7 @@
 
     function shell() {
       const activeTitle = equippedTitle();
-      const avatarEntry = typeof options.onOpenAvatarShop === 'function'
+      const avatarEntry = state.data?.avatarFeature?.visible === true && typeof options.onOpenAvatarShop === 'function'
         ? `<button type="button" class="clv2-avatar-entry" data-open-avatar-shop aria-label="아바타 컬렉션과 상점 열기">${icon('avatar')}<span>아바타</span><em>SHOP</em></button>`
         : '';
       return `<div class="clv2-shell" data-active-tab="${state.tab}">

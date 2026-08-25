@@ -18,9 +18,10 @@
   function request(path, init = {}) {
     if (typeof window.apiRequest !== 'function') return Promise.reject(new Error('서버 API 연결을 찾을 수 없습니다.'));
     const isLoadout = String(path) === 'character/loadout' && String(init.method || 'GET').toUpperCase() === 'GET';
-    return window.apiRequest(path, init, isLoadout
+    const pending = window.apiRequest(path, init, isLoadout
       ? { ttl: 10000, timeoutMs: 12000 }
       : { timeoutMs: 20000 });
+    return isLoadout ? pending.then(data => { window.applyAvatarFeatureState?.(data?.avatarFeature); return data; }) : pending;
   }
 
   function profile() {
@@ -39,6 +40,9 @@
     controller = window.SoopketmonCharacterLoadoutV2.create(root, {
       profile: profile() || { nickname: '플레이어' },
       request,
+      onOpenAvatarShop() {
+        if (typeof window.renderShell === 'function') window.renderShell('avatar');
+      },
       onChange(data, response) {
         try {
           window.dispatchEvent(new CustomEvent('cnine:character-power-changed', {

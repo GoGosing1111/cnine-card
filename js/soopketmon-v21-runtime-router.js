@@ -9,6 +9,7 @@
     'pvp',
     'magic',
     'character',
+    'avatar',
     'workshop',
     'attendance',
     'dailyquest',
@@ -35,6 +36,7 @@
     pvp: { shell: 'pvp' },
     magic: { shell: 'magic' },
     character: { shell: 'character' },
+    avatar: { shell: 'avatar' },
     workshop: { shell: 'workshop' },
     attendance: { shell: 'attendance' },
     dailyquest: { shell: 'dailyquest' },
@@ -142,7 +144,8 @@
     character: Object.freeze({
       '장비': ROUTE_CONTRACT.equipment,
       '칭호': ROUTE_CONTRACT.title,
-      '차고': ROUTE_CONTRACT.garage
+      '차고': ROUTE_CONTRACT.garage,
+      '아바타': ROUTE_CONTRACT.avatar
     }),
     workshop: Object.freeze({
       '폐차장 원정': ROUTE_CONTRACT.scrapyard,

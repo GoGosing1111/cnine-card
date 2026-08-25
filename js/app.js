@@ -424,11 +424,18 @@ function renderCreated(user) {
 
 const CLAN_FEATURE_MODE='TEST';
 function clanFeatureVisible(){return CLAN_FEATURE_MODE==='ON'||(CLAN_FEATURE_MODE==='TEST'&&String(loadUser()?.role||'').toUpperCase()==='OWNER')}
+let avatarFeatureState={mode:'OFF',visible:false,ownerTest:false,shopEnabled:false,version:1};
+function avatarFeatureVisible(){return avatarFeatureState.visible===true}
+function applyAvatarFeatureState(value){
+  if(!value||typeof value!=='object')return avatarFeatureState;
+  avatarFeatureState={mode:String(value.mode||'OFF').toUpperCase(),visible:value.visible===true,ownerTest:value.ownerTest===true,shopEnabled:value.shopEnabled===true,version:Math.max(1,Number(value.version)||1)};
+  return avatarFeatureState;
+}
 function navGroupForTab(tab){
   if(['battle','pvp','clan'].includes(tab))return 'battle';
   if(['attendance','dailyquest','messages','mineral'].includes(tab))return 'rewards';
   if(tab==='magic')return 'magic';
-  if(['character','workshop'].includes(tab))return 'character';
+  if(['character','workshop','avatar'].includes(tab))return 'character';
   if(tab==='rank')return 'rank';
   if(['prediction','auction'].includes(tab))return 'market';
   if(['dex','evolution'].includes(tab))return 'dex';
@@ -448,7 +455,7 @@ function renderMainNavigation(tab){
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
   if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">랭크전</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜 TEST</button>`:''}</nav>`;
-  if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button></nav>`;
+  if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button>${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
   if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
   return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
@@ -461,7 +468,7 @@ function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(coun
 
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);
-  const moreActive=['attendance','dailyquest','messages','rank','prediction','auction','mineral','inventory','character','workshop'].includes(tab);
+  const moreActive=['attendance','dailyquest','messages','rank','prediction','auction','mineral','inventory','character','workshop','avatar'].includes(tab);
   const magicButton=magicSystemState.visible?`<button class="mobile-bottom-item ${tab==='magic'?'active':''}" type="button" data-mobile-tab="magic"><span>✦</span><b>마법카드</b></button>`:'';
   return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
     <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드팩</b></button>
@@ -505,6 +512,7 @@ function mobileNavigationHtml(tab){
       <div class="mobile-sheet-action-list">
         <button type="button" data-mobile-tab="character"><i>⚔</i><span><b>장비·칭호</b><small>장비·칭호·이동수단 관리</small></span><em>입장</em></button>
         <button type="button" data-mobile-tab="workshop"><i>⚙</i><span><b>제작소</b><small>폐차장 · 제작 · 합성</small></span><em>입장</em></button>
+        ${avatarFeatureVisible()?'<button type="button" data-mobile-tab="avatar"><i>♙</i><span><b>아바타</b><small>아바타 아카이브 · 적용</small></span><em>입장</em></button>':''}
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
     </section>
@@ -587,8 +595,13 @@ function bindFullscreenPlayLink(header){
 const FEATURE_RESOURCE_MANIFEST={
   character:{
     styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=5-approved-live-contract'],
-    scripts:['js/equipment-v1274.js?v=1814-title-font-presets','js/character-loadout-v2.js?v=5-approved-live-contract','js/character-loadout-v2-live.js?v=1-approved-live-mount'],
+    scripts:['js/equipment-v1274.js?v=1814-title-font-presets','js/character-loadout-v2.js?v=6-avatar-off-gate','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
+  },
+  avatar:{
+    styles:['css/avatar-shop-v1.css?v=3-live-off-contract'],
+    scripts:['js/avatar-shop-v1.js?v=3-live-off-contract','js/avatar-shop-v1-live.js?v=1-live-off-mount'],
+    ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
     styles:['css/workshop-v1676.css?v=1849-workshop-result-state','css/scrapyard-battle-v1698.css?v=1720-monster-card-compact'],
@@ -645,7 +658,7 @@ function ensureFeatureResources(key){
   const request=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(async()=>{await Promise.all((manifest.scripts||[]).map(loadFeatureScript));if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
   featureResourcePromises.set(key,request);return request;
 }
-function featureKeyForTab(tab){return tab==='character'?'character':tab==='workshop'?'workshop':tab==='dex'?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
+function featureKeyForTab(tab){return tab==='character'?'character':tab==='avatar'?'avatar':tab==='workshop'?'workshop':tab==='dex'?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
 // V1803: 전투 화면의 카드 스프라이트는 실제로 58~112 CSS px 로 그려진다(battle-v3-live 의 카드 폭).
 // 그런데 지금까지 도감 원본 이미지를 그대로 받고 있었다 — 평균 334KB, 가장 큰 것은 9.4MB.
 // 5장 덱이면 매 전투마다 약 1.7MB 다. 게다가 도감 화면은 384px 변형(평균 9~13KB)을 쓰기 때문에
@@ -742,7 +755,7 @@ function warmFeatureForTab(tab){
   if(key==='battleV2')resources.then(()=>warmBattleArtAssets()).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
   else resources.catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
 }
-function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':tab==='character'?'장비·칭호':tab==='workshop'?'제작소':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
+function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':tab==='character'?'장비·칭호':tab==='avatar'?'아바타':tab==='workshop'?'제작소':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
 function featureRouteErrorHtml(tab,message){return `<section class="route-feature-loader is-error"><b>${escapeHtml(message||'화면을 불러오지 못했습니다.')}</b><button type="button" class="btn" data-feature-retry="${escapeHtml(tab)}">다시 시도</button></section>`}
 window.ensureFeatureResources=ensureFeatureResources;
 
@@ -847,6 +860,7 @@ function renderShell(tab) {
   document.body.classList.remove('mobile-menu-open');
   if(tab==='pvp'&&!pvpFeatureEnabled)tab='buy';
   if(tab==='clan'&&!clanFeatureVisible())tab='buy';
+  if(tab==='avatar'&&!avatarFeatureVisible())tab='buy';
   // V1797: 막아 둔 메뉴는 화면 자체를 그리지 않고 안내 팝업만 띄운다.
   const blockedNotice=blockedTabNotice(tab);
   if(blockedNotice){
@@ -872,8 +886,8 @@ function renderShell(tab) {
   // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
-  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
-  const battleActive=['battle','pvp','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop'].includes(tab),marketActive=['prediction','auction'].includes(tab);
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
+  const battleActive=['battle','pvp','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
     <div class="main-nav-group ${collectionActive?'active':''}" data-nav-group="collection">
@@ -897,6 +911,7 @@ function renderShell(tab) {
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="character"><span>장비·칭호·이동수단 관리</span><b>장비·칭호</b></button>
         <button type="button" data-tab="workshop"><span>폐차장·제작·합성</span><b>제작소</b></button>
+        ${avatarFeatureVisible()?'<button type="button" data-tab="avatar"><span>아바타 아카이브·외형 적용</span><b>아바타</b></button>':''}
       </div>
     </div>
     <div class="main-nav-group ${rewardActive?'active':''}" data-nav-group="reward">
@@ -932,7 +947,7 @@ function renderShell(tab) {
   bindPersistentDesktopNavigation(header);if(header?.dataset.fullscreenBound!=='1'){header.dataset.fullscreenBound='1';bindFullscreenPlayLink(header)}
   bindMobileNavigation();
   markBlockedTabButtons();
-  const routeWaitsForFeature=['auction','prediction','character','workshop'].includes(tab)&&!routeFeatureReady;
+  const routeWaitsForFeature=['auction','prediction','character','avatar','workshop'].includes(tab)&&!routeFeatureReady;
   if(routeWaitsForFeature){
     ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab)}).catch(error=>{
       if(renderSeq!==shellRenderSeq||runtimeCommandContext!==tab)return;
@@ -971,6 +986,7 @@ async function loadShellSummary(includeAcquisitionFeeds=false){
   if(!API_MODE)return;
   try{
     const d=await apiRequest(`shell/summary${includeAcquisitionFeeds?'?feeds=1':''}`,{}, {ttl:30000,timeoutMs:12000});
+    applyAvatarFeatureState(d.avatarFeature);
     const inventory=d.inventory||{},meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');
     updateMessageNewBadges(d.messages?.unread||0);
     if(meta)meta.textContent=Number(inventory.totalQuantity)>0?`보유 ${Number(inventory.totalQuantity).toLocaleString()}개 · ${Number(inventory.ownedTypes)}종`:'획득한 특별 보관품 없음';
@@ -2559,6 +2575,7 @@ function bindView(tab) {
   if(tab==='buy'){loadSupplyBoxShop();loadVehicleDrawShop();}
   if(tab==='inventory')loadInventory();
   if(tab==='character'&&typeof window.bindCharacterView==='function')window.bindCharacterView();
+  if(tab==='avatar'&&typeof window.bindAvatarShopView==='function')window.bindAvatarShopView();
   if(tab==='workshop'&&typeof window.bindWorkshopView==='function')window.bindWorkshopView();
   if(tab==='evolution'&&typeof window.bindEvolutionView==='function')window.bindEvolutionView();
   if(tab==='magic')loadMagicView();
