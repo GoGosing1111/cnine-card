@@ -4,7 +4,7 @@ import { readFile, readdir, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
-import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain } from '../functions/_avatar.js';
+import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain, applyAvatarRaidEntryBonus } from '../functions/_avatar.js';
 
 test('avatar foundation seeds ten hidden unsold records and upgrades multi effects without overwriting settings', async () => {
   const prepared=[],schema=[];
@@ -47,6 +47,13 @@ test('avatar coin gain stacks after burning and hyper burning reward multiplicat
   assert.deepEqual(applyAvatarCoinGain(2500,{type:'COIN_GAIN_PERCENT',value:20}),{base:2500,percent:20,bonus:500,total:3000});
   assert.deepEqual(applyAvatarCoinGain(5000,{effects:[{type:'BATTLE_POWER_PERCENT',value:10}]}),{base:5000,percent:0,bonus:0,total:5000});
   assert.deepEqual(applyAvatarCoinGain(1000,{type:'COIN_GAIN_PERCENT',value:999}),{base:1000,percent:50,bonus:500,total:1500});
+});
+test('equipped avatar raid effect increases the usable daily and slot entry limits', () => {
+  const avatar={effects:[{type:'COIN_GAIN_PERCENT',value:20},{type:'RAID_EXTRA_ENTRY',value:7}]};
+  assert.deepEqual(applyAvatarRaidEntryBonus(6,avatar),{base:6,bonus:7,limit:13});
+  assert.deepEqual(applyAvatarRaidEntryBonus(3,avatar),{base:3,bonus:7,limit:10});
+  assert.deepEqual(applyAvatarRaidEntryBonus(6,{effects:[{type:'BATTLE_POWER_PERCENT',value:10}]}),{base:6,bonus:0,limit:6});
+  assert.deepEqual(applyAvatarRaidEntryBonus(99,{type:'RAID_EXTRA_ENTRY',value:999}),{base:99,bonus:20,limit:119});
 });
 test('all ten final equipment avatars ship as defringed versioned WebP files with real alpha', async () => {
   const directory=new URL('../assets/ui/avatars-v1/equipment-v3/',import.meta.url);
@@ -101,6 +108,8 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(server,/assets\/ui\/avatars-v1\/equipment-v3\//);
   assert.match(battleApi,/applyAvatarCoinGain\(eventReward,avatarEffect\)/);
   assert.match(battleApi,/applyAvatarCoinGain\(attackerEventCoinReward,aAvatarEffect\)/);
+  assert.match(battleApi,/applyAvatarRaidEntryBonus\(cfg\.dailyEntries,avatarEffect\)/);
+  assert.match(battleApi,/applyAvatarRaidEntryBonus\(instanceCfg\.dailyEntries,avatarEffect\)/);
   assert.match(battleApi,/avatarEffect,collectBattleLog/);
   assert.match(chief,/viewer_avatar_code/);
   assert.match(chief,/viewerAvatar:a\.viewerAvatar\|\|null/);
@@ -112,7 +121,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=1874-burning-header-dock/);
+  assert.match(index,/app\.js\?v=1877-pve-mobile-nav-energy/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.7-burning-header-dock/);
-  assert.match(serviceWorker,/soop-card-shell-v1874-burning-header-dock/);
+  assert.match(serviceWorker,/soop-card-shell-v1877-pve-mobile-nav-energy/);
 });

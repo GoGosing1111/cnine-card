@@ -310,6 +310,14 @@ export function applyAvatarCoinGain(amount,equippedAvatar){
   return{base,percent,bonus,total:base+bonus};
 }
 
+export function applyAvatarRaidEntryBonus(limit,equippedAvatar){
+  const base=Math.max(1,Math.min(99,Math.floor(Number(limit)||1)));
+  const effects=Array.isArray(equippedAvatar?.effects)?equippedAvatar.effects:equippedAvatar?[{type:equippedAvatar.type,value:equippedAvatar.value}]:[];
+  const raidEffect=effects.find(effect=>String(effect?.type||'').toUpperCase()==='RAID_EXTRA_ENTRY');
+  const bonus=raidEffect?Math.max(0,Math.min(20,Math.floor(Number(raidEffect.value)||0))):0;
+  return{base,bonus,limit:base+bonus};
+}
+
 export async function grantAvatarOwnership(env,{userId,avatarCode,sourceType='DROP',sourceRef=''}){
   await ensureAvatarFoundation(env);const code=cleanText(avatarCode,80).toUpperCase();
   const result=await env.DB.prepare(`INSERT INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref)
