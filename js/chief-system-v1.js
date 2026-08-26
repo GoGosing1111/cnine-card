@@ -25,7 +25,6 @@
     if(typeof runtimeCommandContext==='undefined'||runtimeCommandContext!=='buy')return;
     const page=document.querySelector('.page'),summary=page?.querySelector('.summary-bar');if(!page||!summary)return;
     let root=document.getElementById('chiefMainRoot');if(!root){root=document.createElement('div');root.id='chiefMainRoot';summary.insertAdjacentElement('afterend',root)}const nextMarkup=markup();if(root.innerHTML!==nextMarkup)root.innerHTML=nextMarkup;
-    const strip=page.querySelector(':scope > .burning-event-strip');if(strip){let dock=page.querySelector('.chief-event-dock');if(!dock){dock=document.createElement('div');dock.className='chief-event-dock';const nav=page.querySelector('.main-nav');(nav||summary).insertAdjacentElement('afterend',dock)}dock.replaceChildren(strip)}
   }
   function actionStatus(message,error=false){let el=document.getElementById('chiefActionStatus');if(!el){const consolePanel=document.querySelector('#chiefMainRoot .chief-console');if(!consolePanel)return;el=document.createElement('p');el.id='chiefActionStatus';el.className='chief-action-status';el.setAttribute('role','status');el.setAttribute('aria-live','polite');consolePanel.appendChild(el)}el.textContent=message||'';el.classList.toggle('error',error)}
   async function activate(type,button){

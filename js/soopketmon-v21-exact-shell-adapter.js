@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.10.5';
+  const VERSION = '21.10.6';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -282,40 +282,7 @@
     if (!dock) { dock = document.createElement('nav'); dock.className = 'bottom-dock'; dock.setAttribute('aria-label', '주요 메뉴'); page.append(dock); }
     dock.innerHTML = dockMarkup();
     bindMessageBadgeNormalizer(page);
-    bindBurningStripNormalizer(page);
-    normalizeBurningStrip(page);
     return { page, viewport, screen: viewport.querySelector('.screen'), ...findMarkers(page) };
-  }
-
-  function normalizeBurningStrip(page) {
-    if (!page || page.dataset.v21BurningNormalizing === '1') return;
-    const strips = [...page.querySelectorAll('.burning-event-strip')];
-    if (strips.length === 0) return;
-    page.dataset.v21BurningNormalizing = '1';
-    try {
-      const direct = strips.find(node => node.parentElement === page);
-      const canonical = direct || strips[strips.length - 1];
-      strips.forEach(node => { if (node !== canonical) node.remove(); });
-      if (canonical.parentElement !== page) page.prepend(canonical);
-      page.querySelectorAll('.chief-event-dock:empty').forEach(node => node.remove());
-    } finally {
-      delete page.dataset.v21BurningNormalizing;
-    }
-  }
-
-  function bindBurningStripNormalizer(page) {
-    if (!page || page.dataset.v21BurningNormalizer === '1') return;
-    page.dataset.v21BurningNormalizer = '1';
-    let scheduled = false;
-    const observer = new MutationObserver(records => {
-      const relevant = records.some(record => [...record.addedNodes, ...record.removedNodes].some(node =>
-        node?.nodeType === 1 && (node.matches?.('.burning-event-strip,.chief-event-dock') || node.querySelector?.('.burning-event-strip,.chief-event-dock'))
-      ));
-      if (!relevant || scheduled || page.dataset.v21BurningNormalizing === '1') return;
-      scheduled = true;
-      requestAnimationFrame(() => { scheduled = false; if (page.isConnected) normalizeBurningStrip(page); });
-    });
-    observer.observe(page, { childList: true, subtree: true });
   }
 
   function routeFamily(route) {

@@ -23,7 +23,7 @@ let cards = [];
 // 전투 페이로드의 card.image 는 전투 아트 어댑터가 SD 스프라이트로 바꿔치기하므로 그대로 쓰면 안 된다.
 window.cnineCardCatalog = () => cards;
 let selectedPackId = 'basic';
-let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
+let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
 // 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.
 let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
 const magicUiState={deckType:'PVE',selectedSlot:1};
@@ -100,33 +100,41 @@ function applyServerPacks(rows = []) {
 const BURNING_EVENT_SYNC_KEY='cnine:burning-event-sync-v1310';
 let burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null;
 function burningEventFingerprint(state={}){
-  return JSON.stringify([String(state.mode||'NONE'),String(state.theme||''),state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.updatedAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),1,Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
+  return JSON.stringify([String(state.mode||'NONE'),String(state.theme||''),state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.updatedAt||''),String(state.endsAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),1,Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
 }
 function burningMode(){return burningEventState.enabled?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
-function burningBenefitText(){
-  const pve=Number(burningEventState.pve?.maxEnergy||0),pvp=Number(burningEventState.pvp?.maxEnergy||0),minutes=Number(burningEventState.pve?.rechargeMinutes||0),coins=Number(burningEventState.battleRewardMultiplier||1);
-  return `PVE ${pve}회 · PVP ${pvp}회 / ${minutes}분 충전 · 코인 보상 ${coins}배`;
+function burningEventNumbers(){
+  return{pve:Math.max(0,Number(burningEventState.pve?.maxEnergy||0)),pvp:Math.max(0,Number(burningEventState.pvp?.maxEnergy||0)),minutes:Math.max(0,Number(burningEventState.pve?.rechargeMinutes||0)),coins:Math.max(1,Number(burningEventState.battleRewardMultiplier||1))};
 }
-function burningEventStripMarkup(){
+function burningMultiplierText(value){const number=Number(value||1);return Number.isInteger(number)?String(number):number.toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}
+function burningRemainingText(){
+  const end=Date.parse(String(burningEventState.endsAt||''));if(!Number.isFinite(end))return 'EVENT LIVE';
+  const remain=end-Date.now();if(remain<=0)return '종료 확인 중';
+  const hours=Math.floor(remain/3600000),minutes=Math.max(0,Math.ceil(remain%3600000/60000));
+  return hours>0?`${hours}시간 ${String(minutes).padStart(2,'0')}분 남음`:`${minutes}분 남음`;
+}
+function burningEventHudMarkup(){
   if(!burningEventState.enabled)return '';
-  const hyper=burningMode()==='HYPER';
-  return `<section class="burning-event-strip ${hyper?'hyper-burning-strip':''}"><b>${hyper?'✦':'🔥'} 숲켓몬 ${hyper?'하이퍼 버닝':'버닝'} 진행 중</b><span>${burningBenefitText()}</span></section>`;
+  const hyper=burningMode()==='HYPER',{pve,pvp,minutes,coins}=burningEventNumbers(),modeLabel=hyper?'HYPER BURNING':'BURNING';
+  return `<section id="burningEventHud" class="burning-event-hud ${hyper?'is-hyper':'is-burning'}" aria-label="${modeLabel} 이벤트 진행 중"><button type="button" class="burning-event-hud-trigger" data-burning-event-details aria-haspopup="dialog"><span class="burning-event-hud-ident"><i aria-hidden="true">${hyper?'HB':'B'}</i><span><small>LIVE EVENT</small><strong>${modeLabel}</strong></span></span><span class="burning-event-hud-boost"><small>COIN BOOST</small><b>×${burningMultiplierText(coins)}</b></span><span class="burning-event-hud-stats"><em><small>PVE</small><b>${pve}</b></em><em><small>PVP</small><b>${pvp}</b></em><em><small>RECHARGE</small><b>${minutes}<i>분</i></b></em></span><span class="burning-event-hud-open"><small>${burningRemainingText()}</small><b>상세보기 <i aria-hidden="true">›</i></b></span></button></section>`;
 }
-function ensureBurningEventStripVisible(){
+function ensureBurningEventHudVisible(){
   const page=document.querySelector('.page');
   if(!page)return;
-  const existing=page.querySelector('.burning-event-strip');
+  page.querySelectorAll('.burning-event-strip').forEach(node=>node.remove());
+  const existing=page.querySelector('#burningEventHud');
   if(!burningEventState.enabled||runtimeCommandContext!=='buy'){existing?.remove();return;}
-  const markup=burningEventStripMarkup();
+  const markup=burningEventHudMarkup();
   if(!markup)return;
   const holder=document.createElement('div');holder.innerHTML=markup;const next=holder.firstElementChild;if(!next)return;
   if(existing)existing.replaceWith(next);
-  else{const summary=page.querySelector('.summary-bar');if(summary)summary.insertAdjacentElement('afterend',next);else page.prepend(next)}
+  else page.prepend(next);
 }
+document.addEventListener('click',event=>{const trigger=event.target.closest?.('[data-burning-event-details]');if(!trigger)return;event.preventDefault();showBurningActivationNotice({manual:true})});
 function syncBurningEventVisibleUi(){
-  ensureBurningEventStripVisible();
+  ensureBurningEventHudVisible();
   if(runtimeCommandContext!=='buy'||!document.querySelector('.page')||document.querySelector('#modal.show'))return;
-  const y=window.scrollY;renderShell('buy');requestAnimationFrame(()=>{window.scrollTo(0,y);ensureBurningEventStripVisible()});
+  const y=window.scrollY;renderShell('buy');requestAnimationFrame(()=>{window.scrollTo(0,y);ensureBurningEventHudVisible()});
 }
 function applyBurningEventState(next={},options={}){
   const before=burningEventFingerprint(burningEventState),currentUpdated=Date.parse(String(burningEventState.updatedAt||burningEventState.activatedAt||''))||0,incomingUpdated=Date.parse(String(next.updatedAt||next.activatedAt||''))||0;
@@ -141,10 +149,10 @@ function applyBurningEventState(next={},options={}){
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
   const changed=before!==burningEventFingerprint(burningEventState);
   if(changed){clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1')}
-  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelectorAll('.burning-event-strip').forEach(node=>node.remove());if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
-  queueMicrotask(ensureBurningEventStripVisible);
+  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelectorAll('.burning-event-strip,#burningEventHud').forEach(node=>node.remove());if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
+  queueMicrotask(ensureBurningEventHudVisible);
   const activationToken=String(burningEventState.activatedAt||burningEventState.updatedAt||'').replace(/[^0-9TZ:+.-]/g,'').slice(0,48);
-  const key=`cnine:burning-announced-v1414:${mode}:${Number(burningEventState.generation||0)}:${activationToken}`;
+  const key=`cnine:burning-announced-v1871:${mode}:${Number(burningEventState.generation||0)}:${activationToken}`;
   if(options.announce!==false&&runtimeCommandContext==='buy'&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
     localStorage.setItem(key,'1');
     setTimeout(()=>{if(burningEventState.enabled)showBurningActivationNotice()},300);
@@ -152,18 +160,22 @@ function applyBurningEventState(next={},options={}){
   if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);
   return changed;
 }
-function showBurningActivationNotice(){
+function showBurningActivationNotice({manual=false}={}){
   if(!burningEventState.enabled||runtimeCommandContext!=='buy')return;
   const previous=document.getElementById('burningActivationNotice');
   if(previous){try{previous.__burningCleanup?.()}catch(_){}previous.remove()}
-  const hyper=burningMode()==='HYPER';
-  const el=document.createElement('div');el.id='burningActivationNotice';el.className=`burning-activation-notice${hyper?' hyper-burning-notice':''}`;
+  const hyper=burningMode()==='HYPER',{pve,pvp,minutes,coins}=burningEventNumbers();
+  const modeLabel=hyper?'HYPER BURNING':'BURNING',protocol=hyper?'OVERDRIVE PROTOCOL':'COMBAT ACCELERATION';
+  const headline=hyper?'하이퍼 드라이브 전면 개방':'전장 가속 프로토콜 발동';
+  const el=document.createElement('div');el.id='burningActivationNotice';el.className=`burning-activation-notice burning-command-notice ${hyper?'is-hyper':'is-burning'}${manual?' is-manual':''}`;
   let embedded=false;
   try{embedded=window.self!==window.top}catch(_){embedded=true}
   const mobileViewport=window.matchMedia?.('(max-width:820px)')?.matches===true||/Android|iPhone|iPad|iPod/i.test(String(navigator.userAgent||''));
-  const startLabel=embedded&&mobileViewport?'전체화면으로 시작':hyper?'하이퍼 버닝 시작':'버닝 시작';
-  el.innerHTML=`<div class="burning-notice-flames"><i></i><i></i><i></i><i></i></div><div class="burning-notice-panel" role="dialog" aria-modal="true" aria-labelledby="burningNoticeTitle"><small>SOOP ${hyper?'HYPER ':''}BURNING EVENT</small><h2 id="burningNoticeTitle">${escapeHtml(String(burningEventState.title||'숲켓몬 버닝이 발동 되었습니다').replaceAll('\uC528\uCF13\uBAAC','숲켓몬'))}</h2><p>${escapeHtml(burningBenefitText())}</p><button type="button">${startLabel}</button></div>`;
+  const startLabel=embedded&&mobileViewport?'전체화면으로 시작':'확인';
+  const supportingCopy=escapeHtml(String(burningEventState.title||`${modeLabel} 이벤트가 시작되었습니다`).replaceAll('\uC528\uCF13\uBAAC','숲켓몬'));
+  el.innerHTML=`<article class="burning-briefing-panel" role="dialog" aria-modal="true" aria-labelledby="burningNoticeTitle" aria-describedby="burningNoticeCopy" tabindex="-1"><div class="burning-briefing-art" aria-hidden="true"></div><div class="burning-briefing-grid" aria-hidden="true"></div><button type="button" class="burning-briefing-close" data-burning-close aria-label="버닝 이벤트 안내 닫기">×</button><header class="burning-briefing-header"><span class="burning-briefing-kicker"><i>LIVE EVENT</i><b>${modeLabel}</b></span><small>${protocol}</small><h2 id="burningNoticeTitle">${headline}</h2><p id="burningNoticeCopy">${supportingCopy}</p></header><section class="burning-briefing-stats" aria-label="이벤트 효과"><article><small>COIN REWARD</small><b>×${burningMultiplierText(coins)}</b><span>전투 코인 보상</span></article><article><small>PVE ENERGY</small><b>${pve}<i>회</i></b><span>최대 행동력</span></article><article><small>PVP ENERGY</small><b>${pvp}<i>회</i></b><span>최대 행동력</span></article><article><small>RECHARGE</small><b>${minutes}<i>분</i></b><span>행동력 충전 주기</span></article></section><footer class="burning-briefing-footer"><span><small>EVENT STATUS</small><b>${escapeHtml(burningRemainingText())}</b></span><button type="button" class="burning-briefing-primary">${startLabel}<i aria-hidden="true">›</i></button></footer></article>`;
   const root=document.documentElement;
+  const previousFocus=document.activeElement;
   const syncViewport=()=>{
     const viewport=window.visualViewport;
     const width=Math.max(1,Math.round(viewport?.width||window.innerWidth||document.documentElement.clientWidth||1));
@@ -173,15 +185,19 @@ function showBurningActivationNotice(){
     el.style.setProperty('--burning-vv-width',`${width}px`);
     el.style.setProperty('--burning-vv-height',`${height}px`);
   };
-  const unlock=()=>{root.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open');window.visualViewport?.removeEventListener('resize',syncViewport);window.visualViewport?.removeEventListener('scroll',syncViewport);window.removeEventListener('orientationchange',syncViewport)};
-  const close=()=>{if(!el.isConnected){unlock();return}el.classList.remove('show');unlock();setTimeout(()=>el.remove(),260)};
+  const onKeydown=event=>{if(event.key==='Escape')close()};
+  const unlock=()=>{root.classList.remove('burning-notice-open');document.body.classList.remove('burning-notice-open');window.visualViewport?.removeEventListener('resize',syncViewport);window.visualViewport?.removeEventListener('scroll',syncViewport);window.removeEventListener('orientationchange',syncViewport);document.removeEventListener('keydown',onKeydown)};
+  const close=()=>{if(!el.isConnected){unlock();return}el.classList.remove('show');unlock();setTimeout(()=>{el.remove();if(previousFocus?.isConnected)previousFocus.focus?.({preventScroll:true})},260)};
   el.__burningCleanup=unlock;
   syncViewport();root.classList.add('burning-notice-open');document.body.classList.add('burning-notice-open');
   window.visualViewport?.addEventListener('resize',syncViewport,{passive:true});
   window.visualViewport?.addEventListener('scroll',syncViewport,{passive:true});
   window.addEventListener('orientationchange',syncViewport,{passive:true});
-  document.body.appendChild(el);requestAnimationFrame(()=>el.classList.add('show'));
-  el.querySelector('button').onclick=async()=>{
+  document.addEventListener('keydown',onKeydown);
+  document.body.appendChild(el);requestAnimationFrame(()=>{el.classList.add('show');el.querySelector('.burning-briefing-panel')?.focus?.({preventScroll:true})});
+  el.querySelector('[data-burning-close]').onclick=close;
+  el.addEventListener('click',event=>{if(event.target===el)close()});
+  el.querySelector('.burning-briefing-primary').onclick=async()=>{
     if(embedded&&mobileViewport){
       const url='https://cnine-card.pages.dev/';
       try{window.top.location.href=url;return}catch(_){}
@@ -1108,7 +1124,7 @@ async function purchaseVehicleDrawTickets(count,button){
 function showSupplyNotice(message,error=false){const old=document.querySelector('.supply-action-toast');if(old)old.remove();const toast=document.createElement('div');toast.className=`supply-action-toast${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2600:1500)}
 function buyView(user) {
   const pack = getPack(selectedPackId),weekly=user.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2};
-  return `${summaryBar(user)}${burningEventStripMarkup()}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}${vehicleDrawShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
+  return `${summaryBar(user)}${burningEventHudMarkup()}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}${vehicleDrawShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
 }
 
 function recentCards(user) {
