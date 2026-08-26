@@ -34,7 +34,7 @@
   z-index:2140!important;
   top:calc(var(--pc-hud-h,68px) + 4px)!important;
   left:50%!important;
-  width:min(680px,calc(100vw - 24px))!important;
+  width:min(430px,calc(100vw - 24px))!important;
   min-width:0;
   margin:0!important;
   padding:0!important;
@@ -45,7 +45,7 @@
   position:relative;
   isolation:isolate;
   display:grid!important;
-  grid-template-columns:minmax(180px,1fr) 88px 240px 134px;
+  grid-template-columns:minmax(140px,1fr) 74px 124px;
   align-items:center;
   width:100%;
   min-height:48px;
@@ -125,7 +125,7 @@
   text-align:left;
 }
 .burning-event-hud-boost b { color:var(--event-hot); font-size:18px; line-height:1; }
-.burning-event-hud-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-self:stretch; }
+.burning-event-hud-stats { display:none; grid-template-columns:repeat(3,minmax(0,1fr)); align-self:stretch; }
 .burning-event-hud-stats em { display:grid; place-content:center; gap:3px; padding:0 8px; border-right:1px solid rgba(255,255,255,.07); font-style:normal; text-align:center; }
 .burning-event-hud-stats b { color:#fff; font-size:13px; line-height:1; }
 .burning-event-hud-stats b i { margin-left:2px; color:var(--event-muted); font-size:8px; font-style:normal; }
@@ -272,19 +272,49 @@ body.burning-notice-open { overflow:hidden!important; overscroll-behavior:none; 
 .burning-briefing-primary:hover { filter:brightness(1.12); transform:translateY(-1px); }
 
 @media (min-width:760px) and (hover:hover) and (pointer:fine) {
-  .game-frame[data-route="home"]:has(.burning-event-hud) .screen-viewport {
-    inset-block-start:calc(var(--pc-hud-h,68px) + 60px)!important;
+  .game-frame > .top-hud:has(> .burning-event-hud) {
+    grid-template-columns:minmax(150px,255px) minmax(240px,1fr) auto 40px!important;
   }
-  .game-frame:not([data-route="home"]) .burning-event-hud { top:8px!important; }
+  .top-hud > .burning-event-hud {
+    position:relative!important;
+    top:auto!important;
+    left:auto!important;
+    width:min(430px,100%)!important;
+    transform:none!important;
+    justify-self:end;
+  }
+  .top-hud > .burning-event-hud .burning-event-hud-trigger { min-height:42px; }
+  .game-frame[data-route="home"]:has(.burning-event-hud) .screen-viewport {
+    inset-block-start:0!important;
+  }
   .game-frame:not([data-route="home"]):has(.burning-event-hud) .screen-viewport {
-    inset-block-start:60px!important;
+    inset-block-start:var(--pc-hud-h,68px)!important;
   }
 }
 
-@media (max-width:1180px) and (min-width:760px) {
-  .burning-event-hud { width:min(680px,calc(100vw - 24px))!important; }
-  .burning-event-hud-trigger { grid-template-columns:minmax(180px,1fr) 88px 240px 134px; }
-  .burning-event-hud-open { padding-inline:8px; }
+@media (max-width:1439px) and (min-width:760px) and (hover:hover) and (pointer:fine) {
+  .game-frame > .top-hud:has(> .burning-event-hud) {
+    grid-template-columns:minmax(128px,180px) minmax(150px,1fr) auto 34px!important;
+    gap:8px!important;
+  }
+  .top-hud > .burning-event-hud { width:min(320px,100%)!important; }
+  .top-hud > .burning-event-hud .burning-event-hud-trigger { grid-template-columns:minmax(96px,1fr) 58px 88px; }
+  .top-hud > .burning-event-hud .burning-event-hud-ident { gap:6px; padding-inline:8px; }
+  .top-hud > .burning-event-hud .burning-event-hud-ident>i { width:26px; height:26px; flex-basis:26px; }
+  .top-hud > .burning-event-hud .burning-event-hud-ident small,
+  .top-hud > .burning-event-hud .burning-event-hud-boost small,
+  .top-hud > .burning-event-hud .burning-event-hud-open small { font-size:7px; letter-spacing:.06em; }
+  .top-hud > .burning-event-hud .burning-event-hud-ident strong { font-size:10px; }
+  .top-hud > .burning-event-hud .burning-event-hud-boost { padding-inline:7px; }
+  .top-hud > .burning-event-hud .burning-event-hud-boost b { font-size:15px; }
+  .top-hud > .burning-event-hud .burning-event-hud-open { padding-inline:7px; }
+  .top-hud > .burning-event-hud .burning-event-hud-open b { font-size:9px; }
+  .top-hud:has(> .burning-event-hud) .resource-rail { gap:6px!important; }
+  .top-hud:has(> .burning-event-hud) .resource-chip { min-width:64px!important; gap:5px!important; }
+  .top-hud:has(> .burning-event-hud) .resource-chip.coin { min-width:88px!important; }
+  .top-hud:has(> .burning-event-hud) .resource-chip i { width:17px!important; height:17px!important; }
+  .top-hud:has(> .burning-event-hud) .resource-chip small { font-size:6px!important; }
+  .top-hud:has(> .burning-event-hud) .resource-chip b { font-size:10px!important; }
 }
 
 @media (max-width:759px), (hover:none) and (pointer:coarse) {

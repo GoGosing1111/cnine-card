@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.10.6';
+  const VERSION = '21.10.7';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -359,6 +359,7 @@
     if (!frame?.start || !frame?.end) return false;
     if (route === 'home') renderHome(frame); else skinRoute(frame, route);
     markRenewalUiReady();
+    queueMicrotask(() => global.ensureBurningEventHudVisible?.());
     return true;
   }
 

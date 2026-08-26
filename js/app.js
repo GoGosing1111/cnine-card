@@ -128,9 +128,15 @@ function ensureBurningEventHudVisible(){
   const markup=burningEventHudMarkup();
   if(!markup)return;
   const holder=document.createElement('div');holder.innerHTML=markup;const next=holder.firstElementChild;if(!next)return;
-  if(existing)existing.replaceWith(next);
-  else page.prepend(next);
+  const header=page.querySelector(':scope > .top-hud'),mount=header||page;
+  if(existing?.parentElement===mount)existing.replaceWith(next);
+  else{
+    existing?.remove();
+    if(header)header.insertBefore(next,header.querySelector(':scope > .resource-rail')||header.lastElementChild);
+    else page.prepend(next);
+  }
 }
+window.ensureBurningEventHudVisible=ensureBurningEventHudVisible;
 document.addEventListener('click',event=>{const trigger=event.target.closest?.('[data-burning-event-details]');if(!trigger)return;event.preventDefault();showBurningActivationNotice({manual:true})});
 function syncBurningEventVisibleUi(){
   ensureBurningEventHudVisible();
