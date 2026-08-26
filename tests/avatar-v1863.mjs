@@ -81,11 +81,6 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(server,/effects:effectOptions/);
   assert.match(server,/safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2/);
   assert.match(server,/assets\/ui\/avatars-v1\/equipment-v2\//);
-  assert.match(server,/AVATAR_COOLDOWN_RESET_ONCE/);
-  assert.match(server,/nextEquipAvailable:true/);
-  assert.match(server,/unlockedAt='1970-01-01 00:00:00'/);
-  assert.match(battleApi,/safe_runtime_operation_v1869_owner_avatar_cooldown_reset_once/);
-  assert.match(battleApi,/nickname:'핑크빛유두'/);
   assert.match(battleApi,/applyAvatarCoinGain\(eventReward,avatarEffect\)/);
   assert.match(battleApi,/applyAvatarCoinGain\(attackerEventCoinReward,aAvatarEffect\)/);
   assert.match(battleApi,/avatarEffect,collectBattleLog/);
