@@ -213,10 +213,9 @@
       const operatorAlt = avatar?.name ? `${avatar.name} 장착 아바타` : '장비 관리 오퍼레이터';
       return `<section class="clv2-view clv2-equipment-view">
         ${profilePanel()}
-        <article class="clv2-armory-stage">
+        <article class="clv2-armory-stage${avatar?.equipmentImage ? ' has-equipped-avatar' : ''}">
           <header class="clv2-stage-status"><span><i></i> EQUIPMENT LINK ONLINE</span><b>LOADOUT 05</b></header>
-          <div class="clv2-armory-backdrop" aria-hidden="true"></div>
-          <div class="clv2-reactor" aria-hidden="true"><i></i><i></i><i></i></div>
+          ${avatar?.equipmentImage ? '' : '<div class="clv2-armory-backdrop" aria-hidden="true"></div><div class="clv2-reactor" aria-hidden="true"><i></i><i></i><i></i></div>'}
           <img class="clv2-quartermaster${avatar?.equipmentImage ? ' is-equipped-avatar' : ''}" src="${escapeHtml(resolveAsset(operatorImage))}" alt="${escapeHtml(operatorAlt)}" loading="eager" decoding="async">
           ${SLOT_ORDER.map(slotCard).join('')}
           <div class="clv2-stage-readout"><small>ACTIVE CONFIGURATION</small><strong>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} SLOT LINKED</strong><span>아이템은 원본 비율을 유지해 장착 칸 안에 표시됩니다.</span></div>

@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.10.1';
+  const VERSION = '21.10.2';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -182,14 +182,16 @@
       title: ordinal === '—' ? '현임 족장' : `제${ordinal}대 족장`,
       nickname: chief.nickname || '족장',
       remaining: days ? `${days}일 ${hours}시간 남음` : `${hours}시간 ${minutes}분 남음`,
-      avatar: chief.avatar || null
+      avatar: chief.avatar || null,
+      viewerAvatar: chief.viewerAvatar || null
     };
   }
 
-  function chiefPictureMarkup(chief, eager = true) {
+  function chiefPictureMarkup(chief, eager = true, preferViewer = false) {
     const path = value => { const clean = String(value || '').replace(/\\/g, '/'); return clean && !clean.startsWith('/') ? `/${clean}` : clean; };
-    const desktop = path(chief?.avatar?.lobbyImage), mobile = path(chief?.avatar?.lobbyMobileImage || desktop);
-    if (desktop) return `<picture><source media="(max-width:759px)" srcset="${esc(mobile)}"><img src="${esc(desktop)}" width="1024" height="1536" alt="${esc(chief.avatar?.name || chief.nickname || '족장')} 아바타 일러스트" loading="${eager ? 'eager' : 'lazy'}" ${eager ? 'fetchpriority="high"' : ''} decoding="async"></picture>`;
+    const avatar = preferViewer && chief?.viewerAvatar ? chief.viewerAvatar : chief?.avatar;
+    const desktop = path(avatar?.lobbyImage), mobile = path(avatar?.lobbyMobileImage || desktop);
+    if (desktop) return `<picture><source media="(max-width:759px)" srcset="${esc(mobile)}"><img src="${esc(desktop)}" width="1024" height="1536" alt="${esc(avatar?.name || chief.nickname || '족장')} 아바타 일러스트" loading="${eager ? 'eager' : 'lazy'}" ${eager ? 'fetchpriority="high"' : ''} decoding="async"></picture>`;
     return `<picture><source type="image/avif" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" sizes="(max-width:759px) 100vw, 55vw"><source type="image/webp" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.webp 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp 1024w" sizes="(max-width:759px) 100vw, 55vw"><img src="/assets/ui/chief/chief-supreme-commander-lobby-v1.png" width="1024" height="1536" alt="족장 직위를 상징하는 미래형 최고지휘관 공용 초상" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></picture>`;
   }
 
@@ -207,7 +209,7 @@
 
   function homeMarkup() {
     const chief = chiefView();
-    const chiefPicture = chiefPictureMarkup(chief);
+    const chiefPicture = chiefPictureMarkup(chief, true, true);
     return `<section class="pc-lobby-scene" aria-label="숲켓몬 PC 메인 로비">
         <div class="pc-lobby-grid" aria-hidden="true"></div>
         <div class="pc-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></div>

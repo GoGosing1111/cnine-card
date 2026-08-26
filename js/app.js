@@ -595,7 +595,7 @@ function bindFullscreenPlayLink(header){
 const FEATURE_RESOURCE_MANIFEST={
   character:{
     styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=5-approved-live-contract'],
-    scripts:['js/equipment-v1274.js?v=1814-title-font-presets','js/character-loadout-v2.js?v=9-avatar-equipment-art','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
+    scripts:['js/equipment-v1274.js?v=1814-title-font-presets','js/character-loadout-v2.js?v=10-avatar-cutout-stage','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{
