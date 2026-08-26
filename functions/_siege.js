@@ -1,6 +1,9 @@
 const KEY = "monster_siege_settings_v1";
 const SIEGE_ENERGY_MAX = 5;
 const SIEGE_ENERGY_RECHARGE_SECONDS = 300;
+const PARTICIPATION_BONUS_CODE = "MONSTER_SIEGE_5_PLUS_30M_V1";
+const PARTICIPATION_BONUS_MIN_ATTACKS = 5;
+const PARTICIPATION_BONUS_COIN = 30000000;
 const DEFAULTS = {
   mode: "TEST",
   name: "심연의 황혼 성채",
@@ -142,9 +145,47 @@ const cleanSettings = (raw) => {
   };
 };
 let ensurePromise = null;
+async function ensureParticipationBonusTable(env) {
+  const postgres = env.DB?.dialect === "postgres";
+  const tableSql = postgres
+    ? `CREATE TABLE IF NOT EXISTS monster_siege_participation_bonus_v1(
+        event_id BIGINT NOT NULL,
+        user_id BIGINT NOT NULL,
+        bonus_code TEXT NOT NULL,
+        min_attacks INTEGER NOT NULL,
+        coin BIGINT NOT NULL,
+        attacks INTEGER NOT NULL,
+        status TEXT NOT NULL DEFAULT 'PENDING',
+        paid_at TIMESTAMPTZ,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(event_id,user_id,bonus_code)
+      )`
+    : `CREATE TABLE IF NOT EXISTS monster_siege_participation_bonus_v1(
+        event_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        bonus_code TEXT NOT NULL,
+        min_attacks INTEGER NOT NULL,
+        coin INTEGER NOT NULL,
+        attacks INTEGER NOT NULL,
+        status TEXT NOT NULL DEFAULT 'PENDING',
+        paid_at TEXT,
+        created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY(event_id,user_id,bonus_code)
+      )`;
+  const indexSql =
+    "CREATE INDEX IF NOT EXISTS idx_monster_siege_participation_bonus_status ON monster_siege_participation_bonus_v1(event_id,bonus_code,status)";
+  if (postgres && typeof env.DB.execSchema === "function") {
+    await env.DB.execSchema([tableSql, indexSql]);
+    return;
+  }
+  await env.DB.batch([env.DB.prepare(tableSql), env.DB.prepare(indexSql)]);
+}
 async function ensure(env) {
   if (ensurePromise) return ensurePromise;
   ensurePromise = (async () => {
+    await ensureParticipationBonusTable(env);
     await env.DB.batch([
       env.DB.prepare(
         `CREATE TABLE IF NOT EXISTS monster_siege_events(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,status TEXT NOT NULL DEFAULT 'ACTIVE',phase_index INTEGER NOT NULL DEFAULT 0,phase_hp INTEGER NOT NULL,phase_max_hp INTEGER NOT NULL,total_damage INTEGER NOT NULL DEFAULT 0,starts_at TEXT NOT NULL,ends_at TEXT NOT NULL,version INTEGER NOT NULL DEFAULT 1,completed_at TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`,
@@ -230,6 +271,66 @@ async function territoryBenchmark(env) {
   } catch {
     return { rounds: 0, averageParticipants: 0, averageAttacks: 0, averageHours: 0 };
   }
+}
+async function participationBonusState(env) {
+  const event = await env.DB.prepare(
+    "SELECT id,name,status,starts_at,ends_at,completed_at,total_damage,CURRENT_TIMESTAMP observed_at FROM monster_siege_events WHERE status IN ('CLEARED','FAILED') AND completed_at IS NOT NULL ORDER BY completed_at DESC,id DESC LIMIT 1",
+  ).first();
+  if (!event) {
+    return {
+      event: null,
+      bonusCode: PARTICIPATION_BONUS_CODE,
+      minAttacks: PARTICIPATION_BONUS_MIN_ATTACKS,
+      coinPerUser: PARTICIPATION_BONUS_COIN,
+      eligibleCount: 0,
+      paidCount: 0,
+      pendingCount: 0,
+      totalCoin: 0,
+      targets: [],
+    };
+  }
+  const rows = (
+    await env.DB.prepare(
+      `SELECT s.user_id,u.nickname,s.attacks,s.damage,
+        COALESCE(b.status,'PENDING') bonus_status,b.paid_at,CURRENT_TIMESTAMP observed_at
+       FROM monster_siege_users s
+       JOIN users u ON u.id=s.user_id
+       LEFT JOIN monster_siege_participation_bonus_v1 b
+         ON b.event_id=s.event_id AND b.user_id=s.user_id AND b.bonus_code=?
+       WHERE s.event_id=? AND s.attacks>=?
+       ORDER BY s.attacks DESC,s.damage DESC,s.user_id ASC`,
+    )
+      .bind(PARTICIPATION_BONUS_CODE, event.id, PARTICIPATION_BONUS_MIN_ATTACKS)
+      .all()
+  ).results || [];
+  const targets = rows.map((row) => ({
+    userId: Number(row.user_id),
+    nickname: String(row.nickname || ""),
+    attacks: Number(row.attacks || 0),
+    damage: Number(row.damage || 0),
+    paid: row.bonus_status === "DONE",
+    paidAt: row.paid_at || null,
+  }));
+  const paidCount = targets.filter((target) => target.paid).length;
+  return {
+    event: {
+      id: Number(event.id),
+      name: event.name,
+      status: event.status,
+      startsAt: event.starts_at,
+      endsAt: event.ends_at,
+      completedAt: event.completed_at,
+      totalDamage: Number(event.total_damage || 0),
+    },
+    bonusCode: PARTICIPATION_BONUS_CODE,
+    minAttacks: PARTICIPATION_BONUS_MIN_ATTACKS,
+    coinPerUser: PARTICIPATION_BONUS_COIN,
+    eligibleCount: targets.length,
+    paidCount,
+    pendingCount: targets.length - paidCount,
+    totalCoin: targets.length * PARTICIPATION_BONUS_COIN,
+    targets,
+  };
 }
 async function createEvent(env, cfg) {
   const first = cfg.phases[0],
@@ -408,6 +509,7 @@ export async function handleSiege({ path, request, env, deps }) {
     cardBattlePower,
     createPveBattleV2,
     userEquipmentBonuses,
+    writeAdminLog,
   } = deps;
   await ensure(env);
   const user = await authenticate(request, env);
@@ -777,6 +879,84 @@ export async function handleSiege({ path, request, env, deps }) {
         }
       }
       return json({ ok: true, settings: next });
+    }
+  }
+  if (path === "admin/siege/participation-bonus") {
+    if (user.role !== "OWNER")
+      return json({ error: "OWNER만 참여 보상을 지급할 수 있습니다." }, 403);
+    if (request.method === "GET")
+      return json({ ok: true, state: await participationBonusState(env) });
+    if (request.method === "POST") {
+      const body = await readBody(request);
+      const before = await participationBonusState(env);
+      if (!before.event)
+        return json({ error: "지급할 종료 회차가 없습니다." }, 404);
+      if (Number(body.eventId) !== before.event.id)
+        return json(
+          { error: "종료 회차가 변경되었습니다. 대상을 다시 확인해주세요.", state: before },
+          409,
+        );
+      if (!before.eligibleCount)
+        return json({ error: "5회 이상 참여한 지급 대상이 없습니다.", state: before }, 409);
+      const reason = `MONSTER_SIEGE_EVENT_${before.event.id}_5_PLUS_PARTICIPATION_BONUS`;
+      const results = await env.DB.batch([
+        env.DB.prepare(
+          `INSERT OR IGNORE INTO monster_siege_participation_bonus_v1(
+            event_id,user_id,bonus_code,min_attacks,coin,attacks,status,updated_at
+          ) SELECT event_id,user_id,?,?,?,attacks,'PENDING',CURRENT_TIMESTAMP
+            FROM monster_siege_users WHERE event_id=? AND attacks>=?`,
+        ).bind(
+          PARTICIPATION_BONUS_CODE,
+          PARTICIPATION_BONUS_MIN_ATTACKS,
+          PARTICIPATION_BONUS_COIN,
+          before.event.id,
+          PARTICIPATION_BONUS_MIN_ATTACKS,
+        ),
+        env.DB.prepare(
+          `UPDATE users SET coin=coin+? WHERE id IN (
+            SELECT user_id FROM monster_siege_participation_bonus_v1
+            WHERE event_id=? AND bonus_code=? AND status='PENDING'
+          )`,
+        ).bind(PARTICIPATION_BONUS_COIN, before.event.id, PARTICIPATION_BONUS_CODE),
+        env.DB.prepare(
+          `INSERT INTO coin_logs(user_id,change_amount,balance_after,reason)
+           SELECT id,?,coin,? FROM users WHERE id IN (
+             SELECT user_id FROM monster_siege_participation_bonus_v1
+             WHERE event_id=? AND bonus_code=? AND status='PENDING'
+           )`,
+        ).bind(
+          PARTICIPATION_BONUS_COIN,
+          reason,
+          before.event.id,
+          PARTICIPATION_BONUS_CODE,
+        ),
+        env.DB.prepare(
+          `UPDATE monster_siege_participation_bonus_v1
+           SET status='DONE',paid_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP
+           WHERE event_id=? AND bonus_code=? AND status='PENDING'`,
+        ).bind(before.event.id, PARTICIPATION_BONUS_CODE),
+      ]);
+      const paidNow = Number(results[1]?.meta?.changes || 0);
+      const after = await participationBonusState(env);
+      try {
+        await writeAdminLog?.(
+          env,
+          user,
+          "MONSTER_SIEGE_PARTICIPATION_BONUS",
+          "MONSTER_SIEGE_EVENT",
+          String(before.event.id),
+          { eligibleCount: before.eligibleCount, paidCount: before.paidCount },
+          {
+            minAttacks: PARTICIPATION_BONUS_MIN_ATTACKS,
+            coinPerUser: PARTICIPATION_BONUS_COIN,
+            paidNow,
+            paidCount: after.paidCount,
+          },
+        );
+      } catch (error) {
+        console.error("monster siege participation bonus admin log failed", error);
+      }
+      return json({ ok: true, paidNow, state: after });
     }
   }
   if (path === "admin/siege/start" && request.method === "POST") {

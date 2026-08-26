@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>몬스터 공성 참여 보상</title>
+  <style>
+    :root{color-scheme:dark;font-family:Pretendard,"Noto Sans KR",sans-serif;background:#060b12;color:#edf7ff}
+    *{box-sizing:border-box}body{margin:0;padding:32px;background:radial-gradient(circle at top,#10283a 0,#060b12 48%)}
+    main{max-width:960px;margin:auto;border:1px solid #28546a;background:#07131ecc;padding:28px;box-shadow:0 24px 80px #0009}
+    h1{margin:0 0 8px;font-size:28px}.sub{color:#81a2b5;margin-bottom:24px}.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+    .metric{padding:16px;border:1px solid #1d4358;background:#091b28}.metric span{display:block;color:#7f9daf;font-size:12px}.metric b{display:block;margin-top:7px;font-size:22px;color:#65e4ff}
+    button{width:100%;padding:17px;border:1px solid #58dfff;background:linear-gradient(90deg,#176a8d,#5a2f9f);color:white;font-weight:800;font-size:17px;cursor:pointer}
+    button:disabled{opacity:.4;cursor:not-allowed}.status{min-height:24px;margin:14px 0;color:#ffdd79}.event{padding:14px;border-left:3px solid #64e6ff;background:#0a1a25}
+    table{width:100%;border-collapse:collapse;margin-top:18px}th,td{padding:11px 10px;border-bottom:1px solid #183243;text-align:left}th{color:#81a2b5;font-size:12px}td.num{text-align:right;font-variant-numeric:tabular-nums}.paid{color:#78ffbd}.pending{color:#ffdd79}
+    @media(max-width:640px){body{padding:12px}main{padding:18px}.summary{grid-template-columns:1fr 1fr}th:nth-child(4),td:nth-child(4){display:none}}
+  </style>
+</head>
+<body>
+<main>
+  <h1>몬스터 공성 참여 보상</h1>
+  <div class="sub">최근 종료 회차 · 공격 5회 이상 · 1인 30,000,000 코인</div>
+  <div id="event" class="event">조회 중...</div>
+  <div id="summary" class="summary"></div>
+  <button id="pay" type="button" disabled>대상 확인 중</button>
+  <div id="status" class="status"></div>
+  <table><thead><tr><th>닉네임</th><th>공격</th><th>피해량</th><th>상태</th></tr></thead><tbody id="targets"></tbody></table>
+</main>
+<script>
+  const $=id=>document.getElementById(id),fmt=n=>Number(n||0).toLocaleString('ko-KR');let current=null;
+  async function api(method='GET',body){const response=await fetch('../api/admin/siege/participation-bonus',{method,headers:body?{'Content-Type':'application/json'}:{},credentials:'include',body:body?JSON.stringify(body):undefined});const data=await response.json().catch(()=>({error:'응답을 읽을 수 없습니다.'}));if(!response.ok)throw Object.assign(new Error(data.error||'요청 실패'),{data});return data}
+  function render(state){current=state;const event=state.event;$('event').textContent=event?`#${event.id} ${event.name} · ${event.status} · 종료 ${event.completedAt}`:'종료된 회차 없음';$('summary').innerHTML=[['지급 대상',fmt(state.eligibleCount)+'명'],['지급 완료',fmt(state.paidCount)+'명'],['미지급',fmt(state.pendingCount)+'명'],['총 지급액',fmt(state.totalCoin)+' 코인']].map(([k,v])=>`<div class="metric"><span>${k}</span><b>${v}</b></div>`).join('');$('targets').innerHTML=state.targets.map(x=>`<tr><td>${escapeHtml(x.nickname)} <small>#${x.userId}</small></td><td class="num">${fmt(x.attacks)}회</td><td class="num">${fmt(x.damage)}</td><td class="${x.paid?'paid':'pending'}">${x.paid?'지급 완료':'지급 대기'}</td></tr>`).join('');$('pay').disabled=!event||state.pendingCount===0;$('pay').textContent=state.pendingCount?`${fmt(state.pendingCount)}명에게 30,000,000 코인 지급`:'지급 완료'}
+  function escapeHtml(v){const d=document.createElement('div');d.textContent=String(v||'');return d.innerHTML}
+  async function load(){try{const data=await api();render(data.state);$('status').textContent='대상 조회 완료'}catch(error){$('status').textContent=error.message;$('pay').disabled=true}}
+  $('pay').addEventListener('click',async()=>{if(!current?.event||!current.pendingCount)return;$('pay').disabled=true;$('status').textContent='지급 처리 중...';try{const data=await api('POST',{eventId:current.event.id});render(data.state);$('status').textContent=`이번 실행 지급 ${fmt(data.paidNow)}명 · 원장 대조 완료`}catch(error){$('status').textContent=error.message;await load()}});
+  load();
+</script>
+</body>
+</html>
