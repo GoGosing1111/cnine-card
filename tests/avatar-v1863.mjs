@@ -35,13 +35,17 @@ test('avatar foundation seeds ten hidden unsold records and upgrades multi effec
   assert.deepEqual(access,{mode:'OFF',visible:false,ownerTest:false,shopEnabled:false,version:1});
 });
 test('live avatar route is gated and wired through both V21 routers', async () => {
-  const [app,exact,runtime,server,chief,loadout]=await Promise.all([
+  const [app,exact,runtime,server,chief,loadout,avatarCss,lobbyCss,index,serviceWorker]=await Promise.all([
     readFile(new URL('../js/app.js',import.meta.url),'utf8'),
     readFile(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
     readFile(new URL('../js/soopketmon-v21-runtime-router.js',import.meta.url),'utf8'),
     readFile(new URL('../functions/_avatar.js',import.meta.url),'utf8'),
     readFile(new URL('../functions/_chief.js',import.meta.url),'utf8'),
-    readFile(new URL('../js/character-loadout-v2.js',import.meta.url),'utf8')
+    readFile(new URL('../js/character-loadout-v2.js',import.meta.url),'utf8'),
+    readFile(new URL('../css/avatar-shop-v1.css',import.meta.url),'utf8'),
+    readFile(new URL('../css/soopketmon-v21-exact-luxury.css',import.meta.url),'utf8'),
+    readFile(new URL('../index.html',import.meta.url),'utf8'),
+    readFile(new URL('../service-worker.js',import.meta.url),'utf8')
   ]);
   assert.match(app,/if\(tab==='avatar'&&!avatarFeatureVisible\(\)\)tab='buy'/);
   assert.match(exact,/avatar:\s*\['아바타'/);
@@ -56,5 +60,13 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(chief,/viewerAvatar:a\.viewerAvatar\|\|null/);
   assert.match(exact,/viewerAvatar: chief\.viewerAvatar \|\| null/);
   assert.match(exact,/chiefPictureMarkup\(chief, true, true\)/);
-  assert.match(loadout,/avatar\?\.equipmentImage \? '' : '<div class="clv2-armory-backdrop"/);
+  assert.match(loadout,/<div class="clv2-armory-backdrop" aria-hidden="true"><\/div>/);
+  assert.match(loadout,/<div class="clv2-reactor" aria-hidden="true">/);
+  assert.doesNotMatch(loadout,/avatar\?\.equipmentImage \? '' : '<div class="clv2-armory-backdrop"/);
+  assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
+  assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
+  assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
+  assert.match(index,/app\.js\?v=1866-responsive-avatar-stage/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.3-ultrawide-lobby/);
+  assert.match(serviceWorker,/soop-card-shell-v1866-responsive-avatar-stage/);
 });

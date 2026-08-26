@@ -958,6 +958,30 @@ body.soopketmon-v21-live .game-frame > .world-backdrop {
   .pc-index-groups { grid-template-columns: repeat(3,minmax(0,1fr)); overflow-y: auto; }
 }
 
+/* Ultra-wide lobby: use the additional width instead of leaving a dead black bay
+   between the chief console and the command deck. Standard desktop geometry is
+   intentionally unchanged below 1600px. */
+@media (min-width:1600px) and (hover:hover) and (pointer:fine) {
+  .game-frame[data-route="home"] .pc-main-character.pc-chief-commander {
+    width: 64%;
+  }
+  .game-frame[data-route="home"] .pc-main-character.pc-chief-commander::after {
+    background:
+      linear-gradient(90deg,rgba(4,7,8,.06) 0 48%,rgba(4,7,8,.34) 72%,#040708 100%),
+      linear-gradient(180deg,rgba(4,7,8,.18),transparent 26%,transparent 70%,rgba(4,7,8,.86));
+  }
+  .game-frame[data-route="home"] .pc-chief-readout {
+    left: 38%;
+    right: calc(clamp(360px,20vw,560px) + clamp(90px,6vw,150px));
+    width: auto;
+    min-width: 0;
+  }
+  .game-frame[data-route="home"] .pc-main-navigation {
+    right: clamp(20px,1.2vw,36px);
+    width: clamp(360px,20vw,560px);
+  }
+}
+
 /* Keep every sibling route reachable after the compact resource rail is added. */
 @media (min-width:760px) and (hover:hover) and (pointer:fine) {
   .pc-roster-strip {

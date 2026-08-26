@@ -105,11 +105,11 @@
 .avs1-effect-module header b { color: #718289; font-size: 6px; letter-spacing: .1em; }
 .avs1-effect-module header svg { width: 13px; fill: none; stroke: currentColor; stroke-width: 1.5; }
 .avs1-effect-module .avs1-effect-options { display: grid; gap: 1px; padding: 0; background: rgba(164, 189, 200, .1); }
-.avs1-effect-options article { display: grid; grid-template-columns: 28px 90px minmax(0, 1fr); align-items: center; gap: 10px; padding: 9px 10px; background: #080d12; }
+.avs1-effect-options article { display: grid; grid-template-columns: 28px 104px minmax(0, 1fr); align-items: center; gap: 10px; padding: 9px 10px; background: #080d12; }
 .avs1-effect-options article > i { color: var(--avatar-accent); font: 800 8px/1 "Arial Narrow", sans-serif; letter-spacing: .12em; }
-.avs1-effect-options article > span { min-width: 78px; padding-right: 11px; border-right: 1px solid rgba(164, 189, 200, .14); }
+.avs1-effect-options article > span { min-width: 0; padding-right: 11px; border-right: 1px solid rgba(164, 189, 200, .14); }
 .avs1-effect-module small { display: block; color: #89999e; font-size: 7px; letter-spacing: 0; }
-.avs1-effect-module strong { display: block; margin-top: 4px; color: #f1f6f6; font-size: 17px; line-height: 1; }
+.avs1-effect-module strong { display: block; margin-top: 4px; color: #f1f6f6; font-size: 15px; line-height: 1; letter-spacing: -.04em; white-space: nowrap; }
 .avs1-effect-module p { color: #8fa0a6; font-size: 8px; line-height: 1.5; }
 .avs1-effect-module footer { padding: 7px 9px; border-top: 1px solid rgba(164, 189, 200, .1); color: #687a81; font-size: 6px; font-weight: 800; }
 .avs1-effect-module.is-power { border-left: 3px solid #ff6e65; }
@@ -277,8 +277,9 @@
   .avs1-dossier-index b { font-size: 17px; }
   .avs1-dossier-copy h2 { font-size: 27px; }
   .avs1-dossier-copy p { font-size: 9px; }
-  .avs1-effect-options article { grid-template-columns: 23px 76px minmax(0, 1fr); gap: 7px; padding: 9px 8px; }
+  .avs1-effect-options article { grid-template-columns: 23px 94px minmax(0, 1fr); gap: 7px; padding: 9px 8px; }
   .avs1-effect-options article > span { padding-right: 7px; }
+  .avs1-effect-module strong { font-size: 13px; }
   .avs1-effect-module p { font-size: 8px; }
   .avs1-acquisition-ledger { grid-column: 1 / -1; }
   .avs1-acquisition-ledger div { grid-template-columns: 80px 1fr; }
