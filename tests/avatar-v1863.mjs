@@ -94,7 +94,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=1867-avatar-alpha-coin-bonus/);
-  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.3-ultrawide-lobby/);
-  assert.match(serviceWorker,/soop-card-shell-v1867-avatar-alpha-coin-bonus/);
+  assert.match(index,/app\.js\?v=1868-live-operations/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.4-live-operations/);
+  assert.match(serviceWorker,/soop-card-shell-v1868-live-operations/);
 });

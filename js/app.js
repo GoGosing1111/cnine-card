@@ -959,13 +959,19 @@ function renderShell(tab) {
   try{performance.measure('cnine-route-render',{start:renderStarted,end:performance.now(),detail:{tab,partial:existingShell}})}catch(_){}
   const deferShellLoad=(delay,task)=>setTimeout(()=>{if(renderSeq!==shellRenderSeq)return;try{const result=task();if(result&&typeof result.catch==='function')result.catch(()=>{})}catch(_){}},delay);
   // 공통 상단 정보는 한 번의 경량 요청으로 묶고 30초 캐시를 사용한다.
-  deferShellLoad(80,()=>loadShellSummary(tab==='buy'));
-  if(tab==='buy')deferShellLoad(120,loadHallOfFame);
+  deferShellLoad(80,loadShellSummary);
+  if(tab==='buy'){
+    deferShellLoad(100,loadLiveOperations);
+    deferShellLoad(120,loadHallOfFame);
+  }
   if(API_MODE&&API_TOKEN)scheduleRuntimeCommandPoll(runtimeCommandPollDelay());
 }
 
 function hallOfFameHtml(){return `<section class="soop-hall-of-fame feed-hall-of-fame" id="soopHallOfFame" aria-label="숲카라 명예의 전당"><span class="soop-hall-cup" aria-hidden="true">🏆</span><small id="soopHallTitle">숲카라 명예의 전당</small><b id="soopHallName">🏆 남수단 🏆</b></section>`}
-function acquisitionFeedsHtml(){return `${hallOfFameHtml()}<section class="high-grade-feed" aria-live="polite"><span class="high-grade-label">LIMITED 등급 이상 획득 소식</span><div class="high-grade-viewport"><div id="highGradeTrack" class="high-grade-track"><span class="high-grade-empty">최근 LIMITED 등급 이상 획득 기록을 불러오는 중...</span></div></div></section><section class="high-grade-feed equipment-feed" aria-live="polite"><span class="high-grade-label equipment-feed-label">신화 장비 획득 소식</span><div class="high-grade-viewport"><div id="equipmentAcquisitionTrack" class="high-grade-track equipment-feed-track"><span class="high-grade-empty">최근 신화 장비 획득 기록을 불러오는 중...</span></div></div></section>`}
+function liveOperationsHtml(surface='store'){
+  return `<section class="live-operations live-operations-${escapeHtml(surface)}" aria-label="실시간 콘텐츠 운영 알림" data-live-operations-surface="${escapeHtml(surface)}"><header><i aria-hidden="true"></i><span><small>LIVE OPERATIONS</small><b>작전 진행 알림</b></span><em data-live-operations-count>확인 중</em></header><div class="live-operations-viewport"><div class="live-operations-list" data-live-operations-list><div class="live-operation-empty loading"><span aria-hidden="true"></span><b>콘텐츠 상태 확인 중</b><small>현재 참여 가능한 작전을 불러오고 있습니다.</small></div></div></div><time>KST</time></section>`;
+}
+function storeOperationsHtml(){return `${hallOfFameHtml()}${liveOperationsHtml('store')}`}
 async function loadHallOfFame(){const hall=document.getElementById('soopHallOfFame');if(!hall)return;if(!API_MODE)return;try{const data=await apiRequest('hall-of-fame',{}, {ttl:30000});if(data.enabled===false){hall.hidden=true;return}hall.hidden=false;const title=document.getElementById('soopHallTitle'),name=document.getElementById('soopHallName');if(title)title.textContent=String(data.title||'숲카라 명예의 전당');if(name)name.textContent=String(data.name||'🏆 남수단 🏆')}catch(error){console.warn('명예의 전당 조회 실패:',error)}}
 
 function summaryBar(user) {
@@ -975,62 +981,71 @@ function summaryBar(user) {
     <div class="summary-card currency-summary"><span class="summary-label">보유 재화</span><div class="currency-list"><div class="currency-row coin"><i>◇</i><span>코인</span><b>${coin}</b></div><div class="currency-row shard"><i>✣</i><span>카드 조각</span><b>${shards}</b></div><div class="currency-row crystal"><i>✦</i><span>마법 결정</span><b>${crystals}</b></div></div></div>
     ${magicSystemState.visible?`<button type="button" class="summary-card magic-summary" id="magicSummary"><i class="magic-summary-icon" aria-hidden="true">✦</i><span class="magic-summary-copy"><b>연구소 입장</b></span></button>`:`<div class="summary-card collection-summary"><span class="summary-label">카드 수집</span><div class="collection-summary-value"><b>${ownedIds(user).size}</b><i>/</i><strong>${cards.length}</strong></div><small>전체 도감 수집 현황</small></div>`}
     <button type="button" class="summary-card inventory-summary" id="inventorySummary"><i class="inventory-bag-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 8V6a5 5 0 0 1 10 0v2M5 8h14l1 13H4L5 8Z"/></svg></i><span class="inventory-summary-copy"><small class="summary-label">보관함</small><b>인벤토리</b><em id="inventorySummaryMeta">보유 내역 확인</em></span><strong id="inventorySummaryBadge" hidden>NEW</strong></button>
-  </section>${runtimeCommandContext==='buy'?acquisitionFeedsHtml():''}`;
+  </section>${runtimeCommandContext==='buy'?storeOperationsHtml():''}`;
 }
 
 window.addEventListener('storage',event=>{if(event.key==='cnine_hall_of_fame_refresh'){clearApiCache('hall-of-fame');loadHallOfFame()}});
 
-async function loadShellSummary(includeAcquisitionFeeds=false){
+async function loadShellSummary(){
   const inventoryCard=document.getElementById('inventorySummary');if(inventoryCard)inventoryCard.onclick=()=>renderShell('inventory');
   const magicCard=document.getElementById('magicSummary');if(magicCard)magicCard.onclick=()=>renderShell('magic');
   if(!API_MODE)return;
   try{
-    const d=await apiRequest(`shell/summary${includeAcquisitionFeeds?'?feeds=1':''}`,{}, {ttl:30000,timeoutMs:12000});
+    const d=await apiRequest('shell/summary',{}, {ttl:30000,timeoutMs:12000});
     applyAvatarFeatureState(d.avatarFeature);
     const inventory=d.inventory||{},meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');
     updateMessageNewBadges(d.messages?.unread||0);
     if(meta)meta.textContent=Number(inventory.totalQuantity)>0?`보유 ${Number(inventory.totalQuantity).toLocaleString()}개 · ${Number(inventory.ownedTypes)}종`:'획득한 특별 보관품 없음';
     if(badge){badge.hidden=!Number(inventory.unseenTotal);badge.textContent=Number(inventory.unseenTotal)>99?'99+':`NEW ${Number(inventory.unseenTotal||0)}`}
-    const highTrack=document.getElementById('highGradeTrack'),highItems=Array.isArray(d.highGradeItems)?d.highGradeItems:[];
-    if(highTrack){if(!highItems.length)highTrack.innerHTML='<span class="high-grade-empty">아직 LIMITED 등급 이상 획득 기록이 없습니다.</span>';else{const messages=highItems.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');highTrack.innerHTML=messages+messages;highTrack.classList.toggle('static',highItems.length===1)}}
-    const equipmentTrack=document.getElementById('equipmentAcquisitionTrack'),equipmentItems=Array.isArray(d.equipmentItems)?d.equipmentItems:[];
-    if(equipmentTrack){if(!equipmentItems.length)equipmentTrack.innerHTML='<span class="high-grade-empty">아직 신화 등급 장비 획득 기록이 없습니다.</span>';else{const messages=equipmentItems.map(item=>`<span class="high-grade-item equipment-feed-item rarity-mythic"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.equipment_name)} [신화]</strong> 장비를 획득했습니다.<em>${escapeHtml(equipmentFeedSourceLabel(item.source))}</em></span>`).join('');equipmentTrack.innerHTML=messages+messages;equipmentTrack.classList.toggle('static',equipmentItems.length===1)}}
   }catch(error){console.warn('공통 화면 요약 조회 실패:',error)}
 }
 
 async function loadInventorySummary(){const card=document.getElementById('inventorySummary');if(!card)return;card.onclick=()=>renderShell('inventory');if(!API_MODE)return;try{const d=await apiRequest('inventory',{}, {ttl:3000}),meta=document.getElementById('inventorySummaryMeta'),badge=document.getElementById('inventorySummaryBadge');if(meta)meta.textContent=d.totalQuantity>0?`보유 ${Number(d.totalQuantity).toLocaleString()}개 · ${Number(d.ownedTypes)}종`:'획득한 특별 보관품 없음';if(badge){badge.hidden=!d.unseenTotal;badge.textContent=d.unseenTotal>99?'99+':`NEW ${d.unseenTotal}`}}catch{}}
 
-async function loadRecentHighGradeFeed(){
-  const track=document.getElementById('highGradeTrack');
-  if(!track)return;
-  if(!API_MODE){track.innerHTML='<span class="high-grade-empty">현재는 실시간 획득 소식을 불러올 수 없습니다.</span>';return;}
-  try{
-    const data=await apiRequest('recent-high-grade');
-    const items=Array.isArray(data.items)?data.items:[];
-    if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 LIMITED 등급 이상 획득 기록이 없습니다.</span>';return;}
-    const messages=items.map(item=>`<span class="high-grade-item feed-grade-${escapeHtml(item.rarity)}"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.card_title)} [${escapeHtml(item.rarity)}]</strong> 카드를 획득했습니다.</span>`).join('');
-    track.innerHTML=messages+messages;
-    track.classList.toggle('static',items.length===1);
-  }catch(error){track.innerHTML='<span class="high-grade-empty">획득 소식을 불러오지 못했습니다.</span>';}
+const LIVE_OPERATION_META=Object.freeze({
+  TERRITORY:{label:'영토전',state:'편성 대기',deadline:'편성 마감'},
+  SIEGE:{label:'몬스터 공성',state:'편성 대기',deadline:'편성 마감'},
+  SEAL:{label:'봉인전',state:'진행 중',deadline:'종료까지'},
+  AUCTION:{label:'경매장',state:'입찰 진행',deadline:'종료까지'},
+  RAID:{label:'레이드',state:'전투 진행',deadline:'종료까지'}
+});
+let liveOperationsServerOffset=0,liveOperationsClockTimer=0,liveOperationsRefreshTimer=0;
+function liveOperationTimestamp(value){const raw=String(value||'').trim();if(!raw)return NaN;return Date.parse(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(raw)?`${raw.replace(' ','T')}Z`:raw)}
+function liveOperationClock(value){const ms=liveOperationTimestamp(value)-(Date.now()+liveOperationsServerOffset);if(!Number.isFinite(ms))return '진행 중';if(ms<=0)return '상태 갱신 중';const seconds=Math.ceil(ms/1000),hours=Math.floor(seconds/3600),minutes=Math.floor((seconds%3600)/60),secs=seconds%60;if(hours>=24)return `${Math.floor(hours/24)}일 ${String(hours%24).padStart(2,'0')}:${String(minutes).padStart(2,'0')}`;return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`}
+function liveOperationIcon(kind){return ({
+  TERRITORY:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20 20 4M8 4l12 12M5 3l4 1-5 5-1-4Zm14 12 2 2-4 4-2-2Z"/></svg>',
+  SIEGE:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V9l4-3v3l4-3v3l4-3v3l4-3v15ZM8 21v-5h8v5M7 12h2m3 0h2m3 0h2"/></svg>',
+  SEAL:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 2.7 8.2 7 10 4.3-1.8 7-5.5 7-10V6Zm-3 8h6m-5-3 4 6m0-6-4 6"/></svg>',
+  AUCTION:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 5 5 5m-2-7 7 7-3 3-7-7Zm-5 9 7 7M3 21h10M15 13l5 5"/></svg>',
+  RAID:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9l8-6 8 6v10M8 19v-6h8v6M6 21h12M9 8h6"/></svg>'
+}[kind]||'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/></svg>')}
+function liveOperationCardHtml(item){
+  const kind=String(item?.kind||'').toUpperCase(),phase=String(item?.phase||'').toUpperCase(),base=LIVE_OPERATION_META[kind]||{label:'콘텐츠',state:'진행 중',deadline:'종료까지'},raidLobby=kind==='RAID'&&phase==='LOBBY',state=raidLobby?'참가 대기':base.state,deadline=raidLobby?'전투 시작':base.deadline,title=String(item?.title||base.label),detail=String(item?.detail||'참여 가능한 콘텐츠');
+  return `<button type="button" class="live-operation-card kind-${escapeHtml(kind.toLowerCase())}" data-live-operation-kind="${escapeHtml(kind)}" aria-label="${escapeHtml(base.label)} ${escapeHtml(state)}"><span class="live-operation-icon">${liveOperationIcon(kind)}</span><span class="live-operation-copy"><small><i aria-hidden="true"></i>${escapeHtml(base.label)}<em>${escapeHtml(state)}</em></small><b>${escapeHtml(title)}</b><span>${escapeHtml(detail)}</span></span><strong><small>${escapeHtml(deadline)}</small><b data-live-operation-deadline="${escapeHtml(item?.deadlineAt||'')}">${liveOperationClock(item?.deadlineAt)}</b></strong><i class="live-operation-enter" aria-hidden="true">›</i></button>`;
 }
-
-function equipmentFeedSourceLabel(source){
-  const key=String(source||'').trim().toUpperCase();
-  return ({SUPPLY_BOX:'장비상자',ADMIN:'관리자 지급',PVE:'PVE',PVE_AUTO:'자동전투',TOWER:'무한의탑',RAID:'레이드',RIFT:'균열',PVP:'PVP',CAPTAIN:'대장전'}[key]||key||'장비 획득');
+function updateLiveOperationClocks(){const nodes=document.querySelectorAll('[data-live-operation-deadline]');if(!nodes.length){if(liveOperationsClockTimer)clearInterval(liveOperationsClockTimer);liveOperationsClockTimer=0;return}nodes.forEach(node=>{node.textContent=liveOperationClock(node.dataset.liveOperationDeadline)})}
+function openLiveOperation(kind){
+  const key=String(kind||'').toUpperCase();
+  if(key==='AUCTION'){renderShell('auction');return}
+  renderShell('battle');let attempts=0;
+  const enter=()=>{attempts++;if(key==='TERRITORY'&&typeof window.openTerritoryWar==='function'){window.openTerritoryWar();return}if(key==='SIEGE'&&typeof window.openMonsterSiege==='function'){window.openMonsterSiege();return}if(key==='SEAL'){const button=document.querySelector('[data-seal-battle-mode]');if(button){button.click();return}}if(key==='RAID'){const button=document.querySelector('[data-pve-mode="raid"]');if(button){button.click();return}}if(attempts<20)setTimeout(enter,80)};
+  setTimeout(enter,60);
 }
-
-async function loadRecentEquipmentFeed(){
-  const track=document.getElementById('equipmentAcquisitionTrack');
-  if(!track)return;
-  if(!API_MODE){track.innerHTML='<span class="high-grade-empty">현재는 실시간 장비 소식을 불러올 수 없습니다.</span>';return;}
-  try{
-    const data=await apiRequest('recent-equipment',{}, {ttl:1000});
-    const items=Array.isArray(data.items)?data.items:[];
-    if(!items.length){track.innerHTML='<span class="high-grade-empty">아직 신화 등급 장비 획득 기록이 없습니다.</span>';return;}
-    const messages=items.map(item=>`<span class="high-grade-item equipment-feed-item rarity-mythic"><b>"${escapeHtml(item.nickname)}"</b> 님이 <strong>${escapeHtml(item.equipment_name)} [신화]</strong> 장비를 획득했습니다.<em>${escapeHtml(equipmentFeedSourceLabel(item.source))}</em></span>`).join('');
-    track.innerHTML=messages+messages;
-    track.classList.toggle('static',items.length===1);
-  }catch(error){track.innerHTML='<span class="high-grade-empty">장비 획득 소식을 불러오지 못했습니다.</span>';}
+function renderLiveOperations(payload={}){
+  const lists=[...document.querySelectorAll('[data-live-operations-list]')];if(!lists.length)return;
+  const serverAt=liveOperationTimestamp(payload.serverNow);if(Number.isFinite(serverAt))liveOperationsServerOffset=serverAt-Date.now();
+  const items=(Array.isArray(payload.items)?payload.items:[]).filter(item=>LIVE_OPERATION_META[String(item?.kind||'').toUpperCase()]);
+  const html=items.length?items.map(liveOperationCardHtml).join(''):'<div class="live-operation-empty"><span aria-hidden="true"></span><b>현재 진행 중인 주요 콘텐츠 없음</b><small>새 작전이 열리면 자동으로 표시됩니다.</small></div>';
+  lists.forEach(list=>{list.innerHTML=html});
+  document.querySelectorAll('[data-live-operations-count]').forEach(node=>{node.textContent=items.length?`${items.length}건 진행`:'대기 중'});
+  document.querySelectorAll('[data-live-operation-kind]').forEach(button=>{button.onclick=()=>openLiveOperation(button.dataset.liveOperationKind)});
+  updateLiveOperationClocks();if(!liveOperationsClockTimer)liveOperationsClockTimer=setInterval(updateLiveOperationClocks,1000);
+}
+function scheduleLiveOperationsRefresh(seconds=30){if(liveOperationsRefreshTimer)clearTimeout(liveOperationsRefreshTimer);liveOperationsRefreshTimer=setTimeout(()=>{liveOperationsRefreshTimer=0;if(document.querySelector('[data-live-operations-list]'))loadLiveOperations(true)},Math.max(15,Number(seconds)||30)*1000)}
+async function loadLiveOperations(fresh=false){
+  const lists=document.querySelectorAll('[data-live-operations-list]');if(!lists.length)return;
+  if(!API_MODE){renderLiveOperations({items:[]});return}
+  try{if(fresh)clearApiCache('live-operations');const data=await apiRequest('live-operations',{}, {ttl:fresh?0:15000,timeoutMs:7000});renderLiveOperations(data);scheduleLiveOperationsRefresh(data.pollSeconds)}catch(error){lists.forEach(list=>{list.innerHTML='<div class="live-operation-empty error"><span aria-hidden="true"></span><b>운영 상태 갱신 대기</b><small>잠시 후 자동으로 다시 확인합니다.</small></div>'});scheduleLiveOperationsRefresh(20)}
 }
 
 function packImagePath(pack) {
@@ -3018,7 +3033,7 @@ const API_CACHE_TTL={
   'equipment/supply-box/config?fresh=1':1500,'vehicle-draw/config':1500,
   'messages':1500,'wago-verification/status':1500,'secondary-verification/status':1500,
   'pvp/opponents':1500,'pvp/history':1500,'pvp/ranking':1500,
-  'recent-high-grade':5000,'recent-equipment':5000
+  'live-operations':15000
 };
 function apiCacheKey(path){return String(path).replace(/^\/+|\/+$/g,'')}
 function clearApiCache(path=''){const key=apiCacheKey(path);if(key)API_GET_CACHE.delete(key);else API_GET_CACHE.clear()}
@@ -3969,7 +3984,7 @@ openPack=async function(packId,count,cost,options={}){
       autoDrawState.receiptArchiveQueue.push(requestId);
       autoDrawState.receiptArchiveQueue=autoDrawState.receiptArchiveQueue.slice(-20);
     }
-    clearApiCache('recent-high-grade');clearApiCache('shell/summary');clearApiCache('cards');
+    clearApiCache('shell/summary');clearApiCache('cards');
     mergeClientCards(verifiedResults.map(x=>x.card));
     const next=mergeDrawUserSnapshot(d.user,verifiedResults);
     const obtainedAt=new Date().toISOString();

@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.10.3';
+  const VERSION = '21.10.4';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -104,7 +104,8 @@
     [
       ['soopketmonV21ExactBase', 'soopketmon-v21-exact-base.css'],
       ['soopketmonV21ExactLuxury', 'soopketmon-v21-exact-luxury.css'],
-      ['soopketmonV21ProductionIntegration', 'soopketmon-v21-production-integration.css']
+      ['soopketmonV21ProductionIntegration', 'soopketmon-v21-production-integration.css'],
+      ['liveOperationsV1868', 'live-operations-v1868.css']
     ].forEach(([id, filename]) => {
       if (document.getElementById(id)) return;
       const link = document.createElement('link');
@@ -210,6 +211,8 @@
   function homeMarkup() {
     const chief = chiefView();
     const chiefPicture = chiefPictureMarkup(chief, true, true);
+    const pcOperations = typeof global.liveOperationsHtml === 'function' ? global.liveOperationsHtml('lobby-pc') : '';
+    const mobileOperations = typeof global.liveOperationsHtml === 'function' ? global.liveOperationsHtml('lobby-mobile') : '';
     return `<section class="pc-lobby-scene" aria-label="숲켓몬 PC 메인 로비">
         <div class="pc-lobby-grid" aria-hidden="true"></div>
         <div class="pc-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></div>
@@ -226,12 +229,12 @@
         </nav>
         <div class="pc-utility-rail" aria-label="빠른 메뉴"><button type="button" data-v21-route="magic">${svg('magic')}<span>마법</span></button><button type="button" data-v21-route="inventory">${svg('inventory')}<span>인벤</span></button><button type="button" data-v21-route="messages">${svg('mail')}<span>메시지</span><i data-message-new-badge data-v21-message-badge hidden></i></button><button type="button" data-v21-all>${svg('menu')}<span>전체</span></button></div>
         <div class="pc-status-cluster"><span><i></i> LIVE SERVER</span><b>CH. 01</b><small>ONLINE</small></div>
-        <div class="pc-news-ticker" aria-label="실시간 획득 소식"><b class="pc-ticker-label">LIVE DROP</b><div class="pc-ticker-window"><div id="highGradeTrack" class="pc-ticker-track high-grade-track"><span>최근 LIMITED 등급 이상 획득 기록을 불러오는 중...</span></div></div><time>KST</time></div>
+        ${pcOperations}
       </section>
       <section class="mobile-command-lobby" aria-label="숲켓몬 모바일 메인 로비"><div class="mobile-lobby-grid" aria-hidden="true"></div><div class="mobile-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span></div>
         <div class="mobile-chief-visual" aria-label="족장 직위 상징 이미지">${chiefPicture}</div>
         <section class="mobile-chief-readout ${chief.state !== 'active' ? 'is-vacant' : ''}"><small>THE ELECTED CHIEF</small><h1><span>${esc(chief.title)}</span><strong>${esc(chief.nickname)}</strong></h1><div><i></i><b>${esc(chief.remaining)}</b></div><button class="mobile-chief-status" type="button" data-v21-chief-info>족장 임기 현황 <em>LIVE</em></button></section>
-        <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${clanTestVisible()?mobileCommand('clan', '클랜 TEST', 'OWNER·V3 전쟁', true):''}${mobileCommand('character', '장비·제작', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>
+        <nav class="mobile-command-nav" aria-label="모바일 주요 메뉴"><header><span>MAIN COMMAND</span><b>01 / LOBBY</b><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></header>${mobileCommand('buy', '카드 상점', '20·100·1000회')}${mobileCommand('dex', '도감', '수집·진화')}${mobileCommand('battle', '전투', 'PVE·특수전', true)}${clanTestVisible()?mobileCommand('clan', '클랜 TEST', 'OWNER·V3 전쟁', true):''}${mobileCommand('character', '장비·제작', '장비·칭호·차고·공방', false, 'growth')}${mobileCommand('attendance', '보상', '출석·임무')}${mobileCommand('rank', '랭킹', '시즌·점수')}${mobileCommand('prediction', '승부·경매', '예측·거래')}</nav><div class="mobile-lobby-status"><span><i></i> LIVE SERVER</span><b>CH. 01</b></div>${mobileOperations}
       </section>`;
   }
 
@@ -354,7 +357,8 @@
     frame.page.dataset.route = 'home';
     syncDock(frame.page, 'home');
     bindMessageBadgeNormalizer(frame.page);
-    try { if (typeof global.loadShellSummary === 'function') global.loadShellSummary(true); } catch (_) {}
+    try { if (typeof global.loadShellSummary === 'function') global.loadShellSummary(); } catch (_) {}
+    try { if (typeof global.loadLiveOperations === 'function') global.loadLiveOperations(); } catch (_) {}
     void hydrateChief();
   }
 

@@ -117,14 +117,9 @@ const HIGH_BREAKTHROUGH_GRADES=['MA','LIMITED','FUR','ZENITH'];
 const HIGH_BREAKTHROUGH_BONUS_DEFAULT={FUR:[1400,1900,2500],ZENITH:[709,973,1275]};
 
 // V1805 공용 집계 캐시 -------------------------------------------------
-// 무거운 집계 3종(신화 장비 소식·고등급 획득 소식·컬렉션 랭킹)은 결과가
-// 전 유저 공통인데 캐시가 워커 인스턴스 메모리에만 있었다. 인스턴스가 늘면
-// 같은 집계가 그만큼 중복 실행된다. 실측(24시간):
-//   신화 장비 소식  11,949회 · 9.9억 행 읽음 (DB 전체 읽기의 25%)
-//   컬렉션 랭킹        385회 · 5.16억 행 · 1회 2.5초
-// app_meta 한 줄을 공용 캐시로 써서 모든 인스턴스가 결과를 나눠 쓴다.
-// 만료되면 리스를 잡은 인스턴스 하나만 다시 계산하고, 나머지는 직전 값을
-// 그대로 돌려준다. 소식/랭킹은 몇 초 늦어도 되는 데이터다.
+// 획득 소식 집계 2종은 V1868에서 완전히 퇴역했다. 현재 이 공용 캐시는
+// 컬렉션 랭킹처럼 계산량이 큰 전 유저 공통 결과에만 사용한다. app_meta의
+// 공유 결과와 리스로 여러 워커 인스턴스의 중복 집계를 막는다.
 const sharedAggregateMemory=new Map();
 async function sharedAggregate(env,key,ttlMs,build){
   const now=Date.now(),metaKey=`shared_agg_${key}_v1805`,leaseKey=`${metaKey}_lease`;
@@ -195,9 +190,9 @@ function raidParticipantRows(env,instanceId){
     return rows.results||[];
   });
 }
-let recentHighGradeCache=null;
-let recentEquipmentFeedCache=null;
 let collectionRankingCache=null;
+let liveOperationsCache=null;
+const LIVE_OPERATIONS_CACHE_MS=15000;
 // v1361 burst protection: tiny in-isolate caches only. Authoritative writes remain uncached.
 let adminDashboardBurstCache=null;
 const ADMIN_DASHBOARD_BURST_CACHE_MS=15000;
@@ -3640,37 +3635,81 @@ function weightedPick(items,getWeight){
   for(const item of items){roll-=getWeight(item);if(roll<0)return item}
   return items.at(-1);
 }
-async function recentHighGradeItems(env){
-  // V1805: 인스턴스별 메모리 캐시 → app_meta 공용 캐시(60초)로 교체.
-  return sharedAggregate(env,'high_grade_feed',60000,async()=>{
-    const rows=await env.DB.prepare(`SELECT u.nickname,c.title AS card_title,d.rarity,d.created_at
-      FROM draw_logs d NOT INDEXED
-      JOIN users u ON u.id=d.user_id
-      JOIN cards_effective_v1210 c ON c.id=d.card_id
-      WHERE d.rarity IN ('LIMITED','PRESTIGE','FUR') AND u.status='ACTIVE'
-      ORDER BY d.id DESC LIMIT 20`).all();
-    return rows.results||[];
-  });
-}
-async function recentMythicEquipmentItems(env){
-  // V1805: 이 쿼리 하나가 24시간 9.9억 행(DB 전체 읽기의 25%)을 읽고 있었다.
-  // 최근 20,000건을 훑어 신화 장비 20개를 추리는 구조는 그대로 두고,
-  // 인스턴스마다 돌던 것을 app_meta 공용 캐시(60초)로 묶어 전체에서 분당
-  // 1회만 실행되게 한다. "최근 획득 소식"은 최대 1분 늦게 갱신된다.
-  return sharedAggregate(env,'mythic_equipment_feed',60000,async()=>{
-    await ensureEquipmentFoundation(env);
-    const rows=await env.DB.prepare(`SELECT u.nickname,e.name AS equipment_name,e.rarity,recent.acquired_at AS created_at,recent.source_type AS source
-      FROM (
-        SELECT id,user_id,equipment_id,source_type,acquired_at
-        FROM user_equipment_instances INDEXED BY idx_user_equipment_instances_recent_v1674
-        ORDER BY id DESC LIMIT 20000
-      ) recent
-      JOIN users u ON u.id=recent.user_id
-      JOIN character_equipment_items e ON e.id=recent.equipment_id
-      WHERE UPPER(e.rarity)='MYTHIC' AND u.status='ACTIVE'
-      ORDER BY recent.id DESC LIMIT 20`).all();
-    return rows.results||[];
-  });
+async function liveOperationAlerts(env){
+  const now=Date.now();
+  if(liveOperationsCache&&liveOperationsCache.expiresAt>now)return liveOperationsCache.value;
+  // V1868: 유저별 획득 내역 두 건을 매 화면에서 집계하던 티커를 퇴역하고,
+  // 공개 콘텐츠 상태 다섯 건만 단일 UNION 조회로 읽는다. 남은 시간은 클라이언트가
+  // 서버 시각을 기준으로 계산하므로 DB는 상태가 바뀔 때만 다시 확인하면 된다.
+  try{
+    const result=await env.DB.prepare(`WITH
+    territory AS (
+      SELECT 'TERRITORY' kind,'FORMATION' phase,r.id entity_id,
+        COALESCE(NULLIF(TRIM(r.battle_name),''),'PROJECT V3 영토전') title,
+        '전투단 편성 접수 중' detail,r.recruitment_ends_at deadline_at,1 sort_order
+      FROM territory_war_v3_rounds r
+      WHERE r.status='RECRUITING' AND r.recruitment_ends_at IS NOT NULL
+        AND datetime(r.recruitment_ends_at)>CURRENT_TIMESTAMP
+        AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='territory_war_settings_v3'
+          AND json_valid(m.value)=1 AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
+      ORDER BY r.id DESC LIMIT 1
+    ),
+    siege AS (
+      SELECT 'SIEGE' kind,'FORMATION' phase,e.id entity_id,e.name title,
+        '공성대 편성 접수 중' detail,COALESCE(e.rally_ends_at,e.starts_at) deadline_at,2 sort_order
+      FROM monster_siege_events e
+      WHERE e.status='ACTIVE' AND datetime(COALESCE(e.rally_ends_at,e.starts_at))>CURRENT_TIMESTAMP
+        AND datetime(e.ends_at)>CURRENT_TIMESTAMP
+        AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='monster_siege_settings_v1'
+          AND json_valid(m.value)=1 AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
+      ORDER BY e.id DESC LIMIT 1
+    ),
+    seal AS (
+      SELECT 'SEAL' kind,'ACTIVE' phase,e.id entity_id,e.title title,e.boss_name detail,
+        e.ends_at deadline_at,3 sort_order
+      FROM seal_battle_events e
+      WHERE e.status='ACTIVE' AND (e.starts_at IS NULL OR datetime(e.starts_at)<=CURRENT_TIMESTAMP)
+        AND (e.ends_at IS NULL OR datetime(e.ends_at)>CURRENT_TIMESTAMP)
+        AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='seal_battle_settings_v1'
+          AND json_valid(m.value)=1 AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
+      ORDER BY e.id DESC LIMIT 1
+    ),
+    auction AS (
+      SELECT 'AUCTION' kind,'ACTIVE' phase,a.id entity_id,a.title title,a.item_name detail,
+        a.ends_at deadline_at,4 sort_order
+      FROM auctions_v1553 a
+      WHERE a.status IN ('SCHEDULED','ACTIVE') AND datetime(a.starts_at)<=CURRENT_TIMESTAMP
+        AND datetime(a.ends_at)>CURRENT_TIMESTAMP
+        AND COALESCE((SELECT value FROM app_meta WHERE key='auction_house_enabled_v1554'),'1')<>'0'
+      ORDER BY CASE a.status WHEN 'ACTIVE' THEN 0 ELSE 1 END,a.starts_at,a.id LIMIT 1
+    ),
+    raid AS (
+      SELECT 'RAID' kind,
+        CASE WHEN ri.status='LOBBY' AND datetime(ri.starts_at)>CURRENT_TIMESTAMP THEN 'LOBBY' ELSE 'BATTLE' END phase,
+        ri.id entity_id,rb.name title,
+        ('참가자 '||CAST(COALESCE(ri.participant_count,0) AS TEXT)||'명') detail,
+        CASE WHEN ri.status='LOBBY' AND datetime(ri.starts_at)>CURRENT_TIMESTAMP THEN ri.starts_at ELSE ri.ends_at END deadline_at,
+        5 sort_order
+      FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id
+      WHERE ri.status IN ('LOBBY','BATTLE') AND (ri.ends_at IS NULL OR datetime(ri.ends_at)>CURRENT_TIMESTAMP)
+        AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='raid_settings_v1' AND json_valid(m.value)=1
+          AND COALESCE(json_extract(m.value,'$.enabled'),0)=1
+          AND COALESCE(json_extract(m.value,'$.ownerOnlyTest'),0)=0)
+      ORDER BY CASE ri.status WHEN 'BATTLE' THEN 0 ELSE 1 END,ri.id DESC LIMIT 1
+    )
+    SELECT * FROM territory UNION ALL SELECT * FROM siege UNION ALL SELECT * FROM seal
+    UNION ALL SELECT * FROM auction UNION ALL SELECT * FROM raid ORDER BY sort_order`).all();
+    const value=(result.results||[]).map(row=>({
+      kind:String(row.kind||''),phase:String(row.phase||''),entityId:Number(row.entity_id||0),
+      title:String(row.title||''),detail:String(row.detail||''),deadlineAt:row.deadline_at||null,
+      sortOrder:Number(row.sort_order||0)
+    }));
+    liveOperationsCache={value,expiresAt:now+LIVE_OPERATIONS_CACHE_MS};
+    return value;
+  }catch(error){
+    console.error(JSON.stringify({message:'live operations aggregate failed',error:String(error?.message||error)}));
+    return liveOperationsCache?.value||[];
+  }
 }
 let cardAcquisitionGradeFxCache=null;
 async function cardAcquisitionEffectsByGrade(env){
@@ -3763,7 +3802,6 @@ async function openPremiumCubeBulk(env,user,{requestId,count}){
     for(const event of auditEvents)statements.push(limitedAuditFinishStatement(env,event.eventKey,{status:'COMPLETED',stockAfter:event.stockAfter,quantityAfter:event.quantityBefore+1,isDuplicate:event.isDuplicate,stockReserved:true,cardGranted:true}));
     statements.push(env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'").bind(JSON.stringify(response),requestId,user.id));
     await env.DB.batch(statements);
-    recentHighGradeCache=null;
     return response;
   }catch(error){
     const message=String(error?.message||'프리미엄 큐브 일괄 개방에 실패했습니다.').slice(0,300),rollback=[];
@@ -4438,19 +4476,24 @@ async function handleRequest(context){
         breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)]))
       },serverNow:new Date().toISOString()});
     }
-
+    if(path==='live-operations'&&request.method==='GET'){
+      const items=await liveOperationAlerts(env),payload=JSON.stringify({items,serverNow:new Date().toISOString(),pollSeconds:30});
+      return new Response(payload,{headers:{
+        'content-type':'application/json; charset=utf-8',
+        'cache-control':'public, max-age=10, stale-while-revalidate=20'
+      }});
+    }
 
     if(path==='shell/summary'&&request.method==='GET'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       // 이 경로는 전역 업그레이드 게이트보다 먼저 처리되므로 신규 인덱스를 선행 보장한다.
       await ensureD1HotpathIndexes(env);
-      const includeFeeds=url.searchParams.get('feeds')==='1';
-      const [inventory,messages,highGrade,equipment,avatarFeature]=await Promise.all([
+      const [inventory,messages,avatarFeature]=await Promise.all([
         env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
         env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id).first(),
-        includeFeeds?recentHighGradeItems(env):Promise.resolve([]),includeFeeds?recentMythicEquipmentItems(env):Promise.resolve([]),avatarFeatureAccess(env,user)
+        avatarFeatureAccess(env,user)
       ]);
-      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},highGradeItems:highGrade,equipmentItems:equipment,avatarFeature,serverNow:new Date().toISOString()});
+      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,serverNow:new Date().toISOString()});
     }
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
     if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
@@ -4670,7 +4713,6 @@ async function handleRequest(context){
         const response={ok:true,itemCode,isReroll,remaining:Number(remaining),card:responseCard,duplicate,shardGained,masterStarGained,user:await profile(env,updated),requestId};
         await env.DB.prepare("UPDATE inventory_use_receipts SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=?").bind(JSON.stringify(response),requestId,user.id).run();
         if(limitedAuditEvent)await finishLimitedAcquisitionAudit(env,limitedAuditEvent.eventKey,{status:'COMPLETED',stockAfter:limitedAuditEvent.stockAfter,quantityAfter:limitedAuditEvent.quantityBefore+1,isDuplicate:duplicate,stockReserved:true,cardGranted:true});
-        recentHighGradeCache=null;
         return json(response);
       }catch(error){
         if(consumed){await env.DB.prepare('UPDATE cnine_user_inventory SET quantity=quantity+1,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=?').bind(user.id,itemCode).run();}
@@ -5125,7 +5167,6 @@ async function handleRequest(context){
         grantsCommitted=true;
 
         // LIMITED 감사 성공 기록도 위 원자 batch에 포함되어 별도 완료 UPDATE 왕복이 없다.
-        recentHighGradeCache=null;
         scheduleDrawReceiptCleanup(context,env,requestId);
         return json(response);
       }catch(error){
@@ -6672,10 +6713,10 @@ async function handleRequest(context){
     }
 
     if(path==='recent-high-grade'){
-      return json({items:await recentHighGradeItems(env)});
+      return json({items:[],retired:true,replacement:'live-operations'});
     }
     if(path==='recent-equipment'){
-      return json({items:await recentMythicEquipmentItems(env)});
+      return json({items:[],retired:true,replacement:'live-operations'});
     }
     if(path==='ranking'){
       const viewer=await authenticate(request,env),settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
@@ -7838,7 +7879,6 @@ async function handleRequest(context){
             env.DB.prepare('INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data) VALUES(?,?,?,?,?,?)').bind(admin.id,'LIMITED_MANUAL_GRANT','USER_CARD',`${userId}:${cardId}`,JSON.stringify({quantity:quantityBefore,stock:stockBefore}),JSON.stringify(adminAfter)),
             env.DB.prepare("UPDATE limited_manual_grant_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId)
           ]);
-          recentHighGradeCache=null;
           return json(response);
         }catch(error){
           if(stockReserved)await env.DB.prepare('UPDATE cards SET issued_count=CASE WHEN issued_count>0 THEN issued_count-1 ELSE 0 END WHERE id=?').bind(cardId).run();
