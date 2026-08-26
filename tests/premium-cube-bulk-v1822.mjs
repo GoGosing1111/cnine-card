@@ -26,7 +26,7 @@ assert.match(app,/남은 프리미엄 큐브/);
 assert.match(css,/\.inventory-cube-count/);
 assert.match(css,/\.inventory-bulk-grid/);
 assert.match(css,/@media\(max-width:700px\)[\s\S]*\.inventory-bulk-grid/);
-assert.match(index,/style\.css\?v=1822-premium-cube-bulk/);
-assert.match(index,/app\.js\?v=1822-premium-cube-bulk/);
+assert.match(index,/style\.css\?v=1870-avatar-pve-energy/);
+assert.match(index,/app\.js\?v=1870-avatar-pve-energy/);
 
 console.log('premium cube bulk v1822: ok');

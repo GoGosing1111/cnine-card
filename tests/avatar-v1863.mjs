@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFile, readdir, stat } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 
 import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain } from '../functions/_avatar.js';
 
@@ -31,9 +33,11 @@ test('avatar foundation seeds ten hidden unsold records and upgrades multi effec
   assert.ok(seedStatements.every(statement=>statement.sql.includes('?,?,0,0,0,?')));
   assert.ok(schema.some(sql=>sql.includes('CREATE TABLE IF NOT EXISTS avatar_effect_options_v1')));
   const equipmentUpdates=prepared.filter(statement=>statement.sql.includes('UPDATE avatar_catalog_v1 SET equipment_image'));
-  assert.equal(equipmentUpdates.length,20);
+  assert.equal(equipmentUpdates.length,30);
   assert.equal(equipmentUpdates.filter(statement=>String(statement.values[0]||'').includes('/equipment-v2/')).length,10);
+  assert.equal(equipmentUpdates.filter(statement=>String(statement.values[0]||'').includes('/equipment-v3/')).length,10);
   assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2')));
+  assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3')));
   assert.ok(prepared.some(statement=>statement.sql.includes('ON CONFLICT(avatar_code,option_order) DO NOTHING')));
   assert.deepEqual(access,{mode:'OFF',visible:false,ownerTest:false,shopEnabled:false,version:1});
 });
@@ -44,8 +48,8 @@ test('avatar coin gain stacks after burning and hyper burning reward multiplicat
   assert.deepEqual(applyAvatarCoinGain(5000,{effects:[{type:'BATTLE_POWER_PERCENT',value:10}]}),{base:5000,percent:0,bonus:0,total:5000});
   assert.deepEqual(applyAvatarCoinGain(1000,{type:'COIN_GAIN_PERCENT',value:999}),{base:1000,percent:50,bonus:500,total:1500});
 });
-test('all ten corrected equipment avatars ship as versioned WebP files with real alpha', async () => {
-  const directory=new URL('../assets/ui/avatars-v1/equipment-v2/',import.meta.url);
+test('all ten final equipment avatars ship as defringed versioned WebP files with real alpha', async () => {
+  const directory=new URL('../assets/ui/avatars-v1/equipment-v3/',import.meta.url);
   const files=(await readdir(directory)).filter(name=>name.endsWith('.webp')).sort();
   assert.equal(files.length,10);
   for(const filename of files){
@@ -54,6 +58,19 @@ test('all ten corrected equipment avatars ship as versioned WebP files with real
     assert.equal(header.subarray(8,16).toString('ascii'),'WEBPVP8X',`${filename} is not extended WebP`);
     assert.equal(header[20]&0x10,0x10,`${filename} has no alpha flag`);
     assert.ok(metadata.size>50000,`${filename} looks truncated`);
+    const {data,info}=await sharp(fileURLToPath(url)).ensureAlpha().raw().toBuffer({resolveWithObject:true});
+    assert.equal(info.width,640,`${filename} width changed`);
+    assert.equal(info.height,960,`${filename} height changed`);
+    let visible=0,whiteFringe=0;
+    for(let offset=0;offset<data.length;offset+=4){
+      const alpha=data[offset+3];
+      if(alpha<=8)continue;
+      visible++;
+      const red=data[offset],green=data[offset+1],blue=data[offset+2];
+      if(alpha<245&&Math.min(red,green,blue)>190&&Math.max(red,green,blue)-Math.min(red,green,blue)<28)whiteFringe++;
+    }
+    assert.ok(visible>100000,`${filename} lost its character silhouette`);
+    assert.ok(whiteFringe<=10,`${filename} retains ${whiteFringe} bright matte pixels`);
   }
 });
 test('live avatar route is gated and wired through both V21 routers', async () => {
@@ -80,7 +97,8 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(server,/avatar_effect_options_v1/);
   assert.match(server,/effects:effectOptions/);
   assert.match(server,/safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2/);
-  assert.match(server,/assets\/ui\/avatars-v1\/equipment-v2\//);
+  assert.match(server,/safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3/);
+  assert.match(server,/assets\/ui\/avatars-v1\/equipment-v3\//);
   assert.match(battleApi,/applyAvatarCoinGain\(eventReward,avatarEffect\)/);
   assert.match(battleApi,/applyAvatarCoinGain\(attackerEventCoinReward,aAvatarEffect\)/);
   assert.match(battleApi,/avatarEffect,collectBattleLog/);
@@ -94,7 +112,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=1868-live-operations-r2/);
+  assert.match(index,/app\.js\?v=1870-avatar-pve-energy/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.5-live-operations-r2/);
-  assert.match(serviceWorker,/soop-card-shell-v1868-live-operations-r2/);
+  assert.match(serviceWorker,/soop-card-shell-v1870-avatar-pve-energy/);
 });

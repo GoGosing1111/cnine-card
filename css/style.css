@@ -1707,6 +1707,16 @@ div{
   }
 }
 
+/* v1870: the main PVE mode tabs are the single navigation source on narrow screens. */
+@media (max-width:760px){
+  #pveHuntView{padding-bottom:0!important}
+  .mobile-pve-tabs,
+  .mobile-pve-quickbar,
+  .pve-mobile-next{display:none!important}
+  .pve-mobile-pane{display:block!important}
+  .pve-mobile-pane[data-pve-pane="monsters"] .battle-start{bottom:max(10px,env(safe-area-inset-bottom))}
+}
+
 
 /* v9.79 RAID enrage cleanup */
 .raid-enrage-flames,

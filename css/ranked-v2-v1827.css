@@ -69,3 +69,23 @@
 @media(max-width:640px){.ranked-live-v2{margin-inline:-6px;border-inline:0}.ranked-live-v2 .ranked-season-hud{display:grid;grid-template-columns:1fr 108px;min-height:92px;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}.ranked-hud-index,.ranked-live-v2 .pvp-tier-badge{display:none}.ranked-live-v2 .pvp-cover-intro{gap:0}.ranked-live-v2 .ranked-season-title-row h2{font-size:23px}.ranked-live-v2 .pvp-cover-intro>div>p:last-child{font-size:9px}.ranked-live-chip{display:none}.ranked-live-v2 .pvp-me{padding-inline:8px!important}.ranked-tier-copy small{font-size:6px}.ranked-tier-copy span{font-size:14px}.ranked-tier-copy b{font-size:8px}.ranked-match-v2{display:block}.ranked-match-core{min-height:515px;padding:15px 13px}.ranked-match-scanner{width:min(47vw,190px);margin-bottom:-17px}.ranked-match-copy h2{font-size:28px}.ranked-match-factors span{padding:8px 6px}.ranked-match-factors small{font-size:7px}.ranked-match-factors b{font-size:10px}.ranked-live-v2 .ranked-match-start{min-height:58px}.ranked-live-v2 .ranked-match-start strong{font-size:16px}.ranked-deck-panel{display:none}.ranked-live-v2 .ranked-live-tabs{grid-template-columns:repeat(5,1fr);margin:0;height:58px}.ranked-live-v2 .ranked-live-tabs button{height:58px;padding:0;gap:0}.ranked-live-v2 .ranked-live-tabs svg{width:20px}.ranked-live-v2 .ranked-live-tabs button>span{display:none}.ranked-live-v2 .pvp-content>.pvp-section-head{padding:12px}.ranked-live-v2 .pvp-deck-slots{overflow-x:auto}.ranked-live-v2 .pvp-history-row,.ranked-live-v2 .pvp-rank-row{font-size:11px}}
 @media(orientation:landscape) and (max-height:560px){.ranked-live-v2 .ranked-season-hud{display:none}.ranked-live-v2 .ranked-live-content{padding-top:8px}.ranked-match-core{min-height:430px}.ranked-match-scanner{width:150px}.ranked-live-v2 .ranked-live-tabs{position:relative}.ranked-mini-roster{height:300px}}
 @media(prefers-reduced-motion:reduce){.ranked-live-v2 *{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
+
+/* V1870: keep the authoritative ranked fatigue count visible at every viewport. */
+@media(max-width:880px){
+  .ranked-live-v2 .ranked-season-hud{grid-template-columns:minmax(0,1fr) minmax(108px,.42fr);grid-auto-rows:auto}
+  .ranked-live-v2 .pvp-energy-card{display:flex!important;grid-column:1/-1;min-height:62px;padding:10px 14px!important;border-top:1px solid rgba(94,231,255,.18);border-right:0!important;background:linear-gradient(90deg,rgba(10,39,55,.78),rgba(7,17,25,.82))}
+  .ranked-live-v2 .pvp-energy-head span{color:#9bddeb;font-size:9px}
+  .ranked-live-v2 .pvp-energy-head b{color:#effcff;font-size:17px;font-variant-numeric:tabular-nums}
+  .ranked-live-v2 .pvp-energy-card>small{text-align:left;white-space:normal}
+}
+@media(max-width:640px){
+  .ranked-live-v2 .ranked-season-hud{grid-template-columns:minmax(0,1fr) 108px;min-height:0}
+  .ranked-live-v2 .pvp-energy-card{grid-column:1/-1;min-height:60px}
+}
+@media(orientation:landscape) and (max-height:560px){
+  .ranked-live-v2 .ranked-season-hud{display:grid!important;grid-template-columns:1fr;margin-block:6px}
+  .ranked-live-v2 .ranked-season-hud>.pvp-cover-intro,
+  .ranked-live-v2 .ranked-season-hud>.pvp-me,
+  .ranked-live-v2 .ranked-season-hud>.ranked-season-clock{display:none!important}
+  .ranked-live-v2 .ranked-season-hud>.pvp-energy-card{display:flex!important;grid-column:1/-1;min-height:54px}
+}

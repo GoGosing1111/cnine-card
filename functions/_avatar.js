@@ -7,7 +7,8 @@
  */
 const FOUNDATION_KEY='safe_runtime_upgrade_v1863_avatar_catalog_v1';
 const EFFECT_OPTIONS_KEY='safe_runtime_upgrade_v1864_avatar_effect_options_v1';
-const EQUIPMENT_ALPHA_KEY='safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2';
+const EQUIPMENT_ALPHA_V2_KEY='safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2';
+const EQUIPMENT_ALPHA_V3_KEY='safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
@@ -103,12 +104,22 @@ async function ensureAvatarEffectOptions(env){
 }
 
 async function ensureAvatarEquipmentAlphaV2(env){
-  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(EQUIPMENT_ALPHA_KEY).first();
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(EQUIPMENT_ALPHA_V2_KEY).first();
   if(marker?.value==='1')return;
   const equipmentBase='assets/ui/avatars-v1/equipment-v2/';
   await batchChunks(env,[
     ...SEEDS.map(seed=>env.DB.prepare('UPDATE avatar_catalog_v1 SET equipment_image=?,updated_at=CURRENT_TIMESTAMP WHERE code=?').bind(`${equipmentBase}${equipmentFileFor(seed)}`,seed.code)),
-    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(EQUIPMENT_ALPHA_KEY,'1')
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(EQUIPMENT_ALPHA_V2_KEY,'1')
+  ]);
+}
+
+async function ensureAvatarEquipmentAlphaV3(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(EQUIPMENT_ALPHA_V3_KEY).first();
+  if(marker?.value==='1')return;
+  const equipmentBase='assets/ui/avatars-v1/equipment-v3/';
+  await batchChunks(env,[
+    ...SEEDS.map(seed=>env.DB.prepare('UPDATE avatar_catalog_v1 SET equipment_image=?,updated_at=CURRENT_TIMESTAMP WHERE code=?').bind(`${equipmentBase}${equipmentFileFor(seed)}`,seed.code)),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(EQUIPMENT_ALPHA_V3_KEY,'1')
   ]);
 }
 
@@ -135,6 +146,7 @@ export async function ensureAvatarFoundation(env){
     }
     await ensureAvatarEffectOptions(env);
     await ensureAvatarEquipmentAlphaV2(env);
+    await ensureAvatarEquipmentAlphaV3(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
 }
