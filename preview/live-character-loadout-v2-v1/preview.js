@@ -10,7 +10,8 @@
   });
 
   const fixture = {
-    avatarFeature: { mode: 'TEST', visible: true, ownerTest: true, shopEnabled: true, version: 1 },
+    avatarFeature: { mode: 'ON', visible: true, ownerTest: false, shopEnabled: true, version: 1 },
+    equippedAvatar: { code: 'AZURE_FROST_STRATEGIST', name: '서리의 전략관', equipmentImage: 'assets/ui/avatars-v1/equipment-v1/avatar-f01-azure-frost-strategist-equipment-v1-640.webp' },
     slots: [
       { id: 'WEAPON', label: '무기' },
       { id: 'ACCESSORY', label: '장신구' },
@@ -61,7 +62,7 @@
       assetBase: '../../',
       profile: { nickname: '핑크빛유두' },
       onOpenAvatarShop() {
-        window.location.href = '../live-avatar-shop-v1/?v=2-avatar-effects&from=loadout';
+        window.location.href = '../live-avatar-shop-v1/?v=4-multi-effect-cooldown&from=loadout';
       }
     }
   );

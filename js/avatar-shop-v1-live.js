@@ -34,6 +34,12 @@
     controller = window.SoopketmonAvatarShopV1.create(root, {
       request,
       profile: profile() || { nickname: '플레이어' },
+      onChange(_data, response) {
+        if (response?.equippedAvatarCode && typeof window.clearApiCache === 'function') {
+          window.clearApiCache('character/loadout');
+          window.clearApiCache('chief/status');
+        }
+      },
       onBack() { if (typeof window.renderShell === 'function') window.renderShell('character'); }
     });
   }

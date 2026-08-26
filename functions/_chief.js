@@ -1,3 +1,5 @@
+import { ensureAvatarFoundation } from './_avatar.js';
+
 const CHIEF_META_KEY='chief_appointment_v1';
 const BURNING_KEY='burning_event_settings_v1';
 const HYPER_KEY='hyper_burning_event_settings_v1310';
@@ -28,10 +30,15 @@ async function ensure(env){
 }
 async function rowValue(env,key){return (await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(key).first())?.value||null}
 async function appointment(env){
-  await ensure(env);const raw=parse(await rowValue(env,CHIEF_META_KEY),{}),startsAt=iso(raw.startsAt),endsAt=iso(raw.endsAt);
+  await ensure(env);await ensureAvatarFoundation(env);const raw=parse(await rowValue(env,CHIEF_META_KEY),{}),startsAt=iso(raw.startsAt),endsAt=iso(raw.endsAt);
   if(!raw.id||!raw.userId||!startsAt||!endsAt)return {active:false};
-  const now=Date.now(),user=await env.DB.prepare('SELECT id,nickname,status FROM users WHERE id=?').bind(Number(raw.userId)).first();
-  return {...raw,userId:Number(raw.userId),nickname:user?.nickname||raw.nickname||'',startsAt,endsAt,active:Boolean(user&&user.status==='ACTIVE'&&now>=Date.parse(startsAt)&&now<Date.parse(endsAt))};
+  const now=Date.now(),user=await env.DB.prepare(`SELECT u.id,u.nickname,u.status,a.code avatar_code,a.name avatar_name,a.call_sign avatar_call_sign,
+    a.lobby_image avatar_lobby_image,a.lobby_mobile_image avatar_lobby_mobile_image
+    FROM users u LEFT JOIN avatar_user_loadout_v1 l ON l.user_id=u.id
+    LEFT JOIN avatar_user_ownership_v1 o ON o.user_id=u.id AND o.avatar_code=l.avatar_code
+    LEFT JOIN avatar_catalog_v1 a ON a.code=l.avatar_code AND o.avatar_code IS NOT NULL AND a.is_active=1 AND a.is_public=1 WHERE u.id=?`).bind(Number(raw.userId)).first();
+  const avatar=user?.avatar_code?{code:String(user.avatar_code),name:String(user.avatar_name||''),callSign:String(user.avatar_call_sign||''),lobbyImage:String(user.avatar_lobby_image||''),lobbyMobileImage:String(user.avatar_lobby_mobile_image||'')}:null;
+  return {...raw,userId:Number(raw.userId),nickname:user?.nickname||raw.nickname||'',avatar,startsAt,endsAt,active:Boolean(user&&user.status==='ACTIVE'&&now>=Date.parse(startsAt)&&now<Date.parse(endsAt))};
 }
 async function usage(env,a){
   if(!a.id)return {burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false};
@@ -45,7 +52,7 @@ async function usage(env,a){
 function publicState(a,u,viewerId){
   const remaining=Math.max(0,Date.parse(a.endsAt||0)-Date.now());
   const active=a.active===true;
-  return {status:active?'ACTIVE':'VACANT',active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',ordinal:chiefOrdinal(a.ordinal),source:'PLAY DK 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningHours:3,burningUsesPerDay:2,hyperHours:1,towerResetsPerTerm:2}};
+  return {status:active?'ACTIVE':'VACANT',active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',avatar:a.avatar||null,ordinal:chiefOrdinal(a.ordinal),source:'PLAY DK 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningHours:3,burningUsesPerDay:2,hyperHours:1,towerResetsPerTerm:2}};
 }
 async function activateBurning(env,a,type){
   const hyper=type==='HYPER',durationHours=hyper?1:3,key=hyper?HYPER_KEY:BURNING_KEY,other=hyper?BURNING_KEY:HYPER_KEY,now=new Date(),endsAt=new Date(now.getTime()+durationHours*3600000).toISOString();

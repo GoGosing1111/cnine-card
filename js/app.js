@@ -595,12 +595,12 @@ function bindFullscreenPlayLink(header){
 const FEATURE_RESOURCE_MANIFEST={
   character:{
     styles:['css/equipment-v1264.css?v=1497-load-control','css/character-loadout-v2.css?v=5-approved-live-contract'],
-    scripts:['js/equipment-v1274.js?v=1814-title-font-presets','js/character-loadout-v2.js?v=6-avatar-off-gate','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
+    scripts:['js/equipment-v1274.js?v=1814-title-font-presets','js/character-loadout-v2.js?v=9-avatar-equipment-art','js/character-loadout-v2-live.js?v=2-avatar-live-route'],
     ready:()=>Boolean(window.CharacterLoadoutV2Live?.bind)&&typeof window.characterView==='function'&&typeof window.bindCharacterView==='function'
   },
   avatar:{
-    styles:['css/avatar-shop-v1.css?v=3-live-off-contract'],
-    scripts:['js/avatar-shop-v1.js?v=3-live-off-contract','js/avatar-shop-v1-live.js?v=1-live-off-mount'],
+    styles:['css/avatar-shop-v1.css?v=4-multi-effect-cooldown'],
+    scripts:['js/avatar-shop-v1.js?v=4-multi-effect-cooldown','js/avatar-shop-v1-live.js?v=2-avatar-cache-sync'],
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{

@@ -315,6 +315,12 @@ body:has(.v21-auth-screen) { min-width:0; overflow:hidden; background:var(--v21-
   color:var(--store-text);
 }
 .v21-card-store > * { min-width:0; max-width:100%; }
+@media (min-width:821px) {
+  .v21-production-shell[data-route="buy"] .v21-route-body.v21-card-store > * {
+    margin-right:auto!important;
+    margin-left:auto!important;
+  }
+}
 .v21-card-store .summary-bar,
 .v21-card-store .burning-event-strip,
 .v21-card-store .pack-selector,

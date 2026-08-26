@@ -1,4 +1,4 @@
-import { avatarFeatureAccess } from './_avatar.js';
+import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const EQUIPMENT_SLOTS=['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'];
@@ -584,7 +584,7 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
   // Opening the equipment screen must stay fast. Collection-title synchronization
   // scans card ownership and is intentionally not run on every loadout request.
   if(syncTitles)await syncCollectionTitles(env,userId);
-  const [instances,loadoutRows,titleRows,titleLoadout,garageRows,garageLoadout,bonuses,avatarFeature]=await Promise.all([
+  const [instances,loadoutRows,titleRows,titleLoadout,garageRows,garageLoadout,bonuses,avatarFeature,equippedAvatar]=await Promise.all([
     env.DB.prepare(`SELECT x.id AS instance_id,x.source_type,x.source_id,x.acquired_at,i.* FROM user_equipment_instances x JOIN character_equipment_items i ON i.id=x.equipment_id WHERE x.user_id=? ${admin?'':"AND i.is_active=1 AND i.is_public=1"} ORDER BY i.slot,i.sort_order,x.acquired_at DESC,x.id DESC`).bind(userId).all(),
     env.DB.prepare('SELECT slot,instance_id FROM user_equipment_loadout WHERE user_id=?').bind(userId).all(),
     env.DB.prepare(`SELECT t.*,u.unlocked_at,u.expires_at,CASE WHEN u.title_id IS NULL THEN 0 ELSE 1 END AS owned FROM character_titles t LEFT JOIN user_character_titles u ON u.title_id=t.id AND u.user_id=? AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) WHERE ${admin?'1=1':'t.is_active=1 AND t.is_public=1'} ORDER BY t.sort_order,t.id`).bind(userId).all(),
@@ -592,10 +592,11 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
     env.DB.prepare(`SELECT g.*,u.acquired_at,CASE WHEN u.garage_id IS NULL THEN 0 ELSE 1 END AS owned FROM character_garage_items g LEFT JOIN user_garage_vehicles u ON u.garage_id=g.id AND u.user_id=? WHERE ${admin?'1=1':'g.is_active=1 AND g.is_public=1'} ORDER BY g.sort_order,g.id`).bind(userId).all(),
     env.DB.prepare('SELECT garage_id FROM user_garage_loadout WHERE user_id=?').bind(userId).first(),
     userEquipmentBonuses(env,userId),
-    avatarFeatureAccess(env,{id:userId,role})
+    avatarFeatureAccess(env,{id:userId,role}),
+    equippedAvatarEffect(env,userId)
   ]);
   const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0),equippedVehicleId=Number(garageLoadout?.garage_id||0);
-  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:instances.results.map(row=>({instanceId:Number(row.instance_id),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)})),loadout,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature};
+  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:instances.results.map(row=>({instanceId:Number(row.instance_id),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)})),loadout,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar};
 }
 
 async function adminSystemPayload(env){

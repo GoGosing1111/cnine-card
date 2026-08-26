@@ -14,11 +14,12 @@
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
   const formatNumber = (value) => Math.max(0, Number(value) || 0).toLocaleString('ko-KR');
+  const formatRemaining = (value) => { const totalMinutes = Math.max(0, Math.ceil((Number(value) || 0) / 60000)), hours = Math.floor(totalMinutes / 60), minutes = totalMinutes % 60; return hours ? `${hours}시간${minutes ? ` ${minutes}분` : ''}` : `${minutes}분`; };
   const sourceType = (item) => String(item?.acquisitionType || 'DROP').toUpperCase() === 'COIN' ? 'COIN' : 'DROP';
   const uid = () => globalThis.crypto?.randomUUID?.() || `avatar-${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
   function effectInfo(item) {
-    const effect = item?.effect || {};
+    const effect = item?.effect || item || {};
     const type = String(effect.type || 'NONE').toUpperCase();
     const amount = Math.max(0, Math.floor(Number(effect.value) || 0));
     if (type === 'SCRAPYARD_FREE_ENTRY') return {
@@ -30,7 +31,7 @@
       return { type, tone: 'raid', icon: 'raid', label: '레이드 추가 횟수', value: `+${value}회`, summary: `레이드 입장 +${value}회`, detail: `장착 중에는 레이드 각 운영 슬롯의 입장 가능 횟수가 ${value}회 증가합니다.` };
     }
     if (type === 'COIN_GAIN_PERCENT') {
-      const value = Math.max(1, Math.min(20, amount || 1));
+      const value = Math.max(1, Math.min(50, amount || 1));
       return { type, tone: 'coin', icon: 'coinGain', label: '코인 습득률', value: `+${value}%`, summary: `코인 습득률 +${value}%`, detail: `전투와 콘텐츠에서 직접 획득하는 코인이 ${value}% 증가합니다. 거래·환불·관리자 지급은 제외됩니다.` };
     }
     if (type === 'BATTLE_POWER_PERCENT') {
@@ -38,6 +39,11 @@
       return { type, tone: 'power', icon: 'power', label: '전투력 상승', value: `+${value}%`, summary: `편성 전투력 +${value}%`, detail: `장착 중에는 모든 전투 콘텐츠의 최종 편성 전투력이 ${value}% 증가합니다.` };
     }
     return { type: 'NONE', tone: 'neutral', icon: 'wardrobe', label: '아바타 효과', value: '미설정', summary: '효과 정보 준비 중', detail: '서버에서 이 아바타의 장착 효과가 아직 설정되지 않았습니다.' };
+  }
+
+  function effectInfos(item) {
+    const effects = Array.isArray(item?.effects) && item.effects.length ? item.effects : [item?.effect || {}];
+    return effects.map(effectInfo).filter((effect) => effect.type !== 'NONE');
   }
 
   const icon = (name) => {
@@ -67,7 +73,8 @@
       busy: false,
       confirmCode: '',
       notice: null,
-      noticeTimer: 0
+      noticeTimer: 0,
+      cooldownTimer: 0
     };
 
     const request = options.request || ((path, init = {}) => {
@@ -82,6 +89,13 @@
     };
     const currentItem = () => state.data?.avatars?.find((item) => item.code === state.selectedCode) || state.data?.avatars?.[0] || null;
     const ownedCount = () => (state.data?.avatars || []).filter((item) => item.owned).length;
+    const cooldownRemaining = () => {
+      const cooldown = state.data?.equipCooldown || {};
+      const next = Date.parse(String(cooldown.nextEquipAt || ''));
+      if (Number.isFinite(next)) return Math.max(0, next - Date.now());
+      return Math.max(0, Number(cooldown.remainingMs) || 0);
+    };
+    const cooldownLocked = () => cooldownRemaining() > 0;
 
     function showNotice(message, error = false) {
       window.clearTimeout(state.noticeTimer);
@@ -117,16 +131,16 @@
     }
 
     function effectBadge(item) {
-      const effect = effectInfo(item);
-      return `<span class="avs1-effect-badge is-${effect.tone}">${icon(effect.icon)} ${escapeHtml(effect.summary)}</span>`;
+      const effects = effectInfos(item), effect = effects[0] || effectInfo(item);
+      return `<span class="avs1-effect-badge is-${effect.tone}">${icon(effect.icon)} ${escapeHtml(effect.summary)}${effects.length > 1 ? ` <b>외 ${effects.length - 1}</b>` : ''}</span>`;
     }
 
     function effectModule(item) {
-      const effect = effectInfo(item);
-      return `<section class="avs1-effect-module is-${effect.tone}">
-        <header><span>${icon(effect.icon)} AVATAR EFFECT</span><b>${item?.equipped ? 'ACTIVE' : 'EQUIP TO ACTIVATE'}</b></header>
-        <div><span><small>${escapeHtml(effect.label)}</small><strong>${escapeHtml(effect.value)}</strong></span><p>${escapeHtml(effect.detail)}</p></div>
-        <footer>장착 아바타 1개만 적용 · 효과 중첩 불가</footer>
+      const effects = effectInfos(item), primary = effects[0] || effectInfo(item);
+      return `<section class="avs1-effect-module is-${primary.tone}">
+        <header><span>${icon(primary.icon)} AVATAR EFFECTS · ${Math.max(1, effects.length)}</span><b>${item?.equipped ? 'ACTIVE' : 'EQUIP TO ACTIVATE'}</b></header>
+        <div class="avs1-effect-options">${(effects.length ? effects : [primary]).map((effect, index) => `<article class="is-${effect.tone}"><i>${String(index + 1).padStart(2, '0')}</i><span><small>${escapeHtml(effect.label)}</small><strong>${escapeHtml(effect.value)}</strong></span><p>${escapeHtml(effect.detail)}</p></article>`).join('')}</div>
+        <footer>장착 아바타 1개 제한 · 등록된 옵션은 모두 함께 적용</footer>
       </section>`;
     }
 
@@ -140,6 +154,7 @@
     function actionMarkup(item) {
       if (!item) return '';
       if (item.equipped) return `<button type="button" class="avs1-primary-action is-equipped" disabled>${icon('check')} 현재 적용 중</button>`;
+      if (item.owned && cooldownLocked()) return `<button type="button" class="avs1-primary-action is-cooldown" disabled>${icon('lock')} 교체 대기 · ${escapeHtml(formatRemaining(cooldownRemaining()))}</button>`;
       if (item.owned) return `<button type="button" class="avs1-primary-action" data-avatar-equip="${escapeHtml(item.code)}">이 아바타 적용</button>`;
       if (sourceType(item) === 'COIN' && coinSaleOpen(item)) return `<button type="button" class="avs1-primary-action is-purchase" data-avatar-buy="${escapeHtml(item.code)}"><span>${icon('coin')} 코인 구매</span><b>${formatNumber(item.coinPrice)}</b></button>`;
       if (sourceType(item) === 'COIN') return `<button type="button" class="avs1-primary-action is-drop" disabled>${icon('lock')} 판매 준비 중</button>`;
@@ -183,18 +198,19 @@
     function card(item) {
       const selected = item.code === state.selectedCode;
       const type = sourceType(item).toLowerCase();
+      const effects = effectInfos(item), effectSummary = effects[0]?.summary || effectInfo(item).summary;
       return `<button type="button" class="avs1-card is-${type}${selected ? ' is-selected' : ''}${item.owned ? ' is-owned' : ''}${item.equipped ? ' is-equipped' : ''}" data-avatar-select="${escapeHtml(item.code)}" style="--avatar-accent:${escapeHtml(item.accent || '#82c7d7')}">
         ${picture(item, 'avs1-card-picture')}
         <span class="avs1-card-seq">${escapeHtml(item.serial || 'A-00')}</span>
         <span class="avs1-card-state">${item.equipped ? 'ACTIVE' : item.owned ? 'OWNED' : sourceType(item) === 'COIN' ? `${formatNumber(item.coinPrice)} C` : 'DROP'}</span>
-        <span class="avs1-card-copy"><small>${escapeHtml(item.callSign || '')}</small><strong>${escapeHtml(item.name)}</strong><em>${escapeHtml(effectInfo(item).summary)}</em></span>
+        <span class="avs1-card-copy"><small>${escapeHtml(item.callSign || '')}</small><strong>${escapeHtml(item.name)}</strong><em>${escapeHtml(effectSummary)}${effects.length > 1 ? ` · 외 ${effects.length - 1}` : ''}</em></span>
       </button>`;
     }
 
     function archive() {
       const items = filteredItems();
       return `<div class="avs1-archive-head">
-          <div><small>WARDROBE INDEX</small><h2>아바타 컬렉션</h2><p>획득 경로와 장착 효과를 확인할 수 있습니다. 효과는 현재 장착한 아바타 1개만 적용됩니다.</p></div>
+          <div><small>WARDROBE INDEX</small><h2>아바타 컬렉션</h2><p>한 번에 아바타 1개를 장착하며, 해당 아바타에 등록된 모든 옵션이 함께 적용됩니다. 교체 후 24시간 동안 재교체할 수 없습니다.</p></div>
           <span><b>${ownedCount()}</b> / ${state.data?.avatars?.length || 0} OWNED</span>
         </div>
         <nav class="avs1-filters" aria-label="아바타 획득 방식 필터">${FILTERS.map(([value, label]) => `<button type="button" class="${state.filter === value ? 'is-active' : ''}" data-avatar-filter="${value}">${label}</button>`).join('')}</nav>
@@ -203,13 +219,13 @@
 
     function confirm(item) {
       if (!item || state.confirmCode !== item.code) return '';
-      const effect = effectInfo(item);
+      const effects = effectInfos(item), effect = effects[0] || effectInfo(item);
       return `<div class="avs1-confirm-layer" role="presentation"><section class="avs1-confirm" role="dialog" aria-modal="true" aria-label="아바타 구매 확인">
         <header><small>COIN PURCHASE</small><button type="button" data-avatar-confirm-close aria-label="닫기">${icon('close')}</button></header>
         <div class="avs1-confirm-preview">${picture(item, 'avs1-confirm-picture', true)}</div>
         <h2>${escapeHtml(item.name)}</h2>
-        <p>아바타는 계정에 영구 귀속됩니다. 장착하면 고유 효과가 활성화되며 다른 아바타 효과와 중첩되지 않습니다.</p>
-        <dl><div><dt>장착 효과</dt><dd>${escapeHtml(effect.summary)}</dd></div><div><dt>구매 가격</dt><dd>${formatNumber(item.coinPrice)} COIN</dd></div><div><dt>구매 후 잔액</dt><dd>${formatNumber(Math.max(0, Number(state.data?.coin || 0) - Number(item.coinPrice || 0)))} COIN</dd></div></dl>
+        <p>아바타는 계정에 영구 귀속됩니다. 장착 시 등록된 옵션이 모두 활성화되며, 다른 아바타로 교체한 뒤에는 24시간의 교체 대기 시간이 적용됩니다.</p>
+        <dl><div><dt>장착 효과</dt><dd>${escapeHtml((effects.length ? effects : [effect]).map((row) => row.summary).join(' · '))}</dd></div><div><dt>구매 가격</dt><dd>${formatNumber(item.coinPrice)} COIN</dd></div><div><dt>구매 후 잔액</dt><dd>${formatNumber(Math.max(0, Number(state.data?.coin || 0) - Number(item.coinPrice || 0)))} COIN</dd></div></dl>
         <div class="avs1-confirm-actions"><button type="button" data-avatar-confirm-close>취소</button><button type="button" data-avatar-confirm-buy="${escapeHtml(item.code)}" ${Number(state.data?.coin || 0) < Number(item.coinPrice || 0) ? 'disabled' : ''}>구매 확정</button></div>
       </section></div>`;
     }
@@ -251,12 +267,17 @@
         });
         if (response?.coin !== undefined) state.data.coin = Number(response.coin || 0);
         if (path === 'avatar/purchase') item.owned = true;
-        if (path === 'avatar/equip') state.data.avatars.forEach((row) => { row.equipped = row.code === item.code; });
+        if (path === 'avatar/equip') {
+          state.data.avatars.forEach((row) => { row.equipped = row.code === item.code; });
+          state.data.equipCooldown = response?.equipCooldown || state.data.equipCooldown || {};
+          window.dispatchEvent(new CustomEvent('cnine:avatar-equipped', { detail: { avatar: structuredClone(item), equipCooldown: structuredClone(state.data.equipCooldown) } }));
+        }
         state.confirmCode = '';
         render();
         showNotice(success);
         options.onChange?.(structuredClone(state.data), response);
       } catch (error) {
+        if (error?.code === 'AVATAR_EQUIP_COOLDOWN') state.data.equipCooldown = { durationMs: error.durationMs, remainingMs: error.remainingMs, nextEquipAt: error.nextEquipAt, locked: true };
         state.confirmCode = '';
         render();
         showNotice(error?.message || '요청을 처리하지 못했습니다.', true);
@@ -287,8 +308,19 @@
       try {
         state.data = options.data ? structuredClone(options.data) : await request('avatar/catalog');
         state.data.avatars = Array.isArray(state.data?.avatars) ? state.data.avatars : [];
+        state.data.equipCooldown = state.data?.equipCooldown || { durationMs: 86400000, remainingMs: 0, nextEquipAt: null, locked: false };
         state.selectedCode = state.data.avatars.find((item) => item.equipped)?.code || state.data.avatars.find((item) => item.owned)?.code || state.data.avatars[0]?.code || '';
         render();
+        window.clearInterval(state.cooldownTimer);
+        state.cooldownTimer = window.setInterval(() => {
+          if (!root.isConnected) return;
+          const buttons = [...root.querySelectorAll('.avs1-primary-action.is-cooldown')], remaining = cooldownRemaining();
+          if (remaining > 0) buttons.forEach((button) => { button.innerHTML = `${icon('lock')} 교체 대기 · ${escapeHtml(formatRemaining(remaining))}`; });
+          else if (state.data?.equipCooldown?.locked) {
+            state.data.equipCooldown = { ...state.data.equipCooldown, locked: false, remainingMs: 0, nextEquipAt: null };
+            if (buttons.length) render();
+          }
+        }, 30000);
       } catch (error) {
         root.innerHTML = `<div class="avs1-load-error"><b>아바타 상점을 불러오지 못했습니다.</b><span>${escapeHtml(error?.message || '잠시 후 다시 시도해 주세요.')}</span><button type="button" data-avatar-retry>다시 시도</button></div>`;
         root.querySelector('[data-avatar-retry]')?.addEventListener('click', load, { once: true });
@@ -303,6 +335,7 @@
       getState: () => structuredClone(state.data),
       destroy() {
         window.clearTimeout(state.noticeTimer);
+        window.clearInterval(state.cooldownTimer);
         root.removeEventListener('click', onClick);
         root.innerHTML = '';
       }

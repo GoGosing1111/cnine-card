@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 
 import { ensureAvatarFoundation, avatarFeatureAccess } from '../functions/_avatar.js';
 
-test('avatar foundation seeds ten hidden unsold records and defaults OFF', async () => {
+test('avatar foundation seeds ten hidden unsold records and upgrades multi effects without overwriting settings', async () => {
   const prepared=[],schema=[];
   const db={
     dialect:'postgres',
@@ -24,11 +24,14 @@ test('avatar foundation seeds ten hidden unsold records and defaults OFF', async
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
   assert.equal(seedStatements.length,10);
-  assert.equal(schema.length,7);
+  assert.equal(schema.length,16);
   assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
   assert.match(schema[1],/user_id BIGINT NOT NULL/);
   assert.ok(seedStatements.every(statement=>statement.sql.includes("'UNSET',NULL,'',''")));
   assert.ok(seedStatements.every(statement=>statement.sql.includes('?,?,0,0,0,?')));
+  assert.ok(schema.some(sql=>sql.includes('CREATE TABLE IF NOT EXISTS avatar_effect_options_v1')));
+  assert.equal(prepared.filter(statement=>statement.sql.includes('UPDATE avatar_catalog_v1 SET equipment_image')).length,10);
+  assert.ok(prepared.some(statement=>statement.sql.includes('ON CONFLICT(avatar_code,option_order) DO NOTHING')));
   assert.deepEqual(access,{mode:'OFF',visible:false,ownerTest:false,shopEnabled:false,version:1});
 });
 test('live avatar route is gated and wired through both V21 routers', async () => {
@@ -43,4 +46,8 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(exact,/route==='avatar'&&global\.avatarFeatureVisible/);
   assert.match(runtime,/avatar:\s*\{ shell: 'avatar' \}/);
   assert.match(server,/code:'AVATAR_FEATURE_OFF'/);
+  assert.match(server,/AVATAR_EQUIP_COOLDOWN_MS=24\*60\*60\*1000/);
+  assert.match(server,/COIN_GAIN_PERCENT'\?50/);
+  assert.match(server,/avatar_effect_options_v1/);
+  assert.match(server,/effects:effectOptions/);
 });

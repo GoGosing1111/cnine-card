@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.10.0';
+  const VERSION = '21.10.1';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -181,8 +181,16 @@
       state: 'active', ordinal,
       title: ordinal === '—' ? '현임 족장' : `제${ordinal}대 족장`,
       nickname: chief.nickname || '족장',
-      remaining: days ? `${days}일 ${hours}시간 남음` : `${hours}시간 ${minutes}분 남음`
+      remaining: days ? `${days}일 ${hours}시간 남음` : `${hours}시간 ${minutes}분 남음`,
+      avatar: chief.avatar || null
     };
+  }
+
+  function chiefPictureMarkup(chief, eager = true) {
+    const path = value => { const clean = String(value || '').replace(/\\/g, '/'); return clean && !clean.startsWith('/') ? `/${clean}` : clean; };
+    const desktop = path(chief?.avatar?.lobbyImage), mobile = path(chief?.avatar?.lobbyMobileImage || desktop);
+    if (desktop) return `<picture><source media="(max-width:759px)" srcset="${esc(mobile)}"><img src="${esc(desktop)}" width="1024" height="1536" alt="${esc(chief.avatar?.name || chief.nickname || '족장')} 아바타 일러스트" loading="${eager ? 'eager' : 'lazy'}" ${eager ? 'fetchpriority="high"' : ''} decoding="async"></picture>`;
+    return `<picture><source type="image/avif" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" sizes="(max-width:759px) 100vw, 55vw"><source type="image/webp" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.webp 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp 1024w" sizes="(max-width:759px) 100vw, 55vw"><img src="/assets/ui/chief/chief-supreme-commander-lobby-v1.png" width="1024" height="1536" alt="족장 직위를 상징하는 미래형 최고지휘관 공용 초상" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></picture>`;
   }
 
   function pcCommand(route, title, meta, feature, group = '') {
@@ -199,7 +207,7 @@
 
   function homeMarkup() {
     const chief = chiefView();
-    const chiefPicture = `<picture><source type="image/avif" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" sizes="(max-width:759px) 100vw, 55vw"><source type="image/webp" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.webp 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp 1024w" sizes="(max-width:759px) 100vw, 55vw"><img src="/assets/ui/chief/chief-supreme-commander-lobby-v1.png" width="1024" height="1536" alt="족장 직위를 상징하는 미래형 최고지휘관 공용 초상" fetchpriority="high" decoding="async"></picture>`;
+    const chiefPicture = chiefPictureMarkup(chief);
     return `<section class="pc-lobby-scene" aria-label="숲켓몬 PC 메인 로비">
         <div class="pc-lobby-grid" aria-hidden="true"></div>
         <div class="pc-lobby-brand"><img src="/assets/ui/cninelogo.png" alt="숲켓몬"><span>CARD COLLECTION RPG</span><button class="v21-fullscreen-toggle" type="button" data-v21-fullscreen aria-label="전체화면 모드" aria-pressed="false"><i>⛶</i><em>전체화면</em></button></div>
@@ -433,7 +441,7 @@
     const chief = chiefView();
     const modal = modalRoot(); if (!modal) return;
     modal.className = 'modal v21-command-overlay open';
-    modal.innerHTML = `<section class="v21-command-dialog v21-chief-dialog" role="dialog" aria-modal="true" aria-label="족장 임기 및 권한"><header><div><small>SOOPKETMON / CHIEF SYSTEM</small><h2>${esc(chief.title)} · ${esc(chief.nickname)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-chief-dialog-body"><img src="/assets/ui/chief/chief-supreme-commander-lobby-v1.png" alt="족장 직위 공용 초상"><div><small>현재 상태</small><b>${chief.state === 'active' ? '재임 중' : chief.nickname}</b><small>남은 임기</small><b>${esc(chief.remaining)}</b><p>족장 권한과 사용 횟수는 운영 서버에서 검증됩니다. 아래 버튼은 기존 족장 권한 화면을 그대로 엽니다.</p><button type="button" data-v21-chief-system>운영 족장 시스템 열기</button></div></div></section>`;
+    modal.innerHTML = `<section class="v21-command-dialog v21-chief-dialog" role="dialog" aria-modal="true" aria-label="족장 임기 및 권한"><header><div><small>SOOPKETMON / CHIEF SYSTEM</small><h2>${esc(chief.title)} · ${esc(chief.nickname)}</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-chief-dialog-body">${chiefPictureMarkup(chief, false)}<div><small>현재 상태</small><b>${chief.state === 'active' ? '재임 중' : chief.nickname}</b><small>남은 임기</small><b>${esc(chief.remaining)}</b><p>족장 권한과 사용 횟수는 운영 서버에서 검증됩니다. 아래 버튼은 기존 족장 권한 화면을 그대로 엽니다.</p><button type="button" data-v21-chief-system>운영 족장 시스템 열기</button></div></div></section>`;
   }
 
   function navigate(route) {
@@ -504,6 +512,7 @@
     });
     document.addEventListener('fullscreenchange', syncFullscreenControls);
     document.addEventListener('webkitfullscreenchange', syncFullscreenControls);
+    global.addEventListener('cnine:avatar-equipped', () => { void hydrateChief(true); });
   }
 
   function wrapRenderShell() {

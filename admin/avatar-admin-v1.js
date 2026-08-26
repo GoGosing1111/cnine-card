@@ -27,21 +27,24 @@
   function modeOptions(current){return ['OFF','TEST','ON'].map(mode=>`<option value="${mode}" ${mode===current?'selected':''}>${mode}${mode==='OFF'?' · 완전 비공개':mode==='TEST'?' · OWNER만':' · 전체 공개'}</option>`).join('')}
   function acquisitionOptions(current){return Object.entries(ACQUISITION_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
   function effectOptions(current){return Object.entries(EFFECT_LABELS).map(([value,label])=>`<option value="${value}" ${value===current?'selected':''}>${label}</option>`).join('')}
+  function effectMax(type){return type==='COIN_GAIN_PERCENT'?50:type==='RAID_EXTRA_ENTRY'?20:type==='SCRAPYARD_FREE_ENTRY'?1:100}
+  function itemEffects(item){return Array.isArray(item.effects)&&item.effects.length?item.effects:[item.effect||{type:'BATTLE_POWER_PERCENT',value:1}]}
+  function effectRow(effect,index){const type=effect?.type||'BATTLE_POWER_PERCENT';return `<div class="avatar-admin-effect-row" data-effect-row><i>${String(index+1).padStart(2,'0')}</i><label><span>효과 유형</span><select data-effect-type>${effectOptions(type)}</select></label><label><span>효과 수치</span><input data-effect-value type="number" min="1" max="${effectMax(type)}" step="1" value="${Math.max(1,Number(effect?.value||1))}"></label><button type="button" data-effect-remove aria-label="효과 삭제">삭제</button></div>`}
 
   function avatarCard(item){
     const image=String(item.lobbyMobileImage||item.lobbyImage||'');
+    const effects=itemEffects(item);
     return `<article class="avatar-admin-card" data-avatar-code="${esc(item.code)}" data-version="${Number(item.version||1)}" style="--avatar-accent:${esc(item.accent||'#82c7d7')}">
       <header><div class="avatar-admin-thumb"><img src="../${esc(image)}" alt="${esc(item.name)}" loading="lazy" decoding="async"></div><div><small>${esc(item.serial)} · ${esc(item.callSign)}</small><h3>${esc(item.name)}</h3><p>${esc(item.role)}</p></div><span class="avatar-admin-state ${item.public?'is-public':item.active?'is-test':'is-off'}">${item.public?'PUBLIC':item.active?'READY':'OFF'}</span></header>
-      <div class="avatar-admin-effect"><span>고유 효과</span><b>${esc(EFFECT_LABELS[item.effect?.type]||item.effect?.type)} · ${Number(item.effect?.value||0).toLocaleString()}</b></div>
+      <div class="avatar-admin-effect"><span>고유 효과</span><b>${effects.length}개 옵션 · 장착 시 모두 적용</b></div>
       <div class="avatar-admin-fields">
         <label><span>획득 방식</span><select data-field="acquisitionType">${acquisitionOptions(item.acquisitionType)}</select></label>
         <label><span>코인 가격</span><input data-field="coinPrice" type="number" inputmode="numeric" min="0" step="1" value="${item.coinPrice==null?'':esc(item.coinPrice)}" placeholder="미설정"></label>
         <label class="avatar-admin-wide"><span>획득처 표시명</span><input data-field="sourceLabel" maxlength="80" value="${esc(item.sourceLabel||'')}" placeholder="예: 영토전 최종 보상"></label>
         <label class="avatar-admin-wide"><span>획득 상세 안내</span><textarea data-field="sourceDetail" maxlength="500" rows="2" placeholder="유저에게 표시할 획득 조건">${esc(item.sourceDetail||'')}</textarea></label>
-        <label><span>효과 유형</span><select data-field="effectType">${effectOptions(item.effect?.type)}</select></label>
-        <label><span>효과 수치</span><input data-field="effectValue" type="number" min="0" max="100" step="1" value="${Number(item.effect?.value||0)}"></label>
         <label><span>정렬 순서</span><input data-field="sortOrder" type="number" min="0" max="9999" step="1" value="${Number(item.sortOrder||0)}"></label>
       </div>
+      <section class="avatar-admin-effects"><header><div><small>MULTI EFFECT OPTIONS</small><b>최대 4개 · 중복 유형 불가</b></div><button type="button" data-effect-add ${effects.length>=4?'disabled':''}>+ 옵션 추가</button></header><div data-effect-list>${effects.map(effectRow).join('')}</div></section>
       <div class="avatar-admin-switches">
         <label><input data-field="active" type="checkbox" ${item.active?'checked':''}><span>데이터 사용 ON</span></label>
         <label><input data-field="public" type="checkbox" ${item.public?'checked':''}><span>유저 공개</span></label>
@@ -66,11 +69,16 @@
 
   function field(card,name){const input=card.querySelector(`[data-field="${name}"]`);return input?.type==='checkbox'?Boolean(input.checked):input?.value??''}
   function syncCard(card){const acquisition=field(card,'acquisitionType'),price=card.querySelector('[data-field="coinPrice"]'),sale=card.querySelector('[data-field="saleEnabled"]');if(price)price.disabled=acquisition!=='COIN';if(sale&&acquisition!=='COIN')sale.checked=false}
+  function syncEffects(card){const rows=[...card.querySelectorAll('[data-effect-row]')],selected=rows.map(row=>row.querySelector('[data-effect-type]').value);rows.forEach((row,index)=>{row.querySelector('i').textContent=String(index+1).padStart(2,'0');const select=row.querySelector('[data-effect-type]'),type=select.value,input=row.querySelector('[data-effect-value]');[...select.options].forEach(option=>{option.disabled=option.value!==type&&selected.includes(option.value)});input.max=effectMax(type);input.min=1;if(Number(input.value)>Number(input.max))input.value=input.max;if(Number(input.value)<1)input.value=1;if(type==='SCRAPYARD_FREE_ENTRY')input.value=1;row.querySelector('[data-effect-remove]').disabled=rows.length<=1});const add=card.querySelector('[data-effect-add]');if(add)add.disabled=rows.length>=4}
+  function readEffects(card){return[...card.querySelectorAll('[data-effect-row]')].map(row=>({type:row.querySelector('[data-effect-type]').value,value:Number(row.querySelector('[data-effect-value]').value)}))}
 
   function bind(){
     $('#avatarConfigSave').onclick=saveConfig;
     document.querySelectorAll('.avatar-admin-card').forEach(card=>{
-      syncCard(card);card.querySelector('[data-field="acquisitionType"]')?.addEventListener('change',()=>syncCard(card));card.querySelector('[data-avatar-save]')?.addEventListener('click',()=>saveAvatar(card));
+      syncCard(card);syncEffects(card);card.querySelector('[data-field="acquisitionType"]')?.addEventListener('change',()=>syncCard(card));card.querySelector('[data-avatar-save]')?.addEventListener('click',()=>saveAvatar(card));
+      card.querySelector('[data-effect-add]')?.addEventListener('click',()=>{const used=new Set(readEffects(card).map(effect=>effect.type)),type=Object.keys(EFFECT_LABELS).find(value=>!used.has(value));if(!type)return;card.querySelector('[data-effect-list]').insertAdjacentHTML('beforeend',effectRow({type,value:1},card.querySelectorAll('[data-effect-row]').length));syncEffects(card)});
+      card.addEventListener('click',event=>{const remove=event.target.closest('[data-effect-remove]');if(remove&&!remove.disabled){remove.closest('[data-effect-row]').remove();syncEffects(card)}});
+      card.addEventListener('change',event=>{if(event.target.matches('[data-effect-type]'))syncEffects(card)});
     });
   }
 
@@ -82,7 +90,7 @@
   }
 
   async function saveAvatar(card){
-    const payload={action:'SAVE_AVATAR',code:card.dataset.avatarCode,version:Number(card.dataset.version),acquisitionType:field(card,'acquisitionType'),coinPrice:field(card,'coinPrice'),sourceLabel:field(card,'sourceLabel'),sourceDetail:field(card,'sourceDetail'),effectType:field(card,'effectType'),effectValue:Number(field(card,'effectValue')),sortOrder:Number(field(card,'sortOrder')),active:field(card,'active'),public:field(card,'public'),saleEnabled:field(card,'saleEnabled')};
+    const payload={action:'SAVE_AVATAR',code:card.dataset.avatarCode,version:Number(card.dataset.version),acquisitionType:field(card,'acquisitionType'),coinPrice:field(card,'coinPrice'),sourceLabel:field(card,'sourceLabel'),sourceDetail:field(card,'sourceDetail'),effects:readEffects(card),sortOrder:Number(field(card,'sortOrder')),active:field(card,'active'),public:field(card,'public'),saleEnabled:field(card,'saleEnabled')};
     const button=card.querySelector('[data-avatar-save]');button.disabled=true;
     try{const result=await api('admin/avatars',{method:'POST',body:JSON.stringify(payload)}),index=state.avatars.findIndex(item=>item.code===payload.code);if(index>=0)state.avatars[index]=result.avatar;render();alert(`${result.avatar.name} 설정을 저장했습니다.`)}catch(error){alert(error.message);button.disabled=false}
   }

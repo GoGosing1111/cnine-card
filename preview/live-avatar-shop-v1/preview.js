@@ -7,12 +7,12 @@
   const raidEffect = (value) => ({ type: 'RAID_EXTRA_ENTRY', value });
   const coinEffect = (value) => ({ type: 'COIN_GAIN_PERCENT', value });
 
-  const avatar = (serial, code, name, callSign, role, file, accent, acquisitionType, acquisition, effect, owned = false, equipped = false) => ({
+  const avatar = (serial, code, name, callSign, role, file, accent, acquisitionType, acquisition, effectInput, owned = false, equipped = false) => ({
     serial, code, name, callSign, role,
     description: `${name}의 외형과 전용 로비 일러스트를 적용하고 고유 아바타 효과를 활성화합니다.`,
     lobbyImage: `${base}${file}-1024.webp`,
     lobbyMobileImage: `${base}${file}-640.webp`,
-    accent, acquisitionType, effect, owned, equipped,
+    accent, acquisitionType, effects: Array.isArray(effectInput) ? effectInput : [effectInput], effect: (Array.isArray(effectInput) ? effectInput[0] : effectInput), owned, equipped,
     ...(acquisitionType === 'COIN'
       ? { coinPrice: acquisition }
       : { sourceLabel: acquisition[0], sourceDetail: acquisition[1] })
@@ -21,8 +21,10 @@
   const fixture = {
     profile: { nickname: '핑크빛유두', role: 'OWNER' },
     coin: 4420607473,
+    access: { mode: 'ON', visible: true, shopEnabled: true },
+    equipCooldown: { durationMs: 86400000, remainingMs: 0, nextEquipAt: null, locked: false },
     avatars: [
-      avatar('A-01', 'AZURE_FROST_STRATEGIST', '서리의 전략관', 'AZURE FROST', '빙결 전술 지휘관', 'avatar-f01-azure-frost-strategist-lobby-v1', '#8bc9ff', 'COIN', 250000000, coinEffect(1), true, true),
+      avatar('A-01', 'AZURE_FROST_STRATEGIST', '서리의 전략관', 'AZURE FROST', '빙결 전술 지휘관', 'avatar-f01-azure-frost-strategist-lobby-v1', '#8bc9ff', 'COIN', 250000000, [coinEffect(50),powerEffect(5),raidEffect(1)], true, true),
       avatar('A-02', 'CRIMSON_SIEGE_MARSHAL', '진홍 공성 지휘관', 'CRIMSON SIEGE', '공성 화력 통제관', 'avatar-f02-crimson-siege-marshal-lobby-v1', '#ff6d64', 'DROP', ['영토전 최종 보상', '영토전 종료 시 지정 순위 또는 지휘 기여 보상으로 획득하는 전용 아바타입니다.'], powerEffect(8)),
       avatar('A-03', 'VERDANT_BIO_MEDIC', '에메랄드 전장의무관', 'VERDANT MEDIC', '전장 생체 의무관', 'avatar-f03-verdant-bio-medic-lobby-v1', '#6ee3bd', 'DROP', ['월드 레이드', '월드 레이드 보상 상자에서 낮은 확률로 획득하는 드랍 전용 아바타입니다.'], raidEffect(1)),
       avatar('A-04', 'SOLAR_VANGUARD', '태양의 선봉대장', 'SOLAR VANGUARD', '황금 성채 선봉장', 'avatar-f04-solar-vanguard-lobby-v1', '#ffd178', 'COIN', 400000000, powerEffect(4)),
@@ -52,7 +54,9 @@
     if (path === 'avatar/equip') {
       if (!item.owned) throw new Error('보유한 아바타만 적용할 수 있습니다.');
       fixture.avatars.forEach((row) => { row.equipped = row.code === item.code; });
-      return { ok: true, equippedAvatarCode: item.code, coin: fixture.coin };
+      const nextEquipAt = new Date(Date.now() + 86400000).toISOString();
+      fixture.equipCooldown = { durationMs: 86400000, remainingMs: 86400000, nextEquipAt, locked: true };
+      return { ok: true, equippedAvatarCode: item.code, coin: fixture.coin, equipCooldown: fixture.equipCooldown };
     }
     throw new Error(`프리뷰 계약에 없는 요청입니다: ${path}`);
   }
@@ -65,7 +69,7 @@
       assetBase: '../../',
       profile: fixture.profile,
       onBack() {
-        window.location.href = '../live-character-loadout-v2-v1/?v=7-avatar-effects-link&tab=equipment';
+        window.location.href = '../live-character-loadout-v2-v1/?v=9-avatar-equipment-art&tab=equipment';
       }
     }
   );
