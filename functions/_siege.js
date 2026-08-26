@@ -899,11 +899,12 @@ export async function handleSiege({ path, request, env, deps }) {
       if (!before.eligibleCount)
         return json({ error: "5회 이상 참여한 지급 대상이 없습니다.", state: before }, 409);
       const reason = `MONSTER_SIEGE_EVENT_${before.event.id}_5_PLUS_PARTICIPATION_BONUS`;
+      const ledgerNow = env.DB?.dialect === "postgres" ? "NOW()" : "CURRENT_TIMESTAMP";
       const results = await env.DB.batch([
         env.DB.prepare(
           `INSERT OR IGNORE INTO monster_siege_participation_bonus_v1(
-            event_id,user_id,bonus_code,min_attacks,coin,attacks,status,updated_at
-          ) SELECT event_id,user_id,?,?,?,attacks,'PENDING',CURRENT_TIMESTAMP
+            event_id,user_id,bonus_code,min_attacks,coin,attacks,status
+          ) SELECT event_id,user_id,?,?,?,attacks,'PENDING'
             FROM monster_siege_users WHERE event_id=? AND attacks>=?`,
         ).bind(
           PARTICIPATION_BONUS_CODE,
@@ -932,7 +933,7 @@ export async function handleSiege({ path, request, env, deps }) {
         ),
         env.DB.prepare(
           `UPDATE monster_siege_participation_bonus_v1
-           SET status='DONE',paid_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP
+           SET status='DONE',paid_at=${ledgerNow},updated_at=${ledgerNow}
            WHERE event_id=? AND bonus_code=? AND status='PENDING'`,
         ).bind(before.event.id, PARTICIPATION_BONUS_CODE),
       ]);
