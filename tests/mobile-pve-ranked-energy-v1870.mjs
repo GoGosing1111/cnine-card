@@ -25,5 +25,5 @@ test('ranked fatigue remains visible and live-labelled on mobile and short lands
   assert.match(ranked,/@media\(orientation:landscape\) and \(max-height:560px\)[\s\S]*?\.pvp-energy-card\{display:flex!important/);
   assert.match(index,/style\.css\?v=1870-avatar-pve-energy/);
   assert.match(index,/ranked-v2-v1827\.css\?v=1870-avatar-pve-energy/);
-  assert.match(index,/app\.js\?v=1871-burning-command/);
+  assert.match(index,/app\.js\?v=1873-burning-compact-single/);
 });
