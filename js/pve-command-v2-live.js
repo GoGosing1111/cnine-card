@@ -66,7 +66,7 @@
     return `<div class="pvev2-live-toolbar">
       <div class="pvev2-server"><span></span><b>PROJECT V3</b><small>SERVER READY</small></div>
       <div class="pvev2-energy"><small>PVE ACTION</small><b id="battleEnergyCount">${esc(energy.text)}</b><span><i id="battleEnergyFill" style="width:${energy.fill}%"></i></span><em id="battleEnergyTimer">${esc(energy.timer)}</em></div>
-      <button class="pvev2-evolution-entry" id="pveV2EvolutionEntry" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M4 12h16M10 17h10"/><path d="m11 4 3 3-3 3m2 4-3 3 3 3"/></svg><span><small>CARD EVOLUTION</small><b>카드 진화</b></span><em>진입</em></button>
+      <button class="pvev2-evolution-entry" id="pveV2EvolutionEntry" type="button" aria-label="카드 진화로 이동" title="카드 진화"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M4 12h16M10 17h10"/><path d="m11 4 3 3-3 3m2 4-3 3 3 3"/></svg><span><small>CARD EVOLUTION</small><b>카드 진화</b></span><em>진입</em></button>
     </div>`;
   }
 
@@ -186,9 +186,12 @@
       root.innerHTML = `<section class="pvev2-screen pvev2-hunt-screen"><div class="pvev2-backdrop hunt"></div><div class="pvev2-content">${screenHead('PVE / TARGET ACQUISITION', '몬스터 토벌', 'CMS에 등록된 몬스터 이름·원본 이미지·전투 데이터를 그대로 표시합니다.', '<span class="pvev2-status-line"><i></i>CMS MONSTER DATA · LIVE CONTRACT</span>')}<div id="battleMonsters"></div></div></section>`;
       renderPveMonsterBrowserV2();
     }
+    const autoToggle = root.querySelector('#battleAuto');
+    if (autoToggle) autoToggle.onchange = renderBattleEnergy;
     renderBattleEnergy();
     syncModeNavigation();
-    document.getElementById('pveV2EvolutionEntry')?.addEventListener('click', () => renderShell('evolution'));
+    const evolutionEntry = document.getElementById('pveV2EvolutionEntry');
+    if (evolutionEntry) evolutionEntry.onclick = () => renderShell('evolution');
     window.CNineRuntime?.observe?.(root);
   }
 

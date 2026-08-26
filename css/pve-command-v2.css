@@ -1,5 +1,5 @@
 :root{color-scheme:dark;--pv2-bg:#04070b;--pv2-panel:#08111a;--pv2-panel-2:#0a1621;--pv2-line:#203440;--pv2-line-hot:#51d9ee;--pv2-ink:#eef5f7;--pv2-muted:#7f929e;--pv2-cyan:#55dbef;--pv2-amber:#f5a247;--pv2-red:#ff5f4a;--pv2-green:#66e5ae;--pv2-violet:#af83ff}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--pv2-bg);color:var(--pv2-ink);font-family:Inter,Pretendard,"Noto Sans KR",Arial,sans-serif}button,input,select{font:inherit}button{color:inherit}.pvev2-root{min-height:100dvh;padding-bottom:92px;background:linear-gradient(180deg,#05080d,#030609 45%,#070609);overflow:hidden}.pvev2-root:before{content:"";position:fixed;z-index:0;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(84,216,239,.025) 1px,transparent 1px),linear-gradient(rgba(84,216,239,.018) 1px,transparent 1px);background-size:92px 92px;mask-image:linear-gradient(180deg,#000,transparent 76%)}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--pv2-bg);color:var(--pv2-ink);font-family:Inter,Pretendard,"Noto Sans KR",Arial,sans-serif}button,input,select{font:inherit}button{color:inherit}.pvev2-root{min-height:100dvh;padding-bottom:92px;background:linear-gradient(180deg,#05080d,#030609 45%,#070609);overflow:hidden;container-type:inline-size;container-name:pvecommand}.pvev2-root:before{content:"";position:fixed;z-index:0;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(84,216,239,.025) 1px,transparent 1px),linear-gradient(rgba(84,216,239,.018) 1px,transparent 1px);background-size:92px 92px;mask-image:linear-gradient(180deg,#000,transparent 76%)}
 .pvev2-global-head{position:relative;z-index:20;display:grid;grid-template-columns:54px minmax(190px,1fr) auto minmax(170px,220px) 112px;align-items:center;gap:16px;min-height:90px;padding:12px 24px;border-top:2px solid #7e251e;border-bottom:1px solid #253039;background:linear-gradient(90deg,#090d12 0,#080c11 68%,#130a0d)}.pvev2-home,.pvev2-all-menu{height:54px;border:1px solid #30404b;border-radius:4px;background:#111821}.pvev2-home{display:grid;place-items:center}.pvev2-home svg{width:25px;fill:none;stroke:#b6c5cc;stroke-width:1.8}.pvev2-title{display:grid;gap:1px}.pvev2-title small{color:#64dcef;font-size:11px;font-weight:900;letter-spacing:.13em}.pvev2-title strong{font-size:30px;letter-spacing:-.04em}.pvev2-server{display:grid;grid-template-columns:8px auto;align-items:center;column-gap:8px;padding-right:14px;border-right:1px solid #28333b}.pvev2-server>span{grid-row:1/3;width:7px;height:18px;background:var(--pv2-green);box-shadow:0 0 12px rgba(102,229,174,.45)}.pvev2-server b{font-size:11px;letter-spacing:.12em}.pvev2-server small{color:#6f838e;font-size:8px}.pvev2-energy{display:grid;grid-template-columns:1fr auto;align-items:end;gap:2px 10px}.pvev2-energy small{color:#7f919c;font-size:8px;font-weight:900;letter-spacing:.15em}.pvev2-energy b{font-size:20px}.pvev2-energy b i{color:#71818a;font-size:11px;font-style:normal}.pvev2-energy>span{grid-column:1/3;height:3px;background:#1c2b34}.pvev2-energy>span i{display:block;height:100%;background:linear-gradient(90deg,#198ff5,#5de6ee)}.pvev2-all-menu{font-weight:900;cursor:pointer}
 .pvev2-mode-nav{position:relative;z-index:18;display:grid;grid-template-columns:repeat(8,minmax(145px,1fr));gap:0;margin:18px 18px 0;border:1px solid #244353;border-radius:6px;background:#071421;overflow:auto;scrollbar-width:thin}.pvev2-mode-nav button{position:relative;display:flex;align-items:center;gap:11px;min-width:145px;height:78px;padding:10px 15px;border:0;border-right:1px solid #1b3544;background:transparent;text-align:left;cursor:pointer}.pvev2-mode-nav button:last-child{border-right:0}.pvev2-mode-nav button:after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:transparent}.pvev2-mode-nav button:hover{background:#0b1e2c}.pvev2-mode-nav button[aria-selected=true]{background:linear-gradient(180deg,#102b3b,#0a1b28);box-shadow:inset 4px 0 0 var(--pv2-cyan)}.pvev2-mode-nav button[aria-selected=true]:after{background:linear-gradient(90deg,var(--pv2-cyan),#2385ee)}.pvev2-mode-nav svg{flex:0 0 27px;width:27px;fill:none;stroke:#7393a5;stroke-width:1.6;stroke-linejoin:round}.pvev2-mode-nav button[aria-selected=true] svg{stroke:#74e8f5}.pvev2-mode-nav span{display:grid;min-width:0;gap:3px}.pvev2-mode-nav b{font-size:14px;white-space:nowrap}.pvev2-mode-nav small{color:#617b8b;font-size:7px;font-weight:900;letter-spacing:.12em;white-space:nowrap}.pvev2-mode-nav em{position:absolute;right:8px;top:7px;padding:2px 5px;border:1px solid #7d2f27;border-radius:2px;background:#2c1112;color:#ff8d7d;font-size:7px;font-style:normal;font-weight:900}
 .pvev2-viewport{position:relative;z-index:2;margin:16px 18px 0}.pvev2-loading{display:grid;place-items:center;align-content:center;gap:10px;min-height:620px;border:1px solid var(--pv2-line);background:#071019}.pvev2-loading i{width:46px;height:6px;background:linear-gradient(90deg,var(--pv2-cyan) 0 40%,#20323b 40%);animation:pv2load 1s steps(3) infinite}.pvev2-loading b{font-size:15px}.pvev2-loading span{color:#607783;font-size:8px;letter-spacing:.18em}@keyframes pv2load{to{background-position:46px 0}}
@@ -83,3 +83,42 @@
 @media(max-width:1100px){.pvev2-live-toolbar .pvev2-server{display:grid}.pvev2-live-toolbar .pvev2-energy{width:210px}.pvev2-live-toolbar .pvev2-evolution-entry{width:165px;min-width:165px}.pvev2-evolution-live .evolution-layout{grid-template-columns:1fr}.pvev2-evolution-live .evolution-process-grid{grid-template-columns:minmax(170px,.8fr) 24px minmax(220px,1fr) 24px minmax(170px,.8fr)}}
 @media(max-width:760px){.pvev2-live-root>.pvev2-live-toolbar{margin:0 8px;min-height:58px;padding:6px 8px}.pvev2-live-toolbar .pvev2-server{display:none}.pvev2-live-toolbar .pvev2-energy{width:auto;flex:1}.pvev2-live-toolbar .pvev2-evolution-entry{width:46px;min-width:46px;height:44px;padding:0;justify-content:center}.pvev2-live-toolbar .pvev2-evolution-entry span,.pvev2-live-toolbar .pvev2-evolution-entry em{display:none}.pvev2-live-root>.pvev2-mode-nav{margin-top:8px}.pvev2-live-roster{grid-template-columns:repeat(5,132px);overflow:auto}.pvev2-live-card-catalog{max-height:none;padding:8px}.pvev2-live-card-catalog .pve-grade-grid{grid-template-columns:repeat(3,minmax(96px,1fr))!important}.pvev2-live-raid{min-height:520px;padding:10px}.pvev2-evolution-live{padding:12px}.pvev2-evolution-live .evolution-process-grid{grid-template-columns:1fr}.pvev2-evolution-live .evolution-flow-arrow{min-height:26px;transform:rotate(90deg)}.pvev2-evolution-live .evolution-star-wallet:before{width:34px;height:34px}}
 @media(max-width:430px){.pvev2-live-card-catalog .pve-grade-grid{grid-template-columns:repeat(2,minmax(104px,1fr))!important}.pvev2-live-toolbar .pvev2-energy b{font-size:16px}.pvev2-live-toolbar .pvev2-energy small{font-size:7px}.pvev2-live-deck-contract{font-size:8px}}
+
+/* Narrow app windows and portrait devices can retain a desktop CSS viewport
+   after the shell rail is deducted. Stack from the usable PVE width as well. */
+@media(max-width:1024px){
+  .pvev2-root .pvev2-hunt-hero{grid-template-columns:minmax(0,1fr)}
+  .pvev2-root .pvev2-hunt-visual{min-height:460px;border-right:0;border-bottom:1px solid #2c414b}
+  .pvev2-root .pvev2-hunt-visual.monster-art{min-height:460px}
+  .pvev2-root .pvev2-hunt-monster-image{height:460px;max-width:100%;padding:18px 18px 48px}
+  .pvev2-root .pvev2-hunt-copy{min-width:0;padding:20px}
+  .pvev2-root .pvev2-hunt-copy h1{font-size:clamp(31px,6vw,46px)}
+  .pvev2-root .pvev2-hunt-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .pvev2-root .pvev2-hunt-stats article{min-width:0;padding:13px 11px}
+  .pvev2-root .pvev2-hunt-stats b{font-size:clamp(15px,2.7vw,19px);overflow-wrap:anywhere}
+  .pvev2-root .pvev2-hunt-actions{grid-template-columns:minmax(0,1fr);gap:9px;margin-top:18px;padding-top:0}
+  .pvev2-root .pvev2-hunt-actions>*{min-width:0;width:100%}
+  .pvev2-root .pvev2-auto span{min-width:0}
+  .pvev2-root .pvev2-auto small{line-height:1.45;white-space:normal}
+  .pvev2-root .pvev2-monster-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pvev2-root .pvev2-monster{grid-template-columns:82px minmax(0,1fr);min-width:0}
+}
+@container pvecommand (max-width:860px){
+  .pvev2-hunt-hero{grid-template-columns:minmax(0,1fr)}
+  .pvev2-hunt-visual{border-right:0;border-bottom:1px solid #2c414b}
+  .pvev2-hunt-copy{min-width:0}
+  .pvev2-hunt-actions{grid-template-columns:minmax(0,1fr)}
+  .pvev2-hunt-actions>*{min-width:0;width:100%}
+  .pvev2-monster-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  .pvev2-root .pvev2-hunt-visual,.pvev2-root .pvev2-hunt-visual.monster-art{min-height:360px}
+  .pvev2-root .pvev2-hunt-monster-image{height:360px;padding:12px 12px 44px}
+  .pvev2-root .pvev2-hunt-copy{padding:15px}
+  .pvev2-root .pvev2-hunt-stats{grid-template-columns:1fr 1fr}
+  .pvev2-root .pvev2-hunt-stats article:last-child{grid-column:1/-1}
+  .pvev2-root .pvev2-hunt-stats b{font-size:16px}
+  .pvev2-root .pvev2-monster-grid{grid-template-columns:minmax(0,1fr);padding:8px}
+  .pvev2-root .pvev2-monster{grid-template-columns:92px minmax(0,1fr)}
+  .pvev2-root .pvev2-monster>img,.pvev2-root .pvev2-monster-thumb-missing{width:92px;height:104px!important}
+}
