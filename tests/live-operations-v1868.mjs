@@ -58,6 +58,6 @@ test('operation board ships desktop and mobile game UI with cache-busted assets'
   assert.match(index,/live-operations-v1868\.css\?v=1868-live-operations-r2/);
   assert.match(index,/app\.js\?v=1871-burning-command/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.6-burning-command/);
-  assert.match(worker,/soop-card-shell-v1871-burning-command/);
+  assert.match(worker,/soop-card-shell-v1872-burning-layout/);
   assert.match(shell,/const VERSION = '21\.10\.6'/);
 });
