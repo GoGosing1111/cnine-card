@@ -2191,6 +2191,16 @@ async function startRaidV3Battle(){
     try{modal.__battleV2Renderer?.destroy?.()}catch(_){}modal.__battleV2Renderer=null;modal.className='modal';modal.innerHTML='';raidState.v3InFlight=false;alert(error?.message||'V3 레이드 전투를 시작하지 못했습니다.');if(button?.isConnected){button.disabled=false;button.textContent='내 V3 전투 시작'}
   }
 }
+function handleRaidV3StartClick(event){
+  const button=event?.target?.closest?.('#raidV3Start');
+  if(!button||!button.isConnected||button.disabled||button.getAttribute('aria-disabled')==='true')return;
+  event.preventDefault();event.stopImmediatePropagation();
+  void startRaidV3Battle();
+}
+if(!document.documentElement.dataset.raidV3StartGuardV1877){
+  document.documentElement.dataset.raidV3StartGuardV1877='1';
+  document.addEventListener('click',handleRaidV3StartClick,true);
+}
 function switchPveMode(mode){
   if(mode==='rift')mode='deck';
   const hunt=document.getElementById('pveHuntView'),raid=document.getElementById('pveRaidView'),rift=document.getElementById('pveRiftView'),escort=document.getElementById('pveEscortView');

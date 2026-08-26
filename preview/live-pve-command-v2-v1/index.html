@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#04070b">
   <title>SOOPKETMON PVE COMMAND V2 · LIVE CONTRACT PREVIEW</title>
-  <link rel="stylesheet" href="../../css/pve-command-v2.css?v=5-mobile-stack">
+  <link rel="stylesheet" href="../../css/style.css?v=1870-avatar-pve-energy">
+  <link rel="stylesheet" href="../../css/card-unique-battle-fx-v1174.css?v=1745-taller-battle-cards">
+  <link rel="stylesheet" href="../../css/monster-siege-v1505.css?v=1518-rally-clock">
+  <link rel="stylesheet" href="../../css/escort-operation-v1830.css?v=1844-public-mobile-fit">
+  <link rel="stylesheet" href="../../css/pve-command-v2.css?v=6-live-mobile-nav-energy">
 </head>
 <body>
   <div id="pveCommandV2" class="pvev2-root" data-screen="deck">
@@ -23,37 +27,37 @@
       <button class="pvev2-all-menu" type="button">전체 메뉴</button>
     </header>
 
-    <nav class="pvev2-mode-nav" aria-label="PVE 콘텐츠">
-      <button type="button" data-screen-target="deck" aria-selected="true">
+    <nav class="pve-mode-tabs pvev2-mode-nav" aria-label="PVE 콘텐츠">
+      <button class="pve-mode-btn" type="button" data-screen-target="deck" aria-selected="true">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="11" height="14"/><path d="M9 2h11v14"/></svg>
         <span><b>덱 편성</b><small>DEPLOY DECK</small></span>
       </button>
-      <button type="button" data-screen-target="hunt" aria-selected="false">
+      <button class="pve-mode-btn" type="button" data-screen-target="hunt" aria-selected="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 19 5-5m4-4 5-5M8 4l12 12M4 8l12 12"/><path d="m4 4 4 1-3 3zM20 20l-4-1 3-3z"/></svg>
         <span><b>몬스터 토벌</b><small>HUNT ZONE</small></span>
       </button>
-      <button type="button" data-screen-target="raid" aria-selected="false">
+      <button class="pve-mode-btn" type="button" data-screen-target="raid" aria-selected="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V9h4v11M10 20V4h4v16M16 20V7h4v13M2 20h20"/></svg>
         <span><b>월드 레이드</b><small>RAID LIVE</small></span>
         <em>진행 중</em>
       </button>
-      <button type="button" data-screen-target="escort" aria-selected="false">
+      <button class="pve-mode-btn" type="button" data-screen-target="escort" aria-selected="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h12v10H3zM15 10h4l2 3v4h-6z"/><path d="M6 20v-3m12 3v-3"/></svg>
         <span><b>호송작전</b><small>ESCORT</small></span>
       </button>
-      <button type="button" data-screen-target="siege" aria-selected="false">
+      <button class="pve-mode-btn monster-siege-pve-entry" type="button" data-screen-target="siege" aria-selected="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V8h4V4h3v4h3V4h3v4h3v12zM9 20v-6h6v6"/></svg>
         <span><b>몬스터 공성전</b><small>SIEGE</small></span>
       </button>
-      <button type="button" data-screen-target="seal" aria-selected="false">
+      <button class="pve-mode-btn" type="button" data-screen-target="seal" aria-selected="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="10"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg>
         <span><b>봉인전</b><small>SEAL BATTLE</small></span>
       </button>
-      <button type="button" data-screen-target="idle" aria-selected="false">
+      <button class="pve-mode-btn" type="button" data-screen-target="idle" aria-selected="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/></svg>
         <span><b>방치형 원정</b><small>IDLE MISSION</small></span>
       </button>
-      <button type="button" data-screen-target="tower" aria-selected="false">
+      <button class="pve-mode-btn" type="button" data-screen-target="tower" aria-selected="false">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 21V7h12v14M9 7V3h6v4M9 11h2m2 0h2m-6 4h2m2 0h2"/></svg>
         <span><b>무한의 탑</b><small>INFINITE TOWER</small></span>
       </button>

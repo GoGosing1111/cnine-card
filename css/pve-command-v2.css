@@ -78,7 +78,7 @@
 .pvev2-live-roster{align-items:start}.pvev2-live-card-slot{position:relative;display:block;min-width:0;padding:0;border:0;background:transparent;color:inherit;text-align:left}.pvev2-live-card-slot.filled{cursor:pointer}.pvev2-live-card-slot.filled>.pve-card-mini-full{width:100%}.pvev2-live-card-slot.filled .card-frame{width:100%!important;max-width:none!important}.pvev2-live-card-slot.empty{display:grid;place-items:center;align-content:center;gap:7px;aspect-ratio:.72;border:1px dashed #3b5460;background:linear-gradient(160deg,#09131c,#060b10);color:#738894;text-align:center}.pvev2-live-card-slot.empty>span{display:grid;place-items:center;width:34px;height:34px;border:1px solid #49606a;color:#8de7f3;font-size:10px;font-weight:900}.pvev2-live-card-slot.empty>b{font-size:13px}.pvev2-live-card-slot.empty>small{font-size:8px}.pvev2-live-remove{position:absolute;z-index:20;right:7px;bottom:8px;padding:5px 7px;border:1px solid rgba(255,101,86,.45);background:rgba(35,8,8,.9);color:#ffb2a8;font-size:7px;font-weight:900;opacity:0;transition:.18s}.pvev2-live-card-slot:hover .pvev2-live-remove,.pvev2-live-card-slot:focus-visible .pvev2-live-remove{opacity:1}
 .pvev2-live-card-catalog{max-height:650px;overflow:auto;padding:12px;scrollbar-width:thin}.pvev2-live-card-catalog .pve-grade-group{margin:0 0 14px}.pvev2-live-card-catalog .pve-grade-title{position:sticky;z-index:5;top:0;background:rgba(5,12,18,.96);backdrop-filter:blur(8px)}.pvev2-live-card-catalog .pve-grade-grid{gap:10px}.pvev2-live-card-catalog .pve-frame-pick{min-width:0}.pvev2-live-deck-contract{display:block;margin-top:9px;padding:10px 13px;border-left:3px solid #55dcef;background:#07131b;color:#8297a1;font-size:9px}
 .pvev2-live-root .pvev2-hunt-screen .pvev2-section-head{margin-bottom:20px}.pvev2-monster-image-missing{position:relative;z-index:3;display:grid;place-items:center;align-content:center;gap:8px;width:78%;height:62%;border:1px solid #39515c;background:#07121a;color:#6fddec}.pvev2-monster-image-missing span{color:#7f949d;font-size:9px}.pvev2-monster-thumb-missing{display:grid!important;place-items:center!important;width:82px;height:94px!important;border:1px solid #30434d;background:#071119;color:#66808d!important;font-size:8px!important;font-weight:900}
-.pvev2-live-raid{position:relative;min-height:700px;padding:20px;border-radius:6px;overflow:hidden}.pvev2-live-raid>.pvev2-backdrop{z-index:0}.pvev2-live-raid>.pvev2-live-raid-content{position:relative;z-index:2;margin:0;border-radius:0}.pvev2-live-raid .raid-room-browser,.pvev2-live-raid .raid-empty,.pvev2-live-raid .raid-lobby-screen,.pvev2-live-raid .raid-result-screen,.pvev2-live-raid .raid-outcome-screen{border:1px solid #30434c;border-radius:3px;background:rgba(5,12,18,.92);box-shadow:0 20px 60px rgba(0,0,0,.28)}.pvev2-live-raid .raid-room-card,.pvev2-live-raid .raid-open-boss,.pvev2-live-raid .raid-participant-list article,.pvev2-live-raid .raid-party,.pvev2-live-raid .raid-ranking{border-radius:2px}.pvev2-live-raid .raid-battle-stage{border-radius:3px;border-color:#40505a;background:rgba(5,10,14,.86)}.pvev2-live-raid .raid-live-grid{gap:12px}.pvev2-live-raid .raid-v3-personal-console{border-radius:2px}
+.pvev2-live-raid{position:relative;min-height:700px;padding:20px;border-radius:6px;overflow:hidden}.pvev2-live-raid>.pvev2-backdrop{z-index:0;pointer-events:none}.pvev2-live-raid>.pvev2-live-raid-content{position:relative;z-index:2;margin:0;border-radius:0}.pvev2-live-raid>.raid-v3-personal-console,.pvev2-live-raid>.raid-live-grid{position:relative;z-index:2}.pvev2-live-raid .raid-room-browser,.pvev2-live-raid .raid-empty,.pvev2-live-raid .raid-lobby-screen,.pvev2-live-raid .raid-result-screen,.pvev2-live-raid .raid-outcome-screen{border:1px solid #30434c;border-radius:3px;background:rgba(5,12,18,.92);box-shadow:0 20px 60px rgba(0,0,0,.28)}.pvev2-live-raid .raid-room-card,.pvev2-live-raid .raid-open-boss,.pvev2-live-raid .raid-participant-list article,.pvev2-live-raid .raid-party,.pvev2-live-raid .raid-ranking{border-radius:2px}.pvev2-live-raid .raid-battle-stage{border-radius:3px;border-color:#40505a;background:rgba(5,10,14,.86)}.pvev2-live-raid .raid-live-grid{gap:12px}.pvev2-live-raid .raid-v3-personal-console{border-radius:2px}
 .pvev2-evolution-live{position:relative;isolation:isolate;margin-top:14px;padding:24px;border:1px solid #2d404a;border-radius:5px;background:#061018;overflow:hidden}.pvev2-evolution-live>.pvev2-backdrop{z-index:-1;opacity:.38}.pvev2-evolution-live .evolution-hero,.pvev2-evolution-live .evolution-picker,.pvev2-evolution-live .evolution-main,.pvev2-evolution-live .evolution-type-tabs button,.pvev2-evolution-live .evolution-slot,.pvev2-evolution-live .evolution-warning-panel,.pvev2-evolution-live .evolution-submit{border-radius:2px}.pvev2-evolution-live .evolution-hero{border-color:#344750;background:rgba(5,12,18,.86)}.pvev2-evolution-live .evolution-hero:before{display:none}.pvev2-evolution-live .evolution-star-wallet{border-radius:2px;background:rgba(8,15,21,.92)}.pvev2-evolution-live .evolution-wallet-star,.pvev2-evolution-live .evolution-core-star,.pvev2-evolution-live .evolution-material-icon,.pvev2-evolution-live .evolution-cast-star,.pvev2-evolution-live .core-ring{display:none!important}.pvev2-evolution-live .evolution-star-wallet:before{content:"MS";display:grid;place-items:center;width:40px;height:40px;border:1px solid #63737c;background:#111a21;color:#d8e6eb;font-size:10px;font-weight:1000}.pvev2-evolution-live .evolution-type-tabs{gap:7px}.pvev2-evolution-live .evolution-type-tabs button{min-height:76px;border-color:#35464e;background:rgba(6,13,19,.9)}.pvev2-evolution-live .evolution-type-tabs button.active{box-shadow:inset 4px 0 0 #61dcea;background:#0c202a}.pvev2-evolution-live .evolution-layout{grid-template-columns:minmax(250px,310px) minmax(0,1fr);gap:10px}.pvev2-evolution-live .evolution-process-grid{grid-template-columns:minmax(190px,.8fr) 28px minmax(250px,1fr) 28px minmax(190px,.8fr);gap:4px}.pvev2-evolution-live .evolution-core-visual{min-height:170px;border:1px solid #30434c;background:linear-gradient(145deg,#09151d,#11121a)}.pvev2-evolution-live .evolution-result-mystery{border-radius:2px}.pvev2-evolution-live .evolution-flow-arrow i{height:2px;border:0;background:#4b6874}.pvev2-evolution-live .evolution-flow-arrow b{border-radius:1px}.pvev2-evolution-live .evolution-submit{background:linear-gradient(90deg,#087da2,#2856b8)}
 @media(max-width:1100px){.pvev2-live-toolbar .pvev2-server{display:grid}.pvev2-live-toolbar .pvev2-energy{width:210px}.pvev2-live-toolbar .pvev2-evolution-entry{width:165px;min-width:165px}.pvev2-evolution-live .evolution-layout{grid-template-columns:1fr}.pvev2-evolution-live .evolution-process-grid{grid-template-columns:minmax(170px,.8fr) 24px minmax(220px,1fr) 24px minmax(170px,.8fr)}}
 @media(max-width:760px){.pvev2-live-root>.pvev2-live-toolbar{margin:0 8px;min-height:58px;padding:6px 8px}.pvev2-live-toolbar .pvev2-server{display:none}.pvev2-live-toolbar .pvev2-energy{width:auto;flex:1}.pvev2-live-toolbar .pvev2-evolution-entry{width:46px;min-width:46px;height:44px;padding:0;justify-content:center}.pvev2-live-toolbar .pvev2-evolution-entry span,.pvev2-live-toolbar .pvev2-evolution-entry em{display:none}.pvev2-live-root>.pvev2-mode-nav{margin-top:8px}.pvev2-live-roster{grid-template-columns:repeat(5,132px);overflow:auto}.pvev2-live-card-catalog{max-height:none;padding:8px}.pvev2-live-card-catalog .pve-grade-grid{grid-template-columns:repeat(3,minmax(96px,1fr))!important}.pvev2-live-raid{min-height:520px;padding:10px}.pvev2-evolution-live{padding:12px}.pvev2-evolution-live .evolution-process-grid{grid-template-columns:1fr}.pvev2-evolution-live .evolution-flow-arrow{min-height:26px;transform:rotate(90deg)}.pvev2-evolution-live .evolution-star-wallet:before{width:34px;height:34px}}
@@ -121,4 +121,173 @@
   .pvev2-root .pvev2-monster-grid{grid-template-columns:minmax(0,1fr);padding:8px}
   .pvev2-root .pvev2-monster{grid-template-columns:92px minmax(0,1fr)}
   .pvev2-root .pvev2-monster>img,.pvev2-root .pvev2-monster-thumb-missing{width:92px;height:104px!important}
+}
+
+/* Live mobile contract: legacy PVE/escort styles also target .pve-mode-tabs
+   with !important. Keep this block last so every content tab remains a
+   single, non-overlapping horizontal rail in the production stylesheet set. */
+@media(max-width:760px){
+  .pvev2-live-root>.pvev2-live-toolbar{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) 46px!important;
+    align-items:center!important;
+    gap:8px!important;
+    width:auto!important;
+    min-height:62px!important;
+    overflow:hidden!important;
+  }
+  .pvev2-live-root>.pvev2-live-toolbar .pvev2-energy{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:3px 8px!important;
+    width:auto!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0 3px!important;
+    flex:none!important;
+  }
+  .pvev2-live-root>.pvev2-live-toolbar .pvev2-energy small{
+    grid-column:1!important;
+    grid-row:1!important;
+    min-width:0!important;
+    margin:0!important;
+    color:#8fa8b4!important;
+    font-size:8px!important;
+    line-height:1.2!important;
+    letter-spacing:.08em!important;
+    white-space:nowrap!important;
+  }
+  .pvev2-live-root>.pvev2-live-toolbar .pvev2-energy b{
+    grid-column:2!important;
+    grid-row:1!important;
+    margin:0!important;
+    font-size:18px!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+  }
+  .pvev2-live-root>.pvev2-live-toolbar .pvev2-energy>span{
+    grid-column:1/3!important;
+    grid-row:2!important;
+    width:100%!important;
+    min-width:0!important;
+  }
+  .pvev2-live-root>.pvev2-live-toolbar .pvev2-energy>em{
+    grid-column:1/3!important;
+    grid-row:3!important;
+    min-width:0!important;
+    margin:0!important;
+    overflow:hidden!important;
+    color:#718792!important;
+    font-size:7px!important;
+    line-height:1.2!important;
+    text-align:left!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav{
+    display:grid!important;
+    grid-template-columns:none!important;
+    grid-template-rows:60px!important;
+    grid-auto-flow:column!important;
+    grid-auto-columns:118px!important;
+    align-items:stretch!important;
+    gap:0!important;
+    width:auto!important;
+    min-height:60px!important;
+    margin:8px!important;
+    padding:0!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    overscroll-behavior-x:contain!important;
+    scrollbar-width:thin!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn{
+    position:relative!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    gap:7px!important;
+    width:118px!important;
+    min-width:118px!important;
+    max-width:118px!important;
+    height:60px!important;
+    min-height:60px!important;
+    margin:0!important;
+    padding:7px 8px!important;
+    overflow:hidden!important;
+    border-radius:0!important;
+    font-size:inherit!important;
+    line-height:1.15!important;
+    text-align:left!important;
+    white-space:normal!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn>svg{
+    position:static!important;
+    display:block!important;
+    flex:0 0 20px!important;
+    width:20px!important;
+    height:20px!important;
+    margin:0!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn>span{
+    position:static!important;
+    display:grid!important;
+    flex:1 1 auto!important;
+    min-width:0!important;
+    gap:2px!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn b{
+    display:block!important;
+    min-width:0!important;
+    margin:0!important;
+    overflow:hidden!important;
+    font-size:11px!important;
+    line-height:1.2!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn small{
+    display:block!important;
+    min-width:0!important;
+    margin:0!important;
+    padding:0!important;
+    overflow:hidden!important;
+    color:#617b8b!important;
+    font-size:6px!important;
+    line-height:1.15!important;
+    letter-spacing:.06em!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn>em{
+    right:4px!important;
+    top:4px!important;
+    max-width:42px!important;
+    padding:1px 3px!important;
+    overflow:hidden!important;
+    font-size:5px!important;
+    line-height:1.1!important;
+    text-overflow:ellipsis!important;
+    white-space:nowrap!important;
+  }
+}
+@media(max-width:430px){
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav{
+    grid-auto-columns:108px!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn{
+    width:108px!important;
+    min-width:108px!important;
+    max-width:108px!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn small,
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn>em{
+    display:none!important;
+  }
+  .pvev2-root>.pve-mode-tabs.pvev2-mode-nav .pve-mode-btn b{
+    font-size:10px!important;
+  }
 }

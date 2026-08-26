@@ -65,7 +65,7 @@
     const energy = battleEnergySnapshot();
     return `<div class="pvev2-live-toolbar">
       <div class="pvev2-server"><span></span><b>PROJECT V3</b><small>SERVER READY</small></div>
-      <div class="pvev2-energy"><small>PVE ACTION</small><b id="battleEnergyCount">${esc(energy.text)}</b><span><i id="battleEnergyFill" style="width:${energy.fill}%"></i></span><em id="battleEnergyTimer">${esc(energy.timer)}</em></div>
+      <div class="pvev2-energy" aria-label="토벌 잔여 횟수"><small>토벌 잔여 횟수</small><b id="battleEnergyCount">${esc(energy.text)}</b><span><i id="battleEnergyFill" style="width:${energy.fill}%"></i></span><em id="battleEnergyTimer">${esc(energy.timer)}</em></div>
       <button class="pvev2-evolution-entry" id="pveV2EvolutionEntry" type="button" aria-label="카드 진화로 이동" title="카드 진화"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10M4 12h16M10 17h10"/><path d="m11 4 3 3-3 3m2 4-3 3 3 3"/></svg><span><small>CARD EVOLUTION</small><b>카드 진화</b></span><em>진입</em></button>
     </div>`;
   }
