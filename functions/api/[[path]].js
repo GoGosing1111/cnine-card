@@ -3651,7 +3651,7 @@ async function liveOperationAlerts(env){
       WHERE r.status='RECRUITING' AND r.recruitment_ends_at IS NOT NULL
         AND datetime(r.recruitment_ends_at)>CURRENT_TIMESTAMP
         AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='territory_war_settings_v3'
-          AND json_valid(m.value)=1 AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
+          AND json_valid(m.value) AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
       ORDER BY r.id DESC LIMIT 1
     ),
     siege AS (
@@ -3661,7 +3661,7 @@ async function liveOperationAlerts(env){
       WHERE e.status='ACTIVE' AND datetime(COALESCE(e.rally_ends_at,e.starts_at))>CURRENT_TIMESTAMP
         AND datetime(e.ends_at)>CURRENT_TIMESTAMP
         AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='monster_siege_settings_v1'
-          AND json_valid(m.value)=1 AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
+          AND json_valid(m.value) AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
       ORDER BY e.id DESC LIMIT 1
     ),
     seal AS (
@@ -3671,7 +3671,7 @@ async function liveOperationAlerts(env){
       WHERE e.status='ACTIVE' AND (e.starts_at IS NULL OR datetime(e.starts_at)<=CURRENT_TIMESTAMP)
         AND (e.ends_at IS NULL OR datetime(e.ends_at)>CURRENT_TIMESTAMP)
         AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='seal_battle_settings_v1'
-          AND json_valid(m.value)=1 AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
+          AND json_valid(m.value) AND UPPER(COALESCE(json_extract(m.value,'$.mode'),'OFF'))='ON')
       ORDER BY e.id DESC LIMIT 1
     ),
     auction AS (
@@ -3692,9 +3692,9 @@ async function liveOperationAlerts(env){
         5 sort_order
       FROM raid_instances ri JOIN raid_bosses rb ON rb.id=ri.boss_id
       WHERE ri.status IN ('LOBBY','BATTLE') AND (ri.ends_at IS NULL OR datetime(ri.ends_at)>CURRENT_TIMESTAMP)
-        AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='raid_settings_v1' AND json_valid(m.value)=1
-          AND COALESCE(json_extract(m.value,'$.enabled'),0)=1
-          AND COALESCE(json_extract(m.value,'$.ownerOnlyTest'),0)=0)
+        AND EXISTS(SELECT 1 FROM app_meta m WHERE m.key='raid_settings_v1' AND json_valid(m.value)
+          AND LOWER(CAST(json_extract(m.value,'$.enabled') AS TEXT)) IN ('1','true')
+          AND COALESCE(LOWER(CAST(json_extract(m.value,'$.ownerOnlyTest') AS TEXT)),'false') IN ('0','false'))
       ORDER BY CASE ri.status WHEN 'BATTLE' THEN 0 ELSE 1 END,ri.id DESC LIMIT 1
     )
     SELECT * FROM territory UNION ALL SELECT * FROM siege UNION ALL SELECT * FROM seal

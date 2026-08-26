@@ -27,6 +27,9 @@ test('five actionable live operation states share one cached aggregate endpoint'
   for(const table of ['territory_war_v3_rounds','monster_siege_events','seal_battle_events','auctions_v1553','raid_instances'])assert.match(api,new RegExp(table));
   assert.match(api,/WITH[\s\S]*SELECT \* FROM territory UNION ALL SELECT \* FROM siege UNION ALL SELECT \* FROM seal[\s\S]*UNION ALL SELECT \* FROM auction UNION ALL SELECT \* FROM raid ORDER BY sort_order/);
   assert.match(api,/LIVE_OPERATIONS_CACHE_MS=15000/);
+  assert.doesNotMatch(api,/json_valid\([^)]*\)\s*=\s*1/);
+  assert.doesNotMatch(api,/json_extract\([^)]*\)\s*,?\s*0?\)\s*=\s*[01]/);
+  assert.match(api,/LOWER\(CAST\(json_extract\(m\.value,'\$\.enabled'\) AS TEXT\)\) IN \('1','true'\)/);
   assert.match(api,/path==='live-operations'&&request\.method==='GET'/);
   assert.match(api,/public, max-age=10, stale-while-revalidate=20/);
   assert.match(api,/path==='recent-high-grade'[\s\S]{0,120}items:\[\],retired:true,replacement:'live-operations'/);
