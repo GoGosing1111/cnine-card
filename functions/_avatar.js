@@ -7,6 +7,7 @@
  */
 const FOUNDATION_KEY='safe_runtime_upgrade_v1863_avatar_catalog_v1';
 const EFFECT_OPTIONS_KEY='safe_runtime_upgrade_v1864_avatar_effect_options_v1';
+const EQUIPMENT_ALPHA_KEY='safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
@@ -101,6 +102,16 @@ async function ensureAvatarEffectOptions(env){
   ]);
 }
 
+async function ensureAvatarEquipmentAlphaV2(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(EQUIPMENT_ALPHA_KEY).first();
+  if(marker?.value==='1')return;
+  const equipmentBase='assets/ui/avatars-v1/equipment-v2/';
+  await batchChunks(env,[
+    ...SEEDS.map(seed=>env.DB.prepare('UPDATE avatar_catalog_v1 SET equipment_image=?,updated_at=CURRENT_TIMESTAMP WHERE code=?').bind(`${equipmentBase}${equipmentFileFor(seed)}`,seed.code)),
+    env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(EQUIPMENT_ALPHA_KEY,'1')
+  ]);
+}
+
 export async function ensureAvatarFoundation(env){
   if(foundationPromise)return foundationPromise;
   foundationPromise=(async()=>{
@@ -123,6 +134,7 @@ export async function ensureAvatarFoundation(env){
       ]);
     }
     await ensureAvatarEffectOptions(env);
+    await ensureAvatarEquipmentAlphaV2(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
 }
@@ -275,6 +287,15 @@ export async function equippedAvatarEffect(env,userId){
   const row=found[0],effects=normalizedEffects(row,found.map(option=>({type:option.option_effect_type,value:option.option_effect_value})));
   const first=effects[0]||{type:'',value:0};
   return{code:String(row.code),name:String(row.name||''),callSign:String(row.call_sign||''),role:String(row.role_label||''),type:first.type,value:first.value,effects,lobbyImage:String(row.lobby_image||''),lobbyMobileImage:String(row.lobby_mobile_image||''),equipmentImage:String(row.equipment_image||'')};
+}
+
+export function applyAvatarCoinGain(amount,equippedAvatar){
+  const base=Math.max(0,Math.min(MAX_SAFE_COIN,Math.floor(Number(amount)||0)));
+  const effects=Array.isArray(equippedAvatar?.effects)?equippedAvatar.effects:equippedAvatar?[{type:equippedAvatar.type,value:equippedAvatar.value}]:[];
+  const coinEffect=effects.find(effect=>String(effect?.type||'').toUpperCase()==='COIN_GAIN_PERCENT');
+  const percent=coinEffect?Math.max(0,Math.min(50,Math.floor(Number(coinEffect.value)||0))):0;
+  const bonus=Math.min(MAX_SAFE_COIN-base,Math.floor(base*(percent/100)));
+  return{base,percent,bonus,total:base+bonus};
 }
 
 export async function grantAvatarOwnership(env,{userId,avatarCode,sourceType='DROP',sourceRef=''}){

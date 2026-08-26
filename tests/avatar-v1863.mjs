@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 
-import { ensureAvatarFoundation, avatarFeatureAccess } from '../functions/_avatar.js';
+import { ensureAvatarFoundation, avatarFeatureAccess, applyAvatarCoinGain } from '../functions/_avatar.js';
 
 test('avatar foundation seeds ten hidden unsold records and upgrades multi effects without overwriting settings', async () => {
   const prepared=[],schema=[];
@@ -30,16 +30,39 @@ test('avatar foundation seeds ten hidden unsold records and upgrades multi effec
   assert.ok(seedStatements.every(statement=>statement.sql.includes("'UNSET',NULL,'',''")));
   assert.ok(seedStatements.every(statement=>statement.sql.includes('?,?,0,0,0,?')));
   assert.ok(schema.some(sql=>sql.includes('CREATE TABLE IF NOT EXISTS avatar_effect_options_v1')));
-  assert.equal(prepared.filter(statement=>statement.sql.includes('UPDATE avatar_catalog_v1 SET equipment_image')).length,10);
+  const equipmentUpdates=prepared.filter(statement=>statement.sql.includes('UPDATE avatar_catalog_v1 SET equipment_image'));
+  assert.equal(equipmentUpdates.length,20);
+  assert.equal(equipmentUpdates.filter(statement=>String(statement.values[0]||'').includes('/equipment-v2/')).length,10);
+  assert.ok(prepared.some(statement=>statement.values.includes('safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2')));
   assert.ok(prepared.some(statement=>statement.sql.includes('ON CONFLICT(avatar_code,option_order) DO NOTHING')));
   assert.deepEqual(access,{mode:'OFF',visible:false,ownerTest:false,shopEnabled:false,version:1});
 });
+test('avatar coin gain stacks after burning and hyper burning reward multiplication', () => {
+  const avatar={effects:[{type:'RAID_EXTRA_ENTRY',value:7},{type:'COIN_GAIN_PERCENT',value:50}]};
+  assert.deepEqual(applyAvatarCoinGain(5000,avatar),{base:5000,percent:50,bonus:2500,total:7500});
+  assert.deepEqual(applyAvatarCoinGain(2500,{type:'COIN_GAIN_PERCENT',value:20}),{base:2500,percent:20,bonus:500,total:3000});
+  assert.deepEqual(applyAvatarCoinGain(5000,{effects:[{type:'BATTLE_POWER_PERCENT',value:10}]}),{base:5000,percent:0,bonus:0,total:5000});
+  assert.deepEqual(applyAvatarCoinGain(1000,{type:'COIN_GAIN_PERCENT',value:999}),{base:1000,percent:50,bonus:500,total:1500});
+});
+test('all ten corrected equipment avatars ship as versioned WebP files with real alpha', async () => {
+  const directory=new URL('../assets/ui/avatars-v1/equipment-v2/',import.meta.url);
+  const files=(await readdir(directory)).filter(name=>name.endsWith('.webp')).sort();
+  assert.equal(files.length,10);
+  for(const filename of files){
+    const url=new URL(filename,directory),header=await readFile(url),metadata=await stat(url);
+    assert.equal(header.subarray(0,4).toString('ascii'),'RIFF',`${filename} is not RIFF`);
+    assert.equal(header.subarray(8,16).toString('ascii'),'WEBPVP8X',`${filename} is not extended WebP`);
+    assert.equal(header[20]&0x10,0x10,`${filename} has no alpha flag`);
+    assert.ok(metadata.size>50000,`${filename} looks truncated`);
+  }
+});
 test('live avatar route is gated and wired through both V21 routers', async () => {
-  const [app,exact,runtime,server,chief,loadout,avatarCss,lobbyCss,index,serviceWorker]=await Promise.all([
+  const [app,exact,runtime,server,battleApi,chief,loadout,avatarCss,lobbyCss,index,serviceWorker]=await Promise.all([
     readFile(new URL('../js/app.js',import.meta.url),'utf8'),
     readFile(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
     readFile(new URL('../js/soopketmon-v21-runtime-router.js',import.meta.url),'utf8'),
     readFile(new URL('../functions/_avatar.js',import.meta.url),'utf8'),
+    readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
     readFile(new URL('../functions/_chief.js',import.meta.url),'utf8'),
     readFile(new URL('../js/character-loadout-v2.js',import.meta.url),'utf8'),
     readFile(new URL('../css/avatar-shop-v1.css',import.meta.url),'utf8'),
@@ -56,6 +79,11 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(server,/COIN_GAIN_PERCENT'\?50/);
   assert.match(server,/avatar_effect_options_v1/);
   assert.match(server,/effects:effectOptions/);
+  assert.match(server,/safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2/);
+  assert.match(server,/assets\/ui\/avatars-v1\/equipment-v2\//);
+  assert.match(battleApi,/applyAvatarCoinGain\(eventReward,avatarEffect\)/);
+  assert.match(battleApi,/applyAvatarCoinGain\(attackerEventCoinReward,aAvatarEffect\)/);
+  assert.match(battleApi,/avatarEffect,collectBattleLog/);
   assert.match(chief,/viewer_avatar_code/);
   assert.match(chief,/viewerAvatar:a\.viewerAvatar\|\|null/);
   assert.match(exact,/viewerAvatar: chief\.viewerAvatar \|\| null/);
@@ -66,7 +94,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(avatarCss,/\.avs1-effect-module strong \{[^}]*font-size: 15px;[^}]*white-space: nowrap;/);
   assert.match(avatarCss,/grid-template-columns: 23px 94px minmax\(0, 1fr\)/);
   assert.match(lobbyCss,/@media \(min-width:1600px\)[\s\S]*?\.game-frame\[data-route="home"\] \.pc-main-navigation/);
-  assert.match(index,/app\.js\?v=1866-responsive-avatar-stage/);
+  assert.match(index,/app\.js\?v=1867-avatar-alpha-coin-bonus/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.3-ultrawide-lobby/);
-  assert.match(serviceWorker,/soop-card-shell-v1866-responsive-avatar-stage/);
+  assert.match(serviceWorker,/soop-card-shell-v1867-avatar-alpha-coin-bonus/);
 });

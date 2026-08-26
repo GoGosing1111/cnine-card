@@ -11,7 +11,7 @@
 
   const fixture = {
     avatarFeature: { mode: 'ON', visible: true, ownerTest: false, shopEnabled: true, version: 1 },
-    equippedAvatar: { code: 'AZURE_FROST_STRATEGIST', name: '서리의 전략관', equipmentImage: 'assets/ui/avatars-v1/equipment-v1/avatar-f01-azure-frost-strategist-equipment-v1-640.webp' },
+    equippedAvatar: { code: 'AZURE_FROST_STRATEGIST', name: '서리의 전략관', equipmentImage: 'assets/ui/avatars-v1/equipment-v2/avatar-f01-azure-frost-strategist-equipment-v1-640.webp' },
     slots: [
       { id: 'WEAPON', label: '무기' },
       { id: 'ACCESSORY', label: '장신구' },

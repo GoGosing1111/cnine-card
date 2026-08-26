@@ -7,7 +7,7 @@ import { handleBattleV2Preview,createPveBattleV2,createPvpBattleV2 } from '../_b
 import { handleMagic,magicSettings,magicBattleLoadout,magicBattleLoadouts,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates,resolveUniqueBattleRuntime } from '../_magic.js';
 import { handleStorageCleanup, scheduleBoundedStorageMaintenance } from '../_storage_cleanup.js';
 import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
-import { handleAvatar,avatarFeatureAccess } from '../_avatar.js';
+import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain } from '../_avatar.js';
 import { handleVehicleDraw } from '../_vehicle_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
@@ -1413,7 +1413,9 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const bossUltimateCap=Math.max(0,Number(difficulty.bossUltimateCapPercent??100)||0);
   const bossConfiguredDamagePercent=Math.max(0,Number(monster.ultimate_pve_damage_percent??monster.ultimate_damage_percent??0)||0);
   const bossPveDamagePercent=Math.min(bossUltimateCap,bossConfiguredDamagePercent),bossUltimatePenalty=bossShouldCast?Math.max(0,Math.floor(uniquePlayerPower*bossPveDamagePercent/100)):0;
-  const result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE',reward=result==='WIN'?Math.max(0,Math.floor(difficulty.effectiveRewardCoin*Number(settings.__burningRewardMultiplier||1))):0;
+  const result=Math.max(0,uniquePlayerPower+ultimateDamage-bossUltimatePenalty)>=monsterPower?'WIN':'LOSE';
+  const eventReward=result==='WIN'?Math.max(0,Math.floor(difficulty.effectiveRewardCoin*Number(settings.__burningRewardMultiplier||1))):0;
+  const avatarCoin=applyAvatarCoinGain(eventReward,options.avatarEffect),reward=avatarCoin.total;
   // V1785: 코인 지급 + 코인 로그를 D1 배치 1회로 묶는다(자동사냥 반복 횟수만큼 왕복이 줄어든다).
   if(reward){
     await env.DB.batch([
@@ -1425,7 +1427,7 @@ async function resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattl
   const autoBattleLogStatement=env.DB.prepare('INSERT INTO battle_logs(user_id,monster_id,deck_cards,player_power,monster_power,result,reward_coin) VALUES(?,?,?,?,?,?,?)').bind(user.id,monster.id,JSON.stringify(ids),uniquePlayerPower,monsterPower,result,reward);
   if(typeof options.collectBattleLog==='function')options.collectBattleLog(autoBattleLogStatement);
   else await autoBattleLogStatement.run();
-  return {result,reward,cardReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower:uniquePlayerPower,cardPower,characterBonus,monsterPower,difficulty:{...difficulty,engineMonster:undefined},bossUltimate:bossShouldCast?{damagePercent:bossPveDamagePercent,penalty:bossUltimatePenalty,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked}:null,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime)};
+  return {result,reward,avatarCoin,cardReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower:uniquePlayerPower,cardPower,characterBonus,monsterPower,difficulty:{...difficulty,engineMonster:undefined},bossUltimate:bossShouldCast?{damagePercent:bossPveDamagePercent,penalty:bossUltimatePenalty,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked}:null,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime)};
 }
 
 
@@ -5752,19 +5754,19 @@ async function handleRequest(context){
       const energyBefore=await battleEnergyState(env,user,settings);if(energyBefore.unlimited)return json({error:'무제한 계정에서는 남은 횟수 자동사냥을 사용할 수 없습니다.'},400);
       const battleCount=Math.floor(Number(energyBefore.energy||0)/Math.max(1,Number(energyBefore.costPerBattle||1)));if(battleCount<1)return json({error:'전투 횟수가 부족합니다.',code:'NO_BATTLE_ENERGY',energy:energyBefore},429);
       const marks=ids.map(()=>'?').join(','),owned=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.power_type,c.base_power,c.image_url AS image,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND c.id IN (${marks})`).bind(user.id,...ids).all();if(owned.results.length!==5)return json({error:'보유하지 않은 카드가 포함되어 있습니다.'},400);
-      const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)})),uniqueBattle=await cardUniqueDeckState(env,user,cards,'PVE'),lockUntil=new Date(Date.now()+120000).toISOString().replace('T',' ').slice(0,19);
+      const cards=owned.results.map(c=>({...c,power:cardBattlePower(c,c.breakthrough_level,settings)})),[uniqueBattle,avatarEffect]=await Promise.all([cardUniqueDeckState(env,user,cards,'PVE'),equippedAvatarEffect(env,user.id)]),lockUntil=new Date(Date.now()+120000).toISOString().replace('T',' ').slice(0,19);
       await env.DB.prepare("INSERT INTO pve_auto_locks(user_id,request_id,expires_at,updated_at) VALUES(?,?,?,CURRENT_TIMESTAMP) ON CONFLICT(user_id) DO UPDATE SET request_id=excluded.request_id,expires_at=excluded.expires_at,updated_at=CURRENT_TIMESTAMP WHERE pve_auto_locks.expires_at<=datetime('now')").bind(user.id,requestId,lockUntil).run();
       const lock=await env.DB.prepare('SELECT request_id FROM pve_auto_locks WHERE user_id=?').bind(user.id).first();if(lock?.request_id!==requestId)return json({error:'이미 다른 창에서 자동사냥이 진행 중입니다.',code:'AUTO_HUNT_LOCKED'},409);
       await env.DB.prepare("INSERT INTO pve_auto_runs(request_id,user_id,monster_id,status) VALUES(?,?,?,'RUNNING')").bind(requestId,user.id,monsterId).run();
       try{
-        let battles=0,wins=0,losses=0,totalReward=0,energy=energyBefore;const cardRewards=[],cubeRewards=[],magicRewards=[],equipmentRewards=[],unifiedDrops=[];
+        let battles=0,wins=0,losses=0,totalReward=0,totalAvatarCoinBonus=0,energy=energyBefore;const cardRewards=[],cubeRewards=[],magicRewards=[],equipmentRewards=[],unifiedDrops=[];
         // V1785: 자동사냥은 한 요청에서 최대 수십 회 반복된다. 매회 왕복하던 battle_logs INSERT 를
         // 모아 두었다가 루프 종료 후 batch 로 한 번에, 그것도 응답 지연 경로 밖에서 쓴다.
         const autoBattleLogs=[];
         const magicCfg=await magicSettings(env),pveMagic=magicCfg.acquisition?.pve||{};
         for(let i=0;i<battleCount;i++){
           try{energy=await consumeBattleEnergy(env,user,settings)}catch(e){if(e.code==='NO_BATTLE_ENERGY'){energy=e.energy;break}throw e}
-          const battleRef=`${requestId}:${i+1}`,one=await resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle,battleRef,{collectBattleLog:statement=>autoBattleLogs.push(statement)});battles++;totalReward+=Number(one.reward||0);
+          const battleRef=`${requestId}:${i+1}`,one=await resolveAutoBattle(env,user,settings,monster,cards,ids,uniqueBattle,battleRef,{avatarEffect,collectBattleLog:statement=>autoBattleLogs.push(statement)});battles++;totalReward+=Number(one.reward||0);totalAvatarCoinBonus+=Number(one.avatarCoin?.bonus||0);
           const cubeReward=await grantBattleCube(env,user.id,'PVE',battleRef,one.result==='WIN');if(cubeReward)cubeRewards.push(cubeReward);
           if(one.result==='WIN'){
             wins++;
@@ -5779,7 +5781,7 @@ async function handleRequest(context){
         }
         // V1791: 자동사냥은 회차 수만큼 반복되므로 프로필 비용이 그대로 배수로 붙는다.
         // 이번 실행에서 지급된 카드만 모아 배치 1회로 읽는다.
-        const response={ok:true,battles,wins,losses,totalReward,cardRewards,cubeRewards,magicRewards,equipmentRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,serverNow:new Date().toISOString(),user:await battleResponseProfile(env,user,grantedCardIdsFromBattle({cardRewards,unifiedDrops}))};
+        const response={ok:true,battles,wins,losses,totalReward,totalAvatarCoinBonus,avatarCoinGainPercent:applyAvatarCoinGain(0,avatarEffect).percent,cardRewards,cubeRewards,magicRewards,equipmentRewards,unifiedDrops,difficulty:autoDifficulty.difficulty,magicCrystalTotal:magicRewards.reduce((sum,x)=>sum+Number(x.amount||0),0),energy,serverNow:new Date().toISOString(),user:await battleResponseProfile(env,user,grantedCardIdsFromBattle({cardRewards,unifiedDrops}))};
         await env.DB.prepare("UPDATE pve_auto_runs SET status='COMPLETED',response_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(JSON.stringify(response),requestId).run();
         await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();return json(response);
       }catch(error){await env.DB.prepare("UPDATE pve_auto_runs SET status='FAILED',error_message=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=?").bind(String(error?.message||error).slice(0,500),requestId).run();await env.DB.prepare('DELETE FROM pve_auto_locks WHERE user_id=? AND request_id=?').bind(user.id,requestId).run();throw error}
@@ -5810,7 +5812,7 @@ async function handleRequest(context){
       const ultimateDamage=activatedUltimate&&ultimateSourceCard?Math.max(0,Math.floor(Number(ultimateSourceCard.power||0)*Number(activatedUltimate.coefficientPercent||0)/100)):0;
       // V1785: magicSettings 는 뒤쪽에서 직렬로 await 되던 런타임 설정 조회다.
       // 어차피 이 시점에 필요한 다른 조회들과 독립적이므로 같은 Promise.all 에 합친다.
-      const [synergy,characterBonus,magicLoadout,pveMagicSettings]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE'),magicSettings(env)]);
+      const [synergy,characterBonus,magicLoadout,pveMagicSettings,avatarEffect]=await Promise.all([evaluateDeckSynergies(env,user,ids,'PVE',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),userEquipmentBonuses(env,user.id),magicBattleLoadout(env,user,'PVE'),magicSettings(env),equippedAvatarEffect(env,user.id)]);
       const synergyMultiplier=1+Number(synergy.totals.attackPercent||0)/100+(monster.is_boss?Number(synergy.totals.bossDamagePercent||0)/100:0),cardPower=Math.max(0,Math.floor(uniqueEffectivePower*synergyMultiplier)),playerPower=cardPower+Number(characterBonus.pve||0);
       const totalBattleDamage=playerPower+ultimateDamage,preliminaryResult=totalBattleDamage>=monsterPower?'WIN':'LOSE';
       const bossIsBoss=Number(monster.is_boss||0)===1||monster.is_boss===true,bossUltimateEnabled=Number(monster.ultimate_enabled||0)===1||monster.ultimate_enabled===true,bossUltimateConfigured=bossIsBoss&&bossUltimateEnabled;
@@ -5835,7 +5837,7 @@ async function handleRequest(context){
         battleV2=createPveBattleV2({cards:engineCards,magicCards:magicLoadout.cards,characterBonus:Number(characterBonus.pve||0),monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
-      const reward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0;
+      const eventReward=result==='WIN'?burningRewardAmount(difficulty.effectiveRewardCoin,burning):0,avatarCoin=applyAvatarCoinGain(eventReward,avatarEffect),reward=avatarCoin.total;
       // V1803: 승패는 여기서 이미 결정돼 있는데, 보상 6종을 순차로 처리하느라 응답이 그만큼 늦었다.
       //   기존: 코인 → 카드드랍 → 장비 → 블랙미라클 → 통합드랍 → 큐브 → 마력결정  (7단 직렬)
       //   각 드랍이 영수증(멱등성) 조회+쓰기를 끼고 있어 왕복 15~25회, 싱가포르 기준 1.5~3.4초.
@@ -5874,7 +5876,7 @@ async function handleRequest(context){
         cardRewards:cardReward?[cardReward]:[],
         unifiedDrops:unifiedDrop?[unifiedDrop]:[]
       }));
-      return json({result,reward,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:battleProfile});
+      return json({result,reward,rewardBeforeAvatar:avatarCoin.base,avatarCoinBonus:avatarCoin.bonus,avatarCoinGainPercent:avatarCoin.percent,burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cardReward,cubeReward,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,playerPower,cardPower,characterBonus,basePlayerPower,totalBattleDamage,effectiveBattleDamage,bossUltimate,bossUltimateState:{configured:bossUltimateConfigured,enabled:bossUltimateEnabled,isBoss:bossIsBoss,forceCast:bossForceCast,trigger:bossTrigger,chance:bossChance,shouldCast:bossShouldCast,capPercent:difficulty.bossUltimateCapPercent,damageCapUnlocked:difficulty.bossUltimateUnlocked},ultimateDamage,bonusDamage:ultimateDamage,ultimateSourceCard:ultimateSourceCard?{id:ultimateSourceCard.id,title:ultimateSourceCard.title,rarity:ultimateSourceCard.rarity,power:ultimateSourceCard.power,breakthroughLevel:ultimateSourceCard.breakthrough_level}:null,activatedUltimate,deckSynergy:synergy,uniqueAbility:uniqueBattleResponsePayload(uniqueBattle,uniqueRuntime),monsterPower,difficulty:{...difficulty,engineMonster:undefined},monster:{id:monster.id,name:monster.name,image:monster.image_url,isBoss:Boolean(monster.is_boss),difficulty:difficulty.difficulty,nightmare:difficulty.isNightmare},cards:battleCards,energy:energyAfter,serverNow:new Date().toISOString(),user:battleProfile});
     }
 
 
@@ -6138,14 +6140,15 @@ async function handleRequest(context){
       if(dZenithCount>ZENITH_DECK_LIMIT)return json({error:`상대의 랭크전 덱이 ZENITH ${ZENITH_DECK_LIMIT}장 편성 제한을 초과해 대전할 수 없습니다.`,code:'OPPONENT_ZENITH_DECK_LIMIT'},409);
       const defUserRole=await env.DB.prepare('SELECT id,role FROM users WHERE id=?').bind(defenderId).first(),aIds=aDeck.map(c=>String(c.id)),dIds=dDeck.map(c=>String(c.id));
       const aCards=aDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)})),dCards=dDeck.map(card=>({...card,power:cardBattlePower(card,card.breakthrough_level,battle)}));
-      const [aSyn,dSyn,uniqueStates,aCharacterBonus,dCharacterBonus,aMagic,dMagic]=await Promise.all([
+      const [aSyn,dSyn,uniqueStates,aCharacterBonus,dCharacterBonus,aMagic,dMagic,aAvatarEffect]=await Promise.all([
         evaluateDeckSynergies(env,user,aIds,'PVP',{forceOwnerTest:String(user.role||'').toUpperCase()==='OWNER'}),
         evaluateDeckSynergies(env,defUserRole,dIds,'PVP',{forceOwnerTest:String(defUserRole?.role||'').toUpperCase()==='OWNER'}),
         cardUniqueDeckStates(env,[{user,cards:aCards},{user:defUserRole,cards:dCards}],'PVP'),
         userEquipmentBonuses(env,user.id),
         userEquipmentBonuses(env,defenderId),
         magicBattleLoadout(env,user,'PVP'),
-        magicBattleLoadout(env,defUserRole,'PVP')
+        magicBattleLoadout(env,defUserRole,'PVP'),
+        equippedAvatarEffect(env,user.id)
       ]);
       const [aUnique,dUnique]=uniqueStates;
       const aBase=Number(aUnique.power||aCards.reduce((s,c)=>s+Number(c.power||0),0)),dBase=Number(dUnique.power||dCards.reduce((s,c)=>s+Number(c.power||0),0));
@@ -6168,7 +6171,7 @@ async function handleRequest(context){
       const pvpEnergy=await consumePvpEnergy(env,user,settings);
       // PvP battle coin is an active-challenge reward. Only the authenticated attacker receives it.
       // The asynchronous defender never receives win/lose coins from being challenged.
-      const attackerCoinReward=burningRewardAmount(attackerWin?settings.winCoin:settings.loseCoin,burning);
+      const attackerEventCoinReward=burningRewardAmount(attackerWin?settings.winCoin:settings.loseCoin,burning),attackerAvatarCoin=applyAvatarCoinGain(attackerEventCoinReward,aAvatarEffect),attackerCoinReward=attackerAvatarCoin.total;
       const auditResult=battleV2?.result||{},auditFinal=auditResult.final||{A:[],B:[]},auditSurvivors=auditResult.survivorCount||{A:(auditFinal.A||[]).filter(card=>Number(card.hp||0)>0).length,B:(auditFinal.B||[]).filter(card=>Number(card.hp||0)>0).length};
       const auditHpPercent=side=>{const rows=Array.isArray(auditFinal?.[side])?auditFinal[side]:[],current=rows.reduce((sum,card)=>sum+Math.max(0,Number(card.hp||0))+Math.max(0,Number(card.shield||0)),0),maximum=rows.reduce((sum,card)=>sum+Math.max(0,Number(card.maxHp||0))+Math.max(0,Number(card.maxShield||0)),0);return maximum>0?Math.round(current/maximum*1000)/10:0};
       const matchWrites=[
@@ -6192,7 +6195,7 @@ async function handleRequest(context){
       const pvpMagic=(await magicSettings(env)).acquisition?.pvp||{};
       const magicReward=attackerWin?await resolveMagicCrystalReward(env,{userId:user.id,source:'PVP_DROP',referenceId:requestId,enabled:pvpMagic.enabled===true,chance:pvpMagic.chance,amount:pvpMagic.amount,dailyLimit:pvpMagic.dailyLimit,reason:'일반 PVP 승리 확률 드랍'}):null;
       const equipmentReward=attackerWin?await safeEquipmentDrop(env,{userId:user.id,sourceType:'PVP',sourceId:'*',requestId}):null,blackMiracleReward=attackerWin?await rollBlackMiracleDrop(env,{userId:user.id,source:'PVP',referenceId:requestId}):null,unifiedDrop=attackerWin?await safeUnifiedDrop(env,{userId:user.id,requestId:`UNIFIED:${requestId}`,sourceType:'PVP',sourceId:'*',triggerType:'WIN',context:{defenderId},role:user.role}):null,freshCoinUser=await env.DB.prepare('SELECT coin,magic_crystals FROM users WHERE id=?').bind(user.id).first(),weeklyPremiumCube=await premiumCubeWeeklyStatus(env,user.id);
-      return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cubeReward,weeklyPremiumCube,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,attackerCharacterBonus:aCharacterBonus,defenderCharacterBonus:dCharacterBonus,attackerCardPower:aCardPower,defenderCardPower:dCardPower,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,attackerTitle:titleMap[String(user.id)]||null,defenderTitle:titleMap[String(defenderId)]||null,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:uniqueBattleResponsePayload(aUnique,aUniqueRuntime),defender:uniqueBattleResponsePayload(dUnique,dUniqueRuntime)},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
+      return json({result:attackerWin?'WIN':'LOSE',burningEvent:burningPublicState(burning),battleEngine:engineState,battleV2,cubeReward,weeklyPremiumCube,magicReward,equipmentReward,blackMiracleReward,unifiedDrop,attackerCharacterBonus:aCharacterBonus,defenderCharacterBonus:dCharacterBonus,attackerCardPower:aCardPower,defenderCardPower:dCardPower,scoreChange:attackerWin?change:-change,scoreAfter:aAfter,coinReward:attackerCoinReward,coinRewardBeforeAvatar:attackerAvatarCoin.base,avatarCoinBonus:attackerAvatarCoin.bonus,avatarCoinGainPercent:attackerAvatarCoin.percent,coinAfter:freshCoinUser?.coin??coinUser.coin,magicCrystalsAfter:Number(freshCoinUser?.magic_crystals||0),rewardRecipient:'ATTACKER',attackerPower:aPower,defenderPower:dPower,attackerTitle:titleMap[String(user.id)]||null,defenderTitle:titleMap[String(defenderId)]||null,opponent:defUser.nickname,attackerDeck:aUnique.cards||aDeck,defenderDeck:dUnique.cards||dDeck,uniqueAbility:{attacker:uniqueBattleResponsePayload(aUnique,aUniqueRuntime),defender:uniqueBattleResponsePayload(dUnique,dUniqueRuntime)},scoreAdjustment:aAdj,opponentScoreAdjustment:dAdj,energy:pvpEnergy,serverNow:new Date().toISOString()});
     }
     if(path==='pvp/history'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);const settings=await pvpSettings(env);if(!settings.enabled&&!isAdminRole(user))return json({error:'현재 랭크전이 중지되어 있습니다.'},503);const rows=await env.DB.prepare('SELECT id,attacker_id,defender_id,attacker_name,defender_name,attacker_power,defender_power,winner_id,attacker_score_before,attacker_score_after,defender_score_before,defender_score_after,score_change,created_at FROM pvp_match_history WHERE attacker_id=? OR defender_id=? ORDER BY id DESC LIMIT ?').bind(user.id,user.id,Number(settings.historyLimit||100)).all();const opponentIds=[...new Set((rows.results||[]).map(r=>Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id)).filter(Boolean))],titleMap=await publicEquippedTitleMap(env,opponentIds);return json({history:rows.results.map(r=>{const opponentId=Number(r.attacker_id)===Number(user.id)?Number(r.defender_id):Number(r.attacker_id);return {...r,direction:Number(r.attacker_id)===Number(user.id)?'ATTACK':'DEFENSE',result:Number(r.winner_id)===Number(user.id)?'WIN':'LOSE',opponent:Number(r.attacker_id)===Number(user.id)?r.defender_name:r.attacker_name,opponentTitle:titleMap[String(opponentId)]||null,myScoreAfter:Number(r.attacker_id)===Number(user.id)?r.attacker_score_after:r.defender_score_after,score_change:Math.abs(Number(r.attacker_id)===Number(user.id)?Number(r.attacker_score_after)-Number(r.attacker_score_before):Number(r.defender_score_after)-Number(r.defender_score_before))}})});
