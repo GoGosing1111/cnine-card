@@ -314,7 +314,9 @@ export async function resetOwnerAvatarEquipCooldownOnce(env,{nickname,marker,rea
       ON CONFLICT(key) DO NOTHING`).bind(operationMarker,claimToken).run();
     if(Number(claimed?.meta?.changes||0)!==1){
       const prior=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(operationMarker).first();
-      return{alreadyApplied:true,...safeJson(prior?.value,{})};
+      const result={alreadyApplied:true,...safeJson(prior?.value,{})};
+      console.log(JSON.stringify({type:'avatar_cooldown_reset_once',...result}));
+      return result;
     }
     try{
       const target=await env.DB.prepare(`SELECT id,nickname,role FROM users
