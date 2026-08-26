@@ -7,7 +7,7 @@ import { handleBattleV2Preview,createPveBattleV2,createPvpBattleV2 } from '../_b
 import { handleMagic,magicSettings,magicBattleLoadout,magicBattleLoadouts,ensureMagicRewardFoundation,resolveMagicCrystalReward,magicRewardForRank,magicRewardForTowerFloor,cardUniqueSettings,cardUniqueVisibleTo,cardUniqueDeckState,cardUniqueDeckStates,resolveUniqueBattleRuntime } from '../_magic.js';
 import { handleStorageCleanup, scheduleBoundedStorageMaintenance } from '../_storage_cleanup.js';
 import { handleEquipment,userEquipmentBonuses,grantEquipmentDrop,publicEquippedTitleMap,ensureEquipmentFoundation,invalidateEquipmentPromotionCache } from '../_equipment.js';
-import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain } from '../_avatar.js';
+import { handleAvatar,avatarFeatureAccess,equippedAvatarEffect,applyAvatarCoinGain,resetOwnerAvatarEquipCooldownOnce } from '../_avatar.js';
 import { handleVehicleDraw } from '../_vehicle_draw.js';
 import { handleHighGradeReroll,grantHighGradeRerollDrop } from '../_high_grade_reroll.js';
 import { handleTerritoryWar } from '../_territory_war.js';
@@ -1911,6 +1911,11 @@ async function ensureRuntimeUpgrades(env){
     await ensureD1HotpathIndexes(env);
     await ensureEquipmentFoundation(env);
     await ensureSecondVerificationFoundation(env);
+    await resetOwnerAvatarEquipCooldownOnce(env,{
+      nickname:'핑크빛유두',
+      marker:'safe_runtime_operation_v1869_owner_avatar_cooldown_reset_once',
+      reason:'OWNER 요청에 따른 아바타 교체 쿨타임 1회 초기화'
+    });
     const markers=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('safe_runtime_upgrade_v1144_stability_gate','safe_runtime_upgrade_v1189_weekly_premium_atomic_receipts','safe_runtime_upgrade_v1191_rift_expedition','safe_runtime_upgrade_v1205_d1_hotpath_indexes','safe_runtime_upgrade_v1693_nightmare_clone','safe_runtime_upgrade_v1694_nightmare_pair_dedup','safe_runtime_upgrade_v1695_purge_inactive_monsters','safe_runtime_upgrade_v1696_nightmare_after_hell_nika')").all();
     const markerMap=Object.fromEntries((markers.results||[]).map(row=>[String(row.key),String(row.value||'')]));
     if(markerMap.safe_runtime_upgrade_v1693_nightmare_clone!=='1')await ensureNightmareHellCloneUpgrade(env);

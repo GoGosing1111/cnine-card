@@ -18,6 +18,7 @@ const AVATAR_EQUIP_COOLDOWN_MS=24*60*60*1000;
 let foundationPromise=null;
 let settingsCache=null;
 let settingsCacheAt=0;
+let cooldownResetOperationPromise=null;
 
 const SEEDS=Object.freeze([
   {serial:'A-01',code:'AZURE_FROST_STRATEGIST',name:'서리의 전략관',callSign:'AZURE FROST',roleLabel:'빙결 전술 지휘관',file:'avatar-f01-azure-frost-strategist-lobby-v1',accent:'#8bc9ff',effectType:'COIN_GAIN_PERCENT',effectValue:1,sortOrder:10},
@@ -296,6 +297,55 @@ export function applyAvatarCoinGain(amount,equippedAvatar){
   const percent=coinEffect?Math.max(0,Math.min(50,Math.floor(Number(coinEffect.value)||0))):0;
   const bonus=Math.min(MAX_SAFE_COIN-base,Math.floor(base*(percent/100)));
   return{base,percent,bonus,total:base+bonus};
+}
+
+// 운영자가 승인한 단발성 해제 작업용이다. 현재 장착 아바타는 그대로 두고
+// 마지막 교체 시각만 만료 상태로 이동하므로, 다음 교체가 끝나면 기존 24시간
+// 쿨타임이 다시 정상 적용된다. marker 선점으로 여러 Worker isolate가 동시에
+// 기동해도 동일 작업은 한 번만 실행한다.
+export async function resetOwnerAvatarEquipCooldownOnce(env,{nickname,marker,reason='OWNER 요청에 따른 아바타 교체 쿨타임 1회 초기화'}={}){
+  if(cooldownResetOperationPromise)return cooldownResetOperationPromise;
+  cooldownResetOperationPromise=(async()=>{
+    await ensureAvatarFoundation(env);
+    const targetNickname=cleanText(nickname,20),operationMarker=cleanText(marker,120);
+    if(!targetNickname||!operationMarker)throw new Error('아바타 쿨타임 초기화 대상 또는 작업 마커가 없습니다.');
+    const claimToken=`PENDING:${crypto.randomUUID()}`;
+    const claimed=await env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)
+      ON CONFLICT(key) DO NOTHING`).bind(operationMarker,claimToken).run();
+    if(Number(claimed?.meta?.changes||0)!==1){
+      const prior=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(operationMarker).first();
+      return{alreadyApplied:true,...safeJson(prior?.value,{})};
+    }
+    try{
+      const target=await env.DB.prepare(`SELECT id,nickname,role FROM users
+        WHERE nickname=? AND UPPER(TRIM(COALESCE(role,'USER')))='OWNER' LIMIT 1`).bind(targetNickname).first();
+      if(!target)throw new Error(`OWNER 계정 ${targetNickname}을 찾을 수 없습니다.`);
+      const before=await env.DB.prepare('SELECT avatar_code,updated_at FROM avatar_user_loadout_v1 WHERE user_id=?').bind(target.id).first();
+      if(!before){
+        const result={applied:false,userId:Number(target.id),nickname:String(target.nickname),reason:'NO_AVATAR_LOADOUT'};
+        await env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(JSON.stringify(result),operationMarker,claimToken).run();
+        console.log(JSON.stringify({type:'avatar_cooldown_reset_once',...result}));
+        return result;
+      }
+      const unlockedAt='1970-01-01 00:00:00';
+      const changed=await env.DB.prepare(`UPDATE avatar_user_loadout_v1 SET updated_at=?
+        WHERE user_id=? AND avatar_code=? AND updated_at=?`).bind(unlockedAt,target.id,String(before.avatar_code),String(before.updated_at)).run();
+      if(Number(changed?.meta?.changes||0)!==1)throw new Error('아바타 장착 정보가 동시에 변경되어 쿨타임을 초기화하지 못했습니다.');
+      const after=await env.DB.prepare('SELECT avatar_code,updated_at FROM avatar_user_loadout_v1 WHERE user_id=?').bind(target.id).first();
+      const result={applied:true,userId:Number(target.id),nickname:String(target.nickname),avatarCode:String(after?.avatar_code||before.avatar_code),beforeUpdatedAt:String(before.updated_at||''),afterUpdatedAt:String(after?.updated_at||unlockedAt),nextEquipAvailable:true};
+      await env.DB.batch([
+        env.DB.prepare(`INSERT INTO admin_logs(admin_id,action_type,target_type,target_id,before_data,after_data)
+          VALUES(?,'AVATAR_COOLDOWN_RESET_ONCE','USER',?,?,?)`).bind(target.id,String(target.id),JSON.stringify({nickname:target.nickname,avatarCode:before.avatar_code,updatedAt:before.updated_at}),JSON.stringify({...result,reason:cleanText(reason,160)})),
+        env.DB.prepare('UPDATE app_meta SET value=?,updated_at=CURRENT_TIMESTAMP WHERE key=? AND value=?').bind(JSON.stringify(result),operationMarker,claimToken)
+      ]);
+      console.log(JSON.stringify({type:'avatar_cooldown_reset_once',...result}));
+      return result;
+    }catch(error){
+      await env.DB.prepare('DELETE FROM app_meta WHERE key=? AND value=?').bind(operationMarker,claimToken).run().catch(()=>{});
+      throw error;
+    }
+  })().catch(error=>{cooldownResetOperationPromise=null;throw error});
+  return cooldownResetOperationPromise;
 }
 
 export async function grantAvatarOwnership(env,{userId,avatarCode,sourceType='DROP',sourceRef=''}){
