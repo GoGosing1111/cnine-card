@@ -1,0 +1,54 @@
+{
+  "version": "2.0.0",
+  "contract": "PROJECT_V_V3_ROLE_IMPACT",
+  "generatedAt": "2026-08-27",
+  "source": "OpenAI imagegen",
+  "requirements": {
+    "alpha": true,
+    "forbiddenMotifs": ["circle", "magic-ring", "rune", "diamond", "star"],
+    "blendMode": "screen",
+    "collisionHookMs": 350
+  },
+  "roles": {
+    "attack": {
+      "src": "attack-sword-spear-v1.png",
+      "atlas": "attack-impact-atlas-v2.json",
+      "atlasImage": "attack-impact-atlas-v2.png",
+      "fps": 22,
+      "collisionFrame": 6,
+      "width": 1536,
+      "height": 1024,
+      "visual": "crimson sword aura + spear thrust"
+    },
+    "defense": {
+      "src": "defense-shield-wave-v1.png",
+      "atlas": "defense-impact-atlas-v2.json",
+      "atlasImage": "defense-impact-atlas-v2.png",
+      "fps": 18,
+      "collisionFrame": 7,
+      "width": 1536,
+      "height": 1024,
+      "visual": "cyan shield plate + water pressure wave"
+    },
+    "speed": {
+      "src": "speed-lightning-v1.png",
+      "atlas": "speed-impact-atlas-v2.json",
+      "atlasImage": "speed-impact-atlas-v2.png",
+      "fps": 26,
+      "collisionFrame": 8,
+      "width": 1536,
+      "height": 1024,
+      "visual": "electric-blue branching lightning impact"
+    },
+    "heal": {
+      "src": "heal-life-surge-v1.png",
+      "atlas": "heal-impact-atlas-v2.json",
+      "atlasImage": "heal-impact-atlas-v2.png",
+      "fps": 17,
+      "collisionFrame": 8,
+      "width": 1024,
+      "height": 1536,
+      "visual": "emerald life surge + rising leaves"
+    }
+  }
+}

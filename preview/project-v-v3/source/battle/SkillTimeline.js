@@ -1,8 +1,8 @@
-import {AnimatedSprite, Container, Graphics, Sprite, Text} from 'pixi.js';
+import {Container, Graphics, Sprite, Text} from 'pixi.js';
 import {gsap} from 'gsap';
 import {CHARACTER_STATE, TEAM} from './BattleCharacter.js';
 import {configureDamageText} from './ObjectPool.js';
-import {applyWebGLBlendTree, normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
+import {normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 
@@ -17,51 +17,6 @@ function setCardCutInArt(sprite,width,height){
 
 function label(text,size,color=0xffffff,weight='800'){
   return new Text({text,style:{fontFamily:'Pretendard, SUIT, Arial, sans-serif',fontSize:size,fill:color,fontWeight:weight,letterSpacing:.5}});
-}
-
-function makeSignatureFx(profile,accent){
-  const root=new Container();
-  root.alpha=0;
-  root.scale.set(.28);
-  const key=String(profile||'TACTICAL').toUpperCase();
-  if(key==='CRIMSON_RIFT'){
-    for(let index=0;index<4;index+=1){
-      const blade=new Graphics().poly([-150,-5,120,-12,174,0,120,12,-150,5]).fill({color:index%2?0xffffff:accent,alpha:index%2?.72:.95});
-      blade.rotation=-.72+index*.47;
-      blade.blendMode='add';
-      root.addChild(blade);
-    }
-  }else if(key==='STORM_COMMAND'){
-    for(let index=0;index<3;index+=1){
-      const arc=new Graphics().arc(0,0,64+index*38,-2.55,.72).stroke({width:12-index*2,color:index===1?0xffffff:accent,alpha:.9});
-      arc.rotation=index*.72;
-      root.addChild(arc);
-    }
-  }else if(key==='MOON_BLOOM'){
-    for(let index=0;index<8;index+=1){
-      const petal=new Graphics().poly([0,-22,15,-72,0,-112,-15,-72]).fill({color:index%3===0?0xffffff:accent,alpha:.82});
-      petal.rotation=Math.PI*2*index/8;
-      petal.blendMode='add';
-      root.addChild(petal);
-    }
-    root.addChild(new Graphics().circle(0,0,52).stroke({width:9,color:accent,alpha:.95}));
-  }else if(key==='WIND_CHAIN'){
-    for(let index=0;index<5;index+=1){
-      const streak=new Graphics().roundRect(-150,-4-index*3,300-index*26,8,4).fill({color:index%2?0xffffff:accent,alpha:.82});
-      streak.rotation=-.28+index*.13;
-      streak.position.set(-24+index*13,-62+index*31);
-      streak.blendMode='add';
-      root.addChild(streak);
-    }
-  }else if(key==='GUARD_PULSE'){
-    root.addChild(new Graphics().poly([0,-116,94,-58,86,66,0,122,-86,66,-94,-58]).stroke({width:12,color:accent,alpha:.92}));
-    root.addChild(new Graphics().poly([0,-84,62,-42,56,48,0,82,-56,48,-62,-42]).stroke({width:5,color:0xffffff,alpha:.76}));
-  }else{
-    root.addChild(new Graphics().circle(0,0,96).stroke({width:10,color:accent,alpha:.9}));
-  }
-  root.signatureProfile=key;
-  applyWebGLBlendTree(root,'add');
-  return root;
 }
 
 function makeCutIn({texture,width,height,title,subtitle,accent}){
@@ -143,7 +98,6 @@ export class SkillTimeline{
     this.cancelAll();
     const roleKind=normalizeSkillEffectKind(effectKind);
     const roleProfile=roleEffectProfile(roleKind);
-    const useSlash=roleKind===SKILL_EFFECT_KIND.ATTACK;
     const attackerView=attacker.root||attacker;
     const targetView=target.root||target;
     const origin={
@@ -173,14 +127,6 @@ export class SkillTimeline{
     const cutInX=(this.width-cutIn.panelWidth)/2;
     this.effectLayer.addChild(cutIn);
 
-    const slash=this.pools.slash.acquire();
-    slash.position.set(targetPoint.x,targetPoint.y);
-    slash.alpha=0;
-    slash.visible=useSlash;
-    slash.scale.set(.3);
-    applyWebGLBlendTree(slash,'add');
-    this.effectLayer.addChild(slash);
-
     const damageLabel=this.pools.damage.acquire();
     configureDamageText(damageLabel,{kind:roleKind,damage,critical,healing,hitCount,compact:this.height>this.width});
     damageLabel.position.set(targetPoint.x,targetView.y-350);
@@ -191,35 +137,14 @@ export class SkillTimeline{
     damageLabel.visible=true;
     this.uiLayer.addChild(damageLabel);
 
-    const flash=new Graphics().rect(0,0,this.width,this.height).fill({color:accent,alpha:.28});
-    flash.alpha=0;
-    flash.blendMode='screen';
-    this.effectLayer.addChild(flash);
-
-    const signatureFx=makeSignatureFx(effectProfile,accent);
-    signatureFx.position.set(targetPoint.x,targetPoint.y);
-    this.effectLayer.addChild(signatureFx);
-    const targetFx=new Container();
-    targetFx.position.set(targetPoint.x,targetPoint.y+82);
-    targetFx.alpha=0;
-    targetFx.scale.set(.3);
     const bossTarget=String(targetClass).toUpperCase()==='BOSS';
-    if(bossTarget){
-      targetFx.addChild(new Graphics().circle(0,0,92).stroke({width:14,color:0xffffff,alpha:.88}));
-      targetFx.addChild(new Graphics().circle(0,0,142).stroke({width:8,color:accent,alpha:.8}));
-      for(let index=0;index<12;index+=1){
-        const shard=new Graphics().poly([-8,-4,34,0,-8,4]).fill({color:index%3===0?0xffffff:accent,alpha:.9});
-        shard.rotation=Math.PI*2*index/12;
-        targetFx.addChild(shard);
-      }
-    }else{
-      targetFx.addChild(new Graphics().circle(0,0,74).stroke({width:8,color:accent,alpha:.84}));
-    }
-    applyWebGLBlendTree(targetFx,'screen');
-    this.effectLayer.addChild(targetFx);
-
-    const effectPoint=targetPoint;
-    const skillEffect=SkillEffectFX.create({kind:roleKind,x:effectPoint.x,y:effectPoint.y,originX:origin.x,originY:origin.y-150,accent}).attach(this.effectLayer);
+    const effectPoint=roleKind===SKILL_EFFECT_KIND.HP?{x:origin.x,y:origin.y-178}:targetPoint;
+    const skillEffect=SkillEffectFX.create({
+      kind:roleKind,
+      x:effectPoint.x,
+      y:effectPoint.y,
+      scale:(this.height>this.width?.78:1)*(bossTarget?1.12:1)
+    }).attach(this.effectLayer);
 
     const enemyRoots=enemies.map(enemy=>enemy.root||enemy).filter(Boolean);
     const enemyAlpha=enemyRoots.map(view=>view.alpha);
@@ -254,12 +179,8 @@ export class SkillTimeline{
       this.backgroundLayer.alpha=1;
       this.camera.reset(true);
       cutIn.destroy({children:true});
-      flash.destroy();
-      signatureFx.destroy({children:true});
-      targetFx.destroy({children:true});
       whiteFlashHandle?.release();
       skillEffect.release();
-      this.pools.slash.release(slash);
       this.pools.damage.release(damageLabel);
     };
 
@@ -290,7 +211,7 @@ export class SkillTimeline{
       timeline.call(()=>{
         attackerView.zIndex=1000;
         this.combatLayer.sortChildren();
-        this.audio?.playCast(roleKind);
+        this.audio?.scheduleImpact(roleKind,{impactAt:.35,playbackSpeed:speed,critical,boss:bossTarget});
       },[],0);
       timeline.to(this.backgroundLayer,{alpha:.4,duration:.12,ease:'power2.out'},0);
       enemyRoots.forEach(view=>timeline.to(view,{alpha:.4,duration:.12,ease:'power2.out'},0));
@@ -312,52 +233,16 @@ export class SkillTimeline{
       timeline.to(attackerView.scale,{x:dashScale*1.06,y:dashScale*1.06,duration:.15,ease:'power4.in'},.2);
       this.camera.addZoom(timeline,{focus:targetPoint,scale:1.065,inDuration:.12,hold:.14,outDuration:.24,at:.18});
 
-      // 350ms peak: whole-sprite attack recoil, slash, impact and hit stop.
+      // 350ms peak: server-authoritative collision plus the new role atlas.
       timeline.call(()=>{
         setState(attacker,CHARACTER_STATE.ATTACK);
         setState(target,CHARACTER_STATE.HIT);
         setTint(target,accent);
         whiteFlashHandle?.release();
         whiteFlashHandle=triggerWhiteFlash(target,{durationMs:Math.round(50/this.playbackSpeed)});
-        this.audio?.playImpact(roleKind,{critical,boss:bossTarget});
         onImpact();
-        if(useSlash&&slash instanceof AnimatedSprite)slash.gotoAndPlay(0);
       },[],.35);
-      if(useSlash){
-        timeline.set(slash,{alpha:1,rotation:-.08},.35);
-        timeline.to(slash.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.35);
-      }
-      if(useSlash&&slash instanceof AnimatedSprite){
-        timeline.to(slash,{alpha:0,duration:.08,ease:'power2.in'},.53);
-      }else if(useSlash){
-        slash.blades.forEach(blade=>{
-          timeline.to(blade.scale,{x:1,duration:.065,ease:'power4.out'},.35);
-          timeline.to(blade,{alpha:0,duration:.14,ease:'power2.in'},.44);
-        });
-        timeline.to(slash.burst.scale,{x:2.8,y:2.8,duration:.18,ease:'power3.out'},.355);
-        timeline.to(slash.burst,{alpha:0,duration:.15,ease:'power2.in'},.43);
-        slash.shards.forEach((shard,index)=>{
-          const angle=shard.rotation;
-          const distance=110+(index%5)*22;
-          timeline.to(shard,{
-            x:Math.cos(angle)*distance,
-            y:Math.sin(angle)*distance,
-            alpha:0,
-            duration:.18+(index%3)*.02,
-            ease:'power3.out'
-          },.36);
-        });
-      }
-      timeline.to(flash,{alpha:.5,duration:.025,ease:'none'},.35);
-      timeline.to(flash,{alpha:0,duration:.13,ease:'power3.out'},.375);
-      timeline.to(signatureFx,{alpha:1,rotation:.22,duration:.035,ease:'none'},.345);
-      timeline.to(signatureFx.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.345);
-      timeline.to(signatureFx,{alpha:0,rotation:.5,duration:.18,ease:'power2.in'},.46);
-      timeline.to(targetFx,{alpha:1,duration:.025,ease:'none'},.35);
-      timeline.to(targetFx.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.35);
-      timeline.to(targetFx,{alpha:0,duration:.14,ease:'power2.in'},.48);
-      // Shared placeholder/atlas factory is synchronized to the 350ms collision.
-      skillEffect.play(timeline,{at:.35,duration:.2});
+      skillEffect.play(timeline,{at:.35,playbackSpeed:speed});
       this.camera.addShake(timeline,{intensity:bossTarget?roleProfile.shake*1.28:roleProfile.shake,duration:bossTarget?.32:.24,rotation:roleKind===SKILL_EFFECT_KIND.DEFENSE?.006:.01,at:.35});
       timeline.call(startHitStop,[],.355);
 
