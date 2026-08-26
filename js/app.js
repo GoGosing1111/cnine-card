@@ -1544,6 +1544,7 @@ battleAutoUiObserver.observe(app,{childList:true,subtree:true});
 function battleSleep(ms){return new Promise(r=>setTimeout(r,ms));}
 let battleAudioContext=null;
 function battleSoundEnabled(){return localStorage.getItem('cnine_battle_sound')!=='OFF'}
+function playerUltimateCinematicSkipped(){return localStorage.getItem('cnine_skip_player_ultimate')==='ON'}
 function battleAudio(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;battleAudioContext??=new C();window.__CNINE_SHARED_BATTLE_AUDIO_CONTEXT=battleAudioContext;if(battleAudioContext.state==='suspended')battleAudioContext.resume();return battleAudioContext}catch{return null}}
 function unlockBattleAudio(){if(battleSoundEnabled())battleAudio()}
 document.addEventListener('pointerdown',unlockBattleAudio,{once:true,capture:true});
@@ -1660,7 +1661,88 @@ function ultimateMediaSafetyMs(configuredDuration,media,playbackRate=1){
   const mediaMs=Number.isFinite(media?.duration)&&media.duration>0?media.duration*1000/Math.max(.5,Number(playbackRate)||1):0;
   return Math.max(2500,Math.min(35000,Math.max(configured+1200,mediaMs+900)));
 }
-async function playBattleUltimate(stage,ultimate,bonusDamage){if(!stage||!ultimate)return;const duration=Math.max(500,Math.min(30000,Number(ultimate.durationMs||3000))),playbackRate=Math.max(.5,Math.min(3,Number(ultimate.playbackRate||1))),src=normalizeUltimateMediaPath(ultimate.mediaUrl);const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);const overlay=document.createElement('div');overlay.className='battle-ultimate-overlay';overlay.innerHTML=`<div class="battle-ultimate-flash"></div><div class="battle-ultimate-title"><small>ULTIMATE SKILL</small><strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong><span>궁극기 타격 ${Number(bonusDamage||0).toLocaleString()}</span></div><div class="battle-ultimate-media">${isVideo?`<video src="${escapeHtml(src)}" playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}</div></div>`;document.body.appendChild(overlay);const releaseUltimateViewport=applyUltimateViewport(stage,overlay);stage.classList.add('ultimate-playing');battleTone(520,.28,'sawtooth',.08);if(navigator.vibrate)navigator.vibrate([60,30,100]);await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);overlay.classList.add('closing');setTimeout(()=>{releaseUltimateViewport();overlay.remove();stage.classList.remove('ultimate-playing');resolve()},220)};let timer=setTimeout(finish,ultimateMediaSafetyMs(duration,null,playbackRate));const media=overlay.querySelector('video');if(media){media.muted=!battleSoundEnabled();media.volume=1;media.playbackRate=playbackRate;media.addEventListener('loadedmetadata',()=>{const portrait=media.videoHeight>media.videoWidth;media.classList.toggle('is-portrait',portrait);media.classList.toggle('is-landscape',!portrait);clearTimeout(timer);timer=setTimeout(finish,ultimateMediaSafetyMs(duration,media,playbackRate))},{once:true});media.addEventListener('ended',finish,{once:true});media.addEventListener('error',()=>setTimeout(finish,800),{once:true});const playback=media.play();if(playback&&typeof playback.catch==='function')playback.catch(()=>{media.muted=true;media.play().catch(()=>{})})}const img=overlay.querySelector('img');if(img){img.addEventListener('load',()=>{const portrait=img.naturalHeight>img.naturalWidth;img.classList.toggle('is-portrait',portrait);img.classList.toggle('is-landscape',!portrait)},{once:true});img.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true})}})}
+async function playBattleUltimate(stage,ultimate,bonusDamage){
+  if(!stage||!ultimate)return;
+  if(playerUltimateCinematicSkipped())return;
+  const duration=Math.max(500,Math.min(30000,Number(ultimate.durationMs||3000)));
+  const playbackRate=Math.max(.5,Math.min(3,Number(ultimate.playbackRate||1)));
+  const src=normalizeUltimateMediaPath(ultimate.mediaUrl);
+  const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);
+  const overlay=document.createElement('div');
+  overlay.className='battle-ultimate-overlay';
+  overlay.dataset.ultimateOwner='player';
+  overlay.innerHTML=`
+    <div class="battle-ultimate-flash"></div>
+    <div class="battle-ultimate-title">
+      <small>ULTIMATE SKILL</small>
+      <strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong>
+      <span>궁극기 타격 ${Number(bonusDamage||0).toLocaleString()}</span>
+    </div>
+    <div class="battle-ultimate-media">
+      ${isVideo?`<video src="${escapeHtml(src)}" playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}
+    </div>
+    <button type="button" class="battle-ultimate-skip" data-ultimate-skip="player-cinematic" aria-label="유저 궁극기 연출 건너뛰기">
+      <span>SKIP</span><strong>궁극기 연출</strong>
+    </button>`;
+  document.body.appendChild(overlay);
+  const releaseUltimateViewport=applyUltimateViewport(stage,overlay);
+  const media=overlay.querySelector('video');
+  const image=overlay.querySelector('img');
+  stage.classList.add('ultimate-playing');
+  battleTone(520,.28,'sawtooth',.08);
+  if(navigator.vibrate)navigator.vibrate([60,30,100]);
+  await new Promise(resolve=>{
+    let done=false;
+    let timer=0;
+    const finish=(skipped=false)=>{
+      if(done)return;
+      done=true;
+      clearTimeout(timer);
+      if(media){
+        media.pause();
+        try{media.currentTime=0}catch(_){ }
+      }
+      overlay.classList.toggle('skipped',Boolean(skipped));
+      overlay.classList.add('closing');
+      setTimeout(()=>{
+        releaseUltimateViewport();
+        overlay.remove();
+        stage.classList.remove('ultimate-playing');
+        resolve();
+      },skipped?90:220);
+    };
+    timer=setTimeout(finish,ultimateMediaSafetyMs(duration,null,playbackRate));
+    overlay.querySelector('[data-ultimate-skip="player-cinematic"]')?.addEventListener('click',event=>{
+      event.preventDefault();
+      event.stopPropagation();
+      finish(true);
+    },{once:true});
+    if(media){
+      media.muted=!battleSoundEnabled();
+      media.volume=1;
+      media.playbackRate=playbackRate;
+      media.addEventListener('loadedmetadata',()=>{
+        const portrait=media.videoHeight>media.videoWidth;
+        media.classList.toggle('is-portrait',portrait);
+        media.classList.toggle('is-landscape',!portrait);
+        clearTimeout(timer);
+        timer=setTimeout(finish,ultimateMediaSafetyMs(duration,media,playbackRate));
+      },{once:true});
+      media.addEventListener('ended',()=>finish(),{once:true});
+      media.addEventListener('error',()=>setTimeout(finish,800),{once:true});
+      const playback=media.play();
+      if(playback&&typeof playback.catch==='function')playback.catch(()=>{media.muted=true;media.play().catch(()=>{})});
+    }
+    if(image){
+      image.addEventListener('load',()=>{
+        const portrait=image.naturalHeight>image.naturalWidth;
+        image.classList.toggle('is-portrait',portrait);
+        image.classList.toggle('is-landscape',!portrait);
+      },{once:true});
+      image.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true});
+    }
+  });
+}
 
 async function playBossBattleUltimate(stage,phase,ult){
   if(!stage||!ult)return {teamHpLoss:0,penalty:0};

@@ -123,6 +123,17 @@
   .pvev2-root .pvev2-monster>img,.pvev2-root .pvev2-monster-thumb-missing{width:92px;height:104px!important}
 }
 
+/* V1879: player ultimate cinematic preference; boss ultimate is unaffected. */
+.pvev2-battle-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;min-width:0}
+.pvev2-battle-options .pvev2-auto{min-width:0}
+.pvev2-battle-options .pvev2-auto span{min-width:0}
+.pvev2-ultimate-skip{border-color:#4b4167;background:linear-gradient(135deg,#0b111a,#161129)}
+.pvev2-ultimate-skip input{accent-color:#a979ff}
+.pvev2-ultimate-skip:has(input:checked){border-color:#9b70eb;box-shadow:inset 3px 0 0 #a979ff,0 0 20px rgba(135,81,225,.13)}
+.pvev2-ultimate-skip:has(input:checked) b{color:#dcc6ff}
+@container pvecommand (max-width:620px){.pvev2-battle-options{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:620px){.pvev2-battle-options{grid-template-columns:minmax(0,1fr)}}
+
 /* Live mobile contract: legacy PVE/escort styles also target .pve-mode-tabs
    with !important. Keep this block last so every content tab remains a
    single, non-overlapping horizontal rail in the production stylesheet set. */
