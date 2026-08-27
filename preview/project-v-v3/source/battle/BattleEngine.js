@@ -5,7 +5,7 @@ import {SkillTimeline} from './SkillTimeline.js';
 import {BattleAudioMixer} from './BattleAudioMixer.js';
 import {configureDamageText, createBattlePools} from './ObjectPool.js';
 import {AVATAR_LAYER_ORDER, BattleCharacter, CHARACTER_STATE, TEAM} from './BattleCharacter.js';
-import {applyWebGLBlendTree, normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
+import {normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -304,6 +304,12 @@ export class BattleEngine{
     this.camera=new CameraController(this.stage,DESKTOP);
     this.pools=createBattlePools();
     this.audio=new BattleAudioMixer();
+    // Start the compact authored SFX fetch/decode beside the heavier atlases.
+    // In the live shell the mixer has already adopted the start-button audio
+    // context, so awaiting both prevents the first automatic hit from racing
+    // an unfinished decode. Missing assets resolve false and stay silent;
+    // they never revive the retired procedural sound.
+    await Promise.all([SkillEffectFX.preloadAll(),this.audio.prepare()]);
     this.skillTimeline=new SkillTimeline({
       ...DESKTOP,
       backgroundLayer:this.backgroundLayer,
@@ -1271,6 +1277,7 @@ export class BattleEngine{
   cancelTimelines(){
     this.skillTimeline?.cancelAll();
     [...this.simpleTimelines].forEach(entry=>{entry.instance.kill();entry.settle(false)});
+    this.audio?.stopAll?.();
     this.pools?.releaseAll();
     this.camera?.reset(true);
     this.playing=false;
@@ -1393,31 +1400,23 @@ export class BattleEngine{
     const victimView=victim.root;
     const roleKind=normalizeSkillEffectKind(actor.effectKind);
     const roleProfile=roleEffectProfile(roleKind);
-    const useSlash=roleKind===SKILL_EFFECT_KIND.ATTACK;
-    const slash=this.pools.slash.acquire();
     const damageLabel=this.pools.damage.acquire();
     const impact={x:victimView.x,y:victimView.y-176};
     const isBossTarget=Boolean(victim.isBoss);
-    const impactFx=new Container();
-    impactFx.position.set(impact.x,impact.y+74);
-    impactFx.alpha=0;
-    impactFx.scale.set(.3);
-    impactFx.addChild(new Graphics().circle(0,0,isBossTarget?118:68).stroke({width:isBossTarget?13:7,color:roleProfile.accent,alpha:.9}));
-    if(isBossTarget)impactFx.addChild(new Graphics().circle(0,0,166).stroke({width:6,color:roleProfile.secondary,alpha:.72}));
-    applyWebGLBlendTree(impactFx,'screen');
-    this.effectLayer.addChild(impactFx);
-    const impactFlash=new Graphics().rect(0,0,this.width,this.height).fill({color:roleProfile.secondary,alpha:1});
-    impactFlash.alpha=0;impactFlash.blendMode='screen';this.uiLayer.addChild(impactFlash);
-    slash.position.set(impact.x,impact.y);slash.visible=useSlash;slash.scale.set(.3);applyWebGLBlendTree(slash,'add');this.effectLayer.addChild(slash);
     configureDamageText(damageLabel,{kind:roleKind,damage,critical,healing,hitCount,compact:this.mobile});
     damageLabel.position.set(impact.x,victimView.y-340);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
     if(roleKind===SKILL_EFFECT_KIND.HP&&damageLabel.healLabel){
       damageLabel.healLabel.position.set(actor.baseX-impact.x,actor.baseY-165-(victimView.y-340));
     }
-    const skillEffect=SkillEffectFX.create({kind:roleKind,x:impact.x,y:impact.y,originX:actor.baseX,originY:actor.baseY-132,accent:roleProfile.accent}).attach(this.effectLayer);
+    const effectPoint=roleKind===SKILL_EFFECT_KIND.HP?{x:actor.baseX,y:actor.baseY-176}:impact;
+    const skillEffect=SkillEffectFX.create({
+      kind:roleKind,
+      x:effectPoint.x,
+      y:effectPoint.y,
+      scale:(this.mobile?.78:1)*(isBossTarget?1.12:1)
+    }).attach(this.effectLayer);
     let whiteFlashHandle=null;
     const cleanup=()=>{
-      this.pools.slash.release(slash);
       this.pools.damage.release(damageLabel);
       actorView.position.set(actor.baseX,actor.baseY);
       actorView.scale.set(actor.restScale);
@@ -1426,8 +1425,6 @@ export class BattleEngine{
       victim.tint=0xffffff;
       whiteFlashHandle?.release();
       skillEffect.release();
-      impactFx.destroy({children:true});
-      impactFlash.destroy();
     };
     this.updateStatus(`${actor.name} · ${roleProfile.label}${critical?' · 치명타':''}`);
     const vector={x:victimView.x-actor.baseX,y:victimView.y-actor.baseY};
@@ -1441,35 +1438,29 @@ export class BattleEngine{
       y:victimView.y-vector.y/distance*stopDistance
     };
     const attackScale=actor.getPerspectiveScale?.(attackPoint.y)??actor.restScale;
+    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1);
     return this.timeline(timeline=>{
       const travelDuration=roleKind===SKILL_EFFECT_KIND.SPEED?.14:roleKind===SKILL_EFFECT_KIND.DEFENSE?.25:.22;
-      timeline.call(()=>{actor.setState(CHARACTER_STATE.MOVE);this.audio?.playCast(roleKind)},[],0);
+      timeline.call(()=>{
+        actor.setState(CHARACTER_STATE.MOVE);
+        this.audio?.scheduleImpact(roleKind,{impactAt:.25,playbackSpeed,critical,boss:isBossTarget});
+      },[],0);
       timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:travelDuration,ease:roleKind===SKILL_EFFECT_KIND.SPEED?'power4.in':'power3.out'});
       timeline.to(actorView.scale,{x:attackScale*(roleKind===SKILL_EFFECT_KIND.DEFENSE?1.11:1.06),y:attackScale*(roleKind===SKILL_EFFECT_KIND.SPEED?.96:1.06),duration:travelDuration,ease:'power3.out'},0);
-      if(useSlash)timeline.set(slash,{alpha:1},.18);
-      if(useSlash&&slash.blades)slash.blades.forEach((blade,bladeIndex)=>timeline.to(blade.scale,{x:1,duration:.1,ease:'power4.out'},.18+bladeIndex*.02));
       timeline.call(()=>{
         actor.setState(CHARACTER_STATE.ATTACK);
         victim.setState(CHARACTER_STATE.HIT);
         victim.tint=0xffd4a0;
         whiteFlashHandle?.release();
         whiteFlashHandle=triggerWhiteFlash(victim,{durationMs:Math.round(50/PLAYBACK_SPEED)});
-        this.audio?.playImpact(roleKind,{critical,boss:isBossTarget});
         if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
         onImpact(victim);
       },[],.25);
-      timeline.to(impactFx,{alpha:1,duration:.025,ease:'none'},.25);
-      timeline.to(impactFx.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.25);
-      timeline.to(impactFx,{alpha:0,duration:.14,ease:'power2.in'},isBossTarget?.42:.35);
-      timeline.to(impactFlash,{alpha:roleKind===SKILL_EFFECT_KIND.ATTACK?.34:.2,duration:.025,ease:'none'},.25);
-      timeline.to(impactFlash,{alpha:0,duration:.09,ease:'power3.out'},.275);
-      if(useSlash)timeline.to(slash.scale,{x:1.5,y:1.5,duration:.1,ease:'expo.out'},.25);
-      skillEffect.play(timeline,{at:.25,duration:.24});
+      skillEffect.play(timeline,{at:.25,playbackSpeed});
       this.camera.addShake(timeline,{intensity:(isBossTarget?1.22:1)*roleProfile.shake*(critical?1.12:1),duration:isBossTarget?.31:.22,rotation:roleKind===SKILL_EFFECT_KIND.DEFENSE?.004:.008,at:.25});
       timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-346},{alpha:1,y:victimView.y-376,duration:.18,ease:'back.out(2)'},.25);
       timeline.fromTo(damageLabel.scale,{x:.55,y:.55},{x:1,y:1,duration:.2,ease:'back.out(2)'},.25);
       timeline.to(damageLabel,{alpha:0,y:victimView.y-406,duration:.25,ease:'power2.in'},.48);
-      if(useSlash)timeline.to(slash,{alpha:0,duration:.2},.38);
       timeline.to(actorView,{x:actor.baseX,y:actor.baseY,duration:.3,ease:'power3.inOut'},.43);
       timeline.to(actorView.scale,{x:actor.restScale,y:actor.restScale,duration:.3,ease:'power3.inOut'},.43);
     },cleanup);
@@ -1492,14 +1483,12 @@ export class BattleEngine{
     //   총 피해를 아무리 올려도 화면에서는 "그대로" 로 보인다.
     configureDamageText(damageLabel,{kind:SKILL_EFFECT_KIND.ATTACK,damage,critical:Boolean(event.objectiveHeavy),healing:0,hitCount:1,compact:this.mobile});
     damageLabel.position.set(impact.x,impact.y-92);damageLabel.visible=true;this.uiLayer.addChild(damageLabel);
-    const impactFx=new Container();
-    impactFx.position.set(impact.x,impact.y);impactFx.alpha=0;impactFx.scale.set(.25);
-    impactFx.addChild(new Graphics().circle(0,0,this.mobile?66:88).stroke({width:this.mobile?7:10,color:0xffa33e,alpha:.92}));
-    impactFx.addChild(new Graphics().poly([-112,18,-26,-10,78,-40,116,-18,28,12,-76,42]).fill({color:0xff6636,alpha:.58}));
-    applyWebGLBlendTree(impactFx,'add');this.effectLayer.addChild(impactFx);
-    const flash=new Graphics().rect(0,0,this.width,this.height).fill({color:0xff8a4b,alpha:1});
-    flash.alpha=0;flash.blendMode='screen';this.uiLayer.addChild(flash);
-    const skillEffect=SkillEffectFX.create({kind:SKILL_EFFECT_KIND.ATTACK,x:impact.x,y:impact.y,originX:actor.baseX,originY:actor.baseY-132,accent:0xff8248}).attach(this.effectLayer);
+    const skillEffect=SkillEffectFX.create({
+      kind:SKILL_EFFECT_KIND.ATTACK,
+      x:impact.x,
+      y:impact.y,
+      scale:(this.mobile?.78:1)*(event.objectiveHeavy?1.14:1)
+    }).attach(this.effectLayer);
     const vector={x:objective.x-actor.baseX,y:objective.y-actor.baseY};
     const distance=Math.max(1,Math.hypot(vector.x,vector.y));
     const stopDistance=this.mobile?128:176;
@@ -1510,27 +1499,25 @@ export class BattleEngine{
       this.pools.damage.release(damageLabel);
       actorView.position.set(actor.baseX,actor.baseY);actorView.scale.set(actor.restScale);
       actor.setState(CHARACTER_STATE.IDLE);objective.tint=0xffffff;
-      whiteFlashHandle?.release();skillEffect.release();impactFx.destroy({children:true});flash.destroy();
+      whiteFlashHandle?.release();skillEffect.release();
     };
     this.updateStatus(`${actor.name} · ${event.objectiveStrikeLabel||'호송차 강제 공격'}${event.forced?' · 선제 타격':''}`);
+    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1);
     return this.timeline(timeline=>{
-      timeline.call(()=>{actor.setState(CHARACTER_STATE.MOVE);this.audio?.playCast(roleKind)},[],0);
+      timeline.call(()=>{
+        actor.setState(CHARACTER_STATE.MOVE);
+        this.audio?.scheduleImpact(SKILL_EFFECT_KIND.ATTACK,{impactAt:.24,playbackSpeed,boss:true});
+      },[],0);
       timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:.24,ease:'power3.in'});
       timeline.to(actorView.scale,{x:attackScale*1.08,y:attackScale*1.08,duration:.24,ease:'power3.in'},0);
       timeline.call(()=>{
         actor.setState(CHARACTER_STATE.ATTACK);objective.tint=0xffc19c;
         whiteFlashHandle?.release();whiteFlashHandle=triggerWhiteFlash(objective,{durationMs:Math.round(60/PLAYBACK_SPEED)});
-        this.audio?.playImpact(SKILL_EFFECT_KIND.ATTACK,{critical:false,boss:true});
         const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
         this.objectiveData={...(this.objectiveData||{}),hp,hpAfter:hp,maxHp};
         this.syncObjectiveHud({hp,maxHp,status:`DIRECT IMPACT · -${Math.round(damage).toLocaleString()}`,animate:true});
       },[],.24);
-      timeline.to(impactFx,{alpha:1,duration:.025,ease:'none'},.24);
-      timeline.to(impactFx.scale,{x:1.5,y:1.5,duration:.12,ease:'expo.out'},.24);
-      timeline.to(impactFx,{alpha:0,duration:.18,ease:'power2.in'},.38);
-      timeline.to(flash,{alpha:.26,duration:.025,ease:'none'},.24);
-      timeline.to(flash,{alpha:0,duration:.1,ease:'power3.out'},.265);
-      skillEffect.play(timeline,{at:.24,duration:.28});
+      skillEffect.play(timeline,{at:.24,playbackSpeed});
       this.camera.addShake(timeline,{intensity:1.22,duration:.3,rotation:.009,at:.24});
       timeline.fromTo(damageLabel,{alpha:0,y:impact.y-74},{alpha:1,y:impact.y-112,duration:.18,ease:'back.out(2)'},.24);
       timeline.to(damageLabel,{alpha:0,y:impact.y-142,duration:.26,ease:'power2.in'},.48);
@@ -1563,6 +1550,37 @@ export class BattleEngine{
       onImpact:()=>this.syncTargetHp(victim,hasFiniteNumber(targetHp)?Number(targetHp):victim.hp-(critical?18:11))
     });
     return result;
+  }
+
+  playSupportEffect(targets,{kind=SKILL_EFFECT_KIND.HP,onImpact=()=>{}}={}){
+    const participants=[...new Set((Array.isArray(targets)?targets:[targets]).filter(Boolean))];
+    if(!participants.length){onImpact();return Promise.resolve(false)}
+    const roleKind=normalizeSkillEffectKind(kind);
+    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1);
+    const effects=participants.map(target=>{
+      const view=target.root||target.view||target;
+      const height=Math.max(0,Number(view?.height)||0);
+      const y=Number(view?.y||0)-Math.max(72,Math.min(178,height*.34||178));
+      return SkillEffectFX.create({
+        kind:roleKind,
+        x:Number(view?.x||0),
+        y,
+        scale:this.mobile?.72:.9
+      }).attach(this.effectLayer);
+    });
+    const flashes=[];
+    const cleanup=()=>{
+      flashes.splice(0).forEach(handle=>handle?.release?.());
+      effects.forEach(effect=>effect.release());
+    };
+    return this.timeline(timeline=>{
+      timeline.call(()=>this.audio?.scheduleImpact(roleKind,{impactAt:.18,playbackSpeed}),[],0);
+      effects.forEach(effect=>effect.play(timeline,{at:.18,playbackSpeed}));
+      timeline.call(()=>{
+        participants.forEach(target=>flashes.push(triggerWhiteFlash(target,{durationMs:Math.round(70/PLAYBACK_SPEED)})));
+        onImpact();
+      },[],.18);
+    },cleanup);
   }
 
   /**
@@ -1627,15 +1645,34 @@ export class BattleEngine{
         const label=event.magicName||event.magicCode||'마법카드';
         if(damage>0)await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label,target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
         else{
+          if(event.amount||healing){
+            await this.playSupportEffect(target||this.currentAllyTarget,{
+              kind:SKILL_EFFECT_KIND.HP,
+              onImpact:()=>{if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp)}
+            });
+          }
           await this.showBanner(label,event.amount?0x6affb7:0xb57cff,event.amount?'회복효과 발동':'마법효과 발동');
-          if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+          if(!event.amount&&!healing&&target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
         }
       }else if(['TEAM_HEAL','REGEN','EMERGENCY_HEAL','SURVIVE','INDOMITABLE','SINGLE_HEALER_AURA'].includes(type)){
         // V1800: INDOMITABLE(방어형 불굴)은 서버가 HP 를 0 에서 1 로 되돌리는 이벤트인데
         // 여기서 빠져 있어 HP 표시가 0 에 멈췄고, 그 캐릭터가 죽은 것으로 취급됐다.
+        const targetRows=Array.isArray(event.targets)?event.targets:[];
+        const supportTargets=targetRows.length
+          ?targetRows.map(item=>this.combatantById(item.targetId)).filter(Boolean)
+          :target?[target]:type==='TEAM_HEAL'?this.allies.filter(character=>this.isAlive(character)):[];
+        await this.playSupportEffect(supportTargets,{
+          kind:type==='INDOMITABLE'?SKILL_EFFECT_KIND.DEFENSE:SKILL_EFFECT_KIND.HP,
+          onImpact:()=>{
+            if(type==='SINGLE_HEALER_AURA'||targetRows.length){
+              for(const item of targetRows){
+                const itemTarget=this.combatantById(item.targetId);
+                if(itemTarget&&hasFiniteNumber(item.hpAfter))this.syncTargetHp(itemTarget,this.eventHpPercent(itemTarget,item.hpAfter));
+              }
+            }else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+          }
+        });
         await this.showBanner(type==='TEAM_HEAL'?'아군 회복':type==='SURVIVE'?'불굴의 생존':type==='INDOMITABLE'?'방어형 · 불굴':'생명 회복',type==='INDOMITABLE'?0x69ddff:0x6affb7,type==='INDOMITABLE'?'방어효과 발동':'회복효과 발동');
-        if(type==='SINGLE_HEALER_AURA')for(const item of event.targets||[]){const itemTarget=this.combatantById(item.targetId);if(itemTarget&&hasFiniteNumber(item.hpAfter))this.syncTargetHp(itemTarget,this.eventHpPercent(itemTarget,item.hpAfter))}
-        else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
       }else if(type==='KO'){
         if(target)this.syncTargetHp(target,0);
       }else if(type==='RESULT'){
@@ -1887,14 +1924,15 @@ export class BattleEngine{
       effectSystem:{
         renderer:'SkillEffectFX',
         layer:'EffectLayer',
-        mode:'ROLE_WEBGL_POOL_WITH_ATLAS_SWAP',
+        mode:'ROLE_ATLAS_ONLY_V2',
         kinds:['ATTACK','DEFENSE','SPEED','HP'],
-        blendModes:['add','screen'],
+        blendModes:['screen'],
+        roleFx:SkillEffectFX.diagnostics(),
         damageTypography:'ROLE_AWARE_BITMAP_TEXT',
         audio:this.audio?.diagnostics?.(),
         collisionAtMs:[250,350],
         whiteFlashMs:50,
-        releaseAfterMs:240
+        releasePolicy:'AUTHORED_TAIL'
       },
       characterStates:this.characters.map(character=>({
         id:character.id,

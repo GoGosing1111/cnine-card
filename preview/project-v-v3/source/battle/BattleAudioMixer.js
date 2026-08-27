@@ -1,199 +1,212 @@
 import {normalizeSkillEffectKind, SKILL_EFFECT_KIND} from './SkillEffectFX.js';
-import {V3_ROLE_AUDIO_SPRITE} from './RoleAudioSpriteManifest.js';
+import {V3_ROLE_AUDIO_ASSETS} from './RoleAudioSpriteManifest.js';
 
 const MUTE_KEY='cnine_battle_sound';
 const AudioContextClass=()=>globalThis.AudioContext||globalThis.webkitAudioContext||null;
-const SPRITE_AUDIO_URL=V3_ROLE_AUDIO_SPRITE.asset;
-const ROLE_GROUP={
-  [SKILL_EFFECT_KIND.ATTACK]:'attack',
-  [SKILL_EFFECT_KIND.DEFENSE]:'defense',
-  [SKILL_EFFECT_KIND.SPEED]:'speed',
-  [SKILL_EFFECT_KIND.HP]:'hp'
-};
-const CUE_VARIANTS=Object.freeze({
-  attack_cast:2,attack_hit:3,defense_cast:2,defense_hit:3,
-  speed_cast:2,speed_hit:3,hp_cast:2,hp_hit:3,critical:2,boss:2
-});
 
 /**
- * One WebAudio graph for the lifetime of the V3 singleton renderer.
- * It creates no HTMLAudio elements and never blocks the combat timeline.
+ * Asset-only WebAudio mixer for Project V V3 role impacts.
+ *
+ * The retired combined audio sprite and every oscillator/noise fallback are
+ * intentionally absent. A missing asset produces silence, never the old hit
+ * sound. The authored sync point is scheduled onto the authoritative V3 hit.
  */
 export class BattleAudioMixer{
   constructor(){
-    this.context=null;this.master=null;this.compressor=null;this.noiseBuffer=null;this.unlocked=false;
-    this.spriteManifest=V3_ROLE_AUDIO_SPRITE;this.spriteBytes=null;this.spriteBuffer=null;this.spriteDecodePromise=null;
-    this.spriteLoadPromise=null;this.spritePreloadTimer=null;
-    this.spriteState='idle';this.cueCursor=new Map();this.activeSources=new Set();this.destroyed=false;
+    this.context=null;
+    this.ownsContext=false;
+    this.master=null;
+    this.compressor=null;
+    this.unlocked=false;
+    this.bytes=new Map();
+    this.buffers=new Map();
+    this.failures=new Map();
+    this.loadPromise=null;
+    this.preloadTimer=null;
+    this.activeSources=new Set();
+    this.destroyed=false;
     this.abortController=typeof AbortController!=='undefined'?new AbortController():null;
     this.unlock=this.unlock.bind(this);
-    globalThis.addEventListener?.('pointerdown',this.unlock,{once:false,passive:true,capture:true});
-    globalThis.addEventListener?.('keydown',this.unlock,{once:false,passive:true,capture:true});
+    globalThis.addEventListener?.('pointerdown',this.unlock,{passive:true,capture:true});
+    globalThis.addEventListener?.('keydown',this.unlock,{passive:true,capture:true});
+    // The live shell is mounted after the start-button pointerdown. Reuse the
+    // already-unlocked app context so the first automatic V3 hit is audible;
+    // standalone previews still create their own context on the next gesture.
+    if(globalThis.__CNINE_SHARED_BATTLE_AUDIO_CONTEXT)this.ensure();
   }
 
-  enabled(){try{return localStorage.getItem(MUTE_KEY)!=='OFF'}catch{return true}}
+  enabled(){
+    try{return localStorage.getItem(MUTE_KEY)!=='OFF'}catch{return true}
+  }
 
   ensure(){
-    if(!this.enabled())return null;
-    const Constructor=AudioContextClass();if(!Constructor)return null;
+    if(!this.enabled()||this.destroyed)return null;
+    const shared=globalThis.__CNINE_SHARED_BATTLE_AUDIO_CONTEXT;
+    const Constructor=AudioContextClass();
+    if(!shared&&!Constructor)return null;
     if(!this.context){
-      this.context=new Constructor({latencyHint:'interactive'});
-      this.master=this.context.createGain();this.master.gain.value=.48;
+      if(shared&&shared.state!=='closed'){
+        this.context=shared;
+        this.ownsContext=false;
+      }else{
+        this.context=new Constructor({latencyHint:'interactive'});
+        this.ownsContext=true;
+      }
+      this.master=this.context.createGain();
+      this.master.gain.value=.46;
       this.compressor=this.context.createDynamicsCompressor();
-      this.compressor.threshold.value=-18;this.compressor.knee.value=16;this.compressor.ratio.value=5;this.compressor.attack.value=.002;this.compressor.release.value=.18;
+      this.compressor.threshold.value=-17;
+      this.compressor.knee.value=14;
+      this.compressor.ratio.value=5;
+      this.compressor.attack.value=.002;
+      this.compressor.release.value=.22;
       this.master.connect(this.compressor).connect(this.context.destination);
-      if(this.spriteBytes)this.decodeSprite();
+      if(this.bytes.size)this.decodeAll();
     }
     return this.context;
   }
 
   unlock(){
-    const context=this.ensure();if(!context)return;
+    const context=this.ensure();
+    if(!context)return;
     const resume=context.state==='suspended'?context.resume():Promise.resolve();
     resume.catch(()=>{}).finally(()=>{
       if(this.destroyed)return;
       this.unlocked=context.state==='running';
-      this.decodeSprite();
+      this.prepare();
     });
   }
 
-  prepare(){
-    if(this.destroyed)return Promise.resolve(false);
-    if(this.spriteBuffer||this.spriteBytes)return Promise.resolve(true);
-    if(this.spriteLoadPromise)return this.spriteLoadPromise;
-    this.spriteState='loading';
-    this.spriteLoadPromise=this.preloadSprite().finally(()=>{this.spriteLoadPromise=null});
-    return this.spriteLoadPromise;
-  }
-
-  schedulePreload(delay=180){
-    if(this.destroyed||this.spriteBuffer||this.spriteBytes||this.spriteLoadPromise||this.spritePreloadTimer!==null)return;
-    // Never put combat audio on the renderer's critical mount path. The first
-    // battlefield frame is painted first; the compact sprite is fetched next.
-    this.spritePreloadTimer=globalThis.setTimeout?.(()=>{
-      this.spritePreloadTimer=null;
+  schedulePreload(delay=60){
+    if(this.destroyed||this.loadPromise||this.bytes.size||this.preloadTimer!==null)return;
+    this.preloadTimer=globalThis.setTimeout?.(()=>{
+      this.preloadTimer=null;
       this.prepare();
     },Math.max(0,delay))??null;
   }
 
-  async preloadSprite(){
-    try{
-      const options={cache:'force-cache',signal:this.abortController?.signal};
-      const audioResponse=await fetch(SPRITE_AUDIO_URL,options);
-      if(!audioResponse.ok)throw new Error(`V3 audio sprite load failed: ${audioResponse.status}`);
-      const bytes=await audioResponse.arrayBuffer();
-      if(bytes.byteLength!==V3_ROLE_AUDIO_SPRITE.bytes)throw new Error('V3 audio sprite payload is invalid');
-      if(this.destroyed)return false;
-      this.spriteBytes=bytes;this.spriteState='fetched';
-      if(this.context)await this.decodeSprite();
-      return true;
-    }catch(error){
-      if(!this.destroyed){this.spriteState='fallback';console.warn('[V3 audio] asset preload failed; procedural fallback enabled',error)}
-      return false;
-    }
+  prepare(){
+    if(this.destroyed)return Promise.resolve(false);
+    if(this.buffers.size===4||this.bytes.size===4)return Promise.resolve(true);
+    if(this.loadPromise)return this.loadPromise;
+    this.loadPromise=Promise.all(Object.entries(V3_ROLE_AUDIO_ASSETS).map(async([kind,spec])=>{
+      try{
+        const response=await fetch(spec.asset,{cache:'force-cache',signal:this.abortController?.signal});
+        if(!response.ok)throw new Error(`HTTP_${response.status}`);
+        const payload=await response.arrayBuffer();
+        if(payload.byteLength!==spec.bytes)throw new Error(`PAYLOAD_${payload.byteLength}_${spec.bytes}`);
+        if(!this.destroyed){this.bytes.set(kind,payload);this.failures.delete(kind)}
+        return true;
+      }catch(error){
+        if(!this.destroyed){
+          this.failures.set(kind,error);
+          console.error(`[V3 role audio] ${kind} unavailable; retired audio will not be used`,error);
+        }
+        return false;
+      }
+    })).then(async results=>{
+      if(this.context)await this.decodeAll();
+      return results.every(Boolean);
+    }).finally(()=>{this.loadPromise=null});
+    return this.loadPromise;
   }
 
-  async decodeSprite(){
-    if(this.spriteBuffer)return true;
-    if(this.spriteDecodePromise)return this.spriteDecodePromise;
-    if(!this.context||!this.spriteBytes||this.destroyed)return false;
-    this.spriteState='decoding';
-    this.spriteDecodePromise=this.context.decodeAudioData(this.spriteBytes.slice(0)).then(buffer=>{
-      if(this.destroyed)return false;
-      this.spriteBuffer=buffer;this.spriteState='ready';return true;
-    }).catch(error=>{
-      if(!this.destroyed){this.spriteState='fallback';console.warn('[V3 audio] decode failed; procedural fallback enabled',error)}
-      return false;
-    }).finally(()=>{this.spriteDecodePromise=null});
-    return this.spriteDecodePromise;
+  async decodeAll(){
+    if(!this.context||this.destroyed)return false;
+    await Promise.all([...this.bytes.entries()].map(async([kind,payload])=>{
+      if(this.buffers.has(kind))return;
+      try{
+        const buffer=await this.context.decodeAudioData(payload.slice(0));
+        if(!this.destroyed){this.buffers.set(kind,buffer);this.failures.delete(kind)}
+      }catch(error){
+        if(!this.destroyed){
+          this.failures.set(kind,error);
+          console.error(`[V3 role audio] ${kind} decode failed; retired audio will not be used`,error);
+        }
+      }
+    }));
+    return this.buffers.size===4;
   }
 
-  nextCue(group){
-    const count=CUE_VARIANTS[group]||1;
-    const cursor=this.cueCursor.has(group)?this.cueCursor.get(group):Math.floor(Math.random()*count);
-    this.cueCursor.set(group,(cursor+1)%count);
-    return this.spriteManifest?.cues?.[`${group}_${cursor+1}`]||null;
-  }
-
-  playCue(group,{volume=.72,delay=0,detune=0,pan=0}={}){
+  scheduleImpact(kind,{impactAt=.25,playbackSpeed=1.3,critical=false,boss=false,pan=0}={}){
+    const role=normalizeSkillEffectKind(kind);
+    const spec=V3_ROLE_AUDIO_ASSETS[role]||V3_ROLE_AUDIO_ASSETS[SKILL_EFFECT_KIND.ATTACK];
     const context=this.ensure();
-    if(!context||context.state!=='running'||!this.spriteBuffer||!this.spriteManifest)return false;
-    const cue=this.nextCue(group);if(!cue)return false;
-    const source=context.createBufferSource(),gain=context.createGain();
-    source.buffer=this.spriteBuffer;source.detune.value=detune;gain.gain.value=Math.max(.0001,volume);
+    const buffer=this.buffers.get(role);
+    if(!context||context.state!=='running'||!buffer)return false;
+    const realImpact=Math.max(0,Number(impactAt)||0)/Math.max(.1,Number(playbackSpeed)||1);
+    const authoredSync=Math.max(0,Number(spec.syncPointMs)||0)/1000;
+    const delay=Math.max(0,realImpact-authoredSync);
+    const offset=Math.max(0,authoredSync-realImpact);
+    return this.startBuffer(role,{delay,offset,critical,boss,pan});
+  }
+
+  startBuffer(kind,{delay=0,offset=0,critical=false,boss=false,pan=0}={}){
+    const context=this.ensure();
+    const spec=V3_ROLE_AUDIO_ASSETS[kind];
+    const buffer=this.buffers.get(kind);
+    if(!context||context.state!=='running'||!spec||!buffer)return false;
+    const source=context.createBufferSource();
+    const gain=context.createGain();
+    source.buffer=buffer;
+    gain.gain.value=spec.gain*(critical?1.08:1)*(boss?1.06:1);
     let tail=gain;
     if(typeof context.createStereoPanner==='function'){
-      const panner=context.createStereoPanner();panner.pan.value=Math.max(-1,Math.min(1,pan));gain.connect(panner);tail=panner;
+      const panner=context.createStereoPanner();
+      panner.pan.value=Math.max(-1,Math.min(1,Number(pan)||0));
+      gain.connect(panner);
+      tail=panner;
     }
-    source.connect(gain);tail.connect(this.master);
-    const when=context.currentTime+Math.max(0,delay),duration=Math.max(.025,Number(cue.duration)||.1);
+    source.connect(gain);
+    tail.connect(this.master);
+    const when=context.currentTime+Math.max(0,Number(delay)||0);
+    const safeOffset=Math.min(Math.max(0,Number(offset)||0),Math.max(0,buffer.duration-.025));
     this.activeSources.add(source);
-    source.onended=()=>{this.activeSources.delete(source);try{source.disconnect();gain.disconnect();tail!==gain&&tail.disconnect()}catch{}};
-    source.start(when,Math.max(0,Number(cue.offset)||0),duration);
-    source.stop(when+duration*Math.pow(2,-detune/1200)+.04);
+    source.onended=()=>{
+      this.activeSources.delete(source);
+      try{source.disconnect();gain.disconnect();if(tail!==gain)tail.disconnect()}catch{}
+    };
+    source.start(when,safeOffset);
     return true;
   }
 
-  tone({frequency=220,endFrequency=80,duration=.12,type='sine',volume=.05,delay=0,detune=0}={}){
-    const context=this.ensure();if(!context||context.state!=='running')return;
-    const start=context.currentTime+Math.max(0,delay);const end=start+Math.max(.025,duration);
-    const oscillator=context.createOscillator();const gain=context.createGain();
-    oscillator.type=type;oscillator.detune.value=detune;
-    oscillator.frequency.setValueAtTime(Math.max(20,frequency),start);oscillator.frequency.exponentialRampToValueAtTime(Math.max(20,endFrequency),end);
-    gain.gain.setValueAtTime(.0001,start);gain.gain.exponentialRampToValueAtTime(Math.max(.0002,volume),start+.008);gain.gain.exponentialRampToValueAtTime(.0001,end);
-    oscillator.connect(gain).connect(this.master);oscillator.start(start);oscillator.stop(end+.02);
-  }
-
-  noise({duration=.12,volume=.04,frequency=900,delay=0}={}){
-    const context=this.ensure();if(!context||context.state!=='running')return;
-    if(!this.noiseBuffer){
-      const length=Math.ceil(context.sampleRate*.5);this.noiseBuffer=context.createBuffer(1,length,context.sampleRate);const data=this.noiseBuffer.getChannelData(0);
-      for(let index=0;index<length;index+=1)data[index]=(Math.random()*2-1)*(1-index/length*.35);
+  stopAll(){
+    for(const source of this.activeSources){
+      try{source.stop();source.disconnect()}catch{}
     }
-    const start=context.currentTime+Math.max(0,delay);const source=context.createBufferSource();const filter=context.createBiquadFilter();const gain=context.createGain();
-    source.buffer=this.noiseBuffer;filter.type='bandpass';filter.frequency.value=frequency;filter.Q.value=.75;
-    gain.gain.setValueAtTime(Math.max(.0002,volume),start);gain.gain.exponentialRampToValueAtTime(.0001,start+duration);
-    source.connect(filter).connect(gain).connect(this.master);source.start(start);source.stop(start+duration+.02);
+    this.activeSources.clear();
   }
 
-  playCast(kind){
-    const role=normalizeSkillEffectKind(kind);
-    const group=ROLE_GROUP[role]||'attack';
-    if(this.playCue(`${group}_cast`,{volume:role===SKILL_EFFECT_KIND.DEFENSE?.58:.48,detune:(Math.random()-.5)*22,pan:(Math.random()-.5)*.16}))return;
-    if(role===SKILL_EFFECT_KIND.DEFENSE){this.tone({frequency:120,endFrequency:320,duration:.18,type:'triangle',volume:.032});this.tone({frequency:240,endFrequency:520,duration:.16,type:'sine',volume:.02,delay:.035})}
-    else if(role===SKILL_EFFECT_KIND.SPEED){[0,.025,.05].forEach((delay,index)=>this.tone({frequency:950+index*160,endFrequency:360+index*70,duration:.08,type:'sawtooth',volume:.012,delay}))}
-    else if(role===SKILL_EFFECT_KIND.HP){[196,293,392].forEach((frequency,index)=>this.tone({frequency,endFrequency:frequency*1.42,duration:.23,type:'sine',volume:.018,delay:index*.025}))}
-    else{this.noise({duration:.09,volume:.018,frequency:1700});this.tone({frequency:680,endFrequency:170,duration:.13,type:'sawtooth',volume:.026})}
+  diagnostics(){
+    return {
+      enabled:this.enabled(),
+      state:this.context?.state||'locked',
+      graph:'compressor-v3-role-assets',
+      assetState:this.buffers.size===4?'ready':this.bytes.size===4?'fetched':this.failures.size?'partial':'idle',
+      ready:[...this.buffers.keys()],
+      failures:[...this.failures.keys()],
+      activeSources:this.activeSources.size,
+      requestCount:4,
+      contextOwner:this.ownsContext?'v3':'shared-live',
+      proceduralFallback:false,
+      retiredAudioSprite:false
+    };
   }
-
-  playImpact(kind,{critical=false,boss=false}={}){
-    const role=normalizeSkillEffectKind(kind);const force=(critical?1.22:1)*(boss?1.18:1);
-    const group=ROLE_GROUP[role]||'attack';
-    const assetPlayed=this.playCue(`${group}_hit`,{volume:.68*force,detune:(Math.random()-.5)*28,pan:(Math.random()-.5)*.12});
-    if(assetPlayed){
-      if(critical)this.playCue('critical',{volume:.54*(boss?1.12:1),delay:.004,detune:(Math.random()-.5)*18,pan:(Math.random()-.5)*.08});
-      if(boss)this.playCue('boss',{volume:.58*(critical?1.08:1),delay:.008,detune:-8+(Math.random()-.5)*12});
-      return;
-    }
-    if(role===SKILL_EFFECT_KIND.DEFENSE){this.noise({duration:.2,volume:.05*force,frequency:410});this.tone({frequency:92,endFrequency:38,duration:.25,type:'square',volume:.055*force});this.tone({frequency:620,endFrequency:310,duration:.13,type:'triangle',volume:.018,delay:.02})}
-    else if(role===SKILL_EFFECT_KIND.SPEED){[0,.035,.07].forEach((delay,index)=>{this.noise({duration:.07,volume:.018*force,frequency:1500+index*420,delay});this.tone({frequency:1120-index*140,endFrequency:360,duration:.085,type:'sawtooth',volume:.018*force,delay})})}
-    else if(role===SKILL_EFFECT_KIND.HP){this.tone({frequency:156,endFrequency:62,duration:.22,type:'sine',volume:.045*force});this.noise({duration:.14,volume:.028*force,frequency:760});[330,494].forEach((frequency,index)=>this.tone({frequency,endFrequency:frequency*.72,duration:.18,type:'triangle',volume:.016,delay:.025+index*.025}))}
-    else{this.noise({duration:.17,volume:.055*force,frequency:680});this.tone({frequency:175,endFrequency:42,duration:.22,type:'square',volume:.063*force});if(critical)this.tone({frequency:1280,endFrequency:460,duration:.13,type:'sawtooth',volume:.018,delay:.025})}
-  }
-
-  diagnostics(){return {
-    enabled:this.enabled(),state:this.context?.state||'locked',graph:'compressor-v2-audio-sprite',
-    assetState:this.spriteState,assetBytes:this.spriteBytes?.byteLength||0,cues:Object.keys(this.spriteManifest?.cues||{}).length,
-    activeSources:this.activeSources.size,requestCount:1,proceduralFallback:this.spriteState!=='ready'
-  }}
 
   destroy(){
-    this.destroyed=true;this.abortController?.abort();
-    if(this.spritePreloadTimer!==null)globalThis.clearTimeout?.(this.spritePreloadTimer);
-    this.spritePreloadTimer=null;
-    globalThis.removeEventListener?.('pointerdown',this.unlock,{capture:true});globalThis.removeEventListener?.('keydown',this.unlock,{capture:true});
-    for(const source of this.activeSources){try{source.stop();source.disconnect()}catch{}}
-    this.activeSources.clear();this.master?.disconnect();this.compressor?.disconnect();this.context?.close?.().catch(()=>{});
-    this.spriteBuffer=null;this.spriteBytes=null;this.context=null;
+    this.destroyed=true;
+    this.abortController?.abort();
+    if(this.preloadTimer!==null)globalThis.clearTimeout?.(this.preloadTimer);
+    this.preloadTimer=null;
+    globalThis.removeEventListener?.('pointerdown',this.unlock,{capture:true});
+    globalThis.removeEventListener?.('keydown',this.unlock,{capture:true});
+    this.stopAll();
+    this.master?.disconnect();
+    this.compressor?.disconnect();
+    if(this.ownsContext)this.context?.close?.().catch(()=>{});
+    this.buffers.clear();
+    this.bytes.clear();
+    this.context=null;
+    this.ownsContext=false;
   }
 }

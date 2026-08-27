@@ -1,0 +1,17 @@
+{
+  "version": "v1",
+  "generatedAt": "2026-08-27",
+  "usage": "숲켓몬 클랜 UI 전용",
+  "sourceFormat": "transparent PNG",
+  "runtimeFormat": "384x384 transparent WebP",
+  "clans": [
+    {"order": 1, "name": "DK", "markKey": "DK", "primaryColor": "#2f7cff", "accentColor": "#d8e8ff", "concept": "흑룡과 교차검", "source": "source/dk-clan-mark-source-v1.png", "asset": "dk-clan-mark-v1.webp"},
+    {"order": 2, "name": "삼성", "markKey": "SAMSUNG", "primaryColor": "#3c74c9", "accentColor": "#e7f2ff", "concept": "세 별과 천문 방패", "source": "source/samsung-clan-mark-source-v1.png", "asset": "samsung-clan-mark-v1.webp"},
+    {"order": 3, "name": "T1", "markKey": "T1", "primaryColor": "#d32f4a", "accentColor": "#f6d37a", "concept": "왕관과 창", "source": "source/t1-clan-mark-source-v1.png", "asset": "t1-clan-mark-v1.webp"},
+    {"order": 4, "name": "한화", "markKey": "HANWHA", "primaryColor": "#f1781f", "accentColor": "#ffe3a1", "concept": "태양 불사조", "source": "source/hanwha-clan-mark-source-v1.png", "asset": "hanwha-clan-mark-v1.webp"},
+    {"order": 5, "name": "LG", "markKey": "LG", "primaryColor": "#d64192", "accentColor": "#f4dbea", "concept": "쌍월 고리", "source": "source/lg-clan-mark-source-v1.png", "asset": "lg-clan-mark-v1.webp"},
+    {"order": 6, "name": "롯데", "markKey": "LOTTE", "primaryColor": "#7b2445", "accentColor": "#f0d28e", "concept": "폭풍 갈매기와 등대", "source": "source/lotte-clan-mark-source-v1.png", "asset": "lotte-clan-mark-v1.webp"},
+    {"order": 7, "name": "FM", "markKey": "FM", "primaryColor": "#1dad72", "accentColor": "#e9d07a", "concept": "주파수와 숲의 창", "source": "source/fm-clan-mark-source-v1.png", "asset": "fm-clan-mark-v1.webp"},
+    {"order": 8, "name": "DC", "markKey": "DC", "primaryColor": "#7b4ae2", "accentColor": "#62d9ff", "concept": "쌍까마귀와 회로 왕관", "source": "source/dc-clan-mark-source-v1.png", "asset": "dc-clan-mark-v1.webp"}
+  ]
+}

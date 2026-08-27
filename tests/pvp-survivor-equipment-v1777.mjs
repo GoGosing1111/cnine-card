@@ -57,7 +57,7 @@ assert.match(api, /CREATE TABLE IF NOT EXISTS pvp_battle_audits_v1781/);
 assert.match(api, /final_state_json/);
 
 const app = fs.readFileSync(new URL('../js/app.js', import.meta.url), 'utf8');
-assert.match(app, /제한 종료 판정: 생존 카드 수 → 잔여 HP 비율 → 편성 전투력/);
+assert.match(app, /제한 종료 판정\s*[:·]\s*생존 카드 수 → 잔여 HP 비율 → 편성 전투력/);
 assert.match(app, /장비·칭호·차고 \+\$\{Number\(d\.attackerCharacterBonus\?\.pvp\|\|0\)/);
 
 const v3 = fs.readFileSync(new URL('../js/battle-v3-live.js', import.meta.url), 'utf8');

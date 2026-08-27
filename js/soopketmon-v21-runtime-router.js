@@ -11,6 +11,7 @@
     'character',
     'avatar',
     'workshop',
+    'scrapyard',
     'attendance',
     'dailyquest',
     'messages',
@@ -24,6 +25,12 @@
   const SHELL_ROUTE_SET = new Set(SHELL_ROUTES);
   const V21_SHELL_SELECTOR = '[data-soopketmon-v21-shell]';
   const DEFAULT_TIMEOUT_MS = 15000;
+
+  // Loaded immediately after the exact shell in production. Presentation
+  // labels and menu grouping deliberately live in that one shared object;
+  // this router only owns how an unchanged route id reaches native code.
+  const navigationContract = () => global.SoopketmonV21NavigationContract || null;
+  const routeMeta = route => navigationContract()?.routes?.[String(route || '')] || null;
 
   // The approved V21 client has more presentation routes than renderShell().
   // Every alias below resolves to an existing production route, injected PVE
@@ -81,13 +88,10 @@
     equipment: { shell: 'character', actions: [{ selector: '[data-character-tab="equipment"]' }] },
     title: { shell: 'character', actions: [{ selector: '[data-character-tab="title"]' }] },
     garage: { shell: 'character', actions: [{ selector: '[data-character-tab="garage"]' }] },
-    // v1676 exposes dedicated sections. The root v1668 baseline exposes
-    // category tabs instead; it has no scrapyard screen, so that route lands
-    // on its closest available VEHICLE workshop category without timing out.
-    scrapyard: {
-      shell: 'workshop',
-      actions: [{ selector: '[data-ws-section="SCRAPYARD"], [data-workshop-category="VEHICLE"]' }]
-    },
+    // Keep the public route id stable while the scrapyard owns an independent
+    // PVE shell and lazy-loaded view. Existing data-v21-route/screen links do
+    // not change; only their native destination is separated from workshop.
+    scrapyard: { shell: 'scrapyard' },
     vehicle: {
       shell: 'workshop',
       actions: [{ selector: '[data-ws-section="VEHICLE"], [data-workshop-category="VEHICLE"]' }]
@@ -96,6 +100,14 @@
       shell: 'workshop',
       actions: [{ selector: '[data-ws-section="SYNTHESIS"], [data-workshop-category="EQUIPMENT_SYNTHESIS"]' }]
     }
+  });
+
+  const PVE_DECK_EDITOR_CONTRACT = Object.freeze({
+    shell: 'battle',
+    actions: Object.freeze([
+      Object.freeze({ selector: '[data-pve-mode="deck"]' }),
+      Object.freeze({ selector: '[data-pve-tab="cards"]', optional: true })
+    ])
   });
 
   const SUBTAB_CONTRACT = Object.freeze({
@@ -123,13 +135,9 @@
     }),
     battle: Object.freeze({
       '출전 덱': ROUTE_CONTRACT.deck,
-      '덱 편성실': {
-        shell: 'battle',
-        actions: [
-          { selector: '[data-pve-mode="deck"]' },
-          { selector: '[data-pve-tab="cards"]', optional: true }
-        ]
-      },
+      'PVE 덱 편성실': PVE_DECK_EDITOR_CONTRACT,
+      // Compatibility alias for already-rendered legacy/mobile controls.
+      '덱 편성실': PVE_DECK_EDITOR_CONTRACT,
       '몬스터 토벌': ROUTE_CONTRACT.hunt,
       '월드 레이드': ROUTE_CONTRACT.raid,
       '호송작전': ROUTE_CONTRACT.escort
@@ -157,8 +165,7 @@
       '쿠폰 입력': { shell: 'attendance', scroll: '#couponForm', focus: '#couponCode' }
     }),
     rank: Object.freeze({
-      '랭크전 시즌': { shell: 'rank', actions: [{ selector: '[data-rank-mode="pvp"]' }] },
-      '카드점수': { shell: 'rank', actions: [{ selector: '[data-rank-mode="card"]' }] }
+      '시즌 랭킹': { shell: 'rank' }
     }),
     inventory: Object.freeze({
       '전체': { shell: 'inventory', actions: [{ selector: '[data-inventory-filter="ALL"]' }] },
@@ -326,10 +333,12 @@
   }
 
   const api = Object.freeze({
-    version: '1.1.0',
+    version: '1.4.0',
     shellRoutes: SHELL_ROUTES,
     routeContract: ROUTE_CONTRACT,
     subtabContract: SUBTAB_CONTRACT,
+    get navigationContract() { return navigationContract(); },
+    routeMeta,
     navigate,
     openSubtab,
     bind

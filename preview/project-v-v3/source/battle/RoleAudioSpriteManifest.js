@@ -1,3 +1,32 @@
-const manifest={"version":3,"sampleRate":32000,"cues":{"attack_cast_1":{"offset":0.0,"duration":0.34},"attack_cast_2":{"offset":0.375,"duration":0.34},"attack_hit_1":{"offset":0.75,"duration":0.66},"attack_hit_2":{"offset":1.445,"duration":0.66},"attack_hit_3":{"offset":2.14,"duration":0.66},"defense_cast_1":{"offset":2.835,"duration":0.46},"defense_cast_2":{"offset":3.33,"duration":0.46},"defense_hit_1":{"offset":3.825,"duration":0.82},"defense_hit_2":{"offset":4.68,"duration":0.82},"defense_hit_3":{"offset":5.535,"duration":0.82},"speed_cast_1":{"offset":6.39,"duration":0.31},"speed_cast_2":{"offset":6.735,"duration":0.31},"speed_hit_1":{"offset":7.08,"duration":0.46},"speed_hit_2":{"offset":7.575,"duration":0.46},"speed_hit_3":{"offset":8.07,"duration":0.46},"hp_cast_1":{"offset":8.565,"duration":0.66},"hp_cast_2":{"offset":9.26,"duration":0.66},"hp_hit_1":{"offset":9.955,"duration":0.66},"hp_hit_2":{"offset":10.65,"duration":0.66},"hp_hit_3":{"offset":11.345,"duration":0.66},"critical_1":{"offset":12.04,"duration":0.68},"critical_2":{"offset":12.755,"duration":0.68},"boss_1":{"offset":13.47,"duration":0.96},"boss_2":{"offset":14.465,"duration":0.96}},"asset":"/assets/sfx/v3/role-combat-sprite-v2.mp3?v=3-fastload","bytes":186668};
-manifest.cues=Object.freeze(manifest.cues);
-export const V3_ROLE_AUDIO_SPRITE=Object.freeze(manifest);
+const VERSION='3-v3-live-audio';
+
+export const V3_ROLE_AUDIO_ASSETS=Object.freeze({
+  ATTACK:Object.freeze({
+    asset:`/assets/sfx/v3-role-impact-v2/attack.mp3?v=${VERSION}`,
+    bytes:23866,
+    durationMs:970,
+    syncPointMs:105,
+    gain:.7
+  }),
+  DEFENSE:Object.freeze({
+    asset:`/assets/sfx/v3-role-impact-v2/defense.mp3?v=${VERSION}`,
+    bytes:32643,
+    durationMs:1330,
+    syncPointMs:48,
+    gain:.72
+  }),
+  SPEED:Object.freeze({
+    asset:`/assets/sfx/v3-role-impact-v2/speed.mp3?v=${VERSION}`,
+    bytes:30136,
+    durationMs:1230,
+    syncPointMs:26,
+    gain:.66
+  }),
+  HP:Object.freeze({
+    asset:`/assets/sfx/v3-role-impact-v2/heal.mp3?v=${VERSION}`,
+    bytes:42048,
+    durationMs:1720,
+    syncPointMs:110,
+    gain:.64
+  })
+});

@@ -30,6 +30,8 @@ const magicUiState={deckType:'PVE',selectedSlot:1};
 
 const gradeOrder = { SUPERSTAR:13, ZENITH:12, FUR: 11, PRESTIGE: 10, LIMITED: 9, MA: 8, SSR: 7, UR: 6, HR: 5, SR: 4, R: 3, U: 2, C: 1 };
 const ZENITH_DECK_LIMIT = 2;
+const DEFAULT_DECK_GRADE_LIMITS = Object.freeze({ PRESTIGE: 2, FUR: 2, ZENITH: ZENITH_DECK_LIMIT });
+const DEFAULT_HEALER_PENALTIES = Object.freeze({ 2: 60, 3: 75, 4: 85, 5: 90 });
 const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
 const FAKER_FLAT_POWER_BONUS = 3000;
 const gradeScore = { SUPERSTAR:12000, ZENITH:8000, FUR: 5000, PRESTIGE:3100, LIMITED:3000, MA:1500, SSR:500, UR:200, HR:100, SR:50, R:20, U:5, C:1 };
@@ -363,6 +365,27 @@ function saveUser(user) { localStorage.setItem(STORAGE_KEY, JSON.stringify(user)
 function ownedIds(user) { return new Set((user?.owned || []).map(id=>String(id))); }
 function normalizeClientCard(card={}){return {...card,id:String(card.id??card.card_id??''),grade:String(card.grade||card.rarity||'C').toUpperCase(),focusX:Number(card.focusX??card.focus_x??50),focusY:Number(card.focusY??card.focus_y??50)};}
 function deckGradeCount(deckIds=[],grade=''){const wanted=String(grade||'').toUpperCase();return (Array.isArray(deckIds)?deckIds:[]).reduce((count,id)=>{const card=cards.find(item=>String(item.id)===String(id));return count+(String(card?.grade||card?.rarity||'').toUpperCase()===wanted?1:0)},0)}
+function normalizeDeckRules(value={}){
+  const rawLimits=value?.gradeLimits||value?.grade_limits||{};
+  const gradeLimits={...DEFAULT_DECK_GRADE_LIMITS};
+  Object.entries(rawLimits).forEach(([grade,limit])=>{const key=String(grade||'').toUpperCase(),numeric=Number(limit);if(key&&Number.isFinite(numeric)&&numeric>=0)gradeLimits[key]=numeric});
+  const rawPenalties=value?.healerPenalties||value?.healerDuplicatePenalty||value?.healer_penalties||DEFAULT_HEALER_PENALTIES;
+  const healerPenalties={...DEFAULT_HEALER_PENALTIES};
+  Object.entries(rawPenalties||{}).forEach(([count,reduction])=>{const amount=Math.max(0,Math.min(100,Number(reduction)||0));if(Number(count)>=2&&amount)healerPenalties[Number(count)]=amount});
+  const rawFormation=value?.formation||{};
+  const formation={front:Math.max(0,Number(rawFormation.front??rawFormation.frontSlots??2)),back:Math.max(0,Number(rawFormation.back??rawFormation.backSlots??3)),slots:Array.isArray(rawFormation.slots)?rawFormation.slots:['FRONT','FRONT','BACK','BACK','BACK']};
+  return {deckSize:Math.max(1,Number(value?.deckSize||value?.deck_size||5)),gradeLimits,healerPenalties,formation,healerIndomitableDisabledAt:Math.max(2,Number(value?.healerIndomitableDisabledAt||value?.healer_indomitable_disabled_at||2))};
+}
+function deckGradeLimitViolation(deckIds=[],rules={}){
+  const normalized=normalizeDeckRules(rules);
+  for(const [grade,limit] of Object.entries(normalized.gradeLimits)){const count=deckGradeCount(deckIds,grade);if(count>limit)return {grade,count,limit};}
+  return null;
+}
+function deckGradeRuleLabel(grade){return ({PRESTIGE:'PRESTIGE',FUR:'FUR',ZENITH:'ZENITH'})[String(grade||'').toUpperCase()]||String(grade||'').toUpperCase()}
+function deckGradeRuleSummaryHtml(deckIds=[],rules={},className=''){
+  const normalized=normalizeDeckRules(rules),items=Object.entries(normalized.gradeLimits).map(([grade,limit])=>{const count=deckGradeCount(deckIds,grade),blocked=count>limit,full=count===limit;return `<span class="${blocked?'blocked':full?'full':''}"><b>${deckGradeRuleLabel(grade)}</b><em>${count} / ${limit}</em></span>`}).join('');
+  return `<div class="deck-grade-rule-summary ${className}" aria-label="등급별 편성 제한">${items}</div>`;
+}
 async function refreshCardCatalogForCurrentViewer(){
   if(!API_MODE||!API_TOKEN)return false;
   try{clearApiCache('cards');const data=await apiRequest('cards',{}, {ttl:0,timeoutMs:10000});if(!Array.isArray(data?.cards))return false;cards=data.cards.map(normalizeClientCard);writeStartupSnapshot({cards:data.cards});viewerCatalogWasRefreshed=true;return true}catch(error){console.warn('로그인 후 카드 고유 능력 카탈로그 갱신 실패:',error);return false}
@@ -455,11 +478,10 @@ function applyAvatarFeatureState(value){
   return avatarFeatureState;
 }
 function navGroupForTab(tab){
-  if(['battle','pvp','clan'].includes(tab))return 'battle';
+  if(['battle','scrapyard','pvp','rank','clan'].includes(tab))return 'battle';
   if(['attendance','dailyquest','messages','mineral'].includes(tab))return 'rewards';
-  if(tab==='magic')return 'magic';
+  if(tab==='magic')return 'dex';
   if(['character','workshop','avatar'].includes(tab))return 'character';
-  if(tab==='rank')return 'rank';
   if(['prediction','auction'].includes(tab))return 'market';
   if(['dex','evolution'].includes(tab))return 'dex';
   return 'buy';
@@ -468,17 +490,17 @@ function navGroupForTab(tab){
 function renderMainNavigation(tab){
   const group=navGroupForTab(tab);
   const primary=[
-    {id:'buy',label:'카드팩'},
-    {id:'dex',label:'도감'},
+    {id:'buy',label:'카드·상점'},
+    {id:'dex',label:'도감·강화',tab:group==='dex'?tab:'dex'},
     {id:'battle',label:'전투',tab:group==='battle'?tab:'battle'},
-    {id:'character',label:'장비·제작',tab:group==='character'?tab:'character'},
+    {id:'character',label:'성장·제작',tab:group==='character'?tab:'character'},
     {id:'rewards',label:'보상',tab:group==='rewards'?tab:'attendance'},
-    {id:'rank',label:'랭킹'},
     {id:'market',label:'승부·경매',tab:group==='market'?tab:'prediction'}
   ];
   const primaryHtml=`<nav class="tabs primary-tabs" aria-label="메인 메뉴">${primary.map(item=>`<button class="tab ${((item.id===group)||(item.id===tab))?'active':''}" data-tab="${item.tab||item.id}">${item.label}</button>`).join('')}</nav>`;
-  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">랭크전</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜 TEST</button>`:''}</nav>`;
-  if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작소</button>${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
+  if(group==='dex')return `${primaryHtml}<nav class="sub-tabs" aria-label="도감과 강화 메뉴"><button class="tab ${tab==='dex'?'active':''}" data-tab="dex">카드 도감</button><button class="tab ${tab==='evolution'?'active':''}" data-tab="evolution">카드 진화</button>${magicSystemState.visible?`<button class="tab ${tab==='magic'?'active':''}" data-tab="magic">마법카드</button>`:''}</nav>`;
+  if(group==='battle')return `${primaryHtml}<nav class="sub-tabs" aria-label="전투 메뉴"><button class="tab ${tab==='battle'?'active':''}" data-tab="battle">PVE 전투</button><button class="tab ${tab==='scrapyard'?'active':''}" data-tab="scrapyard">폐차장 원정</button>${pvpFeatureEnabled?`<button class="tab ${tab==='pvp'?'active':''}" data-tab="pvp">PVP·경쟁</button><button class="tab ${tab==='rank'?'active':''}" data-tab="rank">시즌 랭킹</button>`:''}${clanFeatureVisible()?`<button class="tab ${tab==='clan'?'active':''}" data-tab="clan">클랜 TEST</button>`:''}</nav>`;
+  if(group==='character')return `${primaryHtml}<nav class="sub-tabs" aria-label="장비와 제작 메뉴"><button class="tab ${tab==='character'?'active':''}" data-tab="character">장비·칭호·차고</button><button class="tab ${tab==='workshop'?'active':''}" data-tab="workshop">제작·합성</button>${avatarFeatureVisible()?`<button class="tab ${tab==='avatar'?'active':''}" data-tab="avatar">아바타</button>`:''}</nav>`;
   if(group==='market')return `${primaryHtml}<nav class="sub-tabs" aria-label="승부와 경매 메뉴"><button class="tab ${tab==='prediction'?'active':''}" data-tab="prediction">승부예측</button><button class="tab ${tab==='auction'?'active':''}" data-tab="auction">경매장</button></nav>`;
   if(group==='rewards')return `${primaryHtml}<nav class="sub-tabs" aria-label="보상 메뉴"><button class="tab ${tab==='attendance'?'active':''}" data-tab="attendance">접속보상</button><button class="tab ${tab==='dailyquest'?'active':''}" data-tab="dailyquest">일일퀘스트</button><button class="tab ${tab==='messages'?'active':''}" data-tab="messages">메시지함</button><button class="tab ${tab==='mineral'?'active':''}" data-tab="mineral">교환소</button></nav>`;
   return `${primaryHtml}<div class="sub-tabs sub-tabs-placeholder" aria-hidden="true"></div>`;
@@ -491,50 +513,49 @@ function updateMessageNewBadges(count){messageUnreadCount=Math.max(0,Number(coun
 
 function mobileNavigationHtml(tab){
   const group=navGroupForTab(tab);
-  const moreActive=['attendance','dailyquest','messages','rank','prediction','auction','mineral','inventory','character','workshop','avatar'].includes(tab);
-  const magicButton=magicSystemState.visible?`<button class="mobile-bottom-item ${tab==='magic'?'active':''}" type="button" data-mobile-tab="magic"><span>✦</span><b>마법카드</b></button>`:'';
+  const moreActive=['attendance','dailyquest','messages','prediction','auction','mineral','inventory','character','workshop','avatar'].includes(tab);
   return `<nav class="mobile-bottom-nav" aria-label="모바일 주요 메뉴">
-    <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드팩</b></button>
-    <button class="mobile-bottom-item ${group==='dex'?'active':''}" type="button" data-mobile-open-sheet="collection"><span>◇</span><b>도감</b></button>
+    <button class="mobile-bottom-item ${tab==='buy'?'active':''}" type="button" data-mobile-tab="buy"><span>▣</span><b>카드·상점</b></button>
+    <button class="mobile-bottom-item ${group==='dex'?'active':''}" type="button" data-mobile-open-sheet="collection"><span>▤</span><b>도감·강화</b></button>
     <button class="mobile-bottom-item mobile-bottom-primary ${group==='battle'?'active':''}" type="button" data-mobile-open-sheet="battle"><span>⚔</span><b>전투</b></button>
-    ${magicButton}
     <button class="mobile-bottom-item ${moreActive?'active':''}" type="button" data-mobile-open-sheet="more"><span>•••</span><b>더보기</b>${messageBadgeMarkup()}</button>
   </nav>
   <div class="mobile-nav-sheet-layer" id="mobileNavSheetLayer" hidden>
     <button type="button" class="mobile-nav-sheet-backdrop" data-mobile-sheet-close aria-label="메뉴 닫기"></button>
-    <section class="mobile-nav-sheet" data-mobile-sheet="collection" aria-label="도감 메뉴 선택">
-      <header><div><small>COLLECTION MENU</small><h2>도감</h2><p>카드 수집 현황을 확인하거나 진화를 진행하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+    <section class="mobile-nav-sheet" data-mobile-sheet="collection" aria-label="도감과 강화 메뉴 선택">
+      <header><div><small>COLLECTION & UPGRADE</small><h2>도감·강화</h2><p>카드 수집 현황과 진화·마법카드 편성을 한곳에서 관리합니다.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
-        <button type="button" data-mobile-tab="dex"><i>◇</i><span><b>카드 도감</b><small>멤버별 수집 카드 확인</small></span><em>열기</em></button>
-        <button type="button" data-mobile-tab="evolution"><i>✦</i><span><b>카드 진화</b><small>SSR → MA · MA +13 → PRESTIGE · LIMITED +13 → ZENITH</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="dex"><i>▤</i><span><b>카드 도감</b><small>멤버별 수집 카드 확인</small></span><em>열기</em></button>
+        <button type="button" data-mobile-tab="evolution"><i>+</i><span><b>카드 진화</b><small>SSR → MA · MA +13 → PRESTIGE · LIMITED +13 → ZENITH</small></span><em>입장</em></button>
+        ${magicSystemState.visible?'<button type="button" data-mobile-tab="magic"><i>M</i><span><b>마법카드</b><small>PVE·PVP 마법카드 편성</small></span><em>입장</em></button>':''}
       </div>
     </section>
     <section class="mobile-nav-sheet" data-mobile-sheet="battle" aria-label="전투 콘텐츠 선택">
       <header><div><small>BATTLE CONTENTS</small><h2>전투 콘텐츠</h2><p>진입할 전투를 선택하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
-        <button type="button" data-mobile-tab="battle"><i>⚔</i><span><b>PVE</b><small>몬스터 토벌 · 월드레이드 · 무한의탑</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="battle"><i>P</i><span><b>PVE 전투</b><small>덱 편성 · 토벌 · 레이드 · 특수전</small></span><em>입장</em></button>
         <button type="button" data-mobile-tab="escort"><i>▰</i><span><b>호송작전</b><small>5구간 장갑 수송차 호위전</small></span><em>입장</em></button>
-        ${pvpFeatureEnabled?'<button type="button" data-mobile-tab="pvp"><i>◇</i><span><b>랭크전</b><small>자동 균형 매칭</small></span><em>입장</em></button>':''}
-        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>⬡</i><span><b>클랜 TEST</b><small>블라인드 드래프트 · V3 클랜전</small></span><em>입장</em></button>':''}
+        <button type="button" data-v21-route="scrapyard"><i>W</i><span><b>폐차장 원정</b><small>PVE 전용 원정과 보상</small></span><em>입장</em></button>
+        ${pvpFeatureEnabled?'<button type="button" data-mobile-tab="pvp"><i>V</i><span><b>PVP·경쟁</b><small>랭크전 자동 균형 매칭</small></span><em>입장</em></button><button type="button" data-mobile-tab="rank"><i>R</i><span><b>시즌 랭킹</b><small>현재 시즌 순위와 보상</small></span><em>확인</em></button>':''}
+        ${clanFeatureVisible()?'<button type="button" data-mobile-tab="clan"><i>C</i><span><b>클랜 TEST</b><small>블라인드 드래프트 · V3 클랜전</small></span><em>입장</em></button>':''}
         <button type="button" data-mobile-territory-war><i>♜</i><span><b>영토전</b><small>실시간 진영 공성전</small></span><em>입장</em></button>
       </div>
     </section>
     <section class="mobile-nav-sheet" data-mobile-sheet="more" aria-label="더보기 메뉴">
       <header><div><small>MORE MENU</small><h2>더보기</h2><p>보상과 편의 기능을 모았습니다.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
-      <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>◆</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em>${messageBadgeMarkup()}</button>
+      <button type="button" class="mobile-reward-hub-button" data-mobile-switch-sheet="rewards"><i>✓</i><span><b>보상 허브</b><small>접속 보상 · 일일 퀘스트 · 메시지함</small></span><em>열기</em>${messageBadgeMarkup()}</button>
       <div class="mobile-more-grid">
-        <button type="button" data-mobile-tab="rank"><i>♛</i><b>랭킹</b></button>
-        <button type="button" data-mobile-switch-sheet="market"><i>◉</i><b>승부·경매</b></button>
+        <button type="button" data-mobile-switch-sheet="market"><i>V</i><b>승부·경매</b></button>
         <button type="button" data-mobile-tab="inventory"><i>▱</i><b>인벤토리</b></button>
-        <button type="button" data-mobile-switch-sheet="character"><i>⚙</i><b>장비·제작</b></button>
+        <button type="button" data-mobile-switch-sheet="character"><i>⚙</i><b>성장·제작</b></button>
         <button type="button" data-mobile-account><i>●</i><b>내 정보</b></button>
       </div>
     </section>
     <section class="mobile-nav-sheet" data-mobile-sheet="character" aria-label="장비와 제작 메뉴">
-      <header><div><small>GEAR & WORKSHOP</small><h2>장비·제작</h2><p>장비를 관리하거나 제작소로 이동하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
+      <header><div><small>GEAR & WORKSHOP</small><h2>성장·제작</h2><p>장비·칭호·차고를 관리하거나 제작과 합성을 진행하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
-        <button type="button" data-mobile-tab="character"><i>⚔</i><span><b>장비·칭호</b><small>장비·칭호·이동수단 관리</small></span><em>입장</em></button>
-        <button type="button" data-mobile-tab="workshop"><i>⚙</i><span><b>제작소</b><small>폐차장 · 제작 · 합성</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="character"><i>G</i><span><b>장비·칭호·차고</b><small>착용 장비와 이동수단 관리</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="workshop"><i>⚙</i><span><b>제작·합성</b><small>차량 제작 · 장비 합성</small></span><em>입장</em></button>
         ${avatarFeatureVisible()?'<button type="button" data-mobile-tab="avatar"><i>♙</i><span><b>아바타</b><small>아바타 아카이브 · 적용</small></span><em>입장</em></button>':''}
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
@@ -542,18 +563,18 @@ function mobileNavigationHtml(tab){
     <section class="mobile-nav-sheet" data-mobile-sheet="market" aria-label="승부예측과 경매장 메뉴">
       <header><div><small>PREDICTION & AUCTION</small><h2>승부·경매</h2><p>코인 승부예측 또는 실시간 경매장에 입장하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
-        <button type="button" data-mobile-tab="prediction"><i>◉</i><span><b>승부예측</b><small>게임 속 승부를 코인으로 예측</small></span><em>입장</em></button>
-        <button type="button" data-mobile-tab="auction"><i>◈</i><span><b>경매장</b><small>실시간 입찰과 낙찰</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="prediction"><i>P</i><span><b>승부예측</b><small>게임 속 승부를 코인으로 예측</small></span><em>입장</em></button>
+        <button type="button" data-mobile-tab="auction"><i>A</i><span><b>경매장</b><small>실시간 입찰과 낙찰</small></span><em>입장</em></button>
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
     </section>
     <section class="mobile-nav-sheet" data-mobile-sheet="rewards" aria-label="보상 허브">
       <header><div><small>REWARD HUB</small><h2>보상 허브</h2><p>받을 수 있는 보상을 확인하세요.</p></div><button type="button" data-mobile-sheet-close aria-label="닫기">×</button></header>
       <div class="mobile-sheet-action-list">
-        <button type="button" data-mobile-tab="attendance"><i>◈</i><span><b>접속 보상</b><small>매일 접속하고 보상 받기</small></span><em>확인</em></button>
+        <button type="button" data-mobile-tab="attendance"><i>✓</i><span><b>접속 보상</b><small>매일 접속하고 보상 받기</small></span><em>확인</em></button>
         <button type="button" data-mobile-tab="dailyquest"><i>✓</i><span><b>일일 퀘스트</b><small>오늘의 플레이 목표</small></span><em>확인</em></button>
         <button type="button" data-mobile-tab="messages"><i>✉</i><span><b>메시지함</b><small>운영 메시지와 지급 내역</small></span><em>확인</em>${messageBadgeMarkup()}</button>
-        <button type="button" data-mobile-tab="mineral"><i>⬡</i><span><b>교환소</b><small>미네랄 기부 교환 신청</small></span><em>열기</em></button>
+        <button type="button" data-mobile-tab="mineral"><i>E</i><span><b>교환소</b><small>미네랄 기부 교환 신청</small></span><em>열기</em></button>
       </div>
       <button type="button" class="mobile-sheet-back" data-mobile-switch-sheet="more">← 더보기로 돌아가기</button>
     </section>
@@ -627,9 +648,14 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
-    styles:['css/workshop-v1676.css?v=1849-workshop-result-state','css/scrapyard-battle-v1698.css?v=1720-monster-card-compact'],
-    scripts:['js/workshop-v1676.js?v=1849-workshop-result-state','js/scrapyard-battle-v1698.js?v=1703-fast-entry'],
-    ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'&&typeof window.playScrapyardBattleV1698==='function'
+    styles:['css/workshop-v1676.css?v=1881-workshop-split-lineage','css/workshop-v1881.css?v=1881-workshop-split-lineage'],
+    scripts:['js/workshop-v1881.js?v=1881-workshop-split-lineage'],
+    ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
+  },
+  scrapyard:{
+    styles:['css/workshop-v1676.css?v=1881-workshop-split-lineage','css/workshop-v1881.css?v=1881-workshop-split-lineage','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
+    scripts:['js/workshop-v1881.js?v=1881-workshop-split-lineage','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
+    ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
     styles:['css/high-grade-reroll-v1354.css?v=1433-ticket-cache-reset'],
@@ -654,7 +680,7 @@ const FEATURE_RESOURCE_MANIFEST={
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.2.0-manifest-cache',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=66-boss-barrage',
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=67-role-impact-atlas',
       'js/battle-v3-live.js?v=3.20.0-escort-hp-gauge'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
@@ -681,7 +707,7 @@ function ensureFeatureResources(key){
   const request=Promise.all((manifest.styles||[]).map(loadFeatureStyle)).then(async()=>{await Promise.all((manifest.scripts||[]).map(loadFeatureScript));if(!manifest.ready())throw new Error(`${key} 기능 초기화에 실패했습니다.`)}).catch(error=>{featureResourcePromises.delete(key);throw error});
   featureResourcePromises.set(key,request);return request;
 }
-function featureKeyForTab(tab){return tab==='character'?'character':tab==='avatar'?'avatar':tab==='workshop'?'workshop':tab==='dex'?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
+function featureKeyForTab(tab){return tab==='character'?'character':tab==='avatar'?'avatar':tab==='workshop'?'workshop':tab==='scrapyard'?'scrapyard':tab==='dex'?'dexTools':tab==='auction'?'auction':tab==='prediction'?'prediction':['battle','pvp'].includes(tab)?'battleV2':''}
 // V1803: 전투 화면의 카드 스프라이트는 실제로 58~112 CSS px 로 그려진다(battle-v3-live 의 카드 폭).
 // 그런데 지금까지 도감 원본 이미지를 그대로 받고 있었다 — 평균 334KB, 가장 큰 것은 9.4MB.
 // 5장 덱이면 매 전투마다 약 1.7MB 다. 게다가 도감 화면은 384px 변형(평균 9~13KB)을 쓰기 때문에
@@ -778,7 +804,7 @@ function warmFeatureForTab(tab){
   if(key==='battleV2')resources.then(()=>warmBattleArtAssets()).catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
   else resources.catch(error=>console.warn(`${key} 리소스 사전 로딩 실패:`,error));
 }
-function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':tab==='character'?'장비·칭호':tab==='avatar'?'아바타':tab==='workshop'?'제작소':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
+function featureRouteLoadingHtml(tab){const label=tab==='auction'?'경매장':tab==='prediction'?'승부예측':tab==='character'?'장비·칭호':tab==='avatar'?'아바타':tab==='workshop'?'제작소':tab==='scrapyard'?'폐차장 원정':'게임 화면';return `<section class="route-feature-loader" aria-live="polite"><span></span><b>${label} 리소스를 준비하는 중...</b><small>현재 화면에 필요한 파일만 불러오고 있습니다.</small></section>`}
 function featureRouteErrorHtml(tab,message){return `<section class="route-feature-loader is-error"><b>${escapeHtml(message||'화면을 불러오지 못했습니다.')}</b><button type="button" class="btn" data-feature-retry="${escapeHtml(tab)}">다시 시도</button></section>`}
 window.ensureFeatureResources=ensureFeatureResources;
 
@@ -896,6 +922,7 @@ function renderShell(tab) {
   if(tab!=='auction'&&typeof window.stopAuctionHouseView==='function')window.stopAuctionHouseView();
   if(tab!=='prediction'&&typeof window.stopCoinPredictionView==='function')window.stopCoinPredictionView();
   runtimeCommandContext=tab;
+  document.body.dataset.contentScope=['battle','scrapyard'].includes(tab)?'pve':['pvp','rank','clan'].includes(tab)?'pvp':['dex','evolution','magic'].includes(tab)?'collection':['character','workshop','avatar'].includes(tab)?'growth':['buy'].includes(tab)?'store':'system';
   const burningPageActive=burningEventState.enabled===true,burningPageMode=burningMode();
   document.documentElement.classList.toggle('burning-event-active',burningPageActive&&burningPageMode==='BURNING');
   document.documentElement.classList.toggle('hyper-burning-event-active',burningPageActive&&burningPageMode==='HYPER');
@@ -909,36 +936,38 @@ function renderShell(tab) {
   // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
-  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
-  const battleActive=['battle','pvp','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution'].includes(tab),characterActive=['character','workshop','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab);
+  const views = { buy: buyView, dex: dexView, evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
+  const battleActive=['battle','scrapyard','pvp','rank','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','evolution','magic'].includes(tab),characterActive=['character','workshop','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
-    <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드팩</b></button>
+    <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드·상점</b></button>
     <div class="main-nav-group ${collectionActive?'active':''}" data-nav-group="collection">
-      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◇</span><b>도감</b><i>⌄</i></button>
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">▤</span><b>도감·강화</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="dex"><span>멤버별 카드 수집 현황</span><b>카드 도감</b></button>
         <button type="button" data-tab="evolution"><span>상위 등급 카드 진화</span><b>카드 진화</b></button>
+        ${magicSystemState.visible?'<button type="button" data-tab="magic"><span>PVE·PVP 마법카드 편성</span><b>마법카드</b></button>':''}
       </div>
     </div>
     <div class="main-nav-group ${battleActive?'active':''}" data-nav-group="battle">
       <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">⚔</span><b>전투</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
-        <button type="button" data-tab="battle"><span>몬스터 토벌·레이드</span><b>PVE</b></button>
+        <button type="button" data-tab="battle"><span>덱 편성·토벌·레이드·특수전</span><b>PVE 전투</b></button>
         <button type="button" data-v21-route="escort"><span>5구간 장갑 수송차 호위전</span><b>호송작전</b></button>
-        ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>자동 균형 매칭</span><b>랭크전</b></button>':''}
+        <button type="button" data-v21-route="scrapyard"><span>PVE 전용 원정과 보상</span><b>폐차장 원정</b></button>
+        ${pvpFeatureEnabled?'<button type="button" data-tab="pvp"><span>자동 균형 매칭</span><b>PVP·경쟁</b></button><button type="button" data-tab="rank"><span>현재 시즌 순위</span><b>시즌 랭킹</b></button>':''}
         ${clanFeatureVisible()?'<button type="button" data-tab="clan"><span>OWNER 사전 검증·V3 대전</span><b>클랜 TEST</b></button>':''}
       </div>
     </div>
     <div class="main-nav-group ${characterActive?'active':''}" data-nav-group="character">
-      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">⚙</span><b>장비·제작</b><i>⌄</i></button>
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">⚙</span><b>성장·제작</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
-        <button type="button" data-tab="character"><span>장비·칭호·이동수단 관리</span><b>장비·칭호</b></button>
-        <button type="button" data-tab="workshop"><span>폐차장·제작·합성</span><b>제작소</b></button>
+        <button type="button" data-tab="character"><span>착용 장비와 이동수단 관리</span><b>장비·칭호·차고</b></button>
+        <button type="button" data-tab="workshop"><span>차량 제작과 장비 합성</span><b>제작·합성</b></button>
         ${avatarFeatureVisible()?'<button type="button" data-tab="avatar"><span>아바타 아카이브·외형 적용</span><b>아바타</b></button>':''}
       </div>
     </div>
     <div class="main-nav-group ${rewardActive?'active':''}" data-nav-group="reward">
-      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◆</span><b>보상</b><i>⌄</i>${messageBadgeMarkup()}</button>
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">R</span><b>보상</b><i>⌄</i>${messageBadgeMarkup()}</button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="attendance"><span>접속 보상·쿠폰 입력</span><b>접속 보상</b></button>
         <button type="button" data-tab="dailyquest"><span>오늘의 플레이 목표</span><b>일일 퀘스트</b></button>
@@ -946,9 +975,8 @@ function renderShell(tab) {
         <button type="button" data-tab="mineral"><span>미네랄 기부 교환 신청</span><b>교환소</b></button>
       </div>
     </div>
-    <button class="main-nav-item ${tab==='rank'?'active':''}" type="button" data-tab="rank"><span class="main-nav-icon">♛</span><b>랭킹</b></button>
     <div class="main-nav-group ${marketActive?'active':''}" data-nav-group="market">
-      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">◉</span><b>승부·경매</b><i>⌄</i></button>
+      <button class="main-nav-item main-nav-trigger" type="button" aria-expanded="false"><span class="main-nav-icon">M</span><b>승부·경매</b><i>⌄</i></button>
       <div class="main-nav-dropdown" role="menu">
         <button type="button" data-tab="prediction"><span>게임 결과 코인 예측</span><b>승부예측</b></button>
         <button type="button" data-tab="auction"><span>실시간 입찰·낙찰</span><b>경매장</b></button>
@@ -970,7 +998,7 @@ function renderShell(tab) {
   bindPersistentDesktopNavigation(header);if(header?.dataset.fullscreenBound!=='1'){header.dataset.fullscreenBound='1';bindFullscreenPlayLink(header)}
   bindMobileNavigation();
   markBlockedTabButtons();
-  const routeWaitsForFeature=['auction','prediction','character','avatar','workshop'].includes(tab)&&!routeFeatureReady;
+  const routeWaitsForFeature=['auction','prediction','character','avatar','workshop','scrapyard'].includes(tab)&&!routeFeatureReady;
   if(routeWaitsForFeature){
     ensureFeatureResources(routeFeatureKey).then(()=>{if(renderSeq===shellRenderSeq&&runtimeCommandContext===tab)renderShell(tab)}).catch(error=>{
       if(renderSeq!==shellRenderSeq||runtimeCommandContext!==tab)return;
@@ -1243,7 +1271,7 @@ function bindMobilePveTabs(){
 const LAST_PVE_MONSTER_KEY='cnine:lastPveMonsterId';
 function getLastPveMonsterId(){try{const value=Number(localStorage.getItem(LAST_PVE_MONSTER_KEY));return Number.isFinite(value)&&value>0?value:null}catch(_){return null}}
 function saveLastPveMonsterId(monsterId){try{const value=Number(monsterId);if(Number.isFinite(value)&&value>0)localStorage.setItem(LAST_PVE_MONSTER_KEY,String(value))}catch(_){}}
-let battleState={config:null,battleEngine:{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters:[],selectedMonster:null,deck:[],characterBonus:{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:null,energyTimer:null,serverOffset:0,restoreMonsterCursor:false};
+let battleState={config:null,deckRules:normalizeDeckRules({}),battleEngine:{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters:[],selectedMonster:null,deck:[],characterBonus:{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:null,energyTimer:null,serverOffset:0,restoreMonsterCursor:false};
 let battleViewLoadSeq=0,battleViewRetryTimer=null,battleViewRetryStreak=0;
 
 function stopBattleEnergyTimer(){if(battleState.energyTimer){clearInterval(battleState.energyTimer);battleState.energyTimer=null}}
@@ -1257,9 +1285,9 @@ function requestPveFight(payload,config={}){
   battleState.fightRequest=settled;
   return settled;
 }
-function renderBattleEnergy(){const e=battleState.energy,count=document.getElementById('battleEnergyCount'),fill=document.getElementById('battleEnergyFill'),timer=document.getElementById('battleEnergyTimer');if(!e||!count)return;count.textContent=e.unlimited?'∞ 무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent='무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent='충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+battleState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`다음 충전 ${battleEnergyText(remain)}`;}else timer.textContent='충전 대기';}const start=document.getElementById('battleStart');if(start){const noEnergy=!e.unlimited&&e.energy<e.costPerBattle,autoChecked=document.getElementById('battleAuto')?.checked;start.disabled=battleState.deck.length!==5||!battleState.selectedMonster||noEnergy;start.textContent=noEnergy?'전투 횟수 부족':autoChecked?'남은 횟수 자동전투':'전투 시작';}}
+function renderBattleEnergy(){const e=battleState.energy,count=document.getElementById('battleEnergyCount'),fill=document.getElementById('battleEnergyFill'),timer=document.getElementById('battleEnergyTimer');if(!e||!count)return;count.textContent=e.unlimited?'∞ 무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent='무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent='충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+battleState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`다음 충전 ${battleEnergyText(remain)}`;}else timer.textContent='충전 대기';}const start=document.getElementById('battleStart');if(start){const noEnergy=!e.unlimited&&e.energy<e.costPerBattle,autoChecked=document.getElementById('battleAuto')?.checked,violation=deckGradeLimitViolation(battleState.deck,battleState.deckRules);start.disabled=battleState.deck.length!==5||!battleState.selectedMonster||noEnergy||Boolean(violation);start.textContent=violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:noEnergy?'전투 횟수 부족':autoChecked?'남은 횟수 자동전투':'전투 시작';}}
 function startBattleEnergyTimer(){stopBattleEnergyTimer();renderBattleEnergy();battleState.energyTimer=setInterval(()=>{if(!document.getElementById('battleEnergyCount'))return stopBattleEnergyTimer();const e=battleState.energy;if(e&&!e.unlimited&&e.nextRechargeAt&&Date.parse(e.nextRechargeAt)<=(Date.now()+battleState.serverOffset)){loadBattleEnergyOnly();return}renderBattleEnergy()},1000)}
-async function loadBattleEnergyOnly(){try{const d=await apiRequest('battle/config',{}, {ttl:0});battleState.energy=d.energy;battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startBattleEnergyTimer()}catch(_){renderBattleEnergy()}}
+async function loadBattleEnergyOnly(){try{const d=await apiRequest('battle/config',{}, {ttl:0});battleState.energy=d.energy;battleState.deckRules=normalizeDeckRules(d.deckRules||battleState.deckRules);battleState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startBattleEnergyTimer()}catch(_){renderBattleEnergy()}}
 
 function battleCardPower(card,user,settings){const grade=String(card?.grade||card?.rarity||'').trim().toUpperCase(),rawCardId=String(card?.id??card?.card_id??'').trim(),cardId=rawCardId.toUpperCase(),gradePower=Number(settings?.powerByGrade?.[grade]),savedPower=Number(card?.basePower??card?.base_power),base=['PRESTIGE','ZENITH','SUPERSTAR'].includes(grade)&&Number.isFinite(gradePower)?Math.max(0,gradePower):(Number.isFinite(savedPower)&&savedPower>0?savedPower:(Number.isFinite(gradePower)?Math.max(0,gradePower):0)),lv=Math.max(0,Math.min(13,Number(user.breakthroughs?.[rawCardId]??user.breakthroughs?.[cardId]??0))),pct=clientBreakthroughBonusPercent(grade,lv,settings),power=Math.floor(base*(1+pct/100)),specialBonus=grade==='FUR'&&cardId===FAKER_CHAMPIONSHIP_CARD_ID?FAKER_FLAT_POWER_BONUS:0;if(grade!=='LIMITED'||lv<11)return power+specialBonus;const prestigeBase=Math.max(0,Number(settings?.powerByGrade?.PRESTIGE||0)),prestigePct=Number(settings?.breakthroughBonus?.[10]||0),prestige10=Math.floor(prestigeBase*(1+prestigePct/100));if(prestige10<=0)return power+specialBonus;const limited10=Math.floor(base*(1+Number(settings?.breakthroughBonus?.[10]||0)/100)),stepCap=Math.floor(limited10+Math.max(0,prestige10-limited10)*(lv-10)/3);return Math.min(power,prestige10,stepCap)+specialBonus;}
 function pveDeckCardMini(card,user=loadUser()){
@@ -1342,7 +1370,7 @@ function filterDeckCards(list=[],filter={},user=loadUser(),settings=battleState.
 function renderPveDeckCardList(owned,user=loadUser()){
   const root=document.getElementById('battleCards');if(!root)return;
   const filter=loadPveDeckFilter(),deckSet=new Set(battleState.deck),rows=filterDeckCards(owned,filter,user,battleState.config),groups=pveDeckGradeGroups(rows);
-  mountVirtualCardGroups(root,groups,{kind:'pve',renderCard:card=>`<button type="button" class="pve-frame-pick pvp-pick ${deckSet.has(card.id)?'selected':''}" data-pick="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pveDeckCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`,onPick:button=>{if(battleState.deck.length>=5)return;const card=cards.find(item=>String(item.id)===String(button.dataset.pick));if(String(card?.grade||card?.rarity||'').toUpperCase()==='ZENITH'&&deckGradeCount(battleState.deck,'ZENITH')>=ZENITH_DECK_LIMIT)return alert(`제니스 카드는 덱에 최대 ${ZENITH_DECK_LIMIT}장까지만 편성할 수 있습니다.`);const scrollTop=root.scrollTop;battleState.deck.push(button.dataset.pick);renderBattleBuilder();requestAnimationFrame(()=>{const next=document.getElementById('battleCards');if(next)next.scrollTop=scrollTop})}});
+  mountVirtualCardGroups(root,groups,{kind:'pve',renderCard:card=>`<button type="button" class="pve-frame-pick pvp-pick ${deckSet.has(card.id)?'selected':''}" data-pick="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pveDeckCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`,onPick:button=>{if(battleState.deck.length>=5)return alert('PVE 덱은 5장까지 편성할 수 있습니다.');const card=cards.find(item=>String(item.id)===String(button.dataset.pick)),rules=normalizeDeckRules(battleState.deckRules),grade=String(card?.grade||card?.rarity||'').toUpperCase(),hasLimit=Object.prototype.hasOwnProperty.call(rules.gradeLimits,grade),limit=Number(rules.gradeLimits?.[grade]);if(hasLimit&&deckGradeCount(battleState.deck,grade)>=limit)return alert(`${deckGradeRuleLabel(grade)} 카드는 PVE 덱에 최대 ${limit}장까지만 편성할 수 있습니다.`);const scrollTop=root.scrollTop;battleState.deck.push(button.dataset.pick);renderBattleBuilder();requestAnimationFrame(()=>{const next=document.getElementById('battleCards');if(next)next.scrollTop=scrollTop})}});
   const count=document.getElementById('pveDeckResultCount');if(count)count.textContent=`${rows.length}장`;
 }
 function bindPveDeckFilters(owned,user=loadUser()){
@@ -1366,6 +1394,7 @@ function saveBattleViewSnapshot(data,monsters,deck){
   try{
     writeStartupSnapshot({battleView:{
       settings:data?.settings||null,
+      deckRules:data?.deckRules||null,
       battleEngine:data?.battleEngine||null,
       monsters:Array.isArray(monsters)?monsters:[],
       deck:Array.isArray(deck)?deck:[],
@@ -1386,6 +1415,7 @@ function hydrateBattleViewFromSnapshot(){
     const selectedMonster=cached.monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(cached.monsters[0]?.id??null);
     battleState={...battleState,
       config:cached.settings||battleState.config,
+      deckRules:normalizeDeckRules(cached.deckRules||battleState.deckRules),
       battleEngine:cached.battleEngine||battleState.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},
       monsters:cached.monsters,selectedMonster,deck,
       characterBonus:cached.characterBonus||battleState.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},
@@ -1426,7 +1456,7 @@ async function loadBattleView(){
       if(loadSeq!==battleViewLoadSeq||runtimeCommandContext!=='battle')return;
       const owned=ownedIds(loadUser()),savedDeck=(Array.isArray(d.deck)?d.deck.map(String):[]).filter(id=>owned.has(id)&&cards.some(c=>c.id===id)).slice(0,5),monsters=d.monsters||[],lastMonsterId=getLastPveMonsterId(),selectedMonster=monsters.some(m=>Number(m.id)===Number(lastMonsterId))?lastMonsterId:(monsters[0]?.id||null);
       stopBattleEnergyTimer();battleViewRetryStreak=0;
-      battleState={...battleState,config:d.settings,battleEngine:d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters,selectedMonster,deck:savedDeck,characterBonus:d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now(),restoreMonsterCursor:true};
+      battleState={...battleState,config:d.settings,deckRules:normalizeDeckRules(d.deckRules),battleEngine:d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY',playbackSpeed:1.3},monsters,selectedMonster,deck:savedDeck,characterBonus:d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},energy:d.energy||null,energyTimer:null,serverOffset:Date.parse(d.serverNow||new Date().toISOString())-Date.now(),restoreMonsterCursor:true};
       renderBattleBuilder();bindMobilePveTabs();applyPveViewMode(getPveViewMode());startBattleEnergyTimer();
       saveBattleViewSnapshot(d,monsters,savedDeck);
       return;
@@ -1474,7 +1504,7 @@ function renderBattleBuilder(){
   void warmBattleArtAssets().catch(error=>console.warn('전투 스프라이트 사전 로딩 실패:',error));
   const viewMode=getPveViewMode(),activeMobileTab=getMobilePveTab()||((battleState.deck?.length===5)?'monsters':'deck'),user=loadUser();
   const owned=cards.filter(card=>ownedIds(user).has(card.id)).sort((a,b)=>(gradeOrder[b.grade]||0)-(gradeOrder[a.grade]||0)||battleCardPower(b,user,battleState.config)-battleCardPower(a,user,battleState.config));
-  const deckSet=new Set(battleState.deck),cardPower=battleState.deck.reduce((sum,id)=>{const card=cards.find(item=>item.id===id);return sum+(card?battleCardPower(card,user,battleState.config):0)},0),bonus=battleState.characterBonus||{},power=cardPower+Number(bonus.pve||0),isReady=battleState.deck.length===5;
+  const deckSet=new Set(battleState.deck.map(String)),cardPower=battleState.deck.reduce((sum,id)=>{const card=cards.find(item=>String(item.id)===String(id));return sum+(card?battleCardPower(card,user,battleState.config):0)},0),bonus=battleState.characterBonus||{},power=cardPower+Number(bonus.pve||0),isReady=battleState.deck.length===5;
   const powerEl=document.getElementById('battleDeckPower');if(powerEl)powerEl.textContent=power.toLocaleString();
   const deckCountEl=document.getElementById('battleDeckCount');if(deckCountEl)deckCountEl.textContent=`${battleState.deck.length} / 5`;
   const deckReadyEl=document.getElementById('battleDeckReady');if(deckReadyEl)deckReadyEl.textContent=isReady?'출전 준비 완료':'편성 중';
@@ -1501,6 +1531,8 @@ function renderBattleBuilder(){
 }
 async function saveBattleDeck(){
   if(battleState.deck.length!==5)return alert('보유 카드 5장을 선택하세요.');
+  const violation=deckGradeLimitViolation(battleState.deck,battleState.deckRules);
+  if(violation)return alert(`${deckGradeRuleLabel(violation.grade)} 카드는 PVE 덱에 최대 ${violation.limit}장까지만 편성할 수 있습니다.`);
   const button=document.getElementById('saveBattleDeck');if(button)button.disabled=true;
   try{const d=await apiRequest('battle/deck',{method:'POST',body:JSON.stringify({cardIds:battleState.deck})});battleState.deck=Array.isArray(d.deck)?d.deck.map(String):[...battleState.deck];alert('PvE 덱이 저장되었습니다.');renderBattleBuilder()}
   catch(e){alert(e.message);if(button)button.disabled=false}
@@ -1544,13 +1576,19 @@ battleAutoUiObserver.observe(app,{childList:true,subtree:true});
 function battleSleep(ms){return new Promise(r=>setTimeout(r,ms));}
 let battleAudioContext=null;
 function battleSoundEnabled(){return localStorage.getItem('cnine_battle_sound')!=='OFF'}
-function battleAudio(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;battleAudioContext??=new C();if(battleAudioContext.state==='suspended')battleAudioContext.resume();return battleAudioContext}catch{return null}}
+function playerUltimateCinematicSkipped(){return localStorage.getItem('cnine_skip_player_ultimate')==='ON'}
+function battleAudio(){try{const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;battleAudioContext??=new C();window.__CNINE_SHARED_BATTLE_AUDIO_CONTEXT=battleAudioContext;if(battleAudioContext.state==='suspended')battleAudioContext.resume();return battleAudioContext}catch{return null}}
 function unlockBattleAudio(){if(battleSoundEnabled())battleAudio()}
 document.addEventListener('pointerdown',unlockBattleAudio,{once:true,capture:true});
+// V3 owns the complete role-impact soundscape. The helpers below synthesize
+// the legacy square/sawtooth/noise battle sounds for older modes; never layer
+// them over the new authored V3 assets. If a new V3 file is unavailable, V3
+// stays silent instead of reviving the retired gong-like fallback.
+function v3RoleAudioOwnsBattle(){return Boolean(document.querySelector('.modal.show .battle-v3-live-shell'))}
 function battleOsc(ctx,start,end,duration,type='sine',volume=.04,delay=0){const t=ctx.currentTime+delay,o=ctx.createOscillator(),g=ctx.createGain();o.type=type;o.frequency.setValueAtTime(Math.max(20,start),t);o.frequency.exponentialRampToValueAtTime(Math.max(20,end),t+duration);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.001,volume),t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+duration);o.connect(g);g.connect(ctx.destination);o.start(t);o.stop(t+duration+.02)}
 function battleNoise(ctx,duration=.12,volume=.035,frequency=1200,delay=0){const size=Math.max(1,Math.floor(ctx.sampleRate*duration)),buffer=ctx.createBuffer(1,size,ctx.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<size;i++)data[i]=(Math.random()*2-1)*(1-i/size);const src=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain(),t=ctx.currentTime+delay;filter.type='bandpass';filter.frequency.value=frequency;filter.Q.value=.7;gain.gain.setValueAtTime(volume,t);gain.gain.exponentialRampToValueAtTime(.0001,t+duration);src.buffer=buffer;src.connect(filter);filter.connect(gain);gain.connect(ctx.destination);src.start(t)}
-function battleTone(freq=180,duration=.08,type='sine',volume=.04){if(!battleSoundEnabled())return;const ctx=battleAudio();if(ctx)battleOsc(ctx,freq,Math.max(30,freq*.72),duration,type,volume)}
-function battleSfx(kind='hit'){if(!battleSoundEnabled())return;const ctx=battleAudio();if(!ctx)return;if(kind==='swing'){battleNoise(ctx,.1,.022,1800);battleOsc(ctx,760,170,.11,'sawtooth',.018)}else if(kind==='hit'){battleNoise(ctx,.14,.042,720);battleOsc(ctx,150,48,.16,'square',.045)}else if(kind==='heavy'){battleNoise(ctx,.22,.06,330);battleOsc(ctx,92,31,.25,'sawtooth',.075);battleOsc(ctx,46,28,.3,'sine',.08)}else if(kind==='critical'){battleNoise(ctx,.1,.04,2200);battleOsc(ctx,920,240,.1,'sawtooth',.028);battleNoise(ctx,.26,.075,520,.07);battleOsc(ctx,180,38,.3,'square',.085,.07);battleOsc(ctx,1280,620,.22,'sine',.024,.08)}else if(kind==='victory'){[392,494,587,784].forEach((f,i)=>battleOsc(ctx,f,f*1.02,.28,'triangle',.035,i*.12))}else if(kind==='defeat'){[180,145,108,72].forEach((f,i)=>battleOsc(ctx,f,f*.7,.34,'sawtooth',.03,i*.13))}else if(kind==='warning'){battleOsc(ctx,620,480,.14,'square',.022);battleOsc(ctx,620,480,.14,'square',.018,.2)}}
+function battleTone(freq=180,duration=.08,type='sine',volume=.04){if(!battleSoundEnabled()||v3RoleAudioOwnsBattle())return;const ctx=battleAudio();if(ctx)battleOsc(ctx,freq,Math.max(30,freq*.72),duration,type,volume)}
+function battleSfx(kind='hit'){if(!battleSoundEnabled()||v3RoleAudioOwnsBattle())return;const ctx=battleAudio();if(!ctx)return;if(kind==='swing'){battleNoise(ctx,.1,.022,1800);battleOsc(ctx,760,170,.11,'sawtooth',.018)}else if(kind==='hit'){battleNoise(ctx,.14,.042,720);battleOsc(ctx,150,48,.16,'square',.045)}else if(kind==='heavy'){battleNoise(ctx,.22,.06,330);battleOsc(ctx,92,31,.25,'sawtooth',.075);battleOsc(ctx,46,28,.3,'sine',.08)}else if(kind==='critical'){battleNoise(ctx,.1,.04,2200);battleOsc(ctx,920,240,.1,'sawtooth',.028);battleNoise(ctx,.26,.075,520,.07);battleOsc(ctx,180,38,.3,'square',.085,.07);battleOsc(ctx,1280,620,.22,'sine',.024,.08)}else if(kind==='victory'){[392,494,587,784].forEach((f,i)=>battleOsc(ctx,f,f*1.02,.28,'triangle',.035,i*.12))}else if(kind==='defeat'){[180,145,108,72].forEach((f,i)=>battleOsc(ctx,f,f*.7,.34,'sawtooth',.03,i*.13))}else if(kind==='warning'){battleOsc(ctx,620,480,.14,'square',.022);battleOsc(ctx,620,480,.14,'square',.018,.2)}}
 function ensureBattleSoundButton(stage){if(!stage||stage.querySelector('.battle-sound-toggle'))return;const b=document.createElement('button');b.type='button';b.className='battle-sound-toggle';const sync=()=>{b.textContent=battleSoundEnabled()?'🔊 전투음':'🔇 전투음';b.classList.toggle('muted',!battleSoundEnabled())};sync();b.onclick=e=>{e.stopPropagation();localStorage.setItem('cnine_battle_sound',battleSoundEnabled()?'OFF':'ON');if(battleSoundEnabled()){unlockBattleAudio();battleSfx('swing')}sync()};stage.appendChild(b)}
 function battleBurst(stage,x='50%',y='50%',count=18){const layer=stage.querySelector('.battle-fx-layer');if(!layer)return;for(let i=0;i<count;i++){const p=document.createElement('i');p.className='battle-particle';p.style.left=x;p.style.top=y;p.style.setProperty('--a',`${Math.random()*360}deg`);p.style.setProperty('--d',`${45+Math.random()*95}px`);p.style.animationDelay=`${Math.random()*80}ms`;layer.appendChild(p);setTimeout(()=>p.remove(),900)}}
 function battleDamage(stage,text,target='enemy',critical=false){const box=document.createElement('b'),fx=document.createElement('div');box.className=`battle-damage ${target} ${critical?'critical':''}`;box.textContent=text;fx.className=`combat-hit-fx ${target} ${critical?'critical':''}`;fx.innerHTML='<i></i><i></i><i></i><i></i><u></u>';stage.append(box,fx);stage.classList.remove('combat-impact-shake');void stage.offsetWidth;stage.classList.add('combat-impact-shake');battleSfx(critical?'critical':target==='player'?'heavy':'hit');setTimeout(()=>{box.remove();fx.remove();stage.classList.remove('combat-impact-shake')},critical?1050:850)}
@@ -1655,7 +1693,88 @@ function ultimateMediaSafetyMs(configuredDuration,media,playbackRate=1){
   const mediaMs=Number.isFinite(media?.duration)&&media.duration>0?media.duration*1000/Math.max(.5,Number(playbackRate)||1):0;
   return Math.max(2500,Math.min(35000,Math.max(configured+1200,mediaMs+900)));
 }
-async function playBattleUltimate(stage,ultimate,bonusDamage){if(!stage||!ultimate)return;const duration=Math.max(500,Math.min(30000,Number(ultimate.durationMs||3000))),playbackRate=Math.max(.5,Math.min(3,Number(ultimate.playbackRate||1))),src=normalizeUltimateMediaPath(ultimate.mediaUrl);const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);const overlay=document.createElement('div');overlay.className='battle-ultimate-overlay';overlay.innerHTML=`<div class="battle-ultimate-flash"></div><div class="battle-ultimate-title"><small>ULTIMATE SKILL</small><strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong><span>궁극기 타격 ${Number(bonusDamage||0).toLocaleString()}</span></div><div class="battle-ultimate-media">${isVideo?`<video src="${escapeHtml(src)}" playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}</div></div>`;document.body.appendChild(overlay);const releaseUltimateViewport=applyUltimateViewport(stage,overlay);stage.classList.add('ultimate-playing');battleTone(520,.28,'sawtooth',.08);if(navigator.vibrate)navigator.vibrate([60,30,100]);await new Promise(resolve=>{let done=false;const finish=()=>{if(done)return;done=true;clearTimeout(timer);overlay.classList.add('closing');setTimeout(()=>{releaseUltimateViewport();overlay.remove();stage.classList.remove('ultimate-playing');resolve()},220)};let timer=setTimeout(finish,ultimateMediaSafetyMs(duration,null,playbackRate));const media=overlay.querySelector('video');if(media){media.muted=!battleSoundEnabled();media.volume=1;media.playbackRate=playbackRate;media.addEventListener('loadedmetadata',()=>{const portrait=media.videoHeight>media.videoWidth;media.classList.toggle('is-portrait',portrait);media.classList.toggle('is-landscape',!portrait);clearTimeout(timer);timer=setTimeout(finish,ultimateMediaSafetyMs(duration,media,playbackRate))},{once:true});media.addEventListener('ended',finish,{once:true});media.addEventListener('error',()=>setTimeout(finish,800),{once:true});const playback=media.play();if(playback&&typeof playback.catch==='function')playback.catch(()=>{media.muted=true;media.play().catch(()=>{})})}const img=overlay.querySelector('img');if(img){img.addEventListener('load',()=>{const portrait=img.naturalHeight>img.naturalWidth;img.classList.toggle('is-portrait',portrait);img.classList.toggle('is-landscape',!portrait)},{once:true});img.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true})}})}
+async function playBattleUltimate(stage,ultimate,bonusDamage){
+  if(!stage||!ultimate)return;
+  if(playerUltimateCinematicSkipped())return;
+  const duration=Math.max(500,Math.min(30000,Number(ultimate.durationMs||3000)));
+  const playbackRate=Math.max(.5,Math.min(3,Number(ultimate.playbackRate||1)));
+  const src=normalizeUltimateMediaPath(ultimate.mediaUrl);
+  const isVideo=/\.(webm|mp4)(?:[?#].*)?$/i.test(src);
+  const overlay=document.createElement('div');
+  overlay.className='battle-ultimate-overlay';
+  overlay.dataset.ultimateOwner='player';
+  overlay.innerHTML=`
+    <div class="battle-ultimate-flash"></div>
+    <div class="battle-ultimate-title">
+      <small>ULTIMATE SKILL</small>
+      <strong>${escapeHtml(ultimate.name||'ULTIMATE')}</strong>
+      <span>궁극기 타격 ${Number(bonusDamage||0).toLocaleString()}</span>
+    </div>
+    <div class="battle-ultimate-media">
+      ${isVideo?`<video src="${escapeHtml(src)}" playsinline webkit-playsinline preload="auto" disablepictureinpicture></video>`:`<img src="${escapeHtml(src)}" alt="${escapeHtml(ultimate.name||'ULTIMATE')}">`}
+    </div>
+    <button type="button" class="battle-ultimate-skip" data-ultimate-skip="player-cinematic" aria-label="유저 궁극기 연출 건너뛰기">
+      <span>SKIP</span><strong>궁극기 연출</strong>
+    </button>`;
+  document.body.appendChild(overlay);
+  const releaseUltimateViewport=applyUltimateViewport(stage,overlay);
+  const media=overlay.querySelector('video');
+  const image=overlay.querySelector('img');
+  stage.classList.add('ultimate-playing');
+  battleTone(520,.28,'sawtooth',.08);
+  if(navigator.vibrate)navigator.vibrate([60,30,100]);
+  await new Promise(resolve=>{
+    let done=false;
+    let timer=0;
+    const finish=(skipped=false)=>{
+      if(done)return;
+      done=true;
+      clearTimeout(timer);
+      if(media){
+        media.pause();
+        try{media.currentTime=0}catch(_){ }
+      }
+      overlay.classList.toggle('skipped',Boolean(skipped));
+      overlay.classList.add('closing');
+      setTimeout(()=>{
+        releaseUltimateViewport();
+        overlay.remove();
+        stage.classList.remove('ultimate-playing');
+        resolve();
+      },skipped?90:220);
+    };
+    timer=setTimeout(finish,ultimateMediaSafetyMs(duration,null,playbackRate));
+    overlay.querySelector('[data-ultimate-skip="player-cinematic"]')?.addEventListener('click',event=>{
+      event.preventDefault();
+      event.stopPropagation();
+      finish(true);
+    },{once:true});
+    if(media){
+      media.muted=!battleSoundEnabled();
+      media.volume=1;
+      media.playbackRate=playbackRate;
+      media.addEventListener('loadedmetadata',()=>{
+        const portrait=media.videoHeight>media.videoWidth;
+        media.classList.toggle('is-portrait',portrait);
+        media.classList.toggle('is-landscape',!portrait);
+        clearTimeout(timer);
+        timer=setTimeout(finish,ultimateMediaSafetyMs(duration,media,playbackRate));
+      },{once:true});
+      media.addEventListener('ended',()=>finish(),{once:true});
+      media.addEventListener('error',()=>setTimeout(finish,800),{once:true});
+      const playback=media.play();
+      if(playback&&typeof playback.catch==='function')playback.catch(()=>{media.muted=true;media.play().catch(()=>{})});
+    }
+    if(image){
+      image.addEventListener('load',()=>{
+        const portrait=image.naturalHeight>image.naturalWidth;
+        image.classList.toggle('is-portrait',portrait);
+        image.classList.toggle('is-landscape',!portrait);
+      },{once:true});
+      image.addEventListener('error',()=>{overlay.querySelector('.battle-ultimate-media').innerHTML='<div class="battle-ultimate-fallback">ULTIMATE</div>'},{once:true});
+    }
+  });
+}
 
 async function playBossBattleUltimate(stage,phase,ult){
   if(!stage||!ult)return {teamHpLoss:0,penalty:0};
@@ -2058,24 +2177,14 @@ async function claimDailyQuest(){
 }
 
 function rankView(user) {
-  return `${summaryBar(user)}<section class="rank-hub"><nav class="rank-switch"><button type="button" data-rank-mode="pvp" class="active">랭크전 시즌 랭킹</button><button type="button" data-rank-mode="card">카드점수 랭킹</button></nav><div id="rankHubContent" class="rank-hub-content"><div class="empty-recent">랭킹을 불러오는 중...</div></div></section>`;
+  return `${summaryBar(user)}<section class="rank-hub"><header class="rank-public-head"><p class="eyebrow">PVP SEASON RANKING</p><h2>랭크전 시즌 랭킹</h2><span>현재 시즌의 공식 순위와 티어를 확인합니다.</span></header><div id="rankHubContent" class="rank-hub-content"><div class="empty-recent">랭킹을 불러오는 중...</div></div></section>`;
 }
 async function loadRankHub(mode=rankHubMode){
-  rankHubMode=mode;
-  document.querySelectorAll('[data-rank-mode]').forEach(b=>b.classList.toggle('active',b.dataset.rankMode===mode));
+  mode='pvp';rankHubMode=mode;
   const root=document.getElementById('rankHubContent');if(!root)return;
-  if(mode==='card'){
-    root.innerHTML=`<section class="rank-panel rank-panel-v2"><div class="rank-main"><p class="eyebrow">TOTAL CARD POWER TIER</p><h2>카드점수 토탈 티어</h2><p>보유 카드의 등급 기본 전투력과 현재 돌파 보너스를 모두 합산합니다.</p><div id="myTierCard" class="my-tier-card"><div class="tier-loading">내 티어 계산 중...</div></div><div id="serverRanking" class="server-ranking">${API_MODE?'랭킹 불러오는 중...':'현재 전체 랭킹을 불러올 수 없습니다.'}</div></div><div class="tier-guide"><p class="eyebrow">TIER ROAD</p><h3>티어 구간</h3><div id="tierRoad" class="tier-road"></div></div></section>`;
-    await loadServerRanking();return;
-  }
   if(!API_MODE){root.innerHTML='<div class="empty-recent">현재 랭크전 시즌 랭킹을 불러올 수 없습니다.</div>';return}
   try{const d=await apiRequest('pvp/ranking');root.innerHTML=`<section class="rank-pvp-panel"><div class="pvp-section-head"><div><p class="eyebrow">PVP SEASON RANKING</p><h2>${escapeHtml(d.settings?.seasonName||'랭크전')} 랭킹</h2></div></div>${pvpTierGuideHtml(d.settings?.tiers||[],d.me?.tier)}${d.me?`<div class="pvp-my-rank">${tierEmblem(d.me.tier,'rank')}<span>내 순위 <b>${d.me.rank}위</b><small>${escapeHtml(d.me.tier.name)} · ${Number(d.me.season_score).toLocaleString()}점</small></span></div>`:''}<div class="pvp-ranking">${(d.ranking||[]).map(r=>`<div class="pvp-rank-row"><b>${r.rank}</b>${tierEmblem(r.tier,'rank')}<span class="public-name-stack">${publicTitleBadgeHtml(r.title)}<b>${escapeHtml(r.nickname)}</b><small>${escapeHtml(r.tier.name)} · ${r.wins}승 ${r.losses}패</small></span><strong>${Number(r.season_score).toLocaleString()}</strong></div>`).join('')||'<div class="empty-recent">아직 시즌 랭킹 데이터가 없습니다.</div>'}</div></section>`}catch(e){root.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}
 }
-async function loadServerRanking(){
-  if(!API_MODE)return;const target=document.getElementById('serverRanking'),mine=document.getElementById('myTierCard'),road=document.getElementById('tierRoad');if(!target)return;
-  try{const data=await apiRequest('ranking'),user=loadUser(),me=data.me||data.ranking.find(x=>Number(x.id)===Number(user.serverUserId))||data.ranking.find(x=>x.nickname===user.nickname)||{rank:'-',score:0,card_count:0,max_breakthrough:0,tier:data.tiers[0]};mine.innerHTML=`${tierEmblem(me.tier,'large')}<div><span>내 총 카드점수</span><strong>${Number(me.score).toLocaleString()}점</strong><small>전체 ${me.rank}위 · 보유 ${me.card_count}장 · 최고 ★${me.max_breakthrough}</small></div>`;road.innerHTML=data.tiers.map(t=>`<div class="tier-road-item">${tierEmblem(t,'small')}<b>${Number(t.min).toLocaleString()}점+</b></div>`).join('');target.innerHTML=`<div class="rank-list rank-list-v2">${data.ranking.slice(0,30).map(row=>`<div class="rank-list-row rank-pos-${row.rank}"><b class="rank-number">${row.rank<=3?'<i>♛</i>':''}${row.rank}</b>${tierEmblem(row.tier,'rank')}<span>${escapeHtml(row.nickname)}<small>${row.card_count}장 · 최고 ★${row.max_breakthrough}</small></span><strong>${Number(row.score).toLocaleString()}점</strong></div>`).join('')}</div>`}catch(error){target.textContent=error.message}
-}
-
 function mineralExchangeView(user){
   return `${summaryBar(user)}<section class="mineral-exchange-page"><div class="mineral-exchange-head"><div><p class="eyebrow">MINERAL EXCHANGE</p><h2>💎 미네랄 교환소</h2><p>SOOP 게시판 미네랄 창고에 기부한 뒤 교환을 신청하세요.</p></div><div class="mineral-limit-badge"><span>하루 최대 교환 가능 개수</span><b id="mineralDailyLimit">3,000코인</b><small id="mineralRemaining">남은 한도 확인 중</small></div></div><div class="mineral-exchange-grid"><section class="mineral-form-card"><div id="mineralRateInfo" class="mineral-rate-info">교환 비율을 불러오는 중...</div><div class="mineral-guide"><b>사용법</b><p>1. SOOP 게시판 미네랄 창고에 기부</p><p>2. PLAY DK 닉네임과 기부 완료 내용을 입력</p></div><label class="mineral-field"><span>숲켓몬 닉네임</span><input value="${escapeHtml(user.nickname)}" readonly></label><label class="mineral-field"><span>PLAY DK 닉네임</span><input id="wagoNickname" maxlength="40" placeholder="기부에 사용한 PLAY DK 닉네임"></label><label class="mineral-field"><span>기부한 미네랄 수량</span><input id="mineralAmount" type="number" inputmode="numeric" min="0" placeholder="예: 300000000"><small id="mineralStepHelp">1,000코인 단위로만 신청 가능합니다.</small></label><div class="mineral-preview"><span>지급 예정 코인</span><b id="mineralCoinPreview">0코인</b></div><label class="mineral-field"><span>기부 완료 내용</span><textarea id="mineralProof" maxlength="500" rows="4" placeholder="예: 7월 12일 13:00 닉네임 경화수월 3억 기부 완료"></textarea></label><button class="btn mineral-submit" id="mineralSubmit" disabled>💎 교환 신청하기</button></section><aside class="mineral-history-card"><h3>내 교환 신청 내역</h3><div id="mineralMyRequests"><div class="empty-recent">신청 내역을 불러오는 중...</div></div></aside></div></section>`;
 }
@@ -2625,6 +2734,7 @@ function bindView(tab) {
   if(tab==='character'&&typeof window.bindCharacterView==='function')window.bindCharacterView();
   if(tab==='avatar'&&typeof window.bindAvatarShopView==='function')window.bindAvatarShopView();
   if(tab==='workshop'&&typeof window.bindWorkshopView==='function')window.bindWorkshopView();
+  if(tab==='scrapyard'&&typeof window.bindScrapyardView==='function')window.bindScrapyardView();
   if(tab==='evolution'&&typeof window.bindEvolutionView==='function')window.bindEvolutionView();
   if(tab==='magic')loadMagicView();
   if(tab==='messages'){document.getElementById('openWagoVerify')?.addEventListener('click',openWagoVerification);loadMessages();}
@@ -2640,7 +2750,7 @@ function bindView(tab) {
   const couponForm=document.getElementById('couponForm');
   if(couponForm)couponForm.addEventListener('submit',event=>{event.preventDefault();void redeemCoupon()});
   if(tab==='rank'){document.querySelectorAll('[data-rank-mode]').forEach(b=>b.onclick=()=>loadRankHub(b.dataset.rankMode));loadRankHub('pvp');}
-  if(tab==='battle'){document.querySelectorAll('.pve-mode-btn').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
+  if(tab==='battle'){document.querySelectorAll('.pve-mode-btn[data-pve-mode]').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
   if(tab==='pvp') loadPvpView();
   if(tab==='clan'&&typeof window.ClanV1?.bind==='function')window.ClanV1.bind({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx});
   if(tab==='mineral') loadMineralExchange();
@@ -3229,7 +3339,7 @@ async function loadInventory(){
 }
 async function openInventoryPack(itemCode,ownedQuantity=0){
   if(WORKSHOP_ONLY_ITEM_CODES.has(String(itemCode||'').toUpperCase()))return showSupplyNotice('차량 부품은 제작소에서만 사용할 수 있습니다.',true);
-  if(itemCode==='SCRAPYARD_ENTRY_TICKET')return renderShell('workshop');
+  if(itemCode==='SCRAPYARD_ENTRY_TICKET')return renderShell('scrapyard');
   if(itemCode==='BLACK_MIRACLE_PACK')return openBlackMiraclePack();
   if(itemCode==='MAGIC_CARD_PACK')return openMagicCardPack(ownedQuantity);
   if(itemCode==='EQUIPMENT_SUPPLY_BOX')return openEquipmentSupplyBox(ownedQuantity);
@@ -4151,9 +4261,9 @@ async function renderDrawResults(pack,count,cost,results,user,critical,options={
 
 
 let pvpFeatureEnabled=true;
-let pvpState={tab:'match',config:null,battleConfig:null,profile:null,myTitle:null,deck:[],presets:{1:[],2:[],3:[]},activePreset:1,selectedPreset:1,presetsLoaded:false,characterBonus:{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},battleEngine:{active:false,version:'LEGACY',mode:'LEGACY'},opponents:[],history:[],ranking:[],energy:null,energyTimer:null,serverOffset:0,matching:false};
+let pvpState={tab:'match',config:null,battleConfig:null,deckRules:normalizeDeckRules({}),profile:null,myTitle:null,deck:[],presets:{1:[],2:[],3:[]},activePreset:1,selectedPreset:1,presetsLoaded:false,characterBonus:{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0},battleEngine:{active:false,version:'LEGACY',mode:'LEGACY'},opponents:[],history:[],ranking:[],energy:null,energyTimer:null,serverOffset:0,matching:false};
 function pvpTabIcon(kind){const paths={match:'<path d="m7 4 10 16M17 4 7 20M5 7l2-3 3 1M19 7l-2-3-3 1"/>',deck:'<path d="M5 4h11v14H5zM8 7h11v13H8"/>',history:'<path d="M12 7v5l3 2M5 5a9 9 0 1 1-1 11M4 5v5h5"/>',ranking:'<path d="M5 20v-7h4v7M10 20V8h4v12M15 20V4h4v16M3 20h18"/>',reward:'<path d="M4 9h16v11H4zM3 5h18v4H3zM12 5v15M12 5c-2-4-6-3-5 0M12 5c2-4 6-3 5 0"/>'};return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[kind]||paths.match}</svg>`}
-function pvpView(user){return `${summaryBar(user)}<section class="ranked-live-v2"><picture class="ranked-live-arena" aria-hidden="true"><source srcset="assets/ui/ranked/ranked-arena-v1825.avif" type="image/avif"><img src="assets/ui/ranked/ranked-arena-v1825.webp" alt="" decoding="async" fetchpriority="high"></picture><div class="ranked-live-shade" aria-hidden="true"></div><section class="pvp-cover ranked-cover ranked-season-hud"><div class="pvp-cover-intro"><span class="ranked-hud-index">R-01</span><div><p class="eyebrow" id="pvpSeasonEyebrow">SOOPKETMON RANKED</p><div class="ranked-season-title-row"><h2 id="pvpSeasonTitle">랭크전</h2><span class="ranked-live-chip"><i></i><b id="pvpSeasonStatusLine">연결 중</b></span></div><p id="pvpSeasonDescription">티어와 편성 전투력을 기준으로 상대가 자동 배정됩니다.</p></div></div><div class="pvp-me"><div id="pvpMyTierBadge" class="pvp-tier-badge"></div><div class="ranked-tier-copy"><small>CURRENT TIER</small><span id="pvpMyTier">-</span><b id="pvpMyScore">-</b></div></div><div class="ranked-season-clock"><small>SEASON CLOSE</small><strong id="pvpSeasonTime">시즌 정보 불러오는 중</strong><span>최종 점수 기준 정산</span></div><div class="battle-energy-card pvp-energy-card" aria-label="랭크전 잔여 피로도"><div class="pvp-energy-head"><span>잔여 피로도</span><b id="pvpEnergyCount" aria-live="polite">- / -</b></div><div class="battle-energy-track"><i id="pvpEnergyFill"></i></div><small id="pvpEnergyTimer">불러오는 중...</small></div></section><section id="pvpContent" class="pvp-content ranked-live-content"><div class="empty-recent">랭크전 정보를 불러오는 중...</div></section><nav class="pvp-tabs ranked-live-tabs" aria-label="랭크전 메뉴"><button data-pvp="match" class="active" aria-selected="true">${pvpTabIcon('match')}<span>매칭<small>MATCH</small></span></button><button data-pvp="deck" aria-selected="false">${pvpTabIcon('deck')}<span>덱 편성<small>DECK</small></span></button><button data-pvp="history" aria-selected="false">${pvpTabIcon('history')}<span>전투 기록<small>ARCHIVE</small></span></button><button data-pvp="ranking" aria-selected="false">${pvpTabIcon('ranking')}<span>시즌 랭킹<small>RANKING</small></span></button><button data-pvp="reward" aria-selected="false">${pvpTabIcon('reward')}<span>시즌 보상<small>REWARD</small></span></button></nav></section>`}
+function pvpView(user){return `${summaryBar(user)}<section class="ranked-live-v2"><picture class="ranked-live-arena" aria-hidden="true"><source srcset="assets/ui/ranked/ranked-arena-v1825.avif" type="image/avif"><img src="assets/ui/ranked/ranked-arena-v1825.webp" alt="" decoding="async" fetchpriority="high"></picture><div class="ranked-live-shade" aria-hidden="true"></div><section class="pvp-cover ranked-cover ranked-season-hud"><div class="pvp-cover-intro"><span class="ranked-hud-index">R-01</span><div><p class="eyebrow" id="pvpSeasonEyebrow">SOOPKETMON RANKED</p><div class="ranked-season-title-row"><h2 id="pvpSeasonTitle">랭크전</h2><span class="ranked-live-chip"><i></i><b id="pvpSeasonStatusLine">연결 중</b></span></div><p id="pvpSeasonDescription">티어와 편성 전투력을 기준으로 상대가 자동 배정됩니다.</p></div></div><div class="pvp-me"><div id="pvpMyTierBadge" class="pvp-tier-badge"></div><div class="ranked-tier-copy"><small>CURRENT TIER</small><span id="pvpMyTier">-</span><b id="pvpMyScore">-</b></div></div><div class="ranked-season-clock"><small>SEASON CLOSE</small><strong id="pvpSeasonTime">시즌 정보 불러오는 중</strong><span>최종 점수 기준 정산</span></div><div class="battle-energy-card pvp-energy-card" aria-label="랭크전 잔여 피로도"><div class="pvp-energy-head"><span>잔여 피로도</span><b id="pvpEnergyCount" aria-live="polite">- / -</b></div><div class="battle-energy-track"><i id="pvpEnergyFill"></i></div><small id="pvpEnergyTimer">불러오는 중...</small></div></section><section id="pvpContent" class="pvp-content ranked-live-content"><div class="empty-recent">랭크전 정보를 불러오는 중...</div></section><nav class="pvp-tabs ranked-live-tabs" aria-label="랭크전 메뉴"><button data-pvp="match" class="active" aria-label="랭크전 매칭" aria-selected="true">${pvpTabIcon('match')}<span>매칭<small>MATCH</small></span></button><button data-pvp="deck" aria-label="랭크전 덱 편성" aria-selected="false">${pvpTabIcon('deck')}<span>덱 편성<small>DECK</small></span></button><button data-pvp="history" aria-label="랭크전 전투 기록" aria-selected="false">${pvpTabIcon('history')}<span>전투 기록<small>ARCHIVE</small></span></button><button data-pvp="ranking" aria-label="랭크전 시즌 랭킹" aria-selected="false">${pvpTabIcon('ranking')}<span>시즌 랭킹<small>RANKING</small></span></button><button data-pvp="reward" aria-label="랭크전 시즌 보상" aria-selected="false">${pvpTabIcon('reward')}<span>시즌 보상<small>REWARD</small></span></button></nav></section>`}
 function pvpCardMini(c,user=loadUser()){
   const power=battleCardPower(c,user,pvpState.battleConfig||battleState.config);
   return `<div class="pvp-card-mini-full">${cardHtml(c,true,'pvp-card-display',user)}<div class="pvp-card-extra compact deck-card-summary"><b>${escapeHtml(c.grade||c.rarity||'C')}</b><strong>${power.toLocaleString()}</strong></div></div>`;
@@ -4164,7 +4274,7 @@ function savePvpDeckFilter(filter){try{localStorage.setItem(PVP_DECK_FILTER_KEY,
 function renderPvpDeckCardList(list,user=loadUser()){
   const root=document.getElementById('pvpCardPicker');if(!root)return;
   const filter=loadPvpDeckFilter(),deckSet=new Set(pvpState.deck),rows=filterDeckCards(list,filter,user,pvpState.battleConfig||battleState.config),groups=pveDeckGradeGroups(rows);
-  mountVirtualCardGroups(root,groups,{kind:'pvp',renderCard:card=>`<button type="button" class="pvp-pick ${deckSet.has(card.id)?'selected':''}" data-cid="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pvpCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`,onPick:async button=>{if(pvpState.deck.length>=5)return alert('랭크전 덱은 5장까지 편성할 수 있습니다.');const card=cards.find(item=>String(item.id)===String(button.dataset.cid));if(String(card?.grade||card?.rarity||'').toUpperCase()==='ZENITH'&&deckGradeCount(pvpState.deck,'ZENITH')>=ZENITH_DECK_LIMIT)return alert(`제니스 카드는 덱에 최대 ${ZENITH_DECK_LIMIT}장까지만 편성할 수 있습니다.`);pvpState.deck.push(button.dataset.cid);await rerenderPvpDeckPreserveScroll()}});
+  mountVirtualCardGroups(root,groups,{kind:'pvp',renderCard:card=>`<button type="button" class="pvp-pick ${deckSet.has(card.id)?'selected':''}" data-cid="${card.id}" ${deckSet.has(card.id)?'disabled':''}>${pvpCardMini(card,user)}${deckSet.has(card.id)?'<span class="pve-selected-cover"><b>편성됨</b></span>':''}</button>`,onPick:async button=>{if(pvpState.deck.length>=5)return alert('랭크전 덱은 5장까지 편성할 수 있습니다.');const card=cards.find(item=>String(item.id)===String(button.dataset.cid)),rules=normalizeDeckRules(pvpState.deckRules),grade=String(card?.grade||card?.rarity||'').toUpperCase(),hasLimit=Object.prototype.hasOwnProperty.call(rules.gradeLimits,grade),limit=Number(rules.gradeLimits?.[grade]);if(hasLimit&&deckGradeCount(pvpState.deck,grade)>=limit)return alert(`${deckGradeRuleLabel(grade)} 카드는 랭크전 덱에 최대 ${limit}장까지만 편성할 수 있습니다.`);pvpState.deck.push(button.dataset.cid);await rerenderPvpDeckPreserveScroll()}});
   const count=document.getElementById('pvpDeckResultCount');if(count)count.textContent=`${rows.length}장`;
 }
 function bindPvpDeckFilters(list,user=loadUser()){
@@ -4178,9 +4288,9 @@ function bindPvpDeckFilters(list,user=loadUser()){
 }
 function renderPvpDeckTab(box){
   const user=loadUser(),owned=ownedIds(user),list=cards.filter(card=>owned.has(card.id));
-  const cardPower=pvpState.deck.reduce((sum,id)=>{const card=cards.find(item=>item.id===id);return sum+(card?battleCardPower(card,user,pvpState.battleConfig||battleState.config):0)},0),supportPvp=Number(pvpState.characterBonus?.pvp||0),equipmentPvp=Number(pvpState.characterBonus?.equipmentPvp||0),garagePvp=Number(pvpState.characterBonus?.garagePvp||0),totalPower=cardPower+supportPvp;
-  const titlePvp=Number(pvpState.characterBonus?.titlePvp||pvpState.characterBonus?.titlePve||0);
-  box.innerHTML=`<div class="pvp-section-head pvp-deck-head"><div><p class="eyebrow">MY RANKED DECK</p><h2>랭크전 덱 편성</h2><small>ZENITH 카드는 덱당 최대 ${ZENITH_DECK_LIMIT}장까지 편성할 수 있습니다.</small></div><div class="pvp-deck-actions"><div class="content-power-summary pvp-power-summary"><small>랭크전 편성 전투력 · 지원 장비 반영</small><b>${totalPower.toLocaleString()}</b><span>카드 ${cardPower.toLocaleString()} <i>+</i> 장비 ${equipmentPvp.toLocaleString()}${garagePvp>0?` <i>+</i> 차고 ${garagePvp.toLocaleString()}`:''}${titlePvp>0?` <i>+</i> 칭호 ${titlePvp.toLocaleString()}`:''}</span></div><button class="pvp-reset-badge" id="resetPvpDeck"><i>↺</i> 덱 초기화</button></div></div><div class="pvp-formation-guide"><b>전열 2장</b><span>먼저 공격받는 자리</span><i></i><b>후열 3장</b><span>전열 붕괴 후 공격받는 자리</span></div><div id="pvpDeckSlots" class="pvp-deck-slots"></div><div id="pvpHealerPenalty" class="pvp-healer-penalty"></div><div class="deck-filter-toolbar pvp-deck-filter-toolbar"><label class="deck-filter-search"><i>⌕</i><input id="pvpDeckSearch" type="search" autocomplete="off" placeholder="카드명 또는 멤버 검색"></label><label><small>등급</small><select id="pvpDeckGrade"><option value="ALL">전체 등급</option>${['SUPERSTAR','ZENITH','FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade=>`<option value="${grade}">${grade}</option>`).join('')}</select></label><label><small>유형</small><select id="pvpDeckType"><option value="ALL">전체 유형</option><option value="ATTACK">공격형</option><option value="DEFENSE">방어형</option><option value="SPEED">속도형</option><option value="HP">HP형</option><option value="NONE">기본형</option></select></label><label><small>정렬</small><select id="pvpDeckSort"><option value="POWER_DESC">전투력 높은순</option><option value="GRADE_DESC">등급 높은순</option><option value="NAME_ASC">이름순</option></select></label><div class="deck-filter-result"><span id="pvpDeckResultCount">0장</span><button type="button" id="pvpDeckFilterReset">초기화</button></div></div><div id="pvpCardPicker" class="pvp-card-picker grouped"></div><button class="btn pvp-deck-save" id="savePvpDeck">랭크전 덱 저장</button>`;
+  const cardPower=pvpState.deck.reduce((sum,id)=>{const card=cards.find(item=>String(item.id)===String(id));return sum+(card?battleCardPower(card,user,pvpState.battleConfig||battleState.config):0)},0),supportPvp=Number(pvpState.characterBonus?.pvp||0),equipmentPvp=Number(pvpState.characterBonus?.equipmentPvp||0),garagePvp=Number(pvpState.characterBonus?.garagePvp||0),totalPower=cardPower+supportPvp;
+  const titlePvp=Number(pvpState.characterBonus?.titlePvp||pvpState.characterBonus?.titlePve||0),rules=normalizeDeckRules(pvpState.deckRules),violation=deckGradeLimitViolation(pvpState.deck,rules),ready=pvpState.deck.length===rules.deckSize&&!violation;
+  box.innerHTML=`<div class="pvp-section-head pvp-deck-head"><div><p class="eyebrow">MY RANKED DECK</p><h2>랭크전 덱 편성</h2><small>서버 편성 규칙이 선택 즉시 적용됩니다.</small></div><div class="pvp-deck-actions"><div class="content-power-summary pvp-power-summary"><small>랭크전 편성 전투력 · 지원 장비 반영</small><b>${totalPower.toLocaleString()}</b><span>카드 ${cardPower.toLocaleString()} <i>+</i> 장비 ${equipmentPvp.toLocaleString()}${garagePvp>0?` <i>+</i> 차고 ${garagePvp.toLocaleString()}`:''}${titlePvp>0?` <i>+</i> 칭호 ${titlePvp.toLocaleString()}`:''}</span></div><button class="pvp-reset-badge" id="resetPvpDeck"><i>↺</i> 덱 초기화</button></div></div>${deckGradeRuleSummaryHtml(pvpState.deck,rules,'pvp-grade-rules')}<div class="pvp-formation-guide"><b>전열 ${rules.formation.front}장</b><span>먼저 공격받는 자리</span><i></i><b>후열 ${rules.formation.back}장</b><span>전열 붕괴 후 공격받는 자리</span></div><div id="pvpDeckSlots" class="pvp-deck-slots"></div><div id="pvpHealerPenalty" class="pvp-healer-penalty"></div><div class="deck-filter-toolbar pvp-deck-filter-toolbar"><label class="deck-filter-search"><i>⌕</i><input id="pvpDeckSearch" type="search" autocomplete="off" placeholder="카드명 또는 멤버 검색"></label><label><small>등급</small><select id="pvpDeckGrade"><option value="ALL">전체 등급</option>${['SUPERSTAR','ZENITH','FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade=>`<option value="${grade}">${grade}</option>`).join('')}</select></label><label><small>유형</small><select id="pvpDeckType"><option value="ALL">전체 유형</option><option value="ATTACK">공격형</option><option value="DEFENSE">방어형</option><option value="SPEED">속도형</option><option value="HP">HP형</option><option value="NONE">기본형</option></select></label><label><small>정렬</small><select id="pvpDeckSort"><option value="POWER_DESC">전투력 높은순</option><option value="GRADE_DESC">등급 높은순</option><option value="NAME_ASC">이름순</option></select></label><div class="deck-filter-result"><span id="pvpDeckResultCount">0장</span><button type="button" id="pvpDeckFilterReset">초기화</button></div></div><div id="pvpCardPicker" class="pvp-card-picker grouped"></div><button class="btn pvp-deck-save" id="savePvpDeck" ${ready?'':'disabled'}>${violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:'랭크전 덱 저장'}</button>`;
   const heading=box.querySelector('.pvp-deck-head>div');if(heading){const nav=document.createElement('nav');nav.className='pvp-preset-tabs';nav.setAttribute('aria-label','PVP 덱 프리셋');nav.innerHTML=[1,2,3].map(no=>`<button type="button" data-pvp-preset="${no}" class="${Number(pvpState.selectedPreset)===no?'active':''}">프리셋 ${no}${no===1?'<small>방어 기본</small>':Number(pvpState.activePreset)===no?'<small>공격 사용 중</small>':''}</button>`).join('');heading.appendChild(nav);nav.querySelectorAll('[data-pvp-preset]').forEach(button=>button.onclick=async()=>{const no=Number(button.dataset.pvpPreset);pvpState.selectedPreset=no;pvpState.deck=[...(pvpState.presets?.[no]||[])];await rerenderPvpDeckPreserveScroll()})}
   renderPvpDeckSlots();renderPvpDeckCardList(list,user);bindPvpDeckFilters(list,user);
   document.getElementById('resetPvpDeck').onclick=async()=>{if(!pvpState.deck.length)return;pvpState.deck=[];await rerenderPvpDeckPreserveScroll()};
@@ -4190,13 +4300,13 @@ function renderPvpDeckTab(box){
 function stopPvpEnergyTimer(){if(pvpState.energyTimer){clearInterval(pvpState.energyTimer);pvpState.energyTimer=null}}
 function pvpEnergyText(ms){const total=Math.max(0,Math.ceil(ms/1000)),m=Math.floor(total/60),s=total%60;return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`}
 function rankedMatchButtonLabel(button,label){if(!button)return;const target=button.querySelector('strong');if(target)target.textContent=label;else button.textContent=label}
-function rankedLiveDeckHtml(user=loadUser()){const selected=pvpState.deck.map(id=>cards.find(card=>String(card.id)===String(id))).filter(Boolean);return Array.from({length:5},(_,index)=>{const card=selected[index],row=index<2?'front':'back',label=pvpFormationLabel(index);return `<article class="ranked-mini-slot ${row}">${card?cardHtml(card,true,'pvp-card-display ranked-roster-card',user):`<div class="ranked-mini-empty"><b>${index+1}</b><span>EMPTY</span></div>`}<span class="slot-position">${label}</span></article>`}).join('')}
-function rankedLiveMatchHtml(){const user=loadUser(),tier=pvpState.profile?.tier||{id:'bronze',name:'브론즈',min:0},score=Number(pvpState.profile?.season_score||0),power=pvpState.deck.reduce((sum,id)=>{const card=cards.find(item=>String(item.id)===String(id));return sum+(card?battleCardPower(card,user,pvpState.battleConfig||battleState.config):0)},0)+Number(pvpState.characterBonus?.pvp||0),ready=pvpState.deck.length===5;
-  return `<section class="ranked-match-console ranked-match-v2"><article class="ranked-match-core"><i class="core-corner top-left"></i><i class="core-corner bottom-right"></i><header class="ranked-match-status"><span><i></i> MATCH SYSTEM READY</span><b>PROJECT V3</b></header><picture class="ranked-match-scanner" aria-hidden="true"><source srcset="assets/ui/ranked/ranked-match-scanner-v1826.avif" type="image/avif"><img src="assets/ui/ranked/ranked-match-scanner-v1826.webp" alt="" decoding="async" fetchpriority="high"></picture><div class="ranked-match-copy"><p class="eyebrow">RANKED AUTO MATCH</p><h2>균형 상대 탐색</h2><p>현재 전력에 맞는 상대 한 명을 서버가 자동 배정합니다.</p></div><div class="ranked-match-factors"><span><small>현재 티어</small><b>${escapeHtml(tier.name)}</b></span><span><small>시즌 점수</small><b>${score.toLocaleString()}</b></span><span><small>편성 전투력</small><b>${power.toLocaleString()}</b></span></div><button type="button" class="ranked-match-start pvp-fight" id="rankedMatchStart"><span class="button-kicker">PROJECT V3 / LIVE COMBAT</span><strong>${ready?'랭크전 매칭 시작':'덱 5장을 먼저 편성하세요'}</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button><p class="ranked-match-rule">제한 종료 판정 · 생존 카드 수 → 잔여 HP 비율 → 편성 전투력</p></article><aside class="ranked-tactical-panel ranked-deck-panel"><header><span>ACTIVE DECK</span><b class="ready-state"><i></i> ${pvpState.deck.length} / 5 ${ready?'READY':'SETUP'}</b></header><div class="ranked-mini-roster" aria-label="현재 출전 덱">${rankedLiveDeckHtml(user)}</div><div class="ranked-deck-power"><span><small>실제 편성 전투력</small><strong>${power.toLocaleString()}</strong></span><b>${pvpState.deck.length} / 5</b></div><button class="ranked-secondary-action" type="button" id="rankedDeckShortcut">출전 덱 점검 <span>→</span></button></aside></section>`}
-function renderPvpEnergy(){const e=pvpState.energy,count=document.getElementById('pvpEnergyCount'),fill=document.getElementById('pvpEnergyFill'),timer=document.getElementById('pvpEnergyTimer');if(!e||!count)return;count.textContent=e.unlimited?'무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent='무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent='충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+pvpState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`다음 충전 ${pvpEnergyText(remain)}`;}else timer.textContent='충전 대기';}document.querySelectorAll('.pvp-fight').forEach(b=>{const blocked=!e.unlimited&&e.energy<e.costPerBattle;b.disabled=blocked||pvpState.matching||pvpState.deck.length!==5;if(b.id==='rankedMatchStart')rankedMatchButtonLabel(b,pvpState.deck.length!==5?'덱 5장을 먼저 편성하세요':blocked?'횟수 부족':pvpState.matching?'균형 상대 탐색 중...':'랭크전 매칭 시작');else b.textContent=blocked?'횟수 부족':'도전';});}
+function rankedLiveDeckHtml(user=loadUser()){const selected=pvpState.deck.map(id=>cards.find(card=>String(card.id)===String(id))).filter(Boolean),front=normalizeDeckRules(pvpState.deckRules).formation.front;return Array.from({length:5},(_,index)=>{const card=selected[index],row=index<front?'front':'back',label=pvpFormationLabel(index);return `<article class="ranked-mini-slot ${row}">${card?cardHtml(card,true,'pvp-card-display ranked-roster-card',user):`<div class="ranked-mini-empty"><b>${index+1}</b><span>EMPTY</span></div>`}<span class="slot-position">${label}</span></article>`}).join('')}
+function rankedLiveMatchHtml(){const user=loadUser(),tier=pvpState.profile?.tier||{id:'bronze',name:'브론즈',min:0},score=Number(pvpState.profile?.season_score||0),power=pvpState.deck.reduce((sum,id)=>{const card=cards.find(item=>String(item.id)===String(id));return sum+(card?battleCardPower(card,user,pvpState.battleConfig||battleState.config):0)},0)+Number(pvpState.characterBonus?.pvp||0),violation=deckGradeLimitViolation(pvpState.deck,pvpState.deckRules),ready=pvpState.deck.length===5&&!violation;
+  return `<section class="ranked-match-console ranked-match-v2"><article class="ranked-match-core"><i class="core-corner top-left"></i><i class="core-corner bottom-right"></i><header class="ranked-match-status"><span><i></i> MATCH SYSTEM READY</span><b>PROJECT V3</b></header><picture class="ranked-match-scanner" aria-hidden="true"><source srcset="assets/ui/ranked/ranked-match-scanner-v1826.avif" type="image/avif"><img src="assets/ui/ranked/ranked-match-scanner-v1826.webp" alt="" decoding="async" fetchpriority="high"></picture><div class="ranked-match-copy"><p class="eyebrow">RANKED AUTO MATCH</p><h2>균형 상대 탐색</h2><p>현재 전력에 맞는 상대 한 명을 서버가 자동 배정합니다.</p></div><div class="ranked-match-factors"><span><small>현재 티어</small><b>${escapeHtml(tier.name)}</b></span><span><small>시즌 점수</small><b>${score.toLocaleString()}</b></span><span><small>편성 전투력</small><b>${power.toLocaleString()}</b></span></div><button type="button" class="ranked-match-start pvp-fight" id="rankedMatchStart"><span class="button-kicker">PROJECT V3 / LIVE COMBAT</span><strong>${ready?'랭크전 매칭 시작':violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:'덱 5장을 먼저 편성하세요'}</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button><p class="ranked-match-rule">제한 종료 판정 · 생존 카드 수 → 잔여 HP 비율 → 편성 전투력</p></article><aside class="ranked-tactical-panel ranked-deck-panel"><header><span>ACTIVE DECK</span><b class="ready-state"><i></i> ${pvpState.deck.length} / 5 ${ready?'READY':violation?'LIMIT':'SETUP'}</b></header><div class="ranked-mini-roster" aria-label="현재 출전 덱">${rankedLiveDeckHtml(user)}</div><div class="ranked-deck-power"><span><small>실제 편성 전투력</small><strong>${power.toLocaleString()}</strong></span><b>${pvpState.deck.length} / 5</b></div><button class="ranked-secondary-action" type="button" id="rankedDeckShortcut">출전 덱 점검 <span>→</span></button></aside></section>`}
+function renderPvpEnergy(){const e=pvpState.energy,count=document.getElementById('pvpEnergyCount'),fill=document.getElementById('pvpEnergyFill'),timer=document.getElementById('pvpEnergyTimer');if(!e||!count)return;count.textContent=e.unlimited?'무제한':`${e.energy} / ${e.maxEnergy}`;if(fill)fill.style.width=`${e.unlimited?100:Math.max(0,Math.min(100,e.energy/e.maxEnergy*100))}%`;if(timer){if(e.unlimited)timer.textContent='무제한 적용';else if(e.energy>=e.maxEnergy)timer.textContent='충전 완료';else if(e.nextRechargeAt){const remain=Date.parse(e.nextRechargeAt)-(Date.now()+pvpState.serverOffset);timer.textContent=remain<=0?'충전 갱신 중...':`다음 충전 ${pvpEnergyText(remain)}`;}else timer.textContent='충전 대기';}document.querySelectorAll('.pvp-fight').forEach(b=>{const blocked=!e.unlimited&&e.energy<e.costPerBattle,violation=deckGradeLimitViolation(pvpState.deck,pvpState.deckRules);b.disabled=blocked||pvpState.matching||pvpState.deck.length!==5||Boolean(violation);if(b.id==='rankedMatchStart')rankedMatchButtonLabel(b,violation?`${deckGradeRuleLabel(violation.grade)} 편성 제한 확인`:pvpState.deck.length!==5?'덱 5장을 먼저 편성하세요':blocked?'횟수 부족':pvpState.matching?'균형 상대 탐색 중...':'랭크전 매칭 시작');else b.textContent=violation?'편성 제한':blocked?'횟수 부족':'도전';});}
 function startPvpEnergyTimer(){stopPvpEnergyTimer();renderPvpEnergy();pvpState.energyTimer=setInterval(()=>{if(!document.getElementById('pvpEnergyCount'))return stopPvpEnergyTimer();const e=pvpState.energy;if(e&&!e.unlimited&&e.nextRechargeAt&&Date.parse(e.nextRechargeAt)<=(Date.now()+pvpState.serverOffset)){loadPvpEnergyOnly();return}renderPvpEnergy()},1000)}
-async function loadPvpEnergyOnly(){try{const d=await apiRequest('pvp/config');pvpState.energy=d.energy;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startPvpEnergyTimer()}catch(_){renderPvpEnergy()}}
-async function loadPvpView(){if(!API_MODE){document.getElementById('pvpContent').innerHTML='<div class="empty-recent">현재 랭크전을 이용할 수 없습니다. 잠시 후 다시 시도해주세요.</div>';return}try{const d=await apiRequest('pvp/config');const settling=Boolean(d.lifecycle?.settling),pvpOperational=!settling&&Boolean(d.settings?.enabled||d.bypass);pvpFeatureEnabled=Boolean(pvpOperational||settling);pvpState.config=d.settings;pvpState.battleConfig=d.battleSettings||null;pvpState.profile=d.profile;pvpState.myTitle=d.title||null;pvpState.deck=d.deck||[];pvpState.characterBonus=d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0};pvpState.battleEngine=d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY'};pvpState.energy=d.energy||null;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();const eyebrow=document.getElementById('pvpSeasonEyebrow'),desc=document.getElementById('pvpSeasonDescription'),statusLine=document.getElementById('pvpSeasonStatusLine');if(eyebrow)eyebrow.textContent=d.settings?.seasonTitle||'SOOPKETMON RANKED';document.getElementById('pvpSeasonTitle').textContent=d.settings?.seasonName||'랭크전';if(desc)desc.textContent=d.settings?.seasonDescription||'티어와 편성 전투력을 기준으로 상대가 자동 배정됩니다.';if(statusLine)statusLine.textContent=`${pvpOperational?'ON':'OFF'} · ${d.settings?.status||(pvpOperational?'진행 중':'중지')}${pvpState.battleEngine?.active?' · PROJECT V V3':''}`;if(!pvpOperational){document.getElementById('pvpContent').innerHTML=`<div class="empty-recent pvp-disabled-notice"><b>${settling?'랭크전 시즌 정산 중':'랭크전 운영 중지'}</b><span>${escapeHtml(d.settings?.status||(settling?'시즌 8 정산 후 시즌 9가 자동 시작됩니다.':'현재 랭크전이 중지되어 있습니다.'))}</span></div>`;document.querySelectorAll('[data-pvp]').forEach(b=>b.disabled=true);if(settling)setTimeout(()=>{if(document.getElementById('pvpContent'))loadPvpView()},1500);return;}document.getElementById('pvpMyTier').textContent=d.profile.tier?.name||'브론즈';const tierBadge=document.getElementById('pvpMyTierBadge');if(tierBadge)tierBadge.innerHTML=tierEmblem(d.profile.tier||{id:'bronze',name:'브론즈',color:'#b87333'},'small');document.getElementById('pvpMyScore').textContent=`시즌 ${Number(d.profile?.season_score||0).toLocaleString()}점`;document.getElementById('pvpSeasonTime').textContent=d.settings.endsAt?`${formatKstDateTime(d.settings.endsAt)} KST 종료`:'상시 시즌';startPvpEnergyTimer();document.querySelectorAll('[data-pvp]').forEach(b=>{b.disabled=false;b.onclick=()=>{pvpState.tab=b.dataset.pvp;document.querySelectorAll('[data-pvp]').forEach(x=>x.classList.toggle('active',x===b));renderPvpTab()}});renderPvpTab()}catch(e){document.getElementById('pvpContent').textContent=e.message}}
+async function loadPvpEnergyOnly(){try{const d=await apiRequest('pvp/config');pvpState.energy=d.energy;pvpState.deckRules=normalizeDeckRules(d.deckRules||pvpState.deckRules);pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();startPvpEnergyTimer()}catch(_){renderPvpEnergy()}}
+async function loadPvpView(){if(!API_MODE){document.getElementById('pvpContent').innerHTML='<div class="empty-recent">현재 랭크전을 이용할 수 없습니다. 잠시 후 다시 시도해주세요.</div>';return}try{const d=await apiRequest('pvp/config');const settling=Boolean(d.lifecycle?.settling),pvpOperational=!settling&&Boolean(d.settings?.enabled||d.bypass);pvpFeatureEnabled=Boolean(pvpOperational||settling);pvpState.config=d.settings;pvpState.battleConfig=d.battleSettings||null;pvpState.deckRules=normalizeDeckRules(d.deckRules);pvpState.profile=d.profile;pvpState.myTitle=d.title||null;pvpState.deck=d.deck||[];pvpState.characterBonus=d.characterBonus||{equipmentPve:0,equipmentPvp:0,garagePve:0,garagePvp:0,titlePve:0,pve:0,pvp:0};pvpState.battleEngine=d.battleEngine||{active:false,version:'LEGACY',mode:'LEGACY'};pvpState.energy=d.energy||null;pvpState.serverOffset=Date.parse(d.serverNow||new Date().toISOString())-Date.now();const eyebrow=document.getElementById('pvpSeasonEyebrow'),desc=document.getElementById('pvpSeasonDescription'),statusLine=document.getElementById('pvpSeasonStatusLine');if(eyebrow)eyebrow.textContent=d.settings?.seasonTitle||'SOOPKETMON RANKED';document.getElementById('pvpSeasonTitle').textContent=d.settings?.seasonName||'랭크전';if(desc)desc.textContent=d.settings?.seasonDescription||'티어와 편성 전투력을 기준으로 상대가 자동 배정됩니다.';if(statusLine)statusLine.textContent=`${pvpOperational?'ON':'OFF'} · ${d.settings?.status||(pvpOperational?'진행 중':'중지')}${pvpState.battleEngine?.active?' · PROJECT V V3':''}`;if(!pvpOperational){document.getElementById('pvpContent').innerHTML=`<div class="empty-recent pvp-disabled-notice"><b>${settling?'랭크전 시즌 정산 중':'랭크전 운영 중지'}</b><span>${escapeHtml(d.settings?.status||(settling?'시즌 8 정산 후 시즌 9가 자동 시작됩니다.':'현재 랭크전이 중지되어 있습니다.'))}</span></div>`;document.querySelectorAll('[data-pvp]').forEach(b=>b.disabled=true);if(settling)setTimeout(()=>{if(document.getElementById('pvpContent'))loadPvpView()},1500);return;}document.getElementById('pvpMyTier').textContent=d.profile.tier?.name||'브론즈';const tierBadge=document.getElementById('pvpMyTierBadge');if(tierBadge)tierBadge.innerHTML=tierEmblem(d.profile.tier||{id:'bronze',name:'브론즈',color:'#b87333'},'small');document.getElementById('pvpMyScore').textContent=`시즌 ${Number(d.profile?.season_score||0).toLocaleString()}점`;document.getElementById('pvpSeasonTime').textContent=d.settings.endsAt?`${formatKstDateTime(d.settings.endsAt)} KST 종료`:'상시 시즌';startPvpEnergyTimer();document.querySelectorAll('[data-pvp]').forEach(b=>{b.disabled=false;b.onclick=()=>{pvpState.tab=b.dataset.pvp;document.querySelectorAll('[data-pvp]').forEach(x=>x.classList.toggle('active',x===b));renderPvpTab()}});renderPvpTab()}catch(e){document.getElementById('pvpContent').textContent=e.message}}
 function rankedSeasonRewardHtml(profile,config){
   const tier=profile.highestTier||profile.tier,tiers=config.tiers||[],rankRewards=config.rankRewards||[],automatic=config.automaticSeasons!==false;
   const tierReward=`◈ ${Number(tier.rewardCoin||0).toLocaleString()} · 조각 ${Number(tier.rewardShards||0).toLocaleString()}`;
@@ -4212,16 +4322,16 @@ function rankedSeasonRewardHtml(profile,config){
 async function renderPvpTab(){const box=document.getElementById('pvpContent');if(!box)return;box.innerHTML='<div class="empty-recent">불러오는 중...</div>';try{if(pvpState.tab==='match'){box.innerHTML=rankedLiveMatchHtml();document.getElementById('rankedMatchStart').onclick=startRankedMatch;const shortcut=document.getElementById('rankedDeckShortcut');if(shortcut)shortcut.onclick=()=>{pvpState.tab='deck';document.querySelectorAll('[data-pvp]').forEach(button=>{const active=button.dataset.pvp==='deck';button.classList.toggle('active',active);button.setAttribute('aria-selected',String(active))});renderPvpTab()};renderPvpEnergy();}
 else if(pvpState.tab==='deck'){await loadPvpPresets();renderPvpDeckTab(box);}
 else if(pvpState.tab==='history'){const d=await apiRequest('pvp/history');box.innerHTML=`<div class="pvp-section-head"><div><p class="eyebrow">BATTLE HISTORY</p><h2>전투 기록</h2></div></div><div class="pvp-history">${d.history.map(h=>`<div class="pvp-history-row ${h.result.toLowerCase()}"><b>${h.result==='WIN'?'승리':'패배'}</b><span class="public-name-stack">${publicTitleBadgeHtml(h.opponentTitle)}<b>${escapeHtml(h.opponent)}</b><small>${h.direction==='ATTACK'?'내가 도전':'상대가 도전'} · ${formatKstDateTime(h.created_at)} KST</small></span><strong>${h.result==='WIN'?'+':'-'}${h.score_change}</strong></div>`).join('')||'<div class="empty-recent">아직 전투 기록이 없습니다.</div>'}</div>`;}
-else if(pvpState.tab==='ranking'){const d=await apiRequest('pvp/ranking');box.innerHTML=`<nav class="rank-switch pvp-rank-switch"><button type="button" class="active">랭크전 시즌 랭킹</button><button type="button" id="cardRankLink">카드점수 랭킹</button></nav><div class="pvp-section-head"><div><p class="eyebrow">SEASON RANKING</p><h2>${escapeHtml(d.settings.seasonName)} 랭킹</h2></div></div>${pvpTierGuideHtml(d.settings?.tiers||[],d.me?.tier)}${d.me?`<div class="pvp-my-rank">${tierEmblem(d.me.tier,'rank')}<span>내 순위 <b>${d.me.rank}위</b><small>${escapeHtml(d.me.tier.name)} · ${Number(d.me.season_score).toLocaleString()}점</small></span></div>`:''}<div class="pvp-ranking">${d.ranking.map(r=>`<div class="pvp-rank-row"><b>${r.rank}</b>${tierEmblem(r.tier,'rank')}<span class="public-name-stack">${publicTitleBadgeHtml(r.title)}<b>${escapeHtml(r.nickname)}</b><small>${escapeHtml(r.tier.name)} · ${r.wins}승 ${r.losses}패</small></span><strong>${Number(r.season_score).toLocaleString()}</strong></div>`).join('')}</div>`;document.getElementById('cardRankLink').onclick=()=>{renderShell('rank');setTimeout(()=>loadRankHub('card'),0)};}
+else if(pvpState.tab==='ranking'){const d=await apiRequest('pvp/ranking');box.innerHTML=`<div class="pvp-section-head"><div><p class="eyebrow">SEASON RANKING</p><h2>${escapeHtml(d.settings.seasonName)} 랭킹</h2></div></div>${pvpTierGuideHtml(d.settings?.tiers||[],d.me?.tier)}${d.me?`<div class="pvp-my-rank">${tierEmblem(d.me.tier,'rank')}<span>내 순위 <b>${d.me.rank}위</b><small>${escapeHtml(d.me.tier.name)} · ${Number(d.me.season_score).toLocaleString()}점</small></span></div>`:''}<div class="pvp-ranking">${d.ranking.map(r=>`<div class="pvp-rank-row"><b>${r.rank}</b>${tierEmblem(r.tier,'rank')}<span class="public-name-stack">${publicTitleBadgeHtml(r.title)}<b>${escapeHtml(r.nickname)}</b><small>${escapeHtml(r.tier.name)} · ${r.wins}승 ${r.losses}패</small></span><strong>${Number(r.season_score).toLocaleString()}</strong></div>`).join('')}</div>`;}
 else{if(pvpState.config.automaticSeasons!==false){box.innerHTML=rankedSeasonRewardHtml(pvpState.profile,pvpState.config);return}const t=pvpState.profile.tier,tiers=pvpState.config.tiers||[],rankRewards=pvpState.config.rankRewards||[],endAt=pvpState.config.endsAt?Date.parse(`${String(pvpState.config.endsAt).replace(' ','T')}Z`):0,seasonEnded=Boolean(endAt&&Number.isFinite(endAt)&&Date.now()>=endAt);box.innerHTML=`<div class="pvp-section-head"><div><p class="eyebrow">SEASON REWARD</p><h2>시즌 보상</h2></div></div><div class="pvp-reward-current"><span>현재 최고 달성</span><b>${escapeHtml(t.name)}</b><strong>◈ ${Number(t.rewardCoin||0).toLocaleString()} · 조각 ${Number(t.rewardShards||0).toLocaleString()}</strong><button class="btn" id="claimPvpReward" ${pvpState.config.tierRewardsEnabled===false?'disabled':''}>티어 보상 받기</button></div><div class="pvp-tier-rewards">${tiers.map(x=>`<div><span>${escapeHtml(x.name)}</span><b>${Number(x.min).toLocaleString()}점+</b><strong>◈ ${Number(x.rewardCoin||0).toLocaleString()} · 조각 ${Number(x.rewardShards||0).toLocaleString()}</strong></div>`).join('')}</div><div class="pvp-section-head pvp-rank-reward-head"><div><p class="eyebrow">FINAL RANK REWARD</p><h2>최종 랭킹 보상</h2></div></div><div class="pvp-tier-rewards">${rankRewards.map(x=>`<div><span>${x.from===x.to?`${x.from}위`:`${x.from}~${x.to}위`}</span><b>시즌 종료 기준</b><strong>◈ ${Number(x.rewardCoin||0).toLocaleString()} · 조각 ${Number(x.rewardShards||0).toLocaleString()}</strong></div>`).join('')||'<div class="empty-recent">등록된 랭킹 보상이 없습니다.</div>'}</div>${seasonEnded?`<div class="pvp-final-reward-ready"><span>시즌이 종료되었습니다. 확정된 최종 순위 보상은 계정당 1회만 받을 수 있습니다.</span><button class="btn pvp-rank-claim" id="claimPvpRankReward" ${pvpState.config.rankRewardsEnabled===false?'disabled':''}>최종 랭킹 보상 받기</button></div>`:`<div class="pvp-final-reward-wait"><b>시즌 종료 후 지급</b><span>최종 랭킹 보상은 시즌 종료 시점의 확정 순위를 기준으로 1회 수령할 수 있습니다.</span></div>`}`;document.getElementById('claimPvpReward').onclick=claimPvpReward;const rankClaim=document.getElementById('claimPvpRankReward');if(rankClaim)rankClaim.onclick=claimPvpRankReward;}}catch(e){box.innerHTML=`<div class="empty-recent">${escapeHtml(e.message)}</div>`}}
 async function rerenderPvpDeckPreserveScroll(){const picker=document.getElementById('pvpCardPicker'),pickerTop=picker?.scrollTop||0,pageTop=window.scrollY;await renderPvpTab();requestAnimationFrame(()=>{const next=document.getElementById('pvpCardPicker');if(next)next.scrollTop=pickerTop;window.scrollTo({top:pageTop,left:0,behavior:'auto'})})}
-function pvpFormationLabel(index){return index<2?`전열 ${index+1}`:`후열 ${index-1}`}
+function pvpFormationLabel(index){const front=normalizeDeckRules(pvpState.deckRules).formation.front;return index<front?`전열 ${index+1}`:`후열 ${index-front+1}`}
 function pvpCardIsHealer(card){const dominant=uniqueAbilityDominant(card),raw=String(card?.powerType??card?.power_type??'').trim().toUpperCase();return dominant?.key==='hp'||raw==='HP'||raw==='HEALTH'||raw==='LIFE'}
-function pvpHealerPenaltyState(){const selected=pvpState.deck.map(id=>cards.find(card=>card.id===id)).filter(Boolean),count=selected.filter(pvpCardIsHealer).length,reduction=count>=5?90:count===4?85:count===3?75:count===2?60:0;return {count,reduction}}
-function renderPvpHealerPenalty(){const box=document.getElementById('pvpHealerPenalty');if(!box)return;const state=pvpHealerPenaltyState();box.className=`pvp-healer-penalty ${state.reduction?'active':''}`;box.innerHTML=`<b>힐러 ${state.count}장</b><span>${state.reduction?`PVE·PVP 회복량 ${state.reduction}% 감소 적용`:'힐러 2장부터 PVE·PVP 회복 대폭 감소 및 불굴 비활성'}</span><small>2장 -60% · 3장 -75% · 4장 -85% · 5장 -90% · 2장 이상 불굴 비활성</small>`}
+function pvpHealerPenaltyState(){const selected=pvpState.deck.map(id=>cards.find(card=>String(card.id)===String(id))).filter(Boolean),count=selected.filter(pvpCardIsHealer).length,rules=normalizeDeckRules(pvpState.deckRules),reduction=Number(rules.healerPenalties?.[Math.min(5,count)]||0);return {count,reduction,rules}}
+function renderPvpHealerPenalty(){const box=document.getElementById('pvpHealerPenalty');if(!box)return;const state=pvpHealerPenaltyState(),penalties=state.rules.healerPenalties;box.className=`pvp-healer-penalty ${state.reduction?'active':''}`;box.innerHTML=`<b>힐러 ${state.count}장</b><span>${state.reduction?`PVE·PVP 회복량 ${state.reduction}% 감소 적용`:'힐러 2장부터 PVE·PVP 회복 대폭 감소 및 HP형 불굴의 생존 비활성'}</span><small>2장 -${Number(penalties[2]||0)}% · 3장 -${Number(penalties[3]||0)}% · 4장 -${Number(penalties[4]||0)}% · 5장 -${Number(penalties[5]||0)}% · 2장 이상 HP형 불굴의 생존 비활성</small>`}
 function renderPvpDeckSlots(){const el=document.getElementById('pvpDeckSlots');if(!el)return;el.innerHTML=Array.from({length:5},(_,i)=>{const c=cards.find(x=>x.id===pvpState.deck[i]),position=pvpFormationLabel(i),row=i<2?'front':'back';return c?`<button type="button" class="pvp-deck-slot filled ${row}" data-pvp-remove="${c.id}" title="${position} · 클릭해서 덱에서 제외"><span class="pvp-position-badge">${position}</span>${pvpCardMini(c,loadUser())}<span class="pvp-remove-hint">덱에서 빼기</span></button>`:`<div class="pvp-deck-slot empty ${row}"><span class="pvp-position-badge">${position}</span><div class="pvp-empty-slot"><span>${i+1}</span></div></div>`}).join('');el.querySelectorAll('[data-pvp-remove]').forEach(b=>b.onclick=async()=>{pvpState.deck=pvpState.deck.filter(id=>id!==b.dataset.pvpRemove);await rerenderPvpDeckPreserveScroll()});renderPvpHealerPenalty()}
-async function loadPvpPresets(){if(pvpState.presetsLoaded)return;const d=await apiRequest('pvp/config',{}, {ttl:0});pvpState.presets=d.presets||{1:d.deck||[],2:[],3:[]};pvpState.activePreset=Math.max(1,Math.min(3,Number(d.activePreset||1)));pvpState.selectedPreset=pvpState.activePreset;pvpState.deck=[...(pvpState.presets[pvpState.activePreset]||d.deck||[])];pvpState.presetsLoaded=true}
-async function savePvpDeck(){if(pvpState.deck.length!==5)return alert('보유 카드 5장을 선택하세요.');try{const presetNo=Math.max(1,Math.min(3,Number(pvpState.selectedPreset||1)));await apiRequest('pvp/deck',{method:'POST',body:JSON.stringify({cardIds:pvpState.deck,presetNo})});pvpState.presets[presetNo]=[...pvpState.deck];pvpState.activePreset=presetNo;alert(presetNo===1?'랭크전 프리셋 1번을 저장했습니다. 이 덱은 다른 유저가 공격할 때 사용하는 기본 방어 덱입니다.':`랭크전 프리셋 ${presetNo}번을 저장하고 내 공격 덱으로 적용했습니다. 방어 덱은 프리셋 1번을 유지합니다.`);await rerenderPvpDeckPreserveScroll()}catch(e){alert(e.message)}}
+async function loadPvpPresets(){if(pvpState.presetsLoaded)return;const d=await apiRequest('pvp/config',{}, {ttl:0});pvpState.deckRules=normalizeDeckRules(d.deckRules||pvpState.deckRules);pvpState.presets=d.presets||{1:d.deck||[],2:[],3:[]};pvpState.activePreset=Math.max(1,Math.min(3,Number(d.activePreset||1)));pvpState.selectedPreset=pvpState.activePreset;pvpState.deck=[...(pvpState.presets[pvpState.activePreset]||d.deck||[])];pvpState.presetsLoaded=true}
+async function savePvpDeck(){if(pvpState.deck.length!==5)return alert('보유 카드 5장을 선택하세요.');const violation=deckGradeLimitViolation(pvpState.deck,pvpState.deckRules);if(violation)return alert(`${deckGradeRuleLabel(violation.grade)} 카드는 랭크전 덱에 최대 ${violation.limit}장까지만 편성할 수 있습니다.`);try{const presetNo=Math.max(1,Math.min(3,Number(pvpState.selectedPreset||1)));await apiRequest('pvp/deck',{method:'POST',body:JSON.stringify({cardIds:pvpState.deck,presetNo})});pvpState.presets[presetNo]=[...pvpState.deck];pvpState.activePreset=presetNo;alert(presetNo===1?'랭크전 프리셋 1번을 저장했습니다. 이 덱은 다른 유저가 공격할 때 사용하는 기본 방어 덱입니다.':`랭크전 프리셋 ${presetNo}번을 저장하고 내 공격 덱으로 적용했습니다. 방어 덱은 프리셋 1번을 유지합니다.`);await rerenderPvpDeckPreserveScroll()}catch(e){alert(e.message)}}
 function pvpResultSafeNumber(value,fallback=0){const number=Number(value);return Number.isFinite(number)?number:fallback}
 function buildPvpV2ResultHtml(d,myWin,attackerPower,defenderPower,pvpV2Detail=''){
   const scoreChange=pvpResultSafeNumber(d?.scoreChange,0),coinReward=Math.max(0,pvpResultSafeNumber(d?.coinReward,0)),magicReward=Math.max(0,pvpResultSafeNumber(d?.magicReward?.amount,0));

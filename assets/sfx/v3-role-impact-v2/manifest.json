@@ -1,0 +1,37 @@
+{
+  "version": "v3-role-impact-v2",
+  "format": "audio/mpeg",
+  "sampleRate": 44100,
+  "channels": 2,
+  "bitrateKbps": 192,
+  "roles": {
+    "attack": {
+      "src": "/assets/sfx/v3-role-impact-v2/attack.mp3",
+      "durationMs": 970,
+      "syncPointMs": 105,
+      "label": "CRIMSON BLADE / SPEAR IMPACT",
+      "description": "붉은 검기 선행음 뒤에 창 찌르기와 저역 타격이 붙는 공격 임팩트"
+    },
+    "defense": {
+      "src": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+      "durationMs": 1330,
+      "syncPointMs": 48,
+      "label": "AQUA SHIELD / WAVE GUARD",
+      "description": "방패 전개 저역과 파도 전개음이 겹치는 방어 임팩트"
+    },
+    "speed": {
+      "src": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+      "durationMs": 1230,
+      "syncPointMs": 26,
+      "label": "LIGHTNING VELOCITY",
+      "description": "번개 채찍 트랜지언트와 전기 폭발을 결합한 속도 임팩트"
+    },
+    "heal": {
+      "src": "/assets/sfx/v3-role-impact-v2/heal.mp3",
+      "durationMs": 1720,
+      "syncPointMs": 110,
+      "label": "VERDANT RESTORE",
+      "description": "부드러운 물 계열 회복음과 깊은 회복 블룸을 결합한 힐 임팩트"
+    }
+  }
+}
