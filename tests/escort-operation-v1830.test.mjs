@@ -92,13 +92,13 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1843-public-launch/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=66-boss-barrage/);
+  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=67-role-impact-atlas/);
   assert.match(app,/battle-v3-live\.js\?v=3\.20\.0-escort-hp-gauge/);
   const appShellVersion=index.match(/app\.js\?v=([^"']+)/)?.[1];
   const serviceWorkerShellVersion=sw.match(/soop-card-shell-v([^"']+)/)?.[1];
   assert.ok(appShellVersion,'index.html app.js cache version is required');
   assert.equal(serviceWorkerShellVersion,appShellVersion,'app.js and service worker shell cache versions must advance together');
-  assert.match(index,/escort-operation-v1830\.js\?v=1844-escort-public-mobile/);
+  assert.match(index,/escort-operation-v1830\.js\?v=1883-escort-claim-recovery/);
   assert.match(index,/escort-operation-v1830\.css\?v=1844-public-mobile-fit/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=[^"']+/);
   assert.match(index,/soopketmon-v21-runtime-router\.js\?v=[^"']+/);
@@ -109,9 +109,23 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(style,/grid-template-columns:34px minmax\(104px,136px\) minmax\(0,1fr\) 18px!important/);
   assert.match(style,/grid-template-columns:repeat\(2,minmax\(0,1fr\)\)!important/);
   assert.match(router,/escort:\s*\{ shell: 'battle', actions: \[\{ selector: '\[data-pve-mode="escort"\]'/);
-  assert.match(adapter,/escort:\s*\['호송작전', '전투·경쟁', 'swords'\]/);
-  assert.match(adapter,/routes: \['battle', 'deck', 'hunt', 'raid', 'escort'/);
+  assert.match(adapter,/escort: Object\.freeze\(\{ title: '호송작전', group: 'pve', icon: 'swords' \}\)/);
+  assert.match(adapter,/pve: Object\.freeze\(\{ title: 'PVE 전투', routes: Object\.freeze\(\['battle', 'deck', 'hunt', 'raid', 'escort'/);
   assert.match(integrationStyle,/padding: 14px 12px max\(24px, env\(safe-area-inset-bottom\)\)/);
+});
+
+test('보상 지급 CLAIMING 고착은 자동 복구되고 모든 지급 쓰기는 상태 가드를 사용한다',async()=>{
+  const [handler,client]=await Promise.all([read('functions/_escort_operation.js'),read('js/escort-operation-v1830.js')]);
+  assert.match(handler,/CLAIM_RECOVERY_SECONDS=30/);
+  assert.match(handler,/async function recoverStaleClaim/);
+  assert.match(handler,/statusPayload[\s\S]*await recoverStaleClaim\(env,user\.id\)/);
+  assert.match(handler,/async function releaseClaim/);
+  assert.match(handler,/UPDATE users SET coin=coin\+\?,card_shards=card_shards\+\? WHERE id=\? AND \$\{claimGuard\}/);
+  assert.match(handler,/INSERT INTO coin_logs[\s\S]*\$\{claimGuard\}/);
+  assert.match(handler,/INSERT INTO shard_logs[\s\S]*\$\{claimGuard\}/);
+  assert.match(handler,/claimed\?\.status!==['"]CLAIMED['"]/);
+  assert.match(client,/지급 상태 자동 확인 실패/);
+  assert.match(client,/data-escort-action="reload" data-escort-primary="1">지급 상태 확인/);
 });
 
 test('호송 이미지 리소스는 런타임 예산 안으로 압축됐다',async()=>{

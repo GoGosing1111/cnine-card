@@ -24,7 +24,7 @@
     if(tickets)parts.push(`폐차장 출입 허가증 ${tickets.toLocaleString()}장`);
     return parts.length?parts.join(' · '):'없음';
   };
-  let data=null,busy=false,discoveryPromise=null;
+  let data=null,busy=false,discoveryPromise=null,claimPollTimer=null;
 
   async function api(path,options={}){
     if(!bridge()?.apiRequest)throw new Error('게임 연결 모듈을 불러오지 못했습니다.');
@@ -70,7 +70,7 @@
 
   function actionMarkup(run,weekly,settings){
     if(!run)return `<div class="escort-action-block"><div><small>WEEKLY DEPLOYMENT</small><b>${number(weekly.startedCount)} / ${number(settings.weeklyRunLimit)} 출전</b><span>완료 보상 ${number(weekly.rewardCount)} / ${number(settings.weeklyRewardLimit)}</span></div><button type="button" data-escort-action="start" data-escort-primary="1">호송작전 개시</button></div>`;
-    if(run.status==='CLAIMING')return '<div class="escort-action-block is-wait"><div><small>REWARD PROCESSING</small><b>보상 지급 처리 중</b><span>중복 지급을 방지하고 있습니다. 잠시 후 작전 정보를 새로고침하세요.</span></div></div>';
+    if(run.status==='CLAIMING')return '<div class="escort-action-block is-wait"><div><small>REWARD PROCESSING</small><b>보상 지급 확인 중</b><span>지급 결과를 자동 확인하고 있습니다. 실패한 요청은 보상 수령 상태로 안전하게 복구됩니다.</span></div><button type="button" data-escort-action="reload" data-escort-primary="1">지급 상태 확인</button></div>';
     // V1840: 도중에 실패해도 통과한 구간의 보상은 남아 있다. 상태가
     //   COMPLETED_PENDING 이면 완주든 중도 실패든 수령 화면을 띄운다.
     if(run.status==='COMPLETED_PENDING'){
@@ -84,6 +84,7 @@
 
   function render(){
     const root=document.getElementById('pveEscortView');if(!root||root.hidden)return;
+    if(claimPollTimer){clearTimeout(claimPollTimer);claimPollTimer=null}
     if(!data){root.innerHTML='<div class="escort-operation-loading"><i></i><b>호송 경로를 불러오는 중입니다.</b></div>';return}
     const settings=data.settings||{},run=data.run,weekly=data.weekly||{},sector=run?.sector||settings.sectors?.[0]||{},vehiclePercent=run?percent(run.vehiclePercent):100;
     root.innerHTML=`<main class="escort-operation" data-version="${VERSION}">
@@ -103,7 +104,7 @@
       ${actionMarkup(run,weekly,settings)}
       <footer class="escort-foot"><span>구간 종료 시 진행 상황이 자동 저장됩니다.</span><button type="button" data-escort-action="reload">작전 정보 새로고침</button>${run&&['ACTIVE','COMPLETED_PENDING'].includes(run.status)?'<button type="button" data-escort-action="abandon" class="escort-abandon">작전 포기</button>':''}</footer>
     </main>`;
-    bindActions();setBusy(busy);
+    bindActions();setBusy(busy);if(run?.status==='CLAIMING')claimPollTimer=setTimeout(()=>{claimPollTimer=null;load().catch(error=>console.warn('[ESCORT] 지급 상태 자동 확인 실패',error))},5000);
   }
 
   async function load(){data=await api('escort/status');render();return data;}
