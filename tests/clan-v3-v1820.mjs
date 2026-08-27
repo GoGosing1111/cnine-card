@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFile,stat} from 'node:fs/promises';
 import {__clanTest} from '../functions/_clan.js';
 
-const [server,router,app,client,shell,html,css,postgresMigration]=await Promise.all([
+const [server,router,app,client,shell,html,css,postgresMigration,markCatalogRaw]=await Promise.all([
   readFile(new URL('../functions/_clan.js',import.meta.url),'utf8'),
   readFile(new URL('../functions/api/[[path]].js',import.meta.url),'utf8'),
   readFile(new URL('../js/app.js',import.meta.url),'utf8'),
@@ -11,13 +11,35 @@ const [server,router,app,client,shell,html,css,postgresMigration]=await Promise.
   readFile(new URL('../js/soopketmon-v21-exact-shell-adapter.js',import.meta.url),'utf8'),
   readFile(new URL('../index.html',import.meta.url),'utf8'),
   readFile(new URL('../css/clan-v1.css',import.meta.url),'utf8'),
-  readFile(new URL('../scripts/postgres-clan-v1820.sql',import.meta.url),'utf8')
+  readFile(new URL('../scripts/postgres-clan-v1820.sql',import.meta.url),'utf8'),
+  readFile(new URL('../assets/ui/clan/marks/clan-mark-catalog-v1.json',import.meta.url),'utf8')
 ]);
 const commandRoomAsset=await stat(new URL('../assets/ui/clan/clan-command-room-v1.webp',import.meta.url));
+const markCatalog=JSON.parse(markCatalogRaw);
+const markAssets=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`../assets/ui/clan/marks/${clan.asset}`,import.meta.url))));
+const markSources=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`../assets/ui/clan/marks/${clan.source}`,import.meta.url))));
 
 test('클랜 정원과 스네이크 드래프트 순서가 고정된다',()=>{
   assert.equal(__clanTest.CLAN_MAX_MEMBERS,20);
   assert.deepEqual(Array.from({length:8},(_,i)=>__clanTest.currentDraftPosition(i,3)),[0,1,2,2,1,0,0,1]);
+});
+
+test('8개 공식 클랜 이름·키·마크 리소스가 단일 카탈로그로 고정된다',()=>{
+  const expectedNames=['DK','삼성','T1','한화','LG','롯데','FM','DC'];
+  const expectedKeys=['DK','SAMSUNG','T1','HANWHA','LG','LOTTE','FM','DC'];
+  assert.deepEqual(__clanTest.OFFICIAL_CLAN_CATALOG.map(clan=>clan.name),expectedNames);
+  assert.deepEqual(__clanTest.CLAN_MARKS,expectedKeys);
+  assert.deepEqual(markCatalog.clans.map(clan=>clan.name),expectedNames);
+  assert.deepEqual(markCatalog.clans.map(clan=>clan.markKey),expectedKeys);
+  assert.ok(markAssets.every(asset=>asset.size>40_000&&asset.size<150_000));
+  assert.ok(markSources.every(asset=>asset.size>1_000_000));
+  assert.match(server,/CLAN_OFFICIAL_CATALOG_VERSION/);
+  assert.match(server,/identityFixed:true/);
+  assert.match(client,/dk-clan-mark-v1\.webp/);
+  assert.match(client,/dc-clan-mark-v1\.webp/);
+  assert.match(client,/OFFICIAL CLAN ROSTER/);
+  assert.doesNotMatch(client,/WOLF:'◆'|SHIELD:'⬡'/);
+  assert.match(css,/\.clan-mark img/);
 });
 
 test('마스터 점수는 활동·랭크·기여·신뢰 스냅샷으로 계산한다',()=>{
@@ -69,8 +91,8 @@ test('클랜 지휘실 장면과 모바일 리뉴얼 계약을 유지한다',()=
   assert.match(css,/clan-command-room-v1\.webp/);
   assert.match(css,/@keyframes clanRadarSweep/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.clan-season-lock/);
-  assert.match(html,/clan-v1\.css\?v=1821-command-room/);
-  assert.match(html,/clan-v1\.js\?v=1821-command-room/);
+  assert.match(html,/clan-v1\.css\?v=1882-official-clans/);
+  assert.match(html,/clan-v1\.js\?v=1882-official-clans/);
   assert.ok(commandRoomAsset.size>10_000&&commandRoomAsset.size<80_000);
 });
 

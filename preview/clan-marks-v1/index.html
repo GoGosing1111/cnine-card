@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>숲켓몬 공식 클랜 마크 V1</title>
+  <link rel="stylesheet" href="../../css/clan-v1.css?v=1882-official-clans">
+  <style>
+    html{background:#030810}body{margin:0;padding:32px;background:radial-gradient(circle at 50% 0,#102134,#030810 55%)}
+    #preview{max-width:1180px;margin:0 auto}.preview-note{margin:0 0 14px;color:#6f8d99;font:700 11px/1.5 ui-monospace,monospace}
+    @media(max-width:760px){body{padding:12px}}
+  </style>
+</head>
+<body>
+  <main class="clan-shell" id="preview">
+    <p class="preview-note">QA PREVIEW · SOURCE 1254 PNG / RUNTIME 384 WEBP</p>
+    <section class="clan-panel clan-catalog">
+      <header><div><small>OFFICIAL CLAN ROSTER</small><h3>8개 공식 클랜</h3><p>클랜명·전용 마크·팀 컬러 UI 배치 검수</p></div><em>08 IDENTITIES</em></header>
+      <div class="clan-catalog-grid" id="catalog"></div>
+    </section>
+  </main>
+  <script>
+    const esc=value=>String(value??'').replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+    fetch('../../assets/ui/clan/marks/clan-mark-catalog-v1.json').then(response=>response.json()).then(data=>{
+      document.getElementById('catalog').innerHTML=data.clans.map(clan=>`<article style="--clan-primary:${esc(clan.primaryColor)};--clan-accent:${esc(clan.accentColor)}"><span class="clan-mark catalog-mark" role="img" aria-label="${esc(clan.name)} 클랜 마크"><img src="../../assets/ui/clan/marks/${esc(clan.asset)}" width="384" height="384" alt=""></span><span><small>${String(clan.order).padStart(2,'0')} · ${esc(clan.markKey)}</small><b>${esc(clan.name)}</b><em>시즌 배정 대기</em></span></article>`).join('');
+    });
+  </script>
+</body>
+</html>

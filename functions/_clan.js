@@ -1,9 +1,21 @@
 const CLAN_FOUNDATION_VERSION='safe_runtime_upgrade_v1820_clan_v1';
+const CLAN_OFFICIAL_CATALOG_VERSION='safe_runtime_upgrade_v1882_clan_official_catalog_v1';
 const CLAN_MAX_MEMBERS=20;
-const CLAN_MARKS=Object.freeze(['WOLF','RAVEN','LION','DRAGON','CROWN','SPEAR','SHIELD','PHOENIX']);
+const OFFICIAL_CLAN_CATALOG=Object.freeze([
+  Object.freeze({name:'DK',markKey:'DK',primaryColor:'#2f7cff',accentColor:'#d8e8ff'}),
+  Object.freeze({name:'삼성',markKey:'SAMSUNG',primaryColor:'#3c74c9',accentColor:'#e7f2ff'}),
+  Object.freeze({name:'T1',markKey:'T1',primaryColor:'#d32f4a',accentColor:'#f6d37a'}),
+  Object.freeze({name:'한화',markKey:'HANWHA',primaryColor:'#f1781f',accentColor:'#ffe3a1'}),
+  Object.freeze({name:'LG',markKey:'LG',primaryColor:'#d64192',accentColor:'#f4dbea'}),
+  Object.freeze({name:'롯데',markKey:'LOTTE',primaryColor:'#7b2445',accentColor:'#f0d28e'}),
+  Object.freeze({name:'FM',markKey:'FM',primaryColor:'#1dad72',accentColor:'#e9d07a'}),
+  Object.freeze({name:'DC',markKey:'DC',primaryColor:'#7b4ae2',accentColor:'#62d9ff'})
+]);
+const CLAN_MARKS=Object.freeze(OFFICIAL_CLAN_CATALOG.map(clan=>clan.markKey));
+const OFFICIAL_CLAN_ORDER_SQL=`CASE mark_key ${CLAN_MARKS.map((mark,index)=>`WHEN '${mark}' THEN ${index+1}`).join(' ')} ELSE 99 END`;
 const CLAN_ROLES=Object.freeze(['ATTACK','DEFENSE','SPEED','HP','BALANCED']);
 
-let foundationReady=false;
+let foundationReady=false,officialCatalogReady=false;
 
 function iso(ms=Date.now()){return new Date(ms).toISOString()}
 function safeJson(value,fallback={}){try{return JSON.parse(value||'')}catch{return fallback}}
@@ -59,16 +71,41 @@ const FOUNDATION_SQL=Object.freeze([
   `CREATE INDEX IF NOT EXISTS idx_clan_battles_cleanup ON clan_war_battles(status,updated_at,id)`
 ]);
 
-async function ensureFoundation(env){
-  if(foundationReady)return;
-  await env.DB.prepare('CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)').run();
-  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
-  if(!marker){
-    await batchChunks(env,FOUNDATION_SQL,25);
-    await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('clan_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({mode:'TEST'})).run();
-    await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_FOUNDATION_VERSION,iso()).run();
+async function ensureOfficialClanCatalog(env){
+  if(officialCatalogReady)return;
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_OFFICIAL_CATALOG_VERSION).first();
+  if(marker){officialCatalogReady=true;return}
+  const currentSeason=await env.DB.prepare("SELECT id FROM clan_seasons WHERE phase<>'COMPLETE' ORDER BY season_no DESC LIMIT 1").first();
+  const seasonOrgs=currentSeason?rows(await env.DB.prepare(`SELECT o.* FROM clan_season_teams t JOIN clan_organizations o ON o.id=t.clan_id
+    WHERE t.season_id=? ORDER BY t.draft_position LIMIT ?`).bind(currentSeason.id,OFFICIAL_CLAN_CATALOG.length).all()):[];
+  const allOrgs=rows(await env.DB.prepare('SELECT * FROM clan_organizations ORDER BY is_active DESC,id').all()),seen=new Set(),slots=[];
+  for(const org of [...seasonOrgs,...allOrgs]){const id=Number(org.id);if(!id||seen.has(id))continue;seen.add(id);slots.push(org);if(slots.length===OFFICIAL_CLAN_CATALOG.length)break}
+  for(let index=slots.length;index<OFFICIAL_CLAN_CATALOG.length;index++){
+    const placeholder=`__official_clan_slot_${index+1}_${Date.now()}`;
+    await env.DB.prepare('INSERT INTO clan_organizations(name,mark_key,primary_color,accent_color,slogan,is_active) VALUES(?,?,?,?,?,1)').bind(placeholder,`SLOT_${index+1}`,'#34495e','#ecf0f1','').run();
+    slots.push(await env.DB.prepare('SELECT * FROM clan_organizations WHERE name=?').bind(placeholder).first());
   }
-  foundationReady=true;
+  const officialNames=OFFICIAL_CLAN_CATALOG.map(clan=>clan.name),namePlaceholders=officialNames.map(()=>'?').join(','),conflicts=rows(await env.DB.prepare(`SELECT id FROM clan_organizations WHERE name IN (${namePlaceholders})`).bind(...officialNames).all());
+  await batchChunks(env,conflicts.map(org=>env.DB.prepare('UPDATE clan_organizations SET name=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(`__legacy_clan_${org.id}_${Date.now()}`,org.id)));
+  await batchChunks(env,slots.map((org,index)=>{const clan=OFFICIAL_CLAN_CATALOG[index];return env.DB.prepare('UPDATE clan_organizations SET name=?,mark_key=?,primary_color=?,accent_color=?,is_active=1,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(clan.name,clan.markKey,clan.primaryColor,clan.accentColor,org.id)}));
+  const slotIds=slots.map(org=>Number(org.id)),slotPlaceholders=slotIds.map(()=>'?').join(',');
+  await env.DB.prepare(`UPDATE clan_organizations SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE id NOT IN (${slotPlaceholders})`).bind(...slotIds).run();
+  await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_OFFICIAL_CATALOG_VERSION,iso()).run();
+  officialCatalogReady=true;
+}
+
+async function ensureFoundation(env){
+  if(!foundationReady){
+    await env.DB.prepare('CREATE TABLE IF NOT EXISTS app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)').run();
+    const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_FOUNDATION_VERSION).first();
+    if(!marker){
+      await batchChunks(env,FOUNDATION_SQL,25);
+      await env.DB.prepare("INSERT OR IGNORE INTO app_meta(key,value,updated_at) VALUES('clan_settings_v1',?,CURRENT_TIMESTAMP)").bind(JSON.stringify({mode:'TEST'})).run();
+      await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_FOUNDATION_VERSION,iso()).run();
+    }
+    foundationReady=true;
+  }
+  await ensureOfficialClanCatalog(env);
 }
 
 async function clanSettings(env){const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='clan_settings_v1'").first(),raw=safeJson(row?.value,{mode:'TEST'}),mode=['OFF','TEST','ON'].includes(String(raw.mode||'').toUpperCase())?String(raw.mode).toUpperCase():'TEST';return{mode}}
@@ -117,11 +154,8 @@ async function releaseDraftLock(env,lock){if(lock?.ok)await env.DB.prepare('DELE
 
 async function beginDraft(env,season,{forceMasterUserId=0}={}){
   const scored=await calculateSeasonScores(env,season);if(scored.length<2)return season;
-  const teamCount=Math.max(2,Math.ceil(scored.length/CLAN_MAX_MEMBERS)),ranked=[...scored].sort((a,b)=>b.master_score-a.master_score||Number(a.user_id)-Number(b.user_id)),forced=ranked.find(row=>Number(row.user_id)===Number(forceMasterUserId)),masters=(forced?[forced,...ranked.filter(row=>Number(row.user_id)!==Number(forceMasterUserId))]:ranked).slice(0,teamCount);
-  const existingOrgs=rows(await env.DB.prepare('SELECT * FROM clan_organizations WHERE is_active=1 ORDER BY trophies DESC,id LIMIT ?').bind(teamCount).all()),statements=[];
-  for(let i=existingOrgs.length;i<teamCount;i++)statements.push(env.DB.prepare('INSERT INTO clan_organizations(name,mark_key,primary_color,accent_color,slogan) VALUES(?,?,?,?,?)').bind(`신규 클랜 ${String(i+1).padStart(2,'0')}`,CLAN_MARKS[i%CLAN_MARKS.length],['#31d7e8','#ff556f','#c8ff42','#a87cff'][i%4],'#edfaff','클랜 마스터가 이름과 표식을 설정합니다.'));
-  if(statements.length)await env.DB.batch(statements);
-  const orgs=rows(await env.DB.prepare('SELECT * FROM clan_organizations WHERE is_active=1 ORDER BY trophies DESC,id LIMIT ?').bind(teamCount).all()),writes=[];
+  const teamCount=Math.min(OFFICIAL_CLAN_CATALOG.length,Math.max(2,Math.ceil(scored.length/CLAN_MAX_MEMBERS))),ranked=[...scored].sort((a,b)=>b.master_score-a.master_score||Number(a.user_id)-Number(b.user_id)),forced=ranked.find(row=>Number(row.user_id)===Number(forceMasterUserId)),masters=(forced?[forced,...ranked.filter(row=>Number(row.user_id)!==Number(forceMasterUserId))]:ranked).slice(0,teamCount);
+  const orgs=rows(await env.DB.prepare(`SELECT * FROM clan_organizations WHERE is_active=1 ORDER BY ${OFFICIAL_CLAN_ORDER_SQL},id LIMIT ?`).bind(teamCount).all()),writes=[];
   masters.forEach((master,index)=>{
     const org=orgs[index];writes.push(env.DB.prepare('INSERT OR IGNORE INTO clan_season_teams(season_id,clan_id,master_user_id,draft_position) VALUES(?,?,?,?)').bind(season.id,org.id,master.user_id,index));
     writes.push(env.DB.prepare("UPDATE clan_draft_pool SET status='MASTER',drafted_clan_id=?,pick_no=0,updated_at=CURRENT_TIMESTAMP WHERE season_id=? AND user_id=?").bind(org.id,season.id,master.user_id));
@@ -210,7 +244,7 @@ async function overview(env,user,season){
       if(war){const enemyClan=Number(war.clan_a_id)===Number(membership.clan_id)?Number(war.clan_b_id):Number(war.clan_a_id);opponents=rows(await env.DB.prepare(`SELECT m.user_id,u.nickname,m.preferred_role,m.battle_wins,m.battle_losses FROM clan_members m JOIN users u ON u.id=m.user_id WHERE m.season_id=? AND m.clan_id=? ORDER BY m.battle_wins DESC,m.draft_pick_no LIMIT 20`).bind(season.id,enemyClan).all()).map(r=>({userId:Number(r.user_id),nickname:r.nickname,preferredRole:r.preferred_role,battleWins:Number(r.battle_wins),battleLosses:Number(r.battle_losses)}));war={id:Number(war.id),roundNo:Number(war.round_no),clanAId:Number(war.clan_a_id),clanBId:Number(war.clan_b_id),scoreA:Number(war.score_a),scoreB:Number(war.score_b),battleCount:Number(war.battle_count),startsAt:war.starts_at,endsAt:war.ends_at};}
     }
   }else registration=await env.DB.prepare('SELECT preferred_role,activity_window,status,registered_at FROM clan_draft_pool WHERE season_id=? AND user_id=?').bind(season.id,user.id).first();
-  return{ok:true,season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,roster,draft,candidates,war,opponents,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:1.3},rules:{maxMembers:CLAN_MAX_MEMBERS,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,queryPolicy:'SNAPSHOT_NO_VIEW_LOGS'},serverNow:iso()};
+  return{ok:true,season:publicSeason(season),verified:ownerBypass||Boolean(verified),verificationExempt:ownerBypass,verificationName:ownerBypass?'OWNER':verified?.provider_name||'',registration:registration?{registered:true,preferredRole:registration.preferred_role,activityWindow:registration.activity_window,status:registration.status,registeredAt:registration.registered_at}:{registered:false},membership:membership?{...mine,memberRole:membership.member_role,isMaster:Number(membership.master_user_id)===Number(user.id)}:null,teams,officialClans:OFFICIAL_CLAN_CATALOG.map((clan,index)=>({...clan,order:index+1})),roster,draft,candidates,war,opponents,battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:1.3},rules:{maxMembers:CLAN_MAX_MEMBERS,maxClans:OFFICIAL_CLAN_CATALOG.length,noFixedRoster:true,blindDraft:true,snakeDraft:true,identityPersists:true,identityFixed:true,queryPolicy:'SNAPSHOT_NO_VIEW_LOGS'},serverNow:iso()};
 }
 
 async function register(env,deps,user,season,body){
@@ -225,10 +259,10 @@ async function register(env,deps,user,season,body){
 }
 
 async function updateIdentity(env,deps,user,season,body){
-  const team=await env.DB.prepare('SELECT * FROM clan_season_teams WHERE season_id=? AND master_user_id=?').bind(season.id,user.id).first();if(!team)return deps.json({error:'이번 시즌 클랜 마스터만 클랜 정보를 변경할 수 있습니다.'},403);
-  const name=cleanText(body.name,16),slogan=cleanText(body.slogan,60),mark=CLAN_MARKS.includes(String(body.markKey||'').toUpperCase())?String(body.markKey).toUpperCase():'SHIELD',color=value=>/^#[0-9a-f]{6}$/i.test(String(value||''))?String(value).toLowerCase():null,primary=color(body.primaryColor)||'#31d7e8',accent=color(body.accentColor)||'#e4f8ff';
-  if(name.length<2)return deps.json({error:'클랜 이름은 2자 이상 입력하세요.'},400);
-  try{await env.DB.prepare('UPDATE clan_organizations SET name=?,mark_key=?,primary_color=?,accent_color=?,slogan=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(name,mark,primary,accent,slogan,team.clan_id).run()}catch(error){if(/unique|duplicate/i.test(String(error?.message||'')))return deps.json({error:'이미 사용 중인 클랜 이름입니다.'},409);throw error}
+  const team=await env.DB.prepare(`SELECT t.*,o.mark_key FROM clan_season_teams t JOIN clan_organizations o ON o.id=t.clan_id WHERE t.season_id=? AND t.master_user_id=?`).bind(season.id,user.id).first();if(!team)return deps.json({error:'이번 시즌 클랜 마스터만 클랜 정보를 변경할 수 있습니다.'},403);
+  const official=OFFICIAL_CLAN_CATALOG.find(clan=>clan.markKey===team.mark_key);if(!official)return deps.json({error:'공식 클랜 정보를 확인하지 못했습니다. 새로고침 후 다시 시도하세요.'},409);
+  const slogan=cleanText(body.slogan,60);
+  await env.DB.prepare('UPDATE clan_organizations SET name=?,mark_key=?,primary_color=?,accent_color=?,slogan=?,updated_at=CURRENT_TIMESTAMP WHERE id=?').bind(official.name,official.markKey,official.primaryColor,official.accentColor,slogan,team.clan_id).run();
   return deps.json({ok:true,state:await overview(env,user,season)});
 }
 
@@ -304,4 +338,4 @@ export async function handleClan({path,request,env,deps}){
   return deps.json({error:'요청한 클랜 기능을 찾을 수 없습니다.'},404);
 }
 
-export const __clanTest={normalizeScores,currentDraftPosition,cleanRole,isOwner,publicSeason,CLAN_MAX_MEMBERS,FOUNDATION_SQL};
+export const __clanTest={normalizeScores,currentDraftPosition,cleanRole,isOwner,publicSeason,CLAN_MAX_MEMBERS,CLAN_MARKS,OFFICIAL_CLAN_CATALOG,FOUNDATION_SQL};
