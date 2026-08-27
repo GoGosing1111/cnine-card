@@ -21,7 +21,7 @@
     const uniqueNav=document.querySelector('#nav button[data-view="uniqueabilities"]');
     if(magicNav)magicNav.hidden=role!=='OWNER';
     if(uniqueNav)uniqueNav.hidden=role!=='OWNER';
-    if(rewardNav)rewardNav.hidden=!['OWNER','ADMIN'].includes(role);
+    if(rewardNav)rewardNav.hidden=role!=='OWNER';
   };
   const prevShow=show;
   show=function(view,prefetched){

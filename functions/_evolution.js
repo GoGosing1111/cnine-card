@@ -267,7 +267,7 @@ export async function handleEvolution({path,request,env,deps}){
   await upgrade(env);
   const user=await deps.authenticate(request,env);if(!user)return deps.json({error:'로그인이 필요합니다.'},401);
   if(path==='admin/evolution/settings'){
-    if(!deps.isAdminRole(user))return deps.json({error:'OWNER 또는 ADMIN 권한이 필요합니다.'},403);
+    if(!deps.isAdminRole(user))return deps.json({error:'OWNER 권한이 필요합니다.'},403);
     if(request.method==='PATCH'){
       const body=await deps.readBody(request),legacy=cleanLegacy(body),prestige=cleanPrestige(body);
       await env.DB.batch([

@@ -35,3 +35,12 @@
 - 2026-08-24 승인 카드 V-013~V-020의 단일 기준 데이터는 `assets/ui/project-v/mercenaries/mercenary-card-roster-approved-v1.json`이다.
 - 통합 카드 프리뷰는 `preview/mercenary-cards-approved-v1/index.html`이며 `assets/ui/card-frames/mercenary-contract-frame-premium-v2.png`를 별도 계층으로 사용한다.
 - V-013~V-020은 카드 원화만 승인된 상태다. 전투 SD는 모두 `PENDING`이므로 원화를 전투 스프라이트로 임시 사용하지 않는다.
+
+## 대형 대화 기록 연속성
+
+- 고정 작업 `몬스터공성 40회 초과 보상 적용`의 스레드 ID는 `019fdda2-6258-7902-a400-31dfdf72c278`이다.
+- 2026-08-27에 9.777GiB 전체 원본을 `C:\Users\User\Documents\Codex-Session-Backups\2026-08-27\rollout-2026-08-08T04-10-34-019fdda2-6258-7902-a400-31dfdf72c278.full.jsonl`로 이동해 보존했다.
+- Codex 안에는 당시 기준 최근 72시간의 작업 경계와 사용자·어시스턴트 대화 레코드만 남긴 42.52MiB 축소본이 있다.
+- 사용자가 이전 대화나 이어서 하던 작업을 언급하면 없다고 답하거나 전체 백업을 한꺼번에 열지 않는다. 먼저 사용자 문구·기능명·날짜를 기준으로 전체 백업을 읽기 전용 스트리밍 검색하고, 관련 사용자·어시스턴트 메시지 주변만 추출해 현재 작업에 이어 붙인다.
+- 전체 백업은 복구 기준이므로 사용자의 명시적 요청 없이 수정·이동·삭제·재압축하지 않는다.
+- 백업 색인은 `C:\Users\User\Documents\Codex-Session-Backups\INDEX.md`에 있다.

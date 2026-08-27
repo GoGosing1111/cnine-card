@@ -292,7 +292,7 @@ async function adminSnapshot(env){
 export async function handleDropPool({path,request,env,deps}){
   if(path!=='admin/drop-pools')return null;
   const admin=await deps.authenticate(request,env);
-  if(!admin||!['OWNER','ADMIN'].includes(String(admin.role||'').toUpperCase()))return deps.json({error:'드랍풀 관리 권한이 필요합니다.'},403);
+  if(!admin||String(admin.role||'').toUpperCase()!=='OWNER')return deps.json({error:'드랍풀 관리 권한이 필요합니다.'},403);
   await ensureUnifiedDropPoolFoundation(env);
   if(request.method==='GET')return deps.json(await adminSnapshot(env));
   if(request.method!=='POST')return deps.json({error:'지원하지 않는 요청입니다.'},405);
