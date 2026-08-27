@@ -1,12 +1,19 @@
--- V1883 · Monster Siege AI warfare and alliance fortress front.
-ALTER TABLE monster_siege_events ADD COLUMN alliance_hp INTEGER NOT NULL DEFAULT 20000000;
-ALTER TABLE monster_siege_events ADD COLUMN alliance_max_hp INTEGER NOT NULL DEFAULT 20000000;
-ALTER TABLE monster_siege_events ADD COLUMN monster_ai_sequence INTEGER NOT NULL DEFAULT 0;
-ALTER TABLE monster_siege_events ADD COLUMN next_monster_action_at TEXT;
-ALTER TABLE monster_siege_events ADD COLUMN last_monster_action_at TEXT;
-ALTER TABLE monster_siege_events ADD COLUMN monster_effect_code TEXT NOT NULL DEFAULT '';
-ALTER TABLE monster_siege_events ADD COLUMN monster_effect_percent INTEGER NOT NULL DEFAULT 0;
-ALTER TABLE monster_siege_events ADD COLUMN monster_effect_ends_at TEXT;
+-- V1886 · Monster Siege AI warfare uses a companion state table so the
+-- restricted PostgreSQL runtime role never needs ownership of the legacy
+-- monster_siege_events table.
+CREATE TABLE IF NOT EXISTS monster_siege_ai_state(
+  event_id INTEGER PRIMARY KEY,
+  alliance_hp INTEGER NOT NULL DEFAULT 20000000,
+  alliance_max_hp INTEGER NOT NULL DEFAULT 20000000,
+  monster_ai_sequence INTEGER NOT NULL DEFAULT 0,
+  next_monster_action_at TEXT,
+  last_monster_action_at TEXT,
+  monster_effect_code TEXT NOT NULL DEFAULT '',
+  monster_effect_percent INTEGER NOT NULL DEFAULT 0,
+  monster_effect_ends_at TEXT,
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE IF NOT EXISTS monster_siege_ai_actions(
   id INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -69,6 +69,7 @@ const [server, client, css, index, admin, migration] = await Promise.all([
 ]);
 
 assert.match(server, /monster_siege_ai_actions/);
+assert.match(server, /monster_siege_ai_state/);
 assert.match(server, /WHERE id=\? AND version=\? AND status='ACTIVE'/, "AI writes use event-version CAS");
 assert.match(server, /monsterDamageReductionPercent/);
 assert.match(client, /HOSTILE OPERATION FORECAST/);
@@ -80,6 +81,8 @@ assert.match(index, /monster-siege-v1883\.css\?v=1883-ai-war-room/);
 assert.match(index, /monster-siege-v1505\.js\?v=1883-ai-war-room/);
 assert.match(admin, /msaAiEnabled/);
 assert.match(admin, /msaAllianceHp/);
+assert.match(migration, /CREATE TABLE IF NOT EXISTS monster_siege_ai_state/);
 assert.match(migration, /CREATE TABLE IF NOT EXISTS monster_siege_ai_actions/);
+assert.doesNotMatch(migration, /ALTER TABLE monster_siege_events/);
 
 console.log("monster siege AI warfare and war-room UI regression checks passed");

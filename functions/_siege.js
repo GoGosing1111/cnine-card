@@ -2,7 +2,7 @@ const KEY = "monster_siege_settings_v1";
 const SIEGE_ENERGY_MAX = 5;
 const SIEGE_ENERGY_RECHARGE_SECONDS = 300;
 const SIEGE_AI_DEFAULT_FORTRESS_HP = 20000000;
-const SIEGE_AI_SCHEMA_MARKER = "safe_runtime_upgrade_v1883_monster_siege_ai_warfare";
+const SIEGE_AI_SCHEMA_MARKER = "safe_runtime_upgrade_v1886_monster_siege_ai_companion_state";
 const PARTICIPATION_BONUS_CODE = "MONSTER_SIEGE_5_PLUS_30M_V1";
 const PARTICIPATION_BONUS_MIN_ATTACKS = 5;
 const PARTICIPATION_BONUS_COIN = 30000000;
@@ -360,27 +360,23 @@ async function ensureMonsterAiSchema(env) {
     .first();
   if (marker) return;
   const postgres = env.DB?.dialect === "postgres";
-  const columns = postgres
-    ? [
-        "ALTER TABLE monster_siege_events ADD COLUMN IF NOT EXISTS alliance_hp BIGINT NOT NULL DEFAULT 20000000",
-        "ALTER TABLE monster_siege_events ADD COLUMN IF NOT EXISTS alliance_max_hp BIGINT NOT NULL DEFAULT 20000000",
-        "ALTER TABLE monster_siege_events ADD COLUMN IF NOT EXISTS monster_ai_sequence INTEGER NOT NULL DEFAULT 0",
-        "ALTER TABLE monster_siege_events ADD COLUMN IF NOT EXISTS next_monster_action_at TIMESTAMPTZ",
-        "ALTER TABLE monster_siege_events ADD COLUMN IF NOT EXISTS last_monster_action_at TIMESTAMPTZ",
-        "ALTER TABLE monster_siege_events ADD COLUMN IF NOT EXISTS monster_effect_code TEXT NOT NULL DEFAULT ''",
-        "ALTER TABLE monster_siege_events ADD COLUMN IF NOT EXISTS monster_effect_percent INTEGER NOT NULL DEFAULT 0",
-        "ALTER TABLE monster_siege_events ADD COLUMN IF NOT EXISTS monster_effect_ends_at TIMESTAMPTZ",
-      ]
-    : [
-        "ALTER TABLE monster_siege_events ADD COLUMN alliance_hp INTEGER NOT NULL DEFAULT 20000000",
-        "ALTER TABLE monster_siege_events ADD COLUMN alliance_max_hp INTEGER NOT NULL DEFAULT 20000000",
-        "ALTER TABLE monster_siege_events ADD COLUMN monster_ai_sequence INTEGER NOT NULL DEFAULT 0",
-        "ALTER TABLE monster_siege_events ADD COLUMN next_monster_action_at TEXT",
-        "ALTER TABLE monster_siege_events ADD COLUMN last_monster_action_at TEXT",
-        "ALTER TABLE monster_siege_events ADD COLUMN monster_effect_code TEXT NOT NULL DEFAULT ''",
-        "ALTER TABLE monster_siege_events ADD COLUMN monster_effect_percent INTEGER NOT NULL DEFAULT 0",
-        "ALTER TABLE monster_siege_events ADD COLUMN monster_effect_ends_at TEXT",
-      ];
+  const stateTable = postgres
+    ? `CREATE TABLE IF NOT EXISTS monster_siege_ai_state(
+        event_id BIGINT PRIMARY KEY,alliance_hp BIGINT NOT NULL DEFAULT 20000000,
+        alliance_max_hp BIGINT NOT NULL DEFAULT 20000000,monster_ai_sequence INTEGER NOT NULL DEFAULT 0,
+        next_monster_action_at TIMESTAMPTZ,last_monster_action_at TIMESTAMPTZ,
+        monster_effect_code TEXT NOT NULL DEFAULT '',monster_effect_percent INTEGER NOT NULL DEFAULT 0,
+        monster_effect_ends_at TIMESTAMPTZ,created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`
+    : `CREATE TABLE IF NOT EXISTS monster_siege_ai_state(
+        event_id INTEGER PRIMARY KEY,alliance_hp INTEGER NOT NULL DEFAULT 20000000,
+        alliance_max_hp INTEGER NOT NULL DEFAULT 20000000,monster_ai_sequence INTEGER NOT NULL DEFAULT 0,
+        next_monster_action_at TEXT,last_monster_action_at TEXT,
+        monster_effect_code TEXT NOT NULL DEFAULT '',monster_effect_percent INTEGER NOT NULL DEFAULT 0,
+        monster_effect_ends_at TEXT,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+      )`;
   const actionTable = postgres
     ? `CREATE TABLE IF NOT EXISTS monster_siege_ai_actions(
         id BIGSERIAL PRIMARY KEY,event_id BIGINT NOT NULL,sequence INTEGER NOT NULL,phase_index INTEGER NOT NULL,
@@ -400,22 +396,66 @@ async function ensureMonsterAiSchema(env) {
       )`;
   const actionIndex = "CREATE INDEX IF NOT EXISTS idx_monster_siege_ai_feed ON monster_siege_ai_actions(event_id,id DESC)";
   if (postgres && typeof env.DB.execSchema === "function") {
-    await env.DB.execSchema([...columns, actionTable, actionIndex]);
+    await env.DB.execSchema([stateTable, actionTable, actionIndex]);
   } else {
-    await env.DB.batch([env.DB.prepare(actionTable), env.DB.prepare(actionIndex)]);
-    for (const sql of columns) {
-      try {
-        await env.DB.prepare(sql).run();
-      } catch (error) {
-        if (!/duplicate column/i.test(String(error?.message || error))) throw error;
-      }
-    }
+    await env.DB.batch([
+      env.DB.prepare(stateTable),
+      env.DB.prepare(actionTable),
+      env.DB.prepare(actionIndex),
+    ]);
   }
   await env.DB.prepare(
     "INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)",
   )
     .bind(SIEGE_AI_SCHEMA_MARKER, "1")
     .run();
+}
+async function monsterAiStateRow(env, event, cfg, { create = true } = {}) {
+  if (!event) return null;
+  let row = await env.DB.prepare(
+    "SELECT * FROM monster_siege_ai_state WHERE event_id=?",
+  )
+    .bind(event.id)
+    .first();
+  if (!row && create) {
+    const intervalMs = clamp(cfg.monsterAttackIntervalSeconds, 15, 300, 45) * 1000,
+      rallyEndsAt = utcMs(event.rally_ends_at || event.starts_at),
+      nextActionAt = cfg.monsterAiEnabled === false
+        ? null
+        : new Date(Math.max(Date.now(), Number.isFinite(rallyEndsAt) ? rallyEndsAt : Date.now()) + intervalMs).toISOString(),
+      allianceHp = Math.max(1, Number(cfg.allianceFortressHp || SIEGE_AI_DEFAULT_FORTRESS_HP));
+    await env.DB.prepare(
+      "INSERT OR IGNORE INTO monster_siege_ai_state(event_id,alliance_hp,alliance_max_hp,monster_ai_sequence,next_monster_action_at) VALUES(?,?,?,0,?)",
+    )
+      .bind(event.id, allianceHp, allianceHp, nextActionAt)
+      .run();
+    row = await env.DB.prepare("SELECT * FROM monster_siege_ai_state WHERE event_id=?")
+      .bind(event.id)
+      .first();
+  }
+  return row;
+}
+function mergeMonsterAiState(event, row, cfg) {
+  if (!event) return null;
+  const allianceMaxHp = Math.max(
+      1,
+      Number(row?.alliance_max_hp || cfg.allianceFortressHp || SIEGE_AI_DEFAULT_FORTRESS_HP),
+    ),
+    allianceHp = Math.max(0, Math.min(allianceMaxHp, Number(row?.alliance_hp ?? allianceMaxHp)));
+  return {
+    ...event,
+    alliance_hp: allianceHp,
+    alliance_max_hp: allianceMaxHp,
+    monster_ai_sequence: Math.max(0, Number(row?.monster_ai_sequence || 0)),
+    next_monster_action_at: row?.next_monster_action_at || null,
+    last_monster_action_at: row?.last_monster_action_at || null,
+    monster_effect_code: row?.monster_effect_code || "",
+    monster_effect_percent: Number(row?.monster_effect_percent || 0),
+    monster_effect_ends_at: row?.monster_effect_ends_at || null,
+  };
+}
+async function hydrateMonsterAiState(env, event, cfg, options) {
+  return mergeMonsterAiState(event, await monsterAiStateRow(env, event, cfg, options), cfg);
 }
 let ensurePromise = null;
 async function ensureParticipationBonusTable(env) {
@@ -610,31 +650,21 @@ async function createEvent(env, cfg) {
   const first = cfg.phases[0],
     now = Date.now(),
     rallyEndsAt = new Date(now + cfg.rallyMinutes * 60000).toISOString(),
-    endsAt = new Date(now + (cfg.rallyMinutes + cfg.durationMinutes) * 60000).toISOString(),
-    nextMonsterActionAt = new Date(
-      now + cfg.rallyMinutes * 60000 + cfg.monsterAttackIntervalSeconds * 1000,
-    ).toISOString(),
-    allianceHp = Math.max(1, Number(cfg.allianceFortressHp || SIEGE_AI_DEFAULT_FORTRESS_HP));
+    endsAt = new Date(now + (cfg.rallyMinutes + cfg.durationMinutes) * 60000).toISOString();
   const result = await env.DB.prepare(
-    "INSERT INTO monster_siege_events(name,status,phase_index,phase_hp,phase_max_hp,starts_at,rally_ends_at,ends_at,alliance_hp,alliance_max_hp,monster_ai_sequence,next_monster_action_at) VALUES(?,'ACTIVE',0,?,?,CURRENT_TIMESTAMP,?,?,?,?,0,?)",
+    "INSERT INTO monster_siege_events(name,status,phase_index,phase_hp,phase_max_hp,starts_at,rally_ends_at,ends_at) VALUES(?,'ACTIVE',0,?,?,CURRENT_TIMESTAMP,?,?)",
   )
-    .bind(
-      cfg.name,
-      first.hp,
-      first.hp,
-      rallyEndsAt,
-      endsAt,
-      allianceHp,
-      allianceHp,
-      nextMonsterActionAt,
-    )
+    .bind(cfg.name, first.hp, first.hp, rallyEndsAt, endsAt)
     .run();
-  return env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?")
+  const event = await env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?")
     .bind(result.meta.last_row_id)
     .first();
+  return hydrateMonsterAiState(env, event, cfg);
 }
 async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
-  if (!event || event.status !== "ACTIVE" || cfg.monsterAiEnabled === false) return event;
+  if (!event || event.status !== "ACTIVE") return event;
+  event = await hydrateMonsterAiState(env, event, cfg);
+  if (cfg.monsterAiEnabled === false) return event;
   const intervalMs = clamp(cfg.monsterAttackIntervalSeconds, 15, 300, 45) * 1000;
   const rallyEndsAt = utcMs(event.rally_ends_at || event.starts_at);
   if (!Number.isFinite(utcMs(event.next_monster_action_at))) {
@@ -642,18 +672,20 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
       Math.max(now, Number.isFinite(rallyEndsAt) ? rallyEndsAt : now) + intervalMs,
     ).toISOString();
     await env.DB.prepare(
-      "UPDATE monster_siege_events SET next_monster_action_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND version=? AND status='ACTIVE' AND next_monster_action_at IS NULL",
+      "UPDATE monster_siege_ai_state SET next_monster_action_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND next_monster_action_at IS NULL",
     )
-      .bind(firstActionAt, event.id, event.version)
+      .bind(firstActionAt, event.id)
       .run();
-    return env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?")
+    const current = await env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?")
       .bind(event.id)
       .first();
+    return hydrateMonsterAiState(env, current, cfg);
   }
   if (Number.isFinite(rallyEndsAt) && rallyEndsAt > now) return event;
   const plan = monsterAiPlan({ event, cfg, now });
   if (!plan) return event;
   const versionAfter = Number(event.version || 0) + 1,
+    actionTimestamp = new Date(now).toISOString(),
     payload = {
       role: plan.profile.role,
       description: plan.profile.description,
@@ -663,27 +695,41 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
     },
     results = await env.DB.batch([
       env.DB.prepare(
-        `UPDATE monster_siege_events SET alliance_hp=?,phase_hp=?,monster_ai_sequence=?,next_monster_action_at=?,
-          last_monster_action_at=CURRENT_TIMESTAMP,monster_effect_code=?,monster_effect_percent=?,monster_effect_ends_at=?,
-          version=version+1,updated_at=CURRENT_TIMESTAMP
+        `UPDATE monster_siege_events SET phase_hp=?,version=version+1,updated_at=?
          WHERE id=? AND version=? AND status='ACTIVE'`,
       ).bind(
-        plan.allianceHpAfter,
         plan.phaseHpAfter,
+        actionTimestamp,
+        event.id,
+        event.version,
+      ),
+      env.DB.prepare(
+        `UPDATE monster_siege_ai_state SET alliance_hp=?,monster_ai_sequence=?,next_monster_action_at=?,
+          last_monster_action_at=?,monster_effect_code=?,monster_effect_percent=?,monster_effect_ends_at=?,
+          updated_at=CURRENT_TIMESTAMP
+         WHERE event_id=? AND EXISTS(
+           SELECT 1 FROM monster_siege_events WHERE id=? AND version=? AND updated_at=?
+         )`,
+      ).bind(
+        plan.allianceHpAfter,
         plan.sequenceAfter,
         plan.nextActionAt,
+        actionTimestamp,
         plan.effect?.code || "",
         Number(plan.effect?.percent || 0),
         plan.effect?.endsAt || null,
         event.id,
-        event.version,
+        event.id,
+        versionAfter,
+        actionTimestamp,
       ),
       env.DB.prepare(
         `INSERT OR IGNORE INTO monster_siege_ai_actions(
           event_id,sequence,phase_index,action_type,skill_code,skill_name,damage,healing,ticks,
           alliance_hp_before,alliance_hp_after,phase_hp_before,phase_hp_after,payload_json
         ) SELECT ?,?,?,?,?,?,?,?,?,?,?,?,?,?
-          WHERE EXISTS(SELECT 1 FROM monster_siege_events WHERE id=? AND version=? AND monster_ai_sequence=?)`,
+          WHERE EXISTS(SELECT 1 FROM monster_siege_events WHERE id=? AND version=? AND updated_at=?)
+            AND EXISTS(SELECT 1 FROM monster_siege_ai_state WHERE event_id=? AND monster_ai_sequence=?)`,
       ).bind(
         event.id,
         plan.sequenceAfter,
@@ -701,6 +747,8 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
         JSON.stringify(payload),
         event.id,
         versionAfter,
+        actionTimestamp,
+        event.id,
         plan.sequenceAfter,
       ),
     ]);
@@ -711,11 +759,12 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
   const current = await env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?")
     .bind(event.id)
     .first();
-  if (current && Number(current.alliance_hp || 0) <= 0) {
-    await settle(env, current, cfg, "FAILED");
+  const hydrated = await hydrateMonsterAiState(env, current, cfg);
+  if (hydrated && Number(hydrated.alliance_hp || 0) <= 0) {
+    await settle(env, hydrated, cfg, "FAILED");
     return null;
   }
-  return current;
+  return hydrated;
 }
 async function settle(env, event, cfg, status) {
   const participants =
@@ -1151,31 +1200,37 @@ export async function handleSiege({ path, request, env, deps }) {
         );
       }
     }
-    if (cleared)
+    if (cleared) {
       statements.push(
         env.DB.prepare(
           "UPDATE monster_siege_events SET phase_hp=0,total_damage=total_damage+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
         ).bind(damage, event.id),
       );
-    else if (nextIndex !== Number(event.phase_index))
+    } else if (nextIndex !== Number(event.phase_index)) {
       statements.push(
         env.DB.prepare(
-          "UPDATE monster_siege_events SET phase_index=?,phase_hp=?,phase_max_hp=?,total_damage=total_damage+?,monster_effect_code='',monster_effect_percent=0,monster_effect_ends_at=NULL,next_monster_action_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+          "UPDATE monster_siege_events SET phase_index=?,phase_hp=?,phase_max_hp=?,total_damage=total_damage+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
         ).bind(
           nextIndex,
           nextPhase.hp,
           nextPhase.hp,
           damage,
+          event.id,
+        ),
+        env.DB.prepare(
+          "UPDATE monster_siege_ai_state SET monster_effect_code='',monster_effect_percent=0,monster_effect_ends_at=NULL,next_monster_action_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
+        ).bind(
           new Date(Date.now() + cfg.monsterAttackIntervalSeconds * 1000).toISOString(),
           event.id,
         ),
       );
-    else
+    } else {
       statements.push(
         env.DB.prepare(
           "UPDATE monster_siege_events SET phase_hp=MAX(0,phase_hp-?),total_damage=total_damage+?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
         ).bind(damage, damage, event.id),
       );
+    }
     try {
       await env.DB.batch(statements);
     } catch (error) {
@@ -1186,11 +1241,14 @@ export async function handleSiege({ path, request, env, deps }) {
       throw error;
     }
     if (cleared) await settle(env, event, cfg, "CLEARED");
-    const current = await env.DB.prepare(
+    const currentRow = await env.DB.prepare(
         "SELECT * FROM monster_siege_events WHERE id=?",
       )
         .bind(event.id)
         .first(),
+      current = currentRow?.status === "ACTIVE"
+        ? await hydrateMonsterAiState(env, currentRow, cfg)
+        : currentRow,
       payload = {
         ok: true,
         result,
@@ -1306,10 +1364,11 @@ export async function handleSiege({ path, request, env, deps }) {
       )
         .bind(KEY, JSON.stringify(next))
         .run();
-      const running = await env.DB.prepare(
-        "SELECT id,phase_index,rally_ends_at,alliance_hp,alliance_max_hp,next_monster_action_at,monster_effect_code,monster_effect_percent,monster_effect_ends_at FROM monster_siege_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1",
+      let running = await env.DB.prepare(
+        "SELECT * FROM monster_siege_events WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1",
       ).first();
       if (running) {
+        running = await hydrateMonsterAiState(env, running, cfg);
         const phaseHp = next.phases[
           Math.max(0, Math.min(4, Number(running.phase_index || 0)))
         ].hp,
@@ -1326,16 +1385,33 @@ export async function handleSiege({ path, request, env, deps }) {
               : running.next_monster_action_at,
           monsterEffectCode = next.monsterAiEnabled ? String(running.monster_effect_code || "") : "",
           monsterEffectPercent = next.monsterAiEnabled ? Number(running.monster_effect_percent || 0) : 0,
-          monsterEffectEndsAt = next.monsterAiEnabled ? running.monster_effect_ends_at || null : null;
+          monsterEffectEndsAt = next.monsterAiEnabled ? running.monster_effect_ends_at || null : null,
+          stateUpdate = env.DB.prepare(
+            "UPDATE monster_siege_ai_state SET alliance_hp=?,alliance_max_hp=?,next_monster_action_at=?,monster_effect_code=?,monster_effect_percent=?,monster_effect_ends_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
+          ).bind(
+            allianceHp,
+            next.allianceFortressHp,
+            nextMonsterActionAt,
+            monsterEffectCode,
+            monsterEffectPercent,
+            monsterEffectEndsAt,
+            running.id,
+          );
         const rallyOpen = utcMs(running.rally_ends_at) > Date.now();
         if (rallyOpen) {
-          await env.DB.prepare(
-            "UPDATE monster_siege_events SET rally_ends_at=datetime('now',?),ends_at=datetime('now',?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,alliance_hp=?,alliance_max_hp=?,next_monster_action_at=?,monster_effect_code=?,monster_effect_percent=?,monster_effect_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
-          ).bind(`+${next.rallyMinutes} minutes`, `+${next.rallyMinutes + next.durationMinutes} minutes`, phaseHp, phaseHp, allianceHp, next.allianceFortressHp, nextMonsterActionAt, monsterEffectCode, monsterEffectPercent, monsterEffectEndsAt, running.id).run();
+          await env.DB.batch([
+            env.DB.prepare(
+              "UPDATE monster_siege_events SET rally_ends_at=datetime('now',?),ends_at=datetime('now',?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+            ).bind(`+${next.rallyMinutes} minutes`, `+${next.rallyMinutes + next.durationMinutes} minutes`, phaseHp, phaseHp, running.id),
+            stateUpdate,
+          ]);
         } else {
-          await env.DB.prepare(
-            "UPDATE monster_siege_events SET ends_at=datetime('now',?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,alliance_hp=?,alliance_max_hp=?,next_monster_action_at=?,monster_effect_code=?,monster_effect_percent=?,monster_effect_ends_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
-          ).bind(`+${next.durationMinutes} minutes`, phaseHp, phaseHp, allianceHp, next.allianceFortressHp, nextMonsterActionAt, monsterEffectCode, monsterEffectPercent, monsterEffectEndsAt, running.id).run();
+          await env.DB.batch([
+            env.DB.prepare(
+              "UPDATE monster_siege_events SET ends_at=datetime('now',?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+            ).bind(`+${next.durationMinutes} minutes`, phaseHp, phaseHp, running.id),
+            stateUpdate,
+          ]);
         }
       }
       return json({ ok: true, settings: next });
@@ -1432,13 +1508,17 @@ export async function handleSiege({ path, request, env, deps }) {
     const rallyEndsAt = event.rally_ends_at || event.starts_at;
     if (utcMs(rallyEndsAt) <= Date.now())
       return json({ error: "이미 공성 전투가 시작되었습니다." }, 409);
-    await env.DB.prepare(
-      "UPDATE monster_siege_events SET rally_ends_at=CURRENT_TIMESTAMP,ends_at=datetime('now',?),next_monster_action_at=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
-    ).bind(
-      `+${cfg.durationMinutes} minutes`,
-      new Date(Date.now() + cfg.monsterAttackIntervalSeconds * 1000).toISOString(),
-      event.id,
-    ).run();
+    await env.DB.batch([
+      env.DB.prepare(
+        "UPDATE monster_siege_events SET rally_ends_at=CURRENT_TIMESTAMP,ends_at=datetime('now',?),version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+      ).bind(`+${cfg.durationMinutes} minutes`, event.id),
+      env.DB.prepare(
+        "UPDATE monster_siege_ai_state SET next_monster_action_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
+      ).bind(
+        new Date(Date.now() + cfg.monsterAttackIntervalSeconds * 1000).toISOString(),
+        event.id,
+      ),
+    ]);
     return json({ ok: true, stage: "BATTLE" });
   }
   if (path === "admin/siege/finish" && request.method === "POST") {
