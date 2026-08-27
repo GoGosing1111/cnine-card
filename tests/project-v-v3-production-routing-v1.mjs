@@ -16,11 +16,11 @@ const index=read('index.html');
 
 for(const token of [
   'css/battle-v3-live.css?v=1798-roster-frame',
-  'js/project-v-battle-art-adapter-v1.js?v=3.3.0-bongsun',
+  'js/project-v-battle-art-adapter-v1.js?v=3.4.0-ojoeun',
   'js/project-v-tier-battle-art-adapter-v1.js?v=3.2.0-manifest-cache',
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
-  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=66-boss-barrage',
+  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=67-role-impact-atlas',
   'js/battle-v3-live.js?v=3.20.0-escort-hp-gauge'
 ])assert.ok(app.includes(token),`production feature manifest missing ${token}`);
 
@@ -37,7 +37,7 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=1847-territory-my-rank'));
+assert.ok(index.includes('js/app.js?v=1884-zenith-ojoeun-sd'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
 
 const bundle='preview/project-v-v3/project-v-pixi-battle.bundle.js';

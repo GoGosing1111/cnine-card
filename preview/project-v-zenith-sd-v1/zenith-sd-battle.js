@@ -397,7 +397,7 @@
   const updateSelection=()=>{
     const actor=roster[selected];
     if(!actor){
-      selectionOrder.textContent='—';selectionCardId.textContent='카드를 선택해 자산 계약과 알파 상태를 확인하세요';selectionMember.textContent='ZENITH';selectionTitle.textContent='BATTLE UNIT 01—23';selectionPath.textContent='덱·도감은 원본 카드 유지 / SD는 전투엔진에서만 사용';selectionStatus.textContent='—';selectionAlpha.textContent='—';selectionMargin.textContent='—';sourceArtLink.href='#';sourceArtLink.setAttribute('aria-disabled','true');return;
+      selectionOrder.textContent='—';selectionCardId.textContent='카드를 선택해 자산 계약과 알파 상태를 확인하세요';selectionMember.textContent='ZENITH';selectionTitle.textContent='BATTLE UNIT 01—24';selectionPath.textContent='덱·도감은 원본 카드 유지 / SD는 전투엔진에서만 사용';selectionStatus.textContent='—';selectionAlpha.textContent='—';selectionMargin.textContent='—';sourceArtLink.href='#';sourceArtLink.setAttribute('aria-disabled','true');return;
     }
     const analysis=actor.analysis;
     const margins=analysis?.margins;

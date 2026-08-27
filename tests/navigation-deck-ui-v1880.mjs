@@ -16,14 +16,14 @@ const exactShell = read('js/soopketmon-v21-exact-shell-adapter.js');
 const router = read('js/soopketmon-v21-runtime-router.js');
 
 for (const asset of [
-  'js/app.js?v=1882-menu-pve-scrapyard',
+  'js/app.js?v=1884-zenith-ojoeun-sd',
   'css/pve-command-v2.css?v=1882-menu-pve-scrapyard',
   'css/information-architecture-v1880.css?v=1880-navigation-deck-rules',
   'js/pve-command-v2-live.js?v=1882-menu-pve-scrapyard',
   'js/soopketmon-v21-exact-shell-adapter.js?v=21.13.0-menu-cleanup',
   'js/soopketmon-v21-runtime-router.js?v=1.4.0-workshop-split'
 ]) assert.ok(index.includes(asset), `missing cache-busted asset: ${asset}`);
-assert.ok(serviceWorker.includes("soop-card-shell-v1882-menu-pve-scrapyard"));
+assert.ok(serviceWorker.includes("soop-card-shell-v1884-zenith-ojoeun-sd"));
 
 assert.ok(app.includes('deckGradeLimitViolation'));
 assert.ok(app.includes('normalizeDeckRules'));
