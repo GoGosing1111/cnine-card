@@ -23,7 +23,7 @@ test('ranked fatigue remains visible and live-labelled on mobile and short lands
   assert.match(app,/id="pvpEnergyCount" aria-live="polite"/);
   assert.match(ranked,/V1870:[\s\S]*?\.pvp-energy-card\{display:flex!important/);
   assert.match(ranked,/@media\(orientation:landscape\) and \(max-height:560px\)[\s\S]*?\.pvp-energy-card\{display:flex!important/);
-  assert.match(index,/style\.css\?v=1870-avatar-pve-energy/);
+  assert.match(index,/style\.css\?v=(?:1870-avatar-pve-energy|1879-player-ultimate-skip)/);
   assert.match(index,/ranked-v2-v1827\.css\?v=1870-avatar-pve-energy/);
-  assert.match(index,/app\.js\?v=1874-burning-header-dock/);
+  assert.match(index,/app\.js\?v=(?:1874-burning-header-dock|1880-navigation-deck-rules)/);
 });

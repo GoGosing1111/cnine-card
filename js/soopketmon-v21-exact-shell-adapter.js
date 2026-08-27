@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.10.7';
+  const VERSION = '21.11.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -32,7 +32,7 @@
     mail: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/>',
     pack: '<path d="M6 3h12l3 5-3 13H6L3 8Z"/><path d="M3 8h18M9 3l3 5 3-5"/>',
     book: '<path d="M4 5c3-1 5 0 8 2v14c-3-2-5-3-8-2ZM20 5c-3-1-5 0-8 2v14c3-2 5-3 8-2Z"/>',
-    magic: '<path d="m12 2 2.2 6.3L21 10l-5 4 1 7-5-3.6L7 21l1-7-5-4 6.8-1.7Z"/>',
+    magic: '<path d="M5 19 17 7M14 5l5 5M4 20l3-1-2-2Z"/><path d="M7 6h4M9 4v4M16 15h4M18 13v4"/>',
     inventory: '<path d="M4 8h16v13H4zM7 8V4h10v4M4 12h16M10 12v3h4v-3"/>',
     gift: '<path d="M3 9h18v12H3zM2 5h20v4H2zM12 5v16"/><path d="M12 5c-4 0-5-4-2-4 2 0 2 2 2 4Zm0 0c4 0 5-4 2-4-2 0-2 2-2 4Z"/>',
     rank: '<path d="M7 4h10v5c0 4-2 7-5 8-3-1-5-4-5-8Z"/><path d="M7 6H3v2c0 3 2 5 5 5M17 6h4v2c0 3-2 5-5 5M9 21h6M12 17v4"/>',
@@ -41,49 +41,78 @@
     clan: '<path d="M12 2 20 6v6c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6Z"/><path d="m8 13 2.5 2.5L16 9"/>'
   });
 
-  const ROUTES = Object.freeze({
-    buy: ['카드 상점', '카드·수집', 'pack'],
-    dex: ['도감', '카드·수집', 'book'],
-    evolution: ['카드 진화', '카드·수집', 'cards'],
-    magic: ['마법카드', '카드·수집', 'magic'],
-    battle: ['PVE 전투', '전투·경쟁', 'swords'],
-    pvp: ['랭크전', '전투·경쟁', 'swords'],
-    clan: ['클랜', '전투·경쟁', 'clan'],
-    character: ['장비·칭호', '성장·제작', 'forge'],
-    avatar: ['아바타', '성장·제작', 'user'],
-    workshop: ['제작소', '성장·제작', 'forge'],
-    attendance: ['접속 보상', '보상·기록', 'gift'],
-    dailyquest: ['일일 퀘스트', '보상·기록', 'gift'],
-    messages: ['메시지함', '보상·기록', 'mail'],
-    mineral: ['교환소', '보상·기록', 'inventory'],
-    rank: ['랭킹', '보상·기록', 'rank'],
-    prediction: ['승부예측', '거래·관리', 'auction'],
-    auction: ['경매장', '거래·관리', 'auction'],
-    inventory: ['인벤토리', '거래·관리', 'inventory']
-    ,deck: ['덱 편성실', '전투·경쟁', 'cards']
-    ,hunt: ['몬스터 토벌', '전투·경쟁', 'swords']
-    ,raid: ['월드 레이드', '전투·경쟁', 'swords']
-    ,escort: ['호송작전', '전투·경쟁', 'swords']
-    ,siege: ['몬스터 공성전', '전투·경쟁', 'swords']
-    ,seal: ['봉인전', '전투·경쟁', 'magic']
-    ,idle: ['방치형 원정', '전투·경쟁', 'swords']
-    ,tower: ['무한의탑', '전투·경쟁', 'rank']
-    ,territory: ['영토전', '전투·경쟁', 'swords']
-    ,equipment: ['장비', '성장·제작', 'forge']
-    ,title: ['칭호', '성장·제작', 'rank']
-    ,garage: ['차고', '성장·제작', 'inventory']
-    ,scrapyard: ['폐차장 원정', '성장·제작', 'forge']
-    ,vehicle: ['차량 제작', '성장·제작', 'forge']
-    ,fusion: ['장비 합성', '성장·제작', 'forge']
+  /*
+   * One immutable navigation model owns every label shown by the desktop
+   * lobby, mobile lobby, route header, group sheet, and runtime router. Route
+   * ids intentionally remain unchanged because saved deep links and existing
+   * renderShell binders depend on them.
+   */
+  const MENU_GROUPS = Object.freeze({
+    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy']) }),
+    collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'evolution', 'magic']) }),
+    pve: Object.freeze({ title: 'PVE 전투', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
+    pvp: Object.freeze({ title: 'PVP·경쟁', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
+    equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'equipment', 'title', 'garage', 'avatar']) }),
+    crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['workshop', 'vehicle', 'fusion']) }),
+    rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral']) }),
+    market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction', 'inventory']) })
   });
+  const MENU_GROUP_ORDER = Object.freeze(['store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market']);
+  const HUB_GROUPS = Object.freeze({
+    cards: Object.freeze({ title: '카드', routes: Object.freeze([...MENU_GROUPS.store.routes, ...MENU_GROUPS.collection.routes]) }),
+    combat: Object.freeze({ title: '전투', routes: Object.freeze([...MENU_GROUPS.pve.routes, ...MENU_GROUPS.pvp.routes]) }),
+    growth: Object.freeze({ title: '성장', routes: Object.freeze([...MENU_GROUPS.equipment.routes, ...MENU_GROUPS.crafting.routes]) })
+  });
+  const ROUTE_META = Object.freeze({
+    buy: Object.freeze({ title: '카드 상점', group: 'store', icon: 'pack', home: Object.freeze({ title: '카드·상점', meta: '카드팩 · 장비 보급 · 이동수단' }) }),
+    dex: Object.freeze({ title: '도감', group: 'collection', icon: 'book', home: Object.freeze({ title: '도감·강화', meta: '카드 수집 · 상세 · 진화' }) }),
+    evolution: Object.freeze({ title: '카드 진화', group: 'collection', icon: 'cards' }),
+    magic: Object.freeze({ title: '마법카드', group: 'collection', icon: 'magic' }),
+    battle: Object.freeze({ title: 'PVE 전투', group: 'pve', icon: 'swords', home: Object.freeze({ title: 'PVE 전투', meta: '토벌 · 레이드 · 호송작전' }) }),
+    deck: Object.freeze({ title: 'PVE 덱 편성실', group: 'pve', icon: 'cards' }),
+    hunt: Object.freeze({ title: '몬스터 토벌', group: 'pve', icon: 'swords' }),
+    raid: Object.freeze({ title: '월드 레이드', group: 'pve', icon: 'swords' }),
+    escort: Object.freeze({ title: '호송작전', group: 'pve', icon: 'swords' }),
+    siege: Object.freeze({ title: '몬스터 공성전', group: 'pve', icon: 'swords' }),
+    seal: Object.freeze({ title: '봉인전', group: 'pve', icon: 'magic' }),
+    idle: Object.freeze({ title: '방치형 원정', group: 'pve', icon: 'swords' }),
+    tower: Object.freeze({ title: '무한의탑', group: 'pve', icon: 'rank' }),
+    scrapyard: Object.freeze({ title: '폐차장 원정', group: 'pve', icon: 'forge' }),
+    pvp: Object.freeze({ title: '랭크전', group: 'pvp', icon: 'swords' }),
+    rank: Object.freeze({ title: '시즌 랭킹', group: 'pvp', icon: 'rank', home: Object.freeze({ title: 'PVP·경쟁', meta: '랭크전 · 시즌 랭킹', group: 'pvp' }) }),
+    clan: Object.freeze({ title: '클랜', group: 'pvp', icon: 'clan' }),
+    territory: Object.freeze({ title: '영토전', group: 'pvp', icon: 'swords' }),
+    character: Object.freeze({ title: '장비·칭호·차고', group: 'equipment', icon: 'forge', home: Object.freeze({ title: '장비·칭호·차고', meta: '장비 · 칭호 · 차고 · 아바타', group: 'equipment' }) }),
+    equipment: Object.freeze({ title: '장비', group: 'equipment', icon: 'forge' }),
+    title: Object.freeze({ title: '칭호', group: 'equipment', icon: 'rank' }),
+    garage: Object.freeze({ title: '차고', group: 'equipment', icon: 'inventory' }),
+    avatar: Object.freeze({ title: '아바타', group: 'equipment', icon: 'user' }),
+    workshop: Object.freeze({ title: '제작·합성', group: 'crafting', icon: 'forge' }),
+    vehicle: Object.freeze({ title: '차량 제작', group: 'crafting', icon: 'forge' }),
+    fusion: Object.freeze({ title: '장비 합성', group: 'crafting', icon: 'forge' }),
+    attendance: Object.freeze({ title: '접속 보상', group: 'rewards', icon: 'gift', home: Object.freeze({ title: '보상', meta: '출석 · 퀘스트 · 메시지' }) }),
+    dailyquest: Object.freeze({ title: '일일 퀘스트', group: 'rewards', icon: 'gift' }),
+    messages: Object.freeze({ title: '메시지함', group: 'rewards', icon: 'mail' }),
+    mineral: Object.freeze({ title: '교환소', group: 'rewards', icon: 'inventory' }),
+    prediction: Object.freeze({ title: '승부예측', group: 'market', icon: 'auction', home: Object.freeze({ title: '승부·경매', meta: '승부예측 · 경매장' }) }),
+    auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
+    inventory: Object.freeze({ title: '인벤토리', group: 'market', icon: 'inventory' })
+  });
+  const NAVIGATION_CONTRACT = Object.freeze({
+    version: '1.0.0',
+    routes: ROUTE_META,
+    groups: MENU_GROUPS,
+    hubs: HUB_GROUPS,
+    menuGroupOrder: MENU_GROUP_ORDER
+  });
+  global.SoopketmonV21NavigationContract = NAVIGATION_CONTRACT;
 
-  const GROUPS = Object.freeze({
-    collection: { title: '카드·수집', routes: ['buy', 'dex', 'evolution', 'magic'] },
-    combat: { title: '전투·경쟁', routes: ['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'pvp', 'clan', 'territory'] },
-    growth: { title: '장비·제작', routes: ['character', 'equipment', 'title', 'garage', 'avatar', 'workshop', 'scrapyard', 'vehicle', 'fusion'] },
-    rewards: { title: '보상', routes: ['attendance', 'dailyquest', 'messages', 'mineral'] },
-    market: { title: '승부·경매', routes: ['prediction', 'auction', 'rank', 'inventory'] }
-  });
+  // Array tuples are retained only as a private rendering compatibility view.
+  // All values are derived from the shared route metadata above.
+  const ROUTES = Object.freeze(Object.fromEntries(Object.entries(ROUTE_META).map(([id, item]) => [
+    id,
+    Object.freeze([item.title, MENU_GROUPS[item.group]?.title || 'SOOPKETMON', item.icon])
+  ])));
 
   const esc = value => String(value ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
   const svg = name => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ICONS.menu}</svg>`;
@@ -161,7 +190,7 @@
 
   function dockMarkup() {
     return `<button class="dock-item ui-press" type="button" data-v21-home><span>${svg('home')}</span><b>로비</b></button>
-      <button class="dock-item ui-press" type="button" data-v21-group="collection"><span>${svg('cards')}</span><b>카드</b></button>
+      <button class="dock-item ui-press" type="button" data-v21-group="cards"><span>${svg('cards')}</span><b>카드</b></button>
       <button class="dock-item dock-battle ui-press" type="button" data-v21-group="combat"><span class="battle-orb">${svg('swords')}</span><b>전투</b></button>
       <button class="dock-item ui-press" type="button" data-v21-group="growth"><span>${svg('forge')}</span><b>성장</b></button>
       <button class="dock-item ui-press" type="button" data-v21-all><span>${svg('menu')}</span><b>메뉴</b></button>`;
@@ -196,16 +225,27 @@
     return `<picture><source type="image/avif" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.avif 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.avif 1024w" sizes="(max-width:759px) 100vw, 55vw"><source type="image/webp" srcset="/assets/responsive/ui/chief-supreme-commander-lobby-v1-640.webp 640w, /assets/responsive/ui/chief-supreme-commander-lobby-v1-1024.webp 1024w" sizes="(max-width:759px) 100vw, 55vw"><img src="/assets/ui/chief/chief-supreme-commander-lobby-v1.png" width="1024" height="1536" alt="족장 직위를 상징하는 미래형 최고지휘관 공용 초상" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async"></picture>`;
   }
 
+  function commandDescriptor(route, fallbackTitle, fallbackMeta, fallbackGroup = '') {
+    const item = ROUTE_META[route];
+    const home = item?.home || {};
+    return {
+      title: home.title || fallbackTitle,
+      meta: home.meta || fallbackMeta,
+      icon: item?.icon || (route === 'character' ? 'forge' : 'menu'),
+      group: home.group || fallbackGroup
+    };
+  }
+
   function pcCommand(route, title, meta, feature, group = '') {
-    const icon = ROUTES[route]?.[2] || (route === 'character' ? 'forge' : 'menu');
-    const target = group ? `data-v21-group="${group}"` : `data-v21-route="${route}"`;
-    return `<button class="pc-nav-command${feature ? ' feature' : ''} ui-press" type="button" ${target}><span class="pc-nav-icon">${svg(icon)}</span><span class="pc-nav-copy"><b>${title}</b><small>${meta}</small></span><i aria-hidden="true"></i></button>`;
+    const command = commandDescriptor(route, title, meta, group);
+    const target = command.group ? `data-v21-group="${command.group}"` : `data-v21-route="${route}"`;
+    return `<button class="pc-nav-command${feature ? ' feature' : ''} ui-press" type="button" ${target}><span class="pc-nav-icon">${svg(command.icon)}</span><span class="pc-nav-copy"><b>${esc(command.title)}</b><small>${esc(command.meta)}</small></span><i aria-hidden="true"></i></button>`;
   }
 
   function mobileCommand(route, title, meta, feature, group = '') {
-    const icon = ROUTES[route]?.[2] || 'menu';
-    const target = group ? `data-v21-group="${group}"` : `data-v21-route="${route}"`;
-    return `<button class="mobile-command-button${feature ? ' feature' : ''} ui-press" type="button" ${target}><span>${svg(icon)}</span><b>${title}</b><small>${meta}</small><i aria-hidden="true"></i></button>`;
+    const command = commandDescriptor(route, title, meta, group);
+    const target = command.group ? `data-v21-group="${command.group}"` : `data-v21-route="${route}"`;
+    return `<button class="mobile-command-button${feature ? ' feature' : ''} ui-press" type="button" ${target}><span>${svg(command.icon)}</span><b>${esc(command.title)}</b><small>${esc(command.meta)}</small><i aria-hidden="true"></i></button>`;
   }
 
   function homeMarkup() {
@@ -225,7 +265,7 @@
         </section>
         <nav class="pc-main-navigation${clanTestVisible()?' has-clan-test':''}" aria-label="PC 주요 메뉴"><div class="pc-navigation-heading"><span>MAIN COMMAND</span><b>01 / LOBBY</b></div>
           ${pcCommand('buy', '카드 상점', '대량 구매 · 20/100/1000회')}${pcCommand('dex', '도감', '카드 수집 · 진화')}${pcCommand('battle', '전투', 'PVE · 특수전 · 레이드', true)}${clanTestVisible()?pcCommand('clan', '클랜 TEST', 'OWNER · 블라인드 드래프트 · V3', true):''}
-          ${pcCommand('character', '장비·제작', '장비 · 칭호 · 차고지 · 제작소', false, 'growth')}${pcCommand('attendance', '보상', '출석 · 퀘스트 · 메시지')}${pcCommand('rank', '랭킹', '시즌 · 카드점수')}${pcCommand('prediction', '승부·경매', '승부예측 · 경매장')}
+          ${pcCommand('character', '장비·제작', '장비 · 칭호 · 차고지 · 제작소', false, 'growth')}${pcCommand('attendance', '보상', '출석 · 퀘스트 · 메시지')}${pcCommand('rank', '랭킹', '시즌 순위 · 티어')}${pcCommand('prediction', '승부·경매', '승부예측 · 경매장')}
         </nav>
         <div class="pc-utility-rail" aria-label="빠른 메뉴"><button type="button" data-v21-route="magic">${svg('magic')}<span>마법</span></button><button type="button" data-v21-route="inventory">${svg('inventory')}<span>인벤</span></button><button type="button" data-v21-route="messages">${svg('mail')}<span>메시지</span><i data-message-new-badge data-v21-message-badge hidden></i></button><button type="button" data-v21-all>${svg('menu')}<span>전체</span></button></div>
         <div class="pc-status-cluster"><span><i></i> LIVE SERVER</span><b>CH. 01</b><small>ONLINE</small></div>
@@ -286,9 +326,10 @@
   }
 
   function routeFamily(route) {
-    if (['buy', 'dex', 'evolution', 'magic'].includes(route)) return 'cards';
-    if (['battle', 'pvp', 'clan'].includes(route)) return 'battle';
-    if (['character', 'avatar', 'workshop'].includes(route)) return 'growth';
+    const group = ROUTE_META[route]?.group;
+    if (['store', 'collection'].includes(group)) return 'cards';
+    if (['pve', 'pvp'].includes(group)) return 'battle';
+    if (['equipment', 'crafting'].includes(group)) return 'growth';
     return 'all';
   }
 
@@ -408,7 +449,7 @@
   function openAllOverlay() {
     const modal = modalRoot(); if (!modal) return;
     modal.className = 'modal v21-command-overlay open';
-    modal.innerHTML = `<section class="v21-command-dialog v21-command-dialog-all" role="dialog" aria-modal="true" aria-label="전체 메뉴"><header><div><small>SOOPKETMON / ALL CONTENTS</small><h2>전체 메뉴</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-command-groups">${Object.values(GROUPS).map(group => `<section><h3>${esc(group.title)}</h3><div>${group.routes.map(routeButton).join('')}</div></section>`).join('')}</div></section>`;
+    modal.innerHTML = `<section class="v21-command-dialog v21-command-dialog-all" role="dialog" aria-modal="true" aria-label="전체 메뉴"><header><div><small>SOOPKETMON / ALL CONTENTS</small><h2>전체 메뉴</h2></div><button type="button" data-v21-close aria-label="닫기">×</button></header><div class="v21-command-groups">${MENU_GROUP_ORDER.map(id => MENU_GROUPS[id]).map(group => `<section><h3>${esc(group.title)}</h3><div>${group.routes.map(routeButton).join('')}</div></section>`).join('')}</div></section>`;
   }
 
   function openChiefOverlay() {
@@ -480,7 +521,7 @@
       if (event.target.closest('[data-v21-home]')) { event.preventDefault(); void navigate('home'); return; }
       if (event.target.closest('[data-v21-all]')) { event.preventDefault(); openAllOverlay(); return; }
       if (event.target.closest('[data-v21-chief-info]')) { event.preventDefault(); openChiefOverlay(); return; }
-      const group = event.target.closest('[data-v21-group]'); if (group) { event.preventDefault(); const item = GROUPS[group.dataset.v21Group]; if (item) openRouteOverlay(item.title, item.routes); return; }
+      const group = event.target.closest('[data-v21-group]'); if (group) { event.preventDefault(); const item = MENU_GROUPS[group.dataset.v21Group] || HUB_GROUPS[group.dataset.v21Group]; if (item) openRouteOverlay(item.title, item.routes); return; }
       if (event.target.closest('[data-v21-profile]')) { event.preventDefault(); if (typeof global.showAccountPanel === 'function') global.showAccountPanel(); else openRouteOverlay('내 정보', ['inventory', 'messages']); return; }
       if (event.target.closest('[data-v21-chief-system]')) { event.preventDefault(); closeOverlay(); showChiefConsole = true; explicitNavigation = true; try { global.renderShell('buy'); } finally { explicitNavigation = false; } return; }
     });
@@ -536,6 +577,7 @@
 
   global.SoopketmonV21ExactShell = Object.freeze({
     version: VERSION,
+    navigationContract: NAVIGATION_CONTRACT,
     navigate,
     enhance,
     openAll: openAllOverlay,

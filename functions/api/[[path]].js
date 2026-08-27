@@ -871,7 +871,6 @@ async function advancePvpSeasonLifecycle(env){
 function pvpScoreAdjustment(base,isWin,myCard,opponentCard,settings){const cfg=settings.scoreBalance||{},safeBase=Math.max(0,Number(base||0));if(cfg.enabled===false||!myCard||!opponentCard)return {change:safeBase,multiplier:100,diffPercent:0,label:'기본 점수'};const diff=(Number(opponentCard)-Number(myCard))/Math.max(1,Number(myCard))*100,abs=Math.abs(diff),eq=Number(cfg.equalRange??10);let multiplier=100,label='비슷한 체급';if(abs>eq){const band=abs<20?'Mid':abs<30?'High':'Extreme';if(isWin){if(diff<0){multiplier=Number(cfg['weakerWin'+band]??100);label='낮은 체급 승리 패널티'}else{multiplier=Number(cfg['strongerWin'+band]??100);label='상위 체급 승리 보너스'}}else{if(diff>0){multiplier=Number(cfg['strongerLoss'+band]??100);label='상위 체급 패배 완화'}else{multiplier=Number(cfg['weakerLoss'+band]??100);label='낮은 체급 패배 패널티'}}}const min=Math.max(0,Number(cfg.minChange??1)),max=Math.max(min,Number(cfg.maxChange??999));return {change:Math.max(min,Math.min(max,Math.round(safeBase*multiplier/100))),multiplier,diffPercent:Math.round(diff*10)/10,label}}
 
 function pvpSeasonScoreAdjustment(isWin,myScore,opponentScore){const diff=Number(opponentScore||0)-Number(myScore||0);let change,label;if(diff>=500){change=isWin?36:6;label=isWin?'상위 점수 상대 승리 보너스':'상위 점수 상대 패배 완화'}else if(diff>=200){change=isWin?30:10;label=isWin?'강한 상대 승리 보너스':'강한 상대 패배 완화'}else if(diff<=-500){change=isWin?12:24;label=isWin?'낮은 점수 상대 승리 조정':'낮은 점수 상대 패배 패널티'}else if(diff<=-200){change=isWin?18:20;label=isWin?'낮은 상대 승리 조정':'낮은 상대 패배 패널티'}else{change=isWin?24:16;label='비슷한 시즌 점수'}return {change,scoreDiff:diff,label}}
-async function userCardScore(env,userId){const settings=await battleSettings(env);const rows=await env.DB.prepare("SELECT c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id WHERE uc.user_id=? AND COALESCE(uc.quantity,0)>0 AND COALESCE(c.card_status,'PUBLIC') NOT IN ('RETIRE_PENDING','RETIRED')").bind(userId).all();return rows.results.reduce((sum,c)=>sum+cardBattlePower(c,Number(c.breakthrough_level||0),settings),0)}
 function pvpTierIndex(score,tiers=[]){const resolved=resolveTier(Number(score||0),tiers);return Math.max(0,(tiers||[]).findIndex(tier=>tier.id===resolved.id))}
 async function pvpFormationPower(env,userId,battle,{defense=false}={}){
   const [deck,bonus]=await Promise.all([pvpDeckSnapshot(env,userId,defense),userEquipmentBonuses(env,userId)]);
@@ -962,6 +961,17 @@ async function pveDeckCards(env,userId){const row=await env.DB.prepare('SELECT c
 const PRESTIGE_DECK_LIMIT=2;
 const FUR_DECK_LIMIT=2;
 const ZENITH_DECK_LIMIT=2;
+function deckRulesContract(scope='PVE'){
+  return {
+    schemaVersion:1,
+    scope:String(scope||'PVE').toUpperCase()==='PVP'?'PVP':'PVE',
+    deckSize:5,
+    gradeLimits:{PRESTIGE:PRESTIGE_DECK_LIMIT,FUR:FUR_DECK_LIMIT,ZENITH:ZENITH_DECK_LIMIT},
+    healerDuplicatePenalty:{2:60,3:75,4:85,5:90},
+    healerPenaltyScope:'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED',
+    formation:{code:'FRONT_2_BACK_3',frontSlots:2,backSlots:3,slots:['FRONT','FRONT','BACK','BACK','BACK']}
+  };
+}
 async function deckGradeCounts(env,cardIds=[]){const ids=[...new Set((cardIds||[]).map(String).filter(Boolean))];if(!ids.length)return {prestigeCount:0,furCount:0,zenithCount:0};const marks=ids.map(()=>'?').join(',');const row=await env.DB.prepare(`SELECT SUM(CASE WHEN UPPER(rarity)='PRESTIGE' THEN 1 ELSE 0 END) prestige_count,SUM(CASE WHEN UPPER(rarity)='FUR' THEN 1 ELSE 0 END) fur_count,SUM(CASE WHEN UPPER(rarity)='ZENITH' THEN 1 ELSE 0 END) zenith_count FROM cards_effective_v1210 WHERE id IN (${marks})`).bind(...ids).first();return {prestigeCount:Math.max(0,Number(row?.prestige_count||0)),furCount:Math.max(0,Number(row?.fur_count||0)),zenithCount:Math.max(0,Number(row?.zenith_count||0))}}
 async function validateDeckGradeLimits(env,cardIds=[],deckName='덱'){const {prestigeCount,furCount,zenithCount}=await deckGradeCounts(env,cardIds);if(prestigeCount>PRESTIGE_DECK_LIMIT){const error=new Error(`${deckName}에는 PRESTIGE 카드를 최대 ${PRESTIGE_DECK_LIMIT}장까지만 편성할 수 있습니다.`);error.status=400;error.code='PRESTIGE_DECK_LIMIT';error.grade='PRESTIGE';error.count=prestigeCount;error.limit=PRESTIGE_DECK_LIMIT;throw error}if(furCount>FUR_DECK_LIMIT){const error=new Error(`${deckName}에는 FUR 카드를 최대 ${FUR_DECK_LIMIT}장까지만 편성할 수 있습니다.`);error.status=400;error.code='FUR_DECK_LIMIT';error.grade='FUR';error.count=furCount;error.limit=FUR_DECK_LIMIT;throw error}if(zenithCount>ZENITH_DECK_LIMIT){const error=new Error(`${deckName}에는 ZENITH 카드를 최대 ${ZENITH_DECK_LIMIT}장까지만 편성할 수 있습니다.`);error.status=400;error.code='ZENITH_DECK_LIMIT';error.grade='ZENITH';error.count=zenithCount;error.limit=ZENITH_DECK_LIMIT;throw error}return {prestigeCount,furCount,zenithCount}}
 async function deckSynergySettings(env){return {enabled:false,ownerTestEnabled:false,retired:true}}
@@ -5769,7 +5779,7 @@ async function handleRequest(context){
         const profile=pveDifficultyRuntime(settings,monster);
         return {...monster,pveTab:profile.difficulty,baseBattlePower:Number(monster.battlePower||0),battlePower:profile.effectiveBattlePower,baseRewardCoin:Number(monster.rewardCoin||0),rewardCoin:profile.effectiveRewardCoin,difficulty:profile.difficulty,nightmare:profile.isNightmare?{hpPercent:profile.hpPercent,attackPercent:profile.attackPercent,defensePercent:profile.defensePercent,speedPercent:profile.speedPercent,rewardPercent:profile.rewardPercent,bossUltimateCapPercent:profile.bossUltimateCapPercent,damageCapUnlocked:profile.bossUltimateUnlocked}:null,__enabled:profile.enabled};
       }).filter(monster=>monster.__enabled).map(({__enabled,...monster})=>monster);
-      return json({settings,deck,characterBonus,energy,serverNow:new Date().toISOString(),monsters:publicMonsters,burningEvent:burningPublicState(burning),battleEngine:battleEngineState(settings,user)});
+      return json({settings,deck,deckRules:deckRulesContract('PVE'),characterBonus,energy,serverNow:new Date().toISOString(),monsters:publicMonsters,burningEvent:burningPublicState(burning),battleEngine:battleEngineState(settings,user)});
     }
     if(path==='battle/deck'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -6141,10 +6151,10 @@ async function handleRequest(context){
         env.DB.prepare("INSERT OR IGNORE INTO pvp_deck_presets(user_id,preset_no,card_ids) SELECT user_id,1,card_ids FROM pvp_decks WHERE user_id=?").bind(user.id),
         env.DB.prepare('UPDATE pvp_decks SET card_ids=(SELECT card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no=1),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND EXISTS(SELECT 1 FROM pvp_deck_presets WHERE user_id=? AND preset_no=1)').bind(user.id,user.id,user.id)
       ]);
-      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning),[profile,deck,score,titleMap,characterBonus,energy,battle]=await Promise.all([ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),userCardScore(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env)]);
+      const burning=await burningEventSettings(env),settings=applyBurningPvpSettings(lifecycle.settings,burning),[profile,deck,titleMap,characterBonus,energy,battle]=await Promise.all([ensurePvpProfile(env,user,settings),pvpDeckCards(env,user.id),publicEquippedTitleMap(env,[user.id]),userEquipmentBonuses(env,user.id),pvpEnergyState(env,user,settings),battleSettings(env)]);
       const [presetRows,activeRow]=await Promise.all([env.DB.prepare('SELECT preset_no,card_ids FROM pvp_deck_presets WHERE user_id=? AND preset_no BETWEEN 1 AND 3 ORDER BY preset_no').bind(user.id).all(),env.DB.prepare('SELECT preset_no FROM pvp_active_presets WHERE user_id=?').bind(user.id).first()]);
       const presets={1:[],2:[],3:[]};for(const row of presetRows.results||[]){try{presets[Number(row.preset_no)]=JSON.parse(row.card_ids||'[]')}catch{presets[Number(row.preset_no)]=[]}}
-      return json({settings,lifecycle:{settling:lifecycle.settling===true,phase:lifecycle.phase||null,startedNewSeason:lifecycle.startedNewSeason===true,completedSeason:lifecycle.completedSeason||null},battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...profile,tier:resolveTier(Number(profile.season_score),settings.tiers),highestTier:resolveTier(Number(profile.highest_score),settings.tiers)},title:titleMap[String(user.id)]||null,deck,presets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),cardScore:score,characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
+      return json({settings,lifecycle:{settling:lifecycle.settling===true,phase:lifecycle.phase||null,startedNewSeason:lifecycle.startedNewSeason===true,completedSeason:lifecycle.completedSeason||null},battleSettings:battle,burningEvent:burningPublicState(burning),profile:{...profile,tier:resolveTier(Number(profile.season_score),settings.tiers),highestTier:resolveTier(Number(profile.highest_score),settings.tiers)},title:titleMap[String(user.id)]||null,deck,presets,activePreset:Math.max(1,Math.min(3,Number(activeRow?.preset_no||1))),deckRules:deckRulesContract('PVP'),characterBonus,energy,battleEngine:battleEngineState(battle,user),bypass:isAdminRole(user),serverNow:new Date().toISOString()});
     }
     if(path==='pvp/deck'&&request.method==='POST'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -6724,20 +6734,7 @@ async function handleRequest(context){
       return json({items:[],retired:true,replacement:'live-operations'});
     }
     if(path==='ranking'){
-      const viewer=await authenticate(request,env),settings=await battleSettings(env),tiers=(await tierSettings(env)).cardScoreTiers;
-      // V1805: 이 집계는 활성 유저 × 보유 카드 전체를 훑어 1회 2.5초, 5.16억 행을 읽는다.
-      // 인스턴스별 5분 캐시라 인스턴스 수만큼 중복 실행됐다. 공용 캐시(10분)로 묶는다.
-      const allRanking=await sharedAggregate(env,'collection_ranking',600000,async()=>{
-        const rows=await env.DB.prepare(`SELECT u.id,u.nickname,c.id AS card_id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level,COUNT(uc.card_id) AS card_count
-          FROM users u LEFT JOIN user_cards uc ON uc.user_id=u.id AND COALESCE(uc.quantity,0)>0 LEFT JOIN cards_effective_v1210 c ON c.id=uc.card_id
-          WHERE u.status='ACTIVE' AND COALESCE(u.role,'USER') NOT IN ('OWNER','ADMIN') AND (u.banned_until IS NULL OR u.banned_until<=datetime('now'))
-          GROUP BY u.id,u.nickname,c.id,c.rarity,c.power_type,c.base_power,uc.breakthrough_level ORDER BY u.id`).all();
-        const map=new Map();for(const r of rows.results){if(!map.has(r.id))map.set(r.id,{id:Number(r.id),nickname:r.nickname,score:0,card_count:0,max_breakthrough:0});const x=map.get(r.id);if(r.rarity){x.score+=cardBattlePower({...r,id:r.card_id},Number(r.breakthrough_level||0),settings)*Number(r.card_count||0);x.card_count+=Number(r.card_count||0);x.max_breakthrough=Math.max(x.max_breakthrough,Number(r.breakthrough_level||0));}}
-        return [...map.values()].sort((a,b)=>b.score-a.score||b.card_count-a.card_count||a.nickname.localeCompare(b.nickname,'ko')).map((x,i)=>({...x,rank:i+1,tier:resolveTier(x.score,tiers)}));
-      });
-      const list=Array.isArray(allRanking)?allRanking:[];
-      const ranking=list.slice(0,100),me=viewer?list.find(x=>Number(x.id)===Number(viewer.id))||null:null;
-      return json({ranking,tiers,me});
+      return json({error:'카드점수 공개 랭킹은 종료되었습니다.',code:'CARD_SCORE_RANKING_RETIRED',replacement:'pvp/ranking'},410);
     }
 
 

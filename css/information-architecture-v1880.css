@@ -1,0 +1,113 @@
+/* V1880 — shared navigation and deck-rule presentation contract.
+   Rectangular command surfaces only: no diamond or star ornament. */
+:root{
+  --content-accent:#66dceb;
+  --content-accent-rgb:102,220,235;
+  --content-accent-strong:#dffcff;
+}
+body[data-content-scope="pve"]{--content-accent:#58dff2;--content-accent-rgb:88,223,242;--content-accent-strong:#dffcff}
+body[data-content-scope="pvp"]{--content-accent:#ff596f;--content-accent-rgb:255,89,111;--content-accent-strong:#ffe3e8}
+body[data-content-scope="collection"]{--content-accent:#a77aff;--content-accent-rgb:167,122,255;--content-accent-strong:#f0e8ff}
+body[data-content-scope="growth"]{--content-accent:#e8bd66;--content-accent-rgb:232,189,102;--content-accent-strong:#fff2cf}
+body[data-content-scope="store"]{--content-accent:#62cfe8;--content-accent-rgb:98,207,232;--content-accent-strong:#e3fbff}
+
+.v21-route-command-head,
+.main-nav,
+.primary-tabs{
+  --scope-accent:var(--content-accent);
+  border-color:rgba(var(--content-accent-rgb),.32)!important;
+}
+.v21-route-command-head::after{
+  content:"";
+  position:absolute;
+  inset:auto 0 -1px;
+  height:2px;
+  pointer-events:none;
+  background:linear-gradient(90deg,var(--content-accent),rgba(var(--content-accent-rgb),.12) 48%,transparent 82%);
+}
+.main-nav-item.active,
+.primary-tabs .tab.active,
+.sub-tabs .tab.active{
+  color:var(--content-accent-strong)!important;
+  border-color:rgba(var(--content-accent-rgb),.58)!important;
+  background:linear-gradient(180deg,rgba(var(--content-accent-rgb),.2),rgba(5,12,18,.86))!important;
+}
+
+.deck-grade-rule-summary{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin:10px 0 14px;
+}
+.deck-grade-rule-summary>span{
+  min-width:116px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-height:38px;
+  padding:7px 10px;
+  box-sizing:border-box;
+  border:1px solid rgba(119,164,188,.26);
+  border-left:3px solid rgba(119,164,188,.65);
+  border-radius:2px;
+  color:#b9cbd4;
+  background:rgba(5,14,23,.78);
+}
+.deck-grade-rule-summary b{font:800 10px/1.2 Inter,"Noto Sans KR",sans-serif;letter-spacing:.08em}
+.deck-grade-rule-summary em{color:#edf8fb;font-style:normal;font-size:12px;font-weight:900;font-variant-numeric:tabular-nums;white-space:nowrap}
+.deck-grade-rule-summary>span.full{border-color:rgba(237,190,94,.5);border-left-color:#edbe5e;color:#f1d99b}
+.deck-grade-rule-summary>span.blocked{border-color:rgba(255,79,104,.7);border-left-color:#ff4f68;color:#ffd9df;background:rgba(70,8,20,.54)}
+
+.rank-public-head{
+  margin:0 0 12px;
+  padding:18px 20px;
+  border:1px solid rgba(255,89,111,.25);
+  border-left:3px solid #ff596f;
+  background:linear-gradient(90deg,rgba(36,8,17,.88),rgba(6,13,21,.8));
+}
+.rank-public-head h2{margin:5px 0 3px;color:#f7fbfd;font-size:clamp(22px,2.4vw,34px)}
+.rank-public-head span{color:#94a8b3;font-size:12px}
+.rank-public-head .eyebrow{margin:0;color:#ff8394}
+
+.ranked-live-v2 .pvp-content>.deck-grade-rule-summary{position:relative;z-index:3;margin-inline:0}
+.ranked-live-v2 .pvp-deck-slots{
+  grid-template-columns:repeat(5,minmax(88px,1fr))!important;
+  overflow-x:auto!important;
+  overscroll-behavior-inline:contain;
+  scrollbar-width:thin;
+}
+.ranked-live-v2 .pvp-deck-save:disabled{opacity:.48;cursor:not-allowed;filter:saturate(.4)}
+
+@media(max-width:640px){
+  .rank-public-head{margin-inline:8px;padding:14px 15px}
+  .deck-grade-rule-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .deck-grade-rule-summary>span{min-width:0;min-height:42px;padding:7px 8px;gap:5px}
+  .deck-grade-rule-summary b{font-size:8px;letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis}
+  .deck-grade-rule-summary em{font-size:10px}
+  .ranked-live-v2 .ranked-live-tabs button{min-width:0!important;min-height:58px}
+  .ranked-live-v2 .ranked-live-tabs button>span{
+    display:block!important;
+    max-width:48px;
+    overflow:hidden;
+    color:currentColor;
+    font-size:8px;
+    line-height:1.1;
+    text-align:center;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+  }
+  .ranked-live-v2 .ranked-live-tabs button>span small{display:none}
+  .ranked-live-v2 .ranked-live-tabs svg{width:17px}
+  .ranked-live-v2 .pvp-deck-slots{grid-template-columns:repeat(5,86px)!important;padding-bottom:8px}
+}
+
+@media(max-width:380px){
+  .deck-grade-rule-summary{grid-template-columns:1fr}
+  .deck-grade-rule-summary>span{min-height:38px}
+  .ranked-live-v2 .ranked-live-tabs button>span{max-width:42px;font-size:7px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .v21-route-command-head::after{transition:none}
+}
