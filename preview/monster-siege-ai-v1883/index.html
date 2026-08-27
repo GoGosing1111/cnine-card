@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>몬스터 공성 AI 전황 지휘실 V1883</title>
+  <title>몬스터 공성 지도형 진영전 V1887</title>
   <link rel="stylesheet" href="../../css/monster-siege-v1505.css?v=1518-rally-clock">
-  <link rel="stylesheet" href="../../css/monster-siege-v1883.css?v=1883-ai-war-room">
+  <link rel="stylesheet" href="../../css/monster-siege-v1887.css?v=1888-territory-frontline">
   <style>html,body{margin:0;min-height:100%;background:#02070d;font-family:Pretendard,"Noto Sans KR",sans-serif}.pve-mode-tabs{display:none}</style>
 </head>
 <body>
@@ -23,10 +23,29 @@
       event:{id:18,name:'심연의 황혼 성채',status:'ACTIVE',stage:'BATTLE',rallyOpen:false,endsAt:new Date(now+12600000).toISOString(),totalDamage:8294460,phaseIndex:3,version:247},
       phase:{key:'GUARD',index:3,name:'성주 수호대',subtitle:'왕궁 계단의 정예군을 격파하라',monsterName:'월식의 왕실 수호자',monsterImage:'/assets/siege/phase-4-guard.webp',hp:3184000,maxHp:4800000,percent:66.3,ai:{code:'ROYAL_BULWARK',skillName:'왕실 수호방진',basicName:'근위대 역습',role:'COUNTER SIEGE',description:'근위대가 반격하는 동안 방진을 전개해 전선을 회복하고 피해를 흡수합니다.',skillEvery:5,shieldPercent:28}},
       ai:{enabled:true,allianceHp:12740000,allianceMaxHp:20000000,alliancePercent:63.7,sequence:47,nextActionAt:new Date(now+32000).toISOString(),nextSkillIn:3,profile:{code:'ROYAL_BULWARK',skillName:'왕실 수호방진',basicName:'근위대 역습',role:'COUNTER SIEGE',description:'근위대가 반격하는 동안 방진을 전개해 전선을 회복하고 피해를 흡수합니다.',skillEvery:5,shieldPercent:28},threat:{level:'FRENZY',label:'광폭 태세',rage:67},currentEffect:{code:'ROYAL_BULWARK',percent:28,endsAt:new Date(now+68000).toISOString()},recentActions:[
-        {id:415,sequence:45,actionType:'SKILL',skillCode:'ROYAL_BULWARK',skillName:'왕실 수호방진',damage:91800,healing:72000,ticks:1,role:'COUNTER SIEGE',description:'근위대가 반격하는 동안 방진을 전개해 전선을 회복하고 피해를 흡수합니다.',createdAt:new Date(now-17000).toISOString(),effect:{code:'ROYAL_BULWARK',percent:28,endsAt:new Date(now+68000).toISOString()}},
-        {id:414,sequence:44,actionType:'ATTACK',skillCode:'ROYAL_BULWARK',skillName:'근위대 역습',damage:49600,healing:0,ticks:1,role:'COUNTER SIEGE',description:'왕궁 계단의 근위대가 연합 성채로 역습했습니다.',createdAt:new Date(now-62000).toISOString()},
-        {id:413,sequence:43,actionType:'ATTACK',skillCode:'ROYAL_BULWARK',skillName:'근위대 역습',damage:48200,healing:0,ticks:1,role:'COUNTER SIEGE',description:'왕궁 계단의 근위대가 연합 성채로 역습했습니다.',createdAt:new Date(now-107000).toISOString()}
+        {id:415,sequence:45,actionType:'SKILL',skillCode:'ROYAL_BULWARK',skillName:'왕실 수호방진',damage:91800,healing:72000,ticks:1,role:'COUNTER SIEGE',description:'가면 섬멸자 돌격대가 왕실 수호방진으로 연합 전선을 밀어붙였습니다.',assaultUnit:{name:'가면 섬멸자',image:'/assets/ui/project-v/monsters/hunt-tower/hunt-069-masked-soul-swordsman-boss-sd-v1.png'},createdAt:new Date(now-17000).toISOString(),effect:{code:'ROYAL_BULWARK',percent:28,endsAt:new Date(now+68000).toISOString()}},
+        {id:414,sequence:44,actionType:'ATTACK',skillCode:'ROYAL_BULWARK',skillName:'근위대 역습',damage:49600,healing:0,ticks:1,role:'COUNTER SIEGE',description:'삼검 돌격장이 연합 점령지를 공격했습니다.',assaultUnit:{name:'삼검 돌격장',image:'/assets/ui/project-v/monsters/hunt-tower/hunt-025-green-swordsman-boss-sd-v1.png'},createdAt:new Date(now-62000).toISOString()},
+        {id:413,sequence:43,actionType:'ATTACK',skillCode:'ROYAL_BULWARK',skillName:'근위대 역습',damage:48200,healing:0,ticks:1,role:'COUNTER SIEGE',description:'화천 전술관이 연합 전선을 압박했습니다.',assaultUnit:{name:'화천 전술관',image:'/assets/ui/project-v/monsters/hunt-tower/hunt-029-flower-captain-boss-sd-v1.png'},createdAt:new Date(now-107000).toISOString()}
       ]},
+      campaign:{mode:'TERRITORY_FRONTLINE',direction:'ALLIANCE_TO_CITADEL',nodes:[
+        {index:0,key:'ALLIANCE_BASE',name:'숲켓몬 연합 본진',code:'ALLIANCE HQ',x:7,y:60,status:'ALLIANCE'},
+        {index:1,key:'OUTER',name:'검은 습지 초소',code:'OUTER POST',x:24,y:58,status:'ALLIANCE'},
+        {index:2,key:'GATE',name:'철혈 관문',code:'IRON GATE',x:40,y:49,status:'ALLIANCE'},
+        {index:3,key:'INNER',name:'잿불 시가지',code:'EMBER CITY',x:56,y:53,status:'ALLIANCE'},
+        {index:4,key:'GUARD',name:'월식 왕궁',code:'ROYAL KEEP',x:72,y:43,status:'CONTESTED',current:true},
+        {index:5,key:'LORD',name:'심연 성채',code:'ECLIPSE CITADEL',x:91,y:25,status:'MONSTER'}
+      ],currentFront:{phaseIndex:3,nodeIndex:4,key:'GUARD',name:'월식 왕궁',operationName:'성주 수호대',subtitle:'왕궁 계단의 정예 방어대를 격파하라',commanderName:'월식의 왕실 수호자',commanderArt:'/assets/siege/phase-4-guard.webp',capturedFronts:3,totalFronts:5},factions:{alliance:{code:'ALLIANCE',name:'숲켓몬 연합',hp:12740000,maxHp:20000000,percent:63.7},monster:{code:'MONSTER_ARMY',name:'심연 몬스터 군단',hp:3184000,maxHp:4800000,percent:66.3}},formations:{
+        defense:{code:'GUARD_DEFENSE',name:'성주 수호대 방어대',mission:'현재 몬스터 거점 주둔 · 유저 공략 저지',nodeIndex:4,units:[
+          {id:'GUARD-D1',name:'빙벽 근위병',role:'좌익 방어',image:'/assets/ui/project-v/monsters/hunt-tower/tower-020-ice-swordsman-boss-sd-v1.png',status:'HOLDING'},
+          {id:'GUARD-D2',name:'녹영 수호자',role:'중앙 방진',image:'/assets/ui/project-v/monsters/hunt-tower/tower-022-green-spirit-boss-sd-v1.png',status:'HOLDING'},
+          {id:'GUARD-D3',name:'천화 검위',role:'우익 반격',image:'/assets/ui/project-v/monsters/hunt-tower/tower-023-petal-swordsman-boss-sd-v1.png',status:'HOLDING'}
+        ]},
+        assault:{code:'GUARD_ASSAULT',name:'성주 수호대 돌격대',mission:'연합 점령지 공격 · 거점 탈환',originNodeIndex:4,targetNodeIndex:3,nextActionAt:new Date(now+32000).toISOString(),leadUnitId:'GUARD-A3',units:[
+          {id:'GUARD-A1',name:'삼검 돌격장',role:'근접 돌파',image:'/assets/ui/project-v/monsters/hunt-tower/hunt-025-green-swordsman-boss-sd-v1.png',status:'MARCHING'},
+          {id:'GUARD-A2',name:'화천 전술관',role:'작전 지휘',image:'/assets/ui/project-v/monsters/hunt-tower/hunt-029-flower-captain-boss-sd-v1.png',status:'MARCHING'},
+          {id:'GUARD-A3',name:'가면 섬멸자',role:'전선 급습',image:'/assets/ui/project-v/monsters/hunt-tower/hunt-069-masked-soul-swordsman-boss-sd-v1.png',status:'LEADING'}
+        ]}
+      }},
       mine:{joined:true,deckPower:30250,attacks:36,damage:1089340,energy:3,maxEnergy:5,rechargeSeconds:300,nextRechargeAt:new Date(now+154000).toISOString()},
       ranking:[
         {user_id:11,nickname:'선봉대장',damage:1849200,attacks:58},{user_id:22,nickname:'성벽파괴자',damage:1654310,attacks:51},{user_id:33,nickname:'유두',damage:1089340,attacks:36},{user_id:44,nickname:'숲의기사',damage:896500,attacks:31},{user_id:55,nickname:'마도공병',damage:722400,attacks:27}
@@ -35,6 +54,6 @@
     globalThis.apiRequest=async path=>path==='siege/state'?structuredClone(state):Promise.reject(new Error('프리뷰에서는 전황 화면만 확인할 수 있습니다.'));
     addEventListener('load',()=>setTimeout(()=>globalThis.openMonsterSiege?.(),80));
   </script>
-  <script defer src="../../js/monster-siege-v1505.js?v=1883-ai-war-room"></script>
+  <script defer src="../../js/monster-siege-v1505.js?v=1888-territory-frontline"></script>
 </body>
 </html>

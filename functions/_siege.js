@@ -73,6 +73,81 @@ const MONSTER_AI_PROFILES = Object.freeze({
     shieldSeconds: 75,
   },
 });
+const SIEGE_MAP_NODES = Object.freeze([
+  { index: 0, key: "ALLIANCE_BASE", name: "숲켓몬 연합 본진", code: "ALLIANCE HQ", x: 7, y: 60 },
+  { index: 1, key: "OUTER", name: "검은 습지 초소", code: "OUTER POST", x: 24, y: 58 },
+  { index: 2, key: "GATE", name: "철혈 관문", code: "IRON GATE", x: 40, y: 49 },
+  { index: 3, key: "INNER", name: "잿불 시가지", code: "EMBER CITY", x: 56, y: 53 },
+  { index: 4, key: "GUARD", name: "월식 왕궁", code: "ROYAL KEEP", x: 72, y: 43 },
+  { index: 5, key: "LORD", name: "심연 성채", code: "ECLIPSE CITADEL", x: 91, y: 25 },
+]);
+const unit = (id, name, role, image, powerFactor = 1, isBoss = false) =>
+  Object.freeze({ id, name, role, image, powerFactor, isBoss });
+const MONSTER_FORMATIONS = Object.freeze({
+  OUTER: Object.freeze({
+    defense: Object.freeze([
+      unit("OUTER-D1", "검은늪 척후병", "전방 감시", "/assets/ui/project-v/monsters/hunt-tower/tower-017-wijang-akseong-sd-v1.png", 0.92),
+      unit("OUTER-D2", "외곽 주술사", "진형 지원", "/assets/ui/project-v/monsters/hunt-tower/tower-019-vampire-sd-v1.png", 1.0),
+      unit("OUTER-D3", "흑철 방패병", "거점 수비", "/assets/ui/project-v/monsters/hunt-tower/tower-021-fallen-paladin-sd-v1.png", 1.08),
+    ]),
+    assault: Object.freeze([
+      unit("OUTER-A1", "혈조 정찰수", "침투", "/assets/ui/project-v/monsters/hunt-tower/tower-024-blood-crow-sd-v1.png", 0.95),
+      unit("OUTER-A2", "월영 추격자", "기동 타격", "/assets/ui/project-v/monsters/hunt-tower/tower-027-moon-wraith-sd-v1.png", 1.04),
+      unit("OUTER-A3", "파성 선봉장", "돌격 지휘", "/assets/ui/project-v/monsters/hunt-tower/tower-064-commander-krieg-sd-v1.png", 1.12),
+    ]),
+  }),
+  GATE: Object.freeze({
+    defense: Object.freeze([
+      unit("GATE-D1", "적철 문지기", "관문 수비", "/assets/ui/project-v/monsters/hunt-tower/tower-018-igris-boss-sd-v1.png", 1.05, true),
+      unit("GATE-D2", "강철 파수기", "화력 차단", "/assets/ui/project-v/monsters/hunt-tower/hunt-068-omega-09-sd-v1.png", 1.0),
+      unit("GATE-D3", "독안개 포대", "원거리 지원", "/assets/ui/project-v/monsters/hunt-tower/hunt-005-kyokasuigetsu-frog-sd-v1.png", 0.96),
+    ]),
+    assault: Object.freeze([
+      unit("GATE-A1", "뇌광 돌격병", "고속 돌파", "/assets/ui/project-v/monsters/hunt-tower/hunt-016-thunder-swordsman-boss-sd-v1.png", 1.02, true),
+      unit("GATE-A2", "화염 충각대", "성벽 파쇄", "/assets/ui/project-v/monsters/hunt-tower/hunt-026-flame-pillar-boss-sd-v1.png", 1.08, true),
+      unit("GATE-A3", "황뢰 선도자", "돌격 지휘", "/assets/ui/project-v/monsters/hunt-tower/hunt-067-yellow-flash-boss-sd-v1.png", 1.14, true),
+    ]),
+  }),
+  INNER: Object.freeze({
+    defense: Object.freeze([
+      unit("INNER-D1", "자색 결계술사", "마력 장벽", "/assets/ui/project-v/monsters/hunt-tower/tower-028-violet-magus-boss-sd-v1.png", 1.08, true),
+      unit("INNER-D2", "빙결 포격관", "원거리 제압", "/assets/ui/project-v/monsters/hunt-tower/hunt-006-ice-admiral-boss-sd-v1.png", 1.02, true),
+      unit("INNER-D3", "광휘 감시관", "시가지 수비", "/assets/ui/project-v/monsters/hunt-tower/hunt-004-light-admiral-boss-sd-v1.png", 1.04, true),
+    ]),
+    assault: Object.freeze([
+      unit("INNER-A1", "용암 파괴관", "광역 포격", "/assets/ui/project-v/monsters/hunt-tower/hunt-007-magma-admiral-boss-sd-v1.png", 1.1, true),
+      unit("INNER-A2", "공허 잠입자", "후방 교란", "/assets/ui/project-v/monsters/hunt-tower/hunt-062-obito-boss-sd-v1.png", 1.05, true),
+      unit("INNER-A3", "낙뢰 추격자", "기동 섬멸", "/assets/ui/project-v/monsters/hunt-tower/hunt-014-lightning-rival-boss-sd-v1.png", 1.12, true),
+    ]),
+  }),
+  GUARD: Object.freeze({
+    defense: Object.freeze([
+      unit("GUARD-D1", "빙벽 근위병", "좌익 방어", "/assets/ui/project-v/monsters/hunt-tower/tower-020-ice-swordsman-boss-sd-v1.png", 1.08, true),
+      unit("GUARD-D2", "녹영 수호자", "중앙 방진", "/assets/ui/project-v/monsters/hunt-tower/tower-022-green-spirit-boss-sd-v1.png", 1.1, true),
+      unit("GUARD-D3", "천화 검위", "우익 반격", "/assets/ui/project-v/monsters/hunt-tower/tower-023-petal-swordsman-boss-sd-v1.png", 1.12, true),
+    ]),
+    assault: Object.freeze([
+      unit("GUARD-A1", "삼검 돌격장", "근접 돌파", "/assets/ui/project-v/monsters/hunt-tower/hunt-025-green-swordsman-boss-sd-v1.png", 1.08, true),
+      unit("GUARD-A2", "화천 전술관", "작전 지휘", "/assets/ui/project-v/monsters/hunt-tower/hunt-029-flower-captain-boss-sd-v1.png", 1.1, true),
+      unit("GUARD-A3", "가면 섬멸자", "전선 급습", "/assets/ui/project-v/monsters/hunt-tower/hunt-069-masked-soul-swordsman-boss-sd-v1.png", 1.16, true),
+    ]),
+  }),
+  LORD: Object.freeze({
+    defense: Object.freeze([
+      unit("LORD-D1", "홍월 환술사", "정신 방벽", "/assets/ui/project-v/monsters/hunt-tower/hunt-015-crimson-eye-boss-sd-v1.png", 1.12, true),
+      unit("LORD-D2", "암부 처형자", "근접 차단", "/assets/ui/project-v/monsters/hunt-tower/hunt-030-black-ops-boss-sd-v1.png", 1.1, true),
+      unit("LORD-D3", "월백 대장", "최종 수비", "/assets/ui/project-v/monsters/hunt-tower/hunt-031-moon-demon-boss-sd-v1.png", 1.18, true),
+    ]),
+    assault: Object.freeze([
+      unit("LORD-A1", "암해 군주", "대규모 침공", "/assets/ui/project-v/monsters/hunt-tower/hunt-011-black-beard-boss-sd-v1.png", 1.15, true),
+      unit("LORD-A2", "황금 왕포대", "원거리 섬멸", "/assets/ui/project-v/monsters/hunt-tower/hunt-061-golden-king-boss-sd-v1.png", 1.17, true),
+      unit("LORD-A3", "태양 사자왕", "최종 돌격", "/assets/ui/project-v/monsters/hunt-tower/hunt-063-solar-lion-king-boss-sd-v1.png", 1.22, true),
+    ]),
+  }),
+});
+function monsterFormation(phaseKey) {
+  return MONSTER_FORMATIONS[String(phaseKey || "OUTER").toUpperCase()] || MONSTER_FORMATIONS.OUTER;
+}
 const DEFAULTS = {
   mode: "TEST",
   name: "심연의 황혼 성채",
@@ -290,6 +365,7 @@ function monsterAiPlan({ event, cfg, now = Date.now() }) {
   const sequenceAfter = sequenceBefore + dueTicks;
   const phase = cfg.phases[Math.max(0, Math.min(cfg.phases.length - 1, Number(event.phase_index || 0)))];
   const profile = monsterAiProfile(phase?.key);
+  const formation = monsterFormation(phase?.key);
   const skillEvery = Math.max(2, Number(profile.skillEvery || 4));
   const skillCount = Math.max(0, Math.floor(sequenceAfter / skillEvery) - Math.floor(sequenceBefore / skillEvery));
   const basicCount = Math.max(0, dueTicks - skillCount);
@@ -331,14 +407,16 @@ function monsterAiPlan({ event, cfg, now = Date.now() }) {
     : existingEffect;
   const actionType = skillCount > 0 ? "SKILL" : "ATTACK";
   const title = skillCount > 0 ? profile.skillName : profile.basicName;
+  const assaultUnit = formation.assault[sequenceAfter % formation.assault.length];
   const message = dueTicks > 1
-    ? `${title} 포함 ${dueTicks}차 연속 공세가 아군 성채를 강타했습니다.`
-    : `${title}이 아군 성채를 강타했습니다.`;
+    ? `${assaultUnit.name} 돌격대가 ${title} 포함 ${dueTicks}차 연속 공세로 연합 전선을 밀어붙였습니다.`
+    : `${assaultUnit.name} 돌격대가 ${title}으로 연합 전선을 공격했습니다.`;
   return {
     actionType,
     title,
     message,
     profile,
+    assaultUnit,
     threat,
     dueTicks,
     skillCount,
@@ -684,21 +762,46 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
   if (Number.isFinite(rallyEndsAt) && rallyEndsAt > now) return event;
   const plan = monsterAiPlan({ event, cfg, now });
   if (!plan) return event;
-  const versionAfter = Number(event.version || 0) + 1,
+  const currentIndex = Math.max(0, Math.min(cfg.phases.length - 1, Number(event.phase_index || 0))),
+    retreat = plan.allianceHpAfter <= 0 && currentIndex > 0,
+    finalDefeat = plan.allianceHpAfter <= 0 && currentIndex === 0,
+    nextIndex = retreat ? currentIndex - 1 : currentIndex,
+    nextPhase = cfg.phases[nextIndex],
+    frontHpAfter = retreat ? Number(nextPhase.hp) : plan.phaseHpAfter,
+    frontMaxHpAfter = retreat ? Number(nextPhase.hp) : Number(event.phase_max_hp || nextPhase.hp),
+    resetAllianceHp = Math.max(1, Number(event.alliance_max_hp || cfg.allianceFortressHp)),
+    storedAllianceHp = retreat ? resetAllianceHp : plan.allianceHpAfter,
+    retreatDelayMs = clamp(cfg.monsterAttackIntervalSeconds, 15, 300, 45) * 1000,
+    nextActionAt = retreat ? new Date(now + retreatDelayMs).toISOString() : plan.nextActionAt,
+    effect = retreat ? null : plan.effect,
+    actionType = retreat ? "BREAKTHROUGH" : plan.actionType,
+    actionCode = retreat ? "MONSTER_RECLAIM" : plan.profile.code,
+    actionTitle = retreat ? "몬스터 거점 탈환" : plan.title,
+    versionAfter = Number(event.version || 0) + 1,
     actionTimestamp = new Date(now).toISOString(),
     payload = {
       role: plan.profile.role,
-      description: plan.profile.description,
+      description: retreat
+        ? `${plan.assaultUnit.name} 돌격대가 연합 방어선을 붕괴시키고 ${nextPhase.name} 전선을 탈환했습니다.`
+        : plan.message,
       skillCount: plan.skillCount,
       threat: plan.threat,
-      effect: plan.effect,
+      effect,
+      assaultUnit: plan.assaultUnit,
+      movement: {
+        type: retreat ? "RECLAIM" : "ASSAULT",
+        fromFrontIndex: currentIndex,
+        toFrontIndex: nextIndex,
+      },
     },
     results = await env.DB.batch([
       env.DB.prepare(
-        `UPDATE monster_siege_events SET phase_hp=?,version=version+1,updated_at=?
+        `UPDATE monster_siege_events SET phase_index=?,phase_hp=?,phase_max_hp=?,version=version+1,updated_at=?
          WHERE id=? AND version=? AND status='ACTIVE'`,
       ).bind(
-        plan.phaseHpAfter,
+        nextIndex,
+        frontHpAfter,
+        frontMaxHpAfter,
         actionTimestamp,
         event.id,
         event.version,
@@ -711,13 +814,13 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
            SELECT 1 FROM monster_siege_events WHERE id=? AND version=? AND updated_at=?
          )`,
       ).bind(
-        plan.allianceHpAfter,
+        storedAllianceHp,
         plan.sequenceAfter,
-        plan.nextActionAt,
+        nextActionAt,
         actionTimestamp,
-        plan.effect?.code || "",
-        Number(plan.effect?.percent || 0),
-        plan.effect?.endsAt || null,
+        effect?.code || "",
+        Number(effect?.percent || 0),
+        effect?.endsAt || null,
         event.id,
         event.id,
         versionAfter,
@@ -733,17 +836,17 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
       ).bind(
         event.id,
         plan.sequenceAfter,
-        Number(event.phase_index || 0),
-        plan.actionType,
-        plan.profile.code,
-        plan.title,
+        currentIndex,
+        actionType,
+        actionCode,
+        actionTitle,
         plan.damage,
         plan.heal,
         plan.dueTicks,
         plan.allianceHpBefore,
         plan.allianceHpAfter,
         plan.phaseHpBefore,
-        plan.phaseHpAfter,
+        frontHpAfter,
         JSON.stringify(payload),
         event.id,
         versionAfter,
@@ -753,14 +856,16 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
       ),
     ]);
   if (!Number(results[0]?.meta?.changes || 0))
-    return env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?")
-      .bind(event.id)
-      .first();
+    return hydrateMonsterAiState(
+      env,
+      await env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?").bind(event.id).first(),
+      cfg,
+    );
   const current = await env.DB.prepare("SELECT * FROM monster_siege_events WHERE id=?")
     .bind(event.id)
     .first();
   const hydrated = await hydrateMonsterAiState(env, current, cfg);
-  if (hydrated && Number(hydrated.alliance_hp || 0) <= 0) {
+  if (finalDefeat && hydrated && Number(hydrated.alliance_hp || 0) <= 0) {
     await settle(env, hydrated, cfg, "FAILED");
     return null;
   }
@@ -827,6 +932,87 @@ function publicPhase(cfg, event) {
           100,
       ),
     ),
+  };
+}
+function publicCampaign(cfg, event) {
+  if (!event) return null;
+  const phaseIndex = Math.max(0, Math.min(cfg.phases.length - 1, Number(event.phase_index || 0))),
+    frontNodeIndex = phaseIndex + 1,
+    phase = cfg.phases[phaseIndex],
+    formation = monsterFormation(phase.key),
+    sequence = Math.max(0, Number(event.monster_ai_sequence || 0)),
+    assaultLeadIndex = sequence % formation.assault.length,
+    allianceMaxHp = Math.max(1, Number(event.alliance_max_hp || cfg.allianceFortressHp)),
+    allianceHp = Math.max(0, Math.min(allianceMaxHp, Number(event.alliance_hp ?? allianceMaxHp))),
+    monsterMaxHp = Math.max(1, Number(event.phase_max_hp || phase.hp)),
+    monsterHp = Math.max(0, Math.min(monsterMaxHp, Number(event.phase_hp ?? monsterMaxHp))),
+    unitView = (entry, index, formationType) => ({
+      id: entry.id,
+      name: entry.name,
+      role: entry.role,
+      image: entry.image,
+      slot: index + 1,
+      formationType,
+      battlePower: Math.max(1, Math.round(Number(phase.battlePower || 1) * Number(entry.powerFactor || 1))),
+      isBoss: Boolean(entry.isBoss),
+      status: formationType === "ASSAULT" && index === assaultLeadIndex ? "LEADING" : formationType === "ASSAULT" ? "MARCHING" : "HOLDING",
+    });
+  return {
+    mode: "TERRITORY_FRONTLINE",
+    direction: "ALLIANCE_TO_CITADEL",
+    nodes: SIEGE_MAP_NODES.map((node) => ({
+      ...node,
+      status: node.index < frontNodeIndex ? "ALLIANCE" : node.index === frontNodeIndex ? "CONTESTED" : "MONSTER",
+      current: node.index === frontNodeIndex,
+      captured: node.index < frontNodeIndex,
+    })),
+    currentFront: {
+      phaseIndex,
+      nodeIndex: frontNodeIndex,
+      key: phase.key,
+      name: SIEGE_MAP_NODES[frontNodeIndex]?.name || phase.name,
+      operationName: phase.name,
+      subtitle: phase.subtitle,
+      commanderName: phase.monsterName,
+      commanderArt: phase.monsterImage,
+      capturedFronts: phaseIndex,
+      totalFronts: cfg.phases.length,
+    },
+    factions: {
+      alliance: {
+        code: "ALLIANCE",
+        name: "숲켓몬 연합",
+        hp: allianceHp,
+        maxHp: allianceMaxHp,
+        percent: Math.max(0, Math.min(100, (allianceHp / allianceMaxHp) * 100)),
+      },
+      monster: {
+        code: "MONSTER_ARMY",
+        name: "심연 몬스터 군단",
+        hp: monsterHp,
+        maxHp: monsterMaxHp,
+        percent: Math.max(0, Math.min(100, (monsterHp / monsterMaxHp) * 100)),
+      },
+    },
+    formations: {
+      defense: {
+        code: `${phase.key}_DEFENSE`,
+        name: `${phase.name} 방어대`,
+        mission: "현재 몬스터 거점 주둔 · 유저 공략 저지",
+        nodeIndex: frontNodeIndex,
+        units: formation.defense.map((entry, index) => unitView(entry, index, "DEFENSE")),
+      },
+      assault: {
+        code: `${phase.key}_ASSAULT`,
+        name: `${phase.name} 돌격대`,
+        mission: "연합 점령지 공격 · 거점 탈환",
+        originNodeIndex: frontNodeIndex,
+        targetNodeIndex: Math.max(0, frontNodeIndex - 1),
+        nextActionAt: event.next_monster_action_at || null,
+        leadUnitId: formation.assault[assaultLeadIndex]?.id || null,
+        units: formation.assault.map((entry, index) => unitView(entry, index, "ASSAULT")),
+      },
+    },
   };
 }
 function siegeEnergySnapshot(row, now = Date.now()) {
@@ -904,6 +1090,8 @@ async function state(env, user, cfg, event) {
         description: payload.description || "몬스터 군단이 독자 작전을 실행했습니다.",
         threat: payload.threat || null,
         effect: payload.effect || null,
+        assaultUnit: payload.assaultUnit || null,
+        movement: payload.movement || null,
         createdAt: row.created_at,
       };
     });
@@ -915,6 +1103,7 @@ async function state(env, user, cfg, event) {
     allianceMaxHp = Math.max(1, Number(event?.alliance_max_hp || cfg.allianceFortressHp)),
     allianceHp = Math.max(0, Math.min(allianceMaxHp, Number(event?.alliance_hp ?? allianceMaxHp))),
     currentEffect = event ? activeMonsterEffect(event) : null;
+  const campaign = event ? publicCampaign(cfg, event) : null;
   return {
     settings: cfg,
     event: event
@@ -933,11 +1122,16 @@ async function state(env, user, cfg, event) {
         }
       : null,
     phase,
+    campaign,
     ai: event
       ? {
           enabled: cfg.monsterAiEnabled !== false,
           allianceHp,
           allianceMaxHp,
+          allianceFactionHp: allianceHp,
+          allianceFactionMaxHp: allianceMaxHp,
+          monsterFactionHp: Number(event.phase_hp || 0),
+          monsterFactionMaxHp: Number(event.phase_max_hp || 1),
           alliancePercent: Math.max(0, Math.min(100, (allianceHp / allianceMaxHp) * 100)),
           sequence,
           nextActionAt: event.next_monster_action_at,
@@ -1083,18 +1277,25 @@ export async function handleSiege({ path, request, env, deps }) {
     const playerPower =
         deck.reduce((sum, card) => sum + Number(card.power || 0), 0) +
         Number(characterBonus?.pve || 0),
-      monsterPower = Math.max(1, Math.floor(Number(phase.battlePower || 1))),
-      monster = {
-        id: `SIEGE-${phase.key}`,
-        name: phase.monsterName,
-        image: phase.monsterImage,
-        battle_power: monsterPower,
-        is_boss: phase.isBoss ? 1 : 0,
-      },
       seed = Array.from(`${event.id}:${user.id}:${requestId}`).reduce(
         (n, c) => (n * 31 + c.charCodeAt(0)) >>> 0,
         2166136261,
       ),
+      defenseFormation = monsterFormation(phase.key).defense,
+      defenseUnit = defenseFormation[seed % defenseFormation.length],
+      monsterPower = Math.max(
+        1,
+        Math.floor(Number(phase.battlePower || 1) * Number(defenseUnit.powerFactor || 1)),
+      ),
+      monster = {
+        id: `SIEGE-${defenseUnit.id}`,
+        name: defenseUnit.name,
+        image: defenseUnit.image,
+        battle_power: monsterPower,
+        is_boss: defenseUnit.isBoss ? 1 : 0,
+        role: defenseUnit.role,
+        formation: "DEFENSE",
+      },
       battleV2 = createPveBattleV2({
         cards: deck,
         characterBonus: Number(characterBonus?.pve || 0),
@@ -1168,7 +1369,7 @@ export async function handleSiege({ path, request, env, deps }) {
             "INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,? FROM users WHERE id=?",
           ).bind(
             winReward.coin,
-            `몬스터 공성전 1판 승리 보상: ${phase.monsterName}`,
+            `몬스터 공성전 1판 승리 보상: ${defenseUnit.name}`,
             user.id,
           ),
         );
@@ -1178,7 +1379,7 @@ export async function handleSiege({ path, request, env, deps }) {
             "INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT id,?,card_shards,?,NULL FROM users WHERE id=?",
           ).bind(
             winReward.shards,
-            `몬스터 공성전 1판 승리 보상: ${phase.monsterName}`,
+            `몬스터 공성전 1판 승리 보상: ${defenseUnit.name}`,
             user.id,
           ),
         );
@@ -1218,7 +1419,7 @@ export async function handleSiege({ path, request, env, deps }) {
           event.id,
         ),
         env.DB.prepare(
-          "UPDATE monster_siege_ai_state SET monster_effect_code='',monster_effect_percent=0,monster_effect_ends_at=NULL,next_monster_action_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
+          "UPDATE monster_siege_ai_state SET alliance_hp=alliance_max_hp,monster_effect_code='',monster_effect_percent=0,monster_effect_ends_at=NULL,next_monster_action_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
         ).bind(
           new Date(Date.now() + cfg.monsterAttackIntervalSeconds * 1000).toISOString(),
           event.id,
@@ -1268,6 +1469,8 @@ export async function handleSiege({ path, request, env, deps }) {
           name: monster.name,
           image: monster.image,
           isBoss: Boolean(monster.is_boss),
+          role: monster.role,
+          formation: monster.formation,
         },
         phaseCleared: nextIndex !== Number(event.phase_index) || cleared,
         eventCleared: cleared,
@@ -1536,6 +1739,8 @@ export const __siegeAiTest = {
   cleanSettings,
   monsterAiPlan,
   monsterAiProfile,
+  monsterFormation,
   monsterThreat,
   activeMonsterEffect,
+  publicCampaign,
 };
