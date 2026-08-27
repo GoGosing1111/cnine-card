@@ -45,7 +45,10 @@ const isAdmin=user=>String(user?.role||'').toUpperCase()==='OWNER';
 function kstDayRange(now=Date.now()){
   const shifted=new Date(now+9*60*60*1000);
   const startMs=Date.UTC(shifted.getUTCFullYear(),shifted.getUTCMonth(),shifted.getUTCDate())-9*60*60*1000;
-  return {start:new Date(startMs).toISOString(),end:new Date(startMs+24*60*60*1000).toISOString()};
+  // created_at is stored as UTC TEXT (`YYYY-MM-DD HH:mm:ss`). Keep the range
+  // in the same sortable format so both D1 and PostgreSQL use the day index.
+  const sqlTime=value=>new Date(value).toISOString().replace('T',' ').slice(0,19);
+  return {start:sqlTime(startMs),end:sqlTime(startMs+24*60*60*1000)};
 }
 function hashUnit(seed){let h=2166136261;for(const ch of String(seed||'')){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)>>>0}return h/4294967296}
 function cleanSettings(raw={}){
@@ -210,3 +213,5 @@ export async function handleScrapyard({path,request,env,deps}){
   }
   return deps.json({error:'지원하지 않는 폐차장 요청입니다.'},405);
 }
+
+export const __scrapyardTest={kstDayRange};
