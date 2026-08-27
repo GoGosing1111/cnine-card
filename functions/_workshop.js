@@ -19,7 +19,7 @@ const clean=(value,max=180)=>String(value??'').trim().slice(0,max);
 const code=(value,max=80)=>clean(value,max).toUpperCase().replace(/[^A-Z0-9_:-]/g,'_').replace(/_+/g,'_');
 const bool=value=>value===true||value===1||String(value)==='1';
 const parse=(value,fallback=null)=>{try{return JSON.parse(value)}catch{return fallback}};
-const isAdmin=user=>['OWNER','ADMIN'].includes(String(user?.role||'').toUpperCase());
+const isAdmin=user=>String(user?.role||'').toUpperCase()==='OWNER';
 const isOwner=user=>String(user?.role||'').toUpperCase()==='OWNER';
 
 const FOUNDATION_SQL=[

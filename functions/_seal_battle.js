@@ -432,7 +432,7 @@ async function currentEventRow(env) {
 function eventAvailability(event, settings, user) {
   if (!event) return { open: false, code: 'NO_EVENT', message: '현재 진행 중인 봉인전이 없습니다.' };
   if (settings.mode === 'OFF') return { open: false, code: 'MODE_OFF', message: '현재 봉인전이 중지되어 있습니다.' };
-  if (settings.mode === 'TEST' && !['OWNER', 'ADMIN'].includes(String(user?.role || '').toUpperCase())) {
+  if (settings.mode === 'TEST' && String(user?.role || '').toUpperCase() !== 'OWNER') {
     return { open: false, code: 'TEST_MODE', message: '현재 봉인전 테스트 운영 중입니다.' };
   }
   if (event.status === 'CLEARED') return { open: false, code: 'CLEARED', message: '세 개의 봉인이 모두 완성되었습니다.' };

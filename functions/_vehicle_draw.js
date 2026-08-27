@@ -16,7 +16,7 @@ const int=(v,min=0,max=100000000)=>Math.max(min,Math.min(max,Math.floor(Number(v
 const rate=v=>Math.max(0,Math.min(100,Number.isFinite(Number(v))?Number(v):0));
 const bool=(v,d=true)=>v===undefined||v===null?d:(v===true||v===1||String(v)==='1');
 const parse=(v,f)=>{try{const x=JSON.parse(v);return x&&typeof x==='object'?x:f}catch{return f}};
-const admin=u=>Boolean(u&&['OWNER','ADMIN'].includes(String(u.role||'').toUpperCase()));
+const admin=u=>Boolean(u&&String(u.role||'').toUpperCase()==='OWNER');
 function cleanSettings(raw={}){const min=int(raw.masterStarMin??DEFAULTS.masterStarMin,0,100000),max=int(raw.masterStarMax??DEFAULTS.masterStarMax,min,100000);return {enabled:bool(raw.enabled,true),ticketName:text(raw.ticketName||DEFAULTS.ticketName,80),ticketImage:text(raw.ticketImage||DEFAULTS.ticketImage,500),drawTitle:text(raw.drawTitle||DEFAULTS.drawTitle,100),drawCopy:text(raw.drawCopy||DEFAULTS.drawCopy,300),masterStarChance:rate(raw.masterStarChance??DEFAULTS.masterStarChance),masterStarMin:min,masterStarMax:Math.max(min,max)}}
 function randomInt(min,max){return min+Math.floor(Math.random()*(max-min+1))}
 async function ensure(env){

@@ -46,7 +46,7 @@ function normalizeTitleStylePreset(value){const x=String(value||'').trim().toUpp
 function normalizeTitleFontPreset(value){const x=String(value||'').trim().toUpperCase();return TITLE_FONT_PRESETS.includes(x)?x:'DEFAULT'}
 function parseJson(value,fallback={}){try{const x=typeof value==='string'?JSON.parse(value):value;return x&&typeof x==='object'?x:fallback}catch{return fallback}}
 function itemPower(total){const safe=cleanInt(total,0,100000000),pve=Math.floor(safe*.9);return {total:safe,pve,pvp:safe-pve}}
-function isAdmin(user){return Boolean(user&&['OWNER','ADMIN'].includes(String(user.role||'').toUpperCase()))}
+function isAdmin(user){return Boolean(user&&String(user.role||'').toUpperCase()==='OWNER')}
 function cleanPromotionDiscount(value){const n=Number(value);return Math.max(0,Math.min(90,Number.isFinite(n)?n:0))}
 async function equipmentPromotionState(env,{fresh=false}={}){
   const now=Date.now();if(!fresh&&equipmentPromotionCache&&now-equipmentPromotionCacheAt<5000)return equipmentPromotionCache;

@@ -41,7 +41,7 @@ const code=value=>text(value,40).toUpperCase().replace(/[^A-Z0-9_:-]/g,'_');
 const parse=(value,fallback)=>{try{return JSON.parse(value)}catch{return fallback}};
 const isOwner=user=>String(user?.role||'').toUpperCase()==='OWNER';
 const canAccess=(mode,user)=>mode==='ON'||mode==='TEST'&&isOwner(user);
-const isAdmin=user=>['OWNER','ADMIN'].includes(String(user?.role||'').toUpperCase());
+const isAdmin=user=>String(user?.role||'').toUpperCase()==='OWNER';
 function kstDayRange(now=Date.now()){
   const shifted=new Date(now+9*60*60*1000);
   const startMs=Date.UTC(shifted.getUTCFullYear(),shifted.getUTCMonth(),shifted.getUTCDate())-9*60*60*1000;

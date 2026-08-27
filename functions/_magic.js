@@ -553,7 +553,7 @@ async function requireOwner(request,env,authenticate){
 }
 async function requireAdminOperator(request,env,authenticate){
   const user=await authenticate(request,env);
-  return ['OWNER','ADMIN'].includes(String(user?.role||'').toUpperCase())?user:null;
+  return String(user?.role||'').toUpperCase()==='OWNER'?user:null;
 }
 async function adminData(env){
   const cfg=await magicSettings(env);
