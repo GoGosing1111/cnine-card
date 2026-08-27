@@ -120,6 +120,17 @@ CREATE TABLE IF NOT EXISTS clan_war_battles (
   updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS clan_season_settlements (
+  season_id INTEGER PRIMARY KEY,
+  champion_clan_id INTEGER,
+  status TEXT NOT NULL DEFAULT 'PENDING',
+  processing_token TEXT,
+  reward_status TEXT NOT NULL DEFAULT 'DISABLED_TEST',
+  created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  completed_at TEXT
+);
+
 CREATE TABLE IF NOT EXISTS clan_draft_locks (
   season_id INTEGER PRIMARY KEY,
   token TEXT NOT NULL,
@@ -133,6 +144,7 @@ CREATE INDEX IF NOT EXISTS idx_clan_teams_rank ON clan_season_teams(season_id, s
 CREATE INDEX IF NOT EXISTS idx_clan_wars_team_a ON clan_wars(season_id, clan_a_id, status);
 CREATE INDEX IF NOT EXISTS idx_clan_wars_team_b ON clan_wars(season_id, clan_b_id, status);
 CREATE INDEX IF NOT EXISTS idx_clan_battles_cleanup ON clan_war_battles(status, updated_at, id);
+CREATE INDEX IF NOT EXISTS idx_clan_settlements_status ON clan_season_settlements(status, updated_at, season_id);
 
 INSERT OR IGNORE INTO app_meta(key, value, updated_at)
 VALUES ('clan_settings_v1', '{"mode":"TEST"}', CURRENT_TIMESTAMP);
