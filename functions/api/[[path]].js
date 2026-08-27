@@ -995,7 +995,7 @@ async function pveDeckSnapshot(env,userId){return pvpDeckSnapshotByIds(env,userI
 async function pvpEnergyState(env,user,settings){
   const cfg=settings.energy||defaultPvpSettings().energy;
   const maintenance=await maintenanceSettings(env);
-  const unlimited=!cfg.enabled||(cfg.adminUnlimited&&isAdminRole(user))||(cfg.testUnlimited&&maintenance.testUsers.includes(user.nickname));
+  const unlimited=!cfg.enabled||(cfg.adminUnlimited&&isAdminRole(user))||(cfg.testUnlimited&&canUseTestAccess(user,maintenance));
   if(unlimited)return {enabled:cfg.enabled,unlimited:true,energy:cfg.maxEnergy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,nextRechargeAt:null};
   const now=Date.now(),nowSql=sqlUtcNow();
   let row=await env.DB.prepare('SELECT * FROM user_pvp_energy WHERE user_id=?').bind(user.id).first();
@@ -1352,7 +1352,7 @@ async function battleEnergyState(env,user,settings,maintenanceOverride=null){
   const cfg=settings.energy||defaultBattleSettings().energy;
   // 호출부가 이미 읽어둔 값이 있으면 재사용한다 (V1802-perf)
   const maintenance=maintenanceOverride||await maintenanceSettings(env);
-  const unlimited=!cfg.enabled||(cfg.adminUnlimited&&isAdminRole(user))||(cfg.testUnlimited&&maintenance.testUsers.includes(user.nickname));
+  const unlimited=!cfg.enabled||(cfg.adminUnlimited&&isAdminRole(user))||(cfg.testUnlimited&&canUseTestAccess(user,maintenance));
   if(unlimited)return {enabled:cfg.enabled,unlimited:true,energy:cfg.maxEnergy,maxEnergy:cfg.maxEnergy,costPerBattle:cfg.costPerBattle,rechargeMinutes:cfg.rechargeMinutes,nextRechargeAt:null,dailyResetAt:`${kstDate()} 00:00 KST`};
   const now=Date.now(),nowSql=sqlUtcNow(),today=kstDate();
   let row=await env.DB.prepare('SELECT * FROM user_battle_energy WHERE user_id=?').bind(user.id).first();
@@ -3327,7 +3327,7 @@ async function inspectWagoDailyComments(settings,memberNo){
 }
 function dailyQuestAdminExcluded(user,settings){
   const role=String(user?.role||'USER').toUpperCase();
-  return ['OWNER','ADMIN'].includes(role)&&settings.adminTestAllowed===false;
+  return role==='ADMIN'||(role==='OWNER'&&settings.adminTestAllowed===false);
 }
 
 async function writeAdminLog(env,admin,action,targetType,targetId,before=null,after=null){
@@ -4225,7 +4225,9 @@ async function maintenanceGateSettings(env,request=null){
 }
 // ADMIN is a dedicated coin-prediction operator. Generic game/CMS bypasses are OWNER-only.
 function isAdminRole(user){return Boolean(user&&String(user.role||'').toUpperCase()==='OWNER')}
-function canMaintenanceBypass(user,maintenance){return Boolean(isAdminRole(user)||(user&&maintenance?.testUsers?.includes(user.nickname)))}
+function isDedicatedPredictionAdmin(user){return String(user?.role||'').toUpperCase()==='ADMIN'}
+function canUseTestAccess(user,maintenance){return Boolean(user&&!isDedicatedPredictionAdmin(user)&&maintenance?.testUsers?.includes(user.nickname))}
+function canMaintenanceBypass(user,maintenance){return Boolean(isAdminRole(user)||canUseTestAccess(user,maintenance))}
 
 async function requirePermission(request,env,permission){
   const user=await authenticate(request,env);

@@ -7,7 +7,7 @@
   function saveAuto(value){S.autoEnabled=Boolean(value);try{localStorage.setItem(AUTO_KEY,S.autoEnabled?'ON':'OFF')}catch{}}
   function clearAutoTimer(){if(S.autoTimer){clearTimeout(S.autoTimer);S.autoTimer=null}}
   function stopAuto(){clearAutoTimer();S.autoRunning=false}
-  function privileged(){const user=loadUser?.();return ['OWNER','ADMIN'].includes(String(user?.role||'').toUpperCase())}
+  function privileged(){const user=loadUser?.();return String(user?.role||'').toUpperCase()==='OWNER'}
   function towerButtons(tabs){return [...tabs.querySelectorAll('[data-pve-mode="tower"]')]}
   function normalizeTowerDom(tabs){
     const buttons=towerButtons(tabs);buttons.slice(1).forEach(x=>x.remove());
