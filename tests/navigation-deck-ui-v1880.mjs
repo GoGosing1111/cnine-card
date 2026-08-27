@@ -16,14 +16,14 @@ const exactShell = read('js/soopketmon-v21-exact-shell-adapter.js');
 const router = read('js/soopketmon-v21-runtime-router.js');
 
 for (const asset of [
-  'js/app.js?v=1880-navigation-deck-rules',
+  'js/app.js?v=1881-workshop-split-lineage',
   'css/pve-command-v2.css?v=1880-navigation-deck-rules',
   'css/information-architecture-v1880.css?v=1880-navigation-deck-rules',
   'js/pve-command-v2-live.js?v=1880-navigation-deck-rules',
-  'js/soopketmon-v21-exact-shell-adapter.js?v=21.11.0-navigation-contract',
-  'js/soopketmon-v21-runtime-router.js?v=1.3.0-navigation-contract'
+  'js/soopketmon-v21-exact-shell-adapter.js?v=21.12.0-workshop-split',
+  'js/soopketmon-v21-runtime-router.js?v=1.4.0-workshop-split'
 ]) assert.ok(index.includes(asset), `missing cache-busted asset: ${asset}`);
-assert.ok(serviceWorker.includes("soop-card-shell-v1880-navigation-deck-rules"));
+assert.ok(serviceWorker.includes("soop-card-shell-v1881-workshop-split-lineage"));
 
 assert.ok(app.includes('deckGradeLimitViolation'));
 assert.ok(app.includes('normalizeDeckRules'));
@@ -45,9 +45,9 @@ assert.ok(pveCss.includes('white-space:normal'));
 
 assert.ok(informationCss.includes('body[data-content-scope="pve"]'));
 assert.ok(informationCss.includes('.deck-grade-rule-summary'));
-assert.ok(exactShell.includes("VERSION = '21.11.0'"));
+assert.ok(exactShell.includes("VERSION = '21.12.0'"));
 assert.ok(!exactShell.includes('시즌 · 카드점수'));
-assert.ok(router.includes("version: '1.3.0'"));
+assert.ok(router.includes("version: '1.4.0'"));
 assert.ok(!router.includes("'카드 점수'"));
 
 console.log('navigation/deck/PVE UI v1880 contract: ok');

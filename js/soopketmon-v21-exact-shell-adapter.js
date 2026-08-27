@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.11.0';
+  const VERSION = '21.12.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -11,6 +11,7 @@
   let currentRoute = requestedScreen || 'home';
   let explicitNavigation = false;
   let bootHomePending = defaultHome && !requestedScreen;
+  let bootRequestedPending = requestedScreen || '';
   let pendingFrame = 0;
 
   function markRenewalUiReady() {
@@ -338,7 +339,7 @@
       ['clan', '#clanRoot, .clan-shell'], ['pvp', '#pvpContent, .pvp-cover'], ['battle', '#pveHuntView, #pveRaidView'],
       ['dex', '#dexSections, .dex-cover'], ['evolution', '#evolutionRoot, .evolution-system'],
       ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'], ['avatar', '#avatarShopV1, .avatar-shop-v1-root'],
-      ['workshop', '#workshopRootV1676, .ws76, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
+      ['scrapyard', '#scrapyardRootV1881, .ws81-scrapyard'], ['workshop', '#workshopRootV1881, .ws81-workshop, #workshopRootV1676, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
       ['dailyquest', '#dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],
       ['rank', '#rankHubRoot, #serverRanking'], ['prediction', '#coinPredictionRoot, .coin-prediction-v1'],
       ['auction', '#auctionHouseRoot, .auction-house-v1553'], ['mineral', '#mineralMyRequests, .mineral-exchange'],
@@ -537,6 +538,18 @@
     nativeRenderShell = candidate;
     function exactRenderShell(route) {
       const requested = String(route || 'buy');
+      const bootRoute = requested === 'buy' && !explicitNavigation && bootRequestedPending && (bootRequestedPending === 'home' || ROUTES[bootRequestedPending])
+        ? bootRequestedPending
+        : '';
+      bootRequestedPending = '';
+      if (bootRoute && bootRoute !== 'buy') {
+        bootHomePending = false;
+        const result = nativeRenderShell.call(this, 'buy');
+        currentRoute = 'buy';
+        scheduleEnhance('buy');
+        queueMicrotask(() => navigate(bootRoute).catch(error => console.error('[Approved V21 deep link]', error)));
+        return result;
+      }
       if (requested === 'home') {
         bootHomePending = false;
         const result = nativeRenderShell.call(this, 'buy');

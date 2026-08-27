@@ -11,6 +11,7 @@
     'character',
     'avatar',
     'workshop',
+    'scrapyard',
     'attendance',
     'dailyquest',
     'messages',
@@ -87,13 +88,10 @@
     equipment: { shell: 'character', actions: [{ selector: '[data-character-tab="equipment"]' }] },
     title: { shell: 'character', actions: [{ selector: '[data-character-tab="title"]' }] },
     garage: { shell: 'character', actions: [{ selector: '[data-character-tab="garage"]' }] },
-    // v1676 exposes dedicated sections. The root v1668 baseline exposes
-    // category tabs instead; it has no scrapyard screen, so that route lands
-    // on its closest available VEHICLE workshop category without timing out.
-    scrapyard: {
-      shell: 'workshop',
-      actions: [{ selector: '[data-ws-section="SCRAPYARD"], [data-workshop-category="VEHICLE"]' }]
-    },
+    // Keep the public route id stable while the scrapyard owns an independent
+    // PVE shell and lazy-loaded view. Existing data-v21-route/screen links do
+    // not change; only their native destination is separated from workshop.
+    scrapyard: { shell: 'scrapyard' },
     vehicle: {
       shell: 'workshop',
       actions: [{ selector: '[data-ws-section="VEHICLE"], [data-workshop-category="VEHICLE"]' }]
@@ -335,7 +333,7 @@
   }
 
   const api = Object.freeze({
-    version: '1.3.0',
+    version: '1.4.0',
     shellRoutes: SHELL_ROUTES,
     routeContract: ROUTE_CONTRACT,
     subtabContract: SUBTAB_CONTRACT,

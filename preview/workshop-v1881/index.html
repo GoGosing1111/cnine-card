@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>제작소 · 폐차장 V1881 프리뷰</title>
+  <link rel="stylesheet" href="../../css/workshop-v1676.css?v=1881-preview">
+  <link rel="stylesheet" href="../../css/workshop-v1881.css?v=1881-preview">
+  <link rel="stylesheet" href="../../css/scrapyard-battle-v1698.css?v=1881-preview">
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{width:100%;min-height:100%;margin:0;background:#050a12;color:#edf7ff;font-family:Pretendard,"Noto Sans KR",Arial,sans-serif}
+    button{font:inherit;cursor:pointer}
+    .modal{display:none}
+    .modal.show{position:fixed;inset:0;z-index:2147483000;display:grid;place-items:center}
+  </style>
+</head>
+<body>
+  <main id="stage"></main>
+  <div id="modal" class="modal"></div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      window.confirm = () => true;
+      window.alert = message => console.info('[V1881 PREVIEW]', message);
+
+      const clone = value => structuredClone(value);
+      const parts = {
+        VEHICLE_PART_TIRE: {
+          code: 'VEHICLE_PART_TIRE',
+          name: '고성능 타이어',
+          image_url: 'assets/ui/workshop/vehicle-part-tire-v1668.png',
+          quantity: 30
+        },
+        VEHICLE_PART_FRAME: {
+          code: 'VEHICLE_PART_FRAME',
+          name: '강화 프레임',
+          image_url: 'assets/ui/workshop/vehicle-part-frame-v1668.png',
+          quantity: 16
+        },
+        VEHICLE_PART_ENGINE: {
+          code: 'VEHICLE_PART_ENGINE',
+          name: '고출력 엔진',
+          image_url: 'assets/ui/workshop/vehicle-part-engine-v1668.png',
+          quantity: 8
+        }
+      };
+
+      const material = (itemCode, quantity) => ({
+        item_code: itemCode,
+        item_name: parts[itemCode].name,
+        image_url: parts[itemCode].image_url,
+        quantity
+      });
+
+      const vehicleRecipes = [
+        {
+          id: 1,
+          code: 'WORKSHOP_GOLD_MATIZ',
+          category: 'VEHICLE',
+          name: '황금마티즈 조립',
+          description: '폐차장에서 회수한 기본 부품으로 완성하는 입문 차량입니다.',
+          output_type: 'VEHICLE',
+          output_name: '황금마티즈',
+          output_image: 'assets/tire/10.jpeg',
+          output_rarity: 'MAGIC',
+          output_pve: 100,
+          output_pvp: 50,
+          coin_cost: 500000,
+          master_star_cost: 2,
+          success_rate: 100,
+          owned: false,
+          materials: [material('VEHICLE_PART_TIRE', 4), material('VEHICLE_PART_FRAME', 2), material('VEHICLE_PART_ENGINE', 1)]
+        },
+        {
+          id: 2,
+          code: 'WORKSHOP_SIEGE_TANK',
+          category: 'VEHICLE',
+          name: '틀타 시즈탱크 조립',
+          description: '강화 차체와 고출력 엔진을 사용하는 중급 전투 차량입니다.',
+          output_type: 'VEHICLE',
+          output_name: '틀타 시즈탱크',
+          output_image: 'assets/tire/7.png',
+          output_rarity: 'EPIC',
+          output_pve: 500,
+          output_pvp: 200,
+          coin_cost: 2000000,
+          master_star_cost: 6,
+          success_rate: 100,
+          owned: false,
+          materials: [material('VEHICLE_PART_TIRE', 8), material('VEHICLE_PART_FRAME', 4), material('VEHICLE_PART_ENGINE', 2)]
+        },
+        {
+          id: 3,
+          code: 'WORKSHOP_SKI1000C',
+          category: 'VEHICLE',
+          name: 'SKI1000C 조립',
+          description: '정밀 부품을 대량 투입해 완성하는 상급 제작 차량입니다.',
+          output_type: 'VEHICLE',
+          output_name: 'SKI1000C',
+          output_image: 'assets/tire/6.png',
+          output_rarity: 'LEGENDARY',
+          output_pve: 1000,
+          output_pvp: 500,
+          coin_cost: 6000000,
+          master_star_cost: 18,
+          success_rate: 100,
+          owned: false,
+          materials: [material('VEHICLE_PART_TIRE', 14), material('VEHICLE_PART_FRAME', 8), material('VEHICLE_PART_ENGINE', 5)]
+        }
+      ];
+
+      const synthesis = [
+        {
+          recipe_id: 101,
+          code: 'SYNTH_VALKYRIE_SUIT_PRIME',
+          recipe_name: '발키리 슈트 계보',
+          name: '발키리 슈트',
+          slot: 'TOP',
+          rarity: 'MYTHIC',
+          image_url: 'assets/new myth/23.jpeg',
+          pve_power: 4500,
+          pvp_power: 500,
+          input_quantity: 3,
+          quantity: 5,
+          success_rate: 35,
+          output_name: '프라임 배틀슈트',
+          output_slot: 'TOP',
+          output_rarity: 'MYTHIC',
+          output_image: 'assets/items/A1.jpeg',
+          output_pve_power: 9000,
+          output_pvp_power: 1000
+        },
+        {
+          recipe_id: 102,
+          code: 'SYNTH_SOLID_M4A1_OVERDRIVE',
+          recipe_name: '솔리드 M4A1 계보',
+          name: '솔리드 M4A1',
+          slot: 'WEAPON',
+          rarity: 'LEGENDARY',
+          image_url: 'assets/items/GUN1.jpeg',
+          pve_power: 6200,
+          pvp_power: 1800,
+          input_quantity: 3,
+          quantity: 3,
+          success_rate: 25,
+          output_name: '오버드라이브 M4A1',
+          output_slot: 'WEAPON',
+          output_rarity: 'MYTHIC',
+          output_image: 'assets/items/GUN2.jpeg',
+          output_pve_power: 12400,
+          output_pvp_power: 3600
+        },
+        {
+          recipe_id: 103,
+          code: 'SYNTH_SOVEREIGN_SHOES_ASCENDED',
+          recipe_name: '미스틱 슈즈 계보',
+          name: '미스틱 슈즈',
+          slot: 'SHOES',
+          rarity: 'LEGENDARY',
+          image_url: 'assets/items/sovereign-shoes-v1.webp',
+          pve_power: 45000,
+          pvp_power: 12000,
+          input_quantity: 3,
+          quantity: 2,
+          success_rate: 20,
+          output_name: '천공의 미스틱 슈즈',
+          output_slot: 'SHOES',
+          output_rarity: 'MYTHIC',
+          output_image: 'assets/items/A2.jpeg',
+          output_pve_power: 81000,
+          output_pvp_power: 24000
+        },
+        {
+          recipe_id: 104,
+          code: 'SYNTH_SOVEREIGN_WEAPON_ASCENDED',
+          recipe_name: '미스틱 듀얼디스크 계보',
+          name: '미스틱 듀얼디스크',
+          slot: 'WEAPON',
+          rarity: 'MYTHIC',
+          image_url: 'assets/items/sovereign-weapon-v1.webp',
+          pve_power: 45000,
+          pvp_power: 18000,
+          input_quantity: 3,
+          quantity: 1,
+          success_rate: 15,
+          output_name: '초월 미스틱 듀얼디스크',
+          output_slot: 'WEAPON',
+          output_rarity: 'ANCIENT',
+          output_image: 'assets/items/A3.jpeg',
+          output_pve_power: 96000,
+          output_pvp_power: 38000
+        }
+      ];
+
+      let workshopState = {
+        wallet: { coin: 79338124, masterStars: 286 },
+        inventory: parts,
+        recipes: vehicleRecipes,
+        synthesis
+      };
+
+      const deckCards = [
+        ['preview-1', '회수대장', 'FUR', 'assets/cards/#U5019__001.webp', 'ATTACK'],
+        ['preview-2', '절단 전문가', 'LIMITED', 'assets/cards/#U5019__002.webp', 'SPEED'],
+        ['preview-3', '압축 설비사', 'UR', 'assets/cards/#U5019__003.webp', 'DEFENSE'],
+        ['preview-4', '용광로 기사', 'SSR', 'assets/cards/#U5019__004.webp', 'HP'],
+        ['preview-5', '기계 정비사', 'UR', 'assets/cards/#U5019__005.webp', 'ATTACK']
+      ].map(([id, title, rarity, image, dominantType], index) => ({
+        id,
+        title,
+        rarity,
+        grade: rarity,
+        image,
+        power: 72000 + index * 3900,
+        powerType: dominantType,
+        uniqueAbility: { dominantType, effectName: `${title} 고유효과` }
+      }));
+
+      const difficulties = [
+        { id: 'OUTER', name: '외곽 폐차장', waves: 5, requiredPowerStart: 70000, requiredPowerEnd: 180000, clearCoin: 180000, accent: '#58ddff' },
+        { id: 'CORE', name: '압축 설비 구역', waves: 6, requiredPowerStart: 170000, requiredPowerEnd: 390000, clearCoin: 420000, accent: '#ffb85c' },
+        { id: 'FURNACE', name: '용광로 심부', waves: 7, requiredPowerStart: 360000, requiredPowerEnd: 760000, clearCoin: 900000, accent: '#ff596f' }
+      ];
+
+      const scrapyardState = {
+        deckPower: 438200,
+        deckCards,
+        parts: Object.values(parts),
+        best: { OUTER: 5, CORE: 4, FURNACE: 2 },
+        ticket: {
+          code: 'SCRAPYARD_ENTRY_TICKET',
+          name: '폐차장 출입 허가증',
+          image_url: 'assets/ui/scrapyard/scrapyard-entry-ticket-v1680.png',
+          quantity: 6
+        },
+        access: { allowed: true, usedRuns: 2, dailyRuns: 10, remainingRuns: 8, ticketQuantity: 6 },
+        settings: { difficulties }
+      };
+
+      function battleResult(difficultyId) {
+        const difficulty = difficulties.find(row => row.id === difficultyId) || difficulties[0];
+        const waves = Array.from({ length: difficulty.waves }, (_, waveIndex) => {
+          const maxHp = 280000 + waveIndex * 65000;
+          let enemyHp = maxHp;
+          const turns = Array.from({ length: 3 }, (_, turnIndex) => {
+            const damage = Math.ceil(maxHp / 3) + turnIndex * 1700;
+            enemyHp = Math.max(0, enemyHp - damage);
+            return {
+              cardIndex: (waveIndex + turnIndex) % deckCards.length,
+              damage,
+              critical: turnIndex === 2,
+              enemyHp,
+              counterDamage: turnIndex === 1 ? 4300 : 0,
+              partyHp: Math.max(35, 100 - waveIndex * 8 - turnIndex * 3)
+            };
+          });
+          const boss = waveIndex === difficulty.waves - 1;
+          return {
+            wave: waveIndex + 1,
+            boss,
+            won: true,
+            monster: {
+              name: boss ? '용광로 군주 몰로크' : '신더트랙 라바저',
+              image: boss ? 'assets/ui/scrapyard/monsters/furnace-sovereign-moloch-v1698.webp' : 'assets/ui/scrapyard/monsters/cindertrack-ravager-v1698.webp',
+              maxHp
+            },
+            turns
+          };
+        });
+        return {
+          baseDeckPower: scrapyardState.deckPower,
+          deckPower: scrapyardState.deckPower,
+          deckCards: clone(deckCards),
+          difficulty: clone(difficulty),
+          waves,
+          wavesCleared: difficulty.waves,
+          success: true,
+          entryTicket: { remaining: 5 },
+          rewards: [
+            { rewardType: 'COIN', rewardRef: 'COIN', rewardName: '완주 확정 코인', quantity: difficulty.clearCoin, guaranteed: true },
+            { rewardType: 'INVENTORY_ITEM', rewardRef: 'VEHICLE_PART_TIRE', rewardName: '고성능 타이어', quantity: 2, guaranteed: false }
+          ]
+        };
+      }
+
+      window.apiRequest = async (path, options = {}) => {
+        if (path === 'workshop') return clone(workshopState);
+        if (path === 'scrapyard/status') return clone(scrapyardState);
+        if (path === 'scrapyard/run') {
+          const body = JSON.parse(options.body || '{}');
+          return battleResult(body.difficulty);
+        }
+        if (path === 'workshop/craft') {
+          const body = JSON.parse(options.body || '{}');
+          const recipe = workshopState.recipes.find(row => Number(row.id) === Number(body.recipeId));
+          if (!recipe) throw new Error('프리뷰 제작 레시피를 찾을 수 없습니다.');
+          return {
+            success: true,
+            recipeName: recipe.name,
+            state: clone(workshopState),
+            output: { name: recipe.output_name, image: recipe.output_image, rarity: recipe.output_rarity }
+          };
+        }
+        if (path === 'workshop/synthesis') {
+          const body = JSON.parse(options.body || '{}');
+          const recipe = workshopState.synthesis.find(row => Number(row.recipe_id) === Number(body.recipeId));
+          if (!recipe) throw new Error('프리뷰 합성 계보를 찾을 수 없습니다.');
+          workshopState = {
+            ...workshopState,
+            synthesis: workshopState.synthesis.map(row => Number(row.recipe_id) === Number(recipe.recipe_id)
+              ? { ...row, quantity: Math.max(0, Number(row.quantity) - Number(row.input_quantity || 3)) }
+              : row)
+          };
+          return {
+            state: clone(workshopState),
+            recipeId: recipe.recipe_id,
+            recipeName: recipe.recipe_name,
+            success: true,
+            successRate: recipe.success_rate,
+            input: { name: recipe.name, image: recipe.image_url, rarity: recipe.rarity, quantity: recipe.input_quantity },
+            output: {
+              name: recipe.output_name,
+              image: recipe.output_image,
+              rarity: recipe.output_rarity,
+              pvePower: recipe.output_pve_power,
+              pvpPower: recipe.output_pvp_power
+            }
+          };
+        }
+        throw new Error(`지원하지 않는 프리뷰 API: ${path}`);
+      };
+    })();
+  </script>
+  <script src="../../js/workshop-v1881.js?v=1881-preview"></script>
+  <script src="../../js/scrapyard-battle-v1698.js?v=1881-preview"></script>
+  <script>
+    window.previewReady = (async () => {
+      const params = new URLSearchParams(location.search);
+      const surface = String(params.get('surface') || 'workshop').toLowerCase();
+      const section = String(params.get('section') || 'vehicle').toLowerCase();
+      const stage = document.getElementById('stage');
+
+      if (surface === 'scrapyard') {
+        stage.innerHTML = window.scrapyardView();
+        await window.bindScrapyardView();
+      } else {
+        stage.innerHTML = window.workshopView();
+        await window.bindWorkshopView();
+        if (section === 'synthesis') {
+          stage.querySelector('[data-ws-section="SYNTHESIS"]')?.click();
+        }
+      }
+
+      document.documentElement.dataset.previewReady = 'true';
+      document.documentElement.dataset.previewSurface = surface === 'scrapyard' ? 'scrapyard' : 'workshop';
+      document.documentElement.dataset.previewSection = section === 'synthesis' ? 'synthesis' : 'vehicle';
+    })();
+  </script>
+</body>
+</html>
