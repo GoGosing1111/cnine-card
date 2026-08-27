@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>몬스터 공성 AI 전황 지휘실 V1883</title>
+  <link rel="stylesheet" href="../../css/monster-siege-v1505.css?v=1518-rally-clock">
+  <link rel="stylesheet" href="../../css/monster-siege-v1883.css?v=1883-ai-war-room">
+  <style>html,body{margin:0;min-height:100%;background:#02070d;font-family:Pretendard,"Noto Sans KR",sans-serif}.pve-mode-tabs{display:none}</style>
+</head>
+<body>
+  <div class="pve-mode-tabs"></div>
+  <script>
+    const now=Date.now();
+    const state={
+      settings:{name:'심연의 황혼 성채',durationMinutes:360,monsterAiEnabled:true,phases:[
+        {key:'OUTER',name:'외곽 방어선',ai:{role:'SWARM ASSAULT'}},
+        {key:'GATE',name:'철혈의 성문',ai:{role:'BREACH OPERATION'}},
+        {key:'INNER',name:'불타는 성내',ai:{role:'ARCANE SUPPRESSION'}},
+        {key:'GUARD',name:'성주 수호대',ai:{role:'COUNTER SIEGE'}},
+        {key:'LORD',name:'심연의 성주',ai:{role:'ANNIHILATION'}}
+      ]},
+      event:{id:18,name:'심연의 황혼 성채',status:'ACTIVE',stage:'BATTLE',rallyOpen:false,endsAt:new Date(now+12600000).toISOString(),totalDamage:8294460,phaseIndex:3,version:247},
+      phase:{key:'GUARD',index:3,name:'성주 수호대',subtitle:'왕궁 계단의 정예군을 격파하라',monsterName:'월식의 왕실 수호자',monsterImage:'/assets/siege/phase-4-guard.webp',hp:3184000,maxHp:4800000,percent:66.3,ai:{code:'ROYAL_BULWARK',skillName:'왕실 수호방진',basicName:'근위대 역습',role:'COUNTER SIEGE',description:'근위대가 반격하는 동안 방진을 전개해 전선을 회복하고 피해를 흡수합니다.',skillEvery:5,shieldPercent:28}},
+      ai:{enabled:true,allianceHp:12740000,allianceMaxHp:20000000,alliancePercent:63.7,sequence:47,nextActionAt:new Date(now+32000).toISOString(),nextSkillIn:3,profile:{code:'ROYAL_BULWARK',skillName:'왕실 수호방진',basicName:'근위대 역습',role:'COUNTER SIEGE',description:'근위대가 반격하는 동안 방진을 전개해 전선을 회복하고 피해를 흡수합니다.',skillEvery:5,shieldPercent:28},threat:{level:'FRENZY',label:'광폭 태세',rage:67},currentEffect:{code:'ROYAL_BULWARK',percent:28,endsAt:new Date(now+68000).toISOString()},recentActions:[
+        {id:415,sequence:45,actionType:'SKILL',skillCode:'ROYAL_BULWARK',skillName:'왕실 수호방진',damage:91800,healing:72000,ticks:1,role:'COUNTER SIEGE',description:'근위대가 반격하는 동안 방진을 전개해 전선을 회복하고 피해를 흡수합니다.',createdAt:new Date(now-17000).toISOString(),effect:{code:'ROYAL_BULWARK',percent:28,endsAt:new Date(now+68000).toISOString()}},
+        {id:414,sequence:44,actionType:'ATTACK',skillCode:'ROYAL_BULWARK',skillName:'근위대 역습',damage:49600,healing:0,ticks:1,role:'COUNTER SIEGE',description:'왕궁 계단의 근위대가 연합 성채로 역습했습니다.',createdAt:new Date(now-62000).toISOString()},
+        {id:413,sequence:43,actionType:'ATTACK',skillCode:'ROYAL_BULWARK',skillName:'근위대 역습',damage:48200,healing:0,ticks:1,role:'COUNTER SIEGE',description:'왕궁 계단의 근위대가 연합 성채로 역습했습니다.',createdAt:new Date(now-107000).toISOString()}
+      ]},
+      mine:{joined:true,deckPower:30250,attacks:36,damage:1089340,energy:3,maxEnergy:5,rechargeSeconds:300,nextRechargeAt:new Date(now+154000).toISOString()},
+      ranking:[
+        {user_id:11,nickname:'선봉대장',damage:1849200,attacks:58},{user_id:22,nickname:'성벽파괴자',damage:1654310,attacks:51},{user_id:33,nickname:'유두',damage:1089340,attacks:36},{user_id:44,nickname:'숲의기사',damage:896500,attacks:31},{user_id:55,nickname:'마도공병',damage:722400,attacks:27}
+      ],reward:null,serverNow:new Date(now).toISOString()
+    };
+    globalThis.apiRequest=async path=>path==='siege/state'?structuredClone(state):Promise.reject(new Error('프리뷰에서는 전황 화면만 확인할 수 있습니다.'));
+    addEventListener('load',()=>setTimeout(()=>globalThis.openMonsterSiege?.(),80));
+  </script>
+  <script defer src="../../js/monster-siege-v1505.js?v=1883-ai-war-room"></script>
+</body>
+</html>
