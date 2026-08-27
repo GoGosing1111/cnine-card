@@ -37,6 +37,6 @@ assert.match(index, /css\/style\.css\?v=1879-player-ultimate-skip/, 'style cache
 assert.match(index, /js\/app\.js\?v=(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1881-workshop-split-lineage|1882-menu-pve-scrapyard|1884-zenith-ojoeun-sd)/, 'app cache key must preserve or supersede the ultimate-skip release');
 assert.match(index, /js\/pve-command-v2-live\.js\?v=(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1882-menu-pve-scrapyard)/, 'PVE UI cache key must preserve or supersede the ultimate-skip release');
 assert.match(index, /css\/pve-command-v2\.css\?v=(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1882-menu-pve-scrapyard)/, 'PVE UI style cache key must preserve or supersede the ultimate-skip release');
-assert.match(worker, /soop-card-shell-v(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1881-workshop-split-lineage|1882-menu-pve-scrapyard|1884-zenith-ojoeun-sd)/, 'service worker shell cache must preserve or supersede the ultimate-skip release');
+assert.match(worker, /soop-card-shell-v(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1881-workshop-split-lineage|1882-menu-pve-scrapyard|1884-zenith-ojoeun-sd|1885-static-high-grade-frame)/, 'service worker shell cache must preserve or supersede the ultimate-skip release');
 
 console.log('V3 player ultimate skip: user cinematic only, authoritative combat preserved');

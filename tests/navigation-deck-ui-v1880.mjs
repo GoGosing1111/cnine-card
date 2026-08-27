@@ -23,7 +23,7 @@ for (const asset of [
   'js/soopketmon-v21-exact-shell-adapter.js?v=21.13.0-menu-cleanup',
   'js/soopketmon-v21-runtime-router.js?v=1.4.0-workshop-split'
 ]) assert.ok(index.includes(asset), `missing cache-busted asset: ${asset}`);
-assert.ok(serviceWorker.includes("soop-card-shell-v1884-zenith-ojoeun-sd"));
+assert.ok(serviceWorker.includes("soop-card-shell-v1885-static-high-grade-frame"));
 
 assert.ok(app.includes('deckGradeLimitViolation'));
 assert.ok(app.includes('normalizeDeckRules'));
