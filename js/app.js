@@ -2750,7 +2750,7 @@ function bindView(tab) {
   const couponForm=document.getElementById('couponForm');
   if(couponForm)couponForm.addEventListener('submit',event=>{event.preventDefault();void redeemCoupon()});
   if(tab==='rank'){document.querySelectorAll('[data-rank-mode]').forEach(b=>b.onclick=()=>loadRankHub(b.dataset.rankMode));loadRankHub('pvp');}
-  if(tab==='battle'){document.querySelectorAll('.pve-mode-btn').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
+  if(tab==='battle'){document.querySelectorAll('.pve-mode-btn[data-pve-mode]').forEach(b=>b.onclick=()=>switchPveMode(b.dataset.pveMode));loadBattleView();}
   if(tab==='pvp') loadPvpView();
   if(tab==='clan'&&typeof window.ClanV1?.bind==='function')window.ClanV1.bind({apiRequest,clearApiCache,renderShell,ensureFeatureResources,prepareImmediateBattleV3Entry,ensureBattleSoundButton,battleSfx});
   if(tab==='mineral') loadMineralExchange();

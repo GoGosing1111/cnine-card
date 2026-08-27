@@ -81,7 +81,7 @@ assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
 assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=67-role-impact-atlas/);
-assert.match(index,/js\/app\.js\?v=(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1881-workshop-split-lineage)/);
+assert.match(index,/js\/app\.js\?v=(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1881-workshop-split-lineage|1882-menu-pve-scrapyard)/);
 assert.match(previewIndex,/project-v-client\.js\?v=53-role-impact-atlas/);
 assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=53-role-impact-atlas/);
 

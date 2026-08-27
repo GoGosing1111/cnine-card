@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.12.0';
+  const VERSION = '21.13.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -49,14 +49,14 @@
    * renderShell binders depend on them.
    */
   const MENU_GROUPS = Object.freeze({
-    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy']) }),
+    store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'inventory']) }),
     collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'evolution', 'magic']) }),
     pve: Object.freeze({ title: 'PVE 전투', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
     pvp: Object.freeze({ title: 'PVP·경쟁', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
-    equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'equipment', 'title', 'garage', 'avatar']) }),
-    crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['workshop', 'vehicle', 'fusion']) }),
+    equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
+    crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral']) }),
-    market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction', 'inventory']) })
+    market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) })
   });
   const MENU_GROUP_ORDER = Object.freeze(['store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market']);
   const HUB_GROUPS = Object.freeze({
@@ -97,7 +97,7 @@
     mineral: Object.freeze({ title: '교환소', group: 'rewards', icon: 'inventory' }),
     prediction: Object.freeze({ title: '승부예측', group: 'market', icon: 'auction', home: Object.freeze({ title: '승부·경매', meta: '승부예측 · 경매장' }) }),
     auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
-    inventory: Object.freeze({ title: '인벤토리', group: 'market', icon: 'inventory' })
+    inventory: Object.freeze({ title: '인벤토리', group: 'store', icon: 'inventory' })
   });
   const NAVIGATION_CONTRACT = Object.freeze({
     version: '1.0.0',

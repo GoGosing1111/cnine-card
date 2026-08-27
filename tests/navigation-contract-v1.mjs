@@ -55,8 +55,15 @@ assert.deepEqual(
 );
 
 assert.equal(navigation.routes.deck.title, 'PVE 덱 편성실');
+assert.deepEqual(Array.from(navigation.groups.store.routes), ['buy', 'inventory'], 'inventory must sit beside the card store in the first group');
+assert.equal(navigation.routes.inventory.group, 'store');
+assert.ok(!Array.from(navigation.groups.market.routes).includes('inventory'));
+assert.deepEqual(Array.from(navigation.groups.equipment.routes), ['character', 'avatar'], 'combined loadout entry replaces equipment/title/garage duplicates');
+assert.deepEqual(Array.from(navigation.groups.crafting.routes), ['vehicle', 'fusion'], 'crafting group exposes only its two direct actions');
+assert.ok(!Array.from(navigation.groups.crafting.routes).includes('workshop'));
 assert.equal(navigation.routes.scrapyard.group, 'pve', 'scrapyard is presented as PVE');
 assert.ok(Array.from(navigation.groups.pve.routes).includes('scrapyard'));
+assert.equal(Array.from(navigation.groups.pve.routes).filter(route => route === 'scrapyard').length, 1);
 assert.ok(!Array.from(navigation.groups.crafting.routes).includes('scrapyard'));
 assert.equal(navigation.routes.rank.group, 'pvp', 'season rank is presented inside PVP');
 assert.ok(Array.from(navigation.groups.pvp.routes).includes('rank'));
@@ -103,6 +110,9 @@ for (const functionName of ['pcCommand', 'mobileCommand']) {
   assert.match(body, /commandDescriptor\(route, title, meta, group\)/, `${functionName} must resolve the shared label descriptor`);
 }
 assert.match(exactSource, /MENU_GROUP_ORDER\.map\(id => MENU_GROUPS\[id\]\)/, 'all-menu order must come from the shared contract');
+const allMenuRoutes = Array.from(navigation.menuGroupOrder).flatMap(id => Array.from(navigation.groups[id].routes));
+assert.equal(new Set(allMenuRoutes).size, allMenuRoutes.length, 'the all-menu may not show duplicate route entries');
+for (const hiddenDuplicate of ['equipment', 'title', 'garage', 'workshop']) assert.ok(!allMenuRoutes.includes(hiddenDuplicate));
 assert.match(exactSource, /bootRequestedPending\s*=\s*requestedScreen\s*\|\|\s*''/);
 assert.match(exactSource, /requested\s*===\s*'buy'[\s\S]*?ROUTES\[bootRequestedPending\][\s\S]*?queueMicrotask\(\(\)\s*=>\s*navigate\(bootRoute\)/, 'authenticated startup must replay valid ?screen= deep links after the buy shell boot');
 

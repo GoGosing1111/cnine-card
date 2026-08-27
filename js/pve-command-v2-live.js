@@ -18,12 +18,14 @@
     siege: ['몬스터 공성전', 'SIEGE', '<path d="M4 20V8h4V4h3v4h3V4h3v4h3v12zM9 20v-6h6v6"/>'],
     seal: ['봉인전', 'SEAL BATTLE', '<rect x="5" y="10" width="14" height="10"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>'],
     idle: ['방치형 원정', 'IDLE MISSION', '<path d="M7 3h10M7 21h10M8 3c0 5 8 5 8 9s-8 4-8 9M16 3c0 5-8 5-8 9s8 4 8 9"/>'],
-    tower: ['무한의 탑', 'INFINITE TOWER', '<path d="M6 21V7h12v14M9 7V3h6v4M9 11h2m2 0h2m-6 4h2m2 0h2"/>']
+    tower: ['무한의 탑', 'INFINITE TOWER', '<path d="M6 21V7h12v14M9 7V3h6v4M9 11h2m2 0h2m-6 4h2m2 0h2"/>'],
+    scrapyard: ['폐차장 원정', 'SALVAGE', '<path d="M4 8h16v11H4zM7 8V5h10v3M8 13h8M10 16h4"/>']
   });
 
   function navKey(button) {
     if (button.dataset.monsterSiegeEntry) return 'siege';
     if (button.dataset.sealBattleMode) return 'seal';
+    if (button.dataset.v21Route === 'scrapyard') return 'scrapyard';
     return String(button.dataset.pveMode || '').toLowerCase();
   }
 
@@ -74,13 +76,14 @@
 
   function modeButton(key, active = false) {
     const meta = NAV_META[key];
-    return `<button type="button" class="pve-mode-btn${key === 'escort' ? ' pve-escort-tab' : ''}${active ? ' active' : ''}" ${key === 'escort' ? 'id="pveEscortTab"' : ''} data-pve-mode="${key}" aria-selected="${active ? 'true' : 'false'}"><svg viewBox="0 0 24 24" aria-hidden="true">${meta[2]}</svg><span><b>${meta[0]}</b><small>${meta[1]}</small></span>${key === 'raid' ? '<em>LIVE</em>' : ''}</button>`;
+    const route = key === 'scrapyard' ? 'data-v21-route="scrapyard"' : `data-pve-mode="${key}"`;
+    return `<button type="button" class="pve-mode-btn${key === 'escort' ? ' pve-escort-tab' : ''}${active ? ' active' : ''}" ${key === 'escort' ? 'id="pveEscortTab"' : ''} ${route} aria-selected="${active ? 'true' : 'false'}"><svg viewBox="0 0 24 24" aria-hidden="true">${meta[2]}</svg><span><b>${meta[0]}</b><small>${meta[1]}</small></span>${key === 'raid' ? '<em>LIVE</em>' : ''}</button>`;
   }
 
   function liveBattleView(user) {
     return `${summaryBar(user)}<div id="pveCommandV2" class="pvev2-root pvev2-live-root" data-screen="deck">
       ${battleToolbar()}
-      <nav class="pve-mode-tabs pvev2-mode-nav" aria-label="PVE 콘텐츠">${modeButton('deck', true)}${modeButton('hunt')}${modeButton('raid')}${modeButton('escort')}</nav>
+      <nav class="pve-mode-tabs pvev2-mode-nav" aria-label="PVE 콘텐츠">${modeButton('deck', true)}${modeButton('hunt')}${modeButton('raid')}${modeButton('escort')}${modeButton('scrapyard')}</nav>
       <main class="pvev2-viewport" id="pveV2LiveViewport">
         <div id="pveHuntView" class="pve-hunt-redesign pve-hunt-v1179"><div class="pvev2-loading"><i></i><b>라이브 PVE 데이터 연결 중</b><span>SOOPKETMON DATABASE</span></div></div>
         <div id="pveRiftView" class="pve-rift-view" hidden><div class="rift-loading"><i></i><b>차원의 균열을 확인하는 중...</b></div></div>
