@@ -80,7 +80,7 @@
     const label = formationType === "Defense" ? "방어대" : "돌격대";
     return `<div class="msa-unit-group"><header><div><small>${formationType.toUpperCase()} FORCE</small><h4>${label} 개별 전투력</h4></div><span>${formationType === "Defense" ? "유저 PVE 전투 상대" : "AI 진영 피해에 반영"}</span></header><div class="msa-unit-list">${units
       .map(
-        (unit, unitIndex) => `<label class="msa-unit-row"><img src="${escapeHtml(unit.image)}" alt=""><span><b>${escapeHtml(unit.name)}</b><small>${escapeHtml(unit.role)}</small></span><input id="msaPhase${phaseIndex}${formationType}Power${unitIndex}" data-msa-number type="number" min="1" max="2000000000" step="100" value="${escapeHtml(powers[unitIndex])}" aria-label="${escapeHtml(unit.name)} 전투력"></label>`,
+        (unit, unitIndex) => `<label class="msa-unit-row"><img src="${escapeHtml(unit.image)}" alt=""><span><b>${escapeHtml(unit.name)}</b><small>${escapeHtml(unit.role)}</small></span><input id="msaPhase${phaseIndex}${formationType}Power${unitIndex}" data-msa-number type="number" min="1" max="2000000000" step="1" value="${escapeHtml(powers[unitIndex])}" aria-label="${escapeHtml(unit.name)} 전투력"></label>`,
       )
       .join("")}</div></div>`;
   }
@@ -97,8 +97,8 @@
           ${textField({ id: `msaPhaseName${phaseIndex}`, label: "전선 이름", value: phase.name })}
           ${textField({ id: `msaPhaseSubtitle${phaseIndex}`, label: "작전 설명", value: phase.subtitle })}
           ${numberField({ id: `msaPhaseAllianceHp${phaseIndex}`, label: "숲켓몬 연합 진영 HP", value: phase.allianceHp, min: 100000, step: 10000, hint: "이 전선 진입·후퇴 시 적용" })}
-          ${numberField({ id: `msaPhaseMonsterHp${phaseIndex}`, label: "몬스터 군단 진영 HP", value: phase.hp, min: 1000, step: 10000, hint: "방어대 개인 HP가 아닌 전선 HP" })}
-          ${numberField({ id: `msaPhaseBasePower${phaseIndex}`, label: "전선 기준 전투력", value: phase.battlePower, min: 1, step: 100, hint: "돌격대 피해 환산 기준" })}
+          ${numberField({ id: `msaPhaseMonsterHp${phaseIndex}`, label: "몬스터 군단 진영 HP", value: phase.hp, min: 1000, step: 1000, hint: "방어대 개인 HP가 아닌 전선 HP" })}
+          ${numberField({ id: `msaPhaseBasePower${phaseIndex}`, label: "전선 기준 전투력", value: phase.battlePower, min: 1, step: 1, hint: "돌격대 피해 환산 기준" })}
           ${numberField({ id: `msaPhaseDamageMultiplier${phaseIndex}`, label: "유저 공성 피해 보정 (%)", value: phase.damageMultiplierPercent, min: 10, max: 500, hint: "전선별 난이도 보정" })}
         </div>
         <div class="msa-formation-grid">
@@ -170,8 +170,8 @@
           ${numberField({ id: "msaSiegeDamage", label: "기본 피해 계수 (%)", value: cfg.siegeDamagePercent, min: 1, max: 1000 })}
           ${numberField({ id: "msaWinContribution", label: "승리 기여율 (%)", value: cfg.winContributionPercent, min: 1, max: 300 })}
           ${numberField({ id: "msaDefeatContribution", label: "패배 기여율 (%)", value: cfg.defeatContributionPercent, min: 0, max: 100 })}
-          ${numberField({ id: "msaDamageMin", label: "1회 최소 공성 피해", value: cfg.siegeDamageMin, min: 1, step: 100 })}
-          ${numberField({ id: "msaDamageMax", label: "1회 최대 공성 피해", value: cfg.siegeDamageMax, min: 1, step: 100 })}
+          ${numberField({ id: "msaDamageMin", label: "1회 최소 공성 피해", value: cfg.siegeDamageMin, min: 1, step: 1 })}
+          ${numberField({ id: "msaDamageMax", label: "1회 최대 공성 피해", value: cfg.siegeDamageMax, min: 1, step: 1 })}
           ${numberField({ id: "msaDamageVariance", label: "피해 편차 (±%)", value: cfg.siegeDamageVariancePercent, min: 0, max: 50, hint: "요청번호 기반 결정형 편차" })}
         </div>
       </section>
@@ -309,7 +309,18 @@
     const invalid = $$('[data-msa-number]').find((input) => !input.checkValidity());
     if (invalid) {
       invalid.focus();
-      throw new Error(`${invalid.closest("label")?.querySelector("span")?.textContent || "수치"} 범위를 확인하세요.`);
+      const label =
+          invalid.closest("label")?.querySelector("span")?.textContent || "수치",
+        min = invalid.getAttribute("min"),
+        max = invalid.getAttribute("max"),
+        step = invalid.getAttribute("step");
+      if (invalid.validity.rangeUnderflow)
+        throw new Error(`${label}은(는) ${Number(min).toLocaleString("ko-KR")} 이상이어야 합니다.`);
+      if (invalid.validity.rangeOverflow)
+        throw new Error(`${label}은(는) ${Number(max).toLocaleString("ko-KR")} 이하여야 합니다.`);
+      if (invalid.validity.stepMismatch)
+        throw new Error(`${label}은(는) ${step} 단위로 입력하세요.`);
+      throw new Error(`${label}에 올바른 숫자를 입력하세요.`);
     }
     const minDamage = readNumber("msaDamageMin");
     const maxDamage = readNumber("msaDamageMax");

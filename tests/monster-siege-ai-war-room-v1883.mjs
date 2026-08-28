@@ -208,6 +208,7 @@ assert.match(admin, /const label = formationType === "Defense" \? "방어대" : 
 assert.match(admin, /개별 전투력/);
 assert.match(admin, /돌격대 AI 세부 수치/);
 assert.match(admin, /msaPhase.*DefensePower/);
+assert.doesNotMatch(admin, /step="100"/, "combat-power defaults must not fail native step validation");
 assert.match(adminCss, /\.msa-unit-row/);
 assert.doesNotMatch(adminCss, /rotate\(45deg\)/i);
 assert.doesNotMatch(adminCss, /clip-path/i);
