@@ -20,6 +20,14 @@ test('SQLite runtime functions and scalar min/max are translated', () => {
   assert.match(sql, /sqlite_now\(\)/i);
 });
 
+test('native PostgreSQL NOW remains a timestamp expression', () => {
+  const sql = __postgresCompatTest.translateDialect(
+    'UPDATE monster_siege_ai_state SET updated_at=NOW() WHERE event_id=?',
+  );
+  assert.match(sql, /updated_at=NOW\(\)/i);
+  assert.doesNotMatch(sql, /sqlite_now\(\)/i);
+});
+
 test('NOCASE comparisons are translated to ILIKE', () => {
   const sql = __postgresCompatTest.translateNoCase('SELECT 1 WHERE nickname=? COLLATE NOCASE');
   assert.match(sql, /nickname\s+ILIKE\s+\?/i);

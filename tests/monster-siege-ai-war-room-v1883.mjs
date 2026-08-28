@@ -13,7 +13,10 @@ const {
   calculatePlayerSiegeDamage,
   adminFormationCatalog,
   siegeEnergySnapshot,
+  databaseNowSql,
 } = __siegeAiTest;
+assert.equal(databaseNowSql({ DB: { dialect: "postgres" } }), "NOW()");
+assert.equal(databaseNowSql({ DB: { dialect: "sqlite" } }), "CURRENT_TIMESTAMP");
 const cfg = cleanSettings({
   monsterAiEnabled: true,
   allianceFortressHp: 20_000_000,
@@ -222,7 +225,12 @@ assert.doesNotMatch(css, /clip-path/i);
 assert.match(index, /monster-siege-v1887\.css\?v=1888-territory-frontline/);
 assert.match(index, /monster-siege-v1505\.js\?v=1892-clean-map-leads/);
 assert.match(adminIndex, /monster-siege-admin-v1890\.css\?v=1890-frontline-balance-cms/);
-assert.match(adminIndex, /monster-siege-admin-v1505\.js\?v=1891-attack-charge-rules/);
+assert.match(adminIndex, /monster-siege-admin-v1505\.js\?v=1893-postgres-timestamp-fix/);
+assert.equal(
+  (server.match(/updated_at=\$\{databaseNowSql\(env\)\}/g) || []).length,
+  5,
+  "every monster siege AI state update must preserve PostgreSQL timestamp types",
+);
 assert.match(preview, /mode:'TERRITORY_FRONTLINE'/);
 assert.match(preview, /GUARD_DEFENSE/);
 assert.match(preview, /GUARD_ASSAULT/);
