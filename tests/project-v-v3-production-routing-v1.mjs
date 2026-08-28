@@ -21,7 +21,7 @@ for(const token of [
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
   'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=67-role-impact-atlas',
-  'js/battle-v3-live.js?v=3.20.0-escort-hp-gauge'
+  'js/battle-v3-live.js?v=3.21.0-siege-unique-mobile'
 ])assert.ok(app.includes(token),`production feature manifest missing ${token}`);
 
 assert.match(app,/ready:\(\)=>Boolean\(window\.ProjectVBattleV3Live\?\.ready\?\.\(\)\)/);
@@ -37,7 +37,7 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=1896-superstar-sd'));
+assert.ok(index.includes('js/app.js?v=1897-siege-battle-mobile'));
 assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1896-superstar-sd'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
 

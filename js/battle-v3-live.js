@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.20.0-escort-hp-gauge';
+  const VERSION = '3.21.0-siege-unique-mobile';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -151,6 +151,7 @@
   const FAKER_CHAMPIONSHIP_CARD_ID = 'CN-0B48C6FF8F9B4AC5';
   const typeKey = type => ({ ATTACK: 'attack', DEFENSE: 'defense', HP: 'hp', SPEED: 'speed' })[String(type || '').toUpperCase()] || '';
   const typeIcon = type => ({ ATTACK: '⚔', DEFENSE: '⬡', HP: '♥', SPEED: '↯', NONE: '◇' })[String(type || '').toUpperCase()] || '◇';
+  const typeLabel = type => ({ ATTACK: '공격형', DEFENSE: '방어형', HP: '생명형', SPEED: '속도형' })[String(type || '').toUpperCase()] || '';
 
   // V1797: 로스터에는 "도감에 보이는 카드 그림" 이 나와야 한다.
   //
@@ -188,9 +189,12 @@
   }
 
   function rosterUniqueBadgeHtml(card) {
-    const type = typeKey(card?.type);
-    if (!type || !card?.uniqueAbility) return '';
-    return `<span class="card-unique-badge unique-type-${type}"><i>${typeIcon(card.type)}</i><b>${esc(card.typeLabel || '')}</b><small>${esc(card.uniqueAbility.effectName || '')}</small></span>`;
+    const ability = card?.uniqueAbility || card?.unique_ability || null;
+    const rawType = card?.type || card?.powerType || card?.power_type || ability?.dominantType || ability?.dominant_type;
+    const type = typeKey(rawType);
+    if (!type || !ability) return '';
+    const label = card?.typeLabel || card?.type_label || ability?.dominantLabel || ability?.dominant_label || typeLabel(rawType);
+    return `<span class="card-unique-badge unique-type-${type}"><i>${typeIcon(rawType)}</i><b>${esc(label)}</b><small>${esc(ability.effectName || ability.effect_name || '')}</small></span>`;
   }
 
   // 카드 겉모습은 새로 만들지 않는다. card.css 의 .card-frame(2 : 2.82) 구조를

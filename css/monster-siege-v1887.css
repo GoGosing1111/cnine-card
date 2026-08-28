@@ -480,7 +480,17 @@
 .ms4-briefing-copy button { min-width: 184px; padding: 11px 16px; border: 1px solid #ff98a8; border-radius: 4px; background: #8b2134; color: #fff; font-weight: 900; cursor: pointer; }
 .ms4-map-shell.front-impact { animation: ms4Impact .62s ease; }
 .monster-siege-open .pwa-install-button { display: none !important; }
-.siege-v2-battle-modal { z-index: 100030 !important; }
+body.monster-siege-open .modal.siege-v2-battle-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100120 !important;
+  display: block !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  max-height: none !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
 @keyframes ms4Pulse { 50% { opacity: .35; } }
 @keyframes ms4March { to { stroke-dashoffset: -40; } }
 @keyframes ms4FrontPulse { 50% { opacity: .45; } }

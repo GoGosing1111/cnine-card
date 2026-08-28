@@ -446,6 +446,38 @@
       render();
     }
   }
+  async function prepareMonsterSiegeBattle(modal, campaign, defender) {
+    if (!modal) {
+      modal = document.createElement("div");
+      modal.id = "modal";
+    }
+    if (!modal.isConnected) (document.getElementById("app") || document.body).appendChild(modal);
+    modal.className =
+      "modal show battle-modal battle-v3-modal battle-v3-preparing pvp-battle-modal siege-v2-battle-modal";
+    modal.innerHTML = '<div class="modal-panel battle-stage"><div class="route-feature-loader battle-resource-loader" role="status" aria-live="polite"><span></span><b>PROJECT V V3 몬스터공성 전장 연결 중</b><small>모바일 전장과 출전 카드 고유효과를 함께 준비합니다.</small></div></div>';
+    if (
+      typeof window.prepareBattleV2LiveLoading !== "function" ||
+      typeof window.playSiegeBattleV2Live !== "function"
+    ) {
+      if (typeof window.ensureFeatureResources !== "function")
+        throw new Error("V3 전투엔진 로더를 불러오지 못했습니다. 페이지를 새로고침해 주세요.");
+      await window.ensureFeatureResources("battleV2");
+    }
+    if (
+      typeof window.prepareBattleV2LiveLoading !== "function" ||
+      typeof window.playSiegeBattleV2Live !== "function"
+    )
+      throw new Error("PROJECT V V3 몬스터공성 전투 화면을 불러오지 못했습니다.");
+    const live = window.prepareBattleV2LiveLoading({
+      modal,
+      mode: "SIEGE",
+      playerName: "ALLIANCE FRONT UNIT",
+      opponentName: defender.name || "MONSTER DEFENSE FORCE",
+      autoText: `${campaign.currentFront?.name || "현재 거점"} 방어대와의 교전을 계산하고 있습니다.`,
+    });
+    modal.classList.add("siege-v2-battle-modal");
+    return { modal, live };
+  }
   async function attack() {
     if (busy) return;
     busy = true;
@@ -453,24 +485,11 @@
     let modal = document.getElementById("modal");
     let renderer = null;
     try {
-      if (!modal) {
-        modal = document.createElement("div");
-        modal.id = "modal";
-        document.body.appendChild(modal);
-      }
       const campaign = campaignState();
       const defender = campaign.formations?.defense?.units?.[0] || {};
-      const live =
-        typeof window.prepareBattleV2LiveLoading === "function"
-          ? window.prepareBattleV2LiveLoading({
-              modal,
-              mode: "PVE",
-              playerName: "ALLIANCE FRONT UNIT",
-              opponentName: defender.name || "MONSTER DEFENSE FORCE",
-              autoText: "현재 거점 방어대와의 교전을 계산하고 있습니다.",
-            })
-          : null;
-      modal.classList.add("siege-v2-battle-modal");
+      const prepared = await prepareMonsterSiegeBattle(modal, campaign, defender);
+      modal = prepared.modal;
+      const live = prepared.live;
       const out = await api("siege/attack", {
         method: "POST",
         body: JSON.stringify({ requestId: requestId() }),
@@ -481,7 +500,7 @@
           phase: live.phase,
           msg: live.msg,
           modal,
-          data: out,
+          data: { ...out, mode: "SIEGE", battlefieldMode: "SIEGE", contentType: "MONSTER_SIEGE" },
           monster: out.monster,
           playUltimateCinematics: true,
         });

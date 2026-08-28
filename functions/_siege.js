@@ -1459,6 +1459,7 @@ export async function handleSiege({ path, request, env, deps }) {
     cardBattlePower,
     createPveBattleV2,
     userEquipmentBonuses,
+    cardUniqueDeckState,
     writeAdminLog,
   } = deps;
   await ensure(env);
@@ -1542,11 +1543,21 @@ export async function handleSiege({ path, request, env, deps }) {
         { error: "참가한 PVE 덱 5장을 확인할 수 없습니다. 다시 참가하세요." },
         409,
       );
+    const uniqueBattle =
+        typeof cardUniqueDeckState === "function"
+          ? await cardUniqueDeckState(env, user, deck, "PVE")
+          : null,
+      battleDeck =
+        uniqueBattle?.enabled && Array.isArray(uniqueBattle.cards) && uniqueBattle.cards.length === deck.length
+          ? uniqueBattle.cards
+          : deck;
     const refreshedEnergy = await refreshSiegeEnergy(env, event.id, user.id, mine, cfg);
     if (refreshedEnergy.energy < 1)
       return json({ error: `공격권이 부족합니다. ${cfg.attackRechargeMinutes}분마다 1회 충전됩니다.`, energy: refreshedEnergy }, 429);
     const playerPower =
-        deck.reduce((sum, card) => sum + Number(card.power || 0), 0) +
+        (uniqueBattle?.enabled && Number.isFinite(Number(uniqueBattle.power))
+          ? Number(uniqueBattle.power)
+          : deck.reduce((sum, card) => sum + Number(card.power || 0), 0)) +
         Number(characterBonus?.pve || 0),
       seed = Array.from(`${event.id}:${user.id}:${requestId}`).reduce(
         (n, c) => (n * 31 + c.charCodeAt(0)) >>> 0,
@@ -1571,7 +1582,7 @@ export async function handleSiege({ path, request, env, deps }) {
         formation: "DEFENSE",
       },
       battleV2 = createPveBattleV2({
-        cards: deck,
+        cards: battleDeck,
         characterBonus: Number(characterBonus?.pve || 0),
         monster,
         seed,
@@ -1742,8 +1753,11 @@ export async function handleSiege({ path, request, env, deps }) {
         winReward,
         playerPower,
         monsterPower,
+        mode: "SIEGE",
+        battlefieldMode: "SIEGE",
+        contentType: "MONSTER_SIEGE",
         battleV2,
-        cards: deck,
+        cards: battleDeck,
         monster: {
           id: monster.id,
           name: monster.name,

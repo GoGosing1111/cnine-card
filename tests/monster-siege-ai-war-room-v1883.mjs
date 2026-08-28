@@ -188,9 +188,12 @@ assert.equal(
   null,
 );
 
-const [server, client, css, index, preview, admin, adminCss, adminIndex, migration, rules, agents] = await Promise.all([
+const [server, apiRouter, client, battleLive, app, css, index, preview, admin, adminCss, adminIndex, migration, rules, agents] = await Promise.all([
   readFile(new URL("../functions/_siege.js", import.meta.url), "utf8"),
+  readFile(new URL("../functions/api/[[path]].js", import.meta.url), "utf8"),
   readFile(new URL("../js/monster-siege-v1505.js", import.meta.url), "utf8"),
+  readFile(new URL("../js/battle-v3-live.js", import.meta.url), "utf8"),
+  readFile(new URL("../js/app.js", import.meta.url), "utf8"),
   readFile(new URL("../css/monster-siege-v1887.css", import.meta.url), "utf8"),
   readFile(new URL("../index.html", import.meta.url), "utf8"),
   readFile(new URL("../preview/monster-siege-ai-v1883/index.html", import.meta.url), "utf8"),
@@ -211,19 +214,36 @@ assert.match(server, /phasePowerFor/);
 assert.match(server, /attackRechargeMinutes/);
 assert.doesNotMatch(server, /attackCooldownSeconds/);
 assert.match(server, /defenseFormation = monsterFormation\(phase\.key\)\.defense/);
+assert.match(server, /cardUniqueDeckState\(env, user, deck, "PVE"\)/, "siege cards must hydrate their unique effects");
+assert.match(server, /cards: battleDeck/);
+assert.match(server, /battlefieldMode: "SIEGE"/);
+assert.match(apiRouter, /handleSiege\(\{path,request,env,deps:\{[^}]*cardUniqueDeckState/);
 assert.match(client, /TACTICAL MAP/);
 assert.match(client, /MONSTER DEFENSE FORCE/);
 assert.match(client, /MONSTER ASSAULT FORCE/);
 assert.match(client, /숲켓몬 연합 진영 체력/);
 assert.match(client, /몬스터 군단 진영 체력/);
 assert.match(client, /Date\.now\(\) - lastPollAt >= 5000/);
+assert.match(client, /await window\.ensureFeatureResources\("battleV2"\)/, "mobile/direct siege entry must load the V3 battle feature first");
+assert.ok(
+  client.indexOf('await prepareMonsterSiegeBattle(modal, campaign, defender)') < client.indexOf('await api("siege/attack"'),
+  "battle UI readiness must be confirmed before an attack can consume energy",
+);
+assert.match(client, /mode: "SIEGE"/);
+assert.match(client, /data: \{ \.\.\.out, mode: "SIEGE", battlefieldMode: "SIEGE"/);
 assert.doesNotMatch(client, /ms3-|ALLIANCE CITADEL|HOSTILE TARGET|>VS</);
+assert.match(battleLive, /ability\?\.dominantType/);
+assert.match(battleLive, /3\.21\.0-siege-unique-mobile/);
+assert.match(app, /battle-v3-live\.js\?v=3\.21\.0-siege-unique-mobile/);
 assert.match(css, /\.ms4-map-shell/);
 assert.match(css, /\.ms4-map-unit/);
+assert.match(css, /body\.monster-siege-open \.modal\.siege-v2-battle-modal/);
+assert.match(css, /z-index: 100120 !important/);
 assert.doesNotMatch(css, /rotate\(45deg\)/i);
 assert.doesNotMatch(css, /clip-path/i);
-assert.match(index, /monster-siege-v1887\.css\?v=1888-territory-frontline/);
-assert.match(index, /monster-siege-v1505\.js\?v=1892-clean-map-leads/);
+assert.match(index, /monster-siege-v1887\.css\?v=1897-siege-battle-mobile/);
+assert.match(index, /monster-siege-v1505\.js\?v=1897-siege-battle-mobile/);
+assert.match(index, /js\/app\.js\?v=1897-siege-battle-mobile/);
 assert.match(adminIndex, /monster-siege-admin-v1890\.css\?v=1890-frontline-balance-cms/);
 assert.match(adminIndex, /monster-siege-admin-v1505\.js\?v=1893-postgres-timestamp-fix/);
 assert.equal(
