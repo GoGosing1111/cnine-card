@@ -1,0 +1,57 @@
+{
+  "version": "project-v-v3-event-sfx-preview-v1",
+  "previewOnly": true,
+  "sampleRate": 48000,
+  "channels": 2,
+  "codec": "MP3 192 kbps",
+  "assets": {
+    "critical": {
+      "src": "assets/audio/critical.mp3",
+      "waveform": "assets/audio/critical-waveform.svg",
+      "bytes": 23660,
+      "durationMs": 920,
+      "syncPointMs": 250,
+      "design": "blade snap · metal crack · compact sub punch"
+    },
+    "counter": {
+      "src": "assets/audio/counter.mp3",
+      "waveform": "assets/audio/counter-waveform.svg",
+      "bytes": 28268,
+      "durationMs": 1120,
+      "syncPointMs": 300,
+      "design": "guard ping · reverse whoosh · retaliating impact"
+    },
+    "ultimate": {
+      "src": "assets/audio/ultimate.mp3",
+      "waveform": "assets/audio/ultimate-waveform.svg",
+      "bytes": 38636,
+      "durationMs": 1550,
+      "syncPointMs": 333,
+      "design": "rising charge · royal impact · harmonic tail"
+    },
+    "boss-ultimate": {
+      "src": "assets/audio/boss-ultimate.mp3",
+      "waveform": "assets/audio/boss-ultimate-waveform.svg",
+      "bytes": 42092,
+      "durationMs": 1700,
+      "syncPointMs": 353,
+      "design": "descending pressure · heavy crush · debris tail"
+    },
+    "dodge": {
+      "src": "assets/audio/dodge.mp3",
+      "waveform": "assets/audio/dodge-waveform.svg",
+      "bytes": 18476,
+      "durationMs": 720,
+      "syncPointMs": 178,
+      "design": "three moving air cuts · bright displacement snap"
+    },
+    "revive": {
+      "src": "assets/audio/revive.mp3",
+      "waveform": "assets/audio/revive-waveform.svg",
+      "bytes": 40940,
+      "durationMs": 1650,
+      "syncPointMs": 333,
+      "design": "reverse breath · life ignition · ascending fifths"
+    }
+  }
+}

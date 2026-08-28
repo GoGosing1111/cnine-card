@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#070b10">
+  <title>PROJECT V · Event FX Preview</title>
+  <link rel="stylesheet" href="preview.css?v=1">
+</head>
+<body>
+  <div class="page-grid" aria-hidden="true"></div>
+  <header class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow"><span></span> PROJECT V · EVENT FX LAB</p>
+      <h1>전투 이펙트<br><em>6종 프리뷰</em></h1>
+      <p class="hero-lead">정지 원화를 반복한 샘플이 아니라, 예고부터 충돌·파편 소멸까지 형태가 바뀌는 12프레임 스프라이트입니다.</p>
+      <div class="contract" aria-label="프리뷰 사양">
+        <span><b>72</b><small>SEPARATE FRAMES</small></span>
+        <span><b>12</b><small>FRAMES / EFFECT</small></span>
+        <span><b>48K</b><small>STEREO AUDIO</small></span>
+      </div>
+    </div>
+    <aside class="master-panel">
+      <span class="preview-badge">PREVIEW ONLY</span>
+      <strong>게임에는 연결되지 않았습니다</strong>
+      <p>각 카드에서 사운드 포함 재생, 무음 재생, 프레임별 스크럽을 확인할 수 있습니다.</p>
+      <button type="button" class="master-play" id="playAll">
+        <i aria-hidden="true"></i>
+        <span>6종 순차 재생<small>ANIMATION + SFX</small></span>
+      </button>
+      <label class="volume-control">
+        <span>MASTER VOLUME</span>
+        <input id="masterVolume" type="range" min="0" max="1" value="0.72" step="0.01">
+        <output id="masterVolumeValue">72%</output>
+      </label>
+      <label class="loop-control">
+        <input id="visualLoop" type="checkbox" checked>
+        <span>무음 자동 루프</span>
+      </label>
+    </aside>
+  </header>
+
+  <main>
+    <div class="section-head">
+      <div><span>01 — 06</span><h2>EVENT IMPACT SET</h2></div>
+      <p>흰색 세로선은 사운드의 충돌 싱크 지점입니다.</p>
+    </div>
+    <section class="fx-grid" id="fxGrid" aria-live="polite"></section>
+  </main>
+
+  <footer>
+    <span>PROJECT V · V3 EVENT FX PREVIEW V1</span>
+    <span>RUNTIME CONNECTED <b>NO</b></span>
+  </footer>
+
+  <template id="fxCardTemplate">
+    <article class="fx-card">
+      <header class="card-head">
+        <div><span class="card-index"></span><h3></h3><p></p></div>
+        <span class="fps-pill"></span>
+      </header>
+      <div class="effect-stage">
+        <div class="stage-lines" aria-hidden="true"></div>
+        <canvas width="512" height="512"></canvas>
+        <span class="impact-label">IMPACT</span>
+        <span class="frame-counter">FRAME 00 / 11</span>
+      </div>
+      <div class="timeline-row" aria-hidden="true"></div>
+      <div class="card-controls">
+        <button type="button" class="play-sound"><i></i><span>사운드 포함 재생</span></button>
+        <button type="button" class="play-silent">무음 재생</button>
+      </div>
+      <div class="waveform">
+        <img alt="">
+        <i></i>
+      </div>
+      <label class="scrubber">
+        <span>FRAME SCRUB</span>
+        <input type="range" min="0" max="11" value="6" step="1">
+        <output>06</output>
+      </label>
+      <div class="frame-strip" aria-label="분리된 12개 프레임"></div>
+      <dl class="specs">
+        <div><dt>COLLISION</dt><dd class="collision-spec"></dd></div>
+        <div><dt>AUDIO</dt><dd class="audio-spec"></dd></div>
+        <div><dt>DESIGN</dt><dd class="design-spec"></dd></div>
+      </dl>
+    </article>
+  </template>
+
+  <script src="preview.js?v=1" defer></script>
+</body>
+</html>
