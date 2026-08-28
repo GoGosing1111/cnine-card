@@ -1,8 +1,6 @@
 import { ensureAvatarFoundation } from './_avatar.js';
 
 const CHIEF_META_KEY='chief_appointment_v1';
-const BURNING_KEY='burning_event_settings_v1';
-const HYPER_KEY='hyper_burning_event_settings_v1310';
 const DISCOUNT_REMOVAL_MARKER='safe_runtime_upgrade_v1657_chief_discount_removed';
 const DAY_MS=86400000;
 let discountRemovalPromise=null;
@@ -59,28 +57,17 @@ async function usage(env,a){
 function publicState(a,u,viewerId){
   const remaining=Math.max(0,Date.parse(a.endsAt||0)-Date.now());
   const active=a.active===true;
-  return {status:active?'ACTIVE':'VACANT',active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',avatar:a.avatar||null,viewerAvatar:a.viewerAvatar||null,ordinal:chiefOrdinal(a.ordinal),source:'PLAY DK 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningHours:3,burningUsesPerDay:2,hyperHours:1,towerResetsPerTerm:2}};
-}
-async function activateBurning(env,a,type){
-  const hyper=type==='HYPER',durationHours=hyper?1:3,key=hyper?HYPER_KEY:BURNING_KEY,other=hyper?BURNING_KEY:HYPER_KEY,now=new Date(),endsAt=new Date(now.getTime()+durationHours*3600000).toISOString();
-  const current=parse(await rowValue(env,key),{}),otherCurrent=parse(await rowValue(env,other),{}),next={...current,mode:type,theme:hyper?'HYPER':'RED',enabled:true,generation:Number(current.generation||0)+1,activatedAt:now.toISOString(),updatedAt:now.toISOString(),endsAt,title:`족장 ${a.nickname}의 ${hyper?'하이퍼 버닝':'버닝'} 선포`};
-  await env.DB.batch([
-    env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(key,JSON.stringify(next)),
-    env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(other,JSON.stringify({...otherCurrent,enabled:false,updatedAt:now.toISOString()}))
-  ]);return {startsAt:now.toISOString(),endsAt,durationHours};
+  return {status:active?'ACTIVE':'VACANT',active,appointmentId:a.id||null,userId:a.userId||null,nickname:a.nickname||'',avatar:a.avatar||null,viewerAvatar:a.viewerAvatar||null,ordinal:chiefOrdinal(a.ordinal),source:'PLAY DK 투표',startsAt:a.startsAt||null,endsAt:a.endsAt||null,remainingMs:remaining,isChief:active&&Number(viewerId)===Number(a.userId),inaugurationVersion:Number(a.inaugurationVersion||1),usage:u||{burningToday:0,hyperToday:0,towerResetCount:0,towerResetUsed:false},limits:{burningControl:'OWNER_ONLY',towerResetsPerTerm:2}};
 }
 async function activate(env,a,user,type){
-  const u=await usage(env,a),now=new Date(),period=type==='TOWER_RESET'?String(a.id):kstDate(now);
-  if(type==='BURNING'&&u.burningToday>=2)throw new Error('오늘의 버닝 선포 2회를 모두 사용했습니다.');
-  if(type==='HYPER'&&u.hyperToday>=1)throw new Error('오늘의 하이퍼 버닝 선포 권한을 이미 사용했습니다.');
+  const u=await usage(env,a),now=new Date(),period=String(a.id);
   if(type==='TOWER_RESET'&&u.towerResetCount>=2)throw new Error('이번 임기의 무한의 탑 초기화 2회를 모두 사용했습니다.');
-  const slot=type==='BURNING'?u.burningToday+1:type==='TOWER_RESET'?u.towerResetCount+1:1;
+  const slot=u.towerResetCount+1;
   const reserved=await env.DB.prepare('INSERT OR IGNORE INTO chief_power_uses(appointment_id,user_id,power_type,period_key,use_slot,starts_at,details_json) VALUES(?,?,?,?,?,?,?)').bind(a.id,user.id,type,period,slot,now.toISOString(),JSON.stringify({status:'PENDING'})).run();
   if(!Number(reserved.meta?.changes||0))throw new Error('동일한 족장 권한이 이미 처리되었거나 사용되었습니다.');
   try{
     let details={};
-    if(type==='BURNING'||type==='HYPER')details=await activateBurning(env,a,type);
-    else if(type==='TOWER_RESET'){
+    if(type==='TOWER_RESET'){
       const season=await env.DB.prepare("SELECT id FROM tower_seasons WHERE status='ACTIVE' ORDER BY id DESC LIMIT 1").first();
       if(!season)throw new Error('진행 중인 무한의 탑 시즌이 없습니다.');
       await env.DB.prepare('UPDATE tower_user_progress SET current_floor=1,highest_floor=0,highest_reached_at=NULL,updated_at=CURRENT_TIMESTAMP WHERE season_id=?').bind(season.id).run();details={seasonId:Number(season.id)};
@@ -99,7 +86,9 @@ export async function handleChief({path,request,env,deps}){
   if(path==='chief/status'&&request.method==='GET'){const a=await appointment(env,user.id);return json({chief:publicState(a,await usage(env,a),user.id),serverNow:new Date().toISOString()})}
   if(path==='chief/activate'&&request.method==='POST'){
     const a=await appointment(env,user.id);if(!a.active||Number(a.userId)!==Number(user.id))return json({error:'현재 족장만 권한을 발동할 수 있습니다.'},403);
-    const type=String((await readBody(request)).type||'').toUpperCase();if(!['BURNING','HYPER','TOWER_RESET'].includes(type))return json({error:'알 수 없는 족장 권한입니다.'},400);
+    const type=String((await readBody(request)).type||'').toUpperCase();
+    if(type==='BURNING'||type==='HYPER')return json({error:'버닝·하이퍼 버닝은 OWNER 핑크빛유두 계정의 CMS에서만 활성화할 수 있습니다.',code:'BURNING_OPERATOR_ONLY'},403);
+    if(type!=='TOWER_RESET')return json({error:'알 수 없는 족장 권한입니다.'},400);
     try{const result=await activate(env,a,user,type);return json({ok:true,type,result,chief:publicState(a,await usage(env,a),user.id)})}catch(error){return json({error:error.message||'권한 발동에 실패했습니다.'},409)}
   }
   if(path==='admin/chief'){

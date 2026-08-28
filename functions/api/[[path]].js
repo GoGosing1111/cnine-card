@@ -17,6 +17,7 @@ import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
 import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
+import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
 import { handleIdleDungeon } from '../_idle_dungeon.js';
 import { handleEscortOperation } from '../_escort_operation.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
@@ -644,14 +645,15 @@ const BURNING_EVENT_META_KEY='burning_event_settings_v1';
 const HYPER_BURNING_EVENT_META_KEY='hyper_burning_event_settings_v1310';
 const BURNING_EVENT_CACHE_MS=1000;
 let burningEventCache=null;
-function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:1.5};}
-function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,title:'숲켓몬 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:2.5};}
+function defaultBurningEventSettings(){return {mode:'BURNING',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'숲켓몬 버닝이 발동 되었습니다',pveMaxEnergy:15,pvpMaxEnergy:15,rechargeMinutes:2,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:1.5};}
+function defaultHyperBurningEventSettings(){return {mode:'HYPER',theme:'HYPER',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,durationMinutes:BURNING_EVENT_DEFAULT_DURATION_MINUTES,title:'숲켓몬 하이퍼 버닝이 발동 되었습니다',pveMaxEnergy:30,pvpMaxEnergy:30,rechargeMinutes:1,duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:2.5};}
 function cleanBurningEventSettings(raw={},mode='BURNING'){
   const hyper=String(mode||raw.mode||'BURNING').toUpperCase()==='HYPER',b=hyper?defaultHyperBurningEventSettings():defaultBurningEventSettings();
   const num=(v,d,min,max)=>Math.max(min,Math.min(max,Number.isFinite(Number(v))?Number(v):d));
   let title=String(raw.title||b.title).trim().slice(0,80)||b.title;
   if(title.includes('\uC528\uCF13\uBAAC'))title=title.replaceAll('\uC528\uCF13\uBAAC','숲켓몬');
-  return {...b,enabled:raw.enabled===true&&(!raw.endsAt||Date.parse(raw.endsAt)>Date.now()),generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,endsAt:raw.endsAt||null,title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,hyper?30:10)};
+  const endsAtMs=Date.parse(String(raw.endsAt||'')),endsAt=Number.isFinite(endsAtMs)?new Date(endsAtMs).toISOString():null;
+  return {...b,enabled:burningEventIsLive({...raw,endsAt}),generation:Math.max(0,Math.floor(num(raw.generation,b.generation,0,999999999))),activatedAt:raw.activatedAt||null,updatedAt:raw.updatedAt||null,endsAt,durationMinutes:normalizeBurningEventDurationMinutes(raw.durationMinutes,b.durationMinutes),title,pveMaxEnergy:Math.floor(num(raw.pveMaxEnergy,b.pveMaxEnergy,1,999)),pvpMaxEnergy:Math.floor(num(raw.pvpMaxEnergy,b.pvpMaxEnergy,1,999)),rechargeMinutes:Math.floor(num(raw.rechargeMinutes,b.rechargeMinutes,1,1440)),duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:num(raw.battleRewardMultiplier,b.battleRewardMultiplier,1,hyper?30:10)};
 }
 function activeBurningEvent(pair={}){
   const normal=cleanBurningEventSettings(pair.normal||{},'BURNING'),hyper=cleanBurningEventSettings(pair.hyper||{},'HYPER');
@@ -660,9 +662,15 @@ function activeBurningEvent(pair={}){
   const normalAt=Date.parse(String(normal.updatedAt||normal.activatedAt||''))||0,hyperAt=Date.parse(String(hyper.updatedAt||hyper.activatedAt||''))||0;
   return hyperAt>normalAt?hyper:normal;
 }
+function cleanBurningEventPair(pair={}){
+  const normal=cleanBurningEventSettings(pair.normal||{},'BURNING'),hyper=cleanBurningEventSettings(pair.hyper||{},'HYPER');
+  return {normal,hyper,active:activeBurningEvent({normal,hyper})};
+}
 async function burningEventPair(env,{fresh=false}={}){
   const now=Date.now();
-  if(!fresh&&burningEventCache&&now-burningEventCache.at<BURNING_EVENT_CACHE_MS)return burningEventCache.value;
+  if(!fresh&&burningEventCache&&now-burningEventCache.at<BURNING_EVENT_CACHE_MS){
+    const value=cleanBurningEventPair(burningEventCache.value);burningEventCache={at:burningEventCache.at,value};return value;
+  }
   try{
     const [normalResult,hyperResult]=await env.DB.batch([
       env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(BURNING_EVENT_META_KEY),
@@ -672,15 +680,15 @@ async function burningEventPair(env,{fresh=false}={}){
     const normalValue=normalResult?.results?.[0]?.value,hyperValue=hyperResult?.results?.[0]?.value;
     if(normalValue)try{normal=cleanBurningEventSettings(JSON.parse(normalValue),'BURNING')}catch{}
     if(hyperValue)try{hyper=cleanBurningEventSettings(JSON.parse(hyperValue),'HYPER')}catch{}
-    const value={normal,hyper,active:activeBurningEvent({normal,hyper})};
+    const value=cleanBurningEventPair({normal,hyper});
     burningEventCache={at:now,value};return value;
   }catch(error){
-    if(burningEventCache?.value){console.warn('burning event settings fallback to cache',error);return burningEventCache.value;}
+    if(burningEventCache?.value){console.warn('burning event settings fallback to cache',error);const value=cleanBurningEventPair(burningEventCache.value);burningEventCache={at:now,value};return value;}
     throw error;
   }
 }
 async function burningEventSettings(env,{fresh=false}={}){return (await burningEventPair(env,{fresh})).active;}
-function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,endsAt:settings.endsAt||null,title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier};}
+function burningPublicState(settings){return {mode:settings.enabled===true?String(settings.mode||'BURNING').toUpperCase():'NONE',theme:String(settings.theme||'RED').toUpperCase(),enabled:settings.enabled===true,generation:Number(settings.generation||0),activatedAt:settings.activatedAt||null,updatedAt:settings.updatedAt||null,endsAt:settings.endsAt||null,durationMinutes:normalizeBurningEventDurationMinutes(settings.durationMinutes),title:settings.title,pve:{maxEnergy:settings.pveMaxEnergy,rechargeMinutes:settings.rechargeMinutes},pvp:{maxEnergy:settings.pvpMaxEnergy,rechargeMinutes:settings.rechargeMinutes},duplicateShardMultiplier:1,packDiscountPercent:0,equipmentBoxDiscountPercent:0,battleRewardMultiplier:settings.battleRewardMultiplier};}
 function applyBurningPveSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningRewardMultiplier:Number(burning.battleRewardMultiplier||1),__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pveMaxEnergy,dailyRestore:burning.pveMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
 function applyBurningPvpSettings(settings,burning){if(!burning?.enabled)return settings;return {...settings,__burningActivatedAt:burning.activatedAt||null,__burningMode:String(burning.mode||'BURNING'),energy:{...(settings.energy||{}),enabled:true,maxEnergy:burning.pvpMaxEnergy,rechargeMinutes:burning.rechargeMinutes}};}
 function burningDiscountPrice(price,burning){return Math.max(0,Math.floor(Number(price)||0));}
@@ -4659,7 +4667,7 @@ async function handleRequest(context){
       const [rows,burning,superstarSettings]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env)]);
       const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
       if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
-      return json({packs,burningEvent:burningPublicState(burning)});
+      return json({packs,burningEvent:burningPublicState(burning),serverNow:new Date().toISOString()});
     }
     if(path==='superstar-pack/draw'&&request.method==='POST'){
       return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});
@@ -7511,24 +7519,27 @@ async function handleRequest(context){
       return json({burningEvent:burningPublicState(pair.active),serverNow:new Date().toISOString()});
     }
     if(path==='admin/burning-event'||path==='admin/hyper-burning-event'){
-      const admin=await requirePermission(request,env,'SETTINGS');if(!admin)return json({error:'운영 설정 권한이 없습니다.'},403);
+      const admin=await authenticate(request,env);if(!admin)return json({error:'관리자 로그인이 필요합니다.'},401);
+      if(!canManageBurningEvent(admin))return json({error:'버닝·하이퍼 버닝 관리는 OWNER 핑크빛유두 계정 전용입니다.',code:'BURNING_OPERATOR_ONLY'},403);
       const isHyper=path==='admin/hyper-burning-event',mode=isHyper?'HYPER':'BURNING',metaKey=isHyper?HYPER_BURNING_EVENT_META_KEY:BURNING_EVENT_META_KEY,otherKey=isHyper?BURNING_EVENT_META_KEY:HYPER_BURNING_EVENT_META_KEY;
       if(request.method==='GET'){
         const pair=await burningEventPair(env,{fresh:true}),settings=isHyper?pair.hyper:pair.normal;
-        return json({settings,activeMode:pair.active.enabled?pair.active.mode:'NONE',activeEvent:burningPublicState(pair.active)});
+        return json({settings,allowedDurations:BURNING_EVENT_DURATION_MINUTES,activeMode:pair.active.enabled?pair.active.mode:'NONE',activeEvent:burningPublicState(pair.active),serverNow:new Date().toISOString()});
       }
       if(request.method==='PATCH'){
         const body=await readBody(request),pairBefore=await burningEventPair(env,{fresh:true}),before=isHyper?pairBefore.hyper:pairBefore.normal,otherBefore=isHyper?pairBefore.normal:pairBefore.hyper;
-        const payload=body.settings||body,requested=cleanBurningEventSettings({...before,...payload,...(payload.enabled===true&&!Object.prototype.hasOwnProperty.call(payload,'endsAt')?{endsAt:null}:{})},mode),turningOn=before.enabled!==true&&requested.enabled===true,changedAt=new Date().toISOString(),shouldDisableOther=requested.enabled===true&&otherBefore.enabled===true;
-        const next=cleanBurningEventSettings({...requested,generation:turningOn?Number(before.generation||0)+1:Number(before.generation||0),activatedAt:turningOn?changedAt:before.activatedAt,updatedAt:changedAt},mode);
-        const otherNext=shouldDisableOther?cleanBurningEventSettings({...otherBefore,enabled:false,updatedAt:changedAt},isHyper?'BURNING':'HYPER'):otherBefore;
+        const payload=body.settings||body,requestedDuration=payload.durationMinutes??before.durationMinutes??BURNING_EVENT_DEFAULT_DURATION_MINUTES;
+        if(!isBurningEventDurationMinutes(requestedDuration))return json({error:'진행 시간은 30분, 1시간, 2시간 중 하나만 선택할 수 있습니다.',code:'INVALID_BURNING_DURATION',allowedDurations:BURNING_EVENT_DURATION_MINUTES},400);
+        const enabled=Object.prototype.hasOwnProperty.call(payload,'enabled')?payload.enabled===true:before.enabled===true,durationMinutes=normalizeBurningEventDurationMinutes(requestedDuration),changedAt=new Date().toISOString(),activated=enabled===true,shouldDisableOther=activated;
+        const next=cleanBurningEventSettings({...before,...payload,enabled,durationMinutes,generation:activated?Number(before.generation||0)+1:Number(before.generation||0),activatedAt:activated?changedAt:before.activatedAt,updatedAt:changedAt,endsAt:activated?burningEventEndsAt(changedAt,durationMinutes):null},mode);
+        const otherNext=shouldDisableOther?cleanBurningEventSettings({...otherBefore,enabled:false,endsAt:null,updatedAt:changedAt},isHyper?'BURNING':'HYPER'):otherBefore;
         const statements=[env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(metaKey,JSON.stringify(next))];
         if(shouldDisableOther)statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").bind(otherKey,JSON.stringify(otherNext)));
         await env.DB.batch(statements);
         burningEventCache=null;invalidateEquipmentPromotionCache();
         const verified=await burningEventPair(env,{fresh:true}),verifiedSettings=isHyper?verified.hyper:verified.normal;
         await writeAdminLog(env,admin,isHyper?'HYPER_BURNING_EVENT_UPDATE':'BURNING_EVENT_UPDATE','APP_META',metaKey,before,verifiedSettings);
-        return json({ok:true,settings:verifiedSettings,otherSettings:isHyper?verified.normal:verified.hyper,activeMode:verified.active.enabled?verified.active.mode:'NONE',activeEvent:burningPublicState(verified.active),activated:turningOn});
+        return json({ok:true,settings:verifiedSettings,otherSettings:isHyper?verified.normal:verified.hyper,allowedDurations:BURNING_EVENT_DURATION_MINUTES,activeMode:verified.active.enabled?verified.active.mode:'NONE',activeEvent:burningPublicState(verified.active),activated,serverNow:new Date().toISOString()});
       }
     }
 

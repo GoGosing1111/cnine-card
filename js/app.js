@@ -109,33 +109,47 @@ function applyServerPacks(rows = []) {
 
 
 const BURNING_EVENT_SYNC_KEY='cnine:burning-event-sync-v1310';
-let burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null;
+let burningEventRefreshPromise=null,burningEventLastRefreshAt=0,burningEventWatchTimer=null,burningCountdownTimer=null,burningExpiryRefreshPending=false,burningServerOffsetMs=0;
 function burningEventFingerprint(state={}){
   return JSON.stringify([String(state.mode||'NONE'),String(state.theme||''),state.enabled===true,Number(state.generation||0),String(state.activatedAt||''),String(state.updatedAt||''),String(state.endsAt||''),String(state.title||''),Number(state.pve?.maxEnergy||0),Number(state.pve?.rechargeMinutes||0),Number(state.pvp?.maxEnergy||0),Number(state.pvp?.rechargeMinutes||0),1,Number(state.packDiscountPercent||0),Number(state.equipmentBoxDiscountPercent||0),Number(state.battleRewardMultiplier||0)]);
 }
-function burningMode(){return burningEventState.enabled?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
+function syncBurningServerClock(value){const serverTime=Date.parse(String(value||''));if(Number.isFinite(serverTime))burningServerOffsetMs=serverTime-Date.now()}
+function burningClientNow(){return Date.now()+burningServerOffsetMs}
+function burningRemainingMs(state=burningEventState){const end=Date.parse(String(state?.endsAt||''));return Number.isFinite(end)?end-burningClientNow():NaN}
+function burningEventIsActive(state=burningEventState){return state?.enabled===true&&Number.isFinite(burningRemainingMs(state))&&burningRemainingMs(state)>0}
+function burningMode(){return burningEventIsActive()?String(burningEventState.mode||'BURNING').toUpperCase():'NONE'}
 function burningEventNumbers(){
   return{pve:Math.max(0,Number(burningEventState.pve?.maxEnergy||0)),pvp:Math.max(0,Number(burningEventState.pvp?.maxEnergy||0)),minutes:Math.max(0,Number(burningEventState.pve?.rechargeMinutes||0)),coins:Math.max(1,Number(burningEventState.battleRewardMultiplier||1))};
 }
 function burningMultiplierText(value){const number=Number(value||1);return Number.isInteger(number)?String(number):number.toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}
 function burningRemainingText(){
-  const end=Date.parse(String(burningEventState.endsAt||''));if(!Number.isFinite(end))return 'EVENT LIVE';
-  const remain=end-Date.now();if(remain<=0)return '종료 확인 중';
-  const hours=Math.floor(remain/3600000),minutes=Math.max(0,Math.ceil(remain%3600000/60000));
-  return hours>0?`${hours}시간 ${String(minutes).padStart(2,'0')}분 남음`:`${minutes}분 남음`;
+  const remain=burningRemainingMs();if(!Number.isFinite(remain)||remain<=0)return '종료 확인 중';
+  const total=Math.max(0,Math.ceil(remain/1000)),hours=Math.floor(total/3600),minutes=Math.floor(total%3600/60),seconds=total%60;
+  return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')} 남음`;
 }
 function burningEventHudMarkup(){
-  if(!burningEventState.enabled)return '';
+  if(!burningEventIsActive())return '';
   const hyper=burningMode()==='HYPER',{pve,pvp,minutes,coins}=burningEventNumbers(),modeLabel=hyper?'HYPER BURNING':'BURNING';
-  return `<section id="burningEventHud" class="burning-event-hud ${hyper?'is-hyper':'is-burning'}" aria-label="${modeLabel} 이벤트 진행 중"><button type="button" class="burning-event-hud-trigger" data-burning-event-details aria-haspopup="dialog"><span class="burning-event-hud-ident"><i aria-hidden="true">${hyper?'HB':'B'}</i><span><small>LIVE EVENT</small><strong>${modeLabel}</strong></span></span><span class="burning-event-hud-boost"><small>COIN BOOST</small><b>×${burningMultiplierText(coins)}</b></span><span class="burning-event-hud-stats"><em><small>PVE</small><b>${pve}</b></em><em><small>PVP</small><b>${pvp}</b></em><em><small>RECHARGE</small><b>${minutes}<i>분</i></b></em></span><span class="burning-event-hud-open"><small>${burningRemainingText()}</small><b>상세보기 <i aria-hidden="true">›</i></b></span></button></section>`;
+  return `<section id="burningEventHud" class="burning-event-hud ${hyper?'is-hyper':'is-burning'}" aria-label="${modeLabel} 이벤트 진행 중"><button type="button" class="burning-event-hud-trigger" data-burning-event-details aria-haspopup="dialog"><span class="burning-event-hud-ident"><i aria-hidden="true">${hyper?'HB':'B'}</i><span><small>LIVE EVENT</small><strong>${modeLabel}</strong></span></span><span class="burning-event-hud-boost"><small>COIN BOOST</small><b>×${burningMultiplierText(coins)}</b></span><span class="burning-event-hud-stats"><em><small>PVE</small><b>${pve}</b></em><em><small>PVP</small><b>${pvp}</b></em><em><small>RECHARGE</small><b>${minutes}<i>분</i></b></em></span><span class="burning-event-hud-open"><small data-burning-countdown>${burningRemainingText()}</small><b>상세보기 <i aria-hidden="true">›</i></b></span></button></section>`;
 }
+function stopBurningCountdownWatch(){if(burningCountdownTimer){clearInterval(burningCountdownTimer);burningCountdownTimer=null}}
+function syncBurningCountdownUi(){
+  const active=burningEventIsActive(),label=burningRemainingText();
+  document.querySelectorAll('[data-burning-countdown]').forEach(node=>{node.textContent=label});
+  if(active)return;
+  stopBurningCountdownWatch();
+  if(!burningEventState.enabled)return;
+  applyBurningEventState({...burningEventState,enabled:false,mode:'NONE'},{announce:false,rerender:true});
+  if(API_MODE&&!burningExpiryRefreshPending){burningExpiryRefreshPending=true;void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>{burningExpiryRefreshPending=false})}
+}
+function startBurningCountdownWatch(){stopBurningCountdownWatch();syncBurningCountdownUi();if(burningEventIsActive()&&!document.hidden)burningCountdownTimer=setInterval(syncBurningCountdownUi,1000)}
 function ensureBurningEventHudVisible(){
   const page=document.querySelector('.page');
   if(!page)return;
   page.querySelectorAll('.burning-event-strip').forEach(node=>node.remove());
   const existingHuds=[...page.querySelectorAll('.burning-event-hud')],existing=existingHuds.shift()||null;
   existingHuds.forEach(node=>node.remove());
-  if(!burningEventState.enabled||runtimeCommandContext!=='buy'){existing?.remove();return;}
+  if(!burningEventIsActive()||runtimeCommandContext!=='buy'){existing?.remove();return;}
   const markup=burningEventHudMarkup();
   if(!markup)return;
   const holder=document.createElement('div');holder.innerHTML=markup;const next=holder.firstElementChild;if(!next)return;
@@ -161,25 +175,27 @@ function applyBurningEventState(next={},options={}){
     return false;
   }
   burningEventState={...burningEventState,...next};
+  if(!burningEventIsActive(burningEventState))burningEventState={...burningEventState,enabled:false,mode:'NONE'};
   PACKS=PACKS.map(pack=>{const original=Math.max(0,Number(pack.originalPrice??pack.price)||0);return {...pack,originalPrice:original,price:original,burningDiscountPercent:0}});
   const mode=burningMode(),normalActive=burningEventState.enabled===true&&mode==='BURNING',hyperActive=burningEventState.enabled===true&&mode==='HYPER';
   document.documentElement.classList.toggle('burning-event-active',normalActive);
   document.documentElement.classList.toggle('hyper-burning-event-active',hyperActive);
   const changed=before!==burningEventFingerprint(burningEventState);
   if(changed){clearApiCache('equipment/supply-box/config');clearApiCache('equipment/supply-box/config?fresh=1')}
-  if(!burningEventState.enabled){const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelectorAll('.burning-event-strip,#burningEventHud').forEach(node=>node.remove());if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
+  if(!burningEventIsActive()){stopBurningCountdownWatch();const notice=document.getElementById('burningActivationNotice');if(notice){try{notice.__burningCleanup?.()}catch(_){}notice.remove()}document.documentElement.classList.remove('burning-notice-open','burning-event-active','hyper-burning-event-active');document.body.classList.remove('burning-notice-open');document.querySelectorAll('.burning-event-strip,#burningEventHud').forEach(node=>node.remove());if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);return changed;}
+  startBurningCountdownWatch();
   queueMicrotask(ensureBurningEventHudVisible);
   const activationToken=String(burningEventState.activatedAt||burningEventState.updatedAt||'').replace(/[^0-9TZ:+.-]/g,'').slice(0,48);
   const key=`cnine:burning-announced-v1871:${mode}:${Number(burningEventState.generation||0)}:${activationToken}`;
   if(options.announce!==false&&runtimeCommandContext==='buy'&&Number(burningEventState.generation||0)>0&&!localStorage.getItem(key)){
     localStorage.setItem(key,'1');
-    setTimeout(()=>{if(burningEventState.enabled)showBurningActivationNotice()},300);
+    setTimeout(()=>{if(burningEventIsActive())showBurningActivationNotice()},300);
   }
   if(changed&&options.rerender===true)queueMicrotask(syncBurningEventVisibleUi);
   return changed;
 }
 function showBurningActivationNotice({manual=false}={}){
-  if(!burningEventState.enabled||runtimeCommandContext!=='buy')return;
+  if(!burningEventIsActive()||runtimeCommandContext!=='buy')return;
   const previous=document.getElementById('burningActivationNotice');
   if(previous){try{previous.__burningCleanup?.()}catch(_){}previous.remove()}
   const hyper=burningMode()==='HYPER',{pve,pvp,minutes,coins}=burningEventNumbers();
@@ -191,7 +207,7 @@ function showBurningActivationNotice({manual=false}={}){
   const mobileViewport=window.matchMedia?.('(max-width:820px)')?.matches===true||/Android|iPhone|iPad|iPod/i.test(String(navigator.userAgent||''));
   const startLabel=embedded&&mobileViewport?'전체화면으로 시작':'확인';
   const supportingCopy=escapeHtml(String(burningEventState.title||`${modeLabel} 이벤트가 시작되었습니다`).replaceAll('\uC528\uCF13\uBAAC','숲켓몬'));
-  el.innerHTML=`<article class="burning-briefing-panel" role="dialog" aria-modal="true" aria-labelledby="burningNoticeTitle" aria-describedby="burningNoticeCopy" tabindex="-1"><div class="burning-briefing-art" aria-hidden="true"></div><div class="burning-briefing-grid" aria-hidden="true"></div><button type="button" class="burning-briefing-close" data-burning-close aria-label="버닝 이벤트 안내 닫기">×</button><header class="burning-briefing-header"><span class="burning-briefing-kicker"><i>LIVE EVENT</i><b>${modeLabel}</b></span><small>${protocol}</small><h2 id="burningNoticeTitle">${headline}</h2><p id="burningNoticeCopy">${supportingCopy}</p></header><section class="burning-briefing-stats" aria-label="이벤트 효과"><article><small>COIN REWARD</small><b>×${burningMultiplierText(coins)}</b><span>전투 코인 보상</span></article><article><small>PVE ENERGY</small><b>${pve}<i>회</i></b><span>최대 행동력</span></article><article><small>PVP ENERGY</small><b>${pvp}<i>회</i></b><span>최대 행동력</span></article><article><small>RECHARGE</small><b>${minutes}<i>분</i></b><span>행동력 충전 주기</span></article></section><footer class="burning-briefing-footer"><span><small>EVENT STATUS</small><b>${escapeHtml(burningRemainingText())}</b></span><button type="button" class="burning-briefing-primary">${startLabel}<i aria-hidden="true">›</i></button></footer></article>`;
+  el.innerHTML=`<article class="burning-briefing-panel" role="dialog" aria-modal="true" aria-labelledby="burningNoticeTitle" aria-describedby="burningNoticeCopy" tabindex="-1"><div class="burning-briefing-art" aria-hidden="true"></div><div class="burning-briefing-grid" aria-hidden="true"></div><button type="button" class="burning-briefing-close" data-burning-close aria-label="버닝 이벤트 안내 닫기">×</button><header class="burning-briefing-header"><span class="burning-briefing-kicker"><i>LIVE EVENT</i><b>${modeLabel}</b></span><small>${protocol}</small><h2 id="burningNoticeTitle">${headline}</h2><p id="burningNoticeCopy">${supportingCopy}</p></header><section class="burning-briefing-stats" aria-label="이벤트 효과"><article><small>COIN REWARD</small><b>×${burningMultiplierText(coins)}</b><span>전투 코인 보상</span></article><article><small>PVE ENERGY</small><b>${pve}<i>회</i></b><span>최대 행동력</span></article><article><small>PVP ENERGY</small><b>${pvp}<i>회</i></b><span>최대 행동력</span></article><article><small>RECHARGE</small><b>${minutes}<i>분</i></b><span>행동력 충전 주기</span></article></section><footer class="burning-briefing-footer"><span><small>EVENT STATUS</small><b data-burning-countdown>${escapeHtml(burningRemainingText())}</b></span><button type="button" class="burning-briefing-primary">${startLabel}<i aria-hidden="true">›</i></button></footer></article>`;
   const root=document.documentElement;
   const previousFocus=document.activeElement;
   const syncViewport=()=>{
@@ -230,7 +246,7 @@ function showBurningActivationNotice({manual=false}={}){
 }
 function stopBurningEventWatch(){if(burningEventWatchTimer){clearTimeout(burningEventWatchTimer);burningEventWatchTimer=null}}
 function pollJitter(delay,ratio=.2){const base=Math.max(1000,Number(delay)||1000),spread=base*Math.max(0,Math.min(.5,Number(ratio)||0));return Math.round(base-spread+Math.random()*spread*2)}
-function scheduleBurningEventWatch(delay=burningEventState.enabled?15000:30000){
+function scheduleBurningEventWatch(delay=burningEventIsActive()?15000:30000){
   stopBurningEventWatch();
   if(!API_MODE||!loadUser()||document.hidden)return;
   burningEventWatchTimer=setTimeout(async()=>{await refreshBurningEventState({rerender:true});scheduleBurningEventWatch()},pollJitter(Math.max(10000,Number(delay)||15000)));
@@ -244,6 +260,7 @@ async function refreshBurningEventState({forceFresh=false,rerender=true}={}){
     try{
       const path=forceFresh?'burning-event/status?fresh=1':'burning-event/status';
       const d=await apiRequest(path,{}, {ttl:0,timeoutMs:12000}),next=d.burningEvent||{};
+      syncBurningServerClock(d.serverNow);
       const changed=applyBurningEventState(next,{rerender});
       if(changed)try{writeStartupSnapshot({burningEvent:next})}catch(_){}
       return changed;
@@ -3261,7 +3278,7 @@ async function refreshStartupCatalog(runId,cardTask,packTask){
   }else if(!viewerCatalogWasRefreshed&&!cards.length)console.warn('카드 데이터 백그라운드 갱신 실패:',cardResult.error);
   if(packResult.ok&&Array.isArray(packResult.value?.packs)&&packResult.value.packs.length){
     changed=changed||JSON.stringify(before.packs||[])!==JSON.stringify(packResult.value.packs);
-    applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{};
+    applyServerPacks(packResult.value.packs);syncBurningServerClock(packResult.value.serverNow);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{};
   }else if(packResult.error)console.warn('카드팩 설정 백그라운드 갱신 실패:',packResult.error);
   if(Object.keys(cachePatch).length)writeStartupSnapshot(cachePatch);
   if(changed)refreshBuyShellAfterStartup(runId);
@@ -3785,7 +3802,7 @@ async function init(){
       }
       const packResult=await Promise.race([packTask,new Promise(resolve=>setTimeout(()=>resolve({pending:true}),350))]);
       if(packResult?.pending)packPending=true;
-      else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyServerPacks(packResult.value.packs);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{}}
+      else if(packResult.ok&&Array.isArray(packResult.value?.packs)){applyServerPacks(packResult.value.packs);syncBurningServerClock(packResult.value.serverNow);applyBurningEventState(packResult.value.burningEvent||{});cachePatch.packs=packResult.value.packs;cachePatch.burningEvent=packResult.value.burningEvent||{}}
       else console.warn('카드팩 설정 조회 실패 - 기본 설정으로 계속합니다:',packResult.error);
       writeStartupSnapshot(cachePatch);
     }
@@ -4650,7 +4667,8 @@ function scheduleForegroundRefresh(){
 window.addEventListener('focus',scheduleForegroundRefresh);
 document.addEventListener('visibilitychange',()=>{
   setBackgroundActivityState();
-  if(document.hidden){clearTimeout(foregroundRefreshTimer);stopRaidTimer();stopBurningEventWatch();return}
+  if(document.hidden){clearTimeout(foregroundRefreshTimer);stopRaidTimer();stopBurningEventWatch();stopBurningCountdownWatch();return}
+  startBurningCountdownWatch();
   scheduleForegroundRefresh();
 });
 setBackgroundActivityState();

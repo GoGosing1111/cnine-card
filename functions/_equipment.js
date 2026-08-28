@@ -1,4 +1,5 @@
 import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
+import { burningEventIsLive } from './_burning_event_access.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
 const EQUIPMENT_SLOTS=['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'];
@@ -49,16 +50,26 @@ function itemPower(total){const safe=cleanInt(total,0,100000000),pve=Math.floor(
 function isAdmin(user){return Boolean(user&&String(user.role||'').toUpperCase()==='OWNER')}
 function cleanPromotionDiscount(value){const n=Number(value);return Math.max(0,Math.min(90,Number.isFinite(n)?n:0))}
 async function equipmentPromotionState(env,{fresh=false}={}){
-  const now=Date.now();if(!fresh&&equipmentPromotionCache&&now-equipmentPromotionCacheAt<5000)return equipmentPromotionCache;
+  const now=Date.now();
+  if(!fresh&&equipmentPromotionCache&&now-equipmentPromotionCacheAt<5000){
+    if(equipmentPromotionCache.mode==='NONE'||burningEventIsLive({enabled:true,endsAt:equipmentPromotionCache.endsAt},now))return equipmentPromotionCache;
+    equipmentPromotionCache={mode:'NONE',discount:0,endsAt:null};equipmentPromotionCacheAt=now;return equipmentPromotionCache;
+  }
   try{
     const [normalResult,hyperResult]=await env.DB.batch([
       env.DB.prepare("SELECT value FROM app_meta WHERE key='burning_event_settings_v1'"),
       env.DB.prepare("SELECT value FROM app_meta WHERE key='hyper_burning_event_settings_v1310'")
     ]);
     const parse=row=>{try{return JSON.parse(row?.results?.[0]?.value||'{}')}catch{return {}}},normal=parse(normalResult),hyper=parse(hyperResult);
-    const active=hyper?.enabled===true?{mode:'HYPER',discount:0}:normal?.enabled===true?{mode:'BURNING',discount:0}:{mode:'NONE',discount:0};
+    const active=burningEventIsLive(hyper,now)?{mode:'HYPER',discount:0,endsAt:hyper.endsAt}:burningEventIsLive(normal,now)?{mode:'BURNING',discount:0,endsAt:normal.endsAt}:{mode:'NONE',discount:0,endsAt:null};
     equipmentPromotionCache=active;equipmentPromotionCacheAt=now;return active;
-  }catch(error){if(equipmentPromotionCache)return equipmentPromotionCache;throw error}
+  }catch(error){
+    if(equipmentPromotionCache){
+      if(equipmentPromotionCache.mode==='NONE'||burningEventIsLive({enabled:true,endsAt:equipmentPromotionCache.endsAt},now))return equipmentPromotionCache;
+      equipmentPromotionCache={mode:'NONE',discount:0,endsAt:null};equipmentPromotionCacheAt=now;return equipmentPromotionCache;
+    }
+    throw error;
+  }
 }
 export function invalidateEquipmentPromotionCache(){equipmentPromotionCache=null;equipmentPromotionCacheAt=0}
 function supplyShopPricing(settings,promotion){const original=Math.max(0,cleanInt(settings.shopPrice,1,100000000)),discount=cleanPromotionDiscount(promotion?.discount||0),price=Math.max(0,Math.floor(original*(100-discount)/100));return {originalShopPrice:original,shopPrice:price,promotionDiscountPercent:discount,promotionMode:promotion?.mode||'NONE'}}

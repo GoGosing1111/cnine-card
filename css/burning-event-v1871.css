@@ -382,3 +382,8 @@ body.burning-notice-open { overflow:hidden!important; overscroll-behavior:none; 
   .burning-command-notice,
   .burning-briefing-panel { transition:none!important; }
 }
+
+[data-burning-countdown] {
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.04em;
+}

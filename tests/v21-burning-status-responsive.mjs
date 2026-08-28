@@ -21,7 +21,7 @@ for (const contract of [
   '.burning-command-notice.is-hyper .burning-briefing-art'
 ]) assert.ok(css.includes(contract), `missing burning status contract: ${contract}`);
 
-assert.match(adapter, /const VERSION = '21\.10\.7'/);
+assert.match(adapter, /const VERSION = '21\.14\.0'/);
 assert.match(adapter, /global\.ensureBurningEventHudVisible\?\.\(\)/);
 assert.doesNotMatch(adapter,/normalizeBurningStrip|bindBurningStripNormalizer/);
 

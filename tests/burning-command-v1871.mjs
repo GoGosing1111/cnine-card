@@ -30,6 +30,7 @@ test('public burning state exposes an end time for the live countdown',async()=>
   const api=await text('functions/api/[[path]].js');
   const publicState=api.match(/function burningPublicState\(settings\)\{[^\n]+/u)?.[0]||'';
   assert.match(publicState,/endsAt:settings\.endsAt\|\|null/);
+  assert.match(publicState,/durationMinutes:normalizeBurningEventDurationMinutes/);
 });
 
 test('red and purple command themes use production image assets and responsive stat grids',async()=>{
@@ -57,10 +58,10 @@ test('generated command backgrounds are optimized 1600x900 AVIF and WebP files',
 
 test('entry document and service worker use the burning command cache contract',async()=>{
   const [index,worker,preview]=await Promise.all([text('index.html'),text('service-worker.js'),text('preview/live-burning-command-v1/index.html')]);
-  assert.match(index,/burning-event-v1871\.css\?v=1874-burning-header-dock/);
-  assert.match(index,/js\/app\.js\?v=1874-burning-header-dock/);
-  assert.match(index,/chief-system-v1\.js\?v=1871-burning-command/);
-  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.10\.7-burning-header-dock/);
-  assert.match(worker,/soop-card-shell-v1874-burning-header-dock/);
-  assert.match(preview,/burning-event-v1871\.css\?v=1874-burning-header-dock/);
+  assert.match(index,/burning-event-v1871\.css\?v=1902-burning-owner-timer/);
+  assert.match(index,/js\/app\.js\?v=1902-burning-owner-timer/);
+  assert.match(index,/chief-system-v1\.js\?v=1902-burning-owner-timer/);
+  assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.14\.0-bulk-enhancement/);
+  assert.match(worker,/soop-card-shell-v1902-burning-owner-timer/);
+  assert.match(preview,/burning-event-v1871\.css\?v=1902-burning-owner-timer/);
 });
