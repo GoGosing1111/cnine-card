@@ -1,5 +1,5 @@
 {
-  "version": "project-v-v3-event-sfx-preview-v2",
+  "version": "project-v-v3-event-sfx-preview-v3",
   "previewOnly": true,
   "sourceType": "layered-recorded-samples",
   "proceduralSynthesis": false,
@@ -11,20 +11,21 @@
   "licenseUrl": "https://mixkit.co/license/#sfxFree",
   "assets": {
     "critical": {
-      "src": "assets/audio/critical-combat-v2.mp3",
-      "audio": "assets/audio/critical-combat-v2.mp3",
-      "waveform": "assets/audio/critical-combat-v2-waveform.svg",
-      "bytes": 35372,
-      "sha256": "0d2790c0a4e7b07a9ea7f04c0b9a7663e12c1c1f10ee7c84c516dc388abf2831",
-      "durationMs": 1050,
+      "src": "assets/audio/critical-combat-v3.mp3",
+      "audio": "assets/audio/critical-combat-v3.mp3",
+      "waveform": "assets/audio/critical-combat-v3-waveform.svg",
+      "bytes": 45356,
+      "sha256": "a7bb13bdf6f4c0779dfbc6a0716ff0e6ddd8d9d7918a06ba143092da0cbcbd02",
+      "durationMs": 1350,
       "syncPointMs": 250,
-      "design": "검날 가속 · 금속 파쇄 · 중량 충격",
+      "design": "마검 가속 · 이중 금속 파쇄 · 저역 잔향",
       "sourceIds": [
-        1485,
         2793,
-        2795
+        2160,
+        2795,
+        781
       ],
-      "audioProfile": "layered-recorded-combat-v2"
+      "audioProfile": "layered-recorded-critical-v3"
     },
     "counter": {
       "src": "assets/audio/counter-combat-v2.mp3",

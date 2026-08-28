@@ -9,6 +9,7 @@ frame.
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -135,15 +136,19 @@ SOURCES = {
 
 SPECS = {
     "critical": {
-        "duration": 1.05,
+        "duration": 1.35,
         "sync": 0.250,
         "label": "치명타",
         "lufs": -12.5,
-        "design": "검날 가속 · 금속 파쇄 · 중량 충격",
+        "basename": "critical-combat-v3",
+        "audioProfile": "layered-recorded-critical-v3",
+        "supersedes": ["critical-combat-v2"],
+        "design": "마검 가속 · 이중 금속 파쇄 · 저역 잔향",
         "layers": [
-            {"id": 1485, "delay": 0.114, "gain": -2.0, "highpass": 95, "lowpass": 17_500},
-            {"id": 2793, "delay": 0.027, "gain": -3.0, "highpass": 75, "lowpass": 16_000},
-            {"id": 2795, "trim": 0.171, "fadeIn": 0.220, "gain": -1.5, "highpass": 45, "lowpass": 12_500},
+            {"id": 2793, "delay": 0.027, "gain": -2.5, "highpass": 80, "lowpass": 17_000},
+            {"id": 2160, "delay": 0.190, "gain": -3.0, "highpass": 160, "lowpass": 16_000},
+            {"id": 2795, "trim": 0.171, "fadeIn": 0.220, "gain": -2.0, "highpass": 45, "lowpass": 12_500},
+            {"id": 781, "trim": 0.292, "fadeIn": 0.230, "gain": -11.0, "highpass": 35, "lowpass": 6_500},
         ],
     },
     "counter": {
@@ -460,7 +465,7 @@ def build_effect(ffmpeg: str, key: str, spec: dict, build_dir: Path) -> dict:
     )
     normalize(ffmpeg, premaster, master, spec["lufs"])
 
-    basename = f"{key}-combat-v2"
+    basename = spec.get("basename", f"{key}-combat-v2")
     mp3_path = OUT_DIR / f"{basename}.mp3"
     run(
         [
@@ -498,23 +503,37 @@ def build_effect(ffmpeg: str, key: str, spec: dict, build_dir: Path) -> dict:
         "syncPointMs": round(spec["sync"] * 1000),
         "design": spec["design"],
         "sourceIds": source_ids,
-        "audioProfile": "layered-recorded-combat-v2",
+        "audioProfile": spec.get("audioProfile", "layered-recorded-combat-v2"),
     }
 
 
-def remove_legacy_outputs() -> None:
-    for key in SPECS:
+def remove_legacy_outputs(keys: list[str]) -> None:
+    for key in keys:
         for suffix in (".mp3", "-waveform.svg"):
             legacy = OUT_DIR / f"{key}{suffix}"
             if legacy.exists():
                 legacy.unlink()
+        for basename in SPECS[key].get("supersedes", []):
+            for suffix in (".mp3", "-waveform.svg"):
+                superseded = OUT_DIR / f"{basename}{suffix}"
+                if superseded.exists():
+                    superseded.unlink()
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description="Build recorded Project V event SFX")
+    parser.add_argument("--effect", choices=tuple(SPECS), help="rebuild only one effect and preserve the accepted outputs")
+    args = parser.parse_args()
+    selected = [args.effect] if args.effect else list(SPECS)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     ffmpeg = ffmpeg_binary()
-    manifest = {
-        "version": "project-v-v3-event-sfx-preview-v2",
+    manifest_path = OUT_DIR / "manifest.json"
+    if args.effect and manifest_path.exists():
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    else:
+        manifest = {"assets": {}}
+    manifest.update({
+        "version": "project-v-v3-event-sfx-preview-v3",
         "previewOnly": True,
         "sourceType": "layered-recorded-samples",
         "proceduralSynthesis": False,
@@ -524,7 +543,6 @@ def main() -> None:
         "codec": "MP3 256 kbps",
         "license": "Mixkit Free License",
         "licenseUrl": MIXKIT_LICENSE,
-        "assets": {},
         "sources": {
             str(asset_id): {
                 **source,
@@ -532,21 +550,23 @@ def main() -> None:
             }
             for asset_id, source in SOURCES.items()
         },
-    }
+    })
     with tempfile.TemporaryDirectory(prefix="cnine-v3-sfx-build-") as temporary:
         build_dir = Path(temporary)
-        for key, spec in SPECS.items():
+        for key in selected:
+            spec = SPECS[key]
             manifest["assets"][key] = build_effect(ffmpeg, key, spec, build_dir)
             print(f"generated {key}: {manifest['assets'][key]['bytes']:,} bytes")
 
-    remove_legacy_outputs()
-    (OUT_DIR / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
+    remove_legacy_outputs(selected)
+    manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
 
     visual_manifest_path = PREVIEW_ROOT / "manifest.json"
     visual_manifest = json.loads(visual_manifest_path.read_text(encoding="utf-8"))
-    visual_manifest["version"] = "project-v-v3-event-fx-preview-v2"
+    visual_manifest["version"] = "project-v-v3-event-fx-preview-v3"
     for effect in visual_manifest["effects"]:
-        effect.update(manifest["assets"][effect["id"]])
+        if effect["id"] in selected:
+            effect.update(manifest["assets"][effect["id"]])
     visual_manifest["audioContract"] = {
         "previewOnly": True,
         "sourceType": "layered-recorded-samples",

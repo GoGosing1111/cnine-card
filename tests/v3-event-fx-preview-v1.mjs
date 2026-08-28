@@ -29,6 +29,7 @@ assert.match(html,/게임에는 연결되지 않았습니다/);
 assert.match(client,/framePattern\.replace\('%02d'/);
 assert.match(client,/new Audio\(/);
 assert.match(client,/effect\.collisionFrame/);
+assert.match(client,/!state\.audio\.paused&&!state\.audio\.ended/,'silent preview loop must not interrupt user SFX playback');
 assert.ok(!fs.existsSync(path.join(ROOT,'scripts','generate-v3-event-sfx-preview-v1.py')),'legacy synthesized SFX generator must stay removed');
 assert.ok(fs.existsSync(path.join(ROOT,'scripts','generate-v3-event-sfx-preview-v2.py')),'recorded SFX generator missing');
 
@@ -67,8 +68,14 @@ for(const effect of manifest.effects){
   assert.equal(audio.subarray(0,3).toString('ascii'),'ID3',`${effect.id} MP3 header`);
   assert.equal(audio.byteLength,effect.bytes,`${effect.id} MP3 bytes`);
   assert.equal(crypto.createHash('sha256').update(audio).digest('hex'),effect.sha256,`${effect.id} MP3 sha256`);
-  assert.match(effect.src,/-combat-v2\.mp3$/,`${effect.id} must use recorded combat v2 asset`);
-  assert.equal(effect.audioProfile,'layered-recorded-combat-v2',`${effect.id} recorded audio profile`);
+  if(effect.id==='critical'){
+    assert.match(effect.src,/critical-combat-v3\.mp3$/,`${effect.id} must use the remade critical v3 asset`);
+    assert.equal(effect.audioProfile,'layered-recorded-critical-v3',`${effect.id} recorded audio profile`);
+    assert.equal(effect.durationMs,1350,`${effect.id} full impact tail`);
+  }else{
+    assert.match(effect.src,/-combat-v2\.mp3$/,`${effect.id} must preserve accepted combat v2 asset`);
+    assert.equal(effect.audioProfile,'layered-recorded-combat-v2',`${effect.id} recorded audio profile`);
+  }
   assert.ok(effect.syncPointMs>0&&effect.syncPointMs<effect.durationMs,`${effect.id} audio sync point`);
   assert.ok(fs.statSync(path.join(PREVIEW,effect.waveform)).size>2_000,`${effect.id} waveform`);
 }
