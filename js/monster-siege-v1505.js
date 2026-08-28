@@ -248,23 +248,30 @@
     const nodes = campaign.nodes || MAP_FALLBACK;
     const frontNode = nodes.find((node) => Number(node.index) === Number(campaign.formations?.defense?.nodeIndex)) || nodes[1];
     const targetNode = nodes.find((node) => Number(node.index) === Number(campaign.formations?.assault?.targetNodeIndex)) || nodes[0];
-    const defenseOffsets = [[-5, -15], [4, -13], [0, 9]];
-    const assaultOffsets = [[-3, -10], [4, -3], [-4, 8]];
-    const defense = (campaign.formations?.defense?.units || []).map((entry, index) => ({
-      ...entry,
-      kind: "DEFENSE",
-      x: clamp(Number(frontNode.x) + defenseOffsets[index % defenseOffsets.length][0], 4, 96),
-      y: clamp(Number(frontNode.y) + defenseOffsets[index % defenseOffsets.length][1], 10, 86),
-    }));
+    const defenseUnits = campaign.formations?.defense?.units || [];
+    const assaultUnits = campaign.formations?.assault?.units || [];
+    const defenseEntry = defenseUnits.find((entry) => entry.isBoss) || defenseUnits[0];
+    const assaultEntry = assaultUnits.find((entry) => entry.status === "LEADING") || assaultUnits[0];
     const baseX = Number(frontNode.x) * .56 + Number(targetNode.x) * .44;
     const baseY = Number(frontNode.y) * .56 + Number(targetNode.y) * .44;
-    const assault = (campaign.formations?.assault?.units || []).map((entry, index) => ({
-      ...entry,
-      kind: "ASSAULT",
-      x: clamp(baseX + assaultOffsets[index % assaultOffsets.length][0], 4, 96),
-      y: clamp(baseY + assaultOffsets[index % assaultOffsets.length][1], 10, 86),
-    }));
-    return [...defense, ...assault]
+    const defense = defenseEntry
+      ? {
+          ...defenseEntry,
+          kind: "DEFENSE",
+          x: clamp(Number(frontNode.x) + 5, 9, 91),
+          y: clamp(Number(frontNode.y) - 17, 14, 72),
+        }
+      : null;
+    const assault = assaultEntry
+      ? {
+          ...assaultEntry,
+          kind: "ASSAULT",
+          x: clamp(baseX - 2, 9, 91),
+          y: clamp(baseY + 14, 20, 80),
+        }
+      : null;
+    const markers = [defense, assault].filter(Boolean);
+    return markers
       .map(
         (entry) =>
           `<figure class="ms4-map-unit is-${entry.kind.toLowerCase()} ${entry.status === "LEADING" ? "is-leading" : ""}" style="--x:${entry.x}%;--y:${entry.y}%"><img src="${esc(entry.image)}" alt="${esc(entry.name)}"><figcaption><small>${entry.kind === "DEFENSE" ? "방어대" : "돌격대"}</small><b>${esc(entry.name)}</b></figcaption></figure>`,
@@ -285,7 +292,7 @@
     return `<section class="ms4-map-shell" aria-label="몬스터공성 전황 지도">
       <picture class="ms4-map-art" aria-hidden="true"><source srcset="/assets/ui/territory-war/territory-command-map-v1824.avif?v=1824" type="image/avif"><img src="/assets/ui/territory-war/territory-command-map-v1824.webp?v=1824" alt="" decoding="async"></picture>
       <div class="ms4-map-shade" aria-hidden="true"></div>
-      <div class="ms4-map-head"><div><span class="alliance"><i></i>연합 점령</span><span class="contested"><i></i>현재 교전</span><span class="monster"><i></i>몬스터 점령</span></div><b>TACTICAL CAMPAIGN MAP</b></div>
+      <div class="ms4-map-head"><div><span class="alliance"><i></i>연합 점령</span><span class="contested"><i></i>현재 교전</span><span class="monster"><i></i>몬스터 점령</span></div><b>TACTICAL MAP · 대표 방어대 1 / 돌격대 1</b></div>
       <svg class="ms4-map-routes" viewBox="0 0 1000 600" preserveAspectRatio="none" aria-hidden="true">
         <defs><marker id="ms4AssaultArrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0 0 L9 4.5 L0 9 Z" fill="#ff667a"></path></marker></defs>
         <polygon class="alliance-zone" points="0,0 ${Number(frontNode.x) * 10},0 ${Number(frontNode.x) * 10},600 0,600"></polygon>
