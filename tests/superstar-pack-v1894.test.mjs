@@ -101,6 +101,7 @@ test('클라이언트는 일반팩을 제거하고 슈퍼스타팩을 우측 끝
   assert.match(source, /OWNER OPEN/);
   assert.match(source, /owner&&pack\.ownerDrawEnabled===true/);
   assert.match(source, /class="btn superstar-opening-off" type="button" disabled/);
+  assert.doesNotMatch(source.slice(source.indexOf('function superstarPackHero'),source.indexOf('function standardPackHero')), /OWNER TEST|OWNER 전용 검증/);
 });
 
 test('결제는 스와이프 완료 콜백 뒤에서만 요청되고 결과 연출을 제공한다', () => {
@@ -147,11 +148,13 @@ test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에
   assert.equal(png.readUInt32BE(20), 1536);
   const index = read('index.html');
   const serviceWorker = read('service-worker.js');
-  assert.match(index, /superstar-pack-v1894\.css\?v=1894-owner-swipe-reveal/);
-  assert.match(index, /app\.js\?v=1894-owner-swipe-reveal/);
-  assert.match(serviceWorker, /soop-card-shell-v1894-superstar-owner-swipe/);
+  assert.match(index, /superstar-pack-v1894\.css\?v=1895-larger-pack-clean-label/);
+  assert.match(index, /app\.js\?v=1895-larger-pack-clean-label/);
+  assert.match(serviceWorker, /soop-card-shell-v1895-superstar-pack-scale/);
   const css = read('css/superstar-pack-v1894.css');
   assert.match(css, /\.superstar-swipe-track/);
   assert.match(css, /\.pack-splitting \.pack-half-left/);
+  assert.match(css, /\.pack-product-image\.v21-store-contain-asset/);
+  assert.match(css, /width:286px!important/);
   assert.match(css, /prefers-reduced-motion/);
 });

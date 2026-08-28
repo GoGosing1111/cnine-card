@@ -126,9 +126,9 @@
 
 /* Store hero */
 .superstar-pack-store-hero{
-  min-height:520px!important;
-  grid-template-columns:minmax(0,1.14fr) minmax(300px,.86fr)!important;
-  gap:34px!important;
+  min-height:560px!important;
+  grid-template-columns:minmax(0,1.08fr) minmax(360px,.92fr)!important;
+  gap:24px!important;
   padding:46px 58px!important;
   border-color:rgba(244,200,92,.36)!important;
   background:
@@ -293,23 +293,23 @@
   line-height:1.45;
 }
 .superstar-pack-store-hero .superstar-pack-display{
-  height:410px!important;
-  min-height:410px!important;
-  max-height:410px!important;
+  height:480px!important;
+  min-height:480px!important;
+  max-height:480px!important;
   overflow:visible!important;
 }
 .superstar-pack-display .pack-aura{
-  width:360px;
-  height:360px;
+  width:440px;
+  height:440px;
   background:radial-gradient(circle,rgba(244,200,92,.19),rgba(154,104,28,.06) 44%,transparent 70%);
   filter:blur(6px);
 }
 .superstar-pack-display .pack-image-envelope{
   z-index:4;
-  width:224px!important;
-  height:336px!important;
-  max-width:224px!important;
-  max-height:336px!important;
+  width:286px!important;
+  height:429px!important;
+  max-width:286px!important;
+  max-height:429px!important;
   border:1px solid rgba(255,240,173,.26)!important;
   border-radius:7px!important;
   overflow:hidden!important;
@@ -323,6 +323,14 @@
 .superstar-pack-display .pack-product-image{
   filter:none!important;
 }
+.v21-store-featured.superstar-pack-store-hero .superstar-pack-display.v21-store-asset-slot--pack-hero .pack-product-image.v21-store-contain-asset{
+  width:100%!important;
+  height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  max-inline-size:100%!important;
+  max-block-size:100%!important;
+}
 .superstar-pack-display .pack-image-gloss{
   inset:-10% -25%;
   border-radius:0;
@@ -333,8 +341,8 @@
 .superstar-pack-halo{
   position:absolute;
   z-index:1;
-  width:330px;
-  height:330px;
+  width:410px;
+  height:410px;
   border:1px solid rgba(244,200,92,.16);
   border-radius:50%;
 }
@@ -880,13 +888,15 @@
 
 @media(max-width:900px){
   .superstar-pack-store-hero{
-    grid-template-columns:minmax(0,1fr) 280px!important;
+    grid-template-columns:minmax(0,1fr) 320px!important;
     gap:20px!important;
     padding:38px 32px!important;
   }
   .superstar-pack-store-hero .hero-copy h2{font-size:42px}
-  .superstar-pack-store-hero .superstar-pack-display{height:370px!important;min-height:370px!important;max-height:370px!important}
-  .superstar-pack-display .pack-image-envelope{width:205px!important;height:307px!important;max-width:205px!important;max-height:307px!important}
+  .superstar-pack-store-hero .superstar-pack-display{height:420px!important;min-height:420px!important;max-height:420px!important}
+  .superstar-pack-display .pack-image-envelope{width:250px!important;height:375px!important;max-width:250px!important;max-height:375px!important}
+  .superstar-pack-halo{width:360px;height:360px}
+  .superstar-pack-display .pack-aura{width:390px;height:390px}
 }
 
 @media(max-width:767px){
@@ -903,18 +913,18 @@
   .superstar-hero-grid{background-size:54px 54px;mask-image:linear-gradient(#000,transparent 75%)}
   .superstar-pack-store-hero .superstar-pack-display{
     width:100%;
-    height:315px!important;
-    min-height:315px!important;
-    max-height:315px!important;
+    height:380px!important;
+    min-height:380px!important;
+    max-height:380px!important;
   }
   .superstar-pack-display .pack-image-envelope{
-    width:176px!important;
-    height:264px!important;
-    max-width:176px!important;
-    max-height:264px!important;
+    width:220px!important;
+    height:330px!important;
+    max-width:220px!important;
+    max-height:330px!important;
   }
-  .superstar-pack-halo{width:270px;height:270px}
-  .superstar-pack-display .pack-aura{width:290px;height:290px}
+  .superstar-pack-halo{width:330px;height:330px}
+  .superstar-pack-display .pack-aura{width:355px;height:355px}
   .superstar-pack-display-label{bottom:-1px;min-width:210px}
   .superstar-pack-store-hero .hero-copy h2{margin-top:10px;font-size:34px;letter-spacing:-1.6px}
   .superstar-launch-status{margin-top:12px}
