@@ -124,7 +124,11 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   //   연장전 발생률 98%→1%, 생명형 vs 방어형 승률 93%→56%.
   //   랭크전·영토전은 경쟁 콘텐츠라 예고 없이 상성이 바뀌면 안 된다.
   //   PVE 만 줄이면 PVP 는 승률·턴수·연장전 발생률이 전부 그대로다(편차 0%p).
-  const hpScale = mode === 'PVE' ? 2.34 : 4.25;
+  // V1902: PVP 도 짧게 한다. 단 연장전(suddenDeathAfter) 임계값을 같은 비율로
+  //   옮기지 않으면 v1813 에서 확인된 대로 상성이 통째로 뒤집힌다.
+  //   HP 4.25→2.6 (×0.612) 에 맞춰 연장전 100→64, 행동상한 130→83 으로 같이 내렸다.
+  //   측정 결과 연장전 발생률과 매치업 승률이 전부 그대로 유지된다.
+  const hpScale = mode === 'PVE' ? 2.34 : 2.6;
   const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100)));
   const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100)));
   const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)));
@@ -211,7 +215,23 @@ function teamHpRatio(team) {
   return maximum > 0 ? current / maximum : 0;
 }
 
-function hitResult(actor, target, random, multiplier = 1, counter = false) {
+// V1902: 전투 길이의 "천장"을 만드는 상수.
+//
+//   기존 피해는 전부 공격력 기반 고정값이라, 몬스터 전투력이 팀보다 높을수록
+//   몬스터 HP 만 선형으로 커지고 플레이어 1타는 그대로였다. 그래서 전투 길이가
+//   전투력 격차에 비례해 무한정 늘어났다(측정: 2배 보스 x 생명형 덱 = 125행동/54초).
+//   HP 를 그냥 낮추면 짧은 전투까지 같이 짧아지고 보스도 같이 약해진다.
+//
+//   그래서 "한 대가 최소한 상대 최대체력의 N% 는 깎는다"는 비례 성분을 섞는다.
+//   고정 피해가 이미 이 값보다 크면 아무 일도 일어나지 않으므로
+//   빠른 전투(공격형 덱 / 약한 몬스터)는 그대로 두고 긴 전투만 잘린다.
+//   1/0.016 = 62.5 → 플레이어 행동 약 63회가 전투 길이의 상한이 된다.
+//
+//   ⚠ 카드가 맞을 때는 적용하지 않는다(MONSTER 대상 한정).
+//     PVP 와 호송작전 차량 판정은 이 하한이 걸리면 밸런스가 통째로 바뀐다.
+const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
+
+function hitResult(actor, target, random, multiplier = 1, counter = false, options = {}) {
   const dodgeChance = target.type === 'SPEED' && !target.speedUniqueSuppressed
     ? clamp(0.10 + Math.max(0, uniquePercent(target.uniqueAbility, 'speedPercent')) / 1000, 0.10, 0.24)
     : 0.02;
@@ -232,14 +252,19 @@ function hitResult(actor, target, random, multiplier = 1, counter = false) {
   const pvpShieldBreaker = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && target.shield > 0 ? 1.15 : 1;
   const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1);
   const capped = Math.min(raw * (1 - reduction), target.maxHp * (counter ? 0.24 : 0.46));
-  const damage = Math.max(1, Math.round(capped));
+  // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
+  //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
+  const minDamage = !counter && target.isMonster && options.minDamagePercent > 0
+    ? target.maxHp * options.minDamagePercent
+    : 0;
+  const damage = Math.max(1, Math.round(Math.max(capped, minDamage)));
   return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1 };
 }
 
-function applyDamage(target, incoming) {
+function applyDamage(target, incoming, options = {}) {
   let remaining = Math.max(0, Number(incoming || 0));
   const shieldBefore = target.shield;
-  const absorbed = Math.min(target.shield, remaining);
+  const absorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining);
   target.shield -= absorbed;
   remaining -= absorbed;
   const hpBefore = target.hp;
@@ -510,10 +535,18 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       // that support power provides zero survivability against boss ultimates.
       const basePower = Math.max(1, Number(target.basePower || target.power || 1));
       const effectivePower = Math.max(basePower, Number(target.power || basePower));
-      const supportMitigationPercent = clamp((effectivePower - basePower) / effectivePower * 100, 0, 90);
+      // V1902: 상한이 90% 라 장비·탈것·칭호를 쌓은 유저에게는 궁극기가 사실상 사라졌다.
+      //   (측정: 설정 15% → 장비 없음 덱 체력 10.4% / 지원비중 90% 유저 1.0%)
+      //   지원 전투력이 생존력을 주는 설계 의도는 유지하되, 상한을 40% 로 낮춰
+      //   아무리 장비를 껴도 설정값의 60% 는 들어가게 한다.
+      const supportMitigationPercent = clamp((effectivePower - basePower) / effectivePower * 100, 0, 40);
       const effectiveDamagePercent = bossOpeningPercent * (1 - supportMitigationPercent / 100);
       const amount = Math.max(1, Math.round(target.maxHp * effectiveDamagePercent / 100));
-      const damageState = applyDamage(target, amount);
+      // V1902: 방어형은 최대체력의 22~38% 짜리 실드를 들고 시작하는데 applyDamage 가
+      //   실드부터 깎으므로, 15% 궁극기가 실드에 100% 흡수돼 방어형 덱은 어떤 보스
+      //   궁극기도 체력이 1도 안 닳았다(측정: 방어5 덱 피해 0.0%).
+      //   궁극기는 실드를 관통한다.
+      const damageState = applyDamage(target, amount, { ignoreShield: true });
       hits.push({
         targetId: target.id,
         damage: damageState.hpDamage,
@@ -530,6 +563,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     for (const target of damagedTargets) resolveKnockout(target, timeline, clock + 0.0004, reviveFromMagic);
     maybeFrontlineBreak(a, 'A', timeline, clock + 0.0005);
   }
+
+  // V1902: 호송작전은 차량 피해가 별도 공식이라 전투 길이가 바뀌면 난이도가 흔들린다.
+  //   호송에서는 하한을 끈다.
+  const hitOptions = { minDamagePercent: escortMode ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
 
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
@@ -615,7 +652,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (!pool.length) break;
     const tauntGuard=actor.isMonster?pool.find(card=>card.type==='DEFENSE'&&random()<0.70):null;
     const target = tauntGuard||lowestRatioTarget(pool, random);
-    const hit = hitResult(actor, target, random);
+    const hit = hitResult(actor, target, random, 1, false, hitOptions);
     if(suddenDeath){
       hit.dodge=false;
       const overtimeStep=Math.max(1,actionCount-Number(suddenDeathAfter||0));
@@ -809,7 +846,9 @@ export function buildMonsterFighter(monster = {}) {
   //   기존 계수(0.205/0.175)를 그대로 두면 4개 덱 구성 전부 승률 0%·전원 사망이었다.
   //   1회 피해를 낮춰 총 피해량을 맞춘다. 지금은 1대에 카드 최대HP의 약 36%,
   //   즉 세 대면 카드 하나가 죽는다. 맞는 게 보이되 전멸하지는 않는 지점.
-  const baseAttack = Math.max(20, Math.round(power * (isBoss ? 0.0513 : 0.0438)));
+  // V1902: 보스와 일반 몬스터의 차이가 거의 없었다(공격 0.0513 vs 0.0438, 약 17%).
+  //   보스만 올려 "보스는 확실히 세다"를 만든다. 일반 몬스터는 그대로 둔다.
+  const baseAttack = Math.max(20, Math.round(power * (isBoss ? 0.065 : 0.0438)));
   const baseDefense = Math.max(1, Math.round(power * (isBoss ? 0.105 : 0.082)));
   const maxHp = Math.max(500, Math.round(baseHp * (1 + hpBuffPercent / 100) * difficultyHpPercent / 100));
   const attack = Math.max(20, Math.round(baseAttack * (1 + attackBuffPercent / 100) * difficultyAttackPercent / 100));
@@ -852,7 +891,10 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     //   호송이라는 긴장감이 생긴다. 이 값은 "몇 번 때리나" 만 정하고
     //   실제 차량 피해량은 서버의 구간 공식이 따로 정하므로
     //   난이도는 흔들리지 않는다. 다른 PVE 는 15 그대로다.
-    forcedMonsterEvery: escortObjective ? 4 : 15,
+    // V1902: 보스는 8행동마다(기존 15) 한 번 끼어든다. 한 판에서 보스가 움직이는
+    //   횟수가 약 두 배가 되므로 "보스가 샌드백" 느낌이 사라진다.
+    //   일반 몬스터는 12 로만 살짝 올린다.
+    forcedMonsterEvery: escortObjective ? 4 : (teamB[0]?.isBoss ? 8 : 12),
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent,
     bossUltimateCapPercent,
@@ -867,7 +909,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', forcedMonsterEvery: 15, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', forcedMonsterEvery: escortObjective ? 4 : (teamB[0]?.isBoss ? 8 : 12), monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
@@ -929,7 +971,7 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
   // Normal combat keeps the established 100-action balance. If both teams
   // still have survivors, a short no-heal, escalating-damage overtime runs
   // instead of ending on a visually ambiguous 2:2 HP-ratio judgment.
-  const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 130, suddenDeathAfter: 100, healerPenalty: true, singleHealerBonus });
+  const simulated = simulateBattleV2Preview({ teamA, teamB, magicA:attackerMagicCards, magicB:defenderMagicCards, seed, maxActions: 83, suddenDeathAfter: 64, healerPenalty: true, singleHealerBonus });
   const result = resolvePvpOutcome(simulated, teamA, teamB);
   return {
     schemaVersion: 2,
@@ -941,8 +983,8 @@ export function createPvpBattleV2({ attackerCards = [], defenderCards = [], atta
       formation: 'FRONT_2_BACK_3',
       actionMode: 'SPEED_GAUGE',
       damageCapPercent: 46,
-      maxActions: 130,
-      suddenDeathAfter: 100,
+      maxActions: 83,
+      suddenDeathAfter: 64,
       suddenDeathRule: 'NO_HEAL_ESCALATING_DAMAGE_UNTIL_ELIMINATION',
       timeoutRule: 'SURVIVOR_COUNT_THEN_HP_RATIO_THEN_POWER',
       drawRule: 'POWER_THEN_ATTACKER',
