@@ -29,6 +29,7 @@ import { normalizeNightmareSettings,nightmareProgressionKey,nightmareProgression
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
 import { createPostgresD1Compat } from '../_postgres_d1_compat.js';
+import { handleDailyQuestRetroactiveV1896 } from '../_daily_quest_retroactive_v1896.js';
 async function safeEquipmentDrop(env,payload){try{return await grantEquipmentDrop(env,payload)}catch(error){console.error('character equipment drop failed',error);return null}}
 async function safeUnifiedDrop(env,payload){try{return await resolveUnifiedDrops(env,payload)}catch(error){console.error('unified drop resolution failed',error);return null}}
 async function safePveUnifiedDrop(env,payload){
@@ -4427,7 +4428,7 @@ async function handleRequest(context){
     // V1470: maintenance is a hard server gate. Read D1 fresh before any player route,
     // migration, cached summary, or mutation can run. Per-isolate memory caches must
     // never create a grace window after the operator enables maintenance.
-    const maintenanceExemptEarly=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='service/status'||path==='health'||path.startsWith('setup/');
+    const maintenanceExemptEarly=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='service/status'||path==='health'||path.startsWith('setup/')||path==='ops/daily-quest-20260828-backfill-7c9e1b2a';
     if(!maintenanceExemptEarly){
       const maintenance=await maintenanceGateSettings(env,request);
       if(maintenance.active){
@@ -4435,6 +4436,8 @@ async function handleRequest(context){
         if(!canMaintenanceBypass(current,maintenance))return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
       }
     }
+    const dailyQuestRetroactiveResponse=await handleDailyQuestRetroactiveV1896({request,env,path,json,getSettings:playdkDailyQuestSettings,kstDate});
+    if(dailyQuestRetroactiveResponse)return dailyQuestRetroactiveResponse;
     scheduleBoundedStorageMaintenance(context,env,`${request.method}:${path}:${request.headers.get('cf-ray')||request.headers.get('x-request-id')||Math.floor(Date.now()/60000)}`);
     // Startup/session endpoints do not read the effective card view. Do not make
     // their cold response wait on a schema marker that only card routes need.
