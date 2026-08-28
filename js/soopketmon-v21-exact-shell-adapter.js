@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.13.0';
+  const VERSION = '21.14.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -50,7 +50,7 @@
    */
   const MENU_GROUPS = Object.freeze({
     store: Object.freeze({ title: '카드·상점', routes: Object.freeze(['buy', 'inventory']) }),
-    collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'evolution', 'magic']) }),
+    collection: Object.freeze({ title: '도감·강화', routes: Object.freeze(['dex', 'upgrade', 'evolution', 'magic']) }),
     pve: Object.freeze({ title: 'PVE 전투', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
     pvp: Object.freeze({ title: 'PVP·경쟁', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
@@ -67,6 +67,7 @@
   const ROUTE_META = Object.freeze({
     buy: Object.freeze({ title: '카드 상점', group: 'store', icon: 'pack', home: Object.freeze({ title: '카드·상점', meta: '카드팩 · 장비 보급 · 이동수단' }) }),
     dex: Object.freeze({ title: '도감', group: 'collection', icon: 'book', home: Object.freeze({ title: '도감·강화', meta: '카드 수집 · 상세 · 진화' }) }),
+    upgrade: Object.freeze({ title: '일괄 강화', group: 'collection', icon: 'upgrade' }),
     evolution: Object.freeze({ title: '카드 진화', group: 'collection', icon: 'cards' }),
     magic: Object.freeze({ title: '마법카드', group: 'collection', icon: 'magic' }),
     battle: Object.freeze({ title: 'PVE 전투', group: 'pve', icon: 'swords', home: Object.freeze({ title: 'PVE 전투', meta: '토벌 · 레이드 · 호송작전' }) }),
@@ -337,7 +338,7 @@
   function inferNativeRoute(requested, screen) {
     const signatures = [
       ['clan', '#clanRoot, .clan-shell'], ['pvp', '#pvpContent, .pvp-cover'], ['battle', '#pveHuntView, #pveRaidView'],
-      ['dex', '#dexSections, .dex-cover'], ['evolution', '#evolutionRoot, .evolution-system'],
+      ['dex', '#dexSections, .dex-cover'], ['upgrade', '#bulkEnhancementRoot, .bulk-enhancement-root'], ['evolution', '#evolutionRoot, .evolution-system'],
       ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'], ['avatar', '#avatarShopV1, .avatar-shop-v1-root'],
       ['scrapyard', '#scrapyardRootV1881, .ws81-scrapyard'], ['workshop', '#workshopRootV1881, .ws81-workshop, #workshopRootV1676, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
       ['dailyquest', '#dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],

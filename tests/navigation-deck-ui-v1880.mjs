@@ -16,15 +16,15 @@ const exactShell = read('js/soopketmon-v21-exact-shell-adapter.js');
 const router = read('js/soopketmon-v21-runtime-router.js');
 
 for (const asset of [
-  'js/app.js?v=1898-superstar-early-access',
+  'js/app.js?v=1899-bulk-enhancement',
   'js/responsive-superstar-battle-sprites-v1896.js?v=1896-superstar-sd',
   'css/pve-command-v2.css?v=1882-menu-pve-scrapyard',
   'css/information-architecture-v1880.css?v=1880-navigation-deck-rules',
   'js/pve-command-v2-live.js?v=1882-menu-pve-scrapyard',
-  'js/soopketmon-v21-exact-shell-adapter.js?v=21.13.0-menu-cleanup',
-  'js/soopketmon-v21-runtime-router.js?v=1.4.0-workshop-split'
+  'js/soopketmon-v21-exact-shell-adapter.js?v=21.14.0-bulk-enhancement',
+  'js/soopketmon-v21-runtime-router.js?v=1.5.0-bulk-enhancement'
 ]) assert.ok(index.includes(asset), `missing cache-busted asset: ${asset}`);
-assert.ok(serviceWorker.includes("soop-card-shell-v1898-superstar-early-access"));
+assert.ok(serviceWorker.includes("soop-card-shell-v1899-bulk-enhancement"));
 
 assert.ok(app.includes('deckGradeLimitViolation'));
 assert.ok(app.includes('normalizeDeckRules'));
@@ -53,9 +53,9 @@ assert.ok(pveCss.includes('white-space:normal'));
 
 assert.ok(informationCss.includes('body[data-content-scope="pve"]'));
 assert.ok(informationCss.includes('.deck-grade-rule-summary'));
-assert.ok(exactShell.includes("VERSION = '21.13.0'"));
+assert.ok(exactShell.includes("VERSION = '21.14.0'"));
 assert.ok(!exactShell.includes('시즌 · 카드점수'));
-assert.ok(router.includes("version: '1.4.0'"));
+assert.ok(router.includes("version: '1.5.0'"));
 assert.ok(!router.includes("'카드 점수'"));
 
 console.log('navigation/deck/PVE UI v1880 contract: ok');

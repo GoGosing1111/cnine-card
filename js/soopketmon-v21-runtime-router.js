@@ -4,6 +4,7 @@
   const SHELL_ROUTES = Object.freeze([
     'buy',
     'dex',
+    'upgrade',
     'evolution',
     'battle',
     'pvp',
@@ -38,6 +39,7 @@
   const ROUTE_CONTRACT = Object.freeze({
     buy: { shell: 'buy' },
     dex: { shell: 'dex' },
+    upgrade: { shell: 'upgrade' },
     evolution: { shell: 'evolution' },
     battle: { shell: 'battle' },
     pvp: { shell: 'pvp' },
@@ -120,6 +122,7 @@
     }),
     dex: Object.freeze({
       '전체 카드': { shell: 'dex', scroll: '#dexSections' },
+      '일괄 강화': { shell: 'upgrade' },
       '즐겨찾기': { shell: 'dex', actions: [{ selector: '#favoriteMemberOnly' }] },
       '고등급 재뽑기': { shell: 'dex', global: 'HighGradeReroll.open' }
     }),
@@ -333,7 +336,7 @@
   }
 
   const api = Object.freeze({
-    version: '1.4.0',
+    version: '1.5.0',
     shellRoutes: SHELL_ROUTES,
     routeContract: ROUTE_CONTRACT,
     subtabContract: SUBTAB_CONTRACT,

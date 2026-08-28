@@ -1,7 +1,7 @@
 (function installSoopketmonV21CommandIcons(global) {
   'use strict';
 
-  const VERSION = '1.1.1';
+  const VERSION = '1.2.0';
   const SHELL_SELECTOR = '[data-soopketmon-v21-shell="approved-v21"]';
   const script = document.currentScript;
 
@@ -19,6 +19,7 @@
 
     buy: '<path d="M4 9h16l-1-4H5Z"/><path d="M5 9v11h14V9M8 20v-6h4v6"/><path d="M4 9c0 2 3 2 4 0 1 2 3 2 4 0 1 2 3 2 4 0 1 2 4 2 4 0"/>',
     dex: '<path d="M4 5.5c3.2-1 5.5-.2 8 2v13c-2.5-2.2-4.8-3-8-2Z"/><path d="M20 5.5c-3.2-1-5.5-.2-8 2v13c2.5-2.2 4.8-3 8-2Z"/><path d="M7 9.5h2.5M14.5 9.5H17"/>',
+    upgrade: '<path d="M5 20h14M7 16h10M9 12h6"/><path d="m12 3 4 4h-2.5v5h-3V7H8Z"/><circle cx="12" cy="17.5" r="1.5"/>',
     evolution: '<path d="m5 16 4-4 3 3 6-7"/><path d="M13.5 8H18v4.5"/><path d="M5 20h14"/><circle cx="5" cy="16" r="1.5"/>',
     magic: '<path d="m12 2 1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8Z"/><path d="m18.5 15 .9 2.6L22 18.5l-2.6.9-.9 2.6-.9-2.6-2.6-.9 2.6-.9ZM5 15l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7Z"/>',
 
