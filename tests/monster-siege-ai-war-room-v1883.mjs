@@ -9,6 +9,9 @@ const {
   monsterFormation,
   activeMonsterEffect,
   publicCampaign,
+  phasePowerFor,
+  calculatePlayerSiegeDamage,
+  adminFormationCatalog,
 } = __siegeAiTest;
 const cfg = cleanSettings({
   monsterAiEnabled: true,
@@ -30,6 +33,62 @@ const baseEvent = {
   monster_ai_sequence: 0,
   next_monster_action_at: new Date(now - 4 * 45_000).toISOString(),
 };
+
+const tunedCfg = cleanSettings({
+  siegeDamagePercent: 100,
+  winContributionPercent: 120,
+  defeatContributionPercent: 20,
+  siegeDamageMin: 1000,
+  siegeDamageMax: 50000,
+  siegeDamageVariancePercent: 0,
+  phases: [
+    {
+      allianceHp: 25000000,
+      hp: 1800000,
+      battlePower: 10000,
+      damageMultiplierPercent: 150,
+      defensePowers: [11111, 22222, 33333],
+      assaultPowers: [14000, 15000, 16000],
+      ai: {
+        attackPercent: 0.45,
+        skillMultiplier: 3.25,
+        skillEvery: 3,
+        healPercent: 2.5,
+        shieldPercent: 31,
+        shieldSeconds: 140,
+      },
+    },
+  ],
+});
+const legacyCfg = cleanSettings({ allianceFortressHp: 31_000_000 });
+assert.ok(
+  legacyCfg.phases.every((phase) => phase.allianceHp === 31_000_000),
+  "legacy global alliance HP must hydrate every phase until per-phase values are saved",
+);
+assert.equal(tunedCfg.phases[0].allianceHp, 25000000);
+assert.deepEqual(tunedCfg.phases[0].defensePowers, [11111, 22222, 33333]);
+assert.deepEqual(tunedCfg.phases[0].assaultPowers, [14000, 15000, 16000]);
+assert.equal(tunedCfg.phases[0].ai.attackPercent, 0.45);
+assert.equal(tunedCfg.phases[0].ai.skillMultiplier, 3.25);
+assert.equal(
+  phasePowerFor(
+    tunedCfg.phases[0],
+    "DEFENSE",
+    1,
+    monsterFormation("OUTER").defense[1],
+  ),
+  22222,
+);
+const tunedDamage = calculatePlayerSiegeDamage({
+  playerPower: 10000,
+  result: "WIN",
+  cfg: tunedCfg,
+  phase: tunedCfg.phases[0],
+  seed: 1,
+});
+assert.equal(tunedDamage.damage, 18000);
+assert.equal(tunedDamage.phaseMultiplierPercent, 150);
+assert.equal(adminFormationCatalog(tunedCfg)[0].defense[1].battlePower, 22222);
 
 const catchup = monsterAiPlan({ event: baseEvent, cfg, now });
 assert.ok(catchup, "a due monster assault force must produce an action plan");
@@ -105,13 +164,15 @@ assert.equal(
   null,
 );
 
-const [server, client, css, index, preview, admin, migration, rules, agents] = await Promise.all([
+const [server, client, css, index, preview, admin, adminCss, adminIndex, migration, rules, agents] = await Promise.all([
   readFile(new URL("../functions/_siege.js", import.meta.url), "utf8"),
   readFile(new URL("../js/monster-siege-v1505.js", import.meta.url), "utf8"),
   readFile(new URL("../css/monster-siege-v1887.css", import.meta.url), "utf8"),
   readFile(new URL("../index.html", import.meta.url), "utf8"),
   readFile(new URL("../preview/monster-siege-ai-v1883/index.html", import.meta.url), "utf8"),
   readFile(new URL("../admin/monster-siege-admin-v1505.js", import.meta.url), "utf8"),
+  readFile(new URL("../admin/monster-siege-admin-v1890.css", import.meta.url), "utf8"),
+  readFile(new URL("../admin/index.html", import.meta.url), "utf8"),
   readFile(new URL("../database/migrations/0085_v1883_monster_siege_ai_warfare.sql", import.meta.url), "utf8"),
   readFile(new URL("../docs/monster-siege-territory-war-standard.md", import.meta.url), "utf8"),
   readFile(new URL("../AGENTS.md", import.meta.url), "utf8"),
@@ -120,7 +181,9 @@ const [server, client, css, index, preview, admin, migration, rules, agents] = a
 assert.match(server, /monster_siege_ai_actions/);
 assert.match(server, /WHERE id=\? AND version=\? AND status='ACTIVE'/, "AI writes use event-version CAS");
 assert.match(server, /actionType = retreat \? "BREAKTHROUGH"/);
-assert.match(server, /alliance_hp=alliance_max_hp/);
+assert.match(server, /alliance_hp=\?,alliance_max_hp=\?/);
+assert.match(server, /calculatePlayerSiegeDamage/);
+assert.match(server, /phasePowerFor/);
 assert.match(server, /defenseFormation = monsterFormation\(phase\.key\)\.defense/);
 assert.match(client, /TACTICAL CAMPAIGN MAP/);
 assert.match(client, /MONSTER DEFENSE FORCE/);
@@ -135,11 +198,19 @@ assert.doesNotMatch(css, /rotate\(45deg\)/i);
 assert.doesNotMatch(css, /clip-path/i);
 assert.match(index, /monster-siege-v1887\.css\?v=1888-territory-frontline/);
 assert.match(index, /monster-siege-v1505\.js\?v=1888-territory-frontline/);
+assert.match(adminIndex, /monster-siege-admin-v1890\.css\?v=1890-frontline-balance-cms/);
+assert.match(adminIndex, /monster-siege-admin-v1505\.js\?v=1890-frontline-balance-cms/);
 assert.match(preview, /mode:'TERRITORY_FRONTLINE'/);
 assert.match(preview, /GUARD_DEFENSE/);
 assert.match(preview, /GUARD_ASSAULT/);
-assert.match(admin, /연합 진영 최대 HP/);
-assert.match(admin, /돌격대 공격 간격/);
+assert.match(admin, /유저 공성 피해 공식/);
+assert.match(admin, /const label = formationType === "Defense" \? "방어대" : "돌격대"/);
+assert.match(admin, /개별 전투력/);
+assert.match(admin, /돌격대 AI 세부 수치/);
+assert.match(admin, /msaPhase.*DefensePower/);
+assert.match(adminCss, /\.msa-unit-row/);
+assert.doesNotMatch(adminCss, /rotate\(45deg\)/i);
+assert.doesNotMatch(adminCss, /clip-path/i);
 assert.match(migration, /CREATE TABLE IF NOT EXISTS monster_siege_ai_state/);
 assert.doesNotMatch(migration, /ALTER TABLE monster_siege_events/);
 assert.match(rules, /몬스터 진영은 AI가 돌격대와 방어대를 각각 운용/);

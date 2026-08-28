@@ -155,7 +155,11 @@ const DEFAULTS = {
   rallyMinutes: 30,
   attackCooldownSeconds: 10,
   siegeDamagePercent: 100,
+  winContributionPercent: 100,
   defeatContributionPercent: 25,
+  siegeDamageMin: 1000,
+  siegeDamageMax: 500000,
+  siegeDamageVariancePercent: 5,
   expectedPlayerPower: 20000,
   perBattleWinCoin: 3000,
   perBattleWinShards: 30,
@@ -178,6 +182,10 @@ const DEFAULTS = {
       monsterName: "흑철 송곳니 바르그",
       monsterImage: "/assets/siege/phase-1-outer.webp",
       battlePower: 21000,
+      allianceHp: 20000000,
+      damageMultiplierPercent: 100,
+      defensePowers: [19320, 21000, 22680],
+      assaultPowers: [19950, 21840, 23520],
       isBoss: false,
     },
     {
@@ -189,6 +197,10 @@ const DEFAULTS = {
       monsterName: "성문 파괴거인 골가스",
       monsterImage: "/assets/siege/phase-2-gate.webp",
       battlePower: 25000,
+      allianceHp: 20000000,
+      damageMultiplierPercent: 100,
+      defensePowers: [26250, 25000, 24000],
+      assaultPowers: [25500, 27000, 28500],
       isBoss: true,
     },
     {
@@ -200,6 +212,10 @@ const DEFAULTS = {
       monsterName: "잿불 첨탑의 마도사",
       monsterImage: "/assets/siege/phase-3-inner.webp",
       battlePower: 30000,
+      allianceHp: 20000000,
+      damageMultiplierPercent: 100,
+      defensePowers: [32400, 30600, 31200],
+      assaultPowers: [33000, 31500, 33600],
       isBoss: true,
     },
     {
@@ -211,6 +227,10 @@ const DEFAULTS = {
       monsterName: "월식의 왕실 수호자",
       monsterImage: "/assets/siege/phase-4-guard.webp",
       battlePower: 36000,
+      allianceHp: 20000000,
+      damageMultiplierPercent: 100,
+      defensePowers: [38880, 39600, 40320],
+      assaultPowers: [38880, 39600, 41760],
       isBoss: true,
     },
     {
@@ -222,6 +242,10 @@ const DEFAULTS = {
       monsterName: "심연의 월식 성주",
       monsterImage: "/assets/siege/phase-5-lord.webp",
       battlePower: 44000,
+      allianceHp: 20000000,
+      damageMultiplierPercent: 100,
+      defensePowers: [49280, 48400, 51920],
+      assaultPowers: [50600, 51480, 53680],
       isBoss: true,
     },
   ],
@@ -239,6 +263,12 @@ const clamp = (value, min, max, fallback = min) => {
     ? Math.max(min, Math.min(max, Math.floor(n)))
     : fallback;
 };
+const clampDecimal = (value, min, max, fallback = min, precision = 2) => {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  const factor = 10 ** precision;
+  return Math.round(Math.max(min, Math.min(max, n)) * factor) / factor;
+};
 const cleanRewardItems = (items) => {
   const merged = new Map();
   for (const item of Array.isArray(items) ? items.slice(0, 10) : []) {
@@ -253,23 +283,74 @@ const cleanRewardItems = (items) => {
   return [...merged].map(([code, quantity]) => ({ code, quantity }));
 };
 const cleanSettings = (raw) => {
-  const phases = Array.from({ length: 5 }, (_, i) => {
-    const base = DEFAULTS.phases[i],
-      x = raw?.phases?.[i] || {};
-    return {
-      ...base,
-      ai: monsterAiProfile(base.key),
-      name: String(x.name || base.name)
-        .trim()
-        .slice(0, 40),
-      subtitle: String(x.subtitle || base.subtitle)
-        .trim()
-        .slice(0, 80),
-      hp: clamp(x.hp, 1000, 2000000000, base.hp),
-      battlePower: clamp(x.battlePower, 1, 2000000000, base.battlePower),
-      startMinute: base.startMinute,
-    };
-  });
+  const legacyAllianceHp = clamp(
+      raw?.allianceFortressHp,
+      100000,
+      2000000000,
+      SIEGE_AI_DEFAULT_FORTRESS_HP,
+    ),
+    phases = Array.from({ length: 5 }, (_, i) => {
+      const base = DEFAULTS.phases[i],
+        x = raw?.phases?.[i] || {},
+        formation = monsterFormation(base.key),
+        powerList = (values, defaults, units) =>
+          Array.from({ length: 3 }, (_, unitIndex) =>
+            clamp(
+              values?.[unitIndex],
+              1,
+              2000000000,
+              defaults?.[unitIndex] ||
+                Math.max(
+                  1,
+                  Math.round(
+                    base.battlePower * Number(units[unitIndex]?.powerFactor || 1),
+                  ),
+                ),
+            ),
+          );
+      return {
+        ...base,
+        ai: monsterAiProfile(base.key, x.ai),
+        name: String(x.name || base.name)
+          .trim()
+          .slice(0, 40),
+        subtitle: String(x.subtitle || base.subtitle)
+          .trim()
+          .slice(0, 80),
+        hp: clamp(x.hp, 1000, 2000000000, base.hp),
+        battlePower: clamp(x.battlePower, 1, 2000000000, base.battlePower),
+        allianceHp: clamp(
+          x.allianceHp,
+          100000,
+          2000000000,
+          raw?.allianceFortressHp !== undefined
+            ? legacyAllianceHp
+            : Number(base.allianceHp || legacyAllianceHp),
+        ),
+        damageMultiplierPercent: clamp(
+          x.damageMultiplierPercent,
+          10,
+          500,
+          Number(base.damageMultiplierPercent || 100),
+        ),
+        defensePowers: powerList(
+          x.defensePowers,
+          base.defensePowers,
+          formation.defense,
+        ),
+        assaultPowers: powerList(
+          x.assaultPowers,
+          base.assaultPowers,
+          formation.assault,
+        ),
+        startMinute: base.startMinute,
+      };
+    }),
+    siegeDamageMin = clamp(raw?.siegeDamageMin, 1, 2000000000, 1000),
+    siegeDamageMax = Math.max(
+      siegeDamageMin,
+      clamp(raw?.siegeDamageMax, 1, 2000000000, 500000),
+    );
   return {
     mode: ["OFF", "TEST", "ON"].includes(String(raw?.mode || "").toUpperCase())
       ? String(raw.mode).toUpperCase()
@@ -281,7 +362,16 @@ const cleanSettings = (raw) => {
     rallyMinutes: clamp(raw?.rallyMinutes, 1, 1440, 30),
     attackCooldownSeconds: clamp(raw?.attackCooldownSeconds, 2, 300, 10),
     siegeDamagePercent: clamp(raw?.siegeDamagePercent, 1, 1000, 100),
+    winContributionPercent: clamp(raw?.winContributionPercent, 1, 300, 100),
     defeatContributionPercent: clamp(raw?.defeatContributionPercent, 0, 100, 25),
+    siegeDamageMin,
+    siegeDamageMax,
+    siegeDamageVariancePercent: clamp(
+      raw?.siegeDamageVariancePercent,
+      0,
+      50,
+      5,
+    ),
     expectedPlayerPower: clamp(raw?.expectedPlayerPower, 1, 2000000000, 20000),
     perBattleWinCoin: clamp(raw?.perBattleWinCoin, 0, 100000000, 3000),
     perBattleWinShards: clamp(raw?.perBattleWinShards, 0, 100000000, 30),
@@ -294,12 +384,7 @@ const cleanSettings = (raw) => {
       raw?.monsterAiEnabled === false ||
       ["OFF", "FALSE", "0"].includes(String(raw?.monsterAiEnabled || "").toUpperCase())
     ),
-    allianceFortressHp: clamp(
-      raw?.allianceFortressHp,
-      100000,
-      2000000000,
-      SIEGE_AI_DEFAULT_FORTRESS_HP,
-    ),
+    allianceFortressHp: phases[0]?.allianceHp || legacyAllianceHp,
     monsterAttackIntervalSeconds: clamp(
       raw?.monsterAttackIntervalSeconds,
       15,
@@ -325,8 +410,117 @@ function utcMs(value) {
       : raw,
   );
 }
-function monsterAiProfile(phaseKey) {
-  return MONSTER_AI_PROFILES[String(phaseKey || "OUTER").toUpperCase()] || MONSTER_AI_PROFILES.OUTER;
+function monsterAiProfile(phaseKey, override = null) {
+  const base =
+    MONSTER_AI_PROFILES[String(phaseKey || "OUTER").toUpperCase()] ||
+    MONSTER_AI_PROFILES.OUTER;
+  if (!override || typeof override !== "object") return base;
+  return {
+    ...base,
+    attackPercent: clampDecimal(
+      override.attackPercent,
+      0.01,
+      10,
+      base.attackPercent,
+    ),
+    skillMultiplier: clampDecimal(
+      override.skillMultiplier,
+      0.1,
+      20,
+      base.skillMultiplier,
+    ),
+    skillEvery: clamp(override.skillEvery, 2, 100, base.skillEvery),
+    healPercent: clampDecimal(
+      override.healPercent,
+      0,
+      100,
+      base.healPercent,
+    ),
+    shieldPercent: clamp(
+      override.shieldPercent,
+      0,
+      90,
+      base.shieldPercent,
+    ),
+    shieldSeconds: clamp(
+      override.shieldSeconds,
+      0,
+      3600,
+      base.shieldSeconds,
+    ),
+  };
+}
+function phasePowerFor(phase, formationType, index, entry) {
+  const powers =
+    formationType === "ASSAULT" ? phase?.assaultPowers : phase?.defensePowers;
+  const configured = Number(powers?.[index]);
+  if (Number.isFinite(configured) && configured > 0) return Math.floor(configured);
+  return Math.max(
+    1,
+    Math.round(
+      Number(phase?.battlePower || 1) * Number(entry?.powerFactor || 1),
+    ),
+  );
+}
+function calculatePlayerSiegeDamage({
+  playerPower,
+  result,
+  cfg,
+  phase,
+  seed = 0,
+  monsterDamageReductionPercent = 0,
+}) {
+  const baseContribution = Math.max(
+      1,
+      Math.floor((Math.max(1, Number(playerPower || 1)) * cfg.siegeDamagePercent) / 100),
+    ),
+    contributionPercent =
+      result === "WIN" ? cfg.winContributionPercent : cfg.defeatContributionPercent,
+    phaseMultiplierPercent = clamp(
+      phase?.damageMultiplierPercent,
+      10,
+      500,
+      100,
+    ),
+    variancePercent = clamp(cfg.siegeDamageVariancePercent, 0, 50, 0),
+    varianceUnit = ((Math.abs(Number(seed || 0)) % 10001) / 10000) * 2 - 1,
+    varianceMultiplier = 1 + (varianceUnit * variancePercent) / 100,
+    unmitigatedDamage =
+      contributionPercent <= 0
+        ? 0
+        : Math.max(
+            1,
+            Math.floor(
+              baseContribution *
+                (contributionPercent / 100) *
+                (phaseMultiplierPercent / 100) *
+                varianceMultiplier,
+            ),
+          ),
+    cappedDamage =
+      unmitigatedDamage <= 0
+        ? 0
+        : Math.max(
+            cfg.siegeDamageMin,
+            Math.min(cfg.siegeDamageMax, unmitigatedDamage),
+          ),
+    damage = Math.max(
+      0,
+      Math.floor(
+        cappedDamage *
+          (1 - clamp(monsterDamageReductionPercent, 0, 90, 0) / 100),
+      ),
+    );
+  return {
+    damage,
+    baseContribution,
+    contributionPercent,
+    phaseMultiplierPercent,
+    variancePercent,
+    varianceMultiplier,
+    unmitigatedDamage,
+    cappedDamage,
+  };
 }
 function monsterThreat(event) {
   const monsterRatio = Number(event?.phase_hp || 0) / Math.max(1, Number(event?.phase_max_hp || 1));
@@ -364,7 +558,7 @@ function monsterAiPlan({ event, cfg, now = Date.now() }) {
   const sequenceBefore = Math.max(0, Number(event.monster_ai_sequence || 0));
   const sequenceAfter = sequenceBefore + dueTicks;
   const phase = cfg.phases[Math.max(0, Math.min(cfg.phases.length - 1, Number(event.phase_index || 0)))];
-  const profile = monsterAiProfile(phase?.key);
+  const profile = phase?.ai || monsterAiProfile(phase?.key);
   const formation = monsterFormation(phase?.key);
   const skillEvery = Math.max(2, Number(profile.skillEvery || 4));
   const skillCount = Math.max(0, Math.floor(sequenceAfter / skillEvery) - Math.floor(sequenceBefore / skillEvery));
@@ -373,12 +567,25 @@ function monsterAiPlan({ event, cfg, now = Date.now() }) {
   const allianceHpBefore = Math.max(0, Math.min(allianceMaxHp, Number(event.alliance_hp ?? allianceMaxHp)));
   const threat = monsterThreat(event);
   const weakenedMultiplier = allianceHpBefore / allianceMaxHp <= 0.25 ? 1.15 : 1;
+  const assaultLeadIndex = sequenceAfter % formation.assault.length;
+  const assaultUnitBase = formation.assault[assaultLeadIndex];
+  const assaultBattlePower = phasePowerFor(
+    phase,
+    "ASSAULT",
+    assaultLeadIndex,
+    assaultUnitBase,
+  );
+  const assaultPowerRatio = Math.max(
+    0.25,
+    Math.min(4, assaultBattlePower / Math.max(1, Number(phase?.battlePower || 1))),
+  );
   const baseDamage = Math.max(
     1,
     Math.round(
       allianceMaxHp *
         (Number(profile.attackPercent || 0.15) / 100) *
         (clamp(cfg.monsterAttackPowerPercent, 10, 500, 100) / 100) *
+        assaultPowerRatio *
         (1 + threat.rage / 250) *
         weakenedMultiplier,
     ),
@@ -407,7 +614,7 @@ function monsterAiPlan({ event, cfg, now = Date.now() }) {
     : existingEffect;
   const actionType = skillCount > 0 ? "SKILL" : "ATTACK";
   const title = skillCount > 0 ? profile.skillName : profile.basicName;
-  const assaultUnit = formation.assault[sequenceAfter % formation.assault.length];
+  const assaultUnit = { ...assaultUnitBase, battlePower: assaultBattlePower };
   const message = dueTicks > 1
     ? `${assaultUnit.name} 돌격대가 ${title} 포함 ${dueTicks}차 연속 공세로 연합 전선을 밀어붙였습니다.`
     : `${assaultUnit.name} 돌격대가 ${title}으로 연합 전선을 공격했습니다.`;
@@ -417,6 +624,7 @@ function monsterAiPlan({ event, cfg, now = Date.now() }) {
     message,
     profile,
     assaultUnit,
+    assaultPowerRatio,
     threat,
     dueTicks,
     skillCount,
@@ -501,7 +709,18 @@ async function monsterAiStateRow(env, event, cfg, { create = true } = {}) {
       nextActionAt = cfg.monsterAiEnabled === false
         ? null
         : new Date(Math.max(Date.now(), Number.isFinite(rallyEndsAt) ? rallyEndsAt : Date.now()) + intervalMs).toISOString(),
-      allianceHp = Math.max(1, Number(cfg.allianceFortressHp || SIEGE_AI_DEFAULT_FORTRESS_HP));
+      phaseIndex = Math.max(
+        0,
+        Math.min(cfg.phases.length - 1, Number(event.phase_index || 0)),
+      ),
+      allianceHp = Math.max(
+        1,
+        Number(
+          cfg.phases[phaseIndex]?.allianceHp ||
+            cfg.allianceFortressHp ||
+            SIEGE_AI_DEFAULT_FORTRESS_HP,
+        ),
+      );
     await env.DB.prepare(
       "INSERT OR IGNORE INTO monster_siege_ai_state(event_id,alliance_hp,alliance_max_hp,monster_ai_sequence,next_monster_action_at) VALUES(?,?,?,0,?)",
     )
@@ -515,9 +734,18 @@ async function monsterAiStateRow(env, event, cfg, { create = true } = {}) {
 }
 function mergeMonsterAiState(event, row, cfg) {
   if (!event) return null;
+  const phaseIndex = Math.max(
+      0,
+      Math.min(cfg.phases.length - 1, Number(event.phase_index || 0)),
+    ),
+    phaseAllianceHp = Number(
+      cfg.phases[phaseIndex]?.allianceHp ||
+        cfg.allianceFortressHp ||
+        SIEGE_AI_DEFAULT_FORTRESS_HP,
+    );
   const allianceMaxHp = Math.max(
       1,
-      Number(row?.alliance_max_hp || cfg.allianceFortressHp || SIEGE_AI_DEFAULT_FORTRESS_HP),
+      Number(row?.alliance_max_hp || phaseAllianceHp),
     ),
     allianceHp = Math.max(0, Math.min(allianceMaxHp, Number(row?.alliance_hp ?? allianceMaxHp)));
   return {
@@ -769,7 +997,10 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
     nextPhase = cfg.phases[nextIndex],
     frontHpAfter = retreat ? Number(nextPhase.hp) : plan.phaseHpAfter,
     frontMaxHpAfter = retreat ? Number(nextPhase.hp) : Number(event.phase_max_hp || nextPhase.hp),
-    resetAllianceHp = Math.max(1, Number(event.alliance_max_hp || cfg.allianceFortressHp)),
+    resetAllianceHp = Math.max(1, Number(nextPhase.allianceHp || cfg.allianceFortressHp)),
+    allianceMaxHpAfter = retreat
+      ? resetAllianceHp
+      : Math.max(1, Number(event.alliance_max_hp || nextPhase.allianceHp)),
     storedAllianceHp = retreat ? resetAllianceHp : plan.allianceHpAfter,
     retreatDelayMs = clamp(cfg.monsterAttackIntervalSeconds, 15, 300, 45) * 1000,
     nextActionAt = retreat ? new Date(now + retreatDelayMs).toISOString() : plan.nextActionAt,
@@ -807,7 +1038,7 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
         event.version,
       ),
       env.DB.prepare(
-        `UPDATE monster_siege_ai_state SET alliance_hp=?,monster_ai_sequence=?,next_monster_action_at=?,
+        `UPDATE monster_siege_ai_state SET alliance_hp=?,alliance_max_hp=?,monster_ai_sequence=?,next_monster_action_at=?,
           last_monster_action_at=?,monster_effect_code=?,monster_effect_percent=?,monster_effect_ends_at=?,
           updated_at=CURRENT_TIMESTAMP
          WHERE event_id=? AND EXISTS(
@@ -815,6 +1046,7 @@ async function advanceMonsterAi(env, event, cfg, now = Date.now()) {
          )`,
       ).bind(
         storedAllianceHp,
+        allianceMaxHpAfter,
         plan.sequenceAfter,
         nextActionAt,
         actionTimestamp,
@@ -919,7 +1151,7 @@ function publicPhase(cfg, event) {
     phase = cfg.phases[index];
   return {
     ...phase,
-    ai: monsterAiProfile(phase.key),
+    ai: phase.ai || monsterAiProfile(phase.key),
     index,
     hp: Number(event?.phase_hp || phase.hp),
     maxHp: Number(event?.phase_max_hp || phase.hp),
@@ -953,7 +1185,7 @@ function publicCampaign(cfg, event) {
       image: entry.image,
       slot: index + 1,
       formationType,
-      battlePower: Math.max(1, Math.round(Number(phase.battlePower || 1) * Number(entry.powerFactor || 1))),
+      battlePower: phasePowerFor(phase, formationType, index, entry),
       isBoss: Boolean(entry.isBoss),
       status: formationType === "ASSAULT" && index === assaultLeadIndex ? "LEADING" : formationType === "ASSAULT" ? "MARCHING" : "HOLDING",
     });
@@ -1014,6 +1246,32 @@ function publicCampaign(cfg, event) {
       },
     },
   };
+}
+function adminFormationCatalog(cfg) {
+  return cfg.phases.map((phase, phaseIndex) => {
+    const formation = monsterFormation(phase.key),
+      units = (entries, formationType) =>
+        entries.map((entry, unitIndex) => ({
+          id: entry.id,
+          name: entry.name,
+          role: entry.role,
+          image: entry.image,
+          isBoss: Boolean(entry.isBoss),
+          battlePower: phasePowerFor(
+            phase,
+            formationType,
+            unitIndex,
+            entry,
+          ),
+        }));
+    return {
+      phaseIndex,
+      key: phase.key,
+      name: phase.name,
+      defense: units(formation.defense, "DEFENSE"),
+      assault: units(formation.assault, "ASSAULT"),
+    };
+  });
 }
 function siegeEnergySnapshot(row, now = Date.now()) {
   const stored = Math.max(0, Math.min(SIEGE_ENERGY_MAX, Number(row?.energy ?? SIEGE_ENERGY_MAX)));
@@ -1282,10 +1540,13 @@ export async function handleSiege({ path, request, env, deps }) {
         2166136261,
       ),
       defenseFormation = monsterFormation(phase.key).defense,
-      defenseUnit = defenseFormation[seed % defenseFormation.length],
-      monsterPower = Math.max(
-        1,
-        Math.floor(Number(phase.battlePower || 1) * Number(defenseUnit.powerFactor || 1)),
+      defenseIndex = seed % defenseFormation.length,
+      defenseUnit = defenseFormation[defenseIndex],
+      monsterPower = phasePowerFor(
+        phase,
+        "DEFENSE",
+        defenseIndex,
+        defenseUnit,
       ),
       monster = {
         id: `SIEGE-${defenseUnit.id}`,
@@ -1304,22 +1565,20 @@ export async function handleSiege({ path, request, env, deps }) {
         singleHealerBonus: battleCfg?.engine?.singleHealerBonus,
       }),
       result = battleV2.result.winner === "A" ? "WIN" : "LOSE",
-      baseContribution = Math.max(
-        1,
-        Math.floor((playerPower * cfg.siegeDamagePercent) / 100),
-      ),
-      contributionPercent =
-        result === "WIN" ? 100 : cfg.defeatContributionPercent,
-      unmitigatedDamage = Math.max(
-        1,
-        Math.floor((baseContribution * contributionPercent) / 100),
-      ),
       monsterEffect = activeMonsterEffect(event),
       monsterDamageReductionPercent = Number(monsterEffect?.percent || 0),
-      raw = Math.max(
-        1,
-        Math.floor(unmitigatedDamage * (1 - monsterDamageReductionPercent / 100)),
-      ),
+      damageFormula = calculatePlayerSiegeDamage({
+        playerPower,
+        result,
+        cfg,
+        phase,
+        seed,
+        monsterDamageReductionPercent,
+      }),
+      baseContribution = damageFormula.baseContribution,
+      contributionPercent = damageFormula.contributionPercent,
+      unmitigatedDamage = damageFormula.unmitigatedDamage,
+      raw = damageFormula.damage,
       damage = Math.min(raw, Number(event.phase_hp || 0)),
       nextHp = Math.max(0, Number(event.phase_hp || 0) - damage),
       winReward = {
@@ -1419,8 +1678,10 @@ export async function handleSiege({ path, request, env, deps }) {
           event.id,
         ),
         env.DB.prepare(
-          "UPDATE monster_siege_ai_state SET alliance_hp=alliance_max_hp,monster_effect_code='',monster_effect_percent=0,monster_effect_ends_at=NULL,next_monster_action_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
+          "UPDATE monster_siege_ai_state SET alliance_hp=?,alliance_max_hp=?,monster_effect_code='',monster_effect_percent=0,monster_effect_ends_at=NULL,next_monster_action_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
         ).bind(
+          nextPhase.allianceHp,
+          nextPhase.allianceHp,
           new Date(Date.now() + cfg.monsterAttackIntervalSeconds * 1000).toISOString(),
           event.id,
         ),
@@ -1457,6 +1718,12 @@ export async function handleSiege({ path, request, env, deps }) {
         contributionPercent,
         baseContribution,
         unmitigatedDamage,
+        damageFormula: {
+          phaseMultiplierPercent: damageFormula.phaseMultiplierPercent,
+          variancePercent: damageFormula.variancePercent,
+          varianceMultiplier: damageFormula.varianceMultiplier,
+          cappedDamage: damageFormula.cappedDamage,
+        },
         monsterEffect,
         monsterDamageReductionPercent,
         winReward,
@@ -1536,6 +1803,7 @@ export async function handleSiege({ path, request, env, deps }) {
       return json({
         settings: cfg,
         state: await state(env, user, cfg, event),
+        formationCatalog: adminFormationCatalog(cfg),
         territoryBenchmark: await territoryBenchmark(env),
       });
     }
@@ -1572,12 +1840,26 @@ export async function handleSiege({ path, request, env, deps }) {
       ).first();
       if (running) {
         running = await hydrateMonsterAiState(env, running, cfg);
-        const phaseHp = next.phases[
-          Math.max(0, Math.min(4, Number(running.phase_index || 0)))
-        ].hp,
-          previousAllianceMax = Math.max(1, Number(running.alliance_max_hp || next.allianceFortressHp)),
+        const phaseIndex = Math.max(
+            0,
+            Math.min(4, Number(running.phase_index || 0)),
+          ),
+          phaseHp = next.phases[phaseIndex].hp,
+          phaseAllianceHp = next.phases[phaseIndex].allianceHp,
+          previousMonsterMax = Math.max(
+            1,
+            Number(running.phase_max_hp || phaseHp),
+          ),
+          previousMonsterHp = Math.max(
+            0,
+            Math.min(previousMonsterMax, Number(running.phase_hp ?? previousMonsterMax)),
+          ),
+          monsterHp = Math.round(
+            phaseHp * (previousMonsterHp / previousMonsterMax),
+          ),
+          previousAllianceMax = Math.max(1, Number(running.alliance_max_hp || phaseAllianceHp)),
           previousAllianceHp = Math.max(0, Math.min(previousAllianceMax, Number(running.alliance_hp ?? previousAllianceMax))),
-          allianceHp = Math.round(next.allianceFortressHp * (previousAllianceHp / previousAllianceMax)),
+          allianceHp = Math.round(phaseAllianceHp * (previousAllianceHp / previousAllianceMax)),
           aiScheduleChanged =
             cfg.monsterAiEnabled !== next.monsterAiEnabled ||
             cfg.monsterAttackIntervalSeconds !== next.monsterAttackIntervalSeconds,
@@ -1593,7 +1875,7 @@ export async function handleSiege({ path, request, env, deps }) {
             "UPDATE monster_siege_ai_state SET alliance_hp=?,alliance_max_hp=?,next_monster_action_at=?,monster_effect_code=?,monster_effect_percent=?,monster_effect_ends_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
           ).bind(
             allianceHp,
-            next.allianceFortressHp,
+            phaseAllianceHp,
             nextMonsterActionAt,
             monsterEffectCode,
             monsterEffectPercent,
@@ -1604,15 +1886,15 @@ export async function handleSiege({ path, request, env, deps }) {
         if (rallyOpen) {
           await env.DB.batch([
             env.DB.prepare(
-              "UPDATE monster_siege_events SET rally_ends_at=datetime('now',?),ends_at=datetime('now',?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
-            ).bind(`+${next.rallyMinutes} minutes`, `+${next.rallyMinutes + next.durationMinutes} minutes`, phaseHp, phaseHp, running.id),
+              "UPDATE monster_siege_events SET rally_ends_at=datetime('now',?),ends_at=datetime('now',?),phase_hp=?,phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+            ).bind(`+${next.rallyMinutes} minutes`, `+${next.rallyMinutes + next.durationMinutes} minutes`, monsterHp, phaseHp, running.id),
             stateUpdate,
           ]);
         } else {
           await env.DB.batch([
             env.DB.prepare(
-              "UPDATE monster_siege_events SET ends_at=datetime('now',?),phase_hp=MAX(0,?-(phase_max_hp-phase_hp)),phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
-            ).bind(`+${next.durationMinutes} minutes`, phaseHp, phaseHp, running.id),
+              "UPDATE monster_siege_events SET ends_at=datetime('now',?),phase_hp=?,phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
+            ).bind(`+${next.durationMinutes} minutes`, monsterHp, phaseHp, running.id),
             stateUpdate,
           ]);
         }
@@ -1743,4 +2025,7 @@ export const __siegeAiTest = {
   monsterThreat,
   activeMonsterEffect,
   publicCampaign,
+  phasePowerFor,
+  calculatePlayerSiegeDamage,
+  adminFormationCatalog,
 };
