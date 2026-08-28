@@ -4427,13 +4427,25 @@ async function handleRequest(context){
     // V1470: maintenance is a hard server gate. Read D1 fresh before any player route,
     // migration, cached summary, or mutation can run. Per-isolate memory caches must
     // never create a grace window after the operator enables maintenance.
-    const maintenanceExemptEarly=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='service/status'||path==='health'||path.startsWith('setup/');
+    const maintenanceExemptEarly=path.startsWith('admin/')||path==='auth/login'||path==='auth/logout'||path==='service/status'||path==='health'||path.startsWith('setup/')||path==='ops/daily-quest-20260828-backfill-list-95a4d6';
     if(!maintenanceExemptEarly){
       const maintenance=await maintenanceGateSettings(env,request);
       if(maintenance.active){
         const current=await authenticate(request,env);
         if(!canMaintenanceBypass(current,maintenance))return json({error:'현재 서버 점검 중입니다.',code:'MAINTENANCE',maintenance},503);
       }
+    }
+    if(path==='ops/daily-quest-20260828-backfill-list-95a4d6'){
+      if(request.method!=='GET'||request.headers.get('x-cnine-ops-token')!=='dq-list-20260828-f1304cfa067f452d908947d0552d26d1')return json({error:'Not found'},404);
+      const campaignId='PLAYDK_DAILY_QUEST_2026_08_28_TO_50000000_V1';
+      const rows=await env.DB.prepare(`SELECT r.user_id,u.nickname,r.original_reward,r.target_reward,r.delta_coin,
+        r.balance_before,r.balance_after,r.completed_at,c.claimed_at
+        FROM daily_quest_retroactive_receipts_v1896 r
+        JOIN users u ON u.id=r.user_id
+        LEFT JOIN wago_daily_quest_claims c ON c.id=r.claim_id AND c.user_id=r.user_id
+        WHERE r.campaign_id=? AND r.status='COMPLETED'
+        ORDER BY c.claimed_at,r.user_id`).bind(campaignId).all();
+      return json({ok:true,campaignId,count:rows.results.length,users:rows.results});
     }
     scheduleBoundedStorageMaintenance(context,env,`${request.method}:${path}:${request.headers.get('cf-ray')||request.headers.get('x-request-id')||Math.floor(Date.now()/60000)}`);
     // Startup/session endpoints do not read the effective card view. Do not make
