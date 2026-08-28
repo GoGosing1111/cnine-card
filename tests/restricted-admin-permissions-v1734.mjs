@@ -21,6 +21,15 @@ assert.match(api,/function canUseTestAccess\(user,maintenance\)\{return Boolean\
 assert.equal((api.match(/canUseTestAccess\(user,maintenance\)/g)||[]).length,4);
 assert.doesNotMatch(api,/testUnlimited&&maintenance\.testUsers\.includes\(user\.nickname\)/);
 assert.match(api,/return role==='ADMIN'\|\|\(role==='OWNER'&&settings\.adminTestAllowed===false\);/);
+assert.match(api,/const PVP_RANKED_ROLE_SQL="UPPER\(TRIM\(COALESCE\(u\.role,'USER'\)\)\) <> 'OWNER'";/);
+assert.equal((api.match(/\$\{PVP_RANKED_ROLE_SQL\}/g)||[]).length,5);
+assert.doesNotMatch(api,/COALESCE\(u\.role,'USER'\) NOT IN \('OWNER','ADMIN'\)/);
+assert.match(api,/if\(isAdminRole\(user\)\)return json\(\{error:'OWNER 계정은 시즌 랭킹 및 랭킹 보상 대상에서 제외됩니다\.'/);
+assert.match(api,/const includeOwner=body\.includeOwner===true,includeAdmin=body\.includeAdmin!==false;/);
+assert.match(index,/id="verifiedRewardIncludeAdmin" type="checkbox" checked> ADMIN 기본 포함/);
+const messageClaimRoute=api.slice(api.indexOf("if(path==='messages/claim'"),api.indexOf("if(path==='admin/secondary-verifications'"));
+assert.match(messageClaimRoute,/claimMessageRewardDirectV1222\(env,user,reward,messageId/);
+assert.doesNotMatch(messageClaimRoute,/isAdminRole|isDedicatedPredictionAdmin|role.*ADMIN/);
 assert.match(api,/return \{restricted:true,permissions:\['COIN_PREDICTION_MANAGE'\]\};/);
 assert.doesNotMatch(api,/permission_key,is_allowed FROM admin_permissions/);
 assert.doesNotMatch(api,/access\.permissions\.includes\('COUPON_(?:ISSUE|MANAGE)'\)/);
