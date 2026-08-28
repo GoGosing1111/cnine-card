@@ -67,6 +67,12 @@
     const seconds = Math.ceil(milliseconds / 1000);
     return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
   }
+  function rechargeRule(mine) {
+    const seconds = Math.max(60, Number(mine?.rechargeSeconds || 180));
+    return seconds % 60 === 0
+      ? `${seconds / 60}분마다 공격권 1회 충전`
+      : `${seconds}초마다 공격권 1회 충전`;
+  }
   function timeLabel(value) {
     const milliseconds = serverClockNow() - serverTimestamp(value);
     if (!Number.isFinite(milliseconds) || milliseconds < 0) return "방금 전";
@@ -351,7 +357,7 @@
   function userCommand(mine, rallyOpen) {
     const energy = Math.max(0, Number(mine?.energy || 0));
     const maxEnergy = Math.max(1, Number(mine?.maxEnergy || 5));
-    return `<section class="ms4-user-command"><header><div><small>ALLIANCE FIELD UNIT</small><h3>${mine ? "나의 전선 출전" : "공성 부대 집결"}</h3></div><span>${mine ? "DEPLOYED" : "STANDBY"}</span></header><div class="ms4-user-stats"><article><small>진영 피해 기여</small><b>${fmt(mine?.damage || 0)}</b></article><article><small>출전 횟수</small><b>${fmt(mine?.attacks || 0)}</b></article><article><small>PVE 전투력</small><b>${fmt(mine?.deckPower || 0)}</b></article></div>${mine ? `<div class="ms4-energy"><header><span>공성 출전 횟수</span><b data-ms-energy-count>${energy} / ${maxEnergy}</b></header><div><i style="width:${Math.min(100, (energy / maxEnergy) * 100)}%"></i></div><small data-ms-energy-timer>${energy >= maxEnergy ? "충전 완료" : `다음 충전 ${rechargeClock(mine.nextRechargeAt)}`}</small></div>` : ""}<button class="ms4-attack" data-ms-${mine ? "attack" : "join"} ${busy || (mine && !rallyOpen && energy < 1) ? "disabled" : ""}><span>${mine ? "현재 거점 방어대 공격" : "공성전 참가 신청"}</span><small>${mine ? "저장된 PVE 덱으로 방어대와 교전 · 피해는 몬스터 진영에 적용" : "집결 종료 전 PVE 덱 5장 필요"}</small></button></section>`;
+    return `<section class="ms4-user-command"><header><div><small>ALLIANCE FIELD UNIT</small><h3>${mine ? "나의 전선 출전" : "공성 부대 집결"}</h3></div><span>${mine ? "DEPLOYED" : "STANDBY"}</span></header><div class="ms4-user-stats"><article><small>진영 피해 기여</small><b>${fmt(mine?.damage || 0)}</b></article><article><small>출전 횟수</small><b>${fmt(mine?.attacks || 0)}</b></article><article><small>PVE 전투력</small><b>${fmt(mine?.deckPower || 0)}</b></article></div>${mine ? `<div class="ms4-energy"><header><span>보유 공격권</span><b data-ms-energy-count>${energy} / ${maxEnergy}</b></header><div><i style="width:${Math.min(100, (energy / maxEnergy) * 100)}%"></i></div><small data-ms-energy-timer>${energy >= maxEnergy ? `공격권 충전 완료 · 최대 ${maxEnergy}회` : `다음 공격권 ${rechargeClock(mine.nextRechargeAt)} · ${rechargeRule(mine)}`}</small></div>` : ""}<button class="ms4-attack" data-ms-${mine ? "attack" : "join"} ${busy || (mine && !rallyOpen && energy < 1) ? "disabled" : ""}><span>${mine ? "현재 거점 방어대 공격" : "공성전 참가 신청"}</span><small>${mine ? "공격권 1개 사용 · 저장된 PVE 덱으로 방어대와 교전" : "집결 종료 전 PVE 덱 5장 필요"}</small></button></section>`;
   }
   function operationPanel(campaign) {
     const ai = data?.ai || {};
@@ -391,8 +397,8 @@
       actionButton.querySelector("span").textContent = "참여 마감";
       actionButton.querySelector("small").textContent = "집결 시간이 종료되었습니다.";
     } else if (actionButton && mine && !rallyOpen && energy < 1) {
-      actionButton.querySelector("span").textContent = "출전 횟수 충전 중";
-      actionButton.querySelector("small").textContent = "5분마다 1회 충전됩니다.";
+      actionButton.querySelector("span").textContent = "공격권 충전 중";
+      actionButton.querySelector("small").textContent = rechargeRule(mine);
     }
     bind();
     maybeShowAiBriefing();
@@ -543,7 +549,9 @@
       const energy = Number(data.mine.energy || 0);
       const max = Number(data.mine.maxEnergy || 5);
       energyTimer.textContent =
-        energy >= max ? "충전 완료" : `다음 충전 ${rechargeClock(data.mine.nextRechargeAt)}`;
+        energy >= max
+          ? `공격권 충전 완료 · 최대 ${max}회`
+          : `다음 공격권 ${rechargeClock(data.mine.nextRechargeAt)} · ${rechargeRule(data.mine)}`;
     }
     if (!busy && Date.now() - lastPollAt >= 5000) {
       lastPollAt = Date.now();

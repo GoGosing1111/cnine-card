@@ -12,6 +12,7 @@ const {
   phasePowerFor,
   calculatePlayerSiegeDamage,
   adminFormationCatalog,
+  siegeEnergySnapshot,
 } = __siegeAiTest;
 const cfg = cleanSettings({
   monsterAiEnabled: true,
@@ -89,6 +90,26 @@ const tunedDamage = calculatePlayerSiegeDamage({
 assert.equal(tunedDamage.damage, 18000);
 assert.equal(tunedDamage.phaseMultiplierPercent, 150);
 assert.equal(adminFormationCatalog(tunedCfg)[0].defense[1].battlePower, 22222);
+
+const attackRuleCfg = cleanSettings({
+  attackCountMax: 5,
+  attackRechargeMinutes: 3,
+});
+assert.equal(attackRuleCfg.attackCountMax, 5);
+assert.equal(attackRuleCfg.attackRechargeMinutes, 3);
+const energyNow = Date.parse("2026-08-28T03:00:00.000Z");
+const recharged = siegeEnergySnapshot(
+  {
+    energy: 0,
+    energy_updated_at: "2026-08-28T02:53:00.000Z",
+  },
+  attackRuleCfg,
+  energyNow,
+);
+assert.equal(recharged.energy, 2, "one attack charge regenerates every three minutes");
+assert.equal(recharged.maxEnergy, 5);
+assert.equal(recharged.rechargeSeconds, 180);
+assert.equal(recharged.nextRechargeAt, "2026-08-28T03:02:00.000Z");
 
 const catchup = monsterAiPlan({ event: baseEvent, cfg, now });
 assert.ok(catchup, "a due monster assault force must produce an action plan");
@@ -184,6 +205,8 @@ assert.match(server, /actionType = retreat \? "BREAKTHROUGH"/);
 assert.match(server, /alliance_hp=\?,alliance_max_hp=\?/);
 assert.match(server, /calculatePlayerSiegeDamage/);
 assert.match(server, /phasePowerFor/);
+assert.match(server, /attackRechargeMinutes/);
+assert.doesNotMatch(server, /attackCooldownSeconds/);
 assert.match(server, /defenseFormation = monsterFormation\(phase\.key\)\.defense/);
 assert.match(client, /TACTICAL CAMPAIGN MAP/);
 assert.match(client, /MONSTER DEFENSE FORCE/);
@@ -197,9 +220,9 @@ assert.match(css, /\.ms4-map-unit/);
 assert.doesNotMatch(css, /rotate\(45deg\)/i);
 assert.doesNotMatch(css, /clip-path/i);
 assert.match(index, /monster-siege-v1887\.css\?v=1888-territory-frontline/);
-assert.match(index, /monster-siege-v1505\.js\?v=1888-territory-frontline/);
+assert.match(index, /monster-siege-v1505\.js\?v=1891-attack-charge-rules/);
 assert.match(adminIndex, /monster-siege-admin-v1890\.css\?v=1890-frontline-balance-cms/);
-assert.match(adminIndex, /monster-siege-admin-v1505\.js\?v=1890-frontline-balance-cms/);
+assert.match(adminIndex, /monster-siege-admin-v1505\.js\?v=1891-attack-charge-rules/);
 assert.match(preview, /mode:'TERRITORY_FRONTLINE'/);
 assert.match(preview, /GUARD_DEFENSE/);
 assert.match(preview, /GUARD_ASSAULT/);
@@ -207,6 +230,12 @@ assert.match(admin, /유저 공성 피해 공식/);
 assert.match(admin, /const label = formationType === "Defense" \? "방어대" : "돌격대"/);
 assert.match(admin, /개별 전투력/);
 assert.match(admin, /돌격대 AI 세부 수치/);
+assert.match(admin, /최대 공격권 \(회\)/);
+assert.match(admin, /공격권 1회 충전 \(분\)/);
+assert.doesNotMatch(admin, /유저 공격 재사용/);
+assert.match(client, /rechargeRule/);
+assert.match(client, /공격권 1개 사용/);
+assert.doesNotMatch(client, /5분마다 1회/);
 assert.match(admin, /msaPhase.*DefensePower/);
 assert.doesNotMatch(admin, /step="100"/, "combat-power defaults must not fail native step validation");
 assert.match(adminCss, /\.msa-unit-row/);

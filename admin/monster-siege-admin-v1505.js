@@ -140,7 +140,7 @@
         ]
       : [
           metric("운영 모드", cfg.mode, "진행 회차 없음", cfg.mode === "ON" ? "live" : ""),
-          metric("전투 시간", `${number(cfg.durationMinutes) / 60}시간`, `집결 ${cfg.rallyMinutes}분`),
+          metric("전투 시간", `${number(cfg.durationMinutes) / 60}시간`, `공격권 ${cfg.attackCountMax}회 · ${cfg.attackRechargeMinutes}분 충전`),
           metric("예상 유저 전투력", format(cfg.expectedPlayerPower), "피해 시뮬레이션 기준", "alliance"),
           metric("AI 공격 주기", `${cfg.monsterAttackIntervalSeconds}초`, `공통 배율 ${cfg.monsterAttackPowerPercent}%`, "monster"),
         ];
@@ -156,7 +156,8 @@
           ${textField({ id: "msaName", label: "공성전 이름", value: cfg.name })}
           ${numberField({ id: "msaRally", label: "집결 시간 (분)", value: cfg.rallyMinutes, min: 1, max: 1440, hint: "종료 후 신규 참가 차단" })}
           ${numberField({ id: "msaDuration", label: "전투 진행 시간 (분)", value: cfg.durationMinutes, min: 30, max: 10080, hint: `${(cfg.durationMinutes / 60).toFixed(1)}시간` })}
-          ${numberField({ id: "msaCooldown", label: "유저 공격 재사용 (초)", value: cfg.attackCooldownSeconds, min: 2, max: 300 })}
+          ${numberField({ id: "msaAttackCountMax", label: "최대 공격권 (회)", value: cfg.attackCountMax, min: 1, max: 50, hint: "참가 시 가득 지급" })}
+          ${numberField({ id: "msaAttackRecharge", label: "공격권 1회 충전 (분)", value: cfg.attackRechargeMinutes, min: 1, max: 1440, hint: "부족분을 1개씩 순차 충전" })}
           <label class="msa-field"><span>몬스터 AI</span><select id="msaAiEnabled"><option value="ON" ${cfg.monsterAiEnabled !== false ? "selected" : ""}>ON · 자율 공세</option><option value="OFF" ${cfg.monsterAiEnabled === false ? "selected" : ""}>OFF · 정지</option></select><small>돌격대만 연합 진영 공격</small></label>
           ${numberField({ id: "msaAiInterval", label: "AI 행동 간격 (초)", value: cfg.monsterAttackIntervalSeconds, min: 15, max: 300, hint: "접속 공백 행동도 일괄 반영" })}
           ${numberField({ id: "msaAiPower", label: "AI 공격력 공통 배율 (%)", value: cfg.monsterAttackPowerPercent, min: 10, max: 500, hint: "모든 전선 돌격대에 적용" })}
@@ -360,7 +361,8 @@
       name: $("#msaName").value.trim(),
       rallyMinutes: readNumber("msaRally"),
       durationMinutes: readNumber("msaDuration"),
-      attackCooldownSeconds: readNumber("msaCooldown"),
+      attackCountMax: readNumber("msaAttackCountMax"),
+      attackRechargeMinutes: readNumber("msaAttackRecharge"),
       monsterAiEnabled: $("#msaAiEnabled").value === "ON",
       monsterAttackIntervalSeconds: readNumber("msaAiInterval"),
       monsterAttackPowerPercent: readNumber("msaAiPower"),

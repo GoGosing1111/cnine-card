@@ -1,6 +1,6 @@
 const KEY = "monster_siege_settings_v1";
 const SIEGE_ENERGY_MAX = 5;
-const SIEGE_ENERGY_RECHARGE_SECONDS = 300;
+const SIEGE_ENERGY_RECHARGE_SECONDS = 180;
 const SIEGE_AI_DEFAULT_FORTRESS_HP = 20000000;
 const SIEGE_AI_SCHEMA_MARKER = "safe_runtime_upgrade_v1886_monster_siege_ai_companion_state";
 const PARTICIPATION_BONUS_CODE = "MONSTER_SIEGE_5_PLUS_30M_V1";
@@ -153,7 +153,8 @@ const DEFAULTS = {
   name: "심연의 황혼 성채",
   durationMinutes: 360,
   rallyMinutes: 30,
-  attackCooldownSeconds: 10,
+  attackCountMax: 5,
+  attackRechargeMinutes: 3,
   siegeDamagePercent: 100,
   winContributionPercent: 100,
   defeatContributionPercent: 25,
@@ -360,7 +361,13 @@ const cleanSettings = (raw) => {
       .slice(0, 50),
     durationMinutes: clamp(raw?.durationMinutes, 30, 10080, 360),
     rallyMinutes: clamp(raw?.rallyMinutes, 1, 1440, 30),
-    attackCooldownSeconds: clamp(raw?.attackCooldownSeconds, 2, 300, 10),
+    attackCountMax: clamp(raw?.attackCountMax, 1, 50, SIEGE_ENERGY_MAX),
+    attackRechargeMinutes: clamp(
+      raw?.attackRechargeMinutes,
+      1,
+      1440,
+      SIEGE_ENERGY_RECHARGE_SECONDS / 60,
+    ),
     siegeDamagePercent: clamp(raw?.siegeDamagePercent, 1, 1000, 100),
     winContributionPercent: clamp(raw?.winContributionPercent, 1, 300, 100),
     defeatContributionPercent: clamp(raw?.defeatContributionPercent, 0, 100, 25),
@@ -852,7 +859,7 @@ async function ensure(env) {
       try { await env.DB.prepare(sql).run(); }
       catch (error) { if (!/duplicate column/i.test(String(error?.message || error))) throw error; }
     }
-    await env.DB.prepare("UPDATE monster_siege_users SET energy=MIN(5,MAX(0,COALESCE(energy,5))),energy_updated_at=COALESCE(energy_updated_at,updated_at,joined_at,CURRENT_TIMESTAMP) WHERE energy_updated_at IS NULL OR energy IS NULL OR energy<0 OR energy>5").run();
+    await env.DB.prepare("UPDATE monster_siege_users SET energy=MAX(0,COALESCE(energy,5)),energy_updated_at=COALESCE(energy_updated_at,updated_at,joined_at,CURRENT_TIMESTAMP) WHERE energy_updated_at IS NULL OR energy IS NULL OR energy<0").run();
   })().catch((error) => {
     ensurePromise = null;
     throw error;
@@ -1273,26 +1280,39 @@ function adminFormationCatalog(cfg) {
     };
   });
 }
-function siegeEnergySnapshot(row, now = Date.now()) {
-  const stored = Math.max(0, Math.min(SIEGE_ENERGY_MAX, Number(row?.energy ?? SIEGE_ENERGY_MAX)));
+function siegeEnergySnapshot(row, cfg, now = Date.now()) {
+  const maxEnergy = clamp(
+      cfg?.attackCountMax,
+      1,
+      50,
+      SIEGE_ENERGY_MAX,
+    ),
+    rechargeSeconds =
+      clamp(
+        cfg?.attackRechargeMinutes,
+        1,
+        1440,
+        SIEGE_ENERGY_RECHARGE_SECONDS / 60,
+      ) * 60,
+    stored = Math.max(0, Math.min(maxEnergy, Number(row?.energy ?? maxEnergy)));
   const rawUpdated = row?.energy_updated_at || row?.updated_at || row?.joined_at;
   const updatedMs = rawUpdated ? utcMs(rawUpdated) : now;
-  const intervalMs = SIEGE_ENERGY_RECHARGE_SECONDS * 1000;
-  const gained = stored >= SIEGE_ENERGY_MAX ? 0 : Math.max(0, Math.floor((now - updatedMs) / intervalMs));
-  const energy = Math.min(SIEGE_ENERGY_MAX, stored + gained);
+  const intervalMs = rechargeSeconds * 1000;
+  const gained = stored >= maxEnergy ? 0 : Math.max(0, Math.floor((now - updatedMs) / intervalMs));
+  const energy = Math.min(maxEnergy, stored + gained);
   const anchorMs = gained > 0 ? updatedMs + gained * intervalMs : updatedMs;
   return {
     energy,
-    maxEnergy: SIEGE_ENERGY_MAX,
-    rechargeSeconds: SIEGE_ENERGY_RECHARGE_SECONDS,
-    nextRechargeAt: energy >= SIEGE_ENERGY_MAX ? null : new Date(anchorMs + intervalMs).toISOString(),
-    anchorAt: new Date(energy >= SIEGE_ENERGY_MAX ? now : anchorMs).toISOString().replace("T", " ").replace("Z", ""),
+    maxEnergy,
+    rechargeSeconds,
+    nextRechargeAt: energy >= maxEnergy ? null : new Date(anchorMs + intervalMs).toISOString(),
+    anchorAt: new Date(energy >= maxEnergy ? now : anchorMs).toISOString().replace("T", " ").replace("Z", ""),
     gained,
   };
 }
-async function refreshSiegeEnergy(env, eventId, userId, row) {
-  const snapshot = siegeEnergySnapshot(row);
-  if (snapshot.gained > 0 || Number(row?.energy ?? SIEGE_ENERGY_MAX) !== snapshot.energy || !row?.energy_updated_at) {
+async function refreshSiegeEnergy(env, eventId, userId, row, cfg) {
+  const snapshot = siegeEnergySnapshot(row, cfg);
+  if (snapshot.gained > 0 || Number(row?.energy ?? snapshot.maxEnergy) !== snapshot.energy || !row?.energy_updated_at) {
     await env.DB.prepare("UPDATE monster_siege_users SET energy=?,energy_updated_at=?,updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=?")
       .bind(snapshot.energy, snapshot.anchorAt, eventId, userId).run();
   }
@@ -1353,7 +1373,7 @@ async function state(env, user, cfg, event) {
         createdAt: row.created_at,
       };
     });
-  const energy = mine ? await refreshSiegeEnergy(env, event.id, user.id, mine) : null;
+  const energy = mine ? await refreshSiegeEnergy(env, event.id, user.id, mine, cfg) : null;
   const phase = event ? publicPhase(cfg, event) : null,
     profile = phase?.ai || monsterAiProfile("OUTER"),
     sequence = Number(event?.monster_ai_sequence || 0),
@@ -1471,9 +1491,9 @@ export async function handleSiege({ path, request, env, deps }) {
         0,
       );
     const joined = await env.DB.prepare(
-      "INSERT INTO monster_siege_users(event_id,user_id,deck_snapshot,deck_power) SELECT ?,?,?,? WHERE EXISTS(SELECT 1 FROM monster_siege_events WHERE id=? AND status='ACTIVE' AND datetime(COALESCE(rally_ends_at,starts_at))>CURRENT_TIMESTAMP) ON CONFLICT(event_id,user_id) DO UPDATE SET deck_snapshot=excluded.deck_snapshot,deck_power=excluded.deck_power,updated_at=CURRENT_TIMESTAMP",
+      "INSERT INTO monster_siege_users(event_id,user_id,deck_snapshot,deck_power,energy,energy_updated_at) SELECT ?,?,?,?,?,CURRENT_TIMESTAMP WHERE EXISTS(SELECT 1 FROM monster_siege_events WHERE id=? AND status='ACTIVE' AND datetime(COALESCE(rally_ends_at,starts_at))>CURRENT_TIMESTAMP) ON CONFLICT(event_id,user_id) DO UPDATE SET deck_snapshot=excluded.deck_snapshot,deck_power=excluded.deck_power,updated_at=CURRENT_TIMESTAMP",
     )
-      .bind(event.id, user.id, JSON.stringify(deck), power, event.id)
+      .bind(event.id, user.id, JSON.stringify(deck), power, cfg.attackCountMax, event.id)
       .run();
     if (!Number(joined.meta?.changes || 0))
       return json({ error: "집결 시간이 종료되어 더 이상 공성전에 참여할 수 없습니다." }, 409);
@@ -1503,15 +1523,6 @@ export async function handleSiege({ path, request, env, deps }) {
       .bind(event.id, user.id)
       .first();
     if (!mine) return json({ error: "공성전에 먼저 참가하세요." }, 403);
-    if (
-      mine.last_attack_at &&
-      Date.now() - utcMs(mine.last_attack_at) <
-        cfg.attackCooldownSeconds * 1000
-    )
-      return json(
-        { error: `다음 공격까지 ${cfg.attackCooldownSeconds}초가 필요합니다.` },
-        429,
-      );
     const phase =
         cfg.phases[Math.max(0, Math.min(4, Number(event.phase_index || 0)))],
       battleCfg = await battleSettings(env),
@@ -1529,9 +1540,9 @@ export async function handleSiege({ path, request, env, deps }) {
         { error: "참가한 PVE 덱 5장을 확인할 수 없습니다. 다시 참가하세요." },
         409,
       );
-    const refreshedEnergy = await refreshSiegeEnergy(env, event.id, user.id, mine);
+    const refreshedEnergy = await refreshSiegeEnergy(env, event.id, user.id, mine, cfg);
     if (refreshedEnergy.energy < 1)
-      return json({ error: "공성전 출전 횟수가 부족합니다. 5분마다 1회 충전됩니다.", energy: refreshedEnergy }, 429);
+      return json({ error: `공격권이 부족합니다. ${cfg.attackRechargeMinutes}분마다 1회 충전됩니다.`, energy: refreshedEnergy }, 429);
     const playerPower =
         deck.reduce((sum, card) => sum + Number(card.power || 0), 0) +
         Number(characterBonus?.pve || 0),
@@ -1600,10 +1611,10 @@ export async function handleSiege({ path, request, env, deps }) {
       return json({ error: "동일한 공성 공격 요청을 처리 중입니다." }, 409);
     const energySpent = await env.DB.prepare(
       "UPDATE monster_siege_users SET energy=energy-1,energy_updated_at=CASE WHEN energy>=? THEN CURRENT_TIMESTAMP ELSE energy_updated_at END,updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=? AND energy>0",
-    ).bind(SIEGE_ENERGY_MAX, event.id, user.id).run();
+    ).bind(cfg.attackCountMax, event.id, user.id).run();
     if (!Number(energySpent.meta?.changes || 0)) {
       await env.DB.prepare("DELETE FROM monster_siege_actions WHERE request_id=? AND user_id=? AND result_json IS NULL").bind(requestId, user.id).run();
-      return json({ error: "공성전 출전 횟수가 부족합니다. 5분마다 1회 충전됩니다." }, 429);
+      return json({ error: `공격권이 부족합니다. ${cfg.attackRechargeMinutes}분마다 1회 충전됩니다.` }, 429);
     }
     const statements = [
       env.DB.prepare(
@@ -1697,7 +1708,7 @@ export async function handleSiege({ path, request, env, deps }) {
       await env.DB.batch(statements);
     } catch (error) {
       await env.DB.batch([
-        env.DB.prepare("UPDATE monster_siege_users SET energy=MIN(?,energy+1),updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=?").bind(SIEGE_ENERGY_MAX, event.id, user.id),
+        env.DB.prepare("UPDATE monster_siege_users SET energy=MIN(?,energy+1),updated_at=CURRENT_TIMESTAMP WHERE event_id=? AND user_id=?").bind(cfg.attackCountMax, event.id, user.id),
         env.DB.prepare("DELETE FROM monster_siege_actions WHERE request_id=? AND user_id=? AND result_json IS NULL").bind(requestId, user.id),
       ]).catch(() => {});
       throw error;
@@ -1860,6 +1871,9 @@ export async function handleSiege({ path, request, env, deps }) {
           previousAllianceMax = Math.max(1, Number(running.alliance_max_hp || phaseAllianceHp)),
           previousAllianceHp = Math.max(0, Math.min(previousAllianceMax, Number(running.alliance_hp ?? previousAllianceMax))),
           allianceHp = Math.round(phaseAllianceHp * (previousAllianceHp / previousAllianceMax)),
+          energyRulesChanged =
+            cfg.attackCountMax !== next.attackCountMax ||
+            cfg.attackRechargeMinutes !== next.attackRechargeMinutes,
           aiScheduleChanged =
             cfg.monsterAiEnabled !== next.monsterAiEnabled ||
             cfg.monsterAttackIntervalSeconds !== next.monsterAttackIntervalSeconds,
@@ -1881,7 +1895,14 @@ export async function handleSiege({ path, request, env, deps }) {
             monsterEffectPercent,
             monsterEffectEndsAt,
             running.id,
-          );
+          ),
+          energyRuleUpdates = energyRulesChanged
+            ? [
+                env.DB.prepare(
+                  "UPDATE monster_siege_users SET energy=MIN(?,MAX(0,energy)),energy_updated_at=CURRENT_TIMESTAMP,updated_at=CURRENT_TIMESTAMP WHERE event_id=?",
+                ).bind(next.attackCountMax, running.id),
+              ]
+            : [];
         const rallyOpen = utcMs(running.rally_ends_at) > Date.now();
         if (rallyOpen) {
           await env.DB.batch([
@@ -1889,6 +1910,7 @@ export async function handleSiege({ path, request, env, deps }) {
               "UPDATE monster_siege_events SET rally_ends_at=datetime('now',?),ends_at=datetime('now',?),phase_hp=?,phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
             ).bind(`+${next.rallyMinutes} minutes`, `+${next.rallyMinutes + next.durationMinutes} minutes`, monsterHp, phaseHp, running.id),
             stateUpdate,
+            ...energyRuleUpdates,
           ]);
         } else {
           await env.DB.batch([
@@ -1896,6 +1918,7 @@ export async function handleSiege({ path, request, env, deps }) {
               "UPDATE monster_siege_events SET ends_at=datetime('now',?),phase_hp=?,phase_max_hp=?,version=version+1,updated_at=CURRENT_TIMESTAMP WHERE id=? AND status='ACTIVE'",
             ).bind(`+${next.durationMinutes} minutes`, monsterHp, phaseHp, running.id),
             stateUpdate,
+            ...energyRuleUpdates,
           ]);
         }
       }
@@ -2028,4 +2051,5 @@ export const __siegeAiTest = {
   phasePowerFor,
   calculatePlayerSiegeDamage,
   adminFormationCatalog,
+  siegeEnergySnapshot,
 };
