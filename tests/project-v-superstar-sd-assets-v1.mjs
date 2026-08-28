@@ -10,8 +10,15 @@ const manifest=JSON.parse(fs.readFileSync(manifestPath,'utf8'));
 assert.equal(manifest.format,'PROJECT_V_TIER_BATTLE_SPRITE_MANIFEST_V1');
 assert.equal(manifest.scope,'BATTLE_ENGINE_ONLY');
 assert.equal(manifest.rarity,'SUPERSTAR');
-assert.equal(manifest.characters.length,6);
-assert.equal(new Set(manifest.characters.map(row=>row.cardId)).size,6);
+assert.equal(manifest.characters.length,8);
+assert.equal(new Set(manifest.characters.map(row=>row.cardId)).size,8);
+assert.deepEqual(
+  manifest.characters.slice(-2).map(row=>[row.cardId,row.title,row.member,row.sourceArt]),
+  [
+    ['CN-F7D77F561A7949EE','Zeus','Zeus','assets/cards/47979411.jpg'],
+    ['CN-A041807B14B54C89','Son Heung min','Son Heung min','assets/cards/6496413.jpg']
+  ]
+);
 
 const responsiveSource=fs.readFileSync('js/responsive-superstar-battle-sprites-v1896.js','utf8');
 const responsiveSandbox={window:{CNineResponsiveBattleSprites:{}}};
@@ -70,6 +77,6 @@ for(const row of manifest.characters){
 }
 
 const adapter=fs.readFileSync('js/project-v-tier-battle-art-adapter-v1.js','utf8');
-assert.match(adapter,/SUPERSTAR:\s*'\/assets\/ui\/project-v\/characters\/superstar\/manifest-v1\.json\?v=1-full-roster'/);
+assert.match(adapter,/SUPERSTAR:\s*'\/assets\/ui\/project-v\/characters\/superstar\/manifest-v1\.json\?v=2-son-zeus'/);
 
-console.log('project-v SUPERSTAR SD assets v1: 6/6 RGBA + manifest + safe-margin + 768px WebP PASS');
+console.log('project-v SUPERSTAR SD assets v1: 8/8 RGBA + manifest + safe-margin + 768px WebP PASS');

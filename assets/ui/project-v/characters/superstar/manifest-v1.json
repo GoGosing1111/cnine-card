@@ -51,6 +51,22 @@
       "sourceArt": "assets/superstar/6.jpg",
       "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-c5c5336bb1e245c1-sd-v1.png",
       "sha256": "BC4E9DD64D4BDA21311581AFB9863AA3D9796AB162D63782E1063B85E7A334A4"
+    },
+    {
+      "cardId": "CN-F7D77F561A7949EE",
+      "title": "Zeus",
+      "member": "Zeus",
+      "sourceArt": "assets/cards/47979411.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-f7d77f561a7949ee-sd-v1.png",
+      "sha256": "ACA1C1BFD1C8163456B0EEBEEBEC8FCC464EE58C36484468927AADD5D83420E1"
+    },
+    {
+      "cardId": "CN-A041807B14B54C89",
+      "title": "Son Heung min",
+      "member": "Son Heung min",
+      "sourceArt": "assets/cards/6496413.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-a041807b14b54c89-sd-v1.png",
+      "sha256": "D6B651BB9991C72D0C170C12655967632C31590A87EB524F3F24262DD3A4B7F8"
     }
   ]
 }

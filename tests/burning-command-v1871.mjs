@@ -59,9 +59,9 @@ test('generated command backgrounds are optimized 1600x900 AVIF and WebP files',
 test('entry document and service worker use the burning command cache contract',async()=>{
   const [index,worker,preview]=await Promise.all([text('index.html'),text('service-worker.js'),text('preview/live-burning-command-v1/index.html')]);
   assert.match(index,/burning-event-v1871\.css\?v=1902-burning-owner-timer/);
-  assert.match(index,/js\/app\.js\?v=1902-burning-owner-timer/);
+  assert.match(index,/js\/app\.js\?v=1904-superstar-son-zeus-sd/);
   assert.match(index,/chief-system-v1\.js\?v=1902-burning-owner-timer/);
   assert.match(index,/soopketmon-v21-exact-shell-adapter\.js\?v=21\.14\.0-bulk-enhancement/);
-  assert.match(worker,/soop-card-shell-v1902-burning-owner-timer/);
+  assert.match(worker,/soop-card-shell-v1904-superstar-son-zeus-sd/);
   assert.match(preview,/burning-event-v1871\.css\?v=1902-burning-owner-timer/);
 });

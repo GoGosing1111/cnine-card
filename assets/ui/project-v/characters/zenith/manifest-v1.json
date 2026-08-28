@@ -4,8 +4,8 @@
   "scope": "BATTLE_ENGINE_ONLY",
   "rarity": "ZENITH",
   "rosterSnapshot": {
-    "asOf": "2026-08-27",
-    "expectedCount": 24,
+    "asOf": "2026-08-29",
+    "expectedCount": 25,
     "identityKey": "cardId",
     "source": "live PostgreSQL read-only roster lock"
   },
@@ -56,8 +56,8 @@
   },
   "visualApprovalRecord": {
     "status": "APPROVED",
-    "approvedCount": 24,
-    "approvedAt": "2026-08-27",
+    "approvedCount": 25,
+    "approvedAt": "2026-08-29",
     "source": "USER_FINAL_APPROVAL"
   },
   "characters": [
@@ -1884,9 +1884,85 @@
           }
         ]
       }
+    },
+    {
+      "order": 25,
+      "cardId": "CN-25F931CE393D474E",
+      "member": "디임",
+      "title": "딤우스",
+      "sourceArt": "assets/cards/976467971.jpg",
+      "battleSprite": "assets/ui/project-v/characters/zenith/zenith-cn-25f931ce393d474e-sd-v1.png",
+      "qa": {
+        "assetStatus": "TECHNICAL_PASS",
+        "sourceIdentityReviewed": true,
+        "transparentRgbaVerified": true,
+        "edgeAlphaClear": true,
+        "alphaBounds": {
+          "x": 207,
+          "y": 178,
+          "width": 1050,
+          "height": 1035
+        },
+        "margins": {
+          "left": 207,
+          "top": 178,
+          "right": 93,
+          "bottom": 137
+        },
+        "safeMarginPx": 93,
+        "alphaPixels": {
+          "transparent": 1355845,
+          "opaque": 466655,
+          "partial": 0
+        },
+        "magentaStageReady": true,
+        "darkStageReady": true,
+        "visualApproval": true
+      },
+      "canvas": {
+        "width": 1350,
+        "height": 1350,
+        "mode": "RGBA",
+        "backgroundAlpha": 0
+      },
+      "placement": {
+        "facing": "UP_RIGHT_3Q",
+        "footAnchor": [
+          0.541852,
+          0.898519
+        ],
+        "safeMarginPx": 93
+      },
+      "sha256": "F1A07185C5BB1AA824401396920D213ADFD6A838F0CB5C35266D65D437D54A54",
+      "responsive": {
+        "avif": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.avif",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-768.avif",
+            "width": 768,
+            "height": 768
+          }
+        ],
+        "webp": [
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-384.webp",
+            "width": 384,
+            "height": 384
+          },
+          {
+            "path": "assets/responsive/project-v/zenith/zenith-cn-25f931ce393d474e-sd-v1-768.webp",
+            "width": 768,
+            "height": 768
+          }
+        ]
+      }
     }
   ],
-  "technicalQaCompletedAt": "2026-08-27T19:00:00+09:00",
+  "technicalQaCompletedAt": "2026-08-29T02:53:49+09:00",
   "responsiveContract": {
     "formats": [
       "AVIF",
