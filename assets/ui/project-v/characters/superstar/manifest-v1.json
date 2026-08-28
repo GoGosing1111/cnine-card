@@ -1,0 +1,56 @@
+{
+  "format": "PROJECT_V_TIER_BATTLE_SPRITE_MANIFEST_V1",
+  "schemaVersion": 1,
+  "scope": "BATTLE_ENGINE_ONLY",
+  "rarity": "SUPERSTAR",
+  "characters": [
+    {
+      "cardId": "CN-48BBCAC81D0E44FA",
+      "title": "Chovy",
+      "member": "Chovy",
+      "sourceArt": "assets/superstar/1.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-48bbcac81d0e44fa-sd-v1.png",
+      "sha256": "76F7E36C54A28AB8E78E63CA7195C8C30F13E00EDAD282DCA51B9ED394156F82"
+    },
+    {
+      "cardId": "CN-651FAC27247A4922",
+      "title": "CR7",
+      "member": "CR7",
+      "sourceArt": "assets/superstar/2.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-651fac27247a4922-sd-v1.png",
+      "sha256": "229A3937C4919A692A24333D3DEE0FA05A2342EC3301C7DF7138C787720AEEAF"
+    },
+    {
+      "cardId": "CN-23EB4B19986D4818",
+      "title": "Lionel Messi",
+      "member": "Lionel Messi",
+      "sourceArt": "assets/superstar/3.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-23eb4b19986d4818-sd-v1.png",
+      "sha256": "21B791D0B0BFDA204BB559A95563254CB2A5BC7A52275E63F8DBB176E6D87067"
+    },
+    {
+      "cardId": "CN-E61AC412D2744163",
+      "title": "Stephen Curry",
+      "member": "Stephen Curry",
+      "sourceArt": "assets/superstar/4.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-e61ac412d2744163-sd-v1.png",
+      "sha256": "AF8A21AB6D1EC54E539F8E46C95C4B18C9DF610B431BE7A803DC3FC123C04FF5"
+    },
+    {
+      "cardId": "CN-15542459008A43EA",
+      "title": "Shohei Ohtani",
+      "member": "Shohei Ohtani",
+      "sourceArt": "assets/superstar/5.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-15542459008a43ea-sd-v1.png",
+      "sha256": "E77B685D7F1BBA3BD676C42A24C63F4D719550AD5A34C616AF3DB405C14763EA"
+    },
+    {
+      "cardId": "CN-C5C5336BB1E245C1",
+      "title": "LeBron James",
+      "member": "LeBron James",
+      "sourceArt": "assets/superstar/6.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-c5c5336bb1e245c1-sd-v1.png",
+      "sha256": "BC4E9DD64D4BDA21311581AFB9863AA3D9796AB162D63782E1063B85E7A334A4"
+    }
+  ]
+}

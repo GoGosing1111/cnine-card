@@ -17,7 +17,7 @@ const index=read('index.html');
 for(const token of [
   'css/battle-v3-live.css?v=1798-roster-frame',
   'js/project-v-battle-art-adapter-v1.js?v=3.4.0-ojoeun',
-  'js/project-v-tier-battle-art-adapter-v1.js?v=3.2.0-manifest-cache',
+  'js/project-v-tier-battle-art-adapter-v1.js?v=3.3.0-superstar-sd',
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
   'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=67-role-impact-atlas',
@@ -37,7 +37,8 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=1884-zenith-ojoeun-sd'));
+assert.ok(index.includes('js/app.js?v=1896-superstar-sd'));
+assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1896-superstar-sd'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
 
 const bundle='preview/project-v-v3/project-v-pixi-battle.bundle.js';
@@ -48,6 +49,7 @@ const manifests=[
   'assets/ui/project-v/characters/zenith/manifest-v1.json',
   'assets/ui/project-v/characters/fur/manifest-v2.json',
   'assets/ui/project-v/characters/prestige/manifest-v1.json',
+  'assets/ui/project-v/characters/superstar/manifest-v1.json',
   'assets/ui/project-v/monsters/hunt-tower/manifest-v1.json',
   'assets/ui/project-v/fallback/manifest-v1.json'
 ];

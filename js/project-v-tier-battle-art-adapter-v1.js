@@ -4,7 +4,8 @@
   const root = typeof window !== 'undefined' ? window : globalThis;
   const MANIFEST_URLS = Object.freeze({
     FUR: '/assets/ui/project-v/characters/fur/manifest-v2.json?v=1-v3-map',
-    PRESTIGE: '/assets/ui/project-v/characters/prestige/manifest-v1.json?v=2-full-roster'
+    PRESTIGE: '/assets/ui/project-v/characters/prestige/manifest-v1.json?v=2-full-roster',
+    SUPERSTAR: '/assets/ui/project-v/characters/superstar/manifest-v1.json?v=1-full-roster'
   });
   const PLAY_ENTRY_POINTS = Object.freeze(['playPveBattleV2Live', 'playPvpBattleV2Live', 'playSiegeBattleV2Live']);
   const clean = value => String(value ?? '').trim();
@@ -56,7 +57,7 @@
     const ready = async () => {
       if (manifestValues) return manifestValues;
       if (!readyPromise) {
-        if (typeof fetchImpl !== 'function') throw new Error('FUR/PRESTIGE manifest fetch를 사용할 수 없습니다.');
+        if (typeof fetchImpl !== 'function') throw new Error('고등급 전투 SD manifest fetch를 사용할 수 없습니다.');
         readyPromise = Promise.all(Object.entries(MANIFEST_URLS).map(async ([rarity, url]) => {
           // V1785: ?v= 버전 키가 있으므로 재검증 강제(no-cache)는 불필요한 왕복이다.
           const response = await fetchImpl(url, { cache: 'default', credentials: 'same-origin' });
