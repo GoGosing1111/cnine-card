@@ -12,11 +12,16 @@
 
 ## Audio sources
 
-- 외부 녹음·샘플·음원 미사용
-- `scripts/generate-v3-event-sfx-preview-v1.py`에서 NumPy 기반 오실레이터, 필터 노이즈, 금속 배음, 스테레오 패닝, 지연 탭을 오프라인 합성
-- 런타임 합성 없음
-- 48 kHz / 스테레오 / MP3 192 kbps
-- FFmpeg `loudnorm` 목표: -16 LUFS, true peak ceiling -1.2 dBTP
+- 이전 절차적 합성 SFX는 전부 폐기했습니다.
+- 새 SFX는 Mixkit의 실제 녹음·제작 원음만 사용하며, [Mixkit Free License](https://mixkit.co/license/#sfxFree)를 따릅니다.
+- 원음 목록과 SHA-256, 직접 자산 URL은 `assets/audio/manifest.json`에 기록합니다.
+- 검격·금속 충돌: [Mixkit Sword SFX](https://mixkit.co/free-sound-effects/sword/)
+- 폭발·중량 충격: [Mixkit Impact SFX](https://mixkit.co/free-sound-effects/impact/)
+- 번개·공기 파열: [Mixkit Lightning SFX](https://mixkit.co/free-sound-effects/lightning/)
+- 마법·회복: [Mixkit Spell SFX](https://mixkit.co/free-sound-effects/spell/)
+- `scripts/generate-v3-event-sfx-preview-v2.py`에서 원음 트림, 피크 정렬, 레이어 믹스, EQ, 컴프레션, 리미팅, 2-pass 라우드니스 마스터링만 수행합니다.
+- 오실레이터·합성 톤·생성 노이즈·런타임 합성은 사용하지 않습니다.
+- 48 kHz / 스테레오 / MP3 256 kbps, 효과별 -12~-14 LUFS, true peak ceiling -1.0 dBTP
 
 ## Scope
 

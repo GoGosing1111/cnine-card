@@ -1,57 +1,238 @@
 {
-  "version": "project-v-v3-event-sfx-preview-v1",
+  "version": "project-v-v3-event-sfx-preview-v2",
   "previewOnly": true,
+  "sourceType": "layered-recorded-samples",
+  "proceduralSynthesis": false,
+  "runtimeSynthesis": false,
   "sampleRate": 48000,
   "channels": 2,
-  "codec": "MP3 192 kbps",
+  "codec": "MP3 256 kbps",
+  "license": "Mixkit Free License",
+  "licenseUrl": "https://mixkit.co/license/#sfxFree",
   "assets": {
     "critical": {
-      "src": "assets/audio/critical.mp3",
-      "waveform": "assets/audio/critical-waveform.svg",
-      "bytes": 23660,
-      "durationMs": 920,
+      "src": "assets/audio/critical-combat-v2.mp3",
+      "audio": "assets/audio/critical-combat-v2.mp3",
+      "waveform": "assets/audio/critical-combat-v2-waveform.svg",
+      "bytes": 35372,
+      "sha256": "0d2790c0a4e7b07a9ea7f04c0b9a7663e12c1c1f10ee7c84c516dc388abf2831",
+      "durationMs": 1050,
       "syncPointMs": 250,
-      "design": "blade snap · metal crack · compact sub punch"
+      "design": "검날 가속 · 금속 파쇄 · 중량 충격",
+      "sourceIds": [
+        1485,
+        2793,
+        2795
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     "counter": {
-      "src": "assets/audio/counter.mp3",
-      "waveform": "assets/audio/counter-waveform.svg",
-      "bytes": 28268,
-      "durationMs": 1120,
+      "src": "assets/audio/counter-combat-v2.mp3",
+      "audio": "assets/audio/counter-combat-v2.mp3",
+      "waveform": "assets/audio/counter-combat-v2-waveform.svg",
+      "bytes": 39980,
+      "sha256": "3c0e96419dd75a28731799a8cb37407d7c8ff3a19f58b4ec683ec107190f7c7a",
+      "durationMs": 1180,
       "syncPointMs": 300,
-      "design": "guard ping · reverse whoosh · retaliating impact"
+      "design": "선행 방어 충돌 · 역방향 검풍 · 반격 금속타",
+      "sourceIds": [
+        2765,
+        1487,
+        2797,
+        2160
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     "ultimate": {
-      "src": "assets/audio/ultimate.mp3",
-      "waveform": "assets/audio/ultimate-waveform.svg",
-      "bytes": 38636,
-      "durationMs": 1550,
+      "src": "assets/audio/ultimate-combat-v2.mp3",
+      "audio": "assets/audio/ultimate-combat-v2.mp3",
+      "waveform": "assets/audio/ultimate-combat-v2-waveform.svg",
+      "bytes": 69164,
+      "sha256": "5abf5c9e590662b52b2c2561cb51cc70861cd47ae527b32aaaf13d7a24c2f2b3",
+      "durationMs": 2100,
       "syncPointMs": 333,
-      "design": "rising charge · royal impact · harmonic tail"
+      "design": "마력 흡입 · 마검 절단 · 폭발성 에너지 방출",
+      "sourceIds": [
+        1085,
+        874,
+        2793,
+        1685,
+        2601
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     "boss-ultimate": {
-      "src": "assets/audio/boss-ultimate.mp3",
-      "waveform": "assets/audio/boss-ultimate-waveform.svg",
-      "bytes": 42092,
-      "durationMs": 1700,
+      "src": "assets/audio/boss-ultimate-combat-v2.mp3",
+      "audio": "assets/audio/boss-ultimate-combat-v2.mp3",
+      "waveform": "assets/audio/boss-ultimate-combat-v2-waveform.svg",
+      "bytes": 86828,
+      "sha256": "2af601f8b81b9f3f5863a69a15b2bd438d62282cd0c3b0338c5824557024ede6",
+      "durationMs": 2650,
       "syncPointMs": 353,
-      "design": "descending pressure · heavy crush · debris tail"
+      "design": "압력 강하 · 금속 붕괴 · 대형 충격파 잔향",
+      "sourceIds": [
+        2599,
+        1687,
+        781,
+        2601
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     "dodge": {
-      "src": "assets/audio/dodge.mp3",
-      "waveform": "assets/audio/dodge-waveform.svg",
-      "bytes": 18476,
-      "durationMs": 720,
+      "src": "assets/audio/dodge-combat-v2.mp3",
+      "audio": "assets/audio/dodge-combat-v2.mp3",
+      "waveform": "assets/audio/dodge-combat-v2-waveform.svg",
+      "bytes": 29228,
+      "sha256": "171123e14ba469cd58efdbc63c4a11b80d6e8e1a94821a3d26562454bc9d7b41",
+      "durationMs": 860,
       "syncPointMs": 178,
-      "design": "three moving air cuts · bright displacement snap"
+      "design": "초고속 검풍 · 공기 절단 · 잔상 이탈",
+      "sourceIds": [
+        2792,
+        1487,
+        1508,
+        772
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     "revive": {
-      "src": "assets/audio/revive.mp3",
-      "waveform": "assets/audio/revive-waveform.svg",
-      "bytes": 40940,
-      "durationMs": 1650,
+      "src": "assets/audio/revive-combat-v2.mp3",
+      "audio": "assets/audio/revive-combat-v2.mp3",
+      "waveform": "assets/audio/revive-combat-v2-waveform.svg",
+      "bytes": 78380,
+      "sha256": "8db5e99f374be1e840b8f01fb5d89c81043589973ce7ddc30bc84bd2b244aa0e",
+      "durationMs": 2400,
       "syncPointMs": 333,
-      "design": "reverse breath · life ignition · ascending fifths"
+      "design": "생명력 역류 · 수계 마법 점화 · 깊은 회복 파동",
+      "sourceIds": [
+        1085,
+        878,
+        877,
+        873
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
+    }
+  },
+  "sources": {
+    "772": {
+      "name": "Quick zoom impact",
+      "page": "https://mixkit.co/free-sound-effects/impact/",
+      "sha256": "a9acddce67b0ad80e44674964ac2cdcd91810593049f49d2afea508c8f15add1",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/772/772.wav"
+    },
+    "781": {
+      "name": "Cinematic impact waves",
+      "page": "https://mixkit.co/free-sound-effects/impact/",
+      "sha256": "1dd7d383688ce07544322279ef43ccc0adec94ed65a51abb437863bcd67070cd",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/781/781.wav"
+    },
+    "873": {
+      "name": "Light spell",
+      "page": "https://mixkit.co/free-sound-effects/spell/",
+      "sha256": "394090b28b6a63689047954bcb86576045341cd42da9ee74b624c7e28bd23206",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/873/873.wav"
+    },
+    "874": {
+      "name": "Spell waves",
+      "page": "https://mixkit.co/free-sound-effects/spell/",
+      "sha256": "9f62b33ffe1690e266ec60416c702d3390f05361ab44b407609ef15354210479",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/874/874.wav"
+    },
+    "877": {
+      "name": "Healing water spell with deep hit",
+      "page": "https://mixkit.co/free-sound-effects/spell/",
+      "sha256": "ce0da16d048dad829c5ed19f9c710e8406b71b1b1675ab3c17bec0846b02e5f2",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/877/877.wav"
+    },
+    "878": {
+      "name": "Heal soft water spell",
+      "page": "https://mixkit.co/free-sound-effects/spell/",
+      "sha256": "27f574f4a35c633c3f26016b62e4cfe8d53b2523e47b9045b164e7dff946c032",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/878/878.wav"
+    },
+    "1085": {
+      "name": "Rewind magic spell",
+      "page": "https://mixkit.co/free-sound-effects/spell/",
+      "sha256": "2ea47afa92626e84fa0648dfc22aa20e38b476b883edcbd1d80eae325dd12d25",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1085/1085.wav"
+    },
+    "1485": {
+      "name": "Metal hit woosh",
+      "page": "https://mixkit.co/free-sound-effects/sword/",
+      "sha256": "706a25a0fba25d317071a441c1e09737aef64b4ac2618f59197d4ca735e6302f",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1485/1485.wav"
+    },
+    "1487": {
+      "name": "Dagger woosh",
+      "page": "https://mixkit.co/free-sound-effects/sword/",
+      "sha256": "f8483970bec9e69ed7234545da9ee59a733c5310c8becbd3db8b6a63064c3049",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1487/1487.wav"
+    },
+    "1508": {
+      "name": "Lightning whip",
+      "page": "https://mixkit.co/free-sound-effects/lightning/",
+      "sha256": "6326cfd06e64e0b9b1a0da07327950c5a1325cf9e77bcca43b6b244528de3de2",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1508/1508.wav"
+    },
+    "1685": {
+      "name": "Explosion spell",
+      "page": "https://mixkit.co/free-sound-effects/spell/",
+      "sha256": "0c247e2a229afbc5c911de7f53224b6012a7148377a13c4fe552f9a340033931",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1685/1685.wav"
+    },
+    "1687": {
+      "name": "Dramatic metal explosion impact",
+      "page": "https://mixkit.co/free-sound-effects/impact/",
+      "sha256": "4d9c68705bcd669377a98c194c45c8ac7fa272ec4420e6b15aac0ada45925584",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/1687/1687.wav"
+    },
+    "2160": {
+      "name": "Metallic sword strike",
+      "page": "https://mixkit.co/free-sound-effects/sword/",
+      "sha256": "2717a659587f7962dbfdfc59b2716894620834b9d24836794560d86bf10b4c30",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2160/2160.wav"
+    },
+    "2599": {
+      "name": "Heavy electric shockwave impact",
+      "page": "https://mixkit.co/free-sound-effects/impact/",
+      "sha256": "e4b4a658a77136544978137b3760ea1b6c959c455641142466edc7d146ca61c4",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2599/2599.wav"
+    },
+    "2601": {
+      "name": "Electricity lightning blast",
+      "page": "https://mixkit.co/free-sound-effects/lightning/",
+      "sha256": "f81e65d00ed906a974a5cb94330e3c56a42b4cf97a9e5ee4055ccb0f1ae67224",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2601/2601.wav"
+    },
+    "2765": {
+      "name": "Sword strikes armor",
+      "page": "https://mixkit.co/free-sound-effects/sword/",
+      "sha256": "0c05aeb28b5a795bf1e309f9bc209e00df954af9dd2b2da825b0bc83696bda64",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2765/2765.wav"
+    },
+    "2792": {
+      "name": "Fast sword whoosh",
+      "page": "https://mixkit.co/free-sound-effects/sword/",
+      "sha256": "e1de4e011ee6369aed772202a979590f03261e3607147bd2f04eda58ba5746eb",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2792/2792.wav"
+    },
+    "2793": {
+      "name": "Quick magic sword slice",
+      "page": "https://mixkit.co/free-sound-effects/sword/",
+      "sha256": "785c10dd107c35db6dec78ccf123b7badb93215a8a243b05a73c3ae565d3b997",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2793/2793.wav"
+    },
+    "2795": {
+      "name": "Heavy sword smashes metal",
+      "page": "https://mixkit.co/free-sound-effects/sword/",
+      "sha256": "f59abe6b03b22b37fa63553fdf72e3fcf190df0467efd762c4d2665f3c08de81",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2795/2795.wav"
+    },
+    "2797": {
+      "name": "Sword hits heavy metal",
+      "page": "https://mixkit.co/free-sound-effects/sword/",
+      "sha256": "e449eacce54ec3430f8f4ace7a5ff22aafaa833f710631daf67d879382a2d32f",
+      "assetUrl": "https://assets.mixkit.co/active_storage/sfx/2797/2797.wav"
     }
   }
 }

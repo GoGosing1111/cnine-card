@@ -22,11 +22,15 @@ assert.deepEqual(manifest.effects.map(item=>item.id),['critical','counter','ulti
 assert.equal(manifest.frameContract.count,12);
 assert.equal(manifest.frameContract.alpha,true);
 assert.equal(manifest.audioContract.runtimeSynthesis,false);
+assert.equal(manifest.audioContract.proceduralSynthesis,false);
+assert.equal(manifest.audioContract.sourceType,'layered-recorded-samples');
 assert.equal(manifest.audioContract.sampleRate,48_000);
 assert.match(html,/게임에는 연결되지 않았습니다/);
 assert.match(client,/framePattern\.replace\('%02d'/);
 assert.match(client,/new Audio\(/);
 assert.match(client,/effect\.collisionFrame/);
+assert.ok(!fs.existsSync(path.join(ROOT,'scripts','generate-v3-event-sfx-preview-v1.py')),'legacy synthesized SFX generator must stay removed');
+assert.ok(fs.existsSync(path.join(ROOT,'scripts','generate-v3-event-sfx-preview-v2.py')),'recorded SFX generator missing');
 
 for(const runtime of runtimeFiles){
   assert.doesNotMatch(runtime,/project-v-v3-event-fx-v1|boss-ultimate-atlas-v1|critical-atlas-v1/,'preview assets leaked into the production runtime');
@@ -62,6 +66,9 @@ for(const effect of manifest.effects){
   const audio=fs.readFileSync(audioPath);
   assert.equal(audio.subarray(0,3).toString('ascii'),'ID3',`${effect.id} MP3 header`);
   assert.equal(audio.byteLength,effect.bytes,`${effect.id} MP3 bytes`);
+  assert.equal(crypto.createHash('sha256').update(audio).digest('hex'),effect.sha256,`${effect.id} MP3 sha256`);
+  assert.match(effect.src,/-combat-v2\.mp3$/,`${effect.id} must use recorded combat v2 asset`);
+  assert.equal(effect.audioProfile,'layered-recorded-combat-v2',`${effect.id} recorded audio profile`);
   assert.ok(effect.syncPointMs>0&&effect.syncPointMs<effect.durationMs,`${effect.id} audio sync point`);
   assert.ok(fs.statSync(path.join(PREVIEW,effect.waveform)).size>2_000,`${effect.id} waveform`);
 }

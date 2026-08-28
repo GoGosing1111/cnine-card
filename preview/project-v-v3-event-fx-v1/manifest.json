@@ -1,5 +1,5 @@
 {
-  "version": "project-v-v3-event-fx-preview-v1",
+  "version": "project-v-v3-event-fx-preview-v2",
   "previewOnly": true,
   "runtimeConnected": false,
   "generatedAt": "2026-08-28",
@@ -32,13 +32,20 @@
       "atlas": "assets/atlases/critical-atlas-v1.png",
       "atlasData": "assets/atlases/critical-atlas-v1.json",
       "framePattern": "assets/frames/critical/critical-%02d.png",
-      "audio": "assets/audio/critical.mp3",
-      "waveform": "assets/audio/critical-waveform.svg",
-      "src": "assets/audio/critical.mp3",
-      "bytes": 23660,
-      "durationMs": 920,
+      "audio": "assets/audio/critical-combat-v2.mp3",
+      "waveform": "assets/audio/critical-combat-v2-waveform.svg",
+      "src": "assets/audio/critical-combat-v2.mp3",
+      "bytes": 35372,
+      "durationMs": 1050,
       "syncPointMs": 250,
-      "design": "blade snap · metal crack · compact sub punch"
+      "design": "검날 가속 · 금속 파쇄 · 중량 충격",
+      "sha256": "0d2790c0a4e7b07a9ea7f04c0b9a7663e12c1c1f10ee7c84c516dc388abf2831",
+      "sourceIds": [
+        1485,
+        2793,
+        2795
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     {
       "id": "counter",
@@ -53,13 +60,21 @@
       "atlas": "assets/atlases/counter-atlas-v1.png",
       "atlasData": "assets/atlases/counter-atlas-v1.json",
       "framePattern": "assets/frames/counter/counter-%02d.png",
-      "audio": "assets/audio/counter.mp3",
-      "waveform": "assets/audio/counter-waveform.svg",
-      "src": "assets/audio/counter.mp3",
-      "bytes": 28268,
-      "durationMs": 1120,
+      "audio": "assets/audio/counter-combat-v2.mp3",
+      "waveform": "assets/audio/counter-combat-v2-waveform.svg",
+      "src": "assets/audio/counter-combat-v2.mp3",
+      "bytes": 39980,
+      "durationMs": 1180,
       "syncPointMs": 300,
-      "design": "guard ping · reverse whoosh · retaliating impact"
+      "design": "선행 방어 충돌 · 역방향 검풍 · 반격 금속타",
+      "sha256": "3c0e96419dd75a28731799a8cb37407d7c8ff3a19f58b4ec683ec107190f7c7a",
+      "sourceIds": [
+        2765,
+        1487,
+        2797,
+        2160
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     {
       "id": "ultimate",
@@ -74,13 +89,22 @@
       "atlas": "assets/atlases/ultimate-atlas-v1.png",
       "atlasData": "assets/atlases/ultimate-atlas-v1.json",
       "framePattern": "assets/frames/ultimate/ultimate-%02d.png",
-      "audio": "assets/audio/ultimate.mp3",
-      "waveform": "assets/audio/ultimate-waveform.svg",
-      "src": "assets/audio/ultimate.mp3",
-      "bytes": 38636,
-      "durationMs": 1550,
+      "audio": "assets/audio/ultimate-combat-v2.mp3",
+      "waveform": "assets/audio/ultimate-combat-v2-waveform.svg",
+      "src": "assets/audio/ultimate-combat-v2.mp3",
+      "bytes": 69164,
+      "durationMs": 2100,
       "syncPointMs": 333,
-      "design": "rising charge · royal impact · harmonic tail"
+      "design": "마력 흡입 · 마검 절단 · 폭발성 에너지 방출",
+      "sha256": "5abf5c9e590662b52b2c2561cb51cc70861cd47ae527b32aaaf13d7a24c2f2b3",
+      "sourceIds": [
+        1085,
+        874,
+        2793,
+        1685,
+        2601
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     {
       "id": "boss-ultimate",
@@ -95,13 +119,21 @@
       "atlas": "assets/atlases/boss-ultimate-atlas-v1.png",
       "atlasData": "assets/atlases/boss-ultimate-atlas-v1.json",
       "framePattern": "assets/frames/boss-ultimate/boss-ultimate-%02d.png",
-      "audio": "assets/audio/boss-ultimate.mp3",
-      "waveform": "assets/audio/boss-ultimate-waveform.svg",
-      "src": "assets/audio/boss-ultimate.mp3",
-      "bytes": 42092,
-      "durationMs": 1700,
+      "audio": "assets/audio/boss-ultimate-combat-v2.mp3",
+      "waveform": "assets/audio/boss-ultimate-combat-v2-waveform.svg",
+      "src": "assets/audio/boss-ultimate-combat-v2.mp3",
+      "bytes": 86828,
+      "durationMs": 2650,
       "syncPointMs": 353,
-      "design": "descending pressure · heavy crush · debris tail"
+      "design": "압력 강하 · 금속 붕괴 · 대형 충격파 잔향",
+      "sha256": "2af601f8b81b9f3f5863a69a15b2bd438d62282cd0c3b0338c5824557024ede6",
+      "sourceIds": [
+        2599,
+        1687,
+        781,
+        2601
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     {
       "id": "dodge",
@@ -116,13 +148,21 @@
       "atlas": "assets/atlases/dodge-atlas-v1.png",
       "atlasData": "assets/atlases/dodge-atlas-v1.json",
       "framePattern": "assets/frames/dodge/dodge-%02d.png",
-      "audio": "assets/audio/dodge.mp3",
-      "waveform": "assets/audio/dodge-waveform.svg",
-      "src": "assets/audio/dodge.mp3",
-      "bytes": 18476,
-      "durationMs": 720,
+      "audio": "assets/audio/dodge-combat-v2.mp3",
+      "waveform": "assets/audio/dodge-combat-v2-waveform.svg",
+      "src": "assets/audio/dodge-combat-v2.mp3",
+      "bytes": 29228,
+      "durationMs": 860,
       "syncPointMs": 178,
-      "design": "three moving air cuts · bright displacement snap"
+      "design": "초고속 검풍 · 공기 절단 · 잔상 이탈",
+      "sha256": "171123e14ba469cd58efdbc63c4a11b80d6e8e1a94821a3d26562454bc9d7b41",
+      "sourceIds": [
+        2792,
+        1487,
+        1508,
+        772
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     },
     {
       "id": "revive",
@@ -137,23 +177,34 @@
       "atlas": "assets/atlases/revive-atlas-v1.png",
       "atlasData": "assets/atlases/revive-atlas-v1.json",
       "framePattern": "assets/frames/revive/revive-%02d.png",
-      "audio": "assets/audio/revive.mp3",
-      "waveform": "assets/audio/revive-waveform.svg",
-      "src": "assets/audio/revive.mp3",
-      "bytes": 40940,
-      "durationMs": 1650,
+      "audio": "assets/audio/revive-combat-v2.mp3",
+      "waveform": "assets/audio/revive-combat-v2-waveform.svg",
+      "src": "assets/audio/revive-combat-v2.mp3",
+      "bytes": 78380,
+      "durationMs": 2400,
       "syncPointMs": 333,
-      "design": "reverse breath · life ignition · ascending fifths"
+      "design": "생명력 역류 · 수계 마법 점화 · 깊은 회복 파동",
+      "sha256": "8db5e99f374be1e840b8f01fb5d89c81043589973ce7ddc30bc84bd2b244aa0e",
+      "sourceIds": [
+        1085,
+        878,
+        877,
+        873
+      ],
+      "audioProfile": "layered-recorded-combat-v2"
     }
   ],
   "audioContract": {
     "previewOnly": true,
-    "source": "original procedural offline master",
+    "sourceType": "layered-recorded-samples",
+    "proceduralSynthesis": false,
     "runtimeSynthesis": false,
     "sampleRate": 48000,
     "channels": 2,
-    "codec": "MP3 192 kbps",
-    "targetLoudness": "-16 LUFS",
-    "truePeakCeiling": "-1.2 dBTP"
+    "codec": "MP3 256 kbps",
+    "targetLoudness": "-12 to -14 LUFS by event weight",
+    "truePeakCeiling": "-1.0 dBTP",
+    "license": "Mixkit Free License",
+    "provenance": "PROVENANCE.md"
   }
 }

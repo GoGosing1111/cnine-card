@@ -109,7 +109,7 @@ function createCard(effect,index){
   card.querySelector('.card-head p').textContent=effect.label;
   card.querySelector('.fps-pill').textContent=`${effect.fps} FPS · ${effect.frameCount}F`;
   card.querySelector('.collision-spec').textContent=`F${pad(effect.collisionFrame)} · ${effect.syncPointMs}ms`;
-  card.querySelector('.audio-spec').textContent=`${(effect.durationMs/1000).toFixed(2)}s · 48kHz`;
+  card.querySelector('.audio-spec').textContent=`${(effect.durationMs/1000).toFixed(2)}s · 48kHz · REC`;
   card.querySelector('.design-spec').textContent=effect.design;
 
   const canvas=card.querySelector('canvas');
@@ -190,7 +190,7 @@ volumeInput.addEventListener('input',()=>{
 playAllButton.addEventListener('click',playAll);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)states.forEach(state=>cancel(state))});
 
-fetch('manifest.json',{cache:'no-store'})
+fetch('manifest.json?v=2',{cache:'no-store'})
   .then(response=>{if(!response.ok)throw new Error(`HTTP ${response.status}`);return response.json()})
   .then(manifest=>manifest.effects.forEach(createCard))
   .catch(error=>{grid.innerHTML=`<p class="load-error">프리뷰 매니페스트를 불러오지 못했습니다: ${String(error.message||error)}</p>`});
