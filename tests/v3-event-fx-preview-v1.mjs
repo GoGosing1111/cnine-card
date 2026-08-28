@@ -69,9 +69,9 @@ for(const effect of manifest.effects){
   assert.equal(audio.byteLength,effect.bytes,`${effect.id} MP3 bytes`);
   assert.equal(crypto.createHash('sha256').update(audio).digest('hex'),effect.sha256,`${effect.id} MP3 sha256`);
   if(effect.id==='critical'){
-    assert.match(effect.src,/critical-combat-v3\.mp3$/,`${effect.id} must use the remade critical v3 asset`);
-    assert.equal(effect.audioProfile,'layered-recorded-critical-v3',`${effect.id} recorded audio profile`);
-    assert.equal(effect.durationMs,1350,`${effect.id} full impact tail`);
+    assert.match(effect.src,/critical-combat-v4\.mp3$/,`${effect.id} must use the comfort-mastered critical v4 asset`);
+    assert.equal(effect.audioProfile,'layered-recorded-critical-v4-comfort',`${effect.id} recorded audio profile`);
+    assert.equal(effect.durationMs,1300,`${effect.id} full impact tail`);
   }else{
     assert.match(effect.src,/-combat-v2\.mp3$/,`${effect.id} must preserve accepted combat v2 asset`);
     assert.equal(effect.audioProfile,'layered-recorded-combat-v2',`${effect.id} recorded audio profile`);

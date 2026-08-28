@@ -101,6 +101,11 @@ SOURCES = {
         "page": "https://mixkit.co/free-sound-effects/impact/",
         "sha256": "e4b4a658a77136544978137b3760ea1b6c959c455641142466edc7d146ca61c4",
     },
+    2655: {
+        "name": "Fast impact blow",
+        "page": "https://mixkit.co/free-sound-effects/impact/",
+        "sha256": "1addc9a7e2d2e1780c2a48d78a79857e39d0287220c695104b1f2a6df7f57633",
+    },
     2601: {
         "name": "Electricity lightning blast",
         "page": "https://mixkit.co/free-sound-effects/lightning/",
@@ -136,19 +141,24 @@ SOURCES = {
 
 SPECS = {
     "critical": {
-        "duration": 1.35,
+        "duration": 1.30,
         "sync": 0.250,
         "label": "치명타",
-        "lufs": -12.5,
-        "basename": "critical-combat-v3",
-        "audioProfile": "layered-recorded-critical-v3",
-        "supersedes": ["critical-combat-v2"],
-        "design": "마검 가속 · 이중 금속 파쇄 · 저역 잔향",
+        "lufs": -16.0,
+        "truePeak": -3.0,
+        "finalLowpass": 9_500,
+        "compressorThreshold": 0.080,
+        "compressorRatio": 3.5,
+        "compressorMakeup": 2.0,
+        "basename": "critical-combat-v4",
+        "audioProfile": "layered-recorded-critical-v4-comfort",
+        "supersedes": ["critical-combat-v2", "critical-combat-v3"],
+        "design": "절제된 검풍 · 둔중 충격 · 부드러운 저역 감쇠",
         "layers": [
-            {"id": 2793, "delay": 0.027, "gain": -2.5, "highpass": 80, "lowpass": 17_000},
-            {"id": 2160, "delay": 0.190, "gain": -3.0, "highpass": 160, "lowpass": 16_000},
-            {"id": 2795, "trim": 0.171, "fadeIn": 0.220, "gain": -2.0, "highpass": 45, "lowpass": 12_500},
-            {"id": 781, "trim": 0.292, "fadeIn": 0.230, "gain": -11.0, "highpass": 35, "lowpass": 6_500},
+            {"id": 2793, "delay": 0.027, "gain": -7.0, "highpass": 120, "lowpass": 10_000, "eq": [[3_400, 1.1, -4.0], [6_200, 1.0, -6.0]]},
+            {"id": 2655, "trim": 0.069, "fadeIn": 0.180, "gain": -3.5, "highpass": 45, "lowpass": 7_500, "eq": [[3_000, 1.0, -2.5]]},
+            {"id": 1487, "delay": 0.115, "gain": -8.0, "highpass": 200, "lowpass": 9_000, "eq": [[4_800, 1.0, -5.0]]},
+            {"id": 781, "trim": 0.292, "fadeIn": 0.240, "gain": -14.0, "highpass": 35, "lowpass": 4_200},
         ],
     },
     "counter": {
@@ -295,6 +305,8 @@ def layer_filter(index: int, layer: dict, label: str) -> str:
             f"volume={layer.get('gain', 0):.2f}dB",
         ]
     )
+    for frequency, width, gain in layer.get("eq", []):
+        filters.append(f"equalizer=f={frequency}:t=q:w={width}:g={gain}")
     fade_in = layer.get("fadeIn", 0.012 if layer.get("trim", 0) > 0 else 0)
     if fade_in:
         filters.append(f"afade=t=in:st=0:d={fade_in:.3f}")
@@ -304,7 +316,7 @@ def layer_filter(index: int, layer: dict, label: str) -> str:
     return ",".join(filters) + f"[{label}]"
 
 
-def measure_loudness(ffmpeg: str, source: Path, target_lufs: float) -> dict[str, str]:
+def measure_loudness(ffmpeg: str, source: Path, target_lufs: float, true_peak: float) -> dict[str, str]:
     result = run(
         [
             ffmpeg,
@@ -317,7 +329,7 @@ def measure_loudness(ffmpeg: str, source: Path, target_lufs: float) -> dict[str,
             "-i",
             str(source),
             "-af",
-            f"loudnorm=I={target_lufs}:TP=-1.0:LRA=5:print_format=json",
+            f"loudnorm=I={target_lufs}:TP={true_peak}:LRA=5:print_format=json",
             "-f",
             "null",
             "NUL" if os.name == "nt" else "/dev/null",
@@ -330,10 +342,10 @@ def measure_loudness(ffmpeg: str, source: Path, target_lufs: float) -> dict[str,
     return json.loads(matches[-1])
 
 
-def normalize(ffmpeg: str, source: Path, destination: Path, target_lufs: float) -> None:
-    measured = measure_loudness(ffmpeg, source, target_lufs)
+def normalize(ffmpeg: str, source: Path, destination: Path, target_lufs: float, true_peak: float) -> None:
+    measured = measure_loudness(ffmpeg, source, target_lufs, true_peak)
     audio_filter = (
-        f"loudnorm=I={target_lufs}:TP=-1.0:LRA=5:"
+        f"loudnorm=I={target_lufs}:TP={true_peak}:LRA=5:"
         f"measured_I={measured['input_i']}:measured_TP={measured['input_tp']}:"
         f"measured_LRA={measured['input_lra']}:measured_thresh={measured['input_thresh']}:"
         f"offset={measured['target_offset']}:linear=true:print_format=summary,"
@@ -426,10 +438,11 @@ def build_effect(ffmpeg: str, key: str, spec: dict, build_dir: Path) -> dict:
     compressor_threshold = spec.get("compressorThreshold", 0.115)
     compressor_ratio = spec.get("compressorRatio", 3.2)
     compressor_makeup = spec.get("compressorMakeup", 1.35)
+    final_lowpass = spec.get("finalLowpass", 18_000)
     filters.append(
         "".join(labels)
         + f"amix=inputs={len(labels)}:normalize=0:duration=longest:dropout_transition=0,"
-        + "highpass=f=28,lowpass=f=18000,"
+        + f"highpass=f=28,lowpass=f={final_lowpass},"
         + f"acompressor=threshold={compressor_threshold}:ratio={compressor_ratio}:attack=4:release=115:makeup={compressor_makeup},"
         + "alimiter=limit=0.95:attack=5:release=70,"
         + f"atrim=start=0:end={duration:.3f},afade=t=out:st={tail_start:.3f}:d=0.100,"
@@ -463,7 +476,7 @@ def build_effect(ffmpeg: str, key: str, spec: dict, build_dir: Path) -> dict:
             str(premaster),
         ]
     )
-    normalize(ffmpeg, premaster, master, spec["lufs"])
+    normalize(ffmpeg, premaster, master, spec["lufs"], spec.get("truePeak", -1.0))
 
     basename = spec.get("basename", f"{key}-combat-v2")
     mp3_path = OUT_DIR / f"{basename}.mp3"
@@ -533,7 +546,7 @@ def main() -> None:
     else:
         manifest = {"assets": {}}
     manifest.update({
-        "version": "project-v-v3-event-sfx-preview-v3",
+        "version": "project-v-v3-event-sfx-preview-v4",
         "previewOnly": True,
         "sourceType": "layered-recorded-samples",
         "proceduralSynthesis": False,
@@ -563,7 +576,7 @@ def main() -> None:
 
     visual_manifest_path = PREVIEW_ROOT / "manifest.json"
     visual_manifest = json.loads(visual_manifest_path.read_text(encoding="utf-8"))
-    visual_manifest["version"] = "project-v-v3-event-fx-preview-v3"
+    visual_manifest["version"] = "project-v-v3-event-fx-preview-v4"
     for effect in visual_manifest["effects"]:
         if effect["id"] in selected:
             effect.update(manifest["assets"][effect["id"]])

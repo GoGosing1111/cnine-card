@@ -194,7 +194,7 @@ volumeInput.addEventListener('input',()=>{
 playAllButton.addEventListener('click',playAll);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)states.forEach(state=>cancel(state))});
 
-fetch('manifest.json?v=3',{cache:'no-store'})
+fetch('manifest.json?v=4',{cache:'no-store'})
   .then(response=>{if(!response.ok)throw new Error(`HTTP ${response.status}`);return response.json()})
   .then(manifest=>manifest.effects.forEach(createCard))
   .catch(error=>{grid.innerHTML=`<p class="load-error">프리뷰 매니페스트를 불러오지 못했습니다: ${String(error.message||error)}</p>`});

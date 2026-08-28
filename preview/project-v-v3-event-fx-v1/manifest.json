@@ -1,5 +1,5 @@
 {
-  "version": "project-v-v3-event-fx-preview-v3",
+  "version": "project-v-v3-event-fx-preview-v4",
   "previewOnly": true,
   "runtimeConnected": false,
   "generatedAt": "2026-08-28",
@@ -32,21 +32,21 @@
       "atlas": "assets/atlases/critical-atlas-v1.png",
       "atlasData": "assets/atlases/critical-atlas-v1.json",
       "framePattern": "assets/frames/critical/critical-%02d.png",
-      "audio": "assets/audio/critical-combat-v3.mp3",
-      "waveform": "assets/audio/critical-combat-v3-waveform.svg",
-      "src": "assets/audio/critical-combat-v3.mp3",
-      "bytes": 45356,
-      "durationMs": 1350,
+      "audio": "assets/audio/critical-combat-v4.mp3",
+      "waveform": "assets/audio/critical-combat-v4-waveform.svg",
+      "src": "assets/audio/critical-combat-v4.mp3",
+      "bytes": 43820,
+      "durationMs": 1300,
       "syncPointMs": 250,
-      "design": "마검 가속 · 이중 금속 파쇄 · 저역 잔향",
-      "sha256": "a7bb13bdf6f4c0779dfbc6a0716ff0e6ddd8d9d7918a06ba143092da0cbcbd02",
+      "design": "절제된 검풍 · 둔중 충격 · 부드러운 저역 감쇠",
+      "sha256": "e70e49a84da87a0e1f52a366e339b21724b7708811c06046da02a439570e8c6b",
       "sourceIds": [
         2793,
-        2160,
-        2795,
+        2655,
+        1487,
         781
       ],
-      "audioProfile": "layered-recorded-critical-v3"
+      "audioProfile": "layered-recorded-critical-v4-comfort"
     },
     {
       "id": "counter",

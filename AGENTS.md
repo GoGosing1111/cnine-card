@@ -53,7 +53,7 @@
 - 원음 출처, 라이선스, 자산 ID, 해시와 가공 방식을 프리뷰 내부 매니페스트와 출처 문서에 남긴다.
 - 승인 전 신규 이펙트와 사운드는 독립 프리뷰에서만 검증하며 사용자가 연결을 지시하기 전에는 게임 런타임에 연결하지 않는다.
 - `scripts/generate-v3-event-sfx-preview-v1.py`의 과거 절차적 합성 방식은 폐기 기준이며 복원하거나 신규 사운드의 입력·참고로 사용하지 않는다.
-- 현재 승인 대기 기준 프리뷰는 `preview/project-v-v3-event-fx-v1/`의 Combat SFX V3이며 치명타는 V3, 사용자 검수를 통과한 2~6번은 V2 파일을 고정한다. 재생성 기준은 `scripts/generate-v3-event-sfx-preview-v2.py`이고 치명타만 다시 만들 때는 `--effect critical`을 사용한다.
+- 현재 승인 대기 기준 프리뷰는 `preview/project-v-v3-event-fx-v1/`의 Combat SFX V4이며 치명타 V3는 과도한 금속 고역과 피크로 폐기됐다. 치명타는 저고역·저피크 V4, 사용자 검수를 통과한 2~6번은 V2 파일을 고정한다. 재생성 기준은 `scripts/generate-v3-event-sfx-preview-v2.py`이고 치명타만 다시 만들 때는 `--effect critical`을 사용한다.
 
 ## 몬스터공성 고정 전황 규칙
 
