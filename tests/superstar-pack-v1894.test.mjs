@@ -5,6 +5,7 @@ import test from 'node:test';
 
 import {
   SUPERSTAR_PACK_DEFAULTS,
+  SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES,
   __superstarPackTest,
   handleSuperstarPackDraw,
 } from '../functions/_superstar_pack.js';
@@ -32,10 +33,15 @@ test('슈퍼스타팩 기본 운영값은 공개·일반 개봉 OFF·1장 3억·
   assert.equal(row.revealMode, 'SWIPE');
 });
 
-test('일반 공개 OFF 상태에서도 OWNER만 개봉할 수 있다', () => {
-  assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: false }, { role: 'USER' }), false);
+test('일반 공개 OFF 상태에서 OWNER와 지정 닉네임 두 명만 개봉할 수 있다', () => {
+  assert.deepEqual([...SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES], ['조은', '강구열']);
+  assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: false }, { role: 'USER', nickname: '일반유저' }), false);
   assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: false }, { role: 'ADMIN' }), false);
   assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: false }, { role: 'owner' }), true);
+  assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: false }, { role: 'USER', nickname: '조은' }), true);
+  assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: false }, { role: 'USER', nickname: ' 강구열 ' }), true);
+  assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: false }, { role: 'USER', nickname: '조은1' }), false);
+  assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: false }, { role: 'USER', nickname: '강구열님' }), false);
   assert.equal(__superstarPackTest.canOpenSuperstarPack({ drawEnabled: true }, { role: 'USER' }), true);
 });
 
@@ -98,8 +104,11 @@ test('클라이언트는 일반팩을 제거하고 슈퍼스타팩을 우측 끝
   const superstar = source.indexOf("id: 'superstar'");
   assert.ok(advanced >= 0 && advanced < premium && premium < pickup && pickup < superstar);
   assert.match(source, /rows\.filter\(row => String\(row\.id\) !== 'basic'\)/);
+  assert.match(source, /const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES=new Set\(\['조은','강구열'\]\);/);
+  assert.match(source, /const early=SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES\.has\(nickname\);/);
   assert.match(source, /OWNER OPEN/);
-  assert.match(source, /owner&&pack\.ownerDrawEnabled===true/);
+  assert.match(source, /access\.owner&&pack\.ownerDrawEnabled===true/);
+  assert.match(source, /EARLY OPEN/);
   assert.match(source, /class="btn superstar-opening-off" type="button" disabled/);
   assert.doesNotMatch(source.slice(source.indexOf('function superstarPackHero'),source.indexOf('function standardPackHero')), /OWNER TEST|OWNER 전용 검증/);
 });
@@ -149,8 +158,8 @@ test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에
   const index = read('index.html');
   const serviceWorker = read('service-worker.js');
   assert.match(index, /superstar-pack-v1894\.css\?v=1895-larger-pack-clean-label/);
-  assert.match(index, /app\.js\?v=1895-larger-pack-clean-label/);
-  assert.match(serviceWorker, /soop-card-shell-v1895-superstar-pack-scale/);
+  assert.match(index, /app\.js\?v=1898-superstar-early-access/);
+  assert.match(serviceWorker, /soop-card-shell-v1898-superstar-early-access/);
   const css = read('css/superstar-pack-v1894.css');
   assert.match(css, /\.superstar-swipe-track/);
   assert.match(css, /\.pack-splitting \.pack-half-left/);

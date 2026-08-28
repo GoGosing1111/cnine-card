@@ -1122,9 +1122,17 @@ function packResponsiveImage(pack,{classes='',hero=false}={}){
   return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-160.avif 160w, ${base}-320.avif 320w" sizes="${sizes}"><source type="image/webp" srcset="${base}-160.webp 160w, ${base}-320.webp 320w" sizes="${sizes}"><img src="${packImagePath(pack)}" class="${classes}" alt="${escapeHtml(pack.name)}" loading="${loading}" decoding="async" fetchpriority="${priority}"></picture>`;
 }
 
+const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES=new Set(['조은','강구열']);
+function superstarPackAccess(user=loadUser()){
+  const owner=String(user?.role||'').trim().toUpperCase()==='OWNER';
+  const nickname=String(user?.nickname||'').normalize('NFC').trim();
+  const early=SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES.has(nickname);
+  return {owner,early,allowed:owner||early};
+}
+
 function packSelector() {
-  const owner=String(loadUser()?.role||'').toUpperCase()==='OWNER';
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&owner&&pack.ownerDrawEnabled===true,off=superstar&&pack.drawEnabled!==true&&!ownerAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · 1장 ${pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
+  const access=superstarPackAccess();
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&access.owner&&pack.ownerDrawEnabled===true,earlyAccess=superstar&&access.early,exceptionAccess=ownerAccess||earlyAccess,off=superstar&&pack.drawEnabled!==true&&!exceptionAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':earlyAccess?'early-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':earlyAccess?'<b class="pack-owner-access-badge">EARLY OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · 1장 ${pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
 }
 
 function supplyBoxShopMarkup(config=null){
@@ -1174,8 +1182,8 @@ function cardStoreSecondaryMarkup(user) {
 }
 
 function superstarPackHero(pack) {
-  const owner=String(loadUser()?.role||'').toUpperCase()==='OWNER',enabled=pack.drawEnabled===true||(owner&&pack.ownerDrawEnabled===true),price=Number(pack.price||300000000),success=Number(pack.successRate||10),miss=Number(pack.missRate||Math.max(0,100-success));
-  return `<section class="game-hero pack-theme-superstar superstar-pack-store-hero ${enabled?'opening-on':'opening-off'} ${owner?'owner-access':''}"><div class="superstar-hero-grid" aria-hidden="true"></div><div class="hero-copy"><p class="eyebrow">${escapeHtml(pack.subtitle)}</p><div class="superstar-launch-status"><i></i><b>${enabled?'OPENING ON':'OPENING OFF'}</b><span>${enabled?'개봉 가능':'유저 미리보기 전용'}</span></div><h2>${escapeHtml(pack.name)}<br><em>${enabled?'챔피언을 확인하세요':'개봉 준비 중입니다'}</em></h2><p>한 번에 1장만 판정합니다.<br>결제 후 화면을 밀어 당첨 결과를 확인하는 전용 개봉 연출이 적용됩니다.</p><div class="superstar-pack-odds"><span><small>SUPERSTAR</small><b>${success}%</b></span><span class="miss"><small>꽝</small><b>${miss}%</b></span><span><small>1회 가격</small><b>${price.toLocaleString()}</b><em>COIN</em></span></div><div class="draw-options superstar-draw-options" data-draw-mode="SUPERSTAR_CHANCE">${enabled?`<button class="btn superstar-draw" data-pack-id="${pack.id}" data-count="1" data-cost="${price}"><small>1 CARD · SWIPE REVEAL</small>${price.toLocaleString()}코인</button>`:`<button class="btn superstar-opening-off" type="button" disabled><small>DISPLAY ONLY · OPENING OFF</small>개봉 준비 중</button>`}<small class="superstar-opening-rule">1회 1장 · ${success}% 당첨 · ${miss}% 꽝 · 중복 결제 방지 영수증 적용</small></div></div><div class="hero-pack-zone superstar-pack-display"><div class="pack-aura"></div><div class="superstar-pack-halo"><i></i><i></i><i></i></div>${packArt(pack)}<span class="superstar-pack-display-label"><b>SUPERSTAR</b><small>CHAMPIONSHIP EDITION</small></span></div></section>`;
+  const access=superstarPackAccess(),enabled=pack.drawEnabled===true||(access.owner&&pack.ownerDrawEnabled===true)||access.early,price=Number(pack.price||300000000),success=Number(pack.successRate||10),miss=Number(pack.missRate||Math.max(0,100-success));
+  return `<section class="game-hero pack-theme-superstar superstar-pack-store-hero ${enabled?'opening-on':'opening-off'} ${access.owner?'owner-access':access.early?'early-access':''}"><div class="superstar-hero-grid" aria-hidden="true"></div><div class="hero-copy"><p class="eyebrow">${escapeHtml(pack.subtitle)}</p><div class="superstar-launch-status"><i></i><b>${enabled?'OPENING ON':'OPENING OFF'}</b><span>${enabled?'개봉 가능':'유저 미리보기 전용'}</span></div><h2>${escapeHtml(pack.name)}<br><em>${enabled?'챔피언을 확인하세요':'개봉 준비 중입니다'}</em></h2><p>한 번에 1장만 판정합니다.<br>결제 후 화면을 밀어 당첨 결과를 확인하는 전용 개봉 연출이 적용됩니다.</p><div class="superstar-pack-odds"><span><small>SUPERSTAR</small><b>${success}%</b></span><span class="miss"><small>꽝</small><b>${miss}%</b></span><span><small>1회 가격</small><b>${price.toLocaleString()}</b><em>COIN</em></span></div><div class="draw-options superstar-draw-options" data-draw-mode="SUPERSTAR_CHANCE">${enabled?`<button class="btn superstar-draw" data-pack-id="${pack.id}" data-count="1" data-cost="${price}"><small>1 CARD · SWIPE REVEAL</small>${price.toLocaleString()}코인</button>`:`<button class="btn superstar-opening-off" type="button" disabled><small>DISPLAY ONLY · OPENING OFF</small>개봉 준비 중</button>`}<small class="superstar-opening-rule">1회 1장 · ${success}% 당첨 · ${miss}% 꽝 · 중복 결제 방지 영수증 적용</small></div></div><div class="hero-pack-zone superstar-pack-display"><div class="pack-aura"></div><div class="superstar-pack-halo"><i></i><i></i><i></i></div>${packArt(pack)}<span class="superstar-pack-display-label"><b>SUPERSTAR</b><small>CHAMPIONSHIP EDITION</small></span></div></section>`;
 }
 
 function standardPackHero(pack) {
@@ -4194,8 +4202,8 @@ function mountSuperstarPackOpening(pack,cost,requestFactory,{preview=false}={}){
 
 async function openSuperstarPack(packId='superstar',cost=300000000){
   const pack=getPack(packId);if(!pack)return alert('슈퍼스타팩 정보를 찾지 못했습니다.');
-  const owner=String(loadUser()?.role||'').toUpperCase()==='OWNER';
-  if(pack.drawEnabled!==true&&!(owner&&pack.ownerDrawEnabled===true))return showSupplyNotice('슈퍼스타팩은 현재 화면 공개만 진행 중이며 일반 유저 개봉은 OFF 상태입니다.',true);
+  const access=superstarPackAccess();
+  if(pack.drawEnabled!==true&&!(access.owner&&pack.ownerDrawEnabled===true)&&!access.early)return showSupplyNotice('슈퍼스타팩은 현재 화면 공개만 진행 중이며 일반 유저 개봉은 OFF 상태입니다.',true);
   if(superstarPackOpeningBusy)return showSupplyNotice('슈퍼스타팩 개봉 화면을 이미 확인 중입니다.',true);
   const user=loadUser();if(Number(user?.coin||0)<Number(cost||pack.price))return alert('슈퍼스타팩 개봉에 필요한 300,000,000코인이 부족합니다.');
   superstarPackOpeningBusy=true;

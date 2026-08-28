@@ -1,5 +1,6 @@
 const SETTINGS_KEY = "superstar_pack_settings_v1";
 export const SUPERSTAR_PACK_ID = "superstar";
+export const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES = Object.freeze(["조은", "강구열"]);
 export const SUPERSTAR_PACK_DEFAULTS = Object.freeze({
   visible: true,
   drawEnabled: false,
@@ -8,6 +9,8 @@ export const SUPERSTAR_PACK_DEFAULTS = Object.freeze({
   drawCount: 1,
   imageUrl: "assets/ui/packs/superstar-card-pack-v1.png",
 });
+
+const superstarPackEarlyAccessNicknames = new Set(SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES);
 
 const clamp = (value, min, max, fallback) => {
   const number = Number(value);
@@ -93,8 +96,10 @@ export function resolveSuperstarPackRoll({ successRate = 10, hitRoll = 0, cardRo
 }
 
 export function canOpenSuperstarPack(settings = SUPERSTAR_PACK_DEFAULTS, user = null) {
+  const nickname = String(user?.nickname || "").normalize("NFC").trim();
   return cleanBoolean(settings?.drawEnabled, false)
-    || String(user?.role || "").trim().toUpperCase() === "OWNER";
+    || String(user?.role || "").trim().toUpperCase() === "OWNER"
+    || superstarPackEarlyAccessNicknames.has(nickname);
 }
 
 const secureUnit = () => {
@@ -192,7 +197,7 @@ export async function handleSuperstarPackDraw({ request, env, deps }) {
   const settings = await superstarPackSettings(env, true);
   if (!canOpenSuperstarPack(settings, user)) {
     return json({
-      error: "슈퍼스타팩은 현재 OWNER 검증만 가능하며 일반 유저 개봉은 OFF 상태입니다.",
+      error: "슈퍼스타팩은 현재 지정된 사전 개봉 계정만 이용할 수 있으며 일반 유저 개봉은 OFF 상태입니다.",
       code: "SUPERSTAR_PACK_OFF",
       drawEnabled: false,
     }, 423);
