@@ -139,6 +139,36 @@ function assetKey(value){
   try{return new URL(String(value||''),location.href).pathname}catch{return String(value||'').split('?')[0]}
 }
 
+// V1901: 모바일 크롬 렌더러가 "앗, 이런!"(Aw, Snap! = 렌더러 프로세스 OOM)로 죽는 문제.
+// 캔버스 백버퍼와 MSAA 리졸브 버퍼는 GPU 가 아니라 렌더러 프로세스 메모리에 잡힌다.
+// DPR 3 단말에서 resolution 2 + antialias 는 그것만으로 수십 MB 를 고정으로 쓴다.
+// SD 스프라이트는 화면에서 60~110px 로 그려지므로 1.5 배율·MSAA 해제로도 육안 차이가 없다.
+const LOW_MEMORY_DEVICE=(()=>{
+  try{
+    const memory=Number(navigator?.deviceMemory||0);
+    if(memory>0&&memory<=4)return true;
+    return Boolean(matchMedia('(max-width:860px)').matches||matchMedia('(pointer:coarse)').matches);
+  }catch{return false}
+})();
+
+// V1901: 컷인에 쓰는 "원본 카드 아트" 다운스케일.
+// v1803 이 전투 스프라이트를 384px 변형으로 돌릴 때 대상은 battle-v3-live.js 의
+// SPRITE_URL_KEYS(image/imageBattle/battleImage/imageUrl/image_url/primaryUrl/pngFallbackUrl)
+// 뿐이었다. 아래 originalCardArtUrl 이 고르는 sourceArtUrl/sourceArt/originalCardArt/
+// imageOriginal/cardImage/image_url_original 은 그 목록에 없어서 축소를 피해 갔고,
+// 그래서 한 판마다 카드 10장의 원본(평균 334KB, 디코딩하면 장당 5~6MB)이 그대로
+// Assets 캐시에 들어갔다. 컷인은 화면에서 최대 반 폭이라 384 변형으로 충분하다.
+// 변형이 없는 이미지(몬스터·이펙트)는 원본 그대로 통과한다.
+function cutInVariantUrl(value){
+  const url=rootAssetPath(value);
+  if(!url)return '';
+  try{
+    const mapped=globalThis.cnineBattleSpriteUrl?.(url,384);
+    if(mapped)return mapped;
+  }catch(error){/* 매핑 실패는 원본 유지 */}
+  return url;
+}
+
 function originalCardArtUrl(card,art){
   // The manifest source art is authoritative for a tactical cut-in. Runtime
   // adapters replace card.image with the SD battle sprite, so choosing image
@@ -146,7 +176,9 @@ function originalCardArtUrl(card,art){
   const battleSpriteKey=assetKey(art?.primaryUrl);
   const candidates=[art?.sourceArtUrl,card?.sourceArt,card?.source_art,card?.originalCardArt,card?.imageOriginal,card?.cardImage,card?.image_url_original,card?.imageUrl,card?.image_url,card?.image];
   const source=candidates.find(value=>value&&assetKey(value)!==battleSpriteKey);
-  return source?rootAssetPath(source):'';
+  // 후보 "선택"은 원본 경로 그대로 비교한다(스프라이트와 같은 그림을 컷인에 넣지 않기 위해).
+  // 실제로 받는 URL 만 384 변형으로 바꾼다.
+  return source?cutInVariantUrl(source):'';
 }
 
 async function loadBattleArtTexture(art){
@@ -261,9 +293,9 @@ export class BattleEngine{
     await this.app.init({
       resizeTo:target,
       backgroundAlpha:0,
-      antialias:true,
+      antialias:!LOW_MEMORY_DEVICE,
       autoDensity:true,
-      resolution:Math.min(devicePixelRatio||1,2),
+      resolution:Math.min(devicePixelRatio||1,LOW_MEMORY_DEVICE?1.5:2),
       preference:'webgl',
       powerPreference:'high-performance'
     });
@@ -845,7 +877,73 @@ export class BattleEngine{
       :null;
   }
 
+  // V1901: Pixi 의 Assets 캐시는 URL 단위 영구 보관이고, 이 앱은 SPA/PWA 라
+  // 페이지가 새로고침되지 않는다. 게다가 battle-v3-live.js 가 __V3_PIXI_MOUNTED 로
+  // Application 을 계속 살려 두고 renderer.destroy() 는 setVisible(false) 만 한다.
+  // 그래서 지금까지 한 세션 동안 싸운 모든 카드·몬스터 텍스처가 전부 남았다.
+  // 무한의탑/자동전투처럼 판을 반복하면 이 누적만으로 모바일 렌더러가 죽는다.
+  //
+  // 해결: 이번 판이 쓰는 URL→Texture 를 기억해 두고, 다음 판 텍스처를 "전부 배치한 뒤"
+  //       더 이상 참조되지 않는 지난 판 URL 만 unload 한다.
+  //       번들 정적 자산(ASSETS/BUNDLE)과 전장 배경은 애초에 추적하지 않으므로 절대 안 지운다.
+  async trackLiveAssetPreload(preloadUrls,artEntries=[]){
+    const unique=[...new Set(preloadUrls)].filter(Boolean);
+    const settled=await Promise.allSettled(unique.map(url=>Assets.load(url)));
+    const pending=new Map();
+    unique.forEach((url,index)=>{
+      pending.set(url,settled[index].status==='fulfilled'?settled[index].value:null);
+    });
+    // loadBattleArtTexture 가 디코딩 실패 시 받아 오는 PNG 폴백도 "쓰는 중"으로 본다.
+    artEntries.forEach(art=>{
+      const fallback=art?.pngFallbackUrl;
+      if(fallback&&!pending.has(fallback))pending.set(fallback,null);
+    });
+    this.pendingLiveAssets=pending;
+    return pending;
+  }
+
+  async releaseStaleLiveAssets(){
+    const pending=this.pendingLiveAssets;
+    if(!pending)return 0;                      // preload 전에 빠져나간 호출은 건너뛴다
+    this.pendingLiveAssets=null;
+    const previous=this.liveAssets||new Map();
+    this.liveAssets=pending;
+    const stale=[],staleTextures=new Set();
+    previous.forEach((texture,url)=>{
+      if(pending.has(url))return;
+      stale.push(url);
+      if(texture)staleTextures.add(texture);
+    });
+    if(!stale.length)return 0;
+    // 파괴된 텍스처가 스프라이트에 물려 있으면 다음 프레임에서 렌더가 통째로 실패한다
+    // (= 지금 제보된 흰 화면). unload 전에 남은 참조를 반드시 끊는다.
+    this.characters.forEach(character=>{
+      if(character.texture&&staleTextures.has(character.texture))character.texture=Texture.EMPTY;
+      if(character.cutInTexture&&staleTextures.has(character.cutInTexture))character.cutInTexture=null;
+      const sprite=character.fullBodySprite;
+      if(sprite?.texture&&staleTextures.has(sprite.texture))sprite.texture=Texture.EMPTY;
+    });
+    if(this.objectiveSprite?.texture&&staleTextures.has(this.objectiveSprite.texture)){
+      this.objectiveSprite.texture=Texture.EMPTY;
+      this.objectiveSprite.visible=false;
+    }
+    try{await Assets.unload(stale)}catch(error){
+      console.warn('[Project V V3] 지난 판 텍스처 회수 실패',error);
+    }
+    return stale.length;
+  }
+
   async setBattlePayload(payload){
+    try{
+      return await this.applyBattlePayload(payload);
+    }finally{
+      try{await this.releaseStaleLiveAssets()}catch(error){
+        console.warn('[Project V V3] 텍스처 회수 예외',error);
+      }
+    }
+  }
+
+  async applyBattlePayload(payload){
     this.battleData=payload;
     this.livePayload=Boolean(payload?.battleV2);
     this.liveDeployed=false;
@@ -897,7 +995,7 @@ export class BattleEngine{
     if(monsterArt?.primaryUrl)preloadUrls.push(monsterArt.primaryUrl);
     // Pixi Assets de-duplicates identical URLs. Starting every live texture
     // request together removes the previous card-by-card network waterfall.
-    await Promise.allSettled([...new Set(preloadUrls)].map(url=>Assets.load(url)));
+    await this.trackLiveAssetPreload(preloadUrls,[...allyArt,...enemyArt,monsterArt]);
     this.allies.forEach((character,index)=>{
       character.battleActive=allyCards.length?index<Math.min(allyCards.length,this.allies.length):true;
       character.root.visible=character.battleActive;

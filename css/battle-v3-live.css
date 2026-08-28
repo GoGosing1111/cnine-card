@@ -8,7 +8,13 @@
 .battle-v3-result{z-index:30!important}.battle-v3-live-shell:not(.is-result-visible)>.battle-v3-result{opacity:0;pointer-events:none}.battle-v3-live-shell.is-result-visible>.battle-v3-result{opacity:1;pointer-events:auto}
 .battle-v3-live-shell .pv-ultimate-layer{position:absolute;z-index:25;inset:0;display:flex;align-items:flex-end;padding:32px;box-sizing:border-box;background:#02040a;opacity:0;pointer-events:none;transition:opacity .12s}.battle-v3-live-shell .pv-ultimate-layer.is-visible{opacity:1}.battle-v3-live-shell .pv-ultimate-layer video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.battle-v3-live-shell .pv-ultimate-layer>div{position:relative}.battle-v3-live-shell .pv-ultimate-layer small,.battle-v3-live-shell .pv-ultimate-layer strong{display:block}
 @keyframes battleV3Spin{to{transform:rotate(1turn)}}
-@media(max-width:760px){.battle-v3-header{height:60px;grid-template-columns:1fr auto;padding:8px 12px}.battle-v3-header>div:first-child small{font-size:8px}.battle-v3-header strong{font-size:16px}.battle-v3-versus{display:none}.battle-v3-header>b{font-size:9px}.battle-v3-canvas-host{inset:60px 0 0}.battle-v3-status{left:10px;right:10px;bottom:10px;max-width:none;padding:8px 10px;font-size:10px}.battle-v3-loader span{font-size:10px}}
+/* V1901: .nightmare-battle-mark(pve-nightmare-v1692.css)는 스테이지 기준 top:10~24px,
+   right:10~28px 에 붙는다. V3 셸의 #battlePhase(.battle-v3-header>b)도 헤더 우측 끝
+   세로 중앙이라 좌표가 그대로 겹쳐서, 모바일에서 초록 "SERVER ASSET SYNC" 위에
+   핑크 "DAMAGE LIMIT RELEASED" 가 포개져 둘 다 못 읽는 상태였다.
+   V3 셸에서만 NIGHTMARE 마크를 헤더(72px/60px) 아래로 내린다. */
+.battle-v3-live-shell .nightmare-battle-mark{top:82px}
+@media(max-width:760px){.battle-v3-live-shell .nightmare-battle-mark{top:68px}.battle-v3-header{height:60px;grid-template-columns:1fr auto;padding:8px 12px}.battle-v3-header>div:first-child small{font-size:8px}.battle-v3-header strong{font-size:16px}.battle-v3-versus{display:none}.battle-v3-header>b{font-size:9px}.battle-v3-canvas-host{inset:60px 0 0}.battle-v3-status{left:10px;right:10px;bottom:10px;max-width:none;padding:8px 10px;font-size:10px}.battle-v3-loader span{font-size:10px}}
 @media(prefers-reduced-motion:reduce){.battle-v3-loader i{animation:none}}
 /* V1796 출전 카드 로스터 — 기존 카드 프레임(card.css .card-frame, 2:2.82)을 그대로 쓴다.
    폭/높이를 새로 잡으면 카드가 찌부되므로, 원본 180px 프레임을 transform:scale 로
