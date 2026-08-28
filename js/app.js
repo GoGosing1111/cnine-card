@@ -22,7 +22,7 @@ let cards = [];
 // V1797: 다른 스크립트(전투 로스터 등)가 "도감에 보이는 그대로의 카드"를 찾아 쓸 수 있게 노출한다.
 // 전투 페이로드의 card.image 는 전투 아트 어댑터가 SD 스프라이트로 바꿔치기하므로 그대로 쓰면 안 된다.
 window.cnineCardCatalog = () => cards;
-let selectedPackId = 'basic';
+let selectedPackId = 'advanced';
 let burningEventState={mode:'NONE',theme:'RED',enabled:false,generation:0,activatedAt:null,updatedAt:null,endsAt:null,title:'숲켓몬 버닝이 발동 되었습니다',packDiscountPercent:0,equipmentBoxDiscountPercent:0,duplicateShardMultiplier:1,battleRewardMultiplier:1.5,pve:{maxEnergy:15,rechargeMinutes:2},pvp:{maxEnergy:15,rechargeMinutes:2}};
 // 마법카드 연구소는 상시 노출한다. 서버 상태 조회는 기능/잔액을 보정할 뿐 진입 UI를 늦추지 않는다.
 let magicSystemState={visible:true,enabled:true,ownerTest:false,magicCrystals:0,settings:{drawEnabled:false,drawCost:100},cards:[],loadouts:[]};
@@ -43,11 +43,6 @@ const breakthroughMinGrade = 'SR';
 
 let PACKS = [
   {
-    id: 'basic', name: '일반 카드팩', subtitle: 'STANDARD PACK', theme: 'basic',
-    description: '모든 등급이 등장하는 기본 카드팩', range: 'C ~ FUR', price: 10,
-    allowed: ['C','U','R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'R', guarantee20: 'SR'
-  },
-  {
     id: 'advanced', name: '고급 카드팩', subtitle: 'ADVANCED PACK', theme: 'advanced',
     description: '커먼을 제외한 U 이상 카드팩', range: 'U ~ FUR', price: 25,
     allowed: ['U','R','SR','HR','UR','SSR','MA','FUR'], guarantee10: 'SR', guarantee20: 'HR'
@@ -61,11 +56,17 @@ let PACKS = [
     id: 'pickup', name: '리미티드팩', subtitle: 'LIMITED PACK', theme: 'pickup',
     description: '별도 확률로 한정판 카드 등장', range: 'C ~ FUR + LIMITED', price: 30,
     allowed: ['C','U','R','SR','HR','UR','SSR','MA','FUR','LIMITED'], guarantee10: 'R', guarantee20: 'SR', limitedRate: 1
+  },
+  {
+    id: 'superstar', name: '슈퍼스타팩', subtitle: 'SUPERSTAR CHAMPIONSHIP PACK', theme: 'superstar',
+    description: '1회 1장 판정 · SUPERSTAR 10% · 꽝 90%', range: 'SUPERSTAR 10% · 꽝 90%', price: 300000000,
+    allowed: ['SUPERSTAR'], guarantee10: null, guarantee20: null, drawMode: 'SUPERSTAR_CHANCE', drawEnabled: false,
+    ownerDrawEnabled: true, maxDrawCount: 1, successRate: 10, missRate: 90, imageUrl: 'assets/ui/packs/superstar-card-pack-v1.png', revealMode: 'SWIPE'
   }
 ];
 
 function packRangeFromAllowed(allowed = []) {
-  const ordered = ['C','U','R','SR','HR','UR','SSR','MA','FUR','ZENITH'];
+  const ordered = ['C','U','R','SR','HR','UR','SSR','MA','FUR','ZENITH','SUPERSTAR'];
   const normal = ordered.filter(g => allowed.includes(g));
   if (!normal.length) return allowed.includes('LIMITED') ? 'LIMITED' : '-';
   const base = normal.length === 1 ? normal[0] : `${normal[0]} ~ ${normal.at(-1)}`;
@@ -74,7 +75,7 @@ function packRangeFromAllowed(allowed = []) {
 
 function applyServerPacks(rows = []) {
   if (!Array.isArray(rows) || !rows.length) return;
-  PACKS = rows.map(row => {
+  PACKS = rows.filter(row => String(row.id) !== 'basic').map(row => {
     let allowed = row.allowed;
     if (!Array.isArray(allowed)) {
       try { allowed = JSON.parse(row.allowed_rarities || '[]'); } catch { allowed = []; }
@@ -85,14 +86,22 @@ function applyServerPacks(rows = []) {
       subtitle: row.subtitle || 'CARD PACK',
       theme: row.theme || 'basic',
       description: row.description || '',
-      range: packRangeFromAllowed(allowed),
+      range: row.range || packRangeFromAllowed(allowed),
       price: Math.max(0, Number(row.originalPrice??row.price) || 0),
       originalPrice: Math.max(0, Number(row.originalPrice??row.price) || 0),
       burningDiscountPercent:0,
       allowed,
       guarantee10: row.guarantee10 || row.guarantee_10 || 'R',
       guarantee20: row.guarantee20 || row.guarantee_20 || 'SR',
-      limitedRate: Number(row.limitedRate || row.limited_rate || 0) || 0
+      limitedRate: Number(row.limitedRate || row.limited_rate || 0) || 0,
+      drawMode: row.drawMode || row.draw_mode || 'STANDARD',
+      drawEnabled: row.drawEnabled === undefined ? Number(row.draw_enabled ?? 1) !== 0 : row.drawEnabled === true,
+      ownerDrawEnabled: row.ownerDrawEnabled === undefined ? row.owner_draw_enabled === true : row.ownerDrawEnabled === true,
+      maxDrawCount: Math.max(1, Number(row.maxDrawCount || row.max_draw_count || 100)),
+      successRate: Number(row.successRate || row.success_rate || 0),
+      missRate: Number(row.missRate || row.miss_rate || 0),
+      imageUrl: row.imageUrl || row.image_url || '',
+      revealMode: row.revealMode || row.reveal_mode || 'STANDARD'
     };
   });
   if (!PACKS.some(pack => pack.id === selectedPackId)) selectedPackId = PACKS[0].id;
@@ -1100,7 +1109,8 @@ async function loadLiveOperations(fresh=false){
 }
 
 function packImagePath(pack) {
-  const files = { basic: 'standard-pack.png', advanced: 'advanced-pack.png', premium: 'premium-pack.png', pickup: 'limited-pack.png', ultimate: 'ultimate-pack.png' };
+  if (pack?.imageUrl) return `${pack.imageUrl}?v=1894-superstar-pack`;
+  const files = { basic: 'standard-pack.png', advanced: 'advanced-pack.png', premium: 'premium-pack.png', pickup: 'limited-pack.png', ultimate: 'ultimate-pack.png', superstar: 'superstar-card-pack-v1.png' };
   return `assets/ui/packs/${files[pack.id] || files[pack.theme] || files.basic}?v=1544-ultimate-pack`;
 }
 function responsiveLogoImage(classes='',loading='eager'){
@@ -1108,12 +1118,13 @@ function responsiveLogoImage(classes='',loading='eager'){
   return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-240.avif 240w, ${base}-480.avif 480w" sizes="240px"><source type="image/webp" srcset="${base}-240.webp 240w, ${base}-480.webp 480w" sizes="240px"><img src="assets/ui/cninelogo.png" class="${classes}" alt="SOOP" loading="${loading}" decoding="async" fetchpriority="${loading==='eager'?'high':'auto'}"></picture>`;
 }
 function packResponsiveImage(pack,{classes='',hero=false}={}){
-  const names={basic:'standard-pack',advanced:'advanced-pack',premium:'premium-pack',pickup:'limited-pack',ultimate:'ultimate-pack'},name=names[pack.id]||names[pack.theme]||names.basic,base=`/assets/responsive/ui/${name}`,sizes=hero?'(max-width:760px) 72vw, 390px':'(max-width:760px) 34vw, 150px',loading=hero?'eager':'lazy',priority=hero?'high':'low';
+  const names={basic:'standard-pack',advanced:'advanced-pack',premium:'premium-pack',pickup:'limited-pack',ultimate:'ultimate-pack',superstar:'superstar-card-pack-v1'},name=names[pack.id]||names[pack.theme]||names.basic,base=`/assets/responsive/ui/${name}`,sizes=hero?'(max-width:760px) 72vw, 390px':'(max-width:760px) 34vw, 150px',loading=hero?'eager':'lazy',priority=hero?'high':'low';
   return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-160.avif 160w, ${base}-320.avif 320w" sizes="${sizes}"><source type="image/webp" srcset="${base}-160.webp 160w, ${base}-320.webp 320w" sizes="${sizes}"><img src="${packImagePath(pack)}" class="${classes}" alt="${escapeHtml(pack.name)}" loading="${loading}" decoding="async" fetchpriority="${priority}"></picture>`;
 }
 
 function packSelector() {
-  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''}" data-pack-id="${pack.id}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i></span><strong>${pack.name}</strong><small>${pack.description}</small><em>${pack.range} · 1장 ${pack.originalPrice>pack.price?`<s>${pack.originalPrice}</s> <b>${pack.price}코인</b>`:`${pack.price}코인`}</em></button>`).join('')}</div></section>`;
+  const owner=String(loadUser()?.role||'').toUpperCase()==='OWNER';
+  return `<section class="pack-selector"><div class="pack-selector-head"><div><p class="eyebrow">SELECT CARD PACK</p><h2>카드팩 선택</h2></div><span>팩마다 가격과 등장 범위가 다릅니다.</span></div><div class="pack-list">${PACKS.map(pack => {const superstar=pack.drawMode==='SUPERSTAR_CHANCE',ownerAccess=superstar&&owner&&pack.ownerDrawEnabled===true,off=superstar&&pack.drawEnabled!==true&&!ownerAccess;return `<button class="pack-choice pack-choice-${pack.theme} ${pack.id===selectedPackId?'active':''} ${off?'opening-off':''} ${ownerAccess?'owner-access':''}" data-pack-id="${pack.id}" aria-pressed="${pack.id===selectedPackId?'true':'false'}"><span class="mini-pack ${pack.theme}">${packResponsiveImage(pack)}<i></i>${off?'<b class="pack-opening-off-badge">OPENING OFF</b>':ownerAccess?'<b class="pack-owner-access-badge">OWNER OPEN</b>':''}</span><strong>${escapeHtml(pack.name)}</strong><small>${escapeHtml(pack.description)}</small><em>${escapeHtml(pack.range)} · 1장 ${pack.originalPrice>pack.price?`<s>${Number(pack.originalPrice).toLocaleString()}</s> <b>${Number(pack.price).toLocaleString()}코인</b>`:`${Number(pack.price).toLocaleString()}코인`}</em></button>`}).join('')}</div></section>`;
 }
 
 function supplyBoxShopMarkup(config=null){
@@ -1157,9 +1168,24 @@ async function purchaseVehicleDrawTickets(count,button){
   }catch(error){showSupplyNotice(error.message||'이동수단 뽑기권 구매에 실패했습니다.',true);if(button){button.disabled=false;button.innerHTML=button.dataset.label||'다시 구매';}}
 }
 function showSupplyNotice(message,error=false){const old=document.querySelector('.supply-action-toast');if(old)old.remove();const toast=document.createElement('div');toast.className=`supply-action-toast${error?' error':''}`;toast.textContent=message;document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));setTimeout(()=>{toast.classList.remove('show');setTimeout(()=>toast.remove(),220)},error?2600:1500)}
+function cardStoreSecondaryMarkup(user) {
+  const weekly=user.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2};
+  return `${supplyBoxShopMarkup()}${vehicleDrawShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
+}
+
+function superstarPackHero(pack) {
+  const owner=String(loadUser()?.role||'').toUpperCase()==='OWNER',enabled=pack.drawEnabled===true||(owner&&pack.ownerDrawEnabled===true),price=Number(pack.price||300000000),success=Number(pack.successRate||10),miss=Number(pack.missRate||Math.max(0,100-success));
+  const status=owner&&pack.drawEnabled!==true?'OWNER OPENING':'OPENING ON';
+  return `<section class="game-hero pack-theme-superstar superstar-pack-store-hero ${enabled?'opening-on':'opening-off'} ${owner?'owner-access':''}"><div class="superstar-hero-grid" aria-hidden="true"></div><div class="hero-copy"><p class="eyebrow">${escapeHtml(pack.subtitle)}</p><div class="superstar-launch-status"><i></i><b>${enabled?status:'OPENING OFF'}</b><span>${enabled?(owner?'OWNER 전용 검증':'개봉 가능'):'유저 미리보기 전용'}</span></div><h2>${escapeHtml(pack.name)}<br><em>${enabled?'챔피언을 확인하세요':'개봉 준비 중입니다'}</em></h2><p>한 번에 1장만 판정합니다.<br>결제 후 화면을 밀어 당첨 결과를 확인하는 전용 개봉 연출이 적용됩니다.</p><div class="superstar-pack-odds"><span><small>SUPERSTAR</small><b>${success}%</b></span><span class="miss"><small>꽝</small><b>${miss}%</b></span><span><small>1회 가격</small><b>${price.toLocaleString()}</b><em>COIN</em></span></div><div class="draw-options superstar-draw-options" data-draw-mode="SUPERSTAR_CHANCE">${enabled?`<button class="btn superstar-draw" data-pack-id="${pack.id}" data-count="1" data-cost="${price}"><small>${owner?'OWNER TEST · ':''}1 CARD · SWIPE REVEAL</small>${price.toLocaleString()}코인</button>`:`<button class="btn superstar-opening-off" type="button" disabled><small>DISPLAY ONLY · OPENING OFF</small>개봉 준비 중</button>`}<small class="superstar-opening-rule">1회 1장 · ${success}% 당첨 · ${miss}% 꽝 · 중복 결제 방지 영수증 적용</small></div></div><div class="hero-pack-zone superstar-pack-display"><div class="pack-aura"></div><div class="superstar-pack-halo"><i></i><i></i><i></i></div>${packArt(pack)}<span class="superstar-pack-display-label"><b>SUPERSTAR</b><small>CHAMPIONSHIP EDITION</small></span></div></section>`;
+}
+
+function standardPackHero(pack) {
+  return `<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${Number(pack.price).toLocaleString()}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>`;
+}
+
 function buyView(user) {
-  const pack = getPack(selectedPackId),weekly=user.weeklyPremiumCube||{currentRate:.1,earnedCount:0,weeklyLimit:2};
-  return `${summaryBar(user)}${packSelector()}<section class="game-hero pack-theme-${pack.theme}"><div class="hero-copy"><p class="eyebrow">${pack.subtitle}</p><h2>${escapeHtml(pack.name)}을<br><em>개봉하세요</em></h2><p>${escapeHtml(pack.description)}<br>100연속은 10장마다 ${pack.guarantee10} 이상 1장 · 20연속 ${pack.guarantee20} 이상 1장 보장</p><div class="draw-options"><button class="btn draw" data-pack-id="${pack.id}" data-count="1" data-cost="${pack.price}"><small>1 CARD</small>${pack.price}코인</button><button class="btn draw hot hundred-draw" data-pack-id="${pack.id}" data-count="100" data-cost="${pack.price*100}"><small>100 CARDS · 10장마다 ${pack.guarantee10}+</small>${(pack.price*100).toLocaleString()}코인</button><button class="btn draw premium-btn" data-pack-id="${pack.id}" data-count="20" data-cost="${pack.price*20}"><small>20 CARDS · ${pack.guarantee20}+</small>${(pack.price*20).toLocaleString()}코인</button><button class="btn secondary auto-draw-config" data-pack-id="${pack.id}" data-default-count="20"><small>OFFICIAL AUTO DRAW</small>자동 뽑기 설정</button></div></div><div class="hero-pack-zone"><div class="pack-aura"></div>${packArt(pack)}</div></section>${supplyBoxShopMarkup()}${vehicleDrawShopMarkup()}<section class="weekly-premium-cube-status"><div class="weekly-premium-cube-visual" aria-hidden="true"><span class="weekly-premium-cube-glow"></span><img src="assets/ui/packs/premium-cube.png?v=1218-soop-cube-premium" alt=""></div><div class="weekly-premium-cube-copy"><small>WEEKLY PREMIUM CUBE</small><h3>프리미엄 큐브 주간 보장</h3><p>PVE · 무한의탑 · PVP<br>참여 시 확률이 상승합니다.</p><div class="weekly-premium-cube-progress"><span style="width:${Math.min(100,Math.max(0,Number(weekly.currentRate||.1)/Math.max(.1,Number(weekly.maxRate||10))*100))}%"></span></div></div><div class="weekly-premium-cube-values"><span><small>현재 획득 확률</small><b>${Number(weekly.currentRate||.1).toFixed(1)}%</b></span><span><small>이번 주 획득</small><b>${Number(weekly.earnedCount||0)} / ${Number(weekly.weeklyLimit||2)}개</b></span></div></section>`;
+  const pack=getPack(selectedPackId),hero=pack.drawMode==='SUPERSTAR_CHANCE'?superstarPackHero(pack):standardPackHero(pack);
+  return `${summaryBar(user)}${packSelector()}${hero}${cardStoreSecondaryMarkup(user)}`;
 }
 
 function recentCards(user) {
@@ -2742,6 +2768,7 @@ function bindView(tab) {
   const accountBtn=document.getElementById('playerAccountBtn'); if(accountBtn) accountBtn.onclick=showAccountPanel;
   document.querySelectorAll('.pack-choice').forEach(button => button.onclick = () => { selectedPackId = button.dataset.packId; renderShell('buy'); });
   document.querySelectorAll('.draw').forEach(b => b.onclick = () => openPack(b.dataset.packId, Number(b.dataset.count), Number(b.dataset.cost)));
+  document.querySelectorAll('.superstar-draw').forEach(b => b.onclick = () => openSuperstarPack(b.dataset.packId, Number(b.dataset.cost)));
   document.querySelectorAll('.auto-draw-config').forEach(b=>b.onclick=()=>openAutoDrawSetup(b.dataset.packId,Number(b.dataset.defaultCount||20)));
   document.querySelectorAll('.recent-item').forEach(b => b.onclick = () => showDetail(b.dataset.cardId));
   const goDex=document.getElementById('goDex'); if(goDex)goDex.onclick=()=>renderShell('dex');
@@ -4085,6 +4112,107 @@ function validateDrawResponse(response,{requestId,packId,count}){
   if(consumedDrawResponses.size>80){const first=consumedDrawResponses.values().next().value;consumedDrawResponses.delete(first);}
   return response.results;
 }
+
+const SUPERSTAR_PENDING_DRAW_KEY='cnine_superstar_pending_draw_v1894';
+let superstarPackOpeningBusy=false;
+function readPendingSuperstarDraw(){try{const value=JSON.parse(sessionStorage.getItem(SUPERSTAR_PENDING_DRAW_KEY)||'null');if(!value?.requestId||Date.now()-Number(value.createdAt||0)>24*60*60*1000)return null;return value}catch{return null}}
+function writePendingSuperstarDraw(value){try{sessionStorage.setItem(SUPERSTAR_PENDING_DRAW_KEY,JSON.stringify(value))}catch(_){}}
+function clearPendingSuperstarDraw(requestId){try{const value=readPendingSuperstarDraw();if(!value||String(value.requestId)===String(requestId))sessionStorage.removeItem(SUPERSTAR_PENDING_DRAW_KEY)}catch(_){}}
+const superstarOpeningSleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+
+async function requestSuperstarPackDraw(requestId){
+  const options={method:'POST',headers:{'x-cnine-draw-client':drawBrowserId()},body:JSON.stringify({packId:'superstar',count:1,requestId})};
+  let lastError=null;
+  for(let attempt=0;attempt<5;attempt++){
+    try{return await apiRequest('superstar-pack/draw',options,{ttl:0,timeoutMs:15000})}
+    catch(error){lastError=error;const pending=Number(error?.status)===409&&['SUPERSTAR_DRAW_PENDING'].includes(String(error?.code||''));if(!pending||attempt===4)throw error;await superstarOpeningSleep(1200+attempt*500)}
+  }
+  throw lastError||new Error('슈퍼스타팩 결과를 확인하지 못했습니다.');
+}
+
+function superstarPackOpeningMarkup(pack,cost){
+  const image=escapeHtml(packImagePath(pack));
+  return `<section class="superstar-opening-stage" data-state="armed" role="dialog" aria-modal="true" aria-labelledby="superstarOpeningTitle"><div class="superstar-opening-backdrop" aria-hidden="true"><i></i><i></i><i></i></div><div class="superstar-opening-arena" aria-hidden="true"><span></span><span></span><span></span></div><header><small>SUPERSTAR CHAMPIONSHIP DRAW</small><h2 id="superstarOpeningTitle">단 한 번의 챔피언 판정</h2><p>슬라이더를 끝까지 밀면 ${Number(cost).toLocaleString()}코인이 결제되고 결과가 확정됩니다.</p></header><button type="button" class="superstar-opening-close" aria-label="개봉 화면 닫기">×</button><div class="superstar-opening-odds"><span><small>WIN</small><b>${Number(pack.successRate||10)}%</b></span><i></i><span><small>MISS</small><b>${Number(pack.missRate||90)}%</b></span></div><div class="superstar-opening-vault"><div class="superstar-vault-rings" aria-hidden="true"><i></i><i></i><i></i></div><div class="superstar-opening-pack"><img class="pack-half pack-half-left" src="${image}" alt=""><img class="pack-half pack-half-right" src="${image}" alt=""><span class="superstar-pack-seal" aria-hidden="true">★</span></div><div class="superstar-opening-core" aria-hidden="true"><i></i><b>★</b><i></i></div><div class="superstar-opening-result" aria-live="polite"></div></div><div class="superstar-opening-status"><i></i><b>결제 전 · 결과 미확정</b><span>밀기 전에는 코인이 차감되지 않습니다.</span></div><div class="superstar-swipe-wrap"><div class="superstar-swipe-track" role="slider" aria-label="밀어서 슈퍼스타팩 결과 확인" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0"><span class="superstar-swipe-fill"></span><b>밀어서 ${Number(cost).toLocaleString()}코인 결제 · 결과 확인</b><button type="button" class="superstar-swipe-handle" aria-label="오른쪽 끝까지 미세요"><i>★</i><span>››</span></button></div><small>1회 1장 · SUPERSTAR 10% · 꽝 90%</small></div></section>`;
+}
+
+function bindSuperstarSwipe(stage,onComplete){
+  const track=stage.querySelector('.superstar-swipe-track'),handle=stage.querySelector('.superstar-swipe-handle');
+  let progress=0,dragging=false,completed=false,startX=0,startProgress=0;
+  const setProgress=value=>{progress=Math.max(0,Math.min(1,value));const travel=Math.max(0,track.clientWidth-handle.offsetWidth-12);track.style.setProperty('--swipe-progress',String(progress));track.style.setProperty('--swipe-x',`${Math.round(travel*progress)}px`);track.setAttribute('aria-valuenow',String(Math.round(progress*100)));track.classList.toggle('near-complete',progress>=.78)};
+  const finish=()=>{if(completed)return;completed=true;setProgress(1);track.classList.add('completed');track.tabIndex=-1;handle.disabled=true;onComplete()};
+  const release=()=>{if(!dragging)return;dragging=false;track.classList.remove('dragging');if(progress>=.82)finish();else{track.classList.add('returning');setProgress(0);setTimeout(()=>track.classList.remove('returning'),260)}};
+  const move=event=>{if(!dragging)return;const rect=track.getBoundingClientRect(),travel=Math.max(1,rect.width-handle.offsetWidth-12);setProgress(startProgress+(event.clientX-startX)/travel)};
+  handle.addEventListener('pointerdown',event=>{if(completed)return;dragging=true;startX=event.clientX;startProgress=progress;track.classList.add('dragging');handle.setPointerCapture?.(event.pointerId);event.preventDefault()});
+  handle.addEventListener('pointermove',move);handle.addEventListener('pointerup',release);handle.addEventListener('pointercancel',release);
+  track.addEventListener('keydown',event=>{if(completed)return;if(['ArrowRight','PageUp'].includes(event.key)){event.preventDefault();setProgress(progress+.12);if(progress>=.82)finish()}else if(['ArrowLeft','PageDown','Home'].includes(event.key)){event.preventDefault();setProgress(event.key==='Home'?0:progress-.12)}else if(['Enter',' '].includes(event.key)){event.preventDefault();finish()}});
+  setProgress(0);
+}
+
+function applySuperstarPackResultToUser(result){
+  const user=loadUser();if(!user)return null;
+  user.coin=Number(result.coin??user.coin);user.cardShards=Number(result.cardShards??user.cardShards??0);
+  if(result.hit&&result.card?.id){
+    const card={...result.card,grade:'SUPERSTAR'};mergeClientCards([card]);
+    const cardId=String(card.id),owned=new Set((user.owned||[]).map(String));owned.add(cardId);user.owned=[...owned];user.quantities={...(user.quantities||{}),[cardId]:Number(result.quantityAfter||1)};
+    user.history=[...(user.history||[]),{cardId,packId:'superstar',at:new Date().toISOString(),duplicate:Boolean(result.duplicate),title:card.title,grade:'SUPERSTAR'}].slice(-30);
+  }
+  saveUser(user);clearApiCache('me');clearApiCache('shell/summary');clearApiCache('cards');return user;
+}
+
+async function revealSuperstarPackResult(stage,result,{preview=false}={}){
+  const status=stage.querySelector('.superstar-opening-status'),resultBox=stage.querySelector('.superstar-opening-result');
+  stage.dataset.state='opening';status.innerHTML='<i></i><b>CHAMPIONSHIP SEAL BREAK</b><span>서버 판정을 잠금 해제하는 중입니다.</span>';
+  await superstarOpeningSleep(260);stage.classList.add('seal-breaking');if(navigator.vibrate&&!preview)navigator.vibrate([55,35,90]);
+  await superstarOpeningSleep(760);stage.classList.add('pack-splitting');
+  await superstarOpeningSleep(620);
+  const user=preview?loadUser():applySuperstarPackResultToUser(result);
+  if(result.hit&&result.card){
+    const card={...result.card,grade:'SUPERSTAR'},duplicateCopy=result.duplicate?`<span>중복 카드 · 카드 조각 +${Number(result.shardGained||0).toLocaleString()}</span>`:'<span>NEW SUPERSTAR</span>';
+    resultBox.innerHTML=`<div class="superstar-win-result"><small>CHAMPION SELECTED</small><div class="superstar-result-card">${cardHtml(card,true,'superstar-reveal-card',user)}</div><h3>${escapeHtml(card.title||'SUPERSTAR')}</h3>${duplicateCopy}</div>`;
+    stage.classList.add('outcome-win');if(navigator.vibrate&&!preview)navigator.vibrate([80,35,120,40,220]);
+  }else{
+    resultBox.innerHTML='<div class="superstar-miss-result"><div><i></i><b>★</b><i></i></div><small>NO CHAMPION SIGNAL</small><h3>이번 팩은 꽝입니다</h3><span>SUPERSTAR 카드가 등장하지 않았습니다.</span></div>';
+    stage.classList.add('outcome-miss');if(navigator.vibrate&&!preview)navigator.vibrate(70);
+  }
+  await superstarOpeningSleep(120);stage.dataset.state='revealed';stage.classList.add('result-revealed');
+  status.innerHTML=`<i></i><b>${result.hit?'SUPERSTAR 획득 확정':'꽝 결과 확정'}</b><span>${preview?'연출 미리보기':`${Number(result.cost||0).toLocaleString()}코인 결제 완료`}</span>`;
+  const actions=document.createElement('div');actions.className='superstar-result-actions';actions.innerHTML='<button type="button" class="btn superstar-result-confirm">결과 확인 완료</button>';
+  stage.append(actions);actions.querySelector('button').onclick=()=>{document.getElementById('modal').className='modal';document.getElementById('modal').innerHTML='';if(!preview)renderShell('buy')};
+}
+
+function mountSuperstarPackOpening(pack,cost,requestFactory,{preview=false}={}){
+  const modal=document.getElementById('modal');modal.className='modal show superstar-opening-modal';modal.innerHTML=superstarPackOpeningMarkup(pack,cost);
+  const stage=modal.querySelector('.superstar-opening-stage'),close=stage.querySelector('.superstar-opening-close');
+  close.onclick=()=>{if(stage.dataset.state==='processing'||stage.dataset.state==='opening')return;modal.className='modal';modal.innerHTML='';superstarPackOpeningBusy=false};
+  bindSuperstarSwipe(stage,async()=>{
+    stage.dataset.state='processing';close.disabled=true;const status=stage.querySelector('.superstar-opening-status');status.innerHTML='<i></i><b>SECURE DRAW PROCESSING</b><span>결제와 당첨 판정을 하나의 영수증으로 확정합니다.</span>';
+    try{const result=await requestFactory();await revealSuperstarPackResult(stage,result,{preview});clearPendingSuperstarDraw(result.requestId);}
+    catch(error){const statusCode=Number(error?.status||0),pending=String(error?.code||'')==='SUPERSTAR_DRAW_PENDING';if(statusCode>=400&&statusCode<500&&!pending)clearPendingSuperstarDraw();stage.dataset.state='error';close.disabled=false;stage.classList.add('opening-error');status.innerHTML=`<i></i><b>개봉 중단</b><span>${escapeHtml(error.message||'결과를 확인하지 못했습니다.')}</span>`;const track=stage.querySelector('.superstar-swipe-wrap');if(track)track.innerHTML='<button type="button" class="btn superstar-error-return">상점으로 돌아가기</button>';stage.querySelector('.superstar-error-return').onclick=close.onclick;}
+    finally{superstarPackOpeningBusy=false}
+  });
+  requestAnimationFrame(()=>stage.classList.add('ready'));
+}
+
+async function openSuperstarPack(packId='superstar',cost=300000000){
+  const pack=getPack(packId);if(!pack)return alert('슈퍼스타팩 정보를 찾지 못했습니다.');
+  const owner=String(loadUser()?.role||'').toUpperCase()==='OWNER';
+  if(pack.drawEnabled!==true&&!(owner&&pack.ownerDrawEnabled===true))return showSupplyNotice('슈퍼스타팩은 현재 화면 공개만 진행 중이며 일반 유저 개봉은 OFF 상태입니다.',true);
+  if(superstarPackOpeningBusy)return showSupplyNotice('슈퍼스타팩 개봉 화면을 이미 확인 중입니다.',true);
+  const user=loadUser();if(Number(user?.coin||0)<Number(cost||pack.price))return alert('슈퍼스타팩 개봉에 필요한 300,000,000코인이 부족합니다.');
+  superstarPackOpeningBusy=true;
+  const pending=readPendingSuperstarDraw(),requestId=String(pending?.requestId||(globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`));
+  if(!pending)writePendingSuperstarDraw({requestId,packId:'superstar',count:1,createdAt:Date.now()});
+  mountSuperstarPackOpening(pack,Number(cost||pack.price),()=>requestSuperstarPackDraw(requestId));
+}
+
+window.SuperstarPackV1894=Object.freeze({
+  preview(outcome='MISS'){
+    const pack=getPack('superstar')||PACKS.find(row=>row.id==='superstar');if(!pack)return false;
+    const hit=String(outcome).toUpperCase()==='WIN',card=cards.find(row=>String(row.grade).toUpperCase()==='SUPERSTAR')||{id:'SUPERSTAR-PREVIEW',title:'SUPERSTAR PREVIEW',name:'SOOP',grade:'SUPERSTAR',image:'assets/superstar/1.jpg',focusX:50,focusY:50,powerType:'FIXED',basePower:7000};
+    mountSuperstarPackOpening({...pack,drawEnabled:true},Number(pack.price||300000000),async()=>({requestId:'preview',packId:'superstar',cost:Number(pack.price||300000000),outcome:hit?'WIN':'MISS',hit,card:hit?card:null,duplicate:false,shardGained:0,quantityBefore:0,quantityAfter:hit?1:0,coin:Number(loadUser()?.coin||0),cardShards:Number(loadUser()?.cardShards||0)}),{preview:true});return true;
+  }
+});
+
 openPack=async function(packId,count,cost,options={}){
   const autoRun=Boolean(options?.autoRun&&autoDrawState.active);
   const v21Bulk1000=autoRun&&autoDrawState.prefs?.source==='V21_BULK_1000';

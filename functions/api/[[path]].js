@@ -16,6 +16,7 @@ import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
 import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
+import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
 import { handleIdleDungeon } from '../_idle_dungeon.js';
 import { handleEscortOperation } from '../_escort_operation.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
@@ -4522,6 +4523,7 @@ async function handleRequest(context){
       ||path==='burning-event/status'
       ||path==='draw/status'
       ||path==='draw/ack'
+      ||(path==='superstar-pack/draw'&&request.method==='POST')
       ||(path==='draw'&&request.method==='POST');
     if(path==='raid/status')await Promise.all([ensureD1HotpathIndexes(env),ensureD1StabilityIndexes(env)]);
     // 이동수단 뽑기 조회/저장은 전용 라우터가 필요한 소형 스키마만 확인한다.
@@ -4648,8 +4650,13 @@ async function handleRequest(context){
       return json({cards:rows.map(({memberSortOrder,...card})=>({...card,id:String(card.id),uniqueAbility:uniqueVisible?(uniqueMap.has(String(card.id))?{...uniqueMap.get(String(card.id)),ownerTest:uniqueCfg.enabled!==true}:null):null})),uniqueAbilitySystem:{enabled:uniqueCfg.enabled===true,ownerTest:uniqueVisible&&uniqueCfg.enabled!==true,visible:uniqueVisible}});
     }
     if(path==='packs'){
-      const [rows,burning]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env)]);
-      return json({packs:rows.map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}}),burningEvent:burningPublicState(burning)});
+      const [rows,burning,superstarSettings]=await Promise.all([activePackCatalogRows(env),burningEventSettings(env),superstarPackSettings(env)]);
+      const packs=rows.filter(row=>String(row.id)!=='basic').map(row=>{const originalPrice=Number(row.price||0);return {...row,price:originalPrice,originalPrice,burningDiscountPercent:0,allowed:JSON.parse(row.allowed_rarities)}});
+      if(superstarSettings.visible)packs.push(superstarPackCatalogRow(superstarSettings));
+      return json({packs,burningEvent:burningPublicState(burning)});
+    }
+    if(path==='superstar-pack/draw'&&request.method==='POST'){
+      return handleSuperstarPackDraw({request,env,deps:{authenticate,json,readBody}});
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
@@ -4791,6 +4798,9 @@ async function handleRequest(context){
         return json({error:'정상 게임 화면에서 다시 시도해주세요.',code:'DRAW_CLIENT_REQUIRED'},403);
       }
       const payload=await readBody(request);
+      const requestedPackId=String(payload.packId||'');
+      if(requestedPackId==='basic')return json({error:'일반 카드팩은 판매가 종료되었습니다.',code:'BASIC_PACK_RETIRED'},410);
+      if(requestedPackId===SUPERSTAR_PACK_ID)return json({error:'슈퍼스타팩은 전용 개봉 경로를 사용해야 합니다.',code:'SUPERSTAR_DRAW_ROUTE_REQUIRED'},400);
       const requestId=String(payload.requestId||crypto.randomUUID()).trim().slice(0,100);
       const count=[1,20,100].includes(Number(payload.count))?Number(payload.count):1;
       const acknowledgedRequestIds=payload.autoDraw===true&&Array.isArray(payload.acknowledgedRequestIds)

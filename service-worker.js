@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1888-monster-territory-frontline';
+const SHELL_CACHE='soop-card-shell-v1894-superstar-owner-swipe';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
