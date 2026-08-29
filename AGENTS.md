@@ -36,6 +36,16 @@
 - 통합 카드 프리뷰는 `preview/mercenary-cards-approved-v1/index.html`이며 `assets/ui/card-frames/mercenary-contract-frame-premium-v2.png`를 별도 계층으로 사용한다.
 - V-013~V-020은 카드 원화만 승인된 상태다. 전투 SD는 모두 `PENDING`이므로 원화를 전투 스프라이트로 임시 사용하지 않는다.
 
+## 용병 편성 고정 규칙
+
+- 용병 카드는 기존 일반 덱 5장에 포함하지 않는다. 일반 덱은 계속 정확히 5장으로 저장·검증한다.
+- 용병은 별도 전용 슬롯에 최대 1장 배치한다. 용병을 배치한 실제 전투 편성은 `일반 카드 5장 + 용병 1장 = 최대 6장`이다.
+- 저장/API 계약에서도 일반 카드 ID 배열에 용병을 여섯 번째 원소로 끼워 넣지 않는다. `cardIds` 5장과 `mercenaryCode` 1개를 분리한다.
+- 용병 슬롯은 선택 사항이며 비어 있으면 기존 5장 편성으로 동작한다. 일반 카드는 용병 슬롯에, 용병 카드는 일반 덱 슬롯에 배치할 수 없다.
+- 용병 등급은 사용자가 통합 프리뷰를 검수한 뒤 새로 확정한다. 과거 매니페스트의 임시 등급과 V-013~V-020 초기 프리뷰의 등급을 신규 시스템에 자동 승계하지 않는다.
+- 단일 준비 기준은 `assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json`, 편성 계약 문서는 `docs/project-v-mercenary-system-standard.md`, 검수 화면은 `preview/project-v-mercenary-system-v1/`이다.
+- 등급 확정 및 사용자의 연결 지시 전에는 준비 로스터와 프리뷰를 라이브 덱·전투 API에 연결하지 않는다.
+
 ## 대형 대화 기록 연속성
 
 - 고정 작업 `몬스터공성 40회 초과 보상 적용`의 스레드 ID는 `019fdda2-6258-7902-a400-31dfdf72c278`이다.

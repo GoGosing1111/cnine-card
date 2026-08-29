@@ -75,16 +75,17 @@ test('서버는 전용 계정·허용 시간·서버 계산 종료 시각·상�
   assert.match(api,/serverNow:new Date\(\)\.toISOString\(\)/);
 });
 
-test('족장 버닝 우회는 서버와 화면 모두 제거되어 있다',async()=>{
+test('족장은 예전 기준의 일반·하이퍼 버닝 권한을 사용한다',async()=>{
   const [chiefApi,chiefUi,chiefAdmin]=await Promise.all([text('functions/_chief.js'),text('js/chief-system-v1.js'),text('admin/chief-admin-v1.js')]);
-  assert.match(chiefApi,/if\(type==='BURNING'\|\|type==='HYPER'\)return json\(/);
-  assert.match(chiefApi,/code:'BURNING_OPERATOR_ONLY'/);
-  assert.doesNotMatch(chiefApi,/async function activateBurning/);
-  assert.doesNotMatch(chiefUi,/powerButton\('HYPER'/);
-  assert.doesNotMatch(chiefUi,/powerButton\('BURNING'/);
-  assert.match(chiefUi,/OWNER 전용 CMS에서 관리됩니다/);
-  assert.doesNotMatch(chiefAdmin,/오늘 버닝|오늘 하이퍼/);
-  assert.match(chiefAdmin,/버닝 운영 · OWNER 전용 CMS/);
+  assert.match(chiefApi,/burningControl:'CHIEF_FULL'/);
+  assert.match(chiefApi,/u\.burningToday>=2/);
+  assert.match(chiefApi,/u\.hyperToday>=1/);
+  assert.match(chiefApi,/type!=='BURNING'&&type!=='HYPER'&&type!=='TOWER_RESET'/);
+  assert.match(chiefUi,/powerButton\('HYPER'/);
+  assert.match(chiefUi,/powerButton\('BURNING'/);
+  assert.match(chiefUi,/매일 3시간 버닝 2회/);
+  assert.match(chiefAdmin,/오늘 족장 버닝/);
+  assert.match(chiefAdmin,/오늘 족장 하이퍼/);
 });
 
 test('CMS와 게임 HUD는 선택 시간 및 초 단위 카운트다운 계약을 사용한다',async()=>{
@@ -101,7 +102,7 @@ test('CMS와 게임 HUD는 선택 시간 및 초 단위 카운트다운 계약�
   assert.match(app,/setInterval\(syncBurningCountdownUi,1000\)/);
   assert.match(app,/syncBurningServerClock\(d\.serverNow\)/);
   assert.match(equipment,/burningEventIsLive\(hyper,now\)/);
-  assert.match(index,/js\/app\.js\?v=1904-superstar-son-zeus-sd/);
-  assert.match(index,/js\/chief-system-v1\.js\?v=1902-burning-owner-timer/);
-  assert.match(worker,/soop-card-shell-v1904-superstar-son-zeus-sd/);
+  assert.match(index,/js\/app\.js\?v=1921-inventory-reroll-route/);
+  assert.match(index,/js\/chief-system-v1\.js\?v=1919-chief-powers-restored/);
+  assert.match(worker,/soop-card-shell-v1921-inventory-reroll-route/);
 });

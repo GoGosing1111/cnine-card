@@ -108,5 +108,30 @@
     input.value = '';
   });
 
+  const dispatchSamples = [
+    {side:'a',tier:3,kicker:'COMBAT MOMENTUM',code:'WIN STREAK 3',mark:'3W',title:'청람 연합 교전 3연승',detail:'진홍 군단 방어선에 경계 단계가 발령됐습니다.'},
+    {side:'b',tier:5,kicker:'COMBAT MOMENTUM',code:'WIN STREAK 5',mark:'5W',title:'진홍 군단 교전 5연승',detail:'전선 사기가 최고조에 도달했습니다 · 연승 저지 작전이 필요합니다.'},
+    {side:'a',tier:0,kicker:'FRONTLINE ADVANCE',code:'FRONT MOVED',mark:'MOVE',title:'청람 연합 동부 교량 확보',detail:'공성선이 동부 교량 방향으로 이동했습니다 · 신규 교전이 시작됩니다.'}
+  ];
+  let dispatchIndex = 0;
+  let dispatchPreviewLayer = null;
+  let dispatchPreviewTimer = 0;
+  function playDispatchPreview() {
+    const item = dispatchSamples[dispatchIndex++ % dispatchSamples.length];
+    const layer = dispatchPreviewLayer || document.createElement('div');
+    clearTimeout(dispatchPreviewTimer);
+    dispatchPreviewLayer = layer;
+    layer.className = `tw4-dispatch-layer side-${item.side} tier-${item.tier}`;
+    layer.setAttribute('aria-live','polite');
+    layer.innerHTML = `<article class="tw4-dispatch-card" role="status"><div class="tw4-dispatch-rail" aria-hidden="true"><i></i><i></i><i></i></div><div class="tw4-dispatch-copy"><small><i></i>${item.kicker}<b>${item.code}</b></small><strong>${item.title}</strong><span>${item.detail}</span></div><em aria-hidden="true">${item.mark}</em><div class="tw4-dispatch-sweep" aria-hidden="true"></div></article>`;
+    if (!layer.isConnected) document.body.appendChild(layer);
+    document.body.classList.add('territory-war-dispatch-active');
+    requestAnimationFrame(() => layer.classList.add('is-live'));
+    dispatchPreviewTimer = setTimeout(() => { if (dispatchPreviewLayer !== layer) return; layer.classList.remove('is-live'); layer.classList.add('is-holding'); document.body.classList.remove('territory-war-dispatch-active'); }, 3300);
+  }
+  setTimeout(playDispatchPreview, 220);
+  setInterval(playDispatchPreview, 7200);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) playDispatchPreview(); });
+
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && !drawerLayer.hidden) closeDrawer(); });
 })();

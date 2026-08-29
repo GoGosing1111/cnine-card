@@ -1,9 +1,9 @@
 const DROP_CONTENTS=['PVE','PVP','RAID','RIFT','TOWER','TERRITORY','SEAL','DAILY_QUEST','ATTENDANCE','WAGO','MINERAL','VEHICLE','EQUIPMENT','CARD_DRAW'];
-const DEFAULT_SETTINGS={enabled:true,dexButtonEnabled:false,prestigeEnabled:true,limitedEnabled:true,furEnabled:true,dropRates:Object.fromEntries(DROP_CONTENTS.map(code=>[code,0]))};
-const ALLOWED_GRADES=new Set(['PRESTIGE','LIMITED','FUR']);
+const DEFAULT_SETTINGS={enabled:true,dexButtonEnabled:false,prestigeEnabled:true,limitedEnabled:true,furEnabled:true,zenithEnabled:true,dropRates:Object.fromEntries(DROP_CONTENTS.map(code=>[code,0]))};
+const ALLOWED_GRADES=new Set(['PRESTIGE','LIMITED','FUR','ZENITH']);
 const TICKET_CODE='HIGH_GRADE_REROLL_TICKET';
 const safeJson=(value,fallback={})=>{try{return JSON.parse(value)}catch{return fallback}};
-const cleanSettings=value=>({enabled:value?.enabled!==false,dexButtonEnabled:value?.dexButtonEnabled===true,prestigeEnabled:value?.prestigeEnabled!==false,limitedEnabled:value?.limitedEnabled!==false,furEnabled:value?.furEnabled!==false,dropRates:Object.fromEntries(DROP_CONTENTS.map(code=>[code,Math.max(0,Math.min(100,Number(value?.dropRates?.[code]||0)))]))});
+const cleanSettings=value=>({enabled:value?.enabled!==false,dexButtonEnabled:value?.dexButtonEnabled===true,prestigeEnabled:value?.prestigeEnabled!==false,limitedEnabled:value?.limitedEnabled!==false,furEnabled:value?.furEnabled!==false,zenithEnabled:value?.zenithEnabled!==false,dropRates:Object.fromEntries(DROP_CONTENTS.map(code=>[code,Math.max(0,Math.min(100,Number(value?.dropRates?.[code]||0)))]))});
 let settingsCache=null;
 async function settings(env){const now=Date.now();if(settingsCache&&settingsCache.expiresAt>now)return settingsCache.value;const row=await env.DB.prepare("SELECT value FROM app_meta WHERE key='high_grade_reroll_settings_v1'").first(),value=cleanSettings({...DEFAULT_SETTINGS,...safeJson(row?.value||'{}',{})});settingsCache={value,expiresAt:now+30000};return value;}
 async function ensureColumn(env,table,column,definition){const rows=await env.DB.prepare(`PRAGMA table_info(${table})`).all();if(!(rows.results||[]).some(row=>String(row.name)===column))await env.DB.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();}
@@ -16,7 +16,7 @@ export async function ensureHighGradeRerollFoundation(env){
   await env.DB.batch([
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS high_grade_reroll_ticket_receipts (request_id TEXT PRIMARY KEY,user_id INTEGER NOT NULL,grade TEXT NOT NULL,source_card_id TEXT NOT NULL,result_card_id TEXT NOT NULL,response_json TEXT NOT NULL,used_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
     env.DB.prepare(`CREATE TABLE IF NOT EXISTS high_grade_reroll_drop_receipts (user_id INTEGER NOT NULL,content_code TEXT NOT NULL,reference_id TEXT NOT NULL,won INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,content_code,reference_id))`),
-    env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('HIGH_GRADE_REROLL_TICKET','고등급 재뽑기권','HIGH GRADE REROLL TICKET','PRESTIGE·LIMITED·FUR 카드 1장을 같은 등급의 다른 고유효과 특성 카드로 재뽑습니다.','REROLL','SPECIAL','',109,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
+    env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('HIGH_GRADE_REROLL_TICKET','고등급 재뽑기권','HIGH GRADE REROLL TICKET','PRESTIGE·LIMITED·FUR·ZENITH 카드 1장을 같은 등급의 다른 고유효과 특성 카드로 재뽑습니다.','REROLL','SPECIAL','',109,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
     env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('high_grade_reroll_settings_v1',?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING").bind(JSON.stringify(DEFAULT_SETTINGS))
   ]);
   return true;
@@ -36,10 +36,10 @@ async function publicState(env,user){const cfg=await settings(env),quantity=awai
 async function candidates(env,user,sourceCardId){
   const source=await env.DB.prepare(`SELECT uc.card_id,uc.quantity,uc.breakthrough_level,c.rarity AS grade,c.title,COALESCE(rc.reroll_material_enabled,1) AS reroll_material_enabled,COALESCE(e.attack_percent,0) attack_percent,COALESCE(e.defense_percent,0) defense_percent,COALESCE(e.hp_percent,0) hp_percent,COALESCE(e.speed_percent,0) speed_percent FROM user_cards uc JOIN cards_effective_v1210 c ON c.id=uc.card_id JOIN cards rc ON rc.id=c.id LEFT JOIN card_unique_effects e ON e.card_id=c.id AND e.is_active=1 WHERE uc.user_id=? AND uc.card_id=? AND COALESCE(uc.quantity,0)>0`).bind(user.id,String(sourceCardId)).first();
   if(!source)throw new Error('보유하지 않은 카드입니다.');
-  const grade=String(source.grade||'').toUpperCase();if(!ALLOWED_GRADES.has(grade))throw new Error('PRESTIGE·LIMITED·FUR 카드만 재뽑기할 수 있습니다.');
+  const grade=String(source.grade||'').toUpperCase();if(!ALLOWED_GRADES.has(grade))throw new Error('PRESTIGE·LIMITED·FUR·ZENITH 카드만 재뽑기할 수 있습니다.');
   const quantity=await ticketQuantity(env,user.id);if(quantity<1)throw new Error('고등급 재뽑기권을 보유하고 있지 않습니다.');
   if(Number(source.reroll_material_enabled??1)!==1)throw new Error('이 카드는 재뽑기 재료로 사용할 수 없습니다.');
-  const cfg=await settings(env),enabled=grade==='PRESTIGE'?cfg.prestigeEnabled:grade==='LIMITED'?cfg.limitedEnabled:cfg.furEnabled;if(!cfg.enabled||!enabled)throw new Error(`${grade} 재뽑기가 현재 중지되어 있습니다.`);
+  const cfg=await settings(env),enabled=grade==='PRESTIGE'?cfg.prestigeEnabled:grade==='LIMITED'?cfg.limitedEnabled:grade==='FUR'?cfg.furEnabled:cfg.zenithEnabled;if(!cfg.enabled||!enabled)throw new Error(`${grade} 재뽑기가 현재 중지되어 있습니다.`);
   const sourceRole=dominantRole(source),pool=await cardRows(env,`WHERE UPPER(c.rarity)=? AND c.id<>? AND COALESCE(c.is_active,1)=1 AND COALESCE(c.card_status,'PUBLIC')='PUBLIC' AND COALESCE(rc.reroll_result_enabled,1)=1 AND NOT EXISTS (SELECT 1 FROM user_cards uc2 WHERE uc2.user_id=? AND uc2.card_id=c.id AND COALESCE(uc2.quantity,0)>0)`,[grade,String(sourceCardId),user.id]);
   const filtered=pool.map(card=>({...card,role:dominantRole(card),roleLabel:roleLabel(dominantRole(card))})).filter(card=>card.role!==sourceRole);
   return {source:{...source,id:String(source.card_id),role:sourceRole,roleLabel:roleLabel(sourceRole),breakthroughLevel:Number(source.breakthrough_level||0)},grade,candidates:filtered,ticketQuantity:quantity};

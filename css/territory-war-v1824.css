@@ -399,10 +399,162 @@
 .tw4-toast { position: fixed; z-index: 200; left: 50%; bottom: 25px; max-width: calc(100% - 30px); padding: 12px 18px; border: 1px solid #3a7c96; background: rgba(5, 19, 27, .96); color: #ecf9ff; font-size: 11px; font-weight: 800; opacity: 0; transform: translate(-50%, 16px); transition: opacity .2s ease, transform .2s ease; pointer-events: none; box-shadow: 0 18px 50px rgba(0,0,0,.5); }
 .tw4-toast.show { opacity: 1; transform: translate(-50%, 0); }
 
+/* Non-blocking live battlefield dispatch. This is a broadcast strip rather
+   than a modal: it never receives input or blocks the strategy map. */
+.tw4-dispatch-layer {
+  --dispatch-accent: #58e7ff;
+  --dispatch-soft: rgba(55, 211, 246, .22);
+  position: fixed;
+  z-index: 100020;
+  top: calc(202px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  width: min(760px, calc(100vw - 52px));
+  min-height: 78px;
+  color: #f4fbff;
+  transform: translateX(-50%);
+  pointer-events: none;
+  contain: layout;
+  isolation: isolate;
+}
+.territory-war-drawer-open .tw4-dispatch-layer { opacity: 0; }
+.tw4-dispatch-layer.side-b { --dispatch-accent: #ff5776; --dispatch-soft: rgba(255, 61, 101, .22); }
+.tw4-dispatch-layer.side-neutral { --dispatch-accent: #f3d36c; --dispatch-soft: rgba(243, 211, 108, .2); }
+.tw4-dispatch-layer.tier-5 { --dispatch-accent: #ffe076; --dispatch-soft: rgba(255, 197, 72, .27); }
+.tw4-dispatch-layer::before,
+.tw4-dispatch-layer::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  width: min(24vw, 330px);
+  height: 1px;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--dispatch-accent));
+  box-shadow: 0 0 13px var(--dispatch-soft);
+}
+.tw4-dispatch-layer::before { right: calc(100% - 34px); }
+.tw4-dispatch-layer::after { left: calc(100% - 34px); transform: rotate(180deg); }
+.tw4-dispatch-layer.is-live::before,
+.tw4-dispatch-layer.is-live::after { animation: tw4DispatchRail 3.1s cubic-bezier(.2,.72,.24,1) both; }
+
+.tw4-dispatch-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 106px;
+  align-items: center;
+  min-height: 78px;
+  overflow: hidden;
+  border-top: 1px solid rgba(235, 249, 255, .19);
+  border-bottom: 1px solid var(--dispatch-accent);
+  background:
+    linear-gradient(90deg, transparent 0, rgba(3, 10, 16, .82) 8%, rgba(4, 14, 22, .97) 28%, rgba(4, 13, 20, .97) 72%, rgba(3, 10, 16, .78) 92%, transparent 100%),
+    linear-gradient(90deg, transparent 10%, var(--dispatch-soft) 50%, transparent 90%);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .46), inset 0 -18px 40px rgba(0, 0, 0, .24), 0 1px 22px var(--dispatch-soft);
+  clip-path: polygon(22px 0, calc(100% - 22px) 0, 100% 50%, calc(100% - 22px) 100%, 22px 100%, 0 50%);
+  opacity: 0;
+  transform-origin: center;
+  will-change: transform, opacity, clip-path;
+  backdrop-filter: blur(12px) saturate(1.18);
+}
+.tw4-dispatch-layer.is-live .tw4-dispatch-card { animation: tw4DispatchPass 3.1s cubic-bezier(.18,.76,.2,1) both; }
+.tw4-dispatch-card::before,
+.tw4-dispatch-card::after { content: ""; position: absolute; pointer-events: none; }
+.tw4-dispatch-card::before {
+  inset: 0;
+  background: repeating-linear-gradient(90deg, transparent 0 34px, rgba(255,255,255,.022) 35px 36px);
+  mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+}
+.tw4-dispatch-card::after {
+  left: 8%;
+  right: 8%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.78), transparent);
+  opacity: .55;
+}
+.tw4-dispatch-rail {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  height: 38px;
+  border-right: 1px solid rgba(255,255,255,.1);
+}
+.tw4-dispatch-rail i { width: 3px; height: 35%; background: var(--dispatch-accent); box-shadow: 0 0 9px var(--dispatch-accent); animation: tw4DispatchMeter .72s ease-in-out infinite alternate; }
+.tw4-dispatch-rail i:nth-child(2) { height: 70%; animation-delay: -.25s; }
+.tw4-dispatch-rail i:nth-child(3) { height: 100%; animation-delay: -.48s; }
+.tw4-dispatch-copy { position: relative; z-index: 2; min-width: 0; padding: 10px 22px; text-shadow: 0 2px 12px #000; }
+.tw4-dispatch-copy small { display: flex; align-items: center; gap: 8px; color: var(--dispatch-accent); font-size: 8px; font-weight: 950; letter-spacing: .21em; }
+.tw4-dispatch-copy small > i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; box-shadow: 0 0 13px currentColor; animation: tw4DispatchSignal .74s ease-in-out infinite alternate; }
+.tw4-dispatch-copy small > b { margin-left: auto; padding: 3px 6px; border: 1px solid var(--dispatch-soft); color: rgba(229, 244, 250, .62); font: 800 7px/1 ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: .11em; }
+.tw4-dispatch-copy strong,
+.tw4-dispatch-copy span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tw4-dispatch-copy strong { margin-top: 5px; font-size: clamp(17px, 1.55vw, 23px); line-height: 1.05; letter-spacing: -.035em; }
+.tw4-dispatch-copy span { margin-top: 5px; color: #a7bbc5; font-size: 10px; font-weight: 750; letter-spacing: -.01em; }
+.tw4-dispatch-layer.tier-5 .tw4-dispatch-copy strong { color: #fff6c9; text-shadow: 0 0 24px rgba(255, 209, 93, .35), 0 2px 12px #000; }
+.tw4-dispatch-card > em {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  overflow: hidden;
+  border-left: 1px solid rgba(255,255,255,.09);
+  color: var(--dispatch-accent);
+  font: italic 950 clamp(23px, 2.4vw, 35px)/1 ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: -.12em;
+  opacity: .35;
+  transform: skewX(-8deg);
+}
+.tw4-dispatch-sweep {
+  position: absolute;
+  z-index: 3;
+  inset: -40% auto -40% -28%;
+  width: 24%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.22), var(--dispatch-soft), transparent);
+  filter: blur(1px);
+  transform: skewX(-18deg);
+}
+.tw4-dispatch-layer.is-live .tw4-dispatch-sweep { animation: tw4DispatchSweep 3.1s ease-in-out both; }
+.tw4-dispatch-layer.is-holding {
+  width: min(620px, calc(100vw - 52px));
+  min-height: 54px;
+  transition: width .28s ease, opacity .2s ease;
+}
+.tw4-dispatch-layer.is-holding .tw4-dispatch-card {
+  grid-template-columns: 44px minmax(0, 1fr) 78px;
+  min-height: 54px;
+  opacity: .94;
+  transform: translate3d(0, 0, 0);
+  animation: tw4DispatchHold .4s ease both;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .38), 0 1px 16px var(--dispatch-soft);
+}
+.tw4-dispatch-layer.is-holding .tw4-dispatch-rail { height: 28px; }
+.tw4-dispatch-layer.is-holding .tw4-dispatch-copy { padding: 7px 14px; }
+.tw4-dispatch-layer.is-holding .tw4-dispatch-copy strong { margin-top: 3px; font-size: clamp(14px, 1.25vw, 18px); }
+.tw4-dispatch-layer.is-holding .tw4-dispatch-copy span { margin-top: 3px; font-size: 8px; }
+.tw4-dispatch-layer.is-holding .tw4-dispatch-card > em { font-size: clamp(18px, 1.8vw, 25px); }
+.tw4-dispatch-layer.is-holding .tw4-dispatch-sweep { display: none; }
+
 @keyframes tw4Spin { to { transform: rotate(360deg); } }
 @keyframes tw4Pulse { 50% { opacity: .42; transform: scale(.75); } }
 @keyframes tw4March { to { stroke-dashoffset: -120; } }
 @keyframes tw4NodePulse { from { transform: scale(.88); opacity: .65; } to { transform: scale(1.18); opacity: 0; } }
+@keyframes tw4DispatchPass {
+  0% { opacity: 0; clip-path: inset(0 100% 0 0); transform: translate3d(-90px, 0, 0) scaleX(.94); }
+  12% { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0) scaleX(1); }
+  72% { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0) scaleX(1); }
+  100% { opacity: 0; clip-path: inset(0 0 0 100%); transform: translate3d(105px, 0, 0) scaleX(.96); }
+}
+@keyframes tw4DispatchRail { 0%,100% { opacity: 0; transform: scaleX(.25); } 14%,76% { opacity: .78; transform: scaleX(1); } }
+@keyframes tw4DispatchSweep { 0%,10% { opacity: 0; transform: translateX(0) skewX(-18deg); } 18% { opacity: 1; } 64%,100% { opacity: 0; transform: translateX(590%) skewX(-18deg); } }
+@keyframes tw4DispatchMeter { to { height: 92%; opacity: .42; } }
+@keyframes tw4DispatchSignal { to { opacity: .35; transform: scale(.72); } }
+@keyframes tw4DispatchFade { 0%,100% { opacity: 0; } 14%,78% { opacity: 1; } }
+@keyframes tw4DispatchHold { from { opacity: 0; transform: translateY(-7px) scale(.985); } to { opacity: .94; transform: translateY(0) scale(1); } }
 
 @media (max-width: 1280px) {
   .tw4-workspace { grid-template-columns: 210px minmax(0, 1fr) 260px; }
@@ -415,6 +567,7 @@
 }
 
 @media (max-width: 1040px) {
+  .tw4-dispatch-layer { top: calc(184px + env(safe-area-inset-top, 0px)); }
   .tw3-shell.tw4-shell { grid-template-rows: 64px 72px minmax(0, 1fr); }
   .tw4-topbar { grid-template-columns: 1fr auto; }
   .tw4-round-state { display: none; }
@@ -424,6 +577,16 @@
 }
 
 @media (max-width: 820px) {
+  .tw4-dispatch-layer { top: calc(184px + env(safe-area-inset-top, 0px)); bottom: auto; width: calc(100vw - 16px); min-height: 64px; }
+  .tw4-dispatch-card { grid-template-columns: 42px minmax(0, 1fr) 66px; min-height: 64px; clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 12px 100%, 0 50%); }
+  .tw4-dispatch-copy { padding: 8px 10px; }
+  .tw4-dispatch-copy small { gap: 5px; font-size: 6px; letter-spacing: .13em; }
+  .tw4-dispatch-copy small > b { display: none; }
+  .tw4-dispatch-copy strong { margin-top: 4px; font-size: clamp(14px, 4vw, 18px); }
+  .tw4-dispatch-copy span { margin-top: 4px; font-size: 8px; }
+  .tw4-dispatch-rail { height: 29px; }
+  .tw4-dispatch-card > em { font-size: 19px; }
+  .tw4-map-event { transition: opacity .18s ease, transform .18s ease; }
   .tw3-shell.tw4-shell { grid-template-rows: calc(58px + var(--safe-top)) 64px minmax(0, 1fr) calc(58px + var(--safe-bottom)); }
   .tw4-topbar { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; padding: var(--safe-top) 10px 0; }
   .tw4-brand { gap: 9px; }
@@ -488,6 +651,11 @@
   .tw4-toast { bottom: calc(72px + var(--safe-bottom)); }
 }
 
+@media (max-width: 520px), (max-width: 820px) and (hover: none) and (pointer: coarse) {
+  .tw4-dispatch-layer { top: auto; bottom: calc(146px + env(safe-area-inset-bottom, 0px)); }
+  body.territory-war-dispatch-active .tw4-map-event { opacity: 0; transform: translateY(7px); }
+}
+
 .tw4-mobile-zone-detail { padding: 4px 2px; }
 .tw4-mobile-zone-detail > div { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .tw4-mobile-zone-detail small { color: var(--cyan); font-size: 8px; font-weight: 900; letter-spacing: .16em; }
@@ -517,6 +685,7 @@
 }
 
 @media (max-height: 700px) and (min-width: 821px) {
+  .tw4-dispatch-layer { top: calc(176px + env(safe-area-inset-top, 0px)); }
   .tw3-shell.tw4-shell { grid-template-rows: 60px 68px minmax(0, 1fr); }
   .tw4-rail > header { padding-block: 12px 10px; }
   .tw4-commanders { grid-template-columns: 1fr 1fr; }
@@ -531,6 +700,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .tw4-shell *, .tw4-shell *::before, .tw4-shell *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .tw4-dispatch-layer.is-live .tw4-dispatch-card { animation: tw4DispatchFade 2.1s ease both; transform: none; clip-path: none; }
+  .tw4-dispatch-layer.is-live::before, .tw4-dispatch-layer.is-live::after { animation: tw4DispatchFade 2.1s ease both; }
+  .tw4-dispatch-sweep, .tw4-dispatch-rail i, .tw4-dispatch-copy small > i { animation: none !important; }
 }
 
 @keyframes tw4SheetUp { from { opacity: 0; transform: translateY(16px); } }

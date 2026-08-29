@@ -16,15 +16,15 @@ const exactShell = read('js/soopketmon-v21-exact-shell-adapter.js');
 const router = read('js/soopketmon-v21-runtime-router.js');
 
 for (const asset of [
-  'js/app.js?v=1904-superstar-son-zeus-sd',
+  'js/app.js?v=1921-inventory-reroll-route',
   'js/responsive-superstar-battle-sprites-v1896.js?v=1904-superstar-son-zeus-sd',
   'css/pve-command-v2.css?v=1882-menu-pve-scrapyard',
   'css/information-architecture-v1880.css?v=1880-navigation-deck-rules',
-  'js/pve-command-v2-live.js?v=1882-menu-pve-scrapyard',
+  'js/pve-command-v2-live.js?v=1908-joeun-gamst-visibility',
   'js/soopketmon-v21-exact-shell-adapter.js?v=21.14.0-bulk-enhancement',
   'js/soopketmon-v21-runtime-router.js?v=1.5.0-bulk-enhancement'
 ]) assert.ok(index.includes(asset), `missing cache-busted asset: ${asset}`);
-assert.ok(serviceWorker.includes("soop-card-shell-v1904-superstar-son-zeus-sd"));
+assert.ok(serviceWorker.includes("soop-card-shell-v1916-territory-100-attack-reward"));
 
 assert.ok(app.includes('deckGradeLimitViolation'));
 assert.ok(app.includes('normalizeDeckRules'));

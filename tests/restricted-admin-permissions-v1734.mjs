@@ -20,7 +20,8 @@ assert.match(api,/function isDedicatedPredictionAdmin\(user\)\{return String\(us
 assert.match(api,/function canUseTestAccess\(user,maintenance\)\{return Boolean\(user&&!isDedicatedPredictionAdmin\(user\)&&maintenance\?\.testUsers\?\.includes\(user\.nickname\)\)\}/);
 assert.equal((api.match(/canUseTestAccess\(user,maintenance\)/g)||[]).length,4);
 assert.doesNotMatch(api,/testUnlimited&&maintenance\.testUsers\.includes\(user\.nickname\)/);
-assert.match(api,/return role==='ADMIN'\|\|\(role==='OWNER'&&settings\.adminTestAllowed===false\);/);
+assert.match(api,/const operatingAccount=role==='ADMIN'\|\|role==='OWNER';/);
+assert.match(api,/return operatingAccount&&settings\.adminTestAllowed===false;/);
 assert.match(api,/const PVP_RANKED_ROLE_SQL="UPPER\(TRIM\(COALESCE\(u\.role,'USER'\)\)\) <> 'OWNER'";/);
 assert.equal((api.match(/\$\{PVP_RANKED_ROLE_SQL\}/g)||[]).length,5);
 assert.doesNotMatch(api,/COALESCE\(u\.role,'USER'\) NOT IN \('OWNER','ADMIN'\)/);

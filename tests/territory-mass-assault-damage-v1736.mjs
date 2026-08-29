@@ -15,4 +15,20 @@ const protectedHp=massAssaultPreview(round,{...front,b_hp:100_000},{massAssaultD
 assert.equal(protectedHp.damage,99_999);
 assert.equal(protectedHp.hpAfter,1);
 
+const usedA={round_id:15,side:'A',damage:390_000};
+const blockedA=massAssaultPreview(round,front,{teamAName:'디임',teamBName:'조은',massAssaultDamagePercent:39},[usedA],'A');
+assert.equal(blockedA.available,false);
+assert.equal(blockedA.used,true);
+assert.match(blockedA.reason,/디임팀.*이미 발동/);
+
+const availableB=massAssaultPreview(round,front,{teamAName:'디임',teamBName:'조은',massAssaultDamagePercent:39},[usedA],'B');
+assert.equal(availableB.available,true);
+assert.equal(availableB.used,false);
+assert.equal(availableB.side,'B');
+assert.equal(availableB.targetSide,'A');
+assert.equal(availableB.damage,390_000);
+
+const centralRound={...round,current_front_index:4};
+assert.equal(massAssaultPreview(centralRound,front,{massAssaultDamagePercent:39},[usedA],'B').available,true);
+
 console.log('territory mass assault damage v1736: ok');

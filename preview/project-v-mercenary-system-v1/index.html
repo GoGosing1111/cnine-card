@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <title>숲켓몬 · PROJECT V 용병 시스템 준비실</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%2307111a'/%3E%3Cpath fill='%236ee7ff' d='M8 10h13l11 31 11-31h13L38 55H26z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./mercenary-system.css?v=1">
+</head>
+<body>
+  <main class="system-shell">
+    <header class="system-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">V</span>
+        <span><small>SOOPKETMON · PROJECT V</small><b>용병 시스템 준비실</b></span>
+      </div>
+      <div class="header-state"><i></i><span><small>RUNTIME STATUS</small><b>검수 전용 · 라이브 미연결</b></span></div>
+    </header>
+
+    <section class="hero" aria-labelledby="pageTitle">
+      <div class="hero-copy">
+        <small>MERCENARY CONTRACT FORMATION</small>
+        <h1 id="pageTitle">다섯 장의 덱,<br><em>한 장의 독립 용병</em></h1>
+        <p>일반 덱은 기존처럼 5장을 유지합니다. 선택한 용병은 덱을 차지하지 않고 6번 전용 슬롯에 별도 합류합니다.</p>
+      </div>
+      <dl class="system-numbers">
+        <div><dt>일반 덱</dt><dd>5</dd><small>기존 규칙 유지</small></div>
+        <div class="plus"><dt>용병 슬롯</dt><dd>+1</dd><small>별도 계약</small></div>
+        <div class="total"><dt>최대 편성</dt><dd>6</dd><small>전투 유닛</small></div>
+      </dl>
+    </section>
+
+    <section class="formation-panel" aria-labelledby="formationTitle">
+      <div class="section-heading">
+        <span><small>FORMATION CONTRACT</small><b id="formationTitle">5 + 1 편성 구조</b></span>
+        <strong id="formationCount">5 / 6</strong>
+      </div>
+      <div class="formation-slots" id="formationSlots">
+        <div class="formation-slot regular"><i>01</i><span><small>일반 덱</small><b>카드 슬롯</b></span></div>
+        <div class="formation-slot regular"><i>02</i><span><small>일반 덱</small><b>카드 슬롯</b></span></div>
+        <div class="formation-slot regular"><i>03</i><span><small>일반 덱</small><b>카드 슬롯</b></span></div>
+        <div class="formation-slot regular"><i>04</i><span><small>일반 덱</small><b>카드 슬롯</b></span></div>
+        <div class="formation-slot regular"><i>05</i><span><small>일반 덱</small><b>카드 슬롯</b></span></div>
+        <div class="formation-slot mercenary empty" id="mercenarySlot">
+          <i>06</i><span><small>용병 전용</small><b>미배치</b><em>덱 슬롯 미사용</em></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="review-toolbar" aria-label="용병 검수 필터">
+      <div>
+        <small>ROSTER REVIEW</small>
+        <h2>등급 재산정 명단</h2>
+        <p>과거 등급은 표시하지 않습니다. 모든 카드가 사용자 등급 확정 대기 상태입니다.</p>
+      </div>
+      <div class="review-metrics">
+        <span><b id="totalCount">20</b><small>전체 원화</small></span>
+        <span><b id="sdReadyCount">12</b><small>SD 준비</small></span>
+        <span><b id="sdPendingCount">8</b><small>SD 대기</small></span>
+      </div>
+      <div class="filters" id="filters">
+        <button type="button" class="active" data-filter="all">전체 20</button>
+        <button type="button" data-filter="sd-ready">SD 준비 12</button>
+        <button type="button" data-filter="sd-pending">SD 대기 8</button>
+      </div>
+    </section>
+
+    <section class="review-layout">
+      <div class="roster-grid" id="rosterGrid" aria-live="polite">
+        <div class="loading-state">용병 리소스 검증 중</div>
+      </div>
+
+      <aside class="detail-panel" id="detailPanel" aria-live="polite">
+        <div class="detail-empty">명단에서 용병을 선택하세요.</div>
+      </aside>
+    </section>
+
+    <footer class="system-footer">
+      <span>원화 20종 보존</span><span>투명 SD 12종 보존</span><span>등급 20종 미정</span>
+      <b>등급 확정 전 라이브 연결 금지</b>
+    </footer>
+  </main>
+  <script type="module" src="./mercenary-system.js?v=1"></script>
+</body>
+</html>

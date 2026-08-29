@@ -9,6 +9,7 @@ const FOUNDATION_KEY='safe_runtime_upgrade_v1863_avatar_catalog_v1';
 const EFFECT_OPTIONS_KEY='safe_runtime_upgrade_v1864_avatar_effect_options_v1';
 const EQUIPMENT_ALPHA_V2_KEY='safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2';
 const EQUIPMENT_ALPHA_V3_KEY='safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3';
+const OWNERSHIP_EXPIRY_KEY='safe_runtime_upgrade_v1917_avatar_ownership_expiry_v1';
 const SETTINGS_KEY='avatar_settings_v1';
 const SETTINGS_DEFAULT=Object.freeze({mode:'OFF',shopEnabled:false,version:1});
 const MODES=Object.freeze(['OFF','TEST','ON']);
@@ -17,6 +18,7 @@ const EFFECT_TYPES=Object.freeze(['BATTLE_POWER_PERCENT','SCRAPYARD_FREE_ENTRY',
 const MAX_SAFE_COIN=Number.MAX_SAFE_INTEGER;
 const AVATAR_EQUIP_COOLDOWN_MS=24*60*60*1000;
 let foundationPromise=null;
+let ownershipExpiryPromise=null;
 let settingsCache=null;
 let settingsCacheAt=0;
 
@@ -61,7 +63,7 @@ function avatarSchemaStatements(env){
       effect_type TEXT NOT NULL,effect_value INTEGER NOT NULL DEFAULT 0,is_active INTEGER NOT NULL DEFAULT 0,is_public INTEGER NOT NULL DEFAULT 0,sale_enabled INTEGER NOT NULL DEFAULT 0,
       sort_order INTEGER NOT NULL DEFAULT 0,version INTEGER NOT NULL DEFAULT 1,created_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
     `CREATE TABLE IF NOT EXISTS avatar_user_ownership_v1(
-      user_id ${userIdType} NOT NULL,avatar_code TEXT NOT NULL,source_type TEXT NOT NULL DEFAULT 'ADMIN',source_ref TEXT NOT NULL DEFAULT '',acquired_at TEXT NOT NULL DEFAULT ${nowDefault},
+      user_id ${userIdType} NOT NULL,avatar_code TEXT NOT NULL,source_type TEXT NOT NULL DEFAULT 'ADMIN',source_ref TEXT NOT NULL DEFAULT '',acquired_at TEXT NOT NULL DEFAULT ${nowDefault},expires_at TEXT,
       PRIMARY KEY(user_id,avatar_code))`,
     `CREATE TABLE IF NOT EXISTS avatar_user_loadout_v1(
       user_id ${userIdType} PRIMARY KEY,avatar_code TEXT NOT NULL,updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
@@ -72,6 +74,22 @@ function avatarSchemaStatements(env){
     'CREATE INDEX IF NOT EXISTS idx_avatar_receipts_cleanup ON avatar_purchase_receipts_v1(status,updated_at,request_id)',
     'CREATE INDEX IF NOT EXISTS idx_avatar_catalog_public ON avatar_catalog_v1(is_active,is_public,sort_order,code)'
   ];
+}
+
+async function ensureAvatarOwnershipExpiry(env){
+  if(ownershipExpiryPromise)return ownershipExpiryPromise;
+  ownershipExpiryPromise=(async()=>{
+    const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(OWNERSHIP_EXPIRY_KEY).first();
+    if(marker?.value==='1')return;
+    if(env.DB?.dialect==='postgres'&&typeof env.DB.execSchema==='function'){
+      await env.DB.execSchema(['ALTER TABLE avatar_user_ownership_v1 ADD COLUMN IF NOT EXISTS expires_at TEXT']);
+    }else{
+      const info=await env.DB.prepare('PRAGMA table_info(avatar_user_ownership_v1)').all();
+      if(!rows(info).some(column=>String(column.name||'').toLowerCase()==='expires_at'))await env.DB.prepare('ALTER TABLE avatar_user_ownership_v1 ADD COLUMN expires_at TEXT').run();
+    }
+    await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(OWNERSHIP_EXPIRY_KEY,'1').run();
+  })().catch(error=>{ownershipExpiryPromise=null;throw error});
+  return ownershipExpiryPromise;
 }
 
 function avatarEffectSchemaStatements(env){
@@ -147,6 +165,7 @@ export async function ensureAvatarFoundation(env){
     await ensureAvatarEffectOptions(env);
     await ensureAvatarEquipmentAlphaV2(env);
     await ensureAvatarEquipmentAlphaV3(env);
+    await ensureAvatarOwnershipExpiry(env);
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
 }
@@ -180,7 +199,7 @@ function publicAvatar(row,effects){
     serial:String(row.serial||''),code:String(row.code||''),name:String(row.name||''),callSign:String(row.call_sign||''),role:String(row.role_label||''),description:String(row.description||''),
     lobbyImage:String(row.lobby_image||''),lobbyMobileImage:String(row.lobby_mobile_image||''),equipmentImage:String(row.equipment_image||''),accent:String(row.accent||'#82c7d7'),
     acquisitionType,coinPrice:Number.isFinite(coinPrice)?coinPrice:null,sourceLabel:String(row.source_label||''),sourceDetail:String(row.source_detail||''),
-    effect,effects:effectOptions,owned:Boolean(Number(row.owned||0)),equipped:Boolean(Number(row.equipped||0)),
+    effect,effects:effectOptions,owned:Boolean(Number(row.owned||0)),equipped:Boolean(Number(row.equipped||0)),expiresAt:row.expires_at||null,
     active:Boolean(Number(row.is_active||0)),public:Boolean(Number(row.is_public||0)),saleEnabled:Boolean(Number(row.sale_enabled||0)),sortOrder:Number(row.sort_order||0),version:Number(row.version||1)
   };
 }
@@ -209,10 +228,10 @@ function equipCooldown(updatedAt,now=Date.now()){
 }
 
 async function catalogForUser(env,user){
-  const result=await env.DB.prepare(`SELECT a.*,CASE WHEN o.avatar_code IS NULL THEN 0 ELSE 1 END owned,CASE WHEN l.avatar_code=a.code THEN 1 ELSE 0 END equipped,
+  const result=await env.DB.prepare(`SELECT a.*,o.expires_at,CASE WHEN o.avatar_code IS NULL THEN 0 ELSE 1 END owned,CASE WHEN l.avatar_code=a.code AND o.avatar_code IS NOT NULL THEN 1 ELSE 0 END equipped,
     l.avatar_code equipped_code,l.updated_at loadout_updated_at,e.option_order,e.effect_type option_effect_type,e.effect_value option_effect_value
     FROM avatar_catalog_v1 a
-    LEFT JOIN avatar_user_ownership_v1 o ON o.avatar_code=a.code AND o.user_id=?
+    LEFT JOIN avatar_user_ownership_v1 o ON o.avatar_code=a.code AND o.user_id=? AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP)
     LEFT JOIN avatar_user_loadout_v1 l ON l.user_id=?
     LEFT JOIN avatar_effect_options_v1 e ON e.avatar_code=a.code
     WHERE a.is_active=1 AND a.is_public=1 ORDER BY a.sort_order,a.code`).bind(user.id,user.id).all();
@@ -239,20 +258,21 @@ async function purchaseAvatar(env,user,body){
   const batch=await env.DB.batch([
     env.DB.prepare(`INSERT INTO avatar_purchase_receipts_v1(request_id,user_id,avatar_code,coin_spent,status)
       SELECT ?,?,?,?,'PENDING' WHERE EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?)
-      AND NOT EXISTS(SELECT 1 FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=?)
+      AND NOT EXISTS(SELECT 1 FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP))
       ON CONFLICT(request_id,user_id) DO NOTHING`).bind(requestId,user.id,avatarCode,price,user.id,price,user.id,avatarCode),
     env.DB.prepare(`UPDATE users SET coin=coin-? WHERE id=? AND coin>=? AND EXISTS(
       SELECT 1 FROM avatar_purchase_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')`).bind(price,user.id,price,requestId,user.id),
-    env.DB.prepare(`INSERT INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref)
-      SELECT ?,?,'COIN_SHOP',? WHERE EXISTS(SELECT 1 FROM avatar_purchase_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')
-      ON CONFLICT(user_id,avatar_code) DO NOTHING`).bind(user.id,avatarCode,requestId,requestId,user.id),
+    env.DB.prepare(`INSERT INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref,expires_at)
+      SELECT ?,?,'COIN_SHOP',?,NULL WHERE EXISTS(SELECT 1 FROM avatar_purchase_receipts_v1 WHERE request_id=? AND user_id=? AND status='PENDING')
+      ON CONFLICT(user_id,avatar_code) DO UPDATE SET source_type=excluded.source_type,source_ref=excluded.source_ref,acquired_at=CURRENT_TIMESTAMP,expires_at=NULL
+      WHERE avatar_user_ownership_v1.expires_at IS NOT NULL AND avatar_user_ownership_v1.expires_at<=CURRENT_TIMESTAMP`).bind(user.id,avatarCode,requestId,requestId,user.id),
     env.DB.prepare(`UPDATE avatar_purchase_receipts_v1 SET status='COMPLETED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING'
-      AND EXISTS(SELECT 1 FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=?)`).bind(requestId,user.id,user.id,avatarCode),
+      AND EXISTS(SELECT 1 FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP))`).bind(requestId,user.id,user.id,avatarCode),
     env.DB.prepare(`SELECT r.status,r.avatar_code,r.coin_spent,u.coin FROM avatar_purchase_receipts_v1 r JOIN users u ON u.id=r.user_id WHERE r.request_id=? AND r.user_id=?`).bind(requestId,user.id)
   ]);
   const result=batch.at(-1)?.results?.[0];
   if(result?.status!=='COMPLETED'){
-    const owned=await env.DB.prepare('SELECT 1 owned FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=?').bind(user.id,avatarCode).first();
+    const owned=await env.DB.prepare('SELECT 1 owned FROM avatar_user_ownership_v1 WHERE user_id=? AND avatar_code=? AND (expires_at IS NULL OR expires_at>CURRENT_TIMESTAMP)').bind(user.id,avatarCode).first();
     return owned?{data:{ok:true,avatarCode,alreadyOwned:true,coin:Number(user.coin||0)}}:{error:'코인이 부족하거나 구매 조건이 변경되었습니다.',code:'AVATAR_PURCHASE_REJECTED',status:409};
   }
   const response={ok:true,avatarCode:String(result.avatar_code),coinSpent:Number(result.coin_spent||0),coin:Number(result.coin||0)};
@@ -264,7 +284,7 @@ async function equipAvatar(env,user,body){
   const access=await avatarFeatureAccess(env,user);if(!access.visible)return{error:'아바타 시스템은 현재 비공개 상태입니다.',code:'AVATAR_FEATURE_OFF',status:403};
   const code=cleanText(body.avatarCode,80).toUpperCase();
   const owned=await env.DB.prepare(`SELECT a.code FROM avatar_user_ownership_v1 o JOIN avatar_catalog_v1 a ON a.code=o.avatar_code
-    WHERE o.user_id=? AND a.code=? AND a.is_active=1 AND a.is_public=1`).bind(user.id,code).first();
+    WHERE o.user_id=? AND a.code=? AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP) AND a.is_active=1 AND a.is_public=1`).bind(user.id,code).first();
   if(!owned)return{error:'보유 중인 공개 아바타를 찾을 수 없습니다.',status:404};
   const current=await env.DB.prepare('SELECT avatar_code,updated_at FROM avatar_user_loadout_v1 WHERE user_id=?').bind(user.id).first();
   if(String(current?.avatar_code||'')===code)return{data:{ok:true,equippedAvatarCode:code,unchanged:true,equipCooldown:equipCooldown(current.updated_at)}};
@@ -292,7 +312,7 @@ export async function equippedAvatarEffect(env,userId){
   await ensureAvatarFoundation(env);
   const result=await env.DB.prepare(`SELECT a.code,a.name,a.call_sign,a.role_label,a.effect_type,a.effect_value,a.lobby_image,a.lobby_mobile_image,a.equipment_image,
     e.option_order,e.effect_type option_effect_type,e.effect_value option_effect_value
-    FROM avatar_user_loadout_v1 l JOIN avatar_user_ownership_v1 o ON o.user_id=l.user_id AND o.avatar_code=l.avatar_code
+    FROM avatar_user_loadout_v1 l JOIN avatar_user_ownership_v1 o ON o.user_id=l.user_id AND o.avatar_code=l.avatar_code AND (o.expires_at IS NULL OR o.expires_at>CURRENT_TIMESTAMP)
     JOIN avatar_catalog_v1 a ON a.code=l.avatar_code LEFT JOIN avatar_effect_options_v1 e ON e.avatar_code=a.code
     WHERE l.user_id=? AND a.is_active=1 AND a.is_public=1 ORDER BY e.option_order`).bind(userId).all();
   const found=rows(result);if(!found.length)return null;
@@ -318,12 +338,17 @@ export function applyAvatarRaidEntryBonus(limit,equippedAvatar){
   return{base,bonus,limit:base+bonus};
 }
 
-export async function grantAvatarOwnership(env,{userId,avatarCode,sourceType='DROP',sourceRef=''}){
+export async function grantAvatarOwnership(env,{userId,avatarCode,sourceType='DROP',sourceRef='',expiresAt=null}){
   await ensureAvatarFoundation(env);const code=cleanText(avatarCode,80).toUpperCase();
-  const result=await env.DB.prepare(`INSERT INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref)
-    SELECT ?,?,?,? WHERE EXISTS(SELECT 1 FROM avatar_catalog_v1 WHERE code=? AND is_active=1)
-    ON CONFLICT(user_id,avatar_code) DO NOTHING`).bind(Number(userId),code,cleanText(sourceType,40).toUpperCase(),cleanText(sourceRef,160),code).run();
-  return{granted:Number(result?.meta?.changes||0)>0,avatarCode:code};
+  const expiresMs=expiresAt==null?NaN:Date.parse(String(expiresAt));
+  const expiry=Number.isFinite(expiresMs)?new Date(expiresMs).toISOString().replace('T',' ').slice(0,19):null;
+  const result=await env.DB.prepare(`INSERT INTO avatar_user_ownership_v1(user_id,avatar_code,source_type,source_ref,expires_at)
+    SELECT ?,?,?,?,? WHERE EXISTS(SELECT 1 FROM avatar_catalog_v1 WHERE code=? AND is_active=1)
+    ON CONFLICT(user_id,avatar_code) DO UPDATE SET source_type=excluded.source_type,source_ref=excluded.source_ref,acquired_at=CURRENT_TIMESTAMP,
+      expires_at=CASE WHEN avatar_user_ownership_v1.expires_at IS NULL OR excluded.expires_at IS NULL THEN NULL
+        WHEN avatar_user_ownership_v1.expires_at>excluded.expires_at THEN avatar_user_ownership_v1.expires_at ELSE excluded.expires_at END
+    WHERE avatar_user_ownership_v1.expires_at IS NOT NULL`).bind(Number(userId),code,cleanText(sourceType,40).toUpperCase(),cleanText(sourceRef,160),expiry,code).run();
+  return{granted:Number(result?.meta?.changes||0)>0,avatarCode:code,expiresAt:expiry};
 }
 
 async function adminPayload(env){

@@ -24,6 +24,6 @@ test('ranked fatigue remains visible and live-labelled on mobile and short lands
   assert.match(ranked,/V1870:[\s\S]*?\.pvp-energy-card\{display:flex!important/);
   assert.match(ranked,/@media\(orientation:landscape\) and \(max-height:560px\)[\s\S]*?\.pvp-energy-card\{display:flex!important/);
   assert.match(index,/style\.css\?v=(?:1870-avatar-pve-energy|1879-player-ultimate-skip)/);
-  assert.match(index,/ranked-v2-v1827\.css\?v=1870-avatar-pve-energy/);
-  assert.match(index,/app\.js\?v=(?:1874-burning-header-dock|1880-navigation-deck-rules|1881-workshop-split-lineage|1882-menu-pve-scrapyard|1884-zenith-ojoeun-sd|1904-superstar-son-zeus-sd)/);
+  assert.match(index,/ranked-v2-v1827\.css\?v=1908-joeun-gamst-visibility/);
+  assert.match(index,/app\.js\?v=(?:1874-burning-header-dock|1880-navigation-deck-rules|1881-workshop-split-lineage|1882-menu-pve-scrapyard|1884-zenith-ojoeun-sd|1904-superstar-son-zeus-sd|1905-ranked-pvp-deck-renewal|1906-ranked-pvp-card-fit|1908-joeun-gamst-visibility|1920-zenith-reroll|1921-inventory-reroll-route)/);
 });

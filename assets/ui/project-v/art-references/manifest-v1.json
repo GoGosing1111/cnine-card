@@ -32,13 +32,13 @@
         "id": "MALE_HEAVY_ARMOR_SUPPORT",
         "path": "assets/ui/project-v/art-references/male-style-anchor-silver-paladin-v1.png",
         "sha256": "D85161ECEDE0E85AFEA04EC8FC82D8F1101337945361BB15E11849528FC47FD0",
-        "availability": "STAGED_IN_CODEX_WORKTREE_1023"
+        "availability": "LOCAL_MAIN_PRESERVED"
       },
       {
         "id": "FEMALE_FACE_WEAPON_DENSITY_SUPPORT",
         "path": "assets/ui/project-v/art-references/female-style-anchor-crimson-sniper-v1.png",
         "sha256": "4D943EBAA5833E415B8AD8017C41157D7DB8D5033A2D9EF77EF0E62C58691FA6",
-        "availability": "STAGED_IN_CODEX_WORKTREE_1023"
+        "availability": "LOCAL_MAIN_PRESERVED"
       }
     ],
     "lockedStyle": [
@@ -59,9 +59,25 @@
       "output/rejected/project-v-mercenary-drafts/short-bob-k2-midnight-officer-mercenary-source-art-v2.png",
       "output/rejected/project-v-mercenary-drafts/short-bob-k2-emerald-officer-mercenary-source-art-v1.png",
       "output/rejected/project-v-mercenary-drafts/female-style-anchor-emerald-k2-officer-v1.png"
-    ]
+    ],
+    "systemPreparation": {
+      "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
+      "roster": "assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json",
+      "preview": "preview/project-v-mercenary-system-v1/index.html",
+      "formation": {
+        "regularCardSlots": 5,
+        "mercenarySlots": 1,
+        "maxDeployedUnits": 6
+      },
+      "rankStatus": "PENDING_USER_ASSIGNMENT"
+    }
   },
   "sdArt": {
-    "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png"
+    "qualityAnchor": "assets/ui/project-v/art-references/sd-quality-anchor-silver-cat-v1.png",
+    "mercenaryBattleSprites": {
+      "ready": 12,
+      "pending": 8,
+      "roster": "assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json"
+    }
   }
 }

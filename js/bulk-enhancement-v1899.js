@@ -22,6 +22,11 @@
   const number=value=>Math.max(0,Number(value)||0).toLocaleString('ko-KR');
   const catalog=()=>Array.isArray(window.cnineCardCatalog?.())?window.cnineCardCatalog():[];
   const currentUser=()=>typeof loadUser==='function'?(loadUser()||{}):{};
+  const visibleCatalog=(rows,user)=>{
+    const policy=globalThis.CNineCardVisibilityV1908;
+    if(typeof policy?.filterCollectionCards==='function')return policy.filterCollectionCards(rows,user);
+    return String(user?.nickname||'').normalize('NFC').replace(/\u00a0/g,' ').trim()==='조은'?[]:rows;
+  };
   const accountKey=user=>String(user?.serverUserId||user?.id||user?.nickname||'').trim();
   const cardGrade=card=>String(card?.grade||card?.rarity||'').trim().toUpperCase();
   const cardLevel=(card,user=currentUser())=>Math.max(0,Math.floor(Number(user?.breakthroughs?.[String(card?.id)]||0)));
@@ -56,7 +61,7 @@
 
   function candidateCards(user=currentUser()){
     const owned=new Set((user?.owned||[]).map(String));
-    return catalog().filter(card=>owned.has(String(card.id))&&(GRADE_ORDER[cardGrade(card)]||0)>=MIN_GRADE_ORDER)
+    return visibleCatalog(catalog(),user).filter(card=>owned.has(String(card.id))&&(GRADE_ORDER[cardGrade(card)]||0)>=MIN_GRADE_ORDER)
       .sort((a,b)=>(GRADE_ORDER[cardGrade(b)]||0)-(GRADE_ORDER[cardGrade(a)]||0)||cardLevel(a,user)-cardLevel(b,user)||String(a.name||'').localeCompare(String(b.name||''),'ko'));
   }
 

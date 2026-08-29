@@ -7,12 +7,32 @@ const renderer=await readFile(new URL('../js/battle-v3-live.js',import.meta.url)
 const app=await readFile(new URL('../js/app.js',import.meta.url),'utf8');
 const css=await readFile(new URL('../css/territory-war-v1811.css',import.meta.url),'utf8');
 const index=await readFile(new URL('../index.html',import.meta.url),'utf8');
+const admin=await readFile(new URL('../admin/territory-war-admin-v1362.js',import.meta.url),'utf8');
 
 for(const operation of ['CARPET_BOMBING','SPG_BARRAGE','AIR_DEFENSE','COUNTER_BATTERY']){
   assert.match(server,new RegExp(operation));
 }
 assert.match(server,/territory_war_v3_command_messages/);
+assert.match(server,/territory_war_v3_mass_assault_uses/);
+assert.match(server,/PRIMARY KEY\(round_id,side\)/);
+assert.match(server,/massAssaultBySide/);
 assert.match(server,/territory-war\/commander-message/);
+assert.match(server,/admin\/territory-war\/reset-command-messages/);
+assert.match(server,/TERRITORY_COMMAND_MESSAGES_RESET/);
+assert.match(admin,/tw3ResetCommandMessages/);
+assert.match(admin,/admin\/territory-war\/reset-command-messages/);
+assert.match(admin,/개인전 최인접 매칭 진단/);
+assert.match(admin,/실전 15% 상한 보정/);
+assert.match(server,/admin\/territory-war\/assign-participant-side/);
+assert.match(server,/TERRITORY_PARTICIPANT_SIDE_ASSIGN/);
+assert.match(admin,/tw3AssignNickname/);
+assert.match(server,/territory_war_v3_commander_overrides/);
+assert.match(server,/admin\/territory-war\/assign-commander/);
+assert.match(server,/TERRITORY_COMMANDER_ASSIGN/);
+assert.match(admin,/tw3CommanderNickname/);
+assert.match(admin,/tw3AssignCommander/);
+assert.match(admin,/tw3MassAssaultSide/);
+assert.match(admin,/ONCE PER TEAM \/ ROUND/);
 assert.match(server,/counterBatteryGaugeBonus/);
 assert.match(server,/version:'V3',renderer:'PIXIJS',mode:'SIEGE'/);
 
@@ -30,8 +50,8 @@ assert.match(css,/recruit-fortress-v1-v1497\.webp/);
 assert.match(css,/siege-front-v1-v1497\.webp/);
 assert.match(renderer,/mode === 'PVP' \|\| mode === 'SIEGE'/);
 assert.match(app,/typeof window\.playSiegeBattleV2Live==='function'/);
-assert.match(index,/js\/app\.js\?v=1847-territory-my-rank/);
-assert.match(index,/territory-war-v1811\.js\?v=1847-territory-my-rank/);
+assert.match(index,/js\/app\.js\?v=1921-inventory-reroll-route/);
+assert.match(index,/territory-war-v1811\.js\?v=1916-territory-100-attack-reward/);
 
 for(const name of ['carpet-bombing','spg-barrage','air-defense','counter-battery','mass-assault','truce']){
   const file=new URL(`../assets/ui/territory-war/${name}-v1811.webp`,import.meta.url);

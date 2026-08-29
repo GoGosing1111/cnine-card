@@ -26,12 +26,13 @@ test('avatar foundation seeds ten hidden unsold records and upgrades multi effec
   const access=await avatarFeatureAccess(env,{id:1,role:'OWNER'},{fresh:true});
   const seedStatements=prepared.filter(statement=>statement.sql.includes('INSERT INTO avatar_catalog_v1'));
   assert.equal(seedStatements.length,10);
-  assert.equal(schema.length,16);
+  assert.equal(schema.length,17);
   assert.match(schema[0],/created_at TEXT NOT NULL DEFAULT to_char\(timezone\('UTC',CURRENT_TIMESTAMP\)/);
   assert.match(schema[1],/user_id BIGINT NOT NULL/);
   assert.ok(seedStatements.every(statement=>statement.sql.includes("'UNSET',NULL,'',''")));
   assert.ok(seedStatements.every(statement=>statement.sql.includes('?,?,0,0,0,?')));
   assert.ok(schema.some(sql=>sql.includes('CREATE TABLE IF NOT EXISTS avatar_effect_options_v1')));
+  assert.ok(schema.some(sql=>sql.includes('ALTER TABLE avatar_user_ownership_v1 ADD COLUMN IF NOT EXISTS expires_at TEXT')));
   const equipmentUpdates=prepared.filter(statement=>statement.sql.includes('UPDATE avatar_catalog_v1 SET equipment_image'));
   assert.equal(equipmentUpdates.length,30);
   assert.equal(equipmentUpdates.filter(statement=>String(statement.values[0]||'').includes('/equipment-v2/')).length,10);
@@ -105,6 +106,10 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(server,/effects:effectOptions/);
   assert.match(server,/safe_runtime_upgrade_v1867_avatar_equipment_alpha_v2/);
   assert.match(server,/safe_runtime_upgrade_v1870_avatar_equipment_alpha_v3/);
+  assert.match(server,/safe_runtime_upgrade_v1917_avatar_ownership_expiry_v1/);
+  assert.match(server,/o\.expires_at IS NULL OR o\.expires_at>CURRENT_TIMESTAMP/);
+  assert.match(server,/expiresAt:row\.expires_at\|\|null/);
+  assert.match(server,/expires_at=CASE WHEN avatar_user_ownership_v1\.expires_at IS NULL OR excluded\.expires_at IS NULL THEN NULL/);
   assert.match(server,/assets\/ui\/avatars-v1\/equipment-v3\//);
   assert.match(battleApi,/applyAvatarCoinGain\(eventReward,avatarEffect\)/);
   assert.match(battleApi,/applyAvatarCoinGain\(attackerEventCoinReward,aAvatarEffect\)/);
@@ -112,6 +117,7 @@ test('live avatar route is gated and wired through both V21 routers', async () =
   assert.match(battleApi,/applyAvatarRaidEntryBonus\(instanceCfg\.dailyEntries,avatarEffect\)/);
   assert.match(battleApi,/avatarEffect,collectBattleLog/);
   assert.match(chief,/viewer_avatar_code/);
+  assert.match(chief,/vo\.expires_at IS NULL OR vo\.expires_at>CURRENT_TIMESTAMP/);
   assert.match(chief,/viewerAvatar:a\.viewerAvatar\|\|null/);
   assert.match(exact,/viewerAvatar: chief\.viewerAvatar \|\| null/);
   assert.match(exact,/chiefPictureMarkup\(chief, true, true\)/);

@@ -283,8 +283,9 @@
     void warmBattleArtAssets().catch(error => console.warn('전투 스프라이트 사전 로딩 실패:', error));
     const root = document.getElementById('pveHuntView');
     if (!root) return;
-    const viewMode = getPveViewMode(), user = loadUser(), ownedSet = ownedIds(user);
-    const owned = cards.filter(card => ownedSet.has(card.id)).sort((a, b) => (gradeOrder[b.grade] || 0) - (gradeOrder[a.grade] || 0) || battleCardPower(b, user, battleState.config) - battleCardPower(a, user, battleState.config));
+    const viewMode = getPveViewMode(), user = loadUser(), ownedSet = ownedIds(user), visibilityPolicy = globalThis.CNineCardVisibilityV1908;
+    const visibleCatalog = typeof visibilityPolicy?.filterCollectionCards === 'function' ? visibilityPolicy.filterCollectionCards(cards, user) : collectionSurfaceCards(cards, user);
+    const owned = visibleCatalog.filter(card => ownedSet.has(card.id)).sort((a, b) => (gradeOrder[b.grade] || 0) - (gradeOrder[a.grade] || 0) || battleCardPower(b, user, battleState.config) - battleCardPower(a, user, battleState.config));
     const bonus = battleState.characterBonus || {}, cardPower = battleState.deck.reduce((sum, id) => {
       const card = cards.find(item => String(item.id) === String(id));
       return sum + (card ? battleCardPower(card, user, battleState.config) : 0);

@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#05080d">
   <title>숲켓몬 랭크전 · LIVE UI PREVIEW</title>
   <link rel="stylesheet" href="../../css/card.css?v=1011-breakthrough-halo">
-  <link rel="stylesheet" href="./ranked-v2.css?v=1827-card-contract">
+  <link rel="stylesheet" href="./ranked-v2.css?v=1907-ranked-ui-clarity">
 </head>
 <body>
   <div class="ranked-shell" id="rankedApp">
@@ -81,132 +81,126 @@
         </div>
       </section>
 
+      <nav class="pvp-tabs" aria-label="랭크전 메뉴">
+        <button type="button" data-pvp="match" class="active" aria-selected="true"><svg viewBox="0 0 24 24"><path d="m7 4 10 16M17 4 7 20M5 7l2-3 3 1M19 7l-2-3-3 1"/></svg><span>매칭<small>MATCH</small></span></button>
+        <button type="button" data-pvp="deck" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 4h11v14H5zM8 7h11v13H8"/></svg><span>덱 편성<small>DECK</small></span></button>
+        <button type="button" data-pvp="history" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M12 7v5l3 2M5 5a9 9 0 1 1-1 11M4 5v5h5"/></svg><span>전투 기록<small>ARCHIVE</small></span></button>
+        <button type="button" data-pvp="ranking" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 20v-7h4v7M10 20V8h4v12M15 20V4h4v16M3 20h18"/></svg><span>시즌 랭킹<small>RANKING</small></span></button>
+        <button type="button" data-pvp="reward" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 9h16v11H4zM3 5h18v4H3zM12 5v15M12 5c-2-4-6-3-5 0M12 5c2-4 6-3 5 0"/></svg><span>시즌 보상<small>REWARD</small></span></button>
+      </nav>
+
       <section class="view-deck" id="pvpContent" aria-live="polite">
         <section class="ranked-view is-active" data-view="match">
-          <div class="match-layout">
-            <aside class="tactical-panel tier-panel">
-              <header class="panel-head">
-                <span>RANK PROGRESS</span>
-                <b>BRONZE IV</b>
-              </header>
-              <div class="tier-focus">
-                <img src="../../assets/ui/tiers/bronze.png" alt="">
-                <div><small>현재 구간</small><strong>브론즈 IV</strong><span>TOP 78.4%</span></div>
+          <div class="ranked-match-v1907">
+            <article class="ranked-match-console-v1907">
+              <header class="ranked-match-head-v1907"><span><i></i> RANKED MATCH SYSTEM</span><b id="queueState">READY</b></header>
+              <div class="ranked-radar-v1907" aria-hidden="true">
+                <span class="radar-ring ring-one"></span><span class="radar-ring ring-two"></span>
+                <span class="radar-axis axis-x"></span><span class="radar-axis axis-y"></span><i class="radar-sweep"></i>
+                <div class="radar-core"><b>PVP</b><small>READY</small></div>
               </div>
-              <div class="rank-route" aria-label="티어 진행도">
-                <div class="rank-node done"><i></i><span>배치 완료</span><b>900</b></div>
-                <div class="rank-line"><i style="height:50%"></i></div>
-                <div class="rank-node current"><i></i><span>브론즈 III</span><b>1,200</b></div>
+              <div class="ranked-match-copy-v1907"><p class="eyebrow">BALANCED AUTO MATCH</p><h2>균형 상대 매칭</h2><p>현재 티어와 실제 편성 전투력이 가장 가까운 상대를 자동으로 탐색합니다.</p></div>
+              <div class="ranked-readiness-rail-v1907" aria-label="매칭 준비 상태">
+                <article><img src="../../assets/ui/tiers/bronze.png" alt=""><span><small>현재 티어</small><b>브론즈 IV</b><em>시즌 1,000점</em></span></article>
+                <article><span class="status-icon deck-icon" aria-hidden="true"></span><span><small>출전 덱</small><b>5 / 5 READY</b><em>전투력 152,800</em></span><button type="button" data-go-tab="deck">점검</button></article>
+                <article><span class="status-icon fatigue-icon" aria-hidden="true"></span><span><small>랭크 피로도</small><b>무제한</b><em>OWNER 혜택 적용</em></span></article>
               </div>
-              <div class="promotion-copy">
-                <small>NEXT PROMOTION</small>
-                <b><em>200</em>점 남음</b>
-                <span>승리 시 예상 +28 ~ +36</span>
-              </div>
-            </aside>
-
-            <article class="match-core">
-              <div class="core-corner top-left" aria-hidden="true"></div>
-              <div class="core-corner bottom-right" aria-hidden="true"></div>
-              <header class="match-status">
-                <span><i></i> MATCH SYSTEM READY</span>
-                <b id="queueState">QUEUE 01</b>
-              </header>
-              <picture class="match-scanner" aria-hidden="true">
-                <source srcset="../../assets/ui/ranked/ranked-match-scanner-v1826.avif" type="image/avif">
-                <img src="../../assets/ui/ranked/ranked-match-scanner-v1826.webp" alt="" decoding="async" fetchpriority="high">
-              </picture>
-              <div class="match-copy">
-                <p class="eyebrow">RANKED AUTO MATCH</p>
-                <h2>균형 상대 탐색</h2>
-                <p>티어·시즌 점수·실제 편성 전투력을 동시에 비교합니다. 상대 목록은 공개되지 않습니다.</p>
-              </div>
-              <div class="match-factors" aria-label="매칭 기준">
-                <span><svg viewBox="0 0 24 24"><path d="m12 3 7 3v5c0 4.5-2.8 7.8-7 10-4.2-2.2-7-5.5-7-10V6l7-3Z"/></svg><small>티어</small><b>브론즈</b></span>
-                <span><svg viewBox="0 0 24 24"><path d="M4 19h16M6 16l3-7 3 4 3-8 3 11"/></svg><small>시즌 점수</small><b>1,000</b></span>
-                <span><svg viewBox="0 0 24 24"><path d="M4 14h5l2-8 3 12 2-6h4"/></svg><small>편성 전투력</small><b>152,800</b></span>
-              </div>
-              <button type="button" class="ranked-match-start pvp-fight" id="rankedMatchStart">
-                <span class="button-kicker">PROJECT V3 / LIVE COMBAT</span>
-                <strong>랭크전 매칭 시작</strong>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg>
-              </button>
-              <p class="ranked-match-rule">제한 종료 판정 · 생존 카드 수 → 잔여 HP 비율 → 편성 전투력</p>
+              <button type="button" class="ranked-match-start match-start-v1907 pvp-fight" id="rankedMatchStart"><span class="button-kicker">PROJECT V3 / LIVE COMBAT</span><strong>랭크전 매칭 시작</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
+              <p class="ranked-match-rule">제한 종료 판정: 생존 카드 수 → 잔여 HP 비율 → 편성 전투력</p>
             </article>
-
-            <aside class="tactical-panel deck-panel">
-              <header class="panel-head">
-                <span>ACTIVE DECK</span>
-                <b class="ready-state"><i></i> 5 / 5 READY</b>
-              </header>
-              <div class="ranked-mini-roster" aria-label="현재 출전 덱">
-                <article class="ranked-mini-slot front">
-                  <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0418"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/kimtaekyong.webp" alt="한정판 김택용" loading="lazy" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>김택용</small><div class="card-title-row"><div class="card-title">한정판 김택용</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="slot-position">전열 1</span>
-                </article>
-                <article class="ranked-mini-slot front">
-                  <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0419"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/bongsun.webp" alt="한정판 나무늘봉순" loading="lazy" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>나무늘봉순</small><div class="card-title-row"><div class="card-title">한정판 나무늘봉순</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="slot-position">전열 2</span>
-                </article>
-                <article class="ranked-mini-slot back">
-                  <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0420"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/namsudaeng.webp" alt="한정판 남수댕" loading="lazy" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>남수댕</small><div class="card-title-row"><div class="card-title">한정판 남수댕</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="slot-position">후열 1</span>
-                </article>
-                <article class="ranked-mini-slot back">
-                  <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0425"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/orikkung.webp" alt="한정판 오리꿍" loading="lazy" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>오리꿍</small><div class="card-title-row"><div class="card-title">한정판 오리꿍</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="slot-position">후열 2</span>
-                </article>
-                <article class="ranked-mini-slot back">
-                  <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0426"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/ojoeun.webp" alt="한정판 오조은" loading="lazy" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>오조은</small><div class="card-title-row"><div class="card-title">한정판 오조은</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="slot-position">후열 3</span>
-                </article>
-              </div>
-              <div class="deck-power">
-                <span><small>실제 편성 전투력</small><strong>152,800</strong></span>
-                <span><small>전투 보정</small><b>+8.4%</b></span>
-              </div>
-              <button class="secondary-action" type="button" data-go-tab="deck">출전 덱 점검 <span>→</span></button>
-            </aside>
           </div>
         </section>
 
         <section class="ranked-view" data-view="deck" hidden>
-          <div class="workspace-layout deck-workspace">
-            <article class="workspace-primary">
-              <header class="workspace-head"><div><p class="eyebrow">PVP DECK BUILDER</p><h2>출전 편성</h2></div><div class="workspace-actions"><span class="sync-chip"><i></i> 서버 저장 완료</span><button class="save-action" type="button">현재 편성 저장</button></div></header>
-              <div class="preset-strip" role="tablist" aria-label="덱 프리셋">
-                <button class="active" type="button">프리셋 1 <small>공격 사용 중</small></button>
-                <button type="button">프리셋 2 <small>저장됨</small></button>
-                <button type="button">프리셋 3 <small>비어 있음</small></button>
+          <div class="ranked-deck-renewal" id="rankedDeckRenewal">
+            <section class="ranked-deck-command" aria-labelledby="rankedDeckCommandTitle">
+              <div class="ranked-deck-command-copy">
+                <p class="eyebrow">PVP PRESET CONTROL</p>
+                <h2 id="rankedDeckCommandTitle">랭크전 저장 프리셋</h2>
+                <p>프리셋 1은 기본 방어 덱이며, 1~3번 중 저장한 프리셋이 현재 공격 덱으로 적용됩니다.</p>
               </div>
-              <div class="ranked-deck-roster" aria-label="프리셋 1 카드 편성">
-                <article class="ranked-deck-slot">
+              <div class="ranked-deck-command-actions">
+                <button class="deck-control-action" id="deckRestoreAction" type="button" disabled>저장본 복원</button>
+                <button class="deck-control-action danger" id="deckClearAction" type="button">편성 비우기</button>
+              </div>
+              <div class="deck-preset-grid" role="tablist" aria-label="랭크전 덱 프리셋">
+                <button class="deck-preset-button is-selected is-active-use" data-deck-preset="1" type="button" role="tab" aria-selected="true">
+                  <span><b>프리셋 1</b><small>공격 사용 중</small></span><em>5 / 5 · 152,800</em>
+                </button>
+                <button class="deck-preset-button" data-deck-preset="2" type="button" role="tab" aria-selected="false">
+                  <span><b>프리셋 2</b><small>저장됨</small></span><em>5 / 5 · 148,260</em>
+                </button>
+                <button class="deck-preset-button is-empty" data-deck-preset="3" type="button" role="tab" aria-selected="false">
+                  <span><b>프리셋 3</b><small>비어 있음</small></span><em>0 / 5 · 미편성</em>
+                </button>
+              </div>
+            </section>
+
+            <section class="ranked-formation-console" aria-labelledby="formationConsoleTitle">
+              <header class="ranked-console-head">
+                <div><p class="eyebrow">FORMATION CONSOLE</p><h3 id="formationConsoleTitle">프리셋 1 전투 진형</h3><p>전열 2장은 먼저 공격받고, 후열 3장은 전열 붕괴 후 공격받습니다.</p></div>
+                <div class="ranked-console-meta"><strong class="ranked-formation-state" id="deckFormationState">5 / 5 READY</strong><div class="ranked-rule-chips" aria-label="등급 편성 제한"><span>PRESTIGE <b>2 / 2</b></span><span>FUR <b>2 / 2</b></span><span>ZENITH <b>1 / 2</b></span></div></div>
+              </header>
+
+              <div class="ranked-position-guide" aria-label="진형 배치 규칙"><b>전열 2장</b><span>먼저 공격받는 자리</span><i></i><b>후열 3장</b><span>전열 붕괴 후 공격받는 자리</span></div>
+              <div class="renewed-deck-roster" id="renewedDeckRoster" aria-label="프리셋 1 카드 편성">
+                <article class="renewed-deck-slot front">
                   <span class="deck-position"><b>01</b> 전열 · 공격형</span>
                   <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0418"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/kimtaekyong.webp" alt="한정판 김택용" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>김택용</small><div class="card-title-row"><div class="card-title">한정판 김택용</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="deck-level">Lv.13</span>
+                  <div class="deck-empty-state"><b>빈 슬롯</b><span>보유 카드에서 선택</span></div><span class="deck-level">Lv.13</span>
                 </article>
-                <article class="ranked-deck-slot">
+                <article class="renewed-deck-slot front">
                   <span class="deck-position"><b>02</b> 전열 · 방어형</span>
                   <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0419"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/bongsun.webp" alt="한정판 나무늘봉순" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>나무늘봉순</small><div class="card-title-row"><div class="card-title">한정판 나무늘봉순</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="deck-level">Lv.13</span>
+                  <div class="deck-empty-state"><b>빈 슬롯</b><span>보유 카드에서 선택</span></div><span class="deck-level">Lv.13</span>
                 </article>
-                <article class="ranked-deck-slot">
+                <article class="renewed-deck-slot back">
                   <span class="deck-position"><b>03</b> 후열 · 속도형</span>
                   <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0420"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/namsudaeng.webp" alt="한정판 남수댕" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>남수댕</small><div class="card-title-row"><div class="card-title">한정판 남수댕</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="deck-level">Lv.13</span>
+                  <div class="deck-empty-state"><b>빈 슬롯</b><span>보유 카드에서 선택</span></div><span class="deck-level">Lv.13</span>
                 </article>
-                <article class="ranked-deck-slot">
+                <article class="renewed-deck-slot back">
                   <span class="deck-position"><b>04</b> 후열 · HP형</span>
                   <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0425"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/orikkung.webp" alt="한정판 오리꿍" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>오리꿍</small><div class="card-title-row"><div class="card-title">한정판 오리꿍</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="deck-level">Lv.13</span>
+                  <div class="deck-empty-state"><b>빈 슬롯</b><span>보유 카드에서 선택</span></div><span class="deck-level">Lv.13</span>
                 </article>
-                <article class="ranked-deck-slot">
+                <article class="renewed-deck-slot back">
                   <span class="deck-position"><b>05</b> 후열 · 공격형</span>
                   <div class="card-frame grade-LIMITED small pvp-card-display ranked-roster-card" data-id="card-0426"><div class="card-holo"></div><div class="breakthrough-effect"></div><div class="card-inner"><div class="card-header"><span>LIMITED</span><b>SOOP</b></div><div class="card-art"><img src="../../assets/cards/limited/ojoeun.webp" alt="한정판 오조은" decoding="async" style="object-position:50% 38%"></div><div class="card-footer"><div><small>오조은</small><div class="card-title-row"><div class="card-title">한정판 오조은</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div></div></div>
-                  <span class="deck-level">Lv.13</span>
+                  <div class="deck-empty-state"><b>빈 슬롯</b><span>보유 카드에서 선택</span></div><span class="deck-level">Lv.13</span>
                 </article>
               </div>
-            </article>
+
+              <section class="ranked-power-summary-v1907" aria-labelledby="rankedPowerTitle">
+                <div class="ranked-power-primary"><span><small id="rankedPowerTitle">RANKED COMBAT POWER</small><b>최종 전투력</b></span><strong id="deckTotalPower">152,800</strong><button id="deckPowerToggle" type="button" aria-expanded="false" aria-controls="deckPowerDetails">상세 보기</button></div>
+                <dl class="ranked-power-breakdown" id="deckPowerDetails" aria-label="랭크전 편성 전투력 구성" hidden>
+                  <div><dt>카드 전투력</dt><dd id="deckCardPower">112,450</dd></div><div><dt>장비</dt><dd id="deckEquipmentPower">31,500</dd></div><div><dt>차고</dt><dd id="deckVehiclePower">8,850</dd></div><div><dt>칭호</dt><dd>0</dd></div>
+                </dl>
+              </section>
+              <div class="ranked-save-bar-v1907">
+                <span class="deck-sync-state" id="deckSyncState" role="status" aria-live="polite"><i></i> 서버 저장본과 일치</span>
+                <p>선택한 프리셋을 서버에 저장하고 현재 공격 덱으로 적용합니다.</p>
+                <button class="save-action deck-save-primary" id="deckSaveAction" type="button">프리셋 1 저장 · 적용</button>
+              </div>
+            </section>
+
+            <section class="ranked-owned-catalog" aria-labelledby="rankedCatalogTitle">
+              <header class="ranked-catalog-head"><div><p class="eyebrow">OWNED CARD CATALOG</p><h3 id="rankedCatalogTitle">보유 카드에서 편성</h3><p>카드를 선택하면 현재 프리셋의 빈 슬롯부터 배치됩니다.</p></div><strong id="catalogResultCount">6장 표시</strong></header>
+              <div class="ranked-catalog-filters" aria-label="보유 카드 필터">
+                <label><span>카드 검색</span><input id="rankedCatalogSearch" type="search" placeholder="이름 검색" autocomplete="off"></label>
+                <label><span>등급</span><select id="rankedCatalogGrade"><option value="all">전체 등급</option><option value="limited">LIMITED</option><option value="zenith">ZENITH</option></select></label>
+                <label><span>역할</span><select id="rankedCatalogRole"><option value="all">전체 역할</option><option value="attack">공격형</option><option value="defense">방어형</option><option value="speed">속도형</option></select></label>
+                <label><span>정렬</span><select><option>전투력 높은 순</option><option>등급 높은 순</option><option>이름 순</option></select></label>
+              </div>
+              <div class="ranked-catalog-grid" id="rankedCatalogGrid">
+                <button class="ranked-catalog-card is-in-deck" type="button" data-grade="limited" data-role="attack" data-search="김택용 한정판"><img src="../../assets/cards/limited/kimtaekyong.webp" alt="김택용"><span><small>LIMITED · 공격형</small><b>한정판 김택용</b><em>22,000</em></span><i>편성 중</i></button>
+                <button class="ranked-catalog-card is-in-deck" type="button" data-grade="limited" data-role="defense" data-search="나무늘봉순 한정판"><img src="../../assets/cards/limited/bongsun.webp" alt="나무늘봉순"><span><small>LIMITED · 방어형</small><b>한정판 나무늘봉순</b><em>21,900</em></span><i>편성 중</i></button>
+                <button class="ranked-catalog-card" type="button" data-grade="limited" data-role="speed" data-search="철구 한정판"><img src="../../assets/cards/limited/chulgu.webp" alt="철구"><span><small>LIMITED · 속도형</small><b>한정판 철구</b><em>21,480</em></span><i>편성</i></button>
+                <button class="ranked-catalog-card" type="button" data-grade="limited" data-role="attack" data-search="디임 한정판"><img src="../../assets/cards/limited/diim.webp" alt="디임"><span><small>LIMITED · 공격형</small><b>한정판 디임</b><em>20,850</em></span><i>편성</i></button>
+                <button class="ranked-catalog-card" type="button" data-grade="zenith" data-role="speed" data-search="오조은 제니스"><img src="../../assets/cards/limited/ojoeun.webp" alt="오조은"><span><small>ZENITH · 속도형</small><b>제니스 오조은</b><em>30,250</em></span><i>편성</i></button>
+                <button class="ranked-catalog-card" type="button" data-grade="limited" data-role="defense" data-search="효짱 한정판"><img src="../../assets/cards/limited/hyojjang.webp" alt="효짱"><span><small>LIMITED · 방어형</small><b>한정판 효짱</b><em>20,420</em></span><i>편성</i></button>
+              </div>
+            </section>
           </div>
         </section>
 
@@ -261,15 +255,8 @@
         </section>
       </section>
 
-      <nav class="pvp-tabs" aria-label="랭크전 메뉴">
-        <button type="button" data-pvp="match" class="active" aria-selected="true"><svg viewBox="0 0 24 24"><path d="m7 4 10 16M17 4 7 20M5 7l2-3 3 1M19 7l-2-3-3 1"/></svg><span>매칭<small>MATCH</small></span></button>
-        <button type="button" data-pvp="deck" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 4h11v14H5zM8 7h11v13H8"/></svg><span>덱 편성<small>DECK</small></span></button>
-        <button type="button" data-pvp="history" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M12 7v5l3 2M5 5a9 9 0 1 1-1 11M4 5v5h5"/></svg><span>전투 기록<small>ARCHIVE</small></span></button>
-        <button type="button" data-pvp="ranking" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 20v-7h4v7M10 20V8h4v12M15 20V4h4v16M3 20h18"/></svg><span>시즌 랭킹<small>RANKING</small></span></button>
-        <button type="button" data-pvp="reward" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M4 9h16v11H4zM3 5h18v4H3zM12 5v15M12 5c-2-4-6-3-5 0M12 5c2-4 6-3 5 0"/></svg><span>시즌 보상<small>REWARD</small></span></button>
-      </nav>
     </main>
   </div>
-  <script src="./ranked-v2.js?v=1827-card-contract"></script>
+  <script src="./ranked-v2.js?v=1907-ranked-ui-clarity"></script>
 </body>
 </html>
