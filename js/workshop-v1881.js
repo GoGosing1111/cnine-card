@@ -31,6 +31,10 @@
     ['VEHICLE_PART_FRAME', '프레임', 'assets/ui/workshop/vehicle-part-frame-v1668.png'],
     ['VEHICLE_PART_ENGINE', '엔진', 'assets/ui/workshop/vehicle-part-engine-v1668.png']
   ];
+  const MYSTIC_ENERGY_CODE = 'STARLIGHT_ARMOR_CORE';
+  const MYSTIC_ENERGY_IMAGE = 'assets/items/starlight-armor-core-v1749.png';
+  const MATERIAL_PAYMENT_MODE = 'COIN_AND_CARD_SHARD';
+  const materialCardShardCost = recipe => Number(recipe?.card_shard_cost ?? recipe?.cardShardCost ?? 0);
 
   let workshopState = null;
   let scrapyardState = null;
@@ -50,6 +54,7 @@
   let scrapyardActionVersion = 0;
   let pendingVehicleRequest = null;
   let pendingSynthesisRequest = null;
+  let pendingMaterialRequest = null;
   let pendingScrapyardRequest = null;
   let pendingRequestsLoaded = false;
 
@@ -64,13 +69,18 @@
     if (arguments.length > 1) {
       if (kind === 'vehicle') pendingVehicleRequest = value;
       else if (kind === 'synthesis') pendingSynthesisRequest = value;
-      else pendingScrapyardRequest = value;
+      else if (kind === 'material') pendingMaterialRequest = value;
+      else if (kind === 'scrapyard') pendingScrapyardRequest = value;
     }
-    return kind === 'vehicle' ? pendingVehicleRequest : kind === 'synthesis' ? pendingSynthesisRequest : pendingScrapyardRequest;
+    if (kind === 'vehicle') return pendingVehicleRequest;
+    if (kind === 'synthesis') return pendingSynthesisRequest;
+    if (kind === 'material') return pendingMaterialRequest;
+    if (kind === 'scrapyard') return pendingScrapyardRequest;
+    return null;
   }
   function persistPendingRequests() {
     try {
-      sessionStorage.setItem(PENDING_REQUESTS_KEY, JSON.stringify({ vehicle: pendingVehicleRequest, synthesis: pendingSynthesisRequest, scrapyard: pendingScrapyardRequest }));
+      sessionStorage.setItem(PENDING_REQUESTS_KEY, JSON.stringify({ vehicle: pendingVehicleRequest, synthesis: pendingSynthesisRequest, material: pendingMaterialRequest, scrapyard: pendingScrapyardRequest }));
     } catch (_) {}
   }
   function loadPendingRequests() {
@@ -80,6 +90,7 @@
       const saved = JSON.parse(sessionStorage.getItem(PENDING_REQUESTS_KEY) || '{}');
       pendingVehicleRequest = saved.vehicle || null;
       pendingSynthesisRequest = saved.synthesis || null;
+      pendingMaterialRequest = saved.material || null;
       pendingScrapyardRequest = saved.scrapyard || null;
     } catch (_) {}
   }
@@ -126,7 +137,7 @@
   });
 
   function workshopView() {
-    return `<section class="ws76 ws81-workshop"><div id="workshopRootV1881" class="ws76-root ws81-root"><div class="ws76-loading"><i></i><b>MASTER WORKS</b><span>차량 제작과 장비 합성 설비를 가동하고 있습니다.</span></div></div></section>`;
+    return `<section class="ws76 ws81-workshop"><div id="workshopRootV1881" class="ws76-root ws81-root"><div class="ws76-loading"><i></i><b>MASTER WORKS</b><span>차량·장비·재료 제작 설비를 가동하고 있습니다.</span></div></div></section>`;
   }
 
   function scrapyardView() {
@@ -136,9 +147,10 @@
   function workshopHeader() {
     return `<header class="ws76-header ws81-header">
       <div class="ws81-header-code" aria-hidden="true"><span>MW</span><i>1881</i></div>
-      <div><small>SOOPKETMON · MASTER WORKS</small><h1>제작소</h1><p>차량 제작과 장비 합성, 두 설비만 독립 운용합니다.</p></div>
+      <div><small>SOOPKETMON · MASTER WORKS</small><h1>제작소</h1><p>차량 제작·장비 합성·재료 제작 설비를 독립 운용합니다.</p></div>
       <aside>
         <span><small>COIN</small><b>${fmt(workshopState?.wallet?.coin)}</b></span>
+        <span><small>CARD SHARD</small><b>${fmt(workshopState?.wallet?.cardShards)}</b></span>
         <span><small>MASTER STAR</small><b>${fmt(workshopState?.wallet?.masterStars)}</b></span>
       </aside>
     </header>`;
@@ -162,6 +174,7 @@
     return `<nav class="ws76-nav ws81-nav" aria-label="제작소 설비 선택">
       <button type="button" data-ws-section="VEHICLE" class="${workshopSection === 'VEHICLE' ? 'active' : ''}"><i>01</i><span><b>차량 제작</b><small>타이어 · 프레임 · 엔진 조립</small></span></button>
       <button type="button" data-ws-section="SYNTHESIS" class="${workshopSection === 'SYNTHESIS' ? 'active' : ''}"><i>02</i><span><b>장비 합성</b><small>활성 계보 · 전체 합성 계보</small></span></button>
+      <button type="button" data-ws-section="MATERIAL_CRAFT" class="${workshopSection === 'MATERIAL_CRAFT' ? 'active' : ''}"><i>03</i><span><b>재료 제작</b><small>고급 제작 에너지 변환</small></span></button>
     </nav>`;
   }
 
@@ -259,6 +272,50 @@
     </div>`;
   }
 
+  function materialCraftPanel() {
+    const recipes = (workshopState?.recipes || []).filter(row => row.category === 'MATERIAL_CRAFT');
+    const pending = currentMutationRequest('material');
+    const recipe = recipes.find(row => String(row.id) === String(pending?.target || ''))
+      || recipes.find(row => String(row.output_ref || '').toUpperCase() === MYSTIC_ENERGY_CODE)
+      || recipes[0];
+    if (!recipe) {
+      return `<section class="ws81-material-empty"><span>MATERIAL FABRICATION · 03</span><h2>재료 제작 설비 준비 중</h2><p>현재 공개된 재료 제작 레시피가 없습니다.</p></section>`;
+    }
+    const outputCode = String(recipe.output_ref || MYSTIC_ENERGY_CODE).toUpperCase();
+    const outputItem = workshopState?.inventory?.[outputCode] || {};
+    const coinOwned = Number(workshopState?.wallet?.coin || 0);
+    const shardOwned = Number(workshopState?.wallet?.cardShards || 0);
+    const coinCost = Number(recipe.coin_cost || 0);
+    const shardCost = materialCardShardCost(recipe);
+    const coinReady = coinOwned >= coinCost;
+    const shardReady = shardOwned >= shardCost;
+    const recovering = pending?.target === String(recipe.id);
+    const ready = recovering || (coinReady && shardReady);
+    const outputName = recipe.output_name || outputItem.name || '미스틱 에너지';
+    const outputImage = recipe.output_image || outputItem.image_url || MYSTIC_ENERGY_IMAGE;
+    const outputQuantity = Math.max(1, Number(recipe.output_quantity || 1));
+    return `<section class="ws81-material-craft" aria-label="재료 제작">
+      <header class="ws81-material-command"><div><small>MATERIAL FABRICATION · FACILITY 03</small><h2>${esc(outputName)} 제작</h2><p>${esc(recipe.description || '코인과 카드 조각을 고밀도 제작 에너지로 변환합니다.')}</p></div><span>${Number(recipe.success_rate ?? 100)}% 성공 확률</span></header>
+      <div class="ws81-material-layout">
+        <figure class="ws81-material-output">
+          <div class="ws81-material-energy" aria-hidden="true"><i></i><i></i></div>
+          <img src="${esc(asset(outputImage))}" alt="${esc(outputName)}">
+          <figcaption><small>CRAFT OUTPUT · ${esc(recipe.output_rarity || outputItem.rarity || 'MYTHIC')}</small><b>${esc(outputName)} × ${fmt(outputQuantity)}</b><span>현재 보유 ${fmt(outputItem.quantity)}개</span></figcaption>
+        </figure>
+        <section class="ws81-material-requirements">
+          <header><div><small>REQUIRED RESOURCES</small><h3>필요 제작 재화</h3></div><em>${coinReady && shardReady ? '제작 준비 완료' : '보유 재화 부족'}</em></header>
+          <div class="ws81-material-costs">
+            <article class="${coinReady ? 'ready' : 'short'}"><span><small>COIN</small><b>코인</b></span><strong>${fmt(coinCost)}</strong><em>보유 ${fmt(coinOwned)}</em></article>
+            <article class="${shardReady ? 'ready' : 'short'}"><span><small>CARD SHARD</small><b>카드 조각</b></span><strong>${fmt(shardCost)}</strong><em>보유 ${fmt(shardOwned)}</em></article>
+          </div>
+          <div class="ws81-material-summary"><span><small>제작 결과</small><b>${esc(outputName)} × ${fmt(outputQuantity)}</b></span><span><small>성공 확률</small><b>${Number(recipe.success_rate ?? 100)}%</b></span></div>
+          <p>제작 버튼을 누르면 서버가 코인과 카드 조각 잔액을 다시 확인합니다. 완료된 재료는 인벤토리에 즉시 지급됩니다.</p>
+          <button type="button" id="wsMaterialCraft" class="ws76-primary" ${ready && !workshopBusy ? '' : 'disabled'}>${workshopBusy ? '재료 변환 공정 진행 중' : recovering ? '이전 재료 제작 결과 확인' : ready ? `${esc(outputName)} 제작` : '코인 또는 카드 조각 부족'}</button>
+        </section>
+      </div>
+    </section>`;
+  }
+
   function scrapyardPanel() {
     const scrap = scrapyardState;
     if (!scrap) return '<div class="ws76-panel ws76-loading"><i></i><b>폐차장 정보를 불러오는 중</b></div>';
@@ -284,7 +341,12 @@
   function renderWorkshop() {
     const root = document.getElementById('workshopRootV1881');
     if (!root || !workshopState) return;
-    root.innerHTML = workshopHeader() + workshopNav() + (workshopSection === 'SYNTHESIS' ? synthesisPanel() : vehiclePanel());
+    const panel = workshopSection === 'SYNTHESIS'
+      ? synthesisPanel()
+      : workshopSection === 'MATERIAL_CRAFT'
+        ? materialCraftPanel()
+        : vehiclePanel();
+    root.innerHTML = workshopHeader() + workshopNav() + panel;
     normalizeImages(root);
     bindWorkshopControls(root);
   }
@@ -328,6 +390,7 @@
     });
     root.querySelector('#wsVehicleCraft')?.addEventListener('click', craftVehicle);
     root.querySelector('#wsSynthStart')?.addEventListener('click', synthesizeEquipment);
+    root.querySelector('#wsMaterialCraft')?.addEventListener('click', craftMaterial);
   }
 
   function bindScrapyardControls(root) {
@@ -425,6 +488,90 @@
       : `<section><small>ASSEMBLY FAILED</small><h2>차량 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(recipeName)}</b><p>제작 판정에 실패했습니다. 투입한 재료와 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
     normalizeImages(modal);
     modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; };
+  }
+
+  async function craftMaterial() {
+    const recipe = (workshopState?.recipes || []).find(row => row.category === 'MATERIAL_CRAFT' && String(row.output_ref || '').toUpperCase() === MYSTIC_ENERGY_CODE)
+      || (workshopState?.recipes || []).find(row => row.category === 'MATERIAL_CRAFT');
+    if (!recipe || workshopBusy) return;
+    const pending = currentMutationRequest('material');
+    const recovering = pending?.target === String(recipe.id);
+    const coinCost = Number(recipe.coin_cost || 0);
+    const shardCost = materialCardShardCost(recipe);
+    if (!recovering && (Number(workshopState?.wallet?.coin || 0) < coinCost || Number(workshopState?.wallet?.cardShards || 0) < shardCost)) {
+      return alert('재료 제작에 필요한 코인 또는 카드 조각이 부족합니다.');
+    }
+    const outputName = recipe.output_name || '미스틱 에너지';
+    const prompt = recovering
+      ? `${outputName} 제작 결과를 동일 요청번호로 안전하게 재확인합니다.`
+      : `${outputName} × ${fmt(recipe.output_quantity || 1)}\n성공 확률 ${Number(recipe.success_rate ?? 100)}% · 코인 ${fmt(coinCost)} + 카드 조각 ${fmt(shardCost)}를 사용합니다.\n실패 시 투입 재화는 반환되지 않으며, 동일한 제작 요청은 중복 차감되지 않습니다. 제작하시겠습니까?`;
+    if (!confirm(prompt)) return;
+    const ticket = prepareMutationRequest('material', recipe.id, 'WORKSHOP-MATERIAL');
+    if (ticket.blocked) return alert('이전 재료 제작 결과를 먼저 확인해야 합니다. 이전에 선택한 재료 제작으로 다시 시도해 주세요.');
+    const actionVersion = ++workshopActionVersion;
+    const epoch = routeEpoch;
+    const session = sessionIdentity();
+    const ownsAction = () => actionVersion === workshopActionVersion;
+    const sameSession = () => session === sessionIdentity();
+    const canPresent = () => ownsAction() && sameSession() && epoch === routeEpoch && workshopMounted();
+    workshopBusy = true;
+    renderWorkshop();
+    let reconcile = false;
+    try {
+      const data = await api('workshop/craft', { method: 'POST', body: JSON.stringify({ recipeId: recipe.id, paymentType: MATERIAL_PAYMENT_MODE, requestId: ticket.requestId }) });
+      clearMutationRequest('material', ticket.requestId);
+      if (!ownsAction()) return;
+      if (canPresent()) {
+        workshopLoadVersion += 1;
+        workshopState = data.state;
+        syncWorkshopBalances(data);
+        showMaterialResult(data);
+      }
+    } catch (error) {
+      const uncertain = mutationTransportUncertain(error);
+      if (uncertain) reconcile = true;
+      else clearMutationRequest('material', ticket.requestId);
+      if (canPresent()) alert(uncertain ? mutationRetryMessage('재료 제작') : error.message);
+    } finally {
+      if (ownsAction()) {
+        workshopBusy = false;
+        if (workshopMounted()) {
+          if (reconcile) void bindWorkshopView();
+          else if (canPresent()) renderWorkshop();
+          else void bindWorkshopView();
+        }
+      }
+    }
+  }
+
+  function syncWorkshopBalances(data) {
+    try {
+      const wallet = data?.state?.wallet;
+      const user = window.loadUser?.();
+      if (wallet && user) {
+        user.coin = Number(wallet.coin ?? user.coin ?? 0);
+        user.cardShards = Number(wallet.cardShards ?? user.cardShards ?? 0);
+        window.saveUser?.(user);
+      }
+      window.clearApiCache?.('inventory');
+      window.clearApiCache?.('shell/summary');
+      window.clearApiCache?.('me/summary');
+      window.dispatchEvent(new CustomEvent('cnine:workshop-crafted', { detail: data }));
+    } catch (_) {}
+  }
+
+  function showMaterialResult(data) {
+    const modal = document.getElementById('modal');
+    if (!modal) return;
+    const success = data?.success === true && data?.output;
+    const output = data?.output || {};
+    const outputName = output.name || data?.recipeName || '미스틱 에너지';
+    modal.className = `modal show ws76-simple-result ws81-material-result ${success ? 'is-success' : 'is-failed'}`;
+    modal.innerHTML = success
+      ? `<section><small>MATERIAL FABRICATION COMPLETE</small><h2>재료 제작 완료</h2><img src="${esc(asset(output.image || MYSTIC_ENERGY_IMAGE))}" alt="${esc(outputName)}"><b>${esc(outputName)} × ${fmt(output.quantity || 1)}</b><p>제작된 미스틱 에너지가 인벤토리에 정상 지급되었습니다.</p><button type="button">확인</button></section>`
+      : `<section><small>MATERIAL FABRICATION FAILED</small><h2>재료 제작 실패</h2><div class="ws76-result-failure-mark" aria-hidden="true"><i></i><b>FAILED</b></div><b>${esc(outputName)}</b><p>제작 판정에 실패했습니다. 투입된 재화는 반환되지 않습니다.</p><button type="button">확인</button></section>`;
+    normalizeImages(modal);
+    modal.querySelector('button').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
   }
 
   async function synthesizeEquipment() {

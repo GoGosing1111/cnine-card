@@ -28,8 +28,9 @@ assert.match(bindScrapyard, /loadVersion\s*!==\s*scrapyardLoadVersion[\s\S]*?syn
 const workshopNav = between(client, 'function workshopNav()', 'function vehiclePartsBank()');
 assert.match(workshopNav, /data-ws-section="VEHICLE"/);
 assert.match(workshopNav, /data-ws-section="SYNTHESIS"/);
+assert.match(workshopNav, /data-ws-section="MATERIAL_CRAFT"/);
 assert.doesNotMatch(workshopNav, /SCRAPYARD|폐차장/);
-assert.deepEqual([...workshopNav.matchAll(/data-ws-section="([^"]+)"/g)].map(match => match[1]), ['VEHICLE', 'SYNTHESIS']);
+assert.deepEqual([...workshopNav.matchAll(/data-ws-section="([^"]+)"/g)].map(match => match[1]), ['VEHICLE', 'SYNTHESIS', 'MATERIAL_CRAFT']);
 
 // Tire/frame/engine balances are a vehicle-panel concern only.
 const vehiclePanel = between(client, 'function vehiclePanel()', 'const synthRequired');

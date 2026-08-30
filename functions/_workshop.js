@@ -8,9 +8,24 @@ const LOG_TABLE='workshop_craft_logs_v1668';
 const SYNTH_RECEIPT_TABLE='equipment_synthesis_receipts_v1676';
 const SYNTH_LOG_TABLE='equipment_synthesis_logs_v1676';
 const SYNTH_RECIPE_TABLE='equipment_synthesis_recipes_v1677';
-const CATEGORIES=new Set(['VEHICLE','EQUIPMENT_SYNTHESIS']);
+const CATEGORIES=new Set(['VEHICLE','EQUIPMENT_SYNTHESIS','MATERIAL_CRAFT']);
 const OUTPUT_TYPES=new Set(['VEHICLE','EQUIPMENT','INVENTORY_ITEM']);
-const PAYMENT_MODES=new Set(['COIN_OR_MASTER_STAR','COIN_ONLY','MASTER_STAR_ONLY','BOTH']);
+const PAYMENT_MODES=new Set(['COIN_OR_MASTER_STAR','COIN_ONLY','MASTER_STAR_ONLY','BOTH','COIN_AND_CARD_SHARD']);
+const MATERIAL_CRAFT_UPGRADE_KEY='safe_runtime_upgrade_v1933_workshop_material_craft_no_schema_change';
+const MYSTIC_ENERGY_RECIPE_CODE='WORKSHOP_MYSTIC_ENERGY';
+const MYSTIC_ENERGY_ITEM_CODE='STARLIGHT_ARMOR_CORE';
+const FIXED_RECIPE_COSTS=Object.freeze({
+  [MYSTIC_ENERGY_RECIPE_CODE]:Object.freeze({
+    category:'MATERIAL_CRAFT',
+    outputType:'INVENTORY_ITEM',
+    outputRef:MYSTIC_ENERGY_ITEM_CODE,
+    outputQuantity:1,
+    paymentMode:'COIN_AND_CARD_SHARD',
+    coin:200000000,
+    cardShards:5000000,
+    successRate:10
+  })
+});
 let foundationPromise=null;
 
 const int=(value,min=0,max=Number.MAX_SAFE_INTEGER,fallback=min)=>{const n=Math.floor(Number(value));return Number.isFinite(n)?Math.max(min,Math.min(max,n)):fallback};
@@ -53,38 +68,51 @@ const DEFAULT_RECIPES=[
   {code:'WORKSHOP_SKI1000C',name:'SKI1000C 조립',description:'정밀 부품을 대량 투입해 완성하는 상급 제작 차량입니다.',outputRef:'3',coin:6000000,stars:18,featured:0,sort:30,materials:[['VEHICLE_PART_TIRE',14],['VEHICLE_PART_FRAME',8],['VEHICLE_PART_ENGINE',5]]}
 ];
 
+async function ensureMaterialCraftUpgrade(env){
+  const marker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(MATERIAL_CRAFT_UPGRADE_KEY).first();
+  if(marker?.value==='1')return true;
+  await env.DB.batch([
+    env.DB.prepare(`INSERT INTO inventory_items(code,name,subtitle,description,category,rarity,image_url,sort_order,is_active) VALUES('STARLIGHT_ARMOR_CORE','미스틱 에너지','MYSTIC ENERGY','미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.','MATERIAL','MYTHIC','assets/items/starlight-armor-core-v1749.png',174900,1) ON CONFLICT(code) DO UPDATE SET name=excluded.name,subtitle=excluded.subtitle,description=excluded.description,category=excluded.category,rarity=excluded.rarity,image_url=excluded.image_url,sort_order=excluded.sort_order,is_active=1,updated_at=CURRENT_TIMESTAMP`),
+    env.DB.prepare(`INSERT INTO ${RECIPE_TABLE}(code,category,name,description,output_type,output_ref,output_quantity,payment_mode,coin_cost,master_star_cost,success_rate,is_featured,is_active,is_public,owner_test_only,sort_order) VALUES('WORKSHOP_MYSTIC_ENERGY','MATERIAL_CRAFT','미스틱 에너지 제작','고밀도 카드 조각을 압축해 미스틱 에너지 1개를 제작합니다.','INVENTORY_ITEM','STARLIGHT_ARMOR_CORE',1,'COIN_AND_CARD_SHARD',200000000,0,10,1,1,1,0,10) ON CONFLICT(code) DO UPDATE SET category=excluded.category,name=excluded.name,description=excluded.description,output_type=excluded.output_type,output_ref=excluded.output_ref,output_quantity=excluded.output_quantity,payment_mode=excluded.payment_mode,coin_cost=excluded.coin_cost,master_star_cost=excluded.master_star_cost,success_rate=excluded.success_rate,is_featured=excluded.is_featured,is_active=excluded.is_active,is_public=excluded.is_public,owner_test_only=excluded.owner_test_only,sort_order=excluded.sort_order,updated_at=CURRENT_TIMESTAMP`),
+    env.DB.prepare(`INSERT INTO app_meta(key,value,updated_at) VALUES(?, '1', CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP`).bind(MATERIAL_CRAFT_UPGRADE_KEY)
+  ]);
+  return true;
+}
+
 export async function ensureWorkshopFoundation(env){
   if(foundationPromise)return foundationPromise;
   foundationPromise=(async()=>{
     const current=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1678_synthesis_rate_scrapyard_rewards'").first();
-    if(current?.value==='1')return true;
-    await ensureEquipmentFoundation(env);
-    for(const sql of FOUNDATION_SQL)await env.DB.prepare(sql).run();
-    const recipeColumns=await env.DB.prepare(`PRAGMA table_info(${SYNTH_RECIPE_TABLE})`).all();
-    if(!(recipeColumns.results||[]).some(row=>row.name==='success_rate'))await env.DB.prepare(`ALTER TABLE ${SYNTH_RECIPE_TABLE} ADD COLUMN success_rate REAL NOT NULL DEFAULT 100`).run();
-    const logColumns=await env.DB.prepare(`PRAGMA table_info(${SYNTH_LOG_TABLE})`).all();
-    if(!(logColumns.results||[]).some(row=>row.name==='success'))await env.DB.prepare(`ALTER TABLE ${SYNTH_LOG_TABLE} ADD COLUMN success INTEGER NOT NULL DEFAULT 1`).run();
-    await env.DB.batch([
-      env.DB.prepare("UPDATE inventory_items SET image_url='assets/ui/workshop/vehicle-part-tire-v1668.png',updated_at=CURRENT_TIMESTAMP WHERE code='VEHICLE_PART_TIRE'"),
-      env.DB.prepare("UPDATE inventory_items SET image_url='assets/ui/workshop/vehicle-part-frame-v1668.png',updated_at=CURRENT_TIMESTAMP WHERE code='VEHICLE_PART_FRAME'"),
-      env.DB.prepare("UPDATE inventory_items SET image_url='assets/ui/workshop/vehicle-part-engine-v1668.png',updated_at=CURRENT_TIMESTAMP WHERE code='VEHICLE_PART_ENGINE'"),
-      env.DB.prepare(`DELETE FROM ${GUARD_TABLE} WHERE created_at<datetime('now','-1 day')`)
-    ]);
-    for(const recipe of DEFAULT_RECIPES){
-      await env.DB.prepare(`INSERT OR IGNORE INTO ${RECIPE_TABLE}(code,category,name,description,output_type,output_ref,output_quantity,payment_mode,coin_cost,master_star_cost,success_rate,is_featured,is_active,is_public,owner_test_only,sort_order) SELECT ?,'VEHICLE',?,?,'VEHICLE',CAST(id AS TEXT),1,'COIN_OR_MASTER_STAR',?,?,100,?,1,1,0,? FROM character_garage_items WHERE id=?`).bind(recipe.code,recipe.name,recipe.description,recipe.coin,recipe.stars,recipe.featured,recipe.sort,Number(recipe.outputRef)).run();
-      const row=await env.DB.prepare(`SELECT id FROM ${RECIPE_TABLE} WHERE code=?`).bind(recipe.code).first();
-      if(row?.id){const statements=recipe.materials.map(([itemCode,quantity],index)=>env.DB.prepare(`INSERT OR IGNORE INTO ${MATERIAL_TABLE}(recipe_id,item_code,quantity,sort_order) VALUES(?,?,?,?)`).bind(row.id,itemCode,quantity,(index+1)*10));if(statements.length)await env.DB.batch(statements)}
+    if(current?.value!=='1'){
+      await ensureEquipmentFoundation(env);
+      for(const sql of FOUNDATION_SQL)await env.DB.prepare(sql).run();
+      const recipeColumns=await env.DB.prepare(`PRAGMA table_info(${SYNTH_RECIPE_TABLE})`).all();
+      if(!(recipeColumns.results||[]).some(row=>row.name==='success_rate'))await env.DB.prepare(`ALTER TABLE ${SYNTH_RECIPE_TABLE} ADD COLUMN success_rate REAL NOT NULL DEFAULT 100`).run();
+      const logColumns=await env.DB.prepare(`PRAGMA table_info(${SYNTH_LOG_TABLE})`).all();
+      if(!(logColumns.results||[]).some(row=>row.name==='success'))await env.DB.prepare(`ALTER TABLE ${SYNTH_LOG_TABLE} ADD COLUMN success INTEGER NOT NULL DEFAULT 1`).run();
+      await env.DB.batch([
+        env.DB.prepare("UPDATE inventory_items SET image_url='assets/ui/workshop/vehicle-part-tire-v1668.png',updated_at=CURRENT_TIMESTAMP WHERE code='VEHICLE_PART_TIRE'"),
+        env.DB.prepare("UPDATE inventory_items SET image_url='assets/ui/workshop/vehicle-part-frame-v1668.png',updated_at=CURRENT_TIMESTAMP WHERE code='VEHICLE_PART_FRAME'"),
+        env.DB.prepare("UPDATE inventory_items SET image_url='assets/ui/workshop/vehicle-part-engine-v1668.png',updated_at=CURRENT_TIMESTAMP WHERE code='VEHICLE_PART_ENGINE'"),
+        env.DB.prepare(`DELETE FROM ${GUARD_TABLE} WHERE created_at<datetime('now','-1 day')`)
+      ]);
+      for(const recipe of DEFAULT_RECIPES){
+        await env.DB.prepare(`INSERT OR IGNORE INTO ${RECIPE_TABLE}(code,category,name,description,output_type,output_ref,output_quantity,payment_mode,coin_cost,master_star_cost,success_rate,is_featured,is_active,is_public,owner_test_only,sort_order) SELECT ?,'VEHICLE',?,?,'VEHICLE',CAST(id AS TEXT),1,'COIN_OR_MASTER_STAR',?,?,100,?,1,1,0,? FROM character_garage_items WHERE id=?`).bind(recipe.code,recipe.name,recipe.description,recipe.coin,recipe.stars,recipe.featured,recipe.sort,Number(recipe.outputRef)).run();
+        const row=await env.DB.prepare(`SELECT id FROM ${RECIPE_TABLE} WHERE code=?`).bind(recipe.code).first();
+        if(row?.id){const statements=recipe.materials.map(([itemCode,quantity],index)=>env.DB.prepare(`INSERT OR IGNORE INTO ${MATERIAL_TABLE}(recipe_id,item_code,quantity,sort_order) VALUES(?,?,?,?)`).bind(row.id,itemCode,quantity,(index+1)*10));if(statements.length)await env.DB.batch(statements)}
+      }
+      for(const [recipeCode,name,description,inputName,outputName,sortOrder] of DEFAULT_SYNTH_RECIPES){
+        await env.DB.prepare(`INSERT OR IGNORE INTO ${SYNTH_RECIPE_TABLE}(code,name,description,input_equipment_id,output_equipment_id,input_quantity,is_active,is_public,owner_test_only,sort_order)
+          SELECT ?,?,?,input.id,output.id,3,1,1,0,? FROM character_equipment_items input JOIN character_equipment_items output ON output.name=? WHERE input.name=? LIMIT 1`).bind(recipeCode,name,description,sortOrder,outputName,inputName).run();
+      }
+      await env.DB.batch([
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1668_workshop','1',CURRENT_TIMESTAMP)"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1676_workshop_synthesis','1',CURRENT_TIMESTAMP)"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1677_equipment_synthesis_recipes','1',CURRENT_TIMESTAMP)"),
+        env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1678_synthesis_rate_scrapyard_rewards','1',CURRENT_TIMESTAMP)")
+      ]);
     }
-    for(const [recipeCode,name,description,inputName,outputName,sortOrder] of DEFAULT_SYNTH_RECIPES){
-      await env.DB.prepare(`INSERT OR IGNORE INTO ${SYNTH_RECIPE_TABLE}(code,name,description,input_equipment_id,output_equipment_id,input_quantity,is_active,is_public,owner_test_only,sort_order)
-        SELECT ?,?,?,input.id,output.id,3,1,1,0,? FROM character_equipment_items input JOIN character_equipment_items output ON output.name=? WHERE input.name=? LIMIT 1`).bind(recipeCode,name,description,sortOrder,outputName,inputName).run();
-    }
-    await env.DB.batch([
-      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1668_workshop','1',CURRENT_TIMESTAMP)"),
-      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1676_workshop_synthesis','1',CURRENT_TIMESTAMP)"),
-      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1677_equipment_synthesis_recipes','1',CURRENT_TIMESTAMP)"),
-      env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1678_synthesis_rate_scrapyard_rewards','1',CURRENT_TIMESTAMP)")
-    ]);
+    await ensureMaterialCraftUpgrade(env);
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -92,11 +120,26 @@ export async function ensureWorkshopFoundation(env){
 
 async function recipeRows(env,{admin=false}={}){
   const where=admin?'1=1':'r.is_active=1 AND r.is_public=1';
-  const rows=await env.DB.prepare(`SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),char(92),'/') output_image,COALESCE(g.rarity,e.rarity,i.rarity,'SPECIAL') output_rarity,COALESCE(g.pve_power,e.pve_power,0) output_pve,COALESCE(g.pvp_power,e.pvp_power,0) output_pvp FROM ${RECIPE_TABLE} r LEFT JOIN character_garage_items g ON r.output_type='VEHICLE' AND g.id=CAST(r.output_ref AS INTEGER) LEFT JOIN character_equipment_items e ON r.output_type='EQUIPMENT' AND e.id=CAST(r.output_ref AS INTEGER) LEFT JOIN inventory_items i ON r.output_type='INVENTORY_ITEM' AND i.code=r.output_ref WHERE ${where} ORDER BY r.category,r.sort_order,r.id`).all();
+  const rows=await env.DB.prepare(`SELECT r.*,COALESCE(g.name,e.name,i.name,r.name) output_name,replace(COALESCE(g.image_url,e.image_url,i.image_url,''),char(92),'/') output_image,COALESCE(g.rarity,e.rarity,i.rarity,'SPECIAL') output_rarity,COALESCE(g.pve_power,e.pve_power,0) output_pve,COALESCE(g.pvp_power,e.pvp_power,0) output_pvp FROM ${RECIPE_TABLE} r LEFT JOIN character_garage_items g ON r.output_type='VEHICLE' AND CAST(g.id AS TEXT)=r.output_ref LEFT JOIN character_equipment_items e ON r.output_type='EQUIPMENT' AND CAST(e.id AS TEXT)=r.output_ref LEFT JOIN inventory_items i ON r.output_type='INVENTORY_ITEM' AND i.code=r.output_ref WHERE ${where} ORDER BY r.category,r.sort_order,r.id`).all();
   const materials=await env.DB.prepare(`SELECT m.*,i.name item_name,replace(i.image_url,char(92),'/') image_url,i.rarity FROM ${MATERIAL_TABLE} m LEFT JOIN inventory_items i ON i.code=m.item_code ORDER BY m.recipe_id,m.sort_order,m.item_code`).all();
   const byRecipe=new Map();
   for(const material of materials.results||[]){const id=Number(material.recipe_id);if(!byRecipe.has(id))byRecipe.set(id,[]);byRecipe.get(id).push({...material,quantity:Number(material.quantity||0)})}
-  return (rows.results||[]).map(row=>({...row,id:Number(row.id),coin_cost:Number(row.coin_cost||0),master_star_cost:Number(row.master_star_cost||0),success_rate:Number(row.success_rate||100),output_quantity:Number(row.output_quantity||1),materials:byRecipe.get(Number(row.id))||[]}));
+  return (rows.results||[]).map(row=>{
+    const fixed=FIXED_RECIPE_COSTS[String(row.code||'').toUpperCase()];
+    return {...row,
+      id:Number(row.id),
+      category:fixed?.category??row.category,
+      output_type:fixed?.outputType??row.output_type,
+      output_ref:fixed?.outputRef??row.output_ref,
+      output_quantity:Number(fixed?.outputQuantity??row.output_quantity??1),
+      payment_mode:fixed?.paymentMode??row.payment_mode,
+      coin_cost:Number(fixed?.coin??row.coin_cost??0),
+      master_star_cost:Number(fixed?0:row.master_star_cost||0),
+      card_shard_cost:Number(fixed?.cardShards||0),
+      success_rate:Number(fixed?.successRate??row.success_rate??100),
+      materials:fixed?[]:byRecipe.get(Number(row.id))||[]
+    };
+  });
 }
 
 async function synthesisRecipeRows(env,user,{admin=false}={}){
@@ -116,24 +159,27 @@ async function synthesisRecipeRows(env,user,{admin=false}={}){
 
 async function userWorkshopState(env,user,{admin=false}={}){
   const [wallet,items,ownedVehicles,recipes,synthesisRows]=await Promise.all([
-    env.DB.prepare(`SELECT u.coin,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=u.id AND item_code='MASTER_STAR'),0) master_stars FROM users u WHERE u.id=?`).bind(user.id).first(),
-    env.DB.prepare(`SELECT i.code,i.name,replace(i.image_url,char(92),'/') image_url,i.rarity,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=? WHERE i.code='MASTER_STAR' OR EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m WHERE m.item_code=i.code)`).bind(user.id).all(),
+    env.DB.prepare(`SELECT u.coin,u.card_shards,COALESCE((SELECT quantity FROM cnine_user_inventory WHERE user_id=u.id AND item_code='MASTER_STAR'),0) master_stars FROM users u WHERE u.id=?`).bind(user.id).first(),
+    env.DB.prepare(`SELECT i.code,i.name,replace(i.image_url,char(92),'/') image_url,i.rarity,COALESCE(ui.quantity,0) quantity FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=? WHERE i.code='MASTER_STAR' OR EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m WHERE m.item_code=i.code) OR EXISTS(SELECT 1 FROM ${RECIPE_TABLE} r WHERE r.output_type='INVENTORY_ITEM' AND r.output_ref=i.code AND r.is_active=1 AND r.is_public=1)`).bind(user.id).all(),
     env.DB.prepare('SELECT garage_id FROM user_garage_vehicles WHERE user_id=?').bind(user.id).all(),
     recipeRows(env,{admin}),
     synthesisRecipeRows(env,user,{admin})
   ]);
   const inventory=Object.fromEntries((items.results||[]).map(row=>[row.code,{...row,quantity:Number(row.quantity||0)}]));
   const owned=new Set((ownedVehicles.results||[]).map(row=>String(row.garage_id)));
-  return {serverNow:new Date().toISOString(),wallet:{coin:Number(wallet?.coin||0),masterStars:Number(wallet?.master_stars||0)},inventory,recipes:recipes.filter(recipe=>admin||Number(recipe.owner_test_only)===0||isOwner(user)).map(recipe=>({...recipe,owned:recipe.output_type==='VEHICLE'&&owned.has(String(recipe.output_ref))})),synthesis:synthesisRows,categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:true}]};
+  return {serverNow:new Date().toISOString(),wallet:{coin:Number(wallet?.coin||0),cardShards:Number(wallet?.card_shards||0),masterStars:Number(wallet?.master_stars||0)},inventory,recipes:recipes.filter(recipe=>admin||Number(recipe.owner_test_only)===0||isOwner(user)).map(recipe=>({...recipe,owned:recipe.output_type==='VEHICLE'&&owned.has(String(recipe.output_ref))})),synthesis:synthesisRows,categories:[{id:'VEHICLE',name:'차량 제작',enabled:true},{id:'EQUIPMENT_SYNTHESIS',name:'장비 합성',enabled:true},{id:'MATERIAL_CRAFT',name:'재료 제작',enabled:true}]};
 }
 
 function paymentFor(recipe,requested){
   const mode=String(recipe.payment_mode||'COIN_OR_MASTER_STAR').toUpperCase(),choice=String(requested||'').toUpperCase();
-  if(mode==='COIN_ONLY')return {type:'COIN',coin:Number(recipe.coin_cost||0),stars:0};
-  if(mode==='MASTER_STAR_ONLY')return {type:'MASTER_STAR',coin:0,stars:Number(recipe.master_star_cost||0)};
-  if(mode==='BOTH')return {type:'BOTH',coin:Number(recipe.coin_cost||0),stars:Number(recipe.master_star_cost||0)};
+  const fixed=FIXED_RECIPE_COSTS[String(recipe.code||'').toUpperCase()];
+  if(fixed)return {type:'COIN_AND_CARD_SHARD',coin:Number(fixed.coin||0),stars:0,shards:Number(fixed.cardShards||0)};
+  if(mode==='COIN_ONLY')return {type:'COIN',coin:Number(recipe.coin_cost||0),stars:0,shards:0};
+  if(mode==='MASTER_STAR_ONLY')return {type:'MASTER_STAR',coin:0,stars:Number(recipe.master_star_cost||0),shards:0};
+  if(mode==='BOTH')return {type:'BOTH',coin:Number(recipe.coin_cost||0),stars:Number(recipe.master_star_cost||0),shards:0};
+  if(mode==='COIN_AND_CARD_SHARD')return {type:'COIN_AND_CARD_SHARD',coin:Number(recipe.coin_cost||0),stars:0,shards:Number(recipe.card_shard_cost||0)};
   if(!['COIN','MASTER_STAR'].includes(choice))throw new Error('코인 또는 마스터의 별 결제 방식을 선택하세요.');
-  return choice==='COIN'?{type:'COIN',coin:Number(recipe.coin_cost||0),stars:0}:{type:'MASTER_STAR',coin:0,stars:Number(recipe.master_star_cost||0)};
+  return choice==='COIN'?{type:'COIN',coin:Number(recipe.coin_cost||0),stars:0,shards:0}:{type:'MASTER_STAR',coin:0,stars:Number(recipe.master_star_cost||0),shards:0};
 }
 
 async function craft(env,user,body){
@@ -149,15 +195,22 @@ async function craft(env,user,body){
   const payment=paymentFor(recipe,body.paymentType),state=await userWorkshopState(env,user),missing=recipe.materials.filter(material=>Number(state.inventory[material.item_code]?.quantity||0)<Number(material.quantity||0));
   if(missing.length)throw new Error(`제작 재료가 부족합니다: ${missing.map(material=>material.item_name||material.item_code).join(', ')}`);
   if(state.wallet.coin<payment.coin)throw new Error('제작에 필요한 코인이 부족합니다.');
+  if(state.wallet.cardShards<payment.shards)throw new Error('제작에 필요한 카드 조각이 부족합니다.');
   if(state.wallet.masterStars<payment.stars)throw new Error('제작에 필요한 마스터의 별이 부족합니다.');
   const reserved=await env.DB.prepare(`INSERT OR IGNORE INTO ${RECEIPT_TABLE}(request_id,user_id,recipe_id,payment_type,status) VALUES(?,?,?,?,'PENDING')`).bind(requestId,user.id,recipe.id,payment.type).run();
   if(!reserved.meta?.changes)throw new Error('같은 제작 요청을 처리 중입니다.');
   const guardId=`WORKSHOP:${user.id}:${requestId}`,success=Math.random()*100<recipe.success_rate;
-  const result={ok:true,requestId,recipeId:recipe.id,recipeName:recipe.name,category:recipe.category,success,paymentType:payment.type,coinSpent:payment.coin,masterStarSpent:payment.stars,output:success?{type:recipe.output_type,ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:recipe.output_quantity}:null};
-  const guard=env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,?,CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=?) AND (?=0 OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?)) AND NOT EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=m.item_code WHERE m.recipe_id=? AND COALESCE(ui.quantity,0)<m.quantity) AND (?<>'VEHICLE' OR NOT EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,recipe.id,user.id,payment.coin,payment.stars,user.id,payment.stars,user.id,recipe.id,recipe.output_type,user.id,int(recipe.output_ref,0));
+  const result={ok:true,requestId,recipeId:recipe.id,recipeName:recipe.name,category:recipe.category,success,paymentType:payment.type,coinSpent:payment.coin,masterStarSpent:payment.stars,cardShardSpent:payment.shards,output:success?{type:recipe.output_type,ref:recipe.output_ref,name:recipe.output_name,image:recipe.output_image,rarity:recipe.output_rarity,quantity:recipe.output_quantity}:null};
+  const guard=env.DB.prepare(`INSERT INTO ${GUARD_TABLE}(guard_id,user_id,recipe_id,verified) SELECT ?,?,?,CASE WHEN EXISTS(SELECT 1 FROM users WHERE id=? AND coin>=? AND card_shards>=?) AND (?=0 OR EXISTS(SELECT 1 FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND quantity>=?)) AND NOT EXISTS(SELECT 1 FROM ${MATERIAL_TABLE} m LEFT JOIN cnine_user_inventory ui ON ui.user_id=? AND ui.item_code=m.item_code WHERE m.recipe_id=? AND COALESCE(ui.quantity,0)<m.quantity) AND (?<>'VEHICLE' OR NOT EXISTS(SELECT 1 FROM user_garage_vehicles WHERE user_id=? AND garage_id=?)) THEN 1 ELSE 0 END`).bind(guardId,user.id,recipe.id,user.id,payment.coin,payment.shards,payment.stars,user.id,payment.stars,user.id,recipe.id,recipe.output_type,user.id,int(recipe.output_ref,0));
   const verified=`EXISTS(SELECT 1 FROM ${GUARD_TABLE} WHERE guard_id=? AND verified=1)`;
-  const statements=[guard];
-  if(payment.coin>0)statements.push(env.DB.prepare(`UPDATE users SET coin=coin-? WHERE id=? AND ${verified}`).bind(payment.coin,user.id,guardId));
+  const statements=[];
+  if(env.DB?.dialect==='postgres'){
+    statements.push(env.DB.prepare('SELECT id FROM users WHERE id=? FOR UPDATE').bind(user.id));
+    const inventoryCodes=[...new Set([...(payment.stars>0?['MASTER_STAR']:[]),...recipe.materials.map(material=>material.item_code)])];
+    if(inventoryCodes.length){const marks=inventoryCodes.map(()=>'?').join(',');statements.push(env.DB.prepare(`SELECT item_code FROM cnine_user_inventory WHERE user_id=? AND item_code IN (${marks}) FOR UPDATE`).bind(user.id,...inventoryCodes))}
+  }
+  statements.push(guard);
+  if(payment.coin>0||payment.shards>0)statements.push(env.DB.prepare(`UPDATE users SET coin=coin-?,card_shards=card_shards-? WHERE id=? AND coin>=? AND card_shards>=? AND ${verified}`).bind(payment.coin,payment.shards,user.id,payment.coin,payment.shards,guardId));
   if(payment.stars>0)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code='MASTER_STAR' AND ${verified}`).bind(payment.stars,payment.stars,user.id,guardId));
   for(const material of recipe.materials)statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-?,unseen_quantity=MIN(unseen_quantity,quantity-?),updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND ${verified}`).bind(material.quantity,material.quantity,user.id,material.item_code,guardId));
   if(success&&recipe.output_type==='VEHICLE')statements.push(env.DB.prepare(`INSERT INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,CAST(? AS INTEGER),'WORKSHOP',? WHERE ${verified}`).bind(user.id,recipe.output_ref,requestId,guardId));
@@ -167,6 +220,8 @@ async function craft(env,user,body){
   for(const material of recipe.materials)statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-?,quantity,'WORKSHOP_MATERIAL','WORKSHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${verified}`).bind(user.id,material.item_code,material.quantity,requestId,user.id,material.item_code,guardId));
   if(payment.stars>0)statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',-?,quantity,'WORKSHOP_PAYMENT','WORKSHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND ${verified}`).bind(user.id,payment.stars,requestId,user.id,guardId));
   if(payment.coin>0)statements.push(env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT ?,-?,coin,'WORKSHOP_PAYMENT' FROM users WHERE id=? AND ${verified}`).bind(user.id,payment.coin,user.id,guardId));
+  if(payment.shards>0)statements.push(env.DB.prepare(`INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) SELECT ?,-?,card_shards,'WORKSHOP_PAYMENT',NULL FROM users WHERE id=? AND ${verified}`).bind(user.id,payment.shards,user.id,guardId));
+  if(success&&recipe.output_type==='INVENTORY_ITEM')statements.push(env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,?,quantity,'WORKSHOP_OUTPUT','WORKSHOP',? FROM cnine_user_inventory WHERE user_id=? AND item_code=? AND ${verified}`).bind(user.id,recipe.output_ref,recipe.output_quantity,requestId,user.id,recipe.output_ref,guardId));
   statements.push(env.DB.prepare(`UPDATE ${RECEIPT_TABLE} SET status='COMPLETED',result_json=?,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND ${verified}`).bind(JSON.stringify(result),requestId,user.id,guardId));
   try{await env.DB.batch(statements)}catch(error){
     const message=clean(error?.message||'제작 트랜잭션 처리 실패',300);
@@ -211,7 +266,7 @@ async function adminSnapshot(env){
     env.DB.prepare('SELECT id,code,name,rarity,image_url FROM character_garage_items WHERE is_active=1 ORDER BY sort_order,id').all(),
     env.DB.prepare('SELECT id,code,name,slot,rarity,image_url FROM character_equipment_items WHERE is_active=1 ORDER BY sort_order,id').all(),
     env.DB.prepare('SELECT code,name,category,rarity,image_url FROM inventory_items WHERE is_active=1 ORDER BY category,sort_order,name').all(),
-    env.DB.prepare(`SELECT l.*,u.nickname FROM ${LOG_TABLE} l LEFT JOIN users u ON u.id=l.user_id ORDER BY l.id DESC LIMIT 60`).all(),
+    env.DB.prepare(`SELECT l.*,r.code recipe_code,u.nickname,CASE WHEN UPPER(COALESCE(r.code,''))='${MYSTIC_ENERGY_RECIPE_CODE}' THEN ${FIXED_RECIPE_COSTS[MYSTIC_ENERGY_RECIPE_CODE].cardShards} ELSE 0 END card_shard_spent FROM ${LOG_TABLE} l LEFT JOIN ${RECIPE_TABLE} r ON r.id=l.recipe_id LEFT JOIN users u ON u.id=l.user_id ORDER BY l.id DESC LIMIT 60`).all(),
     env.DB.prepare(`SELECT r.*,input.name input_name,input.rarity input_rarity,replace(input.image_url,char(92),'/') input_image,output.name output_name,output.rarity output_rarity,replace(output.image_url,char(92),'/') output_image FROM ${SYNTH_RECIPE_TABLE} r JOIN character_equipment_items input ON input.id=r.input_equipment_id JOIN character_equipment_items output ON output.id=r.output_equipment_id ORDER BY r.sort_order,r.id`).all(),
     env.DB.prepare(`SELECT l.*,u.nickname,input.name input_name,output.name output_name FROM ${SYNTH_LOG_TABLE} l LEFT JOIN users u ON u.id=l.user_id LEFT JOIN character_equipment_items input ON input.id=l.input_equipment_id LEFT JOIN character_equipment_items output ON output.id=l.output_equipment_id ORDER BY l.id DESC LIMIT 60`).all()
   ]);
@@ -221,20 +276,30 @@ async function adminSnapshot(env){
 function cleanMaterial(raw,index){const itemCode=code(raw.itemCode||raw.item_code,100),quantity=int(raw.quantity,1,100000000,1);if(!itemCode)throw new Error(`${index+1}번째 재료 코드를 입력하세요.`);return {itemCode,quantity,sortOrder:int(raw.sortOrder??raw.sort_order,-100000,100000,(index+1)*10)}}
 
 async function saveRecipe(env,admin,raw,deps){
-  const id=int(raw.id,0,2147483647),recipeCode=code(raw.code),category=code(raw.category),name=clean(raw.name,80),outputType=code(raw.outputType||raw.output_type),outputRef=clean(raw.outputRef||raw.output_ref,100),paymentMode=code(raw.paymentMode||raw.payment_mode),materials=(Array.isArray(raw.materials)?raw.materials:[]).slice(0,30).map(cleanMaterial);
+  const id=int(raw.id,0,2147483647),requestedRecipeCode=code(raw.code),name=clean(raw.name,80);
+  let before=null;
+  if(id){before=await env.DB.prepare(`SELECT * FROM ${RECIPE_TABLE} WHERE id=?`).bind(id).first();if(!before)throw new Error('수정할 레시피를 찾을 수 없습니다.')}
+  const editingCanonical=String(before?.code||'').toUpperCase()===MYSTIC_ENERGY_RECIPE_CODE;
+  const recipeCode=editingCanonical?MYSTIC_ENERGY_RECIPE_CODE:requestedRecipeCode;
+  const fixed=FIXED_RECIPE_COSTS[recipeCode];
+  const category=fixed?.category??code(raw.category),outputType=fixed?.outputType??code(raw.outputType||raw.output_type),outputRef=fixed?.outputRef??clean(raw.outputRef||raw.output_ref,100),outputQuantity=int(fixed?.outputQuantity??raw.outputQuantity??raw.output_quantity,1,100,1),paymentMode=fixed?.paymentMode??code(raw.paymentMode||raw.payment_mode),materials=fixed?[]:(Array.isArray(raw.materials)?raw.materials:[]).slice(0,30).map(cleanMaterial);
+  const requestedCardShardCost=int(raw.cardShardCost??raw.card_shard_cost,0,100000000,0),coinCost=int(fixed?.coin??raw.coinCost??raw.coin_cost,0,1000000000,0),masterStarCost=int(fixed?0:raw.masterStarCost??raw.master_star_cost,0,1000000,0),cardShardCost=Number(fixed?.cardShards||0),successRate=num(fixed?.successRate??raw.successRate??raw.success_rate,0,100,100);
   if(!recipeCode||!name||!outputRef)throw new Error('레시피 코드·이름·결과물을 입력하세요.');
   if(!CATEGORIES.has(category)||!OUTPUT_TYPES.has(outputType)||!PAYMENT_MODES.has(paymentMode))throw new Error('레시피 분류 또는 지급 방식을 확인하세요.');
-  if(!materials.length)throw new Error('제작 재료를 한 종류 이상 등록하세요.');
+  if(paymentMode==='COIN_AND_CARD_SHARD'&&!fixed)throw new Error('코인 + 카드 조각 비용은 서버 고정 재료 레시피에서만 사용할 수 있습니다.');
+  if(!fixed&&requestedCardShardCost>0)throw new Error('카드 조각 비용은 서버 고정 재료 레시피에서만 사용할 수 있습니다.');
+  if(!materials.length&&category!=='MATERIAL_CRAFT')throw new Error('제작 재료를 한 종류 이상 등록하세요.');
+  if(!materials.length&&coinCost<=0&&masterStarCost<=0&&cardShardCost<=0)throw new Error('재료 제작에는 하나 이상의 재화 비용이 필요합니다.');
   const duplicate=new Set();for(const material of materials){if(duplicate.has(material.itemCode))throw new Error(`중복 재료입니다: ${material.itemCode}`);duplicate.add(material.itemCode);if(!await env.DB.prepare('SELECT 1 FROM inventory_items WHERE code=? AND is_active=1').bind(material.itemCode).first())throw new Error(`등록되지 않은 재료입니다: ${material.itemCode}`)}
   const outputExists=outputType==='VEHICLE'?await env.DB.prepare('SELECT 1 FROM character_garage_items WHERE id=?').bind(int(outputRef,1)).first():outputType==='EQUIPMENT'?await env.DB.prepare('SELECT 1 FROM character_equipment_items WHERE id=?').bind(int(outputRef,1)).first():await env.DB.prepare('SELECT 1 FROM inventory_items WHERE code=?').bind(outputRef).first();
   if(!outputExists)throw new Error('제작 결과물을 찾을 수 없습니다.');
-  const values=[recipeCode,category,name,clean(raw.description,500),outputType,outputRef,int(raw.outputQuantity??raw.output_quantity,1,100,1),paymentMode,int(raw.coinCost??raw.coin_cost,0,1000000000,0),int(raw.masterStarCost??raw.master_star_cost,0,1000000,0),num(raw.successRate??raw.success_rate,0,100,100),bool(raw.isFeatured??raw.is_featured)?1:0,raw.isActive===false||Number(raw.is_active)===0?0:1,raw.isPublic===false||Number(raw.is_public)===0?0:1,bool(raw.ownerTestOnly??raw.owner_test_only)?1:0,int(raw.sortOrder??raw.sort_order,-100000,100000,0)];
-  let recipeId=id,before=null;
-  if(id){before=await env.DB.prepare(`SELECT * FROM ${RECIPE_TABLE} WHERE id=?`).bind(id).first();if(!before)throw new Error('수정할 레시피를 찾을 수 없습니다.');await env.DB.prepare(`UPDATE ${RECIPE_TABLE} SET code=?,category=?,name=?,description=?,output_type=?,output_ref=?,output_quantity=?,payment_mode=?,coin_cost=?,master_star_cost=?,success_rate=?,is_featured=?,is_active=?,is_public=?,owner_test_only=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...values,id).run()}
+  const values=[recipeCode,category,name,clean(raw.description,500),outputType,outputRef,outputQuantity,paymentMode,coinCost,masterStarCost,successRate,bool(raw.isFeatured??raw.is_featured)?1:0,raw.isActive===false||Number(raw.is_active)===0?0:1,raw.isPublic===false||Number(raw.is_public)===0?0:1,bool(raw.ownerTestOnly??raw.owner_test_only)?1:0,int(raw.sortOrder??raw.sort_order,-100000,100000,0)];
+  let recipeId=id;
+  if(id)await env.DB.prepare(`UPDATE ${RECIPE_TABLE} SET code=?,category=?,name=?,description=?,output_type=?,output_ref=?,output_quantity=?,payment_mode=?,coin_cost=?,master_star_cost=?,success_rate=?,is_featured=?,is_active=?,is_public=?,owner_test_only=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?`).bind(...values,id).run();
   else{const created=await env.DB.prepare(`INSERT INTO ${RECIPE_TABLE}(code,category,name,description,output_type,output_ref,output_quantity,payment_mode,coin_cost,master_star_cost,success_rate,is_featured,is_active,is_public,owner_test_only,sort_order) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`).bind(...values).run();recipeId=Number(created.meta?.last_row_id||0)}
   const statements=[env.DB.prepare(`DELETE FROM ${MATERIAL_TABLE} WHERE recipe_id=?`).bind(recipeId),...materials.map(material=>env.DB.prepare(`INSERT INTO ${MATERIAL_TABLE}(recipe_id,item_code,quantity,sort_order) VALUES(?,?,?,?)`).bind(recipeId,material.itemCode,material.quantity,material.sortOrder))];
   await env.DB.batch(statements);
-  if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'WORKSHOP_RECIPE_SAVE','WORKSHOP_RECIPE',String(recipeId),before,{code:recipeCode,name,category,materials:materials.length});
+  if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'WORKSHOP_RECIPE_SAVE','WORKSHOP_RECIPE',String(recipeId),before,{code:recipeCode,name,category,outputType,outputRef,outputQuantity,paymentMode,coinCost,masterStarCost,cardShardCost,successRate,canonical:Boolean(fixed),materials:materials.length});
   return recipeId;
 }
 
