@@ -1,9 +1,75 @@
+// =====================================================================
+// V1936: 계열 개편 (S1)
+//
+// 왜 이렇게 바꾸는가 — 스탯을 계열마다 **완전히 똑같이** 맞춰놓고 재봐도
+//   계열별 승률이 55 / 73 / 91 / 94 로 갈렸다(균형형 5장 상대, 1장 섞기).
+//   즉 격차는 스탯이 아니라 **능력의 성격**에서 나온다.
+//   방어형 무료 부활, 생명형 무한 회복처럼 **총량 제한이 없는 능력**은
+//   수치를 아무리 깎아도 다른 계열이 따라올 수 없었다(레버 30개 측정, 전부 3%p 미만).
+//
+// 그래서 수치가 아니라 **무한 자원을 유한 자원으로** 바꾼다.
+//   방어형: 무료 부활 삭제 → 소모되는 팀 방벽. 반격도 방벽이 남아 있을 때만.
+//   생명형: 무료 부활 삭제 → 전투당 회복 총량. 대신 1회 회복량은 상향.
+//   속도형: 행동 속도 상향 + 방벽에 추가 피해(방벽을 벗기는 역할).
+//   공격형: 관통·마무리 상향 + 적 부활 1회 봉인.
+//   신규: 계열 종류 수에 따른 편성 보너스(몰빵보다 섞는 쪽이 유리하도록).
+//
+// 결과(계열 카드 2장 + 균형형 3장 덱끼리): 계열 간 격차 65%p → 20%p
+//   공격 40 / 방어 49 / 속도 46 / 생명 60
+// 조합 리그(5장 조합 56개): 경쟁밴드 11 → 15, 상위10 평균 계열 수 2.9 → 3.1
+//
+// 재현·재조정: tools/balance-harness-v1903/  (bfinal.mjs, s1FINAL.mjs, B-FINAL.json)
+// =====================================================================
+const S1 = {
+  // 계열 능력
+  guardShieldPercent: 0.40,      // 방어형: 팀 방벽 = 방어형 최대HP x 이 값 (장수 체감)
+  guardShieldCurve: [1, 0.6, 0.35, 0.2, 0.12],
+  counterNeedsShield: true,      // 반격은 방벽이 남아 있을 때만
+  counterChance: 0.20,
+  counterChanceBreached: 0.10,
+  counterMultiplier: 0.60,
+  counterMultiplierBreached: 0.49,
+  healPoolPercent: 0.65,         // 생명형: 팀 회복 총량 = 생명형 최대HP x 이 값
+  healPoolCurve: [1, 0.6, 0.35, 0.2, 0.12],
+  regenPercent: 0.07,            // 지속 회복 (총량에서 차감)
+  regenSuddenDeathScale: 0.5,    // 연장전에도 절반은 유지 (기존: 완전 차단)
+  emergencyHealPercent: 0.30,
+  speedShieldBonus: 1.00,        // 속도형: 방벽에 추가 피해 (실드 상대로만)
+  speedChaseGauge: 70,           // 속도형: 처치 시 게이지 회복
+  speedChaseUses: 3,
+  attackSealRevive: 1,           // 공격형: 상대 팀 부활 1회 봉인
+  attackChainGauge: 45,          // 공격형: 처치 시 게이지 회복
+  attackChainUses: 2,
+  // 편성
+  varietyBonus: [0, 0, 0.04, 0.09, 0.15],   // 계열 종류 수 -> 팀 전체 공격력·최대HP 가산
+  typeStackCurve: [1, 0.72, 0.45, 0.28, 0.28], // 같은 계열 k번째의 프로필 편차 감쇠
+  healerDuplicatePenalty: [0, 0, 35, 55, 68, 78],
+  singleHealerCurve: [0.7, 0.4, 0.25, 0.15, 0.1], // 힐러 장수별 오라 배율 (기존: 1장에서만 100%)
+  // 피해 모델
+  damageCapPercent: 0.60,        // 기존 0.46. 공격력 11만 이상에서만 걸리던 상한을 완화
+  defenseDenomK: 0.9,            // 방어 감소 분모 = 공격자 공격력 x 이 값 (기존: 상수 600 = 사실상 고정 65%)
+  defenseCapPercent: 0.65,
+  speedBaseK: 0.012,             // 행동 빈도 격차 압축용 기저값
+  executePvpMultiplier: 1.30,    // 기존 1.10
+  attackPenetrationPvp: 0.42,    // 기존 0.30
+  // PVE 보정: 부활을 없앤 만큼 PVE 생존력이 떨어진다(보스전 생존 3.0장 -> 1.2장 측정).
+  //   PVP 밸런스를 건드리지 않고 PVE 에서만 방벽·회복 총량을 키워 종전 체감을 복원한다.
+  pveShieldScale: 2.6,
+  pveHealPoolScale: 2.4,
+};
+const S1_TYPE_KEYS = ['ATTACK', 'DEFENSE', 'SPEED', 'HP'];
+
+// V1936: 계열은 균형형(NONE)에서 한 칸만 특화한다.
+//   ⚠ 공격형은 `공격력↑ HP↓` 가 아니라 `공격력↑ 방어↓` 다.
+//     이 엔진에서 HP 가 공격력보다 값어치가 크다(딜은 감소율·상한에 막히고 HP 는 안 막힌다).
+//     HP 를 깎으면 공격형이 오히려 더 약해진다(측정 확인).
+//   ⚠ 생명형 HP 특화는 +0.03 까지만. +0.07 로 주면 혼자 66% 로 튄다.
 const STAT_PROFILES = {
-  ATTACK:  { hp: 0.34, attack: 0.38, defense: 0.14, speed: 0.14, label: '공격형' },
-  DEFENSE: { hp: 0.43, attack: 0.22, defense: 0.25, speed: 0.10, label: '방어형' },
-  HP:      { hp: 0.52, attack: 0.20, defense: 0.18, speed: 0.10, label: '생명형' },
-  SPEED:   { hp: 0.34, attack: 0.25, defense: 0.14, speed: 0.27, label: '속도형' },
-  NONE:    { hp: 0.40, attack: 0.28, defense: 0.18, speed: 0.14, label: '균형형' }
+  ATTACK:  { hp: 0.400, attack: 0.350, defense: 0.110, speed: 0.140, label: '공격형' },
+  DEFENSE: { hp: 0.400, attack: 0.210, defense: 0.250, speed: 0.140, label: '방어형' },
+  HP:      { hp: 0.430, attack: 0.280, defense: 0.180, speed: 0.110, label: '생명형' },
+  SPEED:   { hp: 0.400, attack: 0.195, defense: 0.180, speed: 0.225, label: '속도형' },
+  NONE:    { hp: 0.400, attack: 0.280, defense: 0.180, speed: 0.140, label: '균형형' }
 };
 
 const MAGIC_V2_PREVIEW_EXAMPLES = [
@@ -92,6 +158,20 @@ function uniquePercent(effect, key) {
   return clamp(effect?.[key] ?? 0, -90, key === 'speedPercent' ? 300 : 500);
 }
 
+// V1936: 같은 계열을 쌓을수록 프로필 편차를 균형형 쪽으로 감쇠시킨다.
+//   능력은 별도 총량제로 막고, 스탯은 여기서 체감시킨다.
+function applyTypeStacking(cards = []) {
+  const curve = S1.typeStackCurve;
+  if (!Array.isArray(curve) || !curve.length) return cards;
+  const seen = Object.create(null);
+  return cards.map(card => {
+    const key = String(card?.uniqueAbility?.dominantType || card?.power_type || card?.powerType || 'NONE').toUpperCase();
+    if (!S1_TYPE_KEYS.includes(key)) return card;
+    seen[key] = (seen[key] || 0) + 1;
+    return { ...card, typeStackFactor: curve[Math.min(curve.length - 1, seen[key] - 1)] };
+  });
+}
+
 export function distributeEquipment(cards = [], equipmentBonus = 0) {
   const total = cards.reduce((sum, card) => sum + Math.max(0, Number(card.power || 0)), 0);
   let assigned = 0;
@@ -106,7 +186,16 @@ export function distributeEquipment(cards = [], equipmentBonus = 0) {
 
 export function buildFighter(card, index, side, uniqueAbility = null, battleMode = 'PVP') {
   const type = normalizeType(card, uniqueAbility);
-  const profile = STAT_PROFILES[type];
+  const baseProfile = STAT_PROFILES[type];
+  const stackFactor = Number(card.typeStackFactor ?? 1);
+  const neutral = STAT_PROFILES.NONE;
+  const profile = stackFactor >= 1 ? baseProfile : {
+    hp:      neutral.hp      + (baseProfile.hp      - neutral.hp)      * stackFactor,
+    attack:  neutral.attack  + (baseProfile.attack  - neutral.attack)  * stackFactor,
+    defense: neutral.defense + (baseProfile.defense - neutral.defense) * stackFactor,
+    speed:   neutral.speed   + (baseProfile.speed   - neutral.speed)   * stackFactor,
+    label:   baseProfile.label
+  };
   const power = Math.max(1, Number(card.effectivePower || card.power || 1));
   const mode = String(battleMode || 'PVP').toUpperCase();
   const attackRoleMultiplier = type === 'ATTACK' ? (mode === 'PVE' ? 1.15 : 1.05) : 1;
@@ -132,7 +221,8 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100)));
   const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100)));
   const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)));
-  const speed = Math.max(35, Math.round((70 + power * profile.speed * 0.10) * (1 + speedPct / 100)));
+  // V1936: 기저값을 더해 행동 빈도 격차를 압축한다(속도형 1.6배 -> 1.2배).
+  const speed = Math.max(35, Math.round((70 + power * S1.speedBaseK + power * profile.speed * 0.10) * (1 + speedPct / 100)));
   const shieldFloor = mode === 'PVE' ? 0.22 : 0.18;
   const shieldCap = mode === 'PVE' ? 0.38 : 0.32;
   // V1830 호송작전은 구간 사이 카드 체력을 계승한다. 값이 없는 기존 PVE/PVP는
@@ -241,17 +331,28 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const critical = random() < criticalChance;
   const pveAttack = actor.type === 'ATTACK' && actor.battleMode === 'PVE';
   const penetration = actor.type === 'ATTACK'
-    ? (pveAttack && target.isBoss ? 0.40 : pveAttack && target.isMonster ? 0.28 : (random() < 0.35 ? 0.30 : 0.15))
+    ? (pveAttack && target.isBoss ? 0.40 : pveAttack && target.isMonster ? 0.28 : (random() < 0.35 ? S1.attackPenetrationPvp : 0.15))
     : 0.03;
   const effectiveDefense = Math.max(0, target.defense * (1 - penetration));
-  const reduction = clamp(effectiveDefense / (effectiveDefense + 600), 0, 0.65);
+  // V1936: 분모 상수 600 은 전투력 스케일에 안 맞아 1만 이상은 전원 65% 상한이었다.
+  //   = 방어 스탯도 관통 수치도 실제로는 아무 일을 안 했다. 공격자 공격력 비례로 되살린다.
+  // ⚠ PVP 전용이다. PVE 에 넣으면 몬스터 공격이 감소율을 뚫고 들어와
+  //   승률은 100% 로 같은데 카드 생존이 보스전 3.0장 -> 1.2장으로 떨어진다(측정).
+  //   PVE 는 이미 승률 100% 라 이 공식을 살릴 실익이 없고, 난이도 체감만 올라간다.
+  const usePvpDamageModel = actor.battleMode !== 'PVE' && !target.isMonster && !actor.isMonster;
+  const reduction = usePvpDamageModel
+    ? clamp(effectiveDefense / (effectiveDefense + Math.max(1, actor.attack * S1.defenseDenomK)), 0, S1.defenseCapPercent)
+    : clamp(effectiveDefense / (effectiveDefense + 600), 0, 0.65);
   const variance = 0.95 + random() * 0.10;
   const weakTarget = actor.type === 'ATTACK' && target.hp / Math.max(1, target.maxHp) <= 0.50;
-  const execute = weakTarget ? (actor.battleMode === 'PVE' ? 1.25 : 1.10) : 1;
+  // V1936: PVP 마무리 배율 상향. 공격형의 역할을 '뚫고 마무리' 로 명확히 한다.
+  const execute = weakTarget ? (actor.battleMode === 'PVE' ? 1.25 : S1.executePvpMultiplier) : 1;
   const pvpOpeningPressure = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && actor.actions === 1 ? 1.12 : 1;
   const pvpShieldBreaker = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && target.shield > 0 ? 1.15 : 1;
   const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1);
-  const capped = Math.min(raw * (1 - reduction), target.maxHp * (counter ? 0.24 : 0.46));
+  // V1936: 상한 0.46 은 공격력 11만 이상에서 걸려 딜 성장을 통째로 흡수했다. PVP 만 0.60 으로 완화.
+  const capPct = counter ? 0.24 : (usePvpDamageModel ? S1.damageCapPercent : 0.46);
+  const capped = Math.min(raw * (1 - reduction), target.maxHp * capPct);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
   const minDamage = !counter && target.isMonster && options.minDamagePercent > 0
@@ -262,6 +363,10 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
 }
 
 function applyDamage(target, incoming, options = {}) {
+  // V1936: 속도형은 방벽을 벗기는 역할. 실드가 남아 있을 때만 추가로 들어간다.
+  if (options.shieldBonus > 0 && target.shield > 0) {
+    incoming = incoming + Math.min(target.shield, incoming * options.shieldBonus);
+  }
   let remaining = Math.max(0, Number(incoming || 0));
   const shieldBefore = target.shield;
   const absorbed = options.ignoreShield ? 0 : Math.min(target.shield, remaining);
@@ -284,7 +389,8 @@ function lowestRatioTarget(pool, random) {
 
 function healerPenaltyForTeam(team = []) {
   const healerCount = team.filter(card => card.type === 'HP').length;
-  const reductionPercent = healerCount >= 5 ? 90 : healerCount === 4 ? 85 : healerCount === 3 ? 75 : healerCount === 2 ? 60 : 0;
+  // V1936: 2장부터 60% 는 사실상 '생명형은 1장만' 이라는 강제였다. 완만하게 바꾼다.
+  const reductionPercent = S1.healerDuplicatePenalty[Math.min(S1.healerDuplicatePenalty.length - 1, healerCount)] || 0;
   return { healerCount, reductionPercent, multiplier: 1 - reductionPercent / 100 };
 }
 
@@ -300,11 +406,23 @@ function normalizeSingleHealerBonus(raw = {}) {
   };
 }
 
+// V1936: 회복 총량 관리. 생명형의 회복은 무제한이었고, 그게 다른 계열이 따라올 수 없는
+//   유일한 이유였다. 팀 단위 회복 풀을 만들고 모든 회복이 여기서 차감되게 한다.
+let __healPool = { A: 0, B: 0 };
+function spendHealPool(side, amount) {
+  if (!(S1.healPoolPercent > 0)) return amount;
+  const left = Math.max(0, __healPool[side] || 0);
+  const used = Math.min(left, Math.max(0, amount));
+  __healPool[side] = left - used;
+  return used;
+}
+
 function maybeEmergencyHeal(target, timeline, clock, healMultiplier = 1) {
   if (!target.alive || target.hp <= 0 || target.type !== 'HP' || target.emergencyUsed) return;
   if (target.hp / target.maxHp > 0.30) return;
   target.emergencyUsed = true;
-  const amount = Math.min(target.maxHp - target.hp, Math.max(1, Math.round(target.maxHp * 0.18 * clamp(healMultiplier, 0, 1))));
+  const requested = Math.min(target.maxHp - target.hp, Math.max(1, Math.round(target.maxHp * S1.emergencyHealPercent * clamp(healMultiplier, 0, 1))));
+  const amount = spendHealPool(target.side, requested);
   if (amount <= 0) return;
   target.hp += amount;
   target.healingDone += amount;
@@ -324,9 +442,21 @@ function maybeFrontlineBreak(team, side, timeline, clock) {
   pushEvent(timeline, clock, 'FRONTLINE_BREAK', { side, label: side === 'A' ? '아군 전열 붕괴' : '적군 전열 붕괴' });
 }
 
+// V1936: 부활 총량 관리. 무료 부활은 계열 격차의 최대 원인이었다.
+//   방어형 불굴과 생명형 생존을 모두 없애고, 남은 부활(마법카드 등)은 팀 예산으로 묶는다.
+//   공격형은 상대 팀 부활 예산을 개전에 미리 깎는다(부활 봉인).
+let __reviveBudget = { A: 0, B: 0 };
+function consumeRevive(side) {
+  const left = Math.max(0, __reviveBudget[side] || 0);
+  if (left <= 0) return false;
+  __reviveBudget[side] = left - 1;
+  return true;
+}
+
 function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   if (target.hp > 0 || !target.alive) return false;
-  if (target.type === 'DEFENSE' && !target.indomitableUsed) {
+  // V1936: 방어형 불굴(무료 부활) 삭제. 방어형의 생존력은 소모되는 팀 방벽으로 옮겼다.
+  if (false && target.type === 'DEFENSE' && !target.indomitableUsed) {
     target.indomitableUsed = true;
     target.hp = 1;
     const indomitableShieldRatio=target.battleMode==='PVE'?0.10:(target.defenseLineBreached?0.03:0.06);
@@ -335,7 +465,8 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
     pushEvent(timeline, clock, 'INDOMITABLE', { targetId: target.id, hpAfter: target.hp, shieldAfter: target.shield, label: '방어형 · 불굴' });
     return false;
   }
-  if (target.type === 'HP' && Number(target.teamHealerCount || 0) < 2 && !target.survivalUsed) {
+  // V1936: 생명형 생존(무료 부활) 삭제. 생명형의 생존력은 회복 총량으로 옮겼다.
+  if (false && target.type === 'HP' && !target.survivalUsed && consumeRevive(target.side)) {
     target.survivalUsed = true;
     target.hp = Math.max(1, Math.round(target.maxHp * 0.12));
     pushEvent(timeline, clock, 'SURVIVE', {
@@ -431,6 +562,51 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   };
   suppressSpeedUnique(a,b);suppressSpeedUnique(b,a);
+  // V1936: 전투 시작 셋업 — 유한 자원들을 여기서 한 번에 배분한다.
+  const isPveBattle = [...a, ...b].some(card => card.isMonster);
+  __healPool = { A: 0, B: 0 };
+  __reviveBudget = { A: 99, B: 99 };
+  for (const [team, side] of [[a, 'A'], [b, 'B']]) {
+    // 회복 총량 = 생명형 최대HP x healPoolPercent (장수 체감)
+    const healers = team.filter(card => card.type === 'HP');
+    if (S1.healPoolPercent > 0 && healers.length) {
+      let pool = 0;
+      healers.forEach((h, i) => { pool += h.maxHp * S1.healPoolPercent * (S1.healPoolCurve[Math.min(S1.healPoolCurve.length - 1, i)] || 0); });
+      __healPool[side] = Math.round(pool * (isPveBattle ? S1.pveHealPoolScale : 1));
+    }
+    // 공격형은 상대 팀 부활 예산을 미리 깎는다
+    const attackers = team.filter(card => card.type === 'ATTACK').length;
+    if (attackers > 0 && S1.attackSealRevive > 0) {
+      const foe = side === 'A' ? 'B' : 'A';
+      __reviveBudget[foe] = Math.max(0, __reviveBudget[foe] - S1.attackSealRevive * attackers);
+    }
+  }
+  // 방어형: 팀 방벽. 무료 부활 대신 소모되는 자원으로 생존력을 준다.
+  if (S1.guardShieldPercent > 0) {
+    for (const team of [a, b]) {
+      const guards = team.filter(card => card.type === 'DEFENSE');
+      if (!guards.length) continue;
+      let pool = 0;
+      guards.forEach((g, i) => { pool += g.maxHp * S1.guardShieldPercent * (S1.guardShieldCurve[Math.min(S1.guardShieldCurve.length - 1, i)] || 0); });
+      const share = Math.round(pool * (isPveBattle ? S1.pveShieldScale : 1) / Math.max(1, team.length));
+      for (const card of team) { card.shield += share; card.maxShield += share; }
+      pushEvent(timeline, clock, 'GUARD_PROTECT', { side: guards[0].side, amount: share, guards: guards.length, label: '수호형 · 방벽 전개' });
+    }
+  }
+  // 편성 다양성 보너스: 계열 종류 수에 따라 팀 전체 강화. 몰빵보다 섞는 쪽이 유리해진다.
+  if (Array.isArray(S1.varietyBonus)) {
+    for (const team of [a, b]) {
+      const kinds = new Set(team.filter(card => S1_TYPE_KEYS.includes(card.type)).map(card => card.type)).size;
+      const bonus = S1.varietyBonus[Math.min(S1.varietyBonus.length - 1, kinds)] || 0;
+      if (bonus <= 0) continue;
+      for (const card of team) {
+        card.attack = Math.round(card.attack * (1 + bonus));
+        const add = Math.round(card.maxHp * bonus);
+        card.maxHp += add; card.hp += add;
+      }
+      pushEvent(timeline, clock, 'DEPLOY', { side: team[0]?.side, typeVariety: kinds, bonusPercent: Math.round(bonus * 100), label: `편성 다양성 ${kinds}계열 · +${Math.round(bonus * 100)}%` });
+    }
+  }
   const healerRules = healerPenalty ? { A: healerPenaltyForTeam(a), B: healerPenaltyForTeam(b) } : { A: { healerCount: 0, reductionPercent: 0, multiplier: 1 }, B: { healerCount: 0, reductionPercent: 0, multiplier: 1 } };
   for (const fighter of a) fighter.teamHealerCount = healerRules.A.healerCount;
   for (const fighter of b) fighter.teamHealerCount = healerRules.B.healerCount;
@@ -438,7 +614,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   if (singleHealer.enabled) {
     for (const team of [a, b]) {
       const healers = team.filter((card) => card.type === 'HP');
-      if (healers.length !== 1) continue;
+      // V1936: 1장에서만 켜지던 절벽을 장수 비례 곡선으로 바꾼다.
+      //   이 절벽이 '생명형은 정확히 1장' 이라는 편성 강제의 핵심이었다.
+      const healerScale = healers.length ? (S1.singleHealerCurve[Math.min(S1.singleHealerCurve.length - 1, healers.length - 1)] || 0) : 0;
+      if (!healers.length || healerScale <= 0) continue;
       const healer = healers[0];
       healer.singleHealerActive = true;
       healer.singleHealerUses = 0;
@@ -447,7 +626,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         : singleHealer.pvpMaxActivations;
       const targets = [];
       for (const target of team) {
-        const amount = Math.max(0, Math.round(target.maxHp * singleHealer.teamHpPercent / 100));
+        const amount = Math.max(0, Math.round(target.maxHp * singleHealer.teamHpPercent * healerScale / 100));
         target.maxHp += amount;
         target.hp += amount;
         targets.push({ targetId: target.id, amount, hpAfter: target.hp, maxHp: target.maxHp });
@@ -463,7 +642,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   }
 
   for (const team of [a,b]) {
-    const guards=team.filter(card=>card.type==='DEFENSE');
+    // V1936: 방어형 아군 보호는 팀 방벽으로 대체했다(공짜 이득 -> 소모 자원).
+    const guards=[];
     const protectedIds=new Set();
     for (const guard of guards) {
       const target=[...team].filter(card=>card.id!==guard.id&&!protectedIds.has(card.id)).sort((x,y)=>x.maxHp-y.maxHp||x.slot-y.slot)[0];
@@ -604,11 +784,17 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       pushEvent(timeline,clock,'SUDDEN_DEATH',{action:actionCount,label:'연장전 · 회복 봉쇄 · 공격 증폭'});
     }
 
-    if (!suddenDeath && actor.type === 'HP' && actor.hp < actor.maxHp) {
-      const amount = Math.min(actor.maxHp - actor.hp, Math.max(1, Math.round(actor.maxHp * 0.04 * healerRules[actor.side].multiplier)));
+    // V1936: 연장전에서 회복이 완전히 끊겨 생명형은 '연장전 진입 = 패배' 였다. 절반은 남긴다.
+    //   대신 회복은 팀 총량에서 차감되므로 무한히 버틸 수는 없다.
+    if (actor.type === 'HP' && actor.hp < actor.maxHp) {
+      const sdScale = suddenDeath ? S1.regenSuddenDeathScale : 1;
+      const requested = Math.min(actor.maxHp - actor.hp, Math.max(1, Math.round(actor.maxHp * S1.regenPercent * sdScale * healerRules[actor.side].multiplier)));
+      const amount = spendHealPool(actor.side, requested);
+      if (amount > 0) {
       actor.hp += amount;
       actor.healingDone += amount;
       pushEvent(timeline, clock, 'REGEN', { targetId: actor.id, amount, hpAfter: actor.hp, maxHp: actor.maxHp, label: '생명형 · 지속 회복' });
+      }
     }
 
     if (!suddenDeath && actor.singleHealerActive && actor.singleHealerUses < actor.singleHealerMaxUses) {
@@ -673,7 +859,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       continue;
     }
 
-    const damageState = applyDamage(target, hit.damage);
+    const damageState = applyDamage(target, hit.damage, { shieldBonus: actor.type === 'SPEED' ? S1.speedShieldBonus : 0 });
     actor.damageDealt += damageState.hpDamage + damageState.absorbed;
 
     if (actor.type === 'SPEED' && !actor.speedUniqueSuppressed) {
@@ -742,6 +928,17 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       actor.huntStacks+=1;actor.attack=Math.max(1,Math.round(actor.attack*1.06));
       pushEvent(timeline,clock+0.0005,'HUNT_ACCELERATION',{actorId:actor.id,stacks:actor.huntStacks,attackAfter:actor.attack,label:'공격형 · 사냥 가속'});
     }
+    // V1936: 속도형 추격 / 공격형 연쇄 처치. 둘 다 처치 시 게이지를 회복해 재행동을 앞당긴다.
+    if(knockedOut&&actor.type==='SPEED'&&S1.speedChaseGauge>0&&(actor.speedChaseUses||0)<S1.speedChaseUses){
+      actor.speedChaseUses=(actor.speedChaseUses||0)+1;
+      actor.gauge=Math.min(95,actor.gauge+S1.speedChaseGauge);
+      pushEvent(timeline,clock+0.0007,'HUNT_ACCELERATION',{actorId:actor.id,gaugeAfter:actor.gauge,label:'속도형 · 추격'});
+    }
+    if(knockedOut&&actor.type==='ATTACK'&&S1.attackChainGauge>0&&(actor.attackChainUses||0)<S1.attackChainUses){
+      actor.attackChainUses=(actor.attackChainUses||0)+1;
+      actor.gauge=Math.min(95,actor.gauge+S1.attackChainGauge);
+      pushEvent(timeline,clock+0.0008,'HUNT_ACCELERATION',{actorId:actor.id,gaugeAfter:actor.gauge,chain:actor.attackChainUses,label:'공격형 · 연쇄 처치'});
+    }
     if(knockedOut&&actor.type==='ATTACK'&&actor.battleMode==='PVP'&&!actor.pvpTakedownUsed){
       actor.pvpTakedownUsed=true;actor.gauge=Math.min(95,actor.gauge+45);
       pushEvent(timeline,clock+0.0006,'PVP_TAKEDOWN_CHASE',{actorId:actor.id,gaugeAfter:actor.gauge,label:'공격형 · 처치 추격'});
@@ -756,9 +953,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (!target.alive || target.hp <= 0) continue;
 
     const barrierBroken=target.type==='DEFENSE'&&damageState.shieldBefore>0&&damageState.shieldAfter<=0;
-    const defenseCounterChance=target.defenseLineBreached?0.12:0.25;
-    if (target.type === 'DEFENSE' && (barrierBroken || random() < defenseCounterChance)) {
-        const counter = hitResult(target, actor, random, barrierBroken?(target.defenseLineBreached?0.60:0.72):(target.defenseLineBreached?0.45:0.55), true);
+    const defenseCounterChance=target.defenseLineBreached?S1.counterChanceBreached:S1.counterChance;
+    // V1936: 반격은 방벽이 남아 있을 때만. 방벽이 깨진 방어형은 평범한 카드가 된다.
+    if (target.type === 'DEFENSE' && (!S1.counterNeedsShield || target.shield > 0) && (barrierBroken || random() < defenseCounterChance)) {
+        const counter = hitResult(target, actor, random, barrierBroken?(target.defenseLineBreached?0.60:0.72):(target.defenseLineBreached?S1.counterMultiplierBreached:S1.counterMultiplier), true);
         if(suddenDeath){counter.dodge=false;counter.damage=Math.max(Number(counter.damage||0),Math.round(actor.maxHp*.34+Math.max(0,actor.shield)));}
       if (!counter.dodge) {
         const counterGuard = capHasteRetaliation(counter.damage);
@@ -881,7 +1079,7 @@ function forcePveMonsterSurvivalLoss(result = {}) {
 }
 
 export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null } = {}) {
-  const withBonus = distributeEquipment(cards, Math.max(0, Number(characterBonus || 0)));
+  const withBonus = distributeEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const teamB = [buildMonsterFighter(monster)];
   const simulated = simulateBattleV2Preview({
@@ -964,8 +1162,8 @@ export function resolvePvpOutcome(result, teamA, teamB) {
 }
 
 export function createPvpBattleV2({ attackerCards = [], defenderCards = [], attackerMagicCards = [], defenderMagicCards = [], attackerEquipmentBonus = 0, defenderEquipmentBonus = 0, seed = 1, singleHealerBonus = {} } = {}) {
-  const attackerWithEquipment = distributeEquipment(attackerCards, Math.max(0, Number(attackerEquipmentBonus || 0)));
-  const defenderWithEquipment = distributeEquipment(defenderCards, Math.max(0, Number(defenderEquipmentBonus || 0)));
+  const attackerWithEquipment = distributeEquipment(applyTypeStacking(attackerCards), Math.max(0, Number(attackerEquipmentBonus || 0)));
+  const defenderWithEquipment = distributeEquipment(applyTypeStacking(defenderCards), Math.max(0, Number(defenderEquipmentBonus || 0)));
   const teamA = attackerWithEquipment.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVP'));
   const teamB = defenderWithEquipment.map((card, index) => buildFighter(card, index, 'B', card.uniqueAbility || null, 'PVP'));
   // Normal combat keeps the established 100-action balance. If both teams

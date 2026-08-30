@@ -1,0 +1,125 @@
+{
+ "knobs": {
+  "defCurve": "POWER",
+  "defK": 0.9,
+  "defCap": 0.65,
+  "speedBaseK": 0.012,
+  "capPercent": 0.6,
+  "surviveMaxHealers": 6,
+  "counterChance": 0.2,
+  "counterMult": 0.6,
+  "guardProtect": false,
+  "regenInSuddenDeath": 0.5,
+  "healerPen": [
+   0,
+   0,
+   35,
+   55,
+   68,
+   78
+  ],
+  "healerBonusCurve": [
+   0.7,
+   0.4,
+   0.25,
+   0.15,
+   0.1
+  ],
+  "stackCurve": [
+   1,
+   0.72,
+   0.45,
+   0.28,
+   0.28
+  ],
+  "indomitable": false,
+  "guardShieldPct": 0.4,
+  "counterNeedsShield": true,
+  "speedShieldBonus": 1,
+  "surviveTeamMax": 1,
+  "surviveHp": 0,
+  "executePvp": 1.3,
+  "penAttackPvp": 0.42,
+  "attackSealRevive": 1,
+  "speedChaseGauge": 70,
+  "speedChaseUses": 3,
+  "chainGauge": 45,
+  "chainUses": 2,
+  "varietyBonus": [
+   0,
+   0,
+   0.04,
+   0.09,
+   0.15
+  ],
+  "healPoolPct": 0.65,
+  "regenPercent": 0.07,
+  "emergencyHp": 0.3,
+  "profiles": {
+   "NONE": {
+    "hp": 0.4,
+    "attack": 0.28,
+    "defense": 0.18,
+    "speed": 0.14,
+    "label": "균형형"
+   },
+   "ATTACK": {
+    "hp": 0.4,
+    "attack": 0.35,
+    "defense": 0.11,
+    "speed": 0.14
+   },
+   "DEFENSE": {
+    "hp": 0.4,
+    "attack": 0.21,
+    "defense": 0.25,
+    "speed": 0.14
+   },
+   "SPEED": {
+    "hp": 0.4,
+    "attack": 0.195,
+    "defense": 0.18,
+    "speed": 0.225
+   },
+   "HP": {
+    "hp": 0.43,
+    "attack": 0.28,
+    "defense": 0.18,
+    "speed": 0.11
+   }
+  }
+ },
+ "matchup": {
+  "ATTACK": {
+   "ATTACK": 54.54545454545454,
+   "DEFENSE": 40.909090909090914,
+   "SPEED": 18.181818181818183,
+   "HP": 48.18181818181818
+  },
+  "DEFENSE": {
+   "ATTACK": 51.81818181818182,
+   "DEFENSE": 46.36363636363636,
+   "SPEED": 76.36363636363637,
+   "HP": 20
+  },
+  "SPEED": {
+   "ATTACK": 75.45454545454545,
+   "DEFENSE": 18.181818181818183,
+   "SPEED": 50,
+   "HP": 39.09090909090909
+  },
+  "HP": {
+   "ATTACK": 50.90909090909091,
+   "DEFENSE": 83.63636363636363,
+   "SPEED": 60,
+   "HP": 45.45454545454545
+  }
+ },
+ "avg": {
+  "ATTACK": 40.45454545454545,
+  "DEFENSE": 48.63636363636364,
+  "SPEED": 45.68181818181818,
+  "HP": 60
+ },
+ "gap": 19.545454545454547
+}
