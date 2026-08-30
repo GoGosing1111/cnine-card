@@ -1,0 +1,111 @@
+# 코덱스 작업 이력 — v1935 커밋 (S0 고유효과 정합성 복구)
+
+> 상태: `cac68678`로 완료됨. 아래 내용은 재실행 지시가 아닌 검증·커밋 이력이다.
+
+아래를 그대로 코덱스에 붙여넣으면 된다.
+
+---
+
+작업 트리에 v1935 수정이 반영돼 있다. 검증하고 커밋해라. 배포는 하지 마라.
+
+## 무엇을 고쳤나
+
+밸런스 개편이 아니라 정합성 복구다. **승패는 바뀌지 않는다**(72개 조합 실측, 0건 변동).
+
+**문제 1 — 고유효과가 PVE 계열에서 두 번 곱해졌다.**
+`_magic.js` 의 `buildCardUniqueDeckState` 가 `card.power` 에 공격%를 이미 곱해 놓는데,
+엔진의 `buildFighter` 가 `uniqueAbility` 로 같은 %를 한 번 더 곱했다.
+`buildFighter` 는 HP·공격·방어·속도를 전부 `power` 에서 파생하므로
+공격 특성 카드가 HP·방어·속도까지 같이 얻었다.
+
+    고유 공격 40% -> 실제 공격 2.04배 (의도 1.40배), HP 1.40배, 방어 1.40배
+    고유 공격 80% -> 실제 공격 3.46배 (의도 1.80배)
+
+이중 적용: PVE 몬스터 토벌 / 방치 자동 / 영토전 공성 / 호송작전
+단일 적용: PVP 랭크 / 영토전  ← 이쪽이 원래 의도한 동작이므로 여기에 맞췄다
+
+**문제 2 — FUR/ZENITH +11~13 배율 뒤에 재클램프가 없었다.**
+`uniqueStat` 이 ±500(속도 300)으로 자른 값에 FUR+13(×2)을 곱하면 1000%가 되는데
+패시브 층은 그대로 썼고 엔진의 `uniquePercent` 만 500으로 잘랐다. 층마다 값이 달랐다.
+
+## 변경 파일
+
+    functions/api/[[path]].js
+      PVE 몬스터 토벌: engineCards 를 battleCards(부스트본)이 아니라
+      원본 cards + uniqueCardsById 의 uniqueAbility 로 구성. PVP 와 동일 방식.
+
+    functions/_siege.js
+      영토전 공성: engineDeck 신설(원본 deck + uniqueAbility)해 createPveBattleV2 에 전달.
+      응답의 cards 는 battleDeck 그대로 두어 표시 전투력은 바뀌지 않는다.
+
+    functions/_escort_operation.js
+      호송작전: cards 를 baseDeck 기준으로 구성. roles(계열 분포)는 poweredDeck 유지.
+
+    functions/_magic.js
+      scaleUniqueEffect: 배율 적용 뒤 uniqueStat 으로 재클램프. 속도는 300 상한.
+
+    PATCH-NOTES-v1935.txt   (신규)
+    TEST-REPORT-v1935.txt   (신규)
+
+## 커밋 전 확인
+
+1. 문법·회귀
+
+       npm run check:worker
+       node --check functions/_siege.js
+       node --check functions/_escort_operation.js
+       node --check functions/_magic.js
+       npm run test:escort
+       npm run test:raid-entry
+
+2. `git status` 로 위 6개 파일 외에 딸려 들어간 게 없는지 확인해라.
+   `tools/balance-harness-v1903/`, `UNIQUE-TRAIT-V2-AND-AWAKENING-DESIGN.md`,
+   `CODEX-COMMIT-v1934.md` 는 별개 작업이니 이 커밋에 넣지 마라.
+
+3. 표시 전투력이 바뀌지 않았는지 확인해라. 덱 전투력 계산(`buildCardUniqueDeckState` 의
+   `power` 반환값)은 손대지 않았으므로 로비·덱 화면 숫자는 그대로여야 한다.
+
+## 커밋
+
+    git add "functions/api/[[path]].js" \
+            functions/_siege.js \
+            functions/_escort_operation.js \
+            functions/_magic.js \
+            PATCH-NOTES-v1935.txt \
+            TEST-REPORT-v1935.txt
+
+    git commit -m "fix(balance): 고유효과 이중 적용 제거 및 고배율 재클램프 (S0)
+
+buildCardUniqueDeckState 가 card.power 에 공격%를 곱해 놓은 카드를
+그대로 엔진에 넘기면서 buildFighter 가 같은 %를 한 번 더 곱했다.
+buildFighter 는 HP/공격/방어/속도를 전부 power 에서 파생하므로
+공격 특성 카드가 HP 와 방어까지 같이 얻는 상태였다.
+
+  고유 공격 40% -> 실제 공격 2.04배(의도 1.40배), HP 1.40배, 방어 1.40배
+
+PVE 몬스터 토벌/방치 자동/영토전 공성/호송작전이 이중,
+PVP 랭크/영토전이 단일이었다. 단일 쪽 동작에 맞춰 통일한다.
+
+또한 scaleUniqueEffect 가 FUR/ZENITH +11~13 배율을 곱한 뒤
+재클램프를 하지 않아 패시브 층만 상한 없이 커졌다. uniqueStat 으로 다시 자른다.
+
+- api/[[path]].js: PVE engineCards 를 원본 cards + uniqueAbility 로 구성
+- _siege.js: engineDeck 신설. 응답 cards 는 유지해 표시 전투력 불변
+- _escort_operation.js: cards 를 baseDeck 기준으로 구성
+- _magic.js: scaleUniqueEffect 재클램프(속도 300 상한)
+
+측정: 72개 조합(4계열 x 고유 20/40/80% x 몬스터 3구간 x 일반/보스), 조합당 60시드
+      승패 변동 0/72, 전투 길이 +9~49%(v1902 의 63행동 상한 안)
+영향: 승패/보상/드랍/표시 전투력 변화 없음. 전투가 조금 길어진다."
+
+## 배포
+
+이 커밋으로 배포하지 마라. 사용자의 배포 지시를 기다려라.
+배포할 때는 `npm run deploy:production` 만 쓴다. `npx wrangler pages deploy .` 직접 호출은 금지.
+
+## 다음 단계 (이 커밋에 넣지 말 것)
+
+아래 셋은 승패를 바꾸므로 계열 개편(S1)과 같은 회차로 간다.
+- 발동 보너스(resolveUniqueBattleRuntime)를 엔진 안으로 이동
+- 리프트·레이드·방치던전에 발동 층 연결
+- 덱 전투력 공식에서 속도 항 제거
