@@ -1,0 +1,70 @@
+{
+ "profiles": {
+  "ATTACK": {
+   "hp": 0.37,
+   "attack": 0.34,
+   "defense": 0.15,
+   "speed": 0.14
+  },
+  "DEFENSE": {
+   "hp": 0.4,
+   "attack": 0.25,
+   "defense": 0.25,
+   "speed": 0.1
+  },
+  "HP": {
+   "hp": 0.44,
+   "attack": 0.27,
+   "defense": 0.17,
+   "speed": 0.12
+  },
+  "SPEED": {
+   "hp": 0.39,
+   "attack": 0.27,
+   "defense": 0.16,
+   "speed": 0.18
+  },
+  "NONE": {
+   "hp": 0.4,
+   "attack": 0.28,
+   "defense": 0.18,
+   "speed": 0.14,
+   "label": "균형형"
+  }
+ },
+ "knobs": {
+  "surviveHp": 0.42,
+  "surviveMaxHealers": 6,
+  "emergencyHp": 0.3,
+  "counterChance": 0.45,
+  "counterMult": 0.68,
+  "regenInSuddenDeath": 0.5,
+  "regenPercent": 0.055
+ },
+ "matchup": {
+  "ATTACK": {
+   "ATTACK": 51.33333333333333,
+   "DEFENSE": 96.66666666666667,
+   "SPEED": 0,
+   "HP": 45.33333333333333
+  },
+  "DEFENSE": {
+   "ATTACK": 3.3333333333333335,
+   "DEFENSE": 43.333333333333336,
+   "SPEED": 100,
+   "HP": 66
+  },
+  "SPEED": {
+   "ATTACK": 100,
+   "DEFENSE": 0,
+   "SPEED": 43.333333333333336,
+   "HP": 100
+  },
+  "HP": {
+   "ATTACK": 54.666666666666664,
+   "DEFENSE": 35.333333333333336,
+   "SPEED": 0,
+   "HP": 49.333333333333336
+  }
+ }
+}

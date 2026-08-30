@@ -1,0 +1,39 @@
+{
+ "SHATTER": {
+  "pen": 0.3,
+  "crit": 0.06,
+  "hp": -0.073
+ },
+ "EXECUTOR": {
+  "execute": 0.3,
+  "dmg": -0.194
+ },
+ "RIPOSTE": {
+  "counter": 0.34,
+  "dmg": -0.139
+ },
+ "BULWARK": {
+  "indomShield": 0.12,
+  "hp": 0.1,
+  "counter": -0.257
+ },
+ "AFTERIMAGE": {
+  "dodge": 0.14,
+  "pen": 0.14,
+  "hp": -0.298
+ },
+ "VANGUARD": {
+  "gauge": 35,
+  "spd": 0.2,
+  "hp": -0.347
+ },
+ "IMMORTAL": {
+  "revive": 0.14,
+  "dmg": -0.159
+ },
+ "SANCTUARY": {
+  "regen": 0.05,
+  "regenSD": 0.9,
+  "revive": -0.003
+ }
+}
