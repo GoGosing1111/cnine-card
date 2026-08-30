@@ -80,8 +80,8 @@ for(const pattern of retired){
 assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=68-mobile-renderer-oom/);
-assert.match(index,/js\/app\.js\?v=(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1881-workshop-split-lineage|1882-menu-pve-scrapyard|1884-zenith-ojoeun-sd|1904-superstar-son-zeus-sd|1905-ranked-pvp-deck-renewal|1906-ranked-pvp-card-fit|1908-joeun-gamst-visibility|1920-zenith-reroll|1921-inventory-reroll-route)/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=71-battlefield-fade-deadlock/);
+assert.match(index,/js\/app\.js\?v=1935-battlefield-unique-fix/);
 assert.match(previewIndex,/project-v-client\.js\?v=53-role-impact-atlas/);
 assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=53-role-impact-atlas/);
 

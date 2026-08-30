@@ -15,13 +15,13 @@ const engine=read('preview/project-v-v3/source/battle/BattleEngine.js');
 const index=read('index.html');
 
 for(const token of [
-  'css/battle-v3-live.css?v=1798-roster-frame',
+  'css/battle-v3-live.css?v=1930-mobile-context-recovery',
   'js/project-v-battle-art-adapter-v1.js?v=3.5.0-dimmus',
-  'js/project-v-tier-battle-art-adapter-v1.js?v=3.4.0-superstar-son-zeus',
+  'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
-  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=68-mobile-renderer-oom',
-  'js/battle-v3-live.js?v=3.21.0-siege-unique-mobile'
+  'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=71-battlefield-fade-deadlock',
+  'js/battle-v3-live.js?v=3.24.0-battlefield-fade-deadlock'
 ])assert.ok(app.includes(token),`production feature manifest missing ${token}`);
 
 assert.match(app,/ready:\(\)=>Boolean\(window\.ProjectVBattleV3Live\?\.ready\?\.\(\)\)/);
@@ -37,8 +37,8 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=1921-inventory-reroll-route'));
-assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1904-superstar-son-zeus-sd'));
+assert.ok(index.includes('js/app.js?v=1935-battlefield-unique-fix'));
+assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1922-superstar-haaland-sd'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
 
 const bundle='preview/project-v-v3/project-v-pixi-battle.bundle.js';

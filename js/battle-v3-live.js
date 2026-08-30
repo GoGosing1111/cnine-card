@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.23.0-mobile-context-recovery';
+  const VERSION = '3.24.0-battlefield-fade-deadlock';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';

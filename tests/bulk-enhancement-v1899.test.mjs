@@ -57,8 +57,8 @@ test('v1899 일괄 강화 리소스와 앱 셸 캐시는 함께 버전이 오른
   }
   assert.match(index, /css\/bulk-enhancement-v1899\.css\?v=1899(?:[-._a-z0-9]+)?/i);
   assert.match(index, /js\/bulk-enhancement-v1899\.js\?v=1908-joeun-gamst-visibility/i);
-  assert.match(index, /js\/app\.js\?v=1921-inventory-reroll-route/i);
-  assert.match(serviceWorker, /SHELL_CACHE\s*=\s*['"]soop-card-shell-v1916-territory-100-attack-reward['"]/i);
+  assert.match(index, /js\/app\.js\?v=1935-battlefield-unique-fix/i);
+  assert.match(serviceWorker, /SHELL_CACHE\s*=\s*['"]soop-card-shell-v1935-battlefield-unique-fix['"]/i);
 });
 
 test('legacy 앱 셸은 upgrade 화면을 도감 그룹에서 렌더하고 바인딩한다', () => {
