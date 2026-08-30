@@ -11,7 +11,7 @@
     const anchor=byId('inventoryGrantBlock')||[...document.querySelectorAll('#userDialog .actionBlock')].find(node=>node.querySelector('h3')?.textContent.includes('계정 관리'));
     if(!anchor)return null;
     anchor.insertAdjacentHTML('beforebegin',`<div class="actionBlock userCardGrantBlock" id="userCardGrantBlock">
-      <div class="userCardGrantHead"><div><h3>카드 개별 수동 지급</h3><p>PRESTIGE 지급 가능 · LIMITED 제외 · 공개 활성 카드만 지급 · 기존 보유 카드는 동일 강화 수치일 때만 수량이 증가합니다.</p></div><span>PRESTIGE READY</span></div>
+      <div class="userCardGrantHead"><div><h3>카드 개별 수동 지급</h3><p>FUR·ZENITH·MA는 +13까지 지급 가능 · LIMITED 제외 · 공개 활성 카드만 지급 · 기존 보유 카드는 동일 강화 수치일 때만 수량이 증가합니다.</p></div><span>+13 READY</span></div>
       <div class="userCardGrantSearch"><input id="userCardGrantSearch" maxlength="60" placeholder="카드명, 멤버명, 카드 ID, 등급 검색"><button type="button" id="userCardGrantSearchBtn" class="ghost">카드 검색</button></div>
       <select id="userCardGrantCardSelect"><option value="">카드를 검색하세요.</option></select>
       <div id="userCardGrantPreview" class="userCardGrantPreview">선택한 유저의 카드 보유 상태와 허용 강화 범위를 서버에서 확인합니다.</div>
@@ -59,7 +59,7 @@
     try{
       const data=await api(`admin/users/card-grant?userId=${userId}&q=${encodeURIComponent(q)}`);
       renderCardOptions(data.cards||[]);
-      status.textContent=`PRESTIGE 포함 · LIMITED 제외 · 지급 가능 카드 ${Number(data.cards?.length||0)}개`;
+      status.textContent=`FUR·ZENITH·MA +13 지원 · LIMITED 제외 · 지급 가능 카드 ${Number(data.cards?.length||0)}개`;
       status.className='userCardGrantStatus ok';
     }catch(error){
       renderCardOptions([]);status.textContent=error.message;status.className='userCardGrantStatus error';

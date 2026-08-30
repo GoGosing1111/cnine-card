@@ -7308,7 +7308,9 @@ async function handleRequest(context){
       if(!admin)return json({error:'카드 수동 지급 권한이 없습니다.'},403);
       const manualGrantMaxLevel=grade=>{
         grade=String(grade||'').trim().toUpperCase();
-        if(grade==='MA')return 13;
+        // CMS 수동 지급도 실제 고급 강화 대상과 같은 상한을 사용한다.
+        // LIMITED는 이 라우트에서 별도로 제외되므로 MA/FUR/ZENITH만 +13 지급된다.
+        if(HIGH_BREAKTHROUGH_GRADES.includes(grade))return 13;
         return BREAKTHROUGH_GRADES.includes(grade)?10:0;
       };
       if(request.method==='GET'){
