@@ -1,7 +1,7 @@
 {
   "format": "PROJECT_V_MERCENARY_SYSTEM_ROSTER_V1",
-  "version": 1,
-  "updatedAt": "2026-08-29",
+  "version": 2,
+  "updatedAt": "2026-08-30",
   "status": "PREVIEW_ONLY_NOT_RUNTIME_CONNECTED",
   "rankPolicy": {
     "authority": "USER",
@@ -26,11 +26,11 @@
     "battleSpriteUsage": ["BATTLE_FIELD_ONLY"]
   },
   "summary": {
-    "total": 20,
-    "sourceArtReady": 20,
+    "total": 21,
+    "sourceArtReady": 21,
     "battleSpriteReady": 12,
-    "battleSpritePending": 8,
-    "rankPending": 20
+    "battleSpritePending": 9,
+    "rankPending": 21
   },
   "cards": [
     {
@@ -332,6 +332,22 @@
       "battleSpriteSha256": null,
       "battleSpriteStatus": "NOT_YET_PRODUCED",
       "accent": "#9FB7DF"
+    },
+    {
+      "code": "V-021",
+      "rank": null,
+      "rankStatus": "PENDING_USER_ASSIGNMENT",
+      "name": "오메가-X",
+      "title": "종언의 성좌기사",
+      "role": "전위 공격",
+      "sourceArt": "assets/ui/project-v/mercenaries/mercenary-v021-omega-x-source-art-v1.jpg",
+      "sourceArtSha256": "F7AE2726C2B445201F344518DA687CA12C7D5D0FB9E0D1954554F21677DF8117",
+      "sourceArtStatus": "USER_SUPPLIED_SOURCE_ART",
+      "sourceArtNote": "USER_DIRECTED_AS_IS_736X1104_JPEG",
+      "battleSprite": null,
+      "battleSpriteSha256": null,
+      "battleSpriteStatus": "NOT_YET_PRODUCED",
+      "accent": "#FF9F43"
     }
   ]
 }

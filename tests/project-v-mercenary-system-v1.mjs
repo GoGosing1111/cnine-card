@@ -48,11 +48,11 @@ test('mercenary slot remains optional and does not change the existing five-card
   assert.equal(validateMercenaryLoadout({ cardIds: cardIds.slice(0, 4), mercenaryCode: 'V-001' }).ok, false);
 });
 
-test('review roster has twenty unique cards and no inherited rank', () => {
+test('review roster has twenty-one unique cards and no inherited rank', () => {
   assert.equal(roster.status, 'PREVIEW_ONLY_NOT_RUNTIME_CONNECTED');
-  assert.equal(roster.cards.length, 20);
-  assert.equal(new Set(roster.cards.map((card) => card.code)).size, 20);
-  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 20 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
+  assert.equal(roster.cards.length, 21);
+  assert.equal(new Set(roster.cards.map((card) => card.code)).size, 21);
+  assert.deepEqual(roster.cards.map((card) => card.code), Array.from({ length: 21 }, (_, index) => `V-${String(index + 1).padStart(3, '0')}`));
   assert.ok(roster.cards.every((card) => card.rank === null));
   assert.ok(roster.cards.every((card) => card.rankStatus === 'PENDING_USER_ASSIGNMENT'));
   assert.equal(roster.rankPolicy.inheritLegacyRanks, false);
@@ -65,7 +65,7 @@ test('all source art and all declared battle sprites exist with recorded hashes'
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
   assert.equal(sprites.length, 12);
-  assert.equal(pending.length, 8);
+  assert.equal(pending.length, 9);
 
   for (const card of roster.cards) {
     assert.equal(fs.existsSync(path.join(root, card.sourceArt)), true, `${card.code} source art missing`);
@@ -77,6 +77,19 @@ test('all source art and all declared battle sprites exist with recorded hashes'
       assert.equal(card.battleSpriteStatus, 'NOT_YET_PRODUCED');
     }
   }
+});
+
+test('Omega-X preserves the exact user-supplied source without inventing a rank or battle sprite', () => {
+  const omega = roster.cards.find((card) => card.code === 'V-021');
+  assert.ok(omega);
+  assert.equal(omega.name, '오메가-X');
+  assert.equal(omega.rank, null);
+  assert.equal(omega.rankStatus, 'PENDING_USER_ASSIGNMENT');
+  assert.equal(omega.sourceArtStatus, 'USER_SUPPLIED_SOURCE_ART');
+  assert.equal(omega.sourceArtNote, 'USER_DIRECTED_AS_IS_736X1104_JPEG');
+  assert.equal(omega.sourceArtSha256, 'F7AE2726C2B445201F344518DA687CA12C7D5D0FB9E0D1954554F21677DF8117');
+  assert.equal(omega.battleSprite, null);
+  assert.equal(omega.battleSpriteStatus, 'NOT_YET_PRODUCED');
 });
 
 test('official supporting anchors are preserved in main with canonical hashes', () => {
@@ -98,6 +111,8 @@ test('preview states the 5+1 rule and never exposes legacy ranks', () => {
   assert.match(html, /한 장의 독립 용병/);
   assert.match(html, /5 \+ 1 편성 구조/);
   assert.match(client, /등급 미정/);
+  assert.match(client, /사용자 지정 원화/);
+  assert.match(html, /전체 21/);
   assert.doesNotMatch(html, /data-rank=/);
   assert.match(standard, /`cardIds` 5장과 `mercenaryCode` 1개/);
   assert.match(standard, /PREVIEW_ONLY_NOT_RUNTIME_CONNECTED/);

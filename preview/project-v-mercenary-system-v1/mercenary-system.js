@@ -53,7 +53,9 @@ function filteredCards() {
 }
 
 function sourceStatusLabel(card) {
-  return card.sourceArtStatus === 'APPROVED_SOURCE_ART' ? '승인 원화' : '기존 원화 보존';
+  if (card.sourceArtStatus === 'APPROVED_SOURCE_ART') return '승인 원화';
+  if (card.sourceArtStatus === 'USER_SUPPLIED_SOURCE_ART') return '사용자 지정 원화';
+  return '기존 원화 보존';
 }
 
 function spriteStatusLabel(card) {
