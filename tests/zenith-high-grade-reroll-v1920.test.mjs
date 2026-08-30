@@ -19,9 +19,9 @@ test('ZENITH is available throughout the high-grade reroll contract',async()=>{
   assert.match(admin,/hgrZenithV1354/);
   assert.match(admin,/zenithEnabled:byId\('hgrZenithV1354'\)/);
   assert.match(api,/furEnabled:true,zenithEnabled:true/);
-  assert.match(index,/js\/app\.js\?v=1937-unique-advancement-ui/);
+  assert.match(index,/js\/app\.js\?v=1938-unique-advancement-cost/);
   assert.match(adminIndex,/high-grade-reroll-admin-v1354\.js\?v=1920-zenith-reroll/);
-  assert.match(worker,/soop-card-shell-v1937-unique-advancement-ui/);
+  assert.match(worker,/soop-card-shell-v1938-unique-advancement-cost/);
 });
 
 test('chief fixed durations bypass operator CMS duration choices',async()=>{

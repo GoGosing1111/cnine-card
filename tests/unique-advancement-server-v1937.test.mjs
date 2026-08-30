@@ -25,12 +25,12 @@ const [serverSource,apiSource,magicSource]=await Promise.all([
   readFile(new URL('functions/_magic.js',root),'utf8')
 ]);
 
-test('server contract fixes eligibility at FUR/ZENITH +13 and 1,000 MASTER_STAR',()=>{
-  assert.equal(UNIQUE_ADVANCEMENT_COST,1000);
+test('server contract fixes eligibility at FUR/ZENITH +13 and 3,000 MASTER_STAR',()=>{
+  assert.equal(UNIQUE_ADVANCEMENT_COST,3000);
   assert.equal(UNIQUE_ADVANCEMENT_MIN_BREAKTHROUGH,13);
   assert.deepEqual([...UNIQUE_ADVANCEMENT_ALLOWED_GRADES],['FUR','ZENITH']);
   assert.deepEqual(normalizeUniqueAdvancementSettings({mode:'ON',costMasterStars:1,minimumBreakthrough:1}),{
-    mode:'ON',version:1,costMasterStars:1000,successChancePercent:10,minimumBreakthrough:13,allowedGrades:['FUR','ZENITH']
+    mode:'ON',version:1,costMasterStars:3000,successChancePercent:10,minimumBreakthrough:13,allowedGrades:['FUR','ZENITH']
   });
   assert.equal(normalizeUniqueAdvancementSettings().mode,'ON');
   assert.equal(UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT,10);
@@ -76,14 +76,14 @@ test('all four definitions expose the exact combat-engine modifier contract',()=
 
 test('eligibility rejects client-inventable shortcuts and reports the automatic class',()=>{
   const base={quantity:1,rarity:'ZENITH',breakthrough_level:13,unique_card_id:'z-1',unique_is_active:1,attack_percent:10,defense_percent:22,speed_percent:11,hp_percent:3};
-  const eligible=evaluateUniqueAdvancementEligibility({card:base,masterStars:1000,featureEnabled:true});
+  const eligible=evaluateUniqueAdvancementEligibility({card:base,masterStars:3000,featureEnabled:true});
   assert.equal(eligible.eligible,true);
   assert.equal(eligible.recommendedClass.classCode,'RIPOSTE');
-  assert.equal(evaluateUniqueAdvancementEligibility({card:{...base,rarity:'LIMITED'},masterStars:1000,featureEnabled:true}).code,'GRADE_NOT_ELIGIBLE');
-  assert.equal(evaluateUniqueAdvancementEligibility({card:{...base,breakthrough_level:12},masterStars:1000,featureEnabled:true}).code,'BREAKTHROUGH_REQUIRED');
-  assert.equal(evaluateUniqueAdvancementEligibility({card:base,masterStars:999,featureEnabled:true}).code,'MASTER_STAR_SHORTAGE');
-  assert.equal(evaluateUniqueAdvancementEligibility({card:base,masterStars:1000,featureEnabled:false}).code,'FEATURE_DISABLED');
-  assert.equal(evaluateUniqueAdvancementEligibility({card:base,masterStars:1000,featureEnabled:true,existing:{active:true}}).code,'ALREADY_ADVANCED');
+  assert.equal(evaluateUniqueAdvancementEligibility({card:{...base,rarity:'LIMITED'},masterStars:3000,featureEnabled:true}).code,'GRADE_NOT_ELIGIBLE');
+  assert.equal(evaluateUniqueAdvancementEligibility({card:{...base,breakthrough_level:12},masterStars:3000,featureEnabled:true}).code,'BREAKTHROUGH_REQUIRED');
+  assert.equal(evaluateUniqueAdvancementEligibility({card:base,masterStars:2999,featureEnabled:true}).code,'MASTER_STAR_SHORTAGE');
+  assert.equal(evaluateUniqueAdvancementEligibility({card:base,masterStars:3000,featureEnabled:false}).code,'FEATURE_DISABLED');
+  assert.equal(evaluateUniqueAdvancementEligibility({card:base,masterStars:3000,featureEnabled:true,existing:{active:true}}).code,'ALREADY_ADVANCED');
 });
 
 test('foundation schema is D1/PostgreSQL compatible and enforces one advancement per card',()=>{
@@ -176,14 +176,14 @@ test('a failed guard rolls the entire MASTER_STAR transaction back',async()=>{
   DB.db.exec(`
     CREATE TABLE cnine_user_inventory(user_id INTEGER NOT NULL,item_code TEXT NOT NULL,quantity INTEGER NOT NULL DEFAULT 0,unseen_quantity INTEGER NOT NULL DEFAULT 0,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code));
     ${__uniqueAdvancementTest.schemaStatements({DB:{dialect:'d1'}}).join(';')};
-    INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(9,'MASTER_STAR',1500,0);
+    INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(9,'MASTER_STAR',3500,0);
   `);
   await assert.rejects(DB.batch([
     DB.prepare('INSERT INTO card_unique_advancement_tx_guards_v1937(guard_id,ok) VALUES(?,1)').bind('atomic:pre'),
-    DB.prepare("UPDATE cnine_user_inventory SET quantity=500 WHERE user_id=9 AND item_code='MASTER_STAR' AND quantity=1500"),
+    DB.prepare("UPDATE cnine_user_inventory SET quantity=500 WHERE user_id=9 AND item_code='MASTER_STAR' AND quantity=3500"),
     DB.prepare('INSERT INTO card_unique_advancement_tx_guards_v1937(guard_id,ok) VALUES(?,0)').bind('atomic:reject')
   ]),/CHECK constraint failed/);
-  assert.equal(DB.db.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=9 AND item_code='MASTER_STAR'").get().quantity,1500);
+  assert.equal(DB.db.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=9 AND item_code='MASTER_STAR'").get().quantity,3500);
   assert.equal(DB.db.prepare('SELECT COUNT(*) count FROM card_unique_advancement_tx_guards_v1937').get().count,0);
 });
 
@@ -200,7 +200,7 @@ test('real SQLite execution charges once, persists one class and replays the com
     INSERT INTO cards(id,title,rarity) VALUES('zenith-01','전직 테스트 카드','ZENITH');
     INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level) VALUES(7,'zenith-01',1,13);
     INSERT INTO card_unique_effects(card_id,attack_percent,defense_percent,hp_percent,speed_percent,is_active) VALUES('zenith-01',12,40,8,20,1);
-    INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,'MASTER_STAR',1500,0);
+    INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(7,'MASTER_STAR',3500,0);
   `);
   const env={DB,UNIQUE_ADVANCEMENT_MODE:'ON'};
   const deps={
@@ -245,7 +245,7 @@ test('real SQLite execution charges once, persists one class and replays the com
     INSERT INTO cards(id,title,rarity) VALUES('fur-fail-01','전직 실패 테스트 카드','FUR');
     INSERT INTO user_cards(user_id,card_id,quantity,breakthrough_level) VALUES(8,'fur-fail-01',1,13);
     INSERT INTO card_unique_effects(card_id,attack_percent,defense_percent,hp_percent,speed_percent,is_active) VALUES('fur-fail-01',40,10,8,20,1);
-    INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(8,'MASTER_STAR',1500,0);
+    INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(8,'MASTER_STAR',3500,0);
   `);
   const failedDeps={...deps,authenticate:async()=>({id:8,role:'USER'}),uniqueAdvancementRandomUint32:0xffffffff};
   const failedRequestId='advancement:fur-fail-01:retry-0001';

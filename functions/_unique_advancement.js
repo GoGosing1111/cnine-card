@@ -6,7 +6,7 @@
  */
 
 export const UNIQUE_ADVANCEMENT_SETTINGS_KEY='card_unique_advancement_settings_v1937_release';
-export const UNIQUE_ADVANCEMENT_COST=1000;
+export const UNIQUE_ADVANCEMENT_COST=3000;
 export const UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT=10;
 export const UNIQUE_ADVANCEMENT_MIN_BREAKTHROUGH=13;
 export const UNIQUE_ADVANCEMENT_ALLOWED_GRADES=Object.freeze(['FUR','ZENITH']);

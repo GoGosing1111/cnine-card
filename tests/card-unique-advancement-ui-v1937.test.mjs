@@ -28,21 +28,21 @@ const baseOverview=overrides=>({
   breakthroughLevel:13,
   dominantType:'DEFENSE',
   classInfo:{code:'SERVER_CLASS_DEFENSE',name:'반격자',effect:'서버 효과 <강화>',tradeoff:'서버 대가 & 조건',fxKey:'server-defense-fx'},
-  requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:1000,successChancePercent:10},
-  wallet:{masterStars:1000},
+  requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:3000,successChancePercent:10},
+  wallet:{masterStars:3000},
   eligibility:{eligible:true,reasons:[]},
   canAdvance:true,
   ...overrides
 });
 
-test('UI 계약은 FUR/ZENITH +13, 마스터의 별 1,000개, 성공률 10%로 고정된다',()=>{
+test('UI 계약은 FUR/ZENITH +13, 마스터의 별 3,000개, 성공률 10%로 고정된다',()=>{
   const ui=loadUi();
-  assert.equal(ui.VERSION,'1937');
+  assert.equal(ui.VERSION,'1938');
   assert.equal(ui.ENDPOINT,'card/unique-advancement');
   assert.equal(ui.FEATURE_ENDPOINT,'card/unique-advancement/feature');
   assert.deepEqual(Array.from(ui.ELIGIBLE_GRADES),['FUR','ZENITH']);
   assert.equal(ui.MIN_BREAKTHROUGH,13);
-  assert.equal(ui.MASTER_STAR_COST,1000);
+  assert.equal(ui.MASTER_STAR_COST,3000);
   assert.equal(ui.SUCCESS_CHANCE_PERCENT,10);
   assert.deepEqual(Array.from(ui.TYPE_ORDER),['ATTACK','DEFENSE','SPEED','HP']);
   assert.deepEqual(Array.from(ui.TYPE_ORDER,type=>ui.TYPE_META[type].name),['파쇄자','반격자','잔영자','불멸자']);
@@ -116,11 +116,11 @@ test('라이브 서버의 card/recommendedClass/config 응답을 UI 계약으로
   const overview=ui.normalizeOverview({
     ok:true,
     feature:{mode:'ON',enabledForUser:true,ready:true},
-    config:{allowedGrades:['FUR','ZENITH'],minimumBreakthrough:13,costMasterStars:1000,successChancePercent:10},
+    config:{allowedGrades:['FUR','ZENITH'],minimumBreakthrough:13,costMasterStars:3000,successChancePercent:10},
     card:{id:'LIVE-FUR-13',title:'라이브 카드',grade:'FUR',breakthroughLevel:13,uniqueStats:{ATTACK:4,DEFENSE:5,SPEED:21,HP:7}},
     recommendedType:'SPEED',
     recommendedClass:{classCode:'SERVER_LIVE_SPEED',dominantType:'SPEED',name:'잔영자',subtitle:'서버 부제',description:'서버 설정에서 읽은 전직 효과'},
-    masterStars:1400,
+    masterStars:3400,
     uniqueAdvancement:null,
     eligibility:{eligible:true,code:'READY',reason:'',grade:'FUR',breakthroughLevel:13,dominant:{dominantType:'SPEED'}},
     canAdvance:true
@@ -131,7 +131,7 @@ test('라이브 서버의 card/recommendedClass/config 응답을 UI 계약으로
   assert.equal(overview.dominantType,'SPEED');
   assert.equal(overview.classInfo.code,'SERVER_LIVE_SPEED');
   assert.equal(overview.classInfo.effect,'서버 설정에서 읽은 전직 효과');
-  assert.equal(overview.wallet.masterStars,1400);
+  assert.equal(overview.wallet.masterStars,3400);
   assert.equal(overview.canAdvance,true);
   assert.deepEqual(Array.from(ui.routeModels(overview)).filter(route=>route.recommended).map(route=>route.type),['SPEED']);
 
@@ -146,13 +146,13 @@ test('클라이언트는 서버 응답이 있어도 조건 우회·임의 코드
   const rejected=[
     baseOverview({grade:'LIMITED'}),
     baseOverview({breakthroughLevel:12}),
-    baseOverview({wallet:{masterStars:999}}),
+    baseOverview({wallet:{masterStars:2999}}),
     baseOverview({dominantType:'UNKNOWN'}),
     baseOverview({classInfo:{name:'반격자',effect:'x',tradeoff:'y'}}),
     baseOverview({eligibility:{eligible:false,reasons:['서버 차단']}}),
-    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:12,costMasterStars:1000}}),
+    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:12,costMasterStars:3000}}),
     baseOverview({requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:1}}),
-    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:1000,successChancePercent:11}})
+    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:3000,successChancePercent:11}})
   ];
   for(const raw of rejected)assert.equal(ui.normalizeOverview(raw).canAdvance,false,JSON.stringify(raw));
 
@@ -163,6 +163,7 @@ test('클라이언트는 서버 응답이 있어도 조건 우회·임의 코드
 
 test('완료 카드는 최신 추천이 아니라 저장된 전직 한 종만 강조하고 설명한다',()=>{
   const ui=loadUi(),completed=ui.normalizeOverview(baseOverview({
+    wallet:{masterStars:400},
     dominantType:'ATTACK',
     classInfo:{code:'LATEST_ATTACK',dominantType:'ATTACK',name:'최신 공격 추천',effect:'LATEST ATTACK EFFECT'},
     recommendedClass:{classCode:'LATEST_ATTACK',dominantType:'ATTACK',name:'최신 공격 추천',description:'LATEST ATTACK EFFECT'},
@@ -186,6 +187,7 @@ test('완료 카드는 최신 추천이 아니라 저장된 전직 한 종만 �
   assert.doesNotMatch(html,/data-recommended="true"/);
   assert.match(html,/저장된 서버 전직 기록이 적용 중입니다/);
   assert.match(html,/SAVED HP EFFECT/);
+  assert.doesNotMatch(html,/마스터의 별 [\d,]+개가 더 필요합니다/);
   assert.match(html,/SAVED HP COST/);
   assert.doesNotMatch(html,/LATEST ATTACK EFFECT/);
 });
@@ -201,7 +203,7 @@ test('효과 수치·단계·숙련도는 임의 생성하지 않고 서버 clas
 
 test('전직 확인은 카드 상세 패널 내부에서 처리되고 별도 모달을 만들지 않는다',()=>{
   const ui=loadUi(),card={id:'UI-CARD-1',grade:'ZENITH',uniqueAbility:{attackPercent:20}};
-  const panel=ui.panelHtml({card,user:{masterStars:1000},level:13,active:true});
+  const panel=ui.panelHtml({card,user:{masterStars:3000},level:13,active:true});
   assert.match(panel,/data-profile-panel="advancement"/);
   assert.match(panel,/data-unique-advancement-root/);
   assert.match(panel,/cpv2-panel ua-panel is-active/);
@@ -211,13 +213,13 @@ test('전직 확인은 카드 상세 패널 내부에서 처리되고 별도 모
   assert.match(confirm,/data-ua-cancel/);
   assert.match(confirm,/data-ua-submit/);
   assert.match(confirm,/FINAL SERVER CONFIRMATION \/ 10%/);
-  assert.match(confirm,/성공 여부와 관계없이 마스터의 별 1,000개가 소모/);
+  assert.match(confirm,/성공 여부와 관계없이 마스터의 별 3,000개가 소모/);
   assert.doesNotMatch(confirm,/role="dialog"|aria-modal/);
 });
 
 test('통신 모호성은 같은 requestId로 재시도하고 명시적 실패는 완료로 오인하지 않는다',async()=>{
   const ui=loadUi(),postBodies=[],savedUsers=[];
-  const localUser={masterStars:1000};
+  const localUser={masterStars:3000};
   const rootElement={
     dataset:{cardId:'UI-CARD-1'},
     innerHTML:'',
@@ -234,7 +236,7 @@ test('통신 모호성은 같은 requestId로 재시도하고 명시적 실패�
     if(request.method==='POST'){
       const body=JSON.parse(request.body);postBodies.push(body);
       if(postBodies.length===1)throw new Error('response lost');
-      return {ok:true,success:false,outcome:'FAILED',cardId:'UI-CARD-1',grade:'ZENITH',breakthroughLevel:13,recommendedType:'DEFENSE',recommendedClass:{classCode:'SERVER_CLASS_DEFENSE',dominantType:'DEFENSE',name:'반격자'},uniqueAdvancement:null,material:{balanceAfter:0},config:{allowedGrades:['FUR','ZENITH'],minimumBreakthrough:13,costMasterStars:1000,successChancePercent:10}};
+      return {ok:true,success:false,outcome:'FAILED',cardId:'UI-CARD-1',grade:'ZENITH',breakthroughLevel:13,recommendedType:'DEFENSE',recommendedClass:{classCode:'SERVER_CLASS_DEFENSE',dominantType:'DEFENSE',name:'반격자'},uniqueAdvancement:null,material:{balanceAfter:0},config:{allowedGrades:['FUR','ZENITH'],minimumBreakthrough:13,costMasterStars:3000,successChancePercent:10}};
     }
     assert.match(endpoint,/card\/unique-advancement\?cardId=UI-CARD-1/);
     return baseOverview();
@@ -249,7 +251,7 @@ test('통신 모호성은 같은 requestId로 재시도하고 명시적 실패�
   const flush=async()=>{await new Promise(resolve=>setImmediate(resolve));await Promise.resolve()};
 
   dispatch('data-ua-advance');
-  assert.match(rootElement.innerHTML,/MASTER STAR 1,000 · SUCCESS 10%|FINAL SERVER CONFIRMATION \/ 10%/);
+  assert.match(rootElement.innerHTML,/MASTER STAR 3,000 · SUCCESS 10%|FINAL SERVER CONFIRMATION \/ 10%/);
   dispatch('data-ua-submit');
   await flush();
   assert.equal(postBodies.length,1);
@@ -261,7 +263,7 @@ test('통신 모호성은 같은 requestId로 재시도하고 명시적 실패�
   assert.equal(postBodies.length,2);
   assert.ok(postBodies[0].requestId);
   assert.equal(postBodies[1].requestId,postBodies[0].requestId,'네트워크 오류 재시도는 동일 requestId를 유지해야 합니다.');
-  assert.match(rootElement.innerHTML,/전직 실패 · 재료 1,000개 소모/);
+  assert.match(rootElement.innerHTML,/전직 실패 · 재료 3,000개 소모/);
   assert.match(rootElement.innerHTML,/최신 전직 상태 다시 확인/);
   assert.doesNotMatch(rootElement.innerHTML,/고유효과 전직이 완료되었습니다|data-completed="true"|is-completed/);
   assert.equal(savedUsers.at(-1).masterStars,0);
@@ -282,8 +284,8 @@ test('app 최소 훅과 index 리소스 순서가 카드 렌더러를 변경하�
   const advancementCssPosition=index.indexOf('css/card-unique-advancement-v1.css');
   assert.ok(modulePosition>=0&&modulePosition<appPosition,'전직 모듈은 app.js보다 먼저 로드되어야 합니다.');
   assert.ok(profileCssPosition>=0&&profileCssPosition<advancementCssPosition,'전직 CSS는 카드 상세 CSS 뒤에서 확장해야 합니다.');
-  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=1937-unique-advancement-ui/);
-  assert.match(index,/css\/card-unique-advancement-v1\.css\?v=1937-unique-advancement-ui/);
+  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=1938-unique-advancement-cost/);
+  assert.match(index,/css\/card-unique-advancement-v1\.css\?v=1938-unique-advancement-cost/);
   assert.match(app,/CNineCardUniqueAdvancementV1937/);
   assert.match(app,/data-profile-tab="advancement"/);
   assert.match(app,/advancementUi\.bind\(modal,/);
