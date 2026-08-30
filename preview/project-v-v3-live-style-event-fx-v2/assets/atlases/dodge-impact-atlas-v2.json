@@ -1,0 +1,370 @@
+{
+  "frames": {
+    "dodge_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_01.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_02.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_03.png": {
+      "frame": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_05.png": {
+      "frame": {
+        "x": 512,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_06.png": {
+      "frame": {
+        "x": 1024,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_07.png": {
+      "frame": {
+        "x": 1536,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_09.png": {
+      "frame": {
+        "x": 512,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_10.png": {
+      "frame": {
+        "x": 1024,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    },
+    "dodge_11.png": {
+      "frame": {
+        "x": 1536,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 36
+    }
+  },
+  "animations": {
+    "impact": [
+      "dodge_00.png",
+      "dodge_01.png",
+      "dodge_02.png",
+      "dodge_03.png",
+      "dodge_04.png",
+      "dodge_05.png",
+      "dodge_06.png",
+      "dodge_07.png",
+      "dodge_08.png",
+      "dodge_09.png",
+      "dodge_10.png",
+      "dodge_11.png"
+    ]
+  },
+  "meta": {
+    "app": "PROJECT V V3 LIVE STYLE EVENT FX ATLAS BUILDER",
+    "version": "2.0.0",
+    "image": "dodge-impact-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 1365
+    },
+    "scale": "1",
+    "effect": "dodge",
+    "label": "PHANTOM DODGE",
+    "labelKo": "회피",
+    "fps": 28,
+    "frameDurationMs": 36,
+    "durationMs": 432,
+    "collisionFrame": 5,
+    "collisionHookMs": 179,
+    "anchors": {
+      "x": 0.34,
+      "y": 0.7
+    },
+    "source": "dodge-sheet-v2.png",
+    "sourceSize": {
+      "w": 1536,
+      "h": 1024
+    },
+    "sourceCrop": {
+      "x": 0,
+      "y": 0,
+      "w": 1536,
+      "h": 1023,
+      "cellWidth": 384,
+      "cellHeight": 341
+    },
+    "layout": {
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frameWidth": 512,
+      "frameHeight": 455
+    },
+    "alpha": {
+      "required": true,
+      "source": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 1572864,
+        "transparentPixels": 1424725,
+        "translucentPixels": 59377,
+        "visiblePixels": 148139,
+        "transparentRatio": 0.90581576,
+        "visibleRatio": 0.09418424,
+        "visibleBounds": {
+          "x": 18,
+          "y": 127,
+          "w": 1474,
+          "h": 763
+        }
+      },
+      "atlas": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 2795520,
+        "transparentPixels": 2517983,
+        "translucentPixels": 145186,
+        "visiblePixels": 277537,
+        "transparentRatio": 0.9007208,
+        "visibleRatio": 0.0992792,
+        "visibleBounds": {
+          "x": 24,
+          "y": 169,
+          "w": 1966,
+          "h": 1019
+        }
+      }
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "source": "5c65bda5726f19c96de0337ee3ba9f46c151e86a75adf61dd548a1bc82a1d29c",
+      "atlas": "f35877688a1b8618217b5add934bbbea67dc3dfb7d5f624a7ba045a980322092",
+      "frames": {
+        "dodge_00.png": "1c83e39c8855692a168a5deb526041c875492a1cf48cc78e19e3715bc112f2fe",
+        "dodge_01.png": "8d5c12b276c36d77406e80a038647585adbc3ebad9c7350bd5c52a970a8b2d70",
+        "dodge_02.png": "a35e88fe36f34b356c8de01a961be03d3d7f01a7f1e624eec41d8556aa50e80a",
+        "dodge_03.png": "76f1924f10d10c84c1121be2d0219cfecf2c0d247e4c4815382bba0a3ee91ec8",
+        "dodge_04.png": "b4b506ee6e0e20a01d19826ab18b9583c4c9bcb03fc4e5862797a2182f3264d2",
+        "dodge_05.png": "f5a770a65514ecfbc670f8e990881468f7172b49b1ad7fe3baff662e28c9e2f4",
+        "dodge_06.png": "8c12865104e85a4c1d46a70b1825fe5d68834561b90fd5a01f4063602a889e90",
+        "dodge_07.png": "3ee47791eecbfa90fd3efe965caff4750ac497050b93c5fad27410f637c43bd4",
+        "dodge_08.png": "b28f925b9f4df016cfff9a69afad676f50d58a3b6170bd5e0682d50f6be18d1a",
+        "dodge_09.png": "391b8c8f66a5430ba9bb6669ae2c9e9dfbb5129a5689c958168bb52cc09e1fdc",
+        "dodge_10.png": "4868a4d15bf0a5479e533c83ba5210565f72b33ca9e297ae68a9b9377152b34e",
+        "dodge_11.png": "e4630929e5603e6db25b6efb5b2437ade9a7bedb9c02e928d7201acedc991650"
+      }
+    },
+    "generatedAt": "2026-08-30T01:06:01.830Z"
+  }
+}

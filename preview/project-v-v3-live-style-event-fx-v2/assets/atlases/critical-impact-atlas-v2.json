@@ -1,0 +1,370 @@
+{
+  "frames": {
+    "critical_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_01.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_02.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_03.png": {
+      "frame": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_05.png": {
+      "frame": {
+        "x": 512,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_06.png": {
+      "frame": {
+        "x": 1024,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_07.png": {
+      "frame": {
+        "x": 1536,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_09.png": {
+      "frame": {
+        "x": 512,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_10.png": {
+      "frame": {
+        "x": 1024,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    },
+    "critical_11.png": {
+      "frame": {
+        "x": 1536,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 42
+    }
+  },
+  "animations": {
+    "impact": [
+      "critical_00.png",
+      "critical_01.png",
+      "critical_02.png",
+      "critical_03.png",
+      "critical_04.png",
+      "critical_05.png",
+      "critical_06.png",
+      "critical_07.png",
+      "critical_08.png",
+      "critical_09.png",
+      "critical_10.png",
+      "critical_11.png"
+    ]
+  },
+  "meta": {
+    "app": "PROJECT V V3 LIVE STYLE EVENT FX ATLAS BUILDER",
+    "version": "2.0.0",
+    "image": "critical-impact-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 1365
+    },
+    "scale": "1",
+    "effect": "critical",
+    "label": "CRITICAL HIT",
+    "labelKo": "치명타",
+    "fps": 24,
+    "frameDurationMs": 42,
+    "durationMs": 504,
+    "collisionFrame": 6,
+    "collisionHookMs": 250,
+    "anchors": {
+      "x": 0.5,
+      "y": 0.56
+    },
+    "source": "critical-sheet-v2.png",
+    "sourceSize": {
+      "w": 1536,
+      "h": 1024
+    },
+    "sourceCrop": {
+      "x": 0,
+      "y": 0,
+      "w": 1536,
+      "h": 1023,
+      "cellWidth": 384,
+      "cellHeight": 341
+    },
+    "layout": {
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frameWidth": 512,
+      "frameHeight": 455
+    },
+    "alpha": {
+      "required": true,
+      "source": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 1572864,
+        "transparentPixels": 1332254,
+        "translucentPixels": 49117,
+        "visiblePixels": 240610,
+        "transparentRatio": 0.84702428,
+        "visibleRatio": 0.15297572,
+        "visibleBounds": {
+          "x": 36,
+          "y": 64,
+          "w": 1471,
+          "h": 862
+        }
+      },
+      "atlas": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 2795520,
+        "transparentPixels": 2340545,
+        "translucentPixels": 159620,
+        "visiblePixels": 454975,
+        "transparentRatio": 0.83724853,
+        "visibleRatio": 0.16275147,
+        "visibleBounds": {
+          "x": 48,
+          "y": 85,
+          "w": 1962,
+          "h": 1152
+        }
+      }
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "source": "aafa1830daba85792f1634f7786b6fac4b7a762fcab89638c51c6a7b6f0e2448",
+      "atlas": "6847473623379d87b80050f6a00f73797fe9a10c36b7111ae75210a7bb9d2972",
+      "frames": {
+        "critical_00.png": "dfe025907d6329354ee6f541131c969b19d20501ceac692b86ac196b76a38ddd",
+        "critical_01.png": "838b3cc9466cfe994e609f5de7aef027236ef077aaabd4fcdc4482ed59036ceb",
+        "critical_02.png": "4cbcf0b53797cf421fa2df36c8062b4ba9ea2dfcd4a82dfb7fdcec45aff5a02a",
+        "critical_03.png": "2f4ba34b2432544929e927379209b8930b9be741579cb06c519c4f00c3592f03",
+        "critical_04.png": "97c184028d4e8bac2ef34470db31b43eaad6882e1ffd68fe2e756a956a0055bf",
+        "critical_05.png": "e9a7f1123c6a5116b1fbdf8ed121337deaa7d23a28f08ab8b9bcff532dd5337f",
+        "critical_06.png": "b74c694df64e68bda4df1cd654c61e097be5e1e8ae3aac0562ae91d5ea64fc02",
+        "critical_07.png": "e225871a576f107e2da371cc70e2fe4b731e8c349153128932ca224ccf1d63f3",
+        "critical_08.png": "0da6705cb8653c35749e3ceffe83f58ec15ff196f2b73c7314ad4d754f62b078",
+        "critical_09.png": "b576502614bd9e13926142443b81e281484a78406edd6d36b843f54677a41b43",
+        "critical_10.png": "ad33b55ef444afac8dd54a14f896f36396543fd389f0a3c47743e32a8afe61c5",
+        "critical_11.png": "e33eecf02aa12ba5f222af9f140bd2a2b178d7f4861c95658f5188bdbb7edb96"
+      }
+    },
+    "generatedAt": "2026-08-30T01:06:01.830Z"
+  }
+}

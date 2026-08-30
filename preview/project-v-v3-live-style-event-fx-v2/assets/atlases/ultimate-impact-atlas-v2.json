@@ -1,0 +1,370 @@
+{
+  "frames": {
+    "ultimate_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_01.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_02.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_03.png": {
+      "frame": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_05.png": {
+      "frame": {
+        "x": 512,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_06.png": {
+      "frame": {
+        "x": 1024,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_07.png": {
+      "frame": {
+        "x": 1536,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_09.png": {
+      "frame": {
+        "x": 512,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_10.png": {
+      "frame": {
+        "x": 1024,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "ultimate_11.png": {
+      "frame": {
+        "x": 1536,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    }
+  },
+  "animations": {
+    "impact": [
+      "ultimate_00.png",
+      "ultimate_01.png",
+      "ultimate_02.png",
+      "ultimate_03.png",
+      "ultimate_04.png",
+      "ultimate_05.png",
+      "ultimate_06.png",
+      "ultimate_07.png",
+      "ultimate_08.png",
+      "ultimate_09.png",
+      "ultimate_10.png",
+      "ultimate_11.png"
+    ]
+  },
+  "meta": {
+    "app": "PROJECT V V3 LIVE STYLE EVENT FX ATLAS BUILDER",
+    "version": "2.0.0",
+    "image": "ultimate-impact-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 1365
+    },
+    "scale": "1",
+    "effect": "ultimate",
+    "label": "ROYAL ULTIMATE",
+    "labelKo": "궁극기",
+    "fps": 18,
+    "frameDurationMs": 56,
+    "durationMs": 672,
+    "collisionFrame": 6,
+    "collisionHookMs": 333,
+    "anchors": {
+      "x": 0.5,
+      "y": 0.88
+    },
+    "source": "ultimate-sheet-v2.png",
+    "sourceSize": {
+      "w": 1536,
+      "h": 1024
+    },
+    "sourceCrop": {
+      "x": 0,
+      "y": 0,
+      "w": 1536,
+      "h": 1023,
+      "cellWidth": 384,
+      "cellHeight": 341
+    },
+    "layout": {
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frameWidth": 512,
+      "frameHeight": 455
+    },
+    "alpha": {
+      "required": true,
+      "source": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 1572864,
+        "transparentPixels": 1223260,
+        "translucentPixels": 68080,
+        "visiblePixels": 349604,
+        "transparentRatio": 0.77772776,
+        "visibleRatio": 0.22227224,
+        "visibleBounds": {
+          "x": 33,
+          "y": 43,
+          "w": 1477,
+          "h": 929
+        }
+      },
+      "atlas": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 2795520,
+        "transparentPixels": 2156026,
+        "translucentPixels": 178225,
+        "visiblePixels": 639494,
+        "transparentRatio": 0.77124327,
+        "visibleRatio": 0.22875673,
+        "visibleBounds": {
+          "x": 44,
+          "y": 57,
+          "w": 1970,
+          "h": 1241
+        }
+      }
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "source": "0b3e6283e23aee4c0ec89210eae1f8a35a17785224fe5622d3edda8a7685d33b",
+      "atlas": "eeddc89fcef72de914aeac6976184273bccd8cdd7a0aa9293427436e9a62f6ff",
+      "frames": {
+        "ultimate_00.png": "467097a7bf533c83ec4ec36c0f69cb1d04984b7702a46b2a50f601900ee861b6",
+        "ultimate_01.png": "793ecf79493f43718f4dc24bda6507312825352eb1af1e647c6fb1e45489f566",
+        "ultimate_02.png": "ff7747f39f95c846881b8345de27aaf5a47493ca53fade3d553a31407b8ef354",
+        "ultimate_03.png": "3eae921c3551f74cabba180da20821aa19dd5bff4f5eb64b14dab1c7f3523c17",
+        "ultimate_04.png": "f712b8e24bc82d6c6281777149b0bca494b385f5fb96771c6c394144b584a0f5",
+        "ultimate_05.png": "8a4567b15aa865708441692fb4fe7fd976aeb545a21b41a7c274e3e7b1bff54e",
+        "ultimate_06.png": "c42e69c718a41fb17fc2f540c6564595a0cdf0585fac5457944afb7ef09d70a4",
+        "ultimate_07.png": "31877951a9494592064b490f7b834b8a5d2843941e2543e54c9d619133c8a6a9",
+        "ultimate_08.png": "e54f15cc0d0f14d9b1468f8ca020119810d5fd358a0d0ea241ebded0812487b6",
+        "ultimate_09.png": "8c08f8cd1124cad6d77623bc26ee2aa825bfaceb26cb489f394c565b6741cceb",
+        "ultimate_10.png": "3c91ec5307641dac2fb71b79bd9dc932d62c79b0d4245f085b92a83420b41e92",
+        "ultimate_11.png": "1a34ccda4717f863dcb88a3db1eecabbc5e3c4289e30ec1c8292483762f10b9e"
+      }
+    },
+    "generatedAt": "2026-08-30T01:06:01.830Z"
+  }
+}

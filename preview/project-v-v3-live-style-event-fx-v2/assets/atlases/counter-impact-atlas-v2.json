@@ -1,0 +1,370 @@
+{
+  "frames": {
+    "counter_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_01.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_02.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_03.png": {
+      "frame": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_05.png": {
+      "frame": {
+        "x": 512,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_06.png": {
+      "frame": {
+        "x": 1024,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_07.png": {
+      "frame": {
+        "x": 1536,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_09.png": {
+      "frame": {
+        "x": 512,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_10.png": {
+      "frame": {
+        "x": 1024,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    },
+    "counter_11.png": {
+      "frame": {
+        "x": 1536,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 50
+    }
+  },
+  "animations": {
+    "impact": [
+      "counter_00.png",
+      "counter_01.png",
+      "counter_02.png",
+      "counter_03.png",
+      "counter_04.png",
+      "counter_05.png",
+      "counter_06.png",
+      "counter_07.png",
+      "counter_08.png",
+      "counter_09.png",
+      "counter_10.png",
+      "counter_11.png"
+    ]
+  },
+  "meta": {
+    "app": "PROJECT V V3 LIVE STYLE EVENT FX ATLAS BUILDER",
+    "version": "2.0.0",
+    "image": "counter-impact-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 1365
+    },
+    "scale": "1",
+    "effect": "counter",
+    "label": "COUNTER EDGE",
+    "labelKo": "반격",
+    "fps": 20,
+    "frameDurationMs": 50,
+    "durationMs": 600,
+    "collisionFrame": 6,
+    "collisionHookMs": 300,
+    "anchors": {
+      "x": 0.5,
+      "y": 0.54
+    },
+    "source": "counter-sheet-v2.png",
+    "sourceSize": {
+      "w": 1536,
+      "h": 1024
+    },
+    "sourceCrop": {
+      "x": 0,
+      "y": 0,
+      "w": 1536,
+      "h": 1023,
+      "cellWidth": 384,
+      "cellHeight": 341
+    },
+    "layout": {
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frameWidth": 512,
+      "frameHeight": 455
+    },
+    "alpha": {
+      "required": true,
+      "source": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 1572864,
+        "transparentPixels": 1361938,
+        "translucentPixels": 59899,
+        "visiblePixels": 210926,
+        "transparentRatio": 0.86589686,
+        "visibleRatio": 0.13410314,
+        "visibleBounds": {
+          "x": 18,
+          "y": 43,
+          "w": 1485,
+          "h": 889
+        }
+      },
+      "atlas": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 2795520,
+        "transparentPixels": 2385603,
+        "translucentPixels": 171257,
+        "visiblePixels": 409917,
+        "transparentRatio": 0.85336646,
+        "visibleRatio": 0.14663354,
+        "visibleBounds": {
+          "x": 24,
+          "y": 57,
+          "w": 1981,
+          "h": 1188
+        }
+      }
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "source": "6aae019a970fa8fefae07c9203bc110202ecf890331fd4169fcc00bdb6710672",
+      "atlas": "a56d22ebebe7e69d2d776ce278ce328caa4ec26f3d34174a3feda2b77f830c3e",
+      "frames": {
+        "counter_00.png": "57fa99a9862f6afebe14bd555527a0fce94ec7df660d941010a1670c68a5e1d2",
+        "counter_01.png": "e19957638437e823e4b1edfd371967a2840455e7cc94de844eec644323a4a816",
+        "counter_02.png": "d8b249b8f6b2c936141db9484a91017cea1ee4e3f7c525df1dc5b9e5e37c9ace",
+        "counter_03.png": "a50c6d30f0ca6eec857953c662c1e56ce6f15b78ff89b10d09e7137ebbfa46f0",
+        "counter_04.png": "1e17882bfc9b021ff8dbab3d0d384c71272be87662546f76fefeec80ba517498",
+        "counter_05.png": "5b93568632e1a6e9b9d4b5a65e6c1dd5969fd02482db9b93656af534e108503d",
+        "counter_06.png": "3f59a1c62f4bd2cddf9e76a30dfacab595282ceb2cc7ccdc7245c5ec286fb423",
+        "counter_07.png": "527af414f8fad797274c4a11f3365d9e77058d99cbb020f076203d3f02c36d22",
+        "counter_08.png": "2c322c567d0ac5ad82a8f10efd307b380a75f19558731f430e075fe442c7d88c",
+        "counter_09.png": "00d3a8e79a01ba3dfbbb2879a4d14a0537bad0d1829c60025b7cbb293b364030",
+        "counter_10.png": "a6c3ca854bc5899eea5b74d9283455f0accd350ec2f99a175c4b0017b14893e0",
+        "counter_11.png": "0f84af8bcb58cbf06df0d32e37678634c82c2060c14704d335c003aab93f5a5f"
+      }
+    },
+    "generatedAt": "2026-08-30T01:06:01.830Z"
+  }
+}

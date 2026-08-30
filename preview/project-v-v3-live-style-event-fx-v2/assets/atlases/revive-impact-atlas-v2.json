@@ -1,0 +1,370 @@
+{
+  "frames": {
+    "revive_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_01.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_02.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_03.png": {
+      "frame": {
+        "x": 1536,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_05.png": {
+      "frame": {
+        "x": 512,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_06.png": {
+      "frame": {
+        "x": 1024,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_07.png": {
+      "frame": {
+        "x": 1536,
+        "y": 455,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_08.png": {
+      "frame": {
+        "x": 0,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_09.png": {
+      "frame": {
+        "x": 512,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_10.png": {
+      "frame": {
+        "x": 1024,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    },
+    "revive_11.png": {
+      "frame": {
+        "x": 1536,
+        "y": 910,
+        "w": 512,
+        "h": 455
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 512,
+        "h": 455
+      },
+      "sourceSize": {
+        "w": 512,
+        "h": 455
+      },
+      "duration": 56
+    }
+  },
+  "animations": {
+    "impact": [
+      "revive_00.png",
+      "revive_01.png",
+      "revive_02.png",
+      "revive_03.png",
+      "revive_04.png",
+      "revive_05.png",
+      "revive_06.png",
+      "revive_07.png",
+      "revive_08.png",
+      "revive_09.png",
+      "revive_10.png",
+      "revive_11.png"
+    ]
+  },
+  "meta": {
+    "app": "PROJECT V V3 LIVE STYLE EVENT FX ATLAS BUILDER",
+    "version": "2.0.0",
+    "image": "revive-impact-atlas-v2.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 2048,
+      "h": 1365
+    },
+    "scale": "1",
+    "effect": "revive",
+    "label": "LAST STAND",
+    "labelKo": "불굴 · 부활",
+    "fps": 18,
+    "frameDurationMs": 56,
+    "durationMs": 672,
+    "collisionFrame": 6,
+    "collisionHookMs": 333,
+    "anchors": {
+      "x": 0.5,
+      "y": 0.9
+    },
+    "source": "revive-sheet-v2.png",
+    "sourceSize": {
+      "w": 1536,
+      "h": 1024
+    },
+    "sourceCrop": {
+      "x": 0,
+      "y": 0,
+      "w": 1536,
+      "h": 1023,
+      "cellWidth": 384,
+      "cellHeight": 341
+    },
+    "layout": {
+      "columns": 4,
+      "rows": 3,
+      "frameCount": 12,
+      "frameWidth": 512,
+      "frameHeight": 455
+    },
+    "alpha": {
+      "required": true,
+      "source": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 1572864,
+        "transparentPixels": 1298961,
+        "translucentPixels": 72021,
+        "visiblePixels": 273903,
+        "transparentRatio": 0.82585716,
+        "visibleRatio": 0.17414284,
+        "visibleBounds": {
+          "x": 79,
+          "y": 36,
+          "w": 1349,
+          "h": 934
+        }
+      },
+      "atlas": {
+        "minAlpha": 0,
+        "maxAlpha": 255,
+        "totalPixels": 2795520,
+        "transparentPixels": 2286723,
+        "translucentPixels": 189694,
+        "visiblePixels": 508797,
+        "transparentRatio": 0.81799558,
+        "visibleRatio": 0.18200442,
+        "visibleBounds": {
+          "x": 104,
+          "y": 48,
+          "w": 1802,
+          "h": 1247
+        }
+      }
+    },
+    "hashes": {
+      "algorithm": "sha256",
+      "source": "abb1d944a9e2bb067cf72de5ac8782899fb222b99f7a88cf81ddffa07d3ff036",
+      "atlas": "cb69de711ba37686e8a73d27f1f4b0cd460f0836aebd4df9c5e6974fa50e04a4",
+      "frames": {
+        "revive_00.png": "1447966f832dbb2a3571851dcc95b0e5badbec501c03983392dfce123a4873ab",
+        "revive_01.png": "a53e6e2a475cca6f8111da60498e997f387d4130e6d385f2ef5c4f202db323a0",
+        "revive_02.png": "f4944c87d404514d5acfac2e2d8913330b6e2157579b4d2e2c9a33417c02d72e",
+        "revive_03.png": "da9b9d4bc38b8a6c5c189385f68573034d5d632b6e9bb5042d3f5067c9f62349",
+        "revive_04.png": "2dbc29ec0f07089181cb2f821283032d7db4ace0a3c7c7d20ec8058ea2b096ec",
+        "revive_05.png": "4548617a6a6a546ad1954fc560d4dbcbede9937d15e50eeeb3e97e8dc1fe526d",
+        "revive_06.png": "09f52df2f1d0f86f4aa95ebf5424e2b91187b7c38dcb30b8c19950488571a544",
+        "revive_07.png": "ac142330230fc16792f84630caba56ed40fee83116460c87760094f4cffe0902",
+        "revive_08.png": "7875be1b29faebb3531d0f7077e8dd2ff3571b4584731d5ba7fe599bfda479f7",
+        "revive_09.png": "4fa91543f3b961cef92c5e7f8943f4beec0f9562068feba684e2991d92600b4d",
+        "revive_10.png": "f28cb833542f6f0ab1f5374a24da073334a802f7b2f2dc4e942b3940d8d94cf2",
+        "revive_11.png": "4fb716e4d8afd0b9f1758e1397d2a119e11987773c0c8f0d53b115acefe6ddf7"
+      }
+    },
+    "generatedAt": "2026-08-30T01:06:01.830Z"
+  }
+}

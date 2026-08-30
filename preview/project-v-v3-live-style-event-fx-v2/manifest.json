@@ -1,0 +1,132 @@
+{
+  "version": "project-v-v3-live-style-event-fx-v2",
+  "createdAt": "2026-08-30",
+  "previewOnly": true,
+  "runtimeConnected": false,
+  "deployAllowed": false,
+  "assignment": {
+    "status": "UNASSIGNED",
+    "decisionOwner": "USER",
+    "auditionLabelsOnly": true,
+    "note": "No trait, skill, tier, card, raid, boss, or content binding is implied."
+  },
+  "implementation": {
+    "renderer": "PixiJS v8 WebGL",
+    "timeline": "GSAP authoritative collision timeline",
+    "audio": "WebAudio decoded recorded assets only",
+    "layers": [
+      "BackgroundLayer",
+      "CombatBillboardLayer",
+      "EffectLayer",
+      "UiLayer"
+    ],
+    "feedback": {
+      "whiteFlashMs": 50,
+      "cameraShakeSteps": 14,
+      "hitStopPerResource": true
+    },
+    "proceduralVisualFallback": false,
+    "proceduralAudioFallback": false
+  },
+  "atlasContract": {
+    "frameCount": 12,
+    "frameWidth": 512,
+    "frameHeight": 455,
+    "columns": 4,
+    "rows": 3,
+    "atlasWidth": 2048,
+    "atlasHeight": 1365,
+    "format": "RGBA8888 PNG + PixiJS v8 JSON",
+    "blendMode": "screen"
+  },
+  "audioContract": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "codec": "MP3 256 kbps",
+    "sourceType": "layered recorded samples",
+    "license": "Mixkit Free License",
+    "licenseUrl": "https://mixkit.co/license/#sfxFree",
+    "sourceManifest": "../project-v-v3-event-fx-v1/assets/audio/manifest.json",
+    "proceduralSynthesis": false,
+    "runtimeSynthesis": false
+  },
+  "resources": [
+    {
+      "id": "critical",
+      "auditionLabel": "CRITICAL",
+      "binding": null,
+      "fps": 24,
+      "collisionFrame": 6,
+      "collisionSyncMs": 250,
+      "raw": {"path": "assets/source-imagegen-rgb/critical-sheet-v2-imagegen-rgb.png", "sha256": "1103ad73aa6c4c58e6b20b961bbacafe3c266741bb6dfcce24110523ae9e92d8"},
+      "sourceSheet": {"path": "assets/source-sheets/critical-sheet-v2.png", "sha256": "aafa1830daba85792f1634f7786b6fac4b7a762fcab89638c51c6a7b6f0e2448"},
+      "atlas": {"png": "assets/atlases/critical-impact-atlas-v2.png", "pngSha256": "6847473623379d87b80050f6a00f73797fe9a10c36b7111ae75210a7bb9d2972", "json": "assets/atlases/critical-impact-atlas-v2.json", "jsonSha256": "429b3f293e6856135ed4e9200d7ca395f60bf307bafe21bc571722e711ec9dc5"},
+      "audio": {"path": "assets/audio/critical-combat-v4.mp3", "sha256": "e70e49a84da87a0e1f52a366e339b21724b7708811c06046da02a439570e8c6b", "bytes": 43820, "durationMs": 1300, "syncPointMs": 250, "reusedUnmodified": true}
+    },
+    {
+      "id": "counter",
+      "auditionLabel": "COUNTER",
+      "binding": null,
+      "fps": 20,
+      "collisionFrame": 6,
+      "collisionSyncMs": 300,
+      "raw": {"path": "assets/source-imagegen-rgb/counter-sheet-v2-imagegen-rgb.png", "sha256": "93b80453382e33ed0ae04c20f9be7dc2407beb502a86854904152452ceadd722"},
+      "sourceSheet": {"path": "assets/source-sheets/counter-sheet-v2.png", "sha256": "6aae019a970fa8fefae07c9203bc110202ecf890331fd4169fcc00bdb6710672"},
+      "atlas": {"png": "assets/atlases/counter-impact-atlas-v2.png", "pngSha256": "a56d22ebebe7e69d2d776ce278ce328caa4ec26f3d34174a3feda2b77f830c3e", "json": "assets/atlases/counter-impact-atlas-v2.json", "jsonSha256": "5daa62da03a5069a844645cf712e0e0c2704646bd9db9b6ae50a1819a45d190f"},
+      "audio": {"path": "assets/audio/counter-combat-v2.mp3", "sha256": "3c0e96419dd75a28731799a8cb37407d7c8ff3a19f58b4ec683ec107190f7c7a", "bytes": 39980, "durationMs": 1180, "syncPointMs": 300, "reusedUnmodified": true}
+    },
+    {
+      "id": "ultimate",
+      "auditionLabel": "ULTIMATE",
+      "binding": null,
+      "fps": 18,
+      "collisionFrame": 6,
+      "collisionSyncMs": 333,
+      "raw": {"path": "assets/source-imagegen-rgb/ultimate-sheet-v2-imagegen-rgb.png", "sha256": "dd56166cb5e16bfeda1afce473bb134fed2d8a1f5713f0704e0144fac413e789"},
+      "sourceSheet": {"path": "assets/source-sheets/ultimate-sheet-v2.png", "sha256": "0b3e6283e23aee4c0ec89210eae1f8a35a17785224fe5622d3edda8a7685d33b"},
+      "atlas": {"png": "assets/atlases/ultimate-impact-atlas-v2.png", "pngSha256": "eeddc89fcef72de914aeac6976184273bccd8cdd7a0aa9293427436e9a62f6ff", "json": "assets/atlases/ultimate-impact-atlas-v2.json", "jsonSha256": "adf5bb61a19edd4b125eaf405dcdbfc0957eed255e5c4e9e6f19183f35cddf1f"},
+      "audio": {"path": "assets/audio/ultimate-combat-v2.mp3", "sha256": "5abf5c9e590662b52b2c2561cb51cc70861cd47ae527b32aaaf13d7a24c2f2b3", "bytes": 69164, "durationMs": 2100, "syncPointMs": 333, "reusedUnmodified": true}
+    },
+    {
+      "id": "boss-ultimate",
+      "auditionLabel": "BOSS ULT.",
+      "binding": null,
+      "fps": 17,
+      "collisionFrame": 6,
+      "collisionSyncMs": 353,
+      "raw": {"path": "assets/source-imagegen-rgb/boss-ultimate-sheet-v2-imagegen-rgb.png", "sha256": "a553844222a8c4f34938df5494cf37f42843c685534cbd48b3fc3552cf91e4e1"},
+      "sourceSheet": {"path": "assets/source-sheets/boss-ultimate-sheet-v2.png", "sha256": "4913f1edac595b2c0ef6e0cd5d62610a212c5f3dfa4e3d7af1157ce56e5866d2"},
+      "atlas": {"png": "assets/atlases/boss-ultimate-impact-atlas-v2.png", "pngSha256": "2eb5a2c1648b7f446d3ad18dcdd584ab59760f42ee2093fde752ae0705a6bbe1", "json": "assets/atlases/boss-ultimate-impact-atlas-v2.json", "jsonSha256": "31ded76c0d327cb3457ca360d7d84be0ede373dbde1152321808f033238ada6e"},
+      "audio": {"path": "assets/audio/boss-ultimate-combat-v2.mp3", "sha256": "2af601f8b81b9f3f5863a69a15b2bd438d62282cd0c3b0338c5824557024ede6", "bytes": 86828, "durationMs": 2650, "syncPointMs": 353, "reusedUnmodified": true}
+    },
+    {
+      "id": "dodge",
+      "auditionLabel": "DODGE",
+      "binding": null,
+      "fps": 28,
+      "collisionFrame": 5,
+      "collisionSyncMs": 179,
+      "raw": {"path": "assets/source-imagegen-rgb/dodge-sheet-v2-imagegen-rgb.png", "sha256": "e8c26f1336b1196d7136cac5a03001b15feed45d41b978d179b5cefa6bc695b8"},
+      "sourceSheet": {"path": "assets/source-sheets/dodge-sheet-v2.png", "sha256": "5c65bda5726f19c96de0337ee3ba9f46c151e86a75adf61dd548a1bc82a1d29c"},
+      "atlas": {"png": "assets/atlases/dodge-impact-atlas-v2.png", "pngSha256": "f35877688a1b8618217b5add934bbbea67dc3dfb7d5f624a7ba045a980322092", "json": "assets/atlases/dodge-impact-atlas-v2.json", "jsonSha256": "523c5bdcba2a082c3c95730d9e1c221e658706035abd5cc7b8e90504d3f7ba09"},
+      "audio": {"path": "assets/audio/dodge-combat-v2.mp3", "sha256": "171123e14ba469cd58efdbc63c4a11b80d6e8e1a94821a3d26562454bc9d7b41", "bytes": 29228, "durationMs": 860, "syncPointMs": 178, "reusedUnmodified": true}
+    },
+    {
+      "id": "revive",
+      "auditionLabel": "REVIVE",
+      "binding": null,
+      "fps": 18,
+      "collisionFrame": 6,
+      "collisionSyncMs": 333,
+      "raw": {"path": "assets/source-imagegen-rgb/revive-sheet-v2-imagegen-rgb.png", "sha256": "2e5999851496e2dbb0386cf2f0a6f651084e065eb1b198e213247d9898dc1d56"},
+      "sourceSheet": {"path": "assets/source-sheets/revive-sheet-v2.png", "sha256": "abb1d944a9e2bb067cf72de5ac8782899fb222b99f7a88cf81ddffa07d3ff036"},
+      "atlas": {"png": "assets/atlases/revive-impact-atlas-v2.png", "pngSha256": "cb69de711ba37686e8a73d27f1f4b0cd460f0836aebd4df9c5e6974fa50e04a4", "json": "assets/atlases/revive-impact-atlas-v2.json", "jsonSha256": "ec704c43d28afd1f9edcddd55c474df84f263f0d279b4d05b2b7fbc406434801"},
+      "audio": {"path": "assets/audio/revive-combat-v2.mp3", "sha256": "8db5e99f374be1e840b8f01fb5d89c81043589973ce7ddc30bc84bd2b244aa0e", "bytes": 78380, "durationMs": 2400, "syncPointMs": 333, "reusedUnmodified": true}
+    }
+  ],
+  "generation": {
+    "alphaConversion": "../../scripts/convert-imagegen-checker-to-alpha.mjs",
+    "atlasBuild": "../../scripts/build-v3-live-style-event-fx-v2.mjs",
+    "previewBuild": "build.mjs"
+  }
+}
