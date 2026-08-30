@@ -59,6 +59,46 @@ const S1 = {
 };
 const S1_TYPE_KEYS = ['ATTACK', 'DEFENSE', 'SPEED', 'HP'];
 
+// V1937: 전술 전직은 서버가 검증해 카드에 주입한 상태만 소비한다.
+// 엔진은 수치를 하드코딩하지 않고 `modifiers` 계약을 적용하므로 서버 설정과
+// 밸런스 하네스가 단일 수치 기준이 된다. 계열과 전직 코드가 어긋난 입력은 무시한다.
+const UNIQUE_ADVANCEMENT_CLASS_BY_TYPE = Object.freeze({
+  ATTACK: 'SHATTER',
+  DEFENSE: 'RIPOSTE',
+  SPEED: 'AFTERIMAGE',
+  HP: 'IMMORTAL',
+});
+
+function normalizeUniqueAdvancement(card = {}, type = 'NONE') {
+  const raw = card?.uniqueAdvancement || card?.unique_advancement || null;
+  if (!raw || raw.active !== true) return null;
+  const classCode = String(raw.classCode || raw.class_code || '').trim().toUpperCase();
+  const dominantType = String(raw.dominantType || raw.dominant_type || type || '').trim().toUpperCase();
+  if (!classCode || classCode !== UNIQUE_ADVANCEMENT_CLASS_BY_TYPE[type] || dominantType !== type) return null;
+  const input = raw.modifiers && typeof raw.modifiers === 'object' ? raw.modifiers : {};
+  const modifier = (key, min, max) => clamp(input[key] ?? 0, min, max);
+  return {
+    active: true,
+    classCode,
+    dominantType,
+    configVersion: String(raw.configVersion || raw.config_version || ''),
+    modifiers: {
+      criticalChancePoints: modifier('criticalChancePoints', 0, 25),
+      penetrationPoints: modifier('penetrationPoints', 0, 50),
+      dodgeChancePoints: modifier('dodgeChancePoints', 0, 20),
+      dodgeCapPoints: modifier('dodgeCapPoints', 0, 20),
+      counterChancePoints: modifier('counterChancePoints', 0, 35),
+      counterMultiplierPoints: modifier('counterMultiplierPoints', 0, 35),
+      unshieldedCounterChancePoints: modifier('unshieldedCounterChancePoints', 0, 35),
+      maxHpPercent: modifier('maxHpPercent', -35, 35),
+      damageDealtPercent: modifier('damageDealtPercent', -35, 35),
+      damageCapPoints: modifier('damageCapPoints', 0, 25),
+      lastStandHealPoolPercent: modifier('lastStandHealPoolPercent', 0, 35),
+      healPoolBonusPercent: modifier('healPoolBonusPercent', 0, 50),
+    },
+  };
+}
+
 // V1936: 계열은 균형형(NONE)에서 한 칸만 특화한다.
 //   ⚠ 공격형은 `공격력↑ HP↓` 가 아니라 `공격력↑ 방어↓` 다.
 //     이 엔진에서 HP 가 공격력보다 값어치가 크다(딜은 감소율·상한에 막히고 HP 는 안 막힌다).
@@ -147,6 +187,13 @@ function seededRandom(seed) {
 }
 
 function normalizeType(card = {}, uniqueAbility = null) {
+  // 기존 고유효과 공개 스위치와 무관하게, 서버 DB가 주입한 완료 전직은
+  // 저장 dominant/class 조합 자체가 타입 권위다. _magic에서 클라이언트
+  // uniqueAdvancement를 먼저 제거하므로 라이브 전투에서 임의 입력은 닿지 않는다.
+  const advancement = card?.uniqueAdvancement || card?.unique_advancement || null;
+  const advancementType = String(advancement?.dominantType || advancement?.dominant_type || '').trim().toUpperCase();
+  const advancementClass = String(advancement?.classCode || advancement?.class_code || '').trim().toUpperCase();
+  if (advancement?.active === true && UNIQUE_ADVANCEMENT_CLASS_BY_TYPE[advancementType] === advancementClass) return advancementType;
   const dominant = String(uniqueAbility?.dominantType || '').trim().toUpperCase();
   if (STAT_PROFILES[dominant]) return dominant;
   const raw = String(card.power_type ?? card.powerType ?? '').trim().toUpperCase();
@@ -165,7 +212,7 @@ function applyTypeStacking(cards = []) {
   if (!Array.isArray(curve) || !curve.length) return cards;
   const seen = Object.create(null);
   return cards.map(card => {
-    const key = String(card?.uniqueAbility?.dominantType || card?.power_type || card?.powerType || 'NONE').toUpperCase();
+    const key = normalizeType(card, card?.uniqueAbility || null);
     if (!S1_TYPE_KEYS.includes(key)) return card;
     seen[key] = (seen[key] || 0) + 1;
     return { ...card, typeStackFactor: curve[Math.min(curve.length - 1, seen[key] - 1)] };
@@ -186,6 +233,8 @@ export function distributeEquipment(cards = [], equipmentBonus = 0) {
 
 export function buildFighter(card, index, side, uniqueAbility = null, battleMode = 'PVP') {
   const type = normalizeType(card, uniqueAbility);
+  const uniqueAdvancement = normalizeUniqueAdvancement(card, type);
+  const advancementModifiers = uniqueAdvancement?.modifiers || {};
   const baseProfile = STAT_PROFILES[type];
   const stackFactor = Number(card.typeStackFactor ?? 1);
   const neutral = STAT_PROFILES.NONE;
@@ -218,7 +267,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
   //   HP 4.25→2.6 (×0.612) 에 맞춰 연장전 100→64, 행동상한 130→83 으로 같이 내렸다.
   //   측정 결과 연장전 발생률과 매치업 승률이 전부 그대로 유지된다.
   const hpScale = mode === 'PVE' ? 2.34 : 2.6;
-  const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100)));
+  const maxHp = Math.max(100, Math.round(power * profile.hp * hpScale * (1 + hpPct / 100) * (1 + Number(advancementModifiers.maxHpPercent || 0) / 100)));
   const attack = Math.max(10, Math.round(power * profile.attack * 1.05 * (1 + attackPct / 100)));
   const defense = Math.max(1, Math.round(power * profile.defense * 0.85 * (1 + defensePct / 100)));
   // V1936: 기저값을 더해 행동 빈도 격차를 압축한다(속도형 1.6배 -> 1.2배).
@@ -259,6 +308,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
       speedPercent: speedPct,
       dominantType: type
     } : null,
+    uniqueAdvancement,
     maxHp,
     hp: startingHp,
     attack,
@@ -271,6 +321,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     emergencyUsed: false,
     survivalUsed: false,
     indomitableUsed: false,
+    advancementLastStandUsed: false,
     huntStacks: 0,
     pvpTakedownUsed: false,
     speedUniqueSuppressed: false,
@@ -284,7 +335,7 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
 
 export function publicFighter(fighter) {
   const {
-    emergencyUsed, survivalUsed, indomitableUsed, pvpTakedownUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone,
+    emergencyUsed, survivalUsed, indomitableUsed, advancementLastStandUsed, pvpTakedownUsed, frontlineAnnounced, alive, actions, damageDealt, healingDone,
     ...card
   } = fighter;
   return card;
@@ -322,17 +373,21 @@ function teamHpRatio(team) {
 const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
 
 function hitResult(actor, target, random, multiplier = 1, counter = false, options = {}) {
+  const actorAdvancement = actor.uniqueAdvancement?.modifiers || {};
+  const targetAdvancement = target.uniqueAdvancement?.modifiers || {};
+  const dodgeCap = 0.24 + Math.max(0, Number(targetAdvancement.dodgeCapPoints || 0)) / 100;
   const dodgeChance = target.type === 'SPEED' && !target.speedUniqueSuppressed
-    ? clamp(0.10 + Math.max(0, uniquePercent(target.uniqueAbility, 'speedPercent')) / 1000, 0.10, 0.24)
+    ? clamp(0.10 + Math.max(0, uniquePercent(target.uniqueAbility, 'speedPercent')) / 1000 + Math.max(0, Number(targetAdvancement.dodgeChancePoints || 0)) / 100, 0.10, dodgeCap)
     : 0.02;
   if (!counter && random() < dodgeChance) return { dodge: true, damage: 0, critical: false, penetration: 0 };
 
-  const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0), 0.10, 0.25);
+  const criticalChance = clamp(0.10 + (actor.type === 'ATTACK' ? 0.06 : 0) + (actor.type === 'SPEED' && !actor.speedUniqueSuppressed ? 0.03 : 0) + Math.max(0, Number(actorAdvancement.criticalChancePoints || 0)) / 100, 0.10, 0.35);
   const critical = random() < criticalChance;
   const pveAttack = actor.type === 'ATTACK' && actor.battleMode === 'PVE';
-  const penetration = actor.type === 'ATTACK'
+  const basePenetration = actor.type === 'ATTACK'
     ? (pveAttack && target.isBoss ? 0.40 : pveAttack && target.isMonster ? 0.28 : (random() < 0.35 ? S1.attackPenetrationPvp : 0.15))
     : 0.03;
+  const penetration = clamp(basePenetration + Math.max(0, Number(actorAdvancement.penetrationPoints || 0)) / 100, 0, 0.80);
   const effectiveDefense = Math.max(0, target.defense * (1 - penetration));
   // V1936: 분모 상수 600 은 전투력 스케일에 안 맞아 1만 이상은 전원 65% 상한이었다.
   //   = 방어 스탯도 관통 수치도 실제로는 아무 일을 안 했다. 공격자 공격력 비례로 되살린다.
@@ -349,9 +404,11 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const execute = weakTarget ? (actor.battleMode === 'PVE' ? 1.25 : S1.executePvpMultiplier) : 1;
   const pvpOpeningPressure = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && actor.actions === 1 ? 1.12 : 1;
   const pvpShieldBreaker = actor.type === 'ATTACK' && actor.battleMode === 'PVP' && target.shield > 0 ? 1.15 : 1;
-  const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1);
+  const advancementDamage = Math.max(0.1, 1 + Number(actorAdvancement.damageDealtPercent || 0) / 100);
+  const raw = actor.attack * 1.72 * Number(multiplier || 1) * variance * execute * pvpOpeningPressure * pvpShieldBreaker * (critical ? 1.50 : 1) * advancementDamage;
   // V1936: 상한 0.46 은 공격력 11만 이상에서 걸려 딜 성장을 통째로 흡수했다. PVP 만 0.60 으로 완화.
-  const capPct = counter ? 0.24 : (usePvpDamageModel ? S1.damageCapPercent : 0.46);
+  const baseCapPct = counter ? 0.24 : (usePvpDamageModel ? S1.damageCapPercent : 0.46);
+  const capPct = clamp(baseCapPct + (!counter ? Math.max(0, Number(actorAdvancement.damageCapPoints || 0)) / 100 : 0), baseCapPct, 0.90);
   const capped = Math.min(raw * (1 - reduction), target.maxHp * capPct);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
@@ -359,7 +416,7 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
     ? target.maxHp * options.minDamagePercent
     : 0;
   const damage = Math.max(1, Math.round(Math.max(capped, minDamage)));
-  return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1 };
+  return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1, advancementClass: actor.uniqueAdvancement?.classCode || null };
 }
 
 function applyDamage(target, incoming, options = {}) {
@@ -442,14 +499,13 @@ function maybeFrontlineBreak(team, side, timeline, clock) {
   pushEvent(timeline, clock, 'FRONTLINE_BREAK', { side, label: side === 'A' ? '아군 전열 붕괴' : '적군 전열 붕괴' });
 }
 
-// V1936: 부활 총량 관리. 무료 부활은 계열 격차의 최대 원인이었다.
-//   방어형 불굴과 생명형 생존을 모두 없애고, 남은 부활(마법카드 등)은 팀 예산으로 묶는다.
-//   공격형은 상대 팀 부활 예산을 개전에 미리 깎는다(부활 봉인).
-let __reviveBudget = { A: 0, B: 0 };
-function consumeRevive(side) {
-  const left = Math.max(0, __reviveBudget[side] || 0);
+// V1937: 부활 봉인은 "허용 횟수 99에서 차감"하는 예산이 아니라 다음 부활 시도를
+// 실제로 무효화하는 봉인 스택이다. 마법 부활과 불멸자 최후 저항이 같은 스택을 쓴다.
+let __reviveSeal = { A: 0, B: 0 };
+function consumeReviveSeal(side) {
+  const left = Math.max(0, __reviveSeal[side] || 0);
   if (left <= 0) return false;
-  __reviveBudget[side] = left - 1;
+  __reviveSeal[side] = left - 1;
   return true;
 }
 
@@ -466,7 +522,7 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
     return false;
   }
   // V1936: 생명형 생존(무료 부활) 삭제. 생명형의 생존력은 회복 총량으로 옮겼다.
-  if (false && target.type === 'HP' && !target.survivalUsed && consumeRevive(target.side)) {
+  if (false && target.type === 'HP' && !target.survivalUsed) {
     target.survivalUsed = true;
     target.hp = Math.max(1, Math.round(target.maxHp * 0.12));
     pushEvent(timeline, clock, 'SURVIVE', {
@@ -476,6 +532,35 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
       label: '생명형 · 불굴의 생존'
     });
     return false;
+  }
+  const lastStandPercent = Number(target.uniqueAdvancement?.modifiers?.lastStandHealPoolPercent || 0);
+  if (target.uniqueAdvancement?.classCode === 'IMMORTAL' && !target.advancementLastStandUsed && lastStandPercent > 0) {
+    target.advancementLastStandUsed = true;
+    if (consumeReviveSeal(target.side)) {
+      pushEvent(timeline, clock, 'ADVANCEMENT_BLOCKED', {
+        targetId: target.id,
+        classCode: 'IMMORTAL',
+        label: '불멸자 · 부활 봉인',
+      });
+    } else {
+      const requested = Math.max(1, Math.round(target.maxHp * lastStandPercent / 100));
+      const amount = spendHealPool(target.side, requested);
+      if (amount > 0) {
+        target.hp = Math.min(target.maxHp, amount);
+        target.alive = true;
+        target.healingDone += amount;
+        pushEvent(timeline, clock, 'ADVANCEMENT', {
+          targetId: target.id,
+          classCode: 'IMMORTAL',
+          amount,
+          hpAfter: target.hp,
+          maxHp: target.maxHp,
+          revived: true,
+          label: '불멸자 · 최후 저항',
+        });
+        return false;
+      }
+    }
   }
   if (typeof onBeforeKnockout === 'function' && onBeforeKnockout(target, clock) === true) return false;
   target.alive = false;
@@ -547,6 +632,10 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const reviveFromMagic=(target,eventClock)=>{
     const magic=activateMagic(target,'PHOENIX_REVIVE');
     if(!magic)return false;
+    if(consumeReviveSeal(target.side)){
+      pushEvent(timeline,eventClock+0.000001,'REVIVE_SEALED',magicEvent(magic,target,target,{blocked:true,label:'공격형 · 부활 봉인'}));
+      return false;
+    }
     const amount=Math.max(1,Math.round(target.maxHp*Math.min(100,Number(magic.effectValue||0))/100));
     target.hp=Math.min(target.maxHp,amount);target.alive=true;
     pushEvent(timeline,eventClock+0.000001,'MAGIC_CARD',magicEvent(magic,target,target,{amount,hpAfter:target.hp,maxHp:target.maxHp,revived:true}));
@@ -564,21 +653,27 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   suppressSpeedUnique(a,b);suppressSpeedUnique(b,a);
   // V1936: 전투 시작 셋업 — 유한 자원들을 여기서 한 번에 배분한다.
   const isPveBattle = [...a, ...b].some(card => card.isMonster);
+  // 전직 기능이 OFF인 기존 전투는 V1936 결과를 그대로 보존한다. 실제 전직 카드가
+  // 한 장이라도 있을 때만 새 부활 봉인 소비 규칙을 활성화한다.
+  const advancementBattleActive = [...a, ...b].some(card => Boolean(card.uniqueAdvancement));
   __healPool = { A: 0, B: 0 };
-  __reviveBudget = { A: 99, B: 99 };
+  __reviveSeal = { A: 0, B: 0 };
   for (const [team, side] of [[a, 'A'], [b, 'B']]) {
     // 회복 총량 = 생명형 최대HP x healPoolPercent (장수 체감)
     const healers = team.filter(card => card.type === 'HP');
     if (S1.healPoolPercent > 0 && healers.length) {
       let pool = 0;
-      healers.forEach((h, i) => { pool += h.maxHp * S1.healPoolPercent * (S1.healPoolCurve[Math.min(S1.healPoolCurve.length - 1, i)] || 0); });
+      healers.forEach((h, i) => {
+        pool += h.maxHp * S1.healPoolPercent * (S1.healPoolCurve[Math.min(S1.healPoolCurve.length - 1, i)] || 0);
+        pool += h.maxHp * Math.max(0, Number(h.uniqueAdvancement?.modifiers?.healPoolBonusPercent || 0)) / 100;
+      });
       __healPool[side] = Math.round(pool * (isPveBattle ? S1.pveHealPoolScale : 1));
     }
     // 공격형은 상대 팀 부활 예산을 미리 깎는다
     const attackers = team.filter(card => card.type === 'ATTACK').length;
-    if (attackers > 0 && S1.attackSealRevive > 0) {
+    if (advancementBattleActive && attackers > 0 && S1.attackSealRevive > 0) {
       const foe = side === 'A' ? 'B' : 'A';
-      __reviveBudget[foe] = Math.max(0, __reviveBudget[foe] - S1.attackSealRevive * attackers);
+      __reviveSeal[foe] = Math.min(9, __reviveSeal[foe] + S1.attackSealRevive * attackers);
     }
   }
   // 방어형: 팀 방벽. 무료 부활 대신 소모되는 자원으로 생존력을 준다.
@@ -854,6 +949,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         dodge: true,
         actorGaugeAfter: actor.gauge,
         targetGaugeAfter: target.gauge,
+        advancementClass: target.uniqueAdvancement?.classCode || null,
         label: '속도형 · 회피'
       });
       continue;
@@ -877,6 +973,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       execute: hit.execute === true,
       openingPressure: hit.openingPressure === true,
       shieldBreaker: hit.shieldBreaker === true,
+      advancementClass: hit.advancementClass,
       suddenDeath: hit.suddenDeath === true,
       targetHpAfter: target.hp,
       targetMaxHp: target.maxHp,
@@ -953,10 +1050,20 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (!target.alive || target.hp <= 0) continue;
 
     const barrierBroken=target.type==='DEFENSE'&&damageState.shieldBefore>0&&damageState.shieldAfter<=0;
-    const defenseCounterChance=target.defenseLineBreached?S1.counterChanceBreached:S1.counterChance;
-    // V1936: 반격은 방벽이 남아 있을 때만. 방벽이 깨진 방어형은 평범한 카드가 된다.
-    if (target.type === 'DEFENSE' && (!S1.counterNeedsShield || target.shield > 0) && (barrierBroken || random() < defenseCounterChance)) {
-        const counter = hitResult(target, actor, random, barrierBroken?(target.defenseLineBreached?0.60:0.72):(target.defenseLineBreached?S1.counterMultiplierBreached:S1.counterMultiplier), true);
+    const counterAdvancement=target.uniqueAdvancement?.modifiers||{};
+    const defenseCounterChance=clamp((target.defenseLineBreached?S1.counterChanceBreached:S1.counterChance)+Math.max(0,Number(counterAdvancement.counterChancePoints||0))/100,0,0.65);
+    const unshieldedCounterChance=clamp(Math.max(0,Number(counterAdvancement.unshieldedCounterChancePoints||0))/100,0,0.35);
+    // 전직이 없는 방어형은 V1936의 방벽 필요 조건과 RNG 소비 순서를 그대로 둔다.
+    // 반격자만 방벽 파괴 순간 및 방벽 소진 뒤의 추가 반격 규칙을 사용한다.
+    const hasRiposte=target.uniqueAdvancement?.classCode==='RIPOSTE';
+    const counterTriggered=target.type==='DEFENSE'&&(hasRiposte
+      ?(barrierBroken||!S1.counterNeedsShield||target.shield>0||unshieldedCounterChance>0)
+        &&(barrierBroken||random()<(target.shield>0?defenseCounterChance:unshieldedCounterChance))
+      :(!S1.counterNeedsShield||target.shield>0)&&(barrierBroken||random()<defenseCounterChance));
+    if (target.type === 'DEFENSE' && counterTriggered) {
+        const baseCounterMultiplier=barrierBroken?(target.defenseLineBreached?0.60:0.72):(target.defenseLineBreached?S1.counterMultiplierBreached:S1.counterMultiplier);
+        const counterMultiplier=clamp(baseCounterMultiplier+Math.max(0,Number(counterAdvancement.counterMultiplierPoints||0))/100,0.10,1.20);
+        const counter = hitResult(target, actor, random, counterMultiplier, true);
         if(suddenDeath){counter.dodge=false;counter.damage=Math.max(Number(counter.damage||0),Math.round(actor.maxHp*.34+Math.max(0,actor.shield)));}
       if (!counter.dodge) {
         const counterGuard = capHasteRetaliation(counter.damage);
@@ -968,6 +1075,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           damage: counterState.hpDamage,
           absorbed: counterState.absorbed,
           critical: counter.critical,
+          advancementClass: target.uniqueAdvancement?.classCode || null,
           targetHpAfter: actor.hp,
           targetMaxHp: actor.maxHp,
           targetShieldAfter: actor.shield,
@@ -1267,12 +1375,12 @@ export async function handleBattleV2Preview({ path, request, env, deps }) {
     enemyBonusPromise
   ]);
 
-  const ownUniqueMap = new Map((uniqueStates[0]?.cards || []).map(card => [String(card.id), card.uniqueAbility || null]));
-  const enemyUniqueMap = new Map((uniqueStates[1]?.cards || []).map(card => [String(card.id), card.uniqueAbility || null]));
+  const ownUniqueMap = new Map((uniqueStates[0]?.cards || []).map(card => [String(card.id), card]));
+  const enemyUniqueMap = new Map((uniqueStates[1]?.cards || []).map(card => [String(card.id), card]));
   const ownWithEquipment = distributeEquipment(ownCards, Number(ownBonus?.pvp || 0));
   const enemyWithEquipment = distributeEquipment(enemyCards, Number(enemyBonus?.pvp || 0));
-  const teamA = ownWithEquipment.map((card, index) => buildFighter(card, index, 'A', ownUniqueMap.get(String(card.id))));
-  const teamB = enemyWithEquipment.map((card, index) => buildFighter(card, index, 'B', enemyUniqueMap.get(String(card.id))));
+  const teamA = ownWithEquipment.map((card, index) => { const uniqueCard = ownUniqueMap.get(String(card.id)); return buildFighter({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null }, index, 'A', uniqueCard?.uniqueAbility || null); });
+  const teamB = enemyWithEquipment.map((card, index) => { const uniqueCard = enemyUniqueMap.get(String(card.id)); return buildFighter({ ...card, uniqueAdvancement: uniqueCard?.uniqueAdvancement || null }, index, 'B', uniqueCard?.uniqueAbility || null); });
   let magicA = [];
   let magicB = [];
   let registeredExamples = [];

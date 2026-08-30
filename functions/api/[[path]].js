@@ -26,6 +26,7 @@ import { handleWorkshop } from '../_workshop.js';
 import { handleScrapyard } from '../_scrapyard.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
+import { handleUniqueAdvancement } from '../_unique_advancement.js';
 import { normalizeNightmareSettings,nightmareProgressionKey,nightmareProgressionPlan,pveDifficultyRuntime } from '../_pve_nightmare.js';
 import { defaultRaidSettingsV1293,cleanRaidSettingsV1293,raidScheduleStateV1293,raidCombatSnapshotV1293,ensureRaidOverhaulV1293,snapshotRaidInstanceV1293,raidInstanceSettingsV1293,raidInstanceSlotV1293,raidSlotEntryCountV1293,raidSlotEntryCountsV1296,finalizeRaidV1293,raidFinalParticipantV1293,ensureRaidUserRewardPlanV1293,raidInventoryGrantStatementsV1293,raidRewardDisplayV1293 } from '../_raid_overhaul.js';
 import { createPlaydkIdentityClient,PlaydkApiError } from '../_playdk_client.js';
@@ -4298,14 +4299,14 @@ async function releaseDeletedCouponCode(env,code,adminId){
 const SERIALIZED_GAME_ACTIONS=new Set([
   // Receipt-managed draw/shop routes already serialize their writes in atomic D1
   // batches. A second lock only adds writes and rejects safe idempotent retries.
-  'attendance/claim','card/breakthrough','card/breakthrough/auto','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
+  'attendance/claim','card/breakthrough','card/breakthrough/auto','card/unique-advancement','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
   'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
   'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
   'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','scrapyard/run'
 ]);
 // 강화 재화는 영수증과 카드 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
-// 이 두 경로는 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
-const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto']);
+// 이 세 경로는 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
+const STRICT_MUTATION_LOCK_ACTIONS=new Set(['card/breakthrough','card/breakthrough/auto','card/unique-advancement']);
 const SERIALIZED_GAME_PREFIXES=['evolution/','rift/','territory-war/','siege/','seal-battle/','captain/','magic/','inventory/','wago-daily-quest/','playdk-daily-quest/','auction/','idle-dungeon/'];
 let userMutationLockReadyPromise=null;
 let breakthroughAutoReceiptReadyPromise=null;
@@ -4576,6 +4577,7 @@ async function handleRequest(context){
     const battleV2PreviewResponse=await handleBattleV2Preview({path,request,env,deps:{authenticate,json,pvpDeckSnapshot,battleSettings,cardBattlePower,cardUniqueDeckStates,userEquipmentBonuses,magicBattleLoadout}});if(battleV2PreviewResponse)return battleV2PreviewResponse;
 
     const magicResponse=await handleMagic({path,request,env,deps:{authenticate,readBody,json,profile,writeAdminLog}});if(magicResponse)return magicResponse;
+    const uniqueAdvancementResponse=await handleUniqueAdvancement({path,request,env,deps:{authenticate,readBody,json}});if(uniqueAdvancementResponse)return uniqueAdvancementResponse;
     const vehicleDrawResponse=await handleVehicleDraw({path,request,env,deps:{authenticate,readBody,json,ensureEquipmentFoundation}});if(vehicleDrawResponse)return vehicleDrawResponse;
     const avatarResponse=await handleAvatar({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(avatarResponse)return avatarResponse;
     const equipmentResponse=await handleEquipment({path,request,env,deps:{authenticate,readBody,json,writeAdminLog}});if(equipmentResponse)return equipmentResponse;
@@ -5953,7 +5955,7 @@ async function handleRequest(context){
         //   게다가 buildFighter 는 HP·방어·속도를 전부 power 에서 파생하므로
         //   공격 특성이 HP 와 방어까지 올렸다(공격 40% -> 실효 2.04배, HP 1.40배).
         //   PVP(6279행)·영토전은 원본 카드를 넘겨 이미 한 번만 적용한다. 그쪽에 맞춘다.
-        const engineCards=cards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCardsById.get(String(card.id))?.uniqueAbility||null}));
+        const engineCards=cards.map(card=>{const uniqueCard=uniqueCardsById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
         battleV2=createPveBattleV2({cards:engineCards,magicCards:magicLoadout.cards,characterBonus:Number(characterBonus.pve||0),monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';
@@ -6277,12 +6279,12 @@ async function handleRequest(context){
       const aCardPower=Math.max(0,Math.floor(Number(aUniqueRuntime?.effectivePower||aBase)*aSynergyMultiplier)),dCardPower=Math.max(0,Math.floor(Number(dUniqueRuntime?.effectivePower||dBase)*dSynergyMultiplier)),legacyAPower=aCardPower+Number(aCharacterBonus.pvp||0),legacyDPower=dCardPower+Number(dCharacterBonus.pvp||0);
       const currentMatchAPower=Math.max(1,aCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(aCharacterBonus.pvp||0)),currentMatchDPower=Math.max(1,dCards.reduce((sum,card)=>sum+Number(card.power||0),0)+Number(dCharacterBonus.pvp||0));
       if(currentMatchAPower!==Number(rankedTicket.attacker_power)||currentMatchDPower!==Number(rankedTicket.defender_power))return json({error:'매칭 후 덱·장비·칭호 정보가 변경되었습니다. 새로 매칭해주세요.',code:'PVP_MATCH_FORMATION_CHANGED'},409);
-      const engineState=battleEngineState(battle,user),aUniqueById=new Map((aUnique.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null])),dUniqueById=new Map((dUnique.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null]));
+      const engineState=battleEngineState(battle,user),aUniqueById=new Map((aUnique.cards||[]).map(card=>[String(card.id),card])),dUniqueById=new Map((dUnique.cards||[]).map(card=>[String(card.id),card]));
       let battleV2=null,battleSeed=0;
       if(engineState.active){
         const seed=parseInt(drawIntegrityHash(`${user.id}:${defenderId}:${requestId}:PVP_V2`),16)>>>0;battleSeed=seed;
-        const attackerEngineCards=aCards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:aUniqueById.get(String(card.id))||card.uniqueAbility||null}));
-        const defenderEngineCards=dCards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:dUniqueById.get(String(card.id))||card.uniqueAbility||null}));
+        const attackerEngineCards=aCards.map(card=>{const uniqueCard=aUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*aSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
+        const defenderEngineCards=dCards.map(card=>{const uniqueCard=dUniqueById.get(String(card.id));return {...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*dSynergyMultiplier)),uniqueAbility:uniqueCard?.uniqueAbility||card.uniqueAbility||null,uniqueAdvancement:uniqueCard?.uniqueAdvancement||null}});
         battleV2=createPvpBattleV2({attackerCards:attackerEngineCards,defenderCards:defenderEngineCards,attackerMagicCards:aMagic.cards,defenderMagicCards:dMagic.cards,attackerEquipmentBonus:Number(aCharacterBonus.pvp||0),defenderEquipmentBonus:Number(dCharacterBonus.pvp||0),seed,singleHealerBonus:engineState.singleHealerBonus});
       }
       const attackerWin=engineState.active?battleV2.result.winner==='A':legacyAPower>=legacyDPower;

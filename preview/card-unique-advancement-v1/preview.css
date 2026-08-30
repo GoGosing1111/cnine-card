@@ -1,0 +1,113 @@
+:root {
+  color-scheme: dark;
+  font-family: Pretendard, "Noto Sans KR", system-ui, sans-serif;
+  background: #050914;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 12% 4%, rgba(63, 98, 150, .2), transparent 34%),
+    linear-gradient(145deg, #050914, #0a1020 55%, #080b14);
+  color: #eef7ff;
+}
+
+.preview-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(1440px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 18px;
+  border-bottom: 1px solid rgba(132, 160, 187, .2);
+}
+
+.preview-toolbar small {
+  color: #7adff8;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.2px;
+}
+
+.preview-toolbar h1 {
+  margin: 6px 0 5px;
+  font-size: clamp(25px, 4vw, 42px);
+}
+
+.preview-toolbar p {
+  max-width: 700px;
+  margin: 0;
+  color: #9dafbe;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.preview-toolbar nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.preview-toolbar button {
+  min-height: 42px;
+  padding: 0 13px;
+  border: 1px solid rgba(119, 151, 180, .32);
+  border-radius: 0;
+  background: rgba(13, 23, 40, .86);
+  color: #aebdca;
+  font-weight: 850;
+  cursor: pointer;
+}
+
+.preview-toolbar button.active {
+  border-color: rgba(118, 220, 246, .65);
+  background: #224d6e;
+  color: #fff;
+}
+
+.preview-stage {
+  width: min(1440px, calc(100% - 40px));
+  margin: 24px auto 60px;
+}
+
+.preview-stage > .card-profile-v2 {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  transform: none;
+}
+
+.preview-stage .cpv2-close:disabled { opacity: .35; }
+
+.preview-stage .cpv2-live-card { pointer-events: none; }
+
+@media (max-width: 900px) {
+  .preview-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .preview-toolbar nav { justify-content: flex-start; }
+}
+
+@media (max-width: 760px) {
+  .preview-toolbar,
+  .preview-stage {
+    width: min(100% - 20px, 620px);
+  }
+
+  .preview-stage > .card-profile-v2 {
+    height: auto;
+    min-height: 0;
+  }
+}

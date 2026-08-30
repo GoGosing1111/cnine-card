@@ -1556,12 +1556,16 @@ export async function handleSiege({ path, request, env, deps }) {
     //   같은 %를 한 번 더 곱해 공성만 PVE 와 같은 이중 적용이 된다.
     //   화면에 나가는 cards 는 battleDeck 그대로 두어 표시 전투력은 바뀌지 않는다.
     const siegeUniqueById = new Map(
-      (uniqueBattle?.cards || []).map(card => [String(card.id), card.uniqueAbility || null]),
+      (uniqueBattle?.cards || []).map(card => [String(card.id), card]),
     );
-    const engineDeck = deck.map(card => ({
-      ...card,
-      uniqueAbility: siegeUniqueById.get(String(card.id)) || card.uniqueAbility || null,
-    }));
+    const engineDeck = deck.map(card => {
+      const uniqueCard = siegeUniqueById.get(String(card.id));
+      return {
+        ...card,
+        uniqueAbility: uniqueCard?.uniqueAbility || card.uniqueAbility || null,
+        uniqueAdvancement: uniqueCard?.uniqueAdvancement || null,
+      };
+    });
     const refreshedEnergy = await refreshSiegeEnergy(env, event.id, user.id, mine, cfg);
     if (refreshedEnergy.energy < 1)
       return json({ error: `공격권이 부족합니다. ${cfg.attackRechargeMinutes}분마다 1회 충전됩니다.`, energy: refreshedEnergy }, 429);

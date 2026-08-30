@@ -81,7 +81,7 @@ assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
 assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=71-battlefield-fade-deadlock/);
-assert.match(index,/js\/app\.js\?v=1935-battlefield-unique-fix/);
+assert.match(index,/js\/app\.js\?v=1937-unique-advancement-ui/);
 assert.match(previewIndex,/project-v-client\.js\?v=53-role-impact-atlas/);
 assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=53-role-impact-atlas/);
 

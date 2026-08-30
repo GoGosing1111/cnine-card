@@ -1,4 +1,6 @@
 const MAGIC_DECK_TYPES=['PVE','PVP'];
+import {loadUniqueAdvancementsForCards,uniqueAdvancementSettings} from './_unique_advancement.js';
+
 export const MAGIC_BATTLE_EFFECTS=['OPENING_ATTACK','GUARD_BARRIER','LIFE_AMPLIFY','CRISIS_HEAL','PUNISH_TRAP','ARCANE_COUNTER','FOLLOWUP_HASTE','ARCANE_SEAL','DOOM_MARK','SHIELD_SIPHON','TIME_DISTORTION','PHOENIX_REVIVE','PURIFY_LIGHT','CHAIN_ECHO'];
 const MAGIC_EFFECT_IMAGES={
   OPENING_ATTACK:'assets/ui/magic-cards/opening-attack-768-v1500.webp',
@@ -185,7 +187,8 @@ function uniqueScopeColumn(scope){
 function normalizeUniqueCards(cards=[]){
   return (Array.isArray(cards)?cards:[]).map((card,index)=>{
     const base=Math.max(0,Number(card?.baseBattlePower??card?.power??card?.battlePower??card?.battle_power??0)||0);
-    return {...card,id:String(card?.id??card?.card_id??`slot-${index}`),power:base,maxHp:base,baseBattlePower:base,uniqueAbility:null,uniqueDefensePercent:0,uniqueSpeedPercent:0};
+    // 전직 상태는 클라이언트 입력을 신뢰하지 않고 아래 DB 조회 결과로만 덮어쓴다.
+    return {...card,id:String(card?.id??card?.card_id??`slot-${index}`),power:base,maxHp:base,baseBattlePower:base,uniqueAbility:null,uniqueAdvancement:null,uniqueDefensePercent:0,uniqueSpeedPercent:0};
   });
 }
 // V1802: FUR/ZENITH +11~+13 "고유효과 강화".
@@ -244,24 +247,26 @@ function scaleUniqueEffect(effect,multiplier){
     dominantValue:Number(effect.dominantValue)>0?scale(effect.dominantValue):effect.dominantValue,
     highBoostPercent:Math.round((multiplier-1)*100)};
 }
-function buildCardUniqueDeckState(user,cards,cfg,effectMap,boostTable=null){
+function buildCardUniqueDeckState(user,cards,cfg,effectMap,boostTable=null,advancementMap=new Map()){
   const normalized=normalizeUniqueCards(cards),basePower=normalized.reduce((sum,card)=>sum+Number(card.power||0),0),visible=cardUniqueVisibleTo(user,cfg),ownerTest=!cfg.enabled&&visible&&isOwner(user);
-  if(!visible||!normalized.length)return {enabled:false,ownerTest:false,settings:cfg,basePower,power:basePower,attackPower:basePower,durabilityPower:basePower,speedPercent:0,cards:normalized,effects:[]};
+  const hasAdvancement=advancementMap instanceof Map&&advancementMap.size>0;
+  if((!visible&&!hasAdvancement)||!normalized.length)return {enabled:false,ownerTest:false,settings:cfg,basePower,power:basePower,attackPower:basePower,durabilityPower:basePower,speedPercent:0,cards:normalized,effects:[]};
   let attackPower=0,durabilityPower=0,speedWeight=0,speedBase=0;
   const appliedEffects=[];
   const appliedCards=normalized.map(card=>{
-    const baseEffect=effectMap.get(String(card.id))||null,effect=baseEffect?scaleUniqueEffect(baseEffect,uniqueBoostMultiplier(card,boostTable)):null,rawPower=Math.max(0,Number(card.power||0));
-    if(!effect){attackPower+=rawPower;durabilityPower+=rawPower;speedBase+=rawPower;return card;}
+    const uniqueAdvancement=advancementMap.get(String(card.id))||null;
+    const baseEffect=visible?(effectMap.get(String(card.id))||null):null,effect=baseEffect?scaleUniqueEffect(baseEffect,uniqueBoostMultiplier(card,boostTable)):null,rawPower=Math.max(0,Number(card.power||0));
+    if(!effect){attackPower+=rawPower;durabilityPower+=rawPower;speedBase+=rawPower;return {...card,uniqueAdvancement};}
     appliedEffects.push(effect);
     const attack=Math.max(0,Math.round(rawPower*(1+effect.attackPercent/100)));
     const hp=Math.max(1,Math.round(rawPower*(1+effect.hpPercent/100)));
     const durable=Math.max(0,rawPower*(1+effect.hpPercent/100)*(1+effect.defensePercent/100));
     attackPower+=attack;durabilityPower+=durable;speedWeight+=rawPower*effect.speedPercent;speedBase+=rawPower;
-    return {...card,power:attack,maxHp:hp,uniqueAbility:effect,uniqueDefensePercent:effect.defensePercent,uniqueSpeedPercent:effect.speedPercent};
+    return {...card,power:attack,maxHp:hp,uniqueAbility:effect,uniqueAdvancement,uniqueDefensePercent:effect.defensePercent,uniqueSpeedPercent:effect.speedPercent};
   });
   const speedPercent=speedBase>0?speedWeight/speedBase:0;
   const power=Math.max(0,Math.floor(Math.sqrt(Math.max(0,attackPower)*Math.max(0,durabilityPower))*(1+speedPercent/200)));
-  return {enabled:true,ownerTest,settings:cfg,basePower,power,attackPower:Math.round(attackPower),durabilityPower:Math.round(durabilityPower),speedPercent:Number(speedPercent.toFixed(3)),cards:appliedCards,effects:appliedEffects};
+  return {enabled:visible||hasAdvancement,ownerTest,settings:cfg,basePower,power,attackPower:Math.round(attackPower),durabilityPower:Math.round(durabilityPower),speedPercent:Number(speedPercent.toFixed(3)),cards:appliedCards,effects:appliedEffects};
 }
 export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
   const cfg=await cardUniqueSettings(env),list=(Array.isArray(entries)?entries:[]).map(entry=>({user:entry?.user||null,cards:Array.isArray(entry?.cards)?entry.cards:[]}));
@@ -281,7 +286,15 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
   // V1802-fix: 고유효과 강화 배율은 11강 이상 FUR/ZENITH 가 편성에 있을 때만 의미가 있다.
   // 무조건 조회하면 모든 전투(PVE·PVP·무한의탑·레이드·봉인전·점령전)마다 D1 왕복이 한 번씩 더 붙는다.
   const boostTable=hasHighTierCard(visibleEntries)?await highUniqueBoostTable(env):null;
-  return list.map(entry=>buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap,boostTable));
+  const advancementSettings=await uniqueAdvancementSettings(env,{ensure:false});
+  const advancementMaps=await Promise.all(list.map(async entry=>{
+    const mode=String(advancementSettings?.mode||'OFF').toUpperCase();
+    const enabled=mode==='ON'||(mode==='TEST'&&isOwner(entry.user));
+    if(!enabled||!entry.user?.id)return new Map();
+    const cardIds=entry.cards.map(card=>String(card?.id??card?.card_id??'')).filter(Boolean);
+    return loadUniqueAdvancementsForCards(env,entry.user?.id,cardIds);
+  }));
+  return list.map((entry,index)=>buildCardUniqueDeckState(entry.user,entry.cards,cfg,effectMap,boostTable,advancementMaps[index]));
 }
 export async function cardUniqueDeckState(env,user,cards=[],scope='PVE'){
   return (await cardUniqueDeckStates(env,[{user,cards}],scope))[0];

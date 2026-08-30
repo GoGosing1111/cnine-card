@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>고유효과 전직 UI V1937</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/card.css">
+  <link rel="stylesheet" href="../../css/zenith-v1.css">
+  <link rel="stylesheet" href="../../css/breakthrough-tier-v1802.css">
+  <link rel="stylesheet" href="../../css/card-profile-v2.css">
+  <link rel="stylesheet" href="../../css/card-unique-advancement-v1.css">
+  <link rel="stylesheet" href="preview.css">
+</head>
+<body>
+  <header class="preview-toolbar">
+    <div>
+      <small>SOOPKETMON / UI REVIEW V1937</small>
+      <h1>고유효과 전직 화면</h1>
+      <p>전직 계열은 선택형이 아니라 서버가 판정한 최고 고유효과 1종으로 자동 결정됩니다.</p>
+    </div>
+    <nav aria-label="검수 상태 전환">
+      <button type="button" class="active" data-preview-state="ready">전직 가능</button>
+      <button type="button" data-preview-state="level">+12 잠금</button>
+      <button type="button" data-preview-state="stars">재료 부족</button>
+      <button type="button" data-preview-state="completed">전직 완료</button>
+    </nav>
+  </header>
+
+  <main class="preview-stage">
+    <div class="modal-panel card-profile-v2" data-card-id="PREVIEW-ZENITH-13">
+      <header class="cpv2-topbar">
+        <div class="cpv2-record"><span class="cpv2-record-index">C-PREVIEW</span><span class="cpv2-record-copy"><small>SOOPKETMON / CARD ARCHIVE</small><b>고유효과 전직 검수</b></span></div>
+        <span class="cpv2-grade"><small>CARD CLASS</small><b>ZENITH</b></span>
+        <button class="cpv2-close" type="button" aria-label="프리뷰 닫기" disabled>×</button>
+      </header>
+      <div class="cpv2-layout">
+        <aside class="cpv2-card-wing">
+          <div class="cpv2-card-stage">
+            <article class="card-frame grade-ZENITH detail-card cpv2-live-card" aria-label="제니스 +13 검수 카드">
+              <div class="card-holo"></div><div class="breakthrough-effect"></div>
+              <div class="card-inner">
+                <div class="card-header"><span>ZENITH</span><b>SOOP</b></div>
+                <div class="card-art"><img src="../../assets/cards/ZENITH/9.jpg" alt="제니스 전직 검수 카드" loading="eager"></div>
+                <div class="card-footer"><div><small>UI REVIEW</small><div class="card-title-row"><div class="card-title">UNIQUE ADVANCEMENT</div></div></div><img src="../../assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
+              </div>
+              <img class="zenith-card-frame" src="../../assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">
+              <div class="tier-rank-badge">XIII</div>
+            </article>
+          </div>
+          <div class="cpv2-card-readout"><span><small>COMBAT PROFILE</small><b>고유 능력 · +13</b></span><strong>SERVER</strong></div>
+        </aside>
+        <section class="cpv2-console">
+          <header class="cpv2-identity"><div><small>ZENITH / UNIQUE CORE</small><h1>전직 대상 카드</h1><p id="previewStateLabel">전직 가능 서버 응답</p></div><div class="cpv2-power"><span>POLICY</span><b>+13</b></div></header>
+          <nav class="cpv2-tabs has-advancement" role="tablist" aria-label="카드 상세 정보">
+            <button type="button" role="tab" aria-selected="false"><span class="cpv2-tab-index">01</span>고유 능력</button>
+            <button type="button" role="tab" aria-selected="false"><span class="cpv2-tab-index">02</span>성장 · 강화</button>
+            <button type="button" role="tab" aria-selected="true"><span class="cpv2-tab-index">03</span>고유효과 전직</button>
+          </nav>
+          <section class="cpv2-panel ua-panel is-active" data-profile-panel="advancement">
+            <div class="ua-root" data-unique-advancement-root data-card-id="PREVIEW-ZENITH-13"></div>
+          </section>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../js/card-unique-advancement-v1.js"></script>
+  <script src="preview.js"></script>
+</body>
+</html>

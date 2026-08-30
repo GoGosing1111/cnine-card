@@ -11,6 +11,6 @@ test('inventory reroll ticket loads its feature and never falls through to premi
   assert.match(app,/if\(itemCode==='HIGH_GRADE_REROLL_TICKET'\)\{[\s\S]*?await ensureFeatureResources\('dexTools'\);[\s\S]*?return window\.HighGradeReroll\.open\(\);[\s\S]*?catch\(error\)/);
   assert.doesNotMatch(app,/cubeItems\[itemCode\]\|\|cubeItems\.PREMIUM_CUBE/);
   assert.match(app,/if\(!reroll&&!cubeMeta\)\{alert\('이 아이템의 사용 화면을 찾을 수 없습니다\.'/);
-  assert.match(index,/js\/app\.js\?v=1935-battlefield-unique-fix/);
-  assert.match(worker,/soop-card-shell-v1935-battlefield-unique-fix/);
+  assert.match(index,/js\/app\.js\?v=1937-unique-advancement-ui/);
+  assert.match(worker,/soop-card-shell-v1937-unique-advancement-ui/);
 });

@@ -1,0 +1,38 @@
+PROJECT V v1937 검증 보고서
+
+고유효과 전직 집중 테스트
+- node --test tests/unique-advancement-server-v1937.test.mjs tests/unique-advancement-engine-v1937.test.mjs tests/unique-advancement-runtime-v1937.test.mjs tests/card-unique-advancement-ui-v1937.test.mjs
+- 결과: 38/38 PASS
+- 10% 경계 판정, 성공/실패 양쪽의 1,000개 소모, 동일 요청 재전송 멱등성을 포함합니다.
+- CHECK guard 실패 시 D1 트랜잭션 전체 롤백과 잔액 원복을 실 SQLite로 검증합니다.
+
+변경 영향 회귀 테스트
+- 변경/신규 테스트 26개 파일
+- 결과: 99/99 PASS
+
+필수 운영 테스트
+- npm run check:worker: PASS
+- npm run test:raid-entry: 9/9 PASS
+- npm run test:message-rewards: 2/2 PASS
+- npm run test:workshop: 10/10 PASS
+
+밸런스 시뮬레이션
+- 명령: node tools/balance-harness-v1903/advancement-v1937.mjs 1200
+- 게임 수: 진영별 1,200 시드, 매치업당 2,400판
+- 기본 대비: SHATTER 52.00%, RIPOSTE 53.92%, AFTERIMAGE 53.00%, IMMORTAL 53.42%
+- 전직 상호전 전체 범위: 48.83% ~ 51.17%
+
+브라우저 UI 검수
+- PC: 2x2 전직 카드, 가로 오버플로 없음
+- 모바일 390x844: 1열, 탭/버튼 겹침 없음, 실행 버튼 노출 정상
+- 콘솔 오류: 없음
+
+전투 이펙트 프리뷰
+- 저해상도 원본 확대로 전경이 뭉개지는 V3 후보는 품질 게이트에서 탈락했습니다.
+- 관련 프리뷰·빌드 스크립트는 이번 커밋/배포에서 제외했고 라이브 런타임 연결도 없습니다.
+- 보스 궁극기 기존 화면 연출과 기존 V3 역할 이펙트는 변경하지 않았습니다.
+
+운영 게이트
+- 운영 CMS 전투엔진: V2_PUBLIC(전체 공개) 확인
+- npm run release:gate: 커밋 후 배포 직전 실행 예정
+- 운영 배포: npm run deploy:production만 사용
