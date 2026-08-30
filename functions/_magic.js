@@ -230,12 +230,16 @@ function uniqueBoostMultiplier(card,boostTable){
 }
 function scaleUniqueEffect(effect,multiplier){
   if(!effect||!(multiplier>1))return effect;
-  const scale=value=>Number(((Number(value)||0)*multiplier).toFixed(2));
+  // V1935: 배율을 곱한 뒤 다시 자른다.
+  //   uniqueStat 이 ±500(속도 300) 으로 자른 값에 FUR+13(x2) 을 곱하면 1000% 가 되는데
+  //   패시브 층은 재클램프가 없어 그대로 썼다. 엔진의 uniquePercent 만 500 으로 잘라
+  //   층마다 다른 값을 쓰는 상태였다(실측: 공격 1000% 카드가 기본 대비 74.3배).
+  const scale=(value,max=500)=>Number(uniqueStat((Number(value)||0)*multiplier,max).toFixed(2));
   return {...effect,
     attackPercent:scale(effect.attackPercent),
     defensePercent:scale(effect.defensePercent),
     hpPercent:scale(effect.hpPercent),
-    speedPercent:scale(effect.speedPercent),
+    speedPercent:scale(effect.speedPercent,300),
     effectValue:Number(effect.effectValue)>0?scale(effect.effectValue):effect.effectValue,
     dominantValue:Number(effect.dominantValue)>0?scale(effect.dominantValue):effect.dominantValue,
     highBoostPercent:Math.round((multiplier-1)*100)};

@@ -315,7 +315,10 @@ export async function handleEscortOperation({path,request,env,deps}){
       const unique=typeof cardUniqueDeckState==='function'?await cardUniqueDeckState(env,user,baseDeck,'PVE'):null;
       const poweredDeck=unique?.enabled?unique.cards:baseDeck,roles=roleCounts(poweredDeck),pending=tacticEffect(run.state.pendingTactic),cardHp=run.state.cardHp||{};
       const attackRoleBoost=['BLOCKADE','FINAL_BOSS'].includes(sector.key)?roles.ATTACK*.04:0,tacticBoost=pending?.key==='OVERCHARGE'?.12:0;
-      const cards=poweredDeck.map(card=>({...card,power:Math.max(1,Math.round(Number(card.power||1)*(1+attackRoleBoost+tacticBoost))),startingHpPercent:clamp(cardHp[String(card.id)]??100,0,100)}));
+      // V1935: 엔진에는 원본 전투력 + 고유효과 객체만 넘긴다(이중 적용 제거).
+      //   roles 는 계열 분포만 보므로 poweredDeck 을 그대로 쓴다.
+      const escortUniqueById=new Map((unique?.cards||[]).map(card=>[String(card.id),card.uniqueAbility||null]));
+      const cards=baseDeck.map(card=>({...card,uniqueAbility:escortUniqueById.get(String(card.id))||card.uniqueAbility||null,power:Math.max(1,Math.round(Number(card.power||1)*(1+attackRoleBoost+tacticBoost))),startingHpPercent:clamp(cardHp[String(card.id)]??100,0,100)}));
       const equipment=typeof userEquipmentBonuses==='function'?await userEquipmentBonuses(env,user.id):{pve:0},magic=typeof magicBattleLoadout==='function'?await magicBattleLoadout(env,user,'PVE'):{cards:[]};
       const enemyReduction=(pending?.key==='AIRSTRIKE'?.15:0)+(pending?.key==='JAMMING'?.08:0),enemyPower=Math.max(1000,Math.round(sector.enemyPower*(1-enemyReduction)));
       const monster={id:`ESCORT-${sector.key}`,name:sector.enemyName,image:sector.enemyImage,image_url:sector.enemyImage,battle_power:enemyPower,is_boss:sector.isBoss?1:0,isBoss:sector.isBoss,mode:'ESCORT',contentType:'ESCORT',projectVMonsterArt:{scope:'BATTLE_ENGINE_ONLY',kind:'ESCORT_MONSTER_SD',primaryUrl:sector.enemyImage,pngFallbackUrl:sector.enemyImage,footAnchor:{x:.5,y:.94},objectFit:'contain',objectPosition:'50% 100%',scaleMultiplier:sector.isBoss?1.08:1,approved:true,technicalPass:true}};

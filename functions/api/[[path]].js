@@ -5947,7 +5947,13 @@ async function handleRequest(context){
       let battleV2=null,effectiveBattleDamage=Math.max(0,totalBattleDamage-bossUltimatePenalty),result;
       if(engineState.active){
         const seed=parseInt(drawIntegrityHash(`${user.id}:${monster.id}:${requestId}`),16)>>>0;
-        const engineCards=battleCards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:card.uniqueAbility||null}));
+        // V1935: 고유효과 이중 적용 제거.
+        //   buildCardUniqueDeckState 가 이미 card.power 에 공격% 를 곱해 놓는데,
+        //   엔진의 buildFighter 가 uniqueAbility 로 같은 %를 한 번 더 곱한다.
+        //   게다가 buildFighter 는 HP·방어·속도를 전부 power 에서 파생하므로
+        //   공격 특성이 HP 와 방어까지 올렸다(공격 40% -> 실효 2.04배, HP 1.40배).
+        //   PVP(6279행)·영토전은 원본 카드를 넘겨 이미 한 번만 적용한다. 그쪽에 맞춘다.
+        const engineCards=cards.map(card=>({...card,id:String(card.id),power:Math.max(1,Math.floor(Number(card.power||0)*synergyMultiplier)),uniqueAbility:uniqueCardsById.get(String(card.id))?.uniqueAbility||null}));
         battleV2=createPveBattleV2({cards:engineCards,magicCards:magicLoadout.cards,characterBonus:Number(characterBonus.pve||0),monster:difficulty.engineMonster,seed,ultimateDamage,bossUltimatePercent:bossShouldCast?bossPveDamagePercent:0,bossUltimateCapPercent:difficulty.bossUltimateCapPercent,singleHealerBonus:engineState.singleHealerBonus});
         result=battleV2.result.winner==='A'?'WIN':'LOSE';
       }else result=effectiveBattleDamage>=monsterPower?'WIN':'LOSE';

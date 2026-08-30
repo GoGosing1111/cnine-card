@@ -1551,6 +1551,17 @@ export async function handleSiege({ path, request, env, deps }) {
         uniqueBattle?.enabled && Array.isArray(uniqueBattle.cards) && uniqueBattle.cards.length === deck.length
           ? uniqueBattle.cards
           : deck;
+    // V1935: 엔진에는 원본 전투력 + 고유효과 객체만 넘긴다.
+    //   battleDeck 은 이미 공격%가 곱해진 카드라, 그대로 넣으면 buildFighter 가
+    //   같은 %를 한 번 더 곱해 공성만 PVE 와 같은 이중 적용이 된다.
+    //   화면에 나가는 cards 는 battleDeck 그대로 두어 표시 전투력은 바뀌지 않는다.
+    const siegeUniqueById = new Map(
+      (uniqueBattle?.cards || []).map(card => [String(card.id), card.uniqueAbility || null]),
+    );
+    const engineDeck = deck.map(card => ({
+      ...card,
+      uniqueAbility: siegeUniqueById.get(String(card.id)) || card.uniqueAbility || null,
+    }));
     const refreshedEnergy = await refreshSiegeEnergy(env, event.id, user.id, mine, cfg);
     if (refreshedEnergy.energy < 1)
       return json({ error: `공격권이 부족합니다. ${cfg.attackRechargeMinutes}분마다 1회 충전됩니다.`, energy: refreshedEnergy }, 429);
@@ -1582,7 +1593,7 @@ export async function handleSiege({ path, request, env, deps }) {
         formation: "DEFENSE",
       },
       battleV2 = createPveBattleV2({
-        cards: battleDeck,
+        cards: engineDeck,
         characterBonus: Number(characterBonus?.pve || 0),
         monster,
         seed,
