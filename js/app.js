@@ -686,18 +686,18 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
-    styles:['css/workshop-v1676.css?v=1881-workshop-split-lineage','css/workshop-v1881.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=1881-workshop-split-lineage'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=1933-workshop-no-ddl-hotfix'],
+    scripts:['js/workshop-v1881.js?v=1933-workshop-no-ddl-hotfix'],
     ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   scrapyard:{
-    styles:['css/workshop-v1676.css?v=1881-workshop-split-lineage','css/workshop-v1881.css?v=1881-workshop-split-lineage','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=1881-workshop-split-lineage','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=1933-workshop-no-ddl-hotfix','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
+    scripts:['js/workshop-v1881.js?v=1933-workshop-no-ddl-hotfix','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
     styles:['css/high-grade-reroll-v1354.css?v=1433-ticket-cache-reset'],
-    scripts:['js/high-grade-reroll-v1354.js?v=1920-zenith-reroll'],
+    scripts:['js/high-grade-reroll-v1354.js?v=1923-enhancement-transfer'],
     ready:()=>typeof window.HighGradeReroll?.injectButton==='function'
   },
   auction:{
@@ -711,15 +711,15 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>typeof window.coinPredictionView==='function'&&typeof window.bindCoinPredictionView==='function'
   },
   battleV2:{
-    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=1798-roster-frame'],
+    styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
     scripts:[
       'js/battle-v2-live.js?v=3.2.0-battle-sprite',
       'js/project-v-battle-art-adapter-v1.js?v=3.5.0-dimmus',
-      'js/project-v-tier-battle-art-adapter-v1.js?v=3.4.0-superstar-son-zeus',
+      'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=68-mobile-renderer-oom',
-      'js/battle-v3-live.js?v=3.21.0-siege-unique-mobile'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=71-battlefield-fade-deadlock',
+      'js/battle-v3-live.js?v=3.24.0-battlefield-fade-deadlock'
     ],
     ready:()=>Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }
@@ -1268,13 +1268,15 @@ function materializeDexSection(section,user=loadUser()){
 
 function battleView(user){
   const ownerRaid=`<div class="pve-mode-tabs"><button class="pve-mode-btn active" data-pveModeLegacy="false" data-pve-mode="deck">덱 편성</button><button class="pve-mode-btn" data-pve-mode="hunt">몬스터 토벌</button><button class="pve-mode-btn" data-pve-mode="raid">월드 레이드</button><button class="pve-mode-btn pve-escort-tab" id="pveEscortTab" data-pve-mode="escort">호송작전</button></div>`;
-  return `${summaryBar(user)}${ownerRaid}<div id="pveHuntView" class="pve-hunt-redesign pve-hunt-v1179"><section class="battle-cover pve-hunt-cover"><div><p class="eyebrow" id="pveHeroEyebrow">SOOP PVE DECK</p><h2 id="pveHeroTitle">PvE 덱 편성</h2><p id="pveHeroDescription">PVP 덱 편성과 같은 카드 프레임 방식으로 출전 카드 5장을 구성합니다. 몬스터 토벌 화면에서는 편성 UI 없이 토벌 존만 사용합니다.</p></div><div class="battle-cover-side"><div class="battle-energy-card"><div><span>⚔ 전투 횟수</span><b id="battleEnergyCount">- / -</b></div><div class="battle-energy-track"><i id="battleEnergyFill"></i></div><small id="battleEnergyTimer">불러오는 중...</small></div><div class="battle-total pve-total-card"><span>현재 출전 전투력</span><b id="battleDeckPower">0</b><small id="battleDeckStatusText">아직 5장 편성이 완료되지 않았습니다</small></div></div></section><section class="pve-command-layout pve-command-layout-v1179"><section class="battle-panel pve-squad-panel pve-mobile-pane" data-pve-pane="deck"><div class="panel-title pve-panel-title"><div><p class="eyebrow">PVE DEPLOY DECK</p><h2>PvE 출전 덱</h2><small>항상 좌측 고정으로 보이는 전용 출전 덱 슬롯입니다.</small></div><div class="pve-deck-actions"><button type="button" class="pve-deck-btn save" id="saveBattleDeck"><span>💾</span> 덱 저장</button><button type="button" class="pve-deck-btn reset" id="clearBattleDeck"><span>↺</span> 덱 리셋</button></div></div><div class="pve-squad-summary"><article><small>편성 수</small><b id="battleDeckCount">0 / 5</b></article><article><small>출전 상태</small><b id="battleDeckReady">편성 중</b></article></div><div id="battleDeck" class="battle-deck pve-squad-grid pvp-deck-slots"></div></section><section class="battle-panel pve-builder-panel pve-mobile-pane" data-pve-pane="cards"><div class="pve-mobile-pane-title pve-panel-title"><div><p class="eyebrow">PVE DECK BUILDER</p><h2>덱 편성실</h2><small>보유 카드에서 출전 카드 5장을 조합하세요.</small></div></div><div class="pve-builder-helper"><span>카드를 누르면 출전 덱에 추가됩니다.</span><b>중복 선택 불가 · ZENITH 2장 제한 · 선택된 카드는 자동 잠금</b></div><div class="deck-filter-toolbar pve-deck-filter-toolbar"><label class="deck-filter-search"><i>⌕</i><input id="pveDeckSearch" type="search" autocomplete="off" placeholder="카드명 또는 멤버 검색"></label><label><small>등급</small><select id="pveDeckGrade"><option value="ALL">전체 등급</option>${['SUPERSTAR','ZENITH','FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade=>`<option value="${grade}">${grade}</option>`).join('')}</select></label><label><small>유형</small><select id="pveDeckType"><option value="ALL">전체 유형</option><option value="ATTACK">공격형</option><option value="DEFENSE">방어형</option><option value="SPEED">속도형</option><option value="HP">HP형</option><option value="NONE">기본형</option></select></label><label><small>정렬</small><select id="pveDeckSort"><option value="POWER_DESC">전투력 높은순</option><option value="GRADE_DESC">등급 높은순</option><option value="NAME_ASC">이름순</option></select></label><div class="deck-filter-result"><span id="pveDeckResultCount">0장</span><button type="button" id="pveDeckFilterReset">초기화</button></div></div><div id="battleCards" class="battle-card-picker pve-builder-list pvp-card-picker grouped"><div class="empty-recent">전투 정보를 불러오는 중...</div></div></section><aside class="battle-panel pve-target-panel pve-mobile-pane" data-pve-pane="monsters"><div class="panel-title pve-panel-title"><div><p class="eyebrow">MONSTER HUNT ZONE</p><h2>몬스터 토벌</h2><small>기존 2번째 화면 전체를 몬스터 토벌 존으로 사용합니다.</small></div></div><div id="battleMonsters" class="battle-monsters"></div></aside></section></div><div id="pveRiftView" class="pve-rift-view" hidden><div class="rift-loading"><i></i><b>차원의 균열을 확인하는 중...</b></div></div><div id="pveRaidView" class="pve-raid-view" hidden></div><div id="pveEscortView" class="pve-escort-view" hidden><div class="escort-operation-loading"><i></i><b>호송 경로를 불러오는 중입니다.</b></div></div>`;
+  return `${summaryBar(user)}${ownerRaid}<div id="pveHuntView" class="pve-hunt-redesign pve-hunt-v1179"><section class="battle-cover pve-hunt-cover"><div><p class="eyebrow" id="pveHeroEyebrow">SOOP PVE DECK</p><h2 id="pveHeroTitle">PvE 덱 편성</h2><p id="pveHeroDescription">PVP 덱 편성과 같은 카드 프레임 방식으로 출전 카드 5장을 구성합니다. 몬스터 토벌 화면에서는 편성 UI 없이 토벌 존만 사용합니다.</p></div><div class="battle-cover-side"><div class="battle-energy-card"><div><span>⚔ 전투 횟수</span><b id="battleEnergyCount">- / -</b></div><div class="battle-energy-track"><i id="battleEnergyFill"></i></div><small id="battleEnergyTimer">불러오는 중...</small></div><div class="battle-total pve-total-card"><span>현재 출전 전투력</span><b id="battleDeckPower">0</b><small id="battleDeckStatusText">아직 5장 편성이 완료되지 않았습니다</small></div></div></section><section class="pve-command-layout pve-command-layout-v1179"><section class="battle-panel pve-squad-panel pve-mobile-pane" data-pve-pane="deck"><div class="panel-title pve-panel-title"><div><p class="eyebrow">PVE DEPLOY DECK</p><h2>PvE 출전 덱</h2><small>항상 좌측 고정으로 보이는 전용 출전 덱 슬롯입니다.</small></div><div class="pve-deck-actions"><button type="button" class="pve-deck-btn save" id="saveBattleDeck"><span>💾</span> 덱 저장</button><button type="button" class="pve-deck-btn reset" id="clearBattleDeck"><span>↺</span> 덱 리셋</button></div></div><div class="pve-squad-summary"><article><small>편성 수</small><b id="battleDeckCount">0 / 5</b></article><article><small>출전 상태</small><b id="battleDeckReady">편성 중</b></article></div><div id="battleDeck" class="battle-deck pve-squad-grid pvp-deck-slots"></div></section><section class="battle-panel pve-builder-panel pve-mobile-pane" data-pve-pane="cards"><div class="pve-mobile-pane-title pve-panel-title"><div><p class="eyebrow">PVE DECK BUILDER</p><h2>덱 편성실</h2><small>보유 카드에서 출전 카드 5장을 조합하세요.</small></div></div><div class="pve-builder-helper"><span>카드를 누르면 출전 덱에 추가됩니다.</span><b>중복 선택 불가 · ZENITH 2장 제한 · 선택된 카드는 자동 잠금</b></div><div class="deck-filter-toolbar pve-deck-filter-toolbar"><label class="deck-filter-search"><i>⌕</i><input id="pveDeckSearch" type="search" autocomplete="off" placeholder="카드명 또는 멤버 검색"></label><label><small>등급</small><select id="pveDeckGrade"><option value="ALL">전체 등급</option>${['SUPERSTAR','ZENITH','FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade=>`<option value="${grade}">${grade}</option>`).join('')}</select></label><label><small>유형</small><select id="pveDeckType"><option value="ALL">전체 유형</option><option value="ATTACK">공격형</option><option value="DEFENSE">방어형</option><option value="SPEED">속도형</option><option value="HP">HP형</option><option value="NONE">기본형</option></select></label><label><small>정렬</small><select id="pveDeckSort"><option value="POWER_DESC">전투력 높은순</option><option value="GRADE_DESC">등급 높은순</option><option value="NAME_ASC">이름순</option></select></label><div class="deck-filter-result"><span id="pveDeckResultCount">0장</span><button type="button" id="pveDeckFilterReset">초기화</button></div></div><div id="battleCards" class="battle-card-picker pve-builder-list pvp-card-picker grouped"><div class="empty-recent">전투 정보를 불러오는 중...</div></div></section><aside class="battle-panel pve-target-panel pve-mobile-pane" data-pve-pane="monsters"><div class="panel-title pve-panel-title"><div><p class="eyebrow">MONSTER HUNT ZONE</p><h2>몬스터 토벌</h2><small>기존 2번째 화면 전체를 몬스터 토벌 존으로 사용합니다.</small></div></div><div id="battleMonsters" class="battle-monsters"></div></aside></section></div><div id="pveRiftView" class="pve-rift-view" hidden><div class="rift-loading"><i></i><b>차원의 균열을 확인하는 중...</b></div></div><div id="pveRaidView" class="pve-raid-view" hidden><div class="pvev2-loading raid-entry-loading"><i></i><b>월드 레이드 전황 연결 중</b><span>SOOPKETMON RAID SERVER</span></div></div><div id="pveEscortView" class="pve-escort-view" hidden><div class="escort-operation-loading"><i></i><b>호송 경로를 불러오는 중입니다.</b></div></div>`;
 }
 
 const PVE_VIEW_MODE_KEY='cnine_pve_view_mode';
 function getPveViewMode(){try{const v=localStorage.getItem(PVE_VIEW_MODE_KEY);return v==='hunt'||v==='deck'?v:'deck'}catch{return 'deck'}}
 function setPveViewMode(mode){try{localStorage.setItem(PVE_VIEW_MODE_KEY,mode==='hunt'?'hunt':'deck')}catch(_){}}
 function applyPveViewMode(mode=getPveViewMode()){
+  const raid=document.getElementById('pveRaidView');
+  if(raid&&!raid.hidden)return;
   const hunt=document.getElementById('pveHuntView');
   document.querySelectorAll('.pve-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.pveMode===mode));
   if(!hunt)return;
@@ -2297,7 +2299,7 @@ async function claimRiftReward(){const button=document.getElementById('riftClaim
 async function abandonRift(silent=false,capturedRunId='',button=null){const runId=String(capturedRunId||riftState.data?.run?.runId||'');if(!runId){if(!silent){await loadRiftView();alert('진행 중인 원정 정보를 다시 불러왔습니다. 원정 포기를 다시 시도해주세요.')}return}if(!silent&&!confirm('현재 원정을 포기할까요?\n누적한 임시 보상과 원정 강화가 모두 사라집니다.'))return;if(button)button.disabled=true;try{await apiRequest('rift/abandon',{method:'POST',body:JSON.stringify({runId})});riftState.data={...(riftState.data||{}),run:null};if(!silent)await loadRiftView()}catch(e){if(!silent)alert(e.message);if(button?.isConnected)button.disabled=false}}
 
 
-let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,lastHpUniqueKey:'',claimRetryTimer:null,claimInFlight:false,joinInFlight:false,joinRequest:null,v3InFlight:false,loadSeq:0,uiEpoch:0,claimToken:0,statusController:null,livePatchCount:0,renderedInstanceId:0,renderedParticipantOrder:''};
+let raidState={timer:null,data:null,resultRevealed:new Set(),resultAdvanceTimer:null,revealingResultId:0,selectedRoomId:0,lastSoundTick:-1,lastSoundInstance:0,lastHpUniqueKey:'',claimRetryTimer:null,claimInFlight:false,joinInFlight:false,joinRequest:null,v3InFlight:false,v3Attempt:0,loadSeq:0,uiEpoch:0,claimToken:0,statusController:null,livePatchCount:0,renderedInstanceId:0,renderedParticipantOrder:''};
 function stopRaidTimer(){if(raidState.timer){clearTimeout(raidState.timer);raidState.timer=null}}
 function stopRaidResultAdvanceTimer(){if(raidState.resultAdvanceTimer){clearTimeout(raidState.resultAdvanceTimer);raidState.resultAdvanceTimer=null}}
 function stopRaidClaimRetryTimer(){if(raidState.claimRetryTimer){clearTimeout(raidState.claimRetryTimer);raidState.claimRetryTimer=null}}
@@ -2345,22 +2347,55 @@ function triggerRaidDeckUniqueFx(stage,type){
     clearTimeout(card._uniqueFxTimer);card._uniqueFxTimer=setTimeout(()=>card.classList.remove('unique-fx-active'),1500+index*70);
   });
 }
+function raidV3Deadline(promise,timeoutMs=24000){
+  return new Promise((resolve,reject)=>{
+    let settled=false;
+    const finish=(callback,value)=>{if(settled)return;settled=true;clearTimeout(timer);callback(value)};
+    const timer=setTimeout(()=>finish(reject,new Error('모바일 V3 전장 연결 시간이 초과되어 호환 모드로 전환합니다.')),Math.max(1000,Number(timeoutMs||0)));
+    Promise.resolve(promise).then(value=>finish(resolve,value),error=>finish(reject,error));
+  });
+}
+function renderRaidV3Recovery(modal,current,participant,error,button){
+  if(!modal){raidState.v3InFlight=false;if(button?.isConnected){button.disabled=false;button.textContent='내 V3 전투 다시 시도'}void loadRaidView();return true}
+  try{modal.__battleV2Renderer?.destroy?.()}catch(_){}
+  modal.__battleV2Renderer=null;
+  const deck=(participant?.cards||[]).slice(0,5),maxHp=Math.max(1,Number(current?.maxHp||1)),currentHp=Math.max(0,Number(current?.currentHp||0)),hpPercent=Math.max(0,Math.min(100,currentHp/maxHp*100));
+  const bossName=escapeHtml(current?.bossName||'WORLD RAID BOSS'),detail=escapeHtml(error?.message||'이 기기에서 3D 전장을 초기화하지 못했습니다.');
+  const close=()=>{
+    try{modal.__battleV2Renderer?.destroy?.()}catch(_){}
+    modal.__battleV2Renderer=null;modal.onclick=null;modal.removeAttribute('data-mode');modal.className='modal';modal.innerHTML='';raidState.v3InFlight=false;void loadRaidView();
+  };
+  modal.className='modal show raid-v3-safe-modal';modal.setAttribute('data-mode','raid');
+  modal.innerHTML=`<section class="raid-v3-safe-shell" role="dialog" aria-modal="true" aria-labelledby="raidV3SafeTitle"><header class="raid-v3-safe-header"><div><small>MOBILE RECOVERY · WORLD RAID</small><h2 id="raidV3SafeTitle">레이드 연결 유지</h2><p>3D 전장 대신 호환 모드로 전환했습니다. 서버 전투·파티 피해·순위·보상 계산은 중단되지 않습니다.</p></div><button type="button" id="raidV3SafeClose" aria-label="레이드 현황으로 돌아가기">×</button></header><div class="raid-v3-safe-status"><article class="raid-v3-safe-boss">${current?.bossImage?`<img src="${escapeHtml(current.bossImage)}" alt="">`:''}<div><small>ACTIVE RAID TARGET</small><b>${bossName}</b><span>${currentHp.toLocaleString()} / ${maxHp.toLocaleString()}</span><i><u style="width:${hpPercent}%"></u></i></div></article><article class="raid-v3-safe-sync"><small>SERVER SYNC</small><b>전투 진행 정상</b><span>내 누적 공헌 ${Number(participant?.shownDamage||0).toLocaleString()}</span></article></div><section class="raid-v3-safe-deck"><div><small>DEPLOYED CARD ROSTER</small><b>${escapeHtml(participant?.nickname||loadUser()?.nickname||'RAID MEMBER')} 출전 덱</b></div><div class="raid-v3-safe-card-rail">${deck.map((card,index)=>`<div class="raid-v3-safe-card-slot"><span>${String(index+1).padStart(2,'0')}</span>${raidCombatCard(card,'raid-v3-safe-card')}</div>`).join('')||'<p class="raid-v3-safe-empty">출전 카드 정보를 동기화하는 중입니다.</p>'}</div></section><footer class="raid-v3-safe-footer"><details><summary>호환 모드 전환 정보</summary><span>${detail}</span></details><button type="button" class="btn raid-v3-safe-return" id="raidV3SafeReturn">레이드 현황으로 돌아가기</button></footer></section>`;
+  modal.onclick=event=>{if(event.target===modal)close()};
+  modal.querySelector('#raidV3SafeClose')?.addEventListener('click',close);
+  modal.querySelector('#raidV3SafeReturn')?.addEventListener('click',close);
+  if(button?.isConnected){button.disabled=false;button.textContent='내 V3 전투 다시 시도'}
+  return true;
+}
 async function startRaidV3Battle(){
   const data=raidState.data,current=data?.current,me=data?.me;if(raidState.v3InFlight||!current||String(current.status)!=='BATTLE'||!me)return;
-  const button=document.getElementById('raidV3Start');raidState.v3InFlight=true;if(button){button.disabled=true;button.textContent='V3 전장 연결 중…'}
+  const button=document.getElementById('raidV3Start'),attemptId=++raidState.v3Attempt;raidState.v3InFlight=true;if(button){button.disabled=true;button.textContent='V3 전장 연결 중…'}
   const modal=document.getElementById('modal');
   try{
-    await ensureFeatureResources('battleV2');
-    const live=window.ProjectVBattleV3Live?.prepareLoading?.({modal,mode:'RAID',playerName:me.nickname||loadUser()?.nickname||'RAID MEMBER',opponentName:current.bossName||'RAID BOSS',autoText:'내 출전 덱만 독립 재생하며 파티 피해량은 서버에서 합산합니다.'});
-    if(!live||typeof window.playRaidBattleV3Live!=='function')throw new Error('V3 레이드 렌더러를 불러오지 못했습니다.');
-    const renderer=await window.playRaidBattleV3Live({...live,modal,data:{current,participant:me},current,participant:me});
+    const renderer=await raidV3Deadline((async()=>{
+      await ensureFeatureResources('battleV2');
+      if(attemptId!==raidState.v3Attempt)throw new Error('V3 레이드 연결이 취소되었습니다.');
+      const live=window.ProjectVBattleV3Live?.prepareLoading?.({modal,mode:'RAID',playerName:me.nickname||loadUser()?.nickname||'RAID MEMBER',opponentName:current.bossName||'RAID BOSS',autoText:'내 출전 덱만 독립 재생하며 파티 피해량은 서버에서 합산합니다.'});
+      if(!live||typeof window.playRaidBattleV3Live!=='function')throw new Error('V3 레이드 렌더러를 불러오지 못했습니다.');
+      const activeRenderer=await window.playRaidBattleV3Live({...live,modal,data:{current,participant:me},current,participant:me});
+      if(attemptId!==raidState.v3Attempt){try{activeRenderer?.destroy?.()}catch(_){}throw new Error('V3 레이드 연결이 취소되었습니다.')}
+      return activeRenderer;
+    })());
     renderer.showResult();
     const message=modal.querySelector('#battleMessage');
     if(message){message.innerHTML=`<strong>개인 전투 완료</strong><span>내 전투는 다른 참가자와 독립 실행됩니다. 파티 보스 HP·순위·최종 보상만 서버 결과로 동기화됩니다.</span><button type="button" class="btn raid-v3-return" id="raidV3Return">레이드 현황으로 돌아가기</button>`;message.classList.add('is-visible')}
     const close=()=>{try{modal.__battleV2Renderer?.destroy?.()}catch(_){}modal.__battleV2Renderer=null;modal.onclick=null;modal.className='modal';modal.innerHTML='';raidState.v3InFlight=false;void loadRaidView()};
     modal.querySelector('#raidV3Return')?.addEventListener('click',event=>{event.stopPropagation();close()});
   }catch(error){
-    try{modal.__battleV2Renderer?.destroy?.()}catch(_){}modal.__battleV2Renderer=null;modal.className='modal';modal.innerHTML='';raidState.v3InFlight=false;alert(error?.message||'V3 레이드 전투를 시작하지 못했습니다.');if(button?.isConnected){button.disabled=false;button.textContent='내 V3 전투 시작'}
+    if(attemptId===raidState.v3Attempt)raidState.v3Attempt+=1;
+    try{await window.ProjectVBattleV3Live?.hardReset?.()}catch(_){}
+    renderRaidV3Recovery(modal,current,me,error,button);
   }
 }
 function handleRaidV3StartClick(event){
@@ -2379,7 +2414,7 @@ function switchPveMode(mode){
   if(mode!=='raid')invalidateRaidUiState({clearSelection:false,stopClaimRetry:true});
   if(hunt)hunt.hidden=mode==='raid'||mode==='rift'||mode==='escort';if(raid)raid.hidden=mode!=='raid';if(rift)rift.hidden=mode!=='rift';if(escort)escort.hidden=mode!=='escort';
   document.querySelectorAll('.pve-mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.pveMode===mode));
-  if(mode==='raid'){stopBattleEnergyTimer();loadRaidView();return;}
+  if(mode==='raid'){stopBattleEnergyTimer();if(raid&&!String(raid.innerHTML||'').trim())raid.innerHTML='<div class="pvev2-loading raid-entry-loading"><i></i><b>월드 레이드 전황 연결 중</b><span>SOOPKETMON RAID SERVER</span></div>';loadRaidView();return;}
   if(mode==='escort'){stopBattleEnergyTimer();window.EscortOperationV1830?.open?.();return;}
   const subMode=mode==='hunt'?'hunt':'deck';setPveViewMode(subMode);loadBattleView().then(()=>applyPveViewMode(subMode));
 }
@@ -3406,7 +3441,7 @@ async function loadInventory(){
 async function openInventoryPack(itemCode,ownedQuantity=0){
   if(WORKSHOP_ONLY_ITEM_CODES.has(String(itemCode||'').toUpperCase()))return showSupplyNotice('차량 부품은 제작소에서만 사용할 수 있습니다.',true);
   if(itemCode==='SCRAPYARD_ENTRY_TICKET')return renderShell('scrapyard');
-  if(itemCode==='BLACK_MIRACLE_PACK')return openBlackMiraclePack();
+  if(itemCode==='BLACK_MIRACLE_PACK')return openBlackMiraclePack(ownedQuantity);
   if(itemCode==='MAGIC_CARD_PACK')return openMagicCardPack(ownedQuantity);
   if(itemCode==='EQUIPMENT_SUPPLY_BOX')return openEquipmentSupplyBox(ownedQuantity);
   if(itemCode==='VEHICLE_DRAW_TICKET'&&window.VehicleDrawV1388)return window.VehicleDrawV1388.open(ownedQuantity);
@@ -3474,12 +3509,21 @@ async function openMagicCardPack(ownedQuantity=0){
   };
 }
 
-async function openBlackMiraclePack(){
-  const modal=document.getElementById('modal');
-  modal.className='modal show black-miracle-modal';
-  modal.innerHTML=`<div class="modal-panel black-miracle-panel"><button type="button" class="icon-close" id="blackMiracleClose">×</button><div class="black-miracle-copy"><small>MYTHIC JACKPOT</small><h2>블랙 미라클 팩</h2><p>단 하나의 결과가 전장을 뒤집습니다.</p></div><div class="black-miracle-stage"><i></i><img src="assets/ui/packs/black-miracle-pack-v1485-384.jpg?v=1485" srcset="assets/ui/packs/black-miracle-pack-v1485-384.jpg?v=1485 384w, assets/ui/packs/black-miracle-pack-v1485-768.jpg?v=1485 768w" sizes="min(52vw,280px)" alt="블랙 미라클 팩"></div><div class="black-miracle-pool"><span>신화 장비</span><span>신화 이동수단</span><span>마스터의 별 대량</span><span>100만 코인</span></div><button class="btn" id="blackMiracleOpen">팩 개봉</button></div>`;
-  const close=()=>{modal.className='modal';modal.innerHTML=''};document.getElementById('blackMiracleClose').onclick=close;
-  document.getElementById('blackMiracleOpen').onclick=async()=>{const button=document.getElementById('blackMiracleOpen'),panel=modal.querySelector('.black-miracle-panel');button.disabled=true;button.textContent='기적을 확인하는 중';panel.classList.add('opening');try{const requestId=globalThis.crypto?.randomUUID?.()||String(Date.now()),d=await apiRequest('inventory/use',{method:'POST',body:JSON.stringify({itemCode:'BLACK_MIRACLE_PACK',requestId})});clearApiCache('inventory');clearApiCache('shell/summary');if(d.user)saveUser(apiUserToLocal(d.user));await new Promise(r=>setTimeout(r,900));const reward=d.reward||{},item=reward.item||{};panel.classList.remove('opening');panel.classList.add('revealed');panel.innerHTML=`<div class="black-miracle-result"><small>JACKPOT RESULT</small><h2>${escapeHtml(reward.label||'보상 획득')}</h2>${item.image?`<img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name||reward.label)}">`:'<div class="black-miracle-reward-symbol">✦</div>'}<b>${escapeHtml(item.name||reward.label||'보상')}</b>${reward.amount?`<strong>+${Number(reward.amount).toLocaleString()}</strong>`:''}<button class="btn" id="blackMiracleDone">확인</button></div>`;document.getElementById('blackMiracleDone').onclick=()=>{close();renderShell('inventory')}}catch(e){panel.classList.remove('opening');button.disabled=false;button.textContent='팩 개봉';alert(e.message)}};
+async function openBlackMiraclePack(ownedQuantity=0){
+  const opening=window.BlackMiracleOpeningV1926;
+  if(!opening||typeof opening.open!=='function'){
+    alert('블랙 미라클 개봉 모듈을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+    return;
+  }
+  return opening.open({
+    modal:document.getElementById('modal'),
+    ownedQuantity,
+    apiRequest,
+    clearApiCache,
+    saveUser,
+    apiUserToLocal,
+    renderShell
+  });
 }
 
 async function openEquipmentSupplyBox(ownedQuantity=0,autoOpenCount=0){
@@ -3521,7 +3565,7 @@ async function openEquipmentSupplyBox(ownedQuantity=0,autoOpenCount=0){
 }
 
 function messagesView(){return `${summaryBar(loadUser())}<section class="message-center"><div class="message-head"><div><p class="eyebrow">SOOP MESSAGE CENTER</p><h2>메시지함</h2><p>운영 공지, 인증 결과와 개인 귀속 쿠폰을 확인할 수 있습니다.</p></div><button class="btn secondary" id="openWagoVerify">2차 인증</button></div><div id="wagoVerifyPanel" class="wago-verify-panel secondary-verification-panel" hidden></div><div id="messageList" class="message-list"><div class="empty-recent">메시지를 불러오는 중...</div></div></section>`}
-const MESSAGE_REWARD_META={COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'}};
+const MESSAGE_REWARD_META={COIN:{label:'코인',icon:'🪙'},SHARDS:{label:'카드 조각',icon:'🧩'},MASTER_STAR:{label:'마스터의 별',icon:'⭐'},PREMIUM_CUBE:{label:'프리미엄 큐브',icon:'💎'},EQUIPMENT_SUPPLY_BOX:{label:'장비 보급상자',icon:'📦'},HIGH_GRADE_REROLL_TICKET:{label:'고등급 재뽑기권',icon:'♻️'}};
 async function loadMessages(){
   const box=document.getElementById('messageList');if(!box)return;
   try{

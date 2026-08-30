@@ -1,0 +1,46 @@
+TEST REPORT v1934
+
+환경: Chrome, 로컬 서버 127.0.0.1:4178, 탭 백그라운드(document.hidden=true)
+     = rAF 가 멈추는 조건. 원래 증상이 100% 재현되는 상태.
+
+[수정 전]
+  mountForBattle          RESOLVED   542ms
+  setBattlefield('HUNT')  TIMEOUT  15799ms   <-- 무한 대기
+  backgroundLayer.alpha   1.000 고정 (2초간 트윈 미진행 확인)
+  setBattlefield 프로미스  STILL_PENDING
+
+[수정 후]
+  mountForBattle          RESOLVED   443ms
+  setBattlefield('HUNT')  RESOLVED     1ms
+  setVisible(true)        RESOLVED     0ms
+  setBattlefield('PVP')   RESOLVED    24ms
+  resetSession(2판째)      RESOLVED   134ms
+  setBattlefield('HUNT')  RESOLVED     0ms
+  canvas 1238x688 / WebGL 컨텍스트 정상 / bgAlpha 1 / activeMode HUNT
+
+[숨김 화면 즉시 우회 검증]
+  eng.visible=false / document.hidden=true 상태에서 실제 setBattlefield 호출
+  -> RESOLVED 0ms, activeMode HUNT, 텍스처 3개 레이어 전부 적용, alpha 1
+
+[700ms 안전장치 단독 검증]
+  eng.visible=true / document.hidden=false 상태에서 GSAP 완료 콜백을 강제로 정지
+  -> RESOLVED 701ms, killTweensOf 1회, activeMode PVP, alpha 1
+
+[문법 검사]
+  node --check  BattleEngine.js / bundle / battle-v3-live.js / app.js  4/4 통과
+
+[자동 회귀 검사]
+  npm run test:raid-entry  18/18 통과
+  npm run check:worker     통과
+
+[번들 재빌드 검증]
+  npm run build:v3 성공.
+  단, 재빌드 산출물은 setBattlefield 밖의 Pixi/GSAP 축약 변수명까지 재배치했다.
+  과거 소스/번들 정렬 차이가 섞인 재빌드본은 사용하지 않고,
+  재빌드 전 백업한 손패치 번들(SHA-256
+  A9821D8F1658D30945ADEFBD751EF0D305965FEAA1C3EA561F476638FD7ABD0B)을 복원했다.
+  복원 번들의 hidden 즉시 적용, 700ms guard, kill/apply/alpha=1 동작은
+  소스와 의미상 동일함을 확인했다.
+
+[미검증]
+  실기기(안드로이드 크롬, iOS 사파리) 전투 진입 직후 화면 잠금 시나리오

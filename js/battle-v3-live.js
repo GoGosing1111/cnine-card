@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.21.0-siege-unique-mobile';
+  const VERSION = '3.23.0-mobile-context-recovery';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -33,6 +33,31 @@
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
   })[char]);
   const nextPaint = () => new Promise(resolve => requestAnimationFrame(() => resolve()));
+  const withRejectingTimeout = (promise, ms, message) => new Promise((resolve, reject) => {
+    let settled = false;
+    const finish = (callback, value) => {
+      if (settled) return;
+      settled = true;
+      clearTimeout(timer);
+      callback(value);
+    };
+    const timer = setTimeout(() => finish(reject, new Error(message)), Math.max(250, Number(ms || 0)));
+    Promise.resolve(promise).then(value => finish(resolve, value), error => finish(reject, error));
+  });
+  const hardResetPixiBattle = async target => {
+    // A lost WebGL context cannot be recovered by setVisible/resetSession. Invalidate
+    // every late async continuation before destroying the shared Pixi application.
+    root.__V3_PIXI_GENERATION = Number(root.__V3_PIXI_GENERATION || 0) + 1;
+    try { root.ProjectVPixiBattle?.cancelActiveAnimations?.(); } catch {}
+    try { root.ProjectVPixiBattle?.destroy?.(); } catch {}
+    root.__V3_PIXI_MOUNTED = false;
+    root.__V3_PIXI_CANVAS = null;
+    root.__V3_PIXI_INIT_PROMISE = null;
+    const scope = target?.querySelectorAll ? target : document;
+    try { scope.querySelectorAll('.battle-v3-canvas-host canvas,canvas[data-pv-v3-canvas]').forEach(canvas => canvas.remove()); } catch {}
+    await nextPaint();
+    return true;
+  };
   const acceleratedUltimate = (ultimate, fallbackDuration = 3000) => {
     const source = ultimate && typeof ultimate === 'object' ? ultimate : {};
     const baseRate = Math.max(.5, Math.min(3, Number(source.playbackRate || 1)));
@@ -211,6 +236,12 @@
     const row = String(card?.row || '').toUpperCase();
     const key = rosterKeys(card)[0] || `slot-${index + 1}`;
     const isFaker = String(card?.cardId || card?.id || '') === FAKER_CHAMPIONSHIP_CARD_ID;
+    const superstarFrame = grade === 'SUPERSTAR'
+      ? '<img class="superstar-card-frame" src="/assets/ui/card-frames/superstar-championship-frame-v1.webp?v=1-superstar-grade" alt="" aria-hidden="true">'
+      : '';
+    const zenithFrame = grade === 'ZENITH'
+      ? '<img class="zenith-card-frame" src="/assets/ui/card-frames/zenith-frame-concept-v2.png" alt="" aria-hidden="true">'
+      : '';
     return `<li class="battle-v3-roster-card" data-v3-roster-card="${esc(key)}" data-v3-roster-keys="${esc(rosterKeys(card).join('|'))}">
       <span class="battle-v3-roster-slot">
       <div class="card-frame grade-${esc(grade)}${level > 0 ? ` breakthrough-${level}` : ''}${isFaker ? ' faker-championship-card' : ''} battle-v3-roster-frame">
@@ -222,7 +253,7 @@
           <div class="card-art"><img src="${esc(art.url)}" alt="${esc(title)}" loading="lazy" decoding="async" data-v3-roster-art="1" style="object-position:${art.focusX}% ${art.focusY}%" onerror="this.onerror=null;this.src='${FALLBACK_ART}'"></div>
           <div class="card-footer"><div><small>${esc(owner)}</small><div class="card-title-row"><div class="card-title">${esc(title)}</div></div></div><img src="/assets/ui/cninelogo.png" class="card-mini-logo" alt="SOOP"></div>
         </div>
-        ${isFaker ? '<img class="faker-championship-frame" src="/assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true"><img class="faker-t1-mark" src="/assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1"><img class="faker-signature-mark" src="/assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER"><span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>' : ''}
+        ${superstarFrame}${zenithFrame}${isFaker ? '<img class="faker-championship-frame" src="/assets/ui/card-frames/faker-t1-championship-frame-v2.png" alt="" aria-hidden="true"><img class="faker-t1-mark" src="/assets/ui/brands/t1-logo-red-official-cropped.png" alt="T1"><img class="faker-signature-mark" src="/assets/ui/card-frames/faker-wordmark-clear-v2.svg" alt="FAKER"><span class="faker-t1-subtitle">THE UNKILLABLE DEMON KING</span>' : ''}
       </div>
       <i class="battle-v3-roster-ko" aria-hidden="true">KO</i>
       </span>
@@ -665,6 +696,7 @@
     const playUltimateCinematics = options.playUltimateCinematics !== false;
     const modal = options.modal || stage.closest?.('.modal') || null;
     let destroyed = false;
+    const interactiveResults = new Map();
     let payload = rewriteBattleSpriteUrls({ ...(options.data || {}), mode, battlefieldMode: mode });
     if (options.monster) payload.monster = { ...options.monster, mode };
     if (options.floor) payload = rewriteBattleSpriteUrls(towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] }));
@@ -716,6 +748,10 @@
     };
     const init = async () => {
       const initialize = async () => {
+        const generation = Number(root.__V3_PIXI_GENERATION || 0);
+        const assertGeneration = () => {
+          if (Number(root.__V3_PIXI_GENERATION || 0) !== generation) throw new Error('V3 렌더러 초기화가 취소되었습니다.');
+        };
         if (phase) phase.textContent = 'V3 RENDERER';
         const diagnostics = root.ProjectVPixiBattle.diagnostics?.();
         if (root.__V3_PIXI_MOUNTED && diagnostics?.mounted === false) {
@@ -732,16 +768,20 @@
                 await root.ProjectVPixiBattle.mount(host);
                 await root.ProjectVPixiBattle.setBattlePayload(payload);
               }
+              assertGeneration();
               root.__V3_PIXI_MOUNTED = true;
               root.__V3_PIXI_CANVAS = host.querySelector('canvas');
             })().catch(error => {
-              root.__V3_PIXI_MOUNTED = false;
-              root.__V3_PIXI_CANVAS = null;
-              root.__V3_PIXI_INIT_PROMISE = null;
+              if (Number(root.__V3_PIXI_GENERATION || 0) === generation) {
+                root.__V3_PIXI_MOUNTED = false;
+                root.__V3_PIXI_CANVAS = null;
+                root.__V3_PIXI_INIT_PROMISE = null;
+              }
               throw error;
             });
           }
           await root.__V3_PIXI_INIT_PROMISE;
+          assertGeneration();
         } else {
           const canvas = root.__V3_PIXI_CANVAS;
           if (canvas && canvas.parentNode !== host) host.appendChild(canvas);
@@ -752,9 +792,19 @@
           } else {
             await root.ProjectVPixiBattle.setBattlePayload(payload);
           }
+          assertGeneration();
         }
-        await root.ProjectVPixiBattle.setBattlefield(mode);
+        // V1934: 배경 전환은 연출일 뿐이다. 여기서 막히면 전투 자체가 못 들어간다.
+        //   엔진 쪽에서 이미 안 보일 때는 즉시 적용하도록 고쳤지만,
+        //   이 경로는 어떤 이유로도 init 을 멈추게 두지 않는다.
+        await withTimeout(
+          Promise.resolve(root.ProjectVPixiBattle.setBattlefield(mode)).then(() => true),
+          3000,
+          'V3 전장 배경 전환이 지연되어 건너뜁니다.'
+        );
+        assertGeneration();
         await root.ProjectVPixiBattle.setVisible(true);
+        assertGeneration();
         root.__V3_PIXI_CANVAS = host.querySelector('canvas') || root.__V3_PIXI_CANVAS;
         await assertFirstFrame();
         stage.classList.add('is-v3-ready');
@@ -765,11 +815,11 @@
       let lastError = null;
       for (let attempt = 0; attempt < 2; attempt += 1) {
         try {
-          await initialize();
+          await withRejectingTimeout(initialize(), 14000, 'V3 WebGL 전장 초기화 시간이 초과되었습니다.');
           return;
         } catch (error) {
           lastError = error;
-          try { await root.ProjectVPixiBattle.setVisible(false); } catch {}
+          await hardResetPixiBattle(host);
           if (attempt === 0) {
             if (phase) phase.textContent = 'V3 RENDER RETRY';
             if (status) status.textContent = 'WebGL 전장을 즉시 다시 구성하고 있습니다.';
@@ -784,6 +834,17 @@
     };
 
     await init();
+    const qteBranchAllowed = condition => {
+      const key = String(condition || '').trim().toUpperCase();
+      if (!key) return true;
+      const rows = [...interactiveResults.values()];
+      if (key === 'ALL_SUCCESS') return rows.length > 0 && rows.every(result => result?.success === true);
+      if (key === 'ANY_FAILURE') return rows.length === 0 || rows.some(result => result?.success !== true);
+      const match = key.match(/^(SEQUENCE|MASH)_(SUCCESS|FAILURE)$/);
+      if (!match) return true;
+      const result = interactiveResults.get(match[1]);
+      return match[2] === 'SUCCESS' ? result?.success === true : result?.success !== true;
+    };
     return {
       async play() {
         if (destroyed) return false;
@@ -797,6 +858,30 @@
             if (destroyed) return false;
             const type = String(sourceEvent?.type || '').toUpperCase();
             let event = { ...sourceEvent };
+            if (type === 'RAID_QTE_SEQUENCE' || type === 'RAID_QTE_MASH') {
+              const qteId = String(event.qteId || (type.endsWith('MASH') ? 'MASH' : 'SEQUENCE')).toUpperCase();
+              const handler = options.onInteractiveEvent || root.ProjectVRaidQteV1924?.run;
+              if (phase) phase.textContent = type.endsWith('MASH') ? 'EXECUTION BREAK' : 'CORE DECODE';
+              let result = { success: false, cancelled: true, qteId };
+              try {
+                if (typeof handler === 'function') result = await handler(event, { stage, host, payload, phase, status, qteId }) || result;
+                else if (status) status.textContent = '입력 기믹 모듈을 찾지 못해 실패 처리되었습니다.';
+              } catch (error) {
+                console.warn('[PROJECT V V3] RAID QTE failed', error);
+                if (status) status.textContent = '입력 기믹을 완료하지 못해 실패 처리되었습니다.';
+              }
+              interactiveResults.set(qteId, { ...result, qteId, success: result?.success === true });
+              continue;
+            }
+            if (!qteBranchAllowed(event.qteCondition)) continue;
+            if (type.startsWith('RAID_') && typeof options.onRaidEvent === 'function') {
+              try {
+                await options.onRaidEvent(event, { stage, host, payload, phase, status });
+              } catch (error) {
+                console.warn('[PROJECT V V3] RAID event overlay failed', error);
+              }
+              continue;
+            }
             if (type === 'PVE_ULTIMATE') {
               const sourceCard = payload?.ultimateSourceCard || null;
               event = {
@@ -890,9 +975,13 @@
         stage.querySelectorAll('.battle-v3-result').forEach(node => node.classList.add('is-visible'));
         revealBattle();
       },
+      getInteractiveResults() {
+        return Object.fromEntries([...interactiveResults.entries()].map(([key, value]) => [key, { ...value }]));
+      },
       destroy() {
         if (destroyed) return;
         destroyed = true;
+        try { root.ProjectVRaidQteV1924?.cancel?.(); } catch {}
         try { dockObserver?.disconnect?.(); } catch {}
         dockObserver = null;
         root.ProjectVPixiBattle.setVisible(false).catch?.(() => {});
@@ -921,7 +1010,13 @@
   }
 
   async function playRaid(options = {}) {
-    const data = raidPayload(options);
+    // Core mechanics may add timeline events, but the live V3 shell, Pixi
+    // character formation and roster/card-frame renderer remain authoritative.
+    const hasServerTimeline = options.preserveServerTimeline === true
+      && Array.isArray(options.data?.battleV2?.result?.timeline);
+    const data = hasServerTimeline
+      ? { ...options.data, mode: 'RAID', battlefieldMode: 'RAID' }
+      : raidPayload(options);
     const renderer = await createRenderer({ ...options, data, mode: 'RAID' });
     if (options.modal) options.modal.__battleV2Renderer = renderer;
     const played = await renderer.play();
@@ -940,7 +1035,8 @@
     playSeal,
     sealPayload,
     playRaid,
-    raidPayload
+    raidPayload,
+    hardReset: hardResetPixiBattle
   });
   root.playTowerBattleV3Live = playTower;
   root.playSealBattleV3Live = playSeal;

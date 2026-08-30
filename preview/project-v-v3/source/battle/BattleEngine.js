@@ -543,11 +543,27 @@ export class BattleEngine{
       this.parallaxLayers.forEach(({sprite})=>{sprite.texture=texture});
       this.layoutParallax(this.scene.width,this.scene.height);
     };
-    if(immediate||this.reducedMotion){apply();return normalized}
+    // V1934: 이 교차 페이드는 GSAP = requestAnimationFrame 으로 돈다.
+    //   화면이 가려지면(탭 전환·화면 잠금·백그라운드 PWA) rAF 가 멈추고
+    //   onComplete 가 영원히 안 불려서 이 await 가 풀리지 않는다.
+    //   battle-v3-live 는 setBattlefield **다음에** setVisible(true) 를 부르므로
+    //   "V3 WebGL 전장 구성 중" 에서 전투 진입이 통째로 막혔다(재현 확인).
+    //   보이지 않을 때는 연출을 건너뛰고 즉시 적용한다 — 어차피 아무도 못 본다.
+    if(immediate||this.reducedMotion||!this.visible||(typeof document!=='undefined'&&document.hidden)){apply();return normalized}
     await new Promise(resolve=>{
+      let settled=false;
+      const finish=()=>{if(settled)return;settled=true;clearTimeout(guard);resolve()};
+      // rAF 가 도중에 멈춰도 반드시 풀리도록 시계 기반 안전장치를 함께 건다.
+      const guard=setTimeout(()=>{
+        if(settled)return;
+        try{gsap.killTweensOf(this.backgroundLayer)}catch{}
+        apply();
+        this.backgroundLayer.alpha=1;
+        finish();
+      },700);
       gsap.to(this.backgroundLayer,{alpha:0,duration:.12,ease:'power1.out',onComplete:()=>{
         apply();
-        gsap.to(this.backgroundLayer,{alpha:1,duration:.2,ease:'power1.out',onComplete:resolve});
+        gsap.to(this.backgroundLayer,{alpha:1,duration:.2,ease:'power1.out',onComplete:finish});
       }});
     });
     this.updateStatus?.(`전장 변경 · ${normalized}`);
