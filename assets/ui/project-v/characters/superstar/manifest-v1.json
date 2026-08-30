@@ -67,6 +67,14 @@
       "sourceArt": "assets/cards/6496413.jpg",
       "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-a041807b14b54c89-sd-v1.png",
       "sha256": "D6B651BB9991C72D0C170C12655967632C31590A87EB524F3F24262DD3A4B7F8"
+    },
+    {
+      "cardId": "CN-17EDFC0B27E54069",
+      "title": "Erling Haaland",
+      "member": "Erling Haaland",
+      "sourceArt": "assets/cards/hol.jpg",
+      "battleSprite": "assets/ui/project-v/characters/superstar/superstar-cn-17edfc0b27e54069-sd-v1.png",
+      "sha256": "9CCE46B596C3F9107662C36244984055C5F00E32733986A47D7411AED9C3522B"
     }
   ]
 }
