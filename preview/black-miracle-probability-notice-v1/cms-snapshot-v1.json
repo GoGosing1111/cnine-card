@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "capturedAtKst": "2026-08-31T13:54:02+09:00",
+  "source": {
+    "type": "LIVE_OWNER_CMS",
+    "url": "https://cnine-card.pages.dev/admin/",
+    "endpoint": "/api/admin/black-miracle-pack",
+    "settingsKey": "black_miracle_pack_settings_v1485"
+  },
+  "pack": {
+    "code": "BLACK_MIRACLE_PACK",
+    "name": "블랙 미라클 팩",
+    "inventoryOpenEnabled": false,
+    "contentDropsRemainEnabled": true,
+    "presentationCardCount": 5,
+    "fallbackMasterStarsConfigured": 30
+  },
+  "probabilityModel": {
+    "mode": "AUTO_POWER_BASED",
+    "rareRateCapPercent": 5,
+    "equipment": {
+      "enabled": true,
+      "mode": "AUTO",
+      "minRatePercent": 0.01,
+      "maxRatePercent": 0.1,
+      "curve": "LINEAR",
+      "powerFloor": 0,
+      "powerCeiling": 0,
+      "maxItems": 0
+    },
+    "vehicle": {
+      "enabled": true,
+      "mode": "AUTO",
+      "minRatePercent": 0.01,
+      "maxRatePercent": 0.1,
+      "curve": "LINEAR",
+      "powerFloor": 0,
+      "powerCeiling": 0,
+      "maxItems": 0
+    },
+    "fillerWeights": {
+      "masterStar": 35,
+      "coin": 35
+    },
+    "baseProbabilityAssumption": "ACCOUNT_OWNS_NONE_OF_THE_INCLUDED_MYTHIC_VEHICLES",
+    "effectiveSummaryPercent": {
+      "mythicEquipment": 1.47138394,
+      "mythicVehicle": 1.12999999,
+      "masterStar": 48.699308035,
+      "coin": 48.699308035,
+      "rareTotal": 2.60138393,
+      "total": 100
+    }
+  },
+  "contentDropSources": [
+    { "key": "PVE", "label": "PVE 전투", "enabled": true, "ratePercent": 0.0001, "quantity": 1 },
+    { "key": "PVE_AUTO", "label": "PVE 자동전투", "enabled": true, "ratePercent": 0.00005, "quantity": 1 },
+    { "key": "PVP", "label": "PVP 승리", "enabled": true, "ratePercent": 0.0001, "quantity": 1 },
+    { "key": "TOWER", "label": "무한의 탑", "enabled": true, "ratePercent": 0.005, "quantity": 1 },
+    { "key": "RAID", "label": "레이드", "enabled": true, "ratePercent": 0.01, "quantity": 1 },
+    { "key": "RIFT", "label": "균열", "enabled": true, "ratePercent": 0.01, "quantity": 1 },
+    { "key": "CAPTAIN", "label": "대장전", "enabled": true, "ratePercent": 0.002, "quantity": 1 }
+  ],
+  "rewards": {
+    "masterStar": { "weight": 35, "min": 100, "max": 1000 },
+    "coin": { "weight": 35, "min": 25000000, "max": 75000000 },
+    "legacyOnlyCategoryWeights": {
+      "mythicEquipment": 15,
+      "mythicVehicle": 15,
+      "note": "Current AUTO mode does not use these as live category probabilities."
+    }
+  },
+  "equipmentPool": [
+    { "id": 26, "name": "인피니티 M200", "totalPower": 85000, "pvePower": 76500, "pvpPower": 8500, "ratePercent": 0.03410714 },
+    { "id": 25, "name": "인피니티 AK", "totalPower": 75000, "pvePower": 67500, "pvpPower": 7500, "ratePercent": 0.04214286 },
+    { "id": 27, "name": "프라임 배틀슈트", "totalPower": 30000, "pvePower": 27000, "pvpPower": 3000, "ratePercent": 0.07830357 },
+    { "id": 28, "name": "프라임 배틀레깅스", "totalPower": 30000, "pvePower": 27000, "pvpPower": 3000, "ratePercent": 0.07830357 },
+    { "id": 29, "name": "프라임 배틀슈즈", "totalPower": 30000, "pvePower": 27000, "pvpPower": 3000, "ratePercent": 0.07830357 },
+    { "id": 30, "name": "프라임 듀얼디스크", "totalPower": 30000, "pvePower": 27000, "pvpPower": 3000, "ratePercent": 0.07830357 },
+    { "id": 19, "name": "아발론 M4A1", "totalPower": 10000, "pvePower": 9000, "pvpPower": 1000, "ratePercent": 0.094375 },
+    { "id": 21, "name": "오딘 AK", "totalPower": 8500, "pvePower": 7650, "pvpPower": 850, "ratePercent": 0.09558036 },
+    { "id": 16, "name": "솔리드 M4A1", "totalPower": 5000, "pvePower": 4500, "pvpPower": 500, "ratePercent": 0.09839286 },
+    { "id": 20, "name": "발키리 듀얼디스크", "totalPower": 5000, "pvePower": 4500, "pvpPower": 500, "ratePercent": 0.09839286 },
+    { "id": 22, "name": "발키리 슈트", "totalPower": 5000, "pvePower": 4500, "pvpPower": 500, "ratePercent": 0.09839286 },
+    { "id": 23, "name": "발키리 레깅스", "totalPower": 5000, "pvePower": 4500, "pvpPower": 500, "ratePercent": 0.09839286 },
+    { "id": 24, "name": "발키리 부츠", "totalPower": 5000, "pvePower": 4500, "pvpPower": 500, "ratePercent": 0.09839286 },
+    { "id": 14, "name": "솔리드 듀얼디스크", "totalPower": 3000, "pvePower": 2700, "pvpPower": 300, "ratePercent": 0.1 },
+    { "id": 15, "name": "솔리드 조끼", "totalPower": 3000, "pvePower": 2700, "pvpPower": 300, "ratePercent": 0.1 },
+    { "id": 17, "name": "솔리드 하의", "totalPower": 3000, "pvePower": 2700, "pvpPower": 300, "ratePercent": 0.1 },
+    { "id": 18, "name": "솔리드 전투화", "totalPower": 3000, "pvePower": 2700, "pvpPower": 300, "ratePercent": 0.1 }
+  ],
+  "vehiclePool": [
+    { "id": 28, "name": "부가티 볼리드", "totalPower": 115000, "pvePower": 103500, "pvpPower": 11500, "ratePercent": 0.03423077 },
+    { "id": 25, "name": "전장연 휠체어", "totalPower": 100000, "pvePower": 90000, "pvpPower": 10000, "ratePercent": 0.04461538 },
+    { "id": 23, "name": "아폴로", "totalPower": 75000, "pvePower": 67500, "pvpPower": 7500, "ratePercent": 0.06192308 },
+    { "id": 22, "name": "코닉세그", "totalPower": 50000, "pvePower": 45000, "pvpPower": 5000, "ratePercent": 0.07923077 },
+    { "id": 14, "name": "제네시스 마그마", "totalPower": 45000, "pvePower": 40500, "pvpPower": 4500, "ratePercent": 0.08269231 },
+    { "id": 15, "name": "부가티", "totalPower": 45000, "pvePower": 40500, "pvpPower": 4500, "ratePercent": 0.08269231 },
+    { "id": 24, "name": "애스턴마틴 발키리", "totalPower": 37500, "pvePower": 33750, "pvpPower": 3750, "ratePercent": 0.08788462 },
+    { "id": 18, "name": "AMG ONE", "totalPower": 35000, "pvePower": 31500, "pvpPower": 3500, "ratePercent": 0.08961538 },
+    { "id": 20, "name": "파가니 하이퍼", "totalPower": 35000, "pvePower": 31500, "pvpPower": 3500, "ratePercent": 0.08961538 },
+    { "id": 21, "name": "닷지 데몬", "totalPower": 32500, "pvePower": 29250, "pvpPower": 3250, "ratePercent": 0.09134615 },
+    { "id": 8, "name": "BMW 알피나", "totalPower": 30000, "pvePower": 27000, "pvpPower": 3000, "ratePercent": 0.09307692 },
+    { "id": 19, "name": "롤스로이스 팬텀", "totalPower": 30000, "pvePower": 27000, "pvpPower": 3000, "ratePercent": 0.09307692 },
+    { "id": 5, "name": "NEON 7", "totalPower": 20000, "pvePower": 18000, "pvpPower": 2000, "ratePercent": 0.1 },
+    { "id": 7, "name": "RA Corsa", "totalPower": 20000, "pvePower": 18000, "pvpPower": 2000, "ratePercent": 0.1 }
+  ],
+  "excludedFromPool": {
+    "equipment": ["소버린 SKS", "미스틱 레깅스", "미스틱 슈즈", "미스틱 슈트", "미스틱 듀얼디스크"],
+    "vehicle": ["이그니스 - X"]
+  },
+  "publicNotes": [
+    "Every listed item rate is an absolute probability per opened pack.",
+    "The five sealed cards are presentation only; the server grants one result before the reveal choice.",
+    "Already-owned included mythic vehicles are removed from that user's pool. Their probability mass is split equally between Master Stars and Coins.",
+    "The inventory opening feature is currently disabled by the release gate. Drops and owned quantities remain enabled."
+  ]
+}

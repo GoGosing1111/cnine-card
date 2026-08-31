@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const requirements={eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:3000};
+  const requirements={eligibleGrades:['FUR','ZENITH','SUPERSTAR'],minBreakthrough:13,costMasterStars:3000};
   const classInfo={code:'SERVER_PREVIEW_ATTACK',name:'파쇄자',effect:'서버 설정에서 전달된 고유 효과 설명 예시',tradeoff:'서버 설정에서 전달된 전직 대가 설명 예시',fxKey:'preview-attack'};
   const fixtures={
     ready:{label:'전직 가능 서버 응답',data:{cardId:'PREVIEW-ZENITH-13',current:null,grade:'ZENITH',breakthroughLevel:13,dominantType:'ATTACK',classInfo,requirements,wallet:{masterStars:3840},eligibility:{eligible:true,reasons:[]},canAdvance:true}},

@@ -191,7 +191,7 @@ function normalizeUniqueCards(cards=[]){
     return {...card,id:String(card?.id??card?.card_id??`slot-${index}`),power:base,maxHp:base,baseBattlePower:base,uniqueAbility:null,uniqueAdvancement:null,uniqueDefensePercent:0,uniqueSpeedPercent:0};
   });
 }
-// V1802: FUR/ZENITH +11~+13 "고유효과 강화".
+// V1802/V1940: FUR/ZENITH/SUPERSTAR +11~+13 "고유효과 강화".
 // 돌파 단계별로 그 카드의 고유효과 수치를 통째로 끌어올린다.
 // 배율은 CMS(fur/zenith_master_star_breakthrough_v1802)의 uniqueBoostPercent 를 그대로 쓴다.
 // 해당 등급 고급 강화가 꺼져 있으면 0 이므로 배율 1(= 변화 없음)이 된다.
@@ -200,7 +200,7 @@ let highUniqueBoostCache=null;
 async function highUniqueBoostTable(env){
   const now=Date.now();
   if(highUniqueBoostCache&&highUniqueBoostCache.expiresAt>now)return highUniqueBoostCache.value;
-  const value={FUR:[0,0,0],ZENITH:[0,0,0]};
+  const value={FUR:[0,0,0],ZENITH:[0,0,0],SUPERSTAR:[0,0,0]};
   try{
     const rows=(await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802')").all()).results||[];
     for(const row of rows){
@@ -209,6 +209,8 @@ async function highUniqueBoostTable(env){
       if(parsed?.enabled!==true)continue;
       value[grade]=[0,1,2].map(i=>{const raw=Number(parsed?.steps?.[i]?.uniqueBoostPercent);return Number.isFinite(raw)&&raw>0?Math.min(1000,raw):HIGH_UNIQUE_BOOST_FALLBACK[grade][i]});
     }
+    // SUPERSTAR 고급 강화는 ZENITH 운영 설정과 고유효과 증폭을 항상 공유한다.
+    value.SUPERSTAR=[...value.ZENITH];
   }catch{}
   highUniqueBoostCache={value,expiresAt:now+60000};
   return value;
@@ -217,7 +219,7 @@ function hasHighTierCard(entries=[]){
   for(const entry of entries){
     for(const card of (entry?.cards||[])){
       const grade=String(card?.rarity||card?.grade||'').trim().toUpperCase();
-      if(grade!=='FUR'&&grade!=='ZENITH')continue;
+      if(!['FUR','ZENITH','SUPERSTAR'].includes(grade))continue;
       if(Math.floor(Number(card?.breakthrough_level??card?.breakthroughLevel??0)||0)>=11)return true;
     }
   }
@@ -283,7 +285,7 @@ export async function cardUniqueDeckStates(env,entries=[],scope='PVE'){
       }
     }
   }
-  // V1802-fix: 고유효과 강화 배율은 11강 이상 FUR/ZENITH 가 편성에 있을 때만 의미가 있다.
+  // V1802/V1940: 고유효과 강화 배율은 11강 이상 FUR/ZENITH/SUPERSTAR 편성에만 의미가 있다.
   // 무조건 조회하면 모든 전투(PVE·PVP·무한의탑·레이드·봉인전·점령전)마다 D1 왕복이 한 번씩 더 붙는다.
   const boostTable=hasHighTierCard(visibleEntries)?await highUniqueBoostTable(env):null;
   const advancementSettings=await uniqueAdvancementSettings(env,{ensure:false});

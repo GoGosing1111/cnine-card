@@ -1,0 +1,955 @@
+{
+  "schemaVersion": 1,
+  "methodology": {
+    "visibleCoverage": "alpha > 2 / frame pixels",
+    "opaqueCoverage": "alpha >= 250 / frame pixels",
+    "alphaMaskIoU": "intersection-over-union of consecutive alpha > 12 masks",
+    "meanAlphaDelta": "mean absolute consecutive alpha delta normalized to 0..1"
+  },
+  "effects": {
+    "shatter": {
+      "frames": [
+        {
+          "frame": 0,
+          "visibleCoverage": 0.00631,
+          "opaqueCoverage": 0.000176,
+          "meanAlpha": 0.001466,
+          "meanVisibleAlpha": 0.231658,
+          "bounds": {
+            "x": 200,
+            "y": 186,
+            "width": 127,
+            "height": 71
+          }
+        },
+        {
+          "frame": 1,
+          "visibleCoverage": 0.011302,
+          "opaqueCoverage": 0.000425,
+          "meanAlpha": 0.002829,
+          "meanVisibleAlpha": 0.249674,
+          "bounds": {
+            "x": 186,
+            "y": 174,
+            "width": 171,
+            "height": 86
+          }
+        },
+        {
+          "frame": 2,
+          "visibleCoverage": 0.026803,
+          "opaqueCoverage": 0.001344,
+          "meanAlpha": 0.007507,
+          "meanVisibleAlpha": 0.279637,
+          "bounds": {
+            "x": 153,
+            "y": 164,
+            "width": 214,
+            "height": 108
+          }
+        },
+        {
+          "frame": 3,
+          "visibleCoverage": 0.065741,
+          "opaqueCoverage": 0.003649,
+          "meanAlpha": 0.02167,
+          "meanVisibleAlpha": 0.329296,
+          "bounds": {
+            "x": 66,
+            "y": 122,
+            "width": 361,
+            "height": 186
+          }
+        },
+        {
+          "frame": 4,
+          "visibleCoverage": 0.099305,
+          "opaqueCoverage": 0.005825,
+          "meanAlpha": 0.032457,
+          "meanVisibleAlpha": 0.32657,
+          "bounds": {
+            "x": 61,
+            "y": 103,
+            "width": 375,
+            "height": 225
+          }
+        },
+        {
+          "frame": 5,
+          "visibleCoverage": 0.13768,
+          "opaqueCoverage": 0.007843,
+          "meanAlpha": 0.046759,
+          "meanVisibleAlpha": 0.339365,
+          "bounds": {
+            "x": 74,
+            "y": 70,
+            "width": 380,
+            "height": 272
+          }
+        },
+        {
+          "frame": 6,
+          "visibleCoverage": 0.335234,
+          "opaqueCoverage": 0.032465,
+          "meanAlpha": 0.126828,
+          "meanVisibleAlpha": 0.378124,
+          "bounds": {
+            "x": 30,
+            "y": 24,
+            "width": 424,
+            "height": 403
+          }
+        },
+        {
+          "frame": 7,
+          "visibleCoverage": 0.135813,
+          "opaqueCoverage": 0.004546,
+          "meanAlpha": 0.036663,
+          "meanVisibleAlpha": 0.269598,
+          "bounds": {
+            "x": 19,
+            "y": 64,
+            "width": 424,
+            "height": 282
+          }
+        },
+        {
+          "frame": 8,
+          "visibleCoverage": 0.104044,
+          "opaqueCoverage": 0.002515,
+          "meanAlpha": 0.022678,
+          "meanVisibleAlpha": 0.21749,
+          "bounds": {
+            "x": 41,
+            "y": 72,
+            "width": 410,
+            "height": 283
+          }
+        },
+        {
+          "frame": 9,
+          "visibleCoverage": 0.083637,
+          "opaqueCoverage": 0.002194,
+          "meanAlpha": 0.018601,
+          "meanVisibleAlpha": 0.221953,
+          "bounds": {
+            "x": 58,
+            "y": 83,
+            "width": 396,
+            "height": 250
+          }
+        },
+        {
+          "frame": 10,
+          "visibleCoverage": 0.063346,
+          "opaqueCoverage": 0.001528,
+          "meanAlpha": 0.013199,
+          "meanVisibleAlpha": 0.207872,
+          "bounds": {
+            "x": 89,
+            "y": 115,
+            "width": 354,
+            "height": 202
+          }
+        },
+        {
+          "frame": 11,
+          "visibleCoverage": 0.032529,
+          "opaqueCoverage": 0.000859,
+          "meanAlpha": 0.006868,
+          "meanVisibleAlpha": 0.210596,
+          "bounds": {
+            "x": 123,
+            "y": 115,
+            "width": 281,
+            "height": 169
+          }
+        }
+      ],
+      "continuity": [
+        {
+          "from": 0,
+          "to": 1,
+          "alphaMaskIoU": 0.254768,
+          "meanAlphaDelta": 0.003082
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "alphaMaskIoU": 0.213124,
+          "meanAlphaDelta": 0.006983
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "alphaMaskIoU": 0.2516,
+          "meanAlphaDelta": 0.020864
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "alphaMaskIoU": 0.427619,
+          "meanAlphaDelta": 0.031832
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "alphaMaskIoU": 0.487506,
+          "meanAlphaDelta": 0.04125
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "alphaMaskIoU": 0.342366,
+          "meanAlphaDelta": 0.100156
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "alphaMaskIoU": 0.261268,
+          "meanAlphaDelta": 0.114378
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "alphaMaskIoU": 0.267769,
+          "meanAlphaDelta": 0.039564
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "alphaMaskIoU": 0.233987,
+          "meanAlphaDelta": 0.030192
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "alphaMaskIoU": 0.193429,
+          "meanAlphaDelta": 0.024872
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "alphaMaskIoU": 0.286088,
+          "meanAlphaDelta": 0.013954
+        }
+      ],
+      "summary": {
+        "minVisibleCoverage": 0.00631,
+        "maxVisibleCoverage": 0.335234,
+        "minOpaqueCoverage": 0.000176,
+        "maxOpaqueCoverage": 0.032465,
+        "meanAlphaMaskIoU": 0.292684,
+        "meanFrameAlphaDelta": 0.03883
+      }
+    },
+    "riposte": {
+      "frames": [
+        {
+          "frame": 0,
+          "visibleCoverage": 0.069454,
+          "opaqueCoverage": 0.00206,
+          "meanAlpha": 0.022059,
+          "meanVisibleAlpha": 0.317376,
+          "bounds": {
+            "x": 172,
+            "y": 83,
+            "width": 173,
+            "height": 317
+          }
+        },
+        {
+          "frame": 1,
+          "visibleCoverage": 0.118763,
+          "opaqueCoverage": 0.005177,
+          "meanAlpha": 0.040784,
+          "meanVisibleAlpha": 0.343194,
+          "bounds": {
+            "x": 152,
+            "y": 60,
+            "width": 217,
+            "height": 331
+          }
+        },
+        {
+          "frame": 2,
+          "visibleCoverage": 0.153516,
+          "opaqueCoverage": 0.006327,
+          "meanAlpha": 0.053269,
+          "meanVisibleAlpha": 0.346796,
+          "bounds": {
+            "x": 143,
+            "y": 45,
+            "width": 249,
+            "height": 373
+          }
+        },
+        {
+          "frame": 3,
+          "visibleCoverage": 0.153876,
+          "opaqueCoverage": 0.014706,
+          "meanAlpha": 0.062523,
+          "meanVisibleAlpha": 0.40611,
+          "bounds": {
+            "x": 139,
+            "y": 79,
+            "width": 307,
+            "height": 323
+          }
+        },
+        {
+          "frame": 4,
+          "visibleCoverage": 0.152331,
+          "opaqueCoverage": 0.005889,
+          "meanAlpha": 0.049206,
+          "meanVisibleAlpha": 0.322798,
+          "bounds": {
+            "x": 119,
+            "y": 49,
+            "width": 278,
+            "height": 331
+          }
+        },
+        {
+          "frame": 5,
+          "visibleCoverage": 0.145471,
+          "opaqueCoverage": 0.004992,
+          "meanAlpha": 0.041922,
+          "meanVisibleAlpha": 0.287881,
+          "bounds": {
+            "x": 128,
+            "y": 62,
+            "width": 274,
+            "height": 320
+          }
+        },
+        {
+          "frame": 6,
+          "visibleCoverage": 0.157585,
+          "opaqueCoverage": 0.009044,
+          "meanAlpha": 0.051068,
+          "meanVisibleAlpha": 0.323789,
+          "bounds": {
+            "x": 128,
+            "y": 66,
+            "width": 314,
+            "height": 312
+          }
+        },
+        {
+          "frame": 7,
+          "visibleCoverage": 0.20513,
+          "opaqueCoverage": 0.027142,
+          "meanAlpha": 0.084156,
+          "meanVisibleAlpha": 0.409992,
+          "bounds": {
+            "x": 78,
+            "y": 60,
+            "width": 395,
+            "height": 314
+          }
+        },
+        {
+          "frame": 8,
+          "visibleCoverage": 0.134178,
+          "opaqueCoverage": 0.011405,
+          "meanAlpha": 0.045581,
+          "meanVisibleAlpha": 0.339363,
+          "bounds": {
+            "x": 32,
+            "y": 71,
+            "width": 452,
+            "height": 274
+          }
+        },
+        {
+          "frame": 9,
+          "visibleCoverage": 0.087139,
+          "opaqueCoverage": 0.005091,
+          "meanAlpha": 0.023416,
+          "meanVisibleAlpha": 0.268286,
+          "bounds": {
+            "x": 27,
+            "y": 96,
+            "width": 446,
+            "height": 197
+          }
+        },
+        {
+          "frame": 10,
+          "visibleCoverage": 0.041896,
+          "opaqueCoverage": 0.001073,
+          "meanAlpha": 0.008266,
+          "meanVisibleAlpha": 0.196704,
+          "bounds": {
+            "x": 40,
+            "y": 120,
+            "width": 390,
+            "height": 160
+          }
+        },
+        {
+          "frame": 11,
+          "visibleCoverage": 0.010435,
+          "opaqueCoverage": 0.000416,
+          "meanAlpha": 0.002599,
+          "meanVisibleAlpha": 0.248212,
+          "bounds": {
+            "x": 79,
+            "y": 135,
+            "width": 349,
+            "height": 157
+          }
+        }
+      ],
+      "continuity": [
+        {
+          "from": 0,
+          "to": 1,
+          "alphaMaskIoU": 0.366307,
+          "meanAlphaDelta": 0.035215
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "alphaMaskIoU": 0.50409,
+          "meanAlphaDelta": 0.046795
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "alphaMaskIoU": 0.403145,
+          "meanAlphaDelta": 0.0697
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "alphaMaskIoU": 0.366791,
+          "meanAlphaDelta": 0.067627
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "alphaMaskIoU": 0.497024,
+          "meanAlphaDelta": 0.049059
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "alphaMaskIoU": 0.423887,
+          "meanAlphaDelta": 0.056839
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "alphaMaskIoU": 0.34484,
+          "meanAlphaDelta": 0.086644
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "alphaMaskIoU": 0.209121,
+          "meanAlphaDelta": 0.100102
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "alphaMaskIoU": 0.250555,
+          "meanAlphaDelta": 0.048893
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "alphaMaskIoU": 0.119912,
+          "meanAlphaDelta": 0.027895
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "alphaMaskIoU": 0.026901,
+          "meanAlphaDelta": 0.010429
+        }
+      ],
+      "summary": {
+        "minVisibleCoverage": 0.010435,
+        "maxVisibleCoverage": 0.20513,
+        "minOpaqueCoverage": 0.000416,
+        "maxOpaqueCoverage": 0.027142,
+        "meanAlphaMaskIoU": 0.319325,
+        "meanFrameAlphaDelta": 0.054473
+      }
+    },
+    "afterimage": {
+      "frames": [
+        {
+          "frame": 0,
+          "visibleCoverage": 0.023918,
+          "opaqueCoverage": 0.001807,
+          "meanAlpha": 0.007659,
+          "meanVisibleAlpha": 0.31986,
+          "bounds": {
+            "x": 64,
+            "y": 200,
+            "width": 178,
+            "height": 100
+          }
+        },
+        {
+          "frame": 1,
+          "visibleCoverage": 0.071424,
+          "opaqueCoverage": 0.003769,
+          "meanAlpha": 0.02172,
+          "meanVisibleAlpha": 0.303781,
+          "bounds": {
+            "x": 43,
+            "y": 176,
+            "width": 308,
+            "height": 135
+          }
+        },
+        {
+          "frame": 2,
+          "visibleCoverage": 0.133903,
+          "opaqueCoverage": 0.006439,
+          "meanAlpha": 0.039321,
+          "meanVisibleAlpha": 0.293429,
+          "bounds": {
+            "x": 12,
+            "y": 152,
+            "width": 449,
+            "height": 189
+          }
+        },
+        {
+          "frame": 3,
+          "visibleCoverage": 0.110435,
+          "opaqueCoverage": 0.00182,
+          "meanAlpha": 0.02208,
+          "meanVisibleAlpha": 0.199618,
+          "bounds": {
+            "x": 23,
+            "y": 146,
+            "width": 462,
+            "height": 183
+          }
+        },
+        {
+          "frame": 4,
+          "visibleCoverage": 0.05552,
+          "opaqueCoverage": 0.001279,
+          "meanAlpha": 0.011827,
+          "meanVisibleAlpha": 0.212728,
+          "bounds": {
+            "x": 109,
+            "y": 146,
+            "width": 376,
+            "height": 124
+          }
+        },
+        {
+          "frame": 5,
+          "visibleCoverage": 0.055585,
+          "opaqueCoverage": 0.00167,
+          "meanAlpha": 0.01384,
+          "meanVisibleAlpha": 0.248646,
+          "bounds": {
+            "x": 91,
+            "y": 183,
+            "width": 390,
+            "height": 92
+          }
+        },
+        {
+          "frame": 6,
+          "visibleCoverage": 0.011757,
+          "opaqueCoverage": 0.000373,
+          "meanAlpha": 0.002384,
+          "meanVisibleAlpha": 0.202337,
+          "bounds": {
+            "x": 291,
+            "y": 183,
+            "width": 119,
+            "height": 102
+          }
+        },
+        {
+          "frame": 7,
+          "visibleCoverage": 0.111148,
+          "opaqueCoverage": 0.004271,
+          "meanAlpha": 0.028451,
+          "meanVisibleAlpha": 0.255717,
+          "bounds": {
+            "x": 46,
+            "y": 146,
+            "width": 431,
+            "height": 159
+          }
+        },
+        {
+          "frame": 8,
+          "visibleCoverage": 0.129267,
+          "opaqueCoverage": 0.00707,
+          "meanAlpha": 0.036751,
+          "meanVisibleAlpha": 0.284105,
+          "bounds": {
+            "x": 35,
+            "y": 96,
+            "width": 456,
+            "height": 193
+          }
+        },
+        {
+          "frame": 9,
+          "visibleCoverage": 0.099352,
+          "opaqueCoverage": 0.002726,
+          "meanAlpha": 0.021321,
+          "meanVisibleAlpha": 0.214307,
+          "bounds": {
+            "x": 27,
+            "y": 106,
+            "width": 471,
+            "height": 166
+          }
+        },
+        {
+          "frame": 10,
+          "visibleCoverage": 0.047549,
+          "opaqueCoverage": 0.000545,
+          "meanAlpha": 0.007506,
+          "meanVisibleAlpha": 0.157362,
+          "bounds": {
+            "x": 48,
+            "y": 119,
+            "width": 445,
+            "height": 151
+          }
+        },
+        {
+          "frame": 11,
+          "visibleCoverage": 0.018209,
+          "opaqueCoverage": 0.000017,
+          "meanAlpha": 0.002402,
+          "meanVisibleAlpha": 0.131008,
+          "bounds": {
+            "x": 63,
+            "y": 111,
+            "width": 397,
+            "height": 152
+          }
+        }
+      ],
+      "continuity": [
+        {
+          "from": 0,
+          "to": 1,
+          "alphaMaskIoU": 0.293705,
+          "meanAlphaDelta": 0.018327
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "alphaMaskIoU": 0.326106,
+          "meanAlphaDelta": 0.04357
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "alphaMaskIoU": 0.300385,
+          "meanAlphaDelta": 0.045146
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "alphaMaskIoU": 0.039126,
+          "meanAlphaDelta": 0.032411
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "alphaMaskIoU": 0.354994,
+          "meanAlphaDelta": 0.017606
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "alphaMaskIoU": 0.146553,
+          "meanAlphaDelta": 0.013989
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "alphaMaskIoU": 0.046069,
+          "meanAlphaDelta": 0.029361
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "alphaMaskIoU": 0.267801,
+          "meanAlphaDelta": 0.05226
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "alphaMaskIoU": 0.391266,
+          "meanAlphaDelta": 0.036742
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "alphaMaskIoU": 0.255906,
+          "meanAlphaDelta": 0.020314
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "alphaMaskIoU": 0.0954,
+          "meanAlphaDelta": 0.008292
+        }
+      ],
+      "summary": {
+        "minVisibleCoverage": 0.011757,
+        "maxVisibleCoverage": 0.133903,
+        "minOpaqueCoverage": 0.000017,
+        "maxOpaqueCoverage": 0.00707,
+        "meanAlphaMaskIoU": 0.228846,
+        "meanFrameAlphaDelta": 0.028911
+      }
+    },
+    "immortal": {
+      "frames": [
+        {
+          "frame": 0,
+          "visibleCoverage": 0.045287,
+          "opaqueCoverage": 0.000464,
+          "meanAlpha": 0.010266,
+          "meanVisibleAlpha": 0.226254,
+          "bounds": {
+            "x": 86,
+            "y": 286,
+            "width": 339,
+            "height": 122
+          }
+        },
+        {
+          "frame": 1,
+          "visibleCoverage": 0.086925,
+          "opaqueCoverage": 0.000786,
+          "meanAlpha": 0.018867,
+          "meanVisibleAlpha": 0.216673,
+          "bounds": {
+            "x": 63,
+            "y": 208,
+            "width": 390,
+            "height": 212
+          }
+        },
+        {
+          "frame": 2,
+          "visibleCoverage": 0.123034,
+          "opaqueCoverage": 0.000983,
+          "meanAlpha": 0.029662,
+          "meanVisibleAlpha": 0.240704,
+          "bounds": {
+            "x": 73,
+            "y": 105,
+            "width": 351,
+            "height": 308
+          }
+        },
+        {
+          "frame": 3,
+          "visibleCoverage": 0.164329,
+          "opaqueCoverage": 0.00191,
+          "meanAlpha": 0.040404,
+          "meanVisibleAlpha": 0.245552,
+          "bounds": {
+            "x": 79,
+            "y": 57,
+            "width": 365,
+            "height": 364
+          }
+        },
+        {
+          "frame": 4,
+          "visibleCoverage": 0.171961,
+          "opaqueCoverage": 0.001807,
+          "meanAlpha": 0.037897,
+          "meanVisibleAlpha": 0.220054,
+          "bounds": {
+            "x": 84,
+            "y": 23,
+            "width": 362,
+            "height": 432
+          }
+        },
+        {
+          "frame": 5,
+          "visibleCoverage": 0.249674,
+          "opaqueCoverage": 0.00252,
+          "meanAlpha": 0.059735,
+          "meanVisibleAlpha": 0.239022,
+          "bounds": {
+            "x": 34,
+            "y": 20,
+            "width": 407,
+            "height": 406
+          }
+        },
+        {
+          "frame": 6,
+          "visibleCoverage": 0.329516,
+          "opaqueCoverage": 0.00388,
+          "meanAlpha": 0.086331,
+          "meanVisibleAlpha": 0.26179,
+          "bounds": {
+            "x": 14,
+            "y": 20,
+            "width": 460,
+            "height": 412
+          }
+        },
+        {
+          "frame": 7,
+          "visibleCoverage": 0.388204,
+          "opaqueCoverage": 0.004198,
+          "meanAlpha": 0.119206,
+          "meanVisibleAlpha": 0.306926,
+          "bounds": {
+            "x": 16,
+            "y": 9,
+            "width": 470,
+            "height": 416
+          }
+        },
+        {
+          "frame": 8,
+          "visibleCoverage": 0.420913,
+          "opaqueCoverage": 0.004688,
+          "meanAlpha": 0.120432,
+          "meanVisibleAlpha": 0.285974,
+          "bounds": {
+            "x": 19,
+            "y": 0,
+            "width": 476,
+            "height": 426
+          }
+        },
+        {
+          "frame": 9,
+          "visibleCoverage": 0.385963,
+          "opaqueCoverage": 0.001155,
+          "meanAlpha": 0.070275,
+          "meanVisibleAlpha": 0.181868,
+          "bounds": {
+            "x": 16,
+            "y": 2,
+            "width": 481,
+            "height": 428
+          }
+        },
+        {
+          "frame": 10,
+          "visibleCoverage": 0.194445,
+          "opaqueCoverage": 0.001387,
+          "meanAlpha": 0.033392,
+          "meanVisibleAlpha": 0.171281,
+          "bounds": {
+            "x": 34,
+            "y": 38,
+            "width": 440,
+            "height": 388
+          }
+        },
+        {
+          "frame": 11,
+          "visibleCoverage": 0.083924,
+          "opaqueCoverage": 0.000661,
+          "meanAlpha": 0.015121,
+          "meanVisibleAlpha": 0.179733,
+          "bounds": {
+            "x": 88,
+            "y": 97,
+            "width": 367,
+            "height": 311
+          }
+        }
+      ],
+      "continuity": [
+        {
+          "from": 0,
+          "to": 1,
+          "alphaMaskIoU": 0.180847,
+          "meanAlphaDelta": 0.023227
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "alphaMaskIoU": 0.113459,
+          "meanAlphaDelta": 0.041668
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "alphaMaskIoU": 0.207366,
+          "meanAlphaDelta": 0.052671
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "alphaMaskIoU": 0.136311,
+          "meanAlphaDelta": 0.066391
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "alphaMaskIoU": 0.289625,
+          "meanAlphaDelta": 0.070506
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "alphaMaskIoU": 0.330917,
+          "meanAlphaDelta": 0.099876
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "alphaMaskIoU": 0.416189,
+          "meanAlphaDelta": 0.124041
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "alphaMaskIoU": 0.53768,
+          "meanAlphaDelta": 0.127127
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "alphaMaskIoU": 0.584348,
+          "meanAlphaDelta": 0.096299
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "alphaMaskIoU": 0.189484,
+          "meanAlphaDelta": 0.08193
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "alphaMaskIoU": 0.12002,
+          "meanAlphaDelta": 0.041738
+        }
+      ],
+      "summary": {
+        "minVisibleCoverage": 0.045287,
+        "maxVisibleCoverage": 0.420913,
+        "minOpaqueCoverage": 0.000464,
+        "maxOpaqueCoverage": 0.004688,
+        "meanAlphaMaskIoU": 0.282386,
+        "meanFrameAlphaDelta": 0.075043
+      }
+    }
+  }
+}

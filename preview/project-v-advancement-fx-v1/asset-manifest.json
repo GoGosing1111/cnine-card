@@ -1,0 +1,30 @@
+{
+  "id": "project-v-advancement-fx-v1",
+  "purpose": "standalone-original-advancement-effect-audition-only",
+  "runtimeConnected": false,
+  "renderer": "PixiJS WebGL",
+  "timeline": "GSAP-owned-atlas-frame-clock",
+  "animatedSpriteAutoUpdate": false,
+  "blendMode": "screen",
+  "whiteFlashMs": 50,
+  "sfxPeakToleranceMs": 20,
+  "visualSource": "fresh-role-specific-awakening-atlases-v3",
+  "audioSource": "new-recorded-foley-advancement-sfx",
+  "reusesLiveRoleAssets": false,
+  "visualProvenance": "assets/source/PROVENANCE.md",
+  "visualAtlasManifest": "assets/atlases/advancement-fx-atlas-manifest-v3.json",
+  "visualAtlasQa": "assets/atlases/advancement-fx-atlas-qa-v3.json",
+  "audioManifest": "assets/audio/manifest.json",
+  "visualAssets": [
+    "assets/atlases/shatter-advancement-atlas-v3.json",
+    "assets/atlases/riposte-advancement-atlas-v1.json",
+    "assets/atlases/afterimage-advancement-atlas-v3.json",
+    "assets/atlases/immortal-advancement-atlas-v3.json"
+  ],
+  "classes": {
+    "SHATTER": {"role": "attack", "concept": "awakening-dragon", "atlas": "shatter-advancement-atlas-v3.json", "fps": 24, "collisionFrame": 6, "impactAtMs": 420, "hitStopMs": 82, "shake": 22},
+    "RIPOSTE": {"role": "counter", "concept": "counter-guard", "atlas": "riposte-advancement-atlas-v1.json", "fps": 20, "collisionFrame": 7, "guardContactFrame": 3, "impactAtMs": 460, "hitStopMs": 104, "shake": 18},
+    "AFTERIMAGE": {"role": "speed", "concept": "awakening-chrono-falcon", "atlas": "afterimage-advancement-atlas-v3.json", "fps": 28, "collisionFrame": 6, "impactAtMs": 320, "hitStopMs": 32, "shake": 8},
+    "IMMORTAL": {"role": "heal", "concept": "awakening-world-tree", "atlas": "immortal-advancement-atlas-v3.json", "fps": 18, "collisionFrame": 8, "coreFrame": 6, "impactAtMs": 500, "hitStopMs": 76, "shake": 10}
+  }
+}

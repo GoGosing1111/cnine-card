@@ -3,7 +3,7 @@
 - 규정 ID: `PV-MERCENARY-CARD-ART-1.2`
 - 상태: 확정
 - 적용일: 2026-08-23
-- 최종 갱신: 2026-08-24
+- 최종 갱신: 2026-08-31
 - 적용 범위: 숲켓몬에서 선행 공개·운영할 PROJECT V 용병 카드 `sourceArt`
 
 ## 1. 프로젝트 정의와 적용 경계
@@ -211,7 +211,7 @@ SD: assets/ui/project-v/characters/mercenary/
 - 카드 로스터: `assets/ui/project-v/mercenaries/mercenary-card-roster-approved-v1.json`
 - 통합 프리뷰: `preview/mercenary-cards-approved-v1/index.html`
 - 카드 프레임: `assets/ui/card-frames/mercenary-contract-frame-premium-v2.png`
-- 전투 SD 상태: 8종 모두 `PENDING`
+- 전투 SD 상태: 8종 모두 `TECH_QA_COMPLETE_USER_REVIEW_PENDING`
 
 | 코드 | 이름 | 이명 | 역할 | 승인 원화 |
 |---|---|---|---|---|
@@ -224,4 +224,4 @@ SD: assets/ui/project-v/characters/mercenary/
 | V-019 | 아우렐리온 | 천벌의 대천사 | 전위 공격 | `male-spear-archangel-high-seraph-mercenary-source-art-v1.png` |
 | V-020 | 사요 | 설영의 발도귀 | 전위 암살 | `female-katana-winter-iaijutsu-mercenary-source-art-v1.png` |
 
-카드 화면은 원화에 문자나 프레임을 합쳐 저장하지 않는다. `sourceArt + 투명 PNG 프레임 + HTML/CSS 카드 정보` 계층으로 합성하며, 전투 필드에는 추후 승인된 별도 SD만 연결한다.
+카드 화면은 원화에 문자나 프레임을 합쳐 저장하지 않는다. `sourceArt + 투명 PNG 프레임 + HTML/CSS 카드 정보` 계층으로 합성한다. 2026-08-31 제작된 별도 투명 SD는 로스터와 검수 프리뷰의 전투 필드 전용 해석 계층에 연결됐으며, 사용자 시각검수 및 등급 확정 전에는 운영 전투 편성을 활성화하지 않는다.

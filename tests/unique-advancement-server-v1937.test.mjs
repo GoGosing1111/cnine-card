@@ -25,12 +25,12 @@ const [serverSource,apiSource,magicSource]=await Promise.all([
   readFile(new URL('functions/_magic.js',root),'utf8')
 ]);
 
-test('server contract fixes eligibility at FUR/ZENITH +13 and 3,000 MASTER_STAR',()=>{
+test('server contract fixes eligibility at FUR/ZENITH/SUPERSTAR +13 and 3,000 MASTER_STAR',()=>{
   assert.equal(UNIQUE_ADVANCEMENT_COST,3000);
   assert.equal(UNIQUE_ADVANCEMENT_MIN_BREAKTHROUGH,13);
-  assert.deepEqual([...UNIQUE_ADVANCEMENT_ALLOWED_GRADES],['FUR','ZENITH']);
+  assert.deepEqual([...UNIQUE_ADVANCEMENT_ALLOWED_GRADES],['FUR','ZENITH','SUPERSTAR']);
   assert.deepEqual(normalizeUniqueAdvancementSettings({mode:'ON',costMasterStars:1,minimumBreakthrough:1}),{
-    mode:'ON',version:1,costMasterStars:3000,successChancePercent:10,minimumBreakthrough:13,allowedGrades:['FUR','ZENITH']
+    mode:'ON',version:1,costMasterStars:3000,successChancePercent:10,minimumBreakthrough:13,allowedGrades:['FUR','ZENITH','SUPERSTAR']
   });
   assert.equal(normalizeUniqueAdvancementSettings().mode,'ON');
   assert.equal(UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT,10);
@@ -79,6 +79,10 @@ test('eligibility rejects client-inventable shortcuts and reports the automatic 
   const eligible=evaluateUniqueAdvancementEligibility({card:base,masterStars:3000,featureEnabled:true});
   assert.equal(eligible.eligible,true);
   assert.equal(eligible.recommendedClass.classCode,'RIPOSTE');
+  const superstar=evaluateUniqueAdvancementEligibility({card:{...base,rarity:'SUPERSTAR'},masterStars:3000,featureEnabled:true});
+  assert.equal(superstar.eligible,true);
+  assert.equal(superstar.grade,'SUPERSTAR');
+  assert.equal(superstar.recommendedClass.classCode,'RIPOSTE');
   assert.equal(evaluateUniqueAdvancementEligibility({card:{...base,rarity:'LIMITED'},masterStars:3000,featureEnabled:true}).code,'GRADE_NOT_ELIGIBLE');
   assert.equal(evaluateUniqueAdvancementEligibility({card:{...base,breakthrough_level:12},masterStars:3000,featureEnabled:true}).code,'BREAKTHROUGH_REQUIRED');
   assert.equal(evaluateUniqueAdvancementEligibility({card:base,masterStars:2999,featureEnabled:true}).code,'MASTER_STAR_SHORTAGE');

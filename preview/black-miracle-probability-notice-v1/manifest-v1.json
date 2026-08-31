@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "status": "READY_FOR_USER_REVIEW_NOT_PUBLISHED",
+  "cmsSnapshot": {
+    "path": "./cms-snapshot-v1.json",
+    "sha256": "8CE2ED6BE28512EBB67E2F6F46E8FCFD55833D3938664E1CC5B64300EFE9CE13",
+    "capturedAtKst": "2026-08-31T13:54:02+09:00",
+    "inventoryOpenEnabled": false
+  },
+  "background": {
+    "mode": "BUILT_IN_IMAGEGEN",
+    "path": "./assets/black-miracle-notice-background-v1.png",
+    "width": 1122,
+    "height": 1402,
+    "sha256": "E3EE4D7E286EEB5C224532862DF76679D27708ED2B9C3113BF991ECFF60DE2A6",
+    "prompt": "Vertical 4:5 premium dark-fantasy jackpot announcement background; black obsidian cosmic vault, restrained cyan energy filaments, antique-gold accents and deep-violet nebula; clean hero and probability-table zones; no text, letters, numbers, logos, watermark, UI labels, card frame or copied reference composition."
+  },
+  "exports": [
+    {
+      "path": "./exports/black-miracle-probability-notice-01-cover-v1.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "DF11C73B9748E8B78644B1C71CF9F812018D026266C4E8E955047F4F248A43F3"
+    },
+    {
+      "path": "./exports/black-miracle-probability-notice-02-equipment-v1.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "9A48A713A42B90829DD3AC553FC6AE139E30FF5F48666B29D8E6856A3B838174"
+    },
+    {
+      "path": "./exports/black-miracle-probability-notice-03-vehicle-v1.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "6A49EAB4E0CEEEF91C25BE8B9FFCFA489F6E69345BF23A989B974B19BE71331A"
+    },
+    {
+      "path": "./exports/black-miracle-probability-notice-04-rules-v1.png",
+      "width": 1080,
+      "height": 1350,
+      "sha256": "E28BF141CB6869EA01A5AE2BC43D644A324651BE1665A21B43AA1FA04FC4E00A"
+    },
+    {
+      "path": "./exports/black-miracle-probability-notice-full-v1.png",
+      "width": 1080,
+      "height": 5400,
+      "sha256": "F0AA5D91F66DB642A4DA9F5F07D7FB5F4BA4DD1A3CF72BFD494B43F3548A4E3B"
+    }
+  ]
+}

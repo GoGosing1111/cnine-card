@@ -9,6 +9,10 @@ import {
   serializeMercenaryLoadout,
   validateMercenaryLoadout
 } from '../js/project-v-mercenary-loadout-v1.js';
+import {
+  createMercenaryBattleArtAdapter,
+  validateMercenaryBattleRoster
+} from '../js/project-v-mercenary-battle-art-adapter-v1.js';
 
 const root = path.resolve(import.meta.dirname, '..');
 const rosterPath = path.join(root, 'assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json');
@@ -64,8 +68,10 @@ test('review roster has twenty-one unique cards and no inherited rank', () => {
 test('all source art and all declared battle sprites exist with recorded hashes', () => {
   const sprites = roster.cards.filter((card) => card.battleSprite);
   const pending = roster.cards.filter((card) => !card.battleSprite);
-  assert.equal(sprites.length, 12);
-  assert.equal(pending.length, 9);
+  assert.equal(sprites.length, 21);
+  assert.equal(pending.length, 0);
+  assert.equal(roster.summary.battleSpriteReady, 21);
+  assert.equal(roster.summary.battleSpritePending, 0);
 
   for (const card of roster.cards) {
     assert.equal(fs.existsSync(path.join(root, card.sourceArt)), true, `${card.code} source art missing`);
@@ -73,13 +79,18 @@ test('all source art and all declared battle sprites exist with recorded hashes'
     if (card.battleSprite) {
       assert.equal(fs.existsSync(path.join(root, card.battleSprite)), true, `${card.code} battle sprite missing`);
       assert.equal(sha256(card.battleSprite), card.battleSpriteSha256, `${card.code} battle sprite hash mismatch`);
+      const png = fs.readFileSync(path.join(root, card.battleSprite));
+      assert.equal(png.subarray(1, 4).toString('ascii'), 'PNG', `${card.code} battle sprite is not PNG`);
+      assert.ok(png.readUInt32BE(16) >= 1024, `${card.code} battle sprite width is too small`);
+      assert.ok(png.readUInt32BE(20) >= 1024, `${card.code} battle sprite height is too small`);
+      assert.equal(png[25], 6, `${card.code} battle sprite must be RGBA PNG`);
     } else {
       assert.equal(card.battleSpriteStatus, 'NOT_YET_PRODUCED');
     }
   }
 });
 
-test('Omega-X preserves the exact user-supplied source without inventing a rank or battle sprite', () => {
+test('Omega-X preserves the exact user-supplied source and connects a separate battle sprite without inventing a rank', () => {
   const omega = roster.cards.find((card) => card.code === 'V-021');
   assert.ok(omega);
   assert.equal(omega.name, '오메가-X');
@@ -88,8 +99,23 @@ test('Omega-X preserves the exact user-supplied source without inventing a rank 
   assert.equal(omega.sourceArtStatus, 'USER_SUPPLIED_SOURCE_ART');
   assert.equal(omega.sourceArtNote, 'USER_DIRECTED_AS_IS_736X1104_JPEG');
   assert.equal(omega.sourceArtSha256, 'F7AE2726C2B445201F344518DA687CA12C7D5D0FB9E0D1954554F21677DF8117');
-  assert.equal(omega.battleSprite, null);
-  assert.equal(omega.battleSpriteStatus, 'NOT_YET_PRODUCED');
+  assert.equal(omega.battleSprite, 'assets/ui/project-v/characters/mercenary/mercenary-v021-omega-x-sd-v1.png');
+  assert.equal(omega.battleSpriteStatus, 'TECH_QA_COMPLETE_USER_REVIEW_PENDING');
+});
+
+test('battle art adapter resolves SD only for battle consumers and never replaces source art', () => {
+  assert.equal(validateMercenaryBattleRoster(roster), roster);
+  const adapter = createMercenaryBattleArtAdapter(roster);
+  const raviena = adapter.resolveForConsumer('BATTLE_FIELD', 'v-013');
+  assert.ok(raviena);
+  assert.equal(raviena.code, 'V-013');
+  assert.equal(raviena.sourceArt, roster.cards[12].sourceArt);
+  assert.equal(raviena.battleSprite, roster.cards[12].battleSprite);
+  assert.notEqual(raviena.sourceArt, raviena.battleSprite);
+  assert.match(raviena.spriteUrl, /^\/assets\/ui\/project-v\/characters\/mercenary\/mercenary-v013-raviena-sd-v1\.png\?v=875DA8F8567322F8$/);
+  assert.equal(adapter.resolveForConsumer('DECK', 'V-013'), null);
+  assert.equal(adapter.resolveForConsumer('CARD_DOCK', 'V-013'), null);
+  assert.equal(adapter.resolveForConsumer('BATTLE_FIELD', 'V-999'), null);
 });
 
 test('official supporting anchors are preserved in main with canonical hashes', () => {

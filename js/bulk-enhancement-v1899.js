@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  const VERSION='1899';
+  const VERSION='1940';
   const MIN_GRADE_ORDER=4;
   const GRADE_ORDER={SUPERSTAR:13,ZENITH:12,FUR:11,PRESTIGE:10,LIMITED:9,MA:8,SSR:7,UR:6,HR:5,SR:4};
   const TARGET_LEVELS=[1,3,5,7,10,13];
@@ -31,10 +31,10 @@
   const cardGrade=card=>String(card?.grade||card?.rarity||'').trim().toUpperCase();
   const cardLevel=(card,user=currentUser())=>Math.max(0,Math.floor(Number(user?.breakthroughs?.[String(card?.id)]||0)));
   const autoMaxLevel=card=>['MA','LIMITED'].includes(cardGrade(card))?13:10;
-  const isHighManualOnly=card=>['FUR','ZENITH'].includes(cardGrade(card));
+  const isHighManualOnly=card=>['FUR','ZENITH','SUPERSTAR'].includes(cardGrade(card));
   const effectiveTarget=(card,target=state.targetLevel)=>Math.min(autoMaxLevel(card),Math.max(1,Math.floor(Number(target)||10)));
   const highConfig=(card,user)=>({MA:user?.maHighBreakthrough,LIMITED:user?.limitedHighBreakthrough}[cardGrade(card)]||null);
-  const usesMasterStars=(card,level)=>cardGrade(card)==='ZENITH'||(['MA','LIMITED'].includes(cardGrade(card))&&level>=10);
+  const usesMasterStars=(card,level)=>['ZENITH','SUPERSTAR'].includes(cardGrade(card))||(['MA','LIMITED'].includes(cardGrade(card))&&level>=10);
 
   function alignAccount(user=currentUser()){
     const nextKey=accountKey(user);
@@ -142,7 +142,7 @@
         <button type="button" class="bulk-eligible-toggle${state.onlyEligible?' is-active':''}" data-bulk-eligible aria-pressed="${state.onlyEligible?'true':'false'}" ${state.running?'disabled':''}>강화 가능만</button>
         <div class="bulk-selection-actions"><button type="button" data-bulk-select-visible ${state.running||!visible.length?'disabled':''}>현재 목록 전체 선택</button><button type="button" data-bulk-clear ${state.running||!state.selected.size?'disabled':''}>선택 해제</button></div>
       </section>
-      <section class="bulk-action-bar"><div><b>${state.selected.size}장 선택됨</b><span>FUR·ZENITH +11~+13과 중복 카드가 필요한 고급 단계는 카드 상세에서만 수동 강화됩니다.</span></div><div><button type="button" class="bulk-once-button" data-bulk-run="ONCE" ${state.running||!state.selected.size?'disabled':''}>선택 카드 1회씩 강화</button><button type="button" class="bulk-auto-button" data-bulk-run="AUTO" ${state.running||!state.selected.size?'disabled':''}>목표까지 자동 강화</button></div></section>
+      <section class="bulk-action-bar"><div><b>${state.selected.size}장 선택됨</b><span>FUR·ZENITH·SUPERSTAR +11~+13과 중복 카드가 필요한 고급 단계는 카드 상세에서만 수동 강화됩니다.</span></div><div><button type="button" class="bulk-once-button" data-bulk-run="ONCE" ${state.running||!state.selected.size?'disabled':''}>선택 카드 1회씩 강화</button><button type="button" class="bulk-auto-button" data-bulk-run="AUTO" ${state.running||!state.selected.size?'disabled':''}>목표까지 자동 강화</button></div></section>
       ${progressHtml()}
       <section class="bulk-list-head"><div><small>OWNED CARD QUEUE</small><h2>강화 카드 선택</h2></div><b>${visible.length}장 표시</b></section>
       <div class="bulk-card-grid">${visible.length?visible.map(card=>cardTile(card,user)).join(''):'<div class="bulk-empty"><b>조건에 맞는 강화 카드가 없습니다.</b><span>필터를 바꾸거나 목표 단계를 높여보세요.</span></div>'}</div>
@@ -225,7 +225,7 @@
     if(state.running)return;
     const selectedIds=[...state.selected],selectedCards=selectedIds.map(id=>catalog().find(card=>String(card.id)===String(id))).filter(Boolean);
     if(!selectedCards.length){state.message='강화할 카드를 먼저 선택하세요.';repaint();return}
-    if(mode==='AUTO'&&!confirm(`선택한 ${selectedCards.length}장을 목표 단계까지 자동 강화할까요?\n\n실패해도 설정된 카드 조각 또는 마스터의 별이 소모됩니다.\nFUR·ZENITH는 +10까지만, 중복 카드가 필요한 단계는 직전 단계까지만 자동 진행됩니다.`))return;
+    if(mode==='AUTO'&&!confirm(`선택한 ${selectedCards.length}장을 목표 단계까지 자동 강화할까요?\n\n실패해도 설정된 카드 조각 또는 마스터의 별이 소모됩니다.\nFUR·ZENITH·SUPERSTAR는 +10까지만, 중복 카드가 필요한 단계는 직전 단계까지만 자동 진행됩니다.`))return;
     Object.assign(state,{running:true,stopRequested:false,mode,operationId:`bulk_${Date.now().toString(36)}_${Math.random().toString(36).slice(2,9)}`,sequence:0,currentCardId:'',attempts:0,successes:0,failures:0,shardSpent:0,starSpent:0,processed:0,total:selectedCards.length,message:'강화 대기열을 준비합니다.',error:''});
     const runContext={ownerKey:state.ownerKey,epoch:state.epoch};
     state.outcomes.clear();state.finishedCards.clear();repaint();

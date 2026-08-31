@@ -1,0 +1,1009 @@
+{
+  "schemaVersion": 3,
+  "releaseSelection": {
+    "shatter": "v3",
+    "riposte": "v1",
+    "afterimage": "v3",
+    "immortal": "v3"
+  },
+  "methodology": {
+    "visibleCoverage": "alpha > 2 / frame pixels",
+    "opaqueCoverage": "alpha >= 250 / frame pixels",
+    "alphaMaskIoU": "intersection-over-union of consecutive alpha > 12 masks",
+    "meanAlphaDelta": "mean absolute consecutive alpha delta normalized to 0..1"
+  },
+  "effects": {
+    "shatter": {
+      "assetVersion": 3,
+      "source": {
+        "file": "assets/source/shatter-awakening-dragon-sheet-black-v3.png",
+        "sourceId": "exec-1e4393c7-91b0-4f60-b845-146ab82fe33e",
+        "sha256": "98EB875D163E03C2B26B557127602673C56D589D3111D47AB2CC047046805958"
+      },
+      "output": {
+        "image": "assets/atlases/shatter-advancement-atlas-v3.png",
+        "json": "assets/atlases/shatter-advancement-atlas-v3.json",
+        "imageSha256": "4A8D0EAFFACAE0DAC4D747E6BFA7030E15D1F4385A743C0120F8FE031E882D56",
+        "jsonSha256": "9C795A5C28B05AEA95330656C6F4FAE6E69CDEF36F55C274CB06A899401DC9E8"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "visibleCoverage": 0.069257,
+          "opaqueCoverage": 0.004297,
+          "meanAlpha": 0.022197,
+          "meanVisibleAlpha": 0.320136,
+          "bounds": {
+            "x": 144,
+            "y": 123,
+            "width": 246,
+            "height": 238
+          }
+        },
+        {
+          "frame": 1,
+          "visibleCoverage": 0.137745,
+          "opaqueCoverage": 0.004975,
+          "meanAlpha": 0.039395,
+          "meanVisibleAlpha": 0.285652,
+          "bounds": {
+            "x": 85,
+            "y": 74,
+            "width": 337,
+            "height": 342
+          }
+        },
+        {
+          "frame": 2,
+          "visibleCoverage": 0.329001,
+          "opaqueCoverage": 0.017741,
+          "meanAlpha": 0.13607,
+          "meanVisibleAlpha": 0.413408,
+          "bounds": {
+            "x": 43,
+            "y": 14,
+            "width": 452,
+            "height": 420
+          }
+        },
+        {
+          "frame": 3,
+          "visibleCoverage": 0.453138,
+          "opaqueCoverage": 0.022995,
+          "meanAlpha": 0.190155,
+          "meanVisibleAlpha": 0.419486,
+          "bounds": {
+            "x": 34,
+            "y": 11,
+            "width": 468,
+            "height": 422
+          }
+        },
+        {
+          "frame": 4,
+          "visibleCoverage": 0.579808,
+          "opaqueCoverage": 0.044437,
+          "meanAlpha": 0.265557,
+          "meanVisibleAlpha": 0.457918,
+          "bounds": {
+            "x": 20,
+            "y": 0,
+            "width": 492,
+            "height": 455
+          }
+        },
+        {
+          "frame": 5,
+          "visibleCoverage": 0.479623,
+          "opaqueCoverage": 0.042685,
+          "meanAlpha": 0.23454,
+          "meanVisibleAlpha": 0.488918,
+          "bounds": {
+            "x": 22,
+            "y": 20,
+            "width": 469,
+            "height": 382
+          }
+        },
+        {
+          "frame": 6,
+          "visibleCoverage": 0.490586,
+          "opaqueCoverage": 0.052035,
+          "meanAlpha": 0.244112,
+          "meanVisibleAlpha": 0.497463,
+          "bounds": {
+            "x": 3,
+            "y": 0,
+            "width": 490,
+            "height": 432
+          }
+        },
+        {
+          "frame": 7,
+          "visibleCoverage": 0.482469,
+          "opaqueCoverage": 0.050635,
+          "meanAlpha": 0.236015,
+          "meanVisibleAlpha": 0.489055,
+          "bounds": {
+            "x": 11,
+            "y": 11,
+            "width": 495,
+            "height": 430
+          }
+        },
+        {
+          "frame": 8,
+          "visibleCoverage": 0.494299,
+          "opaqueCoverage": 0.050901,
+          "meanAlpha": 0.244498,
+          "meanVisibleAlpha": 0.494506,
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 435
+          }
+        },
+        {
+          "frame": 9,
+          "visibleCoverage": 0.404164,
+          "opaqueCoverage": 0.017441,
+          "meanAlpha": 0.16274,
+          "meanVisibleAlpha": 0.40246,
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 493,
+            "height": 436
+          }
+        },
+        {
+          "frame": 10,
+          "visibleCoverage": 0.305731,
+          "opaqueCoverage": 0.012234,
+          "meanAlpha": 0.098893,
+          "meanVisibleAlpha": 0.323166,
+          "bounds": {
+            "x": 14,
+            "y": 15,
+            "width": 484,
+            "height": 410
+          }
+        },
+        {
+          "frame": 11,
+          "visibleCoverage": 0.186706,
+          "opaqueCoverage": 0.007628,
+          "meanAlpha": 0.059736,
+          "meanVisibleAlpha": 0.319492,
+          "bounds": {
+            "x": 12,
+            "y": 9,
+            "width": 475,
+            "height": 428
+          }
+        }
+      ],
+      "continuity": [
+        {
+          "from": 0,
+          "to": 1,
+          "alphaMaskIoU": 0.229446,
+          "meanAlphaDelta": 0.043075
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "alphaMaskIoU": 0.138977,
+          "meanAlphaDelta": 0.148906
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "alphaMaskIoU": 0.416222,
+          "meanAlphaDelta": 0.196321
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "alphaMaskIoU": 0.531983,
+          "meanAlphaDelta": 0.252665
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "alphaMaskIoU": 0.60954,
+          "meanAlphaDelta": 0.239342
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "alphaMaskIoU": 0.703566,
+          "meanAlphaDelta": 0.171187
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "alphaMaskIoU": 0.653398,
+          "meanAlphaDelta": 0.189497
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "alphaMaskIoU": 0.499457,
+          "meanAlphaDelta": 0.242856
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "alphaMaskIoU": 0.449484,
+          "meanAlphaDelta": 0.232412
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "alphaMaskIoU": 0.284342,
+          "meanAlphaDelta": 0.184802
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "alphaMaskIoU": 0.185448,
+          "meanAlphaDelta": 0.12761
+        }
+      ],
+      "summary": {
+        "minVisibleCoverage": 0.069257,
+        "maxVisibleCoverage": 0.579808,
+        "minOpaqueCoverage": 0.004297,
+        "maxOpaqueCoverage": 0.052035,
+        "meanAlphaMaskIoU": 0.427442,
+        "meanFrameAlphaDelta": 0.184425
+      }
+    },
+    "riposte": {
+      "assetVersion": 1,
+      "source": {
+        "file": "assets/source/riposte-counter-guard-sheet-black-v1.png",
+        "sourceId": "exec-d1575f25-bf09-4eca-ab77-983365d360f8",
+        "sha256": "F142262F84FD5CBF6A89A7D9767776A8A6684EDDFF5E9B90B7D234651C791B47"
+      },
+      "output": {
+        "image": "assets/atlases/riposte-advancement-atlas-v1.png",
+        "json": "assets/atlases/riposte-advancement-atlas-v1.json",
+        "imageSha256": "3D70439BA3063509C71D276FBA0EDB59538532497F4F30FA22D45B5679B56E2C",
+        "jsonSha256": "093A5CD203C2424EEA75F6F59A8AB2A08B88385B105F8BC9E1043DA47831E333"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "visibleCoverage": 0.069454,
+          "opaqueCoverage": 0.00206,
+          "meanAlpha": 0.022059,
+          "meanVisibleAlpha": 0.317376,
+          "bounds": {
+            "x": 172,
+            "y": 83,
+            "width": 173,
+            "height": 317
+          }
+        },
+        {
+          "frame": 1,
+          "visibleCoverage": 0.118763,
+          "opaqueCoverage": 0.005177,
+          "meanAlpha": 0.040784,
+          "meanVisibleAlpha": 0.343194,
+          "bounds": {
+            "x": 152,
+            "y": 60,
+            "width": 217,
+            "height": 331
+          }
+        },
+        {
+          "frame": 2,
+          "visibleCoverage": 0.153516,
+          "opaqueCoverage": 0.006327,
+          "meanAlpha": 0.053269,
+          "meanVisibleAlpha": 0.346796,
+          "bounds": {
+            "x": 143,
+            "y": 45,
+            "width": 249,
+            "height": 373
+          }
+        },
+        {
+          "frame": 3,
+          "visibleCoverage": 0.153876,
+          "opaqueCoverage": 0.014706,
+          "meanAlpha": 0.062523,
+          "meanVisibleAlpha": 0.40611,
+          "bounds": {
+            "x": 139,
+            "y": 79,
+            "width": 307,
+            "height": 323
+          }
+        },
+        {
+          "frame": 4,
+          "visibleCoverage": 0.152331,
+          "opaqueCoverage": 0.005889,
+          "meanAlpha": 0.049206,
+          "meanVisibleAlpha": 0.322798,
+          "bounds": {
+            "x": 119,
+            "y": 49,
+            "width": 278,
+            "height": 331
+          }
+        },
+        {
+          "frame": 5,
+          "visibleCoverage": 0.145471,
+          "opaqueCoverage": 0.004992,
+          "meanAlpha": 0.041922,
+          "meanVisibleAlpha": 0.287881,
+          "bounds": {
+            "x": 128,
+            "y": 62,
+            "width": 274,
+            "height": 320
+          }
+        },
+        {
+          "frame": 6,
+          "visibleCoverage": 0.157585,
+          "opaqueCoverage": 0.009044,
+          "meanAlpha": 0.051068,
+          "meanVisibleAlpha": 0.323789,
+          "bounds": {
+            "x": 128,
+            "y": 66,
+            "width": 314,
+            "height": 312
+          }
+        },
+        {
+          "frame": 7,
+          "visibleCoverage": 0.20513,
+          "opaqueCoverage": 0.027142,
+          "meanAlpha": 0.084156,
+          "meanVisibleAlpha": 0.409992,
+          "bounds": {
+            "x": 78,
+            "y": 60,
+            "width": 395,
+            "height": 314
+          }
+        },
+        {
+          "frame": 8,
+          "visibleCoverage": 0.134178,
+          "opaqueCoverage": 0.011405,
+          "meanAlpha": 0.045581,
+          "meanVisibleAlpha": 0.339363,
+          "bounds": {
+            "x": 32,
+            "y": 71,
+            "width": 452,
+            "height": 274
+          }
+        },
+        {
+          "frame": 9,
+          "visibleCoverage": 0.087139,
+          "opaqueCoverage": 0.005091,
+          "meanAlpha": 0.023416,
+          "meanVisibleAlpha": 0.268286,
+          "bounds": {
+            "x": 27,
+            "y": 96,
+            "width": 446,
+            "height": 197
+          }
+        },
+        {
+          "frame": 10,
+          "visibleCoverage": 0.041896,
+          "opaqueCoverage": 0.001073,
+          "meanAlpha": 0.008266,
+          "meanVisibleAlpha": 0.196704,
+          "bounds": {
+            "x": 40,
+            "y": 120,
+            "width": 390,
+            "height": 160
+          }
+        },
+        {
+          "frame": 11,
+          "visibleCoverage": 0.010435,
+          "opaqueCoverage": 0.000416,
+          "meanAlpha": 0.002599,
+          "meanVisibleAlpha": 0.248212,
+          "bounds": {
+            "x": 79,
+            "y": 135,
+            "width": 349,
+            "height": 157
+          }
+        }
+      ],
+      "continuity": [
+        {
+          "from": 0,
+          "to": 1,
+          "alphaMaskIoU": 0.366307,
+          "meanAlphaDelta": 0.035215
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "alphaMaskIoU": 0.50409,
+          "meanAlphaDelta": 0.046795
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "alphaMaskIoU": 0.403145,
+          "meanAlphaDelta": 0.0697
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "alphaMaskIoU": 0.366791,
+          "meanAlphaDelta": 0.067627
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "alphaMaskIoU": 0.497024,
+          "meanAlphaDelta": 0.049059
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "alphaMaskIoU": 0.423887,
+          "meanAlphaDelta": 0.056839
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "alphaMaskIoU": 0.34484,
+          "meanAlphaDelta": 0.086644
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "alphaMaskIoU": 0.209121,
+          "meanAlphaDelta": 0.100102
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "alphaMaskIoU": 0.250555,
+          "meanAlphaDelta": 0.048893
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "alphaMaskIoU": 0.119912,
+          "meanAlphaDelta": 0.027895
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "alphaMaskIoU": 0.026901,
+          "meanAlphaDelta": 0.010429
+        }
+      ],
+      "summary": {
+        "minVisibleCoverage": 0.010435,
+        "maxVisibleCoverage": 0.20513,
+        "minOpaqueCoverage": 0.000416,
+        "maxOpaqueCoverage": 0.027142,
+        "meanAlphaMaskIoU": 0.319325,
+        "meanFrameAlphaDelta": 0.054473
+      }
+    },
+    "afterimage": {
+      "assetVersion": 3,
+      "source": {
+        "file": "assets/source/afterimage-awakening-chrono-falcon-sheet-black-v3.png",
+        "sourceId": "exec-11b4ddf1-f888-4125-b87c-195690c8c245",
+        "sha256": "6BAA0F5207B93A35F37FDDC49512D519A5CC9478DC5138FF904FE513C7CF4198"
+      },
+      "output": {
+        "image": "assets/atlases/afterimage-advancement-atlas-v3.png",
+        "json": "assets/atlases/afterimage-advancement-atlas-v3.json",
+        "imageSha256": "DE9A6D015D9BD05C744E416D18F1A195BB5682E34F882F59D24802171D4D4092",
+        "jsonSha256": "482D42427A8BD39BCE6DAE2334F46B5BAFBB07917F204D5F777481492626660F"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "visibleCoverage": 0.119055,
+          "opaqueCoverage": 0.005207,
+          "meanAlpha": 0.04073,
+          "meanVisibleAlpha": 0.341794,
+          "bounds": {
+            "x": 17,
+            "y": 141,
+            "width": 469,
+            "height": 197
+          }
+        },
+        {
+          "frame": 1,
+          "visibleCoverage": 0.167441,
+          "opaqueCoverage": 0.013174,
+          "meanAlpha": 0.062529,
+          "meanVisibleAlpha": 0.3732,
+          "bounds": {
+            "x": 20,
+            "y": 148,
+            "width": 466,
+            "height": 186
+          }
+        },
+        {
+          "frame": 2,
+          "visibleCoverage": 0.322978,
+          "opaqueCoverage": 0.04745,
+          "meanAlpha": 0.156135,
+          "meanVisibleAlpha": 0.483279,
+          "bounds": {
+            "x": 15,
+            "y": 35,
+            "width": 436,
+            "height": 359
+          }
+        },
+        {
+          "frame": 3,
+          "visibleCoverage": 0.440582,
+          "opaqueCoverage": 0.073704,
+          "meanAlpha": 0.241499,
+          "meanVisibleAlpha": 0.548021,
+          "bounds": {
+            "x": 2,
+            "y": 11,
+            "width": 483,
+            "height": 413
+          }
+        },
+        {
+          "frame": 4,
+          "visibleCoverage": 0.416059,
+          "opaqueCoverage": 0.065234,
+          "meanAlpha": 0.205213,
+          "meanVisibleAlpha": 0.493105,
+          "bounds": {
+            "x": 0,
+            "y": 39,
+            "width": 512,
+            "height": 416
+          }
+        },
+        {
+          "frame": 5,
+          "visibleCoverage": 0.230868,
+          "opaqueCoverage": 0.021798,
+          "meanAlpha": 0.08079,
+          "meanVisibleAlpha": 0.349706,
+          "bounds": {
+            "x": 0,
+            "y": 76,
+            "width": 509,
+            "height": 379
+          }
+        },
+        {
+          "frame": 6,
+          "visibleCoverage": 0.308448,
+          "opaqueCoverage": 0.01584,
+          "meanAlpha": 0.103064,
+          "meanVisibleAlpha": 0.333916,
+          "bounds": {
+            "x": 12,
+            "y": 4,
+            "width": 498,
+            "height": 451
+          }
+        },
+        {
+          "frame": 7,
+          "visibleCoverage": 0.47233,
+          "opaqueCoverage": 0.040543,
+          "meanAlpha": 0.214275,
+          "meanVisibleAlpha": 0.453497,
+          "bounds": {
+            "x": 0,
+            "y": 10,
+            "width": 506,
+            "height": 445
+          }
+        },
+        {
+          "frame": 8,
+          "visibleCoverage": 0.569948,
+          "opaqueCoverage": 0.06326,
+          "meanAlpha": 0.283717,
+          "meanVisibleAlpha": 0.497659,
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 423
+          }
+        },
+        {
+          "frame": 9,
+          "visibleCoverage": 0.480924,
+          "opaqueCoverage": 0.014792,
+          "meanAlpha": 0.145619,
+          "meanVisibleAlpha": 0.30257,
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 429
+          }
+        },
+        {
+          "frame": 10,
+          "visibleCoverage": 0.400936,
+          "opaqueCoverage": 0.01074,
+          "meanAlpha": 0.106486,
+          "meanVisibleAlpha": 0.265306,
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 512,
+            "height": 434
+          }
+        },
+        {
+          "frame": 11,
+          "visibleCoverage": 0.317089,
+          "opaqueCoverage": 0.006014,
+          "meanAlpha": 0.076228,
+          "meanVisibleAlpha": 0.240056,
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 500,
+            "height": 425
+          }
+        }
+      ],
+      "continuity": [
+        {
+          "from": 0,
+          "to": 1,
+          "alphaMaskIoU": 0.398155,
+          "meanAlphaDelta": 0.059778
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "alphaMaskIoU": 0.390816,
+          "meanAlphaDelta": 0.13031
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "alphaMaskIoU": 0.611589,
+          "meanAlphaDelta": 0.130182
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "alphaMaskIoU": 0.448741,
+          "meanAlphaDelta": 0.21706
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "alphaMaskIoU": 0.434445,
+          "meanAlphaDelta": 0.158997
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "alphaMaskIoU": 0.423702,
+          "meanAlphaDelta": 0.098962
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "alphaMaskIoU": 0.427381,
+          "meanAlphaDelta": 0.179893
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "alphaMaskIoU": 0.51246,
+          "meanAlphaDelta": 0.216453
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "alphaMaskIoU": 0.472222,
+          "meanAlphaDelta": 0.234679
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "alphaMaskIoU": 0.255076,
+          "meanAlphaDelta": 0.192205
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "alphaMaskIoU": 0.230729,
+          "meanAlphaDelta": 0.137612
+        }
+      ],
+      "summary": {
+        "minVisibleCoverage": 0.119055,
+        "maxVisibleCoverage": 0.569948,
+        "minOpaqueCoverage": 0.005207,
+        "maxOpaqueCoverage": 0.073704,
+        "meanAlphaMaskIoU": 0.418665,
+        "meanFrameAlphaDelta": 0.159648
+      }
+    },
+    "immortal": {
+      "assetVersion": 3,
+      "source": {
+        "file": "assets/source/immortal-awakening-world-tree-sheet-black-v3.png",
+        "sourceId": "exec-ea504bc5-479c-4d19-8408-93984ba65182",
+        "sha256": "58111C400582EDF9805D2F9A4AC5C59A3F767D2507B334F7F56E8481BDBDCB99"
+      },
+      "output": {
+        "image": "assets/atlases/immortal-advancement-atlas-v3.png",
+        "json": "assets/atlases/immortal-advancement-atlas-v3.json",
+        "imageSha256": "407554DC1CB9D88A298E5CC015AA1E9D29FB50E8861B21ABBC19771EFE485EFE",
+        "jsonSha256": "B10E06999C5424359AC11D0750600FD7A1649249E2B7D78304081510D9B52D77"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "visibleCoverage": 0.103065,
+          "opaqueCoverage": 0.002975,
+          "meanAlpha": 0.029482,
+          "meanVisibleAlpha": 0.285689,
+          "bounds": {
+            "x": 27,
+            "y": 214,
+            "width": 455,
+            "height": 186
+          }
+        },
+        {
+          "frame": 1,
+          "visibleCoverage": 0.163002,
+          "opaqueCoverage": 0.005662,
+          "meanAlpha": 0.050008,
+          "meanVisibleAlpha": 0.306488,
+          "bounds": {
+            "x": 29,
+            "y": 126,
+            "width": 464,
+            "height": 280
+          }
+        },
+        {
+          "frame": 2,
+          "visibleCoverage": 0.179885,
+          "opaqueCoverage": 0.006692,
+          "meanAlpha": 0.062649,
+          "meanVisibleAlpha": 0.347982,
+          "bounds": {
+            "x": 13,
+            "y": 147,
+            "width": 482,
+            "height": 259
+          }
+        },
+        {
+          "frame": 3,
+          "visibleCoverage": 0.281752,
+          "opaqueCoverage": 0.010195,
+          "meanAlpha": 0.100877,
+          "meanVisibleAlpha": 0.357762,
+          "bounds": {
+            "x": 6,
+            "y": 80,
+            "width": 497,
+            "height": 337
+          }
+        },
+        {
+          "frame": 4,
+          "visibleCoverage": 0.376095,
+          "opaqueCoverage": 0.010465,
+          "meanAlpha": 0.133503,
+          "meanVisibleAlpha": 0.354704,
+          "bounds": {
+            "x": 10,
+            "y": 47,
+            "width": 491,
+            "height": 408
+          }
+        },
+        {
+          "frame": 5,
+          "visibleCoverage": 0.487504,
+          "opaqueCoverage": 0.01232,
+          "meanAlpha": 0.178945,
+          "meanVisibleAlpha": 0.366823,
+          "bounds": {
+            "x": 10,
+            "y": 12,
+            "width": 492,
+            "height": 412
+          }
+        },
+        {
+          "frame": 6,
+          "visibleCoverage": 0.510633,
+          "opaqueCoverage": 0.024287,
+          "meanAlpha": 0.205635,
+          "meanVisibleAlpha": 0.402499,
+          "bounds": {
+            "x": 12,
+            "y": 20,
+            "width": 495,
+            "height": 404
+          }
+        },
+        {
+          "frame": 7,
+          "visibleCoverage": 0.598841,
+          "opaqueCoverage": 0.02576,
+          "meanAlpha": 0.282667,
+          "meanVisibleAlpha": 0.471875,
+          "bounds": {
+            "x": 3,
+            "y": 6,
+            "width": 500,
+            "height": 416
+          }
+        },
+        {
+          "frame": 8,
+          "visibleCoverage": 0.648549,
+          "opaqueCoverage": 0.027241,
+          "meanAlpha": 0.299825,
+          "meanVisibleAlpha": 0.462155,
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 507,
+            "height": 422
+          }
+        },
+        {
+          "frame": 9,
+          "visibleCoverage": 0.514556,
+          "opaqueCoverage": 0.018935,
+          "meanAlpha": 0.205297,
+          "meanVisibleAlpha": 0.398791,
+          "bounds": {
+            "x": 6,
+            "y": 8,
+            "width": 500,
+            "height": 411
+          }
+        },
+        {
+          "frame": 10,
+          "visibleCoverage": 0.319381,
+          "opaqueCoverage": 0.009255,
+          "meanAlpha": 0.099765,
+          "meanVisibleAlpha": 0.312031,
+          "bounds": {
+            "x": 10,
+            "y": 18,
+            "width": 482,
+            "height": 401
+          }
+        },
+        {
+          "frame": 11,
+          "visibleCoverage": 0.216728,
+          "opaqueCoverage": 0.005576,
+          "meanAlpha": 0.063189,
+          "meanVisibleAlpha": 0.291194,
+          "bounds": {
+            "x": 8,
+            "y": 104,
+            "width": 495,
+            "height": 320
+          }
+        }
+      ],
+      "continuity": [
+        {
+          "from": 0,
+          "to": 1,
+          "alphaMaskIoU": 0.300919,
+          "meanAlphaDelta": 0.055435
+        },
+        {
+          "from": 1,
+          "to": 2,
+          "alphaMaskIoU": 0.327737,
+          "meanAlphaDelta": 0.072714
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "alphaMaskIoU": 0.268557,
+          "meanAlphaDelta": 0.117076
+        },
+        {
+          "from": 3,
+          "to": 4,
+          "alphaMaskIoU": 0.341833,
+          "meanAlphaDelta": 0.146473
+        },
+        {
+          "from": 4,
+          "to": 5,
+          "alphaMaskIoU": 0.368111,
+          "meanAlphaDelta": 0.18498
+        },
+        {
+          "from": 5,
+          "to": 6,
+          "alphaMaskIoU": 0.462883,
+          "meanAlphaDelta": 0.203451
+        },
+        {
+          "from": 6,
+          "to": 7,
+          "alphaMaskIoU": 0.505305,
+          "meanAlphaDelta": 0.247246
+        },
+        {
+          "from": 7,
+          "to": 8,
+          "alphaMaskIoU": 0.656307,
+          "meanAlphaDelta": 0.216117
+        },
+        {
+          "from": 8,
+          "to": 9,
+          "alphaMaskIoU": 0.432951,
+          "meanAlphaDelta": 0.289699
+        },
+        {
+          "from": 9,
+          "to": 10,
+          "alphaMaskIoU": 0.297428,
+          "meanAlphaDelta": 0.213248
+        },
+        {
+          "from": 10,
+          "to": 11,
+          "alphaMaskIoU": 0.216644,
+          "meanAlphaDelta": 0.124102
+        }
+      ],
+      "summary": {
+        "minVisibleCoverage": 0.103065,
+        "maxVisibleCoverage": 0.648549,
+        "minOpaqueCoverage": 0.002975,
+        "maxOpaqueCoverage": 0.027241,
+        "meanAlphaMaskIoU": 0.37988,
+        "meanFrameAlphaDelta": 0.170049
+      }
+    }
+  }
+}

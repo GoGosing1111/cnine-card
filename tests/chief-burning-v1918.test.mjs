@@ -29,5 +29,5 @@ test('chief powers restore normal burning, hyper burning, and tower reset limits
   assert.match(admin,/오늘 족장 버닝/);
   assert.match(admin,/오늘 족장 하이퍼/);
   assert.match(index,/chief-system-v1\.js\?v=1919-chief-powers-restored/);
-  assert.match(worker,/soop-card-shell-v1939-advancement-awakening/);
+  assert.match(worker,/soop-card-shell-v1940-superstar-advancement/);
 });

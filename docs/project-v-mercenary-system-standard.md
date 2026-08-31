@@ -3,7 +3,7 @@
 - 규정 ID: `PV-MERCENARY-SYSTEM-1.0`
 - 상태: 준비 확정 · 라이브 미연결
 - 확정일: 2026-08-29
-- 최종 갱신: 2026-08-30
+- 최종 갱신: 2026-08-31
 - 적용 범위: 숲켓몬 PVE·PVP 편성에 추가될 PROJECT V 용병 전용 슬롯
 
 ## 1. 편성 구조
@@ -53,9 +53,9 @@ mercenary_loadouts
 - 도감·상점·덱·용병 선택·상세·스킬 컷인은 `sourceArt`를 사용한다.
 - 실제 전투 필드의 6번째 유닛은 승인된 투명 `battleSprite`만 사용한다.
 - V-001~V-012는 기존 SD가 보존되어 있다.
-- V-013~V-020은 승인 원화만 있으며 SD를 원화로 대체하지 않는다.
+- V-013~V-020은 승인 원화와 별도 투명 SD가 준비되어 있으며 SD는 기술검수 완료·사용자 시각검수 대기 상태다. SD를 원화로 대체하지 않는다.
 - V-021 오메가-X는 사용자가 원본 그대로 추가하도록 지정한 736×1104 RGB JPEG다. 준비 프리뷰에서는 `USER_SUPPLIED_SOURCE_ART`로 보존하되 승인 마스터 최소 규격을 충족한 것으로 표시하지 않는다.
-- V-021 역시 전투 SD가 없으므로 원화를 전투 스프라이트로 대체하지 않는다.
+- V-021 역시 원본과 분리된 투명 SD가 준비되어 있으며 기술검수 완료·사용자 시각검수 대기 상태다. 원화를 전투 스프라이트로 대체하지 않는다.
 - V-001~V-012의 과거 원화는 로스터 식별용 기존 자산이다. 신규 작화 앵커 권한은 없다.
 
 ## 4. 등급 정책
@@ -71,7 +71,10 @@ mercenary_loadouts
 - 단일 준비 로스터: `assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json`
 - 통합 프리뷰: `preview/project-v-mercenary-system-v1/index.html`
 - 편성 계약 모듈: `js/project-v-mercenary-loadout-v1.js`
+- 전투 SD 해석 모듈: `js/project-v-mercenary-battle-art-adapter-v1.js`
 - 현재 상태: `PREVIEW_ONLY_NOT_RUNTIME_CONNECTED`
+
+2026-08-31 기준 전투 SD 21종은 모두 로스터와 검수 프리뷰에 연결됐다. 전투 SD 해석 모듈은 `BATTLE_FIELD` 계열 소비자에만 `battleSprite`를 반환하고 도감·상점·덱·상세·스킬 컷인·하단 카드 도크에는 반환하지 않는다. 등급 21종은 여전히 `PENDING_USER_ASSIGNMENT`이므로 운영 DB·덱 저장 API·라이브 전투 편성 활성화는 아래 금지선을 유지한다.
 
 사용자가 등급을 확정하고 라이브 연결을 지시하기 전에는 다음 작업을 하지 않는다.
 

@@ -242,9 +242,9 @@ test('live app delegates to the module and deployment cache keys include v1926 a
 
   assert.match(index, /css\/black-miracle-v1485\.css\?v=1926-[^"']+/);
   assert.match(index, /js\/black-miracle-opening-v1926\.js\?v=1926-[^"']+/);
-  assert.match(index, /js\/app\.js\?v=1939-advancement-awakening/);
+  assert.match(index, /js\/app\.js\?v=1940-superstar-advancement/);
   assert.ok(index.indexOf('black-miracle-opening-v1926.js') < index.indexOf('js/app.js'), 'the opening module must load before app.js');
-  assert.match(worker, /soop-card-shell-v1939-advancement-awakening/);
+  assert.match(worker, /soop-card-shell-v1940-superstar-advancement/);
   assert.match(adminLoader, /black-miracle-pack-admin-v1485\.js\?v=1926-[^'";]+/);
 });
 

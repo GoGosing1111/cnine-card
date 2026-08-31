@@ -1,10 +1,10 @@
 (()=>{
   'use strict';
 
-  const VERSION='1938';
+  const VERSION='1940';
   const ENDPOINT='card/unique-advancement';
   const FEATURE_ENDPOINT=`${ENDPOINT}/feature`;
-  const ELIGIBLE_GRADES=Object.freeze(['FUR','ZENITH']);
+  const ELIGIBLE_GRADES=Object.freeze(['FUR','ZENITH','SUPERSTAR']);
   const MIN_BREAKTHROUGH=13;
   const MASTER_STAR_COST=3000;
   const SUCCESS_CHANCE_PERCENT=10;
@@ -185,7 +185,7 @@
 
   function requirementCards(overview){
     const completed=Boolean(overview.current),gradeReady=ELIGIBLE_GRADES.includes(overview.grade),levelReady=overview.breakthroughLevel>=MIN_BREAKTHROUGH,walletKnown=overview.wallet.masterStars!==null,walletReady=completed||(walletKnown&&overview.wallet.masterStars>=MASTER_STAR_COST),walletStatus=completed?'전직 완료':walletKnown?`보유 ${formatNumber(overview.wallet.masterStars)}`:'서버 잔액 확인 필요';
-    return `<div class="ua-requirements" aria-label="고유효과 전직 조건"><article class="${gradeReady?'is-ready':'is-locked'}"><small>CARD GRADE</small><b>FUR / ZENITH</b><span>${gradeReady?`${escapeHtml(overview.grade)} 확인`:'대상 등급 아님'}</span></article><article class="${levelReady?'is-ready':'is-locked'}"><small>BREAKTHROUGH</small><b>+${MIN_BREAKTHROUGH}</b><span>현재 +${overview.breakthroughLevel}</span></article><article class="${walletReady?'is-ready':'is-locked'}"><small>MASTER STAR</small><b>${formatNumber(MASTER_STAR_COST)}</b><span>${walletStatus}</span></article></div>`;
+    return `<div class="ua-requirements" aria-label="고유효과 전직 조건"><article class="${gradeReady?'is-ready':'is-locked'}"><small>CARD GRADE</small><b>FUR / ZENITH / SUPERSTAR</b><span>${gradeReady?`${escapeHtml(overview.grade)} 확인`:'대상 등급 아님'}</span></article><article class="${levelReady?'is-ready':'is-locked'}"><small>BREAKTHROUGH</small><b>+${MIN_BREAKTHROUGH}</b><span>현재 +${overview.breakthroughLevel}</span></article><article class="${walletReady?'is-ready':'is-locked'}"><small>MASTER STAR</small><b>${formatNumber(MASTER_STAR_COST)}</b><span>${walletStatus}</span></article></div>`;
   }
 
   function routeGrid(overview){
@@ -208,7 +208,7 @@
     if(overview.current)return ['이 카드는 고유효과 전직을 완료했습니다.'];
     const messages=[...overview.eligibility.reasons];
     if(overview.contractMismatch)messages.unshift('서버 전직 조건이 고정 계약과 일치하지 않아 실행을 차단했습니다.');
-    if(!ELIGIBLE_GRADES.includes(overview.grade))messages.push('FUR 또는 ZENITH 등급 카드만 전직할 수 있습니다.');
+    if(!ELIGIBLE_GRADES.includes(overview.grade))messages.push('FUR, ZENITH 또는 SUPERSTAR 등급 카드만 전직할 수 있습니다.');
     if(overview.breakthroughLevel<MIN_BREAKTHROUGH)messages.push(`강화 +${MIN_BREAKTHROUGH} 달성 후 전직할 수 있습니다.`);
     if(overview.wallet.masterStars===null)messages.push('마스터의 별 잔액을 서버에서 확인하지 못했습니다.');
     else if(overview.wallet.masterStars<MASTER_STAR_COST)messages.push(`마스터의 별 ${formatNumber(MASTER_STAR_COST-overview.wallet.masterStars)}개가 더 필요합니다.`);

@@ -9,7 +9,7 @@ export const UNIQUE_ADVANCEMENT_SETTINGS_KEY='card_unique_advancement_settings_v
 export const UNIQUE_ADVANCEMENT_COST=3000;
 export const UNIQUE_ADVANCEMENT_SUCCESS_CHANCE_PERCENT=10;
 export const UNIQUE_ADVANCEMENT_MIN_BREAKTHROUGH=13;
-export const UNIQUE_ADVANCEMENT_ALLOWED_GRADES=Object.freeze(['FUR','ZENITH']);
+export const UNIQUE_ADVANCEMENT_ALLOWED_GRADES=Object.freeze(['FUR','ZENITH','SUPERSTAR']);
 export const UNIQUE_ADVANCEMENT_STAT_ORDER=Object.freeze(['ATTACK','DEFENSE','SPEED','HP']);
 
 const FEATURE_MODES=Object.freeze(['OFF','TEST','ON']);
@@ -159,7 +159,7 @@ export function evaluateUniqueAdvancementEligibility({card,masterStars=0,existin
   const failures=[
     ['featureEnabled','FEATURE_DISABLED','고유특성 전직은 현재 준비 중입니다.'],
     ['owned','CARD_NOT_OWNED','보유한 카드만 전직할 수 있습니다.'],
-    ['grade','GRADE_NOT_ELIGIBLE','FUR 또는 ZENITH 등급 카드만 전직할 수 있습니다.'],
+    ['grade','GRADE_NOT_ELIGIBLE','FUR, ZENITH 또는 SUPERSTAR 등급 카드만 전직할 수 있습니다.'],
     ['breakthrough','BREAKTHROUGH_REQUIRED','13강 이상 카드만 전직할 수 있습니다.'],
     ['activeUnique','ACTIVE_UNIQUE_REQUIRED','활성화된 고유효과가 있는 카드만 전직할 수 있습니다.'],
     ['positiveUnique','UNIQUE_STAT_REQUIRED','전직 기준이 될 고유 스탯을 찾을 수 없습니다.'],

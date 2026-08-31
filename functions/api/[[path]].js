@@ -110,13 +110,14 @@ const MA_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:true,steps:[{cost:1,duplicate
 const LIMITED_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:true,steps:[{cost:5,duplicateCards:0,rate:50,retirementShardRefund:3000},{cost:10,duplicateCards:0,rate:30,retirementShardRefund:4000},{cost:15,duplicateCards:0,rate:20,retirementShardRefund:5000}]};
 let maMasterStarBreakthroughCache=null;
 let limitedMasterStarBreakthroughCache=null;
-// V1802: FUR / ZENITH +11~+13 고급 강화.
+// V1802 / V1940: FUR / ZENITH / SUPERSTAR +11~+13 고급 강화.
 // 재료는 실패해도 돌려주지 않는다(재화 회수 목적). 대신 단계마다 천장을 둬 무한 실패를 막는다.
 // duplicateCards = 같은 카드 중복분을 몇 장 태우는지. FUR 는 1장, ZENITH 는 기본 0장(전수조사 후 조정).
 // uniqueBoostPercent = 그 단계에서 고유효과 수치를 몇 % 끌어올리는지.
 const FUR_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:100,duplicateCards:1,rate:35,pityThreshold:3,uniqueBoostPercent:30,retirementShardRefund:6000},{cost:150,duplicateCards:1,rate:25,pityThreshold:4,uniqueBoostPercent:60,retirementShardRefund:8000},{cost:200,duplicateCards:1,rate:15,pityThreshold:6,uniqueBoostPercent:100,retirementShardRefund:10000}]};
 const ZENITH_MASTER_STAR_BREAKTHROUGH_DEFAULT={enabled:false,steps:[{cost:2800,duplicateCards:0,rate:35,pityThreshold:3,uniqueBoostPercent:20,retirementShardRefund:6000},{cost:3400,duplicateCards:0,rate:25,pityThreshold:4,uniqueBoostPercent:40,retirementShardRefund:8000},{cost:4100,duplicateCards:0,rate:15,pityThreshold:6,uniqueBoostPercent:60,retirementShardRefund:10000}]};
-const HIGH_BREAKTHROUGH_GRADES=['MA','LIMITED','FUR','ZENITH'];
+const HIGH_BREAKTHROUGH_GRADES=['MA','LIMITED','FUR','ZENITH','SUPERSTAR'];
+const ALL_LEVEL_MASTER_STAR_GRADES=['ZENITH','SUPERSTAR'];
 const HIGH_BREAKTHROUGH_BONUS_DEFAULT={FUR:[1400,1900,2500],ZENITH:[709,973,1275]};
 
 // V1805 공용 집계 캐시 -------------------------------------------------
@@ -1355,9 +1356,12 @@ function normalizeBattleEngineSettings(raw={}){
   const healer=raw?.singleHealerBonus||{};
   return {mode:['LEGACY','V2_OWNER','V2_PUBLIC'].includes(mode)?mode:'LEGACY',playbackSpeed:1.6,singleHealerBonus:{enabled:healer.enabled!==false,teamHpPercent:Math.max(0,Math.min(50,Number(healer.teamHpPercent??8))),healPercent:Math.max(0,Math.min(50,Number(healer.healPercent??10))),crisisThresholdPercent:Math.max(1,Math.min(99,Number(healer.crisisThresholdPercent??40))),crisisHealPercent:Math.max(0,Math.min(80,Number(healer.crisisHealPercent??16))),pvpMaxActivations:Math.max(0,Math.min(20,Math.floor(Number(healer.pvpMaxActivations??4)))),pveMaxActivations:Math.max(0,Math.min(30,Math.floor(Number(healer.pveMaxActivations??6))))}};
 }
-function defaultBattleSettings(){return {enabled:true,deckSize:5,engine:normalizeBattleEngineSettings(),nightmare:normalizeNightmareSettings(),powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],highBreakthroughBonus:{FUR:[...HIGH_BREAKTHROUGH_BONUS_DEFAULT.FUR],ZENITH:[...HIGH_BREAKTHROUGH_BONUS_DEFAULT.ZENITH]},cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL-v1497.webp',durationMs:3000,coefficientPercent:500}]};}
+function defaultBattleSettings(){return {enabled:true,deckSize:5,engine:normalizeBattleEngineSettings(),nightmare:normalizeNightmareSettings(),powerByGrade:{...BATTLE_POWER_DEFAULT},breakthroughBonus:[...BATTLE_BREAKTHROUGH_DEFAULT],highBreakthroughBonus:{FUR:[...HIGH_BREAKTHROUGH_BONUS_DEFAULT.FUR],ZENITH:[...HIGH_BREAKTHROUGH_BONUS_DEFAULT.ZENITH],SUPERSTAR:[...HIGH_BREAKTHROUGH_BONUS_DEFAULT.ZENITH]},cardDrop:{enabled:true,defaultRate:3,gradeRates:{C:40,U:25,R:15,SR:10,HR:6,UR:3,SSR:1,MA:0,FUR:0}},energy:{enabled:true,maxEnergy:10,dailyRestore:10,rechargeMinutes:15,costPerBattle:1,adminUnlimited:true,testUnlimited:true},ultimateRules:[{enabled:true,name:'SSR AWAKENING',requiredGrade:'SSR',minBreakthrough:5,requiredCount:1,activationChance:100,mediaUrl:'/assets/effects/SKILL-v1497.webp',durationMs:3000,coefficientPercent:500}]};}
 function cleanBattleSettingsPayload(x={},base=defaultBattleSettings()){
-  return {enabled:x.enabled!==false,deckSize:5,engine:normalizeBattleEngineSettings(x.engine||base.engine),nightmare:normalizeNightmareSettings(x.nightmare||base.nightmare),powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),highBreakthroughBonus:Object.fromEntries(Object.keys(base.highBreakthroughBonus).map(g=>[g,base.highBreakthroughBonus[g].map((v,i)=>Math.max(0,Math.min(1000000,Number(x.highBreakthroughBonus?.[g]?.[i]??v))))])),cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:base.ultimateRules).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:normalizeUltimateRequiredGrade(u?.requiredGrade),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};
+  const highBreakthroughBonus=Object.fromEntries(Object.keys(base.highBreakthroughBonus).map(g=>[g,base.highBreakthroughBonus[g].map((v,i)=>Math.max(0,Math.min(1000000,Number(x.highBreakthroughBonus?.[g]?.[i]??v))))]));
+  // SUPERSTAR +11~+13은 별도 튜닝값을 만들지 않고 ZENITH 전투력 표를 항상 공유한다.
+  highBreakthroughBonus.SUPERSTAR=[...highBreakthroughBonus.ZENITH];
+  return {enabled:x.enabled!==false,deckSize:5,engine:normalizeBattleEngineSettings(x.engine||base.engine),nightmare:normalizeNightmareSettings(x.nightmare||base.nightmare),powerByGrade:Object.fromEntries(Object.keys(base.powerByGrade).map(g=>[g,Math.max(0,Math.floor(Number(x.powerByGrade?.[g]??base.powerByGrade[g])))])),breakthroughBonus:base.breakthroughBonus.map((v,i)=>Math.max(0,Number(x.breakthroughBonus?.[i]??v))),highBreakthroughBonus,cardDrop:{enabled:x.cardDrop?.enabled!==false,defaultRate:Math.max(0,Math.min(100,Number(x.cardDrop?.defaultRate??base.cardDrop.defaultRate))),gradeRates:Object.fromEntries(Object.keys(base.cardDrop.gradeRates).map(g=>[g,Math.max(0,Math.min(100,Number(x.cardDrop?.gradeRates?.[g]??base.cardDrop.gradeRates[g])))]))},energy:{enabled:x.energy?.enabled!==false,maxEnergy:Math.max(1,Math.min(999,Math.floor(Number(x.energy?.maxEnergy??base.energy.maxEnergy)))),dailyRestore:Math.max(0,Math.min(999,Math.floor(Number(x.energy?.dailyRestore??base.energy.dailyRestore)))),rechargeMinutes:Math.max(1,Math.min(1440,Math.floor(Number(x.energy?.rechargeMinutes??base.energy.rechargeMinutes)))),costPerBattle:Math.max(1,Math.min(99,Math.floor(Number(x.energy?.costPerBattle??base.energy.costPerBattle)))),adminUnlimited:x.energy?.adminUnlimited!==false,testUnlimited:x.energy?.testUnlimited!==false},ultimateRules:(Array.isArray(x.ultimateRules)?x.ultimateRules:base.ultimateRules).slice(0,50).map((u,i)=>({enabled:u?.enabled!==false,name:String(u?.name||`ULTIMATE ${i+1}`).slice(0,40),requiredGrade:normalizeUltimateRequiredGrade(u?.requiredGrade),minBreakthrough:Math.max(0,Math.min(20,Math.floor(Number(u?.minBreakthrough||0)))),requiredCount:Math.max(1,Math.min(5,Math.floor(Number(u?.requiredCount||1)))),activationChance:Math.max(0,Math.min(100,Number(u?.activationChance??100))),mediaUrl:String(u?.mediaUrl||'/assets/effects/SKILL.gif').replace(/\\/g,'/').slice(0,500),durationMs:Math.max(800,Math.min(30000,Math.floor(Number(u?.durationMs||3000)))),coefficientPercent:Math.max(0,Math.min(100000,Number(u?.coefficientPercent??u?.damageValue??500)))}))};
 }
 async function readBattleSettings(env){
   const rows=await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('battle_settings_v1','battle_nightmare_settings_v1')").all();
@@ -1478,23 +1482,25 @@ function cleanHighBreakthroughSteps(raw,base){return {enabled:raw?.enabled===tru
 function cleanFurMasterStarBreakthrough(raw={}){return cleanHighBreakthroughSteps(raw,FUR_MASTER_STAR_BREAKTHROUGH_DEFAULT)}
 function cleanZenithMasterStarBreakthrough(raw={}){return cleanHighBreakthroughSteps(raw,ZENITH_MASTER_STAR_BREAKTHROUGH_DEFAULT)}
 // V1802-perf: profile() 는 FUR·ZENITH 설정을 둘 다 읽는다.
+// V1940: SUPERSTAR는 ZENITH 설정을 복제 저장하지 않고 같은 객체를 alias한다.
 // 각각 조회하면 프로필 응답마다 D1 왕복이 2회 늘어난다. 한 번에 읽어 30초 공유 캐시에 둔다.
 async function highBreakthroughConfigs(env){
   return cachedRuntimeSetting('highBreakthroughConfigs',30000,async()=>{
     let rows=[];
     try{rows=(await env.DB.prepare("SELECT key,value FROM app_meta WHERE key IN ('fur_master_star_breakthrough_v1802','zenith_master_star_breakthrough_v1802')").all()).results||[]}catch(error){console.error('high breakthrough config read failed',error)}
     const pick=key=>{const row=rows.find(item=>String(item?.key)===key);if(!row?.value)return {};try{return JSON.parse(row.value)||{}}catch{return {}}};
-    return {FUR:cleanFurMasterStarBreakthrough(pick('fur_master_star_breakthrough_v1802')),
-            ZENITH:cleanZenithMasterStarBreakthrough(pick('zenith_master_star_breakthrough_v1802'))};
+    const FUR=cleanFurMasterStarBreakthrough(pick('fur_master_star_breakthrough_v1802'));
+    const ZENITH=cleanZenithMasterStarBreakthrough(pick('zenith_master_star_breakthrough_v1802'));
+    return {FUR,ZENITH,SUPERSTAR:ZENITH};
   });
 }
 async function furMasterStarBreakthroughConfig(env){return (await highBreakthroughConfigs(env)).FUR}
 async function zenithMasterStarBreakthroughConfig(env){return (await highBreakthroughConfigs(env)).ZENITH}
-function highBreakthroughConfigFor(env,grade){const g=String(grade||'').trim().toUpperCase();if(g==='LIMITED')return limitedMasterStarBreakthroughConfig(env);if(g==='MA')return maMasterStarBreakthroughConfig(env);if(g==='FUR')return furMasterStarBreakthroughConfig(env);if(g==='ZENITH')return zenithMasterStarBreakthroughConfig(env);return Promise.resolve(null)}
+function highBreakthroughConfigFor(env,grade){const g=String(grade||'').trim().toUpperCase();if(g==='LIMITED')return limitedMasterStarBreakthroughConfig(env);if(g==='MA')return maMasterStarBreakthroughConfig(env);if(g==='FUR')return furMasterStarBreakthroughConfig(env);if(g==='ZENITH'||g==='SUPERSTAR')return zenithMasterStarBreakthroughConfig(env);return Promise.resolve(null)}
 // 고급 강화 단계는 자기 단계의 천장을 쓰고, 값이 0이면 기존 등급 천장 규칙으로 되돌아간다.
 function highBreakthroughStepPity(grade,level,rule,pity){const threshold=Math.max(0,Math.floor(Number(rule?.pityThreshold)||0));return threshold>0?{enabled:true,grade:String(grade||'').trim().toUpperCase(),threshold}:breakthroughPityRule(grade,level,pity)}
-// FUR/ZENITH 는 11강부터 공용 표를 쓰지 않고 전용 전투력 표를 쓴다.
-function breakthroughBonusPercent(grade,lv,settings){const table=settings?.highBreakthroughBonus?.[String(grade||'').trim().toUpperCase()];if(lv>=11&&Array.isArray(table)){const value=Number(table[lv-11]);if(Number.isFinite(value)&&value>0)return value}return Number(settings?.breakthroughBonus?.[lv]||0)}
+// FUR/ZENITH/SUPERSTAR 는 11강부터 공용 표를 쓰지 않는다. SUPERSTAR는 ZENITH 표를 항상 공유한다.
+function breakthroughBonusPercent(grade,lv,settings){const key=String(grade||'').trim().toUpperCase(),table=settings?.highBreakthroughBonus?.[key==='SUPERSTAR'?'ZENITH':key];if(lv>=11&&Array.isArray(table)){const value=Number(table[lv-11]);if(Number.isFinite(value)&&value>0)return value}return Number(settings?.breakthroughBonus?.[lv]||0)}
 function defaultBreakthroughPity(){return {enabled:true,grade:'SSR',thresholds:Array(10).fill(5)};}
 function cleanBreakthroughPity(raw={}){const base=defaultBreakthroughPity();return {enabled:raw.enabled!==false,grade:'SSR',thresholds:Array.from({length:10},(_,i)=>Math.max(1,Math.min(100,Math.floor(Number(raw.thresholds?.[i]??base.thresholds[i])||base.thresholds[i]))))};}
 async function breakthroughPity(env){const row=await metaValue(env,'breakthrough_pity_ssr_v1');try{return cleanBreakthroughPity(JSON.parse(row?.value||'{}'))}catch{return defaultBreakthroughPity()}}
@@ -3589,7 +3595,7 @@ async function profile(env,user){
     quantities:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.quantity||0)])),
     breakthroughs:Object.fromEntries(owned.results.map(row=>[String(row.card_id),Number(row.breakthrough_level||0)])),
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
-    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,masterStars:Number(masterStarRow?.quantity||0),maHighBreakthrough,limitedHighBreakthrough,furHighBreakthrough,zenithHighBreakthrough,weeklyPremiumCube};
+    attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,masterStars:Number(masterStarRow?.quantity||0),maHighBreakthrough,limitedHighBreakthrough,furHighBreakthrough,zenithHighBreakthrough,superstarHighBreakthrough:zenithHighBreakthrough,weeklyPremiumCube};
 }
 // V1791: 전투 응답용 경량 프로필.
 //
@@ -4603,7 +4609,7 @@ async function handleRequest(context){
           env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id)
         ]);
         const row=commandResult?.results?.[0]||null,unreadMessages=Number(messageResult?.results?.[0]?.unread||0);
-        // V1802-fix: FUR/ZENITH 고급 강화 운영 여부를 여기에 함께 실어 보낸다.
+        // V1802/V1940: FUR/ZENITH/SUPERSTAR 고급 강화 운영 여부를 여기에 함께 실어 보낸다.
         // 전체 프로필을 다시 받는 계정만 설정이 갱신돼서, 같은 시점에 누구는 열리고 누구는 "준비 중" 으로 보였다.
         // 이 응답은 45초마다 모든 접속자가 받으므로 재로그인 없이 전원이 맞춰진다. (설정은 30초 공유 캐시라 추가 조회는 거의 없다)
         // V1803: 로비 BGM 설정도 같이 싣는다. 둘 다 캐시 히트면 추가 조회가 없고,
@@ -5299,15 +5305,15 @@ async function handleRequest(context){
       ]);
       const initial={level:Math.max(0,Number(owned.breakthrough_level||0)),failCount:Math.max(0,Number(owned.breakthrough_fail_count||0)),shards:Math.max(0,Number(balances?.cardShards||0)),stars:Math.max(0,Number(balances?.masterStars||0))};
       let level=initial.level,failCount=initial.failCount,shards=initial.shards,stars=initial.stars,attempts=0,successes=0,failures=0,shardSpent=0,starSpent=0,highestSuccessLevel=0,stopReason='CHUNK_LIMIT',stopMessage='다음 자동 강화 묶음을 준비합니다.';
-      // V1802: FUR/ZENITH +11~+13은 자동 강화에서 제외한다. MA/LIMITED도
+      // V1802/V1940: FUR/ZENITH/SUPERSTAR +11~+13은 자동 강화에서 제외한다. MA/LIMITED도
       // 운영 설정상 중복 카드를 요구하는 단계라면 해당 단계부터 수동으로 넘긴다.
-      const autoHighBlocked=['FUR','ZENITH'].includes(grade),maxLevel=['MA','LIMITED'].includes(grade)?13:10,targetLevel=requestedTargetLevel>0?Math.max(1,Math.min(maxLevel,requestedTargetLevel)):maxLevel,targetExplicit=requestedTargetLevel>0;
+      const autoHighBlocked=['FUR','ZENITH','SUPERSTAR'].includes(grade),maxLevel=['MA','LIMITED'].includes(grade)?13:10,targetLevel=requestedTargetLevel>0?Math.max(1,Math.min(maxLevel,requestedTargetLevel)):maxLevel,targetExplicit=requestedTargetLevel>0;
       const maxLevelStop=()=>{stopReason=autoHighBlocked?'HIGH_MANUAL_ONLY':'MAX_LEVEL';stopMessage=autoHighBlocked?`${grade} +11~+13 강화는 고급 강화 보호 정책상 자동으로 진행할 수 없습니다. 카드 상세에서 한 단계씩 진행해 주세요.`:'최대 강화 단계에 도달했습니다.'};
       const targetLevelStop=()=>{if(!targetExplicit||(autoHighBlocked&&requestedTargetLevel>maxLevel))return maxLevelStop();stopReason='TARGET_REACHED';stopMessage=`목표 강화 단계 +${targetLevel}에 도달했습니다.`};
       while(attempts<maxAttempts){
         if(level>=targetLevel){targetLevelStop();break}
         const highStep=['MA','LIMITED'].includes(grade)&&level>=10;
-        const masterStarStep=grade==='ZENITH'||highStep;
+        const masterStarStep=ALL_LEVEL_MASTER_STAR_GRADES.includes(grade)||highStep;
         if(highStep&&high?.enabled!==true){stopReason='HIGH_ENHANCEMENT_DISABLED';stopMessage=`${grade} 고급 강화가 현재 중지되어 있습니다.`;break}
         const rule=highStep?high?.steps?.[level-10]:config?.[grade]?.[level];
         if(!rule){stopReason='RULE_MISSING';stopMessage='현재 단계의 강화 설정을 찾을 수 없습니다.';break}
@@ -5356,7 +5362,7 @@ async function handleRequest(context){
       try{
         const logStatements=[];
         if(shardSpent>0)logStatements.push(env.DB.prepare("INSERT INTO shard_logs(user_id,change_amount,balance_after,reason,card_id) VALUES(?,?,?,?,?)").bind(user.id,-shardSpent,shards,'BREAKTHROUGH_AUTO',cardId));
-        if(starSpent>0)logStatements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH_AUTO',?)").bind(user.id,-starSpent,stars,grade==='ZENITH'?'ZENITH_BREAKTHROUGH_AUTO':`${grade}_HIGH_BREAKTHROUGH_AUTO`,cardId));
+        if(starSpent>0)logStatements.push(env.DB.prepare("INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) VALUES(?,'MASTER_STAR',?,?,?,'CARD_BREAKTHROUGH_AUTO',?)").bind(user.id,-starSpent,stars,ALL_LEVEL_MASTER_STAR_GRADES.includes(grade)?`${grade}_BREAKTHROUGH_AUTO`:`${grade}_HIGH_BREAKTHROUGH_AUTO`,cardId));
         if(logStatements.length)await env.DB.batch(logStatements);
       }catch(logError){console.error('automatic breakthrough economy log failed',logError)}
       return json(response);
@@ -5371,7 +5377,7 @@ async function handleRequest(context){
       if(!owned) return json({error:'보유한 카드만 돌파할 수 있습니다.'},404);
       const grade=String(owned.rarity||'').trim().toUpperCase();
       if((ORDER[grade]||0)<BREAKTHROUGH_MIN_ORDER) return json({error:'SR 등급 이상 카드만 돌파할 수 있습니다.'},400);
-      const level=Number(owned.breakthrough_level||0),isMasterStarHigh=HIGH_BREAKTHROUGH_GRADES.includes(grade)&&level>=10,usesMasterStars=grade==='ZENITH'||isMasterStarHigh,maxLevel=HIGH_BREAKTHROUGH_GRADES.includes(grade)?13:10;
+      const level=Number(owned.breakthrough_level||0),isMasterStarHigh=HIGH_BREAKTHROUGH_GRADES.includes(grade)&&level>=10,usesMasterStars=ALL_LEVEL_MASTER_STAR_GRADES.includes(grade)||isMasterStarHigh,maxLevel=HIGH_BREAKTHROUGH_GRADES.includes(grade)?13:10;
       if(level>=maxLevel) return json({error:'이미 최대 강화 단계입니다.'},409);
       const failCount=Math.max(0,Number(owned.breakthrough_fail_count||0));
       if(usesMasterStars){
@@ -7041,7 +7047,10 @@ async function handleRequest(context){
 
     if(path==='admin/breakthrough-settings'){
       const admin=await requirePermission(request,env,'SETTINGS'); if(!admin)return json({error:'관리자 권한이 없습니다.'},403);
-      if(request.method==='GET') return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES,pity:await breakthroughPity(env),maHigh:await maMasterStarBreakthroughConfig(env),limitedHigh:await limitedMasterStarBreakthroughConfig(env),furHigh:await furMasterStarBreakthroughConfig(env),zenithHigh:await zenithMasterStarBreakthroughConfig(env),highBonus:{...HIGH_BREAKTHROUGH_BONUS_DEFAULT},cinematic:await breakthroughCinematicConfig(env)});
+      if(request.method==='GET'){
+        const zenithHigh=await zenithMasterStarBreakthroughConfig(env);
+        return json({config:await breakthroughConfig(env),grades:BREAKTHROUGH_GRADES,pity:await breakthroughPity(env),maHigh:await maMasterStarBreakthroughConfig(env),limitedHigh:await limitedMasterStarBreakthroughConfig(env),furHigh:await furMasterStarBreakthroughConfig(env),zenithHigh,superstarHigh:zenithHigh,highBonus:{...HIGH_BREAKTHROUGH_BONUS_DEFAULT,SUPERSTAR:[...HIGH_BREAKTHROUGH_BONUS_DEFAULT.ZENITH]},cinematic:await breakthroughCinematicConfig(env)});
+      }
       if(request.method==='PATCH'){
         const payload=await readBody(request),incoming=payload.config;
         if(!incoming||typeof incoming!=='object')return json({error:'돌파 설정값이 없습니다.'},400);
@@ -7051,7 +7060,7 @@ async function handleRequest(context){
           if(!Array.isArray(incoming[grade])||incoming[grade].length!==maxLevel)return json({error:`${grade} 등급은 ${maxLevel}단계 설정이 필요합니다.`},400);
           for(let i=0;i<maxLevel;i++){
             const cost=Number(incoming[grade][i]?.cost),rate=Number(incoming[grade][i]?.rate);
-            if(!Number.isInteger(cost)||cost<1||cost>10000000)return json({error:`${grade} ★${i}→★${i+1} 조각 비용을 확인하세요.`},400);
+            if(!Number.isInteger(cost)||cost<1||cost>10000000)return json({error:`${grade} ★${i}→★${i+1} 강화 비용을 확인하세요.`},400);
             if(!Number.isFinite(rate)||rate<0||rate>100)return json({error:`${grade} ★${i}→★${i+1} 성공 확률은 0~100%입니다.`},400);
             clean[grade][i]={cost,rate:Math.round(rate*10000)/10000};
           }
@@ -7059,7 +7068,7 @@ async function handleRequest(context){
         const before={config:await breakthroughConfig(env),maHigh:await maMasterStarBreakthroughConfig(env),limitedHigh:await limitedMasterStarBreakthroughConfig(env),furHigh:await furMasterStarBreakthroughConfig(env),zenithHigh:await zenithMasterStarBreakthroughConfig(env),cinematic:await breakthroughCinematicConfig(env)};
         const pity=cleanBreakthroughPity(payload.pity||await breakthroughPity(env)),maHigh=cleanMaMasterStarBreakthrough(payload.maHigh||await maMasterStarBreakthroughConfig(env)),limitedHigh=cleanLimitedMasterStarBreakthrough(payload.limitedHigh||await limitedMasterStarBreakthroughConfig(env)),furHigh=cleanFurMasterStarBreakthrough(payload.furHigh||await furMasterStarBreakthroughConfig(env)),zenithHigh=cleanZenithMasterStarBreakthrough(payload.zenithHigh||await zenithMasterStarBreakthroughConfig(env)),cinematic=cleanBreakthroughCinematic(payload.cinematic||await breakthroughCinematicConfig(env));
         if(maHigh.enabled&&maHigh.steps.some(step=>Number(step.retirementShardRefund)<=0))return json({error:'MA +11~+13 운영을 켜려면 각 단계의 퇴사 환급 카드 조각을 1개 이상 설정하세요.'},400);
-        for(const [label,cfg] of [['FUR',furHigh],['ZENITH',zenithHigh]]){
+        for(const [label,cfg] of [['FUR',furHigh],['ZENITH·SUPERSTAR 공용',zenithHigh]]){
           if(!cfg.enabled)continue;
           if(cfg.steps.some(step=>Number(step.retirementShardRefund)<=0))return json({error:`${label} +11~+13 운영을 켜려면 각 단계의 퇴사 환급 카드 조각을 1개 이상 설정하세요.`},400);
           if(cfg.steps.some(step=>Number(step.rate)<=0&&Number(step.pityThreshold)<=0))return json({error:`${label} +11~+13 은 성공 확률이 0%면 천장 횟수를 1회 이상 설정해야 합니다. (영구 실패 방지)`},400);
@@ -7076,7 +7085,7 @@ async function handleRequest(context){
         maMasterStarBreakthroughCache=null;limitedMasterStarBreakthroughCache=null;invalidateMetaSnapshot();runtimeSettingsCache.delete('highBreakthroughConfigs');
         invalidateMetaSnapshot();runtimeSettingsCache.delete('breakthroughConfig'); // V1792: 돌파 설정도 캐시하므로 저장 즉시 무효화
         try{await writeAdminLog(env,admin,'BREAKTHROUGH_SETTINGS_UPDATE','SETTINGS','breakthrough',before,{config:clean,pity,maHigh,limitedHigh,furHigh,zenithHigh,cinematic})}catch(logError){console.error('breakthrough settings admin log failed',logError)}
-        return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity,maHigh,limitedHigh,furHigh,zenithHigh,cinematic});
+        return json({ok:true,config:clean,grades:BREAKTHROUGH_GRADES,pity,maHigh,limitedHigh,furHigh,zenithHigh,superstarHigh:zenithHigh,cinematic});
       }
     }
 
@@ -7311,7 +7320,7 @@ async function handleRequest(context){
       const manualGrantMaxLevel=grade=>{
         grade=String(grade||'').trim().toUpperCase();
         // CMS 수동 지급도 실제 고급 강화 대상과 같은 상한을 사용한다.
-        // LIMITED는 이 라우트에서 별도로 제외되므로 MA/FUR/ZENITH만 +13 지급된다.
+        // LIMITED는 이 라우트에서 별도로 제외되므로 MA/FUR/ZENITH/SUPERSTAR만 +13 지급된다.
         if(HIGH_BREAKTHROUGH_GRADES.includes(grade))return 13;
         return BREAKTHROUGH_GRADES.includes(grade)?10:0;
       };
@@ -7329,7 +7338,7 @@ async function handleRequest(context){
           FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id
           LEFT JOIN user_cards uc ON uc.user_id=? AND uc.card_id=c.id
           WHERE ${filters.join(' AND ')}
-          ORDER BY CASE UPPER(c.rarity) WHEN 'FUR' THEN 1 WHEN 'PRESTIGE' THEN 2 WHEN 'LIMITED' THEN 3 WHEN 'MA' THEN 4 WHEN 'SSR' THEN 5 WHEN 'UR' THEN 6 WHEN 'HR' THEN 7 WHEN 'SR' THEN 8 WHEN 'R' THEN 9 WHEN 'U' THEN 10 ELSE 11 END,m.sort_order,c.title,c.id LIMIT 80`).bind(...binds).all();
+          ORDER BY CASE UPPER(c.rarity) WHEN 'SUPERSTAR' THEN 1 WHEN 'ZENITH' THEN 2 WHEN 'FUR' THEN 3 WHEN 'PRESTIGE' THEN 4 WHEN 'LIMITED' THEN 5 WHEN 'MA' THEN 6 WHEN 'SSR' THEN 7 WHEN 'UR' THEN 8 WHEN 'HR' THEN 9 WHEN 'SR' THEN 10 WHEN 'R' THEN 11 WHEN 'U' THEN 12 WHEN 'C' THEN 13 ELSE 14 END,m.sort_order,c.title,c.id LIMIT 80`).bind(...binds).all();
         return json({user:targetUser,storageMode:'SINGLE_ROW_PER_USER_CARD',prestigeSupported:true,excludedGrades:['LIMITED'],cards:(rows.results||[]).map(card=>({...card,ownedQuantity:Number(card.ownedQuantity||0),breakthroughLevel:Number(card.breakthroughLevel||0),maxBreakthrough:manualGrantMaxLevel(card.grade)}))});
       }
       if(request.method==='POST'){
@@ -7656,7 +7665,7 @@ async function handleRequest(context){
       const card=await env.DB.prepare(`SELECT c.id,c.title,c.rarity,c.card_status,m.name AS member_name FROM cards_effective_v1210 c JOIN members m ON m.id=c.member_id WHERE c.id=?`).bind(cardId).first();
       if(!card)return json({error:'카드가 없습니다.'},404);
 
-      // V1802: +11~+13 을 쓰는 등급(MA/LIMITED/FUR/ZENITH) 전부 퇴사 환급 구간을 잇는다.
+      // V1802/V1940: +11~+13 을 쓰는 등급(MA/LIMITED/FUR/ZENITH/SUPERSTAR) 전부 퇴사 환급 구간을 잇는다.
       const cardGrade=String(card.rarity||'').toUpperCase();
       const cfg=await breakthroughConfig(env),highCfg=await highBreakthroughConfigFor(env,cardGrade);
       const gradeRules=(Array.isArray(cfg[card.rarity])?cfg[card.rarity]:[]).map(rule=>({refundShards:Math.max(0,Number(rule?.cost)||0)}));

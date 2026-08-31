@@ -2,12 +2,14 @@ import {
   MERCENARY_FORMATION_RULES,
   buildMercenaryFormation
 } from '../../js/project-v-mercenary-loadout-v1.js';
+import { createMercenaryBattleArtAdapter } from '../../js/project-v-mercenary-battle-art-adapter-v1.js';
 
 const DATA_URL = '../../assets/ui/project-v/mercenaries/mercenary-system-roster-v1.json';
 const FRAME_URL = '../../assets/ui/card-frames/mercenary-contract-frame-premium-v2.png';
 
 const state = {
   roster: null,
+  battleArt: null,
   selectedCode: null,
   assignedCode: null,
   filter: 'all'
@@ -43,6 +45,10 @@ function selectedCard() {
 
 function assignedCard() {
   return state.roster?.cards.find((card) => card.code === state.assignedCode) || null;
+}
+
+function resolvedBattleArt(card) {
+  return state.battleArt?.resolveForConsumer('BATTLE_FIELD', card?.code) || null;
 }
 
 function filteredCards() {
@@ -102,6 +108,7 @@ function renderDetail() {
     return;
   }
   const isAssigned = state.assignedCode === card.code;
+  const battleArt = resolvedBattleArt(card);
   nodes.detail.style.setProperty('--accent', card.accent);
   nodes.detail.innerHTML = `
     <div class="detail-head">
@@ -113,9 +120,9 @@ function renderDetail() {
         <img class="detail-art" src="${assetUrl(card.sourceArt)}" alt="${escapeHtml(card.name)} 원화">
         <img class="detail-frame" src="${FRAME_URL}" alt="">
       </div>
-      <div class="sprite-stage ${card.battleSprite ? '' : 'empty'}">
-        ${card.battleSprite
-          ? `<img src="${assetUrl(card.battleSprite)}" alt="${escapeHtml(card.name)} 전투 SD">`
+      <div class="sprite-stage ${battleArt ? '' : 'empty'}">
+        ${battleArt
+          ? `<img src="${escapeHtml(battleArt.spriteUrl)}" alt="${escapeHtml(card.name)} 전투 SD">`
           : '<span><i>SD</i><b>제작 대기</b><small>원화를 전투 스프라이트로 대체하지 않음</small></span>'}
       </div>
     </div>
@@ -194,6 +201,7 @@ fetch(DATA_URL, { cache: 'no-store' })
   })
   .then((roster) => {
     state.roster = roster;
+    state.battleArt = createMercenaryBattleArtAdapter(roster);
     state.selectedCode = roster.cards[0]?.code || null;
     renderAll();
   })

@@ -28,19 +28,19 @@ const baseOverview=overrides=>({
   breakthroughLevel:13,
   dominantType:'DEFENSE',
   classInfo:{code:'SERVER_CLASS_DEFENSE',name:'반격자',effect:'서버 효과 <강화>',tradeoff:'서버 대가 & 조건',fxKey:'server-defense-fx'},
-  requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:3000,successChancePercent:10},
+  requirements:{eligibleGrades:['FUR','ZENITH','SUPERSTAR'],minBreakthrough:13,costMasterStars:3000,successChancePercent:10},
   wallet:{masterStars:3000},
   eligibility:{eligible:true,reasons:[]},
   canAdvance:true,
   ...overrides
 });
 
-test('UI 계약은 FUR/ZENITH +13, 마스터의 별 3,000개, 성공률 10%로 고정된다',()=>{
+test('UI 계약은 FUR/ZENITH/SUPERSTAR +13, 마스터의 별 3,000개, 성공률 10%로 고정된다',()=>{
   const ui=loadUi();
-  assert.equal(ui.VERSION,'1938');
+  assert.equal(ui.VERSION,'1940');
   assert.equal(ui.ENDPOINT,'card/unique-advancement');
   assert.equal(ui.FEATURE_ENDPOINT,'card/unique-advancement/feature');
-  assert.deepEqual(Array.from(ui.ELIGIBLE_GRADES),['FUR','ZENITH']);
+  assert.deepEqual(Array.from(ui.ELIGIBLE_GRADES),['FUR','ZENITH','SUPERSTAR']);
   assert.equal(ui.MIN_BREAKTHROUGH,13);
   assert.equal(ui.MASTER_STAR_COST,3000);
   assert.equal(ui.SUCCESS_CHANCE_PERCENT,10);
@@ -55,7 +55,8 @@ test('UI 계약은 FUR/ZENITH +13, 마스터의 별 3,000개, 성공률 10%로 �
   assert.equal(ui.shouldExpose({card:card('FUR'),owned:true,level:13}),true,'클라이언트 uniqueAbility 없이 서버 상태로 노출합니다.');
   assert.equal(ui.shouldExpose({card:card('ZENITH'),owned:true,level:13}),true);
   assert.equal(ui.shouldExpose({card:card('ZENITH'),owned:true,level:12}),false);
-  assert.equal(ui.shouldExpose({card:card('SUPERSTAR'),owned:true,level:13}),false);
+  assert.equal(ui.shouldExpose({card:card('SUPERSTAR'),owned:true,level:13}),true);
+  assert.equal(ui.shouldExpose({card:card('SUPERSTAR'),owned:true,level:12}),false);
   assert.equal(ui.shouldExpose({card:card('FUR'),owned:false,level:13}),false);
 
   ui.applyFeatureStatus({mode:'TEST',enabledForUser:false,testAccess:false,ready:true});
@@ -116,7 +117,7 @@ test('라이브 서버의 card/recommendedClass/config 응답을 UI 계약으로
   const overview=ui.normalizeOverview({
     ok:true,
     feature:{mode:'ON',enabledForUser:true,ready:true},
-    config:{allowedGrades:['FUR','ZENITH'],minimumBreakthrough:13,costMasterStars:3000,successChancePercent:10},
+    config:{allowedGrades:['FUR','ZENITH','SUPERSTAR'],minimumBreakthrough:13,costMasterStars:3000,successChancePercent:10},
     card:{id:'LIVE-FUR-13',title:'라이브 카드',grade:'FUR',breakthroughLevel:13,uniqueStats:{ATTACK:4,DEFENSE:5,SPEED:21,HP:7}},
     recommendedType:'SPEED',
     recommendedClass:{classCode:'SERVER_LIVE_SPEED',dominantType:'SPEED',name:'잔영자',subtitle:'서버 부제',description:'서버 설정에서 읽은 전직 효과'},
@@ -150,9 +151,9 @@ test('클라이언트는 서버 응답이 있어도 조건 우회·임의 코드
     baseOverview({dominantType:'UNKNOWN'}),
     baseOverview({classInfo:{name:'반격자',effect:'x',tradeoff:'y'}}),
     baseOverview({eligibility:{eligible:false,reasons:['서버 차단']}}),
-    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:12,costMasterStars:3000}}),
-    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:1}}),
-    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH'],minBreakthrough:13,costMasterStars:3000,successChancePercent:11}})
+    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH','SUPERSTAR'],minBreakthrough:12,costMasterStars:3000}}),
+    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH','SUPERSTAR'],minBreakthrough:13,costMasterStars:1}}),
+    baseOverview({requirements:{eligibleGrades:['FUR','ZENITH','SUPERSTAR'],minBreakthrough:13,costMasterStars:3000,successChancePercent:11}})
   ];
   for(const raw of rejected)assert.equal(ui.normalizeOverview(raw).canAdvance,false,JSON.stringify(raw));
 
@@ -236,7 +237,7 @@ test('통신 모호성은 같은 requestId로 재시도하고 명시적 실패�
     if(request.method==='POST'){
       const body=JSON.parse(request.body);postBodies.push(body);
       if(postBodies.length===1)throw new Error('response lost');
-      return {ok:true,success:false,outcome:'FAILED',cardId:'UI-CARD-1',grade:'ZENITH',breakthroughLevel:13,recommendedType:'DEFENSE',recommendedClass:{classCode:'SERVER_CLASS_DEFENSE',dominantType:'DEFENSE',name:'반격자'},uniqueAdvancement:null,material:{balanceAfter:0},config:{allowedGrades:['FUR','ZENITH'],minimumBreakthrough:13,costMasterStars:3000,successChancePercent:10}};
+      return {ok:true,success:false,outcome:'FAILED',cardId:'UI-CARD-1',grade:'ZENITH',breakthroughLevel:13,recommendedType:'DEFENSE',recommendedClass:{classCode:'SERVER_CLASS_DEFENSE',dominantType:'DEFENSE',name:'반격자'},uniqueAdvancement:null,material:{balanceAfter:0},config:{allowedGrades:['FUR','ZENITH','SUPERSTAR'],minimumBreakthrough:13,costMasterStars:3000,successChancePercent:10}};
     }
     assert.match(endpoint,/card\/unique-advancement\?cardId=UI-CARD-1/);
     return baseOverview();
@@ -284,7 +285,7 @@ test('app 최소 훅과 index 리소스 순서가 카드 렌더러를 변경하�
   const advancementCssPosition=index.indexOf('css/card-unique-advancement-v1.css');
   assert.ok(modulePosition>=0&&modulePosition<appPosition,'전직 모듈은 app.js보다 먼저 로드되어야 합니다.');
   assert.ok(profileCssPosition>=0&&profileCssPosition<advancementCssPosition,'전직 CSS는 카드 상세 CSS 뒤에서 확장해야 합니다.');
-  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=1939-advancement-awakening/);
+  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=1940-superstar-advancement/);
   assert.match(index,/css\/card-unique-advancement-v1\.css\?v=1939-advancement-awakening/);
   assert.match(app,/CNineCardUniqueAdvancementV1937/);
   assert.match(app,/data-profile-tab="advancement"/);
@@ -316,6 +317,7 @@ test('독립 프리뷰는 네 상태를 API 호출 없이 서버 fixture로 검�
   assert.match(preview,/card-unique-advancement-v1\.js/);
   assert.equal((preview.match(/data-preview-state=/g)||[]).length,4);
   assert.match(previewScript,/mountPreview/);
+  assert.match(previewScript,/eligibleGrades:\['FUR','ZENITH','SUPERSTAR'\]/);
   assert.doesNotMatch(previewScript,/apiRequest|fetch\s*\(|\/api\//);
 });
 

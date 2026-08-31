@@ -56,9 +56,9 @@ test('v1899 일괄 강화 리소스와 앱 셸 캐시는 함께 버전이 오른
     assert.equal(existsSync(path.join(root, relative)), true, `${relative} missing`);
   }
   assert.match(index, /css\/bulk-enhancement-v1899\.css\?v=1899(?:[-._a-z0-9]+)?/i);
-  assert.match(index, /js\/bulk-enhancement-v1899\.js\?v=1908-joeun-gamst-visibility/i);
-  assert.match(index, /js\/app\.js\?v=1939-advancement-awakening/i);
-  assert.match(serviceWorker, /SHELL_CACHE\s*=\s*['"]soop-card-shell-v1939-advancement-awakening['"]/i);
+  assert.match(index, /js\/bulk-enhancement-v1899\.js\?v=1940-superstar-advancement/i);
+  assert.match(index, /js\/app\.js\?v=1940-superstar-advancement/i);
+  assert.match(serviceWorker, /SHELL_CACHE\s*=\s*['"]soop-card-shell-v1940-superstar-advancement['"]/i);
 });
 
 test('legacy 앱 셸은 upgrade 화면을 도감 그룹에서 렌더하고 바인딩한다', () => {
@@ -191,7 +191,7 @@ test('bulk client는 다중 선택을 round-robin 단일 시도로 처리하고 
   assert.match(client, /if\(state\.stopRequested\|\|!sameRunAccount\(runContext\)\)throw cancelledRunError/);
 });
 
-test('bulk client는 네트워크 재시도에 같은 requestId를 쓰고 FUR/ZENITH +10을 수동으로 남긴다', () => {
+test('bulk client는 네트워크 재시도에 같은 requestId를 쓰고 FUR/ZENITH/SUPERSTAR +10을 수동으로 남긴다', () => {
   const client = read('js/bulk-enhancement-v1899.js');
   assert.match(client, /(?:const|let)\s+requestId\s*=\s*[^;]+;/);
   assert.match(client, /(?:payload|body)\s*=\s*JSON\.stringify\(\{[\s\S]{0,260}requestId[\s\S]{0,260}maxAttempts\s*:\s*1/);
@@ -201,7 +201,10 @@ test('bulk client는 네트워크 재시도에 같은 requestId를 쓰고 FUR/ZE
   assert.match(retryLoop[0], /(?:fetch|apiFetch|request)/i);
   assert.doesNotMatch(retryLoop[0], /(?:crypto\.randomUUID|requestId\s*=|createRequestId|newRequestId)\s*\(/i, 'retry loop must not mint another requestId');
 
-  assert.match(client, /['"]FUR['"][\s\S]{0,80}['"]ZENITH['"]|['"]ZENITH['"][\s\S]{0,80}['"]FUR['"]/);
+  assert.match(client, /isHighManualOnly=card=>\['FUR','ZENITH','SUPERSTAR'\]\.includes\(cardGrade\(card\)\)/);
+  assert.match(client, /usesMasterStars=\(card,level\)=>\['ZENITH','SUPERSTAR'\]\.includes\(cardGrade\(card\)\)/);
+  assert.match(api, /const autoHighBlocked=\['FUR','ZENITH','SUPERSTAR'\]\.includes\(grade\)/);
+  assert.match(api, /const masterStarStep=ALL_LEVEL_MASTER_STAR_GRADES\.includes\(grade\)\|\|highStep/);
   assert.match(client, /level\s*>=\s*10/);
   assert.match(client, /(?:MANUAL_ONLY|manualOnly|수동)/);
   assert.match(client, /duplicateCards:Math\.max\(0,Math\.floor\(Number\(rule\?\.duplicateCards\)\|\|0\)\)/);

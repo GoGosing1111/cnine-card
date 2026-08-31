@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 2,
+  "scope": "preview/project-v-advancement-fx-v1 only",
+  "runtimeConnected": false,
+  "releaseSelection": {
+    "shatter": "v2",
+    "riposte": "v1",
+    "afterimage": "v2",
+    "immortal": "v2"
+  },
+  "priorV1AssetsRetained": true,
+  "generatedWith": {
+    "method": "preview-local adaptation of PROJECT V V3 role impact atlas pipeline",
+    "sourceGrid": {
+      "columns": 4,
+      "rows": 3,
+      "cell": {
+        "width": 384,
+        "height": 341
+      },
+      "crop": {
+        "width": 1536,
+        "height": 1023
+      }
+    },
+    "outputGrid": {
+      "columns": 4,
+      "rows": 3,
+      "cell": {
+        "width": 512,
+        "height": 455
+      },
+      "atlas": {
+        "width": 2048,
+        "height": 1365
+      }
+    },
+    "resizeKernel": "lanczos3",
+    "matteRemoval": {
+      "background": "black",
+      "transparentPeakThreshold": 2,
+      "alphaExponent": 0.86
+    },
+    "outputFormat": "RGBA8888 PNG"
+  },
+  "effects": {
+    "shatter": {
+      "source": {
+        "file": "assets/source/shatter-fracture-surge-sheet-black-v2.png",
+        "sourceId": "exec-860b245f-7702-4b7e-83b9-4b5165bc5d64",
+        "sha256": "640F1C56471918C063DF833D3C2C38D90138FE6C1CACF2D355031F823EC28841",
+        "size": {
+          "width": 1536,
+          "height": 1024
+        },
+        "channels": 3,
+        "croppedBottomRows": 1
+      },
+      "output": {
+        "image": "assets/atlases/shatter-advancement-atlas-v2.png",
+        "json": "assets/atlases/shatter-advancement-atlas-v2.json",
+        "imageSha256": "26533D573BAEC51E8E00E180FD1B2F6FFFBB3311D133D616F4D9DB41C7167204",
+        "format": "RGBA8888",
+        "size": {
+          "width": 2048,
+          "height": 1365
+        },
+        "frameSize": {
+          "width": 512,
+          "height": 455
+        },
+        "frames": 12,
+        "fps": 24,
+        "collisionFrame": 6,
+        "anchors": {
+          "x": 0.5,
+          "y": 0.52
+        }
+      }
+    },
+    "riposte": {
+      "source": {
+        "file": "assets/source/riposte-counter-guard-sheet-black-v1.png",
+        "sourceId": "exec-d1575f25-bf09-4eca-ab77-983365d360f8",
+        "sha256": "F142262F84FD5CBF6A89A7D9767776A8A6684EDDFF5E9B90B7D234651C791B47",
+        "size": {
+          "width": 1536,
+          "height": 1024
+        },
+        "channels": 3,
+        "croppedBottomRows": 1
+      },
+      "output": {
+        "image": "assets/atlases/riposte-advancement-atlas-v1.png",
+        "json": "assets/atlases/riposte-advancement-atlas-v1.json",
+        "imageSha256": "3D70439BA3063509C71D276FBA0EDB59538532497F4F30FA22D45B5679B56E2C",
+        "format": "RGBA8888",
+        "size": {
+          "width": 2048,
+          "height": 1365
+        },
+        "frameSize": {
+          "width": 512,
+          "height": 455
+        },
+        "frames": 12,
+        "fps": 20,
+        "collisionFrame": 7,
+        "guardContactFrame": 3,
+        "anchors": {
+          "x": 0.5,
+          "y": 0.53
+        }
+      }
+    },
+    "afterimage": {
+      "source": {
+        "file": "assets/source/afterimage-velocity-tear-sheet-black-v2.png",
+        "sourceId": "exec-efc64ffb-e49a-4a39-b4a9-57aa3cc94f31",
+        "sha256": "D02985CC911A239D64B56D377155645CDD37F3C2E6317A2847675238895C9E89",
+        "size": {
+          "width": 1536,
+          "height": 1024
+        },
+        "channels": 3,
+        "croppedBottomRows": 1
+      },
+      "output": {
+        "image": "assets/atlases/afterimage-advancement-atlas-v2.png",
+        "json": "assets/atlases/afterimage-advancement-atlas-v2.json",
+        "imageSha256": "318B0758FC0111C03CF9467E6828E46013BACFA4722DCD28AF28C946744415B7",
+        "format": "RGBA8888",
+        "size": {
+          "width": 2048,
+          "height": 1365
+        },
+        "frameSize": {
+          "width": 512,
+          "height": 455
+        },
+        "frames": 12,
+        "fps": 28,
+        "collisionFrame": 6,
+        "anchors": {
+          "x": 0.52,
+          "y": 0.52
+        }
+      }
+    },
+    "immortal": {
+      "source": {
+        "file": "assets/source/immortal-life-core-sheet-black-v2.png",
+        "sourceId": "exec-fe82f327-4ec1-4bb0-8b5a-edd24b3dda12",
+        "sha256": "224DF3F2F11F72B8E6AB650A5A1FB5F264BB2539BE51C46C91909EE41C67B5E5",
+        "size": {
+          "width": 1536,
+          "height": 1024
+        },
+        "channels": 3,
+        "croppedBottomRows": 1
+      },
+      "output": {
+        "image": "assets/atlases/immortal-advancement-atlas-v2.png",
+        "json": "assets/atlases/immortal-advancement-atlas-v2.json",
+        "imageSha256": "9469F55D4A4B0AB87D21D6BF70703F4B2D5D30E7319DAC2C75AA4EEB1859D730",
+        "format": "RGBA8888",
+        "size": {
+          "width": 2048,
+          "height": 1365
+        },
+        "frameSize": {
+          "width": 512,
+          "height": 455
+        },
+        "frames": 12,
+        "fps": 18,
+        "collisionFrame": 8,
+        "coreFrame": 6,
+        "anchors": {
+          "x": 0.5,
+          "y": 0.58
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 3,
+  "scope": "preview/project-v-advancement-fx-v1 only",
+  "runtimeConnected": false,
+  "releaseSelection": {
+    "shatter": "v3",
+    "riposte": "v1",
+    "afterimage": "v3",
+    "immortal": "v3"
+  },
+  "priorV1AssetsRetained": true,
+  "priorV2AssetsRetainedButUnselected": true,
+  "riposteV1Preserved": true,
+  "generatedWith": {
+    "method": "preview-local adaptation of PROJECT V V3 role impact atlas pipeline",
+    "sourceGrid": {
+      "columns": 4,
+      "rows": 3,
+      "cell": {
+        "width": 384,
+        "height": 341
+      },
+      "crop": {
+        "width": 1536,
+        "height": 1023
+      }
+    },
+    "outputGrid": {
+      "columns": 4,
+      "rows": 3,
+      "cell": {
+        "width": 512,
+        "height": 455
+      },
+      "atlas": {
+        "width": 2048,
+        "height": 1365
+      }
+    },
+    "resizeKernel": "lanczos3",
+    "matteRemoval": {
+      "background": "black",
+      "transparentPeakThreshold": 2,
+      "alphaExponent": 0.86
+    },
+    "outputFormat": "RGBA8888 PNG"
+  },
+  "effects": {
+    "shatter": {
+      "role": "attack",
+      "concept": "awakening-dragon",
+      "assetVersion": 3,
+      "source": {
+        "file": "assets/source/shatter-awakening-dragon-sheet-black-v3.png",
+        "sourceId": "exec-1e4393c7-91b0-4f60-b845-146ab82fe33e",
+        "sha256": "98EB875D163E03C2B26B557127602673C56D589D3111D47AB2CC047046805958",
+        "size": {
+          "width": 1536,
+          "height": 1024
+        },
+        "channels": 3,
+        "croppedBottomRows": 1
+      },
+      "output": {
+        "image": "assets/atlases/shatter-advancement-atlas-v3.png",
+        "json": "assets/atlases/shatter-advancement-atlas-v3.json",
+        "imageSha256": "4A8D0EAFFACAE0DAC4D747E6BFA7030E15D1F4385A743C0120F8FE031E882D56",
+        "jsonSha256": "9C795A5C28B05AEA95330656C6F4FAE6E69CDEF36F55C274CB06A899401DC9E8",
+        "preservedExisting": false,
+        "format": "RGBA8888",
+        "size": {
+          "width": 2048,
+          "height": 1365
+        },
+        "frameSize": {
+          "width": 512,
+          "height": 455
+        },
+        "frames": 12,
+        "fps": 24,
+        "collisionFrame": 6,
+        "anchors": {
+          "x": 0.5,
+          "y": 0.52
+        }
+      }
+    },
+    "riposte": {
+      "role": "counter",
+      "concept": "counter-guard",
+      "assetVersion": 1,
+      "source": {
+        "file": "assets/source/riposte-counter-guard-sheet-black-v1.png",
+        "sourceId": "exec-d1575f25-bf09-4eca-ab77-983365d360f8",
+        "sha256": "F142262F84FD5CBF6A89A7D9767776A8A6684EDDFF5E9B90B7D234651C791B47",
+        "size": {
+          "width": 1536,
+          "height": 1024
+        },
+        "channels": 3,
+        "croppedBottomRows": 1
+      },
+      "output": {
+        "image": "assets/atlases/riposte-advancement-atlas-v1.png",
+        "json": "assets/atlases/riposte-advancement-atlas-v1.json",
+        "imageSha256": "3D70439BA3063509C71D276FBA0EDB59538532497F4F30FA22D45B5679B56E2C",
+        "jsonSha256": "093A5CD203C2424EEA75F6F59A8AB2A08B88385B105F8BC9E1043DA47831E333",
+        "preservedExisting": true,
+        "format": "RGBA8888",
+        "size": {
+          "width": 2048,
+          "height": 1365
+        },
+        "frameSize": {
+          "width": 512,
+          "height": 455
+        },
+        "frames": 12,
+        "fps": 20,
+        "collisionFrame": 7,
+        "guardContactFrame": 3,
+        "anchors": {
+          "x": 0.5,
+          "y": 0.53
+        }
+      }
+    },
+    "afterimage": {
+      "role": "speed",
+      "concept": "awakening-chrono-falcon",
+      "assetVersion": 3,
+      "source": {
+        "file": "assets/source/afterimage-awakening-chrono-falcon-sheet-black-v3.png",
+        "sourceId": "exec-11b4ddf1-f888-4125-b87c-195690c8c245",
+        "sha256": "6BAA0F5207B93A35F37FDDC49512D519A5CC9478DC5138FF904FE513C7CF4198",
+        "size": {
+          "width": 1536,
+          "height": 1024
+        },
+        "channels": 3,
+        "croppedBottomRows": 1
+      },
+      "output": {
+        "image": "assets/atlases/afterimage-advancement-atlas-v3.png",
+        "json": "assets/atlases/afterimage-advancement-atlas-v3.json",
+        "imageSha256": "DE9A6D015D9BD05C744E416D18F1A195BB5682E34F882F59D24802171D4D4092",
+        "jsonSha256": "482D42427A8BD39BCE6DAE2334F46B5BAFBB07917F204D5F777481492626660F",
+        "preservedExisting": false,
+        "format": "RGBA8888",
+        "size": {
+          "width": 2048,
+          "height": 1365
+        },
+        "frameSize": {
+          "width": 512,
+          "height": 455
+        },
+        "frames": 12,
+        "fps": 28,
+        "collisionFrame": 6,
+        "anchors": {
+          "x": 0.52,
+          "y": 0.52
+        }
+      }
+    },
+    "immortal": {
+      "role": "heal",
+      "concept": "awakening-world-tree",
+      "assetVersion": 3,
+      "source": {
+        "file": "assets/source/immortal-awakening-world-tree-sheet-black-v3.png",
+        "sourceId": "exec-ea504bc5-479c-4d19-8408-93984ba65182",
+        "sha256": "58111C400582EDF9805D2F9A4AC5C59A3F767D2507B334F7F56E8481BDBDCB99",
+        "size": {
+          "width": 1536,
+          "height": 1024
+        },
+        "channels": 3,
+        "croppedBottomRows": 1
+      },
+      "output": {
+        "image": "assets/atlases/immortal-advancement-atlas-v3.png",
+        "json": "assets/atlases/immortal-advancement-atlas-v3.json",
+        "imageSha256": "407554DC1CB9D88A298E5CC015AA1E9D29FB50E8861B21ABBC19771EFE485EFE",
+        "jsonSha256": "B10E06999C5424359AC11D0750600FD7A1649249E2B7D78304081510D9B52D77",
+        "preservedExisting": false,
+        "format": "RGBA8888",
+        "size": {
+          "width": 2048,
+          "height": 1365
+        },
+        "frameSize": {
+          "width": 512,
+          "height": 455
+        },
+        "frames": 12,
+        "fps": 18,
+        "collisionFrame": 8,
+        "coreFrame": 6,
+        "anchors": {
+          "x": 0.5,
+          "y": 0.58
+        }
+      }
+    }
+  }
+}

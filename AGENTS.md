@@ -34,7 +34,7 @@
 
 - 2026-08-24 승인 카드 V-013~V-020의 단일 기준 데이터는 `assets/ui/project-v/mercenaries/mercenary-card-roster-approved-v1.json`이다.
 - 통합 카드 프리뷰는 `preview/mercenary-cards-approved-v1/index.html`이며 `assets/ui/card-frames/mercenary-contract-frame-premium-v2.png`를 별도 계층으로 사용한다.
-- V-013~V-020은 카드 원화만 승인된 상태다. 전투 SD는 모두 `PENDING`이므로 원화를 전투 스프라이트로 임시 사용하지 않는다.
+- V-013~V-020은 카드 원화가 승인됐고, 2026-08-31 별도 투명 전투 SD가 `TECH_QA_COMPLETE_USER_REVIEW_PENDING` 상태로 준비됐다. 원화를 전투 스프라이트로 임시 사용하지 않는다.
 
 ## 용병 편성 고정 규칙
 

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>숲켓몬 · 블랙 미라클 팩 확률 정보 공개</title>
+  <link rel="stylesheet" href="./poster.css?v=1">
+</head>
+<body>
+  <header class="preview-bar">
+    <div>
+      <b>블랙 미라클 팩 · 유저 공지 포스터</b>
+      <span>LIVE OWNER CMS 캡처 기준 · 운영 설정은 변경하지 않음</span>
+    </div>
+    <span id="validationState">데이터 검증 중</span>
+  </header>
+
+  <main id="posterSet" class="poster-set" aria-label="블랙 미라클 팩 확률 공개 포스터 4장">
+    <article class="poster poster-cover" data-poster="cover" aria-label="블랙 미라클 확률 공개 요약">
+      <div class="poster-backdrop" aria-hidden="true"></div>
+      <div class="poster-grain" aria-hidden="true"></div>
+      <header class="poster-header">
+        <span class="brand">SOOPKEMON</span>
+        <span class="edition">BLACK MIRACLE · PROBABILITY DISCLOSURE</span>
+      </header>
+
+      <section class="cover-copy">
+        <div class="eyebrow"><i></i> 확률 정보 사전 공개</div>
+        <h1><span>BLACK MIRACLE</span>블랙 미라클 팩</h1>
+        <p>운명의 봉인, 그 안의 모든 확률을 공개합니다.</p>
+      </section>
+
+      <div class="pack-stage" aria-hidden="true">
+        <div class="pack-halo"></div>
+        <img src="../../assets/ui/packs/black-miracle-pack-v1485-768.jpg?v=1485" alt="">
+      </div>
+
+      <section class="summary-panel">
+        <div class="summary-title">
+          <span>팩 1개 개봉 기준</span>
+          <strong>보상 확률 합계 <b>100.000000%</b></strong>
+        </div>
+        <div class="summary-grid" id="summaryGrid"></div>
+        <p class="summary-base">* 포함 신화 이동수단을 아직 보유하지 않은 계정 기준</p>
+      </section>
+
+      <footer class="cover-footer">
+        <div class="status-chip"><i></i><span>현재 상태</span><b>개봉 준비 중</b></div>
+        <p>콘텐츠 드랍과 보유 수량은 유지됩니다.<br>인벤토리 개봉 일정은 별도 공지합니다.</p>
+        <time>CMS 적용 기준 · 2026.08.31</time>
+      </footer>
+      <span class="cover-page">01 / 04</span>
+    </article>
+
+    <article class="poster poster-table" data-poster="equipment" aria-label="신화 장비 개별 확률표">
+      <div class="poster-backdrop poster-backdrop-muted" aria-hidden="true"></div>
+      <div class="poster-grain" aria-hidden="true"></div>
+      <header class="table-page-header">
+        <div>
+          <span>BLACK MIRACLE · REWARD POOL 01</span>
+          <h2>신화 장비 개별 확률</h2>
+          <p>활성 풀 17종 · 팩 1개 기준 절대 확률</p>
+        </div>
+        <strong>합계 <b id="equipmentTotal">-</b></strong>
+      </header>
+      <section class="rate-table" aria-label="신화 장비 확률표">
+        <div class="rate-head"><span>보상</span><span>전투력</span><span>개별 확률</span></div>
+        <div id="equipmentRows" class="rate-body"></div>
+      </section>
+      <footer class="table-footer">
+        <p><b>현재 풀 제외 · 0%</b><span id="equipmentExcluded"></span></p>
+        <small>개별 확률은 서버 원시값을 소수점 여섯째 자리까지 반올림해 표기했습니다.</small>
+        <em>02 / 04</em>
+      </footer>
+    </article>
+
+    <article class="poster poster-table" data-poster="vehicle" aria-label="신화 이동수단 개별 확률표">
+      <div class="poster-backdrop poster-backdrop-muted" aria-hidden="true"></div>
+      <div class="poster-grain" aria-hidden="true"></div>
+      <header class="table-page-header">
+        <div>
+          <span>BLACK MIRACLE · REWARD POOL 02</span>
+          <h2>신화 이동수단 개별 확률</h2>
+          <p>활성 풀 14종 · 미보유 이동수단만 추첨</p>
+        </div>
+        <strong>기준 합계 <b id="vehicleTotal">-</b></strong>
+      </header>
+      <section class="rate-table vehicle-table" aria-label="신화 이동수단 확률표">
+        <div class="rate-head"><span>보상</span><span>전투력</span><span>개별 확률</span></div>
+        <div id="vehicleRows" class="rate-body"></div>
+      </section>
+      <aside class="ownership-note">
+        <b>보유 이동수단 중복 방지</b>
+        <p>이미 보유한 이동수단은 해당 계정의 풀에서 제외됩니다. 제외된 확률은 마스터의 별과 코인에 1:1로 나뉘어 더해집니다.</p>
+      </aside>
+      <footer class="table-footer compact-footer">
+        <p><b>현재 풀 제외 · 0%</b><span id="vehicleExcluded"></span></p>
+        <em>03 / 04</em>
+      </footer>
+    </article>
+
+    <article class="poster poster-rules" data-poster="rules" aria-label="팩 획득 확률과 보상 규칙">
+      <div class="poster-backdrop poster-backdrop-rules" aria-hidden="true"></div>
+      <div class="poster-grain" aria-hidden="true"></div>
+      <header class="rules-header">
+        <span>BLACK MIRACLE · DROP &amp; OPEN RULES</span>
+        <h2>팩 획득 확률 · 개봉 규칙</h2>
+        <p>LIVE OWNER CMS에 저장된 현재 운영값을 그대로 공개합니다.</p>
+      </header>
+
+      <section class="drop-section">
+        <div class="section-heading"><span>01</span><div><b>콘텐츠별 팩 드랍률</b><small>승리·클리어 1회당 · 획득 수량 1개</small></div></div>
+        <div id="sourceGrid" class="source-grid"></div>
+      </section>
+
+      <section class="filler-section">
+        <div class="section-heading"><span>02</span><div><b>일반 보상 구간</b><small>기준 희귀 합계 2.601384%를 제외한 나머지</small></div></div>
+        <div class="filler-grid">
+          <article><span>MASTER STAR</span><b>마스터의 별</b><strong>100 ~ 1,000개</strong><em id="starRate">-</em></article>
+          <article><span>SOOP COIN</span><b>코인</b><strong>2,500만 ~ 7,500만</strong><em id="coinRate">-</em></article>
+        </div>
+      </section>
+
+      <section class="notice-section">
+        <div class="section-heading"><span>03</span><div><b>꼭 확인해 주세요</b><small>확률표를 읽는 기준</small></div></div>
+        <ol>
+          <li><b>모든 개별 수치는 팩 1개 기준 절대 확률</b>입니다.</li>
+          <li><b>5장의 봉인 카드는 개봉 연출</b>이며, 선택 번호에 따라 보상 확률이 달라지지 않습니다.</li>
+          <li>신화 이동수단은 <b>이미 보유한 항목을 제외</b>하고 계산하므로 계정별 일반 보상 확률이 달라질 수 있습니다.</li>
+          <li>현재 인벤토리 개봉은 준비 중입니다. <b>개봉 일정은 별도 공지</b>합니다.</li>
+        </ol>
+      </section>
+
+      <footer class="rules-footer">
+        <div><b>확률 산식</b><span>AUTO · 전투력 선형 보정 · 개별 0.01%~0.1% · 희귀 합산 상한 5%</span></div>
+        <p>숲켓몬은 확률형 콘텐츠의 구성과 확률을 투명하게 안내하겠습니다.</p>
+        <em>04 / 04</em>
+      </footer>
+    </article>
+  </main>
+
+  <script type="module" src="./poster.js?v=1"></script>
+</body>
+</html>

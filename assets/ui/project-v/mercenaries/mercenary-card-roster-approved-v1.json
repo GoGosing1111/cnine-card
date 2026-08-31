@@ -1,8 +1,8 @@
 {
   "format": "PROJECT_V_MERCENARY_CARD_ROSTER_V1",
-  "version": 1,
-  "updatedAt": "2026-08-24",
-  "status": "APPROVED_SOURCE_ART",
+  "version": 2,
+  "updatedAt": "2026-08-31",
+  "status": "APPROVED_SOURCE_ART_BATTLE_SPRITE_TECH_QA_COMPLETE",
   "codeRange": {
     "start": "V-013",
     "end": "V-020"
@@ -12,7 +12,7 @@
     "frame": "assets/ui/card-frames/mercenary-contract-frame-premium-v2.png",
     "editableFrameSource": "assets/ui/card-frames/mercenary-contract-frame-v2.svg",
     "sourceArtInsideFrame": true,
-    "battleSpritePolicy": "SEPARATE_ASSET_PENDING"
+    "battleSpritePolicy": "SEPARATE_ASSET_TECH_QA_COMPLETE_USER_REVIEW_PENDING"
   },
   "cards": [
     {
@@ -31,8 +31,9 @@
       "sourceArt": "assets/ui/project-v/mercenaries/short-bob-k2-amethyst-officer-mercenary-source-art-v1.png",
       "sourceArtSha256": "4B2F7D8F35E85E88B61AAAFFC3127817F61BFCA667075DEC64AEF4D1EC9B02CF",
       "sourceArtStatus": "APPROVED_SOURCE_ART",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v013-raviena-sd-v1.png",
+      "battleSpriteSha256": "875DA8F8567322F8A9B882309AD1EA20C524B26E12CBF86D6ED0708182D7E28F",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
       "accent": {
         "hex": "#B78CFF",
         "rgb": "183,140,255",
@@ -55,8 +56,9 @@
       "sourceArt": "assets/ui/project-v/mercenaries/tempest-wing-k2-officer-mercenary-source-art-v2.png",
       "sourceArtSha256": "9AE85799FB9DD5B626DB7899CF9936F3F515B8200D6910AF26D8D1B9292C21D0",
       "sourceArtStatus": "APPROVED_SOURCE_ART",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v014-elysia-sd-v1.png",
+      "battleSpriteSha256": "3DD4510F8796D66E797A3156396C1969D92AC5ACA0A52F552DD2A541A1BB7724",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
       "accent": {
         "hex": "#74C8FF",
         "rgb": "116,200,255",
@@ -79,8 +81,9 @@
       "sourceArt": "assets/ui/project-v/mercenaries/female-assassin-urban-nightblade-mercenary-source-art-v1.png",
       "sourceArtSha256": "EACC771B553D97A54302EE34BB78ACA4E0BC878772E8D30B9EF45A7BE123C758",
       "sourceArtStatus": "APPROVED_SOURCE_ART",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v015-noxia-sd-v1.png",
+      "battleSpriteSha256": "8E299013164AAD2C3C6C096F89E071A503100F33F4FA32FDE187807E437ECB92",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
       "accent": {
         "hex": "#ED8FC3",
         "rgb": "237,143,195",
@@ -103,8 +106,9 @@
       "sourceArt": "assets/ui/project-v/mercenaries/female-mage-eclipse-arcanist-mercenary-source-art-v1.png",
       "sourceArtSha256": "A66687F3615510D491110143165567F5678F6E52DBAC95BD829D7202A903FF44",
       "sourceArtStatus": "APPROVED_SOURCE_ART",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v016-solea-sd-v1.png",
+      "battleSpriteSha256": "ADE9737D55B5C56D5F76D0578BC10173C8C869142FFEBCAE85CF80AD4741AC8E",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
       "accent": {
         "hex": "#FF9C4A",
         "rgb": "255,156,74",
@@ -127,8 +131,9 @@
       "sourceArt": "assets/ui/project-v/mercenaries/female-swordshield-tide-bastion-mercenary-source-art-v1.png",
       "sourceArtSha256": "CA4B0BDA7C9E1DAB17F0A070D7E56229124FB53AE73FD6525AD1AA0A2F7287BA",
       "sourceArtStatus": "APPROVED_SOURCE_ART",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v017-marena-sd-v1.png",
+      "battleSpriteSha256": "4EE846408D96732EA3F614AAB0C300EC1A7B9B143CCEEA47F50D6813A542C776",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
       "accent": {
         "hex": "#58D3D0",
         "rgb": "88,211,208",
@@ -151,8 +156,9 @@
       "sourceArt": "assets/ui/project-v/mercenaries/female-staff-mage-mirror-salt-magister-mercenary-source-art-v1.png",
       "sourceArtSha256": "57BE8823D08CBEDB226FE99C2D7DFA7F70493CA3370F44326EDCD1D3FFAB868E",
       "sourceArtStatus": "APPROVED_SOURCE_ART",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v018-miresia-sd-v1.png",
+      "battleSpriteSha256": "67AC9EEDA92F6707BE9856BCFF4AE0C327B7E67C257185701739676FFD1B81B6",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
       "accent": {
         "hex": "#E8A9C6",
         "rgb": "232,169,198",
@@ -175,8 +181,9 @@
       "sourceArt": "assets/ui/project-v/mercenaries/male-spear-archangel-high-seraph-mercenary-source-art-v1.png",
       "sourceArtSha256": "FC4B12FBD374BC8FDF5452A5579343007085FF158862C793E93E2BCB7AB8CA71",
       "sourceArtStatus": "APPROVED_SOURCE_ART",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v019-aurelion-sd-v1.png",
+      "battleSpriteSha256": "319F33DCA34643A2FFA5B5A89CEF388D74AFAC06F547D2CCE55130427B15456D",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
       "accent": {
         "hex": "#FFD88A",
         "rgb": "255,216,138",
@@ -199,8 +206,9 @@
       "sourceArt": "assets/ui/project-v/mercenaries/female-katana-winter-iaijutsu-mercenary-source-art-v1.png",
       "sourceArtSha256": "B69768D58364F4BBEEF991B8B7CC3BA77E62584DAB21229923071313BB207968",
       "sourceArtStatus": "APPROVED_SOURCE_ART",
-      "battleSprite": null,
-      "battleSpriteStatus": "PENDING",
+      "battleSprite": "assets/ui/project-v/characters/mercenary/mercenary-v020-sayo-sd-v1.png",
+      "battleSpriteSha256": "D5BECF7E3DC615C1BD5AD6F58F72AB2CA00AF81404EF4D5A897FFD6F60802712",
+      "battleSpriteStatus": "TECH_QA_COMPLETE_USER_REVIEW_PENDING",
       "accent": {
         "hex": "#9FB7DF",
         "rgb": "159,183,223",

@@ -32,5 +32,5 @@ test('server and client enforce the selected-card enhancement transfer contract'
   assert.match(client,/선택 강화 \+\$\{level\} 결과 카드로 이전 · 남은 중복은 \+0/);
   assert.doesNotMatch(client,/원본 강화.*유지/);
   assert.match(app,/high-grade-reroll-v1354\.js\?v=1923-enhancement-transfer/);
-  assert.match(index,/js\/app\.js\?v=1939-advancement-awakening/);
+  assert.match(index,/js\/app\.js\?v=1940-superstar-advancement/);
 });
