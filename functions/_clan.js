@@ -201,7 +201,7 @@ function cleanClanAdminSettings(raw={},current=CLAN_ADMIN_SETTINGS_DEFAULTS){
     maxClans:OFFICIAL_CLAN_CATALOG.length,maxMembers:CLAN_MAX_MEMBERS,maxParticipants:CLAN_MAX_PARTICIPANTS,registrationDays:clampInt(raw.registrationDays,1,30,base.registrationDays),draftDays:clampInt(raw.draftDays,1,14,base.draftDays),draftPickSeconds:clampInt(raw.draftPickSeconds,30,1800,base.draftPickSeconds),seasonDays:clampInt(raw.seasonDays,7,90,base.seasonDays),
     blindDraft:true,snakeDraft:true,noFixedRoster:true,identityPersists:true,
     warWinScore:clampInt(raw.warWinScore,1,20,base.warWinScore),seasonWinScore:clampInt(raw.seasonWinScore,0,100,base.seasonWinScore),seasonLossScore:clampInt(raw.seasonLossScore,0,100,base.seasonLossScore),playbackSpeed:clamp(raw.playbackSpeed,.5,3,base.playbackSpeed),battleReceiptRetentionDays:clampInt(raw.battleReceiptRetentionDays,1,180,base.battleReceiptRetentionDays),
-    rewardsEnabled:cleanBoolean(raw.rewardsEnabled,base.rewardsEnabled),winnerCoin:clampInt(raw.winnerCoin,0,100000000,base.winnerCoin),runnerUpCoin:clampInt(raw.runnerUpCoin,0,100000000,base.runnerUpCoin),participationCoin:clampInt(raw.participationCoin,0,100000000,base.participationCoin),participationShards:clampInt(raw.participationShards,0,1000000,base.participationShards)
+    rewardsEnabled:cleanBoolean(raw.rewardsEnabled,base.rewardsEnabled),winnerCoin:clampInt(raw.winnerCoin,0,Number.MAX_SAFE_INTEGER,base.winnerCoin),runnerUpCoin:clampInt(raw.runnerUpCoin,0,Number.MAX_SAFE_INTEGER,base.runnerUpCoin),participationCoin:clampInt(raw.participationCoin,0,100000000,base.participationCoin),participationShards:clampInt(raw.participationShards,0,1000000,base.participationShards)
   };
 }
 async function clanSettings(env){const row=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(CLAN_ADMIN_SETTINGS_KEY).first(),raw=safeJson(row?.value,{});return cleanClanAdminSettings(raw)}
@@ -545,10 +545,12 @@ export async function handleClan({path,request,env,deps}){
     if(request.method==='PATCH'||request.method==='POST'){
       if(!owner)return deps.json({error:'클랜전 운영 설정은 OWNER만 변경할 수 있습니다.'},403);const body=await deps.readBody(request),candidate=body.settings||body;
       if(cleanBoolean(candidate.scheduleEnabled,settings.scheduleEnabled)&&Array.isArray(candidate.openDays)&&!candidate.openDays.length)return deps.json({error:'클랜전 개방 요일을 하나 이상 선택하세요.'},400);
+      for(const [key,label] of [['winnerCoin','우승 추가 코인'],['runnerUpCoin','준우승 추가 코인']]){if(!Object.prototype.hasOwnProperty.call(candidate,key))continue;const amount=Number(candidate[key]);if(!Number.isSafeInteger(amount)||amount<0)return deps.json({error:`${label}은 0 이상의 안전한 정수로 입력하세요.`},400)}
       const requestedInitial=Number(candidate.initialEnergy??settings.initialEnergy),requestedCap=Number(candidate.energyCap??settings.energyCap),requestedUseLimit=Number(candidate.totalUseLimit??settings.totalUseLimit);
       if(requestedInitial>requestedCap)return deps.json({error:'시작 행동력은 행동력 상한보다 클 수 없습니다.'},400);
       if(requestedUseLimit<requestedInitial||requestedUseLimit>requestedCap)return deps.json({error:'개인 총 사용 상한은 시작 행동력 이상, 행동력 상한 이하여야 합니다.'},400);
       const next=cleanClanAdminSettings(candidate,settings);
+      if(!Number.isSafeInteger(Number(next.participationCoin)+Number(next.winnerCoin))||!Number.isSafeInteger(Number(next.participationCoin)+Number(next.runnerUpCoin)))return deps.json({error:'참여 기본 코인과 순위 추가 코인의 합계가 안전한 정수 범위를 넘었습니다.'},400);
       if(next.rewardsEnabled&&next.mode!=='ON')return deps.json({error:'경제 보상은 클랜 공개 모드가 ON일 때만 활성화할 수 있습니다.'},400);
       if(next.rewardsEnabled&&Number(next.winnerCoin)+Number(next.runnerUpCoin)+Number(next.participationCoin)+Number(next.participationShards)<=0)return deps.json({error:'경제 보상을 활성화하려면 지급 수량을 하나 이상 설정하세요.'},400);
       await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)).run();

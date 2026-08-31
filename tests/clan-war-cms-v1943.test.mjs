@@ -20,7 +20,7 @@ test('CMS 사이드바와 독립 클랜전 운영 화면을 로드한다',()=>{
   assert.match(html,/id="clanWarAdminRoot"/);
   assert.match(html,/clan-war-admin-v1943\.css\?v=1943-clan-war-cms/);
   assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix/);
-  assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix-1946-release-runtime/);
+  assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix-1947-reward-unlimited/);
   assert.match(baseAdmin,/clanwar:'클랜전 관리'/);
   assert.match(cms,/SOOPKETMON · CLAN WAR CMS/);
   assert.match(cms,/observe\(viewNode,\{attributes:true,attributeFilter:\['hidden'\]\}\)/);
@@ -71,6 +71,20 @@ test('부분 설정 저장은 기존 상세값을 지우지 않는다',()=>{
   assert.equal(clean.warDurationMinutes,75);
   assert.equal(clean.energyRecoverySeconds,240);
   assert.equal(clean.winnerCoin,12345);
+});
+
+test('우승·준우승 추가 코인은 1억 제한 없이 저장하고 CMS 입력 상한을 두지 않는다',()=>{
+  const clean=__clanTest.cleanClanAdminSettings({winnerCoin:12_345_678_901,runnerUpCoin:9_876_543_210});
+  assert.equal(clean.winnerCoin,12_345_678_901);
+  assert.equal(clean.runnerUpCoin,9_876_543_210);
+  assert.match(cms,/field\('cwWinnerCoin','우승 추가 코인 · 한도 없음','number','min="0" step="1"'\)/);
+  assert.match(cms,/field\('cwRunnerUpCoin','준우승 추가 코인 · 한도 없음','number','min="0" step="1"'\)/);
+  assert.doesNotMatch(cms,/field\('cwWinnerCoin'[^)]*max=/);
+  assert.doesNotMatch(cms,/field\('cwRunnerUpCoin'[^)]*max=/);
+  assert.match(cms,/field\('cwParticipationCoin'[^)]*max="100000000"/);
+  assert.match(server,/Number\.MAX_SAFE_INTEGER,base\.winnerCoin/);
+  assert.match(server,/Number\.MAX_SAFE_INTEGER,base\.runnerUpCoin/);
+  assert.match(server,/Number\.isSafeInteger\(amount\)/);
 });
 
 test('운영 API는 조회를 관리자에게, 변경과 테스트 단계를 OWNER에게만 허용하고 로그를 남긴다',()=>{
