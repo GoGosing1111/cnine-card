@@ -11,7 +11,8 @@
     "test:raid-entry": "node --test tests/raid-entry-fallback-v1927.test.mjs tests/raid-v3-mobile-recovery-v1930.test.mjs",
     "test:message-rewards": "node --test tests/message-reward-client-parity-v1929.test.mjs",
     "test:workshop": "node --test tests/workshop-split-lineage-v1881.mjs tests/workshop-mystic-energy-v1931.test.mjs tests/equipment-bulk-synthesis-v1941.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && node scripts/verify-production-release.mjs",
+    "test:clan": "node --test tests/clan-v3-v1820.mjs tests/clan-war-cms-v1943.test.mjs",
+    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {

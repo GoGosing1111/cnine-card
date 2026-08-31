@@ -1,0 +1,148 @@
+#view-clanwar{--cw-cyan:#54e6d4;--cw-blue:#66a9ff;--cw-violet:#aa86ff;--cw-gold:#ffc968;--cw-red:#ff7187;--cw-green:#72e7a8;color:#ecf7ff}
+#view-clanwar .cwadmin-shell{display:grid;gap:16px;max-width:1680px;margin:0 auto}
+#view-clanwar .cwadmin-hero{position:relative;display:flex;align-items:flex-end;justify-content:space-between;gap:28px;min-height:220px;padding:30px;overflow:hidden;border:1px solid rgba(89,225,211,.28);border-radius:22px;background:radial-gradient(circle at 82% 16%,rgba(139,99,255,.28),transparent 31%),radial-gradient(circle at 8% 100%,rgba(45,211,189,.19),transparent 39%),linear-gradient(135deg,#071c24 0%,#10172c 55%,#170f2d 100%);box-shadow:0 22px 70px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.05)}
+#view-clanwar .cwadmin-hero:before{content:"";position:absolute;inset:-60% 28% -70% auto;width:1px;background:rgba(255,255,255,.22);box-shadow:-140px 0 rgba(255,255,255,.06),140px 0 rgba(255,255,255,.06);transform:rotate(28deg);pointer-events:none}
+#view-clanwar .cwadmin-hero>div{position:relative;z-index:1}
+#view-clanwar .cwadmin-hero small,#view-clanwar .cwadmin-panel header small,#view-clanwar .cwadmin-gates header small{display:block;color:var(--cw-cyan);font-size:11px;font-weight:900;letter-spacing:.18em}
+#view-clanwar .cwadmin-hero h2{margin:8px 0 10px;font-size:clamp(27px,3vw,44px);line-height:1.05;letter-spacing:-.045em}
+#view-clanwar .cwadmin-hero p{max-width:720px;margin:0;color:#a9bbce;line-height:1.65}
+#view-clanwar .cwadmin-hero-state{display:grid;justify-items:end;gap:8px;min-width:210px}
+#view-clanwar .cwadmin-hero-state>span{display:inline-flex;align-items:center;justify-content:center;min-width:88px;padding:8px 14px;border:1px solid currentColor;border-radius:999px;font-size:12px;font-weight:1000;letter-spacing:.14em}
+#view-clanwar .cwadmin-hero-state>span.mode-test{color:#ffd06b;background:rgba(255,184,42,.1);box-shadow:0 0 24px rgba(255,184,42,.12)}
+#view-clanwar .cwadmin-hero-state>span.mode-on{color:#76efad;background:rgba(48,205,124,.11);box-shadow:0 0 24px rgba(48,205,124,.14)}
+#view-clanwar .cwadmin-hero-state>span.mode-off{color:#ff8797;background:rgba(255,83,108,.1)}
+#view-clanwar .cwadmin-hero-state>b{font-size:18px}
+#view-clanwar .cwadmin-hero-state>small{color:#8296aa;letter-spacing:.08em}
+#view-clanwar .cwadmin-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+#view-clanwar .cwadmin-metrics article{position:relative;min-height:112px;padding:19px;border:1px solid rgba(102,169,255,.18);border-radius:16px;background:linear-gradient(145deg,rgba(15,29,46,.96),rgba(10,18,31,.96));overflow:hidden}
+#view-clanwar .cwadmin-metrics article:after{content:"";position:absolute;right:-24px;bottom:-40px;width:96px;height:96px;border:18px solid rgba(84,230,212,.055);border-radius:50%}
+#view-clanwar .cwadmin-metrics small{display:block;color:#8ea3b9;font-size:12px}
+#view-clanwar .cwadmin-metrics b{display:block;margin-top:8px;color:#fff;font-size:28px;letter-spacing:-.04em}
+#view-clanwar .cwadmin-gates,#view-clanwar .cwadmin-panel{border:1px solid rgba(110,151,202,.19);border-radius:18px;background:linear-gradient(150deg,rgba(15,25,40,.98),rgba(9,16,28,.98));box-shadow:0 14px 38px rgba(0,0,0,.16)}
+#view-clanwar .cwadmin-gates{padding:18px}
+#view-clanwar .cwadmin-gates>header,#view-clanwar .cwadmin-panel>header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:15px}
+#view-clanwar .cwadmin-gates h3,#view-clanwar .cwadmin-panel h3{margin:4px 0 0;font-size:20px;letter-spacing:-.025em}
+#view-clanwar .cwadmin-gates>header>span,#view-clanwar .cwadmin-panel>header>em{color:#869bb2;font-size:11px;font-style:normal;font-weight:900;letter-spacing:.09em}
+#view-clanwar .cwadmin-gates>div{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+#view-clanwar .cwadmin-gates article{display:grid;grid-template-columns:32px minmax(0,1fr) auto;align-items:center;gap:10px;padding:11px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.025)}
+#view-clanwar .cwadmin-gates article>i{display:grid;width:28px;height:28px;place-items:center;border-radius:50%;font-style:normal;font-weight:1000}
+#view-clanwar .cwadmin-gates article span b,#view-clanwar .cwadmin-gates article span small{display:block}
+#view-clanwar .cwadmin-gates article span b{font-size:13px}
+#view-clanwar .cwadmin-gates article span small{margin-top:2px;color:#73879d;font-size:10px;letter-spacing:.07em}
+#view-clanwar .cwadmin-gates article>em{font-size:10px;font-style:normal;font-weight:1000;letter-spacing:.09em}
+#view-clanwar .cwadmin-gates .gate-ready{border-color:rgba(84,227,153,.24)}
+#view-clanwar .cwadmin-gates .gate-ready>i,#view-clanwar .cwadmin-gates .gate-ready>em{color:var(--cw-green)}
+#view-clanwar .cwadmin-gates .gate-ready>i{background:rgba(84,227,153,.12)}
+#view-clanwar .cwadmin-gates .gate-pending{border-color:rgba(255,196,87,.25)}
+#view-clanwar .cwadmin-gates .gate-pending>i,#view-clanwar .cwadmin-gates .gate-pending>em{color:var(--cw-gold)}
+#view-clanwar .cwadmin-gates .gate-pending>i{background:rgba(255,196,87,.12)}
+#view-clanwar .cwadmin-gates .gate-locked{border-color:rgba(255,103,128,.25)}
+#view-clanwar .cwadmin-gates .gate-locked>i,#view-clanwar .cwadmin-gates .gate-locked>em{color:var(--cw-red)}
+#view-clanwar .cwadmin-gates .gate-locked>i{background:rgba(255,103,128,.12)}
+#view-clanwar .cwadmin-form{display:grid;gap:16px}
+#view-clanwar .cwadmin-panel{padding:20px}
+#view-clanwar .cwadmin-grid{display:grid;gap:11px}
+#view-clanwar .cwadmin-grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+#view-clanwar .cwadmin-grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+#view-clanwar .cwadmin-field{display:grid;gap:7px;min-width:0}
+#view-clanwar .cwadmin-field>span{color:#a9bbce;font-size:12px;font-weight:750}
+#view-clanwar .cwadmin-field input,#view-clanwar .cwadmin-field select{width:100%;min-width:0;height:43px;padding:0 12px;border:1px solid #30445e;border-radius:10px;background:#091523;color:#f2f8ff;outline:none}
+#view-clanwar .cwadmin-field input:focus,#view-clanwar .cwadmin-field select:focus{border-color:var(--cw-cyan);box-shadow:0 0 0 3px rgba(84,230,212,.1)}
+#view-clanwar .cwadmin-field input[readonly],#view-clanwar .cwadmin-field select:disabled{border-style:dashed;color:#8fa4ba;background:#111725;cursor:not-allowed}
+#view-clanwar .cwadmin-days{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+#view-clanwar .cwadmin-days>span{margin-right:4px;color:#a9bbce;font-size:12px;font-weight:800}
+#view-clanwar .cwadmin-days label{cursor:pointer}
+#view-clanwar .cwadmin-days input{position:absolute;opacity:0;pointer-events:none}
+#view-clanwar .cwadmin-days b{display:grid;width:37px;height:34px;place-items:center;border:1px solid #30445e;border-radius:9px;background:#091523;color:#8ea1b7;font-size:12px;transition:.16s ease}
+#view-clanwar .cwadmin-days input:checked+b{border-color:var(--cw-cyan);background:rgba(84,230,212,.13);color:#dffdf9;box-shadow:inset 0 0 16px rgba(84,230,212,.07)}
+#view-clanwar .cwadmin-contract-compare{display:grid;grid-template-columns:minmax(0,1fr) 36px minmax(0,1fr);align-items:center;gap:10px;margin-top:15px}
+#view-clanwar .cwadmin-contract-compare>article{padding:14px;border:1px solid rgba(255,111,133,.25);border-radius:12px;background:rgba(255,90,116,.055)}
+#view-clanwar .cwadmin-contract-compare>article.target{border-color:rgba(83,229,212,.28);background:rgba(83,229,212,.06)}
+#view-clanwar .cwadmin-contract-compare small,#view-clanwar .cwadmin-contract-compare b,#view-clanwar .cwadmin-contract-compare span{display:block}
+#view-clanwar .cwadmin-contract-compare small{color:#91a5bb;font-size:10px;font-weight:900;letter-spacing:.12em}
+#view-clanwar .cwadmin-contract-compare b{margin:5px 0 3px;font-size:14px}
+#view-clanwar .cwadmin-contract-compare span{color:#8498ad;font-size:11px}
+#view-clanwar .cwadmin-contract-compare>i{text-align:center;color:var(--cw-cyan);font-size:20px;font-style:normal}
+#view-clanwar .cwadmin-lock-row{display:flex;gap:8px;align-items:center;margin-top:14px;flex-wrap:wrap}
+#view-clanwar .cwadmin-lock-row span{color:#8297ad;font-size:11px}
+#view-clanwar .cwadmin-lock-row b{padding:5px 8px;border:1px solid rgba(170,134,255,.24);border-radius:999px;background:rgba(170,134,255,.09);color:#c9b8ff;font-size:10px}
+#view-clanwar .cwadmin-warning{margin:14px 0 0;padding:12px 14px;border:1px solid rgba(255,113,135,.27);border-radius:11px;background:rgba(255,84,111,.07);color:#ffc1cb;font-size:12px;line-height:1.6}
+#view-clanwar .cwadmin-save{position:sticky;bottom:10px;z-index:12;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:14px 16px;border:1px solid rgba(84,230,212,.34);border-radius:14px;background:rgba(7,17,29,.93);box-shadow:0 14px 38px rgba(0,0,0,.42);backdrop-filter:blur(14px)}
+#view-clanwar .cwadmin-save span{color:#9bb0c5;font-size:12px}
+#view-clanwar .cwadmin-save button{min-width:220px;background:linear-gradient(135deg,#1c9d8f,#316be9);box-shadow:0 8px 24px rgba(34,161,187,.22)}
+#view-clanwar .cwadmin-operations{border-color:rgba(255,194,87,.26)}
+#view-clanwar .cwadmin-operation-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+#view-clanwar .cwadmin-operation-summary>span{padding:11px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.025)}
+#view-clanwar .cwadmin-operation-summary small,#view-clanwar .cwadmin-operation-summary b{display:block}
+#view-clanwar .cwadmin-operation-summary small{color:#8195ab;font-size:10px}
+#view-clanwar .cwadmin-operation-summary b{margin-top:5px;font-size:13px}
+#view-clanwar .cwadmin-operation-buttons{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}
+#view-clanwar .cwadmin-operation-buttons button{flex:1;min-width:220px;border:1px solid rgba(255,197,94,.28);background:#1e1920;color:#ffe2a3}
+#view-clanwar .cwadmin-operation-buttons button:disabled{opacity:.38;filter:saturate(.4);cursor:not-allowed}
+#view-clanwar .cwadmin-clans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#view-clanwar .cwadmin-clans>article{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px;border:1px solid color-mix(in srgb,var(--cw-primary) 42%,#243449);border-radius:14px;background:radial-gradient(circle at 0 50%,color-mix(in srgb,var(--cw-primary) 18%,transparent),transparent 37%),#0a1422}
+#view-clanwar .cwadmin-clans img{width:64px;height:64px;object-fit:contain;filter:drop-shadow(0 7px 12px rgba(0,0,0,.45))}
+#view-clanwar .cwadmin-clans article>div small,#view-clanwar .cwadmin-clans article>div b,#view-clanwar .cwadmin-clans article>div span{display:block}
+#view-clanwar .cwadmin-clans article>div small{color:var(--cw-accent);font-size:9px;font-weight:900;letter-spacing:.08em}
+#view-clanwar .cwadmin-clans article>div b{margin:3px 0;font-size:18px}
+#view-clanwar .cwadmin-clans article>div span,#view-clanwar .cwadmin-clans article>div p{color:#8ea2b8;font-size:11px}
+#view-clanwar .cwadmin-clans article>div p{margin:5px 0 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#view-clanwar .cwadmin-clans dl{display:grid;grid-template-columns:auto auto;gap:3px 9px;margin:0;text-align:right}
+#view-clanwar .cwadmin-clans dt{color:#72869c;font-size:9px}
+#view-clanwar .cwadmin-clans dd{margin:0;color:#d9e8f5;font-size:11px;font-weight:850}
+#view-clanwar .cwadmin-wars{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#view-clanwar .cwadmin-wars>article{padding:15px;border:1px solid rgba(102,169,255,.2);border-radius:14px;background:#0a1422}
+#view-clanwar .cwadmin-wars article>header,#view-clanwar .cwadmin-wars article>footer{display:flex;align-items:center;justify-content:space-between;gap:9px;color:#8398ae;font-size:10px}
+#view-clanwar .cwadmin-wars article>header>span{font-weight:1000;letter-spacing:.12em}
+#view-clanwar .cwadmin-wars article>header>em,#view-clanwar .cwadmin-receipt>span:first-child{padding:4px 7px;border-radius:999px;font-style:normal;font-size:9px;font-weight:950}
+#view-clanwar .cwadmin-wars article>div{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:14px;margin:18px 0;text-align:center}
+#view-clanwar .cwadmin-wars article>div b{font-size:16px}
+#view-clanwar .cwadmin-wars article>div strong{color:var(--cw-gold);font-size:25px}
+#view-clanwar .cwadmin-wars article>footer>b{color:#ffe19d}
+#view-clanwar .status-active,#view-clanwar .status-completed{background:rgba(71,220,144,.13);color:#76ecae}
+#view-clanwar .status-pending,#view-clanwar .status-resolving,#view-clanwar .status-processing{background:rgba(255,196,87,.13);color:#ffd170}
+#view-clanwar .status-failed,#view-clanwar .status-error{background:rgba(255,103,128,.13);color:#ff91a2}
+#view-clanwar .cwadmin-receipts{overflow-x:auto}
+#view-clanwar .cwadmin-receipt{display:grid;grid-template-columns:90px minmax(170px,.8fr) minmax(220px,1.2fr) minmax(150px,.8fr) 130px;gap:12px;align-items:center;min-width:860px;padding:11px 9px;border-bottom:1px solid rgba(255,255,255,.07);color:#9eb1c4;font-size:11px}
+#view-clanwar .cwadmin-receipt.head{position:sticky;top:0;background:#0e1928;color:#6f859b;font-size:10px;text-transform:uppercase}
+#view-clanwar .cwadmin-receipt>span:first-child{justify-self:start}
+#view-clanwar .cwadmin-receipt time{color:#71869b}
+#view-clanwar .cwadmin-empty{margin:0;padding:22px;border:1px dashed rgba(130,156,187,.25);border-radius:12px;color:#7f93a9;text-align:center}
+
+@media(max-width:1100px){
+  #view-clanwar .cwadmin-gates>div{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #view-clanwar .cwadmin-grid.cols-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #view-clanwar .cwadmin-operation-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #view-clanwar .cwadmin-clans,#view-clanwar .cwadmin-wars{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  #view-clanwar .cwadmin-hero{align-items:flex-start;flex-direction:column;min-height:0;padding:22px}
+  #view-clanwar .cwadmin-hero-state{justify-items:start;min-width:0}
+  #view-clanwar .cwadmin-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  #view-clanwar .cwadmin-gates>div,#view-clanwar .cwadmin-grid.cols-3,#view-clanwar .cwadmin-grid.cols-4{grid-template-columns:1fr}
+  #view-clanwar .cwadmin-contract-compare{grid-template-columns:1fr}
+  #view-clanwar .cwadmin-contract-compare>i{transform:rotate(90deg)}
+  #view-clanwar .cwadmin-save{align-items:stretch;flex-direction:column;bottom:4px}
+  #view-clanwar .cwadmin-save button{width:100%;min-width:0}
+  #view-clanwar .cwadmin-clans>article{grid-template-columns:54px minmax(0,1fr)}
+  #view-clanwar .cwadmin-clans img{width:54px;height:54px}
+  #view-clanwar .cwadmin-clans dl{grid-column:1/-1;grid-template-columns:repeat(6,auto);justify-content:start;text-align:left}
+  #view-clanwar .cwadmin-wars article>footer{align-items:flex-start;flex-direction:column}
+}
+@media(max-width:520px){
+  #view-clanwar .cwadmin-panel,#view-clanwar .cwadmin-gates{padding:15px;border-radius:14px}
+  #view-clanwar .cwadmin-metrics{grid-template-columns:1fr 1fr;gap:8px}
+  #view-clanwar .cwadmin-metrics article{min-height:92px;padding:14px}
+  #view-clanwar .cwadmin-metrics b{font-size:22px}
+  #view-clanwar .cwadmin-gates>header,#view-clanwar .cwadmin-panel>header{align-items:flex-start;flex-direction:column}
+  #view-clanwar .cwadmin-gates article{grid-template-columns:28px minmax(0,1fr)}
+  #view-clanwar .cwadmin-gates article>em{grid-column:2}
+  #view-clanwar .cwadmin-operation-summary{grid-template-columns:1fr}
+  #view-clanwar .cwadmin-operation-buttons{display:grid}
+  #view-clanwar .cwadmin-operation-buttons button{min-width:0}
+  #view-clanwar .cwadmin-clans>article{gap:10px;padding:11px}
+  #view-clanwar .cwadmin-clans dl{grid-template-columns:auto auto auto auto}
+  #view-clanwar .cwadmin-wars article>div{gap:8px}
+  #view-clanwar .cwadmin-wars article>div b{font-size:13px}
+  #view-clanwar .cwadmin-wars article>div strong{font-size:21px}
+}

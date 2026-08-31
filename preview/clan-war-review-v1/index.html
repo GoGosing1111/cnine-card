@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#06101a">
+  <base href="../../">
+  <title>숲켓몬 · 클랜전 운영 검수실</title>
+  <link rel="stylesheet" href="css/clan-v1.css?v=1883-clan-war-safety">
+  <link rel="stylesheet" href="preview/clan-war-review-v1/clan-war-review.css?v=2">
+  <script defer src="js/clan-v1.js?v=1883-clan-war-safety"></script>
+  <script defer src="preview/clan-war-review-v1/clan-war-review.js?v=2"></script>
+</head>
+<body>
+  <main class="review-app">
+    <header class="review-topbar">
+      <div class="review-brand">
+        <span class="review-brand-mark" aria-hidden="true">C</span>
+        <span><small>SOOPKETMON / CLAN OPERATIONS</small><b>클랜전 운영 검수실</b></span>
+      </div>
+      <div class="review-runtime" aria-label="프리뷰 상태">
+        <i></i><span><small>RUNTIME</small><b>READ ONLY · TEST FIXTURE</b></span>
+      </div>
+      <button type="button" class="review-guide-button" data-scroll-rules>변경안 요약</button>
+    </header>
+
+    <section class="review-hero" aria-labelledby="reviewTitle">
+      <div>
+        <span class="review-kicker"><i></i> 60 MINUTE WAR / DESIGN REVIEW</span>
+        <h1 id="reviewTitle">한 클랜과 한 시간,<br><em>비슷한 전투력끼리</em> 붙는다</h1>
+        <p>클랜 1곳과 60분 동안 대결하고, 각 교전은 시즌 고정 덱 전투력이 가까운 상대에게 자동 배정되는 변경 검수안입니다. 운영 DB와 API는 변경하지 않습니다.</p>
+      </div>
+      <dl class="review-hero-metrics">
+        <div><dt>공식 클랜</dt><dd>08</dd><span>동시 4개 대진</span></div>
+        <div><dt>대진 방식</dt><dd>1:1</dd><span>한 시간 상대 고정</span></div>
+        <div><dt>개인 행동력</dt><dd>05/10</dd><span>3분당 +1</span></div>
+        <div><dt>전장 시간</dt><dd>60M</dd><span>21:00—22:00</span></div>
+      </dl>
+    </section>
+
+    <nav class="review-flow" aria-label="클랜 시즌 검수 단계">
+      <button type="button" data-review-scene="registration"><i>01</i><span><b>참가 신청</b><small>ENTRY</small></span></button>
+      <button type="button" data-review-scene="draft"><i>02</i><span><b>블라인드 드래프트</b><small>DRAFT</small></span></button>
+      <button type="button" data-review-scene="war" class="is-active"><i>03</i><span><b>정시 클랜전</b><small>60 MIN WAR</small></span></button>
+      <button type="button" data-review-scene="battle"><i>04</i><span><b>V3 전투 연출</b><small>COMBAT</small></span></button>
+      <button type="button" data-review-scene="settlement"><i>05</i><span><b>정산·순위</b><small>RESULT</small></span></button>
+    </nav>
+
+    <section class="review-workspace">
+      <aside class="review-inspector" id="rulesInspector">
+        <header>
+          <span><small>REQUESTED CONTRACT</small><b>이번 변경 검수안</b></span>
+          <em>DESIGN TARGET</em>
+        </header>
+        <ol class="mechanic-flow">
+          <li><i>01</i><div><b>클랜 1곳과 60분 대진</b><p>8개 클랜을 4개 대진으로 묶고 21:00부터 22:00까지 상대 클랜을 바꾸지 않습니다.</p></div></li>
+          <li><i>02</i><div><b>행동력 5에서 시작</b><p>보유 상한 10, 3분마다 1회 회복, 한 클랜전에서 개인이 사용할 수 있는 행동력은 최대 10회입니다.</p></div></li>
+          <li><i>03</i><div><b>유사 전투력 자동 매칭</b><p>시즌 고정 랭크전 덱 5장의 전투력으로 양쪽 로스터를 정렬하고 ±10% 상대를 우선 자동 배정합니다.</p></div></li>
+          <li><i>04</i><div><b>공격 쏠림 방지</b><p>허용 범위 안에서 방어 배정이 가장 적은 상대를 먼저 선택하고, 범위에 없으면 가장 가까운 전투력 1명을 배정합니다.</p></div></li>
+          <li><i>05</i><div><b>PROJECT V V3 판정</b><p>고유효과·마법카드·장비 보정을 포함한 서버 타임라인을 1.3배속 전투로 재생하고 결과를 클랜 점수에 합산합니다.</p></div></li>
+        </ol>
+        <section class="implementation-audit" aria-labelledby="auditTitle">
+          <header><span><small>IMPLEMENTATION GAP</small><b id="auditTitle">라이브 연결 전 확인</b></span><strong>PREVIEW</strong></header>
+          <article class="is-warning"><i>!</i><p><b>60분 개방·행동력 회복 미구현</b><span>현재 서버의 클랜전당 3회 제한을 5/10 행동력과 180초 회복 방식으로 교체해야 합니다.</span></p></article>
+          <article class="is-warning"><i>!</i><p><b>전투력 자동 매칭 미구현</b><span>현재 서버는 상대 목록에서 직접 선택합니다. 덱 스냅샷 전투력과 방어 배정 횟수 기반 선택 로직이 필요합니다.</span></p></article>
+          <article class="is-warning"><i>!</i><p><b>후속 라운드 미구현</b><span>현재 서버는 개막 시 1라운드 대진만 생성합니다. 다음 라운드·리그 순환 생성은 없습니다.</span></p></article>
+          <article class="is-locked"><i>×</i><p><b>TEST 경제 보상 잠금</b><span>정산은 트로피만 기록하며 코인·아이템 보상은 DISABLED_TEST 상태입니다.</span></p></article>
+        </section>
+      </aside>
+
+      <section class="review-live-panel" aria-labelledby="livePreviewTitle">
+        <header class="review-live-header">
+          <div><small>LIVE COMPONENT + DESIGN LAYER</small><h2 id="livePreviewTitle">60분 클랜전 변경 화면</h2><p id="sceneDescription">21:00—22:00 단일 대진과 유사 전투력 자동 매칭 검수 화면입니다.</p></div>
+          <span><i></i>API WRITE BLOCKED</span>
+        </header>
+        <div class="review-live-browser">
+          <div class="review-browser-bar"><span></span><span></span><span></span><b id="reviewPath">/clan · WAR ROOM</b><em>FIXTURE</em></div>
+          <div class="review-clan-mount" id="clanPreviewMount" aria-live="polite"></div>
+        </div>
+      </section>
+    </section>
+
+    <footer class="review-footer">
+      <span>라이브 컴포넌트: css/clan-v1.css + js/clan-v1.js</span>
+      <span>전투 시연: preview/project-v-v3</span>
+      <span>운영 API 호출: 0</span>
+    </footer>
+  </main>
+
+  <div class="review-toast" id="reviewToast" role="status" aria-live="polite"></div>
+
+  <section class="battle-review" id="battleReview" aria-hidden="true" aria-label="PROJECT V V3 클랜전 연출 검수">
+    <header class="battle-review-topbar">
+      <div><small>SOOPKETMON · CLAN WAR</small><b>PROJECT V V3 교전 연출</b></div>
+      <div class="battle-review-matchup"><span><img src="assets/ui/clan/marks/dk-clan-mark-v1.webp" alt="">DK</span><i>VS</i><span>T1<img src="assets/ui/clan/marks/t1-clan-mark-v1.webp" alt=""></span></div>
+      <button type="button" data-close-battle aria-label="전투 검수 닫기">닫기 ×</button>
+    </header>
+    <div class="battle-review-body">
+      <aside class="battle-review-brief">
+        <span class="battle-readonly"><i></i>PREVIEW PAYLOAD</span>
+        <small>AUTO-ASSIGNED TARGET</small>
+        <h2 id="battleTargetName">T1_선봉대</h2>
+        <p>실제 클랜전은 서버가 덱·고유효과·장비·마법카드를 판정한 뒤 같은 V3 렌더러에 타임라인을 전달합니다.</p>
+        <dl>
+          <div><dt>내 행동력</dt><dd>4 / 10</dd></div>
+          <div><dt>다음 회복</dt><dd>3분당 +1</dd></div>
+          <div><dt>전투력 매칭</dt><dd id="battlePowerMatch">+1.3%</dd></div>
+          <div><dt>대상 방어</dt><dd id="battleDefenseCount">4 / 10</dd></div>
+          <div><dt>재생 속도</dt><dd>1.3×</dd></div>
+        </dl>
+        <div class="battle-review-actions">
+          <button type="button" class="is-primary" data-play-v3>V3 교전 재생</button>
+          <button type="button" data-show-result>결과 연출 보기</button>
+        </div>
+        <p class="battle-help">오른쪽 화면은 현재 PROJECT V V3 전투 프리뷰입니다. 재생 버튼은 PVP 전장을 선택하고 동일 렌더러의 공격·스킬·타격 연출을 실행합니다.</p>
+      </aside>
+      <div class="battle-frame-wrap">
+        <div class="battle-frame-state"><i></i><span id="battleFrameState">V3 CLIENT CONNECTING</span></div>
+        <iframe id="v3BattleFrame" title="PROJECT V V3 전투 렌더러" src="preview/project-v-v3/index.html" loading="eager"></iframe>
+        <div class="battle-result-layer" id="battleResultLayer" aria-hidden="true">
+          <div class="clan-result-card win">
+            <small>SOOPKETMON · CLAN WAR</small>
+            <strong>VICTORY</strong>
+            <div><b>428,640</b><i>VS</i><b>391,820</b></div>
+            <span>PROJECT V V3 · POWER-MATCHED BATTLE</span>
+            <dl><div><dt>대진 점수</dt><dd>DK +1</dd></div><div><dt>시즌 점수</dt><dd>DK +3</dd></div><div><dt>남은 행동력</dt><dd>3 / 10</dd></div></dl>
+            <button type="button" data-hide-result>클랜전으로 돌아가기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
