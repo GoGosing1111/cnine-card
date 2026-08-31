@@ -92,12 +92,14 @@ test('마스터 점수는 활동·랭크·기여·신뢰 스냅샷으로 계산�
   assert.equal(active.activity_band,'CORE');
 });
 
-test('OWNER TEST 잠금과 ON 전환 API가 서버에 존재한다',()=>{
+test('OWNER TEST 잠금과 정식 ON 공개 게이트가 서버·유저 메뉴에 연결된다',()=>{
   assert.match(server,/clan_settings_v1/);
   assert.match(server,/mode:'TEST'/);
   assert.match(server,/CLAN_TEST_ONLY/);
   assert.match(server,/clan\/admin\/mode/);
-  assert.match(app,/CLAN_FEATURE_MODE='TEST'/);
+  assert.match(app,/CLAN_FEATURE_MODE='ON'/);
+  assert.doesNotMatch(app,/클랜 TEST/);
+  assert.match(app,/data-tab="clan">클랜<\/button>/);
   assert.match(shell,/clanTestVisible/);
   assert.match(postgresMigration,/\{"mode":"TEST"\}/);
   assert.equal((postgresMigration.match(/CREATE TABLE IF NOT EXISTS clan_/g)||[]).length,9);

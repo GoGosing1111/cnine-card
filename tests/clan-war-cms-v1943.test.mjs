@@ -20,7 +20,7 @@ test('CMS 사이드바와 독립 클랜전 운영 화면을 로드한다',()=>{
   assert.match(html,/id="clanWarAdminRoot"/);
   assert.match(html,/clan-war-admin-v1943\.css\?v=1943-clan-war-cms/);
   assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix/);
-  assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix-1947-reward-unlimited/);
+  assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix-1947-reward-unlimited-1948-season-one-reset/);
   assert.match(baseAdmin,/clanwar:'클랜전 관리'/);
   assert.match(cms,/SOOPKETMON · CLAN WAR CMS/);
   assert.match(cms,/observe\(viewNode,\{attributes:true,attributeFilter:\['hidden'\]\}\)/);
@@ -97,13 +97,24 @@ test('운영 API는 조회를 관리자에게, 변경과 테스트 단계를 OWN
   assert.match(server,/개방 요일을 하나 이상 선택하세요/);
   assert.match(server,/지원하지 않는 클랜전 CMS 요청 방식/);
   assert.match(router,/handleClan\(\{path,request,env,deps:\{authenticate,readBody,json,isAdminRole,writeAdminLog/);
-  for(const route of ['clan/admin/test-bootstrap','clan/admin/test-activate','clan/admin/test-settle','admin/clan-war/reset-draft'])assert.match(cms,new RegExp(route.replaceAll('/','\\/')));
+  for(const route of ['clan/admin/test-bootstrap','clan/admin/test-activate','clan/admin/test-settle','admin/clan-war/reset-draft','admin/clan-war/reset-official-season-one'])assert.match(cms,new RegExp(route.replaceAll('/','\\/')));
   assert.match(server,/CLAN_WAR_RESET_TO_DRAFT/);
   assert.match(server,/CLAN_RESET_REWARDS_PAID/);
   assert.match(server,/CLAN_RESET_BATTLE_BUSY/);
   assert.match(server,/confirmation\|\|''\)!=='RESET_TO_DRAFT'/);
   assert.match(server,/DELETE FROM clan_war_battles WHERE season_id=\?/);
   assert.match(server,/fresh=await beginDraft\(env,fresh,settings/);
+});
+
+test('공식 공개 전환은 테스트 시즌 기록과 트로피를 원자적으로 지우고 새 시즌 1을 만든다',()=>{
+  assert.match(cms,/data-cw-operation="official-reset"/);
+  assert.match(cms,/RESET_OFFICIAL_SEASON_1/);
+  assert.match(server,/CLAN_WAR_OFFICIAL_SEASON_ONE_RESET/);
+  assert.match(server,/CLAN_OFFICIAL_RESET_REWARDS_PAID/);
+  assert.match(server,/CLAN_OFFICIAL_RESET_POOL_NOT_EMPTY/);
+  for(const table of ['clan_war_battles','clan_reward_receipts','clan_wars','clan_season_settlements','clan_members','clan_season_teams','clan_draft_pool','clan_draft_locks','clan_seasons'])assert.match(server,new RegExp(`DELETE FROM ${table}`));
+  assert.match(server,/UPDATE clan_organizations SET trophies=0/);
+  assert.match(server,/VALUES\(1,'REGISTRATION',20/);
 });
 
 test('60분·10회 행동력·전투력 매칭·보상 영수증이 모두 라이브 계약으로 연결된다',()=>{

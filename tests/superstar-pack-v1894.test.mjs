@@ -166,8 +166,8 @@ test('팩 원본·반응형 리소스와 전용 스타일이 배포 엔트리에
   assert.match(index, /superstar-pack-v1894\.css\?v=1895-larger-pack-clean-label/);
   assert.match(index, /app\.js\?v=1941-superstar-pack-early-access/);
   assert.match(serviceWorker, /soop-card-shell-v1941-superstar-pack-early-access/);
-  assert.match(index, /app\.js\?v=1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime/);
-  assert.match(serviceWorker, /soop-card-shell-v1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime/);
+  assert.match(index, /app\.js\?v=1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime-1948-clan-public-launch/);
+  assert.match(serviceWorker, /soop-card-shell-v1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime-1948-clan-public-launch/);
   const css = read('css/superstar-pack-v1894.css');
   assert.match(css, /\.superstar-swipe-track/);
   assert.match(css, /\.pack-splitting \.pack-half-left/);

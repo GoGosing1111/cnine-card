@@ -502,6 +502,36 @@ async function resetSeasonToDraft(env,deps,user,settings,body){
   }finally{await releaseDraftLock(env,lock)}
 }
 
+async function resetOfficialSeasonOne(env,deps,user,settings,body){
+  if(!isOwner(user))return deps.json({error:'공식 클랜 시즌 초기화는 OWNER만 실행할 수 있습니다.'},403);
+  if(String(body.confirmation||'')!=='RESET_OFFICIAL_SEASON_1')return deps.json({error:'RESET_OFFICIAL_SEASON_1 확인값이 필요합니다.',code:'CLAN_OFFICIAL_RESET_CONFIRMATION_REQUIRED'},400);
+  if(settings.mode!=='ON')return deps.json({error:'클랜 공개 모드를 ON으로 저장한 뒤 공식 시즌을 초기화하세요.',code:'CLAN_OFFICIAL_RESET_REQUIRES_ON'},409);
+  const season=await env.DB.prepare('SELECT * FROM clan_seasons ORDER BY season_no DESC,id DESC LIMIT 1').first();
+  const lock=await acquireDraftLock(env,Number(season?.id||0));if(!lock.ok)return deps.json({error:'다른 클랜전 작업을 처리 중입니다. 잠시 후 다시 시도하세요.'},409);
+  try{
+    const [paidRewards,inFlight,currentPool,seasons,trophies]=await Promise.all([
+      env.DB.prepare("SELECT COUNT(*) count FROM clan_reward_receipts WHERE status='COMPLETED'").first(),
+      env.DB.prepare("SELECT COUNT(*) count FROM clan_war_battles WHERE status IN ('PENDING','RESOLVING')").first(),
+      season?env.DB.prepare('SELECT COUNT(*) count FROM clan_draft_pool WHERE season_id=?').bind(season.id).first():Promise.resolve({count:0}),
+      env.DB.prepare('SELECT COUNT(*) count FROM clan_seasons').first(),
+      env.DB.prepare('SELECT COALESCE(SUM(trophies),0) total FROM clan_organizations').first()
+    ]);
+    if(Number(paidRewards?.count||0)>0)return deps.json({error:'지급 완료된 클랜 보상 영수증이 있어 공식 시즌 기록을 삭제할 수 없습니다.',code:'CLAN_OFFICIAL_RESET_REWARDS_PAID'},409);
+    if(Number(inFlight?.count||0)>0)return deps.json({error:'처리 중인 클랜전이 끝난 뒤 공식 시즌을 초기화하세요.',code:'CLAN_OFFICIAL_RESET_BATTLE_BUSY'},409);
+    if(season&&season.phase!=='REGISTRATION')return deps.json({error:'참가 신청 단계에서만 공식 시즌 1로 초기화할 수 있습니다.',code:'CLAN_OFFICIAL_RESET_PHASE_LOCKED'},409);
+    if(Number(currentPool?.count||0)>0)return deps.json({error:'현재 시즌 참가 신청자가 있어 공식 시즌 기록을 삭제할 수 없습니다.',code:'CLAN_OFFICIAL_RESET_POOL_NOT_EMPTY'},409);
+    const now=Date.now(),registrationEnd=now+Number(settings.registrationDays||1)*86400000,draftEnd=registrationEnd+Number(settings.draftDays||1)*86400000,seasonEnd=draftEnd+Number(settings.seasonDays||7)*86400000;
+    await env.DB.batch([
+      env.DB.prepare('DELETE FROM clan_war_battles'),env.DB.prepare('DELETE FROM clan_reward_receipts'),env.DB.prepare('DELETE FROM clan_wars'),env.DB.prepare('DELETE FROM clan_season_settlements'),env.DB.prepare('DELETE FROM clan_members'),env.DB.prepare('DELETE FROM clan_season_teams'),env.DB.prepare('DELETE FROM clan_draft_pool'),env.DB.prepare('DELETE FROM clan_draft_locks'),env.DB.prepare('DELETE FROM clan_seasons'),
+      env.DB.prepare('UPDATE clan_organizations SET trophies=0,updated_at=CURRENT_TIMESTAMP'),
+      env.DB.prepare("INSERT INTO clan_seasons(season_no,phase,max_members,registration_ends_at,draft_ends_at,starts_at,ends_at) VALUES(1,'REGISTRATION',20,?,?,?,?)").bind(iso(registrationEnd),iso(draftEnd),iso(draftEnd),iso(seasonEnd))
+    ]);
+    const fresh=await env.DB.prepare('SELECT * FROM clan_seasons WHERE season_no=1 ORDER BY id DESC LIMIT 1').first(),before={seasonCount:Number(seasons?.count||0),latestSeasonNo:Number(season?.season_no||0),latestPhase:season?.phase||null,trophyTotal:Number(trophies?.total||0),registered:Number(currentPool?.count||0)},after={seasonId:Number(fresh?.id||0),seasonNo:1,phase:'REGISTRATION',trophyTotal:0,registrationEndsAt:fresh?.registration_ends_at,draftEndsAt:fresh?.draft_ends_at,endsAt:fresh?.ends_at};
+    if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'CLAN_WAR_OFFICIAL_SEASON_ONE_RESET','CLAN_SEASON',String(fresh?.id||1),before,after);
+    return deps.json({ok:true,reset:after,state:await clanAdminState(env,settings)});
+  }finally{await releaseDraftLock(env,lock)}
+}
+
 async function buildClanBattle(env,deps,attackerUser,defenderUser,attackerPool,defenderPool,seed){
   const battle=await deps.battleSettings(env),[aCardsRaw,dCardsRaw]=await Promise.all([deps.pvpDeckSnapshotByIds(env,attackerUser.id,safeJson(attackerPool.deck_snapshot,[])),deps.pvpDeckSnapshotByIds(env,defenderUser.id,safeJson(defenderPool.deck_snapshot,[]))]);
   if(aCardsRaw.length!==5)throw new Error('내 클랜전 덱 5장을 불러오지 못했습니다. 다음 시즌 신청에서 덱을 갱신하세요.');if(dCardsRaw.length!==5)throw new Error('상대 클랜원의 전투 덱이 완성되지 않았습니다.');
@@ -561,6 +591,7 @@ export async function handleClan({path,request,env,deps}){
     return deps.json({error:'지원하지 않는 클랜전 CMS 요청 방식입니다.'},405);
   }
   if(path==='admin/clan-war/reset-draft'&&request.method==='POST')return resetSeasonToDraft(env,deps,user,settings,await deps.readBody(request));
+  if(path==='admin/clan-war/reset-official-season-one'&&request.method==='POST')return resetOfficialSeasonOne(env,deps,user,settings,await deps.readBody(request));
   if(path==='clan/admin/mode'&&request.method==='POST'){
     if(!owner)return deps.json({error:'OWNER 권한이 필요합니다.'},403);const body=await deps.readBody(request),mode=String(body.mode||'').toUpperCase();if(!['OFF','TEST','ON'].includes(mode))return deps.json({error:'클랜 공개 상태는 OFF, TEST, ON 중 하나여야 합니다.'},400);const next={...settings,mode,rewardsEnabled:mode==='ON'?settings.rewardsEnabled:false};await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(CLAN_ADMIN_SETTINGS_KEY,JSON.stringify(next)).run();if(deps.writeAdminLog)await deps.writeAdminLog(env,user,'CLAN_WAR_MODE_UPDATE','APP_META',CLAN_ADMIN_SETTINGS_KEY,{mode:settings.mode,rewardsEnabled:settings.rewardsEnabled},{mode,rewardsEnabled:next.rewardsEnabled});return deps.json({ok:true,mode,rewardsEnabled:next.rewardsEnabled});
   }

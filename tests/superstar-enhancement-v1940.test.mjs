@@ -96,5 +96,5 @@ test('SUPERSTAR +11~+13은 챔피언십 프레임을 유지하며 v1940 자산�
   for(const asset of ['admin-v1276.js','admin-v1065-card-management-reorg.js','admin-v1170-user-card-grant.js']){
     assert.match(adminIndex,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
-  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime'/);
+  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime-1948-clan-public-launch'/);
 });
