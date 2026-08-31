@@ -15,7 +15,7 @@ import { handleClan } from '../_clan.js';
 import { handleAuction } from '../_auction.js';
 import { handleSiege } from '../_siege.js';
 import { handleChief } from '../_chief.js';
-import { handleBlackMiracleAdmin,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
+import { handleBlackMiracleAdmin,blackMiracleSettings,openBlackMiraclePack,rollBlackMiracleDrop } from '../_black_miracle_pack.js';
 import { SUPERSTAR_PACK_ID,handleSuperstarPackDraw,superstarPackCatalogRow,superstarPackSettings } from '../_superstar_pack.js';
 import { BURNING_EVENT_DURATION_MINUTES,BURNING_EVENT_DEFAULT_DURATION_MINUTES,burningEventEndsAt,burningEventIsLive,canManageBurningEvent,isBurningEventDurationMinutes,normalizeBurningEventDurationMinutes } from '../_burning_event_access.js';
 import { handleIdleDungeon } from '../_idle_dungeon.js';
@@ -4699,12 +4699,13 @@ async function handleRequest(context){
     }
     if(path==='inventory'){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
+      const blackMiracleUseEnabled=(await blackMiracleSettings(env)).enabled===true;
       await env.DB.prepare("UPDATE inventory_items SET name='미스틱 에너지',subtitle='MYSTIC ENERGY',description='미스틱 장비 제작에 투입되는 고밀도 결정 에너지입니다. 직접 사용할 수 없는 제작 재료입니다.',category='MATERIAL',rarity='MYTHIC',image_url='assets/items/starlight-armor-core-v1749.png',is_active=1,updated_at=CURRENT_TIMESTAMP WHERE code='STARLIGHT_ARMOR_CORE'").run();
       const rows=await env.DB.prepare(`SELECT i.code,i.name,i.subtitle,i.description,i.category,i.rarity,i.image_url AS image,COALESCE(ui.quantity,0) AS quantity,COALESCE(ui.unseen_quantity,0) AS unseenQuantity,
-          CASE WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN 0 ELSE 1 END AS usable
+          CASE WHEN i.category='MATERIAL' OR i.code IN ('VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE') THEN 0 WHEN i.code='BLACK_MIRACLE_PACK' THEN ? ELSE 1 END AS usable
         FROM inventory_items i LEFT JOIN cnine_user_inventory ui ON ui.item_code=i.code AND ui.user_id=?
         WHERE i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR COALESCE(ui.quantity,0)>0)
-        ORDER BY i.sort_order,i.code`).bind(user.id).all();
+        ORDER BY i.sort_order,i.code`).bind(blackMiracleUseEnabled?1:0,user.id).all();
       const items=rows.results.map(x=>({...x,quantity:Number(x.quantity||0),unseenQuantity:Number(x.unseenQuantity||0),usable:Number(x.usable)!==0,useDisabledMessage:x.category==='MATERIAL'?'재료 전용 · 사용 불가':['VEHICLE_PART_TIRE','VEHICLE_PART_FRAME','VEHICLE_PART_ENGINE'].includes(x.code)?'제작소 전용':x.code==='BLACK_MIRACLE_PACK'&&Number(x.usable)===0?'CMS에서 사용 중지됨':''}));
       return json({items,totalQuantity:items.reduce((n,x)=>n+x.quantity,0),ownedTypes:items.filter(x=>x.quantity>0).length,unseenTotal:items.reduce((n,x)=>n+x.unseenQuantity,0)});
     }
@@ -7469,6 +7470,24 @@ async function handleRequest(context){
       }
       else return json({error:'지원하지 않는 작업입니다.'},400);
       const after=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();await writeAdminLog(env,admin,action,'USER',userId,before,after);return json({ok:true,user:after});
+    }
+
+    if(path==='admin/users/inventory-audit'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');
+      if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
+      if(request.method!=='GET')return json({error:'지원하지 않는 요청입니다.'},405);
+      const userId=Number(url.searchParams.get('userId'));
+      if(!Number.isInteger(userId)||userId<1)return json({error:'확인할 유저를 선택하세요.'},400);
+      const target=await env.DB.prepare('SELECT id,nickname,role FROM users WHERE id=?').bind(userId).first();
+      if(!target)return json({error:'유저를 찾을 수 없습니다.'},404);
+      if(target.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정은 확인할 수 없습니다.'},403);
+      const itemCode='BLACK_MIRACLE_PACK';
+      const [inventory,logs]=await Promise.all([
+        env.DB.prepare('SELECT quantity,unseen_quantity,updated_at FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,itemCode).first(),
+        env.DB.prepare(`SELECT change_amount,balance_after,reason,reference_type,reference_id,admin_id,created_at
+          FROM inventory_logs WHERE user_id=? AND item_code=? ORDER BY id DESC LIMIT 10`).bind(userId,itemCode).all()
+      ]);
+      return json({user:{id:Number(target.id),nickname:target.nickname,role:target.role},item:{code:itemCode,quantity:Math.max(0,Number(inventory?.quantity||0)),unseenQuantity:Math.max(0,Number(inventory?.unseen_quantity||0)),updatedAt:inventory?.updated_at||null},logs:logs.results||[]});
     }
 
     if(path==='admin/users'){

@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { DatabaseSync } from 'node:sqlite';
 import test from 'node:test';
 
 import {
   blackMiraclePowerRate,
   buildBlackMiraclePowerPool,
   cleanBlackMiracleSettings,
+  openBlackMiraclePack,
   rollBlackMiracleOutcome,
 } from '../functions/_black_miracle_pack.js';
 
@@ -72,9 +74,9 @@ test('automatic power pools are stable, public-only, power-sorted and overrideab
   assert.deepEqual(buildBlackMiraclePowerPool(rows, { ...config, maxItems: 2 }, 'EQUIPMENT').map((entry) => entry.id), [10, 11]);
 });
 
-test('release kill switch keeps missing and legacy enabled settings OFF while preserving reward compatibility', () => {
+test('release switch lets the CMS setting control opening while preserving reward compatibility', () => {
   assert.equal(cleanBlackMiracleSettings({}).enabled, false, 'missing or invalid settings must keep inventory opening OFF');
-  assert.equal(cleanBlackMiracleSettings({ enabled: true }).enabled, false, 'a stored enabled:true value must not bypass the release kill switch');
+  assert.equal(cleanBlackMiracleSettings({ enabled: true }).enabled, true, 'an OWNER-enabled CMS setting must allow inventory opening');
   const migrated = cleanBlackMiracleSettings({
     enabled: true,
     rewards: {
@@ -85,7 +87,7 @@ test('release kill switch keeps missing and legacy enabled settings OFF while pr
     },
   });
   assert.equal(migrated.powerRewards.enabled, true, 'saved v1485 settings without powerRewards must adopt AUTO');
-  assert.equal(migrated.enabled, false, 'legacy saved settings must remain inventory-use OFF for this release');
+  assert.equal(migrated.enabled, true, 'an enabled saved setting must remain enabled after migration');
   assert.equal(migrated.powerRewards.equipment.mode, 'AUTO');
   assert.equal(migrated.powerRewards.vehicle.mode, 'AUTO');
 
@@ -172,7 +174,7 @@ test('server removes SQL randomness and guards source/open grants with PENDING r
   const drop = server.slice(dropStart, openStart);
   const open = server.slice(openStart, adminStart);
 
-  assert.match(server, /BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED\s*=\s*false/);
+  assert.match(server, /BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED\s*=\s*true/);
   assert.match(open, /!BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED\s*\|\|\s*settings\.enabled\s*!==\s*true/);
 
   assert.match(drop, /black_miracle_pack_drop_receipts/);
@@ -191,9 +193,102 @@ test('server removes SQL randomness and guards source/open grants with PENDING r
   assert.match(open, /env\.DB\.batch\(/);
   assert.match(open, /SET\s+status='CLAIMED'[\s\S]*quantity=\?[\s\S]*status='CLAIMED'/i,
     'a request must claim the exact pre-open balance before any reward statement can run');
-  assert.match(open, /UPDATE\s+black_miracle_pack_open_receipts[\s\S]*status\s*=\s*'COMPLETED'[\s\S]*status\s*=\s*'CLAIMED'/i);
+  assert.match(open, /UPDATE\s+black_miracle_pack_open_receipts[\s\S]*status\s*=\s*'COMPLETED'[\s\S]*status\s*=\s*'\$\{completionStatus\}'/i);
   assert.doesNotMatch(open, /await\s+env\.DB\.prepare\([\s\S]{0,240}quantity\s*=\s*quantity\s*-\s*1[\s\S]{0,180}\.run\(\)/i,
     'pack consumption must be part of the guarded atomic grant batch, not a standalone write');
+  assert.match(open, /SET status='REWARDED'[\s\S]{0,420}user_equipment_instances/i,
+    'equipment grant existence must advance the receipt before pack consumption');
+  assert.match(open, /SET status='REWARDED'[\s\S]{0,420}user_garage_vehicles/i,
+    'vehicle grant existence must advance the receipt before pack consumption');
+  assert.match(open, /quantity=quantity-1[\s\S]{0,500}status='\$\{completionStatus\}'/i,
+    'the verified reward state must guard item pack consumption');
+  assert.match(open, /rewardGranted\s*!==\s*1\s*\|\|\s*rewardVerified\s*!==\s*1/,
+    'a zero-row equipment or vehicle grant must fail the open request');
+});
+
+test('zero-row equipment and vehicle grants leave the pack untouched and never complete the receipt', async () => {
+  const sqlite = new DatabaseSync(':memory:');
+  sqlite.exec(`
+    CREATE TABLE app_meta(key TEXT PRIMARY KEY,value TEXT,updated_at TEXT DEFAULT CURRENT_TIMESTAMP);
+    CREATE TABLE inventory_items(code TEXT PRIMARY KEY,name TEXT,subtitle TEXT,description TEXT,category TEXT,rarity TEXT,image_url TEXT,sort_order INTEGER,is_active INTEGER,updated_at TEXT DEFAULT CURRENT_TIMESTAMP);
+    CREATE TABLE cnine_user_inventory(user_id INTEGER,item_code TEXT,quantity INTEGER,unseen_quantity INTEGER,created_at TEXT DEFAULT CURRENT_TIMESTAMP,updated_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,item_code));
+    CREATE TABLE character_equipment_items(id INTEGER PRIMARY KEY,code TEXT,name TEXT,slot TEXT,rarity TEXT,image_url TEXT,total_power INTEGER,pve_power INTEGER,pvp_power INTEGER,is_active INTEGER,is_public INTEGER,sort_order INTEGER);
+    CREATE TABLE character_garage_items(id INTEGER PRIMARY KEY,code TEXT,name TEXT,rarity TEXT,image_url TEXT,total_power INTEGER,pve_power INTEGER,pvp_power INTEGER,is_active INTEGER,is_public INTEGER,sort_order INTEGER);
+    CREATE TABLE user_equipment_instances(id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER,equipment_id INTEGER,source_type TEXT,source_id TEXT,request_id TEXT,acquired_at TEXT DEFAULT CURRENT_TIMESTAMP);
+    CREATE TABLE user_garage_vehicles(user_id INTEGER,garage_id INTEGER,source_type TEXT,source_id TEXT,acquired_at TEXT DEFAULT CURRENT_TIMESTAMP,PRIMARY KEY(user_id,garage_id));
+    CREATE TABLE inventory_logs(user_id INTEGER,item_code TEXT,change_amount INTEGER,balance_after INTEGER,reason TEXT,reference_type TEXT,reference_id TEXT);
+  `);
+  const run = (sql, params = []) => {
+    const result = sqlite.prepare(sql).run(...params);
+    return { success: true, meta: { changes: Number(result.changes || 0) } };
+  };
+  class D1Statement {
+    constructor(sql, params = []) { this.sql = sql; this.params = params; }
+    bind(...params) { return new D1Statement(this.sql, params); }
+    first() { return sqlite.prepare(this.sql).get(...this.params) || null; }
+    all() { return { results: sqlite.prepare(this.sql).all(...this.params) };
+    }
+    run() { return run(this.sql, this.params); }
+  }
+  const env = { DB: {
+    prepare(sql) { return new D1Statement(sql); },
+    batch(statements) {
+      const openReceipt = statements.find(statement => statement.sql.includes('INSERT OR IGNORE INTO black_miracle_pack_open_receipts(request_id'));
+      if (openReceipt?.params?.[0] === 'zero-row-equipment-grant') {
+        run('UPDATE character_equipment_items SET is_active=0 WHERE id=101');
+      } else if (openReceipt?.params?.[0] === 'zero-row-vehicle-grant') {
+        run('UPDATE character_garage_items SET is_active=0 WHERE id=202');
+      }
+      sqlite.exec('BEGIN');
+      try {
+        const results = statements.map(statement => statement.run());
+        sqlite.exec('COMMIT');
+        return results;
+      } catch (error) {
+        sqlite.exec('ROLLBACK');
+        throw error;
+      }
+    },
+  } };
+  const settings = {
+    enabled: true,
+    powerRewards: {
+      enabled: true,
+      maxTotalRatePercent: 1,
+      equipment: { enabled: true, mode: 'AUTO', minRatePercent: 0.1, maxRatePercent: 0.1 },
+      vehicle: { enabled: false },
+    },
+  };
+  run('INSERT INTO app_meta(key,value) VALUES(?,?)', ['black_miracle_pack_settings_v1485', JSON.stringify(settings)]);
+  run("INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity) VALUES(1,'BLACK_MIRACLE_PACK',1,1)");
+  run("INSERT INTO character_equipment_items(id,code,name,slot,rarity,image_url,total_power,pve_power,pvp_power,is_active,is_public,sort_order) VALUES(101,'EQ-101','race target','WEAPON','MYTHIC','',100,100,100,1,1,1)");
+
+  const originalRandom = Math.random;
+  Math.random = () => 0;
+  try {
+    await assert.rejects(openBlackMiraclePack(env, { userId: 1, requestId: 'zero-row-equipment-grant' }), /보상을 지급하지 못해 팩을 차감하지 않았습니다/);
+    assert.equal(sqlite.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='BLACK_MIRACLE_PACK'").get().quantity, 1);
+    assert.equal(sqlite.prepare('SELECT COUNT(*) AS count FROM user_equipment_instances').get().count, 0);
+    assert.equal(sqlite.prepare("SELECT status FROM black_miracle_pack_open_receipts WHERE request_id='zero-row-equipment-grant'").get().status, 'FAILED');
+
+    const vehicleSettings = {
+      ...settings,
+      powerRewards: {
+        ...settings.powerRewards,
+        equipment: { enabled: false },
+        vehicle: { enabled: true, mode: 'AUTO', minRatePercent: 0.1, maxRatePercent: 0.1 },
+      },
+    };
+    run('UPDATE app_meta SET value=? WHERE key=?', [JSON.stringify(vehicleSettings), 'black_miracle_pack_settings_v1485']);
+    run("INSERT INTO character_garage_items(id,code,name,rarity,image_url,total_power,pve_power,pvp_power,is_active,is_public,sort_order) VALUES(202,'CAR-202','race target','MYTHIC','',100,100,100,1,1,1)");
+    await assert.rejects(openBlackMiraclePack(env, { userId: 1, requestId: 'zero-row-vehicle-grant' }), /보상을 지급하지 못해 팩을 차감하지 않았습니다/);
+    assert.equal(sqlite.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=1 AND item_code='BLACK_MIRACLE_PACK'").get().quantity, 1);
+    assert.equal(sqlite.prepare('SELECT COUNT(*) AS count FROM user_garage_vehicles').get().count, 0);
+    assert.equal(sqlite.prepare("SELECT status FROM black_miracle_pack_open_receipts WHERE request_id='zero-row-vehicle-grant'").get().status, 'FAILED');
+  } finally {
+    Math.random = originalRandom;
+    sqlite.close();
+  }
 });
 
 test('five-card reveal is single-use, accessible, responsive and reduced-motion safe', async () => {
@@ -280,8 +375,9 @@ test('OWNER CMS exposes automatic power-rate limits and detailed overrides', asy
   assert.match(admin, /data-bmp-rate-preview/);
   assert.match(server, /String\(user\.role\).*===\s*'OWNER'|String\(user\.role\).*!==\s*'OWNER'/);
   assert.match(api, /source:'RIFT'[\s\S]{0,260}blackMiracleReward/);
-  assert.match(api, /WHEN i\.code='BLACK_MIRACLE_PACK' THEN 0 ELSE 1 END AS usable/,
-    'the release kill switch must keep inventory use disabled regardless of stored app_meta');
-  assert.doesNotMatch(api, /WHEN i\.code='BLACK_MIRACLE_PACK' THEN COALESCE\(\(SELECT[\s\S]{0,320}black_miracle_pack_settings_v1485/,
-    'raw app_meta must not be able to re-enable inventory use during this release');
+  assert.match(api, /blackMiracleUseEnabled=\(await blackMiracleSettings\(env\)\)\.enabled===true/,
+    'inventory usability must use the same cleaned OWNER setting as the open endpoint');
+  assert.match(api, /WHEN i\.code='BLACK_MIRACLE_PACK' THEN \? ELSE 1 END AS usable/);
+  assert.doesNotMatch(api, /WHEN i\.code='BLACK_MIRACLE_PACK' THEN 0 ELSE 1 END AS usable/,
+    'inventory use must no longer be hard-disabled after release');
 });
