@@ -1,5 +1,6 @@
 import {normalizeSkillEffectKind, SKILL_EFFECT_KIND} from './SkillEffectFX.js';
 import {V3_ROLE_AUDIO_ASSETS} from './RoleAudioSpriteManifest.js';
+import {normalizeAdvancementAudioCode, V3_ADVANCEMENT_AUDIO_ASSETS} from './AdvancementAudioManifest.js';
 
 const MUTE_KEY='cnine_battle_sound';
 const AudioContextClass=()=>globalThis.AudioContext||globalThis.webkitAudioContext||null;
@@ -21,6 +22,11 @@ export class BattleAudioMixer{
     this.bytes=new Map();
     this.buffers=new Map();
     this.failures=new Map();
+    this.advancementBytes=new Map();
+    this.advancementBuffers=new Map();
+    this.advancementFailures=new Map();
+    this.advancementLoads=new Map();
+    this.advancementGeneration=0;
     this.loadPromise=null;
     this.preloadTimer=null;
     this.activeSources=new Set();
@@ -62,6 +68,7 @@ export class BattleAudioMixer{
       this.compressor.release.value=.22;
       this.master.connect(this.compressor).connect(this.context.destination);
       if(this.bytes.size)this.decodeAll();
+      if(this.advancementBytes.size)this.decodeAdvancements([...this.advancementBytes.keys()]);
     }
     return this.context;
   }
@@ -128,6 +135,63 @@ export class BattleAudioMixer{
     return this.buffers.size===4;
   }
 
+  async prepareAdvancements(values=[]){
+    const codes=[...new Set((Array.isArray(values)?values:[]).map(normalizeAdvancementAudioCode).filter(Boolean))];
+    if(!codes.length||this.destroyed)return true;
+    const generation=this.advancementGeneration;
+    const results=await Promise.all(codes.map(async code=>{
+      if(this.advancementBytes.has(code)||this.advancementBuffers.has(code))return true;
+      if(this.advancementLoads.has(code))return this.advancementLoads.get(code);
+      const spec=V3_ADVANCEMENT_AUDIO_ASSETS[code];
+      const pending=fetch(spec.asset,{cache:'force-cache',signal:this.abortController?.signal}).then(async response=>{
+        if(!response.ok)throw new Error(`HTTP_${response.status}`);
+        const payload=await response.arrayBuffer();
+        if(payload.byteLength!==spec.bytes)throw new Error(`PAYLOAD_${payload.byteLength}_${spec.bytes}`);
+        if(!this.destroyed&&generation===this.advancementGeneration){this.advancementBytes.set(code,payload);this.advancementFailures.delete(code)}
+        return true;
+      }).catch(error=>{
+        if(!this.destroyed&&generation===this.advancementGeneration){
+          this.advancementFailures.set(code,error);
+          console.error(`[V3 advancement audio] ${code} unavailable; no fallback is used`,error);
+        }
+        return false;
+      }).finally(()=>{if(this.advancementLoads.get(code)===pending)this.advancementLoads.delete(code)});
+      this.advancementLoads.set(code,pending);
+      return pending;
+    }));
+    if(this.context&&generation===this.advancementGeneration)await this.decodeAdvancements(codes,generation);
+    return generation===this.advancementGeneration&&results.every(Boolean);
+  }
+
+  async decodeAdvancements(values=[],expectedGeneration=this.advancementGeneration){
+    if(!this.context||this.destroyed)return false;
+    const codes=[...new Set((Array.isArray(values)?values:[]).map(normalizeAdvancementAudioCode).filter(Boolean))];
+    await Promise.all(codes.map(async code=>{
+      if(this.advancementBuffers.has(code))return;
+      const payload=this.advancementBytes.get(code);
+      if(!payload)return;
+      try{
+        const buffer=await this.context.decodeAudioData(payload.slice(0));
+        if(!this.destroyed&&expectedGeneration===this.advancementGeneration){this.advancementBuffers.set(code,buffer);this.advancementFailures.delete(code)}
+      }catch(error){
+        if(!this.destroyed&&expectedGeneration===this.advancementGeneration){
+          this.advancementFailures.set(code,error);
+          console.error(`[V3 advancement audio] ${code} decode failed; no fallback is used`,error);
+        }
+      }
+    }));
+    return expectedGeneration===this.advancementGeneration&&codes.every(code=>this.advancementBuffers.has(code));
+  }
+
+  releaseAdvancements(){
+    this.advancementGeneration+=1;
+    this.advancementBytes.clear();
+    this.advancementBuffers.clear();
+    this.advancementFailures.clear();
+    this.advancementLoads.clear();
+    return true;
+  }
+
   scheduleImpact(kind,{impactAt=.25,playbackSpeed=1.3,critical=false,boss=false,pan=0}={}){
     const role=normalizeSkillEffectKind(kind);
     const spec=V3_ROLE_AUDIO_ASSETS[role]||V3_ROLE_AUDIO_ASSETS[SKILL_EFFECT_KIND.ATTACK];
@@ -139,6 +203,48 @@ export class BattleAudioMixer{
     const delay=Math.max(0,realImpact-authoredSync);
     const offset=Math.max(0,authoredSync-realImpact);
     return this.startBuffer(role,{delay,offset,critical,boss,pan});
+  }
+
+  scheduleAdvancementImpact(value,{impactAt=.25,playbackSpeed=1.3,pan=0}={}){
+    const code=normalizeAdvancementAudioCode(value);
+    const spec=V3_ADVANCEMENT_AUDIO_ASSETS[code];
+    const context=this.ensure();
+    const buffer=this.advancementBuffers.get(code);
+    if(!code||!context||context.state!=='running'||!spec||!buffer)return false;
+    const realImpact=Math.max(0,Number(impactAt)||0)/Math.max(.1,Number(playbackSpeed)||1);
+    const authoredSync=Math.max(0,Number(spec.syncPointMs)||0)/1000;
+    const delay=Math.max(0,realImpact-authoredSync);
+    const offset=Math.max(0,authoredSync-realImpact);
+    return this.startAdvancementBuffer(code,{delay,offset,pan});
+  }
+
+  startAdvancementBuffer(code,{delay=0,offset=0,pan=0}={}){
+    const context=this.ensure();
+    const spec=V3_ADVANCEMENT_AUDIO_ASSETS[code];
+    const buffer=this.advancementBuffers.get(code);
+    if(!context||context.state!=='running'||!spec||!buffer)return false;
+    const source=context.createBufferSource();
+    const gain=context.createGain();
+    source.buffer=buffer;
+    gain.gain.value=spec.gain;
+    let tail=gain;
+    if(typeof context.createStereoPanner==='function'){
+      const panner=context.createStereoPanner();
+      panner.pan.value=Math.max(-1,Math.min(1,Number(pan)||0));
+      gain.connect(panner);
+      tail=panner;
+    }
+    source.connect(gain);
+    tail.connect(this.master);
+    const when=context.currentTime+Math.max(0,Number(delay)||0);
+    const safeOffset=Math.min(Math.max(0,Number(offset)||0),Math.max(0,buffer.duration-.025));
+    this.activeSources.add(source);
+    source.onended=()=>{
+      this.activeSources.delete(source);
+      try{source.disconnect();gain.disconnect();if(tail!==gain)tail.disconnect()}catch{}
+    };
+    source.start(when,safeOffset);
+    return true;
   }
 
   startBuffer(kind,{delay=0,offset=0,critical=false,boss=false,pan=0}={}){
@@ -185,8 +291,16 @@ export class BattleAudioMixer{
       assetState:this.buffers.size===4?'ready':this.bytes.size===4?'fetched':this.failures.size?'partial':'idle',
       ready:[...this.buffers.keys()],
       failures:[...this.failures.keys()],
+      advancement:{
+        strategy:'timeline-codes-only',
+        fetched:[...this.advancementBytes.keys()],
+        ready:[...this.advancementBuffers.keys()],
+        failures:[...this.advancementFailures.keys()],
+        eagerPreloadAll:false,
+        proceduralFallback:false
+      },
       activeSources:this.activeSources.size,
-      requestCount:4,
+      requestCount:4+new Set([...this.advancementBytes.keys(),...this.advancementBuffers.keys(),...this.advancementLoads.keys()]).size,
       contextOwner:this.ownsContext?'v3':'shared-live',
       proceduralFallback:false,
       retiredAudioSprite:false
@@ -206,6 +320,7 @@ export class BattleAudioMixer{
     if(this.ownsContext)this.context?.close?.().catch(()=>{});
     this.buffers.clear();
     this.bytes.clear();
+    this.releaseAdvancements();
     this.context=null;
     this.ownsContext=false;
   }

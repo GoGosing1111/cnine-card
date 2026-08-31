@@ -1,0 +1,15 @@
+{
+  "version": "v3-advancement-awakening-v1",
+  "runtimeConnected": true,
+  "sourceType": "layered-recorded-samples",
+  "proceduralSynthesis": false,
+  "runtimeSynthesis": false,
+  "license": "Mixkit Sound Effects Free License",
+  "licenseUrl": "https://mixkit.co/license/#sfxFree",
+  "assets": {
+    "SHATTER": {"file": "shatter-advancement-v1.mp3", "bytes": 36908, "syncPointMs": 250, "sha256": "b4c498a8ae554411456f1c2b5a3883275b3d1e4b2fb974ab7df0b227c7b576c0"},
+    "RIPOSTE": {"file": "riposte-advancement-v1.mp3", "bytes": 42284, "syncPointMs": 300, "sha256": "e649a410e874bdfef29f88981170a5faaa683b4e34550ae459148e538831078f"},
+    "AFTERIMAGE": {"file": "afterimage-advancement-v1.mp3", "bytes": 30764, "syncPointMs": 178, "sha256": "28b9a99971ad0564aa0da74fc8a9627cc2758ebd835db63da722e291f242aef6"},
+    "IMMORTAL": {"file": "immortal-advancement-v1.mp3", "bytes": 72236, "syncPointMs": 333, "sha256": "d86b5f69e20c5d7f0527683d4f7c5980438c9dc912f75ebd006768f78b785691"}
+  }
+}

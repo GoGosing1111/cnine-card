@@ -85,6 +85,7 @@ function normalizeUniqueAdvancement(card = {}, type = 'NONE') {
     modifiers: {
       criticalChancePoints: modifier('criticalChancePoints', 0, 25),
       penetrationPoints: modifier('penetrationPoints', 0, 50),
+      openingGaugePoints: modifier('openingGaugePoints', 0, 60),
       dodgeChancePoints: modifier('dodgeChancePoints', 0, 20),
       dodgeCapPoints: modifier('dodgeCapPoints', 0, 20),
       counterChancePoints: modifier('counterChancePoints', 0, 35),
@@ -94,6 +95,7 @@ function normalizeUniqueAdvancement(card = {}, type = 'NONE') {
       damageDealtPercent: modifier('damageDealtPercent', -35, 35),
       damageCapPoints: modifier('damageCapPoints', 0, 25),
       lastStandHealPoolPercent: modifier('lastStandHealPoolPercent', 0, 35),
+      sealedLastStandHealPoolPercent: modifier('sealedLastStandHealPoolPercent', 0, 25),
       healPoolBonusPercent: modifier('healPoolBonusPercent', 0, 50),
     },
   };
@@ -316,7 +318,9 @@ export function buildFighter(card, index, side, uniqueAbility = null, battleMode
     speed,
     shield: startingShield,
     maxShield: startingShield,
-    gauge: type === 'SPEED' ? 30 : 0,
+    // 시작 게이지 전직 보정은 경쟁전에서만 적용한다. PVE 행동 순서와 보스
+    // 타임라인은 기존 게이트를 그대로 유지한다.
+    gauge: Math.min(95, (type === 'SPEED' ? 30 : 0) + (mode === 'PVP' ? Number(advancementModifiers.openingGaugePoints || 0) : 0)),
     alive: startingHp > 0,
     emergencyUsed: false,
     survivalUsed: false,
@@ -537,6 +541,25 @@ function resolveKnockout(target, timeline, clock, onBeforeKnockout = null) {
   if (target.uniqueAdvancement?.classCode === 'IMMORTAL' && !target.advancementLastStandUsed && lastStandPercent > 0) {
     target.advancementLastStandUsed = true;
     if (consumeReviveSeal(target.side)) {
+      const sealedPercent = Number(target.uniqueAdvancement?.modifiers?.sealedLastStandHealPoolPercent || 0);
+      const requested = Math.max(0, Math.round(target.maxHp * sealedPercent / 100));
+      const amount = requested > 0 ? spendHealPool(target.side, requested) : 0;
+      if (amount > 0) {
+        target.hp = Math.min(target.maxHp, amount);
+        target.alive = true;
+        target.healingDone += amount;
+        pushEvent(timeline, clock, 'ADVANCEMENT_SEALED', {
+          targetId: target.id,
+          classCode: 'IMMORTAL',
+          amount,
+          hpAfter: target.hp,
+          maxHp: target.maxHp,
+          revived: true,
+          sealConsumed: true,
+          label: '불멸자 · 봉인 저항',
+        });
+        return false;
+      }
       pushEvent(timeline, clock, 'ADVANCEMENT_BLOCKED', {
         targetId: target.id,
         classCode: 'IMMORTAL',
@@ -669,7 +692,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       });
       __healPool[side] = Math.round(pool * (isPveBattle ? S1.pveHealPoolScale : 1));
     }
-    // 공격형은 상대 팀 부활 예산을 미리 깎는다
+    // 공격형은 상대 팀 부활 예산을 미리 깎는다. 불멸자는 이 스택을 소비하면
+    // 완전 부활 대신 서버 설정만큼 축소된 `ADVANCEMENT_SEALED` 생존을 시도한다.
     const attackers = team.filter(card => card.type === 'ATTACK').length;
     if (advancementBattleActive && attackers > 0 && S1.attackSealRevive > 0) {
       const foe = side === 'A' ? 'B' : 'A';

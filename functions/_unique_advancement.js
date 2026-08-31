@@ -21,6 +21,7 @@ const GUARD_TABLE='card_unique_advancement_tx_guards_v1937';
 const ZERO_MODIFIERS=Object.freeze({
   criticalChancePoints:0,
   penetrationPoints:0,
+  openingGaugePoints:0,
   dodgeChancePoints:0,
   dodgeCapPoints:0,
   counterChancePoints:0,
@@ -30,6 +31,7 @@ const ZERO_MODIFIERS=Object.freeze({
   damageCapPoints:0,
   damageDealtPercent:0,
   lastStandHealPoolPercent:0,
+  sealedLastStandHealPoolPercent:0,
   healPoolBonusPercent:0
 });
 
@@ -38,23 +40,23 @@ const ZERO_MODIFIERS=Object.freeze({
 export const UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS=Object.freeze({
   SHATTER:Object.freeze({
     classCode:'SHATTER',dominantType:'ATTACK',name:'파쇄자',subtitle:'BREACHER',
-    description:'치명타 확률 +6%p, 관통 +20%p, 공격 피해 상한 +12%p가 적용됩니다.',
-    modifiers:Object.freeze({...ZERO_MODIFIERS,criticalChancePoints:6,penetrationPoints:20,damageCapPoints:12})
+    description:'PVP 시작 행동 게이지 +10, 치명타 확률 +15%p, 관통 +35%p, 공격 피해 상한 +20%p, 직접 피해 +13%가 적용됩니다.',
+    modifiers:Object.freeze({...ZERO_MODIFIERS,openingGaugePoints:10,criticalChancePoints:15,penetrationPoints:35,damageCapPoints:20,damageDealtPercent:13})
   }),
   RIPOSTE:Object.freeze({
     classCode:'RIPOSTE',dominantType:'DEFENSE',name:'반격자',subtitle:'RIPOSTE',
-    description:'반격 확률 +3%p, 반격 배율 +3%p, 방벽이 없을 때 반격 확률 +1%p가 적용되고 직접 피해는 20% 감소합니다.',
-    modifiers:Object.freeze({...ZERO_MODIFIERS,counterChancePoints:3,counterMultiplierPoints:3,unshieldedCounterChancePoints:1,damageDealtPercent:-20})
+    description:'반격 확률 +11%p, 반격 배율 +13%p, 방벽이 없을 때 반격 확률 +5%p, 가하는 피해 +2%가 적용됩니다.',
+    modifiers:Object.freeze({...ZERO_MODIFIERS,counterChancePoints:11,counterMultiplierPoints:13,unshieldedCounterChancePoints:5,damageDealtPercent:2})
   }),
   AFTERIMAGE:Object.freeze({
     classCode:'AFTERIMAGE',dominantType:'SPEED',name:'잔영자',subtitle:'AFTERIMAGE',
-    description:'회피 확률 +6%p, 회피 상한 +6%p, 관통 +8%p가 적용되고 최대 생명력은 7% 감소합니다.',
-    modifiers:Object.freeze({...ZERO_MODIFIERS,penetrationPoints:8,dodgeChancePoints:6,dodgeCapPoints:6,maxHpPercent:-7})
+    description:'회피 확률 +10%p, 회피 상한 +10%p, 관통 +18%p가 적용되고 최대 생명력은 3% 감소합니다.',
+    modifiers:Object.freeze({...ZERO_MODIFIERS,penetrationPoints:18,dodgeChancePoints:10,dodgeCapPoints:10,maxHpPercent:-3})
   }),
   IMMORTAL:Object.freeze({
     classCode:'IMMORTAL',dominantType:'HP',name:'불멸자',subtitle:'IMMORTAL',
-    description:'최대 생명력 +12%, 아군 회복 풀 +15%가 적용되며 회복 풀 25%를 쓰는 최후 생존 판정을 얻습니다.',
-    modifiers:Object.freeze({...ZERO_MODIFIERS,maxHpPercent:12,lastStandHealPoolPercent:25,healPoolBonusPercent:15})
+    description:'최대 생명력 +27%, 아군 회복 풀 +35%가 적용되며 회복 풀 35%를 쓰는 최후 생존 판정을 얻습니다. 공격형 봉인 시에도 회복 풀 25%로 축소 생존합니다.',
+    modifiers:Object.freeze({...ZERO_MODIFIERS,maxHpPercent:27,lastStandHealPoolPercent:35,sealedLastStandHealPoolPercent:25,healPoolBonusPercent:35})
   })
 });
 
@@ -238,13 +240,15 @@ function advancementFromRow(row){
   if(!row)return null;
   const classCode=normalizedGrade(row.class_code??row.classCode),definition=UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS[classCode];
   if(!definition)return null;
-  const stored=safeJson(row.modifiers_json??row.modifiersJson,null);
+  // DB 행은 소유권·전직 계열·감사 스냅샷의 권위이고, 실제 전투 계수는 현재
+  // 서버 계약이 권위다. 그래야 밸런스 패치가 기존 전직 보유 카드에도 즉시
+  // 동일하게 적용되고 과거 modifiers_json 때문에 유저별 계수가 갈리지 않는다.
   return {
     active:true,
     classCode,
     dominantType:normalizedGrade(row.dominant_type??row.dominantType)||definition.dominantType,
     configVersion:Math.max(1,Math.floor(finite(row.config_version??row.configVersion,1))),
-    modifiers:normalizeUniqueAdvancementModifiers(stored||definition.modifiers),
+    modifiers:normalizeUniqueAdvancementModifiers(definition.modifiers),
     activatedAt:String((row.activated_at??row.activatedAt)||'')||null
   };
 }

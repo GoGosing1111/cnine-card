@@ -1,4 +1,5 @@
 import { createPvpBattleV2 } from '../../functions/_battle_v2_preview.js';
+import { UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS } from '../../functions/_unique_advancement.js';
 
 const POWER = 120_000;
 const EQUIPMENT = 500_000;
@@ -13,24 +14,13 @@ const UNIQUE = Object.freeze({
   NONE: null,
 });
 
-export const ADVANCEMENT_CANDIDATES_V1937 = Object.freeze({
-  SHATTER: {
-    dominantType: 'ATTACK',
-    modifiers: { criticalChancePoints: 6, penetrationPoints: 20, damageCapPoints: 12, maxHpPercent: 0 },
-  },
-  RIPOSTE: {
-    dominantType: 'DEFENSE',
-    modifiers: { counterChancePoints: 3, counterMultiplierPoints: 3, unshieldedCounterChancePoints: 1, damageDealtPercent: -20 },
-  },
-  AFTERIMAGE: {
-    dominantType: 'SPEED',
-    modifiers: { dodgeChancePoints: 6, dodgeCapPoints: 6, penetrationPoints: 8, maxHpPercent: -7 },
-  },
-  IMMORTAL: {
-    dominantType: 'HP',
-    modifiers: { lastStandHealPoolPercent: 25, healPoolBonusPercent: 15, maxHpPercent: 12, damageDealtPercent: 0 },
-  },
-});
+// 서버 계약을 그대로 읽어 하네스 수치가 라이브 정의와 어긋나지 않게 한다.
+export const ADVANCEMENT_CANDIDATES_V1937 = Object.freeze(Object.fromEntries(
+  Object.entries(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS).map(([classCode, definition]) => [classCode, {
+    dominantType: definition.dominantType,
+    modifiers: { ...definition.modifiers },
+  }]),
+));
 
 function deck(classCode = '') {
   const definition = ADVANCEMENT_CANDIDATES_V1937[classCode] || null;

@@ -1,0 +1,14 @@
+{
+  "version": "v3-advancement-awakening-v1",
+  "runtimeConnected": true,
+  "renderer": "PixiJS AnimatedSprite(autoUpdate:false) + GSAP frame clock",
+  "frameCount": 12,
+  "blendMode": "screen",
+  "conditionalPreload": "battleV2.result.timeline codes only",
+  "effects": {
+    "SHATTER": {"atlas": "shatter-advancement-atlas-v3.json", "assetVersion": 3, "impactAtMs": 420, "hitStopMs": 82, "shake": 22, "sha256": "4A8D0EAFFACAE0DAC4D747E6BFA7030E15D1F4385A743C0120F8FE031E882D56"},
+    "RIPOSTE": {"atlas": "riposte-advancement-atlas-v1.json", "assetVersion": 1, "impactAtMs": 460, "hitStopMs": 104, "shake": 18, "sha256": "3D70439BA3063509C71D276FBA0EDB59538532497F4F30FA22D45B5679B56E2C"},
+    "AFTERIMAGE": {"atlas": "afterimage-advancement-atlas-v3.json", "assetVersion": 3, "impactAtMs": 320, "hitStopMs": 32, "shake": 8, "sha256": "DE9A6D015D9BD05C744E416D18F1A195BB5682E34F882F59D24802171D4D4092"},
+    "IMMORTAL": {"atlas": "immortal-advancement-atlas-v3.json", "assetVersion": 3, "impactAtMs": 500, "hitStopMs": 76, "shake": 10, "sha256": "407554DC1CB9D88A298E5CC015AA1E9D29FB50E8861B21ABBC19771EFE485EFE"}
+  }
+}

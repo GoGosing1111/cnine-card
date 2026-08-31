@@ -19,7 +19,7 @@ assert.match(live,/ProjectVPixiBattle\.resetSession\(payload, host\)/);
 assert.match(live,/const VERSION = '3\.24\.0-battlefield-fade-deadlock'/);
 assert.match(live,/ProjectVPixiBattle\.cancelActiveAnimations/);
 assert.match(live,/ProjectVPixiBattle\.syncFinalState\(finalState\)/);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=71-battlefield-fade-deadlock/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=72-advancement-awakening/);
 assert.match(app,/battle-v3-live\.js\?v=3\.24\.0-battlefield-fade-deadlock/);
 
 console.log('Project V V3 session reset contract: OK');

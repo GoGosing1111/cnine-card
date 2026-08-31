@@ -53,7 +53,7 @@ assert.match(adminCss, /@media\(max-width:560px\).*\.cp-admin-tabs/s);
 assert.match(app, /coin-prediction-v1\.css\?v=1813-history-tabs/);
 assert.match(app, /coin-prediction-v2\.css\?v=1861-broadcast-ledger/);
 assert.match(app, /coin-prediction-v1\.js\?v=1861-broadcast-ledger/);
-assert.match(index, /js\/app\.js\?v=1938-unique-advancement-cost/);
+assert.match(index, /js\/app\.js\?v=1939-advancement-awakening/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.css\?v=1883-prediction-only-admin/);
 assert.match(adminIndex, /coin-prediction-admin-v1\.js\?v=1883-prediction-only-admin/);
 assert.match(serviceWorker, /soop-card-shell-v\d+/);

@@ -6,6 +6,7 @@ import {BattleAudioMixer} from './BattleAudioMixer.js';
 import {configureDamageText, createBattlePools} from './ObjectPool.js';
 import {AVATAR_LAYER_ORDER, BattleCharacter, CHARACTER_STATE, TEAM} from './BattleCharacter.js';
 import {normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
+import {AdvancementEffectFX, advancementEffectProfile, normalizeAdvancementEffectCode} from './AdvancementEffectFX.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -13,6 +14,7 @@ const CARD={width:168,height:252,scale:.88};
 const BUNDLE='project-v-battle-v3';
 const ISO_GRID={columns:7,rows:6};
 const PLAYBACK_SPEED=1.3;
+const ADVANCEMENT_LOAD_DEADLINE_MS=900;
 const DEFAULT_BATTLEFIELD_MODE='HUNT';
 const BATTLEFIELD_ASSETS=Object.freeze({
   HUNT:'../../assets/ui/project-v/battlefields/v3-nightmare-forest-battlefield-v1.png',
@@ -104,6 +106,20 @@ function assignCombatRole(character,card,{boss=false}={}){
   character.accent=Number(card?.accentColor)||profile.accent;
   character.abilityLabel=card?.uniqueAbility?.effectName||card?.effectName||profile.label;
   return character;
+}
+
+function advancementCodesFromPayload(payload){
+  const timeline=Array.isArray(payload?.battleV2?.result?.timeline)?payload.battleV2.result.timeline:[];
+  const codes=timeline.map(event=>{
+    const type=String(event?.type||'').trim().toUpperCase();
+    const activation=normalizeAdvancementEffectCode(event?.advancementClass||event?.classCode);
+    if(type==='TURN'&&event?.dodge===true&&activation==='AFTERIMAGE')return activation;
+    if(type==='TURN'&&event?.dodge!==true&&activation==='SHATTER')return activation;
+    if(type==='COUNTER'&&activation==='RIPOSTE')return activation;
+    if((type==='ADVANCEMENT'||type==='ADVANCEMENT_SEALED')&&activation==='IMMORTAL')return activation;
+    return '';
+  });
+  return [...new Set(codes.filter(Boolean))];
 }
 
 function normalizeBattlefieldMode(value){
@@ -236,6 +252,10 @@ export class BattleEngine{
     this.skillTimeline=null;
     this.pools=null;
     this.audio=null;
+    this.advancementCodes=new Set();
+    this.advancementReadyPromise=Promise.resolve(true);
+    this.advancementLoadTimeouts=0;
+    this.playbackEpoch=0;
     this.textures=null;
     this.cards=[];
     this.characters=[];
@@ -341,6 +361,10 @@ export class BattleEngine{
     // context, so awaiting both prevents the first automatic hit from racing
     // an unfinished decode. Missing assets resolve false and stay silent;
     // they never revive the retired procedural sound.
+    // The four authored advancement atlases decode to another ~43 MiB. They
+    // must never sit inside the first-frame barrier that is protected by the
+    // mobile renderer watchdog. applyBattlePayload() starts desktop warming in
+    // the background; low-memory clients load one exact activation on demand.
     await Promise.all([SkillEffectFX.preloadAll(),this.audio.prepare()]);
     this.skillTimeline=new SkillTimeline({
       ...DESKTOP,
@@ -989,6 +1013,7 @@ export class BattleEngine{
     const enemyCards=Array.isArray(payload?.battleV2?.teams?.B?.cards)
       ?payload.battleV2.teams.B.cards.filter(card=>!/^MONSTER:/i.test(String(card?.cardId||''))&&!['MONSTER','BOSS'].includes(String(card?.grade||'').toUpperCase()))
       :[];
+    await this.prepareAdvancementRuntime(payload);
     const resolveCardArt=(card,team)=>card?.projectVBattleArt
       ||zenithAdapter?.resolveForBattle?.(card,{consumer:'BATTLE_ENGINE'})
       ||tierAdapter?.resolveForV3?.(card)
@@ -1099,6 +1124,59 @@ export class BattleEngine{
     if(String(art.kind||'').startsWith('UNASSIGNED_'))this.activeFallbackArt.push(art);
     this.activeMonsterArt=art;
     return art;
+  }
+
+  async prepareAdvancementRuntime(payload){
+    const codes=advancementCodesFromPayload(payload);
+    this.advancementCodes=new Set(codes);
+    const warmCodes=LOW_MEMORY_DEVICE?[]:codes;
+    await AdvancementEffectFX.retain(warmCodes);
+    this.advancementReadyPromise=warmCodes.length
+      ?Promise.all([
+        AdvancementEffectFX.preloadMany(warmCodes),
+        this.audio?.prepareAdvancements?.(warmCodes)??Promise.resolve(true)
+      ]).then(()=>true).catch(error=>{
+        console.error('[Project V V3] 전직 연출 백그라운드 준비 실패',error);
+        return false;
+      })
+      :Promise.resolve(true);
+    return codes;
+  }
+
+  async ensureAdvancementReady(value){
+    const code=normalizeAdvancementEffectCode(value);
+    if(!code)return false;
+    // Streaming modes may append a server-authoritative event after the initial
+    // payload snapshot. The caller has already matched the exact event/class
+    // pair, so include that code without trusting card-side presentation data.
+    this.advancementCodes.add(code);
+    const load=(async()=>{
+      await AdvancementEffectFX.retain(LOW_MEMORY_DEVICE?[code]:[...this.advancementCodes]);
+      const [frames,audioReady]=await Promise.all([
+        AdvancementEffectFX.preload(code),
+        this.audio?.prepareAdvancements?.([code])??Promise.resolve(true)
+      ]);
+      return Array.isArray(frames)&&frames.length===12&&audioReady!==false;
+    })().catch(error=>{
+      console.error(`[Project V V3] ${code} 전직 연출 준비 실패`,error);
+      return false;
+    });
+    let timer=0;
+    const ready=await Promise.race([
+      load,
+      new Promise(resolve=>{timer=setTimeout(()=>resolve(false),ADVANCEMENT_LOAD_DEADLINE_MS)})
+    ]);
+    clearTimeout(timer);
+    if(!ready)this.advancementLoadTimeouts+=1;
+    return ready;
+  }
+
+  async releaseOptionalAdvancementAssets(){
+    this.advancementCodes.clear();
+    this.advancementReadyPromise=Promise.resolve(false);
+    this.audio?.releaseAdvancements?.();
+    await AdvancementEffectFX.retain([]);
+    return true;
   }
 
   makeHpBar(parent,width,value,color=0x64e3a9){
@@ -1369,7 +1447,7 @@ export class BattleEngine{
     return target;
   }
 
-  timeline(build,cleanup=()=>{}){
+  timeline(build,cleanup=()=>{},fixedTimeScale=null){
     return new Promise(resolve=>{
       let finished=false;
       const settle=value=>{
@@ -1383,12 +1461,41 @@ export class BattleEngine{
       const entry={instance,settle};
       this.simpleTimelines.add(entry);
       build(instance);
-      instance.timeScale(this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1));
+      const requestedScale=Number(fixedTimeScale);
+      instance.timeScale(Number.isFinite(requestedScale)&&requestedScale>0
+        ?requestedScale
+        :this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1));
       instance.play(0);
     });
   }
 
+  triggerAdvancementScreenFlash({durationMs=50,alpha=.26}={}){
+    if(!this.root||!this.scene)return {release(){}};
+    const flash=new Graphics()
+      .rect(0,0,this.scene.width,this.scene.height)
+      .fill({color:0xffffff,alpha:clamp(Number(alpha)||.26,0,1)});
+    flash.label='V3_ADVANCEMENT_FULL_STAGE_WHITE_FLASH';
+    flash.eventMode='none';
+    flash.blendMode='screen';
+    this.root.addChild(flash);
+    let active=true;
+    let timer=0;
+    const release=()=>{
+      if(!active)return;
+      active=false;
+      clearTimeout(timer);
+      flash.removeFromParent();
+      flash.destroy();
+    };
+    timer=setTimeout(release,Math.max(0,Number(durationMs)||50));
+    return {release};
+  }
+
   cancelTimelines(){
+    // Invalidate event handlers still waiting on an optional atlas or recorded
+    // SFX decode. The late network result may warm a cache, but it must never
+    // start a stale combat timeline after recovery, reset, or modal close.
+    this.playbackEpoch+=1;
     this.skillTimeline?.cancelAll();
     [...this.simpleTimelines].forEach(entry=>{entry.instance.kill();entry.settle(false)});
     this.audio?.stopAll?.();
@@ -1502,7 +1609,7 @@ export class BattleEngine{
     });
   }
 
-  normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,healing=0,hitCount=1,onImpact=()=>{}}={}){
+  async normalAttack(index,{damage=128440,critical=false,attacker=null,target=null,targetHp=null,healing=0,hitCount=1,advancementClass='',onImpact=()=>{}}={}){
     const requestedActor=attacker||this.allies[index%this.allies.length];
     const actor=this.isAlive(requestedActor)?requestedActor:(requestedActor?.team===TEAM.ENEMY?this.enemies:this.allies).find(character=>this.isAlive(character));
     const victim=this.selectLiveTarget(actor,target);
@@ -1514,6 +1621,11 @@ export class BattleEngine{
     const victimView=victim.root;
     const roleKind=normalizeSkillEffectKind(actor.effectKind);
     const roleProfile=roleEffectProfile(roleKind);
+    const advancementCode=normalizeAdvancementEffectCode(advancementClass);
+    const advancementProfile=advancementEffectProfile(advancementCode);
+    const playbackEpoch=this.playbackEpoch;
+    if(advancementProfile)await this.ensureAdvancementReady(advancementCode);
+    if(playbackEpoch!==this.playbackEpoch||!this.visible)return false;
     const damageLabel=this.pools.damage.acquire();
     const impact={x:victimView.x,y:victimView.y-176};
     const isBossTarget=Boolean(victim.isBoss);
@@ -1523,14 +1635,20 @@ export class BattleEngine{
       damageLabel.healLabel.position.set(actor.baseX-impact.x,actor.baseY-165-(victimView.y-340));
     }
     const effectPoint=roleKind===SKILL_EFFECT_KIND.HP?{x:actor.baseX,y:actor.baseY-176}:impact;
-    const skillEffect=SkillEffectFX.create({
-      kind:roleKind,
-      x:effectPoint.x,
-      y:effectPoint.y,
-      scale:(this.mobile?.78:1)*(isBossTarget?1.12:1)
-    }).attach(this.effectLayer);
+    // An advancement activation replaces the normal role atlas for this one
+    // authoritative hit. It is never stacked on top of the role effect.
+    const skillEffect=advancementProfile
+      ?AdvancementEffectFX.create(advancementCode,{
+        x:effectPoint.x,y:effectPoint.y,scale:(this.mobile?.76:1)*(isBossTarget?1.08:1)
+      }).attach(this.effectLayer)
+      :SkillEffectFX.create({
+        kind:roleKind,x:effectPoint.x,y:effectPoint.y,
+        scale:(this.mobile?.78:1)*(isBossTarget?1.12:1)
+      }).attach(this.effectLayer);
     let whiteFlashHandle=null;
+    let hitStopTimer=null;
     const cleanup=()=>{
+      if(hitStopTimer){clearTimeout(hitStopTimer);hitStopTimer=null}
       this.pools.damage.release(damageLabel);
       actorView.position.set(actor.baseX,actor.baseY);
       actorView.scale.set(actor.restScale);
@@ -1540,7 +1658,7 @@ export class BattleEngine{
       whiteFlashHandle?.release();
       skillEffect.release();
     };
-    this.updateStatus(`${actor.name} · ${roleProfile.label}${critical?' · 치명타':''}`);
+    this.updateStatus(`${actor.name} · ${advancementProfile?.title||roleProfile.label}${critical?' · 치명타':''}`);
     const vector={x:victimView.x-actor.baseX,y:victimView.y-actor.baseY};
     const distance=Math.max(1,Math.hypot(vector.x,vector.y));
     // Move all the way to the current target instead of nudging 86px from the
@@ -1552,12 +1670,19 @@ export class BattleEngine{
       y:victimView.y-vector.y/distance*stopDistance
     };
     const attackScale=actor.getPerspectiveScale?.(attackPoint.y)??actor.restScale;
-    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1);
+    const impactAt=advancementProfile?.impactAt??.25;
+    // Advancement buildup is an approved authored presentation. Do not let the
+    // long-battle catch-up multiplier crop its visual/audio lead-in.
+    const playbackSpeed=advancementProfile
+      ?(this.reducedMotion?8:PLAYBACK_SPEED)
+      :(this.reducedMotion?8:PLAYBACK_SPEED*(this.paceScale||1));
+    const returnAt=advancementProfile?impactAt+.18:.43;
     return this.timeline(timeline=>{
       const travelDuration=roleKind===SKILL_EFFECT_KIND.SPEED?.14:roleKind===SKILL_EFFECT_KIND.DEFENSE?.25:.22;
       timeline.call(()=>{
         actor.setState(CHARACTER_STATE.MOVE);
-        this.audio?.scheduleImpact(roleKind,{impactAt:.25,playbackSpeed,critical,boss:isBossTarget});
+        if(advancementProfile)this.audio?.scheduleAdvancementImpact(advancementCode,{impactAt,playbackSpeed});
+        else this.audio?.scheduleImpact(roleKind,{impactAt:.25,playbackSpeed,critical,boss:isBossTarget});
       },[],0);
       timeline.to(actorView,{x:attackPoint.x,y:attackPoint.y,duration:travelDuration,ease:roleKind===SKILL_EFFECT_KIND.SPEED?'power4.in':'power3.out'});
       timeline.to(actorView.scale,{x:attackScale*(roleKind===SKILL_EFFECT_KIND.DEFENSE?1.11:1.06),y:attackScale*(roleKind===SKILL_EFFECT_KIND.SPEED?.96:1.06),duration:travelDuration,ease:'power3.out'},0);
@@ -1566,18 +1691,30 @@ export class BattleEngine{
         victim.setState(CHARACTER_STATE.HIT);
         victim.tint=0xffd4a0;
         whiteFlashHandle?.release();
-        whiteFlashHandle=triggerWhiteFlash(victim,{durationMs:Math.round(50/PLAYBACK_SPEED)});
+        whiteFlashHandle=advancementProfile
+          ?this.triggerAdvancementScreenFlash({durationMs:50,alpha:.26})
+          :triggerWhiteFlash(victim,{durationMs:Math.round(50/PLAYBACK_SPEED)});
         if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
         onImpact(victim);
-      },[],.25);
-      skillEffect.play(timeline,{at:.25,playbackSpeed});
-      this.camera.addShake(timeline,{intensity:(isBossTarget?1.22:1)*roleProfile.shake*(critical?1.12:1),duration:isBossTarget?.31:.22,rotation:roleKind===SKILL_EFFECT_KIND.DEFENSE?.004:.008,at:.25});
-      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-346},{alpha:1,y:victimView.y-376,duration:.18,ease:'back.out(2)'},.25);
-      timeline.fromTo(damageLabel.scale,{x:.55,y:.55},{x:1,y:1,duration:.2,ease:'back.out(2)'},.25);
-      timeline.to(damageLabel,{alpha:0,y:victimView.y-406,duration:.25,ease:'power2.in'},.48);
-      timeline.to(actorView,{x:actor.baseX,y:actor.baseY,duration:.3,ease:'power3.inOut'},.43);
-      timeline.to(actorView.scale,{x:actor.restScale,y:actor.restScale,duration:.3,ease:'power3.inOut'},.43);
-    },cleanup);
+      },[],impactAt);
+      if(advancementProfile)skillEffect.play(timeline,{impactAt});
+      else skillEffect.play(timeline,{at:.25,playbackSpeed});
+      this.camera.addShake(timeline,{
+        intensity:(isBossTarget?1.22:1)*(advancementProfile?.shake||roleProfile.shake)*(critical?1.12:1),
+        duration:isBossTarget?.31:.22,rotation:roleKind===SKILL_EFFECT_KIND.DEFENSE?.004:.008,at:impactAt
+      });
+      if(advancementProfile&&!this.reducedMotion){
+        timeline.call(()=>{
+          timeline.pause();
+          hitStopTimer=setTimeout(()=>{hitStopTimer=null;timeline.resume()},Math.max(1,Math.round(advancementProfile.hitStopMs/playbackSpeed)));
+        },[],impactAt+.005);
+      }
+      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-346},{alpha:1,y:victimView.y-376,duration:.18,ease:'back.out(2)'},impactAt);
+      timeline.fromTo(damageLabel.scale,{x:.55,y:.55},{x:1,y:1,duration:.2,ease:'back.out(2)'},impactAt);
+      timeline.to(damageLabel,{alpha:0,y:victimView.y-406,duration:.25,ease:'power2.in'},impactAt+.23);
+      timeline.to(actorView,{x:actor.baseX,y:actor.baseY,duration:.3,ease:'power3.inOut'},returnAt);
+      timeline.to(actorView.scale,{x:actor.restScale,y:actor.restScale,duration:.3,ease:'power3.inOut'},returnAt);
+    },cleanup,advancementProfile?playbackSpeed:null);
   }
 
   escortObjectiveAttack(event={}){
@@ -1666,6 +1803,54 @@ export class BattleEngine{
     return result;
   }
 
+  async playAdvancementMoment(value,{target=null,label='',onImpact=()=>{}}={}){
+    const code=normalizeAdvancementEffectCode(value);
+    const profile=advancementEffectProfile(code);
+    const participant=target||this.currentAllyTarget;
+    const view=participant?.root||participant?.view||participant;
+    if(!profile||!view){onImpact();return Promise.resolve(false)}
+    const playbackEpoch=this.playbackEpoch;
+    await this.ensureAdvancementReady(code);
+    if(playbackEpoch!==this.playbackEpoch||!this.visible)return false;
+    const height=Math.max(0,Number(view?.height)||0);
+    const point={x:Number(view.x||0),y:Number(view.y||0)-Math.max(76,Math.min(178,height*.34||178))};
+    const effect=AdvancementEffectFX.create(code,{
+      x:point.x,y:point.y,scale:this.mobile?.74:1
+    }).attach(this.effectLayer);
+    const originalScale={x:Number(view.scale?.x||1),y:Number(view.scale?.y||1)};
+    let whiteFlashHandle=null;
+    let hitStopTimer=null;
+    const impactAt=profile.impactAt;
+    const playbackSpeed=this.reducedMotion?8:PLAYBACK_SPEED;
+    const cleanup=()=>{
+      if(hitStopTimer){clearTimeout(hitStopTimer);hitStopTimer=null}
+      whiteFlashHandle?.release();
+      effect.release();
+      if(view?.scale)view.scale.set(originalScale.x,originalScale.y);
+    };
+    this.updateStatus(`${participant?.name||'전투원'} · ${label||profile.title}`);
+    return this.timeline(timeline=>{
+      timeline.call(()=>this.audio?.scheduleAdvancementImpact(code,{impactAt,playbackSpeed}),[],0);
+      effect.play(timeline,{impactAt});
+      timeline.call(()=>{
+        whiteFlashHandle?.release();
+        whiteFlashHandle=this.triggerAdvancementScreenFlash({durationMs:50,alpha:.26});
+        onImpact();
+      },[],impactAt);
+      this.camera.addShake(timeline,{intensity:profile.shake,duration:.22,rotation:code==='AFTERIMAGE'?.004:.006,at:impactAt});
+      timeline.fromTo(view.scale,
+        {x:originalScale.x*.96,y:originalScale.y*.96},
+        {x:originalScale.x*1.04,y:originalScale.y*1.04,duration:.08,ease:'power4.out'},impactAt);
+      timeline.to(view.scale,{x:originalScale.x,y:originalScale.y,duration:.16,ease:'back.out(1.8)'},impactAt+.08);
+      if(!this.reducedMotion){
+        timeline.call(()=>{
+          timeline.pause();
+          hitStopTimer=setTimeout(()=>{hitStopTimer=null;timeline.resume()},Math.max(1,Math.round(profile.hitStopMs/playbackSpeed)));
+        },[],impactAt+.005);
+      }
+    },cleanup,playbackSpeed);
+  }
+
   playSupportEffect(targets,{kind=SKILL_EFFECT_KIND.HP,onImpact=()=>{}}={}){
     const participants=[...new Set((Array.isArray(targets)?targets:[targets]).filter(Boolean))];
     if(!participants.length){onImpact();return Promise.resolve(false)}
@@ -1738,12 +1923,20 @@ export class BattleEngine{
         if(this.objectiveSprite)this.objectiveSprite.tint=0xffffff;
       }
       else if(type==='ATTACK'||type==='TURN'){
-        if(event.dodge){await this.showBanner('회피 · 잔상 전개',0x62e9ff,'속도효과 발동');continue}
-        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount});
+        if(event.dodge){
+          if(type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='AFTERIMAGE'){
+            await this.playAdvancementMoment('AFTERIMAGE',{target,label:event.label||'잔영자 · 시공매 초월가속'});
+          }
+          await this.showBanner('회피 · 잔상 전개',0x62e9ff,'속도효과 발동');
+          continue;
+        }
+        const advancementClass=type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='SHATTER'?'SHATTER':'';
+        await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
       }else if(type==='SKILL'){
         await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
       }else if(type==='COUNTER'){
-        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount});
+        const advancementClass=normalizeAdvancementEffectCode(event.advancementClass)==='RIPOSTE'?'RIPOSTE':'';
+        if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
         else await this.bossCounter(Number(event.actorIndex||0));
       }else if(type==='ULTIMATE'||type==='PVE_ULTIMATE'){
         const liveActor=explicitActor||(this.livePayload?this.allies.find(character=>this.isAlive(character)):null);
@@ -1768,6 +1961,18 @@ export class BattleEngine{
           await this.showBanner(label,event.amount?0x6affb7:0xb57cff,event.amount?'회복효과 발동':'마법효과 발동');
           if(!event.amount&&!healing&&target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
         }
+      }else if(type==='ADVANCEMENT'||type==='ADVANCEMENT_SEALED'){
+        const success=normalizeAdvancementEffectCode(event.classCode)==='IMMORTAL';
+        if(success){
+          await this.playAdvancementMoment('IMMORTAL',{
+            target,
+            label:event.label||'불멸자 · 세계수 완전개화',
+            onImpact:()=>{if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp)}
+          });
+          await this.showBanner(event.label||'불멸자 · 최후 저항',0x72f5ad,type==='ADVANCEMENT_SEALED'?'봉인 저항 성공':'전직효과 발동');
+        }else if(target&&hasFiniteNumber(resolvedTargetHp))this.syncTargetHp(target,resolvedTargetHp);
+      }else if(type==='ADVANCEMENT_BLOCKED'){
+        await this.showBanner(event.label||'불멸자 · 부활 봉인',0xff7a8d,'전직효과 차단');
       }else if(['TEAM_HEAL','REGEN','EMERGENCY_HEAL','SURVIVE','INDOMITABLE','SINGLE_HEALER_AURA'].includes(type)){
         // V1800: INDOMITABLE(방어형 불굴)은 서버가 HP 를 0 에서 1 로 되돌리는 이벤트인데
         // 여기서 빠져 있어 HP 표시가 0 에 멈췄고, 그 캐릭터가 죽은 것으로 취급됐다.
@@ -1986,6 +2191,10 @@ export class BattleEngine{
     }else{
       this.cancelTimelines();
       this.app.stop();
+      // Explicit battle/modal close releases optional advancement GPU/audio
+      // assets. A visibilitychange calls setVisible(requestedVisible), so a
+      // brief hidden tab keeps requestedVisible=true and avoids re-downloading.
+      if(!this.requestedVisible)await this.releaseOptionalAdvancementAssets();
     }
   }
 
@@ -2038,10 +2247,19 @@ export class BattleEngine{
       effectSystem:{
         renderer:'SkillEffectFX',
         layer:'EffectLayer',
-        mode:'ROLE_ATLAS_ONLY_V2',
+        mode:'ROLE_ATLAS_V2_PLUS_SERVER_ADVANCEMENT_V1',
         kinds:['ATTACK','DEFENSE','SPEED','HP'],
         blendModes:['screen'],
         roleFx:SkillEffectFX.diagnostics(),
+        advancementFx:AdvancementEffectFX.diagnostics(),
+        advancementActivation:['SHATTER:TURN','AFTERIMAGE:DODGE_TURN','RIPOSTE:COUNTER','IMMORTAL:ADVANCEMENT'],
+        bossUltimateAdvancementFx:false,
+        advancementImpactAtMs:{SHATTER:420,RIPOSTE:460,AFTERIMAGE:320,IMMORTAL:500},
+        advancementWhiteFlash:{scope:'FULL_STAGE',durationMs:50,alpha:.26},
+        advancementLoading:LOW_MEMORY_DEVICE?'ON_DEMAND_SINGLE_ATLAS':'BACKGROUND_TIMELINE_CODES',
+        advancementLoadDeadlineMs:ADVANCEMENT_LOAD_DEADLINE_MS,
+        advancementLoadTimeouts:this.advancementLoadTimeouts,
+        playbackEpoch:this.playbackEpoch,
         damageTypography:'ROLE_AWARE_BITMAP_TEXT',
         audio:this.audio?.diagnostics?.(),
         collisionAtMs:[250,350],
@@ -2071,6 +2289,12 @@ export class BattleEngine{
     this.camera?.destroy();
     this.pools?.destroy();
     this.audio?.destroy();
+    this.advancementCodes.clear();
+    this.advancementReadyPromise=Promise.resolve(false);
+    // Role atlases are global live assets, but advancement atlases are loaded
+    // per authoritative timeline. Leaving V3 must release those optional GPU
+    // textures so a completed battle does not tax the next mobile screen.
+    void AdvancementEffectFX.retain([]);
     this.app?.destroy(true,{children:true,texture:false});
     this.app=null;
     this.cards=[];

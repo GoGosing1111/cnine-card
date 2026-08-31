@@ -54,6 +54,17 @@ test('전직은 계열과 코드가 일치하는 서버 주입 상태만 적용�
   assert.equal(forged.maxHp, base.maxHp);
 });
 
+test('파쇄자 시작 게이지는 PVP에만 적용해 PVE 행동 타임라인을 보존한다', () => {
+  const advance = advancement('SHATTER', 'ATTACK', { openingGaugePoints: 4 });
+  const pvp = fighter({ id: 'shatter-pvp', type: 'ATTACK', advance });
+  const pve = buildFighter({
+    id: 'shatter-pve', power: POWER, power_type: 'ATTACK', uniqueAdvancement: advance,
+  }, 0, 'A', unique('ATTACK'), 'PVE');
+
+  assert.equal(pvp.gauge, 4);
+  assert.equal(pve.gauge, 0);
+});
+
 test('기존 고유효과가 숨김이어도 DB 전직 계열이 카드 기본 타입보다 우선한다', () => {
   const promoted = buildFighter({
     id: 'hidden-unique-shatter',
@@ -107,6 +118,8 @@ test('잔영자와 반격자는 확률 상한을 별도로 확장한다', () => 
   let promotedDodges = 0;
   let baseCounters = 0;
   let promotedCounters = 0;
+  let afterimageTagged = false;
+  let riposteTagged = false;
 
   for (let seed = 1; seed <= 240; seed += 1) {
     const dodgeRun = (advance) => {
@@ -117,7 +130,9 @@ test('잔영자와 반격자는 확률 상한을 별도로 확장한다', () => 
       return simulateBattleV2Preview({ teamA: [attacker], teamB: [defender], seed, maxActions: 1 }).timeline;
     };
     if (dodgeRun(null).some((event) => event.type === 'TURN' && event.dodge)) baseDodges += 1;
-    if (dodgeRun(advancement('AFTERIMAGE', 'SPEED', { dodgeChancePoints: 6, dodgeCapPoints: 6 })).some((event) => event.type === 'TURN' && event.dodge)) promotedDodges += 1;
+    const promotedDodgeTimeline = dodgeRun(advancement('AFTERIMAGE', 'SPEED', { dodgeChancePoints: 6, dodgeCapPoints: 6 }));
+    if (promotedDodgeTimeline.some((event) => event.type === 'TURN' && event.dodge)) promotedDodges += 1;
+    if (promotedDodgeTimeline.some((event) => event.type === 'TURN' && event.dodge && event.advancementClass === 'AFTERIMAGE')) afterimageTagged = true;
 
     const counterRun = (advance) => {
       const attacker = fighter({ id: `counter-a-${seed}`, type: 'NONE' });
@@ -128,15 +143,23 @@ test('잔영자와 반격자는 확률 상한을 별도로 확장한다', () => 
       return simulateBattleV2Preview({ teamA: [attacker], teamB: [defender], seed, maxActions: 1 }).timeline;
     };
     if (counterRun(null).some((event) => event.type === 'COUNTER')) baseCounters += 1;
-    if (counterRun(advancement('RIPOSTE', 'DEFENSE', { counterChancePoints: 12 })).some((event) => event.type === 'COUNTER')) promotedCounters += 1;
+    const promotedCounterTimeline = counterRun(advancement('RIPOSTE', 'DEFENSE', { counterChancePoints: 12 }));
+    if (promotedCounterTimeline.some((event) => event.type === 'COUNTER')) promotedCounters += 1;
+    if (promotedCounterTimeline.some((event) => event.type === 'COUNTER' && event.advancementClass === 'RIPOSTE')) riposteTagged = true;
   }
 
   assert.ok(promotedDodges > baseDodges, `${promotedDodges} should exceed ${baseDodges}`);
   assert.ok(promotedCounters > baseCounters, `${promotedCounters} should exceed ${baseCounters}`);
+  assert.equal(afterimageTagged, true, '잔영자 성공 회피 TURN에는 전직 코드가 있어야 한다');
+  assert.equal(riposteTagged, true, '반격자 성공 COUNTER에는 전직 코드가 있어야 한다');
 });
 
-test('불멸자는 팀 회복 풀을 소비하며 공격형 부활 봉인에 막힌다', () => {
-  const lastStand = advancement('IMMORTAL', 'HP', { lastStandHealPoolPercent: 12, damageDealtPercent: -8 });
+test('불멸자는 팀 회복 풀을 소비하며 공격형 봉인 시 축소 생존한다', () => {
+  const lastStand = advancement('IMMORTAL', 'HP', {
+    lastStandHealPoolPercent: 12,
+    sealedLastStandHealPoolPercent: 6,
+    damageDealtPercent: -8,
+  });
   const run = (attackerType) => {
     const attacker = fighter({ id: `killer-${attackerType}`, type: attackerType });
     const defender = fighter({ id: `immortal-${attackerType}`, type: 'HP', side: 'B', advance: lastStand });
@@ -152,8 +175,9 @@ test('불멸자는 팀 회복 풀을 소비하며 공격형 부활 봉인에 막
   assert.ok(unsealed.final.B[0].hp > 0);
 
   const sealed = run('ATTACK');
-  assert.ok(sealed.timeline.some((event) => event.type === 'ADVANCEMENT_BLOCKED' && event.classCode === 'IMMORTAL'));
-  assert.equal(sealed.final.B[0].hp, 0);
+  assert.ok(sealed.timeline.some((event) => event.type === 'ADVANCEMENT_SEALED' && event.classCode === 'IMMORTAL'));
+  assert.ok(sealed.final.B[0].hp > 0);
+  assert.ok(sealed.final.B[0].hp < unsealed.final.B[0].hp);
 });
 
 test('공격형 부활 봉인은 불사조 마법카드의 실제 부활 시도를 막는다', () => {

@@ -50,9 +50,9 @@ test('highest unique stat selects one server class with ATTACK > DEFENSE > SPEED
 
 test('all four definitions expose the exact combat-engine modifier contract',()=>{
   const expectedKeys=[
-    'criticalChancePoints','penetrationPoints','dodgeChancePoints','dodgeCapPoints',
+    'criticalChancePoints','penetrationPoints','openingGaugePoints','dodgeChancePoints','dodgeCapPoints',
     'counterChancePoints','counterMultiplierPoints','unshieldedCounterChancePoints','maxHpPercent','damageCapPoints',
-    'damageDealtPercent','lastStandHealPoolPercent','healPoolBonusPercent'
+    'damageDealtPercent','lastStandHealPoolPercent','sealedLastStandHealPoolPercent','healPoolBonusPercent'
   ].sort();
   assert.deepEqual(Object.keys(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS).sort(),['AFTERIMAGE','IMMORTAL','RIPOSTE','SHATTER']);
   for(const definition of uniqueAdvancementDefinitions()){
@@ -65,13 +65,13 @@ test('all four definitions expose the exact combat-engine modifier contract',()=
   });
   assert.deepEqual(restored,{
     active:true,classCode:'SHATTER',dominantType:'ATTACK',configVersion:3,
-    modifiers:{criticalChancePoints:7,penetrationPoints:0,dodgeChancePoints:0,dodgeCapPoints:0,counterChancePoints:0,counterMultiplierPoints:0,unshieldedCounterChancePoints:0,maxHpPercent:0,damageCapPoints:0,damageDealtPercent:0,lastStandHealPoolPercent:0,healPoolBonusPercent:0},
+    modifiers:{criticalChancePoints:15,penetrationPoints:35,openingGaugePoints:10,dodgeChancePoints:0,dodgeCapPoints:0,counterChancePoints:0,counterMultiplierPoints:0,unshieldedCounterChancePoints:0,maxHpPercent:0,damageCapPoints:20,damageDealtPercent:13,lastStandHealPoolPercent:0,sealedLastStandHealPoolPercent:0,healPoolBonusPercent:0},
     activatedAt:'2026-08-30T00:00:00.000Z'
   });
-  assert.deepEqual(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS.SHATTER.modifiers,{...__uniqueAdvancementTest.ZERO_MODIFIERS,criticalChancePoints:6,penetrationPoints:20,damageCapPoints:12});
-  assert.deepEqual(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS.RIPOSTE.modifiers,{...__uniqueAdvancementTest.ZERO_MODIFIERS,counterChancePoints:3,counterMultiplierPoints:3,unshieldedCounterChancePoints:1,damageDealtPercent:-20});
-  assert.deepEqual(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS.AFTERIMAGE.modifiers,{...__uniqueAdvancementTest.ZERO_MODIFIERS,penetrationPoints:8,dodgeChancePoints:6,dodgeCapPoints:6,maxHpPercent:-7});
-  assert.deepEqual(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS.IMMORTAL.modifiers,{...__uniqueAdvancementTest.ZERO_MODIFIERS,maxHpPercent:12,lastStandHealPoolPercent:25,healPoolBonusPercent:15});
+  assert.deepEqual(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS.SHATTER.modifiers,{...__uniqueAdvancementTest.ZERO_MODIFIERS,openingGaugePoints:10,criticalChancePoints:15,penetrationPoints:35,damageCapPoints:20,damageDealtPercent:13});
+  assert.deepEqual(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS.RIPOSTE.modifiers,{...__uniqueAdvancementTest.ZERO_MODIFIERS,counterChancePoints:11,counterMultiplierPoints:13,unshieldedCounterChancePoints:5,damageDealtPercent:2});
+  assert.deepEqual(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS.AFTERIMAGE.modifiers,{...__uniqueAdvancementTest.ZERO_MODIFIERS,penetrationPoints:18,dodgeChancePoints:10,dodgeCapPoints:10,maxHpPercent:-3});
+  assert.deepEqual(UNIQUE_ADVANCEMENT_CLASS_DEFINITIONS.IMMORTAL.modifiers,{...__uniqueAdvancementTest.ZERO_MODIFIERS,maxHpPercent:27,lastStandHealPoolPercent:35,sealedLastStandHealPoolPercent:25,healPoolBonusPercent:35});
 });
 
 test('eligibility rejects client-inventable shortcuts and reports the automatic class',()=>{

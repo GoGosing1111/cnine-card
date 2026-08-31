@@ -22,6 +22,6 @@ assert.match(client,/data\.bonusEquipment/);
 assert.match(admin,/승리 추가 장비 준비 완료/);
 assert.match(index,/territory-war-v1811\.js\?v=1916-territory-100-attack-reward/);
 assert.match(index,/territory-war-v1811\.css\?v=1914-territory-dispatch-persist/);
-assert.match(serviceWorker,/soop-card-shell-v1938-unique-advancement-cost/);
+assert.match(serviceWorker,/soop-card-shell-v1939-advancement-awakening/);
 
 console.log('territory round equipment reward v1737: ok');

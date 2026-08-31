@@ -34,9 +34,9 @@ assert.match(css, /@media\(max-width:600px\)[\s\S]*\.battle-ultimate-skip[\s\S]*
 assert.match(pveCss, /\.pvev2-battle-options\{[\s\S]*repeat\(2,minmax\(0,1fr\)\)/, 'desktop preparation toggles must share the available row');
 assert.match(pveCss, /@media\(max-width:620px\)\{\.pvev2-battle-options\{grid-template-columns:minmax\(0,1fr\)\}\}/, 'mobile preparation toggles must stack without clipping');
 assert.match(index, /css\/style\.css\?v=1879-player-ultimate-skip/, 'style cache key must be bumped');
-assert.match(index, /js\/app\.js\?v=1938-unique-advancement-cost/, 'app cache key must preserve or supersede the ultimate-skip release');
+assert.match(index, /js\/app\.js\?v=1939-advancement-awakening/, 'app cache key must preserve or supersede the ultimate-skip release');
 assert.match(index, /js\/pve-command-v2-live\.js\?v=(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1882-menu-pve-scrapyard|1908-joeun-gamst-visibility|1930-raid-entry-loader)/, 'PVE UI cache key must preserve or supersede the ultimate-skip release');
 assert.match(index, /css\/pve-command-v2\.css\?v=(?:1879-player-ultimate-skip|1880-navigation-deck-rules|1882-menu-pve-scrapyard)/, 'PVE UI style cache key must preserve or supersede the ultimate-skip release');
-assert.match(worker, /soop-card-shell-v1938-unique-advancement-cost/, 'service worker shell cache must preserve or supersede the ultimate-skip release');
+assert.match(worker, /soop-card-shell-v1939-advancement-awakening/, 'service worker shell cache must preserve or supersede the ultimate-skip release');
 
 console.log('V3 player ultimate skip: user cinematic only, authoritative combat preserved');

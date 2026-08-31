@@ -36,7 +36,12 @@ for(const [role,contract] of Object.entries(roles)){
 }
 
 assert.match(fx,/await SkillEffectFX\.preloadAll|preloadAll\(\)/);
-assert.match(engine,/await Promise\.all\(\[SkillEffectFX\.preloadAll\(\),this\.audio\.prepare\(\)\]\)/,'role atlases and first-hit audio must both be ready before combat');
+assert.match(engine,/SkillEffectFX\.preloadAll\(\)/,'role atlases must be ready before combat');
+assert.match(engine,/this\.audio\.prepare\(\)/,'first-hit role audio must be ready before combat');
+assert.match(engine,/AdvancementEffectFX\.preloadMany\(warmCodes\)/,'only timeline advancement atlases may be warmed');
+assert.match(engine,/this\.audio\?\.prepareAdvancements\?\.\(warmCodes\)/,'only timeline advancement audio may be warmed');
+const firstFrameBarrier=engine.slice(engine.indexOf('async mount('),engine.indexOf('this.skillTimeline=new SkillTimeline'));
+assert.doesNotMatch(firstFrameBarrier,/AdvancementEffectFX\.preloadMany|prepareAdvancements/,'optional advancement media must not block the first V3 frame');
 assert.match(fx,/autoUpdate:false/,'GSAP must own atlas frame progression');
 assert.match(fx,/value:this\.spec\.collisionFrame/,'authored collision frame must land on the logical hit');
 assert.match(fx,/renderer:'atlas-only'/);
@@ -80,9 +85,9 @@ for(const pattern of retired){
 assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=71-battlefield-fade-deadlock/);
-assert.match(index,/js\/app\.js\?v=1938-unique-advancement-cost/);
-assert.match(previewIndex,/project-v-client\.js\?v=53-role-impact-atlas/);
-assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=53-role-impact-atlas/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=72-advancement-awakening/);
+assert.match(index,/js\/app\.js\?v=1939-advancement-awakening/);
+assert.match(previewIndex,/project-v-client\.js\?v=54-advancement-awakening/);
+assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=54-advancement-awakening/);
 
 console.log('Project V V3 role impact atlas/audio live contract: PASS');
