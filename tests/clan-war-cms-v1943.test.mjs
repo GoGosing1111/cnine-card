@@ -20,6 +20,7 @@ test('CMS 사이드바와 독립 클랜전 운영 화면을 로드한다',()=>{
   assert.match(html,/id="clanWarAdminRoot"/);
   assert.match(html,/clan-war-admin-v1943\.css\?v=1943-clan-war-cms/);
   assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix/);
+  assert.match(html,/clan-war-admin-v1943\.js\?v=1944-clan-war-freeze-fix-1946-release-runtime/);
   assert.match(baseAdmin,/clanwar:'클랜전 관리'/);
   assert.match(cms,/SOOPKETMON · CLAN WAR CMS/);
   assert.match(cms,/observe\(viewNode,\{attributes:true,attributeFilter:\['hidden'\]\}\)/);
@@ -42,7 +43,7 @@ test('60분·행동력·전투력 매칭 목표값을 한 설정 계약으로 �
   for(const id of ['cwWarOpenTime','cwWarDurationMinutes','cwInitialEnergy','cwEnergyCap','cwEnergyRecoverySeconds','cwTotalUseLimit','cwPowerMatchTolerancePct','cwPowerMatchFallback'])assert.match(cms,new RegExp(`'${id}'`));
 });
 
-test('CMS 저장값은 범위를 정리하고 공식 고정값과 보상 잠금을 해제하지 않는다',()=>{
+test('CMS 저장값은 범위를 정리하고 공식 고정값을 유지하며 보상 토글을 명시적으로 저장한다',()=>{
   const clean=__clanTest.cleanClanAdminSettings({
     mode:'on',scheduleEnabled:'false',warOpenTime:'7:05',openDays:[6,2,6,-1,9],initialEnergy:19,energyCap:7,totalUseLimit:3,
     powerMatchFallback:'invalid',maxClans:99,maxMembers:999,maxParticipants:9999,powerSnapshot:'CLIENT_OVERRIDE',blindDraft:false,rewardsEnabled:true
@@ -60,7 +61,7 @@ test('CMS 저장값은 범위를 정리하고 공식 고정값과 보상 잠금�
   assert.equal(clean.maxParticipants,160);
   assert.equal(clean.powerSnapshot,'RANKED_DECK_5');
   assert.equal(clean.blindDraft,true);
-  assert.equal(clean.rewardsEnabled,false);
+  assert.equal(clean.rewardsEnabled,true);
 });
 
 test('부분 설정 저장은 기존 상세값을 지우지 않는다',()=>{
@@ -82,21 +83,28 @@ test('운영 API는 조회를 관리자에게, 변경과 테스트 단계를 OWN
   assert.match(server,/개방 요일을 하나 이상 선택하세요/);
   assert.match(server,/지원하지 않는 클랜전 CMS 요청 방식/);
   assert.match(router,/handleClan\(\{path,request,env,deps:\{authenticate,readBody,json,isAdminRole,writeAdminLog/);
-  for(const route of ['clan/admin/test-bootstrap','clan/admin/test-activate','clan/admin/test-settle'])assert.match(cms,new RegExp(route.replaceAll('/','\\/')));
+  for(const route of ['clan/admin/test-bootstrap','clan/admin/test-activate','clan/admin/test-settle','admin/clan-war/reset-draft'])assert.match(cms,new RegExp(route.replaceAll('/','\\/')));
+  assert.match(server,/CLAN_WAR_RESET_TO_DRAFT/);
+  assert.match(server,/CLAN_RESET_REWARDS_PAID/);
+  assert.match(server,/CLAN_RESET_BATTLE_BUSY/);
+  assert.match(server,/confirmation\|\|''\)!=='RESET_TO_DRAFT'/);
+  assert.match(server,/DELETE FROM clan_war_battles WHERE season_id=\?/);
+  assert.match(server,/fresh=await beginDraft\(env,fresh,settings/);
 });
 
-test('현재 3회 런타임과 60분 출시 설계값을 CMS에서 명확히 분리한다',()=>{
-  assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,3);
-  assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,3);
-  assert.match(server,/runtimeContract:\{attacksPerWar:CLAN_ATTACKS_PER_WAR/);
+test('60분·10회 행동력·전투력 매칭·보상 영수증이 모두 라이브 계약으로 연결된다',()=>{
+  assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,10);
+  assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,10);
+  assert.match(server,/runtimeContract:\{attacksPerWar:settings\.totalUseLimit/);
   assert.match(server,/targetContract:\{warDurationMinutes:settings\.warDurationMinutes/);
-  assert.match(server,/key:'WAR_WINDOW',status:'PENDING'/);
-  assert.match(server,/key:'ENERGY',status:'PENDING'/);
-  assert.match(server,/key:'POWER_MATCH',status:'PENDING'/);
-  assert.match(server,/key:'REWARDS',status:'LOCKED'/);
-  assert.match(cms,/설계값 저장 ≠ 런타임 적용/);
-  assert.match(cms,/현재 라이브/);
-  assert.match(cms,/CMS 출시 설계값/);
+  for(const key of ['WAR_WINDOW','ENERGY','POWER_MATCH','REWARDS'])assert.match(server,new RegExp(`key:'${key}',status:'READY'`));
+  assert.match(server,/ROUND_ROBIN_7_WINDOWS/);
+  assert.match(server,/CREATE TABLE IF NOT EXISTS clan_reward_receipts/);
+  assert.match(cms,/SERVER ENFORCED CONTRACT/);
+  assert.match(cms,/서버 적용값/);
+  assert.match(cms,/CMS 저장값/);
+  assert.match(cms,/select\('cwRewardsEnabled'/);
+  assert.match(cms,/data-cw-operation="reset"/);
 });
 
 test('공식 8클랜·대진·영수증·반응형 운영 UI를 제공한다',()=>{

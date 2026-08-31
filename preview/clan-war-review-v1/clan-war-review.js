@@ -24,12 +24,12 @@
   const MY_COMBAT_POWER=1265400;
   const roster=['핑크빛유두','DK_돌격대','푸른전선','밤의정찰','공성병기','유리대포','후방지원','철벽수비'].map((nickname,index)=>({userId:101+index,nickname,memberRole:index===0?'MASTER':'MEMBER',preferredRole:['BALANCED','ATTACK','SPEED','DEFENSE','HP'][index%5],draftPickNo:index,contributionScore:31-index*2,battleWins:8-index%4,battleLosses:2+index%3,combatPower:MY_COMBAT_POWER-index*43800}));
   const opponents=[
-    {userId:201,nickname:'T1_선봉대',preferredRole:'ATTACK',battleWins:9,battleLosses:2,defenseCount:4,combatPower:1281900,powerGapPct:1.3,matchState:'PRIMARY',available:true},
-    {userId:202,nickname:'붉은왕관',preferredRole:'DEFENSE',battleWins:8,battleLosses:3,defenseCount:3,combatPower:1238600,powerGapPct:-2.1,matchState:'QUEUED',available:false},
-    {userId:203,nickname:'철의창끝',preferredRole:'SPEED',battleWins:7,battleLosses:4,defenseCount:5,combatPower:1309200,powerGapPct:3.5,matchState:'QUEUED',available:false},
-    {userId:204,nickname:'불멸의수비',preferredRole:'HP',battleWins:6,battleLosses:5,defenseCount:2,combatPower:1182100,powerGapPct:-6.6,matchState:'QUEUED',available:false},
-    {userId:205,nickname:'새벽추격자',preferredRole:'BALANCED',battleWins:5,battleLosses:6,defenseCount:1,combatPower:1364100,powerGapPct:7.8,matchState:'QUEUED',available:false},
-    {userId:206,nickname:'최후의오더',preferredRole:'ATTACK',battleWins:4,battleLosses:7,defenseCount:0,combatPower:1515000,powerGapPct:19.7,matchState:'OUTSIDE',available:false}
+    {userId:201,nickname:'T1_선봉대',preferredRole:'ATTACK',battleWins:9,battleLosses:2,defenseCount:4,combatPower:1281900,powerDeltaPct:1.3,powerGapPct:1.3,matchEligible:true,matchState:'PRIMARY',available:true},
+    {userId:202,nickname:'붉은왕관',preferredRole:'DEFENSE',battleWins:8,battleLosses:3,defenseCount:3,combatPower:1238600,powerDeltaPct:2.1,powerGapPct:-2.1,matchEligible:false,matchState:'QUEUED',available:false},
+    {userId:203,nickname:'철의창끝',preferredRole:'SPEED',battleWins:7,battleLosses:4,defenseCount:5,combatPower:1309200,powerDeltaPct:3.5,powerGapPct:3.5,matchEligible:false,matchState:'QUEUED',available:false},
+    {userId:204,nickname:'불멸의수비',preferredRole:'HP',battleWins:6,battleLosses:5,defenseCount:2,combatPower:1182100,powerDeltaPct:6.6,powerGapPct:-6.6,matchEligible:false,matchState:'QUEUED',available:false},
+    {userId:205,nickname:'새벽추격자',preferredRole:'BALANCED',battleWins:5,battleLosses:6,defenseCount:1,combatPower:1364100,powerDeltaPct:7.8,powerGapPct:7.8,matchEligible:false,matchState:'QUEUED',available:false},
+    {userId:206,nickname:'최후의오더',preferredRole:'ATTACK',battleWins:4,battleLosses:7,defenseCount:0,combatPower:1515000,powerDeltaPct:19.7,powerGapPct:19.7,matchEligible:false,matchState:'OUTSIDE',available:false}
   ];
   const candidates=['ATTACK','DEFENSE','SPEED','HP','BALANCED','ATTACK','SPEED','DEFENSE'].map((preferredRole,index)=>({candidateKey:`REVIEW-CANDIDATE-${index+1}`,preferredRole,activityWindow:['EVENING','NIGHT','FLEX','DAY'][index%4],activityBand:index<3?'CORE':'ACTIVE',rankBand:['DIAMOND','PLATINUM','GOLD'][index%3],activityScore:960-index*22,rankScore:920-index*27,contributionScore:880-index*31,reliabilityScore:940-index*19,totalScore:936-index*24}));
   const battleCard=(team,index,{cardId,name,grade,type,maxHp,sprite,sourceArt})=>({
@@ -78,7 +78,7 @@
       registration:{registered:false},membership:hasClan?{...officialClans[0],memberRole:'MASTER',isMaster:true}:null,
       teams:officialClans,officialClans:officialClans.map((clan,index)=>({...clan,order:index+1})),roster:hasClan?roster:[],
       draft:phase==='DRAFT'?{isMyTurn:true,pickNo:28,currentClan:officialClans[0]}:null,candidates:phase==='DRAFT'?candidates:[],
-      war:phase==='ACTIVE'?{id:11,roundNo:1,clanAId:1,clanBId:3,scoreA:18,scoreB:16,battleCount:72,attacksUsed:0,attackLimit:10,attacksRemaining:5,energy:5,energyCap:10,recoverySeconds:180,totalUseLimit:10,startsAt:new Date().toISOString(),endsAt:isoAfter(0,1)}:null,
+      war:phase==='ACTIVE'?{id:11,roundNo:1,status:'ACTIVE',clanAId:1,clanBId:3,scoreA:18,scoreB:16,battleCount:72,attacksUsed:0,attackLimit:10,attacksRemaining:10,attackerPower:MY_COMBAT_POWER,energy:{available:5,cap:10,cost:1,usesRemaining:10,useLimit:10,nextEnergyAt:isoAfter(0,.05),windowOpen:true,canAttack:true},startsAt:new Date().toISOString(),endsAt:isoAfter(0,1)}:null,
       opponents:phase==='ACTIVE'?opponents:[],
       settlement:complete?{status:'COMPLETED',championClanId:1,rewardStatus:'DISABLED_TEST',completedAt:new Date().toISOString()}:null,
       battleEngine:{active:true,version:'PROJECT_V_V3',playbackSpeed:1.3},

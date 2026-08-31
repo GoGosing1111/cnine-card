@@ -22,8 +22,8 @@ const markSources=await Promise.all(markCatalog.clans.map(clan=>stat(new URL(`..
 test('클랜 정원과 스네이크 드래프트 순서가 고정된다',()=>{
   assert.equal(__clanTest.CLAN_MAX_MEMBERS,20);
   assert.equal(__clanTest.CLAN_MAX_PARTICIPANTS,160);
-  assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,3);
-  assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,3);
+  assert.equal(__clanTest.CLAN_ATTACKS_PER_WAR,10);
+  assert.equal(__clanTest.CLAN_DEFENSES_PER_TARGET,10);
   assert.equal(__clanTest.CLAN_REPEAT_TARGET_LIMIT,1);
   assert.deepEqual(Array.from({length:8},(_,i)=>__clanTest.currentDraftPosition(i,3)),[0,1,2,2,1,0,0,1]);
 });
@@ -32,6 +32,36 @@ test('동점 클랜전도 한 번만 정산할 수 있도록 결정적 승자를
   assert.equal(__clanTest.warWinnerClanId({clan_a_id:7,clan_b_id:4,score_a:5,score_b:5}),4);
   assert.equal(__clanTest.warWinnerClanId({clan_a_id:7,clan_b_id:4,score_a:6,score_b:5}),7);
   assert.equal(__clanTest.warWinnerClanId({clan_a_id:7,clan_b_id:4,score_a:3,score_b:5}),4);
+});
+
+test('공식 8클랜은 7개 정시 라운드에서 모든 상대를 정확히 한 번 만난다',()=>{
+  const rounds=__clanTest.roundRobinRounds(Array.from({length:8},(_,index)=>index+1));
+  assert.equal(rounds.length,7);
+  assert.ok(rounds.every(round=>round.length===4));
+  const pairKeys=rounds.flat().map(pair=>[pair.clanAId,pair.clanBId].sort((a,b)=>a-b).join(':'));
+  assert.equal(new Set(pairKeys).size,28);
+});
+
+test('정시 대진은 KST 21시에 열리고 각 창구는 60분 계약을 사용한다',()=>{
+  const from=Date.parse('2026-08-31T11:00:00.000Z'),starts=__clanTest.scheduledWindowStarts(__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS,from,2);
+  assert.deepEqual(starts.map(value=>new Date(value).toISOString()),['2026-08-31T12:00:00.000Z','2026-09-01T12:00:00.000Z']);
+  assert.equal(__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS.warDurationMinutes,60);
+});
+
+test('행동력은 5에서 시작해 180초마다 회복하고 10회 사용 상한을 지킨다',()=>{
+  const start=Date.parse('2026-08-31T12:00:00.000Z'),war={status:'ACTIVE',starts_at:new Date(start).toISOString(),ends_at:new Date(start+3600000).toISOString()},settings=__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS;
+  assert.equal(__clanTest.clanEnergySnapshot(war,0,settings,start).available,5);
+  assert.equal(__clanTest.clanEnergySnapshot(war,4,settings,start+9*60*1000).available,4);
+  assert.equal(__clanTest.clanEnergySnapshot(war,10,settings,start+59*60*1000).canAttack,false);
+});
+
+test('전투력 매칭은 ±10%에서 방어가 가장 적은 한 명을 자동 배정하고 없으면 서버 대체한다',()=>{
+  const settings=__clanTest.CLAN_ADMIN_SETTINGS_DEFAULTS,candidates=[{userId:1,combatPower:95,available:true,defenseCount:2},{userId:2,combatPower:109,available:true,defenseCount:1},{userId:3,combatPower:150,available:true,defenseCount:0}];
+  const matched=__clanTest.powerMatchCandidates(candidates,100,settings);
+  assert.deepEqual(matched.filter(row=>row.matchEligible).map(row=>row.userId),[2]);
+  const fallback=__clanTest.powerMatchCandidates(candidates,10,settings);
+  assert.equal(fallback.filter(row=>row.matchEligible).length,1);
+  assert.equal(fallback.find(row=>row.matchEligible).userId,1);
 });
 
 test('8개 공식 클랜 이름·키·마크 리소스가 단일 카탈로그로 고정된다',()=>{
@@ -106,9 +136,10 @@ test('클랜 지휘실 장면과 모바일 리뉴얼 계약을 유지한다',()=
   assert.ok(commandRoomAsset.size>10_000&&commandRoomAsset.size<80_000);
 });
 
-test('조회 로그를 만들지 않고 전투 영수증은 30일 한정 정리한다',()=>{
+test('조회 로그를 만들지 않고 전투 영수증 보존일은 서버 설정으로 제한한다',()=>{
   assert.doesNotMatch(server,/CREATE TABLE IF NOT EXISTS clan_(?:view|access|activity)_logs/i);
-  assert.match(server,/updated_at<datetime\('now','-30 days'\)/);
+  assert.match(server,/battleReceiptRetentionDays/);
+  assert.match(server,/updated_at<datetime\('now','-\$\{retention\} days'\)/);
   assert.match(server,/QUERY_POLICY|queryPolicy:'SNAPSHOT_NO_VIEW_LOGS'/i);
 });
 
@@ -117,25 +148,31 @@ test('클랜 V3 전투는 사용자 직렬화 락과 재시도 가능한 영수�
   assert.match(server,/status='FAILED'/);
   assert.match(server,/INSERT OR IGNORE INTO clan_war_battles/);
   assert.match(server,/status='RESOLVING'/);
-  assert.match(server,/CLAN_ATTACKS_PER_WAR=3/);
-  assert.match(server,/CLAN_DEFENSES_PER_TARGET=3/);
+  assert.match(server,/CLAN_ATTACKS_PER_WAR=10/);
+  assert.match(server,/CLAN_DEFENSES_PER_TARGET=10/);
   assert.match(server,/CLAN_REPEAT_TARGET_LIMIT=1/);
-  assert.match(server,/defender_user_id=\? AND status IN \('PENDING','RESOLVING','COMPLETED'\)/);
+  assert.match(server,/CLAN_ENERGY_EMPTY/);
+  assert.match(server,/CLAN_POWER_MATCH_REQUIRED/);
+  assert.match(server,/powerMatchCandidates/);
   assert.match(server,/다른 클랜전 작전권을 배정 중입니다/);
+  assert.match(server,/NOT EXISTS\(SELECT 1 FROM clan_war_battles WHERE war_id=\? AND status IN \('PENDING','RESOLVING'\)\)/);
+  assert.match(server,/INSERT OR IGNORE INTO clan_war_battles[\s\S]+WHERE EXISTS\(SELECT 1 FROM clan_wars WHERE id=\? AND status='ACTIVE'/);
   assert.match(server,/EXISTS\(SELECT 1 FROM clan_wars WHERE id=\? AND status='ACTIVE'\)/);
   assert.match(server,/UPDATE clan_members SET \$\{won\?'battle_losses':'battle_wins'\}/);
 });
 
-test('클랜 시즌 정산은 원자적 상태 전이와 TEST 보상 잠금을 사용한다',()=>{
+test('클랜 시즌 정산은 원자적 상태 전이와 중복 방지 보상 영수증을 사용한다',()=>{
   assert.match(server,/CREATE TABLE IF NOT EXISTS clan_season_settlements/);
   assert.match(server,/env\.DB\.execSchema\(statements\)/);
   assert.match(server,/status='PROCESSING'/);
   assert.match(server,/processing_token/);
   assert.match(server,/SEASON_SETTLED_BEFORE_RESOLUTION/);
-  assert.match(server,/reward_status='DISABLED_TEST'/);
+  assert.match(server,/clan_reward_receipts/);
+  assert.match(server,/rewardStatus=await payClanSeasonRewards/);
+  assert.match(server,/status='COMPLETED'/);
   assert.match(server,/clan\/admin\/test-settle/);
   assert.match(client,/테스트 시즌 즉시 정산/);
-  assert.match(client,/작전권 소진/);
+  assert.match(client,/사용 상한 소진/);
   assert.match(client,/방어 슬롯 마감/);
   assert.match(client,/limit:160/);
 });

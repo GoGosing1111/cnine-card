@@ -7,10 +7,10 @@
   <meta name="theme-color" content="#06101a">
   <base href="../../">
   <title>숲켓몬 · 클랜전 운영 검수실</title>
-  <link rel="stylesheet" href="css/clan-v1.css?v=1883-clan-war-safety">
-  <link rel="stylesheet" href="preview/clan-war-review-v1/clan-war-review.css?v=2">
-  <script defer src="js/clan-v1.js?v=1883-clan-war-safety"></script>
-  <script defer src="preview/clan-war-review-v1/clan-war-review.js?v=2"></script>
+  <link rel="stylesheet" href="css/clan-v1.css?v=1883-clan-war-safety-1946-release-runtime">
+  <link rel="stylesheet" href="preview/clan-war-review-v1/clan-war-review.css?v=3-release-runtime">
+  <script defer src="js/clan-v1.js?v=1883-clan-war-safety-1946-release-runtime"></script>
+  <script defer src="preview/clan-war-review-v1/clan-war-review.js?v=3-release-runtime"></script>
 </head>
 <body>
   <main class="review-app">
@@ -29,7 +29,7 @@
       <div>
         <span class="review-kicker"><i></i> 60 MINUTE WAR / DESIGN REVIEW</span>
         <h1 id="reviewTitle">한 클랜과 한 시간,<br><em>비슷한 전투력끼리</em> 붙는다</h1>
-        <p>클랜 1곳과 60분 동안 대결하고, 각 교전은 시즌 고정 덱 전투력이 가까운 상대에게 자동 배정되는 변경 검수안입니다. 운영 DB와 API는 변경하지 않습니다.</p>
+        <p>클랜 1곳과 60분 동안 대결하고, 각 교전은 시즌 고정 덱 전투력이 가까운 상대에게 자동 배정됩니다. 이 화면은 연결 완료된 운영 규칙을 쓰기 없이 재생합니다.</p>
       </div>
       <dl class="review-hero-metrics">
         <div><dt>공식 클랜</dt><dd>08</dd><span>동시 4개 대진</span></div>
@@ -61,11 +61,11 @@
           <li><i>05</i><div><b>PROJECT V V3 판정</b><p>고유효과·마법카드·장비 보정을 포함한 서버 타임라인을 1.3배속 전투로 재생하고 결과를 클랜 점수에 합산합니다.</p></div></li>
         </ol>
         <section class="implementation-audit" aria-labelledby="auditTitle">
-          <header><span><small>IMPLEMENTATION GAP</small><b id="auditTitle">라이브 연결 전 확인</b></span><strong>PREVIEW</strong></header>
-          <article class="is-warning"><i>!</i><p><b>60분 개방·행동력 회복 미구현</b><span>현재 서버의 클랜전당 3회 제한을 5/10 행동력과 180초 회복 방식으로 교체해야 합니다.</span></p></article>
-          <article class="is-warning"><i>!</i><p><b>전투력 자동 매칭 미구현</b><span>현재 서버는 상대 목록에서 직접 선택합니다. 덱 스냅샷 전투력과 방어 배정 횟수 기반 선택 로직이 필요합니다.</span></p></article>
-          <article class="is-warning"><i>!</i><p><b>후속 라운드 미구현</b><span>현재 서버는 개막 시 1라운드 대진만 생성합니다. 다음 라운드·리그 순환 생성은 없습니다.</span></p></article>
-          <article class="is-locked"><i>×</i><p><b>TEST 경제 보상 잠금</b><span>정산은 트로피만 기록하며 코인·아이템 보상은 DISABLED_TEST 상태입니다.</span></p></article>
+          <header><span><small>LIVE CONNECTION</small><b id="auditTitle">운영 런타임 연결 상태</b></span><strong>READY</strong></header>
+          <article class="is-ready"><i>✓</i><p><b>60분 개방·행동력 회복 연결</b><span>5/10 행동력, 180초 회복과 개인 10회 사용 상한을 서버에서 검증합니다.</span></p></article>
+          <article class="is-ready"><i>✓</i><p><b>전투력 자동 매칭 연결</b><span>랭크전 덱 5장 전투력 기준 ±10% 우선 배정과 서버 대체 규칙을 적용합니다.</span></p></article>
+          <article class="is-ready"><i>✓</i><p><b>7라운드 순환 대진 연결</b><span>공식 8클랜의 28개 대진을 7개 정시 창구에 중복 없이 생성합니다.</span></p></article>
+          <article class="is-ready"><i>✓</i><p><b>원자 보상 영수증 연결</b><span>운영 ON에서만 시즌·유저별 1회 지급하며 TEST에서는 안전하게 지급하지 않습니다.</span></p></article>
         </section>
       </aside>
 
