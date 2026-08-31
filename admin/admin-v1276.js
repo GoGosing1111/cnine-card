@@ -580,6 +580,10 @@ applySavedCardToState=payload=>{applySavedCardToStateV1031(payload);const curren
 function ensureHighGradeRerollGrantOption(){const select=$('#inventoryItemCode');if(!select||select.querySelector('option[value="HIGH_GRADE_REROLL_TICKET"]'))return;const option=document.createElement('option');option.value='HIGH_GRADE_REROLL_TICKET';option.textContent='고등급 재뽑기권 · PRESTIGE/LIMITED/FUR';select.append(option);const block=$('#inventoryGrantBlock');if(block){const title=block.querySelector('h3'),button=$('#inventoryGrantBtn');if(title)title.textContent='인벤토리 아이템 지급';if(button)button.textContent='선택 아이템 지급'}}
 new MutationObserver(ensureHighGradeRerollGrantOption).observe(document.documentElement,{childList:true,subtree:true});
 
+// V1941: Black Miracle Packs can be granted before opening is released.
+function ensureBlackMiracleGrantOption(){const select=$('#inventoryItemCode');if(!select||select.querySelector('option[value="BLACK_MIRACLE_PACK"]'))return;const option=document.createElement('option');option.value='BLACK_MIRACLE_PACK';option.textContent='블랙 미라클 팩 · 개봉 OFF';select.append(option)}
+new MutationObserver(ensureBlackMiracleGrantOption).observe(document.documentElement,{childList:true,subtree:true});
+
 // V1482: retired standard cubes must not reappear through legacy CMS markup.
 function removeRetiredCubeAdminUi(){
   document.querySelectorAll('option[value="NORMAL_CUBE"],option[value="ADVANCED_CUBE"],[data-cube="NORMAL_CUBE"],[data-cube="ADVANCED_CUBE"]').forEach(node=>node.remove());
