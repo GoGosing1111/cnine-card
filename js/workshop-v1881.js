@@ -645,7 +645,7 @@
       if (canPresent()) {
         workshopLoadVersion += 1;
         workshopState = data.state;
-        if (Number(data.attempts || attempts) > 1) showBulkSynthesisResult(data);
+        if (Number(data.attempts || attempts) > 1) showBulkSynthesisResult(data, canPresent);
         else await showSynthesisReveal(data, required, canPresent);
       }
     } catch (error) {
@@ -666,9 +666,9 @@
     }
   }
 
-  function showBulkSynthesisResult(data) {
+  function showBulkSynthesisResult(data, isCurrent = () => true) {
     const modal = document.getElementById('modal');
-    if (!modal) return;
+    if (!modal || !isCurrent()) return;
     const input = data.input || {};
     const output = data.output || {};
     const attempts = Math.max(1, Number(data.attempts || 1));
@@ -679,24 +679,142 @@
       : Array.from({ length: attempts }, (_, index) => ({ attempt: index + 1, success: index < successCount }));
     const resultClass = successCount === attempts ? 'is-perfect' : successCount ? 'is-mixed' : 'is-all-failed';
     modal.className = `modal show ws81-bulk-result-modal ${resultClass}`;
-    modal.innerHTML = `<section class="ws81-bulk-result">
-      <header><div><small>BATCH LINEAGE FUSION COMPLETE</small><h2>${esc(data.recipeName || '장비 일괄 합성')} 결과</h2><p>${fmt(attempts)}회 판정을 한 번에 처리했습니다.${data.replayed ? ' 안전하게 복구한 기존 결과입니다.' : ''}</p></div><span>${Number(data.successRate ?? 100)}% EACH</span></header>
+    modal.innerHTML = `<section class="ws81-bulk-result" style="--bulk-slide:0;--bulk-open:0">
+      <header><div><small id="ws81BulkEyebrow">BATCH LINEAGE FUSION · RESULT SEALED</small><h2>${esc(data.recipeName || '장비 일괄 합성')}</h2><p id="ws81BulkDescription">${fmt(attempts)}회 판정 결과가 봉인됐습니다.${data.replayed ? ' 안전하게 복구한 기존 결과입니다.' : ''}</p></div><span id="ws81BulkPhase">LOCKED</span></header>
+      <div class="ws81-bulk-verdict" aria-live="polite"><span id="ws81BulkRound">RESULT LOCK</span><strong id="ws81BulkVerdict">판정 결과 봉인</strong><small id="ws81BulkVerdictDetail">먼저 손잡이를 끝까지 밀어 잠금을 해제하세요.</small></div>
       <div class="ws81-bulk-score">
         <article class="total"><small>총 합성</small><b>${fmt(attempts)}</b><em>회</em></article>
-        <article class="success"><small>성공</small><b>${fmt(successCount)}</b><em>회</em></article>
-        <article class="failure"><small>실패</small><b>${fmt(failureCount)}</b><em>회</em></article>
+        <article class="success"><small>공개된 성공</small><b id="ws81BulkSuccess">0</b><em>회</em></article>
+        <article class="failure"><small>공개된 실패</small><b id="ws81BulkFailure">0</b><em>회</em></article>
       </div>
       <div class="ws81-bulk-equipment">
         <figure><span>CONSUMED</span><img src="${esc(asset(input.image))}" alt=""><figcaption><b>${esc(input.name || '투입 장비')}</b><small>${fmt(input.quantity || attempts * Number(input.perAttempt || 1))}개 소모</small></figcaption></figure>
         <i aria-hidden="true">→</i>
-        <figure class="output"><span>ACQUIRED</span><img src="${esc(asset(output.image))}" alt=""><figcaption><b>${esc(output.name || '결과 장비')}</b><small>${fmt(output.quantity ?? successCount)}개 획득</small></figcaption></figure>
+        <figure class="output"><span>RESULT SEALED</span><img src="${esc(asset(output.image))}" alt=""><figcaption><b>${esc(output.name || '결과 장비')}</b><small id="ws81BulkOutputCount">획득 수량 잠금</small></figcaption></figure>
       </div>
-      <section class="ws81-bulk-outcomes"><header><b>회차별 판정</b><span>성공 ${fmt(successCount)} · 실패 ${fmt(failureCount)}</span></header><div>${outcomes.map((outcome, index) => `<span class="${outcome?.success ? 'success' : 'failure'}" title="${fmt(outcome?.attempt || index + 1)}회차 ${outcome?.success ? '성공' : '실패'}"><i>${fmt(outcome?.attempt || index + 1)}</i><b>${outcome?.success ? '성공' : '실패'}</b></span>`).join('')}</div></section>
-      <p class="ws81-bulk-note">장착 중인 장비는 소모 대상에서 제외됐으며, 실패한 회차의 재료는 반환되지 않습니다.</p>
-      <button type="button" id="ws81BulkClose">일괄 합성 결과 확인</button>
+      <section class="ws81-bulk-outcomes"><header><b>회차별 판정</b><span id="ws81BulkOutcomeMeta">공개 0 / ${fmt(attempts)}</span></header><div>${outcomes.map((outcome, index) => `<span class="pending" data-bulk-roll="${index}" title="${fmt(outcome?.attempt || index + 1)}회차 판정 대기"><i>${fmt(outcome?.attempt || index + 1)}</i><b>대기</b></span>`).join('')}</div></section>
+      <div class="ws81-bulk-slider"><span id="ws81BulkInstruction">밀어서 회차별 합성 판정을 시작하세요</span><div id="ws81BulkTrack" tabindex="0" role="slider" aria-label="일괄 합성 결과 잠금 해제" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="ws81BulkHandle">➜</i><b>밀어서 결과 잠금 해제</b></div></div>
+      <p class="ws81-bulk-note">장착 중인 장비는 소모 대상에서 제외됩니다. 잠금 해제 후 1회차부터 성공·실패가 순서대로 공개되며, 실패한 회차의 재료는 반환되지 않습니다.</p>
+      <button type="button" id="ws81BulkClose" disabled>회차별 판정 진행 전</button>
     </section>`;
     normalizeImages(modal);
-    modal.querySelector('#ws81BulkClose').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
+    const panel = modal.querySelector('.ws81-bulk-result');
+    const eyebrow = modal.querySelector('#ws81BulkEyebrow');
+    const description = modal.querySelector('#ws81BulkDescription');
+    const phase = modal.querySelector('#ws81BulkPhase');
+    const round = modal.querySelector('#ws81BulkRound');
+    const verdict = modal.querySelector('#ws81BulkVerdict');
+    const verdictDetail = modal.querySelector('#ws81BulkVerdictDetail');
+    const shownSuccess = modal.querySelector('#ws81BulkSuccess');
+    const shownFailure = modal.querySelector('#ws81BulkFailure');
+    const outcomeMeta = modal.querySelector('#ws81BulkOutcomeMeta');
+    const outputLabel = modal.querySelector('.ws81-bulk-equipment figure.output>span');
+    const outputCount = modal.querySelector('#ws81BulkOutputCount');
+    const slider = modal.querySelector('.ws81-bulk-slider');
+    const instruction = modal.querySelector('#ws81BulkInstruction');
+    const track = modal.querySelector('#ws81BulkTrack');
+    const handle = modal.querySelector('#ws81BulkHandle');
+    const trackLabel = track.querySelector('b');
+    const close = modal.querySelector('#ws81BulkClose');
+    let dragging = false;
+    let unlocked = false;
+
+    const playOutcomeSequence = async () => {
+      const pace = Math.max(52, Math.min(230, Math.floor(5200 / attempts)));
+      const lockBeat = Math.max(35, Math.floor(pace * .34));
+      let successShown = 0;
+      let failureShown = 0;
+      await wait(260);
+      for (let index = 0; index < outcomes.length; index += 1) {
+        if (!isCurrent() || !panel?.isConnected) return;
+        const outcome = outcomes[index] || {};
+        const attempt = Number(outcome.attempt || index + 1);
+        const roll = modal.querySelector(`[data-bulk-roll="${index}"]`);
+        phase.textContent = `JUDGEMENT ${fmt(attempt)} / ${fmt(attempts)}`;
+        round.textContent = `${fmt(attempt)}회차 판정`;
+        verdict.textContent = '판정 중';
+        verdictDetail.textContent = `${String(input.name || '장비')} 계보 코어 확인`;
+        roll?.classList.remove('pending');
+        roll?.classList.add('resolving');
+        if (roll?.querySelector('b')) roll.querySelector('b').textContent = '판정';
+        roll?.scrollIntoView?.({ block: 'nearest', inline: 'nearest' });
+        panel.classList.remove('strike-success', 'strike-failure');
+        await wait(lockBeat);
+        if (!isCurrent() || !panel?.isConnected) return;
+        const successful = outcome.success === true;
+        if (successful) successShown += 1;
+        else failureShown += 1;
+        roll?.classList.remove('resolving');
+        roll?.classList.add(successful ? 'success' : 'failure');
+        roll?.setAttribute('title', `${fmt(attempt)}회차 ${successful ? '성공' : '실패'}`);
+        if (roll?.querySelector('b')) roll.querySelector('b').textContent = successful ? '성공' : '실패';
+        shownSuccess.textContent = fmt(successShown);
+        shownFailure.textContent = fmt(failureShown);
+        outcomeMeta.textContent = `공개 ${fmt(index + 1)} / ${fmt(attempts)} · 성공 ${fmt(successShown)} · 실패 ${fmt(failureShown)}`;
+        verdict.textContent = successful ? 'SUCCESS' : 'FAILED';
+        verdictDetail.textContent = successful ? `${String(output.name || '결과 장비')} 1개 확보` : `투입 장비 ${fmt(input.perAttempt || 1)}개 소멸`;
+        panel.classList.add(successful ? 'strike-success' : 'strike-failure');
+        navigator.vibrate?.(successful ? 32 : [44, 18, 44]);
+        await wait(Math.max(20, pace - lockBeat));
+        panel.classList.remove('strike-success', 'strike-failure');
+      }
+      await wait(320);
+      if (!isCurrent() || !panel?.isConnected) return;
+      panel.classList.remove('sequence-running');
+      panel.classList.add('sequence-complete');
+      panel.style.setProperty('--bulk-open', 1);
+      eyebrow.textContent = 'BATCH LINEAGE FUSION · COMPLETE';
+      description.textContent = `${fmt(attempts)}회 판정과 최종 결과 공개가 완료됐습니다.${data.replayed ? ' 안전하게 복구한 기존 결과입니다.' : ''}`;
+      phase.textContent = 'BATCH RESULT COMPLETE';
+      round.textContent = `${fmt(attempts)}회 판정 완료`;
+      verdict.textContent = successCount ? `${fmt(successCount)}회 성공` : '전체 실패';
+      verdictDetail.textContent = `성공 ${fmt(successCount)} · 실패 ${fmt(failureCount)}`;
+      outputLabel.textContent = 'ACQUIRED';
+      outputCount.textContent = `${fmt(output.quantity ?? successCount)}개 획득`;
+      instruction.textContent = `최종 결과 공개 완료 · ${String(output.name || '결과 장비')} ${fmt(output.quantity ?? successCount)}개`;
+      trackLabel.textContent = '회차별 판정 공개 완료';
+      close.textContent = '일괄 합성 결과 확인';
+      close.disabled = false;
+      navigator.vibrate?.(successCount ? [45, 30, 90] : [90, 35, 130]);
+    };
+
+    const unlock = () => {
+      if (unlocked || !isCurrent() || !panel?.isConnected) return;
+      unlocked = true;
+      panel.style.setProperty('--bulk-slide', 100);
+      panel.classList.add('unlocked', 'sequence-running');
+      slider.classList.add('spent');
+      track.setAttribute('aria-valuenow', '100');
+      track.setAttribute('aria-disabled', 'true');
+      track.tabIndex = -1;
+      eyebrow.textContent = 'BATCH LINEAGE FUSION · UNLOCKED';
+      description.textContent = '결과 잠금이 해제됐습니다. 회차별 판정을 순서대로 공개합니다.';
+      phase.textContent = 'UNLOCKED';
+      round.textContent = 'RESULT UNLOCKED';
+      verdict.textContent = '회차별 판정 개시';
+      verdictDetail.textContent = '1회차부터 결과를 순서대로 공개합니다.';
+      instruction.textContent = '잠금 해제 완료 · 판정 시퀀스 진행 중';
+      trackLabel.textContent = '잠금 해제 완료 · 판정 시작';
+      close.textContent = '회차별 판정 진행 중';
+      navigator.vibrate?.([35, 20, 60]);
+      void playOutcomeSequence();
+    };
+
+    const move = clientX => {
+      if (unlocked) return;
+      const box = track.getBoundingClientRect();
+      const usable = Math.max(1, box.width - handle.offsetWidth - 12);
+      const percent = Math.max(0, Math.min(100, (clientX - box.left - handle.offsetWidth / 2 - 6) / usable * 100));
+      panel.style.setProperty('--bulk-slide', percent);
+      track.setAttribute('aria-valuenow', String(Math.round(percent)));
+      if (percent >= 94) unlock();
+    };
+    handle.onpointerdown = event => { if (!unlocked) { dragging = true; handle.setPointerCapture(event.pointerId); move(event.clientX); } };
+    handle.onpointermove = event => { if (dragging) move(event.clientX); };
+    handle.onpointerup = handle.onpointercancel = () => { dragging = false; };
+    track.onpointerdown = event => { if (event.target !== handle) move(event.clientX); };
+    track.onkeydown = event => { if (!unlocked && ['ArrowRight', 'Enter', ' '].includes(event.key)) { event.preventDefault(); move(track.getBoundingClientRect().right); } };
+    close.onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
   }
 
   async function showSynthesisReveal(data, required, isCurrent = () => true) {

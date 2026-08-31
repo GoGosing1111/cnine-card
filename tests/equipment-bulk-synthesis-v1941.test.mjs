@@ -62,16 +62,31 @@ test('client exposes single and all-duplicate synthesis with replay-safe attempt
   assert.match(client, /중복 전부 합성/);
   assert.match(client, /requestTarget = recovering \? pending\.rawTarget : `\$\{recipe\.recipe_id\}:\$\{attempts\}`/);
   assert.match(client, /JSON\.stringify\(\{ recipeId: recipe\.recipe_id, attempts, requestId: ticket\.requestId \}\)/);
-  assert.match(client, /showBulkSynthesisResult\(data\)/);
+  assert.match(client, /showBulkSynthesisResult\(data, canPresent\)/);
   assert.match(client, /회차별 판정/);
   assert.match(client, /장착 중인 장비는 소모 대상에서 제외/);
 });
 
+test('bulk result unlocks before the per-attempt verdict sequence starts', () => {
+  const unlockStart = client.indexOf('const unlock = () =>');
+  const unlockClass = client.indexOf("panel.classList.add('unlocked', 'sequence-running')", unlockStart);
+  const sequenceStart = client.indexOf('void playOutcomeSequence()', unlockStart);
+  assert.ok(unlockStart >= 0 && unlockClass > unlockStart && sequenceStart > unlockClass);
+  assert.match(client, /role="slider" aria-label="일괄 합성 결과 잠금 해제"/);
+  assert.match(client, /roll\?\.classList\.add\('resolving'\)/);
+  assert.match(client, /roll\?\.classList\.add\(successful \? 'success' : 'failure'\)/);
+  assert.match(client, /panel\.classList\.add\('sequence-complete'\)/);
+  assert.match(client, /close\.disabled = false/);
+});
+
 test('bulk synthesis UI is cache-busted and responsive', () => {
-  assert.match(app, /workshop-v1881\.css\?v=1941-equipment-bulk-synthesis/);
-  assert.match(app, /workshop-v1881\.js\?v=1941-equipment-bulk-synthesis/);
+  assert.match(app, /workshop-v1881\.css\?v=1942-equipment-bulk-reveal/);
+  assert.match(app, /workshop-v1881\.js\?v=1942-equipment-bulk-reveal/);
   assert.match(css, /\.ws81-synth-actions\{display:grid/);
   assert.match(css, /\.ws81-bulk-result-modal\{/);
+  assert.match(css, /\.ws81-bulk-slider\{/);
+  assert.match(css, /\.ws81-bulk-result\.strike-success/);
+  assert.match(css, /\.ws81-bulk-result\.strike-failure/);
   assert.match(css, /@media\(max-width:680px\)[\s\S]*?\.ws81-synth-actions\{grid-template-columns:1fr\}/);
   assert.match(css, /@media\(max-width:430px\)[\s\S]*?\.ws81-bulk-equipment\{grid-template-columns:1fr\}/);
 });
