@@ -88,7 +88,8 @@
     shell();if(loadPromise)return loadPromise;if(!force&&data&&Date.now()-loadedAt<30000){render();return data}q('cwSaveState').textContent='클랜전 서버 상태를 동기화하는 중입니다.';
     loadPromise=api('admin/clan-war/settings').then(result=>{data=result;loadedAt=Date.now();render();return result}).catch(error=>{q('cwSaveState').textContent=error.message;throw error}).finally(()=>{loadPromise=null});return loadPromise;
   }
-  new MutationObserver(()=>{shell();if(visible()){const title=q('pageTitle');if(title)title.textContent='클랜전 관리';void load(false).catch(error=>console.warn('[clan-war-cms]',error.message))}}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['hidden']});
-  addEventListener('load',()=>{shell();if(visible())void load(false).catch(error=>console.warn('[clan-war-cms]',error.message))});shell();
+  const syncVisibleView=()=>{shell();if(visible()){const title=q('pageTitle');if(title)title.textContent='클랜전 관리';void load(false).catch(error=>console.warn('[clan-war-cms]',error.message))}};
+  const viewNode=q('view-clanwar');if(viewNode)new MutationObserver(syncVisibleView).observe(viewNode,{attributes:true,attributeFilter:['hidden']});
+  addEventListener('load',syncVisibleView);shell();
   globalThis.ClanWarAdminV1943={load,render,get data(){return data}};
 })();
