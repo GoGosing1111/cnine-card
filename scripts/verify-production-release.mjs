@@ -37,11 +37,12 @@ if (!appTag || appTag !== shellTag) {
   fail(`app/service-worker release tags differ: app=${appTag || 'missing'}, shell=${shellTag || 'missing'}`);
 }
 
-if (!/const BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED\s*=\s*false\s*;/.test(blackMiracle)) {
-  fail('Black Miracle inventory use must remain OFF for this release');
+if (!/const BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED\s*=\s*true\s*;/.test(blackMiracle)) {
+  fail('Black Miracle inventory use must be released for this deployment');
 }
-if (!/WHEN i\.code='BLACK_MIRACLE_PACK' THEN 0 ELSE 1 END AS usable/.test(api)) {
-  fail('Black Miracle inventory fallback must remain unusable until explicitly enabled');
+if (!/blackMiracleUseEnabled=\(await blackMiracleSettings\(env\)\)\.enabled===true/.test(api)
+  || !/WHEN i\.code='BLACK_MIRACLE_PACK' THEN \? ELSE 1 END AS usable/.test(api)) {
+  fail('Black Miracle inventory usability must follow the cleaned OWNER CMS setting');
 }
 
 let dirty = '';

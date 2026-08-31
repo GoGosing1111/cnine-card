@@ -3,10 +3,10 @@ const SETTINGS_KEY = 'black_miracle_pack_settings_v1485';
 const IMAGE = 'assets/ui/packs/black-miracle-pack-v1485-768.jpg';
 const MIN_POWER_RATE_PERCENT = 0.01;
 const MAX_POWER_RATE_PERCENT = 0.1;
-// Release gate: inventory opening stays OFF until the bundled content launch.
-// Keep source drops and owned quantities intact while ignoring any legacy
-// app_meta row that still has enabled:true.
-const BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED = false;
+// 2026-08-31 OWNER release instruction: Black Miracle inventory opening is live.
+// CMS remains the operational switch so an OWNER can pause opening without
+// affecting drops or already-owned quantities.
+const BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED = true;
 const POWER_GROUP_DEFAULTS = { enabled: true, mode: 'AUTO', minRatePercent: MIN_POWER_RATE_PERCENT, maxRatePercent: MAX_POWER_RATE_PERCENT, curve: 'LINEAR', powerFloor: 0, powerCeiling: 0, maxItems: 0, overrides: {} };
 const DEFAULTS = {
   // Opening must fail closed. Drops and owned quantities are controlled separately.
@@ -219,7 +219,7 @@ async function chooseOpenReward(env, settings, catalog, userId) {
   if (outcome.type === 'MYTHIC_VEHICLE') { const candidates = catalog.vehicle.filter((entry) => !ownedVehicleIds.has(String(entry.id))); const selected = randomEntry(candidates); if (selected) return itemReward('MYTHIC_VEHICLE', selected, settings.rewards.MYTHIC_VEHICLE.rate / candidates.length); }
   if (outcome.type === 'COIN') return fillerReward(settings, 'COIN'); if (outcome.type === 'MASTER_STAR') return fillerReward(settings, 'MASTER_STAR'); return fillerReward(settings, 'MASTER_STAR', settings.fallbackMasterStars);
 }
-function openGuardSql() { return `EXISTS(SELECT 1 FROM black_miracle_pack_open_receipts r WHERE r.request_id=? AND r.user_id=? AND r.status='CLAIMED') AND EXISTS(SELECT 1 FROM cnine_user_inventory p WHERE p.user_id=? AND p.item_code=? AND p.quantity=?)`; }
+function openGuardSql(status = 'CLAIMED') { const safeStatus = status === 'REWARDED' ? 'REWARDED' : 'CLAIMED'; return `EXISTS(SELECT 1 FROM black_miracle_pack_open_receipts r WHERE r.request_id=? AND r.user_id=? AND r.status='${safeStatus}') AND EXISTS(SELECT 1 FROM cnine_user_inventory p WHERE p.user_id=? AND p.item_code=? AND p.quantity=?)`; }
 function openGuardBindings(requestId, userId, remaining) { return [requestId, userId, userId, ITEM_CODE, remaining]; }
 
 export async function openBlackMiraclePack(env, { userId, requestId }) {
@@ -228,27 +228,38 @@ export async function openBlackMiraclePack(env, { userId, requestId }) {
   const settings = await blackMiracleSettings(env); if (!BLACK_MIRACLE_INVENTORY_USE_RELEASE_ENABLED || settings.enabled !== true) throw new Error('현재 블랙 미라클 팩 사용이 중지되어 있습니다. 드랍 및 보유 수량은 유지됩니다.');
   const [catalog, packRow] = await Promise.all([blackMiraclePowerCatalog(env, settings), env.DB.prepare('SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId, ITEM_CODE).first()]);
   const balanceBefore = Number(packRow?.quantity || 0); if (balanceBefore <= 0) throw new Error('보유한 블랙 미라클 팩이 없습니다.'); const remaining = balanceBefore - 1; const reward = await chooseOpenReward(env, settings, catalog, userId);
-  const response = { ok: true, itemCode: ITEM_CODE, remaining, reward, requestId: safeRequestId, cardCount: settings.presentation.cardCount, presentation: { cardCount: settings.presentation.cardCount } }; const responseJson = JSON.stringify(response); const guard = openGuardSql(); const guardBindings = () => openGuardBindings(safeRequestId, userId, remaining);
+  const response = { ok: true, itemCode: ITEM_CODE, remaining, reward, requestId: safeRequestId, cardCount: settings.presentation.cardCount, presentation: { cardCount: settings.presentation.cardCount } }; const responseJson = JSON.stringify(response); const itemReward = reward.type === 'MYTHIC_EQUIPMENT' || reward.type === 'MYTHIC_VEHICLE'; const completionStatus = itemReward ? 'REWARDED' : 'CLAIMED'; const claimGuard = openGuardSql('CLAIMED'); const claimGuardBindings = () => openGuardBindings(safeRequestId, userId, balanceBefore); const completionGuard = openGuardSql(completionStatus); const completionGuardBindings = () => openGuardBindings(safeRequestId, userId, remaining);
   const statements = [
     env.DB.prepare(`INSERT OR IGNORE INTO black_miracle_pack_open_receipts(request_id,user_id,status) VALUES(?,?,'PENDING')`).bind(safeRequestId, userId),
     env.DB.prepare(`UPDATE black_miracle_pack_open_receipts SET status='CLAIMED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='PENDING' AND EXISTS(SELECT 1 FROM cnine_user_inventory p WHERE p.user_id=? AND p.item_code=? AND p.quantity=?)`).bind(safeRequestId, userId, userId, ITEM_CODE, balanceBefore),
-    env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=CASE WHEN unseen_quantity>quantity-1 THEN quantity-1 ELSE unseen_quantity END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity=? AND EXISTS(SELECT 1 FROM black_miracle_pack_open_receipts r WHERE r.request_id=? AND r.user_id=? AND r.status='CLAIMED')`).bind(userId, ITEM_CODE, balanceBefore, safeRequestId, userId),
   ];
-  if (reward.type === 'MYTHIC_EQUIPMENT') statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,i.id,'BLACK_MIRACLE',?,? FROM character_equipment_items i WHERE i.id=? AND i.is_active=1 AND i.is_public=1 AND UPPER(i.rarity)='MYTHIC' AND ${guard}`).bind(userId, safeRequestId, safeRequestId, reward.item.id, ...guardBindings()));
-  else if (reward.type === 'MYTHIC_VEHICLE') statements.push(env.DB.prepare(`INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,g.id,'BLACK_MIRACLE',? FROM character_garage_items g WHERE g.id=? AND g.is_active=1 AND g.is_public=1 AND UPPER(g.rarity)='MYTHIC' AND NOT EXISTS(SELECT 1 FROM user_garage_vehicles u WHERE u.user_id=? AND u.garage_id=g.id) AND ${guard}`).bind(userId, safeRequestId, reward.item.id, userId, ...guardBindings()));
-  else if (reward.type === 'COIN') statements.push(env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${guard}`).bind(reward.amount, userId, ...guardBindings()), env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'BLACK_MIRACLE_PACK' FROM users WHERE id=? AND ${guard}`).bind(reward.amount, userId, ...guardBindings()));
-  else statements.push(
-    env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'MASTER_STAR',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${guard} ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId, reward.amount, reward.amount, ...guardBindings()),
-    env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',?,quantity,'BLACK_MIRACLE_REWARD','INVENTORY_USE',? FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND ${guard}`).bind(userId, reward.amount, safeRequestId, userId, ...guardBindings()),
+  let rewardGrantIndex = -1; let rewardVerifyIndex = -1;
+  if (reward.type === 'MYTHIC_EQUIPMENT') {
+    rewardGrantIndex = statements.length;
+    statements.push(env.DB.prepare(`INSERT INTO user_equipment_instances(user_id,equipment_id,source_type,source_id,request_id) SELECT ?,i.id,'BLACK_MIRACLE',?,? FROM character_equipment_items i WHERE i.id=? AND i.is_active=1 AND i.is_public=1 AND UPPER(i.rarity)='MYTHIC' AND ${claimGuard}`).bind(userId, safeRequestId, safeRequestId, reward.item.id, ...claimGuardBindings()));
+    rewardVerifyIndex = statements.length;
+    statements.push(env.DB.prepare(`UPDATE black_miracle_pack_open_receipts SET status='REWARDED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='CLAIMED' AND EXISTS(SELECT 1 FROM user_equipment_instances e WHERE e.user_id=? AND e.equipment_id=? AND e.source_type='BLACK_MIRACLE' AND e.source_id=? AND e.request_id=?)`).bind(safeRequestId, userId, userId, reward.item.id, safeRequestId, safeRequestId));
+  } else if (reward.type === 'MYTHIC_VEHICLE') {
+    rewardGrantIndex = statements.length;
+    statements.push(env.DB.prepare(`INSERT OR IGNORE INTO user_garage_vehicles(user_id,garage_id,source_type,source_id) SELECT ?,g.id,'BLACK_MIRACLE',? FROM character_garage_items g WHERE g.id=? AND g.is_active=1 AND g.is_public=1 AND UPPER(g.rarity)='MYTHIC' AND NOT EXISTS(SELECT 1 FROM user_garage_vehicles u WHERE u.user_id=? AND u.garage_id=g.id) AND ${claimGuard}`).bind(userId, safeRequestId, reward.item.id, userId, ...claimGuardBindings()));
+    rewardVerifyIndex = statements.length;
+    statements.push(env.DB.prepare(`UPDATE black_miracle_pack_open_receipts SET status='REWARDED',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='CLAIMED' AND EXISTS(SELECT 1 FROM user_garage_vehicles g WHERE g.user_id=? AND g.garage_id=? AND g.source_type='BLACK_MIRACLE' AND g.source_id=?)`).bind(safeRequestId, userId, userId, reward.item.id, safeRequestId));
+  }
+  const consumedIndex = statements.length;
+  statements.push(env.DB.prepare(`UPDATE cnine_user_inventory SET quantity=quantity-1,unseen_quantity=CASE WHEN unseen_quantity>quantity-1 THEN quantity-1 ELSE unseen_quantity END,updated_at=CURRENT_TIMESTAMP WHERE user_id=? AND item_code=? AND quantity=? AND EXISTS(SELECT 1 FROM black_miracle_pack_open_receipts r WHERE r.request_id=? AND r.user_id=? AND r.status='${completionStatus}')`).bind(userId, ITEM_CODE, balanceBefore, safeRequestId, userId));
+  if (reward.type === 'COIN') statements.push(env.DB.prepare(`UPDATE users SET coin=coin+? WHERE id=? AND ${completionGuard}`).bind(reward.amount, userId, ...completionGuardBindings()), env.DB.prepare(`INSERT INTO coin_logs(user_id,change_amount,balance_after,reason) SELECT id,?,coin,'BLACK_MIRACLE_PACK' FROM users WHERE id=? AND ${completionGuard}`).bind(reward.amount, userId, ...completionGuardBindings()));
+  else if (reward.type === 'MASTER_STAR') statements.push(
+    env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at) SELECT ?,'MASTER_STAR',?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP WHERE ${completionGuard} ON CONFLICT(user_id,item_code) DO UPDATE SET quantity=cnine_user_inventory.quantity+excluded.quantity,unseen_quantity=cnine_user_inventory.unseen_quantity+excluded.unseen_quantity,updated_at=CURRENT_TIMESTAMP`).bind(userId, reward.amount, reward.amount, ...completionGuardBindings()),
+    env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,'MASTER_STAR',?,quantity,'BLACK_MIRACLE_REWARD','INVENTORY_USE',? FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR' AND ${completionGuard}`).bind(userId, reward.amount, safeRequestId, userId, ...completionGuardBindings()),
   );
   statements.push(
-    env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-1,?,'BLACK_MIRACLE_OPEN','INVENTORY_USE',? WHERE ${guard}`).bind(userId, ITEM_CODE, remaining, safeRequestId, ...guardBindings()),
-    env.DB.prepare(`UPDATE black_miracle_pack_open_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='CLAIMED' AND EXISTS(SELECT 1 FROM cnine_user_inventory p WHERE p.user_id=? AND p.item_code=? AND p.quantity=?)`).bind(responseJson, safeRequestId, userId, userId, ITEM_CODE, remaining),
-    env.DB.prepare(`UPDATE black_miracle_pack_open_receipts SET status='FAILED',error_message='보유 수량이 변경되어 개봉하지 못했습니다.',updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('PENDING','CLAIMED')`).bind(safeRequestId, userId),
+    env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id) SELECT ?,?,-1,?,'BLACK_MIRACLE_OPEN','INVENTORY_USE',? WHERE ${completionGuard}`).bind(userId, ITEM_CODE, remaining, safeRequestId, ...completionGuardBindings()),
+    env.DB.prepare(`UPDATE black_miracle_pack_open_receipts SET status='COMPLETED',response_json=?,error_message=NULL,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status='${completionStatus}' AND EXISTS(SELECT 1 FROM cnine_user_inventory p WHERE p.user_id=? AND p.item_code=? AND p.quantity=?)`).bind(responseJson, safeRequestId, userId, userId, ITEM_CODE, remaining),
+    env.DB.prepare(`UPDATE black_miracle_pack_open_receipts SET status='FAILED',error_message=CASE WHEN status='CLAIMED' AND ${itemReward ? 1 : 0}=1 THEN '보상을 지급하지 못해 팩을 차감하지 않았습니다.' ELSE '보유 수량이 변경되어 개봉하지 못했습니다.' END,updated_at=CURRENT_TIMESTAMP WHERE request_id=? AND user_id=? AND status IN ('PENDING','CLAIMED','REWARDED')`).bind(safeRequestId, userId),
   );
-  const results = await env.DB.batch(statements); const inserted = Number(results?.[0]?.meta?.changes || 0); const claimed = Number(results?.[1]?.meta?.changes || 0); const consumed = Number(results?.[2]?.meta?.changes || 0);
+  const results = await env.DB.batch(statements); const inserted = Number(results?.[0]?.meta?.changes || 0); const claimed = Number(results?.[1]?.meta?.changes || 0); const consumed = Number(results?.[consumedIndex]?.meta?.changes || 0); const rewardGranted = rewardGrantIndex < 0 ? 1 : Number(results?.[rewardGrantIndex]?.meta?.changes || 0); const rewardVerified = rewardVerifyIndex < 0 ? 1 : Number(results?.[rewardVerifyIndex]?.meta?.changes || 0);
   const receipt = await env.DB.prepare(`SELECT user_id,status,response_json,error_message FROM black_miracle_pack_open_receipts WHERE request_id=?`).bind(safeRequestId).first();
-  if (receipt?.status === 'COMPLETED' && Number(receipt.user_id) === Number(userId)) return parse(receipt.response_json, response); if (receipt && Number(receipt.user_id) !== Number(userId)) throw new Error('다른 개봉 요청과 중복된 요청 식별값입니다.'); if (inserted !== 1 || claimed !== 1 || consumed !== 1) throw new Error(receipt?.error_message || '같은 개봉 요청을 처리 중입니다.'); throw new Error(receipt?.error_message || '블랙 미라클 팩 개봉을 완료하지 못했습니다.');
+  if (receipt?.status === 'COMPLETED' && Number(receipt.user_id) === Number(userId)) return parse(receipt.response_json, response); if (receipt && Number(receipt.user_id) !== Number(userId)) throw new Error('다른 개봉 요청과 중복된 요청 식별값입니다.'); if (inserted !== 1 || claimed !== 1 || rewardGranted !== 1 || rewardVerified !== 1 || consumed !== 1) throw new Error(receipt?.error_message || '같은 개봉 요청을 처리 중입니다.'); throw new Error(receipt?.error_message || '블랙 미라클 팩 개봉을 완료하지 못했습니다.');
 }
 
 export async function handleBlackMiracleAdmin({ path, request, env, deps }) {
