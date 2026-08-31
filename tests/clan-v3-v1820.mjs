@@ -100,7 +100,10 @@ test('OWNER TEST 잠금과 정식 ON 공개 게이트가 서버·유저 메뉴�
   assert.match(app,/CLAN_FEATURE_MODE='ON'/);
   assert.doesNotMatch(app,/클랜 TEST/);
   assert.match(app,/data-tab="clan">클랜<\/button>/);
-  assert.match(shell,/clanTestVisible/);
+  assert.doesNotMatch(shell,/clanTestVisible|클랜 TEST|OWNER\s*·\s*블라인드|OWNER·V3/);
+  assert.match(shell,/function clanFeatureVisible\(\)/);
+  assert.match(shell,/pcCommand\('clan', '클랜', '블라인드 드래프트 · V3'/);
+  assert.match(shell,/mobileCommand\('clan', '클랜', '블라인드 드래프트 · V3'/);
   assert.match(postgresMigration,/\{"mode":"TEST"\}/);
   assert.equal((postgresMigration.match(/CREATE TABLE IF NOT EXISTS clan_/g)||[]).length,9);
 });

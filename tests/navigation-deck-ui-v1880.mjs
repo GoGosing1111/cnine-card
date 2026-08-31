@@ -21,7 +21,7 @@ for (const asset of [
   'css/pve-command-v2.css?v=1882-menu-pve-scrapyard',
   'css/information-architecture-v1880.css?v=1880-navigation-deck-rules',
   'js/pve-command-v2-live.js?v=1930-raid-entry-loader',
-  'js/soopketmon-v21-exact-shell-adapter.js?v=21.14.0-bulk-enhancement',
+  'js/soopketmon-v21-exact-shell-adapter.js?v=21.15.0-clan-public-entry',
   'js/soopketmon-v21-runtime-router.js?v=1.5.0-bulk-enhancement'
 ]) assert.ok(index.includes(asset), `missing cache-busted asset: ${asset}`);
 assert.ok(serviceWorker.includes("soop-card-shell-v1941-superstar-pack-early-access"));
