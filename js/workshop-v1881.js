@@ -34,6 +34,7 @@
   const MYSTIC_ENERGY_CODE = 'STARLIGHT_ARMOR_CORE';
   const MYSTIC_ENERGY_IMAGE = 'assets/items/starlight-armor-core-v1749.png';
   const MATERIAL_PAYMENT_MODE = 'COIN_AND_CARD_SHARD';
+  const MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS = 100;
   const materialCardShardCost = recipe => Number(recipe?.card_shard_cost ?? recipe?.cardShardCost ?? 0);
 
   let workshopState = null;
@@ -42,6 +43,7 @@
   let synthesisMode = 'READY';
   let selectedVehicleRecipe = 0;
   let selectedSynthesisRecipe = 0;
+  let requestedSynthesisAttempts = 1;
   let payment = 'COIN';
   let workshopBusy = false;
   let scrapyardBusy = false;
@@ -220,19 +222,31 @@
 
   const synthRequired = recipe => Math.max(1, Number(recipe?.input_quantity || 3));
   const canSynthesize = recipe => Number(recipe?.quantity || 0) >= synthRequired(recipe);
+  const synthMaxAttempts = recipe => Math.min(MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS, Math.floor(Number(recipe?.quantity || 0) / synthRequired(recipe)));
+
+  function pendingSynthesisSelection() {
+    const rawTarget = String(currentMutationRequest('synthesis')?.target || '');
+    const [rawRecipeId, rawAttempts] = rawTarget.split(':');
+    return {
+      rawTarget,
+      recipeId: Number(rawRecipeId || 0),
+      attempts: Math.max(1, Math.min(MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS, Math.floor(Number(rawAttempts) || 1)))
+    };
+  }
 
   function synthesisRows() {
     const all = workshopState?.synthesis || [];
-    const pendingId = Number(currentMutationRequest('synthesis')?.target || 0);
+    const pendingId = pendingSynthesisSelection().recipeId;
     return synthesisMode === 'READY' ? all.filter(row => canSynthesize(row) || Number(row.recipe_id) === pendingId) : all;
   }
 
   function lineageItem(recipe) {
     const required = synthRequired(recipe);
     const available = canSynthesize(recipe);
+    const maxAttempts = synthMaxAttempts(recipe);
     return `<button type="button" data-synth="${recipe.recipe_id}" class="ws81-lineage-item ${Number(recipe.recipe_id) === Number(selectedSynthesisRecipe) ? 'active' : ''} ${available ? 'ready' : 'locked'}">
       <span class="ws81-lineage-gear"><img src="${esc(asset(recipe.image_url))}" alt=""><i>${esc(recipe.rarity)}</i><b>${esc(recipe.name)}</b><small>보유 ${fmt(recipe.quantity)} / 필요 ${fmt(required)}</small></span>
-      <span class="ws81-lineage-link" aria-hidden="true"><i></i><b>${available ? '합성 가능' : `${Math.max(0, required - Number(recipe.quantity || 0))}개 부족`}</b></span>
+      <span class="ws81-lineage-link" aria-hidden="true"><i></i><b>${available ? maxAttempts > 1 ? `일괄 ${fmt(maxAttempts)}회` : '합성 가능' : `${Math.max(0, required - Number(recipe.quantity || 0))}개 부족`}</b></span>
       <span class="ws81-lineage-gear output"><img src="${esc(asset(recipe.output_image))}" alt=""><i>${esc(recipe.output_rarity)}</i><b>${esc(recipe.output_name)}</b><small>PVE +${fmt(recipe.output_pve_power)}</small></span>
     </button>`;
   }
@@ -240,17 +254,24 @@
   function synthesisDetail(recipe) {
     const required = synthRequired(recipe);
     const available = canSynthesize(recipe);
-    const recovering = currentMutationRequest('synthesis')?.target === String(recipe.recipe_id);
+    const maxAttempts = synthMaxAttempts(recipe);
+    const pending = pendingSynthesisSelection();
+    const recovering = pending.recipeId === Number(recipe.recipe_id);
+    const bulkRequired = required * maxAttempts;
     return `<section class="ws78-synth-stage ws81-synth-detail">
-      <header><div><small>SELECTED LINEAGE</small><h3>${esc(recipe.name)} 합성 계보</h3></div><span class="${available ? 'ready' : 'locked'}">${available ? '즉시 합성 가능' : `재료 ${Math.max(0, required - Number(recipe.quantity || 0))}개 부족`}</span></header>
+      <header><div><small>SELECTED LINEAGE</small><h3>${esc(recipe.name)} 합성 계보</h3></div><span class="${available ? 'ready' : 'locked'}">${available ? maxAttempts > 1 ? `일괄 ${fmt(maxAttempts)}회 가능` : '즉시 합성 가능' : `재료 ${Math.max(0, required - Number(recipe.quantity || 0))}개 부족`}</span></header>
       <div class="ws78-fusion-board ws81-fusion-board">
         <div class="ws78-input-zone"><small>투입 장비 · 보유 ${fmt(recipe.quantity)}개</small><div style="--required:${required}">${Array.from({ length: required }, (_, index) => `<figure class="${Number(recipe.quantity || 0) > index ? 'filled' : 'empty'}"><span>${Number(recipe.quantity || 0) > index ? esc(recipe.rarity) : 'EMPTY'}</span>${Number(recipe.quantity || 0) > index ? `<img src="${esc(asset(recipe.image_url))}" alt="">` : '<b>+</b>'}<figcaption>${Number(recipe.quantity || 0) > index ? esc(recipe.name) : '장비 필요'}</figcaption></figure>`).join('')}</div></div>
         <div class="ws78-fusion-core"><i></i><b>LINEAGE</b><strong>→</strong><em>${Number(recipe.success_rate ?? 100)}%</em></div>
         <div class="ws78-output-zone"><small>성공 시 결과</small><figure><span>${esc(recipe.output_rarity)}</span><img src="${esc(asset(recipe.output_image))}" alt=""><figcaption><b>${esc(recipe.output_name)}</b><em>PVE +${fmt(recipe.output_pve_power)} · PVP +${fmt(recipe.output_pvp_power)}</em></figcaption></figure></div>
       </div>
-      <div class="ws78-synth-summary"><div><small>선택 장비</small><b>${esc(recipe.name)} × ${fmt(required)}</b></div><div><small>진화 결과</small><b>${esc(recipe.output_name)} × 1</b></div><div><small>합성 성공 확률</small><b>${Number(recipe.success_rate ?? 100)}%</b></div></div>
-      <p class="ws78-risk">실패해도 투입한 ${esc(recipe.name)} ${fmt(required)}개는 영구 소모됩니다.</p>
-      <button type="button" id="wsSynthStart" class="ws76-primary" ${workshopBusy || (!available && !recovering) ? 'disabled' : ''}>${workshopBusy ? '계보 재검증 중' : recovering ? '이전 장비 합성 결과 확인' : available ? `${Number(recipe.success_rate ?? 100)}% 확률로 합성 시작` : `동일 장비 ${fmt(required)}개 필요`}</button>
+      <div class="ws78-synth-summary"><div><small>1회 투입</small><b>${esc(recipe.name)} × ${fmt(required)}</b></div><div><small>일괄 합성 가능</small><b>${fmt(maxAttempts)}회 · 총 ${fmt(bulkRequired)}개</b></div><div><small>회차별 성공 확률</small><b>${Number(recipe.success_rate ?? 100)}%</b></div></div>
+      <div class="ws81-synth-bulk-info"><span><small>장착 장비</small><b>자동 제외</b></span><span><small>일괄 판정</small><b>회차별 독립</b></span><span><small>남는 장비</small><b>${fmt(Math.max(0, Number(recipe.quantity || 0) - bulkRequired))}개 유지</b></span></div>
+      <p class="ws78-risk">실패한 회차도 투입 장비는 소모됩니다. 일괄 합성은 완성 가능한 중복 묶음만 사용하며 ${fmt(maxAttempts)}회 결과를 각각 판정합니다.</p>
+      <div class="ws81-synth-actions">
+        <button type="button" id="wsSynthStart" class="ws76-primary" ${workshopBusy || (!available && !recovering) ? 'disabled' : ''}>${workshopBusy ? '계보 재검증 중' : recovering ? '이전 장비 합성 결과 확인' : available ? '1회 합성' : `동일 장비 ${fmt(required)}개 필요`}</button>
+        <button type="button" id="wsSynthBulk" class="ws76-primary ws81-bulk-button" data-synth-attempts="${maxAttempts}" ${workshopBusy || recovering || maxAttempts < 2 ? 'disabled' : ''}>${workshopBusy ? '계보 재검증 중' : recovering ? '이전 결과 확인 후 이용' : maxAttempts > 1 ? `${fmt(maxAttempts)}회 중복 전부 합성` : '일괄 합성 재료 부족'}</button>
+      </div>
     </section>`;
   }
 
@@ -389,7 +410,14 @@
       renderWorkshop();
     });
     root.querySelector('#wsVehicleCraft')?.addEventListener('click', craftVehicle);
-    root.querySelector('#wsSynthStart')?.addEventListener('click', synthesizeEquipment);
+    root.querySelector('#wsSynthStart')?.addEventListener('click', () => {
+      requestedSynthesisAttempts = 1;
+      void synthesizeEquipment();
+    });
+    root.querySelector('#wsSynthBulk')?.addEventListener('click', event => {
+      requestedSynthesisAttempts = Math.max(2, Math.min(MAX_EQUIPMENT_SYNTHESIS_ATTEMPTS, Number(event.currentTarget.dataset.synthAttempts) || 2));
+      void synthesizeEquipment();
+    });
     root.querySelector('#wsMaterialCraft')?.addEventListener('click', craftMaterial);
   }
 
@@ -595,18 +623,30 @@
       renderWorkshop();
       if (!recipe) return alert('현재 공개된 합성 레시피가 아닙니다.');
       const required = synthRequired(recipe);
-      const recovering = currentMutationRequest('synthesis')?.target === String(recipe.recipe_id);
+      const pending = pendingSynthesisSelection();
+      const recovering = pending.recipeId === Number(recipe.recipe_id);
+      const maxAttempts = synthMaxAttempts(recipe);
+      const attempts = recovering ? pending.attempts : Math.max(1, Math.min(maxAttempts, requestedSynthesisAttempts));
+      const totalRequired = required * attempts;
       if (!canSynthesize(recipe) && !recovering) return alert(`${recipe.name} 장비가 ${fmt(required)}개 필요합니다.`);
-      if (!confirm(recovering ? `${recipe.name} 합성 결과를 동일 요청번호로 안전하게 재확인합니다.` : `${recipe.name} ${fmt(required)}개를 투입해 ${recipe.output_name} 합성을 시도합니다.\nCMS 최신 성공 확률 ${Number(recipe.success_rate ?? 100)}% · 실패해도 투입 장비는 소모됩니다.`)) return;
-      ticket = prepareMutationRequest('synthesis', recipe.recipe_id, 'SYNTH');
+      if (!recovering && attempts > maxAttempts) return alert(`현재 일괄 합성은 최대 ${fmt(maxAttempts)}회까지 가능합니다.`);
+      const confirmation = recovering
+        ? `${recipe.name} ${fmt(attempts)}회 합성 결과를 동일 요청번호로 안전하게 재확인합니다.`
+        : attempts > 1
+          ? `${recipe.name} 중복 장비 ${fmt(totalRequired)}개를 투입해 ${fmt(attempts)}회를 한 번에 합성합니다.\n각 회차 성공 확률 ${Number(recipe.success_rate ?? 100)}% · 실패한 회차도 투입 장비는 소모됩니다.`
+          : `${recipe.name} ${fmt(required)}개를 투입해 ${recipe.output_name} 합성을 시도합니다.\nCMS 최신 성공 확률 ${Number(recipe.success_rate ?? 100)}% · 실패해도 투입 장비는 소모됩니다.`;
+      if (!confirm(confirmation)) return;
+      const requestTarget = recovering ? pending.rawTarget : `${recipe.recipe_id}:${attempts}`;
+      ticket = prepareMutationRequest('synthesis', requestTarget, 'SYNTH');
       if (ticket.blocked) return alert('이전 장비 합성 결과를 먼저 확인해야 합니다. 이전에 선택한 합성 계보로 다시 시도해 주세요.');
-      const data = await api('workshop/synthesis', { method: 'POST', body: JSON.stringify({ recipeId: recipe.recipe_id, requestId: ticket.requestId }) });
+      const data = await api('workshop/synthesis', { method: 'POST', body: JSON.stringify({ recipeId: recipe.recipe_id, attempts, requestId: ticket.requestId }) });
       clearMutationRequest('synthesis', ticket.requestId);
       if (!ownsAction()) return;
       if (canPresent()) {
         workshopLoadVersion += 1;
         workshopState = data.state;
-        await showSynthesisReveal(data, required, canPresent);
+        if (Number(data.attempts || attempts) > 1) showBulkSynthesisResult(data);
+        else await showSynthesisReveal(data, required, canPresent);
       }
     } catch (error) {
       const uncertain = ticket && mutationTransportUncertain(error);
@@ -616,6 +656,7 @@
     } finally {
       if (ownsAction()) {
         workshopBusy = false;
+        requestedSynthesisAttempts = 1;
         if (workshopMounted()) {
           if (reconcile) void bindWorkshopView();
           else if (canPresent()) renderWorkshop();
@@ -623,6 +664,39 @@
         }
       }
     }
+  }
+
+  function showBulkSynthesisResult(data) {
+    const modal = document.getElementById('modal');
+    if (!modal) return;
+    const input = data.input || {};
+    const output = data.output || {};
+    const attempts = Math.max(1, Number(data.attempts || 1));
+    const successCount = Math.max(0, Number(data.successCount || 0));
+    const failureCount = Math.max(0, Number(data.failureCount ?? attempts - successCount));
+    const outcomes = Array.isArray(data.outcomes) && data.outcomes.length
+      ? data.outcomes
+      : Array.from({ length: attempts }, (_, index) => ({ attempt: index + 1, success: index < successCount }));
+    const resultClass = successCount === attempts ? 'is-perfect' : successCount ? 'is-mixed' : 'is-all-failed';
+    modal.className = `modal show ws81-bulk-result-modal ${resultClass}`;
+    modal.innerHTML = `<section class="ws81-bulk-result">
+      <header><div><small>BATCH LINEAGE FUSION COMPLETE</small><h2>${esc(data.recipeName || '장비 일괄 합성')} 결과</h2><p>${fmt(attempts)}회 판정을 한 번에 처리했습니다.${data.replayed ? ' 안전하게 복구한 기존 결과입니다.' : ''}</p></div><span>${Number(data.successRate ?? 100)}% EACH</span></header>
+      <div class="ws81-bulk-score">
+        <article class="total"><small>총 합성</small><b>${fmt(attempts)}</b><em>회</em></article>
+        <article class="success"><small>성공</small><b>${fmt(successCount)}</b><em>회</em></article>
+        <article class="failure"><small>실패</small><b>${fmt(failureCount)}</b><em>회</em></article>
+      </div>
+      <div class="ws81-bulk-equipment">
+        <figure><span>CONSUMED</span><img src="${esc(asset(input.image))}" alt=""><figcaption><b>${esc(input.name || '투입 장비')}</b><small>${fmt(input.quantity || attempts * Number(input.perAttempt || 1))}개 소모</small></figcaption></figure>
+        <i aria-hidden="true">→</i>
+        <figure class="output"><span>ACQUIRED</span><img src="${esc(asset(output.image))}" alt=""><figcaption><b>${esc(output.name || '결과 장비')}</b><small>${fmt(output.quantity ?? successCount)}개 획득</small></figcaption></figure>
+      </div>
+      <section class="ws81-bulk-outcomes"><header><b>회차별 판정</b><span>성공 ${fmt(successCount)} · 실패 ${fmt(failureCount)}</span></header><div>${outcomes.map((outcome, index) => `<span class="${outcome?.success ? 'success' : 'failure'}" title="${fmt(outcome?.attempt || index + 1)}회차 ${outcome?.success ? '성공' : '실패'}"><i>${fmt(outcome?.attempt || index + 1)}</i><b>${outcome?.success ? '성공' : '실패'}</b></span>`).join('')}</div></section>
+      <p class="ws81-bulk-note">장착 중인 장비는 소모 대상에서 제외됐으며, 실패한 회차의 재료는 반환되지 않습니다.</p>
+      <button type="button" id="ws81BulkClose">일괄 합성 결과 확인</button>
+    </section>`;
+    normalizeImages(modal);
+    modal.querySelector('#ws81BulkClose').onclick = () => { modal.className = 'modal'; modal.innerHTML = ''; renderWorkshop(); };
   }
 
   async function showSynthesisReveal(data, required, isCurrent = () => true) {

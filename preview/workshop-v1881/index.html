@@ -124,7 +124,7 @@
           pve_power: 4500,
           pvp_power: 500,
           input_quantity: 3,
-          quantity: 5,
+          quantity: 12,
           success_rate: 35,
           output_name: '프라임 배틀슈트',
           output_slot: 'TOP',
@@ -308,25 +308,36 @@
           const body = JSON.parse(options.body || '{}');
           const recipe = workshopState.synthesis.find(row => Number(row.recipe_id) === Number(body.recipeId));
           if (!recipe) throw new Error('프리뷰 합성 계보를 찾을 수 없습니다.');
+          const attempts = Math.max(1, Number(body.attempts || 1));
+          const required = Number(recipe.input_quantity || 3);
+          const totalRequired = required * attempts;
+          const outcomes = Array.from({ length: attempts }, (_, index) => ({ attempt: index + 1, success: attempts === 1 || index % 3 !== 2 }));
+          const successCount = outcomes.filter(outcome => outcome.success).length;
           workshopState = {
             ...workshopState,
             synthesis: workshopState.synthesis.map(row => Number(row.recipe_id) === Number(recipe.recipe_id)
-              ? { ...row, quantity: Math.max(0, Number(row.quantity) - Number(row.input_quantity || 3)) }
+              ? { ...row, quantity: Math.max(0, Number(row.quantity) - totalRequired) }
               : row)
           };
           return {
             state: clone(workshopState),
             recipeId: recipe.recipe_id,
             recipeName: recipe.recipe_name,
-            success: true,
+            success: successCount > 0,
+            allSucceeded: successCount === attempts,
             successRate: recipe.success_rate,
-            input: { name: recipe.name, image: recipe.image_url, rarity: recipe.rarity, quantity: recipe.input_quantity },
+            attempts,
+            successCount,
+            failureCount: attempts - successCount,
+            outcomes,
+            input: { name: recipe.name, image: recipe.image_url, rarity: recipe.rarity, quantity: totalRequired, perAttempt: required },
             output: {
               name: recipe.output_name,
               image: recipe.output_image,
               rarity: recipe.output_rarity,
               pvePower: recipe.output_pve_power,
-              pvpPower: recipe.output_pvp_power
+              pvpPower: recipe.output_pvp_power,
+              quantity: successCount
             }
           };
         }
@@ -334,7 +345,7 @@
       };
     })();
   </script>
-  <script src="../../js/workshop-v1881.js?v=1881-preview"></script>
+  <script src="../../js/workshop-v1881.js?v=1941-equipment-bulk-synthesis-preview"></script>
   <script src="../../js/scrapyard-battle-v1698.js?v=1881-preview"></script>
   <script>
     window.previewReady = (async () => {

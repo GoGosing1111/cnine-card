@@ -696,13 +696,13 @@ const FEATURE_RESOURCE_MANIFEST={
     ready:()=>Boolean(window.AvatarShopV1Live?.bind)&&typeof window.avatarShopView==='function'&&typeof window.bindAvatarShopView==='function'
   },
   workshop:{
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=1933-workshop-no-ddl-hotfix'],
-    scripts:['js/workshop-v1881.js?v=1933-workshop-no-ddl-hotfix'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=1941-equipment-bulk-synthesis'],
+    scripts:['js/workshop-v1881.js?v=1941-equipment-bulk-synthesis'],
     ready:()=>typeof window.workshopView==='function'&&typeof window.bindWorkshopView==='function'
   },
   scrapyard:{
-    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=1933-workshop-no-ddl-hotfix','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
-    scripts:['js/workshop-v1881.js?v=1933-workshop-no-ddl-hotfix','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
+    styles:['css/workshop-v1676.css?v=1933-workshop-no-ddl-hotfix','css/workshop-v1881.css?v=1941-equipment-bulk-synthesis','css/scrapyard-battle-v1698.css?v=1881-workshop-split-lineage'],
+    scripts:['js/workshop-v1881.js?v=1941-equipment-bulk-synthesis','js/scrapyard-battle-v1698.js?v=1881-workshop-split-lineage'],
     ready:()=>typeof window.scrapyardView==='function'&&typeof window.bindScrapyardView==='function'&&typeof window.playScrapyardBattleV1698==='function'
   },
   dexTools:{
