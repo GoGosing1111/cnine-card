@@ -56,9 +56,9 @@ test('v1899 일괄 강화 리소스와 앱 셸 캐시는 함께 버전이 오른
     assert.equal(existsSync(path.join(root, relative)), true, `${relative} missing`);
   }
   assert.match(index, /css\/bulk-enhancement-v1899\.css\?v=1899(?:[-._a-z0-9]+)?/i);
-  assert.match(index, /js\/bulk-enhancement-v1899\.js\?v=1940-superstar-advancement/i);
-  assert.match(index, /js\/app\.js\?v=1940-superstar-advancement/i);
-  assert.match(serviceWorker, /SHELL_CACHE\s*=\s*['"]soop-card-shell-v1940-superstar-advancement['"]/i);
+  assert.match(index, /js\/bulk-enhancement-v1899\.js\?v=1941-superstar-pack-early-access/i);
+  assert.match(index, /js\/app\.js\?v=1941-superstar-pack-early-access/i);
+  assert.match(serviceWorker, /SHELL_CACHE\s*=\s*['"]soop-card-shell-v1941-superstar-pack-early-access['"]/i);
 });
 
 test('legacy 앱 셸은 upgrade 화면을 도감 그룹에서 렌더하고 바인딩한다', () => {

@@ -285,7 +285,7 @@ test('app 최소 훅과 index 리소스 순서가 카드 렌더러를 변경하�
   const advancementCssPosition=index.indexOf('css/card-unique-advancement-v1.css');
   assert.ok(modulePosition>=0&&modulePosition<appPosition,'전직 모듈은 app.js보다 먼저 로드되어야 합니다.');
   assert.ok(profileCssPosition>=0&&profileCssPosition<advancementCssPosition,'전직 CSS는 카드 상세 CSS 뒤에서 확장해야 합니다.');
-  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=1940-superstar-advancement/);
+  assert.match(index,/js\/card-unique-advancement-v1\.js\?v=1941-superstar-pack-early-access/);
   assert.match(index,/css\/card-unique-advancement-v1\.css\?v=1939-advancement-awakening/);
   assert.match(app,/CNineCardUniqueAdvancementV1937/);
   assert.match(app,/data-profile-tab="advancement"/);

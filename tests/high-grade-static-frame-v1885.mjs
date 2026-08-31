@@ -21,6 +21,6 @@ assert.match(cardCss, /animation:prestigeAstralBreathe 5\.2s ease-in-out infinit
 assert.match(zenithCss, /animation:none!important/, 'ZENITH 프레임은 색상 회전이 없어야 합니다.');
 assert.match(superstarCss, /animation:\s*none\s*!important/, 'SUPERSTAR 프레임은 색상 회전이 없어야 합니다.');
 assert.match(index, /css\/card\.css\?v=1885-static-high-grade-frame/, '카드 CSS 캐시 키가 갱신되지 않았습니다.');
-assert.match(worker, /soop-card-shell-v1940-superstar-advancement/, '서비스 워커 캐시 키가 갱신되지 않았습니다.');
+assert.match(worker, /soop-card-shell-v1941-superstar-pack-early-access/, '서비스 워커 캐시 키가 갱신되지 않았습니다.');
 
 console.log('SSR+ high-grade rainbow rotation removed; static grade palettes preserved');

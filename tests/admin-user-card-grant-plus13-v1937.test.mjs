@@ -16,5 +16,5 @@ test('CMS 유저 관리 화면은 서버 maxBreakthrough를 입력 상한으로 
   assert.match(client,/level\.max=String\(max\)/);
   assert.match(client,/level>Number\(selectedCard\.maxBreakthrough\|\|0\)/);
   assert.match(client,/FUR·ZENITH·SUPERSTAR·MA는 \+13까지 지급 가능/);
-  assert.match(index,/admin-v1170-user-card-grant\.js\?v=1940-superstar-advancement/);
+  assert.match(index,/admin-v1170-user-card-grant\.js\?v=1941-superstar-pack-early-access/);
 });

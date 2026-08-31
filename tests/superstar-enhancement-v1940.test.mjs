@@ -91,10 +91,10 @@ test('SUPERSTAR +11~+13은 챔피언십 프레임을 유지하며 v1940 자산�
   assert.match(app,/normalizedGrade==='SUPERSTAR'\?'<img class="superstar-card-frame"/);
 
   for(const asset of ['js/bulk-enhancement-v1899.js','js/card-unique-advancement-v1.js','js/app.js']){
-    assert.match(index,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1940-superstar-advancement`));
+    assert.match(index,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
   for(const asset of ['admin-v1276.js','admin-v1065-card-management-reorg.js','admin-v1170-user-card-grant.js']){
-    assert.match(adminIndex,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1940-superstar-advancement`));
+    assert.match(adminIndex,new RegExp(`${asset.replaceAll('.','\\.')}\\?v=1941-superstar-pack-early-access`));
   }
-  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v1940-superstar-advancement'/);
+  assert.match(serviceWorker,/SHELL_CACHE='soop-card-shell-v1941-superstar-pack-early-access'/);
 });

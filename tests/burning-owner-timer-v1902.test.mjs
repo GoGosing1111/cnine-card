@@ -102,7 +102,7 @@ test('CMS와 게임 HUD는 선택 시간 및 초 단위 카운트다운 계약�
   assert.match(app,/setInterval\(syncBurningCountdownUi,1000\)/);
   assert.match(app,/syncBurningServerClock\(d\.serverNow\)/);
   assert.match(equipment,/burningEventIsLive\(hyper,now\)/);
-  assert.match(index,/js\/app\.js\?v=1940-superstar-advancement/);
+  assert.match(index,/js\/app\.js\?v=1941-superstar-pack-early-access/);
   assert.match(index,/js\/chief-system-v1\.js\?v=1919-chief-powers-restored/);
-  assert.match(worker,/soop-card-shell-v1940-superstar-advancement/);
+  assert.match(worker,/soop-card-shell-v1941-superstar-pack-early-access/);
 });
