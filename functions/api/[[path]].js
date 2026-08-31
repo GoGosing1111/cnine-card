@@ -7462,6 +7462,24 @@ async function handleRequest(context){
       const after=await env.DB.prepare('SELECT id,nickname,coin,card_shards,role,status,banned_until,ban_reason FROM users WHERE id=?').bind(userId).first();await writeAdminLog(env,admin,action,'USER',userId,before,after);return json({ok:true,user:after});
     }
 
+    if(path==='admin/users/inventory-audit'){
+      const admin=await requirePermission(request,env,'USER_MANAGE');
+      if(!admin)return json({error:'유저 관리 권한이 없습니다.'},403);
+      if(request.method!=='GET')return json({error:'지원하지 않는 요청입니다.'},405);
+      const userId=Number(url.searchParams.get('userId'));
+      if(!Number.isInteger(userId)||userId<1)return json({error:'확인할 유저를 선택하세요.'},400);
+      const target=await env.DB.prepare('SELECT id,nickname,role FROM users WHERE id=?').bind(userId).first();
+      if(!target)return json({error:'유저를 찾을 수 없습니다.'},404);
+      if(target.role==='OWNER'&&admin.role!=='OWNER')return json({error:'OWNER 계정은 확인할 수 없습니다.'},403);
+      const itemCode='BLACK_MIRACLE_PACK';
+      const [inventory,logs]=await Promise.all([
+        env.DB.prepare('SELECT quantity,unseen_quantity,updated_at FROM cnine_user_inventory WHERE user_id=? AND item_code=?').bind(userId,itemCode).first(),
+        env.DB.prepare(`SELECT change_amount,balance_after,reason,reference_type,reference_id,admin_id,created_at
+          FROM inventory_logs WHERE user_id=? AND item_code=? ORDER BY id DESC LIMIT 10`).bind(userId,itemCode).all()
+      ]);
+      return json({user:{id:Number(target.id),nickname:target.nickname,role:target.role},item:{code:itemCode,quantity:Math.max(0,Number(inventory?.quantity||0)),unseenQuantity:Math.max(0,Number(inventory?.unseen_quantity||0)),updatedAt:inventory?.updated_at||null},logs:logs.results||[]});
+    }
+
     if(path==='admin/users'){
       const admin=await requirePermission(request,env,'USER_MANAGE');
       if(!admin) return json({error:'유저 관리 권한이 없습니다.'},403);
