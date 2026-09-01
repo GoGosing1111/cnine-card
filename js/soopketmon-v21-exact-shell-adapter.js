@@ -39,7 +39,8 @@
     rank: '<path d="M7 4h10v5c0 4-2 7-5 8-3-1-5-4-5-8Z"/><path d="M7 6H3v2c0 3 2 5 5 5M17 6h4v2c0 3-2 5-5 5M9 21h6M12 17v4"/>',
     auction: '<path d="m5 8 7-5 7 5-7 5ZM3 18h18v3H3zM6 11v7M12 13v5M18 11v7"/>',
     user: '<circle cx="12" cy="8" r="4"/><path d="M4 21c0-5 3-8 8-8s8 3 8 8"/>',
-    clan: '<path d="M12 2 20 6v6c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6Z"/><path d="m8 13 2.5 2.5L16 9"/>'
+    clan: '<path d="M12 2 20 6v6c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6Z"/><path d="m8 13 2.5 2.5L16 9"/>',
+    prison: '<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M8 3v18M12 3v18M16 3v18M4 8h16M4 17h16"/>'
   });
 
   /*
@@ -56,9 +57,10 @@
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
     crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral']) }),
-    market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) })
+    market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
+    administration: Object.freeze({ title: '행정부', routes: Object.freeze(['prison']) })
   });
-  const MENU_GROUP_ORDER = Object.freeze(['store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market']);
+  const MENU_GROUP_ORDER = Object.freeze(['store', 'collection', 'pve', 'pvp', 'equipment', 'crafting', 'rewards', 'market', 'administration']);
   const HUB_GROUPS = Object.freeze({
     cards: Object.freeze({ title: '카드', routes: Object.freeze([...MENU_GROUPS.store.routes, ...MENU_GROUPS.collection.routes]) }),
     combat: Object.freeze({ title: '전투', routes: Object.freeze([...MENU_GROUPS.pve.routes, ...MENU_GROUPS.pvp.routes]) }),
@@ -98,7 +100,8 @@
     mineral: Object.freeze({ title: '교환소', group: 'rewards', icon: 'inventory' }),
     prediction: Object.freeze({ title: '승부예측', group: 'market', icon: 'auction', home: Object.freeze({ title: '승부·경매', meta: '승부예측 · 경매장' }) }),
     auction: Object.freeze({ title: '경매장', group: 'market', icon: 'auction' }),
-    inventory: Object.freeze({ title: '인벤토리', group: 'store', icon: 'inventory' })
+    inventory: Object.freeze({ title: '인벤토리', group: 'store', icon: 'inventory' }),
+    prison: Object.freeze({ title: '감옥', group: 'administration', icon: 'prison' })
   });
   const NAVIGATION_CONTRACT = Object.freeze({
     version: '1.0.0',

@@ -440,6 +440,120 @@ async function syncUniqueAdvancementFeatureState(){
 function mergeClientCards(incoming=[]){for(const raw of incoming||[]){const card=normalizeClientCard(raw?.card||raw);if(!card.id)continue;const index=cards.findIndex(x=>String(x.id)===card.id);if(index>=0)cards[index]={...cards[index],...card};else cards.push(card);}}
 function progress(user) { return cards.length ? Math.round((ownedIds(user).size / cards.length) * 1000) / 10 : 0; }
 function escapeHtml(value = '') { return String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;'); }
+
+// ===== V1950 행정부 감옥 =====
+const prisonUiState={incarcerated:false,reason:'',jailedAt:null,jailedUntil:null,jailedByNickname:null,remainingSeconds:0,inmates:[],messages:[],loaded:false,serverOffsetMs:0};
+let prisonPollTimer=null,prisonCountdownTimer=null,prisonRoomBusy=false,prisonChatBusy=false;
+function prisonTimestampMs(value){if(!value)return 0;const raw=String(value),normalized=raw.includes('T')?raw:raw.replace(' ','T')+'Z',parsed=Date.parse(normalized);return Number.isFinite(parsed)?parsed:0}
+function applyPrisonStatus(prison={},room={}){
+  if(room.serverNow){const serverTime=Date.parse(String(room.serverNow));if(Number.isFinite(serverTime))prisonUiState.serverOffsetMs=serverTime-Date.now()}
+  prisonUiState.incarcerated=prison?.incarcerated===true;
+  prisonUiState.reason=String(prison?.reason||'');
+  prisonUiState.jailedAt=prison?.jailedAt||null;
+  prisonUiState.jailedUntil=prison?.jailedUntil||null;
+  prisonUiState.jailedByNickname=prison?.jailedByNickname||null;
+  prisonUiState.remainingSeconds=Math.max(0,Number(prison?.remainingSeconds||0));
+  if(Array.isArray(room.inmates))prisonUiState.inmates=room.inmates;
+  if(Array.isArray(room.messages))prisonUiState.messages=room.messages;
+  if(room.inmates||room.messages)prisonUiState.loaded=true;
+  document.body.classList.toggle('prison-locked',prisonUiState.incarcerated);
+  return prisonUiState;
+}
+function isPrisonLocked(){return prisonUiState.incarcerated===true&&prisonTimestampMs(prisonUiState.jailedUntil)>Date.now()+prisonUiState.serverOffsetMs}
+function prisonRemainingSeconds(){const end=prisonTimestampMs(prisonUiState.jailedUntil);return end?Math.max(0,Math.ceil((end-(Date.now()+prisonUiState.serverOffsetMs))/1000)):0}
+function prisonDurationLabel(seconds=prisonRemainingSeconds()){
+  const total=Math.max(0,Math.floor(Number(seconds)||0)),hours=Math.floor(total/3600),minutes=Math.floor(total%3600/60),secs=total%60;
+  return `${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+}
+function prisonTimeLabel(value){const ms=prisonTimestampMs(value);if(!ms)return '-';return new Intl.DateTimeFormat('ko-KR',{timeZone:'Asia/Seoul',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date(ms))}
+function prisonSceneInmate(user){
+  if(isPrisonLocked())return {id:Number(user?.serverUserId||user?.id||0),nickname:String(user?.nickname||'수감자'),reason:prisonUiState.reason,jailedUntil:prisonUiState.jailedUntil};
+  return prisonUiState.inmates[0]||null;
+}
+function prisonInmateRows(){
+  if(!prisonUiState.inmates.length)return '<li class="prison-empty"><b>현재 수감자 없음</b><span>행정부 감방이 비어 있습니다.</span></li>';
+  return prisonUiState.inmates.map(inmate=>`<li><span class="prison-inmate-index">#${String(Number(inmate.userId||0)).padStart(4,'0')}</span><div><b>${escapeHtml(inmate.nickname||'수감자')}</b><small>${escapeHtml(inmate.reason||'운영 정책 위반')}</small></div><time>${escapeHtml(prisonTimeLabel(inmate.jailedUntil))} 석방</time></li>`).join('');
+}
+function prisonChatRows(){
+  const myId=Number(loadUser()?.serverUserId||0);
+  if(!prisonUiState.messages.length)return '<div class="prison-chat-empty"><b>아직 채팅이 없습니다.</b><span>수감자와 방문객 모두 대화할 수 있습니다.</span></div>';
+  return prisonUiState.messages.map(message=>`<article class="prison-chat-message ${Number(message.userId)===myId?'is-mine':''}"><header><b>${escapeHtml(message.nickname||'알 수 없음')}</b><em class="${message.senderWasIncarcerated?'is-inmate':'is-visitor'}">${message.senderWasIncarcerated?'수감자':'방문객'}</em><time>${escapeHtml(prisonTimeLabel(message.createdAt))}</time></header><p>${escapeHtml(message.body||'')}</p></article>`).join('');
+}
+function prisonBarsMarkup(){return `<div class="prison-bars" aria-hidden="true">${Array.from({length:11},()=>'<i></i>').join('')}<span></span><span></span></div>`}
+function prisonView(user,locked=isPrisonLocked()){
+  const scene=prisonSceneInmate(user),sceneName=scene?.nickname||'빈 감방',sceneUntil=scene?.jailedUntil||null;
+  return `<section class="prison-v1 ${locked?'is-locked':'is-visitor'}" id="prisonView" aria-label="행정부 감옥">
+    <div class="prison-atmosphere" aria-hidden="true"></div>
+    <header class="prison-command-head"><div><small>SOOPKETMON / ADMINISTRATION</small><h1>행정부 감옥</h1><p>${locked?'형기가 끝날 때까지 감옥 채팅 외 모든 콘텐츠 이용이 차단됩니다.':'현재 수감 현황을 확인하고 공개 채팅에 참여할 수 있습니다.'}</p></div><div class="prison-head-actions">${locked?'':`<button type="button" id="prisonExitBtn">로비로 돌아가기</button>`}<button type="button" id="prisonLogoutBtn" class="ghost">로그아웃</button></div></header>
+    <div class="prison-layout">
+      <section class="prison-cell-stage">
+        <div class="prison-nameplate"><small>${scene?'INMATE ACCOUNT':'CELL STATUS'}</small><strong id="prisonSceneName">${escapeHtml(sceneName)}</strong><span id="prisonSceneUntil">${sceneUntil?`${escapeHtml(prisonTimeLabel(sceneUntil))} 석방`:'현재 수감자 없음'}</span></div>
+        <img id="prisonCharacter" class="prison-character" src="assets/ui/prison/prisoner-cartoon-servile-v1.png?v=1" alt="죄수복을 입고 눈치를 보는 수감자 캐릭터" ${scene?'':'hidden'}>
+        ${prisonBarsMarkup()}
+        <div class="prison-cell-floor" aria-hidden="true"></div>
+        <div class="prison-sentence ${locked?'':'visitor'}">
+          <small>${locked?'REMAINING SENTENCE':'CURRENT OCCUPANCY'}</small>
+          <strong id="prisonCountdown">${locked?prisonDurationLabel():`${prisonUiState.inmates.length}명 수감 중`}</strong>
+          <p id="prisonReason">${locked?escapeHtml(prisonUiState.reason||'운영 정책 위반'):'감옥은 누구나 방문할 수 있습니다.'}</p>
+        </div>
+      </section>
+      <aside class="prison-side">
+        <section class="prison-roster"><header><div><small>INMATE ROSTER</small><h2>수감자 명단</h2></div><b id="prisonInmateCount">${prisonUiState.inmates.length}</b></header><ul id="prisonInmateList">${prisonInmateRows()}</ul></section>
+        <section class="prison-chat"><header><div><small>PUBLIC CELL CHAT</small><h2>감옥 공개 채팅</h2></div><span>수감자·방문객 공용</span></header><div class="prison-chat-log" id="prisonChatLog" aria-live="polite">${prisonChatRows()}</div><form id="prisonChatForm"><input id="prisonChatInput" maxlength="200" autocomplete="off" placeholder="메시지를 입력하세요 (최대 200자)"><button type="submit">전송</button></form></section>
+      </aside>
+    </div>
+  </section>`;
+}
+function stopPrisonWatch(){if(prisonPollTimer){clearTimeout(prisonPollTimer);prisonPollTimer=null}if(prisonCountdownTimer){clearInterval(prisonCountdownTimer);prisonCountdownTimer=null}}
+function syncPrisonDom(){
+  const user=loadUser(),scene=prisonSceneInmate(user),locked=isPrisonLocked();
+  const sceneName=document.getElementById('prisonSceneName'),sceneUntil=document.getElementById('prisonSceneUntil'),character=document.getElementById('prisonCharacter');
+  if(sceneName)sceneName.textContent=scene?.nickname||'빈 감방';
+  if(sceneUntil)sceneUntil.textContent=scene?.jailedUntil?`${prisonTimeLabel(scene.jailedUntil)} 석방`:'현재 수감자 없음';
+  if(character)character.hidden=!scene;
+  const count=document.getElementById('prisonInmateCount'),list=document.getElementById('prisonInmateList');if(count)count.textContent=String(prisonUiState.inmates.length);if(list)list.innerHTML=prisonInmateRows();
+  const log=document.getElementById('prisonChatLog');if(log){const nearBottom=log.scrollHeight-log.scrollTop-log.clientHeight<80;log.innerHTML=prisonChatRows();if(nearBottom)log.scrollTop=log.scrollHeight}
+  const countdown=document.getElementById('prisonCountdown'),reason=document.getElementById('prisonReason');if(countdown)countdown.textContent=locked?prisonDurationLabel():`${prisonUiState.inmates.length}명 수감 중`;if(reason)reason.textContent=locked?(prisonUiState.reason||'운영 정책 위반'):'감옥은 누구나 방문할 수 있습니다.';
+}
+async function loadPrisonRoom(){
+  if(prisonRoomBusy||!API_MODE||!API_TOKEN)return;
+  prisonRoomBusy=true;const wasLocked=prisonUiState.incarcerated===true||Boolean(document.querySelector('[data-cnine-prison-lock="1"]'));
+  try{
+    const data=await apiRequest('prison/status',{}, {ttl:0,timeoutMs:10000,replaceInflight:true});
+    applyPrisonStatus(data.prison||{},data);
+    const nowLocked=isPrisonLocked();
+    if(wasLocked&&!nowLocked){stopPrisonWatch();alert('형기가 종료되어 석방되었습니다.');renderShell('buy');return}
+    if(!wasLocked&&nowLocked){renderLockedPrison();return}
+    syncPrisonDom();
+  }catch(error){console.warn('감옥 상태 조회 실패:',error)}finally{prisonRoomBusy=false;if(document.getElementById('prisonView'))prisonPollTimer=setTimeout(loadPrisonRoom,5000)}
+}
+function startPrisonWatch(){
+  stopPrisonWatch();
+  prisonCountdownTimer=setInterval(()=>{const countdown=document.getElementById('prisonCountdown');if(countdown&&isPrisonLocked())countdown.textContent=prisonDurationLabel();if(prisonUiState.incarcerated&&prisonRemainingSeconds()<=0)void loadPrisonRoom()},1000);
+  void loadPrisonRoom();
+}
+async function prisonLogout(){
+  if(!confirm('로그아웃하시겠습니까?\n다시 접속하려면 개인키가 필요합니다.'))return;
+  try{if(API_MODE&&API_TOKEN)await apiRequest('auth/logout',{method:'POST'},{allowEmpty:true})}catch(error){console.warn('감옥 로그아웃 요청 실패:',error)}
+  finally{stopPrisonWatch();stopRuntimeCommandPoll();applyPrisonStatus({incarcerated:false});clearPlayerLogin();renderLogin()}
+}
+function bindPrisonView(){
+  document.getElementById('prisonExitBtn')?.addEventListener('click',()=>renderShell('buy'));
+  document.getElementById('prisonLogoutBtn')?.addEventListener('click',prisonLogout);
+  const form=document.getElementById('prisonChatForm');if(form)form.onsubmit=async event=>{event.preventDefault();if(prisonChatBusy)return;const input=document.getElementById('prisonChatInput'),body=String(input?.value||'').trim();if(!body)return;if(Array.from(body).length>200)return alert('채팅은 200자 이하로 입력하세요.');prisonChatBusy=true;const button=form.querySelector('button');if(button)button.disabled=true;try{const data=await apiRequest('prison/chat',{method:'POST',body:JSON.stringify({body})});if(input)input.value='';if(data.message)prisonUiState.messages.push(data.message);syncPrisonDom()}catch(error){alert(error.message||'채팅 전송에 실패했습니다.')}finally{prisonChatBusy=false;if(button)button.disabled=false}};
+  const log=document.getElementById('prisonChatLog');if(log)log.scrollTop=log.scrollHeight;
+  startPrisonWatch();
+}
+function renderLockedPrison(prison=null){
+  if(prison)applyPrisonStatus(prison);
+  const user=loadUser();if(!user)return renderLogin();
+  try{invalidateRaidUiState({clearSelection:true,stopClaimRetry:true})}catch(_){}
+  try{stopBattleEnergyTimer()}catch(_){}try{stopPvpEnergyTimer()}catch(_){}try{window.stopAuctionHouseView?.()}catch(_){}try{window.stopCoinPredictionView?.()}catch(_){}try{window.lobbyBgm?.stop()}catch(_){}
+  stopRuntimeCommandPoll();runtimeCommandContext='prison';document.body.classList.remove('battle-running','raid-running','modal-open','mobile-menu-open');document.body.classList.add('prison-locked');document.body.dataset.contentScope='system';
+  app.innerHTML=`<main class="prison-lock-shell" data-cnine-prison-lock="1">${prisonView(user,true)}</main><div id="modal" class="modal"></div>`;
+  bindPrisonView();
+}
+window.PrisonV1=Object.freeze({isLocked:isPrisonLocked,apply:applyPrisonStatus,renderLocked:renderLockedPrison,view:prisonView,bind:bindPrisonView});
 function publicTitleBadgeHtml(title,{compact=true}={}){if(!title)return '';const style=String(title.stylePreset||'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g,''),font=String(title.fontPreset||'DEFAULT').toLowerCase().replace(/[^a-z0-9_-]/g,''),code=String(title.code||'').toLowerCase().replace(/[^a-z0-9_-]/g,'');const text=escapeHtml(title.badgeText||title.name||'');return text?`<span class="public-title-badge ${compact?'compact':''} title-style-${style} title-font-${font}${code?` title-code-${code}`:''}">[${text}]</span>`:'';}
 function publicNameHtml(nickname,title,{tag='b',compact=true}={}){const safeTag=['b','strong','span','h3'].includes(tag)?tag:'b';return `<span class="public-name-stack">${publicTitleBadgeHtml(title,{compact})}<${safeTag}>${escapeHtml(nickname||'-')}</${safeTag}></span>`;}
 window.publicTitleBadgeHtml=publicTitleBadgeHtml;window.publicNameHtml=publicNameHtml;
@@ -951,6 +1065,9 @@ function markBlockedTabButtons(){
 }
 function renderShell(tab) {
   const renderStarted=performance.now(),previousTab=runtimeCommandContext;
+  if(isPrisonLocked())return renderLockedPrison();
+  document.body.classList.remove('prison-locked');
+  if(tab!=='prison')stopPrisonWatch();
   // V1298: 화면을 떠난 뒤 도착한 레이드 상태 응답/결과 타이머가 새 화면을 다시 덮지 못하게 먼저 무효화한다.
   try{invalidateRaidUiState({clearSelection:true,stopClaimRetry:true})}catch(_){}
   const renderSeq=++shellRenderSeq;
@@ -984,7 +1101,7 @@ function renderShell(tab) {
   // BGM 쪽이 실제 화면을 보고 스스로 판단하게 한다.
   if(window.lobbyBgm)requestAnimationFrame(()=>{try{window.lobbyBgm.syncRoute()}catch(_){}});
   const routeFeatureKey=featureKeyForTab(tab),routeFeatureReady=routeFeatureKey?FEATURE_RESOURCE_MANIFEST[routeFeatureKey]?.ready()===true:true;
-  const views = { buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView };
+  const views = { buy: buyView, dex: dexView, upgrade:(typeof window.bulkEnhancementView==='function'?window.bulkEnhancementView:(user)=>`${summaryBar(user)}${featureRouteLoadingHtml('upgrade')}`), evolution:(typeof window.evolutionView==='function'?window.evolutionView:buyView), battle: battleView, scrapyard:(...args)=>(routeFeatureReady&&typeof window.scrapyardView==='function'?window.scrapyardView(...args):featureRouteLoadingHtml('scrapyard')), pvp: pvpView, clan:(user)=>`${summaryBar(user)}${typeof window.ClanV1?.view==='function'?window.ClanV1.view(user):'<section class="clan-shell"><div class="clan-error"><h2>클랜 모듈을 불러오지 못했습니다</h2></div></section>'}`, magic: magicView, character:(...args)=>(routeFeatureReady&&typeof window.characterView==='function'?window.characterView(...args):featureRouteLoadingHtml('character')), avatar:(...args)=>(routeFeatureReady&&typeof window.avatarShopView==='function'?window.avatarShopView(...args):featureRouteLoadingHtml('avatar')), workshop:(...args)=>(routeFeatureReady&&typeof window.workshopView==='function'?window.workshopView(...args):featureRouteLoadingHtml('workshop')), attendance: attendanceView, dailyquest: dailyQuestView, messages: messagesView, rank: rankView, prediction:(...args)=>(routeFeatureReady&&typeof window.coinPredictionView==='function'?window.coinPredictionView(...args):featureRouteLoadingHtml('prediction')), auction:(...args)=>(routeFeatureReady&&typeof window.auctionHouseView==='function'?window.auctionHouseView(...args):featureRouteLoadingHtml('auction')), mineral: mineralExchangeView, inventory: inventoryView, prison: prisonView };
   const battleActive=['battle','scrapyard','pvp','rank','clan'].includes(tab),rewardActive=['attendance','dailyquest','messages','mineral'].includes(tab),collectionActive=['dex','upgrade','evolution','magic'].includes(tab),characterActive=['character','workshop','avatar'].includes(tab),marketActive=['prediction','auction'].includes(tab);
   const navHtml=`<nav class="main-nav" aria-label="주요 메뉴">
     <button class="main-nav-item ${tab==='buy'?'active':''}" type="button" data-tab="buy"><span class="main-nav-icon">▣</span><b>카드·상점</b></button>
@@ -2837,6 +2954,7 @@ async function runOfficialAutoDrawNext(){
 }
 
 function bindView(tab) {
+  if(tab==='prison')bindPrisonView();
   if(tab==='buy'){loadSupplyBoxShop();loadVehicleDrawShop();}
   if(tab==='inventory')loadInventory();
   if(tab==='character'&&typeof window.bindCharacterView==='function')window.bindCharacterView();
@@ -3346,6 +3464,7 @@ async function verifyStartupSession(){
   if(API_TOKEN){
     try{
       const me=await apiRequest('me/summary',{}, {timeoutMs:12000,ttl:0});
+      applyPrisonStatus(me.prison||{incarcerated:false});
       const current=loadUser();
       if(current)saveUser(mergeApiUserSummary(me.user,current));
       else{const full=await apiRequest('me',{}, {timeoutMs:10000,ttl:0});saveUser(apiUserToLocal(full.user));}
@@ -3702,6 +3821,11 @@ async function apiRequest(path, options={}, config={}) {
       data.error='전투 요청을 정리하지 못했습니다. 잠시 후 전투 버튼을 다시 눌러주세요.';
     }
     if(!response.ok){
+      if(String(data.code||'').toUpperCase()==='USER_INCARCERATED'&&data.prison){
+        API_GET_CACHE.clear();API_INFLIGHT.clear();
+        applyPrisonStatus(data.prison);
+        renderLockedPrison();
+      }
       if(String(data.code||'').toUpperCase()==='MAINTENANCE'||(response.status===503&&data.maintenance?.active)){
         API_GET_CACHE.clear();API_INFLIGHT.clear();stopRuntimeCommandPoll();
         renderMaintenance(data.maintenance||{},data);
@@ -3762,7 +3886,20 @@ async function pollRuntimeCommand(){
     // V1803: 로비 BGM 설정도 같은 응답으로 온다. 별도 요청 없이 45초마다 전원이 맞춰진다.
     if(window.lobbyBgm&&data?.lobbyBgm){try{window.lobbyBgm.applySettings(data.lobbyBgm)}catch(_){}}
     const command=data?.command,last=Number(sessionStorage.getItem(runtimeCommandStorageKey())||0);
-    if(command&&Number(command.id)>last&&String(command.type||'').toUpperCase()==='FORCE_MAIN')forceMainScreenByOperator(command);
+    const wasPrisonLocked=isPrisonLocked();if(data?.prison)applyPrisonStatus(data.prison);
+    const commandType=String(command?.type||'').toUpperCase();
+    if(command&&Number(command.id)>last&&commandType==='FORCE_MAIN')forceMainScreenByOperator(command);
+    else if(command&&Number(command.id)>last&&commandType==='PRISON_LOCK'){
+      try{sessionStorage.setItem(runtimeCommandStorageKey(),String(command.id))}catch(_){}
+      if(!data?.prison?.incarcerated)applyPrisonStatus({incarcerated:true,reason:command.payload?.reason,jailedUntil:command.payload?.jailedUntil,jailedByNickname:'행정부'});
+      apiRequest('user/runtime-command',{method:'POST',body:JSON.stringify({commandId:Number(command.id)})},{allowEmpty:true}).catch(()=>{});
+      renderLockedPrison();
+    }else if(command&&Number(command.id)>last&&commandType==='PRISON_RELEASE'){
+      try{sessionStorage.setItem(runtimeCommandStorageKey(),String(command.id))}catch(_){}
+      applyPrisonStatus({incarcerated:false});
+      apiRequest('user/runtime-command',{method:'POST',body:JSON.stringify({commandId:Number(command.id)})},{allowEmpty:true}).catch(()=>{});
+      renderShell('buy');setTimeout(()=>alert(String(command.payload?.message||'행정부 명령으로 석방되었습니다.')),80);
+    }else if(!wasPrisonLocked&&isPrisonLocked())renderLockedPrison();
   }catch(error){
     if(Number(error?.status)===401){keepPolling=false;stopRuntimeCommandPoll()}
     else console.warn('운영자 화면 복구 명령 확인 실패:',error);
@@ -3822,6 +3959,8 @@ async function recoverPlayerSessionOnce(){
     const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey})},{timeoutMs:10000});
     persistPlayerToken(d.token);
     saveUser(apiUserToLocal(d.user,privateKey));
+    applyPrisonStatus(d.prison||{incarcerated:false});
+    if(isPrisonLocked())return true;
     await refreshCardCatalogForCurrentViewer();
     return true;
   }catch(error){
@@ -3866,6 +4005,9 @@ async function init(){
     if(runId!==startupRunId)return;
     if(authResult.ok)authenticated=Boolean(authResult.value);
     else{console.warn('시작 세션 확인 실패:',authResult.error);authenticated=Boolean(loadUser())}
+    if(authenticated&&isPrisonLocked()){
+      completed=true;clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null;renderLockedPrison();return;
+    }
 
     if(!hasCatalogSnapshot){
       const staticCards=await staticCardTask;
@@ -3883,6 +4025,9 @@ async function init(){
       writeStartupSnapshot(cachePatch);
     }
   }catch(error){
+    if(isPrisonLocked()){
+      completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}renderLockedPrison();return;
+    }
     if(error?.message!=='API_OFFLINE')console.error('초기 연결 실패:',error);
     API_MODE=false;API_INFLIGHT.clear();
     if(runId!==startupRunId)return;
@@ -3900,14 +4045,14 @@ async function init(){
   if(runId!==startupRunId)return;
   if(authenticated){await syncUniqueAdvancementFeatureState();if(runId!==startupRunId)return}
   completed=true;if(startupWatchdogTimer){clearTimeout(startupWatchdogTimer);startupWatchdogTimer=null}
-  if(authenticated){renderShell('buy');void completePendingPlaydkVerification()}else renderLogin();
+  if(authenticated){if(isPrisonLocked())renderLockedPrison();else{renderShell('buy');void completePendingPlaydkVerification()}}else renderLogin();
   if(authenticated)void refreshBurningEventState({forceFresh:true,rerender:true}).finally(()=>scheduleBurningEventWatch());
 
   // 캐시 사용 또는 팩 설정 지연 시 최신 카탈로그는 화면 표시 이후 반영한다.
   if((hasCatalogSnapshot||packPending)&&cardTask&&packTask)void refreshStartupCatalog(runId,cardTask,packTask);
   if(authenticated)void loadStartupOptionalFeatures(runId);
 }
-function renderLogin(){resetUniqueAdvancementFeatureState();if(window.lobbyBgm){try{window.lobbyBgm.stop()}catch(_){}}app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="SOOP"><p class="eyebrow">SOOP COLLECTION GAME</p><h1>숲켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="PLAY DK 닉네임 등록"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else{renderShell('buy');void completePendingPlaydkVerification()}}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
+function renderLogin(){resetUniqueAdvancementFeatureState();stopPrisonWatch();document.body.classList.remove('prison-locked');if(window.lobbyBgm){try{window.lobbyBgm.stop()}catch(_){}}app.innerHTML=`<div class="login-wrap"><div class="login-box game-panel player-login-box"><img src="assets/ui/cninelogo.png" class="login-logo" alt="SOOP"><p class="eyebrow">SOOP COLLECTION GAME</p><h1>숲켓몬 로그인</h1><div class="logged-out-notice"><span>로그아웃 상태</span><p>기존 계정은 아래에 개인키를 입력하면 다시 접속할 수 있습니다.</p></div><div class="field key-login-field"><label for="key">기존 계정으로 로그인</label><input id="key" autocomplete="off" autocapitalize="characters" placeholder="CN-XXXX-XXXX-XXXX"></div><button class="btn" id="login">개인키로 로그인</button><p class="login-help">개인키를 분실했다면 운영팀에 재발급을 요청하세요.</p><div class="login-divider"><span>처음 이용하시나요?</span></div><div class="field"><label for="nickname">신규 닉네임</label><input id="nickname" maxlength="20" placeholder="PLAY DK 닉네임 등록"></div><button class="btn secondary" id="start">새 계정 만들기</button></div></div>`;document.getElementById('start').onclick=async()=>{const nickname=document.getElementById('nickname').value.trim();if(!nickname)return alert('닉네임을 입력해주세요.');if(!API_MODE){alert('서버 연결이 없어 계정을 생성할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 계정 생성을 중단했습니다.')}try{const d=await apiRequest('auth/register',{method:'POST',body:JSON.stringify({nickname})});persistPlayerToken(d.token);const user=apiUserToLocal(d.user,d.privateKey);saveUser(user);applyPrisonStatus({incarcerated:false});await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();renderCreated(user)}catch(e){alert(e.message)}};document.getElementById('login').onclick=async()=>{const key=document.getElementById('key').value.trim();if(!API_MODE){alert('서버 연결이 없어 로그인할 수 없습니다. 새로고침 후 다시 시도해주세요.');return renderStartupRecovery('서버 연결이 확인되지 않아 로그인을 중단했습니다.')}try{const normalizedKey=key.trim().toUpperCase();const d=await apiRequest('auth/login',{method:'POST',body:JSON.stringify({privateKey:normalizedKey})});persistPlayerToken(d.token);saveUser(apiUserToLocal(d.user,normalizedKey));applyPrisonStatus(d.prison||{incarcerated:false});if(isPrisonLocked())return renderLockedPrison();await refreshCardCatalogForCurrentViewer();await syncUniqueAdvancementFeatureState();if(d.maintenance&&!d.bypass)renderMaintenance(d.maintenance,{user:d.user});else{renderShell('buy');void completePendingPlaydkVerification()}}catch(e){alert(e.message)}};document.getElementById('key').onkeydown=e=>{if(e.key==='Enter')document.getElementById('login').click()};document.getElementById('nickname').onkeydown=e=>{if(e.key==='Enter')document.getElementById('start').click()}}
 async function claimAttendance(){if(!API_MODE){const user=loadUser();if(!canClaimAttendance(user))return alert('오늘 접속 보상은 이미 받았습니다.');const cfg=user.attendance?.settings||{rewards:[1000,1200,1400,1600,1800,2000,3000]};user.attendance.streak=(Number(user.attendance.streak||0)%7)+1;const reward=Number(cfg.rewards[user.attendance.streak-1]||1000);user.coin+=reward;user.attendance.lastClaimDate=kstDateKey();user.attendance.totalDays=(user.attendance.totalDays||0)+1;saveUser(user);alert(`오늘의 접속 보상 ${reward.toLocaleString()}코인을 받았습니다.`);return renderShell('attendance')}try{const d=await apiRequest('attendance/claim',{method:'POST'});const u=apiUserToLocal(d.user);u.attendance=d.user.attendance||{lastClaimDate:kstDateKey(),totalDays:(loadUser()?.attendance?.totalDays||0)+1,streak:d.streak||1};saveUser(u);alert(`오늘의 접속 보상 ${d.reward}코인을 받았습니다.`);renderShell('attendance')}catch(e){alert(e.message)}}
 
 const couponRedeemKeys=new Map();

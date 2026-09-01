@@ -4408,6 +4408,72 @@ async function releaseUserMutationLock(env,lock){
   await env.DB.prepare('DELETE FROM user_mutation_locks_v1520 WHERE user_id=? AND token=?').bind(lock.userId,lock.token).run();
 }
 
+// V1950 감옥은 화면 장식이 아니라 모든 플레이어 API 앞에서 판정하는 서버 권한이다.
+// 기존 운영 DB에도 즉시 적용되어야 하므로 대형 런타임 마이그레이션과 분리해 한 번만 보장한다.
+let prisonFoundationPromise=null,prisonFoundationDb=null;
+async function ensurePrisonFoundation(env){
+  if(prisonFoundationDb!==env.DB){prisonFoundationDb=env.DB;prisonFoundationPromise=null}
+  if(prisonFoundationPromise)return prisonFoundationPromise;
+  prisonFoundationPromise=env.DB.batch([
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_prison_status (
+      user_id INTEGER PRIMARY KEY,active INTEGER NOT NULL DEFAULT 0,reason TEXT NOT NULL DEFAULT '',
+      jailed_by INTEGER,jailed_at TEXT,jailed_until TEXT,released_by INTEGER,released_at TEXT,
+      release_reason TEXT NOT NULL DEFAULT '',updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_user_prison_active_until ON user_prison_status(active,jailed_until)'),
+    env.DB.prepare(`CREATE TABLE IF NOT EXISTS prison_chat_messages (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,user_id INTEGER NOT NULL,body TEXT NOT NULL,
+      sender_was_incarcerated INTEGER NOT NULL DEFAULT 0,created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
+    env.DB.prepare('CREATE INDEX IF NOT EXISTS idx_prison_chat_recent ON prison_chat_messages(id DESC,user_id)')
+  ]).catch(error=>{prisonFoundationPromise=null;throw error});
+  return prisonFoundationPromise;
+}
+function prisonDateMs(value){
+  if(!value)return 0;
+  const normalized=String(value).includes('T')?String(value):String(value).replace(' ','T')+'Z';
+  const parsed=Date.parse(normalized);
+  return Number.isFinite(parsed)?parsed:0;
+}
+function prisonPublicStatus(row){
+  const active=Number(row?.active||0)===1&&prisonDateMs(row?.jailed_until)>Date.now();
+  return {
+    incarcerated:active,
+    reason:active?String(row?.reason||'운영 정책 위반'):'',
+    jailedAt:active?(row?.jailed_at||null):null,
+    jailedUntil:active?(row?.jailed_until||null):null,
+    jailedByNickname:active?(row?.jailed_by_nickname||'행정부'):null,
+    remainingSeconds:active?Math.max(0,Math.ceil((prisonDateMs(row?.jailed_until)-Date.now())/1000)):0
+  };
+}
+async function prisonStatusForUser(env,userId){
+  await ensurePrisonFoundation(env);
+  const row=await env.DB.prepare(`SELECT p.*,a.nickname AS jailed_by_nickname
+    FROM user_prison_status p LEFT JOIN users a ON a.id=p.jailed_by WHERE p.user_id=?`).bind(userId).first();
+  const status=prisonPublicStatus(row);
+  if(row&&Number(row.active||0)===1&&!status.incarcerated){
+    await env.DB.prepare(`UPDATE user_prison_status SET active=0,released_at=COALESCE(released_at,jailed_until,CURRENT_TIMESTAMP),
+      release_reason=CASE WHEN release_reason='' THEN '형기 만료' ELSE release_reason END,updated_at=CURRENT_TIMESTAMP
+      WHERE user_id=? AND active=1 AND jailed_until<=CURRENT_TIMESTAMP`).bind(userId).run();
+  }
+  return status;
+}
+async function prisonRoomState(env,user){
+  const prison=await prisonStatusForUser(env,user.id);
+  const [inmateRows,messageRows]=await env.DB.batch([
+    env.DB.prepare(`SELECT p.user_id AS userId,u.nickname,p.reason,p.jailed_at AS jailedAt,p.jailed_until AS jailedUntil
+      FROM user_prison_status p JOIN users u ON u.id=p.user_id
+      WHERE p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP ORDER BY p.jailed_until ASC LIMIT 50`),
+    env.DB.prepare(`SELECT q.id,q.user_id AS userId,u.nickname,q.body,q.sender_was_incarcerated AS senderWasIncarcerated,q.created_at AS createdAt
+      FROM (SELECT id,user_id,body,sender_was_incarcerated,created_at FROM prison_chat_messages ORDER BY id DESC LIMIT 80) q
+      JOIN users u ON u.id=q.user_id ORDER BY q.id ASC`)
+  ]);
+  return {
+    prison,
+    inmates:(inmateRows?.results||[]).map(row=>({...row,userId:Number(row.userId)})),
+    messages:(messageRows?.results||[]).map(row=>({...row,id:Number(row.id),userId:Number(row.userId),senderWasIncarcerated:Number(row.senderWasIncarcerated)===1})),
+    serverNow:new Date().toISOString()
+  };
+}
+
 async function handleRequest(context){
   const {request,env}=context;
   // V1785: 응답에 필요 없는 쓰기를 응답 지연 경로에서 빼기 위한 헬퍼.
@@ -4507,11 +4573,59 @@ async function handleRequest(context){
       if(!restrictedAdminPathAllowed(path,access))return json({error:'ADMIN 계정은 승부예측 관리만 사용할 수 있습니다.',code:'ADMIN_PERMISSION_RESTRICTED'},403);
     }
 
+    if(path==='prison/status'&&request.method==='GET'){
+      const user=await authenticate(request,env);
+      if(!user)return json({error:'로그인이 필요합니다.'},401);
+      return json(await prisonRoomState(env,user));
+    }
+    if(path==='prison/chat'){
+      const user=await authenticate(request,env);
+      if(!user)return json({error:'로그인이 필요합니다.'},401);
+      await ensurePrisonFoundation(env);
+      if(request.method==='GET')return json(await prisonRoomState(env,user));
+      if(request.method==='POST'){
+        const payload=await readBody(request);
+        const body=String(payload.body||'').replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim();
+        if(!body)return json({error:'채팅 내용을 입력하세요.'},400);
+        if(Array.from(body).length>200)return json({error:'채팅은 200자 이하로 입력하세요.'},400);
+        const recent=await env.DB.prepare(`SELECT COUNT(*) AS count FROM prison_chat_messages
+          WHERE user_id=? AND created_at>datetime('now','-2 seconds')`).bind(user.id).first();
+        if(Number(recent?.count||0)>0)return json({error:'채팅은 2초에 한 번 보낼 수 있습니다.',code:'PRISON_CHAT_RATE_LIMIT'},429);
+        const prison=await prisonStatusForUser(env,user.id);
+        const inserted=await env.DB.prepare(`INSERT INTO prison_chat_messages(user_id,body,sender_was_incarcerated)
+          VALUES(?,?,?)`).bind(user.id,body,prison.incarcerated?1:0).run();
+        const messageId=Number(inserted?.meta?.last_row_id||0);
+        if(messageId>0&&messageId%100===0)deferWrite('prison chat retention',()=>env.DB.prepare("DELETE FROM prison_chat_messages WHERE created_at<datetime('now','-30 days')").run());
+        const message=await env.DB.prepare(`SELECT q.id,q.user_id AS userId,u.nickname,q.body,
+          q.sender_was_incarcerated AS senderWasIncarcerated,q.created_at AS createdAt
+          FROM prison_chat_messages q JOIN users u ON u.id=q.user_id WHERE q.id=?`)
+          .bind(messageId).first();
+        return json({ok:true,message:{...message,id:Number(message?.id||0),userId:Number(message?.userId||0),senderWasIncarcerated:Number(message?.senderWasIncarcerated)===1}},201);
+      }
+      return json({error:'지원하지 않는 요청입니다.'},405);
+    }
+
     if(path==='me/summary'){
       const user=await authenticate(request,env);
       if(!user)return json({error:'로그인이 필요합니다.'},401);
-      const masterStarRow=await env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first();
-      return json({user:{id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),masterStars:Number(masterStarRow?.quantity||0),role:user.role}});
+      const [masterStarRow,prison]=await Promise.all([
+        env.DB.prepare("SELECT quantity FROM cnine_user_inventory WHERE user_id=? AND item_code='MASTER_STAR'").bind(user.id).first(),
+        prisonStatusForUser(env,user.id)
+      ]);
+      return json({user:{id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),masterStars:Number(masterStarRow?.quantity||0),role:user.role},prison});
+    }
+
+    // 수감자는 감옥 공개 채팅·상태 확인·로그아웃 외의 모든 플레이어 기능을 서버에서 차단한다.
+    // 무인증 공개 카탈로그는 그대로 유지하되, 로그인 세션이 확인되면 모든 하위 라우터보다 먼저 중단한다.
+    const prisonExempt=path.startsWith('admin/')||path.startsWith('setup/')||path==='health'||path==='service/status'
+      ||path==='auth/login'||path==='auth/register'||path==='auth/logout'||path==='me/summary'
+      ||path==='user/runtime-command'||path==='prison/status'||path==='prison/chat';
+    if(!prisonExempt){
+      const current=await authenticate(request,env);
+      if(current){
+        const prison=await prisonStatusForUser(env,current.id);
+        if(prison.incarcerated)return json({error:'수감 중에는 감옥을 벗어날 수 없습니다.',code:'USER_INCARCERATED',prison},423);
+      }
     }
 
     if(path==='me/collection'&&request.method==='GET'){
@@ -4614,13 +4728,14 @@ async function handleRequest(context){
         // 이 응답은 45초마다 모든 접속자가 받으므로 재로그인 없이 전원이 맞춰진다. (설정은 30초 공유 캐시라 추가 조회는 거의 없다)
         // V1803: 로비 BGM 설정도 같이 싣는다. 둘 다 캐시 히트면 추가 조회가 없고,
         // 미스여도 병렬이라 왕복은 1회로 끝난다. 한쪽이 실패해도 다른 쪽은 살린다.
-        const [highBreakthrough,lobbyBgm]=await Promise.all([
+        const [highBreakthrough,lobbyBgm,prison]=await Promise.all([
           highBreakthroughConfigs(env).catch(error=>{console.error('runtime-command high breakthrough read failed',error);return null}),
-          lobbyBgmSettings(env).catch(error=>{console.error('runtime-command lobby bgm read failed',error);return null})
+          lobbyBgmSettings(env).catch(error=>{console.error('runtime-command lobby bgm read failed',error);return null}),
+          prisonStatusForUser(env,user.id)
         ]);
-        if(!row)return json({command:null,unreadMessages,highBreakthrough,lobbyBgm,serverNow:new Date().toISOString()});
+        if(!row)return json({command:null,unreadMessages,highBreakthrough,lobbyBgm,prison,serverNow:new Date().toISOString()});
         let payload={};try{payload=JSON.parse(row.payload_json||'{}')}catch{}
-        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,highBreakthrough,lobbyBgm,serverNow:new Date().toISOString()});
+        return json({command:{id:Number(row.id),type:String(row.command_type||''),payload,createdAt:row.created_at,expiresAt:row.expires_at},unreadMessages,highBreakthrough,lobbyBgm,prison,serverNow:new Date().toISOString()});
       }
       if(request.method==='POST'){
         const body=await readBody(request),commandId=Math.floor(Number(body.commandId||0));
@@ -4657,7 +4772,7 @@ async function handleRequest(context){
       if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
       const currentMaintenance=await maintenanceGateSettings(env);
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
-      return json({token:await makeSession(env,user.id,payload.clientId||request.headers.get('x-cnine-client-id')),user:await profile(env,user),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
+      return json({token:await makeSession(env,user.id,payload.clientId||request.headers.get('x-cnine-client-id')),user:await profile(env,user),prison:await prisonStatusForUser(env,user.id),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
     }
     if(path==='auth/logout'&&request.method==='POST'){
       const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
@@ -7461,6 +7576,42 @@ async function handleRequest(context){
       else if(action==='ACCOUNT_RESET')await env.DB.batch([env.DB.prepare('DELETE FROM user_cards WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM attendance_logs WHERE user_id=?').bind(userId),env.DB.prepare('DELETE FROM draw_logs WHERE user_id=?').bind(userId),env.DB.prepare('UPDATE users SET coin=5000,card_shards=0 WHERE id=?').bind(userId)]);
       else if(action==='BAN'){const days=String(p.days||'1'),until=days==='PERMANENT'?'9999-12-31 23:59:59':new Date(Date.now()+Number(days)*86400000).toISOString().replace('T',' ').slice(0,19);await env.DB.batch([env.DB.prepare("UPDATE users SET status='BANNED',banned_until=?,ban_reason=? WHERE id=?").bind(until,String(p.reason||'').slice(0,200),userId),env.DB.prepare('DELETE FROM sessions WHERE user_id=?').bind(userId)]);}
       else if(action==='UNBAN')await env.DB.prepare("UPDATE users SET status='ACTIVE',banned_until=NULL,ban_reason=NULL WHERE id=?").bind(userId).run();
+      else if(action==='PRISON'){
+        await ensurePrisonFoundation(env);
+        const durationMinutes=Math.floor(Number(p.durationMinutes||0)),reason=String(p.reason||'').trim().slice(0,200);
+        if(!Number.isInteger(durationMinutes)||durationMinutes<10||durationMinutes>360)return json({error:'수감 시간은 10분부터 6시간(360분)까지 설정하세요.'},400);
+        if(!reason)return json({error:'수감 사유를 입력하세요.'},400);
+        const jailedUntil=new Date(Date.now()+durationMinutes*60000).toISOString().replace('T',' ').slice(0,19);
+        const commandPayload={reason,durationMinutes,jailedUntil,message:'행정부 명령으로 감옥에 수감되었습니다.'};
+        await env.DB.batch([
+          env.DB.prepare(`INSERT INTO user_prison_status(user_id,active,reason,jailed_by,jailed_at,jailed_until,released_by,released_at,release_reason,updated_at)
+            VALUES(?,1,?,?,CURRENT_TIMESTAMP,?,NULL,NULL,'',CURRENT_TIMESTAMP)
+            ON CONFLICT(user_id) DO UPDATE SET active=1,reason=excluded.reason,jailed_by=excluded.jailed_by,
+            jailed_at=CURRENT_TIMESTAMP,jailed_until=excluded.jailed_until,released_by=NULL,released_at=NULL,release_reason='',updated_at=CURRENT_TIMESTAMP`)
+            .bind(userId,reason,admin.id,jailedUntil),
+          env.DB.prepare(`INSERT INTO user_runtime_commands(user_id,command_type,payload_json,created_by,expires_at)
+            VALUES(?,'PRISON_LOCK',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify(commandPayload),admin.id)
+        ]);
+        const prison=await prisonStatusForUser(env,userId);
+        await writeAdminLog(env,admin,'PRISON','USER',userId,before,{...before,prison,durationMinutes,reason});
+        return json({ok:true,user:before,prison});
+      }
+      else if(action==='PRISON_RELEASE'){
+        await ensurePrisonFoundation(env);
+        const reason=String(p.reason||'관리자 석방').trim().slice(0,200)||'관리자 석방';
+        const currentPrison=await prisonStatusForUser(env,userId);
+        if(!currentPrison.incarcerated)return json({error:'현재 수감 중인 유저가 아닙니다.'},409);
+        const commandPayload={reason,message:'행정부 명령으로 석방되었습니다.'};
+        await env.DB.batch([
+          env.DB.prepare(`UPDATE user_prison_status SET active=0,released_by=?,released_at=CURRENT_TIMESTAMP,
+            release_reason=?,updated_at=CURRENT_TIMESTAMP WHERE user_id=?`).bind(admin.id,reason,userId),
+          env.DB.prepare(`INSERT INTO user_runtime_commands(user_id,command_type,payload_json,created_by,expires_at)
+            VALUES(?,'PRISON_RELEASE',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify(commandPayload),admin.id)
+        ]);
+        const prison=await prisonStatusForUser(env,userId);
+        await writeAdminLog(env,admin,'PRISON_RELEASE','USER',userId,{...before,prison:currentPrison},{...before,prison,reason});
+        return json({ok:true,user:before,prison});
+      }
       else if(action==='FORCE_MAIN'){
         const message=String(p.reason||'운영자가 화면 복구를 실행했습니다.').trim().slice(0,160)||'운영자가 화면 복구를 실행했습니다.';
         const command=await env.DB.prepare(`INSERT INTO user_runtime_commands(user_id,command_type,payload_json,created_by,expires_at) VALUES(?,'FORCE_MAIN',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify({target:'buy',message}),admin.id).run();
@@ -7494,7 +7645,7 @@ async function handleRequest(context){
       const admin=await requirePermission(request,env,'USER_MANAGE');
       if(!admin) return json({error:'유저 관리 권한이 없습니다.'},403);
       if(request.method!=='GET') return json({error:'지원하지 않는 요청입니다.'},405);
-      await ensureSecondVerificationFoundation(env);
+      await Promise.all([ensureSecondVerificationFoundation(env),ensurePrisonFoundation(env)]);
       const q=(url.searchParams.get('q')||'').trim().slice(0,30),verification=String(url.searchParams.get('verification')||'ALL').toUpperCase();
       const filters=[],binds=[];if(q){filters.push('u.nickname LIKE ?');binds.push(`%${q}%`);}if(verification==='VERIFIED')filters.push('s.user_id IS NOT NULL');else if(verification==='PENDING')filters.push("s.user_id IS NULL AND w.status IN ('PENDING','REVIEW')");else if(verification==='UNVERIFIED')filters.push("s.user_id IS NULL AND (w.id IS NULL OR w.status NOT IN ('VERIFIED','PENDING','REVIEW'))");
       // Select the 100 visible users first, then aggregate cards for only those
@@ -7506,9 +7657,14 @@ async function handleRequest(context){
             CASE WHEN s.user_id IS NOT NULL THEN 'VERIFIED' ELSE w.status END AS verification_status,
             s.provider AS verification_provider,s.provider_name AS verification_name,s.provider_user_id AS verification_provider_user_id,
             w.wago_nickname,w.wago_member_no,COALESCE(s.verified_at,w.verified_at) AS verified_at,u.magic_crystals,
+            CASE WHEN p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP THEN 1 ELSE 0 END AS prison_active,
+            CASE WHEN p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP THEN p.reason ELSE '' END AS prison_reason,
+            CASE WHEN p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP THEN p.jailed_at ELSE NULL END AS prison_jailed_at,
+            CASE WHEN p.active=1 AND p.jailed_until>CURRENT_TIMESTAMP THEN p.jailed_until ELSE NULL END AS prison_jailed_until,
             (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='MASTER_STAR') AS master_stars,
             (SELECT COALESCE(quantity,0) FROM cnine_user_inventory inv WHERE inv.user_id=u.id AND inv.item_code='SCRAPYARD_ENTRY_TICKET') AS scrapyard_tickets
-          FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN wago_verifications w ON w.user_id=u.id ${filters.length?'WHERE '+filters.join(' AND '):''}
+          FROM users u LEFT JOIN user_second_verifications s ON s.user_id=u.id LEFT JOIN wago_verifications w ON w.user_id=u.id
+          LEFT JOIN user_prison_status p ON p.user_id=u.id ${filters.length?'WHERE '+filters.join(' AND '):''}
           ORDER BY ${selectedOrder} LIMIT 100
         ), card_stats AS (
           SELECT uc.user_id,COUNT(uc.card_id) AS card_count,
