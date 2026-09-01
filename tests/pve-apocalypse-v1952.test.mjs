@@ -51,12 +51,17 @@ const adminSource=readFileSync(new URL('../admin/apocalypse-admin-v1952.js',impo
 const indexSource=readFileSync(new URL('../index.html',import.meta.url),'utf8');
 const packageSource=readFileSync(new URL('../package.json',import.meta.url),'utf8');
 assert.match(apiSource,/CREATE TABLE IF NOT EXISTS user_apocalypse_energy/);
+assert.match(apiSource,/function apocalypseEnergySchemaStatements\(env\)/);
+assert.match(apiSource,/env\.DB\?\.dialect==='postgres'&&typeof env\.DB\.execSchema==='function'\)await env\.DB\.execSchema\(schema\)/,'PostgreSQL must execute the Apocalypse energy DDL instead of silently skipping it');
+assert.match(apiSource,/apocalypseEnergyState\(env,user,maintenance\)\.catch\(/,'an Apocalypse storage fault must not block the standard PVE energy response');
 assert.match(apiSource,/NO_APOCALYPSE_ENERGY/);
 assert.match(apiSource,/consumePveEnergyForDifficulty/);
 assert.match(apiSource,/battle_apocalypse_settings_v1/);
 assert.match(apiSource,/apocalypseSkillCast/);
 assert.match(appSource,/\['NORMAL','HARD','HELL','NIGHTMARE','APOCALYPSE'\]/,'Apocalypse must sit immediately after Nightmare');
 assert.match(appSource,/apocalypseEnergy/);
+assert.doesNotMatch(appSource,/battleState\.apocalypseEnergy\|\|battleState\.energy/,'the client must never substitute standard PVE energy for Apocalypse energy');
+assert.match(appSource,/unavailable:true,energy:0,maxEnergy:5/);
 assert.match(appSource,/CMS에서 아포칼립스 몬스터를 추가하세요/);
 assert.match(dropSource,/PVE_APOCALYPSE_AUTO/);
 assert.match(dropSource,/SAVE_APOCALYPSE_BINDINGS/);

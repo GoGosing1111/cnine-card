@@ -1422,15 +1422,32 @@ async function consumeBattleEnergy(env,user,settings){
 }
 
 let apocalypseEnergyFoundationPromise=null;
+function apocalypseEnergySchemaStatements(env){
+  const postgres=env.DB?.dialect==='postgres';
+  const userIdType=postgres?'BIGINT':'INTEGER';
+  const nowDefault=postgres?"to_char(timezone('UTC',CURRENT_TIMESTAMP),'YYYY-MM-DD HH24:MI:SS')":'CURRENT_TIMESTAMP';
+  return [
+    `CREATE TABLE IF NOT EXISTS user_apocalypse_energy (user_id ${userIdType} PRIMARY KEY,energy INTEGER NOT NULL DEFAULT 5,last_recharged_at TEXT NOT NULL DEFAULT ${nowDefault},updated_at TEXT NOT NULL DEFAULT ${nowDefault})`,
+    'CREATE INDEX IF NOT EXISTS idx_user_apocalypse_energy_recharge_v1952 ON user_apocalypse_energy(last_recharged_at,user_id)'
+  ];
+}
 function ensureApocalypseEnergyFoundation(env){
   if(apocalypseEnergyFoundationPromise)return apocalypseEnergyFoundationPromise;
-  apocalypseEnergyFoundationPromise=env.DB.batch([
-    env.DB.prepare(`CREATE TABLE IF NOT EXISTS user_apocalypse_energy (user_id INTEGER PRIMARY KEY,energy INTEGER NOT NULL DEFAULT 5,last_recharged_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)`),
-    env.DB.prepare(`CREATE INDEX IF NOT EXISTS idx_user_apocalypse_energy_recharge_v1952 ON user_apocalypse_energy(last_recharged_at,user_id)`),
-    env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1952_apocalypse_energy','1',CURRENT_TIMESTAMP)")
-  ]).then(()=>true).catch(error=>{apocalypseEnergyFoundationPromise=null;throw error});
+  apocalypseEnergyFoundationPromise=(async()=>{
+    if(await tableExists(env,'user_apocalypse_energy'))return true;
+    const schema=apocalypseEnergySchemaStatements(env);
+    // PostgreSQL 호환 계층은 일반 prepare()/batch()의 DDL을 의도적으로 건너뛴다.
+    // 전용 execSchema()를 사용하지 않으면 battle/config 전체가 relation 오류로 실패해
+    // 별개인 기존 PVE 행동력까지 화면에서 갱신되지 않는다.
+    if(env.DB?.dialect==='postgres'&&typeof env.DB.execSchema==='function')await env.DB.execSchema(schema);
+    else await env.DB.batch(schema.map(sql=>env.DB.prepare(sql)));
+    schemaTableCache.add('user_apocalypse_energy');
+    await env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1952_apocalypse_energy','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP").run();
+    return true;
+  })().catch(error=>{apocalypseEnergyFoundationPromise=null;throw error});
   return apocalypseEnergyFoundationPromise;
 }
+function unavailableApocalypseEnergyState(){return {mode:'APOCALYPSE',enabled:true,unlimited:false,unavailable:true,energy:0,maxEnergy:APOCALYPSE_ENERGY_CONFIG.maxEnergy,costPerBattle:APOCALYPSE_ENERGY_CONFIG.costPerBattle,rechargeMinutes:APOCALYPSE_ENERGY_CONFIG.rechargeMinutes,nextRechargeAt:null}}
 async function apocalypseEnergyState(env,user,maintenanceOverride=null){
   await ensureApocalypseEnergyFoundation(env);
   const cfg=APOCALYPSE_ENERGY_CONFIG,maintenance=maintenanceOverride||await maintenanceSettings(env);
@@ -6049,9 +6066,10 @@ async function handleRequest(context){
         pveDeckCards(env,user.id),userEquipmentBonuses(env,user.id),maintenancePromise
       ]);
       const settings=applyBurningPveSettings(baseBattleSettings,burning);
+      // 아포칼립스 저장소 장애가 기존 PVE 행동력 조회까지 막지 않도록 서로 격리한다.
       const [energy,apocalypseEnergy]=await Promise.all([
         battleEnergyState(env,user,settings,maintenance),
-        apocalypseEnergyState(env,user,maintenance)
+        apocalypseEnergyState(env,user,maintenance).catch(error=>{console.error('apocalypse energy state unavailable',error);return unavailableApocalypseEnergyState()})
       ]);
       const publicMonsters=(monsters.results||[]).map(monster=>{
         const profile=pveDifficultyRuntime(settings,monster);
