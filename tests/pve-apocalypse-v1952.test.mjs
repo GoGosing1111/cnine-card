@@ -54,6 +54,8 @@ assert.match(apiSource,/CREATE TABLE IF NOT EXISTS user_apocalypse_energy/);
 assert.match(apiSource,/function apocalypseEnergySchemaStatements\(env\)/);
 assert.match(apiSource,/env\.DB\?\.dialect==='postgres'&&typeof env\.DB\.execSchema==='function'\)await env\.DB\.execSchema\(schema\)/,'PostgreSQL must execute the Apocalypse energy DDL instead of silently skipping it');
 assert.match(apiSource,/apocalypseEnergyState\(env,user,maintenance\)\.catch\(/,'an Apocalypse storage fault must not block the standard PVE energy response');
+assert.match(apiSource,/if\(databaseInitialized\)await Promise\.all\(\[ensurePrisonFoundation\(env\),ensureApocalypseEnergyFoundation\(env\)\]\)/,'production health checks must create and verify the Apocalypse energy relation before player traffic');
+assert.match(apiSource,/apocalypseEnergySchema:true/);
 assert.match(apiSource,/NO_APOCALYPSE_ENERGY/);
 assert.match(apiSource,/consumePveEnergyForDifficulty/);
 assert.match(apiSource,/battle_apocalypse_settings_v1/);
