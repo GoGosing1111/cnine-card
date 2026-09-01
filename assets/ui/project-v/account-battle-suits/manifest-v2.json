@@ -97,9 +97,9 @@
       "sha256": "D5E661B53FC0098106C1F2E9FEB002CCC8D0CB898103561A84EA61CD38689CB0",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-topdown-fire-atlas-v1.png",
-          "sha256": "C0B29A1F4C3903E2E9B7A05927BA5AAEAFF6F81981C325A26F2F8D73D5163426",
-          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v2.png",
+          "sha256": "1E3DFBECE65D3D43B2B9652F79140EFD293C49E317D00EC41976F293950F6B1C",
+          "composition": "USER_REFERENCE_ORIGINAL_WEAPON_CLEAN_RUNTIME_MUZZLE",
           "weaponRows": [
             {
               "row": 0,
@@ -112,9 +112,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-topdown-fire-atlas-v1.png",
-          "sha256": "E7C1D1D0A8A63044D9D09E22859B84BD260CE1912AA9974E5A7445C48F458CA6",
-          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v2.png",
+          "sha256": "BEFFAB42248BCD2358EC74014D5DE362DDF3A55DF0021AE902E34D0F51C78066",
+          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_USER_REFERENCE_POSE_NO_FOREGROUND_PATCH",
           "weaponRows": [
             {
               "row": 0,
@@ -134,9 +134,9 @@
       "sha256": "33411D6FB94A44B409470E94CF90EDF1D96CE06803FC40C6D54E6431BFD99841",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-topdown-fire-atlas-v1.png",
-          "sha256": "C5C6D607361F5300214DD7489D1BE448A4DB3CAFC0F37AFA11F31DDA44FEA1FD",
-          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v2.png",
+          "sha256": "3B763B23395D5A6D7858FFBF6928EFE4A5F34BF56C5349E3D571F38D623C3399",
+          "composition": "USER_REFERENCE_ORIGINAL_WEAPON_CLEAN_RUNTIME_MUZZLE",
           "weaponRows": [
             {
               "row": 0,
@@ -149,9 +149,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-topdown-fire-atlas-v1.png",
-          "sha256": "A5D62A21423A6C15A6BC40FFF253050815186615C8B035143EC32AA5FD364EC8",
-          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v2.png",
+          "sha256": "0E442BF5B28916ACB925F4AB87C3ADB4138D6CE7833714CC9D58D67E7B410E66",
+          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_USER_REFERENCE_POSE_NO_FOREGROUND_PATCH",
           "weaponRows": [
             {
               "row": 0,

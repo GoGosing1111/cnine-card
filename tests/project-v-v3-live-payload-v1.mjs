@@ -32,23 +32,25 @@ assert.equal(engine.includes('FSM/타격 객체 풀 사용'),false,'internal eng
 assert.match(engine,/this\.livePayload=Boolean\(payload\?\.battleV2\)/,'engine must distinguish authoritative live payloads');
 assert.match(engine,/card\.visible=!this\.livePayload/,'preview cards must be hidden for live PVE and PVP');
 assert.match(engine,/if\(!this\.livePayload&&this\.cards\.every/,'visibility must not auto-deploy a live formation');
-assert.match(engine,/if\(this\.livePayload&&this\.liveDeployed\)/,'live formations must deploy exactly once');
+assert.match(engine,/if\(this\.livePayload&&this\.liveDeployed&&!force\)/,'live formations must deploy exactly once outside the explicit QC replay');
+assert.match(engine,/this\.playEvents\(\[\{type:'DEPLOY'\}\],\{forceDeploy:true\}\)/,'QC replay must force the five-actor formation back through DEPLOY after rewinding alpha');
+assert.match(engine,/root\.visible=true;\s*root\.renderable=true;\s*if\(this\.livePayload\)/,'forced QC deploy must restore both Pixi visibility gates before alpha animation');
 assert.match(engine,/this\.cards\.filter\(card=>card\.visible&&card\.renderable\)/,'hidden preview cards must not animate into live PVP');
 assert.match(engine,/const liveActor=explicitActor\|\|\(this\.livePayload/,'live ultimates must not fall back to the preview-only actor');
-assert.match(engine,/instance\.timeScale\(this\.reducedMotion\?8:PLAYBACK_SPEED\)/,'all Pixi timelines must run at 1.3x');
+assert.match(engine,/instance\.timeScale\(Number\.isFinite\(requestedScale\)&&requestedScale>0[\s\S]*\?requestedScale[\s\S]*:this\.reducedMotion\?8:PLAYBACK_SPEED\*\(this\.paceScale\|\|1\)\)/,'Pixi timelines must honor fixed clocks and otherwise use the 1.3x paced clock');
 assert.match(engine,/this\.textures=Object\.fromEntries\(Object\.keys\(ASSETS\)/,'live battles must skip the preview asset bundle');
-assert.match(engine,/Promise\.allSettled\(\[\.\.\.new Set\(preloadUrls\)\]/,'live card and monster assets must load concurrently');
+assert.match(engine,/const unique=\[\.\.\.new Set\(preloadUrls\)\]\.filter\(Boolean\);[\s\S]*Promise\.allSettled\(unique\.map\(url=>Assets\.load\(url\)\)\)/,'live card and monster assets must load concurrently');
 assert.match(engine,/onInterrupt:\(\)=>settle\(false\)/,'interrupted GSAP timelines must settle instead of hanging');
 
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=47-card-cutin-dash-1-3x/);
-assert.match(app,/battle-v3-live\.js\?v=3\.4\.0-card-cutin-1-3x/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=81-suit23-user-reference/);
+assert.match(app,/battle-v3-live\.js\?v=3\.25\.0-account-battle-suit-pve/);
 assert.equal(app.includes('battle-resource-loader'),false,'the renewed V3 flow must never show the old resource loading battlefield');
-assert.match(app,/const d=await apiRequest\('battle\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVE must calculate first and reveal only the ready V3 scene');
+assert.match(app,/const resourceTask=ensureFeatureResources\('battleV2'\)[\s\S]*const fightTask=apiRequest\('battle\/fight'[\s\S]*await Promise\.all\(\[resourceTask,fightTask\]\)[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVE must finish its parallel resource and server work before revealing the ready V3 scene');
 assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window\.prepareBattleV2LiveLoading/,'PVP must calculate first and reveal only the ready V3 scene');
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
-assert.match(index,/js\/app\.js\?v=1767-v3-card-cutin-1-3x/);
-assert.match(serviceWorker,/soop-card-shell-v1767-v3-card-cutin-1-3x/);
+assert.match(index,/js\/app\.js\?v=1955-battle-suit-exact-weapons/);
+assert.match(serviceWorker,/soop-card-shell-v1955-battle-suit-exact-weapons/);
 
 const calls=[];
 const phase={textContent:''};
@@ -103,9 +105,9 @@ const renderer=await runtime.createRenderer({
   }
 });
 await renderer.play();
-assert.deepEqual(calls.slice(0,5).map(call=>call[0]),['destroy','mount','payload','field','visible'],'live initialization order');
-assert.deepEqual(calls[5],['stage-add','is-v3-ready'],'ready class must be set before revealing the modal');
-assert.deepEqual(calls[6],['modal-remove','battle-v3-preparing'],'the modal must reveal only after its first authoritative frame');
+assert.deepEqual(calls.slice(0,4).map(call=>call[0]),['mount','payload','field','visible'],'live initialization order');
+assert.deepEqual(calls[4],['stage-add','is-v3-ready'],'ready class must be set before revealing the modal');
+assert.deepEqual(calls[5],['modal-remove','battle-v3-preparing'],'the modal must reveal only after its first authoritative frame');
 assert.equal(calls.filter(call=>call[0]==='player-cms').length,1,'CMS user ultimate must play once');
 assert.equal(calls.filter(call=>call[0]==='boss-cms').length,1,'CMS boss ultimate must play once');
 const playerUltimateCall=calls.find(call=>call[0]==='player-cms');

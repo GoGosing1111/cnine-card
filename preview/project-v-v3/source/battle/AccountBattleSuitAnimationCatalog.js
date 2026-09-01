@@ -23,7 +23,11 @@ const WEAPONS=Object.freeze({
 
 const SHEET_URL_OVERRIDES=Object.freeze({
   'BATTLE_SUIT_01:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v2.png',
-  'BATTLE_SUIT_01:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v2.png'
+  'BATTLE_SUIT_01:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v2.png',
+  'BATTLE_SUIT_02:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v2.png',
+  'BATTLE_SUIT_02:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v2.png',
+  'BATTLE_SUIT_03:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v2.png',
+  'BATTLE_SUIT_03:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v2.png'
 });
 
 function tuning(scaleMultiplier,contentTop,contentBottom,muzzleX,muzzleY){
@@ -44,15 +48,22 @@ const solePivots=(ready,fire,recoil,recover)=>Object.freeze({
 
 // Measured directly from the final RGBA atlases. For every frame, X is the
 // alpha>=16 centroid of the lowest nine visible pixel rows and Y is the lowest
-// visible pixel. Approved weapon-pair sheets share the same authored body row,
-// so each suit/physical-row pair intentionally reuses one immutable pivot set.
-const SOLE_PIVOTS_BY_SUIT_ROW=Object.freeze({
-  'BATTLE_SUIT_01:0':solePivots([133.221,433],[133.418,433],[103.894,431],[110.381,431]),
-  'BATTLE_SUIT_01:1':solePivots([137.817,410],[119.593,410],[97.014,410],[108,410]),
-  'BATTLE_SUIT_02:0':solePivots([97.214,473],[71.349,472],[64.934,473],[52.218,472]),
-  'BATTLE_SUIT_02:1':solePivots([88.737,412],[65.451,412],[55.483,412],[50.255,412]),
-  'BATTLE_SUIT_03:0':solePivots([74.179,463],[53.532,463],[50.544,465],[59.915,463]),
-  'BATTLE_SUIT_03:1':solePivots([55.869,425],[54.904,426],[38.032,429],[30.301,427])
+// visible pixel. A pair-specific key is required because the user-provided
+// M4/M200 source rows use different body scales, while AK/SKS deliberately
+// reuse the clean upper-row shouldered pose to avoid destructive body holes.
+const SOLE_PIVOTS_BY_SUIT_PAIR_ROW=Object.freeze({
+  'BATTLE_SUIT_01:m4a1-m200:0':solePivots([133.221,433],[133.418,433],[103.894,431],[110.381,431]),
+  'BATTLE_SUIT_01:m4a1-m200:1':solePivots([137.817,410],[119.593,410],[97.014,410],[108,410]),
+  'BATTLE_SUIT_01:ak-sks:0':solePivots([133.221,433],[133.418,433],[103.894,431],[110.381,431]),
+  'BATTLE_SUIT_01:ak-sks:1':solePivots([137.817,410],[119.593,410],[97.014,410],[108,410]),
+  'BATTLE_SUIT_02:m4a1-m200:0':solePivots([51.526,479],[46.451,479],[47.451,476],[49.526,478]),
+  'BATTLE_SUIT_02:m4a1-m200:1':solePivots([38.941,479],[35.667,479],[36.667,476],[36.941,478]),
+  'BATTLE_SUIT_02:ak-sks:0':solePivots([51.526,479],[46.451,479],[47.451,476],[49.526,478]),
+  'BATTLE_SUIT_02:ak-sks:1':solePivots([51.526,479],[46.451,479],[47.451,476],[49.526,478]),
+  'BATTLE_SUIT_03:m4a1-m200:0':solePivots([50.681,479],[47.373,479],[42.373,476],[34.233,478]),
+  'BATTLE_SUIT_03:m4a1-m200:1':solePivots([20.231,479],[30.848,479],[25.848,476],[19.219,478]),
+  'BATTLE_SUIT_03:ak-sks:0':solePivots([50.681,479],[47.373,479],[42.373,476],[34.233,478]),
+  'BATTLE_SUIT_03:ak-sks:1':solePivots([50.681,479],[47.373,479],[42.373,476],[34.233,478])
 });
 
 // Measured from the final exact-weapon atlases. Per-pair values keep the sole,
@@ -63,20 +74,20 @@ const PAIR_TUNING=Object.freeze({
   'BATTLE_SUIT_01:EQ_1785961300455':tuning(1.5,81/512,410/512,351/384,141/512),
   'BATTLE_SUIT_01:EQ_1785961232958':tuning(1.5,101/512,433/512,347/384,167/512),
   'BATTLE_SUIT_01:EQ_1786966923833':tuning(1.5,81/512,410/512,350/384,137/512),
-  'BATTLE_SUIT_02:EQ_1785427638137':tuning(1.4,72/512,473/512,329/384,84/512),
-  'BATTLE_SUIT_02:EQ_1785961300455':tuning(1.507,41/512,412/512,324/384,66/512),
-  'BATTLE_SUIT_02:EQ_1785961232958':tuning(1.4,72/512,473/512,331/384,88/512),
-  'BATTLE_SUIT_02:EQ_1786966923833':tuning(1.507,36/512,412/512,321/384,62/512),
-  'BATTLE_SUIT_03:EQ_1785427638137':tuning(1.4,53/512,465/512,344/384,91/512),
-  'BATTLE_SUIT_03:EQ_1785961300455':tuning(1.455,24/512,429/512,304/384,101/512),
-  'BATTLE_SUIT_03:EQ_1785961232958':tuning(1.4,53/512,465/512,346/384,95/512),
-  'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.455,24/512,429/512,302/384,97/512)
+  'BATTLE_SUIT_02:EQ_1785427638137':tuning(1.4,39/512,479/512,379/384,152/512),
+  'BATTLE_SUIT_02:EQ_1785961300455':tuning(1.4,125/512,479/512,379/384,234/512),
+  'BATTLE_SUIT_02:EQ_1785961232958':tuning(1.4,39/512,479/512,374/384,146/512),
+  'BATTLE_SUIT_02:EQ_1786966923833':tuning(1.4,39/512,479/512,370/384,134/512),
+  'BATTLE_SUIT_03:EQ_1785427638137':tuning(1.4,37/512,479/512,356/384,176/512),
+  'BATTLE_SUIT_03:EQ_1785961300455':tuning(1.4,37/512,479/512,371/384,235/512),
+  'BATTLE_SUIT_03:EQ_1785961232958':tuning(1.4,37/512,479/512,374/384,146/512),
+  'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.4,37/512,479/512,370/384,134/512)
 });
 
 function catalogEntry(suitCode,suitSlug,weaponCode,weapon){
   const pairTuning=PAIR_TUNING[`${suitCode}:${weaponCode}`];
   if(!pairTuning)throw new Error(`ACCOUNT_BATTLE_SUIT_TUNING_MISSING:${suitCode}:${weaponCode}`);
-  const pivots=SOLE_PIVOTS_BY_SUIT_ROW[`${suitCode}:${weapon.row}`];
+  const pivots=SOLE_PIVOTS_BY_SUIT_PAIR_ROW[`${suitCode}:${weapon.pairSlug}:${weapon.row}`];
   if(!pivots)throw new Error(`ACCOUNT_BATTLE_SUIT_PIVOTS_MISSING:${suitCode}:${weaponCode}`);
   const frames=Object.freeze(Object.fromEntries(FRAME_ORDER.map((name,column)=>[
     name,

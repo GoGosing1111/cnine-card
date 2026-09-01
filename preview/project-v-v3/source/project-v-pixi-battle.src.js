@@ -1,10 +1,12 @@
 import {BattleEngine} from './battle/BattleEngine.js';
 
 let engine=null;
+let accountPreviewFirearmHook=null;
 
 async function mount(target=document.getElementById('pvPixiBattle')){
   if(engine)return engine;
   engine=new BattleEngine({host:target});
+  engine.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
   await engine.mount();
   return engine;
 }
@@ -12,6 +14,7 @@ async function mount(target=document.getElementById('pvPixiBattle')){
 async function mountForBattle(payload,target=document.getElementById('pvPixiBattle')){
   if(engine)return resetSession(payload,target);
   engine=new BattleEngine({host:target,battleData:payload});
+  engine.setAccountBattleUnitPreviewFireHook(accountPreviewFirearmHook);
   try{
     await engine.mount();
     return engine;
@@ -75,6 +78,12 @@ function diagnostics(){
   return engine?.diagnostics()||{mounted:false};
 }
 
+function setAccountPreviewFirearmHook(handler){
+  accountPreviewFirearmHook=typeof handler==='function'?handler:null;
+  engine?.setAccountBattleUnitPreviewFireHook?.(accountPreviewFirearmHook);
+  return Boolean(accountPreviewFirearmHook);
+}
+
 async function playAccountPreviewShot({onAnticipation,onFire}={}){
   if(!engine)return {played:false,reason:'ENGINE_NOT_MOUNTED'};
   const unit=engine.accountBattleUnit;
@@ -101,7 +110,7 @@ async function playAccountPreviewShot({onAnticipation,onFire}={}){
   }
 }
 
-const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
+const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
+export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations,syncFinalState,diagnostics,destroy};

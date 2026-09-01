@@ -72,6 +72,7 @@
     };
   };
   let battleRendererPromise=null,battleRendererRequested=false,battleMutation=Promise.resolve();
+  let battleAutoAudioHookBound=false;
   const queueBattleMutation=task=>{
     const run=battleMutation.then(task,task);
     battleMutation=run.catch(()=>{});
@@ -92,6 +93,7 @@
     if(fire)fire.disabled=battleQcState.busy||!pveBattlefields.has(battleQcState.battlefield);
     document.querySelectorAll('[data-qc-suit],[data-qc-weapon],[data-battlefield]').forEach(button=>button.disabled=battleQcState.busy);
   };
+  const battleReplayPlaying=()=>Boolean(window.ProjectVPixiBattle?.diagnostics?.().playing);
   const refreshBattleQc=message=>{
     const diagnostics=window.ProjectVPixiBattle?.diagnostics?.()||{};
     const unit=diagnostics.accountBattleUnit||{};
@@ -120,12 +122,36 @@
       return true;
     }finally{setQcBusy(false)}
   };
+  const bindBattleAutoAudioHook=()=>{
+    if(battleAutoAudioHookBound)return true;
+    const api=window.ProjectVPixiBattle;
+    if(!api?.setAccountPreviewFirearmHook)return false;
+    battleAutoAudioHookBound=api.setAccountPreviewFirearmHook(event=>{
+      const audio=window.ProjectVFirearmQcAudio;
+      if(event?.phase==='anticipation'){
+        return audio?.armSustainedShot?.(event.weaponCode,{
+          enabled:battleQcState.sound,
+          visualLeadMs:event.visualLeadMs,
+          isCancelled:event.isCancelled
+        })||null;
+      }
+      if(event?.phase==='fire'){
+        const result=event.plan?.markVisualFire?.(event.at)||null;
+        if(battleQcState.sound&&result?.audioScheduled){
+          setQcChip('pvQcSyncChip',`AUTO A/V ${result.deltaMs>=0?'+':''}${result.deltaMs.toFixed(1)}ms`,result.syncPass?'pass':'fail');
+        }
+        return result;
+      }
+      return null;
+    });
+    return battleAutoAudioHookBound;
+  };
   const syncBattleRenderer=async active=>{
     battleRendererRequested=Boolean(active);
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=77-female-horizontal-burst';
+        script.src='project-v-pixi-battle.bundle.js?v=81-suit23-user-reference';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);
@@ -138,7 +164,10 @@
         return;
       }
     }
-    if(battleRendererRequested)await queueBattleMutation(()=>ensureBattleQcSession());
+    if(battleRendererRequested){
+      bindBattleAutoAudioHook();
+      await queueBattleMutation(()=>ensureBattleQcSession());
+    }
     else{
       window.ProjectVFirearmQcAudio?.stop?.();
       await window.ProjectVPixiBattle?.setVisible(false);
@@ -223,12 +252,20 @@
     setQcChip('pvQcSyncChip',battleQcState.sound?'A/V 대기':'SOUND OFF',battleQcState.sound?'':'pass');
   });
   document.getElementById('pvBattleSuitFire')?.addEventListener('click',async()=>{
+    if(battleReplayPlaying()){
+      notify('자동 전투 재생 중에는 수동 사격을 사용할 수 없습니다.');
+      return;
+    }
     if(!pveBattlefields.has(battleQcState.battlefield)){
       notify('배틀슈트 계정 유닛은 PVE 전장에서만 사격할 수 있습니다.');
       return;
     }
     await syncBattleRenderer(true);
     await queueBattleMutation(async()=>{
+      if(battleReplayPlaying()){
+        notify('자동 전투 재생 중에는 수동 사격을 사용할 수 없습니다.');
+        return;
+      }
       setQcBusy(true);
       const audio=window.ProjectVFirearmQcAudio;
       let plan=null,audioError=null,syncResult=null;

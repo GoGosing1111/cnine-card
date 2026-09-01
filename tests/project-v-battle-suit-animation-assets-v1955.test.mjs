@@ -9,6 +9,7 @@ const root=new URL('../',import.meta.url);
 const manifestUrl=new URL('assets/ui/project-v/account-battle-suits/manifest-v2.json',root);
 const catalogModuleUrl=new URL('preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js',root);
 const compositeScriptUrl=new URL('scripts/compose-exact-battle-suit-weapons.cjs',root);
+const userReferenceScriptUrl=new URL('scripts/build-user-reference-battle-suit-atlases.cjs',root);
 
 const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
 const WEAPON_GROUPS=Object.freeze({
@@ -148,6 +149,16 @@ test('animated Battle Suit v2 manifest preserves the PVE-only five-card/static-f
   const compositeScript=await readFile(compositeScriptUrl,'utf8');
   assert.match(compositeScript,/const forceHorizontal=optionArgs\.includes\('--force-horizontal'\)/);
   assert.match(compositeScript,/const rotationDegrees=forceHorizontal\?0:measurement\.angleDegrees/);
+  const userReferenceScript=await readFile(userReferenceScriptUrl,'utf8');
+  assert.match(userReferenceScript,/USER_PROVIDED_NO_GENERATIVE_REDRAW|removeConnectedBackground/);
+  assert.equal(provenance.userReferenceAtlasScript,'/scripts/build-user-reference-battle-suit-atlases.cjs');
+  for(const suitCode of ['BATTLE_SUIT_02','BATTLE_SUIT_03']){
+    const source=provenance.generatedOriginals.find(item=>item.suitCode===suitCode);
+    assert.equal(source?.sourcePolicy,'USER_PROVIDED_NO_GENERATIVE_REDRAW');
+    assert.match(source?.userProvidedReference||'',/user-reference-v2\.png$/);
+    assert.match(source?.userProvidedReferenceSha256||'',/^[A-F0-9]{64}$/);
+    assert.equal(sha256(await readFile(assetFileUrl(source.userProvidedReference))),source.userProvidedReferenceSha256);
+  }
 
   // The authored atlas supplements the deployed database preview/fallback art;
   // it must never replace image_url with a visible 4x2 grid.
@@ -172,7 +183,12 @@ test('all six immutable authored sheets are exact transparent 1536x1024 4x2 grid
   for(const suit of manifest.suits){
     const seenWeapons=[];
     for(const [group,sheet] of animationSheetEntries(suit)){
-      assert.equal(sheet.composition,'EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION',`${suit.code}/${group} must not redraw the DB weapon`);
+      const expectedComposition=suit.code==='BATTLE_SUIT_01'
+        ?'EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION'
+        :group==='m4a1M200'
+          ?'USER_REFERENCE_ORIGINAL_WEAPON_CLEAN_RUNTIME_MUZZLE'
+          :'EXACT_DATABASE_WEAPON_CUTOUT_WITH_USER_REFERENCE_POSE_NO_FOREGROUND_PATCH';
+      assert.equal(sheet.composition,expectedComposition,`${suit.code}/${group} immutable source/composite policy`);
       assert.match(sheet.image,/^\/assets\/ui\/project-v\/account-battle-suits\/animations\/[a-z0-9-]+-v\d+\.png$/,`${suit.code}/${group} must use an immutable versioned PNG path`);
       assert.equal(new URL(sheet.image,'https://soopketmon.invalid').search,'',`${sheet.image} must version the filename, not a mutable query`);
       assert.match(sheet.sha256,/^[A-F0-9]{64}$/);

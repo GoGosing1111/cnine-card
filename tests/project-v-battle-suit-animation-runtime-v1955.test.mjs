@@ -336,6 +336,44 @@ test('account Battle Suit occupies the dedicated internal front-left support til
   assert.equal(engine.accountBattleUnitTile.accountSupportAccent.visible,false,'forbidden modes hide only the account support accent');
 });
 
+test('forced live replay redeploy restores all five allied Pixi visibility gates',async()=>{
+  const makeCharacter=(id,team)=>({
+    id,team,battleActive:true,baseX:100,baseY:200,restScale:.5,
+    root:{visible:false,renderable:false,alpha:0,x:100,y:200,scale:{x:.5,y:.5}}
+  });
+  const allies=Array.from({length:5},(_,index)=>makeCharacter(`ALLY-${index+1}`,'ALLY'));
+  const enemy=makeCharacter('ENEMY-1','ENEMY');
+  let timelineCalls=0;
+  const engine=Object.create(BattleEngine.prototype);
+  Object.assign(engine,{
+    livePayload:true,liveDeployed:true,allies,enemies:[enemy],characters:[...allies,enemy],cards:[],
+    accountBattleUnitEnabled:false,accountBattleUnit:null,
+    updateStatus(){},
+    timeline(build){
+      timelineCalls+=1;
+      const timeline={
+        fromTo(target,_from,to){
+          Object.entries(to).forEach(([key,value])=>{
+            if(key!=='duration'&&key!=='ease')target[key]=value;
+          });
+          return this;
+        }
+      };
+      build(timeline);
+      return Promise.resolve(true);
+    }
+  });
+
+  await engine.deployCards();
+  assert.equal(timelineCalls,0,'ordinary live duplicate DEPLOY must retain the one-shot guard');
+  assert.equal(allies.filter(character=>character.root.visible).length,0);
+
+  await engine.deployCards({force:true});
+  assert.equal(timelineCalls,1,'QC replay must bypass the live one-shot guard exactly once');
+  assert.equal(allies.filter(character=>character.root.visible&&character.root.renderable&&character.root.alpha===1).length,5);
+  assert.equal(engine.liveDeployed,true);
+});
+
 test('PVE sustained fire preserves weapon cadence differences and never enters the five-card damage contract',async()=>{
   const engine=Object.create(BattleEngine.prototype);
   const target={id:'ENEMY-1',hp:73,root:{x:900,y:420}};
@@ -388,9 +426,97 @@ test('PVE sustained fire preserves weapon cadence differences and never enters t
   assert.equal(engine.startAccountBattleUnitSustainedFire(),null,'forbidden/non-PVE state must never start sustained fire');
 });
 
+test('preview sustained-fire hook schedules at anticipation and measures the exact authored FIRE frame',async()=>{
+  const phases=[];
+  const plan={profileId:'AR_M4A1_REAL_V1'};
+  const target={hp:100,root:{x:900,y:420}};
+  const unit={
+    active:true,
+    authoredProfile:{durationsMs:{ready:45}},
+    hasAuthoredAnimation(){return true},
+    applyAuthoredFrame(name){this.frame=name;return true},
+    async playRangedFire(){
+      this.applyAuthoredFrame('ready');
+      this.applyAuthoredFrame('fire');
+      this.applyAuthoredFrame('recover');
+      return true;
+    }
+  };
+  const engine=Object.create(BattleEngine.prototype);
+  Object.assign(engine,{
+    visible:true,accountBattleUnitEnabled:true,accountBattleUnit:unit,
+    accountBattleUnitFireRun:{active:true},accountBattleUnitShotCount:0,
+    accountBattleUnitEquipment:{weapon:{code:'EQ_1785427638137'}},
+    enemies:[target],
+    isAlive(character){return character.hp>0},
+    async accountBattleUnitPreviewFireHook(event){
+      phases.push(event);
+      return event.phase==='anticipation'?plan:null;
+    }
+  });
+
+  assert.equal(await engine.playAccountBattleUnitCosmeticShot(target,{playbackRate:1.5}),true);
+  assert.deepEqual(phases.map(event=>event.phase),['anticipation','fire']);
+  assert.equal(phases[1].plan,plan);
+  assert.equal(phases[1].weaponCode,'EQ_1785427638137');
+  assert.equal(phases[0].visualLeadMs,30);
+  assert.ok(Number.isFinite(phases[1].at));
+  assert.equal(engine.accountBattleUnitShotCount,1);
+
+  phases.length=0;
+  engine.accountBattleUnitFireRun=null;
+  assert.equal(await engine.playAccountBattleUnitCosmeticShot(target,{playbackRate:1}),true);
+  assert.equal(phases.length,0,'manual/live calls without the preview sustained run must not receive the audio hook');
+});
+
+test('stopping sustained fire during audio anticipation prevents a late visual shot',async()=>{
+  let releaseAnticipation;
+  let signalAnticipationStarted;
+  let visualShots=0;
+  let cancellationProbe=null;
+  const anticipationStarted=new Promise(resolve=>{signalAnticipationStarted=resolve});
+  const anticipationGate=new Promise(resolve=>{releaseAnticipation=resolve});
+  const target={hp:100,root:{x:900,y:420}};
+  const unit={
+    active:true,
+    authoredProfile:{durationsMs:{ready:45}},
+    hasAuthoredAnimation(){return true},
+    applyAuthoredFrame(){return true},
+    cancelFire(){},
+    async playRangedFire(){visualShots+=1;return true}
+  };
+  const run={active:true,shots:0,timer:0,wake:null,promise:null};
+  const engine=Object.create(BattleEngine.prototype);
+  Object.assign(engine,{
+    visible:true,accountBattleUnitEnabled:true,accountBattleUnit:unit,
+    accountBattleUnitFireRun:run,accountBattleUnitShotCount:0,
+    accountBattleUnitEquipment:{weapon:{code:'EQ_1785427638137'}},
+    enemies:[target],
+    isAlive(character){return character.hp>0},
+    async accountBattleUnitPreviewFireHook(event){
+      if(event.phase!=='anticipation')return null;
+      cancellationProbe=event.isCancelled;
+      signalAnticipationStarted();
+      return anticipationGate;
+    }
+  });
+
+  const pendingShot=engine.playAccountBattleUnitCosmeticShot(target,{playbackRate:1});
+  await anticipationStarted;
+  assert.equal(cancellationProbe(),false);
+  void engine.stopAccountBattleUnitSustainedFire();
+  assert.equal(cancellationProbe(),true,'the pending audio hook must observe the stopped run before decode completes');
+  releaseAnticipation({scheduled:false,reason:'CANCELLED_BY_STOP'});
+
+  assert.equal(await pendingShot,false);
+  assert.equal(run.active,false);
+  assert.equal(visualShots,0,'cancelled anticipation must not start a late authored FIRE sequence');
+  assert.equal(engine.accountBattleUnitShotCount,0);
+});
+
 test('preview runSequence sustains account fire across the canonical card actions and stops it before roster restore',async()=>{
   const makeCharacter=id=>({
-    id,hp:100,root:{alpha:1,position:{set(){}},scale:{set(){}}},
+    id,hp:100,root:{alpha:1,visible:true,renderable:true,position:{set(){}},scale:{set(){}}},
     setState(){},setHp(value){this.hp=value}
   });
   const allies=Array.from({length:5},(_,index)=>makeCharacter(`ALLY-${index+1}`));
@@ -400,19 +526,35 @@ test('preview runSequence sustains account fire across the canonical card action
     position:{set(){}},scale:{set(){}}
   }));
   const eventBatches=[];
+  const playOptions=[];
   let starts=0,stops=0,restores=0;
   const engine=Object.create(BattleEngine.prototype);
   Object.assign(engine,{
-    visible:true,playing:false,cards,allies,enemies,characters:[...allies,...enemies],
+    visible:true,playing:false,livePayload:true,liveDeployed:true,cards,allies,enemies,characters:[...allies,...enemies],
     uiLayer:{combo:{alpha:0,text:''},comboLabel:{alpha:0}},
     accountBattleUnitFireRun:null,
     captureLivePreviewRosterState(){return {preserved:true}},
     cancelTimelines(){this.accountBattleUnitFireRun=null;this.playing=false},
     setHp(){},updateStatus(){},
-    async playEvents(events){
+    async playEvents(events,options={}){
       eventBatches.push(events.map(event=>event.type));
-      if(eventBatches.length===1)assert.deepEqual(eventBatches[0],['DEPLOY']);
-      else assert.equal(this.accountBattleUnitFireRun?.active,true,'sustained fire must overlap the card action batch');
+      playOptions.push(options);
+      if(eventBatches.length===1){
+        assert.deepEqual(eventBatches[0],['DEPLOY']);
+        assert.equal(options.forceDeploy,true,'a replay of an already deployed live payload must bypass the one-shot deploy guard');
+        this.characters.filter(character=>character.battleActive!==false).forEach(character=>{
+          character.root.visible=true;
+          character.root.renderable=true;
+          character.root.alpha=1;
+        });
+      }else{
+        assert.equal(this.accountBattleUnitFireRun?.active,true,'sustained fire must overlap the card action batch');
+        assert.equal(
+          this.allies.filter(character=>character.root.visible&&character.root.renderable&&character.root.alpha===1).length,
+          5,
+          'all five allied SD actors, including non-acting allies, must remain visible during replay actions'
+        );
+      }
     },
     startAccountBattleUnitSustainedFire(){
       starts+=1;
@@ -439,6 +581,7 @@ test('preview runSequence sustains account fire across the canonical card action
     ['DEPLOY'],
     ['ATTACK','SKILL','COUNTER','ULTIMATE','ATTACK']
   ]);
+  assert.deepEqual(playOptions,[{forceDeploy:true},{}]);
   assert.equal(starts,1);
   assert.equal(stops,1);
   assert.equal(restores,1);

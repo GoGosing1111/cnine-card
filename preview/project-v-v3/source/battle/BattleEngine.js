@@ -371,6 +371,7 @@ export class BattleEngine{
     this.accountBattleUnitShotCount=0;
     this.accountBattleUnitSustainedShotCount=0;
     this.accountBattleUnitFireRun=null;
+    this.accountBattleUnitPreviewFireHook=null;
     this.boss=null;
     this.bossHp=72;
     this.currentEnemyTarget=null;
@@ -1188,6 +1189,11 @@ export class BattleEngine{
     return !String(event?.actorId||'').trim();
   }
 
+  setAccountBattleUnitPreviewFireHook(handler){
+    this.accountBattleUnitPreviewFireHook=typeof handler==='function'?handler:null;
+    return Boolean(this.accountBattleUnitPreviewFireHook);
+  }
+
   async playAccountBattleUnitCosmeticShot(target=null,{playbackRate=1}={}){
     const unit=this.accountBattleUnit;
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
@@ -1196,12 +1202,52 @@ export class BattleEngine{
     // a different enemy than the card action it visually follows.
     const victim=target?.root?target:this.enemies.find(character=>this.isAlive(character));
     if(!victim)return false;
-    const played=await unit.playRangedFire({
-      targetX:victim.root.x,
-      targetY:victim.root.y-90,
-      accent:0x76e8ff,
-      playbackRate
-    });
+    const previewRun=this.accountBattleUnitFireRun;
+    const previewHook=previewRun?.active?this.accountBattleUnitPreviewFireHook:null;
+    const weaponCode=this.accountBattleUnitSustainedFireProfile().weaponCode;
+    const visualLeadMs=unit.hasAuthoredAnimation()
+      ?Math.max(0,Number(unit.authoredProfile?.durationsMs?.ready)||45)/Math.max(.5,Number(playbackRate)||1)
+      :0;
+    let previewPlan=null;
+    if(previewHook){
+      try{previewPlan=await previewHook({
+        phase:'anticipation',weaponCode,visualLeadMs,playbackRate,
+        isCancelled:()=>!previewRun.active||this.accountBattleUnitFireRun!==previewRun
+      })}
+      catch(error){console.warn('[Project V V3] preview sustained-fire audio anticipation failed',error)}
+      // stop() can arrive while the preview hook is fetching/decoding its first
+      // recording. Do not let that late continuation begin a visual shot after
+      // the sustained run was cancelled or replaced.
+      if(!previewRun.active||this.accountBattleUnitFireRun!==previewRun)return false;
+    }
+    const originalApply=unit.applyAuthoredFrame;
+    let fireNotified=false;
+    const notifyPreviewFire=()=>{
+      if(!previewHook||fireNotified)return;
+      fireNotified=true;
+      try{
+        const result=previewHook({phase:'fire',weaponCode,visualLeadMs,playbackRate,plan:previewPlan,at:performance.now()});
+        result?.catch?.(error=>console.warn('[Project V V3] preview sustained-fire audio callback failed',error));
+      }catch(error){console.warn('[Project V V3] preview sustained-fire audio callback failed',error)}
+    };
+    const wrappedApply=function(name,...args){
+      const result=originalApply.call(this,name,...args);
+      if(name==='fire')notifyPreviewFire();
+      return result;
+    };
+    if(previewHook&&unit.hasAuthoredAnimation())unit.applyAuthoredFrame=wrappedApply;
+    let played=false;
+    try{
+      if(previewHook&&!unit.hasAuthoredAnimation())notifyPreviewFire();
+      played=await unit.playRangedFire({
+        targetX:victim.root.x,
+        targetY:victim.root.y-90,
+        accent:0x76e8ff,
+        playbackRate
+      });
+    }finally{
+      if(unit.applyAuthoredFrame===wrappedApply)unit.applyAuthoredFrame=originalApply;
+    }
     if(played)this.accountBattleUnitShotCount+=1;
     return played;
   }
@@ -1975,8 +2021,11 @@ export class BattleEngine{
     });
   }
 
-  deployCards(){
-    if(this.livePayload&&this.liveDeployed)return Promise.resolve(true);
+  deployCards({force=false}={}){
+    // Live payloads normally deploy once. The standalone QC replay deliberately
+    // rewinds every actor to alpha=0, so it must be allowed to replay DEPLOY or
+    // the guard would leave all five allied SD actors invisible until restore.
+    if(this.livePayload&&this.liveDeployed&&!force)return Promise.resolve(true);
     if(this.livePayload)this.liveDeployed=true;
     const activeAllies=this.allies.filter(character=>character.battleActive!==false).length;
     const activeEnemies=this.enemies.filter(character=>character.battleActive!==false).length;
@@ -1991,6 +2040,11 @@ export class BattleEngine{
       }
       this.characters.filter(character=>character.battleActive!==false).forEach((character,index)=>{
         const root=character.root;
+        // A previous final-state sync can mark an unused actor non-renderable.
+        // Replay owns a fresh five-actor preview formation, so restore both Pixi
+        // visibility gates before animating alpha; alpha alone cannot revive it.
+        root.visible=true;
+        root.renderable=true;
         if(this.livePayload){
           timeline.fromTo(root,
             {alpha:0,x:character.baseX,y:character.baseY+28},
@@ -2304,7 +2358,7 @@ export class BattleEngine{
     this.paceScale=this.paceActions>80?1.82:this.paceActions>40?1.28:1;
   }
 
-  async playEvents(events=[]){
+  async playEvents(events=[],{forceDeploy=false}={}){
     for(const event of events){
       if(!this.visible)break;
       const type=String(event?.type||'').toUpperCase();
@@ -2321,7 +2375,7 @@ export class BattleEngine{
       const damage=Number(event.damage||0)+Number(event.absorbed||0);
       const healing=Math.max(0,Number(event.healing||event.healAmount||event.recoveredHp||0));
       const hitCount=Math.max(1,Number(event.hitCount||event.comboCount||1));
-      if(type==='DEPLOY')await this.deployCards();
+      if(type==='DEPLOY')await this.deployCards({force:forceDeploy});
       else if(type==='ESCORT_OBJECTIVE_ATTACK')await this.escortObjectiveAttack(event);
       else if(type==='ESCORT_OBJECTIVE_RECOVERY'){
         const hp=Math.max(0,Number(event.objectiveHpAfter||0)),maxHp=Math.max(1,Number(event.objectiveMaxHp||this.objectiveData?.maxHp||1));
@@ -2561,7 +2615,7 @@ export class BattleEngine{
     let sustainedFireRun=null;
     try{
       this.uiLayer.combo.alpha=1;this.uiLayer.comboLabel.alpha=1;this.uiLayer.combo.text='1';
-      await this.playEvents([{type:'DEPLOY'}]);
+      await this.playEvents([{type:'DEPLOY'}],{forceDeploy:true});
       sustainedFireRun=this.startAccountBattleUnitSustainedFire();
       await this.playEvents([
         {type:'ATTACK',actorIndex:1,damage:238150,critical:false,bossHp:62},

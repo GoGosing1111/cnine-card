@@ -9,7 +9,12 @@
     "gain": 0.25,
     "attenuationDb": -12.04,
     "appliesAfterProfileMasterGain": true,
-    "reason": "Common preview-only 25 percent output level requested after audible browser QC; source files and per-weapon balance remain unchanged."
+    "reason": "Common preview-only 25 percent output level requested after audible browser QC; source files and per-weapon balance remain unchanged.",
+    "automaticFire": {
+      "shotGain": 0.55,
+      "maxConcurrentShots": 2,
+      "reason": "Sustained-fire shots receive additional preview-only attenuation and the oldest three-layer group is stopped before a third shot overlaps."
+    }
   },
   "visualSync": {
     "authoredReadyLeadMs": 45,

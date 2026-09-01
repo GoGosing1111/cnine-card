@@ -2,16 +2,18 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
 import test from 'node:test';
+import {runInNewContext} from 'node:vm';
 
 const root=new URL('../',import.meta.url);
 const read=path=>readFile(new URL(path,root),'utf8');
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
 
-const [html,client,css,entry,bundle,audioSource,manifestText,liveIndex,liveApp,liveBattle]=await Promise.all([
+const [html,client,css,entry,engineSource,bundle,audioSource,manifestText,liveIndex,liveApp,liveBattle]=await Promise.all([
   read('preview/project-v-v3/index.html'),
   read('preview/project-v-v3/project-v-client.js'),
   read('preview/project-v-v3/project-v-modules.css'),
   read('preview/project-v-v3/source/project-v-pixi-battle.src.js'),
+  read('preview/project-v-v3/source/battle/BattleEngine.js'),
   read('preview/project-v-v3/project-v-pixi-battle.bundle.js'),
   read('preview/project-v-v3/project-v-firearm-qc-audio.js'),
   read('preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json'),
@@ -30,9 +32,9 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   assert.match(html,/id="pvBattleSuitFire"/);
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
-  assert.match(html,/project-v-firearm-qc-audio\.js\?v=3-gesture-prime-quarter-output/);
-  assert.match(html,/project-v-client\.js\?v=57-female-horizontal-burst/);
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=77-female-horizontal-burst/);
+  assert.match(html,/project-v-firearm-qc-audio\.js\?v=5-cancel-safe-auto-fire/);
+  assert.match(html,/project-v-client\.js\?v=60-suit23-user-reference/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=81-suit23-user-reference/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);
@@ -49,9 +51,26 @@ test('preview-only public shot hook reports the exact authored fire frame and ne
   assert.match(entry,/fireAt=performance\.now\(\)/);
   assert.match(entry,/engine\.playAccountBattleUnitCosmeticShot\(\)/);
   assert.doesNotMatch(entry.slice(entry.indexOf('async function playAccountPreviewShot'),entry.indexOf('\nconst api=')),/damage|setHp|syncTargetHp/);
-  assert.match(entry,/playAccountPreviewShot,cancelActiveAnimations/);
+  assert.match(entry,/playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations/);
+  assert.match(entry,/setAccountPreviewFirearmHook/);
+  assert.match(entry,/accountPreviewFirearmHook=typeof handler==='function'\?handler:null/);
+  assert.match(entry,/engine\.setAccountBattleUnitPreviewFireHook\(accountPreviewFirearmHook\)/);
   assert.match(bundle,/playAccountPreviewShot/,'rebuilt browser bundle must expose the QC hook');
   assert.match(client,/plan\?\.markVisualFire\?\.\(at\)/);
+  assert.match(client,/setAccountPreviewFirearmHook/);
+  assert.match(client,/armSustainedShot/);
+  assert.match(client,/event\?\.phase==='fire'/);
+  assert.match(client,/plan\?\.markVisualFire\?\.\(event\.at\)/);
+  assert.match(client,/isCancelled:event\.isCancelled/);
+  assert.match(client,/const battleReplayPlaying=\(\)=>Boolean\(window\.ProjectVPixiBattle\?\.diagnostics\?\.\(\)\.playing\)/);
+  const manualFireHandler=client.slice(client.indexOf("document.getElementById('pvBattleSuitFire')"),client.indexOf("document.querySelectorAll('[data-battlefield]')"));
+  assert.ok(manualFireHandler.indexOf('battleReplayPlaying()')<manualFireHandler.indexOf('armShot'),'automatic replay guard must run before manual audio is armed');
+  assert.match(engineSource,/const previewRun=this\.accountBattleUnitFireRun/);
+  assert.match(engineSource,/const previewHook=previewRun\?\.active\?this\.accountBattleUnitPreviewFireHook:null/);
+  assert.match(engineSource,/if\(!previewRun\.active\|\|this\.accountBattleUnitFireRun!==previewRun\)return false/);
+  assert.match(engineSource,/if\(name==='fire'\)notifyPreviewFire\(\)/);
+  assert.match(engineSource,/phase:'anticipation'/);
+  assert.match(engineSource,/phase:'fire'/);
 });
 
 test('three immutable CC0 real-recording profiles satisfy provenance, hash and waveform QC',async()=>{
@@ -62,6 +81,8 @@ test('three immutable CC0 real-recording profiles satisfy provenance, hash and w
   assert.equal(manifest.previewOutput.gain,.25);
   assert.equal(manifest.previewOutput.attenuationDb,-12.04);
   assert.equal(manifest.previewOutput.appliesAfterProfileMasterGain,true);
+  assert.equal(manifest.previewOutput.automaticFire.shotGain,.55);
+  assert.equal(manifest.previewOutput.automaticFire.maxConcurrentShots,2);
   assert.equal(manifest.visualSync.strongestImpactToleranceMs,20);
   assert.deepEqual(manifest.layerContract,['ACTION_NOTICE','BALLISTIC_IMPACT','ACOUSTIC_TAIL']);
   assert.deepEqual(Object.keys(manifest.profiles).sort(),Object.keys(expectedProfiles).sort());
@@ -96,7 +117,7 @@ test('three immutable CC0 real-recording profiles satisfy provenance, hash and w
 });
 
 test('audio renderer uses only real buffer layers and remains disconnected from live runtime',()=>{
-  assert.match(audioSource,/manifest\.json\?v=3-quarter-output/);
+  assert.match(audioSource,/manifest\.json\?v=5-cancel-safe-auto-fire/);
   for(const layer of manifest.layerContract)assert.match(audioSource,new RegExp(`kind:'${layer}'`));
   assert.equal((audioSource.match(/sourceLayer\(audioContext,buffer,\{\s*\n\s*kind:/g)||[]).length,3);
   assert.match(audioSource,/createBufferSource\(\)/);
@@ -108,12 +129,115 @@ test('audio renderer uses only real buffer layers and remains disconnected from 
   assert.match(audioSource,/addEventListener\('pointerdown',primeFromTrustedGesture,\{capture:true,passive:true\}\)/);
   assert.match(audioSource,/addEventListener\('click',primeFromTrustedGesture,\{capture:true,passive:true\}\)/);
   assert.match(audioSource,/event\?\.isTrusted/);
-  assert.match(audioSource,/#pvBattleSuitFire,#pvBattleSoundToggle/);
+  assert.match(audioSource,/#pvBattleSuitFire,#pvBattleSoundToggle,#pvBattleStart/);
   assert.match(audioSource,/gesturePrimeSucceeded/);
+  assert.match(audioSource,/async function armSustainedShot/);
+  assert.match(audioSource,/while\(sustainedShotGroups\.length>=maxConcurrentShots\)stopSourceGroup/);
   assert.match(audioSource,/Math\.abs\(deltaMs\)<=manifest\.visualSync\.strongestImpactToleranceMs/);
   assert.doesNotMatch(audioSource,/createOscillator|OscillatorNode|createPeriodicWave|ScriptProcessor|AudioWorklet|Math\.random|white[ _-]?noise|pink[ _-]?noise/i);
   assert.doesNotMatch(audioSource,/sine|sawtooth|square wave|synth tone|ui beep/i);
   for(const source of [liveIndex,liveApp,liveBattle]){
     assert.doesNotMatch(source,/project-v-firearm-qc-audio|firearm-qc-v1|freesound-737569|freesound-163457|freesound-737570/i);
   }
+});
+
+test('stop invalidates a first-use automatic shot that is still decoding',async()=>{
+  let releaseDecode;
+  let signalDecodeStarted;
+  let createdSources=0;
+  const decodeStarted=new Promise(resolve=>{signalDecodeStarted=resolve});
+  const decodedBuffer=new Promise(resolve=>{releaseDecode=resolve});
+  class FakeSource{
+    connect(node){return node}
+    start(){}
+    stop(){}
+    disconnect(){}
+  }
+  class FakeGain{
+    constructor(){this.gain={setValueAtTime(){},linearRampToValueAtTime(){}}}
+    connect(node){return node}
+    disconnect(){}
+  }
+  class FakeAudioContext{
+    constructor(){this.state='running';this.currentTime=1;this.destination={}}
+    resume(){return Promise.resolve()}
+    createBufferSource(){createdSources+=1;return new FakeSource()}
+    createGain(){return new FakeGain()}
+    decodeAudioData(){signalDecodeStarted();return decodedBuffer}
+  }
+  const sandbox={
+    console,
+    AudioContext:FakeAudioContext,
+    performance:{now:()=>1000},
+    fetch:async url=>String(url).includes('manifest.json')
+      ?{ok:true,json:async()=>manifest}
+      :{ok:true,arrayBuffer:async()=>new ArrayBuffer(8)}
+  };
+  runInNewContext(audioSource,sandbox,{filename:'project-v-firearm-qc-audio.js'});
+  const audio=sandbox.ProjectVFirearmQcAudio;
+  const pending=audio.armSustainedShot('EQ_1785427638137',{enabled:true,visualLeadMs:45});
+  await decodeStarted;
+  audio.stop();
+  releaseDecode({duration:4});
+  const plan=await pending;
+
+  assert.equal(plan.scheduled,false);
+  assert.equal(plan.reason,'CANCELLED_BY_STOP');
+  assert.equal(createdSources,0,'a stopped decode must not create any late WebAudio layer');
+  assert.equal(audio.diagnostics().activeLayers,0);
+  assert.equal(audio.diagnostics().sustainedShotGroups,0);
+  assert.equal(audio.diagnostics().audioEpoch,1);
+});
+
+test('a stopped sustained run cancels pending decode without globally stopping audio',async()=>{
+  let releaseDecode;
+  let signalDecodeStarted;
+  let createdSources=0;
+  let runCancelled=false;
+  const decodeStarted=new Promise(resolve=>{signalDecodeStarted=resolve});
+  const decodedBuffer=new Promise(resolve=>{releaseDecode=resolve});
+  class FakeSource{
+    connect(node){return node}
+    start(){}
+    stop(){}
+    disconnect(){}
+  }
+  class FakeGain{
+    constructor(){this.gain={setValueAtTime(){},linearRampToValueAtTime(){}}}
+    connect(node){return node}
+    disconnect(){}
+  }
+  class FakeAudioContext{
+    constructor(){this.state='running';this.currentTime=1;this.destination={}}
+    resume(){return Promise.resolve()}
+    createBufferSource(){createdSources+=1;return new FakeSource()}
+    createGain(){return new FakeGain()}
+    decodeAudioData(){signalDecodeStarted();return decodedBuffer}
+  }
+  const sandbox={
+    console,
+    AudioContext:FakeAudioContext,
+    performance:{now:()=>1000},
+    fetch:async url=>String(url).includes('manifest.json')
+      ?{ok:true,json:async()=>manifest}
+      :{ok:true,arrayBuffer:async()=>new ArrayBuffer(8)}
+  };
+  runInNewContext(audioSource,sandbox,{filename:'project-v-firearm-qc-audio.js'});
+  const audio=sandbox.ProjectVFirearmQcAudio;
+  const pending=audio.armSustainedShot('EQ_1785427638137',{
+    enabled:true,
+    visualLeadMs:45,
+    isCancelled:()=>runCancelled
+  });
+  await decodeStarted;
+  runCancelled=true;
+  releaseDecode({duration:4});
+  const plan=await pending;
+
+  assert.equal(plan.scheduled,false);
+  assert.equal(plan.reason,'CANCELLED_BY_RUN');
+  assert.equal(createdSources,0,'a stopped run must not create any late WebAudio layer');
+  assert.equal(audio.diagnostics().activeLayers,0);
+  assert.equal(audio.diagnostics().sustainedShotGroups,0);
+  assert.equal(audio.diagnostics().audioEpoch,0,'run cancellation must not stop unrelated preview audio globally');
 });

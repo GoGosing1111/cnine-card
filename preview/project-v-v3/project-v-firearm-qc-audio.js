@@ -1,19 +1,27 @@
 (()=>{
   'use strict';
 
-  const MANIFEST_URL='assets/audio/firearm-qc-v1/manifest.json?v=3-quarter-output';
+  const MANIFEST_URL='assets/audio/firearm-qc-v1/manifest.json?v=5-cancel-safe-auto-fire';
   const AudioContextClass=globalThis.AudioContext||globalThis.webkitAudioContext||null;
   const activeSources=new Set();
+  const sustainedShotGroups=[];
   const bufferPromises=new Map();
   let manifestPromise=null;
   let context=null;
   let lastShot=null;
   let gesturePrimeAttempts=0;
   let gesturePrimeSucceeded=false;
+  let audioEpoch=0;
 
   const finite=(value,fallback=0)=>Number.isFinite(Number(value))?Number(value):fallback;
   const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
   const perfNow=()=>globalThis.performance?.now?.()??Date.now();
+
+  function cancellationReason(requestEpoch,isCancelled){
+    if(requestEpoch!==audioEpoch)return 'CANCELLED_BY_STOP';
+    if(typeof isCancelled!=='function')return '';
+    try{return isCancelled()?'CANCELLED_BY_RUN':''}catch{return 'CANCELLED_BY_RUN'}
+  }
 
   function isSupported(){return Boolean(AudioContextClass&&globalThis.fetch)}
 
@@ -46,7 +54,7 @@
   function primeFromTrustedGesture(event){
     if(!event?.isTrusted||!isSupported())return;
     const target=event.target instanceof Element?event.target:null;
-    if(!target?.closest?.('#pvBattleSuitFire,#pvBattleSoundToggle'))return;
+    if(!target?.closest?.('#pvBattleSuitFire,#pvBattleSoundToggle,#pvBattleStart'))return;
     gesturePrimeAttempts+=1;
     void ensureContext().then(audioContext=>{
       gesturePrimeSucceeded=audioContext?.state==='running';
@@ -90,7 +98,7 @@
     return {supported:true,profileId:profile.profileId,durationMs:buffer.duration*1000};
   }
 
-  function sourceLayer(audioContext,buffer,{kind,when,offsetMs,durationMs,gain,fadeInMs=2,fadeOutMs=20}){
+  function sourceLayer(audioContext,buffer,{kind,when,offsetMs,durationMs,gain,fadeInMs=2,fadeOutMs=20},sourceGroup=null){
     const source=audioContext.createBufferSource();
     const envelope=audioContext.createGain();
     source.buffer=buffer;
@@ -107,8 +115,17 @@
     envelope.gain.setValueAtTime(level,Math.max(start+fadeIn,start+duration-fadeOut));
     envelope.gain.linearRampToValueAtTime(0,start+duration);
     source.connect(envelope).connect(audioContext.destination);
-    source.onended=()=>{activeSources.delete(source);try{source.disconnect();envelope.disconnect()}catch{}};
+    source.onended=()=>{
+      activeSources.delete(source);
+      sourceGroup?.delete(source);
+      if(sourceGroup?.size===0){
+        const index=sustainedShotGroups.indexOf(sourceGroup);
+        if(index>=0)sustainedShotGroups.splice(index,1);
+      }
+      try{source.disconnect();envelope.disconnect()}catch{}
+    };
     activeSources.add(source);
+    sourceGroup?.add(source);
     source.start(start,offset,duration);
     return {kind,start,offset,duration,gain:level};
   }
@@ -145,10 +162,16 @@
     return plan;
   }
 
-  async function armShot(weaponCode,{enabled=true,visualLeadMs=45}={}){
+  async function armShot(weaponCode,{enabled=true,visualLeadMs=45,outputScale=1,sourceGroup=null,requestEpoch=audioEpoch,isCancelled=null}={}){
     const requestedAt=perfNow();
     const {manifest,profile,weaponCode:code}=await profileFor(weaponCode);
     const leadMs=Math.max(1,finite(visualLeadMs,manifest.visualSync.authoredReadyLeadMs));
+    const cancelledPlan=reason=>createPlan({
+      manifest,profile,weaponCode:code,requestedAt,
+      expectedVisualAtPerf:perfNow()+leadMs,scheduled:false,layers:[],reason
+    });
+    let cancelled=cancellationReason(requestEpoch,isCancelled);
+    if(cancelled)return cancelledPlan(cancelled);
     if(!enabled){
       const expected=perfNow()+leadMs;
       return createPlan({manifest,profile,weaponCode:code,requestedAt,expectedVisualAtPerf:expected,scheduled:false,layers:[],reason:'MUTED'});
@@ -158,10 +181,17 @@
       return createPlan({manifest,profile,weaponCode:code,requestedAt,expectedVisualAtPerf:expected,scheduled:false,layers:[],reason:'WEB_AUDIO_UNAVAILABLE'});
     }
     const audioContext=await ensureContext();
+    cancelled=cancellationReason(requestEpoch,isCancelled);
+    if(cancelled)return cancelledPlan(cancelled);
     const buffer=await loadBuffer(profile);
+    // stop() may run while a first-use recording is being fetched or decoded.
+    // Re-check immediately before creating WebAudio nodes so a closed preview,
+    // SOUND OFF action, or cancelled replay cannot resurrect a late shot.
+    cancelled=cancellationReason(requestEpoch,isCancelled);
+    if(cancelled)return cancelledPlan(cancelled);
     const mix=profile.runtimeMix;
     const previewOutputGain=clamp(finite(manifest.previewOutput?.gain,1),0,1);
-    const master=clamp(finite(mix.masterGain,1),0,1)*previewOutputGain;
+    const master=clamp(finite(mix.masterGain,1),0,1)*previewOutputGain*clamp(finite(outputScale,1),0,1);
     const scheduleBaseContext=audioContext.currentTime+.012;
     const scheduleBasePerf=perfNow()+12;
     const expectedVisualAtContext=scheduleBaseContext+leadMs/1000;
@@ -175,27 +205,80 @@
         kind:'ACTION_NOTICE',when:scheduleBaseContext,
         offsetMs:action.sourceOffsetMs,durationMs:action.durationMs,
         gain:master*action.gain,fadeInMs:action.fadeInMs,fadeOutMs:action.fadeOutMs
-      }),
+      },sourceGroup),
       sourceLayer(audioContext,buffer,{
         kind:'BALLISTIC_IMPACT',when:expectedVisualAtContext-finite(impact.leadInMs)/1000,
         offsetMs:Math.max(0,peakMs-finite(impact.leadInMs)),durationMs:impact.durationMs,
         gain:master*impact.gain,fadeInMs:impact.fadeInMs,fadeOutMs:impact.fadeOutMs
-      }),
+      },sourceGroup),
       sourceLayer(audioContext,buffer,{
         kind:'ACOUSTIC_TAIL',when:expectedVisualAtContext+finite(tail.delayAfterFireMs)/1000,
         offsetMs:peakMs+finite(tail.sourceOffsetAfterPeakMs),durationMs:tail.durationMs,
         gain:master*tail.gain,fadeInMs:tail.fadeInMs,fadeOutMs:tail.fadeOutMs
-      })
+      },sourceGroup)
     ];
     lastShot={weaponCode:code,profileId:profile.profileId,requestedAt,expectedVisualAtPerf,audioScheduled:true,layerCount:3,syncPass:null};
     return createPlan({manifest,profile,weaponCode:code,requestedAt,expectedVisualAtPerf,scheduled:true,layers});
   }
 
+  function stopSourceGroup(group){
+    for(const source of [...group]){
+      try{source.stop()}catch{}
+      activeSources.delete(source);
+      group.delete(source);
+    }
+  }
+
+  async function armSustainedShot(weaponCode,{enabled=true,visualLeadMs=45,isCancelled=null}={}){
+    const requestEpoch=audioEpoch;
+    const manifest=await loadManifest();
+    const autoMix=manifest.previewOutput?.automaticFire||{};
+    const maxConcurrentShots=Math.max(1,Math.floor(finite(autoMix.maxConcurrentShots,2)));
+    if(cancellationReason(requestEpoch,isCancelled)){
+      const plan=await armShot(weaponCode,{
+        enabled,visualLeadMs,
+        outputScale:clamp(finite(autoMix.shotGain,0.55),0,1),
+        requestEpoch,
+        isCancelled
+      });
+      plan.automaticFire=true;
+      plan.maxConcurrentShots=maxConcurrentShots;
+      return plan;
+    }
+    while(sustainedShotGroups.length>=maxConcurrentShots)stopSourceGroup(sustainedShotGroups.shift());
+    const sourceGroup=new Set();
+    sustainedShotGroups.push(sourceGroup);
+    try{
+      const plan=await armShot(weaponCode,{
+        enabled,
+        visualLeadMs,
+        outputScale:clamp(finite(autoMix.shotGain,0.55),0,1),
+        sourceGroup,
+        requestEpoch,
+        isCancelled
+      });
+      plan.automaticFire=true;
+      plan.maxConcurrentShots=maxConcurrentShots;
+      if(!plan.scheduled){
+        const index=sustainedShotGroups.indexOf(sourceGroup);
+        if(index>=0)sustainedShotGroups.splice(index,1);
+      }
+      return plan;
+    }catch(error){
+      stopSourceGroup(sourceGroup);
+      const index=sustainedShotGroups.indexOf(sourceGroup);
+      if(index>=0)sustainedShotGroups.splice(index,1);
+      throw error;
+    }
+  }
+
   function stop(){
+    audioEpoch+=1;
     for(const source of [...activeSources]){
       try{source.stop()}catch{}
       activeSources.delete(source);
     }
+    sustainedShotGroups.length=0;
   }
 
   function diagnostics(){
@@ -209,9 +292,11 @@
       gesturePrimeSucceeded,
       decodedAssets:bufferPromises.size,
       activeLayers:activeSources.size,
+      sustainedShotGroups:sustainedShotGroups.length,
+      audioEpoch,
       lastShot:lastShot?{...lastShot}:null
     };
   }
 
-  globalThis.ProjectVFirearmQcAudio={isSupported,loadManifest,unlock,preload,armShot,stop,diagnostics};
+  globalThis.ProjectVFirearmQcAudio={isSupported,loadManifest,unlock,preload,armShot,armSustainedShot,stop,diagnostics};
 })();

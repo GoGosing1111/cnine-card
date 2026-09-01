@@ -1,11 +1,13 @@
 {
   "version": "v1",
   "tool": "OpenAI built-in image generation tool",
-  "purpose": "PROJECT V V3 PVE-only account Battle Suit ready/fire/recoil/recover atlases",
+  "purpose": "PROJECT V V3 PVE-only account Battle Suit ready/fire/recoil/recover atlases; Suit 02/03 use immutable user-provided references without generative redraw",
   "finalPromptSet": {
     "weaponPoseProxy": "Create one 1536x1024 4x2 sprite atlas using only the supplied reference's lower-row female silhouette. The adult female wears a white, silver and gold winged Battle Suit with blue crystals in a fixed elevated-isometric view. Put a solid chroma-green shouldered long-gun proxy in both hands: AR length on row 0 and sniper length on row 1; columns ready, fire, recoil, recover. The stock stays seated in the shoulder, trigger and support hands remain visible, and the barrel points exactly horizontally to screen-right. No diagonal gun, handgun pose, walking, text, UI, grid, muzzle flash, or cross-cell bleed.",
     "horizontalCorrection": "The rejected diagonal draft was edited into a proper two-handed shoulder mount. Final exact database weapons are composited with --force-horizontal, which fixes their raster rotation at 0 degrees in every frame even when the green proxy detector measures minor antialias skew.",
-    "exactAllWeaponsComposite": "Never ask the image model to redraw Avalon M4A1, Infinity M200, Infinity AK, or Sovereign SKS. Remove the green proxy, retain the authored body, hands, and forearms, and deterministically place the exact approved database battle-sprite raster behind the hands. Mirror the raster, force its rotation to exactly 0 degrees for the female v2 atlas, use one median width per four-frame weapon row, keep a four-pixel cell margin, and leave muzzle flash to the V3 runtime effect."
+    "exactAllWeaponsComposite": "Never ask the image model to redraw Avalon M4A1, Infinity M200, Infinity AK, or Sovereign SKS. Remove the green proxy, retain the authored body, hands, and forearms, and deterministically place the exact approved database battle-sprite raster behind the hands. Mirror the raster, force its rotation to exactly 0 degrees for the female v2 atlas, use one median width per four-frame weapon row, keep a four-pixel cell margin, and leave muzzle flash to the V3 runtime effect.",
+    "userReferenceNormalization": "For Battle Suit 02 and 03, use the user-provided raster montage as the immutable source. Remove only the connected light background, isolate the supplied figures, normalize them into 384x512 cells, replace baked-fire cells with a clean user-provided pose, and add only 1-3px deterministic recoil/settle translation. Do not generatively redraw the character.",
+    "userReferenceExactAkSks": "For Battle Suit 02 and 03 AK/SKS sheets, use the clean user-provided shouldered M4 body pose, remove the source rifle and baked flash without restoring detached hand fragments, and composite the exact approved Infinity AK or Sovereign SKS battle-sprite raster at rotation 0 degrees. Runtime owns muzzle flash."
   },
   "generatedOriginals": [
     {
@@ -18,11 +20,15 @@
     },
     {
       "suitCode": "BATTLE_SUIT_02",
-      "weaponPoseProxy": "exec-08410524-9c3e-4023-8618-5c4b8c236eda.png"
+      "userProvidedReference": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-user-reference-v2.png",
+      "userProvidedReferenceSha256": "FE03CBD10DACE01DAE985F1572176EC1B6DBB3A22344139203047E9E71C4B75F",
+      "sourcePolicy": "USER_PROVIDED_NO_GENERATIVE_REDRAW"
     },
     {
       "suitCode": "BATTLE_SUIT_03",
-      "weaponPoseProxy": "exec-a288ad4b-3d61-4841-8088-6d39ade32f64.png"
+      "userProvidedReference": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-exosuit-user-reference-v2.png",
+      "userProvidedReferenceSha256": "BB0AF2EEC0C0F7FD32C0616E92CE1DDB82FCB214788C54327BF42DD4C38E9B76",
+      "sourcePolicy": "USER_PROVIDED_NO_GENERATIVE_REDRAW"
     }
   ],
   "exactDatabaseWeaponSources": [
@@ -57,6 +63,7 @@
     "exec-90244530-307c-4400-923c-d5fb2e685772.png"
   ],
   "deterministicCompositeScript": "/scripts/compose-exact-battle-suit-weapons.cjs",
+  "userReferenceAtlasScript": "/scripts/build-user-reference-battle-suit-atlases.cjs",
   "runtimeContract": {
     "scope": "PVE_ONLY",
     "formation": "AUXILIARY_FRONT_LEFT_FORWARD_TILE",

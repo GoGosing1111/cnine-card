@@ -12,4 +12,6 @@ Retrieved on 2026-09-01. The downloaded HQ-preview bytes are preserved without b
 
 The independent QC preview applies one common output gain of `0.25` (approximately `-12.04 dB`) after each weapon profile's documented master gain. This is half of the preceding `0.50` preview output and changes playback amplitude only; it does not modify the source files, per-weapon balance, three-layer timing, or visual synchronization.
 
+During this preview's automatic Battle Suit fire, each shot receives an additional `0.55` gain and at most two three-layer shot groups may overlap. Before a third shot is scheduled, the oldest group is stopped. This prevents automatic AR bursts from stacking long recording tails into an excessive output level while preserving the real recordings and the weapon-relative mix.
+
 The M200 sprite remains the exact database weapon asset. Its audio is explicitly labeled as a real high-caliber Tac-50 proxy because no compliant M200 recording exists in the repository.
