@@ -13,6 +13,7 @@ for (const file of [
   'project-v-modules.css',
   'project-v-responsive-fixes.css',
   'project-v-client.js',
+  'project-v-firearm-qc-audio.js',
   'project-v-pixi-battle.bundle.js'
 ]) assert.ok(fs.statSync(path.join(preview, file)).size > 0, `${file} is missing or empty`);
 
@@ -22,7 +23,7 @@ const bundle = read('project-v-pixi-battle.bundle.js');
 
 assert.match(html, /project-v-command-studio-bg-v2\.png/);
 assert.doesNotMatch(html, /project-v-lobby-studio-v1|battle-art-adapter|tier-battle-art-adapter|unassigned-battle-fallback|monster-battle-art-adapter/);
-assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=47-card-cutin-dash-1-3x/);
+assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=75-battle-suit-firearm-qc/);
 
 for (const [mode, asset] of Object.entries({
   HUNT: 'v3-nightmare-forest-battlefield-v1.png',
@@ -39,7 +40,7 @@ assert.match(html,/data-battlefield="PVP"/);
 assert.match(bundle,/coin-prediction\/arena-v1\.png/);
 assert.ok(fs.statSync(path.join(root,'assets','ui','coin-prediction','arena-v1.png')).size>0);
 assert.match(html,/id="pvBattleRetarget"/);
-assert.match(bundle,/assets\/fx\/slash_sheet\.json/);
+assert.match(bundle,/role-impact-v2/,'public bundle must contain the approved authored role-impact atlases');
 
 assert.ok(fs.statSync(path.join(preview, 'project-v-pixi-battle.bundle.js')).size > 700_000);
 assert.doesNotMatch(html, /project-v-pixi-battle\.bundle\.js/,

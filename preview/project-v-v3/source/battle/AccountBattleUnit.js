@@ -3,6 +3,13 @@ import {gsap} from 'gsap';
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const finite=(value,fallback)=>Number.isFinite(Number(value))?Number(value):fallback;
+const AUTHORED_FRAME_NAMES=Object.freeze(['ready','fire','recoil','recover']);
+const NAME_PANEL_HEIGHT=29;
+const NAME_PANEL_MIN_WIDTH=88;
+const NAME_PANEL_MAX_WIDTH=188;
+const NAME_PANEL_HORIZONTAL_PADDING=24;
+const NAME_LABEL_MAX_WIDTH=NAME_PANEL_MAX_WIDTH-NAME_PANEL_HORIZONTAL_PADDING;
+const STATIC_NAME_HUD_GAP=24;
 
 function labelText(value){
   return new Text({
@@ -36,6 +43,10 @@ export class AccountBattleUnit{
     this.authoredSubtextures=[];
     this.authoredFrame='';
     this.shotCount=0;
+    this.fullName='';
+    this.displayName='';
+    this.nameTruncated=false;
+    this.namePanelWidth=0;
     this.idleTimeline=null;
     this.fireTimeline=null;
     this.fireResolve=null;
@@ -85,16 +96,41 @@ export class AccountBattleUnit{
   }
 
   setName(value=''){
-    const name=String(value||'').trim().slice(0,24);
-    this.nameLabel.text=name;
+    const name=Array.from(String(value||'').trim()).slice(0,20).join('');
+    this.fullName=name;
     this.nameHud.visible=Boolean(name);
-    if(!name)return this;
-    const width=clamp(Math.ceil(this.nameLabel.width+24),88,188);
-    this.namePanel.clear().roundRect(-width/2,0,width,29,6)
+    if(!name){
+      this.nameLabel.text='';
+      this.displayName='';
+      this.nameTruncated=false;
+      this.namePanelWidth=0;
+      return this;
+    }
+    const points=Array.from(name);
+    this.nameLabel.text=name;
+    if(this.nameLabel.width>NAME_LABEL_MAX_WIDTH){
+      do{
+        points.pop();
+        this.nameLabel.text=`${points.join('')}…`;
+      }while(points.length&&this.nameLabel.width>NAME_LABEL_MAX_WIDTH);
+    }
+    this.displayName=String(this.nameLabel.text||'');
+    this.nameTruncated=this.displayName!==name;
+    const width=clamp(Math.ceil(this.nameLabel.width+NAME_PANEL_HORIZONTAL_PADDING),NAME_PANEL_MIN_WIDTH,NAME_PANEL_MAX_WIDTH);
+    this.namePanelWidth=width;
+    this.namePanel.clear().roundRect(-width/2,0,width,NAME_PANEL_HEIGHT,6)
       .fill({color:0x030910,alpha:.88})
       .stroke({width:1,color:0x67dcff,alpha:.58});
-    this.nameLabel.position.set(0,14.5);
+    this.nameLabel.position.set(0,NAME_PANEL_HEIGHT/2);
     return this;
+  }
+
+  authoredPivot(name='ready'){
+    const pivot=this.authoredProfile?.pivots?.[name]||this.authoredProfile?.pivots?.ready;
+    return {
+      x:clamp(finite(pivot?.x,.5),0,1),
+      y:clamp(finite(pivot?.y,this.authoredProfile?.contentBottom??.98),0,1)
+    };
   }
 
   hasAuthoredAnimation(){
@@ -167,14 +203,15 @@ export class AccountBattleUnit{
     this.bodySource=this.authoredSheetSource;
     const targetHeight=clamp(finite(height,278)*clamp(finite(scaleMultiplier,1),.55,1.55),150,430);
     this.bodySprite.texture=frames.ready;
-    const contentBottom=clamp(finite(profile?.contentBottom,.98),.65,.98);
-    this.bodySprite.anchor.set(.5,contentBottom);
+    const readyPivot=this.authoredPivot('ready');
+    this.bodySprite.anchor.set(readyPivot.x,readyPivot.y);
     this.bodySprite.height=targetHeight;
     this.bodySprite.width=targetHeight*(cellWidth/cellHeight);
     this.authoredFrame='ready';
     const contentTop=clamp(finite(profile?.nameHud?.contentTop,0),0,.4);
     const hudGap=clamp(finite(profile?.nameHud?.gap,18),8,42);
-    this.nameHud.position.set(0,-targetHeight*(this.bodySprite.anchor.y-contentTop)-hudGap);
+    const highestContentOffset=Math.min(...AUTHORED_FRAME_NAMES.map(name=>contentTop-this.authoredPivot(name).y));
+    this.nameHud.position.set(0,targetHeight*highestContentOffset-hudGap-NAME_PANEL_HEIGHT);
     return true;
   }
 
@@ -182,6 +219,8 @@ export class AccountBattleUnit{
     const texture=this.authoredFrames?.[name];
     if(!texture)return false;
     this.bodySprite.texture=texture;
+    const pivot=this.authoredPivot(name);
+    this.bodySprite.anchor.set(pivot.x,pivot.y);
     this.authoredFrame=name;
     this.weaponSprite.visible=false;
     return true;
@@ -213,7 +252,7 @@ export class AccountBattleUnit{
     this.bodySprite.height=targetHeight;
     this.bodySprite.width=targetHeight*ratio;
     this.bodySource=String(source||'');
-    this.nameHud.position.set(0,-targetHeight-24);
+    this.nameHud.position.set(0,-targetHeight-STATIC_NAME_HUD_GAP-NAME_PANEL_HEIGHT);
     return true;
   }
 
@@ -307,12 +346,13 @@ export class AccountBattleUnit{
   muzzlePoint(){
     if(this.hasAuthoredAnimation()){
       const muzzle=this.authoredProfile?.muzzle||{};
+      const firePivot=this.authoredPivot(String(muzzle.frame||'fire'));
       const texture=this.bodySprite.texture;
       const width=Math.max(1,finite(texture?.orig?.width??texture?.width,1));
       const height=Math.max(1,finite(texture?.orig?.height??texture?.height,1));
       const local={
-        x:(clamp(finite(muzzle.x,.9),0,1)-this.bodySprite.anchor.x)*width,
-        y:(clamp(finite(muzzle.y,.39),0,1)-this.bodySprite.anchor.y)*height
+        x:(clamp(finite(muzzle.x,.9),0,1)-firePivot.x)*width,
+        y:(clamp(finite(muzzle.y,.39),0,1)-firePivot.y)*height
       };
       const global=this.bodySprite.toGlobal(local);
       const point=this.effectLayer?.toLocal?this.effectLayer.toLocal(global):global;
@@ -458,9 +498,19 @@ export class AccountBattleUnit{
       authoredWeaponCode:this.authoredProfile?.weaponCode||'',
       authoredContentTop:this.authoredProfile?.nameHud?.contentTop??null,
       authoredContentBottom:this.authoredProfile?.contentBottom??null,
+      authoredPivot:this.hasAuthoredAnimation()?this.authoredPivot(this.authoredFrame||'ready'):null,
+      authoredPivots:this.authoredProfile?.pivots||null,
       authoredMuzzle:this.authoredProfile?.muzzle||null,
       weaponSpriteVisible:this.weaponSprite.visible,
       shotCount:this.shotCount,
+      nickname:{
+        fullText:this.fullName,
+        displayText:this.displayName,
+        truncated:this.nameTruncated,
+        panelWidth:this.namePanelWidth,
+        panelHeight:NAME_PANEL_HEIGHT,
+        maxTextWidth:NAME_LABEL_MAX_WIDTH
+      },
       affectsDeck:false,
       affectsDamage:false
     };

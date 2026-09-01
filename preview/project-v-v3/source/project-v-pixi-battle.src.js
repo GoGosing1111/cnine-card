@@ -75,7 +75,33 @@ function diagnostics(){
   return engine?.diagnostics()||{mounted:false};
 }
 
-const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
+async function playAccountPreviewShot({onAnticipation,onFire}={}){
+  if(!engine)return {played:false,reason:'ENGINE_NOT_MOUNTED'};
+  const unit=engine.accountBattleUnit;
+  if(!unit||!engine.accountBattleUnitEnabled)return {played:false,reason:'ACCOUNT_UNIT_NOT_AVAILABLE'};
+  const originalApply=unit.applyAuthoredFrame;
+  let fireAt=null;
+  let fired=false;
+  const wrappedApply=function(name,...args){
+    const result=originalApply.call(this,name,...args);
+    if(name==='fire'&&!fired){
+      fired=true;
+      fireAt=performance.now();
+      onFire?.({at:fireAt,frame:name,weaponCode:this.authoredProfile?.weaponCode||''});
+    }
+    return result;
+  };
+  unit.applyAuthoredFrame=wrappedApply;
+  try{
+    onAnticipation?.({at:performance.now(),readyLeadMs:Number(unit.authoredProfile?.durationsMs?.ready||45)});
+    const played=await engine.playAccountBattleUnitCosmeticShot();
+    return {played:Boolean(played),fireAt,diagnostics:engine.diagnostics().accountBattleUnit};
+  }finally{
+    if(unit.applyAuthoredFrame===wrappedApply)unit.applyAuthoredFrame=originalApply;
+  }
+}
+
+const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
+export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,cancelActiveAnimations,syncFinalState,diagnostics,destroy};

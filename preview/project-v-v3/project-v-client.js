@@ -27,13 +27,105 @@
     auction:['LIVE AUCTION','경매장'],
     prediction:['COIN PREDICTION','승부예측']
   };
-  let battleRendererPromise=null,battleRendererRequested=false;
+  const battleSuitQc={
+    suits:{
+      BATTLE_SUIT_01:{name:'외형 01 · 화이트 골드 윙',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png'},
+      BATTLE_SUIT_02:{name:'외형 02 · 오렌지 택티컬',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png'},
+      BATTLE_SUIT_03:{name:'외형 03 · 자수정 엑소슈트',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png'}
+    },
+    weapons:{
+      EQ_1785427638137:{name:'아발론 M4A1',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png'},
+      EQ_1785961232958:{name:'인피니티 AK',kind:'AR',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png'},
+      EQ_1785961300455:{name:'인피니티 M200',kind:'SNIPER',sprite:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png'}
+    }
+  };
+  const battleQcState={suitCode:'BATTLE_SUIT_01',weaponCode:'EQ_1785427638137',battlefield:'HUNT',sound:true,mounted:false,busy:false};
+  const qcAllies=[
+    ['QC-FAKER','FAKER','FUR','ATTACK','/assets/ui/project-v/characters/deck-faker-sd-v1.png','/assets/cards/7777777.jpg'],
+    ['QC-TAEK','김택용','PRESTIGE','SPEED','/assets/ui/project-v/characters/deck-kimtaekyong-sd-v1.png','/assets/pre/8.jpg'],
+    ['QC-PPLI','쁠리','ZENITH','HP','/assets/ui/project-v/characters/deck-ppli-sd-v1.png','/assets/cards/ZENITH/V1.jpg'],
+    ['QC-AYOON','비키니 아윤','LIMITED','ATTACK','/assets/ui/project-v/characters/deck-bikini-ayoon-sd-v1.png','/assets/cards/0725/3.jpg'],
+    ['QC-BONG','프로필찍는 봉준','FUR','DEFENSE','/assets/ui/project-v/characters/deck-bongjun-sd-v1.png','/assets/NEWCARD/8.jpg']
+  ].map(([cardId,name,grade,type,primaryUrl,sourceArt],index)=>({
+    id:`A:${index}:${cardId}`,cardId,name,grade,type,hp:100,maxHp:100,sourceArt,
+    projectVBattleArt:{kind:'APPROVED_DECK_SD',primaryUrl,sourceArtUrl:sourceArt,scaleMultiplier:1}
+  }));
+  const pveBattlefields=new Set(['HUNT','TOWER','RAID']);
+  const qcPayload=()=>{
+    const suit=battleSuitQc.suits[battleQcState.suitCode];
+    const weapon=battleSuitQc.weapons[battleQcState.weaponCode];
+    const pveAllowed=pveBattlefields.has(battleQcState.battlefield);
+    const mode=pveAllowed?'PVE':battleQcState.battlefield;
+    const monsterCard={id:'B:0:MONSTER:QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',grade:'MONSTER',type:'ATTACK',hp:100,maxHp:100};
+    const monster={
+      id:'QC-JORO',monsterId:'QC-JORO',cardId:'MONSTER:QC-JORO',name:'결전의 조로',mode:battleQcState.battlefield,isBoss:true,
+      projectVMonsterArt:{kind:'APPROVED_MONSTER_SD',name:'결전의 조로',primaryUrl:'/assets/ui/project-v/monsters/nightmare-slime-sd-v1.png',scaleMultiplier:1.08,isBoss:true}
+    };
+    const equippedBattleSuit={code:battleQcState.suitCode,name:suit.name,battleSprite:suit.sprite,pvePower:35000,scaleMultiplier:1};
+    const equippedWeapon={code:battleQcState.weaponCode,name:weapon.name,battleSprite:weapon.sprite,weaponClass:weapon.kind};
+    return {
+      mode,battlefieldMode:battleQcState.battlefield,contentType:battleQcState.battlefield,
+      accountNickname:'핑크빛유두',monster,equippedBattleSuit,equippedWeapon,
+      characterBonus:{battleSuitPve:35000,equippedBattleSuit,equippedWeapon},
+      v3RenderContext:{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'},
+      battleV2:{mode,battlefieldMode:battleQcState.battlefield,teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}}))},B:{cards:[monsterCard]}},result:{timeline:[]}}
+    };
+  };
+  let battleRendererPromise=null,battleRendererRequested=false,battleMutation=Promise.resolve();
+  const queueBattleMutation=task=>{
+    const run=battleMutation.then(task,task);
+    battleMutation=run.catch(()=>{});
+    return run;
+  };
+  const setQcChip=(id,text,state='')=>{
+    const chip=document.getElementById(id);
+    if(!chip)return;
+    chip.textContent=text;
+    chip.classList.toggle('is-pass',state==='pass');
+    chip.classList.toggle('is-fail',state==='fail');
+  };
+  const setQcBusy=busy=>{
+    battleQcState.busy=Boolean(busy);
+    const panel=document.getElementById('pvBattleSuitQc');
+    const fire=document.getElementById('pvBattleSuitFire');
+    panel?.setAttribute('aria-busy',String(battleQcState.busy));
+    if(fire)fire.disabled=battleQcState.busy||!pveBattlefields.has(battleQcState.battlefield);
+    document.querySelectorAll('[data-qc-suit],[data-qc-weapon],[data-battlefield]').forEach(button=>button.disabled=battleQcState.busy);
+  };
+  const refreshBattleQc=message=>{
+    const diagnostics=window.ProjectVPixiBattle?.diagnostics?.()||{};
+    const unit=diagnostics.accountBattleUnit||{};
+    const pveAllowed=pveBattlefields.has(battleQcState.battlefield);
+    const pvePass=pveAllowed?unit.enabled===true:unit.enabled!==true;
+    setQcChip('pvQcModeChip',pveAllowed?'PVE ONLY':`${battleQcState.battlefield} 차단`,pvePass?'pass':'fail');
+    setQcChip('pvQcDeckChip',`${unit.canonicalAllyFormationCount??diagnostics.formation?.allies??0} CARD`,Number(unit.canonicalAllyFormationCount??diagnostics.formation?.allies)===5?'pass':'fail');
+    setQcChip('pvQcDamageChip',unit.affectsDamage===false?'NO DAMAGE':'DAMAGE 오류',unit.affectsDamage===false?'pass':'fail');
+    const output=document.getElementById('pvBattleQcOutput');
+    const suit=battleSuitQc.suits[battleQcState.suitCode];
+    const weapon=battleSuitQc.weapons[battleQcState.weaponCode];
+    if(output)output.textContent=message||`${suit.name} · ${weapon.name} · ${pveAllowed?'사격 대기':'경쟁 콘텐츠 유닛 차단 검증'}`;
+    return {diagnostics,unit,pvePass};
+  };
+  const ensureBattleQcSession=async({reset=false}={})=>{
+    const api=window.ProjectVPixiBattle;
+    if(!api)return false;
+    setQcBusy(true);
+    try{
+      if(!battleQcState.mounted){await api.mountForBattle(qcPayload(),document.getElementById('pvPixiBattle'));battleQcState.mounted=true}
+      else if(reset)await api.resetSession(qcPayload(),document.getElementById('pvPixiBattle'));
+      if(!battleRendererRequested)return false;
+      await api.setVisible(true);
+      await api.playEvents([{type:'DEPLOY'}]);
+      refreshBattleQc();
+      return true;
+    }finally{setQcBusy(false)}
+  };
   const syncBattleRenderer=async active=>{
     battleRendererRequested=Boolean(active);
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=54-advancement-awakening';
+        script.src='project-v-pixi-battle.bundle.js?v=75-battle-suit-firearm-qc';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);
@@ -46,7 +138,11 @@
         return;
       }
     }
-    await window.ProjectVPixiBattle?.setVisible(battleRendererRequested);
+    if(battleRendererRequested)await queueBattleMutation(()=>ensureBattleQcSession());
+    else{
+      window.ProjectVFirearmQcAudio?.stop?.();
+      await window.ProjectVPixiBattle?.setVisible(false);
+    }
   };
   const sectionModule={cards:'cards',dex:'dex',deck:'deck',gear:'arsenal'};
   let activeModule='';
@@ -102,13 +198,80 @@
   const setActiveWithin=(selector,button)=>document.querySelectorAll(selector).forEach(item=>item.classList.toggle('is-active',item===button));
   document.querySelectorAll('.pv-segment button,.pv-count-switch button,.pv-prediction-options button').forEach(button=>button.addEventListener('click',()=>setActiveWithin(`.${button.parentElement.className.trim().split(/\s+/)[0]} button`,button)));
 
+  const rebuildBattleQc=async message=>{
+    battleRendererRequested=true;
+    if(!window.ProjectVPixiBattle)await syncBattleRenderer(true);
+    else await queueBattleMutation(()=>ensureBattleQcSession({reset:true}));
+    if(message)notify(message);
+  };
+  document.querySelectorAll('[data-qc-suit]').forEach(button=>button.addEventListener('click',async()=>{
+    setActiveWithin('[data-qc-suit]',button);
+    battleQcState.suitCode=button.dataset.qcSuit;
+    await rebuildBattleQc(`${battleSuitQc.suits[battleQcState.suitCode].name} 적용 완료`);
+  }));
+  document.querySelectorAll('[data-qc-weapon]').forEach(button=>button.addEventListener('click',async()=>{
+    setActiveWithin('[data-qc-weapon]',button);
+    battleQcState.weaponCode=button.dataset.qcWeapon;
+    await rebuildBattleQc(`${battleSuitQc.weapons[battleQcState.weaponCode].name} 외형·사운드 프로필 적용`);
+  }));
+  document.getElementById('pvBattleSoundToggle')?.addEventListener('click',event=>{
+    battleQcState.sound=!battleQcState.sound;
+    event.currentTarget.classList.toggle('is-active',battleQcState.sound);
+    event.currentTarget.setAttribute('aria-pressed',String(battleQcState.sound));
+    event.currentTarget.textContent=battleQcState.sound?'SOUND ON':'SOUND OFF';
+    if(!battleQcState.sound)window.ProjectVFirearmQcAudio?.stop?.();
+    setQcChip('pvQcSyncChip',battleQcState.sound?'A/V 대기':'SOUND OFF',battleQcState.sound?'':'pass');
+  });
+  document.getElementById('pvBattleSuitFire')?.addEventListener('click',async()=>{
+    if(!pveBattlefields.has(battleQcState.battlefield)){
+      notify('배틀슈트 계정 유닛은 PVE 전장에서만 사격할 수 있습니다.');
+      return;
+    }
+    await syncBattleRenderer(true);
+    await queueBattleMutation(async()=>{
+      setQcBusy(true);
+      const audio=window.ProjectVFirearmQcAudio;
+      let plan=null,audioError=null,syncResult=null;
+      try{
+        if(battleQcState.sound)await audio?.unlock?.();
+        try{plan=await audio?.armShot?.(battleQcState.weaponCode,{enabled:battleQcState.sound,visualLeadMs:45})}
+        catch(error){audioError=error;console.warn('[Project V V3] firearm QC audio scheduling failed',error)}
+        const shot=await window.ProjectVPixiBattle?.playAccountPreviewShot?.({
+          onFire:({at})=>{
+            syncResult=plan?.markVisualFire?.(at)||null;
+            if(syncResult?.audioScheduled)setQcChip('pvQcSyncChip',`A/V ${syncResult.deltaMs>=0?'+':''}${syncResult.deltaMs.toFixed(1)}ms`,syncResult.syncPass?'pass':'fail');
+          }
+        });
+        const weapon=battleSuitQc.weapons[battleQcState.weaponCode];
+        if(!shot?.played){
+          setQcChip('pvQcSyncChip','사격 FAIL','fail');
+          refreshBattleQc(`${weapon.name} · 계정 유닛 사격을 시작하지 못했습니다.`);
+          return;
+        }
+        if(audioError){
+          setQcChip('pvQcSyncChip','SOUND 오류','fail');
+          refreshBattleQc(`${weapon.name} 모션 PASS · 사운드 로드 오류: ${audioError.message}`);
+        }else if(!battleQcState.sound){
+          setQcChip('pvQcSyncChip','SOUND OFF','pass');
+          refreshBattleQc(`${weapon.name} 모션 PASS · 사운드 음소거`);
+        }else if(!plan?.scheduled){
+          setQcChip('pvQcSyncChip','A/V 수동검수');
+          refreshBattleQc(`${weapon.name} 모션 PASS · 현재 자동화 브라우저는 WebAudio 미지원`);
+        }else{
+          const result=syncResult||plan.diagnostics?.();
+          setQcChip('pvQcSyncChip',result?.deltaMs===undefined?'A/V 측정 중':`A/V ${result.deltaMs>=0?'+':''}${result.deltaMs.toFixed(1)}ms`,result?.syncPass?'pass':result?.syncPass===false?'fail':'');
+          refreshBattleQc(`${weapon.name} · ${plan.acousticLabel} · 3계층 사격음 ${result?.syncPass?'PASS':'검수 필요'}`);
+        }
+      }finally{setQcBusy(false)}
+    });
+  });
+
   document.querySelectorAll('[data-battlefield]').forEach(button=>button.addEventListener('click',async()=>{
     setActiveWithin('[data-battlefield]',button);
-    await syncBattleRenderer(true);
-    const mode=button.dataset.battlefield;
-    await window.ProjectVPixiBattle?.setBattlefield(mode);
+    battleQcState.battlefield=button.dataset.battlefield;
+    const mode=battleQcState.battlefield;
     const labels={HUNT:'몬스터 토벌',TOWER:'무한의 탑',PVP:'PVP 랭크전',RAID:'월드 레이드',SIEGE:'공성·봉인전'};
-    notify(`${labels[mode]||mode} 전장으로 변경했습니다.`);
+    await rebuildBattleQc(`${labels[mode]||mode} 전장 · ${pveBattlefields.has(mode)?'배틀슈트 표시':'배틀슈트 차단'} 검증`);
   }));
 
   document.querySelectorAll('.pv-library-card').forEach(button=>button.addEventListener('click',()=>{

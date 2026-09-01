@@ -72,6 +72,29 @@ function animationSheetEntries(suit){
   return Object.entries(suit.animationSheets);
 }
 
+function measuredSolePivot(data,info,row,column,{alphaThreshold=16,bottomBandPx=9}={}){
+  let maximumY=-1;
+  for(let y=0;y<512;y+=1){
+    for(let x=0;x<384;x+=1){
+      const alpha=data[((row*512+y)*info.width+column*384+x)*4+3];
+      if(alpha>=alphaThreshold)maximumY=Math.max(maximumY,y);
+    }
+  }
+  assert.ok(maximumY>=0,`row ${row} column ${column} must have a visible sole`);
+  const minimumBandY=Math.max(0,maximumY-Math.max(0,bottomBandPx-1));
+  let xTotal=0,pixelCount=0;
+  for(let y=minimumBandY;y<=maximumY;y+=1){
+    for(let x=0;x<384;x+=1){
+      const alpha=data[((row*512+y)*info.width+column*384+x)*4+3];
+      if(alpha<alphaThreshold)continue;
+      xTotal+=x;
+      pixelCount+=1;
+    }
+  }
+  assert.ok(pixelCount>0,`row ${row} column ${column} sole band must contain visible pixels`);
+  return {x:xTotal/pixelCount,y:maximumY,pixelCount};
+}
+
 async function manifestPairMap(){
   const manifest=await readManifest();
   const pairs=new Map();
@@ -215,11 +238,15 @@ test('catalog resolver covers exactly three suits x four approved DB weapons wit
       assert.deepEqual(resolved.frameOrder,FRAME_ORDER,key);
       assert.deepEqual(resolved.durationsMs,DURATIONS_MS,key);
       assert.ok(Object.isFrozen(resolved),`${key} resolver entry must be immutable`);
+      assert.deepEqual(resolved.pivotContract,{type:'SOLE_CENTER',unit:'NORMALIZED_FRAME',alphaThreshold:16,bottomBandPx:9},`${key} sole-pivot contract`);
+      assert.ok(Object.isFrozen(resolved.pivotContract),`${key} pivot contract must be immutable`);
 
       assert.deepEqual(Object.keys(resolved.frames),FRAME_ORDER,key);
       FRAME_ORDER.forEach((name,column)=>{
         assert.deepEqual(resolved.frames[name],{name,column,row:expected.row},`${key}/${name}`);
       });
+      assert.deepEqual(Object.keys(resolved.pivots),FRAME_ORDER,key);
+      assert.ok(Object.isFrozen(resolved.pivots),`${key} pivots must be immutable`);
       assert.equal(resolved.muzzle?.frame,'fire',key);
       assert.equal(resolved.muzzle?.unit,'NORMALIZED_FRAME',key);
       assert.ok(Number.isFinite(resolved.muzzle?.x)&&resolved.muzzle.x>=0&&resolved.muzzle.x<=1,`${key} normalized muzzle x`);
@@ -229,6 +256,15 @@ test('catalog resolver covers exactly three suits x four approved DB weapons wit
       assert.ok(Number.isFinite(resolved.scaleMultiplier)&&resolved.scaleMultiplier>=1.4&&resolved.scaleMultiplier<=1.51,`${key} authored scale correction`);
 
       const {data,info}=await decodedSheet(expected.image);
+      FRAME_ORDER.forEach((name,column)=>{
+        const measured=measuredSolePivot(data,info,expected.row,column,resolved.pivotContract);
+        const pivot=resolved.pivots[name];
+        assert.ok(Object.isFrozen(pivot),`${key}/${name} pivot must be immutable`);
+        assert.equal(pivot.unit,'NORMALIZED_FRAME',`${key}/${name} pivot unit`);
+        assert.ok(Math.abs(pivot.x*384-measured.x)<=.002,`${key}/${name} pivot x must match the measured sole centroid`);
+        assert.ok(Math.abs(pivot.y*512-measured.y)<=.002,`${key}/${name} pivot y must match the lowest sole pixel`);
+        assert.ok(Math.abs(measured.x-pivot.x*384)<=.002&&Math.abs(measured.y-pivot.y*512)<=.002,`${key}/${name} authored pivot must eliminate sole drift at the sprite origin`);
+      });
       const muzzleColumn=1;
       let minimumY=512,maximumY=-1,fireMaximumX=-1;
       const fireTipY=[];

@@ -16,6 +16,10 @@ const [{AccountBattleUnit},{BattleEngine},{resolveAccountBattleSuitAnimation}]=a
 
 const SUIT_CODE='BATTLE_SUIT_01';
 const WEAPON_CODE='EQ_1785961300455'; // M200: physical row 1 exercises lower-atlas slicing.
+const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
+const WEAPON_CODES=Object.freeze(['EQ_1785427638137','EQ_1785961300455','EQ_1785961232958','EQ_1786966923833']);
+const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
+const NAME_PANEL_HEIGHT=29;
 const STATIC_SUIT='/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png';
 const STATIC_WEAPON='/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png';
 const DENIED_MODES=['PVP','RANKED','SIEGE','TERRITORY','CAPTAIN','CLAN'];
@@ -145,9 +149,15 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
       {x:readyTexture.frame.x,y:readyTexture.frame.y,width:readyTexture.frame.width,height:readyTexture.frame.height},
       {x:0,y:512,width:384,height:512}
     );
-    assert.ok(Math.abs(unit.bodySprite.anchor.y-profile.contentBottom)<1e-9,'authored sole pivot must use pair-specific visible content bottom');
+    assert.ok(Math.abs(unit.bodySprite.anchor.x-profile.pivots.ready.x)<1e-9,'ready frame must use its measured sole pivot x');
+    assert.ok(Math.abs(unit.bodySprite.anchor.y-profile.pivots.ready.y)<1e-9,'ready frame must use its measured sole pivot y');
     assert.ok(Math.abs(unit.bodySprite.height-Math.min(430,278*profile.scaleMultiplier))<1e-6,'authored row scale correction must be applied');
-    assert.ok(Math.abs(unit.nameHud.y-(-unit.bodySprite.height*(profile.contentBottom-profile.nameHud.contentTop)-profile.nameHud.gap))<1e-6,'nickname panel must clear the pair-specific visible content top');
+    const highestContentOffset=Math.min(...FRAME_ORDER.map(name=>profile.nameHud.contentTop-profile.pivots[name].y));
+    const expectedNameHudY=unit.bodySprite.height*highestContentOffset-profile.nameHud.gap-NAME_PANEL_HEIGHT;
+    assert.ok(Math.abs(unit.nameHud.y-expectedNameHudY)<1e-6,'nickname panel must include its full height above every frame content top');
+    for(const name of FRAME_ORDER){
+      assert.ok(unit.nameHud.y+NAME_PANEL_HEIGHT<=unit.bodySprite.height*(profile.nameHud.contentTop-profile.pivots[name].y)-profile.nameHud.gap+1e-6,`${name} must preserve the requested nickname gap`);
+    }
     assert.equal(unit.setWeapon(rejectedSeparateWeapon,{source:STATIC_WEAPON}),false,'authored composite must reject a separate weapon attachment');
 
     const before={x:unit.weaponSprite.x,y:unit.weaponSprite.y,rotation:unit.weaponSprite.rotation};
@@ -191,6 +201,8 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
     assert.equal(diagnostics.authoredWeaponCode,WEAPON_CODE);
     assert.equal(diagnostics.authoredContentTop,profile.nameHud.contentTop);
     assert.equal(diagnostics.authoredContentBottom,profile.contentBottom);
+    assert.deepEqual(diagnostics.authoredPivot,{x:profile.pivots.ready.x,y:profile.pivots.ready.y});
+    assert.deepEqual(diagnostics.authoredPivots,profile.pivots);
     assert.deepEqual(diagnostics.authoredMuzzle,profile.muzzle);
     assert.equal(diagnostics.weaponSpriteVisible,false);
     assert.equal(diagnostics.separateWeaponAttachment,false);
@@ -201,6 +213,84 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
     destroyHarness(engine);
     if(!sheet.destroyed)sheet.destroy(true);
     if(!rejectedSeparateWeapon.destroyed)rejectedSeparateWeapon.destroy(true);
+  }
+});
+
+test('all twelve authored suit/weapon profiles apply frame-exact sole pivots and keep muzzle math on the fire pivot',()=>{
+  const sheet=testTexture(1536,1024);
+  const effectLayer=new Container({label:'AllPairPivotEffectLayer'});
+  const unit=new AccountBattleUnit({effectLayer});
+  unit.setFormation(321,456,.5);
+  const fixedRoot={x:unit.root.x,y:unit.root.y};
+  try{
+    for(const suitCode of SUIT_CODES){
+      for(const weaponCode of WEAPON_CODES){
+        const profile=resolveAccountBattleSuitAnimation(suitCode,weaponCode);
+        assert.ok(profile,`${suitCode}:${weaponCode}`);
+        assert.equal(unit.setAuthoredSheet(sheet,profile,{source:profile.sheetUrl}),true);
+        for(const name of FRAME_ORDER){
+          assert.equal(unit.applyAuthoredFrame(name),true,`${suitCode}:${weaponCode}:${name}`);
+          assert.ok(Math.abs(unit.bodySprite.anchor.x-profile.pivots[name].x)<1e-9,`${suitCode}:${weaponCode}:${name} pivot x`);
+          assert.ok(Math.abs(unit.bodySprite.anchor.y-profile.pivots[name].y)<1e-9,`${suitCode}:${weaponCode}:${name} pivot y`);
+          assert.deepEqual({x:unit.root.x,y:unit.root.y},fixedRoot,`${suitCode}:${weaponCode}:${name} must not move the fixed formation root`);
+        }
+
+        unit.applyAuthoredFrame('ready');
+        let capturedLocal=null;
+        const originalToGlobal=unit.bodySprite.toGlobal;
+        const originalToLocal=effectLayer.toLocal;
+        unit.bodySprite.toGlobal=point=>{capturedLocal={x:point.x,y:point.y};return point};
+        effectLayer.toLocal=point=>point;
+        try{unit.muzzlePoint()}finally{
+          unit.bodySprite.toGlobal=originalToGlobal;
+          effectLayer.toLocal=originalToLocal;
+        }
+        const texture=unit.bodySprite.texture;
+        const width=Number(texture?.orig?.width??texture?.width);
+        const height=Number(texture?.orig?.height??texture?.height);
+        const firePivot=profile.pivots.fire;
+        assert.ok(Math.abs(capturedLocal.x-(profile.muzzle.x-firePivot.x)*width)<1e-9,`${suitCode}:${weaponCode} muzzle x must use the fire-frame pivot while ready`);
+        assert.ok(Math.abs(capturedLocal.y-(profile.muzzle.y-firePivot.y)*height)<1e-9,`${suitCode}:${weaponCode} muzzle y must use the fire-frame pivot while ready`);
+
+        const highestContentOffset=Math.min(...FRAME_ORDER.map(name=>profile.nameHud.contentTop-profile.pivots[name].y));
+        const conservativeTop=unit.bodySprite.height*highestContentOffset;
+        assert.ok(unit.nameHud.y+NAME_PANEL_HEIGHT<=conservativeTop-profile.nameHud.gap+1e-6,`${suitCode}:${weaponCode} nickname panel must clear every authored frame`);
+      }
+    }
+  }finally{
+    unit.destroy();
+    effectLayer.destroy({children:true});
+    if(!sheet.destroyed)sheet.destroy(true);
+  }
+});
+
+test('twenty-character nicknames are ellipsized inside the fixed panel width',()=>{
+  const unit=new AccountBattleUnit();
+  const fakeLabel={
+    _text:'',
+    position:{set(x,y){this.x=x;this.y=y}},
+    get text(){return this._text},
+    set text(value){this._text=String(value||'')},
+    get width(){return Array.from(this._text).reduce((sum,character)=>sum+(character==='…'?10:16),0)}
+  };
+  unit.nameLabel=fakeLabel;
+  try{
+    const full='가'.repeat(20);
+    unit.setName(full);
+    const diagnostics=unit.diagnostics().nickname;
+    assert.equal(diagnostics.fullText,full);
+    assert.equal(diagnostics.truncated,true);
+    assert.match(diagnostics.displayText,/…$/);
+    assert.ok(fakeLabel.width<=diagnostics.maxTextWidth,'display text must fit inside the panel content width');
+    assert.ok(diagnostics.panelWidth<=188,'nickname panel must retain its maximum width');
+    assert.ok(fakeLabel.width+24<=diagnostics.panelWidth,'panel padding must contain the fitted label');
+
+    unit.setName('테스터');
+    const shortDiagnostics=unit.diagnostics().nickname;
+    assert.equal(shortDiagnostics.displayText,'테스터');
+    assert.equal(shortDiagnostics.truncated,false);
+  }finally{
+    unit.destroy();
   }
 });
 

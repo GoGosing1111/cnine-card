@@ -8,7 +8,7 @@
   <link rel="preload" as="image" href="../../assets/ui/project-v/project-v-command-studio-bg-v2.png" type="image/png">
   <link rel="stylesheet" href="project-v-client.css?v=1">
   <link rel="stylesheet" href="project-v-card-frames.css?v=4">
-  <link rel="stylesheet" href="project-v-modules.css?v=6">
+  <link rel="stylesheet" href="project-v-modules.css?v=7-battle-suit-firearm-qc">
   <link rel="stylesheet" href="project-v-responsive-fixes.css?v=5">
 </head>
 <body>
@@ -200,9 +200,17 @@
 
           <article class="pv-module-page" data-module-page="battle" aria-label="전투 화면" hidden>
             <div class="pv-battle-screen">
-              <header><div><small>PVE · NIGHTMARE 09</small><h3>결전의 조로</h3></div><div class="pv-turn-counter"><small>남은 전투</small><strong>7 / 10</strong></div></header>
+              <header><div><small>PVE · BATTLE SUIT QC</small><h3>결전의 조로</h3></div><div class="pv-turn-counter"><small>전열 지원 유닛</small><strong>LIVE PREVIEW</strong></div></header>
               <div class="pv-pixi-battle" id="pvPixiBattle"><div class="pv-pixi-loading"><i></i><b>전투 리소스 준비 중</b><span>카드 프레임 · 고유효과 · 궁극기</span></div></div>
               <div class="pv-battle-status" id="pvBattleStatus" role="status" aria-live="polite">전투 렌더러 준비 중</div>
+              <aside class="pv-battle-suit-qc" id="pvBattleSuitQc" aria-label="배틀슈트 사격 품질 검수">
+                <header><span>ACCOUNT UNIT LAB</span><b>배틀슈트 전열 사격 QC</b><small>실제 V3 진형 · 독립 피해 없음</small></header>
+                <div class="pv-qc-selector"><span>외형</span><div role="group" aria-label="배틀슈트 외형"><button class="is-active" type="button" data-qc-suit="BATTLE_SUIT_01">01</button><button type="button" data-qc-suit="BATTLE_SUIT_02">02</button><button type="button" data-qc-suit="BATTLE_SUIT_03">03</button></div></div>
+                <div class="pv-qc-selector"><span>무기·실총음</span><div role="group" aria-label="사격 무기"><button class="is-active" type="button" data-qc-weapon="EQ_1785427638137">M4A1 · AR</button><button type="button" data-qc-weapon="EQ_1785961232958">AK · AR</button><button type="button" data-qc-weapon="EQ_1785961300455">M200 · SR</button></div></div>
+                <div class="pv-qc-actions"><button class="pv-qc-fire" id="pvBattleSuitFire" type="button"><span>사격 모션 + 사운드</span><small>READY → FIRE → RECOIL</small></button><button class="pv-qc-sound is-active" id="pvBattleSoundToggle" type="button" aria-pressed="true">SOUND ON</button></div>
+                <div class="pv-qc-chips" aria-label="검수 계약"><span id="pvQcModeChip">PVE ONLY</span><span id="pvQcDeckChip">5 CARD</span><span id="pvQcDamageChip">NO DAMAGE</span><span id="pvQcSyncChip">A/V 대기</span></div>
+                <output id="pvBattleQcOutput" aria-live="polite">외형 01 · 아발론 M4A1 · 사격 대기</output>
+              </aside>
               <div class="pv-ultimate-layer" id="pvUltimateLayer" aria-hidden="true">
                 <video id="pvUltimateVideo" src="../../assets/effects/Anime.mp4" playsinline muted preload="metadata"></video>
                 <div><small>ZENITH ULTIMATE</small><strong>월하난무</strong><span>전장 우선 발동</span></div>
@@ -261,6 +269,7 @@
       <div class="pv-toast" id="pvToast" role="status" aria-live="polite"></div>
     </section>
   </main>
-  <script src="project-v-client.js?v=54-advancement-awakening"></script>
+  <script src="project-v-firearm-qc-audio.js?v=1-real-recordings"></script>
+  <script src="project-v-client.js?v=55-battle-suit-firearm-qc"></script>
 </body>
 </html>

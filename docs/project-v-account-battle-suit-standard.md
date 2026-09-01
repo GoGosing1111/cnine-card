@@ -26,10 +26,17 @@ pvp = equipmentPvp + garagePvp + titlePvp
 
 - 계정 캐릭터는 기존 아군 카드 5명의 `allies`, `characters`, 카드 도크와 진형 배열에 넣지 않는 보조 유닛이다.
 - 위치는 전열 왼쪽 고정이며 이동하지 않는다. 대기 모션과 총기 반동·총구 섬광·탄도 연출만 사용한다.
-- 배틀슈트 본체와 무기는 별도 스프라이트 계층이다. 배틀슈트 교체는 본체 외형을, 기존 `WEAPON` 장착 교체는 총기 외형을 바꾼다.
+- 승인된 배틀슈트 3종 × 총기 4종은 정확한 DB 무기 래스터를 손·팔 가림과 함께 합성한 4프레임 authored atlas를 사용한다. 배틀슈트 교체는 전신 외형을, 기존 `WEAPON` 장착 교체는 atlas의 총기 외형과 자세를 함께 바꾼다.
+- 승인 조합 atlas가 로드되지 않거나 아직 등록되지 않은 외형은 정지 배틀슈트 본체와 명시적인 투명 무기 컷아웃의 별도 스프라이트 계층으로 복구한다. 사각형 장비 카드 이미지는 이 복구 경로에서도 사용하지 않는다.
 - 아군의 서버 `TURN` 또는 `SKILL` 재생 직후 보조 사격을 동기화한다. 계정 유닛은 HP, 피격 대상, 독립 피해 이벤트를 갖지 않는다.
 - 승인된 총기 코드 4종은 투명 전투 컷아웃에 매핑한다. 그 외 무기는 명시적인 `battleSprite` 또는 `appearanceUrl`이 있을 때만 표시하며, 사각형 DB 카드 이미지는 전투 스프라이트로 사용하지 않는다.
-- 단일 자산 기준은 `assets/ui/project-v/account-battle-suits/manifest-v1.json`이다.
+- animated 자산의 단일 기준은 `assets/ui/project-v/account-battle-suits/manifest-v2.json`이다. `manifest-v1.json`은 정지 컷아웃 호환 기준으로만 유지한다.
+
+## 사격음 검수 계약
+
+- 신규 총기 사운드는 실제 녹음·폴리 기반 원음만 사용하고, action/notice·ballistic impact·acoustic tail의 3계층으로 분리한다.
+- strongest impact는 authored `fire` 프레임 콜백의 ±20ms 이내에 맞춘다. 원음 URL, 라이선스, 자산 ID, 해시, 파형 측정값과 런타임 가공 방식을 프리뷰 매니페스트에 남긴다.
+- 승인 전 사격음은 `preview/project-v-v3/`의 독립 QC 화면에서만 재생한다. 운영 자동전투의 사운드 믹서에는 사용자 연결 승인 전까지 추가하지 않는다.
 
 ## API 계약
 
