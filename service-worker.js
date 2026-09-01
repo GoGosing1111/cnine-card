@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime-1948-clan-public-launch';
+const SHELL_CACHE='soop-card-shell-v1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime-1948-clan-public-launch-1949-zenith-hina-yoning-sd';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';

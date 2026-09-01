@@ -16,7 +16,7 @@ const index=read('index.html');
 
 for(const token of [
   'css/battle-v3-live.css?v=1930-mobile-context-recovery',
-  'js/project-v-battle-art-adapter-v1.js?v=3.5.0-dimmus',
+  'js/project-v-battle-art-adapter-v1.js?v=3.6.0-hina-yoning',
   'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
   'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
   'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
@@ -37,7 +37,8 @@ assert.match(engine,/type==='KO'/);
 assert.match(engine,/character\.battleActive!==false/);
 assert.match(engine,/\{id:'ENEMY-05'/);
 assert.match(engine,/return key&&id\.endsWith\(`:\$\{key\}`\)/);
-assert.ok(index.includes('js/app.js?v=1941-superstar-pack-early-access'));
+assert.ok(index.includes('js/app.js?v=1941-superstar-pack-early-access-1945-yoning-1946-clan-release-runtime-1948-clan-public-launch-1949-zenith-hina-yoning-sd'));
+assert.ok(index.includes('js/responsive-battle-sprites-v1815.js?v=1949-zenith-hina-yoning-sd'));
 assert.ok(index.includes('js/responsive-superstar-battle-sprites-v1896.js?v=1922-superstar-haaland-sd'));
 assert.ok(index.includes('js/tower-v1038.js?v=1761-project-v-v3-live'));
 

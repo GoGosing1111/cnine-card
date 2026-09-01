@@ -35,13 +35,15 @@ const liveRoster=[
   ['CN-0505936A0CBB4E59','남수댕','구수댕','assets/cards/남수댕/031.webp'],
   ['CN-A5A786E91B314805','나무늘봉순','봉순','assets/cards/bongson2.jpg'],
   ['CN-BA6BDEC789144D00','오조은','오조은','assets/cards/1315415134.png'],
-  ['CN-25F931CE393D474E','디임','딤우스','assets/cards/976467971.jpg']
+  ['CN-25F931CE393D474E','디임','딤우스','assets/cards/976467971.jpg'],
+  ['CN-B75BE0DC1AF749EB','히나','히나','assets/cards/1231314121331.jpg'],
+  ['CN-FC5B6212B541498C','요닝','요닝','assets/cards/97974613147.jpg']
 ];
 
 assert.equal(manifest.schemaVersion,2,'ZENITH manifest schemaVersion은 2여야 합니다.');
 assert.equal(manifest.scope,'BATTLE_ENGINE_ONLY','ZENITH SD는 전투엔진 전용이어야 합니다.');
 assert.equal(manifest.rarity,'ZENITH');
-assert.equal(manifest.rosterSnapshot?.expectedCount,25);
+assert.equal(manifest.rosterSnapshot?.expectedCount,27);
 assert.equal(manifest.rosterSnapshot?.identityKey,'cardId');
 assert.equal(manifest.assetContract?.format,'PNG');
 assert.equal(manifest.assetContract?.canvasMode,'RGBA_ALPHA_0');
@@ -55,13 +57,13 @@ assert.equal(manifest.routingContract?.neverFallbackSourceArtInBattle,true);
 assert(manifest.routingContract?.prohibitedConsumers?.includes('DEX'));
 assert(manifest.routingContract?.prohibitedConsumers?.includes('DECK'));
 assert.equal(manifest.visualApprovalRecord?.status,'APPROVED');
-assert.equal(manifest.visualApprovalRecord?.approvedCount,25);
+assert.equal(manifest.visualApprovalRecord?.approvedCount,27);
 assert.equal(manifest.visualApprovalRecord?.source,'USER_FINAL_APPROVAL');
 
 assert.deepEqual(
   manifest.characters.map(entry=>[entry.cardId,entry.member,entry.title,entry.sourceArt]),
   liveRoster,
-  'manifest가 잠근 운영 ZENITH 25명과 일치하지 않습니다.'
+  'manifest가 잠근 운영 ZENITH 27명과 일치하지 않습니다.'
 );
 assert(!manifest.characters.some(entry=>entry.cardId==='CN-0AC1F17733A24BEB'),'비활성 다크도도희가 포함되면 안 됩니다.');
 
@@ -331,13 +333,15 @@ for(const file of productionFiles){
 const previewHtml=await readFile(new URL('preview/project-v-zenith-sd-v1/index.html',rootUrl),'utf8');
 const previewJs=await readFile(new URL('preview/project-v-zenith-sd-v1/zenith-sd-battle.js',rootUrl),'utf8');
 const responsiveBattleMap=await readFile(new URL('js/responsive-battle-sprites-v1815.js',rootUrl),'utf8');
-assert.match(previewHtml,/v=7-dimmus/,'프리뷰 cache key가 전체 로스터 검수 버전이 아닙니다.');
-assert.match(previewHtml,/TECHNICAL PASS 25 \/ 25 · VISUAL APPROVED/);
+assert.match(previewHtml,/v=8-hina-yoning/,'프리뷰 cache key가 전체 로스터 검수 버전이 아닙니다.');
+assert.match(previewHtml,/TECHNICAL PASS 27 \/ 27 · VISUAL APPROVED/);
 assert.match(responsiveBattleMap,/zenith-cn-25f931ce393d474e-sd-v1\.png":"\/assets\/responsive\/project-v\/zenith\/zenith-cn-25f931ce393d474e-sd-v1-768\.webp/,'딤우스 SD 반응형 전투 매핑이 누락됐습니다.');
+assert.match(responsiveBattleMap,/zenith-cn-b75be0dc1af749eb-sd-v1\.png":"\/assets\/responsive\/project-v\/zenith\/zenith-cn-b75be0dc1af749eb-sd-v1-768\.webp/,'히나 SD 반응형 전투 매핑이 누락됐습니다.');
+assert.match(responsiveBattleMap,/zenith-cn-fc5b6212b541498c-sd-v1\.png":"\/assets\/responsive\/project-v\/zenith\/zenith-cn-fc5b6212b541498c-sd-v1-768\.webp/,'요닝 SD 반응형 전투 매핑이 누락됐습니다.');
 assert.match(previewJs,/fetch\(MANIFEST_URL,\{cache:'no-store'\}\)/,'manifest를 동적으로 불러오지 않습니다.');
 assert.match(previewJs,/\?sha=\$\{actor\.sha256\.slice\(0,16\)\}/,'스프라이트 cache key가 콘텐츠 해시 기반이 아닙니다.');
 assert.match(previewJs,/for\(const format of \['avif','webp'\]\)/,'프리뷰가 AVIF/WebP 후보를 우선하지 않습니다.');
 assert.match(previewJs,/preferred\.push\(actor\.battleSprite\)/,'PNG master fallback이 없습니다.');
 assert.doesNotMatch(previewJs,/const roster=\[/,'프리뷰에 roster를 하드코딩하면 안 됩니다.');
 
-console.log('project-v ZENITH SD assets v1: 25/25 TECHNICAL_PASS + VISUAL_APPROVED, battle-only contract OK');
+console.log('project-v ZENITH SD assets v1: 27/27 TECHNICAL_PASS + VISUAL_APPROVED, battle-only contract OK');

@@ -724,7 +724,7 @@ const FEATURE_RESOURCE_MANIFEST={
     styles:['css/battle-v2-live.css?v=1727-offscreen-webgl-cleanup','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
     scripts:[
       'js/battle-v2-live.js?v=3.2.0-battle-sprite',
-      'js/project-v-battle-art-adapter-v1.js?v=3.5.0-dimmus',
+      'js/project-v-battle-art-adapter-v1.js?v=3.6.0-hina-yoning',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.2.0-gold-roger',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
