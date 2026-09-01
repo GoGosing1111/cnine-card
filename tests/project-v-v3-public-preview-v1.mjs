@@ -19,11 +19,21 @@ for (const file of [
 
 const html = read('index.html');
 const client = read('project-v-client.js');
+const baseCss = read('project-v-client.css');
 const bundle = read('project-v-pixi-battle.bundle.js');
 
 assert.match(html, /project-v-command-studio-bg-v2\.png/);
 assert.doesNotMatch(html, /project-v-lobby-studio-v1|battle-art-adapter|tier-battle-art-adapter|unassigned-battle-fallback|monster-battle-art-adapter/);
 assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=81-suit23-user-reference/);
+assert.match(baseCss, /\.pv-client\{/);
+assert.match(baseCss, /\.pv-environment\{/);
+assert.match(baseCss, /\.pv-topbar\{/);
+assert.doesNotMatch(baseCss, /(?:^|})\.client\{|(?:^|})\.studio-bg\{|(?:^|})\.top-hud\{/,
+  'V3 base stylesheet must not regress to the incompatible legacy DOM contract');
+assert.match(html, /params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
+  'shared QC links must open the battle module instead of leaving the unstyled lobby background visible');
+assert.match(html, /querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
+  'shared QC links must activate the real battle-module click path');
 
 for (const [mode, asset] of Object.entries({
   HUNT: 'v3-nightmare-forest-battlefield-v1.png',

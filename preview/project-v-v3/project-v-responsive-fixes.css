@@ -1,1 +1,29 @@
+.pv-mobile-events{display:none}
+.pv-pack-grid button{grid-template-rows:minmax(0,1fr) auto auto auto;min-height:0;overflow:hidden}
+
+@media(max-width:760px){
+  .pv-mobile-events{
+    position:absolute;
+    z-index:8;
+    left:18px;
+    right:18px;
+    top:78px;
+    display:flex;
+    gap:5px;
+  }
+
+  .pv-mobile-events button{
+    height:28px;
+    flex:1;
+    border:1px solid rgba(104,218,246,.2);
+    color:#8ea6b8;
+    background:rgba(7,14,22,.78);
+    font-size:8px;
+  }
+
+  .pv-mobile-events button:last-child{
+    color:#ffd07b;
+    border-color:rgba(255,202,105,.25);
+  }
+}
 @media (prefers-reduced-motion:reduce){.pv-pixi-loading i{animation:none}.pv-module-layer{transition:none}}

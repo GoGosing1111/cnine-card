@@ -272,5 +272,12 @@
   </main>
   <script src="project-v-firearm-qc-audio.js?v=5-cancel-safe-auto-fire"></script>
   <script src="project-v-client.js?v=60-suit23-user-reference"></script>
+  <script>
+    (() => {
+      const params = new URLSearchParams(location.search);
+      if (!params.has('qc') && !params.has('suit23') && params.get('view') !== 'battle') return;
+      document.querySelector('[data-open-module="battle"]')?.click();
+    })();
+  </script>
 </body>
 </html>

@@ -1,1 +1,93 @@
-/* Card-frame geometry is rendered by PixiJS in the V3 combat preview. */
+/* Card-specific apertures and transparent grade frames. */
+.pv-card-art{
+  inset:2.7%;
+  width:94.6%;
+  height:94.6%;
+}
+
+.pv-special-frame{object-fit:contain}
+
+.pv-faker .pv-card-art{
+  inset:17.3% 17.1% 17.6%;
+  width:65.8%;
+  height:65.1%;
+  object-position:center 24%;
+}
+
+.pv-faker-t1-logo{
+  position:absolute;
+  z-index:9;
+  top:11.2%;
+  left:39%;
+  width:22%;
+  height:7.6%;
+  object-fit:contain;
+  pointer-events:none;
+  filter:brightness(1.12) drop-shadow(0 0 3px rgba(255,255,255,.78)) drop-shadow(0 0 8px rgba(226,1,45,.85));
+}
+
+.pv-faker-wordmark{
+  position:absolute;
+  z-index:9;
+  left:23%;
+  bottom:7.2%;
+  width:54%;
+  height:8.8%;
+  object-fit:contain;
+  pointer-events:none;
+  filter:brightness(1.18) drop-shadow(0 0 1px #fff) drop-shadow(0 0 7px rgba(226,1,45,.8));
+}
+
+.pv-faker>.pv-card-name{display:none}
+
+.pv-zenith .pv-card-art{
+  inset:6.2% 7.1% 7.2%;
+  width:85.8%;
+  height:86.6%;
+}
+
+.pv-prestige:before,
+.pv-fur:before,
+.pv-limited:before{
+  content:"";
+  position:absolute;
+  z-index:5;
+  inset:0;
+  padding:5px;
+  pointer-events:none;
+  background:conic-gradient(from 40deg,var(--frame-a),var(--frame-b) 20%,var(--frame-c) 43%,var(--frame-a) 61%,var(--frame-b) 82%,var(--frame-a));
+  clip-path:polygon(5% 0,95% 0,100% 3.4%,100% 96.6%,95% 100%,5% 100%,0 96.6%,0 3.4%);
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  filter:drop-shadow(0 0 7px var(--frame-glow));
+}
+
+.pv-prestige{--frame-a:#fff2b2;--frame-b:#7c63e9;--frame-c:#45cdf1;--frame-glow:rgba(255,209,95,.72)}
+.pv-fur{--frame-a:#fff2a8;--frame-b:#ff795f;--frame-c:#8ae9ff;--frame-glow:rgba(255,153,93,.66)}
+.pv-limited{--frame-a:#ffe4a0;--frame-b:#be5ccf;--frame-c:#64dcff;--frame-glow:rgba(218,109,229,.68)}
+
+.pv-prestige .pv-card-art,
+.pv-fur .pv-card-art,
+.pv-limited .pv-card-art{
+  border:1px solid color-mix(in srgb,var(--frame-a) 72%,white);
+  box-shadow:inset 0 0 34px rgba(4,8,15,.15);
+}
+
+.pv-prestige .pv-card-name,
+.pv-fur .pv-card-name,
+.pv-limited .pv-card-name{
+  left:2.7%;
+  right:2.7%;
+  bottom:2.7%;
+  height:17%;
+  display:flex;
+  align-items:flex-end;
+  justify-content:center;
+  padding:0 8% 4%;
+  background:linear-gradient(transparent,rgba(3,6,12,.9));
+}
+
+.pv-card-etched{
+  inset:1%;
+  border-width:1px;
+  box-shadow:inset 0 0 0 1px rgba(74,29,67,.8),inset 0 0 20px rgba(197,82,155,.32);
+}
