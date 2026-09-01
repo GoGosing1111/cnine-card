@@ -4596,7 +4596,10 @@ async function handleRequest(context){
 
     if(path==='health'){
       const databaseInitialized=await initialized(env);
-      if(databaseInitialized)await Promise.all([ensurePrisonFoundation(env),ensureApocalypseEnergyFoundation(env)]);
+      if(databaseInitialized){
+        await ensurePrisonFoundation(env);
+        await ensureApocalypseEnergyFoundation(env);
+      }
       return json({ok:true,version:'2.8.6',database:true,initialized:databaseInitialized,prisonSchema:true,apocalypseEnergySchema:true});
     }
 
