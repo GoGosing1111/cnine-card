@@ -4,7 +4,7 @@ import { normalizeNightmareSettings,pveDifficultyRuntime } from '../functions/_p
 import { simulateBattleV2Preview } from '../functions/_battle_v2_preview.js';
 
 const defaults=normalizeNightmareSettings();
-assert.deepEqual(defaults,{enabled:true,hpPercent:200,attackPercent:160,defensePercent:150,speedPercent:120,rewardPercent:250,bossUltimateUnlocked:true,bossUltimateCapPercent:120});
+assert.deepEqual(defaults,{enabled:true,hpPercent:200,attackPercent:160,defensePercent:150,speedPercent:120,rewardPercent:250,bossUltimateUnlocked:true,bossUltimateCapPercent:120,bossProfiles:{}});
 
 const settings={nightmare:defaults};
 const normal=pveDifficultyRuntime(settings,{id:1,pveTab:'NORMAL',battlePower:100000,rewardCoin:1000});

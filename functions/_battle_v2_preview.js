@@ -602,6 +602,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   let actionCount = 0;
   // V1813: 몬스터 강제 행동까지 남은 플레이어 행동 수를 센다.
   let playerStreak = 0;
+  // APOCALYPSE monsters can own a real multi-attack sequence. The repeat is
+  // resolved as additional authoritative turns so shields, counters, KO and
+  // the V3 timeline all observe the same outcome.
+  let repeatMonsterId = '';
+  let repeatMonsterActions = 0;
   const escortMode=Boolean(escortObjective&&typeof escortObjective==='object');
   const escortTarget={
     id:String(escortObjective?.id||'ESCORT_OBJECTIVE'),
@@ -882,7 +887,20 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     //   "플레이어가 N번 움직이면 몬스터가 한 번" 을 보장한다.
     //   ⚠ 몬스터 행동이 늘어난 만큼 1회 피해는 낮춰 뒀다 (buildMonsterFighter 참고).
     let actor = ready[0];
-    if (forcedMonsterEvery > 0) {
+    let repeatedMonsterAction = false;
+    if (repeatMonsterActions > 0) {
+      const repeating = alive(b).find(card => card.isMonster && String(card.id) === repeatMonsterId);
+      if (repeating) {
+        actor = repeating;
+        actor.gauge = 100;
+        repeatMonsterActions -= 1;
+        repeatedMonsterAction = true;
+      } else {
+        repeatMonsterId = '';
+        repeatMonsterActions = 0;
+      }
+    }
+    if (!repeatedMonsterAction && forcedMonsterEvery > 0) {
       if (actor.side === 'A') {
         playerStreak += 1;
         if (playerStreak >= forcedMonsterEvery) {
@@ -893,7 +911,15 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
           }
         }
       }
-      if (actor.isMonster) playerStreak = 0;
+    }
+    if (actor.isMonster) {
+      playerStreak = 0;
+      if (!repeatedMonsterAction) {
+        const attackCount = Math.max(1, Math.min(5, Math.floor(Number(actor.attackCount || 1))));
+        repeatMonsterId = String(actor.id);
+        repeatMonsterActions = attackCount - 1;
+        if (repeatMonsterActions > 0) pushEvent(timeline, clock, 'MONSTER_MULTI_ATTACK_READY', { actorId: actor.id, attackCount, label: `몬스터 ${attackCount}연속 공격` });
+      }
     }
     actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
@@ -1160,10 +1186,13 @@ export function teamSummary(cards = []) {
 export function buildMonsterFighter(monster = {}) {
   const power = Math.max(1, Number(monster.battle_power ?? monster.battlePower ?? monster.power ?? 1));
   const isBoss = Number(monster.is_boss ?? monster.isBoss ?? 0) === 1 || monster.isBoss === true;
-  const difficultyHpPercent = clamp(Number(monster.pve_hp_percent ?? 100), 100, 1000);
-  const difficultyAttackPercent = clamp(Number(monster.pve_attack_percent ?? 100), 100, 1000);
-  const difficultyDefensePercent = clamp(Number(monster.pve_defense_percent ?? 100), 100, 1000);
-  const difficultySpeedPercent = clamp(Number(monster.pve_speed_percent ?? 100), 100, 300);
+  const difficultyHpPercent = clamp(Number(monster.pve_hp_percent ?? 100), 100, 1200);
+  const difficultyAttackPercent = clamp(Number(monster.pve_attack_percent ?? 100), 100, 1200);
+  const difficultyDefensePercent = clamp(Number(monster.pve_defense_percent ?? 100), 100, 1200);
+  const difficultySpeedPercent = clamp(Number(monster.pve_speed_percent ?? 100), 100, 500);
+  const difficultyShieldPercent = clamp(Number(monster.pve_shield_percent ?? 0), 0, 300);
+  const attackCount = Math.max(1, Math.min(5, Math.floor(Number(monster.pve_attack_count ?? 1))));
+  const forcedActionEvery = Math.max(0, Math.min(20, Math.floor(Number(monster.pve_forced_action_every ?? 0))));
   // V1319: 몬스터의 위협성은 유지하되 방어 누적으로 전투가 과도하게 길어지지 않도록 재조정한다.
   // DB 전투력은 그대로 두고 V2 환산 단계의 PVE 전용 배수만 변경한다.
   const hpBuffPercent = isBoss ? 10 : 5;
@@ -1184,6 +1213,7 @@ export function buildMonsterFighter(monster = {}) {
   const attack = Math.max(20, Math.round(baseAttack * (1 + attackBuffPercent / 100) * difficultyAttackPercent / 100));
   const defense = Math.max(1, Math.round(baseDefense * (1 + defenseBuffPercent / 100) * difficultyDefensePercent / 100));
   const speed = Math.max(55, Math.round((isBoss ? 104 : 92) * difficultySpeedPercent / 100));
+  const startingShield = Math.max(0, Math.round(maxHp * difficultyShieldPercent / 100));
   return {
     id: `B:0:MONSTER:${String(monster.id || 0)}`,
     cardId: `MONSTER:${String(monster.id || 0)}`,
@@ -1193,10 +1223,10 @@ export function buildMonsterFighter(monster = {}) {
     focusX: 50, focusY: 50, breakthroughLevel: 0,
     basePower: Math.round(power), equipmentShare: 0, power: Math.round(power),
     type: 'NONE', typeLabel: isBoss ? '보스' : '몬스터', uniqueAbility: null,
-    maxHp, hp: maxHp, attack, defense, speed, shield: 0, maxShield: 0, gauge: isBoss ? 12 : 4,
-    pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent, difficultyHpPercent, difficultyAttackPercent, difficultyDefensePercent, difficultySpeedPercent },
+    maxHp, hp: maxHp, attack, defense, speed, shield: startingShield, maxShield: startingShield, gauge: isBoss ? 12 : 4,
+    pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent, difficultyHpPercent, difficultyAttackPercent, difficultyDefensePercent, difficultySpeedPercent, difficultyShieldPercent, attackCount, forcedActionEvery },
     alive: true, emergencyUsed: false, survivalUsed: false, frontlineAnnounced: false,
-    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss
+    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss, attackCount, forcedActionEvery
   };
 }
 
@@ -1214,6 +1244,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
   const withBonus = distributeEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
   const teamB = [buildMonsterFighter(monster)];
+  const forcedMonsterEvery = escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
   const simulated = simulateBattleV2Preview({
     teamA, teamB, magicA:magicCards, seed, maxActions: 2000, maxDuration: 4.0,
     // V1813: 플레이어 15회마다 몬스터 1회를 보장한다. PVP 는 끈 채로 둔다.
@@ -1224,7 +1255,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     // V1902: 보스는 8행동마다(기존 15) 한 번 끼어든다. 한 판에서 보스가 움직이는
     //   횟수가 약 두 배가 되므로 "보스가 샌드백" 느낌이 사라진다.
     //   일반 몬스터는 12 로만 살짝 올린다.
-    forcedMonsterEvery: escortObjective ? 4 : (teamB[0]?.isBoss ? 8 : 12),
+    forcedMonsterEvery,
     openingPlayerUltimateDamage: ultimateDamage,
     openingBossUltimatePercent: bossUltimatePercent,
     bossUltimateCapPercent,
@@ -1239,7 +1270,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF', forcedMonsterEvery: escortObjective ? 4 : (teamB[0]?.isBoss ? 8 : 12), monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }

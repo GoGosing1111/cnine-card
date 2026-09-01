@@ -286,7 +286,7 @@ async function adminSnapshot(env){
     env.DB.prepare("SELECT id,name,slot,subtype,rarity,replace(image_url,char(92),'/') image_url FROM character_equipment_items WHERE is_active=1 AND is_public=1 ORDER BY slot,sort_order,name,id").all()
   ]);
   const byPool=new Map();for(const row of entries.results||[]){if(!byPool.has(Number(row.pool_id)))byPool.set(Number(row.pool_id),[]);byPool.get(Number(row.pool_id)).push({...row,conditions:parse(row.conditions_json,{})})}
-  return {pools:(pools.results||[]).map(pool=>({...pool,entries:byPool.get(Number(pool.id))||[]})),bindings:bindings.results||[],inventoryItems:items.results||[],vehicles:vehicles.results||[],dropCards:dropCards.results||[],equipmentItems:equipmentItems.results||[],previewEquipment:previewEquipment||null,recentLedger:ledger.results||[],rewardTypes:[...REWARD_TYPES],rollModes:[...ROLL_MODES],sourceTypes:['PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVP','TOWER','RAID','RIFT','CAPTAIN','SIEGE','IDLE_DUNGEON','SCRAPYARD'],triggerTypes:['WIN','FIRST_CLEAR','CLEAR','WAVE_CLEAR','BOSS_CLEAR','SETTLEMENT']};
+  return {pools:(pools.results||[]).map(pool=>({...pool,entries:byPool.get(Number(pool.id))||[]})),bindings:bindings.results||[],inventoryItems:items.results||[],vehicles:vehicles.results||[],dropCards:dropCards.results||[],equipmentItems:equipmentItems.results||[],previewEquipment:previewEquipment||null,recentLedger:ledger.results||[],rewardTypes:[...REWARD_TYPES],rollModes:[...ROLL_MODES],sourceTypes:['PVE','PVE_AUTO','PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO','PVE_APOCALYPSE','PVE_APOCALYPSE_AUTO','PVP','TOWER','RAID','RIFT','CAPTAIN','SIEGE','IDLE_DUNGEON','SCRAPYARD'],triggerTypes:['WIN','FIRST_CLEAR','CLEAR','WAVE_CLEAR','BOSS_CLEAR','SETTLEMENT']};
 }
 
 export async function handleDropPool({path,request,env,deps}){
@@ -334,6 +334,18 @@ export async function handleDropPool({path,request,env,deps}){
     const statements=[env.DB.prepare(`DELETE FROM ${BINDING_TABLE} WHERE source_type IN ('PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO')`)];
     for(const mapping of mappings.filter(row=>row.poolId>0))for(const sourceType of ['PVE_NIGHTMARE','PVE_NIGHTMARE_AUTO'])statements.push(env.DB.prepare(`INSERT INTO ${BINDING_TABLE}(source_type,source_id,trigger_type,pool_id,priority,is_enabled) VALUES(?,?,'WIN',?,100,1)`).bind(sourceType,String(mapping.monsterId),mapping.poolId));
     await env.DB.batch(statements);invalidateUnifiedDropPoolCache();if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'NIGHTMARE_DROP_BINDINGS_SAVE','DROP_BINDING','NIGHTMARE',null,{bosses:mappings.filter(row=>row.poolId>0).length});return deps.json({ok:true,snapshot:await adminSnapshot(env)});
+  }
+  if(action==='SAVE_APOCALYPSE_BINDINGS'){
+    const mappings=(Array.isArray(body.mappings)?body.mappings:[]).slice(0,300).map(raw=>({monsterId:int(raw.monsterId,1),poolId:int(raw.poolId,0)}));
+    const ids=[...new Set(mappings.map(row=>row.monsterId))];
+    if(ids.length){
+      const marks=ids.map(()=>'?').join(','),rows=await env.DB.prepare(`SELECT id FROM battle_monsters WHERE id IN (${marks}) AND is_active=1 AND UPPER(COALESCE(pve_tab,''))='APOCALYPSE'`).bind(...ids).all(),valid=new Set((rows.results||[]).map(row=>Number(row.id)));
+      if(ids.some(id=>!valid.has(id)))return deps.json({error:'아포칼립스 몬스터가 아닌 대상이 드랍 설정에 포함되어 있습니다.'},400);
+    }
+    for(const mapping of mappings)if(mapping.poolId&&!await env.DB.prepare(`SELECT id FROM ${POOL_TABLE} WHERE id=?`).bind(mapping.poolId).first())return deps.json({error:`드랍풀 #${mapping.poolId}을 찾을 수 없습니다.`},400);
+    const statements=[env.DB.prepare(`DELETE FROM ${BINDING_TABLE} WHERE source_type IN ('PVE_APOCALYPSE','PVE_APOCALYPSE_AUTO')`)];
+    for(const mapping of mappings.filter(row=>row.poolId>0))for(const sourceType of ['PVE_APOCALYPSE','PVE_APOCALYPSE_AUTO'])statements.push(env.DB.prepare(`INSERT INTO ${BINDING_TABLE}(source_type,source_id,trigger_type,pool_id,priority,is_enabled) VALUES(?,?,'WIN',?,100,1)`).bind(sourceType,String(mapping.monsterId),mapping.poolId));
+    await env.DB.batch(statements);invalidateUnifiedDropPoolCache();if(deps.writeAdminLog)await deps.writeAdminLog(env,admin,'APOCALYPSE_DROP_BINDINGS_SAVE','DROP_BINDING','APOCALYPSE',null,{monsters:mappings.filter(row=>row.poolId>0).length});return deps.json({ok:true,snapshot:await adminSnapshot(env)});
   }
   if(action==='SIMULATE'){
     const poolId=int(body.poolId,1),iterations=int(body.iterations,100,100000,10000),pool=await env.DB.prepare(`SELECT * FROM ${POOL_TABLE} WHERE id=?`).bind(poolId).first();if(!pool)return deps.json({error:'시뮬레이션할 드랍풀을 찾을 수 없습니다.'},404);const rows=await env.DB.prepare(`SELECT * FROM ${ENTRY_TABLE} WHERE pool_id=? AND is_enabled=1 ORDER BY sort_order,id`).bind(poolId).all(),counts=new Map(),random=Math.random;let empty=0,totalRewards=0;for(let i=0;i<iterations;i++){const rolled=rollPool(pool,rows.results||[],body.context||{},random);if(!rolled.length)empty++;for(const reward of rolled){const key=String(reward.entryId),prior=counts.get(key)||{entryId:reward.entryId,rewardName:reward.rewardName,rewardType:reward.rewardType,rewardRef:reward.rewardRef,hits:0,quantity:0};prior.hits++;prior.quantity+=reward.quantity;counts.set(key,prior);totalRewards++}}return deps.json({ok:true,iterations,empty,emptyRate:Number((empty/iterations*100).toFixed(4)),averageRewards:Number((totalRewards/iterations).toFixed(6)),results:[...counts.values()].map(row=>({...row,hitRate:Number((row.hits/iterations*100).toFixed(4)),averageQuantity:Number((row.quantity/iterations).toFixed(6))}))});

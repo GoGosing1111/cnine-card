@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PVE Apocalypse v1952 QA</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <link rel="stylesheet" href="../../css/pve-apocalypse-v1952.css">
+  <link rel="stylesheet" href="../../admin/apocalypse-admin-v1952.css">
+  <style>
+    body{margin:0;padding:28px;background:#06090e;color:#eef4f6;font-family:Inter,"Noto Sans KR",sans-serif}
+    .qa-shell{display:grid;gap:34px;width:min(1220px,100%);margin:auto}.qa-label{margin:0 0 10px;color:#ff8968;font-size:11px;font-weight:900;letter-spacing:.18em}
+    .qa-shell .battle-cover{margin-bottom:18px}.qa-shell .pve-target-spotlight{position:relative;overflow:hidden}.qa-shell .pve-target-copy{position:relative;z-index:2}.qa-shell .pve-target-image.placeholder{display:grid;place-items:center;font-size:80px}.qa-shell .battle-monsters{display:block}.qa-shell .pve-monster-grid{margin-top:16px}.qa-shell .monster-choice{min-height:138px}
+    .qa-admin{padding:18px;border:1px solid #222b34;border-radius:16px;background:#0b1016}.qa-admin .apocalypseAdminPanel{padding:18px}.qa-admin .apocalypseMonsterStats{grid-template-columns:repeat(5,minmax(92px,1fr))}
+    @media(max-width:720px){body{padding:12px}.qa-admin{padding:8px}.qa-admin .apocalypseAdminPanel{padding:12px}.qa-admin .apocalypseMonsterStats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  </style>
+</head>
+<body>
+  <main class="qa-shell">
+    <section>
+      <p class="qa-label">PLAYER UI · SAMPLE MONSTER</p>
+      <section class="battle-cover pve-hunt-cover">
+        <div><p class="eyebrow">SOOP PVE HUNT</p><h2>아포칼립스 토벌</h2><p>나이트메어 이후의 종말 난이도입니다.</p></div>
+        <div class="battle-cover-side"><div class="battle-energy-card apocalypse-energy" id="battleEnergyCard"><div><span id="battleEnergyLabel">☄ 아포칼립스 행동력</span><b id="battleEnergyCount">3 / 5</b></div><div class="battle-energy-track"><i id="battleEnergyFill" style="width:60%"></i></div><small id="battleEnergyTimer">30분 충전 · 다음 충전 18:42</small></div></div>
+      </section>
+      <section class="battle-panel pve-target-panel">
+        <div class="panel-title pve-panel-title"><div><p class="eyebrow">MONSTER HUNT ZONE</p><h2>몬스터 토벌</h2><small>CMS에서 등록한 아포칼립스 목표</small></div></div>
+        <div id="battleMonsters" class="battle-monsters"><div class="pve-monster-browser redesign apocalypse-browser">
+          <section class="pve-target-spotlight ready apocalypse-target"><div class="pve-target-image placeholder">👹</div><div class="pve-target-copy"><span class="pve-target-tag">아포칼립스</span><h3>종말의 감시자</h3><div class="pve-target-stats"><article><small>요구 전투력</small><b>2,344,000</b></article><article><small>승리 보상</small><b>◈ 40,000</b></article></div><div class="apocalypse-rule-board"><header><small>APOCALYPSE MONSTER RULES</small><b>종말 집행</b><span>전투 개막과 동시에 모든 출전 카드에 종말 피해를 가합니다.</span></header><div><article><small>시작 방어막</small><b>40% HP</b></article><article><small>행동 속도</small><b>160%</b></article><article><small>연속 공격</small><b>2회</b></article><article><small>강제 행동</small><b>4턴마다</b></article><article><small>스킬 피해</small><b>28%</b></article></div></div><div class="pve-v2-live-badge"><i></i><b>PROJECT V V3</b><small>실전 전투 규칙 적용</small></div><button class="btn battle-start pve-target-start">전투 시작</button></div></section>
+          <div class="pve-monster-tabs"><button>노말</button><button>하드</button><button>헬</button><button>나이트메어</button><button class="apocalypse-tab active">아포칼립스</button></div>
+          <div class="pve-monster-grid redesign"><button class="monster-choice redesign apocalypse-choice active"><div class="monster-placeholder">👹</div><span><small>아포칼립스</small><b>종말의 감시자</b><em>전투력 2,344,000</em><strong>보상 ◈ 40,000</strong></span></button></div>
+        </div></div>
+      </section>
+    </section>
+
+    <section>
+      <p class="qa-label">PLAYER UI · EMPTY CMS STATE</p>
+      <div class="pve-monster-browser redesign apocalypse-browser"><section class="pve-target-spotlight empty apocalypse-target"><div class="empty-recent apocalypse-empty"><b>아포칼립스 몬스터 준비 중</b><span>CMS에서 몬스터를 개별 추가하면 이곳에 표시됩니다.</span></div></section><div class="pve-monster-tabs"><button>노말</button><button>하드</button><button>헬</button><button>나이트메어</button><button class="apocalypse-tab active">아포칼립스</button></div><div class="pve-monster-grid redesign"><div class="empty-recent">CMS에서 아포칼립스 몬스터를 추가하세요.</div></div></div>
+    </section>
+
+    <section class="qa-admin">
+      <p class="qa-label">OWNER CMS · INDIVIDUAL MONSTER PROFILE</p>
+      <section class="panel apocalypseAdminPanel">
+        <header class="apocalypseAdminHead"><div class="apocalypseAdminSeal"><b>A</b></div><div><small>PVE APOCALYPSE PROTOCOL</small><h2>아포칼립스 상세 설정</h2><p>방어막, 전용 스킬, 연속 공격과 강제 행동 간격을 몬스터별로 관리합니다.</p></div><span class="apocalypseState ok">상세 설정 연결 완료</span></header>
+        <div class="apocalypseEnergyRule"><div><small>INDEPENDENT ACTION ENERGY</small><b>아포칼립스 행동력</b></div><strong>5</strong><span>최대 보유</span><i>＋1 / 30분</i><em>일반 PVE 행동력과 완전히 분리 · CMS 변경 불가</em></div>
+        <section class="apocalypseMonsterDetail"><div class="apocalypseDetailHead"><div><small>INDIVIDUAL MONSTER PROFILES</small><h3>아포칼립스 몬스터별 설정</h3><p>몬스터 관리에서 직접 추가한 대상만 표시됩니다.</p></div><button class="ghost">새로고침</button></div><div class="apocalypseMonsterRows"><article class="apocalypseMonsterRow"><header><i>A</i><span><small>MONSTER #952</small><b>종말의 감시자</b></span></header><div class="apocalypseMonsterStats"><label><span>기본 전투력</span><div><input value="1000000"></div></label><label><span>HP</span><div><input value="260"><em>%</em></div></label><label><span>공격</span><div><input value="220"><em>%</em></div></label><label><span>방어막</span><div><input value="40"><em>% HP</em></div></label><label><span>연속 공격</span><div><input value="2"><em>회</em></div></label></div><div class="apocalypseSkillBox"><label class="toggle"><input type="checkbox" checked><span>전용 개막 스킬 사용</span></label><label><span>스킬명</span><input value="종말 집행"></label><label class="description"><span>스킬 설명</span><input value="전투 개시 종말 피해"></label><label><span>피해</span><div><input value="28"><em>%</em></div></label><label class="drop"><span>전용 통합드랍</span><select><option>종말 보상 풀</option></select></label></div></article></div></section>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

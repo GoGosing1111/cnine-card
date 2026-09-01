@@ -13,7 +13,8 @@
     "test:workshop": "node --test tests/workshop-split-lineage-v1881.mjs tests/workshop-mystic-energy-v1931.test.mjs tests/equipment-bulk-synthesis-v1941.test.mjs",
     "test:clan": "node --test tests/clan-v3-v1820.mjs tests/clan-war-cms-v1943.test.mjs",
     "test:prison": "node --test tests/prison-system-v1950.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && node scripts/verify-production-release.mjs",
+    "test:apocalypse": "node --test tests/pve-apocalypse-v1952.test.mjs",
+    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:apocalypse && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {
