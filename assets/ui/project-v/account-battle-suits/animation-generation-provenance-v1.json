@@ -1,0 +1,62 @@
+{
+  "version": "v1",
+  "tool": "OpenAI built-in image generation tool",
+  "purpose": "PROJECT V V3 PVE-only account Battle Suit ready/fire/recoil/recover atlases",
+  "finalPromptSet": {
+    "weaponPoseProxy": "Create one 1536x1024 4x2 sprite atlas from the supplied female Battle Suit reference. Maintain identical camera, scale, anatomy, and suit design. Put one flat solid chroma-green shouldered long-gun proxy in both hands: top row rifle-length, bottom row marksman-or-sniper length; columns ready, fire, recoil, recover. Preserve both hands and forearms visibly in front of the proxy so it can be removed and an exact approved weapon raster inserted behind them. No walking, no text, UI, or grid, and no loose effect may cross a 384x512 cell boundary.",
+    "exactAllWeaponsComposite": "Never ask the image model to redraw Avalon M4A1, Infinity M200, Infinity AK, or Sovereign SKS. Remove the green proxy, retain the authored body, hands, and forearms, and deterministically place the exact approved database battle-sprite raster behind the hands. Mirror and rotate only to match the authored rifle axis, use one median width per four-frame weapon row, keep a four-pixel cell margin, and leave muzzle flash to the V3 runtime effect."
+  },
+  "generatedOriginals": [
+    {
+      "suitCode": "BATTLE_SUIT_01",
+      "weaponPoseProxy": "exec-a3458fa4-1743-4c13-aa90-56e824b24abc.png"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_02",
+      "weaponPoseProxy": "exec-08410524-9c3e-4023-8618-5c4b8c236eda.png"
+    },
+    {
+      "suitCode": "BATTLE_SUIT_03",
+      "weaponPoseProxy": "exec-a288ad4b-3d61-4841-8088-6d39ade32f64.png"
+    }
+  ],
+  "exactDatabaseWeaponSources": [
+    {
+      "equipmentCode": "EQ_1785427638137",
+      "name": "아발론 M4A1",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A"
+    },
+    {
+      "equipmentCode": "EQ_1785961300455",
+      "name": "인피니티 M200",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+      "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213"
+    },
+    {
+      "equipmentCode": "EQ_1785961232958",
+      "name": "인피니티 AK",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329"
+    },
+    {
+      "equipmentCode": "EQ_1786966923833",
+      "name": "소버린 SKS",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+      "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462"
+    }
+  ],
+  "rejectedGeneratedWeaponDrafts": [
+    "exec-bfcc9eec-8935-4cfc-a69b-3f299f078b06.png",
+    "exec-2f37365c-53aa-495a-bab6-1411469653e1.png",
+    "exec-90244530-307c-4400-923c-d5fb2e685772.png"
+  ],
+  "deterministicCompositeScript": "/scripts/compose-exact-battle-suit-weapons.cjs",
+  "runtimeContract": {
+    "scope": "PVE_ONLY",
+    "formation": "AUXILIARY_FRONT_LEFT",
+    "canonicalAllyCardCount": 5,
+    "movement": false,
+    "addsIndependentDamage": false
+  }
+}

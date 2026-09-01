@@ -121,3 +121,9 @@ assert.equal(payloads[0].characterBonus.equippedWeapon.image,'/square-card-art.p
 assert.equal(payloads[0].accountNickname,'테스터','PVE wrapper must carry the signed-in account name into the Pixi payload');
 
 console.log('Project V V3 PVE-only account Battle Suit unit contract: PASS');
+
+// Keep the release-gated `npm run test:battle-suit` command authoritative
+// without changing package.json: these imported suites cover the authored
+// 4x2 suit/DB-weapon atlases and their runtime fallback/mode behavior.
+await import('./project-v-battle-suit-animation-assets-v1955.test.mjs');
+await import('./project-v-battle-suit-animation-runtime-v1955.test.mjs');

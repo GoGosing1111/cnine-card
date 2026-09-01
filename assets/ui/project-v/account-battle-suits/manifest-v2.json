@@ -1,0 +1,203 @@
+{
+  "version": "v2",
+  "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1",
+  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v1.json",
+  "scope": "PVE_ONLY",
+  "battleSuitSlot": "BATTLE_SUIT",
+  "powerContract": {
+    "equipmentPveIncludesBattleSuit": false,
+    "battleSuitPveField": "battleSuitPve",
+    "pveTotalIncludesBattleSuit": true,
+    "pvpTotalIncludesBattleSuit": false,
+    "battleSuitPvpPower": 0
+  },
+  "renderContract": {
+    "formation": "AUXILIARY_FRONT_LEFT",
+    "canonicalAllyCardCount": 5,
+    "movement": false,
+    "attack": "COSMETIC_RANGED_SHOT",
+    "addsIndependentDamage": false,
+    "authoredCompositeForApprovedWeapons": true,
+    "fallbackBodyAndWeaponAreSeparate": true,
+    "approvedWeaponBinding": "equippedWeapon.code",
+    "loadPolicy": "EQUIPPED_SUIT_AND_WEAPON_PAIR_ONLY",
+    "fallback": "STATIC_BODY_PLUS_WEAPON"
+  },
+  "animationContract": {
+    "format": "PNG_RGBA_GRID",
+    "grid": {
+      "columns": 4,
+      "rows": 2
+    },
+    "frameSize": {
+      "width": 384,
+      "height": 512
+    },
+    "frameOrder": [
+      "ready",
+      "fire",
+      "recoil",
+      "recover"
+    ],
+    "durationsMs": {
+      "ready": 45,
+      "fire": 45,
+      "recoil": 70,
+      "recover": 125
+    },
+    "camera": "PROJECT_V_V3_ELEVATED_ISOMETRIC",
+    "pivot": "SOLE_CENTER",
+    "movement": false,
+    "approvedWeaponScalePolicy": "ROW_MEDIAN_CONSTANT_WIDTH",
+    "muzzleFlashSource": "RUNTIME_EFFECT_ONLY",
+    "placementTuning": "SUIT_WEAPON_PAIR_CONTENT_BOUNDS",
+    "muzzleBinding": "FIRE_FRAME_EXACT_WEAPON_TIP"
+  },
+  "suits": [
+    {
+      "code": "BATTLE_SUIT_01",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png",
+      "sha256": "94B9F7549027A9E24B06779E13DADCD9169E5B4399358584B26B2B4080498665",
+      "animationSheets": {
+        "m4a1M200": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-topdown-fire-atlas-v1.png",
+          "sha256": "353D85F04DB8A9B7FA5009C7FB0613AE0FDF2F86DFE01E03DD78C9CFEA5E7F5F",
+          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1785427638137"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1785961300455"
+            }
+          ]
+        },
+        "akSks": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-topdown-fire-atlas-v1.png",
+          "sha256": "1662FE29C55DE48ACF5A7CD509B0E0634D13966B45499C4B3416F1CA0D68C2D1",
+          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1785961232958"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1786966923833"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "code": "BATTLE_SUIT_02",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png",
+      "sha256": "D5E661B53FC0098106C1F2E9FEB002CCC8D0CB898103561A84EA61CD38689CB0",
+      "animationSheets": {
+        "m4a1M200": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-topdown-fire-atlas-v1.png",
+          "sha256": "C0B29A1F4C3903E2E9B7A05927BA5AAEAFF6F81981C325A26F2F8D73D5163426",
+          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1785427638137"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1785961300455"
+            }
+          ]
+        },
+        "akSks": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-topdown-fire-atlas-v1.png",
+          "sha256": "E7C1D1D0A8A63044D9D09E22859B84BD260CE1912AA9974E5A7445C48F458CA6",
+          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1785961232958"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1786966923833"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "code": "BATTLE_SUIT_03",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png",
+      "sha256": "33411D6FB94A44B409470E94CF90EDF1D96CE06803FC40C6D54E6431BFD99841",
+      "animationSheets": {
+        "m4a1M200": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-topdown-fire-atlas-v1.png",
+          "sha256": "C5C6D607361F5300214DD7489D1BE448A4DB3CAFC0F37AFA11F31DDA44FEA1FD",
+          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1785427638137"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1785961300455"
+            }
+          ]
+        },
+        "akSks": {
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-topdown-fire-atlas-v1.png",
+          "sha256": "A5D62A21423A6C15A6BC40FFF253050815186615C8B035143EC32AA5FD364EC8",
+          "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
+          "weaponRows": [
+            {
+              "row": 0,
+              "weaponCode": "EQ_1785961232958"
+            },
+            {
+              "row": 1,
+              "weaponCode": "EQ_1786966923833"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "weapons": [
+    {
+      "equipmentCode": "EQ_1785427638137",
+      "name": "아발론 M4A1",
+      "sourceImage": "/assets/new myth/20.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1785961232958",
+      "name": "인피니티 AK",
+      "sourceImage": "/assets/items/GUN1.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1785961300455",
+      "name": "인피니티 M200",
+      "sourceImage": "/assets/items/GUN2.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+      "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    },
+    {
+      "equipmentCode": "EQ_1786966923833",
+      "name": "소버린 SKS",
+      "sourceImage": "/assets/items/41515123.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+      "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "authoredCompositeSource": "EXACT_BATTLE_SPRITE_RASTER"
+    }
+  ]
+}

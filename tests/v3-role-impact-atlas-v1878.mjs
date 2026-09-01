@@ -85,8 +85,8 @@ for(const pattern of retired){
 assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=73-account-battle-suit-pve/);
-assert.match(index,/js\/app\.js\?v=1954-battle-suit-pve-only/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=74-battle-suit-exact-weapons/);
+assert.match(index,/js\/app\.js\?v=1955-battle-suit-exact-weapons/);
 assert.match(previewIndex,/project-v-client\.js\?v=54-advancement-awakening/);
 assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=54-advancement-awakening/);
 

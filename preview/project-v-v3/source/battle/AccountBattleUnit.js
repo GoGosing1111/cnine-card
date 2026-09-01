@@ -1,4 +1,4 @@
-import {Container, Graphics, Sprite, Text, Texture} from 'pixi.js';
+import {Container, Graphics, Rectangle, Sprite, Text, Texture} from 'pixi.js';
 import {gsap} from 'gsap';
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
@@ -20,9 +20,9 @@ function labelText(value){
 
 /**
  * PVE-only account avatar rendered beside, but never inside, the canonical
- * five-card formation. The body (Battle Suit) and weapon are intentionally
- * separate database-driven attachments. This object has no HP, target or
- * damage API; its ranged shot is presentation-only.
+ * five-card formation. Approved suit/weapon pairs use one authored composite
+ * atlas; the database-driven body and weapon remain the static fallback. This
+ * object has no HP, target or damage API; its ranged shot is presentation-only.
  */
 export class AccountBattleUnit{
   constructor({effectLayer=null}={}){
@@ -30,6 +30,11 @@ export class AccountBattleUnit{
     this.active=false;
     this.bodySource='';
     this.weaponSource='';
+    this.authoredSheetSource='';
+    this.authoredProfile=null;
+    this.authoredFrames=null;
+    this.authoredSubtextures=[];
+    this.authoredFrame='';
     this.shotCount=0;
     this.idleTimeline=null;
     this.fireTimeline=null;
@@ -92,7 +97,111 @@ export class AccountBattleUnit{
     return this;
   }
 
+  hasAuthoredAnimation(){
+    return Boolean(this.authoredProfile&&this.authoredFrames&&this.authoredFrames.ready);
+  }
+
+  releaseAuthoredAnimation(){
+    const frames=this.authoredSubtextures;
+    if(frames.includes(this.bodySprite.texture))this.bodySprite.texture=Texture.EMPTY;
+    frames.forEach(texture=>{
+      if(texture&&texture!==Texture.EMPTY&&!texture.destroyed)texture.destroy(false);
+    });
+    this.authoredSheetSource='';
+    this.authoredProfile=null;
+    this.authoredFrames=null;
+    this.authoredSubtextures=[];
+    this.authoredFrame='';
+  }
+
+  setAuthoredSheet(texture,profile,{height=278,scaleMultiplier=1,source=''}={}){
+    const columns=Math.round(finite(profile?.grid?.columns,0));
+    const rows=Math.round(finite(profile?.grid?.rows,0));
+    const frameOrder=Array.isArray(profile?.frameOrder)?profile.frameOrder:[];
+    const sheetFrame=texture?.frame;
+    const sheetWidth=finite(sheetFrame?.width??texture?.width,0);
+    const sheetHeight=finite(sheetFrame?.height??texture?.height,0);
+    const sourceTexture=texture?.source;
+    if(!texture||texture===Texture.EMPTY||!sourceTexture||columns!==4||rows!==2
+      ||frameOrder.length!==4||!['ready','fire','recoil','recover'].every((name,index)=>frameOrder[index]===name)
+      ||sheetWidth<columns||sheetHeight<rows){
+      return false;
+    }
+    const cellWidth=sheetWidth/columns;
+    const cellHeight=sheetHeight/rows;
+    if(!Number.isInteger(cellWidth)||!Number.isInteger(cellHeight))return false;
+    const originX=finite(sheetFrame?.x,0),originY=finite(sheetFrame?.y,0);
+    const created=[];
+    const frames={};
+    try{
+      frameOrder.forEach((name,index)=>{
+        const frameSpec=profile.frames?.[name]||{column:index,row:profile.row};
+        const column=Math.round(finite(frameSpec.column,index));
+        const row=Math.round(finite(frameSpec.row,profile.row));
+        if(column<0||column>=columns||row<0||row>=rows)throw new Error(`ACCOUNT_BATTLE_SUIT_FRAME_OUT_OF_RANGE:${name}:${column}:${row}`);
+        const frameTexture=new Texture({
+          source:sourceTexture,
+          frame:new Rectangle(originX+column*cellWidth,originY+row*cellHeight,cellWidth,cellHeight)
+        });
+        frameTexture.label=`AccountBattleSuit:${profile.suitCode}:${profile.weaponCode}:${name}`;
+        created.push(frameTexture);
+        frames[name]=frameTexture;
+      });
+    }catch(error){
+      created.forEach(frameTexture=>frameTexture.destroy(false));
+      console.warn('[Project V V3] 배틀슈트 authored atlas 프레임 생성 실패',error);
+      return false;
+    }
+
+    this.cancelFire();
+    this.stopIdle();
+    this.releaseAuthoredAnimation();
+    this.bodySprite.texture=Texture.EMPTY;
+    this.weaponSprite.texture=Texture.EMPTY;
+    this.weaponSprite.visible=false;
+    this.weaponSource='';
+    this.authoredProfile=profile;
+    this.authoredFrames=Object.freeze(frames);
+    this.authoredSubtextures=created;
+    this.authoredSheetSource=String(source||profile.sheetUrl||'');
+    this.bodySource=this.authoredSheetSource;
+    const targetHeight=clamp(finite(height,278)*clamp(finite(scaleMultiplier,1),.55,1.55),150,430);
+    this.bodySprite.texture=frames.ready;
+    const contentBottom=clamp(finite(profile?.contentBottom,.98),.65,.98);
+    this.bodySprite.anchor.set(.5,contentBottom);
+    this.bodySprite.height=targetHeight;
+    this.bodySprite.width=targetHeight*(cellWidth/cellHeight);
+    this.authoredFrame='ready';
+    const contentTop=clamp(finite(profile?.nameHud?.contentTop,0),0,.4);
+    const hudGap=clamp(finite(profile?.nameHud?.gap,18),8,42);
+    this.nameHud.position.set(0,-targetHeight*(this.bodySprite.anchor.y-contentTop)-hudGap);
+    return true;
+  }
+
+  applyAuthoredFrame(name='ready'){
+    const texture=this.authoredFrames?.[name];
+    if(!texture)return false;
+    this.bodySprite.texture=texture;
+    this.authoredFrame=name;
+    this.weaponSprite.visible=false;
+    return true;
+  }
+
+  usesBodyAsset(source=''){
+    const target=String(source||'');
+    return Boolean(target&&(target===this.bodySource||target===this.authoredSheetSource));
+  }
+
+  usesWeaponAsset(source=''){
+    const target=String(source||'');
+    return Boolean(target&&target===this.weaponSource);
+  }
+
   setBody(texture,{height=278,scaleMultiplier=1,source=''}={}){
+    this.cancelFire();
+    this.stopIdle();
+    this.releaseAuthoredAnimation();
+    this.bodySprite.anchor.set(.5,.98);
     if(!texture||texture===Texture.EMPTY){
       this.bodySprite.texture=Texture.EMPTY;
       this.bodySource='';
@@ -109,6 +218,12 @@ export class AccountBattleUnit{
   }
 
   setWeapon(texture,options={}){
+    if(this.hasAuthoredAnimation()){
+      this.weaponSprite.texture=Texture.EMPTY;
+      this.weaponSprite.visible=false;
+      this.weaponSource='';
+      return false;
+    }
     const attachment=options.attachment&&typeof options.attachment==='object'?options.attachment:options;
     this.attachment={
       x:finite(attachment.x??attachment.offsetX,34),
@@ -147,7 +262,9 @@ export class AccountBattleUnit{
   clearAppearance(){
     this.cancelFire();
     this.stopIdle();
+    this.releaseAuthoredAnimation();
     this.bodySprite.texture=Texture.EMPTY;
+    this.bodySprite.anchor.set(.5,.98);
     this.weaponSprite.texture=Texture.EMPTY;
     this.weaponSprite.visible=false;
     this.bodySource='';
@@ -166,6 +283,7 @@ export class AccountBattleUnit{
 
   startIdle(){
     if(!this.active||this.idleTimeline)return;
+    if(this.hasAuthoredAnimation()&&this.authoredFrame!=='ready')this.applyAuthoredFrame('ready');
     this.view.position.set(0,0);
     this.view.scale.set(1);
     this.idleTimeline=gsap.timeline({repeat:-1,yoyo:true,defaults:{ease:'sine.inOut'}})
@@ -179,11 +297,27 @@ export class AccountBattleUnit{
     gsap.killTweensOf([this.view,this.view.scale,this.weaponSprite]);
     this.view.position.set(0,0);
     this.view.scale.set(1);
-    this.weaponSprite.rotation=this.attachment.rotation;
-    this.weaponSprite.position.set(this.attachment.x,this.attachment.y);
+    if(this.hasAuthoredAnimation()&&this.authoredFrame!=='ready')this.applyAuthoredFrame('ready');
+    else{
+      this.weaponSprite.rotation=this.attachment.rotation;
+      this.weaponSprite.position.set(this.attachment.x,this.attachment.y);
+    }
   }
 
   muzzlePoint(){
+    if(this.hasAuthoredAnimation()){
+      const muzzle=this.authoredProfile?.muzzle||{};
+      const texture=this.bodySprite.texture;
+      const width=Math.max(1,finite(texture?.orig?.width??texture?.width,1));
+      const height=Math.max(1,finite(texture?.orig?.height??texture?.height,1));
+      const local={
+        x:(clamp(finite(muzzle.x,.9),0,1)-this.bodySprite.anchor.x)*width,
+        y:(clamp(finite(muzzle.y,.39),0,1)-this.bodySprite.anchor.y)*height
+      };
+      const global=this.bodySprite.toGlobal(local);
+      const point=this.effectLayer?.toLocal?this.effectLayer.toLocal(global):global;
+      return {x:point.x,y:point.y};
+    }
     const scale=this.root.scale.x||1;
     const derivedMuzzleX=Math.abs(this.weaponSprite.width)*(this.attachment.flipX?this.attachment.anchorX:1-this.attachment.anchorX);
     const localX=this.attachment.x+(this.attachment.muzzleX??derivedMuzzleX);
@@ -207,9 +341,14 @@ export class AccountBattleUnit{
   }
 
   playRangedFire({targetX,targetY,accent=0x76e8ff}={}){
-    if(!this.active||!this.weaponSprite.visible||!this.effectLayer||!Number.isFinite(Number(targetX))||!Number.isFinite(Number(targetY)))return Promise.resolve(false);
-    this.cancelFire();
-    this.stopIdle();
+    const authored=this.hasAuthoredAnimation();
+    if(!this.active||(!authored&&!this.weaponSprite.visible)||!this.effectLayer||!Number.isFinite(Number(targetX))||!Number.isFinite(Number(targetY)))return Promise.resolve(false);
+    return authored
+      ?this.playAuthoredRangedFire({targetX:Number(targetX),targetY:Number(targetY),accent})
+      :this.playStaticRangedFire({targetX:Number(targetX),targetY:Number(targetY),accent});
+  }
+
+  createCosmeticShot({targetX,targetY,accent}){
     const source=this.muzzlePoint();
     const dx=Number(targetX)-source.x,dy=Number(targetY)-source.y;
     const distance=Math.max(12,Math.hypot(dx,dy));
@@ -225,6 +364,53 @@ export class AccountBattleUnit{
     effect.eventMode='none';
     effect.addChild(beam,flash);
     this.effectLayer.addChild(effect);
+    return {effect,beam,flash};
+  }
+
+  playAuthoredRangedFire({targetX,targetY,accent}){
+    this.cancelFire();
+    this.stopIdle();
+    const {effect,beam,flash}=this.createCosmeticShot({targetX,targetY,accent});
+    effect.visible=false;
+    this.fireEffect=effect;
+    this.shotCount+=1;
+    const durations=this.authoredProfile.durationsMs;
+    const fireAt=Math.max(0,finite(durations.ready,45))/1000;
+    const recoilAt=fireAt+Math.max(1,finite(durations.fire,45))/1000;
+    const recoverAt=recoilAt+Math.max(1,finite(durations.recoil,70))/1000;
+    const readyAt=recoverAt+Math.max(1,finite(durations.recover,125))/1000;
+    return new Promise(resolve=>{
+      let settled=false;
+      const finish=value=>{
+        if(settled)return;
+        settled=true;
+        this.fireResolve=null;
+        this.fireTimeline=null;
+        if(this.fireEffect===effect)this.fireEffect=null;
+        effect.removeFromParent();
+        effect.destroy({children:true});
+        if(this.authoredFrame!=='ready')this.applyAuthoredFrame('ready');
+        this.view.position.set(0,0);
+        if(this.active)this.startIdle();
+        resolve(value);
+      };
+      this.fireResolve=value=>finish(value);
+      this.fireTimeline=gsap.timeline({onComplete:()=>finish(true),onInterrupt:()=>finish(false)})
+        .call(()=>this.applyAuthoredFrame('ready'),[],0)
+        .call(()=>{this.applyAuthoredFrame('fire');effect.visible=true},[],fireAt)
+        .to(beam.scale,{x:1,duration:.07,ease:'power4.out'},fireAt)
+        .to(flash,{alpha:0,duration:.12,ease:'power2.out'},fireAt+.035)
+        .to(beam,{alpha:0,duration:.13,ease:'power2.in'},fireAt+.08)
+        .call(()=>this.applyAuthoredFrame('recoil'),[],recoilAt)
+        .call(()=>this.applyAuthoredFrame('recover'),[],recoverAt)
+        .call(()=>this.applyAuthoredFrame('ready'),[],readyAt);
+    });
+  }
+
+  playStaticRangedFire({targetX,targetY,accent}){
+    this.cancelFire();
+    this.stopIdle();
+    const {effect,beam,flash}=this.createCosmeticShot({targetX,targetY,accent});
     this.fireEffect=effect;
     this.shotCount+=1;
     return new Promise(resolve=>{
@@ -256,6 +442,7 @@ export class AccountBattleUnit{
   }
 
   diagnostics(){
+    const authored=this.hasAuthoredAnimation();
     return {
       active:this.active,
       id:'ACCOUNT_BATTLE_UNIT',
@@ -264,7 +451,15 @@ export class AccountBattleUnit{
       bodySource:this.bodySource,
       weaponSource:this.weaponSource,
       weaponFlipX:this.attachment.flipX,
-      separateWeaponAttachment:true,
+      separateWeaponAttachment:!authored,
+      authoredComposite:authored,
+      authoredSheetSource:this.authoredSheetSource,
+      authoredFrame:this.authoredFrame,
+      authoredWeaponCode:this.authoredProfile?.weaponCode||'',
+      authoredContentTop:this.authoredProfile?.nameHud?.contentTop??null,
+      authoredContentBottom:this.authoredProfile?.contentBottom??null,
+      authoredMuzzle:this.authoredProfile?.muzzle||null,
+      weaponSpriteVisible:this.weaponSprite.visible,
       shotCount:this.shotCount,
       affectsDeck:false,
       affectsDamage:false
@@ -274,6 +469,7 @@ export class AccountBattleUnit{
   destroy(){
     this.cancelFire();
     this.stopIdle();
+    this.releaseAuthoredAnimation();
     this.root.destroy({children:true});
   }
 }

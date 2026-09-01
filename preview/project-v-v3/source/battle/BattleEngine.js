@@ -8,6 +8,7 @@ import {AVATAR_LAYER_ORDER, BattleCharacter, CHARACTER_STATE, TEAM} from './Batt
 import {normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
 import {AdvancementEffectFX, advancementEffectProfile, normalizeAdvancementEffectCode} from './AdvancementEffectFX.js';
 import {AccountBattleUnit} from './AccountBattleUnit.js';
+import {resolveAccountBattleSuitAnimation} from './AccountBattleSuitAnimationCatalog.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -200,6 +201,11 @@ function appearanceObject(value){
   return value.appearance&&typeof value.appearance==='object'&&!Array.isArray(value.appearance)
     ?{...value,...value.appearance}
     :value;
+}
+
+function equipmentCode(value){
+  const item=appearanceObject(value);
+  return String(item?.code||item?.itemCode||item?.equipmentCode||'').trim().toUpperCase();
 }
 
 function appearanceUrl(value){
@@ -1026,12 +1032,21 @@ export class BattleEngine{
     return this.accountBattleUnit;
   }
 
+  rememberPendingLiveAsset(url,resource){
+    if(url&&this.pendingLiveAssets instanceof Map)this.pendingLiveAssets.set(url,resource||null);
+    return resource;
+  }
+
   async configureAccountBattleUnit(payload){
     const battleSuit=publicEquipmentObject(payload,'equippedBattleSuit');
     const weapon=publicEquipmentObject(payload,'equippedWeapon');
+    const pveAllowed=isAccountBattleUnitPvePayload(payload);
+    const authoredProfile=pveAllowed
+      ?resolveAccountBattleSuitAnimation(equipmentCode(battleSuit),equipmentCode(weapon))
+      :null;
     const suitSource=appearanceUrl(battleSuit);
     const weaponSource=weaponAppearanceUrl(weapon);
-    const eligible=isAccountBattleUnitPvePayload(payload)&&Boolean(battleSuit&&suitSource);
+    const eligible=pveAllowed&&Boolean(battleSuit&&(authoredProfile||suitSource));
     this.accountBattleUnitEquipment={battleSuit,weapon};
     this.accountBattleUnitEnabled=false;
     if(!eligible){
@@ -1043,6 +1058,31 @@ export class BattleEngine{
     const unit=this.ensureAccountBattleUnit();
     const suitAppearance=appearanceObject(battleSuit)||{};
     const weaponAppearance=appearanceObject(weapon)||{};
+    if(authoredProfile){
+      try{
+        const sheetTexture=await Assets.load(authoredProfile.sheetUrl);
+        this.rememberPendingLiveAsset(authoredProfile.sheetUrl,sheetTexture);
+        const configured=unit.setAuthoredSheet(sheetTexture,authoredProfile,{
+          height:suitAppearance.battleHeight||suitAppearance.renderHeight||278,
+          scaleMultiplier:(suitAppearance.scaleMultiplier||1)*(authoredProfile.scaleMultiplier||1),
+          source:authoredProfile.sheetUrl
+        });
+        if(!configured)throw new Error('ACCOUNT_BATTLE_SUIT_AUTHORED_ATLAS_INVALID');
+        unit.setName(accountNickname(payload));
+        this.accountBattleUnitEnabled=unit.setActive(true,{deployed:false});
+        if(!this.visible)unit.stopIdle();
+        this.layoutAccountBattleUnit();
+        this.sortCombatDepth();
+        return this.accountBattleUnitEnabled;
+      }catch(error){
+        console.warn('[Project V V3] PVE 배틀슈트 authored atlas 로드 실패; 정지 본체와 분리 무기로 복구합니다.',error);
+      }
+    }
+    if(!suitSource){
+      unit.clearAppearance();
+      unit.setName('');
+      return false;
+    }
     let bodyTexture=null;
     try{bodyTexture=await Assets.load(suitSource)}catch(error){
       console.warn('[Project V V3] PVE 배틀슈트 외형 로드 실패',error);
@@ -1050,6 +1090,7 @@ export class BattleEngine{
       unit.setName('');
       return false;
     }
+    this.rememberPendingLiveAsset(suitSource,bodyTexture);
     unit.setBody(bodyTexture,{
       height:suitAppearance.battleHeight||suitAppearance.renderHeight||278,
       scaleMultiplier:suitAppearance.scaleMultiplier||1,
@@ -1060,6 +1101,7 @@ export class BattleEngine{
     if(weapon&&weaponSource){
       try{
         const weaponTexture=await Assets.load(weaponSource);
+        this.rememberPendingLiveAsset(weaponSource,weaponTexture);
         unit.setWeapon(weaponTexture,{
           ...weaponAppearance,
           attachment:weaponAppearance.attachment||weapon?.attachment||weaponAppearance,
@@ -1164,8 +1206,10 @@ export class BattleEngine{
       if(sprite?.texture&&staleTextures.has(sprite.texture))sprite.texture=Texture.EMPTY;
     });
     if(this.accountBattleUnit){
-      const bodyStale=staleTextures.has(this.accountBattleUnit.bodySprite?.texture);
-      const weaponStale=staleTextures.has(this.accountBattleUnit.weaponSprite?.texture);
+      const bodyStale=stale.some(url=>this.accountBattleUnit.usesBodyAsset?.(url))
+        ||staleTextures.has(this.accountBattleUnit.bodySprite?.texture);
+      const weaponStale=stale.some(url=>this.accountBattleUnit.usesWeaponAsset?.(url))
+        ||staleTextures.has(this.accountBattleUnit.weaponSprite?.texture);
       if(bodyStale)this.accountBattleUnit.clearAppearance();
       else if(weaponStale)this.accountBattleUnit.setWeapon(Texture.EMPTY);
     }
@@ -1232,8 +1276,12 @@ export class BattleEngine{
     const monsterArt=monster?(specificMonsterArt||fallback?.resolveForV3({kind:'MONSTER',team:'ENEMY',isBoss:monsterIsBoss})):null;
     const battleSuit=publicEquipmentObject(payload,'equippedBattleSuit');
     const equippedWeapon=publicEquipmentObject(payload,'equippedWeapon');
-    const accountSuitUrl=isAccountBattleUnitPvePayload(payload)?appearanceUrl(battleSuit):'';
-    const accountWeaponUrl=accountSuitUrl?weaponAppearanceUrl(equippedWeapon):'';
+    const accountPveAllowed=isAccountBattleUnitPvePayload(payload);
+    const accountAnimation=accountPveAllowed
+      ?resolveAccountBattleSuitAnimation(equipmentCode(battleSuit),equipmentCode(equippedWeapon))
+      :null;
+    const accountSuitUrl=accountPveAllowed?(accountAnimation?.sheetUrl||appearanceUrl(battleSuit)):'';
+    const accountWeaponUrl=accountSuitUrl&&!accountAnimation?weaponAppearanceUrl(equippedWeapon):'';
     const preloadUrls=[];
     const queueCardAssets=(cards,artList)=>cards.forEach((card,index)=>{
       const art=artList[index];
