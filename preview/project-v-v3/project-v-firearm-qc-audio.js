@@ -1,13 +1,15 @@
 (()=>{
   'use strict';
 
-  const MANIFEST_URL='assets/audio/firearm-qc-v1/manifest.json?v=1';
+  const MANIFEST_URL='assets/audio/firearm-qc-v1/manifest.json?v=2-output-attenuation';
   const AudioContextClass=globalThis.AudioContext||globalThis.webkitAudioContext||null;
   const activeSources=new Set();
   const bufferPromises=new Map();
   let manifestPromise=null;
   let context=null;
   let lastShot=null;
+  let gesturePrimeAttempts=0;
+  let gesturePrimeSucceeded=false;
 
   const finite=(value,fallback=0)=>Number.isFinite(Number(value))?Number(value):fallback;
   const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
@@ -35,6 +37,28 @@
       console.warn('[Project V V3] firearm QC audio unlock failed',error);
       return false;
     }
+  }
+
+  // Mobile browsers only allow AudioContext creation/resume while the original
+  // trusted input event is still on the stack. The preview click handler first
+  // awaits the V3 renderer, so its later unlock() call is too late on those
+  // browsers. Prime synchronously in capture phase, before any renderer await.
+  function primeFromTrustedGesture(event){
+    if(!event?.isTrusted||!isSupported())return;
+    const target=event.target instanceof Element?event.target:null;
+    if(!target?.closest?.('#pvBattleSuitFire,#pvBattleSoundToggle'))return;
+    gesturePrimeAttempts+=1;
+    void ensureContext().then(audioContext=>{
+      gesturePrimeSucceeded=audioContext?.state==='running';
+    }).catch(error=>{
+      gesturePrimeSucceeded=false;
+      console.warn('[Project V V3] firearm QC audio gesture prime failed',error);
+    });
+  }
+
+  if(globalThis.document){
+    document.addEventListener('pointerdown',primeFromTrustedGesture,{capture:true,passive:true});
+    document.addEventListener('click',primeFromTrustedGesture,{capture:true,passive:true});
   }
 
   async function profileFor(weaponCode){
@@ -96,6 +120,8 @@
       profileId:profile.profileId,
       weaponClass:profile.weaponClass,
       acousticLabel:profile.acousticLabel,
+      previewOutputGain:finite(manifest.previewOutput?.gain,1),
+      previewOutputAttenuationDb:finite(manifest.previewOutput?.attenuationDb,0),
       supported:isSupported(),
       scheduled,
       expectedVisualAtPerf,
@@ -134,7 +160,8 @@
     const audioContext=await ensureContext();
     const buffer=await loadBuffer(profile);
     const mix=profile.runtimeMix;
-    const master=clamp(finite(mix.masterGain,1),0,1);
+    const previewOutputGain=clamp(finite(manifest.previewOutput?.gain,1),0,1);
+    const master=clamp(finite(mix.masterGain,1),0,1)*previewOutputGain;
     const scheduleBaseContext=audioContext.currentTime+.012;
     const scheduleBasePerf=perfNow()+12;
     const expectedVisualAtContext=scheduleBaseContext+leadMs/1000;
@@ -178,6 +205,8 @@
       liveRuntimeConnected:false,
       supported:isSupported(),
       contextState:context?.state||'NOT_CREATED',
+      gesturePrimeAttempts,
+      gesturePrimeSucceeded,
       decodedAssets:bufferPromises.size,
       activeLayers:activeSources.size,
       lastShot:lastShot?{...lastShot}:null

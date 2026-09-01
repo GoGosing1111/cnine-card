@@ -10,4 +10,6 @@ These three assets are used only by the independent PROJECT V V3 Battle Suit QC 
 
 Retrieved on 2026-09-01. The downloaded HQ-preview bytes are preserved without baked processing. At runtime each recording is split non-destructively into action/notice, ballistic impact, and acoustic-tail buffer-source layers. The strongest recorded impact is scheduled to the authored `fire` frame and QC passes only when the measured callback delta is within ±20 ms.
 
+The independent QC preview applies one common output gain of `0.50` (approximately `-6.02 dB`) after each weapon profile's documented master gain. This halves playback amplitude only; it does not modify the source files, per-weapon balance, three-layer timing, or visual synchronization.
+
 The M200 sprite remains the exact database weapon asset. Its audio is explicitly labeled as a real high-caliber Tac-50 proxy because no compliant M200 recording exists in the repository.

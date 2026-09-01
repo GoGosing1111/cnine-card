@@ -43,15 +43,11 @@ const ISO_FORMATIONS=Object.freeze({
     {gridX:4,gridY:4,baseScale:.57}
   ]
 });
-// Auxiliary PVE account unit station. It is intentionally outside
-// ISO_FORMATIONS so the canonical five-card tiles and arrays never change.
+// Auxiliary PVE account unit station. It owns a sixth support tile inside the
+// existing grid, while remaining outside the canonical five-card arrays.
 const ACCOUNT_BATTLE_UNIT_FORMATION=Object.freeze({
-  anchorGridX:0,
-  anchorGridY:5,
-  desktopOffsetX:-132,
-  desktopOffsetY:24,
-  mobileOffsetX:-96,
-  mobileOffsetY:30,
+  gridX:1,
+  gridY:5,
   baseScale:.48
 });
 
@@ -746,15 +742,18 @@ export class BattleEngine{
       ally:new Set(['0:1','2:1','0:3','2:3','0:5']),
       enemy:new Set(['6:0','6:2','4:2'])
     };
+    const accountTileKey=`${ACCOUNT_BATTLE_UNIT_FORMATION.gridX}:${ACCOUNT_BATTLE_UNIT_FORMATION.gridY}`;
+    this.accountBattleUnitTile=null;
     for(let row=0;row<rows;row+=1){
       for(let column=0;column<columns;column+=1){
         const point=this.gridToScreen(column,row);
         const key=`${column}:${row}`;
+        const accountSupport=key===accountTileKey;
         const ally=teamTiles.ally.has(key);
         const enemy=teamTiles.enemy.has(key);
         const accent=ally?0x40cfff:enemy?0xff536b:0x6e8aa0;
         const alpha=(ally||enemy)?0.2:0.095;
-        const tile=new Container({label:`IsoTile:${key}`});
+        const tile=new Container({label:accountSupport?`AccountSupportTile:${key}`:`IsoTile:${key}`});
         tile.position.set(point.x,point.y);
         const lower=new Graphics()
           .poly([0,-tileHeight*.42,tileWidth*.49,0,0,tileHeight*.58,-tileWidth*.49,0])
@@ -771,6 +770,21 @@ export class BattleEngine{
         tile.depthSortY=-100000;
         this.isoFloorLayer.addChild(tile);
         this.isoTiles.push(tile);
+        if(accountSupport){
+          const supportAccent=new Container({label:`AccountSupportAccent:${key}`});
+          const supportFace=new Graphics()
+            .poly([0,-tileHeight*.5,tileWidth*.5,0,0,tileHeight*.5,-tileWidth*.5,0])
+            .fill({color:0x0a3346,alpha:.58})
+            .stroke({width:2,color:0x40cfff,alpha:.72});
+          const supportInner=new Graphics()
+            .poly([0,-tileHeight*.38,tileWidth*.38,0,0,tileHeight*.38,-tileWidth*.38,0])
+            .stroke({width:1,color:0x40cfff,alpha:.2});
+          supportAccent.addChild(supportFace,supportInner);
+          tile.addChild(supportAccent);
+          tile.isAccountBattleUnitTile=true;
+          tile.accountSupportAccent=supportAccent;
+          this.accountBattleUnitTile=tile;
+        }
       }
     }
     const battlefieldOutline=new Graphics();
@@ -783,6 +797,15 @@ export class BattleEngine{
       .stroke({width:3,color:0x9bdfff,alpha:.2});
     battlefieldOutline.depthSortY=-99999;
     this.isoFloorLayer.addChild(battlefieldOutline);
+    this.syncAccountBattleUnitTile();
+  }
+
+  syncAccountBattleUnitTile(){
+    if(!this.accountBattleUnitTile)return;
+    this.accountBattleUnitTile.visible=true;
+    if(this.accountBattleUnitTile.accountSupportAccent){
+      this.accountBattleUnitTile.accountSupportAccent.visible=Boolean(this.accountBattleUnitEnabled);
+    }
   }
 
   depthForY(y){
@@ -829,13 +852,11 @@ export class BattleEngine{
   layoutAccountBattleUnit(){
     if(!this.accountBattleUnit)return;
     const formation=ACCOUNT_BATTLE_UNIT_FORMATION;
-    const anchor=this.gridToScreen(formation.anchorGridX,formation.anchorGridY);
-    const x=anchor.x+(this.mobile?formation.mobileOffsetX:formation.desktopOffsetX);
-    const y=anchor.y+(this.mobile?formation.mobileOffsetY:formation.desktopOffsetY);
+    const point=this.gridToScreen(formation.gridX,formation.gridY);
     const responsiveBase=formation.baseScale*(this.mobile ? .86 : 1);
-    const scale=this.perspectiveScale(responsiveBase,y);
-    this.accountBattleUnit.setFormation(x,y,scale);
-    this.accountBattleUnit.root.depthSortY=y;
+    const scale=this.perspectiveScale(responsiveBase,point.y);
+    this.accountBattleUnit.setFormation(point.x,point.y,scale);
+    this.accountBattleUnit.root.depthSortY=point.y;
   }
 
   layoutObjective(){
@@ -1049,6 +1070,7 @@ export class BattleEngine{
     const eligible=pveAllowed&&Boolean(battleSuit&&(authoredProfile||suitSource));
     this.accountBattleUnitEquipment={battleSuit,weapon};
     this.accountBattleUnitEnabled=false;
+    this.syncAccountBattleUnitTile();
     if(!eligible){
       this.accountBattleUnit?.clearAppearance();
       this.accountBattleUnit?.setName('');
@@ -1070,6 +1092,7 @@ export class BattleEngine{
         if(!configured)throw new Error('ACCOUNT_BATTLE_SUIT_AUTHORED_ATLAS_INVALID');
         unit.setName(accountNickname(payload));
         this.accountBattleUnitEnabled=unit.setActive(true,{deployed:false});
+        this.syncAccountBattleUnitTile();
         if(!this.visible)unit.stopIdle();
         this.layoutAccountBattleUnit();
         this.sortCombatDepth();
@@ -1114,6 +1137,7 @@ export class BattleEngine{
     }else unit.setWeapon(Texture.EMPTY);
 
     this.accountBattleUnitEnabled=unit.setActive(true,{deployed:false});
+    this.syncAccountBattleUnitTile();
     if(!this.visible)unit.stopIdle();
     this.layoutAccountBattleUnit();
     this.sortCombatDepth();
@@ -2324,8 +2348,74 @@ export class BattleEngine{
     });
   }
 
+  captureLivePreviewRosterState(){
+    return {
+      characters:this.characters.map(character=>({
+        character,
+        battleActive:character.battleActive,
+        visible:character.root.visible,
+        renderable:character.root.renderable,
+        alpha:character.root.alpha,
+        hp:character.hp
+      })),
+      cards:this.cards.map(card=>({
+        card,
+        visible:card.visible,
+        renderable:card.renderable,
+        alpha:card.alpha,
+        hpValue:card.hpValue
+      })),
+      currentEnemyTarget:this.currentEnemyTarget,
+      currentAllyTarget:this.currentAllyTarget,
+      boss:this.boss,
+      bossHp:this.bossHp,
+      accountAlpha:this.accountBattleUnit?.root?.alpha??0
+    };
+  }
+
+  restoreLivePreviewRosterState(snapshot){
+    if(!snapshot)return false;
+    snapshot.characters.forEach(({character,battleActive,visible,renderable,alpha,hp})=>{
+      character.battleActive=battleActive;
+      character.root.visible=visible;
+      character.root.renderable=renderable;
+      character.root.alpha=alpha;
+      character.root.position.set(character.baseX,character.baseY);
+      character.root.scale.set(character.restScale);
+      character.root.rotation=0;
+      character.root.tint=0xffffff;
+      character.root.filters=[];
+      character.setTint?.(0xffffff);
+      character.setState(CHARACTER_STATE.IDLE);
+      character.setHp(hp);
+    });
+    snapshot.cards.forEach(({card,visible,renderable,alpha,hpValue})=>{
+      card.visible=visible;
+      card.renderable=renderable;
+      card.alpha=alpha;
+      card.position.set(card.baseX,card.baseY);
+      card.scale.set(card.restScale);
+      card.rotation=0;
+      card.hpValue=hpValue;
+      if(card.hp)this.setHp(card.hp,hpValue,0x64e3a9);
+    });
+    this.currentEnemyTarget=snapshot.currentEnemyTarget;
+    this.currentAllyTarget=snapshot.currentAllyTarget;
+    this.boss=snapshot.boss;
+    this.bossHp=snapshot.bossHp;
+    if(this.accountBattleUnitEnabled&&this.accountBattleUnit?.active){
+      this.accountBattleUnit.cancelFire();
+      this.accountBattleUnit.root.visible=true;
+      this.accountBattleUnit.root.renderable=true;
+      this.accountBattleUnit.root.alpha=snapshot.accountAlpha;
+    }
+    this.sortCombatDepth();
+    return true;
+  }
+
   async runSequence(){
     if(this.playing||!this.visible)return;
+    const previewRosterSnapshot=this.captureLivePreviewRosterState();
     this.playing=true;
     const button=document.getElementById('pvBattleStart');
     if(button){button.disabled=true;button.textContent='전투 연출 중'}
@@ -2365,6 +2455,9 @@ export class BattleEngine{
       this.updateStatus(`연출 완료 · 사망 대상 제외 후 ${this.currentEnemyTarget?.name||'다음 대상 없음'} 자동 전환 확인`);
     }finally{
       this.playing=false;
+      if(this.restoreLivePreviewRosterState(previewRosterSnapshot)){
+        this.updateStatus('연출 완료 · 아군 5명·적·계정 유닛 진형 복구');
+      }
       if(button){button.disabled=false;button.textContent='다시 재생'}
     }
   }

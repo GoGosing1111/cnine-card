@@ -294,6 +294,78 @@ test('twenty-character nicknames are ellipsized inside the fixed panel width',()
   }
 });
 
+test('account Battle Suit occupies the dedicated internal front-left support tile',()=>{
+  const engine=Object.create(BattleEngine.prototype);
+  engine.mobile=false;
+  engine.configureIsometricScene();
+  let formation=null;
+  engine.accountBattleUnit={
+    root:{depthSortY:0},
+    setFormation(x,y,scale){formation={x,y,scale}}
+  };
+  engine.layoutAccountBattleUnit();
+  const expected=engine.gridToScreen(1,5);
+  assert.deepEqual({x:formation.x,y:formation.y},expected,'account unit must be centered on the unused 1:5 tile');
+  assert.ok(formation.x>=engine.gridToScreen(0,5).x&&formation.x<=engine.gridToScreen(2,5).x,'support tile must remain inside the canonical grid');
+  engine.accountBattleUnitTile={visible:false,accountSupportAccent:{visible:false}};
+  engine.accountBattleUnitEnabled=true;
+  engine.syncAccountBattleUnitTile();
+  assert.equal(engine.accountBattleUnitTile.visible,true,'the internal grid cell must never become a visual hole');
+  assert.equal(engine.accountBattleUnitTile.accountSupportAccent.visible,true,'PVE account unit enables its matching support accent');
+  engine.accountBattleUnitEnabled=false;
+  engine.syncAccountBattleUnitTile();
+  assert.equal(engine.accountBattleUnitTile.visible,true,'forbidden modes retain the neutral base tile');
+  assert.equal(engine.accountBattleUnitTile.accountSupportAccent.visible,false,'forbidden modes hide only the account support accent');
+});
+
+test('live preview replay restores all five allied SD units and the active enemy after the sequence',()=>{
+  const makeCharacter=(id,team)=>{
+    const root=new Container({label:id});
+    root.visible=true;root.renderable=true;root.alpha=1;root.position.set(100,200);root.scale.set(.5);
+    return {
+      id,team,root,battleActive:true,baseX:100,baseY:200,restScale:.5,hp:100,state:'IDLE',
+      setState(value){this.state=value},
+      setHp(value){this.hp=value},
+      setTint(){}
+    };
+  };
+  const allies=Array.from({length:5},(_,index)=>makeCharacter(`ALLY-${index+1}`,'ALLY'));
+  const enemy=makeCharacter('ENEMY-1','ENEMY');
+  const cards=Array.from({length:5},(_,index)=>{
+    const card=new Container({label:`CARD-${index+1}`});
+    card.visible=true;card.renderable=true;card.alpha=1;card.baseX=index*10;card.baseY=700;card.restScale=.8;card.hpValue=100;
+    card.position.set(card.baseX,card.baseY);card.scale.set(card.restScale);
+    return card;
+  });
+  const accountRoot=new Container({label:'ACCOUNT'});
+  accountRoot.visible=true;accountRoot.renderable=true;accountRoot.alpha=1;
+  const engine=Object.create(BattleEngine.prototype);
+  Object.assign(engine,{
+    livePayload:{},characters:[...allies,enemy],allies,enemies:[enemy],cards,
+    currentEnemyTarget:enemy,currentAllyTarget:allies[0],boss:enemy,bossHp:100,
+    accountBattleUnitEnabled:true,
+    accountBattleUnit:{active:true,root:accountRoot,cancelFire(){}},
+    sortCombatDepth(){}
+  });
+  const snapshot=engine.captureLivePreviewRosterState();
+  engine.characters.forEach(character=>{
+    character.root.visible=false;character.root.renderable=false;character.root.alpha=0;
+    character.root.position.set(-1,-1);character.setState('DEAD');character.setHp(0);
+  });
+  cards.forEach(card=>{card.visible=false;card.renderable=false;card.alpha=0;card.position.set(-1,-1)});
+  accountRoot.alpha=0;
+
+  assert.equal(engine.restoreLivePreviewRosterState(snapshot),true);
+  assert.equal(allies.filter(character=>character.root.visible&&character.root.renderable&&character.root.alpha===1&&character.hp===100&&character.state==='IDLE').length,5);
+  assert.equal(enemy.root.visible,true);
+  assert.equal(enemy.root.renderable,true);
+  assert.equal(enemy.root.alpha,1);
+  assert.equal(enemy.hp,100);
+  assert.ok(cards.every(card=>card.visible&&card.renderable&&card.alpha===1),'five dock cards must also survive replay');
+  assert.equal(accountRoot.alpha,1,'account support unit must remain deployed');
+  [...engine.characters.map(character=>character.root),...cards,accountRoot].forEach(node=>node.destroy?.());
+});
+
 test('authored load failure behaviorally restores the static body plus approved DB weapon fallback',async()=>{
   const engine=engineHarness();
   const profile=resolveAccountBattleSuitAnimation(SUIT_CODE,WEAPON_CODE);
