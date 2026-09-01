@@ -4533,7 +4533,7 @@ async function handleRequest(context){
     if(path==='health'){
       const databaseInitialized=await initialized(env);
       if(databaseInitialized)await ensurePrisonFoundation(env);
-      return json({ok:true,version:'2.8.5',database:true,initialized:databaseInitialized,prisonSchema:true});
+      return json({ok:true,version:'2.8.6',database:true,initialized:databaseInitialized,prisonSchema:true});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
@@ -4758,7 +4758,10 @@ async function handleRequest(context){
       if(!user)return json({error:'로그인이 필요합니다.'},401);
       if(request.method==='GET'){
         const [commandResult,messageResult]=await env.DB.batch([
-          env.DB.prepare(`SELECT id,command_type,payload_json,created_at,expires_at FROM user_runtime_commands WHERE user_id=? AND expires_at>datetime('now') ORDER BY id DESC LIMIT 1`).bind(user.id),
+          env.DB.prepare(`SELECT id,command_type,payload_json,created_at,expires_at FROM (
+            SELECT id,command_type,payload_json,created_at,expires_at,acknowledged_at FROM user_runtime_commands
+            WHERE user_id=? AND expires_at>datetime('now') ORDER BY id DESC LIMIT 1
+          ) latest WHERE acknowledged_at IS NULL`).bind(user.id),
           env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id)
         ]);
         const row=commandResult?.results?.[0]||null,unreadMessages=Number(messageResult?.results?.[0]?.unread||0);

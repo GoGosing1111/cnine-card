@@ -44,6 +44,12 @@ test('수감자는 전체 프로필 조회 없이 로그인 성공 후 즉시 �
   assert.match(client,/applyPrisonStatus\(d\.prison\|\|\{incarcerated:false\}\);if\(isPrisonLocked\(\)\)return renderLockedPrison\(\)/);
 });
 
+test('처리 완료된 수감·석방 명령은 다시 내려주지 않는다',()=>{
+  assert.match(server,/FROM \(\s*SELECT id,command_type,payload_json,created_at,expires_at,acknowledged_at FROM user_runtime_commands\s*WHERE user_id=\? AND expires_at>datetime\('now'\) ORDER BY id DESC LIMIT 1\s*\) latest WHERE acknowledged_at IS NULL/);
+  assert.match(server,/UPDATE user_runtime_commands SET acknowledged_at=COALESCE\(acknowledged_at,CURRENT_TIMESTAMP\)/);
+  assert.match(client,/commandType==='PRISON_RELEASE'/);
+});
+
 test('감옥 공개 채팅은 인증·길이·속도 제한과 역할 표식을 가진다',()=>{
   assert.match(server,/path==='prison\/chat'/);
   assert.match(server,/Array\.from\(body\)\.length>200/);
