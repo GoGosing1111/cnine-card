@@ -46,6 +46,11 @@ const ISO_FORMATIONS=Object.freeze({
 // Auxiliary PVE account unit station. It owns a sixth support tile inside the
 // existing grid, while remaining outside the canonical five-card arrays.
 const ACCOUNT_BATTLE_UNIT_FORMATION=Object.freeze({
+  gridX:2,
+  gridY:5,
+  baseScale:.48
+});
+const ACCOUNT_BATTLE_UNIT_ESCORT_FORMATION=Object.freeze({
   gridX:1,
   gridY:5,
   baseScale:.48
@@ -68,7 +73,7 @@ function validateFormationTiles(formations=ISO_FORMATIONS){
   });
 }
 
-validateFormationTiles();
+validateFormationTiles({...ISO_FORMATIONS,account:[ACCOUNT_BATTLE_UNIT_FORMATION,ACCOUNT_BATTLE_UNIT_ESCORT_FORMATION]});
 
 const CARD_DATA=[
   {name:'FAKER',grade:'FUR',level:10,hp:88,art:'fakerArt',frame:'fakerFrame',logo:'t1Logo',wordmark:'fakerWordmark',color:0xff365c,effectProfile:'CRIMSON_RIFT',effectKind:'ATTACK',ability:'불사대마왕 · 공격력 증폭'},
@@ -160,6 +165,17 @@ const ACCOUNT_WEAPON_CUTOUTS=Object.freeze({
   EQ_1785961232958:'/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png',
   EQ_1785961300455:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png',
   EQ_1786966923833:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'
+});
+// Presentation-only cadence for the auxiliary PVE unit. These profiles never
+// mutate authoritative HP or the canonical five-card action list. ARs keep a
+// recognisable automatic burst, while the M200 and SKS retain their slower
+// physical weapon cadence instead of being visually treated like an AR.
+const ACCOUNT_BATTLE_UNIT_SUSTAINED_FIRE_PROFILES=Object.freeze({
+  DEFAULT:Object.freeze({weaponClass:'AR',fireMode:'FULL_AUTO',roundsPerBurst:4,intraBurstDelayMs:45,burstDelayMs:150,playbackRate:1.8}),
+  EQ_1785427638137:Object.freeze({weaponClass:'M4A1_AR',fireMode:'FULL_AUTO',roundsPerBurst:4,intraBurstDelayMs:40,burstDelayMs:140,playbackRate:1.85}),
+  EQ_1785961232958:Object.freeze({weaponClass:'AK_AR',fireMode:'FULL_AUTO',roundsPerBurst:3,intraBurstDelayMs:75,burstDelayMs:210,playbackRate:1.6}),
+  EQ_1785961300455:Object.freeze({weaponClass:'M200_SNIPER',fireMode:'BOLT_ACTION',roundsPerBurst:1,intraBurstDelayMs:0,burstDelayMs:760,playbackRate:1}),
+  EQ_1786966923833:Object.freeze({weaponClass:'SKS_DMR',fireMode:'SEMI_AUTO',roundsPerBurst:2,intraBurstDelayMs:170,burstDelayMs:390,playbackRate:1.12})
 });
 
 function payloadModeTokens(payload){
@@ -353,6 +369,8 @@ export class BattleEngine{
     this.accountBattleUnitEnabled=false;
     this.accountBattleUnitEquipment={battleSuit:null,weapon:null};
     this.accountBattleUnitShotCount=0;
+    this.accountBattleUnitSustainedShotCount=0;
+    this.accountBattleUnitFireRun=null;
     this.boss=null;
     this.bossHp=72;
     this.currentEnemyTarget=null;
@@ -654,6 +672,11 @@ export class BattleEngine{
     const normalized=normalizeBattlefieldMode(mode);
     this.activeBattlefieldMode=normalized;
     this.activeBattlefieldAsset=BATTLEFIELD_ASSETS[normalized];
+    if(this.isoFloorLayer){
+      this.drawIsometricFloor();
+      this.layoutAccountBattleUnit();
+      this.sortCombatDepth();
+    }
     if(!this.mounted||!this.backgroundLayer)return normalized;
     if(this.activeBattlefieldTexture&&this.parallaxLayers.every(item=>item.sprite.texture===this.activeBattlefieldTexture)&&normalized===this.backgroundLayer.activeMode)return normalized;
     const request=++this.battlefieldRequest;
@@ -725,6 +748,15 @@ export class BattleEngine{
     };
   }
 
+  accountBattleUnitFormation(){
+    // The escort objective owns 2:5. All ordinary PVE battlefields use the
+    // user-approved one-cell-forward station; ESCORT alone falls back to the
+    // previous safe support tile so the vehicle and account unit never stack.
+    return this.activeBattlefieldMode==='ESCORT'
+      ?ACCOUNT_BATTLE_UNIT_ESCORT_FORMATION
+      :ACCOUNT_BATTLE_UNIT_FORMATION;
+  }
+
   screenToGrid(screenX,screenY){
     const config=this.isoConfig||this.configureIsometricScene();
     const dx=(screenX-config.originX)/(config.tileWidth*.5);
@@ -742,7 +774,8 @@ export class BattleEngine{
       ally:new Set(['0:1','2:1','0:3','2:3','0:5']),
       enemy:new Set(['6:0','6:2','4:2'])
     };
-    const accountTileKey=`${ACCOUNT_BATTLE_UNIT_FORMATION.gridX}:${ACCOUNT_BATTLE_UNIT_FORMATION.gridY}`;
+    const accountFormation=this.accountBattleUnitFormation();
+    const accountTileKey=`${accountFormation.gridX}:${accountFormation.gridY}`;
     this.accountBattleUnitTile=null;
     for(let row=0;row<rows;row+=1){
       for(let column=0;column<columns;column+=1){
@@ -851,7 +884,7 @@ export class BattleEngine{
 
   layoutAccountBattleUnit(){
     if(!this.accountBattleUnit)return;
-    const formation=ACCOUNT_BATTLE_UNIT_FORMATION;
+    const formation=this.accountBattleUnitFormation();
     const point=this.gridToScreen(formation.gridX,formation.gridY);
     const responsiveBase=formation.baseScale*(this.mobile ? .86 : 1);
     const scale=this.perspectiveScale(responsiveBase,point.y);
@@ -1155,7 +1188,7 @@ export class BattleEngine{
     return !String(event?.actorId||'').trim();
   }
 
-  async playAccountBattleUnitCosmeticShot(target=null){
+  async playAccountBattleUnitCosmeticShot(target=null,{playbackRate=1}={}){
     const unit=this.accountBattleUnit;
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
     // Preserve the just-resolved authoritative target even when that hit set
@@ -1163,9 +1196,91 @@ export class BattleEngine{
     // a different enemy than the card action it visually follows.
     const victim=target?.root?target:this.enemies.find(character=>this.isAlive(character));
     if(!victim)return false;
-    const played=await unit.playRangedFire({targetX:victim.root.x,targetY:victim.root.y-90,accent:0x76e8ff});
+    const played=await unit.playRangedFire({
+      targetX:victim.root.x,
+      targetY:victim.root.y-90,
+      accent:0x76e8ff,
+      playbackRate
+    });
     if(played)this.accountBattleUnitShotCount+=1;
     return played;
+  }
+
+  accountBattleUnitSustainedFireProfile(){
+    const weaponCode=equipmentCode(this.accountBattleUnitEquipment?.weapon);
+    return {
+      weaponCode,
+      ...(ACCOUNT_BATTLE_UNIT_SUSTAINED_FIRE_PROFILES[weaponCode]||ACCOUNT_BATTLE_UNIT_SUSTAINED_FIRE_PROFILES.DEFAULT)
+    };
+  }
+
+  accountBattleUnitSustainedTarget(){
+    if(this.currentEnemyTarget&&this.isAlive(this.currentEnemyTarget))return this.currentEnemyTarget;
+    return this.enemies.find(character=>this.isAlive(character))||null;
+  }
+
+  waitForAccountBattleUnitFire(ms,run){
+    if(!run?.active||this.accountBattleUnitFireRun!==run)return Promise.resolve(false);
+    return new Promise(resolve=>{
+      let settled=false;
+      const finish=value=>{
+        if(settled)return;
+        settled=true;
+        if(run.timer){clearTimeout(run.timer);run.timer=0}
+        if(run.wake===wake)run.wake=null;
+        resolve(value);
+      };
+      const wake=()=>finish(false);
+      run.wake=wake;
+      run.timer=setTimeout(()=>finish(true),Math.max(0,Number(ms)||0));
+    });
+  }
+
+  startAccountBattleUnitSustainedFire(){
+    this.stopAccountBattleUnitSustainedFire();
+    const unit=this.accountBattleUnit;
+    if(!this.visible||!this.playing||!this.accountBattleUnitEnabled||!unit?.active)return null;
+    const profile=this.accountBattleUnitSustainedFireProfile();
+    const run={active:true,profile,shots:0,roundInBurst:0,timer:0,wake:null,promise:null};
+    this.accountBattleUnitFireRun=run;
+    run.promise=(async()=>{
+      try{
+        while(run.active&&this.visible&&this.playing&&this.accountBattleUnitEnabled&&unit.active){
+          const target=this.accountBattleUnitSustainedTarget();
+          if(!target){
+            if(!await this.waitForAccountBattleUnitFire(120,run))break;
+            continue;
+          }
+          const played=await this.playAccountBattleUnitCosmeticShot(target,{playbackRate:profile.playbackRate});
+          if(!run.active||this.accountBattleUnitFireRun!==run)break;
+          if(!played)break;
+          run.shots+=1;
+          this.accountBattleUnitSustainedShotCount+=1;
+          run.roundInBurst=(run.roundInBurst+1)%profile.roundsPerBurst;
+          const delay=run.roundInBurst===0?profile.burstDelayMs:profile.intraBurstDelayMs;
+          if(!await this.waitForAccountBattleUnitFire(delay,run))break;
+        }
+      }finally{
+        run.active=false;
+        if(run.timer){clearTimeout(run.timer);run.timer=0}
+        run.wake=null;
+        if(this.accountBattleUnitFireRun===run)this.accountBattleUnitFireRun=null;
+      }
+      return run.shots;
+    })();
+    return run;
+  }
+
+  stopAccountBattleUnitSustainedFire(){
+    const run=this.accountBattleUnitFireRun;
+    if(!run)return Promise.resolve(0);
+    run.active=false;
+    if(run.timer){clearTimeout(run.timer);run.timer=0}
+    const wake=run.wake;
+    run.wake=null;
+    wake?.();
+    this.accountBattleUnit?.cancelFire();
+    return run.promise||Promise.resolve(run.shots||0);
   }
 
   monsterFromPayload(payload){
@@ -1783,6 +1898,7 @@ export class BattleEngine{
     this.playbackEpoch+=1;
     this.skillTimeline?.cancelAll();
     [...this.simpleTimelines].forEach(entry=>{entry.instance.kill();entry.settle(false)});
+    this.stopAccountBattleUnitSustainedFire();
     this.accountBattleUnit?.cancelFire();
     this.audio?.stopAll?.();
     this.pools?.releaseAll();
@@ -2225,10 +2341,10 @@ export class BattleEngine{
         }
         const advancementClass=type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='SHATTER'?'SHATTER':'';
         await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
-        if(this.isAlliedAccountShotEvent(event,explicitActor))await this.playAccountBattleUnitCosmeticShot(target);
+        if(this.isAlliedAccountShotEvent(event,explicitActor)&&!this.accountBattleUnitFireRun?.active)await this.playAccountBattleUnitCosmeticShot(target);
       }else if(type==='SKILL'){
         await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
-        if(this.isAlliedAccountShotEvent(event,explicitActor))await this.playAccountBattleUnitCosmeticShot(target);
+        if(this.isAlliedAccountShotEvent(event,explicitActor)&&!this.accountBattleUnitFireRun?.active)await this.playAccountBattleUnitCosmeticShot(target);
       }else if(type==='COUNTER'){
         const advancementClass=normalizeAdvancementEffectCode(event.advancementClass)==='RIPOSTE'?'RIPOSTE':'';
         if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
@@ -2442,10 +2558,12 @@ export class BattleEngine{
     });
     this.uiLayer.combo.alpha=0;
     this.uiLayer.comboLabel.alpha=0;
+    let sustainedFireRun=null;
     try{
       this.uiLayer.combo.alpha=1;this.uiLayer.comboLabel.alpha=1;this.uiLayer.combo.text='1';
+      await this.playEvents([{type:'DEPLOY'}]);
+      sustainedFireRun=this.startAccountBattleUnitSustainedFire();
       await this.playEvents([
-        {type:'DEPLOY'},
         {type:'ATTACK',actorIndex:1,damage:238150,critical:false,bossHp:62},
         {type:'SKILL',actorIndex:0,damage:386720,critical:true,bossHp:44,label:'전술 스킬'},
         {type:'COUNTER',actorIndex:3},
@@ -2454,6 +2572,8 @@ export class BattleEngine{
       ]);
       this.updateStatus(`연출 완료 · 사망 대상 제외 후 ${this.currentEnemyTarget?.name||'다음 대상 없음'} 자동 전환 확인`);
     }finally{
+      const sustainedStop=this.stopAccountBattleUnitSustainedFire();
+      if(sustainedFireRun)await sustainedStop;
       this.playing=false;
       if(this.restoreLivePreviewRosterState(previewRosterSnapshot)){
         this.updateStatus('연출 완료 · 아군 5명·적·계정 유닛 진형 복구');
@@ -2596,7 +2716,17 @@ export class BattleEngine{
         metadataContract:['equippedBattleSuit','equippedWeapon'],
         metadataFallback:'characterBonus',
         canonicalAllyFormationCount:this.allies.length,
-        cosmeticShots:this.accountBattleUnitShotCount
+        cosmeticShots:this.accountBattleUnitShotCount,
+        formation:{
+          gridX:this.accountBattleUnitFormation().gridX,
+          gridY:this.accountBattleUnitFormation().gridY
+        },
+        sustainedFire:{
+          active:Boolean(this.accountBattleUnitFireRun?.active),
+          ...this.accountBattleUnitSustainedFireProfile(),
+          totalShots:this.accountBattleUnitSustainedShotCount,
+          affectsDamage:false
+        }
       },
       targetSelection:{
         currentEnemy:this.currentEnemyTarget?.id||null,

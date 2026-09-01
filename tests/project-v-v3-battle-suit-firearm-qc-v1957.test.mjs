@@ -30,9 +30,9 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   assert.match(html,/id="pvBattleSuitFire"/);
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
-  assert.match(html,/project-v-firearm-qc-audio\.js\?v=2-gesture-prime-output-attenuation/);
-  assert.match(html,/project-v-client\.js\?v=56-front-left-replay-audio-fix/);
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=76-front-left-replay-fix/);
+  assert.match(html,/project-v-firearm-qc-audio\.js\?v=3-gesture-prime-quarter-output/);
+  assert.match(html,/project-v-client\.js\?v=57-female-horizontal-burst/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=77-female-horizontal-burst/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);
@@ -59,8 +59,8 @@ test('three immutable CC0 real-recording profiles satisfy provenance, hash and w
   assert.equal(manifest.scope,'PREVIEW_ONLY');
   assert.equal(manifest.liveRuntimeConnected,false);
   assert.equal(manifest.retrievedAt,'2026-09-01');
-  assert.equal(manifest.previewOutput.gain,.5);
-  assert.equal(manifest.previewOutput.attenuationDb,-6.02);
+  assert.equal(manifest.previewOutput.gain,.25);
+  assert.equal(manifest.previewOutput.attenuationDb,-12.04);
   assert.equal(manifest.previewOutput.appliesAfterProfileMasterGain,true);
   assert.equal(manifest.visualSync.strongestImpactToleranceMs,20);
   assert.deepEqual(manifest.layerContract,['ACTION_NOTICE','BALLISTIC_IMPACT','ACOUSTIC_TAIL']);
@@ -96,7 +96,7 @@ test('three immutable CC0 real-recording profiles satisfy provenance, hash and w
 });
 
 test('audio renderer uses only real buffer layers and remains disconnected from live runtime',()=>{
-  assert.match(audioSource,/manifest\.json\?v=2-output-attenuation/);
+  assert.match(audioSource,/manifest\.json\?v=3-quarter-output/);
   for(const layer of manifest.layerContract)assert.match(audioSource,new RegExp(`kind:'${layer}'`));
   assert.equal((audioSource.match(/sourceLayer\(audioContext,buffer,\{\s*\n\s*kind:/g)||[]).length,3);
   assert.match(audioSource,/createBufferSource\(\)/);

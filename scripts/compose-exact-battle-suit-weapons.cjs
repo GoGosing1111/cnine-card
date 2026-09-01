@@ -10,11 +10,13 @@ const FRAME_HEIGHT = 512;
 const COLUMNS = 4;
 const ROWS = 2;
 
-const [, , proxyArg, row0WeaponArg, row1WeaponArg, outputArg] = process.argv;
+const [, , proxyArg, row0WeaponArg, row1WeaponArg, outputArg, ...optionArgs] = process.argv;
 if (!proxyArg || !row0WeaponArg || !row1WeaponArg || !outputArg) {
-  console.error('Usage: node scripts/compose-exact-battle-suit-weapons.cjs <green-proxy-atlas.png> <row-0-weapon.png> <row-1-weapon.png> <output.png>');
+  console.error('Usage: node scripts/compose-exact-battle-suit-weapons.cjs <green-proxy-atlas.png> <row-0-weapon.png> <row-1-weapon.png> <output.png> [--force-horizontal]');
   process.exit(1);
 }
+
+const forceHorizontal=optionArgs.includes('--force-horizontal');
 
 const proxyPath = path.resolve(proxyArg);
 const outputPath = path.resolve(outputArg);
@@ -227,10 +229,11 @@ function median(values) {
 }
 
 async function transformedWeapon(weaponPath, measurement, targetWidth) {
+  const rotationDegrees=forceHorizontal?0:measurement.angleDegrees;
   let buffer = await sharp(weaponPath)
     .flop()
     .resize({width: targetWidth})
-    .rotate(measurement.angleDegrees, {background: {r: 0, g: 0, b: 0, alpha: 0}})
+    .rotate(rotationDegrees, {background: {r: 0, g: 0, b: 0, alpha: 0}})
     .png()
     .toBuffer();
   let metadata = await sharp(buffer).metadata();
@@ -243,7 +246,7 @@ async function transformedWeapon(weaponPath, measurement, targetWidth) {
       .toBuffer();
     metadata = await sharp(buffer).metadata();
   }
-  return {buffer, width: metadata.width, height: metadata.height};
+  return {buffer, width: metadata.width, height: metadata.height, rotationDegrees};
 }
 
 async function composeFrame(frame, weaponKey, measurement, targetWidth) {
@@ -268,7 +271,7 @@ async function composeFrame(frame, weaponKey, measurement, targetWidth) {
     {input: exactWeapon.buffer, left, top},
     {input: body, left: 0, top: 0}
   ]).png().toBuffer();
-  return {composite, measurement, placement: {left, top, width: exactWeapon.width, height: exactWeapon.height, targetWidth}};
+  return {composite, measurement, placement: {left, top, width: exactWeapon.width, height: exactWeapon.height, targetWidth,rotationDegrees:exactWeapon.rotationDegrees}};
 }
 
 async function main() {
@@ -310,7 +313,7 @@ async function main() {
     }
   }).composite(composites).png({compressionLevel: 9, adaptiveFiltering: true}).toFile(outputPath);
 
-  console.log(JSON.stringify({proxy: proxyPath, output: outputPath, width: 1536, height: 1024, frames: diagnostics}));
+  console.log(JSON.stringify({proxy: proxyPath, output: outputPath, width: 1536, height: 1024, forceHorizontal, frames: diagnostics}));
 }
 
 main().catch((error) => {

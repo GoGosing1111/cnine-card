@@ -6,10 +6,10 @@
   "retrievedAt": "2026-09-01",
   "licensePolicy": "CC0_REAL_RECORDINGS_ONLY",
   "previewOutput": {
-    "gain": 0.5,
-    "attenuationDb": -6.02,
+    "gain": 0.25,
+    "attenuationDb": -12.04,
     "appliesAfterProfileMasterGain": true,
-    "reason": "Common preview-only 50 percent output level requested after audible browser QC; source files and per-weapon balance remain unchanged."
+    "reason": "Common preview-only 25 percent output level requested after audible browser QC; source files and per-weapon balance remain unchanged."
   },
   "visualSync": {
     "authoredReadyLeadMs": 45,

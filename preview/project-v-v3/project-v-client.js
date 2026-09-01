@@ -29,7 +29,7 @@
   };
   const battleSuitQc={
     suits:{
-      BATTLE_SUIT_01:{name:'외형 01 · 화이트 골드 윙',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png'},
+      BATTLE_SUIT_01:{name:'외형 01 · 화이트 골드 여성형',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png'},
       BATTLE_SUIT_02:{name:'외형 02 · 오렌지 택티컬',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png'},
       BATTLE_SUIT_03:{name:'외형 03 · 자수정 엑소슈트',sprite:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png'}
     },
@@ -125,7 +125,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=76-front-left-replay-fix';
+        script.src='project-v-pixi-battle.bundle.js?v=77-female-horizontal-burst';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);

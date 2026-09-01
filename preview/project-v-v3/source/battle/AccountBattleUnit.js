@@ -380,12 +380,13 @@ export class AccountBattleUnit{
     resolve?.(false);
   }
 
-  playRangedFire({targetX,targetY,accent=0x76e8ff}={}){
+  playRangedFire({targetX,targetY,accent=0x76e8ff,playbackRate=1}={}){
     const authored=this.hasAuthoredAnimation();
     if(!this.active||(!authored&&!this.weaponSprite.visible)||!this.effectLayer||!Number.isFinite(Number(targetX))||!Number.isFinite(Number(targetY)))return Promise.resolve(false);
+    const speed=clamp(finite(playbackRate,1),.5,3);
     return authored
-      ?this.playAuthoredRangedFire({targetX:Number(targetX),targetY:Number(targetY),accent})
-      :this.playStaticRangedFire({targetX:Number(targetX),targetY:Number(targetY),accent});
+      ?this.playAuthoredRangedFire({targetX:Number(targetX),targetY:Number(targetY),accent,playbackRate:speed})
+      :this.playStaticRangedFire({targetX:Number(targetX),targetY:Number(targetY),accent,playbackRate:speed});
   }
 
   createCosmeticShot({targetX,targetY,accent}){
@@ -399,18 +400,23 @@ export class AccountBattleUnit{
     const flash=new Graphics()
       .circle(source.x,source.y,16).fill({color:0xffffff,alpha:.92})
       .circle(source.x,source.y,28).stroke({width:4,color:accent,alpha:.72});
+    const impact=new Graphics()
+      .circle(Number(targetX),Number(targetY),11).fill({color:0xffffff,alpha:.9})
+      .circle(Number(targetX),Number(targetY),22).stroke({width:4,color:accent,alpha:.82})
+      .moveTo(Number(targetX)-18,Number(targetY)-10).lineTo(Number(targetX)+18,Number(targetY)+10).stroke({width:3,color:accent,alpha:.68});
+    impact.scale.set(.35);
     const effect=new Container({label:'PVEAccountBattleUnitCosmeticShot'});
     effect.zIndex=950;
     effect.eventMode='none';
-    effect.addChild(beam,flash);
+    effect.addChild(beam,flash,impact);
     this.effectLayer.addChild(effect);
-    return {effect,beam,flash};
+    return {effect,beam,flash,impact};
   }
 
-  playAuthoredRangedFire({targetX,targetY,accent}){
+  playAuthoredRangedFire({targetX,targetY,accent,playbackRate=1}){
     this.cancelFire();
     this.stopIdle();
-    const {effect,beam,flash}=this.createCosmeticShot({targetX,targetY,accent});
+    const {effect,beam,flash,impact}=this.createCosmeticShot({targetX,targetY,accent});
     effect.visible=false;
     this.fireEffect=effect;
     this.shotCount+=1;
@@ -441,16 +447,19 @@ export class AccountBattleUnit{
         .to(beam.scale,{x:1,duration:.07,ease:'power4.out'},fireAt)
         .to(flash,{alpha:0,duration:.12,ease:'power2.out'},fireAt+.035)
         .to(beam,{alpha:0,duration:.13,ease:'power2.in'},fireAt+.08)
+        .to(impact.scale,{x:1.12,y:1.12,duration:.09,ease:'back.out(2.4)'},fireAt)
+        .to(impact,{alpha:0,duration:.13,ease:'power2.out'},fireAt+.055)
         .call(()=>this.applyAuthoredFrame('recoil'),[],recoilAt)
         .call(()=>this.applyAuthoredFrame('recover'),[],recoverAt)
         .call(()=>this.applyAuthoredFrame('ready'),[],readyAt);
+      this.fireTimeline.timeScale(playbackRate);
     });
   }
 
-  playStaticRangedFire({targetX,targetY,accent}){
+  playStaticRangedFire({targetX,targetY,accent,playbackRate=1}){
     this.cancelFire();
     this.stopIdle();
-    const {effect,beam,flash}=this.createCosmeticShot({targetX,targetY,accent});
+    const {effect,beam,flash,impact}=this.createCosmeticShot({targetX,targetY,accent});
     this.fireEffect=effect;
     this.shotCount+=1;
     return new Promise(resolve=>{
@@ -476,8 +485,11 @@ export class AccountBattleUnit{
         .to(beam.scale,{x:1,duration:.07,ease:'power4.out'},0)
         .to(flash,{alpha:0,duration:.12,ease:'power2.out'},.035)
         .to(beam,{alpha:0,duration:.13,ease:'power2.in'},.08)
+        .to(impact.scale,{x:1.12,y:1.12,duration:.09,ease:'back.out(2.4)'},0)
+        .to(impact,{alpha:0,duration:.13,ease:'power2.out'},.055)
         .to(this.weaponSprite,{x:this.attachment.x,rotation:this.attachment.rotation,duration:.16,ease:'back.out(1.7)'},.07)
         .to(this.view,{x:0,duration:.16,ease:'back.out(1.7)'},.07);
+      this.fireTimeline.timeScale(playbackRate);
     });
   }
 

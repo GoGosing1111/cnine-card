@@ -20,7 +20,7 @@ const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_0
 const WEAPON_CODES=Object.freeze(['EQ_1785427638137','EQ_1785961300455','EQ_1785961232958','EQ_1786966923833']);
 const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
 const NAME_PANEL_HEIGHT=29;
-const STATIC_SUIT='/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png';
+const STATIC_SUIT='/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png';
 const STATIC_WEAPON='/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png';
 const DENIED_MODES=['PVP','RANKED','SIEGE','TERRITORY','CAPTAIN','CLAN'];
 
@@ -304,9 +304,27 @@ test('account Battle Suit occupies the dedicated internal front-left support til
     setFormation(x,y,scale){formation={x,y,scale}}
   };
   engine.layoutAccountBattleUnit();
-  const expected=engine.gridToScreen(1,5);
-  assert.deepEqual({x:formation.x,y:formation.y},expected,'account unit must be centered on the unused 1:5 tile');
+  const expected=engine.gridToScreen(2,5);
+  assert.deepEqual({x:formation.x,y:formation.y},expected,'account unit must advance one cell toward the enemy side and center on the unused 2:5 tile');
   assert.ok(formation.x>=engine.gridToScreen(0,5).x&&formation.x<=engine.gridToScreen(2,5).x,'support tile must remain inside the canonical grid');
+  engine.activeBattlefieldMode='ESCORT';
+  engine.layoutAccountBattleUnit();
+  assert.deepEqual(
+    {x:formation.x,y:formation.y},
+    engine.gridToScreen(1,5),
+    'ESCORT must fall back to 1:5 because the objective vehicle owns 2:5'
+  );
+  engine.activeBattlefieldMode='HUNT';
+  engine.layoutAccountBattleUnit();
+  assert.deepEqual({x:formation.x,y:formation.y},expected,'leaving ESCORT must restore the advanced HUNT station');
+  engine.isoFloorLayer=new Container({label:'FormationModeFloor'});
+  engine.accountBattleUnitEnabled=true;
+  engine.drawIsometricFloor();
+  assert.equal(engine.accountBattleUnitTile.label,'AccountSupportTile:2:5','HUNT accent must follow the advanced station');
+  engine.activeBattlefieldMode='ESCORT';
+  engine.drawIsometricFloor();
+  assert.equal(engine.accountBattleUnitTile.label,'AccountSupportTile:1:5','ESCORT accent must follow the safe fallback station');
+  engine.isoFloorLayer.destroy({children:true});
   engine.accountBattleUnitTile={visible:false,accountSupportAccent:{visible:false}};
   engine.accountBattleUnitEnabled=true;
   engine.syncAccountBattleUnitTile();
@@ -316,6 +334,115 @@ test('account Battle Suit occupies the dedicated internal front-left support til
   engine.syncAccountBattleUnitTile();
   assert.equal(engine.accountBattleUnitTile.visible,true,'forbidden modes retain the neutral base tile');
   assert.equal(engine.accountBattleUnitTile.accountSupportAccent.visible,false,'forbidden modes hide only the account support accent');
+});
+
+test('PVE sustained fire preserves weapon cadence differences and never enters the five-card damage contract',async()=>{
+  const engine=Object.create(BattleEngine.prototype);
+  const target={id:'ENEMY-1',hp:73,root:{x:900,y:420}};
+  const allies=Array.from({length:5},(_,index)=>({id:`ALLY-${index+1}`,hp:100}));
+  const cards=Array.from({length:5},(_,index)=>({id:`CARD-${index+1}`}));
+  const unit={active:true,cancelFire(){}};
+  const shots=[];
+  const delays=[];
+  Object.assign(engine,{
+    visible:true,playing:true,accountBattleUnitEnabled:true,accountBattleUnit:unit,
+    accountBattleUnitEquipment:{battleSuit:{code:SUIT_CODE},weapon:{code:'EQ_1785427638137'}},
+    accountBattleUnitFireRun:null,accountBattleUnitSustainedShotCount:0,
+    currentEnemyTarget:target,enemies:[target],allies,cards,characters:[...allies,target],
+    isAlive(character){return character.hp>0},
+    async playAccountBattleUnitCosmeticShot(victim,options){shots.push({victim,options});return true},
+    async waitForAccountBattleUnitFire(delay,run){
+      delays.push(delay);
+      return run.active&&delays.length<5;
+    }
+  });
+
+  const m4=engine.accountBattleUnitSustainedFireProfile();
+  engine.accountBattleUnitEquipment.weapon={code:'EQ_1785961232958'};
+  const ak=engine.accountBattleUnitSustainedFireProfile();
+  engine.accountBattleUnitEquipment.weapon={code:'EQ_1785961300455'};
+  const m200=engine.accountBattleUnitSustainedFireProfile();
+  assert.equal(m4.fireMode,'FULL_AUTO');
+  assert.equal(ak.fireMode,'FULL_AUTO');
+  assert.ok(m4.roundsPerBurst>ak.roundsPerBurst,'M4A1 must retain the denser automatic burst');
+  assert.equal(m200.fireMode,'BOLT_ACTION');
+  assert.equal(m200.roundsPerBurst,1);
+  assert.ok(m200.burstDelayMs>m4.burstDelayMs,'M200 must retain a slower bolt-action follow-up');
+
+  engine.accountBattleUnitEquipment.weapon={code:'EQ_1785427638137'};
+  const run=engine.startAccountBattleUnitSustainedFire();
+  assert.ok(run?.active);
+  const shotCount=await run.promise;
+  assert.equal(shotCount,5);
+  assert.equal(shots.length,5);
+  assert.ok(shots.every(sample=>sample.victim===target&&sample.options.playbackRate===m4.playbackRate));
+  assert.deepEqual(delays,[m4.intraBurstDelayMs,m4.intraBurstDelayMs,m4.intraBurstDelayMs,m4.burstDelayMs,m4.intraBurstDelayMs]);
+  assert.equal(engine.accountBattleUnitSustainedShotCount,5);
+  assert.equal(engine.accountBattleUnitFireRun,null);
+  assert.equal(allies.length,5);
+  assert.equal(cards.length,5);
+  assert.ok(allies.every(ally=>ally.hp===100),'presentation fire must not mutate allied HP');
+  assert.equal(target.hp,73,'presentation fire must not mutate authoritative enemy HP');
+
+  engine.accountBattleUnitEnabled=false;
+  assert.equal(engine.startAccountBattleUnitSustainedFire(),null,'forbidden/non-PVE state must never start sustained fire');
+});
+
+test('preview runSequence sustains account fire across the canonical card actions and stops it before roster restore',async()=>{
+  const makeCharacter=id=>({
+    id,hp:100,root:{alpha:1,position:{set(){}},scale:{set(){}}},
+    setState(){},setHp(value){this.hp=value}
+  });
+  const allies=Array.from({length:5},(_,index)=>makeCharacter(`ALLY-${index+1}`));
+  const enemies=Array.from({length:2},(_,index)=>makeCharacter(`ENEMY-${index+1}`));
+  const cards=Array.from({length:5},()=>({
+    alpha:1,baseX:0,baseY:0,restScale:1,hpValue:100,hp:{},
+    position:{set(){}},scale:{set(){}}
+  }));
+  const eventBatches=[];
+  let starts=0,stops=0,restores=0;
+  const engine=Object.create(BattleEngine.prototype);
+  Object.assign(engine,{
+    visible:true,playing:false,cards,allies,enemies,characters:[...allies,...enemies],
+    uiLayer:{combo:{alpha:0,text:''},comboLabel:{alpha:0}},
+    accountBattleUnitFireRun:null,
+    captureLivePreviewRosterState(){return {preserved:true}},
+    cancelTimelines(){this.accountBattleUnitFireRun=null;this.playing=false},
+    setHp(){},updateStatus(){},
+    async playEvents(events){
+      eventBatches.push(events.map(event=>event.type));
+      if(eventBatches.length===1)assert.deepEqual(eventBatches[0],['DEPLOY']);
+      else assert.equal(this.accountBattleUnitFireRun?.active,true,'sustained fire must overlap the card action batch');
+    },
+    startAccountBattleUnitSustainedFire(){
+      starts+=1;
+      const run={active:true,promise:Promise.resolve(6)};
+      this.accountBattleUnitFireRun=run;
+      return run;
+    },
+    stopAccountBattleUnitSustainedFire(){
+      stops+=1;
+      if(this.accountBattleUnitFireRun)this.accountBattleUnitFireRun.active=false;
+      this.accountBattleUnitFireRun=null;
+      return Promise.resolve(6);
+    },
+    restoreLivePreviewRosterState(snapshot){
+      restores+=1;
+      assert.deepEqual(snapshot,{preserved:true});
+      assert.equal(this.accountBattleUnitFireRun,null,'fire must stop before formation restoration');
+      return true;
+    }
+  });
+
+  await engine.runSequence();
+  assert.deepEqual(eventBatches,[
+    ['DEPLOY'],
+    ['ATTACK','SKILL','COUNTER','ULTIMATE','ATTACK']
+  ]);
+  assert.equal(starts,1);
+  assert.equal(stops,1);
+  assert.equal(restores,1);
+  assert.equal(engine.playing,false);
 });
 
 test('live preview replay restores all five allied SD units and the active enemy after the sequence',()=>{

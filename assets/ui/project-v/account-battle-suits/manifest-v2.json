@@ -12,10 +12,10 @@
     "battleSuitPvpPower": 0
   },
   "renderContract": {
-    "formation": "AUXILIARY_FRONT_LEFT",
+    "formation": "AUXILIARY_FRONT_LEFT_FORWARD_TILE",
     "canonicalAllyCardCount": 5,
     "movement": false,
-    "attack": "COSMETIC_RANGED_SHOT",
+    "attack": "SUSTAINED_BURST_VISUAL",
     "addsIndependentDamage": false,
     "authoredCompositeForApprovedWeapons": true,
     "fallbackBodyAndWeaponAreSeparate": true,
@@ -56,12 +56,12 @@
   "suits": [
     {
       "code": "BATTLE_SUIT_01",
-      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png",
-      "sha256": "94B9F7549027A9E24B06779E13DADCD9169E5B4399358584B26B2B4080498665",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png",
+      "sha256": "322E1958CFBF80CF7940CEFD9C05A49B353559AFE5319C05EC11A4C4E2C922F3",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-topdown-fire-atlas-v1.png",
-          "sha256": "353D85F04DB8A9B7FA5009C7FB0613AE0FDF2F86DFE01E03DD78C9CFEA5E7F5F",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v2.png",
+          "sha256": "2E41BCA413DD01D887B010EDB92311E530F756EEC70CDBB1F2CDB312B7A900FC",
           "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
           "weaponRows": [
             {
@@ -75,8 +75,8 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-topdown-fire-atlas-v1.png",
-          "sha256": "1662FE29C55DE48ACF5A7CD509B0E0634D13966B45499C4B3416F1CA0D68C2D1",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v2.png",
+          "sha256": "05E9F9ACD8FD67EFA35765BB3FC525F369838CA972FEDF81C7FC08EF2B222EF4",
           "composition": "EXACT_DATABASE_WEAPON_CUTOUT_WITH_AUTHORED_HAND_OCCLUSION",
           "weaponRows": [
             {

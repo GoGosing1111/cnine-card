@@ -19,7 +19,7 @@ const SUPPLY_BOX_MAX_OPEN=500;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
 const BATTLE_SUIT_CATALOG=[
-  {code:'BATTLE_SUIT_01',name:'배틀슈트 01',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png',description:'백금 날개형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:10},
+  {code:'BATTLE_SUIT_01',name:'배틀슈트 01',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png',description:'백금 날개 여성형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:10},
   {code:'BATTLE_SUIT_02',name:'배틀슈트 02',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',description:'주황색 전술형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:20},
   {code:'BATTLE_SUIT_03',name:'배틀슈트 03',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png',description:'자수정 기계갑주형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:30}
 ];
@@ -471,6 +471,16 @@ export async function ensureEquipmentFoundation(env){
         WHERE code IN ('BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03')`));
       statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1953_project_v_battle_suits','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP"));
       await env.DB.batch(statements);
+    }
+    const battleSuitFemaleRefreshMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1959_battle_suit_01_female'").first();
+    if(battleSuitFemaleRefreshMarker?.value!=='1'){
+      const refreshed=BATTLE_SUIT_CATALOG.find(item=>item.code==='BATTLE_SUIT_01');
+      await env.DB.batch([
+        env.DB.prepare(`UPDATE character_equipment_items
+          SET image_url=?,description=?,updated_at=CURRENT_TIMESTAMP
+          WHERE code='BATTLE_SUIT_01'`).bind(refreshed.image,refreshed.description),
+        env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1959_battle_suit_01_female','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP")
+      ]);
     }
     return true;
   })().catch(error=>{foundationPromise=null;throw error});

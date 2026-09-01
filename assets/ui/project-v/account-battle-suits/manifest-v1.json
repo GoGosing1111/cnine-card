@@ -10,18 +10,18 @@
     "battleSuitPvpPower": 0
   },
   "renderContract": {
-    "formation": "AUXILIARY_FRONT_LEFT",
+    "formation": "AUXILIARY_FRONT_LEFT_FORWARD_TILE",
     "canonicalAllyCardCount": 5,
     "movement": false,
-    "attack": "COSMETIC_RANGED_SHOT",
+    "attack": "SUSTAINED_BURST_VISUAL",
     "addsIndependentDamage": false,
     "bodyAndWeaponAreSeparate": true
   },
   "suits": [
     {
       "code": "BATTLE_SUIT_01",
-      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png",
-      "sha256": "94B9F7549027A9E24B06779E13DADCD9169E5B4399358584B26B2B4080498665"
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png",
+      "sha256": "322E1958CFBF80CF7940CEFD9C05A49B353559AFE5319C05EC11A4C4E2C922F3"
     },
     {
       "code": "BATTLE_SUIT_02",

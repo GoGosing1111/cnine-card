@@ -12,6 +12,7 @@ import {
 } from '../functions/_equipment.js';
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
+const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
 const assetManifestUrl=new URL('../assets/ui/project-v/account-battle-suits/manifest-v1.json',import.meta.url);
 const siegeUrl=new URL('../functions/_siege.js',import.meta.url);
 const apiUrl=new URL('../functions/api/[[path]].js',import.meta.url);
@@ -60,6 +61,23 @@ test('battle-suit CMS power is PVE-only and the catalog points at the three appr
   assert.deepEqual(__equipmentTest.equipmentPowerForSlot('WEAPON',{totalPower:100}),{total:100,pve:90,pvp:10});
   assert.deepEqual(__equipmentTest.BATTLE_SUIT_CATALOG.map(item=>item.code),['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
   assert.ok(__equipmentTest.BATTLE_SUIT_CATALOG.every(item=>item.image.startsWith('/assets/ui/project-v/account-battle-suits/suits/')));
+  assert.match(__equipmentTest.BATTLE_SUIT_CATALOG[0].image,/white-gold-female-v2\.png$/);
+});
+
+test('Battle Suit 01 female refresh replaces only the appearance metadata',async()=>{
+  const sqlite=new DatabaseSync(':memory:');
+  createEquipmentSchema(sqlite);
+  sqlite.exec(await readFile(migrationUrl,'utf8'));
+  sqlite.prepare("UPDATE character_equipment_items SET total_power=777,pve_power=777,pvp_power=0 WHERE code='BATTLE_SUIT_01'").run();
+  const refresh=await readFile(femaleRefreshMigrationUrl,'utf8');
+  sqlite.exec(refresh);
+  sqlite.exec(refresh);
+  const row=sqlite.prepare("SELECT image_url,description,total_power,pve_power,pvp_power FROM character_equipment_items WHERE code='BATTLE_SUIT_01'").get();
+  assert.match(row.image_url,/battle-suit-appearance-01-white-gold-female-v2\.png$/);
+  assert.match(row.description,/여성형/);
+  assert.equal(row.total_power,777);
+  assert.equal(row.pve_power,777);
+  assert.equal(row.pvp_power,0);
 });
 
 test('competitive and siege server paths hard-exclude Battle Suit power',async()=>{

@@ -8,6 +8,7 @@ import sharp from 'sharp';
 const root=new URL('../',import.meta.url);
 const manifestUrl=new URL('assets/ui/project-v/account-battle-suits/manifest-v2.json',root);
 const catalogModuleUrl=new URL('preview/project-v-v3/source/battle/AccountBattleSuitAnimationCatalog.js',root);
+const compositeScriptUrl=new URL('scripts/compose-exact-battle-suit-weapons.cjs',root);
 
 const SUIT_CODES=Object.freeze(['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
 const WEAPON_GROUPS=Object.freeze({
@@ -115,6 +116,9 @@ test('animated Battle Suit v2 manifest preserves the PVE-only five-card/static-f
   const provenance=JSON.parse(await readFile(assetFileUrl(manifest.generationProvenance),'utf8'));
   assert.equal(provenance.tool,'OpenAI built-in image generation tool');
   assert.match(provenance.finalPromptSet?.exactAllWeaponsComposite||'',/exact approved database battle-sprite raster/i);
+  assert.match(provenance.finalPromptSet?.weaponPoseProxy||'',/barrel points exactly horizontally to screen-right/i);
+  assert.match(provenance.finalPromptSet?.horizontalCorrection||'',/--force-horizontal/);
+  assert.match(provenance.finalPromptSet?.exactAllWeaponsComposite||'',/rotation to exactly 0 degrees/i);
   assert.deepEqual(manifest.animationContract?.grid,{columns:4,rows:2});
   assert.deepEqual(manifest.animationContract?.frameOrder,FRAME_ORDER);
   assert.equal(manifest.animationContract?.format,'PNG_RGBA_GRID');
@@ -125,6 +129,8 @@ test('animated Battle Suit v2 manifest preserves the PVE-only five-card/static-f
 
   assert.equal(manifest.renderContract?.canonicalAllyCardCount,5);
   assert.equal(manifest.renderContract?.movement,false);
+  assert.equal(manifest.renderContract?.formation,'AUXILIARY_FRONT_LEFT_FORWARD_TILE');
+  assert.equal(manifest.renderContract?.attack,'SUSTAINED_BURST_VISUAL');
   assert.equal(manifest.renderContract?.addsIndependentDamage,false);
   assert.equal(manifest.renderContract?.authoredCompositeForApprovedWeapons,true);
   assert.equal(manifest.renderContract?.fallbackBodyAndWeaponAreSeparate,true);
@@ -134,6 +140,14 @@ test('animated Battle Suit v2 manifest preserves the PVE-only five-card/static-f
 
   assert.deepEqual((manifest.suits||[]).map(item=>item.code),SUIT_CODES);
   assert.deepEqual(sorted((manifest.weapons||[]).map(item=>item.equipmentCode)),sorted(WEAPON_CODES));
+
+  const femaleSuit=manifest.suits.find(item=>item.code==='BATTLE_SUIT_01');
+  assert.equal(femaleSuit?.image,'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-female-v2.png');
+  assert.match(femaleSuit?.animationSheets?.m4a1M200?.image||'',/horizontal-fire-atlas-v2\.png$/);
+  assert.match(femaleSuit?.animationSheets?.akSks?.image||'',/horizontal-fire-atlas-v2\.png$/);
+  const compositeScript=await readFile(compositeScriptUrl,'utf8');
+  assert.match(compositeScript,/const forceHorizontal=optionArgs\.includes\('--force-horizontal'\)/);
+  assert.match(compositeScript,/const rotationDegrees=forceHorizontal\?0:measurement\.angleDegrees/);
 
   // The authored atlas supplements the deployed database preview/fallback art;
   // it must never replace image_url with a visible 4x2 grid.

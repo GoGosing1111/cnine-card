@@ -29,8 +29,8 @@ assert.match(source,/setBattlefield/);
 assert.match(client,/battleQcState\.battlefield=button\.dataset\.battlefield/);
 assert.match(client,/ensureBattleQcSession\(\{reset:true\}\)/);
 assert.match(client,/battlefieldMode:battleQcState\.battlefield/);
-assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=76-front-left-replay-fix/);
-assert.match(html,/project-v-client\.js\?v=56-front-left-replay-audio-fix/);
+assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=77-female-horizontal-burst/);
+assert.match(html,/project-v-client\.js\?v=57-female-horizontal-burst/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000,'rebuilt public Pixi bundle missing');
 
 console.log('project-v V3 multi-battlefield contract: OK');
