@@ -460,6 +460,7 @@ function applyPrisonStatus(prison={},room={}){
   return prisonUiState;
 }
 function isPrisonLocked(){return prisonUiState.incarcerated===true&&prisonTimestampMs(prisonUiState.jailedUntil)>Date.now()+prisonUiState.serverOffsetMs}
+function prisonChatEnabled(){return isPrisonLocked()||prisonUiState.inmates.length>0}
 function prisonRemainingSeconds(){const end=prisonTimestampMs(prisonUiState.jailedUntil);return end?Math.max(0,Math.ceil((end-(Date.now()+prisonUiState.serverOffsetMs))/1000)):0}
 function prisonDurationLabel(seconds=prisonRemainingSeconds()){
   const total=Math.max(0,Math.floor(Number(seconds)||0)),hours=Math.floor(total/3600),minutes=Math.floor(total%3600/60),secs=total%60;
@@ -476,12 +477,12 @@ function prisonInmateRows(){
 }
 function prisonChatRows(){
   const myId=Number(loadUser()?.serverUserId||0);
-  if(!prisonUiState.messages.length)return '<div class="prison-chat-empty"><b>아직 채팅이 없습니다.</b><span>수감자와 방문객 모두 대화할 수 있습니다.</span></div>';
+  if(!prisonUiState.messages.length)return prisonChatEnabled()?'<div class="prison-chat-empty"><b>아직 채팅이 없습니다.</b><span>수감자와 방문객 모두 대화할 수 있습니다.</span></div>':'<div class="prison-chat-empty"><b>채팅 대기 중</b><span>수감자가 있을 때만 채팅이 열립니다.</span></div>';
   return prisonUiState.messages.map(message=>`<article class="prison-chat-message ${Number(message.userId)===myId?'is-mine':''}"><header><b>${escapeHtml(message.nickname||'알 수 없음')}</b><em class="${message.senderWasIncarcerated?'is-inmate':'is-visitor'}">${message.senderWasIncarcerated?'수감자':'방문객'}</em><time>${escapeHtml(prisonTimeLabel(message.createdAt))}</time></header><p>${escapeHtml(message.body||'')}</p></article>`).join('');
 }
 function prisonBarsMarkup(){return `<div class="prison-bars" aria-hidden="true">${Array.from({length:11},()=>'<i></i>').join('')}<span></span><span></span></div>`}
 function prisonView(user,locked=isPrisonLocked()){
-  const scene=prisonSceneInmate(user),sceneName=scene?.nickname||'빈 감방',sceneUntil=scene?.jailedUntil||null;
+  const scene=prisonSceneInmate(user),sceneName=scene?.nickname||'빈 감방',sceneUntil=scene?.jailedUntil||null,chatEnabled=prisonChatEnabled();
   return `<section class="prison-v1 ${locked?'is-locked':'is-visitor'}" id="prisonView" aria-label="행정부 감옥">
     <div class="prison-atmosphere" aria-hidden="true"></div>
     <header class="prison-command-head"><div><small>SOOPKETMON / ADMINISTRATION</small><h1>행정부 감옥</h1><p>${locked?'형기가 끝날 때까지 감옥 채팅 외 모든 콘텐츠 이용이 차단됩니다.':'현재 수감 현황을 확인하고 공개 채팅에 참여할 수 있습니다.'}</p></div><div class="prison-head-actions">${locked?'':`<button type="button" id="prisonExitBtn">로비로 돌아가기</button>`}<button type="button" id="prisonLogoutBtn" class="ghost">로그아웃</button></div></header>
@@ -499,20 +500,21 @@ function prisonView(user,locked=isPrisonLocked()){
       </section>
       <aside class="prison-side">
         <section class="prison-roster"><header><div><small>INMATE ROSTER</small><h2>수감자 명단</h2></div><b id="prisonInmateCount">${prisonUiState.inmates.length}</b></header><ul id="prisonInmateList">${prisonInmateRows()}</ul></section>
-        <section class="prison-chat"><header><div><small>PUBLIC CELL CHAT</small><h2>감옥 공개 채팅</h2></div><span>수감자·방문객 공용</span></header><div class="prison-chat-log" id="prisonChatLog" aria-live="polite">${prisonChatRows()}</div><form id="prisonChatForm"><input id="prisonChatInput" maxlength="200" autocomplete="off" placeholder="메시지를 입력하세요 (최대 200자)"><button type="submit">전송</button></form></section>
+        <section class="prison-chat"><header><div><small>PUBLIC CELL CHAT</small><h2>감옥 공개 채팅</h2></div><span>수감자·방문객 공용</span></header><div class="prison-chat-log" id="prisonChatLog" aria-live="polite">${prisonChatRows()}</div><form id="prisonChatForm"><input id="prisonChatInput" maxlength="200" autocomplete="off" placeholder="${chatEnabled?'메시지를 입력하세요 (최대 200자)':'수감자가 있을 때만 채팅할 수 있습니다.'}" ${chatEnabled?'':'disabled'}><button type="submit" ${chatEnabled?'':'disabled'}>전송</button></form></section>
       </aside>
     </div>
   </section>`;
 }
 function stopPrisonWatch(){if(prisonPollTimer){clearTimeout(prisonPollTimer);prisonPollTimer=null}if(prisonCountdownTimer){clearInterval(prisonCountdownTimer);prisonCountdownTimer=null}}
-function syncPrisonDom(){
+function syncPrisonDom({forceChatBottom=false}={}){
   const user=loadUser(),scene=prisonSceneInmate(user),locked=isPrisonLocked();
   const sceneName=document.getElementById('prisonSceneName'),sceneUntil=document.getElementById('prisonSceneUntil'),character=document.getElementById('prisonCharacter');
   if(sceneName)sceneName.textContent=scene?.nickname||'빈 감방';
   if(sceneUntil)sceneUntil.textContent=scene?.jailedUntil?`${prisonTimeLabel(scene.jailedUntil)} 석방`:'현재 수감자 없음';
   if(character)character.hidden=!scene;
   const count=document.getElementById('prisonInmateCount'),list=document.getElementById('prisonInmateList');if(count)count.textContent=String(prisonUiState.inmates.length);if(list)list.innerHTML=prisonInmateRows();
-  const log=document.getElementById('prisonChatLog');if(log){const nearBottom=log.scrollHeight-log.scrollTop-log.clientHeight<80;log.innerHTML=prisonChatRows();if(nearBottom)log.scrollTop=log.scrollHeight}
+  const log=document.getElementById('prisonChatLog');if(log){const nearBottom=log.scrollHeight-log.scrollTop-log.clientHeight<80;log.innerHTML=prisonChatRows();if(forceChatBottom||nearBottom)log.scrollTop=log.scrollHeight}
+  const chatEnabled=prisonChatEnabled(),chatInput=document.getElementById('prisonChatInput'),chatButton=document.querySelector('#prisonChatForm button');if(chatInput){chatInput.disabled=!chatEnabled;chatInput.placeholder=chatEnabled?'메시지를 입력하세요 (최대 200자)':'수감자가 있을 때만 채팅할 수 있습니다.'}if(chatButton)chatButton.disabled=!chatEnabled||prisonChatBusy;
   const countdown=document.getElementById('prisonCountdown'),reason=document.getElementById('prisonReason');if(countdown)countdown.textContent=locked?prisonDurationLabel():`${prisonUiState.inmates.length}명 수감 중`;if(reason)reason.textContent=locked?(prisonUiState.reason||'운영 정책 위반'):'감옥은 누구나 방문할 수 있습니다.';
 }
 async function loadPrisonRoom(){
@@ -540,7 +542,7 @@ async function prisonLogout(){
 function bindPrisonView(){
   document.getElementById('prisonExitBtn')?.addEventListener('click',()=>renderShell('buy'));
   document.getElementById('prisonLogoutBtn')?.addEventListener('click',prisonLogout);
-  const form=document.getElementById('prisonChatForm');if(form)form.onsubmit=async event=>{event.preventDefault();if(prisonChatBusy)return;const input=document.getElementById('prisonChatInput'),body=String(input?.value||'').trim();if(!body)return;if(Array.from(body).length>200)return alert('채팅은 200자 이하로 입력하세요.');prisonChatBusy=true;const button=form.querySelector('button');if(button)button.disabled=true;try{const data=await apiRequest('prison/chat',{method:'POST',body:JSON.stringify({body})});if(input)input.value='';if(data.message)prisonUiState.messages.push(data.message);syncPrisonDom()}catch(error){alert(error.message||'채팅 전송에 실패했습니다.')}finally{prisonChatBusy=false;if(button)button.disabled=false}};
+  const form=document.getElementById('prisonChatForm');if(form)form.onsubmit=async event=>{event.preventDefault();if(prisonChatBusy||!prisonChatEnabled())return;const input=document.getElementById('prisonChatInput'),body=String(input?.value||'').trim();if(!body)return;if(Array.from(body).length>200)return alert('채팅은 200자 이하로 입력하세요.');prisonChatBusy=true;const button=form.querySelector('button');if(button)button.disabled=true;try{const data=await apiRequest('prison/chat',{method:'POST',body:JSON.stringify({body})});if(input)input.value='';if(data.message)prisonUiState.messages.push(data.message);syncPrisonDom({forceChatBottom:true})}catch(error){alert(error.message||'채팅 전송에 실패했습니다.')}finally{prisonChatBusy=false;if(button)button.disabled=!prisonChatEnabled()}};
   const log=document.getElementById('prisonChatLog');if(log)log.scrollTop=log.scrollHeight;
   startPrisonWatch();
 }

@@ -37,14 +37,31 @@ test('수감자는 모든 하위 콘텐츠 라우터보다 먼저 423으로 차�
   assert.match(server,/return json\(\{error:'수감 중에는 감옥을 벗어날 수 없습니다\.',code:'USER_INCARCERATED',prison\},423\)/);
 });
 
+test('수감자는 전체 프로필 조회 없이 로그인 성공 후 즉시 감옥으로 진입한다',()=>{
+  assert.match(server,/function prisonLoginProfile\(user\)/);
+  assert.match(server,/const prison=await prisonStatusForUser\(env,user\.id\);\s*const loginUser=prison\.incarcerated\?prisonLoginProfile\(user\):await profile\(env,user\)/);
+  assert.match(server,/user:loginUser,prison/);
+  assert.match(client,/applyPrisonStatus\(d\.prison\|\|\{incarcerated:false\}\);if\(isPrisonLocked\(\)\)return renderLockedPrison\(\)/);
+});
+
 test('감옥 공개 채팅은 인증·길이·속도 제한과 역할 표식을 가진다',()=>{
   assert.match(server,/path==='prison\/chat'/);
   assert.match(server,/Array\.from\(body\)\.length>200/);
   assert.match(server,/created_at>datetime\('now','-2 seconds'\)/);
   assert.match(server,/sender_was_incarcerated/);
+  assert.match(server,/DELETE FROM prison_chat_messages WHERE NOT EXISTS/);
+  assert.match(server,/code:'PRISON_CHAT_CLOSED'/);
+  assert.match(server,/SELECT \?,\?,\? WHERE EXISTS\(SELECT 1 FROM user_prison_status WHERE active=1 AND jailed_until>CURRENT_TIMESTAMP\)/);
+  assert.match(server,/chatEnabled:inmates\.length>0/);
   assert.match(client,/PUBLIC CELL CHAT/);
   assert.match(client,/수감자·방문객 공용/);
   assert.match(client,/escapeHtml\(message\.body/);
+  assert.match(client,/syncPrisonDom\(\{forceChatBottom:true\}\)/);
+  assert.match(client,/function prisonChatEnabled\(\)/);
+  assert.match(client,/수감자가 있을 때만 채팅할 수 있습니다/);
+  assert.match(css,/\.prison-side\{[^}]*height:710px;max-height:710px;overflow:hidden/);
+  assert.match(css,/\.prison-chat-log\{[^}]*overflow-y:auto;overscroll-behavior:contain/);
+  assert.match(css,/@media\(max-width:720px\)[\s\S]*\.prison-side,\.prison-lock-shell \.prison-side\{[^}]*grid-template-rows:auto 430px/);
 });
 
 test('전체 메뉴 맨 아래에 행정부·감옥이 연결된다',()=>{
@@ -62,7 +79,7 @@ test('잠금 화면은 계정명·죄수 캐릭터·창살·남은 형기와 전
   assert.match(client,/function renderLockedPrison/);
   assert.match(css,/prison-cell-background-v1\.png/);
   assert.match(css,/\.prison-bars i/);
-  assert.match(index,/css\/prison-v1950\.css\?v=1950-administration-prison/);
+  assert.match(index,/css\/prison-v1950\.css\?v=1951-prison-chat-scroll/);
   const [background,character]=await Promise.all([
     stat(new URL('../assets/ui/prison/prison-cell-background-v1.png',import.meta.url)),
     stat(new URL('../assets/ui/prison/prisoner-cartoon-servile-v1.png',import.meta.url))

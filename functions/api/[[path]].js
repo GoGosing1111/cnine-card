@@ -3597,6 +3597,9 @@ async function profile(env,user){
     history:recent.results.reverse().map(row=>({cardId:row.cardId,at:row.at,duplicate:!row.is_new,title:row.title,grade:row.rarity})),
     attendance:{lastClaimDate:attendance?.attendance_date||null,totalDays:totalAttendance?.count||0,streak:Number(attendance?.streak_day||0),settings:attendanceConfig},breakthroughConfig:breakthroughSettings,masterStars:Number(masterStarRow?.quantity||0),maHighBreakthrough,limitedHighBreakthrough,furHighBreakthrough,zenithHighBreakthrough,superstarHighBreakthrough:zenithHighBreakthrough,weeklyPremiumCube};
 }
+function prisonLoginProfile(user){
+  return {profileScope:'PRISON_PARTIAL',id:user.id,nickname:user.nickname,coin:Number(user.coin||0),cardShards:Number(user.card_shards||0),magicCrystals:Number(user.magic_crystals||0),role:user.role};
+}
 // V1791: 전투 응답용 경량 프로필.
 //
 // profile() 은 보유 카드 "전체" 스캔 + 뽑기 로그 30건 조인 + 출석/설정 등 10개 조회를 한다.
@@ -4474,6 +4477,11 @@ async function prisonStatusForUser(env,userId){
   }
   return status;
 }
+async function clearPrisonChatIfEmpty(env){
+  return env.DB.prepare(`DELETE FROM prison_chat_messages WHERE NOT EXISTS (
+    SELECT 1 FROM user_prison_status WHERE active=1 AND jailed_until>CURRENT_TIMESTAMP
+  )`).run();
+}
 async function prisonRoomState(env,user){
   const prison=await prisonStatusForUser(env,user.id);
   const [inmateRows,messageRows]=await env.DB.batch([
@@ -4484,10 +4492,14 @@ async function prisonRoomState(env,user){
       FROM (SELECT id,user_id,body,sender_was_incarcerated,created_at FROM prison_chat_messages ORDER BY id DESC LIMIT 80) q
       JOIN users u ON u.id=q.user_id ORDER BY q.id ASC`)
   ]);
+  const inmates=(inmateRows?.results||[]).map(row=>({...row,userId:Number(row.userId)}));
+  let messages=(messageRows?.results||[]).map(row=>({...row,id:Number(row.id),userId:Number(row.userId),senderWasIncarcerated:Number(row.senderWasIncarcerated)===1}));
+  if(!inmates.length&&messages.length){await clearPrisonChatIfEmpty(env);messages=[]}
   return {
     prison,
-    inmates:(inmateRows?.results||[]).map(row=>({...row,userId:Number(row.userId)})),
-    messages:(messageRows?.results||[]).map(row=>({...row,id:Number(row.id),userId:Number(row.userId),senderWasIncarcerated:Number(row.senderWasIncarcerated)===1})),
+    inmates,
+    messages,
+    chatEnabled:inmates.length>0,
     serverNow:new Date().toISOString()
   };
 }
@@ -4521,7 +4533,7 @@ async function handleRequest(context){
     if(path==='health'){
       const databaseInitialized=await initialized(env);
       if(databaseInitialized)await ensurePrisonFoundation(env);
-      return json({ok:true,version:'2.8.4',database:true,initialized:databaseInitialized,prisonSchema:true});
+      return json({ok:true,version:'2.8.5',database:true,initialized:databaseInitialized,prisonSchema:true});
     }
 
     if(path.startsWith('admin/storage-cleanup')){
@@ -4610,13 +4622,18 @@ async function handleRequest(context){
         const body=String(payload.body||'').replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim();
         if(!body)return json({error:'채팅 내용을 입력하세요.'},400);
         if(Array.from(body).length>200)return json({error:'채팅은 200자 이하로 입력하세요.'},400);
+        const activeInmate=await env.DB.prepare(`SELECT 1 FROM user_prison_status
+          WHERE active=1 AND jailed_until>CURRENT_TIMESTAMP LIMIT 1`).first();
+        if(!activeInmate){await clearPrisonChatIfEmpty(env);return json({error:'현재 수감자가 없어 감옥 채팅을 사용할 수 없습니다.',code:'PRISON_CHAT_CLOSED'},409)}
         const recent=await env.DB.prepare(`SELECT COUNT(*) AS count FROM prison_chat_messages
           WHERE user_id=? AND created_at>datetime('now','-2 seconds')`).bind(user.id).first();
         if(Number(recent?.count||0)>0)return json({error:'채팅은 2초에 한 번 보낼 수 있습니다.',code:'PRISON_CHAT_RATE_LIMIT'},429);
         const prison=await prisonStatusForUser(env,user.id);
         const inserted=await env.DB.prepare(`INSERT INTO prison_chat_messages(user_id,body,sender_was_incarcerated)
-          VALUES(?,?,?)`).bind(user.id,body,prison.incarcerated?1:0).run();
+          SELECT ?,?,? WHERE EXISTS(SELECT 1 FROM user_prison_status WHERE active=1 AND jailed_until>CURRENT_TIMESTAMP)`)
+          .bind(user.id,body,prison.incarcerated?1:0).run();
         const messageId=Number(inserted?.meta?.last_row_id||0);
+        if(!messageId)return json({error:'현재 수감자가 없어 감옥 채팅을 사용할 수 없습니다.',code:'PRISON_CHAT_CLOSED'},409);
         if(messageId>0&&messageId%100===0)deferWrite('prison chat retention',()=>env.DB.prepare("DELETE FROM prison_chat_messages WHERE created_at<datetime('now','-30 days')").run());
         const message=await env.DB.prepare(`SELECT q.id,q.user_id AS userId,u.nickname,q.body,
           q.sender_was_incarcerated AS senderWasIncarcerated,q.created_at AS createdAt
@@ -4794,7 +4811,11 @@ async function handleRequest(context){
       if(user.status!=='ACTIVE'||(user.banned_until&&new Date(user.banned_until+'Z')>new Date())) return json({error:`이용이 정지된 계정입니다.${user.ban_reason?' 사유: '+user.ban_reason:''}`},403);
       const currentMaintenance=await maintenanceGateSettings(env);
       await env.DB.prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').bind(user.id).run();
-      return json({token:await makeSession(env,user.id,payload.clientId||request.headers.get('x-cnine-client-id')),user:await profile(env,user),prison:await prisonStatusForUser(env,user.id),maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
+      // 수감자는 일반 콘텐츠 프로필을 만들 필요가 없다. 수감 여부를 먼저 판정해야
+      // 카드·출석 등 하위 조회 오류/지연과 무관하게 로그인 직후 감옥으로 보낼 수 있다.
+      const prison=await prisonStatusForUser(env,user.id);
+      const loginUser=prison.incarcerated?prisonLoginProfile(user):await profile(env,user);
+      return json({token:await makeSession(env,user.id,payload.clientId||request.headers.get('x-cnine-client-id')),user:loginUser,prison,maintenance:currentMaintenance.active&&!canMaintenanceBypass(user,currentMaintenance)?currentMaintenance:null,bypass:canMaintenanceBypass(user,currentMaintenance)});
     }
     if(path==='auth/logout'&&request.method==='POST'){
       const raw=(request.headers.get('authorization')||'').replace(/^Bearer\s+/i,'');
@@ -7630,6 +7651,7 @@ async function handleRequest(context){
           env.DB.prepare(`INSERT INTO user_runtime_commands(user_id,command_type,payload_json,created_by,expires_at)
             VALUES(?,'PRISON_RELEASE',?,?,datetime('now','+30 minutes'))`).bind(userId,JSON.stringify(commandPayload),admin.id)
         ]);
+        await clearPrisonChatIfEmpty(env);
         const prison=await prisonStatusForUser(env,userId);
         await writeAdminLog(env,admin,'PRISON_RELEASE','USER',userId,{...before,prison:currentPrison},{...before,prison,reason});
         return json({ok:true,user:before,prison});
