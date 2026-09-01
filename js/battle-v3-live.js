@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.24.0-battlefield-fade-deadlock';
+  const VERSION = '3.25.0-account-battle-suit-pve';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -108,7 +108,7 @@
   // 로스터 카드 프레임은 assetUrl() 이 처리하지만, Pixi 전장은 번들이 payload 의
   // image 값을 직접 읽으므로 넘기기 전에 한 번 갈아끼워야 한다.
   // 어댑터가 넣어 준 SD 원본 PNG 는 장당 1.1~1.6MB 인데 화면에서는 184px 로 그려진다.
-  const SPRITE_URL_KEYS = ['image', 'imageBattle', 'battleImage', 'imageUrl', 'image_url', 'primaryUrl', 'pngFallbackUrl'];
+  const SPRITE_URL_KEYS = ['image', 'imageBattle', 'battleImage', 'imageUrl', 'image_url', 'primaryUrl', 'pngFallbackUrl', 'battleSprite', 'appearanceUrl', 'url', 'src'];
   function rewriteSpriteCard(card) {
     const resolve = root.cnineBattleSpriteUrl;
     if (typeof resolve !== 'function' || !card || typeof card !== 'object') return card;
@@ -138,6 +138,30 @@
     }
     if (Array.isArray(out.cards)) out.cards = out.cards.map(rewriteSpriteCard);
     if (out.monster) out.monster = rewriteSpriteCard(out.monster);
+    const rewriteEquipment = item => {
+      if (!item || typeof item !== 'object' || Array.isArray(item)) return item;
+      const next = { ...rewriteSpriteCard(item) };
+      if (next.appearance && typeof next.appearance === 'object' && !Array.isArray(next.appearance)) next.appearance = rewriteSpriteCard(next.appearance);
+      if (next.battleSprite && typeof next.battleSprite === 'object' && !Array.isArray(next.battleSprite)) next.battleSprite = rewriteSpriteCard(next.battleSprite);
+      return next;
+    };
+    if (Object.prototype.hasOwnProperty.call(out, 'equippedBattleSuit')) out.equippedBattleSuit = rewriteEquipment(out.equippedBattleSuit);
+    if (Object.prototype.hasOwnProperty.call(out, 'equippedWeapon')) out.equippedWeapon = rewriteEquipment(out.equippedWeapon);
+    if (out.characterBonus && typeof out.characterBonus === 'object') {
+      out.characterBonus = { ...out.characterBonus };
+      if (Object.prototype.hasOwnProperty.call(out.characterBonus, 'equippedBattleSuit')) out.characterBonus.equippedBattleSuit = rewriteEquipment(out.characterBonus.equippedBattleSuit);
+      if (Object.prototype.hasOwnProperty.call(out.characterBonus, 'equippedWeapon')) out.characterBonus.equippedWeapon = rewriteEquipment(out.characterBonus.equippedWeapon);
+      if (out.characterBonus.bonuses && typeof out.characterBonus.bonuses === 'object') {
+        out.characterBonus.bonuses = { ...out.characterBonus.bonuses };
+        if (Object.prototype.hasOwnProperty.call(out.characterBonus.bonuses, 'equippedBattleSuit')) out.characterBonus.bonuses.equippedBattleSuit = rewriteEquipment(out.characterBonus.bonuses.equippedBattleSuit);
+        if (Object.prototype.hasOwnProperty.call(out.characterBonus.bonuses, 'equippedWeapon')) out.characterBonus.bonuses.equippedWeapon = rewriteEquipment(out.characterBonus.bonuses.equippedWeapon);
+      }
+    }
+    if (out.bonuses && typeof out.bonuses === 'object') {
+      out.bonuses = { ...out.bonuses };
+      if (Object.prototype.hasOwnProperty.call(out.bonuses, 'equippedBattleSuit')) out.bonuses.equippedBattleSuit = rewriteEquipment(out.bonuses.equippedBattleSuit);
+      if (Object.prototype.hasOwnProperty.call(out.bonuses, 'equippedWeapon')) out.bonuses.equippedWeapon = rewriteEquipment(out.bonuses.equippedWeapon);
+    }
     return out;
   }
 
@@ -443,6 +467,24 @@
     return 'HUNT';
   }
 
+  const ACCOUNT_UNIT_PVE_MODE = /(?:^|_)(?:PVE|HUNT|TOWER|RAID|SEAL|ESCORT|DUNGEON|APOCALYPSE|SCRAPYARD|IDLE)(?:_|$)/;
+  const ACCOUNT_UNIT_FORBIDDEN_MODE = /(?:^|_)(?:PVP|RANK|RANKED|ARENA|SIEGE|TERRITORY|CAPTAIN|CLAN)(?:_|$)/;
+  function accountBattleUnitPveGate(mode, data = {}) {
+    const battle = data?.battleV2 || {};
+    const tokens = [
+      mode, data?.battlefieldMode, data?.battlefield, data?.contentType, data?.mode, data?.type,
+      battle?.battlefieldMode, battle?.contentType, battle?.mode, battle?.type
+    ].map(value => String(value || '').trim().toUpperCase().replace(/[\s-]+/g, '_')).filter(Boolean);
+    if (tokens.some(value => ACCOUNT_UNIT_FORBIDDEN_MODE.test(value))) return false;
+    return tokens.some(value => ACCOUNT_UNIT_PVE_MODE.test(value));
+  }
+
+  function accountBattleUnitNickname(data = {}, playerName = '') {
+    let signedInName = '';
+    try { signedInName = String(root.loadUser?.()?.nickname || '').trim(); } catch (_) { signedInName = ''; }
+    return String(data.accountNickname || data.user?.nickname || playerName || signedInName || '').trim();
+  }
+
   function prepareLoading({ modal, mode = 'PVE', playerName = 'MEMBER TEAM', opponentName = 'OPPONENT', autoText = '' } = {}) {
     if (!modal) throw new Error('V3 전투 모달을 준비하지 못했습니다.');
     const field = battlefieldMode(mode);
@@ -488,7 +530,9 @@
       msg: stage.querySelector('#battleMessage'),
       towerMsg: stage.querySelector('#towerBattleMessage'),
       host: stage.querySelector('#pvPixiBattle'),
-      mode: field
+      mode: field,
+      playerName: String(playerName || '').trim(),
+      opponentName: String(opponentName || '').trim()
     };
   }
 
@@ -692,12 +736,23 @@
     if (!stage || !host) throw new Error('V3 WebGL 렌더링 영역이 없습니다.');
     const phase = options.phase || stage.querySelector('#battlePhase');
     const status = stage.querySelector('#pvBattleStatus');
-    const mode = battlefieldMode(options.mode, options.data);
+    const sourceData = options.data && typeof options.data === 'object' ? options.data : {};
+    const accountBattleUnitPve = accountBattleUnitPveGate(options.mode, sourceData);
+    const mode = battlefieldMode(options.mode, sourceData);
     const playUltimateCinematics = options.playUltimateCinematics !== false;
     const modal = options.modal || stage.closest?.('.modal') || null;
     let destroyed = false;
     const interactiveResults = new Map();
-    let payload = rewriteBattleSpriteUrls({ ...(options.data || {}), mode, battlefieldMode: mode });
+    let payload = rewriteBattleSpriteUrls({
+      ...sourceData,
+      mode,
+      battlefieldMode: mode,
+      accountNickname: accountBattleUnitNickname(sourceData, options.playerName),
+      v3RenderContext: {
+        ...(sourceData.v3RenderContext && typeof sourceData.v3RenderContext === 'object' ? sourceData.v3RenderContext : {}),
+        accountBattleUnitPve
+      }
+    });
     if (options.monster) payload.monster = { ...options.monster, mode };
     if (options.floor) payload = rewriteBattleSpriteUrls(towerPayload({ data: payload, floor: options.floor, cards: options.cards || payload.cards || [] }));
 

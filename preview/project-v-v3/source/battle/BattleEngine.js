@@ -7,6 +7,7 @@ import {configureDamageText, createBattlePools} from './ObjectPool.js';
 import {AVATAR_LAYER_ORDER, BattleCharacter, CHARACTER_STATE, TEAM} from './BattleCharacter.js';
 import {normalizeSkillEffectKind, roleEffectProfile, SkillEffectFX, SKILL_EFFECT_KIND, triggerWhiteFlash} from './SkillEffectFX.js';
 import {AdvancementEffectFX, advancementEffectProfile, normalizeAdvancementEffectCode} from './AdvancementEffectFX.js';
+import {AccountBattleUnit} from './AccountBattleUnit.js';
 
 const DESKTOP={width:1600,height:820};
 const MOBILE={width:1050,height:1500};
@@ -40,6 +41,17 @@ const ISO_FORMATIONS=Object.freeze({
     {gridX:4,gridY:0,baseScale:.56},
     {gridX:4,gridY:4,baseScale:.57}
   ]
+});
+// Auxiliary PVE account unit station. It is intentionally outside
+// ISO_FORMATIONS so the canonical five-card tiles and arrays never change.
+const ACCOUNT_BATTLE_UNIT_FORMATION=Object.freeze({
+  anchorGridX:0,
+  anchorGridY:5,
+  desktopOffsetX:-132,
+  desktopOffsetY:24,
+  mobileOffsetX:-96,
+  mobileOffsetY:30,
+  baseScale:.48
 });
 
 function validateFormationTiles(formations=ISO_FORMATIONS){
@@ -142,6 +154,80 @@ function battlefieldModeFromPayload(payload){
     battle?.battlefieldMode||battle?.contentType||battle?.mode||battle?.type||
     monster?.battlefieldMode||monster?.contentType||monster?.mode||monster?.type
   );
+}
+
+const ACCOUNT_UNIT_PVE_MODE=/(?:^|_)(?:PVE|HUNT|TOWER|RAID|SEAL|ESCORT|DUNGEON|APOCALYPSE|SCRAPYARD|IDLE)(?:_|$)/;
+const ACCOUNT_UNIT_FORBIDDEN_MODE=/(?:^|_)(?:PVP|RANK|RANKED|ARENA|SIEGE|TERRITORY|CAPTAIN|CLAN)(?:_|$)/;
+const ACCOUNT_WEAPON_CUTOUTS=Object.freeze({
+  EQ_1785427638137:'/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png',
+  EQ_1785961232958:'/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png',
+  EQ_1785961300455:'/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png',
+  EQ_1786966923833:'/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png'
+});
+
+function payloadModeTokens(payload){
+  const battle=payload?.battleV2||{};
+  return [
+    payload?.battlefieldMode,payload?.battlefield,payload?.contentType,payload?.mode,payload?.type,
+    battle?.battlefieldMode,battle?.contentType,battle?.mode,battle?.type,
+    payload?.monster?.battlefieldMode,payload?.monster?.contentType,payload?.monster?.mode,payload?.monster?.type
+  ].map(value=>String(value||'').trim().toUpperCase().replace(/[\s-]+/g,'_')).filter(Boolean);
+}
+
+function isAccountBattleUnitPvePayload(payload){
+  if(!payload?.battleV2)return false;
+  const tokens=payloadModeTokens(payload);
+  if(tokens.some(value=>ACCOUNT_UNIT_FORBIDDEN_MODE.test(value)))return false;
+  const wrapperGate=payload?.v3RenderContext?.accountBattleUnitPve;
+  if(wrapperGate===false)return false;
+  if(wrapperGate===true)return true;
+  return tokens.some(value=>ACCOUNT_UNIT_PVE_MODE.test(value));
+}
+
+function publicEquipmentObject(payload,key){
+  if(!payload||typeof payload!=='object')return null;
+  // Top-level is authoritative. An explicit null means unequipped and must
+  // not revive a stale characterBonus fallback.
+  const ownsTop=Object.prototype.hasOwnProperty.call(payload,key);
+  const value=ownsTop
+    ?payload[key]
+    :payload?.characterBonus?.[key]??payload?.characterBonus?.bonuses?.[key]??payload?.bonuses?.[key];
+  return value&&typeof value==='object'&&!Array.isArray(value)?value:null;
+}
+
+function appearanceObject(value){
+  if(!value||typeof value!=='object'||Array.isArray(value))return null;
+  return value.appearance&&typeof value.appearance==='object'&&!Array.isArray(value.appearance)
+    ?{...value,...value.appearance}
+    :value;
+}
+
+function appearanceUrl(value){
+  const item=appearanceObject(value);
+  if(!item)return '';
+  const battleSprite=item.battleSprite;
+  const source=typeof battleSprite==='object'&&battleSprite
+    ?battleSprite.url||battleSprite.src||battleSprite.image
+    :battleSprite;
+  return rootAssetPath(source||(typeof item.appearance==='string'?item.appearance:'')||item.appearanceUrl||item.imageUrl||item.image_url||item.image||item.primaryUrl||'');
+}
+
+function weaponAppearanceUrl(value){
+  const item=appearanceObject(value);
+  if(!item)return '';
+  const code=String(item.code||item.itemCode||item.equipmentCode||'').trim().toUpperCase();
+  if(ACCOUNT_WEAPON_CUTOUTS[code])return ACCOUNT_WEAPON_CUTOUTS[code];
+  const battleSprite=item.battleSprite;
+  const explicit=typeof battleSprite==='object'&&battleSprite
+    ?battleSprite.url||battleSprite.src||battleSprite.image
+    :battleSprite;
+  // Generic equipment image fields are often square card art. Only an
+  // explicit transparent battle appearance may bypass the approved code map.
+  return rootAssetPath(explicit||(typeof item.appearance==='string'?item.appearance:'')||item.appearanceUrl||'');
+}
+
+function accountNickname(payload){
+  return String(payload?.accountNickname||payload?.user?.nickname||payload?.profile?.nickname||payload?.nickname||'').trim();
 }
 
 function rootAssetPath(value){
@@ -261,6 +347,10 @@ export class BattleEngine{
     this.characters=[];
     this.allies=[];
     this.enemies=[];
+    this.accountBattleUnit=null;
+    this.accountBattleUnitEnabled=false;
+    this.accountBattleUnitEquipment={battleSuit:null,weapon:null};
+    this.accountBattleUnitShotCount=0;
     this.boss=null;
     this.bossHp=72;
     this.currentEnemyTarget=null;
@@ -456,6 +546,12 @@ export class BattleEngine{
       character.setState(CHARACTER_STATE.IDLE);
       character.setHp(100);
     });
+    if(this.accountBattleUnit){
+      this.accountBattleUnit.cancelFire();
+      this.accountBattleUnit.root.alpha=0;
+      this.accountBattleUnit.setActive(Boolean(preserveTargets&&this.accountBattleUnitEnabled),{deployed:false});
+      if(!this.visible)this.accountBattleUnit.stopIdle();
+    }
     if(this.uiLayer?.combo){
       this.uiLayer.combo.alpha=0;
       this.uiLayer.combo.text='';
@@ -720,7 +816,20 @@ export class BattleEngine{
     };
     this.allies.forEach((character,index)=>apply(character,ISO_FORMATIONS.allies[index]));
     this.enemies.forEach((character,index)=>apply(character,ISO_FORMATIONS.enemies[index]));
+    this.layoutAccountBattleUnit();
     this.layoutObjective();
+  }
+
+  layoutAccountBattleUnit(){
+    if(!this.accountBattleUnit)return;
+    const formation=ACCOUNT_BATTLE_UNIT_FORMATION;
+    const anchor=this.gridToScreen(formation.anchorGridX,formation.anchorGridY);
+    const x=anchor.x+(this.mobile?formation.mobileOffsetX:formation.desktopOffsetX);
+    const y=anchor.y+(this.mobile?formation.mobileOffsetY:formation.desktopOffsetY);
+    const responsiveBase=formation.baseScale*(this.mobile ? .86 : 1);
+    const scale=this.perspectiveScale(responsiveBase,y);
+    this.accountBattleUnit.setFormation(x,y,scale);
+    this.accountBattleUnit.root.depthSortY=y;
   }
 
   layoutObjective(){
@@ -861,6 +970,12 @@ export class BattleEngine{
         character.root.scale.set(scale);
       }
     });
+    if(this.accountBattleUnit?.active){
+      // The auxiliary unit keeps its station; only its body/weapon attachment
+      // performs idle recoil. Depth sorting therefore reads, but never writes,
+      // the fixed root position.
+      this.accountBattleUnit.root.depthSortY=this.accountBattleUnit.root.y;
+    }
     this.combatLayer.children.sort((a,b)=>{
       const priority=node=>{
         if(node.depthSortY===-100000)return -100000;
@@ -900,6 +1015,91 @@ export class BattleEngine{
     });
     this.combatLayer.sortChildren();
     if(this.battleData)await this.setBattlePayload(this.battleData);
+  }
+
+  ensureAccountBattleUnit(){
+    if(this.accountBattleUnit)return this.accountBattleUnit;
+    this.accountBattleUnit=new AccountBattleUnit({effectLayer:this.effectLayer});
+    this.combatLayer.addChild(this.accountBattleUnit.root);
+    this.layoutAccountBattleUnit();
+    this.sortCombatDepth();
+    return this.accountBattleUnit;
+  }
+
+  async configureAccountBattleUnit(payload){
+    const battleSuit=publicEquipmentObject(payload,'equippedBattleSuit');
+    const weapon=publicEquipmentObject(payload,'equippedWeapon');
+    const suitSource=appearanceUrl(battleSuit);
+    const weaponSource=weaponAppearanceUrl(weapon);
+    const eligible=isAccountBattleUnitPvePayload(payload)&&Boolean(battleSuit&&suitSource);
+    this.accountBattleUnitEquipment={battleSuit,weapon};
+    this.accountBattleUnitEnabled=false;
+    if(!eligible){
+      this.accountBattleUnit?.clearAppearance();
+      this.accountBattleUnit?.setName('');
+      return false;
+    }
+
+    const unit=this.ensureAccountBattleUnit();
+    const suitAppearance=appearanceObject(battleSuit)||{};
+    const weaponAppearance=appearanceObject(weapon)||{};
+    let bodyTexture=null;
+    try{bodyTexture=await Assets.load(suitSource)}catch(error){
+      console.warn('[Project V V3] PVE 배틀슈트 외형 로드 실패',error);
+      unit.clearAppearance();
+      unit.setName('');
+      return false;
+    }
+    unit.setBody(bodyTexture,{
+      height:suitAppearance.battleHeight||suitAppearance.renderHeight||278,
+      scaleMultiplier:suitAppearance.scaleMultiplier||1,
+      source:suitSource
+    });
+    unit.setName(accountNickname(payload));
+
+    if(weapon&&weaponSource){
+      try{
+        const weaponTexture=await Assets.load(weaponSource);
+        unit.setWeapon(weaponTexture,{
+          ...weaponAppearance,
+          attachment:weaponAppearance.attachment||weapon?.attachment||weaponAppearance,
+          source:weaponSource
+        });
+      }catch(error){
+        console.warn('[Project V V3] PVE 계정 무기 외형 로드 실패; 배틀슈트 본체만 유지합니다.',error);
+        unit.setWeapon(Texture.EMPTY);
+      }
+    }else unit.setWeapon(Texture.EMPTY);
+
+    this.accountBattleUnitEnabled=unit.setActive(true,{deployed:false});
+    if(!this.visible)unit.stopIdle();
+    this.layoutAccountBattleUnit();
+    this.sortCombatDepth();
+    return this.accountBattleUnitEnabled;
+  }
+
+  isAlliedAccountShotEvent(event,explicitActor){
+    if(!this.accountBattleUnitEnabled||!this.accountBattleUnit?.active)return false;
+    const type=String(event?.type||'').trim().toUpperCase();
+    if(type!=='TURN'&&type!=='SKILL')return false;
+    if(Number(event?.damage||0)<=0)return false;
+    if(explicitActor)return explicitActor.team===TEAM.ALLY;
+    // actorIndex without actorId is the established ally shorthand. If an
+    // unknown authoritative actorId exists, do not guess its team.
+    return !String(event?.actorId||'').trim();
+  }
+
+  async playAccountBattleUnitCosmeticShot(target=null){
+    const unit=this.accountBattleUnit;
+    if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
+    // Preserve the just-resolved authoritative target even when that hit set
+    // its HP to zero. Retargeting here would make the cosmetic tracer fly at
+    // a different enemy than the card action it visually follows.
+    const victim=target?.root?target:this.enemies.find(character=>this.isAlive(character));
+    if(!victim)return false;
+    const played=await unit.playRangedFire({targetX:victim.root.x,targetY:victim.root.y-90,accent:0x76e8ff});
+    if(played)this.accountBattleUnitShotCount+=1;
+    return played;
   }
 
   monsterFromPayload(payload){
@@ -963,6 +1163,12 @@ export class BattleEngine{
       const sprite=character.fullBodySprite;
       if(sprite?.texture&&staleTextures.has(sprite.texture))sprite.texture=Texture.EMPTY;
     });
+    if(this.accountBattleUnit){
+      const bodyStale=staleTextures.has(this.accountBattleUnit.bodySprite?.texture);
+      const weaponStale=staleTextures.has(this.accountBattleUnit.weaponSprite?.texture);
+      if(bodyStale)this.accountBattleUnit.clearAppearance();
+      else if(weaponStale)this.accountBattleUnit.setWeapon(Texture.EMPTY);
+    }
     if(this.objectiveSprite?.texture&&staleTextures.has(this.objectiveSprite.texture)){
       this.objectiveSprite.texture=Texture.EMPTY;
       this.objectiveSprite.visible=false;
@@ -1024,6 +1230,10 @@ export class BattleEngine{
     const specificMonsterArt=adapter?.resolveForV3(monster,{mode:monster?.mode})||monster?.projectVMonsterArt||null;
     const monsterIsBoss=Boolean(monster?.isBoss||monster?.boss||specificMonsterArt?.isBoss);
     const monsterArt=monster?(specificMonsterArt||fallback?.resolveForV3({kind:'MONSTER',team:'ENEMY',isBoss:monsterIsBoss})):null;
+    const battleSuit=publicEquipmentObject(payload,'equippedBattleSuit');
+    const equippedWeapon=publicEquipmentObject(payload,'equippedWeapon');
+    const accountSuitUrl=isAccountBattleUnitPvePayload(payload)?appearanceUrl(battleSuit):'';
+    const accountWeaponUrl=accountSuitUrl?weaponAppearanceUrl(equippedWeapon):'';
     const preloadUrls=[];
     const queueCardAssets=(cards,artList)=>cards.forEach((card,index)=>{
       const art=artList[index];
@@ -1034,9 +1244,12 @@ export class BattleEngine{
     queueCardAssets(allyCards,allyArt);
     queueCardAssets(enemyCards,enemyArt);
     if(monsterArt?.primaryUrl)preloadUrls.push(monsterArt.primaryUrl);
+    if(accountSuitUrl)preloadUrls.push(accountSuitUrl);
+    if(accountWeaponUrl)preloadUrls.push(accountWeaponUrl);
     // Pixi Assets de-duplicates identical URLs. Starting every live texture
     // request together removes the previous card-by-card network waterfall.
     await this.trackLiveAssetPreload(preloadUrls,[...allyArt,...enemyArt,monsterArt]);
+    await this.configureAccountBattleUnit(payload);
     this.allies.forEach((character,index)=>{
       character.battleActive=allyCards.length?index<Math.min(allyCards.length,this.allies.length):true;
       character.root.visible=character.battleActive;
@@ -1498,6 +1711,7 @@ export class BattleEngine{
     this.playbackEpoch+=1;
     this.skillTimeline?.cancelAll();
     [...this.simpleTimelines].forEach(entry=>{entry.instance.kill();entry.settle(false)});
+    this.accountBattleUnit?.cancelFire();
     this.audio?.stopAll?.();
     this.pools?.releaseAll();
     this.camera?.reset(true);
@@ -1580,6 +1794,13 @@ export class BattleEngine{
     const activeEnemies=this.enemies.filter(character=>character.battleActive!==false).length;
     this.updateStatus(this.livePayload?'전투 배치 완료 · 자동 전투 시작':`PROJECT V V3 · ${activeAllies} 대 ${activeEnemies} SD 진형 전개`);
     return this.timeline(timeline=>{
+      if(this.accountBattleUnitEnabled&&this.accountBattleUnit?.active){
+        const accountRoot=this.accountBattleUnit.root;
+        accountRoot.visible=true;
+        accountRoot.renderable=true;
+        // Fixed station: deploy is opacity-only. No entry dash is allowed.
+        timeline.fromTo(accountRoot,{alpha:0},{alpha:1,duration:.24,ease:'power2.out'},0);
+      }
       this.characters.filter(character=>character.battleActive!==false).forEach((character,index)=>{
         const root=character.root;
         if(this.livePayload){
@@ -1932,8 +2153,10 @@ export class BattleEngine{
         }
         const advancementClass=type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='SHATTER'?'SHATTER':'';
         await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
+        if(this.isAlliedAccountShotEvent(event,explicitActor))await this.playAccountBattleUnitCosmeticShot(target);
       }else if(type==='SKILL'){
         await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
+        if(this.isAlliedAccountShotEvent(event,explicitActor))await this.playAccountBattleUnitCosmeticShot(target);
       }else if(type==='COUNTER'){
         const advancementClass=normalizeAdvancementEffectCode(event.advancementClass)==='RIPOSTE'?'RIPOSTE':'';
         if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
@@ -2184,12 +2407,14 @@ export class BattleEngine{
     this.visible=this.requestedVisible&&!document.hidden;
     if(this.visible){
       this.app.start();
+      this.accountBattleUnit?.startIdle();
       // Audio must not compete with Pixi/character assets during renderer
       // construction. Start it only after the battlefield has become visible.
       this.audio?.schedulePreload?.();
       if(!this.livePayload&&this.cards.every(card=>card.alpha===0))await this.deployCards();
     }else{
       this.cancelTimelines();
+      this.accountBattleUnit?.stopIdle();
       this.app.stop();
       // Explicit battle/modal close releases optional advancement GPU/audio
       // assets. A visibilitychange calls setVisible(requestedVisible), so a
@@ -2222,6 +2447,16 @@ export class BattleEngine{
         ratio:Number(this.objectiveHud?.hpRatio||0)
       },
       formation:{allies:this.allies.length,enemies:this.enemies.length},
+      accountBattleUnit:{
+        ...(this.accountBattleUnit?.diagnostics?.()||{active:false,id:'ACCOUNT_BATTLE_UNIT'}),
+        enabled:this.accountBattleUnitEnabled,
+        pveOnly:true,
+        pvePower:Number(this.battleData?.characterBonus?.battleSuitPve??this.accountBattleUnitEquipment?.battleSuit?.pvePower??0),
+        metadataContract:['equippedBattleSuit','equippedWeapon'],
+        metadataFallback:'characterBonus',
+        canonicalAllyFormationCount:this.allies.length,
+        cosmeticShots:this.accountBattleUnitShotCount
+      },
       targetSelection:{
         currentEnemy:this.currentEnemyTarget?.id||null,
         currentAlly:this.currentAllyTarget?.id||null,
@@ -2289,6 +2524,10 @@ export class BattleEngine{
     this.camera?.destroy();
     this.pools?.destroy();
     this.audio?.destroy();
+    this.accountBattleUnit?.destroy();
+    this.accountBattleUnit=null;
+    this.accountBattleUnitEnabled=false;
+    this.accountBattleUnitEquipment={battleSuit:null,weapon:null};
     this.advancementCodes.clear();
     this.advancementReadyPromise=Promise.resolve(false);
     // Role atlases are global live assets, but advancement atlases are loaded

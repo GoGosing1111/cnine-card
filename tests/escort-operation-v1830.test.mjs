@@ -92,8 +92,8 @@ test('API·V3·클라이언트·CMS 연결 계약이 함께 존재한다',async(
   assert.match(adminIndex,/escort-operation-admin-v1830\.js\?v=1843-public-launch/);
   assert.match(migration,/pve_escort_action_receipts_v1830/);
   assert.match(cleanup,/escort_receipts/);
-  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=72-advancement-awakening/);
-  assert.match(app,/battle-v3-live\.js\?v=3\.24\.0-battlefield-fade-deadlock/);
+  assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=73-account-battle-suit-pve/);
+  assert.match(app,/battle-v3-live\.js\?v=3\.25\.0-account-battle-suit-pve/);
   const appShellVersion=index.match(/app\.js\?v=([^"']+)/)?.[1];
   const serviceWorkerShellVersion=sw.match(/soop-card-shell-v([^"']+)/)?.[1];
   assert.ok(appShellVersion,'index.html app.js cache version is required');

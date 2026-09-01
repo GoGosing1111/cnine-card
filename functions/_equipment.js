@@ -2,9 +2,10 @@ import { avatarFeatureAccess, equippedAvatarEffect } from './_avatar.js';
 import { burningEventIsLive } from './_burning_event_access.js';
 
 /* V1232 CHARACTER EQUIPMENT + TITLE SYSTEM */
-const EQUIPMENT_SLOTS=['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY'];
-const EQUIPMENT_SLOT_LABELS={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구'};
-const EQUIPMENT_SUBTYPES=['MODERN_SWORD','AXE','PISTOL','RIFLE','TOP','BOTTOM','SHOES','DUAL_DISK'];
+const BATTLE_SUIT_SLOT='BATTLE_SUIT';
+const EQUIPMENT_SLOTS=['WEAPON','TOP','BOTTOM','SHOES','ACCESSORY',BATTLE_SUIT_SLOT];
+const EQUIPMENT_SLOT_LABELS={WEAPON:'무기',TOP:'상의',BOTTOM:'하의',SHOES:'신발',ACCESSORY:'장신구',[BATTLE_SUIT_SLOT]:'배틀슈트'};
+const EQUIPMENT_SUBTYPES=['MODERN_SWORD','AXE','PISTOL','RIFLE','TOP','BOTTOM','SHOES','DUAL_DISK',BATTLE_SUIT_SLOT];
 const EQUIPMENT_RARITIES=['NORMAL','MAGIC','RARE','EPIC','LEGENDARY','MYTHIC'];
 const EQUIPMENT_RARITY_ALIASES={COMMON:'NORMAL',UNCOMMON:'MAGIC',ADVANCED:'MAGIC',MAGIC:'MAGIC',NORMAL:'NORMAL',RARE:'RARE',EPIC:'EPIC',LEGEND:'LEGENDARY',LEGENDARY:'LEGENDARY',MYTH:'MYTHIC',MYTHIC:'MYTHIC'};
 const GARAGE_RARITIES=[...EQUIPMENT_RARITIES];
@@ -17,6 +18,11 @@ const SUPPLY_BOX_IMAGE='assets/ui/packs/supply-high.jpeg';
 const SUPPLY_BOX_MAX_OPEN=500;
 const SUPPLY_POOL_SCALE=1000;
 const SUPPLY_POOL_TOTAL_UNITS=100*SUPPLY_POOL_SCALE;
+const BATTLE_SUIT_CATALOG=[
+  {code:'BATTLE_SUIT_01',name:'배틀슈트 01',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png',description:'백금 날개형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:10},
+  {code:'BATTLE_SUIT_02',name:'배틀슈트 02',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png',description:'주황색 전술형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:20},
+  {code:'BATTLE_SUIT_03',name:'배틀슈트 03',image:'/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png',description:'자수정 기계갑주형 PROJECT V V3 PVE 전용 배틀슈트 외형.',sortOrder:30}
+];
 const DEFAULT_SUPPLY_BOX_SETTINGS={enabled:true,shopEnabled:true,shopPrice:1000,rewardRates:{equipment:20,shards:50,coins:30},shards:{min:10,max:30},coins:{min:300,max:1000},sources:{PVE:{enabled:true,rate:.1,quantity:1},PVE_AUTO:{enabled:true,rate:.05,quantity:1},TOWER:{enabled:true,rate:.2,quantity:1},RAID:{enabled:true,rate:1,quantity:1},RIFT:{enabled:true,rate:.5,quantity:1},PVP:{enabled:true,rate:.2,quantity:1},CAPTAIN:{enabled:true,rate:.3,quantity:1}}};
 let foundationPromise=null,supplySettingsCache=null,supplySettingsCacheAt=0,equipmentPromotionCache=null,equipmentPromotionCacheAt=0;
 
@@ -47,6 +53,10 @@ function normalizeTitleStylePreset(value){const x=String(value||'').trim().toUpp
 function normalizeTitleFontPreset(value){const x=String(value||'').trim().toUpperCase();return TITLE_FONT_PRESETS.includes(x)?x:'DEFAULT'}
 function parseJson(value,fallback={}){try{const x=typeof value==='string'?JSON.parse(value):value;return x&&typeof x==='object'?x:fallback}catch{return fallback}}
 function itemPower(total){const safe=cleanInt(total,0,100000000),pve=Math.floor(safe*.9);return {total:safe,pve,pvp:safe-pve}}
+function equipmentPowerForSlot(slot,input={}){
+  if(slot===BATTLE_SUIT_SLOT){const pve=cleanInt(input.pvePower??input.totalPower,0,100000000);return {total:pve,pve,pvp:0}}
+  return itemPower(input.totalPower);
+}
 function isAdmin(user){return Boolean(user&&String(user.role||'').toUpperCase()==='OWNER')}
 function cleanPromotionDiscount(value){const n=Number(value);return Math.max(0,Math.min(90,Number.isFinite(n)?n:0))}
 async function equipmentPromotionState(env,{fresh=false}={}){
@@ -447,6 +457,21 @@ export async function ensureEquipmentFoundation(env){
         env.DB.prepare("INSERT OR REPLACE INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1533_territory_commander_title','1',CURRENT_TIMESTAMP)")
       ]);
     }
+    const battleSuitMarker=await env.DB.prepare("SELECT value FROM app_meta WHERE key='safe_runtime_upgrade_v1953_project_v_battle_suits'").first();
+    if(battleSuitMarker?.value!=='1'){
+      const statements=BATTLE_SUIT_CATALOG.map(item=>env.DB.prepare(`INSERT INTO character_equipment_items(
+          code,name,slot,subtype,rarity,image_url,description,total_power,pve_power,pvp_power,is_active,is_public,sort_order,supply_enabled,supply_weight
+        ) VALUES(?,?,?,?,'NORMAL',?,?,0,0,0,1,1,?,0,0)
+        ON CONFLICT(code) DO UPDATE SET
+          name=excluded.name,slot=excluded.slot,subtype=excluded.subtype,image_url=excluded.image_url,description=excluded.description,
+          pvp_power=0,supply_enabled=0,supply_weight=0,sort_order=excluded.sort_order,updated_at=CURRENT_TIMESTAMP`)
+        .bind(item.code,item.name,BATTLE_SUIT_SLOT,BATTLE_SUIT_SLOT,item.image,item.description,item.sortOrder));
+      statements.push(env.DB.prepare(`UPDATE character_equipment_items
+        SET pvp_power=0,supply_enabled=0,supply_weight=0,updated_at=CURRENT_TIMESTAMP
+        WHERE code IN ('BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03')`));
+      statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES('safe_runtime_upgrade_v1953_project_v_battle_suits','1',CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP"));
+      await env.DB.batch(statements);
+    }
     return true;
   })().catch(error=>{foundationPromise=null;throw error});
   return foundationPromise;
@@ -460,7 +485,12 @@ export async function supplyBoxSettings(env,{fresh=false}={}){
   supplySettingsCacheAt=now;return supplySettingsCache;
 }
 function publicSupplyBoxConfig(settings,promotion={mode:'NONE',discount:0}){return {enabled:settings.enabled,shopEnabled:settings.shopEnabled,...supplyShopPricing(settings,promotion),maxOpen:SUPPLY_BOX_MAX_OPEN,itemCode:SUPPLY_BOX_CODE,name:'장비 보급상자',image:SUPPLY_BOX_IMAGE,rewardRates:settings.rewardRates}}
-function publicItem(row){return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),supplyEnabled:row.supply_enabled!==0,supplyWeight:Number(row.supply_weight??1)}}
+function publicItem(row){const pveOnly=row.slot===BATTLE_SUIT_SLOT,pvePower=Number(row.pve_power||0);return {id:Number(row.id),code:row.code,name:row.name,slot:row.slot,slotLabel:EQUIPMENT_SLOT_LABELS[row.slot]||row.slot,subtype:row.subtype,rarity:normalizeEquipmentRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:pveOnly?pvePower:Number(row.total_power||0),pvePower,pvpPower:pveOnly?0:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),supplyEnabled:row.supply_enabled!==0,supplyWeight:Number(row.supply_weight??1)}}
+function publicEquippedItem(row,prefix,{pveOnly=false}={}){
+  const id=Number(row?.[`${prefix}_id`]||0);if(!id)return null;
+  const image=row?.[`${prefix}_image`]||'',name=row?.[`${prefix}_name`]||'',pvePower=Number(row?.[`${prefix}_pve`]||0),pvpPower=pveOnly?0:Number(row?.[`${prefix}_pvp`]||0);
+  return {instanceId:Number(row?.[`${prefix}_instance_id`]||0)||null,id,code:row?.[`${prefix}_code`]||'',name,displayName:name,slot:row?.[`${prefix}_slot`]||'',subtype:row?.[`${prefix}_subtype`]||'',rarity:normalizeEquipmentRarity(row?.[`${prefix}_rarity`]),image,imageUrl:image,battleSprite:pveOnly?image:'',totalPower:pveOnly?pvePower:Number(row?.[`${prefix}_total`]||0),pvePower,pvpPower,scaleMultiplier:1};
+}
 function publicGarageItem(row,owned=false,equipped=false){return {id:Number(row.id),code:row.code,name:row.name,rarity:normalizeGarageRarity(row.rarity),image:row.image_url||'',description:row.description||'',totalPower:Number(row.total_power||0),pvePower:Number(row.pve_power||0),pvpPower:Number(row.pvp_power||0),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),acquiredAt:row.acquired_at||null}}
 function publicTitle(row,owned=false,equipped=false){const unlockConfig=parseJson(row.unlock_config_json,{});return {id:Number(row.id),code:row.code,name:row.name,description:row.description||'',badgeText:row.badge_text||row.name,image:row.image_url||'',pvePower:Number(row.pve_power||0),unlockType:row.unlock_type,unlockConfig,stylePreset:normalizeTitleStylePreset(row.style_preset),fontPreset:normalizeTitleFontPreset(unlockConfig.fontPreset),isActive:row.is_active!==0,isPublic:row.is_public!==0,sortOrder:Number(row.sort_order||0),owned:Boolean(owned),equipped:Boolean(equipped),unlockedAt:row.unlocked_at||null,expiresAt:row.expires_at||null}}
 
@@ -534,7 +564,23 @@ export async function userEquipmentBonuses(env,userId){
       FROM user_equipment_loadout l
       JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
       JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
-      WHERE l.user_id=?
+      WHERE l.user_id=? AND i.slot<>'BATTLE_SUIT'
+    ),battle_suit AS (
+      SELECT x.id AS battle_suit_instance_id,i.id AS battle_suit_id,i.code AS battle_suit_code,i.name AS battle_suit_name,
+        i.slot AS battle_suit_slot,i.subtype AS battle_suit_subtype,i.rarity AS battle_suit_rarity,i.image_url AS battle_suit_image,
+        COALESCE(i.total_power,0) AS battle_suit_total,COALESCE(i.pve_power,0) AS battle_suit_pve
+      FROM user_equipment_loadout l
+      JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
+      JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
+      WHERE l.user_id=? AND l.slot='BATTLE_SUIT' AND i.slot='BATTLE_SUIT' LIMIT 1
+    ),equipped_weapon AS (
+      SELECT x.id AS weapon_instance_id,i.id AS weapon_id,i.code AS weapon_code,i.name AS weapon_name,
+        i.slot AS weapon_slot,i.subtype AS weapon_subtype,i.rarity AS weapon_rarity,i.image_url AS weapon_image,
+        COALESCE(i.total_power,0) AS weapon_total,COALESCE(i.pve_power,0) AS weapon_pve,COALESCE(i.pvp_power,0) AS weapon_pvp
+      FROM user_equipment_loadout l
+      JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id
+      JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1
+      WHERE l.user_id=? AND l.slot='WEAPON' AND i.slot='WEAPON' LIMIT 1
     ),garage AS (
       SELECT COALESCE(g.pve_power,0) AS garage_pve,COALESCE(g.pvp_power,0) AS garage_pvp,g.id AS garage_id,g.name AS garage_name,g.rarity AS garage_rarity,g.image_url AS garage_image
       FROM user_garage_loadout l
@@ -549,14 +595,19 @@ export async function userEquipmentBonuses(env,userId){
       WHERE l.user_id=? LIMIT 1
     )
     SELECT equipment.equipment_pve,equipment.equipment_pvp,
+      COALESCE(battle_suit.battle_suit_pve,0) AS battle_suit_pve,battle_suit.battle_suit_instance_id,battle_suit.battle_suit_id,battle_suit.battle_suit_code,battle_suit.battle_suit_name,battle_suit.battle_suit_slot,battle_suit.battle_suit_subtype,battle_suit.battle_suit_rarity,battle_suit.battle_suit_image,battle_suit.battle_suit_total,
+      equipped_weapon.weapon_instance_id,equipped_weapon.weapon_id,equipped_weapon.weapon_code,equipped_weapon.weapon_name,equipped_weapon.weapon_slot,equipped_weapon.weapon_subtype,equipped_weapon.weapon_rarity,equipped_weapon.weapon_image,equipped_weapon.weapon_total,equipped_weapon.weapon_pve,equipped_weapon.weapon_pvp,
       COALESCE(garage.garage_pve,0) AS garage_pve,COALESCE(garage.garage_pvp,0) AS garage_pvp,garage.garage_id,garage.garage_name,garage.garage_rarity,garage.garage_image,
       COALESCE(equipped_title.title_pve,0) AS title_pve,equipped_title.title_id,equipped_title.title_name,equipped_title.title_style_preset,equipped_title.title_unlock_config_json
     FROM equipment
+    LEFT JOIN battle_suit ON 1=1
+    LEFT JOIN equipped_weapon ON 1=1
     LEFT JOIN garage ON 1=1
-    LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId).first();
-  const equipmentPve=Number(row?.equipment_pve||0),equipmentPvp=Number(row?.equipment_pvp||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
+    LEFT JOIN equipped_title ON 1=1`).bind(userId,userId,userId,userId,userId).first();
+  const equipmentPve=Number(row?.equipment_pve||0),equipmentPvp=Number(row?.equipment_pvp||0),battleSuitPve=Number(row?.battle_suit_pve||0),garagePve=Number(row?.garage_pve||0),garagePvp=Number(row?.garage_pvp||0),titlePve=Number(row?.title_pve||0),titlePvp=titlePve;
   const titleConfig=parseJson(row?.title_unlock_config_json,{});
-  return {equipmentPve,equipmentPvp,garagePve,garagePvp,titlePve,titlePvp,pve:equipmentPve+garagePve+titlePve,pvp:equipmentPvp+garagePvp+titlePvp,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,pvpPower:titlePvp,allBattlePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset),fontPreset:normalizeTitleFontPreset(titleConfig.fontPreset)}:null,garage:row?.garage_id?{id:Number(row.garage_id),name:row.garage_name,rarity:normalizeGarageRarity(row.garage_rarity),image:row.garage_image||'',pvePower:garagePve,pvpPower:garagePvp}:null};
+  const equippedBattleSuit=publicEquippedItem(row,'battle_suit',{pveOnly:true}),equippedWeapon=publicEquippedItem(row,'weapon');
+  return {equipmentPve,equipmentPvp,battleSuitPve,battleSuitPvp:0,garagePve,garagePvp,titlePve,titlePvp,pve:equipmentPve+battleSuitPve+garagePve+titlePve,pvp:equipmentPvp+garagePvp+titlePvp,battleSuit:equippedBattleSuit,equippedBattleSuit,equippedWeapon,title:row?.title_id?{id:Number(row.title_id),name:row.title_name,pvePower:titlePve,pvpPower:titlePvp,allBattlePower:titlePve,stylePreset:normalizeTitleStylePreset(row.title_style_preset),fontPreset:normalizeTitleFontPreset(titleConfig.fontPreset)}:null,garage:row?.garage_id?{id:Number(row.garage_id),name:row.garage_name,rarity:normalizeGarageRarity(row.garage_rarity),image:row.garage_image||'',pvePower:garagePve,pvpPower:garagePvp}:null};
 }
 
 function weightedPick(rows){const total=rows.reduce((sum,row)=>sum+Math.max(0,Number(row.weight||0)),0);if(total<=0)return null;let roll=Math.random()*total;for(const row of rows){roll-=Math.max(0,Number(row.weight||0));if(roll<0)return row}return rows[rows.length-1]||null}
@@ -607,7 +658,7 @@ async function characterPayload(env,userId,{admin=false,syncTitles=false,role='U
     equippedAvatarEffect(env,userId)
   ]);
   const loadout=Object.fromEntries(loadoutRows.results.map(row=>[row.slot,Number(row.instance_id)])),equippedTitleId=Number(titleLoadout?.title_id||0),equippedVehicleId=Number(garageLoadout?.garage_id||0);
-  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:instances.results.map(row=>({instanceId:Number(row.instance_id),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)})),loadout,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar};
+  return {slots:EQUIPMENT_SLOTS.map(slot=>({id:slot,label:EQUIPMENT_SLOT_LABELS[slot]})),instances:instances.results.map(row=>({instanceId:Number(row.instance_id),item:publicItem(row),sourceType:row.source_type,sourceId:row.source_id,acquiredAt:row.acquired_at,equipped:loadout[row.slot]===Number(row.instance_id)})),loadout,equippedBattleSuitInstanceId:bonuses.equippedBattleSuit?.instanceId||null,equippedBattleSuit:bonuses.equippedBattleSuit,equippedWeaponInstanceId:bonuses.equippedWeapon?.instanceId||null,equippedWeapon:bonuses.equippedWeapon,titles:titleRows.results.map(row=>publicTitle(row,Boolean(row.owned),equippedTitleId===Number(row.id))),equippedTitleId:equippedTitleId||null,vehicles:garageRows.results.map(row=>publicGarageItem(row,Boolean(row.owned),equippedVehicleId===Number(row.id))),equippedVehicleId:equippedVehicleId||null,bonuses,avatarFeature,equippedAvatar};
 }
 
 async function adminSystemPayload(env){
@@ -619,6 +670,8 @@ async function adminSystemPayload(env){
   const garageItems=await env.DB.prepare('SELECT * FROM character_garage_items ORDER BY sort_order,id').all();
   return {slots:EQUIPMENT_SLOTS.map(id=>({id,label:EQUIPMENT_SLOT_LABELS[id]})),subtypes:EQUIPMENT_SUBTYPES,equipmentRarities:EQUIPMENT_RARITIES,garageRarities:GARAGE_RARITIES,sourceTypes:SOURCE_TYPES,titleUnlockTypes:TITLE_UNLOCK_TYPES,titleStylePresets:TITLE_STYLE_PRESETS,titleFontPresets:TITLE_FONT_PRESETS,items:items.results.map(publicItem),garageItems:garageItems.results.map(row=>publicGarageItem(row)),titles:titles.results.map(row=>publicTitle(row)),profiles:[],supplyBox:publicSupplyBoxConfig(settings),supplyBoxSettings:settings};
 }
+
+export const __equipmentTest=Object.freeze({BATTLE_SUIT_SLOT,BATTLE_SUIT_CATALOG,equipmentPowerForSlot});
 
 export async function handleEquipment({path,request,env,deps}){
   if(!(path==='character/loadout'||path.startsWith('character/')||path.startsWith('equipment/supply-box')||path.startsWith('admin/equipment')||path.startsWith('admin/title')||path.startsWith('admin/garage')))return null;
@@ -824,7 +877,7 @@ export async function handleEquipment({path,request,env,deps}){
     const b=await readBody(request),id=cleanInt(b.id,0,2147483647),slot=normalizeSlot(b.slot),subtype=normalizeSubtype(b.subtype);
     if(!slot||!subtype)return json({error:'장비 부위와 종류를 확인하세요.'},400);
 
-    const allowedSubtypes={WEAPON:['MODERN_SWORD','AXE','PISTOL','RIFLE'],TOP:['TOP'],BOTTOM:['BOTTOM'],SHOES:['SHOES'],ACCESSORY:['DUAL_DISK']};
+    const allowedSubtypes={WEAPON:['MODERN_SWORD','AXE','PISTOL','RIFLE'],TOP:['TOP'],BOTTOM:['BOTTOM'],SHOES:['SHOES'],ACCESSORY:['DUAL_DISK'],[BATTLE_SUIT_SLOT]:[BATTLE_SUIT_SLOT]};
     if(!allowedSubtypes[slot]?.includes(subtype))return json({error:'장비 부위와 세부 종류가 맞지 않습니다.'},400);
 
     const name=cleanText(b.name,80),code=cleanText(b.code||`EQ_${Date.now()}`,60).toUpperCase().replace(/[^A-Z0-9_]/g,'_');
@@ -851,7 +904,8 @@ export async function handleEquipment({path,request,env,deps}){
     // 신규 장비는 반드시 별도 "보급상자 설정"에서 확률을 지정해야만 포함된다.
     const supplyEnabled=current?current.supply_enabled!==0:false;
     const supplyWeight=current?cleanWeight(current.supply_weight,0):0;
-    const power=itemPower(b.totalPower),isActive=cleanBool(b.isActive),isPublic=cleanBool(b.isPublic);
+    // 배틀슈트 전투력은 PVE 전용이다. CMS 입력과 무관하게 PVP 값은 항상 0으로 저장한다.
+    const power=equipmentPowerForSlot(slot,b),isActive=cleanBool(b.isActive),isPublic=cleanBool(b.isPublic);
     const args=[code,name,slot,subtype,normalizeEquipmentRarity(b.rarity),cleanText(b.image,500),cleanText(b.description,500),power.total,power.pve,power.pvp,isActive?1:0,isPublic?1:0,cleanInt(b.sortOrder,0,100000),supplyEnabled?1:0,supplyWeight];
 
     if(id){

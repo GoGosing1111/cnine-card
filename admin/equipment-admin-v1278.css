@@ -129,3 +129,24 @@
 }
 .title-preview-badge.title-style-crimson span{color:#ff0000!important;-webkit-text-fill-color:#ff0000!important;background-image:none!important;text-shadow:0 0 3px #fff2,0 0 10px #ff0000,0 0 24px #b00000!important}
 .title-preview-badge.title-style-crimson span::after{content:' ★★★★';color:#ff263d;-webkit-text-fill-color:#ff263d;font-size:.6em;letter-spacing:-1px;vertical-align:middle;text-shadow:0 0 6px #ff0000}
+
+/* Battle suits are a sixth, PVE-only equipment slot. */
+.equipment-power-preview.equipment-pve-only span{
+  border-color:rgba(78,213,242,.34);
+  background:linear-gradient(145deg,rgba(29,132,159,.15),rgba(28,82,123,.08));
+}
+.equipment-power-preview.equipment-pve-only span:last-child b,
+.equipment-form-preview-card.equipment-pve-only .equipment-form-preview-copy b:last-child,
+.equipment-admin-list i.pve-only{color:#8eeeff;background:rgba(62,190,221,.14)}
+.inlineNotice.equipment-pve-only-notice{
+  border-color:rgba(70,204,235,.38);
+  background:linear-gradient(135deg,rgba(13,52,68,.82),rgba(13,29,51,.86));
+  color:#bceef7;
+}
+.inlineNotice.equipment-pve-only-notice b{display:block;margin-bottom:4px;color:#78e7fa}
+.equipment-form-preview-card.equipment-pve-only{
+  border-color:rgba(77,213,244,.28);
+  background:linear-gradient(145deg,rgba(11,42,57,.72),rgba(4,12,23,.72));
+}
+.equipment-form-preview-card.equipment-pve-only .equipment-form-preview-art{height:118px;border-color:rgba(87,224,250,.34)}
+.equipment-admin-list article.equipment-pve-only{border-color:rgba(76,210,240,.24);box-shadow:inset 3px 0 rgba(89,222,247,.52)}

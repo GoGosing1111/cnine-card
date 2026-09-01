@@ -204,20 +204,20 @@
     window.CNineRuntime?.registerCleanup?.(() => observer.disconnect());
   }
 
-  function deckScreenMarkup({ deckCount, energyText, totalPower, ready, violation, cardPower, equipment, garage, title }) {
+  function deckScreenMarkup({ deckCount, energyText, totalPower, ready, violation, cardPower, equipment, battleSuit, garage, title }) {
     const readyLabel = violation ? 'RULE BLOCKED' : (ready ? 'READY' : '편성 중');
     return `<section class="pvev2-screen pvev2-deck-screen"><div class="pvev2-backdrop deck"></div><div class="pvev2-content">
       ${screenHead('PVE / DEPLOYMENT CONTROL', 'PVE 덱 편성실', '카드 5장을 하나의 전술 단위로 구성합니다. 원본 카드 프레임과 강화 상태를 그대로 유지합니다.', `<div class="pvev2-operation-rail"><article><small>편성 카드</small><b id="battleDeckCount">${deckCount} / 5</b></article><article><small>토벌 잔여 횟수</small><b>${esc(energyText)}</b></article><article><small>출전 전투력</small><b id="battleDeckPower">${number(totalPower)}</b></article><article class="${ready ? 'ready' : ''}${violation ? ' blocked' : ''}"><small>DEPLOY STATUS</small><b id="battleDeckReady">${readyLabel}</b></article></div>`)}
       <section class="pvev2-deck-console ${violation ? 'has-rule-violation' : ''}"><header class="pvev2-console-head"><div><small>ACTIVE PVE FORMATION</small><b>저장된 출전 덱</b></div><div class="pvev2-console-actions"><button class="pvev2-btn" type="button" id="clearBattleDeck">편성 초기화</button><button class="pvev2-btn primary" type="button" id="saveBattleDeck" ${ready ? '' : 'disabled'}>${violation ? '규칙 확인 필요' : '덱 저장'}</button></div></header>
         ${pveFormationStrip()}${pveDeckRuleChips()}
         <div id="battleDeck" class="pvev2-roster pvev2-live-roster"></div>
-        ${pveHealerWarning()}<footer class="pvev2-roster-foot"><article><small>CARD POWER</small><b>${number(cardPower)}</b></article><article><small>EQUIPMENT</small><b>${number(equipment)}</b></article><article><small>VEHICLE</small><b>${number(garage)}</b></article><article class="total"><small>TOTAL COMBAT</small><b>${number(totalPower)}</b></article><div class="pvev2-console-actions"><button class="pvev2-btn primary" type="button" id="pveV2GoHunt" ${ready ? '' : 'disabled'}>토벌 목표 선택</button></div></footer>
+        ${pveHealerWarning()}<footer class="pvev2-roster-foot"><article><small>CARD POWER</small><b>${number(cardPower)}</b></article><article><small>EQUIPMENT</small><b>${number(equipment)}</b></article><article class="battle-suit"><small>BATTLE SUIT · PVE ONLY</small><b>${number(battleSuit)}</b></article><article><small>VEHICLE</small><b>${number(garage)}</b></article><article class="total"><small>TOTAL COMBAT</small><b>${number(totalPower)}</b></article><div class="pvev2-console-actions"><button class="pvev2-btn primary" type="button" id="pveV2GoHunt" ${ready ? '' : 'disabled'}>토벌 목표 선택</button></div></footer>
       </section>
       <section class="pvev2-inventory"><header class="pvev2-console-head"><div><small>OWNED CARD CATALOG</small><b>보유 카드 편성</b></div><span class="pvev2-status-line"><i></i>LIVE DB CATALOG · <b id="pveDeckResultCount">0장</b></span></header>
         <div class="pvev2-inventory-tools"><label class="pvev2-field"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg><input id="pveDeckSearch" type="search" autocomplete="off" placeholder="카드명 또는 멤버 검색"></label><label class="pvev2-field"><select id="pveDeckGrade"><option value="ALL">전체 등급</option>${['SUPERSTAR','ZENITH','FUR','PRESTIGE','LIMITED','MA','SSR','UR','HR','SR','R','U','C'].map(grade => `<option value="${grade}">${grade}</option>`).join('')}</select></label><label class="pvev2-field"><select id="pveDeckType"><option value="ALL">전체 유형</option><option value="ATTACK">공격형</option><option value="DEFENSE">방어형</option><option value="SPEED">속도형</option><option value="HP">HP형</option><option value="NONE">기본형</option></select></label><label class="pvev2-field"><select id="pveDeckSort"><option value="POWER_DESC">전투력 높은순</option><option value="GRADE_DESC">등급 높은순</option><option value="NAME_ASC">이름순</option></select></label><button class="pvev2-btn" type="button" id="pveDeckFilterReset">필터 초기화</button></div>
         <div id="battleCards" class="battle-card-picker pve-builder-list pvp-card-picker grouped pvev2-live-card-catalog"><div class="empty-recent">보유 카드를 불러오는 중입니다.</div></div>
       </section>
-      <span id="battleDeckStatusText" class="pvev2-live-deck-contract">카드 ${number(cardPower)} + 장비 ${number(equipment)} + 이동수단 ${number(garage)} + 칭호 ${number(title)}</span>
+      <span id="battleDeckStatusText" class="pvev2-live-deck-contract">카드 ${number(cardPower)} + 일반 장비 ${number(equipment)} + 배틀슈트 ${number(battleSuit)} (PVE 전용) + 이동수단 ${number(garage)} + 칭호 ${number(title)}</span>
     </div></section>`;
   }
 
@@ -295,7 +295,7 @@
     root.classList.toggle('pve-view-deck', viewMode === 'deck');
     root.classList.toggle('pve-view-hunt', viewMode === 'hunt');
     if (viewMode === 'deck') {
-      root.innerHTML = deckScreenMarkup({ deckCount: battleState.deck.length, energyText: energy.text, totalPower, ready, violation, cardPower, equipment: Number(bonus.equipmentPve || 0), garage: Number(bonus.garagePve || 0), title: Number(bonus.titlePve || 0) });
+      root.innerHTML = deckScreenMarkup({ deckCount: battleState.deck.length, energyText: energy.text, totalPower, ready, violation, cardPower, equipment: Number(bonus.equipmentPve || 0), battleSuit: Number(bonus.battleSuitPve || 0), garage: Number(bonus.garagePve || 0), title: Number(bonus.titlePve || 0) });
       const deckRoot = document.getElementById('battleDeck');
       if (deckRoot) deckRoot.innerHTML = Array.from({ length: 5 }, (_, index) => {
         const card = cards.find(item => String(item.id) === String(battleState.deck[index]));

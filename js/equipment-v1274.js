@@ -342,7 +342,8 @@
       toast.innerHTML=`<div class="frame-drop-backdrop-v1249"></div><div class="frame-drop-card-v1249 supply-box"><h3>보급상자 ${quantity>1?`${num(quantity)}개 `:''}획득</h3><div class="frame-drop-item-v1249 supply-box"><img src="${esc(reward.image||'assets/ui/packs/supply-high.jpeg')}" alt="장비 보급상자"></div><strong>${esc(reward.name||'장비 보급상자')}${quantity>1?` ×${num(quantity)}`:''}</strong><small>인벤토리에서 최대 10개까지 개방할 수 있습니다. · 보유 ${num(reward.balance)}</small><button type="button">확인</button></div>`;
     }else if(reward.item){
       const item=reward.item;
-      toast.innerHTML=`<div class="frame-drop-backdrop-v1249"></div><div class="frame-drop-card-v1249 ${rarityClass(item.rarity)}"><h3>장비 획득</h3><div class="frame-drop-item-v1249 ${subtypeClass(item)}">${itemImage(item)}</div><strong>${esc(item.name)}</strong><small>${esc(rarityLabels[normRarity(item.rarity)])} · PVE ${num(item.pvePower)} · PVP ${num(item.pvpPower)}</small><button type="button">확인</button></div>`;
+      const pveOnly=item.slot==='BATTLE_SUIT';
+      toast.innerHTML=`<div class="frame-drop-backdrop-v1249"></div><div class="frame-drop-card-v1249 ${rarityClass(item.rarity)}"><h3>${pveOnly?'배틀슈트':'장비'} 획득</h3><div class="frame-drop-item-v1249 ${subtypeClass(item)}">${itemImage(item)}</div><strong>${esc(item.name)}</strong><small>${esc(rarityLabels[normRarity(item.rarity)])} · PVE ${num(item.pvePower)} · ${pveOnly?'PVE 전용':`PVP ${num(item.pvpPower)}`}</small><button type="button">확인</button></div>`;
     }else return;
     document.body.appendChild(toast);requestAnimationFrame(()=>toast.classList.add('show'));
     await new Promise(resolve=>{let done=false;const close=()=>{if(done)return;done=true;toast.classList.remove('show');setTimeout(()=>toast.remove(),180);resolve()};toast.querySelector('button').onclick=close;setTimeout(close,3200)});

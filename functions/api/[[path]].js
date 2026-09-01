@@ -929,7 +929,7 @@ async function pvpDefenseFormationPowers(env,userIds,battle){
       WHERE d.user_id IN (${marks})
         AND c.id=CAST(j.value AS TEXT)
         AND uc.user_id=d.user_id AND uc.card_id=c.id AND uc.quantity>0`).bind(...ids).all(),
-    env.DB.prepare(`SELECT l.user_id,COALESCE(SUM(i.pvp_power),0) power FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1 WHERE l.user_id IN (${marks}) GROUP BY l.user_id`).bind(...ids).all(),
+    env.DB.prepare(`SELECT l.user_id,COALESCE(SUM(i.pvp_power),0) power FROM user_equipment_loadout l JOIN user_equipment_instances x ON x.id=l.instance_id AND x.user_id=l.user_id JOIN character_equipment_items i ON i.id=x.equipment_id AND i.is_active=1 WHERE l.user_id IN (${marks}) AND i.slot<>'BATTLE_SUIT' GROUP BY l.user_id`).bind(...ids).all(),
     env.DB.prepare(`SELECT l.user_id,COALESCE(g.pvp_power,0) power FROM user_garage_loadout l JOIN user_garage_vehicles v ON v.user_id=l.user_id AND v.garage_id=l.garage_id JOIN character_garage_items g ON g.id=l.garage_id AND g.is_active=1 WHERE l.user_id IN (${marks})`).bind(...ids).all(),
     env.DB.prepare(`SELECT l.user_id,COALESCE(t.pve_power,0) power FROM user_title_loadout l JOIN user_character_titles u ON u.user_id=l.user_id AND u.title_id=l.title_id AND (u.expires_at IS NULL OR u.expires_at>CURRENT_TIMESTAMP) JOIN character_titles t ON t.id=l.title_id AND t.is_active=1 WHERE l.user_id IN (${marks})`).bind(...ids).all()
   ]);

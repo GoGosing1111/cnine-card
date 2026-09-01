@@ -1,0 +1,67 @@
+{
+  "version": "v1",
+  "scope": "PVE_ONLY",
+  "battleSuitSlot": "BATTLE_SUIT",
+  "powerContract": {
+    "equipmentPveIncludesBattleSuit": false,
+    "battleSuitPveField": "battleSuitPve",
+    "pveTotalIncludesBattleSuit": true,
+    "pvpTotalIncludesBattleSuit": false,
+    "battleSuitPvpPower": 0
+  },
+  "renderContract": {
+    "formation": "AUXILIARY_FRONT_LEFT",
+    "canonicalAllyCardCount": 5,
+    "movement": false,
+    "attack": "COSMETIC_RANGED_SHOT",
+    "addsIndependentDamage": false,
+    "bodyAndWeaponAreSeparate": true
+  },
+  "suits": [
+    {
+      "code": "BATTLE_SUIT_01",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png",
+      "sha256": "94B9F7549027A9E24B06779E13DADCD9169E5B4399358584B26B2B4080498665"
+    },
+    {
+      "code": "BATTLE_SUIT_02",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-02-orange-tactical-v1.png",
+      "sha256": "D5E661B53FC0098106C1F2E9FEB002CCC8D0CB898103561A84EA61CD38689CB0"
+    },
+    {
+      "code": "BATTLE_SUIT_03",
+      "image": "/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-03-amethyst-exosuit-v1.png",
+      "sha256": "33411D6FB94A44B409470E94CF90EDF1D96CE06803FC40C6D54E6431BFD99841"
+    }
+  ],
+  "weapons": [
+    {
+      "equipmentCode": "EQ_1785427638137",
+      "name": "아발론 M4A1",
+      "sourceImage": "/assets/new myth/20.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/avalon-m4a1-v1.png",
+      "sha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A"
+    },
+    {
+      "equipmentCode": "EQ_1785961232958",
+      "name": "인피니티 AK",
+      "sourceImage": "/assets/items/GUN1.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-ak-v1.png",
+      "sha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329"
+    },
+    {
+      "equipmentCode": "EQ_1785961300455",
+      "name": "인피니티 M200",
+      "sourceImage": "/assets/items/GUN2.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/infinity-m200-v1.png",
+      "sha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213"
+    },
+    {
+      "equipmentCode": "EQ_1786966923833",
+      "name": "소버린 SKS",
+      "sourceImage": "/assets/items/41515123.jpeg",
+      "battleSprite": "/assets/ui/project-v/account-battle-suits/weapons/sovereign-sks-v1.png",
+      "sha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462"
+    }
+  ]
+}

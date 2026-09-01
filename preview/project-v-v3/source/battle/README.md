@@ -42,6 +42,48 @@ Application.stage
 - a Spine adapter can implement `setState`, `setFacing`, `changeTexture`, `destroy`
   without changing the battle-event or skill-timeline contract
 
+## PVE 계정 배틀슈트 유닛 계약
+
+라이브 V3는 서버 `battleV2` 전투 payload의 아래 공개 객체를 읽는다. 최상위 필드가
+단일 기준이며, 최상위 필드 자체가 없을 때만 `characterBonus`(또는 그 안의
+`bonuses`)와 최상위 `bonuses`를 호환 경로로 사용한다. 최상위 값이 `null`이면
+명시적 미장착으로 처리한다.
+
+```js
+{
+  mode: 'PVE',
+  battleV2: {teams: {A: {cards: [/* 기존 5장 */]}, B: {cards: []}}, result: {timeline: []}},
+  characterBonus: {battleSuitPve: 125000},
+  equippedBattleSuit: {
+    code: 'BATTLE_SUIT_01',
+    displayName: '배틀슈트 01',
+    battleSprite: '/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-white-gold-wing-v1.png',
+    pvePower: 125000,
+    pvpPower: 0,
+    scaleMultiplier: 1
+  },
+  equippedWeapon: {
+    code: 'EQ_1785427638137',
+    battleSprite: '',
+    attachment: {x: 34, y: -142, anchorX: .66, anchorY: .62, height: 106, rotation: -.08, flipX: true}
+  }
+}
+```
+
+- 계정 유닛은 `allies`, `characters`, `cards`에 추가하지 않는 보조 렌더 오브젝트다.
+  기존 5장 진형·대상 선택·HP·승패·서버 피해를 변경하지 않는다.
+- `PVE/HUNT/TOWER/RAID/SEAL/ESCORT/DUNGEON` 계열에서만 표시하며,
+  `PVP/SIEGE/TERRITORY/CAPTAIN/CLAN` payload는 렌더러와 라이브 래퍼 양쪽에서 차단한다.
+- 배틀슈트는 본체 스프라이트, 무기는 별도 attachment 스프라이트다. 승인된 무기
+  code 4종은 투명 전투 컷아웃에 매핑한다. 미승인 무기의 일반 `image/imageUrl`은
+  카드형 네모 배경일 수 있어 사용하지 않고, 명시적 `battleSprite/appearanceUrl`이
+  없으면 무기를 숨긴다.
+- 아군의 피해가 있는 `TURN/SKILL` 직후 보조 원거리 사격만 재생한다. 이 사격은
+  대미지와 HP를 다시 적용하지 않으며 `characterBonus.battleSuitPve`의 서버 합산을
+  시각화할 뿐이다.
+- 작은 이름표는 `payload.user.nickname`, `payload.profile.nickname`,
+  `payload.nickname` 순으로 선택하고 값이 없으면 숨긴다.
+
 ## Isometric projection contract
 
 ```js

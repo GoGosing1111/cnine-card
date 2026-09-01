@@ -238,6 +238,7 @@
 .clv2-stat-list dd { margin: 0; color: #edf6f8; font-size: 14px; font-weight: 850; }
 .clv2-stat-list div:nth-child(1) dd { color: var(--clv2-cyan); }
 .clv2-stat-list div:nth-child(2) dd { color: #c6a4ff; }
+.clv2-stat-list .clv2-battle-suit-stat dd { color: #8ce9ff; text-shadow: 0 0 12px rgba(96, 219, 255, .24); }
 .clv2-profile-foot {
   display: flex;
   align-items: center;
@@ -311,6 +312,14 @@
   pointer-events: none;
   user-select: none;
 }
+.clv2-quartermaster.is-battle-suit {
+  width: min(60%, 460px);
+  height: 82%;
+  bottom: 10%;
+  object-position: center center;
+  filter: drop-shadow(0 22px 26px rgba(0, 0, 0, .74)) drop-shadow(0 0 18px rgba(95, 215, 255, .16));
+}
+.clv2-armory-stage.has-battle-suit .clv2-reactor { opacity: .42; }
 
 .clv2-equip-slot {
   --slot-accent: #63dff2;
@@ -334,11 +343,12 @@
   box-shadow: 0 0 14px var(--slot-accent);
 }
 .clv2-equip-slot:hover { filter: brightness(1.1); }
-.clv2-equip-slot.slot-weapon { left: 5.5%; top: 16%; }
-.clv2-equip-slot.slot-accessory { left: 6%; top: 50%; }
-.clv2-equip-slot.slot-top { right: 5.5%; top: 13%; }
-.clv2-equip-slot.slot-bottom { right: 6%; top: 39%; }
-.clv2-equip-slot.slot-shoes { right: 5.5%; top: 65%; }
+.clv2-equip-slot.slot-weapon { left: 5.5%; top: 12%; }
+.clv2-equip-slot.slot-accessory { left: 6%; top: 38%; }
+.clv2-equip-slot.slot-battle_suit { left: 5.5%; top: 64%; --slot-accent: #6ee9ff; }
+.clv2-equip-slot.slot-top { right: 5.5%; top: 12%; }
+.clv2-equip-slot.slot-bottom { right: 6%; top: 38%; }
+.clv2-equip-slot.slot-shoes { right: 5.5%; top: 64%; }
 .clv2-slot-index { position: absolute; left: 8px; top: 7px; color: var(--slot-accent); font: 900 7px/1 Inter, sans-serif; letter-spacing: .12em; }
 .clv2-slot-label { position: absolute; right: 8px; top: 6px; color: #b6c7cf; font-size: 9px; font-weight: 850; }
 .clv2-slot-hit { position: absolute; inset: 0; z-index: 4; border: 0; background: transparent; cursor: pointer; }
@@ -391,6 +401,27 @@
 .clv2-equip-slot.is-rare { --slot-accent: #5ad9ff; }
 .clv2-equip-slot.is-magic { --slot-accent: #6aebb0; }
 .clv2-equip-slot.is-normal { --slot-accent: #8296a5; }
+.clv2-battle-suit-readout {
+  position: absolute;
+  z-index: 7;
+  left: 50%;
+  bottom: 12.5%;
+  width: min(42%, 310px);
+  padding: 9px 14px 10px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(104, 226, 255, .32);
+  border-bottom: 2px solid #69ddf6;
+  background: linear-gradient(180deg, rgba(7, 22, 34, .9), rgba(3, 9, 17, .95));
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .36), inset 0 0 20px rgba(67, 204, 238, .06);
+  text-align: center;
+  pointer-events: none;
+}
+.clv2-battle-suit-readout small,
+.clv2-battle-suit-readout strong,
+.clv2-battle-suit-readout span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.clv2-battle-suit-readout small { color: #71dff5; font-size: 7px; font-weight: 900; letter-spacing: .12em; }
+.clv2-battle-suit-readout strong { margin-top: 4px; color: #f0fbff; font-size: 12px; }
+.clv2-battle-suit-readout span { margin-top: 3px; color: #9bcbd7; font-size: 9px; font-weight: 800; }
 .clv2-stage-readout {
   position: absolute;
   z-index: 7;
@@ -435,7 +466,7 @@
 }
 .clv2-inventory-toolbar input:focus,
 .clv2-inventory-toolbar select:focus { border-color: rgba(98, 221, 241, .48); }
-.clv2-slot-filters { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; padding: 4px 14px 12px; }
+.clv2-slot-filters { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; padding: 4px 14px 12px; }
 .clv2-slot-filters button {
   min-width: 0;
   height: 30px;
@@ -481,6 +512,7 @@
 .clv2-inventory-item.is-epic { --item-accent: #9f80ff; }
 .clv2-inventory-item.is-rare { --item-accent: #5ad9ff; }
 .clv2-inventory-item.is-magic { --item-accent: #6aebb0; }
+.clv2-inventory-item.is-battle-suit { background: linear-gradient(160deg, rgba(9, 31, 44, .97), rgba(3, 8, 15, .99)); }
 .clv2-item-grade {
   position: absolute;
   z-index: 2;
@@ -735,7 +767,7 @@
   .clv2-profile-panel .clv2-panel-heading { grid-column: 1 / -1; }
   .clv2-profile-name { padding: 18px; }
   .clv2-power-core { margin: 12px; }
-  .clv2-stat-list { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(5, 1fr); margin: 0 12px; }
+  .clv2-stat-list { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(6, 1fr); margin: 0 12px; }
   .clv2-stat-list div { display: block; min-height: 58px; padding: 11px 8px; text-align: center; border: 1px solid rgba(139, 174, 205, .09); }
   .clv2-stat-list dd { margin-top: 5px; }
   .clv2-profile-foot { grid-column: 1 / -1; margin-top: 12px; }
@@ -770,17 +802,18 @@
   .clv2-profile-name { padding: 15px 16px 8px; }
   .clv2-power-core { margin: 8px 10px 12px; padding: 17px 16px; }
   .clv2-stat-list { grid-template-columns: repeat(2, 1fr); }
-  .clv2-stat-list div:last-child { grid-column: 1 / -1; }
+  .clv2-stat-list div:last-child { grid-column: auto; }
   .clv2-armory-stage { min-height: 570px; }
   .clv2-stage-status { height: 42px; padding-inline: 12px; font-size: 7px; }
   .clv2-quartermaster { width: 61%; height: 79%; bottom: 7%; }
   .clv2-reactor { width: 88%; top: 48%; }
   .clv2-equip-slot { width: clamp(82px, 24vw, 94px); padding: 19px 6px 6px; }
-  .clv2-equip-slot.slot-weapon { left: 2%; top: 16%; }
-  .clv2-equip-slot.slot-accessory { left: 2%; top: 51%; }
-  .clv2-equip-slot.slot-top { right: 2%; top: 13%; }
-  .clv2-equip-slot.slot-bottom { right: 2%; top: 39%; }
-  .clv2-equip-slot.slot-shoes { right: 2%; top: 65%; }
+  .clv2-equip-slot.slot-weapon { left: 2%; top: 12%; }
+  .clv2-equip-slot.slot-accessory { left: 2%; top: 38%; }
+  .clv2-equip-slot.slot-battle_suit { left: 2%; top: 64%; }
+  .clv2-equip-slot.slot-top { right: 2%; top: 12%; }
+  .clv2-equip-slot.slot-bottom { right: 2%; top: 38%; }
+  .clv2-equip-slot.slot-shoes { right: 2%; top: 64%; }
   .clv2-slot-index { left: 5px; top: 5px; font-size: 7px; }
   .clv2-slot-label { right: 5px; top: 4px; font-size: 8px; }
   .clv2-slot-caption { margin-top: 4px; }
@@ -791,7 +824,7 @@
   .clv2-stage-readout span { display: none; }
   .clv2-inventory-toolbar { grid-template-columns: 1fr 1fr; }
   .clv2-search { grid-column: 1 / -1; }
-  .clv2-slot-filters { grid-template-columns: repeat(3, 1fr); }
+  .clv2-slot-filters { grid-template-columns: repeat(4, 1fr); }
   .clv2-inventory-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding-inline: 10px; }
   .clv2-inventory-item { padding: 5px; }
   .clv2-item-copy strong { font-size: 11px; line-height: 1.25; }

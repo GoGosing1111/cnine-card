@@ -1543,6 +1543,15 @@ export async function handleSiege({ path, request, env, deps }) {
         { error: "참가한 PVE 덱 5장을 확인할 수 없습니다. 다시 참가하세요." },
         409,
       );
+    // Battle Suit is an account-unit PVE bonus, but Monster Siege is a
+    // territory-war mode. Subtract it at this server boundary as well as
+    // hiding the account unit in the V3 renderer, so stale/corrupt DB values
+    // cannot leak into siege power or battle simulation.
+    const siegePveBonus = Math.max(
+      0,
+      Number(characterBonus?.pve || 0) -
+        Number(characterBonus?.battleSuitPve || 0),
+    );
     const uniqueBattle =
         typeof cardUniqueDeckState === "function"
           ? await cardUniqueDeckState(env, user, deck, "PVE")
@@ -1573,7 +1582,7 @@ export async function handleSiege({ path, request, env, deps }) {
         (uniqueBattle?.enabled && Number.isFinite(Number(uniqueBattle.power))
           ? Number(uniqueBattle.power)
           : deck.reduce((sum, card) => sum + Number(card.power || 0), 0)) +
-        Number(characterBonus?.pve || 0),
+        siegePveBonus,
       seed = Array.from(`${event.id}:${user.id}:${requestId}`).reduce(
         (n, c) => (n * 31 + c.charCodeAt(0)) >>> 0,
         2166136261,
@@ -1598,7 +1607,7 @@ export async function handleSiege({ path, request, env, deps }) {
       },
       battleV2 = createPveBattleV2({
         cards: engineDeck,
-        characterBonus: Number(characterBonus?.pve || 0),
+        characterBonus: siegePveBonus,
         monster,
         seed,
         singleHealerBonus: battleCfg?.engine?.singleHealerBonus,

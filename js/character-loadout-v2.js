@@ -6,9 +6,11 @@
 (() => {
   'use strict';
 
-  const SLOT_ORDER = ['WEAPON', 'ACCESSORY', 'TOP', 'BOTTOM', 'SHOES'];
-  const SLOT_LABELS = { WEAPON: '무기', ACCESSORY: '장신구', TOP: '상의', BOTTOM: '하의', SHOES: '신발' };
-  const SLOT_CODES = { WEAPON: 'WP', ACCESSORY: 'AC', TOP: 'TP', BOTTOM: 'BT', SHOES: 'SH' };
+  const STANDARD_SLOT_ORDER = ['WEAPON', 'ACCESSORY', 'TOP', 'BOTTOM', 'SHOES'];
+  const BATTLE_SUIT_SLOT = 'BATTLE_SUIT';
+  const SLOT_ORDER = [...STANDARD_SLOT_ORDER, BATTLE_SUIT_SLOT];
+  const SLOT_LABELS = { WEAPON: '무기', ACCESSORY: '장신구', TOP: '상의', BOTTOM: '하의', SHOES: '신발', BATTLE_SUIT: '배틀슈트' };
+  const SLOT_CODES = { WEAPON: 'WP', ACCESSORY: 'AC', TOP: 'TP', BOTTOM: 'BT', SHOES: 'SH', BATTLE_SUIT: 'BS' };
   const RARITY_ORDER = ['MYTHIC', 'LEGENDARY', 'EPIC', 'RARE', 'MAGIC', 'NORMAL'];
   const RARITY_LABELS = { NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화' };
   const TAB_LABELS = { equipment: '장비', title: '칭호', garage: '이동수단' };
@@ -85,11 +87,15 @@
       if (!state.data) return;
       let equipmentPve = 0;
       let equipmentPvp = 0;
+      let battleSuitPve = 0;
       state.data.instances = (state.data.instances || []).map((row) => {
         const equipped = Number(state.data.loadout?.[row.item?.slot] || 0) === Number(row.instanceId);
         if (equipped) {
-          equipmentPve += Number(row.item?.pvePower || 0);
-          equipmentPvp += Number(row.item?.pvpPower || 0);
+          if (row.item?.slot === BATTLE_SUIT_SLOT) battleSuitPve += Number(row.item?.pvePower || 0);
+          else {
+            equipmentPve += Number(row.item?.pvePower || 0);
+            equipmentPvp += Number(row.item?.pvpPower || 0);
+          }
         }
         return { ...row, equipped };
       });
@@ -99,8 +105,8 @@
       const garagePve = Number(vehicle?.pvePower || 0);
       const garagePvp = Number(vehicle?.pvpPower || 0);
       state.data.bonuses = {
-        ...(state.data.bonuses || {}), equipmentPve, equipmentPvp, titlePve, titlePvp: titlePve,
-        garagePve, garagePvp, pve: equipmentPve + titlePve + garagePve, pvp: equipmentPvp + titlePve + garagePvp
+        ...(state.data.bonuses || {}), equipmentPve, equipmentPvp, battleSuitPve, titlePve, titlePvp: titlePve,
+        garagePve, garagePvp, pve: equipmentPve + battleSuitPve + titlePve + garagePve, pvp: equipmentPvp + titlePve + garagePvp
       };
     }
 
@@ -133,12 +139,13 @@
     function slotCard(slot) {
       const row = equippedInstance(slot);
       const item = row?.item;
+      const isBattleSuit = slot === BATTLE_SUIT_SLOT;
       return `<article class="clv2-equip-slot slot-${slot.toLowerCase()} ${item ? `is-filled ${rarityClass(item.rarity)}` : 'is-empty'}" data-slot-card="${slot}">
         <span class="clv2-slot-index">${SLOT_CODES[slot]}</span>
         <span class="clv2-slot-label">${SLOT_LABELS[slot]}</span>
         <button class="clv2-slot-hit" type="button" data-slot-filter="${slot}" aria-label="${SLOT_LABELS[slot]} 장비 보기"></button>
-        <div class="clv2-item-art clv2-slot-art">${item ? art(item, true) : `<span class="clv2-slot-ghost">${icon(slot === 'ACCESSORY' ? 'shield' : 'equipment')}</span>`}</div>
-        <div class="clv2-slot-caption"><strong>${escapeHtml(item?.name || '미장착')}</strong><small>${item ? `${RARITY_LABELS[normalizeRarity(item.rarity)]} · PVE +${formatNumber(item.pvePower)}` : '슬롯을 선택해 장착'}</small></div>
+        <div class="clv2-item-art clv2-slot-art">${item ? art(item, true) : `<span class="clv2-slot-ghost">${icon(slot === 'ACCESSORY' || isBattleSuit ? 'shield' : 'equipment')}</span>`}</div>
+        <div class="clv2-slot-caption"><strong>${escapeHtml(item?.name || '미장착')}</strong><small>${item ? `${RARITY_LABELS[normalizeRarity(item.rarity)]} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}` : isBattleSuit ? 'PVE 전용 외형 슬롯' : '슬롯을 선택해 장착'}</small></div>
         ${item ? `<button class="clv2-slot-remove" type="button" data-unequip="${slot}" aria-label="${SLOT_LABELS[slot]} 장착 해제">${icon('close')}</button>` : ''}
       </article>`;
     }
@@ -163,11 +170,12 @@
 
     function equipmentItem(row) {
       const item = row.item || {};
-      return `<button type="button" class="clv2-inventory-item ${rarityClass(item.rarity)}${row.equipped ? ' is-equipped' : ''}" data-equip="${row.instanceId}" ${row.equipped ? 'disabled' : ''}>
+      const isBattleSuit = item.slot === BATTLE_SUIT_SLOT;
+      return `<button type="button" class="clv2-inventory-item ${rarityClass(item.rarity)}${row.equipped ? ' is-equipped' : ''}${isBattleSuit ? ' is-battle-suit' : ''}" data-equip="${row.instanceId}" ${row.equipped ? 'disabled' : ''}>
         <span class="clv2-item-grade">${RARITY_LABELS[normalizeRarity(item.rarity)]}</span>
         <div class="clv2-item-art clv2-inventory-art">${art(item)}</div>
         <span class="clv2-equipped-mark">${icon('check')} 장착</span>
-        <span class="clv2-item-copy"><strong>${escapeHtml(item.name || '이름 없음')}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · PVE +${formatNumber(item.pvePower)}</small></span>
+        <span class="clv2-item-copy"><strong>${escapeHtml(item.name || '이름 없음')}</strong><small>${SLOT_LABELS[item.slot] || item.slot || ''} · ${isBattleSuit ? 'PVE 전용' : 'PVE'} +${formatNumber(item.pvePower)}</small></span>
       </button>`;
     }
 
@@ -177,15 +185,16 @@
       return `<aside class="clv2-profile-panel">
         <header class="clv2-panel-heading"><span>OPERATOR STATUS</span><i>01</i></header>
         <div class="clv2-profile-name"><small>현재 계정</small><strong>${escapeHtml(profile.nickname || '플레이어')}</strong><span class="${titleStyleClass(title?.stylePreset)} ${titleFontClass(title?.fontPreset)}">[${escapeHtml(title?.badgeText || title?.name || '칭호 없음')}]</span></div>
-        <div class="clv2-power-core"><span>통합 전투 보너스</span><strong>${formatNumber(Number(bonuses.pve || 0) + Number(bonuses.pvp || 0))}</strong><small>장비 · 칭호 · 이동수단 반영</small></div>
+        <div class="clv2-power-core"><span>통합 전투 보너스</span><strong>${formatNumber(Number(bonuses.pve || 0) + Number(bonuses.pvp || 0))}</strong><small>배틀슈트는 PVE에만 반영</small></div>
         <dl class="clv2-stat-list">
           <div><dt>PVE 전투력</dt><dd>+${formatNumber(bonuses.pve)}</dd></div>
           <div><dt>PVP 전투력</dt><dd>+${formatNumber(bonuses.pvp)}</dd></div>
-          <div><dt>장비 보너스</dt><dd>+${formatNumber(bonuses.equipmentPve)}</dd></div>
+          <div><dt>일반 장비 (PVE)</dt><dd>+${formatNumber(bonuses.equipmentPve)}</dd></div>
+          <div class="clv2-battle-suit-stat"><dt>배틀슈트 (PVE 전용)</dt><dd>+${formatNumber(bonuses.battleSuitPve)}</dd></div>
           <div><dt>칭호 보너스</dt><dd>+${formatNumber(bonuses.titlePve)}</dd></div>
           <div><dt>이동수단</dt><dd>+${formatNumber(bonuses.garagePve)}</dd></div>
         </dl>
-        <div class="clv2-profile-foot"><i></i><span>LIVE LOADOUT</span><b>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} / 5</b></div>
+        <div class="clv2-profile-foot"><i></i><span>LIVE LOADOUT</span><b>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} / ${SLOT_ORDER.length}</b></div>
       </aside>`;
     }
 
@@ -209,17 +218,19 @@
 
     function equipmentView() {
       const avatar = state.data?.equippedAvatar || null;
-      const operatorImage = avatar?.equipmentImage || 'assets/ui/character-loadout-v2/quartermaster-v1.webp';
-      const operatorAlt = avatar?.name ? `${avatar.name} 장착 아바타` : '장비 관리 오퍼레이터';
+      const battleSuit = equippedInstance(BATTLE_SUIT_SLOT)?.item || null;
+      const operatorImage = battleSuit?.image || avatar?.equipmentImage || 'assets/ui/character-loadout-v2/quartermaster-v1.webp';
+      const operatorAlt = battleSuit ? `${battleSuit.name} 배틀슈트 외형` : avatar?.name ? `${avatar.name} 장착 아바타` : '장비 관리 오퍼레이터';
       return `<section class="clv2-view clv2-equipment-view">
         ${profilePanel()}
-        <article class="clv2-armory-stage${avatar?.equipmentImage ? ' has-equipped-avatar' : ''}">
-          <header class="clv2-stage-status"><span><i></i> EQUIPMENT LINK ONLINE</span><b>LOADOUT 05</b></header>
+        <article class="clv2-armory-stage${avatar?.equipmentImage ? ' has-equipped-avatar' : ''}${battleSuit ? ' has-battle-suit' : ''}">
+          <header class="clv2-stage-status"><span><i></i> EQUIPMENT LINK ONLINE</span><b>LOADOUT 06</b></header>
           <div class="clv2-armory-backdrop" aria-hidden="true"></div>
           <div class="clv2-reactor" aria-hidden="true"><i></i><i></i><i></i></div>
-          <img class="clv2-quartermaster${avatar?.equipmentImage ? ' is-equipped-avatar' : ''}" src="${escapeHtml(resolveAsset(operatorImage))}" alt="${escapeHtml(operatorAlt)}" loading="eager" decoding="async">
+          <img class="clv2-quartermaster${avatar?.equipmentImage ? ' is-equipped-avatar' : ''}${battleSuit ? ' is-battle-suit' : ''}" src="${escapeHtml(resolveAsset(operatorImage))}" alt="${escapeHtml(operatorAlt)}" loading="eager" decoding="async">
+          ${battleSuit ? `<div class="clv2-battle-suit-readout"><small>EQUIPPED BATTLE SUIT · PVE ONLY</small><strong>${escapeHtml(battleSuit.name)}</strong><span>PVE 전투력 +${formatNumber(battleSuit.pvePower)}</span></div>` : ''}
           ${SLOT_ORDER.map(slotCard).join('')}
-          <div class="clv2-stage-readout"><small>ACTIVE CONFIGURATION</small><strong>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} SLOT LINKED</strong><span>아이템은 원본 비율을 유지해 장착 칸 안에 표시됩니다.</span></div>
+          <div class="clv2-stage-readout"><small>ACTIVE CONFIGURATION</small><strong>${SLOT_ORDER.filter((slot) => equippedInstance(slot)).length} SLOT LINKED</strong><span>배틀슈트는 외형과 별도 PVE 전투력을 적용합니다.</span></div>
         </article>
         ${inventoryPanel()}
       </section>`;
