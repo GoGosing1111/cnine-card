@@ -15,7 +15,8 @@
     "test:prison": "node --test tests/prison-system-v1950.test.mjs",
     "test:apocalypse": "node --test tests/pve-apocalypse-v1952.test.mjs",
     "test:battle-suit": "node --test tests/project-v-battle-suit-backend-v1953.test.mjs tests/project-v-battle-suit-frontend-v1953.test.mjs tests/project-v-v3-account-battle-unit-v1953.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:apocalypse && npm run test:battle-suit && node scripts/verify-production-release.mjs",
+    "test:territory-reward": "node --test tests/territory-winner-master-star-v1956.test.mjs",
+    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:apocalypse && npm run test:battle-suit && npm run test:territory-reward && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {

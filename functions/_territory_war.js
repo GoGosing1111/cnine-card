@@ -41,6 +41,9 @@ const MAX_SETTLEMENT_REWARD_COMPONENT_COIN=1_000_000_000_000;
 const PARTICIPATION_ITEM_REWARD_ATTACKS=100;
 const PARTICIPATION_SCRAPYARD_TICKETS=20;
 const PARTICIPATION_MYSTIC_ENERGY=1;
+const WINNER_MASTER_STAR_BONUS_MIN_EXCLUSIVE_ATTACKS=80;
+const WINNER_MASTER_STAR_BONUS_AMOUNT=7_000;
+const WINNER_MASTER_STAR_BONUS_MARKER='safe_runtime_reward_v1956_latest_finished_winner_gt80_master_star_7000';
 const LEGACY_BALANCE=Object.freeze({fatiguePerCapturePercent:10,fatigueMaxPercent:30,fatigueDamageRatio:.4,comebackDamagePerTierPercent:8,defeatSiegeDamagePercent:20,antiPingPongRevisitThreshold:Number.MAX_SAFE_INTEGER});
 function balanceRules(round,cfg){return Number(round?.id||0)>=BALANCE_REWORK_FROM_ROUND_ID?cfg:LEGACY_BALANCE}
 
@@ -94,6 +97,86 @@ async function recoverWrongWinnerOverpaymentV1444(env){
   statements.push(env.DB.prepare("UPDATE territory_war_v3_rewards SET result='LOSE',coin=100000 WHERE round_id=? AND side<>'B' AND result<>'INELIGIBLE' AND claimed_at IS NOT NULL").bind(roundId));
   statements.push(env.DB.prepare("INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP)").bind(markerKey,JSON.stringify({roundId,accounts:rows.length,recoveredTotal,outstandingTotal,recoveredAt:iso()})));
   await env.DB.batch(statements);
+}
+
+// 2026-09-01 운영 지시: 배포 직전의 최신 종료 회차 승리 진영 중 정산 공격 80회 초과자에게
+// 마스터의 별 7,000개를 한 번만 지급한다. 전역 마커가 이후 회차 자동 지급을 막고,
+// 회차별 inventory_logs 영수증이 실행 중단 후 재시도에서도 유저별 중복 지급을 막는다.
+async function grantLatestWinnerMasterStarsV1956(env){
+  const existingMarker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(WINNER_MASTER_STAR_BONUS_MARKER).first();
+  if(existingMarker){
+    const receipt=safeJson(existingMarker.value,{});
+    console.log(JSON.stringify({type:'territory_winner_master_star_v1956',alreadyCompleted:true,...receipt}));
+    return receipt;
+  }
+  const round=await env.DB.prepare(`SELECT id,battle_name,winner_side,settled_at
+    FROM territory_war_v3_rounds
+    WHERE status='FINISHED' AND settled_at IS NOT NULL AND winner_side IN ('A','B')
+    ORDER BY settled_at DESC,id DESC LIMIT 1`).first();
+  if(!round)return null;
+  const roundId=Number(round.id||0),winnerSide=String(round.winner_side||'').toUpperCase(),settledAtMs=sqlMs(round.settled_at);
+  if(!roundId||!['A','B'].includes(winnerSide)||!Number.isFinite(settledAtMs)||settledAtMs>Date.now()+300000||Date.now()-settledAtMs>86400000){
+    console.warn('territory winner master-star v1956 skipped: latest finished round is not recent',JSON.stringify({roundId,winnerSide,settledAt:round.settled_at||null}));
+    return null;
+  }
+  const lock=await acquireLock(env,'reward_v1956_latest_finished_winner_gt80_master_star_7000',180000);
+  if(!lock.ok)return null;
+  try{
+    const completedWhileWaiting=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(WINNER_MASTER_STAR_BONUS_MARKER).first();
+    if(completedWhileWaiting)return safeJson(completedWhileWaiting.value,{});
+    const operationKey=`TWV3:R${roundId}:WIN:ATTACKS_GT80:MASTER_STAR:7000`,referenceType='TERRITORY_WAR_BONUS';
+    const rawSettings=await env.DB.prepare("SELECT value FROM app_meta WHERE key='territory_war_settings_v3'").first(),cfg={...DEFAULTS,...safeJson(rawSettings?.value,{})};
+    const recipients=(await env.DB.prepare(`WITH action_counts AS (
+        SELECT user_id,COUNT(*) action_attacks FROM territory_war_v3_actions
+        WHERE round_id=? AND status IN ('APPLIED','COMPLETED') GROUP BY user_id
+      )
+      SELECT r.user_id,u.nickname,r.attacks,r.damage,COALESCE(w.attacks,0) stored_attacks,
+        COALESCE(ac.action_attacks,0) action_attacks,COALESCE(i.quantity,0) balance_before
+      FROM territory_war_v3_rewards r
+      JOIN territory_war_v3_users w ON w.round_id=r.round_id AND w.user_id=r.user_id
+      JOIN users u ON u.id=r.user_id
+      LEFT JOIN action_counts ac ON ac.user_id=r.user_id
+      LEFT JOIN cnine_user_inventory i ON i.user_id=r.user_id AND i.item_code='MASTER_STAR'
+      WHERE r.round_id=? AND r.side=? AND r.result='WIN' AND r.attacks>?
+      ORDER BY r.attacks DESC,r.damage DESC,r.user_id`).bind(roundId,roundId,winnerSide,WINNER_MASTER_STAR_BONUS_MIN_EXCLUSIVE_ATTACKS).all()).results||[];
+    const ensureInventory=env.DB.prepare(`INSERT INTO cnine_user_inventory(user_id,item_code,quantity,unseen_quantity,created_at,updated_at)
+      SELECT r.user_id,'MASTER_STAR',0,0,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP
+      FROM territory_war_v3_rewards r
+      WHERE r.round_id=? AND r.side=? AND r.result='WIN' AND r.attacks>?
+      ON CONFLICT(user_id,item_code) DO NOTHING`).bind(roundId,winnerSide,WINNER_MASTER_STAR_BONUS_MIN_EXCLUSIVE_ATTACKS);
+    const grantInventory=env.DB.prepare(`UPDATE cnine_user_inventory SET
+        quantity=quantity+?,unseen_quantity=unseen_quantity+?,updated_at=CURRENT_TIMESTAMP
+      WHERE item_code='MASTER_STAR' AND user_id IN (
+        SELECT r.user_id FROM territory_war_v3_rewards r
+        WHERE r.round_id=? AND r.side=? AND r.result='WIN' AND r.attacks>?
+      ) AND NOT EXISTS (
+        SELECT 1 FROM inventory_logs l WHERE l.user_id=cnine_user_inventory.user_id
+          AND l.item_code='MASTER_STAR' AND l.reference_type=? AND l.reference_id=?
+      )`).bind(WINNER_MASTER_STAR_BONUS_AMOUNT,WINNER_MASTER_STAR_BONUS_AMOUNT,roundId,winnerSide,WINNER_MASTER_STAR_BONUS_MIN_EXCLUSIVE_ATTACKS,referenceType,operationKey);
+    const writeLogs=env.DB.prepare(`INSERT INTO inventory_logs(user_id,item_code,change_amount,balance_after,reason,reference_type,reference_id)
+      SELECT i.user_id,'MASTER_STAR',?,i.quantity,'영토전 승리팀 80회 초과 특별 보상',?,?
+      FROM cnine_user_inventory i JOIN territory_war_v3_rewards r ON r.user_id=i.user_id AND r.round_id=?
+      WHERE i.item_code='MASTER_STAR' AND r.side=? AND r.result='WIN' AND r.attacks>?
+        AND NOT EXISTS (
+          SELECT 1 FROM inventory_logs l WHERE l.user_id=i.user_id AND l.item_code='MASTER_STAR'
+            AND l.reference_type=? AND l.reference_id=?
+        )`).bind(WINNER_MASTER_STAR_BONUS_AMOUNT,referenceType,operationKey,roundId,winnerSide,WINNER_MASTER_STAR_BONUS_MIN_EXCLUSIVE_ATTACKS,referenceType,operationKey);
+    await env.DB.batch([ensureInventory,grantInventory,writeLogs]);
+    const audit=await env.DB.prepare(`SELECT COUNT(*) paid_count,COALESCE(SUM(change_amount),0) total_granted
+      FROM inventory_logs WHERE item_code='MASTER_STAR' AND reference_type=? AND reference_id=?`).bind(referenceType,operationKey).first();
+    const paidCount=Number(audit?.paid_count||0),totalGranted=Number(audit?.total_granted||0),expectedTotal=recipients.length*WINNER_MASTER_STAR_BONUS_AMOUNT;
+    if(paidCount!==recipients.length||totalGranted!==expectedTotal)throw new Error(`영토전 마스터의 별 지급 검증 불일치: ${paidCount}/${recipients.length}, ${totalGranted}/${expectedTotal}`);
+    const balances=(await env.DB.prepare(`SELECT i.user_id,i.quantity FROM cnine_user_inventory i
+      JOIN territory_war_v3_rewards r ON r.user_id=i.user_id AND r.round_id=?
+      WHERE i.item_code='MASTER_STAR' AND r.side=? AND r.result='WIN' AND r.attacks>? ORDER BY r.attacks DESC,r.damage DESC,r.user_id`).bind(roundId,winnerSide,WINNER_MASTER_STAR_BONUS_MIN_EXCLUSIVE_ATTACKS).all()).results||[];
+    const balanceByUser=new Map(balances.map(row=>[Number(row.user_id),Number(row.quantity||0)]));
+    const receipt={roundId,battleName:String(round.battle_name||''),winnerSide,teamName:configuredTeamLabel(cfg,winnerSide),settledAt:round.settled_at,
+      threshold:`>${WINNER_MASTER_STAR_BONUS_MIN_EXCLUSIVE_ATTACKS}`,amount:WINNER_MASTER_STAR_BONUS_AMOUNT,recipientCount:recipients.length,totalGranted,operationKey,
+      recipients:recipients.map(row=>({userId:Number(row.user_id),nickname:String(row.nickname||''),attacks:Number(row.attacks||0),damage:Number(row.damage||0),storedAttacks:Number(row.stored_attacks||0),actionAttacks:Number(row.action_attacks||0),balanceBefore:Number(row.balance_before||0),balanceAfter:balanceByUser.get(Number(row.user_id))??null})),completedAt:iso()};
+    await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO NOTHING').bind(WINNER_MASTER_STAR_BONUS_MARKER,JSON.stringify(receipt)).run();
+    console.log(JSON.stringify({type:'territory_winner_master_star_v1956',alreadyCompleted:false,...receipt}));
+    return receipt;
+  }finally{await releaseLock(env,lock)}
 }
 
 async function ensureFoundation(env){
@@ -432,6 +515,7 @@ async function ensureFoundation(env){
   }
   await repairWaterBuffaloSettlementV1443(env);
   await recoverWrongWinnerOverpaymentV1444(env);
+  await grantLatestWinnerMasterStarsV1956(env);
   foundationReady=true;
 }
 
@@ -1286,4 +1370,4 @@ export async function handleTerritoryWar({path,request,env,deps}){
   return deps.json({error:'요청한 영토전 기능을 찾을 수 없습니다.'},404);
 }
 
-export {balancedSideAssignments,buildFormationSnapshot,magicFormationPercent,massAssaultPreview,pickPowerMatchedOpponent,matchPowerScale,participationInventoryReward};
+export {balancedSideAssignments,buildFormationSnapshot,grantLatestWinnerMasterStarsV1956,magicFormationPercent,massAssaultPreview,pickPowerMatchedOpponent,matchPowerScale,participationInventoryReward};
