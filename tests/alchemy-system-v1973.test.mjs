@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile, stat } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { normalizedOdds, weightedPick, materialScore, cardEffectScore, rewardAutoFactor, rewardGradeFactor } from '../functions/_alchemy.js';
+import { normalizedOdds, weightedPick, materialScore, cardEffectScore, rewardAutoFactor, rewardGradeFactor, applyAlchemyCardPoolDensity } from '../functions/_alchemy.js';
 
 const read = path => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
@@ -18,7 +18,7 @@ test('alchemy reward weights are normalized and selected deterministically at bo
   assert.equal(weightedPick(source, 0.999999).id, 'B');
 });
 
-test('alchemy material quality rises with real equipment power and high-card grade while reward factor falls with strength', () => {
+test('alchemy material quality rises with real equipment power and Zenith-era card rewards favor higher grades', () => {
   const bounds = { min:1000, max:100000 };
   assert.ok(materialScore({ type:'EQUIPMENT', totalPower:1000 }, bounds) < materialScore({ type:'EQUIPMENT', totalPower:50000 }, bounds));
   assert.ok(materialScore({ type:'EQUIPMENT', totalPower:50000 }, bounds) < materialScore({ type:'EQUIPMENT', totalPower:100000 }, bounds));
@@ -27,11 +27,32 @@ test('alchemy material quality rises with real equipment power and high-card gra
   assert.ok(rewardAutoFactor(10) > rewardAutoFactor(50));
   assert.ok(rewardAutoFactor(50) > rewardAutoFactor(100));
   const rewardGrades = ['LIMITED','PRESTIGE','FUR','ZENITH'].map(rewardGradeFactor);
-  assert.deepEqual(rewardGrades, [1,.62,.46,.18]);
-  assert.ok(rewardGrades.every((factor, index) => index === 0 || factor < rewardGrades[index - 1]));
+  assert.deepEqual(rewardGrades, [.2,.45,.8,2.5]);
+  assert.ok(rewardGrades.every((factor, index) => index === 0 || factor > rewardGrades[index - 1]));
   assert.equal(rewardGradeFactor('MA'), 0);
   assert.equal(rewardGradeFactor('SUPERSTAR'), 0);
   assert.ok(cardEffectScore({ attackPercent:10, defensePercent:5, effectValue:20, triggerChance:50, maxActivations:2 }) > 30);
+});
+
+test('alchemy card pool gates grades by tier and roster size cannot inflate a grade total', () => {
+  const matrix = applyAlchemyCardPoolDensity([
+    { id:'AW_LIMITED', type:'CARD', tierCode:'AWAKENED', rarity:'LIMITED', active:true, valid:true, effectiveWeight:20 },
+    { id:'OD_PRESTIGE', type:'CARD', tierCode:'OVERDRIVE', rarity:'PRESTIGE', active:true, valid:true, effectiveWeight:20 },
+    { id:'OD_FUR', type:'CARD', tierCode:'OVERDRIVE', rarity:'FUR', active:true, valid:true, effectiveWeight:20 },
+    { id:'FB_FUR', type:'CARD', tierCode:'FORBIDDEN', rarity:'FUR', active:true, valid:true, effectiveWeight:20 },
+    { id:'FB_ZENITH', type:'CARD', tierCode:'FORBIDDEN', rarity:'ZENITH', active:true, valid:true, effectiveWeight:20 },
+    { id:'FB_LIMITED', type:'CARD', tierCode:'FORBIDDEN', rarity:'LIMITED', active:true, valid:true, effectiveWeight:20 },
+    { id:'FB_PRESTIGE', type:'CARD', tierCode:'FORBIDDEN', rarity:'PRESTIGE', active:true, valid:true, effectiveWeight:20 }
+  ]);
+  for (const id of ['AW_LIMITED','OD_PRESTIGE','OD_FUR','FB_FUR','FB_ZENITH']) assert.equal(matrix.find(row => row.id === id)?.valid, true);
+  for (const id of ['FB_LIMITED','FB_PRESTIGE']) {
+    assert.equal(matrix.find(row => row.id === id)?.valid, false);
+    assert.equal(matrix.find(row => row.id === id)?.effectiveWeight, 0);
+  }
+  const crowdedLimited = applyAlchemyCardPoolDensity(Array.from({ length:100 }, (_, index) => ({ id:`L${index}`, type:'CARD', tierCode:'AWAKENED', rarity:'LIMITED', active:true, valid:true, effectiveWeight:20 })));
+  const total = crowdedLimited.reduce((sum, row) => sum + row.effectiveWeight, 0);
+  assert.ok(Math.abs(total - 7) < 1e-9);
+  assert.ok(crowdedLimited.every(row => row.densityDivisor === 100 && row.densityScale === .35));
 });
 
 test('alchemy backend enforces protected inputs, secure roll, idempotency and atomic grant guard', async () => {
@@ -54,11 +75,14 @@ test('alchemy backend enforces protected inputs, secure roll, idempotency and at
   assert.match(source, /BLACK_MIRACLE_INVERSE/);
   assert.match(source, /safe_runtime_upgrade_v1977_alchemy_single_mode/);
   assert.match(source, /safe_runtime_upgrade_v1979_alchemy_reward_pool/);
+  assert.match(source, /safe_runtime_upgrade_v1981_alchemy_zenith_era/);
   assert.match(source, /UPDATE \$\{TABLES\.pool\} SET alchemy_mode='ANY'/);
   assert.match(source, /SAFE_CARD_REWARD_RARITIES=new Set\(\['LIMITED','PRESTIGE','FUR','ZENITH'\]\)/);
   assert.match(source, /SPECIAL_REWARD_ITEM_CODES=new Set\(\['BLACK_MIRACLE_PACK','SCRAPYARD_ENTRY_TICKET','MASTER_STAR'\]\)/);
   assert.match(source, /syncCardRewardPool/);
   assert.match(source, /CARD_REWARD_GRADE_FACTOR/);
+  assert.match(source, /CARD_REWARD_DENSITY_SCALE/);
+  assert.match(source, /applyAlchemyCardPoolDensity\(candidates\)/);
   assert.match(source, /manualWeight\*autoFactor\*gradeFactor/);
   assert.match(source, /const mode='STANDARD'/);
   assert.doesNotMatch(source, /PRECISION|CHAOS/);
@@ -102,7 +126,10 @@ test('truth orb and fortified five-slot renderer are shared by preview and live'
   for (const code of ['BLACK_MIRACLE_PACK','SCRAPYARD_ENTRY_TICKET','MASTER_STAR']) assert.match(preview, new RegExp(code));
   for (const rarity of ['LIMITED','PRESTIGE','FUR','ZENITH']) assert.match(preview, new RegExp(`type: 'CARD'[^\\n]+rarity: '${rarity}'`));
   assert.match(preview, /OWNER 검수계정/);
-  assert.match(previewHtml, /v=6-reward-pool-1979/);
+  assert.doesNotMatch(preview, /rewardId: 'OD_LIMITED'|rewardId: 'FB_LIMITED'|rewardId: 'FB_PRESTIGE'/);
+  assert.match(preview, /rewardId: 'FB_FUR'/);
+  assert.match(preview, /rewardId: 'FB_ZENITH'/);
+  assert.match(previewHtml, /v=7-zenith-era-1981/);
   assert.match(renderer, /const TYPE_TABS = \['CARD', 'EQUIPMENT'\]/);
   assert.doesNotMatch(renderer, /data-alchemy-mode|PRECISION|CHAOS|정밀 연성|혼돈 연성/);
   assert.doesNotMatch(preview, /PRECISION|CHAOS/);
@@ -129,7 +156,7 @@ test('alchemy CMS exposes material curve, vehicles, inverse reward weights and s
   assert.match(admin, /alchemy-final-probability/);
   assert.doesNotMatch(admin, /alchemyRewardMode|PRECISION|CHAOS|정밀/);
   assert.match(admin, /VEHICLE:'이동수단'/);
-  assert.match(loader, /alchemy-admin-v1\.js\?v=4-reward-pool/);
-  assert.match(adminHtml, /admin-v1276\.js\?v=1980-ranked-reward-unlimited/);
+  assert.match(loader, /alchemy-admin-v1\.js\?v=5-zenith-era/);
+  assert.match(adminHtml, /admin-v1276\.js\?v=1981-alchemy-zenith-era/);
   for (const table of ['alchemy_runs_v1','alchemy_user_state_v1','alchemy_asset_locks_v1','alchemy_guards_v1']) assert.match(cleanup, new RegExp(table));
 });

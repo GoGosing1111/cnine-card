@@ -36,7 +36,7 @@ test('CMS 코인 입력은 상한 없이 안내하고 새 스크립트 버전을
   assert.match(admin,/보상 코인 · 한도 없음<\/span><input class="ptCoin" type="number" min="0" step="1"/);
   assert.match(admin,/보상 코인 · 한도 없음<\/span><input class="prCoin" type="number" min="0" step="1"/);
   assert.doesNotMatch(admin,/class="(?:ptCoin|prCoin)"[^>]*max=/);
-  assert.match(html,/admin-v1276\.js\?v=1980-ranked-reward-unlimited/);
+  assert.match(html,/admin-v1276\.js\?v=1981-alchemy-zenith-era/);
 });
 
 test('랭크전 보상 회귀 검사는 운영 배포 게이트에 포함된다',()=>{

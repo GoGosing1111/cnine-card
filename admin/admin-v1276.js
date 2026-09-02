@@ -603,5 +603,5 @@ removeRetiredCubeAdminUi();
 // V1973: keep the alchemy CMS independent from the large static admin HTML.
 {
   const style=document.createElement('link');style.rel='stylesheet';style.href='alchemy-admin-v1.css?v=4-reward-pool';document.head.append(style);
-  const script=document.createElement('script');script.src='alchemy-admin-v1.js?v=4-reward-pool';document.head.append(script);
+  const script=document.createElement('script');script.src='alchemy-admin-v1.js?v=5-zenith-era';document.head.append(script);
 }

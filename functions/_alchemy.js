@@ -12,6 +12,7 @@ const FOUNDATION_KEY='safe_runtime_upgrade_v1973_alchemy_v1';
 const QUALITY_UPGRADE_KEY='safe_runtime_upgrade_v1976_alchemy_quality_curve';
 const SINGLE_MODE_UPGRADE_KEY='safe_runtime_upgrade_v1977_alchemy_single_mode';
 const REWARD_POOL_UPGRADE_KEY='safe_runtime_upgrade_v1979_alchemy_reward_pool';
+const ZENITH_ERA_UPGRADE_KEY='safe_runtime_upgrade_v1981_alchemy_zenith_era';
 const SETTINGS_KEY='alchemy_settings_v1';
 const TABLES=Object.freeze({
   runs:'alchemy_runs_v1',state:'alchemy_user_state_v1',pool:'alchemy_reward_pool_v1',
@@ -24,10 +25,10 @@ const ALCHEMY_CARD_INPUT_GRADES=new Set(['LIMITED','PRESTIGE','FUR','ZENITH']);
 const HIGH_GRADE_CONFIRM=ALCHEMY_CARD_INPUT_GRADES;
 const SAFE_CARD_REWARD_RARITIES=new Set(['LIMITED','PRESTIGE','FUR','ZENITH']);
 const SPECIAL_REWARD_ITEM_CODES=new Set(['BLACK_MIRACLE_PACK','SCRAPYARD_ENTRY_TICKET','MASTER_STAR']);
-const CARD_REWARD_GRADE_FACTOR=Object.freeze({LIMITED:1,PRESTIGE:.62,FUR:.46,ZENITH:.18});
+const CARD_REWARD_GRADE_FACTOR=Object.freeze({LIMITED:.2,PRESTIGE:.45,FUR:.8,ZENITH:2.5});
+const CARD_REWARD_DENSITY_SCALE=.35;
 const CARD_REWARD_TIERS=Object.freeze({
-  LIMITED:['AWAKENED','OVERDRIVE','FORBIDDEN'],PRESTIGE:['OVERDRIVE','FORBIDDEN'],
-  FUR:['OVERDRIVE','FORBIDDEN'],ZENITH:['FORBIDDEN']
+  LIMITED:['AWAKENED'],PRESTIGE:['OVERDRIVE'],FUR:['OVERDRIVE','FORBIDDEN'],ZENITH:['FORBIDDEN']
 });
 const CARD_INPUT_BONUS=Object.freeze({LIMITED:120,PRESTIGE:180,FUR:240,ZENITH:320});
 const EQUIPMENT_SCORE_RANGE=Object.freeze({min:25,max:250});
@@ -118,6 +119,19 @@ export function rewardAutoFactor(strengthPercent){
   return Math.round((1-.9*curve)*10000)/10000;
 }
 export function rewardGradeFactor(rarity){return Number(CARD_REWARD_GRADE_FACTOR[code(rarity,30)]||0)}
+function cardRewardTierAllowed(rarity,tierCode){return (CARD_REWARD_TIERS[code(rarity,30)]||[]).includes(code(tierCode,30))}
+export function applyAlchemyCardPoolDensity(entries=[]){
+  const rows=(entries||[]).map(row=>({...row})),counts=new Map();
+  for(const row of rows){
+    if(code(row.type,30)!=='CARD'||row.active===false||row.valid===false||!cardRewardTierAllowed(row.rarity,row.tierCode))continue;
+    const key=`${code(row.tierCode,30)}:${code(row.rarity,30)}`;counts.set(key,Number(counts.get(key)||0)+1);
+  }
+  return rows.map(row=>{
+    if(code(row.type,30)!=='CARD')return row;
+    const allowed=cardRewardTierAllowed(row.rarity,row.tierCode),valid=row.valid!==false&&allowed,rawEffectiveWeight=Math.max(0,Number(row.rawEffectiveWeight??row.effectiveWeight??row.weight)||0),key=`${code(row.tierCode,30)}:${code(row.rarity,30)}`,densityDivisor=Math.max(1,Number(counts.get(key)||1));
+    return{...row,valid,rawEffectiveWeight,densityDivisor,densityScale:CARD_REWARD_DENSITY_SCALE,effectiveWeight:valid?Math.round(rawEffectiveWeight*CARD_REWARD_DENSITY_SCALE/densityDivisor*100000000)/100000000:0};
+  });
+}
 function itemRewardStrength(ref,rarity,quantity){
   const key=code(ref,100),amount=Math.max(1,Number(quantity)||1);
   if(key==='BLACK_MIRACLE_PACK')return RARITY.SUPERSTAR.value;
@@ -252,6 +266,12 @@ export async function ensureAlchemyFoundation(env){
       await syncCardRewardPool(env,{replace:true});
       await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(REWARD_POOL_UPGRADE_KEY,'1').run();
     }
+    const zenithEraMarker=await env.DB.prepare('SELECT value FROM app_meta WHERE key=?').bind(ZENITH_ERA_UPGRADE_KEY).first();
+    if(zenithEraMarker?.value!=='1'){
+      await env.DB.prepare(`UPDATE ${TABLES.pool} SET is_active=0,updated_at=CURRENT_TIMESTAMP WHERE reward_type='CARD' AND EXISTS(SELECT 1 FROM cards_effective_v1210 c WHERE c.id=${TABLES.pool}.reward_ref AND NOT ((UPPER(c.rarity)='LIMITED' AND ${TABLES.pool}.tier_code='AWAKENED') OR (UPPER(c.rarity)='PRESTIGE' AND ${TABLES.pool}.tier_code='OVERDRIVE') OR (UPPER(c.rarity)='FUR' AND ${TABLES.pool}.tier_code IN ('OVERDRIVE','FORBIDDEN')) OR (UPPER(c.rarity)='ZENITH' AND ${TABLES.pool}.tier_code='FORBIDDEN')))`).run();
+      await syncCardRewardPool(env,{replace:true});
+      await env.DB.prepare('INSERT INTO app_meta(key,value,updated_at) VALUES(?,?,CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value,updated_at=CURRENT_TIMESTAMP').bind(ZENITH_ERA_UPGRADE_KEY,'1').run();
+    }
     await env.DB.batch([
       env.DB.prepare(`DELETE FROM ${TABLES.guards} WHERE created_at<datetime('now','-1 day')`),
       env.DB.prepare(`DELETE FROM ${TABLES.runs} WHERE status IN ('COMPLETED','FAILED') AND updated_at<datetime('now','-30 days')`)
@@ -299,13 +319,14 @@ async function rewardPool(env,{admin=false}={}){
     LEFT JOIN inventory_items i ON p.reward_type='ITEM' AND i.code=p.reward_ref AND i.is_active=1
     LEFT JOIN character_garage_items v ON p.reward_type='VEHICLE' AND CAST(v.id AS TEXT)=p.reward_ref AND v.is_active=1 AND v.is_public=1
     WHERE ${admin?'1=1':'p.is_active=1'} ORDER BY p.sort_order,p.reward_id`).all(),catalogStrengthBounds(env)]);
-  return list(result).map(row=>{
-    const type=code(row.reward_type,30),valid=type==='CARD'?Boolean(row.card_name)&&SAFE_CARD_REWARD_RARITIES.has(code(row.card_rarity,30)):type==='EQUIPMENT'?Boolean(row.equipment_name):type==='ITEM'?Boolean(row.item_name)&&isAllowedRewardItem(row.reward_ref):type==='VEHICLE'?Boolean(row.vehicle_name):false;
+  const mapped=list(result).map(row=>{
+    const type=code(row.reward_type,30),valid=type==='CARD'?Boolean(row.card_name)&&SAFE_CARD_REWARD_RARITIES.has(code(row.card_rarity,30))&&cardRewardTierAllowed(row.card_rarity,row.tier_code):type==='EQUIPMENT'?Boolean(row.equipment_name):type==='ITEM'?Boolean(row.item_name)&&isAllowedRewardItem(row.reward_ref):type==='VEHICLE'?Boolean(row.vehicle_name):false;
     const base=type==='CARD'?{name:row.card_name,rarity:row.card_rarity,image:row.card_image,member:row.card_member}:type==='EQUIPMENT'?{name:row.equipment_name,rarity:row.equipment_rarity,image:row.equipment_image}:type==='VEHICLE'?{name:row.vehicle_name,rarity:row.vehicle_rarity,image:row.vehicle_image}:{name:row.item_name,rarity:row.item_rarity,image:row.item_image};
     const meta=rarityMeta(base.rarity),quantity=Number(row.quantity||1),uniqueEffectScore=type==='CARD'?cardEffectScore(row):0,totalPower=type==='EQUIPMENT'?Number(row.equipment_total_power||0):type==='VEHICLE'?Number(row.vehicle_total_power||0):0,basePower=type==='CARD'?Number(row.card_base_power||0):0;
     const strength=type==='CARD'?basePower+uniqueEffectScore*100:type==='ITEM'?itemRewardStrength(row.reward_ref,base.rarity,quantity):totalPower,percent=strengthPercent(strength,bounds[type]||{}),autoFactor=rewardAutoFactor(percent),gradeFactor=type==='CARD'?rewardGradeFactor(base.rarity):1,manualWeight=Number(row.weight||0),effectiveWeight=Math.round(manualWeight*autoFactor*gradeFactor*1000000)/1000000;
-    return{rewardId:String(row.reward_id),mode:code(row.alchemy_mode,30),tierCode:code(row.tier_code,30),type,id:String(row.reward_ref),name:String(base.name||row.reward_ref),member:String(base.member||''),rarity:code(base.rarity,30),rank:meta.rank,image:publicPath(base.image),quantity,weight:manualWeight,manualWeight,effectiveWeight,autoFactor,gradeFactor,strengthPercent:percent,strengthScore:Math.round(strength*100)/100,totalPower,basePower,uniqueEffectScore,active:Boolean(Number(row.is_active||0)),sortOrder:Number(row.sort_order||0),valid,color:meta.color};
-  }).filter(row=>admin||row.valid);
+    return{rewardId:String(row.reward_id),mode:code(row.alchemy_mode,30),tierCode:code(row.tier_code,30),type,id:String(row.reward_ref),name:String(base.name||row.reward_ref),member:String(base.member||''),rarity:code(base.rarity,30),rank:meta.rank,image:publicPath(base.image),quantity,weight:manualWeight,manualWeight,rawEffectiveWeight:effectiveWeight,effectiveWeight,autoFactor,gradeFactor,strengthPercent:percent,strengthScore:Math.round(strength*100)/100,totalPower,basePower,uniqueEffectScore,active:Boolean(Number(row.is_active||0)),sortOrder:Number(row.sort_order||0),valid,color:meta.color};
+  });
+  return applyAlchemyCardPoolDensity(mapped).filter(row=>admin||row.valid);
 }
 
 async function userState(env,user,settings){
@@ -317,7 +338,7 @@ async function userState(env,user,settings){
     catalogStrengthBounds(env),
     env.DB.prepare(`SELECT garage_id FROM user_garage_vehicles WHERE user_id=?`).bind(user.id).all()
   ]);
-  return{profile:{id:Number(user.id),nickname:String(user.nickname||''),role:String(user.role||'USER')},totalRuns:Number(current?.total_runs||0),stability:Number(current?.stability||0),stabilityMax:settings.stabilityMax,requirements:settings.requirements,tiers:settings.tiers,scoring:{equipmentPowerBounds:bounds.EQUIPMENT,equipmentScoreRange:EQUIPMENT_SCORE_RANGE,cardGradeBonus:CARD_INPUT_BONUS,cardRewardGradeFactor:CARD_REWARD_GRADE_FACTOR,rewardCurve:{name:'BLACK_MIRACLE_INVERSE',minFactor:.1,maxFactor:1,exponent:1.35}},assets:[...list(cards).map(cardAsset),...list(equipment).map(row=>equipmentAsset(row,bounds.EQUIPMENT))],rewardPool:pool,ownedVehicleIds:list(ownedVehicles).map(row=>String(row.garage_id)),serverNow:new Date().toISOString()};
+  return{profile:{id:Number(user.id),nickname:String(user.nickname||''),role:String(user.role||'USER')},totalRuns:Number(current?.total_runs||0),stability:Number(current?.stability||0),stabilityMax:settings.stabilityMax,requirements:settings.requirements,tiers:settings.tiers,scoring:{equipmentPowerBounds:bounds.EQUIPMENT,equipmentScoreRange:EQUIPMENT_SCORE_RANGE,cardGradeBonus:CARD_INPUT_BONUS,cardRewardGradeFactor:CARD_REWARD_GRADE_FACTOR,cardRewardTiers:CARD_REWARD_TIERS,cardRewardDensityScale:CARD_REWARD_DENSITY_SCALE,rewardCurve:{name:'BLACK_MIRACLE_INVERSE',minFactor:.1,maxFactor:1,exponent:1.35}},assets:[...list(cards).map(cardAsset),...list(equipment).map(row=>equipmentAsset(row,bounds.EQUIPMENT))],rewardPool:pool,ownedVehicleIds:list(ownedVehicles).map(row=>String(row.garage_id)),serverNow:new Date().toISOString()};
 }
 
 function tierForValue(settings,value){return [...settings.tiers].filter(tier=>Number(value)>=Number(tier.minValue)).pop()||settings.tiers[0]}
@@ -344,7 +365,8 @@ async function selectedEquipmentInstances(env,userId,aggregates){
 
 function candidateRewards(state,tier,inputs){
   const keys=new Set(inputs.map(entry=>assetKey(entry.type,entry.id))),ownedVehicles=new Set((state.ownedVehicleIds||[]).map(String));
-  return(state.rewardPool||[]).filter(row=>row.valid!==false&&row.active!==false&&row.tierCode===tier.code&&!keys.has(assetKey(row.type,row.id))&&!(row.type==='VEHICLE'&&ownedVehicles.has(String(row.id)))&&rewardWeight(row)>0);
+  const candidates=(state.rewardPool||[]).filter(row=>row.valid!==false&&row.active!==false&&row.tierCode===tier.code&&!keys.has(assetKey(row.type,row.id))&&!(row.type==='VEHICLE'&&ownedVehicles.has(String(row.id)))&&Number(row.rawEffectiveWeight??row.effectiveWeight??row.weight)>0);
+  return applyAlchemyCardPoolDensity(candidates).filter(row=>rewardWeight(row)>0);
 }
 
 async function transmute(env,user,body){
@@ -409,7 +431,7 @@ async function adminSnapshot(env){
     catalogStrengthBounds(env)
   ]);
   const cardCatalog=list(cards).filter(row=>SAFE_CARD_REWARD_RARITIES.has(code(row.rarity,30))).map(row=>{const uniqueEffectScore=cardEffectScore(row),strengthScore=Number(row.base_power||0)+uniqueEffectScore*100;return{...row,basePower:Number(row.base_power||0),uniqueEffectScore,strengthScore:Math.round(strengthScore*100)/100,strengthPercent:strengthPercent(strengthScore,bounds.CARD)}}),equipmentCatalog=list(equipment).map(row=>({...row,totalPower:Number(row.total_power||0),strengthPercent:strengthPercent(row.total_power,bounds.EQUIPMENT)})),vehicleCatalog=list(vehicles).map(row=>({...row,totalPower:Number(row.total_power||0),strengthPercent:strengthPercent(row.total_power,bounds.VEHICLE)}));
-  return{settings,rewardPool:pool,inputItems:[],scoring:{equipmentPowerBounds:bounds.EQUIPMENT,equipmentScoreRange:EQUIPMENT_SCORE_RANGE,cardGradeBonus:CARD_INPUT_BONUS,cardRewardGradeFactor:CARD_REWARD_GRADE_FACTOR,rewardCurve:{name:'BLACK_MIRACLE_INVERSE',minFactor:.1,maxFactor:1,exponent:1.35}},catalog:{CARD:cardCatalog,EQUIPMENT:equipmentCatalog,ITEM:list(items).filter(row=>isAllowedRewardItem(row.id)),VEHICLE:vehicleCatalog},recentRuns:list(runs)};
+  return{settings,rewardPool:pool,inputItems:[],scoring:{equipmentPowerBounds:bounds.EQUIPMENT,equipmentScoreRange:EQUIPMENT_SCORE_RANGE,cardGradeBonus:CARD_INPUT_BONUS,cardRewardGradeFactor:CARD_REWARD_GRADE_FACTOR,cardRewardTiers:CARD_REWARD_TIERS,cardRewardDensityScale:CARD_REWARD_DENSITY_SCALE,rewardCurve:{name:'BLACK_MIRACLE_INVERSE',minFactor:.1,maxFactor:1,exponent:1.35}},catalog:{CARD:cardCatalog,EQUIPMENT:equipmentCatalog,ITEM:list(items).filter(row=>isAllowedRewardItem(row.id)),VEHICLE:vehicleCatalog},recentRuns:list(runs)};
 }
 
 async function saveSettings(env,admin,body,deps){
