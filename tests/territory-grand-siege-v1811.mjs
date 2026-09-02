@@ -50,7 +50,7 @@ assert.match(css,/recruit-fortress-v1-v1497\.webp/);
 assert.match(css,/siege-front-v1-v1497\.webp/);
 assert.match(renderer,/mode === 'PVP' \|\| mode === 'SIEGE'/);
 assert.match(app,/typeof window\.playSiegeBattleV2Live==='function'/);
-assert.match(index,/js\/app\.js\?v=1967-battle-suit-sks-gapless/);
+assert.match(index,/js\/app\.js\?v=1968-battle-suit-static-face/);
 assert.match(index,/territory-war-v1811\.js\?v=1916-territory-100-attack-reward/);
 
 for(const name of ['carpet-bombing','spg-barrage','air-defense','counter-battery','mass-assault','truce']){

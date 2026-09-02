@@ -1,7 +1,7 @@
 {
-  "version": "v5",
+  "version": "v6",
   "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1",
-  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v2.json",
+  "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v3.json",
   "scope": "PVE_ONLY",
   "battleSuitSlot": "BATTLE_SUIT",
   "powerContract": {
@@ -15,14 +15,13 @@
     "formation": "AUXILIARY_FRONT_LEFT_FORWARD_TILE",
     "canonicalAllyCardCount": 5,
     "movement": false,
-    "attack": "SUSTAINED_BURST_VISUAL",
+    "attack": "STATIC_STANCE_RUNTIME_MUZZLE_AND_AUDIO",
     "addsIndependentDamage": false,
     "authoredCompositeForApprovedWeapons": true,
     "fallbackBodyAndWeaponAreSeparate": true,
     "approvedWeaponBinding": "equippedWeapon.code",
     "authoredLayerOrder": [
-      "EXACT_DATABASE_WEAPON",
-      "BODY_ARMS_AND_HANDS_FOREGROUND"
+      "IMAGEGEN_AUTHORED_FULL_COMPOSITE"
     ],
     "sksAuthoredLayerOrder": [
       "USER_AUTHORED_FULL_COMPOSITE"
@@ -57,10 +56,12 @@
     "camera": "PROJECT_V_V3_ELEVATED_ISOMETRIC",
     "pivot": "SOLE_CENTER",
     "movement": false,
-    "approvedWeaponScalePolicy": "ROW_MEDIAN_CONSTANT_WIDTH",
+    "approvedWeaponScalePolicy": "PAIR_CONTENT_BOUNDS_WITH_M200_SCALE_CORRECTION",
     "muzzleFlashSource": "RUNTIME_EFFECT_ONLY",
     "placementTuning": "SUIT_WEAPON_PAIR_CONTENT_BOUNDS",
-    "muzzleBinding": "FIRE_FRAME_EXACT_WEAPON_TIP"
+    "muzzleBinding": "FIRE_FRAME_RENDERED_WEAPON_TIP",
+    "staticPosePolicy": "USER_REWORKED_ROWS_REPEAT_READY_FRAME_IN_ALL_PHASES",
+    "poseAnimation": false
   },
   "suits": [
     {
@@ -69,9 +70,9 @@
       "sha256": "C78673ADFC3773C5D74CD19E7B62D2BB6E3F701876161123B6693D4468DB7079",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v3.png",
-          "sha256": "29ED1FAF13AA580823C97D72178EFAD4EE86F9E21C301D42660D457D3D381DD6",
-          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v6.png",
+          "sha256": "19451610059B6AB887F4F782B3929775CFA848588D17DAF5EDD3BDDBEB76AF94",
+          "composition": "IMAGEGEN_AUTHORED_STATIC_FULL_COMPOSITE_V6",
           "weaponRows": [
             {
               "row": 0,
@@ -84,9 +85,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v5.png",
-          "sha256": "47A373CF6720DC094C13DBF11E588CD851E4DE2A0C14E0F75027FE07F989B946",
-          "composition": "AK_EXACT_DATABASE_ROW_PLUS_USER_AUTHORED_SKS_SECOND_ROW_V5",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v6.png",
+          "sha256": "F8B57CFE4305A90DD8EF14D2C516BCCBE5D9C7DCF89CCB7A8726D0CA5A60487B",
+          "composition": "AK_IMAGEGEN_STATIC_ROW_PLUS_PIXEL_LOCKED_USER_APPROVED_SKS_ROW_V6",
           "weaponRows": [
             {
               "row": 0,
@@ -106,9 +107,9 @@
       "sha256": "C6716D759955ADAC82D95E42DD9B53B7AD58C8DAD042BC231E9C85254D9CE69E",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v3.png",
-          "sha256": "95914A1835587E6F8EC6966FBA283714C1C5C6D7ED65B9453DDA09F1073B9BC8",
-          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v6.png",
+          "sha256": "41FE221A9BF5F85ED84BA40D9C906EB5CEA168C9E638AD490DD56017F1EC27E9",
+          "composition": "PIXEL_LOCKED_APPROVED_M4_ROW_PLUS_IMAGEGEN_STATIC_M200_ROW_V6",
           "weaponRows": [
             {
               "row": 0,
@@ -143,9 +144,9 @@
       "sha256": "7B0E6939600E156D9857C55B842A1DD85A7F7CDCAB432483147C859B71B2B67A",
       "animationSheets": {
         "m4a1M200": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v3.png",
-          "sha256": "2F9683FAFAEF3207EB7C1E123BEAC9D07E4DE91FAF2E69BC4E44F10E41080F4C",
-          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v6.png",
+          "sha256": "A59F27DC5414B361CB910DD09686E3DFD6C3A444B5A46F738E0CC6F5F70888AC",
+          "composition": "PIXEL_LOCKED_APPROVED_M4_ROW_PLUS_IMAGEGEN_STATIC_M200_ROW_V6",
           "weaponRows": [
             {
               "row": 0,
