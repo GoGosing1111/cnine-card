@@ -187,14 +187,25 @@ function payloadModeTokens(payload){
   ].map(value=>String(value||'').trim().toUpperCase().replace(/[\s-]+/g,'_')).filter(Boolean);
 }
 
+function authoritativeBattleSuitSupportFromPayload(payload){
+  const battle=payload?.battleV2||{};
+  const rows=[
+    ...(Array.isArray(battle?.teams?.A?.supports)?battle.teams.A.supports:[]),
+    ...(Array.isArray(battle?.result?.supports?.A)?battle.result.supports.A:[])
+  ];
+  const support=rows.find(item=>String(item?.actorKind||'').trim().toUpperCase()==='BATTLE_SUIT')||null;
+  const serverTimeline=String(battle?.rules?.battleSuitDamageAuthority||support?.damageAuthority||'').trim().toUpperCase()==='SERVER_TIMELINE';
+  return support&&serverTimeline?support:null;
+}
+
 function isAccountBattleUnitPvePayload(payload){
   if(!payload?.battleV2)return false;
   const tokens=payloadModeTokens(payload);
   if(tokens.some(value=>ACCOUNT_UNIT_FORBIDDEN_MODE.test(value)))return false;
   const wrapperGate=payload?.v3RenderContext?.accountBattleUnitPve;
   if(wrapperGate===false)return false;
-  if(wrapperGate===true)return true;
-  return tokens.some(value=>ACCOUNT_UNIT_PVE_MODE.test(value));
+  if(wrapperGate!==true&&!tokens.some(value=>ACCOUNT_UNIT_PVE_MODE.test(value)))return false;
+  return Boolean(authoritativeBattleSuitSupportFromPayload(payload));
 }
 
 function publicEquipmentObject(payload,key){

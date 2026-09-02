@@ -33,7 +33,8 @@ function battlePayload(mode='PVE',overrides={}){
   const cards=Array.from({length:5},(_,index)=>({cardId:`ALLY-${index+1}`}));
   const battleV2={
     mode,
-    teams:{A:{cards},B:{cards:[{cardId:'MONSTER:TEST'}]}},
+    rules:{battleSuitDamageAuthority:'SERVER_TIMELINE'},
+    teams:{A:{cards,supports:[{id:`A:SUPPORT:BATTLE_SUIT:${SUIT_CODE}`,actorKind:'BATTLE_SUIT',authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[{cardId:'MONSTER:TEST'}]}},
     result:{timeline:[]}
   };
   return {

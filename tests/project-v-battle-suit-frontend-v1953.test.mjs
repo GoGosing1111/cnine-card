@@ -102,7 +102,7 @@ test('배틀슈트 장착·해제는 기존 장비 API와 BATTLE_SUIT 슬롯 계
 });
 
 test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리해 안내한다', async () => {
-  const [admin, adminCss, adminIndex, loadoutCss, app, legacyEquipment, pveCommand, pveCss, index, escort] = await Promise.all([
+  const [admin, adminCss, adminIndex, loadoutCss, app, legacyEquipment, pveCommand, pveCss, index, escort, liveBattle, liveCss, api] = await Promise.all([
     readFile(new URL('../admin/equipment-admin-v1278.js', import.meta.url), 'utf8'),
     readFile(new URL('../admin/equipment-admin-v1278.css', import.meta.url), 'utf8'),
     readFile(new URL('../admin/index.html', import.meta.url), 'utf8'),
@@ -112,7 +112,10 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
     readFile(new URL('../js/pve-command-v2-live.js', import.meta.url), 'utf8'),
     readFile(new URL('../css/pve-command-v2.css', import.meta.url), 'utf8'),
     readFile(new URL('../index.html', import.meta.url), 'utf8'),
-    readFile(new URL('../functions/_escort_operation.js', import.meta.url), 'utf8')
+    readFile(new URL('../functions/_escort_operation.js', import.meta.url), 'utf8'),
+    readFile(new URL('../js/battle-v2-live.js', import.meta.url), 'utf8'),
+    readFile(new URL('../css/battle-v2-live.css', import.meta.url), 'utf8'),
+    readFile(new URL('../functions/api/[[path]].js', import.meta.url), 'utf8')
   ]);
   assert.match(admin, /BATTLE_SUIT:'배틀슈트'/);
   assert.match(admin, /slot==='BATTLE_SUIT'\)return \{total,pve:total,pvp:0,pveOnly:true\}/);
@@ -132,9 +135,18 @@ test('CMS는 BATTLE_SUIT 부위·세부 종류와 PVE 전용 전투력을 분리
   assert.match(pveCss, /pvev2-roster-foot\{display:grid;grid-template-columns:repeat\(5,1fr\) auto/);
   assert.match(index, /pve-command-v2\.css\?v=1953-battle-suit-pve-only/);
   assert.match(index, /pve-command-v2-live\.js\?v=1953-battle-suit-pve-only/);
-  assert.match(index, /js\/app\.js\?v=1970-ballistic-impact-v1/);
+  assert.match(index, /js\/app\.js\?v=1972-battle-suit-live/);
   assert.match(escort, /sectorSummary,battleV2,monster,characterBonus:equipment,objective:/);
   assert.match(app, /const loadout=await apiRequest\('character\/loadout',\{\}, \{ttl:5000,timeoutMs:8000\}\)/);
   assert.match(app, /data:\{current,participant:me,characterBonus,user:loadUser\(\)\}/);
   assert.match(app, /pvpState\.characterBonus=bonuses;raidState\.characterBonus=bonuses/);
+  assert.match(api, /battleEngine:pveBattleEngineState\(settings,user,characterBonus\)/);
+  assert.match(api, /battleSuitLiveOverride/);
+  assert.match(api, /activationScope:battleSuitLiveOverride\?'PVE_BATTLE_SUIT_ONLY'/);
+  assert.match(api, /equippedBattleSuit:characterBonus\.equippedBattleSuit\|\|null/);
+  assert.match(api, /battleSuitRuntime/);
+  assert.match(liveBattle, /data-battle-suit-live-result="SERVER_TIMELINE"/);
+  assert.match(liveBattle, /BATTLE SUIT · INDEPENDENT DAMAGE/);
+  assert.match(liveBattle, /data\.playerPower \|\| data\.battleV2\?\.teams\?\.A\?\.summary\?\.power/);
+  assert.match(liveCss, /\.pve-battle-suit-contribution/);
 });

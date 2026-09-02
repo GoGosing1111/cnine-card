@@ -117,18 +117,20 @@ const context={
 context.window=context;
 vm.runInNewContext(live,context,{filename:'battle-v3-live.js'});
 
-const battleV2={teams:{A:{cards:[]},B:{cards:[]}},result:{timeline:[]}};
+const battleV2={rules:{battleSuitDamageAuthority:'SERVER_TIMELINE'},teams:{A:{cards:[],supports:[{id:'A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_01',actorKind:'BATTLE_SUIT',authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[]}},result:{timeline:[]}};
 const suit={code:'BATTLE_SUIT_01',battleSprite:'/suit.png'};
 const weapon={code:'EQ_1785427638137',image:'/square-card-art.png',battleSprite:''};
 for(const mode of ['PVE','PVP','SIEGE','CAPTAIN']){
   await context.ProjectVBattleV3Live.createRenderer({stage,host,modal,mode,playerName:'테스터',data:{battleV2,equippedBattleSuit:suit,characterBonus:{equippedWeapon:weapon}}});
 }
-assert.equal(payloads.length,4);
+await context.ProjectVBattleV3Live.createRenderer({stage,host,modal,mode:'PVE',playerName:'테스터',data:{battleV2:{teams:{A:{cards:[]},B:{cards:[]}},result:{timeline:[]}},equippedBattleSuit:suit,characterBonus:{equippedWeapon:weapon}}});
+assert.equal(payloads.length,5);
 assert.equal(payloads[0].v3RenderContext.accountBattleUnitPve,true,'PVE must enable the auxiliary unit gate');
 assert.equal(payloads[1].v3RenderContext.accountBattleUnitPve,false,'PVP must disable the auxiliary unit gate');
 assert.equal(payloads[2].v3RenderContext.accountBattleUnitPve,false,'territory/siege must disable the auxiliary unit gate');
 assert.equal(payloads[3].battlefieldMode,'HUNT','captain currently reuses the fallback battlefield');
 assert.equal(payloads[3].v3RenderContext.accountBattleUnitPve,false,'captain must stay disabled even on the fallback battlefield');
+assert.equal(payloads[4].v3RenderContext.accountBattleUnitPve,false,'PVE metadata without an authoritative support actor must not render a cosmetic-only Battle Suit');
 assert.equal(payloads[0].equippedBattleSuit.battleSprite,'/suit.png');
 assert.equal(payloads[0].characterBonus.equippedWeapon.image,'/square-card-art.png','wrapper must preserve authoritative metadata for the engine code map');
 assert.equal(payloads[0].accountNickname,'테스터','PVE wrapper must carry the signed-in account name into the Pixi payload');

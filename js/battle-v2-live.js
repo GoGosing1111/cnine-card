@@ -368,6 +368,26 @@
     };
   }
 
+  function authoritativeBattleSuitResult(data = {}) {
+    const battle = data?.battleV2 || {};
+    const supports = [
+      ...(Array.isArray(battle?.result?.supports?.A) ? battle.result.supports.A : []),
+      ...(Array.isArray(battle?.teams?.A?.supports) ? battle.teams.A.supports : [])
+    ];
+    const support = supports.find(item => String(item?.actorKind || '').trim().toUpperCase() === 'BATTLE_SUIT') || null;
+    const runtime = data?.battleSuitRuntime || data?.battleEngine?.battleSuitLive || {};
+    const authority = String(battle?.rules?.battleSuitDamageAuthority || support?.damageAuthority || runtime?.damageAuthority || '').trim().toUpperCase();
+    if (!support || authority !== 'SERVER_TIMELINE') return null;
+    const suit = data?.equippedBattleSuit || data?.characterBonus?.equippedBattleSuit || {};
+    const damage = Math.max(0, Number(data?.damageBreakdown?.battleSuit ?? battle?.result?.damageBreakdown?.battleSuit ?? support?.damageDealt ?? 0));
+    return {
+      name: String(suit?.name || runtime?.suitCode || support?.title || '배틀슈트'),
+      damage,
+      actions: Math.max(0, Number(runtime?.actions ?? support?.actions ?? 0)),
+      authoritative: runtime?.authoritative !== false
+    };
+  }
+
   async function finishPve({ stage, phase, msg, modal, data, renderer }) {
     const win = data.result === 'WIN';
     const reason = String(data.battleV2?.result?.reason || '');
@@ -378,19 +398,22 @@
     if (data.cubeReward && window.showCubeDropAcquisition) { try { await window.showCubeDropAcquisition(data.cubeReward); } catch (error) { console.warn(error); } }
     if (data.equipmentReward && window.showEquipmentDropReward) { try { await window.showEquipmentDropReward(data.equipmentReward); } catch (error) { console.warn(error); } }
     if (data.unifiedDrop?.rewards?.length && window.showUnifiedDropAcquisition) { try { await window.showUnifiedDropAcquisition(data.unifiedDrop); } catch (error) { console.warn(error); } }
-    const playerPower = Number(data.battleV2?.teams?.A?.summary?.power || data.playerPower || 0);
+    const playerPower = Number(data.playerPower || data.battleV2?.teams?.A?.summary?.power || 0);
     const monsterPower = Number(data.monsterPower || data.battleV2?.teams?.B?.summary?.power || 0);
     const coinReward = Math.max(0, Number(data.reward || 0));
     const magicReward = Math.max(0, Number(data.magicReward?.amount || 0));
     const actionMeta = actions > 0 ? `<span>${number(actions)} ACTIONS</span>` : '';
     const survivedMeta = reason === 'MONSTER_SURVIVED' ? '<span>MONSTER SURVIVED</span>' : '';
     const cardRewardHtml = data.cardReward ? `<div class="pvp-result-reward pve-card-result-reward"><small>CARD REWARD</small><b>${esc(data.cardReward.card.grade)} · ${esc(data.cardReward.card.title)}</b><span>${data.cardReward.duplicate ? `중복 카드 · 조각 +${number(data.cardReward.shardGained)}` : '신규 카드 획득'}</span></div>` : '';
+    const battleSuitResult = authoritativeBattleSuitResult(data);
+    const battleSuitResultHtml = battleSuitResult ? `<div class="pve-battle-suit-contribution" data-battle-suit-live-result="SERVER_TIMELINE"><small>BATTLE SUIT · INDEPENDENT DAMAGE</small><b>${number(battleSuitResult.damage)}</b><span>${esc(battleSuitResult.name)} · ${number(battleSuitResult.actions)}회 사격 · 서버 타임라인 판정</span></div>` : '';
     msg.innerHTML = `<div class="pvp-v2-result pve-v2-result ${win?'is-win':'is-loss'}">
       <div class="pvp-result-glow" aria-hidden="true"></div>
       <div class="pvp-result-kicker">SOOPKETMON · PVE RESULT</div>
       <strong class="pvp-result-title">${win?'VICTORY':'DEFEAT'}</strong>
       <div class="pvp-result-power"><b>${number(playerPower)}</b><i>VS</i><b>${number(monsterPower)}</b></div>
       <div class="pvp-result-meta"><span>PROJECT V V3 · PIXIJS</span>${actionMeta}${survivedMeta}</div>
+      ${battleSuitResultHtml}
       <div class="pvp-result-rewards">
         <div class="pvp-result-reward"><small>PVE COIN</small><b>${win?'+':''}${number(coinReward)}</b></div>
         ${magicReward>0?`<div class="pvp-result-reward"><small>MAGIC CRYSTAL</small><b>✦ +${number(magicReward)}</b></div>`:''}

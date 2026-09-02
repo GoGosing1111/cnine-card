@@ -10,7 +10,7 @@ import {
   handleEquipment,
   userEquipmentBonuses,
 } from '../functions/_equipment.js';
-import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
+import {battleSuitLiveRuntime,createPveBattleV2} from '../functions/_battle_v2_preview.js';
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
 const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
@@ -175,6 +175,8 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(battle.teams.A.supports.length,1,'Battle Suit must use its separate support slot');
   assert.equal(battle.teams.A.summary.equipmentBonus,25000,'Battle Suit power must not be distributed back into cards');
   assert.equal(battle.teams.A.supports[0].power,200000);
+  assert.equal(battle.teams.A.supports[0].authoritative,true);
+  assert.equal(battle.teams.A.supports[0].damageAuthority,'SERVER_TIMELINE');
   assert.equal(battle.teams.A.supports[0].untargetable,true);
   assert.equal(battle.result.final.A.length,5,'support actor must not corrupt five-card survivor results');
   const actorId=battle.teams.A.supports[0].id;
@@ -183,6 +185,7 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.ok(hits.some(event=>Number(event.damage||0)+Number(event.absorbed||0)>0),'Battle Suit must apply real monster HP damage');
   const applied=hits.reduce((sum,event)=>sum+Number(event.damage||0)+Number(event.absorbed||0),0);
   assert.equal(battle.result.damageBreakdown.battleSuit,applied,'contribution must equal authoritative applied timeline damage');
+  assert.equal(battle.result.damageBreakdown.authority,'SERVER_TIMELINE');
   assert.ok(battle.result.damageBreakdown.battleSuit>0);
   assert.ok(hits.every(event=>event.actorKind==='BATTLE_SUIT'&&event.damageSource==='BATTLE_SUIT_INDEPENDENT'));
   assert.ok(!battle.result.timeline.some(event=>event.targetId===actorId),'Battle Suit support must not become a sixth HP target');
@@ -200,6 +203,31 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(withoutSuit.result.winner,'B','the fixture must lose when the Battle Suit is absent');
   assert.equal(withSuit.result.winner,'A','independent Battle Suit attacks must be able to change the authoritative server result');
   assert.ok(withSuit.result.damageBreakdown.battleSuit>0);
+});
+
+test('live activation is scoped to an equipped positive-power PVE Battle Suit',()=>{
+  const disabled=battleSuitLiveRuntime({battleSuitPve:300000});
+  assert.equal(disabled.enabled,false,'power without an equipped suit must not activate the live renderer');
+  assert.equal(disabled.damageAuthority,'NONE');
+
+  const enabled=battleSuitLiveRuntime({
+    battleSuitPve:200000,
+    equippedBattleSuit:{code:'BATTLE_SUIT_02'},
+    equippedWeapon:{code:'EQ_1785427638137'}
+  });
+  assert.deepEqual(enabled,{
+    enabled:true,
+    scope:'PVE_ONLY',
+    activation:'EQUIPPED_BATTLE_SUIT',
+    renderer:'PROJECT_V_V3',
+    engineRequired:true,
+    damageAuthority:'SERVER_TIMELINE',
+    pvePower:200000,
+    suitCode:'BATTLE_SUIT_02',
+    weaponCode:'EQ_1785427638137',
+    targetable:false,
+    occupiesCardSlot:false
+  });
 });
 
 test('loadout reports render-ready suit/weapon metadata and isolates suit power from PVP',async()=>{

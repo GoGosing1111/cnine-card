@@ -1214,6 +1214,30 @@ const BATTLE_SUIT_WEAPON_CADENCE = Object.freeze({
   DEFAULT: { classCode: 'RIFLE', speedMultiplier: 0.94, attackMultiplier: 1.00 }
 });
 
+export function battleSuitLiveRuntime(characterBonus = {}) {
+  const equippedBattleSuit = characterBonus?.equippedBattleSuit && typeof characterBonus.equippedBattleSuit === 'object'
+    ? characterBonus.equippedBattleSuit
+    : null;
+  const equippedWeapon = characterBonus?.equippedWeapon && typeof characterBonus.equippedWeapon === 'object'
+    ? characterBonus.equippedWeapon
+    : null;
+  const pvePower = Math.max(0, Math.round(Number(characterBonus?.battleSuitPve || 0)));
+  const enabled = Boolean(equippedBattleSuit && pvePower > 0);
+  return {
+    enabled,
+    scope: 'PVE_ONLY',
+    activation: 'EQUIPPED_BATTLE_SUIT',
+    renderer: 'PROJECT_V_V3',
+    engineRequired: true,
+    damageAuthority: enabled ? 'SERVER_TIMELINE' : 'NONE',
+    pvePower,
+    suitCode: enabled ? String(equippedBattleSuit.code || equippedBattleSuit.itemCode || '').trim().toUpperCase() : '',
+    weaponCode: enabled ? String(equippedWeapon?.code || equippedWeapon?.itemCode || '').trim().toUpperCase() : '',
+    targetable: false,
+    occupiesCardSlot: false
+  };
+}
+
 export function buildBattleSuitFighter(battleSuit = {}, index = 5) {
   const power = Math.max(0, Math.round(Number(battleSuit.pvePower ?? battleSuit.power ?? 0)));
   if (!power) return null;
@@ -1356,7 +1380,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
         ...publicFighter(battleSuitFighter),
         damageDealt: battleSuitDamage,
         actions: battleSuitEvents.length,
-        authoritative: true
+        authoritative: true,
+        damageAuthority: 'SERVER_TIMELINE'
       }] : [],
       B: []
     },
@@ -1364,7 +1389,8 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
       cards: cardDamage,
       battleSuit: battleSuitDamage,
       ultimate: ultimateAppliedDamage,
-      total: cardDamage + battleSuitDamage + ultimateAppliedDamage
+      total: cardDamage + battleSuitDamage + ultimateAppliedDamage,
+      authority: 'SERVER_TIMELINE'
     }
   };
   const result = forcePveMonsterSurvivalLoss(canonicalResult);
@@ -1375,7 +1401,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     seed: Number(seed) >>> 0,
     rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
-      A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [publicFighter(battleSuitFighter)] : [] },
+      A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
     },
     result

@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.25.0-account-battle-suit-pve';
+  const VERSION = '3.26.0-authoritative-battle-suit-live';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -469,6 +469,16 @@
 
   const ACCOUNT_UNIT_PVE_MODE = /(?:^|_)(?:PVE|HUNT|TOWER|RAID|SEAL|ESCORT|DUNGEON|APOCALYPSE|SCRAPYARD|IDLE)(?:_|$)/;
   const ACCOUNT_UNIT_FORBIDDEN_MODE = /(?:^|_)(?:PVP|RANK|RANKED|ARENA|SIEGE|TERRITORY|CAPTAIN|CLAN)(?:_|$)/;
+  function authoritativeBattleSuitSupport(data = {}) {
+    const battle = data?.battleV2 || {};
+    const rows = [
+      ...(Array.isArray(battle?.teams?.A?.supports) ? battle.teams.A.supports : []),
+      ...(Array.isArray(battle?.result?.supports?.A) ? battle.result.supports.A : [])
+    ];
+    const support = rows.find(item => String(item?.actorKind || '').trim().toUpperCase() === 'BATTLE_SUIT') || null;
+    const serverTimeline = String(battle?.rules?.battleSuitDamageAuthority || support?.damageAuthority || '').trim().toUpperCase() === 'SERVER_TIMELINE';
+    return support && serverTimeline ? support : null;
+  }
   function accountBattleUnitPveGate(mode, data = {}) {
     const battle = data?.battleV2 || {};
     const tokens = [
@@ -476,7 +486,8 @@
       battle?.battlefieldMode, battle?.contentType, battle?.mode, battle?.type
     ].map(value => String(value || '').trim().toUpperCase().replace(/[\s-]+/g, '_')).filter(Boolean);
     if (tokens.some(value => ACCOUNT_UNIT_FORBIDDEN_MODE.test(value))) return false;
-    return tokens.some(value => ACCOUNT_UNIT_PVE_MODE.test(value));
+    if (!tokens.some(value => ACCOUNT_UNIT_PVE_MODE.test(value))) return false;
+    return Boolean(authoritativeBattleSuitSupport(data));
   }
 
   function accountBattleUnitNickname(data = {}, playerName = '') {

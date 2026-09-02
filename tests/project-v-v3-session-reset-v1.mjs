@@ -16,10 +16,10 @@ assert.match(engine,/character\.setHp\(100\)/);
 assert.match(entry,/engine\.resetSession\(payload,target\)/);
 assert.ok((bundle.match(/resetSession/g)||[]).length>=3,'bundle must contain engine + public resetSession contracts');
 assert.match(live,/ProjectVPixiBattle\.resetSession\(payload, host\)/);
-assert.match(live,/const VERSION = '3\.25\.0-account-battle-suit-pve'/);
+assert.match(live,/const VERSION = '3\.26\.0-authoritative-battle-suit-live'/);
 assert.match(live,/ProjectVPixiBattle\.cancelActiveAnimations/);
 assert.match(live,/ProjectVPixiBattle\.syncFinalState\(finalState\)/);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=91-battle-suit-damage-v1/);
-assert.match(app,/battle-v3-live\.js\?v=3\.25\.0-account-battle-suit-pve/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=92-authoritative-battle-suit-live/);
+assert.match(app,/battle-v3-live\.js\?v=3\.26\.0-authoritative-battle-suit-live/);
 
 console.log('Project V V3 session reset contract: OK');

@@ -69,7 +69,7 @@
       accountNickname:'핑크빛유두',monster,equippedBattleSuit,equippedWeapon,
       characterBonus:{battleSuitPve:suit.pvePower,equippedBattleSuit,equippedWeapon},
       v3RenderContext:{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'},
-      battleV2:{mode,battlefieldMode:battleQcState.battlefield,teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}})),supports:[{id:`A:SUPPORT:BATTLE_SUIT:${battleQcState.suitCode}`,actorKind:'BATTLE_SUIT',power:suit.pvePower,weaponCode:battleQcState.weaponCode}]},B:{cards:[monsterCard]}},result:{timeline:[],damageBreakdown:{cards:0,battleSuit:0,ultimate:0,total:0}}}
+      battleV2:{mode,battlefieldMode:battleQcState.battlefield,rules:{battleSuitDamageAuthority:'SERVER_TIMELINE',battleSuitTargetable:false,battleSuitOccupiesCardSlot:false},teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}})),supports:[{id:`A:SUPPORT:BATTLE_SUIT:${battleQcState.suitCode}`,actorKind:'BATTLE_SUIT',power:suit.pvePower,weaponCode:battleQcState.weaponCode,authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[monsterCard]}},result:{timeline:[],damageBreakdown:{cards:0,battleSuit:0,ultimate:0,total:0,authority:'SERVER_TIMELINE'}}}
     };
   };
   let battleRendererPromise=null,battleRendererRequested=false,battleMutation=Promise.resolve();
@@ -159,7 +159,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=91-battle-suit-damage-v1';
+        script.src='project-v-pixi-battle.bundle.js?v=92-authoritative-battle-suit-live';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);
