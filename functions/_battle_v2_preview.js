@@ -389,6 +389,17 @@ function teamHpRatio(team) {
 //   ⚠ 카드가 맞을 때는 적용하지 않는다(MONSTER 대상 한정).
 //     PVP 와 호송작전 차량 판정은 이 하한이 걸리면 밸런스가 통째로 바뀐다.
 const MONSTER_MIN_DAMAGE_PERCENT = 0.016;
+// V1975: 아포칼립스 전용 — 하한 피해를 "덱 전투력 / 몬스터 기본 전투력" 에 비례시킨다.
+//   측정: 하한 1.6% 가 PVE 플레이어 딜의 사실상 전부다(나이트메어 타격의 80~98%, 아포칼립스 100%).
+//   그래서 아포칼립스는 덱 85만이든 800만이든 결과가 같았고(전부 0%), 승패는 연타·강제행동
+//   칸에 의해서만 정해졌다. 나이트메어는 85만 덱도 전 보스 100% 승리라 "더 어렵다" 가 성립하지 않았다.
+//   아포칼립스만 하한을 스케일링한다: floor = 1.6% × clamp(덱전투력/몬스터기본전투력 × gain).
+//   gain 2.5 기준 전역 기본값(연타2/강제4)에서 몬스터 기본 200만 ≈ 덱 250만 필요, 잔존 HP 가
+//   85만 84% → 120만 66% → 150만 50% → 200만 23% → 250만 0% 로 연속적으로 내려간다(성장 체감).
+//   나이트메어·HELL·호송·공성은 isApocalypse 가 아니므로 단 1행동도 바뀌지 않는다(회귀 확인).
+const APOCALYPSE_FLOOR_GAIN = 2.5;
+const APOCALYPSE_FLOOR_SCALE_MIN = 0.4;
+const APOCALYPSE_FLOOR_SCALE_MAX = 6;
 
 function hitResult(actor, target, random, multiplier = 1, counter = false, options = {}) {
   const actorAdvancement = actor.uniqueAdvancement?.modifiers || {};
@@ -430,8 +441,10 @@ function hitResult(actor, target, random, multiplier = 1, counter = false, optio
   const capped = Math.min(raw * (1 - reduction), target.maxHp * capPct);
   // V1902: 반격과 호송작전은 제외한다. 반격까지 올리면 카드가 훨씬 빨리 죽고,
   //        호송은 차량 피해가 별도 공식이라 전투가 짧아지면 난이도가 흔들린다.
+  // V1975: 아포칼립스 몬스터는 덱 전투력 비례로 하한이 늘고 준다(위 APOCALYPSE_FLOOR_* 참고).
+  const floorScale = target.isApocalypse && options.apocalypseFloorScale > 0 ? options.apocalypseFloorScale : 1;
   const minDamage = !counter && target.isMonster && options.minDamagePercent > 0
-    ? target.maxHp * options.minDamagePercent
+    ? target.maxHp * options.minDamagePercent * floorScale
     : 0;
   const damage = Math.max(1, Math.round(Math.max(capped, minDamage)));
   return { dodge: false, damage, critical, penetration: Number((penetration * 100).toFixed(1)), execute: execute > 1, openingPressure:pvpOpeningPressure>1, shieldBreaker:pvpShieldBreaker>1, advancementClass: actor.uniqueAdvancement?.classCode || null };
@@ -894,6 +907,15 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // V1902: 호송작전은 차량 피해가 별도 공식이라 전투 길이가 바뀌면 난이도가 흔들린다.
   //   호송에서는 하한을 끈다.
   const hitOptions = { minDamagePercent: escortMode ? 0 : MONSTER_MIN_DAMAGE_PERCENT };
+  // V1975: 아포칼립스는 덱 전투력(카드+장비 배분분, 배틀슈트 제외) / 몬스터 기본 전투력 로 하한을 스케일링.
+  {
+    const apocalypseMonster = b.find(card => card.isMonster && card.isApocalypse);
+    if (apocalypseMonster) {
+      const teamPower = canonicalTeam(a).reduce((sum, card) => sum + Math.max(0, Number(card.power || 0)), 0);
+      const monsterPower = Math.max(1, Number(apocalypseMonster.power || 1));
+      hitOptions.apocalypseFloorScale = clamp(teamPower / monsterPower * APOCALYPSE_FLOOR_GAIN, APOCALYPSE_FLOOR_SCALE_MIN, APOCALYPSE_FLOOR_SCALE_MAX);
+    }
+  }
 
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
@@ -1315,6 +1337,8 @@ export function buildMonsterFighter(monster = {}) {
   const difficultyShieldPercent = clamp(Number(monster.pve_shield_percent ?? 0), 0, 300);
   const attackCount = Math.max(1, Math.min(5, Math.floor(Number(monster.pve_attack_count ?? 1))));
   const forcedActionEvery = Math.max(0, Math.min(20, Math.floor(Number(monster.pve_forced_action_every ?? 0))));
+  // V1975: pveDifficultyRuntime 이 engineMonster.pve_difficulty 로 넘긴다. 아포칼립스만 하한 스케일링 대상.
+  const isApocalypse = String(monster.pve_difficulty || '').toUpperCase() === 'APOCALYPSE';
   // V1319: 몬스터의 위협성은 유지하되 방어 누적으로 전투가 과도하게 길어지지 않도록 재조정한다.
   // DB 전투력은 그대로 두고 V2 환산 단계의 PVE 전용 배수만 변경한다.
   const hpBuffPercent = isBoss ? 10 : 5;
@@ -1348,7 +1372,7 @@ export function buildMonsterFighter(monster = {}) {
     maxHp, hp: maxHp, attack, defense, speed, shield: startingShield, maxShield: startingShield, gauge: isBoss ? 12 : 4,
     pveBuffs: { hpPercent: hpBuffPercent, attackPercent: attackBuffPercent, defensePercent: defenseBuffPercent, difficultyHpPercent, difficultyAttackPercent, difficultyDefensePercent, difficultySpeedPercent, difficultyShieldPercent, attackCount, forcedActionEvery },
     alive: true, emergencyUsed: false, survivalUsed: false, frontlineAnnounced: false,
-    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss, attackCount, forcedActionEvery
+    actions: 0, damageDealt: 0, healingDone: 0, isMonster: true, isBoss, attackCount, forcedActionEvery, isApocalypse
   };
 }
 
@@ -1429,7 +1453,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, apocalypseFloorScaling: teamB[0]?.isApocalypse ? { gain: APOCALYPSE_FLOOR_GAIN, min: APOCALYPSE_FLOOR_SCALE_MIN, max: APOCALYPSE_FLOOR_SCALE_MAX } : null, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }

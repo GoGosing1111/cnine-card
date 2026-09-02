@@ -23,6 +23,7 @@ import { handleEscortOperation } from '../_escort_operation.js';
 import { handleCoinPrediction } from '../_coin_prediction.js';
 import { handleDropPool,resolveUnifiedDrops } from '../_drop_pool.js';
 import { handleWorkshop } from '../_workshop.js';
+import { handleAlchemy,alchemyFeatureAccess } from '../_alchemy.js';
 import { handleScrapyard } from '../_scrapyard.js';
 import { breakthroughPityRule } from '../_breakthrough_pity.js';
 import { normalizeUltimateRequiredGrade,selectActivatedUltimate } from '../_ultimate.js';
@@ -4383,7 +4384,7 @@ const SERIALIZED_GAME_ACTIONS=new Set([
   'attendance/claim','card/breakthrough','card/breakthrough/auto','card/unique-advancement','battle/fight','tower/fight','raid/open','raid/claim','raid/join','raid/leave',
   'escort/start','escort/fight','escort/tactic','escort/claim','escort/abandon',
   'pvp/match','pvp/fight','clan/war/fight','pvp/reward/claim','pvp/rank-reward/claim','messages/claim','coupon/redeem',
-  'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','scrapyard/run'
+  'wago-daily-quest/claim','playdk-daily-quest/claim','high-grade-reroll/execute','mineral-exchange/request','chief/activate','workshop/craft','workshop/synthesis','alchemy/transmute','scrapyard/run'
 ]);
 // 강화 재화는 영수증과 카드 상태가 반드시 한 사용자 락 안에서 확정되어야 한다.
 // 이 세 경로는 락 저장소가 느리거나 실패했을 때도 락 없이 진행하지 않는다.
@@ -4767,12 +4768,13 @@ async function handleRequest(context){
       const user=await authenticate(request,env);if(!user)return json({error:'로그인이 필요합니다.'},401);
       // 이 경로는 전역 업그레이드 게이트보다 먼저 처리되므로 신규 인덱스를 선행 보장한다.
       await ensureD1HotpathIndexes(env);
-      const [inventory,messages,avatarFeature]=await Promise.all([
+      const [inventory,messages,avatarFeature,alchemyFeature]=await Promise.all([
         env.DB.prepare(`SELECT COALESCE(SUM(CASE WHEN ui.quantity>0 THEN ui.quantity ELSE 0 END),0) AS totalQuantity,COALESCE(SUM(CASE WHEN ui.quantity>0 THEN 1 ELSE 0 END),0) AS ownedTypes,COALESCE(SUM(CASE WHEN ui.unseen_quantity>0 THEN ui.unseen_quantity ELSE 0 END),0) AS unseenTotal FROM cnine_user_inventory ui JOIN inventory_items i ON i.code=ui.item_code WHERE ui.user_id=? AND i.is_active=1 AND ((i.category<>'REROLL' AND i.code NOT IN ('GUARANTEED_LIMITED_PACK','GUARANTEED_MA_PACK')) OR ui.quantity>0)`).bind(user.id).first(),
         env.DB.prepare('SELECT COUNT(*) AS unread FROM user_messages WHERE user_id=? AND hidden_at IS NULL AND is_read=0').bind(user.id).first(),
-        avatarFeatureAccess(env,user)
+        avatarFeatureAccess(env,user),
+        alchemyFeatureAccess(env,user)
       ]);
-      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,serverNow:new Date().toISOString()});
+      return json({inventory:{totalQuantity:Number(inventory?.totalQuantity||0),ownedTypes:Number(inventory?.ownedTypes||0),unseenTotal:Number(inventory?.unseenTotal||0)},messages:{unread:Number(messages?.unread||0)},avatarFeature,alchemyFeature,serverNow:new Date().toISOString()});
     }
     const couponSchemaPath=path==='coupon/redeem'||path==='admin/verified-coupon-send'||path==='admin/coupon-create-permanent-v3'||path==='admin/coupons'||path==='admin/coupons-v2';
     if(couponSchemaPath)await ensureCouponPermanentRewardUpgrade(env);
@@ -4819,6 +4821,7 @@ async function handleRequest(context){
     const coinPredictionResponse=await handleCoinPrediction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,requirePermission,writeAdminLog}});if(coinPredictionResponse)return coinPredictionResponse;
     const dropPoolResponse=await handleDropPool({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(dropPoolResponse)return dropPoolResponse;
     const workshopResponse=await handleWorkshop({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(workshopResponse)return workshopResponse;
+    const alchemyResponse=await handleAlchemy({path,request,env,deps:{authenticate,readBody,json,requirePermission,writeAdminLog}});if(alchemyResponse)return alchemyResponse;
     const scrapyardResponse=await handleScrapyard({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,raidDeckPower,resolveUnifiedDrops,resolveUniqueBattleRuntime,uniqueBattleResponsePayload}});if(scrapyardResponse)return scrapyardResponse;
     const auctionResponse=await handleAuction({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog}});if(auctionResponse)return auctionResponse;
     const territoryWarResponse=await handleTerritoryWar({path,request,env,deps:{authenticate,readBody,json,isAdminRole,writeAdminLog,pvpDeckSnapshot,pvpDeckSnapshotByIds,battleSettings,cardBattlePower,createPvpBattleV2,userEquipmentBonuses,cardUniqueDeckStates,evaluateDeckSynergies,evaluateDeckSynergiesBatch,magicBattleLoadout,magicBattleLoadouts}});if(territoryWarResponse)return territoryWarResponse;
