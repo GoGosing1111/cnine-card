@@ -24,7 +24,7 @@ const bundle = read('project-v-pixi-battle.bundle.js');
 
 assert.match(html, /project-v-command-studio-bg-v2\.png/);
 assert.doesNotMatch(html, /project-v-lobby-studio-v1|battle-art-adapter|tier-battle-art-adapter|unassigned-battle-fallback|monster-battle-art-adapter/);
-assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=89-battle-suit03-helmet-power/);
+assert.match(client, /project-v-pixi-battle\.bundle\.js\?v=90-ballistic-impact-v1/);
 assert.match(baseCss, /\.pv-client\{/);
 assert.match(baseCss, /\.pv-environment\{/);
 assert.match(baseCss, /\.pv-topbar\{/);

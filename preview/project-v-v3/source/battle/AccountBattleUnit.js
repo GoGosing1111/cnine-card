@@ -1,5 +1,6 @@
 import {Container, Graphics, Rectangle, Sprite, Text, Texture} from 'pixi.js';
 import {gsap} from 'gsap';
+import {BallisticVFX} from './BallisticVFX.js';
 
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 const finite=(value,fallback)=>Number.isFinite(Number(value))?Number(value):fallback;
@@ -51,6 +52,7 @@ export class AccountBattleUnit{
     this.fireTimeline=null;
     this.fireResolve=null;
     this.fireEffect=null;
+    this.ballisticVfx=new BallisticVFX({layer:effectLayer});
     this.attachment={x:34,y:-142,anchorX:.66,anchorY:.62,height:106,rotation:-.08,zIndex:14,flipX:true,muzzleX:null,muzzleY:-18};
 
     this.root=new Container({label:'PVEAccountBattleUnit',sortableChildren:true});
@@ -371,8 +373,7 @@ export class AccountBattleUnit{
     this.fireTimeline?.kill();
     this.fireTimeline=null;
     if(this.fireEffect){
-      this.fireEffect.removeFromParent?.();
-      this.fireEffect.destroy?.({children:true});
+      this.ballisticVfx.releaseShot(this.fireEffect);
       this.fireEffect=null;
     }
     this.stopIdle();
@@ -380,45 +381,31 @@ export class AccountBattleUnit{
     resolve?.(false);
   }
 
-  playRangedFire({targetX,targetY,accent=0x76e8ff,playbackRate=1}={}){
+  async playRangedFire({targetX,targetY,weaponCode='',onImpact=()=>{},playbackRate=1}={}){
     const authored=this.hasAuthoredAnimation();
     if(!this.active||(!authored&&!this.weaponSprite.visible)||!this.effectLayer||!Number.isFinite(Number(targetX))||!Number.isFinite(Number(targetY)))return Promise.resolve(false);
+    if(!await this.ballisticVfx.prepare())return false;
     const speed=clamp(finite(playbackRate,1),.5,3);
     return authored
-      ?this.playAuthoredRangedFire({targetX:Number(targetX),targetY:Number(targetY),accent,playbackRate:speed})
-      :this.playStaticRangedFire({targetX:Number(targetX),targetY:Number(targetY),accent,playbackRate:speed});
+      ?this.playAuthoredRangedFire({targetX:Number(targetX),targetY:Number(targetY),weaponCode,onImpact,playbackRate:speed})
+      :this.playStaticRangedFire({targetX:Number(targetX),targetY:Number(targetY),weaponCode,onImpact,playbackRate:speed});
   }
 
-  createCosmeticShot({targetX,targetY,accent}){
-    const source=this.muzzlePoint();
-    const dx=Number(targetX)-source.x,dy=Number(targetY)-source.y;
-    const distance=Math.max(12,Math.hypot(dx,dy));
-    const beam=new Graphics().roundRect(0,-2,distance,4,2).fill({color:accent,alpha:.92});
-    beam.position.set(source.x,source.y);
-    beam.rotation=Math.atan2(dy,dx);
-    beam.scale.x=0;
-    const flash=new Graphics()
-      .circle(source.x,source.y,16).fill({color:0xffffff,alpha:.92})
-      .circle(source.x,source.y,28).stroke({width:4,color:accent,alpha:.72});
-    const impact=new Graphics()
-      .circle(Number(targetX),Number(targetY),11).fill({color:0xffffff,alpha:.9})
-      .circle(Number(targetX),Number(targetY),22).stroke({width:4,color:accent,alpha:.82})
-      .moveTo(Number(targetX)-18,Number(targetY)-10).lineTo(Number(targetX)+18,Number(targetY)+10).stroke({width:3,color:accent,alpha:.68});
-    impact.scale.set(.35);
-    const effect=new Container({label:'PVEAccountBattleUnitCosmeticShot'});
-    effect.zIndex=950;
-    effect.eventMode='none';
-    effect.addChild(beam,flash,impact);
-    this.effectLayer.addChild(effect);
-    return {effect,beam,flash,impact};
+  createCosmeticShot({targetX,targetY,weaponCode}){
+    return this.ballisticVfx.createShot({
+      source:this.muzzlePoint(),
+      target:{x:Number(targetX),y:Number(targetY)},
+      weaponCode:weaponCode||this.authoredProfile?.weaponCode||'',
+      sequence:this.shotCount
+    });
   }
 
-  playAuthoredRangedFire({targetX,targetY,accent,playbackRate=1}){
+  playAuthoredRangedFire({targetX,targetY,weaponCode,onImpact=()=>{},playbackRate=1}){
     this.cancelFire();
     this.stopIdle();
-    const {effect,beam,flash,impact}=this.createCosmeticShot({targetX,targetY,accent});
-    effect.visible=false;
-    this.fireEffect=effect;
+    const shot=this.createCosmeticShot({targetX,targetY,weaponCode});
+    if(!shot){if(this.active)this.startIdle();return Promise.resolve(false)}
+    this.fireEffect=shot;
     this.shotCount+=1;
     const durations=this.authoredProfile.durationsMs;
     const fireAt=Math.max(0,finite(durations.ready,45))/1000;
@@ -432,9 +419,8 @@ export class AccountBattleUnit{
         settled=true;
         this.fireResolve=null;
         this.fireTimeline=null;
-        if(this.fireEffect===effect)this.fireEffect=null;
-        effect.removeFromParent();
-        effect.destroy({children:true});
+        if(this.fireEffect===shot)this.fireEffect=null;
+        this.ballisticVfx.releaseShot(shot);
         if(this.authoredFrame!=='ready')this.applyAuthoredFrame('ready');
         this.view.position.set(0,0);
         if(this.active)this.startIdle();
@@ -443,24 +429,21 @@ export class AccountBattleUnit{
       this.fireResolve=value=>finish(value);
       this.fireTimeline=gsap.timeline({onComplete:()=>finish(true),onInterrupt:()=>finish(false)})
         .call(()=>this.applyAuthoredFrame('ready'),[],0)
-        .call(()=>{this.applyAuthoredFrame('fire');effect.visible=true},[],fireAt)
-        .to(beam.scale,{x:1,duration:.07,ease:'power4.out'},fireAt)
-        .to(flash,{alpha:0,duration:.12,ease:'power2.out'},fireAt+.035)
-        .to(beam,{alpha:0,duration:.13,ease:'power2.in'},fireAt+.08)
-        .to(impact.scale,{x:1.12,y:1.12,duration:.09,ease:'back.out(2.4)'},fireAt)
-        .to(impact,{alpha:0,duration:.13,ease:'power2.out'},fireAt+.055)
+        .call(()=>this.applyAuthoredFrame('fire'),[],fireAt)
         .call(()=>this.applyAuthoredFrame('recoil'),[],recoilAt)
         .call(()=>this.applyAuthoredFrame('recover'),[],recoverAt)
         .call(()=>this.applyAuthoredFrame('ready'),[],readyAt);
+      this.ballisticVfx.addToTimeline(this.fireTimeline,shot,{at:fireAt,onImpact});
       this.fireTimeline.timeScale(playbackRate);
     });
   }
 
-  playStaticRangedFire({targetX,targetY,accent,playbackRate=1}){
+  playStaticRangedFire({targetX,targetY,weaponCode,onImpact=()=>{},playbackRate=1}){
     this.cancelFire();
     this.stopIdle();
-    const {effect,beam,flash,impact}=this.createCosmeticShot({targetX,targetY,accent});
-    this.fireEffect=effect;
+    const shot=this.createCosmeticShot({targetX,targetY,weaponCode});
+    if(!shot){if(this.active)this.startIdle();return Promise.resolve(false)}
+    this.fireEffect=shot;
     this.shotCount+=1;
     return new Promise(resolve=>{
       let settled=false;
@@ -469,9 +452,8 @@ export class AccountBattleUnit{
         settled=true;
         this.fireResolve=null;
         this.fireTimeline=null;
-        if(this.fireEffect===effect)this.fireEffect=null;
-        effect.removeFromParent();
-        effect.destroy({children:true});
+        if(this.fireEffect===shot)this.fireEffect=null;
+        this.ballisticVfx.releaseShot(shot);
         this.weaponSprite.rotation=this.attachment.rotation;
         this.weaponSprite.position.set(this.attachment.x,this.attachment.y);
         this.view.position.set(0,0);
@@ -482,13 +464,9 @@ export class AccountBattleUnit{
       this.fireTimeline=gsap.timeline({onComplete:()=>finish(true),onInterrupt:()=>finish(false)})
         .to(this.weaponSprite,{x:this.attachment.x-9,rotation:this.attachment.rotation-.075,duration:.055,ease:'power4.out'},0)
         .to(this.view,{x:-3,duration:.055,ease:'power4.out'},0)
-        .to(beam.scale,{x:1,duration:.07,ease:'power4.out'},0)
-        .to(flash,{alpha:0,duration:.12,ease:'power2.out'},.035)
-        .to(beam,{alpha:0,duration:.13,ease:'power2.in'},.08)
-        .to(impact.scale,{x:1.12,y:1.12,duration:.09,ease:'back.out(2.4)'},0)
-        .to(impact,{alpha:0,duration:.13,ease:'power2.out'},.055)
         .to(this.weaponSprite,{x:this.attachment.x,rotation:this.attachment.rotation,duration:.16,ease:'back.out(1.7)'},.07)
         .to(this.view,{x:0,duration:.16,ease:'back.out(1.7)'},.07);
+      this.ballisticVfx.addToTimeline(this.fireTimeline,shot,{at:0,onImpact});
       this.fireTimeline.timeScale(playbackRate);
     });
   }
@@ -515,6 +493,7 @@ export class AccountBattleUnit{
       authoredMuzzle:this.authoredProfile?.muzzle||null,
       weaponSpriteVisible:this.weaponSprite.visible,
       shotCount:this.shotCount,
+      ballisticVfx:this.ballisticVfx.diagnostics(),
       nickname:{
         fullText:this.fullName,
         displayText:this.displayName,
@@ -532,6 +511,7 @@ export class AccountBattleUnit{
     this.cancelFire();
     this.stopIdle();
     this.releaseAuthoredAnimation();
+    this.ballisticVfx=null;
     this.root.destroy({children:true});
   }
 }

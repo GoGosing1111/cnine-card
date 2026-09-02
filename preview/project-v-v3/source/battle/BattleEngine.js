@@ -372,6 +372,8 @@ export class BattleEngine{
     this.accountBattleUnitSustainedShotCount=0;
     this.accountBattleUnitFireRun=null;
     this.accountBattleUnitPreviewFireHook=null;
+    this.accountBattleUnitHitReactions=new Map();
+    this.lastAccountBattleUnitCameraImpulse=0;
     this.boss=null;
     this.bossHp=72;
     this.currentEnemyTarget=null;
@@ -1194,6 +1196,50 @@ export class BattleEngine{
     return Boolean(this.accountBattleUnitPreviewFireHook);
   }
 
+  clearAccountBattleUnitHitReactions(){
+    for(const [victim,reaction] of this.accountBattleUnitHitReactions){
+      clearTimeout(reaction.timer);
+      reaction.flash?.release?.();
+      if(victim?.state===CHARACTER_STATE.HIT){
+        victim.setState(victim.hp<=0?CHARACTER_STATE.DEAD:CHARACTER_STATE.IDLE);
+      }
+    }
+    this.accountBattleUnitHitReactions.clear();
+  }
+
+  triggerAccountBattleUnitBallisticHit(victim,profile={},playbackRate=1){
+    if(!victim?.root)return;
+    const prior=this.accountBattleUnitHitReactions.get(victim);
+    if(prior){
+      clearTimeout(prior.timer);
+      prior.flash?.release?.();
+      this.accountBattleUnitHitReactions.delete(victim);
+    }
+    const speed=clamp(Number(playbackRate)||1,.5,3);
+    const flash=triggerWhiteFlash(victim,{durationMs:Math.max(24,Math.round((Number(profile.hitFlashMs)||62)/speed))});
+    if(victim.hp>0)victim.setState(CHARACTER_STATE.HIT);
+    const epoch=this.playbackEpoch;
+    const timer=setTimeout(()=>{
+      flash.release?.();
+      this.accountBattleUnitHitReactions.delete(victim);
+      if(epoch===this.playbackEpoch&&victim.state===CHARACTER_STATE.HIT){
+        victim.setState(victim.hp<=0?CHARACTER_STATE.DEAD:CHARACTER_STATE.IDLE);
+      }
+    },Math.max(80,Math.round((Number(profile.hitReactionMs)||205)/speed)));
+    this.accountBattleUnitHitReactions.set(victim,{timer,flash});
+
+    const now=performance.now();
+    if(!this.reducedMotion&&now-this.lastAccountBattleUnitCameraImpulse>95){
+      this.lastAccountBattleUnitCameraImpulse=now;
+      void this.timeline(timeline=>this.camera.addShake(timeline,{
+        intensity:Number(profile.cameraShake)||3.2,
+        duration:Number(profile.cameraShakeDuration)||.12,
+        rotation:Number(profile.cameraRotation)||.0015,
+        at:0
+      }),()=>this.camera.reset(true),speed);
+    }
+  }
+
   async playAccountBattleUnitCosmeticShot(target=null,{playbackRate=1}={}){
     const unit=this.accountBattleUnit;
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
@@ -1242,7 +1288,8 @@ export class BattleEngine{
       played=await unit.playRangedFire({
         targetX:victim.root.x,
         targetY:victim.root.y-90,
-        accent:0x76e8ff,
+        weaponCode,
+        onImpact:({profile})=>this.triggerAccountBattleUnitBallisticHit(victim,profile,playbackRate),
         playbackRate
       });
     }finally{
@@ -1943,6 +1990,7 @@ export class BattleEngine{
     // start a stale combat timeline after recovery, reset, or modal close.
     this.playbackEpoch+=1;
     this.skillTimeline?.cancelAll();
+    this.clearAccountBattleUnitHitReactions();
     [...this.simpleTimelines].forEach(entry=>{entry.instance.kill();entry.settle(false)});
     this.stopAccountBattleUnitSustainedFire();
     this.accountBattleUnit?.cancelFire();

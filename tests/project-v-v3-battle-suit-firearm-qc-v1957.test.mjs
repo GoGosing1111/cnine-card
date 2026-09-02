@@ -8,7 +8,7 @@ const root=new URL('../',import.meta.url);
 const read=path=>readFile(new URL(path,root),'utf8');
 const sha256=bytes=>createHash('sha256').update(bytes).digest('hex').toUpperCase();
 
-const [html,client,baseCss,cardCss,css,responsiveCss,entry,engineSource,bundle,audioSource,manifestText,sourcesText,liveIndex,liveApp,liveBattle]=await Promise.all([
+const [html,client,baseCss,cardCss,css,responsiveCss,entry,engineSource,ballisticSource,ballisticManifestText,bundle,audioSource,manifestText,sourcesText,liveIndex,liveApp,liveBattle]=await Promise.all([
   read('preview/project-v-v3/index.html'),
   read('preview/project-v-v3/project-v-client.js'),
   read('preview/project-v-v3/project-v-client.css'),
@@ -17,6 +17,8 @@ const [html,client,baseCss,cardCss,css,responsiveCss,entry,engineSource,bundle,a
   read('preview/project-v-v3/project-v-responsive-fixes.css'),
   read('preview/project-v-v3/source/project-v-pixi-battle.src.js'),
   read('preview/project-v-v3/source/battle/BattleEngine.js'),
+  read('preview/project-v-v3/source/battle/BallisticVFX.js'),
+  read('assets/ui/project-v/fx/ballistic-impact-v1/manifest-v1.json'),
   read('preview/project-v-v3/project-v-pixi-battle.bundle.js'),
   read('preview/project-v-v3/project-v-firearm-qc-audio.js'),
   read('preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json'),
@@ -24,6 +26,7 @@ const [html,client,baseCss,cardCss,css,responsiveCss,entry,engineSource,bundle,a
   read('index.html'),read('js/app.js'),read('js/battle-v3-live.js')
 ]);
 const manifest=JSON.parse(manifestText);
+const ballisticManifest=JSON.parse(ballisticManifestText);
 
 const expectedProfiles={
   EQ_1785427638137:{file:'m4a1-colt-socom-cc0-freesound-737569.mp3',sha:'1735B196B5DB6369D734EE5731834E35C9AD17A2A32353E9D809B6C6C2ECB6F2',kind:'AR',soundId:737569},
@@ -38,7 +41,7 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
   assert.match(html,/project-v-firearm-qc-audio\.js\?v=6-sks-dmr-proxy/);
-  assert.match(html,/project-v-client\.js\?v=68-battle-suit03-helmet-power/);
+  assert.match(html,/project-v-client\.js\?v=69-ballistic-impact-v1/);
   assert.match(html,/params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
     'shared QC links must automatically open the visible battle module');
   assert.match(html,/querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
@@ -52,7 +55,7 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   const styledClasses=new Set([...`${baseCss}\n${cardCss}\n${css}\n${responsiveCss}`.matchAll(/\.([A-Za-z_][\w-]*)/g)].map(match=>match[1]));
   assert.deepEqual([...htmlClasses].filter(name=>!styledClasses.has(name)).sort(),[],
     'every static V3 preview class must have a stylesheet contract');
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=89-battle-suit03-helmet-power/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=90-ballistic-impact-v1/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
   assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);
@@ -99,6 +102,38 @@ test('preview-only public shot hook reports the exact authored fire frame and ne
   assert.match(engineSource,/if\(name==='fire'\)notifyPreviewFire\(\)/);
   assert.match(engineSource,/phase:'anticipation'/);
   assert.match(engineSource,/phase:'fire'/);
+});
+
+test('ballistic trajectory and monster hit use alpha PNG atlases through Pixi only',async()=>{
+  assert.equal(ballisticManifest.schemaVersion,'project-v-v3-ballistic-vfx-v1');
+  assert.equal(ballisticManifest.renderer,'PIXI_RASTER_ATLAS');
+  assert.equal(ballisticManifest.cssEffects,false);
+  assert.deepEqual(ballisticManifest.assets.map(asset=>asset.id),['muzzle','tracer','impact']);
+  const expected={
+    muzzle:{file:'muzzle-flash-atlas-v1.png',sha:'84307C1A4B41021E81F6D05C636FBE5F5BDEE233DE73A59BDB565F5A6ACE76CB',columns:4,rows:2,frames:8},
+    tracer:{file:'tracer-atlas-v1.png',sha:'5505E2928491F9ADCE5E73A72180F083760CF1348142535BD7A82E21E6DE8026',columns:3,rows:2,frames:6},
+    impact:{file:'monster-impact-atlas-v1.png',sha:'526CCF9536FB5FB7B07E127228A33005DB406D488CC57C25761A30C1590ACF5A',columns:4,rows:2,frames:8}
+  };
+  for(const asset of ballisticManifest.assets){
+    const contract=expected[asset.id];
+    assert.ok(contract,asset.id);
+    assert.equal(asset.sha256,contract.sha,asset.id);
+    assert.equal(asset.grid.columns,contract.columns,asset.id);
+    assert.equal(asset.grid.rows,contract.rows,asset.id);
+    assert.equal(asset.grid.frameCount,contract.frames,asset.id);
+    assert.equal(asset.grid.cells.length,contract.frames,asset.id);
+    assert.ok(asset.grid.cells.every(cell=>cell.alphaPixels>96),`${asset.id} contains an empty frame`);
+    const bytes=await readFile(new URL(`assets/ui/project-v/fx/ballistic-impact-v1/${contract.file}`,root));
+    assert.equal(sha256(bytes),contract.sha,asset.id);
+  }
+  assert.match(ballisticSource,/BallisticMuzzleAtlas/);
+  assert.match(ballisticSource,/BallisticTracerCore/);
+  assert.match(ballisticSource,/BallisticMonsterImpactAtlas/);
+  assert.match(ballisticSource,/blendMode:'screen'/);
+  assert.match(ballisticSource,/blendMode:'add'/);
+  assert.doesNotMatch(ballisticSource,/\bGraphics\b|\.circle\(|\.lineTo\(|\.roundRect\(/);
+  assert.match(engineSource,/triggerAccountBattleUnitBallisticHit/);
+  assert.match(bundle,/PIXI_RASTER_ATLAS/,'rebuilt browser bundle must include the raster ballistic renderer');
 });
 
 test('four preview profiles backed by three immutable CC0 real recordings satisfy provenance, hash and waveform QC',async()=>{

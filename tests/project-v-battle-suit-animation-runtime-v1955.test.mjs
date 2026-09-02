@@ -126,6 +126,7 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
   assert.equal(profile.row,1);
   const sheet=testTexture(1536,1024);
   const rejectedSeparateWeapon=testTexture(1024,341);
+  const vfxFrame=testTexture(256,256);
   const loads=[];
 
   try{
@@ -139,6 +140,11 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
 
     const unit=engine.accountBattleUnit;
     assert.ok(unit instanceof AccountBattleUnit);
+    unit.ballisticVfx.frames={
+      muzzle:Array(8).fill(vfxFrame),
+      tracer:Array(6).fill(vfxFrame),
+      impact:Array(8).fill(vfxFrame)
+    };
     assert.equal(engine.allies.length,5);
     assert.equal(engine.cards.length,5);
     assert.equal(engine.characters.length,10);
@@ -213,6 +219,7 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
     destroyHarness(engine);
     if(!sheet.destroyed)sheet.destroy(true);
     if(!rejectedSeparateWeapon.destroyed)rejectedSeparateWeapon.destroy(true);
+    if(!vfxFrame.destroyed)vfxFrame.destroy(true);
   }
 });
 

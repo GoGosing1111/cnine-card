@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "project-v-v3-ballistic-vfx-provenance-v1",
+  "createdAt": "2026-09-02",
+  "mode": "OPENAI_BUILT_IN_IMAGEGEN",
+  "useCase": "stylized-concept",
+  "scope": "PROJECT_V_V3_PVE_ACCOUNT_BATTLE_UNIT",
+  "runtimeContract": {
+    "renderer": "PIXI_RASTER_ATLAS",
+    "cssEffects": false,
+    "authoritativeDamage": false
+  },
+  "assets": [
+    {
+      "id": "muzzle",
+      "source": "sources/muzzle-flash-authored-v1.png",
+      "sourceSha256": "542E9E7FC840DB3F1134A61D30903CCD312D9F0ACDE3D9C2EB209BA68A6E9042",
+      "prompt": "Premium transparent 4x2 eight-frame sci-fi rifle muzzle-flash atlas for a high-end 2.5D top-down mobile RPG: right-facing white-hot core, cyan ion cone, restrained amber sparks, pressure ring, chronological ignition-to-dissipation; no character, gun, bullet, UI, text, border, logo, watermark or background."
+    },
+    {
+      "id": "tracer",
+      "source": "sources/tracer-authored-v1.png",
+      "sourceSha256": "4DEDAACC8E4E13EC6860F89DB1A15358CF176DD0D90DD2101BC92232D3BE94AA",
+      "prompt": "Premium transparent 3x2 six-variant rifle tracer atlas for a high-end 2.5D top-down mobile RPG: perfectly horizontal right-facing hypersonic projectile streaks with razor-white kinetic cores, cyan ion sheaths, gold electrical flecks and tapered tails, ranging from compact AR to heavy sniper; no character, weapon, target, impact, UI, text, border, logo, watermark or background."
+    },
+    {
+      "id": "impact",
+      "source": "sources/monster-impact-authored-v1.png",
+      "sourceSha256": "59FE0CE674D34F742E7EBD3BFACE4B083940967D64FEAE1DFE8005C9B3AAA1A0",
+      "prompt": "Premium transparent 4x2 eight-frame kinetic-plasma monster bullet-impact atlas for a high-end 2.5D action RPG: needle-white contact flash, cyan-violet rupture, amber sparks, dark purple energy fragments, asymmetric shock ring and dissipating wisps; no monster body, weapon, bullet, blood, UI, numbers, text, border, logo, watermark or background."
+    }
+  ]
+}

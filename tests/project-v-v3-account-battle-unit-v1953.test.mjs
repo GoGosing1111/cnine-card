@@ -3,9 +3,10 @@ import {readFile} from 'node:fs/promises';
 import vm from 'node:vm';
 
 const root=new URL('../',import.meta.url);
-const [engine,unit,live,bundle,readme]=await Promise.all([
+const [engine,unit,ballistic,live,bundle,readme]=await Promise.all([
   readFile(new URL('preview/project-v-v3/source/battle/BattleEngine.js',root),'utf8'),
   readFile(new URL('preview/project-v-v3/source/battle/AccountBattleUnit.js',root),'utf8'),
+  readFile(new URL('preview/project-v-v3/source/battle/BallisticVFX.js',root),'utf8'),
   readFile(new URL('js/battle-v3-live.js',root),'utf8'),
   readFile(new URL('preview/project-v-v3/project-v-pixi-battle.bundle.js',root),'utf8'),
   readFile(new URL('preview/project-v-v3/source/battle/README.md',root),'utf8')
@@ -26,8 +27,18 @@ assert.match(unit,/this\.weaponSprite\.label='DatabaseWeaponAttachment'/);
 const rangedFire=unit.slice(unit.indexOf('playRangedFire('),unit.indexOf('\n  diagnostics(){'));
 assert.match(rangedFire,/this\.weaponSprite/);
 assert.match(rangedFire,/this\.view/);
-assert.match(rangedFire,/PVEAccountBattleUnitCosmeticShot/);
+assert.match(rangedFire,/this\.ballisticVfx\.createShot/);
+assert.match(ballistic,/PVEAccountBattleUnitCosmeticShot/);
+assert.match(ballistic,/renderer:'PIXI_RASTER_ATLAS'/);
+assert.match(ballistic,/cssEffects:false/);
+assert.match(ballistic,/BallisticTracerCore/);
+assert.match(ballistic,/BallisticMonsterImpactAtlas/);
+assert.doesNotMatch(ballistic,/\bGraphics\b|roundRect\(|\.circle\(|\.lineTo\(/,
+  'muzzle, tracer and monster impact must be authored raster sprites, not runtime vector/CSS stand-ins');
 assert.doesNotMatch(rangedFire,/this\.root\.(?:x|y|position)|damage|setHp|syncTargetHp/);
+assert.match(engine,/triggerAccountBattleUnitBallisticHit/);
+assert.match(engine,/victim\.setState\(CHARACTER_STATE\.HIT\)/);
+assert.match(engine,/onImpact:\(\{profile\}\)=>this\.triggerAccountBattleUnitBallisticHit/);
 assert.match(engine,/type!==\'TURN\'&&type!==\'SKILL\'/);
 assert.match(engine,/await this\.normalAttack\([\s\S]*isAlliedAccountShotEvent\(event,explicitActor\)/);
 assert.match(engine,/await this\.playTacticalSkill\([\s\S]*isAlliedAccountShotEvent\(event,explicitActor\)/);
