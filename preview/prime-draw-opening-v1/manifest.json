@@ -1,0 +1,57 @@
+{
+  "version": "prime-draw-opening-preview-v1",
+  "status": "PREVIEW_ONLY",
+  "previewOnly": true,
+  "runtimeConnected": false,
+  "deployAllowed": false,
+  "renderer": {
+    "engine": "PixiJS 8 WebGL",
+    "timeline": "GSAP 3",
+    "cssEffects": false,
+    "whiteFlashMs": 50,
+    "interaction": "pointer swipe"
+  },
+  "dropPool": {
+    "config": "config/prime-drop-pools.v1.json",
+    "legacyPoolShared": false,
+    "itemPresentationFields": [
+      "enabled",
+      "tier",
+      "effectKey"
+    ]
+  },
+  "batchOpen": {
+    "options": [1, 10, 50, "MAX"],
+    "maxPerRequest": 500,
+    "serverContract": "one atomic receipt per batch",
+    "gestureCount": 1,
+    "specialResults": "queue every presentation-enabled result grouped by item",
+    "normalResults": "aggregated summary"
+  },
+  "audio": {
+    "masterVolume": 0.12,
+    "proceduralSynthesis": false,
+    "sources": [
+      {
+        "path": "/assets/sfx/v3-role-impact-v2/speed.mp3",
+        "provenance": "/assets/sfx/v3-role-impact-v2/PROVENANCE.md"
+      },
+      {
+        "path": "/assets/sfx/v3-role-impact-v2/defense.mp3",
+        "provenance": "/assets/sfx/v3-role-impact-v2/PROVENANCE.md"
+      },
+      {
+        "path": "/assets/sfx/v3-advancement-awakening-v1/shatter-advancement-v1.mp3",
+        "provenance": "/assets/sfx/v3-advancement-awakening-v1/PROVENANCE.md"
+      },
+      {
+        "path": "/assets/sfx/v3-advancement-awakening-v1/afterimage-advancement-v1.mp3",
+        "provenance": "/assets/sfx/v3-advancement-awakening-v1/PROVENANCE.md"
+      },
+      {
+        "path": "/assets/sfx/v3-advancement-awakening-v1/immortal-advancement-v1.mp3",
+        "provenance": "/assets/sfx/v3-advancement-awakening-v1/PROVENANCE.md"
+      }
+    ]
+  }
+}

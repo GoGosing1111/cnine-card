@@ -1,0 +1,113 @@
+{
+  "version": "prime-drop-pools-preview-v1",
+  "status": "PREVIEW_ONLY",
+  "runtimeConnected": false,
+  "legacyPoolShared": false,
+  "legacyItemCodes": [
+    "EQUIPMENT_SUPPLY_BOX",
+    "VEHICLE_DRAW_TICKET"
+  ],
+  "batchOpen": {
+    "options": [1, 10, 50, "MAX"],
+    "maxPerRequest": 500,
+    "resolution": "ATOMIC_SERVER_RECEIPT",
+    "unlockGesture": "ONE_SWIPE_PER_BATCH",
+    "premiumQueue": "SHOW_EVERY_RESULT_WITH_PRESENTATION_ENABLED",
+    "normalResultMode": "AGGREGATED_SUMMARY"
+  },
+  "pools": [
+    {
+      "code": "PRIME_EQUIPMENT_V1",
+      "kind": "equipment",
+      "label": "프라임 아머리 상자",
+      "eyebrow": "PRIME ARMORY VAULT",
+      "itemCode": "PRIME_EQUIPMENT_SUPPLY_BOX",
+      "legacyItemCode": "EQUIPMENT_SUPPLY_BOX",
+      "packAsset": "/assets/ui/packs/prime-armory-equipment-box-v1.png",
+      "draftUnitPrice": 30000000,
+      "shopEnabled": false,
+      "openEnabled": false,
+      "previewStock": 137,
+      "entries": [
+        {
+          "code": "SOVEREIGN_SHOES_V1",
+          "name": "성운의 군주 장화",
+          "rarity": "LEGENDARY",
+          "image": "/assets/items/sovereign-shoes-v1.webp",
+          "weight": 79.9,
+          "power": 185000,
+          "presentation": {"enabled": false, "tier": "STANDARD", "effectKey": "NONE"}
+        },
+        {
+          "code": "STARLIGHT_ARMOR_CORE_V1749",
+          "name": "성광 갑주 코어",
+          "rarity": "MYTHIC",
+          "image": "/assets/items/starlight-armor-core-v1749.png",
+          "weight": 20,
+          "power": 420000,
+          "presentation": {"enabled": true, "tier": "HERO", "effectKey": "VIOLET_CORE"}
+        },
+        {
+          "code": "SOVEREIGN_WEAPON_V1",
+          "name": "천체 군주의 성검",
+          "rarity": "MYTHIC",
+          "image": "/assets/items/sovereign-weapon-v1.webp",
+          "weight": 0.1,
+          "power": 890000,
+          "presentation": {"enabled": true, "tier": "CINEMATIC", "effectKey": "ASTRAL_ARMORY"}
+        }
+      ]
+    },
+    {
+      "code": "PRIME_VEHICLE_V1",
+      "kind": "vehicle",
+      "label": "프라임 하이퍼드라이브 팩",
+      "eyebrow": "PRIME HYPERDRIVE",
+      "itemCode": "PRIME_VEHICLE_DRAW_TICKET",
+      "legacyItemCode": "VEHICLE_DRAW_TICKET",
+      "packAsset": "/assets/items/prime-hyperdrive-vehicle-pack-v1.png",
+      "draftUnitPrice": 100000000,
+      "shopEnabled": false,
+      "openEnabled": false,
+      "previewStock": 64,
+      "entries": [
+        {
+          "code": "LAMBORGHINI_REVENTON_V1",
+          "name": "람보르기니 레벤톤",
+          "rarity": "LEGENDARY",
+          "image": "/assets/tire/lamborghini-reventon-showroom-v1.png",
+          "weight": 70,
+          "power": 350000,
+          "presentation": {"enabled": false, "tier": "STANDARD", "effectKey": "NONE"}
+        },
+        {
+          "code": "FERRARI_DAYTONA_SP3_V1",
+          "name": "페라리 데이토나 SP3",
+          "rarity": "MYTHIC",
+          "image": "/assets/tire/ferrari-daytona-sp3-showroom-v1.png",
+          "weight": 20,
+          "power": 520000,
+          "presentation": {"enabled": true, "tier": "FEATURED", "effectKey": "SCARLET_VELOCITY"}
+        },
+        {
+          "code": "LAMBORGHINI_VENENO_V1",
+          "name": "람보르기니 베네노",
+          "rarity": "MYTHIC",
+          "image": "/assets/tire/lamborghini-veneno-showroom-v1.png",
+          "weight": 9.9,
+          "power": 710000,
+          "presentation": {"enabled": true, "tier": "HERO", "effectKey": "CRIMSON_APEX"}
+        },
+        {
+          "code": "BUGATTI_LA_VOITURE_NOIRE_V1",
+          "name": "부가티 라 부아튀르 누아르",
+          "rarity": "MYTHIC",
+          "image": "/assets/tire/bugatti-la-voiture-noire-showroom-v1.png",
+          "weight": 0.1,
+          "power": 1000000,
+          "presentation": {"enabled": true, "tier": "CINEMATIC", "effectKey": "NOIRE_SOVEREIGN"}
+        }
+      ]
+    }
+  ]
+}
