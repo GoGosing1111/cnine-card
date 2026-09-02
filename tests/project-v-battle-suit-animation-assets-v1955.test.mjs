@@ -145,8 +145,9 @@ test('Battle Suit v7 manifest restores the helmeted Suit 03 M200 and locks the P
   assert.equal(manifest.renderContract.formation,'AUXILIARY_FRONT_LEFT_FORWARD_TILE');
   assert.equal(manifest.renderContract.canonicalAllyCardCount,5);
   assert.equal(manifest.renderContract.movement,false);
-  assert.equal(manifest.renderContract.attack,'STATIC_STANCE_RUNTIME_MUZZLE_AND_AUDIO');
-  assert.equal(manifest.renderContract.addsIndependentDamage,false);
+  assert.equal(manifest.renderContract.attack,'STATIC_STANCE_SERVER_TIMELINE_DAMAGE_RUNTIME_MUZZLE_AND_AUDIO');
+  assert.equal(manifest.renderContract.addsIndependentDamage,true);
+  assert.equal(manifest.renderContract.damageAuthority,'BATTLE_ENGINE_V2');
   assert.equal(manifest.renderContract.approvedWeaponBinding,'equippedWeapon.code');
   assert.deepEqual(manifest.powerContract.tiersBySuitCode,{BATTLE_SUIT_01:100000,BATTLE_SUIT_02:200000,BATTLE_SUIT_03:300000});
   assert.equal(manifest.renderContract.sksSourcePolicy,'USER_PROVIDED_SECOND_ROW_TRANSPARENT_NO_REDRAW');

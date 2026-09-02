@@ -52,13 +52,16 @@ Application.stage
 ```js
 {
   mode: 'PVE',
-  battleV2: {teams: {A: {cards: [/* 기존 5장 */]}, B: {cards: []}}, result: {timeline: []}},
-  characterBonus: {battleSuitPve: 125000},
+  battleV2: {
+    teams: {A: {cards: [/* 기존 5장 */], supports: [/* 배틀슈트 1기 */]}, B: {cards: []}},
+    result: {timeline: [/* actorKind: 'BATTLE_SUIT' 독립 TURN */], damageBreakdown: {battleSuit: 100000}}
+  },
+  characterBonus: {battleSuitPve: 100000},
   equippedBattleSuit: {
     code: 'BATTLE_SUIT_01',
     displayName: '배틀슈트 01',
     battleSprite: '/assets/ui/project-v/account-battle-suits/suits/battle-suit-appearance-01-mechanical-female-v3.png',
-    pvePower: 125000,
+    pvePower: 100000,
     pvpPower: 0,
     scaleMultiplier: 1
   },
@@ -71,16 +74,18 @@ Application.stage
 ```
 
 - 계정 유닛은 `allies`, `characters`, `cards`에 추가하지 않는 보조 렌더 오브젝트다.
-  기존 5장 진형·대상 선택·HP·승패·서버 피해를 변경하지 않는다.
+  서버에서는 5장과 분리된 타깃 불가 지원 액터이며, 기존 진형·생존 판정은 유지한 채
+  속도 게이지에 따라 독립 피해를 준다.
 - `PVE/HUNT/TOWER/RAID/SEAL/ESCORT/DUNGEON` 계열에서만 표시하며,
   `PVP/SIEGE/TERRITORY/CAPTAIN/CLAN` payload는 렌더러와 라이브 래퍼 양쪽에서 차단한다.
 - 배틀슈트는 본체 스프라이트, 무기는 별도 attachment 스프라이트다. 승인된 무기
   code 4종은 투명 전투 컷아웃에 매핑한다. 미승인 무기의 일반 `image/imageUrl`은
   카드형 네모 배경일 수 있어 사용하지 않고, 명시적 `battleSprite/appearanceUrl`이
   없으면 무기를 숨긴다.
-- 아군의 피해가 있는 `TURN/SKILL` 직후 보조 원거리 사격만 재생한다. 이 사격은
-  대미지와 HP를 다시 적용하지 않으며 `characterBonus.battleSuitPve`의 서버 합산을
-  시각화할 뿐이다.
+- 서버가 `characterBonus.battleSuitPve`를 카드 5장에 재분배하지 않고
+  `actorKind: 'BATTLE_SUIT'`, `damageSource: 'BATTLE_SUIT_INDEPENDENT'`인 독립 피해
+  `TURN`으로 판정한다. 렌더러는 해당 피해와 `targetHpAfter`를 그대로 재생하며,
+  `result.damageBreakdown.battleSuit`은 몬스터 HP와 방벽에 실제 적용된 값만 합산한다.
 - 작은 이름표는 `payload.user.nickname`, `payload.profile.nickname`,
   `payload.nickname` 순으로 선택하고 값이 없으면 숨긴다.
 

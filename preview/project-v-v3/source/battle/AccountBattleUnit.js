@@ -29,8 +29,8 @@ function labelText(value){
 /**
  * PVE-only account avatar rendered beside, but never inside, the canonical
  * five-card formation. Approved suit/weapon pairs use one authored composite
- * atlas; the database-driven body and weapon remain the static fallback. This
- * object has no HP, target or damage API; its ranged shot is presentation-only.
+ * atlas; the database-driven body and weapon remain the static fallback. The
+ * server owns its independent damage; this view renders those timeline shots.
  */
 export class AccountBattleUnit{
   constructor({effectLayer=null}={}){
@@ -476,7 +476,7 @@ export class AccountBattleUnit{
     return {
       active:this.active,
       id:'ACCOUNT_BATTLE_UNIT',
-      role:'PVE_COSMETIC_RANGED_SUPPORT',
+      role:'PVE_AUTHORITATIVE_RANGED_SUPPORT',
       fixedPosition:true,
       bodySource:this.bodySource,
       weaponSource:this.weaponSource,
@@ -503,7 +503,8 @@ export class AccountBattleUnit{
         maxTextWidth:NAME_LABEL_MAX_WIDTH
       },
       affectsDeck:false,
-      affectsDamage:false
+      affectsDamage:true,
+      damageAuthority:'SERVER_BATTLE_V2_TIMELINE'
     };
   }
 

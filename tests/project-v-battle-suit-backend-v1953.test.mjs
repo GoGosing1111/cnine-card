@@ -10,6 +10,7 @@ import {
   handleEquipment,
   userEquipmentBonuses,
 } from '../functions/_equipment.js';
+import {createPveBattleV2} from '../functions/_battle_v2_preview.js';
 
 const migrationUrl=new URL('../database/migrations/0087_v1953_project_v_battle_suits.sql',import.meta.url);
 const femaleRefreshMigrationUrl=new URL('../database/migrations/0088_v1959_battle_suit_01_female.sql',import.meta.url);
@@ -145,7 +146,10 @@ test('runtime Battle Suit and weapon cutout manifest matches the committed asset
   assert.equal(manifest.powerContract.pvpTotalIncludesBattleSuit,false);
   assert.deepEqual(manifest.powerContract.tiersBySuitCode,{BATTLE_SUIT_01:100000,BATTLE_SUIT_02:200000,BATTLE_SUIT_03:300000});
   assert.equal(manifest.renderContract.canonicalAllyCardCount,5);
-  assert.equal(manifest.renderContract.addsIndependentDamage,false);
+  assert.equal(manifest.renderContract.addsIndependentDamage,true);
+  assert.equal(manifest.renderContract.damageAuthority,'BATTLE_ENGINE_V2');
+  assert.equal(manifest.renderContract.occupiesCardSlot,false);
+  assert.equal(manifest.renderContract.targetable,false);
   assert.deepEqual(manifest.suits.map(item=>item.code),['BATTLE_SUIT_01','BATTLE_SUIT_02','BATTLE_SUIT_03']);
   assert.deepEqual(manifest.weapons.map(item=>item.equipmentCode),['EQ_1785427638137','EQ_1785961232958','EQ_1785961300455','EQ_1786966923833']);
   for(const item of [...manifest.suits,...manifest.weapons]){
@@ -153,6 +157,49 @@ test('runtime Battle Suit and weapon cutout manifest matches the committed asset
     const bytes=await readFile(new URL(`../${relative}`,import.meta.url));
     assert.equal(createHash('sha256').update(bytes).digest('hex').toUpperCase(),item.sha256,relative);
   }
+});
+
+test('Battle Suit is a sixth PVE support actor with authoritative independent damage, not a displayed aggregate',()=>{
+  const cards=Array.from({length:5},(_,index)=>({
+    id:String(index+1),title:`CARD ${index+1}`,name:`CARD ${index+1}`,rarity:'FUR',power_type:'ATTACK',power:50000,
+  }));
+  const battle=createPveBattleV2({
+    cards,
+    characterBonus:25000,
+    battleSuit:{code:'BATTLE_SUIT_02',name:'배틀슈트 02',pvePower:200000,weapon:{code:'EQ_1785427638137'}},
+    monster:{id:7,name:'검증 보스',battle_power:900000,is_boss:1},
+    bossUltimatePercent:20,
+    seed:17,
+  });
+  assert.equal(battle.teams.A.cards.length,5,'canonical deck must remain exactly five cards');
+  assert.equal(battle.teams.A.supports.length,1,'Battle Suit must use its separate support slot');
+  assert.equal(battle.teams.A.summary.equipmentBonus,25000,'Battle Suit power must not be distributed back into cards');
+  assert.equal(battle.teams.A.supports[0].power,200000);
+  assert.equal(battle.teams.A.supports[0].untargetable,true);
+  assert.equal(battle.result.final.A.length,5,'support actor must not corrupt five-card survivor results');
+  const actorId=battle.teams.A.supports[0].id;
+  const hits=battle.result.timeline.filter(event=>event.type==='TURN'&&event.actorId===actorId);
+  assert.ok(hits.length>0,'Battle Suit must receive its own speed-gauge turns');
+  assert.ok(hits.some(event=>Number(event.damage||0)+Number(event.absorbed||0)>0),'Battle Suit must apply real monster HP damage');
+  const applied=hits.reduce((sum,event)=>sum+Number(event.damage||0)+Number(event.absorbed||0),0);
+  assert.equal(battle.result.damageBreakdown.battleSuit,applied,'contribution must equal authoritative applied timeline damage');
+  assert.ok(battle.result.damageBreakdown.battleSuit>0);
+  assert.ok(hits.every(event=>event.actorKind==='BATTLE_SUIT'&&event.damageSource==='BATTLE_SUIT_INDEPENDENT'));
+  assert.ok(!battle.result.timeline.some(event=>event.targetId===actorId),'Battle Suit support must not become a sixth HP target');
+  const bossUltimate=battle.result.timeline.find(event=>event.type==='BOSS_ULTIMATE');
+  assert.ok(bossUltimate?.hits?.every(hit=>hit.targetId!==actorId),'boss area damage must retain the canonical five-card target set');
+  assert.equal(battle.rules.battleSuitDamageAuthority,'SERVER_TIMELINE');
+  assert.equal(battle.rules.battleSuitOccupiesCardSlot,false);
+
+  const lowPowerCards=Array.from({length:5},(_,index)=>({
+    id:`LOW-${index+1}`,title:`LOW ${index+1}`,power_type:'ATTACK',power:10000,
+  }));
+  const hardMonster={id:8,name:'결과 반전 검증 보스',battle_power:300000,is_boss:1,pve_hp_percent:300,pve_attack_percent:200,pve_defense_percent:200,pve_speed_percent:100};
+  const withoutSuit=createPveBattleV2({cards:lowPowerCards,monster:hardMonster,seed:17});
+  const withSuit=createPveBattleV2({cards:lowPowerCards,battleSuit:{code:'BATTLE_SUIT_02',pvePower:200000,weapon:{code:'EQ_1785427638137'}},monster:hardMonster,seed:17});
+  assert.equal(withoutSuit.result.winner,'B','the fixture must lose when the Battle Suit is absent');
+  assert.equal(withSuit.result.winner,'A','independent Battle Suit attacks must be able to change the authoritative server result');
+  assert.ok(withSuit.result.damageBreakdown.battleSuit>0);
 });
 
 test('loadout reports render-ready suit/weapon metadata and isolates suit power from PVP',async()=>{

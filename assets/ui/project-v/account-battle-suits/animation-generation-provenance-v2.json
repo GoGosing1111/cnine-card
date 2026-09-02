@@ -970,6 +970,6 @@
     "canonicalAllyCardCount": 5,
     "movement": false,
     "attackPresentation": "SUSTAINED_BURST_VISUAL",
-    "addsIndependentDamage": false
+    "addsIndependentDamage": true
   }
 }

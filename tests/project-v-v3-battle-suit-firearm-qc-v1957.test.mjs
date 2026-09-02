@@ -35,13 +35,15 @@ const expectedProfiles={
   EQ_1786966923833:{file:'ak47-shot-cc0-freesound-163457.mp3',sha:'26BBB8986AEA9958B1C5DA48C8EEC1B205AA153680EF74DCD2B344C5863E5B73',kind:'DMR',soundId:163457}
 };
 
-test('V3 preview mounts the real five-card PVE payload plus one non-damaging front-left account unit',()=>{
+test('V3 preview mounts the real five-card PVE payload plus one independently damaging front-left account unit',()=>{
   assert.match(html,/id="pvBattleSuitQc"/);
   assert.match(html,/id="pvBattleSuitFire"/);
+  assert.match(html,/실제 V3 진형 · 서버 독립 피해 판정/);
+  assert.doesNotMatch(html,/독립 피해 없음/);
   assert.equal((html.match(/data-qc-suit="BATTLE_SUIT_0[123]"/g)||[]).length,3);
   for(const code of Object.keys(expectedProfiles))assert.match(html,new RegExp(`data-qc-weapon="${code}"`));
   assert.match(html,/project-v-firearm-qc-audio\.js\?v=6-sks-dmr-proxy/);
-  assert.match(html,/project-v-client\.js\?v=69-ballistic-impact-v1/);
+  assert.match(html,/project-v-client\.js\?v=70-battle-suit-damage-v1/);
   assert.match(html,/params\.has\('qc'\).*params\.has\('suit23'\).*params\.get\('view'\) !== 'battle'/s,
     'shared QC links must automatically open the visible battle module');
   assert.match(html,/querySelector\('\[data-open-module="battle"\]'\)\?\.click\(\)/,
@@ -55,28 +57,29 @@ test('V3 preview mounts the real five-card PVE payload plus one non-damaging fro
   const styledClasses=new Set([...`${baseCss}\n${cardCss}\n${css}\n${responsiveCss}`.matchAll(/\.([A-Za-z_][\w-]*)/g)].map(match=>match[1]));
   assert.deepEqual([...htmlClasses].filter(name=>!styledClasses.has(name)).sort(),[],
     'every static V3 preview class must have a stylesheet contract');
-  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=90-ballistic-impact-v1/);
+  assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=91-battle-suit-damage-v1/);
   assert.equal((client.match(/\['QC-(?:FAKER|TAEK|PPLI|AYOON|BONG)'/g)||[]).length,5,'preview fixture must remain exactly five canonical cards');
-  assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'\}/);
+  assert.match(client,/v3RenderContext:\{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'\}/);
   assert.match(client,/pveBattlefields=new Set\(\['HUNT','TOWER','RAID'\]\)/);
   assert.match(client,/BATTLE_SUIT_01:\{[^}]*pvePower:100000/);
   assert.match(client,/BATTLE_SUIT_02:\{[^}]*pvePower:200000/);
   assert.match(client,/BATTLE_SUIT_03:\{[^}]*pvePower:300000/);
   assert.match(client,/battleSuitPve:suit\.pvePower/);
   assert.match(client,/canonicalAllyFormationCount/);
-  assert.match(client,/unit\.affectsDamage===false/);
+  assert.match(client,/unit\.affectsDamage===true&&unit\.damageAuthority==='SERVER_BATTLE_V2_TIMELINE'/);
+  assert.match(client,/LIVE DAMAGE/);
   assert.match(css,/\.pv-battle-suit-qc\{/);
   assert.match(css,/@media\(max-width:760px\)[\s\S]*\.pv-battle-suit-qc\{top:112px/);
 });
 
-test('preview-only public shot hook reports the exact authored fire frame and never adds damage',()=>{
+test('preview public shot hook reports the authored fire frame and renders an authoritative damage event',()=>{
   assert.match(entry,/async function playAccountPreviewShot/);
   assert.match(entry,/async function restoreDeployedFormation/);
   assert.match(entry,/engine\.deployCards\(\{force:true,instant:true\}\)/);
   assert.match(entry,/name==='fire'/);
   assert.match(entry,/fireAt=performance\.now\(\)/);
-  assert.match(entry,/engine\.playAccountBattleUnitCosmeticShot\(\)/);
-  assert.doesNotMatch(entry.slice(entry.indexOf('async function playAccountPreviewShot'),entry.indexOf('\nconst api=')),/damage|setHp|syncTargetHp/);
+  assert.match(entry,/engine\.playAccountBattleUnitShot\(target,\{damage:[\s\S]*authoritative:true\}\)/);
+  assert.match(entry.slice(entry.indexOf('async function playAccountPreviewShot'),entry.indexOf('\nconst api=')),/damage|targetHp/);
   assert.match(entry,/playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations/);
   assert.match(entry,/setAccountPreviewFirearmHook/);
   assert.match(entry,/accountPreviewFirearmHook=typeof handler==='function'\?handler:null/);

@@ -68,8 +68,8 @@
       mode,battlefieldMode:battleQcState.battlefield,contentType:battleQcState.battlefield,
       accountNickname:'핑크빛유두',monster,equippedBattleSuit,equippedWeapon,
       characterBonus:{battleSuitPve:suit.pvePower,equippedBattleSuit,equippedWeapon},
-      v3RenderContext:{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_FIREARM_QC_V1'},
-      battleV2:{mode,battlefieldMode:battleQcState.battlefield,teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}}))},B:{cards:[monsterCard]}},result:{timeline:[]}}
+      v3RenderContext:{accountBattleUnitPve:pveAllowed,previewContract:'BATTLE_SUIT_INDEPENDENT_DAMAGE_QC_V1'},
+      battleV2:{mode,battlefieldMode:battleQcState.battlefield,teams:{A:{cards:qcAllies.map(card=>({...card,projectVBattleArt:{...card.projectVBattleArt}})),supports:[{id:`A:SUPPORT:BATTLE_SUIT:${battleQcState.suitCode}`,actorKind:'BATTLE_SUIT',power:suit.pvePower,weaponCode:battleQcState.weaponCode}]},B:{cards:[monsterCard]}},result:{timeline:[],damageBreakdown:{cards:0,battleSuit:0,ultimate:0,total:0}}}
     };
   };
   let battleRendererPromise=null,battleRendererRequested=false,battleMutation=Promise.resolve();
@@ -102,7 +102,8 @@
     const pvePass=pveAllowed?unit.enabled===true:unit.enabled!==true;
     setQcChip('pvQcModeChip',pveAllowed?'PVE ONLY':`${battleQcState.battlefield} 차단`,pvePass?'pass':'fail');
     setQcChip('pvQcDeckChip',`${unit.canonicalAllyFormationCount??diagnostics.formation?.allies??0} CARD`,Number(unit.canonicalAllyFormationCount??diagnostics.formation?.allies)===5?'pass':'fail');
-    setQcChip('pvQcDamageChip',unit.affectsDamage===false?'NO DAMAGE':'DAMAGE 오류',unit.affectsDamage===false?'pass':'fail');
+    const damagePass=unit.affectsDamage===true&&unit.damageAuthority==='SERVER_BATTLE_V2_TIMELINE';
+    setQcChip('pvQcDamageChip',damagePass?'LIVE DAMAGE':'DAMAGE 오류',damagePass?'pass':'fail');
     const output=document.getElementById('pvBattleQcOutput');
     const suit=battleSuitQc.suits[battleQcState.suitCode];
     const weapon=battleSuitQc.weapons[battleQcState.weaponCode];
@@ -158,7 +159,7 @@
     if(active&&!window.ProjectVPixiBattle){
       battleRendererPromise||=new Promise((resolve,reject)=>{
         const script=document.createElement('script');
-        script.src='project-v-pixi-battle.bundle.js?v=90-ballistic-impact-v1';
+        script.src='project-v-pixi-battle.bundle.js?v=91-battle-suit-damage-v1';
         script.onload=resolve;
         script.onerror=()=>reject(new Error('PixiJS 전투 번들을 불러오지 못했습니다.'));
         document.head.appendChild(script);
@@ -276,12 +277,14 @@
       }
       setQcBusy(true);
       const audio=window.ProjectVFirearmQcAudio;
+      const suit=battleSuitQc.suits[battleQcState.suitCode];
       let plan=null,audioError=null,syncResult=null;
       try{
         if(battleQcState.sound)await audio?.unlock?.();
         try{plan=await audio?.armShot?.(battleQcState.weaponCode,{enabled:battleQcState.sound,visualLeadMs:45})}
         catch(error){audioError=error;console.warn('[Project V V3] firearm QC audio scheduling failed',error)}
         const shot=await window.ProjectVPixiBattle?.playAccountPreviewShot?.({
+          damage:suit.pvePower,
           onFire:({at})=>{
             syncResult=plan?.markVisualFire?.(at)||null;
             if(syncResult?.audioScheduled)setQcChip('pvQcSyncChip',`A/V ${syncResult.deltaMs>=0?'+':''}${syncResult.deltaMs.toFixed(1)}ms`,syncResult.syncPass?'pass':'fail');
@@ -305,7 +308,8 @@
         }else{
           const result=syncResult||plan.diagnostics?.();
           setQcChip('pvQcSyncChip',result?.deltaMs===undefined?'A/V 측정 중':`A/V ${result.deltaMs>=0?'+':''}${result.deltaMs.toFixed(1)}ms`,result?.syncPass?'pass':result?.syncPass===false?'fail':'');
-          refreshBattleQc(`${weapon.name} · ${plan.acousticLabel} · 3계층 사격음 ${result?.syncPass?'PASS':'검수 필요'}`);
+          const damageTotal=Number(shot?.diagnostics?.authoritativeDamageTotal||suit.pvePower);
+          refreshBattleQc(`${weapon.name} · 독립 피해 ${damageTotal.toLocaleString('ko-KR')} · 3계층 사격음 ${result?.syncPass?'PASS':'검수 필요'}`);
         }
       }finally{setQcBusy(false)}
     });

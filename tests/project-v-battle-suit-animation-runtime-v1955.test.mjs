@@ -214,7 +214,8 @@ test('PVE authored composite slices row/columns, never shows or tweens a separat
     assert.equal(diagnostics.separateWeaponAttachment,false);
     assert.equal(diagnostics.shotCount,1);
     assert.equal(diagnostics.affectsDeck,false);
-    assert.equal(diagnostics.affectsDamage,false);
+    assert.equal(diagnostics.affectsDamage,true);
+    assert.equal(diagnostics.damageAuthority,'SERVER_BATTLE_V2_TIMELINE');
   }finally{
     destroyHarness(engine);
     if(!sheet.destroyed)sheet.destroy(true);
@@ -562,7 +563,7 @@ test('stopping sustained fire during audio anticipation prevents a late visual s
   assert.equal(engine.accountBattleUnitShotCount,0);
 });
 
-test('preview runSequence sustains account fire across the canonical card actions and stops it before roster restore',async()=>{
+test('preview runSequence replays authoritative battle-suit damage events and restores the canonical roster',async()=>{
   const makeCharacter=id=>({
     id,hp:100,root:{alpha:1,visible:true,renderable:true,position:{set(){}},scale:{set(){}}},
     setState(){},setHp(value){this.hp=value}
@@ -575,14 +576,13 @@ test('preview runSequence sustains account fire across the canonical card action
   }));
   const eventBatches=[];
   const playOptions=[];
-  let starts=0,stops=0,restores=0;
+  let restores=0;
   const engine=Object.create(BattleEngine.prototype);
   Object.assign(engine,{
     visible:true,playing:false,livePayload:true,liveDeployed:true,cards,allies,enemies,characters:[...allies,...enemies],
     uiLayer:{combo:{alpha:0,text:''},comboLabel:{alpha:0}},
-    accountBattleUnitFireRun:null,
     captureLivePreviewRosterState(){return {preserved:true}},
-    cancelTimelines(){this.accountBattleUnitFireRun=null;this.playing=false},
+    cancelTimelines(){this.playing=false},
     setHp(){},updateStatus(){},
     async playEvents(events,options={}){
       eventBatches.push(events.map(event=>event.type));
@@ -596,7 +596,11 @@ test('preview runSequence sustains account fire across the canonical card action
           character.root.alpha=1;
         });
       }else{
-        assert.equal(this.accountBattleUnitFireRun?.active,true,'sustained fire must overlap the card action batch');
+        assert.equal(
+          events.filter(event=>event.actorKind==='BATTLE_SUIT'&&event.damageSource==='BATTLE_SUIT_INDEPENDENT').length,
+          3,
+          'the preview must include three independently damaging battle-suit turns'
+        );
         assert.equal(
           this.allies.filter(character=>character.root.visible&&character.root.renderable&&character.root.alpha===1).length,
           5,
@@ -604,22 +608,9 @@ test('preview runSequence sustains account fire across the canonical card action
         );
       }
     },
-    startAccountBattleUnitSustainedFire(){
-      starts+=1;
-      const run={active:true,promise:Promise.resolve(6)};
-      this.accountBattleUnitFireRun=run;
-      return run;
-    },
-    stopAccountBattleUnitSustainedFire(){
-      stops+=1;
-      if(this.accountBattleUnitFireRun)this.accountBattleUnitFireRun.active=false;
-      this.accountBattleUnitFireRun=null;
-      return Promise.resolve(6);
-    },
     restoreLivePreviewRosterState(snapshot){
       restores+=1;
       assert.deepEqual(snapshot,{preserved:true});
-      assert.equal(this.accountBattleUnitFireRun,null,'fire must stop before formation restoration');
       return true;
     }
   });
@@ -627,11 +618,9 @@ test('preview runSequence sustains account fire across the canonical card action
   await engine.runSequence();
   assert.deepEqual(eventBatches,[
     ['DEPLOY'],
-    ['ATTACK','SKILL','COUNTER','ULTIMATE','ATTACK']
+    ['TURN','ATTACK','TURN','SKILL','COUNTER','TURN','ULTIMATE','ATTACK']
   ]);
   assert.deepEqual(playOptions,[{forceDeploy:true},{}]);
-  assert.equal(starts,1);
-  assert.equal(stops,1);
   assert.equal(restores,1);
   assert.equal(engine.playing,false);
 });
@@ -713,7 +702,8 @@ test('authored load failure behaviorally restores the static body plus approved 
     assert.equal(diagnostics.separateWeaponAttachment,true);
     assert.equal(unit.bodySprite.anchor.y,.98,'static fallback must restore the legacy body pivot');
     assert.equal(diagnostics.affectsDeck,false);
-    assert.equal(diagnostics.affectsDamage,false);
+    assert.equal(diagnostics.affectsDamage,true);
+    assert.equal(diagnostics.damageAuthority,'SERVER_BATTLE_V2_TIMELINE');
     assert.equal(engine.allies.length,5);
     assert.equal(engine.cards.length,5);
     assert.equal(engine.characters.length,10);

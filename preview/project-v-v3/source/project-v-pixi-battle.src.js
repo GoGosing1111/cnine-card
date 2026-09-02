@@ -89,7 +89,7 @@ function setAccountPreviewFirearmHook(handler){
   return Boolean(accountPreviewFirearmHook);
 }
 
-async function playAccountPreviewShot({onAnticipation,onFire}={}){
+async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
   if(!engine)return {played:false,reason:'ENGINE_NOT_MOUNTED'};
   const unit=engine.accountBattleUnit;
   if(!unit||!engine.accountBattleUnitEnabled)return {played:false,reason:'ACCOUNT_UNIT_NOT_AVAILABLE'};
@@ -108,7 +108,9 @@ async function playAccountPreviewShot({onAnticipation,onFire}={}){
   unit.applyAuthoredFrame=wrappedApply;
   try{
     onAnticipation?.({at:performance.now(),readyLeadMs:Number(unit.authoredProfile?.durationsMs?.ready||45)});
-    const played=await engine.playAccountBattleUnitCosmeticShot();
+    const target=engine.accountBattleUnitSustainedTarget?.()||null;
+    const targetHp=target?Math.max(1,Number(target.hp||100)-8):null;
+    const played=await engine.playAccountBattleUnitShot(target,{damage:Math.max(1,Number(damage)||1),targetHp,authoritative:true});
     return {played:Boolean(played),fireAt,diagnostics:engine.diagnostics().accountBattleUnit};
   }finally{
     if(unit.applyAuthoredFrame===wrappedApply)unit.applyAuthoredFrame=originalApply;

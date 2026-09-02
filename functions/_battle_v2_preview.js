@@ -349,14 +349,28 @@ function alive(team) {
   return team.filter(card => card.alive && card.hp > 0);
 }
 
+function isBattleSuitSupport(card) {
+  return card?.isBattleSuit === true || String(card?.actorKind || '').toUpperCase() === 'BATTLE_SUIT';
+}
+
+function targetableAlive(team) {
+  return alive(team).filter(card => card.untargetable !== true && !isBattleSuitSupport(card));
+}
+
+function canonicalTeam(team) {
+  return team.filter(card => !isBattleSuitSupport(card));
+}
+
 function targetPool(team) {
-  const front = team.filter(card => card.alive && card.hp > 0 && card.row === 'FRONT');
-  return front.length ? front : team.filter(card => card.alive && card.hp > 0);
+  const candidates = targetableAlive(team);
+  const front = candidates.filter(card => card.row === 'FRONT');
+  return front.length ? front : candidates;
 }
 
 function teamHpRatio(team) {
-  const current = team.reduce((sum, card) => sum + Math.max(0, card.hp) + Math.max(0, card.shield), 0);
-  const maximum = team.reduce((sum, card) => sum + card.maxHp + card.maxShield, 0);
+  const candidates = canonicalTeam(team);
+  const current = candidates.reduce((sum, card) => sum + Math.max(0, card.hp) + Math.max(0, card.shield), 0);
+  const maximum = candidates.reduce((sum, card) => sum + card.maxHp + card.maxShield, 0);
   return maximum > 0 ? current / maximum : 0;
 }
 
@@ -687,8 +701,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   __healPool = { A: 0, B: 0 };
   __reviveSeal = { A: 0, B: 0 };
   for (const [team, side] of [[a, 'A'], [b, 'B']]) {
+    const members = canonicalTeam(team);
     // 회복 총량 = 생명형 최대HP x healPoolPercent (장수 체감)
-    const healers = team.filter(card => card.type === 'HP');
+    const healers = members.filter(card => card.type === 'HP');
     if (S1.healPoolPercent > 0 && healers.length) {
       let pool = 0;
       healers.forEach((h, i) => {
@@ -699,7 +714,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
     // 공격형은 상대 팀 부활 예산을 미리 깎는다. 불멸자는 이 스택을 소비하면
     // 완전 부활 대신 서버 설정만큼 축소된 `ADVANCEMENT_SEALED` 생존을 시도한다.
-    const attackers = team.filter(card => card.type === 'ATTACK').length;
+    const attackers = members.filter(card => card.type === 'ATTACK').length;
     if (advancementBattleActive && attackers > 0 && S1.attackSealRevive > 0) {
       const foe = side === 'A' ? 'B' : 'A';
       __reviveSeal[foe] = Math.min(9, __reviveSeal[foe] + S1.attackSealRevive * attackers);
@@ -708,22 +723,24 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   // 방어형: 팀 방벽. 무료 부활 대신 소모되는 자원으로 생존력을 준다.
   if (S1.guardShieldPercent > 0) {
     for (const team of [a, b]) {
-      const guards = team.filter(card => card.type === 'DEFENSE');
+      const members = canonicalTeam(team);
+      const guards = members.filter(card => card.type === 'DEFENSE');
       if (!guards.length) continue;
       let pool = 0;
       guards.forEach((g, i) => { pool += g.maxHp * S1.guardShieldPercent * (S1.guardShieldCurve[Math.min(S1.guardShieldCurve.length - 1, i)] || 0); });
-      const share = Math.round(pool * (isPveBattle ? S1.pveShieldScale : 1) / Math.max(1, team.length));
-      for (const card of team) { card.shield += share; card.maxShield += share; }
+      const share = Math.round(pool * (isPveBattle ? S1.pveShieldScale : 1) / Math.max(1, members.length));
+      for (const card of members) { card.shield += share; card.maxShield += share; }
       pushEvent(timeline, clock, 'GUARD_PROTECT', { side: guards[0].side, amount: share, guards: guards.length, label: '수호형 · 방벽 전개' });
     }
   }
   // 편성 다양성 보너스: 계열 종류 수에 따라 팀 전체 강화. 몰빵보다 섞는 쪽이 유리해진다.
   if (Array.isArray(S1.varietyBonus)) {
     for (const team of [a, b]) {
-      const kinds = new Set(team.filter(card => S1_TYPE_KEYS.includes(card.type)).map(card => card.type)).size;
+      const members = canonicalTeam(team);
+      const kinds = new Set(members.filter(card => S1_TYPE_KEYS.includes(card.type)).map(card => card.type)).size;
       const bonus = S1.varietyBonus[Math.min(S1.varietyBonus.length - 1, kinds)] || 0;
       if (bonus <= 0) continue;
-      for (const card of team) {
+      for (const card of members) {
         card.attack = Math.round(card.attack * (1 + bonus));
         const add = Math.round(card.maxHp * bonus);
         card.maxHp += add; card.hp += add;
@@ -737,7 +754,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   const singleHealer = normalizeSingleHealerBonus(singleHealerBonus);
   if (singleHealer.enabled) {
     for (const team of [a, b]) {
-      const healers = team.filter((card) => card.type === 'HP');
+      const members = canonicalTeam(team);
+      const healers = members.filter((card) => card.type === 'HP');
       // V1936: 1장에서만 켜지던 절벽을 장수 비례 곡선으로 바꾼다.
       //   이 절벽이 '생명형은 정확히 1장' 이라는 편성 강제의 핵심이었다.
       const healerScale = healers.length ? (S1.singleHealerCurve[Math.min(S1.singleHealerCurve.length - 1, healers.length - 1)] || 0) : 0;
@@ -749,7 +767,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         ? singleHealer.pveMaxActivations
         : singleHealer.pvpMaxActivations;
       const targets = [];
-      for (const target of team) {
+      for (const target of members) {
         const amount = Math.max(0, Math.round(target.maxHp * singleHealer.teamHpPercent * healerScale / 100));
         target.maxHp += amount;
         target.hp += amount;
@@ -780,15 +798,16 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     }
   }
   const breachDefenseLine=(attackTeam,targetTeam)=>{
-    if(attackTeam.filter(card=>card.type==='ATTACK').length<2)return;
-    const defenseCount=targetTeam.filter(card=>card.type==='DEFENSE').length;
+    const attackers=canonicalTeam(attackTeam),targets=canonicalTeam(targetTeam);
+    if(attackers.filter(card=>card.type==='ATTACK').length<2)return;
+    const defenseCount=targets.filter(card=>card.type==='DEFENSE').length;
     if(defenseCount<1)return;
-    for(const fighter of targetTeam){
+    for(const fighter of targets){
       fighter.defenseLineBreached=true;
       fighter.shield=Math.max(0,Math.round(fighter.shield*0.55));
       fighter.maxShield=Math.max(fighter.shield,Math.round(fighter.maxShield*0.55));
     }
-    pushEvent(timeline,clock,'DEFENSE_LINE_BREACHED',{actorSide:attackTeam[0]?.side||'',targetSide:targetTeam[0]?.side||'',defenseCount,shieldReductionPercent:45,label:'공격형 연계 · 공성 돌파'});
+    pushEvent(timeline,clock,'DEFENSE_LINE_BREACHED',{actorSide:attackers[0]?.side||'',targetSide:targets[0]?.side||'',defenseCount,shieldReductionPercent:45,label:'공격형 연계 · 공성 돌파'});
   };
   breachDefenseLine(a,b);breachDefenseLine(b,a);
 
@@ -830,9 +849,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
   const bossOpeningCap = clamp(bossUltimateCapPercent, 100, 500);
   const bossOpeningPercent = clamp(openingBossUltimatePercent, 0, bossOpeningCap);
-  if (!escortMode && bossOpeningPercent > 0 && alive(a).length && alive(b).length) {
+  if (!escortMode && bossOpeningPercent > 0 && targetableAlive(a).length && targetableAlive(b).length) {
     const hits = [];
-    const damagedTargets = [...alive(a)];
+    const damagedTargets = [...targetableAlive(a)];
     for (const target of damagedTargets) {
       // PVE character equipment/vehicle/title power is distributed into each
       // fighter. A max-HP percentage hit must not grow by the same amount or
@@ -874,7 +893,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
-  while (alive(a).length && alive(b).length && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
+  while (targetableAlive(a).length && targetableAlive(b).length && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
     const actors = [...alive(a), ...alive(b)];
     const dt = Math.min(...actors.map(card => (100 - card.gauge) / Math.max(1, card.speed)));
     if (durationLimit && clock + Math.max(0.001, dt) > durationLimit) { durationStopped = true; break; }
@@ -995,6 +1014,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     if (hit.dodge) {
       pushEvent(timeline, clock, 'TURN', {
         actorId: actor.id,
+        actorKind: actor.actorKind || undefined,
+        damageSource: actor.damageSource || undefined,
         targetId: target.id,
         dodge: true,
         actorGaugeAfter: actor.gauge,
@@ -1015,6 +1036,8 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
     pushEvent(timeline, clock, 'TURN', {
       actorId: actor.id,
+      actorKind: actor.actorKind || undefined,
+      damageSource: actor.damageSource || undefined,
       targetId: target.id,
       damage: damageState.hpDamage,
       absorbed: damageState.absorbed,
@@ -1106,7 +1129,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     // 전직이 없는 방어형은 V1936의 방벽 필요 조건과 RNG 소비 순서를 그대로 둔다.
     // 반격자만 방벽 파괴 순간 및 방벽 소진 뒤의 추가 반격 규칙을 사용한다.
     const hasRiposte=target.uniqueAdvancement?.classCode==='RIPOSTE';
-    const counterTriggered=target.type==='DEFENSE'&&(hasRiposte
+    const counterTriggered=!isBattleSuitSupport(actor)&&target.type==='DEFENSE'&&(hasRiposte
       ?(barrierBroken||!S1.counterNeedsShield||target.shield>0||unshieldedCounterChance>0)
         &&(barrierBroken||random()<(target.shield>0?defenseCounterChance:unshieldedCounterChance))
       :(!S1.counterNeedsShield||target.shield>0)&&(barrierBroken||random()<defenseCounterChance));
@@ -1143,11 +1166,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
   const aRatio = teamHpRatio(a);
   const bRatio = teamHpRatio(b);
-  const winner = alive(a).length && !alive(b).length ? 'A'
-    : alive(b).length && !alive(a).length ? 'B'
+  const winner = targetableAlive(a).length && !targetableAlive(b).length ? 'A'
+    : targetableAlive(b).length && !targetableAlive(a).length ? 'B'
       : aRatio === bRatio ? 'DRAW' : (aRatio > bRatio ? 'A' : 'B');
   const timedOut = durationStopped || (durationLimit > 0 && clock >= durationLimit);
-  const reason = timedOut && alive(a).length && alive(b).length ? 'TIME_LIMIT' : actionCount >= maxActions && alive(a).length && alive(b).length ? 'ACTION_LIMIT' : 'ELIMINATION';
+  const reason = timedOut && targetableAlive(a).length && targetableAlive(b).length ? 'TIME_LIMIT' : actionCount >= maxActions && targetableAlive(a).length && targetableAlive(b).length ? 'ACTION_LIMIT' : 'ELIMINATION';
   pushEvent(timeline, clock + 0.01, 'RESULT', {
     winner,
     reason,
@@ -1181,6 +1204,51 @@ export function teamSummary(cards = []) {
     defense: cards.reduce((sum, card) => sum + Number(card.defense || 0), 0),
     averageSpeed: cards.length ? Math.round(cards.reduce((sum, card) => sum + Number(card.speed || 0), 0) / cards.length) : 0
   };
+}
+
+const BATTLE_SUIT_WEAPON_CADENCE = Object.freeze({
+  EQ_1785427638137: { classCode: 'AR', speedMultiplier: 1.12, attackMultiplier: 0.92 },
+  EQ_1785961232958: { classCode: 'AR', speedMultiplier: 1.04, attackMultiplier: 1.00 },
+  EQ_1785961300455: { classCode: 'SNIPER', speedMultiplier: 0.58, attackMultiplier: 1.58 },
+  EQ_1786966923833: { classCode: 'DMR', speedMultiplier: 0.78, attackMultiplier: 1.28 },
+  DEFAULT: { classCode: 'RIFLE', speedMultiplier: 0.94, attackMultiplier: 1.00 }
+});
+
+export function buildBattleSuitFighter(battleSuit = {}, index = 5) {
+  const power = Math.max(0, Math.round(Number(battleSuit.pvePower ?? battleSuit.power ?? 0)));
+  if (!power) return null;
+  const code = String(battleSuit.code || battleSuit.itemCode || 'BATTLE_SUIT').trim().toUpperCase();
+  const weapon = battleSuit.weapon && typeof battleSuit.weapon === 'object' ? battleSuit.weapon : {};
+  const weaponCode = String(battleSuit.weaponCode || weapon.code || weapon.itemCode || '').trim().toUpperCase();
+  const cadence = BATTLE_SUIT_WEAPON_CADENCE[weaponCode] || BATTLE_SUIT_WEAPON_CADENCE.DEFAULT;
+  const fighter = buildFighter({
+    id: `BATTLE_SUIT:${code}`,
+    title: String(battleSuit.name || '배틀슈트'),
+    name: String(battleSuit.accountNickname || battleSuit.ownerName || '계정 배틀슈트'),
+    rarity: String(battleSuit.rarity || 'BATTLE_SUIT'),
+    image: String(battleSuit.battleSprite || battleSuit.image || ''),
+    power,
+    effectivePower: power,
+    power_type: 'NONE'
+  }, index, 'A', null, 'PVE');
+  fighter.id = `A:SUPPORT:BATTLE_SUIT:${code}`;
+  fighter.cardId = `BATTLE_SUIT:${code}`;
+  fighter.row = 'SUPPORT';
+  fighter.actorKind = 'BATTLE_SUIT';
+  fighter.damageSource = 'BATTLE_SUIT_INDEPENDENT';
+  fighter.isBattleSuit = true;
+  fighter.untargetable = true;
+  fighter.weaponCode = weaponCode;
+  fighter.weaponClass = cadence.classCode;
+  fighter.attack = Math.max(10, Math.round(fighter.attack * cadence.attackMultiplier));
+  fighter.speed = Math.max(35, Math.round(fighter.speed * cadence.speedMultiplier));
+  fighter.maxHp = 1;
+  fighter.hp = 1;
+  fighter.defense = 0;
+  fighter.shield = 0;
+  fighter.maxShield = 0;
+  fighter.gauge = 18;
+  return fighter;
 }
 
 export function buildMonsterFighter(monster = {}) {
@@ -1240,13 +1308,15 @@ function forcePveMonsterSurvivalLoss(result = {}) {
   return { ...result, winner: 'B', reason: 'MONSTER_SURVIVED', originalWinner: result.winner, originalReason: result.reason, timeline };
 }
 
-export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null } = {}) {
+export function createPveBattleV2({ cards = [], magicCards = [], characterBonus = 0, battleSuit = null, monster = {}, seed = 1, ultimateDamage = 0, bossUltimatePercent = 0, bossUltimateCapPercent = 100, singleHealerBonus = {}, escortObjective = null } = {}) {
   const withBonus = distributeEquipment(applyTypeStacking(cards), Math.max(0, Number(characterBonus || 0)));
   const teamA = withBonus.map((card, index) => buildFighter(card, index, 'A', card.uniqueAbility || null, 'PVE'));
+  const battleSuitFighter = battleSuit ? buildBattleSuitFighter(battleSuit, teamA.length) : null;
+  const simulationTeamA = battleSuitFighter ? [...teamA, battleSuitFighter] : teamA;
   const teamB = [buildMonsterFighter(monster)];
   const forcedMonsterEvery = escortObjective ? 4 : (teamB[0]?.forcedActionEvery > 0 ? teamB[0].forcedActionEvery : (teamB[0]?.isBoss ? 8 : 12));
   const simulated = simulateBattleV2Preview({
-    teamA, teamB, magicA:magicCards, seed, maxActions: 2000, maxDuration: 4.0,
+    teamA:simulationTeamA, teamB, magicA:magicCards, seed, maxActions: 2000, maxDuration: 4.0,
     // V1813: 플레이어 15회마다 몬스터 1회를 보장한다. PVP 는 끈 채로 둔다.
     // V1837: 호송작전만 주기를 15 → 4 로 줄인다. 차량이 자주 맞아야
     //   호송이라는 긴장감이 생긴다. 이 값은 "몇 번 때리나" 만 정하고
@@ -1264,15 +1334,48 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     escortObjective
   });
   // PVE는 제한 행동까지 몬스터가 살아 있으면 잔여 HP 비율과 무관하게 실패한다.
-  const result = forcePveMonsterSurvivalLoss(simulated);
+  const battleSuitActorId = battleSuitFighter?.id || '';
+  const appliedDamage = event => Math.max(0, Number(event?.damage || 0)) + Math.max(0, Number(event?.absorbed || 0));
+  const battleSuitEvents = battleSuitActorId
+    ? simulated.timeline.filter(event => String(event?.actorId || '') === battleSuitActorId && event.type === 'TURN')
+    : [];
+  const battleSuitDamage = battleSuitEvents.reduce((sum, event) => sum + appliedDamage(event), 0);
+  const cardDamage = simulated.timeline.reduce((sum, event) => {
+    const actorId = String(event?.actorId || '');
+    return actorId.startsWith('A:') && actorId !== battleSuitActorId ? sum + appliedDamage(event) : sum;
+  }, 0);
+  const ultimateAppliedDamage = simulated.timeline.filter(event => event.type === 'PVE_ULTIMATE').reduce((sum, event) => sum + appliedDamage(event), 0);
+  const canonicalResult = {
+    ...simulated,
+    final: {
+      ...simulated.final,
+      A: (simulated.final?.A || []).filter(card => String(card?.id || '') !== battleSuitActorId)
+    },
+    supports: {
+      A: battleSuitFighter ? [{
+        ...publicFighter(battleSuitFighter),
+        damageDealt: battleSuitDamage,
+        actions: battleSuitEvents.length,
+        authoritative: true
+      }] : [],
+      B: []
+    },
+    damageBreakdown: {
+      cards: cardDamage,
+      battleSuit: battleSuitDamage,
+      ultimate: ultimateAppliedDamage,
+      total: cardDamage + battleSuitDamage + ultimateAppliedDamage
+    }
+  };
+  const result = forcePveMonsterSurvivalLoss(canonicalResult);
   return {
     schemaVersion: 2,
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
-      A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter) },
+      A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [publicFighter(battleSuitFighter)] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }
     },
     result

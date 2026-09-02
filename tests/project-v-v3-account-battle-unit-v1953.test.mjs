@@ -13,15 +13,16 @@ const [engine,unit,ballistic,live,bundle,readme]=await Promise.all([
 ]);
 
 // Canonical deck combatants remain five cards; the account unit is a sibling
-// presentation object, not a sixth card/fighter or an HP-bearing target.
+// render object, not a sixth card or an HP-bearing target. Its server-side
+// support fighter remains separate from this five-character visual array.
 assert.match(engine,/const ISO_FORMATIONS=Object\.freeze\(\{[\s\S]*?allies:\[[\s\S]*?\{gridX:0,gridY:5,baseScale:\.5\}[\s\S]*?enemies:/);
 assert.match(engine,/this\.accountBattleUnit=new AccountBattleUnit\(\{effectLayer:this\.effectLayer\}\);[\s\S]*this\.combatLayer\.addChild\(this\.accountBattleUnit\.root\)/);
 assert.doesNotMatch(engine,/this\.(?:allies|characters|cards)\.push\(this\.accountBattleUnit\)/);
 assert.doesNotMatch(unit,/\bsetHp\b|\bhpFill\b|\bserverMaxHp\b/);
-assert.match(unit,/affectsDeck:false,[\s\S]*affectsDamage:false/);
+assert.match(unit,/affectsDeck:false,[\s\S]*affectsDamage:true,[\s\S]*damageAuthority:'SERVER_BATTLE_V2_TIMELINE'/);
 
 // Battle Suit body and DB weapon stay separate and the root is never moved by
-// attack animation. Only the visual child recoils while the tracer is cosmetic.
+// attack animation. Only the visual child recoils while server damage remains authoritative.
 assert.match(unit,/this\.bodySprite\.label='BattleSuitBody'/);
 assert.match(unit,/this\.weaponSprite\.label='DatabaseWeaponAttachment'/);
 const rangedFire=unit.slice(unit.indexOf('playRangedFire('),unit.indexOf('\n  diagnostics(){'));
@@ -38,10 +39,11 @@ assert.doesNotMatch(ballistic,/\bGraphics\b|roundRect\(|\.circle\(|\.lineTo\(/,
 assert.doesNotMatch(rangedFire,/this\.root\.(?:x|y|position)|damage|setHp|syncTargetHp/);
 assert.match(engine,/triggerAccountBattleUnitBallisticHit/);
 assert.match(engine,/victim\.setState\(CHARACTER_STATE\.HIT\)/);
-assert.match(engine,/onImpact:\(\{profile\}\)=>this\.triggerAccountBattleUnitBallisticHit/);
-assert.match(engine,/type!==\'TURN\'&&type!==\'SKILL\'/);
-assert.match(engine,/await this\.normalAttack\([\s\S]*isAlliedAccountShotEvent\(event,explicitActor\)/);
-assert.match(engine,/await this\.playTacticalSkill\([\s\S]*isAlliedAccountShotEvent\(event,explicitActor\)/);
+assert.match(engine,/isAccountBattleUnitDamageEvent\(event\)/);
+assert.match(engine,/actorId\.includes\(':BATTLE_SUIT:'\)/);
+assert.match(engine,/await this\.playAccountBattleUnitShot\(target,\{[\s\S]*authoritative:!event\.dodge/);
+assert.match(engine,/this\.syncTargetHp\(victim,Number\(targetHp\)\)/);
+assert.match(engine,/this\.accountBattleUnitDamageTotal\+=/);
 
 // Public payload contract: top-level wins, characterBonus/bonuses are fallback
 // only. Nickname is optional and follows the requested priority.
@@ -49,8 +51,8 @@ assert.match(engine,/const ownsTop=Object\.prototype\.hasOwnProperty\.call\(payl
 assert.match(engine,/payload\?\.characterBonus\?\.\[key\][\s\S]*payload\?\.bonuses\?\.\[key\]/);
 assert.match(engine,/payload\?\.accountNickname\|\|payload\?\.user\?\.nickname\|\|payload\?\.profile\?\.nickname\|\|payload\?\.nickname/);
 assert.match(unit,/this\.nameHud\.visible=Boolean\(name\)/);
-assert.match(readme,/PVE 계정 배틀슈트 유닛 계약[\s\S]*equippedBattleSuit[\s\S]*equippedWeapon[\s\S]*기존 5장 진형/);
-assert.match(readme,/characterBonus\.battleSuitPve[\s\S]*시각화할 뿐/);
+assert.match(readme,/PVE 계정 배틀슈트 유닛 계약[\s\S]*equippedBattleSuit[\s\S]*equippedWeapon[\s\S]*5장과 분리된 타깃 불가 지원 액터/);
+assert.match(readme,/서버가 `characterBonus\.battleSuitPve`[\s\S]*독립 피해/);
 
 // Only approved transparent weapon cutouts may override DB card art. Unknown
 // generic image/imageUrl values are deliberately absent from the weapon helper.

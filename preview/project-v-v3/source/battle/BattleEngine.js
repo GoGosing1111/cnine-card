@@ -369,6 +369,8 @@ export class BattleEngine{
     this.accountBattleUnitEnabled=false;
     this.accountBattleUnitEquipment={battleSuit:null,weapon:null};
     this.accountBattleUnitShotCount=0;
+    this.accountBattleUnitDamageEventCount=0;
+    this.accountBattleUnitDamageTotal=0;
     this.accountBattleUnitSustainedShotCount=0;
     this.accountBattleUnitFireRun=null;
     this.accountBattleUnitPreviewFireHook=null;
@@ -1180,15 +1182,13 @@ export class BattleEngine{
     return this.accountBattleUnitEnabled;
   }
 
-  isAlliedAccountShotEvent(event,explicitActor){
+  isAccountBattleUnitDamageEvent(event){
     if(!this.accountBattleUnitEnabled||!this.accountBattleUnit?.active)return false;
     const type=String(event?.type||'').trim().toUpperCase();
-    if(type!=='TURN'&&type!=='SKILL')return false;
-    if(Number(event?.damage||0)<=0)return false;
-    if(explicitActor)return explicitActor.team===TEAM.ALLY;
-    // actorIndex without actorId is the established ally shorthand. If an
-    // unknown authoritative actorId exists, do not guess its team.
-    return !String(event?.actorId||'').trim();
+    if(type!=='TURN'&&type!=='ATTACK')return false;
+    const actorKind=String(event?.actorKind||event?.damageSource||'').trim().toUpperCase();
+    const actorId=String(event?.actorId||'').trim().toUpperCase();
+    return actorKind==='BATTLE_SUIT'||actorKind==='BATTLE_SUIT_INDEPENDENT'||actorId.includes(':BATTLE_SUIT:');
   }
 
   setAccountBattleUnitPreviewFireHook(handler){
@@ -1240,7 +1240,24 @@ export class BattleEngine{
     }
   }
 
-  async playAccountBattleUnitCosmeticShot(target=null,{playbackRate=1}={}){
+  showAccountBattleUnitDamage(victim,{damage=0,critical=false,playbackRate=1}={}){
+    const amount=Math.max(0,Number(damage)||0);
+    if(!victim?.root||!amount)return false;
+    const damageLabel=this.pools.damage.acquire();
+    const victimView=victim.root;
+    configureDamageText(damageLabel,{kind:SKILL_EFFECT_KIND.ATTACK,damage:amount,critical:Boolean(critical),healing:0,hitCount:1,compact:this.mobile});
+    damageLabel.position.set(victimView.x,victimView.y-330);
+    damageLabel.visible=true;
+    this.uiLayer.addChild(damageLabel);
+    void this.timeline(timeline=>{
+      timeline.fromTo(damageLabel,{alpha:0,y:victimView.y-320},{alpha:1,y:victimView.y-366,duration:.16,ease:'back.out(2.2)'},0);
+      timeline.fromTo(damageLabel.scale,{x:.5,y:.5},{x:1.05,y:1.05,duration:.18,ease:'back.out(2.2)'},0);
+      timeline.to(damageLabel,{alpha:0,y:victimView.y-402,duration:.24,ease:'power2.in'},.24);
+    },()=>this.pools.damage.release(damageLabel),Math.max(.5,Number(playbackRate)||1)*PLAYBACK_SPEED);
+    return true;
+  }
+
+  async playAccountBattleUnitShot(target=null,{playbackRate=1,damage=0,critical=false,targetHp=null,authoritative=false}={}){
     const unit=this.accountBattleUnit;
     if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return false;
     // Preserve the just-resolved authoritative target even when that hit set
@@ -1289,7 +1306,16 @@ export class BattleEngine{
         targetX:victim.root.x,
         targetY:victim.root.y-90,
         weaponCode,
-        onImpact:({profile})=>this.triggerAccountBattleUnitBallisticHit(victim,profile,playbackRate),
+        onImpact:({profile})=>{
+          this.triggerAccountBattleUnitBallisticHit(victim,profile,playbackRate);
+          if(authoritative){
+            if(hasFiniteNumber(targetHp))this.syncTargetHp(victim,Number(targetHp));
+            this.showAccountBattleUnitDamage(victim,{damage,critical,playbackRate});
+            this.accountBattleUnitDamageEventCount+=1;
+            this.accountBattleUnitDamageTotal+=Math.max(0,Number(damage)||0);
+            this.updateStatus(`배틀슈트 독립 타격 · ${Math.round(Math.max(0,Number(damage)||0)).toLocaleString()}`);
+          }
+        },
         playbackRate
       });
     }finally{
@@ -1297,6 +1323,10 @@ export class BattleEngine{
     }
     if(played)this.accountBattleUnitShotCount+=1;
     return played;
+  }
+
+  playAccountBattleUnitCosmeticShot(target=null,{playbackRate=1}={}){
+    return this.playAccountBattleUnitShot(target,{playbackRate,authoritative:false});
   }
 
   accountBattleUnitSustainedFireProfile(){
@@ -1469,6 +1499,8 @@ export class BattleEngine{
     this.battleData=payload;
     this.livePayload=Boolean(payload?.battleV2);
     this.liveDeployed=false;
+    this.accountBattleUnitDamageEventCount=0;
+    this.accountBattleUnitDamageTotal=0;
     this.cards.forEach(card=>{
       card.visible=!this.livePayload;
       card.renderable=!this.livePayload;
@@ -2458,6 +2490,17 @@ export class BattleEngine{
         if(this.objectiveSprite)this.objectiveSprite.tint=0xffffff;
       }
       else if(type==='ATTACK'||type==='TURN'){
+        if(this.isAccountBattleUnitDamageEvent(event)){
+          await this.playAccountBattleUnitShot(target,{
+            damage,
+            critical:Boolean(event.critical),
+            targetHp:resolvedTargetHp,
+            authoritative:!event.dodge,
+            playbackRate:this.paceScale||1
+          });
+          if(event.dodge)await this.showBanner('배틀슈트 사격 회피',0x62e9ff,'MISS');
+          continue;
+        }
         if(event.dodge){
           if(type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='AFTERIMAGE'){
             await this.playAdvancementMoment('AFTERIMAGE',{target,label:event.label||'잔영자 · 시공매 초월가속'});
@@ -2467,10 +2510,8 @@ export class BattleEngine{
         }
         const advancementClass=type==='TURN'&&normalizeAdvancementEffectCode(event.advancementClass)==='SHATTER'?'SHATTER':'';
         await this.normalAttack(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
-        if(this.isAlliedAccountShotEvent(event,explicitActor)&&!this.accountBattleUnitFireRun?.active)await this.playAccountBattleUnitCosmeticShot(target);
       }else if(type==='SKILL'){
         await this.playTacticalSkill(Number(event.actorIndex||0),{damage,critical:Boolean(event.critical),label:event.label||event.skillName||'전술 스킬',target,targetHp:resolvedTargetHp,attacker:explicitActor,healing,hitCount});
-        if(this.isAlliedAccountShotEvent(event,explicitActor)&&!this.accountBattleUnitFireRun?.active)await this.playAccountBattleUnitCosmeticShot(target);
       }else if(type==='COUNTER'){
         const advancementClass=normalizeAdvancementEffectCode(event.advancementClass)==='RIPOSTE'?'RIPOSTE':'';
         if(explicitActor)await this.normalAttack(0,{damage,critical:Boolean(event.critical),attacker:explicitActor,target,targetHp:resolvedTargetHp,healing,hitCount,advancementClass});
@@ -2684,22 +2725,21 @@ export class BattleEngine{
     });
     this.uiLayer.combo.alpha=0;
     this.uiLayer.comboLabel.alpha=0;
-    let sustainedFireRun=null;
     try{
       this.uiLayer.combo.alpha=1;this.uiLayer.comboLabel.alpha=1;this.uiLayer.combo.text='1';
       await this.playEvents([{type:'DEPLOY'}],{forceDeploy:true});
-      sustainedFireRun=this.startAccountBattleUnitSustainedFire();
       await this.playEvents([
+        {type:'TURN',actorId:'A:SUPPORT:BATTLE_SUIT:QC',actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_INDEPENDENT',damage:118400,critical:false,bossHp:67},
         {type:'ATTACK',actorIndex:1,damage:238150,critical:false,bossHp:62},
+        {type:'TURN',actorId:'A:SUPPORT:BATTLE_SUIT:QC',actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_INDEPENDENT',damage:126900,critical:true,bossHp:54},
         {type:'SKILL',actorIndex:0,damage:386720,critical:true,bossHp:44,label:'전술 스킬'},
         {type:'COUNTER',actorIndex:3},
+        {type:'TURN',actorId:'A:SUPPORT:BATTLE_SUIT:QC',actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_INDEPENDENT',damage:109700,critical:false,bossHp:34},
         {type:'ULTIMATE',actorIndex:2,damage:964200,targetHp:0},
         {type:'ATTACK',actorIndex:3,damage:194800,critical:false,targetHp:78}
       ]);
       this.updateStatus(`연출 완료 · 사망 대상 제외 후 ${this.currentEnemyTarget?.name||'다음 대상 없음'} 자동 전환 확인`);
     }finally{
-      const sustainedStop=this.stopAccountBattleUnitSustainedFire();
-      if(sustainedFireRun)await sustainedStop;
       this.playing=false;
       if(this.restoreLivePreviewRosterState(previewRosterSnapshot)){
         this.updateStatus('연출 완료 · 아군 5명·적·계정 유닛 진형 복구');
@@ -2843,6 +2883,10 @@ export class BattleEngine{
         metadataFallback:'characterBonus',
         canonicalAllyFormationCount:this.allies.length,
         cosmeticShots:this.accountBattleUnitShotCount,
+        affectsDamage:true,
+        damageAuthority:'SERVER_BATTLE_V2_TIMELINE',
+        authoritativeDamageEvents:this.accountBattleUnitDamageEventCount,
+        authoritativeDamageTotal:this.accountBattleUnitDamageTotal,
         formation:{
           gridX:this.accountBattleUnitFormation().gridX,
           gridY:this.accountBattleUnitFormation().gridY
