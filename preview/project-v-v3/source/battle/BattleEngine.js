@@ -3198,7 +3198,7 @@ export class BattleEngine{
         layer:'EffectLayer',
         mode:'ROLE_ATLAS_V2_PLUS_SERVER_ADVANCEMENT_V1',
         kinds:['ATTACK','DEFENSE','SPEED','HP'],
-        blendModes:['screen'],
+        blendModes:['screen','normal'],
         roleFx:SkillEffectFX.diagnostics(),
         advancementFx:AdvancementEffectFX.diagnostics(),
         apocalypseBossUltimateFx:ApocalypseBossUltimateFX.diagnostics(),

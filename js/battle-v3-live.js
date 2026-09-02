@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.28.0-apocalypse-combat-hud';
+  const VERSION = '3.29.0-apocalypse-boss-skill-fx';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -1008,13 +1008,23 @@
                 );
               }
             } else if (type === 'BOSS_ULTIMATE') {
+              const apocalypseBossUltimate = Boolean(
+                payload?.bossUltimate?.apocalypseExclusive ||
+                payload?.bossUltimateState?.apocalypseExclusive ||
+                payload?.difficulty?.isApocalypse ||
+                payload?.monster?.apocalypse ||
+                String(payload?.difficulty?.difficulty || payload?.monster?.difficulty || '').toUpperCase() === 'APOCALYPSE'
+              );
               const monsterCard = payload?.battleV2?.teams?.B?.cards?.find?.(card => /^MONSTER:/i.test(String(card?.cardId || '')) || ['MONSTER', 'BOSS'].includes(String(card?.grade || '').toUpperCase()));
               event = {
                 ...event,
                 actorId: event.actorId || monsterCard?.id || monsterCard?.cardId || payload?.monster?.cardId || '',
                 label: payload?.bossUltimate?.name || event.label || '보스 궁극기'
               };
-              if (!bossUltimateShown && playUltimateCinematics && payload?.bossUltimate && typeof root.playBossBattleUltimate === 'function') {
+              // Apocalypse owns an authored Pixi EffectLayer sequence. Keep its
+              // skill-name banner, but never stack the legacy full-screen media
+              // cinematic over the live battlefield.
+              if (!apocalypseBossUltimate && !bossUltimateShown && playUltimateCinematics && payload?.bossUltimate && typeof root.playBossBattleUltimate === 'function') {
                 bossUltimateShown = true;
                 const ultimate = acceleratedUltimate(payload.bossUltimate, 2400);
                 await withTimeout(

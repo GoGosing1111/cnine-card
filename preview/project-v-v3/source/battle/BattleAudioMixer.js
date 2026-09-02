@@ -8,7 +8,7 @@ const APOCALYPSE_BOSS_ULTIMATE_AUDIO=Object.freeze({
   asset:'/assets/sfx/v3-apocalypse-boss-ultimate-v1/boss-ultimate-combat-v2.mp3?v=1-apocalypse-runtime',
   bytes:86828,
   syncPointMs:353,
-  gain:.78
+  gain:.1
 });
 
 /**

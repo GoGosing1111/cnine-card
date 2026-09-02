@@ -16,10 +16,10 @@ assert.match(engine,/character\.setHp\(100\)/);
 assert.match(entry,/engine\.resetSession\(payload,target\)/);
 assert.ok((bundle.match(/resetSession/g)||[]).length>=3,'bundle must contain engine + public resetSession contracts');
 assert.match(live,/ProjectVPixiBattle\.resetSession\(payload, host\)/);
-assert.match(live,/const VERSION = '3\.27\.0-battle-suit-continuous-fire'/);
+assert.match(live,/const VERSION = '3\.29\.0-apocalypse-boss-skill-fx'/);
 assert.match(live,/ProjectVPixiBattle\.cancelActiveAnimations/);
 assert.match(live,/ProjectVPixiBattle\.syncFinalState\(finalState\)/);
-assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=95-apocalypse-combat-hud/);
-assert.match(app,/battle-v3-live\.js\?v=3\.27\.0-battle-suit-continuous-fire/);
+assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=96-apocalypse-boss-skill-fx/);
+assert.match(app,/battle-v3-live\.js\?v=3\.29\.0-apocalypse-boss-skill-fx/);
 
 console.log('Project V V3 session reset contract: OK');

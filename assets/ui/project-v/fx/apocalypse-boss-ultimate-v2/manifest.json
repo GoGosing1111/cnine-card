@@ -1,0 +1,49 @@
+{
+  "version": "v3-apocalypse-boss-ultimate-v2",
+  "binding": "PVE_APOCALYPSE_BOSS_ULTIMATE",
+  "renderer": "PixiJS v8 WebGL AnimatedSprite",
+  "timeline": "GSAP authoritative collision timeline",
+  "presentation": "IN_BATTLE_EFFECT_LAYER_WITH_TEXT_BANNER",
+  "screenOverlay": false,
+  "fullscreenCinematic": false,
+  "proceduralFallback": false,
+  "visualPolicy": {
+    "palette": "black core, blood red, crimson, ember orange, muted violet",
+    "whiteEnergy": false,
+    "graySmoke": false,
+    "lingeringAfterimage": false,
+    "blendMode": "normal",
+    "tail": "rapid dissipation by frames 10-12"
+  },
+  "source": {
+    "file": "boss-ultimate-sheet-v2.png",
+    "sha256": "c2d7b9266e4df3c2882093c52fb5cbc27ba59715a354a69cb0f4b0991f4f5a19",
+    "size": "1536x1024",
+    "alpha": true,
+    "generator": "OpenAI built-in image generation"
+  },
+  "atlas": {
+    "json": "boss-ultimate-impact-atlas-v2.json",
+    "png": "boss-ultimate-impact-atlas-v2.png",
+    "pngSha256": "d763909deba7a6947c80ae49f9dcc3fe30b53cf0e7c2e81fdc346198724210a1",
+    "jsonSha256": "29da667a4b9d6c29b7e7701797fc5585333c14f5877273d3f18cbbbe09c4f7ff",
+    "frameCount": 12,
+    "frameSize": "512x455",
+    "fps": 17,
+    "collisionFrame": 6,
+    "blendMode": "normal"
+  },
+  "audio": {
+    "path": "/assets/sfx/v3-apocalypse-boss-ultimate-v1/boss-ultimate-combat-v2.mp3",
+    "sha256": "2af601f8b81b9f3f5863a69a15b2bd438d62282cd0c3b0338c5824557024ede6",
+    "bytes": 86828,
+    "sampleRate": 48000,
+    "channels": 2,
+    "syncPointMs": 353,
+    "runtimeGain": 0.1,
+    "outputLevelPercent": 10,
+    "sourceType": "layered recorded foley",
+    "license": "Mixkit Free License"
+  },
+  "createdOn": "2026-09-02"
+}

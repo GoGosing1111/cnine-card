@@ -854,14 +854,14 @@ const FEATURE_RESOURCE_MANIFEST={
   battleV2:{
     styles:['css/battle-v2-live.css?v=1972-battle-suit-live','css/battle-v3-live.css?v=1930-mobile-context-recovery'],
     scripts:[
-      'js/battle-v2-live.js?v=1972-battle-suit-live',
+      'js/battle-v2-live.js?v=1976-apocalypse-boss-skill-fx',
       'js/project-v-battle-art-adapter-v1.js?v=3.7.0-orikkung-heeya',
       'js/project-v-tier-battle-art-adapter-v1.js?v=3.5.0-superstar-haaland',
       'js/project-v-monster-battle-art-adapter-v1.js?v=5.3.0-apocalypse-edward-kenshin',
       'js/project-v-unassigned-battle-fallback-v1.js?v=3.1.0-manifest-cache',
       'preview/project-v-v3/project-v-firearm-qc-audio.js?v=7-live-pve-continuous-fire',
-      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=95-apocalypse-combat-hud',
-      'js/battle-v3-live.js?v=3.28.0-apocalypse-combat-hud'
+      'preview/project-v-v3/project-v-pixi-battle.bundle.js?v=96-apocalypse-boss-skill-fx',
+      'js/battle-v3-live.js?v=3.29.0-apocalypse-boss-skill-fx'
     ],
     ready:()=>Boolean(window.ProjectVFirearmAudio)&&Boolean(window.ProjectVBattleV3Live?.ready?.())&&typeof window.prepareBattleV2LiveLoading==='function'&&typeof window.playPveBattleV2Live==='function'&&typeof window.playPvpBattleV2Live==='function'&&typeof window.playSiegeBattleV2Live==='function'
   }

@@ -1,14 +1,14 @@
 import {AnimatedSprite, Assets} from 'pixi.js';
 
-const ASSET_VERSION='1-apocalypse-runtime';
+const ASSET_VERSION='2-low-afterimage';
 const SPEC=Object.freeze({
-  atlasPath:`/assets/ui/project-v/fx/apocalypse-boss-ultimate-v1/boss-ultimate-impact-atlas-v2.json?v=${ASSET_VERSION}`,
+  atlasPath:`/assets/ui/project-v/fx/apocalypse-boss-ultimate-v2/boss-ultimate-impact-atlas-v2.json?v=${ASSET_VERSION}`,
   framePrefix:'boss-ultimate_',
   frameCount:12,
   fps:17,
   collisionFrame:6,
   impactAt:.56,
-  blendMode:'screen',
+  blendMode:'normal',
   scale:1.86,
   alpha:.96,
   hitStopMs:148,
@@ -87,6 +87,7 @@ export class ApocalypseBossUltimateFX{
       collisionFrame:SPEC.collisionFrame,
       impactAtMs:Math.round(SPEC.impactAt*1000),
       hitStopMs:SPEC.hitStopMs,
+      visualPolicy:'LOW_AFTERIMAGE_CRIMSON_CORE',
       proceduralFallback:false,
       screenOverlay:false
     };
