@@ -86,7 +86,7 @@ assert.match(bundle,/role-impact-v2/);
 assert.match(bundle,/v3-role-impact-v2/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000);
 assert.match(app,/project-v-pixi-battle\.bundle\.js\?v=96-apocalypse-boss-skill-fx/);
-assert.match(index,/js\/app\.js\?v=1979-alchemy-reward-pool/);
+assert.match(index,/js\/app\.js\?v=1981-superstar-haihiya-early-access/);
 assert.match(previewIndex,/project-v-client\.js\?v=72-battle-suit-continuous-fire/);
 assert.match(previewClient,/project-v-pixi-battle\.bundle\.js\?v=96-apocalypse-boss-skill-fx/);
 

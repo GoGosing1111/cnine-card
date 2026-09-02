@@ -1,6 +1,6 @@
 const SETTINGS_KEY = "superstar_pack_settings_v1";
 export const SUPERSTAR_PACK_ID = "superstar";
-export const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES = Object.freeze(["조은", "강구열", "진짜디임", "오리꿍", "요닝"]);
+export const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES = Object.freeze(["조은", "강구열", "진짜디임", "오리꿍", "요닝", "하이희야♡"]);
 export const SUPERSTAR_PACK_DEFAULTS = Object.freeze({
   visible: true,
   drawEnabled: false,

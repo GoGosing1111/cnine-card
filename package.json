@@ -19,7 +19,8 @@
     "test:territory-reward": "node --test tests/territory-winner-master-star-v1956.test.mjs",
     "test:alchemy": "node --test tests/alchemy-system-v1973.test.mjs",
     "test:ranked-reward": "node --test tests/ranked-reward-cap-v1980.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && node scripts/verify-production-release.mjs",
+    "test:superstar-pack": "node --test tests/superstar-pack-v1894.test.mjs",
+    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && npm run test:superstar-pack && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {

@@ -1302,7 +1302,7 @@ function packResponsiveImage(pack,{classes='',hero=false}={}){
   return `<picture class="responsive-game-picture"><source type="image/avif" srcset="${base}-160.avif 160w, ${base}-320.avif 320w" sizes="${sizes}"><source type="image/webp" srcset="${base}-160.webp 160w, ${base}-320.webp 320w" sizes="${sizes}"><img src="${packImagePath(pack)}" class="${classes}" alt="${escapeHtml(pack.name)}" loading="${loading}" decoding="async" fetchpriority="${priority}"></picture>`;
 }
 
-const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES=new Set(['조은','강구열','진짜디임','오리꿍','요닝']);
+const SUPERSTAR_PACK_EARLY_ACCESS_NICKNAMES=new Set(['조은','강구열','진짜디임','오리꿍','요닝','하이희야♡']);
 function superstarPackAccess(user=loadUser()){
   const owner=String(user?.role||'').trim().toUpperCase()==='OWNER';
   const nickname=String(user?.nickname||'').normalize('NFC').trim();

@@ -1,4 +1,4 @@
-const SHELL_CACHE='soop-card-shell-v1979-alchemy-reward-pool';
+const SHELL_CACHE='soop-card-shell-v1981-superstar-haihiya-early-access';
 const CONTENT_CACHE='soop-card-content-v3-media-integrity';
 const OFFLINE_URL='/offline.html?v=1744-renewal-only';
 const APP_SHELL_URL='/index.html';
