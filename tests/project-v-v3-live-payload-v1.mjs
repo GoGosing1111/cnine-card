@@ -50,7 +50,7 @@ assert.match(app,/const d=await apiRequest\('pvp\/fight'[\s\S]*const live=window
 assert.match(app,/window\.playBattleUltimate=playBattleUltimate/);
 assert.match(app,/window\.playBossBattleUltimate=playBossBattleUltimate/);
 assert.match(index,/js\/app\.js\?v=1977-apocalypse-energy-isolation/);
-assert.match(serviceWorker,/soop-card-shell-v1977-apocalypse-energy-isolation/);
+assert.match(serviceWorker,/soop-card-shell-v1978-apocalypse-energy-widget/);
 
 const calls=[];
 const phase={textContent:''};

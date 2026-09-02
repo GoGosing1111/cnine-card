@@ -46,6 +46,8 @@ assert.ok(simulation.timeline.filter(event=>event.type==='TURN'&&event.actorId==
 
 const apiSource=readFileSync(new URL('../functions/api/[[path]].js',import.meta.url),'utf8');
 const appSource=readFileSync(new URL('../js/app.js',import.meta.url),'utf8');
+const pveCommandSource=readFileSync(new URL('../js/pve-command-v2-live.js',import.meta.url),'utf8');
+const pveCommandCss=readFileSync(new URL('../css/pve-command-v2.css',import.meta.url),'utf8');
 const dropSource=readFileSync(new URL('../functions/_drop_pool.js',import.meta.url),'utf8');
 const adminSource=readFileSync(new URL('../admin/apocalypse-admin-v1952.js',import.meta.url),'utf8');
 const indexSource=readFileSync(new URL('../index.html',import.meta.url),'utf8');
@@ -78,6 +80,14 @@ assert.match(appSource,/function selectedPveIsApocalypse\(\)\{const selected=sel
 assert.match(appSource,/function normalizeApocalypseEnergyClient\(state\)[^\n]+maxEnergy:APOCALYPSE_ENERGY_MAX/,'cached or stale payloads must never display a Burning-sized Apocalypse cap');
 assert.match(appSource,/label\.textContent=apocalypse\?'아포칼립스 행동력':'⚔ 전투 횟수'/,'the Apocalypse counter must have its own explicit user-facing label');
 assert.match(appSource,/버닝 미적용 · 최대 5회 · 충전 완료/,'the Apocalypse counter must explain that Burning does not change it');
+assert.match(pveCommandSource,/const source = apocalypse \? battleState\.apocalypseEnergy : battleState\.energy/,'the live PVE override must select the dedicated Apocalypse pool');
+assert.match(pveCommandSource,/const maximum = apocalypse \? 5 :/,'the live PVE override must clamp Apocalypse to five charges');
+assert.match(pveCommandSource,/const apocalypse = state\.tab === 'APOCALYPSE', huntEnergy = battleEnergySnapshot\(apocalypse\)/,'the active hunt tab must select its matching energy pool');
+assert.match(pveCommandSource,/id="battleEnergyLabel">\$\{esc\(energy\.label\)\}/,'the toolbar must expose a separately updateable Apocalypse label');
+assert.match(pveCommandSource,/<small>\$\{esc\(huntEnergy\.label\)\}<\/small>/,'the hunt readout must render the explicit Apocalypse energy label');
+assert.doesNotMatch(pveCommandSource,/noEnergy = battleState\.energy/,'Apocalypse entry gating must never use standard PVE energy');
+assert.match(pveCommandCss,/\.pvev2-hunt-attempts\.apocalypse-energy/,'the dedicated Apocalypse pool must be visually distinct');
+assert.match(indexSource,/pve-command-v2-live\.js\?v=1978-apocalypse-energy-widget/,'the fixed live PVE override must be cache-busted');
 assert.match(appSource,/CMS에서 아포칼립스 몬스터를 추가하세요/);
 assert.match(dropSource,/PVE_APOCALYPSE_AUTO/);
 assert.match(dropSource,/SAVE_APOCALYPSE_BINDINGS/);
