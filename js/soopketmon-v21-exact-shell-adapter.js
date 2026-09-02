@@ -1,7 +1,7 @@
 (function soopketmonV21ExactShellAdapter(global) {
   'use strict';
 
-  const VERSION = '21.14.0';
+  const VERSION = '21.17.0';
   const WRAPPED = Symbol.for('soopketmon.v21.exactShell.renderShell');
   const script = document.currentScript;
   const enabled = script?.dataset?.enabled !== 'false';
@@ -34,6 +34,7 @@
     pack: '<path d="M6 3h12l3 5-3 13H6L3 8Z"/><path d="M3 8h18M9 3l3 5 3-5"/>',
     book: '<path d="M4 5c3-1 5 0 8 2v14c-3-2-5-3-8-2ZM20 5c-3-1-5 0-8 2v14c3-2 5-3 8-2Z"/>',
     magic: '<path d="M5 19 17 7M14 5l5 5M4 20l3-1-2-2Z"/><path d="M7 6h4M9 4v4M16 15h4M18 13v4"/>',
+    alchemy: '<circle cx="12" cy="13" r="7"/><path d="M9 3h6M10 3v4l-4 6m8-6 4 6M8 14c2-2 6-2 8 0M12 10v7"/>',
     inventory: '<path d="M4 8h16v13H4zM7 8V4h10v4M4 12h16M10 12v3h4v-3"/>',
     gift: '<path d="M3 9h18v12H3zM2 5h20v4H2zM12 5v16"/><path d="M12 5c-4 0-5-4-2-4 2 0 2 2 2 4Zm0 0c4 0 5-4 2-4-2 0-2 2-2 4Z"/>',
     rank: '<path d="M7 4h10v5c0 4-2 7-5 8-3-1-5-4-5-8Z"/><path d="M7 6H3v2c0 3 2 5 5 5M17 6h4v2c0 3-2 5-5 5M9 21h6M12 17v4"/>',
@@ -55,7 +56,7 @@
     pve: Object.freeze({ title: 'PVE 전투', routes: Object.freeze(['battle', 'deck', 'hunt', 'raid', 'escort', 'siege', 'seal', 'idle', 'tower', 'scrapyard']) }),
     pvp: Object.freeze({ title: 'PVP·경쟁', routes: Object.freeze(['pvp', 'rank', 'clan', 'territory']) }),
     equipment: Object.freeze({ title: '장비·칭호·차고', routes: Object.freeze(['character', 'avatar']) }),
-    crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion']) }),
+    crafting: Object.freeze({ title: '제작·합성', routes: Object.freeze(['vehicle', 'fusion', 'alchemy']) }),
     rewards: Object.freeze({ title: '보상', routes: Object.freeze(['attendance', 'dailyquest', 'messages', 'mineral']) }),
     market: Object.freeze({ title: '승부·경매', routes: Object.freeze(['prediction', 'auction']) }),
     administration: Object.freeze({ title: '행정부', routes: Object.freeze(['prison']) })
@@ -94,6 +95,7 @@
     workshop: Object.freeze({ title: '제작·합성', group: 'crafting', icon: 'forge' }),
     vehicle: Object.freeze({ title: '차량 제작', group: 'crafting', icon: 'forge' }),
     fusion: Object.freeze({ title: '장비 합성', group: 'crafting', icon: 'forge' }),
+    alchemy: Object.freeze({ title: '연금술', group: 'crafting', icon: 'alchemy' }),
     attendance: Object.freeze({ title: '접속 보상', group: 'rewards', icon: 'gift', home: Object.freeze({ title: '보상', meta: '출석 · 퀘스트 · 메시지' }) }),
     dailyquest: Object.freeze({ title: '일일 퀘스트', group: 'rewards', icon: 'gift' }),
     messages: Object.freeze({ title: '메시지함', group: 'rewards', icon: 'mail' }),
@@ -344,7 +346,7 @@
     const signatures = [
       ['clan', '#clanRoot, .clan-shell'], ['pvp', '#pvpContent, .pvp-cover'], ['battle', '#pveHuntView, #pveRaidView'],
       ['dex', '#dexSections, .dex-cover'], ['upgrade', '#bulkEnhancementRoot, .bulk-enhancement-root'], ['evolution', '#evolutionRoot, .evolution-system'],
-      ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'], ['avatar', '#avatarShopV1, .avatar-shop-v1-root'],
+      ['magic', '#magicSystemRoot, .magic-lab-hero'], ['character', '#characterSystemRoot, .character-system-root-v1249'], ['avatar', '#avatarShopV1, .avatar-shop-v1-root'], ['alchemy', '#alchemyLiveV1, .alchemy-v1-root'],
       ['scrapyard', '#scrapyardRootV1881, .ws81-scrapyard'], ['workshop', '#workshopRootV1881, .ws81-workshop, #workshopRootV1676, #workshopRootV1668, .workshop-v1668'], ['attendance', '#attendanceClaim, .attendance-board'],
       ['dailyquest', '#dailyQuestRoot, .daily-quest-grid'], ['messages', '#messageList, .message-center'],
       ['rank', '#rankHubRoot, #serverRanking'], ['prediction', '#coinPredictionRoot, .coin-prediction-v1'],
@@ -443,6 +445,7 @@
   function routeButton(route) {
     if(route==='clan'&&!clanFeatureVisible())return '';
     if(route==='avatar'&&global.avatarFeatureVisible?.()!==true)return '';
+    if(route==='alchemy'&&global.alchemyFeatureVisible?.()!==true)return '';
     const item = ROUTES[route]; if (!item) return '';
     return `<button type="button" data-v21-route="${route}"><span>${svg(item[2])}</span><b>${esc(item[0])}</b><small>${esc(item[1])}</small></button>`;
   }

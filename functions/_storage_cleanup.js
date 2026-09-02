@@ -43,6 +43,8 @@ const USER_DELETE_SPECS = [
   ['wago_extension_reward_receipts',['user_id']],['user_runtime_commands',['user_id']],
   ['draw_request_receipts',['user_id']],['draw_request_receipts_v2',['user_id']],
   ['draw_grant_assertions',['user_id']],
+  ['alchemy_runs_v1',['user_id']],['alchemy_user_state_v1',['user_id']],
+  ['alchemy_asset_locks_v1',['user_id']],['alchemy_guards_v1',['user_id']],
   ['territory_war_v3_users',['user_id']],['territory_war_v3_actions',['user_id']],
   ['territory_war_v3_rewards',['user_id']],
   ['pve_escort_runs_v1830',['user_id']],['pve_escort_weekly_v1830',['user_id']],

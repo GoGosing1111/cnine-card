@@ -12,6 +12,7 @@
     'character',
     'avatar',
     'workshop',
+    'alchemy',
     'scrapyard',
     'attendance',
     'dailyquest',
@@ -47,6 +48,7 @@
     character: { shell: 'character' },
     avatar: { shell: 'avatar' },
     workshop: { shell: 'workshop' },
+    alchemy: { shell: 'alchemy' },
     attendance: { shell: 'attendance' },
     dailyquest: { shell: 'dailyquest' },
     messages: { shell: 'messages' },
@@ -161,7 +163,8 @@
     workshop: Object.freeze({
       '폐차장 원정': ROUTE_CONTRACT.scrapyard,
       '차량 제작': ROUTE_CONTRACT.vehicle,
-      '장비 합성': ROUTE_CONTRACT.fusion
+      '장비 합성': ROUTE_CONTRACT.fusion,
+      '연금술': ROUTE_CONTRACT.alchemy
     }),
     attendance: Object.freeze({
       '연속 출석': { shell: 'attendance', scroll: '.attendance-panel' },

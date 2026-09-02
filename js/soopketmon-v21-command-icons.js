@@ -1,7 +1,7 @@
 (function installSoopketmonV21CommandIcons(global) {
   'use strict';
 
-  const VERSION = '1.2.0';
+  const VERSION = '1.3.0';
   const SHELL_SELECTOR = '[data-soopketmon-v21-shell="approved-v21"]';
   const script = document.currentScript;
 
@@ -42,6 +42,7 @@
     scrapyard: '<path d="m8 5 2-3 2 3M10 2v6"/><path d="m18 9 3 2-3 2M21 11h-6"/><path d="m8 19-2 3-2-3M6 22v-6"/><path d="M5 8a7 7 0 0 1 11-2M19 16A7 7 0 0 1 8 18"/>',
     vehicle: '<path d="m4 14 2-5h12l2 5v5H4Z"/><path d="M6 9 8 5h8l2 4M4 14h16"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
     fusion: '<path d="m8 3 4 2v5l-4 2-4-2V5ZM16 12l4 2v5l-4 2-4-2v-5Z"/><path d="m10.5 10.5 3 3M13 7h5v5"/>',
+    alchemy: '<circle cx="12" cy="13" r="7"/><path d="M9 3h6M10 3v4l-4 6m8-6 4 6M8 14c2-2 6-2 8 0M12 10v7"/>',
 
     attendance: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4M17 3v4M3 9h18m-14 5 3 3 6-6"/>',
     dailyquest: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6V6H9zM8 11l1.5 1.5L12 10M8 16l1.5 1.5L12 15M14 11h2M14 16h2"/>',
@@ -55,7 +56,7 @@
   });
 
   const COMBAT_ROUTES = new Set(['battle', 'pvp', 'deck', 'hunt', 'raid', 'siege', 'seal', 'idle', 'tower', 'territory']);
-  const GROWTH_ROUTES = new Set(['character', 'equipment', 'title', 'garage', 'workshop', 'scrapyard', 'vehicle', 'fusion']);
+  const GROWTH_ROUTES = new Set(['character', 'equipment', 'title', 'garage', 'workshop', 'scrapyard', 'vehicle', 'fusion', 'alchemy']);
   const GROUP_ICONS = Object.freeze({ collection: 'collection', combat: 'battle', growth: 'growth' });
   const GROWTH_TAB_LABELS = Object.freeze({ equipment: '장비', title: '칭호', garage: '차고지' });
 

@@ -13,7 +13,12 @@
     NORMAL: '일반', MAGIC: '고급', RARE: '희귀', EPIC: '영웅', LEGENDARY: '전설', MYTHIC: '신화',
     PREMIUM: '프리미엄', HIGH: '고급', SPECIAL: '특수'
   };
-  const RARITY_ORDER = ['C', 'NORMAL', 'U', 'MAGIC', 'R', 'RARE', 'SR', 'EPIC', 'HR', 'LEGENDARY', 'UR', 'MYTHIC', 'SSR', 'MA', 'LIMITED', 'PRESTIGE', 'FUR', 'ZENITH', 'SUPERSTAR', 'PREMIUM', 'HIGH', 'SPECIAL'];
+  const RARITY_ORDER = ['NORMAL', 'MAGIC', 'RARE', 'EPIC', 'LEGENDARY', 'MYTHIC', 'SSR', 'MA', 'LIMITED', 'PRESTIGE', 'FUR', 'ZENITH', 'SUPERSTAR'];
+  const RARITY_BUCKET = {
+    C: 'NORMAL', NORMAL: 'NORMAL', U: 'MAGIC', MAGIC: 'MAGIC', HIGH: 'MAGIC',
+    R: 'RARE', RARE: 'RARE', SR: 'EPIC', EPIC: 'EPIC', SPECIAL: 'EPIC',
+    HR: 'LEGENDARY', LEGENDARY: 'LEGENDARY', PREMIUM: 'LEGENDARY', UR: 'MYTHIC', MYTHIC: 'MYTHIC'
+  };
   const MAX_SLOTS = 5;
 
   const escapeHtml = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[char]));
@@ -22,7 +27,8 @@
   const cleanRarity = (value) => String(value || 'NORMAL').toUpperCase().replace(/[^A-Z0-9_-]/g, '') || 'NORMAL';
   const rarityLabel = (value) => RARITY_LABELS[cleanRarity(value)] || cleanRarity(value);
   const keyOf = (row) => `${row.type}:${row.id}`;
-  const createRequestId = () => globalThis.crypto?.randomUUID?.() || `alchemy-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  const rarityBucket = (value) => RARITY_BUCKET[cleanRarity(value)] || cleanRarity(value);
+  const createRequestId = () => globalThis.crypto?.randomUUID?.() || `alchemy-${Date.now()}-${Math.floor(performance.now() * 1000).toString(36)}`;
 
   function svgIcon(name) {
     const paths = {
@@ -58,6 +64,7 @@
       result: null,
       notice: null,
       noticeTimer: 0,
+      pendingRequestId: '',
       destroyed: false
     };
     const profile = options.profile || (typeof window.loadUser === 'function' ? window.loadUser() : null) || { nickname: '플레이어' };
@@ -66,6 +73,7 @@
       return window.apiRequest(path, init);
     });
     const assetBase = String(options.assetBase || '');
+    const pendingStorageKey = String(options.pendingStorageKey || 'cnine_pending_alchemy_v1');
     const resolveAsset = (path) => {
       const value = String(path || '').replace(/\\/g, '/');
       if (!value || /^(?:https?:|data:|blob:|\/)/i.test(value)) return value;
@@ -78,6 +86,7 @@
     const availableCount = (row) => Math.max(0, Number(row.available ?? row.quantity ?? 0) - selectedCount(row));
     const totalValue = () => state.selected.reduce((sum, entry) => sum + Number(findRow(entry)?.value || 0), 0);
     const selectedRareCount = () => state.selected.filter((entry) => Number(findRow(entry)?.rank || 0) >= 2).length;
+    const pendingLocked = () => Boolean(state.pendingRequestId);
     const requirements = () => ({ minSlots: Number(state.data?.requirements?.minSlots || 3), minRare: Number(state.data?.requirements?.minRare || 2) });
     const canStart = () => {
       const rule = requirements();
@@ -88,13 +97,24 @@
       const tiers = Array.isArray(state.data?.tiers) ? state.data.tiers : [];
       return [...tiers].sort((a, b) => Number(a.minValue || 0) - Number(b.minValue || 0)).filter((tier) => value >= Number(tier.minValue || 0)).pop() || tiers[0] || { name: '미분석', code: 'DORMANT', color: '#667788' };
     };
+    const matchingRewards = () => {
+      const tier = currentTier(), selectedKeys = new Set(state.selected.map(keyOf));
+      let pool = (state.data?.rewardPool || []).filter((row) => row.active !== false && row.valid !== false && row.tierCode === tier.code && (row.mode === 'ANY' || row.mode === state.mode) && !selectedKeys.has(keyOf(row)) && Number(row.weight) > 0);
+      if (state.mode === 'PRECISION' && state.selected.length) {
+        const matched = pool.filter((row) => row.type === state.selected[0].type);
+        if (matched.length) pool = matched;
+      }
+      return pool;
+    };
     const forecast = () => {
-      const value = totalValue();
-      if (!value) return [{ label: '재료 대기', percent: 100, color: '#516878' }];
-      if (value < 100) return [{ label: '고급', percent: 62, color: '#5edb90' }, { label: '희귀', percent: 30, color: '#54c9ff' }, { label: '영웅', percent: 8, color: '#b37aff' }];
-      if (value < 220) return [{ label: '희귀', percent: 48, color: '#54c9ff' }, { label: '영웅', percent: 39, color: '#b37aff' }, { label: '전설', percent: 13, color: '#f2c96d' }];
-      if (value < 380) return [{ label: '영웅', percent: 46, color: '#b37aff' }, { label: '전설', percent: 40, color: '#f2c96d' }, { label: '신화', percent: 14, color: '#ff6e8f' }];
-      return [{ label: '전설', percent: 50, color: '#f2c96d' }, { label: '신화', percent: 38, color: '#ff6e8f' }, { label: '초월', percent: 12, color: '#80f2ff' }];
+      if (!totalValue()) return [{ label: '재료 대기', percent: 100, color: '#516878' }];
+      const pool = matchingRewards();
+      const total = pool.reduce((sum, row) => sum + Number(row.weight || 0), 0), groups = new Map();
+      for (const row of pool) {
+        const rarity = cleanRarity(row.rarity), key = rarityBucket(rarity), current = groups.get(key) || { label: rarityLabel(rarity), percent: 0, color: row.color || '#62ded1' };
+        current.percent += total ? Number(row.weight || 0) / total * 100 : 0; groups.set(key, current);
+      }
+      return [...groups.values()].sort((a, b) => b.percent - a.percent).length ? [...groups.values()].sort((a, b) => b.percent - a.percent) : [{ label: '보상 풀 없음', percent: 0, color: '#a95f5f' }];
     };
 
     function cardVisual(row, compact = false) {
@@ -116,14 +136,14 @@
     function filteredRows() {
       const needle = state.search.trim().toLowerCase();
       return rows().filter((row) => row.type === state.tab)
-        .filter((row) => state.rarity === 'ALL' || cleanRarity(row.rarity) === state.rarity)
+        .filter((row) => state.rarity === 'ALL' || rarityBucket(row.rarity) === state.rarity)
         .filter((row) => !needle || `${row.name} ${row.member || ''} ${rarityLabel(row.rarity)}`.toLowerCase().includes(needle))
         .sort((a, b) => Number(b.rank || 0) - Number(a.rank || 0) || Number(b.value || 0) - Number(a.value || 0));
     }
 
     function renderInventoryCard(row) {
       const remaining = availableCount(row);
-      const disabled = remaining < 1 || state.busy;
+      const disabled = remaining < 1 || state.busy || pendingLocked();
       return `<button type="button" class="alch-inventory-card rarity-${cleanRarity(row.rarity).toLowerCase()}${disabled ? ' is-disabled' : ''}" data-alchemy-add="${escapeHtml(keyOf(row))}" ${disabled ? 'disabled' : ''}>
         <span class="alch-inventory-visual">${itemVisual(row, true)}</span>
         <span class="alch-inventory-copy"><small>${escapeHtml(TYPE_LABELS[row.type])} · ${escapeHtml(rarityLabel(row.rarity))}</small><strong>${escapeHtml(row.name)}</strong><em>연금 가치 ${formatNumber(row.value)}</em></span>
@@ -135,7 +155,7 @@
       return Array.from({ length: MAX_SLOTS }, (_, index) => {
         const entry = state.selected[index];
         const row = entry ? findRow(entry) : null;
-        return `<button type="button" class="alch-material-slot alch-slot-${index}${row ? ' is-filled' : ''}" data-alchemy-remove="${index}" ${state.busy || !row ? 'disabled' : ''} aria-label="${row ? `${escapeHtml(row.name)} 제거` : `재료 슬롯 ${index + 1}`}" style="--slot-tone:${escapeHtml(row?.color || '#6feaff')}">
+        return `<button type="button" class="alch-material-slot alch-slot-${index}${row ? ' is-filled' : ''}" data-alchemy-remove="${index}" ${state.busy || pendingLocked() || !row ? 'disabled' : ''} aria-label="${row ? `${escapeHtml(row.name)} 제거` : `재료 슬롯 ${index + 1}`}" style="--slot-tone:${escapeHtml(row?.color || '#6feaff')}">
           <span class="alch-slot-index">0${index + 1}</span><span class="alch-slot-frame">${itemVisual(row, true)}</span>
           <span class="alch-slot-meta">${row ? `<b>${escapeHtml(row.name)}</b><em>+${formatNumber(row.value)}</em>` : '<b>재료 대기</b><em>선택하여 등록</em>'}</span>
         </button>`;
@@ -143,7 +163,8 @@
     }
 
     function renderReels() {
-      const pool = Array.isArray(state.data?.rewardPool) ? state.data.rewardPool : [];
+      const candidates = matchingRewards();
+      const pool = candidates.length ? candidates : (Array.isArray(state.data?.rewardPool) ? state.data.rewardPool : []);
       const winner = state.pendingReward || pool[0] || null;
       const makeTrack = (offset) => {
         const sequence = Array.from({ length: 9 }, (_, index) => index === 7 && winner ? winner : pool[(index + offset) % Math.max(1, pool.length)] || winner).filter(Boolean);
@@ -189,14 +210,14 @@
         <header class="alch-command-header">
           <div class="alch-brand"><span>${svgIcon('alchemy')}</span><div><small>SOOPKETMON / FORBIDDEN LAB</small><strong>연금 공방</strong></div></div>
           <div class="alch-mode-switch" role="tablist"><button type="button" class="${state.mode === 'CHAOS' ? 'active' : ''}" data-alchemy-mode="CHAOS"><small>01</small><b>혼돈 연성</b><em>혼합 재료</em></button><button type="button" class="${state.mode === 'PRECISION' ? 'active' : ''}" data-alchemy-mode="PRECISION"><small>02</small><b>정밀 연성</b><em>동일 계열</em></button></div>
-          <div class="alch-account"><span><small>연금 기록</small><b>${formatNumber(state.data.totalRuns || 0)}회</b></span><span><small>사용자</small><b>${escapeHtml(profile.nickname || '플레이어')}</b></span></div>
+          <div class="alch-account"><span><small>${state.data.access?.ownerTest ? 'OWNER TEST' : '연금 기록'}</small><b>${formatNumber(state.data.totalRuns || 0)}회</b></span><span><small>사용자</small><b>${escapeHtml(state.data.profile?.nickname || profile.nickname || '플레이어')}</b></span></div>
         </header>
 
         <div class="alch-workspace">
           <aside class="alch-vault-panel">
             <div class="alch-panel-title"><div><small>MATERIAL VAULT</small><h2>연금 재료</h2></div><span>${formatNumber(rows().filter((row) => row.type === state.tab && Number(row.available || 0) > 0).length)}종</span></div>
             <nav class="alch-type-tabs">${TYPE_TABS.map((type) => `<button type="button" class="${state.tab === type ? 'active' : ''}" data-alchemy-tab="${type}">${svgIcon(type === 'CARD' ? 'card' : type === 'EQUIPMENT' ? 'equipment' : 'item')}<b>${TYPE_LABELS[type]}</b></button>`).join('')}</nav>
-            <div class="alch-vault-tools"><label>${svgIcon('search')}<input type="search" placeholder="재료 이름 검색" value="${escapeHtml(state.search)}" data-alchemy-search></label><select data-alchemy-rarity aria-label="등급 필터"><option value="ALL">전체 등급</option>${RARITY_ORDER.filter((rarity, index, all) => all.indexOf(rarity) === index).map((rarity) => `<option value="${rarity}" ${state.rarity === rarity ? 'selected' : ''}>${escapeHtml(rarityLabel(rarity))}</option>`).join('')}</select></div>
+            <div class="alch-vault-tools"><label>${svgIcon('search')}<input type="search" placeholder="재료 이름 검색" value="${escapeHtml(state.search)}" data-alchemy-search></label><select data-alchemy-rarity aria-label="등급 필터"><option value="ALL">전체 등급</option>${RARITY_ORDER.filter((rarity) => rows().some((row) => row.type === state.tab && rarityBucket(row.rarity) === rarity)).map((rarity) => `<option value="${rarity}" ${state.rarity === rarity ? 'selected' : ''}>${escapeHtml(rarityLabel(rarity))}</option>`).join('')}</select></div>
             <div class="alch-inventory-scroll">${list.length ? list.map(renderInventoryCard).join('') : '<div class="alch-empty-list"><span>NO MATERIAL</span><b>사용 가능한 재료가 없습니다.</b><small>장착·잠금·마지막 1장은 자동 제외됩니다.</small></div>'}</div>
             <div class="alch-vault-rule">${svgIcon('shield')}<span><b>자동 보호 적용</b><small>장착·잠금·유일 카드 제외</small></span></div>
           </aside>
@@ -204,19 +225,19 @@
           <main class="alch-reactor-stage">
             <div class="alch-chamber-backdrop"></div><div class="alch-grid-floor"></div>
             <div class="alch-stage-heading"><small>ARCANE REACTOR / ${escapeHtml(state.mode)}</small><h1>${state.mode === 'CHAOS' ? '혼돈의 연금' : '정밀 연금'}</h1><p>${state.mode === 'CHAOS' ? '중복 자산을 새로운 가능성으로 재구성합니다.' : '동일 계열의 파장을 고정해 결과 범위를 좁힙니다.'}</p></div>
-            <div class="alch-core-system"><div class="alch-core-rings"><i></i><i></i><i></i></div><div class="alch-core"><span></span><b>${formatNumber(totalValue())}</b><small>ALCHEMY VALUE</small></div>${renderMaterialSlots()}</div>
+            <div class="alch-core-system"><div class="alch-core-rings"><i></i><i></i><i></i></div><div class="alch-core"><img src="${escapeHtml(resolveAsset('assets/ui/alchemy-v1/alchemy-truth-orb-v2.webp'))}" alt="진실의 구슬 연금 코어"><span></span><b>${formatNumber(totalValue())}</b><small>ALCHEMY VALUE</small></div>${renderMaterialSlots()}</div>
             <div class="alch-stage-console">
-              <div class="alch-condition-list"><span class="${slotsReady ? 'ready' : ''}">${slotsReady ? svgIcon('check') : svgIcon('plus')}<b>재료 ${state.selected.length} / ${rule.minSlots}+</b></span><span class="${rareReady ? 'ready' : ''}">${rareReady ? svgIcon('check') : svgIcon('plus')}<b>희귀 이상 ${selectedRareCount()} / ${rule.minRare}</b></span><button type="button" data-alchemy-clear ${state.selected.length && !state.busy ? '' : 'disabled'}>${svgIcon('clear')} 초기화</button></div>
-              <button type="button" class="alch-start-button" data-alchemy-run ${canStart() ? '' : 'disabled'}><span><small>TRANSMUTE / ${escapeHtml(tier.name || '미분석')}</small><b>${state.busy ? '연성 진행 중' : '연금 시작'}</b></span>${svgIcon('chevron')}</button>
+              <div class="alch-condition-list"><span class="${slotsReady ? 'ready' : ''}">${slotsReady ? svgIcon('check') : svgIcon('plus')}<b>재료 ${state.selected.length} / ${rule.minSlots}+</b></span><span class="${rareReady ? 'ready' : ''}">${rareReady ? svgIcon('check') : svgIcon('plus')}<b>희귀 이상 ${selectedRareCount()} / ${rule.minRare}</b></span><button type="button" data-alchemy-clear ${state.selected.length && !state.busy && !pendingLocked() ? '' : 'disabled'}>${svgIcon('clear')} 초기화</button></div>
+              <button type="button" class="alch-start-button" data-alchemy-run ${canStart() ? '' : 'disabled'}><span><small>${pendingLocked() ? 'IDEMPOTENT RECEIPT / RETRY' : `TRANSMUTE / ${escapeHtml(tier.name || '미분석')}`}</small><b>${state.busy ? '연성 진행 중' : pendingLocked() ? '이전 요청 결과 확인' : '연금 시작'}</b></span>${svgIcon('chevron')}</button>
             </div>
             ${state.busy ? renderReels() : ''}
           </main>
 
           <aside class="alch-forecast-panel">
             <div class="alch-panel-title"><div><small>RESULT FORECAST</small><h2>연성 분석</h2></div><span class="alch-live-dot">LIVE</span></div>
-            <section class="alch-tier-core"><small>CURRENT RESONANCE</small><div><i></i><span><b>${escapeHtml(tier.name || '미분석')}</b><em>${formatNumber(totalValue())} VALUE</em></span></div><p>재료 가치가 높을수록 상위 결과 파장이 강해집니다.</p></section>
+            <section class="alch-tier-core"><small>CURRENT RESONANCE</small><div><i></i><span><b>${escapeHtml(tier.name || '미분석')}</b><em>${formatNumber(totalValue())} VALUE</em></span></div><p>CMS 보상 가중치를 현재 조합에 정규화해 실제 확률을 표시합니다.</p></section>
             <section class="alch-odds"><header><b>예상 결과 등급</b><small>현재 조합 기준</small></header>${forecast().map((entry) => `<div><span><i style="--odds-color:${escapeHtml(entry.color)}"></i>${escapeHtml(entry.label)}</span><b>${Number(entry.percent).toFixed(0)}%</b><em><i style="width:${Number(entry.percent)}%;--odds-color:${escapeHtml(entry.color)}"></i></em></div>`).join('')}</section>
-            <section class="alch-output-pool"><header><b>대표 결과물</b><small>중앙 당첨선 후보</small></header><div>${(state.data.rewardPool || []).slice(0, 4).map((row) => `<article>${itemVisual(row, true)}<span><small>${escapeHtml(rarityLabel(row.rarity))}</small><b>${escapeHtml(row.name)}</b></span></article>`).join('')}</div></section>
+            <section class="alch-output-pool"><header><b>대표 결과물</b><small>현재 연성식 후보</small></header><div>${(matchingRewards().length ? matchingRewards() : (state.data.rewardPool || [])).slice(0, 4).map((row) => `<article>${itemVisual(row, true)}<span><small>${escapeHtml(rarityLabel(row.rarity))}</small><b>${escapeHtml(row.name)}</b></span></article>`).join('')}</div></section>
             <div class="alch-guarantee"><span>${svgIcon('history')}</span><div><small>STABILITY GUARANTEE</small><b>안정도 ${formatNumber(state.data.stability || 0)} / ${formatNumber(state.data.stabilityMax || 10)}</b><em><i style="width:${Math.min(100, Number(state.data.stability || 0) / Math.max(1, Number(state.data.stabilityMax || 10)) * 100)}%"></i></em><p>최대 도달 시 상위 등급 결과를 보장합니다.</p></div></div>
           </aside>
         </div>
@@ -233,7 +254,9 @@
 
     function addMaterial(row) {
       if (state.busy || !row) return;
+      if (pendingLocked()) return showNotice('처리 결과가 불확실한 이전 요청을 먼저 확인해주세요.', true);
       if (state.selected.length >= MAX_SLOTS) return showNotice('재료 슬롯은 최대 5개입니다.', true);
+      if (state.mode === 'PRECISION' && state.selected.length && state.selected[0].type !== row.type) return showNotice('정밀 연성은 같은 종류의 재료만 등록할 수 있습니다.', true);
       if (availableCount(row) < 1) return showNotice('사용 가능한 중복 수량이 없습니다.', true);
       state.selected.push({ type: row.type, id: row.id });
       render();
@@ -242,6 +265,12 @@
     async function runAlchemy() {
       if (!canStart()) return showNotice('재료 조건을 먼저 충족해주세요.', true);
       const snapshot = state.selected.map((entry) => ({ type: entry.type, id: entry.id }));
+      const highGrade = snapshot.map(findRow).filter((row) => row?.type === 'CARD' && row.confirmRequired);
+      if (highGrade.length && !window.confirm(`${highGrade.map((row) => `${row.name} (${rarityLabel(row.rarity)})`).join(', ')}\n\n고등급 중복 카드가 영구 소모됩니다. 마지막 1장은 서버가 보호합니다. 계속하시겠습니까?`)) return;
+      if (!state.pendingRequestId) {
+        state.pendingRequestId = createRequestId();
+        try { sessionStorage.setItem(pendingStorageKey, JSON.stringify({ requestId: state.pendingRequestId, createdAt: Date.now(), mode: state.mode, inputs: snapshot })); } catch (_) {}
+      }
       state.busy = true;
       state.phase = 'CONNECTING';
       state.pendingReward = null;
@@ -250,7 +279,7 @@
       try {
         const response = await request('alchemy/transmute', {
           method: 'POST',
-          body: JSON.stringify({ requestId: createRequestId(), mode: state.mode, inputs: snapshot })
+          body: JSON.stringify({ requestId: state.pendingRequestId, mode: state.mode, inputs: snapshot, confirmedHighGrade: highGrade.length > 0 })
         });
         if (!response?.reward) throw new Error('연금 결과를 확인할 수 없습니다.');
         state.pendingReward = response.reward;
@@ -259,12 +288,13 @@
         const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
         await delay(reducedMotion ? 450 : 2700);
         if (state.destroyed) return;
-        for (const entry of snapshot) {
-          const row = findRow(entry);
-          if (row) row.available = Math.max(0, Number(row.available || 0) - 1);
+        if (response.state) state.data = response.state;
+        else {
+          for (const entry of snapshot) { const row = findRow(entry); if (row) row.available = Math.max(0, Number(row.available || 0) - 1); }
+          state.data.totalRuns = Number(state.data.totalRuns || 0) + 1;
+          state.data.stability = Number(response.stability ?? Math.min(Number(state.data.stabilityMax || 10), Number(state.data.stability || 0) + 1));
         }
-        state.data.totalRuns = Number(state.data.totalRuns || 0) + 1;
-        state.data.stability = Number(response.stability ?? Math.min(Number(state.data.stabilityMax || 10), Number(state.data.stability || 0) + 1));
+        state.pendingRequestId = ''; try { sessionStorage.removeItem(pendingStorageKey); } catch (_) {}
         state.selected = [];
         state.busy = false;
         state.phase = '';
@@ -274,20 +304,21 @@
         state.busy = false;
         state.phase = '';
         state.pendingReward = null;
+        if (Number(error?.status) >= 400 && Number(error?.status) < 500 && error?.code !== 'ALCHEMY_PENDING') { state.pendingRequestId = ''; try { sessionStorage.removeItem(pendingStorageKey); } catch (_) {} }
         showNotice(error?.message || '연금술 처리에 실패했습니다.', true);
       }
     }
 
     root.addEventListener('click', (event) => {
       const mode = event.target.closest('[data-alchemy-mode]');
-      if (mode && !state.busy) { state.mode = mode.dataset.alchemyMode; render(); return; }
+      if (mode && !state.busy) { if (pendingLocked()) { showNotice('이전 요청 확인 전에는 연성 방식을 바꿀 수 없습니다.', true); return; } if (mode.dataset.alchemyMode === 'PRECISION' && new Set(state.selected.map((entry) => entry.type)).size > 1) { showNotice('정밀 연성 전환 전 재료 종류를 하나로 맞춰주세요.', true); return; } state.mode = mode.dataset.alchemyMode; render(); return; }
       const tab = event.target.closest('[data-alchemy-tab]');
       if (tab && !state.busy) { state.tab = tab.dataset.alchemyTab; state.rarity = 'ALL'; state.search = ''; render(); return; }
       const add = event.target.closest('[data-alchemy-add]');
       if (add) { const [type, ...id] = add.dataset.alchemyAdd.split(':'); addMaterial(rows().find((row) => row.type === type && String(row.id) === id.join(':'))); return; }
       const remove = event.target.closest('[data-alchemy-remove]');
-      if (remove && !state.busy) { state.selected.splice(Number(remove.dataset.alchemyRemove), 1); render(); return; }
-      if (event.target.closest('[data-alchemy-clear]') && !state.busy) { state.selected = []; render(); return; }
+      if (remove && !state.busy) { if (pendingLocked()) { showNotice('이전 요청 확인 전에는 재료를 변경할 수 없습니다.', true); return; } state.selected.splice(Number(remove.dataset.alchemyRemove), 1); render(); return; }
+      if (event.target.closest('[data-alchemy-clear]') && !state.busy) { if (pendingLocked()) { showNotice('이전 요청 확인 전에는 재료를 변경할 수 없습니다.', true); return; } state.selected = []; render(); return; }
       if (event.target.closest('[data-alchemy-run]')) { void runAlchemy(); return; }
       if (event.target.closest('[data-alchemy-result-close]')) { state.result = null; render(); }
     });
@@ -314,7 +345,9 @@
         const data = options.data || await request('alchemy/state');
         if (state.destroyed) return;
         state.data = data;
-        const defaults = Array.isArray(data?.defaultSelection) ? data.defaultSelection : [];
+        let pendingInputs = null;
+        try { const pending = JSON.parse(sessionStorage.getItem(pendingStorageKey) || '{}'); if (pending.requestId && Date.now() - Number(pending.createdAt || 0) < 86400000) { state.pendingRequestId = pending.requestId; pendingInputs = Array.isArray(pending.inputs) ? pending.inputs : null; if (['CHAOS', 'PRECISION'].includes(pending.mode)) state.mode = pending.mode; } else sessionStorage.removeItem(pendingStorageKey); } catch (_) {}
+        const defaults = pendingInputs || (Array.isArray(data?.defaultSelection) ? data.defaultSelection : []);
         state.selected = defaults.slice(0, MAX_SLOTS).filter((entry) => rows().some((row) => row.type === entry.type && String(row.id) === String(entry.id)));
         render();
       } catch (error) {

@@ -599,3 +599,9 @@ removeRetiredCubeAdminUi();
 
 // V1485: dedicated Black Miracle Pack CMS is kept in its own maintainable module.
 {const script=document.createElement('script');script.src='black-miracle-pack-admin-v1485.js?v=1926-black-miracle-power-rates';document.head.append(script)}
+
+// V1973: keep the alchemy CMS independent from the large static admin HTML.
+{
+  const style=document.createElement('link');style.rel='stylesheet';style.href='alchemy-admin-v1.css?v=1-live-cms';document.head.append(style);
+  const script=document.createElement('script');script.src='alchemy-admin-v1.js?v=1-live-cms';document.head.append(script);
+}
