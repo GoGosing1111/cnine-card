@@ -23,11 +23,11 @@ const WEAPONS=Object.freeze({
 
 const SHEET_URL_OVERRIDES=Object.freeze({
   'BATTLE_SUIT_01:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-m4a1-m200-horizontal-fire-atlas-v3.png',
-  'BATTLE_SUIT_01:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v3.png',
+  'BATTLE_SUIT_01:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v5.png',
   'BATTLE_SUIT_02:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-m4a1-m200-horizontal-fire-atlas-v3.png',
-  'BATTLE_SUIT_02:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v3.png',
+  'BATTLE_SUIT_02:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v5.png',
   'BATTLE_SUIT_03:m4a1-m200':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-m4a1-m200-horizontal-fire-atlas-v3.png',
-  'BATTLE_SUIT_03:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v3.png'
+  'BATTLE_SUIT_03:ak-sks':'/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png'
 });
 
 function tuning(scaleMultiplier,contentTop,contentBottom,muzzleX,muzzleY){
@@ -49,21 +49,21 @@ const solePivots=(ready,fire,recoil,recover)=>Object.freeze({
 // Measured directly from the final RGBA atlases. For every frame, X is the
 // alpha>=16 centroid of the lowest nine visible pixel rows and Y is the lowest
 // visible pixel. Suit 02 M4A1 stays pixel-locked to the approved v2 row; every
-// other row uses the same grip-pose body scale, with the exact DB weapon below
-// the retained arms and hands so the rifle cannot cut through the character.
+// other generated rows use the keyed grip-pose body. SKS rows are the user's
+// approved full composites with only the connected black background removed.
 const SOLE_PIVOTS_BY_SUIT_PAIR_ROW=Object.freeze({
   'BATTLE_SUIT_01:m4a1-m200:0':solePivots([69.808,478],[67.808,478],[64.808,475],[67.808,477]),
   'BATTLE_SUIT_01:m4a1-m200:1':solePivots([69.808,478],[67.808,478],[64.808,475],[67.808,477]),
   'BATTLE_SUIT_01:ak-sks:0':solePivots([69.808,478],[67.808,478],[64.808,475],[67.808,477]),
-  'BATTLE_SUIT_01:ak-sks:1':solePivots([69.808,478],[67.808,478],[64.808,475],[67.808,477]),
+  'BATTLE_SUIT_01:ak-sks:1':solePivots([24.987,476],[23.503,476],[20.695,473],[24.125,475]),
   'BATTLE_SUIT_02:m4a1-m200:0':solePivots([51.526,479],[46.451,479],[47.451,476],[49.526,478]),
   'BATTLE_SUIT_02:m4a1-m200:1':solePivots([110.759,478],[108.759,478],[105.759,475],[108.759,477]),
   'BATTLE_SUIT_02:ak-sks:0':solePivots([92.858,478],[90.858,478],[87.858,475],[90.858,477]),
-  'BATTLE_SUIT_02:ak-sks:1':solePivots([92.858,478],[90.858,478],[87.858,475],[90.858,477]),
+  'BATTLE_SUIT_02:ak-sks:1':solePivots([39.958,477],[38.260,477],[39.000,474],[40.631,476]),
   'BATTLE_SUIT_03:m4a1-m200:0':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477]),
   'BATTLE_SUIT_03:m4a1-m200:1':solePivots([79.418,478],[77.418,478],[74.418,475],[77.418,477]),
   'BATTLE_SUIT_03:ak-sks:0':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477]),
-  'BATTLE_SUIT_03:ak-sks:1':solePivots([80.272,478],[78.272,478],[75.272,475],[78.272,477])
+  'BATTLE_SUIT_03:ak-sks:1':solePivots([20.565,476],[18.158,476],[18.377,473],[18.911,475])
 });
 
 // Measured from the final exact-weapon atlases. Per-pair values keep the sole,
@@ -73,15 +73,15 @@ const PAIR_TUNING=Object.freeze({
   'BATTLE_SUIT_01:EQ_1785427638137':tuning(1.4,36/512,478/512,379/384,126/512),
   'BATTLE_SUIT_01:EQ_1785961300455':tuning(1.4,36/512,478/512,379/384,122/512),
   'BATTLE_SUIT_01:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,135/512),
-  'BATTLE_SUIT_01:EQ_1786966923833':tuning(1.4,36/512,478/512,379/384,118/512),
+  'BATTLE_SUIT_01:EQ_1786966923833':tuning(1.4,38/512,476/512,374/384,133/512),
   'BATTLE_SUIT_02:EQ_1785427638137':tuning(1.4,39/512,479/512,379/384,152/512),
   'BATTLE_SUIT_02:EQ_1785961300455':tuning(1.4,36/512,478/512,379/384,132/512),
   'BATTLE_SUIT_02:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,122/512),
-  'BATTLE_SUIT_02:EQ_1786966923833':tuning(1.4,36/512,478/512,379/384,108/512),
+  'BATTLE_SUIT_02:EQ_1786966923833':tuning(1.4,39/512,477/512,376/384,124/512),
   'BATTLE_SUIT_03:EQ_1785427638137':tuning(1.4,36/512,478/512,379/384,119/512),
   'BATTLE_SUIT_03:EQ_1785961300455':tuning(1.4,36/512,478/512,379/384,134/512),
   'BATTLE_SUIT_03:EQ_1785961232958':tuning(1.4,36/512,478/512,379/384,126/512),
-  'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.4,36/512,478/512,379/384,111/512)
+  'BATTLE_SUIT_03:EQ_1786966923833':tuning(1.4,57/512,476/512,375/384,145/512)
 });
 
 function catalogEntry(suitCode,suitSlug,weaponCode,weapon){

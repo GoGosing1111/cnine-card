@@ -53,13 +53,58 @@
       "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
       "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "gripProxyBounds": {
+        "left": 135.73504273504273,
+        "top": 105.75213675213675,
+        "width": 310.2564102564103,
+        "height": 82.26495726495726
+      },
       "exactWeaponSourceSha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "preparedWeaponSha256": "2BF84B118077C267624918F6E68F95B15FB2E17370D1C96D4F157E605DDE6561",
+      "preparedWeaponDimensions": {
+        "width": 310,
+        "height": 101
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 70,
+        "top": 96,
+        "width": 310,
+        "height": 101
+      },
+      "weaponPlacements": [
+        {
+          "left": 70,
+          "top": 96,
+          "width": 310,
+          "height": 101
+        },
+        {
+          "left": 70,
+          "top": 96,
+          "width": 310,
+          "height": 101
+        },
+        {
+          "left": 70,
+          "top": 93,
+          "width": 310,
+          "height": 101
+        },
+        {
+          "left": 70,
+          "top": 95,
+          "width": 310,
+          "height": 101
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -109,13 +154,58 @@
       "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
       "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "gripProxyBounds": {
+        "left": 135.73504273504273,
+        "top": 105.75213675213675,
+        "width": 310.2564102564103,
+        "height": 82.26495726495726
+      },
       "exactWeaponSourceSha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "preparedWeaponSha256": "86804B95AF26D5FBDD73B9B034B4934F666E1726AE4318C64DBCDE28AB93879E",
+      "preparedWeaponDimensions": {
+        "width": 372,
+        "height": 107
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 8,
+        "top": 93,
+        "width": 372,
+        "height": 107
+      },
+      "weaponPlacements": [
+        {
+          "left": 8,
+          "top": 93,
+          "width": 372,
+          "height": 107
+        },
+        {
+          "left": 8,
+          "top": 93,
+          "width": 372,
+          "height": 107
+        },
+        {
+          "left": 8,
+          "top": 90,
+          "width": 372,
+          "height": 107
+        },
+        {
+          "left": 8,
+          "top": 92,
+          "width": 372,
+          "height": 107
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -165,13 +255,58 @@
       "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
       "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "gripProxyBounds": {
+        "left": 135.73504273504273,
+        "top": 105.75213675213675,
+        "width": 310.2564102564103,
+        "height": 82.26495726495726
+      },
       "exactWeaponSourceSha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "preparedWeaponSha256": "444CB8ACEA4508415B4CCB0494F42C532E098C9D932AD6E15981578769B8EC9B",
+      "preparedWeaponDimensions": {
+        "width": 329,
+        "height": 95
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 51,
+        "top": 99,
+        "width": 329,
+        "height": 95
+      },
+      "weaponPlacements": [
+        {
+          "left": 51,
+          "top": 99,
+          "width": 329,
+          "height": 95
+        },
+        {
+          "left": 51,
+          "top": 99,
+          "width": 329,
+          "height": 95
+        },
+        {
+          "left": 51,
+          "top": 96,
+          "width": 329,
+          "height": 95
+        },
+        {
+          "left": 51,
+          "top": 98,
+          "width": 329,
+          "height": 95
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -187,53 +322,206 @@
       "pair": "ak-sks",
       "row": 1,
       "bodyBounds": {
-        "headY": 39,
-        "soleY": 478,
-        "height": 440
+        "headY": 41,
+        "soleY": 476,
+        "height": 436
       },
       "contentBounds": {
-        "top": 36,
-        "bottom": 478
+        "top": 38,
+        "bottom": 476
       },
       "pivots": [
         {
-          "x": 69.808,
-          "y": 478
+          "x": 24.987,
+          "y": 476
         },
         {
-          "x": 67.808,
-          "y": 478
+          "x": 23.503,
+          "y": 476
         },
         {
-          "x": 64.808,
+          "x": 20.695,
+          "y": 473
+        },
+        {
+          "x": 24.125,
           "y": 475
-        },
-        {
-          "x": 67.808,
-          "y": 477
         }
       ],
       "muzzle": {
-        "x": 379,
-        "y": 118
+        "x": 374,
+        "y": 133
       },
-      "bodySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
+      "bodySourceSha256": "2A96216EA190B89030B91E34EEE902863C933B87FDF2A4A282F4195115E90AC3",
       "cleanBodySourceSha256": "73AA1563790A632A95BECDB12A7A5748FEC084652820EB65B2D13E1FA6AD258D",
-      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-mechanical-grip-proxy-v4.png",
-      "gripProxySourceSha256": "2131FBB7A71C7C38CAFF6A7CFBEBE3F0A52748EA03C967A8C31E23BE62AA8E9A",
-      "exactWeaponSourceSha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "authoredCompositeSource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-01-sks-second-row-clean-v1.png",
+      "authoredCompositeSourceSha256": "2A96216EA190B89030B91E34EEE902863C933B87FDF2A4A282F4195115E90AC3",
+      "authoredCompositeSourceDimensions": {
+        "width": 1672,
+        "height": 940
+      },
+      "authoredFramePreparation": "EDGE_CONNECTED_DARK_BACKGROUND_REMOVAL_NO_REDRAW",
+      "authoredSourceFrames": [
+        {
+          "column": 0,
+          "sourceBounds": {
+            "minX": 20,
+            "minY": 255,
+            "maxX": 398,
+            "maxY": 700,
+            "width": 379,
+            "height": 446
+          },
+          "selectedComponents": [
+            {
+              "pixels": 41895,
+              "left": 22,
+              "top": 257,
+              "width": 375,
+              "height": 442
+            }
+          ],
+          "outputPlacement": {
+            "left": 5,
+            "top": 39,
+            "width": 374,
+            "height": 440
+          }
+        },
+        {
+          "column": 1,
+          "sourceBounds": {
+            "minX": 448,
+            "minY": 255,
+            "maxX": 824,
+            "maxY": 699,
+            "width": 377,
+            "height": 445
+          },
+          "selectedComponents": [
+            {
+              "pixels": 41998,
+              "left": 450,
+              "top": 257,
+              "width": 373,
+              "height": 441
+            }
+          ],
+          "outputPlacement": {
+            "left": 4,
+            "top": 39,
+            "width": 373,
+            "height": 440
+          }
+        },
+        {
+          "column": 2,
+          "sourceBounds": {
+            "minX": 868,
+            "minY": 256,
+            "maxX": 1243,
+            "maxY": 699,
+            "width": 376,
+            "height": 444
+          },
+          "selectedComponents": [
+            {
+              "pixels": 41790,
+              "left": 870,
+              "top": 258,
+              "width": 372,
+              "height": 440
+            },
+            {
+              "pixels": 119,
+              "left": 1136,
+              "top": 367,
+              "width": 20,
+              "height": 11
+            }
+          ],
+          "outputPlacement": {
+            "left": 2,
+            "top": 36,
+            "width": 373,
+            "height": 440
+          }
+        },
+        {
+          "column": 3,
+          "sourceBounds": {
+            "minX": 1283,
+            "minY": 255,
+            "maxX": 1659,
+            "maxY": 699,
+            "width": 377,
+            "height": 445
+          },
+          "selectedComponents": [
+            {
+              "pixels": 41860,
+              "left": 1285,
+              "top": 257,
+              "width": 373,
+              "height": 441
+            }
+          ],
+          "outputPlacement": {
+            "left": 4,
+            "top": 38,
+            "width": 373,
+            "height": 440
+          }
+        }
+      ],
+      "exactWeaponSourceSha256": null,
+      "preparedWeaponSha256": null,
+      "preparedWeaponDimensions": null,
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 5,
+        "top": 39,
+        "width": 374,
+        "height": 440
+      },
+      "weaponPlacements": [
+        {
+          "left": 5,
+          "top": 39,
+          "width": 374,
+          "height": 440
+        },
+        {
+          "left": 4,
+          "top": 39,
+          "width": 373,
+          "height": 440
+        },
+        {
+          "left": 2,
+          "top": 36,
+          "width": 373,
+          "height": 440
+        },
+        {
+          "left": 4,
+          "top": 38,
+          "width": 373,
+          "height": 440
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
-      "exactWeaponOnly": true,
-      "gripProxyRemoved": true,
+      "exactWeaponOnly": false,
+      "gripProxyRemoved": null,
       "semanticLayerOrder": [
-        "EXACT_DATABASE_WEAPON",
-        "BODY_ARMS_AND_HANDS_FOREGROUND"
+        "USER_AUTHORED_FULL_COMPOSITE"
       ]
     },
     {
@@ -277,13 +565,58 @@
       "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-grip-proxy-v3.png",
       "gripProxySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "gripProxyBounds": {
+        "left": 143.9060052219321,
+        "top": 88.39947780678851,
+        "width": 257.3368146214099,
+        "height": 86.54482158398608
+      },
       "exactWeaponSourceSha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "preparedWeaponSha256": "0C56CAD9FB2DB7FB8A93272DD6B288E29A3751CA5A212B40A25267492BA463ED",
+      "preparedWeaponDimensions": {
+        "width": 257,
+        "height": 84
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": true,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 0,
+        "top": 0,
+        "width": 384,
+        "height": 512
+      },
+      "weaponPlacements": [
+        {
+          "left": 0,
+          "top": 0,
+          "width": 384,
+          "height": 512
+        },
+        {
+          "left": 0,
+          "top": 0,
+          "width": 384,
+          "height": 512
+        },
+        {
+          "left": 0,
+          "top": 0,
+          "width": 384,
+          "height": 512
+        },
+        {
+          "left": 0,
+          "top": 0,
+          "width": 384,
+          "height": 512
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -333,13 +666,58 @@
       "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-m200-grip-proxy-v4.png",
       "gripProxySourceSha256": "C2ED3ED81537F78035833D54A5482B159BBB6A5B932D377C9A7D1A25F2517D1A",
+      "gripProxyBounds": {
+        "left": 137.4463176574978,
+        "top": 81.16503992901508,
+        "width": 303.74445430346054,
+        "height": 73.7888198757764
+      },
       "exactWeaponSourceSha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "preparedWeaponSha256": "9D709379007348A68FA02125F9955638C4017F8C10C5A9EA88D12001B52B2B7C",
+      "preparedWeaponDimensions": {
+        "width": 304,
+        "height": 87
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": true,
+      "dedicatedGripPoseKind": "M200",
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 34
       },
+      "weaponPlacement": {
+        "left": 76,
+        "top": 109,
+        "width": 304,
+        "height": 87
+      },
+      "weaponPlacements": [
+        {
+          "left": 76,
+          "top": 109,
+          "width": 304,
+          "height": 87
+        },
+        {
+          "left": 76,
+          "top": 109,
+          "width": 304,
+          "height": 87
+        },
+        {
+          "left": 76,
+          "top": 106,
+          "width": 304,
+          "height": 87
+        },
+        {
+          "left": 76,
+          "top": 108,
+          "width": 304,
+          "height": 87
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -389,13 +767,58 @@
       "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-grip-proxy-v3.png",
       "gripProxySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "gripProxyBounds": {
+        "left": 143.9060052219321,
+        "top": 88.39947780678851,
+        "width": 257.3368146214099,
+        "height": 86.54482158398608
+      },
       "exactWeaponSourceSha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "preparedWeaponSha256": "BD5D33BAC1603D779680523BFA374FAD1FE27A2423735683B36F9851B56FB0D2",
+      "preparedWeaponDimensions": {
+        "width": 273,
+        "height": 79
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 107,
+        "top": 92,
+        "width": 273,
+        "height": 79
+      },
+      "weaponPlacements": [
+        {
+          "left": 107,
+          "top": 92,
+          "width": 273,
+          "height": 79
+        },
+        {
+          "left": 107,
+          "top": 92,
+          "width": 273,
+          "height": 79
+        },
+        {
+          "left": 107,
+          "top": 89,
+          "width": 273,
+          "height": 79
+        },
+        {
+          "left": 107,
+          "top": 91,
+          "width": 273,
+          "height": 79
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -411,53 +834,668 @@
       "pair": "ak-sks",
       "row": 1,
       "bodyBounds": {
-        "headY": 39,
-        "soleY": 478,
-        "height": 440
+        "headY": 63,
+        "soleY": 477,
+        "height": 415
       },
       "contentBounds": {
-        "top": 36,
-        "bottom": 478
+        "top": 39,
+        "bottom": 477
       },
       "pivots": [
         {
-          "x": 92.858,
-          "y": 478
-        },
-        {
-          "x": 90.858,
-          "y": 478
-        },
-        {
-          "x": 87.858,
-          "y": 475
-        },
-        {
-          "x": 90.858,
+          "x": 39.958,
           "y": 477
+        },
+        {
+          "x": 38.26,
+          "y": 477
+        },
+        {
+          "x": 39,
+          "y": 474
+        },
+        {
+          "x": 40.631,
+          "y": 476
         }
       ],
       "muzzle": {
-        "x": 379,
-        "y": 108
+        "x": 376,
+        "y": 124
       },
-      "bodySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
+      "bodySourceSha256": "A79A96633DE70494923A25FD620A9FD90BA9605CB3E1F5A31B732C32FAE37201",
       "cleanBodySourceSha256": "B34C2059EF1092B13B2013D9FBECB0CAA23DDFD653F9A6BBF446935020B82E99",
-      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-orange-tactical-grip-proxy-v3.png",
-      "gripProxySourceSha256": "BFBDB28AB390DEADA7636EB729B7E66DCB54BC357EA553F30693C50FB170EBB1",
-      "exactWeaponSourceSha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "authoredCompositeSource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-02-sks-second-row-clean-v1.png",
+      "authoredCompositeSourceSha256": "A79A96633DE70494923A25FD620A9FD90BA9605CB3E1F5A31B732C32FAE37201",
+      "authoredCompositeSourceDimensions": {
+        "width": 1968,
+        "height": 799
+      },
+      "authoredFramePreparation": "EDGE_CONNECTED_DARK_BACKGROUND_REMOVAL_NO_REDRAW",
+      "authoredSourceFrames": [
+        {
+          "column": 0,
+          "sourceBounds": {
+            "minX": 39,
+            "minY": 145,
+            "maxX": 487,
+            "maxY": 642,
+            "width": 449,
+            "height": 498
+          },
+          "selectedComponents": [
+            {
+              "pixels": 21784,
+              "left": 99,
+              "top": 147,
+              "width": 387,
+              "height": 182
+            },
+            {
+              "pixels": 9617,
+              "left": 41,
+              "top": 353,
+              "width": 121,
+              "height": 197
+            },
+            {
+              "pixels": 5489,
+              "left": 118,
+              "top": 300,
+              "width": 178,
+              "height": 221
+            },
+            {
+              "pixels": 3900,
+              "left": 165,
+              "top": 385,
+              "width": 60,
+              "height": 111
+            },
+            {
+              "pixels": 3099,
+              "left": 192,
+              "top": 361,
+              "width": 64,
+              "height": 120
+            },
+            {
+              "pixels": 1866,
+              "left": 79,
+              "top": 480,
+              "width": 50,
+              "height": 88
+            },
+            {
+              "pixels": 1486,
+              "left": 245,
+              "top": 555,
+              "width": 61,
+              "height": 57
+            },
+            {
+              "pixels": 1408,
+              "left": 229,
+              "top": 472,
+              "width": 39,
+              "height": 78
+            },
+            {
+              "pixels": 1309,
+              "left": 65,
+              "top": 585,
+              "width": 32,
+              "height": 56
+            },
+            {
+              "pixels": 443,
+              "left": 234,
+              "top": 262,
+              "width": 28,
+              "height": 40
+            },
+            {
+              "pixels": 206,
+              "left": 341,
+              "top": 207,
+              "width": 54,
+              "height": 14
+            },
+            {
+              "pixels": 158,
+              "left": 362,
+              "top": 254,
+              "width": 27,
+              "height": 10
+            },
+            {
+              "pixels": 133,
+              "left": 326,
+              "top": 250,
+              "width": 35,
+              "height": 8
+            },
+            {
+              "pixels": 98,
+              "left": 202,
+              "top": 256,
+              "width": 29,
+              "height": 12
+            },
+            {
+              "pixels": 81,
+              "left": 318,
+              "top": 215,
+              "width": 21,
+              "height": 20
+            },
+            {
+              "pixels": 69,
+              "left": 318,
+              "top": 263,
+              "width": 14,
+              "height": 10
+            },
+            {
+              "pixels": 59,
+              "left": 308,
+              "top": 252,
+              "width": 9,
+              "height": 11
+            },
+            {
+              "pixels": 55,
+              "left": 311,
+              "top": 220,
+              "width": 15,
+              "height": 15
+            }
+          ],
+          "outputPlacement": {
+            "left": 4,
+            "top": 62,
+            "width": 376,
+            "height": 417
+          }
+        },
+        {
+          "column": 1,
+          "sourceBounds": {
+            "minX": 539,
+            "minY": 145,
+            "maxX": 970,
+            "maxY": 642,
+            "width": 432,
+            "height": 498
+          },
+          "selectedComponents": [
+            {
+              "pixels": 19073,
+              "left": 598,
+              "top": 147,
+              "width": 371,
+              "height": 181
+            },
+            {
+              "pixels": 6447,
+              "left": 541,
+              "top": 353,
+              "width": 114,
+              "height": 195
+            },
+            {
+              "pixels": 3882,
+              "left": 693,
+              "top": 288,
+              "width": 101,
+              "height": 234
+            },
+            {
+              "pixels": 3852,
+              "left": 664,
+              "top": 387,
+              "width": 58,
+              "height": 111
+            },
+            {
+              "pixels": 3044,
+              "left": 690,
+              "top": 360,
+              "width": 63,
+              "height": 117
+            },
+            {
+              "pixels": 3036,
+              "left": 616,
+              "top": 373,
+              "width": 45,
+              "height": 117
+            },
+            {
+              "pixels": 1946,
+              "left": 616,
+              "top": 303,
+              "width": 87,
+              "height": 59
+            },
+            {
+              "pixels": 1793,
+              "left": 577,
+              "top": 498,
+              "width": 49,
+              "height": 74
+            },
+            {
+              "pixels": 1511,
+              "left": 749,
+              "top": 550,
+              "width": 56,
+              "height": 62
+            },
+            {
+              "pixels": 1462,
+              "left": 733,
+              "top": 472,
+              "width": 34,
+              "height": 80
+            },
+            {
+              "pixels": 1294,
+              "left": 564,
+              "top": 584,
+              "width": 32,
+              "height": 57
+            },
+            {
+              "pixels": 373,
+              "left": 726,
+              "top": 263,
+              "width": 27,
+              "height": 38
+            },
+            {
+              "pixels": 200,
+              "left": 828,
+              "top": 207,
+              "width": 56,
+              "height": 14
+            },
+            {
+              "pixels": 144,
+              "left": 814,
+              "top": 250,
+              "width": 34,
+              "height": 8
+            },
+            {
+              "pixels": 130,
+              "left": 852,
+              "top": 254,
+              "width": 23,
+              "height": 10
+            },
+            {
+              "pixels": 78,
+              "left": 808,
+              "top": 215,
+              "width": 20,
+              "height": 20
+            },
+            {
+              "pixels": 72,
+              "left": 801,
+              "top": 251,
+              "width": 12,
+              "height": 11
+            },
+            {
+              "pixels": 69,
+              "left": 744,
+              "top": 233,
+              "width": 17,
+              "height": 6
+            },
+            {
+              "pixels": 49,
+              "left": 801,
+              "top": 220,
+              "width": 14,
+              "height": 15
+            }
+          ],
+          "outputPlacement": {
+            "left": 2,
+            "top": 46,
+            "width": 376,
+            "height": 433
+          }
+        },
+        {
+          "column": 2,
+          "sourceBounds": {
+            "minX": 1031,
+            "minY": 145,
+            "maxX": 1466,
+            "maxY": 642,
+            "width": 436,
+            "height": 498
+          },
+          "selectedComponents": [
+            {
+              "pixels": 20747,
+              "left": 1090,
+              "top": 147,
+              "width": 375,
+              "height": 182
+            },
+            {
+              "pixels": 6522,
+              "left": 1033,
+              "top": 354,
+              "width": 112,
+              "height": 194
+            },
+            {
+              "pixels": 3956,
+              "left": 1156,
+              "top": 385,
+              "width": 60,
+              "height": 113
+            },
+            {
+              "pixels": 3126,
+              "left": 1109,
+              "top": 372,
+              "width": 44,
+              "height": 125
+            },
+            {
+              "pixels": 3097,
+              "left": 1183,
+              "top": 360,
+              "width": 63,
+              "height": 116
+            },
+            {
+              "pixels": 2898,
+              "left": 1210,
+              "top": 336,
+              "width": 76,
+              "height": 187
+            },
+            {
+              "pixels": 1999,
+              "left": 1109,
+              "top": 302,
+              "width": 88,
+              "height": 60
+            },
+            {
+              "pixels": 1790,
+              "left": 1071,
+              "top": 484,
+              "width": 48,
+              "height": 83
+            },
+            {
+              "pixels": 1446,
+              "left": 1244,
+              "top": 556,
+              "width": 53,
+              "height": 56
+            },
+            {
+              "pixels": 1417,
+              "left": 1226,
+              "top": 472,
+              "width": 33,
+              "height": 80
+            },
+            {
+              "pixels": 1303,
+              "left": 1057,
+              "top": 583,
+              "width": 32,
+              "height": 58
+            },
+            {
+              "pixels": 607,
+              "left": 1186,
+              "top": 299,
+              "width": 25,
+              "height": 50
+            },
+            {
+              "pixels": 399,
+              "left": 1218,
+              "top": 263,
+              "width": 27,
+              "height": 38
+            },
+            {
+              "pixels": 220,
+              "left": 1190,
+              "top": 287,
+              "width": 21,
+              "height": 28
+            },
+            {
+              "pixels": 195,
+              "left": 1321,
+              "top": 207,
+              "width": 53,
+              "height": 14
+            },
+            {
+              "pixels": 139,
+              "left": 1312,
+              "top": 250,
+              "width": 30,
+              "height": 8
+            },
+            {
+              "pixels": 129,
+              "left": 1347,
+              "top": 254,
+              "width": 20,
+              "height": 10
+            },
+            {
+              "pixels": 71,
+              "left": 1301,
+              "top": 215,
+              "width": 18,
+              "height": 20
+            }
+          ],
+          "outputPlacement": {
+            "left": 2,
+            "top": 47,
+            "width": 376,
+            "height": 429
+          }
+        },
+        {
+          "column": 3,
+          "sourceBounds": {
+            "minX": 1531,
+            "minY": 145,
+            "maxX": 1955,
+            "maxY": 642,
+            "width": 425,
+            "height": 498
+          },
+          "selectedComponents": [
+            {
+              "pixels": 20633,
+              "left": 1590,
+              "top": 147,
+              "width": 364,
+              "height": 182
+            },
+            {
+              "pixels": 6541,
+              "left": 1533,
+              "top": 356,
+              "width": 114,
+              "height": 193
+            },
+            {
+              "pixels": 5588,
+              "left": 1609,
+              "top": 285,
+              "width": 177,
+              "height": 237
+            },
+            {
+              "pixels": 3886,
+              "left": 1656,
+              "top": 387,
+              "width": 58,
+              "height": 109
+            },
+            {
+              "pixels": 3022,
+              "left": 1610,
+              "top": 374,
+              "width": 44,
+              "height": 116
+            },
+            {
+              "pixels": 3006,
+              "left": 1682,
+              "top": 357,
+              "width": 63,
+              "height": 120
+            },
+            {
+              "pixels": 1757,
+              "left": 1570,
+              "top": 497,
+              "width": 49,
+              "height": 71
+            },
+            {
+              "pixels": 1453,
+              "left": 1740,
+              "top": 555,
+              "width": 56,
+              "height": 57
+            },
+            {
+              "pixels": 1418,
+              "left": 1554,
+              "top": 575,
+              "width": 35,
+              "height": 66
+            },
+            {
+              "pixels": 1385,
+              "left": 1726,
+              "top": 473,
+              "width": 33,
+              "height": 77
+            },
+            {
+              "pixels": 391,
+              "left": 1716,
+              "top": 263,
+              "width": 27,
+              "height": 38
+            },
+            {
+              "pixels": 195,
+              "left": 1819,
+              "top": 207,
+              "width": 53,
+              "height": 14
+            },
+            {
+              "pixels": 132,
+              "left": 1805,
+              "top": 249,
+              "width": 34,
+              "height": 9
+            },
+            {
+              "pixels": 129,
+              "left": 1843,
+              "top": 254,
+              "width": 21,
+              "height": 10
+            },
+            {
+              "pixels": 74,
+              "left": 1797,
+              "top": 215,
+              "width": 20,
+              "height": 20
+            },
+            {
+              "pixels": 49,
+              "left": 1791,
+              "top": 220,
+              "width": 13,
+              "height": 15
+            }
+          ],
+          "outputPlacement": {
+            "left": 2,
+            "top": 38,
+            "width": 376,
+            "height": 440
+          }
+        }
+      ],
+      "exactWeaponSourceSha256": null,
+      "preparedWeaponSha256": null,
+      "preparedWeaponDimensions": null,
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 4,
+        "top": 62,
+        "width": 376,
+        "height": 417
+      },
+      "weaponPlacements": [
+        {
+          "left": 4,
+          "top": 62,
+          "width": 376,
+          "height": 417
+        },
+        {
+          "left": 2,
+          "top": 46,
+          "width": 376,
+          "height": 433
+        },
+        {
+          "left": 2,
+          "top": 47,
+          "width": 376,
+          "height": 429
+        },
+        {
+          "left": 2,
+          "top": 38,
+          "width": 376,
+          "height": 440
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
-      "exactWeaponOnly": true,
-      "gripProxyRemoved": true,
+      "exactWeaponOnly": false,
+      "gripProxyRemoved": null,
       "semanticLayerOrder": [
-        "EXACT_DATABASE_WEAPON",
-        "BODY_ARMS_AND_HANDS_FOREGROUND"
+        "USER_AUTHORED_FULL_COMPOSITE"
       ]
     },
     {
@@ -501,13 +1539,58 @@
       "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-grip-proxy-v3.png",
       "gripProxySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "gripProxyBounds": {
+        "left": 146.5983606557377,
+        "top": 97.15573770491804,
+        "width": 266.88524590163934,
+        "height": 78.44262295081967
+      },
       "exactWeaponSourceSha256": "66CA580D5AF11B17A069E3174CB4B8F86BAA31EDB18F15BED91CC18C0B12327A",
+      "preparedWeaponSha256": "A3961F7B28FE4BF5E4BCA9F98360598B9F70181974190F70C1965CDF3A3D6840",
+      "preparedWeaponDimensions": {
+        "width": 267,
+        "height": 87
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 113,
+        "top": 93,
+        "width": 267,
+        "height": 87
+      },
+      "weaponPlacements": [
+        {
+          "left": 113,
+          "top": 93,
+          "width": 267,
+          "height": 87
+        },
+        {
+          "left": 113,
+          "top": 93,
+          "width": 267,
+          "height": 87
+        },
+        {
+          "left": 113,
+          "top": 90,
+          "width": 267,
+          "height": 87
+        },
+        {
+          "left": 113,
+          "top": 92,
+          "width": 267,
+          "height": 87
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -557,13 +1640,58 @@
       "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-m200-grip-proxy-v4.png",
       "gripProxySourceSha256": "D1926B6CD676E907CD712F8B292A8899FD82A3B6BEAAE478114EDBD6D58C4DE7",
+      "gripProxyBounds": {
+        "left": 152.45360824742266,
+        "top": 88.89690721649484,
+        "width": 360.16494845360825,
+        "height": 75.29896907216495
+      },
       "exactWeaponSourceSha256": "EEB1066050E00F52D16EA3B6AF93539B1649562413B1DFFEEBC1523E6CDD4213",
+      "preparedWeaponSha256": "48EBC1313E79416CC30460BA608F8A4EE2374A227AE251034B1E48FCD4190B56",
+      "preparedWeaponDimensions": {
+        "width": 360,
+        "height": 103
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": true,
+      "dedicatedGripPoseKind": "M200",
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 31
       },
+      "weaponPlacement": {
+        "left": 20,
+        "top": 106,
+        "width": 360,
+        "height": 103
+      },
+      "weaponPlacements": [
+        {
+          "left": 20,
+          "top": 106,
+          "width": 360,
+          "height": 103
+        },
+        {
+          "left": 20,
+          "top": 106,
+          "width": 360,
+          "height": 103
+        },
+        {
+          "left": 20,
+          "top": 103,
+          "width": 360,
+          "height": 103
+        },
+        {
+          "left": 20,
+          "top": 105,
+          "width": 360,
+          "height": 103
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -613,13 +1741,58 @@
       "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
       "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-grip-proxy-v3.png",
       "gripProxySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "gripProxyBounds": {
+        "left": 146.5983606557377,
+        "top": 97.15573770491804,
+        "width": 266.88524590163934,
+        "height": 78.44262295081967
+      },
       "exactWeaponSourceSha256": "82EF345FAECF7A00CDED0AEEE6BDD9F8BD40C2237BA868B1301D5B12238D6329",
+      "preparedWeaponSha256": "69655BDBBBEBF74C70AF1BB7C52A7F6C4ACDFF3C6EE143D35A4767E6C1696690",
+      "preparedWeaponDimensions": {
+        "width": 283,
+        "height": 82
+      },
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 97,
+        "top": 95,
+        "width": 283,
+        "height": 82
+      },
+      "weaponPlacements": [
+        {
+          "left": 97,
+          "top": 95,
+          "width": 283,
+          "height": 82
+        },
+        {
+          "left": 97,
+          "top": 95,
+          "width": 283,
+          "height": 82
+        },
+        {
+          "left": 97,
+          "top": 92,
+          "width": 283,
+          "height": 82
+        },
+        {
+          "left": 97,
+          "top": 94,
+          "width": 283,
+          "height": 82
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
       "exactWeaponOnly": true,
       "gripProxyRemoved": true,
@@ -635,53 +1808,227 @@
       "pair": "ak-sks",
       "row": 1,
       "bodyBounds": {
-        "headY": 39,
-        "soleY": 478,
-        "height": 440
+        "headY": 65,
+        "soleY": 476,
+        "height": 412
       },
       "contentBounds": {
-        "top": 36,
-        "bottom": 478
+        "top": 57,
+        "bottom": 476
       },
       "pivots": [
         {
-          "x": 80.272,
-          "y": 478
+          "x": 20.565,
+          "y": 476
         },
         {
-          "x": 78.272,
-          "y": 478
+          "x": 18.158,
+          "y": 476
         },
         {
-          "x": 75.272,
+          "x": 18.377,
+          "y": 473
+        },
+        {
+          "x": 18.911,
           "y": 475
-        },
-        {
-          "x": 78.272,
-          "y": 477
         }
       ],
       "muzzle": {
-        "x": 379,
-        "y": 111
+        "x": 375,
+        "y": 145
       },
-      "bodySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
+      "bodySourceSha256": "88CCDD3AA004F00EE9A2B0058776E932027056D7519EEFE402F673BD379B917A",
       "cleanBodySourceSha256": "2BF6D8BEE67AEC50305CAA5EAF989DFD0F5155EB2C4CC62704E348E3A5132BC4",
-      "gripProxySource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-amethyst-model02-grip-proxy-v3.png",
-      "gripProxySourceSha256": "0B7AF9C9B65D7B01DD468B64ECA06A9D41455688E7D4DBD579D3DD1817D6C18C",
-      "exactWeaponSourceSha256": "9FE876729D85DE6B45D27CEAA65F49A91915AB340E5B520146B2E8FA81713462",
+      "authoredCompositeSource": "/assets/ui/project-v/account-battle-suits/sources/battle-suit-03-sks-second-row-clean-v1.png",
+      "authoredCompositeSourceSha256": "88CCDD3AA004F00EE9A2B0058776E932027056D7519EEFE402F673BD379B917A",
+      "authoredCompositeSourceDimensions": {
+        "width": 1672,
+        "height": 941
+      },
+      "authoredFramePreparation": "EDGE_CONNECTED_DARK_BACKGROUND_REMOVAL_NO_REDRAW",
+      "authoredSourceFrames": [
+        {
+          "column": 0,
+          "sourceBounds": {
+            "minX": 23,
+            "minY": 255,
+            "maxX": 405,
+            "maxY": 678,
+            "width": 383,
+            "height": 424
+          },
+          "selectedComponents": [
+            {
+              "pixels": 41512,
+              "left": 25,
+              "top": 257,
+              "width": 379,
+              "height": 420
+            },
+            {
+              "pixels": 124,
+              "left": 78,
+              "top": 382,
+              "width": 7,
+              "height": 26
+            },
+            {
+              "pixels": 114,
+              "left": 301,
+              "top": 356,
+              "width": 19,
+              "height": 9
+            }
+          ],
+          "outputPlacement": {
+            "left": 4,
+            "top": 63,
+            "width": 376,
+            "height": 416
+          }
+        },
+        {
+          "column": 1,
+          "sourceBounds": {
+            "minX": 437,
+            "minY": 255,
+            "maxX": 816,
+            "maxY": 678,
+            "width": 380,
+            "height": 424
+          },
+          "selectedComponents": [
+            {
+              "pixels": 41336,
+              "left": 439,
+              "top": 257,
+              "width": 376,
+              "height": 420
+            }
+          ],
+          "outputPlacement": {
+            "left": 2,
+            "top": 59,
+            "width": 376,
+            "height": 420
+          }
+        },
+        {
+          "column": 2,
+          "sourceBounds": {
+            "minX": 854,
+            "minY": 255,
+            "maxX": 1232,
+            "maxY": 678,
+            "width": 379,
+            "height": 424
+          },
+          "selectedComponents": [
+            {
+              "pixels": 41331,
+              "left": 856,
+              "top": 257,
+              "width": 375,
+              "height": 420
+            },
+            {
+              "pixels": 149,
+              "left": 906,
+              "top": 382,
+              "width": 9,
+              "height": 26
+            },
+            {
+              "pixels": 109,
+              "left": 1128,
+              "top": 356,
+              "width": 20,
+              "height": 9
+            }
+          ],
+          "outputPlacement": {
+            "left": 2,
+            "top": 55,
+            "width": 376,
+            "height": 421
+          }
+        },
+        {
+          "column": 3,
+          "sourceBounds": {
+            "minX": 1274,
+            "minY": 255,
+            "maxX": 1654,
+            "maxY": 678,
+            "width": 381,
+            "height": 424
+          },
+          "selectedComponents": [
+            {
+              "pixels": 42054,
+              "left": 1276,
+              "top": 257,
+              "width": 377,
+              "height": 420
+            }
+          ],
+          "outputPlacement": {
+            "left": 2,
+            "top": 60,
+            "width": 376,
+            "height": 418
+          }
+        }
+      ],
+      "exactWeaponSourceSha256": null,
+      "preparedWeaponSha256": null,
+      "preparedWeaponDimensions": null,
+      "exactWeaponRotationDegrees": 0,
       "canonicalLocked": false,
       "usesDedicatedGripPose": false,
+      "dedicatedGripPoseKind": null,
       "weaponPlacementAdjustment": {
         "x": 0,
         "y": 0
       },
+      "weaponPlacement": {
+        "left": 4,
+        "top": 63,
+        "width": 376,
+        "height": 416
+      },
+      "weaponPlacements": [
+        {
+          "left": 4,
+          "top": 63,
+          "width": 376,
+          "height": 416
+        },
+        {
+          "left": 2,
+          "top": 59,
+          "width": 376,
+          "height": 420
+        },
+        {
+          "left": 2,
+          "top": 55,
+          "width": 376,
+          "height": 421
+        },
+        {
+          "left": 2,
+          "top": 60,
+          "width": 376,
+          "height": 418
+        }
+      ],
       "legacyWeaponPixelsRemoved": 0,
-      "exactWeaponOnly": true,
-      "gripProxyRemoved": true,
+      "exactWeaponOnly": false,
+      "gripProxyRemoved": null,
       "semanticLayerOrder": [
-        "EXACT_DATABASE_WEAPON",
-        "BODY_ARMS_AND_HANDS_FOREGROUND"
+        "USER_AUTHORED_FULL_COMPOSITE"
       ]
     }
   ],
@@ -695,8 +2042,8 @@
     {
       "suitCode": "BATTLE_SUIT_01",
       "pair": "ak-sks",
-      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v3.png",
-      "sha256": "4407699F9D1E56C3CC3178E82694A18804362E12397F25779AB63FFBD06AD9C2"
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v5.png",
+      "sha256": "47A373CF6720DC094C13DBF11E588CD851E4DE2A0C14E0F75027FE07F989B946"
     },
     {
       "suitCode": "BATTLE_SUIT_02",
@@ -707,8 +2054,8 @@
     {
       "suitCode": "BATTLE_SUIT_02",
       "pair": "ak-sks",
-      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v3.png",
-      "sha256": "F8A43F5032669AF3881F19442F41971393C6EBE4F8E850B58A53C8D034DEA34C"
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v5.png",
+      "sha256": "BC6CA5C5366C5A92D1311EF88764E3D4D297E8F81D7E1DA817EC784D61EA0B48"
     },
     {
       "suitCode": "BATTLE_SUIT_03",
@@ -719,8 +2066,8 @@
     {
       "suitCode": "BATTLE_SUIT_03",
       "pair": "ak-sks",
-      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v3.png",
-      "sha256": "D1E5608E80DC9EF81CC5FA3A4DF1B40BB4715AE904244E4006E7B5F03D2ADE6A"
+      "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png",
+      "sha256": "A4873E671CA04E42D16F59B3891EB825F64946C9440CB8C246F55C8116DC054F"
     }
   ]
 }

@@ -16,6 +16,9 @@ const BODY_MAX_WIDTH = 360;
 const BASELINE = 479;
 const ALPHA_THRESHOLD = 16;
 const FRAME_MARGIN = 4;
+const AUTHORED_SKS_CODE = 'EQ_1786966923833';
+const AUTHORED_SKS_MAX_WIDTH = FRAME_WIDTH - FRAME_MARGIN * 2;
+const AUTHORED_SKS_MAX_HEIGHT = BODY_HEIGHT;
 
 const SOURCE_ROOT = path.join(ROOT, 'assets/ui/project-v/account-battle-suits/sources');
 const SUIT_ROOT = path.join(ROOT, 'assets/ui/project-v/account-battle-suits/suits');
@@ -49,6 +52,7 @@ const SUITS = Object.freeze({
     source: 'battle-suit-01-mechanical-clean-body-chroma-v3.png',
     chroma: true,
     gripProxy: 'battle-suit-01-mechanical-grip-proxy-v4.png',
+    authoredSksSource: 'battle-suit-01-sks-second-row-clean-v1.png',
     bodyOffsetX: 0,
     staticFile: 'battle-suit-appearance-01-mechanical-female-v3.png'
   }),
@@ -63,6 +67,7 @@ const SUITS = Object.freeze({
     weaponPlacementAdjustments: Object.freeze({
       EQ_1785961300455: Object.freeze({x: 0, y: 34})
     }),
+    authoredSksSource: 'battle-suit-02-sks-second-row-clean-v1.png',
     bodyOffsetX: 0,
     staticFile: 'battle-suit-appearance-02-orange-tactical-v3.png',
     canonicalM4: 'battle-suit-02-m4a1-m200-horizontal-fire-atlas-v2.png'
@@ -78,6 +83,7 @@ const SUITS = Object.freeze({
     weaponPlacementAdjustments: Object.freeze({
       EQ_1785961300455: Object.freeze({x: 0, y: 31})
     }),
+    authoredSksSource: 'battle-suit-03-sks-second-row-clean-v1.png',
     bodyOffsetX: 0,
     staticFile: 'battle-suit-appearance-03-amethyst-model02-v3.png'
   })
@@ -129,7 +135,7 @@ function expandChromaMask(data, info, mask, mode, iterations) {
   return current;
 }
 
-function chromaMasks(data, info) {
+function chromaMasks(data, info, strictGreenBounds = false) {
   const blueMask = new Uint8Array(info.width * info.height);
   const greenMask = new Uint8Array(info.width * info.height);
   let minGreenX = info.width;
@@ -149,7 +155,10 @@ function chromaMasks(data, info) {
       if (blue >= 150 && blueExcess >= 65) blueMask[pixel] = 255;
       if (green >= 150 && greenExcess >= 85) {
         greenMask[pixel] = 255;
-        if (green >= 160 && greenExcess >= 90) {
+        const isProxyBoundPixel = strictGreenBounds
+          ? green >= 220 && red <= 35 && blue <= 35
+          : green >= 160 && greenExcess >= 90;
+        if (isProxyBoundPixel) {
           minGreenX = Math.min(minGreenX, x);
           minGreenY = Math.min(minGreenY, y);
           maxGreenX = Math.max(maxGreenX, x);
@@ -210,9 +219,226 @@ function visibleBoundsRaw(data, info) {
   return {minX, minY, maxX, maxY, width: maxX - minX + 1, height: maxY - minY + 1};
 }
 
-async function prepareGripPose(sourcePath, suit) {
+function isConnectedDarkBackground(data, offset) {
+  const red = data[offset];
+  const green = data[offset + 1];
+  const blue = data[offset + 2];
+  const high = Math.max(red, green, blue);
+  const low = Math.min(red, green, blue);
+  const luminance = (red + green + blue) / 3;
+  return high <= 36 && high - low <= 18 && luminance <= 28;
+}
+
+function removeConnectedDarkBackground(data, info) {
+  const pixelCount = info.width * info.height;
+  const outside = new Uint8Array(pixelCount);
+  const queue = new Uint32Array(pixelCount);
+  let readIndex = 0;
+  let writeIndex = 0;
+  const enqueue = (x, y) => {
+    const pixelIndex = y * info.width + x;
+    if (outside[pixelIndex] || !isConnectedDarkBackground(data, pixelIndex * 4)) return;
+    outside[pixelIndex] = 1;
+    queue[writeIndex++] = pixelIndex;
+  };
+  for (let x = 0; x < info.width; x += 1) {
+    enqueue(x, 0);
+    enqueue(x, info.height - 1);
+  }
+  for (let y = 1; y < info.height - 1; y += 1) {
+    enqueue(0, y);
+    enqueue(info.width - 1, y);
+  }
+  while (readIndex < writeIndex) {
+    const pixelIndex = queue[readIndex++];
+    const x = pixelIndex % info.width;
+    const y = Math.floor(pixelIndex / info.width);
+    if (x > 0) enqueue(x - 1, y);
+    if (x + 1 < info.width) enqueue(x + 1, y);
+    if (y > 0) enqueue(x, y - 1);
+    if (y + 1 < info.height) enqueue(x, y + 1);
+  }
+  for (let pixelIndex = 0; pixelIndex < pixelCount; pixelIndex += 1) {
+    if (!outside[pixelIndex]) continue;
+    const offset = pixelIndex * 4;
+    data[offset] = 0;
+    data[offset + 1] = 0;
+    data[offset + 2] = 0;
+    data[offset + 3] = 0;
+  }
+  return writeIndex;
+}
+
+function collectVisibleComponents(data, info) {
+  const pixelCount = info.width * info.height;
+  const visited = new Uint8Array(pixelCount);
+  const components = [];
+  for (let start = 0; start < pixelCount; start += 1) {
+    if (visited[start] || data[start * 4 + 3] < ALPHA_THRESHOLD) continue;
+    visited[start] = 1;
+    const pixels = [start];
+    let minX = start % info.width;
+    let maxX = minX;
+    let minY = Math.floor(start / info.width);
+    let maxY = minY;
+    for (let readIndex = 0; readIndex < pixels.length; readIndex += 1) {
+      const pixelIndex = pixels[readIndex];
+      const x = pixelIndex % info.width;
+      const y = Math.floor(pixelIndex / info.width);
+      minX = Math.min(minX, x);
+      maxX = Math.max(maxX, x);
+      minY = Math.min(minY, y);
+      maxY = Math.max(maxY, y);
+      for (let deltaY = -1; deltaY <= 1; deltaY += 1) {
+        for (let deltaX = -1; deltaX <= 1; deltaX += 1) {
+          if (deltaX === 0 && deltaY === 0) continue;
+          const nextX = x + deltaX;
+          const nextY = y + deltaY;
+          if (nextX < 0 || nextX >= info.width || nextY < 0 || nextY >= info.height) continue;
+          const nextIndex = nextY * info.width + nextX;
+          if (visited[nextIndex] || data[nextIndex * 4 + 3] < ALPHA_THRESHOLD) continue;
+          visited[nextIndex] = 1;
+          pixels.push(nextIndex);
+        }
+      }
+    }
+    components.push({
+      pixels,
+      count: pixels.length,
+      minX,
+      minY,
+      maxX,
+      maxY,
+      width: maxX - minX + 1,
+      height: maxY - minY + 1,
+      centerX: (minX + maxX) / 2
+    });
+  }
+  return components;
+}
+
+function authoredSksComponentsByFrame(components, sourceWidth) {
+  const groups = Array.from({length: COLUMNS}, () => []);
+  for (const component of components) {
+    if (component.count < 24) continue;
+    const column = Math.max(0, Math.min(COLUMNS - 1, Math.floor(component.centerX / sourceWidth * COLUMNS)));
+    groups[column].push(component);
+  }
+  return groups.map((group, column) => {
+    group.sort((left, right) => right.count - left.count);
+    const primary = group[0];
+    if (!primary || primary.count < 10_000) {
+      throw new Error(`Authored SKS frame ${column} has no complete character component`);
+    }
+    return group.filter((component) => {
+      if (component === primary || component.count >= 500) return true;
+      const horizontalGap = Math.max(0, primary.minX - component.maxX, component.minX - primary.maxX);
+      const verticalGap = Math.max(0, primary.minY - component.maxY, component.minY - primary.maxY);
+      return component.count >= 48 && horizontalGap <= 12 && verticalGap <= 12;
+    });
+  });
+}
+
+function isolatedComponentCrop(data, info, components) {
+  const minX = Math.max(0, Math.min(...components.map((component) => component.minX)) - 2);
+  const minY = Math.max(0, Math.min(...components.map((component) => component.minY)) - 2);
+  const maxX = Math.min(info.width - 1, Math.max(...components.map((component) => component.maxX)) + 2);
+  const maxY = Math.min(info.height - 1, Math.max(...components.map((component) => component.maxY)) + 2);
+  const width = maxX - minX + 1;
+  const height = maxY - minY + 1;
+  const sourceMask = new Uint8Array(info.width * info.height);
+  for (const component of components) {
+    for (const pixelIndex of component.pixels) sourceMask[pixelIndex] = 1;
+  }
+  const keepMask = sourceMask.slice();
+  for (const component of components) {
+    for (const pixelIndex of component.pixels) {
+      const x = pixelIndex % info.width;
+      const y = Math.floor(pixelIndex / info.width);
+      for (let deltaY = -2; deltaY <= 2; deltaY += 1) {
+        for (let deltaX = -2; deltaX <= 2; deltaX += 1) {
+          const nextX = x + deltaX;
+          const nextY = y + deltaY;
+          if (nextX < minX || nextX > maxX || nextY < minY || nextY > maxY) continue;
+          keepMask[nextY * info.width + nextX] = 1;
+        }
+      }
+    }
+  }
+  const crop = Buffer.alloc(width * height * 4);
+  for (let y = minY; y <= maxY; y += 1) {
+    for (let x = minX; x <= maxX; x += 1) {
+      const sourceIndex = y * info.width + x;
+      if (!keepMask[sourceIndex]) continue;
+      const sourceOffset = sourceIndex * 4;
+      const targetOffset = ((y - minY) * width + (x - minX)) * 4;
+      data.copy(crop, targetOffset, sourceOffset, sourceOffset + 4);
+    }
+  }
+  return {buffer: crop, bounds: {minX, minY, maxX, maxY, width, height}};
+}
+
+async function normalizeAuthoredSksFrame(crop, column) {
+  const scale = Math.min(AUTHORED_SKS_MAX_WIDTH / crop.bounds.width, AUTHORED_SKS_MAX_HEIGHT / crop.bounds.height);
+  const width = Math.max(1, Math.round(crop.bounds.width * scale));
+  const height = Math.max(1, Math.round(crop.bounds.height * scale));
+  const resized = await sharp(crop.buffer, {
+    raw: {width: crop.bounds.width, height: crop.bounds.height, channels: 4}
+  }).resize({width, height, fit: 'fill', kernel: sharp.kernel.lanczos3})
+    .png({compressionLevel: 9, adaptiveFiltering: true})
+    .toBuffer();
+  const left = Math.max(2, Math.min(FRAME_WIDTH - width - 2, Math.round((FRAME_WIDTH - width) / 2) + FRAME_OFFSETS[column].x));
+  const top = Math.max(2, Math.min(FRAME_HEIGHT - height - 2, BASELINE - height + FRAME_OFFSETS[column].y));
+  const frame = await sharp({
+    create: {width: FRAME_WIDTH, height: FRAME_HEIGHT, channels: 4, background: {r: 0, g: 0, b: 0, alpha: 0}}
+  }).composite([{input: resized, left, top}])
+    .png({compressionLevel: 9, adaptiveFiltering: true})
+    .toBuffer();
+  return {frame, placement: {left, top, width, height}};
+}
+
+async function prepareAuthoredSksFrames(sourcePath) {
+  const sourceBytes = fs.readFileSync(sourcePath);
+  const decoded = await sharp(sourceBytes).ensureAlpha().raw().toBuffer({resolveWithObject: true});
+  const removedBackgroundPixels = removeConnectedDarkBackground(decoded.data, decoded.info);
+  const componentsByFrame = authoredSksComponentsByFrame(collectVisibleComponents(decoded.data, decoded.info), decoded.info.width);
+  const frames = [];
+  const sourceFrames = [];
+  const placements = [];
+  for (let column = 0; column < COLUMNS; column += 1) {
+    const crop = isolatedComponentCrop(decoded.data, decoded.info, componentsByFrame[column]);
+    const normalized = await normalizeAuthoredSksFrame(crop, column);
+    frames.push(normalized.frame);
+    placements.push(normalized.placement);
+    sourceFrames.push({
+      column,
+      sourceBounds: crop.bounds,
+      selectedComponents: componentsByFrame[column].map((component) => ({
+        pixels: component.count,
+        left: component.minX,
+        top: component.minY,
+        width: component.width,
+        height: component.height
+      })),
+      outputPlacement: normalized.placement
+    });
+  }
+  return {
+    sourcePath,
+    sourceBytes,
+    sourceSha256: sha256(sourceBytes),
+    sourceDimensions: {width: decoded.info.width, height: decoded.info.height},
+    removedBackgroundPixels,
+    alphaPolicy: 'EDGE_CONNECTED_DARK_BACKGROUND_REMOVAL_NO_REDRAW',
+    frames,
+    sourceFrames,
+    transparent: true
+  };
+}
+
+async function prepareGripPose(sourcePath, suit, strictGreenBounds = false) {
   const decoded = await sharp(sourcePath).ensureAlpha().raw().toBuffer({resolveWithObject: true});
-  const masks = chromaMasks(decoded.data, decoded.info);
+  const masks = chromaMasks(decoded.data, decoded.info, strictGreenBounds);
   applyProxyKey(decoded.data, decoded.info, masks.blueMask, masks.greenMask);
   const visible = visibleBoundsRaw(decoded.data, decoded.info);
   const scale = Math.min(BODY_HEIGHT / visible.height, BODY_MAX_WIDTH / visible.width);
@@ -298,7 +524,25 @@ async function bodyFrame(body, offset) {
   }]).png({compressionLevel: 9, adaptiveFiltering: true}).toBuffer();
 }
 
-async function compositeFrame(body, weapon, offset, placementAdjustment = {x: 0, y: 0}) {
+async function foregroundFrame(bodyPng, regions, offset) {
+  const layers = [];
+  for (const region of regions) {
+    const left = Math.max(0, Math.min(FRAME_WIDTH - 1, region.left + offset.x));
+    const top = Math.max(0, Math.min(FRAME_HEIGHT - 1, region.top + offset.y));
+    const width = Math.max(1, Math.min(region.width, FRAME_WIDTH - left));
+    const height = Math.max(1, Math.min(region.height, FRAME_HEIGHT - top));
+    const input = await sharp(bodyPng)
+      .extract({left, top, width, height})
+      .png({compressionLevel: 9, adaptiveFiltering: true})
+      .toBuffer();
+    layers.push({input, left, top});
+  }
+  return sharp({
+    create: {width: FRAME_WIDTH, height: FRAME_HEIGHT, channels: 4, background: {r: 0, g: 0, b: 0, alpha: 0}}
+  }).composite(layers).png({compressionLevel: 9, adaptiveFiltering: true}).toBuffer();
+}
+
+async function compositeFrame(body, weapon, offset, placementAdjustment = {x: 0, y: 0}, foregroundRegions = null) {
   const bodyPng = await bodyFrame(body, offset);
   const proxyCenterX = body.proxy.left + body.proxy.width / 2;
   const proxyCenterY = body.proxy.top + body.proxy.height / 2;
@@ -310,12 +554,19 @@ async function compositeFrame(body, weapon, offset, placementAdjustment = {x: 0,
     FRAME_HEIGHT - FRAME_MARGIN - weapon.height,
     Math.round(proxyCenterY - weapon.height / 2) + offset.y + placementAdjustment.y
   ));
+  const layers = foregroundRegions?.length
+    ? [
+      {input: bodyPng, left: 0, top: 0},
+      {input: weapon.buffer, left, top},
+      {input: await foregroundFrame(bodyPng, foregroundRegions, offset), left: 0, top: 0}
+    ]
+    : [
+      {input: weapon.buffer, left, top},
+      {input: bodyPng, left: 0, top: 0}
+    ];
   const composed = await sharp({
     create: {width: FRAME_WIDTH, height: FRAME_HEIGHT, channels: 4, background: {r: 0, g: 0, b: 0, alpha: 0}}
-  }).composite([
-    {input: weapon.buffer, left, top},
-    {input: bodyPng, left: 0, top: 0}
-  ]).png({compressionLevel: 9, adaptiveFiltering: true}).toBuffer();
+  }).composite(layers).png({compressionLevel: 9, adaptiveFiltering: true}).toBuffer();
   return {composed, bodyPng, weaponPlacement: {left, top, width: weapon.width, height: weapon.height}};
 }
 
@@ -407,6 +658,25 @@ async function muzzlePoint(weapon, placement) {
   };
 }
 
+async function authoredMuzzlePoint(frame) {
+  const {data, info} = await rawPixels(frame);
+  let maxX = -1;
+  for (let y = 0; y < info.height; y += 1) {
+    for (let x = 0; x < info.width; x += 1) {
+      if (data[(y * info.width + x) * 4 + 3] >= ALPHA_THRESHOLD) maxX = Math.max(maxX, x);
+    }
+  }
+  if (maxX < 0) throw new Error('Authored SKS frame has no visible muzzle');
+  const ys = [];
+  for (let y = 0; y < info.height; y += 1) {
+    for (let x = Math.max(0, maxX - 3); x <= maxX; x += 1) {
+      if (data[(y * info.width + x) * 4 + 3] >= ALPHA_THRESHOLD) ys.push(y);
+    }
+  }
+  ys.sort((left, right) => left - right);
+  return {x: maxX, y: ys[Math.floor(ys.length / 2)]};
+}
+
 async function build() {
   fs.mkdirSync(SUIT_ROOT, {recursive: true});
   fs.mkdirSync(ANIMATION_ROOT, {recursive: true});
@@ -428,6 +698,8 @@ async function build() {
     const gripProxyPath = path.join(SOURCE_ROOT, suit.gripProxy);
     const gripProxyBytes = fs.readFileSync(gripProxyPath);
     const cleaned = await cleanSource(sourcePath, suit.chroma);
+    const authoredSksPath = path.join(SOURCE_ROOT, suit.authoredSksSource);
+    const authoredSks = await prepareAuthoredSksFrames(authoredSksPath);
     const gripPoseCache = new Map();
     const getGripPose = async (weaponCode) => {
       const filename = suit.weaponGripProxies?.[weaponCode] || suit.gripProxy;
@@ -437,7 +709,11 @@ async function build() {
           filename,
           path: selectedPath,
           bytes: fs.readFileSync(selectedPath),
-          body: await prepareGripPose(selectedPath, suit)
+          body: await prepareGripPose(
+            selectedPath,
+            {...suit, bodyOffsetX: suit.weaponBodyOffsetX?.[weaponCode] ?? suit.bodyOffsetX},
+            filename.includes('-sks-grip-proxy-v5.png')
+          )
         });
       }
       return gripPoseCache.get(filename);
@@ -463,25 +739,77 @@ async function build() {
           policy: 'DEDICATED_WEAPON_GEOMETRY_AND_CONTACT_POINTS'
         };
       }),
+      authoredSksSource: webPath(authoredSksPath),
+      authoredSksSourceSha256: authoredSks.sourceSha256,
+      authoredSksSourceDimensions: authoredSks.sourceDimensions,
+      authoredSksPolicy: 'USER_PROVIDED_SECOND_ROW_FINAL_COMPOSITE_NO_GENERATIVE_REDRAW',
+      authoredSksAlphaPreparation: authoredSks.alphaPolicy,
+      authoredSksRemovedBackgroundPixels: authoredSks.removedBackgroundPixels,
+      authoredSksFrames: authoredSks.sourceFrames,
       alphaPreparation: suit.chroma ? 'IMAGEGEN_SOLID_CHROMA_THEN_DETERMINISTIC_ALPHA_KEY' : 'IMAGEGEN_NATIVE_RGBA'
     });
 
     for (const [pair, weaponCodes] of Object.entries(PAIRS)) {
       const cells = [];
-      const outputPath = path.join(ANIMATION_ROOT, `${suit.slug}-${pair}-horizontal-fire-atlas-v3.png`);
+      const atlasVersion = pair === 'ak-sks' ? 'v5' : 'v3';
+      const outputPath = path.join(ANIMATION_ROOT, `${suit.slug}-${pair}-horizontal-fire-atlas-${atlasVersion}.png`);
       for (let row = 0; row < ROWS; row += 1) {
         const weaponCode = weaponCodes[row];
         const weaponConfig = WEAPONS[weaponCode];
+        if (weaponCode === AUTHORED_SKS_CODE) {
+          const frames = authoredSks.frames;
+          for (let column = 0; column < COLUMNS; column += 1) {
+            cells.push({input: frames[column], left: column * FRAME_WIDTH, top: row * FRAME_HEIGHT});
+          }
+          const frameBounds = await Promise.all(frames.map(boundsOf));
+          const pivots = await Promise.all(frames.map(solePivot));
+          const fireMuzzle = await authoredMuzzlePoint(frames[1]);
+          const bodyBounds = frameBounds[0];
+          diagnostics.entries.push({
+            suitCode,
+            weaponCode,
+            weaponSlug: weaponConfig.slug,
+            pair,
+            row,
+            bodyBounds: {headY: bodyBounds.minY, soleY: bodyBounds.maxY, height: bodyBounds.height},
+            contentBounds: {top: Math.min(...frameBounds.map((item) => item.minY)), bottom: Math.max(...frameBounds.map((item) => item.maxY))},
+            pivots,
+            muzzle: fireMuzzle,
+            bodySourceSha256: authoredSks.sourceSha256,
+            cleanBodySourceSha256: sha256(sourceBytes),
+            authoredCompositeSource: webPath(authoredSksPath),
+            authoredCompositeSourceSha256: authoredSks.sourceSha256,
+            authoredCompositeSourceDimensions: authoredSks.sourceDimensions,
+            authoredFramePreparation: authoredSks.alphaPolicy,
+            authoredSourceFrames: authoredSks.sourceFrames,
+            exactWeaponSourceSha256: null,
+            preparedWeaponSha256: null,
+            preparedWeaponDimensions: null,
+            exactWeaponRotationDegrees: 0,
+            canonicalLocked: false,
+            usesDedicatedGripPose: false,
+            dedicatedGripPoseKind: null,
+            weaponPlacementAdjustment: {x: 0, y: 0},
+            weaponPlacement: authoredSks.sourceFrames[0].outputPlacement,
+            weaponPlacements: authoredSks.sourceFrames.map((frame) => frame.outputPlacement),
+            legacyWeaponPixelsRemoved: 0,
+            exactWeaponOnly: false,
+            gripProxyRemoved: null,
+            semanticLayerOrder: ['USER_AUTHORED_FULL_COMPOSITE']
+          });
+          continue;
+        }
         const gripPose = await getGripPose(weaponCode);
         const body = gripPose.body;
         const usesDedicatedGripPose = Boolean(suit.weaponGripProxies?.[weaponCode]);
         const proxyScale = usesDedicatedGripPose ? 1 : weaponConfig.proxyScale;
-        const targetWidth = Math.max(248, Math.min(
+        const targetWidth = suit.weaponTargetWidths?.[weaponCode] || Math.max(248, Math.min(
           FRAME_WIDTH - FRAME_MARGIN * 2,
           Math.round(body.proxy.width * proxyScale)
         ));
         const weapon = {...weaponConfig, ...(await prepareWeapon(weaponConfig, targetWidth))};
         const frames = [];
+        const weaponPlacements = [];
         let bodyBounds = null;
         let fireMuzzle = null;
         for (let column = 0; column < COLUMNS; column += 1) {
@@ -496,12 +824,14 @@ async function build() {
             placement = {left: 0, top: 0, width: FRAME_WIDTH, height: FRAME_HEIGHT};
           } else {
             const placementAdjustment = suit.weaponPlacementAdjustments?.[weaponCode] || {x: 0, y: 0};
-            const built = await compositeFrame(body, weapon, FRAME_OFFSETS[column], placementAdjustment);
+            const foregroundRegions = suit.weaponForegroundRegions?.[weaponCode] || null;
+            const built = await compositeFrame(body, weapon, FRAME_OFFSETS[column], placementAdjustment, foregroundRegions);
             frame = built.composed;
             bodyOnly = built.bodyPng;
             placement = built.weaponPlacement;
           }
           frames.push(frame);
+          weaponPlacements.push(placement);
           cells.push({input: frame, left: column * FRAME_WIDTH, top: row * FRAME_HEIGHT});
           if (column === 0) bodyBounds = canonicalLocked
             ? {minX: 0, minY: 39, maxX: 383, maxY: 479, width: 384, height: 441}
@@ -526,14 +856,23 @@ async function build() {
           cleanBodySourceSha256: sha256(sourceBytes),
           gripProxySource: webPath(gripPose.path),
           gripProxySourceSha256: sha256(gripPose.bytes),
+          gripProxyBounds: body.proxy,
           exactWeaponSourceSha256: sha256(fs.readFileSync(weapon.sourcePath)),
+          preparedWeaponSha256: sha256(weapon.buffer),
+          preparedWeaponDimensions: {width: weapon.width, height: weapon.height},
+          exactWeaponRotationDegrees: 0,
           canonicalLocked: suitCode === 'BATTLE_SUIT_02' && weaponCode === 'EQ_1785427638137',
           usesDedicatedGripPose,
+          dedicatedGripPoseKind: usesDedicatedGripPose ? weapon.slug.toUpperCase() : null,
           weaponPlacementAdjustment: suit.weaponPlacementAdjustments?.[weaponCode] || {x: 0, y: 0},
+          weaponPlacement: weaponPlacements[0],
+          weaponPlacements,
           legacyWeaponPixelsRemoved: 0,
           exactWeaponOnly: true,
           gripProxyRemoved: true,
-          semanticLayerOrder: ['EXACT_DATABASE_WEAPON', 'BODY_ARMS_AND_HANDS_FOREGROUND']
+          semanticLayerOrder: suit.weaponForegroundRegions?.[weaponCode]
+            ? ['BODY_BASE_BEHIND', 'EXACT_DATABASE_WEAPON', 'HANDS_FOREARMS_FOREGROUND']
+            : ['EXACT_DATABASE_WEAPON', 'BODY_ARMS_AND_HANDS_FOREGROUND']
         });
       }
       await writeAtlas(cells, outputPath);
@@ -559,7 +898,7 @@ async function build() {
   const provenance = {
     version: 'v2',
     tool: 'OpenAI built-in image generation tool',
-    purpose: 'PROJECT V V3 PVE-only Battle Suit appearance 01 mechanical redesign, appearance 02 scale/overlap repair, appearance 03 model-02 rebuild, and complete M4A1/AK/M200/SKS coverage',
+    purpose: 'PROJECT V V3 PVE-only Battle Suit appearance 01/02/03 firearm coverage with the user-approved second-row SKS composites connected as transparent runtime frames',
     approvedModelAnchor: {
       suitCode: 'BATTLE_SUIT_02',
       weaponCode: 'EQ_1785427638137',
@@ -569,7 +908,8 @@ async function build() {
       cleanBodyVariants: 'Generate three full-body Battle Suit variants in the approved Suit 02 scale and horizontal two-hand ready pose, with no weapon so no legacy rifle pixels can remain.',
       gripProxyVariants: 'Generate each approved female Battle Suit holding one flat featureless green horizontal rifle proxy on a solid blue background: stock seated in the rear shoulder, trigger hand on the pistol grip, support hand under the forward handguard, elbows bent, and no rifle intersection through chest, face, arms or hands.',
       dedicatedM200GripVariants: 'For Suit 02 and Suit 03, generate a separate long-precision-rifle pose with the butt pad contacting the rear shoulder plate, the rear hand on the trigger grip, the forward hand under the receiver front, and the eye line behind the optic; never reuse the AR pose for M200.',
-      exactWeaponComposite: 'Key out the blue background and green rifle proxy, composite the exact approved database battle-sprite raster beneath the retained body, arms and hands with rotation at exactly 0 degrees, and never redraw a weapon; runtime owns muzzle flash.',
+      authoredSksSecondRows: 'Use the user-approved second row for Battle Suit 01, 02 and 03 exactly as supplied; remove only the connected black background, preserve all character and SKS pixels, keep the rifle at the authored horizontal 0-degree axis, and do not redraw or recomposite the weapon.',
+      exactWeaponComposite: 'For M4A1, AK and M200, key out the pose proxy and composite the exact approved database battle-sprite raster with rotation at exactly 0 degrees. For SKS, use the complete user-approved second-row composite without separating or redrawing the rifle. Runtime owns muzzle flash.',
       suit01: 'Use the approved Suit 02 adult female scale and horizontal rifle-ready stance; redesign Suit 01 as a white-gold-cyan hard-surface mechanical exosuit with segmented armor, visible joints, servos and restrained mechanical fins; no weapon.',
       suit02: 'Preserve the approved orange-bob black-white cyber tactical Suit 02 modeling and horizontal two-handed rifle-ready pose; remove the weapon and return a clean isolated body.',
       suit03: 'Rebuild Suit 03 on Suit 02 adult female proportions, stance, camera and screen occupancy; retain magenta-white-black-gold helmeted exosuit identity; no weapon.',
@@ -579,6 +919,8 @@ async function build() {
     exactDatabaseWeaponSources: weaponProvenance,
     gripLayerAtlasScript: '/scripts/build-battle-suit-atlases-v3.cjs',
     semanticLayerOrder: ['EXACT_DATABASE_WEAPON', 'BODY_ARMS_AND_HANDS_FOREGROUND'],
+    sksSemanticLayerOrder: ['USER_AUTHORED_FULL_COMPOSITE'],
+    authoredSksAlphaPolicy: 'EDGE_CONNECTED_DARK_BACKGROUND_REMOVAL_NO_REDRAW',
     cleanBodyAtlasScript: '/scripts/build-battle-suit-atlases-v3.cjs',
     deterministicCompositeScript: '/scripts/build-battle-suit-atlases-v3.cjs',
     buildDiagnostics: webPath(DIAGNOSTICS_PATH),

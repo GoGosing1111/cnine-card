@@ -1,5 +1,5 @@
 {
-  "version": "v3",
+  "version": "v5",
   "contract": "PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1",
   "generationProvenance": "/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v2.json",
   "scope": "PVE_ONLY",
@@ -24,6 +24,11 @@
       "EXACT_DATABASE_WEAPON",
       "BODY_ARMS_AND_HANDS_FOREGROUND"
     ],
+    "sksAuthoredLayerOrder": [
+      "USER_AUTHORED_FULL_COMPOSITE"
+    ],
+    "sksSourcePolicy": "USER_PROVIDED_SECOND_ROW_TRANSPARENT_NO_REDRAW",
+    "sksExactRotationDegrees": 0,
     "loadPolicy": "EQUIPPED_SUIT_AND_WEAPON_PAIR_ONLY",
     "fallback": "STATIC_BODY_PLUS_WEAPON"
   },
@@ -79,9 +84,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v3.png",
-          "sha256": "4407699F9D1E56C3CC3178E82694A18804362E12397F25779AB63FFBD06AD9C2",
-          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-01-ak-sks-horizontal-fire-atlas-v5.png",
+          "sha256": "47A373CF6720DC094C13DBF11E588CD851E4DE2A0C14E0F75027FE07F989B946",
+          "composition": "AK_EXACT_DATABASE_ROW_PLUS_USER_AUTHORED_SKS_SECOND_ROW_V5",
           "weaponRows": [
             {
               "row": 0,
@@ -116,9 +121,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v3.png",
-          "sha256": "F8A43F5032669AF3881F19442F41971393C6EBE4F8E850B58A53C8D034DEA34C",
-          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-02-ak-sks-horizontal-fire-atlas-v5.png",
+          "sha256": "BC6CA5C5366C5A92D1311EF88764E3D4D297E8F81D7E1DA817EC784D61EA0B48",
+          "composition": "AK_EXACT_DATABASE_ROW_PLUS_USER_AUTHORED_SKS_SECOND_ROW_V5",
           "weaponRows": [
             {
               "row": 0,
@@ -153,9 +158,9 @@
           ]
         },
         "akSks": {
-          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v3.png",
-          "sha256": "D1E5608E80DC9EF81CC5FA3A4DF1B40BB4715AE904244E4006E7B5F03D2ADE6A",
-          "composition": "GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3",
+          "image": "/assets/ui/project-v/account-battle-suits/animations/battle-suit-03-ak-sks-horizontal-fire-atlas-v5.png",
+          "sha256": "A4873E671CA04E42D16F59B3891EB825F64946C9440CB8C246F55C8116DC054F",
+          "composition": "AK_EXACT_DATABASE_ROW_PLUS_USER_AUTHORED_SKS_SECOND_ROW_V5",
           "weaponRows": [
             {
               "row": 0,

@@ -29,8 +29,8 @@ assert.match(source,/setBattlefield/);
 assert.match(client,/battleQcState\.battlefield=button\.dataset\.battlefield/);
 assert.match(client,/ensureBattleQcSession\(\{reset:true\}\)/);
 assert.match(client,/battlefieldMode:battleQcState\.battlefield/);
-assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=84-contact-locked-four-weapons/);
-assert.match(html,/project-v-client\.js\?v=63-contact-locked-four-weapons/);
+assert.match(client,/project-v-pixi-battle\.bundle\.js\?v=86-sks-authored-transparent/);
+assert.match(html,/project-v-client\.js\?v=65-sks-authored-transparent/);
 assert.ok(fs.statSync('preview/project-v-v3/project-v-pixi-battle.bundle.js').size>700_000,'rebuilt public Pixi bundle missing');
 
 console.log('project-v V3 multi-battlefield contract: OK');

@@ -19,6 +19,7 @@ const WEAPON_GROUPS=Object.freeze({
   akSks:Object.freeze(['EQ_1785961232958','EQ_1786966923833'])
 });
 const WEAPON_CODES=Object.freeze(Object.values(WEAPON_GROUPS).flat());
+const SKS_CODE='EQ_1786966923833';
 const FRAME_ORDER=Object.freeze(['ready','fire','recoil','recover']);
 const DURATIONS_MS=Object.freeze({ready:45,fire:45,recoil:70,recover:125});
 
@@ -117,9 +118,9 @@ async function manifestPairMap(){
   return pairs;
 }
 
-test('animated Battle Suit v3 manifest preserves the PVE-only five-card/static-fallback contract',async()=>{
+test('animated Battle Suit v5 manifest preserves the PVE-only five-card/static-fallback contract',async()=>{
   const manifest=await readManifest();
-  assert.equal(manifest.version,'v3');
+  assert.equal(manifest.version,'v5');
   assert.equal(manifest.contract,'PROJECT_V_ACCOUNT_BATTLE_SUIT_ANIMATED_V1');
   assert.equal(manifest.scope,'PVE_ONLY');
   assert.equal(manifest.generationProvenance,'/assets/ui/project-v/account-battle-suits/animation-generation-provenance-v2.json');
@@ -130,7 +131,11 @@ test('animated Battle Suit v3 manifest preserves the PVE-only five-card/static-f
   assert.match(provenance.finalPromptSet?.cleanBodyVariants||'',/no weapon/i);
   assert.match(provenance.finalPromptSet?.gripProxyVariants||'',/trigger hand on the pistol grip/i);
   assert.match(provenance.finalPromptSet?.dedicatedM200GripVariants||'',/butt pad contacting the rear shoulder plate/i);
+  assert.match(provenance.finalPromptSet?.authoredSksSecondRows||'',/second row/i);
+  assert.match(provenance.finalPromptSet?.authoredSksSecondRows||'',/do not redraw/i);
   assert.deepEqual(provenance.semanticLayerOrder,['EXACT_DATABASE_WEAPON','BODY_ARMS_AND_HANDS_FOREGROUND']);
+  assert.deepEqual(provenance.sksSemanticLayerOrder,['USER_AUTHORED_FULL_COMPOSITE']);
+  assert.equal(provenance.authoredSksAlphaPolicy,'EDGE_CONNECTED_DARK_BACKGROUND_REMOVAL_NO_REDRAW');
   assert.match(provenance.finalPromptSet?.exactWeaponComposite||'',/exact approved database battle-sprite raster/i);
   assert.match(provenance.finalPromptSet?.exactWeaponComposite||'',/rotation (?:at|to) (?:exactly )?0 degrees/i);
   assert.deepEqual(manifest.animationContract?.grid,{columns:4,rows:2});
@@ -149,6 +154,9 @@ test('animated Battle Suit v3 manifest preserves the PVE-only five-card/static-f
   assert.equal(manifest.renderContract?.authoredCompositeForApprovedWeapons,true);
   assert.equal(manifest.renderContract?.fallbackBodyAndWeaponAreSeparate,true);
   assert.equal(manifest.renderContract?.approvedWeaponBinding,'equippedWeapon.code');
+  assert.deepEqual(manifest.renderContract?.sksAuthoredLayerOrder,['USER_AUTHORED_FULL_COMPOSITE']);
+  assert.equal(manifest.renderContract?.sksSourcePolicy,'USER_PROVIDED_SECOND_ROW_TRANSPARENT_NO_REDRAW');
+  assert.equal(manifest.renderContract?.sksExactRotationDegrees,0);
   assert.equal(manifest.renderContract?.loadPolicy,'EQUIPPED_SUIT_AND_WEAPON_PAIR_ONLY');
   assert.equal(manifest.renderContract?.fallback,'STATIC_BODY_PLUS_WEAPON');
 
@@ -158,7 +166,7 @@ test('animated Battle Suit v3 manifest preserves the PVE-only five-card/static-f
   const femaleSuit=manifest.suits.find(item=>item.code==='BATTLE_SUIT_01');
   assert.match(femaleSuit?.image||'',/battle-suit-appearance-01-[^/]+-v3\.png$/);
   assert.match(femaleSuit?.animationSheets?.m4a1M200?.image||'',/horizontal-fire-atlas-v3\.png$/);
-  assert.match(femaleSuit?.animationSheets?.akSks?.image||'',/horizontal-fire-atlas-v3\.png$/);
+  assert.match(femaleSuit?.animationSheets?.akSks?.image||'',/horizontal-fire-atlas-v5\.png$/);
   const compositeScript=await readFile(compositeScriptUrl,'utf8');
   assert.match(compositeScript,/const forceHorizontal=optionArgs\.includes\('--force-horizontal'\)/);
   assert.match(compositeScript,/const rotationDegrees=forceHorizontal\?0:measurement\.angleDegrees/);
@@ -179,6 +187,12 @@ test('animated Battle Suit v3 manifest preserves the PVE-only five-card/static-f
     const manifestSuit=manifest.suits.find(item=>item.code===suitCode);
     assert.equal(source.transparentStatic,manifestSuit?.image,`${suitCode} provenance static path`);
     assert.equal(source.transparentStaticSha256,manifestSuit?.sha256,`${suitCode} provenance static hash`);
+    assert.match(source?.authoredSksSource||'',/battle-suit-\d{2}-sks-second-row-clean-v1\.png$/);
+    assert.equal(source?.authoredSksPolicy,'USER_PROVIDED_SECOND_ROW_FINAL_COMPOSITE_NO_GENERATIVE_REDRAW');
+    assert.equal(source?.authoredSksAlphaPreparation,'EDGE_CONNECTED_DARK_BACKGROUND_REMOVAL_NO_REDRAW');
+    assert.ok(Number(source?.authoredSksRemovedBackgroundPixels)>1_000_000,`${suitCode} must remove the connected black canvas`);
+    assert.equal(sha256(await readFile(assetFileUrl(source.authoredSksSource))),source.authoredSksSourceSha256,`${suitCode} authored SKS source hash`);
+    assert.equal(source?.authoredSksFrames?.length,4,`${suitCode} authored SKS frame provenance`);
   }
 
   // The authored atlas supplements the deployed database preview/fallback art;
@@ -198,14 +212,18 @@ test('animated Battle Suit v3 manifest preserves the PVE-only five-card/static-f
   }
 });
 
-test('all six immutable v3 authored sheets are exact transparent 1536x1024 4x2 grids',async()=>{
+test('all six immutable authored sheets are exact transparent 1536x1024 4x2 grids',async()=>{
   const manifest=await readManifest();
   const paths=[];
   for(const suit of manifest.suits){
     const seenWeapons=[];
     for(const [group,sheet] of animationSheetEntries(suit)){
-      assert.equal(sheet.composition,'GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3',`${suit.code}/${group} must keep the weapon behind the retained hands and forearms`);
-      assert.match(sheet.image,/^\/assets\/ui\/project-v\/account-battle-suits\/animations\/[a-z0-9-]+-atlas-v3\.png$/,`${suit.code}/${group} must use the immutable v3 atlas path`);
+      const expectedVersion=group==='akSks'?'v5':'v3';
+      const expectedComposition=group==='akSks'
+        ?'AK_EXACT_DATABASE_ROW_PLUS_USER_AUTHORED_SKS_SECOND_ROW_V5'
+        :'GRIP_PROXY_HAND_FOREGROUND_EXACT_DATABASE_WEAPON_V3';
+      assert.equal(sheet.composition,expectedComposition,`${suit.code}/${group} composition contract`);
+      assert.match(sheet.image,new RegExp(`^/assets/ui/project-v/account-battle-suits/animations/[a-z0-9-]+-atlas-${expectedVersion}\\.png$`),`${suit.code}/${group} immutable atlas path`);
       assert.equal(new URL(sheet.image,'https://soopketmon.invalid').search,'',`${sheet.image} must version the filename, not a mutable query`);
       assert.match(sheet.sha256,/^[A-F0-9]{64}$/);
       paths.push(sheet.image);
@@ -308,11 +326,29 @@ test('v3 build diagnostics prove grip-layer scale consistency and exact-weapon-o
 
   for(const entry of diagnostics.entries){
     assert.match(entry.bodySourceSha256,/^[A-F0-9]{64}$/,`${entry.suitCode}/${entry.weaponCode} body source hash`);
-    assert.equal(entry.exactWeaponSourceSha256,weaponHashes.get(entry.weaponCode),`${entry.suitCode}/${entry.weaponCode} exact DB weapon source hash`);
+    assert.equal(entry.exactWeaponRotationDegrees,0,`${entry.suitCode}/${entry.weaponCode} exact DB weapon must remain at 0 degrees`);
     assert.equal(entry.legacyWeaponPixelsRemoved,0,`${entry.suitCode}/${entry.weaponCode} clean body must require no legacy rifle erasure`);
-    assert.equal(entry.exactWeaponOnly,true,`${entry.suitCode}/${entry.weaponCode} must contain only the selected exact DB weapon raster`);
-    assert.equal(entry.gripProxyRemoved,true,`${entry.suitCode}/${entry.weaponCode} green pose proxy must be removed`);
-    assert.deepEqual(entry.semanticLayerOrder,['EXACT_DATABASE_WEAPON','BODY_ARMS_AND_HANDS_FOREGROUND'],`${entry.suitCode}/${entry.weaponCode} semantic layer order`);
+    if(entry.weaponCode===SKS_CODE){
+      assert.equal(entry.exactWeaponSourceSha256,null,`${entry.suitCode}/SKS must not claim a recomposited DB raster`);
+      assert.equal(entry.preparedWeaponSha256,null,`${entry.suitCode}/SKS must use the supplied complete composite`);
+      assert.equal(entry.preparedWeaponDimensions,null,`${entry.suitCode}/SKS has no separately prepared weapon`);
+      assert.equal(entry.exactWeaponOnly,false,`${entry.suitCode}/SKS is a user-authored full composite`);
+      assert.equal(entry.gripProxyRemoved,null,`${entry.suitCode}/SKS does not use a green pose proxy`);
+      assert.match(entry.authoredCompositeSource||'',/battle-suit-\d{2}-sks-second-row-clean-v1\.png$/);
+      assert.equal(entry.authoredFramePreparation,'EDGE_CONNECTED_DARK_BACKGROUND_REMOVAL_NO_REDRAW');
+      assert.equal(entry.authoredCompositeSourceSha256,entry.bodySourceSha256);
+      assert.equal(entry.authoredSourceFrames?.length,4);
+    }else{
+      assert.equal(entry.exactWeaponSourceSha256,weaponHashes.get(entry.weaponCode),`${entry.suitCode}/${entry.weaponCode} exact DB weapon source hash`);
+      assert.match(entry.preparedWeaponSha256,/^[A-F0-9]{64}$/,`${entry.suitCode}/${entry.weaponCode} deterministic prepared weapon hash`);
+      assert.ok(Number(entry.preparedWeaponDimensions?.width)>0&&Number(entry.preparedWeaponDimensions?.height)>0,`${entry.suitCode}/${entry.weaponCode} prepared weapon dimensions`);
+      assert.equal(entry.exactWeaponOnly,true,`${entry.suitCode}/${entry.weaponCode} must contain only the selected exact DB weapon raster`);
+      assert.equal(entry.gripProxyRemoved,true,`${entry.suitCode}/${entry.weaponCode} green pose proxy must be removed`);
+    }
+    const expectedLayerOrder=entry.weaponCode===SKS_CODE
+      ?['USER_AUTHORED_FULL_COMPOSITE']
+      :['EXACT_DATABASE_WEAPON','BODY_ARMS_AND_HANDS_FOREGROUND'];
+    assert.deepEqual(entry.semanticLayerOrder,expectedLayerOrder,`${entry.suitCode}/${entry.weaponCode} semantic layer order`);
     const {headY,soleY,height}=entry.bodyBounds||{};
     assert.ok(Number.isInteger(headY)&&Number.isInteger(soleY)&&Number.isInteger(height),`${entry.suitCode}/${entry.weaponCode} body bounds must be integral pixels`);
     assert.ok(headY>=0&&headY<soleY&&soleY<512,`${entry.suitCode}/${entry.weaponCode} body bounds must fit one frame`);
@@ -328,9 +364,9 @@ test('v3 build diagnostics prove grip-layer scale consistency and exact-weapon-o
   for(const entry of diagnostics.entries){
     const key=`${entry.suitCode}:${entry.weaponCode}`;
     const dedicated=dedicatedM200Keys.has(key);
-    assert.equal(entry.usesDedicatedGripPose,dedicated,`${key} dedicated M200 pose contract`);
-    assert.equal(entry.bodySourceSha256,entry.gripProxySourceSha256,`${key} body must come from its keyed grip pose`);
+    assert.equal(entry.usesDedicatedGripPose,dedicated,`${key} dedicated weapon pose contract`);
     if(dedicated){
+      assert.equal(entry.bodySourceSha256,entry.gripProxySourceSha256,`${key} body must come from its keyed grip pose`);
       assert.match(entry.gripProxySource,/-m200-grip-proxy-v4\.png$/,`${key} dedicated M200 proxy path`);
       const suitProvenance=provenanceBySuit.get(entry.suitCode);
       const proxy=suitProvenance?.weaponSpecificGripProxies?.find(item=>item.weaponCode===entry.weaponCode);
@@ -341,13 +377,28 @@ test('v3 build diagnostics prove grip-layer scale consistency and exact-weapon-o
       assert.ok(Number(entry.weaponPlacementAdjustment?.y)>0,`${key} must record its contact-point vertical correction`);
     }
   }
-  assert.equal(provenance.generatedOriginals.flatMap(source=>source.weaponSpecificGripProxies||[]).length,2,'only Suit 02/03 M200 need dedicated proxies');
+  assert.equal(provenance.generatedOriginals.flatMap(source=>source.weaponSpecificGripProxies||[]).length,2,'only the two M200 rows use dedicated green proxies');
+
+  const expectedSksPlacement=new Map([
+    ['BATTLE_SUIT_01',{left:5,top:39,width:374,height:440,muzzleX:374,muzzleY:133}],
+    ['BATTLE_SUIT_02',{left:4,top:62,width:376,height:417,muzzleX:376,muzzleY:124}],
+    ['BATTLE_SUIT_03',{left:4,top:63,width:376,height:416,muzzleX:375,muzzleY:145}]
+  ]);
+  for(const suitCode of SUIT_CODES){
+    const sks=diagnostics.entries.find(entry=>entry.suitCode===suitCode&&entry.weaponCode===SKS_CODE);
+    const expected=expectedSksPlacement.get(suitCode);
+    assert.deepEqual(sks.weaponPlacement,{left:expected.left,top:expected.top,width:expected.width,height:expected.height},`${suitCode} SKS authored frame placement`);
+    assert.deepEqual(sks.muzzle,{x:expected.muzzleX,y:expected.muzzleY},`${suitCode} SKS authored horizontal muzzle anchor`);
+    assert.deepEqual(sks.semanticLayerOrder,['USER_AUTHORED_FULL_COMPOSITE']);
+  }
 
   for(const suitCode of SUIT_CODES){
     const reference=diagnostics.entries.find(entry=>entry.suitCode===suitCode&&entry.weaponCode==='EQ_1785961232958').bodyBounds;
     const m200=diagnostics.entries.find(entry=>entry.suitCode===suitCode&&entry.weaponCode==='EQ_1785961300455');
+    const sks=diagnostics.entries.find(entry=>entry.suitCode===suitCode&&entry.weaponCode===SKS_CODE);
     for(const [metric,label] of [['headY','head'],['soleY','sole'],['height','body scale']]){
       assert.ok(Math.abs(m200.bodyBounds[metric]-reference[metric])<=2,`${suitCode} M200 ${label} must stay within 2px of the AR pose`);
+      assert.ok(Math.abs(sks.bodyBounds[metric]-reference[metric])<=32,`${suitCode} SKS ${label} must remain visually compatible with the AR pose`);
     }
   }
 });
