@@ -89,6 +89,14 @@ function setAccountPreviewFirearmHook(handler){
   return Boolean(accountPreviewFirearmHook);
 }
 
+function startAccountBattleUnitSustainedFire(){
+  return engine?.startAccountBattleUnitSustainedFire?.()||null;
+}
+
+function stopAccountBattleUnitSustainedFire(){
+  return engine?.stopAccountBattleUnitSustainedFire?.()||Promise.resolve(0);
+}
+
 async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
   if(!engine)return {played:false,reason:'ENGINE_NOT_MOUNTED'};
   const unit=engine.accountBattleUnit;
@@ -117,7 +125,7 @@ async function playAccountPreviewShot({onAnticipation,onFire,damage=100000}={}){
   }
 }
 
-const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
+const api={mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
 if(typeof window!=='undefined')window.ProjectVPixiBattle=api;
 
-export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,cancelActiveAnimations,syncFinalState,diagnostics,destroy};
+export {mount,mountForBattle,resetSession,setVisible,runSequence,playEvents,restoreDeployedFormation,setBattlePayload,setBattlefield,verifyTargetSwitch,playAccountPreviewShot,setAccountPreviewFirearmHook,startAccountBattleUnitSustainedFire,stopAccountBattleUnitSustainedFire,cancelActiveAnimations,syncFinalState,diagnostics,destroy};

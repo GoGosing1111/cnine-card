@@ -433,12 +433,12 @@ test('PVE sustained fire preserves weapon cadence differences and never enters t
   const shots=[];
   const delays=[];
   Object.assign(engine,{
-    visible:true,playing:true,accountBattleUnitEnabled:true,accountBattleUnit:unit,
+    visible:true,playing:false,accountBattleUnitEnabled:true,accountBattleUnit:unit,
     accountBattleUnitEquipment:{battleSuit:{code:SUIT_CODE},weapon:{code:'EQ_1785427638137'}},
-    accountBattleUnitFireRun:null,accountBattleUnitSustainedShotCount:0,
+    accountBattleUnitFireRun:null,accountBattleUnitDamageQueue:[],accountBattleUnitSustainedShotCount:0,
     currentEnemyTarget:target,enemies:[target],allies,cards,characters:[...allies,target],
     isAlive(character){return character.hp>0},
-    async playAccountBattleUnitCosmeticShot(victim,options){shots.push({victim,options});return true},
+    async playAccountBattleUnitShot(victim,options){shots.push({victim,options});return true},
     async waitForAccountBattleUnitFire(delay,run){
       delays.push(delay);
       return run.active&&delays.length<5;
@@ -463,7 +463,7 @@ test('PVE sustained fire preserves weapon cadence differences and never enters t
   const shotCount=await run.promise;
   assert.equal(shotCount,5);
   assert.equal(shots.length,5);
-  assert.ok(shots.every(sample=>sample.victim===target&&sample.options.playbackRate===m4.playbackRate));
+  assert.ok(shots.every(sample=>sample.victim===target&&sample.options.playbackRate===m4.playbackRate&&sample.options.authoritative===false));
   assert.deepEqual(delays,[m4.intraBurstDelayMs,m4.intraBurstDelayMs,m4.intraBurstDelayMs,m4.burstDelayMs,m4.intraBurstDelayMs]);
   assert.equal(engine.accountBattleUnitSustainedShotCount,5);
   assert.equal(engine.accountBattleUnitFireRun,null);
@@ -474,6 +474,48 @@ test('PVE sustained fire preserves weapon cadence differences and never enters t
 
   engine.accountBattleUnitEnabled=false;
   assert.equal(engine.startAccountBattleUnitSustainedFire(),null,'forbidden/non-PVE state must never start sustained fire');
+});
+
+test('server Battle Suit damage joins the next continuous round without controlling the fire loop',async()=>{
+  let signalFirstShot;
+  let releaseFirstShot;
+  const firstShotStarted=new Promise(resolve=>{signalFirstShot=resolve});
+  const firstShotGate=new Promise(resolve=>{releaseFirstShot=resolve});
+  const target={id:'ENEMY-1',hp:100,root:{x:900,y:420}};
+  const shots=[];
+  const engine=Object.create(BattleEngine.prototype);
+  Object.assign(engine,{
+    visible:true,playing:false,accountBattleUnitEnabled:true,
+    accountBattleUnit:{active:true,cancelFire(){}},
+    accountBattleUnitEquipment:{weapon:{code:'EQ_1785427638137'}},
+    accountBattleUnitFireRun:null,accountBattleUnitDamageQueue:[],accountBattleUnitSustainedShotCount:0,
+    currentEnemyTarget:target,enemies:[target],
+    isAlive(character){return character.hp>0},
+    async playAccountBattleUnitShot(victim,options){
+      shots.push({victim,options});
+      if(shots.length===1){signalFirstShot();await firstShotGate}
+      return true;
+    },
+    async waitForAccountBattleUnitFire(_delay,run){return run.active&&shots.length<2}
+  });
+
+  const run=engine.startAccountBattleUnitSustainedFire();
+  await firstShotStarted;
+  const damagePromise=engine.queueAccountBattleUnitDamageShot(target,{
+    damage:123456,targetHp:72,critical:true,authoritative:true,playbackRate:1
+  });
+  assert.equal(engine.accountBattleUnitDamageQueue.length,1,'server damage waits for the next weapon-cadence shot');
+  releaseFirstShot();
+
+  assert.equal(await damagePromise,true);
+  assert.equal(await run.promise,2);
+  assert.equal(shots[0].options.authoritative,false,'the loop starts before any server Battle Suit turn');
+  assert.deepEqual(
+    {damage:shots[1].options.damage,targetHp:shots[1].options.targetHp,critical:shots[1].options.critical,authoritative:shots[1].options.authoritative},
+    {damage:123456,targetHp:72,critical:true,authoritative:true}
+  );
+  assert.equal(engine.accountBattleUnitDamageQueue.length,0);
+  assert.equal(engine.accountBattleUnitSustainedShotCount,2);
 });
 
 test('preview sustained-fire hook schedules at anticipation and measures the exact authored FIRE frame',async()=>{
@@ -577,13 +619,15 @@ test('preview runSequence replays authoritative battle-suit damage events and re
   }));
   const eventBatches=[];
   const playOptions=[];
-  let restores=0;
+  let restores=0,starts=0,stops=0;
   const engine=Object.create(BattleEngine.prototype);
   Object.assign(engine,{
     visible:true,playing:false,livePayload:true,liveDeployed:true,cards,allies,enemies,characters:[...allies,...enemies],
     uiLayer:{combo:{alpha:0,text:''},comboLabel:{alpha:0}},
     captureLivePreviewRosterState(){return {preserved:true}},
     cancelTimelines(){this.playing=false},
+    startAccountBattleUnitSustainedFire(){starts+=1;return {active:true}},
+    async stopAccountBattleUnitSustainedFire(){stops+=1;return 3},
     setHp(){},updateStatus(){},
     async playEvents(events,options={}){
       eventBatches.push(events.map(event=>event.type));
@@ -623,6 +667,8 @@ test('preview runSequence replays authoritative battle-suit damage events and re
   ]);
   assert.deepEqual(playOptions,[{forceDeploy:true},{}]);
   assert.equal(restores,1);
+  assert.equal(starts,1,'continuous fire starts immediately after deployment');
+  assert.equal(stops,1,'continuous fire always stops when preview playback finishes');
   assert.equal(engine.playing,false);
 });
 

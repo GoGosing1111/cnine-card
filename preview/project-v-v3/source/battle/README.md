@@ -75,7 +75,8 @@ Application.stage
 
 - 계정 유닛은 `allies`, `characters`, `cards`에 추가하지 않는 보조 렌더 오브젝트다.
   서버에서는 5장과 분리된 타깃 불가 지원 액터이며, 기존 진형·생존 판정은 유지한 채
-  속도 게이지에 따라 독립 피해를 준다.
+  총기별 독립 시간 주기로 피해를 준다. 카드 공격 턴·스킬·행동력 및 속도 게이지는
+  배틀슈트의 발사 주기를 시작·정지시키거나 소모하지 않는다.
 - `PVE/HUNT/TOWER/RAID/SEAL/ESCORT/DUNGEON` 계열에서만 표시하며,
   `PVP/SIEGE/TERRITORY/CAPTAIN/CLAN` payload는 렌더러와 라이브 래퍼 양쪽에서 차단한다.
 - 배틀슈트는 본체 스프라이트, 무기는 별도 attachment 스프라이트다. 승인된 무기
@@ -84,7 +85,8 @@ Application.stage
   없으면 무기를 숨긴다.
 - 서버가 `characterBonus.battleSuitPve`를 카드 5장에 재분배하지 않고
   `actorKind: 'BATTLE_SUIT'`, `damageSource: 'BATTLE_SUIT_INDEPENDENT'`인 독립 피해
-  `TURN`으로 판정한다. 렌더러는 해당 피해와 `targetHpAfter`를 그대로 재생하며,
+  `TURN`과 `actionClock: 'INDEPENDENT_TIME_CADENCE'`로 판정한다. 렌더러는 배치 직후부터
+  전투 종료까지 연속 사격을 유지하고 해당 피해와 `targetHpAfter`를 다음 탄착에 결합하며,
   `result.damageBreakdown.battleSuit`은 몬스터 HP와 방벽에 실제 적용된 값만 합산한다.
 - 작은 이름표는 `payload.user.nickname`, `payload.profile.nickname`,
   `payload.nickname` 순으로 선택하고 값이 없으면 숨긴다.

@@ -2,7 +2,7 @@
   'use strict';
 
   const root = window;
-  const VERSION = '3.26.0-authoritative-battle-suit-live';
+  const VERSION = '3.27.0-battle-suit-continuous-fire';
   const PLAYBACK_SPEED = 1.3;
   const SEAL_ORB_ID = 'SEAL_CORE:CRYSTAL_ORB';
   const SEAL_ORB_IMAGE = '/assets/responsive/project-v/monsters/seal-crystal-orb-sd-v1-768.webp?v=550486A8E35C9935';
@@ -782,6 +782,41 @@
       dockObserver.observe(dockNode);
     }
 
+    const firearmAudio = () => root.ProjectVFirearmAudio || root.ProjectVFirearmQcAudio || null;
+    const firearmSoundEnabled = () => {
+      try { return root.localStorage?.getItem?.('cnine_battle_sound') !== 'OFF'; }
+      catch { return true; }
+    };
+    const bindAccountBattleUnitFirearmAudio = () => {
+      if (!accountBattleUnitPve) {
+        root.ProjectVPixiBattle.setAccountPreviewFirearmHook?.(null);
+        return false;
+      }
+      return root.ProjectVPixiBattle.setAccountPreviewFirearmHook?.(event => {
+        const audio = firearmAudio();
+        if (event?.phase === 'anticipation') {
+          return audio?.armSustainedShot?.(event.weaponCode, {
+            enabled: firearmSoundEnabled(),
+            visualLeadMs: event.visualLeadMs,
+            isCancelled: event.isCancelled
+          }) || null;
+        }
+        if (event?.phase === 'fire') return event.plan?.markVisualFire?.(event.at) || null;
+        return null;
+      }) || false;
+    };
+    const startAccountBattleUnitContinuousFire = () => {
+      if (!accountBattleUnitPve || destroyed) return null;
+      firearmAudio()?.stop?.();
+      bindAccountBattleUnitFirearmAudio();
+      return root.ProjectVPixiBattle.startAccountBattleUnitSustainedFire?.() || null;
+    };
+    const stopAccountBattleUnitContinuousFire = async () => {
+      const shots = await Promise.resolve(root.ProjectVPixiBattle.stopAccountBattleUnitSustainedFire?.() || 0);
+      firearmAudio()?.stop?.();
+      return shots;
+    };
+
     const releaseBlockingLayers = () => {
       document.querySelectorAll('.battle-ultimate-overlay,.boss-ultimate-overlay').forEach(node => node.remove());
       stage.classList.remove('ultimate-playing', 'boss-ultimate-fullscreen');
@@ -796,6 +831,7 @@
       try { root.ProjectVPixiBattle.cancelActiveAnimations?.(); } catch {}
       try { await root.ProjectVPixiBattle.setVisible(false); } catch {}
       try { await root.ProjectVPixiBattle.setVisible(true); } catch {}
+      startAccountBattleUnitContinuousFire();
     };
     const safePlayEvents = (events, message) => withTimeout(
       Promise.resolve(root.ProjectVPixiBattle.playEvents(events)).then(() => true),
@@ -899,6 +935,7 @@
       throw lastError || new Error('V3 전장을 구성하지 못했습니다.');
     };
 
+    bindAccountBattleUnitFirearmAudio();
     await init();
     const qteBranchAllowed = condition => {
       const key = String(condition || '').trim().toUpperCase();
@@ -918,6 +955,11 @@
         if (phase) phase.textContent = 'V3 LIVE BATTLE';
         try {
           await safePlayEvents([{ type: 'DEPLOY' }], 'V3 배치 연출이 지연되어 생략되었습니다.');
+          // The account Battle Suit is an independent PVE support actor. Its
+          // weapon loop begins once deployment is visible and runs across every
+          // card action, skill, QTE and action-gauge wait. Server Battle V2
+          // damage events are consumed by the next shot in this loop.
+          startAccountBattleUnitContinuousFire();
           let playerUltimateShown = false;
           let bossUltimateShown = false;
           for (const sourceEvent of timeline) {
@@ -1028,6 +1070,8 @@
           stage.classList.add('is-v3-error');
           revealBattle();
           throw new Error(`V3 전투 연출을 완료하지 못했습니다: ${error?.message || error}`);
+        } finally {
+          await stopAccountBattleUnitContinuousFire();
         }
         if (phase) phase.textContent = 'BATTLE COMPLETE';
         return true;
@@ -1050,6 +1094,7 @@
         try { root.ProjectVRaidQteV1924?.cancel?.(); } catch {}
         try { dockObserver?.disconnect?.(); } catch {}
         dockObserver = null;
+        void stopAccountBattleUnitContinuousFire();
         root.ProjectVPixiBattle.setVisible(false).catch?.(() => {});
       }
     };

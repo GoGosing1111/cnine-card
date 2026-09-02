@@ -41,9 +41,13 @@ assert.match(engine,/triggerAccountBattleUnitBallisticHit/);
 assert.match(engine,/victim\.setState\(CHARACTER_STATE\.HIT\)/);
 assert.match(engine,/isAccountBattleUnitDamageEvent\(event\)/);
 assert.match(engine,/actorId\.includes\(':BATTLE_SUIT:'\)/);
-assert.match(engine,/await this\.playAccountBattleUnitShot\(target,\{[\s\S]*authoritative:!event\.dodge/);
+assert.match(engine,/await this\.queueAccountBattleUnitDamageShot\(target,\{[\s\S]*authoritative:!event\.dodge/);
 assert.match(engine,/this\.syncTargetHp\(victim,Number\(targetHp\)\)/);
 assert.match(engine,/this\.accountBattleUnitDamageTotal\+=/);
+assert.match(engine,/independentOfCardTurns:true/);
+assert.match(engine,/independentOfActionGauge:true/);
+assert.match(live,/startAccountBattleUnitContinuousFire\(\)/);
+assert.match(live,/finally \{[\s\S]*await stopAccountBattleUnitContinuousFire\(\)/);
 
 // Public payload contract: top-level wins, characterBonus/bonuses are fallback
 // only. Nickname is optional and follows the requested priority.
@@ -98,6 +102,9 @@ const stage={
   querySelectorAll(){return []}
 };
 const modal={classList};
+let firearmHook=null;
+let sustainedStarts=0;
+let sustainedStops=0;
 const context={
   console,setTimeout,clearTimeout,Promise,
   requestAnimationFrame(callback){callback(0);return 1},
@@ -110,6 +117,9 @@ const context={
     async setBattlefield(){},
     async setVisible(){},
     async playEvents(){},
+    setAccountPreviewFirearmHook(hook){if(typeof hook==='function')firearmHook=hook;return Boolean(hook)},
+    startAccountBattleUnitSustainedFire(){sustainedStarts+=1},
+    stopAccountBattleUnitSustainedFire(){sustainedStops+=1;return 0},
     destroy(){},
     cancelActiveAnimations(){}
   }
@@ -120,8 +130,10 @@ vm.runInNewContext(live,context,{filename:'battle-v3-live.js'});
 const battleV2={rules:{battleSuitDamageAuthority:'SERVER_TIMELINE'},teams:{A:{cards:[],supports:[{id:'A:SUPPORT:BATTLE_SUIT:BATTLE_SUIT_01',actorKind:'BATTLE_SUIT',authoritative:true,damageAuthority:'SERVER_TIMELINE'}]},B:{cards:[]}},result:{timeline:[]}};
 const suit={code:'BATTLE_SUIT_01',battleSprite:'/suit.png'};
 const weapon={code:'EQ_1785427638137',image:'/square-card-art.png',battleSprite:''};
+let pveRenderer=null;
 for(const mode of ['PVE','PVP','SIEGE','CAPTAIN']){
-  await context.ProjectVBattleV3Live.createRenderer({stage,host,modal,mode,playerName:'테스터',data:{battleV2,equippedBattleSuit:suit,characterBonus:{equippedWeapon:weapon}}});
+  const renderer=await context.ProjectVBattleV3Live.createRenderer({stage,host,modal,mode,playerName:'테스터',data:{battleV2,equippedBattleSuit:suit,characterBonus:{equippedWeapon:weapon}}});
+  if(mode==='PVE')pveRenderer=renderer;
 }
 await context.ProjectVBattleV3Live.createRenderer({stage,host,modal,mode:'PVE',playerName:'테스터',data:{battleV2:{teams:{A:{cards:[]},B:{cards:[]}},result:{timeline:[]}},equippedBattleSuit:suit,characterBonus:{equippedWeapon:weapon}}});
 assert.equal(payloads.length,5);
@@ -134,6 +146,10 @@ assert.equal(payloads[4].v3RenderContext.accountBattleUnitPve,false,'PVE metadat
 assert.equal(payloads[0].equippedBattleSuit.battleSprite,'/suit.png');
 assert.equal(payloads[0].characterBonus.equippedWeapon.image,'/square-card-art.png','wrapper must preserve authoritative metadata for the engine code map');
 assert.equal(payloads[0].accountNickname,'테스터','PVE wrapper must carry the signed-in account name into the Pixi payload');
+assert.equal(typeof firearmHook,'function','live PVE must bind recorded firearm audio to the Battle Suit shot hook');
+await pveRenderer.play();
+assert.equal(sustainedStarts,1,'Battle Suit sustained fire must start once after deployment, independently of timeline turns');
+assert.equal(sustainedStops,1,'Battle Suit sustained fire must stop once when the battle playback ends');
 
 console.log('Project V V3 PVE-only account Battle Suit unit contract: PASS');
 

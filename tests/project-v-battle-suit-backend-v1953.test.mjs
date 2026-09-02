@@ -178,11 +178,22 @@ test('Battle Suit is a sixth PVE support actor with authoritative independent da
   assert.equal(battle.teams.A.supports[0].authoritative,true);
   assert.equal(battle.teams.A.supports[0].damageAuthority,'SERVER_TIMELINE');
   assert.equal(battle.teams.A.supports[0].untargetable,true);
+  assert.equal(battle.teams.A.supports[0].usesSpeedGauge,false);
+  assert.equal(battle.teams.A.supports[0].consumesBattleAction,false);
+  assert.equal(battle.teams.A.supports[0].actionClock,'INDEPENDENT_TIME_CADENCE');
   assert.equal(battle.result.final.A.length,5,'support actor must not corrupt five-card survivor results');
   const actorId=battle.teams.A.supports[0].id;
   const hits=battle.result.timeline.filter(event=>event.type==='TURN'&&event.actorId===actorId);
-  assert.ok(hits.length>0,'Battle Suit must receive its own speed-gauge turns');
+  assert.ok(hits.length>0,'Battle Suit must receive its own wall-clock cadence shots');
   assert.ok(hits.some(event=>Number(event.damage||0)+Number(event.absorbed||0)>0),'Battle Suit must apply real monster HP damage');
+  assert.ok(hits.every(event=>event.actionClock==='INDEPENDENT_TIME_CADENCE'),'Battle Suit shots must not be emitted by the canonical speed gauge');
+  assert.equal(battle.rules.battleSuitActionClock,'INDEPENDENT_TIME_CADENCE');
+  assert.equal(battle.rules.battleSuitConsumesAction,false);
+  assert.equal(battle.rules.battleSuitUsesSpeedGauge,false);
+  if(hits.length>1){
+    const interval=battle.teams.A.supports[0].independentFireIntervalSeconds;
+    assert.ok(hits.slice(1).every((event,index)=>Math.abs((event.at-hits[index].at)-interval)<.002),'server shots must keep the weapon wall-clock cadence');
+  }
   const applied=hits.reduce((sum,event)=>sum+Number(event.damage||0)+Number(event.absorbed||0),0);
   assert.equal(battle.result.damageBreakdown.battleSuit,applied,'contribution must equal authoritative applied timeline damage');
   assert.equal(battle.result.damageBreakdown.authority,'SERVER_TIMELINE');

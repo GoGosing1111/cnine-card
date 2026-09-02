@@ -812,7 +812,11 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
   breachDefenseLine(a,b);breachDefenseLine(b,a);
 
   for (const fighter of [...a, ...b]) {
-    fighter.gauge = clamp(Number(fighter.gauge || 0) + random() * 8, 0, 99);
+    // Battle Suit cadence is an independent wall-clock lane. It must not roll,
+    // fill, drain or consume the canonical card/monster speed gauge.
+    fighter.gauge = isBattleSuitSupport(fighter)
+      ? 0
+      : clamp(Number(fighter.gauge || 0) + random() * 8, 0, 99);
     if (fighter.shield > 0) {
       pushEvent(timeline, clock, 'START_EFFECT', {
         targetId: fighter.id,
@@ -893,11 +897,26 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
 
   const durationLimit = Math.max(0, Number(maxDuration || 0));
   let durationStopped = false;
+  const independentSupports=[...a,...b].filter(isBattleSuitSupport);
+  const independentNextFireAt=new Map(independentSupports.map(support=>[
+    support.id,
+    Math.max(.02,Number(support.independentOpeningDelaySeconds||support.independentFireIntervalSeconds*.35||.12))
+  ]));
   while (targetableAlive(a).length && targetableAlive(b).length && actionCount < maxActions && (!durationLimit || clock < durationLimit)) {
-    const actors = [...alive(a), ...alive(b)];
-    const dt = Math.min(...actors.map(card => (100 - card.gauge) / Math.max(1, card.speed)));
-    if (durationLimit && clock + Math.max(0.001, dt) > durationLimit) { durationStopped = true; break; }
-    clock += Math.max(0.001, dt);
+    const actors = [...alive(a), ...alive(b)].filter(card=>!isBattleSuitSupport(card));
+    if(!actors.length)break;
+    const gaugeDt = Math.min(...actors.map(card => (100 - card.gauge) / Math.max(1, card.speed)));
+    const gaugeReadyAt=clock+Math.max(.001,gaugeDt);
+    const eligibleSupports=independentSupports
+      .filter(support=>support.alive&&support.hp>0&&targetableAlive(support.side==='A'?b:a).length)
+      .sort((left,right)=>(independentNextFireAt.get(left.id)??Infinity)-(independentNextFireAt.get(right.id)??Infinity)||left.slot-right.slot);
+    const independentActor=eligibleSupports[0]||null;
+    const independentReadyAt=independentActor?(independentNextFireAt.get(independentActor.id)??Infinity):Infinity;
+    const independentAction=Boolean(independentActor&&independentReadyAt<=gaugeReadyAt);
+    const nextActionAt=independentAction?independentReadyAt:gaugeReadyAt;
+    if (durationLimit && nextActionAt > durationLimit) { durationStopped = true; break; }
+    const dt=Math.max(.001,nextActionAt-clock);
+    clock+=dt;
     for (const card of actors) card.gauge = clamp(card.gauge + card.speed * dt, 0, 130);
     const ready = actors.filter(card => card.gauge >= 99.999).sort((x, y) => y.gauge - x.gauge || y.speed - x.speed || x.slot - y.slot);
     // V1813: 플레이어 속도는 전투력 비례로 자라는데(70+전투력×0.10) 몬스터는 92 고정이다.
@@ -905,9 +924,13 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
     //   보스가 샌드백처럼 맞고만 있는 원인이라, 게이지와 무관하게
     //   "플레이어가 N번 움직이면 몬스터가 한 번" 을 보장한다.
     //   ⚠ 몬스터 행동이 늘어난 만큼 1회 피해는 낮춰 뒀다 (buildMonsterFighter 참고).
-    let actor = ready[0];
+    let actor = independentAction?independentActor:ready[0];
+    if(!actor)continue;
+    if(independentAction){
+      independentNextFireAt.set(actor.id,clock+Math.max(.08,Number(actor.independentFireIntervalSeconds||.5)));
+    }
     let repeatedMonsterAction = false;
-    if (repeatMonsterActions > 0) {
+    if (!independentAction && repeatMonsterActions > 0) {
       const repeating = alive(b).find(card => card.isMonster && String(card.id) === repeatMonsterId);
       if (repeating) {
         actor = repeating;
@@ -919,7 +942,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         repeatMonsterActions = 0;
       }
     }
-    if (!repeatedMonsterAction && forcedMonsterEvery > 0) {
+    if (!independentAction && !repeatedMonsterAction && forcedMonsterEvery > 0) {
       if (actor.side === 'A') {
         playerStreak += 1;
         if (playerStreak >= forcedMonsterEvery) {
@@ -940,9 +963,9 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         if (repeatMonsterActions > 0) pushEvent(timeline, clock, 'MONSTER_MULTI_ATTACK_READY', { actorId: actor.id, attackCount, label: `몬스터 ${attackCount}연속 공격` });
       }
     }
-    actor.gauge = Math.max(0, actor.gauge - 100);
+    if(!independentAction)actor.gauge = Math.max(0, actor.gauge - 100);
     actor.actions += 1;
-    actionCount += 1;
+    if(!independentAction)actionCount += 1;
     const suddenDeath=Number(suddenDeathAfter||0)>0&&actionCount>Number(suddenDeathAfter||0);
     if(suddenDeath&&actionCount===Number(suddenDeathAfter||0)+1){
       pushEvent(timeline,clock,'SUDDEN_DEATH',{action:actionCount,label:'연장전 · 회복 봉쇄 · 공격 증폭'});
@@ -1016,6 +1039,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
         actorId: actor.id,
         actorKind: actor.actorKind || undefined,
         damageSource: actor.damageSource || undefined,
+        actionClock: isBattleSuitSupport(actor)?'INDEPENDENT_TIME_CADENCE':'SPEED_GAUGE',
         targetId: target.id,
         dodge: true,
         actorGaugeAfter: actor.gauge,
@@ -1038,6 +1062,7 @@ export function simulateBattleV2Preview({ teamA = [], teamB = [], magicA = [], m
       actorId: actor.id,
       actorKind: actor.actorKind || undefined,
       damageSource: actor.damageSource || undefined,
+      actionClock: isBattleSuitSupport(actor)?'INDEPENDENT_TIME_CADENCE':'SPEED_GAUGE',
       targetId: target.id,
       damage: damageState.hpDamage,
       absorbed: damageState.absorbed,
@@ -1207,11 +1232,11 @@ export function teamSummary(cards = []) {
 }
 
 const BATTLE_SUIT_WEAPON_CADENCE = Object.freeze({
-  EQ_1785427638137: { classCode: 'AR', speedMultiplier: 1.12, attackMultiplier: 0.92 },
-  EQ_1785961232958: { classCode: 'AR', speedMultiplier: 1.04, attackMultiplier: 1.00 },
-  EQ_1785961300455: { classCode: 'SNIPER', speedMultiplier: 0.58, attackMultiplier: 1.58 },
-  EQ_1786966923833: { classCode: 'DMR', speedMultiplier: 0.78, attackMultiplier: 1.28 },
-  DEFAULT: { classCode: 'RIFLE', speedMultiplier: 0.94, attackMultiplier: 1.00 }
+  EQ_1785427638137: { classCode: 'AR', fireIntervalSeconds: .34, attackMultiplier: 0.92 },
+  EQ_1785961232958: { classCode: 'AR', fireIntervalSeconds: .42, attackMultiplier: 1.00 },
+  EQ_1785961300455: { classCode: 'SNIPER', fireIntervalSeconds: 1.10, attackMultiplier: 1.58 },
+  EQ_1786966923833: { classCode: 'DMR', fireIntervalSeconds: .68, attackMultiplier: 1.28 },
+  DEFAULT: { classCode: 'RIFLE', fireIntervalSeconds: .50, attackMultiplier: 1.00 }
 });
 
 export function battleSuitLiveRuntime(characterBonus = {}) {
@@ -1264,14 +1289,19 @@ export function buildBattleSuitFighter(battleSuit = {}, index = 5) {
   fighter.untargetable = true;
   fighter.weaponCode = weaponCode;
   fighter.weaponClass = cadence.classCode;
+  fighter.actionClock = 'INDEPENDENT_TIME_CADENCE';
+  fighter.usesSpeedGauge = false;
+  fighter.consumesBattleAction = false;
+  fighter.independentFireIntervalSeconds = cadence.fireIntervalSeconds;
+  fighter.independentOpeningDelaySeconds = Math.max(.02, cadence.fireIntervalSeconds * .35);
   fighter.attack = Math.max(10, Math.round(fighter.attack * cadence.attackMultiplier));
-  fighter.speed = Math.max(35, Math.round(fighter.speed * cadence.speedMultiplier));
+  fighter.speed = 0;
   fighter.maxHp = 1;
   fighter.hp = 1;
   fighter.defense = 0;
   fighter.shield = 0;
   fighter.maxShield = 0;
-  fighter.gauge = 18;
+  fighter.gauge = 0;
   return fighter;
 }
 
@@ -1399,7 +1429,7 @@ export function createPveBattleV2({ cards = [], magicCards = [], characterBonus 
     engine: 'BATTLE_ENGINE_V2',
     playbackSpeed: 1.3,
     seed: Number(seed) >>> 0,
-    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
+    rules: { hpMode: 'POWER_DISTRIBUTED', formation: 'FRONT_2_BACK_3_PLUS_BATTLE_SUIT_SUPPORT', actionMode: escortObjective?'ESCORT_OBJECTIVE_PRIORITY':'SPEED_GAUGE_WITH_INDEPENDENT_BATTLE_SUIT', damageCapPercent: 46, bossUltimateCapPercent: clamp(bossUltimateCapPercent, 100, 500), maxActions: 2000, maxDuration: 4.0, timeoutRule: 'MONSTER_SURVIVES_LOSE', monsterBuffMode: 'PVE_SEPARATE_HP_ATK_DEF_SHIELD_REPEAT', forcedMonsterEvery, monsterAttackCount:teamB[0]?.attackCount||1, monsterShieldPercent:teamB[0]?.pveBuffs?.difficultyShieldPercent||0, monsterMinDamagePercent: escortObjective ? 0 : MONSTER_MIN_DAMAGE_PERCENT * 100, escortObjectivePriority:Boolean(escortObjective), escortForcedOpeningStrike:Boolean(escortObjective), battleSuitDamageAuthority:battleSuitFighter?'SERVER_TIMELINE':'NONE', battleSuitActionClock:battleSuitFighter?'INDEPENDENT_TIME_CADENCE':'NONE', battleSuitConsumesAction:false, battleSuitUsesSpeedGauge:false, battleSuitTargetable:false, battleSuitOccupiesCardSlot:false, healerDuplicatePenalty: { 2: 60, 3: 75, 4: 85, 5: 90 }, healerPenaltyScope: 'PVE_PVP_HP_RECOVERY_AND_2PLUS_SURVIVE_DISABLED', singleHealerBonus: normalizeSingleHealerBonus(singleHealerBonus), dbTimelineWrites: 0 },
     teams: {
       A: { summary: teamSummary(teamA), cards: teamA.map(publicFighter), supports: battleSuitFighter ? [{ ...publicFighter(battleSuitFighter), authoritative: true, damageAuthority: 'SERVER_TIMELINE' }] : [] },
       B: { summary: teamSummary(teamB), cards: teamB.map(publicFighter) }

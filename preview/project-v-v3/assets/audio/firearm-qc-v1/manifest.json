@@ -1,19 +1,19 @@
 {
-  "version": "v1",
-  "contract": "PROJECT_V_V3_FIREARM_AUDIO_QC_V1",
-  "scope": "PREVIEW_ONLY",
-  "liveRuntimeConnected": false,
+  "version": "v2-live-pve",
+  "contract": "PROJECT_V_V3_FIREARM_AUDIO_LIVE_V1",
+  "scope": "PVE_LIVE_AND_PREVIEW",
+  "liveRuntimeConnected": true,
   "retrievedAt": "2026-09-01",
   "licensePolicy": "CC0_REAL_RECORDINGS_ONLY",
-  "previewOutput": {
+  "runtimeOutput": {
     "gain": 0.25,
     "attenuationDb": -12.04,
     "appliesAfterProfileMasterGain": true,
-    "reason": "Common preview-only 25 percent output level requested after audible browser QC; source files and per-weapon balance remain unchanged.",
+    "reason": "Common live and preview 25 percent output level requested after audible browser QC; source files and per-weapon balance remain unchanged.",
     "automaticFire": {
       "shotGain": 0.55,
       "maxConcurrentShots": 2,
-      "reason": "Sustained-fire shots receive additional preview-only attenuation and the oldest three-layer group is stopped before a third shot overlaps."
+      "reason": "Sustained-fire shots receive additional runtime attenuation and the oldest three-layer group is stopped before a third shot overlaps."
     }
   },
   "visualSync": {
@@ -37,7 +37,7 @@
       "profileId": "AR_M4A1_REAL_V1",
       "weaponName": "아발론 M4A1",
       "weaponClass": "AR",
-      "asset": "assets/audio/firearm-qc-v1/m4a1-colt-socom-cc0-freesound-737569.mp3",
+      "asset": "/preview/project-v-v3/assets/audio/firearm-qc-v1/m4a1-colt-socom-cc0-freesound-737569.mp3",
       "acousticLabel": "Colt M4A1 SOCOM 5.56mm 실총",
       "source": {
         "provider": "Freesound",
@@ -72,7 +72,7 @@
       "profileId": "AR_AK47_REAL_V1",
       "weaponName": "인피니티 AK",
       "weaponClass": "AR",
-      "asset": "assets/audio/firearm-qc-v1/ak47-shot-cc0-freesound-163457.mp3",
+      "asset": "/preview/project-v-v3/assets/audio/firearm-qc-v1/ak47-shot-cc0-freesound-163457.mp3",
       "acousticLabel": "AK-47 단발 실총",
       "source": {
         "provider": "Freesound",
@@ -108,7 +108,7 @@
       "profileId": "SNIPER_M200_TAC50_PROXY_REAL_V1",
       "weaponName": "인피니티 M200",
       "weaponClass": "SNIPER",
-      "asset": "assets/audio/firearm-qc-v1/m200-tac50-suppressed-proxy-cc0-freesound-737570.mp3",
+      "asset": "/preview/project-v-v3/assets/audio/firearm-qc-v1/m200-tac50-suppressed-proxy-cc0-freesound-737570.mp3",
       "acousticLabel": "Tac-50A1-R2 .50 BMG 소음기 실총 (M200급 프리뷰 대역)",
       "proxyDisclosure": "The visual weapon remains the exact database M200 sprite; the acoustic layer uses a real high-caliber Tac-50 recording because no compliant local M200 recording was available.",
       "source": {
@@ -144,7 +144,7 @@
       "profileId": "DMR_SKS_AK47_PROXY_REAL_V1",
       "weaponName": "소버린 SKS",
       "weaponClass": "DMR",
-      "asset": "assets/audio/firearm-qc-v1/ak47-shot-cc0-freesound-163457.mp3",
+      "asset": "/preview/project-v-v3/assets/audio/firearm-qc-v1/ak47-shot-cc0-freesound-163457.mp3",
       "acousticLabel": "AK-47 7.62×39mm 단발 실총 (SKS 프리뷰 대역)",
       "proxyDisclosure": "The visual weapon remains the exact database SKS sprite; the preview acoustic layer reuses a real AK-47 single-shot recording as a 7.62x39mm proxy because no compliant SKS recording was available locally. This is not presented as an exact SKS receiver recording.",
       "source": {

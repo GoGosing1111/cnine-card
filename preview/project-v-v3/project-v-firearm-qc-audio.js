@@ -1,7 +1,7 @@
 (()=>{
   'use strict';
 
-  const MANIFEST_URL='assets/audio/firearm-qc-v1/manifest.json?v=6-sks-dmr-proxy';
+  const MANIFEST_URL='/preview/project-v-v3/assets/audio/firearm-qc-v1/manifest.json?v=7-live-pve-continuous-fire';
   const AudioContextClass=globalThis.AudioContext||globalThis.webkitAudioContext||null;
   const activeSources=new Set();
   const sustainedShotGroups=[];
@@ -35,7 +35,8 @@
 
   async function ensureContext(){
     if(!isSupported())return null;
-    context||=new AudioContextClass({latencyHint:'interactive'});
+    context||=globalThis.__CNINE_SHARED_BATTLE_AUDIO_CONTEXT||new AudioContextClass({latencyHint:'interactive'});
+    globalThis.__CNINE_SHARED_BATTLE_AUDIO_CONTEXT=context;
     if(context.state==='suspended')await context.resume();
     return context;
   }
@@ -54,7 +55,7 @@
   function primeFromTrustedGesture(event){
     if(!event?.isTrusted||!isSupported())return;
     const target=event.target instanceof Element?event.target:null;
-    if(!target?.closest?.('#pvBattleSuitFire,#pvBattleSoundToggle,#pvBattleStart'))return;
+    if(!target?.closest?.('#pvBattleSuitFire,#pvBattleSoundToggle,#pvBattleStart,#battleStart,[data-pve-start-button="1"],.battle-sound-toggle'))return;
     gesturePrimeAttempts+=1;
     void ensureContext().then(audioContext=>{
       gesturePrimeSucceeded=audioContext?.state==='running';
@@ -131,14 +132,17 @@
   }
 
   function createPlan({manifest,profile,weaponCode,requestedAt,expectedVisualAtPerf,scheduled,layers,reason=''}){
+    const output=manifest.runtimeOutput||manifest.previewOutput||{};
     let marked=false;
     const plan={
       weaponCode,
       profileId:profile.profileId,
       weaponClass:profile.weaponClass,
       acousticLabel:profile.acousticLabel,
-      previewOutputGain:finite(manifest.previewOutput?.gain,1),
-      previewOutputAttenuationDb:finite(manifest.previewOutput?.attenuationDb,0),
+      outputGain:finite(output.gain,1),
+      outputAttenuationDb:finite(output.attenuationDb,0),
+      previewOutputGain:finite(output.gain,1),
+      previewOutputAttenuationDb:finite(output.attenuationDb,0),
       supported:isSupported(),
       scheduled,
       expectedVisualAtPerf,
@@ -190,8 +194,8 @@
     cancelled=cancellationReason(requestEpoch,isCancelled);
     if(cancelled)return cancelledPlan(cancelled);
     const mix=profile.runtimeMix;
-    const previewOutputGain=clamp(finite(manifest.previewOutput?.gain,1),0,1);
-    const master=clamp(finite(mix.masterGain,1),0,1)*previewOutputGain*clamp(finite(outputScale,1),0,1);
+    const runtimeOutputGain=clamp(finite((manifest.runtimeOutput||manifest.previewOutput)?.gain,1),0,1);
+    const master=clamp(finite(mix.masterGain,1),0,1)*runtimeOutputGain*clamp(finite(outputScale,1),0,1);
     const scheduleBaseContext=audioContext.currentTime+.012;
     const scheduleBasePerf=perfNow()+12;
     const expectedVisualAtContext=scheduleBaseContext+leadMs/1000;
@@ -232,7 +236,7 @@
   async function armSustainedShot(weaponCode,{enabled=true,visualLeadMs=45,isCancelled=null}={}){
     const requestEpoch=audioEpoch;
     const manifest=await loadManifest();
-    const autoMix=manifest.previewOutput?.automaticFire||{};
+    const autoMix=(manifest.runtimeOutput||manifest.previewOutput)?.automaticFire||{};
     const maxConcurrentShots=Math.max(1,Math.floor(finite(autoMix.maxConcurrentShots,2)));
     if(cancellationReason(requestEpoch,isCancelled)){
       const plan=await armShot(weaponCode,{
@@ -283,9 +287,9 @@
 
   function diagnostics(){
     return {
-      contract:'PROJECT_V_V3_FIREARM_AUDIO_QC_V1',
-      previewOnly:true,
-      liveRuntimeConnected:false,
+      contract:'PROJECT_V_V3_FIREARM_AUDIO_LIVE_V1',
+      previewOnly:false,
+      liveRuntimeConnected:true,
       supported:isSupported(),
       contextState:context?.state||'NOT_CREATED',
       gesturePrimeAttempts,
@@ -298,5 +302,9 @@
     };
   }
 
-  globalThis.ProjectVFirearmQcAudio={isSupported,loadManifest,unlock,preload,armShot,armSustainedShot,stop,diagnostics};
+  const api={isSupported,loadManifest,unlock,preload,armShot,armSustainedShot,stop,diagnostics};
+  globalThis.ProjectVFirearmAudio=api;
+  // Preserve the preview name so existing QC controls exercise the exact same
+  // live PVE renderer and recorded assets.
+  globalThis.ProjectVFirearmQcAudio=api;
 })();

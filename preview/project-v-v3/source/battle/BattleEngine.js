@@ -384,6 +384,7 @@ export class BattleEngine{
     this.accountBattleUnitDamageTotal=0;
     this.accountBattleUnitSustainedShotCount=0;
     this.accountBattleUnitFireRun=null;
+    this.accountBattleUnitDamageQueue=[];
     this.accountBattleUnitPreviewFireHook=null;
     this.accountBattleUnitHitReactions=new Map();
     this.lastAccountBattleUnitCameraImpulse=0;
@@ -1340,6 +1341,21 @@ export class BattleEngine{
     return this.playAccountBattleUnitShot(target,{playbackRate,authoritative:false});
   }
 
+  queueAccountBattleUnitDamageShot(target=null,options={}){
+    const run=this.accountBattleUnitFireRun;
+    if(!run?.active)return this.playAccountBattleUnitShot(target,options);
+    this.accountBattleUnitDamageQueue??=[];
+    return new Promise((resolve,reject)=>{
+      this.accountBattleUnitDamageQueue.push({target,options:{...options},resolve,reject});
+    });
+  }
+
+  settleAccountBattleUnitDamageQueue(value=false){
+    const queue=Array.isArray(this.accountBattleUnitDamageQueue)?this.accountBattleUnitDamageQueue.splice(0):[];
+    queue.forEach(entry=>entry.resolve?.(value));
+    return queue.length;
+  }
+
   accountBattleUnitSustainedFireProfile(){
     const weaponCode=equipmentCode(this.accountBattleUnitEquipment?.weapon);
     return {
@@ -1373,19 +1389,36 @@ export class BattleEngine{
   startAccountBattleUnitSustainedFire(){
     this.stopAccountBattleUnitSustainedFire();
     const unit=this.accountBattleUnit;
-    if(!this.visible||!this.playing||!this.accountBattleUnitEnabled||!unit?.active)return null;
+    // Live battle playback is owned by battle-v3-live.js and does not toggle the
+    // preview-only `playing` flag. Sustained fire is therefore scoped by the
+    // visible PVE support unit and its explicit run lifetime, never by card turns
+    // or the five-card action gauge.
+    if(!this.visible||!this.accountBattleUnitEnabled||!unit?.active)return null;
     const profile=this.accountBattleUnitSustainedFireProfile();
     const run={active:true,profile,shots:0,roundInBurst:0,timer:0,wake:null,promise:null};
     this.accountBattleUnitFireRun=run;
     run.promise=(async()=>{
       try{
-        while(run.active&&this.visible&&this.playing&&this.accountBattleUnitEnabled&&unit.active){
-          const target=this.accountBattleUnitSustainedTarget();
+        while(run.active&&this.visible&&this.accountBattleUnitEnabled&&unit.active){
+          const pending=this.accountBattleUnitDamageQueue?.[0]||null;
+          const target=pending?.target?.root?pending.target:this.accountBattleUnitSustainedTarget();
           if(!target){
             if(!await this.waitForAccountBattleUnitFire(120,run))break;
             continue;
           }
-          const played=await this.playAccountBattleUnitCosmeticShot(target,{playbackRate:profile.playbackRate});
+          if(pending)this.accountBattleUnitDamageQueue.shift();
+          let played=false;
+          try{
+            played=await this.playAccountBattleUnitShot(target,{
+              ...(pending?.options||{}),
+              playbackRate:profile.playbackRate,
+              authoritative:Boolean(pending?.options?.authoritative)
+            });
+            pending?.resolve?.(played);
+          }catch(error){
+            pending?.reject?.(error);
+            throw error;
+          }
           if(!run.active||this.accountBattleUnitFireRun!==run)break;
           if(!played)break;
           run.shots+=1;
@@ -1398,6 +1431,7 @@ export class BattleEngine{
         run.active=false;
         if(run.timer){clearTimeout(run.timer);run.timer=0}
         run.wake=null;
+        this.settleAccountBattleUnitDamageQueue(false);
         if(this.accountBattleUnitFireRun===run)this.accountBattleUnitFireRun=null;
       }
       return run.shots;
@@ -1414,6 +1448,7 @@ export class BattleEngine{
     run.wake=null;
     wake?.();
     this.accountBattleUnit?.cancelFire();
+    this.settleAccountBattleUnitDamageQueue(false);
     return run.promise||Promise.resolve(run.shots||0);
   }
 
@@ -2502,7 +2537,7 @@ export class BattleEngine{
       }
       else if(type==='ATTACK'||type==='TURN'){
         if(this.isAccountBattleUnitDamageEvent(event)){
-          await this.playAccountBattleUnitShot(target,{
+          await this.queueAccountBattleUnitDamageShot(target,{
             damage,
             critical:Boolean(event.critical),
             targetHp:resolvedTargetHp,
@@ -2739,6 +2774,7 @@ export class BattleEngine{
     try{
       this.uiLayer.combo.alpha=1;this.uiLayer.comboLabel.alpha=1;this.uiLayer.combo.text='1';
       await this.playEvents([{type:'DEPLOY'}],{forceDeploy:true});
+      this.startAccountBattleUnitSustainedFire();
       await this.playEvents([
         {type:'TURN',actorId:'A:SUPPORT:BATTLE_SUIT:QC',actorKind:'BATTLE_SUIT',damageSource:'BATTLE_SUIT_INDEPENDENT',damage:118400,critical:false,bossHp:67},
         {type:'ATTACK',actorIndex:1,damage:238150,critical:false,bossHp:62},
@@ -2751,6 +2787,7 @@ export class BattleEngine{
       ]);
       this.updateStatus(`연출 완료 · 사망 대상 제외 후 ${this.currentEnemyTarget?.name||'다음 대상 없음'} 자동 전환 확인`);
     }finally{
+      await this.stopAccountBattleUnitSustainedFire();
       this.playing=false;
       if(this.restoreLivePreviewRosterState(previewRosterSnapshot)){
         this.updateStatus('연출 완료 · 아군 5명·적·계정 유닛 진형 복구');
@@ -2906,6 +2943,9 @@ export class BattleEngine{
           active:Boolean(this.accountBattleUnitFireRun?.active),
           ...this.accountBattleUnitSustainedFireProfile(),
           totalShots:this.accountBattleUnitSustainedShotCount,
+          queuedDamageEvents:this.accountBattleUnitDamageQueue?.length||0,
+          independentOfCardTurns:true,
+          independentOfActionGauge:true,
           affectsDamage:false
         }
       },
