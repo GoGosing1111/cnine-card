@@ -18,7 +18,8 @@
     "test:battle-suit": "node --test tests/project-v-battle-suit-backend-v1953.test.mjs tests/project-v-battle-suit-frontend-v1953.test.mjs tests/project-v-v3-account-battle-unit-v1953.test.mjs tests/project-v-v3-battle-suit-firearm-qc-v1957.test.mjs",
     "test:territory-reward": "node --test tests/territory-winner-master-star-v1956.test.mjs",
     "test:alchemy": "node --test tests/alchemy-system-v1973.test.mjs",
-    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && node scripts/verify-production-release.mjs",
+    "test:ranked-reward": "node --test tests/ranked-reward-cap-v1980.test.mjs",
+    "release:gate": "npm run check:worker && npm run test:raid-entry && npm run test:message-rewards && npm run test:workshop && npm run test:clan && npm run test:prison && npm run test:project-v-sd && npm run test:apocalypse && npm run test:battle-suit && npm run test:territory-reward && npm run test:alchemy && npm run test:ranked-reward && node scripts/verify-production-release.mjs",
     "deploy:production": "npm run release:gate && wrangler pages deploy . --project-name cnine-card --branch main"
   },
   "dependencies": {
